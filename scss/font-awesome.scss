@@ -26,8 +26,10 @@
 
 @import "variables";
 @import "mixins";
-@import "path";
+//@import "path";
+@import "path-alloy";
 @import "core";
 @import "bootstrap";
 @import "extras";
-@import "icons";
+//@import "icons";
+@import "icons-alloy";
