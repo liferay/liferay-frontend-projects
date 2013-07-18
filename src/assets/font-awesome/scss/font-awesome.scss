@@ -3,9 +3,9 @@
 {% include license-code.less %}
 
 @import "variables";
-@import "mixins";
-@import "path";
+@import "mixins-alloy";
+@import "path-alloy";
 @import "core";
 @import "bootstrap";
 @import "extras";
-@import "icons";
+@import "icons-alloy";
