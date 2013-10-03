@@ -756,8 +756,6 @@ you can use the generic selector below, but it's slower:
 .icon-archive,
 .icon-bug,
 .icon-vk,
-.icon-weibo,
-.icon-renren,
 .icon-rupee,
 .icon-glass,
 .icon-fb-text-box,
@@ -768,7 +766,22 @@ you can use the generic selector below, but it's slower:
 .icon-fb-integer,
 .icon-fb-file-upload,
 .icon-fb-decimal,
-.icon-fb-boolean {
+.icon-fb-boolean,
+.icon-renren,
+.icon-weibo,
+.icon-db-joinxor,
+.icon-db-state,
+.icon-db-start,
+.icon-db-end,
+.icon-db-fork,
+.icon-db-condition,
+.icon-db-task,
+.icon-db-join,
+.icon-fb-button,
+.icon-fb-fieldset,
+.icon-fb-custom-field,
+.icon-fb-separator,
+.icon-fb-paragraph {
   font-family: 'fontawesome-alloy';
   speak: none;
   font-style: normal;
@@ -1846,12 +1859,6 @@ you can use the generic selector below, but it's slower:
 .icon-vk:before {
   content: "\f189";
 }
-.icon-weibo:before {
-  content: "\f18a";
-}
-.icon-renren:before {
-  content: "\f18b";
-}
 .icon-rupee:before {
   content: "\f156";
 }
@@ -1884,6 +1891,51 @@ you can use the generic selector below, but it's slower:
 }
 .icon-fb-boolean:before {
   content: "\e008";
+}
+.icon-renren:before {
+  content: "\f18b";
+}
+.icon-weibo:before {
+  content: "\f18a";
+}
+.icon-db-joinxor:before {
+  content: "\e009";
+}
+.icon-db-state:before {
+  content: "\e00a";
+}
+.icon-db-start:before {
+  content: "\e00b";
+}
+.icon-db-end:before {
+  content: "\e00c";
+}
+.icon-db-fork:before {
+  content: "\e00d";
+}
+.icon-db-condition:before {
+  content: "\e00e";
+}
+.icon-db-task:before {
+  content: "\e00f";
+}
+.icon-db-join:before {
+  content: "\e010";
+}
+.icon-fb-button:before {
+  content: "\e011";
+}
+.icon-fb-fieldset:before {
+  content: "\e012";
+}
+.icon-fb-custom-field:before {
+  content: "\e013";
+}
+.icon-fb-separator:before {
+  content: "\e014";
+}
+.icon-fb-paragraph:before {
+  content: "\e015";
 }
 .icon-btc:before {
   content: "\f15a";
