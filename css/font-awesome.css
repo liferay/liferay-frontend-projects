@@ -764,24 +764,24 @@ you can use the generic selector below, but it's slower:
 .icon-fb-text,
 .icon-fb-number,
 .icon-fb-integer,
-.icon-fb-file-upload,
 .icon-fb-decimal,
 .icon-fb-boolean,
 .icon-renren,
 .icon-weibo,
 .icon-db-joinxor,
 .icon-db-state,
-.icon-db-start,
 .icon-db-end,
+.icon-db-start,
 .icon-db-fork,
-.icon-db-condition,
 .icon-db-task,
+.icon-db-condition,
 .icon-db-join,
 .icon-fb-button,
 .icon-fb-fieldset,
 .icon-fb-custom-field,
 .icon-fb-separator,
-.icon-fb-paragraph {
+.icon-fb-paragraph,
+.icon-fb-file-upload {
   font-family: 'fontawesome-alloy';
   speak: none;
   font-style: normal;
@@ -1883,9 +1883,6 @@ you can use the generic selector below, but it's slower:
 .icon-fb-integer:before {
   content: "\e005";
 }
-.icon-fb-file-upload:before {
-  content: "\e006";
-}
 .icon-fb-decimal:before {
   content: "\e007";
 }
@@ -1899,42 +1896,45 @@ you can use the generic selector below, but it's slower:
   content: "\f18a";
 }
 .icon-db-joinxor:before {
-  content: "\e009";
+  content: "\e006";
 }
 .icon-db-state:before {
+  content: "\e009";
+}
+.icon-db-end:before {
   content: "\e00a";
 }
 .icon-db-start:before {
   content: "\e00b";
 }
-.icon-db-end:before {
+.icon-db-fork:before {
   content: "\e00c";
 }
-.icon-db-fork:before {
+.icon-db-task:before {
   content: "\e00d";
 }
 .icon-db-condition:before {
   content: "\e00e";
 }
-.icon-db-task:before {
+.icon-db-join:before {
   content: "\e00f";
 }
-.icon-db-join:before {
+.icon-fb-button:before {
   content: "\e010";
 }
-.icon-fb-button:before {
+.icon-fb-fieldset:before {
   content: "\e011";
 }
-.icon-fb-fieldset:before {
+.icon-fb-custom-field:before {
   content: "\e012";
 }
-.icon-fb-custom-field:before {
+.icon-fb-separator:before {
   content: "\e013";
 }
-.icon-fb-separator:before {
+.icon-fb-paragraph:before {
   content: "\e014";
 }
-.icon-fb-paragraph:before {
+.icon-fb-file-upload:before {
   content: "\e015";
 }
 .icon-btc:before {
