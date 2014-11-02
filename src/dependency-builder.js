@@ -11,10 +11,16 @@ DependencyBuilder.prototype = {
 
     resolve: function(dependencies) {
         var i,
+            isDepsAray,
             module,
             result;
 
-        this._result.length = 0;
+        isDepsAray = Array.isArray ? Array.isArray(dependencies) :
+            Object.prototype.toString.call(dependencies) === '[object Array]';
+
+        if (!isDepsAray) {
+            dependencies = arguments;
+        }
 
         for (i = 0; i < dependencies.length; i++) {
             module = this._config.modules[dependencies[i]];
@@ -24,7 +30,7 @@ DependencyBuilder.prototype = {
             }
         }
 
-        result = this._result.reverse();
+        result = this._result.reverse().slice(0);
 
         this._cleanup();
 
@@ -43,6 +49,8 @@ DependencyBuilder.prototype = {
                 module.tmpMark = false;
             }
         }
+
+        this._result.length = 0;
     },
 
     _init: function() {

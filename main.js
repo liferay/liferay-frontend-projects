@@ -6,10 +6,14 @@ var DependencyBuilder = require('./src/dependency-builder.js');
 
 var depBuilder = new DependencyBuilder(config);
 
-var res = depBuilder.resolve(['aui-dialog']);
+var res = depBuilder.resolve('aui-dialog');
 
 console.log(res.join());
 
-var res = depBuilder.resolve(['aui-autocomplete']);
+var res = depBuilder.resolve('aui-autocomplete');
+
+console.log(res.join());
+
+var res = depBuilder.resolve(['aui-node', 'aui-plugin-base']);
 
 console.log(res.join());
