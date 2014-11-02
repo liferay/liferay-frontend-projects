@@ -1,0 +1,2 @@
+YUI like Loader
+======
