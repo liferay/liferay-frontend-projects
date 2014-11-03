@@ -38,8 +38,11 @@ DependencyBuilder.prototype = {
     },
 
     _cleanup: function() {
-        var hasOwnProperty = Object.prototype.hasOwnProperty,
-            key = 0;
+        var hasOwnProperty,
+            key = 0,
+            module;
+
+        hasOwnProperty = Object.prototype.hasOwnProperty;
 
         for (key in this._config.modules) {
             if (hasOwnProperty.call(this._config.modules, key)) {
@@ -54,8 +57,11 @@ DependencyBuilder.prototype = {
     },
 
     _init: function() {
-        var hasOwnProperty = Object.prototype.hasOwnProperty,
-            key = 0;
+        var hasOwnProperty,
+            key = 0,
+            module;
+
+        hasOwnProperty = Object.prototype.hasOwnProperty;
 
         for (key in this._config.modules) {
             if (hasOwnProperty.call(this._config.modules, key)) {
