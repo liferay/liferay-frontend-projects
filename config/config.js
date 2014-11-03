@@ -27,7 +27,7 @@ var config = {
 
         'aui-base': {
             deps: [],
-            path: '/html/js/aui-base.js'
+            fullPath: '/html/js/aui-base.js'
         },
 
         'aui-core': {
