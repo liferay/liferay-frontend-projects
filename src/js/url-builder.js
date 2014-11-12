@@ -35,4 +35,6 @@ URLBuilder.prototype = {
     }
 };
 
-module.exports = URLBuilder;
+if (typeof module === 'object' && module) {
+    module.exports = URLBuilder;
+}

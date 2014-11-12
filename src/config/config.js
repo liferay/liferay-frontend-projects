@@ -83,4 +83,7 @@ var config = {
     }
 };
 
-module.exports = config;
+
+if (typeof module === 'object' && module) {
+    module.exports = config;
+}

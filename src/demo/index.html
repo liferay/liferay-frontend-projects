@@ -8,10 +8,25 @@
 
     </head>
     <body>
-        <script src="//localhost:8081/lib/promise2.js"></script>
-        <script src="//localhost:8081/lib/promise.js"></script>
+        <h1>Alloy Loader like test page</h1>
+
+        <script src="//localhost:8081/config/config.js"></script>
+        <script src="//localhost:8081/vendor/promise.js"></script>
         <script src="//localhost:8081/js/url-builder.js"></script>
         <script src="//localhost:8081/js/dependency-builder.js"></script>
         <script src="//localhost:8081/js/script-loader.js"></script>
+
+        <script>
+            var scriptLoader = new ScriptLoader(config);
+
+            debugger;
+
+            scriptLoader.import('aui-base').then(function() {
+                debugger;
+            }, function(err) {
+                debugger;
+            });
+
+        </script>
     </body>
 </html>

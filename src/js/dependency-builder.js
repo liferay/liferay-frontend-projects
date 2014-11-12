@@ -166,4 +166,6 @@ DependencyBuilder.prototype = {
     _result: []
 };
 
-module.exports = DependencyBuilder;
+if (typeof module === 'object' && module) {
+    module.exports = DependencyBuilder;
+}
