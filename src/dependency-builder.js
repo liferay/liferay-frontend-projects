@@ -121,6 +121,8 @@ DependencyBuilder.prototype = {
         var i,
             module;
 
+        // Process all modules in the queue.
+        // Note: modules may be added to the queue during the process of evaluating.
         for (i = 0; i < this._queue.length; i++) {
             module = this._config.modules[this._queue[i]];
 
@@ -140,6 +142,7 @@ DependencyBuilder.prototype = {
             throw new Error('Fuck, not DAG');
         }
 
+        // Check if this module has conditional modules and add them to the queue if so.
         this._processConditionalModules(module);
 
         if (!module.mark) {

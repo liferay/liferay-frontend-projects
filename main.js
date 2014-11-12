@@ -9,26 +9,37 @@ var depBuilder = new DependencyBuilder(config);
 
 var urlBuilder = new URLBuilder(config);
 
-var res = depBuilder.resolve('aui-dialog');
-console.log('Dependencies', res.join());
+var alreadyLoadedModules = [];
 
-res = urlBuilder.build(res);
-console.log('URL', res);
+var dependencies = depBuilder.resolve('aui-dialog');
+console.log('Dependencies', dependencies.join());
 
-res = depBuilder.resolve(['aui-autocomplete']);
-console.log('Dependencies', res.join());
+var url = urlBuilder.build(dependencies);
+console.log('URL', url);
 
-res = urlBuilder.build(res);
-console.log('URL', res);
+// Load the modules here
 
-res = depBuilder.resolve('aui-node', 'aui-plugin-base');
-console.log('Dependencies', res.join());
+alreadyLoadedModules = alreadyLoadedModules.concat(dependencies);
 
-res = urlBuilder.build(res);
-console.log('URL', res);
+dependencies = depBuilder.resolve(['aui-autocomplete']);
+console.log('Dependencies', dependencies.join());
 
-res = depBuilder.resolve('aui-nate');
-console.log('Dependencies', res.join());
+url = urlBuilder.build(dependencies, alreadyLoadedModules);
+console.log('URL', url);
 
-res = urlBuilder.build(res);
-console.log('URL', res);
+// Load the modules here
+
+alreadyLoadedModules = alreadyLoadedModules.concat(dependencies);
+
+
+// dependencies = depBuilder.resolve('aui-node', 'aui-plugin-base');
+// console.log('Dependencies', dependencies.join());
+
+// url = urlBuilder.build(dependencies);
+// console.log('URL', url);
+
+// dependencies = depBuilder.resolve('aui-nate');
+// console.log('Dependencies', dependencies.join());
+
+// url = urlBuilder.build(dependencies);
+// console.log('URL', url);
