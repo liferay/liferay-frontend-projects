@@ -1,9 +1,9 @@
 'use strict';
 
-var config = require('./config/config.js');
+var config = require('./src/config/config.js');
 
-var DependencyBuilder = require('./src/dependency-builder.js');
-var URLBuilder = require('./src/url-builder.js');
+var DependencyBuilder = require('./src/js/dependency-builder.js');
+var URLBuilder = require('./src/js/url-builder.js');
 
 var depBuilder = new DependencyBuilder(config);
 
