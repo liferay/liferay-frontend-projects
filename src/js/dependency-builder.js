@@ -1,9 +1,11 @@
 'use strict';
 
-function DependencyBuilder(config) {
-    this._config = config;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-    this._init(config);
+function DependencyBuilder(configParser) {
+    this._configParser = configParser;
+
+    this._init();
 }
 
 DependencyBuilder.prototype = {
@@ -37,16 +39,16 @@ DependencyBuilder.prototype = {
     },
 
     _cleanup: function() {
-        var hasOwnProperty,
-            key = 0,
-            module;
+        var key = 0,
+            module,
+            modules;
 
-        hasOwnProperty = Object.prototype.hasOwnProperty;
+        modules = this._configParser.getModules();
 
-        // Set to false all temporary markers which were set during the process of dependencies resolving/
-        for (key in this._config.modules) {
-            if (hasOwnProperty.call(this._config.modules, key)) {
-                module = this._config.modules[key];
+        // Set to false all temporary markers which were set during the process of dependencies resolving
+        for (key in modules) {
+            if (hasOwnProperty.call(modules, key)) {
+                module = modules[key];
 
                 module.conditionalMark = false;
                 module.mark = false;
@@ -58,19 +60,21 @@ DependencyBuilder.prototype = {
         this._result.length = 0;
     },
 
-    _init: function(config) {
-        var hasOwnProperty,
-            key = 0,
-            module;
+    _init: function() {
+        var key = 0,
+            module,
+            modules;
 
         this._conditionalModules = {};
 
-        hasOwnProperty = Object.prototype.hasOwnProperty;
+        modules = this._configParser.getModules();
 
-        for (key in this._config.modules) {
-            if (hasOwnProperty.call(this._config.modules, key)) {
-                module = this._config.modules[key];
+        for (key in modules) {
+            if (hasOwnProperty.call(modules, key)) {
+                module = modules[key];
 
+                // Set module name, overriding what may have been passed by the developer
+                // or just create it, if it does not exists (the normal case)
                 module.name = key;
 
                 this._initConditionalModule(module);
@@ -96,15 +100,18 @@ DependencyBuilder.prototype = {
     _processConditionalModules: function(module) {
         var conditionalModule,
             conditionalModules,
-            i;
+            i,
+            modules;
 
         conditionalModules = this._conditionalModules[module.name];
 
         // If the current module has conditional modules as dependencies,
         // add them to the list (queue) of modules, which have to be resolved.
         if (conditionalModules && !module.conditionalMark) {
+            modules = this._configParser.getModules();
+
             for (i = 0; i < conditionalModules.length; i++) {
-                conditionalModule = this._config.modules[conditionalModules[i]];
+                conditionalModule = modules[conditionalModules[i]];
 
                 if (this._queue.indexOf(conditionalModule.name) === -1 &&
                     conditionalModule.condition.test.call(conditionalModule)) {
@@ -119,12 +126,16 @@ DependencyBuilder.prototype = {
 
     _resolve: function() {
         var i,
-            module;
+            module,
+            modules;
 
         // Process all modules in the queue.
         // Note: modules may be added to the queue during the process of evaluating.
+
+        modules = this._configParser.getModules();
+
         for (i = 0; i < this._queue.length; i++) {
-            module = this._config.modules[this._queue[i]];
+            module = modules[this._queue[i]];
 
             if (!module.mark) {
                 this._visit(module);
@@ -134,7 +145,8 @@ DependencyBuilder.prototype = {
 
     _visit: function(module) {
         var i,
-            moduleDependency;
+            moduleDependency,
+            modules;
 
         // We support only Directed Acyclic Graph, throw exception if there are
         // circular dependencies.
@@ -148,10 +160,12 @@ DependencyBuilder.prototype = {
         if (!module.mark) {
             module.tmpMark = true;
 
-            for (i = 0; i < module.deps.length; i++) {
-                moduleDependency = this._config.modules[module.deps[i]];
+            modules = this._configParser.getModules();
 
-                this._visit(moduleDependency, this._config.modules);
+            for (i = 0; i < module.deps.length; i++) {
+                moduleDependency = modules[module.deps[i]];
+
+                this._visit(moduleDependency, modules);
             }
 
             module.mark = true;

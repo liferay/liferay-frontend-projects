@@ -12,6 +12,7 @@
 
         <script src="//localhost:8081/config/config.js"></script>
         <script src="//localhost:8081/vendor/promise.js"></script>
+        <script src="//localhost:8081/config/config-parser.js"></script>
         <script src="//localhost:8081/js/url-builder.js"></script>
         <script src="//localhost:8081/js/dependency-builder.js"></script>
         <script src="//localhost:8081/js/script-loader.js"></script>
@@ -19,13 +20,12 @@
         <script>
             var scriptLoader = new ScriptLoader(config);
 
-            debugger;
-
-            scriptLoader.import('aui-autocomplete').then(function() {
-                debugger;
-            }, function(err) {
-                debugger;
-            });
+            scriptLoader.import('aui-chema-group-test2', 'aui-ambrin-group-test4')
+                .then(function(chemaGroupTest2, ambrinGroupTest4) {
+                    debugger;
+                }).catch(function(error) {
+                    debugger;
+                });
 
         </script>
     </body>

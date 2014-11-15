@@ -1,0 +1,113 @@
+AMD:
+
+cart.js
+
+define('cart', [], function() {
+	returns {
+
+	};
+});
+
+
+chema.js
+
+define (['chema'], function(cart) {
+	return {
+
+	};
+})
+
+
+
+Patented:
+
+AUI.register('aui-chema', ['aui-ambrin', 'aui-iliyan'], function(ambrin, iliyan) {
+	return {
+
+	};
+}, {
+	condition: {
+
+	}
+});
+
+
+{
+	'aui-chema': {
+		path: '/js',
+		condition: {
+
+		}
+	},
+	'aui-ambrin': {
+		path: '/js'
+	},
+	'aui-iliyan': {
+		path: '/js'
+	},
+}
+
+
+returned combo file:
+
+AUI.register('aui-chema1', [], function() {
+	return {
+
+	};
+}, {
+	condition: {
+
+	}
+});
+
+
+AUI.register('aui-chema2', [], function() {
+	return {
+
+	};
+}, {
+	fullPath: 'foo.com/js/chema2.js'
+});
+
+
+AUI.register('aui-ambrin', ['aui-chema1', 'aui-chema2'], function(chema1, chema2) {
+	return {
+
+	};
+}, {
+	group: 'chema'
+	path: '',
+	condition: {
+
+	}
+});
+
+define('cart', ['aui-miguel'], function(miguel) {
+	returns {
+
+	};
+});
+
+
+
+
+
+AUI.import('aui-chema1', 'aui-chema2', 'aui-ambrin').then(function(chema1, chema2, ambrin) {
+
+}).catch(function(error) {
+
+});
+
+
+
+http://foo.com/combo?chema/relative/to/basePath/chema1.jschema/relative/to/basePath/chema2.js&js/relative/to/basePath/ambrin1.js
+
+or
+
+Promise.all()
+
+http://foo.com/combo?chema/relative/to/basePath/chema1.js
+
+'foo.com/js/chema2.js'
+
+http://foo.com/combo?chema/relative/to/basePath/ambrin.js

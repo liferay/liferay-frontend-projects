@@ -1,18 +1,18 @@
 'use strict';
 
-function URLBuilder(config) {
-    this._config = config;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function URLBuilder(configParser) {
+    this._configParser = configParser;
 }
 
 URLBuilder.prototype = {
     constructor: URLBuilder,
 
     build: function(dependencies) {
-        var buffer,
-            i,
-            isDepsAray,
-            module,
-            moduleName;
+        var isDepsAray,
+            moduleGroups,
+            result;
 
         isDepsAray = Array.isArray ? Array.isArray(dependencies) :
             Object.prototype.toString.call(dependencies) === '[object Array]';
@@ -21,17 +21,101 @@ URLBuilder.prototype = {
             dependencies = arguments;
         }
 
-        buffer = [];
+        moduleGroups = this._distributeModulesGroups(dependencies);
 
+        result = this._createURL(moduleGroups);
+
+        return result;
+    },
+
+    _createURL: function(moduleGroups) {
+        var buffer,
+            defaultGroup,
+            distributedModules,
+            group,
+            groups,
+            i,
+            key,
+            module,
+            modules,
+            result;
+
+        buffer = [];
+        result = [];
+
+        groups = this._configParser.getGroups();
+        modules = this._configParser.getModules();
+
+        defaultGroup = groups['default'];
+
+        // Loop over all groups created from modules distribution.
+        for (key in moduleGroups) {
+            if (hasOwnProperty.call(moduleGroups, key)) {
+                distributedModules = moduleGroups[key];
+
+                group = groups[key];
+
+                // For each group, loop over its modules.
+                for (i = 0; i < distributedModules.length; i++) {
+                    module = modules[distributedModules[i]];
+
+                    // If module has fullPath or group.combine is false, individual URLs have to be created.
+                    if (module.fullPath) {
+                        result.push(module.fullPath);
+
+                    } else if (!group.combine) {
+                        result.push((group.url || defaultGroup.url) + (group.basePath || defaultGroup.basePath) + module.path);
+
+                    } else {
+                        // If group combine is true and module does not have full path, it will be collected
+                        // in a buffer to be loaded among with other modules.
+                        buffer.push(module.path);
+                    }
+                }
+
+                // Put to result all modules, which have to be combined.
+                if (buffer.length) {
+                    result.push((group.url || defaultGroup.url) + (group.basePath || defaultGroup.basePath) + buffer.join('&'));
+
+                    buffer.length = 0;
+                }
+            }
+        }
+
+        return result;
+    },
+
+    _distributeModulesGroups: function(dependencies) {
+        var distributedModules,
+            i,
+            module,
+            moduleGroups,
+            moduleName,
+            modules;
+
+        moduleGroups = {};
+
+        modules = this._configParser.getModules();
+
+        debugger;
+
+        // Loop all modules and distribute them by their groups.
         for (i = 0; i < dependencies.length; i++) {
             moduleName = dependencies[i];
 
-            module = this._config.modules[moduleName];
+            module = modules[moduleName];
 
-            buffer.push(module.path || module.fullPath);
+            // Create a new group or retrieve the array of modules for an existing one.
+            distributedModules = moduleGroups[module.group];
+
+            if (!distributedModules) {
+                moduleGroups[module.group] = distributedModules = [];
+            }
+
+            distributedModules.push(moduleName);
         }
 
-        return this._config.base + buffer.join('&');
+        return moduleGroups;
     }
 };
 

@@ -1,7 +1,40 @@
 'use strict';
 
 var config = {
-    base: 'http://localhost:8080/combo?',
+    url: 'http://foo.com/combo',
+    basePath: '/js',
+    combine: true,
+    groups: {
+        'chema': {
+            basePath: '/chema',
+            modules: {
+                'aui-chema-group-test1': {
+                    path: '/html/js/aui-chema-test1.js',
+                    deps: ['aui-base', 'aui-core']
+                },
+
+                'aui-chema-group-test2': {
+                    path: '/html/js/aui-chema-test2.js',
+                    deps: ['aui-plugin-base']
+                }
+            }
+        },
+
+        'ambrin': {
+            basePath: '/ambrin',
+            modules: {
+                'aui-ambrin-group-test3': {
+                    path: 'aui-ambrin-test1.js',
+                    deps: ['aui-base', 'aui-core']
+                },
+
+                'aui-ambrin-group-test4': {
+                    path: 'aui-ambrin-test2.js',
+                    deps: ['aui-node']
+                }
+            }
+        }
+    },
     modules: {
         'aui-test': {
             condition: {
@@ -78,7 +111,8 @@ var config = {
 
         'aui-nate': {
             deps: ['aui-autocomplete', 'aui-event'],
-            path: '/html/js/aui-nate.js'
+            path: '/html/js/aui-nate.js',
+            group: 'ambrin'
         }
     }
 };
@@ -87,3 +121,28 @@ var config = {
 if (typeof module === 'object' && module) {
     module.exports = config;
 }
+
+
+
+// base
+
+// 1. path
+
+// 2. fullPath
+
+// if (module has full path) {
+//     unconditionally create individual request for it
+// }
+
+
+// if (combo is true) {
+//     assume base is combo url and create combo url:
+//     'http://localhost:8080/combo?/html/js/aui-nate.js&/html/js/aui-event.js',
+// }
+
+// if (combo is false) {
+//     make invididual requests for each file by combining base + module path
+
+//     'http://localhost:8080/base/html/js/aui-nate.js',
+//     'http://localhost:8080/base/html/js/aui-event.js'
+// }

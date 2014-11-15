@@ -3,34 +3,31 @@
 var config = require('./src/config/config.js');
 
 var DependencyBuilder = require('./src/js/dependency-builder.js');
+var ConfigParser = require('./src/js/config-parser.js');
 var URLBuilder = require('./src/js/url-builder.js');
 
-var depBuilder = new DependencyBuilder(config);
+debugger;
 
-var urlBuilder = new URLBuilder(config);
+var configParser = new ConfigParser(config);
 
-var alreadyLoadedModules = [];
+var depBuilder = new DependencyBuilder(configParser);
+var urlBuilder = new URLBuilder(configParser);
 
-var dependencies = depBuilder.resolve('aui-dialog');
-console.log('Dependencies', dependencies.join());
+// var dependencies = depBuilder.resolve('aui-dialog');
+// console.log('Dependencies', dependencies.join());
 
-var url = urlBuilder.build(dependencies);
-console.log('URL', url);
+// var url = urlBuilder.build(dependencies);
+// console.log('URL', url);
 
-// Load the modules here
+// // Load the modules here
 
-alreadyLoadedModules = alreadyLoadedModules.concat(dependencies);
+// dependencies = depBuilder.resolve(['aui-autocomplete']);
+// console.log('Dependencies', dependencies.join());
 
-dependencies = depBuilder.resolve(['aui-autocomplete']);
-console.log('Dependencies', dependencies.join());
+// url = urlBuilder.build(dependencies);
+// console.log('URL', url);
 
-url = urlBuilder.build(dependencies, alreadyLoadedModules);
-console.log('URL', url);
-
-// Load the modules here
-
-alreadyLoadedModules = alreadyLoadedModules.concat(dependencies);
-
+// // Load the modules here
 
 // dependencies = depBuilder.resolve('aui-node', 'aui-plugin-base');
 // console.log('Dependencies', dependencies.join());
@@ -43,3 +40,10 @@ alreadyLoadedModules = alreadyLoadedModules.concat(dependencies);
 
 // url = urlBuilder.build(dependencies);
 // console.log('URL', url);
+
+
+var dependencies = depBuilder.resolve('aui-chema-group-test2', 'aui-ambrin-group-test4');
+console.log('Dependencies', dependencies.join());
+
+var url = urlBuilder.build(dependencies);
+console.log('URL', url);
