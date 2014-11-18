@@ -9,11 +9,13 @@ else {
     Promise = this.Promise;
 }
 
-function ScriptLoader(meta) {
+function ScriptLoader(configParser) {
     this._loadedModules = [];
 
-    this._dependencyBuilder = new DependencyBuilder(meta);
-    this._urlBuilder = new URLBuilder(meta);
+    this._configParser = configParser;
+
+    this._dependencyBuilder = new DependencyBuilder(configParser);
+    this._urlBuilder = new URLBuilder(configParser);
 }
 
 ScriptLoader.prototype = {
@@ -65,6 +67,10 @@ ScriptLoader.prototype = {
                 resolve();
             }
         });
+    },
+
+    register: function(name, dependencies, implementation, config) {
+        this._configParser.addModule()
     },
 
     _createScriptPromise: function(url) {
