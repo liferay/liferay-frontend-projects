@@ -23,14 +23,19 @@ ScriptLoader.prototype = {
         var self = this;
 
         return new Promise(function(resolve, reject) {
-            var scriptElement = document.createElement('script');
+            var dependencies,
+                dependenciesFinal,
+                i,
+                scriptPromises,
+                urls;
 
-            var dependencies = self._dependencyBuilder.resolve(modules);
+            dependencies = self._dependencyBuilder.resolve(modules);
 
-            var dependenciesFinal = [];
+            dependenciesFinal = [];
 
+            // Skip already loaded modules.
             if (self._loadedModules.length) {
-                for (var i = 0; i < dependencies.length; i++) {
+                for (i = 0; i < dependencies.length; i++) {
                     if (self._loadedModules.indexOf(dependencies[i]) === -1) {
                         dependenciesFinal.push(dependencies[i]);
                     }
@@ -41,20 +46,44 @@ ScriptLoader.prototype = {
             }
 
             if (dependenciesFinal.length) {
-                var url = self._urlBuilder.build(dependenciesFinal);
+                urls = self._urlBuilder.build(dependenciesFinal);
 
-                scriptElement.src = url;
+                for (i = 0; i < urls.length; i++) {
+                    scriptPromises.push(this._createScriptPromise(urls[i]));
+                }
 
-                scriptElement.onload = function() {
+                Promise.all(scriptPromises).then(function(values) {
                     self._loadedModules = self._loadedModules.concat(dependenciesFinal);
 
-                    resolve();
-                };
-
-                scriptElement.onerror = reject;
-
-                document.body.appendChild(scriptElement);
+                    resolve(values);
+                })
+                .catch(function(err) {
+                    reject();
+                });
             }
+            else {
+                resolve();
+            }
+        });
+    },
+
+    _createScriptPromise: function(url) {
+        return new Promise(function(resolve, reject) {
+            var scriptElement;
+
+            scriptElement = document.createElement('script');
+
+            scriptElement.src = url;
+
+            scriptElement.onload = resolve();
+
+            scriptElement.onerror = function(err) {
+                document.body.removeChild(scriptElement);
+
+                reject();
+            };
+
+            document.body.appendChild(scriptElement);
         });
     }
 };
