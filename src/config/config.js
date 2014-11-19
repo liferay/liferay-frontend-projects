@@ -1,21 +1,21 @@
 'use strict';
 
 var config = {
-    url: 'http://foo.com/combo',
-    basePath: '/js',
+    url: 'http://localhost:8081/combo',
+    basePath: 'modules/',
     combine: true,
     groups: {
         'chema': {
             basePath: '/chema',
             modules: {
                 'aui-chema-group-test1': {
-                    path: '/html/js/aui-chema-test1.js',
+                    path: 'aui-chema-group-test1',
                     deps: ['aui-base', 'aui-core']
                 },
 
                 'aui-chema-group-test2': {
-                    path: '/html/js/aui-chema-test2.js',
-                    deps: ['aui-plugin-base']
+                    deps: ['aui-plugin-base'],
+                    path: 'aui-chema-group-test2.js'
                 }
             }
         },
@@ -24,12 +24,12 @@ var config = {
             basePath: '/ambrin',
             modules: {
                 'aui-ambrin-group-test3': {
-                    path: 'aui-ambrin-test1.js',
+                    path: 'aui-ambrin-group-test3',
                     deps: ['aui-base', 'aui-core']
                 },
 
                 'aui-ambrin-group-test4': {
-                    path: 'aui-ambrin-test2.js',
+                    path: 'aui-ambrin-group-test4',
                     deps: ['aui-node']
                 }
             }
@@ -44,7 +44,7 @@ var config = {
                 }
             },
             deps: ['aui-base'],
-            path: '/html/js/aui-test.js'
+            path: 'aui-test.js'
         },
 
         'aui-test2': {
@@ -55,27 +55,27 @@ var config = {
                 }
             },
             deps: ['aui-base'],
-            path: '/html/js/aui-test2.js'
+            path: 'aui-test2.js'
         },
 
         'aui-base': {
             deps: [],
-            fullPath: '/html/js/aui-base.js'
+            fullPath: 'http://localhost:8081/modules/aui-base.js'
         },
 
         'aui-core': {
             deps: [],
-            path: '/html/js/aui-core.js'
+            path: 'aui-core.js'
         },
 
         'aui-plugin-base': {
             deps: [],
-            path: '/html/js/aui-plugin-base.js'
+            path: 'aui-plugin-base.js'
         },
 
         'aui-node': {
             deps: ['aui-base', 'aui-core'],
-            path: '/html/js/aui-node.js'
+            path: 'aui-node.js'
         },
 
         'aui-chema': {
@@ -86,33 +86,33 @@ var config = {
                 }
             },
             deps: ['aui-autocomplete', 'aui-event', 'aui-node'],
-            path: '/html/js/aui-chema.js'
+            path: 'aui-chema.js'
         },
 
         'aui-dialog': {
             deps: ['aui-node', 'aui-plugin-base'],
-            path: '/html/js/aui-dialog.js'
+            path: 'aui-dialog.js'
         },
 
         'aui-dom-node': {
             deps: ['aui-node'],
-            path: '/html/js/aui-dom-node.js'
+            path: 'aui-dom-node.js'
         },
 
         'aui-autocomplete': {
             deps: ['aui-node', 'aui-dialog'],
-            path: '/html/js/aui-autocomplete.js'
+            path: 'aui-autocomplete.js'
         },
 
         'aui-event': {
             deps: ['aui-node', 'aui-plugin-base'],
-            path: '/html/js/aui-event.js'
+            path: 'aui-event.js'
         },
 
         'aui-nate': {
             deps: ['aui-autocomplete', 'aui-event'],
-            path: '/html/js/aui-nate.js',
-            group: 'ambrin'
+            group: 'ambrin',
+            path: 'aui-nate.js'
         }
     }
 };
@@ -137,7 +137,7 @@ if (typeof module === 'object' && module) {
 
 // if (combo is true) {
 //     assume base is combo url and create combo url:
-//     'http://localhost:8080/combo?/html/js/aui-nate.js&/html/js/aui-event.js',
+//     'http://localhost:8080/combo?aui-nate.js&/html/js/aui-event.js',
 // }
 
 // if (combo is false) {

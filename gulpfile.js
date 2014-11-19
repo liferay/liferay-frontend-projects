@@ -17,6 +17,11 @@ gulp.task('js', function() {
         .pipe(gulp.dest('dist/js'));
 });
 
+gulp.task('modules', function() {
+    return gulp.src('src/modules/**/*.*')
+        .pipe(gulp.dest('dist/modules'));
+});
+
 gulp.task('vendor', function() {
     return gulp.src('src/vendor/**/*.*')
         .pipe(gulp.dest('dist/vendor'));
@@ -28,7 +33,7 @@ gulp.task('demo', function() {
 });
 
 gulp.task('build', function(callback) {
-    runSequence('clean', ['config', 'js', 'vendor', 'demo'], callback);
+    runSequence('clean', ['config', 'js', 'modules', 'vendor', 'demo'], callback);
 });
 
 gulp.task('default', function(callback) {

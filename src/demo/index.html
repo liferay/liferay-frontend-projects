@@ -22,7 +22,7 @@
 
             var scriptLoader = new ScriptLoader(configParser);
 
-            scriptLoader.register('aui-nate', ['aui-autocomplete', 'aui-event'], function() {
+            ScriptLoader.register('aui-nate', ['aui-autocomplete', 'aui-event'], function() {
                 return {
                     log: function(text) {
                         console.log('module nate');
@@ -32,7 +32,7 @@
                 group: 'ambrin'
             });
 
-            scriptLoader.import('aui-chema-group-test2', 'aui-ambrin-group-test4')
+            ScriptLoader.import('aui-chema-group-test2', 'aui-ambrin-group-test4')
                 .then(function(chemaGroupTest2, ambrinGroupTest4) {
                     debugger;
                 }).catch(function(error) {
