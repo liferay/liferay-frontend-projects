@@ -16,6 +16,12 @@
 
         this._dependencyBuilder = new DependencyBuilder(configParser);
         this._urlBuilder = new URLBuilder(configParser);
+
+        this._pendingImports = [];
+
+        this._moduleRegisterListener = this._onModuleRegister.bind(this);
+
+        window.eventEmitter.on('moduleRegsiter', this._moduleRegisterListener);
     }
 
     ScriptLoader.prototype = {
@@ -70,13 +76,8 @@
                         scriptPromises.push(self._createScriptPromise(urls[i]));
                     }
 
-                    Promise.all(scriptPromises).then(function(values) {
-                        debugger;
-                        self._loadedModules = self._loadedModules.concat(dependenciesFinal);
 
-                        resolve(values);
-                    })
-                    .catch(function(err) {
+                    Promise.all(scriptPromises).catch(function(err) {
                         reject();
                     });
                 }
@@ -123,6 +124,13 @@
 
                 document.body.appendChild(scriptElement);
             });
+        },
+
+        _onModuleRegister: function(event) {
+            debugger;
+            this._loadedModules = this._loadedModules.concat(dependenciesFinal);
+
+            resolve(values);
         }
     };
 
