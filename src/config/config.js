@@ -1,12 +1,12 @@
 'use strict';
 
-var config = {
-    url: 'http://localhost:8081/combo',
-    basePath: 'modules/',
+var __CONFIG__ = {
+    url: 'http://localhost:3000/combo',
+    basePath: '/modules',
     combine: true,
     groups: {
         'chema': {
-            basePath: '/chema',
+            basePath: '/modules/chema',
             modules: {
                 'aui-chema-group-test1': {
                     path: 'aui-chema-group-test1',
@@ -21,15 +21,15 @@ var config = {
         },
 
         'ambrin': {
-            basePath: '/ambrin',
+            basePath: '/modules/ambrin',
             modules: {
                 'aui-ambrin-group-test3': {
-                    path: 'aui-ambrin-group-test3',
+                    path: 'aui-ambrin-group-test3.js',
                     deps: ['aui-base', 'aui-core']
                 },
 
                 'aui-ambrin-group-test4': {
-                    path: 'aui-ambrin-group-test4',
+                    path: 'aui-ambrin-group-test4.js',
                     deps: ['aui-node']
                 }
             }

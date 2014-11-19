@@ -10,33 +10,23 @@
     <body>
         <h1>Alloy Loader like test page</h1>
 
+        <script src="//localhost:8081/vendor/eventemitter2.js"></script>
         <script src="//localhost:8081/config/config.js"></script>
         <script src="//localhost:8081/vendor/promise.js"></script>
-        <script src="//localhost:8081/config/config-parser.js"></script>
+        <script src="//localhost:8081/js/config-parser.js"></script>
         <script src="//localhost:8081/js/url-builder.js"></script>
         <script src="//localhost:8081/js/dependency-builder.js"></script>
         <script src="//localhost:8081/js/script-loader.js"></script>
 
         <script>
-            var configParser = new ConfigParser(config);
-
-            var scriptLoader = new ScriptLoader(configParser);
-
-            ScriptLoader.register('aui-nate', ['aui-autocomplete', 'aui-event'], function() {
-                return {
-                    log: function(text) {
-                        console.log('module nate');
-                    }
-                };
-            }, {
-                group: 'ambrin'
-            });
+            window.eventEmitter = new EventEmitter2();
 
             ScriptLoader.import('aui-chema-group-test2', 'aui-ambrin-group-test4')
                 .then(function(chemaGroupTest2, ambrinGroupTest4) {
                     debugger;
                 }).catch(function(error) {
                     debugger;
+                    console.log(error);
                 });
 
         </script>

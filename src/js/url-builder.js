@@ -10,16 +10,8 @@ URLBuilder.prototype = {
     constructor: URLBuilder,
 
     build: function(dependencies) {
-        var isDepsAray,
-            moduleGroups,
+        var moduleGroups,
             result;
-
-        isDepsAray = Array.isArray ? Array.isArray(dependencies) :
-            Object.prototype.toString.call(dependencies) === '[object Array]';
-
-        if (!isDepsAray) {
-            dependencies = arguments;
-        }
 
         moduleGroups = this._distributeModulesGroups(dependencies);
 
@@ -33,6 +25,7 @@ URLBuilder.prototype = {
             defaultGroup,
             distributedModules,
             group,
+            groupPath,
             groups,
             i,
             key,
@@ -55,6 +48,12 @@ URLBuilder.prototype = {
 
                 group = groups[key];
 
+                groupPath = (group.basePath || defaultGroup.basePath);
+
+                if (groupPath.charAt(groupPath.length - 1) !== '/') {
+                    groupPath += '/';
+                }
+
                 // For each group, loop over its modules.
                 for (i = 0; i < distributedModules.length; i++) {
                     module = modules[distributedModules[i]];
@@ -64,7 +63,7 @@ URLBuilder.prototype = {
                         result.push(module.fullPath);
 
                     } else if (!group.combine) {
-                        result.push((group.url || defaultGroup.url) + (group.basePath || defaultGroup.basePath) + module.path);
+                        result.push((group.url || defaultGroup.url) + '?' + groupPath + module.path);
 
                     } else {
                         // If group combine is true and module does not have full path, it will be collected
@@ -75,7 +74,7 @@ URLBuilder.prototype = {
 
                 // Put to result all modules, which have to be combined.
                 if (buffer.length) {
-                    result.push((group.url || defaultGroup.url) + (group.basePath || defaultGroup.basePath) + buffer.join('&'));
+                    result.push((group.url || defaultGroup.url) + '?' + groupPath + buffer.join('&' + groupPath));
 
                     buffer.length = 0;
                 }
@@ -96,8 +95,6 @@ URLBuilder.prototype = {
         moduleGroups = {};
 
         modules = this._configParser.getModules();
-
-        debugger;
 
         // Loop all modules and distribute them by their groups.
         for (i = 0; i < dependencies.length; i++) {

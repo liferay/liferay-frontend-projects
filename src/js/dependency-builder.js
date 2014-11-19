@@ -12,17 +12,7 @@ DependencyBuilder.prototype = {
     constructor: DependencyBuilder,
 
     resolve: function(modules) {
-        var isDepsArray,
-            result;
-
-        // Modules can be passed as an array or as multiple arguments.
-        // If passed as arguments, they will be converted to an Array.
-        isDepsArray = Array.isArray ? Array.isArray(modules) :
-            Object.prototype.toString.call(modules) === '[object Array]';
-
-        if (!isDepsArray) {
-            modules = Array.prototype.slice.call(arguments, 0);
-        }
+        var result;
 
         // Copy the passed modules to a resolving modules queue.
         // Modules may be added there during the process of resolving.

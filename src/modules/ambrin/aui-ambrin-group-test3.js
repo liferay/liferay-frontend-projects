@@ -6,5 +6,5 @@ ScriptLoader.register('aui-ambrin-group-test3', ['aui-base', 'aui-core'], functi
     };
 }, {
     group: 'ambrin',
-    path: 'aui-ambrin-group-test3'
+    path: 'aui-ambrin-group-test3.js'
 });
