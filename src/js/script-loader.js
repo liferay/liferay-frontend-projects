@@ -70,12 +70,22 @@
                 if (dependenciesFinal.length) {
                     urls = self._urlBuilder.build(dependenciesFinal);
 
+                    // Store the not yet loaded modules in an array, together with the
+                    // resolving promise method.
+                    self._pendingImports.push({
+                        deps: dependenciesFinal,
+                        callback: resolve
+                    });
+
                     scriptPromises = [];
 
+                    // Create promises for all URLs. Note we don't resolve the main promise when
+                    // URL promises are being resolved. We will only reject the main promise if
+                    // any of these fails. The main promise will be resolved later, when each pending
+                    // module registers.
                     for (i = 0; i < urls.length; i++) {
                         scriptPromises.push(self._createScriptPromise(urls[i]));
                     }
-
 
                     Promise.all(scriptPromises).catch(function(err) {
                         reject();
@@ -127,10 +137,38 @@
         },
 
         _onModuleRegister: function(event) {
-            debugger;
-            this._loadedModules = this._loadedModules.concat(dependenciesFinal);
+            var found,
+                i,
+                imports,
+                j,
+                module;
 
-            resolve(values);
+            debugger;
+
+            for (i = 0; i < this._pendingImports.length; i++) {
+                found = true;
+
+                imports = this._pendingImports[i];
+
+                for(j = 0; j < imports.deps.length; j++) {
+                    module = imports.deps[j];
+
+                    if (this._configParser.getModules()[module].implementation) {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    this._resolveImport(imports);
+                }
+            },
+
+            _resolveImport: function(imports) {
+                this._loadedModules = this._loadedModules.concat(dependenciesFinal);
+
+                resolve(values);
+            }
         }
     };
 
