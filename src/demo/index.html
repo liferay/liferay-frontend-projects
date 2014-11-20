@@ -19,13 +19,15 @@
         <script src="//localhost:8081/js/script-loader.js"></script>
 
         <script>
-            window.eventEmitter = new EventEmitter2();
+            ScriptLoader.import('aui-nate')
+                .then(function(modules) {
+                    modules[0].log('nate');
 
-            ScriptLoader.import('aui-chema-group-test2', 'aui-ambrin-group-test4')
-                .then(function(chemaGroupTest2, ambrinGroupTest4) {
-                    debugger;
+                    window.chema.log('chema loaded too!');
+
+                    // debugger;
                 }).catch(function(error) {
-                    debugger;
+                    // debugger;
                     console.log(error);
                 });
 

@@ -6,31 +6,33 @@ var __CONFIG__ = {
     combine: true,
     groups: {
         'chema': {
+            url: 'http://localhost:8081',
             basePath: '/modules/chema',
             modules: {
                 'aui-chema-group-test1': {
                     path: 'aui-chema-group-test1',
-                    deps: ['aui-base', 'aui-core']
+                    dependencies: ['aui-base', 'aui-core']
                 },
 
                 'aui-chema-group-test2': {
-                    deps: ['aui-plugin-base'],
+                    dependencies: ['aui-plugin-base'],
                     path: 'aui-chema-group-test2.js'
                 }
             }
         },
 
         'ambrin': {
+            url: 'http://localhost:8081',
             basePath: '/modules/ambrin',
             modules: {
                 'aui-ambrin-group-test3': {
                     path: 'aui-ambrin-group-test3.js',
-                    deps: ['aui-base', 'aui-core']
+                    dependencies: ['aui-base', 'aui-core']
                 },
 
                 'aui-ambrin-group-test4': {
                     path: 'aui-ambrin-group-test4.js',
-                    deps: ['aui-node']
+                    dependencies: ['aui-node']
                 }
             }
         }
@@ -43,7 +45,7 @@ var __CONFIG__ = {
                     return false;
                 }
             },
-            deps: ['aui-base'],
+            dependencies: ['aui-base'],
             path: 'aui-test.js'
         },
 
@@ -54,27 +56,27 @@ var __CONFIG__ = {
                     return true;
                 }
             },
-            deps: ['aui-base'],
+            dependencies: ['aui-base'],
             path: 'aui-test2.js'
         },
 
         'aui-base': {
-            deps: [],
+            dependencies: [],
             fullPath: 'http://localhost:8081/modules/aui-base.js'
         },
 
         'aui-core': {
-            deps: [],
+            dependencies: [],
             path: 'aui-core.js'
         },
 
         'aui-plugin-base': {
-            deps: [],
+            dependencies: [],
             path: 'aui-plugin-base.js'
         },
 
         'aui-node': {
-            deps: ['aui-base', 'aui-core'],
+            dependencies: ['aui-base', 'aui-core'],
             path: 'aui-node.js'
         },
 
@@ -85,33 +87,32 @@ var __CONFIG__ = {
                     return true;
                 }
             },
-            deps: ['aui-autocomplete', 'aui-event', 'aui-node'],
+            dependencies: ['aui-autocomplete', 'aui-event', 'aui-node'],
             path: 'aui-chema.js'
         },
 
         'aui-dialog': {
-            deps: ['aui-node', 'aui-plugin-base'],
+            dependencies: ['aui-node', 'aui-plugin-base'],
             path: 'aui-dialog.js'
         },
 
         'aui-dom-node': {
-            deps: ['aui-node'],
+            dependencies: ['aui-node'],
             path: 'aui-dom-node.js'
         },
 
         'aui-autocomplete': {
-            deps: ['aui-node', 'aui-dialog'],
+            dependencies: ['aui-node', 'aui-dialog'],
             path: 'aui-autocomplete.js'
         },
 
         'aui-event': {
-            deps: ['aui-node', 'aui-plugin-base'],
+            dependencies: ['aui-node', 'aui-plugin-base'],
             path: 'aui-event.js'
         },
 
         'aui-nate': {
-            deps: ['aui-autocomplete', 'aui-event'],
-            group: 'ambrin',
+            dependencies: ['aui-autocomplete', 'aui-event'],
             path: 'aui-nate.js'
         }
     }

@@ -1,7 +1,7 @@
 ScriptLoader.register('aui-core', [], function() {
     return {
         log: function(text) {
-            console.log('module aui-core');
+            console.log('module aui-core: ' + text);
         }
     };
 }, {

@@ -152,8 +152,8 @@ DependencyBuilder.prototype = {
 
             modules = this._configParser.getModules();
 
-            for (i = 0; i < module.deps.length; i++) {
-                moduleDependency = modules[module.deps[i]];
+            for (i = 0; i < module.dependencies.length; i++) {
+                moduleDependency = modules[module.dependencies[i]];
 
                 this._visit(moduleDependency, modules);
             }

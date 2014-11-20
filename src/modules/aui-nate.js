@@ -1,10 +1,12 @@
 ScriptLoader.register('aui-nate', ['aui-autocomplete', 'aui-event'], function(node, pluginBase) {
+	assertValue(node);
+    assertValue(pluginBase);
+
     return {
         log: function(text) {
-            console.log('module aui-event');
+            console.log('module aui-nate: ' + text);
         }
     };
 }, {
-	group: 'ambrin',
 	path: 'aui-event.js'
 });

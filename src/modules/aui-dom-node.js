@@ -1,7 +1,9 @@
 ScriptLoader.register('aui-dom-node', ['aui-node'], function(node) {
+	assertValue(node);
+
     return {
         log: function(text) {
-            console.log('module aui-dom-node');
+            console.log('module aui-dom-node: ' + text);
         }
     };
 }, {

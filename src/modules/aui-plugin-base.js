@@ -1,7 +1,7 @@
 ScriptLoader.register('aui-plugin-base', [], function() {
     return {
         log: function(text) {
-            console.log('module aui-plugin-base');
+            console.log('module aui-plugin-base: ' + text);
         }
     };
 }, {

@@ -1,7 +1,9 @@
 ScriptLoader.register('aui-ambrin-group-test4', ['aui-node'], function(node) {
+	assertValue(node);
+
     return {
         log: function(text) {
-            console.log('module aui-ambrin-group-test4');
+            console.log('module aui-ambrin-group-test4: ' + text);
         }
     };
 }, {

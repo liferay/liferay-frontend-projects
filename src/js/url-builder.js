@@ -63,7 +63,7 @@ URLBuilder.prototype = {
                         result.push(module.fullPath);
 
                     } else if (!group.combine) {
-                        result.push((group.url || defaultGroup.url) + '?' + groupPath + module.path);
+                        result.push((group.url || defaultGroup.url) + groupPath + module.path);
 
                     } else {
                         // If group combine is true and module does not have full path, it will be collected

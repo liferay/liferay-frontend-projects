@@ -1,7 +1,9 @@
 ScriptLoader.register('aui-chema-group-test2', ['aui-plugin-base'], function(pluginBase) {
+	assertValue(pluginBase);
+
     return {
         log: function(text) {
-            console.log('module aui-chema-group-test2');
+            console.log('module aui-chema-group-test2: ' + text);
         }
     };
 }, {

@@ -1,7 +1,9 @@
 ScriptLoader.register('aui-test2', ['aui-base'], function(base) {
+    assertValue(base);
+
     return {
         log: function(text) {
-            console.log('module aui-test2');
+            console.log('module aui-test2: ' + text);
         }
     };
 }, {
