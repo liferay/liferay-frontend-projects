@@ -18,7 +18,6 @@
         this._urlBuilder = new URLBuilder(configParser);
 
         this._pendingModules = [];
-        this._pendingImports = [];
 
         this._moduleRegisterListener = this._onModuleRegister.bind(this);
 
@@ -197,29 +196,6 @@
                     this._pendingModules.splice(i--, 1);
 
                     this._registerModule(pendingModule);
-                }
-            }
-
-            // For all pending imports, check if all their dependencies are resolved.
-            // If so, resolve the main promise.
-            for (i = 0; i < this._pendingImports.length; i++) {
-                var found = true;
-
-                var imports = this._pendingImports[i];
-
-                for(var j = 0; j < imports.dependencies.length; j++) {
-                    var dependency = imports.dependencies[j];
-
-                    if (!modules[dependency].implementation) {
-                        found = false;
-                        break;
-                    }
-                }
-
-                if (found) {
-                    this._resolveImports(imports);
-
-                    this._pendingImports.splice(i--, 1);
                 }
             }
         },
