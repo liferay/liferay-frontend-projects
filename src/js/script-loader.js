@@ -16,12 +16,6 @@
 
         this._dependencyBuilder = new DependencyBuilder(configParser);
         this._urlBuilder = new URLBuilder(configParser);
-
-        this._pendingModules = [];
-
-        this._moduleRegisterListener = this._onModuleRegister.bind(this);
-
-        this.on('moduleRegister', this._moduleRegisterListener);
     }
 
     extend(ScriptLoader, EventEmitter2, {
@@ -62,22 +56,40 @@
         },
 
         register: function(name, dependencies, implementation, config) {
-            // Create new module by merging the provided config with the passed name,
-            // dependencies and the implementation.
-            var module = config || {};
+            var self = this;
 
-            module.name = name;
-            module.dependencies = dependencies;
-            module.pendingImplementation = implementation;
+            return new Promise(function(resolve, reject) {
+                // Create new module by merging the provided config with the passed name,
+                // dependencies and the implementation.
+                var module = config || {};
 
-            var dependenciesResolved = this._checkModuleDependencies(module);
+                module.name = name;
+                module.dependencies = dependencies;
+                module.pendingImplementation = implementation;
 
-            if (dependenciesResolved) {
-                this._registerModule(module);
-            }
-            else {
-                this._pendingModules.push(module);
-            }
+                var dependenciesResolved = self._checkModuleDependencies(module);
+
+                if (dependenciesResolved) {
+                    self._registerModule(module);
+
+                    resolve(module);
+                }
+                else {
+                    var onModuleRegister = function(registeredModule) {
+                        var dependenciesResolved = self._checkModuleDependencies(module);
+
+                        if (dependenciesResolved) {
+                            self.off('moduleRegister', onModuleRegister);
+
+                            self._registerModule(module);
+
+                            resolve(module);
+                        }
+                    };
+
+                    self.on('moduleRegister', onModuleRegister);
+                }
+            });
         },
 
         _filterMissingModules: function(modules) {
@@ -136,6 +148,28 @@
             });
         },
 
+        _registerModule: function(module) {
+            var dependencyImplementations = [];
+
+            var modules = this._configParser.getModules();
+
+            for (var i = 0; i < module.dependencies.length; i++) {
+                var dependency = module.dependencies[i];
+
+                var dependencyModule = modules[dependency];
+
+                dependencyImplementations.push(dependencyModule.implementation);
+            }
+
+            module.implementation = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+
+            console.log('Register module: ' + module.name);
+
+            this._configParser.addModule(module);
+
+            this.emit('moduleRegister', module);
+        },
+
         _checkModuleDependencies: function(module) {
             var modules = this._configParser.getModules();
 
@@ -172,6 +206,7 @@
 
                 scriptElement.onload = resolve;
 
+                // Fixme: this works only in IE9+
                 scriptElement.onerror = function() {
                     document.body.removeChild(scriptElement);
 
@@ -180,63 +215,6 @@
 
                 document.body.appendChild(scriptElement);
             });
-        },
-
-        _onModuleRegister: function(module) {
-            var modules = this._configParser.getModules();
-
-            for (var i = 0; i < this._pendingModules.length; i++) {
-                var pendingModule = this._pendingModules[i];
-
-                var dependenciesResolved = this._checkModuleDependencies(pendingModule);
-
-                if (dependenciesResolved) {
-                    console.log('pendingModule: ' + pendingModule.name);
-
-                    this._pendingModules.splice(i--, 1);
-
-                    this._registerModule(pendingModule);
-                }
-            }
-        },
-
-        _registerModule: function(module) {
-            var modules = this._configParser.getModules();
-
-            var dependencyImplementations = [];
-
-            for (var i = 0; i < module.dependencies.length; i++) {
-                var dependency = module.dependencies[i];
-
-                var dependencyModule = modules[dependency];
-
-                dependencyImplementations.push(dependencyModule.implementation);
-            }
-
-            console.log('Register module: ' + module.name);
-
-            module.implementation = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
-
-            this._configParser.addModule(module);
-
-            this.emit('moduleRegister', module);
-        },
-
-        _resolveImports: function(imports) {
-            // Imports is an object with the following params:
-            // modules - the modules, as provided from the developer
-            // dependencies - all modules dependencies
-            // resolve - the promise resolve function, which have to be called.
-
-            var implementations = [];
-
-            var modules = this._configParser.getModules();
-
-            for (var i = 0; i < imports.modules.length; i++) {
-                implementations.push(modules[imports.modules[i]].implementation);
-            }
-
-            imports.resolve(implementations);
         }
     });
 
