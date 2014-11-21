@@ -29,24 +29,30 @@
         import: function(args) {
             var self = this;
 
-            var modules = arguments;
+            var modules = args;
 
             // Modules can be passed as an array or as multiple arguments.
             // If passed as arguments, they will be converted to an Array.
-            var isArgsArray = Array.isArray ? Array.isArray(arguments) :
-                Object.prototype.toString.call(arguments) === '[object Array]';
+            var isArgsArray = Array.isArray ? Array.isArray(args) :
+                Object.prototype.toString.call(args) === '[object Array]';
 
             if (!isArgsArray) {
                 modules = Array.prototype.slice.call(arguments, 0);
             }
 
             return new Promise(function(resolve, reject) {
-                Promise.resolve(self._dependencyBuilder.resolveDependecies(modules))
+                Promise.resolve(self._dependencyBuilder.resolveDependencies(modules))
                     .then(function(dependencies) {
                         return self._loadModules(dependencies);
                     })
                     .then(function(loadedModules) {
-                        resolve(loadedModules);
+                        var moduleImplementations = [];
+
+                        for (var i = 0; i < modules.length; i++) {
+                            moduleImplementations.push(loadedModules[modules[i]].implementation);
+                        }
+
+                        resolve(moduleImplementations);
                     })
                     .catch(function(error) {
                         console.log(error);
@@ -106,7 +112,21 @@
 
                     Promise.all(pendingScripts)
                         .then(function(loadedScripts) {
-                            resolve(loadedScripts);
+                            var registeredModules = self._configParser.getModules();
+
+                            var value = {};
+
+                            for (var i = 0; i < modules.length; i++) {
+                                var module = registeredModules[modules[i]];
+
+                                if (!module.implementation) {
+                                    throw 'Failed to load module: ' + module;
+                                }
+
+                                value[module.name] = module;
+                            }
+
+                            resolve(value);
                         })
                         .catch(function(error) {
                             reject(error);
