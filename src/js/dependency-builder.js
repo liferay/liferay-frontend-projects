@@ -11,12 +11,12 @@ function DependencyBuilder(configParser) {
 DependencyBuilder.prototype = {
     constructor: DependencyBuilder,
 
-    resolve: function(modules) {
+    resolveDependencies: function(modules) {
         // Copy the passed modules to a resolving modules queue.
         // Modules may be added there during the process of resolving.
         this._queue = modules.slice(0);
 
-        this._resolve();
+        this._resolveDependencies();
 
         // Reorder the modules list so the modules without dependencies will
         // be moved upfront
@@ -50,7 +50,8 @@ DependencyBuilder.prototype = {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
 
         // If the current module has conditional modules as dependencies,
-        // add them to the list (queue) of modules, which have to be resolved.
+
+// add them to the list (queue) of modules, which have to be resolveDependenciesd.
         if (conditionalModules && !module.conditionalMark) {
             var modules = this._configParser.getModules();
 
@@ -68,7 +69,7 @@ DependencyBuilder.prototype = {
         }
     },
 
-    _resolve: function() {
+    _resolveDependencies: function() {
         // Process all modules in the queue.
         // Note: modules may be added to the queue during the process of evaluating.
         var modules = this._configParser.getModules();

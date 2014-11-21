@@ -18,7 +18,6 @@
         this._urlBuilder = new URLBuilder(configParser);
 
         this._pendingModules = [];
-
         this._pendingImports = [];
 
         this._moduleRegisterListener = this._onModuleRegister.bind(this);
@@ -42,53 +41,19 @@
             }
 
             return new Promise(function(resolve, reject) {
-                // Resolve the dependencies of the modules which have to be imported.
-                var dependencies = self._dependencyBuilder.resolve(modules);
+                Promise.resolve(self._dependencyBuilder.resolveDependecies(modules))
+                    .then(function(dependencies) {
+                        return self._loadModules(dependencies);
+                    })
+                    .then(function(loadedModules) {
+                        resolve(loadedModules);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
 
-                var missingDependencies = [];
-
-                var registeredModules = self._configParser.getModules();
-
-                // Skip already loaded modules.
-                for (var i = 0; i < dependencies.length; i++) {
-                    if (!registeredModules[dependencies[i]] || !registeredModules[dependencies[i]].implementation) {
-                        missingDependencies.push(dependencies[i]);
-                    }
-                }
-
-                if (missingDependencies.length) {
-                    var urls = self._urlBuilder.build(missingDependencies);
-
-                    // Store the not yet loaded modules, together with the
-                    // resolving promise method.
-                    self._pendingImports.push({
-                        modules: modules,
-                        dependencies: dependencies,
-                        resolve: resolve
+                        reject(error);
                     });
-
-                    var scriptPromises = [];
-
-                    // Create promises for all URLs. Note we don't resolve the main promise when
-                    // URL promises are being resolved. We will only reject the main promise if
-                    // any of these fails. The main promise will be resolved later, when each pending
-                    // module registers.
-                    for (i = 0; i < urls.length; i++) {
-                        scriptPromises.push(self._createScriptPromise(urls[i]));
-                    }
-
-                    // Reject the main promise if any of the URLs fails to import
-                    Promise.all(scriptPromises).catch(function(err) {
-                        reject();
-                    });
-                } else {
-                    self._resolveImports({
-                        modules: modules,
-                        dependencies: dependencies,
-                        resolve: resolve
-                    });
-                }
-            });
+                });
         },
 
         register: function(name, dependencies, implementation, config) {
@@ -108,6 +73,48 @@
             else {
                 this._pendingModules.push(module);
             }
+        },
+
+        _filterMissingModules: function(modules) {
+            var missingModules = [];
+
+            var registeredModules = this._configParser.getModules();
+
+            for (var i = 0; i < modules.length; i++) {
+                if (!registeredModules[modules[i]] || !registeredModules[modules[i]].implementation) {
+                    missingModules.push(modules[i]);
+                }
+            }
+
+            return missingModules;
+        },
+
+        _loadModules: function(modules) {
+            var self = this;
+
+            return new Promise(function(resolve, reject) {
+                var missingModules = self._filterMissingModules(modules);
+
+                if (missingModules.length) {
+                    var urls = self._urlBuilder.build(missingModules);
+
+                    var pendingScripts = [];
+
+                    for (var i = 0; i < urls.length; i++) {
+                        pendingScripts.push(self._loadScript(urls[i]));
+                    }
+
+                    Promise.all(pendingScripts)
+                        .then(function(loadedScripts) {
+                            resolve(loadedScripts);
+                        })
+                        .catch(function(error) {
+                            reject(error);
+                        });
+                } else {
+                    resolve(modules);
+                }
+            });
         },
 
         _checkModuleDependencies: function(module) {
@@ -136,11 +143,9 @@
             return found;
         },
 
-        _createScriptPromise: function(url) {
+        _loadScript: function(url) {
             return new Promise(function(resolve, reject) {
-                var scriptElement;
-
-                scriptElement = document.createElement('script');
+                var scriptElement = document.createElement('script');
 
                 scriptElement.src = url;
 
