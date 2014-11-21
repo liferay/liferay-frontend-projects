@@ -10,53 +10,38 @@ URLBuilder.prototype = {
     constructor: URLBuilder,
 
     build: function(dependencies) {
-        var moduleGroups,
-            result;
+        var moduleGroups = this._distributeModulesByGroups(dependencies);
 
-        moduleGroups = this._distributeModulesGroups(dependencies);
-
-        result = this._createURL(moduleGroups);
+        var result = this._createURL(moduleGroups);
 
         return result;
     },
 
     _createURL: function(moduleGroups) {
-        var buffer,
-            defaultGroup,
-            distributedModules,
-            group,
-            groupPath,
-            groups,
-            i,
-            key,
-            module,
-            modules,
-            result;
+        var buffer = [];
+        var result = [];
 
-        buffer = [];
-        result = [];
+        var groups = this._configParser.getGroups();
+        var modules = this._configParser.getModules();
 
-        groups = this._configParser.getGroups();
-        modules = this._configParser.getModules();
-
-        defaultGroup = groups['default'];
+        var defaultGroup = groups['default'];
 
         // Loop over all groups created from modules distribution.
-        for (key in moduleGroups) {
+        for (var key in moduleGroups) {
             if (hasOwnProperty.call(moduleGroups, key)) {
-                distributedModules = moduleGroups[key];
+                var distributedModules = moduleGroups[key];
 
-                group = groups[key];
+                var group = groups[key];
 
-                groupPath = (group.basePath || defaultGroup.basePath);
+                var groupPath = (group.basePath || defaultGroup.basePath);
 
                 if (groupPath.charAt(groupPath.length - 1) !== '/') {
                     groupPath += '/';
                 }
 
                 // For each group, loop over its modules.
-                for (i = 0; i < distributedModules.length; i++) {
-                    module = modules[distributedModules[i]];
+                for (var i = 0; i < distributedModules.length; i++) {
+                    var module = modules[distributedModules[i]];
 
                     // If module has fullPath or group.combine is false, individual URLs have to be created.
                     if (module.fullPath) {
@@ -84,26 +69,19 @@ URLBuilder.prototype = {
         return result;
     },
 
-    _distributeModulesGroups: function(dependencies) {
-        var distributedModules,
-            i,
-            module,
-            moduleGroups,
-            moduleName,
-            modules;
+    _distributeModulesByGroups: function(dependencies) {
+        var moduleGroups = {};
 
-        moduleGroups = {};
-
-        modules = this._configParser.getModules();
+        var modules = this._configParser.getModules();
 
         // Loop all modules and distribute them by their groups.
-        for (i = 0; i < dependencies.length; i++) {
-            moduleName = dependencies[i];
+        for (var i = 0; i < dependencies.length; i++) {
+            var moduleName = dependencies[i];
 
-            module = modules[moduleName];
+            var module = modules[moduleName];
 
             // Create a new group or retrieve the array of modules for an existing one.
-            distributedModules = moduleGroups[module.group];
+            var distributedModules = moduleGroups[module.group];
 
             if (!distributedModules) {
                 moduleGroups[module.group] = distributedModules = [];

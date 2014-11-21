@@ -3,82 +3,25 @@
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function ConfigParser(config) {
-    this._config = config;
-
     this._groups = {'default': {}};
 
     this._modules = {};
+    this._conditionalModules = {};
 
-    this._init();
+    this._parseConfig(config);
 }
 
 ConfigParser.prototype = {
     constructor: ConfigParser,
 
-    _init: function() {
-        this._parseConfig();
-    },
-
-    _parseConfig: function() {
-        var key;
-
-        for (key in this._config) {
-            if (hasOwnProperty.call(this._config, key)) {
-                if (key === 'groups') {
-                    this._parseGroups(this._config[key]);
-                } else if (key === 'modules') {
-                    this._parseModules(this._config[key]);
-                } else {
-                    this._groups['default'][key] = this._config[key];
-                }
-            }
-        }
-    },
-
-    _parseGroups: function(groups) {
-        var group,
-            key;
-
-        for (key in groups) {
-            if (hasOwnProperty.call(groups, key)) {
-                group = groups[key];
-
-                group.name = key;
-
-                this.addGroup(group);
-            }
-        }
-    },
-
-    _parseModules: function(modules, groupName) {
-        var key,
-            module;
-
-        groupName = groupName || 'default';
-
-        for (key in modules) {
-            if (hasOwnProperty.call(modules, key)) {
-                module = modules[key];
-
-                module.group = module.group || groupName;
-                module.name = key;
-
-                this.addModule(module);
-            }
-        }
-    },
-
     addGroup: function(group) {
-        var groupValue,
-            key;
-
-        groupValue = this._groups[group.name];
+        var groupValue = this._groups[group.name];
 
         if (! groupValue) {
             this._groups[group.name] = groupValue = {};
         }
 
-        for (key in group) {
+        for (var key in group) {
             if (hasOwnProperty.call(group, key)) {
                 if (key === 'modules') {
                     this._parseModules(group[key], group.name);
@@ -91,6 +34,12 @@ ConfigParser.prototype = {
 
     addModule: function(module) {
         this._modules[module.name] = module;
+
+        this._registerConditionalModule(module);
+    },
+
+    getConditionalModules: function() {
+        return this._conditionalModules;
     },
 
     getGroups: function() {
@@ -99,6 +48,60 @@ ConfigParser.prototype = {
 
     getModules: function() {
         return this._modules;
+    },
+
+    _parseConfig: function(config) {
+        for (var key in config) {
+            if (hasOwnProperty.call(config, key)) {
+                if (key === 'groups') {
+                    this._parseGroups(config[key]);
+                } else if (key === 'modules') {
+                    this._parseModules(config[key]);
+                } else {
+                    this._groups['default'][key] = config[key];
+                }
+            }
+        }
+    },
+
+    _parseGroups: function(groups) {
+        for (var key in groups) {
+            if (hasOwnProperty.call(groups, key)) {
+                var group = groups[key];
+
+                group.name = key;
+
+                this.addGroup(group);
+            }
+        }
+    },
+
+    _parseModules: function(modules, groupName) {
+        groupName = groupName || 'default';
+
+        for (var key in modules) {
+            if (hasOwnProperty.call(modules, key)) {
+                var module = modules[key];
+
+                module.group = module.group || groupName;
+                module.name = key;
+
+                this.addModule(module);
+            }
+        }
+    },
+
+    _registerConditionalModule: function(module) {
+        // Create an HashMap of all modules, which have conditional modules, as an Array.
+        if (module.condition) {
+            var existingModules = this._conditionalModules[module.condition.trigger];
+
+            if (!existingModules) {
+                this._conditionalModules[module.condition.trigger] = existingModules = [];
+            }
+
+            existingModules.push(module.name);
+        }
     }
 };
 

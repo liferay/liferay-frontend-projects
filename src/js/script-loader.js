@@ -28,46 +28,36 @@
 
     extend(ScriptLoader, EventEmitter2, {
         import: function(args) {
-            var self = this,
-                isArgsArray,
-                modules;
+            var self = this;
+
+            var modules = arguments;
 
             // Modules can be passed as an array or as multiple arguments.
             // If passed as arguments, they will be converted to an Array.
-            isArgsArray = Array.isArray ? Array.isArray(arguments) :
+            var isArgsArray = Array.isArray ? Array.isArray(arguments) :
                 Object.prototype.toString.call(arguments) === '[object Array]';
 
             if (!isArgsArray) {
                 modules = Array.prototype.slice.call(arguments, 0);
             }
-            else {
-                modules = arguments;
-            }
 
             return new Promise(function(resolve, reject) {
-                var dependencies,
-                    i,
-                    missingDependencies,
-                    registeredModules,
-                    scriptPromises,
-                    urls;
-
                 // Resolve the dependencies of the modules which have to be imported.
-                dependencies = self._dependencyBuilder.resolve(modules);
+                var dependencies = self._dependencyBuilder.resolve(modules);
 
-                missingDependencies = [];
+                var missingDependencies = [];
 
-                registeredModules = self._configParser.getModules();
+                var registeredModules = self._configParser.getModules();
 
                 // Skip already loaded modules.
-                for (i = 0; i < dependencies.length; i++) {
+                for (var i = 0; i < dependencies.length; i++) {
                     if (!registeredModules[dependencies[i]] || !registeredModules[dependencies[i]].implementation) {
                         missingDependencies.push(dependencies[i]);
                     }
                 }
 
                 if (missingDependencies.length) {
-                    urls = self._urlBuilder.build(missingDependencies);
+                    var urls = self._urlBuilder.build(missingDependencies);
 
                     // Store the not yet loaded modules, together with the
                     // resolving promise method.
@@ -77,7 +67,7 @@
                         resolve: resolve
                     });
 
-                    scriptPromises = [];
+                    var scriptPromises = [];
 
                     // Create promises for all URLs. Note we don't resolve the main promise when
                     // URL promises are being resolved. We will only reject the main promise if
@@ -102,9 +92,6 @@
         },
 
         register: function(name, dependencies, implementation, config) {
-            var dependenciesResolved,
-                modules;
-
             // Create new module by merging the provided config with the passed name,
             // dependencies and the implementation.
             var module = config || {};
@@ -113,9 +100,7 @@
             module.dependencies = dependencies;
             module.pendingImplementation = implementation;
 
-            modules = this._configParser.getModules();
-
-            dependenciesResolved = this._checkModuleDependencies(module);
+            var dependenciesResolved = this._checkModuleDependencies(module);
 
             if (dependenciesResolved) {
                 this._registerModule(module);
@@ -126,27 +111,20 @@
         },
 
         _checkModuleDependencies: function(module) {
-            var dependencies,
-                dependencyModule,
-                dependencyModuleImpl,
-                found,
-                i,
-                modules;
+            var modules = this._configParser.getModules();
 
-            modules = this._configParser.getModules();
+            var found = true;
 
-            found = true;
+            var dependencies = module.dependencies;
 
-            dependencies = module.dependencies;
-
-            for (i = 0; i < dependencies.length; i++) {
-                dependencyModule = modules[dependencies[i]];
+            for (var i = 0; i < dependencies.length; i++) {
+                var dependencyModule = modules[dependencies[i]];
 
                 if (!dependencyModule) {
                     throw 'Dependency ' + dependencies[i] + ' not registered as module.';
                 }
 
-                dependencyModuleImpl = dependencyModule.implementation;
+                var dependencyModuleImpl = dependencyModule.implementation;
 
                 if (!dependencyModuleImpl) {
                     found = false;
@@ -168,11 +146,9 @@
 
                 console.log(url);
 
-                scriptElement.onload = function(a, b, c, d) {
-                    resolve();
-                };
+                scriptElement.onload = resolve;
 
-                scriptElement.onerror = function(err) {
+                scriptElement.onerror = function() {
                     document.body.removeChild(scriptElement);
 
                     reject();
@@ -183,21 +159,12 @@
         },
 
         _onModuleRegister: function(module) {
-            var dependenciesResolved,
-                dependency,
-                found,
-                i,
-                imports,
-                j,
-                modules,
-                pendingModule;
+            var modules = this._configParser.getModules();
 
-            modules = this._configParser.getModules();
+            for (var i = 0; i < this._pendingModules.length; i++) {
+                var pendingModule = this._pendingModules[i];
 
-            for (i = 0; i < this._pendingModules.length; i++) {
-                pendingModule = this._pendingModules[i];
-
-                dependenciesResolved = this._checkModuleDependencies(pendingModule);
+                var dependenciesResolved = this._checkModuleDependencies(pendingModule);
 
                 if (dependenciesResolved) {
                     console.log('pendingModule: ' + pendingModule.name);
@@ -211,12 +178,12 @@
             // For all pending imports, check if all their dependencies are resolved.
             // If so, resolve the main promise.
             for (i = 0; i < this._pendingImports.length; i++) {
-                found = true;
+                var found = true;
 
-                imports = this._pendingImports[i];
+                var imports = this._pendingImports[i];
 
-                for(j = 0; j < imports.dependencies.length; j++) {
-                    dependency = imports.dependencies[j];
+                for(var j = 0; j < imports.dependencies.length; j++) {
+                    var dependency = imports.dependencies[j];
 
                     if (!modules[dependency].implementation) {
                         found = false;
@@ -233,20 +200,14 @@
         },
 
         _registerModule: function(module) {
-            var dependency,
-                dependencyImplementations,
-                dependencyModule,
-                i,
-                modules;
+            var modules = this._configParser.getModules();
 
-            modules = this._configParser.getModules();
+            var dependencyImplementations = [];
 
-            dependencyImplementations = [];
+            for (var i = 0; i < module.dependencies.length; i++) {
+                var dependency = module.dependencies[i];
 
-            for (i = 0; i < module.dependencies.length; i++) {
-                dependency = module.dependencies[i];
-
-                dependencyModule = modules[dependency];
+                var dependencyModule = modules[dependency];
 
                 dependencyImplementations.push(dependencyModule.implementation);
             }
@@ -261,20 +222,16 @@
         },
 
         _resolveImports: function(imports) {
-            var i,
-                implementations,
-                modules;
-
             // Imports is an object with the following params:
             // modules - the modules, as provided from the developer
             // dependencies - all modules dependencies
             // resolve - the promise resolve function, which have to be called.
 
-            implementations = [];
+            var implementations = [];
 
-            modules = this._configParser.getModules();
+            var modules = this._configParser.getModules();
 
-            for (i = 0; i < imports.modules.length; i++) {
+            for (var i = 0; i < imports.modules.length; i++) {
                 implementations.push(modules[imports.modules[i]].implementation);
             }
 
