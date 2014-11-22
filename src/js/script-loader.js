@@ -89,7 +89,9 @@ AUI.Utils.extend(Loader, EventEmitter2, {
         var registeredModules = this._configParser.getModules();
 
         for (var i = 0; i < modules.length; i++) {
-            if (!registeredModules[modules[i]] || !registeredModules[modules[i]].implementation) {
+            var registeredModule = registeredModules[modules[i]];
+
+            if (!registeredModule || (!registeredModule.implementation && !registeredModule.load)) {
                 missingModules.push(modules[i]);
             }
         }

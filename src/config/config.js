@@ -6,7 +6,8 @@ var __CONFIG__ = {
     combine: true,
     groups: {
         'chema': {
-            url: 'http://localhost:8081',
+            combine: true,
+            url: 'http://localhost:3000/combo',
             basePath: '/modules/chema',
             modules: {
                 'aui-chema-group-test1': {
@@ -22,7 +23,8 @@ var __CONFIG__ = {
         },
 
         'ambrin': {
-            url: 'http://localhost:8081',
+            combine: true,
+            url: 'http://localhost:3000/combo',
             basePath: '/modules/ambrin',
             modules: {
                 'aui-ambrin-group-test3': {

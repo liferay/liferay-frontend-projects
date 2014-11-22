@@ -50,6 +50,8 @@ URLBuilder.prototype = {
                     // in a buffer to be loaded among with other modules.
                     buffer.push(module.path);
                 }
+
+                module.load = true;
             }
 
             // Put to result all modules, which have to be combined.
