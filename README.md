@@ -1,3 +1,8 @@
+Simplified YUI like Loader
+=====
+
+Supports JavaScript modules only, but with groups, combo url and conditional loading.
+
 How to build it?
 -------------
 
