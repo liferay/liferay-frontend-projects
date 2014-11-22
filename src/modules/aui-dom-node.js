@@ -1,5 +1,5 @@
 Loader.register('aui-dom-node', ['aui-node'], function(node) {
-	assertValue(node);
+	AUI.Utils.assertValue(node);
 
     return {
         log: function(text) {

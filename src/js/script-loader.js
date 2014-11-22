@@ -189,22 +189,28 @@ AUI.Utils.extend(Loader, EventEmitter2, {
 
     _loadScript: function(url) {
         return new Promise(function(resolve, reject) {
-            var scriptElement = document.createElement('script');
+            var script = document.createElement('script');
 
-            scriptElement.src = url;
+            script.src = url;
 
             console.log(url);
 
-            scriptElement.onload = resolve;
+            script.onload = script.onreadystatechange = function () {
+                if (!this.readyState || this.readyState === 'complete' || this.readyState === 'load') {
 
-            // Fixme: this works only in IE9+
-            scriptElement.onerror = function() {
-                document.body.removeChild(scriptElement);
+                    script.onload = script.onreadystatechange = null;
+
+                    resolve();
+                }
+            };
+
+            script.onerror = function() {
+                document.body.removeChild(script);
 
                 reject();
             };
 
-            document.body.appendChild(scriptElement);
+            document.body.appendChild(script);
         });
     }
 });

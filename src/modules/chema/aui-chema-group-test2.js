@@ -1,5 +1,5 @@
 Loader.register('aui-chema-group-test2', ['aui-plugin-base'], function(pluginBase) {
-	assertValue(pluginBase);
+	AUI.Utils.assertValue(pluginBase);
 
     return {
         log: function(text) {

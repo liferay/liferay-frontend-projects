@@ -1,5 +1,5 @@
 Loader.register('aui-test', ['aui-base'], function(base) {
-    assertValue(base);
+    AUI.Utils.assertValue(base);
 
     return {
         log: function(text) {

@@ -1,6 +1,6 @@
 Loader.register('aui-autocomplete', ['aui-node', 'aui-dialog'], function(node, dialog) {
-	assertValue(node);
-	assertValue(dialog);
+	AUI.Utils.assertValue(node);
+	AUI.Utils.assertValue(dialog);
 
     return {
         log: function(text) {
