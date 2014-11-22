@@ -21,7 +21,6 @@ gulp.task('config', function() {
 
 gulp.task('vendor-js', function() {
     return gulp.src([
-        'src/vendor/eventemitter2.js',
         'src/vendor/promise.js',
         ])
     .pipe(concat('vendor.js'))
@@ -31,6 +30,7 @@ gulp.task('vendor-js', function() {
 gulp.task('combine-js', function() {
     return gulp.src([
         'src/js/utils.js',
+        'src/js/event-emitter.js',
         'src/js/config-parser.js',
         'src/js/dependency-builder.js',
         'src/js/url-builder.js',

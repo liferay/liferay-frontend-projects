@@ -9,7 +9,7 @@ function Loader(config) {
     this._urlBuilder = new URLBuilder(configParser);
 }
 
-AUI.Utils.extend(Loader, EventEmitter2, {
+AUI.Utils.extend(Loader, EventEmitter, {
     import: function(args) {
         var self = this;
 
