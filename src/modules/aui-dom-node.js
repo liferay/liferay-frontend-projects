@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-dom-node', ['aui-node'], function(node) {
+Loader.register('aui-dom-node', ['aui-node'], function(node) {
 	assertValue(node);
 
     return {

@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-ambrin-group-test4', ['aui-node'], function(node) {
+Loader.register('aui-ambrin-group-test4', ['aui-node'], function(node) {
 	assertValue(node);
 
     return {

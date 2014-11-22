@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-chema', ['aui-autocomplete', 'aui-event', 'aui-node'], function(autocomplete, event_, node) {
+Loader.register('aui-chema', ['aui-autocomplete', 'aui-event', 'aui-node'], function(autocomplete, event_, node) {
     assertValue(autocomplete);
     assertValue(event_);
     assertValue(node);

@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-chema-group-test2', ['aui-plugin-base'], function(pluginBase) {
+Loader.register('aui-chema-group-test2', ['aui-plugin-base'], function(pluginBase) {
 	assertValue(pluginBase);
 
     return {

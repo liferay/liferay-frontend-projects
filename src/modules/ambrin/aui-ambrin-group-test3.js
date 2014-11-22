@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-ambrin-group-test3', ['aui-base', 'aui-core'], function(base, core) {
+Loader.register('aui-ambrin-group-test3', ['aui-base', 'aui-core'], function(base, core) {
 	assertValue(base);
 	assertValue(core);
 

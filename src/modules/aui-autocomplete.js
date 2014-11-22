@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-autocomplete', ['aui-node', 'aui-dialog'], function(node, dialog) {
+Loader.register('aui-autocomplete', ['aui-node', 'aui-dialog'], function(node, dialog) {
 	assertValue(node);
 	assertValue(dialog);
 

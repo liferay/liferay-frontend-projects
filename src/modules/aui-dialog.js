@@ -1,4 +1,4 @@
-ScriptLoader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
+Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
     assertValue(node);
     assertValue(pluginBase);
 
