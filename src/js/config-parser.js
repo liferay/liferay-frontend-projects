@@ -1,7 +1,5 @@
 'use strict';
 
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
 function ConfigParser(config) {
     this._groups = {'default': {}};
 
@@ -21,15 +19,13 @@ ConfigParser.prototype = {
             this._groups[group.name] = groupValue = {};
         }
 
-        for (var key in group) {
-            if (hasOwnProperty.call(group, key)) {
-                if (key === 'modules') {
-                    this._parseModules(group[key], group.name);
-                } else {
-                    groupValue[key] = group[key];
-                }
+        Object.forEach(group, function(key, value) {
+            if (key === 'modules') {
+                this._parseModules(value, group.name);
+            } else {
+                groupValue[key] = value;
             }
-        }
+        }, this);
     },
 
     addModule: function(module) {
@@ -51,48 +47,38 @@ ConfigParser.prototype = {
     },
 
     _parseConfig: function(config) {
-        for (var key in config) {
-            if (hasOwnProperty.call(config, key)) {
-                if (key === 'groups') {
-                    this._parseGroups(config[key]);
-                } else if (key === 'modules') {
-                    this._parseModules(config[key]);
-                } else {
-                    this._groups['default'][key] = config[key];
-                }
+        Object.forEach(config, function(key, value) {
+            if (key === 'groups') {
+                this._parseGroups(value);
+            } else if (key === 'modules') {
+                this._parseModules(value);
+            } else {
+                this._groups['default'][key] = value;
             }
-        }
+        }, this);
     },
 
     _parseGroups: function(groups) {
-        for (var key in groups) {
-            if (hasOwnProperty.call(groups, key)) {
-                var group = groups[key];
+        Object.forEach(groups, function(key, group) {
+            group.name = key;
 
-                group.name = key;
-
-                this.addGroup(group);
-            }
-        }
+            this.addGroup(group);
+        }, this);
     },
 
     _parseModules: function(modules, groupName) {
         groupName = groupName || 'default';
 
-        for (var key in modules) {
-            if (hasOwnProperty.call(modules, key)) {
-                var module = modules[key];
+        Object.forEach(modules, function(key, module) {
+            module.group = module.group || groupName;
+            module.name = key;
 
-                module.group = module.group || groupName;
-                module.name = key;
-
-                this.addModule(module);
-            }
-        }
+            this.addModule(module);
+        }, this);
     },
 
     _registerConditionalModule: function(module) {
-        // Create an HashMap of all modules, which have conditional modules, as an Array.
+        // Create HashMap of all modules, which have conditional modules, as an Array.
         if (module.condition) {
             var existingModules = this._conditionalModules[module.condition.trigger];
 
@@ -104,7 +90,3 @@ ConfigParser.prototype = {
         }
     }
 };
-
-if (typeof module === 'object' && module) {
-    module.exports = ConfigParser;
-}
