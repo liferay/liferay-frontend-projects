@@ -41,5 +41,8 @@ EventEmitter.prototype = {
                 listener.call(listener);
             }
         }
+        else {
+            console.warn('No listeners for event: ' + event);
+        }
     }
 };
