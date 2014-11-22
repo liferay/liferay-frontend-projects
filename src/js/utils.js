@@ -56,6 +56,16 @@
         }
     };
 
+    Array.prototype.indexOf = Array.prototype.indexOf || function(array, element) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === element) {
+                return i;
+            }
+        }
+
+        return -1;
+    };
+
     Object.prototype.forEach = Object.prototype.forEach || function(obj, callback, context) {
         for (var key in obj) {
             if (hasOwnProperty.call(obj, key)) {
