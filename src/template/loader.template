@@ -1,0 +1,23 @@
+<%= vendor %>
+
+(function (global, factory) {
+    var built = factory();
+
+    /* istanbul ignore else */
+    if (typeof module === 'object' && module) {
+        module.exports = built;
+    }
+
+    /* istanbul ignore next */
+    if (typeof define === 'function' && define.amd) {
+        define(factory);
+    }
+
+    global.Loader = new built();
+}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function () {
+	'use strict';
+
+	<%= source %>
+
+    return Loader;
+}));

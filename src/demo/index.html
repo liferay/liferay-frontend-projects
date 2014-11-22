@@ -10,16 +10,11 @@
     <body>
         <h1>Alloy Loader like test page</h1>
 
-        <script src="//localhost:8081/vendor/eventemitter2.js"></script>
         <script src="//localhost:8081/config/config.js"></script>
-        <script src="//localhost:8081/vendor/promise.js"></script>
-        <script src="//localhost:8081/js/config-parser.js"></script>
-        <script src="//localhost:8081/js/url-builder.js"></script>
-        <script src="//localhost:8081/js/dependency-builder.js"></script>
-        <script src="//localhost:8081/js/script-loader.js"></script>
+        <script src="//localhost:8081/js/loader.js"></script>
 
         <script>
-            ScriptLoader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3', 'aui-nate')
+            Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3', 'aui-nate')
                 .then(function(modules) {
                     modules[0].log('nate');
 
@@ -28,7 +23,17 @@
                     // debugger;
                 }).catch(function(error) {
                     // debugger;
-                    console.log(error);
+                    console.error(error);
+                });
+
+            Loader.import('aui-ambrin-group-test4', 'aui-chema-group-test1')
+                .then(function(modules) {
+                    modules[0].log('ambrin4');
+
+                    // debugger;
+                }).catch(function(error) {
+                    // debugger;
+                    console.error(error);
                 });
 
         </script>
