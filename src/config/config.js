@@ -10,7 +10,7 @@ var __CONFIG__ = {
             basePath: '/modules/chema',
             modules: {
                 'aui-chema-group-test1': {
-                    path: 'aui-chema-group-test1',
+                    path: 'aui-chema-group-test1.js',
                     dependencies: ['aui-base', 'aui-core']
                 },
 
