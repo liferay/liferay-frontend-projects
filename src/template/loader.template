@@ -1,5 +1,9 @@
 <%= vendor %>
 
+if (typeof AUI === 'undefined') {
+    var AUI = {};
+}
+
 (function (global, factory) {
     var built = factory();
 

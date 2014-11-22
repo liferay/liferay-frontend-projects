@@ -1,7 +1,3 @@
-if (typeof AUI === 'undefined') {
-    var AUI = {};
-}
-
 (function () {
     'use strict';
 
