@@ -7,7 +7,10 @@ How to build it?
 -------------
 
 1. Clone or fork the repository on your machine.
-2. Install NodeJS and then in the cloned/forked repository run 'npm install'.
+2. Install NodeJS.
+3. Install Gulp `[sudo] npm install -g gulp`.
+4. Run 'npm install' in the cloned/forked repository.
+5. Run `gulp` to build it.
 
 This will build the loader in 'dist' directory.
 
