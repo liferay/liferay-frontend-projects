@@ -8,5 +8,5 @@ Loader.register('aui-nate', ['aui-autocomplete', 'aui-event'], function(node, pl
         }
     };
 }, {
-	path: 'aui-event.js'
+	path: 'aui-nate.js'
 });

@@ -31,13 +31,9 @@ DependencyBuilder.prototype = {
         // Set to false all temporary markers which were set during the process of
         // dependencies resolving.
         Object.forEach(modules, function(key, module) {
-            if (hasOwnProperty.call(modules, key)) {
-                var module = modules[key];
-
-                module.conditionalMark = false;
-                module.mark = false;
-                module.tmpMark = false;
-            }
+            module.conditionalMark = false;
+            module.mark = false;
+            module.tmpMark = false;
         }, this);
 
         this._queue.length = 0;
@@ -48,8 +44,7 @@ DependencyBuilder.prototype = {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
 
         // If the current module has conditional modules as dependencies,
-
-// add them to the list (queue) of modules, which have to be resolveDependenciesd.
+        // add them to the list (queue) of modules, which have to be resolved.
         if (conditionalModules && !module.conditionalMark) {
             var modules = this._configParser.getModules();
 
@@ -57,7 +52,7 @@ DependencyBuilder.prototype = {
                 var conditionalModule = modules[conditionalModules[i]];
 
                 if (this._queue.indexOf(conditionalModule.name) === -1 &&
-                    conditionalModule.condition.test.call(conditionalModule)) {
+                    this._testConditionalModule(conditionalModule.condition.test)) {
 
                     this._queue.push(conditionalModule.name);
                 }
@@ -78,6 +73,15 @@ DependencyBuilder.prototype = {
             if (!module.mark) {
                 this._visit(module);
             }
+        }
+    },
+
+    _testConditionalModule: function(testFunction) {
+        if (typeof testFunction === 'function') {
+            return testFunction();
+        } else {
+            debugger;
+            return eval('false || ' + testFunction)();
         }
     },
 

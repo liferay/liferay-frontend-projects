@@ -1,0 +1,18 @@
+{
+    "url": "http://localhost:3000/combo",
+    "basePath": "/modules",
+    "combine": true,
+    "groups": {
+        "chema": {
+            "combine": true,
+            "url": "http://localhost:3000/combo",
+            "basePath": "/modules/chema"
+        },
+
+        "ambrin": {
+            "combine": true,
+            "url": "http://localhost:3000/combo",
+            "basePath": "/modules/ambrin"
+        }
+    }
+}

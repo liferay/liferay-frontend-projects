@@ -14,8 +14,18 @@
         <script src="//localhost:8081/js/loader.js"></script>
 
         <script>
+            // Loader.require('aui-base', 'aui-autocomplete', function(base, node) {
+            //         debugger;
+            //         nate.log('nate');
+
+            //         window.chema.log('chema loaded too!');
+
+            //         // debugger;
+            //     });
+
             Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3', 'aui-ambrin-group-test4', 'aui-nate')
                 .then(function(modules) {
+                    debugger;
                     modules[0].log('nate');
 
                     window.chema.log('chema loaded too!');
@@ -28,6 +38,8 @@
 
             Loader.import('aui-ambrin-group-test4', 'aui-chema-group-test1')
                 .then(function(modules) {
+                    debugger;
+
                     modules[0].log('ambrin4');
 
                     // debugger;

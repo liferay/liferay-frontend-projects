@@ -21,7 +21,14 @@ AUI.Utils.extend(Loader, EventEmitter, {
             Object.prototype.toString.call(args) === '[object Array]';
 
         if (!isArgsArray) {
-            modules = Array.prototype.slice.call(arguments, 0);
+            // The code below will work too,
+            // but arguments must be not leaked for V8 peformance:
+            // modules = Array.prototype.slice.call(arguments, 0);
+            modules = new Array(arguments.length);
+
+            for (var i = 0; i < arguments.length; ++i) {
+                modules[i] = arguments[i];
+            }
         }
 
         return new Promise(function(resolve, reject) {
@@ -202,14 +209,14 @@ AUI.Utils.extend(Loader, EventEmitter, {
 
                     script.onload = script.onreadystatechange = null;
 
-                    resolve();
+                    resolve(script);
                 }
             };
 
             script.onerror = function() {
                 document.body.removeChild(script);
 
-                reject();
+                reject(script);
             };
 
             document.body.appendChild(script);

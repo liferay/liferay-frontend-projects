@@ -1,151 +1,138 @@
-'use strict';
-
 var __CONFIG__ = {
-    url: 'http://localhost:3000/combo',
-    basePath: '/modules',
-    combine: true,
-    groups: {
-        'chema': {
-            combine: true,
-            url: 'http://localhost:3000/combo',
-            basePath: '/modules/chema',
-            modules: {
-                'aui-chema-group-test1': {
-                    path: 'aui-chema-group-test1.js',
-                    dependencies: ['aui-base', 'aui-core']
+    "url": "http://localhost:3000/combo",
+    "basePath": "/modules",
+    "combine": true,
+    "groups": {
+        "chema": {
+            "combine": true,
+            "url": "http://localhost:3000/combo",
+            "basePath": "/modules/chema",
+            "modules": {
+                "aui-chema-group-test1": {
+                    "dependencies": [
+                        "aui-base",
+                        "aui-core"
+                    ],
+                    "path": "aui-chema-group-test1.js"
                 },
-
-                'aui-chema-group-test2': {
-                    dependencies: ['aui-plugin-base'],
-                    path: 'aui-chema-group-test2.js'
+                "aui-chema-group-test2": {
+                    "dependencies": [
+                        "aui-plugin-base"
+                    ],
+                    "path": "aui-chema-group-test2.js"
                 }
             }
         },
-
-        'ambrin': {
-            combine: true,
-            url: 'http://localhost:3000/combo',
-            basePath: '/modules/ambrin',
-            modules: {
-                'aui-ambrin-group-test3': {
-                    path: 'aui-ambrin-group-test3.js',
-                    dependencies: ['aui-base', 'aui-core']
+        "ambrin": {
+            "combine": true,
+            "url": "http://localhost:3000/combo",
+            "basePath": "/modules/ambrin",
+            "modules": {
+                "aui-ambrin-group-test3": {
+                    "dependencies": [
+                        "aui-base",
+                        "aui-core"
+                    ],
+                    "path": "aui-ambrin-group-test3.js"
                 },
-
-                'aui-ambrin-group-test4': {
-                    path: 'aui-ambrin-group-test4.js',
-                    dependencies: ['aui-node']
+                "aui-ambrin-group-test4": {
+                    "dependencies": [
+                        "aui-node"
+                    ],
+                    "path": "aui-ambrin-group-test4.js"
                 }
             }
         }
     },
-    modules: {
-        'aui-test': {
-            condition: {
-                trigger: 'aui-dialog',
-                test: function() {
-                    return false;
-                }
+    "modules": {
+        "aui-autocomplete": {
+            "dependencies": [
+                "aui-node",
+                "aui-dialog"
+            ],
+            "path": "aui-autocomplete.js"
+        },
+        "aui-base": {
+            "dependencies": [],
+            "fullPath": "http://localhost:8081/modules/aui-base.js"
+        },
+        "aui-chema": {
+            "dependencies": [
+                "aui-autocomplete",
+                "aui-event",
+                "aui-node"
+            ],
+            "condition": {
+                "trigger": "aui-nate",
+                "test": "function () {\n    var el = document.createElement('input');\n    return 'placeholder' in el && (1 || 2);\n}"
             },
-            dependencies: ['aui-base'],
-            path: 'aui-test.js'
+            "path": "aui-chema.js"
         },
-
-        'aui-test2': {
-            condition: {
-                trigger: 'aui-plugin-base',
-                test: function() {
-                    return true;
-                }
+        "aui-core": {
+            "dependencies": [],
+            "path": "aui-core.js"
+        },
+        "aui-dialog": {
+            "dependencies": [
+                "aui-node",
+                "aui-plugin-base"
+            ],
+            "condition": {
+                "trigger": "aui-nate",
+                "test": "function () {\n    return true;\n}"
             },
-            dependencies: ['aui-base'],
-            path: 'aui-test2.js'
+            "path": "aui-dialog.js"
         },
-
-        'aui-base': {
-            dependencies: [],
-            fullPath: 'http://localhost:8081/modules/aui-base.js'
+        "aui-dom-node": {
+            "dependencies": [
+                "aui-node"
+            ],
+            "path": "aui-dom-node.js"
         },
-
-        'aui-core': {
-            dependencies: [],
-            path: 'aui-core.js'
+        "aui-event": {
+            "dependencies": [
+                "aui-node",
+                "aui-plugin-base"
+            ],
+            "path": "aui-event.js"
         },
-
-        'aui-plugin-base': {
-            dependencies: [],
-            path: 'aui-plugin-base.js'
+        "aui-nate": {
+            "dependencies": [
+                "aui-autocomplete",
+                "aui-event"
+            ],
+            "path": "aui-nate.js"
         },
-
-        'aui-node': {
-            dependencies: ['aui-base', 'aui-core'],
-            path: 'aui-node.js'
+        "aui-node": {
+            "dependencies": [
+                "aui-base",
+                "aui-core"
+            ],
+            "path": "aui-node.js"
         },
-
-        'aui-chema': {
-            condition: {
-                trigger: 'aui-nate',
-                test: function() {
-                    return true;
-                }
+        "aui-plugin-base": {
+            "dependencies": [],
+            "path": "aui-plugin-base.js"
+        },
+        "aui-test": {
+            "dependencies": [
+                "aui-base"
+            ],
+            "condition": {
+                "trigger": "aui-dialog",
+                "test": "function () {\n    return false;\n}"
             },
-            dependencies: ['aui-autocomplete', 'aui-event', 'aui-node'],
-            path: 'aui-chema.js'
+            "path": "aui-test.js"
         },
-
-        'aui-dialog': {
-            dependencies: ['aui-node', 'aui-plugin-base'],
-            path: 'aui-dialog.js'
-        },
-
-        'aui-dom-node': {
-            dependencies: ['aui-node'],
-            path: 'aui-dom-node.js'
-        },
-
-        'aui-autocomplete': {
-            dependencies: ['aui-node', 'aui-dialog'],
-            path: 'aui-autocomplete.js'
-        },
-
-        'aui-event': {
-            dependencies: ['aui-node', 'aui-plugin-base'],
-            path: 'aui-event.js'
-        },
-
-        'aui-nate': {
-            dependencies: ['aui-autocomplete', 'aui-event'],
-            path: 'aui-nate.js'
+        "aui-test2": {
+            "dependencies": [
+                "aui-base"
+            ],
+            "condition": {
+                "trigger": "aui-plugin-base",
+                "test": "function () {\n    return true;\n}"
+            },
+            "path": "aui-test2.js"
         }
     }
 };
-
-
-if (typeof module === 'object' && module) {
-    module.exports = config;
-}
-
-
-
-// base
-
-// 1. path
-
-// 2. fullPath
-
-// if (module has full path) {
-//     unconditionally create individual request for it
-// }
-
-
-// if (combo is true) {
-//     assume base is combo url and create combo url:
-//     'http://localhost:8080/combo?aui-nate.js&/html/js/aui-event.js',
-// }
-
-// if (combo is false) {
-//     make invididual requests for each file by combining base + module path
-
-//     'http://localhost:8080/base/html/js/aui-nate.js',
-//     'http://localhost:8080/base/html/js/aui-event.js'
-// }

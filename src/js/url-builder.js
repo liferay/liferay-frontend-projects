@@ -42,7 +42,9 @@ URLBuilder.prototype = {
                 if (module.fullPath) {
                     result.push(module.fullPath);
 
-                } else if (!group.combine) {
+                // Else if group has explicitly set boolean combine, get its value, otherwise get the inherit value
+                // from the default group.
+                } else if ((typeof group.combine === 'boolean' && !group.combine) || !defaultGroup.combine) {
                     result.push((group.url || defaultGroup.url) + groupPath + module.path);
 
                 } else {

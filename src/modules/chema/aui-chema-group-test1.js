@@ -9,5 +9,5 @@ Loader.register('aui-chema-group-test1', ['aui-base', 'aui-core'], function(base
     };
 }, {
     group: 'chema',
-    path: 'aui-chema-group-test1'
+    path: 'aui-chema-group-test1.js'
 });

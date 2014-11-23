@@ -17,8 +17,13 @@
   },
   "homepage": "https://github.com/ipeychev/loader",
   "devDependencies": {
+    "bluebird": "^2.3.11",
     "combohandler": "^0.4.0",
+    "commander": "^2.5.0",
     "del": "^0.1.3",
+    "escodegen": "^1.4.1",
+    "esprima": "^1.2.2",
+    "eswalk": "^1.0.2",
     "express": "^4.10.2",
     "gulp": "^3.8.10",
     "gulp-concat": "^2.4.2",
@@ -26,7 +31,9 @@
     "gulp-template": "^1.1.1",
     "gulp-uglify": "^1.0.1",
     "gulp-watch": "^1.1.0",
+    "jsstana": "^0.1.4",
     "run-sequence": "^1.0.1",
+    "walk": "^2.3.4",
     "ypromise": "^0.2.3"
   }
 }
