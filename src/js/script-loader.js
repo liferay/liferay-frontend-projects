@@ -32,25 +32,21 @@ AUI.Utils.extend(Loader, EventEmitter, {
         }
 
         return new Promise(function(resolve, reject) {
-            Promise.resolve(self._dependencyBuilder.resolveDependencies(modules))
-                .then(function(dependencies) {
-                    return self._loadModules(dependencies);
-                })
-                .then(function(loadedModules) {
-                    var moduleImplementations = [];
+            self._resolveDependencies(modules)
+            .then(function(dependencies) {
+                return self._loadModules(dependencies);
+            })
+            .then(function(loadedModules) {
+                var moduleImplementations = self._addModuleImplementations(modules);
 
-                    for (var i = 0; i < modules.length; i++) {
-                        moduleImplementations.push(loadedModules[modules[i]].implementation);
-                    }
+                resolve(moduleImplementations);
+            })
+            .catch(function(error) {
+                console.log(error);
 
-                    resolve(moduleImplementations);
-                })
-                .catch(function(error) {
-                    console.log(error);
-
-                    reject(error);
-                });
+                reject(error);
             });
+        });
     },
 
     register: function(name, dependencies, implementation, config) {
@@ -88,6 +84,76 @@ AUI.Utils.extend(Loader, EventEmitter, {
                 self.on('moduleRegister', onModuleRegister);
             }
         });
+    },
+
+    require: function() {
+        var self = this;
+
+        var failureCallback;
+        var modules;
+        var successCallback;
+
+        var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) :
+            Object.prototype.toString.call(arguments[0]) === '[object Array]';
+
+        if (isArgsArray) {
+            modules = arguments[0];
+            successCallback = typeof arguments[1] === 'function' ? arguments[1] : null;
+            failureCallback = typeof arguments[2] === 'function' ? arguments[2] : null;
+
+        } else {
+            modules = [];
+
+            for (var i = 0; i < arguments.length; ++i) {
+                if (typeof arguments[i] === 'string') {
+                    modules[i] = arguments[i];
+
+                } else if (typeof arguments[i] === 'function') {
+                    successCallback = arguments[i];
+                    failureCallback = typeof arguments[++i] === 'function' ? arguments[i] : null;
+
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
+        self._resolveDependencies(modules)
+        .then(function(dependencies) {
+            return self._loadModules(dependencies);
+        })
+        .then(function(loadedModules) {
+            var moduleImplementations = self._addModuleImplementations(modules);
+
+            if (successCallback) {
+                successCallback.apply(window, moduleImplementations);
+            }
+        }, function(error) {
+            if (failureCallback) {
+                failureCallback.call(window, error);
+
+            } else if (successCallback) {
+                var moduleImplementations = self._addModuleImplementations(modules);
+
+                successCallback.apply(window, moduleImplementations);
+            }
+        });
+    },
+
+    _addModuleImplementations: function(requiredModules) {
+        var moduleImplementations = [];
+
+        var modules = this._configParser.getModules();
+
+        for (var i = 0; i < requiredModules.length; i++) {
+            var requiredModule = modules[requiredModules[i]];
+
+            moduleImplementations.push(requiredModule ? requiredModule.implementation : undefined);
+        }
+
+        return moduleImplementations;
     },
 
     _filterMissingModules: function(modules) {
@@ -168,6 +234,20 @@ AUI.Utils.extend(Loader, EventEmitter, {
         this._configParser.addModule(module);
 
         this.emit('moduleRegister', module);
+    },
+
+    _resolveDependencies: function(modules) {
+        var self = this;
+
+        return new Promise(function(resolve, reject) {
+            try {
+                var dependencies = self._dependencyBuilder.resolveDependencies(modules);
+
+                resolve(dependencies);
+            } catch(error) {
+                reject(error);
+            }
+        });
     },
 
     _checkModuleDependencies: function(module) {

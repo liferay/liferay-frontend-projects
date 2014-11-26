@@ -18,6 +18,8 @@ if (typeof AUI === 'undefined') {
     }
 
     global.Loader = new built();
+    global.require = Loader.require.bind(Loader);
+    global.define = Loader.register.bind(Loader);
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function () {
 	'use strict';
 
