@@ -64,7 +64,7 @@ var __CONFIG__ = {
             ],
             "condition": {
                 "trigger": "aui-nate",
-                "test": "function () {\n    var el = document.createElement('input');\n    return 'placeholder' in el && (1 || 2);\n}"
+                "test": "function () {\n    var el = document.createElement('input');\n    return 'placeholder' in el;\n}"
             },
             "path": "aui-chema.js"
         },

@@ -2,6 +2,7 @@
 
 var concat = require('gulp-concat');
 var del = require('del');
+var exec = require('child_process').exec;
 var fs = require('fs');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -10,21 +11,18 @@ var template = require('gulp-template');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
+gulp.task('build', function(callback) {
+    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'build-config', 'vendor', 'demo'], callback);
+});
+
+gulp.task('build-config', function(callback) {
+    exec('node config-generator.js -c src/config/config-base.json -o src/config/config.js src/modules', function (err, stdout, stderr) {
+        callback(err);
+    });
+});
+
 gulp.task('clean', function (callback) {
     del(['dist'], callback);
-});
-
-gulp.task('config', function() {
-    return gulp.src('src/config/**/*.*')
-        .pipe(gulp.dest('dist/config'));
-});
-
-gulp.task('vendor-js', function() {
-    return gulp.src([
-        'src/vendor/promise.js',
-        ])
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('combine-js', function() {
@@ -38,6 +36,20 @@ gulp.task('combine-js', function() {
         ])
     .pipe(concat('source.js'))
     .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('config', function() {
+    return gulp.src('src/config/**/*.*')
+        .pipe(gulp.dest('dist/config'));
+});
+
+gulp.task('default', function(callback) {
+    runSequence('build', callback);
+});
+
+gulp.task('demo', function() {
+    return gulp.src('src/demo/**/*.*')
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('js', ['combine-js', 'vendor-js'], function() {
@@ -57,6 +69,11 @@ gulp.task('loader-min', ['js'], function() {
         .pipe(gulp.dest('dist/js'));
 });
 
+gulp.task('modules', function() {
+    return gulp.src('src/modules/**/*.*')
+        .pipe(gulp.dest('dist/modules'));
+});
+
 gulp.task('source-min', ['js'], function() {
     return gulp.src('dist/js/source.js')
         .pipe(uglify())
@@ -64,27 +81,17 @@ gulp.task('source-min', ['js'], function() {
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('modules', function() {
-    return gulp.src('src/modules/**/*.*')
-        .pipe(gulp.dest('dist/modules'));
-});
-
 gulp.task('vendor', function() {
     return gulp.src('src/vendor/**/*.*')
         .pipe(gulp.dest('dist/vendor'));
 });
 
-gulp.task('demo', function() {
-    return gulp.src('src/demo/**/*.*')
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('build', function(callback) {
-    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'vendor', 'demo'], callback);
-});
-
-gulp.task('default', function(callback) {
-    runSequence('build', callback);
+gulp.task('vendor-js', function() {
+    return gulp.src([
+        'src/vendor/promise.js',
+        ])
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('watch', ['build'], function () {
