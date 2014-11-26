@@ -1,6 +1,6 @@
-Loader.register('aui-plugin-base', [], function() {
+Loader.register('aui-plugin-base', [], function () {
     return {
-        log: function(text) {
+        log: function (text) {
             console.log('module aui-plugin-base: ' + text);
         }
     };

@@ -1,0 +1,97 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save-dev',
+1 verbose cli   'gulp-merge-stream' ]
+2 info using npm@2.0.0
+3 info using node@v0.11.14
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'gulp-merge-stream', null ]
+6 verbose cache add spec="gulp-merge-stream" args=["gulp-merge-stream",null]
+7 verbose parsed spec { raw: 'gulp-merge-stream',
+7 verbose parsed spec   scope: null,
+7 verbose parsed spec   name: 'gulp-merge-stream',
+7 verbose parsed spec   rawSpec: '',
+7 verbose parsed spec   spec: '*',
+7 verbose parsed spec   type: 'range' }
+8 verbose parsed spec { raw: 'gulp-merge-stream',
+8 verbose parsed spec   scope: null,
+8 verbose parsed spec   name: 'gulp-merge-stream',
+8 verbose parsed spec   rawSpec: '',
+8 verbose parsed spec   spec: '*',
+8 verbose parsed spec   type: 'range' }
+9 verbose addNamed [ 'gulp-merge-stream', '*' ]
+10 verbose addNamed [ null, '*' ]
+11 silly lockFile 0c853480-gulp-merge-stream gulp-merge-stream@*
+12 verbose lock gulp-merge-stream@* /Users/iliyan/.npm/0c853480-gulp-merge-stream.lock
+13 silly addNameRange { name: 'gulp-merge-stream', range: '*', hasData: false }
+14 verbose mapToRegistry name gulp-merge-stream
+15 verbose mapToRegistry uri https://registry.npmjs.org/gulp-merge-stream
+16 verbose request on initialization, where is /gulp-merge-stream
+17 verbose request after pass 1, where is /gulp-merge-stream
+18 verbose request url raw /gulp-merge-stream
+19 verbose request resolving registry [ 'https://registry.npmjs.org/', './gulp-merge-stream' ]
+20 verbose request after pass 2, where is https://registry.npmjs.org/gulp-merge-stream
+21 verbose request no auth needed
+22 info attempt registry request try #1 at 10:07:45
+23 verbose request id 429b843e6daef59e
+24 http request GET https://registry.npmjs.org/gulp-merge-stream
+25 http 404 https://registry.npmjs.org/gulp-merge-stream
+26 verbose headers { date: 'Thu, 27 Nov 2014 09:07:46 GMT',
+26 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+26 verbose headers   'content-type': 'application/json',
+26 verbose headers   'cache-control': 'max-age=0',
+26 verbose headers   'content-length': '52',
+26 verbose headers   'accept-ranges': 'bytes',
+26 verbose headers   via: '1.1 varnish',
+26 verbose headers   age: '0',
+26 verbose headers   'x-served-by': 'cache-ams4135-AMS',
+26 verbose headers   'x-cache': 'MISS',
+26 verbose headers   'x-cache-hits': '0',
+26 verbose headers   'x-timer': 'S1417079265.634239,VS0,VE395',
+26 verbose headers   connection: 'close' }
+27 silly registry.get cb [ 404,
+27 silly registry.get   { date: 'Thu, 27 Nov 2014 09:07:46 GMT',
+27 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+27 silly registry.get     'content-type': 'application/json',
+27 silly registry.get     'cache-control': 'max-age=0',
+27 silly registry.get     'content-length': '52',
+27 silly registry.get     'accept-ranges': 'bytes',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     age: '0',
+27 silly registry.get     'x-served-by': 'cache-ams4135-AMS',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1417079265.634239,VS0,VE395',
+27 silly registry.get     connection: 'close' } ]
+28 silly lockFile 0c853480-gulp-merge-stream gulp-merge-stream@*
+29 silly lockFile 0c853480-gulp-merge-stream gulp-merge-stream@*
+30 verbose stack Error: 404 Not Found: gulp-merge-stream
+30 verbose stack     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:259:14)
+30 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:198:65)
+30 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:236:22)
+30 verbose stack     at Request.emit (events.js:110:17)
+30 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1142:14)
+30 verbose stack     at Request.emit (events.js:129:20)
+30 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1096:12)
+30 verbose stack     at IncomingMessage.emit (events.js:129:20)
+30 verbose stack     at _stream_readable.js:907:16
+30 verbose stack     at process._tickCallback (node.js:372:11)
+31 verbose statusCode 404
+32 verbose pkgid gulp-merge-stream
+33 verbose cwd /Users/iliyan/projects/loader
+34 error Darwin 14.0.0
+35 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--save-dev" "gulp-merge-stream"
+36 error node v0.11.14
+37 error npm  v2.0.0
+38 error code E404
+39 error 404 Not Found: gulp-merge-stream
+39 error 404
+39 error 404 'gulp-merge-stream' is not in the npm registry.
+39 error 404 You should bug the author to publish it (or use the name yourself!)
+39 error 404 It was specified as a dependency of 'Loader'
+39 error 404
+39 error 404 Note that you can also install from a
+39 error 404 tarball, folder, http url, or git url.
+40 verbose exit [ 1, true ]

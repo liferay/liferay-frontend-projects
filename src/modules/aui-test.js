@@ -1,15 +1,15 @@
-Loader.register('aui-test', ['aui-base'], function(base) {
-    AUI.Utils.assertValue(base);
+Loader.register('aui-test', ['aui-base'], function (base) {
+    assertValue(base);
 
     return {
-        log: function(text) {
+        log: function (text) {
             console.log('module aui-test: ' + text);
         }
     };
 }, {
     condition: {
         trigger: 'aui-dialog',
-        test: function() {
+        test: function () {
             return false;
         }
     },

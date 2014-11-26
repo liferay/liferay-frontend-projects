@@ -14,10 +14,18 @@
         <script src="//localhost:8081/js/loader.js"></script>
 
         <script>
+            // Export global function for demo purposes, use some assertion library on production.
+            var assertValue = function(value) {
+                if (value === null || typeof value === undefined) {
+                    throw value + ' is not defined or null';
+                }
+            }
+
             require('aui-base', 'aui-nate', function(base, nate) {
                     nate.log('nate');
 
                     window.chema.log('chema loaded too!');
+
                 }, function(error) {
                     console.error(error);
                 });

@@ -1,16 +1,16 @@
-Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
-    AUI.Utils.assertValue(node);
-    AUI.Utils.assertValue(pluginBase);
+Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function (node, pluginBase) {
+    assertValue(node);
+    assertValue(pluginBase);
 
     return {
-        log: function(text) {
+        log: function (text) {
             console.log('module aui-dialog: ' + text);
         }
     };
 }, {
-	condition: {
+    condition: {
         trigger: 'aui-nate',
-        test: function() {
+        test: function () {
             return true;
         }
     },

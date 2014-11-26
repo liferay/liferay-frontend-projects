@@ -1,8 +1,8 @@
-Loader.register('aui-chema-group-test2', ['aui-plugin-base'], function(pluginBase) {
-	AUI.Utils.assertValue(pluginBase);
+Loader.register('aui-chema-group-test2', ['aui-plugin-base'], function (pluginBase) {
+    assertValue(pluginBase);
 
     return {
-        log: function(text) {
+        log: function (text) {
             console.log('module aui-chema-group-test2: ' + text);
         }
     };

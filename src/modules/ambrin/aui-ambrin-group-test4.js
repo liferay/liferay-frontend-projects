@@ -1,8 +1,8 @@
-Loader.register('aui-ambrin-group-test4', ['aui-node'], function(node) {
-	AUI.Utils.assertValue(node);
+Loader.register('aui-ambrin-group-test4', ['aui-node'], function (node) {
+    assertValue(node);
 
     return {
-        log: function(text) {
+        log: function (text) {
             console.log('module aui-ambrin-group-test4: ' + text);
         }
     };
