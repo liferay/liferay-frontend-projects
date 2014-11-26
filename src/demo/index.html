@@ -25,26 +25,17 @@
 
             Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3', 'aui-ambrin-group-test4', 'aui-nate')
                 .then(function(modules) {
-                    debugger;
                     modules[0].log('nate');
 
                     window.chema.log('chema loaded too!');
-
-                    // debugger;
                 }).catch(function(error) {
-                    // debugger;
                     console.error(error);
                 });
 
             Loader.import('aui-ambrin-group-test4', 'aui-chema-group-test1')
                 .then(function(modules) {
-                    debugger;
-
                     modules[0].log('ambrin4');
-
-                    // debugger;
                 }).catch(function(error) {
-                    // debugger;
                     console.error(error);
                 });
 

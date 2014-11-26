@@ -80,7 +80,6 @@ DependencyBuilder.prototype = {
         if (typeof testFunction === 'function') {
             return testFunction();
         } else {
-            debugger;
             return eval('false || ' + testFunction)();
         }
     },
