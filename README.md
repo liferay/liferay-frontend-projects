@@ -27,6 +27,7 @@ Loader features
 1. Supports groups.
 2. Supports combo loading of the resources.
 3. Supports conditional loading.
+4. The configuration can be auto generated.
 
 Registering modules
 ======
@@ -51,6 +52,11 @@ Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pl
 
 Loading modules
 ======
+
+There are two ways to load modules - using Promises or callback functions (AMD style).
+
+Loading modules using Promises:
+
 ```javascript```
 Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3')
       .then(function(modules) {
@@ -59,6 +65,36 @@ Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3')
           console.error(error);
       });
 ```
+
+Loading modules using callbacks:
+
+```javascript```
+Loader.require('aui-base', 'aui-test', function(base, test) {
+	    // your code here
+	}, function(error) {
+	    console.error(error);
+	});
+```
+
+There is also alias to `Loader.require`, which is just `require`. The code below will work too:
+```javascript```
+require('aui-base', 'aui-test', function(base, test) {
+	    // your code here
+	}, function(error) {
+	    console.error(error);
+	});
+```
+
+Automatically generating the configuration
+======
+
+In order to generate the configuration, there is a small NodeJS program, called `config-generator`. You may use it to generate the configuration like this:
+```bash```
+$ node config-generator.js -c src/config/config-base.json -o src/config/config.js src/modules
+```
+
+My advice is to create a separate, base config file and pass it to the config generator as in the code above. In the base file you may define the groups, the URLs, combine flags, etc. and then leave config generator to add the rest.
+Look on the example modules and the demo for more information. Then, just load the generated configuration to the browser and the Loader will do the rest.
 
 What it does not support from YUI Loader?
 ======
@@ -69,8 +105,7 @@ There are no CSS modules, I can't think for anything else right now.
 Roadmap
 ======
 
-1. Create a parser in order to generate the configuration automatically.
-2. Do 100% code coverage.
+1. Do 100% code coverage.
 
 
 Enjoy!
