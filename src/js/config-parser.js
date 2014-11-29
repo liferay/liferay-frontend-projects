@@ -34,6 +34,7 @@
         addGroup: function (group) {
             var groupValue = this._groups[group.name];
 
+            /* istanbul ignore else */
             if (!groupValue) {
                 this._groups[group.name] = groupValue = {};
             }
