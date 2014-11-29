@@ -50,6 +50,26 @@ Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pl
 });
 ```
 
+You can also register modules using `define` function, it is just an alias of `Loader.register`:
+
+```javascript```
+define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
+    return {
+        log: function(text) {
+            console.log('module aui-dialog: ' + text);
+        }
+    };
+}, {
+	condition: {
+        trigger: 'aui-test',
+        test: function() {
+            return true;
+        }
+    },
+    path: 'aui-dialog.js'
+});
+```
+
 Loading modules
 ======
 
@@ -76,7 +96,7 @@ Loader.require('aui-base', 'aui-test', function(base, test) {
 	});
 ```
 
-There is also alias to `Loader.require`, which is just `require`. The code below will work too:
+There is also an alias of `Loader.require`, which is just `require`. The code below will work too:
 ```javascript```
 require('aui-base', 'aui-test', function(base, test) {
 	    // your code here
@@ -105,7 +125,7 @@ There are no CSS modules, I can't think for anything else right now.
 Roadmap
 ======
 
-1. Do 100% code coverage.
+1. Do 100% code coverage (this is work in progress).
 
 
 Enjoy!
