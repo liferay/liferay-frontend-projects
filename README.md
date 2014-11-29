@@ -50,7 +50,7 @@ Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pl
 });
 ```
 
-You can also register modules using `define` function, it is just an alias of `Loader.import`:
+You can also register modules using `define` function, it is just an alias of `Loader.register`:
 
 ```javascript```
 define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
