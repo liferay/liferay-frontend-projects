@@ -9,16 +9,11 @@ module.exports = {
             "basePath": "/modules/chema",
             "modules": {
                 "aui-chema-group-test1": {
-                    "dependencies": [
-                        "aui-base",
-                        "aui-core"
-                    ],
+                    "dependencies": ["aui-base", "aui-core"],
                     "path": "aui-chema-group-test1.js"
                 },
                 "aui-chema-group-test2": {
-                    "dependencies": [
-                        "aui-plugin-base"
-                    ],
+                    "dependencies": ["aui-plugin-base"],
                     "path": "aui-chema-group-test2.js"
                 }
             }
@@ -29,16 +24,11 @@ module.exports = {
             "basePath": "/modules/ambrin",
             "modules": {
                 "aui-ambrin-group-test3": {
-                    "dependencies": [
-                        "aui-base",
-                        "aui-core"
-                    ],
+                    "dependencies": ["aui-base", "aui-core"],
                     "path": "aui-ambrin-group-test3.js"
                 },
                 "aui-ambrin-group-test4": {
-                    "dependencies": [
-                        "aui-node"
-                    ],
+                    "dependencies": ["aui-node"],
                     "path": "aui-ambrin-group-test4.js"
                 }
             }
@@ -46,10 +36,7 @@ module.exports = {
     },
     "modules": {
         "aui-autocomplete": {
-            "dependencies": [
-                "aui-node",
-                "aui-dialog"
-            ],
+            "dependencies": ["aui-node", "aui-dialog"],
             "path": "aui-autocomplete.js"
         },
         "aui-base": {
@@ -57,14 +44,12 @@ module.exports = {
             "fullPath": "http://localhost:8081/modules/aui-base.js"
         },
         "aui-chema": {
-            "dependencies": [
-                "aui-autocomplete",
-                "aui-event",
-                "aui-node"
-            ],
+            "dependencies": ["aui-autocomplete", "aui-event", "aui-node"],
             "condition": {
                 "trigger": "aui-nate",
-                "test": "function () {\n    var el = document.createElement('input');\n    return 'placeholder' in el;\n}"
+                "test": function () {
+                    return true;
+                }
             },
             "path": "aui-chema.js"
         },
@@ -73,10 +58,7 @@ module.exports = {
             "path": "aui-core.js"
         },
         "aui-dialog": {
-            "dependencies": [
-                "aui-node",
-                "aui-plugin-base"
-            ],
+            "dependencies": ["aui-node", "aui-plugin-base"],
             "condition": {
                 "trigger": "aui-nate",
                 "test": "function () {\n    return true;\n}"
@@ -84,30 +66,19 @@ module.exports = {
             "path": "aui-dialog.js"
         },
         "aui-dom-node": {
-            "dependencies": [
-                "aui-node"
-            ],
+            "dependencies": ["aui-node"],
             "path": "aui-dom-node.js"
         },
         "aui-event": {
-            "dependencies": [
-                "aui-node",
-                "aui-plugin-base"
-            ],
+            "dependencies": ["aui-node", "aui-plugin-base"],
             "path": "aui-event.js"
         },
         "aui-nate": {
-            "dependencies": [
-                "aui-autocomplete",
-                "aui-event"
-            ],
+            "dependencies": ["aui-autocomplete", "aui-event"],
             "path": "aui-nate.js"
         },
         "aui-node": {
-            "dependencies": [
-                "aui-base",
-                "aui-core"
-            ],
+            "dependencies": ["aui-base", "aui-core"],
             "path": "aui-node.js"
         },
         "aui-plugin-base": {
@@ -115,9 +86,7 @@ module.exports = {
             "path": "aui-plugin-base.js"
         },
         "aui-test": {
-            "dependencies": [
-                "aui-base"
-            ],
+            "dependencies": ["aui-base"],
             "condition": {
                 "trigger": "aui-dialog",
                 "test": "function () {\n    return false;\n}"
@@ -125,9 +94,7 @@ module.exports = {
             "path": "aui-test.js"
         },
         "aui-test2": {
-            "dependencies": [
-                "aui-base"
-            ],
+            "dependencies": ["aui-base"],
             "condition": {
                 "trigger": "aui-plugin-base",
                 "test": "function () {\n    return true;\n}"
