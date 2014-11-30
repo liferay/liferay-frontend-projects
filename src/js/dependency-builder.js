@@ -31,13 +31,18 @@
             // Modules may be added there during the process of resolving.
             this._queue = modules.slice(0);
 
-            this._resolveDependencies();
+            var result;
 
-            // Reorder the modules list so the modules without dependencies will
-            // be moved upfront
-            var result = this._result.reverse().slice(0);
+            try {
+                this._resolveDependencies();
 
-            this._cleanup();
+                // Reorder the modules list so the modules without dependencies will
+                // be moved upfront
+                result = this._result.reverse().slice(0);
+            }
+            finally {
+                this._cleanup();
+            }
 
             return result;
         },
@@ -104,7 +109,7 @@
             // We support only Directed Acyclic Graph, throw exception if there are
             // circular dependencies.
             if (module.tmpMark) {
-                throw new Error('Error processing module: ' + module + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
+                throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
             }
 
             // Check if this module has conditional modules and add them to the queue if so.
