@@ -32,6 +32,37 @@ module.exports = {
                     "path": "aui-ambrin-group-test4.js"
                 }
             }
+        },
+
+        "unit": {
+            "combine": false,
+            "basePath": "/modules/unit",
+            "modules": {
+                "aui-unit-group-test1": {
+                    "dependencies": ["aui-base", "aui-core"],
+                    "path": "aui-unit-group-test1.js"
+                }
+            }
+        },
+
+        "unit2": {
+            "combine": false,
+            "modules": {
+                "aui-unit2-group-test1": {
+                    "dependencies": ["aui-base", "aui-core"],
+                    "path": "aui-unit2-group-test1.js"
+                }
+            }
+        },
+
+        "unit3": {
+            "combine": true,
+            "modules": {
+                "aui-unit3-group-test1": {
+                    "dependencies": ["aui-base", "aui-core"],
+                    "path": "aui-unit3-group-test1.js"
+                }
+            }
         }
     },
     "modules": {

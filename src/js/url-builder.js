@@ -47,6 +47,7 @@
 
                 var groupPath = (group.basePath || defaultGroup.basePath);
 
+                /* istanbul ignore else */
                 if (groupPath.charAt(groupPath.length - 1) !== '/') {
                     groupPath += '/';
                 }
@@ -98,6 +99,7 @@
                 // Create a new group or retrieve the array of modules for an existing one.
                 var distributedModules = moduleGroups[module.group];
 
+                /* istanbul ignore else */
                 if (!distributedModules) {
                     moduleGroups[module.group] = distributedModules = [];
                 }
