@@ -166,6 +166,7 @@
         },
 
         _getConfigParser: function () {
+            /* istanbul ignore else */
             if (!this._configParser) {
                 this._configParser = new LoaderUtils.ConfigParser(this._config || __CONFIG__);
             }

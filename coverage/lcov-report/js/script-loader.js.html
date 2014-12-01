@@ -199,18 +199,18 @@
     <h1>Code coverage report for <span class="entity">js/script-loader.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">8.81% <small>(14 / 159)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">15.09% <small>(24 / 159)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">14.29% <small>(10 / 70)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">22.86% <small>(16 / 70)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">9.38% <small>(3 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">21.88% <small>(7 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">8.81% <small>(14 / 159)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">15.09% <small>(24 / 159)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
-        Ignored: <span class="metric">1 statement, 4 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric">1 statement, 5 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">js/</a> &#187; script-loader.js</div>
 </div>
@@ -565,7 +565,8 @@
 347
 348
 349
-350</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+350
+351</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -631,18 +632,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -733,10 +734,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -860,7 +862,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -979,19 +981,19 @@
             });
         },
 &nbsp;
-        register: <span class="fstat-no" title="function not covered" >function (name, dependencies, implementation, config) {</span>
-<span class="cstat-no" title="statement not covered" >            var self = this;</span>
+        register: function (name, dependencies, implementation, config) {
+            var self = this;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return new Promise(<span class="fstat-no" title="function not covered" >function (resolve, reject) {</span></span>
+            return new Promise(function (resolve, reject) {
                 // Create new module by merging the provided config with the passed name,
                 // dependencies and the implementation.
-<span class="cstat-no" title="statement not covered" >                var module = config || {};</span>
+                var module = config || {};
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                module.name = name;</span>
-<span class="cstat-no" title="statement not covered" >                module.dependencies = dependencies;</span>
-<span class="cstat-no" title="statement not covered" >                module.pendingImplementation = implementation;</span>
+                module.name = name;
+                module.dependencies = dependencies;
+                module.pendingImplementation = implementation;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                var dependenciesResolved = self._checkModuleDependencies(module);</span>
+                var dependenciesResolved = self._checkModuleDependencies(module);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (dependenciesResolved) {</span>
 <span class="cstat-no" title="statement not covered" >                    self._registerModule(module);</span>
@@ -1081,9 +1083,10 @@
 <span class="cstat-no" title="statement not covered" >            return moduleImplementations;</span>
         },
 &nbsp;
-        _getConfigParser: <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >            if (!this._configParser) {</span>
-<span class="cstat-no" title="statement not covered" >                this._configParser = new LoaderUtils.ConfigParser(this._config || __CONFIG__);</span>
+        _getConfigParser: function () {
+            /* istanbul ignore else */
+            <span class="skip-if-branch" title="else path not taken" >E</span>if (!this._configParser) {
+                this._configParser = new LoaderUtils.ConfigParser(this._config || __CONFIG__);
             }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            return this._configParser;</span>
@@ -1208,8 +1211,8 @@
             });
         },
 &nbsp;
-        _checkModuleDependencies: <span class="fstat-no" title="function not covered" >function (module) {</span>
-<span class="cstat-no" title="statement not covered" >            var modules = this._getConfigParser().getModules();</span>
+        _checkModuleDependencies: function (module) {
+            var modules = this._getConfigParser().getModules();
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            var found = true;</span>
 &nbsp;
@@ -1268,7 +1271,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 01 2014 09:35:16 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 01 2014 11:24:14 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
