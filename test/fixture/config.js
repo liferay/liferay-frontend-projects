@@ -2,69 +2,6 @@ module.exports = {
     "url": "http://localhost:3000/combo",
     "basePath": "/modules",
     "combine": true,
-    "groups": {
-        "chema": {
-            "combine": true,
-            "url": "http://localhost:3000/combo",
-            "basePath": "/modules/chema",
-            "modules": {
-                "aui-chema-group-test1": {
-                    "dependencies": ["aui-base", "aui-core"],
-                    "path": "aui-chema-group-test1.js"
-                },
-                "aui-chema-group-test2": {
-                    "dependencies": ["aui-plugin-base"],
-                    "path": "aui-chema-group-test2.js"
-                }
-            }
-        },
-        "ambrin": {
-            "combine": true,
-            "url": "http://localhost:3000/combo",
-            "basePath": "/modules/ambrin",
-            "modules": {
-                "aui-ambrin-group-test3": {
-                    "dependencies": ["aui-base", "aui-core"],
-                    "path": "aui-ambrin-group-test3.js"
-                },
-                "aui-ambrin-group-test4": {
-                    "dependencies": ["aui-node"],
-                    "path": "aui-ambrin-group-test4.js"
-                }
-            }
-        },
-
-        "unit": {
-            "combine": false,
-            "basePath": "/modules/unit",
-            "modules": {
-                "aui-unit-group-test1": {
-                    "dependencies": ["aui-base", "aui-core"],
-                    "path": "aui-unit-group-test1.js"
-                }
-            }
-        },
-
-        "unit2": {
-            "combine": false,
-            "modules": {
-                "aui-unit2-group-test1": {
-                    "dependencies": ["aui-base", "aui-core"],
-                    "path": "aui-unit2-group-test1.js"
-                }
-            }
-        },
-
-        "unit3": {
-            "combine": true,
-            "modules": {
-                "aui-unit3-group-test1": {
-                    "dependencies": ["aui-base", "aui-core"],
-                    "path": "aui-unit3-group-test1.js"
-                }
-            }
-        }
-    },
     "modules": {
         "aui-autocomplete": {
             "dependencies": ["aui-node", "aui-dialog"],

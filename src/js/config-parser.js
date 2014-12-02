@@ -18,10 +18,7 @@
     'use strict';
 
     function ConfigParser(config) {
-        this._groups = {
-            'default': {}
-        };
-
+        this._config = {};
         this._modules = {};
         this._conditionalModules = {};
 
@@ -31,35 +28,18 @@
     ConfigParser.prototype = {
         constructor: ConfigParser,
 
-        addGroup: function (group) {
-            var groupValue = this._groups[group.name];
-
-            /* istanbul ignore else */
-            if (!groupValue) {
-                this._groups[group.name] = groupValue = {};
-            }
-
-            Object.forEach(group, function (key, value) {
-                if (key === 'modules') {
-                    this._parseModules(value, group.name);
-                } else {
-                    groupValue[key] = value;
-                }
-            }, this);
-        },
-
         addModule: function (module) {
             this._modules[module.name] = module;
 
             this._registerConditionalModule(module);
         },
 
-        getConditionalModules: function () {
-            return this._conditionalModules;
+        getConfig: function() {
+            return this._config;
         },
 
-        getGroups: function () {
-            return this._groups;
+        getConditionalModules: function () {
+            return this._conditionalModules;
         },
 
         getModules: function () {
@@ -68,29 +48,16 @@
 
         _parseConfig: function (config) {
             Object.forEach(config, function (key, value) {
-                if (key === 'groups') {
-                    this._parseGroups(value);
-                } else if (key === 'modules') {
+                if (key === 'modules') {
                     this._parseModules(value);
                 } else {
-                    this._groups['default'][key] = value;
+                    this._config[key] = value;
                 }
             }, this);
         },
 
-        _parseGroups: function (groups) {
-            Object.forEach(groups, function (key, group) {
-                group.name = key;
-
-                this.addGroup(group);
-            }, this);
-        },
-
-        _parseModules: function (modules, groupName) {
-            groupName = groupName || 'default';
-
+        _parseModules: function (modules) {
             Object.forEach(modules, function (key, module) {
-                module.group = module.group || groupName;
                 module.name = key;
 
                 this.addModule(module);
