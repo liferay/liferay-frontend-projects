@@ -21,17 +21,10 @@
                 }
             }
 
-            require('aui-base', 'aui-nate', function(base, nate) {
-                    nate.log('nate');
-
-                    window.chema.log('chema loaded too!');
-
-                }, function(error) {
-                    console.error(error);
-                });
-
-            Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3', 'aui-ambrin-group-test4', 'aui-nate')
+            Loader.import('aui-node', 'aui-autocomplete', 'aui-nate')
                 .then(function(modules) {
+                    console.log('in import');
+
                     modules[0].log('nate');
 
                     window.chema.log('chema loaded too!');
@@ -40,11 +33,14 @@
                     console.error(error);
                 });
 
-            Loader.import('aui-ambrin-group-test4', 'aui-chema-group-test1')
-                .then(function(modules) {
-                    modules[0].log('ambrin4');
-                })
-                .catch(function(error) {
+            require('aui-base', 'aui-nate', function(base, nate) {
+                    console.log('in require');
+
+                    nate.log('nate');
+
+                    window.chema.log('chema loaded too!');
+
+                }, function(error) {
                     console.error(error);
                 });
 

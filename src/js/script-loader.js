@@ -75,26 +75,17 @@
                 module.dependencies = dependencies;
                 module.pendingImplementation = implementation;
 
-                var dependenciesResolved = self._checkModuleDependencies(module);
+                var dependeciesResolved = self._checkModuleDependencies(module);
 
-                if (dependenciesResolved) {
+                if (dependeciesResolved) {
                     self._registerModule(module);
 
                     resolve(module);
                 } else {
-                    var onModuleRegister = function (registeredModule) {
-                        var dependenciesResolved = self._checkModuleDependencies(module);
-
-                        if (dependenciesResolved) {
-                            self.off('moduleRegister', onModuleRegister);
-
+                    self._waitForImplementation(module)
+                        .then(function(module) {
                             self._registerModule(module);
-
-                            resolve(module);
-                        }
-                    };
-
-                    self.on('moduleRegister', onModuleRegister);
+                        });
                 }
             });
         },
@@ -165,6 +156,32 @@
             return moduleImplementations;
         },
 
+        _checkModuleDependencies: function (module) {
+            var modules = this._getConfigParser().getModules();
+
+            var found = true;
+
+            var dependencies = module.dependencies;
+
+            for (var i = 0; i < dependencies.length; i++) {
+                var dependencyModule = modules[dependencies[i]];
+
+                if (!dependencyModule) {
+                    throw 'Dependency ' + dependencies[i] + ' not registered as module.';
+                }
+
+                var dependencyModuleImpl = dependencyModule.implementation;
+
+                if (!dependencyModuleImpl) {
+                    found = false;
+
+                    break;
+                }
+            }
+
+            return found;
+        },
+
         _getConfigParser: function () {
             /* istanbul ignore else */
             if (!this._configParser) {
@@ -190,7 +207,7 @@
             return this._urlBuilder;
         },
 
-        _filterMissingModules: function (modules) {
+        _filterModulesNoImpl: function(modules) {
             var missingModules = [];
 
             var registeredModules = this._getConfigParser().getModules();
@@ -198,6 +215,24 @@
             for (var i = 0; i < modules.length; i++) {
                 var registeredModule = registeredModules[modules[i]];
 
+                // Get all modules which don't have implementation
+                if (!registeredModule || !registeredModule.implementation) {
+                    missingModules.push(modules[i]);
+                }
+            }
+
+            return missingModules;
+        },
+
+        _filterNotLoadedModules: function (modules) {
+            var missingModules = [];
+
+            var registeredModules = this._getConfigParser().getModules();
+
+            for (var i = 0; i < modules.length; i++) {
+                var registeredModule = registeredModules[modules[i]];
+
+                // Get all modules which don't have implementarion and they were not requested from the server.
                 if (!registeredModule || (!registeredModule.implementation && !registeredModule.load)) {
                     missingModules.push(modules[i]);
                 }
@@ -210,7 +245,7 @@
             var self = this;
 
             return new Promise(function (resolve, reject) {
-                var missingModules = self._filterMissingModules(modules);
+                var missingModules = self._filterNotLoadedModules(modules);
 
                 if (missingModules.length) {
                     var urls = self._getURLBuilder().build(missingModules);
@@ -222,27 +257,22 @@
                     }
 
                     Promise.all(pendingScripts).then(function (loadedScripts) {
-                        var registeredModules = self._getConfigParser().getModules();
-
-                        var value = {};
-
-                        for (var i = 0; i < modules.length; i++) {
-                            var module = registeredModules[modules[i]];
-
-                            if (!module.implementation) {
-                                throw 'Failed to load module: ' + module.name;
-                            }
-
-                            value[module.name] = module;
-                        }
-
-                        resolve(value);
-                    }).
-                    catch (function (error) {
+                        return self._waitForImplementations(modules);
+                    })
+                    .then(function(modules) {
+                        resolve(modules);
+                    })
+                    .catch (function (error) {
                         reject(error);
                     });
                 } else {
-                    resolve(modules);
+                    self._waitForImplementations(modules)
+                        .then(function(modules) {
+                            resolve(modules);
+                        })
+                        .catch (function (error) {
+                            reject(error);
+                        });
                 }
             });
         },
@@ -293,32 +323,6 @@
             });
         },
 
-        _checkModuleDependencies: function (module) {
-            var modules = this._getConfigParser().getModules();
-
-            var found = true;
-
-            var dependencies = module.dependencies;
-
-            for (var i = 0; i < dependencies.length; i++) {
-                var dependencyModule = modules[dependencies[i]];
-
-                if (!dependencyModule) {
-                    throw 'Dependency ' + dependencies[i] + ' not registered as module.';
-                }
-
-                var dependencyModuleImpl = dependencyModule.implementation;
-
-                if (!dependencyModuleImpl) {
-                    found = false;
-
-                    break;
-                }
-            }
-
-            return found;
-        },
-
         _loadScript: function (url) {
             return new Promise(function (resolve, reject) {
                 var script = document.createElement('script');
@@ -343,6 +347,54 @@
                 };
 
                 document.body.appendChild(script);
+            });
+        },
+
+        _waitForImplementation: function(module) {
+            var self = this;
+
+            return new Promise(function(resolve, reject) {
+                if (module.implementation) {
+                    resolve(module);
+
+                } else {
+                    var onModuleRegister = function (registeredModule) {
+                        var dependenciesResolved = self._checkModuleDependencies(module);
+
+                        if (dependenciesResolved) {
+                            self.off('moduleRegister', onModuleRegister);
+
+                            resolve(module);
+                        }
+                    };
+
+                    self.on('moduleRegister', onModuleRegister);
+                }
+            });
+        },
+
+        _waitForImplementations: function(modules) {
+            var self = this;
+
+            return new Promise(function(resolve, reject) {
+                var missingModules = self._filterModulesNoImpl(modules);
+
+                if (!missingModules.length) {
+                    resolve(modules);
+                } else {
+                    var modulesPromises = [];
+
+                    var registeredModules = self._getConfigParser().getModules();
+
+                    for (var i = 0; i < modules.length; i++) {
+                        modulesPromises.push(self._waitForImplementation(registeredModules[modules[i]]));
+                    }
+
+                    Promise.all(modulesPromises)
+                        .then(function(modules) {
+                            resolve(modules);
+                        });
+                }
             });
         }
     });

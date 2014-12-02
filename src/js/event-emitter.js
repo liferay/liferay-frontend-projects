@@ -46,14 +46,14 @@
             }
         },
 
-        emit: function (event) {
+        emit: function (event, args) {
             var listeners = this._events[event];
 
             if (listeners) {
                 for (var i = 0; i < listeners.length; i++) {
                     var listener = listeners[i];
 
-                    listener.call(listener);
+                    listener.call(listener, args);
                 }
             } else {
                 console.warn('No listeners for event: ' + event);
