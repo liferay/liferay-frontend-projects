@@ -20,7 +20,7 @@ describe('EventEmitter', function () {
         assert.strictEqual(1, eventEmitter._events.test.indexOf(listener2));
     });
 
-    it('should add invoke liseners on emit', function () {
+    it('should invoke liseners on emit', function () {
         var eventEmitter = new global.LoaderUtils.EventEmitter();
 
         var listener = sinon.stub();
@@ -38,6 +38,15 @@ describe('EventEmitter', function () {
 
         assert.strictEqual(1, listener.callCount);
         assert.strictEqual(1, listener2.callCount);
+
+        var arg = {
+            test: 1
+        };
+
+        eventEmitter.emit('test', arg);
+        assert.strictEqual(2, listener.callCount);
+        assert.strictEqual(1, listener2.callCount);
+        assert.strictEqual(true, listener.calledWith(arg));
     });
 
     it('should remove listeners', function () {
