@@ -92,36 +92,13 @@ function generateConfig(config) {
         for (var i = 0; i < modules.length; i++) {
             var module = modules[i];
 
-            var moduleGroup = module.group;
-
-            var groupModules;
-
-            if (moduleGroup) {
-                if (!config.groups) {
-                    config.groups = {};
-                }
-
-                if (!config.groups[moduleGroup]) {
-                    config[moduleGroup] = {modules: {}};
-                }
-
-                groupModules = config.groups[moduleGroup].modules;
-
-                if (!groupModules) {
-                    groupModules = config.groups[moduleGroup].modules = {};
-                }
-            }
-            else {
-                if (!config.modules) {
-                    config.modules = {};
-                }
-
-                groupModules = config.modules;
+            if (!config.modules) {
+                config.modules = {};
             }
 
-            var storedModule = groupModules[module.name] = {
-                    dependencies: module.dependencies
-                };
+            var storedModule = config.modules[module.name] = {
+                dependencies: module.dependencies
+            };
 
             if (module.condition) {
                 storedModule.condition = module.condition;
@@ -144,7 +121,7 @@ function getConfig(file, ast) {
         var result = [];
 
         jsstana.traverse(ast, function (node) {
-            var match = jsstana.match('(call Loader.register ? ? ? ??)', node);
+            var match = jsstana.match('(call define ? ? ? ??)', node);
 
             if (match) {
                 var config = {
