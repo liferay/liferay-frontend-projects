@@ -19,23 +19,22 @@
                 if (value === null || typeof value === undefined) {
                     throw value + ' is not defined or null';
                 }
-            }
+            };
 
-            Loader.import('aui-node', 'aui-autocomplete', 'aui-nate')
-                .then(function(modules) {
-                    console.log('in import');
+            require(['aui-node', 'aui-autocomplete', 'aui-nate'], function(node, autocomplete, nate) {
+                console.log('require1');
 
-                    modules[0].log('nate');
+                nate.log('nate');
 
-                    window.chema.log('chema loaded too!');
-                })
-                .catch(function(error) {
-                    console.error(error);
-                });
+                window.chema.log('chema loaded too!');
+            }, function(error) {
+                console.error(error);
+            });
 
             require('aui-base', 'aui-nate', function(base, nate) {
-                    console.log('in require');
+                    console.log('require2');
 
+                    base.log('base');
                     nate.log('nate');
 
                     window.chema.log('chema loaded too!');

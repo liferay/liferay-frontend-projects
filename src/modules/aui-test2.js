@@ -1,4 +1,4 @@
-Loader.register('aui-test2', ['aui-base'], function (base) {
+define('aui-test2', ['aui-base'], function (base) {
     assertValue(base);
 
     return {

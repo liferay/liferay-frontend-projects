@@ -1,4 +1,4 @@
-Loader.register('aui-base', [], function () {
+define('aui-base', [], function () {
     return {
         log: function (text) {
             console.log('module aui-base: ' + text);

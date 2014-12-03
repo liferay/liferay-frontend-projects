@@ -24,33 +24,14 @@ How to run the demo?
 Loader features
 ======
 
-1. Supports groups.
-2. Supports combo loading of the resources.
+1. Supports combo loading of the resources.
 3. Supports conditional loading.
 4. The configuration can be auto generated.
 
 Registering modules
 ======
 
-```javascript```
-Loader.register('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
-    return {
-        log: function(text) {
-            console.log('module aui-dialog: ' + text);
-        }
-    };
-}, {
-	condition: {
-        trigger: 'aui-test',
-        test: function() {
-            return true;
-        }
-    },
-    path: 'aui-dialog.js'
-});
-```
-
-You can also register modules using `define` function, it is just an alias of `Loader.register`:
+Use `define` function:
 
 ```javascript```
 define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
@@ -73,30 +54,9 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
 Loading modules
 ======
 
-There are two ways to load modules - using Promises or callback functions (AMD style).
-
-Loading modules using Promises:
-
-```javascript```
-Loader.import('aui-node', 'aui-autocomplete', 'aui-ambrin-group-test3')
-      .then(function(modules) {
-          modules[0].log('test');
-      }).catch(function(error) {
-          console.error(error);
-      });
-```
-
 Loading modules using callbacks:
 
-```javascript```
-Loader.require('aui-base', 'aui-test', function(base, test) {
-	    // your code here
-	}, function(error) {
-	    console.error(error);
-	});
-```
-
-There is also an alias of `Loader.require`, which is just `require`. The code below will work too:
+Use `require` method:
 ```javascript```
 require('aui-base', 'aui-test', function(base, test) {
 	    // your code here
@@ -126,7 +86,6 @@ Roadmap
 ======
 
 1. Do 100% code coverage (this is work in progress).
-
 
 Enjoy!
 

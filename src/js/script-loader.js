@@ -16,7 +16,7 @@
     /* jshint newcap:false */
     global.Loader = new built();
     global.require = global.Loader.require.bind(global.Loader);
-    global.define = global.Loader.register.bind(global.Loader);
+    global.define = global.Loader.define.bind(global.Loader);
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function () {
     'use strict';
 
@@ -27,43 +27,7 @@
     }
 
     LoaderUtils.extend(Loader, LoaderUtils.EventEmitter, {
-        import: function (args) {
-            var self = this;
-
-            var modules = args;
-
-            // Modules can be passed as an array or as multiple arguments.
-            // If passed as arguments, they will be converted to an Array.
-            var isArgsArray = Array.isArray ? Array.isArray(args) : Object.prototype.toString.call(args) === '[object Array]';
-
-            if (!isArgsArray) {
-                // The code below will work too,
-                // but arguments must be not leaked for V8 peformance:
-                // modules = Array.prototype.slice.call(arguments, 0);
-                modules = new Array(arguments.length);
-
-                for (var i = 0; i < arguments.length; ++i) {
-                    modules[i] = arguments[i];
-                }
-            }
-
-            return new Promise(function (resolve, reject) {
-                self._resolveDependencies(modules).then(function (dependencies) {
-                    return self._loadModules(dependencies);
-                }).then(function (loadedModules) {
-                    var moduleImplementations = self._addModuleImplementations(modules);
-
-                    resolve(moduleImplementations);
-                }).
-                catch (function (error) {
-                    console.log(error);
-
-                    reject(error);
-                });
-            });
-        },
-
-        register: function (name, dependencies, implementation, config) {
+        define: function (name, dependencies, implementation, config) {
             var self = this;
 
             return new Promise(function (resolve, reject) {

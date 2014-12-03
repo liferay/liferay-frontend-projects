@@ -1,4 +1,4 @@
-Loader.register('aui-node', ['aui-base', 'aui-core'], function (base, core) {
+define('aui-node', ['aui-base', 'aui-core'], function (base, core) {
     assertValue(base);
     assertValue(core);
 

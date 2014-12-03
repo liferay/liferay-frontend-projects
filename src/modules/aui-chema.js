@@ -1,7 +1,7 @@
 var test123 = 0;
 
 
-Loader.register('aui-chema', ['aui-autocomplete', 'aui-event', 'aui-node'], function (autocomplete, event_, node) {
+define('aui-chema', ['aui-autocomplete', 'aui-event', 'aui-node'], function (autocomplete, event_, node) {
     assertValue(autocomplete);
     assertValue(event_);
     assertValue(node);

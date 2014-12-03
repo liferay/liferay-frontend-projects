@@ -1,4 +1,4 @@
-Loader.register('aui-nate', ['aui-autocomplete', 'aui-event'], function (node, pluginBase) {
+define('aui-nate', ['aui-autocomplete', 'aui-event'], function (node, pluginBase) {
     assertValue(node);
     assertValue(pluginBase);
 

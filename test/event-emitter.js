@@ -39,6 +39,7 @@ describe('EventEmitter', function () {
         assert.strictEqual(1, listener.callCount);
         assert.strictEqual(1, listener2.callCount);
 
+        // Check if event emitter calls the listeners with 
         var arg = {
             test: 1
         };

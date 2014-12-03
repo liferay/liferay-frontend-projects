@@ -9,7 +9,7 @@ describe('Loader', function () {
     it('', function () {
         var configParser = new global.LoaderUtils.ConfigParser();
 
-        Loader.register({
+        Loader.define({
             name: 'pej-jung',
             dependencies: [],
             path: 'aui-pej-jung'
