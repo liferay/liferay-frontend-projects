@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">js/script-loader.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">13.48% <small>(24 / 178)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">14.63% <small>(24 / 164)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">21.05% <small>(16 / 76)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">22.22% <small>(16 / 72)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">16.67% <small>(7 / 42)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">18.92% <small>(7 / 37)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">13.48% <small>(24 / 178)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">14.63% <small>(24 / 164)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric">1 statement, 5 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -582,43 +582,7 @@
 364
 365
 366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+367</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -647,42 +611,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1038,7 +966,7 @@
     /* jshint newcap:false */
     global.Loader = new built();
     global.require = global.Loader.require.bind(global.Loader);
-    global.define = global.Loader.register.bind(global.Loader);
+    global.define = global.Loader.define.bind(global.Loader);
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function () {
     'use strict';
 &nbsp;
@@ -1049,43 +977,7 @@
     }
 &nbsp;
     LoaderUtils.extend(Loader, LoaderUtils.EventEmitter, {
-        import: <span class="fstat-no" title="function not covered" >function (args) {</span>
-<span class="cstat-no" title="statement not covered" >            var self = this;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            var modules = args;</span>
-&nbsp;
-            // Modules can be passed as an array or as multiple arguments.
-            // If passed as arguments, they will be converted to an Array.
-<span class="cstat-no" title="statement not covered" >            var isArgsArray = Array.isArray ? Array.isArray(args) : Object.prototype.toString.call(args) === '[object Array]';</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            if (!isArgsArray) {</span>
-                // The code below will work too,
-                // but arguments must be not leaked for V8 peformance:
-                // modules = Array.prototype.slice.call(arguments, 0);
-<span class="cstat-no" title="statement not covered" >                modules = new Array(arguments.length);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                for (var i = 0; i &lt; arguments.length; ++i) {</span>
-<span class="cstat-no" title="statement not covered" >                    modules[i] = arguments[i];</span>
-                }
-            }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            return new Promise(<span class="fstat-no" title="function not covered" >function (resolve, reject) {</span></span>
-<span class="cstat-no" title="statement not covered" >                self._resolveDependencies(modules).then(<span class="fstat-no" title="function not covered" >function (dependencies) {</span></span>
-<span class="cstat-no" title="statement not covered" >                    return self._loadModules(dependencies);</span>
-                }).then(<span class="fstat-no" title="function not covered" >function (loadedModules) {</span>
-<span class="cstat-no" title="statement not covered" >                    var moduleImplementations = self._addModuleImplementations(modules);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                    resolve(moduleImplementations);</span>
-                }).
-                catch (<span class="fstat-no" title="function not covered" >function (error) {</span>
-<span class="cstat-no" title="statement not covered" >                    console.log(error);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                    reject(error);</span>
-                });
-            });
-        },
-&nbsp;
-        register: function (name, dependencies, implementation, config) {
+        define: function (name, dependencies, implementation, config) {
             var self = this;
 &nbsp;
             return new Promise(function (resolve, reject) {
@@ -1427,7 +1319,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Dec 02 2014 10:46:10 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Dec 02 2014 16:15:03 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
