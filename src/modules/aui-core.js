@@ -1,9 +1,7 @@
-define('aui-core', [], function () {
-    return {
-        log: function (text) {
-            console.log('module aui-core: ' + text);
-        }
-    };
-}, {
-    path: 'aui-core.js'
-});
+'use strict';
+
+function log(text) {
+    console.log('module aui-core says', text);
+}
+
+export {log};

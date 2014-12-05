@@ -3,6 +3,7 @@
 var beautify = require('gulp-beautify');
 var concat = require('gulp-concat');
 var del = require('del');
+var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var gulp = require('gulp');
@@ -33,6 +34,7 @@ gulp.task('clean', function (callback) {
 gulp.task('combine-js', function() {
     return gulp.src([
         'src/js/utils.js',
+        'src/js/path-resolver.js',
         'src/js/event-emitter.js',
         'src/js/config-parser.js',
         'src/js/dependency-builder.js',
@@ -94,6 +96,9 @@ gulp.task('loader-min', ['js'], function() {
 
 gulp.task('modules', function() {
     return gulp.src('src/modules/**/*.*')
+        .pipe(es6ModuleTranspiler({
+            type: 'amd'
+        }))
         .pipe(gulp.dest('dist/modules'));
 });
 

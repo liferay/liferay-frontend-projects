@@ -3,94 +3,46 @@ var __CONFIG__ = {
     "basePath": "/modules",
     "combine": true,
     "modules": {
-        "aui-autocomplete": {
-            "dependencies": [
-                "aui-node",
-                "aui-dialog"
-            ],
-            "path": "aui-autocomplete.js"
-        },
         "aui-base": {
-            "dependencies": [],
-            "fullPath": "http://localhost:8081/modules/aui-base.js"
-        },
-        "aui-chema": {
             "dependencies": [
-                "aui-autocomplete",
-                "aui-event",
-                "aui-node"
+                "exports"
             ],
-            "condition": {
-                "trigger": "aui-nate",
-                "test": "function () {\n    var el = document.createElement('input');\n    return 'placeholder' in el;\n}"
-            },
-            "path": "aui-chema.js"
+            "path": "aui-base.js"
         },
         "aui-core": {
-            "dependencies": [],
+            "dependencies": [
+                "exports"
+            ],
             "path": "aui-core.js"
         },
         "aui-dialog": {
             "dependencies": [
-                "aui-node",
-                "aui-plugin-base"
+                "aui-base",
+                "aui-core",
+                "aui-event",
+                "exports"
             ],
-            "condition": {
-                "trigger": "aui-nate",
-                "test": "function () {\n    return true;\n}"
-            },
             "path": "aui-dialog.js"
-        },
-        "aui-dom-node": {
-            "dependencies": [
-                "aui-node"
-            ],
-            "path": "aui-dom-node.js"
         },
         "aui-event": {
             "dependencies": [
-                "aui-node",
-                "aui-plugin-base"
+                "exports"
             ],
             "path": "aui-event.js"
         },
-        "aui-nate": {
+        "chema/chemaps/aui-chemaps": {
             "dependencies": [
-                "aui-autocomplete",
-                "aui-event"
+                "../../aui-base",
+                "exports"
             ],
-            "path": "aui-nate.js"
+            "path": "chema/chemaps/aui-chemaps.js"
         },
-        "aui-node": {
+        "ambrin/aui-ambrin": {
             "dependencies": [
-                "aui-base",
-                "aui-core"
+                "../aui-core",
+                "exports"
             ],
-            "path": "aui-node.js"
-        },
-        "aui-plugin-base": {
-            "dependencies": [],
-            "path": "aui-plugin-base.js"
-        },
-        "aui-test": {
-            "dependencies": [
-                "aui-base"
-            ],
-            "condition": {
-                "trigger": "aui-dialog",
-                "test": "function () {\n    return false;\n}"
-            },
-            "path": "aui-test.js"
-        },
-        "aui-test2": {
-            "dependencies": [
-                "aui-base"
-            ],
-            "condition": {
-                "trigger": "aui-plugin-base",
-                "test": "function () {\n    return true;\n}"
-            },
-            "path": "aui-test2.js"
+            "path": "ambrin/aui-ambrin.js"
         }
     }
 };

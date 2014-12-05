@@ -1,9 +1,7 @@
-define('aui-base', [], function () {
-    return {
-        log: function (text) {
-            console.log('module aui-base: ' + text);
-        }
-    };
-}, {
-    fullPath: 'http://localhost:8081/modules/aui-base.js'
-});
+'use strict';
+
+function log(text) {
+    console.log('module aui-base says', text);
+}
+
+export {log};

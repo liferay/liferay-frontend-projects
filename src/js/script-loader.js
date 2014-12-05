@@ -1,7 +1,7 @@
 (function (global, factory) {
     'use strict';
 
-    var built = factory();
+    var built = factory(global);
 
     /* istanbul ignore else */
     if (typeof module === 'object' && module) {
@@ -17,13 +17,13 @@
     global.Loader = new built();
     global.require = global.Loader.require.bind(global.Loader);
     global.define = global.Loader.define.bind(global.Loader);
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function () {
+}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
     'use strict';
 
     function Loader(config) {
         Loader.superclass.constructor.apply(this, arguments);
 
-        this._config = config;
+        this._config = config || global.__CONFIG__;
     }
 
     LoaderUtils.extend(Loader, LoaderUtils.EventEmitter, {
@@ -38,6 +38,8 @@
                 module.name = name;
                 module.dependencies = dependencies;
                 module.pendingImplementation = implementation;
+
+                self._getConfigParser().resolveDependenciesPath(module);
 
                 var dependeciesResolved = self._checkModuleDependencies(module);
 
@@ -128,7 +130,14 @@
             var dependencies = module.dependencies;
 
             for (var i = 0; i < dependencies.length; i++) {
-                var dependencyModule = modules[dependencies[i]];
+                var dependencyName = dependencies[i];
+
+                if (dependencyName === 'exports') {
+                    continue;
+
+                }
+
+                var dependencyModule = modules[dependencyName];
 
                 if (!dependencyModule) {
                     throw 'Dependency ' + dependencies[i] + ' not registered as module.';
@@ -149,7 +158,7 @@
         _getConfigParser: function () {
             /* istanbul ignore else */
             if (!this._configParser) {
-                this._configParser = new LoaderUtils.ConfigParser(this._config || __CONFIG__);
+                this._configParser = new LoaderUtils.ConfigParser(this._config);
             }
 
             return this._configParser;
@@ -161,6 +170,14 @@
             }
 
             return this._dependencyBuilder;
+        },
+
+        _getPathResolver: function() {
+            if (!this._pathResolver) {
+                this._pathResolver = new LoaderUtils.PathResolver();
+            }
+
+            return this._pathResolver;
         },
 
         _getURLBuilder: function () {
@@ -179,8 +196,10 @@
             for (var i = 0; i < modules.length; i++) {
                 var registeredModule = registeredModules[modules[i]];
 
-                // Get all modules which don't have implementation
-                if (!registeredModule || !registeredModule.implementation) {
+                // Get all modules which don't have implementation, except 'exports' module
+                if (registeredModule !== 'exports' &&
+                    (!registeredModule || !registeredModule.implementation)) {
+
                     missingModules.push(modules[i]);
                 }
             }
@@ -197,7 +216,9 @@
                 var registeredModule = registeredModules[modules[i]];
 
                 // Get all modules which don't have implementarion and they were not requested from the server.
-                if (!registeredModule || (!registeredModule.implementation && !registeredModule.load)) {
+                if (registeredModule !== 'exports' &&
+                    (!registeredModule || (!registeredModule.implementation && !registeredModule.load))) {
+
                     missingModules.push(modules[i]);
                 }
             }
@@ -246,15 +267,40 @@
 
             var modules = this._getConfigParser().getModules();
 
+            // Leave exports implementation undefined by default
+            var exportsImpl;
+
             for (var i = 0; i < module.dependencies.length; i++) {
                 var dependency = module.dependencies[i];
 
-                var dependencyModule = modules[dependency];
+                var impl;
 
-                dependencyImplementations.push(dependencyModule.implementation);
+                // If the current dependency of this module is 'exports',
+                // create an empty object and pass it as implementation of
+                // 'exports' module
+                if (dependency === 'exports') {
+                    exportsImpl = {};
+
+                    dependencyImplementations.push(exportsImpl);
+                }
+                else {
+                    // otherwise set as value the implementation of the
+                    // registered module
+                    var dependencyModule = modules[dependency];
+
+                    impl = dependencyModule.implementation;
+
+                    dependencyImplementations.push(impl);
+                }
             }
 
-            module.implementation = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+            var result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+
+            // Store as implementation either the returned value from function invocation
+            // or the implementation of the 'exports' obejct.
+            // The final implementation of this module may be undefined if there is no
+            // returned value, or the object does not have 'exports' dependency
+            module.implementation = result || exportsImpl;
 
             console.log('Register module: ' + module.name);
 

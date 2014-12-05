@@ -1,12 +1,7 @@
-define('aui-event', ['aui-node', 'aui-plugin-base'], function (node, pluginBase) {
-    assertValue(node);
-    assertValue(pluginBase);
+'use strict';
 
-    return {
-        log: function (text) {
-            console.log('module aui-event: ' + text);
-        }
-    };
-}, {
-    path: 'aui-event.js'
-});
+function log(text) {
+    console.log('module aui-event says', text);
+}
+
+export {log};

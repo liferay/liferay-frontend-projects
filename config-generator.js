@@ -108,7 +108,11 @@ function generateConfig(config) {
                 storedModule.fullPath = module.fullPath;
             }
             else {
-                storedModule.path = module.path || module.file;
+                var dirname = path.dirname(module.name);
+
+                var modulePath = module.path || (dirname !== '.' ? dirname + '/' + module.file : module.file);
+
+                storedModule.path = modulePath;
             }
         }
 

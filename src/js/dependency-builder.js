@@ -121,7 +121,13 @@
                 var modules = this._configParser.getModules();
 
                 for (var i = 0; i < module.dependencies.length; i++) {
-                    var moduleDependency = modules[module.dependencies[i]];
+                    var dependencyName = module.dependencies[i];
+
+                    if (dependencyName === 'exports') {
+                        continue;
+                    }
+
+                    var moduleDependency = modules[dependencyName];
 
                     this._visit(moduleDependency, modules);
                 }

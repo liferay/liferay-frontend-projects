@@ -31,6 +31,8 @@
         addModule: function (module) {
             this._modules[module.name] = module;
 
+            this.resolveDependenciesPath(module);
+
             this._registerConditionalModule(module);
         },
 
@@ -44,6 +46,24 @@
 
         getModules: function () {
             return this._modules;
+        },
+
+        resolveDependenciesPath: function(module) {
+            var dependencies = module.dependencies;
+
+            for (var i = 0; i < dependencies.length; i++) {
+                var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
+
+                dependencies[i] = resolvedDependency;
+            }
+        },
+
+        _getPathResolver: function() {
+            if (!this._pathResolver) {
+                this._pathResolver = new LoaderUtils.PathResolver();
+            }
+
+            return this._pathResolver;
         },
 
         _parseConfig: function (config) {

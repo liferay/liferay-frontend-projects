@@ -23,6 +23,10 @@
         constructor: PathResolver,
 
         resolvePath: function(module, dependency) {
+            if (dependency === 'exports') {
+                return dependency;
+            }
+
             // Split module directories
             var moduleParts = module.split('/');
             // Remove module name

@@ -10,38 +10,69 @@
     <body>
         <h1>Alloy Loader like test page</h1>
 
+        <!--
+        <script src="//localhost:8081/vendor/require-source.js"></script>
+        -->
         <script src="//localhost:8081/config/config.js"></script>
         <script src="//localhost:8081/js/loader.js"></script>
 
         <script>
-            // Export global function for demo purposes, use some assertion library on production.
-            var assertValue = function(value) {
-                if (value === null || typeof value === undefined) {
-                    throw value + ' is not defined or null';
-                }
-            };
+            require(['chema/chemaps/aui-chemaps', 'aui-dialog'], function(chemaps, dialog) {
+                debugger;
 
-            require(['aui-node', 'aui-autocomplete', 'aui-nate'], function(node, autocomplete, nate) {
-                console.log('require1');
+                chemaps.log('nate');
 
-                nate.log('nate');
+                dialog.log('nate');
 
-                window.chema.log('chema loaded too!');
             }, function(error) {
-                console.error(error);
+                debugger;
+                console.log(error);
             });
 
-            require('aui-base', 'aui-nate', function(base, nate) {
-                    console.log('require2');
+            require(['chema/chemaps/aui-chemaps', 'ambrin/aui-ambrin'], function(chemaps, dialog) {
+                debugger;
 
-                    base.log('base');
-                    nate.log('nate');
+                chemaps.log('nate');
 
-                    window.chema.log('chema loaded too!');
+                dialog.log('nate');
 
-                }, function(error) {
-                    console.error(error);
-                });
+            }, function(error) {
+                debugger;
+                console.log(error);
+            });
+
+            // Export global function for demo purposes, use some assertion library on production.
+            // var assertValue = function(value) {
+            //     if (value === null || typeof value === undefined) {
+            //         throw value + ' is not defined or null';
+            //     }
+            // };
+
+            // require(['aui-dialog'], function(exports) {
+            //     debugger;
+            //     console.log('require1');
+
+            //     // nate.log('nate');
+
+            //     // window.chema.log('chema loaded too!');
+            // }, function(error) {
+            //     debugger;
+            //     console.error(error);
+            // });
+
+            // require('aui-base', 'aui-core', function(exports) {
+            //         debugger;
+            //         console.log('require2');
+
+            //         // base.log('base');
+            //         // nate.log('nate');
+
+            //         // window.chema.log('chema loaded too!');
+
+            //     }, function(error) {
+            //         debugger;
+            //         console.error(error);
+            //     });
 
         </script>
     </body>
