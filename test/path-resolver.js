@@ -47,4 +47,12 @@ describe('PathResolver', function () {
 
         printStatus(pathResolver.resolvePath);
     });
+
+    it('should ignore exports module', function() {
+        var pathResolver = new global.LoaderUtils.PathResolver();
+
+        // Exports should be ignored and not resolved at all
+        var result = pathResolver.resolvePath('a/b/c/c1', 'exports');
+        assert.strictEqual('exports', result);
+    });
 });

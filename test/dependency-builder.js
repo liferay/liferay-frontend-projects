@@ -117,4 +117,24 @@ describe('DependencyBuilder', function () {
 
         assert.strictEqual(dependencyBuilder._queue.length, 0);
     });
+
+    it('should ignore exports module', function () {
+        var configParser = new global.LoaderUtils.ConfigParser();
+
+        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'aui-123',
+            dependencies: []
+        });
+
+        configParser.addModule({
+            name: 'test123',
+            dependencies: ['aui-123', 'exports']
+        });
+
+        var result = dependencyBuilder.resolveDependencies(['test123']);
+
+        assert.deepEqual(['aui-123', 'test123'], result);
+    });
 });
