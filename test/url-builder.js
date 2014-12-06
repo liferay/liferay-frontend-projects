@@ -4,11 +4,11 @@ var assert = require('assert');
 require('./fixture/common.js');
 
 var config = require('./fixture/config.js');
-var configParser = new global.LoaderUtils.ConfigParser(config);
+var configParser = new global.ConfigParser(config);
 
 describe('URLBuilder', function () {
     it('should create URL for module with path', function () {
-        var urlBuilder = new global.LoaderUtils.URLBuilder(configParser);
+        var urlBuilder = new global.URLBuilder(configParser);
 
         var url = urlBuilder.build(['aui-core']);
 
@@ -18,7 +18,7 @@ describe('URLBuilder', function () {
     });
 
     it('should create URL for module with full path', function () {
-        var urlBuilder = new global.LoaderUtils.URLBuilder(configParser);
+        var urlBuilder = new global.URLBuilder(configParser);
 
         var url = urlBuilder.build(['aui-base']);
 
@@ -28,7 +28,7 @@ describe('URLBuilder', function () {
     });
 
     it('should create url for module when combine set to false', function () {
-        var configParser = new global.LoaderUtils.ConfigParser({
+        var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules',
             'basePath': '/base',
             'combine': false,
@@ -40,7 +40,7 @@ describe('URLBuilder', function () {
             }
         });
 
-        var urlBuilder = new global.LoaderUtils.URLBuilder(configParser);
+        var urlBuilder = new global.URLBuilder(configParser);
 
         var url = urlBuilder.build(['aui-base']);
 

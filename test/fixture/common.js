@@ -1,12 +1,11 @@
 'use strict';
 
-require('../../src/js/utils.js');
-require('../../src/js/path-resolver.js');
-require('../../src/js/event-emitter.js');
-require('../../src/js/config-parser.js');
-require('../../src/js/dependency-builder.js');
-require('../../src/js/url-builder.js');
-require('../../src/js/script-loader.js');
+require('../../dist/source/path-resolver.js');
+require('../../dist/source/event-emitter.js');
+require('../../dist/source/config-parser.js');
+require('../../dist/source/dependency-builder.js');
+require('../../dist/source/url-builder.js');
+require('../../dist/source/script-loader.js');
 var v8 = require('v8-natives');
 
 global.printStatus = function(fn) {

@@ -1,3 +1,13 @@
 <%= vendor %>
 
-<%= source %>
+(function() {
+	var global = {};
+
+	global.__CONFIG__ = window.__CONFIG__;
+
+	<%= source %>
+
+	window.Loader = global.Loader;
+    window.require = global.require;
+    window.define = global.define;
+}());

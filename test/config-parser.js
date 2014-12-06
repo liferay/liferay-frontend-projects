@@ -7,7 +7,7 @@ var config = require('./fixture/config.js');
 
 describe('ConfigParser', function () {
     it('should create an instance of ConfigParser without existing data', function () {
-        var configParser = new global.LoaderUtils.ConfigParser();
+        var configParser = new global.ConfigParser();
 
         assert.ok(configParser);
 
@@ -19,7 +19,7 @@ describe('ConfigParser', function () {
     });
 
     it('should add new module', function () {
-        var configParser = new global.LoaderUtils.ConfigParser(config);
+        var configParser = new global.ConfigParser(config);
 
         configParser.addModule({
             name: 'aui-test1',
@@ -33,7 +33,7 @@ describe('ConfigParser', function () {
     });
 
     it('should add conditional module', function () {
-        var configParser = new global.LoaderUtils.ConfigParser();
+        var configParser = new global.ConfigParser();
 
         configParser.addModule({
             name: 'aui-chema-test2',

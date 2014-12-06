@@ -7,7 +7,7 @@ var config = require('./fixture/config.js');
 
 describe('Loader', function () {
     it('', function () {
-        var configParser = new global.LoaderUtils.ConfigParser();
+        var configParser = new global.ConfigParser();
 
         Loader.define({
             name: 'pej-jung',

@@ -5,7 +5,7 @@ var sinon = require('sinon');
 
 describe('EventEmitter', function () {
     it('should add listeners to events', function () {
-        var eventEmitter = new global.LoaderUtils.EventEmitter();
+        var eventEmitter = new global.EventEmitter();
 
         var listener = sinon.stub();
         var listener2 = sinon.stub();
@@ -21,7 +21,7 @@ describe('EventEmitter', function () {
     });
 
     it('should invoke liseners on emit', function () {
-        var eventEmitter = new global.LoaderUtils.EventEmitter();
+        var eventEmitter = new global.EventEmitter();
 
         var listener = sinon.stub();
         var listener2 = sinon.stub();
@@ -51,7 +51,7 @@ describe('EventEmitter', function () {
     });
 
     it('should remove listeners', function () {
-        var eventEmitter = new global.LoaderUtils.EventEmitter();
+        var eventEmitter = new global.EventEmitter();
 
         var listener = sinon.stub();
         var listener2 = sinon.stub();
@@ -74,7 +74,7 @@ describe('EventEmitter', function () {
     });
 
     it('should warn when detaching non attached listeners', function () {
-        var eventEmitter = new global.LoaderUtils.EventEmitter();
+        var eventEmitter = new global.EventEmitter();
 
         sinon.spy(console, 'warn');
 
@@ -91,7 +91,7 @@ describe('EventEmitter', function () {
     });
 
     it('should warn when emitting event without listeners', function () {
-        var eventEmitter = new global.LoaderUtils.EventEmitter();
+        var eventEmitter = new global.EventEmitter();
 
         sinon.spy(console, 'warn');
         eventEmitter.emit('test');

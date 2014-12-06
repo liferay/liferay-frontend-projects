@@ -1,102 +1,92 @@
-(function (global, factory) {
-    'use strict';
+'use strict';
 
-    var built = factory();
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-    /* istanbul ignore else */
-    if (typeof module === 'object' && module) {
-        module.exports = built;
-    }
+function ConfigParser(config) {
+    this._config = {};
+    this._modules = {};
+    this._conditionalModules = {};
 
-    /* istanbul ignore next */
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    }
+    this._parseConfig(config);
+}
 
-    global.LoaderUtils.ConfigParser = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function () {
-    'use strict';
+ConfigParser.prototype = {
+    constructor: ConfigParser,
 
-    function ConfigParser(config) {
-        this._config = {};
-        this._modules = {};
-        this._conditionalModules = {};
+    addModule: function (module) {
+        this._modules[module.name] = module;
 
-        this._parseConfig(config);
-    }
+        this.resolveDependenciesPath(module);
 
-    ConfigParser.prototype = {
-        constructor: ConfigParser,
+        this._registerConditionalModule(module);
+    },
 
-        addModule: function (module) {
-            this._modules[module.name] = module;
+    getConfig: function() {
+        return this._config;
+    },
 
-            this.resolveDependenciesPath(module);
+    getConditionalModules: function () {
+        return this._conditionalModules;
+    },
 
-            this._registerConditionalModule(module);
-        },
+    getModules: function () {
+        return this._modules;
+    },
 
-        getConfig: function() {
-            return this._config;
-        },
+    resolveDependenciesPath: function(module) {
+        var dependencies = module.dependencies;
 
-        getConditionalModules: function () {
-            return this._conditionalModules;
-        },
+        for (var i = 0; i < dependencies.length; i++) {
+            var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
 
-        getModules: function () {
-            return this._modules;
-        },
+            dependencies[i] = resolvedDependency;
+        }
+    },
 
-        resolveDependenciesPath: function(module) {
-            var dependencies = module.dependencies;
+    _getPathResolver: function() {
+        if (!this._pathResolver) {
+            this._pathResolver = new global.PathResolver();
+        }
 
-            for (var i = 0; i < dependencies.length; i++) {
-                var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
+        return this._pathResolver;
+    },
 
-                dependencies[i] = resolvedDependency;
-            }
-        },
-
-        _getPathResolver: function() {
-            if (!this._pathResolver) {
-                this._pathResolver = new LoaderUtils.PathResolver();
-            }
-
-            return this._pathResolver;
-        },
-
-        _parseConfig: function (config) {
-            Object.forEach(config, function (key, value) {
+    _parseConfig: function (config) {
+        for (var key in config) {
+            /* istanbul ignore else */
+            if (hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
-                    this._parseModules(value);
+                    this._parseModules(config[key]);
                 } else {
-                    this._config[key] = value;
+                    this._config[key] = config[key];
                 }
-            }, this);
-        },
+            }
+        }
+    },
 
-        _parseModules: function (modules) {
-            Object.forEach(modules, function (key, module) {
+    _parseModules: function (modules) {
+        for (var key in modules) {
+            /* istanbul ignore else */
+            if (hasOwnProperty.call(modules, key)) {
+                var module = modules[key];
+
                 module.name = key;
 
                 this.addModule(module);
-            }, this);
-        },
-
-        _registerConditionalModule: function (module) {
-            // Create HashMap of all modules, which have conditional modules, as an Array.
-            if (module.condition) {
-                var existingModules = this._conditionalModules[module.condition.trigger];
-
-                if (!existingModules) {
-                    this._conditionalModules[module.condition.trigger] = existingModules = [];
-                }
-
-                existingModules.push(module.name);
             }
         }
-    };
+    },
 
-    return ConfigParser;
-}));
+    _registerConditionalModule: function (module) {
+        // Create HashMap of all modules, which have conditional modules, as an Array.
+        if (module.condition) {
+            var existingModules = this._conditionalModules[module.condition.trigger];
+
+            if (!existingModules) {
+                this._conditionalModules[module.condition.trigger] = existingModules = [];
+            }
+
+            existingModules.push(module.name);
+        }
+    }
+};

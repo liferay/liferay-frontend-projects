@@ -4,11 +4,11 @@ var assert = require('assert');
 require('./fixture/common.js');
 
 var config = require('./fixture/config.js');
-var configParser = new global.LoaderUtils.ConfigParser(config);
+var configParser = new global.ConfigParser(config);
 
 describe('DependencyBuilder', function () {
     it('should throw an exception if no modules are specified', function () {
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder();
+        var dependencyBuilder = new global.DependencyBuilder();
 
         assert.ok(dependencyBuilder);
 
@@ -18,7 +18,7 @@ describe('DependencyBuilder', function () {
     });
 
     it('should resolve module without dependencies', function () {
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
 
@@ -28,7 +28,7 @@ describe('DependencyBuilder', function () {
     });
 
     it('should resolve module with dependecies and no conditional modules', function () {
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
 
@@ -38,7 +38,7 @@ describe('DependencyBuilder', function () {
     });
 
     it('should resolve module with dependecies and conditional modules', function () {
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
 
@@ -48,7 +48,7 @@ describe('DependencyBuilder', function () {
     });
 
     it('should resolve multiple modules', function () {
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
 
@@ -58,8 +58,8 @@ describe('DependencyBuilder', function () {
     });
 
     it('should throw error if there is are circular dependencies', function () {
-        var configParser = new global.LoaderUtils.ConfigParser();
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var configParser = new global.ConfigParser();
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
 
@@ -81,8 +81,8 @@ describe('DependencyBuilder', function () {
     });
 
     it('should process provide proper cleanup', function () {
-        var configParser = new global.LoaderUtils.ConfigParser();
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var configParser = new global.ConfigParser();
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
 
@@ -119,9 +119,9 @@ describe('DependencyBuilder', function () {
     });
 
     it('should ignore exports module', function () {
-        var configParser = new global.LoaderUtils.ConfigParser();
+        var configParser = new global.ConfigParser();
 
-        var dependencyBuilder = new global.LoaderUtils.DependencyBuilder(configParser);
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         configParser.addModule({
             name: 'aui-123',

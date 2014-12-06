@@ -1,145 +1,132 @@
-(function (global, factory) {
-    'use strict';
+'use strict';
 
-    var built = factory();
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-    /* istanbul ignore else */
-    if (typeof module === 'object' && module) {
-        module.exports = built;
-    }
+function DependencyBuilder(configParser) {
+    this._configParser = configParser;
 
-    /* istanbul ignore next */
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    }
+    this._result = [];
+}
 
-    global.LoaderUtils.DependencyBuilder = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function () {
-    'use strict';
+DependencyBuilder.prototype = {
+    constructor: DependencyBuilder,
 
-    function DependencyBuilder(configParser) {
-        this._configParser = configParser;
+    resolveDependencies: function (modules) {
+        // Copy the passed modules to a resolving modules queue.
+        // Modules may be added there during the process of resolving.
+        this._queue = modules.slice(0);
 
-        this._result = [];
-    }
+        var result;
 
-    DependencyBuilder.prototype = {
-        constructor: DependencyBuilder,
+        try {
+            this._resolveDependencies();
 
-        resolveDependencies: function (modules) {
-            // Copy the passed modules to a resolving modules queue.
-            // Modules may be added there during the process of resolving.
-            this._queue = modules.slice(0);
+            // Reorder the modules list so the modules without dependencies will
+            // be moved upfront
+            result = this._result.reverse().slice(0);
+        }
+        finally {
+            this._cleanup();
+        }
 
-            var result;
+        return result;
+    },
 
-            try {
-                this._resolveDependencies();
+    _cleanup: function () {
+        var modules = this._configParser.getModules();
 
-                // Reorder the modules list so the modules without dependencies will
-                // be moved upfront
-                result = this._result.reverse().slice(0);
-            }
-            finally {
-                this._cleanup();
-            }
+        // Set to false all temporary markers which were set during the process of
+        // dependencies resolving.
+        for (var key in modules) {
+            /* istanbul ignore else */
+            if (hasOwnProperty.call(modules, key)) {
+                var module = modules[key];
 
-            return result;
-        },
-
-        _cleanup: function () {
-            var modules = this._configParser.getModules();
-
-            // Set to false all temporary markers which were set during the process of
-            // dependencies resolving.
-            Object.forEach(modules, function (key, module) {
                 module.conditionalMark = false;
                 module.mark = false;
                 module.tmpMark = false;
-            }, this);
-
-            this._queue.length = 0;
-            this._result.length = 0;
-        },
-
-        _processConditionalModules: function (module) {
-            var conditionalModules = this._configParser.getConditionalModules()[module.name];
-
-            // If the current module has conditional modules as dependencies,
-            // add them to the list (queue) of modules, which have to be resolved.
-            if (conditionalModules && !module.conditionalMark) {
-                var modules = this._configParser.getModules();
-
-                for (var i = 0; i < conditionalModules.length; i++) {
-                    var conditionalModule = modules[conditionalModules[i]];
-
-                    if (this._queue.indexOf(conditionalModule.name) === -1 && this._testConditionalModule(conditionalModule.condition.test)) {
-
-                        this._queue.push(conditionalModule.name);
-                    }
-                }
-
-                module.conditionalMark = true;
-            }
-        },
-
-        _resolveDependencies: function () {
-            // Process all modules in the queue.
-            // Note: modules may be added to the queue during the process of evaluating.
-            var modules = this._configParser.getModules();
-
-            for (var i = 0; i < this._queue.length; i++) {
-                var module = modules[this._queue[i]];
-
-                if (!module.mark) {
-                    this._visit(module);
-                }
-            }
-        },
-
-        _testConditionalModule: function (testFunction) {
-            if (typeof testFunction === 'function') {
-                return testFunction();
-            } else {
-                return eval('false || ' + testFunction)();
-            }
-        },
-
-        _visit: function (module) {
-            // We support only Directed Acyclic Graph, throw exception if there are
-            // circular dependencies.
-            if (module.tmpMark) {
-                throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
-            }
-
-            // Check if this module has conditional modules and add them to the queue if so.
-            this._processConditionalModules(module);
-
-            if (!module.mark) {
-                module.tmpMark = true;
-
-                var modules = this._configParser.getModules();
-
-                for (var i = 0; i < module.dependencies.length; i++) {
-                    var dependencyName = module.dependencies[i];
-
-                    if (dependencyName === 'exports') {
-                        continue;
-                    }
-
-                    var moduleDependency = modules[dependencyName];
-
-                    this._visit(moduleDependency, modules);
-                }
-
-                module.mark = true;
-
-                module.tmpMark = false;
-
-                this._result.unshift(module.name);
             }
         }
-    };
 
-    return DependencyBuilder;
-}));
+        this._queue.length = 0;
+        this._result.length = 0;
+    },
+
+    _processConditionalModules: function (module) {
+        var conditionalModules = this._configParser.getConditionalModules()[module.name];
+
+        // If the current module has conditional modules as dependencies,
+        // add them to the list (queue) of modules, which have to be resolved.
+        if (conditionalModules && !module.conditionalMark) {
+            var modules = this._configParser.getModules();
+
+            for (var i = 0; i < conditionalModules.length; i++) {
+                var conditionalModule = modules[conditionalModules[i]];
+
+                if (this._queue.indexOf(conditionalModule.name) === -1 && this._testConditionalModule(conditionalModule.condition.test)) {
+
+                    this._queue.push(conditionalModule.name);
+                }
+            }
+
+            module.conditionalMark = true;
+        }
+    },
+
+    _resolveDependencies: function () {
+        // Process all modules in the queue.
+        // Note: modules may be added to the queue during the process of evaluating.
+        var modules = this._configParser.getModules();
+
+        for (var i = 0; i < this._queue.length; i++) {
+            var module = modules[this._queue[i]];
+
+            if (!module.mark) {
+                this._visit(module);
+            }
+        }
+    },
+
+    _testConditionalModule: function (testFunction) {
+        if (typeof testFunction === 'function') {
+            return testFunction();
+        } else {
+            return eval('false || ' + testFunction)();
+        }
+    },
+
+    _visit: function (module) {
+        // We support only Directed Acyclic Graph, throw exception if there are
+        // circular dependencies.
+        if (module.tmpMark) {
+            throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
+        }
+
+        // Check if this module has conditional modules and add them to the queue if so.
+        this._processConditionalModules(module);
+
+        if (!module.mark) {
+            module.tmpMark = true;
+
+            var modules = this._configParser.getModules();
+
+            for (var i = 0; i < module.dependencies.length; i++) {
+                var dependencyName = module.dependencies[i];
+
+                if (dependencyName === 'exports') {
+                    continue;
+                }
+
+                var moduleDependency = modules[dependencyName];
+
+                this._visit(moduleDependency, modules);
+            }
+
+            module.mark = true;
+
+            module.tmpMark = false;
+
+            this._result.unshift(module.name);
+        }
+    }
+};
