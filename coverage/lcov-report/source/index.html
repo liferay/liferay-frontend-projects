@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for js/config-parser.js</title>
+    <title>Code coverage report for source/</title>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="../prettify.css">
@@ -195,336 +195,126 @@
     </style>
 </head>
 <body>
-<div class="header high">
-    <h1>Code coverage report for <span class="entity">js/config-parser.js</span></h1>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">source/</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(39 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">59.27% <small>(227 / 383)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">65.5% <small>(131 / 200)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">57.33% <small>(43 / 75)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(39 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">59.27% <small>(227 / 383)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
-        Ignored: <span class="metric">1 statement, 4 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric">6 statements, 30 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">js/</a> &#187; config-parser.js</div>
+    <div class="path"><a href="../index.html">All files</a> &#187; source/</div>
 </div>
 <div class="body">
-<pre><table class="coverage">
-<tr><td class="line-count">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">38</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">54</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46</span>
-<span class="cline-any cline-yes">58</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58</span>
-<span class="cline-any cline-yes">7</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">16</span>
-<span class="cline-any cline-yes">4</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4</span>
-<span class="cline-any cline-yes">37</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">37</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-yes">13</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function (global, factory) {
-    'use strict';
-&nbsp;
-    var built = factory();
-&nbsp;
-    /* istanbul ignore else */
-    <span class="skip-if-branch" title="else path not taken" >E</span>if (typeof module === 'object' &amp;&amp; module) {
-        module.exports = built;
-    }
-&nbsp;
-    /* istanbul ignore next */
-    <span class="skip-if-branch" title="if path not taken" >I</span>if (typeof define === 'function' &amp;&amp; <span class="branch-1 cbranch-skip" title="branch not covered" >define.amd)</span> {
-<span class="cstat-skip" title="statement not covered" >        define(factory);</span>
-    }
-&nbsp;
-    global.ConfigParser = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function () {
-    'use strict';
-&nbsp;
-    function ConfigParser(config) {
-        this._config = {};
-        this._modules = {};
-        this._conditionalModules = {};
-&nbsp;
-        this._parseConfig(config);
-    }
-&nbsp;
-    ConfigParser.prototype = {
-        constructor: ConfigParser,
-&nbsp;
-        addModule: function (module) {
-            this._modules[module.name] = module;
-&nbsp;
-            this.resolveDependenciesPath(module);
-&nbsp;
-            this._registerConditionalModule(module);
-        },
-&nbsp;
-        getConfig: function() {
-            return this._config;
-        },
-&nbsp;
-        getConditionalModules: function () {
-            return this._conditionalModules;
-        },
-&nbsp;
-        getModules: function () {
-            return this._modules;
-        },
-&nbsp;
-        resolveDependenciesPath: function(module) {
-            var dependencies = module.dependencies;
-&nbsp;
-            for (var i = 0; i &lt; dependencies.length; i++) {
-                var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
-&nbsp;
-                dependencies[i] = resolvedDependency;
-            }
-        },
-&nbsp;
-        _getPathResolver: function() {
-            if (!this._pathResolver) {
-                this._pathResolver = new LoaderUtils.PathResolver();
-            }
-&nbsp;
-            return this._pathResolver;
-        },
-&nbsp;
-        _parseConfig: function (config) {
-            Object.forEach(config, function (key, value) {
-                if (key === 'modules') {
-                    this._parseModules(value);
-                } else {
-                    this._config[key] = value;
-                }
-            }, this);
-        },
-&nbsp;
-        _parseModules: function (modules) {
-            Object.forEach(modules, function (key, module) {
-                module.name = key;
-&nbsp;
-                this.addModule(module);
-            }, this);
-        },
-&nbsp;
-        _registerConditionalModule: function (module) {
-            // Create HashMap of all modules, which have conditional modules, as an Array.
-            if (module.condition) {
-                var existingModules = this._conditionalModules[module.condition.trigger];
-&nbsp;
-                if (!existingModules) {
-                    this._conditionalModules[module.condition.trigger] = existingModules = [];
-                }
-&nbsp;
-                existingModules.push(module.name);
-            }
-        }
-    };
-&nbsp;
-    return ConfigParser;
-}));</pre></td></tr>
-</table></pre>
+<div class="coverage-summary">
+<table>
+<thead>
+<tr>
+   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
+   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
+   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
+   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="branches" data-type="number" data-fmt="pct" class="pct">Branches</th>
+   <th data-col="branches_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="functions" data-type="number" data-fmt="pct" class="pct">Functions</th>
+   <th data-col="functions_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
+   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
+</tr>
+</thead>
+<tbody><tr>
+	<td class="file high" data-value="config-parser.js"><a href="config-parser.js.html">config-parser.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="43" class="abs high">(43&nbsp;/&nbsp;43)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="22" class="abs high">(22&nbsp;/&nbsp;22)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="12" class="abs high">(12&nbsp;/&nbsp;12)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="43" class="abs high">(43&nbsp;/&nbsp;43)</td>
+	</tr>
 
+<tr>
+	<td class="file high" data-value="dependency-builder.js"><a href="dependency-builder.js.html">dependency-builder.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="60" class="abs high">(60&nbsp;/&nbsp;60)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="30" class="abs high">(30&nbsp;/&nbsp;30)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="9" class="abs high">(9&nbsp;/&nbsp;9)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="60" class="abs high">(60&nbsp;/&nbsp;60)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="event-emitter.js"><a href="event-emitter.js.html">event-emitter.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="26" class="abs high">(26&nbsp;/&nbsp;26)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="18" class="abs high">(18&nbsp;/&nbsp;18)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="6" class="abs high">(6&nbsp;/&nbsp;6)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="26" class="abs high">(26&nbsp;/&nbsp;26)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="path-resolver.js"><a href="path-resolver.js.html">path-resolver.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="28" class="abs high">(28&nbsp;/&nbsp;28)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="18" class="abs high">(18&nbsp;/&nbsp;18)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="4" class="abs high">(4&nbsp;/&nbsp;4)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="28" class="abs high">(28&nbsp;/&nbsp;28)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="script-loader.js"><a href="script-loader.js.html">script-loader.js</a></td>
+	<td data-value="20.41" class="pic low"><span class="cover-fill" style="width: 20px;"></span><span class="cover-empty" style="width:80px;"></span></td>
+	<td data-value="20.41" class="pct low">20.41%</td>
+	<td data-value="196" class="abs low">(40&nbsp;/&nbsp;196)</td>
+	<td data-value="26.6" class="pct low">26.6%</td>
+	<td data-value="94" class="abs low">(25&nbsp;/&nbsp;94)</td>
+	<td data-value="20" class="pct low">20%</td>
+	<td data-value="40" class="abs low">(8&nbsp;/&nbsp;40)</td>
+	<td data-value="20.41" class="pct low">20.41%</td>
+	<td data-value="196" class="abs low">(40&nbsp;/&nbsp;196)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="url-builder.js"><a href="url-builder.js.html">url-builder.js</a></td>
+	<td data-value="100" class="pic high"><span class="cover-fill cover-full" style="width: 100px;"></span><span class="cover-empty" style="width:0px;"></span></td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="30" class="abs high">(30&nbsp;/&nbsp;30)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="18" class="abs high">(18&nbsp;/&nbsp;18)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="4" class="abs high">(4&nbsp;/&nbsp;4)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="30" class="abs high">(30&nbsp;/&nbsp;30)</td>
+	</tr>
+
+</tbody>
+</table>
+</div>
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 05 2014 14:31:22 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 05 2014 22:57:57 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

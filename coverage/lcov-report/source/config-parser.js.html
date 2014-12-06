@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for js/config-parser.js</title>
+    <title>Code coverage report for source/config-parser.js</title>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="../prettify.css">
@@ -196,23 +196,23 @@
 </head>
 <body>
 <div class="header high">
-    <h1>Code coverage report for <span class="entity">js/config-parser.js</span></h1>
+    <h1>Code coverage report for <span class="entity">source/config-parser.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(39 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(43 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(22 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(12 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(39 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(43 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
-        Ignored: <span class="metric">1 statement, 4 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric">1 statement, 6 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">js/</a> &#187; config-parser.js</div>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">source/</a> &#187; config-parser.js</div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -317,7 +317,18 @@
 99
 100
 101
-102</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -335,6 +346,9 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">11</span>
@@ -387,6 +401,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16</span>
 <span class="cline-any cline-yes">16</span>
 <span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -396,10 +412,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37</span>
 <span class="cline-any cline-yes">37</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -421,7 +443,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function (global, factory) {
     'use strict';
 &nbsp;
-    var built = factory();
+    var built = factory(global);
 &nbsp;
     /* istanbul ignore else */
     <span class="skip-if-branch" title="else path not taken" >E</span>if (typeof module === 'object' &amp;&amp; module) {
@@ -434,89 +456,100 @@
     }
 &nbsp;
     global.ConfigParser = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function () {
+}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function (global) {
+&nbsp;
     'use strict';
 &nbsp;
-    function ConfigParser(config) {
-        this._config = {};
-        this._modules = {};
-        this._conditionalModules = {};
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 &nbsp;
-        this._parseConfig(config);
-    }
+function ConfigParser(config) {
+    this._config = {};
+    this._modules = {};
+    this._conditionalModules = {};
 &nbsp;
-    ConfigParser.prototype = {
-        constructor: ConfigParser,
+    this._parseConfig(config);
+}
 &nbsp;
-        addModule: function (module) {
-            this._modules[module.name] = module;
+ConfigParser.prototype = {
+    constructor: ConfigParser,
 &nbsp;
-            this.resolveDependenciesPath(module);
+    addModule: function (module) {
+        this._modules[module.name] = module;
 &nbsp;
-            this._registerConditionalModule(module);
-        },
+        this.resolveDependenciesPath(module);
 &nbsp;
-        getConfig: function() {
-            return this._config;
-        },
+        this._registerConditionalModule(module);
+    },
 &nbsp;
-        getConditionalModules: function () {
-            return this._conditionalModules;
-        },
+    getConfig: function() {
+        return this._config;
+    },
 &nbsp;
-        getModules: function () {
-            return this._modules;
-        },
+    getConditionalModules: function () {
+        return this._conditionalModules;
+    },
 &nbsp;
-        resolveDependenciesPath: function(module) {
-            var dependencies = module.dependencies;
+    getModules: function () {
+        return this._modules;
+    },
 &nbsp;
-            for (var i = 0; i &lt; dependencies.length; i++) {
-                var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
+    resolveDependenciesPath: function(module) {
+        var dependencies = module.dependencies;
 &nbsp;
-                dependencies[i] = resolvedDependency;
-            }
-        },
+        for (var i = 0; i &lt; dependencies.length; i++) {
+            var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
 &nbsp;
-        _getPathResolver: function() {
-            if (!this._pathResolver) {
-                this._pathResolver = new LoaderUtils.PathResolver();
-            }
+            dependencies[i] = resolvedDependency;
+        }
+    },
 &nbsp;
-            return this._pathResolver;
-        },
+    _getPathResolver: function() {
+        if (!this._pathResolver) {
+            this._pathResolver = new global.PathResolver();
+        }
 &nbsp;
-        _parseConfig: function (config) {
-            Object.forEach(config, function (key, value) {
+        return this._pathResolver;
+    },
+&nbsp;
+    _parseConfig: function (config) {
+        for (var key in config) {
+            /* istanbul ignore else */
+            <span class="skip-if-branch" title="else path not taken" >E</span>if (hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
-                    this._parseModules(value);
+                    this._parseModules(config[key]);
                 } else {
-                    this._config[key] = value;
+                    this._config[key] = config[key];
                 }
-            }, this);
-        },
+            }
+        }
+    },
 &nbsp;
-        _parseModules: function (modules) {
-            Object.forEach(modules, function (key, module) {
+    _parseModules: function (modules) {
+        for (var key in modules) {
+            /* istanbul ignore else */
+            <span class="skip-if-branch" title="else path not taken" >E</span>if (hasOwnProperty.call(modules, key)) {
+                var module = modules[key];
+&nbsp;
                 module.name = key;
 &nbsp;
                 this.addModule(module);
-            }, this);
-        },
-&nbsp;
-        _registerConditionalModule: function (module) {
-            // Create HashMap of all modules, which have conditional modules, as an Array.
-            if (module.condition) {
-                var existingModules = this._conditionalModules[module.condition.trigger];
-&nbsp;
-                if (!existingModules) {
-                    this._conditionalModules[module.condition.trigger] = existingModules = [];
-                }
-&nbsp;
-                existingModules.push(module.name);
             }
         }
-    };
+    },
+&nbsp;
+    _registerConditionalModule: function (module) {
+        // Create HashMap of all modules, which have conditional modules, as an Array.
+        if (module.condition) {
+            var existingModules = this._conditionalModules[module.condition.trigger];
+&nbsp;
+            if (!existingModules) {
+                this._conditionalModules[module.condition.trigger] = existingModules = [];
+            }
+&nbsp;
+            existingModules.push(module.name);
+        }
+    }
+};
 &nbsp;
     return ConfigParser;
 }));</pre></td></tr>
@@ -524,7 +557,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 05 2014 14:31:22 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 05 2014 22:57:57 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

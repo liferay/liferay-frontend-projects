@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for js/config-parser.js</title>
+    <title>Code coverage report for source/dependency-builder.js</title>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="../prettify.css">
@@ -196,23 +196,23 @@
 </head>
 <body>
 <div class="header high">
-    <h1>Code coverage report for <span class="entity">js/config-parser.js</span></h1>
+    <h1>Code coverage report for <span class="entity">source/dependency-builder.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(39 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(60 / 60)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(30 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(39 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(60 / 60)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
-        Ignored: <span class="metric">1 statement, 4 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric">1 statement, 5 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">js/</a> &#187; config-parser.js</div>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">source/</a> &#187; dependency-builder.js</div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -317,7 +317,58 @@
 99
 100
 101
-102</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -336,83 +387,134 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54</span>
+<span class="cline-any cline-yes">54</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54</span>
+<span class="cline-any cline-yes">54</span>
 <span class="cline-any cline-yes">54</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46</span>
-<span class="cline-any cline-yes">58</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58</span>
+<span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">58</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-yes">37</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-yes">12</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45</span>
-<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">24</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13</span>
-<span class="cline-any cline-yes">10</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">24</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -421,7 +523,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function (global, factory) {
     'use strict';
 &nbsp;
-    var built = factory();
+    var built = factory(global);
 &nbsp;
     /* istanbul ignore else */
     <span class="skip-if-branch" title="else path not taken" >E</span>if (typeof module === 'object' &amp;&amp; module) {
@@ -433,98 +535,149 @@
 <span class="cstat-skip" title="statement not covered" >        define(factory);</span>
     }
 &nbsp;
-    global.ConfigParser = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function () {
+    global.DependencyBuilder = built;
+}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function (global) {
+&nbsp;
     'use strict';
 &nbsp;
-    function ConfigParser(config) {
-        this._config = {};
-        this._modules = {};
-        this._conditionalModules = {};
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 &nbsp;
-        this._parseConfig(config);
-    }
+function DependencyBuilder(configParser) {
+    this._configParser = configParser;
 &nbsp;
-    ConfigParser.prototype = {
-        constructor: ConfigParser,
+    this._result = [];
+}
 &nbsp;
-        addModule: function (module) {
-            this._modules[module.name] = module;
+DependencyBuilder.prototype = {
+    constructor: DependencyBuilder,
 &nbsp;
-            this.resolveDependenciesPath(module);
+    resolveDependencies: function (modules) {
+        // Copy the passed modules to a resolving modules queue.
+        // Modules may be added there during the process of resolving.
+        this._queue = modules.slice(0);
 &nbsp;
-            this._registerConditionalModule(module);
-        },
+        var result;
 &nbsp;
-        getConfig: function() {
-            return this._config;
-        },
+        try {
+            this._resolveDependencies();
 &nbsp;
-        getConditionalModules: function () {
-            return this._conditionalModules;
-        },
+            // Reorder the modules list so the modules without dependencies will
+            // be moved upfront
+            result = this._result.reverse().slice(0);
+        }
+        finally {
+            this._cleanup();
+        }
 &nbsp;
-        getModules: function () {
-            return this._modules;
-        },
+        return result;
+    },
 &nbsp;
-        resolveDependenciesPath: function(module) {
-            var dependencies = module.dependencies;
+    _cleanup: function () {
+        var modules = this._configParser.getModules();
 &nbsp;
-            for (var i = 0; i &lt; dependencies.length; i++) {
-                var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
+        // Set to false all temporary markers which were set during the process of
+        // dependencies resolving.
+        for (var key in modules) {
+            /* istanbul ignore else */
+            <span class="skip-if-branch" title="else path not taken" >E</span>if (hasOwnProperty.call(modules, key)) {
+                var module = modules[key];
 &nbsp;
-                dependencies[i] = resolvedDependency;
-            }
-        },
-&nbsp;
-        _getPathResolver: function() {
-            if (!this._pathResolver) {
-                this._pathResolver = new LoaderUtils.PathResolver();
-            }
-&nbsp;
-            return this._pathResolver;
-        },
-&nbsp;
-        _parseConfig: function (config) {
-            Object.forEach(config, function (key, value) {
-                if (key === 'modules') {
-                    this._parseModules(value);
-                } else {
-                    this._config[key] = value;
-                }
-            }, this);
-        },
-&nbsp;
-        _parseModules: function (modules) {
-            Object.forEach(modules, function (key, module) {
-                module.name = key;
-&nbsp;
-                this.addModule(module);
-            }, this);
-        },
-&nbsp;
-        _registerConditionalModule: function (module) {
-            // Create HashMap of all modules, which have conditional modules, as an Array.
-            if (module.condition) {
-                var existingModules = this._conditionalModules[module.condition.trigger];
-&nbsp;
-                if (!existingModules) {
-                    this._conditionalModules[module.condition.trigger] = existingModules = [];
-                }
-&nbsp;
-                existingModules.push(module.name);
+                module.conditionalMark = false;
+                module.mark = false;
+                module.tmpMark = false;
             }
         }
-    };
 &nbsp;
-    return ConfigParser;
+        this._queue.length = 0;
+        this._result.length = 0;
+    },
+&nbsp;
+    _processConditionalModules: function (module) {
+        var conditionalModules = this._configParser.getConditionalModules()[module.name];
+&nbsp;
+        // If the current module has conditional modules as dependencies,
+        // add them to the list (queue) of modules, which have to be resolved.
+        if (conditionalModules &amp;&amp; !module.conditionalMark) {
+            var modules = this._configParser.getModules();
+&nbsp;
+            for (var i = 0; i &lt; conditionalModules.length; i++) {
+                var conditionalModule = modules[conditionalModules[i]];
+&nbsp;
+                if (this._queue.indexOf(conditionalModule.name) === -1 &amp;&amp; this._testConditionalModule(conditionalModule.condition.test)) {
+&nbsp;
+                    this._queue.push(conditionalModule.name);
+                }
+            }
+&nbsp;
+            module.conditionalMark = true;
+        }
+    },
+&nbsp;
+    _resolveDependencies: function () {
+        // Process all modules in the queue.
+        // Note: modules may be added to the queue during the process of evaluating.
+        var modules = this._configParser.getModules();
+&nbsp;
+        for (var i = 0; i &lt; this._queue.length; i++) {
+            var module = modules[this._queue[i]];
+&nbsp;
+            if (!module.mark) {
+                this._visit(module);
+            }
+        }
+    },
+&nbsp;
+    _testConditionalModule: function (testFunction) {
+        if (typeof testFunction === 'function') {
+            return testFunction();
+        } else {
+            return eval('false || ' + testFunction)();
+        }
+    },
+&nbsp;
+    _visit: function (module) {
+        // We support only Directed Acyclic Graph, throw exception if there are
+        // circular dependencies.
+        if (module.tmpMark) {
+            throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
+        }
+&nbsp;
+        // Check if this module has conditional modules and add them to the queue if so.
+        this._processConditionalModules(module);
+&nbsp;
+        if (!module.mark) {
+            module.tmpMark = true;
+&nbsp;
+            var modules = this._configParser.getModules();
+&nbsp;
+            for (var i = 0; i &lt; module.dependencies.length; i++) {
+                var dependencyName = module.dependencies[i];
+&nbsp;
+                if (dependencyName === 'exports') {
+                    continue;
+                }
+&nbsp;
+                var moduleDependency = modules[dependencyName];
+&nbsp;
+                this._visit(moduleDependency, modules);
+            }
+&nbsp;
+            module.mark = true;
+&nbsp;
+            module.tmpMark = false;
+&nbsp;
+            this._result.unshift(module.name);
+        }
+    }
+};
+&nbsp;
+    return DependencyBuilder;
 }));</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 05 2014 14:31:22 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 05 2014 22:57:57 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
