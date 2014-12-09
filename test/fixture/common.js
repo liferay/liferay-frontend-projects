@@ -5,7 +5,7 @@ require('../../dist/source/event-emitter.js');
 require('../../dist/source/config-parser.js');
 require('../../dist/source/dependency-builder.js');
 require('../../dist/source/url-builder.js');
-require('../../dist/source/script-loader.js');
+
 var v8 = require('v8-natives');
 
 global.printStatus = function(fn) {

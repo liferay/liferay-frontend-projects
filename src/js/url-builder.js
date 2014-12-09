@@ -30,12 +30,12 @@ URLBuilder.prototype = {
 
             // If there is no combine, we have to generate full path URL
             } else if (!config.combine) {
-                result.push(config.url + basePath + module.path);
+                result.push(config.url + basePath + this._getModulePath(module));
 
             } else {
                 // If combine is true and module does not have full path, it will be collected
                 // in a buffer to be loaded among with other modules from combo loader.
-                buffer.push(module.path);
+                buffer.push(this._getModulePath(module));
             }
 
             module.load = true;
@@ -49,5 +49,17 @@ URLBuilder.prototype = {
         }
 
         return result;
+    },
+
+    _getModulePath: function(module) {
+        if (module.path) {
+            return module.path;
+
+        } else if (module.name.indexOf('.js') !== module.name.length - 3) {
+            return module.name + '.js';
+
+        } else {
+            return module.name;
+        }
     }
 };

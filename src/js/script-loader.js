@@ -36,6 +36,14 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    getConditionalModules: function() {
+        return this._getConfigParser().getConditionalModules();
+    },
+
+    getModules: function() {
+        return this._getConfigParser().getModules();
+    },
+
     require: function () {
         var self = this;
 
@@ -43,7 +51,12 @@ extend(Loader, global.EventEmitter, {
         var modules;
         var successCallback;
 
-        var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) : Object.prototype.toString.call(arguments[0]) === '[object Array]';
+        // Modules can be specified by as an array, or just as parameters to the function
+        // We do not slice or leak arguments to not cause V8 performance penalties
+        // TODO: This could be improved with inline function (hint)
+
+        var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) : /* istanbul ignore next */
+            Object.prototype.toString.call(arguments[0]) === '[object Array]';
 
         if (isArgsArray) {
             modules = arguments[0];
@@ -57,33 +70,32 @@ extend(Loader, global.EventEmitter, {
                 if (typeof arguments[i] === 'string') {
                     modules[i] = arguments[i];
 
+                /* istanbul ignore else */
                 } else if (typeof arguments[i] === 'function') {
                     successCallback = arguments[i];
-                    failureCallback = typeof arguments[++i] === 'function' ? arguments[i] : null;
+                    failureCallback = typeof arguments[++i] === 'function' ? arguments[i] : /* istanbul ignore next */ null;
 
-                    break;
-                } else {
                     break;
                 }
             }
         }
 
+        // Resolve the dependencies of the specified modules by the user
+        // then load their JS scripts
         self._resolveDependencies(modules).then(function (dependencies) {
             return self._loadModules(dependencies);
         }).then(function (loadedModules) {
             var moduleImplementations = self._addModuleImplementations(modules);
 
+            /* istanbul ignore else */
             if (successCallback) {
                 successCallback.apply(successCallback, moduleImplementations);
             }
         }, function (error) {
+            /* istanbul ignore else */
             if (failureCallback) {
                 failureCallback.call(failureCallback, error);
 
-            } else if (successCallback) {
-                var moduleImplementations = self._addModuleImplementations(modules);
-
-                successCallback.apply(successCallback, moduleImplementations);
             }
         });
     },
@@ -112,6 +124,7 @@ extend(Loader, global.EventEmitter, {
         for (var i = 0; i < dependencies.length; i++) {
             var dependencyName = dependencies[i];
 
+            /* istanbul ignore else */
             if (dependencyName === 'exports') {
                 continue;
 
@@ -152,15 +165,8 @@ extend(Loader, global.EventEmitter, {
         return this._dependencyBuilder;
     },
 
-    _getPathResolver: function() {
-        if (!this._pathResolver) {
-            this._pathResolver = new global.PathResolver();
-        }
-
-        return this._pathResolver;
-    },
-
     _getURLBuilder: function () {
+        /* istanbul ignore else */
         if (!this._urlBuilder) {
             this._urlBuilder = new global.URLBuilder(this._getConfigParser());
         }
@@ -210,31 +216,45 @@ extend(Loader, global.EventEmitter, {
         var self = this;
 
         return new Promise(function (resolve, reject) {
+            // First, detect any still unloaded modules
             var missingModules = self._filterNotLoadedModules(modules);
 
             if (missingModules.length) {
+                // If there are any, construct the URLs for them
                 var urls = self._getURLBuilder().build(missingModules);
 
                 var pendingScripts = [];
 
+                // Create promises for each of the scripts, which should be loaded
                 for (var i = 0; i < urls.length; i++) {
                     pendingScripts.push(self._loadScript(urls[i]));
                 }
 
+                // Wait for resolving the all script Promises
+                // As soon as that happens, wait for each module to resolve
+                // its own dependencies
                 Promise.all(pendingScripts).then(function (loadedScripts) {
                     return self._waitForImplementations(modules);
                 })
+                // As soon as all scripts were loaded and all dependencies have been resolved,
+                // resolve the main Promise
                 .then(function(modules) {
                     resolve(modules);
                 })
+                // If any script fails to load or other error happens,
+                // reject the main Promise
                 .catch (function (error) {
                     reject(error);
                 });
             } else {
+                // If there are no any mising modules, just wait for modules dependecies
+                // to be resolved and then resolve the main promise
                 self._waitForImplementations(modules)
                     .then(function(modules) {
                         resolve(modules);
                     })
+                    // If some error happens, for example if some module implementation
+                    // throws error, reject the main Promise
                     .catch (function (error) {
                         reject(error);
                     });
@@ -245,7 +265,9 @@ extend(Loader, global.EventEmitter, {
     _registerModule: function (module) {
         var dependencyImplementations = [];
 
-        var modules = this._getConfigParser().getModules();
+        var configParser = this._getConfigParser();
+
+        var modules = configParser.getModules();
 
         // Leave exports implementation undefined by default
         var exportsImpl;
@@ -282,9 +304,7 @@ extend(Loader, global.EventEmitter, {
         // returned value, or the object does not have 'exports' dependency
         module.implementation = result || exportsImpl;
 
-        console.log('Register module: ' + module.name);
-
-        this._getConfigParser().addModule(module);
+        configParser.addModule(module);
 
         this.emit('moduleRegister', module);
     },
@@ -297,7 +317,7 @@ extend(Loader, global.EventEmitter, {
                 var registeredModules = self._getConfigParser().getModules();
                 var finalModules = [];
 
-                // Ignore wrongly specified (misspelled) modules
+                // Ignore wrongly specified byt the user (misspelled) modules
                 for (var i = 0; i < modules.length; i++) {
                     if (registeredModules[modules[i]]) {
                         finalModules.push(modules[i]);
@@ -319,10 +339,11 @@ extend(Loader, global.EventEmitter, {
 
             script.src = url;
 
-            console.log(url);
-
+            // On ready state change is needed for IE < 9, not sure if that is needed anymore,
+            // it depends which browsers will we support at the end
             script.onload = script.onreadystatechange = function () {
-                if (!this.readyState || this.readyState === 'complete' || this.readyState === 'load') {
+                /* istanbul ignore else */
+                if (!this.readyState || /* istanbul ignore next */ this.readyState === 'complete' || /* istanbul ignore next */ this.readyState === 'load') {
 
                     script.onload = script.onreadystatechange = null;
 
@@ -330,6 +351,7 @@ extend(Loader, global.EventEmitter, {
                 }
             };
 
+            // If some script fails to load, reject the main Promise
             script.onerror = function () {
                 document.body.removeChild(script);
 
@@ -377,7 +399,7 @@ extend(Loader, global.EventEmitter, {
                 var registeredModules = self._getConfigParser().getModules();
 
                 for (var i = 0; i < modules.length; i++) {
-                    modulesPromises.push(self._waitForImplementation(registeredModules[modules[i]]));
+                    modulesPromises.push(self._waitForImplementation(registeredModules[missingModules[i]]));
                 }
 
                 Promise.all(modulesPromises)
@@ -391,6 +413,7 @@ extend(Loader, global.EventEmitter, {
 
 // Utilities methods
 function extend(r, s, px) {
+    /* istanbul ignore if else */
     if (!s || !r) {
         throw ('extend failed, verify dependencies');
     }
@@ -402,11 +425,13 @@ function extend(r, s, px) {
     rp.constructor = r;
     r.superclass = sp;
 
+    /* istanbul ignore if else */
     // assign constructor property
     if (s != Object && sp.constructor == Object.prototype.constructor) {
         sp.constructor = s;
     }
 
+    /* istanbul ignore else */
     // add prototype overrides
     if (px) {
         mix(rp, px);

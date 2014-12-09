@@ -36,15 +36,18 @@ describe('URLBuilder', function () {
                 'aui-base': {
                     'dependencies': [],
                     'path': 'aui-base.js'
+                },
+                'aui-core.js': {
+                    'dependencies': []
                 }
             }
         });
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['aui-base']);
+        var url = urlBuilder.build(['aui-base', 'aui-core.js']);
 
-        assert.strictEqual(url.length, 1);
+        assert.strictEqual(url.length, 2);
 
         assert.strictEqual(url[0], 'http://localhost:3000/modules/base/aui-base.js');
     });

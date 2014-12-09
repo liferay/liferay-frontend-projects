@@ -102,7 +102,7 @@ gulp.task('modules', function() {
 });
 
 gulp.task('test', function() {
-  return gulp.src(['test/**/*.js', '!test/fixture/*.js'])
+  return gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
     .pipe(mocha());
 });
 
@@ -112,7 +112,7 @@ gulp.task('test-cover', function() {
 });
 
 gulp.task('test-coverage', ['test-cover'], function() {
-    return gulp.src(['test/**/*.js', '!test/fixture/*.js'])
+    return gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
         .pipe(mocha())
         .pipe(istanbul.writeReports());
 });

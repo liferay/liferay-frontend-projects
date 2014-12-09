@@ -79,7 +79,7 @@ describe('EventEmitter', function () {
         sinon.spy(console, 'warn');
 
         eventEmitter.off('test', sinon.stub());
-        assert(console.warn.called);
+        assert.ok(console.warn.called);
 
         var listener = sinon.stub();
         eventEmitter.on('test', listener);
@@ -95,7 +95,7 @@ describe('EventEmitter', function () {
 
         sinon.spy(console, 'warn');
         eventEmitter.emit('test');
-        assert(console.warn.called);
+        assert.ok(console.warn.called);
         console.warn.restore();
     });
 });
