@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Creates an instance of EventEmitter class.
+ *
+ * @constructor
+ */
 function EventEmitter() {
     this._events = {};
 }
@@ -7,12 +12,24 @@ function EventEmitter() {
 EventEmitter.prototype = {
     constructor: EventEmitter,
 
+    /**
+     * Adds event listener to an event.
+     *
+     * @param {string} event The name of the event.
+     * @param {Function} callback Callback method to be invoked when event is being emitted.
+     */
     on: function (event, callback) {
         var listeners = this._events[event] = this._events[event] || [];
 
         listeners.push(callback);
     },
 
+    /**
+     * Removes an event from the list of event listeners to some event.
+     *
+     * @param  {string} event The name of the event.
+     * @param  {Function} callback Callback method to be removed from the list of listeners.
+     */
     off: function (event, callback) {
         var listeners = this._events[event];
 
@@ -29,6 +46,13 @@ EventEmitter.prototype = {
         }
     },
 
+    /**
+     * Emits an event. The function calls all registered listeners in the order they have been added. The provided args
+     * param will be passed to each listener of the event.
+     *
+     * @param {string} event The name of the event.
+     * @param {object} args Object, which will be passed to the listener as only argument.
+     */
     emit: function (event, args) {
         var listeners = this._events[event];
 

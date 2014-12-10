@@ -9,6 +9,7 @@ var fs = require('fs');
 var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var istanbul = require('gulp-istanbul');
+var jsdoc = require('gulp-jsdoc');
 var jshint = require('gulp-jshint');
 var merge = require('merge-stream');
 var mocha = require('gulp-mocha');
@@ -70,7 +71,7 @@ gulp.task('format', function() {
     return merge(src, test);
 });
 
-gulp.task('js', ['combine-js', 'vendor-js'], function() {
+gulp.task('js', ['jsdoc', 'combine-js', 'vendor-js'], function() {
     return gulp.src('src/template/loader.template')
         .pipe(template({
             vendor: fs.readFileSync('dist/js/vendor.js'),
@@ -78,6 +79,11 @@ gulp.task('js', ['combine-js', 'vendor-js'], function() {
         }))
         .pipe(rename('loader.js'))
         .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('jsdoc', function() {
+    gulp.src('./src/js/**/*.js')
+        .pipe(jsdoc('dist/api'));
 });
 
 gulp.task('lint', function() {

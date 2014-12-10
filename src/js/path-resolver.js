@@ -1,10 +1,22 @@
 'use strict';
 
+/**
+ * Creates an instance of PathResolver class.
+ *
+ * @constructor
+ */
 function PathResolver() {}
 
 PathResolver.prototype = {
     constructor: PathResolver,
 
+    /**
+     * Resolves the path of module.
+     *
+     * @param {string} module Module path which will be used as reference to resolve the path of the dependency.
+     * @param {string} dependency The dedependecy path, which have to be resolved.
+     * @return {string} The resolved dependency path.
+     */
     resolvePath: function(module, dependency) {
         if (dependency === 'exports') {
             return dependency;

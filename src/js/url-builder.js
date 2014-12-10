@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Creates an instance of URLBuilder class.
+ *
+ * @constructor
+ * @param {object} - instance of {@link ConfigParser} object.
+ */
 function URLBuilder(configParser) {
     this._configParser = configParser;
 }
@@ -7,11 +13,17 @@ function URLBuilder(configParser) {
 URLBuilder.prototype = {
     constructor: URLBuilder,
 
-    build: function (dependencies) {
+    /**
+     * Returns a list of URLs from provided list of modules.
+     *
+     * @param  {array} modules List of modules for which URLs should be created.
+     * @return {array} List of URLs.
+     */
+    build: function (modules) {
         var buffer = [];
         var result = [];
 
-        var modules = this._configParser.getModules();
+        var registeredModules = this._configParser.getModules();
         var config = this._configParser.getConfig();
 
         var basePath = config.basePath;
@@ -21,8 +33,8 @@ URLBuilder.prototype = {
             basePath += '/';
         }
 
-        for (var i = 0; i < dependencies.length; i++) {
-            var module = modules[dependencies[i]];
+        for (var i = 0; i < modules.length; i++) {
+            var module = registeredModules[modules[i]];
 
             // If module has fullPath or combine is false, individual URLs have to be created.
             if (module.fullPath) {
@@ -51,6 +63,14 @@ URLBuilder.prototype = {
         return result;
     },
 
+    /**
+     * Returns the path for a module. If module has property path, it will be returned directly. Otherwise,
+     * the name of module will be used and extension .js will be added to module name if omitted.
+     *
+     * @protected
+     * @param  {object} module The module which path should be returned.
+     * @return {string} Module path.
+     */
     _getModulePath: function(module) {
         if (module.path) {
             return module.path;

@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * Creates an instance of Loader class.
+ *
+ * @namespace Loader
+ * @extends EventEmitter
+ * @constructor
+ */
 function Loader(config) {
     Loader.superclass.constructor.apply(this, arguments);
 
@@ -7,6 +14,27 @@ function Loader(config) {
 }
 
 extend(Loader, global.EventEmitter, {
+    /**
+     * Defines a module.
+     *
+     * @memberof! Loader#
+     * @param {string} name The name of the module.
+     * @param {array} dependencies List of module dependencies.
+     * @param {function} implementation The implementation of the method.
+     * @param {object=} config Object configuration:
+     * <ul>
+     *         <strong>Optional properties</strong>:
+     *         <li>path (String) - Explicitly set path of the module. If omitted, module name will be used as path</li>
+     *         <li>condition (Object) Object which represents if the module should be added automatically after another
+     *             module.
+     *         It should have the following properties:</li>
+     *             <ul>
+     *                 <li>trigger - the module, which should trigger the loading of the current module</li>
+     *                 <li>test - function, which should return true if module should be loaded</li>
+     *         </ul>
+     *     </ul>
+     * @return {Promise} Promise, will be resolved as soon as module is being registered.
+     */
     define: function (name, dependencies, implementation, config) {
         var self = this;
 
@@ -19,7 +47,7 @@ extend(Loader, global.EventEmitter, {
             module.dependencies = dependencies;
             module.pendingImplementation = implementation;
 
-            self._getConfigParser().resolveDependenciesPath(module);
+            self._getConfigParser().resolvePath(module);
 
             var dependeciesResolved = self._checkModuleDependencies(module);
 
@@ -36,14 +64,38 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    /**
+     * Returns list of currently registered conditional modules.
+     *
+     * @memberof! Loader#
+     * @return {array} List of currently registered conditional modules.
+     */
     getConditionalModules: function() {
         return this._getConfigParser().getConditionalModules();
     },
 
+    /**
+     * Returns list of currently registered modules.
+     *
+     * @memberof! Loader#
+     * @return {array} List of currently registered modules.
+     */
     getModules: function() {
         return this._getConfigParser().getModules();
     },
 
+    /**
+     * Requires list of modules. If a module is not yet registered, it will be ignored and its implementation
+     * in the provided success callback will be left undefined.<br>
+     *
+     * @memberof! Loader#
+     * @param {array|string[]} modules Modules can be specified as an array of strings or provided as
+     *     multiple string parameters.
+     * @param {function} success Callback, which will be invoked in case of success. The provided parameters will
+     *     be implementations of all required modules.
+     * @param {function} failure Callback, which will be invoked in case of failure. One parameter with
+     *     information about the error will be provided.
+     */
     require: function () {
         var self = this;
 
@@ -100,6 +152,14 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    /**
+     * Adds module implementations to an array.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} requiredModules Lit of modules, which implementations will be added to an array.
+     * @return {array} List of modules implementations.
+     */
     _addModuleImplementations: function (requiredModules) {
         var moduleImplementations = [];
 
@@ -114,6 +174,14 @@ extend(Loader, global.EventEmitter, {
         return moduleImplementations;
     },
 
+    /**
+     * Checks if all module dependencies have implementations (aka they were registered) as valid modules.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param  {object} module The module which dependencies should be checked.
+     * @return {boolean} Returns true if all module dependencies have implementations.
+     */
     _checkModuleDependencies: function (module) {
         var modules = this._getConfigParser().getModules();
 
@@ -148,6 +216,13 @@ extend(Loader, global.EventEmitter, {
         return found;
     },
 
+    /**
+     * Returns instance of {@link ConfigParser} class currently used.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @return {ConfigParser} Instance of {@link ConfigParser} class.
+     */
     _getConfigParser: function () {
         /* istanbul ignore else */
         if (!this._configParser) {
@@ -157,6 +232,13 @@ extend(Loader, global.EventEmitter, {
         return this._configParser;
     },
 
+    /**
+     * Returns instance of {@link DependencyBuilder} class currently used.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @return {DependencyBuilder} Instance of {@link DependencyBuilder} class.
+     */
     _getDependencyBuilder: function () {
         if (!this._dependencyBuilder) {
             this._dependencyBuilder = new global.DependencyBuilder(this._getConfigParser());
@@ -165,6 +247,13 @@ extend(Loader, global.EventEmitter, {
         return this._dependencyBuilder;
     },
 
+    /**
+     * Returns instance of {@link URLBuilder} class currently used.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @return {URLBuilder} Instance of {@link URLBuilder} class.
+     */
     _getURLBuilder: function () {
         /* istanbul ignore else */
         if (!this._urlBuilder) {
@@ -174,6 +263,14 @@ extend(Loader, global.EventEmitter, {
         return this._urlBuilder;
     },
 
+    /**
+     * Filters a list of modules and returns only these without implementation.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} modules List of modules which which will be filtered.
+     * @return {array} List of modules without implementation.
+     */
     _filterModulesNoImpl: function(modules) {
         var missingModules = [];
 
@@ -193,6 +290,14 @@ extend(Loader, global.EventEmitter, {
         return missingModules;
     },
 
+    /**
+     * Filters a list of modules and returns only these which have been not yet requested for delivery via network.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} modules List of modules which which will be filtered.
+     * @return {array} List of modules not yet requested for delivery via network.
+     */
     _filterNotLoadedModules: function (modules) {
         var missingModules = [];
 
@@ -212,6 +317,14 @@ extend(Loader, global.EventEmitter, {
         return missingModules;
     },
 
+    /**
+     * Loads list of modules.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} modules List of modules to be loaded.
+     * @return {Promise} Promise, which will be resolved as soon as all module a being loaded.
+     */
     _loadModules: function (modules) {
         var self = this;
 
@@ -262,6 +375,14 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    /**
+     * Registers a module and fires {@link Loader#event:moduleRegister} event with the registered module as param.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {object} module Module which have to be registered.
+     * @fires Loader#moduleRegister
+     */
     _registerModule: function (module) {
         var dependencyImplementations = [];
 
@@ -299,7 +420,7 @@ extend(Loader, global.EventEmitter, {
         var result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
 
         // Store as implementation either the returned value from function invocation
-        // or the implementation of the 'exports' obejct.
+        // or the implementation of the 'exports' object.
         // The final implementation of this module may be undefined if there is no
         // returned value, or the object does not have 'exports' dependency
         module.implementation = result || exportsImpl;
@@ -309,6 +430,14 @@ extend(Loader, global.EventEmitter, {
         this.emit('moduleRegister', module);
     },
 
+    /**
+     * Resolves modules dependencies.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} modules List of modules which dependencies should be resolved.
+     * @return {Promise} Promise which will be resolved as soon as all dependencies are being resolved.
+     */
     _resolveDependencies: function (modules) {
         var self = this;
 
@@ -333,6 +462,14 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    /**
+     * Loads a &ltscript&gt element on the page.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {string} url The src of the script.
+     * @return {Promise} Promise which will be resolved as soon as the script is being loaded.
+     */
     _loadScript: function (url) {
         return new Promise(function (resolve, reject) {
             var script = document.createElement('script');
@@ -362,6 +499,14 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    /**
+     * Resolves a Promise as soon as all module dependencies are being resolved and it has implementation.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {object} module The module for which implementation this function should wait.
+     * @return {Promise}
+     */
     _waitForImplementation: function(module) {
         var self = this;
 
@@ -385,6 +530,15 @@ extend(Loader, global.EventEmitter, {
         });
     },
 
+    /**
+     * Resolves a Promise as soon as all dependencies of all provided modules are being resolved and modules have
+     * implementations.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} modules List of modules for which implementations this function should wait.
+     * @return {Promise}
+     */
     _waitForImplementations: function(modules) {
         var self = this;
 
@@ -409,6 +563,13 @@ extend(Loader, global.EventEmitter, {
             }
         });
     }
+
+    /**
+     * Indicates that a module has been registered.
+     *
+     * @event Loader#moduleRegister
+     * @param {object} module - The registered module.
+     */
 });
 
 // Utilities methods

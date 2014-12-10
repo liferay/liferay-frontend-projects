@@ -54,8 +54,6 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
 Loading modules
 ======
 
-Loading modules using callbacks:
-
 Use `require` method:
 ```javascript```
 require('aui-base', 'aui-test', function(base, test) {
@@ -81,11 +79,6 @@ What it does not support from YUI Loader?
 
 There are no CSS modules, I can't think for anything else right now.
 
-
-Roadmap
-======
-
-1. Do 100% code coverage (this is work in progress).
 
 Enjoy!
 
