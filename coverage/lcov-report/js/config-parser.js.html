@@ -451,7 +451,7 @@
         addModule: function (module) {
             this._modules[module.name] = module;
 &nbsp;
-            this.resolveDependenciesPath(module);
+            this.resolvePath(module);
 &nbsp;
             this._registerConditionalModule(module);
         },
@@ -468,7 +468,7 @@
             return this._modules;
         },
 &nbsp;
-        resolveDependenciesPath: function(module) {
+        resolvePath: function(module) {
             var dependencies = module.dependencies;
 &nbsp;
             for (var i = 0; i &lt; dependencies.length; i++) {
