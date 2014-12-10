@@ -28,6 +28,33 @@ var options = {
     followLinks: false
 };
 
+function extractCondition(ast) {
+    var found;
+    var meta = ast;
+    var values = {};
+
+    jsstana.traverse(ast, function (node) {
+        var match = jsstana.match('(ident META)', node);
+
+        if (match && !found) {
+            jsstana.traverse(meta, function (node) {
+                match = jsstana.match('(return)', node);
+
+                if (match && !found) {
+                    values = extractObjectValues(['path', 'fullPath', 'condition', 'group'], node);
+
+                    found = true;
+                }
+            });
+
+        } else {
+            meta = node;
+        }
+    });
+
+    return values;
+}
+
 function extractObjectValues(idents, ast) {
     var result = Object.create(null);
 
@@ -125,7 +152,7 @@ function getConfig(file, ast) {
         var result = [];
 
         jsstana.traverse(ast, function (node) {
-            var match = jsstana.match('(call define ? ? ? ??)', node);
+            var match = jsstana.match('(call define ? ? ?)', node);
 
             if (match) {
                 var config = {
@@ -134,9 +161,9 @@ function getConfig(file, ast) {
                     dependencies: extractValue(node.arguments[1])
                 };
 
-                var values = extractObjectValues(['path', 'fullPath', 'condition', 'group'], node.arguments[3]);
+                var values = extractCondition(node);
 
-                Object.keys(values).forEach(function(key) {
+                Object.keys(values || {}).forEach(function(key) {
                     config[key] = values[key];
                 });
 

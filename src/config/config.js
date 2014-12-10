@@ -22,7 +22,11 @@ var __CONFIG__ = {
                 "aui-event",
                 "exports"
             ],
-            "path": "aui-dialog.js"
+            "condition": {
+                "test": "function () {\n    return true;\n}",
+                "trigger": "nate"
+            },
+            "path": "nate.js"
         },
         "aui-event": {
             "dependencies": [

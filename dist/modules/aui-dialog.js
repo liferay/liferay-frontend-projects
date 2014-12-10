@@ -4,17 +4,27 @@ define("aui-dialog",
     "use strict";
     'use strict';
 
-    debugger;
-
     var logBase = __dependency1__.log;
     var logCore = __dependency2__.log;
     var logEvent = __dependency3__.log;
 
     function log(text) {
-    	logEvent('module aui-dialog says via aui-event: ' + text);
-    	logBase('in module aui-dialog logBase is available: ' + text);
-    	logCore('in module aui-dialog logCore is available: ' + text);
+        logEvent('module aui-dialog says via aui-event: ' + text);
+        logBase('in module aui-dialog logBase is available: ' + text);
+        logCore('in module aui-dialog logCore is available: ' + text);
     }
 
     __exports__.log = log;
+
+    (function META() {
+        return {
+            condition: {
+                test: function() {
+                    return true;
+                },
+                trigger: 'nate'
+            },
+            path: 'nate.js'
+        };
+    });
   });
