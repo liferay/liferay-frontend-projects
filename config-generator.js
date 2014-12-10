@@ -34,21 +34,25 @@ function extractCondition(ast) {
     var values = {};
 
     jsstana.traverse(ast, function (node) {
-        var match = jsstana.match('(ident META)', node);
+        if (!found) {
+            var match = jsstana.match('(ident META)', node);
 
-        if (match && !found) {
-            jsstana.traverse(meta, function (node) {
-                match = jsstana.match('(return)', node);
+            if (match) {
+                jsstana.traverse(meta, function (node) {
+                    if (!found) {
+                        match = jsstana.match('(return)', node);
 
-                if (match && !found) {
-                    values = extractObjectValues(['path', 'fullPath', 'condition', 'group'], node);
+                        if (match) {
+                            values = extractObjectValues(['path', 'fullPath', 'condition', 'group'], node);
 
-                    found = true;
-                }
-            });
+                            found = true;
+                        }
+                    }
+                });
 
-        } else {
-            meta = node;
+            } else {
+                meta = node;
+            }
         }
     });
 
