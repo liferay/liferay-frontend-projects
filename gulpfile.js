@@ -82,7 +82,7 @@ gulp.task('js', ['jsdoc', 'combine-js', 'vendor-js'], function() {
 });
 
 gulp.task('jsdoc', function() {
-    gulp.src('./src/js/**/*.js')
+    gulp.src(['./src/js/**/*.js', 'README.md'])
         .pipe(jsdoc('dist/api'));
 });
 
