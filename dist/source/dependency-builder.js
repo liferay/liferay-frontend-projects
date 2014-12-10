@@ -38,7 +38,7 @@ DependencyBuilder.prototype = {
     /**
      * Resolves modules dependencies.
      *
-     * @param  {array} modules List of modules which dependencies should be resolved.
+     * @param {array} modules List of modules which dependencies should be resolved.
      * @return {array} List of module names, representing module dependencies. Module name itself is being returned too.
      */
     resolveDependencies: function (modules) {
@@ -92,7 +92,7 @@ DependencyBuilder.prototype = {
      * the list of modules, which dependencies should be resolved.
      *
      * @protected
-     * @param  {object} module Module, which will be checked for conditional modules as dependencies.
+     * @param {object} module Module, which will be checked for conditional modules as dependencies.
      */
     _processConditionalModules: function (module) {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
@@ -140,7 +140,7 @@ DependencyBuilder.prototype = {
      * Executes the test function of an conditional module and adds it to the list of module dependencies if the
      * function returns true.
      *
-     * @param  {function|string} testFunction The function which have to be executed. May be Function object or string.
+     * @param {function|string} testFunction The function which have to be executed. May be Function object or string.
      * @return {boolean} The result of the execution of the test function.
      */
     _testConditionalModule: function (testFunction) {
@@ -156,7 +156,7 @@ DependencyBuilder.prototype = {
      * circular dependencies among modules.
      *
      * @protected
-     * @param  {object} module The module which have to be visited.
+     * @param {object} module The module which have to be visited.
      */
     _visit: function (module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.

@@ -1,25 +1,31 @@
-(function (global, factory) {
-    'use strict';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: script-loader.js</title>
 
-    var built = factory(global);
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
 
-    /* istanbul ignore else */
-    if (typeof module === 'object' && module) {
-        module.exports = built;
-    }
+<body>
 
-    /* istanbul ignore next */
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    }
+<div id="main">
 
-    /* jshint newcap:false */
-    global.Loader = new built();
-    global.require = global.Loader.require.bind(global.Loader);
-    global.define = global.Loader.define.bind(global.Loader);
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
+    <h1 class="page-title">Source: script-loader.js</h1>
 
-    'use strict';
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
 /**
  * Creates an instance of Loader class.
@@ -43,17 +49,17 @@ extend(Loader, global.EventEmitter, {
      * @param {array} dependencies List of module dependencies.
      * @param {function} implementation The implementation of the method.
      * @param {object=} config Object configuration:
-     * <ul>
-     *         <strong>Optional properties</strong>:
-     *         <li>path (String) - Explicitly set path of the module. If omitted, module name will be used as path</li>
-     *         <li>condition (Object) Object which represents if the module should be added automatically after another
+     * &lt;ul>
+     *         &lt;strong>Optional properties&lt;/strong>:
+     *         &lt;li>path (String) - Explicitly set path of the module. If omitted, module name will be used as path&lt;/li>
+     *         &lt;li>condition (Object) Object which represents if the module should be added automatically after another
      *             module.
-     *         It should have the following properties:</li>
-     *             <ul>
-     *                 <li>trigger - the module, which should trigger the loading of the current module</li>
-     *                 <li>test - function, which should return true if module should be loaded</li>
-     *         </ul>
-     *     </ul>
+     *         It should have the following properties:&lt;/li>
+     *             &lt;ul>
+     *                 &lt;li>trigger - the module, which should trigger the loading of the current module&lt;/li>
+     *                 &lt;li>test - function, which should return true if module should be loaded&lt;/li>
+     *         &lt;/ul>
+     *     &lt;/ul>
      * @return {Promise} Promise, will be resolved as soon as module is being registered.
      */
     define: function (name, dependencies, implementation, config) {
@@ -107,7 +113,7 @@ extend(Loader, global.EventEmitter, {
 
     /**
      * Requires list of modules. If a module is not yet registered, it will be ignored and its implementation
-     * in the provided success callback will be left undefined.<br>
+     * in the provided success callback will be left undefined.&lt;br>
      *
      * @memberof! Loader#
      * @param {array|string[]} modules Modules can be specified as an array of strings or provided as
@@ -139,7 +145,7 @@ extend(Loader, global.EventEmitter, {
         } else {
             modules = [];
 
-            for (var i = 0; i < arguments.length; ++i) {
+            for (var i = 0; i &lt; arguments.length; ++i) {
                 if (typeof arguments[i] === 'string') {
                     modules[i] = arguments[i];
 
@@ -186,7 +192,7 @@ extend(Loader, global.EventEmitter, {
 
         var modules = this._getConfigParser().getModules();
 
-        for (var i = 0; i < requiredModules.length; i++) {
+        for (var i = 0; i &lt; requiredModules.length; i++) {
             var requiredModule = modules[requiredModules[i]];
 
             moduleImplementations.push(requiredModule ? requiredModule.implementation : undefined);
@@ -210,7 +216,7 @@ extend(Loader, global.EventEmitter, {
 
         var dependencies = module.dependencies;
 
-        for (var i = 0; i < dependencies.length; i++) {
+        for (var i = 0; i &lt; dependencies.length; i++) {
             var dependencyName = dependencies[i];
 
             /* istanbul ignore else */
@@ -297,11 +303,11 @@ extend(Loader, global.EventEmitter, {
 
         var registeredModules = this._getConfigParser().getModules();
 
-        for (var i = 0; i < modules.length; i++) {
+        for (var i = 0; i &lt; modules.length; i++) {
             var registeredModule = registeredModules[modules[i]];
 
             // Get all modules which don't have implementation, except 'exports' module
-            if (registeredModule !== 'exports' &&
+            if (registeredModule !== 'exports' &amp;&amp;
                 (!registeredModule || !registeredModule.implementation)) {
 
                 missingModules.push(modules[i]);
@@ -324,12 +330,12 @@ extend(Loader, global.EventEmitter, {
 
         var registeredModules = this._getConfigParser().getModules();
 
-        for (var i = 0; i < modules.length; i++) {
+        for (var i = 0; i &lt; modules.length; i++) {
             var registeredModule = registeredModules[modules[i]];
 
             // Get all modules which don't have implementarion and they were not requested from the server.
-            if (registeredModule !== 'exports' &&
-                (!registeredModule || (!registeredModule.implementation && !registeredModule.load))) {
+            if (registeredModule !== 'exports' &amp;&amp;
+                (!registeredModule || (!registeredModule.implementation &amp;&amp; !registeredModule.load))) {
 
                 missingModules.push(modules[i]);
             }
@@ -360,7 +366,7 @@ extend(Loader, global.EventEmitter, {
                 var pendingScripts = [];
 
                 // Create promises for each of the scripts, which should be loaded
-                for (var i = 0; i < urls.length; i++) {
+                for (var i = 0; i &lt; urls.length; i++) {
                     pendingScripts.push(self._loadScript(urls[i]));
                 }
 
@@ -414,7 +420,7 @@ extend(Loader, global.EventEmitter, {
         // Leave exports implementation undefined by default
         var exportsImpl;
 
-        for (var i = 0; i < module.dependencies.length; i++) {
+        for (var i = 0; i &lt; module.dependencies.length; i++) {
             var dependency = module.dependencies[i];
 
             var impl;
@@ -468,7 +474,7 @@ extend(Loader, global.EventEmitter, {
                 var finalModules = [];
 
                 // Ignore wrongly specified byt the user (misspelled) modules
-                for (var i = 0; i < modules.length; i++) {
+                for (var i = 0; i &lt; modules.length; i++) {
                     if (registeredModules[modules[i]]) {
                         finalModules.push(modules[i]);
                     }
@@ -484,7 +490,7 @@ extend(Loader, global.EventEmitter, {
     },
 
     /**
-     * Loads a &ltscript&gt element on the page.
+     * Loads a &amp;ltscript&amp;gt element on the page.
      *
      * @memberof! Loader#
      * @protected
@@ -497,7 +503,7 @@ extend(Loader, global.EventEmitter, {
 
             script.src = url;
 
-            // On ready state change is needed for IE < 9, not sure if that is needed anymore,
+            // On ready state change is needed for IE &lt; 9, not sure if that is needed anymore,
             // it depends which browsers will we support at the end
             script.onload = script.onreadystatechange = function () {
                 /* istanbul ignore else */
@@ -573,7 +579,7 @@ extend(Loader, global.EventEmitter, {
 
                 var registeredModules = self._getConfigParser().getModules();
 
-                for (var i = 0; i < modules.length; i++) {
+                for (var i = 0; i &lt; modules.length; i++) {
                     modulesPromises.push(self._waitForImplementation(registeredModules[missingModules[i]]));
                 }
 
@@ -609,7 +615,7 @@ function extend(r, s, px) {
 
     /* istanbul ignore if else */
     // assign constructor property
-    if (s != Object && sp.constructor == Object.prototype.constructor) {
+    if (s != Object &amp;&amp; sp.constructor == Object.prototype.constructor) {
         sp.constructor = s;
     }
 
@@ -633,7 +639,26 @@ function mix(destination, source) {
     }
 
     return destination;
-}
+}</code></pre>
+        </article>
+    </section>
 
-    return Loader;
-}));
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul><h3>Events</h3><ul><li><a href="Loader.html#event:moduleRegister">moduleRegister</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Tue Dec 09 2014 17:55:37 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

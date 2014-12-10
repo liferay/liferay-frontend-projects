@@ -646,7 +646,7 @@ PathResolver.prototype = {
      * Resolves the path of module.
      *
      * @param {string} module Module path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dedependecy path, which have to be resolved.
+     * @param {string} dependency The dependency path, which have to be resolved.
      * @return {string} The resolved dependency path.
      */
     resolvePath: function(module, dependency) {
@@ -740,8 +740,8 @@ EventEmitter.prototype = {
     /**
      * Removes an event from the list of event listeners to some event.
      *
-     * @param  {string} event The name of the event.
-     * @param  {Function} callback Callback method to be removed from the list of listeners.
+     * @param {string} event The name of the event.
+     * @param {function} callback Callback method to be removed from the list of listeners.
      */
     off: function (event, callback) {
         var listeners = this._events[event];
@@ -910,7 +910,7 @@ ConfigParser.prototype = {
      * Parses configuration object.
      *
      * @protected
-     * @param  {object=} config Configuration object to be parsed.
+     * @param {object} config Configuration object to be parsed.
      * @return {object} The created configuration
      */
     _parseConfig: function (config) {
@@ -932,7 +932,7 @@ ConfigParser.prototype = {
      * Parses a provided modules configuration.
      *
      * @protected
-     * @param  {object} modules Map of modules to be parsed.
+     * @param {object} modules Map of modules to be parsed.
      * @return {object} Map of parsed modules.
      */
     _parseModules: function (modules) {
@@ -954,7 +954,7 @@ ConfigParser.prototype = {
      * Registers conditional module to the configuration.
      *
      * @protected
-     * @param  {object} module Module object
+     * @param {object} module Module object
      */
     _registerConditionalModule: function (module) {
         // Create HashMap of all modules, which have conditional modules, as an Array.
@@ -1012,7 +1012,7 @@ DependencyBuilder.prototype = {
     /**
      * Resolves modules dependencies.
      *
-     * @param  {array} modules List of modules which dependencies should be resolved.
+     * @param {array} modules List of modules which dependencies should be resolved.
      * @return {array} List of module names, representing module dependencies. Module name itself is being returned too.
      */
     resolveDependencies: function (modules) {
@@ -1066,7 +1066,7 @@ DependencyBuilder.prototype = {
      * the list of modules, which dependencies should be resolved.
      *
      * @protected
-     * @param  {object} module Module, which will be checked for conditional modules as dependencies.
+     * @param {object} module Module, which will be checked for conditional modules as dependencies.
      */
     _processConditionalModules: function (module) {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
@@ -1114,7 +1114,7 @@ DependencyBuilder.prototype = {
      * Executes the test function of an conditional module and adds it to the list of module dependencies if the
      * function returns true.
      *
-     * @param  {function|string} testFunction The function which have to be executed. May be Function object or string.
+     * @param {function|string} testFunction The function which have to be executed. May be Function object or string.
      * @return {boolean} The result of the execution of the test function.
      */
     _testConditionalModule: function (testFunction) {
@@ -1130,7 +1130,7 @@ DependencyBuilder.prototype = {
      * circular dependencies among modules.
      *
      * @protected
-     * @param  {object} module The module which have to be visited.
+     * @param {object} module The module which have to be visited.
      */
     _visit: function (module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
@@ -1216,7 +1216,7 @@ URLBuilder.prototype = {
     /**
      * Returns a list of URLs from provided list of modules.
      *
-     * @param  {array} modules List of modules for which URLs should be created.
+     * @param {array} modules List of modules for which URLs should be created.
      * @return {array} List of URLs.
      */
     build: function (modules) {
@@ -1268,7 +1268,7 @@ URLBuilder.prototype = {
      * the name of module will be used and extension .js will be added to module name if omitted.
      *
      * @protected
-     * @param  {object} module The module which path should be returned.
+     * @param {object} module The module which path should be returned.
      * @return {string} Module path.
      */
     _getModulePath: function(module) {
@@ -1488,7 +1488,7 @@ extend(Loader, global.EventEmitter, {
      *
      * @memberof! Loader#
      * @protected
-     * @param  {object} module The module which dependencies should be checked.
+     * @param {object} module The module which dependencies should be checked.
      * @return {boolean} Returns true if all module dependencies have implementations.
      */
     _checkModuleDependencies: function (module) {

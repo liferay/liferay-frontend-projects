@@ -16,7 +16,7 @@ URLBuilder.prototype = {
     /**
      * Returns a list of URLs from provided list of modules.
      *
-     * @param  {array} modules List of modules for which URLs should be created.
+     * @param {array} modules List of modules for which URLs should be created.
      * @return {array} List of URLs.
      */
     build: function (modules) {
@@ -68,7 +68,7 @@ URLBuilder.prototype = {
      * the name of module will be used and extension .js will be added to module name if omitted.
      *
      * @protected
-     * @param  {object} module The module which path should be returned.
+     * @param {object} module The module which path should be returned.
      * @return {string} Module path.
      */
     _getModulePath: function(module) {

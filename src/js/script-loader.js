@@ -179,7 +179,7 @@ extend(Loader, global.EventEmitter, {
      *
      * @memberof! Loader#
      * @protected
-     * @param  {object} module The module which dependencies should be checked.
+     * @param {object} module The module which dependencies should be checked.
      * @return {boolean} Returns true if all module dependencies have implementations.
      */
     _checkModuleDependencies: function (module) {

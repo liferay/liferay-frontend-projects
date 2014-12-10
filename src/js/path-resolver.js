@@ -14,7 +14,7 @@ PathResolver.prototype = {
      * Resolves the path of module.
      *
      * @param {string} module Module path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dedependecy path, which have to be resolved.
+     * @param {string} dependency The dependency path, which have to be resolved.
      * @return {string} The resolved dependency path.
      */
     resolvePath: function(module, dependency) {

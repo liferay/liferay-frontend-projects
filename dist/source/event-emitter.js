@@ -45,8 +45,8 @@ EventEmitter.prototype = {
     /**
      * Removes an event from the list of event listeners to some event.
      *
-     * @param  {string} event The name of the event.
-     * @param  {Function} callback Callback method to be removed from the list of listeners.
+     * @param {string} event The name of the event.
+     * @param {function} callback Callback method to be removed from the list of listeners.
      */
     off: function (event, callback) {
         var listeners = this._events[event];

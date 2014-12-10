@@ -119,7 +119,7 @@ ConfigParser.prototype = {
      * Parses configuration object.
      *
      * @protected
-     * @param  {object=} config Configuration object to be parsed.
+     * @param {object} config Configuration object to be parsed.
      * @return {object} The created configuration
      */
     _parseConfig: function (config) {
@@ -141,7 +141,7 @@ ConfigParser.prototype = {
      * Parses a provided modules configuration.
      *
      * @protected
-     * @param  {object} modules Map of modules to be parsed.
+     * @param {object} modules Map of modules to be parsed.
      * @return {object} Map of parsed modules.
      */
     _parseModules: function (modules) {
@@ -163,7 +163,7 @@ ConfigParser.prototype = {
      * Registers conditional module to the configuration.
      *
      * @protected
-     * @param  {object} module Module object
+     * @param {object} module Module object
      */
     _registerConditionalModule: function (module) {
         // Create HashMap of all modules, which have conditional modules, as an Array.
