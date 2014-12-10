@@ -1,4 +1,4 @@
-Simplified YUI like Loader
+Module Loader
 =====
 
 Supports JavaScript modules only, but with groups, combo url and conditional loading.
