@@ -1,4 +1,9 @@
-(function (global, factory) {
+(function() {
+	var global = {};
+
+	global.__CONFIG__ = window.__CONFIG__;
+
+	(function (global, factory) {
     'use strict';
 
     var built = factory(global);
@@ -1311,3 +1316,8 @@ function mix(destination, source) {
 
     return Loader;
 }));
+
+	window.Loader = global.Loader;
+    window.require = global.require;
+    window.define = global.define;
+}());

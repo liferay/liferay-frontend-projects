@@ -16,15 +16,15 @@ define("aui-dialog",
 
     __exports__.log = log;
 
-    (function META() {
-        return {
-            condition: {
-                test: function() {
-                    return true;
-                },
-                trigger: 'nate'
-            },
-            path: 'nate.js'
-        };
-    });
+    // (function META() {
+    //     return {
+    //         condition: {
+    //             test: function() {
+    //                 return true;
+    //             },
+    //             trigger: 'nate'
+    //         },
+    //         path: 'nate.js'
+    //     };
+    // });
   });
