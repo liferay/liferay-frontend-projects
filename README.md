@@ -18,8 +18,8 @@ How to run the demo?
 -------------
 1. The default configuration and the demo require a combo loader. Go to the folder, where you cloned the loader, then run `node combo.js`. This will run a combo handler on port 3000.
 2. Download [mongoose](https://github.com/cesanta/mongoose) or if you have brew just do `brew install mongoose`, then navigate to Loader folder and run mongoose with the following params:
-    `mongoose -listening_port 8081 -document_root dist`.
-3. Open a browser, for example Chrome and load  `index.html` page from dist folder. Open the console and look for the messages. You will see that resouces are being loaded.
+    `mongoose -listening_port 8080 -document_root dist`.
+3. Open a browser, for example Chrome and load  `http://localhost:8080/demo/`. Open the console and look for the messages. You will see that resouces are being loaded.
 
 Loader features
 ======
