@@ -1,5 +1,5 @@
 TN:
-SF:/Users/iliyan/projects/loader/dist/source/path-resolver.js
+SF:/Users/iliyan/projects/loader/umd/path-resolver.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:26,PathResolver
@@ -62,7 +62,7 @@ BRF:18
 BRH:18
 end_of_record
 TN:
-SF:/Users/iliyan/projects/loader/dist/source/event-emitter.js
+SF:/Users/iliyan/projects/loader/umd/event-emitter.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:26,EventEmitter
@@ -128,7 +128,7 @@ BRF:18
 BRH:18
 end_of_record
 TN:
-SF:/Users/iliyan/projects/loader/dist/source/config-parser.js
+SF:/Users/iliyan/projects/loader/umd/config-parser.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:29,ConfigParser
@@ -228,7 +228,7 @@ BRF:22
 BRH:22
 end_of_record
 TN:
-SF:/Users/iliyan/projects/loader/dist/source/dependency-builder.js
+SF:/Users/iliyan/projects/loader/umd/dependency-builder.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:29,DependencyBuilder
@@ -345,7 +345,7 @@ BRF:30
 BRH:30
 end_of_record
 TN:
-SF:/Users/iliyan/projects/loader/dist/source/url-builder.js
+SF:/Users/iliyan/projects/loader/umd/url-builder.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:27,URLBuilder
@@ -421,7 +421,7 @@ BRF:22
 BRH:22
 end_of_record
 TN:
-SF:/Users/iliyan/projects/loader/dist/source/script-loader.js
+SF:/Users/iliyan/projects/loader/umd/script-loader.js
 FN:1,(anonymous_1)
 FN:20,(anonymous_2)
 FN:31,Loader

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for source/path-resolver.js</title>
+    <title>Code coverage report for umd/url-builder.js</title>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="../prettify.css">
@@ -196,23 +196,23 @@
 </head>
 <body>
 <div class="header high">
-    <h1>Code coverage report for <span class="entity">source/path-resolver.js</span></h1>
+    <h1>Code coverage report for <span class="entity">umd/url-builder.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(28 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(35 / 35)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(22 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(5 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(28 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(35 / 35)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric">1 statement, 4 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">source/</a> &#187; path-resolver.js</div>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">umd/</a> &#187; url-builder.js</div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -296,7 +296,32 @@
 78
 79
 80
-81</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -321,9 +346,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -333,45 +361,67 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">110</span>
-<span class="cline-any cline-yes">24</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-yes">19</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">9</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -391,77 +441,102 @@
 <span class="cstat-skip" title="statement not covered" >        define(factory);</span>
     }
 &nbsp;
-    global.PathResolver = built;
+    global.URLBuilder = built;
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this,</span> function (global) {
 &nbsp;
     'use strict';
 &nbsp;
 /**
- * Creates an instance of PathResolver class.
+ * Creates an instance of URLBuilder class.
  *
  * @constructor
+ * @param {object} - instance of {@link ConfigParser} object.
  */
-function PathResolver() {}
+function URLBuilder(configParser) {
+    this._configParser = configParser;
+}
 &nbsp;
-PathResolver.prototype = {
-    constructor: PathResolver,
+URLBuilder.prototype = {
+    constructor: URLBuilder,
 &nbsp;
     /**
-     * Resolves the path of module.
+     * Returns a list of URLs from provided list of modules.
      *
-     * @param {string} module Module path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dependency path, which have to be resolved.
-     * @return {string} The resolved dependency path.
+     * @param {array} modules List of modules for which URLs should be created.
+     * @return {array} List of URLs.
      */
-    resolvePath: function(module, dependency) {
-        if (dependency === 'exports') {
-            return dependency;
+    build: function (modules) {
+        var buffer = [];
+        var result = [];
+&nbsp;
+        var registeredModules = this._configParser.getModules();
+        var config = this._configParser.getConfig();
+&nbsp;
+        var basePath = config.basePath;
+&nbsp;
+        /* istanbul ignore else */
+        if (basePath.charAt(basePath.length - 1) !== '/') {
+            basePath += '/';
         }
 &nbsp;
-        // Split module directories
-        var moduleParts = module.split('/');
-        // Remove module name
-        moduleParts.splice(-1);
+        for (var i = 0; i &lt; modules.length; i++) {
+            var module = registeredModules[modules[i]];
 &nbsp;
-        // Split dependency directories
-        var dependencyParts = dependency.split('/');
-        // Extract dependecy name
-        var dependencyName = dependencyParts.splice(-1);
+            // If module has fullPath or combine is false, individual URLs have to be created.
+            if (module.fullPath) {
+                result.push(module.fullPath);
 &nbsp;
-        for (var i = 0; i &lt; dependencyParts.length; i++) {
-            var dependencyPart = dependencyParts[i];
-&nbsp;
-            if (dependencyPart === '.') {
-                continue;
-&nbsp;
-            } else if (dependencyPart === '..') {
-                if (moduleParts.length) {
-                    moduleParts.splice(-1, 1);
-                }
-                else {
-                    moduleParts = moduleParts.concat(dependencyParts.slice(i));
-&nbsp;
-                    break;
-                }
+            // If there is no combine, we have to generate full path URL
+            } else if (!config.combine) {
+                result.push(config.url + basePath + this._getModulePath(module));
 &nbsp;
             } else {
-                moduleParts.push(dependencyPart);
+                // If combine is true and module does not have full path, it will be collected
+                // in a buffer to be loaded among with other modules from combo loader.
+                buffer.push(this._getModulePath(module));
             }
+&nbsp;
+            module.load = true;
         }
 &nbsp;
-        moduleParts.push(dependencyName);
+        // Add to the result all modules, which have to be combined.
+        if (buffer.length) {
+            result.push(config.url + '?' + basePath + buffer.join('&amp;' + basePath));
 &nbsp;
-        return moduleParts.join('/');
+            buffer.length = 0;
+        }
+&nbsp;
+        return result;
+    },
+&nbsp;
+    /**
+     * Returns the path for a module. If module has property path, it will be returned directly. Otherwise,
+     * the name of module will be used and extension .js will be added to module name if omitted.
+     *
+     * @protected
+     * @param {object} module The module which path should be returned.
+     * @return {string} Module path.
+     */
+    _getModulePath: function(module) {
+        if (module.path) {
+            return module.path;
+&nbsp;
+        } else if (module.name.indexOf('.js') !== module.name.length - 3) {
+            return module.name + '.js';
+&nbsp;
+        } else {
+            return module.name;
+        }
     }
 };
 &nbsp;
-    return PathResolver;
+    return URLBuilder;
 }));</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 10 2014 11:24:34 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 10 2014 16:22:54 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
