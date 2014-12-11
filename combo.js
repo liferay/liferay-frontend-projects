@@ -3,7 +3,7 @@ var comboServer = require('combohandler/lib/server'),
 
 app = comboServer({
     roots: {
-        '/combo': 'dist'
+        '/combo': 'dist/demo'
     }
 });
 

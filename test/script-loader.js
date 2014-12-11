@@ -37,8 +37,8 @@ global.__CONFIG__ = {
     }
 };
 
-require('../dist/source/event-emitter.js');
-require('../dist/source/script-loader.js');
+require('../umd/event-emitter.js');
+require('../umd/script-loader.js');
 
 var assert = require('assert');
 var sinon = require('sinon');

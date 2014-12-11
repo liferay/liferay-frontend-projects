@@ -24,7 +24,7 @@ describe('URLBuilder', function () {
 
         assert.strictEqual(url.length, 1);
 
-        assert.strictEqual(url[0], 'http://localhost:8081/modules/aui-base.js');
+        assert.strictEqual(url[0], 'http://localhost:8080/demo/modules/aui-base.js');
     });
 
     it('should create url for module when combine set to false', function () {

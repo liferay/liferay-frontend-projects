@@ -1,10 +1,10 @@
 'use strict';
 
-require('../../dist/source/path-resolver.js');
-require('../../dist/source/event-emitter.js');
-require('../../dist/source/config-parser.js');
-require('../../dist/source/dependency-builder.js');
-require('../../dist/source/url-builder.js');
+require('../../umd/path-resolver.js');
+require('../../umd/event-emitter.js');
+require('../../umd/config-parser.js');
+require('../../umd/dependency-builder.js');
+require('../../umd/url-builder.js');
 
 var v8 = require('v8-natives');
 

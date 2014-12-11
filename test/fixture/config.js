@@ -9,7 +9,7 @@ module.exports = {
         },
         "aui-base": {
             "dependencies": [],
-            "fullPath": "http://localhost:8081/modules/aui-base.js"
+            "fullPath": "http://localhost:8080/demo/modules/aui-base.js"
         },
         "aui-chema": {
             "dependencies": ["aui-autocomplete", "aui-event", "aui-node"],
