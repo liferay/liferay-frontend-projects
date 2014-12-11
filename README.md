@@ -51,6 +51,43 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
 });
 ```
 
+You may omit the condition (the fourth param in define function) if you don't need it.
+
+Alternatively, you may use ES6 syntax in your modules:
+
+```javascript```
+'use strict';
+
+import {log as logBase} from 'aui-base';
+import {log as logCore} from 'aui-core';
+import {log as logEvent} from 'aui-event';
+
+function log(text) {
+    logEvent('module aui-dialog says via aui-event: ' + text);
+    logBase('in module aui-dialog logBase is available: ' + text);
+    logCore('in module aui-dialog logCore is available: ' + text);
+}
+
+export {log};
+
+/**
+ * The code below is meta configuration, in this case it includes module condition only.
+ * You may delete the whole function statement if you don't need it.
+ */
+(function META() {
+    return {
+        condition: {
+            test: function() {
+                return true;
+            },
+            trigger: 'nate'
+        },
+        path: 'nate.js'
+    };
+});
+```
+Loader understands only AMD currently and in more details - exactly what https://github.com/esnext/es6-module-transpiler generates. As soon as you transpile ES6 modules to AMD, the config generator will parse them successfully in order to generate the configuration and Loader will load them too!
+
 Loading modules
 ======
 
