@@ -68,8 +68,6 @@ extend(Loader, global.EventEmitter, {
             module.dependencies = dependencies;
             module.pendingImplementation = implementation;
 
-            self._getConfigParser().resolvePath(module);
-
             var dependeciesResolved = self._checkModuleDependencies(module);
 
             if (dependeciesResolved) {
@@ -354,7 +352,7 @@ extend(Loader, global.EventEmitter, {
             var missingModules = self._filterNotLoadedModules(modules);
 
             if (missingModules.length) {
-                // If there are any, construct the URLs for them
+                // If there are some, construct the URLs for them
                 var urls = self._getURLBuilder().build(missingModules);
 
                 var pendingScripts = [];
@@ -364,7 +362,7 @@ extend(Loader, global.EventEmitter, {
                     pendingScripts.push(self._loadScript(urls[i]));
                 }
 
-                // Wait for resolving the all script Promises
+                // Wait for resolving all script Promises
                 // As soon as that happens, wait for each module to resolve
                 // its own dependencies
                 Promise.all(pendingScripts).then(function (loadedScripts) {

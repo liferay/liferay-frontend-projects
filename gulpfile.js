@@ -46,7 +46,7 @@ gulp.task('create-loader-pure', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('combine-js', ['wrap-path-resolver', 'wrap-event-emitter', 'wrap-config-parser', 'wrap-dependency-builder', 'wrap-url-builder', 'wrap-script-loader'], function(callback) {
+gulp.task('combine-js', ['wrap-event-emitter', 'wrap-config-parser', 'wrap-dependency-builder', 'wrap-url-builder', 'wrap-script-loader'], function(callback) {
     runSequence('wrap-js-files', 'create-loader-pure', callback);
 });
 
@@ -170,7 +170,6 @@ gulp.task('wrap-dependency-builder', function() {
 
 gulp.task('wrap-js-files', function() {
     return gulp.src([
-        'umd/path-resolver.js',
         'umd/event-emitter.js',
         'umd/config-parser.js',
         'umd/dependency-builder.js',
@@ -179,15 +178,6 @@ gulp.task('wrap-js-files', function() {
         ])
     .pipe(concat('loader-pure.js'))
     .pipe(gulp.dest('dist'));
-});
-
-gulp.task('wrap-path-resolver', function() {
-    return gulp.src('src/template/path-resolver.template')
-        .pipe(template({
-            source: fs.readFileSync('src/js/path-resolver.js')
-        }))
-        .pipe(rename('path-resolver.js'))
-        .pipe(gulp.dest('umd'));
 });
 
 gulp.task('wrap-script-loader', function() {
