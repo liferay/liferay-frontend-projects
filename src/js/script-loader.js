@@ -33,33 +33,20 @@ extend(Loader, global.EventEmitter, {
      *                 <li>test - function, which should return true if module should be loaded</li>
      *         </ul>
      *     </ul>
-     * @return {Promise} Promise, will be resolved as soon as module is being registered.
+     * @return {Object} The constructed module.
      */
     define: function (name, dependencies, implementation, config) {
-        var self = this;
+        // Create new module by merging the provided config with the passed name,
+        // dependencies and the implementation.
+        var module = config || {};
 
-        return new Promise(function (resolve, reject) {
-            // Create new module by merging the provided config with the passed name,
-            // dependencies and the implementation.
-            var module = config || {};
+        module.name = name;
+        module.dependencies = dependencies;
+        module.pendingImplementation = implementation;
 
-            module.name = name;
-            module.dependencies = dependencies;
-            module.pendingImplementation = implementation;
+        this._registerModule(module);
 
-            var dependeciesResolved = self._checkModuleDependencies(module);
-
-            if (dependeciesResolved) {
-                self._registerModule(module);
-
-                resolve(module);
-            } else {
-                self._waitForImplementation(module)
-                    .then(function(module) {
-                        self._registerModule(module);
-                    });
-            }
-        });
+        return module;
     },
 
     /**
@@ -193,18 +180,11 @@ extend(Loader, global.EventEmitter, {
             /* istanbul ignore else */
             if (dependencyName === 'exports') {
                 continue;
-
             }
 
             var dependencyModule = modules[dependencyName];
 
-            if (!dependencyModule) {
-                throw 'Dependency ' + dependencies[i] + ' not registered as module.';
-            }
-
-            var dependencyModuleImpl = dependencyModule.implementation;
-
-            if (!dependencyModuleImpl) {
+            if (!dependencyModule || !dependencyModule.implementation) {
                 found = false;
 
                 break;
@@ -345,7 +325,7 @@ extend(Loader, global.EventEmitter, {
                 // As soon as that happens, wait for each module to resolve
                 // its own dependencies
                 Promise.all(pendingScripts).then(function (loadedScripts) {
-                    return self._waitForImplementations(modules);
+                    return self._waitForModules(modules);
                 })
                 // As soon as all scripts were loaded and all dependencies have been resolved,
                 // resolve the main Promise
@@ -360,7 +340,7 @@ extend(Loader, global.EventEmitter, {
             } else {
                 // If there are no any mising modules, just wait for modules dependecies
                 // to be resolved and then resolve the main promise
-                self._waitForImplementations(modules)
+                self._waitForModules(modules)
                     .then(function(modules) {
                         resolve(modules);
                     })
@@ -374,14 +354,29 @@ extend(Loader, global.EventEmitter, {
     },
 
     /**
-     * Registers a module and fires {@link Loader#event:moduleRegister} event with the registered module as param.
+     * Registers a module to the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {object} module Module which have to be registered.
+     */
+    _registerModule: function(module) {
+        var configParser = this._getConfigParser();
+
+        configParser.addModule(module);
+
+        this.emit('moduleRegister', module);
+    },
+
+    /**
+     * Invokes a module implementation.
      *
      * @memberof! Loader#
      * @protected
      * @param {object} module Module which have to be registered.
      * @fires Loader#moduleRegister
      */
-    _registerModule: function (module) {
+    _invokeImplementation: function (module) {
         var dependencyImplementations = [];
 
         var configParser = this._getConfigParser();
@@ -422,10 +417,6 @@ extend(Loader, global.EventEmitter, {
         // The final implementation of this module may be undefined if there is no
         // returned value, or the object does not have 'exports' dependency
         module.implementation = result || exportsImpl;
-
-        configParser.addModule(module);
-
-        this.emit('moduleRegister', module);
     },
 
     /**
@@ -498,14 +489,14 @@ extend(Loader, global.EventEmitter, {
     },
 
     /**
-     * Resolves a Promise as soon as all module dependencies are being resolved and it has implementation.
+     * Resolves a Promise as soon as all module dependencies are being resolved or it has implementation already.
      *
      * @memberof! Loader#
      * @protected
-     * @param {object} module The module for which implementation this function should wait.
+     * @param {object} module The module for which this function should wait.
      * @return {Promise}
      */
-    _waitForImplementation: function(module) {
+    _waitForModule: function(module) {
         var self = this;
 
         return new Promise(function(resolve, reject) {
@@ -537,7 +528,7 @@ extend(Loader, global.EventEmitter, {
      * @param {array} modules List of modules for which implementations this function should wait.
      * @return {Promise}
      */
-    _waitForImplementations: function(modules) {
+    _waitForModules: function(modules) {
         var self = this;
 
         return new Promise(function(resolve, reject) {
@@ -551,10 +542,25 @@ extend(Loader, global.EventEmitter, {
                 var registeredModules = self._getConfigParser().getModules();
 
                 for (var i = 0; i < modules.length; i++) {
-                    modulesPromises.push(self._waitForImplementation(registeredModules[missingModules[i]]));
+                    modulesPromises.push(self._waitForModule(registeredModules[missingModules[i]]));
                 }
 
                 Promise.all(modulesPromises)
+                    .then(function(modules) {
+                        for (var i = 0; i < modules.length; i++) {
+                            var module = modules[i];
+
+                            if (module.implementation) {
+                                console.warn('Module: ' + module.name + ' already has implementation');
+
+                                continue;
+                            }
+
+                            self._invokeImplementation(module);
+                        }
+
+                        resolve(modules);
+                    })
                     .then(function(modules) {
                         resolve(modules);
                     });
