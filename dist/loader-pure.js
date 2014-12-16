@@ -18,87 +18,6 @@
         define(factory);
     }
 
-    global.PathResolver = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
-
-    'use strict';
-
-/**
- * Creates an instance of PathResolver class.
- *
- * @constructor
- */
-function PathResolver() {}
-
-PathResolver.prototype = {
-    constructor: PathResolver,
-
-    /**
-     * Resolves the path of module.
-     *
-     * @param {string} module Module path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dependency path, which have to be resolved.
-     * @return {string} The resolved dependency path.
-     */
-    resolvePath: function(module, dependency) {
-        if (dependency === 'exports') {
-            return dependency;
-        }
-
-        // Split module directories
-        var moduleParts = module.split('/');
-        // Remove module name
-        moduleParts.splice(-1);
-
-        // Split dependency directories
-        var dependencyParts = dependency.split('/');
-        // Extract dependecy name
-        var dependencyName = dependencyParts.splice(-1);
-
-        for (var i = 0; i < dependencyParts.length; i++) {
-            var dependencyPart = dependencyParts[i];
-
-            if (dependencyPart === '.') {
-                continue;
-
-            } else if (dependencyPart === '..') {
-                if (moduleParts.length) {
-                    moduleParts.splice(-1, 1);
-                }
-                else {
-                    moduleParts = moduleParts.concat(dependencyParts.slice(i));
-
-                    break;
-                }
-
-            } else {
-                moduleParts.push(dependencyPart);
-            }
-        }
-
-        moduleParts.push(dependencyName);
-
-        return moduleParts.join('/');
-    }
-};
-
-    return PathResolver;
-}));
-(function (global, factory) {
-    'use strict';
-
-    var built = factory(global);
-
-    /* istanbul ignore else */
-    if (typeof module === 'object' && module) {
-        module.exports = built;
-    }
-
-    /* istanbul ignore next */
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    }
-
     global.EventEmitter = built;
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
 
@@ -236,8 +155,6 @@ ConfigParser.prototype = {
     addModule: function (module) {
         this._modules[module.name] = module;
 
-        this.resolvePath(module);
-
         this._registerConditionalModule(module);
     },
 
@@ -266,35 +183,6 @@ ConfigParser.prototype = {
      */
     getModules: function () {
         return this._modules;
-    },
-
-    /**
-     * Resolves module path.
-     *
-     * @param {object} module The module, which path should be resolved.
-     */
-    resolvePath: function(module) {
-        var dependencies = module.dependencies;
-
-        for (var i = 0; i < dependencies.length; i++) {
-            var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
-
-            dependencies[i] = resolvedDependency;
-        }
-    },
-
-    /**
-     * Returns the currently used instance of {@link PathResolver} object.
-     *
-     * @protected
-     * @return {PathResolver} Instance of {@link PathResolver}
-     */
-    _getPathResolver: function() {
-        if (!this._pathResolver) {
-            this._pathResolver = new global.PathResolver();
-        }
-
-        return this._pathResolver;
     },
 
     /**
@@ -646,7 +534,7 @@ URLBuilder.prototype = {
 
         // Add to the result all modules, which have to be combined.
         if (buffer.length) {
-            result.push(config.url + '?' + basePath + buffer.join('&' + basePath));
+            result.push(config.url + basePath + buffer.join('&' + basePath));
 
             buffer.length = 0;
         }
@@ -746,8 +634,6 @@ extend(Loader, global.EventEmitter, {
             module.name = name;
             module.dependencies = dependencies;
             module.pendingImplementation = implementation;
-
-            self._getConfigParser().resolvePath(module);
 
             var dependeciesResolved = self._checkModuleDependencies(module);
 
@@ -1033,7 +919,7 @@ extend(Loader, global.EventEmitter, {
             var missingModules = self._filterNotLoadedModules(modules);
 
             if (missingModules.length) {
-                // If there are any, construct the URLs for them
+                // If there are some, construct the URLs for them
                 var urls = self._getURLBuilder().build(missingModules);
 
                 var pendingScripts = [];
@@ -1043,7 +929,7 @@ extend(Loader, global.EventEmitter, {
                     pendingScripts.push(self._loadScript(urls[i]));
                 }
 
-                // Wait for resolving the all script Promises
+                // Wait for resolving all script Promises
                 // As soon as that happens, wait for each module to resolve
                 // its own dependencies
                 Promise.all(pendingScripts).then(function (loadedScripts) {
