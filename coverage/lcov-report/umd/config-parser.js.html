@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">umd/config-parser.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(37 / 37)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(45 / 45)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(20 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(22 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(10 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(12 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(37 / 37)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(45 / 45)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric">1 statement, 6 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -367,7 +367,38 @@
 149
 150
 151
-152</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -420,6 +451,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">64</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">64</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -451,6 +484,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">151</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">74</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">74</span>
+<span class="cline-any cline-yes">100</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">100</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">100</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">100</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -574,6 +636,8 @@ ConfigParser.prototype = {
     addModule: function (module) {
         this._modules[module.name] = module;
 &nbsp;
+        this.resolvePath(module);
+&nbsp;
         this._registerConditionalModule(module);
     },
 &nbsp;
@@ -602,6 +666,35 @@ ConfigParser.prototype = {
      */
     getModules: function () {
         return this._modules;
+    },
+&nbsp;
+    /**
+     * Resolves module path.
+     *
+     * @param {object} module The module, which path should be resolved.
+     */
+    resolvePath: function(module) {
+        var dependencies = module.dependencies;
+&nbsp;
+        for (var i = 0; i &lt; dependencies.length; i++) {
+            var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
+&nbsp;
+            dependencies[i] = resolvedDependency;
+        }
+    },
+&nbsp;
+    /**
+     * Returns the currently used instance of {@link PathResolver} object.
+     *
+     * @protected
+     * @return {PathResolver} Instance of {@link PathResolver}
+     */
+    _getPathResolver: function() {
+        if (!this._pathResolver) {
+            this._pathResolver = new global.PathResolver();
+        }
+&nbsp;
+        return this._pathResolver;
     },
 &nbsp;
     /**
@@ -674,7 +767,7 @@ ConfigParser.prototype = {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 11 2014 16:22:41 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 11 2014 13:40:33 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
