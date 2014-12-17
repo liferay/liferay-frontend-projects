@@ -50,7 +50,7 @@ URLBuilder.prototype = {
                 buffer.push(this._getModulePath(module));
             }
 
-            module.load = true;
+            module.requested = true;
         }
 
         // Add to the result all modules, which have to be combined.

@@ -51,71 +51,19 @@ describe('Loader', function () {
             exports.pejJung = {};
         });
 
-        var success = sinon.spy(function(module) {
-            var modules = Loader.getModules();
-
-            assert.ok(modules['pej-jung']);
-            assert.strictEqual('pej-jung', module.name);
-        });
-
-        var failure = sinon.spy(function(error) {
-            throw error;
-        });
-
-        Loader.define('pej-jung', ['exports'], impl)
-            .then(success)
-            .catch(failure);
-
-        setTimeout(function() {
-            assert(impl.calledOnce);
-            assert(success.calledOnce);
-            assert(failure.notCalled);
-
-            done();
-        }, 50);
-    });
-
-    it('should throw exception if module is being defined with not yet registered dependencies', function (done) {
-        var impl = sinon.spy(function(exports) {
-            exports.pejJung = {};
-        });
-
-        var failure = sinon.spy(function(error) {
-            assert.ok(error);
-        });
-
-        Loader.define('pej-jung', ['non-existing-module', 'exports'], impl)
-            .catch(failure);
+        Loader.define('pej-jung', ['exports'], impl);
 
         setTimeout(function() {
             assert(impl.notCalled);
-            assert(failure.calledOnce);
 
-            done();
-        }, 50);
-    });
+            var modules = Loader.getModules();
 
-    it('should define module with dependencies', function (done) {
-        var aui123Impl = sinon.spy(function(exports) {
-            exports.aui123 = {};
-        });
+            var module = modules['pej-jung'];
 
-        var pejJungImpl = sinon.spy(function(exports) {
-            exports.pejJung = {};
-        });
-
-        var resultFun = sinon.spy(function(module) {});
-
-        Loader.define('aui-123', ['exports'], aui123Impl)
-            .then(function(module) {
-                Loader.define('pej-jung', ['aui-123', 'exports'], pejJungImpl)
-                .then(resultFun);
-            });
-
-        setTimeout(function() {
-            assert.ok(aui123Impl.calledOnce);
-            assert.ok(pejJungImpl.calledOnce);
-            assert.ok(resultFun.calledOnce);
+            assert.ok(module);
+            assert.strictEqual('pej-jung', module.name);
+            assert.strictEqual(module.pendingImplementation, impl);
+            assert.strictEqual(module.requested, undefined);
 
             done();
         }, 50);
@@ -191,8 +139,8 @@ describe('Loader', function () {
         }, 50);
     });
 
-    it('should succeed if modules are coming out of order', function (done) {
-        var failure = sinon.spy();
+    it('should succeed when requiring modules multiple times', function (done) {
+        var failure = sinon.stub();
         var success = sinon.stub();
 
         Loader.require(['module5'], success, failure);
