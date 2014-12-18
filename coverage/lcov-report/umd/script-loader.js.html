@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">umd/script-loader.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">99.43% <small>(175 / 176)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">99.42% <small>(171 / 172)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">100% <small>(78 / 78)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">97.44% <small>(38 / 39)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">97.37% <small>(37 / 38)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">99.43% <small>(175 / 176)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">99.42% <small>(171 / 172)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric">3 statements, 15 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -804,24 +804,7 @@
 586
 587
 588
-589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605
-606</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+589</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -889,6 +872,14 @@
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1161,27 +1152,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1218,8 +1188,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1252,8 +1220,6 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1416,8 +1382,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">17</span>
-<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-yes">16</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1466,7 +1432,7 @@ function Loader(config) {
 &nbsp;
 extend(Loader, global.EventEmitter, {
     /**
-     * Defines a module.
+     * Defines a module in the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
      *
      * @memberof! Loader#
      * @param {string} name The name of the module.
@@ -1495,7 +1461,15 @@ extend(Loader, global.EventEmitter, {
         module.dependencies = dependencies;
         module.pendingImplementation = implementation;
 &nbsp;
-        this._registerModule(module);
+        var configParser = this._getConfigParser();
+&nbsp;
+        configParser.addModule(module);
+&nbsp;
+        if (!this._modulesMap[module.name]) {
+            this._modulesMap[module.name] = true;
+        }
+&nbsp;
+        this.emit('moduleRegister', module);
     },
 &nbsp;
     /**
@@ -1720,7 +1694,7 @@ extend(Loader, global.EventEmitter, {
     _loadModules: function (moduleNames) {
         var self = this;
 &nbsp;
-        var a = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             // First, detect any still unloaded modules
             var notRequestedModules = self._filterNotRequestedModules(moduleNames);
 &nbsp;
@@ -1765,27 +1739,6 @@ extend(Loader, global.EventEmitter, {
                     });
             }
         });
-&nbsp;
-        return a;
-    },
-&nbsp;
-    /**
-     * Registers a module to the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
-     *
-     * @memberof! Loader#
-     * @protected
-     * @param {object} module Module which have to be registered.
-     */
-    _registerModule: function(module) {
-        var configParser = this._getConfigParser();
-&nbsp;
-        configParser.addModule(module);
-&nbsp;
-        if (!this._modulesMap[module.name]) {
-            this._modulesMap[module.name] = true;
-        }
-&nbsp;
-        this.emit('moduleRegister', module);
     },
 &nbsp;
     /**
@@ -1797,7 +1750,7 @@ extend(Loader, global.EventEmitter, {
      * @return {Promise} Promise which will be resolved as soon as the script is being loaded.
      */
     _loadScript: function (url) {
-        var a = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var script = document.createElement('script');
 &nbsp;
             script.src = url;
@@ -1823,8 +1776,6 @@ extend(Loader, global.EventEmitter, {
 &nbsp;
             document.body.appendChild(script);
         });
-&nbsp;
-        return a;
     },
 &nbsp;
     /**
@@ -1838,7 +1789,7 @@ extend(Loader, global.EventEmitter, {
     _resolveDependencies: function (modules) {
         var self = this;
 &nbsp;
-        var a = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             try {
                 var registeredModules = self._getConfigParser().getModules();
                 var finalModules = [];
@@ -1857,8 +1808,6 @@ extend(Loader, global.EventEmitter, {
                 reject(error);
             }
         });
-&nbsp;
-        return a;
     },
 &nbsp;
     /**
@@ -2036,7 +1985,7 @@ function mix(destination, source) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 17 2014 16:47:02 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 17 2014 16:51:06 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

@@ -717,7 +717,7 @@ function Loader(config) {
 
 extend(Loader, global.EventEmitter, {
     /**
-     * Defines a module.
+     * Defines a module in the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
      *
      * @memberof! Loader#
      * @param {string} name The name of the module.
@@ -746,7 +746,15 @@ extend(Loader, global.EventEmitter, {
         module.dependencies = dependencies;
         module.pendingImplementation = implementation;
 
-        this._registerModule(module);
+        var configParser = this._getConfigParser();
+
+        configParser.addModule(module);
+
+        if (!this._modulesMap[module.name]) {
+            this._modulesMap[module.name] = true;
+        }
+
+        this.emit('moduleRegister', module);
     },
 
     /**
@@ -971,7 +979,7 @@ extend(Loader, global.EventEmitter, {
     _loadModules: function (moduleNames) {
         var self = this;
 
-        var a = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             // First, detect any still unloaded modules
             var notRequestedModules = self._filterNotRequestedModules(moduleNames);
 
@@ -1016,27 +1024,6 @@ extend(Loader, global.EventEmitter, {
                     });
             }
         });
-
-        return a;
-    },
-
-    /**
-     * Registers a module to the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
-     *
-     * @memberof! Loader#
-     * @protected
-     * @param {object} module Module which have to be registered.
-     */
-    _registerModule: function(module) {
-        var configParser = this._getConfigParser();
-
-        configParser.addModule(module);
-
-        if (!this._modulesMap[module.name]) {
-            this._modulesMap[module.name] = true;
-        }
-
-        this.emit('moduleRegister', module);
     },
 
     /**
@@ -1048,7 +1035,7 @@ extend(Loader, global.EventEmitter, {
      * @return {Promise} Promise which will be resolved as soon as the script is being loaded.
      */
     _loadScript: function (url) {
-        var a = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var script = document.createElement('script');
 
             script.src = url;
@@ -1074,8 +1061,6 @@ extend(Loader, global.EventEmitter, {
 
             document.body.appendChild(script);
         });
-
-        return a;
     },
 
     /**
@@ -1089,7 +1074,7 @@ extend(Loader, global.EventEmitter, {
     _resolveDependencies: function (modules) {
         var self = this;
 
-        var a = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             try {
                 var registeredModules = self._getConfigParser().getModules();
                 var finalModules = [];
@@ -1108,8 +1093,6 @@ extend(Loader, global.EventEmitter, {
                 reject(error);
             }
         });
-
-        return a;
     },
 
     /**
