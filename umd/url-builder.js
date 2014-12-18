@@ -68,12 +68,12 @@ URLBuilder.prototype = {
                 buffer.push(this._getModulePath(module));
             }
 
-            module.load = true;
+            module.requested = true;
         }
 
         // Add to the result all modules, which have to be combined.
         if (buffer.length) {
-            result.push(config.url + basePath + buffer.join('&' + basePath));
+            result.push(config.url + '?' + basePath + buffer.join('&' + basePath));
 
             buffer.length = 0;
         }
