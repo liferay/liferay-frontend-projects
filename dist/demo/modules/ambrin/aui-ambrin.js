@@ -1,5 +1,5 @@
 define("ambrin/aui-ambrin",
-  ["../aui-core","exports"],
+  ["aui-core","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
     'use strict';

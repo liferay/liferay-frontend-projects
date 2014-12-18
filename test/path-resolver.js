@@ -45,6 +45,9 @@ describe('PathResolver', function () {
         result = pathResolver.resolvePath('a/b/c/c1', './../../../../c');
         assert.strictEqual('../c', result);
 
+        result = pathResolver.resolvePath('/a/b/c/c1', '/a/b/c');
+        assert.strictEqual('../c', result);
+
         printStatus(pathResolver.resolvePath);
     });
 

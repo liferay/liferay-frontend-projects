@@ -32,14 +32,14 @@ var __CONFIG__ = {
         },
         "chema/chemaps/aui-chemaps": {
             "dependencies": [
-                "../../aui-base",
+                "aui-base",
                 "exports"
             ],
             "path": "chema/chemaps/aui-chemaps.js"
         },
         "ambrin/aui-ambrin": {
             "dependencies": [
-                "../aui-core",
+                "aui-core",
                 "exports"
             ],
             "path": "ambrin/aui-ambrin.js"

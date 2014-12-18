@@ -1,5 +1,5 @@
 define("chema/chemaps/aui-chemaps",
-  ["../../aui-base","exports"],
+  ["aui-base","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
     'use strict';
