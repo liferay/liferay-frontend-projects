@@ -624,7 +624,6 @@ function URLBuilder(configParser) {
     this._configParser = configParser;
 }
 
-
 URLBuilder.prototype = {
     constructor: URLBuilder,
 
@@ -656,9 +655,9 @@ URLBuilder.prototype = {
                 result.push(module.fullPath);
 
             } else {
-                // If the URL starts with external protocol, individual URL have to be created.
                 var path = this._getModulePath(module);
 
+                // If the URL starts with external protocol, individual URL have to be created.
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push(path);
 
