@@ -591,6 +591,10 @@ DependencyBuilder.prototype = {
 
     'use strict';
 
+// External protocols regex, supports:
+// "http", "https", "//" and "www."
+var REGEX_EXTERNAL_PROTOCOLS = /https?:\/\/|\/\/|www\./;
+
 /**
  * Creates an instance of URLBuilder class.
  *
@@ -601,7 +605,6 @@ function URLBuilder(configParser) {
     this._configParser = configParser;
 }
 
-var REGEX_EXTERNAL_PROTOCOLS = /https?:\/\/|\/\/|www\.|gopher:\/\//;
 
 URLBuilder.prototype = {
     constructor: URLBuilder,

@@ -66,6 +66,9 @@ describe('URLBuilder', function () {
                 },
                 '//code.jquery.com/jquery-1.11.2.min.js': {
                     'dependencies': []
+                },
+                'www.mydomain.com/crap.js': {
+                    'dependencies': []
                 }
             }
         });
@@ -75,13 +78,15 @@ describe('URLBuilder', function () {
         var url = urlBuilder.build([
             'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js',
             'jquery-2.1.2',
-            '//code.jquery.com/jquery-1.11.2.min.js'
+            '//code.jquery.com/jquery-1.11.2.min.js',
+            'www.mydomain.com/crap.js'
             ]);
 
-        assert.strictEqual(url.length, 3);
+        assert.strictEqual(url.length, 4);
 
         assert.strictEqual(url[0], 'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js');
         assert.strictEqual(url[1], 'http://code.jquery.com/jquery-2.1.2.min.js');
         assert.strictEqual(url[2], '//code.jquery.com/jquery-1.11.2.min.js');
+        assert.strictEqual(url[3], 'www.mydomain.com/crap.js');
     });
 });
