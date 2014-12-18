@@ -51,4 +51,37 @@ describe('URLBuilder', function () {
 
         assert.strictEqual(url[0], 'http://localhost:3000/modules/base/aui-base.js');
     });
+
+    it('should create url for modules with external URLs', function () {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules',
+            'basePath': '/base',
+            'modules': {
+                'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js': {
+                    'dependencies': []
+                },
+                'jquery-2.1.2': {
+                    'dependencies': [],
+                    'path': 'http://code.jquery.com/jquery-2.1.2.min.js'
+                },
+                '//code.jquery.com/jquery-1.11.2.min.js': {
+                    'dependencies': []
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var url = urlBuilder.build([
+            'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js',
+            'jquery-2.1.2',
+            '//code.jquery.com/jquery-1.11.2.min.js'
+            ]);
+
+        assert.strictEqual(url.length, 3);
+
+        assert.strictEqual(url[0], 'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js');
+        assert.strictEqual(url[1], 'http://code.jquery.com/jquery-2.1.2.min.js');
+        assert.strictEqual(url[2], '//code.jquery.com/jquery-1.11.2.min.js');
+    });
 });
