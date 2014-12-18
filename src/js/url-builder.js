@@ -10,6 +10,8 @@ function URLBuilder(configParser) {
     this._configParser = configParser;
 }
 
+var REGEX_EXTERNAL_PROTOCOLS = /https?:\/\/|\/\/|www\.|gopher:\/\//;
+
 URLBuilder.prototype = {
     constructor: URLBuilder,
 
@@ -36,18 +38,26 @@ URLBuilder.prototype = {
         for (var i = 0; i < modules.length; i++) {
             var module = registeredModules[modules[i]];
 
-            // If module has fullPath or combine is false, individual URLs have to be created.
+            // If module has fullPath, individual URL have to be created.
             if (module.fullPath) {
                 result.push(module.fullPath);
 
-            // If there is no combine, we have to generate full path URL
-            } else if (!config.combine) {
-                result.push(config.url + basePath + this._getModulePath(module));
-
             } else {
-                // If combine is true and module does not have full path, it will be collected
-                // in a buffer to be loaded among with other modules from combo loader.
-                buffer.push(this._getModulePath(module));
+                // If the URL starts with external protocol, individual URL have to be created.
+                var path = this._getModulePath(module);
+
+                if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
+                    result.push(path);
+
+                // If combine is disabled, create individual URL based on config URL and module path.
+                } else if (!config.combine) {
+                    result.push(config.url + basePath + path);
+
+                } else {
+                    // If combine is true and module does not have full path, it will be collected
+                    // in a buffer to be loaded among with other modules from combo loader.
+                    buffer.push(this._getModulePath(module));
+                }
             }
 
             module.requested = true;
