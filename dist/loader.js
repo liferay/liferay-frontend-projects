@@ -1015,7 +1015,7 @@ extend(Loader, global.EventEmitter, {
             var notRequestedModules = self._filterNotRequestedModules(moduleNames);
 
             if (notRequestedModules.length) {
-                // If there are some, construct the URLs for them
+                // If there are unloaded modules, construct their URLs
                 var urls = self._getURLBuilder().build(notRequestedModules);
 
                 var pendingScripts = [];
@@ -1026,8 +1026,7 @@ extend(Loader, global.EventEmitter, {
                 }
 
                 // Wait for resolving all script Promises
-                // As soon as that happens, wait for each module to resolve
-                // its own dependencies
+                // As soon as that happens, wait for each module to define itself
                 Promise.all(pendingScripts).then(function (loadedScripts) {
                     return self._waitForModules(moduleNames);
                 })
@@ -1222,9 +1221,7 @@ extend(Loader, global.EventEmitter, {
             var modulesPromises = [];
 
             for (var i = 0; i < moduleNames.length; i++) {
-                var modulePromise = self._waitForModule(moduleNames[i]);
-
-                modulesPromises.push(modulePromise);
+                modulesPromises.push(self._waitForModule(moduleNames[i]));
             }
 
             Promise.all(modulesPromises)
