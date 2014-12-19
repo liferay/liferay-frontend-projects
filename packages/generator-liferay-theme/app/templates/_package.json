@@ -1,5 +1,7 @@
 {
-  "name": "package",
-  "version": "0.0.0",
-  "dependencies": {}
+	"name": "package",
+	"version": "0.0.0",
+	"dependencies": {
+		"node-sass": "*"
+	}
 }
