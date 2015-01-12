@@ -121,7 +121,7 @@ var pathBuild = './build';
 gulp.task(
 	'build-base',
 	function() {
-		gulp.src(
+		return gulp.src(
 			[
 				'./node_modules/liferay-theme-unstyled/src/**/*',
 				'./node_modules/liferay-theme-styled/src/**/*'
@@ -133,12 +133,13 @@ gulp.task(
 gulp.task(
 	'build-src',
 	function() {
-		gulp.src('./src/**/*').pipe(gulp.dest(pathBuild));
+		return gulp.src('./src/**/*').pipe(gulp.dest(pathBuild));
 	}
 );
 
 gulp.task(
 	'compile-scss',
+	['build-base', 'build-src'],
 	function() {
 		var includePaths = [
 			'./node_modules/liferay-theme-mixins/src',
