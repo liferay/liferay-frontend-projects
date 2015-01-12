@@ -33,14 +33,21 @@ module.exports = yeoman.generators.Base.extend({
 				default: function(answers) {
 					return slug((answers.themeName || '').toLowerCase());
 				}
+			},
+			{
+				type: 'confirm',
+				name: 'supportCompass',
+				message: 'Do you need Compass support? (requires Ruby and the Compass gem to be installed)',
+				default: false
 			}
 		];
 
 		this.prompt(prompts, function (props) {
 			this.themeName = props.themeName;
-			this.themeId = props.themeId;
+			this.appname = props.themeId;
+			this.supportCompass = props.supportCompass;
 
-			var themeDirName = this.themeId;
+			var themeDirName = this.appname;
 
 			if (!(/-theme$/.test(themeDirName))) {
 				themeDirName += '-theme';
@@ -57,19 +64,15 @@ module.exports = yeoman.generators.Base.extend({
 			if (this.themeDirName !== _.last(this.destinationRoot().split(path.sep))) {
 				this.destinationRoot(this.themeDirName);
 			}
+
+			this.config.save();
 		},
 	},
 
 	writing: {
 		app: function () {
-			this.fs.copy(
-				this.templatePath('_package.json'),
-				this.destinationPath('package.json')
-			);
-			this.fs.copy(
-				this.templatePath('_bower.json'),
-				this.destinationPath('bower.json')
-			);
+			this.template('_package.json', 'package.json', this);
+			this.template('_bower.json', 'bower.json', this);
 		},
 
 		projectfiles: function () {
@@ -77,12 +80,29 @@ module.exports = yeoman.generators.Base.extend({
 				this.templatePath('gitignore'),
 				this.destinationPath('.gitignore')
 			);
+
+			this.template('gulpfile.js', 'gulpfile.js', this);
+
+			this.fs.copy(
+				this.templatePath('src/**'),
+				this.destinationPath('src')
+			);
+
+			this.template(
+				'src/WEB-INF/liferay-plugin-package.properties', 'src/WEB-INF/liferay-plugin-package.properties',
+				{
+					themeDisplayName: this.themeName,
+					liferayVersion: '6.2.0+'
+				}
+			);
 		}
 	},
 
 	install: function () {
-		this.installDependencies({
-			skipInstall: this.options['skip-install']
-		});
+		this.installDependencies(
+			{
+				skipInstall: this.options['skip-install']
+			}
+		);
 	}
 });
