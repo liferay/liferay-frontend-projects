@@ -37,7 +37,7 @@ module.exports = yeoman.generators.Base.extend({
 			{
 				type: 'confirm',
 				name: 'supportCompass',
-				message: 'Do you need Compass support? (requires Ruby and the Compass gem to be installed)',
+				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				default: false
 			}
 		];
