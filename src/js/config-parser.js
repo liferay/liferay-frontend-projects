@@ -36,8 +36,6 @@ ConfigParser.prototype = {
     addModule: function (module) {
         this._modules[module.name] = module;
 
-        this.resolvePath(module);
-
         this._registerConditionalModule(module);
     },
 
@@ -66,21 +64,6 @@ ConfigParser.prototype = {
      */
     getModules: function () {
         return this._modules;
-    },
-
-    /**
-     * Resolves module path.
-     *
-     * @param {object} module The module, which path should be resolved.
-     */
-    resolvePath: function(module) {
-        var dependencies = module.dependencies;
-
-        for (var i = 0; i < dependencies.length; i++) {
-            var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
-
-            dependencies[i] = resolvedDependency;
-        }
     },
 
     /**

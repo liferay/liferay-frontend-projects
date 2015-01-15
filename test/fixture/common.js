@@ -1,10 +1,13 @@
 'use strict';
 
-require('../../umd/path-resolver.js');
 require('../../umd/event-emitter.js');
 require('../../umd/config-parser.js');
 require('../../umd/dependency-builder.js');
 require('../../umd/url-builder.js');
+
+if (typeof Promise == 'undefined') {
+	global.Promise = require('bluebird').Promise;
+}
 
 var v8 = require('v8-natives');
 
