@@ -37,87 +37,6 @@ a.Promise&&"reject"in a.Promise&&"all"in a.Promise&&"race"in a.Promise&&function
         define(factory);
     }
 
-    global.PathResolver = built;
-}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
-
-    'use strict';
-
-/**
- * Creates an instance of PathResolver class.
- *
- * @constructor
- */
-function PathResolver() {}
-
-PathResolver.prototype = {
-    constructor: PathResolver,
-
-    /**
-     * Resolves the path of module.
-     *
-     * @param {string} module Module path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dependency path, which have to be resolved.
-     * @return {string} The resolved dependency path.
-     */
-    resolvePath: function(module, dependency) {
-        if (dependency === 'exports') {
-            return dependency;
-        }
-
-        // Split module directories
-        var moduleParts = module.split('/');
-        // Remove module name
-        moduleParts.splice(-1);
-
-        // Split dependency directories
-        var dependencyParts = dependency.split('/');
-        // Extract dependecy name
-        var dependencyName = dependencyParts.splice(-1);
-
-        for (var i = 0; i < dependencyParts.length; i++) {
-            var dependencyPart = dependencyParts[i];
-
-            if (dependencyPart === '.') {
-                continue;
-
-            } else if (dependencyPart === '..') {
-                if (moduleParts.length) {
-                    moduleParts.splice(-1, 1);
-                }
-                else {
-                    moduleParts = moduleParts.concat(dependencyParts.slice(i));
-
-                    break;
-                }
-
-            } else {
-                moduleParts.push(dependencyPart);
-            }
-        }
-
-        moduleParts.push(dependencyName);
-
-        return moduleParts.join('/');
-    }
-};
-
-    return PathResolver;
-}));
-(function (global, factory) {
-    'use strict';
-
-    var built = factory(global);
-
-    /* istanbul ignore else */
-    if (typeof module === 'object' && module) {
-        module.exports = built;
-    }
-
-    /* istanbul ignore next */
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    }
-
     global.EventEmitter = built;
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
 
@@ -255,8 +174,6 @@ ConfigParser.prototype = {
     addModule: function (module) {
         this._modules[module.name] = module;
 
-        this.resolvePath(module);
-
         this._registerConditionalModule(module);
     },
 
@@ -285,21 +202,6 @@ ConfigParser.prototype = {
      */
     getModules: function () {
         return this._modules;
-    },
-
-    /**
-     * Resolves module path.
-     *
-     * @param {object} module The module, which path should be resolved.
-     */
-    resolvePath: function(module) {
-        var dependencies = module.dependencies;
-
-        for (var i = 0; i < dependencies.length; i++) {
-            var resolvedDependency = this._getPathResolver().resolvePath(module.name, dependencies[i]);
-
-            dependencies[i] = resolvedDependency;
-        }
     },
 
     /**
