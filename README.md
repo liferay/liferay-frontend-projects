@@ -1,7 +1,7 @@
-Module Loader
+AMD Module Loader
 =====
 
-Supports JavaScript modules only, but with groups, combo url and conditional loading.
+Supports loading modules via combo URL. Modules can be loaded automatically when some other module is being triggered, but only if some condition is met.
 
 How to build it?
 -------------
@@ -110,12 +110,6 @@ $ node config-generator.js -c src/config/config-base.json -o src/config/config.j
 
 My advice is to create a separate, base config file and pass it to the config generator as in the code above. In the base file you may define the groups, the URLs, combine flags, etc. and then leave config generator to add the rest.
 Look on the example modules and the demo for more information. Then, just load the generated configuration to the browser and the Loader will do the rest.
-
-What it does not support from YUI Loader?
-======
-
-There are no CSS modules, I can't think for anything else right now.
-
 
 Enjoy!
 
