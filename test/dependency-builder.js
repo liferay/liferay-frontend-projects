@@ -137,4 +137,19 @@ describe('DependencyBuilder', function () {
 
         assert.deepEqual(['aui-123', 'test123'], result);
     });
+
+    it('should throw error if module has unregistered or wrong dependency', function() {
+        var configParser = new global.ConfigParser();
+
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'test123',
+            dependencies: ['wrong-dep']
+        });
+
+        assert.throws(function () {
+            dependencyBuilder.resolveDependencies(['test123']);
+        }, Error);
+    });
 });

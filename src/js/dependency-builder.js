@@ -163,6 +163,11 @@ DependencyBuilder.prototype = {
 
                 var moduleDependency = modules[dependencyName];
 
+                if (!moduleDependency) {
+                    throw new Error('Cannot resolve module: ' + module.name + ' ' +
+                        'due to not yet registered or wrongly specified dependency: ' + dependencyName);
+                }
+
                 this._visit(moduleDependency, modules);
             }
 
