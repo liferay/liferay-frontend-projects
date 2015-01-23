@@ -1,7 +1,7 @@
 'use strict';
 
 var escodegen = require('escodegen');
-var esprima = require('esprima');
+var esprima = require('esprima-fb');
 var fs = require('fs');
 var jsstana = require('jsstana');
 var path = require('path');
