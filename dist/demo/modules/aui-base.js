@@ -1,12 +1,9 @@
-define("aui-base",
-  ["exports"],
-  function(__exports__) {
-    "use strict";
-    'use strict';
+define("aui-base", ["exports"], function (exports) {
+  "use strict";
 
-    function log(text) {
-        console.log('module aui-base says', text);
-    }
+  function log(text) {
+    console.log("module aui-base says", text);
+  }
 
-    __exports__.log = log;
-  });
+  exports.log = log;
+});

@@ -1,14 +1,12 @@
-define("chema/chemaps/aui-chemaps",
-  ["aui-base","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    'use strict';
+define("chema/chemaps/aui-chemaps", ["exports", "aui-base"], function (exports, _auiBase) {
+  "use strict";
 
-    var logBase = __dependency1__.log;
+  var logBase = _auiBase.log;
 
-    function log(text) {
-    	logBase('module aui-chemaps says via aui-base', text);
-    }
 
-    __exports__.log = log;
-  });
+  function log(text) {
+    logBase("module aui-chemaps says via aui-base", text);
+  }
+
+  exports.log = log;
+});

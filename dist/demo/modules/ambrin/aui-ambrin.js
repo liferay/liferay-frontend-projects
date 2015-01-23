@@ -1,14 +1,12 @@
-define("ambrin/aui-ambrin",
-  ["aui-core","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    'use strict';
+define("ambrin/aui-ambrin", ["exports", "aui-core"], function (exports, _auiCore) {
+  "use strict";
 
-    var logCore = __dependency1__.log;
+  var logCore = _auiCore.log;
 
-    function log(text) {
-    	logCore('module aui-chemaps says via aui-core', text);
-    }
 
-    __exports__.log = log;
-  });
+  function log(text) {
+    logCore("module aui-chemaps says via aui-core", text);
+  }
+
+  exports.log = log;
+});

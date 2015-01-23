@@ -1,30 +1,29 @@
-define("aui-dialog",
-  ["aui-base","aui-core","aui-event","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    "use strict";
-    'use strict';
+define("aui-dialog", ["exports", "aui-base", "aui-core", "aui-event"], function (exports, _auiBase, _auiCore, _auiEvent) {
+  "use strict";
 
-    var logBase = __dependency1__.log;
-    var logCore = __dependency2__.log;
-    var logEvent = __dependency3__.log;
+  var logBase = _auiBase.log;
+  var logCore = _auiCore.log;
+  var logEvent = _auiEvent.log;
 
-    function log(text) {
-        logEvent('module aui-dialog says via aui-event: ' + text);
-        logBase('in module aui-dialog logBase is available: ' + text);
-        logCore('in module aui-dialog logCore is available: ' + text);
-    }
 
-    __exports__.log = log;
+  function log(text) {
+    logEvent("module aui-dialog says via aui-event: " + text);
+    logBase("in module aui-dialog logBase is available: " + text);
+    logCore("in module aui-dialog logCore is available: " + text);
+  }
 
-    // (function META() {
-    //     return {
-    //         condition: {
-    //             test: function() {
-    //                 return true;
-    //             },
-    //             trigger: 'nate'
-    //         },
-    //         path: 'nate.js'
-    //     };
-    // });
-  });
+  exports.log = log;
+
+
+  // (function META() {
+  //     return {
+  //         condition: {
+  //             test: function() {
+  //                 return true;
+  //             },
+  //             trigger: 'nate'
+  //         },
+  //         path: 'nate.js'
+  //     };
+  // });
+});
