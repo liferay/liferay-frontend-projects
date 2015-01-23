@@ -17,10 +17,10 @@ var __CONFIG__ = {
         },
         "aui-dialog": {
             "dependencies": [
+                "exports",
                 "aui-base",
                 "aui-core",
-                "aui-event",
-                "exports"
+                "aui-event"
             ],
             "path": "aui-dialog.js"
         },
@@ -32,15 +32,15 @@ var __CONFIG__ = {
         },
         "chema/chemaps/aui-chemaps": {
             "dependencies": [
-                "aui-base",
-                "exports"
+                "exports",
+                "aui-base"
             ],
             "path": "chema/chemaps/aui-chemaps.js"
         },
         "ambrin/aui-ambrin": {
             "dependencies": [
-                "aui-core",
-                "exports"
+                "exports",
+                "aui-core"
             ],
             "path": "ambrin/aui-ambrin.js"
         }
