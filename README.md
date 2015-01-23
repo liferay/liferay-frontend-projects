@@ -132,3 +132,4 @@ Look on the example modules and the demo for more information. Then, just load t
 
 Enjoy!
 
+[![Build Status](https://github.com/ipeychev/lfr-amd-loader.svg)](https://github.com/ipeychev/lfr-amd-loader)
