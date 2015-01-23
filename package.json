@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ipeychev/loader",
   "devDependencies": {
     "bluebird": "^2.8.2",
+    "combohandler": "^0.4.0",
     "commander": "^2.6.0",
     "del": "^1.1.1",
     "escodegen": "^1.6.0",
