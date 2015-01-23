@@ -40,20 +40,35 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
             console.log('module aui-dialog: ' + text);
         }
     };
+});
+```
+
+You may specify that the module should be loaded on triggering some other module and only of some condition is being met:
+
+```javascript```
+define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
+    return {
+        log: function(text) {
+            console.log('module aui-dialog: ' + text);
+        }
+    };
 }, {
-	condition: {
+    condition: {
         trigger: 'aui-test',
         test: function() {
-            return true;
+            var el = document.createElement('input');
+
+            return ('placeholder' in INPUT_EL);
         }
     },
     path: 'aui-dialog.js'
 });
 ```
 
-You may omit the condition (the fourth param in define function) if you don't need it.
+Here it is specified, that this module should be loaded automatically if developer requests 'aui-test' module, but only if some condition is being met.
 
-Alternatively, you may use ES6 syntax in your modules:
+Using ES6 syntax in your modules:
+======
 
 ```javascript```
 'use strict';
@@ -86,7 +101,7 @@ export {log};
     };
 });
 ```
-Loader understands only AMD currently and in more details - exactly what https://github.com/esnext/es6-module-transpiler generates. As soon as you transpile ES6 modules to AMD, the config generator will parse them successfully in order to generate the configuration and Loader will load them too!
+Transpile the above using [6to5](https://6to5.org) or [es6-module-transpiler](https://github.com/esnext/es6-module-transpiler) to AMD syntax. If you transpile using 6to5, be sure you added the option for generating module IDs too.
 
 Loading modules
 ======
@@ -99,6 +114,10 @@ require('aui-base', 'aui-test', function(base, test) {
 	    console.error(error);
 	});
 ```
+
+Loading modules via combo URL:
+======
+In order to load the modules via combo URL, a special config file have to be created first. You can do that manually or using a special tool, which comes together with the loader. It is called `config-generator`. See the next section for more details:
 
 Automatically generating the configuration
 ======
