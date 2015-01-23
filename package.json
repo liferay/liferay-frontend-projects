@@ -1,5 +1,5 @@
 {
-  "name": "Loader",
+  "name": "lfr-amd-loader",
   "version": "1.0.0",
   "description": "AMD Loader with support for combo URL and conditional loading",
   "main": "main.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipeychev/loader.git"
+    "url": "https://github.com/ipeychev/lfr-amd-loader.git"
   },
   "author": "Iliyan Peychev",
   "license": "LGPL",
   "bugs": {
-    "url": "https://github.com/ipeychev/loader/issues"
+    "url": "https://github.com/ipeychev/lfr-amd-loader/issues"
   },
-  "homepage": "https://github.com/ipeychev/loader",
+  "homepage": "https://github.com/ipeychev/lfr-amd-loader",
   "devDependencies": {
     "bluebird": "^2.8.2",
     "combohandler": "^0.4.0",
