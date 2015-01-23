@@ -1,5 +1,5 @@
 module.exports = {
-    "url": "http://localhost:3000/combo",
+    "url": "http://localhost:3000/combo?",
     "basePath": "/modules",
     "combine": true,
     "modules": {

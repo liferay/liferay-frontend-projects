@@ -67,7 +67,7 @@ URLBuilder.prototype = {
 
         // Add to the result all modules, which have to be combined.
         if (buffer.length) {
-            result.push(config.url + '?' + basePath + buffer.join('&' + basePath));
+            result.push(config.url + basePath + buffer.join('&' + basePath));
 
             buffer.length = 0;
         }
