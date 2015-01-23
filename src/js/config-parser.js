@@ -67,20 +67,6 @@ ConfigParser.prototype = {
     },
 
     /**
-     * Returns the currently used instance of {@link PathResolver} object.
-     *
-     * @protected
-     * @return {PathResolver} Instance of {@link PathResolver}
-     */
-    _getPathResolver: function() {
-        if (!this._pathResolver) {
-            this._pathResolver = new global.PathResolver();
-        }
-
-        return this._pathResolver;
-    },
-
-    /**
      * Parses configuration object.
      *
      * @protected
