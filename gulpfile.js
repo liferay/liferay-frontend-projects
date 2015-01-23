@@ -8,7 +8,6 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
-var istanbul = require('gulp-istanbul');
 var jsdoc = require('gulp-jsdoc');
 var jshint = require('gulp-jshint');
 var merge = require('merge-stream');
@@ -111,20 +110,16 @@ gulp.task('modules', function() {
         .pipe(gulp.dest('dist/demo/modules'));
 });
 
-gulp.task('test', function() {
-  return gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
-    .pipe(mocha());
-});
-
-gulp.task('test-cover', function() {
-    return gulp.src(['umd/**/*.js'])
-        .pipe(istanbul());
-});
-
-gulp.task('test-coverage', ['test-cover'], function() {
-    return gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
-        .pipe(mocha())
-        .pipe(istanbul.writeReports());
+gulp.task('test', ['build'], function(done) {
+    gulp.src(['umd/**/*.js'])
+        .pipe(istanbul())
+        .pipe(istanbul.hookRequire())
+        .on('finish', function () {
+            gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
+                .pipe(mocha())
+                .pipe(istanbul.writeReports())
+                .on('end', done);
+            });
 });
 
 gulp.task('test-watch', function() {
