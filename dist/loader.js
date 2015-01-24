@@ -6,16 +6,273 @@
  * @version   2.0.0
  */
 
-(function(){function r(a,b){n[l]=a;n[l+1]=b;l+=2;2===l&&A()}function s(a){return"function"===typeof a}function F(){return function(){process.nextTick(t)}}function G(){var a=0,b=new B(t),c=document.createTextNode("");b.observe(c,{characterData:!0});return function(){c.data=a=++a%2}}function H(){var a=new MessageChannel;a.port1.onmessage=t;return function(){a.port2.postMessage(0)}}function I(){return function(){setTimeout(t,1)}}function t(){for(var a=0;a<l;a+=2)(0,n[a])(n[a+1]),n[a]=void 0,n[a+1]=void 0;
-l=0}function p(){}function J(a,b,c,d){try{a.call(b,c,d)}catch(e){return e}}function K(a,b,c){r(function(a){var e=!1,f=J(c,b,function(c){e||(e=!0,b!==c?q(a,c):m(a,c))},function(b){e||(e=!0,g(a,b))});!e&&f&&(e=!0,g(a,f))},a)}function L(a,b){1===b.a?m(a,b.b):2===a.a?g(a,b.b):u(b,void 0,function(b){q(a,b)},function(b){g(a,b)})}function q(a,b){if(a===b)g(a,new TypeError("You cannot resolve a promise with itself"));else if("function"===typeof b||"object"===typeof b&&null!==b)if(b.constructor===a.constructor)L(a,
-b);else{var c;try{c=b.then}catch(d){v.error=d,c=v}c===v?g(a,v.error):void 0===c?m(a,b):s(c)?K(a,b,c):m(a,b)}else m(a,b)}function M(a){a.f&&a.f(a.b);x(a)}function m(a,b){void 0===a.a&&(a.b=b,a.a=1,0!==a.e.length&&r(x,a))}function g(a,b){void 0===a.a&&(a.a=2,a.b=b,r(M,a))}function u(a,b,c,d){var e=a.e,f=e.length;a.f=null;e[f]=b;e[f+1]=c;e[f+2]=d;0===f&&a.a&&r(x,a)}function x(a){var b=a.e,c=a.a;if(0!==b.length){for(var d,e,f=a.b,g=0;g<b.length;g+=3)d=b[g],e=b[g+c],d?C(c,d,e,f):e(f);a.e.length=0}}function D(){this.error=
-null}function C(a,b,c,d){var e=s(c),f,k,h,l;if(e){try{f=c(d)}catch(n){y.error=n,f=y}f===y?(l=!0,k=f.error,f=null):h=!0;if(b===f){g(b,new TypeError("A promises callback cannot return that same promise."));return}}else f=d,h=!0;void 0===b.a&&(e&&h?q(b,f):l?g(b,k):1===a?m(b,f):2===a&&g(b,f))}function N(a,b){try{b(function(b){q(a,b)},function(b){g(a,b)})}catch(c){g(a,c)}}function k(a,b,c,d){this.n=a;this.c=new a(p,d);this.i=c;this.o(b)?(this.m=b,this.d=this.length=b.length,this.l(),0===this.length?m(this.c,
-this.b):(this.length=this.length||0,this.k(),0===this.d&&m(this.c,this.b))):g(this.c,this.p())}function h(a){O++;this.b=this.a=void 0;this.e=[];if(p!==a){if(!s(a))throw new TypeError("You must pass a resolver function as the first argument to the promise constructor");if(!(this instanceof h))throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");N(this,a)}}var E=Array.isArray?Array.isArray:function(a){return"[object Array]"===
-Object.prototype.toString.call(a)},l=0,w="undefined"!==typeof window?window:{},B=w.MutationObserver||w.WebKitMutationObserver,w="undefined"!==typeof Uint8ClampedArray&&"undefined"!==typeof importScripts&&"undefined"!==typeof MessageChannel,n=Array(1E3),A;A="undefined"!==typeof process&&"[object process]"==={}.toString.call(process)?F():B?G():w?H():I();var v=new D,y=new D;k.prototype.o=function(a){return E(a)};k.prototype.p=function(){return Error("Array Methods must be provided an Array")};k.prototype.l=
-function(){this.b=Array(this.length)};k.prototype.k=function(){for(var a=this.length,b=this.c,c=this.m,d=0;void 0===b.a&&d<a;d++)this.j(c[d],d)};k.prototype.j=function(a,b){var c=this.n;"object"===typeof a&&null!==a?a.constructor===c&&void 0!==a.a?(a.f=null,this.g(a.a,b,a.b)):this.q(c.resolve(a),b):(this.d--,this.b[b]=this.h(a))};k.prototype.g=function(a,b,c){var d=this.c;void 0===d.a&&(this.d--,this.i&&2===a?g(d,c):this.b[b]=this.h(c));0===this.d&&m(d,this.b)};k.prototype.h=function(a){return a};
-k.prototype.q=function(a,b){var c=this;u(a,void 0,function(a){c.g(1,b,a)},function(a){c.g(2,b,a)})};var O=0;h.all=function(a,b){return(new k(this,a,!0,b)).c};h.race=function(a,b){function c(a){q(e,a)}function d(a){g(e,a)}var e=new this(p,b);if(!E(a))return (g(e,new TypeError("You must pass an array to race.")), e);for(var f=a.length,h=0;void 0===e.a&&h<f;h++)u(this.resolve(a[h]),void 0,c,d);return e};h.resolve=function(a,b){if(a&&"object"===typeof a&&a.constructor===this)return a;var c=new this(p,b);
-q(c,a);return c};h.reject=function(a,b){var c=new this(p,b);g(c,a);return c};h.prototype={constructor:h,then:function(a,b){var c=this.a;if(1===c&&!a||2===c&&!b)return this;var d=new this.constructor(p),e=this.b;if(c){var f=arguments[c-1];r(function(){C(c,d,f,e)})}else u(this,d,a,b);return d},"catch":function(a){return this.then(null,a)}};var z={Promise:h,polyfill:function(){var a;a="undefined"!==typeof global?global:"undefined"!==typeof window&&window.document?window:self;"Promise"in a&&"resolve"in
-a.Promise&&"reject"in a.Promise&&"all"in a.Promise&&"race"in a.Promise&&function(){var b;new a.Promise(function(a){b=a});return s(b)}()||(a.Promise=h)}};"function"===typeof define&&define.amd?define(function(){return z}):"undefined"!==typeof module&&module.exports?module.exports=z:"undefined"!==typeof this&&(this.ES6Promise=z)}).call(this);
+(function () {
+    function r(a, b) {
+        n[l] = a;
+        n[l + 1] = b;
+        l += 2;
+        2 === l && A()
+    }
+    function s(a) {
+        return "function" === typeof a
+    }
+    function F() {
+        return function () {
+            process.nextTick(t)
+        }
+    }
+    function G() {
+        var a = 0,
+            b = new B(t),
+            c = document.createTextNode("");
+        b.observe(c, {
+            characterData: !0
+        });
+        return function () {
+            c.data = a = ++a % 2
+        }
+    }
+    function H() {
+        var a = new MessageChannel;
+        a.port1.onmessage = t;
+        return function () {
+            a.port2.postMessage(0)
+        }
+    }
+    function I() {
+        return function () {
+            setTimeout(t, 1)
+        }
+    }
+    function t() {
+        for (var a = 0; a < l; a += 2)(0, n[a])(n[a + 1]), n[a] = void 0, n[a + 1] = void 0;
+        l = 0
+    }
+    function p() {}
+    function J(a, b, c, d) {
+        try {
+            a.call(b, c, d)
+        } catch (e) {
+            return e
+        }
+    }
+    function K(a, b, c) {
+        r(function (a) {
+            var e = !1,
+                f = J(c, b, function (c) {
+                    e || (e = !0, b !== c ? q(a, c) : m(a, c))
+                }, function (b) {
+                    e || (e = !0, g(a, b))
+                });
+            !e && f && (e = !0, g(a, f))
+        }, a)
+    }
+    function L(a, b) {
+        1 === b.a ? m(a, b.b) : 2 === a.a ? g(a, b.b) : u(b, void 0, function (b) {
+            q(a, b)
+        }, function (b) {
+            g(a, b)
+        })
+    }
+    function q(a, b) {
+        if (a === b) g(a, new TypeError("You cannot resolve a promise with itself"));
+        else if ("function" === typeof b || "object" === typeof b && null !== b) if (b.constructor === a.constructor) L(a, b);
+        else {
+            var c;
+            try {
+                c = b.then
+            } catch (d) {
+                v.error = d, c = v
+            }
+            c === v ? g(a, v.error) : void 0 === c ? m(a, b) : s(c) ? K(a, b, c) : m(a, b)
+        } else m(a, b)
+    }
+    function M(a) {
+        a.f && a.f(a.b);
+        x(a)
+    }
+    function m(a, b) {
+        void 0 === a.a && (a.b = b, a.a = 1, 0 !== a.e.length && r(x, a))
+    }
+    function g(a, b) {
+        void 0 === a.a && (a.a = 2, a.b = b, r(M, a))
+    }
+    function u(a, b, c, d) {
+        var e = a.e,
+            f = e.length;
+        a.f = null;
+        e[f] = b;
+        e[f + 1] = c;
+        e[f + 2] = d;
+        0 === f && a.a && r(x, a)
+    }
+    function x(a) {
+        var b = a.e,
+            c = a.a;
+        if (0 !== b.length) {
+            for (var d, e, f = a.b, g = 0; g < b.length; g += 3) d = b[g], e = b[g + c], d ? C(c, d, e, f) : e(f);
+            a.e.length = 0
+        }
+    }
+    function D() {
+        this.error =
+        null
+    }
+    function C(a, b, c, d) {
+        var e = s(c),
+            f, k, h, l;
+        if (e) {
+            try {
+                f = c(d)
+            } catch (n) {
+                y.error = n, f = y
+            }
+            f === y ? (l = !0, k = f.error, f = null) : h = !0;
+            if (b === f) {
+                g(b, new TypeError("A promises callback cannot return that same promise."));
+                return
+            }
+        } else f = d, h = !0;
+        void 0 === b.a && (e && h ? q(b, f) : l ? g(b, k) : 1 === a ? m(b, f) : 2 === a && g(b, f))
+    }
+    function N(a, b) {
+        try {
+            b(function (b) {
+                q(a, b)
+            }, function (b) {
+                g(a, b)
+            })
+        } catch (c) {
+            g(a, c)
+        }
+    }
+    function k(a, b, c, d) {
+        this.n = a;
+        this.c = new a(p, d);
+        this.i = c;
+        this.o(b) ? (this.m = b, this.d = this.length = b.length, this.l(), 0 === this.length ? m(this.c, this.b) : (this.length = this.length || 0, this.k(), 0 === this.d && m(this.c, this.b))) : g(this.c, this.p())
+    }
+    function h(a) {
+        O++;
+        this.b = this.a = void 0;
+        this.e = [];
+        if (p !== a) {
+            if (!s(a)) throw new TypeError("You must pass a resolver function as the first argument to the promise constructor");
+            if (!(this instanceof h)) throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+            N(this, a)
+        }
+    }
+    var E = Array.isArray ? Array.isArray : function (a) {
+        return "[object Array]" === Object.prototype.toString.call(a)
+    },
+        l = 0,
+        w = "undefined" !== typeof window ? window : {},
+        B = w.MutationObserver || w.WebKitMutationObserver,
+        w = "undefined" !== typeof Uint8ClampedArray && "undefined" !== typeof importScripts && "undefined" !== typeof MessageChannel,
+        n = Array(1E3),
+        A;
+    A = "undefined" !== typeof process && "[object process]" === {}.toString.call(process) ? F() : B ? G() : w ? H() : I();
+    var v = new D,
+        y = new D;
+    k.prototype.o = function (a) {
+        return E(a)
+    };
+    k.prototype.p = function () {
+        return Error("Array Methods must be provided an Array")
+    };
+    k.prototype.l =
+
+    function () {
+        this.b = Array(this.length)
+    };
+    k.prototype.k = function () {
+        for (var a = this.length, b = this.c, c = this.m, d = 0; void 0 === b.a && d < a; d++) this.j(c[d], d)
+    };
+    k.prototype.j = function (a, b) {
+        var c = this.n;
+        "object" === typeof a && null !== a ? a.constructor === c && void 0 !== a.a ? (a.f = null, this.g(a.a, b, a.b)) : this.q(c.resolve(a), b) : (this.d--, this.b[b] = this.h(a))
+    };
+    k.prototype.g = function (a, b, c) {
+        var d = this.c;
+        void 0 === d.a && (this.d--, this.i && 2 === a ? g(d, c) : this.b[b] = this.h(c));
+        0 === this.d && m(d, this.b)
+    };
+    k.prototype.h = function (a) {
+        return a
+    };
+    k.prototype.q = function (a, b) {
+        var c = this;
+        u(a, void 0, function (a) {
+            c.g(1, b, a)
+        }, function (a) {
+            c.g(2, b, a)
+        })
+    };
+    var O = 0;
+    h.all = function (a, b) {
+        return (new k(this, a, !0, b)).c
+    };
+    h.race = function (a, b) {
+        function c(a) {
+            q(e, a)
+        }
+        function d(a) {
+            g(e, a)
+        }
+        var e = new this(p, b);
+        if (!E(a)) return (g(e, new TypeError("You must pass an array to race.")), e);
+        for (var f = a.length, h = 0; void 0 === e.a && h < f; h++) u(this.resolve(a[h]), void 0, c, d);
+        return e
+    };
+    h.resolve = function (a, b) {
+        if (a && "object" === typeof a && a.constructor === this) return a;
+        var c = new this(p, b);
+        q(c, a);
+        return c
+    };
+    h.reject = function (a, b) {
+        var c = new this(p, b);
+        g(c, a);
+        return c
+    };
+    h.prototype = {
+        constructor: h,
+        then: function (a, b) {
+            var c = this.a;
+            if (1 === c && !a || 2 === c && !b) return this;
+            var d = new this.constructor(p),
+                e = this.b;
+            if (c) {
+                var f = arguments[c - 1];
+                r(function () {
+                    C(c, d, f, e)
+                })
+            } else u(this, d, a, b);
+            return d
+        },
+        "catch": function (a) {
+            return this.then(null, a)
+        }
+    };
+    var z = {
+        Promise: h,
+        polyfill: function () {
+            var a;
+            a = "undefined" !== typeof global ? global : "undefined" !== typeof window && window.document ? window : self;
+            "Promise" in a && "resolve" in a.Promise && "reject" in a.Promise && "all" in a.Promise && "race" in a.Promise &&
+            function () {
+                var b;
+                new a.Promise(function (a) {
+                    b = a
+                });
+                return s(b)
+            }() || (a.Promise = h)
+        }
+    };
+    "function" === typeof define && define.amd ? define(function () {
+        return z
+    }) : "undefined" !== typeof module && module.exports ? module.exports = z : "undefined" !== typeof this && (this.ES6Promise = z)
+}).call(this);
 
 (function() {
 	var global = {};
@@ -47,6 +304,7 @@ a.Promise&&"reject"in a.Promise&&"all"in a.Promise&&"race"in a.Promise&&function
  *
  * @constructor
  */
+
 function EventEmitter() {
     this._events = {};
 }
@@ -146,6 +404,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * @constructor
  * @param {object=} - The configuration object to be parsed.
  */
+
 function ConfigParser(config) {
     this._config = {};
     this._modules = {};
@@ -182,7 +441,7 @@ ConfigParser.prototype = {
      *
      * @return {object} The current configuration.
      */
-    getConfig: function() {
+    getConfig: function () {
         return this._config;
     },
 
@@ -212,8 +471,7 @@ ConfigParser.prototype = {
      * @return {object} The created configuration
      */
     _parseConfig: function (config) {
-        for (var key in config) {
-            /* istanbul ignore else */
+        for (var key in config) { /* istanbul ignore else */
             if (hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
                     this._parseModules(config[key]);
@@ -234,8 +492,7 @@ ConfigParser.prototype = {
      * @return {object} Map of parsed modules.
      */
     _parseModules: function (modules) {
-        for (var key in modules) {
-            /* istanbul ignore else */
+        for (var key in modules) { /* istanbul ignore else */
             if (hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
 
@@ -298,6 +555,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * @constructor
  * @param {object} - instance of {@link ConfigParser} object.
  */
+
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
 
@@ -344,8 +602,7 @@ DependencyBuilder.prototype = {
 
         // Set to false all temporary markers which were set during the process of
         // dependencies resolving.
-        for (var key in modules) {
-            /* istanbul ignore else */
+        for (var key in modules) { /* istanbul ignore else */
             if (hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
 
@@ -454,8 +711,7 @@ DependencyBuilder.prototype = {
                 var moduleDependency = modules[dependencyName];
 
                 if (!moduleDependency) {
-                    throw new Error('Cannot resolve module: ' + module.name + ' ' +
-                        'due to not yet registered or wrongly specified dependency: ' + dependencyName);
+                    throw new Error('Cannot resolve module: ' + module.name + ' ' + 'due to not yet registered or wrongly specified dependency: ' + dependencyName);
                 }
 
                 this._visit(moduleDependency, modules);
@@ -513,6 +769,7 @@ var REGEX_EXTERNAL_PROTOCOLS = /https?:\/\/|\/\/|www\./;
  * @constructor
  * @param {object} - instance of {@link ConfigParser} object.
  */
+
 function URLBuilder(configParser) {
     this._configParser = configParser;
 }
@@ -554,7 +811,7 @@ URLBuilder.prototype = {
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push(path);
 
-                // If combine is disabled, create individual URL based on config URL and module path.
+                    // If combine is disabled, create individual URL based on config URL and module path.
                 } else if (!config.combine) {
                     result.push(config.url + basePath + path);
 
@@ -586,7 +843,7 @@ URLBuilder.prototype = {
      * @param {object} module The module which path should be returned.
      * @return {string} Module path.
      */
-    _getModulePath: function(module) {
+    _getModulePath: function (module) {
         if (module.path) {
             return module.path;
 
@@ -631,6 +888,7 @@ URLBuilder.prototype = {
  * @extends EventEmitter
  * @constructor
  */
+
 function Loader(config) {
     Loader.superclass.constructor.apply(this, arguments);
 
@@ -687,7 +945,7 @@ extend(Loader, global.EventEmitter, {
      * @memberof! Loader#
      * @return {array} List of currently registered conditional modules.
      */
-    getConditionalModules: function() {
+    getConditionalModules: function () {
         return this._getConfigParser().getConditionalModules();
     },
 
@@ -697,7 +955,7 @@ extend(Loader, global.EventEmitter, {
      * @memberof! Loader#
      * @return {array} List of currently registered modules.
      */
-    getModules: function() {
+    getModules: function () {
         return this._getConfigParser().getModules();
     },
 
@@ -724,7 +982,7 @@ extend(Loader, global.EventEmitter, {
         // We do not slice or leak arguments to not cause V8 performance penalties
         // TODO: This could be improved with inline function (hint)
         var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) : /* istanbul ignore next */
-            Object.prototype.toString.call(arguments[0]) === '[object Array]';
+        Object.prototype.toString.call(arguments[0]) === '[object Array]';
 
         if (isArgsArray) {
             modules = arguments[0];
@@ -738,10 +996,11 @@ extend(Loader, global.EventEmitter, {
                 if (typeof arguments[i] === 'string') {
                     modules[i] = arguments[i];
 
-                /* istanbul ignore else */
+                    /* istanbul ignore else */
                 } else if (typeof arguments[i] === 'function') {
                     successCallback = arguments[i];
-                    failureCallback = typeof arguments[++i] === 'function' ? arguments[i] : /* istanbul ignore next */ null;
+                    failureCallback = typeof arguments[++i] === 'function' ? arguments[i] : /* istanbul ignore next */
+                    null;
 
                     break;
                 }
@@ -759,8 +1018,7 @@ extend(Loader, global.EventEmitter, {
             if (successCallback) {
                 successCallback.apply(successCallback, moduleImplementations);
             }
-        }, function (error) {
-            /* istanbul ignore else */
+        }, function (error) { /* istanbul ignore else */
             if (failureCallback) {
                 failureCallback.call(failureCallback, error);
 
@@ -776,10 +1034,10 @@ extend(Loader, global.EventEmitter, {
      * @param {string} moduleName The name of module for which Promise should be created.
      * @return {Promise} Promise, which will be resolved as soon as the requested module is being loaded.
      */
-    _createModulePromise: function(moduleName) {
+    _createModulePromise: function (moduleName) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var onModuleRegister = function (registeredModule) {
                 if (registeredModule.name === moduleName) {
                     self.off('moduleRegister', onModuleRegister);
@@ -803,8 +1061,7 @@ extend(Loader, global.EventEmitter, {
      * @protected
      * @return {ConfigParser} Instance of {@link ConfigParser} class.
      */
-    _getConfigParser: function () {
-        /* istanbul ignore else */
+    _getConfigParser: function () { /* istanbul ignore else */
         if (!this._configParser) {
             this._configParser = new global.ConfigParser(this._config);
         }
@@ -856,8 +1113,7 @@ extend(Loader, global.EventEmitter, {
      * @protected
      * @return {URLBuilder} Instance of {@link URLBuilder} class.
      */
-    _getURLBuilder: function () {
-        /* istanbul ignore else */
+    _getURLBuilder: function () { /* istanbul ignore else */
         if (!this._urlBuilder) {
             this._urlBuilder = new global.URLBuilder(this._getConfigParser());
         }
@@ -882,8 +1138,7 @@ extend(Loader, global.EventEmitter, {
             var registeredModule = registeredModules[modules[i]];
 
             // Get all modules which are not yet requested from the server.
-            if (registeredModule !== 'exports' &&
-                (!registeredModule || !registeredModule.requested)) {
+            if (registeredModule !== 'exports' && (!registeredModule || !registeredModule.requested)) {
 
                 missingModules.push(modules[i]);
             }
@@ -925,26 +1180,27 @@ extend(Loader, global.EventEmitter, {
                 })
                 // As soon as all scripts were loaded and all dependencies have been resolved,
                 // resolve the main Promise
-                .then(function(modules) {
+                .then(function (modules) {
                     resolve(modules);
                 })
                 // If any script fails to load or other error happens,
                 // reject the main Promise
-                .catch (function (error) {
+                .
+                catch (function (error) {
                     reject(error);
                 });
             } else {
                 // If there are no any missing modules, just wait for modules dependencies
                 // to be resolved and then resolve the main promise
-                self._waitForModules(moduleNames)
-                    .then(function(modules) {
-                        resolve(modules);
-                    })
-                    // If some error happens, for example if some module implementation
-                    // throws error, reject the main Promise
-                    .catch (function (error) {
-                        reject(error);
-                    });
+                self._waitForModules(moduleNames).then(function (modules) {
+                    resolve(modules);
+                })
+                // If some error happens, for example if some module implementation
+                // throws error, reject the main Promise
+                .
+                catch (function (error) {
+                    reject(error);
+                });
             }
         });
     },
@@ -965,8 +1221,7 @@ extend(Loader, global.EventEmitter, {
 
             // On ready state change is needed for IE < 9, not sure if that is needed anymore,
             // it depends which browsers will we support at the end
-            script.onload = script.onreadystatechange = function () {
-                /* istanbul ignore else */
+            script.onload = script.onreadystatechange = function () { /* istanbul ignore else */
                 if (!this.readyState || /* istanbul ignore next */ this.readyState === 'complete' || /* istanbul ignore next */ this.readyState === 'load') {
 
                     script.onload = script.onreadystatechange = null;
@@ -1025,7 +1280,7 @@ extend(Loader, global.EventEmitter, {
      * @protected
      * @param {array} modules List of modules to which implementation should be set.
      */
-    _setModuleImplementation: function(modules) {
+    _setModuleImplementation: function (modules) {
         var registeredModules = this._getConfigParser().getModules();
 
         for (var i = 0; i < modules.length; i++) {
@@ -1082,7 +1337,7 @@ extend(Loader, global.EventEmitter, {
      * @param {object} module The module for which this function should wait.
      * @return {Promise}
      */
-    _waitForModule: function(moduleName) {
+    _waitForModule: function (moduleName) {
         var self = this;
 
         // Check if there is already a promise for this module.
@@ -1107,30 +1362,29 @@ extend(Loader, global.EventEmitter, {
      * @param {array} modules List of modules for which implementations this function should wait.
      * @return {Promise}
      */
-    _waitForModules: function(moduleNames) {
+    _waitForModules: function (moduleNames) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var modulesPromises = [];
 
             for (var i = 0; i < moduleNames.length; i++) {
                 modulesPromises.push(self._waitForModule(moduleNames[i]));
             }
 
-            Promise.all(modulesPromises)
-                .then(function(uselessPromises) {
-                    var registeredModules = self._getConfigParser().getModules();
+            Promise.all(modulesPromises).then(function (uselessPromises) {
+                var registeredModules = self._getConfigParser().getModules();
 
-                    var definedModules = [];
+                var definedModules = [];
 
-                    for (var i = 0; i < moduleNames.length; i++) {
-                        definedModules.push(registeredModules[moduleNames[i]]);
-                    }
+                for (var i = 0; i < moduleNames.length; i++) {
+                    definedModules.push(registeredModules[moduleNames[i]]);
+                }
 
-                    self._setModuleImplementation(definedModules);
+                self._setModuleImplementation(definedModules);
 
-                    resolve(definedModules);
-                });
+                resolve(definedModules);
+            });
         });
     }
 
@@ -1143,8 +1397,9 @@ extend(Loader, global.EventEmitter, {
 });
 
 // Utilities methods
-function extend(r, s, px) {
-    /* istanbul ignore if else */
+
+
+function extend(r, s, px) { /* istanbul ignore if else */
     if (!s || !r) {
         throw ('extend failed, verify dependencies');
     }
@@ -1174,8 +1429,7 @@ function extend(r, s, px) {
 function mix(destination, source) {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-    for (var k in source) {
-        /* istanbul ignore else */
+    for (var k in source) { /* istanbul ignore else */
         if (hasOwnProperty.call(source, k)) {
             destination[k] = source[k];
         }
@@ -1183,7 +1437,6 @@ function mix(destination, source) {
 
     return destination;
 }
-
 
     return Loader;
 }));
