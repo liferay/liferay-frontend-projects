@@ -23,6 +23,7 @@
  *
  * @constructor
  */
+
 function EventEmitter() {
     this._events = {};
 }

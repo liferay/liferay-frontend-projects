@@ -26,6 +26,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * @constructor
  * @param {object} - instance of {@link ConfigParser} object.
  */
+
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
 
@@ -72,8 +73,7 @@ DependencyBuilder.prototype = {
 
         // Set to false all temporary markers which were set during the process of
         // dependencies resolving.
-        for (var key in modules) {
-            /* istanbul ignore else */
+        for (var key in modules) { /* istanbul ignore else */
             if (hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
 
@@ -182,8 +182,7 @@ DependencyBuilder.prototype = {
                 var moduleDependency = modules[dependencyName];
 
                 if (!moduleDependency) {
-                    throw new Error('Cannot resolve module: ' + module.name + ' ' +
-                        'due to not yet registered or wrongly specified dependency: ' + dependencyName);
+                    throw new Error('Cannot resolve module: ' + module.name + ' ' + 'due to not yet registered or wrongly specified dependency: ' + dependencyName);
                 }
 
                 this._visit(moduleDependency, modules);

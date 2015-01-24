@@ -102,15 +102,15 @@ describe('EventEmitter', function () {
     it('should call all listeners if some of them are being removed on the fly', function () {
         var eventEmitter = new global.EventEmitter();
 
-        var listener1 = sinon.spy(function() {
+        var listener1 = sinon.spy(function () {
             eventEmitter.off(listener1);
         });
 
-        var listener2 = sinon.spy(function() {
+        var listener2 = sinon.spy(function () {
             eventEmitter.off(listener2);
         });
 
-        var listener3 = sinon.spy(function() {
+        var listener3 = sinon.spy(function () {
             eventEmitter.off(listener3);
         });
 

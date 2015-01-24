@@ -4,4 +4,6 @@ function log(text) {
     console.log('module aui-base says', text);
 }
 
-export {log};
+export {
+    log
+};

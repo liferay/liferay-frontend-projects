@@ -1,6 +1,4 @@
-define('aui-123',
-  ['exports'],
-  function(__exports__) {
+define('aui-123', ['exports'], function (__exports__) {
     'use strict';
 
     function log(text) {
@@ -8,4 +6,4 @@ define('aui-123',
     }
 
     __exports__.log = log;
-  });
+});

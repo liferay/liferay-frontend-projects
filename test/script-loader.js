@@ -5,10 +5,7 @@ global.__CONFIG__ = {
     basePath: '/',
     modules: {
         module1: {
-            dependencies: [
-                'module2',
-                'module3'
-            ]
+            dependencies: ['module2', 'module3']
         },
         module2: {
             dependencies: []
@@ -47,13 +44,13 @@ require('./fixture/script.js');
 
 describe('Loader', function () {
     it('should define a module without dependencies (except exports)', function (done) {
-        var impl = sinon.spy(function(exports) {
+        var impl = sinon.spy(function (exports) {
             exports.pejJung = {};
         });
 
         Loader.define('pej-jung', ['exports'], impl);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert(impl.notCalled);
 
             var modules = Loader.getModules();
@@ -75,7 +72,7 @@ describe('Loader', function () {
 
         Loader.require(['aui-123', 'pej-jung'], success, failure);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert.ok(failure.notCalled);
             assert.ok(success.calledOnce);
 
@@ -89,7 +86,7 @@ describe('Loader', function () {
 
         Loader.require(['aui-1', 'aui2'], success, failure);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert.ok(failure.notCalled);
             assert.ok(success.calledOnce);
 
@@ -103,7 +100,7 @@ describe('Loader', function () {
 
         Loader.require('module1', success, failure);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert.ok(failure.notCalled);
             assert.ok(success.calledOnce);
 
@@ -117,7 +114,7 @@ describe('Loader', function () {
 
         Loader.require('moduleMissing', success, failure);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert.ok(failure.calledOnce);
             assert.ok(success.notCalled);
 
@@ -131,7 +128,7 @@ describe('Loader', function () {
 
         Loader.require('moduleCyclic1', 'moduleCyclic1', success, failure);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert.ok(failure.calledOnce);
             assert.ok(success.notCalled);
 
@@ -147,7 +144,7 @@ describe('Loader', function () {
         Loader.require(['module6'], success, failure);
         Loader.require(['module7'], success, failure);
 
-        setTimeout(function() {
+        setTimeout(function () {
             assert.ok(failure.notCalled);
             assert.ok(success.calledThrice);
 

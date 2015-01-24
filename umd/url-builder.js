@@ -28,6 +28,7 @@ var REGEX_EXTERNAL_PROTOCOLS = /https?:\/\/|\/\/|www\./;
  * @constructor
  * @param {object} - instance of {@link ConfigParser} object.
  */
+
 function URLBuilder(configParser) {
     this._configParser = configParser;
 }
@@ -69,7 +70,7 @@ URLBuilder.prototype = {
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push(path);
 
-                // If combine is disabled, create individual URL based on config URL and module path.
+                    // If combine is disabled, create individual URL based on config URL and module path.
                 } else if (!config.combine) {
                     result.push(config.url + basePath + path);
 
@@ -101,7 +102,7 @@ URLBuilder.prototype = {
      * @param {object} module The module which path should be returned.
      * @return {string} Module path.
      */
-    _getModulePath: function(module) {
+    _getModulePath: function (module) {
         if (module.path) {
             return module.path;
 

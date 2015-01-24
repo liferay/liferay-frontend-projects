@@ -75,12 +75,7 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build([
-            'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js',
-            'jquery-2.1.2',
-            '//code.jquery.com/jquery-1.11.2.min.js',
-            'www.mydomain.com/crap.js'
-            ]);
+        var url = urlBuilder.build(['https://code.jquery.com/ui/1.11.2/jquery-ui.min.js', 'jquery-2.1.2', '//code.jquery.com/jquery-1.11.2.min.js', 'www.mydomain.com/crap.js']);
 
         assert.strictEqual(url.length, 4);
 

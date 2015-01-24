@@ -1,6 +1,4 @@
-define('pej-jung',
-  ['exports'],
-  function(__exports__) {
+define('pej-jung', ['exports'], function (__exports__) {
     'use strict';
 
     function log(text) {
@@ -8,4 +6,4 @@ define('pej-jung',
     }
 
     __exports__.log = log;
-  });
+});

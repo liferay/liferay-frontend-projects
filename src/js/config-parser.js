@@ -8,6 +8,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * @constructor
  * @param {object=} - The configuration object to be parsed.
  */
+
 function ConfigParser(config) {
     this._config = {};
     this._modules = {};
@@ -44,7 +45,7 @@ ConfigParser.prototype = {
      *
      * @return {object} The current configuration.
      */
-    getConfig: function() {
+    getConfig: function () {
         return this._config;
     },
 
@@ -74,8 +75,7 @@ ConfigParser.prototype = {
      * @return {object} The created configuration
      */
     _parseConfig: function (config) {
-        for (var key in config) {
-            /* istanbul ignore else */
+        for (var key in config) { /* istanbul ignore else */
             if (hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
                     this._parseModules(config[key]);
@@ -96,8 +96,7 @@ ConfigParser.prototype = {
      * @return {object} Map of parsed modules.
      */
     _parseModules: function (modules) {
-        for (var key in modules) {
-            /* istanbul ignore else */
+        for (var key in modules) { /* istanbul ignore else */
             if (hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
 

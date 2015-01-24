@@ -2,12 +2,12 @@
 
 var fs = require('fs');
 
-function Script () {}
+function Script() {}
 
 Script.prototype = {
     constructor: Script,
 
-    load: function() {
+    load: function () {
         try {
             var content = fs.readFileSync(this.src, 'utf-8');
 
@@ -25,18 +25,18 @@ Script.prototype = {
 
 var document = {
     body: {
-        appendChild: function(script) {
-            process.nextTick(function() {
+        appendChild: function (script) {
+            process.nextTick(function () {
                 script.load();
             });
         },
 
-        removeChild: function() {
+        removeChild: function () {
             // Empty
         }
     },
 
-    createElement: function(name) {
+    createElement: function (name) {
         return new Script();
     }
 
