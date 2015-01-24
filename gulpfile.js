@@ -22,7 +22,7 @@ gulp.task('build', function(callback) {
 });
 
 gulp.task('build-config', function(callback) {
-    exec('node config-generator.js -c src/config/config-base.json -o src/config/config.js dist/demo/modules', function (err, stdout, stderr) {
+    exec('node config-generator.js -b src/config/config-base.js -o src/config/config.js dist/demo/modules', function (err, stdout, stderr) {
         callback(err);
     });
 });

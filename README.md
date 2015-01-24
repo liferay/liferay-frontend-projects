@@ -124,7 +124,7 @@ Automatically generating the configuration
 
 In order to generate the configuration, there is a small NodeJS program, called `config-generator`. You may use it to generate the configuration like this:
 ```bash```
-$ node config-generator.js -c src/config/config-base.json -o src/config/config.js src/modules
+$ node config-generator.js -b src/config/config-base.js -o src/config/config.js src/modules
 ```
 
 My advice is to create a separate, base config file and pass it to the config generator as in the code above. In the base file you may define the groups, the URLs, combine flags, etc. and then leave config generator to add the rest.
@@ -132,4 +132,4 @@ Look on the example modules and the demo for more information. Then, just load t
 
 Enjoy!
 
-[![Build Status](https://github.com/ipeychev/lfr-amd-loader.svg)](https://github.com/ipeychev/lfr-amd-loader)
+[![Build Status](https://travis-ci.org/ipeychev/lfr-amd-loader.svg)](https://travis-ci.org/ipeychev/lfr-amd-loader)

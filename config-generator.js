@@ -1,5 +1,6 @@
 'use strict';
 
+var beautify = require('js-beautify').js_beautify;
 var escodegen = require('escodegen');
 var esprima = require('esprima-fb');
 var fs = require('fs');
@@ -9,7 +10,6 @@ var program = require('commander');
 var Promise = require('bluebird');
 var walk = require('walk');
 
-
 Promise.promisifyAll(fs);
 
 function list(value) {
@@ -18,10 +18,10 @@ function list(value) {
 
 program
     .usage('[options] <file ...>', list)
-    .option('-var, --variable [config variable]', 'The variable to which configuration will be assigned.', String, '__CONFIG__')
+    .option('-c, --config [config object]', 'The configuration object in which the modules should be added.', String, '__CONFIG__')
     .option('-o, --output [file name]', 'Output file to store the generated configuration.')
-    .option('-c, --config [file name]', 'Already existing template config to be joined with the parsed configuration.')
-    .version('0.0.1')
+    .option('-b, --base [file name]', 'Already existing template base to be joined with the parsed configuration.')
+    .version(require('./package.json').version)
     .parse(process.argv);
 
 var options = {
@@ -118,16 +118,14 @@ function extractValue(node) {
     }
 }
 
-function generateConfig(config) {
+function generateConfig() {
     return new Promise(function(resolve, reject) {
+        var config = {};
+
         for (var i = 0; i < modules.length; i++) {
             var module = modules[i];
 
-            if (!config.modules) {
-                config.modules = {};
-            }
-
-            var storedModule = config.modules[module.name] = {
+            var storedModule = config[module.name] = {
                 dependencies: module.dependencies
             };
 
@@ -239,13 +237,13 @@ function saveConfig(config) {
     });
 }
 
-var configBase = {};
+var base;
 var i;
 var modules = [];
 var processors = [];
 
-if (program.config) {
-    configBase = require(path.resolve(program.config));
+if (program.base) {
+    base = fs.readFileSync(path.resolve(program.base), 'utf8');
 }
 
 // For every file or folder, create a promise,
@@ -270,12 +268,18 @@ for (i = 0; i < program.args.length; i++) {
 
 Promise.all(processors)
     .then(function(uselessPromises) {
-        return generateConfig(configBase || {});
+        return generateConfig();
     })
     .then(function(config) {
-        var content = 'var ' + program.variable + ' = ' + JSON.stringify(config, null, 4) + ';';
+        var content;
 
-        return saveConfig(content);
+        if (base) {
+            content = base + program.config + '.modules = ' + JSON.stringify(config) + ';';
+        } else {
+            content = 'var ' + program.config + ' = {modules: ' + JSON.stringify(config) + '};';
+        }
+
+        return saveConfig(beautify(content));
     })
     .catch(function(error) {
         console.error(error);
