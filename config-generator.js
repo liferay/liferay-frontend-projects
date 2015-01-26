@@ -6,9 +6,16 @@ var esprima = require('esprima-fb');
 var fs = require('fs');
 var jsstana = require('jsstana');
 var path = require('path');
+var pkg = require('package.json');
 var program = require('commander');
 var Promise = require('bluebird');
+var updateNotifier = require('update-notifier');
 var walk = require('walk');
+
+updateNotifier({
+    packageName: pkg.name,
+    packageVersion: pkg.version
+}).notify();
 
 Promise.promisifyAll(fs);
 
