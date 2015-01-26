@@ -17,12 +17,8 @@
   },
   "homepage": "https://github.com/ipeychev/lfr-amd-loader",
   "devDependencies": {
-    "bluebird": "^2.8.2",
     "combohandler": "^0.4.0",
-    "commander": "^2.6.0",
     "del": "^1.1.1",
-    "escodegen": "^1.6.0",
-    "esprima-fb": "^10001.1.0-dev-harmony-fb",
     "gulp": "^3.8.10",
     "gulp-6to5": "^2.0.2",
     "gulp-beautify": "^1.1.1",
@@ -36,15 +32,19 @@
     "gulp-uglify": "^1.1.0",
     "jsdoc": "^3.3.0-alpha13",
     "jshint-stylish": "^1.0.0",
-    "jsstana": "^0.1.4",
     "merge-stream": "^0.1.7",
     "run-sequence": "^1.0.2",
     "sinon": "^1.12.2",
-    "v8-natives": "0.0.1",
-    "walk": "^2.3.9"
+    "v8-natives": "0.0.1"
   },
   "dependencies": {
+    "bluebird": "^2.8.2",
+    "commander": "^2.6.0",
+    "escodegen": "^1.6.0",
+    "esprima-fb": "^10001.1.0-dev-harmony-fb",
     "js-beautify": "^1.5.4",
-    "update-notifier": "^0.3.0"
+    "jsstana": "^0.1.4",
+    "update-notifier": "^0.3.0",
+    "walk": "^2.3.9"
   }
 }
