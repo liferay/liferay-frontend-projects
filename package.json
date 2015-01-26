@@ -1,6 +1,6 @@
 {
   "name": "lfr-amd-loader",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "AMD Loader with support for combo URL and conditional loading",
   "main": "main.js",
   "scripts": {
