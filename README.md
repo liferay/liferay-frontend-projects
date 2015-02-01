@@ -37,7 +37,7 @@ Registering modules
 
 Use `define` function:
 
-```javascript```
+```javascript
 define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
     return {
         log: function(text) {
@@ -49,7 +49,7 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
 
 You may specify that the module should be loaded on triggering some other module and only of some condition is being met:
 
-```javascript```
+```javascript
 define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase) {
     return {
         log: function(text) {
@@ -74,7 +74,7 @@ Here it is specified, that this module should be loaded automatically if develop
 Using ES6 syntax in your modules:
 ======
 
-```javascript```
+```javascript
 'use strict';
 
 import {log as logBase} from 'aui-base';
@@ -111,7 +111,7 @@ Loading modules
 ======
 
 Use `require` method:
-```javascript```
+```javascript
 require('aui-base', 'aui-test', function(base, test) {
 	    // your code here
 	}, function(error) {
