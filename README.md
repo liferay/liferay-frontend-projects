@@ -12,12 +12,16 @@ How to build it?
 4. Run `npm install` in the cloned/forked repository.
 5. Run `gulp` to build it.
 
-This will build the loader in 'dist' directory.
+This will build the loader in 'dist' directory. There will be two versions:
+- loader.js - which comes with ES6 Promise [polyfill]((https://github.com/jakearchibald/es6-promise))
+- loader-pure.js - version without Promise polyfill. If you already have Promise polyfill in your project or you are only targeting browsers which support Promises natively, use this version.
+
+Both versions have minified versions too.
 
 How to run the demo?
 -------------
 1. The default configuration and the demo require a combo loader. Go to the folder, where you cloned the loader, then run `node combo.js`. This will run a combo handler on port 3000.
-2. Download [mongoose](https://github.com/cesanta/mongoose) or if you have brew just do `brew install mongoose`, then navigate to Loader folder and run mongoose with the following params:
+2. Download [mongoose](https://github.com/cesanta/mongoose) or if you have `brew` just do `brew install mongoose`, then navigate to Loader folder and run mongoose with the following params:
     `mongoose -listening_port 8080 -document_root dist`.
 3. Open a browser, for example Chrome and load  `http://localhost:8080/demo/`. Open the console and look for the messages. You will see that resouces are being loaded.
 
