@@ -127,7 +127,7 @@ Automatically generating the configuration
 ======
 
 In order to generate the configuration, there is a small NodeJS program, called `config-generator`. You may use it to generate the configuration like this:
-```bash```
+```bash
 $ node config-generator.js -b src/config/config-base.js -o src/config/config.js src/modules
 ```
 
