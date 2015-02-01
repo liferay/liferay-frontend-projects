@@ -58,7 +58,7 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
         test: function() {
             var el = document.createElement('input');
 
-            return ('placeholder' in INPUT_EL);
+            return ('placeholder' in el);
         }
     },
     path: 'aui-dialog.js'
