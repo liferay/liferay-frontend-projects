@@ -10,6 +10,13 @@
     "email": "nathan.cavanaugh@liferay.com",
     "url": "https://github.com/natecavanaugh"
   },
+  "contributors": [
+    {
+      "name": "Rob Frampton",
+      "email": "rob.g.frampton@gmail.com",
+      "web": "https://github.com/Robert-Frampton"
+    }
+  ],
   "engines": {
     "node": ">=0.10.0"
   },
