@@ -4,6 +4,7 @@ var async = require('async');
 var path = require('path');
 var fs = require('fs-extra');
 var _ = require('lodash');
+var runSequence = require('run-sequence');
 
 var util = require('util');
 
@@ -114,9 +115,47 @@ gulp.task('watch', function() {
   // gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 });
 
-gulp.task('build', ['build-base', 'build-src', 'compile-scss', 'deploy-lazily']);
+gulp.task(
+	'build',
+	function(cb) {
+		runSequence(
+			'build-clean',
+			'build-unstyled',
+			'build-styled',
+			'build-src',
+			'rename-css-dir',
+			'compile-scss',
+			'remove-old-css-dir',
+			// 'deploy-lazily',
+			cb
+		);
+	}
+);
 
 var pathBuild = './build';
+
+gulp.task(
+	'build-clean',
+	function() {
+		return gulp.src(pathBuild)
+		// .pipe(plugins.debug())
+		.pipe(plugins.clean({read: false}));
+	}
+);
+
+gulp.task(
+	'build-unstyled',
+	function() {
+		return gulp.src('./node_modules/liferay-theme-unstyled/src/**/*').pipe(gulp.dest(pathBuild));
+	}
+);
+
+gulp.task(
+	'build-styled',
+	function() {
+		return gulp.src('./node_modules/liferay-theme-styled/src/**/*').pipe(gulp.dest(pathBuild));
+	}
+);
 
 gulp.task(
 	'build-base',
@@ -139,13 +178,26 @@ gulp.task(
 
 gulp.task(
 	'rename-css-dir',
-	['build-base', 'build-src'],
 	function(cb) {
-		fs.rename(
-			pathBuild + '/css',
+		fs.remove(
 			pathBuild + '/_css',
-			cb
-		);
+			function(err) {
+				fs.rename(
+					pathBuild + '/css',
+					pathBuild + '/_css',
+					cb
+				);
+			}
+		)
+	}
+);
+
+gulp.task(
+	'remove-old-css-dir',
+	function() {
+		return gulp.src(pathBuild + '/_css')
+		// .pipe(plugins.debug())
+		.pipe(plugins.clean({read: false}))
 	}
 );
 
@@ -170,6 +222,10 @@ gulp.task(
 		var sass = plugins.rubySass;
 
 		<% } else { %>
+		var bourbon = require('node-bourbon');
+
+		includePaths = includePaths.concat(bourbon.includePaths);
+
 		var config = {
 			includePaths: includePaths,
 			sourceMap: sourcemap
@@ -180,7 +236,7 @@ gulp.task(
 
 		var cssBuild = pathBuild + '/_css';
 
-		gulp.src(cssBuild + '/**/*.css')
+		return gulp.src(cssBuild + '/**/*.css')
 		.pipe(
 			plugins.rename(
 				{
@@ -191,7 +247,7 @@ gulp.task(
 		.pipe(gulp.src(cssBuild + '/**/*.scss'))
 		.pipe(plugins.plumber())
 		.pipe(sass(config))
-		.pipe(plugins.plumber.stop())
+		// .pipe(plugins.plumber.stop())
 		// .pipe(plugins.debug())
 		.pipe(gulp.dest(pathBuild + '/css'));
 
