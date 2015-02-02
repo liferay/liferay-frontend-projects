@@ -138,35 +138,64 @@ gulp.task(
 );
 
 gulp.task(
-	'compile-scss',
+	'rename-css-dir',
 	['build-base', 'build-src'],
-	function() {
+	function(cb) {
+		fs.rename(
+			pathBuild + '/css',
+			pathBuild + '/_css',
+			cb
+		);
+	}
+);
+
+gulp.task(
+	'compile-scss',
+	['build-base', 'build-src', 'rename-css-dir'],
+	function(cb) {
 		var includePaths = [
 			'./node_modules/liferay-theme-mixins/src',
 			'./node_modules/liferay-theme-mixins/src/liferay'
 		];
 
+		var sourcemap = false;
+
 		<% if (supportCompass) { %>
 		var config = {
 			compass: true,
-			loadPath: includePaths
+			loadPath: includePaths,
+			sourcemap: sourcemap
 		};
 
 		var sass = plugins.rubySass;
 
 		<% } else { %>
 		var config = {
-			includePaths: includePaths
+			includePaths: includePaths,
+			sourceMap: sourcemap
 		};
 
 		var sass = plugins.sass;
 		<% } %>
 
-		gulp.src(pathBuild + '/css/**/*.*css')
+		var cssBuild = pathBuild + '/_css';
+
+		gulp.src(cssBuild + '/**/*.css')
+		.pipe(
+			plugins.rename(
+				{
+					extname: '.scss'
+				}
+			)
+		)
+		.pipe(gulp.src(cssBuild + '/**/*.scss'))
 		.pipe(plugins.plumber())
 		.pipe(sass(config))
 		.pipe(plugins.plumber.stop())
-		.pipe(gulp.dest(pathBuild + '/css2'));
+		// .pipe(plugins.debug())
+		.pipe(gulp.dest(pathBuild + '/css'));
+
+		fs.rmdir(pathBuild + '/_css', cb);
 	}
 );
 
