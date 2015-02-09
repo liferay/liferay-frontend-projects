@@ -257,4 +257,22 @@ gulp.task(
 	}
 );
 
+gulp.task(
+	'deploy',
+	function () {
+		var themeName = path.basename(__dirname);
+
+		return gulp.src(pathBuild + '/**')
+			.pipe(
+				plugins.war(
+					{
+						displayName: themeName
+					}
+				)
+			)
+			.pipe(plugins.zip(themeName + '.war'))
+			.pipe(gulp.dest(store.get('deployPath')));
+	}
+);
+
 // require('gulp-storage')(gulp);
