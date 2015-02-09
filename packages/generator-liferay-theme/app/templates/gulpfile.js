@@ -256,6 +256,7 @@ gulp.task(
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
 			// .pipe(plugins.debug())
+			.pipe(plugins.addSrc(cssBuild + '/**/*.!(css|scss)'))
 			.pipe(gulp.dest(pathBuild + '/css'));
 	}
 );
