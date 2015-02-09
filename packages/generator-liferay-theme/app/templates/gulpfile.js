@@ -14,7 +14,6 @@ var store = gulp.storage;
 
 store.create('LiferayTheme', 'liferay-theme.json');
 
-
 gulp.task(
 	'init',
 	function() {
@@ -23,96 +22,96 @@ gulp.task(
 		var appServerPathDefault = store.get('appServerPath') || path.join(path.dirname(cwd), 'tomcat');
 
 		return gulp.src('', {read: false})
-				.pipe(
-					plugins.prompt.prompt(
-						[
-							{
-								name: 'appServerPath',
-								type: 'input',
-								message: 'Enter the path to your app server directory:',
-								default: appServerPathDefault,
-								validate: function(appServerPath) {
-									var retVal = false;
+			.pipe(
+				plugins.prompt.prompt(
+					[
+						{
+							name: 'appServerPath',
+							type: 'input',
+							message: 'Enter the path to your app server directory:',
+							default: appServerPathDefault,
+							validate: function(appServerPath) {
+								var retVal = false;
 
-									if (appServerPath) {
-										retVal = true;
+								if (appServerPath) {
+									retVal = true;
 
-										if (!fs.existsSync(appServerPath)) {
-											retVal = '"%s" does not exist';
+									if (!fs.existsSync(appServerPath)) {
+										retVal = '"%s" does not exist';
+									}
+									else if (!fs.statSync(appServerPath).isDirectory()) {
+										retVal = '"%s" is not a directory';
+									}
+									else {
+										var baseName = path.basename(appServerPath);
+
+										if (baseName == 'webapps') {
+											appServerPath = path.dirname(appServerPath);
 										}
-										else if (!fs.statSync(appServerPath).isDirectory()) {
-											retVal = '"%s" is not a directory';
-										}
-										else {
-											var baseName = path.basename(appServerPath);
 
-											if (baseName == 'webapps') {
-												appServerPath = path.dirname(appServerPath);
-											}
+										var webappsPath = path.join(appServerPath, 'webapps');
 
-											var webappsPath = path.join(appServerPath, 'webapps');
-
-											if (!fs.existsSync(webappsPath) || !fs.statSync(webappsPath).isDirectory()) {
-												retVal = '"%s" doesnt appear to be an app server directory';
-											}
+										if (!fs.existsSync(webappsPath) || !fs.statSync(webappsPath).isDirectory()) {
+											retVal = '"%s" doesnt appear to be an app server directory';
 										}
 									}
-
-									if (_.isString(retVal)) {
-										retVal = util.format(retVal, appServerPath);
-									}
-
-									return retVal;
 								}
-							},
-							{
-								name: 'deployPath',
-								type: 'input',
-								message: 'Enter in your deploy directory:',
-								when: function(answers) {
-									var appServerPath = answers.appServerPath;
-									var deployPath = path.resolve(path.join(appServerPath, '../deploy'));
 
-									var done = this.async();
-
-									fs.stat(deployPath, function(err, stats) {
-										var ask = err || !stats.isDirectory();
-
-										if (!ask) {
-											answers.deployPath = deployPath;
-										}
-
-										done(ask);
-									});
+								if (_.isString(retVal)) {
+									retVal = util.format(retVal, appServerPath);
 								}
-							},
-							{
-								name: 'deployType',
-								type: 'list',
-								choices: [
-									{
-										name: 'Copy the changed files directly (faster - recommended)',
-										value: 'fast'
-									},
-									{
-										name: 'Do a full theme redeploy',
-										value: 'full'
-									}
-								],
-								message: 'When watching the files, how do you want to deploy the changes?'
+
+								return retVal;
 							}
-						],
-						function(answers) {
-							store.store(answers);
+						},
+						{
+							name: 'deployPath',
+							type: 'input',
+							message: 'Enter in your deploy directory:',
+							when: function(answers) {
+								var appServerPath = answers.appServerPath;
+								var deployPath = path.resolve(path.join(appServerPath, '../deploy'));
+
+								var done = this.async();
+
+								fs.stat(deployPath, function(err, stats) {
+									var ask = err || !stats.isDirectory();
+
+									if (!ask) {
+										answers.deployPath = deployPath;
+									}
+
+									done(ask);
+								});
+							}
+						},
+						{
+							name: 'deployType',
+							type: 'list',
+							choices: [
+								{
+									name: 'Copy the changed files directly (faster - recommended)',
+									value: 'fast'
+								},
+								{
+									name: 'Do a full theme redeploy',
+									value: 'full'
+								}
+							],
+							message: 'When watching the files, how do you want to deploy the changes?'
 						}
-					)
-				);
+					],
+					function(answers) {
+						store.store(answers);
+					}
+				)
+			);
 	}
 );
 
 gulp.task('watch', function() {
-  gulp.watch('src/**', ['build']);
-  // gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
+	gulp.watch('src/**', ['build']);
+	// gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 });
 
 gulp.task(
@@ -196,8 +195,8 @@ gulp.task(
 	'remove-old-css-dir',
 	function() {
 		return gulp.src(pathBuild + '/_css')
-		// .pipe(plugins.debug())
-		.pipe(plugins.clean({read: false}))
+			// .pipe(plugins.debug())
+			.pipe(plugins.clean({read: false}))
 	}
 );
 
@@ -237,19 +236,19 @@ gulp.task(
 		var cssBuild = pathBuild + '/_css';
 
 		return gulp.src(cssBuild + '/**/*.css')
-		.pipe(
-			plugins.rename(
-				{
-					extname: '.scss'
-				}
+			.pipe(
+				plugins.rename(
+					{
+						extname: '.scss'
+					}
+				)
 			)
-		)
-		.pipe(gulp.src(cssBuild + '/**/*.scss'))
-		.pipe(plugins.plumber())
-		.pipe(sass(config))
-		// .pipe(plugins.plumber.stop())
-		// .pipe(plugins.debug())
-		.pipe(gulp.dest(pathBuild + '/css'));
+			.pipe(gulp.src(cssBuild + '/**/*.scss'))
+			.pipe(plugins.plumber())
+			.pipe(sass(config))
+			// .pipe(plugins.plumber.stop())
+			// .pipe(plugins.debug())
+			.pipe(gulp.dest(pathBuild + '/css'));
 
 		fs.rmdir(pathBuild + '/_css', cb);
 	}
@@ -261,6 +260,5 @@ gulp.task(
 
 	}
 );
-
 
 // require('gulp-storage')(gulp);
