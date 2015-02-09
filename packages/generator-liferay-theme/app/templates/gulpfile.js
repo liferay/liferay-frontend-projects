@@ -1,11 +1,10 @@
-var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
-var async = require('async');
-var path = require('path');
-var fs = require('fs-extra');
 var _ = require('lodash');
+var async = require('async');
+var fs = require('fs-extra');
+var gulp = require('gulp');
+var path = require('path');
+var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
-
 var util = require('util');
 
 plugins.storage(gulp);
@@ -137,8 +136,8 @@ gulp.task(
 	'build-clean',
 	function() {
 		return gulp.src(pathBuild)
-		// .pipe(plugins.debug())
-		.pipe(plugins.clean({read: false}));
+			// .pipe(plugins.debug())
+			.pipe(plugins.clean({read: false}));
 	}
 );
 
