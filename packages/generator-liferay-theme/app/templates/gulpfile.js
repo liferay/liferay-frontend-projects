@@ -202,7 +202,6 @@ gulp.task(
 
 gulp.task(
 	'compile-scss',
-	['build-base', 'build-src', 'rename-css-dir'],
 	function(cb) {
 		var includePaths = [
 			'./node_modules/liferay-theme-mixins/src',
