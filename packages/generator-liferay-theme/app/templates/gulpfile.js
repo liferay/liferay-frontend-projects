@@ -248,8 +248,6 @@ gulp.task(
 			// .pipe(plugins.plumber.stop())
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild + '/css'));
-
-		fs.rmdir(pathBuild + '/_css', cb);
 	}
 );
 
