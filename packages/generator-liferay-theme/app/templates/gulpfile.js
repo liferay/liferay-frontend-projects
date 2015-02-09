@@ -120,6 +120,7 @@ gulp.task(
 			'build-clean',
 			'build-unstyled',
 			'build-styled',
+			'build-mixins',
 			'build-src',
 			'rename-css-dir',
 			'compile-scss',
@@ -152,6 +153,15 @@ gulp.task(
 	'build-styled',
 	function() {
 		return gulp.src('./node_modules/liferay-theme-styled/src/**/*').pipe(gulp.dest(pathBuild));
+	}
+);
+
+gulp.task(
+	'build-mixins',
+	function() {
+		var dest = path.join(pathBuild, 'css');
+
+		return gulp.src('./node_modules/liferay-theme-mixins/src/**/*').pipe(gulp.dest(dest));
 	}
 );
 
