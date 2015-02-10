@@ -283,9 +283,32 @@ gulp.task(
 	function() {
 		var dest = store.get('appServerPath');
 
-		return gulp.src(pathBuild + '/**/*')
+		var tempDirPath = path.join(dest, '../../temp/');
+
+		var tempThemeDir;
+
+		if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
+			var themeName = store.get('themeName');
+
+			var tempDir = fs.readdirSync(tempDirPath);
+
+			tempThemeDir = _.find(
+				tempDir,
+				function(fileName) {
+					return fileName.indexOf(themeName) > -1;
+				}
+			);
+		}
+
+		var stream = gulp.src(pathBuild + '/**/*')
 			.pipe(plugins.changed(dest))
 			.pipe(gulp.dest(dest));
+
+		if (tempThemeDir) {
+			stream.pipe(gulp.dest(path.join(tempDirPath, tempThemeDir)));
+		}
+
+		return stream;
 	}
 );
 
