@@ -260,7 +260,30 @@ gulp.task(
 );
 
 gulp.task(
-	'deploy-app-server',
+	'deploy',
+	function(cb) {
+		if (!argv.full && store.get('deployed')) {
+			runSequence(
+				'build-src',
+				'rename-css-dir',
+				'compile-scss',
+				'remove-old-css-dir',
+				'deploy-fast',
+				cb
+			);
+		}
+		else {
+			runSequence(
+				'build',
+				'deploy-full',
+				cb
+			);
+		}
+	}
+);
+
+gulp.task(
+	'deploy-fast',
 	function() {
 		var dest = store.get('appServerPath');
 
@@ -271,29 +294,7 @@ gulp.task(
 );
 
 gulp.task(
-	'deploy-lazily',
-	function(cb) {
-		if (!argv.full && store.get('deployed')) {
-			runSequence(
-				'build-src',
-				'rename-css-dir',
-				'compile-scss',
-				'remove-old-css-dir',
-				'deploy-app-server',
-				cb
-			);
-		}
-		else {
-			runSequence(
-				'deploy',
-				cb
-			);
-		}
-	}
-);
-
-gulp.task(
-	'deploy',
+	'deploy-full',
 	function () {
 		var themeName = store.get('themeName');
 
