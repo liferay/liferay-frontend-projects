@@ -21,6 +21,7 @@
 		"liferay-theme-styled": "^7.0.0",
 		"liferay-theme-unstyled": "^7.0.0",
 		"lodash": "^2.4.1",
+		"minimist": "^1.1.0",
 		"run-sequence": "^1.0.2",
 		<% if (supportCompass) { %>
 		"gulp-ruby-sass": "^0.7.1"
