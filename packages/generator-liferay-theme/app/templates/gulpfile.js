@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
+var del = require('del');
 var fs = require('fs-extra');
 var gulp = require('gulp');
 var path = require('path');
@@ -140,10 +141,8 @@ var pathBuild = './build';
 
 gulp.task(
 	'build-clean',
-	function() {
-		return gulp.src(pathBuild)
-			// .pipe(plugins.debug())
-			.pipe(plugins.clean({read: false}));
+	function(cb) {
+		del([pathBuild], cb);
 	}
 );
 
@@ -200,10 +199,8 @@ gulp.task(
 
 gulp.task(
 	'remove-old-css-dir',
-	function() {
-		return gulp.src(pathBuild + '/_css')
-			// .pipe(plugins.debug())
-			.pipe(plugins.clean({read: false}))
+	function(cb) {
+		del([pathBuild + '/_css'], cb);
 	}
 );
 
