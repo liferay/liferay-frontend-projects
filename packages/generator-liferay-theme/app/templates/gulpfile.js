@@ -284,7 +284,7 @@ gulp.task(
 	function () {
 		var themeName = path.basename(__dirname);
 
-		return gulp.src(pathBuild + '/**')
+		var stream = gulp.src(pathBuild + '/**/*')
 			.pipe(
 				plugins.war(
 					{
@@ -294,6 +294,17 @@ gulp.task(
 			)
 			.pipe(plugins.zip(themeName + '.war'))
 			.pipe(gulp.dest(store.get('deployPath')));
+
+		if (!store.get('deployed')) {
+			stream.on(
+				'end',
+				function() {
+					store.set('deployed', true);
+				}
+			);
+		}
+
+		return stream;
 	}
 );
 
