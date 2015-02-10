@@ -84,21 +84,6 @@ gulp.task(
 									done(ask);
 								});
 							}
-						},
-						{
-							name: 'deployType',
-							type: 'list',
-							choices: [
-								{
-									name: 'Copy the changed files directly (faster - recommended)',
-									value: 'fast'
-								},
-								{
-									name: 'Do a full theme redeploy',
-									value: 'full'
-								}
-							],
-							message: 'When watching the files, how do you want to deploy the changes?'
 						}
 					],
 					function(answers) {
