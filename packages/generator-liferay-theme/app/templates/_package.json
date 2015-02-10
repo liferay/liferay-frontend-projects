@@ -17,9 +17,9 @@
 		"gulp-storage": "^1.0.6",
 		"gulp-war": "0.0.1",
 		"gulp-zip": "^2.0.2",
-		"liferay-theme-mixins": "^6.2.0",
-		"liferay-theme-styled": "^6.2.0",
-		"liferay-theme-unstyled": "^6.2.0",
+		"liferay-theme-mixins": "^7.0.0",
+		"liferay-theme-styled": "^7.0.0",
+		"liferay-theme-unstyled": "^7.0.0",
 		"lodash": "^2.4.1",
 		"run-sequence": "^1.0.2",
 		<% if (supportCompass) { %>
