@@ -130,8 +130,8 @@ gulp.task(
 );
 
 gulp.task('watch', function() {
-	gulp.watch('src/**', ['build']);
-	// gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
+	gulp.watch('src/**', ['deploy-lazily']);
+	//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 });
 
 gulp.task(
@@ -275,9 +275,32 @@ gulp.task(
 );
 
 gulp.task(
-	'deploy-lazily',
+	'deploy-app-server',
 	function() {
+		var dest = store.get('appServerPath');
 
+		return gulp.src(pathBuild + '/**/*')
+			.pipe(plugins.changed(dest))
+			.pipe(gulp.dest(dest));
+	}
+);
+
+gulp.task(
+	'deploy-lazily',
+	function(cb) {
+		if (store.get('deployed')) {
+			runSequence(
+				'build-src',
+				'rename-css-dir',
+				'compile-scss',
+				'remove-old-css-dir',
+				'deploy-app-server',
+				cb
+			);
+		}
+		else {
+			gulp.start('deploy');
+		}
 	}
 );
 
