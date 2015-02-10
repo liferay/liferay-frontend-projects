@@ -101,6 +101,27 @@ gulp.task(
 						}
 					],
 					function(answers) {
+						var appServerPath = answers.appServerPath;
+
+						var baseName = path.basename(appServerPath);
+
+						if (baseName != 'webapps') {
+							appServerPath = path.join(appServerPath, 'webapps');
+						}
+
+						var themeName = path.basename(__dirname);
+
+						appServerPath = path.join(appServerPath, themeName);
+
+						answers = _.assign(
+							answers,
+							{
+								appServerPath: appServerPath,
+								deployed: false,
+								themeName: themeName
+							}
+						);
+
 						store.store(answers);
 					}
 				)
