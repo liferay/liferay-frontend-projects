@@ -310,7 +310,7 @@ gulp.task(
 gulp.task(
 	'deploy',
 	function () {
-		var themeName = path.basename(__dirname);
+		var themeName = store.get('themeName');
 
 		var stream = gulp.src(pathBuild + '/**/*')
 			.pipe(
