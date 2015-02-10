@@ -116,7 +116,7 @@ gulp.task(
 );
 
 gulp.task('watch', function() {
-	gulp.watch('src/**', ['deploy-lazily']);
+	gulp.watch('src/**/*', ['deploy']);
 	//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 });
 
