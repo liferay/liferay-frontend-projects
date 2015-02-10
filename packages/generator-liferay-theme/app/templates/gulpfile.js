@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
 var fs = require('fs-extra');
 var gulp = require('gulp');
@@ -287,7 +288,7 @@ gulp.task(
 gulp.task(
 	'deploy-lazily',
 	function(cb) {
-		if (store.get('deployed')) {
+		if (!argv.full && store.get('deployed')) {
 			runSequence(
 				'build-src',
 				'rename-css-dir',
@@ -298,7 +299,10 @@ gulp.task(
 			);
 		}
 		else {
-			gulp.start('deploy');
+			runSequence(
+				'deploy',
+				cb
+			);
 		}
 	}
 );
