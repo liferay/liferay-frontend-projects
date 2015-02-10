@@ -92,7 +92,7 @@ module.exports = yeoman.generators.Base.extend({
 				'src/WEB-INF/liferay-plugin-package.properties', 'src/WEB-INF/liferay-plugin-package.properties',
 				{
 					themeDisplayName: this.themeName,
-					liferayVersion: '6.2.0+'
+					liferayVersion: '7.0.0+'
 				}
 			);
 		}
