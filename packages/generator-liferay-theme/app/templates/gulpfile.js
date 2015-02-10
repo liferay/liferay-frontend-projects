@@ -131,7 +131,6 @@ gulp.task(
 			'rename-css-dir',
 			'compile-scss',
 			'remove-old-css-dir',
-			// 'deploy-lazily',
 			cb
 		);
 	}
