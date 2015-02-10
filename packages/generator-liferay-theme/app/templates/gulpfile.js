@@ -256,7 +256,7 @@ gulp.task(
 
 		var cssBuild = pathBuild + '/_css';
 
-		return gulp.src(cssBuild + '/**/*.css')
+		return gulp.src(cssBuild + '/**/*.+(css|scss)')
 			.pipe(
 				plugins.rename(
 					{
@@ -264,7 +264,6 @@ gulp.task(
 					}
 				)
 			)
-			.pipe(gulp.src(cssBuild + '/**/*.scss'))
 			.pipe(plugins.plumber())
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
