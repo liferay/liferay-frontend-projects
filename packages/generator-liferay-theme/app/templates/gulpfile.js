@@ -214,13 +214,6 @@ gulp.task(
 		var cssBuild = pathBuild + '/_css';
 
 		return gulp.src(cssBuild + '/**/*.+(css|scss)')
-			.pipe(
-				plugins.rename(
-					{
-						extname: '.scss'
-					}
-				)
-			)
 			.pipe(plugins.plumber())
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
