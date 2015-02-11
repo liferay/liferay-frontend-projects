@@ -176,7 +176,7 @@ gulp.task(
 	'build-src',
 	function() {
 		return gulp.src('./src/**/*')
-			.pipe(plugins.changed(pathBuild))
+			//.pipe(plugins.changed(pathBuild))
 			.pipe(gulp.dest(pathBuild));
 	}
 );
