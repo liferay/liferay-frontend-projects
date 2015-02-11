@@ -115,12 +115,12 @@ gulp.task(
 
 						var themeName = path.basename(__dirname);
 
-						appServerPath = path.join(appServerPath, themeName);
+						var appServerPathTheme = path.join(appServerPath, themeName);
 
 						answers = _.assign(
 							answers,
 							{
-								appServerPath: appServerPath,
+								appServerPathTheme: appServerPathTheme,
 								deployed: false,
 								themeName: themeName
 							}
@@ -256,7 +256,7 @@ gulp.task(
 gulp.task(
 	'deploy-fast',
 	function() {
-		var dest = store.get('appServerPath');
+		var dest = store.get('appServerPathTheme');
 
 		var tempDirPath = path.join(dest, '../../temp/');
 
