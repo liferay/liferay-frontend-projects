@@ -15,6 +15,8 @@ var store = gulp.storage;
 
 store.create('LiferayTheme', 'liferay-theme.json');
 
+var pathBuild = './build';
+
 gulp.task(
 	'init',
 	function() {
@@ -116,11 +118,6 @@ gulp.task(
 	}
 );
 
-gulp.task('watch', function() {
-	gulp.watch('src/**/*', ['deploy']);
-	//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
-});
-
 gulp.task(
 	'build',
 	function(cb) {
@@ -137,29 +134,6 @@ gulp.task(
 	}
 );
 
-var pathBuild = './build';
-
-gulp.task(
-	'build-clean',
-	function(cb) {
-		del([pathBuild], cb);
-	}
-);
-
-gulp.task(
-	'build-unstyled',
-	function() {
-		return gulp.src('./node_modules/liferay-theme-unstyled/src/**/*').pipe(gulp.dest(pathBuild));
-	}
-);
-
-gulp.task(
-	'build-styled',
-	function() {
-		return gulp.src('./node_modules/liferay-theme-styled/src/**/*').pipe(gulp.dest(pathBuild));
-	}
-);
-
 gulp.task(
 	'build-base',
 	function() {
@@ -173,6 +147,13 @@ gulp.task(
 );
 
 gulp.task(
+	'build-clean',
+	function(cb) {
+		del([pathBuild], cb);
+	}
+);
+
+gulp.task(
 	'build-src',
 	function() {
 		return gulp.src('./src/**/*')
@@ -182,25 +163,16 @@ gulp.task(
 );
 
 gulp.task(
-	'rename-css-dir',
-	function(cb) {
-		fs.remove(
-			pathBuild + '/_css',
-			function(err) {
-				fs.rename(
-					pathBuild + '/css',
-					pathBuild + '/_css',
-					cb
-				);
-			}
-		)
+	'build-styled',
+	function() {
+		return gulp.src('./node_modules/liferay-theme-styled/src/**/*').pipe(gulp.dest(pathBuild));
 	}
 );
 
 gulp.task(
-	'remove-old-css-dir',
-	function(cb) {
-		del([pathBuild + '/_css'], cb);
+	'build-unstyled',
+	function() {
+		return gulp.src('./node_modules/liferay-theme-unstyled/src/**/*').pipe(gulp.dest(pathBuild));
 	}
 );
 
@@ -338,6 +310,37 @@ gulp.task(
 		}
 
 		return stream;
+	}
+);
+
+gulp.task(
+	'remove-old-css-dir',
+	function(cb) {
+		del([pathBuild + '/_css'], cb);
+	}
+);
+
+gulp.task(
+	'rename-css-dir',
+	function(cb) {
+		fs.remove(
+			pathBuild + '/_css',
+			function(err) {
+				fs.rename(
+					pathBuild + '/css',
+					pathBuild + '/_css',
+					cb
+				);
+			}
+		)
+	}
+);
+
+gulp.task(
+	'watch',
+	function() {
+		gulp.watch('src/**/*', ['deploy']);
+		//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 	}
 );
 
