@@ -87,6 +87,21 @@ gulp.task(
 									done(ask);
 								});
 							}
+						},
+						{
+							name: 'baseTheme',
+							type: 'list',
+							choices: [
+								{
+									name: 'Styled',
+									value: 'styled'
+								},
+								{
+									name: 'Unstyled',
+									value: 'unstyled'
+								}
+							],
+							message: 'When building this theme, what theme should it inherit from?'
 						}
 					],
 					function(answers) {
@@ -123,8 +138,7 @@ gulp.task(
 	function(cb) {
 		runSequence(
 			'build-clean',
-			'build-unstyled',
-			'build-styled',
+			'build-base',
 			'build-src',
 			'rename-css-dir',
 			'compile-scss',
@@ -137,12 +151,15 @@ gulp.task(
 gulp.task(
 	'build-base',
 	function() {
-		return gulp.src(
-			[
-				'./node_modules/liferay-theme-unstyled/src/**/*',
-				'./node_modules/liferay-theme-styled/src/**/*'
-			]
-		).pipe(gulp.dest(pathBuild));
+		var sourceFiles = ['./node_modules/liferay-theme-unstyled/src/**/*'];
+
+		if (store.get('baseTheme') == 'styled') {
+			sourceFiles.push('./node_modules/liferay-theme-styled/src/**/*');
+		}
+
+		return gulp.src(sourceFiles)
+			//.pipe(plugins.debug())
+			.pipe(gulp.dest(pathBuild));
 	}
 );
 
@@ -159,20 +176,6 @@ gulp.task(
 		return gulp.src('./src/**/*')
 			//.pipe(plugins.changed(pathBuild))
 			.pipe(gulp.dest(pathBuild));
-	}
-);
-
-gulp.task(
-	'build-styled',
-	function() {
-		return gulp.src('./node_modules/liferay-theme-styled/src/**/*').pipe(gulp.dest(pathBuild));
-	}
-);
-
-gulp.task(
-	'build-unstyled',
-	function() {
-		return gulp.src('./node_modules/liferay-theme-unstyled/src/**/*').pipe(gulp.dest(pathBuild));
 	}
 );
 
