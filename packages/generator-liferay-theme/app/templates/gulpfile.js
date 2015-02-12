@@ -4,6 +4,7 @@ var async = require('async');
 var del = require('del');
 var fs = require('fs-extra');
 var gulp = require('gulp');
+var inquirer = require('inquirer');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
@@ -36,117 +37,116 @@ function getSrcPath(srcPath) {
 
 gulp.task(
 	'init',
-	function() {
+	function(cb) {
 		var cwd = process.cwd();
 
 		var appServerPathDefault = store.get('appServerPath') || path.join(path.dirname(cwd), 'tomcat');
 
-		return gulp.src('', {read: false})
-			.pipe(
-				plugins.prompt.prompt(
-					[
-						{
-							name: 'appServerPath',
-							type: 'input',
-							message: 'Enter the path to your app server directory:',
-							default: appServerPathDefault,
-							validate: function(appServerPath) {
-								var retVal = false;
+		inquirer.prompt(
+			[
+				{
+					name: 'appServerPath',
+					type: 'input',
+					message: 'Enter the path to your app server directory:',
+					default: appServerPathDefault,
+					validate: function(appServerPath) {
+						var retVal = false;
 
-								if (appServerPath) {
-									retVal = true;
+						if (appServerPath) {
+							retVal = true;
 
-									if (!fs.existsSync(appServerPath)) {
-										retVal = '"%s" does not exist';
-									}
-									else if (!fs.statSync(appServerPath).isDirectory()) {
-										retVal = '"%s" is not a directory';
-									}
-									else {
-										var baseName = path.basename(appServerPath);
-
-										if (baseName == 'webapps') {
-											appServerPath = path.dirname(appServerPath);
-										}
-
-										var webappsPath = path.join(appServerPath, 'webapps');
-
-										if (!fs.existsSync(webappsPath) || !fs.statSync(webappsPath).isDirectory()) {
-											retVal = '"%s" doesnt appear to be an app server directory';
-										}
-									}
-								}
-
-								if (_.isString(retVal)) {
-									retVal = util.format(retVal, appServerPath);
-								}
-
-								return retVal;
+							if (!fs.existsSync(appServerPath)) {
+								retVal = '"%s" does not exist';
 							}
+							else if (!fs.statSync(appServerPath).isDirectory()) {
+								retVal = '"%s" is not a directory';
+							}
+							else {
+								var baseName = path.basename(appServerPath);
+
+								if (baseName == 'webapps') {
+									appServerPath = path.dirname(appServerPath);
+								}
+
+								var webappsPath = path.join(appServerPath, 'webapps');
+
+								if (!fs.existsSync(webappsPath) || !fs.statSync(webappsPath).isDirectory()) {
+									retVal = '"%s" doesnt appear to be an app server directory';
+								}
+							}
+						}
+
+						if (_.isString(retVal)) {
+							retVal = util.format(retVal, appServerPath);
+						}
+
+						return retVal;
+					}
+				},
+				{
+					name: 'deployPath',
+					type: 'input',
+					message: 'Enter in your deploy directory:',
+					when: function(answers) {
+						var appServerPath = answers.appServerPath;
+						var deployPath = path.resolve(path.join(appServerPath, '../deploy'));
+
+						var done = this.async();
+
+						fs.stat(deployPath, function(err, stats) {
+							var ask = err || !stats.isDirectory();
+
+							if (!ask) {
+								answers.deployPath = deployPath;
+							}
+
+							done(ask);
+						});
+					}
+				},
+				{
+					name: 'baseTheme',
+					type: 'list',
+					choices: [
+						{
+							name: 'Styled',
+							value: 'styled'
 						},
 						{
-							name: 'deployPath',
-							type: 'input',
-							message: 'Enter in your deploy directory:',
-							when: function(answers) {
-								var appServerPath = answers.appServerPath;
-								var deployPath = path.resolve(path.join(appServerPath, '../deploy'));
-
-								var done = this.async();
-
-								fs.stat(deployPath, function(err, stats) {
-									var ask = err || !stats.isDirectory();
-
-									if (!ask) {
-										answers.deployPath = deployPath;
-									}
-
-									done(ask);
-								});
-							}
-						},
-						{
-							name: 'baseTheme',
-							type: 'list',
-							choices: [
-								{
-									name: 'Styled',
-									value: 'styled'
-								},
-								{
-									name: 'Unstyled',
-									value: 'unstyled'
-								}
-							],
-							message: 'When building this theme, what theme should it inherit from?'
+							name: 'Unstyled',
+							value: 'unstyled'
 						}
 					],
-					function(answers) {
-						var appServerPath = answers.appServerPath;
+					message: 'When building this theme, what theme should it inherit from?'
+				}
+			],
+			function(answers) {
+				var appServerPath = answers.appServerPath;
 
-						var baseName = path.basename(appServerPath);
+				var baseName = path.basename(appServerPath);
 
-						if (baseName != 'webapps') {
-							appServerPath = path.join(appServerPath, 'webapps');
-						}
+				if (baseName != 'webapps') {
+					appServerPath = path.join(appServerPath, 'webapps');
+				}
 
-						var themeName = path.basename(__dirname);
+				var themeName = path.basename(__dirname);
 
-						var appServerPathTheme = path.join(appServerPath, themeName);
+				var appServerPathTheme = path.join(appServerPath, themeName);
 
-						answers = _.assign(
-							answers,
-							{
-								appServerPathTheme: appServerPathTheme,
-								deployed: false,
-								themeName: themeName
-							}
-						);
-
-						store.store(answers);
+				answers = _.assign(
+					answers,
+					{
+						appServerPathTheme: appServerPathTheme,
+						deployed: false,
+						themeName: themeName
 					}
-				)
-			);
+				);
+
+				store.store(answers);
+
+				cb();
+			}
+		);
 	}
 );
 
