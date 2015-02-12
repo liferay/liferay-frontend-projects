@@ -19,6 +19,21 @@ var fullDeploy = (argv.full || argv.f);
 
 var pathBuild = './build';
 
+var changedFile;
+
+function getSrcPath(srcPath) {
+	var changed = (changedFile && (changedFile.type == 'changed'));
+	var fastDeploy = (!fullDeploy && store.get('deployed'));
+
+	if (changed && fastDeploy) {
+		var changedFileName = path.basename(changedFile.path);
+
+		srcPath = path.join(srcPath, '..', changedFileName);
+	}
+
+	return srcPath;
+}
+
 gulp.task(
 	'init',
 	function() {
@@ -160,7 +175,7 @@ gulp.task(
 		}
 
 		return gulp.src(sourceFiles)
-			//.pipe(plugins.debug())
+			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild));
 	}
 );
@@ -175,8 +190,8 @@ gulp.task(
 gulp.task(
 	'build-src',
 	function() {
-		return gulp.src('./src/**/*')
-			//.pipe(plugins.changed(pathBuild))
+		return gulp.src(getSrcPath('./src/**/*'))
+			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild));
 	}
 );
@@ -215,12 +230,12 @@ gulp.task(
 
 		var cssBuild = pathBuild + '/_css';
 
-		return gulp.src(cssBuild + '/**/*.+(css|scss)')
+		return gulp.src(getSrcPath(cssBuild + '/**/*.+(css|scss)'))
 			.pipe(plugins.plumber())
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
 			// .pipe(plugins.debug())
-			.pipe(plugins.addSrc(cssBuild + '/**/*.!(css|scss)'))
+			.pipe(plugins.addSrc(cssBuild + '/**/*'))
 			.pipe(gulp.dest(pathBuild + '/css'));
 	}
 );
@@ -271,8 +286,8 @@ gulp.task(
 			);
 		}
 
-		var stream = gulp.src(pathBuild + '/**/*')
-			.pipe(plugins.changed(dest))
+		var stream = gulp.src(getSrcPath(pathBuild + '/**/*.css'))
+			// .pipe(plugins.debug())
 			.pipe(gulp.dest(dest));
 
 		if (tempThemeDir) {
@@ -346,7 +361,19 @@ gulp.task(
 gulp.task(
 	'watch',
 	function() {
-		gulp.watch('src/**/*', ['deploy']);
+		gulp.watch(
+			'src/**/*',
+			function(vinyl) {
+				changedFile = vinyl;
+
+				runSequence(
+					'deploy',
+					function() {
+						changedFile = null;
+					}
+				);
+			}
+		);
 		//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 	}
 );
