@@ -16,11 +16,11 @@ var store = gulp.storage;
 
 store.create('LiferayTheme', 'liferay-theme.json');
 
+var changedFile;
+
 var fullDeploy = (argv.full || argv.f);
 
 var pathBuild = './build';
-
-var changedFile;
 
 function getSrcPath(srcPath) {
 	var changed = (changedFile && (changedFile.type == 'changed'));
