@@ -101,11 +101,15 @@ module.exports = yeoman.generators.Base.extend({
 	install: function () {
 		var instance = this;
 
+		var skipInstall = this.options['skip-install'];
+
 		this.installDependencies(
 			{
-				skipInstall: this.options['skip-install'],
+				skipInstall: skipInstall,
 				callback: function() {
-					instance.spawnCommand('gulp', ['init']);
+					if (!skipInstall) {
+						instance.spawnCommand('gulp', ['init']);
+					}
 				}
 			}
 		);
