@@ -239,6 +239,7 @@ gulp.task(
 		else {
 			runSequence(
 				'build',
+				'release',
 				'deploy-full',
 				cb
 			);
@@ -283,17 +284,7 @@ gulp.task(
 gulp.task(
 	'deploy-full',
 	function () {
-		var themeName = store.get('themeName');
-
-		var stream = gulp.src(pathBuild + '/**/*')
-			.pipe(
-				plugins.war(
-					{
-						displayName: themeName
-					}
-				)
-			)
-			.pipe(plugins.zip(themeName + '.war'))
+		var stream = gulp.src('./dist/*.war')
 			.pipe(gulp.dest(store.get('deployPath')));
 
 		if (!store.get('deployed')) {
@@ -306,6 +297,24 @@ gulp.task(
 		}
 
 		return stream;
+	}
+);
+
+gulp.task(
+	'release',
+	function() {
+		var themeName = store.get('themeName');
+
+		return gulp.src(pathBuild + '/**/*')
+			.pipe(
+				plugins.war(
+					{
+						displayName: themeName
+					}
+				)
+			)
+			.pipe(plugins.zip(themeName + '.war'))
+			.pipe(gulp.dest('./dist'));
 	}
 );
 
