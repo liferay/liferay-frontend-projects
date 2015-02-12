@@ -15,6 +15,8 @@ var store = gulp.storage;
 
 store.create('LiferayTheme', 'liferay-theme.json');
 
+var fullDeploy = (argv.full || argv.f);
+
 var pathBuild = './build';
 
 gulp.task(
@@ -226,7 +228,7 @@ gulp.task(
 gulp.task(
 	'deploy',
 	function(cb) {
-		if (!argv.full && store.get('deployed')) {
+		if (!fullDeploy && store.get('deployed')) {
 			runSequence(
 				'build-src',
 				'rename-css-dir',
