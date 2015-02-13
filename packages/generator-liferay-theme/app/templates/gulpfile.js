@@ -377,5 +377,3 @@ gulp.task(
 		//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
 	}
 );
-
-// require('gulp-storage')(gulp);
