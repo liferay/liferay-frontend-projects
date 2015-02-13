@@ -22,17 +22,25 @@ var fullDeploy = (argv.full || argv.f);
 
 var pathBuild = './build';
 
-function getSrcPath(srcPath) {
+function getSrcPath(srcPath, validator) {
 	var changed = (changedFile && (changedFile.type == 'changed'));
 	var fastDeploy = (!fullDeploy && store.get('deployed'));
 
 	if (changed && fastDeploy) {
 		var changedFileName = path.basename(changedFile.path);
 
+		if (validator && !validator(changedFileName)) {
+			return srcPath;
+		}
+
 		srcPath = path.join(srcPath, '..', changedFileName);
 	}
 
 	return srcPath;
+}
+
+function isCssFile(name) {
+	return name.indexOf('.css') > -1;
 }
 
 gulp.task(
@@ -230,7 +238,7 @@ gulp.task(
 
 		var cssBuild = pathBuild + '/_css';
 
-		return gulp.src(getSrcPath(cssBuild + '/**/*.+(css|scss)'))
+		return gulp.src(getSrcPath(cssBuild + '/**/*.+(css|scss)', isCssFile))
 			.pipe(plugins.plumber())
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
