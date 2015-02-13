@@ -208,7 +208,7 @@ gulp.task(
 gulp.task(
 	'build-web-inf',
 	function() {
-		return gulp.src('./build/WEB-INF/src/**/*')
+		return gulp.src(getSrcPath('./build/WEB-INF/src/**/*'))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest('./build/WEB-INF/classes'));
 	}
