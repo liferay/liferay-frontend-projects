@@ -15,38 +15,20 @@ module.exports = yeoman.generators.Base.extend({
 		var done = this.async();
 
 		// Have Yeoman greet the user.
-		this.log(yosay(
-			'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
-		));
+		this.log(yosay(this._yosay));
 
-		var prompts = [
-			{
-				type: 'input',
-				name: 'themeName',
-				message: 'What would you like to call your theme?',
-				default: 'My Liferay Theme'
-			},
-			{
-				type: 'input',
-				name: 'themeId',
-				message: 'Would you like to use this as the themeId?',
-				default: function(answers) {
-					return slug((answers.themeName || '').toLowerCase());
-				}
-			},
-			{
-				type: 'confirm',
-				name: 'supportCompass',
-				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
-				default: false
-			}
-		];
+		this.prompt(
+			this._prompts,
+			function (props) {
+				this._promptCallback(props);
 
-		this.prompt(prompts, function (props) {
-			this.themeName = props.themeName;
-			this.appname = props.themeId;
-			this.supportCompass = props.supportCompass;
+				done();
+			}.bind(this)
+		);
+	},
 
+	configuring: {
+		setThemeDirName: function() {
 			var themeDirName = this.appname;
 
 			if (!(/-theme$/.test(themeDirName))) {
@@ -54,12 +36,8 @@ module.exports = yeoman.generators.Base.extend({
 			}
 
 			this.themeDirName = themeDirName;
+		},
 
-			done();
-		}.bind(this));
-	},
-
-	configuring: {
 		enforceFolderName: function() {
 			if (this.themeDirName !== _.last(this.destinationRoot().split(path.sep))) {
 				this.destinationRoot(this.themeDirName);
@@ -114,5 +92,36 @@ module.exports = yeoman.generators.Base.extend({
 				}
 			}
 		);
-	}
+	},
+
+	_promptCallback: function(props) {
+		this.appname = props.themeId;
+		this.supportCompass = props.supportCompass;
+		this.themeName = props.themeName;
+	},
+
+	_prompts: [
+		{
+			type: 'input',
+			name: 'themeName',
+			message: 'What would you like to call your theme?',
+			default: 'My Liferay Theme'
+		},
+		{
+			type: 'input',
+			name: 'themeId',
+			message: 'Would you like to use this as the themeId?',
+			default: function(answers) {
+				return slug((answers.themeName || '').toLowerCase());
+			}
+		},
+		{
+			type: 'confirm',
+			name: 'supportCompass',
+			message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
+			default: false
+		}
+	],
+
+	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
 });
