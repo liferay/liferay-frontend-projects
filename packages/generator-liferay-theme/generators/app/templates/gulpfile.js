@@ -165,6 +165,7 @@ gulp.task(
 			'build-clean',
 			'build-base',
 			'build-src',
+			'build-web-inf',
 			'rename-css-dir',
 			'compile-scss',
 			'remove-old-css-dir',
@@ -201,6 +202,15 @@ gulp.task(
 		return gulp.src(getSrcPath('./src/**/*'))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild));
+	}
+);
+
+gulp.task(
+	'build-web-inf',
+	function() {
+		return gulp.src('./build/WEB-INF/src/**/*')
+			// .pipe(plugins.debug())
+			.pipe(gulp.dest('./build/WEB-INF/classes'));
 	}
 );
 
@@ -254,6 +264,7 @@ gulp.task(
 		if (!fullDeploy && store.get('deployed')) {
 			runSequence(
 				'build-src',
+				'build-web-inf',
 				'rename-css-dir',
 				'compile-scss',
 				'remove-old-css-dir',
