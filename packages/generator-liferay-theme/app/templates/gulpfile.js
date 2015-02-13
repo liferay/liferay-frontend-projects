@@ -286,7 +286,7 @@ gulp.task(
 			);
 		}
 
-		var stream = gulp.src(getSrcPath(pathBuild + '/**/*.css'))
+		var stream = gulp.src(getSrcPath(pathBuild + '/**/*'))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest(dest));
 
