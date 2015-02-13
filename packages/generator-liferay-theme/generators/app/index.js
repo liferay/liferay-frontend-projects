@@ -7,11 +7,11 @@ var slug = require('slug');
 var _ = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
-	initializing: function () {
+	initializing: function() {
 		this.pkg = require('../../package.json');
 	},
 
-	prompting: function () {
+	prompting: function() {
 		var done = this.async();
 
 		// Have Yeoman greet the user.
@@ -66,16 +66,16 @@ module.exports = yeoman.generators.Base.extend({
 			}
 
 			this.config.save();
-		},
+		}
 	},
 
 	writing: {
-		app: function () {
+		app: function() {
 			this.template('_package.json', 'package.json', this);
 			this.template('_bower.json', 'bower.json', this);
 		},
 
-		projectfiles: function () {
+		projectfiles: function() {
 			this.fs.copy(
 				this.templatePath('gitignore'),
 				this.destinationPath('.gitignore')
@@ -98,7 +98,7 @@ module.exports = yeoman.generators.Base.extend({
 		}
 	},
 
-	install: function () {
+	install: function() {
 		var instance = this;
 
 		var skipInstall = this.options['skip-install'];
