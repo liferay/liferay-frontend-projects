@@ -39,6 +39,29 @@ function getSrcPath(srcPath, validator) {
 	return srcPath;
 }
 
+function getLanguageProperties() {
+	var pathContent = path.join(pathBuild, 'WEB-INF/src/content');
+
+	var languageKeys = [];
+
+	if (fs.existsSync(pathContent) && fs.statSync(pathContent).isDirectory()) {
+		var contentFiles = fs.readdirSync(pathContent);
+
+		_.forEach(
+			contentFiles,
+			function(item, index) {
+				if (item.match(/Language.*properties/)) {
+					var xmlElement = '<language-properties>content/' + item + '</language-properties>';
+
+					languageKeys.push(xmlElement);
+				}
+			}
+		);
+	}
+
+	return languageKeys;
+}
+
 function isCssFile(name) {
 	return name.indexOf('.css') > -1;
 }
@@ -166,6 +189,7 @@ gulp.task(
 			'build-base',
 			'build-src',
 			'build-web-inf',
+			'build-hook',
 			'rename-css-dir',
 			'compile-scss',
 			'remove-old-css-dir',
@@ -193,6 +217,41 @@ gulp.task(
 	'build-clean',
 	function(cb) {
 		del([pathBuild], cb);
+	}
+);
+
+gulp.task(
+	'build-hook',
+	function(cb) {
+		var handleErr = function(err) {
+			if (err) {
+				cb();
+			}
+		};
+
+		var languageProperties = getLanguageProperties();
+
+		if (languageProperties.length) {
+			fs.readFile(
+				path.join(pathBuild, 'WEB-INF/liferay-hook.xml'),
+				{
+					encoding: 'utf8'
+				},
+				function(err, data) {
+					handleErr(err);
+
+					var match = /<language-properties>content\/Language\*\.properties<\/language-properties>/;
+
+					if (data.match(match)) {
+						data = data.replace(match, languageProperties.join('\n\t'));
+
+						fs.writeFileSync(path.join(pathBuild, 'WEB-INF/liferay-hook.xml.processed'), data);
+					}
+
+					cb();
+				}
+			);
+		}
 	}
 );
 
