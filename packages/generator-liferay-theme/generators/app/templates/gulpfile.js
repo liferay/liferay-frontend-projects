@@ -223,12 +223,6 @@ gulp.task(
 gulp.task(
 	'build-hook',
 	function(cb) {
-		var handleErr = function(err) {
-			if (err) {
-				cb();
-			}
-		};
-
 		var languageProperties = getLanguageProperties();
 
 		if (languageProperties.length) {
@@ -238,7 +232,9 @@ gulp.task(
 					encoding: 'utf8'
 				},
 				function(err, data) {
-					handleErr(err);
+					if (err) {
+						cb();
+					}
 
 					var match = /<language-properties>content\/Language\*\.properties<\/language-properties>/;
 
@@ -251,6 +247,9 @@ gulp.task(
 					cb();
 				}
 			);
+		}
+		else {
+			cb();
 		}
 	}
 );
