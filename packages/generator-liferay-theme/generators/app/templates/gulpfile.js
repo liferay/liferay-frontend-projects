@@ -76,10 +76,10 @@ gulp.task(
 		inquirer.prompt(
 			[
 				{
+					default: appServerPathDefault,
+					message: 'Enter the path to your app server directory:',
 					name: 'appServerPath',
 					type: 'input',
-					message: 'Enter the path to your app server directory:',
-					default: appServerPathDefault,
 					validate: function(appServerPath) {
 						var retVal = false;
 
@@ -118,9 +118,9 @@ gulp.task(
 					default: function(answers) {
 						return path.join(answers.appServerPath, '../deploy');
 					},
+					message: 'Enter in your deploy directory:',
 					name: 'deployPath',
 					type: 'input',
-					message: 'Enter in your deploy directory:',
 					when: function(answers) {
 						var appServerPath = answers.appServerPath;
 						var deployPath = path.resolve(path.join(appServerPath, '../deploy'));
@@ -139,8 +139,6 @@ gulp.task(
 					}
 				},
 				{
-					name: 'baseTheme',
-					type: 'list',
 					choices: [
 						{
 							name: 'Styled',
@@ -151,7 +149,9 @@ gulp.task(
 							value: 'unstyled'
 						}
 					],
-					message: 'When building this theme, what theme should it inherit from?'
+					message: 'When building this theme, what theme should it inherit from?',
+					name: 'baseTheme',
+					type: 'list'
 				}
 			],
 			function(answers) {
