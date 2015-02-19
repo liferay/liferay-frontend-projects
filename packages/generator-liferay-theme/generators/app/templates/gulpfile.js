@@ -127,15 +127,18 @@ gulp.task(
 
 						var done = this.async();
 
-						fs.stat(deployPath, function(err, stats) {
-							var ask = err || !stats.isDirectory();
+						fs.stat(
+							deployPath,
+							function(err, stats) {
+								var ask = err || !stats.isDirectory();
 
-							if (!ask) {
-								answers.deployPath = deployPath;
+								if (!ask) {
+									answers.deployPath = deployPath;
+								}
+
+								done(ask);
 							}
-
-							done(ask);
-						});
+						);
 					}
 				},
 				{
@@ -380,7 +383,7 @@ gulp.task(
 
 gulp.task(
 	'deploy-full',
-	function () {
+	function() {
 		var stream = gulp.src('./dist/*.war')
 			.pipe(gulp.dest(store.get('deployPath')));
 
@@ -434,7 +437,7 @@ gulp.task(
 					cb
 				);
 			}
-		)
+		);
 	}
 );
 
