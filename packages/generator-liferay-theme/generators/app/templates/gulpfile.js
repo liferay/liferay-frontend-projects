@@ -115,6 +115,9 @@ gulp.task(
 					}
 				},
 				{
+					default: function(answers) {
+						return path.join(answers.appServerPath, '../deploy');
+					},
 					name: 'deployPath',
 					type: 'input',
 					message: 'Enter in your deploy directory:',
