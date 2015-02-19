@@ -39,16 +39,16 @@ var importerGeneratorPrototype = _.merge(
 
 		_prompts: [
 			{
-				type: 'input',
-				name: 'importTheme',
+				default: path.join(process.cwd(), 'mytheme-theme'),
 				message: 'What theme would you like to imort?',
-				default: path.join(process.cwd(), 'mytheme-theme')
+				name: 'importTheme',
+				type: 'input'
 			},
 			{
-				type: 'confirm',
-				name: 'supportCompass',
+				default: false,
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
-				default: false
+				name: 'supportCompass',
+				type: 'confirm'
 			}
 		],
 
