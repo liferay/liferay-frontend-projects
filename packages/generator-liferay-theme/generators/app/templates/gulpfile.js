@@ -191,21 +191,22 @@ gulp.task(
 	'build',
 	function(cb) {
 		runSequence(
-			'build-clean',
-			'build-base',
-			'build-src',
-			'build-web-inf',
-			'build-hook',
+			'build:clean',
+			'build:base',
+			'build:src',
+			'build:web-inf',
+			'build:hook',
 			'rename-css-dir',
 			'compile-scss',
 			'remove-old-css-dir',
+			'build:war',
 			cb
 		);
 	}
 );
 
 gulp.task(
-	'build-base',
+	'build:base',
 	function() {
 		var sourceFiles = ['./node_modules/liferay-theme-unstyled/src/**/*'];
 
@@ -220,14 +221,14 @@ gulp.task(
 );
 
 gulp.task(
-	'build-clean',
+	'build:clean',
 	function(cb) {
 		del([pathBuild], cb);
 	}
 );
 
 gulp.task(
-	'build-hook',
+	'build:hook',
 	function(cb) {
 		var languageProperties = getLanguageProperties();
 
@@ -261,7 +262,7 @@ gulp.task(
 );
 
 gulp.task(
-	'build-src',
+	'build:src',
 	function() {
 		return gulp.src(getSrcPath('./src/**/*'))
 			// .pipe(plugins.debug())
@@ -270,7 +271,7 @@ gulp.task(
 );
 
 gulp.task(
-	'build-web-inf',
+	'build:web-inf',
 	function() {
 		return gulp.src(getSrcPath('./build/WEB-INF/src/**/*'))
 			// .pipe(plugins.debug())
@@ -325,30 +326,16 @@ gulp.task(
 gulp.task(
 	'deploy',
 	function(cb) {
-		if (!fullDeploy && store.get('deployed')) {
-			runSequence(
-				'build-src',
-				'build-web-inf',
-				'rename-css-dir',
-				'compile-scss',
-				'remove-old-css-dir',
-				'deploy-fast',
-				cb
-			);
-		}
-		else {
-			runSequence(
-				'build',
-				'release',
-				'deploy-full',
-				cb
-			);
-		}
+		runSequence(
+			'build',
+			'deploy:war',
+			cb
+		)
 	}
 );
 
 gulp.task(
-	'deploy-fast',
+	'deploy:fast',
 	function() {
 		var dest = store.get('appServerPathTheme');
 
@@ -382,7 +369,7 @@ gulp.task(
 );
 
 gulp.task(
-	'deploy-full',
+	'deploy:war',
 	function() {
 		var stream = gulp.src('./dist/*.war')
 			.pipe(gulp.dest(store.get('deployPath')));
@@ -401,7 +388,7 @@ gulp.task(
 );
 
 gulp.task(
-	'release',
+	'build:war',
 	function() {
 		var themeName = store.get('themeName');
 
@@ -449,12 +436,27 @@ gulp.task(
 			function(vinyl) {
 				changedFile = vinyl;
 
-				runSequence(
-					'deploy',
-					function() {
-						changedFile = null;
-					}
-				);
+				if (!fullDeploy && store.get('deployed')) {
+					runSequence(
+						'build:src',
+						'build:web-inf',
+						'rename-css-dir',
+						'compile-scss',
+						'remove-old-css-dir',
+						'deploy:fast',
+						function() {
+							changedFile = null;
+						}
+					);
+				}
+				else {
+					runSequence(
+						'deploy',
+						function() {
+							changedFile = null;
+						}
+					);
+				}
 			}
 		);
 		//gulp.watch(paths.partialsSource, ['updateEntryPointCSS']);
