@@ -424,15 +424,10 @@ gulp.task(
 gulp.task(
 	'rename-css-dir',
 	function(cb) {
-		fs.remove(
+		fs.rename(
+			pathBuild + '/css',
 			pathBuild + '/_css',
-			function(err) {
-				fs.rename(
-					pathBuild + '/css',
-					pathBuild + '/_css',
-					cb
-				);
-			}
+			cb
 		);
 	}
 );
