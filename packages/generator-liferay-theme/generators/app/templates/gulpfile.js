@@ -314,6 +314,15 @@ gulp.task(
 		var cssBuild = pathBuild + '/_css';
 
 		return gulp.src(getSrcPath(cssBuild + '/**/*.+(css|scss)', isCssFile))
+			<% if (supportCompass) { %>
+			.pipe(
+				plugins.rename(
+					{
+						extname: '.scss'
+					}
+				)
+			)
+			<% } %>
 			.pipe(plugins.plumber())
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
