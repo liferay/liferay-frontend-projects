@@ -2,7 +2,7 @@
 
 // External protocols regex, supports:
 // "http", "https", "//" and "www."
-var REGEX_EXTERNAL_PROTOCOLS = /https?:\/\/|\/\/|www\./;
+var REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
 
 /**
  * Creates an instance of URLBuilder class.
@@ -48,7 +48,7 @@ URLBuilder.prototype = {
             } else {
                 var path = this._getModulePath(module);
 
-                // If the URL starts with external protocol, individual URL have to be created.
+                // If the URL starts with external protocol, individual URL shall be created.
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push(path);
 
@@ -85,14 +85,21 @@ URLBuilder.prototype = {
      * @return {string} Module path.
      */
     _getModulePath: function (module) {
-        if (module.path) {
-            return module.path;
+        var path = module.path || module.name;
 
-        } else if (module.name.indexOf('.js') !== module.name.length - 3) {
-            return module.name + '.js';
+        var map = this._configParser.getConfig().map;
 
-        } else {
-            return module.name;
+        for (var key in map) {
+            /* istanbul ignore else */
+            if (Object.prototype.hasOwnProperty.call(map, key)) {
+                path = path.replace(new RegExp('(^|\/)(' + key + ')($|\/)', 'g'), '$1' + map[key] + '$3');
+            }
         }
+
+        if (!REGEX_EXTERNAL_PROTOCOLS.test(path) && path.indexOf('.js') !== path.length - 3) {
+            path += '.js';
+        }
+
+        return path;
     }
 };

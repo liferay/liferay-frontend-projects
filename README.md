@@ -119,6 +119,22 @@ require('aui-base', 'aui-test', function(base, test) {
 	});
 ```
 
+Mappings
+======
+You can map parts of module's path with another value and the path will be replaced accordingly. Example:
+
+```
+map: {
+    'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js',
+    'aui': 'html/js'
+}
+```
+
+In this case a module, specified as "jquery" will be loaded from "http://code.jquery.com/jquery-2.1.3.min.js" and a module, specified as "aui/loader.js" will be loaded from:<br>
+URL + basePath + "html/js/loader.js" where URL and basePath will be retrieved from config.js. Here is an exaple:<br>
+If the URL is "http://localhost:3000/modules" and basePath is "/base", the final path will look like this:
+"http://localhost:3000/modules/base/html/js/loader.js"
+
 Loading modules via combo URL:
 ======
 In order to load the modules via combo URL, a special config file have to be created first. You can do that manually or using a special tool, which comes together with the loader. It is called `config-generator`. See the next section for more details:
