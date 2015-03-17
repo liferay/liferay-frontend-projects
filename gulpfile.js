@@ -3,7 +3,7 @@
 var beautify = require('gulp-beautify');
 var concat = require('gulp-concat');
 var del = require('del');
-var es6to5 = require('gulp-6to5');
+var babel = require('gulp-babel');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var gulp = require('gulp');
@@ -103,7 +103,7 @@ gulp.task('loader-min', ['js'], function() {
 
 gulp.task('modules', function() {
     return gulp.src('src/modules/**/*.*')
-        .pipe(es6to5({
+        .pipe(babel({
             'modules': 'amd',
             'moduleIds': true
         }))
