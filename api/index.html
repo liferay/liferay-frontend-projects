@@ -51,11 +51,16 @@
 <li>Run <code>npm install</code> in the cloned/forked repository.</li>
 <li>Run <code>gulp</code> to build it.</li>
 </ol>
-<p>This will build the loader in &#39;dist&#39; directory.</p>
+<p>This will build the loader in &#39;dist&#39; directory. There will be two versions:</p>
+<ul>
+<li>loader.js - which comes with ES6 Promise <a href="(https://github.com/jakearchibald/es6-promise">polyfill</a>)</li>
+<li>loader-pure.js - version without Promise polyfill. If you already have Promise polyfill in your project or you are only targeting browsers which support Promises natively, use this version.</li>
+</ul>
+<p>Both versions have minified versions too.</p>
 <h2 id="how-to-run-the-demo-">How to run the demo?</h2>
 <ol>
 <li>The default configuration and the demo require a combo loader. Go to the folder, where you cloned the loader, then run <code>node combo.js</code>. This will run a combo handler on port 3000.</li>
-<li>Download <a href="https://github.com/cesanta/mongoose">mongoose</a> or if you have brew just do <code>brew install mongoose</code>, then navigate to Loader folder and run mongoose with the following params:
+<li>Download <a href="https://github.com/cesanta/mongoose">mongoose</a> or if you have <code>brew</code> just do <code>brew install mongoose</code>, then navigate to Loader folder and run mongoose with the following params:
  <code>mongoose -listening_port 8080 -document_root dist</code>.</li>
 <li>Open a browser, for example Chrome and load  <code>http://localhost:8080/demo/</code>. Open the console and look for the messages. You will see that resouces are being loaded.</li>
 </ol>
@@ -67,7 +72,7 @@
 </ol>
 <h1 id="registering-modules">Registering modules</h1>
 <p>Use <code>define</code> function:</p>
-<pre><code class="lang-javascript```">define(&#39;aui-dialog&#39;, [&#39;aui-node&#39;, &#39;aui-plugin-base&#39;], function(node, pluginBase) {
+<pre><code class="lang-javascript">define(&#39;aui-dialog&#39;, [&#39;aui-node&#39;, &#39;aui-plugin-base&#39;], function(node, pluginBase) {
     return {
         log: function(text) {
             console.log(&#39;module aui-dialog: &#39; + text);
@@ -76,7 +81,7 @@
 });
 </code></pre>
 <p>You may specify that the module should be loaded on triggering some other module and only of some condition is being met:</p>
-<pre><code class="lang-javascript```">define(&#39;aui-dialog&#39;, [&#39;aui-node&#39;, &#39;aui-plugin-base&#39;], function(node, pluginBase) {
+<pre><code class="lang-javascript">define(&#39;aui-dialog&#39;, [&#39;aui-node&#39;, &#39;aui-plugin-base&#39;], function(node, pluginBase) {
     return {
         log: function(text) {
             console.log(&#39;module aui-dialog: &#39; + text);
@@ -88,7 +93,7 @@
         test: function() {
             var el = document.createElement(&#39;input&#39;);
 
-            return (&#39;placeholder&#39; in INPUT_EL);
+            return (&#39;placeholder&#39; in el);
         }
     },
     path: &#39;aui-dialog.js&#39;
@@ -96,7 +101,7 @@
 </code></pre>
 <p>Here it is specified, that this module should be loaded automatically if developer requests &#39;aui-test&#39; module, but only if some condition is being met.</p>
 <h1 id="using-es6-syntax-in-your-modules-">Using ES6 syntax in your modules:</h1>
-<pre><code class="lang-javascript```">&#39;use strict&#39;;
+<pre><code class="lang-javascript">&#39;use strict&#39;;
 
 import {log as logBase} from &#39;aui-base&#39;;
 import {log as logCore} from &#39;aui-core&#39;;
@@ -129,17 +134,27 @@ export {log};
 <p>Transpile the above using <a href="https://6to5.org">6to5</a> or <a href="https://github.com/esnext/es6-module-transpiler">es6-module-transpiler</a> to AMD syntax. If you transpile using 6to5, be sure you added the option for generating module IDs too.</p>
 <h1 id="loading-modules">Loading modules</h1>
 <p>Use <code>require</code> method:</p>
-<pre><code class="lang-javascript```">require(&#39;aui-base&#39;, &#39;aui-test&#39;, function(base, test) {
+<pre><code class="lang-javascript">require(&#39;aui-base&#39;, &#39;aui-test&#39;, function(base, test) {
         // your code here
     }, function(error) {
         console.error(error);
     });
 </code></pre>
+<h1 id="mappings">Mappings</h1>
+<p>You can map parts of module&#39;s path with another value and the path will be replaced accordingly. Example:</p>
+<pre><code>map: {
+    &#39;jquery&#39;: &#39;http://code.jquery.com/jquery-2.1.3.min.js&#39;,
+    &#39;aui&#39;: &#39;html/js&#39;
+}
+</code></pre><p>In this case a module, specified as &quot;jquery&quot; will be loaded from &quot;<a href="http://code.jquery.com/jquery-2.1.3.min.js">http://code.jquery.com/jquery-2.1.3.min.js</a>&quot; and a module, specified as &quot;aui/loader.js&quot; will be loaded from:<br>
+URL + basePath + &quot;html/js/loader.js&quot; where URL and basePath will be retrieved from config.js. Here is an exaple:<br>
+If the URL is &quot;<a href="http://localhost:3000/modules">http://localhost:3000/modules</a>&quot; and basePath is &quot;/base&quot;, the final path will look like this:
+&quot;<a href="http://localhost:3000/modules/base/html/js/loader.js">http://localhost:3000/modules/base/html/js/loader.js</a>&quot;</p>
 <h1 id="loading-modules-via-combo-url-">Loading modules via combo URL:</h1>
 <p>In order to load the modules via combo URL, a special config file have to be created first. You can do that manually or using a special tool, which comes together with the loader. It is called <code>config-generator</code>. See the next section for more details:</p>
 <h1 id="automatically-generating-the-configuration">Automatically generating the configuration</h1>
 <p>In order to generate the configuration, there is a small NodeJS program, called <code>config-generator</code>. You may use it to generate the configuration like this:</p>
-<pre><code class="lang-bash```">$ node config-generator.js -b src/config/config-base.js -o src/config/config.js src/modules
+<pre><code class="lang-bash">$ node config-generator.js -b src/config/config-base.js -o src/config/config.js src/modules
 </code></pre>
 <p>My advice is to create a separate, base config file and pass it to the config generator as in the code above. In the base file you may define the groups, the URLs, combine flags, etc. and then leave config generator to add the rest.
 Look on the example modules and the demo for more information. Then, just load the generated configuration to the browser and the Loader will do the rest.</p>
@@ -162,7 +177,7 @@ Look on the example modules and the demo for more information. Then, just load t
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Sat Jan 24 2015 15:20:01 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Tue Mar 17 2015 22:13:24 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

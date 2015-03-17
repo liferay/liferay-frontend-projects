@@ -1,12 +1,16 @@
 define("chema/chemaps/aui-chemaps", ["exports", "aui-base"], function (exports, _auiBase) {
-  "use strict";
+    "use strict";
 
-  var logBase = _auiBase.log;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    "use strict";
 
+    var logBase = _auiBase.log;
 
-  function log(text) {
-    logBase("module aui-chemaps says via aui-base", text);
-  }
+    function log(text) {
+        logBase("module aui-chemaps says via aui-base", text);
+    }
 
-  exports.log = log;
+    exports.log = log;
 });
