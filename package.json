@@ -1,6 +1,6 @@
 {
   "name": "lfr-amd-loader",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "AMD Loader with support for combo URL and conditional loading",
   "main": "main.js",
   "scripts": {
@@ -16,33 +16,37 @@
     "url": "https://github.com/ipeychev/lfr-amd-loader/issues"
   },
   "homepage": "https://github.com/ipeychev/lfr-amd-loader",
+  "dependencies": {
+    "bluebird": "^2.9.24",
+    "commander": "^2.8.0",
+    "esprima-fb": "^15001.1.0-dev-harmony-fb",
+    "js-beautify": "^1.5.5",
+    "jsstana": "^0.1.5",
+    "minimatch": "^2.0.4",
+    "recast": "^0.10.12",
+    "update-notifier": "^0.3.2",
+    "walk": "^2.3.9"
+    },
   "devDependencies": {
-    "bluebird": "^2.9.14",
     "combohandler": "^0.4.0",
-    "commander": "^2.7.1",
     "del": "^1.1.1",
     "escodegen": "^1.6.1",
-    "esprima-fb": "^13001.1001.0-dev-harmony-fb",
     "gulp": "^3.8.11",
-    "gulp-babel": "^4.0.0",
+    "gulp-babel": "^5.1.0",
     "gulp-beautify": "^1.1.2",
     "gulp-concat": "^2.5.2",
-    "gulp-istanbul": "^0.6.0",
+    "gulp-istanbul": "^0.8.1",
     "gulp-jsdoc": "^0.1.4",
-    "gulp-jshint": "^1.9.2",
-    "gulp-mocha": "^2.0.0",
-    "gulp-rename": "^1.2.0",
+    "gulp-jshint": "^1.10.0",
+    "gulp-mocha": "^2.0.1",
+    "gulp-rename": "^1.2.2",
     "gulp-template": "^3.0.0",
-    "gulp-uglify": "^1.1.0",
-    "js-beautify": "^1.5.5",
-    "jsdoc": "^3.3.0-beta2",
+    "gulp-uglify": "^1.2.0",
+    "jsdoc": "^3.3.0-beta3",
     "jshint-stylish": "^1.0.1",
-    "jsstana": "^0.1.5",
     "merge-stream": "^0.1.7",
     "run-sequence": "^1.0.2",
     "sinon": "^1.14.1",
-    "update-notifier": "^0.3.1",
-    "v8-natives": "0.0.1",
-    "walk": "^2.3.9"
+    "v8-natives": "0.0.2"
   }
 }

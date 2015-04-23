@@ -1,13 +1,13 @@
-define("aui-core", ["exports"], function (exports) {
-    "use strict";
+define('aui-core', ['exports'], function (exports) {
+    'use strict';
 
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports, '__esModule', {
         value: true
     });
-    "use strict";
+    'use strict';
 
     function log(text) {
-        console.log("module aui-core says", text);
+        console.log('module aui-core says', text);
     }
 
     exports.log = log;
