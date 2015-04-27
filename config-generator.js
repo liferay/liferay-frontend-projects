@@ -32,10 +32,11 @@ program
     .option('-c, --config [config object]', 'The configuration object in which the modules should be added', String, '__CONFIG__')
     .option('-e, --extension [module extension]', 'Use the provided string as an extension instead to get it automatically from the file name. Default: ""', String, '')
     .option('-f, --format [module format]', 'Regex and value which will be applied to the file name when generating the module name. Example: "/_/g,-". Default: ""', parseList)
+    .option('-i, --ignorePath [ignore path]', 'Do not create module path and fullPath properties.')
     .option('-k, --keepExtension [keep file extension]', 'If true, will keep the file extension when it generates module name. Default: false')
     .option('-l, --lowerCase [lower case]', 'Convert file name to lower case before to use it as module name. Default: false')
     .option('-o, --output [file name]', 'Output file to store the generated configuration')
-    .option('-p, --filePattern [file pattern]', 'The pattern to be used in order to find files for processing. Default: "**/*.js"', String, 'js')
+    .option('-p, --filePattern [file pattern]', 'The pattern to be used in order to find files for processing. Default: "**/*.js"', String, '**/*.js')
     .option('-r, --moduleRoot [module root]', 'The folder which will be used as starting point from which the module name should be generated. Default: current working directory', String, process.cwd())
     .version(require('./package.json').version)
     .parse(process.argv);
@@ -148,15 +149,17 @@ function generateConfig() {
                 storedModule.condition = module.condition;
             }
 
-            if (module.fullPath) {
-                storedModule.fullPath = module.fullPath;
-            }
-            else {
-                var dirname = path.dirname(module.name);
+            if (!program.ignorePath) {
+                if (module.fullPath) {
+                    storedModule.fullPath = module.fullPath;
+                }
+                else {
+                    var dirname = path.dirname(module.name);
 
-                var modulePath = module.path || (dirname !== '.' ? dirname + '/' + module.file : module.file);
+                    var modulePath = module.path || (dirname !== '.' ? dirname + '/' + module.file : module.file);
 
-                storedModule.path = modulePath;
+                    storedModule.path = modulePath;
+                }
             }
         }
 

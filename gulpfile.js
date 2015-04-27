@@ -18,7 +18,7 @@ var template = require('gulp-template');
 var uglify = require('gulp-uglify');
 
 gulp.task('build', function(callback) {
-    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'lint', 'demo'], 'build-config', callback);
+    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'lint'], 'build-config', 'demo', callback);
 });
 
 gulp.task('build-config', function(callback) {
