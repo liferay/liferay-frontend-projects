@@ -142,31 +142,12 @@ In order to load the modules via combo URL, a special config file have to be cre
 Automatically generating the configuration
 ======
 
-In order to generate the configuration, there is a small NodeJS program, called `config-generator`. You may use it to generate the configuration file automatically. Here are the options it supports:
+In order to generate the configuration, there is a separate project, called [Liferay AMD modules config generator](https://www.npmjs.com/package/lfr-module-config-generator). You may use it to generate the configuration file automatically.
+
+Here is an example usage:
 
 ```bash
-  Usage: config-generator [options] <file ...>
-
-  Options:
-
-    -h, --help                                 output usage information
-    -b, --base [file name]                     Already existing template to be used as base for the parsed configuration
-    -c, --config [config object]               The configuration object in which the modules should be added
-    -e, --extension [module extension]         Use the provided string as an extension instead to get it automatically from the file name. Default: ""
-    -f, --format [module format]               Regex and value which will be applied to the file name when generating the module name. Example: "/_/g,-". Default: ""
-    -i, --ignorePath [ignore path]             Do not create module path and fullPath properties.
-    -k, --keepExtension [keep file extension]  If true, will keep the file extension when it generates module name. Default: false
-    -l, --lowerCase [lower case]               Convert file name to lower case before to use it as module name. Default: false
-    -o, --output [file name]                   Output file to store the generated configuration
-    -p, --filePattern [file pattern]           The pattern to be used in order to find files for processing. Default: "**/*.js"
-    -r, --moduleRoot [module root]             The folder which will be used as starting point from which the module name should be generated. Default: current working directory
-    -V, --version                              output the version number
-```
-
-Here is an example of its usage:
-
-```bash
-$ node config-generator.js -b src/config/config-base.js -o src/config/config.js src/modules
+$ lfr-cfgen -b src/config/config-base.js -o src/config/config.js src/modules
 ```
 
 A preferable way to work with the loader would be to generate a separate, base config file and pass it to the config generator as in the code above. In the base file you may define the URLs, combine flags, etc. and then leave config generator to add the modules.
