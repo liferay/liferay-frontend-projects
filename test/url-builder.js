@@ -103,7 +103,7 @@ describe('URLBuilder', function () {
                 'aui/js/loader.js': {
                     'dependencies': []
                 },
-                'test/aui/js/loader.js': {
+                'test/aui/js/aui/loader.js': {
                     'dependencies': []
                 }
             }
@@ -111,13 +111,13 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['jquery', 'aui', 'aui/js/loader.js', 'test/aui/js/loader.js']);
+        var url = urlBuilder.build(['jquery', 'aui', 'aui/js/loader.js', 'test/aui/js/aui/loader.js']);
 
         assert.strictEqual(url.length, 4);
 
         assert.strictEqual(url[0], 'http://code.jquery.com/jquery-2.1.3.min.js');
         assert.strictEqual(url[1], 'http://localhost:3000/modules/base/html/js.js');
         assert.strictEqual(url[2], 'http://localhost:3000/modules/base/html/js/js/loader.js');
-        assert.strictEqual(url[3], 'http://localhost:3000/modules/base/test/aui/js/loader.js');
+        assert.strictEqual(url[3], 'http://localhost:3000/modules/base/test/aui/js/aui/loader.js');
     });
 });

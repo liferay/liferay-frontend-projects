@@ -93,7 +93,7 @@ URLBuilder.prototype = {
             /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(paths, key)) {
                 if (path.indexOf(key) === 0) {
-                    path = path.replace(new RegExp('(^|\/)(' + key + ')($|\/)', 'g'), '$1' + paths[key] + '$3');
+                    path = paths[key] + path.substring(key.length);
                 }
             }
         }
