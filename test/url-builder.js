@@ -85,11 +85,11 @@ describe('URLBuilder', function () {
         assert.strictEqual(url[3], 'www.mydomain.com/crap.js');
     });
 
-    it('should replace parts of path', function () {
+    it('should not replace parts of path', function () {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules',
             'basePath': '/base',
-            'map': {
+            'paths': {
                 'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js',
                 'aui': 'html/js'
             },
@@ -118,6 +118,6 @@ describe('URLBuilder', function () {
         assert.strictEqual(url[0], 'http://code.jquery.com/jquery-2.1.3.min.js');
         assert.strictEqual(url[1], 'http://localhost:3000/modules/base/html/js.js');
         assert.strictEqual(url[2], 'http://localhost:3000/modules/base/html/js/js/loader.js');
-        assert.strictEqual(url[3], 'http://localhost:3000/modules/base/test/html/js/js/loader.js');
+        assert.strictEqual(url[3], 'http://localhost:3000/modules/base/test/aui/js/loader.js');
     });
 });
