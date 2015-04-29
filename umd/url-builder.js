@@ -77,7 +77,7 @@ URLBuilder.prototype = {
                 } else {
                     // If combine is true and module does not have full path, it will be collected
                     // in a buffer to be loaded among with other modules from combo loader.
-                    buffer.push(this._getModulePath(module));
+                    buffer.push(path);
                 }
             }
 
@@ -110,7 +110,9 @@ URLBuilder.prototype = {
         for (var key in map) {
             /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(map, key)) {
-                path = path.replace(new RegExp('(^|\/)(' + key + ')($|\/)', 'g'), '$1' + map[key] + '$3');
+                if (path.indexOf(key) === 0) {
+                    path = path.replace(new RegExp('(^|\/)(' + key + ')($|\/)', 'g'), '$1' + map[key] + '$3');
+                }
             }
         }
 
