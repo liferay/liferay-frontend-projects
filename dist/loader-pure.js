@@ -570,13 +570,13 @@ URLBuilder.prototype = {
     _getModulePath: function (module) {
         var path = module.path || module.name;
 
-        var map = this._configParser.getConfig().map;
+        var paths = this._configParser.getConfig().paths;
 
-        for (var key in map) {
+        for (var key in paths) {
             /* istanbul ignore else */
-            if (Object.prototype.hasOwnProperty.call(map, key)) {
+            if (Object.prototype.hasOwnProperty.call(paths, key)) {
                 if (path.indexOf(key) === 0) {
-                    path = path.replace(new RegExp('(^|\/)(' + key + ')($|\/)', 'g'), '$1' + map[key] + '$3');
+                    path = paths[key] + path.substring(key.length);
                 }
             }
         }
