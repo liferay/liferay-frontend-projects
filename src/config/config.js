@@ -3,8 +3,7 @@ var __CONFIG__ = {
     basePath: '/modules',
     combine: true,
     paths: {
-        'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js',
-        'aui': 'html/js'
+        'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js'
     }
 };
 __CONFIG__.modules = {
