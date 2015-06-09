@@ -117,6 +117,12 @@ module.exports = yeoman.generators.Base.extend(
 				type: 'input'
 			},
 			{
+				message: 'Which version of Liferay is this theme for?',
+				name: 'liferayVersion',
+				choices: ['7.0', '6.2'],
+				type: 'list'
+			},
+			{
 				default: false,
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				name: 'supportCompass',
