@@ -40,7 +40,7 @@ var importerGeneratorPrototype = _.merge(
 		_prompts: [
 			{
 				default: path.join(process.cwd(), 'mytheme-theme'),
-				message: 'What theme would you like to imort?',
+				message: 'What theme would you like to import?',
 				name: 'importTheme',
 				type: 'input'
 			},
