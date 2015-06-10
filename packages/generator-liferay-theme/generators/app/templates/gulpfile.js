@@ -198,6 +198,7 @@ gulp.task(
 			'build:hook',
 			'rename-css-dir',
 			'compile-scss',
+			'move-compiled-css',
 			'remove-old-css-dir',
 			'build:war',
 			cb
@@ -327,8 +328,15 @@ gulp.task(
 			.pipe(sass(config))
 			// .pipe(plugins.plumber.stop())
 			// .pipe(plugins.debug())
-			.pipe(plugins.addSrc(cssBuild + '/**/*'))
-			.pipe(gulp.dest(pathBuild + '/css'));
+			.pipe(gulp.dest(cssBuild));
+	}
+);
+
+gulp.task(
+	'move-compiled-css',
+	function(cb) {
+		return gulp.src(pathBuild + '/_css/**/*')
+			.pipe(gulp.dest(pathBuild + '/css'))
 	}
 );
 
@@ -446,6 +454,7 @@ gulp.task(
 						'build:web-inf',
 						'rename-css-dir',
 						'compile-scss',
+						'move-compiled-css',
 						'remove-old-css-dir',
 						'deploy:fast',
 						function() {
