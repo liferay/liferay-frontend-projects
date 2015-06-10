@@ -1,8 +1,10 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
+var CheckSourceFormattingCLI = require('./node_modules/check-source-formatting/lib/cli').constructor;
 var del = require('del');
 var fs = require('fs-extra');
+var glob = require('glob');
 var gulp = require('gulp');
 var inquirer = require('inquirer');
 var path = require('path');
@@ -277,6 +279,26 @@ gulp.task(
 		return gulp.src(getSrcPath('./build/WEB-INF/src/**/*'))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest('./build/WEB-INF/classes'));
+	}
+);
+
+gulp.task(
+	'check_sf',
+	function(cb) {
+		glob(
+		'src/**/*?(.css|.ftl|.js|.jsp|.scss|.vm)',
+			function(err, files) {
+				if (err) throw err;
+
+				var checkSF = new CheckSourceFormattingCLI(
+					{
+						args: files
+					}
+				);
+
+				checkSF.init();
+			}
+		);
 	}
 );
 
