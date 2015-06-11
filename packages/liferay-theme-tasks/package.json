@@ -1,0 +1,11 @@
+{
+  "name": "liferay-theme-tasks",
+  "version": "0.0.0",
+  "description": "A set of tasks for building and deploying Liferay Portal themes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+  "license": "ISC"
+}
