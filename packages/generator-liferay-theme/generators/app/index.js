@@ -71,7 +71,7 @@ module.exports = yeoman.generators.Base.extend(
 					'src/WEB-INF/liferay-plugin-package.properties',
 					'src/WEB-INF/liferay-plugin-package.properties',
 					{
-						liferayVersion: '7.0.0+',
+						liferayVersion: this.liferayVersion + '.0+',
 						themeDisplayName: this.themeName
 					}
 				);
@@ -97,6 +97,7 @@ module.exports = yeoman.generators.Base.extend(
 
 		_promptCallback: function(props) {
 			this.appname = props.themeId;
+			this.liferayVersion = props.liferayVersion;
 			this.supportCompass = props.supportCompass;
 			this.themeName = props.themeName;
 		},
