@@ -7,5 +7,33 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "async": "^0.9.0",
+    "check-source-formatting": "^1.0.21",
+    "del": "^1.1.1",
+    "fs-extra": "^0.13.0",
+    "glob": "^5.0.10",
+    "gulp": "^3.9.0",
+    "gulp-add-src": "^0.2.0",
+    "gulp-changed": "^1.1.1",
+    "gulp-debug": "^2.0.0",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-rename": "^1.2.0",
+    "gulp-ruby-sass": "^0.7.1",
+    "gulp-sass": "^1.2.4",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-storage": "^1.0.6",
+    "gulp-war": "0.0.1",
+    "gulp-zip": "^2.0.2",
+    "inquirer": "^0.8.0",
+    "liferay-theme-mixins": "^7.0.0",
+    "liferay-theme-styled": "^7.0.0",
+    "liferay-theme-unstyled": "^7.0.0",
+    "lodash": "^2.4.1",
+    "minimist": "^1.1.0",
+    "node-bourbon": "^1.2.3",
+    "run-sequence": "^1.0.2"
+  }
 }
