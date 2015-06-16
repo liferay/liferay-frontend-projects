@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var CheckSourceFormattingCLI = require('../node_modules/check-source-formatting/lib/cli').constructor;
 var del = require('del');
@@ -7,6 +8,7 @@ var fs = require('fs-extra');
 var glob = require('glob');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+var themeUtil = require('../lib/util');
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -24,10 +26,10 @@ module.exports = function(options) {
 	gulp.task(
 		'build:base',
 		function() {
-			var sourceFiles = ['./node_modules/liferay-theme-unstyled/src/**/*'];
+			var sourceFiles = [path.resolve(__dirname, '../node_modules/liferay-theme-unstyled/src/**/*')];
 
 			if (store.get('baseTheme') == 'styled') {
-				sourceFiles.push('./node_modules/liferay-theme-styled/src/**/*');
+				sourceFiles.push(path.resolve(__dirname, '../node_modules/liferay-theme-styled/src/**/*'));
 			}
 
 			return gulp.src(sourceFiles)
@@ -46,7 +48,7 @@ module.exports = function(options) {
 	gulp.task(
 		'build:hook',
 		function(cb) {
-			var languageProperties = getLanguageProperties();
+			var languageProperties = themeUtil.getLanguageProperties();
 
 			if (languageProperties.length) {
 				fs.readFile(
@@ -80,7 +82,7 @@ module.exports = function(options) {
 	gulp.task(
 		'build:src',
 		function() {
-			return gulp.src(getSrcPath('./src/**/*'))
+			return gulp.src(themeUtil.getSrcPath('./src/**/*'))
 				// .pipe(plugins.debug())
 				.pipe(gulp.dest(pathBuild));
 		}
@@ -89,7 +91,7 @@ module.exports = function(options) {
 	gulp.task(
 		'build:web-inf',
 		function() {
-			return gulp.src(getSrcPath('./build/WEB-INF/src/**/*'))
+			return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*'))
 				// .pipe(plugins.debug())
 				.pipe(gulp.dest('./build/WEB-INF/classes'));
 		}
@@ -119,8 +121,8 @@ module.exports = function(options) {
 		'compile-scss',
 		function(cb) {
 			var includePaths = [
-				'./node_modules/liferay-theme-mixins/src',
-				'./node_modules/liferay-theme-mixins/src/liferay'
+				path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src'),
+				path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src/liferay')
 			];
 
 			var sourcemap = false;
@@ -138,7 +140,7 @@ module.exports = function(options) {
 
 			var cssBuild = pathBuild + '/_css';
 
-			return gulp.src(getSrcPath(cssBuild + '/**/*.+(css|scss)', isCssFile))
+			return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.+(css|scss)', themeUtil.isCssFile))
 				.pipe(plugins.plumber())
 				.pipe(sass(config))
 				// .pipe(plugins.plumber.stop())
@@ -152,59 +154,6 @@ module.exports = function(options) {
 		function(cb) {
 			return gulp.src(pathBuild + '/_css/**/*')
 				.pipe(gulp.dest(pathBuild + '/css'))
-		}
-	);
-
-	gulp.task(
-		'deploy:fast',
-		function() {
-			var dest = store.get('appServerPathTheme');
-
-			var tempDirPath = path.join(dest, '../../temp/');
-
-			var tempThemeDir;
-
-			if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
-				var themeName = store.get('themeName');
-
-				var tempDir = fs.readdirSync(tempDirPath);
-
-				tempThemeDir = _.find(
-					tempDir,
-					function(fileName) {
-						return fileName.indexOf(themeName) > -1;
-					}
-				);
-			}
-
-			var stream = gulp.src(getSrcPath(pathBuild + '/**/*'))
-				// .pipe(plugins.debug())
-				.pipe(gulp.dest(dest));
-
-			if (tempThemeDir) {
-				stream.pipe(gulp.dest(path.join(tempDirPath, tempThemeDir)));
-			}
-
-			return stream;
-		}
-	);
-
-	gulp.task(
-		'deploy:war',
-		function() {
-			var stream = gulp.src('./dist/*.war')
-				.pipe(gulp.dest(store.get('deployPath')));
-
-			if (!store.get('deployed')) {
-				stream.on(
-					'end',
-					function() {
-						store.set('deployed', true);
-					}
-				);
-			}
-
-			return stream;
 		}
 	);
 
@@ -243,51 +192,4 @@ module.exports = function(options) {
 			);
 		}
 	);
-
-	function getSrcPath(srcPath, validator) {
-		var changedFile = store.get('changedFile');
-
-		var changed = (changedFile && (changedFile.type == 'changed'));
-
-		var fastDeploy = (!fullDeploy && store.get('deployed'));
-
-		if (changed && fastDeploy) {
-			var changedFileName = path.basename(changedFile.path);
-
-			if (validator && !validator(changedFileName)) {
-				return srcPath;
-			}
-
-			srcPath = path.join(srcPath, '..', changedFileName);
-		}
-
-		return srcPath;
-	}
-
-	function getLanguageProperties() {
-		var pathContent = path.join(pathBuild, 'WEB-INF/src/content');
-
-		var languageKeys = [];
-
-		if (fs.existsSync(pathContent) && fs.statSync(pathContent).isDirectory()) {
-			var contentFiles = fs.readdirSync(pathContent);
-
-			_.forEach(
-				contentFiles,
-				function(item, index) {
-					if (item.match(/Language.*properties/)) {
-						var xmlElement = '<language-properties>content/' + item + '</language-properties>';
-
-						languageKeys.push(xmlElement);
-					}
-				}
-			);
-		}
-
-		return languageKeys;
-	}
-
-	function isCssFile(name) {
-		return name.indexOf('.css') > -1;
-	}
 }

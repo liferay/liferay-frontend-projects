@@ -11,9 +11,9 @@ var inquirer = require('inquirer');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
-var util = require('util');
 
 var buildTasks = require('./build');
+var deployTasks = require('./deploy');
 var initTasks = require('./init');
 
 module.exports = function(options) {
@@ -22,6 +22,7 @@ module.exports = function(options) {
 	var runSequence = require('run-sequence').use(gulp);
 
 	buildTasks(options);
+	deployTasks(options);
 	initTasks(options);
 
 	plugins.storage(gulp);
