@@ -71,7 +71,7 @@ define('aui-dialog', ['aui-node', 'aui-plugin-base'], function(node, pluginBase)
 
 Here it is specified, that this module should be loaded automatically if developer requests 'aui-test' module, but only if some condition is being met.
 
-Using ES6 syntax in your modules:
+Using ES6 syntax in your modules
 ======
 
 ```javascript
@@ -119,15 +119,15 @@ require('aui-base', 'aui-test', function(base, test) {
 	});
 ```
 
-Mappings
+Mapping paths
 ======
 You can map parts of module's path with another value and the path will be replaced accordingly. Example:
 
 ```
-map: {
+__CONFIG__.paths = {
     'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js',
     'aui': 'html/js'
-}
+};
 ```
 
 In this case a module, specified as "jquery" will be loaded from "http://code.jquery.com/jquery-2.1.3.min.js" and a module, specified as "aui/loader.js" will be loaded from:<br>
@@ -135,7 +135,51 @@ URL + basePath + "html/js/loader.js" where URL and basePath will be retrieved fr
 If the URL is "http://localhost:3000/modules" and basePath is "/base", the final path will look like this:
 "http://localhost:3000/modules/base/html/js/loader.js"
 
-Loading modules via combo URL:
+Mapping module names
+======
+You can map module names. Example:
+
+```
+__CONFIG__.maps = {
+    'liferay': 'liferay@1.0.0',
+    'liferay2': 'liferay@1.0.0'
+};
+```
+
+Mapping a module will change its name in order to match the value, specified in the map. Examples:
+
+```
+require('liferay/html/js/autocomplete'...)
+```
+
+Under the hood, it will be the same as if the user specified:
+
+```
+require('liferay@1.0.0y/html/js/autocomplete'...)
+
+```
+
+Module mapping works in module dependencies too:
+
+```
+define('liferay@2.0.0', ['exports', 'liferay/test.js'], function (__exports__, liferay) {
+    'use strict';
+
+    function log(text) {
+        console.log('liferay@2.0.0 says', text);
+    }
+
+    __exports__.log = log;
+});
+```
+
+The module 'liferay/test.js' in the dependencies will be transparently changed to:
+
+```
+'liferay@1.0.0/test.js'
+```
+
+Loading modules via combo URL
 ======
 In order to load the modules via combo URL, a special config file have to be created first. You can do that manually or using a special tool, which comes together with the loader. It is called `config-generator`. See the next section for more details:
 
