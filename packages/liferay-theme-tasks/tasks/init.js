@@ -117,7 +117,7 @@ module.exports = function(options) {
 						appServerPath = path.join(appServerPath, 'webapps');
 					}
 
-					var themeName = path.basename(__dirname);
+					var themeName = path.basename(process.cwd());
 
 					var appServerPathTheme = path.join(appServerPath, themeName);
 
