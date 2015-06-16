@@ -9,6 +9,9 @@
     "liferay",
     "theme"
   ],
+  "scripts": {
+    "install": "node scripts/install.js"
+  },
   "dependencies": {
     "async": "^0.9.0",
     "check-source-formatting": "^1.0.21",
@@ -29,9 +32,6 @@
     "gulp-war": "0.0.1",
     "gulp-zip": "^2.0.2",
     "inquirer": "^0.8.0",
-    "liferay-theme-mixins": "^7.0.0",
-    "liferay-theme-styled": "^7.0.0",
-    "liferay-theme-unstyled": "^7.0.0",
     "lodash": "^2.4.1",
     "minimist": "^1.1.0",
     "node-bourbon": "^1.2.3",
