@@ -110,7 +110,7 @@ URLBuilder.prototype = {
         for (var key in paths) {
             /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(paths, key)) {
-                if (path.indexOf(key) === 0) {
+                if (path === key || path.indexOf(key + '/') === 0) {
                     path = paths[key] + path.substring(key.length);
                 }
             }

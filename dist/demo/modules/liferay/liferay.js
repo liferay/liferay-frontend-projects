@@ -1,4 +1,4 @@
-define("liferay@1.0.0/aui-event", ["exports"], function(exports) {
+define("liferay@1.0.0/liferay/liferay", ["exports"], function(exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
@@ -6,7 +6,7 @@ define("liferay@1.0.0/aui-event", ["exports"], function(exports) {
     });
 
     function log(text) {
-        console.log("module aui-event says", text);
+        console.log("module liferay says", text);
     }
 
     exports.log = log;

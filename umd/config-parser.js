@@ -53,7 +53,21 @@ ConfigParser.prototype = {
      *     The same as those which config parameter of {@link Loader#define} method accepts.
      */
     addModule: function (module) {
-        this._modules[module.name] = module;
+        // Module might be added via configuration or when it arrives from the server.
+        // If it arrives from the server, it will have already a definition. In this case,
+        // we will overwrite the existing properties with those, provided from the module definition.
+        // Otherwise, we will just add it to the map.
+        var moduleDefinition = this._modules[module.name];
+
+        if (moduleDefinition) {
+            for (var key in module) {
+                if (hasOwnProperty.call(module, key)) {
+                    moduleDefinition[key] = module[key];
+                }
+            }
+        } else {
+            this._modules[module.name] = module;
+        }
 
         this._registerConditionalModule(module);
     },
@@ -83,6 +97,49 @@ ConfigParser.prototype = {
      */
     getModules: function () {
         return this._modules;
+    },
+
+    /**
+     * Maps module names to their aliases. Example:
+     * __CONFIG__.maps = {
+     *      liferay: 'liferay@1.0.0'
+     * }
+     *
+     * When someone does require('liferay/html/js/ac.es',...),
+     * if the module 'liferay/html/js/ac.es' is not defined,
+     * then a corresponding alias will be searched. If found, the name will be replaced,
+     * so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
+     *
+     * @protected
+     * @param {array|string} module The module which have to be mapped or array of modules.
+     * @return {array|string} The mapped module or array of mapped modules.
+     */
+    mapModule: function(module) {
+        var modules;
+
+        if (Array.isArray(module)) {
+            modules = module;
+        } else {
+            modules = [module];
+        }
+
+        for (var i = 0; i < modules.length; i++) {
+            var tmpModule = modules[i];
+
+            for (var alias in this._config.maps) {
+                /* istanbul ignore else */
+                if (hasOwnProperty.call(this._config.maps, alias)) {
+                    if (tmpModule === alias || tmpModule.indexOf(alias + '/') === 0) {
+                        tmpModule = this._config.maps[alias] + tmpModule.substring(alias.length);
+                        modules[i] = tmpModule;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        return Array.isArray(module) ? modules : modules[0];
     },
 
     /**

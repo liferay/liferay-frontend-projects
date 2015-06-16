@@ -431,7 +431,21 @@ ConfigParser.prototype = {
      *     The same as those which config parameter of {@link Loader#define} method accepts.
      */
     addModule: function (module) {
-        this._modules[module.name] = module;
+        // Module might be added via configuration or when it arrives from the server.
+        // If it arrives from the server, it will have already a definition. In this case,
+        // we will overwrite the existing properties with those, provided from the module definition.
+        // Otherwise, we will just add it to the map.
+        var moduleDefinition = this._modules[module.name];
+
+        if (moduleDefinition) {
+            for (var key in module) {
+                if (hasOwnProperty.call(module, key)) {
+                    moduleDefinition[key] = module[key];
+                }
+            }
+        } else {
+            this._modules[module.name] = module;
+        }
 
         this._registerConditionalModule(module);
     },
@@ -461,6 +475,49 @@ ConfigParser.prototype = {
      */
     getModules: function () {
         return this._modules;
+    },
+
+    /**
+     * Maps module names to their aliases. Example:
+     * __CONFIG__.maps = {
+     *      liferay: 'liferay@1.0.0'
+     * }
+     *
+     * When someone does require('liferay/html/js/ac.es',...),
+     * if the module 'liferay/html/js/ac.es' is not defined,
+     * then a corresponding alias will be searched. If found, the name will be replaced,
+     * so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
+     *
+     * @protected
+     * @param {array|string} module The module which have to be mapped or array of modules.
+     * @return {array|string} The mapped module or array of mapped modules.
+     */
+    mapModule: function(module) {
+        var modules;
+
+        if (Array.isArray(module)) {
+            modules = module;
+        } else {
+            modules = [module];
+        }
+
+        for (var i = 0; i < modules.length; i++) {
+            var tmpModule = modules[i];
+
+            for (var alias in this._config.maps) {
+                /* istanbul ignore else */
+                if (hasOwnProperty.call(this._config.maps, alias)) {
+                    if (tmpModule === alias || tmpModule.indexOf(alias + '/') === 0) {
+                        tmpModule = this._config.maps[alias] + tmpModule.substring(alias.length);
+                        modules[i] = tmpModule;
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        return Array.isArray(module) ? modules : modules[0];
     },
 
     /**
@@ -708,6 +765,9 @@ DependencyBuilder.prototype = {
                     continue;
                 }
 
+                // Map the modules to their aliases
+                dependencyName = this._configParser.mapModule(dependencyName);
+
                 var moduleDependency = modules[dependencyName];
 
                 if (!moduleDependency) {
@@ -851,7 +911,7 @@ URLBuilder.prototype = {
         for (var key in paths) {
             /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(paths, key)) {
-                if (path.indexOf(key) === 0) {
+                if (path === key || path.indexOf(key + '/') === 0) {
                     path = paths[key] + path.substring(key.length);
                 }
             }
@@ -913,7 +973,7 @@ extend(Loader, global.EventEmitter, {
      * @memberof! Loader#
      * @param {string} name The name of the module.
      * @param {array} dependencies List of module dependencies.
-     * @param {function} implementation The implementation of the method.
+     * @param {function} implementation The implementation of the module.
      * @param {object=} config Object configuration:
      * <ul>
      *         <strong>Optional properties</strong>:
@@ -932,6 +992,8 @@ extend(Loader, global.EventEmitter, {
         // Create new module by merging the provided config with the passed name,
         // dependencies and the implementation.
         var module = config || {};
+
+        name = this._getConfigParser().mapModule(name);
 
         module.name = name;
         module.dependencies = dependencies;
@@ -989,7 +1051,7 @@ extend(Loader, global.EventEmitter, {
 
         // Modules can be specified by as an array, or just as parameters to the function
         // We do not slice or leak arguments to not cause V8 performance penalties
-        // TODO: This could be improved with inline function (hint)
+        // TODO: This could be extracted as an inline function (hint)
         var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) : /* istanbul ignore next */
             Object.prototype.toString.call(arguments[0]) === '[object Array]';
 
@@ -1014,6 +1076,8 @@ extend(Loader, global.EventEmitter, {
                 }
             }
         }
+
+        modules = this._getConfigParser().mapModule(modules);
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
@@ -1073,6 +1137,7 @@ extend(Loader, global.EventEmitter, {
         if (!this._configParser) {
             this._configParser = new global.ConfigParser(this._config);
         }
+
 
         return this._configParser;
     },
@@ -1147,7 +1212,6 @@ extend(Loader, global.EventEmitter, {
 
             // Get all modules which are not yet requested from the server.
             if (registeredModule !== 'exports' && (!registeredModule || !registeredModule.requested)) {
-
                 missingModules.push(modules[i]);
             }
         }
@@ -1193,8 +1257,7 @@ extend(Loader, global.EventEmitter, {
                 })
                 // If any script fails to load or other error happens,
                 // reject the main Promise
-                .
-                catch(function(error) {
+                .catch(function(error) {
                     reject(error);
                 });
             } else {
@@ -1318,6 +1381,9 @@ extend(Loader, global.EventEmitter, {
                 } else {
                     // otherwise set as value the implementation of the
                     // registered module
+
+                    dependency = this._getConfigParser().mapModule(dependency);
+
                     var dependencyModule = registeredModules[dependency];
 
                     impl = dependencyModule.implementation;

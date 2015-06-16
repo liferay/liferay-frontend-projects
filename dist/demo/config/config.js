@@ -3,32 +3,45 @@ var __CONFIG__ = {
     basePath: '/modules',
     combine: true,
     paths: {
-        'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js'
+        'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js',
+        'liferay@1.0.0': '.'
     }
 };
+__CONFIG__.maps = {
+    'liferay': 'liferay@1.0.0',
+    'liferay2': 'liferay@1.0.0'
+};
 __CONFIG__.modules = {
-    "aui-base": {
+    "liferay@1.0.0/aui-base": {
         "dependencies": ["exports"],
-        "path": "aui-base.js"
+        "path": "liferay@1.0.0/aui-base.js"
     },
-    "aui-core": {
+    "liferay@1.0.0/aui-core": {
         "dependencies": ["exports"],
-        "path": "aui-core.js"
+        "path": "liferay@1.0.0/aui-core.js"
     },
-    "aui-dialog": {
-        "dependencies": ["exports", "aui-base", "aui-core", "aui-event"],
-        "path": "aui-dialog.js"
+    "liferay@1.0.0/aui-dialog": {
+        "dependencies": ["exports", "liferay/aui-base", "liferay/aui-core", "liferay/aui-event"],
+        "path": "liferay@1.0.0/aui-dialog.js"
     },
-    "aui-event": {
+    "liferay@1.0.0/aui-event": {
         "dependencies": ["exports"],
-        "path": "aui-event.js"
+        "path": "liferay@1.0.0/aui-event.js"
     },
-    "chema/chemaps/aui-chemaps": {
-        "dependencies": ["exports", "aui-base"],
-        "path": "chema/chemaps/aui-chemaps.js"
+    "liferay@1.0.0/liferay/liferay": {
+        "dependencies": ["exports"],
+        "path": "liferay@1.0.0/liferay/liferay.js"
     },
-    "ambrin/aui-ambrin": {
-        "dependencies": ["exports", "aui-core"],
-        "path": "ambrin/aui-ambrin.js"
+    "liferay@1.0.0/liferay/liferay2": {
+        "dependencies": ["exports"],
+        "path": "liferay@1.0.0/liferay/liferay2.js"
+    },
+    "liferay@1.0.0/chema/chemaps/aui-chemaps": {
+        "dependencies": ["exports", "liferay/aui-base"],
+        "path": "liferay@1.0.0/chema/chemaps/aui-chemaps.js"
+    },
+    "liferay@1.0.0/ambrin/aui-ambrin": {
+        "dependencies": ["exports", "liferay/aui-core"],
+        "path": "liferay@1.0.0/ambrin/aui-ambrin.js"
     }
 };
