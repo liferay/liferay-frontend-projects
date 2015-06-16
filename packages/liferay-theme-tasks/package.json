@@ -22,6 +22,7 @@
     "gulp-add-src": "^0.2.0",
     "gulp-changed": "^1.1.1",
     "gulp-debug": "^2.0.0",
+    "gulp-if": "^1.2.5",
     "gulp-load-plugins": "^0.8.0",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",

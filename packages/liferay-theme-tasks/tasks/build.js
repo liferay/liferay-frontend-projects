@@ -6,6 +6,7 @@ var CheckSourceFormattingCLI = require('../node_modules/check-source-formatting/
 var del = require('del');
 var fs = require('fs-extra');
 var glob = require('glob');
+var gulpif = require('gulp-if');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var themeUtil = require('../lib/util');
@@ -119,32 +120,25 @@ module.exports = function(options) {
 
 	gulp.task(
 		'compile-scss',
-		function(cb) {
-			var includePaths = [
-				path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src'),
-				path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src/liferay')
-			];
+		function() {
+			var supportCompass = options.supportCompass;
 
-			var sourcemap = false;
+			var config = getSassConfig(supportCompass);
 
-			var bourbon = require('node-bourbon');
-
-			includePaths = includePaths.concat(bourbon.includePaths);
-
-			var config = {
-				includePaths: includePaths,
-				sourceMap: sourcemap
-			};
-
-			var sass = plugins.sass;
+			var sass = supportCompass ? plugins.rubySass : plugins.sass;
 
 			var cssBuild = pathBuild + '/_css';
 
 			return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.+(css|scss)', themeUtil.isCssFile))
+				.pipe(gulpif(supportCompass, plugins.rename(
+					{
+						extname: '.scss'
+					}
+				)))
 				.pipe(plugins.plumber())
 				.pipe(sass(config))
-				// .pipe(plugins.plumber.stop())
 				// .pipe(plugins.debug())
+				// .pipe(plugins.plumber.stop())
 				.pipe(gulp.dest(cssBuild));
 		}
 	);
@@ -192,4 +186,29 @@ module.exports = function(options) {
 			);
 		}
 	);
+}
+
+function getSassConfig(supportCompass) {
+	var config = {
+		sourceMap: false
+	};
+
+	var includePaths = [
+		path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src'),
+		path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src/liferay')
+	];
+
+	if (supportCompass) {
+		config.compass = true;
+		config.loadPath = includePaths;
+	}
+	else {
+		var bourbon = require('node-bourbon');
+
+		includePaths = includePaths.concat(bourbon.includePaths);
+
+		config.includePaths = includePaths;
+	}
+
+	return config;
 }
