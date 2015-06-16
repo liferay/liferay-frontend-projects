@@ -23,7 +23,7 @@ extend(Loader, global.EventEmitter, {
      * @memberof! Loader#
      * @param {string} name The name of the module.
      * @param {array} dependencies List of module dependencies.
-     * @param {function} implementation The implementation of the method.
+     * @param {function} implementation The implementation of the module.
      * @param {object=} config Object configuration:
      * <ul>
      *         <strong>Optional properties</strong>:
@@ -42,6 +42,8 @@ extend(Loader, global.EventEmitter, {
         // Create new module by merging the provided config with the passed name,
         // dependencies and the implementation.
         var module = config || {};
+
+        name = this._getConfigParser().mapModule(name);
 
         module.name = name;
         module.dependencies = dependencies;
@@ -99,7 +101,7 @@ extend(Loader, global.EventEmitter, {
 
         // Modules can be specified by as an array, or just as parameters to the function
         // We do not slice or leak arguments to not cause V8 performance penalties
-        // TODO: This could be improved with inline function (hint)
+        // TODO: This could be extracted as an inline function (hint)
         var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) : /* istanbul ignore next */
             Object.prototype.toString.call(arguments[0]) === '[object Array]';
 
@@ -124,6 +126,8 @@ extend(Loader, global.EventEmitter, {
                 }
             }
         }
+
+        modules = this._getConfigParser().mapModule(modules);
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
@@ -257,7 +261,6 @@ extend(Loader, global.EventEmitter, {
 
             // Get all modules which are not yet requested from the server.
             if (registeredModule !== 'exports' && (!registeredModule || !registeredModule.requested)) {
-
                 missingModules.push(modules[i]);
             }
         }
@@ -303,8 +306,7 @@ extend(Loader, global.EventEmitter, {
                 })
                 // If any script fails to load or other error happens,
                 // reject the main Promise
-                .
-                catch(function(error) {
+                .catch(function(error) {
                     reject(error);
                 });
             } else {
@@ -428,6 +430,9 @@ extend(Loader, global.EventEmitter, {
                 } else {
                     // otherwise set as value the implementation of the
                     // registered module
+
+                    dependency = this._getConfigParser().mapModule(dependency);
+
                     var dependencyModule = registeredModules[dependency];
 
                     impl = dependencyModule.implementation;

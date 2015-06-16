@@ -161,6 +161,9 @@ DependencyBuilder.prototype = {
                     continue;
                 }
 
+                // Map the modules to their aliases
+                dependencyName = this._configParser.mapModule(dependencyName);
+
                 var moduleDependency = modules[dependencyName];
 
                 if (!moduleDependency) {

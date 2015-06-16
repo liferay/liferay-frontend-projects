@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('assert');
+var assert = require('chai').assert;
 require('./fixture/common.js');
 
 var config = require('./fixture/config.js');

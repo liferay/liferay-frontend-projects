@@ -14,7 +14,21 @@
         <script src="//localhost:8080/loader.js"></script>
 
         <script>
-            require(['chema/chemaps/aui-chemaps', 'aui-dialog'], function(chemaps, dialog) {
+            require(['liferay/liferay/liferay'], function(liferay) {
+                debugger;
+
+            }, function(error) {
+                debugger;
+            });
+
+            require(['liferay2/liferay/liferay2'], function(liferay) {
+                debugger;
+
+            }, function(error) {
+                debugger;
+            });
+
+            require(['liferay/chema/chemaps/aui-chemaps', 'liferay/aui-dialog'], function(chemaps, dialog) {
                 debugger;
 
                 chemaps.log('nate');
@@ -26,7 +40,7 @@
                 console.log(error);
             });
 
-            require(['chema/chemaps/aui-chemaps', 'ambrin/aui-ambrin'], function(chemaps, dialog) {
+            require(['liferay/chema/chemaps/aui-chemaps', 'liferay/ambrin/aui-ambrin'], function(chemaps, dialog) {
                 debugger;
 
                 chemaps.log('nate');
@@ -37,39 +51,6 @@
                 debugger;
                 console.log(error);
             });
-
-            // Export global function for demo purposes, use some assertion library on production.
-            // var assertValue = function(value) {
-            //     if (value === null || typeof value === undefined) {
-            //         throw value + ' is not defined or null';
-            //     }
-            // };
-
-            // require(['aui-dialog'], function(exports) {
-            //     debugger;
-            //     console.log('require1');
-
-            //     // nate.log('nate');
-
-            //     // window.chema.log('chema loaded too!');
-            // }, function(error) {
-            //     debugger;
-            //     console.error(error);
-            // });
-
-            // require('aui-base', 'aui-core', function(exports) {
-            //         debugger;
-            //         console.log('require2');
-
-            //         // base.log('base');
-            //         // nate.log('nate');
-
-            //         // window.chema.log('chema loaded too!');
-
-            //     }, function(error) {
-            //         debugger;
-            //         console.error(error);
-            //     });
 
         </script>
     </body>

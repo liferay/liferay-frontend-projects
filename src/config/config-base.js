@@ -3,6 +3,11 @@ var __CONFIG__ = {
     basePath: '/modules',
     combine: true,
     paths: {
-        'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js'
+        'jquery': 'http://code.jquery.com/jquery-2.1.3.min.js',
+        'liferay@1.0.0': '.'
     }
+};
+__CONFIG__.maps = {
+    'liferay': 'liferay@1.0.0',
+    'liferay2': 'liferay@1.0.0'
 };

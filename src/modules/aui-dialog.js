@@ -1,17 +1,8 @@
 'use strict';
 
-import {
-    log as logBase
-}
-from 'aui-base';
-import {
-    log as logCore
-}
-from 'aui-core';
-import {
-    log as logEvent
-}
-from 'aui-event';
+import {log as logBase} from 'liferay/aui-base';
+import {log as logCore} from 'liferay/aui-core';
+import {log as logEvent} from 'liferay/aui-event';
 
 function log(text) {
     logEvent('module aui-dialog says via aui-event: ' + text);

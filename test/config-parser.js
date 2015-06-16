@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('assert');
+var assert = require('chai').assert;
 require('./fixture/common.js');
 
 var config = require('./fixture/config.js');
@@ -32,6 +32,29 @@ describe('ConfigParser', function () {
         assert.ok(modules['aui-test1']);
     });
 
+    it('should overwrite the properties of an existing module', function () {
+        var configParser = new global.ConfigParser(config);
+
+        configParser.addModule({
+            name: 'aui-test1',
+            dependencies: ['aui-base', 'aui-core'],
+            path: 'aui-test1.js',
+            testMapk: true
+        });
+
+        configParser.addModule({
+            name: 'aui-test1',
+            dependencies: ['aui-base', 'aui-core']
+        });
+
+        var modules = configParser.getModules();
+
+        var moduleDefinition = modules['aui-test1'];
+
+        assert.propertyVal(moduleDefinition, 'testMapk', true);
+        assert.propertyVal(moduleDefinition, 'path', 'aui-test1.js');
+    });
+
     it('should add conditional module', function () {
         var configParser = new global.ConfigParser();
 
@@ -49,5 +72,42 @@ describe('ConfigParser', function () {
 
         var modules = configParser.getConditionalModules();
         assert.ok(modules['aui-nate'].indexOf('aui-chema-test2') >= 0);
+    });
+
+    it('should map a module to its alias', function () {
+        var configParser = new global.ConfigParser();
+
+        configParser.addModule({
+            name: 'liferay@1.0.0'
+        });
+
+        configParser._config = {
+            maps: {
+                liferay: 'liferay@1.0.0'
+            }
+        };
+
+        assert.strictEqual('liferay@1.0.0', configParser.mapModule('liferay'));
+    });
+
+    it('should map an array of modules to their aliases', function () {
+        var configParser = new global.ConfigParser();
+
+        configParser.addModule({
+            name: 'liferay@1.0.0'
+        });
+
+        configParser.addModule({
+            name: 'liferay@2.0.0'
+        });
+
+        configParser._config = {
+            maps: {
+                liferay: 'liferay@1.0.0',
+                liferay2: 'liferay@2.0.0'
+            }
+        };
+
+        assert.sameMembers(['liferay@1.0.0', 'liferay@2.0.0'], configParser.mapModule(['liferay', 'liferay2']));
     });
 });

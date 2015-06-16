@@ -9,7 +9,6 @@ var fs = require('fs');
 var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var jsdoc = require('gulp-jsdoc');
-var jshint = require('gulp-jshint');
 var merge = require('merge-stream');
 var mocha = require('gulp-mocha');
 var rename = require('gulp-rename');
@@ -18,16 +17,23 @@ var template = require('gulp-template');
 var uglify = require('gulp-uglify');
 
 gulp.task('build', function(callback) {
-    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'lint'], 'build-config', 'demo', callback);
+    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules'], 'build-config', 'demo', callback);
 });
 
 gulp.task('build-config', function(callback) {
-    exec('node node_modules/lfr-module-config-generator/bin/index.js -b src/config/config-base.js -o src/config/config.js dist/demo/modules', function (err, stdout, stderr) {
+    exec('node node_modules/lfr-module-config-generator/bin/index.js -b src/config/config-base.js -m dist/demo/modules/bower.json -o src/config/config.js -r dist/demo/modules dist/demo/modules', function(err, stdout, stderr) {
+        if (err) {
+            console.error(err);
+        }
+
+        console.log(stdout);
+        console.log(stderr);
+
         callback(err);
     });
 });
 
-gulp.task('clean', function (callback) {
+gulp.task('clean', function(callback) {
     del(['dist'], callback);
 });
 
@@ -52,6 +58,11 @@ gulp.task('combine-js', ['wrap-event-emitter', 'wrap-config-parser', 'wrap-depen
 gulp.task('config', function() {
     return gulp.src('src/config/**/*.*')
         .pipe(gulp.dest('dist/demo/config'));
+});
+
+gulp.task('copy-bower', function() {
+    return gulp.src('src/modules/bower.json')
+        .pipe(gulp.dest('dist/demo/modules'));
 });
 
 gulp.task('default', ['build']);
@@ -88,12 +99,6 @@ gulp.task('jsdoc', function() {
         .pipe(jsdoc('api'));
 });
 
-gulp.task('lint', function() {
-  return gulp.src(['src/js/**/*.js', 'test/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter(require('jshint-stylish')));
-});
-
 gulp.task('loader-min', ['js'], function() {
     return gulp.src('dist/loader.js')
         .pipe(uglify())
@@ -101,11 +106,11 @@ gulp.task('loader-min', ['js'], function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('modules', function() {
-    return gulp.src('src/modules/**/*.*')
+gulp.task('modules', ['copy-bower'], function() {
+    return gulp.src('src/modules/**/*.js')
         .pipe(babel({
             'modules': 'amd',
-            'moduleIds': true
+            'moduleIds': false
         }))
         .pipe(gulp.dest('dist/demo/modules'));
 });
@@ -114,12 +119,23 @@ gulp.task('test', ['build'], function(done) {
     gulp.src(['umd/**/*.js'])
         .pipe(istanbul())
         .pipe(istanbul.hookRequire())
-        .on('finish', function () {
+        .on('finish', function() {
             gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
                 .pipe(mocha())
                 .pipe(istanbul.writeReports())
                 .on('end', done);
-            });
+        });
+});
+
+gulp.task('test:no-coverage', ['build'], function(done) {
+    gulp.src([
+        'umd/**/*.js',
+        'test/**/*.js',
+        '!test/fixture/**/*.js'
+        ])
+        .pipe(mocha())
+        .pipe(istanbul.writeReports())
+        .on('end', done);
 });
 
 gulp.task('test-watch', function() {
@@ -133,7 +149,7 @@ gulp.task('source-min', ['js'], function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['build'], function() {
+gulp.task('watch', ['build'], function () {
     gulp.watch('src/**/*', ['build']);
 });
 
@@ -166,14 +182,14 @@ gulp.task('wrap-dependency-builder', function() {
 
 gulp.task('wrap-js-files', function() {
     return gulp.src([
-        'umd/event-emitter.js',
-        'umd/config-parser.js',
-        'umd/dependency-builder.js',
-        'umd/url-builder.js',
-        'umd/script-loader.js',
+            'umd/event-emitter.js',
+            'umd/config-parser.js',
+            'umd/dependency-builder.js',
+            'umd/url-builder.js',
+            'umd/script-loader.js'
         ])
-    .pipe(concat('loader-pure.js'))
-    .pipe(gulp.dest('dist'));
+        .pipe(concat('loader-pure.js'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('wrap-script-loader', function() {
