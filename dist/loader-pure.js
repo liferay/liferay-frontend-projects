@@ -485,7 +485,7 @@ DependencyBuilder.prototype = {
             for (var i = 0; i < module.dependencies.length; i++) {
                 var dependencyName = module.dependencies[i];
 
-                if (dependencyName === 'exports') {
+                if (dependencyName === 'exports' || dependencyName === 'module') {
                     continue;
                 }
 
@@ -862,7 +862,6 @@ extend(Loader, global.EventEmitter, {
             this._configParser = new global.ConfigParser(this._config);
         }
 
-
         return this._configParser;
     },
 
@@ -935,7 +934,8 @@ extend(Loader, global.EventEmitter, {
             var registeredModule = registeredModules[modules[i]];
 
             // Get all modules which are not yet requested from the server.
-            if (registeredModule !== 'exports' && (!registeredModule || !registeredModule.requested)) {
+            // We exclude "exports" and "module" modules, which are part of AMD spec.
+            if ((registeredModule !== 'exports' && registeredModule !== 'module') && (!registeredModule || !registeredModule.requested)) {
                 missingModules.push(modules[i]);
             }
         }
@@ -1093,13 +1093,15 @@ extend(Loader, global.EventEmitter, {
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
 
-                var impl;
-
                 // If the current dependency of this module is 'exports',
                 // create an empty object and pass it as implementation of
                 // 'exports' module
                 if (dependency === 'exports') {
                     exportsImpl = {};
+
+                    dependencyImplementations.push(exportsImpl);
+                } else if (dependency === 'module') {
+                    exportsImpl = {exports: {}};
 
                     dependencyImplementations.push(exportsImpl);
                 } else {
@@ -1110,7 +1112,7 @@ extend(Loader, global.EventEmitter, {
 
                     var dependencyModule = registeredModules[dependency];
 
-                    impl = dependencyModule.implementation;
+                    var impl = dependencyModule.implementation;
 
                     dependencyImplementations.push(impl);
                 }
@@ -1118,11 +1120,18 @@ extend(Loader, global.EventEmitter, {
 
             var result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
 
-            // Store as implementation either the returned value from function invocation
-            // or the implementation of the 'exports' object.
+            // Store as implementation either the returned value from the function's invocation,
+            // or one of these:
+            // 1. If the passed object has 'exports' property (in case of 'module' dependency), get this one.
+            // 2. Otherwise, get the passed object itself (in case of 'exports' dependency)
+            //
             // The final implementation of this module may be undefined if there is no
-            // returned value, or the object does not have 'exports' dependency
-            module.implementation = result || exportsImpl;
+            // returned value, or the object does not have 'exports' or 'module' dependency.
+            if (result) {
+                module.implementation = result;
+            } else if (exportsImpl) {
+                module.implementation = exportsImpl.exports || exportsImpl;
+            }
         }
     },
 
