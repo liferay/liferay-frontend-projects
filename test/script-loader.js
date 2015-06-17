@@ -53,6 +53,14 @@ describe('Loader', function () {
                 'liferay@2.0.0': {
                     dependencies: ['exports', 'liferay'],
                     path: 'liferay2.js'
+                },
+                'exports-dep': {
+                    dependencies: ['exports'],
+                    path: 'exports-dep.js'
+                },
+                'module-dep': {
+                    dependencies: ['exports', 'module'],
+                    path: 'module-dep.js'
                 }
             }
         };
@@ -204,6 +212,50 @@ describe('Loader', function () {
         setTimeout(function () {
             assert.ok(failure.notCalled, 'Failure should be not called');
             assert.ok(success.calledOnce, 'Success should be called');
+
+            done();
+        }, 50);
+    });
+
+    it('should load module with "exports" dependency', function(done) {
+        var failure = sinon.stub();
+
+        var successValue;
+        var success = sinon.spy(function(val) {
+            successValue = val;
+        });
+
+        Loader.require(['exports-dep'], success, failure);
+
+        setTimeout(function () {
+            assert.ok(failure.notCalled, 'Failure should be not called');
+            assert.ok(success.calledOnce, 'Success should be called');
+
+            assert.isObject(successValue);
+            assert.property(successValue, 'default');
+            assert.isFunction(successValue.default);
+            assert.strictEqual('alabala', successValue.default.name);
+
+            done();
+        }, 50);
+    });
+
+    it('should load module with "module" dependency', function(done) {
+        var failure = sinon.stub();
+
+        var successValue;
+        var success = sinon.spy(function(val) {
+            successValue = val;
+        });
+
+        Loader.require(['module-dep'], success, failure);
+
+        setTimeout(function () {
+            assert.ok(failure.notCalled, 'Failure should be not called');
+            assert.ok(success.calledOnce, 'Success should be called');
+
+            assert.isFunction(successValue);
+            assert.strictEqual('alabala', successValue.name);
 
             done();
         }, 50);

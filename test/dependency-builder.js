@@ -152,4 +152,19 @@ describe('DependencyBuilder', function () {
             dependencyBuilder.resolveDependencies(['test123']);
         }, Error);
     });
+
+    it('should process modules with "exports" and "module" dependencies', function () {
+        var configParser = new global.ConfigParser();
+
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'exports-module',
+            dependencies: ['exports', 'module']
+        });
+
+        assert.doesNotThrow(function () {
+            dependencyBuilder.resolveDependencies(['exports-module']);
+        }, Error);
+    });
 });
