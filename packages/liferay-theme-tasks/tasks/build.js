@@ -18,7 +18,7 @@ module.exports = function(options) {
 
 	var fullDeploy = (argv.full || argv.f);
 
-	var pathBuild = './build';
+	var pathBuild = options.pathBuild;
 
 	gulp.task(
 		'build:base',
@@ -79,7 +79,7 @@ module.exports = function(options) {
 	gulp.task(
 		'build:src',
 		function() {
-			return gulp.src(themeUtil.getSrcPath('./src/**/*'))
+			return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*')))
 				// .pipe(plugins.debug())
 				.pipe(gulp.dest(pathBuild));
 		}

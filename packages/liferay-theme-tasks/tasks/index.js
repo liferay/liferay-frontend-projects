@@ -17,6 +17,8 @@ var deployTasks = require('./deploy');
 var initTasks = require('./init');
 
 module.exports = function(options) {
+	options = require('../lib/options')(options);
+
 	var gulp = options.gulp;
 
 	var runSequence = require('run-sequence').use(gulp);

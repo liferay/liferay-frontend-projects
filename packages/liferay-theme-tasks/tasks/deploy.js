@@ -14,7 +14,7 @@ module.exports = function(options) {
 
 	var fullDeploy = (argv.full || argv.f);
 
-	var pathBuild = './build';
+	var pathBuild = options.pathBuild;
 
 	gulp.task(
 		'deploy:fast',
