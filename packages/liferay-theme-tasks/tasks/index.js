@@ -21,15 +21,15 @@ module.exports = function(options) {
 
 	var runSequence = require('run-sequence').use(gulp);
 
-	buildTasks(options);
-	deployTasks(options);
-	initTasks(options);
-
 	plugins.storage(gulp);
 
 	var store = gulp.storage;
 
 	store.create('LiferayTheme', 'liferay-theme.json');
+
+	buildTasks(options);
+	deployTasks(options);
+	initTasks(options);
 
 	var fullDeploy = (argv.full || argv.f);
 

@@ -11,11 +11,7 @@ var util = require('util');
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	plugins.storage(gulp);
-
 	var store = gulp.storage;
-
-	store.create('LiferayTheme', 'liferay-theme.json');
 
 	gulp.task(
 		'init',

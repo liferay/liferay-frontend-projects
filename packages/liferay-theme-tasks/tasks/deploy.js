@@ -10,11 +10,7 @@ var themeUtil = require('../lib/util');
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	plugins.storage(gulp);
-
 	var store = gulp.storage;
-
-	store.create('LiferayTheme', 'liferay-theme.json');
 
 	var fullDeploy = (argv.full || argv.f);
 
