@@ -29,6 +29,12 @@ module.exports = function(options) {
 				sourceFiles.push(path.resolve(__dirname, '../node_modules/liferay-theme-styled/src/**/*'));
 			}
 
+			var baseThemePath = store.get('baseThemePath');
+
+			if (!_.isUndefined(baseThemePath)) {
+				sourceFiles.push(path.join(baseThemePath, 'src/**/*'));
+			}
+
 			return gulp.src(sourceFiles)
 				// .pipe(plugins.debug())
 				.pipe(gulp.dest(pathBuild));
