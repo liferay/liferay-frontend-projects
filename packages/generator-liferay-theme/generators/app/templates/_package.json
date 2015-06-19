@@ -1,6 +1,9 @@
 {
 	"name": "<%= appname %>",
 	"version": "0.0.0",
+	"keywords": [
+		"liferay-theme"
+	],
 	"liferayTheme": {
 		"version": "<%= liferayVersion %>"
 	},
