@@ -7,6 +7,7 @@ var inquirer = require('inquirer');
 var npm = require('npm');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+var themeFinder = require('../lib/theme_finder');
 var util = require('util');
 
 var STR_PACKAGE_JSON = 'package.json';
@@ -17,7 +18,9 @@ function InitPrompt(options, cb) {
 	instance.done = cb;
 	instance.store = options.store;
 
-	instance._getExtendableThemes(function(extendableThemes) {
+	themeFinder.getLiferayThemeModules(function(extendableThemes) {
+		instance._extendableThemes = extendableThemes;
+
 		options.baseThemeOptions = instance._getBaseThemeOptions(extendableThemes);
 
 		instance._prompt(options);
@@ -77,49 +80,6 @@ InitPrompt.prototype = {
 		});
 
 		return baseThemeOptions.concat(globalBaseThemes);
-	},
-
-	_getExtendableThemes: function(cb) {
-		var instance = this;
-
-		instance._getGlobalModules(function(data) {
-			var extendableThemes = [];
-
-			var extendableThemes = _.reduce(data.dependencies, function(result, item, index) {
-				if (instance._isLiferayTheme(item)) {
-					result[index] = item;
-				}
-
-				return result;
-			}, {});
-
-			instance._extendableThemes = extendableThemes;
-
-			cb(extendableThemes);
-		});
-	},
-
-	_getGlobalModules: function(cb) {
-		npm.load({
-			depth: 0,
-			global: true,
-			loaded: false,
-			parseable: true
-		}, function() {
-			npm.commands.ls(null, true, function(err, data) {
-				if (err) throw err;
-
-				cb(data);
-			});
-		});
-	},
-
-	_isLiferayTheme: function(moduleMetaData) {
-		var keywords = (_.isArray(moduleMetaData.keywords) && moduleMetaData.keywords.indexOf('liferay-theme') > -1);
-
-		var liferayTheme = moduleMetaData.liferayTheme;
-
-		return keywords && (liferayTheme && liferayTheme.version);
 	},
 
 	_normalizeAnswers: function(answers) {

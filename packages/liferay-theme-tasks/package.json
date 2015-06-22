@@ -36,6 +36,8 @@
     "lodash": "^2.4.1",
     "minimist": "^1.1.0",
     "node-bourbon": "^1.2.3",
+    "npm-keyword": "^1.1.1",
+    "package-json": "^1.2.0",
     "run-sequence": "^1.0.2"
   }
 }
