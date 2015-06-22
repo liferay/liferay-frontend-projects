@@ -6,8 +6,6 @@ var inquirer = require('inquirer');
 var npm = require('npm');
 var themeFinder = require('../lib/theme_finder');
 
-var STR_PACKAGE_JSON = 'package.json';
-
 function ExtendPrompt(options, cb) {
 	var instance = this;
 
@@ -21,13 +19,15 @@ ExtendPrompt.prototype = {
 	_afterPrompt: function(answers) {
 		var instance = this;
 
-		var install = !_.isUndefined(answers.themeData);
+		var install = !_.isUndefined(answers.globalModules);
 
 		answers = instance._normalizeAnswers(answers);
 
 		instance.store.store(answers);
 
 		if (install) {
+			instance._saveDependencies(answers.themeData);
+
 			instance._installDependencies(answers.themeData, function(err, data) {
 				if (err) throw err;
 
@@ -166,6 +166,20 @@ ExtendPrompt.prototype = {
 			],
 			_.bind(instance._afterPrompt, instance)
 		);
+	},
+
+	_saveDependencies: function(themeData) {
+		var updatePackageJSON = require('../lib/update_package_json');
+
+		var data = {
+			dependencies: _.reduce(themeData, function(result, item, index) {
+				result[item.name] = '*';
+
+				return result;
+			}, {})
+		}
+
+		updatePackageJSON(data);
 	}
 };
 
