@@ -14,6 +14,7 @@ var runSequence = require('run-sequence');
 
 var buildTasks = require('./build');
 var deployTasks = require('./deploy');
+var extendTasks = require('./extend');
 var initTasks = require('./init');
 
 module.exports = function(options) {
@@ -31,6 +32,7 @@ module.exports = function(options) {
 
 	buildTasks(options);
 	deployTasks(options);
+	extendTasks(options);
 	initTasks(options);
 
 	var fullDeploy = (argv.full || argv.f);
