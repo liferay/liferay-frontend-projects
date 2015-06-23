@@ -26,9 +26,9 @@ ExtendPrompt.prototype = {
 		instance.store.store(answers);
 
 		if (install) {
-			instance._saveDependencies(answers.themeData);
+			instance._saveDependencies(answers.themeletDependencies);
 
-			instance._installDependencies(answers.themeData, function(err, data) {
+			instance._installDependencies(answers.themeletDependencies, function(err, data) {
 				if (err) throw err;
 
 				if (instance.done) {
@@ -38,10 +38,10 @@ ExtendPrompt.prototype = {
 		}
 	},
 
-	_getThemeDataFromAnswers: function(answers) {
+	_getThemeletDependenciesFromAnswers: function(answers) {
 		var extendableThemes = this._extendableThemes;
 
-		var themeData = _.map(answers.globalModules, function(item, index) {
+		var themeletDependencies = _.map(answers.globalModules, function(item, index) {
 			var extendableTheme = extendableThemes[item];
 
 			return {
@@ -51,11 +51,11 @@ ExtendPrompt.prototype = {
 			};
 		});
 
-		return themeData;
+		return themeletDependencies;
 	},
 
-	_installDependencies: function(themeData, cb) {
-		var modules = this._normalizeDependencies(themeData);
+	_installDependencies: function(themeletDependencies, cb) {
+		var modules = this._normalizeDependencies(themeletDependencies);
 
 		npm.load({
 			loaded: false
@@ -65,29 +65,29 @@ ExtendPrompt.prototype = {
 	},
 
 	_normalizeAnswers: function(answers) {
-		var themeData = this._normalizeThemeData(answers);
+		var themeletDependencies = this._normalizeThemeletDependencies(answers);
 
-		answers.themeData = themeData;
+		answers.themeletDependencies = themeletDependencies;
 		answers.themeSource = undefined;
 
 		return answers;
 	},
 
-	_normalizeDependencies: function(themeData) {
-		return _.map(themeData, function(item, index) {
+	_normalizeDependencies: function(themeletDependencies) {
+		return _.map(themeletDependencies, function(item, index) {
 			var path = item.path;
 
 			return path ? path : item.name;
 		});
 	},
 
-	_normalizeThemeData: function(answers) {
+	_normalizeThemeletDependencies: function(answers) {
 		var instance = this;
 
 		var extendableThemes = instance._extendableThemes;
 		var globalModules = (answers.themeSource == 'global');
 
-		var storedThemeData = _.reduce(instance.store.get('themeData'), function(result, item, index) {
+		var storedThemeletDependencies = _.reduce(instance.store.get('themeletDependencies'), function(result, item, index) {
 			var keep = (globalModules && !item.path) || (!globalModules && item.path);
 
 			if (keep) {
@@ -97,9 +97,9 @@ ExtendPrompt.prototype = {
 			return result;
 		}, []);
 
-		var themeData = instance._getThemeDataFromAnswers(answers);
+		var themeletDependencies = instance._getThemeletDependenciesFromAnswers(answers);
 
-		return themeData.concat(storedThemeData);
+		return themeletDependencies.concat(storedThemeletDependencies);
 	},
 
 	_prompt: function(options) {
@@ -168,11 +168,11 @@ ExtendPrompt.prototype = {
 		);
 	},
 
-	_saveDependencies: function(themeData) {
+	_saveDependencies: function(themeletDependencies) {
 		var updatePackageJSON = require('../lib/update_package_json');
 
 		var data = {
-			dependencies: _.reduce(themeData, function(result, item, index) {
+			dependencies: _.reduce(themeletDependencies, function(result, item, index) {
 				result[item.name] = '*';
 
 				return result;
