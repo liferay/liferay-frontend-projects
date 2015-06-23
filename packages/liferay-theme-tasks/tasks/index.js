@@ -42,6 +42,7 @@ module.exports = function(options) {
 				'build:src',
 				'build:web-inf',
 				'build:hook',
+				'build:themelets',
 				'rename-css-dir',
 				'compile-scss',
 				'move-compiled-css',
