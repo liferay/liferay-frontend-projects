@@ -16,6 +16,19 @@ module.exports = function(options) {
 
 	var pathBuild = options.pathBuild;
 
+	var runSequence = require('run-sequence').use(gulp);
+
+	gulp.task(
+		'deploy',
+		function(cb) {
+			runSequence(
+				'build',
+				'deploy:war',
+				cb
+			)
+		}
+	);
+
 	gulp.task(
 		'deploy:fast',
 		function() {

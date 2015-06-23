@@ -20,6 +20,28 @@ module.exports = function(options) {
 
 	var pathBuild = options.pathBuild;
 
+	var runSequence = require('run-sequence').use(gulp);
+
+	gulp.task(
+		'build',
+		function(cb) {
+			runSequence(
+				'build:clean',
+				'build:base',
+				'build:src',
+				'build:web-inf',
+				'build:hook',
+				'build:themelets',
+				'rename-css-dir',
+				'compile-scss',
+				'move-compiled-css',
+				'remove-old-css-dir',
+				'build:war',
+				cb
+			);
+		}
+	);
+
 	gulp.task(
 		'build:base',
 		function() {
