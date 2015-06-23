@@ -6,6 +6,8 @@ var inquirer = require('inquirer');
 var npm = require('npm');
 var themeFinder = require('../lib/theme_finder');
 
+var moduleName = argv.name;
+
 function ExtendPrompt(options, cb) {
 	var instance = this;
 
@@ -44,6 +46,12 @@ ExtendPrompt.prototype = {
 		var themeletDependencies = _.reduce(answers.themeletNames, function(result, item, index) {
 			var extendableTheme = extendableThemes[item];
 
+			if (_.isUndefined(extendableTheme)) {
+				console.error(item + ' themelet not found!');
+
+				return;
+			}
+
 			result[item] = {
 				liferayTheme: extendableTheme.liferayTheme,
 				name: item,
@@ -68,6 +76,10 @@ ExtendPrompt.prototype = {
 	},
 
 	_normalizeAnswers: function(answers) {
+		if (_.isUndefined(answers.themeletNames) && moduleName) {
+			answers.themeletNames = [moduleName];
+		}
+
 		var themeletDependencies = this._normalizeThemeletDependencies(answers);
 
 		answers.themeletDependencies = themeletDependencies;
@@ -92,7 +104,7 @@ ExtendPrompt.prototype = {
 		var globalModules = (answers.themeSource == 'global');
 
 		var storedThemeletDependencies = _.reduce(instance.store.get('themeletDependencies'), function(result, item, index) {
-			var keep = (globalModules && !item.path) || (!globalModules && item.path);
+			var keep = !_.isUndefined(moduleName) || (globalModules && !item.path) || (!globalModules && item.path);
 
 			if (keep) {
 				result[index] = item;
@@ -162,7 +174,7 @@ ExtendPrompt.prototype = {
 							console.warn('No themes found!');
 						}
 
-						return !empty;
+						return (!empty && _.isUndefined(moduleName));
 					}
 				}
 			],
