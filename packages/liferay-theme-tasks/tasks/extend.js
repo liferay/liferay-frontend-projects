@@ -176,7 +176,9 @@ ExtendPrompt.prototype = {
 
 		var data = {
 			dependencies: _.reduce(themeletDependencies, function(result, item, index) {
-				result[item.name] = '*';
+				var moduleVersion = item.path ? item.path : '^' + item.version;
+
+				result[item.name] = moduleVersion;
 
 				return result;
 			}, {})
