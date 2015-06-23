@@ -141,10 +141,10 @@ ExtendPrompt.prototype = {
 				},
 				{
 					choices: function() {
-						var globalModules = instance.store.get('globalModules');
+						var storedThemeletDependencies = instance.store.get('themeletDependencies');
 
 						return _.map(instance._extendableThemes, function(item, index) {
-							var checked = globalModules && (globalModules.indexOf(item.name) > -1);
+							var checked = storedThemeletDependencies && (storedThemeletDependencies[item.name]);
 
 							return {
 								checked: checked,
