@@ -19,7 +19,7 @@ ExtendPrompt.prototype = {
 	_afterPrompt: function(answers) {
 		var instance = this;
 
-		var install = !_.isUndefined(answers.globalModules);
+		var install = !_.isUndefined(answers.themeletNames);
 
 		answers = instance._normalizeAnswers(answers);
 
@@ -41,7 +41,7 @@ ExtendPrompt.prototype = {
 	_getThemeletDependenciesFromAnswers: function(answers) {
 		var extendableThemes = this._extendableThemes;
 
-		var themeletDependencies = _.reduce(answers.globalModules, function(result, item, index) {
+		var themeletDependencies = _.reduce(answers.themeletNames, function(result, item, index) {
 			var extendableTheme = extendableThemes[item];
 
 			result[item] = {
@@ -71,6 +71,7 @@ ExtendPrompt.prototype = {
 		var themeletDependencies = this._normalizeThemeletDependencies(answers);
 
 		answers.themeletDependencies = themeletDependencies;
+		answers.themeletNames = undefined;
 		answers.themeSource = undefined;
 
 		return answers;
@@ -154,7 +155,7 @@ ExtendPrompt.prototype = {
 						});
 					},
 					message: 'What themelet would you like to extend?',
-					name: 'globalModules',
+					name: 'themeletNames',
 					type: 'checkbox',
 					when: function(answers) {
 						var empty = _.isEmpty(instance._extendableThemes);
