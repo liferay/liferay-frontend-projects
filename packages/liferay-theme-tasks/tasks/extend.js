@@ -128,15 +128,13 @@ ExtendPrompt.prototype = {
 					filter: function(input) {
 						var done = this.async();
 
-						var retVal = input;
-
 						themeFinder.getLiferayThemeModules({
 							globalModules: input == 'global',
 							themelet: true
 						}, function(extendableThemes) {
 							instance._extendableThemes = extendableThemes;
 
-							done(retVal);
+							done(input);
 						});
 					}
 				},
