@@ -13,21 +13,9 @@ var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 
 module.exports = function(options) {
-	options = require('../lib/options')(options);
-
 	var gulp = options.gulp;
 
 	var runSequence = require('run-sequence').use(gulp);
-
-	plugins.storage(gulp);
-
-	var store = gulp.storage;
-
-	store.create('LiferayTheme', 'liferay-theme.json');
-
-	glob.sync(path.resolve(__dirname, '**/!(index.js)')).forEach(function(item, index) {
-		require(item)(options);
-	});
 
 	var fullDeploy = (argv.full || argv.f);
 
