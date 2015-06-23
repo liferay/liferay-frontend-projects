@@ -41,15 +41,18 @@ ExtendPrompt.prototype = {
 	_getThemeletDependenciesFromAnswers: function(answers) {
 		var extendableThemes = this._extendableThemes;
 
-		var themeletDependencies = _.map(answers.globalModules, function(item, index) {
+		var themeletDependencies = _.reduce(answers.globalModules, function(result, item, index) {
 			var extendableTheme = extendableThemes[item];
 
-			return {
+			result[item] = {
 				liferayTheme: extendableTheme.liferayTheme,
 				name: item,
-				path: extendableTheme.realPath
+				path: extendableTheme.realPath,
+				version: extendableTheme.version
 			};
-		});
+
+			return result;
+		}, {});
 
 		return themeletDependencies;
 	},
@@ -91,15 +94,15 @@ ExtendPrompt.prototype = {
 			var keep = (globalModules && !item.path) || (!globalModules && item.path);
 
 			if (keep) {
-				result.push(item);
+				result[index] = item;
 			}
 
 			return result;
-		}, []);
+		}, {});
 
 		var themeletDependencies = instance._getThemeletDependenciesFromAnswers(answers);
 
-		return themeletDependencies.concat(storedThemeletDependencies);
+		return _.merge(storedThemeletDependencies, themeletDependencies);
 	},
 
 	_prompt: function(options) {
