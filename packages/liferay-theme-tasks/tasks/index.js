@@ -12,11 +12,6 @@ var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 
-var buildTasks = require('./build');
-var deployTasks = require('./deploy');
-var extendTasks = require('./extend');
-var initTasks = require('./init');
-
 module.exports = function(options) {
 	options = require('../lib/options')(options);
 
@@ -30,10 +25,9 @@ module.exports = function(options) {
 
 	store.create('LiferayTheme', 'liferay-theme.json');
 
-	buildTasks(options);
-	deployTasks(options);
-	extendTasks(options);
-	initTasks(options);
+	glob.sync(path.resolve(__dirname, '**/!(index.js)')).forEach(function(item, index) {
+		require(item)(options);
+	});
 
 	var fullDeploy = (argv.full || argv.f);
 
