@@ -1,5 +1,5 @@
 {
-	"name": "<%= appname %>",
+	"name": "<%= themeDirName %>",
 	"version": "0.0.0",
 	"keywords": [
 		"liferay-theme"
