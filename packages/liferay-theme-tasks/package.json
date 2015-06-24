@@ -31,6 +31,7 @@
     "gulp-sass": "^1.2.4",
     "gulp-sourcemaps": "^1.2.8",
     "gulp-storage": "^1.0.6",
+    "gulp-util": "^3.0.6",
     "gulp-war": "0.0.1",
     "gulp-zip": "^2.0.2",
     "inquirer": "^0.8.0",

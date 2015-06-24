@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
+var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var npm = require('npm');
 var themeFinder = require('../lib/theme_finder');
@@ -21,23 +22,60 @@ ExtendPrompt.prototype = {
 	_afterPrompt: function(answers) {
 		var instance = this;
 
-		var install = !_.isUndefined(answers.themeletNames);
-
 		answers = instance._normalizeAnswers(answers);
 
 		instance.store.store(answers);
 
-		if (install) {
-			instance._saveDependencies(answers.themeletDependencies);
+		if (!_.isUndefined(answers.themeletDependencies) || !_.isUndefined(answers.baseTheme)) {
+			var updatedData = answers.baseTheme ? answers.baseTheme : answers.themeletDependencies;
 
-			instance._installDependencies(answers.themeletDependencies, function(err, data) {
-				if (err) throw err;
+			if (answers.baseTheme && _.isObject(answers.baseTheme)) {
+				var baseThemeObj = {};
 
-				if (instance.done) {
-					instance.done();
-				}
-			});
+				baseThemeObj[answers.baseTheme.name] = answers.baseTheme;
+
+				updatedData = baseThemeObj;
+			}
+
+			if (_.isObject(updatedData)) {
+				instance._saveDependencies(updatedData);
+
+				instance._installDependencies(updatedData, function(err, data) {
+					if (err) throw err;
+
+					if (instance.done) {
+						instance.done();
+					}
+				});
+			}
 		}
+	},
+
+	_defaultBaseThemeChoices: [
+		{
+			name: 'Styled',
+			value: 'styled'
+		},
+		{
+			name: 'Unstyled',
+			value: 'unstyled'
+		}
+	],
+
+	_extendTypeConditional: function(type) {
+		var retVal = (this._extendType == type);
+
+		if (retVal) {
+			var empty = _.isEmpty(this._extendableThemes);
+
+			if (empty) {
+				gutil.log(gutil.colors.yellow('No themes found!'));
+			}
+
+			retVal = !empty && _.isUndefined(moduleName);
+		}
+
+		return retVal;
 	},
 
 	_getThemeletDependenciesFromAnswers: function(answers) {
@@ -65,8 +103,8 @@ ExtendPrompt.prototype = {
 		return themeletDependencies;
 	},
 
-	_installDependencies: function(themeletDependencies, cb) {
-		var modules = this._normalizeDependencies(themeletDependencies);
+	_installDependencies: function(dependencies, cb) {
+		var modules = this._normalizeDependencies(dependencies);
 
 		npm.load({
 			loaded: false
@@ -80,17 +118,46 @@ ExtendPrompt.prototype = {
 			answers.themeletNames = [moduleName];
 		}
 
+		var baseTheme = this._normalizeBaseTheme(answers);
+
+		if (baseTheme) {
+			answers.baseTheme = baseTheme;
+		}
+
 		var themeletDependencies = this._normalizeThemeletDependencies(answers);
 
-		answers.themeletDependencies = themeletDependencies;
+		if (!_.isEmpty(themeletDependencies)) {
+			answers.themeletDependencies = themeletDependencies;
+		}
+
 		answers.themeletNames = undefined;
 		answers.themeSource = undefined;
 
 		return answers;
 	},
 
-	_normalizeDependencies: function(themeletDependencies) {
-		return _.map(themeletDependencies, function(item, index) {
+	_normalizeBaseTheme: function(answers) {
+		if (answers.extendType == 'theme') {
+			var baseThemeName = answers.baseThemeName;
+
+			if (baseThemeName == 'styled' || baseThemeName == 'unstyled') {
+				return baseThemeName;
+			}
+			else {
+				var baseTheme = this._extendableThemes[answers.baseThemeName];
+
+				return {
+					liferayTheme: baseTheme.liferayTheme,
+					name: baseTheme.name,
+					path: baseTheme.realPath,
+					version: baseTheme.version
+				};
+			}
+		}
+	},
+
+	_normalizeDependencies: function(dependencies) {
+		return _.map(dependencies, function(item, index) {
 			var path = item.path;
 
 			return path ? path : item.name;
@@ -126,6 +193,26 @@ ExtendPrompt.prototype = {
 				{
 					choices: [
 						{
+							name: 'Base theme',
+							value: 'theme'
+						},
+						{
+							name: 'Themelet',
+							value: 'themelet'
+						}
+					],
+					filter: function(input) {
+						instance._extendType = input;
+
+						return input;
+					},
+					name: 'extendType',
+					message: 'What kind of theme asset would you like to extend?',
+					type: 'list'
+				},
+				{
+					choices: [
+						{
 							name: 'Globally installed npm modules',
 							value: 'global'
 						},
@@ -141,8 +228,8 @@ ExtendPrompt.prototype = {
 						var done = this.async();
 
 						themeFinder.getLiferayThemeModules({
-							globalModules: input == 'global',
-							themelet: true
+							globalModules: (input == 'global'),
+							themelet: (instance._extendType == 'themelet')
 						}, function(extendableThemes) {
 							instance._extendableThemes = extendableThemes;
 
@@ -168,13 +255,27 @@ ExtendPrompt.prototype = {
 					name: 'themeletNames',
 					type: 'checkbox',
 					when: function(answers) {
-						var empty = _.isEmpty(instance._extendableThemes);
+						return instance._extendTypeConditional('themelet');
+					}
+				},
+				{
+					choices: function() {
+						var defaultBaseThemeChoices = instance._defaultBaseThemeChoices;
 
-						if (empty) {
-							console.warn('No themes found!');
-						}
+						var extendableThemeChoices = _.map(instance._extendableThemes, function(item, index) {
+							return {
+								name: item.name,
+								value: item.name
+							}
+						});
 
-						return (!empty && _.isUndefined(moduleName));
+						return defaultBaseThemeChoices.concat(extendableThemeChoices);
+					},
+					message: 'What base theme would you like to extend?',
+					name: 'baseThemeName',
+					type: 'list',
+					when: function(answers) {
+						return instance._extendTypeConditional('theme');
 					}
 				}
 			],

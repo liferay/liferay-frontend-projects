@@ -18,13 +18,7 @@ function InitPrompt(options, cb) {
 	instance.done = cb;
 	instance.store = options.store;
 
-	themeFinder.getLiferayThemeModules(function(extendableThemes) {
-		instance._extendableThemes = extendableThemes;
-
-		options.baseThemeOptions = instance._getBaseThemeOptions(extendableThemes);
-
-		instance._prompt(options);
-	});
+	instance._prompt(options);
 }
 
 InitPrompt.prototype = {
@@ -58,30 +52,6 @@ InitPrompt.prototype = {
 		);
 	},
 
-	_getBaseThemeOptions: function(extendableThemes) {
-		var instance = this;
-
-		var baseThemeOptions = [
-			{
-				name: 'Styled',
-				value: 'styled'
-			},
-			{
-				name: 'Unstyled',
-				value: 'unstyled'
-			}
-		];
-
-		var globalBaseThemes = _.map(extendableThemes, function(item, index) {
-			return {
-				name: item.name,
-				value: item.name
-			}
-		});
-
-		return baseThemeOptions.concat(globalBaseThemes);
-	},
-
 	_normalizeAnswers: function(answers) {
 		var appServerPath = answers.appServerPath;
 
@@ -94,10 +64,6 @@ InitPrompt.prototype = {
 		var themeName = path.basename(process.cwd());
 
 		var appServerPathTheme = path.join(appServerPath, themeName);
-
-		if (['styled', 'unstyled'].indexOf(answers.baseTheme) < 0) {
-			answers.baseThemePath = this._extendableThemes[answers.baseTheme].realPath;
-		}
 
 		answers = _.assign(
 			answers,
@@ -131,26 +97,10 @@ InitPrompt.prototype = {
 					name: 'deployPath',
 					type: 'input',
 					when: instance._deployPathWhen
-				},
-				{
-					choices: options.baseThemeOptions,
-					message: 'What theme would you like to extend?',
-					name: 'baseTheme',
-					type: 'list'
 				}
 			],
 			_.bind(instance._afterPrompt, instance)
 		);
-	},
-
-	_setPackageJSONBaseTheme: function() {
-		var cwd = process.cwd();
-
-		var packageJSON = require(path.join(cwd, STR_PACKAGE_JSON));
-
-		packageJSON.liferayTheme.baseTheme = 'styled';
-
-		fs.writeFileSync(STR_PACKAGE_JSON, JSON.stringify(packageJSON, null, '\t'));
 	},
 
 	_validateAppServerPath: function(appServerPath) {
