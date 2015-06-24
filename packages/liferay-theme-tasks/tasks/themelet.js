@@ -20,7 +20,7 @@ module.exports = function(options) {
 	gulp.task(
 		'build:themelet-css',
 		function() {
-			return gulp.src(getThemeletSrcPaths(store.get('themeletDependencies'), '.+(css|scss)'))
+			return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
 				// .pipe(plugins.debug())
 				.pipe(plugins.concat('themelet.css'))
 				.pipe(gulp.dest(path.join(pathBuild, 'css')));
@@ -30,62 +30,62 @@ module.exports = function(options) {
 	gulp.task(
 		'build:themelet-images',
 		function(cb) {
-			runThemeletDependenciesSeries(store.get('themeletDependencies'), function(item, index, done) {
-				gulp.src(path.resolve(cwd, 'node_modules', index, 'src/images/*'))
-					// .pipe(plugins.debug())
-					.pipe(gulp.dest(path.join(pathBuild, 'images', index)))
-					.on('end', done);
-			}, cb);
+			buildStaticThemeletFiles('images', null, cb);
 		}
 	);
 
 	gulp.task(
 		'build:themelet-js',
 		function(cb) {
-			runThemeletDependenciesSeries(store.get('themeletDependencies'), function(item, index, done) {
-				gulp.src(path.resolve(cwd, 'node_modules', index, 'src/js/*+(.js)'))
-					// .pipe(plugins.debug())
-					.pipe(gulp.dest(path.join(pathBuild, 'js', index)))
-					.on('end', done);
-			}, cb);
+			buildStaticThemeletFiles('js', '.js', cb);
 		}
 	);
 
 	gulp.task(
 		'build:themelet-templates',
 		function(cb) {
-			runThemeletDependenciesSeries(store.get('themeletDependencies'), function(item, index, done) {
-				gulp.src(path.resolve(cwd, 'node_modules', index, 'src/templates/*+(.ftl|.vm)'))
-					// .pipe(plugins.debug())
-					.pipe(gulp.dest(path.join(pathBuild, 'templates', index)))
-					.on('end', done);
-			}, cb);
+			buildStaticThemeletFiles('templates', '.+(ftl|vm)', cb);
 		}
 	);
-}
 
-function getThemeletSrcPaths(themeletDependencies, fileTypes) {
-	var cwd = process.cwd();
+	function getThemeletSrcPaths(fileTypes) {
+		var cwd = process.cwd();
 
-	var srcFiles = 'src/**/*';
+		var srcFiles = 'src/**/*';
 
-	if (fileTypes) {
-		srcFiles += fileTypes
+		if (fileTypes) {
+			srcFiles += fileTypes
+		}
+
+		var themeSrcPaths = _.map(store.get('themeletDependencies'), function(item, index) {
+			return path.resolve(cwd, 'node_modules', index, srcFiles);
+		});
+
+		return themeSrcPaths;
 	}
 
-	var themeSrcPaths = _.map(themeletDependencies, function(item, index) {
-		return path.resolve(cwd, 'node_modules', index, srcFiles);
-	});
+	function buildStaticThemeletFiles(dirName, fileTypes, cb) {
+		var srcFiles = '*';
 
-	return themeSrcPaths;
-}
+		if (fileTypes) {
+			srcFiles += fileTypes;
+		}
 
-function runThemeletDependenciesSeries(themeletDependencies, asyncTask, cb) {
-	var cwd = process.cwd();
+		runThemeletDependenciesSeries(function(item, index, done) {
+			gulp.src(path.resolve(cwd, 'node_modules', index, 'src', dirName, srcFiles))
+				//.pipe(plugins.debug())
+				.pipe(gulp.dest(path.join(pathBuild, dirName, index)))
+				.on('end', done);
+		}, cb);
+	}
 
-	var themeletStreamMap = _.map(themeletDependencies, function(item, index) {
-		return _.bind(asyncTask, this, item, index);
-	});
+	function runThemeletDependenciesSeries(asyncTask, cb) {
+		var cwd = process.cwd();
 
-	async.series(themeletStreamMap, cb);
+		var themeletStreamMap = _.map(store.get('themeletDependencies'), function(item, index) {
+			return _.bind(asyncTask, this, item, index);
+		});
+
+		async.series(themeletStreamMap, cb);
+	}
 }
