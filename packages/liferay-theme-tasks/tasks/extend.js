@@ -4,9 +4,9 @@ var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 var npm = require('npm');
 var themeFinder = require('../lib/theme_finder');
-var lfrThemeConfig = require('../lib/liferay_theme_config');
 
 var moduleName = argv.name;
 
