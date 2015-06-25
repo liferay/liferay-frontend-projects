@@ -69,6 +69,7 @@ InitPrompt.prototype = {
 			answers,
 			{
 				appServerPathTheme: appServerPathTheme,
+				baseTheme: 'styled',
 				deployed: false,
 				themeName: themeName
 			}
