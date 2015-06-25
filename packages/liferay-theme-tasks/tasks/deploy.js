@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
@@ -11,8 +10,6 @@ module.exports = function(options) {
 	var gulp = options.gulp;
 
 	var store = gulp.storage;
-
-	var fullDeploy = (argv.full || argv.f);
 
 	var pathBuild = options.pathBuild;
 

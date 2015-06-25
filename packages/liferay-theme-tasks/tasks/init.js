@@ -1,14 +1,12 @@
 'use strict';
 
 var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
 var inquirer = require('inquirer');
-var npm = require('npm');
 var path = require('path');
-var plugins = require('gulp-load-plugins')();
-var themeFinder = require('../lib/theme_finder');
 var util = require('util');
+
+var CWD = process.cwd();
 
 var STR_PACKAGE_JSON = 'package.json';
 
@@ -61,7 +59,7 @@ InitPrompt.prototype = {
 			appServerPath = path.join(appServerPath, 'webapps');
 		}
 
-		var themeName = path.basename(process.cwd());
+		var themeName = path.basename(CWD);
 
 		var appServerPathTheme = path.join(appServerPath, themeName);
 
@@ -144,13 +142,11 @@ module.exports = function(options) {
 
 	var store = gulp.storage;
 
-	var cwd = process.cwd();
-
 	gulp.task(
 		'init',
 		function(cb) {
 			new InitPrompt({
-				appServerPathDefault: store.get('appServerPath') || path.join(path.dirname(cwd), 'tomcat'),
+				appServerPathDefault: store.get('appServerPath') || path.join(path.dirname(CWD), 'tomcat'),
 				store: store
 			}, cb);
 		}

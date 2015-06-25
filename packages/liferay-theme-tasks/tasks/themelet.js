@@ -1,14 +1,13 @@
 'use strict';
 
 var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 
-module.exports = function(options) {
-	var cwd = process.cwd();
+var CWD = process.cwd();
 
+module.exports = function(options) {
 	var gulp = options.gulp;
 
 	var store = gulp.storage;
@@ -49,8 +48,6 @@ module.exports = function(options) {
 	);
 
 	function getThemeletSrcPaths(fileTypes) {
-		var cwd = process.cwd();
-
 		var srcFiles = 'src/**/*';
 
 		if (fileTypes) {
@@ -58,7 +55,7 @@ module.exports = function(options) {
 		}
 
 		var themeSrcPaths = _.map(store.get('themeletDependencies'), function(item, index) {
-			return path.resolve(cwd, 'node_modules', index, srcFiles);
+			return path.resolve(CWD, 'node_modules', index, srcFiles);
 		});
 
 		return themeSrcPaths;
@@ -72,7 +69,7 @@ module.exports = function(options) {
 		}
 
 		runThemeletDependenciesSeries(function(item, index, done) {
-			gulp.src(path.resolve(cwd, 'node_modules', index, 'src', dirName, srcFiles))
+			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', dirName, srcFiles))
 				//.pipe(plugins.debug())
 				.pipe(gulp.dest(path.join(pathBuild, dirName, index)))
 				.on('end', done);
@@ -80,8 +77,6 @@ module.exports = function(options) {
 	}
 
 	function runThemeletDependenciesSeries(asyncTask, cb) {
-		var cwd = process.cwd();
-
 		var themeletStreamMap = _.map(store.get('themeletDependencies'), function(item, index) {
 			return _.bind(asyncTask, this, item, index);
 		});

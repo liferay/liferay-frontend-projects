@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
 var CheckSourceFormattingCLI = require('../node_modules/check-source-formatting/lib/cli').constructor;
 var del = require('del');
 var fs = require('fs-extra');
@@ -15,8 +14,6 @@ module.exports = function(options) {
 	var gulp = options.gulp;
 
 	var store = gulp.storage;
-
-	var fullDeploy = (argv.full || argv.f);
 
 	var pathBuild = options.pathBuild;
 
