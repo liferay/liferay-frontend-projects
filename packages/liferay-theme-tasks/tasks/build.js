@@ -204,7 +204,7 @@ module.exports = function(options) {
 function getBaseThemeDependencies(baseThemePath, dependencies) {
 	var baseThemeInfo = getLiferayThemeJSON(baseThemePath);
 
-	var baseTheme = baseThemeInfo.LiferayTheme.baseTheme;
+	var baseTheme = baseThemeInfo.baseTheme;
 
 	if (_.isObject(baseTheme)) {
 		baseThemePath = path.join(baseThemePath, 'node_modules', baseTheme.name);
@@ -223,7 +223,7 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 }
 
 function getLiferayThemeJSON(themePath) {
-	return require(path.join(themePath, 'liferay-theme.json'))
+	return require(path.join(themePath, 'package.json')).liferayTheme;
 }
 
 function getSassConfig(supportCompass) {

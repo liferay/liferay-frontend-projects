@@ -6,16 +6,14 @@ var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var npm = require('npm');
 var themeFinder = require('../lib/theme_finder');
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 
 var moduleName = argv.name;
 
-function ExtendPrompt(options, cb) {
-	var instance = this;
+function ExtendPrompt(cb) {
+	this.done = cb;
 
-	instance.done = cb;
-	instance.store = options.store;
-
-	instance._prompt(options);
+	this._prompt();
 }
 
 ExtendPrompt.prototype = {
@@ -24,7 +22,7 @@ ExtendPrompt.prototype = {
 
 		answers = instance._normalizeAnswers(answers);
 
-		instance.store.store(answers);
+		lfrThemeConfig.setConfig(answers);
 
 		if (!_.isUndefined(answers.themeletDependencies) || !_.isUndefined(answers.baseTheme)) {
 			var updatedData = answers.baseTheme ? answers.baseTheme : answers.themeletDependencies;
@@ -130,6 +128,8 @@ ExtendPrompt.prototype = {
 			answers.themeletDependencies = themeletDependencies;
 		}
 
+		answers.baseThemeName = undefined;
+		answers.extendType = undefined;
 		answers.themeletNames = undefined;
 		answers.themeSource = undefined;
 
@@ -170,7 +170,7 @@ ExtendPrompt.prototype = {
 		var extendableThemes = instance._extendableThemes;
 		var globalModules = (answers.themeSource == 'global');
 
-		var storedThemeletDependencies = _.reduce(instance.store.get('themeletDependencies'), function(result, item, index) {
+		var savedThemeletDependencies = _.reduce(lfrThemeConfig.getConfig().themeletDependencies, function(result, item, index) {
 			var keep = !_.isUndefined(moduleName) || (globalModules && !item.path) || (!globalModules && item.path);
 
 			if (keep) {
@@ -182,7 +182,7 @@ ExtendPrompt.prototype = {
 
 		var themeletDependencies = instance._getThemeletDependenciesFromAnswers(answers);
 
-		return _.merge(storedThemeletDependencies, themeletDependencies);
+		return _.merge(savedThemeletDependencies, themeletDependencies);
 	},
 
 	_prompt: function(options) {
@@ -239,10 +239,10 @@ ExtendPrompt.prototype = {
 				},
 				{
 					choices: function() {
-						var storedThemeletDependencies = instance.store.get('themeletDependencies');
+						var savedThemeletDependencies = lfrThemeConfig.getConfig().themeletDependencies;
 
 						return _.map(instance._extendableThemes, function(item, index) {
-							var checked = storedThemeletDependencies && (storedThemeletDependencies[item.name]);
+							var checked = savedThemeletDependencies && (savedThemeletDependencies[item.name]);
 
 							return {
 								checked: checked,
@@ -283,34 +283,26 @@ ExtendPrompt.prototype = {
 		);
 	},
 
-	_saveDependencies: function(themeletDependencies) {
-		var updatePackageJSON = require('../lib/update_package_json');
+	_saveDependencies: function(updatedData) {
+		var dependencies = _.reduce(updatedData, function(result, item, index) {
+			var moduleVersion = item.path ? item.path : '^' + item.version;
 
-		var data = {
-			dependencies: _.reduce(themeletDependencies, function(result, item, index) {
-				var moduleVersion = item.path ? item.path : '^' + item.version;
+			result[item.name] = moduleVersion;
 
-				result[item.name] = moduleVersion;
+			return result;
+		}, {});
 
-				return result;
-			}, {})
-		}
-
-		updatePackageJSON(data);
+		lfrThemeConfig.setConfig(dependencies, true);
 	}
 };
 
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	var store = gulp.storage;
-
 	gulp.task(
 		'extend',
 		function(cb) {
-			new ExtendPrompt({
-				store: store
-			}, cb);
+			new ExtendPrompt(cb);
 		}
 	);
 }

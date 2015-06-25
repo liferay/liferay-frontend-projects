@@ -10,8 +10,6 @@ var CWD = process.cwd();
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	var store = gulp.storage;
-
 	var pathBuild = options.pathBuild;
 
 	gulp.task('build:themelets', ['build:themelet-css', 'build:themelet-images', 'build:themelet-js', 'build:themelet-templates']);
@@ -54,7 +52,7 @@ module.exports = function(options) {
 			srcFiles += fileTypes
 		}
 
-		var themeSrcPaths = _.map(store.get('themeletDependencies'), function(item, index) {
+		var themeSrcPaths = _.map(getThemeletDependencies(), function(item, index) {
 			return path.resolve(CWD, 'node_modules', index, srcFiles);
 		});
 
@@ -77,10 +75,22 @@ module.exports = function(options) {
 	}
 
 	function runThemeletDependenciesSeries(asyncTask, cb) {
-		var themeletStreamMap = _.map(store.get('themeletDependencies'), function(item, index) {
+		var themeletStreamMap = _.map(getThemeletDependencies(), function(item, index) {
 			return _.bind(asyncTask, this, item, index);
 		});
 
 		async.series(themeletStreamMap, cb);
 	}
+}
+
+function getThemeletDependencies() {
+	var packageJSON = require(path.join(CWD, 'package.json'));
+
+	var themeletDependencies;
+
+	if (packageJSON.liferayTheme && packageJSON.liferayTheme.themeletDependencies) {
+		themeletDependencies = packageJSON.liferayTheme.themeletDependencies;
+	}
+
+	return themeletDependencies;
 }

@@ -9,10 +9,20 @@ var cwd = process.cwd();
 
 var PATH_PACKAGE_JSON = path.resolve(cwd, 'package.json');
 
-module.exports = function(data) {
+module.exports.getConfig = function() {
 	var packageJSON = require(PATH_PACKAGE_JSON);
 
-	packageJSON = _.merge(packageJSON, data);
+	return packageJSON.liferayTheme;
+}
+
+module.exports.setConfig = function(data, npmDependencies) {
+	var packageJSON = require(PATH_PACKAGE_JSON);
+
+	var config = {};
+
+	config[npmDependencies ? 'dependencies' : 'liferayTheme'] = data;
+
+	packageJSON = _.merge(packageJSON, config);
 
 	fs.writeFileSync(PATH_PACKAGE_JSON, JSON.stringify(packageJSON, null, '\t'));
 };
