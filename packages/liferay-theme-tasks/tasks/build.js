@@ -51,10 +51,10 @@ module.exports = function(options) {
 				sourceFiles.push(path.resolve(__dirname, '../node_modules/liferay-theme-styled/src/**/*'));
 			}
 
-			var baseThemePath = store.get('baseThemePath');
+			var baseThemeName = store.get('baseThemeName');
 
-			if (!_.isUndefined(baseThemePath)) {
-				sourceFiles.push(path.join(baseThemePath, 'src/**/*'));
+			if (!_.isUndefined(baseThemeName)) {
+				sourceFiles.push(path.resolve(process.cwd(), 'node_modules',  baseThemeName, 'src/**/*'));
 			}
 
 			return gulp.src(sourceFiles)
