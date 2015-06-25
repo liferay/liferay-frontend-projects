@@ -5,6 +5,7 @@
 		"liferay-theme"
 	],
 	"liferayTheme": {
+		"baseTheme": "styled",
 		"version": "<%= liferayVersion %>"
 	},
 	"dependencies": {
