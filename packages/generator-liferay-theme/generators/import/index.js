@@ -1,9 +1,10 @@
 'use strict';
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
-var path = require('path');
+
 var _ = require('lodash');
+var chalk = require('chalk');
+var path = require('path');
+var yeoman = require('yeoman-generator');
+var yosay = require('yosay');
 
 var liferayThemeGeneratorPrototype = require('../app/index').prototype;
 

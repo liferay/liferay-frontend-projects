@@ -1,10 +1,11 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+
+var _ = require('lodash');
 var chalk = require('chalk');
-var yosay = require('yosay');
 var path = require('path');
 var slug = require('slug');
-var _ = require('lodash');
+var yeoman = require('yeoman-generator');
+var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend(
 	{
