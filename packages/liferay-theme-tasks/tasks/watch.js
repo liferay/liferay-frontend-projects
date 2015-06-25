@@ -5,6 +5,8 @@ var argv = require('minimist')(process.argv.slice(2));
 module.exports = function(options) {
 	var gulp = options.gulp;
 
+	var store = gulp.storage;
+
 	var fullDeploy = (argv.full || argv.f);
 
 	var runSequence = require('run-sequence').use(gulp);
