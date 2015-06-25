@@ -47,15 +47,7 @@ module.exports = function(options) {
 		function() {
 			var sourceFiles = [path.resolve(__dirname, '../node_modules/liferay-theme-unstyled/src/**/*')];
 
-			if (store.get('baseTheme') == 'styled') {
-				sourceFiles.push(path.resolve(__dirname, '../node_modules/liferay-theme-styled/src/**/*'));
-			}
-
-			var baseThemeName = store.get('baseThemeName');
-
-			if (!_.isUndefined(baseThemeName)) {
-				sourceFiles.push(path.resolve(process.cwd(), 'node_modules',  baseThemeName, 'src/**/*'));
-			}
+			sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
 			return gulp.src(sourceFiles)
 				// .pipe(plugins.debug())
@@ -210,6 +202,31 @@ module.exports = function(options) {
 			);
 		}
 	);
+}
+
+function getBaseThemeDependencies(baseThemePath, dependencies) {
+	var baseThemeInfo = getLiferayThemeJSON(baseThemePath);
+
+	var baseTheme = baseThemeInfo.LiferayTheme.baseTheme;
+
+	if (_.isObject(baseTheme)) {
+		baseThemePath = path.join(baseThemePath, 'node_modules', baseTheme.name);
+
+		dependencies.push(path.resolve(baseThemePath, 'src/**/*'));
+
+		return getBaseThemeDependencies(baseThemePath, dependencies);
+	}
+	else if (baseTheme == 'styled') {
+		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules/liferay-theme-styled/src/**/*'));
+
+		return dependencies;
+	}
+
+	return dependencies;
+}
+
+function getLiferayThemeJSON(themePath) {
+	return require(path.join(themePath, 'liferay-theme.json'))
 }
 
 function getSassConfig(supportCompass) {
