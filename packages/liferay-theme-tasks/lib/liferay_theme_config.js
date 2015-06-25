@@ -22,6 +22,10 @@ module.exports.setConfig = function(data, npmDependencies) {
 
 	config[npmDependencies ? 'dependencies' : 'liferayTheme'] = data;
 
+	if (data.themeletDependencies && packageJSON.liferayTheme) {
+		packageJSON.liferayTheme.themeletDependencies = undefined;
+	}
+
 	packageJSON = _.merge(packageJSON, config);
 
 	fs.writeFileSync(PATH_PACKAGE_JSON, JSON.stringify(packageJSON, null, '\t'));
