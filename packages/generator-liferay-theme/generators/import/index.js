@@ -35,6 +35,7 @@ var importerGeneratorPrototype = _.merge(
 		_promptCallback: function(props) {
 			this.appname = path.basename(props.importTheme);
 			this.importTheme = props.importTheme;
+			this.liferayVersion = props.liferayVersion;
 			this.supportCompass = props.supportCompass;
 		},
 
