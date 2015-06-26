@@ -67,7 +67,7 @@ ExtendPrompt.prototype = {
 			var empty = _.isEmpty(this._extendableThemes);
 
 			if (empty) {
-				gutil.log(gutil.colors.yellow('No themes found!'));
+				gutil.log(gutil.colors.yellow('No ' + type + 's found!'));
 			}
 
 			retVal = !empty && _.isUndefined(moduleName);
@@ -145,7 +145,7 @@ ExtendPrompt.prototype = {
 			if (baseThemeName == 'styled' || baseThemeName == 'unstyled') {
 				return baseThemeName;
 			}
-			else {
+			else if (baseThemeName) {
 				var baseTheme = this._extendableThemes[baseThemeName];
 
 				return {
