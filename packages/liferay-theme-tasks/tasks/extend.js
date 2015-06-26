@@ -77,6 +77,8 @@ ExtendPrompt.prototype = {
 	},
 
 	_getThemeletDependenciesFromAnswers: function(answers) {
+		var instance = this;
+
 		var extendableThemes = this._extendableThemes;
 
 		var themeletNames = answers.themeletNames || moduleName;
@@ -89,7 +91,7 @@ ExtendPrompt.prototype = {
 			var extendableTheme = extendableThemes[item];
 
 			if (_.isUndefined(extendableTheme)) {
-				console.error(item + ' themelet not found!');
+				instance._handleMissingModule(item, answers, 'themelet');
 
 				return;
 			}
@@ -105,6 +107,12 @@ ExtendPrompt.prototype = {
 		}, {});
 
 		return themeletDependencies;
+	},
+
+	_handleMissingModule: function(name, answers, type) {
+		var message = (answers.extendType == type) ? name + ' not found!' : '';
+
+		gutil.log(gutil.colors.yellow(message));
 	},
 
 	_installDependencies: function(dependencies, cb) {
@@ -126,7 +134,7 @@ ExtendPrompt.prototype = {
 
 		var themeletDependencies = this._normalizeThemeletDependencies(answers);
 
-		if (!_.isEmpty(themeletDependencies)) {
+		if (answers.extendType == 'themelet') {
 			answers.themeletDependencies = themeletDependencies;
 		}
 
@@ -139,6 +147,8 @@ ExtendPrompt.prototype = {
 	},
 
 	_normalizeBaseTheme: function(answers) {
+		var instance = this;
+
 		if (answers.extendType == 'theme') {
 			var baseThemeName = answers.baseThemeName || moduleName;
 
@@ -147,6 +157,12 @@ ExtendPrompt.prototype = {
 			}
 			else if (baseThemeName) {
 				var baseTheme = this._extendableThemes[baseThemeName];
+
+				if (_.isUndefined(baseTheme)) {
+					instance._handleMissingModule(baseThemeName, answers, 'theme');
+
+					return;
+				}
 
 				return {
 					liferayTheme: baseTheme.liferayTheme,
