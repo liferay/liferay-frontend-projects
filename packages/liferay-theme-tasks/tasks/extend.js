@@ -323,10 +323,7 @@ ExtendPrompt.prototype = {
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	gulp.task(
-		'extend',
-		function(cb) {
-			new ExtendPrompt(cb);
-		}
-	);
+	gulp.task('extend', function(cb) {
+		new ExtendPrompt(cb);
+	});
 }

@@ -36,18 +36,15 @@ InitPrompt.prototype = {
 
 		var done = this.async();
 
-		fs.stat(
-			deployPath,
-			function(err, stats) {
-				var ask = err || !stats.isDirectory();
+		fs.stat(deployPath, function(err, stats) {
+			var ask = err || !stats.isDirectory();
 
-				if (!ask) {
-					answers.deployPath = deployPath;
-				}
-
-				done(ask);
+			if (!ask) {
+				answers.deployPath = deployPath;
 			}
-		);
+
+			done(ask);
+		});
 	},
 
 	_normalizeAnswers: function(answers) {
@@ -63,14 +60,11 @@ InitPrompt.prototype = {
 
 		var appServerPathTheme = path.join(appServerPath, themeName);
 
-		answers = _.assign(
-			answers,
-			{
-				appServerPathTheme: appServerPathTheme,
-				deployed: false,
-				themeName: themeName
-			}
-		);
+		answers = _.assign(answers, {
+			appServerPathTheme: appServerPathTheme,
+			deployed: false,
+			themeName: themeName
+		});
 
 		return answers;
 	},
@@ -141,13 +135,10 @@ module.exports = function(options) {
 
 	var store = gulp.storage;
 
-	gulp.task(
-		'init',
-		function(cb) {
-			new InitPrompt({
-				appServerPathDefault: store.get('appServerPath') || path.join(path.dirname(CWD), 'tomcat'),
-				store: store
-			}, cb);
-		}
-	);
+	gulp.task('init', function(cb) {
+		new InitPrompt({
+			appServerPathDefault: store.get('appServerPath') || path.join(path.dirname(CWD), 'tomcat'),
+			store: store
+		}, cb);
+	});
 }

@@ -15,67 +15,52 @@ module.exports = function(options) {
 
 	var runSequence = require('run-sequence').use(gulp);
 
-	gulp.task(
-		'deploy',
-		function(cb) {
-			runSequence(
-				'build',
-				'deploy:war',
-				cb
-			)
+	gulp.task('deploy', function(cb) {
+		runSequence(
+			'build',
+			'deploy:war',
+			cb
+		);
+	});
+
+	gulp.task('deploy:fast', function() {
+		var dest = store.get('appServerPathTheme');
+
+		var tempDirPath = path.join(dest, '../../temp/');
+
+		var tempThemeDir;
+
+		if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
+			var themeName = store.get('themeName');
+
+			var tempDir = fs.readdirSync(tempDirPath);
+
+			tempThemeDir = _.find(tempDir, function(fileName) {
+				return fileName.indexOf(themeName) > -1;
+			});
 		}
-	);
 
-	gulp.task(
-		'deploy:fast',
-		function() {
-			var dest = store.get('appServerPathTheme');
+		var stream = gulp.src(themeUtil.getSrcPath(pathBuild + '/**/*'))
+			// .pipe(plugins.debug())
+			.pipe(gulp.dest(dest));
 
-			var tempDirPath = path.join(dest, '../../temp/');
-
-			var tempThemeDir;
-
-			if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
-				var themeName = store.get('themeName');
-
-				var tempDir = fs.readdirSync(tempDirPath);
-
-				tempThemeDir = _.find(
-					tempDir,
-					function(fileName) {
-						return fileName.indexOf(themeName) > -1;
-					}
-				);
-			}
-
-			var stream = gulp.src(themeUtil.getSrcPath(pathBuild + '/**/*'))
-				// .pipe(plugins.debug())
-				.pipe(gulp.dest(dest));
-
-			if (tempThemeDir) {
-				stream.pipe(gulp.dest(path.join(tempDirPath, tempThemeDir)));
-			}
-
-			return stream;
+		if (tempThemeDir) {
+			stream.pipe(gulp.dest(path.join(tempDirPath, tempThemeDir)));
 		}
-	);
 
-	gulp.task(
-		'deploy:war',
-		function() {
-			var stream = gulp.src('./dist/*.war')
-				.pipe(gulp.dest(store.get('deployPath')));
+		return stream;
+	});
 
-			if (!store.get('deployed')) {
-				stream.on(
-					'end',
-					function() {
-						store.set('deployed', true);
-					}
-				);
-			}
+	gulp.task('deploy:war', function() {
+		var stream = gulp.src('./dist/*.war')
+			.pipe(gulp.dest(store.get('deployPath')));
 
-			return stream;
+		if (!store.get('deployed')) {
+			stream.on('end', function() {
+				store.set('deployed', true);
+			});
 		}
-	);
+
+		return stream;
+	});
 }

@@ -32,12 +32,9 @@ function prettifyThemeConfig() {
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	gulp.task(
-		'status',
-		function(cb) {
-			prettifyThemeConfig();
+	gulp.task('status', function(cb) {
+		prettifyThemeConfig();
 
-			cb();
-		}
-	);
+		cb();
+	});
 }

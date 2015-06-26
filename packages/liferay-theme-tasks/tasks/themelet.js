@@ -14,36 +14,24 @@ module.exports = function(options) {
 
 	gulp.task('build:themelets', ['build:themelet-css', 'build:themelet-images', 'build:themelet-js', 'build:themelet-templates']);
 
-	gulp.task(
-		'build:themelet-css',
-		function() {
-			return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
-				// .pipe(plugins.debug())
-				.pipe(plugins.concat('themelet.css'))
-				.pipe(gulp.dest(path.join(pathBuild, 'css')));
-		}
-	);
+	gulp.task('build:themelet-css', function() {
+		return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
+			// .pipe(plugins.debug())
+			.pipe(plugins.concat('themelet.css'))
+			.pipe(gulp.dest(path.join(pathBuild, 'css')));
+	});
 
-	gulp.task(
-		'build:themelet-images',
-		function(cb) {
-			buildStaticThemeletFiles('images', null, cb);
-		}
-	);
+	gulp.task('build:themelet-images', function(cb) {
+		buildStaticThemeletFiles('images', null, cb);
+	});
 
-	gulp.task(
-		'build:themelet-js',
-		function(cb) {
-			buildStaticThemeletFiles('js', '.js', cb);
-		}
-	);
+	gulp.task('build:themelet-js', function(cb) {
+		buildStaticThemeletFiles('js', '.js', cb);
+	});
 
-	gulp.task(
-		'build:themelet-templates',
-		function(cb) {
-			buildStaticThemeletFiles('templates', '.+(ftl|vm)', cb);
-		}
-	);
+	gulp.task('build:themelet-templates', function(cb) {
+		buildStaticThemeletFiles('templates', '.+(ftl|vm)', cb);
+	});
 
 	function getThemeletSrcPaths(fileTypes) {
 		var srcFiles = 'src/**/*';
