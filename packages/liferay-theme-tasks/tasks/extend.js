@@ -79,7 +79,11 @@ ExtendPrompt.prototype = {
 	_getThemeletDependenciesFromAnswers: function(answers) {
 		var extendableThemes = this._extendableThemes;
 
-		var themeletNames = answers.themeletNames || [moduleName];
+		var themeletNames = answers.themeletNames || moduleName;
+
+		if (themeletNames && !_.isArray(themeletNames)) {
+			themeletNames = [themeletNames];
+		}
 
 		var themeletDependencies = _.reduce(themeletNames, function(result, item, index) {
 			var extendableTheme = extendableThemes[item];
