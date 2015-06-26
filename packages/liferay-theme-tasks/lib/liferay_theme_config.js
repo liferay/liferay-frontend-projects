@@ -9,10 +9,10 @@ var cwd = process.cwd();
 
 var PATH_PACKAGE_JSON = path.resolve(cwd, 'package.json');
 
-module.exports.getConfig = function() {
+module.exports.getConfig = function(all) {
 	var packageJSON = require(PATH_PACKAGE_JSON);
 
-	return packageJSON.liferayTheme;
+	return all ? packageJSON : packageJSON.liferayTheme;
 }
 
 module.exports.setConfig = function(data, npmDependencies) {

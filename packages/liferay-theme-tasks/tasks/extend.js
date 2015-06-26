@@ -261,15 +261,21 @@ ExtendPrompt.prototype = {
 					}
 				},
 				{
-					choices: function() {
+					choices: function(answers) {
+						var themeConfig = lfrThemeConfig.getConfig(true);
+
 						var defaultBaseThemeChoices = instance._defaultBaseThemeChoices;
 
-						var extendableThemeChoices = _.map(instance._extendableThemes, function(item, index) {
-							return {
-								name: item.name,
-								value: item.name
+						var extendableThemeChoices = _.reduce(instance._extendableThemes, function(result, item, index) {
+							if (themeConfig.name != item.name) {
+								result.push({
+									name: item.name,
+									value: item.name
+								});
 							}
-						});
+
+							return result;
+						}, []);
 
 						return defaultBaseThemeChoices.concat(extendableThemeChoices);
 					},
