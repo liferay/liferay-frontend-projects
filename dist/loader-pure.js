@@ -153,6 +153,7 @@ ConfigParser.prototype = {
      *
      *     <strong>Optional parameters:</strong>
      *     The same as those which config parameter of {@link Loader#define} method accepts.
+     * @return {Object} The added module
      */
     addModule: function (module) {
         // Module might be added via configuration or when it arrives from the server.
@@ -172,6 +173,8 @@ ConfigParser.prototype = {
         }
 
         this._registerConditionalModule(module);
+
+        return this._modules[module.name];
     },
 
     /**
@@ -590,14 +593,16 @@ URLBuilder.prototype = {
 
             } else {
                 var path = this._getModulePath(module);
+                var absolutePath = path.indexOf('/') === 0;
 
                 // If the URL starts with external protocol, individual URL shall be created.
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push(path);
 
-                    // If combine is disabled, create individual URL based on config URL and module path.
-                } else if (!config.combine) {
-                    result.push(config.url + basePath + path);
+                // If combine is disabled, create individual URL based on config URL and module path.
+                // If the module path starts with "/", do not include basePath in the URL.
+                } else if (!config.combine || absolutePath) {
+                    result.push(config.url + (absolutePath ? '' : basePath) + path);
 
                 } else {
                     // If combine is true and module does not have full path, it will be collected
@@ -690,7 +695,11 @@ function Loader(config) {
     this._modulesMap = {};
 }
 
-extend(Loader, global.EventEmitter, {
+Loader.prototype = Object.create(global.EventEmitter.prototype);
+Loader.prototype.constructor = Loader;
+Loader.superclass = global.EventEmitter.prototype;
+
+var LoaderProtoMethods = {
     /**
      * Defines a module in the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
      *
@@ -713,17 +722,16 @@ extend(Loader, global.EventEmitter, {
      * @return {Object} The constructed module.
      */
     define: function(name, dependencies, implementation, config) {
-        // Create new module by merging the provided config with the passed name,
-        // dependencies and the implementation.
+        // Create a new module by merging the provided config with the passed name,
+        // dependencies and implementation.
         var module = config || {};
+        var configParser = this._getConfigParser();
 
-        name = this._getConfigParser().mapModule(name);
+        name = configParser.mapModule(name);
 
         module.name = name;
         module.dependencies = dependencies;
         module.pendingImplementation = implementation;
-
-        var configParser = this._getConfigParser();
 
         configParser.addModule(module);
 
@@ -731,7 +739,7 @@ extend(Loader, global.EventEmitter, {
             this._modulesMap[module.name] = true;
         }
 
-        this.emit('moduleRegister', module);
+        this.emit('moduleRegister', name);
     },
 
     /**
@@ -770,6 +778,7 @@ extend(Loader, global.EventEmitter, {
         var self = this;
 
         var failureCallback;
+        var i;
         var modules;
         var successCallback;
 
@@ -787,7 +796,7 @@ extend(Loader, global.EventEmitter, {
         } else {
             modules = [];
 
-            for (var i = 0; i < arguments.length; ++i) {
+            for (i = 0; i < arguments.length; ++i) {
                 if (typeof arguments[i] === 'string') {
                     modules[i] = arguments[i];
 
@@ -801,17 +810,33 @@ extend(Loader, global.EventEmitter, {
             }
         }
 
-        modules = this._getConfigParser().mapModule(modules);
+        var configParser = this._getConfigParser();
+
+        // We map the modules so if they were unconfigured, they will be
+        // inserted in the configuration with their mapped names
+        modules = configParser.mapModule(modules);
+
+        var registeredModules = configParser.getModules();
+
+        // Register on the fly all unregistered in the configuration modules.
+        for (i = 0; i < modules.length; i++) {
+            if (!registeredModules[modules[i]]) {
+                configParser.addModule({
+                    name: modules[i],
+                    dependencies: []
+                });
+            }
+        }
+
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
         self._resolveDependencies(modules).then(function(dependencies) {
             return self._loadModules(dependencies);
         }).then(function(loadedModules) {
-            var moduleImplementations = self._getModuleImplementations(modules);
-
             /* istanbul ignore else */
             if (successCallback) {
+                var moduleImplementations = self._getModuleImplementations(modules);
                 successCallback.apply(successCallback, moduleImplementations);
             }
         }, function(error) { /* istanbul ignore else */
@@ -834,11 +859,11 @@ extend(Loader, global.EventEmitter, {
         var self = this;
 
         return new Promise(function(resolve, reject) {
-            var onModuleRegister = function(registeredModule) {
-                if (registeredModule.name === moduleName) {
+            var onModuleRegister = function(registeredModuleName) {
+                if (registeredModuleName === moduleName) {
                     self.off('moduleRegister', onModuleRegister);
 
-                    // Overwrite the promise entry in modules map with simple true value.
+                    // Overwrite the promise entry in the modules map with a simple `true` value.
                     // Hopefully GC will remove this promise from the memory.
                     self._modulesMap[moduleName] = true;
 
@@ -878,6 +903,35 @@ extend(Loader, global.EventEmitter, {
         }
 
         return this._dependencyBuilder;
+    },
+
+    /**
+     * Returns an array of all missing dependencies of the passed modules.
+     * A missing dependency is a dependency, which does not have pending implementation yet.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {Array} moduleNames List of module names to be checked for missing dependencies.
+     * @return {Array<string>} A list with all missing dependencies.
+     */
+    _getMissingDepenencies: function(moduleNames) {
+        var registeredModules = this._getConfigParser().getModules();
+
+        var missingDependencies = Object.create(null);
+
+        for (var i = 0; i < moduleNames.length; i++) {
+            var module = registeredModules[moduleNames[i]];
+
+            for (var j = 0; j < module.dependencies.length; j++) {
+                var dependency = module.dependencies[j];
+
+                if (dependency !== 'exports' &&  dependency !== 'module' && !dependency.pendingImplementation) {
+                    missingDependencies[dependency] = 1;
+                }
+            }
+        }
+
+        return Object.keys(missingDependencies);
     },
 
     /**
@@ -955,11 +1009,11 @@ extend(Loader, global.EventEmitter, {
         var self = this;
 
         return new Promise(function(resolve, reject) {
-            // First, detect any still unloaded modules
+            // First, detect any not yet requested modules
             var notRequestedModules = self._filterNotRequestedModules(moduleNames);
 
             if (notRequestedModules.length) {
-                // If there are unloaded modules, construct their URLs
+                // If there are not yet requested modules, construct their URLs
                 var urls = self._getURLBuilder().build(notRequestedModules);
 
                 var pendingScripts = [];
@@ -976,8 +1030,8 @@ extend(Loader, global.EventEmitter, {
                 })
                 // As soon as all scripts were loaded and all dependencies have been resolved,
                 // resolve the main Promise
-                .then(function(modules) {
-                    resolve(modules);
+                .then(function(loadedModules) {
+                    resolve(loadedModules);
                 })
                 // If any script fails to load or other error happens,
                 // reject the main Promise
@@ -987,13 +1041,12 @@ extend(Loader, global.EventEmitter, {
             } else {
                 // If there are no any missing modules, just wait for modules dependencies
                 // to be resolved and then resolve the main promise
-                self._waitForModules(moduleNames).then(function(modules) {
-                    resolve(modules);
+                self._waitForModules(moduleNames).then(function(loadedModules) {
+                    resolve(loadedModules);
                 })
                 // If some error happens, for example if some module implementation
                 // throws error, reject the main Promise
-                .
-                catch(function(error) {
+                .catch(function(error) {
                     reject(error);
                 });
             }
@@ -1049,17 +1102,7 @@ extend(Loader, global.EventEmitter, {
 
         return new Promise(function(resolve, reject) {
             try {
-                var registeredModules = self._getConfigParser().getModules();
-                var finalModules = [];
-
-                // Ignore wrongly specified byt the user (misspelled) modules
-                for (var i = 0; i < modules.length; i++) {
-                    if (registeredModules[modules[i]]) {
-                        finalModules.push(modules[i]);
-                    }
-                }
-
-                var dependencies = self._getDependencyBuilder().resolveDependencies(finalModules);
+                var dependencies = self._getDependencyBuilder().resolveDependencies(modules);
 
                 resolve(dependencies);
             } catch (error) {
@@ -1178,18 +1221,33 @@ extend(Loader, global.EventEmitter, {
                 modulesPromises.push(self._waitForModule(moduleNames[i]));
             }
 
+            // Wait until all modules were loaded and their Promises resolved
             Promise.all(modulesPromises).then(function(uselessPromises) {
+                // The modules were loaded. However, we have to check their dependencies
+                // one more time, because some dependencies might have not been registered in the configuration.
+                // In this case we have to load them too, otherwise we won't be able to properly
+                // get the implementation from the module.
                 var registeredModules = self._getConfigParser().getModules();
 
-                var definedModules = [];
+                var defineModules = function () {
+                    var definedModules = [];
 
-                for (var i = 0; i < moduleNames.length; i++) {
-                    definedModules.push(registeredModules[moduleNames[i]]);
+                    for (var i = 0; i < moduleNames.length; i++) {
+                        definedModules.push(registeredModules[moduleNames[i]]);
+                    }
+
+                    self._setModuleImplementation(definedModules);
+
+                    resolve(definedModules);
+                };
+
+                var missingDependencies = self._getMissingDepenencies(moduleNames);
+
+                if (missingDependencies.length) {
+                    self.require(missingDependencies, defineModules, reject);
+                } else {
+                    defineModules();
                 }
-
-                self._setModuleImplementation(definedModules);
-
-                resolve(definedModules);
             });
         });
     }
@@ -1200,49 +1258,11 @@ extend(Loader, global.EventEmitter, {
      * @event Loader#moduleRegister
      * @param {object} module - The registered module.
      */
+};
+
+Object.keys(LoaderProtoMethods).forEach(function(key) {
+    Loader.prototype[key] = LoaderProtoMethods[key];
 });
-
-// Utilities methods
-
-
-function extend(r, s, px) { /* istanbul ignore if else */
-    if (!s || !r) {
-        throw ('extend failed, verify dependencies');
-    }
-
-    var sp = s.prototype,
-        rp = Object.create(sp);
-    r.prototype = rp;
-
-    rp.constructor = r;
-    r.superclass = sp;
-
-    /* istanbul ignore if else */
-    // assign constructor property
-    if (s != Object && sp.constructor == Object.prototype.constructor) {
-        sp.constructor = s;
-    }
-
-    /* istanbul ignore else */
-    // add prototype overrides
-    if (px) {
-        mix(rp, px);
-    }
-
-    return r;
-}
-
-function mix(destination, source) {
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-    for (var k in source) { /* istanbul ignore else */
-        if (hasOwnProperty.call(source, k)) {
-            destination[k] = source[k];
-        }
-    }
-
-    return destination;
-}
 
     return Loader;
 }));

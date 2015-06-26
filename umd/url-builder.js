@@ -65,14 +65,16 @@ URLBuilder.prototype = {
 
             } else {
                 var path = this._getModulePath(module);
+                var absolutePath = path.indexOf('/') === 0;
 
                 // If the URL starts with external protocol, individual URL shall be created.
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push(path);
 
-                    // If combine is disabled, create individual URL based on config URL and module path.
-                } else if (!config.combine) {
-                    result.push(config.url + basePath + path);
+                // If combine is disabled, create individual URL based on config URL and module path.
+                // If the module path starts with "/", do not include basePath in the URL.
+                } else if (!config.combine || absolutePath) {
+                    result.push(config.url + (absolutePath ? '' : basePath) + path);
 
                 } else {
                     // If combine is true and module does not have full path, it will be collected

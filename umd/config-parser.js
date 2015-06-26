@@ -51,6 +51,7 @@ ConfigParser.prototype = {
      *
      *     <strong>Optional parameters:</strong>
      *     The same as those which config parameter of {@link Loader#define} method accepts.
+     * @return {Object} The added module
      */
     addModule: function (module) {
         // Module might be added via configuration or when it arrives from the server.
@@ -70,6 +71,8 @@ ConfigParser.prototype = {
         }
 
         this._registerConditionalModule(module);
+
+        return this._modules[module.name];
     },
 
     /**
