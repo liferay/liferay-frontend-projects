@@ -79,7 +79,9 @@ ExtendPrompt.prototype = {
 	_getThemeletDependenciesFromAnswers: function(answers) {
 		var extendableThemes = this._extendableThemes;
 
-		var themeletDependencies = _.reduce(answers.themeletNames, function(result, item, index) {
+		var themeletNames = answers.themeletNames || [moduleName];
+
+		var themeletDependencies = _.reduce(themeletNames, function(result, item, index) {
 			var extendableTheme = extendableThemes[item];
 
 			if (_.isUndefined(extendableTheme)) {
@@ -112,10 +114,6 @@ ExtendPrompt.prototype = {
 	},
 
 	_normalizeAnswers: function(answers) {
-		if (_.isUndefined(answers.themeletNames) && moduleName) {
-			answers.themeletNames = [moduleName];
-		}
-
 		var baseTheme = this._normalizeBaseTheme(answers);
 
 		if (baseTheme) {
@@ -138,13 +136,13 @@ ExtendPrompt.prototype = {
 
 	_normalizeBaseTheme: function(answers) {
 		if (answers.extendType == 'theme') {
-			var baseThemeName = answers.baseThemeName;
+			var baseThemeName = answers.baseThemeName || moduleName;
 
 			if (baseThemeName == 'styled' || baseThemeName == 'unstyled') {
 				return baseThemeName;
 			}
 			else {
-				var baseTheme = this._extendableThemes[answers.baseThemeName];
+				var baseTheme = this._extendableThemes[baseThemeName];
 
 				return {
 					liferayTheme: baseTheme.liferayTheme,
