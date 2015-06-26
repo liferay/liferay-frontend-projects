@@ -120,4 +120,24 @@ describe('URLBuilder', function () {
         assert.strictEqual(url[2], 'http://localhost:3000/modules/base/html/js/js/loader.js');
         assert.strictEqual(url[3], 'http://localhost:3000/modules/base/test/aui/js/aui/loader.js');
     });
+
+    it('should not add basePath when module has absolute url', function() {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules',
+            'combine': true,
+            'basePath': '/base',
+            'modules': {
+                'jquery': {
+                    'dependencies': [],
+                    'path': '/test'
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var url = urlBuilder.build(['jquery']);
+
+        assert.strictEqual(url[0], 'http://localhost:3000/modules/test.js');
+    });
 });

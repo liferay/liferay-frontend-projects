@@ -14,42 +14,38 @@
         <script src="//localhost:8080/loader.js"></script>
 
         <script>
-            require(['liferay/liferay/liferay'], function(liferay) {
-                debugger;
+            __CONFIG__.maps['mappedModule'] = 'mapped-module';
+            __CONFIG__.paths['mapped-module'] = '/modules2/mapped-module';
 
+            __CONFIG__.paths['one'] = '/modules2/one';
+            __CONFIG__.paths['two'] = '/modules2/two';
+            __CONFIG__.paths['three'] = '/modules2/three';
+
+            require(['one'], function (one) {
+                one('Hello world!');
             }, function(error) {
-                debugger;
+                console.error(error);
             });
 
-            require(['liferay2/liferay/liferay2'], function(liferay) {
-                debugger;
-
+            require(['mappedModule'], function (mm) {
+                mm('Hello world!');
             }, function(error) {
-                debugger;
+                console.error(error);
             });
 
             require(['liferay/chema/chemaps/aui-chemaps', 'liferay/aui-dialog'], function(chemaps, dialog) {
-                debugger;
-
                 chemaps.log('nate');
-
                 dialog.log('nate');
 
             }, function(error) {
-                debugger;
-                console.log(error);
+                console.error(error);
             });
 
             require(['liferay/chema/chemaps/aui-chemaps', 'liferay/ambrin/aui-ambrin'], function(chemaps, dialog) {
-                debugger;
-
                 chemaps.log('nate');
-
                 dialog.log('nate');
-
             }, function(error) {
-                debugger;
-                console.log(error);
+                console.error(error);
             });
 
         </script>

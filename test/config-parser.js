@@ -21,7 +21,7 @@ describe('ConfigParser', function () {
     it('should add new module', function () {
         var configParser = new global.ConfigParser(config);
 
-        configParser.addModule({
+        var addedModule = configParser.addModule({
             name: 'aui-test1',
             dependencies: ['aui-base', 'aui-core'],
             path: 'aui-test1.js'
@@ -30,6 +30,7 @@ describe('ConfigParser', function () {
         var modules = configParser.getModules();
 
         assert.ok(modules['aui-test1']);
+        assert.strictEqual(addedModule, modules['aui-test1']);
     });
 
     it('should overwrite the properties of an existing module', function () {

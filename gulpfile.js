@@ -17,7 +17,7 @@ var template = require('gulp-template');
 var uglify = require('gulp-uglify');
 
 gulp.task('build', function(callback) {
-    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules'], 'build-config', 'demo', callback);
+    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'modules2'], 'build-config', 'demo', callback);
 });
 
 gulp.task('build-config', function(callback) {
@@ -115,6 +115,11 @@ gulp.task('modules', ['copy-bower'], function() {
         .pipe(gulp.dest('dist/demo/modules'));
 });
 
+gulp.task('modules2', function() {
+    return gulp.src('src/modules2/**/*.js')
+        .pipe(gulp.dest('dist/demo/modules2'));
+});
+
 gulp.task('test', ['build'], function(done) {
     gulp.src(['umd/**/*.js'])
         .pipe(istanbul())
@@ -150,7 +155,7 @@ gulp.task('source-min', ['js'], function() {
 });
 
 gulp.task('watch', ['build'], function () {
-    gulp.watch('src/**/*', ['build']);
+    gulp.watch(['src/**/*', '!src/config/*'], ['build']);
 });
 
 gulp.task('wrap-config-parser', function() {

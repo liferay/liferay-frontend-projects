@@ -57,7 +57,7 @@ describe('DependencyBuilder', function () {
         assert.deepEqual(dependencies, ['aui-base', 'aui-core', 'aui-node', 'aui-dom-node', 'aui-plugin-base', 'aui-dialog', 'aui-test2']);
     });
 
-    it('should throw error if there is are circular dependencies', function () {
+    it('should throw error if there are circular dependencies', function () {
         var configParser = new global.ConfigParser();
         var dependencyBuilder = new global.DependencyBuilder(configParser);
 
