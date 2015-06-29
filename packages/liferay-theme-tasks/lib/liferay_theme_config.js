@@ -9,10 +9,26 @@ var cwd = process.cwd();
 
 var PATH_PACKAGE_JSON = path.resolve(cwd, 'package.json');
 
+function writePackageJSON(json) {
+	fs.writeFileSync(PATH_PACKAGE_JSON, JSON.stringify(json, null, '\t'));
+}
+
 module.exports.getConfig = function(all) {
 	var packageJSON = require(PATH_PACKAGE_JSON);
 
 	return all ? packageJSON : packageJSON.liferayTheme;
+}
+
+module.exports.removeDependencies = function(dependencies) {
+	var packageJSON = require(PATH_PACKAGE_JSON);
+
+	_.forEach(packageJSON.dependencies, function(item, index) {
+		if (dependencies.indexOf(index) > -1) {
+			packageJSON.dependencies[index] = undefined;
+		}
+	});
+
+	writePackageJSON(packageJSON);
 }
 
 module.exports.setConfig = function(data, npmDependencies) {
@@ -28,5 +44,5 @@ module.exports.setConfig = function(data, npmDependencies) {
 
 	packageJSON = _.merge(packageJSON, config);
 
-	fs.writeFileSync(PATH_PACKAGE_JSON, JSON.stringify(packageJSON, null, '\t'));
+	writePackageJSON(packageJSON);
 };

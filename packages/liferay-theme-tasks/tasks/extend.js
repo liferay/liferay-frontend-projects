@@ -20,6 +20,8 @@ ExtendPrompt.prototype = {
 	_afterPrompt: function(answers) {
 		var instance = this;
 
+		instance._removeUnusedDependencies(answers);
+
 		answers = instance._normalizeAnswers(answers);
 
 		lfrThemeConfig.setConfig(answers);
@@ -107,6 +109,20 @@ ExtendPrompt.prototype = {
 		}, {});
 
 		return themeletDependencies;
+	},
+
+	_getUnusedDependencies: function(answers) {
+		var removedDependencies = [];
+
+		if (answers.baseThemeName) {
+			var baseTheme = lfrThemeConfig.getConfig().baseTheme;
+
+			if (_.isObject(baseTheme)) {
+				removedDependencies.push(baseTheme.name);
+			}
+		}
+
+		return removedDependencies.concat(_.difference(this._themeletChoices, answers.themeletNames));
 	},
 
 	_handleMissingModule: function(name, answers, type) {
@@ -259,8 +275,12 @@ ExtendPrompt.prototype = {
 					choices: function() {
 						var savedThemeletDependencies = lfrThemeConfig.getConfig().themeletDependencies;
 
+						instance._themeletChoices = [];
+
 						return _.map(instance._extendableThemes, function(item, index) {
 							var checked = savedThemeletDependencies && (savedThemeletDependencies[item.name]);
+
+							instance._themeletChoices.push(item.name);
 
 							return {
 								checked: checked,
@@ -305,6 +325,10 @@ ExtendPrompt.prototype = {
 			],
 			_.bind(instance._afterPrompt, instance)
 		);
+	},
+
+	_removeUnusedDependencies: function(answers) {
+		lfrThemeConfig.removeDependencies(this._getUnusedDependencies(answers));
 	},
 
 	_saveDependencies: function(updatedData) {
