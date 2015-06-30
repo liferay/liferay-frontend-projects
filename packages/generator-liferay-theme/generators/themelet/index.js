@@ -51,7 +51,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		},
 
 		projectfiles: function() {
-			this.fs.copy(this.templatePath('src/css/**'), this.destinationPath('src'));
+			this.fs.copy(this.templatePath('src/css/**'), this.destinationPath('src/css'));
 		}
 	},
 
