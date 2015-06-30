@@ -6,6 +6,7 @@ var del = require('del');
 var fs = require('fs-extra');
 var glob = require('glob');
 var gulpif = require('gulp-if');
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var themeUtil = require('../lib/util');
@@ -127,7 +128,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:war', function() {
-		var themeName = store.get('themeName');
+		var themeName = lfrThemeConfig.getConfig(true).name;
 
 		return gulp.src(pathBuild + '/**/*')
 			.pipe(plugins.war({
