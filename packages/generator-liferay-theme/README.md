@@ -26,6 +26,7 @@ Available generators:
 
 * [liferay-theme](#create)
 * [liferay-theme:import](#import)
+* [liferay-theme:import](#themelet)
 
 ### Create
 
@@ -44,35 +45,19 @@ yo liferay-theme:import
 
 The `liferay-theme:import` generator enables you to import pre-existing Liferay themes from the SDK.
 
+### Themelet
+
+```
+yo liferay-theme:themelet
+```
+
+The `liferay-theme:themelet` generator enables you to create theme fragments called `themelets`.
+
+The advantage of themelets is that reused code/components that often exist in multiple themes can be abstracted and easily reused in all of your themes.
+
+
 ## Gulp tasks
 
-Once the generator is done creating your theme, there are multiple gulp tasks available to expedite theme development. These tasks can be used from the theme directory using the following format.
-
-```
-gulp <task>
-```
-
-Available tasks:
-
-* [deploy](#deploy)
-* [watch](#watch)
-
-### Deploy
-
-```
-gulp deploy
-```
-
-The deploy task generates the base theme files, compiles sass into css, zips theme files into a .war file, and deploys to the defined appserver.
-
-### Watch
-
-```
-gulp watch
-```
-
-The watch task allows you to see the changes you make to your theme without a full redeploy.
-
-After invoking the watch task, every time you save any changes to a file in your theme it compiles (if applicable) and copies it directly to your appserver.
+Once the generator is done creating your theme, there are multiple gulp tasks available to expedite theme development. See [liferay-theme-tasks](https://github.com/Robert-Frampton/liferay-theme-tasks) for more detail.
 
 MIT
