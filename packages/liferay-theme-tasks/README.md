@@ -7,6 +7,7 @@
 * [build](#build)
 * [deploy](#deploy)
 * [extend](#extend)
+* [status](#status)
 * [watch](#watch)
 
 ### Build
@@ -35,6 +36,13 @@ The `extend` task is what allows you to specify what base theme you are extendin
 You first are prompted if you want to extend a Base theme or Themelet, then you will be prompted for where you would like to search for modules. `Globally installed npm modules` will search npm modules that have been installed on your computer with the `-g` flag. Selecting `npm registry` will search for published modules on npm.
 
 Once it gives you the options and you make your selection, it will add any selected modules to your package.json under dependencies and run `npm install`.
+
+### Status
+
+```
+gulp status
+```
+Displays what base theme/themelets your theme is extending.
 
 ### Watch
 
