@@ -5,18 +5,26 @@ var async = require('async');
 var fs = require('fs-extra');
 var path = require('path');
 
+function getPackageJSON() {
+	var packageJSONContent = fs.readFileSync(path.join(process.cwd(), 'package.json'), {
+		encoding: 'utf8'
+	});
+
+	return JSON.parse(packageJSONContent);
+}
+
 function writePackageJSON(json) {
 	fs.writeFileSync(path.join(process.cwd(), 'package.json'), JSON.stringify(json, null, '\t'));
 }
 
 module.exports.getConfig = function(all) {
-	var packageJSON = require(path.join(process.cwd(), 'package.json'));
+	var packageJSON = getPackageJSON();
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 }
 
 module.exports.removeDependencies = function(dependencies) {
-	var packageJSON = require(path.join(process.cwd(), 'package.json'));
+	var packageJSON = getPackageJSON();
 
 	_.forEach(packageJSON.dependencies, function(item, index) {
 		if (dependencies.indexOf(index) > -1) {
@@ -28,7 +36,7 @@ module.exports.removeDependencies = function(dependencies) {
 }
 
 module.exports.setConfig = function(data, npmDependencies) {
-	var packageJSON = require(path.join(process.cwd(), 'package.json'));
+	var packageJSON = getPackageJSON();
 
 	var config = {};
 
