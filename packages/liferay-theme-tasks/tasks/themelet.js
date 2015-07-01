@@ -14,11 +14,15 @@ module.exports = function(options) {
 
 	gulp.task('build:themelets', ['build:themelet-css', 'build:themelet-images', 'build:themelet-js', 'build:themelet-templates']);
 
-	gulp.task('build:themelet-css', function() {
-		return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
-			// .pipe(plugins.debug())
-			.pipe(plugins.concat('themelet.css'))
-			.pipe(gulp.dest(path.join(pathBuild, 'css')));
+	// gulp.task('build:themelet-css', function() {
+	// 	return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
+	// 		// .pipe(plugins.debug())
+	// 		.pipe(plugins.concat('themelet.css'))
+	// 		.pipe(gulp.dest(path.join(pathBuild, 'css')));
+	// });
+
+	gulp.task('build:themelet-css', function(cb) {
+		buildStaticThemeletFiles('css', '.+(css|scss)', cb);
 	});
 
 	gulp.task('build:themelet-images', function(cb) {
