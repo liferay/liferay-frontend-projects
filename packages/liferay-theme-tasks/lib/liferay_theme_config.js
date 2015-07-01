@@ -5,22 +5,18 @@ var async = require('async');
 var fs = require('fs-extra');
 var path = require('path');
 
-var cwd = process.cwd();
-
-var PATH_PACKAGE_JSON = path.resolve(cwd, 'package.json');
-
 function writePackageJSON(json) {
-	fs.writeFileSync(PATH_PACKAGE_JSON, JSON.stringify(json, null, '\t'));
+	fs.writeFileSync(path.join(process.cwd(), 'package.json'), JSON.stringify(json, null, '\t'));
 }
 
 module.exports.getConfig = function(all) {
-	var packageJSON = require(PATH_PACKAGE_JSON);
+	var packageJSON = require(path.join(process.cwd(), 'package.json'));
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 }
 
 module.exports.removeDependencies = function(dependencies) {
-	var packageJSON = require(PATH_PACKAGE_JSON);
+	var packageJSON = require(path.join(process.cwd(), 'package.json'));
 
 	_.forEach(packageJSON.dependencies, function(item, index) {
 		if (dependencies.indexOf(index) > -1) {
@@ -32,7 +28,7 @@ module.exports.removeDependencies = function(dependencies) {
 }
 
 module.exports.setConfig = function(data, npmDependencies) {
-	var packageJSON = require(PATH_PACKAGE_JSON);
+	var packageJSON = require(path.join(process.cwd(), 'package.json'));
 
 	var config = {};
 
