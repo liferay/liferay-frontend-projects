@@ -20,7 +20,7 @@ module.exports.removeDependencies = function(dependencies) {
 
 	_.forEach(packageJSON.dependencies, function(item, index) {
 		if (dependencies.indexOf(index) > -1) {
-			packageJSON.dependencies[index] = undefined;
+			delete packageJSON.dependencies[index];
 		}
 	});
 
