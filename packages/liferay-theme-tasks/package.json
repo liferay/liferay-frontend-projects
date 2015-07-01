@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "install": "node scripts/install.js",
-    "test": "mocha test/build.js"
+    "test": "mocha test/lib/*.js test/tasks/*.js"
   },
   "dependencies": {
     "async": "^0.9.0",

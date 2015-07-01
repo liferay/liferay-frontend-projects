@@ -6,7 +6,7 @@ var gulp = require('gulp');
 var os = require('os');
 var parseString = require('xml2js').parseString;
 var path = require('path');
-var registerTasks = require('../index.js').registerTasks;
+var registerTasks = require('../../index.js').registerTasks;
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -21,7 +21,7 @@ describe('Build Tasks', function() {
 
 		instance._initCwd = process.cwd();
 
-		fs.copy(path.join(__dirname, 'assets/base-theme'), tempPath, function (err) {
+		fs.copy(path.join(__dirname, '../assets/base-theme'), tempPath, function (err) {
 			if (err) throw err;
 
 			process.chdir(tempPath);
@@ -185,7 +185,7 @@ describe('Build Tasks', function() {
 		});
 	});
 
-	it('should remove _css directory', function(done) {
+	it('should remove _css/ directory', function(done) {
 		var instance = this;
 
 		gulp.start('remove-old-css-dir', function(err) {
