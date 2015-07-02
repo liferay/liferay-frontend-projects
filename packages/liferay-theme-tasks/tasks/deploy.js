@@ -40,7 +40,10 @@ module.exports = function(options) {
 			});
 		}
 
-		var stream = gulp.src(themeUtil.getSrcPath(pathBuild + '/**/*'))
+		var stream = gulp.src(themeUtil.getSrcPath(pathBuild + '/**/*', {
+				changedFile: store.get('changedFile'),
+				deployed: store.get('deployed')
+			}))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest(dest));
 

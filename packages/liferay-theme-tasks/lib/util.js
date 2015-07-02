@@ -3,25 +3,17 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
-var gulp = require('gulp');
 var path = require('path');
-var plugins = require('gulp-load-plugins')();
 
 var fullDeploy = (argv.full || argv.f);
 
-plugins.storage(gulp);
-
-var store = gulp.storage;
-
-store.create('LiferayTheme', 'liferay-theme.json');
-
 module.exports = {
-	getSrcPath: function(srcPath, validator) {
-		var changedFile = store.get('changedFile');
+	getSrcPath: function(srcPath, config, validator) {
+		var changedFile = config.changedFile;
 
 		var changed = (changedFile && (changedFile.type == 'changed'));
 
-		var fastDeploy = (!fullDeploy && store.get('deployed'));
+		var fastDeploy = (!fullDeploy && config.deployed);
 
 		if (changed && fastDeploy) {
 			var changedFileName = path.basename(changedFile.path);

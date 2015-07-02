@@ -79,13 +79,13 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:src', function() {
-		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*')))
+		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), getSrcPathConfig()))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:web-inf', function() {
-		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*'))
+		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*', getSrcPathConfig()))
 			// .pipe(plugins.debug())
 			.pipe(gulp.dest('./build/WEB-INF/classes'));
 	});
@@ -111,7 +111,7 @@ module.exports = function(options) {
 
 		var cssBuild = pathBuild + '/_css';
 
-		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.+(css|scss)', themeUtil.isCssFile))
+		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.+(css|scss)', getSrcPathConfig(), themeUtil.isCssFile))
 			.pipe(gulpif(supportCompass, plugins.rename({
 				extname: '.scss'
 			})))
@@ -145,6 +145,13 @@ module.exports = function(options) {
 	gulp.task('rename-css-dir', function(cb) {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
+
+	function getSrcPathConfig() {
+		return {
+			changedFile: store.get('changedFile'),
+			deployed: store.get('deployed')
+		};
+	}
 }
 
 function getBaseThemeDependencies(baseThemePath, dependencies) {
