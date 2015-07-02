@@ -9,6 +9,10 @@ var fullDeploy = (argv.full || argv.f);
 
 module.exports = {
 	getSrcPath: function(srcPath, config, validator) {
+		if (_.isUndefined(config)) {
+			config = {};
+		}
+
 		var changedFile = config.changedFile;
 
 		var changed = (changedFile && (changedFile.type == 'changed'));
