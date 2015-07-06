@@ -185,8 +185,7 @@ function getSassConfig(supportCompass) {
 	};
 
 	var includePaths = [
-		path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src'),
-		path.resolve(__dirname, '../node_modules/liferay-theme-mixins/src/liferay')
+		path.resolve(__dirname, '../node_modules/liferay-theme-mixins'),
 	];
 
 	if (supportCompass) {
@@ -194,9 +193,10 @@ function getSassConfig(supportCompass) {
 		config.loadPath = includePaths;
 	}
 	else {
+		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
 		var bourbon = require('node-bourbon');
 
-		includePaths = includePaths.concat(bourbon.includePaths);
+		includePaths = includePaths.concat(createBourbonFile(bourbon.includePaths[0]));
 
 		config.includePaths = includePaths;
 	}
