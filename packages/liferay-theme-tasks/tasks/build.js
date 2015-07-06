@@ -38,7 +38,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:base', function() {
-		var sourceFiles = [path.resolve(__dirname, '../node_modules/liferay-theme-unstyled/src/**/*')];
+		var sourceFiles = [path.resolve(__dirname, '../node_modules/liferay-theme-unstyled/**/!(package.json)')];
 
 		sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
@@ -167,7 +167,7 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	}
 	else if (baseTheme == 'styled') {
-		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules/liferay-theme-styled/src/**/*'));
+		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules/liferay-theme-styled/**/!(package.json)'));
 
 		return dependencies;
 	}
