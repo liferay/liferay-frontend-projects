@@ -16,7 +16,6 @@ module.exports = function(options) {
 
 	// gulp.task('build:themelet-css', function() {
 	// 	return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
-	// 		// .pipe(plugins.debug())
 	// 		.pipe(plugins.concat('themelet.css'))
 	// 		.pipe(gulp.dest(path.join(pathBuild, 'css')));
 	// });
@@ -60,7 +59,6 @@ module.exports = function(options) {
 
 		runThemeletDependenciesSeries(function(item, index, done) {
 			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', dirName, srcFiles))
-				//.pipe(plugins.debug())
 				.pipe(gulp.dest(path.join(pathBuild, dirName, index)))
 				.on('end', done);
 		}, cb);

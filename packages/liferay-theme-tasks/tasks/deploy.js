@@ -44,7 +44,6 @@ module.exports = function(options) {
 				changedFile: store.get('changedFile'),
 				deployed: store.get('deployed')
 			}))
-			// .pipe(plugins.debug())
 			.pipe(gulp.dest(dest));
 
 		if (tempThemeDir) {

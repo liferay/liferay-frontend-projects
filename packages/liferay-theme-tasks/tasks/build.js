@@ -43,7 +43,6 @@ module.exports = function(options) {
 		sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
 		return gulp.src(sourceFiles)
-			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild));
 	});
 
@@ -80,13 +79,11 @@ module.exports = function(options) {
 
 	gulp.task('build:src', function() {
 		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), getSrcPathConfig()))
-			// .pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:web-inf', function() {
 		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*', getSrcPathConfig()))
-			// .pipe(plugins.debug())
 			.pipe(gulp.dest('./build/WEB-INF/classes'));
 	});
 
@@ -117,8 +114,6 @@ module.exports = function(options) {
 			})))
 			.pipe(plugins.plumber())
 			.pipe(sass(config))
-			// .pipe(plugins.debug())
-			// .pipe(plugins.plumber.stop())
 			.pipe(gulp.dest(cssBuild));
 	});
 
