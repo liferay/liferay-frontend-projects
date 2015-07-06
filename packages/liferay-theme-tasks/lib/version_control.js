@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var chalk = require('gulp-util').colors;
 var compareVersion = require('compare-version');
 var liferayThemeTasksPackageJson = require('../package.json');
