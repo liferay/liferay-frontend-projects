@@ -23,10 +23,13 @@
     "gulp": "^3.9.0",
     "gulp-concat": "^2.5.2",
     "gulp-debug": "^2.0.0",
+    "gulp-filter": "^2.0.2",
     "gulp-if": "^1.2.5",
     "gulp-load-plugins": "^0.8.0",
     "gulp-plumber": "^0.6.6",
+    "gulp-prompt": "^0.1.2",
     "gulp-rename": "^1.2.0",
+    "gulp-replace-task": "^0.2.1",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-sass": "^1.2.4",
     "gulp-sourcemaps": "^1.2.8",
@@ -40,7 +43,8 @@
     "node-bourbon": "^1.2.3",
     "npm-keyword": "^1.1.1",
     "package-json": "^1.2.0",
-    "run-sequence": "^1.0.2"
+    "run-sequence": "^1.0.2",
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",

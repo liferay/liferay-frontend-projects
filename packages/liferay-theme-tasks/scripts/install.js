@@ -13,6 +13,8 @@ npm.load({
 
 	npm.commands.install(themeDependencies, function(err, data) {
 		if (err) throw err;
+
+		npm.emit('dependenciesInstalled');
 	});
 });
 
@@ -41,3 +43,5 @@ function getThemeDependencies(version) {
 
 	return [mixins, styled, unstyled];
 }
+
+module.exports = npm;
