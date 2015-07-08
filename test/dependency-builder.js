@@ -138,19 +138,65 @@ describe('DependencyBuilder', function () {
         assert.deepEqual(['aui-123', 'test123'], result);
     });
 
-    it('should throw error if module has unregistered or wrong dependency', function () {
+    it('should add dependencies on the fly', function () {
         var configParser = new global.ConfigParser();
 
         var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         configParser.addModule({
             name: 'test123',
-            dependencies: ['wrong-dep']
+            dependencies: ['not-configured-dep']
         });
 
-        assert.throws(function () {
-            dependencyBuilder.resolveDependencies(['test123']);
-        }, Error);
+        var deps = dependencyBuilder.resolveDependencies(['test123']);
+
+        var modules = configParser.getModules();
+
+        assert.sameMembers(['test123', 'not-configured-dep'], deps);
+        assert.property(modules, 'test123');
+        assert.property(modules, 'not-configured-dep');
+    });
+
+    it('should map the dependencies of the resolved modules', function () {
+        var configParser = new global.ConfigParser({
+            maps: {
+                'not-configured-dep': 'not_configured_dep'
+            }
+        });
+
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'test123',
+            dependencies: ['not-configured-dep']
+        });
+
+        var deps = dependencyBuilder.resolveDependencies(['test123']);
+
+        var modules = configParser.getModules();
+
+        assert.sameMembers(['test123', 'not_configured_dep'], deps);
+        assert.property(modules, 'test123');
+        assert.property(modules, 'not_configured_dep');
+    });
+
+    it('should resolve relative paths in module dependencies', function () {
+        var configParser = new global.ConfigParser();
+
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'test/test123/sub1',
+            dependencies: ['../not-configured-dep']
+        });
+
+        var deps = dependencyBuilder.resolveDependencies(['test/test123/sub1']);
+
+        var modules = configParser.getModules();
+
+        assert.sameMembers(['test/test123/sub1', 'test/not-configured-dep'], deps);
+        assert.property(modules, 'test/test123/sub1');
+        assert.property(modules, 'test/not-configured-dep');
     });
 
     it('should process modules with "exports" and "module" dependencies', function () {

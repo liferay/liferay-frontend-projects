@@ -11,6 +11,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
+    this._pathResolver = new global.PathResolver();
 
     this._result = [];
 }
@@ -98,8 +99,9 @@ DependencyBuilder.prototype = {
     },
 
     /**
-     * Processes all modules in the {@link DependencyBuilder#_queue} and resolves their dependencies. The function
-     * implements standard
+     * Processes all modules in the {@link DependencyBuilder#_queue} and resolves their dependencies.
+     * If the module is not registered to the configuration, it will be automatically added there with no
+     * dependencies. The function implements a standard
      * [topological sorting based on depth-first search]{@link http://en.wikipedia.org/wiki/Topological_sorting}.
      *
      * @protected
@@ -111,6 +113,15 @@ DependencyBuilder.prototype = {
 
         for (var i = 0; i < this._queue.length; i++) {
             var module = modules[this._queue[i]];
+
+            // If not registered, add the module on the fly with no dependencies.
+            // Note: the module name (this._queue[i]) is expected to be already mapped.
+            if (!module) {
+                module = this._configParser.addModule({
+                    name: this._queue[i],
+                    dependencies: []
+                });
+            }
 
             if (!module.mark) {
                 this._visit(module);
@@ -135,12 +146,13 @@ DependencyBuilder.prototype = {
 
     /**
      * Visits a module during the process of resolving dependencies. The function will throw exception in case of
-     * circular dependencies among modules.
+     * circular dependencies among modules. If a dependency is not registered, it will be added to the configuration
+     * as a module without dependencies.
      *
      * @protected
      * @param {object} module The module which have to be visited.
      */
-    _visit: function (module) {
+    _visit: function(module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
         if (module.tmpMark) {
             throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
@@ -161,16 +173,22 @@ DependencyBuilder.prototype = {
                     continue;
                 }
 
-                // Map the modules to their aliases
-                dependencyName = this._configParser.mapModule(dependencyName);
+                // Resolve relative path and map the dependency to its alias
+                dependencyName = this._pathResolver.resolvePath(module.name, dependencyName);
 
-                var moduleDependency = modules[dependencyName];
+                // A module may have many dependencies so we should map them.
+                var mappedDependencyName = this._configParser.mapModule(dependencyName);
+                var moduleDependency = modules[mappedDependencyName];
 
+                // Register on the fly all unregistered in the configuration dependencies as modules without dependencies.
                 if (!moduleDependency) {
-                    throw new Error('Cannot resolve module: ' + module.name + ' ' + 'due to not yet registered or wrongly specified dependency: ' + dependencyName);
+                    moduleDependency = this._configParser.addModule({
+                        name: mappedDependencyName,
+                        dependencies: []
+                    });
                 }
 
-                this._visit(moduleDependency, modules);
+                this._visit(moduleDependency);
             }
 
             module.mark = true;

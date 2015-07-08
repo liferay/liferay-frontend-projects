@@ -3,6 +3,7 @@
 require('../../umd/event-emitter.js');
 require('../../umd/config-parser.js');
 require('../../umd/dependency-builder.js');
+require('../../umd/path-resolver.js');
 require('../../umd/url-builder.js');
 
 if (typeof Promise == 'undefined') {

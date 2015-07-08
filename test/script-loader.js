@@ -46,6 +46,22 @@ describe('Loader', function () {
                 moduleCyclic2: {
                     dependencies: ['moduleCyclic1']
                 },
+                'liferay@1.0.0/relative1': {
+                    dependencies: ['exports', 'module', './relative2'],
+                    path: 'relative1.js'
+                },
+                'liferay@1.0.0/relative2': {
+                    dependencies: ['exports', 'module', './sub-relative/sub-relative1'],
+                    path: 'relative2.js'
+                },
+                'liferay@1.0.0/relative3': {
+                    dependencies: ['exports', 'module'],
+                    path: 'relative3.js'
+                },
+                'liferay@1.0.0/sub-relative/sub-relative1': {
+                    dependencies: ['exports', 'module', '../relative3'],
+                    'path': 'sub-relative/sub-relative1.js'
+                },
                 'liferay@1.0.0': {
                     dependencies: ['exports'],
                     path: 'liferay.js'
@@ -95,18 +111,6 @@ describe('Loader', function () {
         }, 50);
     });
 
-    it('should map modules in define', function() {
-        var module = Math.random().toString();
-        var alias = Math.random().toString();
-
-        global.__CONFIG__.maps[module] = alias;
-
-        Loader.define(module, [], function() {return 1;});
-        var modules = Loader.getModules();
-
-        assert.property(modules, alias);
-    });
-
     it('should discover missing dependencies of already defined modules', function() {
         var module1 = Math.random().toString();
         var dep1 = Math.random().toString();
@@ -122,6 +126,20 @@ describe('Loader', function () {
         assert.isArray(missingDeps);
         assert.strictEqual(2, missingDeps.length);
         assert.sameMembers([dep1, dep2], missingDeps);
+    });
+
+    it('should resolve relative dependencies path in define', function() {
+        var module = 'test/sub1/' + Math.random().toString();
+        var depName = Math.random().toString();
+        var dep = '../' + depName;
+
+        Loader.define(module, [dep], function() {});
+
+        var modules = Loader.getModules();
+
+        assert.property(modules, module);
+        assert.isArray(modules[module].dependencies);
+        assert.strictEqual('test/' + depName, modules[module].dependencies[0]);
     });
 
     it('should register unregistered modules in require', function() {
@@ -319,6 +337,26 @@ describe('Loader', function () {
 
             assert.isFunction(successValue);
             assert.strictEqual('alabala', successValue.name);
+
+            done();
+        }, 50);
+    });
+
+    it('should load module with relative path', function(done) {
+        var failure = sinon.stub();
+
+        var successValue;
+        var success = sinon.spy(function(val) {
+            successValue = val;
+        });
+
+        Loader.require(['liferay/relative1'], success, failure);
+
+        setTimeout(function () {
+            assert.ok(failure.notCalled, 'Failure should be not called');
+            assert.ok(success.calledOnce, 'Success should be called');
+
+            assert.isObject(successValue);
 
             done();
         }, 50);

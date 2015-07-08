@@ -21,6 +21,12 @@
             __CONFIG__.paths['two'] = '/modules2/two';
             __CONFIG__.paths['three'] = '/modules2/three';
 
+            require(['liferay/relative1'], function(relative1) {
+                relative1.log('hola Chema!');
+            }, function(error) {
+                console.error(error);
+            });
+
             require(['one'], function (one) {
                 one('Hello world!');
             }, function(error) {
@@ -36,7 +42,6 @@
             require(['liferay/chema/chemaps/aui-chemaps', 'liferay/aui-dialog'], function(chemaps, dialog) {
                 chemaps.log('nate');
                 dialog.log('nate');
-
             }, function(error) {
                 console.error(error);
             });
