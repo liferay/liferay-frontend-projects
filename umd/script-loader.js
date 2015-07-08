@@ -69,7 +69,14 @@ var LoaderProtoMethods = {
         var module = config || {};
         var configParser = this._getConfigParser();
 
-        name = configParser.mapModule(name);
+        var pathResolver = this._getPathResolver();
+
+        // Resolve the path according to the parent module. Example:
+        // define('metal/src/component/component', ['../array/array']) will become:
+        // define('metal/src/component/component', ['metal/src/array/array'])
+        dependencies = dependencies.map(function(dependency) {
+            return pathResolver.resolvePath(name, dependency);
+        });
 
         module.name = name;
         module.dependencies = dependencies;
@@ -152,24 +159,8 @@ var LoaderProtoMethods = {
             }
         }
 
-        var configParser = this._getConfigParser();
-
-        // We map the modules so if they were unconfigured, they will be
-        // inserted in the configuration with their mapped names
-        modules = configParser.mapModule(modules);
-
-        var registeredModules = configParser.getModules();
-
-        // Register on the fly all unregistered in the configuration modules.
-        for (i = 0; i < modules.length; i++) {
-            if (!registeredModules[modules[i]]) {
-                configParser.addModule({
-                    name: modules[i],
-                    dependencies: []
-                });
-            }
-        }
-
+        // Map the required modules so we start with clean idea what the hell we should load.
+        modules = this._getConfigParser().mapModule(modules);
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
@@ -218,7 +209,7 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Returns instance of {@link ConfigParser} class currently used.
+     * Returns instance of {@link ConfigParser} class.
      *
      * @memberof! Loader#
      * @protected
@@ -233,7 +224,7 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Returns instance of {@link DependencyBuilder} class currently used.
+     * Returns instance of {@link DependencyBuilder} class.
      *
      * @memberof! Loader#
      * @protected
@@ -299,7 +290,22 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Returns instance of {@link URLBuilder} class currently used.
+     * Returns an instance of {@link PathResolver} class.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @return {PathResolver} Instance of {@link PathResolver} class.
+     */
+    _getPathResolver: function() {
+        if (!this._pathResolver) {
+            this._pathResolver = new global.PathResolver();
+        }
+
+        return this._pathResolver;
+    },
+
+    /**
+     * Returns instance of {@link URLBuilder} class.
      *
      * @memberof! Loader#
      * @protected
@@ -474,6 +480,7 @@ var LoaderProtoMethods = {
 
             // Leave exports implementation undefined by default
             var exportsImpl;
+            var configParser = this._getConfigParser();
 
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
@@ -490,12 +497,8 @@ var LoaderProtoMethods = {
 
                     dependencyImplementations.push(exportsImpl);
                 } else {
-                    // otherwise set as value the implementation of the
-                    // registered module
-
-                    dependency = this._getConfigParser().mapModule(dependency);
-
-                    var dependencyModule = registeredModules[dependency];
+                    // otherwise set as value the implementation of the registered module
+                    var dependencyModule = registeredModules[configParser.mapModule(dependency)];
 
                     var impl = dependencyModule.implementation;
 

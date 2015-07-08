@@ -264,7 +264,7 @@ example, these might be conditional modules.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line193">line 193</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -331,7 +331,7 @@ example, these might be conditional modules.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line53">line 53</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line54">line 54</a>
     </li></ul></dd>
     
 
@@ -451,7 +451,7 @@ the list of modules, which dependencies should be resolved.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line79">line 79</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -489,8 +489,9 @@ the list of modules, which dependencies should be resolved.
 
     
     <div class="description">
-        Processes all modules in the <a href="DependencyBuilder.html#_queue">DependencyBuilder#_queue</a> and resolves their dependencies. The function
-implements standard
+        Processes all modules in the <a href="DependencyBuilder.html#_queue">DependencyBuilder#_queue</a> and resolves their dependencies.
+If the module is not registered to the configuration, it will be automatically added there with no
+dependencies. The function implements a standard
 <a href="http://en.wikipedia.org/wiki/Topological_sorting">topological sorting based on depth-first search</a>.
     </div>
     
@@ -524,7 +525,7 @@ implements standard
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line107">line 107</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -647,7 +648,7 @@ function returns true.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line128">line 128</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line139">line 139</a>
     </li></ul></dd>
     
 
@@ -708,7 +709,8 @@ function returns true.
     
     <div class="description">
         Visits a module during the process of resolving dependencies. The function will throw exception in case of
-circular dependencies among modules.
+circular dependencies among modules. If a dependency is not registered, it will be added to the configuration
+as a module without dependencies.
     </div>
     
 
@@ -789,7 +791,7 @@ circular dependencies among modules.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line143">line 143</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -908,7 +910,7 @@ circular dependencies among modules.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line27">line 27</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -973,13 +975,13 @@ circular dependencies among modules.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul><h3>Events</h3><ul><li><a href="Loader.html#event:moduleRegister">moduleRegister</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul><h3>Events</h3><ul><li><a href="Loader.html#event:moduleRegister">moduleRegister</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Fri Jun 26 2015 12:05:43 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Wed Jul 08 2015 10:37:37 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

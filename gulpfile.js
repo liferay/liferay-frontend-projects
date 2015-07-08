@@ -17,7 +17,7 @@ var template = require('gulp-template');
 var uglify = require('gulp-uglify');
 
 gulp.task('build', function(callback) {
-    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules', 'modules2'], 'build-config', 'demo', callback);
+    runSequence('clean', ['config', 'loader-min', 'source-min', 'modules'], 'build-config', 'demo', callback);
 });
 
 gulp.task('build-config', function(callback) {
@@ -51,7 +51,7 @@ gulp.task('create-loader-pure', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('combine-js', ['wrap-event-emitter', 'wrap-config-parser', 'wrap-dependency-builder', 'wrap-url-builder', 'wrap-script-loader'], function(callback) {
+gulp.task('combine-js', ['wrap-event-emitter', 'wrap-config-parser', 'wrap-dependency-builder', 'wrap-path-resolver', 'wrap-url-builder', 'wrap-script-loader'], function(callback) {
     runSequence('wrap-js-files', 'create-loader-pure', callback);
 });
 
@@ -106,18 +106,18 @@ gulp.task('loader-min', ['js'], function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('modules', ['copy-bower'], function() {
+gulp.task('modules2', function() {
+    return gulp.src('src/modules2/**/*.js')
+        .pipe(gulp.dest('dist/demo/modules2'));
+});
+
+gulp.task('modules', ['copy-bower', 'modules2'], function() {
     return gulp.src('src/modules/**/*.js')
         .pipe(babel({
             'modules': 'amd',
             'moduleIds': false
         }))
         .pipe(gulp.dest('dist/demo/modules'));
-});
-
-gulp.task('modules2', function() {
-    return gulp.src('src/modules2/**/*.js')
-        .pipe(gulp.dest('dist/demo/modules2'));
 });
 
 gulp.task('test', ['build'], function(done) {
@@ -132,15 +132,13 @@ gulp.task('test', ['build'], function(done) {
         });
 });
 
-gulp.task('test:no-coverage', ['build'], function(done) {
-    gulp.src([
+gulp.task('test:no-coverage', ['build'], function() {
+    return gulp.src([
         'umd/**/*.js',
         'test/**/*.js',
         '!test/fixture/**/*.js'
         ])
-        .pipe(mocha())
-        .pipe(istanbul.writeReports())
-        .on('end', done);
+        .pipe(mocha());
 });
 
 gulp.task('test-watch', function() {
@@ -191,6 +189,7 @@ gulp.task('wrap-js-files', function() {
             'umd/config-parser.js',
             'umd/dependency-builder.js',
             'umd/url-builder.js',
+            'umd/path-resolver.js',
             'umd/script-loader.js'
         ])
         .pipe(concat('loader-pure.js'))
@@ -203,6 +202,15 @@ gulp.task('wrap-script-loader', function() {
             source: fs.readFileSync('src/js/script-loader.js')
         }))
         .pipe(rename('script-loader.js'))
+        .pipe(gulp.dest('umd'));
+});
+
+gulp.task('wrap-path-resolver', function() {
+    return gulp.src('src/template/path-resolver.template')
+        .pipe(template({
+            source: fs.readFileSync('src/js/path-resolver.js')
+        }))
+        .pipe(rename('path-resolver.js'))
         .pipe(gulp.dest('umd'));
 });
 

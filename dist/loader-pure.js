@@ -342,6 +342,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
+    this._pathResolver = new global.PathResolver();
 
     this._result = [];
 }
@@ -429,8 +430,9 @@ DependencyBuilder.prototype = {
     },
 
     /**
-     * Processes all modules in the {@link DependencyBuilder#_queue} and resolves their dependencies. The function
-     * implements standard
+     * Processes all modules in the {@link DependencyBuilder#_queue} and resolves their dependencies.
+     * If the module is not registered to the configuration, it will be automatically added there with no
+     * dependencies. The function implements a standard
      * [topological sorting based on depth-first search]{@link http://en.wikipedia.org/wiki/Topological_sorting}.
      *
      * @protected
@@ -442,6 +444,15 @@ DependencyBuilder.prototype = {
 
         for (var i = 0; i < this._queue.length; i++) {
             var module = modules[this._queue[i]];
+
+            // If not registered, add the module on the fly with no dependencies.
+            // Note: the module name (this._queue[i]) is expected to be already mapped.
+            if (!module) {
+                module = this._configParser.addModule({
+                    name: this._queue[i],
+                    dependencies: []
+                });
+            }
 
             if (!module.mark) {
                 this._visit(module);
@@ -466,12 +477,13 @@ DependencyBuilder.prototype = {
 
     /**
      * Visits a module during the process of resolving dependencies. The function will throw exception in case of
-     * circular dependencies among modules.
+     * circular dependencies among modules. If a dependency is not registered, it will be added to the configuration
+     * as a module without dependencies.
      *
      * @protected
      * @param {object} module The module which have to be visited.
      */
-    _visit: function (module) {
+    _visit: function(module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
         if (module.tmpMark) {
             throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
@@ -492,16 +504,22 @@ DependencyBuilder.prototype = {
                     continue;
                 }
 
-                // Map the modules to their aliases
-                dependencyName = this._configParser.mapModule(dependencyName);
+                // Resolve relative path and map the dependency to its alias
+                dependencyName = this._pathResolver.resolvePath(module.name, dependencyName);
 
-                var moduleDependency = modules[dependencyName];
+                // A module may have many dependencies so we should map them.
+                var mappedDependencyName = this._configParser.mapModule(dependencyName);
+                var moduleDependency = modules[mappedDependencyName];
 
+                // Register on the fly all unregistered in the configuration dependencies as modules without dependencies.
                 if (!moduleDependency) {
-                    throw new Error('Cannot resolve module: ' + module.name + ' ' + 'due to not yet registered or wrongly specified dependency: ' + dependencyName);
+                    moduleDependency = this._configParser.addModule({
+                        name: mappedDependencyName,
+                        dependencies: []
+                    });
                 }
 
-                this._visit(moduleDependency, modules);
+                this._visit(moduleDependency);
             }
 
             module.mark = true;
@@ -671,6 +689,89 @@ URLBuilder.prototype = {
         define(factory);
     }
 
+    global.PathResolver = built;
+}(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
+
+    'use strict';
+
+/**
+ * Creates an instance of PathResolver class.
+ *
+ * @constructor
+ */
+function PathResolver() {}
+
+PathResolver.prototype = {
+    constructor: PathResolver,
+
+    /**
+     * Resolves the path of module.
+     *
+     * @param {string} root Root path which will be used as reference to resolve the path of the dependency.
+     * @param {string} dependency The dependency path, which have to be resolved.
+     * @return {string} The resolved dependency path.
+     */
+    resolvePath: function(root, dependency) {
+        if (dependency === 'exports' || dependency === 'module' ||
+            !(dependency.indexOf('.') === 0 || dependency.indexOf('..') === 0)) {
+
+            return dependency;
+        }
+
+        // Split module directories
+        var moduleParts = root.split('/');
+        // Remove module name
+        moduleParts.splice(-1, 1);
+
+        // Split dependency directories
+        var dependencyParts = dependency.split('/');
+        // Extract dependecy name
+        var dependencyName = dependencyParts.splice(-1, 1);
+
+        for (var i = 0; i < dependencyParts.length; i++) {
+            var dependencyPart = dependencyParts[i];
+
+            if (dependencyPart === '.') {
+                continue;
+
+            } else if (dependencyPart === '..') {
+                if (moduleParts.length) {
+                    moduleParts.splice(-1, 1);
+                }
+                else {
+                    moduleParts = moduleParts.concat(dependencyParts.slice(i));
+
+                    break;
+                }
+
+            } else {
+                moduleParts.push(dependencyPart);
+            }
+        }
+
+        moduleParts.push(dependencyName);
+
+        return moduleParts.join('/');
+    }
+};
+
+    return PathResolver;
+}));
+(function (global, factory) {
+    'use strict';
+
+    var built = factory(global);
+
+    /* istanbul ignore else */
+    if (typeof module === 'object' && module) {
+        module.exports = built;
+    }
+
+    /* istanbul ignore next */
+    if (typeof define === 'function' && define.amd) {
+        define(factory);
+    }
+
     /* jshint newcap:false */
     global.Loader = new built();
     global.require = global.Loader.require.bind(global.Loader);
@@ -727,7 +828,14 @@ var LoaderProtoMethods = {
         var module = config || {};
         var configParser = this._getConfigParser();
 
-        name = configParser.mapModule(name);
+        var pathResolver = this._getPathResolver();
+
+        // Resolve the path according to the parent module. Example:
+        // define('metal/src/component/component', ['../array/array']) will become:
+        // define('metal/src/component/component', ['metal/src/array/array'])
+        dependencies = dependencies.map(function(dependency) {
+            return pathResolver.resolvePath(name, dependency);
+        });
 
         module.name = name;
         module.dependencies = dependencies;
@@ -810,24 +918,8 @@ var LoaderProtoMethods = {
             }
         }
 
-        var configParser = this._getConfigParser();
-
-        // We map the modules so if they were unconfigured, they will be
-        // inserted in the configuration with their mapped names
-        modules = configParser.mapModule(modules);
-
-        var registeredModules = configParser.getModules();
-
-        // Register on the fly all unregistered in the configuration modules.
-        for (i = 0; i < modules.length; i++) {
-            if (!registeredModules[modules[i]]) {
-                configParser.addModule({
-                    name: modules[i],
-                    dependencies: []
-                });
-            }
-        }
-
+        // Map the required modules so we start with clean idea what the hell we should load.
+        modules = this._getConfigParser().mapModule(modules);
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
@@ -876,7 +968,7 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Returns instance of {@link ConfigParser} class currently used.
+     * Returns instance of {@link ConfigParser} class.
      *
      * @memberof! Loader#
      * @protected
@@ -891,7 +983,7 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Returns instance of {@link DependencyBuilder} class currently used.
+     * Returns instance of {@link DependencyBuilder} class.
      *
      * @memberof! Loader#
      * @protected
@@ -957,7 +1049,22 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Returns instance of {@link URLBuilder} class currently used.
+     * Returns an instance of {@link PathResolver} class.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @return {PathResolver} Instance of {@link PathResolver} class.
+     */
+    _getPathResolver: function() {
+        if (!this._pathResolver) {
+            this._pathResolver = new global.PathResolver();
+        }
+
+        return this._pathResolver;
+    },
+
+    /**
+     * Returns instance of {@link URLBuilder} class.
      *
      * @memberof! Loader#
      * @protected
@@ -1132,6 +1239,7 @@ var LoaderProtoMethods = {
 
             // Leave exports implementation undefined by default
             var exportsImpl;
+            var configParser = this._getConfigParser();
 
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
@@ -1148,12 +1256,8 @@ var LoaderProtoMethods = {
 
                     dependencyImplementations.push(exportsImpl);
                 } else {
-                    // otherwise set as value the implementation of the
-                    // registered module
-
-                    dependency = this._getConfigParser().mapModule(dependency);
-
-                    var dependencyModule = registeredModules[dependency];
+                    // otherwise set as value the implementation of the registered module
+                    var dependencyModule = registeredModules[configParser.mapModule(dependency)];
 
                     var impl = dependencyModule.implementation;
 
