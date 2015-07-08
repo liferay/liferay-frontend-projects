@@ -123,21 +123,59 @@ describe('URLBuilder', function () {
 
     it('should not add basePath when module has absolute url', function() {
         var configParser = new global.ConfigParser({
-            'url': 'http://localhost:3000/modules',
+            'url': 'http://localhost:3000/modules?',
             'combine': true,
             'basePath': '/base',
             'modules': {
                 'jquery': {
                     'dependencies': [],
-                    'path': '/test'
+                    'path': '/jquery'
+                },
+                'underscore': {
+                    'dependencies': [],
+                    'path': '/underscore'
                 }
             }
         });
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['jquery']);
+        var url = urlBuilder.build(['jquery', 'underscore']);
 
-        assert.strictEqual(url[0], 'http://localhost:3000/modules/test.js');
+        assert.strictEqual(1, url.length);
+        assert.strictEqual(url[0], 'http://localhost:3000/modules?/jquery.js&/underscore.js');
+    });
+
+    it('should combine modules with and without absolute url', function() {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules?',
+            'combine': true,
+            'basePath': '/base',
+            'modules': {
+                'jquery': {
+                    'dependencies': [],
+                    'path': '/jquery'
+                },
+                'yui': {
+                    'dependencies': [],
+                    'path': '/yui'
+                },
+                'underscore': {
+                    'dependencies': [],
+                    'path': 'underscore'
+                },
+                'lodash': {
+                    'dependencies': [],
+                    'path': 'lodash'
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var url = urlBuilder.build(['jquery', 'underscore', 'yui', 'lodash']);
+
+        assert.strictEqual(2, url.length);
+        assert.sameMembers(['http://localhost:3000/modules?/jquery.js&/yui.js', 'http://localhost:3000/modules?/base/underscore.js&/base/lodash.js'], url);
     });
 });
