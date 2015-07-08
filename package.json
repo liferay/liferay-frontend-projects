@@ -11,7 +11,7 @@
     "url": "https://github.com/ipeychev/lfr-amd-loader.git"
   },
   "author": "Iliyan Peychev",
-  "license": "LGPL",
+  "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/ipeychev/lfr-amd-loader/issues"
   },
