@@ -43,13 +43,14 @@ URLBuilder.prototype = {
      * @return {array} List of URLs.
      */
     build: function (modules) {
-        var buffer = [];
+        var bufferAbsoluteURL = [];
+        var bufferRelativeURL = [];
         var result = [];
 
-        var registeredModules = this._configParser.getModules();
         var config = this._configParser.getConfig();
 
         var basePath = config.basePath;
+        var registeredModules = this._configParser.getModules();
 
         /* istanbul ignore else */
         if (basePath.charAt(basePath.length - 1) !== '/') {
@@ -73,13 +74,18 @@ URLBuilder.prototype = {
 
                 // If combine is disabled, create individual URL based on config URL and module path.
                 // If the module path starts with "/", do not include basePath in the URL.
-                } else if (!config.combine || absolutePath) {
+                } else if (!config.combine) {
                     result.push(config.url + (absolutePath ? '' : basePath) + path);
 
                 } else {
                     // If combine is true and module does not have full path, it will be collected
                     // in a buffer to be loaded among with other modules from combo loader.
-                    buffer.push(path);
+                    // We will put the path in different buffer depending on the fact if it is absolute URL or not.
+                    if (absolutePath) {
+                        bufferAbsoluteURL.push(path);
+                    } else {
+                        bufferRelativeURL.push(path);
+                    }
                 }
             }
 
@@ -87,10 +93,15 @@ URLBuilder.prototype = {
         }
 
         // Add to the result all modules, which have to be combined.
-        if (buffer.length) {
-            result.push(config.url + basePath + buffer.join('&' + basePath));
+        if (bufferRelativeURL.length) {
+            result.push(config.url + basePath + bufferRelativeURL.join('&' + basePath));
+            bufferRelativeURL.length = 0;
 
-            buffer.length = 0;
+        }
+
+        if (bufferAbsoluteURL.length) {
+            result.push(config.url + bufferAbsoluteURL.join('&'));
+            bufferAbsoluteURL.length = 0;
         }
 
         return result;

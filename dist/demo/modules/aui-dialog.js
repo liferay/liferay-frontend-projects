@@ -5,10 +5,12 @@ define("liferay@1.0.0/aui-dialog", ["exports", "liferay/aui-base", "liferay/aui-
         value: true
     });
 
+    "use strict";
+
     function log(text) {
-        (0, _liferayAuiEvent.log)("module aui-dialog says via aui-event: " + text);
-        (0, _liferayAuiBase.log)("in module aui-dialog logBase is available: " + text);
-        (0, _liferayAuiCore.log)("in module aui-dialog logCore is available: " + text);
+        _liferayAuiEvent.log("module aui-dialog says via aui-event: " + text);
+        _liferayAuiBase.log("in module aui-dialog logBase is available: " + text);
+        _liferayAuiCore.log("in module aui-dialog logCore is available: " + text);
     }
 
     exports.log = log;

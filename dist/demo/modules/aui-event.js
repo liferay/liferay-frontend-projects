@@ -5,6 +5,8 @@ define("liferay@1.0.0/aui-event", ["exports"], function(exports) {
         value: true
     });
 
+    "use strict";
+
     function log(text) {
         console.log("module aui-event says", text);
     }
