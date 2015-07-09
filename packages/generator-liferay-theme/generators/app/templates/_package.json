@@ -6,6 +6,7 @@
 	],
 	"liferayTheme": {
 		"baseTheme": "styled",
+		"supportCompass": <%= supportCompass %>,
 		"version": "<%= liferayVersion %>"
 	},
 	"dependencies": {
