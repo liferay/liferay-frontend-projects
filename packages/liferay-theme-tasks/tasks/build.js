@@ -100,7 +100,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('compile-scss', function() {
-		var supportCompass = options.supportCompass;
+		var supportCompass = lfrThemeConfig.getConfig().supportCompass;
 
 		var config = getSassConfig(supportCompass);
 
