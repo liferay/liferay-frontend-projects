@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var chalk = require('chalk');
+var fs = require('fs');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
@@ -30,11 +31,24 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 	},
 
+	_setLiferayVersion: function() {
+		var packageProperties = fs.readFileSync(path.join(this.importTheme, 'docroot/WEB-INF/liferay-plugin-package.properties'), {
+			encoding: 'utf8'
+		});
+
+		var match = packageProperties.match(/liferay-versions=([0-9]\.[0-9])\..*\+/);
+
+		if (match) {
+			this.liferayVersion = match[1];
+		}
+	},
+
 	_promptCallback: function(props) {
 		this.appname = path.basename(props.importTheme);
 		this.importTheme = props.importTheme;
-		this.liferayVersion = props.liferayVersion;
 		this.supportCompass = props.supportCompass;
+
+		this._setLiferayVersion();
 	},
 
 	_prompts: [
