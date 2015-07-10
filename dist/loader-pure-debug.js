@@ -921,7 +921,7 @@ var LoaderProtoMethods = {
                 if (typeof arguments[i] === 'string') {
                     modules[i] = arguments[i];
 
-                    /* istanbul ignore else */
+                /* istanbul ignore else */
                 } else if (typeof arguments[i] === 'function') {
                     successCallback = arguments[i];
                     failureCallback = typeof arguments[++i] === 'function' ? arguments[i] : /* istanbul ignore next */ null;
@@ -933,26 +933,47 @@ var LoaderProtoMethods = {
 
         console.log('REQUIRE called with', modules);
 
-        // Map the required modules so we start with clean idea what the hell we should load.
-        modules = this._getConfigParser().mapModule(modules);
+        var configParser = self._getConfigParser();
 
-        console.log('REQUIRE modules mapped to', modules);
+        // Map the required modules so we start with clean idea what the hell we should load.
+        var mappedModules = configParser.mapModule(modules);
+
+        console.log('REQUIRE modules mapped to', mappedModules);
+
+        var resolvedDependencies;
+
+        // Set a timeout, after which an error will be passed to the client.
+        // If the user set it to 0, there will be no timeout.
+        var config = configParser.getConfig();
+        var rejectTimeout;
+
+        if (config.waitTimeout !== 0) {
+            rejectTimeout = setTimeout(function() {
+                self._raiseRequireFailure(modules, mappedModules, resolvedDependencies, failureCallback.bind(failureCallback));
+            }, config.waitTimeout || 7000);
+        }
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
-        self._resolveDependencies(modules).then(function(dependencies) {
+        self._resolveDependencies(mappedModules).then(function(dependencies) {
             console.log('REQUIRE dependencies resolved to', dependencies);
+
+            resolvedDependencies = dependencies;
             return self._loadModules(dependencies);
         }).then(function(loadedModules) {
+            clearTimeout(rejectTimeout);
+
             /* istanbul ignore else */
             if (successCallback) {
-                var moduleImplementations = self._getModuleImplementations(modules);
+                var moduleImplementations = self._getModuleImplementations(mappedModules);
                 successCallback.apply(successCallback, moduleImplementations);
             }
-        }, function(error) { /* istanbul ignore else */
+        }, function(error) {
+            clearTimeout(rejectTimeout);
+
+            /* istanbul ignore else */
             if (failureCallback) {
                 failureCallback.call(failureCallback, error);
-
             }
         });
     },
@@ -1021,7 +1042,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {Array} moduleNames List of module names to be checked for missing dependencies.
+     * @param {array} moduleNames List of module names to be checked for missing dependencies.
      * @return {Array<string>} A list with all missing dependencies.
      */
     _getMissingDepenencies: function(moduleNames) {
@@ -1215,6 +1236,35 @@ var LoaderProtoMethods = {
 
             document.body.appendChild(script);
         });
+    },
+
+    /**
+     * Constructs an error object and calls a function passing the error object.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {array} modules The required modules.
+     * @param {array} mappedModules The required modules, after the mapping process.
+     * @param {array} resolvedDependencies The resolved dependencies of the passed modules.
+     * @param {Function} callback The callback which should be called, passing the constructed error object.
+     */
+    _raiseRequireFailure: function(modules, mappedModules, resolvedDependencies, callback) {
+        var registeredModules = this._getConfigParser().getModules();
+
+        var error = {
+            mappedModules: mappedModules,
+            missingDependencies: resolvedDependencies.filter(function(dep) {
+                return !registeredModules[dep].implementation;
+            }),
+            modules: modules,
+            resolvedDependecies: resolvedDependencies
+        };
+
+        console.log('REQUIRE timeout', error);
+
+        if (callback) {
+            callback(error);
+        }
     },
 
     /**
