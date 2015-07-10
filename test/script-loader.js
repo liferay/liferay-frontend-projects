@@ -5,7 +5,7 @@ require('./fixture/script.js');
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
-describe('Loader', function () {
+describe('Loader', function() {
     beforeEach(function() {
         Object.keys(require.cache).forEach(function(cache) {
             delete require.cache[cache];
@@ -77,9 +77,15 @@ describe('Loader', function () {
                 'module-dep': {
                     dependencies: ['exports', 'module'],
                     path: 'module-dep.js'
+                },
+                'liferay@1.0.0/empty': {
+                    dependencies: [],
+                    path: 'empty.js'
                 }
             }
         };
+
+        global.__CONFIG__.waitTimeout = 0;
 
         global.__CONFIG__.paths = {};
 
@@ -95,7 +101,7 @@ describe('Loader', function () {
 
         Loader.define('pej-jung', ['exports'], impl);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert(impl.notCalled);
 
             var modules = Loader.getModules();
@@ -172,7 +178,7 @@ describe('Loader', function () {
 
         Loader.require(['aui-123', 'pej-jung'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled);
             assert.isTrue(success.calledOnce);
 
@@ -193,7 +199,7 @@ describe('Loader', function () {
 
         Loader.require(['one'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled);
             assert.isTrue(success.calledOnce);
             assert.isFunction(one);
@@ -208,7 +214,7 @@ describe('Loader', function () {
 
         Loader.require('module1', success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled);
             assert.isTrue(success.calledOnce);
 
@@ -222,7 +228,7 @@ describe('Loader', function () {
 
         Loader.require('moduleMissing', success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.calledOnce);
             assert.isTrue(success.notCalled);
 
@@ -236,7 +242,7 @@ describe('Loader', function () {
 
         Loader.require('moduleCyclic1', 'moduleCyclic2', success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.calledOnce);
             assert.isTrue(success.notCalled);
 
@@ -252,7 +258,7 @@ describe('Loader', function () {
         Loader.require(['module6'], success, failure);
         Loader.require(['module7'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled);
             assert.isTrue(success.calledThrice);
 
@@ -260,11 +266,11 @@ describe('Loader', function () {
         }, 50);
     });
 
-    it('should ignore success and callback if not functions', function () {
+    it('should ignore success and callback if not functions', function() {
         Loader.require(['module1'], null, null);
     });
 
-    it('should return conditional modules', function () {
+    it('should return conditional modules', function() {
         var conditionalModules = Loader.getConditionalModules();
 
         assert.deepEqual({}, conditionalModules);
@@ -276,7 +282,7 @@ describe('Loader', function () {
 
         Loader.require(['liferay'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled);
             assert.isTrue(success.calledOnce);
 
@@ -290,7 +296,7 @@ describe('Loader', function () {
 
         Loader.require(['liferay2'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
             assert.isTrue(success.calledOnce, 'Success should be called');
 
@@ -308,7 +314,7 @@ describe('Loader', function () {
 
         Loader.require(['exports-dep'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
             assert.isTrue(success.calledOnce, 'Success should be called');
 
@@ -331,7 +337,7 @@ describe('Loader', function () {
 
         Loader.require(['module-dep'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
             assert.isTrue(success.calledOnce, 'Success should be called');
 
@@ -352,7 +358,7 @@ describe('Loader', function () {
 
         Loader.require(['liferay/relative1'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
             assert.isTrue(success.calledOnce, 'Success should be called');
 
@@ -369,10 +375,35 @@ describe('Loader', function () {
 
         Loader.require.call(Loader, ['liferay@1.0.0/relative1'], success, failure);
 
-        setTimeout(function () {
+        setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
             assert.isTrue(success.calledOnce, 'Success should be called');
             assert.isTrue(Loader.require.calledOnce, 'Require should be called once');
+
+            done();
+        }, 50);
+    });
+
+    it('should cancel a require in case of failure', function(done) {
+        global.__CONFIG__.waitTimeout = 20;
+
+        var failureError;
+        var failure = sinon.spy(function(error) {
+            failureError = error;
+        });
+        var success = sinon.stub();
+
+        Loader.require(['liferay@1.0.0/empty'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.calledOnce, 'Failure should be called once');
+            assert.isTrue(success.notCalled, 'Success should not be called');
+
+            assert.isObject(failureError);
+            assert.property(failureError, 'resolvedDependecies');
+            assert.property(failureError, 'mappedModules');
+            assert.property(failureError, 'missingDependencies');
+            assert.property(failureError, 'modules');
 
             done();
         }, 50);
