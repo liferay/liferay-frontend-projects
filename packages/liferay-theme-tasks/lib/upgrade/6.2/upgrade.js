@@ -46,7 +46,9 @@ module.exports = function(options) {
 		return gulp.src('src/css/**/*')
 			.pipe(gulpCssDiff())
 			.pipe(plugins.concat('css.diff'))
-			.pipe(gulp.dest('_backup'));
+			.pipe(gulp.dest('_backup', {
+				overwrite: true
+			}));
 	});
 
 	gulp.task('upgrade:dependencies', function() {
