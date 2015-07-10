@@ -35,9 +35,33 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('upgrade:create-backup-files', function() {
-		return gulp.src('src/css/**/*')
-			.pipe(gulp.dest('_backup/src/css'));
+	gulp.task('upgrade:create-backup-files', function(cb) {
+		var backupExists = fs.existsSync('_backup');
+
+		var backup = function() {
+			gulp.src('src/css/**/*')
+				.pipe(gulp.dest('_backup/src/css'))
+				.on('end', cb);
+		};
+
+		if (backupExists) {
+			inquirer.prompt({
+				default: false,
+				message: 'Would you like to overwrite the existing _backup directory and it\'s contents?',
+				name: 'backup',
+				type: 'confirm'
+			}, function(answers) {
+				if (answers.backup) {
+					backup();
+				}
+				else {
+					cb();
+				}
+			});
+		}
+		else {
+			backup();
+		}
 	});
 
 	gulp.task('upgrade:create-css-diff', function() {
