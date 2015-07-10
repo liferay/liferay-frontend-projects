@@ -64,6 +64,8 @@ var LoaderProtoMethods = {
      * @return {Object} The constructed module.
      */
     define: function(name, dependencies, implementation, config) {
+        console.log('DEFINE', name, dependencies);
+
         // Create a new module by merging the provided config with the passed name,
         // dependencies and implementation.
         var module = config || {};
@@ -126,6 +128,8 @@ var LoaderProtoMethods = {
     require: function() {
         var self = this;
 
+        console.log('REQUIRE CALLED');
+
         var failureCallback;
         var i;
         var modules;
@@ -159,12 +163,17 @@ var LoaderProtoMethods = {
             }
         }
 
+        console.log('REQUIRE called with', modules);
+
         // Map the required modules so we start with clean idea what the hell we should load.
         modules = this._getConfigParser().mapModule(modules);
+
+        console.log('REQUIRE modules mapped to', modules);
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
         self._resolveDependencies(modules).then(function(dependencies) {
+            console.log('REQUIRE dependencies resolved to', dependencies);
             return self._loadModules(dependencies);
         }).then(function(loadedModules) {
             /* istanbul ignore else */
@@ -257,8 +266,9 @@ var LoaderProtoMethods = {
 
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
+                var dependencyModule = registeredModules[dependency];
 
-                if (dependency !== 'exports' &&  dependency !== 'module' && !dependency.pendingImplementation) {
+                if (dependency !== 'exports' && dependency !== 'module' && (!dependencyModule || !dependencyModule.pendingImplementation)) {
                     missingDependencies[dependency] = 1;
                 }
             }
@@ -373,6 +383,8 @@ var LoaderProtoMethods = {
 
                 // Wait for resolving all script Promises
                 // As soon as that happens, wait for each module to define itself
+
+                console.log('SCRIPTS', urls);
                 Promise.all(pendingScripts).then(function(loadedScripts) {
                     return self._waitForModules(moduleNames);
                 })
@@ -589,6 +601,7 @@ var LoaderProtoMethods = {
                 var missingDependencies = self._getMissingDepenencies(moduleNames);
 
                 if (missingDependencies.length) {
+                    console.log('MISSING DEPENDENCIES', 'requested', moduleNames, 'missing', missingDependencies);
                     self.require(missingDependencies, defineModules, reject);
                 } else {
                     defineModules();

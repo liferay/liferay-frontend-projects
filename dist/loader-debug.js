@@ -339,10 +339,10 @@ EventEmitter.prototype = {
             if (callbackIndex > -1) {
                 listeners.splice(callbackIndex, 1);
             } else {
-                void 0;
+                console.warn('Off: callback was not removed: ' + callback.toString());
             }
         } else {
-            void 0;
+            console.warn('Off: there are no listeners for event: ' + event);
         }
     },
 
@@ -369,7 +369,7 @@ EventEmitter.prototype = {
                 listener.call(listener, args);
             }
         } else {
-            void 0;
+            console.warn('No listeners for event: ' + event);
         }
     }
 };
@@ -1108,7 +1108,7 @@ var LoaderProtoMethods = {
      * @return {Object} The constructed module.
      */
     define: function(name, dependencies, implementation, config) {
-        void 0;
+        console.log('DEFINE', name, dependencies);
 
         // Create a new module by merging the provided config with the passed name,
         // dependencies and implementation.
@@ -1172,7 +1172,7 @@ var LoaderProtoMethods = {
     require: function() {
         var self = this;
 
-        void 0;
+        console.log('REQUIRE CALLED');
 
         var failureCallback;
         var i;
@@ -1207,17 +1207,17 @@ var LoaderProtoMethods = {
             }
         }
 
-        void 0;
+        console.log('REQUIRE called with', modules);
 
         // Map the required modules so we start with clean idea what the hell we should load.
         modules = this._getConfigParser().mapModule(modules);
 
-        void 0;
+        console.log('REQUIRE modules mapped to', modules);
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
         self._resolveDependencies(modules).then(function(dependencies) {
-            void 0;
+            console.log('REQUIRE dependencies resolved to', dependencies);
             return self._loadModules(dependencies);
         }).then(function(loadedModules) {
             /* istanbul ignore else */
@@ -1428,7 +1428,7 @@ var LoaderProtoMethods = {
                 // Wait for resolving all script Promises
                 // As soon as that happens, wait for each module to define itself
 
-                void 0;
+                console.log('SCRIPTS', urls);
                 Promise.all(pendingScripts).then(function(loadedScripts) {
                     return self._waitForModules(moduleNames);
                 })
@@ -1645,7 +1645,7 @@ var LoaderProtoMethods = {
                 var missingDependencies = self._getMissingDepenencies(moduleNames);
 
                 if (missingDependencies.length) {
-                    void 0;
+                    console.log('MISSING DEPENDENCIES', 'requested', moduleNames, 'missing', missingDependencies);
                     self.require(missingDependencies, defineModules, reject);
                 } else {
                     defineModules();

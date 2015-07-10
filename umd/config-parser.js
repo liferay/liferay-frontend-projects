@@ -18,8 +18,6 @@
 
     'use strict';
 
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
 /**
  * Creates an instance of ConfigurationParser class.
  *
@@ -62,7 +60,7 @@ ConfigParser.prototype = {
 
         if (moduleDefinition) {
             for (var key in module) {
-                if (hasOwnProperty.call(module, key)) {
+                if (Object.prototype.hasOwnProperty.call(module, key)) {
                     moduleDefinition[key] = module[key];
                 }
             }
@@ -131,7 +129,7 @@ ConfigParser.prototype = {
 
             for (var alias in this._config.maps) {
                 /* istanbul ignore else */
-                if (hasOwnProperty.call(this._config.maps, alias)) {
+                if (Object.prototype.hasOwnProperty.call(this._config.maps, alias)) {
                     if (tmpModule === alias || tmpModule.indexOf(alias + '/') === 0) {
                         tmpModule = this._config.maps[alias] + tmpModule.substring(alias.length);
                         modules[i] = tmpModule;
@@ -154,7 +152,7 @@ ConfigParser.prototype = {
      */
     _parseConfig: function (config) {
         for (var key in config) { /* istanbul ignore else */
-            if (hasOwnProperty.call(config, key)) {
+            if (Object.prototype.hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
                     this._parseModules(config[key]);
                 } else {
@@ -175,7 +173,7 @@ ConfigParser.prototype = {
      */
     _parseModules: function (modules) {
         for (var key in modules) { /* istanbul ignore else */
-            if (hasOwnProperty.call(modules, key)) {
+            if (Object.prototype.hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
 
                 module.name = key;

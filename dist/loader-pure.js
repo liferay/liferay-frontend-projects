@@ -63,10 +63,10 @@ EventEmitter.prototype = {
             if (callbackIndex > -1) {
                 listeners.splice(callbackIndex, 1);
             } else {
-                console.warn('Off: callback was not removed: ' + callback.toString());
+                void 0;
             }
         } else {
-            console.warn('Off: there are no listeners for event: ' + event);
+            void 0;
         }
     },
 
@@ -93,7 +93,7 @@ EventEmitter.prototype = {
                 listener.call(listener, args);
             }
         } else {
-            console.warn('No listeners for event: ' + event);
+            void 0;
         }
     }
 };
@@ -119,8 +119,6 @@ EventEmitter.prototype = {
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
 
     'use strict';
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
  * Creates an instance of ConfigurationParser class.
@@ -164,7 +162,7 @@ ConfigParser.prototype = {
 
         if (moduleDefinition) {
             for (var key in module) {
-                if (hasOwnProperty.call(module, key)) {
+                if (Object.prototype.hasOwnProperty.call(module, key)) {
                     moduleDefinition[key] = module[key];
                 }
             }
@@ -233,7 +231,7 @@ ConfigParser.prototype = {
 
             for (var alias in this._config.maps) {
                 /* istanbul ignore else */
-                if (hasOwnProperty.call(this._config.maps, alias)) {
+                if (Object.prototype.hasOwnProperty.call(this._config.maps, alias)) {
                     if (tmpModule === alias || tmpModule.indexOf(alias + '/') === 0) {
                         tmpModule = this._config.maps[alias] + tmpModule.substring(alias.length);
                         modules[i] = tmpModule;
@@ -256,7 +254,7 @@ ConfigParser.prototype = {
      */
     _parseConfig: function (config) {
         for (var key in config) { /* istanbul ignore else */
-            if (hasOwnProperty.call(config, key)) {
+            if (Object.prototype.hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
                     this._parseModules(config[key]);
                 } else {
@@ -277,7 +275,7 @@ ConfigParser.prototype = {
      */
     _parseModules: function (modules) {
         for (var key in modules) { /* istanbul ignore else */
-            if (hasOwnProperty.call(modules, key)) {
+            if (Object.prototype.hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
 
                 module.name = key;
@@ -834,6 +832,8 @@ var LoaderProtoMethods = {
      * @return {Object} The constructed module.
      */
     define: function(name, dependencies, implementation, config) {
+        void 0;
+
         // Create a new module by merging the provided config with the passed name,
         // dependencies and implementation.
         var module = config || {};
@@ -896,6 +896,8 @@ var LoaderProtoMethods = {
     require: function() {
         var self = this;
 
+        void 0;
+
         var failureCallback;
         var i;
         var modules;
@@ -929,12 +931,17 @@ var LoaderProtoMethods = {
             }
         }
 
+        void 0;
+
         // Map the required modules so we start with clean idea what the hell we should load.
         modules = this._getConfigParser().mapModule(modules);
+
+        void 0;
 
         // Resolve the dependencies of the specified modules by the user
         // then load their JS scripts
         self._resolveDependencies(modules).then(function(dependencies) {
+            void 0;
             return self._loadModules(dependencies);
         }).then(function(loadedModules) {
             /* istanbul ignore else */
@@ -1027,8 +1034,9 @@ var LoaderProtoMethods = {
 
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
+                var dependencyModule = registeredModules[dependency];
 
-                if (dependency !== 'exports' &&  dependency !== 'module' && !dependency.pendingImplementation) {
+                if (dependency !== 'exports' && dependency !== 'module' && (!dependencyModule || !dependencyModule.pendingImplementation)) {
                     missingDependencies[dependency] = 1;
                 }
             }
@@ -1143,6 +1151,8 @@ var LoaderProtoMethods = {
 
                 // Wait for resolving all script Promises
                 // As soon as that happens, wait for each module to define itself
+
+                void 0;
                 Promise.all(pendingScripts).then(function(loadedScripts) {
                     return self._waitForModules(moduleNames);
                 })
@@ -1359,6 +1369,7 @@ var LoaderProtoMethods = {
                 var missingDependencies = self._getMissingDepenencies(moduleNames);
 
                 if (missingDependencies.length) {
+                    void 0;
                     self.require(missingDependencies, defineModules, reject);
                 } else {
                     defineModules();
