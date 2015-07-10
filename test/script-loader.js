@@ -173,8 +173,8 @@ describe('Loader', function () {
         Loader.require(['aui-123', 'pej-jung'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled);
-            assert.ok(success.calledOnce);
+            assert.isTrue(failure.notCalled);
+            assert.isTrue(success.calledOnce);
 
             done();
         }, 50);
@@ -194,8 +194,8 @@ describe('Loader', function () {
         Loader.require(['one'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled);
-            assert.ok(success.calledOnce);
+            assert.isTrue(failure.notCalled);
+            assert.isTrue(success.calledOnce);
             assert.isFunction(one);
 
             done();
@@ -209,8 +209,8 @@ describe('Loader', function () {
         Loader.require('module1', success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled);
-            assert.ok(success.calledOnce);
+            assert.isTrue(failure.notCalled);
+            assert.isTrue(success.calledOnce);
 
             done();
         }, 50);
@@ -223,8 +223,8 @@ describe('Loader', function () {
         Loader.require('moduleMissing', success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.calledOnce);
-            assert.ok(success.notCalled);
+            assert.isTrue(failure.calledOnce);
+            assert.isTrue(success.notCalled);
 
             done();
         }, 50);
@@ -237,8 +237,8 @@ describe('Loader', function () {
         Loader.require('moduleCyclic1', 'moduleCyclic2', success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.calledOnce);
-            assert.ok(success.notCalled);
+            assert.isTrue(failure.calledOnce);
+            assert.isTrue(success.notCalled);
 
             done();
         }, 50);
@@ -253,8 +253,8 @@ describe('Loader', function () {
         Loader.require(['module7'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled);
-            assert.ok(success.calledThrice);
+            assert.isTrue(failure.notCalled);
+            assert.isTrue(success.calledThrice);
 
             done();
         }, 50);
@@ -277,8 +277,8 @@ describe('Loader', function () {
         Loader.require(['liferay'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled);
-            assert.ok(success.calledOnce);
+            assert.isTrue(failure.notCalled);
+            assert.isTrue(success.calledOnce);
 
             done();
         }, 50);
@@ -291,8 +291,8 @@ describe('Loader', function () {
         Loader.require(['liferay2'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled, 'Failure should be not called');
-            assert.ok(success.calledOnce, 'Success should be called');
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
 
             done();
         }, 50);
@@ -309,8 +309,8 @@ describe('Loader', function () {
         Loader.require(['exports-dep'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled, 'Failure should be not called');
-            assert.ok(success.calledOnce, 'Success should be called');
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
 
             assert.isObject(successValue);
             assert.property(successValue, 'default');
@@ -332,8 +332,8 @@ describe('Loader', function () {
         Loader.require(['module-dep'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled, 'Failure should be not called');
-            assert.ok(success.calledOnce, 'Success should be called');
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
 
             assert.isFunction(successValue);
             assert.strictEqual('alabala', successValue.name);
@@ -353,10 +353,26 @@ describe('Loader', function () {
         Loader.require(['liferay/relative1'], success, failure);
 
         setTimeout(function () {
-            assert.ok(failure.notCalled, 'Failure should be not called');
-            assert.ok(success.calledOnce, 'Success should be called');
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
 
             assert.isObject(successValue);
+
+            done();
+        }, 50);
+    });
+
+    it('should resolve the missing dependencies without multiple require calls', function(done) {
+        Loader.require = sinon.spy(Loader.require);
+        var failure = sinon.stub();
+        var success = sinon.stub();
+
+        Loader.require.call(Loader, ['liferay@1.0.0/relative1'], success, failure);
+
+        setTimeout(function () {
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
+            assert.isTrue(Loader.require.calledOnce, 'Require should be called once');
 
             done();
         }, 50);
