@@ -1059,15 +1059,19 @@ var LoaderProtoMethods = {
      * @return {Array<string>} A list with all missing dependencies.
      */
     _getMissingDepenencies: function(moduleNames) {
-        var registeredModules = this._getConfigParser().getModules();
+        var configParser = this._getConfigParser();
+        var registeredModules = configParser.getModules();
 
         var missingDependencies = Object.create(null);
 
         for (var i = 0; i < moduleNames.length; i++) {
             var module = registeredModules[moduleNames[i]];
 
-            for (var j = 0; j < module.dependencies.length; j++) {
-                var dependency = module.dependencies[j];
+            var mappedDependencies = configParser.mapModule(module.dependencies);
+
+            for (var j = 0; j < mappedDependencies.length; j++) {
+                var dependency = mappedDependencies[j];
+
                 var dependencyModule = registeredModules[dependency];
 
                 if (dependency !== 'exports' && dependency !== 'module' && (!dependencyModule || !dependencyModule.pendingImplementation)) {
