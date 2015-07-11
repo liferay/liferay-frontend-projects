@@ -81,6 +81,10 @@ describe('Loader', function() {
                 'liferay@1.0.0/empty': {
                     dependencies: [],
                     path: 'empty.js'
+                },
+                'liferay@1.0.0/mappeddeps': {
+                    dependencies: ['liferay', 'liferay2'],
+                    path: 'mappeddeps.js'
                 }
             }
         };
@@ -374,6 +378,22 @@ describe('Loader', function() {
         var success = sinon.stub();
 
         Loader.require.call(Loader, ['liferay@1.0.0/relative1'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
+            assert.isTrue(Loader.require.calledOnce, 'Require should be called once');
+
+            done();
+        }, 50);
+    });
+
+    it('should load module with mapped dependencies without multiple require calls', function(done) {
+        Loader.require = sinon.spy(Loader.require);
+        var failure = sinon.stub();
+        var success = sinon.stub();
+
+        Loader.require.call(Loader, ['liferay/mappeddeps'], success, failure);
 
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
