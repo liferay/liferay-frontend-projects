@@ -1,6 +1,6 @@
 {
   "name": "lfr-amd-loader",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "AMD Loader with support for combo URL and conditional loading",
   "main": "main.js",
   "scripts": {
@@ -12,6 +12,7 @@
   },
   "author": "Iliyan Peychev",
   "license": "LGPL-3.0",
+  "keywords": ["Liferay", "AMD", "ES6", "Loader"],
   "bugs": {
     "url": "https://github.com/ipeychev/lfr-amd-loader/issues"
   },
