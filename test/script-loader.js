@@ -384,7 +384,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should cancel a require in case of failure', function(done) {
+    it('should cancel a require in case of failure because of an empty module', function(done) {
         global.__CONFIG__.waitTimeout = 20;
 
         var failureError;
@@ -399,11 +399,34 @@ describe('Loader', function() {
             assert.isTrue(failure.calledOnce, 'Failure should be called once');
             assert.isTrue(success.notCalled, 'Success should not be called');
 
-            assert.isObject(failureError);
-            assert.property(failureError, 'resolvedDependecies');
+            assert.instanceOf(failureError, Error);
+            assert.property(failureError, 'dependecies');
             assert.property(failureError, 'mappedModules');
             assert.property(failureError, 'missingDependencies');
             assert.property(failureError, 'modules');
+
+            done();
+        }, 50);
+    });
+
+    it('should failure after require timeout, but a valid module should still load', function(done) {
+        global.__CONFIG__.waitTimeout = 1;
+        global.__CONFIG__.paths['delay'] = '/modules2/delay';
+
+        var failureError;
+        var failure = sinon.spy(function(error) {
+            failureError = error;
+        });
+        var success = sinon.stub();
+
+        Loader.require(['delay'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.calledOnce, 'Failure should be called');
+            assert.property(failureError, 'modules');
+            assert.isTrue(success.notCalled, 'Success should be not called');
+            // Delay module adds "delay" property to global
+            assert.strictEqual(1, global.delay);
 
             done();
         }, 50);
