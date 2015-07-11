@@ -172,27 +172,39 @@ var LoaderProtoMethods = {
 
         console.log('REQUIRE modules mapped to', mappedModules);
 
-        var resolvedDependencies;
-
-        // Set a timeout, after which an error will be passed to the client.
-        // If the user set it to 0, there will be no timeout.
-        var config = configParser.getConfig();
         var rejectTimeout;
 
-        if (config.waitTimeout !== 0) {
-            rejectTimeout = setTimeout(function() {
-                self._raiseRequireFailure(modules, mappedModules, resolvedDependencies, failureCallback.bind(failureCallback));
-            }, config.waitTimeout || 7000);
-        }
+        new Promise(function(resolve, reject) {
+            // Resolve the dependencies of the requested modules,
+            // then load them and resolve the Promise
+            self._resolveDependencies(mappedModules).then(function(dependencies) {
+                console.log('REQUIRE dependencies resolved to', dependencies);
 
-        // Resolve the dependencies of the specified modules by the user
-        // then load their JS scripts
-        self._resolveDependencies(mappedModules).then(function(dependencies) {
-            console.log('REQUIRE dependencies resolved to', dependencies);
+                var config = configParser.getConfig();
 
-            resolvedDependencies = dependencies;
-            return self._loadModules(dependencies);
+                // Establish a load timeout and reject the Promise in case of Error
+                if (config.waitTimeout !== 0) {
+                    rejectTimeout = setTimeout(function() {
+                        var registeredModules = configParser.getModules();
+
+                        var error = new Error('Load timeout for modules: ' + modules);
+                        error.dependecies = dependencies;
+                        error.mappedModules = mappedModules;
+                        error.missingDependencies = dependencies.filter(function(dep) {
+                            return !registeredModules[dep].implementation;
+                        });
+                        error.modules = modules;
+
+                        console.log('REQUIRE timeout', error);
+                        reject(error);
+                    }, config.waitTimeout || 7000);
+                }
+
+                // Load the dependencies, then resolve the Promise
+                self._loadModules(dependencies).then(resolve, reject);
+            }, reject);
         }).then(function(loadedModules) {
+            console.log('REQUIRE promise success');
             clearTimeout(rejectTimeout);
 
             /* istanbul ignore else */
@@ -201,6 +213,7 @@ var LoaderProtoMethods = {
                 successCallback.apply(successCallback, moduleImplementations);
             }
         }, function(error) {
+            console.log('REQUIRE promise failure');
             clearTimeout(rejectTimeout);
 
             /* istanbul ignore else */
@@ -468,35 +481,6 @@ var LoaderProtoMethods = {
 
             document.body.appendChild(script);
         });
-    },
-
-    /**
-     * Constructs an error object and calls a function passing the error object.
-     *
-     * @memberof! Loader#
-     * @protected
-     * @param {array} modules The required modules.
-     * @param {array} mappedModules The required modules, after the mapping process.
-     * @param {array} resolvedDependencies The resolved dependencies of the passed modules.
-     * @param {Function} callback The callback which should be called, passing the constructed error object.
-     */
-    _raiseRequireFailure: function(modules, mappedModules, resolvedDependencies, callback) {
-        var registeredModules = this._getConfigParser().getModules();
-
-        var error = {
-            mappedModules: mappedModules,
-            missingDependencies: resolvedDependencies.filter(function(dep) {
-                return !registeredModules[dep].implementation;
-            }),
-            modules: modules,
-            resolvedDependecies: resolvedDependencies
-        };
-
-        console.log('REQUIRE timeout', error);
-
-        if (callback) {
-            callback(error);
-        }
     },
 
     /**
