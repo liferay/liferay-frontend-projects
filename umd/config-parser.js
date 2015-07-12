@@ -47,7 +47,7 @@ ConfigParser.prototype = {
      *         <li>dependencies (Array) The modules from which it depends</li>
      *     </ul>
      *
-     *     <strong>Optional parameters:</strong>
+     *     <strong>Optional properties:</strong>
      *     The same as those which config parameter of {@link Loader#define} method accepts.
      * @return {Object} The added module
      */

@@ -43,6 +43,16 @@ Loader.superclass = global.EventEmitter.prototype;
 
 var LoaderProtoMethods = {
     /**
+     * Adds a module to the configuration. See {@link ConfigParser#addModule} for more details.
+     *
+     * @memberof! Loader#
+     * @param {object} module The module which should be added to the configuration. See {@link ConfigParser#addModule} for more details.
+     */
+    addModule: function(module) {
+        this._getConfigParser().addModule(module);
+    },
+
+    /**
      * Defines a module in the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
      *
      * @memberof! Loader#
@@ -59,7 +69,12 @@ var LoaderProtoMethods = {
      *             <ul>
      *                 <li>trigger - the module, which should trigger the loading of the current module</li>
      *                 <li>test - function, which should return true if module should be loaded</li>
-     *         </ul>
+     *             </ul>
+     *          <li>exports - If the module does not expose a "define" function, then you can specify an "exports" property.
+     *              The value of this property should be a string, which represents the value, which this module exports to
+     *              the global namespace. For example: exports: '_'. This will mean the module exports an underscore to the
+     *              global namespace. In this way you can load legacy modules.
+     *          </li>
      *     </ul>
      * @return {Object} The constructed module.
      */
@@ -138,10 +153,7 @@ var LoaderProtoMethods = {
         // Modules can be specified by as an array, or just as parameters to the function
         // We do not slice or leak arguments to not cause V8 performance penalties
         // TODO: This could be extracted as an inline function (hint)
-        var isArgsArray = Array.isArray ? Array.isArray(arguments[0]) : /* istanbul ignore next */
-            Object.prototype.toString.call(arguments[0]) === '[object Array]';
-
-        if (isArgsArray) {
+        if (Array.isArray(arguments[0])) {
             modules = arguments[0];
             successCallback = typeof arguments[1] === 'function' ? arguments[1] : null;
             failureCallback = typeof arguments[2] === 'function' ? arguments[2] : null;
@@ -235,19 +247,35 @@ var LoaderProtoMethods = {
         var self = this;
 
         return new Promise(function(resolve, reject) {
-            var onModuleRegister = function(registeredModuleName) {
-                if (registeredModuleName === moduleName) {
-                    self.off('moduleRegister', onModuleRegister);
+            var registeredModules = self._getConfigParser().getModules();
 
-                    // Overwrite the promise entry in the modules map with a simple `true` value.
-                    // Hopefully GC will remove this promise from the memory.
-                    self._modulesMap[moduleName] = true;
+            // Check if this is a module, which exports something
+            // If so, check if the exported value is available
+            var module = registeredModules[moduleName];
 
-                    resolve(moduleName);
+            if (module.exports) {
+                var exportedValue = self._getValueGlobalNS(module.exports);
+
+                if (!!exportedValue) {
+                    resolve(exportedValue);
+                } else {
+                    reject(new Error('Module ' + moduleName + ' does not export the specified value: ' + module.exports));
                 }
-            };
+            } else {
+                var onModuleRegister = function(registeredModuleName) {
+                    if (registeredModuleName === moduleName) {
+                        self.off('moduleRegister', onModuleRegister);
 
-            self.on('moduleRegister', onModuleRegister);
+                        // Overwrite the promise entry in the modules map with a simple `true` value.
+                        // Hopefully GC will remove this promise from the memory.
+                        self._modulesMap[moduleName] = true;
+
+                        resolve(moduleName);
+                    }
+                };
+
+                self.on('moduleRegister', onModuleRegister);
+            }
         });
     },
 
@@ -279,6 +307,18 @@ var LoaderProtoMethods = {
         }
 
         return this._dependencyBuilder;
+    },
+
+    /**
+     * Retrieves a value from the global namespace.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {String} exports The key which should be used to retrieve the value.
+     * @return {Any} The retrieved value.
+     */
+    _getValueGlobalNS: function(exports) {
+        return (0, eval)('this')[exports];
     },
 
     /**
@@ -524,6 +564,9 @@ var LoaderProtoMethods = {
 
             if (module.implementation) {
                 continue;
+            } else if (module.exports) {
+                module.pendingImplementation = module.implewimentation = this._getValueGlobalNS(module.exports);
+                continue;
             }
 
             var dependencyImplementations = [];
@@ -644,7 +687,7 @@ var LoaderProtoMethods = {
                 } else {
                     defineModules();
                 }
-            });
+            }, reject);
         });
     }
 

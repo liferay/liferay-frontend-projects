@@ -21,6 +21,19 @@
             __CONFIG__.paths['two'] = '/modules2/two';
             __CONFIG__.paths['three'] = '/modules2/three';
 
+            Loader.addModule({
+                dependencies: ['liferay/relative1'],
+                exports: '_',
+                name: 'underscore',
+                path: '/modules2/underscore'
+            });
+
+            require(['underscore'], function(und) {
+                console.log(und);
+            }, function(error) {
+                console.error(error);
+            });
+
             require(['liferay/relative1'], function(relative1) {
                 relative1.log('hola Chema!');
             }, function(error) {
