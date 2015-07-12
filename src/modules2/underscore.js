@@ -1,0 +1,1 @@
+window._ = function(){};

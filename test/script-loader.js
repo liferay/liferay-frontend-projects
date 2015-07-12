@@ -98,6 +98,20 @@ describe('Loader', function() {
         require('../umd/script-loader.js');
     });
 
+    it('should add module to the configuration', function() {
+        var moduleName = '_' + Math.random().toString();
+        var modules = Loader.getModules();
+
+        assert.notProperty(modules, moduleName);
+
+        Loader.addModule({
+            name: moduleName,
+            dependencies: []
+        });
+
+        assert.property(modules, moduleName);
+    });
+
     it('should define a module without dependencies (except exports)', function (done) {
         var impl = sinon.spy(function (exports) {
             exports.pejJung = {};
@@ -447,6 +461,30 @@ describe('Loader', function() {
             assert.isTrue(success.notCalled, 'Success should be not called');
             // Delay module adds "delay" property to global
             assert.strictEqual(1, global.delay);
+
+            done();
+        }, 50);
+    });
+
+    it('should load modules which do not expose a define function', function(done) {
+        Loader.addModule({
+            dependencies: [],
+            exports: '_',
+            name: 'underscore',
+            path: '/modules2/underscore.js'
+        });
+
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.stub();
+
+        Loader.require(['underscore'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
+            assert.property(global, '_');
 
             done();
         }, 50);
