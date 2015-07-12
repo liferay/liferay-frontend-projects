@@ -105,7 +105,7 @@ export {log};
     };
 });
 ```
-Transpile the above using [6to5](https://6to5.org) or [es6-module-transpiler](https://github.com/esnext/es6-module-transpiler) to AMD syntax. If you transpile using 6to5, be sure you added the option for generating module IDs too.
+Transpile the above using [Babel](https://babeljs.io/) to AMD syntax. If you transpile using Babel, be sure you added the option for generating module IDs, or you use [Liferay AMD modules config generator](https://www.npmjs.com/package/lfr-module-config-generator), which will generate the module name in "define" function, if not already available.
 
 Loading modules
 ======
