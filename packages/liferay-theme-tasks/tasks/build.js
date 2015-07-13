@@ -105,12 +105,13 @@ module.exports = function(options) {
 		var config = getSassConfig(supportCompass);
 
 		var cssPreprocessor = config.cssPreprocessor || plugins.sass;
+		var fileExt = config.fileExt || '.+(css|scss)';
 
-		config = _.omit(config, 'cssPreprocessor');
+		config = _.omit(config, ['cssPreprocessor', 'fileExt']);
 
 		var cssBuild = pathBuild + '/_css';
 
-		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.+(css|scss)', getSrcPathConfig(), themeUtil.isCssFile))
+		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*' + fileExt, getSrcPathConfig(), themeUtil.isCssFile))
 			.pipe(gulpif(supportCompass, plugins.rename({
 				extname: '.scss'
 			})))
