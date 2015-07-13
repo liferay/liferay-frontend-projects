@@ -181,6 +181,20 @@ function getSassConfig(supportCompass) {
 	var cssPrecompilerConfig = hasCustomSassConfig();
 
 	if (cssPrecompilerConfig) {
+		var config = require(cssPrecompilerConfig)();
+
+		var baseTheme = lfrThemeConfig.getConfig().baseTheme;
+
+		if (baseTheme != 'unstyled') {
+			var util = plugins.util;
+
+			util.log(util.colors.yellow(
+				'Warning! If you are using a css preprocessor other than sass, you must extend from the Unstyled theme. Run',
+				util.colors.cyan('gulp extend'),
+				'to change configuration.')
+			)
+		}
+
 		return require(cssPrecompilerConfig)();
 	}
 	else {
