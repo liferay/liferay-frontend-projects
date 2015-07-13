@@ -104,7 +104,9 @@ module.exports = function(options) {
 
 		var config = getSassConfig(supportCompass);
 
-		var sass = supportCompass ? plugins.rubySass : plugins.sass;
+		var cssPreprocessor = config.cssPreprocessor || plugins.sass;
+
+		config = _.omit(config, 'cssPreprocessor');
 
 		var cssBuild = pathBuild + '/_css';
 
@@ -113,7 +115,7 @@ module.exports = function(options) {
 				extname: '.scss'
 			})))
 			.pipe(plugins.plumber())
-			.pipe(sass(config))
+			.pipe(cssPreprocessor(config))
 			.pipe(gulp.dest(cssBuild));
 	});
 
@@ -175,16 +177,28 @@ function getLiferayThemeJSON(themePath) {
 }
 
 function getSassConfig(supportCompass) {
+	var cssPrecompilerConfig = hasCustomSassConfig();
+
+	if (cssPrecompilerConfig) {
+		return require(cssPrecompilerConfig)();
+	}
+	else {
+		return getSassConfigDefaults();
+	}
+}
+
+function getSassConfigDefaults(supportCompass) {
 	var config = {
 		sourceMap: false
 	};
 
 	var includePaths = [
-		path.resolve(__dirname, '../node_modules/liferay-theme-mixins'),
+		path.resolve(__dirname, '../node_modules/liferay-theme-mixins')
 	];
 
 	if (supportCompass) {
 		config.compass = true;
+		config.cssPreprocessor = plugins.rubySass;
 		config.loadPath = includePaths;
 	}
 	else {
@@ -193,8 +207,18 @@ function getSassConfig(supportCompass) {
 
 		includePaths = includePaths.concat(createBourbonFile(bourbon.includePaths[0]));
 
+		config.cssPreprocessor = plugins.sass;
 		config.includePaths = includePaths;
 	}
 
 	return config;
+}
+
+function hasCustomSassConfig() {
+	try {
+		return require.resolve(path.join(process.cwd(), 'css_precompiler.js'));
+	}
+	catch(e) {
+		return false
+	}
 }
