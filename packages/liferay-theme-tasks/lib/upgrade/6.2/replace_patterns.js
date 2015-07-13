@@ -22,6 +22,14 @@ function getPatterns(blackList) {
 	var functionBlackList = blackList.functions;
 	var mixinsBlackList = blackList.mixins;
 
+	var alternativeMixinsKeyValues = {
+		'opaque': 'opacity: 1;',
+		'transparent': 'opacity: 0;'
+	};
+
+	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsKeyValues, mixinsBlackList);
+	var alternativeMixinRegExp = new RegExp('@include (' + alternativeMixinNames + ')\\(.*\\);', 'g');
+
 	var deprecatedMixins = getNonBlackListedMixins([
 		'background-clip',
 		'background-origin',
@@ -42,17 +50,7 @@ function getPatterns(blackList) {
 	};
 
 	var updateMixinNames = getNonBlackListedMixins(updatedMixinKeyValues, mixinsBlackList);
-
 	var updatedMixinNameRegExp = new RegExp('(@include )(' + updateMixinNames + ')(\\(.*\\);)', 'g');
-
-	var alternativeMixinsKeyValues = {
-		'opaque': 'opacity: 1;',
-		'transparent': 'opacity: 0;'
-	};
-
-	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsKeyValues, mixinsBlackList);
-
-	var alternativeMixinRegExp = new RegExp('@include (' + alternativeMixinNames + ')\\(.*\\);', 'g');
 
 	return [
 		{
