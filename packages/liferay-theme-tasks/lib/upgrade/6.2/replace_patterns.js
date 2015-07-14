@@ -23,17 +23,14 @@ function getPatterns(blackList) {
 	var mixinsBlackList = blackList.mixins;
 
 	var alternativeMixinsKeyValues = {
-		'float-left': 'float: left;',
-		'float-right': 'float: right;',
 		'opaque': 'opacity: 1;',
-		'transparent': 'opacity: 0;',
-		'nowrap': 'white-space: nowrap;'
+		'transparent': 'opacity: 0;'
 	};
 
 	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsKeyValues, mixinsBlackList);
 	var alternativeMixinRegExp = new RegExp('@include (' + alternativeMixinNames + ')\\(.*\\);', 'g');
 
-	var deprecatedMixins = getNonBlackListedMixins([
+	var unnecessaryMixins = getNonBlackListedMixins([
 		'background-clip',
 		'background-origin',
 		'background-size',
@@ -43,13 +40,12 @@ function getPatterns(blackList) {
 		'border-top-left-radius',
 		'border-top-right-radius',
 		'box-shadow',
-		'float',
 		'opacity',
 		'single-box-shadow',
 		'text-shadow'
 	], mixinsBlackList);
 
-	var deprecatedMixinRegExp = new RegExp('@include ((' + deprecatedMixins + ')\\((.*)\\));', 'g');
+	var unnecessaryMixinRegExp = new RegExp('@include ((' + unnecessaryMixins + ')\\((.*)\\));', 'g');
 
 	var updatedMixinKeyValues = {
 		'display-flex': 'display',
@@ -74,10 +70,8 @@ function getPatterns(blackList) {
 			}
 		},
 		{
-			match: deprecatedMixinRegExp,
-			replacement: function(match, p1, p2, p3) {
-				return p2 + ': ' + p3 + ';';
-			}
+			match: unnecessaryMixinRegExp,
+			replacement: '$2: $3;'
 		},
 		{
 			match: updatedMixinNameRegExp,
