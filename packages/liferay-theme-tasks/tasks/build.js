@@ -180,12 +180,12 @@ function getLiferayThemeJSON(themePath) {
 function getSassConfig(supportCompass) {
 	var cssPrecompilerConfig = hasCustomSassConfig();
 
+	var themeConfig = lfrThemeConfig.getConfig();
+
 	if (cssPrecompilerConfig) {
 		var config = require(cssPrecompilerConfig)();
 
-		var baseTheme = lfrThemeConfig.getConfig().baseTheme;
-
-		if (baseTheme != 'unstyled') {
+		if (themeConfig.baseTheme != 'unstyled') {
 			var util = plugins.util;
 
 			util.log(util.colors.yellow(
@@ -198,7 +198,7 @@ function getSassConfig(supportCompass) {
 		return require(cssPrecompilerConfig)();
 	}
 	else {
-		return getSassConfigDefaults();
+		return getSassConfigDefaults(themeConfig.supportCompass);
 	}
 }
 
