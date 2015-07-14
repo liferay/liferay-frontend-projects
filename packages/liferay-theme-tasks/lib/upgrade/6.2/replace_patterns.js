@@ -23,8 +23,11 @@ function getPatterns(blackList) {
 	var mixinsBlackList = blackList.mixins;
 
 	var alternativeMixinsKeyValues = {
+		'float-left': 'float: left;',
+		'float-right': 'float: right;',
 		'opaque': 'opacity: 1;',
-		'transparent': 'opacity: 0;'
+		'transparent': 'opacity: 0;',
+		'nowrap': 'white-space: nowrap;'
 	};
 
 	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsKeyValues, mixinsBlackList);
@@ -34,8 +37,13 @@ function getPatterns(blackList) {
 		'background-clip',
 		'background-origin',
 		'background-size',
+		'border-bottom-left-radius',
+		'border-bottom-right-radius',
 		'border-radius',
+		'border-top-left-radius',
+		'border-top-right-radius',
 		'box-shadow',
+		'float',
 		'opacity',
 		'single-box-shadow',
 		'text-shadow'
