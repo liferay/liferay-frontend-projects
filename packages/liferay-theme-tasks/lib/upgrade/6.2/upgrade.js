@@ -138,6 +138,10 @@ module.exports = function(options) {
 
 		fs.writeFileSync(path.join(__dirname, '../../../tmp/_deprecated.scss'), deprecatedMixins.join(''));
 
+		var createBourbonFile = require('../../bourbon_dependencies').createBourbonFile;
+
+		createBourbonFile(true);
+
 		cb();
 	});
 

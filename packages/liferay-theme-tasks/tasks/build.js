@@ -218,9 +218,8 @@ function getSassConfigDefaults(supportCompass) {
 	}
 	else {
 		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
-		var bourbon = require('node-bourbon');
 
-		includePaths = includePaths.concat(createBourbonFile(bourbon.includePaths[0]));
+		includePaths = includePaths.concat(createBourbonFile());
 
 		config.cssPreprocessor = plugins.sass;
 		config.includePaths = includePaths;

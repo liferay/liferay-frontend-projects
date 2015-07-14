@@ -1,9 +1,12 @@
 'use strict';
 
+var bourbon = require('node-bourbon');
 var fs = require('fs-extra');
 var path = require('path');
 
-exports.createBourbonFile = function(bourbonPath) {
+exports.createBourbonFile = function(forceCreation) {
+	var bourbonPath = bourbon.includePaths[0];
+
 	var tmpDirPath = path.join(__dirname, '../tmp');
 
 	if (!fs.existsSync(tmpDirPath)) {
@@ -12,7 +15,7 @@ exports.createBourbonFile = function(bourbonPath) {
 
 	var bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
 
-	if (!fs.existsSync(bourbonFilePath)) {
+	if (!fs.existsSync(bourbonFilePath) || forceCreation) {
 		var bourbonFile = ['@import "'];
 
 		bourbonFile.push(path.join(bourbonPath, 'bourbon'));
