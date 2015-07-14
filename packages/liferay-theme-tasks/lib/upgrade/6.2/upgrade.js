@@ -30,6 +30,7 @@ module.exports = function(options) {
 			'upgrade:config',
 			'upgrade:rename-core-files',
 			'upgrade:create-css-diff',
+			'upgrade:create-deprecated-mixins',
 			'upgrade:dependencies',
 			cb
 		);
@@ -111,6 +112,33 @@ module.exports = function(options) {
 				]
 			}))
 			.pipe(gulp.dest('src/WEB-INF'));
+	});
+
+	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
+		var deprecatedJson = require('./deprecated.json');
+
+		var deprecatedMixins = _.map(deprecatedJson, function(item, index) {
+			var buffer = ['@mixin '];
+
+			var NEW_LINE = '\n';
+
+			buffer.push(item);
+			buffer.push('($args...) {');
+			buffer.push(NEW_LINE);
+			buffer.push('\t@warn "the ');
+			buffer.push(item);
+			buffer.push(' mixin is not available."');
+			buffer.push(NEW_LINE);
+			buffer.push('}');
+			buffer.push(NEW_LINE);
+			buffer.push(NEW_LINE);
+
+			return buffer.join('');
+		});
+
+		fs.writeFileSync(path.join(__dirname, '../../../tmp/_deprecated.scss'), deprecatedMixins.join(''));
+
+		cb();
 	});
 
 	gulp.task('upgrade:rename-core-files', function(cb) {

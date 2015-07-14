@@ -21,6 +21,14 @@ exports.createBourbonFile = function(bourbonPath) {
 		bourbonFile.push(path.join(__dirname, '../node_modules/liferay-theme-mixins/liferay/_bourbon_ext'));
 		bourbonFile.push('";');
 
+		var deprecatedMixinsFilePath = path.join(__dirname, '../tmp/_deprecated.scss');
+
+		if (fs.existsSync(deprecatedMixinsFilePath)) {
+			bourbonFile.push('@import "');
+			bourbonFile.push(deprecatedMixinsFilePath);
+			bourbonFile.push('";');
+		}
+
 		fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));
 	}
 
