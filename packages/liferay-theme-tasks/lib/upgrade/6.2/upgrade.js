@@ -99,15 +99,25 @@ module.exports = function(options) {
 		var lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
+			supportCompass: false,
 			version: '7.0'
 		});
 
-		return gulp.src('src/WEB-INF/liferay-plugin-package.properties')
+		return gulp.src('src/WEB-INF/+(liferay-plugin-package.properties|liferay-look-and-feel.xml)')
+			.pipe(plugins.debug())
 			.pipe(replace({
 				patterns: [
 					{
-						match: /(liferay-versions=)6\.2\.\d+\+/g,
-						replacement: '$17.0.0+'
+						match: /6\.2\.\d+\+/g,
+						replacement: '7.0.0+'
+					},
+					{
+						match: /6\.2\.0/g,
+						replacement: '7.0.0'
+					},
+					{
+						match: /6_2_0/g,
+						replacement: '7_0_0'
 					}
 				]
 			}))
