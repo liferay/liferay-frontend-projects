@@ -544,7 +544,7 @@ var LoaderProtoMethods = {
             if (module.implementation) {
                 continue;
             } else if (module.exports) {
-                module.pendingImplementation = module.implewimentation = this._getValueGlobalNS(module.exports);
+                module.pendingImplementation = module.implementation = this._getValueGlobalNS(module.exports);
                 continue;
             }
 

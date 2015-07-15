@@ -486,6 +486,9 @@ describe('Loader', function() {
             assert.isTrue(success.calledOnce, 'Success should be called');
             assert.property(global, '_');
 
+            var modules = Loader.getModules();
+            assert.property(modules['underscore'], 'implementation');
+
             done();
         }, 50);
     });
