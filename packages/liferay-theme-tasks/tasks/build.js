@@ -9,6 +9,7 @@ var gulpif = require('gulp-if');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+var replace = require('gulp-replace-task');
 var themeUtil = require('../lib/util');
 
 module.exports = function(options) {
@@ -53,28 +54,25 @@ module.exports = function(options) {
 	gulp.task('build:hook', function(cb) {
 		var languageProperties = themeUtil.getLanguageProperties();
 
-		if (languageProperties.length) {
-			fs.readFile(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'), {
-				encoding: 'utf8'
-			}, function(err, data) {
-				if (err) {
-					cb();
-				}
+		return gulp.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
+			.pipe(replace({
+				patterns: [
+					{
+						match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
+						replacement: function(match) {
+							var retVal = '';
 
-				var match = /<language-properties>content\/Language\*\.properties<\/language-properties>/;
+							if (languageProperties) {
+								retVal = languageProperties.join('\n\t');
+							}
 
-				if (data.match(match)) {
-					data = data.replace(match, languageProperties.join('\n\t'));
-
-					fs.writeFileSync(path.join(pathBuild, 'WEB-INF/liferay-hook.xml.processed'), data);
-				}
-
-				cb();
-			});
-		}
-		else {
-			cb();
-		}
+							return retVal;
+						}
+					}
+				]
+			}))
+			.pipe(plugins.rename('liferay-hook.xml.processed'))
+			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
 	gulp.task('build:src', function() {
