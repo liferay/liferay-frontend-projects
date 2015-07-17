@@ -181,8 +181,6 @@ function getSassConfig(supportCompass) {
 	var themeConfig = lfrThemeConfig.getConfig();
 
 	if (cssPrecompilerConfig) {
-		var config = require(cssPrecompilerConfig)();
-
 		if (themeConfig.baseTheme != 'unstyled') {
 			var util = plugins.util;
 
