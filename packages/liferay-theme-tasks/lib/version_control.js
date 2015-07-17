@@ -10,13 +10,13 @@ module.exports = function() {
 	var packageName = liferayThemeTasksPackageJson.name;
 
 	packageJson(packageName, 'latest', function (err, json) {
-		var seperator = chalk.yellow('==========================================================================');
+		var seperator = chalk.yellow('----------------------------------------------------------------');
 		var space = ' ';
 
 		if (compareVersion(currentVersion, json.version)) {
 			console.log(seperator);
 			console.log(space, 'You are running an old version of', chalk.cyan(packageName));
-			console.log(space, 'Run', chalk.cyan('npm update', packageName), 'to install newest version.');
+			console.log(space, 'Run', chalk.cyan('npm update', packageName), 'to install newest version');
 			console.log(space, 'Current version:', chalk.green(currentVersion), space, 'Latest version:', chalk.green(json.version));
 			console.log(seperator);
 		}
