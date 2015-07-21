@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
 var gutil = require('gulp-util');
@@ -13,7 +14,7 @@ var themeConfig = lfrThemeConfig.getConfig();
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	if (argv._[0] == 'upgrade') {
+	if (_.startsWith(argv._[0], 'upgrade')) {
 		version = version ? version.toString() : themeConfig.version;
 
 		var modulePath = path.join(__dirname, '../lib/upgrade', version, 'upgrade.js');
