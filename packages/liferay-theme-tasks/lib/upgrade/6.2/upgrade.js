@@ -144,7 +144,10 @@ module.exports = function(options) {
 			return buffer.join('');
 		});
 
-		fs.writeFileSync(path.join(__dirname, '../../../tmp/_deprecated.scss'), deprecatedMixins.join(''));
+		var tmpPath = path.join(__dirname, '../../../tmp');
+
+		fs.mkdirsSync(path.join(tmpPath));
+		fs.writeFileSync(path.join(tmpPath, '_deprecated.scss'), deprecatedMixins.join(''));
 
 		var createBourbonFile = require('../../bourbon_dependencies').createBourbonFile;
 
