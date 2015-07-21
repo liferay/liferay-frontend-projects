@@ -30,6 +30,10 @@ function getPatterns(blackList) {
 	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsMap, mixinsBlackList);
 	var alternativeMixinRegExp = new RegExp('@include (' + alternativeMixinNames + ')\\(.*\\);', 'g');
 
+	var deprecatedMixins = getNonBlackListedMixins(require('./theme_data/deprecated_mixins.json'), mixinsBlackList);
+
+	var deprecatedMixinRegExp = new RegExp('(@include (' + deprecatedMixins + '))', 'g');
+
 	var unnecessaryMixins = getNonBlackListedMixins([
 		'background-clip',
 		'background-origin',
@@ -72,6 +76,10 @@ function getPatterns(blackList) {
 
 				return alternativeValue;
 			}
+		},
+		{
+			match: deprecatedMixinRegExp,
+			replacement: '$1-deprecated'
 		},
 		{
 			match: unnecessaryMixinRegExp,

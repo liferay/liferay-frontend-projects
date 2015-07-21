@@ -16,13 +16,7 @@ exports.createBourbonFile = function(forceCreation) {
 	var bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
 
 	if (!fs.existsSync(bourbonFilePath) || forceCreation) {
-		var bourbonFile = ['@import "'];
-
-		bourbonFile.push(path.join(bourbonPath, 'bourbon'));
-		bourbonFile.push('";');
-		bourbonFile.push('@import "');
-		bourbonFile.push(path.join(__dirname, '../node_modules/liferay-theme-mixins/liferay/_bourbon_ext'));
-		bourbonFile.push('";');
+		var bourbonFile = [];
 
 		var deprecatedMixinsFilePath = path.join(__dirname, '../tmp/_deprecated.scss');
 
@@ -31,6 +25,14 @@ exports.createBourbonFile = function(forceCreation) {
 			bourbonFile.push(deprecatedMixinsFilePath);
 			bourbonFile.push('";');
 		}
+
+		bourbonFile.push('@import "');
+		bourbonFile.push(path.join(bourbonPath, 'bourbon'));
+		bourbonFile.push('";');
+		bourbonFile.push('@import "');
+		bourbonFile.push(path.join(__dirname, '../node_modules/liferay-theme-mixins/liferay/_bourbon_ext'));
+		bourbonFile.push('";');
+
 
 		fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));
 	}

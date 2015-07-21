@@ -125,17 +125,26 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
+		var NEW_LINE = '\n';
+
+		var compassPath = path.join(__dirname, '../../../node_modules/compass-mixins/lib/_compass.scss');
+
+		var includeCompass = '@import "' + compassPath + '";' + NEW_LINE + NEW_LINE;
+
 		var deprecatedMixins = _.map(require('./theme_data/deprecated_mixins.json'), function(item, index) {
 			var buffer = ['@mixin '];
 
-			var NEW_LINE = '\n';
-
 			buffer.push(item);
+			buffer.push('-deprecated');
 			buffer.push('($args...) {');
 			buffer.push(NEW_LINE);
 			buffer.push('\t@warn "the ');
 			buffer.push(item);
-			buffer.push(' mixin is not available."');
+			buffer.push(' mixin is deprecated, and will be removed in the next major release";');
+			buffer.push(NEW_LINE);
+			buffer.push('\t@include ');
+			buffer.push(item);
+			buffer.push('($args...);');
 			buffer.push(NEW_LINE);
 			buffer.push('}');
 			buffer.push(NEW_LINE);
@@ -147,7 +156,7 @@ module.exports = function(options) {
 		var tmpPath = path.join(__dirname, '../../../tmp');
 
 		fs.mkdirsSync(path.join(tmpPath));
-		fs.writeFileSync(path.join(tmpPath, '_deprecated.scss'), deprecatedMixins.join(''));
+		fs.writeFileSync(path.join(tmpPath, '_deprecated.scss'), includeCompass + deprecatedMixins.join(''));
 
 		var createBourbonFile = require('../../bourbon_dependencies').createBourbonFile;
 

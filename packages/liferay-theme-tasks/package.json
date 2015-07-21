@@ -17,6 +17,7 @@
     "async": "^0.9.0",
     "check-source-formatting": "^1.0.21",
     "compare-version": "^0.1.2",
+    "compass-mixins": "^0.12.7",
     "del": "^1.1.1",
     "diff": "^1.4.0",
     "fs-extra": "^0.13.0",
