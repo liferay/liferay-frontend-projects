@@ -7,7 +7,7 @@ var jsDiff = require('diff');
 var path = require('path');
 var through = require('through2');
 
-var coreThemeStructure = require('./core_theme_structure.json');
+var renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
 var PLUGIN_NAME = 'gulp-css-diff';
 
@@ -17,7 +17,7 @@ function getBackupFilePath(filePath) {
 
 	var backupFilePath = path.join(cwd, '_backup', filePath.replace(cwd, ''));
 
-	if (!fs.existsSync(backupFilePath) && _.includes(coreThemeStructure, fileName)) {
+	if (!fs.existsSync(backupFilePath) && _.includes(renamedCssFiles, fileName)) {
 		backupFilePath = backupFilePath.replace('\.scss', '\.css');
 	}
 

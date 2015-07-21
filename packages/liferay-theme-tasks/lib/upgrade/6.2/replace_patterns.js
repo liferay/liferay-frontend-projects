@@ -22,12 +22,12 @@ function getPatterns(blackList) {
 	var functionBlackList = blackList.functions;
 	var mixinsBlackList = blackList.mixins;
 
-	var alternativeMixinsKeyValues = {
+	var alternativeMixinsMap = {
 		'opaque': 'opacity: 1;',
 		'transparent': 'opacity: 0;'
 	};
 
-	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsKeyValues, mixinsBlackList);
+	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsMap, mixinsBlackList);
 	var alternativeMixinRegExp = new RegExp('@include (' + alternativeMixinNames + ')\\(.*\\);', 'g');
 
 	var unnecessaryMixins = getNonBlackListedMixins([
@@ -47,13 +47,13 @@ function getPatterns(blackList) {
 
 	var unnecessaryMixinRegExp = new RegExp('@include ((' + unnecessaryMixins + ')\\((.*)\\));', 'g');
 
-	var updatedMixinKeyValues = {
+	var updatedMixinMap = {
 		'display-flex': 'display',
 		'input-placeholder': 'placeholder',
 		'word-break': 'word-wrap'
 	};
 
-	var updateMixinNames = getNonBlackListedMixins(updatedMixinKeyValues, mixinsBlackList);
+	var updateMixinNames = getNonBlackListedMixins(updatedMixinMap, mixinsBlackList);
 	var updatedMixinNameRegExp = new RegExp('(@include )(' + updateMixinNames + ')(\\(.*\\);)', 'g');
 
 	return [
@@ -68,7 +68,7 @@ function getPatterns(blackList) {
 		{
 			match: alternativeMixinRegExp,
 			replacement: function(match, p1, p2, p3) {
-				var alternativeValue = alternativeMixinsKeyValues[p1];
+				var alternativeValue = alternativeMixinsMap[p1];
 
 				return alternativeValue;
 			}
@@ -80,7 +80,7 @@ function getPatterns(blackList) {
 		{
 			match: updatedMixinNameRegExp,
 			replacement: function(match, p1, p2, p3) {
-				var updatedMixinName = updatedMixinKeyValues[p2];
+				var updatedMixinName = updatedMixinMap[p2];
 
 				return p1 + updatedMixinName + p3;
 			}

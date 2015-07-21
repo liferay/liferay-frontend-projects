@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var del = require('del');
 var fs = require('fs-extra');
-var gulpBlackList = require('./black_list.js');
+var gulpBlackList = require('./gulp_black_list.js');
 var inquirer = require('inquirer');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
@@ -66,7 +66,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-css-diff', function() {
-		var gulpCssDiff = require('./css_diff.js');
+		var gulpCssDiff = require('./gulp_css_diff.js');
 
 		return gulp.src('src/css/**/*')
 			.pipe(gulpCssDiff())
@@ -125,9 +125,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
-		var deprecatedJson = require('./deprecated.json');
-
-		var deprecatedMixins = _.map(deprecatedJson, function(item, index) {
+		var deprecatedMixins = _.map(require('./theme_data/deprecated_mixins.json'), function(item, index) {
 			var buffer = ['@mixin '];
 
 			var NEW_LINE = '\n';
@@ -156,7 +154,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:rename-core-files', function(cb) {
-		var coreThemeStructure = require('./core_theme_structure.json');
+		var renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
 		var prompts = [];
 		var srcPaths = [];
@@ -164,7 +162,7 @@ module.exports = function(options) {
 		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), function(item, index) {
 			var fileName = path.basename(item, '.css');
 
-			if (path.extname(item) == '.css' && coreThemeStructure.indexOf(fileName) > -1) {
+			if (path.extname(item) == '.css' && renamedCssFiles.indexOf(fileName) > -1) {
 				srcPaths.push(path.join(CWD, DIR_SRC_CSS, item));
 
 				prompts.push({
