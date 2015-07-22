@@ -54,8 +54,14 @@ module.exports = function(options) {
 	});
 
 	gulp.task('deploy:war', function() {
+		var gutil = plugins.util;
+
+		var deployPath = store.get('deployPath');
+
 		var stream = gulp.src('./dist/*.war')
-			.pipe(gulp.dest(store.get('deployPath')));
+			.pipe(gulp.dest(deployPath));
+
+		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));
 
 		if (!store.get('deployed')) {
 			stream.on('end', function() {
