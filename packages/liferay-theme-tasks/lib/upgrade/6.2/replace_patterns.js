@@ -32,7 +32,7 @@ function getPatterns(blackList) {
 
 	var deprecatedMixins = getNonBlackListedMixins(require('./theme_data/deprecated_mixins.json'), mixinsBlackList);
 
-	var deprecatedMixinRegExp = new RegExp('(@include (' + deprecatedMixins + '))', 'g');
+	var deprecatedMixinRegExp = new RegExp('(@include (' + deprecatedMixins + '))(\\(|;)', 'g');
 
 	var unnecessaryMixins = getNonBlackListedMixins([
 		'background-clip',
@@ -79,7 +79,7 @@ function getPatterns(blackList) {
 		},
 		{
 			match: deprecatedMixinRegExp,
-			replacement: '$1-deprecated'
+			replacement: '$1-deprecated$3'
 		},
 		{
 			match: unnecessaryMixinRegExp,
