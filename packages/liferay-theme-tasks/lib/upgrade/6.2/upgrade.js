@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var del = require('del');
 var fs = require('fs-extra');
+var glob = require('glob');
 var gulpBlackList = require('./gulp_black_list.js');
 var inquirer = require('inquirer');
 var path = require('path');
@@ -27,6 +28,7 @@ module.exports = function(options) {
 			'upgrade:create-backup-files',
 			'upgrade:black-list',
 			'upgrade:replace-compass',
+			'upgrade:convert-bootstrap',
 			'upgrade:config',
 			'upgrade:rename-core-files',
 			'upgrade:create-css-diff',
@@ -34,6 +36,21 @@ module.exports = function(options) {
 			'upgrade:dependencies',
 			cb
 		);
+	});
+
+	gulp.task('upgrade:convert-bootstrap', function(cb) {
+		var exec = require('child_process').exec;
+
+		var files = glob.sync('src/css/*').join(' ');
+
+		var command = 'node ' + path.join(__dirname, '../../../node_modules/convert-bootstrap-2-to-3') + ' -i ' + files;
+
+		exec(command, function(error, stdout, stderr) {
+			console.log(stderr);
+			console.log(stdout);
+
+			cb();
+		});
 	});
 
 	gulp.task('upgrade:create-backup-files', function(cb) {
