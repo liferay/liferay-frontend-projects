@@ -40,18 +40,22 @@ function gulpCssDiff(options) {
 
 			var backupFilePath = getBackupFilePath(file.path);
 
-			var backupFileContentsString = fs.readFileSync(backupFilePath, {
-				encoding: 'utf8'
-			});
+			var filesPatch = '';
 
-			var filesPatch = jsDiff.createTwoFilesPatch(
-				path.basename(backupFilePath),
-				path.basename(file.path),
-				backupFileContentsString,
-				fileContentsString,
-				'Original File',
-				'Updated File'
-			);
+			if (fs.existsSync(backupFilePath)) {
+				var backupFileContentsString = fs.readFileSync(backupFilePath, {
+					encoding: 'utf8'
+				});
+
+				filesPatch = jsDiff.createTwoFilesPatch(
+					path.basename(backupFilePath),
+					path.basename(file.path),
+					backupFileContentsString,
+					fileContentsString,
+					'Original File',
+					'Updated File'
+				);
+			}
 
 			file.contents = new Buffer(filesPatch);
 		}
