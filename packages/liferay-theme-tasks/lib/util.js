@@ -8,6 +8,29 @@ var path = require('path');
 var fullDeploy = (argv.full || argv.f);
 
 module.exports = {
+	getLanguageProperties: function() {
+		var pathContent = path.join('./build', 'WEB-INF/src/content');
+
+		var languageKeys = [];
+
+		if (fs.existsSync(pathContent) && fs.statSync(pathContent).isDirectory()) {
+			var contentFiles = fs.readdirSync(pathContent);
+
+			_.forEach(
+				contentFiles,
+				function(item, index) {
+					if (item.match(/Language.*properties/)) {
+						var xmlElement = '<language-properties>content/' + item + '</language-properties>';
+
+						languageKeys.push(xmlElement);
+					}
+				}
+			);
+		}
+
+		return languageKeys;
+	},
+
 	getSrcPath: function(srcPath, config, validator) {
 		if (_.isUndefined(config)) {
 			config = {};
@@ -32,30 +55,7 @@ module.exports = {
 		return srcPath;
 	},
 
-	getLanguageProperties: function() {
-		var pathContent = path.join('./build', 'WEB-INF/src/content');
-
-		var languageKeys = [];
-
-		if (fs.existsSync(pathContent) && fs.statSync(pathContent).isDirectory()) {
-			var contentFiles = fs.readdirSync(pathContent);
-
-			_.forEach(
-				contentFiles,
-				function(item, index) {
-					if (item.match(/Language.*properties/)) {
-						var xmlElement = '<language-properties>content/' + item + '</language-properties>';
-
-						languageKeys.push(xmlElement);
-					}
-				}
-			);
-		}
-
-		return languageKeys;
-	},
-
-	isCssFile: function (name) {
+	isCssFile: function(name) {
 		return name.indexOf('.css') > -1;
 	}
 };

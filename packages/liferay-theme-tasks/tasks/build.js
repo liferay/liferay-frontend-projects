@@ -120,7 +120,7 @@ module.exports = function(options) {
 
 	gulp.task('move-compiled-css', function(cb) {
 		return gulp.src(pathBuild + '/_css/**/*')
-			.pipe(gulp.dest(pathBuild + '/css'))
+			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
 	gulp.task('build:war', function() {
@@ -148,7 +148,7 @@ module.exports = function(options) {
 			deployed: store.get('deployed')
 		};
 	}
-}
+};
 
 function getBaseThemeDependencies(baseThemePath, dependencies) {
 	var baseThemeInfo = getLiferayThemeJSON(baseThemePath);
@@ -188,7 +188,7 @@ function getSassConfig(supportCompass) {
 				'Warning! If you are using a css preprocessor other than sass, you must extend from the Unstyled theme. Run',
 				util.colors.cyan('gulp extend'),
 				'to change configuration.')
-			)
+			);
 		}
 
 		return require(cssPrecompilerConfig)();
@@ -229,6 +229,6 @@ function hasCustomSassConfig() {
 		return require.resolve(path.join(process.cwd(), 'css_precompiler.js'));
 	}
 	catch(e) {
-		return false
+		return false;
 	}
 }

@@ -8,8 +8,6 @@ var util = require('util');
 
 var CWD = process.cwd();
 
-var STR_PACKAGE_JSON = 'package.json';
-
 function InitPrompt(options, cb) {
 	var instance = this;
 
@@ -141,4 +139,4 @@ module.exports = function(options) {
 			store: store
 		}, cb);
 	});
-}
+};

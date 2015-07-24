@@ -201,7 +201,6 @@ ExtendPrompt.prototype = {
 	_normalizeThemeletDependencies: function(answers) {
 		var instance = this;
 
-		var extendableThemes = instance._extendableThemes;
 		var globalModules = (answers.themeSource == 'global');
 
 		var savedThemeletDependencies = _.reduce(lfrThemeConfig.getConfig().themeletDependencies, function(result, item, index) {
@@ -240,8 +239,8 @@ ExtendPrompt.prototype = {
 
 						return input;
 					},
-					name: 'extendType',
 					message: 'What kind of theme asset would you like to extend?',
+					name: 'extendType',
 					type: 'list'
 				},
 				{
@@ -350,4 +349,4 @@ module.exports = function(options) {
 	gulp.task('extend', function(cb) {
 		new ExtendPrompt(cb);
 	});
-}
+};

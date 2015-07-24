@@ -1,15 +1,11 @@
 'use strict';
 
-var fs = require('fs-extra');
 var gutil = require('gulp-util');
-var path = require('path');
-var PluginError = gutil.PluginError;
 var through = require('through2');
-
-var PLUGIN_NAME = 'gulp-blacklister';
 
 function blackList(fileContents, regexp, list) {
 	var match = regexp.exec(fileContents);
+
 	if (match && list.indexOf(match[1]) < 0) {
 		list.push(match[1]);
 	}

@@ -1,6 +1,6 @@
+var fs = require('fs');
 var npm = require('npm');
 var path = require('path');
-var fs = require('fs');
 
 npm.load({
 	loaded: false
@@ -19,7 +19,7 @@ npm.load({
 });
 
 function getParentThemeLiferayVersion() {
-	var cwd = process.cwd()
+	var cwd = process.cwd();
 
 	var parentThemePackageJSON = path.resolve(cwd, '../../', 'package.json');
 

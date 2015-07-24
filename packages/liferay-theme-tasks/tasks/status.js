@@ -5,8 +5,6 @@ var argv = require('minimist')(process.argv.slice(2));
 var gutil = require('gulp-util');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 
-var status = argv.status || argv.s;
-
 function prettifyThemeConfig() {
 	var themeConfig = lfrThemeConfig.getConfig();
 
@@ -37,4 +35,4 @@ module.exports = function(options) {
 
 		cb();
 	});
-}
+};

@@ -19,7 +19,6 @@ function getNonBlackListedMixins(mixins, blackList) {
 }
 
 function getPatterns(blackList) {
-	var functionBlackList = blackList.functions;
 	var mixinsBlackList = blackList.mixins;
 
 	var alternativeMixinsMap = {
@@ -93,7 +92,7 @@ function getPatterns(blackList) {
 				return p1 + updatedMixinName + p3;
 			}
 		}
-	]
+	];
 }
 
 module.exports = getPatterns;

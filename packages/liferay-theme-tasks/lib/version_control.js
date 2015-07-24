@@ -9,7 +9,7 @@ module.exports = function() {
 	var currentVersion = liferayThemeTasksPackageJson.version;
 	var packageName = liferayThemeTasksPackageJson.name;
 
-	packageJson(packageName, 'latest', function (err, json) {
+	packageJson(packageName, 'latest', function(err, json) {
 		var seperator = chalk.yellow('----------------------------------------------------------------');
 		var space = ' ';
 
@@ -21,4 +21,4 @@ module.exports = function() {
 			console.log(seperator);
 		}
 	});
-}
+};

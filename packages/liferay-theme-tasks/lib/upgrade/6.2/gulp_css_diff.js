@@ -2,20 +2,18 @@
 
 var _ = require('lodash');
 var fs = require('fs-extra');
-var gutil = require('gulp-util');
 var jsDiff = require('diff');
 var path = require('path');
 var through = require('through2');
 
 var renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
-var PLUGIN_NAME = 'gulp-css-diff';
+var CWD = process.CWD();
 
 function getBackupFilePath(filePath) {
 	var fileName = path.basename(filePath, path.extname(filePath));
-	var cwd = process.cwd();
 
-	var backupFilePath = path.join(cwd, '_backup', filePath.replace(cwd, ''));
+	var backupFilePath = path.join(CWD, '_backup', filePath.replace(CWD, ''));
 
 	if (!fs.existsSync(backupFilePath) && _.includes(renamedCssFiles, fileName)) {
 		backupFilePath = backupFilePath.replace('\.scss', '\.css');
@@ -26,9 +24,6 @@ function getBackupFilePath(filePath) {
 
 function gulpCssDiff(options) {
 	options = options || {};
-
-	var originalFilesPath;
-	var updatedFilesPath;
 
 	return through.obj(function(file, enc, cb) {
 		if (file.isNull()) {

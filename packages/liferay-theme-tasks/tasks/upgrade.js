@@ -12,8 +12,6 @@ var version = argv.v || argv.version;
 var themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = function(options) {
-	var gulp = options.gulp;
-
 	if (_.startsWith(argv._[0], 'upgrade')) {
 		version = version ? version.toString() : themeConfig.version;
 
@@ -26,4 +24,4 @@ module.exports = function(options) {
 			gutil.log(gutil.colors.red('It appears there are no tools for upgrading themes for', version));
 		}
 	}
-}
+};

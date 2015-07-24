@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var async = require('async');
 var fs = require('fs-extra');
 var path = require('path');
 
@@ -21,7 +20,7 @@ module.exports.getConfig = function(all) {
 	var packageJSON = getPackageJSON();
 
 	return all ? packageJSON : packageJSON.liferayTheme;
-}
+};
 
 module.exports.removeDependencies = function(dependencies) {
 	var packageJSON = getPackageJSON();
@@ -33,7 +32,7 @@ module.exports.removeDependencies = function(dependencies) {
 	});
 
 	writePackageJSON(packageJSON);
-}
+};
 
 module.exports.setConfig = function(data, npmDependencies) {
 	var packageJSON = getPackageJSON();

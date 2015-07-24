@@ -40,7 +40,7 @@ module.exports = function(options) {
 		var srcFiles = 'src/**/*';
 
 		if (fileTypes) {
-			srcFiles += fileTypes
+			srcFiles += fileTypes;
 		}
 
 		var themeSrcPaths = _.map(getThemeletDependencies(), function(item, index) {
@@ -71,7 +71,7 @@ module.exports = function(options) {
 
 		async.series(themeletStreamMap, cb);
 	}
-}
+};
 
 function getThemeletDependencies() {
 	var packageJSON = require(path.join(CWD, 'package.json'));
