@@ -166,6 +166,25 @@ describe('Loader', function() {
         assert.strictEqual('test/' + depName, modules[module].dependencies[0]);
     });
 
+    it('should not accept define with only one parameter', function() {
+        assert.isUndefined(Loader.define(function() {}));
+    });
+
+    it('should define a module with name and without dependencies', function() {
+        var module = Math.random().toString();
+
+        var impl = function() {};
+
+        Loader.define(module, impl);
+
+        var modules = Loader.getModules();
+
+        assert.property(modules, module);
+        assert.isArray(modules[module].dependencies);
+        assert.strictEqual(modules[module].pendingImplementation, impl);
+        assert.sameMembers(['exports', 'module'], modules[module].dependencies);
+    });
+
     it('should register unregistered modules in require', function() {
         var module = Math.random().toString();
 

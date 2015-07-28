@@ -60,6 +60,20 @@ var LoaderProtoMethods = {
     define: function(name, dependencies, implementation, config) {
         console.log('DEFINE', name, dependencies);
 
+        var passedArgsCount = arguments.length;
+
+        if (passedArgsCount < 2) {
+            console.log('DEFINE, module with one param only, returning');
+            // we don't support modules with implementation only
+            return;
+        } else if (passedArgsCount === 2 && typeof name === 'string') {
+            console.log('DEFINE, module with two params only, name and implementation', name);
+            // there are two parameters, but the first one is not an array with dependencies,
+            // this is a module name
+            implementation = dependencies;
+            dependencies = ['module', 'exports'];
+        }
+
         // Create a new module by merging the provided config with the passed name,
         // dependencies and implementation.
         var module = config || {};
