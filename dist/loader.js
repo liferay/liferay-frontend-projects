@@ -1061,6 +1061,7 @@ PathResolver.prototype = {
     global.Loader = new built();
     global.require = global.Loader.require.bind(global.Loader);
     global.define = global.Loader.define.bind(global.Loader);
+    global.define.amd = {};
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
 
     'use strict';
@@ -1124,6 +1125,20 @@ var LoaderProtoMethods = {
      */
     define: function(name, dependencies, implementation, config) {
         void 0;
+
+        var passedArgsCount = arguments.length;
+
+        if (passedArgsCount < 2) {
+            void 0;
+            // we don't support modules with implementation only
+            return;
+        } else if (passedArgsCount === 2 && typeof name === 'string') {
+            void 0;
+            // there are two parameters, but the first one is not an array with dependencies,
+            // this is a module name
+            implementation = dependencies;
+            dependencies = ['module', 'exports'];
+        }
 
         // Create a new module by merging the provided config with the passed name,
         // dependencies and implementation.
