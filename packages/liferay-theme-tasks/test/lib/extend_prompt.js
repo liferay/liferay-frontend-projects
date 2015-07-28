@@ -1,10 +1,12 @@
 'use strict';
 
+var _ = require('lodash');
 var chai = require('chai');
+var ExtendPrompt = require('../../lib/extend_prompt');
 var fs = require('fs-extra');
+var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
-var ExtendPrompt = require('../../lib/extend_prompt');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -119,6 +121,33 @@ describe('Extend Prompt', function() {
 
 		assert.isUndefined(themeletDependenciesFromAnswers['themelet-2'], 'themelet 2 is returned');
 		assert.isUndefined(themeletDependenciesFromAnswers['themelet-3'], 'themelet 3 is returned');
+
+		done();
+	});
+
+	// _getUnusedDependencies
+	it('should remove unused dependencies', function(done) {
+		assert(_.isEmpty(ExtendPrompt.prototype._getUnusedDependencies({
+			baseThemeName: 'styled'
+		})));
+
+		var baseThemeName = 'new-base-theme';
+
+		lfrThemeConfig.setConfig({
+			baseTheme: {
+				name: baseThemeName
+			}
+		});
+
+		assert.deepEqual(ExtendPrompt.prototype._getUnusedDependencies({
+			baseThemeName: 'styled'
+		}), [baseThemeName]);
+
+		ExtendPrompt.prototype._themeletChoices = ['themelet-1', 'themelet-2', 'themelet-3'];
+
+		assert.deepEqual(ExtendPrompt.prototype._getUnusedDependencies({
+			themeletNames: ['themelet-2']
+		}), ['themelet-1', 'themelet-3']);
 
 		done();
 	});
