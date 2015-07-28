@@ -43,7 +43,7 @@ module.exports = function(options) {
 
 		var files = glob.sync('src/css/*').join(' ');
 
-		var command = 'node ' + path.join(__dirname, '../../../node_modules/convert-bootstrap-2-to-3') + ' -i ' + files;
+		var command = path.join(__dirname, '../../../node_modules/convert-bootstrap-2-to-3/index.js') + ' -i ' + files;
 
 		exec(command, function(error, stdout, stderr) {
 			console.log(stderr);
