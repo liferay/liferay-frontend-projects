@@ -8,7 +8,7 @@ var through = require('through2');
 
 var renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
-var CWD = process.CWD();
+var CWD = process.cwd();
 
 function getBackupFilePath(filePath) {
 	var fileName = path.basename(filePath, path.extname(filePath));
