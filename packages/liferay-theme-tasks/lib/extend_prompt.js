@@ -126,9 +126,11 @@ ExtendPrompt.prototype = {
 	},
 
 	_handleMissingModule: function(name, answers, type) {
-		var message = (answers.extendType == type) ? name + ' not found!' : '';
+		var message = (answers.extendType == type) ? name + ' not found!' : null;
 
-		gutil.log(gutil.colors.yellow(message));
+		if (message) {
+			gutil.log(gutil.colors.yellow(message));
+		}
 	},
 
 	_installDependencies: function(dependencies, cb) {
