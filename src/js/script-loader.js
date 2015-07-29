@@ -66,12 +66,17 @@ var LoaderProtoMethods = {
             console.log('DEFINE, module with one param only, returning');
             // we don't support modules with implementation only
             return;
-        } else if (passedArgsCount === 2 && typeof name === 'string') {
-            console.log('DEFINE, module with two params only, name and implementation', name);
-            // there are two parameters, but the first one is not an array with dependencies,
-            // this is a module name
-            implementation = dependencies;
-            dependencies = ['module', 'exports'];
+        } else if (passedArgsCount === 2) {
+            if (typeof name === 'string') {
+                console.log('DEFINE, module with two params only, name and implementation', name);
+                // there are two parameters, but the first one is not an array with dependencies,
+                // this is a module name
+                implementation = dependencies;
+                dependencies = ['module', 'exports'];
+            } else {
+                // anonymous module, we don't support this
+                return;
+            }
         }
 
         // Create a new module by merging the provided config with the passed name,

@@ -170,6 +170,10 @@ describe('Loader', function() {
         assert.isUndefined(Loader.define(function() {}));
     });
 
+    it('should not accept define with two parameters', function() {
+        assert.isUndefined(Loader.define(['exports'], function() {}));
+    });
+
     it('should define a module with name and without dependencies', function() {
         var module = Math.random().toString();
 
