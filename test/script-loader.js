@@ -264,6 +264,34 @@ describe('Loader', function() {
         }, 50);
     });
 
+    it('should load module which implementation is an object', function(done) {
+        var moduleName = Math.random().toString();
+
+        Loader.addModule({
+            name: 'impl_as_object',
+            dependencies: ['exports'],
+            path: '/modules2/impl_as_object.js'
+        });
+
+        var failure = sinon.stub();
+
+        var implementation;
+        var success = sinon.spy(function(impl) {
+            implementation = impl;
+        });
+
+        Loader.require(['impl_as_object'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
+            assert.isObject(implementation, 'The implementation should be an object');
+            assert.property(implementation, 'pesho');
+
+            done();
+        }, 50);
+    });
+
     it('should fail on registered but not existing file', function (done) {
         var failure = sinon.stub();
         var success = sinon.stub();

@@ -592,7 +592,13 @@ var LoaderProtoMethods = {
                 }
             }
 
-            var result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+            var result;
+
+            if (typeof module.pendingImplementation === 'function') {
+                result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+            } else {
+                result = module.pendingImplementation;
+            }
 
             // Store as implementation either the returned value from the function's invocation,
             // or one of these:
