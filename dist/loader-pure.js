@@ -856,12 +856,17 @@ var LoaderProtoMethods = {
             void 0;
             // we don't support modules with implementation only
             return;
-        } else if (passedArgsCount === 2 && typeof name === 'string') {
-            void 0;
-            // there are two parameters, but the first one is not an array with dependencies,
-            // this is a module name
-            implementation = dependencies;
-            dependencies = ['module', 'exports'];
+        } else if (passedArgsCount === 2) {
+            if (typeof name === 'string') {
+                void 0;
+                // there are two parameters, but the first one is not an array with dependencies,
+                // this is a module name
+                implementation = dependencies;
+                dependencies = ['module', 'exports'];
+            } else {
+                // anonymous module, we don't support this
+                return;
+            }
         }
 
         // Create a new module by merging the provided config with the passed name,
@@ -1382,7 +1387,13 @@ var LoaderProtoMethods = {
                 }
             }
 
-            var result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+            var result;
+
+            if (typeof module.pendingImplementation === 'function') {
+                result = module.pendingImplementation.apply(module.pendingImplementation, dependencyImplementations);
+            } else {
+                result = module.pendingImplementation;
+            }
 
             // Store as implementation either the returned value from the function's invocation,
             // or one of these:

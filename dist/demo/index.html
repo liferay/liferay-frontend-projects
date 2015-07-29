@@ -20,6 +20,7 @@
             __CONFIG__.paths['one'] = '/modules2/one';
             __CONFIG__.paths['two'] = '/modules2/two';
             __CONFIG__.paths['three'] = '/modules2/three';
+            __CONFIG__.paths['impl_as_object'] = '/modules2/impl_as_object';
 
             Loader.addModule({
                 dependencies: ['liferay/relative1'],
@@ -30,6 +31,12 @@
 
             require(['underscore'], function(und) {
                 console.log(und);
+            }, function(error) {
+                console.error(error);
+            });
+
+            require(['impl_as_object'], function(impl_as_object) {
+                console.log('Loaded "impl_as_object" - a module with implementation as an object', impl_as_object);
             }, function(error) {
                 console.error(error);
             });
