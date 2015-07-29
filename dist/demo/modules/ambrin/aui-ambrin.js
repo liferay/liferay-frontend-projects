@@ -5,10 +5,8 @@ define("liferay@1.0.0/ambrin/aui-ambrin", ["exports", "liferay/aui-core"], funct
         value: true
     });
 
-    "use strict";
-
     function log(text) {
-        _liferayAuiCore.log("module aui-chemaps says via aui-core: " + text);
+        (0, _liferayAuiCore.log)("module aui-chemaps says via aui-core: " + text);
     }
 
     exports.log = log;

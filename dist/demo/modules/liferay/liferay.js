@@ -5,8 +5,6 @@ define("liferay@1.0.0/liferay/liferay", ["exports"], function(exports) {
         value: true
     });
 
-    "use strict";
-
     function log(text) {
         console.log("module liferay says", text);
     }

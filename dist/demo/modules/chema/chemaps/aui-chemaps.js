@@ -5,10 +5,8 @@ define("liferay@1.0.0/chema/chemaps/aui-chemaps", ["exports", "liferay/aui-base"
         value: true
     });
 
-    "use strict";
-
     function log(text) {
-        _liferayAuiBase.log("module aui-chemaps says via aui-base: " + text);
+        (0, _liferayAuiBase.log)("module aui-chemaps says via aui-base: " + text);
     }
 
     exports.log = log;
