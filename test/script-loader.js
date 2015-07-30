@@ -104,12 +104,14 @@ describe('Loader', function() {
 
         assert.notProperty(modules, moduleName);
 
-        Loader.addModule({
+        var module = Loader.addModule({
             name: moduleName,
             dependencies: []
         });
 
         assert.property(modules, moduleName);
+        assert.isObject(module);
+        assert.propertyVal(module, 'name', moduleName);
     });
 
     it('should define a module without dependencies (except exports)', function (done) {

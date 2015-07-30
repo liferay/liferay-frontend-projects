@@ -25,10 +25,11 @@ var LoaderProtoMethods = {
      * Adds a module to the configuration. See {@link ConfigParser#addModule} for more details.
      *
      * @memberof! Loader#
-     * @param {object} module The module which should be added to the configuration. See {@link ConfigParser#addModule} for more details.
+     * @param {Object} module The module which should be added to the configuration. See {@link ConfigParser#addModule} for more details.
+     * @return {Object} Returns the added module to the configuration.
      */
     addModule: function(module) {
-        this._getConfigParser().addModule(module);
+        return this._getConfigParser().addModule(module);
     },
 
     /**
@@ -625,7 +626,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {object} module The module for which this function should wait.
+     * @param {Object} module The module for which this function should wait.
      * @return {Promise}
      */
     _waitForModule: function(moduleName) {
@@ -699,7 +700,7 @@ var LoaderProtoMethods = {
      * Indicates that a module has been registered.
      *
      * @event Loader#moduleRegister
-     * @param {object} module - The registered module.
+     * @param {Object} module - The registered module.
      */
 };
 
