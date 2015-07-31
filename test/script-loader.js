@@ -191,11 +191,6 @@ describe('Loader', function() {
         assert.sameMembers(['exports', 'module'], modules[module].dependencies);
     });
 
-    it('should define itself as AMD compatibe loader', function() {
-        assert.property(global.define, 'amd');
-        assert.isObject(global.define.amd);
-    });
-
     it('should register unregistered modules in require', function() {
         var module = Math.random().toString();
 
