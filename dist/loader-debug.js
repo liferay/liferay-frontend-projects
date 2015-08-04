@@ -1061,6 +1061,7 @@ PathResolver.prototype = {
     global.Loader = new built();
     global.require = global.Loader.require.bind(global.Loader);
     global.define = global.Loader.define.bind(global.Loader);
+    global.define.amd = {};
 }(typeof global !== 'undefined' ? global : /* istanbul ignore next */ this, function (global) {
 
     'use strict';
