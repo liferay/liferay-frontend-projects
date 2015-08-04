@@ -104,6 +104,21 @@ export {log};
         path: 'nate.js'
     };
 });
+
+
+/**
+ * There is another way to define META. Liferay Config Generator recognizes both.
+ * It is up to you to choose one.
+ */
+META: ({
+    condition: {
+        test: function() {
+            return true;
+        },
+        trigger: 'nate'
+    },
+    path: 'nate.js'
+});
 ```
 Transpile the above using [Babel](https://babeljs.io/) to AMD syntax. If you transpile using Babel, be sure you added the option for generating module IDs, or you use [Liferay AMD modules config generator](https://www.npmjs.com/package/lfr-module-config-generator), which will generate the module name in "define" function, if not already available.
 
