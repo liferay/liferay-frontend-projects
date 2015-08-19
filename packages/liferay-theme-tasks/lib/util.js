@@ -50,12 +50,24 @@ module.exports = {
 			}
 
 			srcPath = path.join(srcPath, '..', changedFileName);
+
+			if (this.isSassPartial(changedFile.path)) {
+				var componentName = path.basename(path.dirname(changedFile.path));
+
+				var componentEntryPoint = path.join(srcPath, '..', componentName + '.css');
+
+				srcPath = [srcPath, componentEntryPoint];
+			}
 		}
 
 		return srcPath;
 	},
 
 	isCssFile: function(name) {
-		return name.indexOf('.css') > -1;
+		return _.endsWith(name, '.css') || _.endsWith(name, '.scss');
+	},
+
+	isSassPartial: function(name) {
+		return _.startsWith(path.basename(name), '_');
 	}
 };

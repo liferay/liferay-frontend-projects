@@ -17,6 +17,7 @@ module.exports = function(options) {
 
 			if (!fullDeploy && store.get('deployed')) {
 				runSequence(
+					'build:base',
 					'build:src',
 					'build:web-inf',
 					'rename-css-dir',
