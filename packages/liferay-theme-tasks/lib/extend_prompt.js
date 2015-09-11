@@ -2,10 +2,10 @@
 
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
+var exec = require('child_process').exec;
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var lfrThemeConfig = require('./liferay_theme_config');
-var npm = require('npm');
 var themeFinder = require('./theme_finder');
 
 var moduleName = argv.name;
@@ -136,10 +136,14 @@ ExtendPrompt.prototype = {
 	_installDependencies: function(dependencies, cb) {
 		var modules = this._normalizeDependencies(dependencies);
 
-		npm.load({
-			loaded: false
-		}, function() {
-			npm.commands.install(process.cwd(), modules, cb);
+		var child = exec('npm install ' + modules.join(' '), cb);
+
+		child.stdout.on('data', function(data) {
+			process.stdout.write(data);
+		});
+
+		child.stderr.on('data', function(data) {
+			process.stdout.write(data);
 		});
 	},
 
