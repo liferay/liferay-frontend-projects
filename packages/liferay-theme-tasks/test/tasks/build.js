@@ -166,6 +166,8 @@ describe('Build Tasks', function() {
 	it('should compile sass to css', function(done) {
 		var instance = this;
 
+		this.timeout(10000);
+
 		gulp.start('compile-scss', function(err) {
 			if (err) throw err;
 
