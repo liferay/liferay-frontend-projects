@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var async = require('async');
-var npm = require('npm');
+var exec = require('child_process').exec;
 var npmKeyword = require('npm-keyword');
 var packageJson = require('package-json');
 
@@ -47,17 +47,14 @@ function isLiferayThemeModule(pkg, themelet) {
 }
 
 function fetchGlobalModules(cb) {
-	npm.load({
-		depth: 0,
-		global: true,
-		loaded: false,
-		parseable: true
-	}, function() {
-		npm.commands.ls(null, true, function(err, data) {
-			if (err) throw err;
+	exec('npm list -g -j -l -p --depth=0', {
+		maxBuffer: Infinity
+	}, function(err, stdout, stderr) {
+		var globalModules = JSON.parse(stdout);
 
-			cb(data);
-		});
+		if (err) throw err;
+
+		cb(globalModules);
 	});
 }
 
