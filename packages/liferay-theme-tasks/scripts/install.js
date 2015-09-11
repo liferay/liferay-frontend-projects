@@ -1,22 +1,23 @@
+var events = require('events');
+var exec = require('child_process').exec;
 var fs = require('fs');
-var npm = require('npm');
 var path = require('path');
 
-npm.load({
-	loaded: false
-}, function(err) {
-	if (err) throw err;
+var eventEmitter = new events.EventEmitter();
 
-	var liferayVersion = getParentThemeLiferayVersion();
+var themeDependencies = getThemeDependencies(getParentThemeLiferayVersion());
 
-	var themeDependencies = getThemeDependencies(liferayVersion);
+var child = exec(
+	'npm install ' + themeDependencies.join(' '),
+	function (err, stdout, stderr) {
+		console.log(stdout);
+		console.log(stderr);
 
-	npm.commands.install(themeDependencies, function(err, data) {
 		if (err) throw err;
 
-		npm.emit('dependenciesInstalled');
-	});
-});
+		eventEmitter.emit('dependenciesInstalled');
+	}
+);
 
 function getParentThemeLiferayVersion() {
 	var cwd = process.cwd();
@@ -44,4 +45,4 @@ function getThemeDependencies(version) {
 	return [mixins, styled, unstyled];
 }
 
-module.exports = npm;
+module.exports = eventEmitter;
