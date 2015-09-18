@@ -51,17 +51,6 @@ ExtendPrompt.prototype = {
 		}
 	},
 
-	_defaultBaseThemeChoices: [
-		{
-			name: 'Styled',
-			value: 'styled'
-		},
-		{
-			name: 'Unstyled',
-			value: 'unstyled'
-		}
-	],
-
 	_extendTypeConditional: function(type) {
 		var retVal = (this._extendType == type);
 
@@ -172,6 +161,12 @@ ExtendPrompt.prototype = {
 		var instance = this;
 
 		if (answers.extendType == 'theme') {
+			var themeSource = answers.themeSource;
+
+			if (themeSource == 'styled' || themeSource == 'unstyled') {
+				answers.baseThemeName = themeSource;
+			}
+
 			var baseThemeName = answers.baseThemeName || moduleName;
 
 			if (baseThemeName == 'styled' || baseThemeName == 'unstyled') {
@@ -250,30 +245,59 @@ ExtendPrompt.prototype = {
 					type: 'list'
 				},
 				{
-					choices: [
-						{
-							name: 'Globally installed npm modules',
-							value: 'global'
-						},
-						{
-							name: 'npm registry (published modules)',
-							value: 'npm'
+					choices: function() {
+						var extendType = instance._extendType;
+
+						var searchOptions = [
+							{
+								name: 'Search globally installed npm modules',
+								value: 'global'
+							},
+							{
+								name: 'Search npm registry (published modules)',
+								value: 'npm'
+							}
+						];
+
+						if (extendType == 'theme') {
+							var baseThemeChoices = [
+								{
+									name: 'Styled',
+									value: 'styled'
+								},
+								{
+									name: 'Unstyled',
+									value: 'unstyled'
+								},
+								new inquirer.Separator()
+							];
+
+							searchOptions = baseThemeChoices.concat(searchOptions);
 						}
-					],
-					message: 'Where would you like to search for themes to extend?',
+
+						return searchOptions;
+					},
+					message: function() {
+						return instance._extendType == 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
+					},
 					name: 'themeSource',
 					type: 'list',
 					filter: function(input) {
 						var done = this.async();
 
-						themeFinder.getLiferayThemeModules({
-							globalModules: (input == 'global'),
-							themelet: (instance._extendType == 'themelet')
-						}, function(extendableThemes) {
-							instance._extendableThemes = extendableThemes;
-
+						if (input == 'styled' || input == 'unstyled') {
 							done(input);
-						});
+						}
+						else {
+							themeFinder.getLiferayThemeModules({
+								globalModules: (input == 'global'),
+								themelet: (instance._extendType == 'themelet')
+							}, function(extendableThemes) {
+								instance._extendableThemes = extendableThemes;
+
+								done(input);
+							});
+						}
 					}
 				},
 				{
@@ -305,8 +329,6 @@ ExtendPrompt.prototype = {
 					choices: function(answers) {
 						var themeConfig = lfrThemeConfig.getConfig(true);
 
-						var defaultBaseThemeChoices = instance._defaultBaseThemeChoices;
-
 						var extendableThemeChoices = _.reduce(instance._extendableThemes, function(result, item, index) {
 							if (themeConfig.name != item.name) {
 								result.push({
@@ -318,13 +340,15 @@ ExtendPrompt.prototype = {
 							return result;
 						}, []);
 
-						return defaultBaseThemeChoices.concat(extendableThemeChoices);
+						return extendableThemeChoices;
 					},
 					message: 'What base theme would you like to extend?',
 					name: 'baseThemeName',
 					type: 'list',
 					when: function(answers) {
-						return instance._extendTypeConditional('theme');
+						var themeSource = answers.themeSource;
+
+						return (themeSource == 'global' || themeSource == 'npm') && instance._extendTypeConditional('theme');
 					}
 				}
 			],
