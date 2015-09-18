@@ -12,16 +12,38 @@ module.exports = function(options) {
 
 	var pathBuild = options.pathBuild;
 
-	gulp.task('build:themelets', ['build:themelet-css', 'build:themelet-images', 'build:themelet-js', 'build:themelet-templates']);
+	var runSequence = require('run-sequence').use(gulp);
 
-	// gulp.task('build:themelet-css', function() {
-	// 	return gulp.src(getThemeletSrcPaths('.+(css|scss)'))
-	// 		.pipe(plugins.concat('themelet.css'))
-	// 		.pipe(gulp.dest(path.join(pathBuild, 'css')));
-	// });
+	gulp.task('build:themelets', function(cb) {
+		runSequence(
+			['build:themelet-css', 'build:themelet-images', 'build:themelet-js', 'build:themelet-templates'],
+			'build:themelet-css-inject',
+			cb
+		);
+	});
 
 	gulp.task('build:themelet-css', function(cb) {
 		buildStaticThemeletFiles('css', '.+(css|scss)', cb);
+	});
+
+	gulp.task('build:themelet-css-inject', function(cb) {
+		var themeSrcPaths = path.join(pathBuild, 'css/themelets/**/*.+(css|scss)');
+
+		var sources = gulp.src(themeSrcPaths, {
+			read: false
+		});
+
+		return gulp.src('build/css/main.css')
+			.pipe(plugins.inject(sources, {
+				starttag: '/* inject:imports */',
+				endtag: '/* endinject */',
+				transform: function (filepath) {
+					filepath = filepath.replace(/(\/build\/css\/)(.*)/, '$2');
+
+					return '@import url(' + filepath + ');';
+				}
+			}))
+			.pipe(gulp.dest('build/css'));
 	});
 
 	gulp.task('build:themelet-images', function(cb) {
@@ -59,7 +81,7 @@ module.exports = function(options) {
 
 		runThemeletDependenciesSeries(function(item, index, done) {
 			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', dirName, srcFiles))
-				.pipe(gulp.dest(path.join(pathBuild, dirName, index)))
+				.pipe(gulp.dest(path.join(pathBuild, dirName, 'themelets', index)))
 				.on('end', done);
 		}, cb);
 	}

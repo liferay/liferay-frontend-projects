@@ -15,6 +15,8 @@ var child = exec(
 
 		if (err) throw err;
 
+		insertUnstyledInjectTags();
+
 		eventEmitter.emit('dependenciesInstalled');
 	}
 );
@@ -43,6 +45,22 @@ function getThemeDependencies(version) {
 	var unstyled = 'liferay-theme-unstyled' + versionString;
 
 	return [mixins, styled, unstyled];
+}
+
+function insertUnstyledInjectTags() {
+	var mainCSSPath = path.join(__dirname, '../node_modules/liferay-theme-unstyled/css/main.css');
+
+	var mainCSSFile = fs.readFileSync(mainCSSPath, {
+		encoding: 'utf8'
+	});
+
+	mainCSSFile = mainCSSFile.replace(/(@import\surl\(custom\.css\);)/g, function(match) {
+		return '/* inject:imports */\n/* endinject */\n\n' + match;
+	});
+
+	fs.writeFileSync(mainCSSPath, mainCSSFile, {
+		encoding: 'utf8'
+	});
 }
 
 module.exports = eventEmitter;
