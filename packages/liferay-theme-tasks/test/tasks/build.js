@@ -154,7 +154,7 @@ describe('Build Tasks', function() {
 	it('should rename css/ directory to _css/', function(done) {
 		var instance = this;
 
-		gulp.start('rename-css-dir', function(err) {
+		gulp.start('build:rename-css-dir', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(path.join(instance._buildPath, '_css'));
@@ -168,7 +168,7 @@ describe('Build Tasks', function() {
 
 		this.timeout(10000);
 
-		gulp.start('compile-scss', function(err) {
+		gulp.start('build:compile-css', function(err) {
 			if (err) throw err;
 
 			done();
@@ -178,7 +178,7 @@ describe('Build Tasks', function() {
 	it('should move all compiled css to css/ directory', function(done) {
 		var instance = this;
 
-		gulp.start('move-compiled-css', function(err) {
+		gulp.start('build:move-compiled-css', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(path.join(instance._buildPath, 'css'));
@@ -190,7 +190,7 @@ describe('Build Tasks', function() {
 	it('should remove _css/ directory', function(done) {
 		var instance = this;
 
-		gulp.start('remove-old-css-dir', function(err) {
+		gulp.start('build:remove-old-css-dir', function(err) {
 			if (err) throw err;
 
 			if (fs.existsSync(path.join(instance._buildPath, '_css'))) {

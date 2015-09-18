@@ -29,10 +29,10 @@ module.exports = function(options) {
 			'build:web-inf',
 			'build:hook',
 			'build:themelets',
-			'rename-css-dir',
-			'compile-scss',
-			'move-compiled-css',
-			'remove-old-css-dir',
+			'build:rename-css-dir',
+			'build:compile-css',
+			'build:move-compiled-css',
+			'build:remove-old-css-dir',
 			'build:war',
 			cb
 		);
@@ -97,7 +97,7 @@ module.exports = function(options) {
 		});
 	});
 
-	gulp.task('compile-scss', function() {
+	gulp.task('build:compile-css', function() {
 		var supportCompass = lfrThemeConfig.getConfig().supportCompass;
 
 		var config = getSassConfig(supportCompass);
@@ -118,7 +118,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest(cssBuild));
 	});
 
-	gulp.task('move-compiled-css', function(cb) {
+	gulp.task('build:move-compiled-css', function(cb) {
 		return gulp.src(pathBuild + '/_css/**/*')
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
@@ -134,11 +134,11 @@ module.exports = function(options) {
 			.pipe(gulp.dest('./dist'));
 	});
 
-	gulp.task('remove-old-css-dir', function(cb) {
+	gulp.task('build:remove-old-css-dir', function(cb) {
 		del([pathBuild + '/_css'], cb);
 	});
 
-	gulp.task('rename-css-dir', function(cb) {
+	gulp.task('build:rename-css-dir', function(cb) {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
 
