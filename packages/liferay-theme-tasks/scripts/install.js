@@ -47,20 +47,35 @@ function getThemeDependencies(version) {
 	return [mixins, styled, unstyled];
 }
 
-function insertUnstyledInjectTags() {
-	var mainCSSPath = path.join(__dirname, '../node_modules/liferay-theme-unstyled/css/main.css');
+function insertUnstyledInjectTag(filePath, regex, replacer) {
+	filePath = path.join(__dirname, '../node_modules/liferay-theme-unstyled', filePath);
 
-	var mainCSSFile = fs.readFileSync(mainCSSPath, {
+	var fileContents = fs.readFileSync(filePath, {
 		encoding: 'utf8'
 	});
 
-	mainCSSFile = mainCSSFile.replace(/(@import\surl\(custom\.css\);)/g, function(match) {
+	regex = new RegExp(regex, 'g');
+
+	fileContents = fileContents.replace(regex, replacer);
+
+	fs.writeFileSync(filePath, fileContents, {
+		encoding: 'utf8'
+	});
+}
+
+function insertUnstyledInjectTags() {
+	insertUnstyledInjectTag('css/main.css', '(@import\\surl\\(custom\\.css\\);)', function(match) {
 		return '/* inject:imports */\n/* endinject */\n\n' + match;
 	});
 
-	fs.writeFileSync(mainCSSPath, mainCSSFile, {
-		encoding: 'utf8'
-	});
+	var templateRegex = '(<\\/body>)';
+
+	var templateReplacer = function(match) {
+		return '<!-- inject:js -->\n<!-- endinject -->\n\n' + match;
+	};
+
+	insertUnstyledInjectTag('templates/portal_normal.vm', templateRegex, templateReplacer);
+	insertUnstyledInjectTag('templates/portal_normal.ftl', templateRegex, templateReplacer);
 }
 
 module.exports = eventEmitter;
