@@ -11,6 +11,7 @@ var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
 var themeUtil = require('../lib/util');
+var versionMap = require('../lib/version_map');
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -39,7 +40,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:base', function() {
-		var sourceFiles = [path.resolve(__dirname, '../node_modules/liferay-theme-unstyled/**/!(package.json)')];
+		var sourceFiles = [path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('unstyled'), '**/!(package.json)')];
 
 		sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
@@ -163,7 +164,7 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	}
 	else if (baseTheme == 'styled') {
-		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules/liferay-theme-styled/**/!(package.json)'));
+		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('styled'), '**/!(package.json)'));
 
 		return dependencies;
 	}
@@ -204,7 +205,7 @@ function getSassConfigDefaults(supportCompass) {
 	};
 
 	var includePaths = [
-		path.resolve(__dirname, '../node_modules/liferay-theme-mixins')
+		path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('mixins'))
 	];
 
 	if (supportCompass) {

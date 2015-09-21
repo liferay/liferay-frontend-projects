@@ -3,6 +3,7 @@
 var bourbon = require('node-bourbon');
 var fs = require('fs-extra');
 var path = require('path');
+var versionMap = require('./version_map');
 
 exports.createBourbonFile = function(forceCreation) {
 	var bourbonPath = bourbon.includePaths[0];
@@ -30,7 +31,7 @@ exports.createBourbonFile = function(forceCreation) {
 		bourbonFile.push(path.join(bourbonPath, 'bourbon'));
 		bourbonFile.push('";');
 		bourbonFile.push('@import "');
-		bourbonFile.push(path.join(__dirname, '../node_modules/liferay-theme-mixins/liferay/_bourbon_ext'));
+		bourbonFile.push(path.join(__dirname, '../node_modules', versionMap.getDependencyName('mixins'), 'liferay/_bourbon_ext'));
 		bourbonFile.push('";');
 
 

@@ -2,6 +2,12 @@ var events = require('events');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var path = require('path');
+var versionMap = require('../lib/version_map');
+
+var VERSION_MAP = {
+	'6.2': '6.2',
+	'7.0': '1.0'
+};
 
 var eventEmitter = new events.EventEmitter();
 
@@ -38,17 +44,17 @@ function getParentThemeLiferayVersion() {
 }
 
 function getThemeDependencies(version) {
-	var versionString = '@^' + version + '.0';
+	var versionString = '@^' + VERSION_MAP[version] + '.0';
 
-	var mixins = 'liferay-theme-mixins' + versionString;
-	var styled = 'liferay-theme-styled' + versionString;
-	var unstyled = 'liferay-theme-unstyled' + versionString;
+	var mixins = versionMap.getDependencyName('mixins', version) + versionString;
+	var styled = versionMap.getDependencyName('styled', version) + versionString;
+	var unstyled = versionMap.getDependencyName('unstyled', version) + versionString;
 
 	return [mixins, styled, unstyled];
 }
 
 function insertUnstyledInjectTag(filePath, regex, replacer) {
-	filePath = path.join(__dirname, '../node_modules/liferay-theme-unstyled', filePath);
+	filePath = path.join(__dirname, '../node_modules', versionMap.getDependencyName('unstyled'), filePath);
 
 	var fileContents = fs.readFileSync(filePath, {
 		encoding: 'utf8'
@@ -64,7 +70,7 @@ function insertUnstyledInjectTag(filePath, regex, replacer) {
 }
 
 function insertUnstyledInjectTags() {
-	insertUnstyledInjectTag('css/main.css', '(@import\\surl\\(custom\\.css\\);)', function(match) {
+	insertUnstyledInjectTag('css/main.scss', '(@import\\s"custom";)', function(match) {
 		return '/* inject:imports */\n/* endinject */\n\n' + match;
 	});
 
