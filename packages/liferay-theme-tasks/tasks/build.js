@@ -113,7 +113,7 @@ module.exports = function(options) {
 
 		var cssBuild = pathBuild + '/_css';
 
-		var srcPaths = path.join(cssBuild, '!_*.scss');
+		var srcPaths = path.join(cssBuild, '!(_)*.scss');
 
 		if (themeConfig.version == '6.2') {
 			srcPaths = themeUtil.getSrcPath(cssBuild + '/**/*' + fileExt, getSrcPathConfig(), themeUtil.isCssFile);
