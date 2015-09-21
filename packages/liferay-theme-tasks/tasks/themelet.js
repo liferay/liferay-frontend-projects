@@ -34,14 +34,14 @@ module.exports = function(options) {
 			read: false
 		});
 
-		return gulp.src('build/css/main.css')
+		return gulp.src('build/css/main.scss')
 			.pipe(plugins.inject(sources, {
 				starttag: '/* inject:imports */',
 				endtag: '/* endinject */',
 				transform: function(filePath) {
 					filePath = filePath.replace(/(\/build\/css\/)(.*)/, '$2');
 
-					return '@import url(' + filePath + ');';
+					return '@import "' + filePath + '";';
 				}
 			}))
 			.pipe(gulp.dest('build/css'));
