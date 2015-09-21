@@ -141,11 +141,11 @@ describe('Build Tasks', function() {
 		gulp.start('build:themelets', function(err) {
 			if (err) throw err;
 
-			assert.isFile(path.join(instance._buildPath, 'css/test-themelet/custom.css'));
-			assert.isFile(path.join(instance._buildPath, 'images/test-themelet/icon.png'));
-			assert.isFile(path.join(instance._buildPath, 'js/test-themelet/main.js'));
-			assert.isFile(path.join(instance._buildPath, 'templates/test-themelet/freemarker.ftl'));
-			assert.isFile(path.join(instance._buildPath, 'templates/test-themelet/velocity.vm'));
+			assert.isFile(path.join(instance._buildPath, 'css/themelets/test-themelet/custom.css'));
+			assert.isFile(path.join(instance._buildPath, 'images/themelets/test-themelet/icon.png'));
+			assert.isFile(path.join(instance._buildPath, 'js/themelets/test-themelet/main.js'));
+			assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/freemarker.ftl'));
+			assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/velocity.vm'));
 
 			done();
 		});
