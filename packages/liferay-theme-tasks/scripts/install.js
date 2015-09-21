@@ -4,6 +4,10 @@ var fs = require('fs');
 var path = require('path');
 var versionMap = require('../lib/version_map');
 
+var STR_STYLED = 'styled';
+
+var STR_UNSTYLED = 'unstyled';
+
 var VERSION_MAP = {
 	'6.2': '6.2',
 	'7.0': '1.0'
@@ -11,7 +15,9 @@ var VERSION_MAP = {
 
 var eventEmitter = new events.EventEmitter();
 
-var themeDependencies = getThemeDependencies(getParentThemeLiferayVersion());
+var parentLiferayThemeVersion = getParentThemeLiferayVersion();
+
+var themeDependencies = getThemeDependencies(parentLiferayThemeVersion);
 
 var child = exec(
 	'npm install ' + themeDependencies.join(' '),
@@ -21,7 +27,7 @@ var child = exec(
 
 		if (err) throw err;
 
-		insertUnstyledInjectTags();
+		insertInjectTags();
 
 		eventEmitter.emit('dependenciesInstalled');
 	}
@@ -53,8 +59,8 @@ function getThemeDependencies(version) {
 	return [mixins, styled, unstyled];
 }
 
-function insertUnstyledInjectTag(filePath, regex, replacer) {
-	filePath = path.join(__dirname, '../node_modules', versionMap.getDependencyName('unstyled'), filePath);
+function insertInjectTag(dependency, filePath, regex, replacer) {
+	filePath = path.join(__dirname, '../node_modules', versionMap.getDependencyName(dependency, parentLiferayThemeVersion), filePath);
 
 	var fileContents = fs.readFileSync(filePath, {
 		encoding: 'utf8'
@@ -69,10 +75,17 @@ function insertUnstyledInjectTag(filePath, regex, replacer) {
 	});
 }
 
-function insertUnstyledInjectTags() {
-	insertUnstyledInjectTag('css/main.scss', '(@import\\s"custom";)', function(match) {
+function insertInjectTags() {
+	var cssRegex = '(@import\\s"custom";)';
+
+	var cssReplacer = function(match) {
 		return '/* inject:imports */\n/* endinject */\n\n' + match;
-	});
+	};
+
+	var cssFile = parentLiferayThemeVersion == '7.0' ? 'css/main.scss' : 'css/main.css';
+
+	insertInjectTag(STR_STYLED, cssFile, cssRegex, cssReplacer);
+	insertInjectTag(STR_UNSTYLED, cssFile, cssRegex, cssReplacer);
 
 	var templateRegex = '(<\\/body>)';
 
@@ -80,8 +93,8 @@ function insertUnstyledInjectTags() {
 		return '<!-- inject:js -->\n<!-- endinject -->\n\n' + match;
 	};
 
-	insertUnstyledInjectTag('templates/portal_normal.vm', templateRegex, templateReplacer);
-	insertUnstyledInjectTag('templates/portal_normal.ftl', templateRegex, templateReplacer);
+	insertInjectTag(STR_UNSTYLED, 'templates/portal_normal.vm', templateRegex, templateReplacer);
+	insertInjectTag(STR_UNSTYLED, 'templates/portal_normal.ftl', templateRegex, templateReplacer);
 }
 
 module.exports = eventEmitter;
