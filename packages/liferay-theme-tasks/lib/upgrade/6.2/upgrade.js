@@ -195,7 +195,7 @@ module.exports = function(options) {
 				srcPaths.push(path.join(CWD, DIR_SRC_CSS, item));
 
 				prompts.push({
-					message: 'Do you want to update the file extension of ' + item + ' to .scss?',
+					message: 'Do you want to rename ' + item + ' to _' + fileName + '.scss?',
 					name: item,
 					type: 'confirm'
 				});
@@ -214,7 +214,8 @@ module.exports = function(options) {
 				return promptResults[fileName];
 			}))
 			.pipe(plugins.rename({
-				extname: '.scss'
+				extname: '.scss',
+				prefix: '_'
 			}))
 			.pipe(gulp.dest(DIR_SRC_CSS))
 			.on('end', function() {
