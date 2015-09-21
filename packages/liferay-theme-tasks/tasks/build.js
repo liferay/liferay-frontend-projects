@@ -99,18 +99,27 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-css', function() {
-		var supportCompass = lfrThemeConfig.getConfig().supportCompass;
+		var themeConfig = lfrThemeConfig.getConfig();
+
+		var supportCompass = themeConfig.supportCompass;
 
 		var config = getSassConfig(supportCompass);
 
 		var cssPreprocessor = config.cssPreprocessor || plugins.sass;
-		var fileExt = config.fileExt || '.+(css|scss)';
+		// TO DO: allow devs to pass in custom fileExt for 7.0 themes
+		var fileExt = config.fileExt || '.scss';
 
 		config = _.omit(config, ['cssPreprocessor', 'fileExt']);
 
 		var cssBuild = pathBuild + '/_css';
 
-		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*' + fileExt, getSrcPathConfig(), themeUtil.isCssFile))
+		var srcPaths = path.join(cssBuild, '!_*.scss');
+
+		if (themeConfig.version == '6.2') {
+			srcPaths = themeUtil.getSrcPath(cssBuild + '/**/*' + fileExt, getSrcPathConfig(), themeUtil.isCssFile);
+		}
+
+		return gulp.src(srcPaths)
 			.pipe(gulpif(supportCompass, plugins.rename({
 				extname: '.scss'
 			})))
