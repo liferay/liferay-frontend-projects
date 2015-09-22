@@ -52,8 +52,6 @@ function fetchGlobalModules(cb) {
 	}, function(err, stdout, stderr) {
 		var globalModules = JSON.parse(stdout);
 
-		if (err) throw err;
-
 		cb(globalModules);
 	});
 }
@@ -72,7 +70,9 @@ function seachGlobalModules(config, cb) {
 	var instance = this;
 
 	fetchGlobalModules(function(modules) {
-		var themeResults = reduceModuleResults(modules.dependencies, config.themelet);
+		var dependencies = modules ? modules.dependencies : null;
+
+		var themeResults = reduceModuleResults(dependencies, config.themelet);
 
 		cb(themeResults);
 	});
