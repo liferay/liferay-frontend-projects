@@ -185,6 +185,8 @@ module.exports = function(options) {
 	gulp.task('upgrade:rename-core-files', function(cb) {
 		var renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
+		var baseFile = ['aui', 'main'];
+
 		var prompts = [];
 		var srcPaths = [];
 
@@ -194,8 +196,11 @@ module.exports = function(options) {
 			if (path.extname(item) == '.css' && renamedCssFiles.indexOf(fileName) > -1) {
 				srcPaths.push(path.join(CWD, DIR_SRC_CSS, item));
 
+				var scssSuffixMessage = 'Do you want to rename ' + item + ' to ' + fileName + '.scss?';
+				var underscorePrefixMessage = 'Do you want to rename ' + item + ' to _' + fileName + '.scss?';
+
 				prompts.push({
-					message: 'Do you want to rename ' + item + ' to _' + fileName + '.scss?',
+					message: baseFile.indexOf(fileName) > -1 ? scssSuffixMessage : underscorePrefixMessage,
 					name: item,
 					type: 'confirm'
 				});
@@ -213,9 +218,12 @@ module.exports = function(options) {
 
 				return promptResults[fileName];
 			}))
-			.pipe(plugins.rename({
-				extname: '.scss',
-				prefix: '_'
+			.pipe(plugins.rename(function(path) {
+				path.extname = '.scss';
+
+				if (baseFile.indexOf(path.basename) < 0) {
+					path.basename = '_' + path.basename;
+				}
 			}))
 			.pipe(gulp.dest(DIR_SRC_CSS))
 			.on('end', function() {
