@@ -5,6 +5,10 @@ var fs = require('fs-extra');
 var path = require('path');
 var versionMap = require('./version_map');
 
+var formatPath = function(filePath) {
+	return filePath.replace(/\\/g, '/');
+};
+
 exports.createBourbonFile = function(forceCreation) {
 	var bourbonPath = bourbon.includePaths[0];
 
@@ -23,15 +27,15 @@ exports.createBourbonFile = function(forceCreation) {
 
 		if (fs.existsSync(deprecatedMixinsFilePath)) {
 			bourbonFile.push('@import "');
-			bourbonFile.push(deprecatedMixinsFilePath);
+			bourbonFile.push(formatPath(deprecatedMixinsFilePath));
 			bourbonFile.push('";');
 		}
 
 		bourbonFile.push('@import "');
-		bourbonFile.push(path.join(bourbonPath, 'bourbon'));
+		bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));
 		bourbonFile.push('";');
 		bourbonFile.push('@import "');
-		bourbonFile.push(path.join(__dirname, '../node_modules', versionMap.getDependencyName('mixins'), 'liferay/_bourbon_ext'));
+		bourbonFile.push(formatPath(path.join(__dirname, '../node_modules', versionMap.getDependencyName('mixins'), 'liferay/_bourbon_ext')));
 		bourbonFile.push('";');
 
 
