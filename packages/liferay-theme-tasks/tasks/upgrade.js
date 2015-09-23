@@ -56,6 +56,10 @@ module.exports = function(options) {
 
 				cb();
 			}
+
+			lfrThemeConfig.setConfig({
+				version: '6.2'
+			});
 		});
 	});
 };
