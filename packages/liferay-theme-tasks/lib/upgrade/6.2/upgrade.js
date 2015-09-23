@@ -58,8 +58,8 @@ module.exports = function(options) {
 		var backupExists = fs.existsSync('_backup');
 
 		var backup = function() {
-			gulp.src('src/css/**/*')
-				.pipe(gulp.dest('_backup/src/css'))
+			gulp.src('src/**/*')
+				.pipe(gulp.dest('_backup/src'))
 				.on('end', cb);
 		};
 
@@ -249,37 +249,6 @@ module.exports = function(options) {
 				patterns: patterns
 			}))
 			.pipe(gulp.dest(DIR_SRC_CSS));
-	});
-
-	gulp.task('upgrade:revert-css', function(cb) {
-		var gutil = plugins.util;
-
-		var backupExists = (fs.existsSync('_backup/src/css') && fs.statSync('_backup/src/css').isDirectory());
-
-		var noBackupErr = new plugins.util.PluginError('gulp-theme-upgrader', gutil.colors.red('No backup files found!'));
-
-		if (!backupExists) throw noBackupErr;
-
-		inquirer.prompt([
-			{
-				message: 'Are you sure you want to revert updated css? This will repalce css files in your src directory with those from _backup.',
-				name: 'revert',
-				type: 'confirm'
-			}
-		], function(answers) {
-			if (answers.revert) {
-				del.sync('src/css/**/*');
-
-				gulp.src('_backup/src/css/**/*')
-					.pipe(gulp.dest('src/css'))
-					.on('end', cb);
-			}
-			else {
-				plugins.util.log(gutil.colors.cyan('No css files reverted.'));
-
-				cb();
-			}
-		});
 	});
 
 	gulp.task('upgrade:templates', function(cb) {
