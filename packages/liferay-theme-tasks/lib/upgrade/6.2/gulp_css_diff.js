@@ -15,8 +15,12 @@ function getBackupFilePath(filePath) {
 
 	var backupFilePath = path.join(CWD, '_backup', filePath.replace(CWD, ''));
 
-	if (!fs.existsSync(backupFilePath) && _.includes(renamedCssFiles, fileName)) {
-		backupFilePath = backupFilePath.replace('\.scss', '\.css');
+	if (!fs.existsSync(backupFilePath) && _.includes(renamedCssFiles, fileName.replace('_', ''))) {
+		var fileBasename = path.basename(backupFilePath);
+
+		var oldFileBasename = fileBasename.replace('\.scss', '\.css').replace('_', '');
+
+		backupFilePath = backupFilePath.replace(fileBasename, oldFileBasename);
 	}
 
 	return backupFilePath;
