@@ -27,6 +27,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-debug": "^2.0.0",
     "gulp-filter": "^2.0.2",
+    "gulp-help": "^1.6.1",
     "gulp-if": "^1.2.5",
     "gulp-inject": "^2.2.0",
     "gulp-load-plugins": "^0.8.0",

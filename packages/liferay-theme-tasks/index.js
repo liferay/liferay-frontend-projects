@@ -10,6 +10,8 @@ module.exports.registerTasks = function(options) {
 
 	var gulp = options.gulp;
 
+	gulp = options.gulp = plugins.help(gulp);
+
 	plugins.storage(gulp);
 
 	var store = gulp.storage;
