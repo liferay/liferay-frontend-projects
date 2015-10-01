@@ -1,24 +1,23 @@
 'use strict';
 
 var chalk = require('gulp-util').colors;
-var compareVersion = require('compare-version');
-var liferayThemeTasksPackageJson = require('../package.json');
-var packageJson = require('package-json');
+var updateNotifier = require('update-notifier');
 
 module.exports = function() {
-	var currentVersion = liferayThemeTasksPackageJson.version;
-	var packageName = liferayThemeTasksPackageJson.name;
-
-	packageJson(packageName, 'latest', function(err, json) {
-		var seperator = chalk.yellow('----------------------------------------------------------------');
-		var space = ' ';
-
-		if (compareVersion(currentVersion, json.version)) {
-			console.log(seperator);
-			console.log(space, 'You are running an old version of', chalk.cyan(packageName));
-			console.log(space, 'Run', chalk.cyan('npm update', packageName), 'to install newest version');
-			console.log(space, 'Current version:', chalk.green(currentVersion), space, 'Latest version:', chalk.green(json.version));
-			console.log(seperator);
-		}
+	var notifier = updateNotifier({
+			pkg: require('../package.json'),
+			updateCheckInterval: 1000
 	});
+
+	var update = notifier.update;
+
+	if (update) {
+		var seperator = chalk.yellow(new Array(65).join('-'));
+
+		console.log(seperator);
+		console.log(' You are running an old version of %s', chalk.cyan(update.name));
+		console.log(' Run %s to install newest version', chalk.cyan('npm update', update.name));
+		console.log(' Current version: %s Latest version: %s', chalk.green(update.current), chalk.green(update.latest));
+		console.log(seperator);
+	}
 };
