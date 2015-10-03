@@ -56,7 +56,19 @@ module.exports = yeoman.generators.Base.extend({
 		},
 
 		projectfiles: function() {
-			this.fs.copy(this.templatePath('src/**'), this.destinationPath('src'));
+			this.fs.copy(this.templatePath('src/**'), this.destinationPath('src'), {
+				globOptions: {
+					ignore: this.templatePath('src/css/custom.css')
+				}
+			});
+
+			var customCssName = 'custom.css';
+
+			if (this.liferayVersion > 6.2) {
+				customCssName = '_custom.scss';
+			}
+
+			this.fs.copy(this.templatePath('src/css/custom.css'), this.destinationPath('src/css/' + customCssName));
 
 			this.template(
 				'src/WEB-INF/liferay-plugin-package.properties',
