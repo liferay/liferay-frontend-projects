@@ -21,7 +21,7 @@ module.exports = function(options) {
 					'build:src',
 					'build:web-inf',
 					'build:rename-css-dir',
-					'compile-scss',
+					'build:compile-css',
 					'build:move-compiled-css',
 					'build:remove-old-css-dir',
 					'deploy:fast',
