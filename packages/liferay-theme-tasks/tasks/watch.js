@@ -20,10 +20,10 @@ module.exports = function(options) {
 					'build:base',
 					'build:src',
 					'build:web-inf',
-					'rename-css-dir',
+					'build:rename-css-dir',
 					'compile-scss',
-					'move-compiled-css',
-					'remove-old-css-dir',
+					'build:move-compiled-css',
+					'build:remove-old-css-dir',
 					'deploy:fast',
 					function() {
 						store.set('changedFile');
