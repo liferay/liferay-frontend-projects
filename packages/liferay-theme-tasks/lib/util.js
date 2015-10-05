@@ -54,7 +54,7 @@ module.exports = {
 			if (this.isSassPartial(changedFile.path)) {
 				var componentName = path.basename(path.dirname(changedFile.path));
 
-				var componentEntryPoint = path.join(srcPath, '..', componentName + '.css');
+				var componentEntryPoint = path.join(srcPath, '..', componentName + '/*.css');
 
 				srcPath = [srcPath, componentEntryPoint];
 			}
