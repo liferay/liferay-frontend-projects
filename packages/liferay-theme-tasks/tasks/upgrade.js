@@ -39,7 +39,7 @@ module.exports = function(options) {
 
 		inquirer.prompt([
 			{
-				message: 'Are you sure you want to revert src files? This will repalce files in your src directory with those from _backup.',
+				message: 'Are you sure you want to revert src files? This will replace files in your src directory with those from _backup.',
 				name: 'revert',
 				type: 'confirm'
 			}
