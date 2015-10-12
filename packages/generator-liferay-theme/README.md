@@ -20,6 +20,16 @@ Note: the Liferay theme generator requires Node version 0.10.x or 0.12.x, due to
 
 Note: the generator will create a new folder in your current directory that will house your theme.
 
+### Usage on Windows
+
+Unfortunately, there can be some minor headaches when using the generator on Windows.
+The main reason is because, by default, we use [https://www.npmjs.com/package/node-sass](node-sass), which requires node-gyp to run.
+node-gyp requires Python and Visual Studio to be installed. You can read more at the following links:
+[https://github.com/nodejs/node-gyp#installation](node-gyp Installation)
+[https://github.com/nodejs/node-gyp/wiki/Visual-Studio-2010-Setup](Visual Studio Setup)
+
+There is one other possible alternative that some may find easier to setup. You can use the ruby based version of Sass. In order to use that version of Sass, you'll need to install Ruby with the [http://rubyinstaller.org/](Ruby Installer), and install the Sass and Compass gems from the command line (`gem install sass compass`), and when the generator asks you if you need Compass support, type "Y". This will bypass node-gyp completely, and use the Ruby versions of Sass and Compass.
+
 ## Generators
 
 Available generators:
