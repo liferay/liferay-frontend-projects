@@ -6,10 +6,9 @@ var fs = require('fs');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
+var util = require('util');
 
 var liferayThemeGeneratorPrototype = require('../app/index').prototype;
-
-liferayThemeGeneratorPrototype._prompts = [];
 
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	initializing: function() {
@@ -29,6 +28,26 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			this.directory('docroot/_diffs', 'src');
 			this.directory('docroot/WEB-INF', 'src/WEB-INF');
 		}
+	},
+
+	_getPrompts: function() {
+		var instance = this;
+
+		return [
+			{
+				default: path.join(process.cwd(), 'mytheme-theme'),
+				message: 'What theme would you like to import?',
+				name: 'importTheme',
+				type: 'input',
+				validate: instance._validatePath
+			},
+			{
+				default: false,
+				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
+				name: 'supportCompass',
+				type: 'confirm'
+			}
+		];
 	},
 
 	_setLiferayVersion: function() {
@@ -51,20 +70,33 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this._setLiferayVersion();
 	},
 
-	_prompts: [
-		{
-			default: path.join(process.cwd(), 'mytheme-theme'),
-			message: 'What theme would you like to import?',
-			name: 'importTheme',
-			type: 'input'
-		},
-		{
-			default: false,
-			message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
-			name: 'supportCompass',
-			type: 'confirm'
+	_validatePath: function(filePath) {
+		var retVal = false;
+
+		if (filePath) {
+			retVal = true;
+
+			if (!fs.existsSync(filePath)) {
+				retVal = '"%s" does not exist';
+			}
+			else if (!fs.statSync(filePath).isDirectory()) {
+				retVal = '"%s" is not a directory';
+			}
+			else {
+				var propsFile = path.join(filePath, 'docroot', 'WEB-INF', 'liferay-plugin-package.properties');
+
+				if (!fs.existsSync(propsFile) || !fs.statSync(propsFile).isFile()) {
+					retVal = '"%s" doesn\'t appear to be a theme in the SDK';
+				}
+			}
 		}
-	],
+
+		if (_.isString(retVal)) {
+			retVal = util.format(retVal, filePath);
+		}
+
+		return retVal;
+	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme Importer') + ' generator!'
 });

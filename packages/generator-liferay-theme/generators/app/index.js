@@ -18,7 +18,7 @@ module.exports = yeoman.generators.Base.extend({
 		// Have Yeoman greet the user.
 		this.log(yosay(this._yosay));
 
-		this.prompt(this._prompts, function(props) {
+		this.prompt(this._getPrompts(), function(props) {
 			this._promptCallback(props);
 
 			done();
@@ -96,41 +96,45 @@ module.exports = yeoman.generators.Base.extend({
 		});
 	},
 
+	_getPrompts: function() {
+		var instance = this;
+
+		return [
+			{
+				default: 'My Liferay Theme',
+				message: 'What would you like to call your theme?',
+				name: 'themeName',
+				type: 'input'
+			},
+			{
+				default: function(answers) {
+					return slug((answers.themeName || '').toLowerCase());
+				},
+				message: 'Would you like to use this as the themeId?',
+				name: 'themeId',
+				type: 'input'
+			},
+			{
+				message: 'Which version of Liferay is this theme for?',
+				name: 'liferayVersion',
+				choices: ['7.0', '6.2'],
+				type: 'list'
+			},
+			{
+				default: false,
+				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
+				name: 'supportCompass',
+				type: 'confirm'
+			}
+		];
+	},
+
 	_promptCallback: function(props) {
 		this.appname = props.themeId;
 		this.liferayVersion = props.liferayVersion;
 		this.supportCompass = props.supportCompass;
 		this.themeName = props.themeName;
 	},
-
-	_prompts: [
-		{
-			default: 'My Liferay Theme',
-			message: 'What would you like to call your theme?',
-			name: 'themeName',
-			type: 'input'
-		},
-		{
-			default: function(answers) {
-				return slug((answers.themeName || '').toLowerCase());
-			},
-			message: 'Would you like to use this as the themeId?',
-			name: 'themeId',
-			type: 'input'
-		},
-		{
-			message: 'Which version of Liferay is this theme for?',
-			name: 'liferayVersion',
-			choices: ['7.0', '6.2'],
-			type: 'list'
-		},
-		{
-			default: false,
-			message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
-			name: 'supportCompass',
-			type: 'confirm'
-		}
-	],
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
 });

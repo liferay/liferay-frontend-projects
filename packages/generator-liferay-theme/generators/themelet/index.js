@@ -9,24 +9,11 @@ var yosay = require('yosay');
 
 var liferayThemeGeneratorPrototype = require('../app/index').prototype;
 
+var getPrompts = liferayThemeGeneratorPrototype._getPrompts;
+
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	initializing: function() {
 		this.pkg = require('../../package.json');
-
-		_.forEach(this._prompts, function(item, index) {
-			var name = item.name;
-
-			if (name == 'themeName') {
-				item.default = 'My Liferay Themelet';
-				item.message = 'What would you like to call your themelet?';
-			}
-			else if (name == 'themeId') {
-				item.message = 'Would you like to use this as the themeletId?';
-			}
-			else if (name == 'liferayVersion') {
-				item.message = 'Which version of Liferay is this themelet for?'
-			}
-		});
 	},
 
 	configuring: {
@@ -56,6 +43,29 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	},
 
 	install: _.noop,
+
+	_getPrompts: function() {
+		var instance = this;
+
+		var prompts = getPrompts.call(instance);
+
+		_.forEach(prompts, function(item, index) {
+			var name = item.name;
+
+			if (name == 'themeName') {
+				item.default = 'My Liferay Themelet';
+				item.message = 'What would you like to call your themelet?';
+			}
+			else if (name == 'themeId') {
+				item.message = 'Would you like to use this as the themeletId?';
+			}
+			else if (name == 'liferayVersion') {
+				item.message = 'Which version of Liferay is this themelet for?'
+			}
+		});
+
+		return prompts;
+	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Themelet') + ' generator!'
 });
