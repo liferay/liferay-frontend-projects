@@ -5,8 +5,8 @@ var updateNotifier = require('update-notifier');
 
 module.exports = function() {
 	var notifier = updateNotifier({
-			pkg: require('../package.json'),
-			updateCheckInterval: 1000
+		pkg: require('../package.json'),
+		updateCheckInterval: 1000
 	});
 
 	var update = notifier.update;
