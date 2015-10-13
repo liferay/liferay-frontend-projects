@@ -233,8 +233,6 @@ function getSassConfigDefaults(supportCompass) {
 	];
 
 	if (supportCompass) {
-		config.compass = true;
-
 		config.cssPreprocessor = require('gulp-ruby-sass');
 		config.loadPath = includePaths;
 	}
