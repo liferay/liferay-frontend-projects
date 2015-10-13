@@ -20,7 +20,6 @@ describe('liferay-theme:app', function () {
 
   it('creates files', function () {
     assert.file([
-      'bower.json',
       'gulpfile.js',
       'package.json',
       'src/css/custom.css',
