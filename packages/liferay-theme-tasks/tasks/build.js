@@ -105,7 +105,7 @@ module.exports = function(options) {
 
 		var config = getSassConfig(supportCompass);
 
-		var cssPreprocessor = config.cssPreprocessor || plugins.sass;
+		var cssPreprocessor = config.cssPreprocessor || require('gulp-sass');
 
 		var fileExt = config.fileExt || '.scss';
 
@@ -236,7 +236,8 @@ function getSassConfigDefaults(supportCompass) {
 
 	if (supportCompass) {
 		config.compass = true;
-		config.cssPreprocessor = plugins.rubySass;
+
+		config.cssPreprocessor = require('gulp-ruby-sass');
 		config.loadPath = includePaths;
 	}
 	else {
@@ -244,7 +245,7 @@ function getSassConfigDefaults(supportCompass) {
 
 		includePaths = includePaths.concat(createBourbonFile());
 
-		config.cssPreprocessor = plugins.sass;
+		config.cssPreprocessor = require('gulp-sass');
 		config.includePaths = includePaths;
 	}
 
