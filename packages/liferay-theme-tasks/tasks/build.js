@@ -119,7 +119,6 @@ module.exports = function(options) {
 						compass: true,
 						loadPath: config.loadPath
 					})
-					.pipe(plugins.debug())
 					.pipe(gulp.dest(cssBuild))
 					.on('end', cb);
 			});
@@ -165,7 +164,6 @@ module.exports = function(options) {
 			.pipe(plugins.rename({
 				extname: '.scss'
 			}))
-			.pipe(plugins.debug())
 			.pipe(gulp.dest(cssBuild));
 	});
 
