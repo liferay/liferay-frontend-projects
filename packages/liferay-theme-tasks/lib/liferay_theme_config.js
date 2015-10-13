@@ -4,8 +4,10 @@ var _ = require('lodash');
 var fs = require('fs-extra');
 var path = require('path');
 
-function getPackageJSON() {
-	var packageJSONContent = fs.readFileSync(path.join(process.cwd(), 'package.json'), {
+function getPackageJSON(alternatePath) {
+	alternatePath = alternatePath || process.cwd();
+
+	var packageJSONContent = fs.readFileSync(path.join(alternatePath, 'package.json'), {
 		encoding: 'utf8'
 	});
 
@@ -16,8 +18,8 @@ function writePackageJSON(json) {
 	fs.writeFileSync(path.join(process.cwd(), 'package.json'), JSON.stringify(json, null, '\t'));
 }
 
-module.exports.getConfig = function(all) {
-	var packageJSON = getPackageJSON();
+module.exports.getConfig = function(all, alternatePath) {
+	var packageJSON = getPackageJSON(alternatePath);
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 };
