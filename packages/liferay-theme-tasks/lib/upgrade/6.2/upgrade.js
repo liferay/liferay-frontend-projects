@@ -32,8 +32,8 @@ module.exports = function(options) {
 			'upgrade:config',
 			'upgrade:rename-core-files',
 			'upgrade:create-css-diff',
-			'upgrade:create-deprecated-mixins',
 			'upgrade:dependencies',
+			'upgrade:create-deprecated-mixins',
 			'upgrade:templates',
 			cb
 		);
@@ -94,7 +94,7 @@ module.exports = function(options) {
 			}));
 	});
 
-	gulp.task('upgrade:dependencies', function() {
+	gulp.task('upgrade:dependencies', function(cb) {
 		var themeTasksPath = path.join(CWD, 'node_modules/liferay-theme-tasks');
 
 		process.chdir(themeTasksPath);
@@ -103,6 +103,8 @@ module.exports = function(options) {
 
 		npm.on('dependenciesInstalled', function() {
 			process.chdir(CWD);
+
+			cb();
 		});
 	});
 
