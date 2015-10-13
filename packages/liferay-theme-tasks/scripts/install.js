@@ -35,7 +35,7 @@ var VERSION_MAP = {
 
 var eventEmitter = new events.EventEmitter();
 
-var themeConfig = lfrThemeConfig.getConfig() || DEFAULT_THEME_CONFIG;
+var themeConfig = lfrThemeConfig.getConfig(false, path.join(__dirname, '../../../')) || DEFAULT_THEME_CONFIG;
 
 var parentLiferayThemeVersion = themeConfig.version;
 
