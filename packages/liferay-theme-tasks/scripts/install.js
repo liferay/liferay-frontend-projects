@@ -1,8 +1,28 @@
+var _ = require('lodash');
 var events = require('events');
 var exec = require('child_process').exec;
 var fs = require('fs');
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var versionMap = require('../lib/version_map');
+
+var DEFAULT_THEME_CONFIG = {
+	baseTheme: 'styled',
+	supportCompass: true,
+	version: '6.2'
+};
+
+var SASS_DEPENDENCIES = {
+	libSass: {
+		'compass-mixins': '^0.12.7',
+		'gulp-sass': '^2.0.0',
+		'node-bourbon': '^4.2.3'
+	},
+
+	rubySass: {
+		'gulp-ruby-sass': '^2.0.4'
+	}
+};
 
 var STR_STYLED = 'styled';
 
@@ -15,9 +35,11 @@ var VERSION_MAP = {
 
 var eventEmitter = new events.EventEmitter();
 
-var parentLiferayThemeVersion = getParentThemeLiferayVersion();
+var themeConfig = lfrThemeConfig.getConfig() || DEFAULT_THEME_CONFIG;
 
-var themeDependencies = getThemeDependencies(parentLiferayThemeVersion);
+var parentLiferayThemeVersion = themeConfig.version;
+
+var themeDependencies = getThemeDependencies(parentLiferayThemeVersion, themeConfig.supportCompass);
 
 var child = exec(
 	'npm install ' + themeDependencies.join(' '),
@@ -33,30 +55,24 @@ var child = exec(
 	}
 );
 
-function getParentThemeLiferayVersion() {
-	var cwd = process.cwd();
+function getSassDependencies(supportCompass) {
+	var dependencyMap = supportCompass ? SASS_DEPENDENCIES.rubySass : SASS_DEPENDENCIES.libSass;
 
-	var parentThemePackageJSON = path.resolve(cwd, '../../', 'package.json');
-
-	var liferayVersion = '7.0';
-
-	if (fs.existsSync(parentThemePackageJSON)) {
-		var packageJSON = require(parentThemePackageJSON);
-
-		liferayVersion = (packageJSON.liferayTheme && packageJSON.liferayTheme.version) ? packageJSON.liferayTheme.version : liferayVersion;
-	}
-
-	return liferayVersion;
+	return _.map(dependencyMap, function(item, index) {
+		return index + '@' + item;
+	});
 }
 
-function getThemeDependencies(version) {
+function getThemeDependencies(version, supportCompass) {
 	var versionString = '@^' + VERSION_MAP[version] + '.0';
 
 	var mixins = versionMap.getDependencyName('mixins', version) + versionString;
 	var styled = versionMap.getDependencyName('styled', version) + versionString;
 	var unstyled = versionMap.getDependencyName('unstyled', version) + versionString;
 
-	return [mixins, styled, unstyled];
+	var dependencies = getSassDependencies(supportCompass);
+
+	return dependencies.concat([mixins, styled, unstyled]);
 }
 
 function insertInjectTag(dependency, filePath, regex, replacer) {
