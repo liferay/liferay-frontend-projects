@@ -98,7 +98,7 @@ module.exports = function(options) {
 		});
 	});
 
-	gulp.task('build:compile-css', function() {
+	gulp.task('build:compile-css', function(cb) {
 		var themeConfig = lfrThemeConfig.getConfig();
 
 		var supportCompass = themeConfig.supportCompass;
@@ -106,26 +106,32 @@ module.exports = function(options) {
 		var config = getSassConfig(supportCompass);
 
 		var cssPreprocessor = config.cssPreprocessor || plugins.sass;
-		// TO DO: allow devs to pass in custom fileExt for 7.0 themes
+
 		var fileExt = config.fileExt || '.scss';
 
 		config = _.omit(config, ['cssPreprocessor', 'fileExt']);
 
 		var cssBuild = pathBuild + '/_css';
 
-		var srcPaths = path.join(cssBuild, '!(_)*.scss');
-
-		if (themeConfig.version == '6.2') {
-			srcPaths = themeUtil.getSrcPath(cssBuild + '/**/*' + fileExt, getSrcPathConfig(), themeUtil.isCssFile);
+		if (supportCompass) {
+			runSequence('build:rename-css-files', function() {
+				cssPreprocessor(path.join(cssBuild, '**/*.scss'), {
+						compass: true,
+						loadPath: config.loadPath
+					})
+					.pipe(plugins.debug())
+					.pipe(gulp.dest(cssBuild))
+					.on('end', cb);
+			});
 		}
+		else {
+			var srcPaths = path.join(cssBuild, '!(_)*' + fileExt);
 
-		return gulp.src(srcPaths)
-			.pipe(gulpif(supportCompass, plugins.rename({
-				extname: '.scss'
-			})))
-			.pipe(plugins.plumber())
-			.pipe(cssPreprocessor(config))
-			.pipe(gulp.dest(cssBuild));
+			return gulp.src(srcPaths)
+				.pipe(plugins.plumber())
+				.pipe(cssPreprocessor(config))
+				.pipe(gulp.dest(cssBuild));
+		}
 	});
 
 	gulp.task('build:move-compiled-css', function(cb) {
@@ -150,6 +156,17 @@ module.exports = function(options) {
 
 	gulp.task('build:rename-css-dir', function(cb) {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
+	});
+
+	gulp.task('build:rename-css-files', function() {
+		var cssBuild = pathBuild + '/_css';
+
+		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), themeUtil.isCssFile))
+			.pipe(plugins.rename({
+				extname: '.scss'
+			}))
+			.pipe(plugins.debug())
+			.pipe(gulp.dest(cssBuild));
 	});
 
 	function getSrcPathConfig() {
