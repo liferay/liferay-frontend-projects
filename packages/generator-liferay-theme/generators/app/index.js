@@ -48,7 +48,6 @@ module.exports = yeoman.generators.Base.extend({
 	writing: {
 		app: function() {
 			this.template('_package.json', 'package.json', this);
-			this.template('_bower.json', 'bower.json', this);
 
 			this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
 
@@ -87,7 +86,7 @@ module.exports = yeoman.generators.Base.extend({
 		var skipInstall = this.options['skip-install'];
 
 		this.installDependencies({
-			skipInstall: skipInstall,
+			bower: false,
 			callback: function() {
 				if (!skipInstall) {
 					instance.spawnCommand('gulp', ['init']);

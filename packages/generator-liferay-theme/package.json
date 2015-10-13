@@ -42,7 +42,6 @@
     "mocha": "*"
   },
   "peerDependencies": {
-    "bower": ">=1.3.0",
     "gulp": ">=3.5.0",
     "yo": ">=1.0.0"
   }
