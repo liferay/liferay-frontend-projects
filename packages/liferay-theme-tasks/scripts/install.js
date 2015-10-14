@@ -37,7 +37,7 @@ var eventEmitter = new events.EventEmitter();
 
 var themeConfig = DEFAULT_THEME_CONFIG;
 
-if (path.basename(process.cwd()) != 'liferay-theme-tasks') {
+if (hasParentTheme()) {
 	themeConfig = lfrThemeConfig.getConfig(false, path.join(__dirname, '../../../')) || DEFAULT_THEME_CONFIG;
 }
 
@@ -77,6 +77,10 @@ function getThemeDependencies(version, supportCompass) {
 	var dependencies = getSassDependencies(supportCompass);
 
 	return dependencies.concat([mixins, styled, unstyled]);
+}
+
+function hasParentTheme() {
+	return fs.existsSync(path.join(__dirname, '../../../package.json'));
 }
 
 function insertInjectTag(dependency, filePath, regex, replacer) {
