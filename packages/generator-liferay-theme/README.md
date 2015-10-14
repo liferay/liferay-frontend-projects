@@ -6,16 +6,13 @@
 
 ## Dependencies
 
-1. Install [Node.JS](http://nodejs.org/), if you don't have it yet.
-
+1. Install [Node.JS](http://nodejs.org/), if you don't have it yet.<br>
 Note: the Liferay theme generator requires Node version 0.10.x or 0.12.x, due to issues with [node-sass](https://www.npmjs.com/package/node-sass) the generator will not currently work with Node 0.11.x.
-
 2. run `<sudo> npm install -g yo gulp bower` to install global dependencies.
 
 ## Generator use
 
 1. Install generator: `<sudo> npm install -g generator-liferay-theme`
-
 2. Run `yo liferay-theme` to start theme generator and follow prompts to name and configure your theme.
 
 Note: the generator will create a new folder in your current directory that will house your theme.
@@ -24,8 +21,8 @@ Note: the generator will create a new folder in your current directory that will
 
 Unfortunately, there can be some minor headaches when using the generator on Windows.
 The main reason is because, by default, we use [node-sass](https://www.npmjs.com/package/node-sass), which requires node-gyp to run.
-node-gyp requires Python and Visual Studio to be installed. You can read more at the following links:
-[node-gyp Installation](https://github.com/nodejs/node-gyp#installation)
+node-gyp requires Python and Visual Studio to be installed. You can read more at the following links:<br>
+[node-gyp Installation](https://github.com/nodejs/node-gyp#installation)<br>
 [Visual Studio Setup](https://github.com/nodejs/node-gyp/wiki/Visual-Studio-2010-Setup)
 
 There is one other possible alternative that some may find easier to setup. You can use the ruby based version of Sass. In order to use that version of Sass, you'll need to install Ruby with the [Ruby Installer](http://rubyinstaller.org/), and install the Sass and Compass gems from the command line (`gem install sass compass`), and when the generator asks you if you need Compass support, type "Y". This will bypass node-gyp completely, and use the Ruby versions of Sass and Compass.
