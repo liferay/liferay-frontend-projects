@@ -8,8 +8,8 @@ var versionMap = require('../lib/version_map');
 
 var DEFAULT_THEME_CONFIG = {
 	baseTheme: 'styled',
-	supportCompass: true,
-	version: '6.2'
+	supportCompass: false,
+	version: '7.0'
 };
 
 var SASS_DEPENDENCIES = {
@@ -35,7 +35,11 @@ var VERSION_MAP = {
 
 var eventEmitter = new events.EventEmitter();
 
-var themeConfig = lfrThemeConfig.getConfig(false, path.join(__dirname, '../../../')) || DEFAULT_THEME_CONFIG;
+var themeConfig = DEFAULT_THEME_CONFIG;
+
+if (path.basename(process.cwd()) != 'liferay-theme-tasks') {
+	themeConfig = lfrThemeConfig.getConfig(false, path.join(__dirname, '../../../')) || DEFAULT_THEME_CONFIG;
+}
 
 var parentLiferayThemeVersion = themeConfig.version;
 
