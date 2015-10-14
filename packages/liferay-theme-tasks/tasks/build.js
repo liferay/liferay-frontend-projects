@@ -13,6 +13,8 @@ var replace = require('gulp-replace-task');
 var themeUtil = require('../lib/util');
 var versionMap = require('../lib/version_map');
 
+var renamedFiles;
+
 module.exports = function(options) {
 	var gulp = options.gulp;
 
@@ -120,7 +122,9 @@ module.exports = function(options) {
 						loadPath: config.loadPath
 					})
 					.pipe(gulp.dest(cssBuild))
-					.on('end', cb);
+					.on('end', function() {
+						del(renamedFiles, cb);
+					});
 			});
 		}
 		else {
@@ -133,7 +137,7 @@ module.exports = function(options) {
 		}
 	});
 
-	gulp.task('build:move-compiled-css', function(cb) {
+	gulp.task('build:move-compiled-css', function() {
 		return gulp.src(pathBuild + '/_css/**/*')
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
@@ -160,9 +164,19 @@ module.exports = function(options) {
 	gulp.task('build:rename-css-files', function() {
 		var cssBuild = pathBuild + '/_css';
 
+		var vinylPaths = require('vinyl-paths');
+
+		renamedFiles = [];
+
 		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), themeUtil.isCssFile))
 			.pipe(plugins.rename({
 				extname: '.scss'
+			}))
+			.pipe(plugins.debug())
+			.pipe(vinylPaths(function(path) {
+				renamedFiles.push(path);
+
+				return Promise.resolve();
 			}))
 			.pipe(gulp.dest(cssBuild));
 	});
