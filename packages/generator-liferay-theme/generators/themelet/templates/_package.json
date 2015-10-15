@@ -1,11 +1,14 @@
 {
 	"name": "<%= themeDirName %>",
-	"version": "0.0.0",
+	"version": "<%= packageVersion %>",
 	"keywords": [
 		"liferay-theme"
 	],
 	"liferayTheme": {
 		"themelet": true,
 		"version": "<%= liferayVersion %>"
-	}
+	}<% if (publishTag) { %>,
+	"publishConfig": {
+		"tag": "<%= publishTag %>"
+	}<% } %>
 }
