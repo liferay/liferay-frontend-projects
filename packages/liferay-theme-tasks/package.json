@@ -5,6 +5,7 @@
   "license": "MIT",
   "main": "index.js",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+  "repository": "liferay/liferay-theme-tasks",
   "keywords": [
     "liferay",
     "theme"
