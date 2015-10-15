@@ -10,6 +10,7 @@ var yosay = require('yosay');
 var liferayThemeGeneratorPrototype = require('../app/index').prototype;
 
 var getPrompts = liferayThemeGeneratorPrototype._getPrompts;
+var promptCallback = liferayThemeGeneratorPrototype._promptCallback;
 
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	initializing: function() {
@@ -38,7 +39,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		},
 
 		projectfiles: function() {
-			this.fs.copy(this.templatePath('src/css/**'), this.destinationPath('src/css'));
+			this.fs.copy(this.templatePath('src/css/custom.css'), this.destinationPath('src/css/_custom.scss'));
 		}
 	},
 
@@ -49,7 +50,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 		var prompts = getPrompts.call(instance);
 
-		_.forEach(prompts, function(item, index) {
+		prompts = _.reduce(prompts, function(result, item, index) {
 			var name = item.name;
 
 			if (name == 'themeName') {
@@ -60,11 +61,42 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				item.message = 'Would you like to use this as the themeletId?';
 			}
 			else if (name == 'liferayVersion') {
+				item.choices = ['7.0', '6.2', 'All'];
 				item.message = 'Which version of Liferay is this themelet for?'
 			}
-		});
+
+			if (name != 'supportCompass') {
+				result.push(item);
+			}
+
+			return result;
+		}, []);
 
 		return prompts;
+	},
+
+	_promptCallback: function(props) {
+		promptCallback.call(this, props);
+
+		var liferayVersion = props.liferayVersion;
+		var publishTag = null;
+
+		if (liferayVersion != 'All') {
+			publishTag = liferayVersion + '.x';
+		}
+		else {
+			this.liferayVersion = '*';
+		}
+
+		this.publishTag = publishTag;
+
+		var packageVersion = '0.0.0';
+
+		if (liferayVersion == '7.0') {
+			packageVersion = '1.0.0';
+		}
+
+		this.packageVersion = packageVersion;
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Themelet') + ' generator!'
