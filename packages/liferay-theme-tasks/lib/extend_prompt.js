@@ -204,8 +204,18 @@ ExtendPrompt.prototype = {
 
 		var globalModules = (answers.themeSource == 'global');
 
-		var savedThemeletDependencies = _.reduce(lfrThemeConfig.getConfig().themeletDependencies, function(result, item, index) {
+		var themeConfig = lfrThemeConfig.getConfig();
+
+		var version = themeConfig.version;
+
+		var savedThemeletDependencies = _.reduce(themeConfig.themeletDependencies, function(result, item, index) {
 			var keep = !_.isUndefined(moduleName) || (globalModules && !item.path) || (!globalModules && item.path);
+
+			var itemVersion = item.liferayTheme.version;
+
+			if ((itemVersion != version) && (itemVersion != '*')) {
+				keep = true;
+			}
 
 			if (keep) {
 				result[index] = item;

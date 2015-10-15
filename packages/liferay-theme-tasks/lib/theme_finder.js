@@ -3,8 +3,11 @@
 var _ = require('lodash');
 var async = require('async');
 var exec = require('child_process').exec;
+var lfrThemeConfig = require('./liferay_theme_config');
 var npmKeyword = require('npm-keyword');
 var packageJson = require('package-json');
+
+var themeConfig = lfrThemeConfig.getConfig();
 
 function getLiferayThemeModules(config, cb) {
 	if (_.isUndefined(cb)) {
@@ -39,6 +42,16 @@ function isLiferayThemeModule(pkg, themelet) {
 
 	if (pkg) {
 		var liferayTheme = pkg.liferayTheme;
+
+		if (!liferayTheme) {
+			return retVal;
+		}
+
+		var liferayThemeVersion = liferayTheme.version;
+
+		if ((liferayThemeVersion != '*') && (liferayThemeVersion != themeConfig.version)) {
+			return retVal;
+		}
 
 		retVal = liferayTheme && (themelet ? liferayTheme.themelet : !liferayTheme.themelet);
 	}
