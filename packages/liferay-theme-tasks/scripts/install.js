@@ -100,13 +100,17 @@ function insertInjectTag(dependency, filePath, regex, replacer) {
 }
 
 function insertInjectTags() {
+	var cssFile = 'css/main.scss';
 	var cssRegex = '(@import\\s"custom";)';
+
+	if (parentLiferayThemeVersion == '6.2') {
+		cssFile = 'css/main.css';
+		cssRegex = '(@import\\surl\\(custom.css\\);)'
+	}
 
 	var cssReplacer = function(match) {
 		return '/* inject:imports */\n/* endinject */\n\n' + match;
 	};
-
-	var cssFile = parentLiferayThemeVersion == '7.0' ? 'css/main.scss' : 'css/main.css';
 
 	insertInjectTag(STR_STYLED, cssFile, cssRegex, cssReplacer);
 	insertInjectTag(STR_UNSTYLED, cssFile, cssRegex, cssReplacer);
