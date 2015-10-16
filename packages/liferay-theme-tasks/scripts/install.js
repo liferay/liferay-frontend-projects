@@ -15,8 +15,7 @@ var DEFAULT_THEME_CONFIG = {
 var SASS_DEPENDENCIES = {
 	libSass: {
 		'compass-mixins': '^0.12.7',
-		'gulp-sass': '^2.0.0',
-		'node-bourbon': '^4.2.3'
+		'gulp-sass': '^2.0.0'
 	},
 
 	rubySass: {
