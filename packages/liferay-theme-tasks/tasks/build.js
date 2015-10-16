@@ -266,15 +266,17 @@ function getSassConfigDefaults(supportCompass) {
 		path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('mixins'))
 	];
 
+	if (themeConfig.version > 6.2) {
+		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
+
+		includePaths = includePaths.concat(createBourbonFile());
+	}
+
 	if (supportCompass) {
 		config.cssPreprocessor = require('gulp-ruby-sass');
 		config.loadPath = includePaths;
 	}
 	else {
-		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
-
-		includePaths = includePaths.concat(createBourbonFile());
-
 		config.cssPreprocessor = require('gulp-sass');
 		config.includePaths = includePaths;
 	}
