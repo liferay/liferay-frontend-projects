@@ -65,7 +65,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				item.message = 'Which version of Liferay is this themelet for?'
 			}
 
-			if (name != 'supportCompass') {
+			if (name != 'supportCompass' && name != 'templateLanguage') {
 				result.push(item);
 			}
 
