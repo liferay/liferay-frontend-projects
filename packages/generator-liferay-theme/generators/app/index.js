@@ -77,6 +77,8 @@ module.exports = yeoman.generators.Base.extend({
 					themeDisplayName: this.themeName
 				}
 			);
+
+			this.template('src/WEB-INF/liferay-look-and-feel.xml', 'src/WEB-INF/liferay-look-and-feel.xml', this);
 		}
 	},
 
@@ -120,6 +122,21 @@ module.exports = yeoman.generators.Base.extend({
 				type: 'list'
 			},
 			{
+				message: 'What template language would you like this theme to use?',
+				name: 'templateLanguage',
+				choices: [
+					{
+						name: 'Freemarker (.ftl)',
+						value: 'ftl'
+					},
+					{
+						name: 'Velocity (.vm)',
+						value: 'vm'
+					}
+				],
+				type: 'list'
+			},
+			{
 				default: false,
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				name: 'supportCompass',
@@ -132,6 +149,7 @@ module.exports = yeoman.generators.Base.extend({
 		this.appname = props.themeId;
 		this.liferayVersion = props.liferayVersion;
 		this.supportCompass = props.supportCompass;
+		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 	},
 
