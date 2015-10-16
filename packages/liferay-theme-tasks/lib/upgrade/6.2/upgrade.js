@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var ConvertBootstrapCLI = require('../../../node_modules/convert-bootstrap-2-to-3/lib/cli').constructor;
 var del = require('del');
 var fs = require('fs-extra');
 var glob = require('glob');
@@ -42,16 +43,15 @@ module.exports = function(options) {
 	gulp.task('upgrade:convert-bootstrap', function(cb) {
 		var exec = require('child_process').exec;
 
-		var files = glob.sync('src/css/*').join(' ');
+		var files = glob.sync('src/css/*');
 
-		var command = path.join(__dirname, '../../../node_modules/convert-bootstrap-2-to-3/index.js') + ' -i ' + files;
-
-		exec(command, function(error, stdout, stderr) {
-			console.log(stderr);
-			console.log(stdout);
-
-			cb();
+		var convertBootstrap = new ConvertBootstrapCLI({
+			args: files
 		});
+
+		convertBootstrap.onFinish = cb;
+
+		convertBootstrap.init();
 	});
 
 	gulp.task('upgrade:create-backup-files', function(cb) {
