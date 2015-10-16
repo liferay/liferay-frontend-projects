@@ -14,12 +14,12 @@ var DEFAULT_THEME_CONFIG = {
 
 var SASS_DEPENDENCIES = {
 	libSass: {
-		'compass-mixins': '^0.12.7',
-		'gulp-sass': '^2.0.0'
+		'compass-mixins': '0.12.x',
+		'gulp-sass': '2.0.x'
 	},
 
 	rubySass: {
-		'gulp-ruby-sass': '^2.0.4'
+		'gulp-ruby-sass': '2.0.x'
 	}
 };
 
@@ -67,7 +67,7 @@ function getSassDependencies(supportCompass) {
 }
 
 function getThemeDependencies(version, supportCompass) {
-	var versionString = '@^' + VERSION_MAP[version] + '.0';
+	var versionString = '@' + VERSION_MAP[version] + '.x';
 
 	var mixins = versionMap.getDependencyName('mixins', version) + versionString;
 	var styled = versionMap.getDependencyName('styled', version) + versionString;
