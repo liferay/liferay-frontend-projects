@@ -13,6 +13,14 @@ var replace = require('gulp-replace-task');
 var themeUtil = require('../lib/util');
 var versionMap = require('../lib/version_map');
 
+var STR_FTL = 'ftl';
+
+var STR_VM = 'vm';
+
+var themeConfig = lfrThemeConfig.getConfig();
+
+var baseThemeGlob = getBaseThemeGlob(themeConfig.templateLanguage);
+
 var renamedFiles;
 
 module.exports = function(options) {
@@ -42,7 +50,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:base', function() {
-		var sourceFiles = [path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('unstyled'), '**/!(package.json)')];
+		var sourceFiles = [path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('unstyled'), baseThemeGlob)];
 
 		sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
@@ -101,8 +109,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-css', function(cb) {
-		var themeConfig = lfrThemeConfig.getConfig();
-
 		var supportCompass = themeConfig.supportCompass;
 
 		var config = getSassConfig(supportCompass);
@@ -202,12 +208,28 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	}
 	else if (baseTheme == 'styled') {
-		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('styled'), '**/!(package.json)'));
+		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('styled'), baseThemeGlob));
 
 		return dependencies;
 	}
 
 	return dependencies;
+}
+
+function getBaseThemeGlob(templateLanguage) {
+	var glob = '**/!(package.json';
+
+	if (templateLanguage == STR_FTL) {
+		templateLanguage = STR_VM;
+	}
+	else if (templateLanguage == STR_VM) {
+		templateLanguage = STR_FTL;
+	}
+	else {
+		return glob + ')';
+	}
+
+	return glob + '|*.' + templateLanguage + ')';
 }
 
 function getLiferayThemeJSON(themePath) {
@@ -216,8 +238,6 @@ function getLiferayThemeJSON(themePath) {
 
 function getSassConfig(supportCompass) {
 	var cssPrecompilerConfig = hasCustomSassConfig();
-
-	var themeConfig = lfrThemeConfig.getConfig();
 
 	if (cssPrecompilerConfig) {
 		if (themeConfig.baseTheme != 'unstyled') {
