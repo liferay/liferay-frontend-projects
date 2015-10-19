@@ -135,7 +135,7 @@ describe('Build Tasks', function() {
 		});
 	});
 
-	it('should copy static files to their correct themelet location', function(done) {
+	it('should copy static files to their correct themelet location and inject imports into base theme files', function(done) {
 		var instance = this;
 
 		gulp.start('build:themelets', function(err) {
@@ -146,6 +146,10 @@ describe('Build Tasks', function() {
 			assert.isFile(path.join(instance._buildPath, 'js/themelets/test-themelet/main.js'));
 			assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/freemarker.ftl'));
 			assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/velocity.vm'));
+
+			assert.fileContentMatch(path.join(instance._buildPath, 'css/main.scss'), /@import "themelets\/test-themelet\/custom\.css";/);
+			assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.vm'), /<script src="base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
+			assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
 
 			done();
 		});
