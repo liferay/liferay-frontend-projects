@@ -124,7 +124,6 @@ module.exports = function(options) {
 		});
 
 		return gulp.src('src/WEB-INF/+(liferay-plugin-package.properties|liferay-look-and-feel.xml)')
-			.pipe(plugins.debug())
 			.pipe(replace({
 				patterns: [
 					{
@@ -246,7 +245,6 @@ module.exports = function(options) {
 
 	gulp.task('upgrade:replace-compass', function() {
 		return gulp.src(cssSrcPath)
-			.pipe(plugins.debug())
 			.pipe(replace({
 				patterns: patterns
 			}))
