@@ -11,9 +11,18 @@ var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
 
+var gutil = plugins.util;
+
+var colors = gutil.colors;
+
 var CWD = process.cwd();
 
 var DIR_SRC_CSS = 'src/css';
+
+var logBuffers = {
+	bootstrap: [getLogHeader('Bootstrap Upgrade (2 to 3)')],
+	liferay: [getLogHeader('Liferay Upgrade (6.2 to 7)')]
+};
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -36,6 +45,7 @@ module.exports = function(options) {
 			'upgrade:dependencies',
 			'upgrade:create-deprecated-mixins',
 			'upgrade:templates',
+			'upgrade:log-changes',
 			cb
 		);
 	});
@@ -49,7 +59,13 @@ module.exports = function(options) {
 			args: files
 		});
 
-		convertBootstrap.onFinish = cb;
+		_.assign(convertBootstrap, {
+			logResults: function(out, file) {
+				logBuffers.bootstrap.push(out);
+			},
+
+			onFinish: cb
+		});
 
 		convertBootstrap.init();
 	});
@@ -184,6 +200,15 @@ module.exports = function(options) {
 		cb();
 	});
 
+	gulp.task('upgrade:log-changes', function(cb) {
+		var stdout = process.stdout;
+
+		logBuffer(logBuffers.bootstrap);
+		logBuffer(logBuffers.liferay);
+
+		cb();
+	});
+
 	gulp.task('upgrade:rename-core-files', function(cb) {
 		var renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
@@ -295,12 +320,12 @@ function checkFile(filePath, rules) {
 		encoding: 'utf8'
 	};
 
-	var gutil = plugins.util;
-
 	filePath = path.join(CWD, filePath);
 
 	if (fs.existsSync(filePath)) {
-		var fileName = gutil.colors.white('[' + path.basename(filePath) + ']');
+		var fileName = colors.white('File: ' + colors.underline(path.basename(filePath)) + '\n');
+
+		logBuffers.liferay.push(fileName);
 
 		var fileContents = fs.readFileSync(filePath, config);
 
@@ -308,8 +333,18 @@ function checkFile(filePath, rules) {
 			var match = item.negativeMatch ? !item.regex.test(fileContents) : item.regex.test(fileContents);
 
 			if (match) {
-				gutil.log(fileName, gutil.colors.yellow(item.message));
+				logBuffers.liferay.push('    ' + colors.yellow(item.message) + '\n');
 			}
 		});
 	}
+}
+
+function getLogHeader(header) {
+	var line = new Array(65).join('-');
+
+	return colors.bold('\n' + line + '\n ' + header + '\n' + line + '\n\n');
+}
+
+function logBuffer(buffer) {
+	process.stdout.write(colors.bgBlack(buffer.join('')));
 }
