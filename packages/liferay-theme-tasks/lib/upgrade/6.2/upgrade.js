@@ -56,7 +56,11 @@ module.exports = function(options) {
 		var files = glob.sync('src/css/*');
 
 		var convertBootstrap = new ConvertBootstrapCLI({
-			args: files
+			args: files,
+			flags: {
+				inlineEdit: true,
+				variables: true
+			}
 		});
 
 		_.assign(convertBootstrap, {
