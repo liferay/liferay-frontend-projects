@@ -67,6 +67,18 @@ ExtendPrompt.prototype = {
 		return retVal;
 	},
 
+	_getListType: function() {
+		var listType = 'list';
+
+		var os = require('os');
+
+		if (process.version > 'v0.12.7' && os.type() == 'Windows_NT') {
+			listType = 'rawlist';
+		}
+
+		return listType;
+	},
+
 	_getThemeletDependenciesFromAnswers: function(answers) {
 		var instance = this;
 
@@ -232,6 +244,8 @@ ExtendPrompt.prototype = {
 	_prompt: function(options) {
 		var instance = this;
 
+		var listType = instance._getListType();
+
 		inquirer.prompt(
 			[
 				{
@@ -252,7 +266,7 @@ ExtendPrompt.prototype = {
 					},
 					message: 'What kind of theme asset would you like to extend?',
 					name: 'extendType',
-					type: 'list'
+					type: listType
 				},
 				{
 					choices: function() {
@@ -291,7 +305,7 @@ ExtendPrompt.prototype = {
 						return instance._extendType == 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
 					},
 					name: 'themeSource',
-					type: 'list',
+					type: listType,
 					filter: function(input) {
 						var done = this.async();
 
@@ -354,7 +368,7 @@ ExtendPrompt.prototype = {
 					},
 					message: 'What base theme would you like to extend?',
 					name: 'baseThemeName',
-					type: 'list',
+					type: listType,
 					when: function(answers) {
 						var themeSource = answers.themeSource;
 
