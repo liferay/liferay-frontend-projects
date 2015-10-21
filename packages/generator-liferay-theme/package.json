@@ -1,6 +1,6 @@
 {
   "name": "generator-liferay-theme",
-  "version": "7.0.15",
+  "version": "7.0.16",
   "description": "Yeoman generator for creating Liferay themes",
   "license": "MIT",
   "main": "generators/app/index.js",
