@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var chalk = require('chalk');
+var Insight = require('insight');
 var path = require('path');
 var slug = require('slug');
 var yeoman = require('yeoman-generator');
@@ -9,20 +10,32 @@ var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
 	initializing: function() {
-		this.pkg = require('../../package.json');
+		var pkg = require('../../package.json');
+
+		this.pkg = pkg;
+
+		this._insight = new Insight({
+			trackingCode: 'UA-69122110-1',
+			pkg: pkg
+		});
 	},
 
 	prompting: function() {
-		var done = this.async();
+		var instance = this;
+
+		instance.done = instance.async();
 
 		// Have Yeoman greet the user.
-		this.log(yosay(this._yosay));
+		instance.log(yosay(instance._yosay));
 
-		this.prompt(this._getPrompts(), function(props) {
-			this._promptCallback(props);
+		var insight = this._insight;
 
-			done();
-		}.bind(this));
+		if (_.isUndefined(insight.optOut)) {
+			insight.askPermission(null, _.bind(this._prompt, this));
+		}
+		else {
+			this._prompt();
+		}
 	},
 
 	configuring: {
@@ -145,12 +158,34 @@ module.exports = yeoman.generators.Base.extend({
 		];
 	},
 
+	_prompt: function() {
+		var done = this.done;
+
+		this.prompt(this._getPrompts(), function(props) {
+			this._promptCallback(props);
+
+			this._track();
+
+			done();
+		}.bind(this));
+	},
+
 	_promptCallback: function(props) {
 		this.appname = props.themeId;
 		this.liferayVersion = props.liferayVersion;
 		this.supportCompass = props.supportCompass;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
+	},
+
+	_track: function() {
+		var insight = this._insight;
+
+		var liferayVersion = this.liferayVersion;
+
+		insight.track('theme', liferayVersion);
+		insight.track('theme', liferayVersion, this.templateLanguage);
+		insight.track('theme', liferayVersion, this.supportCompass);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
