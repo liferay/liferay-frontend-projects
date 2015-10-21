@@ -50,16 +50,33 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		];
 	},
 
-	_setLiferayVersion: function() {
-		var packageProperties = fs.readFileSync(path.join(this.importTheme, 'docroot/WEB-INF/liferay-plugin-package.properties'), {
-			encoding: 'utf8'
-		});
+	_getSettingFromConfigFile: function(config) {
+		var defaultValue = config.defaultValue;
 
-		var match = packageProperties.match(/liferay-versions=([0-9]\.[0-9])\..*\+/);
+		var filePath = path.join(this.importTheme, config.filePath);
 
-		if (match) {
-			this.liferayVersion = match[1];
+		var match;
+
+		try {
+			var fileContents = fs.readFileSync(filePath, {
+				encoding: 'utf8'
+			});
+
+			match = fileContents.match(config.regex);
+
+			if (match) {
+				defaultValue = match[1];
+			}
 		}
+		catch(e) {
+			this.log(chalk.yellow('   Warning ') + '%s not found', filePath);
+		}
+
+		if (!match) {
+			this.log(chalk.yellow('   Warning ') + 'could not determine %s property from ' + chalk.yellow('%s') + '. Using ' + chalk.yellow('%s') + ' as default value', config.propertyName, filePath, config.defaultValue);
+		}
+
+		this[config.propertyName] = defaultValue;
 	},
 
 	_promptCallback: function(props) {
@@ -67,7 +84,19 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this.importTheme = props.importTheme;
 		this.supportCompass = props.supportCompass;
 
-		this._setLiferayVersion();
+		this._getSettingFromConfigFile({
+			defaultValue: 6.2,
+			filePath: 'docroot/WEB-INF/liferay-plugin-package.properties',
+			propertyName: 'liferayVersion',
+			regex: /liferay-versions=([0-9]\.[0-9])\..*\+/
+		});
+
+		this._getSettingFromConfigFile({
+			defaultValue: 'vm',
+			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
+			propertyName: 'templateLanguage',
+			regex: /<template-extension>(.*)<\/template-extension>/
+		});
 	},
 
 	_validatePath: function(filePath) {
