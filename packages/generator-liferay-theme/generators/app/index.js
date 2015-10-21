@@ -184,8 +184,8 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = this.liferayVersion;
 
 		insight.track('theme', liferayVersion);
-		insight.track('theme', liferayVersion, this.templateLanguage);
-		insight.track('theme', liferayVersion, this.supportCompass);
+		insight.track('theme', liferayVersion, 'templateLanguage', this.templateLanguage);
+		insight.track('theme', liferayVersion, 'supportCompass', this.supportCompass);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
