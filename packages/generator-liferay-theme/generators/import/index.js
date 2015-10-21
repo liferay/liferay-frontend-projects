@@ -10,9 +10,11 @@ var util = require('util');
 
 var liferayThemeGeneratorPrototype = require('../app/index').prototype;
 
+var initializing = liferayThemeGeneratorPrototype.initializing;
+
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	initializing: function() {
-		this.pkg = require('../../package.json');
+		initializing.call(this);
 
 		this.sourceRoot(path.join(this._sourceRoot, '../../app/templates'));
 	},
@@ -125,6 +127,15 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 
 		return retVal;
+	},
+
+	_track: function() {
+		var insight = this._insight;
+
+		var liferayVersion = this.liferayVersion;
+
+		insight.track('import', liferayVersion);
+		insight.track('import', liferayVersion, this.supportCompass);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme Importer') + ' generator!'

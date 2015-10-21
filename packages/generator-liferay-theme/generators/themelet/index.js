@@ -13,10 +13,6 @@ var getPrompts = liferayThemeGeneratorPrototype._getPrompts;
 var promptCallback = liferayThemeGeneratorPrototype._promptCallback;
 
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
-	initializing: function() {
-		this.pkg = require('../../package.json');
-	},
-
 	configuring: {
 		setThemeDirName: function() {
 			var themeDirName = this.appname;
@@ -97,6 +93,10 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 
 		this.packageVersion = packageVersion;
+	},
+
+	_track: function() {
+		this._insight.track('themelet', this.liferayVersion);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Themelet') + ' generator!'
