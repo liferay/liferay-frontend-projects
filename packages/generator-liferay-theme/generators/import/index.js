@@ -135,7 +135,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		var liferayVersion = this.liferayVersion;
 
 		insight.track('import', liferayVersion);
-		insight.track('import', liferayVersion, this.supportCompass);
+		insight.track('import', liferayVersion, 'supportCompass', this.supportCompass);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme Importer') + ' generator!'
