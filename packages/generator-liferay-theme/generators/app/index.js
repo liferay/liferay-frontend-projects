@@ -171,11 +171,23 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_promptCallback: function(props) {
+		var liferayVersion = props.liferayVersion;
+
 		this.appname = props.themeId;
-		this.liferayVersion = props.liferayVersion;
+		this.liferayVersion = liferayVersion;
 		this.supportCompass = props.supportCompass;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
+
+		this.publishTag = liferayVersion.replace('.', '_') + '_x';
+
+		var packageVersion = '0.0.0';
+
+		if (liferayVersion == '7.0') {
+			packageVersion = '1.0.0';
+		}
+
+		this.packageVersion = packageVersion;
 	},
 
 	_track: function() {

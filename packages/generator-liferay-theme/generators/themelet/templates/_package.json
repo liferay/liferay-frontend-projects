@@ -5,6 +5,7 @@
 		"liferay-theme"
 	],
 	"liferayTheme": {
+		"screenshot": "",
 		"themelet": true,
 		"version": "<%= liferayVersion %>"
 	}<% if (publishTag) { %>,
