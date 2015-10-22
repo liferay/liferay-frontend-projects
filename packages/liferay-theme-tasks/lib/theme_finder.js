@@ -26,7 +26,7 @@ function getLiferayThemeModules(config, cb) {
 }
 
 function getPackageJSON(theme, cb) {
-	packageJson(theme.name, 'latest', function(err, pkg) {
+	packageJson(theme.name, '*', function(err, pkg) {
 		if (err) {
 			cb(err);
 
