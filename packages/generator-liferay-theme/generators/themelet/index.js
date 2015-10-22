@@ -78,7 +78,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		var publishTag = null;
 
 		if (liferayVersion != 'All') {
-			publishTag = liferayVersion + '.x';
+			publishTag = liferayVersion.replace('.', '_') + '_x';
 		}
 		else {
 			this.liferayVersion = '*';
