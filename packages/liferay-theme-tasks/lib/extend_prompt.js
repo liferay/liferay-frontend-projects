@@ -67,6 +67,33 @@ ExtendPrompt.prototype = {
 		return retVal;
 	},
 
+	_getDependencyInstallationArray: function(dependencies) {
+		var instance = this;
+
+		var themeVersion = lfrThemeConfig.getConfig().version;
+
+		return _.map(dependencies, function(item, index) {
+			var path = item.path;
+
+			return path ? path : item.name + instance._getDistTag(item, themeVersion, '@');
+		});
+	},
+
+	_getDistTag: function(config, version, prefix) {
+		var supportedVersion = config.liferayTheme.version;
+
+		var tag = prefix || '';
+
+		if (this._isSupported(supportedVersion, version) && this._hasPublishTag(config)) {
+			tag += version.replace('.', '_') + '_x';
+		}
+		else {
+			tag += '*';
+		}
+
+		return tag;
+	},
+
 	_getListType: function() {
 		var listType = 'list';
 
@@ -103,6 +130,7 @@ ExtendPrompt.prototype = {
 				liferayTheme: extendableTheme.liferayTheme,
 				name: item,
 				path: extendableTheme.realPath,
+				publishConfig: extendableTheme.publishConfig,
 				version: extendableTheme.version
 			};
 
@@ -134,8 +162,12 @@ ExtendPrompt.prototype = {
 		}
 	},
 
+	_hasPublishTag: function(config) {
+		return config.publishConfig && config.publishConfig.tag;
+	},
+
 	_installDependencies: function(dependencies, cb) {
-		var modules = this._normalizeDependencies(dependencies);
+		var modules = this._getDependencyInstallationArray(dependencies);
 
 		var child = exec('npm install ' + modules.join(' '), cb);
 
@@ -146,6 +178,10 @@ ExtendPrompt.prototype = {
 		child.stderr.on('data', function(data) {
 			process.stdout.write(data);
 		});
+	},
+
+	_isSupported: function(supportedVersion, version) {
+		return (_.isArray(supportedVersion) && _.contains(supportedVersion, version)) || supportedVersion == version;
 	},
 
 	_normalizeAnswers: function(answers) {
@@ -197,18 +233,11 @@ ExtendPrompt.prototype = {
 					liferayTheme: baseTheme.liferayTheme,
 					name: baseTheme.name,
 					path: baseTheme.realPath,
+					publishConfig: baseTheme.publishConfig,
 					version: baseTheme.version
 				};
 			}
 		}
-	},
-
-	_normalizeDependencies: function(dependencies) {
-		return _.map(dependencies, function(item, index) {
-			var path = item.path;
-
-			return path ? path : item.name;
-		});
 	},
 
 	_normalizeThemeletDependencies: function(answers) {
@@ -385,8 +414,12 @@ ExtendPrompt.prototype = {
 	},
 
 	_saveDependencies: function(updatedData) {
+		var instance = this;
+
+		var themeVersion = lfrThemeConfig.getConfig().version;
+
 		var dependencies = _.reduce(updatedData, function(result, item, index) {
-			var moduleVersion = item.path ? item.path : '^' + item.version;
+			var moduleVersion = item.path ? item.path : instance._getDistTag(item, themeVersion);
 
 			result[item.name] = moduleVersion;
 
