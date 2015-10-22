@@ -74,25 +74,11 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	_promptCallback: function(props) {
 		promptCallback.call(this, props);
 
-		var liferayVersion = props.liferayVersion;
-		var publishTag = null;
-
-		if (liferayVersion != 'All') {
-			publishTag = liferayVersion.replace('.', '_') + '_x';
-		}
-		else {
+		if (props.liferayVersion == 'All') {
 			this.liferayVersion = '*';
+
+			this.publishTag = null;
 		}
-
-		this.publishTag = publishTag;
-
-		var packageVersion = '0.0.0';
-
-		if (liferayVersion == '7.0') {
-			packageVersion = '1.0.0';
-		}
-
-		this.packageVersion = packageVersion;
 	},
 
 	_track: function() {

@@ -1,11 +1,12 @@
 {
 	"name": "<%= themeDirName %>",
-	"version": "0.0.0",
+	"version": "<%= packageVersion %>",
 	"keywords": [
 		"liferay-theme"
 	],
 	"liferayTheme": {
 		"baseTheme": "styled",
+		"screenshot": "",
 		"supportCompass": <%= supportCompass %>,
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "<%= liferayVersion %>"
@@ -13,5 +14,8 @@
 	"dependencies": {
 		"gulp": "^3.8.10",
 		"liferay-theme-tasks": "*"
-	}
+	}<% if (publishTag) { %>,
+	"publishConfig": {
+		"tag": "<%= publishTag %>"
+	}<% } %>
 }
