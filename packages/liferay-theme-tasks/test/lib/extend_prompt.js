@@ -194,19 +194,40 @@ describe('Extend Prompt', function() {
 		done();
 	});
 
-	// _normalizeDependencies
+	// _getDependencyInstallationArray
 	it('should return absolute path if present or name of module', function(done) {
-		var dependencies = ExtendPrompt.prototype._normalizeDependencies({
+		var dependencies = ExtendPrompt.prototype._getDependencyInstallationArray({
 			'themelet-1': {
-				name: 'themelet-1'
+				liferayTheme: {
+					themelet: true,
+					version: '*'
+				},
+				name: 'themelet-1',
+				version: '1.0'
 			},
 			'themelet-2': {
+				liferayTheme: {
+					themelet: true,
+					version: '*'
+				},
 				name: 'themelet-2',
-				path: 'path/to/themelet-2'
+				path: 'path/to/themelet-2',
+				version: '1.0'
+			},
+			'themelet-3': {
+				liferayTheme: {
+					themelet: true,
+					version: '7.0'
+				},
+				name: 'themelet-3',
+				publishConfig: {
+					tag: '7_0_x'
+				},
+				version: '1.0'
 			}
 		});
 
-		assert.deepEqual(dependencies, ['themelet-1', 'path/to/themelet-2']);
+		assert.deepEqual(dependencies, ['themelet-1@*', 'path/to/themelet-2', 'themelet-3@7_0_x']);
 
 		done();
 	});
