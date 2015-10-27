@@ -40,6 +40,8 @@
     "yosay": "^0.3.0"
   },
   "devDependencies": {
+    "chai": "^1.10.0",
+    "chai-fs": "^0.1.0",
     "mocha": "*"
   },
   "peerDependencies": {
