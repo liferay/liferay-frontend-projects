@@ -194,6 +194,8 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_setPublishTag: function(liferayVersion) {
+		liferayVersion = liferayVersion.toString();
+
 		this.publishTag = liferayVersion.replace('.', '_') + '_x';
 	},
 
