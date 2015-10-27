@@ -8,7 +8,7 @@ var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var util = require('util');
 
-var liferayThemeGeneratorPrototype = require('../app/index').prototype;
+var liferayThemeGeneratorPrototype = _.clone(require('../app/index').prototype);
 
 var initializing = liferayThemeGeneratorPrototype.initializing;
 
