@@ -93,6 +93,11 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			regex: /liferay-versions=([0-9]\.[0-9])\..*\+/
 		});
 
+		var liferayVersion = this.liferayVersion;
+
+		this._setPublishTag(liferayVersion);
+		this._setPackageVersion(liferayVersion);
+
 		this._getSettingFromConfigFile({
 			defaultValue: 'vm',
 			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
