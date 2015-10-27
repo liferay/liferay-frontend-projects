@@ -15,10 +15,6 @@ var tempDir = path.join(os.tmpdir(), 'temp-test');
 
 var tempThemeDir = path.join(tempDir, 'sdk-theme');
 
-var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
-
-var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
-
 var pathSdkTheme = path.join(__dirname, 'assets/sdk-theme');
 
 describe('liferay-theme:app', function () {
