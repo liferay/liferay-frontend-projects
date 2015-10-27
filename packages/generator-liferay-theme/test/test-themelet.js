@@ -16,16 +16,6 @@ var tempDir = path.join(os.tmpdir(), 'temp-test');
 var tempThemeletDir = path.join(tempDir, 'test-themelet');
 
 describe('liferay-theme:themelet', function () {
-	before(function() {
-		var liferayThemeGeneratorPrototype = require('../generators/app/index').prototype;
-	});
-
-	afterEach(function(done) {
-		fs.rmdir(tempThemeletDir, function(err) {
-			done();
-		});
-	});
-
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
