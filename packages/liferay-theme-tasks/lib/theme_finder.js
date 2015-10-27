@@ -49,7 +49,10 @@ function isLiferayThemeModule(pkg, themelet) {
 
 		var liferayThemeVersion = liferayTheme.version;
 
-		if ((liferayThemeVersion != '*') && (liferayThemeVersion != themeConfig.version)) {
+		if (_.isArray(liferayThemeVersion) && !_.contains(liferayThemeVersion, themeConfig.version)) {
+			return retVal;
+		}
+		else if (!_.isArray(liferayThemeVersion) && (liferayThemeVersion != '*') && (liferayThemeVersion != themeConfig.version)) {
 			return retVal;
 		}
 
