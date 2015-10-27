@@ -20,12 +20,6 @@ var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/li
 var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
 
 describe('liferay-theme:app', function () {
-	afterEach(function(done) {
-		fs.rmdir(path.join(tempDir, 'test-theme'), function() {
-			done();
-		});
-	});
-
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([

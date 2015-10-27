@@ -18,12 +18,6 @@ var tempThemeDir = path.join(tempDir, 'sdk-theme');
 var pathSdkTheme = path.join(__dirname, 'assets/sdk-theme');
 
 describe('liferay-theme:import', function () {
-	afterEach(function(done) {
-		fs.rmdir(path.join(tempDir, 'sdk-theme'), function() {
-			done();
-		});
-	});
-
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
