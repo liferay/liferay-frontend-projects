@@ -12,7 +12,7 @@ var liferayThemeGeneratorPrototype = require('../app/index').prototype;
 var getPrompts = liferayThemeGeneratorPrototype._getPrompts;
 var promptCallback = liferayThemeGeneratorPrototype._promptCallback;
 
-var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
+var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	configuring: {
 		setThemeDirName: function() {
 			var themeDirName = this.appname;
@@ -88,4 +88,4 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Themelet') + ' generator!'
 });
 
-module.exports = yeoman.generators.Base.extend(importerGeneratorPrototype);
+module.exports = yeoman.generators.Base.extend(themeletGeneratorPrototype);
