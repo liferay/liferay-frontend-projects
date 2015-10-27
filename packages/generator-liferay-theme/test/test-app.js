@@ -26,7 +26,7 @@ describe('liferay-theme:app', function () {
 		});
 	});
 
-	it('creates files', function() {
+	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
 				'gulpfile.js',
@@ -37,6 +37,8 @@ describe('liferay-theme:app', function () {
 				'src/WEB-INF/src/resources-importer/readme.txt',
 				'src/WEB-INF/src/resources-importer/sitemap.json'
 			]);
+
+			done();
 		});
 	});
 
