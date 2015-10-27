@@ -2,12 +2,22 @@
 
 var _ = require('lodash');
 var assert = require('yeoman-generator').assert;
+var chai = require('chai');
 var fs = require('fs');
 var helpers = require('yeoman-generator').test;
 var os = require('os');
 var path = require('path');
 
-var tempDir = path.join(os.tmpdir(), './temp-test');
+var chaiAssert = chai.assert;
+chai.use(require('chai-fs'));
+
+var tempDir = path.join(os.tmpdir(), 'temp-test');
+
+var tempThemeDir = path.join(tempDir, 'test-theme');
+
+var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
+
+var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
 
 describe('liferay-theme:app', function () {
 	afterEach(function(done) {
@@ -30,11 +40,9 @@ describe('liferay-theme:app', function () {
 		});
 	});
 
-	it('populates 7.0 package.json correctly', function() {
-		runGenerator(null, function(done) {
-			var pkgPath = path.join(os.tmpdir(), 'temp-test/test-theme/package.json');
-
-			var pkg = require(pkgPath);
+	it('populates 7.0 package.json correctly', function(done) {
+		runGenerator(null, function() {
+			var pkg = getPackage();
 
 			assert.equal(pkg.liferayTheme.supportCompass, false);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
@@ -43,19 +51,25 @@ describe('liferay-theme:app', function () {
 			assert.equal(pkg.publishConfig.tag, '7_0_x');
 			assert.equal(pkg.version, '1.0.0');
 
+			assert.fileContent(pathLookAndFeel, '<version>7.0.0+</version>');
+			assert.fileContent(pathLookAndFeel, '<theme id="test-theme" name="Test Theme">');
+			assert.fileContent(pathLookAndFeel, '<template-extension>vm</template-extension>');
+			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">');
+
+			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
+			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=7.0.0+');
+
 			done();
 		});
 	});
 
-	it('populates 6.2 package.json correctly', function() {
+	it('populates 6.2 package.json correctly', function(done) {
 		runGenerator({
 			liferayVersion: '6.2',
 			supportCompass: true,
 			templateLanguage: 'ftl',
-		}, function(done) {
-			var pkgPath = path.join(os.tmpdir(), 'temp-test/test-theme/package.json');
-
-			var pkg = require(pkgPath);
+		}, function() {
+			var pkg = getPackage();
 
 			assert.equal(pkg.liferayTheme.supportCompass, true);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
@@ -63,12 +77,26 @@ describe('liferay-theme:app', function () {
 			assert.equal(pkg.publishConfig.tag, '6_2_x');
 			assert.equal(pkg.version, '0.0.0');
 
+			assert.fileContent(pathLookAndFeel, '<version>6.2.0+</version>');
+			assert.fileContent(pathLookAndFeel, '<theme id="test-theme" name="Test Theme">');
+			assert.fileContent(pathLookAndFeel, '<template-extension>ftl</template-extension>');
+			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">');
+
+			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
+			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=6.2.0+');
+
 			done();
 		});
 	});
 });
 
-function runGenerator(options, done) {
+function getPackage(themeName) {
+	var fileContents = fs.readFileSync(path.join(tempThemeDir, 'package.json'));
+
+	return JSON.parse(fileContents);
+}
+
+function runGenerator(options, end) {
 	options = options || {};
 
 	options = _.defaults(options, {
@@ -76,7 +104,7 @@ function runGenerator(options, done) {
 		supportCompass: false,
 		templateLanguage: 'vm',
 		themeId: 'test-theme',
-		themeName: 'test-theme'
+		themeName: 'Test Theme'
 	});
 
 	helpers.run(path.join(__dirname, '../generators/app'))
@@ -85,5 +113,5 @@ function runGenerator(options, done) {
 			'skip-install': true
 		})
 		.withPrompt(options)
-		.on('end', done);
+		.on('end', end);
 }
