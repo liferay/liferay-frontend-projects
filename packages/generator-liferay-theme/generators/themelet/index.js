@@ -35,6 +35,8 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		},
 
 		projectfiles: function() {
+			this.sourceRoot(path.join(this._sourceRoot, '../../themelet/templates'));
+
 			this.fs.copy(this.templatePath('src/css/custom.css'), this.destinationPath('src/css/_custom.scss'));
 		}
 	},
