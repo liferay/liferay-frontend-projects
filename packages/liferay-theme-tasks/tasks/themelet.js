@@ -34,7 +34,7 @@ module.exports = function(options) {
 			read: false
 		});
 
-		return gulp.src('build/css/main.scss')
+		return gulp.src('build/css/+(_custom.scss|custom.css)')
 			.pipe(plugins.inject(sources, {
 				starttag: '/* inject:imports */',
 				endtag: '/* endinject */',

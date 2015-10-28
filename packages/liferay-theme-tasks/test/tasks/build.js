@@ -84,9 +84,9 @@ describe('Build Tasks', function() {
 		gulp.start('build:src', function(err) {
 			if (err) throw err;
 
-			var customCSSPath = path.join(instance._buildPath, 'css/custom.css');
+			var customCSSPath = path.join(instance._buildPath, 'css/_custom.scss');
 
-			assert.fileContent(customCSSPath, '/* custom.css */');
+			assert.fileContent(customCSSPath, '/* inject:imports */\n/* endinject */\n\n/* _custom.scss */');
 
 			done();
 		});
@@ -147,7 +147,7 @@ describe('Build Tasks', function() {
 			assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/freemarker.ftl'));
 			assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/velocity.vm'));
 
-			assert.fileContentMatch(path.join(instance._buildPath, 'css/main.scss'), /@import "themelets\/test-themelet\/custom\.css";/);
+			assert.fileContentMatch(path.join(instance._buildPath, 'css/_custom.scss'), /@import "themelets\/test-themelet\/custom\.css";/);
 			assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.vm'), /<script src="base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
 			assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
 
