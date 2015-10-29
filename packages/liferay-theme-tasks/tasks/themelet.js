@@ -5,6 +5,7 @@ var async = require('async');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+var vinylPaths = require('vinyl-paths');
 
 var gutil = plugins.util;
 
@@ -34,11 +35,16 @@ module.exports = function(options) {
 	gulp.task('build:themelet-css-inject', function(cb) {
 		var themeSrcPaths = path.join(pathBuild, 'css/themelets/**/*.+(css|scss)');
 
+		var injected = false;
+		var themeletSources = false;
+
 		var sources = gulp.src(themeSrcPaths, {
 			read: false
-		});
+		}).pipe(vinylPaths(function(path) {
+			themeletSources = true;
 
-		var injected = false;
+			return Promise.resolve();
+		}));
 
 		var fileName = themeConfig.version == '6.2' ? 'custom.css' : '_custom.scss';
 
@@ -56,7 +62,7 @@ module.exports = function(options) {
 			}))
 			.pipe(gulp.dest('build/css'))
 			.on('end', function() {
-				if (!injected && !_.isEmpty(themeConfig.themeletDependencies)) {
+				if (!injected && themeletSources && !_.isEmpty(themeConfig.themeletDependencies)) {
 					var colors = gutil.colors;
 
 					gutil.log(colors.yellow('Warning:'), 'Failed to automatically inject themelet styles. Make sure inject tags are present in', colors.magenta(fileName));
