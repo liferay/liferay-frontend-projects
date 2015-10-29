@@ -6,6 +6,10 @@ var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 
+var gutil = plugins.util;
+
+var themeConfig = lfrThemeConfig.getConfig();
+
 var CWD = process.cwd();
 
 module.exports = function(options) {
@@ -34,17 +38,32 @@ module.exports = function(options) {
 			read: false
 		});
 
-		return gulp.src('build/css/+(_custom.scss|custom.css)')
+		var injected = false;
+
+		var fileName = themeConfig.version == '6.2' ? 'custom.css' : '_custom.scss';
+
+		gulp.src(path.join('build/css', fileName))
 			.pipe(plugins.inject(sources, {
 				starttag: '/* inject:imports */',
 				endtag: '/* endinject */',
-				transform: function(filePath) {
+				transform: function(filePath, file, index, length, targetFile) {
+					injected = true;
+
 					filePath = filePath.replace(/(\/build\/css\/)(.*)/, '$2');
 
 					return '@import "' + filePath + '";';
 				}
 			}))
-			.pipe(gulp.dest('build/css'));
+			.pipe(gulp.dest('build/css'))
+			.on('end', function() {
+				if (!injected && !_.isEmpty(themeConfig.themeletDependencies)) {
+					var colors = gutil.colors;
+
+					gutil.log(colors.yellow('Warning:'), 'Failed to automatically inject themelet styles. Make sure inject tags are present in', colors.magenta(fileName));
+				}
+
+				cb();
+			});
 	});
 
 	gulp.task('build:themelet-js-inject', function(cb) {
