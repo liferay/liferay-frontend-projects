@@ -75,15 +75,26 @@ module.exports = function(options) {
 	gulp.task('build:themelet-js-inject', function(cb) {
 		var themeSrcPaths = path.join(pathBuild, 'js/themelets/**/*.js');
 
+		var injected = false;
+		var themeletSources = false;
+
 		var sources = gulp.src(themeSrcPaths, {
 			read: false
-		});
+		}).pipe(vinylPaths(function(path) {
+			themeletSources = true;
 
-		return gulp.src(['build/templates/portal_normal.ftl', 'build/templates/portal_normal.vm'])
+			return Promise.resolve();
+		}));
+
+		var templateLanguage = themeConfig.templateLanguage || 'vm';
+
+		gulp.src('build/templates/portal_normal.' + templateLanguage)
 			.pipe(plugins.inject(sources, {
 				starttag: '<!-- inject:js -->',
 				endtag: '<!-- endinject -->',
-				transform: function(filePath) {
+				transform: function(filePath, file, index, length, targetFile) {
+					injected = true;
+
 					var themeName = lfrThemeConfig.getConfig(true).name;
 
 					filePath = path.join(themeName, filePath.replace(/(\/build\/)(.*)/, '$2'));
@@ -91,7 +102,16 @@ module.exports = function(options) {
 					return '<script src="' + filePath + '"></script>';
 				}
 			}))
-			.pipe(gulp.dest('build/templates'));
+			.pipe(gulp.dest('build/templates'))
+			.on('end', function() {
+				if (!injected && themeletSources && !_.isEmpty(themeConfig.themeletDependencies)) {
+					var colors = gutil.colors;
+
+					gutil.log(colors.yellow('Warning:'), 'Failed to automatically inject themelet js. Make sure inject tags are present in', colors.magenta('portal_normal.' + templateLanguage));
+				}
+
+				cb();
+			});
 	});
 
 	gulp.task('build:themelet-images', function(cb) {

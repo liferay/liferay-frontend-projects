@@ -149,7 +149,6 @@ describe('Build Tasks', function() {
 
 			assert.fileContentMatch(path.join(instance._buildPath, 'css/_custom.scss'), /@import "themelets\/test-themelet\/custom\.css";/);
 			assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.vm'), /<script src="base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
-			assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
 
 			done();
 		});
