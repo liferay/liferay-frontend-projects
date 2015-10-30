@@ -11,9 +11,32 @@ var themeFinder = require('./theme_finder');
 var moduleName = argv.name;
 
 function ExtendPrompt(cb) {
+	var instance = this;
+
 	this.done = cb;
 
-	this._prompt();
+	if (moduleName) {
+		themeFinder.getLiferayThemeModule(moduleName, function(err, pkg) {
+			if (err) throw err;
+
+			var dependencyPropertyName = 'baseTheme';
+
+			if (pkg.liferayTheme.themelet) {
+				dependencyPropertyName = 'themeletDependencies';
+			}
+
+			var config = _.set({}, dependencyPropertyName + '.' + moduleName, instance._reducePkgData(pkg));
+
+			lfrThemeConfig.setConfig(config);
+
+			instance._saveDependencies(config[dependencyPropertyName]);
+
+			cb();
+		});
+	}
+	else {
+		this._prompt();
+	}
 }
 
 ExtendPrompt.prototype = {
@@ -61,7 +84,7 @@ ExtendPrompt.prototype = {
 				gutil.log(gutil.colors.yellow('No ' + type + 's found!'));
 			}
 
-			retVal = !empty && _.isUndefined(moduleName);
+			retVal = !empty;
 		}
 
 		return retVal;
@@ -111,7 +134,7 @@ ExtendPrompt.prototype = {
 
 		var extendableThemes = this._extendableThemes;
 
-		var themeletNames = answers.themeletNames || moduleName;
+		var themeletNames = answers.themeletNames;
 
 		if (themeletNames && !_.isArray(themeletNames)) {
 			themeletNames = [themeletNames];
@@ -126,13 +149,7 @@ ExtendPrompt.prototype = {
 				return;
 			}
 
-			result[item] = {
-				liferayTheme: extendableTheme.liferayTheme,
-				name: item,
-				path: extendableTheme.realPath,
-				publishConfig: extendableTheme.publishConfig,
-				version: extendableTheme.version
-			};
+			result[item] = instance._reducePkgData(extendableTheme);
 
 			return result;
 		}, {});
@@ -215,7 +232,7 @@ ExtendPrompt.prototype = {
 				answers.baseThemeName = themeSource;
 			}
 
-			var baseThemeName = answers.baseThemeName || moduleName;
+			var baseThemeName = answers.baseThemeName;
 
 			if (baseThemeName == 'styled' || baseThemeName == 'unstyled') {
 				return baseThemeName;
@@ -250,7 +267,7 @@ ExtendPrompt.prototype = {
 		var version = themeConfig.version;
 
 		var savedThemeletDependencies = _.reduce(themeConfig.themeletDependencies, function(result, item, index) {
-			var keep = !_.isUndefined(moduleName) || (globalModules && !item.path) || (!globalModules && item.path);
+			var keep = (globalModules && !item.path) || (!globalModules && item.path);
 
 			var itemVersion = item.liferayTheme.version;
 
@@ -407,6 +424,16 @@ ExtendPrompt.prototype = {
 			],
 			_.bind(instance._afterPrompt, instance)
 		);
+	},
+
+	_reducePkgData: function(pkg) {
+		var realPath = pkg.realPath;
+
+		pkg = _.pick(pkg, ['liferayTheme', 'name', 'publishConfig', 'version']);
+
+		pkg.path = realPath;
+
+		return pkg;
 	},
 
 	_removeUnusedDependencies: function(answers) {

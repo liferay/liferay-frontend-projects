@@ -25,6 +25,20 @@ function getLiferayThemeModules(config, cb) {
 	searchFn(config, cb);
 }
 
+function getLiferayThemeModule(name, cb) {
+	getPackageJSON({
+		name: name
+	}, function(err, pkg) {
+		if (!pkg.liferayTheme || !_.contains(pkg.keywords, 'liferay-theme')) {
+			pkg = null;
+
+			err = new Error('Package is not a Liferay theme or themelet module');
+		}
+
+		cb(err, pkg);
+	});
+}
+
 function getPackageJSON(theme, cb) {
 	packageJson(theme.name, '*', function(err, pkg) {
 		if (err) {
@@ -110,4 +124,5 @@ function searchNpm(config, cb) {
 	});
 }
 
+module.exports.getLiferayThemeModule = getLiferayThemeModule;
 module.exports.getLiferayThemeModules = getLiferayThemeModules;
