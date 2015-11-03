@@ -1,5 +1,9 @@
 
 ## Next Release
+* No changes yet
+***
+
+## v0.0.40 - November 3, 2015
 
 * New: added changelog
 * Update: simplified use of gulp extend's --name flag for installing specific module
