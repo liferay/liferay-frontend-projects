@@ -1,4 +1,10 @@
 
+## Next Release
+
+* New: added changelog
+* Update: simplified use of gulp extend's --name flag for installing specific module
+* Upgrade: change convert-bootstrap-2-to-3 version to ^1.0.1
+
 ## v0.0.39
 
 * New: alerting developer if process fails to find inject tags in _custom.scss or portal_normal templates if themelets are implemented
