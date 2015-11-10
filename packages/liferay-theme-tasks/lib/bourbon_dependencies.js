@@ -38,7 +38,6 @@ exports.createBourbonFile = function(forceCreation) {
 		bourbonFile.push(formatPath(path.join(__dirname, '../node_modules', versionMap.getDependencyName('mixins'), 'liferay/_bourbon_ext')));
 		bourbonFile.push('";');
 
-
 		fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));
 	}
 
