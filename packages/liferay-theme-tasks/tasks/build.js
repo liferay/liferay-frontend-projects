@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var CheckSourceFormattingCLI = require('../node_modules/check-source-formatting/lib/cli').constructor;
+var CheckSourceFormattingCLI = require('check-source-formatting').constructor;
 var del = require('del');
 var fs = require('fs-extra');
 var glob = require('glob');

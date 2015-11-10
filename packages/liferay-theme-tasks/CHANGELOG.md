@@ -1,7 +1,8 @@
 
 ## Next Release
-* No changes yet
 ***
+
+* Fix: using native methods for resolving dependency file paths for use with node 5.x
 
 ## v0.0.40 - November 3, 2015
 

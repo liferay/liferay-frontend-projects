@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var ConvertBootstrapCLI = require('../../../node_modules/convert-bootstrap-2-to-3/lib/cli').constructor;
+var ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;
 var del = require('del');
 var fs = require('fs-extra');
 var glob = require('glob');
@@ -115,7 +115,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:dependencies', function(cb) {
-		var themeTasksPath = path.join(CWD, 'node_modules/liferay-theme-tasks');
+		var themeTasksPath = path.dirname(require.resolve('liferay-theme-tasks'));
 
 		process.chdir(themeTasksPath);
 
@@ -166,7 +166,7 @@ module.exports = function(options) {
 	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
 		var NEW_LINE = '\n';
 
-		var compassPath = path.join(__dirname, '../../../node_modules/compass-mixins/lib/_compass.scss');
+		var compassPath = require.resolve('compass-mixins');
 
 		var includeCompass = '@import "' + compassPath + '";' + NEW_LINE + NEW_LINE;
 
