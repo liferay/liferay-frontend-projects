@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var CheckSourceFormattingCLI = require('check-source-formatting').constructor;
 var del = require('del');
 var fs = require('fs-extra');
 var glob = require('glob');
@@ -94,18 +93,6 @@ module.exports = function(options) {
 	gulp.task('build:web-inf', function() {
 		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*', getSrcPathConfig()))
 			.pipe(gulp.dest('./build/WEB-INF/classes'));
-	});
-
-	gulp.task('check_sf', function(cb) {
-		glob('src/**/*?(.css|.ftl|.js|.jsp|.scss|.vm)', function(err, files) {
-			if (err) throw err;
-
-			var checkSF = new CheckSourceFormattingCLI({
-				args: files
-			});
-
-			checkSF.init();
-		});
 	});
 
 	gulp.task('build:compile-css', function(cb) {

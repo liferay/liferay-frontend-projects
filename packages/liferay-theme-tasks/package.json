@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "check-source-formatting": "^1.0.21",
     "convert-bootstrap-2-to-3": "^1.0.1",
     "del": "^1.1.1",
     "diff": "^1.4.0",
