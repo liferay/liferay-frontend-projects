@@ -20,6 +20,7 @@ module.exports = function(options) {
 					'build:base',
 					'build:src',
 					'build:web-inf',
+					'build:themelets',
 					'build:rename-css-dir',
 					'build:compile-css',
 					'build:move-compiled-css',
