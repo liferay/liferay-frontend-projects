@@ -1,6 +1,9 @@
 
 ## Next Release
+* No changes
 ***
+
+## v0.0.41 - November 12, 2015
 
 * Fix: using native methods for resolving dependency file paths for use with node 5.x
 * Breaking: removed check_sf task
