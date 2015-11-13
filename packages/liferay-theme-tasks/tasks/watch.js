@@ -1,6 +1,7 @@
 'use strict';
 
 var argv = require('minimist')(process.argv.slice(2));
+var livereload = require('gulp-livereload');
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -12,6 +13,8 @@ module.exports = function(options) {
 	var runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('watch', function() {
+		livereload.listen();
+
 		gulp.watch('src/**/*', function(vinyl) {
 			store.set('changedFile', vinyl);
 

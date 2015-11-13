@@ -6,6 +6,8 @@ var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var themeUtil = require('../lib/util');
 
+var livereload = plugins.livereload;
+
 module.exports = function(options) {
 	var gulp = options.gulp;
 
@@ -44,7 +46,8 @@ module.exports = function(options) {
 				changedFile: store.get('changedFile'),
 				deployed: store.get('deployed')
 			}))
-			.pipe(gulp.dest(dest));
+			.pipe(gulp.dest(dest))
+			.pipe(livereload());
 
 		if (tempThemeDir) {
 			stream.pipe(gulp.dest(path.join(tempDirPath, tempThemeDir)));
