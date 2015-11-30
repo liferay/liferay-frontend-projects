@@ -92,20 +92,16 @@ module.exports = function(options) {
 	gulp.task('deploy-live:war', function(cb) {
 		var gutil = plugins.util;
 
-		var themeName = themeConfig.name;
-
-		var host = argv.h || argv.host;
 		var password = argv.p || argv.password;
-		var port = argv.port;
-		var secure = argv.s || argv.secure;
+		var url = argv.url || store.get('url');
 		var username = argv.u || argv.username;
 
+		var themeName = themeConfig.name;
+
 		new WarDeployer({
+			url: url,
 			fileName: themeName,
-			host: host,
 			password: password,
-			port: port,
-			protocol: secure ? 'https' : 'http',
 			username: username
 		}).on('end', cb);
 	});

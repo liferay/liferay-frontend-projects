@@ -87,6 +87,12 @@ InitPrompt.prototype = {
 					name: 'deployPath',
 					type: 'input',
 					when: instance._deployPathWhen
+				},
+				{
+					default: 'http://localhost:8080',
+					message: 'Enter the url to your production or development site:',
+					name: 'url',
+					type: 'input'
 				}
 			],
 			_.bind(instance._afterPrompt, instance)

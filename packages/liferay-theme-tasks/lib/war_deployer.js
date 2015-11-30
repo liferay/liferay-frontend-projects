@@ -4,6 +4,7 @@ var fs = require('fs');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
+var url = require('url');
 var util = require('util');
 
 var CWD = process.cwd();
@@ -20,11 +21,14 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 
 		this._validateOptions(options);
 
+		var siteURL = options.url || 'http://localhost:8080';
+
+		this._setURLSettings(siteURL);
+
+		this._validateURLSettings();
+
 		this.fileName = options.fileName;
-		this.host = options.host || 'localhost';
 		this.password = options.password;
-		this.port = options.port || '8080';
-		this.protocol = options.protocol || 'http';
 		this.username = options.username;
 
 		this._promptCredentialsIfNeeded(options);
@@ -149,12 +153,22 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		}
 	},
 
+	_setURLSettings: function(siteURL) {
+		var parsedURL = url.parse(siteURL);
+
+		this.host = parsedURL.hostname;
+		this.port = parsedURL.port;
+		this.protocol = _.trimRight(parsedURL.protocol, ':');
+	},
+
 	_validateOptions: function(options) {
 		if (!options.fileName) {
 			throw new Error('fileName required');
 		}
+	},
 
-		if (options.protocol && ['http', 'https'].indexOf(options.protocol) < 0) {
+	_validateURLSettings: function() {
+		if (['http', 'https'].indexOf(this.protocol) < 0) {
 			throw new Error('http or https must be used as protocol');
 		}
 	},
