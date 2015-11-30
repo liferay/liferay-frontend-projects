@@ -38,7 +38,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		return this.username + ':' + this.password;
 	},
 
-	_getBounderyKey: function() {
+	_getBoundaryKey: function() {
 		var boundaryKey = this.boundaryKey;
 
 		if (!boundaryKey) {
@@ -53,7 +53,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	_getFileHeaders: function() {
 		var fileName = this.fileName
 
-		return '--' + this._getBounderyKey() + '\r\n' +
+		return '--' + this._getBoundaryKey() + '\r\n' +
 		'Content-Type: application/x-zip\r\n' +
 		'Content-Disposition: form-data; name="' + fileName + '"; filename="' + fileName + '.war"\r\n' +
 		'Content-Transfer-Encoding: binary\r\n\r\n'
@@ -64,7 +64,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 			auth: this._getAuth(),
 			host: this.host,
 			headers: {
-				'Content-Type': 'multipart/form-data; boundary="' + this._getBounderyKey() + '"'
+				'Content-Type': 'multipart/form-data; boundary="' + this._getBoundaryKey() + '"'
 			},
 			method: 'POST',
 			path: '/server-manager-web/plugins',
@@ -176,7 +176,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	_writeWarFile: function(req) {
 		var instance = this;
 
-		var boundaryKey = this._getBounderyKey();
+		var boundaryKey = this._getBoundaryKey();
 
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
 
