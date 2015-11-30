@@ -2,11 +2,17 @@
 
 var _ = require('lodash');
 var fs = require('fs-extra');
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var themeUtil = require('../lib/util');
+var WarDeployer = require('../lib/war_deployer');
+
+var argv = require('minimist')(process.argv.slice(2));
 
 var livereload = plugins.livereload;
+
+var themeConfig = lfrThemeConfig.getConfig(true);
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -21,6 +27,14 @@ module.exports = function(options) {
 		runSequence(
 			'build',
 			'deploy:war',
+			cb
+		);
+	});
+
+	gulp.task('deploy-live', function(cb) {
+		runSequence(
+			'build',
+			'deploy-live:war',
 			cb
 		);
 	});
@@ -73,5 +87,26 @@ module.exports = function(options) {
 		}
 
 		return stream;
+	});
+
+	gulp.task('deploy-live:war', function(cb) {
+		var gutil = plugins.util;
+
+		var themeName = themeConfig.name;
+
+		var host = argv.h || argv.host;
+		var password = argv.p || argv.password;
+		var port = argv.port;
+		var secure = argv.s || argv.secure;
+		var username = argv.u || argv.username;
+
+		new WarDeployer({
+			fileName: themeName,
+			host: host,
+			password: password,
+			port: port,
+			protocol: secure ? 'https' : 'http',
+			username: username
+		}).on('end', cb);
 	});
 };
