@@ -30,8 +30,10 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		this.fileName = options.fileName;
 		this.password = options.password;
 		this.username = options.username;
+	},
 
-		this._promptCredentialsIfNeeded(options);
+	deploy: function() {
+		this._promptCredentialsIfNeeded();
 	},
 
 	_getAuth: function() {

@@ -98,11 +98,13 @@ module.exports = function(options) {
 
 		var themeName = themeConfig.name;
 
-		new WarDeployer({
+		var warDeployer = new WarDeployer({
 			url: url,
 			fileName: themeName,
 			password: password,
 			username: username
 		}).on('end', cb);
+
+		warDeployer.deploy();
 	});
 };
