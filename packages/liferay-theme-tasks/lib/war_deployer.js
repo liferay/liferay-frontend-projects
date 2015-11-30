@@ -126,16 +126,16 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		}
 	},
 
-	_promptCredentialsIfNeeded: function(options) {
+	_promptCredentialsIfNeeded: function() {
 		var instance = this;
 
 		var questions = [];
 
-		if (!options.username) {
+		if (!this.username) {
 			questions.push(this._getQuestion('username', 'test@liferay.com'));
 		}
 
-		if (!options.password) {
+		if (!this.password) {
 			questions.push(this._getQuestion('password', 'test'));
 		}
 
