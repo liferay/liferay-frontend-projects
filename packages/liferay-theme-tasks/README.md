@@ -79,6 +79,6 @@ After invoking the watch task, every time you save any changes to a file in your
 ```
 gulp init
 ```
-Prompts user for locale and remote appserver information used for deployment purposes (see [deploy](#deploy) task).
+Prompts user for local and remote appserver information used for deployment purposes (see [deploy](#deploy) task).
 
 MIT
