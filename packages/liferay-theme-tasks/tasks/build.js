@@ -41,6 +41,7 @@ module.exports = function(options) {
 			'build:themelets',
 			'build:rename-css-dir',
 			'build:compile-css',
+			'build:fix-url-functions',
 			'build:move-compiled-css',
 			'build:remove-old-css-dir',
 			'build:war',
@@ -59,6 +60,27 @@ module.exports = function(options) {
 
 	gulp.task('build:clean', function(cb) {
 		del([pathBuild], cb);
+	});
+
+	// Temp fix for libSass compilation issue with empty url() functions
+	gulp.task('build:fix-url-functions', function(cb) {
+		if (!themeConfig.supportCompass) {
+			return gulp.src(pathBuild + '/_css/**/*.css')
+				.pipe(replace({
+					patterns: [
+						{
+							match: /url\(url\(\)/g,
+							replacement: 'url()'
+						}
+					]
+				}))
+				.pipe(gulp.dest(pathBuild + '/_css', {
+					overwrite: true
+				}));
+		}
+		else {
+			cb();
+		}
 	});
 
 	gulp.task('build:hook', function(cb) {
