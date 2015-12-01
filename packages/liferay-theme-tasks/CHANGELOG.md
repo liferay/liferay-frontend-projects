@@ -1,6 +1,7 @@
 
 ## Next Release
-* No changes
+* New: added gulp deploy-live task for deploying to production sites
+* New: added livereload to gulp watch task for automatically reloading page
 ***
 
 ## v0.0.41 - November 12, 2015
