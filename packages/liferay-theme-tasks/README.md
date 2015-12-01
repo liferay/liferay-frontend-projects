@@ -1,6 +1,6 @@
 # Liferay Theme Tasks
 
-> The liferay-theme-tasks module is inteded for use with the yeoman generator for [Liferay themes](https://github.com/natecavanaugh/generator-liferay-theme).
+> The liferay-theme-tasks module is intended for use with the yeoman generator for [Liferay themes](https://github.com/natecavanaugh/generator-liferay-theme).
 
 ## Available tasks:
 
@@ -9,6 +9,7 @@
 * [extend](#extend)
 * [status](#status)
 * [watch](#watch)
+* [init](#init)
 
 ### Build
 
@@ -23,7 +24,26 @@ The `build` task generates the base theme files, compiles sass into css, and zip
 gulp deploy
 ```
 
-The deploy initally runs the `build` task, and once the .war file has been created it deploys to the specified appserver.
+The deploy initially runs the `build` task, and once the .war file has been created it deploys to the specified local appserver.
+
+If you want to deploy to a live site, use the `--live` flag to deploy to a remote server.
+
+```
+gulp deploy --live
+```
+
+Note that the specified server must have the [server-manager-web](https://github.com/liferay/liferay-plugins/tree/master/webs/server-manager-web) plugin deployed. The `--live` flag will deploy to the remote server specified in the [init](#init) task.
+
+If you want to deploy to a different server without changing the default server specified in [init](#init), you may use the `--url` flag.
+
+```
+gulp deploy --live --url http://some-host.com
+```
+You may also specify your login credentials using the `-u`/`--username` and `-p`/`--password` flags.
+
+```
+gulp deploy --live -u test@liferay.com -p test
+```
 
 ### Extend
 
@@ -53,5 +73,12 @@ gulp watch
 The watch task allows you to see the changes you make to your theme without a full redeploy.
 
 After invoking the watch task, every time you save any changes to a file in your theme it compiles (if applicable) and copies it directly to your appserver.
+
+### Init
+
+```
+gulp init
+```
+Prompts user for locale and remote appserver information used for deployment purposes (see [deploy](#deploy) task).
 
 MIT
