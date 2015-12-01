@@ -5,13 +5,12 @@ var chai = require('chai');
 var fs = require('fs-extra');
 var os = require('os');
 var path = require('path');
+var sinon = require('sinon');
 var WarDeployer = require('../../lib/war_deployer');
 
 var assert = chai.assert;
 var expect = chai.expect;
 chai.use(require('chai-fs'));
-
-var sinon = require('sinon');
 
 var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'base-theme');
 
