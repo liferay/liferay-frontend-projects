@@ -24,19 +24,13 @@ module.exports = function(options) {
 	var runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('deploy', function(cb) {
-		runSequence(
-			'build',
-			'deploy:war',
-			cb
-		);
-	});
+		var sequence = ['build', 'deploy:war', cb];
 
-	gulp.task('deploy-live', function(cb) {
-		runSequence(
-			'build',
-			'deploy-live:war',
-			cb
-		);
+		if (argv.l || argv.live) {
+			sequence.splice(1, 1, 'deploy-live:war');
+		}
+
+		runSequence.apply(this, sequence);
 	});
 
 	gulp.task('deploy:fast', function() {
