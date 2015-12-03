@@ -7,7 +7,6 @@
 ## Dependencies
 
 1. Install [Node.JS](http://nodejs.org/), if you don't have it yet.<br>
-Note: the Liferay theme generator requires Node version 0.10.x or 0.12.x, due to issues with [node-sass](https://www.npmjs.com/package/node-sass) the generator will not currently work with Node 0.11.x.
 2. run `<sudo> npm install -g yo gulp` to install global dependencies.
 
 ## Generator use
