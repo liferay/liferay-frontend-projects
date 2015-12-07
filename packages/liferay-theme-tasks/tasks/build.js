@@ -174,17 +174,6 @@ module.exports = function(options) {
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
-	gulp.task('build:war', function() {
-		var themeName = lfrThemeConfig.getConfig(true).name;
-
-		return gulp.src(pathBuild + '/**/*')
-			.pipe(plugins.war({
-				displayName: themeName
-			}))
-			.pipe(plugins.zip(themeName + '.war'))
-			.pipe(gulp.dest('./dist'));
-	});
-
 	gulp.task('build:remove-old-css-dir', function(cb) {
 		del([pathBuild + '/_css'], cb);
 	});
@@ -211,6 +200,17 @@ module.exports = function(options) {
 				return Promise.resolve();
 			}))
 			.pipe(gulp.dest(cssBuild));
+	});
+
+	gulp.task('build:war', function() {
+		var themeName = lfrThemeConfig.getConfig(true).name;
+
+		return gulp.src(pathBuild + '/**/*')
+			.pipe(plugins.war({
+				displayName: themeName
+			}))
+			.pipe(plugins.zip(themeName + '.war'))
+			.pipe(gulp.dest('./dist'));
 	});
 
 	function getSrcPathConfig() {
