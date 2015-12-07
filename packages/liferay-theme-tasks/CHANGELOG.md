@@ -1,5 +1,6 @@
 
 ## Next Release
+* New: added right to left css layout (R2) support
 * New: implemented temporary fix for url() issue caused by libSass
 * New: added gulp deploy --live task for deploying to production sites
 * New: added livereload to gulp watch task for automatically reloading page
