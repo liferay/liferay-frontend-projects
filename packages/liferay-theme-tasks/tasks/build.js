@@ -44,6 +44,7 @@ module.exports = function(options) {
 			'build:fix-url-functions',
 			'build:move-compiled-css',
 			'build:remove-old-css-dir',
+			'build:fix-at-directives',
 			'build:war',
 			cb
 		);
@@ -60,6 +61,22 @@ module.exports = function(options) {
 
 	gulp.task('build:clean', function(cb) {
 		del([pathBuild], cb);
+	});
+
+	gulp.task('build:fix-at-directives', function() {
+		return gulp.src(pathBuild + '/css/*.css')
+			.pipe(replace({
+				patterns: [
+					{
+						match: /(@font-face|@page|@-ms-viewport)\s*({\n\s*)(.*)\s*({)/g,
+						replacement: function(match, m1, m2, m3, m4) {
+							return m3 + m2 + m1 + ' ' + m4;
+						}
+					}
+				]
+			}))
+			.pipe(plugins.debug())
+			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
