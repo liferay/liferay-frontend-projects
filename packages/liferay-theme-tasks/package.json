@@ -32,6 +32,7 @@
     "gulp-load-plugins": "^0.8.0",
     "gulp-plumber": "^0.6.6",
     "gulp-prompt": "^0.1.2",
+    "gulp-r2-css": "0.0.1",
     "gulp-rename": "^1.2.0",
     "gulp-replace-task": "^0.2.1",
     "gulp-sourcemaps": "^1.2.8",

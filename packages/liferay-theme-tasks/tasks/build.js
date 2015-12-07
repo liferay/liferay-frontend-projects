@@ -45,6 +45,7 @@ module.exports = function(options) {
 			'build:move-compiled-css',
 			'build:remove-old-css-dir',
 			'build:fix-at-directives',
+			'build:r2',
 			'build:war',
 			cb
 		);
@@ -171,6 +172,18 @@ module.exports = function(options) {
 
 	gulp.task('build:move-compiled-css', function() {
 		return gulp.src(pathBuild + '/_css/**/*')
+			.pipe(gulp.dest(pathBuild + '/css'));
+	});
+
+	gulp.task('build:r2', function() {
+		var r2 = require('gulp-r2-css');
+
+		return gulp.src(pathBuild + '/css/*.css')
+			.pipe(plugins.rename({
+				suffix: '_rtl'
+			}))
+			.pipe(plugins.debug())
+			.pipe(r2())
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
