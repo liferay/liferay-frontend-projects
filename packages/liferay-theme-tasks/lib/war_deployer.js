@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var EventEmitter = require('events');
+var EventEmitter = require('events').EventEmitter;
 var fs = require('fs');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
