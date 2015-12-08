@@ -15,9 +15,9 @@ var tempDir = path.join(os.tmpdir(), 'temp-test');
 
 var tempThemeDir = path.join(tempDir, 'sdk-theme');
 
-var pathSdkTheme = path.join(__dirname, 'assets/sdk-theme');
+var pathSdkTheme = path.join(__dirname, '../assets/sdk-theme');
 
-describe('liferay-theme:import', function () {
+describe('liferay-theme:import functional tests', function () {
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
@@ -65,7 +65,7 @@ function runGenerator(options, end) {
 		supportCompass: false
 	});
 
-	helpers.run(path.join(__dirname, '../generators/import'))
+	helpers.run(path.join(__dirname, '../../generators/import'))
 		.inDir(tempDir)
 		.withOptions({
 			'skip-install': true

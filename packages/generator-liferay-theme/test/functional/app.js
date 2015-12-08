@@ -19,7 +19,7 @@ var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/li
 
 var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
 
-describe('liferay-theme:app', function () {
+describe('liferay-theme:app functional tests', function () {
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
@@ -103,7 +103,7 @@ function runGenerator(options, end) {
 		themeName: 'Test Theme'
 	});
 
-	helpers.run(path.join(__dirname, '../generators/app'))
+	helpers.run(path.join(__dirname, '../../generators/app'))
 		.inDir(tempDir)
 		.withOptions({
 			'skip-install': true

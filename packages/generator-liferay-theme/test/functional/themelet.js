@@ -15,7 +15,7 @@ var tempDir = path.join(os.tmpdir(), 'temp-test');
 
 var tempThemeletDir = path.join(tempDir, 'test-themelet');
 
-describe('liferay-theme:themelet', function () {
+describe('liferay-theme:themelet functional tests', function () {
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
@@ -84,8 +84,8 @@ function runGenerator(options, end) {
 		themeName: 'Test Themelet'
 	});
 
-	helpers.run(path.join(__dirname, '../generators/themelet'))
-		.inDir(tempDir)
+	helpers.run(path.join(__dirname, '../../generators/themelet'))
 		.withPrompt(options)
+		.inDir(tempDir)
 		.on('end', end);
 }
