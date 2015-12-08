@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var chalk = require('chalk');
 var fs = require('fs');
+var minimist = require('minimist');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
@@ -41,13 +42,15 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				message: 'What theme would you like to import?',
 				name: 'importTheme',
 				type: 'input',
-				validate: instance._validatePath
+				validate: instance._validatePath,
+				when: instance._getWhenFn('importTheme', 'path')
 			},
 			{
 				default: false,
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				name: 'supportCompass',
-				type: 'confirm'
+				type: 'confirm',
+				when: instance._getWhenFn('supportCompass', 'compass')
 			}
 		];
 	},
@@ -103,6 +106,15 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
 			propertyName: 'templateLanguage',
 			regex: /<template-extension>(.*)<\/template-extension>/
+		});
+	},
+
+	_setArgv: function() {
+		this.argv = minimist(process.argv.slice(2), {
+			alias: {
+				compass: 'c',
+				path: 'p'
+			}
 		});
 	},
 

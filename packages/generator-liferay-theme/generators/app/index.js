@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var chalk = require('chalk');
 var Insight = require('insight');
+var minimist = require('minimist');
 var path = require('path');
 var slug = require('slug');
 var yeoman = require('yeoman-generator');
@@ -24,6 +25,8 @@ module.exports = yeoman.generators.Base.extend({
 		var instance = this;
 
 		instance.done = instance.async();
+
+		this._setArgv();
 
 		// Have Yeoman greet the user.
 		instance.log(yosay(instance._yosay));
@@ -110,6 +113,18 @@ module.exports = yeoman.generators.Base.extend({
 		}
 	},
 
+	_getArgs: function() {
+		var args = this.args;
+
+		if (!args) {
+			args = {};
+
+			this.args = args;
+		}
+
+		return args;
+	},
+
 	_getPrompts: function() {
 		var instance = this;
 
@@ -118,7 +133,8 @@ module.exports = yeoman.generators.Base.extend({
 				default: 'My Liferay Theme',
 				message: 'What would you like to call your theme?',
 				name: 'themeName',
-				type: 'input'
+				type: 'input',
+				when: instance._getWhenFn('themeName', 'name')
 			},
 			{
 				default: function(answers) {
@@ -126,13 +142,15 @@ module.exports = yeoman.generators.Base.extend({
 				},
 				message: 'Would you like to use this as the themeId?',
 				name: 'themeId',
-				type: 'input'
+				type: 'input',
+				when: instance._getWhenFn('themeId', 'id')
 			},
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
 				choices: ['7.0', '6.2'],
-				type: 'list'
+				type: 'list',
+				when: instance._getWhenFn('liferayVersion', 'liferayVersion')
 			},
 			{
 				message: 'What template language would you like this theme to use?',
@@ -147,21 +165,44 @@ module.exports = yeoman.generators.Base.extend({
 						value: 'vm'
 					}
 				],
-				type: 'list'
+				type: 'list',
+				when: instance._getWhenFn('templateLanguage', 'template')
 			},
 			{
 				default: false,
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				name: 'supportCompass',
-				type: 'confirm'
+				type: 'confirm',
+				when: instance._getWhenFn('supportCompass', 'compass')
 			}
 		];
+	},
+
+	_getWhenFn: function(propertyName, flag) {
+		var args = this._getArgs();
+		var argv = this.argv;
+
+		return function() {
+			var propertyValue = argv[flag];
+
+			if (propertyValue) {
+				args[propertyName] = propertyValue;
+			}
+
+			return !propertyValue;
+		};
+	},
+
+	_mixArgs: function(props, args) {
+		return _.assign(props, args);
 	},
 
 	_prompt: function() {
 		var done = this.done;
 
 		this.prompt(this._getPrompts(), function(props) {
+			props = this._mixArgs(props, this._getArgs());
+
 			this._promptCallback(props);
 
 			this._track();
@@ -181,6 +222,19 @@ module.exports = yeoman.generators.Base.extend({
 
 		this._setPublishTag(liferayVersion);
 		this._setPackageVersion(liferayVersion);
+	},
+
+	_setArgv: function() {
+		this.argv = minimist(process.argv.slice(2), {
+			alias: {
+				compass: 'c',
+				id: 'i',
+				liferayVersion: 'l',
+				name: 'n',
+				template: 't'
+			},
+			string: ['liferayVersion']
+		});
 	},
 
 	_setPackageVersion: function(liferayVersion) {
