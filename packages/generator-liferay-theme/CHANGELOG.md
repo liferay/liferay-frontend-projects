@@ -1,4 +1,5 @@
 ## Next Release
+* New: Allow passing in options as flags
 * New: added changelog.md
 ***
 
