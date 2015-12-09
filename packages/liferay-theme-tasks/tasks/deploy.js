@@ -58,14 +58,16 @@ module.exports = function(options) {
 			extname = '.css';
 		}
 
+		var base = pathBuild;
 		var srcPath = pathBuild + '/**/*' + extname;
 
 		if (extname != '.css') {
-			srcPath = changedFile.path;
+			base = 'src';
+			srcPath = path.relative(process.cwd(), changedFile.path);
 		}
 
 		var stream = gulp.src(srcPath, {
-				base: pathBuild
+				base: base
 			})
 			.pipe(gulp.dest(dest))
 			.pipe(livereload());
