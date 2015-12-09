@@ -50,10 +50,23 @@ module.exports = function(options) {
 			});
 		}
 
-		var stream = gulp.src(themeUtil.getSrcPath(pathBuild + '/**/*', {
-				changedFile: store.get('changedFile'),
-				deployed: store.get('deployed')
-			}))
+		var changedFile = store.get('changedFile');
+
+		var extname = path.extname(changedFile.path);
+
+		if (extname == '.scss') {
+			extname = '.css';
+		}
+
+		var srcPath = pathBuild + '/**/*' + extname;
+
+		if (extname != '.css') {
+			srcPath = changedFile.path;
+		}
+
+		var stream = gulp.src(srcPath, {
+				base: pathBuild
+			})
 			.pipe(gulp.dest(dest))
 			.pipe(livereload());
 

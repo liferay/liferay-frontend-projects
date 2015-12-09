@@ -45,7 +45,7 @@ module.exports = function(options) {
 			'build:move-compiled-css',
 			'build:remove-old-css-dir',
 			'build:fix-at-directives',
-			'build:r2',
+			//'build:r2',
 			'build:war',
 			cb
 		);
@@ -76,7 +76,6 @@ module.exports = function(options) {
 					}
 				]
 			}))
-			.pipe(plugins.debug())
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
@@ -126,12 +125,20 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:src', function() {
-		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), getSrcPathConfig()))
+		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), getSrcPathConfig()), {
+				base: './src'
+			})
 			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:web-inf', function() {
-		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*', getSrcPathConfig()))
+		var changeFile = store.get('changedFile');
+
+		var base = changeFile ? './src/WEB-INF/src' : './build/WEB-INF/src';
+
+		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*', getSrcPathConfig()), {
+				base: base
+			})
 			.pipe(gulp.dest('./build/WEB-INF/classes'));
 	});
 
@@ -182,7 +189,6 @@ module.exports = function(options) {
 			.pipe(plugins.rename({
 				suffix: '_rtl'
 			}))
-			.pipe(plugins.debug())
 			.pipe(r2())
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
@@ -202,11 +208,18 @@ module.exports = function(options) {
 
 		renamedFiles = [];
 
-		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), themeUtil.isCssFile))
+		var changeFile = store.get('changedFile');
+
+		var base = changeFile ? './src/css' : './build/css';
+
+		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), function(name) {
+				_.endsWith(name, '.css');
+			}), {
+				base: base
+			})
 			.pipe(plugins.rename({
 				extname: '.scss'
 			}))
-			.pipe(plugins.debug())
 			.pipe(vinylPaths(function(path) {
 				renamedFiles.push(path);
 
