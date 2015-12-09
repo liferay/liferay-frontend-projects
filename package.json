@@ -8,22 +8,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipeychev/lfr-amd-loader.git"
+    "url": "https://github.com/liferay/liferay-amd-loader.git"
   },
   "author": "Iliyan Peychev",
   "license": "LGPL-3.0",
-  "keywords": ["Liferay", "AMD", "ES6", "Loader"],
+  "keywords": [
+    "Liferay",
+    "AMD",
+    "ES6",
+    "Loader"
+  ],
   "bugs": {
-    "url": "https://github.com/ipeychev/lfr-amd-loader/issues"
+    "url": "https://github.com/liferay/liferay-amd-loader/issues"
   },
-  "homepage": "https://github.com/ipeychev/lfr-amd-loader",
+  "homepage": "https://github.com/liferay/liferay-amd-loader",
   "devDependencies": {
+    "babel-plugin-transform-es2015-modules-amd": "^6.3.13",
     "chai": "^3.0.0",
     "combohandler": "^0.4.0",
-    "del": "^1.2.0",
+    "dateformat": "^1.0.12",
+    "del": "^2.2.0",
     "escodegen": "^1.6.1",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.1.0",
+    "gulp-babel": "^6.1.1",
     "gulp-concat": "^2.5.2",
     "gulp-istanbul": "^0.10.0",
     "gulp-jsdoc": "^0.1.4",
@@ -35,7 +42,7 @@
     "jsdoc": "^3.3.2",
     "jshint-stylish": "^2.0.0",
     "lfr-module-config-generator": "latest",
-    "merge-stream": "^0.1.8",
+    "merge-stream": "^1.0.0",
     "run-sequence": "^1.1.0",
     "sinon": "^1.15.3",
     "v8-natives": "0.0.2"

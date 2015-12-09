@@ -34,7 +34,9 @@ gulp.task('build-config', ['config', 'modules'], function(callback) {
 });
 
 gulp.task('clean', function(callback) {
-    del(['dist'], callback);
+    del(['dist']).then(function() {
+       callback();
+    });
 });
 
 gulp.task('config', function() {
@@ -64,8 +66,8 @@ gulp.task('create-loader', ['create-loader-debug'], function() {
 gulp.task('create-loader-debug', ['create-loader-pure-debug'], function() {
     return gulp.src('src/template/loader.template')
         .pipe(template({
-            vendor: fs.readFileSync('src/vendor/promise.js'),
-            source: fs.readFileSync('dist/loader-pure-debug.js')
+            vendor: fs.readFileSync('src/vendor/promise.js').toString(),
+            source: fs.readFileSync('dist/loader-pure-debug.js').toString()
         }))
         .pipe(rename('loader-debug.js'))
         .pipe(gulp.dest('dist'));
@@ -79,7 +81,7 @@ gulp.task('create-loader-min', ['create-loader', 'create-loader-pure-min'], func
 });
 
 gulp.task('create-loader-pure-debug', ['create-loader-pure-wrapped'], function() {
-    var loaderPureContent = fs.readFileSync('dist/loader-pure-wrapped.js');
+    var loaderPureContent = fs.readFileSync('dist/loader-pure-wrapped.js').toString();
 
     fs.unlinkSync('dist/loader-pure-wrapped.js');
 
@@ -132,31 +134,25 @@ gulp.task('modules2', function() {
 gulp.task('modules', ['copy-bower', 'modules2'], function() {
     return gulp.src('src/modules/**/*.js')
         .pipe(babel({
-            'modules': 'amd',
-            'moduleIds': false
+            plugins: ['transform-es2015-modules-amd']
         }))
         .pipe(gulp.dest('dist/demo/modules'));
 });
 
-gulp.task('test', ['build'], function(done) {
+gulp.task('test', ['build'], function() {
     var streamStripDebug = gulp.src(['umd/**/*.js', '!umd/event-emitter.js'])
         .pipe(stripDebug());
 
     var streamEventEmitter = gulp.src('umd/event-emitter.js');
 
-    merge(streamEventEmitter, streamStripDebug)
+    return merge(streamEventEmitter, streamStripDebug)
         .pipe(istanbul())
         .pipe(istanbul.hookRequire())
         .on('finish', function() {
             gulp.src(['test/**/*.js', '!test/fixture/**/*.js'])
                 .pipe(mocha())
-                .pipe(istanbul.writeReports())
-                .on('end', done);
+                .pipe(istanbul.writeReports());
         });
-});
-
-gulp.task('test-watch', function() {
-    gulp.watch('tests/js/**/*.js', ['test']);
 });
 
 gulp.task('watch', ['build'], function () {
@@ -166,7 +162,7 @@ gulp.task('watch', ['build'], function () {
 gulp.task('wrap-config-parser', function() {
     return gulp.src('src/template/config-parser.template')
         .pipe(template({
-            source: fs.readFileSync('src/js/config-parser.js')
+            source: fs.readFileSync('src/js/config-parser.js').toString()
         }))
         .pipe(rename('config-parser.js'))
         .pipe(gulp.dest('umd'));
@@ -175,7 +171,7 @@ gulp.task('wrap-config-parser', function() {
 gulp.task('wrap-event-emitter', function() {
     return gulp.src('src/template/event-emitter.template')
         .pipe(template({
-            source: fs.readFileSync('src/js/event-emitter.js')
+            source: fs.readFileSync('src/js/event-emitter.js').toString()
         }))
         .pipe(rename('event-emitter.js'))
         .pipe(gulp.dest('umd'));
@@ -184,7 +180,7 @@ gulp.task('wrap-event-emitter', function() {
 gulp.task('wrap-dependency-builder', function() {
     return gulp.src('src/template/dependency-builder.template')
         .pipe(template({
-            source: fs.readFileSync('src/js/dependency-builder.js')
+            source: fs.readFileSync('src/js/dependency-builder.js').toString()
         }))
         .pipe(rename('dependency-builder.js'))
         .pipe(gulp.dest('umd'));
@@ -193,7 +189,7 @@ gulp.task('wrap-dependency-builder', function() {
 gulp.task('wrap-script-loader', function() {
     return gulp.src('src/template/script-loader.template')
         .pipe(template({
-            source: fs.readFileSync('src/js/script-loader.js')
+            source: fs.readFileSync('src/js/script-loader.js').toString()
         }))
         .pipe(rename('script-loader.js'))
         .pipe(gulp.dest('umd'));
@@ -202,7 +198,7 @@ gulp.task('wrap-script-loader', function() {
 gulp.task('wrap-path-resolver', function() {
     return gulp.src('src/template/path-resolver.template')
         .pipe(template({
-            source: fs.readFileSync('src/js/path-resolver.js')
+            source: fs.readFileSync('src/js/path-resolver.js').toString()
         }))
         .pipe(rename('path-resolver.js'))
         .pipe(gulp.dest('umd'));
@@ -211,7 +207,7 @@ gulp.task('wrap-path-resolver', function() {
 gulp.task('wrap-url-builder', function() {
     return gulp.src('src/template/url-builder.template')
         .pipe(template({
-            source: fs.readFileSync('src/js/url-builder.js')
+            source: fs.readFileSync('src/js/url-builder.js').toString()
         }))
         .pipe(rename('url-builder.js'))
         .pipe(gulp.dest('umd'));
