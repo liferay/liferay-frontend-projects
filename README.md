@@ -214,4 +214,4 @@ Look on the example modules and the demo for more information. Then, just load t
 
 Enjoy!
 
-[![Build Status](https://travis-ci.org/ipeychev/lfr-amd-loader.svg)](https://travis-ci.org/ipeychev/lfr-amd-loader)
+[![Build Status](https://travis-ci.org/liferay/liferay-amd-loader.svg)](https://travis-ci.org/liferay/liferay-amd-loader)
