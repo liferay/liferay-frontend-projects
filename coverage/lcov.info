@@ -1,5 +1,5 @@
 TN:
-SF:/Users/iliyan/projects/lfr-amd-loader/umd/event-emitter.js
+SF:/Users/peychev/projects/liferay-amd-loader/umd/event-emitter.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:27,EventEmitter
@@ -65,7 +65,7 @@ BRF:18
 BRH:18
 end_of_record
 TN:
-SF:/Users/iliyan/projects/lfr-amd-loader/umd/config-parser.js
+SF:/Users/peychev/projects/liferay-amd-loader/umd/config-parser.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:28,ConfigParser
@@ -185,7 +185,7 @@ BRF:34
 BRH:33
 end_of_record
 TN:
-SF:/Users/iliyan/projects/lfr-amd-loader/umd/dependency-builder.js
+SF:/Users/peychev/projects/liferay-amd-loader/umd/dependency-builder.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:30,DependencyBuilder
@@ -315,7 +315,7 @@ BRF:36
 BRH:36
 end_of_record
 TN:
-SF:/Users/iliyan/projects/lfr-amd-loader/umd/path-resolver.js
+SF:/Users/peychev/projects/liferay-amd-loader/umd/path-resolver.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:26,PathResolver
@@ -383,7 +383,7 @@ BRF:23
 BRH:23
 end_of_record
 TN:
-SF:/Users/iliyan/projects/lfr-amd-loader/umd/url-builder.js
+SF:/Users/peychev/projects/liferay-amd-loader/umd/url-builder.js
 FN:1,(anonymous_1)
 FN:17,(anonymous_2)
 FN:32,URLBuilder
@@ -490,7 +490,7 @@ BRF:38
 BRH:38
 end_of_record
 TN:
-SF:/Users/iliyan/projects/lfr-amd-loader/umd/script-loader.js
+SF:/Users/peychev/projects/liferay-amd-loader/umd/script-loader.js
 FN:1,(anonymous_1)
 FN:21,(anonymous_2)
 FN:33,Loader

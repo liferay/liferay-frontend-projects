@@ -29,19 +29,19 @@ __CONFIG__.modules = {
         "path": "liferay@1.0.0/aui-event.js"
     },
     "liferay@1.0.0/relative1": {
-        "dependencies": ["exports", "module", "./relative2"],
+        "dependencies": ["exports", "./relative2"],
         "path": "liferay@1.0.0/relative1.js"
     },
     "liferay@1.0.0/relative2": {
-        "dependencies": ["exports", "module", "./sub-relative/sub-relative1"],
+        "dependencies": ["exports", "./sub-relative/sub-relative1"],
         "path": "liferay@1.0.0/relative2.js"
     },
     "liferay@1.0.0/relative3": {
-        "dependencies": ["exports", "module"],
+        "dependencies": ["exports"],
         "path": "liferay@1.0.0/relative3.js"
     },
     "liferay@1.0.0/sub-relative/sub-relative1": {
-        "dependencies": ["exports", "module", "../relative3"],
+        "dependencies": ["exports", "../relative3"],
         "path": "liferay@1.0.0/sub-relative/sub-relative1.js"
     },
     "liferay@1.0.0/liferay/liferay": {

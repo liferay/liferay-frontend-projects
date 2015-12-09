@@ -1,9 +1,12 @@
-define("liferay@1.0.0/relative3", ["exports", "module"], function(exports, module) {
-    "use strict";
+"use strict";
 
-    module.exports = {
-        log: function log(text) {
-            console.log(text);
-        }
-    };
+define("liferay@1.0.0/relative3", ["exports"], function (exports) {
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = {
+		log: function log(text) {
+			console.log(text);
+		}
+	};
 });
