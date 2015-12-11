@@ -157,7 +157,7 @@ module.exports = function(options) {
 
 		if (supportCompass) {
 			runSequence('build:rename-css-files', function() {
-				cssPreprocessor(path.join(cssBuild, '**/*.scss'), {
+				cssPreprocessor(themeUtil.getSrcPath(path.join(cssBuild, '**/*.scss'), getSrcPathConfig()), {
 						compass: true,
 						loadPath: config.loadPath
 					})
@@ -242,7 +242,8 @@ module.exports = function(options) {
 	function getSrcPathConfig() {
 		return {
 			changedFile: store.get('changedFile'),
-			deployed: store.get('deployed')
+			deployed: store.get('deployed'),
+			version: themeConfig.version
 		};
 	}
 };

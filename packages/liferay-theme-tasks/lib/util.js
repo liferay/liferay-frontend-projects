@@ -32,6 +32,8 @@ module.exports = {
 	},
 
 	getSrcPath: function(srcPath, config, validator) {
+		var originalSrcPath = srcPath;
+
 		if (_.isUndefined(config)) {
 			config = {};
 		}
@@ -50,6 +52,16 @@ module.exports = {
 			}
 
 			srcPath = changedFile.path;
+
+			if (this.isCssFile(changedFileName) && config.version && config.version == '6.2') {
+				if (this.isSassPartial(changedFile.path)) {
+					return originalSrcPath;
+				}
+
+				changedFileName = changedFileName.replace(/\.css/, '.scss');
+
+				srcPath = path.join(originalSrcPath, '..', changedFileName);
+			}
 		}
 
 		return srcPath;
