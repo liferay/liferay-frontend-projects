@@ -134,7 +134,7 @@ module.exports = yeoman.generators.Base.extend({
 				message: 'What would you like to call your theme?',
 				name: 'themeName',
 				type: 'input',
-				when: instance._getWhenFn('themeName', 'name')
+				when: instance._getWhenFn('themeName', 'name', _.isString)
 			},
 			{
 				default: function(answers) {
@@ -143,14 +143,14 @@ module.exports = yeoman.generators.Base.extend({
 				message: 'Would you like to use this as the themeId?',
 				name: 'themeId',
 				type: 'input',
-				when: instance._getWhenFn('themeId', 'id')
+				when: instance._getWhenFn('themeId', 'id', _.isString)
 			},
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
 				choices: ['7.0', '6.2'],
 				type: 'list',
-				when: instance._getWhenFn('liferayVersion', 'liferayVersion')
+				when: instance._getWhenFn('liferayVersion', 'liferayVersion', instance._isLiferayVersion)
 			},
 			{
 				message: 'What template language would you like this theme to use?',
@@ -166,24 +166,32 @@ module.exports = yeoman.generators.Base.extend({
 					}
 				],
 				type: 'list',
-				when: instance._getWhenFn('templateLanguage', 'template')
+				when: instance._getWhenFn('templateLanguage', 'template', instance._isTemplateLanguage)
 			},
 			{
 				default: false,
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				name: 'supportCompass',
 				type: 'confirm',
-				when: instance._getWhenFn('supportCompass', 'compass')
+				when: instance._getWhenFn('supportCompass', 'compass', _.isBoolean)
 			}
 		];
 	},
 
-	_getWhenFn: function(propertyName, flag) {
+	_getWhenFn: function(propertyName, flag, validator) {
+		var instance = this;
+
 		var args = this._getArgs();
 		var argv = this.argv;
 
 		return function() {
 			var propertyValue = argv[flag];
+
+			if (validator && propertyValue && !validator(propertyValue)) {
+				propertyValue = null;
+
+				instance.log(chalk.yellow('Warning:'), 'Invalid value set for', chalk.cyan('--' + flag));
+			}
 
 			if (propertyValue) {
 				args[propertyName] = propertyValue;
@@ -191,6 +199,14 @@ module.exports = yeoman.generators.Base.extend({
 
 			return !propertyValue;
 		};
+	},
+
+	_isLiferayVersion: function(value) {
+		return ['6.2', '7.0'].indexOf(value) > -1;
+	},
+
+	_isTemplateLanguage: function(value) {
+		return ['6.2', '7.0'].indexOf(value) > -1;
 	},
 
 	_mixArgs: function(props, args) {

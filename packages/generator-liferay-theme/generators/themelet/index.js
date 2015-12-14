@@ -73,6 +73,10 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		return prompts;
 	},
 
+	_isLiferayVersion: function(value) {
+		return ['All', '6.2', '7.0'].indexOf(value) > -1;
+	},
+
 	_promptCallback: function(props) {
 		promptCallback.call(this, props);
 
