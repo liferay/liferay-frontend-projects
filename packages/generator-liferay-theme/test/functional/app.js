@@ -26,7 +26,6 @@ describe('liferay-theme:app functional tests', function () {
 				'gulpfile.js',
 				'package.json',
 				'src/css/_custom.scss',
-				'src/META-INF/context.xml',
 				'src/WEB-INF/liferay-plugin-package.properties',
 				'src/WEB-INF/src/resources-importer/readme.txt',
 				'src/WEB-INF/src/resources-importer/sitemap.json'
