@@ -46,6 +46,53 @@ describe('liferay-theme:app unit tests', function() {
 		chaiAssert(!whenFn());
 		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], true);
 
+		whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+
+		done();
+	});
+
+	// _getWhenFn
+	it('should correctly implement validator fn', function(done) {
+		liferayThemeApp.prototype.args = {};
+		liferayThemeApp.prototype.argv = {};
+
+		var flagName = 'compass';
+		var propertyName = 'supportCompass';
+
+		var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
+			chaiAssert.fail('Invoked validator with null value', 'Should have not invoked');
+		});
+
+		chaiAssert.isFunction(whenFn);
+		chaiAssert(whenFn());
+
+		liferayThemeApp.prototype.args = {};
+		liferayThemeApp.prototype.argv = {
+			compass: true
+		};
+
+		liferayThemeApp.prototype.log = function() {};
+
+		whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
+			chaiAssert(value);
+
+			return true;
+		});
+
+		chaiAssert.isFunction(whenFn);
+		chaiAssert(!whenFn());
+		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], true);
+
+		liferayThemeApp.prototype.args = {};
+
+		whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
+			return false;
+		});
+
+		chaiAssert.isFunction(whenFn);
+		chaiAssert(whenFn());
+		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], undefined);
+
 		done();
 	});
 
