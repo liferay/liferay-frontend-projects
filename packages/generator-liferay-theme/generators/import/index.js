@@ -50,7 +50,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
 				name: 'supportCompass',
 				type: 'confirm',
-				when: instance._getWhenFn('supportCompass', 'compass')
+				when: instance._getWhenFn('supportCompass', 'compass', _.isBoolean)
 			}
 		];
 	},
