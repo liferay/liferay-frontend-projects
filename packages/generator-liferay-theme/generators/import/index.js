@@ -21,10 +21,6 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	},
 
 	writing: {
-		projectfiles: function() {
-			this.copy('src/META-INF/context.xml', 'src/META-INF/context.xml');
-		},
-
 		themeFiles: function() {
 			this.sourceRoot(this.importTheme);
 
