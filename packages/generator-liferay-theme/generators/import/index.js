@@ -21,6 +21,8 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	},
 
 	writing: {
+		projectfiles: _.noop,
+
 		themeFiles: function() {
 			this.sourceRoot(this.importTheme);
 
