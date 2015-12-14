@@ -13,12 +13,6 @@ chai.use(require('chai-fs'));
 
 var tempDir = path.join(os.tmpdir(), 'temp-test');
 
-var tempThemeDir = path.join(tempDir, 'test-theme');
-
-var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
-
-var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
-
 describe('liferay-theme:app functional tests', function () {
 	it('creates files', function(done) {
 		runGenerator(null, function() {
@@ -36,8 +30,12 @@ describe('liferay-theme:app functional tests', function () {
 	});
 
 	it('populates 7.0 package.json correctly', function(done) {
-		runGenerator(null, function() {
-			var pkg = getPackage();
+		var themeId = 'test-theme';
+
+		runGenerator({
+			themeId: themeId
+		}, function() {
+			var pkg = getPackage(themeId);
 
 			assert.equal(pkg.liferayTheme.supportCompass, false);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
@@ -46,10 +44,16 @@ describe('liferay-theme:app functional tests', function () {
 			assert.equal(pkg.publishConfig.tag, '7_0_x');
 			assert.equal(pkg.version, '1.0.0');
 
+			var tempThemeDir = path.join(tempDir, themeId);
+
+			var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
+
 			assert.fileContent(pathLookAndFeel, '<version>7.0.0+</version>');
 			assert.fileContent(pathLookAndFeel, '<theme id="test-theme" name="Test Theme">');
 			assert.fileContent(pathLookAndFeel, '<template-extension>vm</template-extension>');
 			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">');
+
+			var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
 
 			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=7.0.0+');
@@ -59,12 +63,15 @@ describe('liferay-theme:app functional tests', function () {
 	});
 
 	it('populates 6.2 package.json correctly', function(done) {
+		var themeId = '62-theme';
+
 		runGenerator({
 			liferayVersion: '6.2',
 			supportCompass: true,
 			templateLanguage: 'ftl',
+			themeId: themeId
 		}, function() {
-			var pkg = getPackage();
+			var pkg = getPackage(themeId);
 
 			assert.equal(pkg.liferayTheme.supportCompass, true);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
@@ -72,10 +79,16 @@ describe('liferay-theme:app functional tests', function () {
 			assert.equal(pkg.publishConfig.tag, '6_2_x');
 			assert.equal(pkg.version, '0.0.0');
 
+			var tempThemeDir = path.join(tempDir, themeId);
+
+			var pathLookAndFeel = path.join(tempThemeDir, 'src/WEB-INF/liferay-look-and-feel.xml');
+
 			assert.fileContent(pathLookAndFeel, '<version>6.2.0+</version>');
-			assert.fileContent(pathLookAndFeel, '<theme id="test-theme" name="Test Theme">');
+			assert.fileContent(pathLookAndFeel, '<theme id="62-theme" name="Test Theme">');
 			assert.fileContent(pathLookAndFeel, '<template-extension>ftl</template-extension>');
 			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">');
+
+			var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
 
 			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=6.2.0+');
@@ -85,8 +98,8 @@ describe('liferay-theme:app functional tests', function () {
 	});
 });
 
-function getPackage(themeName) {
-	var fileContents = fs.readFileSync(path.join(tempThemeDir, 'package.json'));
+function getPackage(themeId) {
+	var fileContents = fs.readFileSync(path.join(tempDir, themeId, 'package.json'));
 
 	return JSON.parse(fileContents);
 }
@@ -98,7 +111,6 @@ function runGenerator(options, end) {
 		liferayVersion: '7.0',
 		supportCompass: false,
 		templateLanguage: 'vm',
-		themeId: 'test-theme',
 		themeName: 'Test Theme'
 	});
 
