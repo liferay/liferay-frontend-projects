@@ -45,7 +45,7 @@ module.exports = function(options) {
 			'build:move-compiled-css',
 			'build:remove-old-css-dir',
 			'build:fix-at-directives',
-			//'build:r2',
+			'build:r2',
 			'build:war',
 			cb
 		);
@@ -183,7 +183,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:r2', function() {
-		var r2 = require('gulp-r2-css');
+		var r2 = require('gulp-liferay-r2-css');
 
 		return gulp.src(pathBuild + '/css/*.css')
 			.pipe(plugins.rename({
