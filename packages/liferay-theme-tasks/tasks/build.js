@@ -125,7 +125,11 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:src', function() {
-		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), getSrcPathConfig()), {
+		var srcPathConfig = getSrcPathConfig();
+
+		srcPathConfig.cssExtChanged = false;
+
+		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), srcPathConfig), {
 				base: './src'
 			})
 			.pipe(gulp.dest(pathBuild));

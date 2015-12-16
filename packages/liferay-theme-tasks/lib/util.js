@@ -58,7 +58,11 @@ module.exports = {
 					return originalSrcPath;
 				}
 
-				changedFileName = changedFileName.replace(/\.css/, '.scss');
+				var cssExtChanged = _.isUndefined(config.cssExtChanged) ? true : config.cssExtChanged;
+
+				if (cssExtChanged) {
+					changedFileName = changedFileName.replace(/\.css/, '.scss');
+				}
 
 				srcPath = path.join(originalSrcPath, '..', changedFileName);
 			}

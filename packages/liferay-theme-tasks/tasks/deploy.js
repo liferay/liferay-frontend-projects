@@ -61,9 +61,21 @@ module.exports = function(options) {
 		var base = pathBuild;
 		var srcPath = pathBuild + '/**/*' + extname;
 
+		var version = themeConfig.liferayTheme.version;
+
 		if (extname != '.css') {
 			base = 'src';
 			srcPath = path.relative(process.cwd(), changedFile.path);
+		}
+		else if (version == '6.2') {
+			var srcPathConfig = {
+				changedFile: store.get('changedFile'),
+				cssExtChanged: false,
+				deployed: store.get('deployed'),
+				version: version
+			};
+
+			srcPath = themeUtil.getSrcPath(srcPath, srcPathConfig);
 		}
 
 		var stream = gulp.src(srcPath, {
