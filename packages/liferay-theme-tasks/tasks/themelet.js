@@ -97,7 +97,9 @@ module.exports = function(options) {
 
 					var themeName = lfrThemeConfig.getConfig(true).name;
 
-					filePath = path.join(themeName, filePath.replace(/(\/build\/)(.*)/, '$2'));
+					var FORWARD_SLASH = '/';
+
+					filePath = FORWARD_SLASH + themeName + FORWARD_SLASH + filePath.replace(/(\/build\/)(.*)/, '$2');
 
 					return '<script src="' + filePath + '"></script>';
 				}

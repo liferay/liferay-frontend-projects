@@ -1,5 +1,6 @@
 
 ## Next Release
+* Fix: fix themelet js urls injected into portal_normal template
 * New: added right to left css layout (R2) support
 * New: implemented temporary fix for url() issue caused by libSass
 * New: added gulp deploy --live task for deploying to production sites
