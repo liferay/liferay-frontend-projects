@@ -237,9 +237,6 @@ module.exports = function(options) {
 		var themeName = lfrThemeConfig.getConfig(true).name;
 
 		return gulp.src(pathBuild + '/**/*')
-			.pipe(plugins.war({
-				displayName: themeName
-			}))
 			.pipe(plugins.zip(themeName + '.war'))
 			.pipe(gulp.dest('./dist'));
 	});
