@@ -53,7 +53,11 @@ module.exports = {
 
 			srcPath = changedFile.path;
 
-			if (this.isCssFile(changedFileName) && config.version && config.version == '6.2') {
+			if (config.returnAllCSS && this.isCssFile(changedFile.path)) {
+				srcPath = originalSrcPath + '.+(css|scss)';
+			}
+
+			if (config.version && config.version == '6.2' && this.isCssFile(changedFileName)) {
 				if (this.isSassPartial(changedFile.path)) {
 					return originalSrcPath;
 				}

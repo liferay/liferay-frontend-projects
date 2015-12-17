@@ -128,6 +128,7 @@ module.exports = function(options) {
 		var srcPathConfig = getSrcPathConfig();
 
 		srcPathConfig.cssExtChanged = false;
+		srcPathConfig.returnAllCSS = true;
 
 		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), srcPathConfig), {
 				base: './src'
