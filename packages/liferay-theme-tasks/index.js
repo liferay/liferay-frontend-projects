@@ -18,6 +18,8 @@ module.exports.registerTasks = function(options) {
 
 	store.create('LiferayTheme', 'liferay-theme.json');
 
+	store.set('changedFile');
+
 	glob.sync(path.resolve(__dirname, 'tasks/**/*')).forEach(function(item, index) {
 		require(item)(options);
 	});

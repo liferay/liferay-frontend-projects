@@ -13,6 +13,8 @@ module.exports = function(options) {
 	var runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('watch', function() {
+		clearChangedFile();
+
 		livereload.listen();
 
 		gulp.watch('src/**/*', function(vinyl) {
@@ -30,16 +32,16 @@ module.exports = function(options) {
 					'build:move-compiled-css',
 					'build:remove-old-css-dir',
 					'deploy:fast',
-					function() {
-						store.set('changedFile');
-					}
+					clearChangedFile
 				);
 			}
 			else {
-				runSequence('deploy', function() {
-					store.set('changedFile');
-				});
+				runSequence('deploy', clearChangedFile);
 			}
 		});
 	});
+
+	function clearChangedFile() {
+		store.set('changedFile');
+	}
 };
