@@ -101,7 +101,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:hook', function(cb) {
-		var languageProperties = themeUtil.getLanguageProperties();
+		var languageProperties = themeUtil.getLanguageProperties(pathBuild);
 
 		return gulp.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
 			.pipe(replace({
@@ -139,12 +139,12 @@ module.exports = function(options) {
 	gulp.task('build:web-inf', function() {
 		var changeFile = store.get('changedFile');
 
-		var base = changeFile ? './src/WEB-INF/src' : './build/WEB-INF/src';
+		var base = changeFile ? './src/WEB-INF/src' : pathBuild + '/WEB-INF/src';
 
-		return gulp.src(themeUtil.getSrcPath('./build/WEB-INF/src/**/*', getSrcPathConfig()), {
+		return gulp.src(themeUtil.getSrcPath(pathBuild + '/WEB-INF/src/**/*', getSrcPathConfig()), {
 				base: base
 			})
-			.pipe(gulp.dest('./build/WEB-INF/classes'));
+			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
 
 	gulp.task('build:compile-css', function(cb) {
@@ -215,7 +215,7 @@ module.exports = function(options) {
 
 		var changeFile = store.get('changedFile');
 
-		var base = changeFile ? './src/css' : './build/css';
+		var base = changeFile ? './src/css' : pathBuild + '/css';
 
 		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), function(name) {
 				_.endsWith(name, '.css');

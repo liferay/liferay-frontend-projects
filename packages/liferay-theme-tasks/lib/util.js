@@ -8,8 +8,8 @@ var path = require('path');
 var fullDeploy = (argv.full || argv.f);
 
 module.exports = {
-	getLanguageProperties: function() {
-		var pathContent = path.join('./build', 'WEB-INF/src/content');
+	getLanguageProperties: function(pathBuild) {
+		var pathContent = path.join(pathBuild, 'WEB-INF/src/content');
 
 		var languageKeys = [];
 
