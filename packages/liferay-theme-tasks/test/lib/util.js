@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs-extra');
 var os = require('os');
@@ -31,7 +32,7 @@ describe('Util functions', function() {
 			deployed: true
 		});
 
-		assert.equal(srcPath, 'src/css/**/custom.css');
+		assert.equal(path.join(tempPath, 'src/css/custom.css'), srcPath);
 
 		srcPath = util.getSrcPath(originalSrcPath, {
 			changedFile: changedFile,
@@ -43,6 +44,53 @@ describe('Util functions', function() {
 		});
 
 		assert.equal(srcPath, originalSrcPath);
+
+		srcPath = util.getSrcPath(originalSrcPath, {
+			changedFile: changedFile,
+			deployed: true,
+			version: '6.2'
+		});
+
+		assert.equal(srcPath, 'src/css/**/custom.scss');
+
+		srcPath = util.getSrcPath(originalSrcPath, {
+			changedFile: changedFile,
+			cssExtChanged: false,
+			deployed: true,
+			version: '6.2'
+		});
+
+		assert.equal(srcPath, 'src/css/**/custom.css');
+
+		changedFile.path = path.join(tempPath, 'src/css/aui/_variables.scss');
+
+		srcPath = util.getSrcPath(originalSrcPath, {
+			changedFile: changedFile,
+			cssExtChanged: false,
+			deployed: true,
+			version: '6.2'
+		});
+
+		assert.equal(srcPath, originalSrcPath);
+
+		srcPath = util.getSrcPath(originalSrcPath, {
+			changedFile: changedFile,
+			cssExtChanged: false,
+			deployed: true,
+			version: '7.0'
+		});
+
+		assert.equal(srcPath, changedFile.path);
+
+		srcPath = util.getSrcPath(originalSrcPath, {
+			changedFile: changedFile,
+			cssExtChanged: false,
+			deployed: true,
+			returnAllCSS: true,
+			version: '7.0'
+		});
+
+		assert.equal(srcPath, 'src/css/**/*.+(css|scss)');
 
 		done();
 	});
