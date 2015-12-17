@@ -1,11 +1,16 @@
 
 ## Next Release
+* No changes
+***
+
+## v0.0.42 - December 17, 2015
+
 * Fix: fix themelet js urls injected into portal_normal template
 * New: added right to left css layout (R2) support
 * New: implemented temporary fix for url() issue caused by libSass
 * New: added gulp deploy --live task for deploying to production sites
 * New: added livereload to gulp watch task for automatically reloading page
-***
+* Update: improved watch task for .scss partials
 
 ## v0.0.41 - November 12, 2015
 
