@@ -238,7 +238,7 @@ module.exports = function(options) {
 
 		return gulp.src(pathBuild + '/**/*')
 			.pipe(plugins.zip(themeName + '.war'))
-			.pipe(gulp.dest('./dist'));
+			.pipe(gulp.dest(options.pathDist));
 	});
 
 	function getSrcPathConfig() {

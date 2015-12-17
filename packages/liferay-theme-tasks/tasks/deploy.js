@@ -96,7 +96,7 @@ module.exports = function(options) {
 
 		var deployPath = store.get('deployPath');
 
-		var stream = gulp.src('./dist/*.war')
+		var stream = gulp.src(options.pathDist + '/*.war')
 			.pipe(gulp.dest(deployPath));
 
 		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));
