@@ -262,8 +262,12 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	}
-	else if (baseTheme == 'styled') {
+	else if (baseTheme == 'styled' || baseTheme == 'classic') {
 		dependencies.splice(1, 0, path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('styled'), baseThemeGlob));
+
+		if (baseTheme == 'classic') {
+			dependencies.splice(2, 0, path.resolve(__dirname, '../node_modules', versionMap.getDependencyName('classic'), baseThemeGlob));
+		}
 
 		return dependencies;
 	}

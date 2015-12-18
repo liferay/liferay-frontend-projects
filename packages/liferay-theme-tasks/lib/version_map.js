@@ -9,6 +9,7 @@ var MODULE_NAMES_MAP = {
 		unstyled: 'liferay-theme-unstyled'
 	},
 	'7.0': {
+		classic: 'liferay-frontend-theme-classic-web',
 		mixins: 'liferay-frontend-common-css',
 		styled: 'liferay-frontend-theme-styled',
 		unstyled: 'liferay-frontend-theme-unstyled'
