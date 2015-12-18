@@ -31,11 +31,11 @@ URLBuilder.prototype = {
 
         var config = this._configParser.getConfig();
 
-        var basePath = config.basePath;
+        var basePath = config.basePath || '';
         var registeredModules = this._configParser.getModules();
 
         /* istanbul ignore else */
-        if (basePath.charAt(basePath.length - 1) !== '/') {
+        if (basePath.length && basePath.charAt(basePath.length - 1) !== '/') {
             basePath += '/';
         }
 
