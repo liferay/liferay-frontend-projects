@@ -146,6 +146,57 @@ describe('URLBuilder', function () {
         assert.strictEqual(url[0], 'http://localhost:3000/modules?/jquery.js&/underscore.js');
     });
 
+    it('should not add trailing slash if base is an empty string', function () {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules?',
+            'basePath': '',
+            'combine': false,
+            'modules': {
+                'aui-base': {
+                    'dependencies': [],
+                    'path': 'aui-base.js'
+                },
+                'aui-core.js': {
+                    'dependencies': []
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var url = urlBuilder.build(['aui-base', 'aui-core.js']);
+
+        assert.strictEqual(url.length, 2);
+
+        assert.strictEqual(url[0], 'http://localhost:3000/modules?aui-base.js');
+        assert.strictEqual(url[1], 'http://localhost:3000/modules?aui-core.js');
+    });
+
+    it('should not add trailing slash if base is an empty string and combine is true', function () {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules?',
+            'basePath': '',
+            'combine': true,
+            'modules': {
+                'aui-base': {
+                    'dependencies': [],
+                    'path': 'aui-base.js'
+                },
+                'aui-core.js': {
+                    'dependencies': []
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var url = urlBuilder.build(['aui-base', 'aui-core.js']);
+
+        assert.strictEqual(url.length, 1);
+
+        assert.strictEqual(url[0], 'http://localhost:3000/modules?aui-base.js&aui-core.js');
+    });
+
     it('should combine modules with and without absolute url', function() {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules?',
