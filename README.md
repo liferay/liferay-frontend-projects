@@ -120,7 +120,7 @@ META: ({
     path: 'nate.js'
 });
 ```
-Transpile the above using [Babel](https://babeljs.io/) to AMD syntax. If you transpile using Babel, be sure you added the option for generating module IDs, or you use [Liferay AMD modules config generator](https://www.npmjs.com/package/lfr-module-config-generator), which will generate the module name in "define" function, if not already available.
+Transpile the above using [Babel](https://babeljs.io/) to AMD syntax. If you transpile using Babel, be sure you added the option for generating module IDs, or you use [Liferay AMD modules config generator](https://www.npmjs.com/package/liferay-module-config-generator), which will generate the module name in "define" function, if not already available.
 
 Loading modules
 ======
@@ -201,7 +201,7 @@ In order to load the modules via combo URL, a special config file have to be cre
 Automatically generating the configuration
 ======
 
-In order to generate the configuration, there is a separate project, called [Liferay AMD modules config generator](https://www.npmjs.com/package/lfr-module-config-generator). You may use it to generate the configuration file automatically.
+In order to generate the configuration, there is a separate project, called [Liferay AMD modules config generator](https://www.npmjs.com/package/liferay-module-config-generator). You may use it to generate the configuration file automatically.
 
 Here is an example usage:
 
