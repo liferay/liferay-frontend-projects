@@ -40,10 +40,10 @@ module.exports = function(options) {
 
 		var sources = gulp.src(themeSrcPaths, {
 			read: false
-		}).pipe(vinylPaths(function(path) {
+		}).pipe(vinylPaths(function(path, cb) {
 			themeletSources = true;
 
-			return Promise.resolve();
+			cb();
 		}));
 
 		var fileName = themeConfig.version == '6.2' ? 'custom.css' : '_custom.scss';
@@ -80,10 +80,10 @@ module.exports = function(options) {
 
 		var sources = gulp.src(themeSrcPaths, {
 			read: false
-		}).pipe(vinylPaths(function(path) {
+		}).pipe(vinylPaths(function(path, cb) {
 			themeletSources = true;
 
-			return Promise.resolve();
+			cb();
 		}));
 
 		var templateLanguage = themeConfig.templateLanguage || 'vm';

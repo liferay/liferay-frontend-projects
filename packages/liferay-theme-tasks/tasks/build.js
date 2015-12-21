@@ -225,10 +225,10 @@ module.exports = function(options) {
 			.pipe(plugins.rename({
 				extname: '.scss'
 			}))
-			.pipe(vinylPaths(function(path) {
+			.pipe(vinylPaths(function(path, cb) {
 				renamedFiles.push(path);
 
-				return Promise.resolve();
+				cb();
 			}))
 			.pipe(gulp.dest(cssBuild));
 	});
