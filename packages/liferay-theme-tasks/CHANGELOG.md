@@ -2,6 +2,7 @@
 ## Next Release
 * Fix: better implemented pathBuild configuration option for changing name/location of build directory
 * New: added pathDist config option for changing location of generated .war file
+* New: added ability to manually specify classic theme as baseTheme
 ***
 
 ## v0.0.42 - December 17, 2015
