@@ -73,9 +73,15 @@ function getThemeDependencies(version, supportCompass) {
 	var styled = versionMap.getDependencyName('styled', version) + versionString;
 	var unstyled = versionMap.getDependencyName('unstyled', version) + versionString;
 
-	var dependencies = getSassDependencies(supportCompass);
+	var dependencies = getSassDependencies(supportCompass).concat([mixins, styled, unstyled]);
 
-	return dependencies.concat([mixins, styled, unstyled]);
+	if (themeConfig.baseTheme == 'classic' && version != '6.2') {
+		var classic = versionMap.getDependencyName('classic', version) + versionString;
+
+		dependencies.push(classic);
+	}
+
+	return dependencies;
 }
 
 function hasParentTheme() {
