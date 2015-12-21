@@ -48,7 +48,7 @@ module.exports = function(options) {
 
 		var fileName = themeConfig.version == '6.2' ? 'custom.css' : '_custom.scss';
 
-		gulp.src(path.join('build/css', fileName))
+		gulp.src(path.join(pathBuild, 'css', fileName))
 			.pipe(plugins.inject(sources, {
 				starttag: '/* inject:imports */',
 				endtag: '/* endinject */',
@@ -60,7 +60,7 @@ module.exports = function(options) {
 					return '@import "' + filePath + '";';
 				}
 			}))
-			.pipe(gulp.dest('build/css'))
+			.pipe(gulp.dest(path.join(pathBuild, 'css')))
 			.on('end', function() {
 				if (!injected && themeletSources && !_.isEmpty(themeConfig.themeletDependencies)) {
 					var colors = gutil.colors;
@@ -104,7 +104,7 @@ module.exports = function(options) {
 					return '<script src="' + filePath + '"></script>';
 				}
 			}))
-			.pipe(gulp.dest('build/templates'))
+			.pipe(gulp.dest(path.join(pathBuild, 'templates')))
 			.on('end', function() {
 				if (!injected && themeletSources && !_.isEmpty(themeConfig.themeletDependencies)) {
 					var colors = gutil.colors;
