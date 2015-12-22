@@ -69,6 +69,8 @@ describe('Watch Task', function() {
 	});
 
 	it('should deploy css files correctly on change', function(done) {
+		this.timeout(4000);
+
 		var instance = this;
 
 		var filePath = path.join(tempPath, 'custom_src_path/css/_custom.scss');
@@ -99,6 +101,8 @@ describe('Watch Task', function() {
 	});
 
 	it('should deploy js files correctly on change', function(done) {
+		this.timeout(4000);
+
 		var instance = this;
 
 		var filePath = path.join(tempPath, 'custom_src_path/js/main.js');
