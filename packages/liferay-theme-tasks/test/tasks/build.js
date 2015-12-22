@@ -26,12 +26,13 @@ describe('Build Tasks', function() {
 
 			process.chdir(tempPath);
 
-			instance._buildPath = path.join(tempPath, 'build');
+			instance._buildPath = path.join(tempPath, 'custom_build_path');
 			instance._tempPath = tempPath;
 
 			registerTasks({
 				gulp: gulp,
-				supportCompass: false
+				supportCompass: false,
+				pathBuild: './custom_build_path'
 			});
 
 			console.log('Creating temp theme in', tempPath);
