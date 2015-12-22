@@ -33,6 +33,7 @@ describe('Deploy Tasks', function() {
 
 			registerTasks({
 				gulp: gulp,
+				pathSrc: './custom_src_path',
 				supportCompass: false
 			});
 

@@ -31,8 +31,9 @@ describe('Build Tasks', function() {
 
 			registerTasks({
 				gulp: gulp,
-				supportCompass: false,
-				pathBuild: './custom_build_path'
+				pathBuild: './custom_build_path',
+				pathSrc: './custom_src_path',
+				supportCompass: false
 			});
 
 			console.log('Creating temp theme in', tempPath);
