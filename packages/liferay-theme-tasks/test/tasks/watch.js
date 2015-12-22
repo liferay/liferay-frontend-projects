@@ -1,18 +1,22 @@
 'use strict';
 
 var chai = require('chai');
+var del = require('del');
 var fs = require('fs-extra');
 var gulp = require('gulp');
-var os = require('os');
 var path = require('path');
 var registerTasks = require('../../index.js').registerTasks;
+var runSequence;
 
 var assert = chai.assert;
+var expect = chai.expect;
 chai.use(require('chai-fs'));
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'base-theme');
+var tempDirPath = path.join(process.cwd(), 'test/tmp');
 
-describe('Build Tasks', function() {
+var tempPath = path.join(tempDirPath, 'base-theme');
+
+describe('Watch Task', function() {
 	before(function(done) {
 		this.timeout(10000);
 
@@ -35,7 +39,16 @@ describe('Build Tasks', function() {
 				supportCompass: false
 			});
 
-			gulp.storage.set('deployed', true);
+			runSequence = require('run-sequence').use(gulp);
+
+			var appServerPathTheme = path.join(tempPath, '../appserver/webapps/base-theme');
+
+			instance._appServerPathTheme = appServerPathTheme;
+
+			gulp.storage.set({
+				appServerPathTheme: appServerPathTheme,
+				deployed: true
+			});
 
 			console.log('Creating temp theme in', tempPath);
 
@@ -43,145 +56,95 @@ describe('Build Tasks', function() {
 		});
 	});
 
+	beforeEach(function(done) {
+		del([this._appServerPathTheme], {
+			force: true
+		}, done);
+	});
+
 	after(function() {
-		fs.removeSync(tempPath);
+		fs.removeSync(tempDirPath);
 
 		process.chdir(this._initCwd);
 	});
 
-	it('should clean build directory', function(done) {
+	it('should deploy css files correctly on change', function(done) {
 		var instance = this;
 
 		var filePath = path.join(tempPath, 'custom_src_path/css/_custom.scss');
-		var appServerPathTheme = path.join(tempPath, '../appserver/deploy/base-theme');
 
-		gulp.storage.set({
-			appServerPathTheme: appServerPathTheme,
-			changedFile: {
-				path: filePath,
-				type: 'changed'
-			},
-			deployed: true
-		});
+		setChangedFile(filePath);
 
 		var fileContents = fs.readFileSync(filePath, 'utf8') + '\n\n/* this is the change */';
 
 		fs.writeFileSync(filePath, fileContents, 'utf8');
 
-		gulp.start('build:clean', function(err) {
-			if (err) throw err;
+		runWatchSequence(function() {
+			var appServerPathTheme = instance._appServerPathTheme;
+			var cssDir = path.join(appServerPathTheme, 'css');
 
-			// TODO: assertions
+			assert.isFile(path.join(cssDir, 'main.css'));
+			assert.isFile(path.join(cssDir, 'aui.css'));
 
-			done();
-		});
-	});
+			var regex = /\/\* this is the change \*\//;
 
-	it('should build base files', function(done) {
-		var instance = this;
+			assert.fileContentMatch(path.join(cssDir, 'main.css'), regex);
 
-		gulp.start('build:base', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
+			expect(function() {
+				fs.statSync(path.join(appServerPathTheme, 'js'));
+			}).to.throw(/no such file or directory/);
 
 			done();
 		});
 	});
 
-	it('should build src files', function(done) {
+	it('should deploy js files correctly on change', function(done) {
 		var instance = this;
 
-		gulp.start('build:src', function(err) {
-			if (err) throw err;
+		var filePath = path.join(tempPath, 'custom_src_path/js/main.js');
 
-			// TODO: assertions
+		setChangedFile(filePath);
 
-			done();
-		});
-	});
+		runWatchSequence(function() {
+			var appServerPathTheme = instance._appServerPathTheme;
+			var jsDir = path.join(appServerPathTheme, 'js');
 
-	it('should build WEB-INF files', function(done) {
-		var instance = this;
+			var deployedFilePath = path.join(jsDir, 'main.js');
 
-		gulp.start('build:web-inf', function(err) {
-			if (err) throw err;
+			assert.isFile(deployedFilePath);
 
-			// TODO: assertions
+			var regex = /console\.log\(\'main\.js\'\);/;
 
-			done();
-		});
-	});
+			assert.fileContentMatch(deployedFilePath, regex);
 
-	it('should inject themelets', function(done) {
-		var instance = this;
-
-		gulp.start('build:themelets', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
-
-			done();
-		});
-	});
-
-	it('should rename css dir', function(done) {
-		var instance = this;
-
-		gulp.start('build:rename-css-dir', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
-
-			done();
-		});
-	});
-
-	it('should compile css files', function(done) {
-		var instance = this;
-
-		gulp.start('build:compile-css', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
-
-			done();
-		});
-	});
-
-	it('should move compiled css', function(done) {
-		var instance = this;
-
-		gulp.start('build:move-compiled-css', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
-
-			done();
-		});
-	});
-
-	it('should remove temp css directory', function(done) {
-		var instance = this;
-
-		gulp.start('build:remove-old-css-dir', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
-
-			done();
-		});
-	});
-
-	it('should deploy changed files', function(done) {
-		var instance = this;
-
-		gulp.start('deploy:fast', function(err) {
-			if (err) throw err;
-
-			// TODO: assertions
+			expect(function() {
+				fs.statSync(path.join(appServerPathTheme, 'css'));
+			}).to.throw(/no such file or directory/);
 
 			done();
 		});
 	});
 });
+
+function runWatchSequence(cb) {
+	runSequence(
+		'build:clean',
+		'build:base',
+		'build:src',
+		'build:web-inf',
+		'build:themelets',
+		'build:rename-css-dir',
+		'build:compile-css',
+		'build:move-compiled-css',
+		'build:remove-old-css-dir',
+		'deploy:fast',
+		cb
+	);
+}
+
+function setChangedFile(filePath) {
+	gulp.storage.set('changedFile', {
+		path: filePath,
+		type: 'changed'
+	});
+}
