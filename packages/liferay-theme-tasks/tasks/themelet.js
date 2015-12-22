@@ -55,7 +55,7 @@ module.exports = function(options) {
 				transform: function(filePath, file, index, length, targetFile) {
 					injected = true;
 
-					filePath = filePath.replace(/(\/build\/css\/)(.*)/, '$2');
+					filePath = filePath.replace(/(.*\/css\/)(.*)/, '$2');
 
 					return '@import "' + filePath + '";';
 				}
@@ -88,7 +88,7 @@ module.exports = function(options) {
 
 		var templateLanguage = themeConfig.templateLanguage || 'vm';
 
-		gulp.src('build/templates/portal_normal.' + templateLanguage)
+		gulp.src(path.join(pathBuild, 'templates/portal_normal.' + templateLanguage))
 			.pipe(plugins.inject(sources, {
 				starttag: '<!-- inject:js -->',
 				endtag: '<!-- endinject -->',
@@ -99,7 +99,7 @@ module.exports = function(options) {
 
 					var FORWARD_SLASH = '/';
 
-					filePath = FORWARD_SLASH + themeName + FORWARD_SLASH + filePath.replace(/(\/build\/)(.*)/, '$2');
+					filePath = FORWARD_SLASH + themeName + FORWARD_SLASH + filePath.replace(/(.*)(js\/.*)/, '$2');
 
 					return '<script src="' + filePath + '"></script>';
 				}
