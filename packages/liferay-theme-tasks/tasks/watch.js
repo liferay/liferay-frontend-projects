@@ -2,11 +2,14 @@
 
 var argv = require('minimist')(process.argv.slice(2));
 var livereload = require('gulp-livereload');
+var path = require('path');
 
 module.exports = function(options) {
 	var gulp = options.gulp;
 
 	var store = gulp.storage;
+
+	var pathSrc = options.pathSrc;
 
 	var fullDeploy = (argv.full || argv.f);
 
@@ -17,7 +20,7 @@ module.exports = function(options) {
 
 		livereload.listen();
 
-		gulp.watch('src/**/*', function(vinyl) {
+		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			store.set('changedFile', vinyl);
 
 			if (!fullDeploy && store.get('deployed')) {

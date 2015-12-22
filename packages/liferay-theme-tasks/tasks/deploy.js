@@ -20,6 +20,7 @@ module.exports = function(options) {
 	var store = gulp.storage;
 
 	var pathBuild = options.pathBuild;
+	var pathSrc = options.pathSrc;
 
 	var runSequence = require('run-sequence').use(gulp);
 
@@ -64,7 +65,7 @@ module.exports = function(options) {
 		var version = themeConfig.liferayTheme.version;
 
 		if (extname != '.css') {
-			base = 'src';
+			base = pathSrc;
 			srcPath = path.relative(process.cwd(), changedFile.path);
 		}
 		else if (version == '6.2') {

@@ -28,6 +28,7 @@ module.exports = function(options) {
 	var store = gulp.storage;
 
 	var pathBuild = options.pathBuild;
+	var pathSrc = options.pathSrc;
 
 	var runSequence = require('run-sequence').use(gulp);
 
@@ -130,8 +131,8 @@ module.exports = function(options) {
 		srcPathConfig.cssExtChanged = false;
 		srcPathConfig.returnAllCSS = true;
 
-		return gulp.src(themeUtil.getSrcPath(path.join(options.pathSrc, '**/*'), srcPathConfig), {
-				base: './src'
+		return gulp.src(themeUtil.getSrcPath(path.join(pathSrc, '**/*'), srcPathConfig), {
+				base: pathSrc
 			})
 			.pipe(gulp.dest(pathBuild));
 	});
@@ -139,7 +140,7 @@ module.exports = function(options) {
 	gulp.task('build:web-inf', function() {
 		var changeFile = store.get('changedFile');
 
-		var base = changeFile ? './src/WEB-INF/src' : pathBuild + '/WEB-INF/src';
+		var base = changeFile ? pathSrc + '/WEB-INF/src' : pathBuild + '/WEB-INF/src';
 
 		return gulp.src(themeUtil.getSrcPath(pathBuild + '/WEB-INF/src/**/*', getSrcPathConfig()), {
 				base: base
@@ -215,7 +216,7 @@ module.exports = function(options) {
 
 		var changeFile = store.get('changedFile');
 
-		var base = changeFile ? './src/css' : pathBuild + '/css';
+		var base = changeFile ? pathSrc + '/css' : pathBuild + '/css';
 
 		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), function(name) {
 				_.endsWith(name, '.css');
