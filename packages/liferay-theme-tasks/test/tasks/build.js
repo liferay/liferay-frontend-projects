@@ -90,6 +90,9 @@ describe('Build Tasks', function() {
 
 			assert.fileContent(customCSSPath, '/* inject:imports */\n/* endinject */\n\n/* _custom.scss */');
 
+			assert.isFile(path.join(instance._buildPath, 'css/base/_text.scss'));
+			assert.isFile(path.join(instance._buildPath, 'js/main.js'));
+
 			done();
 		});
 	});
