@@ -161,9 +161,20 @@ module.exports = function(options) {
 
 		var cssBuild = pathBuild + '/_css';
 
+		var srcPathConfig = getSrcPathConfig();
+
+		var changedFile = srcPathConfig.changedFile;
+
+		// During watch task, exit task early if changed file is not css
+		if (changedFile && changedFile.type == 'changed' && !themeUtil.isCssFile(changedFile.path)) {
+			cb();
+
+			return;
+		}
+
 		if (supportCompass) {
 			runSequence('build:rename-css-files', function() {
-				cssPreprocessor(themeUtil.getSrcPath(path.join(cssBuild, '**/*.scss'), getSrcPathConfig()), {
+				cssPreprocessor(themeUtil.getSrcPath(path.join(cssBuild, '**/*.scss'), srcPathConfig), {
 						compass: true,
 						loadPath: config.loadPath
 					})
