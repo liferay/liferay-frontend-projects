@@ -172,9 +172,15 @@ module.exports = function(options) {
 			return;
 		}
 
+		var srcPaths = path.join(cssBuild, '!(_)*' + fileExt);
+
 		if (supportCompass) {
 			runSequence('build:rename-css-files', function() {
-				cssPreprocessor(themeUtil.getSrcPath(path.join(cssBuild, '**/*.scss'), srcPathConfig), {
+				if (srcPathConfig.version == '6.2') {
+					srcPaths = themeUtil.getSrcPath(path.join(cssBuild, '**/*.scss'), srcPathConfig);
+				}
+
+				cssPreprocessor(srcPaths, {
 						compass: true,
 						loadPath: config.loadPath
 					})
@@ -185,8 +191,6 @@ module.exports = function(options) {
 			});
 		}
 		else {
-			var srcPaths = path.join(cssBuild, '!(_)*' + fileExt);
-
 			return gulp.src(srcPaths)
 				.pipe(plugins.plumber())
 				.pipe(cssPreprocessor(config))
