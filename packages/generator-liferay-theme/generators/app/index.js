@@ -212,7 +212,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isTemplateLanguage: function(value) {
-		return ['6.2', '7.0'].indexOf(value) > -1;
+		return ['ftl', 'vm'].indexOf(value) > -1;
 	},
 
 	_mixArgs: function(props, args) {
