@@ -1,6 +1,9 @@
 ## Next Release
-* Fix: fixed issue with compass and template flags rejecting valid values
+* No changes
 ***
+
+## v7.0.20 - January 4, 2016
+* Fix: fixed issue with compass and template flags rejecting valid values
 
 ## v7.0.19 - December 14, 2015
 
