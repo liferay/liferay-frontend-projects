@@ -1,7 +1,11 @@
 ## Next Release
+* Fix: fixed issue with compass and template flags rejecting valid values
+***
+
+## v7.0.19 - December 14, 2015
+
 * New: Allow passing in options as flags
 * New: added changelog.md
-***
 
 ## v7.0.18 - October 29, 2015
 
