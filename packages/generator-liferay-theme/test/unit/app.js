@@ -131,6 +131,8 @@ describe('liferay-theme:app unit tests', function() {
 
 		chaiAssert.deepEqual(liferayThemeApp.prototype.argv, {
 			_: ['liferay-theme'],
+			c: null,
+			compass: null,
 			i: 'my-liferay-theme',
 			id: 'my-liferay-theme',
 			l: '7.0',

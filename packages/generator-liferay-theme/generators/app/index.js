@@ -187,13 +187,13 @@ module.exports = yeoman.generators.Base.extend({
 		return function() {
 			var propertyValue = argv[flag];
 
-			if (validator && !_.isUndefined(propertyValue) && !validator(propertyValue)) {
+			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue)) {
 				propertyValue = null;
 
 				instance.log(chalk.yellow('Warning:'), 'Invalid value set for', chalk.cyan('--' + flag));
 			}
 
-			var propertyDefined = !_.isUndefined(propertyValue) && !_.isNull(propertyValue);
+			var propertyDefined = instance._isDefined(propertyValue);
 
 			if (propertyDefined) {
 				args[propertyName] = propertyValue;
@@ -201,6 +201,10 @@ module.exports = yeoman.generators.Base.extend({
 
 			return !propertyDefined;
 		};
+	},
+
+	_isDefined: function(value) {
+		return !_.isUndefined(value) && !_.isNull(value);
 	},
 
 	_isLiferayVersion: function(value) {
@@ -250,6 +254,9 @@ module.exports = yeoman.generators.Base.extend({
 				liferayVersion: 'l',
 				name: 'n',
 				template: 't'
+			},
+			default: {
+				compass: null
 			},
 			boolean: ['compass'],
 			string: ['liferayVersion']
