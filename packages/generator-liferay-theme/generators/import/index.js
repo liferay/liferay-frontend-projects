@@ -113,6 +113,9 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				compass: 'c',
 				path: 'p'
 			},
+			default: {
+				compass: null
+			},
 			boolean: ['compass']
 		});
 	},
