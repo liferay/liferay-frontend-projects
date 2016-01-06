@@ -1,11 +1,17 @@
 'use strict';
 
-module.exports = function(options) {
-	options = options || {};
-	options.pathBuild = options.pathBuild || './build';
-	options.pathDist = options.pathDist || './dist';
-	options.pathSrc = options.pathSrc || './src';
-	options.supportCompass = options.supportCompass || false;
+var options;
+
+module.exports = function(config) {
+	if (!options) {
+		config = config || {};
+		config.pathBuild = config.pathBuild || './build';
+		config.pathDist = config.pathDist || './dist';
+		config.pathSrc = config.pathSrc || './src';
+		config.supportCompass = config.supportCompass || false;
+
+		options = config;
+	}
 
 	return options;
 };
