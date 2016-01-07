@@ -6,11 +6,13 @@ var fs = require('fs-extra');
 var glob = require('glob');
 var gulpif = require('gulp-if');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
+var lookAndFeelUtil = require('../lib/look_and_feel_util');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
 var themeUtil = require('../lib/util');
 var versionMap = require('../lib/version_map');
+var xml2js = require('xml2js');
 
 var STR_FTL = 'ftl';
 
@@ -38,6 +40,7 @@ module.exports = function(options) {
 			'build:base',
 			'build:src',
 			'build:web-inf',
+			'build:liferay-look-and-feel',
 			'build:hook',
 			'build:themelets',
 			'build:rename-css-dir',
@@ -146,6 +149,27 @@ module.exports = function(options) {
 				base: base
 			})
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
+	});
+
+	gulp.task('build:liferay-look-and-feel', function(cb) {
+		lookAndFeelUtil.mergeLookAndFeelJSON(process.cwd(), {}, function(lookAndFeelJSON) {
+			var builder = new xml2js.Builder({
+				renderOpts: {
+					indent: '\t',
+					pretty: true
+				}
+			});
+
+			var xml = builder.buildObject(lookAndFeelJSON);
+
+			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(process.cwd());
+
+			xml = lookAndFeelUtil.generateLookAndFeelXML(xml, doctypeElement);
+
+			fs.writeFile(path.join(process.cwd(), pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
+				cb();
+			});
+		});
 	});
 
 	gulp.task('build:compile-css', function(cb) {
