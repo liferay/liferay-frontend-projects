@@ -127,6 +127,10 @@ describe('Extend Prompt', function() {
 
 	// _getUnusedDependencies
 	it('should remove unused dependencies', function(done) {
+		lfrThemeConfig.setConfig({
+			baseTheme: 'styled'
+		});
+
 		assert(_.isEmpty(ExtendPrompt.prototype._getUnusedDependencies({
 			baseThemeName: 'styled'
 		})));
