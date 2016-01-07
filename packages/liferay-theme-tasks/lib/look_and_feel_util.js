@@ -15,14 +15,6 @@ var STR_LOOK_AND_FEEL = 'look-and-feel';
 var STR_PORTLET_DECORATOR = 'portlet-decorator';
 
 module.exports = {
-	extractThemeElement: function(obj, key) {
-		return obj[STR_LOOK_AND_FEEL].theme[0][key];
-	},
-
-	extractThemeSettings: function(obj) {
-		return obj[STR_LOOK_AND_FEEL].theme[0].settings ? obj[STR_LOOK_AND_FEEL].theme[0].settings[0].setting : null;
-	},
-
 	generateLookAndFeelXML: function(xmlString, doctypeElement) {
 		return xmlString.replace(/(<\?xml.*>)/, '<?xml version="1.0"?>\n' + doctypeElement + '\n');
 	},
@@ -47,49 +39,6 @@ module.exports = {
 		});
 	},
 
-	mergeJSON: function(themeObj, baseThemeObj) {
-		var themeSettings = this.mergeThemeElementById(
-			this.extractThemeSettings(themeObj),
-			this.extractThemeSettings(baseThemeObj),
-			'key'
-		);
-
-		var themePortletDecorator = this.mergeThemeElementById(
-			this.extractThemeElement(themeObj, STR_PORTLET_DECORATOR),
-			this.extractThemeElement(baseThemeObj, STR_PORTLET_DECORATOR),
-			'id'
-		);
-
-		themeObj[STR_LOOK_AND_FEEL].theme[0].settings = [{
-			setting: themeSettings
-		}];
-
-		themeObj[STR_LOOK_AND_FEEL].theme[0][STR_PORTLET_DECORATOR] = themePortletDecorator;
-
-		return themeObj;
-	},
-
-	mergeThemeElementById: function(themeElements, baseThemeElements, identifier) {
-		if (!themeElements || !baseThemeElements) {
-			return themeElements ? themeElements : baseThemeElements;
-		}
-
-		var allElements = themeElements.concat(baseThemeElements);
-		var elementIds = [];
-
-		return _.reduce(allElements, function(result, item, index) {
-			var id = item.$[identifier];
-
-			if (elementIds.indexOf(id) < 0) {
-				elementIds.push(id);
-
-				result.push(item);
-			}
-
-			return result;
-		}, []);
-	},
-
 	mergeLookAndFeelJSON: function(themePath, lookAndFeelJSON, cb) {
 		var instance = this;
 
@@ -98,7 +47,7 @@ module.exports = {
 				lookAndFeelJSON = json;
 			}
 			else if (json) {
-				lookAndFeelJSON = instance.mergeJSON(lookAndFeelJSON, json);
+				lookAndFeelJSON = instance._mergeJSON(lookAndFeelJSON, json);
 			}
 
 			var themeInfo = require(path.join(themePath, 'package.json')).liferayTheme;
@@ -143,5 +92,47 @@ module.exports = {
 		}
 
 		return xmlString;
+	},
+
+	_extractThemeElement: function(obj, key) {
+		return obj[STR_LOOK_AND_FEEL].theme[0][key];
+	},
+
+	_extractThemeSettings: function(obj) {
+		return obj[STR_LOOK_AND_FEEL].theme[0].settings ? obj[STR_LOOK_AND_FEEL].theme[0].settings[0].setting : null;
+	},
+
+	_mergeJSON: function(themeObj, baseThemeObj) {
+		var themeSettings = this._mergeThemeElementById(this._extractThemeSettings(themeObj), this._extractThemeSettings(baseThemeObj), 'key');
+		var themePortletDecorator = this._mergeThemeElementById(this._extractThemeElement(themeObj, STR_PORTLET_DECORATOR), this._extractThemeElement(baseThemeObj, STR_PORTLET_DECORATOR), 'id');
+
+		themeObj[STR_LOOK_AND_FEEL].theme[0].settings = [{
+			setting: themeSettings
+		}];
+
+		themeObj[STR_LOOK_AND_FEEL].theme[0][STR_PORTLET_DECORATOR] = themePortletDecorator;
+
+		return themeObj;
+	},
+
+	_mergeThemeElementById: function(themeElements, baseThemeElements, identifier) {
+		if (!themeElements || !baseThemeElements) {
+			return themeElements ? themeElements : baseThemeElements;
+		}
+
+		var allElements = themeElements.concat(baseThemeElements);
+		var elementIds = [];
+
+		return _.reduce(allElements, function(result, item, index) {
+			var id = item.$[identifier];
+
+			if (elementIds.indexOf(id) < 0) {
+				elementIds.push(id);
+
+				result.push(item);
+			}
+
+			return result;
+		}, []);
 	}
 };
