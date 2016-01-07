@@ -1,9 +1,13 @@
 
 ## Next Release
+* New: themes will now inherit theme settings and portlet decorators from parent theme's liferay-look-and-feel.xml
+***
+
+## v0.0.43 - December 23, 2015
+
 * Fix: better implemented pathBuild/pathSrc configuration option for changing name/location of build and src directories
 * New: added pathDist config option for changing location of generated .war file
 * New: added ability to manually specify classic theme as baseTheme in package.json
-***
 
 ## v0.0.42 - December 17, 2015
 
