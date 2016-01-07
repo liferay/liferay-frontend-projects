@@ -3,7 +3,7 @@
 var options;
 
 module.exports = function(config) {
-	if (!options) {
+	if (!options || config) {
 		config = config || {};
 		config.pathBuild = config.pathBuild || './build';
 		config.pathDist = config.pathDist || './dist';
