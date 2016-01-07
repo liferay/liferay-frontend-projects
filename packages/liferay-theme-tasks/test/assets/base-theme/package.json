@@ -5,7 +5,20 @@
 		"liferay-theme"
 	],
 	"liferayTheme": {
-		"baseTheme": "styled",
+		"baseTheme": {
+			"liferayTheme": {
+				"baseTheme": "styled",
+				"screenshot": "",
+				"supportCompass": false,
+				"templateLanguage": "vm",
+				"version": "7.0"
+			},
+			"name": "parent-theme",
+			"publishConfig": {
+				"tag": "7_0_x"
+			},
+			"version": "1.0.0"
+		},
 		"themeletDependencies": {
 			"test-themelet": {
 				"liferayTheme": {

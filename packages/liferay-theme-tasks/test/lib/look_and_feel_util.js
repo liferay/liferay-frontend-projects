@@ -53,6 +53,8 @@ describe('Look and Feel Util functions', function() {
 		lookAndFeelUtil.mergeLookAndFeelJSON(baseThemePath, {}, function(result) {
 			assert(result);
 			assert(result['look-and-feel']);
+
+			assert.deepEqual(result, require('../assets/json/merged-look-and-feel.json'));
 		});
 
 		done();
@@ -111,11 +113,6 @@ describe('Look and Feel Util functions', function() {
 
 		assert.deepEqual(lookAndFeelJSON, require('../assets/json/merged-look-and-feel.json'));
 
-		done();
-	});
-
-	// _mergeThemeElementById
-	it('should pass', function(done) {
 		done();
 	});
 });
