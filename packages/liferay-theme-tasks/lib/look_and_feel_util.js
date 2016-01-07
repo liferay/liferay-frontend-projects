@@ -8,8 +8,6 @@ var xml2js = require('xml2js');
 
 var pathSrc = options.pathSrc;
 
-var xmlCache = {};
-
 var STR_LOOK_AND_FEEL = 'look-and-feel';
 
 var STR_PORTLET_DECORATOR = 'portlet-decorator';
@@ -66,7 +64,7 @@ module.exports = {
 	},
 
 	readLookAndFeelXML: function(themePath) {
-		var xmlString = xmlCache[themePath];
+		var xmlString = this._xmlCache[themePath];
 
 		if (xmlString) {
 			return xmlString;
@@ -85,7 +83,7 @@ module.exports = {
 		try {
 			xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
 
-			xmlCache[themePath] = xmlString;
+			this._xmlCache[themePath] = xmlString;
 		}
 		catch (e) {
 			console.log(e);
@@ -134,5 +132,7 @@ module.exports = {
 
 			return result;
 		}, []);
-	}
+	},
+
+	_xmlCache: {}
 };
