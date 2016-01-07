@@ -20,7 +20,7 @@ module.exports = {
 	},
 
 	extractThemeSettings: function(obj) {
-		return obj[STR_LOOK_AND_FEEL].theme[0].settings[0].setting;
+		return obj[STR_LOOK_AND_FEEL].theme[0].settings ? obj[STR_LOOK_AND_FEEL].theme[0].settings[0].setting : null;
 	},
 
 	generateLookAndFeelXML: function(xmlString, doctypeElement) {
@@ -51,17 +51,13 @@ module.exports = {
 		var themeSettings = this.mergeThemeElementById(
 			this.extractThemeSettings(themeObj),
 			this.extractThemeSettings(baseThemeObj),
-			function(item) {
-				return item.$.key;
-			}
+			'key'
 		);
 
 		var themePortletDecorator = this.mergeThemeElementById(
 			this.extractThemeElement(themeObj, STR_PORTLET_DECORATOR),
 			this.extractThemeElement(baseThemeObj, STR_PORTLET_DECORATOR),
-			function(item) {
-				return item.$.id;
-			}
+			'id'
 		);
 
 		themeObj[STR_LOOK_AND_FEEL].theme[0].settings = [{
@@ -82,7 +78,7 @@ module.exports = {
 		var elementIds = [];
 
 		return _.reduce(allElements, function(result, item, index) {
-			var id = identifier(item);
+			var id = item.$[identifier];
 
 			if (elementIds.indexOf(id) < 0) {
 				elementIds.push(id);
