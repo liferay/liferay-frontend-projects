@@ -5,7 +5,6 @@ var fs = require('fs-extra');
 var options = require('../lib/options')();
 var path = require('path');
 var xml2js = require('xml2js');
-var xmlmerge = require('xmlmerge-js');
 
 var pathSrc = options.pathSrc;
 
