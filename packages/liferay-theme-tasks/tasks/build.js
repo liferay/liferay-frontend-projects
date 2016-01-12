@@ -164,11 +164,17 @@ module.exports = function(options) {
 				}
 			});
 
-			var xml = builder.buildObject(lookAndFeelJSON);
+			var themeId = _.trimRight(lfrThemeConfig.getConfig(true).name, '-theme');
+
+			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeId);
 
 			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(process.cwd());
 
-			xml = lookAndFeelUtil.generateLookAndFeelXML(xml, doctypeElement);
+			if (!doctypeElement) {
+				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(themeConfig.version);
+			}
+
+			var xml = lookAndFeelUtil.generateLookAndFeelXML(builder.buildObject(lookAndFeelJSON), doctypeElement);
 
 			fs.writeFile(path.join(process.cwd(), pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
 				cb();

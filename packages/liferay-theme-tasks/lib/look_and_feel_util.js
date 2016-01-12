@@ -4,6 +4,7 @@ var _ = require('lodash');
 var fs = require('fs-extra');
 var options = require('../lib/options')();
 var path = require('path');
+var util = require('util');
 var xml2js = require('xml2js');
 
 var pathSrc = options.pathSrc;
@@ -13,6 +14,17 @@ var STR_LOOK_AND_FEEL = 'look-and-feel';
 var STR_PORTLET_DECORATOR = 'portlet-decorator';
 
 module.exports = {
+	correctJSONIdentifiers: function(lookAndFeelJSON, id) {
+		var themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
+
+		if (themeAttrs.id != id) {
+			themeAttrs.id = id;
+			themeAttrs.name = id;
+		}
+
+		return lookAndFeelJSON;
+	},
+
 	generateLookAndFeelXML: function(xmlString, doctypeElement) {
 		return xmlString.replace(/(<\?xml.*>)/, '<?xml version="1.0"?>\n' + doctypeElement + '\n');
 	},
@@ -27,6 +39,12 @@ module.exports = {
 		}
 
 		return match ? match[0] : null;
+	},
+
+	getLookAndFeelDoctypeByVersion: function(version) {
+		version += '.0';
+
+		return util.format('<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel %s//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_%s.dtd">', version, version.replace('\.', '_'));
 	},
 
 	getLookAndFeelJSON: function(themePath, cb) {
