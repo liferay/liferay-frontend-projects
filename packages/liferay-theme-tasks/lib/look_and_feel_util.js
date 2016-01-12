@@ -177,6 +177,10 @@ module.exports = {
 	},
 
 	_mergeThemeElementByValue: function(themeElements, baseThemeElements) {
+		if (!themeElements || !baseThemeElements) {
+			return themeElements ? themeElements : baseThemeElements;
+		}
+
 		return _.uniq(themeElements.concat(baseThemeElements));
 	},
 
