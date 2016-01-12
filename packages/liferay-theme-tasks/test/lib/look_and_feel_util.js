@@ -89,18 +89,6 @@ describe('Look and Feel Util functions', function() {
 		});
 	});
 
-	// _extractThemeSettings
-	it('should extract theme settings from object', function(done) {
-		lookAndFeelUtil.getLookAndFeelJSON(baseThemePath, function(result) {
-			var themeSettings = lookAndFeelUtil._extractThemeSettings(result);
-
-			assert(themeSettings.length == 1);
-			assert(themeSettings[0].$.key == 'show-breadcrumb');
-
-			done();
-		});
-	});
-
 	// _mergeJSON
 	it('should merge look-and-feel json and output a valid look-and-feel json object', function(done) {
 		var lookAndFeelJSON = lookAndFeelUtil._mergeJSON(baseLookAndFeelJSON, baseLookAndFeelJSON);
