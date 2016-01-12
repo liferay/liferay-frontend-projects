@@ -20,9 +20,13 @@ module.exports = {
 	getLookAndFeelDoctype: function(themePath) {
 		var xmlString = this.readLookAndFeelXML(themePath);
 
-		var match = xmlString.match(/(<!DOCTYPE.*>)/);
+		var match;
 
-		return match[0];
+		if (xmlString) {
+			match = xmlString.match(/(<!DOCTYPE.*>)/);
+		}
+
+		return match ? match[0] : null;
 	},
 
 	getLookAndFeelJSON: function(themePath, cb) {
