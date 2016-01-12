@@ -153,6 +153,10 @@ module.exports = function(options) {
 
 	gulp.task('build:liferay-look-and-feel', function(cb) {
 		lookAndFeelUtil.mergeLookAndFeelJSON(process.cwd(), {}, function(lookAndFeelJSON) {
+			if (!lookAndFeelJSON) {
+				return cb();
+			}
+
 			var builder = new xml2js.Builder({
 				renderOpts: {
 					indent: '\t',
