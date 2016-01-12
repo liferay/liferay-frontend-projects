@@ -16,6 +16,7 @@ var QUERY_ELEMENTS = {
 	'layout-templates.0.custom.0.layout-template': 'id',
 	'layout-templates.0.standard.0.layout-template': 'id',
 	'portlet-decorator': 'id',
+	'roles.0.role-name': 'value',
 	'settings.0.setting': 'key'
 };
 
@@ -128,12 +129,21 @@ module.exports = {
 
 		_.forEach(QUERY_ELEMENTS, function(item, index) {
 			var queryString = 'look-and-feel.theme.0.' + index;
+			var mergedElement;
 
-			var mergedElement = instance._mergeThemeElementById(
-				_.get(themeObj, queryString),
-				_.get(baseThemeObj, queryString),
-				item
-			);
+			if (item == 'value') {
+				mergedElement = instance._mergeThemeElementByValue(
+					_.get(themeObj, queryString),
+					_.get(baseThemeObj, queryString)
+				);
+			}
+			else {
+				mergedElement = instance._mergeThemeElementById(
+					_.get(themeObj, queryString),
+					_.get(baseThemeObj, queryString),
+					item
+				);
+			}
 
 			if (mergedElement) {
 				_.set(themeObj, queryString, mergedElement);
@@ -164,6 +174,10 @@ module.exports = {
 
 			return result;
 		}, []);
+	},
+
+	_mergeThemeElementByValue: function(themeElements, baseThemeElements) {
+		return _.uniq(themeElements.concat(baseThemeElements));
 	},
 
 	_xmlCache: {}
