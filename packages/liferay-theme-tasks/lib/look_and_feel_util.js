@@ -9,9 +9,9 @@ var xml2js = require('xml2js');
 
 var pathSrc = options.pathSrc;
 
-var STR_LOOK_AND_FEEL = 'look-and-feel';
+var ID_ELEMENTS = ['color-scheme', 'portlet-decorator'];
 
-var STR_PORTLET_DECORATOR = 'portlet-decorator';
+var STR_LOOK_AND_FEEL = 'look-and-feel';
 
 module.exports = {
 	correctJSONIdentifiers: function(lookAndFeelJSON, id) {
@@ -122,14 +122,25 @@ module.exports = {
 	},
 
 	_mergeJSON: function(themeObj, baseThemeObj) {
+		var instance = this;
+
 		var themeSettings = this._mergeThemeElementById(this._extractThemeSettings(themeObj), this._extractThemeSettings(baseThemeObj), 'key');
-		var themePortletDecorator = this._mergeThemeElementById(this._extractThemeElement(themeObj, STR_PORTLET_DECORATOR), this._extractThemeElement(baseThemeObj, STR_PORTLET_DECORATOR), 'id');
 
 		themeObj[STR_LOOK_AND_FEEL].theme[0].settings = [{
 			setting: themeSettings
 		}];
 
-		themeObj[STR_LOOK_AND_FEEL].theme[0][STR_PORTLET_DECORATOR] = themePortletDecorator;
+		_.forEach(ID_ELEMENTS, function(item, index) {
+			var mergedElement = instance._mergeThemeElementById(
+				instance._extractThemeElement(themeObj, item),
+				instance._extractThemeElement(baseThemeObj, item),
+				'id'
+			);
+
+			if (mergedElement) {
+				themeObj[STR_LOOK_AND_FEEL].theme[0][item] = mergedElement;
+			}
+		});
 
 		return themeObj;
 	},
