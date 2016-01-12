@@ -117,9 +117,7 @@ module.exports = {
 		return obj[STR_LOOK_AND_FEEL].theme[0][key];
 	},
 
-	_extractThemeSettings: function(obj) {
-		return obj[STR_LOOK_AND_FEEL].theme[0].settings ? obj[STR_LOOK_AND_FEEL].theme[0].settings[0].setting : null;
-	},
+	_extractThemeSettings: _.property('look-and-feel.theme[0].settings[0].setting'),
 
 	_mergeJSON: function(themeObj, baseThemeObj) {
 		var instance = this;
