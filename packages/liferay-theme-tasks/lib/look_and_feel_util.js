@@ -9,9 +9,15 @@ var xml2js = require('xml2js');
 
 var pathSrc = options.pathSrc;
 
-var ID_ELEMENTS = ['color-scheme', 'portlet-decorator'];
-
 var STR_LOOK_AND_FEEL = 'look-and-feel';
+
+var QUERY_ELEMENTS = {
+	'color-scheme': 'id',
+	'layout-templates.0.custom.0.layout-template': 'id',
+	'layout-templates.0.standard.0.layout-template': 'id',
+	'portlet-decorator': 'id',
+	'settings.0.setting': 'key'
+};
 
 module.exports = {
 	correctJSONIdentifiers: function(lookAndFeelJSON, id) {
@@ -117,26 +123,20 @@ module.exports = {
 		return obj[STR_LOOK_AND_FEEL].theme[0][key];
 	},
 
-	_extractThemeSettings: _.property('look-and-feel.theme.0.settings.0.setting'),
-
 	_mergeJSON: function(themeObj, baseThemeObj) {
 		var instance = this;
 
-		var themeSettings = this._mergeThemeElementById(this._extractThemeSettings(themeObj), this._extractThemeSettings(baseThemeObj), 'key');
+		_.forEach(QUERY_ELEMENTS, function(item, index) {
+			var queryString = 'look-and-feel.theme.0.' + index;
 
-		themeObj[STR_LOOK_AND_FEEL].theme[0].settings = [{
-			setting: themeSettings
-		}];
-
-		_.forEach(ID_ELEMENTS, function(item, index) {
 			var mergedElement = instance._mergeThemeElementById(
-				instance._extractThemeElement(themeObj, item),
-				instance._extractThemeElement(baseThemeObj, item),
-				'id'
+				_.get(themeObj, queryString),
+				_.get(baseThemeObj, queryString),
+				item
 			);
 
 			if (mergedElement) {
-				themeObj[STR_LOOK_AND_FEEL].theme[0][item] = mergedElement;
+				_.set(themeObj, queryString, mergedElement);
 			}
 		});
 
@@ -147,6 +147,8 @@ module.exports = {
 		if (!themeElements || !baseThemeElements) {
 			return themeElements ? themeElements : baseThemeElements;
 		}
+
+		identifier = identifier || 'id';
 
 		var allElements = themeElements.concat(baseThemeElements);
 		var elementIds = [];
