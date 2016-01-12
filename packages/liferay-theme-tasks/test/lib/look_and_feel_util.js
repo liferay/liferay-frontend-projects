@@ -20,6 +20,18 @@ chai.use(require('chai-fs'));
 var baseThemePath = path.join(__dirname, '../assets/base-theme');
 
 describe('Look and Feel Util functions', function() {
+	describe('correctJSONIdentifiers', function() {
+		lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'test-id');
+
+		assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.id'), 'test-id');
+		assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.name'), 'test-id');
+
+		lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'base-theme');
+
+		assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.id'), 'base-theme');
+		assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.name'), 'base-theme');
+	});
+
 	// generateLookAndFeelXML
 	it('should generate valid look-and-feel xml', function(done) {
 		var xml = lookAndFeelUtil.generateLookAndFeelXML('<?xml version="1.0" standalone="true"?>\n\n<look-and-feel></look-and-feel>', '<!DOCTYPE look-and-feel>');
@@ -36,6 +48,20 @@ describe('Look and Feel Util functions', function() {
 		assert.equal(doctype, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">');
 
 		done();
+	});
+
+	describe('getLookAndFeelDoctypeByVersion', function() {
+		it('should generate correct doctype string based on version', function(done) {
+			var doctype = lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0');
+
+			assert.equal(doctype, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">');
+
+			doctype = lookAndFeelUtil.getLookAndFeelDoctypeByVersion('6.2');
+
+			assert.equal(doctype, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">');
+
+			done();
+		});
 	});
 
 	// getLookAndFeelJSON
@@ -102,5 +128,103 @@ describe('Look and Feel Util functions', function() {
 		assert.deepEqual(lookAndFeelJSON, require('../assets/json/merged-look-and-feel.json'));
 
 		done();
+	});
+
+	describe('_mergeThemeElementById', function() {
+		var elements1 = [{
+			$: {
+				id: 'one'
+			}
+		},
+		{
+			$: {
+				id: 'two'
+			}
+		}];
+		var elements2 = [{
+			$: {
+				id: 'two'
+			}
+		},
+		{
+			$: {
+				id: 'three'
+			}
+		}];
+
+		it('should return null if both arrays are null', function(done) {
+			var mergedElements = lookAndFeelUtil._mergeThemeElementById(null, null);
+
+			assert.equal(mergedElements, null);
+
+			done();
+		});
+
+		it('should return non null array if one of the arrays is null', function(done) {
+			var mergedElements = lookAndFeelUtil._mergeThemeElementById(elements1, null);
+
+			assert.deepEqual(mergedElements, elements1);
+
+			mergedElements = lookAndFeelUtil._mergeThemeElementById(null, elements2);
+
+			assert.deepEqual(mergedElements, elements2);
+
+			done();
+		});
+
+		it('should merge arrays and exclude repeated elements according to id', function(done) {
+			var mergedElements = lookAndFeelUtil._mergeThemeElementById(elements1, elements2);
+
+			assert.deepEqual(mergedElements, [{
+				$: {
+					id: 'one'
+				}
+			},
+			{
+				$: {
+					id: 'two'
+				}
+			},
+			{
+				$: {
+					id: 'three'
+				}
+			}]);
+
+			done();
+		});
+	});
+
+	describe('_mergeThemeElementByValue', function() {
+		var elements1 = ['one', 'two'];
+		var elements2 = ['two', 'three'];
+
+		it('should return null if both arrays are null', function(done) {
+			var mergedElements = lookAndFeelUtil._mergeThemeElementByValue(null, null);
+
+			assert.equal(mergedElements, null);
+
+			done();
+		});
+
+		it('should return non null array if one of the arrays is null', function(done) {
+			var mergedElements = lookAndFeelUtil._mergeThemeElementByValue(elements1, null);
+
+			assert.deepEqual(mergedElements, elements1);
+
+			mergedElements = lookAndFeelUtil._mergeThemeElementByValue(null, elements1);
+
+			assert.deepEqual(mergedElements, elements1);
+
+			done();
+		});
+
+		it('should merge arrays and exclude repeated elements', function(done) {
+			var mergedElements = lookAndFeelUtil._mergeThemeElementByValue(elements1, elements2);
+
+			assert.deepEqual(mergedElements, ['one', 'two', 'three']);
+
+			done();
+		});
 	});
 });
