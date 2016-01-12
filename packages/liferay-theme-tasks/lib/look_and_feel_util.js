@@ -90,7 +90,6 @@ module.exports = {
 			this._xmlCache[themePath] = xmlString;
 		}
 		catch (e) {
-			console.log(e);
 		}
 
 		return xmlString;
