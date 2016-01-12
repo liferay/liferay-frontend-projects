@@ -51,7 +51,7 @@ module.exports = {
 	getLookAndFeelDoctypeByVersion: function(version) {
 		version += '.0';
 
-		return util.format('<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel %s//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_%s.dtd">', version, version.replace('\.', '_'));
+		return util.format('<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel %s//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_%s.dtd">', version, version.replace(/\./g, '_'));
 	},
 
 	getLookAndFeelJSON: function(themePath, cb) {
