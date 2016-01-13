@@ -13,6 +13,7 @@ var options = require('../../lib/options')({
 var lookAndFeelUtil = require('../../lib/look_and_feel_util.js');
 
 var baseLookAndFeelJSON = require('../assets/json/base-look-and-feel.json');
+var mixedLookAndFeelJSON = require('../assets/json/mixed-look-and-feel.json');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -20,6 +21,16 @@ chai.use(require('chai-fs'));
 var baseThemePath = path.join(__dirname, '../assets/base-theme');
 
 describe('Look and Feel Util functions', function() {
+	describe('buildXML', function() {
+		it('should sort json correctly and build valid xml', function(done) {
+			var xml = lookAndFeelUtil.buildXML(mixedLookAndFeelJSON, lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0'));
+
+			assert.fileContent(path.join(__dirname, '../assets/xml/liferay-look-and-feel.xml'), xml);
+
+			done();
+		});
+	});
+
 	describe('correctJSONIdentifiers', function() {
 		it('should set the theme element id and name attribute if the id argument is different', function(done) {
 			lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'test-id');

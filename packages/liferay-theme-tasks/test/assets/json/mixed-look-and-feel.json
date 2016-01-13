@@ -1,0 +1,154 @@
+{
+  "look-and-feel": {
+    "compatibility": [
+      {
+        "version": [
+          "7.0.0+"
+        ]
+      }
+    ],
+    "theme": [
+      {
+        "$": {
+          "id": "linked-70",
+          "name": "linked-70"
+        },
+        "layout-templates": [
+          {
+            "standard": [
+              {
+                "layout-template": [
+                  {
+                    "$": {
+                      "id": "parent-template"
+                    },
+                    "template-path": [
+                      "\/layouttpl\/standard\/max.tpl"
+                    ],
+                    "wap-template-path": [
+                      "\/layouttpl\/standard\/max.wap.tpl"
+                    ],
+                    "thumbnail-path": [
+                      "\/layouttpl\/standard\/max.png"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "color-scheme": [
+          {
+            "$": {
+              "id": "01",
+              "name": "Democrat"
+            },
+            "css-class": [
+              "democrat"
+            ]
+          },
+          {
+            "$": {
+              "id": "02",
+              "name": "Republican"
+            },
+            "css-class": [
+              "republican"
+            ]
+          },
+          {
+            "$": {
+              "id": "03",
+              "name": "Independent"
+            },
+            "css-class": [
+              "independent"
+            ]
+          },
+          {
+            "$": {
+              "id": "04",
+              "name": "Cool Colors"
+            },
+            "css-class": [
+              "cool-colors"
+            ]
+          }
+        ],
+        "settings": [
+          {
+            "setting": [
+              {
+                "$": {
+                  "configurable": "true",
+                  "key": "show-breadcrumb",
+                  "type": "checkbox",
+                  "value": "true"
+                }
+              },
+              {
+                "$": {
+                  "configurable": "false",
+                  "key": "parent-setting",
+                  "type": "input",
+                  "value": "false"
+                }
+              }
+            ]
+          }
+        ],
+        "portlet-decorator": [
+          {
+            "$": {
+              "id": "linked",
+              "name": "Linked"
+            },
+            "portlet-decorator-css-class": [
+              "portlet-linked"
+            ]
+          },
+          {
+            "$": {
+              "id": "barebone",
+              "name": "Barebone"
+            },
+            "portlet-decorator-css-class": [
+              "this-should-be-here"
+            ]
+          },
+          {
+            "$": {
+              "id": "borderless",
+              "name": "Borderless"
+            },
+            "portlet-decorator-css-class": [
+              "portlet-borderless"
+            ]
+          },
+          {
+            "$": {
+              "id": "decorate",
+              "name": "Decorate"
+            },
+            "default-portlet-decorator": [
+              "true"
+            ],
+            "portlet-decorator-css-class": [
+              "portlet-decorate"
+            ]
+          }
+        ],
+        "roles": [
+          {
+            "role-name": [
+              "Owner"
+            ]
+          }
+        ],
+        "template-extension": [
+          "vm"
+        ]
+      }
+    ]
+  }
+}
