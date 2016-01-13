@@ -41,7 +41,7 @@ module.exports = {
 		var builder = new xml2js.Builder({
 			renderOpts: {
 				indent: '\t',
-				pretty: true,
+				pretty: true
 			},
 			xmldec: {
 				encoding: null,
