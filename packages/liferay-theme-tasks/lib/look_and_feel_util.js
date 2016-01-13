@@ -9,8 +9,6 @@ var xml2js = require('xml2js');
 
 var pathSrc = options.pathSrc;
 
-var STR_LOOK_AND_FEEL = 'look-and-feel';
-
 var QUERY_ELEMENTS = {
 	'color-scheme': 'id',
 	'layout-templates.0.custom.0.layout-template': 'id',
@@ -20,7 +18,36 @@ var QUERY_ELEMENTS = {
 	'settings.0.setting': 'key'
 };
 
+var STR_LOOK_AND_FEEL = 'look-and-feel';
+
+var THEME_CHILD_ORDER = ['$', 'root-path', 'templates-path', 'css-path', 'images-path', 'javascript-path', 'virtual-path', 'template-extension', 'settings', 'control-panel-theme', 'page-theme', 'wap-theme', 'roles', 'color-scheme', 'layout-templates', 'portlet-decorator'];
+
 module.exports = {
+	buildXML: function(lookAndFeelJSON) {
+		var themeQuery = 'look-and-feel.theme.0';
+
+		var themeElement = _.get(lookAndFeelJSON, themeQuery);
+
+		themeElement = _.reduce(THEME_CHILD_ORDER, function(result, item, index) {
+			if (themeElement[item]) {
+				result[item] = themeElement[item];
+			}
+
+			return result;
+		}, {});
+
+		_.set(lookAndFeelJSON, themeQuery, themeElement);
+
+		var builder = new xml2js.Builder({
+			renderOpts: {
+				indent: '\t',
+				pretty: true
+			}
+		});
+
+		return builder.buildObject(lookAndFeelJSON);
+	},
+
 	correctJSONIdentifiers: function(lookAndFeelJSON, id) {
 		var themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
 

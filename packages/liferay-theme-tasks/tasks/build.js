@@ -157,16 +157,11 @@ module.exports = function(options) {
 				return cb();
 			}
 
-			var builder = new xml2js.Builder({
-				renderOpts: {
-					indent: '\t',
-					pretty: true
-				}
-			});
-
 			var themeId = _.trimRight(lfrThemeConfig.getConfig(true).name, '-theme');
 
 			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeId);
+
+			var xml = lookAndFeelUtil.buildXML(lookAndFeelJSON);
 
 			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(process.cwd());
 
@@ -174,7 +169,7 @@ module.exports = function(options) {
 				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(themeConfig.version);
 			}
 
-			var xml = lookAndFeelUtil.generateLookAndFeelXML(builder.buildObject(lookAndFeelJSON), doctypeElement);
+			xml = lookAndFeelUtil.generateLookAndFeelXML(xml, doctypeElement);
 
 			fs.writeFile(path.join(process.cwd(), pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
 				cb();
