@@ -23,7 +23,7 @@ var STR_LOOK_AND_FEEL = 'look-and-feel';
 var THEME_CHILD_ORDER = ['$', 'root-path', 'templates-path', 'css-path', 'images-path', 'javascript-path', 'virtual-path', 'template-extension', 'settings', 'control-panel-theme', 'page-theme', 'wap-theme', 'roles', 'color-scheme', 'layout-templates', 'portlet-decorator'];
 
 module.exports = {
-	buildXML: function(lookAndFeelJSON) {
+	buildXML: function(lookAndFeelJSON, doctypeElement) {
 		var themeQuery = 'look-and-feel.theme.0';
 
 		var themeElement = _.get(lookAndFeelJSON, themeQuery);
@@ -41,11 +41,19 @@ module.exports = {
 		var builder = new xml2js.Builder({
 			renderOpts: {
 				indent: '\t',
-				pretty: true
-			}
+				pretty: true,
+			},
+			xmldec: {
+				encoding: null,
+				standalone: null
+			},
 		});
 
-		return builder.buildObject(lookAndFeelJSON);
+		var xml = builder.buildObject(lookAndFeelJSON);
+
+		xml = xml.replace(/(<\?xml.*>)/, '$1\n' + doctypeElement + '\n');
+
+		return xml;
 	},
 
 	correctJSONIdentifiers: function(lookAndFeelJSON, id) {
@@ -57,10 +65,6 @@ module.exports = {
 		}
 
 		return lookAndFeelJSON;
-	},
-
-	generateLookAndFeelXML: function(xmlString, doctypeElement) {
-		return xmlString.replace(/(<\?xml.*>)/, '<?xml version="1.0"?>\n' + doctypeElement + '\n');
 	},
 
 	getLookAndFeelDoctype: function(themePath) {

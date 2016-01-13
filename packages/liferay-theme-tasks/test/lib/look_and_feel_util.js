@@ -36,16 +36,6 @@ describe('Look and Feel Util functions', function() {
 		});
 	});
 
-	describe('generateLookAndFeelXML', function() {
-		it('should generate valid look-and-feel xml', function(done) {
-			var xml = lookAndFeelUtil.generateLookAndFeelXML('<?xml version="1.0" standalone="true"?>\n\n<look-and-feel></look-and-feel>', '<!DOCTYPE look-and-feel>');
-
-			assert.equal(xml, '<?xml version="1.0"?>\n<!DOCTYPE look-and-feel>\n\n\n<look-and-feel></look-and-feel>');
-
-			done();
-		});
-	});
-
 	describe('getLookAndFeelDoctype', function() {
 		it('should extract doctype from liferay-look-and-feel.xml', function(done) {
 			var doctype = lookAndFeelUtil.getLookAndFeelDoctype(baseThemePath);

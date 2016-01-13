@@ -161,15 +161,13 @@ module.exports = function(options) {
 
 			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeId);
 
-			var xml = lookAndFeelUtil.buildXML(lookAndFeelJSON);
-
 			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(process.cwd());
 
 			if (!doctypeElement) {
 				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(themeConfig.version);
 			}
 
-			xml = lookAndFeelUtil.generateLookAndFeelXML(xml, doctypeElement);
+			var xml = lookAndFeelUtil.buildXML(lookAndFeelJSON, doctypeElement);
 
 			fs.writeFile(path.join(process.cwd(), pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
 				cb();
