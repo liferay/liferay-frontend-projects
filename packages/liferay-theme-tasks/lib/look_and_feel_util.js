@@ -14,7 +14,7 @@ var QUERY_ELEMENTS = {
 	'layout-templates.0.custom.0.layout-template': 'id',
 	'layout-templates.0.standard.0.layout-template': 'id',
 	'portlet-decorator': 'id',
-	'roles.0.role-name': 'value',
+	'roles': 'single',
 	'settings.0.setting': 'key'
 };
 
@@ -158,18 +158,17 @@ module.exports = {
 			var queryString = 'look-and-feel.theme.0.' + index;
 			var mergedElement;
 
+			var themeElement = _.get(themeObj, queryString);
+			var baseThemeElement = _.get(baseThemeObj, queryString);
+
 			if (item == 'value') {
-				mergedElement = instance._mergeThemeElementByValue(
-					_.get(themeObj, queryString),
-					_.get(baseThemeObj, queryString)
-				);
+				mergedElement = instance._mergeThemeElementByValue(themeElement, baseThemeElement);
+			}
+			else if (item == 'single') {
+				mergedElement = themeElement || baseThemeElement;
 			}
 			else {
-				mergedElement = instance._mergeThemeElementById(
-					_.get(themeObj, queryString),
-					_.get(baseThemeObj, queryString),
-					item
-				);
+				mergedElement = instance._mergeThemeElementById(themeElement, baseThemeElement, item);
 			}
 
 			if (mergedElement) {
