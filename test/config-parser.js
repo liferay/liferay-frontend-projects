@@ -111,4 +111,33 @@ describe('ConfigParser', function () {
 
         assert.sameMembers(['liferay@1.0.0', 'liferay@2.0.0'], configParser.mapModule(['liferay', 'liferay2']));
     });
+
+    it('should map a module via a mapping function', function () {
+        var configParser = new global.ConfigParser();
+
+        configParser._config = {
+            maps: {
+                '*': function(name) {
+                    return name + 'test';
+                }
+            }
+        };
+
+        assert.sameMembers(['liferaytest', 'liferay2test'], configParser.mapModule(['liferay', 'liferay2']));
+    });
+
+    it('should ignore a mapping function if a more specific module mapping exists', function () {
+        var configParser = new global.ConfigParser();
+
+        configParser._config = {
+            maps: {
+                liferay: 'liferay@1.0.0',
+                '*': function(name) {
+                    return name + 'test';
+                }
+            }
+        };
+
+        assert.sameMembers(['liferay@1.0.0', 'liferay2test'], configParser.mapModule(['liferay', 'liferay2']));
+    });
 });

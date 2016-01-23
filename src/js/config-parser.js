@@ -98,6 +98,10 @@ ConfigParser.prototype = {
      * @return {array|string} The mapped module or array of mapped modules.
      */
     mapModule: function(module) {
+        if (!this._config.maps) {
+            return module;
+        }
+
         var modules;
 
         if (Array.isArray(module)) {
@@ -109,6 +113,8 @@ ConfigParser.prototype = {
         for (var i = 0; i < modules.length; i++) {
             var tmpModule = modules[i];
 
+            var found = false;
+
             for (var alias in this._config.maps) {
                 /* istanbul ignore else */
                 if (Object.prototype.hasOwnProperty.call(this._config.maps, alias)) {
@@ -116,9 +122,15 @@ ConfigParser.prototype = {
                         tmpModule = this._config.maps[alias] + tmpModule.substring(alias.length);
                         modules[i] = tmpModule;
 
+                        found = true;
                         break;
                     }
                 }
+            }
+
+            /* istanbul ignore else */
+            if(!found && typeof this._config.maps['*'] === 'function') {
+                modules[i] = this._config.maps['*'](tmpModule);
             }
         }
 
