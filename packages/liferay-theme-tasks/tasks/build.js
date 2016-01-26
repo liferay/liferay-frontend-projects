@@ -237,6 +237,7 @@ module.exports = function(options) {
 			.pipe(plugins.rename({
 				suffix: '_rtl'
 			}))
+			.pipe(plugins.plumber())
 			.pipe(r2())
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
