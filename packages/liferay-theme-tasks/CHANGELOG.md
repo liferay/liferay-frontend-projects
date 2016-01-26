@@ -1,7 +1,11 @@
 
 ## Next Release
-* New: themes will now inherit theme settings and portlet decorators from parent theme's liferay-look-and-feel.xml
+* No changes
 ***
+
+## v0.0.44 - January 26, 2016
+* Fix: potential errors in r2 will no longer abort build task
+* New: themes will now inherit theme settings and portlet decorators from parent theme's liferay-look-and-feel.xml
 
 ## v0.0.43 - December 23, 2015
 
