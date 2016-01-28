@@ -44,23 +44,26 @@ var parentLiferayThemeVersion = themeConfig.version;
 
 var themeDependencies = getThemeDependencies(parentLiferayThemeVersion, themeConfig.supportCompass);
 
-var child = spawn('npm', ['install'].concat(themeDependencies));
+try {
+	var npm = require('npm');
 
-child.stdout.on('data', function(data) {
-	process.stdout.write(data.toString());
-});
+	npm.load({
+		loaded: false
+	}, function(err) {
+		if (err) throw err;
 
-child.stderr.on('data', function(data) {
-	process.stdout.write(data.toString());
-});
+		npm.commands.install(themeDependencies, function(err, data) {
+			if (err) throw err;
 
-child.on('close', function(code) {
-	process.stdout.write('npm install child process exited with code ' + code);
+			insertInjectTags();
 
-	insertInjectTags();
-
-	eventEmitter.emit('dependenciesInstalled');
-});
+			eventEmitter.emit('dependenciesInstalled');
+		});
+	});
+}
+catch(e) {
+	spawnNPMInstall();
+}
 
 function getSassDependencies(supportCompass) {
 	var dependencyMap = supportCompass ? SASS_DEPENDENCIES.rubySass : SASS_DEPENDENCIES.libSass;
@@ -117,6 +120,32 @@ function insertInjectTags() {
 
 	insertInjectTag(STR_UNSTYLED, 'templates/portal_normal.vm', templateRegex, templateReplacer);
 	insertInjectTag(STR_UNSTYLED, 'templates/portal_normal.ftl', templateRegex, templateReplacer);
+}
+
+function spawnNPMInstall() {
+	var child = spawn('npm', ['install'].concat(themeDependencies));
+
+	child.stdout.on('data', function(data) {
+		process.stdout.write(data.toString());
+	});
+
+	child.stderr.on('data', function(data) {
+		process.stdout.write(data.toString());
+	});
+
+	child.on('close', function(code) {
+		if (code != 0) {
+			process.stdout.write('npm install child process exited with code ' + code);
+		}
+
+		insertInjectTags();
+
+		eventEmitter.emit('dependenciesInstalled');
+	});
+
+	child.on('error', function(err) {
+		console.log(err);
+	});
 }
 
 module.exports = eventEmitter;
