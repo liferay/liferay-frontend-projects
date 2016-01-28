@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var events = require('events');
-var exec = require('child_process').exec;
 var fs = require('fs');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
+var spawn = require('child_process').spawn;
 var versionMap = require('../lib/version_map');
 
 var DEFAULT_THEME_CONFIG = {
@@ -44,19 +44,23 @@ var parentLiferayThemeVersion = themeConfig.version;
 
 var themeDependencies = getThemeDependencies(parentLiferayThemeVersion, themeConfig.supportCompass);
 
-var child = exec(
-	'npm install ' + themeDependencies.join(' '),
-	function (err, stdout, stderr) {
-		console.log(stdout);
-		console.log(stderr);
+var child = spawn('npm', ['install'].concat(themeDependencies));
 
-		if (err) throw err;
+child.stdout.on('data', function(data) {
+	process.stdout.write(data.toString());
+});
 
-		insertInjectTags();
+child.stderr.on('data', function(data) {
+	process.stdout.write(data.toString());
+});
 
-		eventEmitter.emit('dependenciesInstalled');
-	}
-);
+child.on('close', function(code) {
+	process.stdout.write('npm install child process exited with code ' + code);
+
+	insertInjectTags();
+
+	eventEmitter.emit('dependenciesInstalled');
+});
 
 function getSassDependencies(supportCompass) {
 	var dependencyMap = supportCompass ? SASS_DEPENDENCIES.rubySass : SASS_DEPENDENCIES.libSass;
