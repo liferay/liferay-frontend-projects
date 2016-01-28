@@ -3,6 +3,9 @@
 * No changes
 ***
 
+## v0.0.45 - January 28, 2016
+* Fix: temporary workaround for install issues when 'npm' is not in path
+
 ## v0.0.44 - January 26, 2016
 * Fix: potential errors in r2 will no longer abort build task
 * New: themes will now inherit theme settings and portlet decorators from parent theme's liferay-look-and-feel.xml
