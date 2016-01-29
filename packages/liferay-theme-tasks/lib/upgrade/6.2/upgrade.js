@@ -7,9 +7,11 @@ var fs = require('fs-extra');
 var glob = require('glob');
 var gulpBlackList = require('./gulp_black_list.js');
 var inquirer = require('inquirer');
+var lfrThemeConfig = require('../../liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
+var spawn = require('child_process').spawn;
 var themeUtil = require('../../util');
 
 var gutil = plugins.util;
@@ -116,16 +118,28 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:dependencies', function(cb) {
-		var themeTasksPath = path.dirname(require.resolve('liferay-theme-tasks'));
+		lfrThemeConfig.removeDependencies(['liferay-theme-deps-6.2']);
+		lfrThemeConfig.setConfig({
+			'liferay-theme-deps-7.0': '*'
+		}, true);
 
-		process.chdir(themeTasksPath);
+		var npmInstall = spawn('npm', ['install', 'liferay-theme-deps-7.0']);
 
-		var npm = require('../../../scripts/install.js');
+		npmInstall.stderr.pipe(process.stderr);
+		npmInstall.stdout.pipe(process.stdout);
 
-		npm.on('dependenciesInstalled', function() {
-			process.chdir(CWD);
+		npmInstall.on('close', function() {
+			var themeTasksPath = path.dirname(require.resolve('liferay-theme-tasks'));
 
-			cb();
+			process.chdir(themeTasksPath);
+
+			var installScript = require('../../../scripts/install.js');
+
+			installScript.on('dependenciesInstalled', function() {
+				process.chdir(CWD);
+
+				cb();
+			});
 		});
 	});
 
