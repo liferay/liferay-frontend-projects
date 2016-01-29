@@ -9,14 +9,6 @@ var resolve = require('resolve');
 
 var themeConfig = lfrThemeConfig.getConfig();
 
-var depModuleName = 'liferay-theme-deps-7.0';
-
-if (themeConfig && themeConfig.version == '6.2') {
-	depModuleName = 'liferay-theme-deps-6.2';
-}
-
-var DEPS_PATH = path.dirname(require.resolve(depModuleName));
-
 var fullDeploy = (argv.full || argv.f);
 
 module.exports = {
@@ -95,19 +87,35 @@ module.exports = {
 		return _.startsWith(path.basename(name), '_');
 	},
 
-	resolveDependency: function(dependency) {
+	resolveDependency: function(dependency, version) {
+		var depsPath = this._getDepsPath(version);
+
 		var dependencyPath = resolve.sync(dependency, {
-			basedir: DEPS_PATH
+			basedir: depsPath
 		});
 
 		return path.dirname(require.resolve(dependencyPath));
 	},
 
-	requireDependency: function(dependency) {
+	requireDependency: function(dependency, version) {
+		var depsPath = this._getDepsPath(version);
+
 		var dependencyPath = resolve.sync(dependency, {
-			basedir: DEPS_PATH
+			basedir: depsPath
 		});
 
 		return require(dependencyPath);
+	},
+
+	_getDepsPath: function(version) {
+		var depModuleName = 'liferay-theme-deps-7.0';
+
+		if ((version && version == '6.2') || (themeConfig && themeConfig.version == '6.2')) {
+			depModuleName = 'liferay-theme-deps-6.2';
+		}
+
+		var depsPath = path.dirname(require.resolve(depModuleName));
+
+		return depsPath;
 	}
 };
