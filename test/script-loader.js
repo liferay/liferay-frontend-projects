@@ -416,7 +416,7 @@ describe('Loader', function() {
 
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
-            assert.isTrue(success.calledTwice, 'Success should be called');
+            assert.isTrue(success.calledTwice, 'Success should be called twice');
 
             assert.isObject(successValue);
             assert.property(successValue, 'default');
@@ -544,6 +544,7 @@ describe('Loader', function() {
             // Delay module adds "delay" property to global
             assert.strictEqual(1, global.delay);
 
+            delete global.delay;
             done();
         }, 50);
     });
@@ -571,6 +572,7 @@ describe('Loader', function() {
             var modules = Loader.getModules();
             assert.property(modules['underscore'], 'implementation');
 
+            delete global['_'];
             done();
         }, 50);
     });
@@ -593,12 +595,13 @@ describe('Loader', function() {
 
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should not be called');
-            assert.isTrue(success.calledTwice, 'Success should be called');
+            assert.isTrue(success.calledTwice, 'Success should be called twice');
             assert.property(global, '_');
 
             var modules = Loader.getModules();
             assert.property(modules['underscore'], 'implementation');
 
+            delete global['_'];
             done();
         }, 50);
     });
