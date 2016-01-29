@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "description": "Set of dependencies required by liferay-theme-tasks",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "gulp-ruby-sass": "^2.0.6",
+    "liferay-theme-mixins": "^6.2.2",
+    "liferay-theme-styled": "^6.2.2",
+    "liferay-theme-unstyled": "^6.2.3"
+  }
 }
