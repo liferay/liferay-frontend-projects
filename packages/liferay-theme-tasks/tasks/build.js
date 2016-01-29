@@ -180,7 +180,7 @@ module.exports = function(options) {
 
 		var config = getSassConfig(supportCompass);
 
-		var cssPreprocessor = config.cssPreprocessor || require('gulp-sass');
+		var cssPreprocessor = config.cssPreprocessor || themeUtil.requireDependency('gulp-sass');
 
 		var fileExt = config.fileExt || '.scss';
 
@@ -376,11 +376,11 @@ function getSassConfigDefaults(supportCompass) {
 	}
 
 	if (supportCompass) {
-		config.cssPreprocessor = require('gulp-ruby-sass');
+		config.cssPreprocessor = themeUtil.requireDependency('gulp-ruby-sass');
 		config.loadPath = includePaths;
 	}
 	else {
-		config.cssPreprocessor = require('gulp-sass');
+		config.cssPreprocessor = themeUtil.requireDependency('gulp-sass');
 		config.includePaths = includePaths;
 	}
 
