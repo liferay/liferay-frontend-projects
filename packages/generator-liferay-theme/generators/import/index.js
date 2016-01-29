@@ -99,8 +99,14 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this._setPublishTag(liferayVersion);
 		this._setPackageVersion(liferayVersion);
 
+		var defaultTemplateLanguage = 'ftl';
+
+		if (liferayVersion == '6.2') {
+			defaultTemplateLanguage = 'vm';
+		}
+
 		this._getSettingFromConfigFile({
-			defaultValue: 'vm',
+			defaultValue: defaultTemplateLanguage,
 			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
 			propertyName: 'templateLanguage',
 			regex: /<template-extension>(.*)<\/template-extension>/
