@@ -3,6 +3,7 @@
 var bourbon = require('node-bourbon');
 var fs = require('fs-extra');
 var path = require('path');
+var themeUtil = require('./util');
 var versionMap = require('./version_map');
 
 var formatPath = function(filePath) {
@@ -31,11 +32,13 @@ exports.createBourbonFile = function(forceCreation) {
 			bourbonFile.push('";');
 		}
 
+		var mixinsPath = themeUtil.resolveDeps(versionMap.getDependencyName('mixins'));
+
 		bourbonFile.push('@import "');
 		bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));
 		bourbonFile.push('";');
 		bourbonFile.push('@import "');
-		bourbonFile.push(formatPath(path.join(__dirname, '../node_modules', versionMap.getDependencyName('mixins'), 'liferay/_bourbon_ext')));
+		bourbonFile.push(formatPath(path.join(mixinsPath, 'liferay/_bourbon_ext.scss')));
 		bourbonFile.push('";');
 
 		fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));

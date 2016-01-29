@@ -4,6 +4,7 @@ var fs = require('fs');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var spawn = require('child_process').spawn;
+var themeUtil = require('../lib/util');
 var versionMap = require('../lib/version_map');
 
 var DEFAULT_THEME_CONFIG = {
@@ -42,29 +43,6 @@ if (hasParentTheme()) {
 
 var parentLiferayThemeVersion = themeConfig.version;
 
-var themeDependencies = getThemeDependencies(parentLiferayThemeVersion, themeConfig.supportCompass);
-
-try {
-	var npm = require('npm');
-
-	npm.load({
-		loaded: false
-	}, function(err) {
-		if (err) throw err;
-
-		npm.commands.install(themeDependencies, function(err, data) {
-			if (err) throw err;
-
-			insertInjectTags();
-
-			eventEmitter.emit('dependenciesInstalled');
-		});
-	});
-}
-catch(e) {
-	spawnNPMInstall();
-}
-
 function getSassDependencies(supportCompass) {
 	var dependencyMap = supportCompass ? SASS_DEPENDENCIES.rubySass : SASS_DEPENDENCIES.libSass;
 
@@ -96,7 +74,7 @@ function hasParentTheme() {
 }
 
 function insertInjectTag(dependency, filePath, regex, replacer) {
-	filePath = path.join(__dirname, '../node_modules', versionMap.getDependencyName(dependency, parentLiferayThemeVersion), filePath);
+	filePath = path.join(themeUtil.resolveDeps(versionMap.getDependencyName(dependency, parentLiferayThemeVersion)) ,filePath);
 
 	var fileContents = fs.readFileSync(filePath, {
 		encoding: 'utf8'
@@ -122,30 +100,6 @@ function insertInjectTags() {
 	insertInjectTag(STR_UNSTYLED, 'templates/portal_normal.ftl', templateRegex, templateReplacer);
 }
 
-function spawnNPMInstall() {
-	var child = spawn('npm', ['install'].concat(themeDependencies));
-
-	child.stdout.on('data', function(data) {
-		process.stdout.write(data.toString());
-	});
-
-	child.stderr.on('data', function(data) {
-		process.stdout.write(data.toString());
-	});
-
-	child.on('close', function(code) {
-		if (code != 0) {
-			process.stdout.write('npm install child process exited with code ' + code);
-		}
-
-		insertInjectTags();
-
-		eventEmitter.emit('dependenciesInstalled');
-	});
-
-	child.on('error', function(err) {
-		console.log(err);
-	});
-}
+insertInjectTags();
 
 module.exports = eventEmitter;

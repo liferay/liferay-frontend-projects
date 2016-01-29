@@ -10,6 +10,7 @@ var inquirer = require('inquirer');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
+var themeUtil = require('../../util');
 
 var gutil = plugins.util;
 
@@ -166,7 +167,7 @@ module.exports = function(options) {
 	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
 		var NEW_LINE = '\n';
 
-		var compassPath = require.resolve('compass-mixins');
+		var compassPath = themeUtil.resolveDeps('compass-mixins');
 
 		var includeCompass = '@import "' + compassPath + '";' + NEW_LINE + NEW_LINE;
 

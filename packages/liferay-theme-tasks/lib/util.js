@@ -4,6 +4,9 @@ var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
 var path = require('path');
+var resolve = require('resolve');
+
+var depsPath = path.dirname(require.resolve('liferay-theme-deps-7.0'));
 
 var fullDeploy = (argv.full || argv.f);
 
@@ -81,5 +84,13 @@ module.exports = {
 
 	isSassPartial: function(name) {
 		return _.startsWith(path.basename(name), '_');
+	},
+
+	resolveDeps: function(dependency) {
+		var dependencyPath = resolve.sync(dependency, {
+			basedir: depsPath
+		});
+
+		return path.dirname(require.resolve(dependencyPath));
 	}
 };

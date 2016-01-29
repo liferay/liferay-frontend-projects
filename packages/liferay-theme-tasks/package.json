@@ -45,6 +45,7 @@
     "node-bourbon": "^4.2.3",
     "npm-keyword": "^1.1.1",
     "package-json": "^1.2.0",
+    "resolve": "^1.1.7",
     "run-sequence": "^1.0.2",
     "through2": "^2.0.0",
     "update-notifier": "^0.5.0",
@@ -54,6 +55,7 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-fs": "^0.1.0",
+    "liferay-theme-deps-7.0": "https://github.com/Robert-Frampton/liferay-theme-deps-7.0.git",
     "mocha": "^2.3.2",
     "sinon": "^1.17.2",
     "xml2js": "^0.4.9"
