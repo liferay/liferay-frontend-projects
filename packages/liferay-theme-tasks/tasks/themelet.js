@@ -86,7 +86,13 @@ module.exports = function(options) {
 			cb();
 		}));
 
-		var templateLanguage = themeConfig.templateLanguage || 'vm';
+		var defaultTemplateLanguage = 'ftl';
+
+		if (themeConfig.version == '6.2') {
+			defaultTemplateLanguage = 'vm';
+		}
+
+		var templateLanguage = themeConfig.templateLanguage || defaultTemplateLanguage;
 
 		gulp.src(path.join(pathBuild, 'templates/portal_normal.' + templateLanguage))
 			.pipe(plugins.inject(sources, {
