@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-deps-7.0",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Set of dependencies required by liferay-theme-tasks",
   "main": "package.json",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
