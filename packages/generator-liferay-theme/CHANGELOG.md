@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Breaking: removed Support Compass option from theme generator. For 7.0 themes you must now manually set the supportCompass option in package.json, and add gulp-ruby-sass as dependency.
 ***
 
 ## v7.0.20 - January 4, 2016
