@@ -13,9 +13,11 @@
 	},
 	"dependencies": {
 		"gulp": "^3.8.10",
-		"liferay-theme-tasks": "https://github.com/liferay/liferay-theme-tasks.git",<% if (liferayVersion == 6.2) { %>
+		"liferay-theme-tasks": "/Users/rframpton/Projects/theme-generator/liferay-theme-tasks",<% if (liferayVersion == 6.2) { %>
 		"liferay-theme-deps-6.2": "*"<% } else { %>
-		"liferay-theme-deps-7.0": "*"<% } %>
+		"liferay-theme-deps-7.0": "*"<% } %><% if (liferayVersion == 6.2 && !supportCompass) { %>,
+		"gulp-sass": "*"<% } else if (liferayVersion == 7.0 && supportCompass) { %>,
+		"gulp-ruby-sass": "*"<% } %>
 	}<% if (publishTag) { %>,
 	"publishConfig": {
 		"tag": "<%= publishTag %>"
