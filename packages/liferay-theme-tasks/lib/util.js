@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
-var lfrThemeConfig = require('./lib/liferay_theme_config');
+var lfrThemeConfig = require('./liferay_theme_config');
 var path = require('path');
 var resolve = require('resolve');
 
