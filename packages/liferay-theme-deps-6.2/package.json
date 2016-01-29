@@ -2,7 +2,7 @@
   "name": "liferay-theme-deps-6.2",
   "version": "0.0.3",
   "description": "Set of dependencies required by liferay-theme-tasks",
-  "main": "index.js",
+  "main": "package.json",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
   "license": "ISC",
   "dependencies": {
