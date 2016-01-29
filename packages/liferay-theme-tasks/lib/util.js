@@ -11,7 +11,7 @@ var themeConfig = lfrThemeConfig.getConfig();
 
 var depModuleName = 'liferay-theme-deps-7.0';
 
-if (themeConfig.version == '6.2') {
+if (themeConfig && themeConfig.version == '6.2') {
 	depModuleName = 'liferay-theme-deps-6.2';
 }
 
