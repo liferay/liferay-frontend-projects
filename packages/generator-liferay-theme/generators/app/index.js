@@ -167,13 +167,6 @@ module.exports = yeoman.generators.Base.extend({
 				],
 				type: 'list',
 				when: instance._getWhenFn('templateLanguage', 'template', instance._isTemplateLanguage)
-			},
-			{
-				default: false,
-				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
-				name: 'supportCompass',
-				type: 'confirm',
-				when: instance._getWhenFn('supportCompass', 'compass', _.isBoolean)
 			}
 		];
 	},
@@ -236,9 +229,15 @@ module.exports = yeoman.generators.Base.extend({
 	_promptCallback: function(props) {
 		var liferayVersion = props.liferayVersion;
 
+		var supportCompass = false;
+
+		if (liferayVersion == '6.2') {
+			supportCompass = true;
+		}
+
 		this.appname = props.themeId;
 		this.liferayVersion = liferayVersion;
-		this.supportCompass = props.supportCompass;
+		this.supportCompass = supportCompass;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
