@@ -135,11 +135,9 @@ module.exports = function(options) {
 
 			var installScript = require('../../../scripts/install.js');
 
-			installScript.on('dependenciesInstalled', function() {
-				process.chdir(CWD);
+			process.chdir(CWD);
 
-				cb();
-			});
+			cb();
 		});
 	});
 

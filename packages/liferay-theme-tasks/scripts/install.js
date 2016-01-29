@@ -1,4 +1,3 @@
-var events = require('events');
 var fs = require('fs');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
@@ -12,8 +11,6 @@ var DEFAULT_THEME_CONFIG = {
 };
 
 var STR_UNSTYLED = 'unstyled';
-
-var eventEmitter = new events.EventEmitter();
 
 var themeConfig = DEFAULT_THEME_CONFIG;
 
@@ -55,5 +52,3 @@ function insertInjectTags() {
 }
 
 insertInjectTags();
-
-module.exports = eventEmitter;
