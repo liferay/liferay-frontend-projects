@@ -1,6 +1,6 @@
-'use strict';
-
 define("liferay@1.0.0/sub-relative/sub-relative1", ['exports', '../relative3'], function (exports, _relative) {
+  'use strict';
+
   Object.defineProperty(exports, "__esModule", {
     value: true
   });

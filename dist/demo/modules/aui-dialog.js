@@ -1,6 +1,6 @@
-'use strict';
-
 define("liferay@1.0.0/aui-dialog", ['exports', 'liferay/aui-base', 'liferay/aui-core', 'liferay/aui-event'], function (exports, _auiBase, _auiCore, _auiEvent) {
+    'use strict';
+
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
