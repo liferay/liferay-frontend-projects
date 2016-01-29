@@ -3,10 +3,19 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
+var lfrThemeConfig = require('./lib/liferay_theme_config');
 var path = require('path');
 var resolve = require('resolve');
 
-var depsPath = path.dirname(require.resolve('liferay-theme-deps-7.0'));
+var themeConfig = lfrThemeConfig.getConfig();
+
+var depModuleName = 'liferay-theme-deps-7.0';
+
+if (themeConfig.version == '6.2') {
+	depModuleName = 'liferay-theme-deps-6.2';
+}
+
+var depsPath = path.dirname(require.resolve(depModuleName));
 
 var fullDeploy = (argv.full || argv.f);
 
@@ -92,5 +101,13 @@ module.exports = {
 		});
 
 		return path.dirname(require.resolve(dependencyPath));
+	},
+
+	requireDependency: function(dependency) {
+		var dependencyPath = resolve.sync(dependency, {
+			basedir: depsPath
+		});
+
+		return require(dependencyPath);
 	}
 };
