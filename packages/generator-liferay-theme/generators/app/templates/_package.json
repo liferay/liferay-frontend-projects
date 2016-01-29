@@ -13,7 +13,9 @@
 	},
 	"dependencies": {
 		"gulp": "^3.8.10",
-		"liferay-theme-tasks": "*"
+		"liferay-theme-tasks": "https://github.com/liferay/liferay-theme-tasks.git",<% if (liferayVersion == 6.2) { %>
+		"liferay-theme-deps-6.2": "*"<% } else { %>
+		"liferay-theme-deps-7.0": "*"<% } %>
 	}<% if (publishTag) { %>,
 	"publishConfig": {
 		"tag": "<%= publishTag %>"
