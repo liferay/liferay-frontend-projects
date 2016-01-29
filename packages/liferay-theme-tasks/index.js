@@ -1,5 +1,6 @@
 'use strict';
 
+var doctor = require('./lib/doctor');
 var glob = require('glob');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
@@ -23,6 +24,8 @@ module.exports.registerTasks = function(options) {
 	glob.sync(path.resolve(__dirname, 'tasks/**/*')).forEach(function(item, index) {
 		require(item)(options);
 	});
+
+	doctor();
 
 	process.once('beforeExit', function() {
 		versionControl();

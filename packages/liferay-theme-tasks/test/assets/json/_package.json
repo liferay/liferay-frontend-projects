@@ -19,6 +19,7 @@
 			},
 			"version": "1.0.0"
 		},
+		"supportCompass": true,
 		"themeletDependencies": {
 			"test-themelet": {
 				"liferayTheme": {
@@ -33,7 +34,6 @@
 	},
 	"dependencies": {
 		"gulp": "^3.8.10",
-		"liferay-theme-deps-7.0": "*",
 		"liferay-theme-tasks": "*"
 	}
 }
