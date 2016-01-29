@@ -1,5 +1,5 @@
 {
-  "name": "liferay-theme-preset-6.2",
+  "name": "liferay-theme-deps-6.2",
   "version": "0.0.2",
   "description": "Set of dependencies required by liferay-theme-tasks",
   "main": "index.js",
