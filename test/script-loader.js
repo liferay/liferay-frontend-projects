@@ -403,6 +403,30 @@ describe('Loader', function() {
         }, 50);
     });
 
+    it('should load module with "exports" dependency twice', function(done) {
+        var failure = sinon.stub();
+
+        var successValue;
+        var success = sinon.spy(function(val) {
+            successValue = val;
+        });
+
+        Loader.require(['exports-dep'], success, failure);
+        Loader.require(['exports-dep'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledTwice, 'Success should be called');
+
+            assert.isObject(successValue);
+            assert.property(successValue, 'default');
+            assert.isFunction(successValue.default);
+            assert.strictEqual('alabala', successValue.default.name);
+
+            done();
+        }, 50);
+    });
+
     it('should load module with "module" dependency', function(done) {
         var failure = sinon.stub();
 
@@ -524,7 +548,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should load modules which do not expose a define function', function(done) {
+    it('should load modules which don\'t expose a define function', function(done) {
         Loader.addModule({
             dependencies: [],
             exports: '_',
@@ -542,6 +566,34 @@ describe('Loader', function() {
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should not be called');
             assert.isTrue(success.calledOnce, 'Success should be called');
+            assert.property(global, '_');
+
+            var modules = Loader.getModules();
+            assert.property(modules['underscore'], 'implementation');
+
+            done();
+        }, 50);
+    });
+
+    it('should load modules which don\'t expose a define function twice', function(done) {
+        Loader.addModule({
+            dependencies: [],
+            exports: '_',
+            name: 'underscore',
+            path: '/modules2/underscore.js'
+        });
+
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.stub();
+
+        Loader.require(['underscore'], success, failure);
+        Loader.require(['underscore'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledTwice, 'Success should be called');
             assert.property(global, '_');
 
             var modules = Loader.getModules();
