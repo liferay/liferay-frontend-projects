@@ -15,7 +15,7 @@ if (themeConfig.version == '6.2') {
 	depModuleName = 'liferay-theme-deps-6.2';
 }
 
-var depsPath = path.dirname(require.resolve(depModuleName));
+var DEPS_PATH = path.dirname(require.resolve(depModuleName));
 
 var fullDeploy = (argv.full || argv.f);
 
@@ -97,7 +97,7 @@ module.exports = {
 
 	resolveDependency: function(dependency) {
 		var dependencyPath = resolve.sync(dependency, {
-			basedir: depsPath
+			basedir: DEPS_PATH
 		});
 
 		return path.dirname(require.resolve(dependencyPath));
@@ -105,7 +105,7 @@ module.exports = {
 
 	requireDependency: function(dependency) {
 		var dependencyPath = resolve.sync(dependency, {
-			basedir: depsPath
+			basedir: DEPS_PATH
 		});
 
 		return require(dependencyPath);
