@@ -1,6 +1,7 @@
 
 ## Next Release
-* No changes
+* Breaking/New: implement use of liferay-theme-deps-6.2/liferay-theme-deps-7.0 for loading version specific dependencies. Note that these modules should be installed as dependencies of the theme
+* Breaking: no longer installs version specific dependencies during post install script
 ***
 
 ## v0.0.45 - January 28, 2016
