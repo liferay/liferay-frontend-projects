@@ -86,7 +86,7 @@ module.exports = {
 		return _.startsWith(path.basename(name), '_');
 	},
 
-	resolveDeps: function(dependency) {
+	resolveDependency: function(dependency) {
 		var dependencyPath = resolve.sync(dependency, {
 			basedir: depsPath
 		});

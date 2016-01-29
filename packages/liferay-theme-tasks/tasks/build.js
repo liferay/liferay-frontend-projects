@@ -56,7 +56,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:base', function() {
-		var sourceFiles = [path.join(themeUtil.resolveDeps(versionMap.getDependencyName('unstyled')), baseThemeGlob)];
+		var sourceFiles = [path.join(themeUtil.resolveDependency(versionMap.getDependencyName('unstyled')), baseThemeGlob)];
 
 		sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
@@ -307,10 +307,10 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	}
 	else if (baseTheme == 'styled' || baseTheme == 'classic') {
-		dependencies.splice(1, 0, path.join(themeUtil.resolveDeps(versionMap.getDependencyName('styled')), baseThemeGlob));
+		dependencies.splice(1, 0, path.join(themeUtil.resolveDependency(versionMap.getDependencyName('styled')), baseThemeGlob));
 
 		if (baseTheme == 'classic') {
-			dependencies.splice(2, 0, path.join(themeUtil.resolveDeps(versionMap.getDependencyName('classic')), baseThemeGlob));
+			dependencies.splice(2, 0, path.join(themeUtil.resolveDependency(versionMap.getDependencyName('classic')), baseThemeGlob));
 		}
 
 		return dependencies;
@@ -366,7 +366,7 @@ function getSassConfigDefaults(supportCompass) {
 	};
 
 	var includePaths = [
-		themeUtil.resolveDeps(versionMap.getDependencyName('mixins'))
+		themeUtil.resolveDependency(versionMap.getDependencyName('mixins'))
 	];
 
 	if (themeConfig.version > 6.2) {

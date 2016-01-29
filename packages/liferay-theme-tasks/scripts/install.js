@@ -74,7 +74,7 @@ function hasParentTheme() {
 }
 
 function insertInjectTag(dependency, filePath, regex, replacer) {
-	filePath = path.join(themeUtil.resolveDeps(versionMap.getDependencyName(dependency, parentLiferayThemeVersion)) ,filePath);
+	filePath = path.join(themeUtil.resolveDependency(versionMap.getDependencyName(dependency, parentLiferayThemeVersion)), filePath);
 
 	var fileContents = fs.readFileSync(filePath, {
 		encoding: 'utf8'
