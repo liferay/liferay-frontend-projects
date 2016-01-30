@@ -258,7 +258,19 @@ var LoaderProtoMethods = {
                 if (!!exportedValue) {
                     resolve(exportedValue);
                 } else {
-                    reject(new Error('Module ' + moduleName + ' does not export the specified value: ' + module.exports));
+                    var onScriptLoaded = function() {
+                        self.off('scriptLoaded', onScriptLoaded);
+
+                        var exportedValue = self._getValueGlobalNS(module.exports);
+
+                        if (!!exportedValue) {
+                            resolve(exportedValue);
+                        } else {
+                            reject(new Error('Module ' + moduleName + ' does not export the specified value: ' + module.exports));
+                        }
+                    };
+
+                    self.on('scriptLoaded', onScriptLoaded);
                 }
             } else {
                 var onModuleRegister = function(registeredModuleName) {
@@ -455,7 +467,9 @@ var LoaderProtoMethods = {
 
                 // Create promises for each of the scripts, which should be loaded
                 for (var i = 0; i < urls.length; i++) {
-                    pendingScripts.push(self._loadScript(urls[i]));
+                    var exportsScript = self._getConfigParser().getModules()[notRequestedModules[i]].exports;
+
+                    pendingScripts.push(self._loadScript(urls[i], exportsScript));
                 }
 
                 // Wait for resolving all script Promises
@@ -498,7 +512,9 @@ var LoaderProtoMethods = {
      * @param {string} url The src of the script.
      * @return {Promise} Promise which will be resolved as soon as the script is being loaded.
      */
-    _loadScript: function(url) {
+    _loadScript: function(url, exportsScript) {
+        var self = this;
+
         return new Promise(function(resolve, reject) {
             var script = document.createElement('script');
 
@@ -512,6 +528,8 @@ var LoaderProtoMethods = {
                     script.onload = script.onreadystatechange = null;
 
                     resolve(script);
+
+                    self.emit('scriptLoaded');
                 }
             };
 
