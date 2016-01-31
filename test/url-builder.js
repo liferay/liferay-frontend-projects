@@ -10,21 +10,23 @@ describe('URLBuilder', function () {
     it('should create URL for module with path', function () {
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['aui-core']);
+        var modulesURL = urlBuilder.build(['aui-core']);
 
-        assert.strictEqual(url.length, 1);
+        assert.strictEqual(modulesURL.length, 1);
 
-        assert.strictEqual(url[0], 'http://localhost:3000/combo?/modules/aui-core.js');
+        assert.strictEqual(modulesURL[0].url, 'http://localhost:3000/combo?/modules/aui-core.js');
+        assert.sameMembers(modulesURL[0].modules, ['aui-core']);
     });
 
     it('should create URL for module with full path', function () {
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['aui-base']);
+        var modulesURL = urlBuilder.build(['aui-base']);
 
-        assert.strictEqual(url.length, 1);
+        assert.strictEqual(modulesURL.length, 1);
 
-        assert.strictEqual(url[0], 'http://localhost:8080/demo/modules/aui-base.js');
+        assert.strictEqual(modulesURL[0].url, 'http://localhost:8080/demo/modules/aui-base.js');
+        assert.sameMembers(modulesURL[0].modules, ['aui-base']);
     });
 
     it('should create url for module when combine set to false', function () {
@@ -45,11 +47,15 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['aui-base', 'aui-core.js']);
+        var modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
-        assert.strictEqual(url.length, 2);
+        assert.strictEqual(modulesURL.length, 2);
 
-        assert.strictEqual(url[0], 'http://localhost:3000/modules/base/aui-base.js');
+        assert.strictEqual(modulesURL[0].url, 'http://localhost:3000/modules/base/aui-base.js');
+        assert.sameMembers(modulesURL[0].modules, ['aui-base']);
+
+        assert.strictEqual(modulesURL[1].url, 'http://localhost:3000/modules/base/aui-core.js');
+        assert.sameMembers(modulesURL[1].modules, ['aui-core.js']);
     });
 
     it('should create url for modules with external URLs', function () {
@@ -75,14 +81,21 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['https://code.jquery.com/ui/1.11.2/jquery-ui.min.js', 'jquery-2.1.2', '//code.jquery.com/jquery-1.11.2.min.js', 'www.mydomain.com/crap.js']);
+        var modulesURL = urlBuilder.build(['https://code.jquery.com/ui/1.11.2/jquery-ui.min.js', 'jquery-2.1.2', '//code.jquery.com/jquery-1.11.2.min.js', 'www.mydomain.com/crap.js']);
 
-        assert.strictEqual(url.length, 4);
+        assert.strictEqual(modulesURL.length, 4);
 
-        assert.strictEqual(url[0], 'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js');
-        assert.strictEqual(url[1], 'http://code.jquery.com/jquery-2.1.2.min.js');
-        assert.strictEqual(url[2], '//code.jquery.com/jquery-1.11.2.min.js');
-        assert.strictEqual(url[3], 'www.mydomain.com/crap.js');
+        assert.strictEqual(modulesURL[0].url, 'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js');
+        assert.sameMembers(modulesURL[0].modules, ['https://code.jquery.com/ui/1.11.2/jquery-ui.min.js']);
+
+        assert.strictEqual(modulesURL[1].url, 'http://code.jquery.com/jquery-2.1.2.min.js');
+        assert.sameMembers(modulesURL[1].modules, ['jquery-2.1.2']);
+
+        assert.strictEqual(modulesURL[2].url, '//code.jquery.com/jquery-1.11.2.min.js');
+        assert.sameMembers(modulesURL[2].modules, ['//code.jquery.com/jquery-1.11.2.min.js']);
+
+        assert.strictEqual(modulesURL[3].url, 'www.mydomain.com/crap.js');
+        assert.sameMembers(modulesURL[3].modules, ['www.mydomain.com/crap.js']);
     });
 
     it('should not replace parts of path', function () {
@@ -111,14 +124,21 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['jquery', 'aui', 'aui/js/loader.js', 'test/aui/js/aui/loader.js']);
+        var modulesURL = urlBuilder.build(['jquery', 'aui', 'aui/js/loader.js', 'test/aui/js/aui/loader.js']);
 
-        assert.strictEqual(url.length, 4);
+        assert.strictEqual(modulesURL.length, 4);
 
-        assert.strictEqual(url[0], 'http://code.jquery.com/jquery-2.1.3.min.js');
-        assert.strictEqual(url[1], 'http://localhost:3000/modules/base/html/js.js');
-        assert.strictEqual(url[2], 'http://localhost:3000/modules/base/html/js/js/loader.js');
-        assert.strictEqual(url[3], 'http://localhost:3000/modules/base/test/aui/js/aui/loader.js');
+        assert.strictEqual(modulesURL[0].url, 'http://code.jquery.com/jquery-2.1.3.min.js');
+        assert.sameMembers(modulesURL[0].modules, ['jquery']);
+
+        assert.strictEqual(modulesURL[1].url, 'http://localhost:3000/modules/base/html/js.js');
+        assert.sameMembers(modulesURL[1].modules, ['aui']);
+
+        assert.strictEqual(modulesURL[2].url, 'http://localhost:3000/modules/base/html/js/js/loader.js');
+        assert.sameMembers(modulesURL[2].modules, ['aui/js/loader.js']);
+
+        assert.strictEqual(modulesURL[3].url, 'http://localhost:3000/modules/base/test/aui/js/aui/loader.js');
+        assert.sameMembers(modulesURL[3].modules, ['test/aui/js/aui/loader.js']);
     });
 
     it('should not add basePath when module has absolute url', function() {
@@ -140,10 +160,11 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['jquery', 'underscore']);
+        var modulesURL = urlBuilder.build(['jquery', 'underscore']);
 
-        assert.strictEqual(1, url.length);
-        assert.strictEqual(url[0], 'http://localhost:3000/modules?/jquery.js&/underscore.js');
+        assert.strictEqual(1, modulesURL.length);
+        assert.strictEqual(modulesURL[0].url, 'http://localhost:3000/modules?/jquery.js&/underscore.js');
+        assert.sameMembers(modulesURL[0].modules, ['jquery', 'underscore']);
     });
 
     it('should not add trailing slash if base is an empty string', function () {
@@ -164,12 +185,15 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['aui-base', 'aui-core.js']);
+        var modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
-        assert.strictEqual(url.length, 2);
+        assert.strictEqual(modulesURL.length, 2);
 
-        assert.strictEqual(url[0], 'http://localhost:3000/modules?aui-base.js');
-        assert.strictEqual(url[1], 'http://localhost:3000/modules?aui-core.js');
+        assert.strictEqual(modulesURL[0].url, 'http://localhost:3000/modules?aui-base.js');
+        assert.sameMembers(modulesURL[0].modules, ['aui-base']);
+
+        assert.strictEqual(modulesURL[1].url, 'http://localhost:3000/modules?aui-core.js');
+        assert.sameMembers(modulesURL[1].modules, ['aui-core.js']);
     });
 
     it('should not add trailing slash if base is an empty string and combine is true', function () {
@@ -190,11 +214,12 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['aui-base', 'aui-core.js']);
+        var modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
-        assert.strictEqual(url.length, 1);
+        assert.strictEqual(modulesURL.length, 1);
 
-        assert.strictEqual(url[0], 'http://localhost:3000/modules?aui-base.js&aui-core.js');
+        assert.strictEqual(modulesURL[0].url, 'http://localhost:3000/modules?aui-base.js&aui-core.js');
+        assert.sameMembers(modulesURL[0].modules, ['aui-base', 'aui-core.js']);
     });
 
     it('should combine modules with and without absolute url', function() {
@@ -224,9 +249,14 @@ describe('URLBuilder', function () {
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var url = urlBuilder.build(['jquery', 'underscore', 'yui', 'lodash']);
+        var modulesURL = urlBuilder.build(['jquery', 'underscore', 'yui', 'lodash']);
 
-        assert.strictEqual(2, url.length);
-        assert.sameMembers(['http://localhost:3000/modules?/jquery.js&/yui.js', 'http://localhost:3000/modules?/base/underscore.js&/base/lodash.js'], url);
+        assert.strictEqual(2, modulesURL.length);
+
+        assert.strictEqual('http://localhost:3000/modules?/base/underscore.js&/base/lodash.js', modulesURL[0].url);
+        assert.sameMembers(['underscore', 'lodash'], modulesURL[0].modules);
+
+        assert.strictEqual('http://localhost:3000/modules?/jquery.js&/yui.js', modulesURL[1].url);
+        assert.sameMembers(['jquery', 'yui'], modulesURL[1].modules);
     });
 });

@@ -614,24 +614,33 @@ describe('Loader', function() {
             path: '/modules2/underscore.js'
         });
 
+        Loader.addModule({
+            dependencies: [],
+            exports: '$',
+            name: 'dollar',
+            path: '/modules2/dollar.js'
+        });
+
         var failure = sinon.spy(function(error) {
             console.error(error);
         });
         var success = sinon.stub();
 
         Loader.require('module1', success, failure);
-        Loader.require(['underscore'], success, failure);
+        Loader.require(['underscore', 'dollar'], success, failure);
         Loader.require(['underscore'], success, failure);
 
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should not be called');
             assert.isTrue(success.calledThrice, 'Success should be called thrice');
             assert.property(global, '_');
+            assert.property(global, '$');
 
             var modules = Loader.getModules();
             assert.property(modules['underscore'], 'implementation');
 
             delete global['_'];
+            delete global['$'];
             done();
         }, 50);
     });

@@ -258,8 +258,8 @@ var LoaderProtoMethods = {
                 if (!!exportedValue) {
                     resolve(exportedValue);
                 } else {
-                    var onScriptLoaded = function(scriptExport) {
-                        if (scriptExport === module.exports) {
+                    var onScriptLoaded = function(loadedModules) {
+                        if (loadedModules.indexOf(moduleName) >= 0) {
                             self.off('scriptLoaded', onScriptLoaded);
 
                             var exportedValue = self._getValueGlobalNS(module.exports);
@@ -463,21 +463,19 @@ var LoaderProtoMethods = {
 
             if (notRequestedModules.length) {
                 // If there are not yet requested modules, construct their URLs
-                var urls = self._getURLBuilder().build(notRequestedModules);
+                var modulesURL = self._getURLBuilder().build(notRequestedModules);
 
                 var pendingScripts = [];
 
                 // Create promises for each of the scripts, which should be loaded
-                for (var i = 0; i < urls.length; i++) {
-                    var scriptExport = self._getConfigParser().getModules()[notRequestedModules[i]].exports;
-
-                    pendingScripts.push(self._loadScript(urls[i], scriptExport));
+                for (var i = 0; i < modulesURL.length; i++) {
+                    pendingScripts.push(self._loadScript(modulesURL[i]));
                 }
 
                 // Wait for resolving all script Promises
                 // As soon as that happens, wait for each module to define itself
 
-                console.log('SCRIPTS', urls);
+                console.log('SCRIPTS', modulesURL);
                 Promise.all(pendingScripts).then(function(loadedScripts) {
                     return self._waitForModules(moduleNames);
                 })
@@ -511,16 +509,18 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {string} url The src of the script.
+     * @param {object} modulesURL An Object with two properties:
+     * - modules - List of the modules which should be loaded
+     * - url - The URL from which the modules should be loaded
      * @return {Promise} Promise which will be resolved as soon as the script is being loaded.
      */
-    _loadScript: function(url, scriptExport) {
+    _loadScript: function(modulesURL) {
         var self = this;
 
         return new Promise(function(resolve, reject) {
             var script = document.createElement('script');
 
-            script.src = url;
+            script.src = modulesURL.url;
 
             // On ready state change is needed for IE < 9, not sure if that is needed anymore,
             // it depends which browsers will we support at the end
@@ -531,7 +531,7 @@ var LoaderProtoMethods = {
 
                     resolve(script);
 
-                    self.emit('scriptLoaded', scriptExport);
+                    self.emit('scriptLoaded', modulesURL.modules);
                 }
             };
 

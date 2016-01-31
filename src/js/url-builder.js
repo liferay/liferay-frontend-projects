@@ -27,6 +27,9 @@ URLBuilder.prototype = {
     build: function (modules) {
         var bufferAbsoluteURL = [];
         var bufferRelativeURL = [];
+        var modulesAbsoluteURL = [];
+        var modulesRelativeURL = [];
+
         var result = [];
 
         var config = this._configParser.getConfig();
@@ -44,7 +47,10 @@ URLBuilder.prototype = {
 
             // If module has fullPath, individual URL have to be created.
             if (module.fullPath) {
-                result.push(module.fullPath);
+                result.push({
+                    modules: [module.name],
+                    url: module.fullPath
+                });
 
             } else {
                 var path = this._getModulePath(module);
@@ -52,12 +58,18 @@ URLBuilder.prototype = {
 
                 // If the URL starts with external protocol, individual URL shall be created.
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
-                    result.push(path);
+                    result.push({
+                        modules: [module.name],
+                        url: path
+                    });
 
                 // If combine is disabled, create individual URL based on config URL and module path.
                 // If the module path starts with "/", do not include basePath in the URL.
                 } else if (!config.combine) {
-                    result.push(config.url + (absolutePath ? '' : basePath) + path);
+                    result.push({
+                        modules: [module.name],
+                        url: config.url + (absolutePath ? '' : basePath) + path
+                    });
 
                 } else {
                     // If combine is true and module does not have full path, it will be collected
@@ -65,8 +77,10 @@ URLBuilder.prototype = {
                     // We will put the path in different buffer depending on the fact if it is absolute URL or not.
                     if (absolutePath) {
                         bufferAbsoluteURL.push(path);
+                        modulesAbsoluteURL.push(module.name);
                     } else {
                         bufferRelativeURL.push(path);
+                        modulesRelativeURL.push(module.name);
                     }
                 }
             }
@@ -76,13 +90,19 @@ URLBuilder.prototype = {
 
         // Add to the result all modules, which have to be combined.
         if (bufferRelativeURL.length) {
-            result.push(config.url + basePath + bufferRelativeURL.join('&' + basePath));
+            result.push({
+                modules: modulesRelativeURL,
+                url: config.url + basePath + bufferRelativeURL.join('&' + basePath)
+            });
             bufferRelativeURL.length = 0;
 
         }
 
         if (bufferAbsoluteURL.length) {
-            result.push(config.url + bufferAbsoluteURL.join('&'));
+            result.push({
+                modules: modulesAbsoluteURL,
+                url: config.url + bufferAbsoluteURL.join('&')
+            });
             bufferAbsoluteURL.length = 0;
         }
 
