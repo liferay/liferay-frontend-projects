@@ -605,4 +605,34 @@ describe('Loader', function() {
             done();
         }, 50);
     });
+
+    it('should load modules which don\'t expose a define function twice and regular ones together', function(done) {
+        Loader.addModule({
+            dependencies: [],
+            exports: '_',
+            name: 'underscore',
+            path: '/modules2/underscore.js'
+        });
+
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.stub();
+
+        Loader.require('module1', success, failure);
+        Loader.require(['underscore'], success, failure);
+        Loader.require(['underscore'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledThrice, 'Success should be called twice');
+            assert.property(global, '_');
+
+            var modules = Loader.getModules();
+            assert.property(modules['underscore'], 'implementation');
+
+            delete global['_'];
+            done();
+        }, 50);
+    });
 });
