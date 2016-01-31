@@ -625,7 +625,7 @@ describe('Loader', function() {
 
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should not be called');
-            assert.isTrue(success.calledThrice, 'Success should be called twice');
+            assert.isTrue(success.calledThrice, 'Success should be called thrice');
             assert.property(global, '_');
 
             var modules = Loader.getModules();
