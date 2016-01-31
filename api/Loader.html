@@ -364,7 +364,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line429">line 429</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line431">line 431</a>
     </li></ul></dd>
     
 
@@ -457,7 +457,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line300">line 300</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -550,7 +550,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line315">line 315</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -692,7 +692,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line344">line 344</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line346">line 346</a>
     </li></ul></dd>
     
 
@@ -833,7 +833,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line377">line 377</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line379">line 379</a>
     </li></ul></dd>
     
 
@@ -926,7 +926,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line398">line 398</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line400">line 400</a>
     </li></ul></dd>
     
 
@@ -1019,7 +1019,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line413">line 413</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line415">line 415</a>
     </li></ul></dd>
     
 
@@ -1160,7 +1160,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line331">line 331</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line333">line 333</a>
     </li></ul></dd>
     
 
@@ -1301,7 +1301,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line455">line 455</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -1353,7 +1353,7 @@ A missing dependency is a dependency, which does not have pending implementation
         
             
 <dt>
-    <h4 class="name" id="_loadScript"><span class="type-signature">&lt;protected> </span>_loadScript<span class="signature">(url)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="_loadScript"><span class="type-signature">&lt;protected> </span>_loadScript<span class="signature">(modulesURL)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 </dt>
@@ -1395,13 +1395,13 @@ A missing dependency is a dependency, which does not have pending implementation
 
         <tr>
             
-                <td class="name"><code>url</code></td>
+                <td class="name"><code>modulesURL</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -1411,7 +1411,9 @@ A missing dependency is a dependency, which does not have pending implementation
 
             
 
-            <td class="description last">The src of the script.</td>
+            <td class="description last">An Object with two properties:
+- modules - List of the modules which should be loaded
+- url - The URL from which the modules should be loaded</td>
         </tr>
 
     
@@ -1442,7 +1444,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line515">line 515</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line517">line 517</a>
     </li></ul></dd>
     
 
@@ -1583,7 +1585,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line555">line 555</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line557">line 557</a>
     </li></ul></dd>
     
 
@@ -1724,7 +1726,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line576">line 576</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line578">line 578</a>
     </li></ul></dd>
     
 
@@ -1843,7 +1845,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line650">line 650</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line652">line 652</a>
     </li></ul></dd>
     
 
@@ -1981,7 +1983,7 @@ implementations.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line675">line 675</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line677">line 677</a>
     </li></ul></dd>
     
 
@@ -3329,7 +3331,7 @@ in the provided success callback will be left undefined.<br>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line717">line 717</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line719">line 719</a>
     </li></ul></dd>
     
 
@@ -3374,7 +3376,7 @@ in the provided success callback will be left undefined.<br>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Sat Jan 30 2016 06:23:19 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Sun Jan 31 2016 23:14:29 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
