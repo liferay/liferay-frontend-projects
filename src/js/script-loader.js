@@ -258,15 +258,17 @@ var LoaderProtoMethods = {
                 if (!!exportedValue) {
                     resolve(exportedValue);
                 } else {
-                    var onScriptLoaded = function() {
-                        self.off('scriptLoaded', onScriptLoaded);
+                    var onScriptLoaded = function(scriptExport) {
+                        if (scriptExport === module.exports) {
+                            self.off('scriptLoaded', onScriptLoaded);
 
-                        var exportedValue = self._getValueGlobalNS(module.exports);
+                            var exportedValue = self._getValueGlobalNS(module.exports);
 
-                        if (!!exportedValue) {
-                            resolve(exportedValue);
-                        } else {
-                            reject(new Error('Module ' + moduleName + ' does not export the specified value: ' + module.exports));
+                            if (!!exportedValue) {
+                                resolve(exportedValue);
+                            } else {
+                                reject(new Error('Module ' + moduleName + ' does not export the specified value: ' + module.exports));
+                            }
                         }
                     };
 
@@ -467,9 +469,9 @@ var LoaderProtoMethods = {
 
                 // Create promises for each of the scripts, which should be loaded
                 for (var i = 0; i < urls.length; i++) {
-                    var exportsScript = self._getConfigParser().getModules()[notRequestedModules[i]].exports;
+                    var scriptExport = self._getConfigParser().getModules()[notRequestedModules[i]].exports;
 
-                    pendingScripts.push(self._loadScript(urls[i], exportsScript));
+                    pendingScripts.push(self._loadScript(urls[i], scriptExport));
                 }
 
                 // Wait for resolving all script Promises
@@ -512,7 +514,7 @@ var LoaderProtoMethods = {
      * @param {string} url The src of the script.
      * @return {Promise} Promise which will be resolved as soon as the script is being loaded.
      */
-    _loadScript: function(url, exportsScript) {
+    _loadScript: function(url, scriptExport) {
         var self = this;
 
         return new Promise(function(resolve, reject) {
@@ -529,7 +531,7 @@ var LoaderProtoMethods = {
 
                     resolve(script);
 
-                    self.emit('scriptLoaded');
+                    self.emit('scriptLoaded', scriptExport);
                 }
             };
 
