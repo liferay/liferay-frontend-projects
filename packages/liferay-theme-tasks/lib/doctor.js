@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var gutil = require('gulp-util');
 var lfrThemeConfig = require('./liferay_theme_config');
 
@@ -12,7 +13,12 @@ module.exports = function(themeConfig) {
 		return;
 	}
 
-	var dependencies = themeConfig.dependencies;
+	var dependencies = themeConfig.dependencies || {};
+
+	if (!_.isEmpty(themeConfig.devDependencies)) {
+		dependencies = _.defaults(dependencies, themeConfig.devDependencies);
+	}
+
 	var liferayVersion = themeConfig.liferayTheme.version;
 	var supportCompass = themeConfig.liferayTheme.supportCompass;
 

@@ -1,6 +1,6 @@
 
 ## Next Release
-* No changes
+* Fix: issue where doctor does not look for required dependencies in devDependencies
 ***
 
 ## v1.0.0 - February 1, 2016
