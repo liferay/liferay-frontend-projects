@@ -16,4 +16,14 @@ describe('Doctor', function() {
 
 		done();
 	});
+
+	it('should look for dependencies regardless if devDependency or not', function(done) {
+		var pkg = require(path.join(__dirname, '../assets/json/_package_mixed_dependencies.json'));
+
+		assert.doesNotThrow(function() {
+			doctor(pkg);
+		});
+
+		done();
+	});
 });
