@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">
+
+<look-and-feel>
+	<compatibility>
+		<version>6.2.0+</version>
+	</compatibility>
+	<theme id="upgrade-theme-62" name="upgrade-theme-62">
+		<template-extension>vm</template-extension>
+	</theme>
+</look-and-feel>
