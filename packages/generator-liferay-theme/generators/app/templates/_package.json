@@ -11,7 +11,7 @@
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "<%= liferayVersion %>"
 	},
-	"dependencies": {
+	"devDependencies": {
 		"gulp": "^3.8.10",
 		"liferay-theme-tasks": "*",<% if (liferayVersion == 6.2) { %>
 		"liferay-theme-deps-6.2": "*"<% } else { %>
