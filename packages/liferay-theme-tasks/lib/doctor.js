@@ -44,7 +44,7 @@ function haltTask(missingDeps) {
 
 function logMissingDeps(dependencies, moduleName, missingDeps) {
 	if (!dependencies[moduleName]) {
-		gutil.log(chalk.red('Warning:'), 'You must install the correct dependencies, please run', chalk.cyan('npm i --save', moduleName), 'from your theme directory.');
+		gutil.log(chalk.red('Warning:'), 'You must install the correct dependencies, please run', chalk.cyan('npm i --save-dev', moduleName), 'from your theme directory.');
 
 		missingDeps++;
 	}
