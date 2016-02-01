@@ -4,6 +4,14 @@ var _ = require('lodash');
 var fs = require('fs-extra');
 var path = require('path');
 
+function deleteDependencies(sourceDependencies, deletedDependencies) {
+	_.forEach(sourceDependencies, function(item, index) {
+		if (deletedDependencies.indexOf(index) > -1) {
+			delete sourceDependencies[index];
+		}
+	});
+}
+
 function getPackageJSON(alternatePath) {
 	alternatePath = alternatePath || process.cwd();
 
@@ -27,11 +35,8 @@ module.exports.getConfig = function(all, alternatePath) {
 module.exports.removeDependencies = function(dependencies) {
 	var packageJSON = getPackageJSON();
 
-	_.forEach(packageJSON.dependencies, function(item, index) {
-		if (dependencies.indexOf(index) > -1) {
-			delete packageJSON.dependencies[index];
-		}
-	});
+	deleteDependencies(packageJSON.dependencies, dependencies);
+	deleteDependencies(packageJSON.devDependencies, dependencies);
 
 	writePackageJSON(packageJSON);
 };
