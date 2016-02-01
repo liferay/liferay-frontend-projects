@@ -1,7 +1,11 @@
 ## Next Release
-* New: ftl is now the default template language for 7.0 and above (for liferay-theme:import generator)
-* Breaking: removed Support Compass option from theme generator. For 7.0 themes you must now manually set the supportCompass option in package.json, and add gulp-ruby-sass as dependency.
+* No changes
 ***
+
+## v7.1.0 - February 1, 2016
+* New: ftl is now the default template language for 7.0 and above (for liferay-theme:import generator)
+* Update: removed Support Compass option from theme generator. For 7.0 themes you must now manually set the supportCompass option in package.json, and add gulp-ruby-sass as dependency.
+* Update: Generated themes now save all dependencies as devDependencies
 
 ## v7.0.20 - January 4, 2016
 * Fix: fixed issue with compass and template flags rejecting valid values
