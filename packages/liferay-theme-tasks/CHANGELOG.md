@@ -1,7 +1,10 @@
 
 ## Next Release
-* Fix: issue where doctor does not look for required dependencies in devDependencies
+* No changes
 ***
+
+## v1.0.1 - February 1, 2016
+* Fix: issue where doctor does not look for required dependencies in devDependencies
 
 ## v1.0.0 - February 1, 2016
 * Breaking/New: implement use of liferay-theme-deps-6.2/liferay-theme-deps-7.0 for loading version specific dependencies. Note that these modules should be installed as dependencies of the theme
