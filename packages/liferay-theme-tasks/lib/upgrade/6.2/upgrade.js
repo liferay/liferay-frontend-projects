@@ -54,8 +54,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:convert-bootstrap', function(cb) {
-		var exec = require('child_process').exec;
-
 		var files = glob.sync('src/css/*');
 
 		var convertBootstrap = new ConvertBootstrapCLI({
