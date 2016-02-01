@@ -119,11 +119,8 @@ module.exports = function(options) {
 
 	gulp.task('upgrade:dependencies', function(cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-6.2']);
-		lfrThemeConfig.setConfig({
-			'liferay-theme-deps-7.0': '*'
-		}, true);
 
-		var npmInstall = spawn('npm', ['install', 'liferay-theme-deps-7.0']);
+		var npmInstall = spawn('npm', ['install', '--save-dev', 'liferay-theme-deps-7.0']);
 
 		npmInstall.stderr.pipe(process.stderr);
 		npmInstall.stdout.pipe(process.stdout);
