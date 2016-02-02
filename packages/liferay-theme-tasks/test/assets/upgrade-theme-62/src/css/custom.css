@@ -8,6 +8,23 @@ $default-box-shadow-h-offset: 0;
 $default-box-shadow-spread: 1px;
 $default-box-shadow-v-offset: 1px;
 
+// mixin for testing gulp_black_list.js
+@mixin border-radius($radius) {
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	-webkit-border-radius: $radius;
+	border-radius: $radius;
+}
+
+// Bootstrap 2 variabels for testing upgrade:convert-bootstrap-2-to-3
+$black: #000;
+$gray: #555;
+$grayDark: #333;
+$grayDarker: #222;
+$grayLight: #999;
+$grayLighter: #EEE;
+$white: #FFF;
+
 /* ---------- Global ---------- */
 
 .aui {
