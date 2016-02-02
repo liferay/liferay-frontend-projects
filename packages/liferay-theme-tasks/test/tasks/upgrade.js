@@ -12,11 +12,6 @@ chai.use(require('chai-fs'));
 
 var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'upgrade-theme-62');
 
-require('../../lib/upgrade/6.2/upgrade')({
-	gulp: gulp,
-	supportCompass: true
-});
-
 describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	before(function(done) {
 		this.timeout(10000);
@@ -33,10 +28,14 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 			instance._buildPath = path.join(tempPath, 'custom_build_path');
 			instance._tempPath = tempPath;
 
-			registerTasks({
+			var config = {
 				gulp: gulp,
 				supportCompass: true
-			});
+			};
+
+			require('../../lib/upgrade/6.2/upgrade')(config);
+
+			registerTasks(config);
 
 			console.log('Creating temp theme in', tempPath);
 
