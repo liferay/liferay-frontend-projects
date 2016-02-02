@@ -3,6 +3,8 @@
 var chai = require('chai');
 var fs = require('fs-extra');
 var gulp = require('gulp');
+var gulpBlackList = require('../../lib/upgrade/6.2/gulp_black_list.js');
+var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
 var registerTasks = require('../../index.js').registerTasks;
@@ -63,83 +65,111 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 		});
 	});
 
-	// it('should create blacklist of scss variabels found in theme css files', function(done) {
-	// 	gulp.start('upgrade:black-list', function(err) {
-	// 		if (err) throw err;
+	it('should create blacklist of scss mixins found in theme css files', function(done) {
+		gulp.start('upgrade:black-list', function(err) {
+			if (err) throw err;
 
-	// 		done();
-	// 	});
-	// });
+			gulp.src(path.join(tempPath, 'src/css/*'))
+				.pipe(gulpBlackList(null, function(result) {
+					assert(result.mixins);
+					assert(result.mixins.indexOf('border-radius') > -1);
 
-	// it('upgrade:replace-compass', function(done) {
-	// 	gulp.start('upgrade:replace-compass', function(err) {
-	// 		if (err) throw err;
+					done();
+				}));
+		});
+	});
 
-	// 		done();
-	// 	});
-	// });
+	it('should replace compass mixins with bourbon equivalents exluding anything mixins/functions on blacklist', function(done) {
+		gulp.start('upgrade:replace-compass', function(err) {
+			if (err) throw err;
 
-	// it('upgrade:convert-bootstrap', function(done) {
-	// 	gulp.start('upgrade:convert-bootstrap', function(err) {
-	// 		if (err) throw err;
+			var customCSSPath = path.join(tempPath, 'src/css/custom.css');
 
-	// 		done();
-	// 	});
-	// });
+			assert.fileContentMatch(customCSSPath, /@import\s"bourbon";/)
+			assert.notFileContentMatch(customCSSPath, /@import\s"compass";/);
 
-	// it('upgrade:config', function(done) {
-	// 	gulp.start('upgrade:config', function(err) {
-	// 		if (err) throw err;
+			assert.fileContentMatch(customCSSPath, /@include\sborder-radius/);
+			assert.notFileContentMatch(customCSSPath, /@include\sbox-shadow/);
 
-	// 		done();
-	// 	});
-	// });
+			done();
+		});
+	});
 
-	// it('upgrade:rename-core-files', function(done) {
-	// 	gulp.start('upgrade:rename-core-files', function(err) {
-	// 		if (err) throw err;
+	it('should run convert-bootstrap-2-to-3 module on css files', function(done) {
+		gulp.start('upgrade:convert-bootstrap', function(err) {
+			if (err) throw err;
 
-	// 		done();
-	// 	});
-	// });
+			var customCSSPath = path.join(tempPath, 'src/css/custom.css');
 
-	// it('upgrade:create-css-diff', function(done) {
-	// 	gulp.start('upgrade:create-css-diff', function(err) {
-	// 		if (err) throw err;
+			assert.notFileContentMatch(customCSSPath, /\$grayDark/);
+			assert.fileContentMatch(customCSSPath, /\$gray-dark/);
+			assert.fileContentMatch(customCSSPath, /\$gray-darker/);
 
-	// 		done();
-	// 	});
-	// });
+			done();
+		});
+	});
 
-	// it('upgrade:dependencies', function(done) {
-	// 	gulp.start('upgrade:dependencies', function(err) {
-	// 		if (err) throw err;
+	it('upgrade:config', function(done) {
+		gulp.start('upgrade:config', function(err) {
+			if (err) throw err;
 
-	// 		done();
-	// 	});
-	// });
+			var themeConfig = lfrThemeConfig.getConfig();
 
-	// it('upgrade:create-deprecated-mixins', function(done) {
-	// 	gulp.start('upgrade:create-deprecated-mixins', function(err) {
-	// 		if (err) throw err;
+			assert.equal(themeConfig.version, '7.0');
+			assert.equal(themeConfig.supportCompass, false);
 
-	// 		done();
-	// 	});
-	// });
+			var lookAndFeelPath = path.join(tempPath, 'src/WEB-INF/liferay-look-and-feel.xml');
+			var pluginPackagePropertiesPath = path.join(tempPath, 'src/WEB-INF/liferay-plugin-package.properties');
 
-	// it('upgrade:templates', function(done) {
-	// 	gulp.start('upgrade:templates', function(err) {
-	// 		if (err) throw err;
+			assert.fileContentMatch(lookAndFeelPath, /7\.0\.0/);
+			assert.fileContentMatch(lookAndFeelPath, /7_0_0/);
+			assert.fileContentMatch(pluginPackagePropertiesPath, /7\.0\.0\+/);
 
-	// 		done();
-	// 	});
-	// });
+			assert.notFileContentMatch(lookAndFeelPath, /6\.2\.0/);
+			assert.notFileContentMatch(lookAndFeelPath, /6\.2\.0/);
 
-	// it('upgrade:log-changes', function(done) {
-	// 	gulp.start('upgrade:log-changes', function(err) {
-	// 		if (err) throw err;
+			done();
+		});
+	});
 
-	// 		done();
-	// 	});
-	// });
+	// TODO: upgrade:rename-core-files
+
+	it('should create css.diff file showing what has been changed in theme css files', function(done) {
+		gulp.start('upgrade:create-css-diff', function(err) {
+			if (err) throw err;
+
+			var cssDiffPath = path.join(tempPath, '_backup/css.diff');
+
+			assert.fileContentMatch(cssDiffPath, /-\$grayDark:\s#333;/);
+			assert.fileContentMatch(cssDiffPath, /\+\$gray-dark:\s#333;/);
+
+			done();
+		});
+	});
+
+	it('upgrade:create-deprecated-mixins', function(done) {
+		gulp.start('upgrade:create-deprecated-mixins', function(err) {
+			if (err) throw err;
+
+			// TODO: will be modifying where file is generated
+
+			done();
+		});
+	});
+
+	it('upgrade:templates', function(done) {
+		gulp.start('upgrade:templates', function(err) {
+			if (err) throw err;
+
+			done();
+		});
+	});
+
+	it('upgrade:log-changes', function(done) {
+		gulp.start('upgrade:log-changes', function(err) {
+			if (err) throw err;
+
+			done();
+		});
+	});
 });
