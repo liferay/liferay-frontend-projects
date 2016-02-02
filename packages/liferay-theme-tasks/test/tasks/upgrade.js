@@ -8,6 +8,7 @@ var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
 var registerTasks = require('../../index.js').registerTasks;
+var runSequence;
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -27,7 +28,6 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 
 			process.chdir(tempPath);
 
-			instance._buildPath = path.join(tempPath, 'custom_build_path');
 			instance._tempPath = tempPath;
 
 			var config = {
@@ -35,9 +35,11 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 				supportCompass: true
 			};
 
+			registerTasks(config);
+
 			require('../../lib/upgrade/6.2/upgrade')(config);
 
-			registerTasks(config);
+			runSequence = require('run-sequence').use(gulp);
 
 			console.log('Creating temp theme in', tempPath);
 
@@ -49,12 +51,14 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 		fs.removeSync(tempPath);
 
 		process.chdir(this._initCwd);
+
+		fs.removeSync(path.join(this._initCwd, 'tmp'));
 	});
 
 	it('should create backup files from source', function(done) {
 		var instance = this;
 
-		gulp.start('upgrade:create-backup-files', function(err) {
+		runSequence('upgrade:create-backup-files', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(path.join(tempPath, '_backup'), '_backup is a directory');
@@ -66,7 +70,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	});
 
 	it('should create blacklist of scss mixins found in theme css files', function(done) {
-		gulp.start('upgrade:black-list', function(err) {
+		runSequence('upgrade:black-list', function(err) {
 			if (err) throw err;
 
 			gulp.src(path.join(tempPath, 'src/css/*'))
@@ -80,7 +84,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	});
 
 	it('should replace compass mixins with bourbon equivalents exluding anything mixins/functions on blacklist', function(done) {
-		gulp.start('upgrade:replace-compass', function(err) {
+		runSequence('upgrade:replace-compass', function(err) {
 			if (err) throw err;
 
 			var customCSSPath = path.join(tempPath, 'src/css/custom.css');
@@ -96,7 +100,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	});
 
 	it('should run convert-bootstrap-2-to-3 module on css files', function(done) {
-		gulp.start('upgrade:convert-bootstrap', function(err) {
+		runSequence('upgrade:convert-bootstrap', function(err) {
 			if (err) throw err;
 
 			var customCSSPath = path.join(tempPath, 'src/css/custom.css');
@@ -110,7 +114,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	});
 
 	it('upgrade:config', function(done) {
-		gulp.start('upgrade:config', function(err) {
+		runSequence('upgrade:config', function(err) {
 			if (err) throw err;
 
 			var themeConfig = lfrThemeConfig.getConfig();
@@ -135,7 +139,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	// TODO: upgrade:rename-core-files
 
 	it('should create css.diff file showing what has been changed in theme css files', function(done) {
-		gulp.start('upgrade:create-css-diff', function(err) {
+		runSequence('upgrade:create-css-diff', function(err) {
 			if (err) throw err;
 
 			var cssDiffPath = path.join(tempPath, '_backup/css.diff');
@@ -147,26 +151,28 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 		});
 	});
 
-	it('upgrade:create-deprecated-mixins', function(done) {
-		gulp.start('upgrade:create-deprecated-mixins', function(err) {
+	it('should create deprecated mixins file', function(done) {
+		var instance = this;
+
+		runSequence('upgrade:create-deprecated-mixins', function(err) {
 			if (err) throw err;
 
-			// TODO: will be modifying where file is generated
+			assert.isFile(path.join(instance._initCwd, 'tmp/_deprecated.scss'));
 
 			done();
 		});
 	});
 
-	it('upgrade:templates', function(done) {
-		gulp.start('upgrade:templates', function(err) {
+	it('should scrape templates for needed changes', function(done) {
+		runSequence('upgrade:templates', function(err) {
 			if (err) throw err;
 
 			done();
 		});
 	});
 
-	it('upgrade:log-changes', function(done) {
-		gulp.start('upgrade:log-changes', function(err) {
+	it('should log changes that have been and should be made', function(done) {
+		runSequence('upgrade:log-changes', function(err) {
 			if (err) throw err;
 
 			done();

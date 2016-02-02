@@ -7,6 +7,7 @@ var os = require('os');
 var parseString = require('xml2js').parseString;
 var path = require('path');
 var registerTasks = require('../../index.js').registerTasks;
+var runSequence;
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -36,6 +37,8 @@ describe('Build Tasks', function() {
 				supportCompass: false
 			});
 
+			runSequence = require('run-sequence').use(gulp);
+
 			console.log('Creating temp theme in', tempPath);
 
 			done();
@@ -51,12 +54,12 @@ describe('Build Tasks', function() {
 	it('should clean build directory', function(done) {
 		var instance = this;
 
-		gulp.start('build:base', function(err) {
+		runSequence('build:base', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(instance._buildPath);
 
-			gulp.start('build:clean', function(err) {
+			runSequence('build:clean', function(err) {
 				if (err) throw err;
 
 				if (fs.existsSync(instance._buildPath)) {
@@ -71,7 +74,7 @@ describe('Build Tasks', function() {
 	it('should build files from Styled theme to /build', function(done) {
 		var instance = this;
 
-		gulp.start('build:base', function(err) {
+		runSequence('build:base', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(instance._buildPath);
@@ -83,7 +86,7 @@ describe('Build Tasks', function() {
 	it('should build custom.css file from /src to /build', function(done) {
 		var instance = this;
 
-		gulp.start('build:src', function(err) {
+		runSequence('build:src', function(err) {
 			if (err) throw err;
 
 			var customCSSPath = path.join(instance._buildPath, 'css/_custom.scss');
@@ -100,7 +103,7 @@ describe('Build Tasks', function() {
 	it('should build /WEB-INF', function(done) {
 		var instance = this;
 
-		gulp.start('build:web-inf', function(err) {
+		runSequence('build:web-inf', function(err) {
 			if (err) throw err;
 
 			var pathWebInf = path.join(instance._buildPath, 'WEB-INF');
@@ -116,7 +119,7 @@ describe('Build Tasks', function() {
 	it('should build process liferay-hook.xml', function(done) {
 		var instance = this;
 
-		gulp.start('build:hook', function(err) {
+		runSequence('build:hook', function(err) {
 			if (err) throw err;
 
 			var hookPath = path.join(instance._buildPath, 'WEB-INF', 'liferay-hook.xml.processed');
@@ -143,7 +146,7 @@ describe('Build Tasks', function() {
 	it('should copy static files to their correct themelet location and inject imports into base theme files', function(done) {
 		var instance = this;
 
-		gulp.start('build:themelets', function(err) {
+		runSequence('build:themelets', function(err) {
 			if (err) throw err;
 
 			assert.isFile(path.join(instance._buildPath, 'css/themelets/test-themelet/_custom.scss'));
@@ -162,7 +165,7 @@ describe('Build Tasks', function() {
 	it('should rename css/ directory to _css/', function(done) {
 		var instance = this;
 
-		gulp.start('build:rename-css-dir', function(err) {
+		runSequence('build:rename-css-dir', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(path.join(instance._buildPath, '_css'));
@@ -176,7 +179,7 @@ describe('Build Tasks', function() {
 
 		this.timeout(10000);
 
-		gulp.start('build:compile-css', function(err) {
+		runSequence('build:compile-css', function(err) {
 			if (err) throw err;
 
 			done();
@@ -186,7 +189,7 @@ describe('Build Tasks', function() {
 	it('should move all compiled css to css/ directory', function(done) {
 		var instance = this;
 
-		gulp.start('build:move-compiled-css', function(err) {
+		runSequence('build:move-compiled-css', function(err) {
 			if (err) throw err;
 
 			assert.isDirectory(path.join(instance._buildPath, 'css'));
@@ -198,7 +201,7 @@ describe('Build Tasks', function() {
 	it('should remove _css/ directory', function(done) {
 		var instance = this;
 
-		gulp.start('build:remove-old-css-dir', function(err) {
+		runSequence('build:remove-old-css-dir', function(err) {
 			if (err) throw err;
 
 			if (fs.existsSync(path.join(instance._buildPath, '_css'))) {
@@ -212,7 +215,7 @@ describe('Build Tasks', function() {
 	it('should build .war file that matches name of the project', function(done) {
 		var instance = this;
 
-		gulp.start('build:war', function(err) {
+		runSequence('build:war', function(err) {
 			if (err) throw err;
 
 			assert.isFile(path.join(instance._tempPath, 'dist/base-theme.war'));

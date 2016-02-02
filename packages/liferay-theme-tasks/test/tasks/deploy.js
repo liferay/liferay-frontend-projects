@@ -7,6 +7,7 @@ var os = require('os');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var registerTasks = require('../../index.js').registerTasks;
+var runSequence;
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -37,6 +38,8 @@ describe('Deploy Tasks', function() {
 				supportCompass: false
 			});
 
+			runSequence = require('run-sequence').use(gulp);
+
 			var liferayThemeJson = path.join(tempPath, 'liferay-theme.json');
 
 			var store = gulp.storage;
@@ -61,7 +64,7 @@ describe('Deploy Tasks', function() {
 
 		this.timeout(10000);
 
-		gulp.start('deploy', function(err) {
+		runSequence('deploy', function(err) {
 			if (err) throw err;
 
 			assert.isFile(path.join(deployPath, 'base-theme.war'));
