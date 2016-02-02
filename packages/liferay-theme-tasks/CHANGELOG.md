@@ -1,6 +1,7 @@
 
 ## Next Release
-* No changes
+* Fix: using new dependency pattern in upgrade task
+* New: added tests for upgrade task
 ***
 
 ## v1.0.1 - February 1, 2016
