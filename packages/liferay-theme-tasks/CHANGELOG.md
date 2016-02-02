@@ -1,8 +1,11 @@
 
 ## Next Release
+* No changes
+***
+
+## v1.0.2 - February 2, 2016
 * Fix: using new dependency pattern in upgrade task
 * New: added tests for upgrade task
-***
 
 ## v1.0.1 - February 1, 2016
 * Fix: issue where doctor does not look for required dependencies in devDependencies
