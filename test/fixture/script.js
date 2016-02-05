@@ -24,7 +24,7 @@ Script.prototype = {
 };
 
 var document = {
-    body: {
+    head: {
         appendChild: function (script) {
             process.nextTick(function () {
                 script.load();

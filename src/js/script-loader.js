@@ -537,12 +537,12 @@ var LoaderProtoMethods = {
 
             // If some script fails to load, reject the main Promise
             script.onerror = function() {
-                document.body.removeChild(script);
+                document.head.removeChild(script);
 
                 reject(script);
             };
 
-            document.body.appendChild(script);
+            document.head.appendChild(script);
         });
     },
 
