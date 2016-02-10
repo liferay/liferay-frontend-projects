@@ -291,35 +291,25 @@ module.exports = function(options) {
 	gulp.task('upgrade:templates', function(cb) {
 		checkFile('src/templates/portal_normal.vm', [
 			{
-				message: 'Warning: #dockbar() is deprecated, replace with #control_menu() and #product_menu_sidebar($liferay_product_menu_state) for new admin controls.',
+				message: 'Warning: #dockbar() is deprecated, replace with #control_menu() for new admin controls.',
 				regex: /#dockbar\(\)/g
 			},
 			{
 				negativeMatch: true,
 				message: 'Warning: not all admin controls will be visible without #control_menu()',
 				regex: /#control_menu\(\)/g
-			},
-			{
-				negativeMatch: true,
-				message: 'Warning: not all admin controls will be visible without #product_menu_sidebar($liferay_product_menu_state)',
-				regex: /#product_menu_sidebar\(/g
 			}
 		]);
 
 		checkFile('src/templates/portal_normal.ftl', [
 			{
-				message: 'Warning: <@liferay.dockbar /> is deprecated, replace with <@liferay.control_menu /> and <@liferay.product_menu_sidebar(liferay_product_menu_state) /> for new admin controls.',
+				message: 'Warning: <@liferay.dockbar /> is deprecated, replace with <@liferay.control_menu /> for new admin controls.',
 				regex: /<@liferay\.dockbar\s\/>/g
 			},
 			{
 				negativeMatch: true,
 				message: 'Warning: not all admin controls will be visible without <@liferay.control_menu />',
 				regex: /<@liferay\.control_menu\s\/>/g
-			},
-			{
-				negativeMatch: true,
-				message: 'Warning: not all admin controls will be visible without <@liferay.product_menu_sidebar(liferay_product_menu_state) />',
-				regex: /<@liferay\.product_menu_sidebar\(/g
 			}
 		]);
 
