@@ -310,6 +310,10 @@ module.exports = function(options) {
 				negativeMatch: true,
 				message: 'Warning: not all admin controls will be visible without <@liferay.control_menu />',
 				regex: /<@liferay\.control_menu\s\/>/g
+			},
+			{
+				message: 'Warning: ${theme} variable is no longer available in Freemarker templates, see https://goo.gl/9fXzYt for more information.',
+				regex: /{$theme/g
 			}
 		]);
 
