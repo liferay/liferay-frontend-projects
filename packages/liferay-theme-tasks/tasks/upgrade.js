@@ -39,7 +39,7 @@ module.exports = function(options) {
 
 		inquirer.prompt([
 			{
-				message: 'Are you sure you want to revert src files? This will replace files in your src directory with those from _backup.',
+				message: 'Are you sure you want to revert src files? This will replace the files in your src directory and your package.json file with those from the _backup directory.',
 				name: 'revert',
 				type: 'confirm'
 			}
@@ -49,17 +49,18 @@ module.exports = function(options) {
 
 				gulp.src('_backup/src/**/*')
 					.pipe(gulp.dest('src'))
-					.on('end', cb);
+					.on('end', function() {
+						gulp.src('_backup/_package.json')
+							.pipe(plugins.rename('package.json'))
+							.pipe(gulp.dest(process.cwd()))
+							.on('end', cb);
+					});
 			}
 			else {
 				gutil.log(gutil.colors.cyan('No files reverted.'));
 
 				cb();
 			}
-
-			lfrThemeConfig.setConfig({
-				version: '6.2'
-			});
 		});
 	});
 };

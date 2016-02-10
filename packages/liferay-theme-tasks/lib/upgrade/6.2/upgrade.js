@@ -83,7 +83,12 @@ module.exports = function(options) {
 		var backup = function() {
 			gulp.src('src/**/*')
 				.pipe(gulp.dest('_backup/src'))
-				.on('end', cb);
+				.on('end', function() {
+					gulp.src('package.json')
+						.pipe(plugins.rename('_package.json'))
+						.pipe(gulp.dest('_backup'))
+						.on('end', cb);
+				});
 		};
 
 		if (backupExists) {
