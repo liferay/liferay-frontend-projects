@@ -164,7 +164,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	});
 
 	it('should scrape templates for needed changes', function(done) {
-		runSequence('upgrade:templates', function(err) {
+		runSequence('upgrade:ftl-templates', 'upgrade:vm-templates', function(err) {
 			if (err) throw err;
 
 			done();

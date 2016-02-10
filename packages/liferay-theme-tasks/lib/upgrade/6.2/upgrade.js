@@ -13,6 +13,7 @@ var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
 var spawn = require('child_process').spawn;
 var themeUtil = require('../../util');
+var vinylPaths = require('vinyl-paths');
 
 var gutil = plugins.util;
 
@@ -47,7 +48,8 @@ module.exports = function(options) {
 			'upgrade:create-css-diff',
 			'upgrade:dependencies',
 			'upgrade:create-deprecated-mixins',
-			'upgrade:templates',
+			'upgrade:ftl-templates',
+			'upgrade:vm-templates',
 			'upgrade:log-changes',
 			cb
 		);
@@ -212,6 +214,32 @@ module.exports = function(options) {
 		cb();
 	});
 
+	gulp.task('upgrade:ftl-templates', function() {
+		var ftlRules = [
+			{
+				message: 'Warning: <@liferay.dockbar /> is deprecated, replace with <@liferay.control_menu /> for new admin controls.',
+				regex: /<@liferay\.dockbar\s\/>/g
+			},
+			{
+				fileName: 'portal_normal.ftl',
+				negativeMatch: true,
+				message: 'Warning: not all admin controls will be visible without <@liferay.control_menu />',
+				regex: /<@liferay\.control_menu\s\/>/g
+			},
+			{
+				message: 'Warning: ${theme} variable is no longer available in Freemarker templates, see https://goo.gl/9fXzYt for more information.',
+				regex: /\${theme/g
+			}
+		];
+
+		return gulp.src('src/templates/**/*.ftl')
+			.pipe(vinylPaths(function(path, done) {
+				checkFile(path, ftlRules);
+
+				done();
+			}));
+	});
+
 	gulp.task('upgrade:log-changes', function(cb) {
 		var stdout = process.stdout;
 
@@ -288,36 +316,26 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:templates', function(cb) {
-		checkFile('src/templates/portal_normal.vm', [
+	gulp.task('upgrade:vm-templates', function(cb) {
+		var vmRules = [
 			{
 				message: 'Warning: #dockbar() is deprecated, replace with #control_menu() for new admin controls.',
 				regex: /#dockbar\(\)/g
 			},
 			{
+				fileName: 'portal_normal.vm',
 				negativeMatch: true,
 				message: 'Warning: not all admin controls will be visible without #control_menu()',
 				regex: /#control_menu\(\)/g
 			}
-		]);
+		];
 
-		checkFile('src/templates/portal_normal.ftl', [
-			{
-				message: 'Warning: <@liferay.dockbar /> is deprecated, replace with <@liferay.control_menu /> for new admin controls.',
-				regex: /<@liferay\.dockbar\s\/>/g
-			},
-			{
-				negativeMatch: true,
-				message: 'Warning: not all admin controls will be visible without <@liferay.control_menu />',
-				regex: /<@liferay\.control_menu\s\/>/g
-			},
-			{
-				message: 'Warning: ${theme} variable is no longer available in Freemarker templates, see https://goo.gl/9fXzYt for more information.',
-				regex: /{$theme/g
-			}
-		]);
+		return gulp.src('src/templates/**/*.vm')
+			.pipe(vinylPaths(function(path, done) {
+				checkFile(path, vmRules);
 
-		cb();
+				done();
+			}));
 	});
 };
 
@@ -326,22 +344,30 @@ function checkFile(filePath, rules) {
 		encoding: 'utf8'
 	};
 
-	filePath = path.join(CWD, filePath);
-
 	if (fs.existsSync(filePath)) {
-		var fileName = colors.white('File: ' + colors.underline(path.basename(filePath)) + '\n');
-
-		logBuffers.liferay.push(fileName);
+		var logs = [];
 
 		var fileContents = fs.readFileSync(filePath, config);
 
 		_.forEach(rules, function(item, index) {
+			if (item.fileName && item.fileName != path.basename(filePath)) {
+				return;
+			}
+
 			var match = item.negativeMatch ? !item.regex.test(fileContents) : item.regex.test(fileContents);
 
 			if (match) {
-				logBuffers.liferay.push('    ' + colors.yellow(item.message) + '\n');
+				logs.push('    ' + colors.yellow(item.message) + '\n');
 			}
 		});
+
+		if (logs.length) {
+			var fileName = colors.white('File: ' + colors.underline(path.basename(filePath)) + '\n');
+
+			logBuffers.liferay.push(fileName);
+
+			logBuffers.liferay = logBuffers.liferay.concat(logs);
+		}
 	}
 }
 
