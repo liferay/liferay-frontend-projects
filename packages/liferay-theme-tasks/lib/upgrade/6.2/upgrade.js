@@ -37,24 +37,6 @@ module.exports = function(options) {
 
 	var patterns;
 
-	gulp.task('upgrade', function(cb) {
-		runSequence(
-			'upgrade:create-backup-files',
-			'upgrade:black-list',
-			'upgrade:replace-compass',
-			'upgrade:convert-bootstrap',
-			'upgrade:config',
-			'upgrade:rename-core-files',
-			'upgrade:create-css-diff',
-			'upgrade:dependencies',
-			'upgrade:create-deprecated-mixins',
-			'upgrade:ftl-templates',
-			'upgrade:vm-templates',
-			'upgrade:log-changes',
-			cb
-		);
-	});
-
 	gulp.task('upgrade:convert-bootstrap', function(cb) {
 		var files = glob.sync('src/css/*');
 
@@ -75,40 +57,6 @@ module.exports = function(options) {
 		});
 
 		convertBootstrap.init();
-	});
-
-	gulp.task('upgrade:create-backup-files', function(cb) {
-		var backupExists = fs.existsSync('_backup');
-
-		var backup = function() {
-			gulp.src('src/**/*')
-				.pipe(gulp.dest('_backup/src'))
-				.on('end', function() {
-					gulp.src('package.json')
-						.pipe(plugins.rename('_package.json'))
-						.pipe(gulp.dest('_backup'))
-						.on('end', cb);
-				});
-		};
-
-		if (backupExists) {
-			inquirer.prompt({
-				default: false,
-				message: 'Would you like to overwrite the existing _backup directory and it\'s contents?',
-				name: 'backup',
-				type: 'confirm'
-			}, function(answers) {
-				if (answers.backup) {
-					backup();
-				}
-				else {
-					cb();
-				}
-			});
-		}
-		else {
-			backup();
-		}
 	});
 
 	gulp.task('upgrade:create-css-diff', function() {
@@ -345,6 +293,23 @@ module.exports = function(options) {
 				done();
 			}));
 	});
+
+	return function(cb) {
+		runSequence(
+			'upgrade:black-list',
+			'upgrade:replace-compass',
+			'upgrade:convert-bootstrap',
+			'upgrade:config',
+			'upgrade:rename-core-files',
+			'upgrade:create-css-diff',
+			'upgrade:dependencies',
+			'upgrade:create-deprecated-mixins',
+			'upgrade:ftl-templates',
+			'upgrade:vm-templates',
+			'upgrade:log-changes',
+			cb
+		);
+	}
 };
 
 function checkFile(filePath, rules) {

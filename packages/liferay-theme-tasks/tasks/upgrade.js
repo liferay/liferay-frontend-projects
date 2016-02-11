@@ -17,18 +17,62 @@ var themeConfig = lfrThemeConfig.getConfig();
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	if (_.startsWith(argv._[0], 'upgrade')) {
-		version = version ? version.toString() : themeConfig.version;
+	var runSequence = require('run-sequence').use(gulp);
 
-		var modulePath = path.join(__dirname, '../lib/upgrade', version, 'upgrade.js');
+	version = version ? version.toString() : themeConfig.version;
 
-		if (fs.existsSync(modulePath)) {
-			require(modulePath)(options);
+	var modulePath = path.join(__dirname, '../lib/upgrade', version, 'upgrade.js');
+
+	var versionUpgradeTask;
+
+	if (fs.existsSync(modulePath)) {
+		versionUpgradeTask = require(modulePath)(options);
+	}
+
+	gulp.task('upgrade', function(cb) {
+		if (_.isFunction(versionUpgradeTask)) {
+			runSequence('upgrade:create-backup-files', function() {
+				versionUpgradeTask(cb);
+			});
 		}
 		else {
-			//gutil.log(gutil.colors.red('It appears there are no tools for upgrading themes for', version));
+			throw new gutil.PluginError('gulp-theme-upgrader', gutil.colors.red('Version specific upgrade task must return function.'));
 		}
-	}
+	});
+
+	gulp.task('upgrade:create-backup-files', function(cb) {
+		var backupExists = fs.existsSync('_backup');
+
+		var backup = function() {
+			gulp.src('src/**/*')
+				.pipe(gulp.dest('_backup/src'))
+				.on('end', function() {
+					gulp.src('package.json')
+						.pipe(plugins.rename('_package.json'))
+						.pipe(gulp.dest('_backup'))
+						.on('end', cb);
+				});
+		};
+
+		if (backupExists) {
+			inquirer.prompt({
+				default: false,
+				message: 'Would you like to overwrite the existing _backup directory and it\'s contents?',
+				name: 'backup',
+				type: 'confirm'
+			}, function(answers) {
+				if (answers.backup) {
+					backup();
+				}
+				else {
+					cb();
+				}
+			});
+		}
+		else {
+			backup();
+		}
+	});
 
 	gulp.task('upgrade:revert', function(cb) {
 		var backupExists = (fs.existsSync('_backup/src') && fs.statSync('_backup/src').isDirectory());
