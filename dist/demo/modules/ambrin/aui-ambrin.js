@@ -6,6 +6,7 @@ define("liferay@1.0.0/ambrin/aui-ambrin", ['exports', 'liferay/aui-core'], funct
     });
     exports.log = undefined;
 
+
     function log(text) {
         (0, _auiCore.log)('module aui-chemaps says via aui-core: ' + text);
     }

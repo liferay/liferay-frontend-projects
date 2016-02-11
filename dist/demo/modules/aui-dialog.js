@@ -6,6 +6,7 @@ define("liferay@1.0.0/aui-dialog", ['exports', 'liferay/aui-base', 'liferay/aui-
     });
     exports.log = undefined;
 
+
     function log(text) {
         (0, _auiEvent.log)('module aui-dialog says via aui-event: ' + text);
         (0, _auiBase.log)('in module aui-dialog logBase is available: ' + text);
