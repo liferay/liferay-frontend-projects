@@ -66,7 +66,7 @@ gulp.task('create-loader', ['create-loader-debug'], function() {
 gulp.task('create-loader-debug', ['create-loader-pure-debug'], function() {
     return gulp.src('src/template/loader.template')
         .pipe(template({
-            vendor: fs.readFileSync('node_modules/es6-promise/dist/es6-promise.min.js').toString(),
+            vendor: fs.readFileSync('node_modules/es6-promise/dist/es6-promise.js').toString(),
             source: fs.readFileSync('dist/loader-pure-debug.js').toString()
         }))
         .pipe(rename('loader-debug.js'))
