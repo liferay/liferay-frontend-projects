@@ -52,6 +52,8 @@ describe('Build Tasks', function() {
 	});
 
 	it('should clean build directory', function(done) {
+		this.timeout(4000);
+
 		var instance = this;
 
 		runSequence('build:base', function(err) {
