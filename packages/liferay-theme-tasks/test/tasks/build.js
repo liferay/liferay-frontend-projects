@@ -22,7 +22,7 @@ describe('Build Tasks', function() {
 
 		instance._initCwd = process.cwd();
 
-		fs.copy(path.join(__dirname, '../assets/base-theme'), tempPath, function(err) {
+		fs.copy(path.join(__dirname, '../fixtures/themes/base-theme'), tempPath, function(err) {
 			if (err) throw err;
 
 			process.chdir(tempPath);

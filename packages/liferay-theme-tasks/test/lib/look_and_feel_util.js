@@ -12,20 +12,20 @@ var options = require('../../lib/options')({
 
 var lookAndFeelUtil = require('../../lib/look_and_feel_util.js');
 
-var baseLookAndFeelJSON = require('../assets/json/base-look-and-feel.json');
-var mixedLookAndFeelJSON = require('../assets/json/mixed-look-and-feel.json');
+var baseLookAndFeelJSON = require('../fixtures/json/base-look-and-feel.json');
+var mixedLookAndFeelJSON = require('../fixtures/json/mixed-look-and-feel.json');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var baseThemePath = path.join(__dirname, '../assets/base-theme');
+var baseThemePath = path.join(__dirname, '../fixtures/themes/base-theme');
 
 describe('Look and Feel Util functions', function() {
 	describe('buildXML', function() {
 		it('should sort json correctly and build valid xml', function(done) {
 			var xml = lookAndFeelUtil.buildXML(mixedLookAndFeelJSON, lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0'));
 
-			assert.fileContent(path.join(__dirname, '../assets/xml/liferay-look-and-feel.xml'), xml);
+			assert.fileContent(path.join(__dirname, '../fixtures/xml/liferay-look-and-feel.xml'), xml);
 
 			done();
 		});
@@ -88,7 +88,7 @@ describe('Look and Feel Util functions', function() {
 				assert(result);
 				assert(result['look-and-feel']);
 
-				assert.deepEqual(result, require('../assets/json/merged-look-and-feel.json'));
+				assert.deepEqual(result, require('../fixtures/json/merged-look-and-feel.json'));
 			});
 
 			done();
@@ -132,11 +132,11 @@ describe('Look and Feel Util functions', function() {
 
 			assert.deepEqual(lookAndFeelJSON, baseLookAndFeelJSON);
 
-			var parentLookAndFeelJSON = require('../assets/json/parent-look-and-feel.json');
+			var parentLookAndFeelJSON = require('../fixtures/json/parent-look-and-feel.json');
 
 			lookAndFeelJSON = lookAndFeelUtil._mergeJSON(baseLookAndFeelJSON, parentLookAndFeelJSON);
 
-			assert.deepEqual(lookAndFeelJSON, require('../assets/json/merged-look-and-feel.json'));
+			assert.deepEqual(lookAndFeelJSON, require('../fixtures/json/merged-look-and-feel.json'));
 
 			done();
 		});

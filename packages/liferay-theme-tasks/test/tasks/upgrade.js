@@ -23,7 +23,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 
 		instance._initCwd = process.cwd();
 
-		fs.copy(path.join(__dirname, '../assets/upgrade-theme-62'), tempPath, function(err) {
+		fs.copy(path.join(__dirname, '../fixtures/themes/upgrade-theme-62'), tempPath, function(err) {
 			if (err) throw err;
 
 			process.chdir(tempPath);
