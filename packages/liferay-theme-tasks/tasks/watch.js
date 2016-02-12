@@ -1,6 +1,5 @@
 'use strict';
 
-var argv = require('minimist')(process.argv.slice(2));
 var livereload = require('gulp-livereload');
 var path = require('path');
 
@@ -10,6 +9,8 @@ module.exports = function(options) {
 	var store = gulp.storage;
 
 	var pathSrc = options.pathSrc;
+
+	var argv = options.argv;
 
 	var fullDeploy = (argv.full || argv.f);
 

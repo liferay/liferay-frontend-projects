@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
 var gutil = require('gulp-util');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 

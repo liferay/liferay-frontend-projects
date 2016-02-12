@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
 var del = require('del');
 var fs = require('fs-extra');
 var gutil = require('gulp-util');
@@ -10,14 +9,16 @@ var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 
-var version = argv.v || argv.version;
-
 var themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = function(options) {
 	var gulp = options.gulp;
 
 	var runSequence = require('run-sequence').use(gulp);
+
+	var argv = options.argv;
+
+	var version = argv.v || argv.version;
 
 	version = version ? version.toString() : themeConfig.version;
 

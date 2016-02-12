@@ -8,8 +8,6 @@ var plugins = require('gulp-load-plugins')();
 var themeUtil = require('../lib/util');
 var WarDeployer = require('../lib/war_deployer');
 
-var argv = require('minimist')(process.argv.slice(2));
-
 var livereload = plugins.livereload;
 
 var themeConfig = lfrThemeConfig.getConfig(true);
@@ -23,6 +21,8 @@ module.exports = function(options) {
 	var pathSrc = options.pathSrc;
 
 	var runSequence = require('run-sequence').use(gulp);
+
+	var argv = options.argv;
 
 	gulp.task('deploy', function(cb) {
 		var sequence = ['build', 'deploy:war', cb];
