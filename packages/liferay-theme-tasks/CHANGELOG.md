@@ -3,6 +3,12 @@
 * No changes
 ***
 
+## v1.0.3 - February 12, 2016
+* Fix: fixed issue with compass-mixins not being found when building post upgrade process
+* Update: doctor.js only halts task when dependencies aren't found and the current task implements those dependencies (build, deploy, and watch)
+* Update: improved Freemarker template upgrade sub-task by accounting for changes made to ftl files in 7.0
+* Update: improved upgrade task by making a more complete backup prior to upgrade
+
 ## v1.0.2 - February 2, 2016
 * Fix: using new dependency pattern in upgrade task
 * New: added tests for upgrade task
