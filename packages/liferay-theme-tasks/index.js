@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var doctor = require('./lib/doctor');
 var glob = require('glob');
 var path = require('path');
@@ -25,7 +26,9 @@ module.exports.registerTasks = function(options) {
 		require(item)(options);
 	});
 
-	doctor();
+	var halt = _.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
+
+	doctor(null, halt);
 
 	process.once('beforeExit', function() {
 		versionControl();

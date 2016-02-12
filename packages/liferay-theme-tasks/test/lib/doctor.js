@@ -11,7 +11,7 @@ describe('Doctor', function() {
 		var pkg = require(path.join(__dirname, '../assets/json/_package.json'));
 
 		assert.throw(function() {
-			doctor(pkg);
+			doctor(pkg, true);
 		}, 'Missing 2 theme dependencies');
 
 		done();
@@ -21,7 +21,7 @@ describe('Doctor', function() {
 		var pkg = require(path.join(__dirname, '../assets/json/_package_mixed_dependencies.json'));
 
 		assert.doesNotThrow(function() {
-			doctor(pkg);
+			doctor(pkg, true);
 		});
 
 		done();

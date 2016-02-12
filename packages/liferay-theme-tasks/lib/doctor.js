@@ -6,7 +6,7 @@ var lfrThemeConfig = require('./liferay_theme_config');
 
 var chalk = gutil.colors;
 
-module.exports = function(themeConfig) {
+module.exports = function(themeConfig, halt) {
 	themeConfig = themeConfig || lfrThemeConfig.getConfig(true);
 
 	if (!themeConfig) {
@@ -39,7 +39,9 @@ module.exports = function(themeConfig) {
 		}
 	}
 
-	haltTask(missingDeps);
+	if (halt) {
+		haltTask(missingDeps);
+	}
 };
 
 function haltTask(missingDeps) {
