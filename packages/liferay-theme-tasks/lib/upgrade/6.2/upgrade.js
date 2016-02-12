@@ -132,7 +132,7 @@ module.exports = function(options) {
 	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
 		var NEW_LINE = '\n';
 
-		var compassPath = themeUtil.resolveDependency('compass-mixins');
+		var compassPath = themeUtil.resolveDependency('compass-mixins', '7.0', false);
 
 		var includeCompass = '@import "' + compassPath + '";' + NEW_LINE + NEW_LINE;
 
