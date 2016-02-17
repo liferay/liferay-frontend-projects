@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* New: updated sitemap.json and liferay-plugin-package.properties to account for changes in resources importer for 7.0 themes
 ***
 
 ## v7.1.0 - February 1, 2016
