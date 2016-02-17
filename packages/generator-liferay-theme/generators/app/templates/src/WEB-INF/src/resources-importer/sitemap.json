@@ -5,12 +5,12 @@
 			"columns": [
 				[
 					{
-						"portletId": "58"
+						"portletId": "<%= loginPortletId %>"
 					}
 				],
 				[
 					{
-						"portletId": "47"
+						"portletId": "<%= helloWorldPortletId %>"
 					}
 				]
 			],
