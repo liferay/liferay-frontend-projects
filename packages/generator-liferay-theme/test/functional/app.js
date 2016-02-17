@@ -53,10 +53,41 @@ describe('liferay-theme:app functional tests', function () {
 			assert.fileContent(pathLookAndFeel, '<template-extension>vm</template-extension>');
 			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">');
 
+			done();
+		});
+	});
+
+	it('populate 7.0 liferay-plugin-package.properties correctly', function(done) {
+		var themeId = 'test-theme';
+
+		runGenerator({
+			themeId: themeId
+		}, function() {
+			var tempThemeDir = path.join(tempDir, themeId);
+
 			var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
 
-			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=7.0.0+');
+			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
+			assert.fileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-class-name=com.liferay.portal.kernel.model.Group');
+			assert.fileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-value=Guest');
+
+			done();
+		});
+	});
+
+	it('populate 7.0 sitemap.json correctly', function(done) {
+		var themeId = 'test-theme';
+
+		runGenerator({
+			themeId: themeId
+		}, function() {
+			var tempThemeDir = path.join(tempDir, themeId);
+
+			var pathSitemapJSON = path.join(tempThemeDir, 'src/WEB-INF/src/resources-importer/sitemap.json');
+
+			assert.fileContent(pathSitemapJSON, '"portletId": "com_liferay_login_web_portlet_LoginPortlet"');
+			assert.fileContent(pathSitemapJSON, '"portletId": "com_liferay_hello_world_web_portlet_HelloWorldPortlet"');
 
 			done();
 		});
@@ -88,10 +119,47 @@ describe('liferay-theme:app functional tests', function () {
 			assert.fileContent(pathLookAndFeel, '<template-extension>ftl</template-extension>');
 			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">');
 
+			done();
+		});
+	});
+
+	it('populate 6.2 liferay-plugin-package.properties correctly', function(done) {
+		var themeId = 'test-theme';
+
+		runGenerator({
+			liferayVersion: '6.2',
+			supportCompass: true,
+			templateLanguage: 'ftl',
+			themeId: themeId
+		}, function() {
+			var tempThemeDir = path.join(tempDir, themeId);
+
 			var pathLiferayPluginPackageProperties = path.join(tempThemeDir, 'src/WEB-INF/liferay-plugin-package.properties');
 
-			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=6.2.0+');
+			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
+			chaiAssert.notFileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-class-name=com.liferay.portal.kernel.model.Group');
+			chaiAssert.notFileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-value=Guest');
+
+			done();
+		});
+	});
+
+	it('populate 6.2 sitemap.json correctly', function(done) {
+		var themeId = 'test-theme';
+
+		runGenerator({
+			liferayVersion: '6.2',
+			supportCompass: true,
+			templateLanguage: 'ftl',
+			themeId: themeId
+		}, function() {
+			var tempThemeDir = path.join(tempDir, themeId);
+
+			var pathSitemapJSON = path.join(tempThemeDir, 'src/WEB-INF/src/resources-importer/sitemap.json');
+
+			assert.fileContent(pathSitemapJSON, '"portletId": "47"');
+			assert.fileContent(pathSitemapJSON, '"portletId": "58"');
 
 			done();
 		});
