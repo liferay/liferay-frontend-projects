@@ -1,6 +1,9 @@
 ## Next Release
-* New: updated sitemap.json and liferay-plugin-package.properties to account for changes in resources importer for 7.0 themes
+*
 ***
+
+## v7.1.1 - February 18, 2016
+* New: updated sitemap.json and liferay-plugin-package.properties to account for changes in resources importer for 7.0 themes
 
 ## v7.1.0 - February 1, 2016
 * New: ftl is now the default template language for 7.0 and above (for liferay-theme:import generator)
