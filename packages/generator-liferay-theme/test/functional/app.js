@@ -69,8 +69,9 @@ describe('liferay-theme:app functional tests', function () {
 
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=7.0.0+');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
-			assert.fileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-class-name=com.liferay.portal.kernel.model.Group');
-			assert.fileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-value=Guest');
+			chaiAssert.fileContentMatch(pathLiferayPluginPackageProperties, /resources-importer-target-class-name=com\.liferay\.portal\.kernel\.model\.Group/);
+			chaiAssert.fileContentMatch(pathLiferayPluginPackageProperties, /resources-importer-target-value=Guest/);
+			chaiAssert.notFileContentMatch(pathLiferayPluginPackageProperties, /required-deployment-contexts=\\\n#\s+resources-importer-web/);
 
 			done();
 		});
@@ -138,8 +139,9 @@ describe('liferay-theme:app functional tests', function () {
 
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=6.2.0+');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
-			chaiAssert.notFileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-class-name=com.liferay.portal.kernel.model.Group');
-			chaiAssert.notFileContent(pathLiferayPluginPackageProperties, 'resources-importer-target-value=Guest');
+			chaiAssert.fileContentMatch(pathLiferayPluginPackageProperties, /required-deployment-contexts=\\\n#\s+resources-importer-web/);
+			chaiAssert.notFileContentMatch(pathLiferayPluginPackageProperties, /resources-importer-target-class-name=com\.liferay\.portal\.kernel\.model\.Group/);
+			chaiAssert.notFileContentMatch(pathLiferayPluginPackageProperties, /resources-importer-target-value=Guest/);
 
 			done();
 		});
