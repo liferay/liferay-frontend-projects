@@ -44,6 +44,7 @@ module.exports = function(options) {
 			'build:hook',
 			'build:themelets',
 			'build:rename-css-dir',
+			'build:prep-css',
 			'build:compile-css',
 			'build:fix-url-functions',
 			'build:move-compiled-css',
@@ -68,6 +69,66 @@ module.exports = function(options) {
 		del([pathBuild], cb);
 	});
 
+	gulp.task('build:compile-css', function(cb) {
+		var changedFile = getSrcPathConfig().changedFile;
+
+		// During watch task, exit task early if changed file is not css
+		if (changedFile && changedFile.type == 'changed' && !themeUtil.isCssFile(changedFile.path)) {
+			cb();
+
+			return;
+		}
+
+		var compileTask = themeConfig.rubySass ? 'build:compile-ruby-sass' : 'build:compile-lib-sass';
+
+		runSequence(compileTask, cb);
+	});
+
+	gulp.task('build:compile-lib-sass', function() {
+		var gulpSass = require('gulp-sass');
+
+		var config = {
+			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
+			sourceMap: false
+		};
+
+		var cssBuild = pathBuild + '/_css';
+
+		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '!(_)*.scss'), getSrcPathConfig());
+
+		return gulp.src(srcPath)
+			.pipe(plugins.plumber())
+			.pipe(gulpSass(config))
+			.pipe(gulp.dest(cssBuild));
+	});
+
+	gulp.task('build:compile-ruby-sass', function(cb) {
+		var gulpRubySass = require('gulp-ruby-sass');
+
+		var rubyCompass = themeConfig.version == '6.2';
+
+		var config = {
+			compass: rubyCompass,
+			loadPath: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
+			sourceMap: false
+		};
+
+		var cssBuild = pathBuild + '/_css';
+
+		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '*.scss'), getSrcPathConfig());
+
+		gulpRubySass(srcPath, config)
+			.pipe(gulp.dest(cssBuild))
+			.on('end', function() {
+				if (renamedFiles && renamedFiles.length) {
+					del(renamedFiles, cb);
+				}
+				else {
+					cb();
+				}
+			});
+	});
+
 	gulp.task('build:fix-at-directives', function() {
 		return gulp.src(pathBuild + '/css/*.css')
 			.pipe(replace({
@@ -85,7 +146,7 @@ module.exports = function(options) {
 
 	// Temp fix for libSass compilation issue with empty url() functions
 	gulp.task('build:fix-url-functions', function(cb) {
-		if (!themeConfig.supportCompass) {
+		if (!themeConfig.rubySass) {
 			return gulp.src(pathBuild + '/_css/**/*.css')
 				.pipe(replace({
 					patterns: [
@@ -129,24 +190,15 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:src', function() {
-		var srcPathConfig = getSrcPathConfig();
-
-		srcPathConfig.cssExtChanged = false;
-		srcPathConfig.returnAllCSS = true;
-
-		return gulp.src(themeUtil.getSrcPath(path.join(pathSrc, '**/*'), srcPathConfig), {
+		return gulp.src(path.join(pathSrc, '**/*'), {
 				base: pathSrc
 			})
 			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:web-inf', function() {
-		var changeFile = store.get('changedFile');
-
-		var base = changeFile ? pathSrc + '/WEB-INF/src' : pathBuild + '/WEB-INF/src';
-
-		return gulp.src(themeUtil.getSrcPath(pathBuild + '/WEB-INF/src/**/*', getSrcPathConfig()), {
-				base: base
+		return gulp.src(pathBuild + '/WEB-INF/src/**/*', {
+				base: pathBuild + '/WEB-INF/src'
 			})
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
@@ -175,53 +227,12 @@ module.exports = function(options) {
 		});
 	});
 
-	gulp.task('build:compile-css', function(cb) {
-		var supportCompass = themeConfig.supportCompass;
-
-		var config = getSassConfig(supportCompass);
-
-		var cssPreprocessor = config.cssPreprocessor || themeUtil.requireDependency('gulp-sass');
-
-		var fileExt = config.fileExt || '.scss';
-
-		config = _.omit(config, ['cssPreprocessor', 'fileExt']);
-
-		var cssBuild = pathBuild + '/_css';
-
-		var srcPathConfig = getSrcPathConfig();
-
-		var changedFile = srcPathConfig.changedFile;
-
-		// During watch task, exit task early if changed file is not css
-		if (changedFile && changedFile.type == 'changed' && !themeUtil.isCssFile(changedFile.path)) {
-			cb();
-
-			return;
-		}
-
-		var srcPaths = path.join(cssBuild, '!(_)*' + fileExt);
-
-		if (supportCompass) {
-			runSequence('build:rename-css-files', function() {
-				if (srcPathConfig.version == '6.2') {
-					srcPaths = themeUtil.getSrcPath(path.join(cssBuild, '**/*.scss'), srcPathConfig);
-				}
-
-				cssPreprocessor(srcPaths, {
-						compass: true,
-						loadPath: config.loadPath
-					})
-					.pipe(gulp.dest(cssBuild))
-					.on('end', function() {
-						del(renamedFiles, cb);
-					});
-			});
+	gulp.task('build:prep-css', function(cb) {
+		if (themeConfig.version == '6.2') {
+			runSequence('build:rename-css-files', cb);
 		}
 		else {
-			return gulp.src(srcPaths)
-				.pipe(plugins.plumber())
-				.pipe(cssPreprocessor(config))
-				.pipe(gulp.dest(cssBuild));
+			cb();
 		}
 	});
 
@@ -250,7 +261,7 @@ module.exports = function(options) {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
 
-	gulp.task('build:rename-css-files', function() {
+	gulp.task('build:rename-css-files', function(cb) {
 		var cssBuild = pathBuild + '/_css';
 
 		var vinylPaths = require('vinyl-paths');
@@ -261,20 +272,19 @@ module.exports = function(options) {
 
 		var base = changeFile ? pathSrc + '/css' : pathBuild + '/css';
 
-		return gulp.src(themeUtil.getSrcPath(cssBuild + '/**/*.css', getSrcPathConfig(), function(name) {
-				_.endsWith(name, '.css');
-			}), {
+		gulp.src(path.join(cssBuild, '**/*.css'), {
 				base: base
 			})
 			.pipe(plugins.rename({
 				extname: '.scss'
 			}))
-			.pipe(vinylPaths(function(path, cb) {
+			.pipe(vinylPaths(function(path, done) {
 				renamedFiles.push(path);
 
-				cb();
+				done();
 			}))
-			.pipe(gulp.dest(cssBuild));
+			.pipe(gulp.dest(cssBuild))
+			.on('end', cb);
 	});
 
 	gulp.task('build:war', function() {
@@ -339,59 +349,19 @@ function getLiferayThemeJSON(themePath) {
 	return require(path.join(themePath, 'package.json')).liferayTheme;
 }
 
-function getSassConfig(supportCompass) {
-	var cssPrecompilerConfig = hasCustomSassConfig();
-
-	if (cssPrecompilerConfig) {
-		if (themeConfig.baseTheme != 'unstyled') {
-			var util = plugins.util;
-
-			util.log(util.colors.yellow(
-				'Warning! If you are using a css preprocessor other than sass, you must extend from the Unstyled theme. Run',
-				util.colors.cyan('gulp extend'),
-				'to change configuration.')
-			);
-		}
-
-		return require(cssPrecompilerConfig)();
-	}
-	else {
-		return getSassConfigDefaults(themeConfig.supportCompass);
-	}
-}
-
-function getSassConfigDefaults(supportCompass) {
-	var config = {
-		sourceMap: false
-	};
-
+function getSassInlcudePaths(version, rubySass) {
 	var includePaths = [
 		themeUtil.resolveDependency(versionMap.getDependencyName('mixins'))
 	];
 
-	if (themeConfig.version > 6.2) {
+	if (version != 6.2) {
 		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
 
 		includePaths = includePaths.concat(createBourbonFile());
 	}
-
-	if (supportCompass) {
-		config.cssPreprocessor = themeUtil.requireDependency('gulp-ruby-sass');
-		config.loadPath = includePaths;
-	}
-	else {
-		config.cssPreprocessor = themeUtil.requireDependency('gulp-sass');
-		config.includePaths = includePaths;
+	else if (version == 6.2 && !rubySass) {
+		includePaths.push(path.dirname(require.resolve('compass-mixins')));
 	}
 
-	return config;
-}
-
-function hasCustomSassConfig() {
-	try {
-		return require.resolve(path.join(process.cwd(), 'css_precompiler.js'));
-	}
-	catch(e) {
-		return false;
-	}
+	return includePaths;
 }

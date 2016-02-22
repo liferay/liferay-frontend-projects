@@ -12,6 +12,33 @@ var themeConfig = lfrThemeConfig.getConfig();
 var fullDeploy = (argv.full || argv.f);
 
 module.exports = {
+	getCssSrcPath: function(srcPath, config) {
+		if (config.version != '6.2') {
+			return srcPath;
+		}
+
+		var changedFile = config.changedFile;
+
+		var changed = (changedFile && (changedFile.type == 'changed'));
+
+		var fastDeploy = (!fullDeploy && config.deployed);
+
+		if (changed && fastDeploy) {
+			var filePath = changedFile.path;
+
+			var fileDirname = path.dirname(filePath);
+			var fileName = path.basename(filePath, '.css');
+
+			if (path.basename(fileDirname) != 'css' || this.isSassPartial(fileName)) {
+				return srcPath;
+			}
+
+			srcPath = path.join(srcPath, '..', fileName + '.scss');
+		}
+
+		return srcPath;
+	},
+
 	getLanguageProperties: function(pathBuild) {
 		var pathContent = path.join(pathBuild, 'WEB-INF/src/content');
 
@@ -33,50 +60,6 @@ module.exports = {
 		}
 
 		return languageKeys;
-	},
-
-	getSrcPath: function(srcPath, config, validator) {
-		var originalSrcPath = srcPath;
-
-		if (_.isUndefined(config)) {
-			config = {};
-		}
-
-		var changedFile = config.changedFile;
-
-		var changed = (changedFile && (changedFile.type == 'changed'));
-
-		var fastDeploy = (!fullDeploy && config.deployed);
-
-		if (changed && fastDeploy) {
-			var changedFileName = path.basename(changedFile.path);
-
-			if (validator && !validator(changedFileName)) {
-				return srcPath;
-			}
-
-			srcPath = changedFile.path;
-
-			if (config.returnAllCSS && this.isCssFile(changedFile.path)) {
-				srcPath = originalSrcPath + '.+(css|scss)';
-			}
-
-			if (config.version && config.version == '6.2' && this.isCssFile(changedFileName)) {
-				if (this.isSassPartial(changedFile.path)) {
-					return originalSrcPath;
-				}
-
-				var cssExtChanged = _.isUndefined(config.cssExtChanged) ? true : config.cssExtChanged;
-
-				if (cssExtChanged) {
-					changedFileName = changedFileName.replace(/\.css/, '.scss');
-				}
-
-				srcPath = path.join(originalSrcPath, '..', changedFileName);
-			}
-		}
-
-		return srcPath;
 	},
 
 	isCssFile: function(name) {

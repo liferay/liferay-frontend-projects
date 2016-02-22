@@ -11,6 +11,7 @@ module.exports = function(config) {
 		config.pathBuild = config.pathBuild || './build';
 		config.pathDist = config.pathDist || './dist';
 		config.pathSrc = config.pathSrc || './src';
+		config.rubySass = config.rubySass || false;
 		config.supportCompass = config.supportCompass || false;
 
 		options = config;

@@ -34,62 +34,43 @@ module.exports = function(options) {
 		runSequence.apply(this, sequence);
 	});
 
-	gulp.task('deploy:fast', function() {
-		var dest = store.get('appServerPathTheme');
-
-		var tempDirPath = path.join(dest, '../../temp/');
-
-		var tempThemeDir;
-
-		if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
-			var themeName = store.get('themeName');
-
-			var tempDir = fs.readdirSync(tempDirPath);
-
-			tempThemeDir = _.find(tempDir, function(fileName) {
-				return fileName.indexOf(themeName) > -1;
-			});
-		}
-
-		var changedFile = store.get('changedFile');
-
-		var extname = path.extname(changedFile.path);
-
-		if (extname == '.scss') {
-			extname = '.css';
-		}
-
-		var base = pathBuild;
-		var srcPath = pathBuild + '/**/*' + extname;
+	gulp.task('deploy:css-files', function() {
 
 		var version = themeConfig.liferayTheme.version;
 
-		if (extname != '.css') {
-			base = pathSrc;
-			srcPath = path.relative(process.cwd(), changedFile.path);
-		}
-		else if (version == '6.2') {
-			var srcPathConfig = {
-				changedFile: store.get('changedFile'),
-				cssExtChanged: false,
-				deployed: store.get('deployed'),
-				version: version
-			};
+		var srcPath = path.join(pathBuild, 'css/*.css');
 
-			srcPath = themeUtil.getSrcPath(srcPath, srcPathConfig);
+		var filePath = store.get('changedFile').path;
+
+		if (version == '6.2' && !themeUtil.isSassPartial(filePath)) {
+			var fileName = path.basename(filePath);
+
+			srcPath = path.join(pathBuild, 'css', fileName);
 		}
 
-		var stream = gulp.src(srcPath, {
-				base: base
-			})
-			.pipe(gulp.dest(dest))
-			.pipe(livereload());
+		return fastDeploy(srcPath, pathBuild);
+	});
 
-		if (tempThemeDir) {
-			stream.pipe(gulp.dest(path.join(tempDirPath, tempThemeDir)));
-		}
+	gulp.task('deploy:file', function() {
+		var changedFile = store.get('changedFile');
 
-		return stream;
+		return fastDeploy(changedFile.path, pathSrc);
+	});
+
+	gulp.task('deploy:folder', function() {
+		var changedFile = store.get('changedFile');
+
+		var relativeFilePath = path.relative(path.join(process.cwd(), pathSrc), changedFile.path);
+
+		var match = relativeFilePath.match(/(.+?)\//);
+
+		var rootDir = match ? match[1] : '';
+
+		var fastDeployPaths = getFastDeployPaths();
+
+		var srcRoot = rootDir == 'WEB-INF' ? pathBuild : pathSrc;
+
+		return fastDeploy(path.join(srcRoot, rootDir, '**/*'), srcRoot);
 	});
 
 	gulp.task('deploy:war', function() {
@@ -129,4 +110,46 @@ module.exports = function(options) {
 
 		warDeployer.deploy();
 	});
+
+	function fastDeploy(srcPath, basePath) {
+		var fastDeployPaths = getFastDeployPaths();
+
+		var stream = gulp.src(srcPath, {
+				base: basePath
+			})
+			.pipe(plugins.debug())
+			.pipe(gulp.dest(fastDeployPaths.dest));
+
+		if (fastDeployPaths.tempDest) {
+			stream.pipe(gulp.dest(fastDeployPaths.tempDest));
+		}
+
+		stream.pipe(livereload());
+
+		return stream;
+	}
+
+	function getFastDeployPaths() {
+		var fastDeployPaths = {
+			dest: store.get('appServerPathTheme')
+		};
+
+		var tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
+
+		var tempThemeDir;
+
+		if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
+			var themeName = store.get('themeName');
+
+			var tempDir = fs.readdirSync(tempDirPath);
+
+			tempThemeDir = _.find(tempDir, function(fileName) {
+				return fileName.indexOf(themeName) > -1;
+			});
+		}
+
+		fastDeployPaths.tempDest = tempThemeDir;
+
+		return fastDeployPaths;
+	}
 };
