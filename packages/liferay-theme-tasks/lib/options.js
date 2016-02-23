@@ -12,7 +12,6 @@ module.exports = function(config) {
 		config.pathDist = config.pathDist || './dist';
 		config.pathSrc = config.pathSrc || './src';
 		config.rubySass = config.rubySass || false;
-		config.supportCompass = config.supportCompass || false;
 
 		options = config;
 	}

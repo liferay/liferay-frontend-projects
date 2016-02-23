@@ -105,7 +105,7 @@ module.exports = function(options) {
 		var lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
-			supportCompass: false,
+			rubySass: false,
 			version: '7.0'
 		});
 

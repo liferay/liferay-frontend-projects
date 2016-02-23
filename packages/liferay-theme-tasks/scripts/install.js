@@ -6,7 +6,7 @@ var versionMap = require('../lib/version_map');
 
 var DEFAULT_THEME_CONFIG = {
 	baseTheme: 'styled',
-	supportCompass: false,
+	rubySass: false,
 	version: '7.0'
 };
 
