@@ -10,88 +10,48 @@ var util = require('../../lib/util.js');
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
+var cssBuild = 'build/_css';
+
 var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'base-theme');
 
 describe('Util functions', function() {
-	describe('getSrcPath', function() {
-		it('should return correct src paths depending on deployed status/changed file', function(done) {
-			var originalSrcPath = 'src/css/**/*';
+	describe('getCssSrcPath', function() {
+		var changedFile = {
+			path: path.join(tempPath, 'src/css/_custom.scss'),
+			type: 'changed'
+		};
 
-			var srcPath = util.getSrcPath(originalSrcPath, {
-				deployed: true
-			});
+		var config = {
+			changedFile: changedFile,
+			deployed: true,
+			version: '7.0'
+		};
 
-			assert.equal(srcPath, originalSrcPath);
+		it('should return original src path if version is not equal to 6.2', function(done) {
+			var originalSrcPath = path.join(cssBuild, '*.scss');
 
-			var changedFile = {
-				type: 'changed',
-				path: path.join(tempPath, 'src/css/custom.css')
-			};
+			var srcPath = util.getCssSrcPath(originalSrcPath, config);
 
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				deployed: true
-			});
+			assert.equal(originalSrcPath, srcPath);
 
-			assert.equal(path.join(tempPath, 'src/css/custom.css'), srcPath);
+			done();
+		});
 
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				deployed: true
-			}, function(changedFileName) {
-				assert.equal(changedFileName, 'custom.css');
+		it('should return file specific src path if version is 6.2 and changed file is not a sass partial', function(done) {
+			config.changedFile.path = path.join(tempPath, 'src/css/_aui_variables.scss');
+			config.version = '6.2';
 
-				return false;
-			});
+			var originalSrcPath = path.join(cssBuild, '*.scss');
 
-			assert.equal(srcPath, originalSrcPath);
+			var srcPath = util.getCssSrcPath(originalSrcPath, config);
 
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				deployed: true,
-				version: '6.2'
-			});
+			assert.equal(originalSrcPath, srcPath);
 
-			assert.equal(srcPath, 'src/css/**/custom.scss');
+			config.changedFile.path = path.join(tempPath, 'src/css/custom.css');
 
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				cssExtChanged: false,
-				deployed: true,
-				version: '6.2'
-			});
+			srcPath = util.getCssSrcPath(originalSrcPath, config);
 
-			assert.equal(srcPath, 'src/css/**/custom.css');
-
-			changedFile.path = path.join(tempPath, 'src/css/aui/_variables.scss');
-
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				cssExtChanged: false,
-				deployed: true,
-				version: '6.2'
-			});
-
-			assert.equal(srcPath, originalSrcPath);
-
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				cssExtChanged: false,
-				deployed: true,
-				version: '7.0'
-			});
-
-			assert.equal(srcPath, changedFile.path);
-
-			srcPath = util.getSrcPath(originalSrcPath, {
-				changedFile: changedFile,
-				cssExtChanged: false,
-				deployed: true,
-				returnAllCSS: true,
-				version: '7.0'
-			});
-
-			assert.equal(srcPath, 'src/css/**/*.+(css|scss)');
+			assert.equal(srcPath, 'build/_css/custom.scss');
 
 			done();
 		});

@@ -36,7 +36,7 @@ describe('Watch Task', function() {
 				gulp: gulp,
 				pathBuild: './custom_build_path',
 				pathSrc: './custom_src_path',
-				supportCompass: false
+				rubySass: false
 			});
 
 			runSequence = require('run-sequence').use(gulp);
@@ -81,7 +81,7 @@ describe('Watch Task', function() {
 
 		fs.writeFileSync(filePath, fileContents, 'utf8');
 
-		runWatchSequence(function() {
+		runCssWatchSequence(function() {
 			var appServerPathTheme = instance._appServerPathTheme;
 			var cssDir = path.join(appServerPathTheme, 'css');
 
@@ -109,7 +109,7 @@ describe('Watch Task', function() {
 
 		setChangedFile(filePath);
 
-		runWatchSequence(function() {
+		runJsWatchSequence(function() {
 			var appServerPathTheme = instance._appServerPathTheme;
 			var jsDir = path.join(appServerPathTheme, 'js');
 
@@ -130,20 +130,35 @@ describe('Watch Task', function() {
 	});
 });
 
-function runWatchSequence(cb) {
-	runSequence(
+function runCssWatchSequence(cb) {
+	var taskArray = [
 		'build:clean',
 		'build:base',
 		'build:src',
-		'build:web-inf',
 		'build:themelets',
+		'build:themelet-css',
+		'build:themelet-css-inject',
 		'build:rename-css-dir',
+		'build:prep-css',
 		'build:compile-css',
 		'build:move-compiled-css',
 		'build:remove-old-css-dir',
-		'deploy:fast',
-		cb
-	);
+		'deploy:css-files'
+	];
+
+	runWatchSequence(taskArray, cb);
+}
+
+function runJsWatchSequence(cb) {
+	var taskArray = ['deploy:file'];
+
+	runWatchSequence(taskArray, cb);
+}
+
+function runWatchSequence(taskArray, cb) {
+	taskArray.push(cb);
+
+	runSequence.apply(this, taskArray);
 }
 
 function setChangedFile(filePath) {

@@ -32,7 +32,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 
 			var config = {
 				gulp: gulp,
-				supportCompass: true
+				rubySass: true
 			};
 
 			registerTasks(config);
@@ -120,7 +120,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 			var themeConfig = lfrThemeConfig.getConfig();
 
 			assert.equal(themeConfig.version, '7.0');
-			assert.equal(themeConfig.supportCompass, false);
+			assert.equal(themeConfig.rubySass, false);
 
 			var lookAndFeelPath = path.join(tempPath, 'src/WEB-INF/liferay-look-and-feel.xml');
 			var pluginPackagePropertiesPath = path.join(tempPath, 'src/WEB-INF/liferay-plugin-package.properties');

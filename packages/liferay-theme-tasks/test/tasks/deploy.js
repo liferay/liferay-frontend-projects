@@ -35,7 +35,7 @@ describe('Deploy Tasks', function() {
 			registerTasks({
 				gulp: gulp,
 				pathSrc: './custom_src_path',
-				supportCompass: false
+				rubySass: false
 			});
 
 			runSequence = require('run-sequence').use(gulp);

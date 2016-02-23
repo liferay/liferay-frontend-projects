@@ -34,7 +34,7 @@ describe('Build Tasks', function() {
 				gulp: gulp,
 				pathBuild: './custom_build_path',
 				pathSrc: './custom_src_path',
-				supportCompass: false
+				rubySass: false
 			});
 
 			runSequence = require('run-sequence').use(gulp);
