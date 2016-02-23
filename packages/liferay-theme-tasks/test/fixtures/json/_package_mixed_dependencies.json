@@ -6,7 +6,7 @@
 	],
 	"liferayTheme": {
 		"baseTheme": "styled",
-		"supportCompass": false,
+		"rubySass": false,
 		"themeletDependencies": {},
 		"version": "7.0"
 	},

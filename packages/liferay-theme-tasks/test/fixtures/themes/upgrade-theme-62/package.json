@@ -6,8 +6,8 @@
 	],
 	"liferayTheme": {
 		"baseTheme": "styled",
+		"rubySass": true,
 		"screenshot": "",
-		"supportCompass": true,
 		"templateLanguage": "vm",
 		"version": "6.2"
 	},
