@@ -22,6 +22,15 @@ module.exports = function(themeConfig, halt) {
 	var liferayVersion = themeConfig.liferayTheme.version;
 	var rubySass = themeConfig.liferayTheme.rubySass;
 
+	if (!_.isUndefined(themeConfig.liferayTheme.supportCompass) && _.isUndefined(rubySass)) {
+		rubySass = themeConfig.liferayTheme.supportCompass;
+
+		lfrThemeConfig.setConfig({
+			rubySass: rubySass,
+			supportCompass: undefined
+		});
+	}
+
 	var missingDeps = 0;
 
 	if (liferayVersion == '7.0') {
