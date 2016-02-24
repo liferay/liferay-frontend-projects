@@ -1,6 +1,9 @@
 ## Next Release
-* Update: removed unnecessary properties from generated liferay-plugin-package.properties file
+* No changes
 ***
+
+## v7.1.2 - February 24, 2016
+* Update: removed unnecessary properties from generated liferay-plugin-package.properties file
 
 ## v7.1.1 - February 18, 2016
 * New: updated sitemap.json and liferay-plugin-package.properties to account for changes in resources importer for 7.0 themes
