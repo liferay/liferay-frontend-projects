@@ -1,5 +1,5 @@
 ## Next Release
-*
+* Update: removed unnecessary properties from generated liferay-plugin-package.properties file
 ***
 
 ## v7.1.1 - February 18, 2016
