@@ -42,13 +42,6 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				type: 'input',
 				validate: instance._validatePath,
 				when: instance._getWhenFn('importTheme', 'path')
-			},
-			{
-				default: false,
-				message: 'Do you need Compass support? (requires Ruby and the Sass gem to be installed)',
-				name: 'supportCompass',
-				type: 'confirm',
-				when: instance._getWhenFn('supportCompass', 'compass', _.isBoolean)
 			}
 		];
 	},
@@ -85,7 +78,6 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	_promptCallback: function(props) {
 		this.appname = path.basename(props.importTheme);
 		this.importTheme = props.importTheme;
-		this.supportCompass = props.supportCompass;
 
 		this._getSettingFromConfigFile({
 			defaultValue: 6.2,
@@ -95,6 +87,13 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		});
 
 		var liferayVersion = this.liferayVersion;
+		var rubySass = false;
+
+		if (liferayVersion == '6.2') {
+			rubySass = true;
+		}
+
+		this.rubySass = rubySass;
 
 		this._setPublishTag(liferayVersion);
 		this._setPackageVersion(liferayVersion);
@@ -160,7 +159,6 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		var liferayVersion = this.liferayVersion;
 
 		insight.track('import', liferayVersion);
-		insight.track('import', liferayVersion, 'supportCompass', this.supportCompass);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme Importer') + ' generator!'

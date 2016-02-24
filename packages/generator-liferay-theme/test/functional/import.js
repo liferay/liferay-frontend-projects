@@ -35,12 +35,10 @@ describe('liferay-theme:import functional tests', function () {
 	});
 
 	it('populates 6.2 package.json correctly', function(done) {
-		runGenerator({
-			supportCompass: true
-		}, function() {
+		runGenerator(null, function() {
 			var pkg = getPackage();
 
-			assert.equal(pkg.liferayTheme.supportCompass, true);
+			assert.equal(pkg.liferayTheme.rubySass, true);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
 			assert.equal(pkg.liferayTheme.version, '6.2');
 			assert.equal(pkg.publishConfig.tag, '6_2_x');
@@ -61,8 +59,7 @@ function runGenerator(options, end) {
 	options = options || {};
 
 	options = _.defaults(options, {
-		importTheme: pathSdkTheme,
-		supportCompass: false
+		importTheme: pathSdkTheme
 	});
 
 	helpers.run(path.join(__dirname, '../../generators/import'))

@@ -37,7 +37,7 @@ describe('liferay-theme:app functional tests', function () {
 		}, function() {
 			var pkg = getPackage(themeId);
 
-			assert.equal(pkg.liferayTheme.supportCompass, false);
+			assert.equal(pkg.liferayTheme.rubySass, false);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
 			assert.equal(pkg.liferayTheme.version, '7.0');
 			assert.equal(pkg.name, 'test-theme');
@@ -97,13 +97,12 @@ describe('liferay-theme:app functional tests', function () {
 
 		runGenerator({
 			liferayVersion: '6.2',
-			supportCompass: true,
 			templateLanguage: 'ftl',
 			themeId: themeId
 		}, function() {
 			var pkg = getPackage(themeId);
 
-			assert.equal(pkg.liferayTheme.supportCompass, true);
+			assert.equal(pkg.liferayTheme.rubySass, true);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
 			assert.equal(pkg.liferayTheme.version, '6.2');
 			assert.equal(pkg.publishConfig.tag, '6_2_x');
@@ -127,7 +126,6 @@ describe('liferay-theme:app functional tests', function () {
 
 		runGenerator({
 			liferayVersion: '6.2',
-			supportCompass: true,
 			templateLanguage: 'ftl',
 			themeId: themeId
 		}, function() {
@@ -148,7 +146,6 @@ describe('liferay-theme:app functional tests', function () {
 
 		runGenerator({
 			liferayVersion: '6.2',
-			supportCompass: true,
 			templateLanguage: 'ftl',
 			themeId: themeId
 		}, function() {
@@ -175,7 +172,6 @@ function runGenerator(options, end) {
 
 	options = _.defaults(options, {
 		liferayVersion: '7.0',
-		supportCompass: false,
 		templateLanguage: 'vm',
 		themeName: 'Test Theme'
 	});

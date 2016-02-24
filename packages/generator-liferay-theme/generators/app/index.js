@@ -244,15 +244,15 @@ module.exports = yeoman.generators.Base.extend({
 	_promptCallback: function(props) {
 		var liferayVersion = props.liferayVersion;
 
-		var supportCompass = false;
+		var rubySass = false;
 
 		if (liferayVersion == '6.2') {
-			supportCompass = true;
+			rubySass = true;
 		}
 
 		this.appname = props.themeId;
 		this.liferayVersion = liferayVersion;
-		this.supportCompass = supportCompass;
+		this.rubySass = rubySass;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
@@ -263,16 +263,11 @@ module.exports = yeoman.generators.Base.extend({
 	_setArgv: function() {
 		this.argv = minimist(process.argv.slice(2), {
 			alias: {
-				compass: 'c',
 				id: 'i',
 				liferayVersion: 'l',
 				name: 'n',
 				template: 't'
 			},
-			default: {
-				compass: null
-			},
-			boolean: ['compass'],
 			string: ['liferayVersion']
 		});
 	},
@@ -300,7 +295,6 @@ module.exports = yeoman.generators.Base.extend({
 
 		insight.track('theme', liferayVersion);
 		insight.track('theme', liferayVersion, 'templateLanguage', this.templateLanguage);
-		insight.track('theme', liferayVersion, 'supportCompass', this.supportCompass);
 	},
 
 	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
