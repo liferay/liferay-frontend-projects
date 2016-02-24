@@ -28,8 +28,8 @@ describe('liferay-theme:app unit tests', function() {
 		liferayThemeApp.prototype.args = {};
 		liferayThemeApp.prototype.argv = {};
 
-		var flagName = 'compass';
-		var propertyName = 'supportCompass';
+		var flagName = 'template';
+		var propertyName = 'templateLanguage';
 
 		var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
 
@@ -37,14 +37,14 @@ describe('liferay-theme:app unit tests', function() {
 		chaiAssert(whenFn());
 
 		liferayThemeApp.prototype.argv = {
-			compass: true
+			template: 'vm'
 		};
 
 		whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
 
 		chaiAssert.isFunction(whenFn);
 		chaiAssert(!whenFn());
-		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], true);
+		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], 'vm');
 
 		whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
 
@@ -56,8 +56,8 @@ describe('liferay-theme:app unit tests', function() {
 		liferayThemeApp.prototype.args = {};
 		liferayThemeApp.prototype.argv = {};
 
-		var flagName = 'compass';
-		var propertyName = 'supportCompass';
+		var flagName = 'template';
+		var propertyName = 'templateLanguage';
 
 		var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
 			chaiAssert.fail('Invoked validator with null value', 'Should have not invoked');
@@ -68,7 +68,7 @@ describe('liferay-theme:app unit tests', function() {
 
 		liferayThemeApp.prototype.args = {};
 		liferayThemeApp.prototype.argv = {
-			compass: true
+			template: 'ftl'
 		};
 
 		liferayThemeApp.prototype.log = function() {};
@@ -81,7 +81,7 @@ describe('liferay-theme:app unit tests', function() {
 
 		chaiAssert.isFunction(whenFn);
 		chaiAssert(!whenFn());
-		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], true);
+		chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], 'ftl');
 
 		liferayThemeApp.prototype.args = {};
 
@@ -99,10 +99,9 @@ describe('liferay-theme:app unit tests', function() {
 	// _mixArgs
 	it('mixes props and args', function(done) {
 		var props = liferayThemeApp.prototype._mixArgs({
-			supportCompass: true,
-			liferayVersion: '7.0'
+			liferayVersion: '7.0',
+			templateLanguage: 'ftl'
 		}, {
-			supportCompass: false,
 			templateLanguage: 'vm',
 			themeId: 'id',
 			themeName: 'name'
@@ -110,7 +109,6 @@ describe('liferay-theme:app unit tests', function() {
 
 		chaiAssert.deepEqual(props, {
 			liferayVersion: '7.0',
-			supportCompass: false,
 			templateLanguage: 'vm',
 			themeId: 'id',
 			themeName: 'name'
@@ -131,8 +129,6 @@ describe('liferay-theme:app unit tests', function() {
 
 		chaiAssert.deepEqual(liferayThemeApp.prototype.argv, {
 			_: ['liferay-theme'],
-			c: null,
-			compass: null,
 			i: 'my-liferay-theme',
 			id: 'my-liferay-theme',
 			l: '7.0',

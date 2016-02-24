@@ -7,7 +7,7 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"screenshot": "",
-		"supportCompass": <%= supportCompass %>,
+		"rubySass": <%= rubySass %>,
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "<%= liferayVersion %>"
 	},
@@ -15,8 +15,8 @@
 		"gulp": "^3.8.10",
 		"liferay-theme-tasks": "*",<% if (liferayVersion == 6.2) { %>
 		"liferay-theme-deps-6.2": "*"<% } else { %>
-		"liferay-theme-deps-7.0": "*"<% } %><% if (liferayVersion == 6.2 && !supportCompass) { %>,
-		"gulp-sass": "*"<% } else if (liferayVersion == 7.0 && supportCompass) { %>,
+		"liferay-theme-deps-7.0": "*"<% } %><% if (liferayVersion == 6.2 && !rubySass) { %>,
+		"gulp-sass": "*"<% } else if (liferayVersion == 7.0 && rubySass) { %>,
 		"gulp-ruby-sass": "*"<% } %>
 	}<% if (publishTag) { %>,
 	"publishConfig": {
