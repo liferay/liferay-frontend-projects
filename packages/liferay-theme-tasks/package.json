@@ -56,6 +56,7 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-fs": "^0.1.0",
+    "gulp-ruby-sass": "^2.0.6",
     "liferay-theme-deps-6.2": "*",
     "liferay-theme-deps-7.0": "*",
     "mocha": "^2.3.2",
