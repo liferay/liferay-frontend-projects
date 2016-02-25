@@ -72,7 +72,7 @@ module.exports = function(options) {
 
 	gulp.task('upgrade:dependencies', function(cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-6.2']);
-		lfrThemeConfig.addDependencies({
+		lfrThemeConfig.setDependencies({
 			'liferay-theme-deps-7.0': '*'
 		}, true);
 

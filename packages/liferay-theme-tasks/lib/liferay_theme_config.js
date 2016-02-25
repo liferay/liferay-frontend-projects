@@ -26,14 +26,6 @@ function writePackageJSON(json) {
 	fs.writeFileSync(path.join(process.cwd(), 'package.json'), JSON.stringify(json, null, '\t'));
 }
 
-module.exports.addDependencies = function(dependencies, devDependencies) {
-	var packageJSON = getPackageJSON();
-
-	_.merge(packageJSON[devDependencies ? 'devDependencies' : 'dependencies'], dependencies);
-
-	writePackageJSON(packageJSON);
-};
-
 module.exports.getConfig = function(all, alternatePath) {
 	var packageJSON = getPackageJSON(alternatePath);
 
@@ -61,6 +53,14 @@ module.exports.setConfig = function(data, npmDependencies) {
 	}
 
 	packageJSON = _.merge(packageJSON, config);
+
+	writePackageJSON(packageJSON);
+};
+
+module.exports.setDependencies = function(dependencies, devDependencies) {
+	var packageJSON = getPackageJSON();
+
+	_.merge(packageJSON[devDependencies ? 'devDependencies' : 'dependencies'], dependencies);
 
 	writePackageJSON(packageJSON);
 };
