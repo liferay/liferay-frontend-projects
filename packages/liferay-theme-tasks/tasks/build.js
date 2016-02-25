@@ -84,8 +84,8 @@ module.exports = function(options) {
 		runSequence(compileTask, cb);
 	});
 
-	gulp.task('build:compile-lib-sass', function() {
-		var gulpSass = require('gulp-sass');
+	gulp.task('build:compile-lib-sass', function(cb) {
+		var gulpSass = themeUtil.requireDependency('gulp-sass', themeConfig.version);
 
 		var config = {
 			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
@@ -96,14 +96,15 @@ module.exports = function(options) {
 
 		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '!(_)*.scss'), getSrcPathConfig());
 
-		return gulp.src(srcPath)
+		gulp.src(srcPath)
 			.pipe(plugins.plumber())
 			.pipe(gulpSass(config))
-			.pipe(gulp.dest(cssBuild));
+			.pipe(gulp.dest(cssBuild))
+			.on('end', cb);
 	});
 
 	gulp.task('build:compile-ruby-sass', function(cb) {
-		var gulpRubySass = require('gulp-ruby-sass');
+		var gulpRubySass = themeUtil.requireDependency('gulp-ruby-sass', themeConfig.version);
 
 		var rubyCompass = themeConfig.version == '6.2';
 
