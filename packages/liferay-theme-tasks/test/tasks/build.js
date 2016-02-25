@@ -64,7 +64,7 @@ function createBuildTests(version, rubySass) {
 		});
 
 		it('should clean build directory', function(done) {
-			this.timeout(4000);
+			this.timeout(6000);
 
 			var instance = this;
 
