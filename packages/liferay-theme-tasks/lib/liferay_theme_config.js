@@ -41,18 +41,16 @@ module.exports.removeDependencies = function(dependencies) {
 	writePackageJSON(packageJSON);
 };
 
-module.exports.setConfig = function(data, npmDependencies) {
+module.exports.setConfig = function(config) {
 	var packageJSON = getPackageJSON();
 
-	var config = {};
-
-	config[npmDependencies ? 'dependencies' : 'liferayTheme'] = data;
-
-	if (data.themeletDependencies && packageJSON.liferayTheme) {
+	if (config.themeletDependencies && packageJSON.liferayTheme) {
 		packageJSON.liferayTheme.themeletDependencies = undefined;
 	}
 
-	packageJSON = _.merge(packageJSON, config);
+	packageJSON = _.merge(packageJSON, {
+		liferayTheme: config
+	});
 
 	writePackageJSON(packageJSON);
 };
@@ -60,7 +58,13 @@ module.exports.setConfig = function(data, npmDependencies) {
 module.exports.setDependencies = function(dependencies, devDependencies) {
 	var packageJSON = getPackageJSON();
 
-	_.merge(packageJSON[devDependencies ? 'devDependencies' : 'dependencies'], dependencies);
+	var selector = devDependencies ? 'devDependencies' : 'dependencies';
+
+	if (!packageJSON[selector]) {
+		packageJSON[selector] = {};
+	}
+
+	_.merge(packageJSON[selector], dependencies);
 
 	writePackageJSON(packageJSON);
 };

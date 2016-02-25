@@ -94,15 +94,32 @@ describe('Liferay theme config', function() {
 		});
 
 		it('should add new npm dependencies without removing previously added dependencies', function(done) {
-			lfrThemeConfig.setConfig({
+			lfrThemeConfig.setDependencies({
 				'fake-module': '*'
-			}, true);
+			});
 
 			var dependencies = lfrThemeConfig.getConfig(true).dependencies;
 
 			assert.isDefined(dependencies['fake-module']);
 			assert.isDefined(dependencies['gulp']);
 			assert.isDefined(dependencies['liferay-theme-tasks']);
+
+			done();
+		});
+
+		it('should add to devDependencies and leave dependencies alone', function(done) {
+			var originalPackageJSON = lfrThemeConfig.getConfig(true);
+
+			var newDependencies = {
+				'fake-module': '*'
+			};
+
+			lfrThemeConfig.setDependencies(newDependencies, true);
+
+			var packageJSON = lfrThemeConfig.getConfig(true);
+
+			assert.deepEqual(originalPackageJSON.dependencies, packageJSON.dependencies);
+			assert.deepEqual(newDependencies, packageJSON.devDependencies);
 
 			done();
 		});
