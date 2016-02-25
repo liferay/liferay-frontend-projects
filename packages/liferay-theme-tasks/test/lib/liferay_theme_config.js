@@ -56,6 +56,18 @@ describe('Liferay theme config', function() {
 		});
 	});
 
+	describe('removeConfig', function() {
+		it('should remove dependencies from package.json', function(done) {
+			lfrThemeConfig.removeConfig(['rubySass']);
+
+			var liferayTheme = lfrThemeConfig.getConfig();
+
+			assert.isUndefined(liferayTheme.rubySass);
+
+			done();
+		});
+	});
+
 	describe('removeDependencies', function() {
 		it('should remove dependencies from package.json', function(done) {
 			lfrThemeConfig.removeDependencies(['test-themelet']);

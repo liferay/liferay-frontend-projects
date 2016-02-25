@@ -19,6 +19,7 @@
 			},
 			"version": "1.0.0"
 		},
+		"rubySass": false,
 		"themeletDependencies": {
 			"test-themelet": {
 				"liferayTheme": {

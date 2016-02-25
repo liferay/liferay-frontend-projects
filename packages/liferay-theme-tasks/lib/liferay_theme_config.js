@@ -32,6 +32,14 @@ module.exports.getConfig = function(all, alternatePath) {
 	return all ? packageJSON : packageJSON.liferayTheme;
 };
 
+module.exports.removeConfig = function(settings) {
+	var packageJSON = getPackageJSON();
+
+	packageJSON.liferayTheme = _.omit(packageJSON.liferayTheme, settings);
+
+	writePackageJSON(packageJSON);
+};
+
 module.exports.removeDependencies = function(dependencies) {
 	var packageJSON = getPackageJSON();
 

@@ -26,9 +26,10 @@ module.exports = function(themeConfig, halt) {
 		rubySass = themeConfig.liferayTheme.supportCompass;
 
 		lfrThemeConfig.setConfig({
-			rubySass: rubySass,
-			supportCompass: undefined
+			rubySass: rubySass
 		});
+
+		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
 	var missingDeps = 0;
