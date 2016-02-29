@@ -11,10 +11,10 @@ var runSequence;
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
-
 function createBuildTests(version, rubySass) {
 	return function() {
+		var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', version, 'base-theme');
+
 		before(function(done) {
 			this.timeout(10000);
 
@@ -22,7 +22,7 @@ function createBuildTests(version, rubySass) {
 
 			instance._initCwd = process.cwd();
 
-			fs.copy(path.join(__dirname, '../fixtures/themes/7.0/base-theme'), tempPath, function(err) {
+			fs.copy(path.join(__dirname, '../fixtures/themes', version, 'base-theme'), tempPath, function(err) {
 				if (err) throw err;
 
 				process.chdir(tempPath);
