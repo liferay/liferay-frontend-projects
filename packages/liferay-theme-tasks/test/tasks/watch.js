@@ -69,7 +69,7 @@ describe('Watch Task', function() {
 	});
 
 	it('should deploy css files correctly on change', function(done) {
-		this.timeout(4000);
+		this.timeout(6000);
 
 		var instance = this;
 
@@ -101,7 +101,7 @@ describe('Watch Task', function() {
 	});
 
 	it('should deploy js files correctly on change', function(done) {
-		this.timeout(4000);
+		this.timeout(6000);
 
 		var instance = this;
 
