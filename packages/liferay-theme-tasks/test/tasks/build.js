@@ -280,7 +280,7 @@ function deleteJsFromCache() {
 	delete require.cache[registerTasksPath];
 }
 
-describe('Build Tasks: 6.2/rubySass', createBuildTests('6.2', false));
+describe('Build Tasks: 6.2/libSass', createBuildTests('6.2', false));
 describe('Build Tasks: 6.2/rubySass', createBuildTests('6.2', true));
 
 describe('Build Tasks: 7.0/libSass', createBuildTests('7.0', false));
