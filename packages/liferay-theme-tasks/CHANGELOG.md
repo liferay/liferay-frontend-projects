@@ -1,6 +1,7 @@
 
 ## Next Release
-* No changes
+* New: allow 6.2 themes to compile scss with libSass
+* Update: removed supportCompass liferayTheme option and replaced with more appropriate rubySass option
 ***
 
 ## v1.0.3 - February 12, 2016
