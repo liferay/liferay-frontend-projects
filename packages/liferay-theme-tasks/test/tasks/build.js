@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs-extra');
 var gulp = require('gulp');
@@ -14,6 +15,8 @@ chai.use(require('chai-fs'));
 function createBuildTests(version, rubySass) {
 	return function() {
 		var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', version, 'base-theme');
+
+		var customCSSFileName = getCssFileName(version);
 
 		before(function(done) {
 			this.timeout(10000);
@@ -36,9 +39,7 @@ function createBuildTests(version, rubySass) {
 				instance._buildPath = path.join(tempPath, 'custom_build_path');
 				instance._tempPath = tempPath;
 
-				var registerTasksPath = require.resolve('../../index.js');
-
-				delete require.cache[registerTasksPath];
+				deleteJsFromCache();
 
 				var registerTasks = require('../../index.js').registerTasks;
 
@@ -59,6 +60,8 @@ function createBuildTests(version, rubySass) {
 
 		after(function() {
 			fs.removeSync(tempPath);
+
+			deleteJsFromCache();
 
 			process.chdir(this._initCwd);
 		});
@@ -103,9 +106,9 @@ function createBuildTests(version, rubySass) {
 			runSequence('build:src', function(err) {
 				if (err) throw err;
 
-				var customCSSPath = path.join(instance._buildPath, 'css/_custom.scss');
+				var customCSSPath = path.join(instance._buildPath, 'css', customCSSFileName);
 
-				assert.fileContent(customCSSPath, '/* inject:imports */\n/* endinject */\n\n/* _custom.scss */');
+				assert.fileContent(customCSSPath, '/* inject:imports */\n/* endinject */\n\n/* ' + customCSSFileName + ' */');
 
 				assert.isFile(path.join(instance._buildPath, 'css/base/_text.scss'));
 				assert.isFile(path.join(instance._buildPath, 'js/main.js'));
@@ -169,8 +172,12 @@ function createBuildTests(version, rubySass) {
 				assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/freemarker.ftl'));
 				assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/velocity.vm'));
 
-				assert.fileContentMatch(path.join(instance._buildPath, 'css/_custom.scss'), /@import "themelets\/test-themelet\/_custom\.scss";/);
-				assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="\/base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
+				assert.fileContentMatch(path.join(instance._buildPath, 'css', customCSSFileName), /@import "themelets\/test-themelet\/_custom\.scss";/);
+
+				// TODO: add inject tags to both 6.2 and 7.0 themes when in development
+				if (version != '6.2') {
+					assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="\/base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
+				}
 
 				done();
 			});
@@ -239,6 +246,42 @@ function createBuildTests(version, rubySass) {
 		});
 	}
 }
+
+function getCssFileName(version) {
+	var fileName = '_custom.scss';
+
+	if (version == '6.2') {
+		fileName = 'custom.css';
+	}
+
+	return fileName;
+}
+
+function deleteDirJsFromCache(relativePath) {
+	var files = fs.readdirSync(path.join(__dirname, relativePath));
+
+	_.forEach(files, function(item, index) {
+		if (_.endsWith(item, '.js')) {
+			var taskPath = require.resolve(path.join(__dirname, relativePath, item));
+
+			delete require.cache[taskPath];
+		}
+	});
+}
+
+function deleteJsFromCache() {
+	var taskFiles = fs.readdirSync(path.join(__dirname, '../../tasks'));
+	deleteDirJsFromCache('../../tasks');
+	deleteDirJsFromCache('../../lib');
+	deleteDirJsFromCache('../../lib/upgrade/6.2');
+
+	var registerTasksPath = require.resolve('../../index.js');
+
+	delete require.cache[registerTasksPath];
+}
+
+describe('Build Tasks: 6.2/rubySass', createBuildTests('6.2', false));
+describe('Build Tasks: 6.2/rubySass', createBuildTests('6.2', true));
 
 describe('Build Tasks: 7.0/libSass', createBuildTests('7.0', false));
 describe('Build Tasks: 7.0/rubySass', createBuildTests('7.0', true));
