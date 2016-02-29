@@ -12,7 +12,7 @@ chai.use(require('chai-fs'));
 
 var cssBuild = 'build/_css';
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'base-theme');
+var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
 
 describe('Util functions', function() {
 	describe('getCssSrcPath', function() {

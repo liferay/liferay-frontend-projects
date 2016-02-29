@@ -18,7 +18,7 @@ var mixedLookAndFeelJSON = require('../fixtures/json/mixed-look-and-feel.json');
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var baseThemePath = path.join(__dirname, '../fixtures/themes/base-theme');
+var baseThemePath = path.join(__dirname, '../fixtures/themes/7.0/base-theme');
 
 describe('Look and Feel Util functions', function() {
 	describe('buildXML', function() {

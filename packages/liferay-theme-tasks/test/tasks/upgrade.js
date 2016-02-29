@@ -13,7 +13,7 @@ var runSequence;
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'upgrade-theme-62');
+var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '6.2', 'upgrade-theme');
 
 describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	before(function(done) {
@@ -23,7 +23,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 
 		instance._initCwd = process.cwd();
 
-		fs.copy(path.join(__dirname, '../fixtures/themes/upgrade-theme-62'), tempPath, function(err) {
+		fs.copy(path.join(__dirname, '../fixtures/themes/6.2/upgrade-theme'), tempPath, function(err) {
 			if (err) throw err;
 
 			process.chdir(tempPath);

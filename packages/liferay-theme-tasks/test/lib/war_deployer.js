@@ -12,7 +12,7 @@ var assert = chai.assert;
 var expect = chai.expect;
 chai.use(require('chai-fs'));
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'base-theme');
+var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
 
 describe('WarDeployer', function() {
 	describe('init', function() {
