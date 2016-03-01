@@ -1,6 +1,9 @@
 ## Next Release
-* Update: replaced supportCompass option with rubySass because supportCompass was a misnomer, and removed ability to set this option during import generator
+* No changes
 ***
+
+## v7.1.3 - March 1, 2016
+* Update: replaced supportCompass option with rubySass because supportCompass was a misnomer, and removed ability to set this option during import generator
 
 ## v7.1.2 - February 24, 2016
 * Update: removed unnecessary properties from generated liferay-plugin-package.properties file
