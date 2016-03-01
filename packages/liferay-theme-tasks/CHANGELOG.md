@@ -1,7 +1,9 @@
-
 ## Next Release
 * No changes
 ***
+
+## v1.0.5 - March 1, 2016
+* Fix: moved post install script logic to liferay-theme-deps-x modules to avoid potential race conditions for older versions of npm on Windows
 
 ## v1.0.4 - March 1, 2016
 * New: allow 6.2 themes to compile scss with libSass
