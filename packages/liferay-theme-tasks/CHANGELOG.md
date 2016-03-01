@@ -1,8 +1,11 @@
 
 ## Next Release
+* No changes
+***
+
+## v1.0.4 - March 1, 2016
 * New: allow 6.2 themes to compile scss with libSass
 * Update: removed supportCompass liferayTheme option and replaced with more appropriate rubySass option
-***
 
 ## v1.0.3 - February 12, 2016
 * Fix: fixed issue with compass-mixins not being found when building post upgrade process
