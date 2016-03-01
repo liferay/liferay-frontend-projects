@@ -131,6 +131,12 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:fix-at-directives', function() {
+		var keyframeRulesReplace = function(match, m1, m2) {
+			return _.map(m1.split(','), function(item, index) {
+				return item.replace(/.*?(from|to|[0-9\.]+%)/g, '$1');
+			}).join(',') + m2;
+		};
+
 		return gulp.src(pathBuild + '/css/*.css')
 			.pipe(replace({
 				patterns: [
@@ -138,6 +144,14 @@ module.exports = function(options) {
 						match: /(@font-face|@page|@-ms-viewport)\s*({\n\s*)(.*)\s*({)/g,
 						replacement: function(match, m1, m2, m3, m4) {
 							return m3 + m2 + m1 + ' ' + m4;
+						}
+					},
+					{
+						match: /(@-ms-keyframes.*{)([\s\S]+?)(}\s})/g,
+						replacement: function(match, m1, m2, m3) {
+							m2 = m2.replace(/(.+?)(\s?{)/g, keyframeRulesReplace);
+
+							return m1 + m2 + m3;
 						}
 					}
 				]
