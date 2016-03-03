@@ -1,7 +1,19 @@
 'use strict';
 
+var del = require('del');
+var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var livereload = require('gulp-livereload');
 var path = require('path');
+var plugins = require('gulp-load-plugins')();
+var WatchSocket = require('../lib/watch_socket.js');
+
+var gutil = plugins.util;
+
+var themeConfig = lfrThemeConfig.getConfig();
+
+var CONNECT_PARAMS = {
+	port: 11311
+};
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -19,7 +31,81 @@ module.exports = function(options) {
 
 	var staticFileDirs = ['images', 'js'];
 
+	var webBundleDirName = '.web_bundle_build';
+
+	var webBundleDir = path.join(process.cwd(), webBundleDirName);
+
 	gulp.task('watch', function() {
+		if (themeConfig.version == '6.2') {
+			startWatch();
+		}
+		else {
+			store.set('appServerPathTheme', webBundleDir);
+
+			runSequence('build', 'watch:clean', 'watch:setup', function() {
+				var watchSocket = startWatchSocket();
+
+				watchSocket.connect(CONNECT_PARAMS)
+					.then(function() {
+						return watchSocket.deploy();
+					})
+					.then(function() {
+						store.set('webBundleDir', 'watching');
+
+						attachExitHandler();
+
+						startWatch();
+					});
+			});
+		}
+	});
+
+	gulp.task('watch:clean', function(cb) {
+		del([webBundleDir], cb);
+	});
+
+	gulp.task('watch:setup', function() {
+		return gulp.src(path.join(pathBuild, '**/*'))
+			.pipe(gulp.dest(webBundleDir));
+	});
+
+	gulp.task('watch:teardown', function(cb) {
+		var watchSocket = startWatchSocket();
+
+		var end = function() {
+			watchSocket.end();
+
+			cb();
+		};
+
+		watchSocket.connect(CONNECT_PARAMS)
+			.then(function() {
+				return watchSocket.undeploy();
+			})
+			.then(function() {
+				store.set('webBundleDir');
+
+				runSequence('watch:clean', 'deploy', end);
+			});
+	});
+
+	function attachExitHandler() {
+		var exitHandler = function() {
+			runSequence('watch:teardown', function() {
+				process.exit();
+			});
+		};
+
+		process.on('exit', exitHandler);
+		process.on('SIGINT', exitHandler);
+		process.on('uncaughtException', exitHandler);
+	}
+
+	function clearChangedFile() {
+		store.set('changedFile');
+	}
+
+	function startWatch() {
 		clearChangedFile();
 
 		livereload.listen();
@@ -69,9 +155,19 @@ module.exports = function(options) {
 
 			runSequence.apply(this, taskArray);
 		});
-	});
+	}
 
-	function clearChangedFile() {
-		store.set('changedFile');
+	function startWatchSocket() {
+		var watchSocket = new WatchSocket({
+			webBundleDir: webBundleDirName
+		});
+
+		watchSocket.on('error', function(err) {
+			if (err.code == 'ECONNREFUSED' || err.errno == 'ECONNREFUSED') {
+				gutil.log(gutil.colors.yellow('Cannot connect to gogo shell. Please ensure local Liferay instance is running.'));
+			}
+		});
+
+		return watchSocket;
 	}
 };

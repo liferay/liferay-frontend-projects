@@ -32,7 +32,20 @@ module.exports = function(options) {
 			sequence.splice(1, 1, 'deploy-live:war');
 		}
 
-		runSequence.apply(this, sequence);
+		var webBundleDir = store.get('webBundleDir');
+
+		if (webBundleDir != 'watching') {
+			runSequence.apply(this, sequence);
+		}
+		else {
+			gutil.log(
+				gutil.colors.yellow('Warning: it appears that a'),
+				gutil.colors.cyan('gulp watch'),
+				gutil.colors.yellow('task didn\'t tear down properly. Run'),
+				gutil.colors.cyan('gulp watch:teardown'),
+				gutil.colors.yellow('to revert back to a normal state.')
+			);
+		}
 	});
 
 	gulp.task('deploy:css-files', function() {

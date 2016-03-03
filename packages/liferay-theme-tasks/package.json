@@ -21,6 +21,7 @@
     "diff": "^1.4.0",
     "fs-extra": "^0.24.0",
     "glob": "^5.0.10",
+    "gogo-shell": "*",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.5.2",
     "gulp-debug": "^2.0.0",
