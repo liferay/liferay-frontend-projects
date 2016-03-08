@@ -1,4 +1,4 @@
-# Liferay Theme Generator
+# Liferay Theme Generator [![Build Status](https://travis-ci.org/liferay/generator-liferay-theme.svg?branch=master)](https://travis-ci.org/liferay/generator-liferay-theme)
 
 **Note: the Liferay theme generator is still in development and is not guaranteed to work on all platforms/environments.**
 
