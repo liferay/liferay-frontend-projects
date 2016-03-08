@@ -12,6 +12,8 @@ var runSequence;
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
+var SASS_COMPILE_TIMEOUT = 20000;
+
 function createBuildTests(version, rubySass) {
 	return function() {
 		var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', version, 'base-theme');
@@ -198,7 +200,7 @@ function createBuildTests(version, rubySass) {
 		it('should compile sass to css', function(done) {
 			var instance = this;
 
-			this.timeout(10000);
+			this.timeout(SASS_COMPILE_TIMEOUT);
 
 			runSequence('build:compile-css', function(err) {
 				if (err) throw err;
