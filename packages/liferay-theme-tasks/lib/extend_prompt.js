@@ -453,7 +453,7 @@ ExtendPrompt.prototype = {
 			return result;
 		}, {});
 
-		lftThemeConfig.setDependencies(dependencies);
+		lfrThemeConfig.setDependencies(dependencies);
 	}
 };
 
