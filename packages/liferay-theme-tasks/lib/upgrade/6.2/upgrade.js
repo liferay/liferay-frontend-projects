@@ -81,17 +81,7 @@ module.exports = function(options) {
 		npmInstall.stderr.pipe(process.stderr);
 		npmInstall.stdout.pipe(process.stdout);
 
-		npmInstall.on('close', function() {
-			var themeTasksPath = path.dirname(require.resolve('liferay-theme-tasks'));
-
-			process.chdir(themeTasksPath);
-
-			var installScript = require('../../../scripts/install.js');
-
-			process.chdir(CWD);
-
-			cb();
-		});
+		npmInstall.on('close', cb);
 	});
 
 	gulp.task('upgrade:black-list', function() {
