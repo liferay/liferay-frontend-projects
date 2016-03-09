@@ -103,7 +103,9 @@ module.exports = {
 	_getDepsPath: function(version) {
 		var depModuleName = 'liferay-theme-deps-7.0';
 
-		if ((version && version == '6.2') || (themeConfig && themeConfig.version == '6.2')) {
+		version = version || themeConfig.version;
+
+		if (version && version == '6.2') {
 			depModuleName = 'liferay-theme-deps-6.2';
 		}
 
