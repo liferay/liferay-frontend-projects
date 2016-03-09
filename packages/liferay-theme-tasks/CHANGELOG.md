@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v1.0.6 - March 9, 2016
 * Fix: fixed error during extend task when selecting themelets
 * Fix: updated upgrade task to account for the removal of the scripts/install.js script
-***
 
 ## v1.0.5 - March 1, 2016
 * Fix: moved post install script logic to liferay-theme-deps-x modules to avoid potential race conditions for older versions of npm on Windows
