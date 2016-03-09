@@ -8,6 +8,7 @@ var plugins = require('gulp-load-plugins')();
 var themeUtil = require('../lib/util');
 var WarDeployer = require('../lib/war_deployer');
 
+var gutil = plugins.util;
 var livereload = plugins.livereload;
 
 var themeConfig = lfrThemeConfig.getConfig(true);
@@ -74,8 +75,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('deploy:war', function() {
-		var gutil = plugins.util;
-
 		var deployPath = store.get('deployPath');
 
 		var stream = gulp.src(options.pathDist + '/*.war')
@@ -93,8 +92,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('deploy-live:war', function(cb) {
-		var gutil = plugins.util;
-
 		var password = argv.p || argv.password;
 		var url = argv.url || store.get('url');
 		var username = argv.u || argv.username;
