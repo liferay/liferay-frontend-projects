@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Fix: fixed error during extend task when selecting themelets
+* Fix: updated upgrade task to account for the removal of the scripts/install.js script
 ***
 
 ## v1.0.5 - March 1, 2016
