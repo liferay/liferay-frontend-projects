@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* New: allow theme developers to hook gulp tasks
 ***
 
 ## v1.0.7 - March 21, 2016
