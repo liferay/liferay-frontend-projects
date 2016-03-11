@@ -11,7 +11,7 @@
     "theme"
   ],
   "scripts": {
-    "test": "mocha test/lib/*.js test/tasks/*.js"
+    "test": "mocha test/lib/*.js test/tasks/*.js --timeout 4000"
   },
   "dependencies": {
     "async": "^0.9.0",
