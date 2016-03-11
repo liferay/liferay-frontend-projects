@@ -105,6 +105,38 @@ module.exports = function(options) {
 		store.set('changedFile');
 	}
 
+	function getTaskArray(rootDir, defaultTaskArray) {
+		var taskArray = defaultTaskArray || [];
+
+		if (staticFileDirs.indexOf(rootDir) > -1) {
+			taskArray = ['deploy:file'];
+		}
+		else if (rootDir == 'WEB-INF') {
+			taskArray = ['build:clean', 'build:src', 'build:web-inf', 'deploy:folder'];
+		}
+		else if (rootDir == 'templates') {
+			taskArray = ['build:themelet-js', 'build:themelet-js-inject', 'deploy:folder'];
+		}
+		else if (rootDir == 'css') {
+			taskArray = [
+				'build:clean',
+				'build:base',
+				'build:src',
+				'build:themelets',
+				'build:themelet-css',
+				'build:themelet-css-inject',
+				'build:rename-css-dir',
+				'build:prep-css',
+				'build:compile-css',
+				'build:move-compiled-css',
+				'build:remove-old-css-dir',
+				'deploy:css-files'
+			];
+		}
+
+		return taskArray;
+	}
+
 	function startWatch() {
 		clearChangedFile();
 
@@ -124,31 +156,7 @@ module.exports = function(options) {
 			var taskArray = ['deploy'];
 
 			if (!fullDeploy && store.get('deployed')) {
-				if (staticFileDirs.indexOf(rootDir) > -1) {
-					taskArray = ['deploy:file'];
-				}
-				else if (rootDir == 'WEB-INF') {
-					taskArray = ['build:clean', 'build:src', 'build:web-inf', 'deploy:folder'];
-				}
-				else if (rootDir == 'templates') {
-					taskArray = ['build:themelet-js', 'build:themelet-js-inject', 'deploy:folder'];
-				}
-				else if (rootDir == 'css') {
-					taskArray = [
-						'build:clean',
-						'build:base',
-						'build:src',
-						'build:themelets',
-						'build:themelet-css',
-						'build:themelet-css-inject',
-						'build:rename-css-dir',
-						'build:prep-css',
-						'build:compile-css',
-						'build:move-compiled-css',
-						'build:remove-old-css-dir',
-						'deploy:css-files'
-					];
-				}
+				taskArray = getTaskArray(rootDir, taskArray);
 			}
 
 			taskArray.push(clearChangedFile);
