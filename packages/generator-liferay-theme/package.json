@@ -21,7 +21,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha test/**/*.js"
+    "test": "node test/index.js"
   },
   "files": [
     "generators"
@@ -43,7 +43,8 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-fs": "^0.1.0",
-    "mocha": "*"
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0"
   },
   "peerDependencies": {
     "gulp": ">=3.5.0",
