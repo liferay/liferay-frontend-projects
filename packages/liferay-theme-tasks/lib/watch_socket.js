@@ -22,9 +22,9 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	deploy: function() {
 		var instance = this;
 
-		return this._getBundleId(true)
-			.then(function(bundleId) {
-				return bundleId ? instance._stopBundle(bundleId) : bundleId;
+		return this._getWebBundleData(false)
+			.then(function(data) {
+				return data.id ? instance._stopBundle(data.id) : data;
 			})
 			.then(this._installWebBundleDir.bind(this))
 			.then(function(data) {
@@ -37,46 +37,51 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			});
 	},
 
-	isWebBundle: function(active) {
-		var instance = this;
-
-		return this._getBundleId(active)
-			.then(function(webBundleId) {
-				return instance.sendCommand('lb -u | grep', webBundleId);
-			})
-			.then(function(data) {
-				return data.indexOf('webbundledir:file:') > -1;
-			});
-	},
-
 	undeploy: function() {
 		var instance = this;
 
-		return this._getBundleId(true)
-			.then(function(bundleId) {
-				return bundleId ? instance._uninstallBundle(bundleId) : bundleId;
+		return this._getWebBundleData(true)
+			.then(function(data) {
+				return data.id ? instance._uninstallBundle(data.id) : data;
 			})
-			.then(this._getBundleId.bind(this, false))
-			.then(function(bundleId) {
-				return bundleId ? instance._startBundle(bundleId) : bundleId;
+			.then(this._getWebBundleData.bind(this, false))
+			.then(function(data) {
+				return data.id ? instance._startBundle(data.id) : data;
 			})
 			.then(function() {
 				instance.end();
 			});
 	},
 
-	_getBundleId: function(active) {
+	_getWebBundleData: function(webBundleDir) {
+		var webBundleDirType = webBundleDir ? 'webbundledir' : 'webbundle';
+
 		var themeName = themeConfig.name;
 
-		var regex = this._getThemeIdRegex(themeName, active);
+		var grepRegex = webBundleDirType + ':file.*' + themeName;
 
-		return this.sendCommand('lb -s | grep ' + themeName)
+		return this.sendCommand('lb -u | grep', grepRegex)
 			.then(function(data) {
-				var match = data.match(regex);
+				var lines = data.split('\n');
 
-				var bundleId = match ? match[1] : 0;
+				var data = {
+					status: null
+				};
 
-				return bundleId;
+				var result = lines[1];
+
+				if (result.indexOf(webBundleDirType + ':file') > -1) {
+					var fields = result.split('|');
+
+					data = {
+						id: _.trim(fields[0]),
+						level: _.trim(fields[2]),
+						status: _.trim(fields[1]),
+						updateLocation: _.trim(fields[3])
+					};
+				}
+
+				return data;
 			});
 	},
 
