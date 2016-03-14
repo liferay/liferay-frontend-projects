@@ -54,6 +54,8 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	_getWebBundleData: function(webBundleDir) {
+		var instance = this;
+
 		var webBundleDirType = webBundleDir ? 'webbundledir' : 'webbundle';
 
 		var themeName = themeConfig.name;
@@ -64,31 +66,29 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			.then(function(data) {
 				var lines = data.split('\n');
 
-				var data = {
-					status: null
-				};
-
 				var result = lines[1];
 
-				if (result.indexOf(webBundleDirType + ':file') > -1) {
-					var fields = result.split('|');
-
-					data = {
-						id: _.trim(fields[0]),
-						level: _.trim(fields[2]),
-						status: _.trim(fields[1]),
-						updateLocation: _.trim(fields[3])
-					};
-				}
-
-				return data;
+				return instance._getWebBundleDataFromResponse(result, webBundleDirType);
 			});
 	},
 
-	_getThemeIdRegex: function(themeName, active) {
-		var state = active ? 'Active' : 'Resolved';
+	_getWebBundleDataFromResponse: function(response, webBundleDirType) {
+		var data = {
+			status: null
+		};
 
-		return RegExp('\\s*?([0-9]+)\\|' + state + '.*' + _.escapeRegExp(themeName));
+		if (response.indexOf(webBundleDirType + ':file') > -1) {
+			var fields = response.split('|');
+
+			data = {
+				id: _.trim(fields[0]),
+				level: _.trim(fields[2]),
+				status: _.trim(fields[1]),
+				updateLocation: _.trim(fields[3])
+			};
+		}
+
+		return data;
 	},
 
 	_getWebBundleIdFromResponse: function(response) {
@@ -104,15 +104,15 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	_startBundle: function(bundleId) {
-		return this.sendCommand('start ' + bundleId);
+		return this.sendCommand('start', bundleId);
 	},
 
 	_stopBundle: function(bundleId) {
-		return this.sendCommand('stop ' + bundleId);
+		return this.sendCommand('stop', bundleId);
 	},
 
 	_uninstallBundle: function(bundleId) {
-		return this.sendCommand('uninstall ' + bundleId);
+		return this.sendCommand('uninstall', bundleId);
 	}
 });
 
