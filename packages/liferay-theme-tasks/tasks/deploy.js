@@ -28,28 +28,19 @@ module.exports = function(options) {
 	gulp.task('deploy', function(cb) {
 		var sequence = ['build', 'deploy:war', cb];
 
+		var webBundleDir = store.get('webBundleDir');
+
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
 		}
-
-		var webBundleDir = store.get('webBundleDir');
-
-		if (webBundleDir != 'watching') {
-			runSequence.apply(this, sequence);
+		else if (webBundleDir == 'watching') {
+			sequence.splice(2, 0, 'watch:teardown');
 		}
-		else {
-			gutil.log(
-				gutil.colors.yellow('Warning: it appears that a'),
-				gutil.colors.cyan('gulp watch'),
-				gutil.colors.yellow('task didn\'t tear down properly. Run'),
-				gutil.colors.cyan('gulp watch:teardown'),
-				gutil.colors.yellow('to revert back to a normal state.')
-			);
-		}
+
+		runSequence.apply(this, sequence);
 	});
 
 	gulp.task('deploy:css-files', function() {
-
 		var version = themeConfig.liferayTheme.version;
 
 		var srcPath = path.join(pathBuild, 'css/*.css');

@@ -52,8 +52,6 @@ module.exports = function(options) {
 					.then(function() {
 						store.set('webBundleDir', 'watching');
 
-						attachExitHandler();
-
 						startWatch();
 					});
 			});
@@ -85,21 +83,9 @@ module.exports = function(options) {
 			.then(function() {
 				store.set('webBundleDir');
 
-				runSequence('watch:clean', 'deploy', end);
+				runSequence('watch:clean', end);
 			});
 	});
-
-	function attachExitHandler() {
-		var exitHandler = function() {
-			runSequence('watch:teardown', function() {
-				process.exit();
-			});
-		};
-
-		process.on('exit', exitHandler);
-		process.on('SIGINT', exitHandler);
-		process.on('uncaughtException', exitHandler);
-	}
 
 	function clearChangedFile() {
 		store.set('changedFile');
