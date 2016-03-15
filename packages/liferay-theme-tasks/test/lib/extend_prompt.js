@@ -7,6 +7,7 @@ var fs = require('fs-extra');
 var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
+var sinon = require('sinon');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -42,6 +43,8 @@ var themeletDependencies = {
 };
 
 describe('Extend Prompt', function() {
+	var prototype;
+
 	before(function(done) {
 		this.timeout(10000);
 
@@ -59,6 +62,10 @@ describe('Extend Prompt', function() {
 
 			done();
 		});
+	});
+
+	beforeEach(function() {
+		prototype = _.create(ExtendPrompt.prototype);
 	});
 
 	after(function() {
@@ -159,7 +166,26 @@ describe('Extend Prompt', function() {
 		});
 	});
 
-	// _normalizeBaseTheme
+	describe('_normalizeAnswers', function() {
+		it('should pass answers to base theme and themelet normalizers', function(done) {
+			var answers = {
+				extendType: 'themelet',
+				themeSource: 'npm',
+				themeletNames: ['lfr-flat-tooltip-themelet']
+			};
+
+			prototype._normalizeBaseTheme = sinon.spy();
+			prototype._normalizeThemeletDependencies = sinon.spy();
+
+			var normalizedAnwers = prototype._normalizeAnswers(answers);
+
+			assert(prototype._normalizeBaseTheme.calledWith(answers));
+			assert(prototype._normalizeThemeletDependencies.calledWith(answers));
+
+			done();
+		});
+	});
+
 	describe('_normalizeBaseTheme', function() {
 		it('should normalize base theme meta data', function(done) {
 			ExtendPrompt.prototype._extendableThemes = {
@@ -203,7 +229,6 @@ describe('Extend Prompt', function() {
 		});
 	});
 
-	// _getDependencyInstallationArray
 	describe('_getDependencyInstallationArray', function() {
 		it('should return absolute path if present or name of module', function(done) {
 			var dependencies = ExtendPrompt.prototype._getDependencyInstallationArray({
@@ -243,7 +268,6 @@ describe('Extend Prompt', function() {
 		});
 	});
 
-	// _normalizeThemeletDependencies
 	describe('_normalizeThemeletDependencies', function() {
 		it('should remove unselected themelet dependencies and merge with saved themelet dependencies', function(done) {
 			var normalizedThemeletDependencies = ExtendPrompt.prototype._normalizeThemeletDependencies({
@@ -279,6 +303,71 @@ describe('Extend Prompt', function() {
 			assert.isDefined(normalizedThemeletDependencies['test-themelet']);
 			assert.isDefined(normalizedThemeletDependencies['themelet-2']);
 			assert.isUndefined(normalizedThemeletDependencies['themelet-1']);
+
+			done();
+		});
+	});
+
+	describe('_removeUnusedDependencies', function() {
+		it('should pass', function(done) {
+			var answers = {
+				extendType: 'themelet',
+				themeSource: 'npm',
+				themeletNames: ['lfr-flat-tooltip-themelet']
+			};
+
+			var removeDependencies = lfrThemeConfig.removeDependencies;
+
+			lfrThemeConfig.removeDependencies = sinon.spy();
+
+			ExtendPrompt.prototype._removeUnusedDependencies(answers);
+
+			assert.equal(lfrThemeConfig.removeDependencies.callCount, 1);
+			assert(lfrThemeConfig.removeDependencies.calledWith(['themelet-1', 'themelet-2', 'themelet-3']));
+
+			lfrThemeConfig.removeDependencies = removeDependencies;
+
+			done();
+		});
+	});
+
+	describe('_saveDependencies', function() {
+		it('should save dependencies to package.json', function(done) {
+			var updatedData = {
+				'lfr-flat-tooltip-themelet': {
+					liferayTheme: {
+						themelet: true,
+						version: '7.0'
+					},
+					name: 'lfr-flat-tooltip-themelet',
+					publishConfig: {
+						tag: '7_0_x'
+					},
+					version: '1.0.0'
+				},
+				'lfr-link-flip-themelet': {
+					liferayTheme: {
+						themelet: true,
+						version: '*'
+					},
+					name: 'lfr-link-flip-themelet',
+					version: '1.0.1'
+				}
+			};
+
+			var setDependencies = lfrThemeConfig.setDependencies;
+
+			lfrThemeConfig.setDependencies = sinon.spy();
+
+			ExtendPrompt.prototype._saveDependencies(updatedData);
+
+			assert.equal(lfrThemeConfig.setDependencies.callCount, 1);
+			assert(lfrThemeConfig.setDependencies.calledWith({
+				'lfr-flat-tooltip-themelet': '7_0_x',
+				'lfr-link-flip-themelet': '*'
+			}), 'dependencies are saved with correct versioning');
+
+			lfrThemeConfig.setDependencies = setDependencies;
 
 			done();
 		});
