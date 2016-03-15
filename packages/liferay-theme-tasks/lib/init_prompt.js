@@ -67,7 +67,7 @@ InitPrompt.prototype = {
 		return answers;
 	},
 
-	_prompt: function(options, cb) {
+	_prompt: function(options) {
 		var instance = this;
 
 		inquirer.prompt(
