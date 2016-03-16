@@ -62,6 +62,8 @@ function runGenerator(options, end) {
 		importTheme: pathSdkTheme
 	});
 
+	delete require.cache[path.join(__dirname, '../../generators/app/index.js')];
+
 	helpers.run(path.join(__dirname, '../../generators/import'))
 		.inDir(tempDir)
 		.withOptions({
