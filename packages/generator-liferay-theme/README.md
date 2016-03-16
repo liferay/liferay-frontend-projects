@@ -32,6 +32,7 @@ Available generators:
 
 * [liferay-theme](#create)
 * [liferay-theme:import](#import)
+* [liferay-theme:layout](#layout)
 * [liferay-theme:themelet](#themelet)
 
 ### Create
@@ -50,6 +51,17 @@ yo liferay-theme:import
 ```
 
 The `liferay-theme:import` generator enables you to import pre-existing Liferay themes from the SDK.
+
+### Layout
+
+```
+yo liferay-theme:layout
+```
+
+The `liferay-theme:layout` generator creates a layout template.
+
+If you run the generator from the root directory of a theme (created with `yo liferay-theme`) it will add the layout template as a part of the theme in `src/layouttpl`.
+
 
 ### Themelet
 

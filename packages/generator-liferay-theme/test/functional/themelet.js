@@ -15,7 +15,7 @@ var tempDir = path.join(os.tmpdir(), 'temp-test');
 
 var tempThemeletDir = path.join(tempDir, 'test-themelet');
 
-describe('liferay-theme:themelet functional tests', function () {
+describe('liferay-theme:themelet functional tests', function() {
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
@@ -69,7 +69,7 @@ describe('liferay-theme:themelet functional tests', function () {
 	});
 });
 
-function getPackage(themeName) {
+function getPackage() {
 	var fileContents = fs.readFileSync(path.join(tempThemeletDir, 'package.json'));
 
 	return JSON.parse(fileContents);
@@ -83,6 +83,8 @@ function runGenerator(options, end) {
 		themeId: 'test-themelet',
 		themeName: 'Test Themelet'
 	});
+
+	delete require.cache[path.join(__dirname, '../../generators/app/index.js')];
 
 	helpers.run(path.join(__dirname, '../../generators/themelet'))
 		.withPrompt(options)
