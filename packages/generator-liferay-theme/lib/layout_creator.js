@@ -29,7 +29,14 @@ var layoutTempletTpl_62 = _.template('<div class="<%= className %>" id="main-con
 	'<% }); %>' +
 '</div>');
 
-var LayoutCreator = function() {
+var LayoutCreator = function(options) {
+	this.after = options.after;
+	this.className = options.className;
+
+	if (!this.after) {
+		throw new Error('Must define an after function!');
+	}
+
 	this.init();
 };
 
@@ -43,11 +50,11 @@ LayoutCreator.prototype = {
 			var rowData = instance._preprocessLayoutTemplateData(instance.rows);
 
 			var templateContent = instance._renderLayoutTemplate({
-				rowData: rowData,
-				className: 'columns-1-2-3'
+				className: instance.className,
+				rowData: rowData
 			});
 
-			console.log(templateContent);
+			instance.after(templateContent);
 		});
 	},
 
@@ -309,6 +316,4 @@ LayoutCreator.prototype = {
 	}
 };
 
-new LayoutCreator();
-
-module.exports.LayoutCreator = LayoutCreator;
+module.exports = LayoutCreator;
