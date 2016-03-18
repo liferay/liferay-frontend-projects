@@ -75,16 +75,18 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			this.template('docroot/WEB-INF/liferay-plugin-package.properties', 'docroot/WEB-INF/liferay-plugin-package.properties', this);
 		}
 
-		var done = this.async();
+		if (this.argv['skip-creation']) {
+			var done = this.async();
 
-		new LayoutCreator({
-			after: function(templateContent) {
-				instance.fs.write(templateDestination, templateContent);
+			new LayoutCreator({
+				after: function(templateContent) {
+					instance.fs.write(templateDestination, templateContent);
 
-				done();
-			},
-			className: this.layoutId
-		});
+					done();
+				},
+				className: this.layoutId
+			});
+		}
 	},
 
 	install: _.noop,

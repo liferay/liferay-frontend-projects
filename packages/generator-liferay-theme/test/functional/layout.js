@@ -77,6 +77,9 @@ function runGenerator(options, end) {
 	helpers.run(path.join(__dirname, '../../generators/layout'), {
 			tmpdir: tmpdir
 		})
+		.withOptions({
+			'skip-creation': true
+		})
 		.withPrompt(options)
 		.on('end', end);
 }
