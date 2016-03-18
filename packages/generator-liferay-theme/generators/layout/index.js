@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var chalk = require('chalk');
 var fs = require('fs');
+var LayoutCreator = require('../../lib/layout_creator');
 var minimist = require('minimist');
 var path = require('path');
 var slug = require('slug');
@@ -60,6 +61,8 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	},
 
 	writing: function() {
+		var instance = this;
+
 		var thumbnailDestination = this.themeLayout ? this.thumbnailFilename : path.join('docroot', this.thumbnailFilename);
 		var templateDestination = this.themeLayout ? this.templateFilename : path.join('docroot', this.templateFilename);
 
@@ -71,6 +74,17 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			this.template('docroot/WEB-INF/liferay-layout-templates.xml', 'docroot/WEB-INF/liferay-layout-templates.xml', this);
 			this.template('docroot/WEB-INF/liferay-plugin-package.properties', 'docroot/WEB-INF/liferay-plugin-package.properties', this);
 		}
+
+		var done = this.async();
+
+		new LayoutCreator({
+			after: function(templateContent) {
+				instance.fs.write(templateDestination, templateContent);
+
+				done();
+			},
+			className: this.layoutId
+		});
 	},
 
 	install: _.noop,
