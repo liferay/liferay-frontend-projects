@@ -5,13 +5,13 @@ var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 
 gulp.task('pre-test', function () {
-	return gulp.src(['generators/**/index.js'])
+	return gulp.src(['generators/**/index.js', 'lib/**/*.js'])
 		.pipe(istanbul())
 		.pipe(istanbul.hookRequire());
 });
 
 gulp.task('test', ['pre-test'], function () {
-	return gulp.src(['test/unit/*.js', 'test/functional/*.js'])
+	return gulp.src(['test/lib/**/*.js', 'test/unit/*.js', 'test/functional/*.js'])
 		.pipe(mocha({
 			timeout: 4000
 		}))
