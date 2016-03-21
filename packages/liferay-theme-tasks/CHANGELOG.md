@@ -2,6 +2,9 @@
 * No changes
 ***
 
+## v1.0.7 - March 21, 2016
+* Fix: fixed sass compile bug for 7.0 themes caused by node-bourbon dependency
+
 ## v1.0.6 - March 9, 2016
 * Fix: fixed error during extend task when selecting themelets
 * Fix: updated upgrade task to account for the removal of the scripts/install.js script
