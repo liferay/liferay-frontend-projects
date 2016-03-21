@@ -176,6 +176,8 @@ function runGenerator(options, end) {
 		themeName: 'Test Theme'
 	});
 
+	delete require.cache[path.join(__dirname, '../../generators/app/index.js')];
+
 	helpers.run(path.join(__dirname, '../../generators/app'))
 		.inDir(tempDir)
 		.withOptions({
