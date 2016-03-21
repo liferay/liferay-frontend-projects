@@ -15,7 +15,7 @@ var tempDir = path.join(os.tmpdir(), 'temp-test');
 
 var tempThemeDir = path.join(tempDir, 'sdk-theme');
 
-var pathSdkTheme = path.join(__dirname, '../assets/sdk-theme');
+var pathSdkTheme = path.join(__dirname, '../fixtures/sdk-theme');
 
 describe('liferay-theme:import functional tests', function () {
 	it('creates files', function(done) {
