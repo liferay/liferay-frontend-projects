@@ -191,16 +191,46 @@ describe('LayoutCreator', function() {
 		});
 	});
 
+
+	describe('_formatInlineChoicePreview', function() {
+		it('should return formatted preview', function() {
+			var preview = prototype._formatInlineChoicePreview(2, 2);
+
+			assert.match(preview, /\S+\s{2}\S+\s{2}\S+\s{8}/);
+
+			preview = prototype._formatInlineChoicePreview(5, 5);
+
+			assert.match(preview, /\S+\s{5}\S+\s{5}\S+\s{2}/);
+
+			preview = prototype._formatInlineChoicePreview(0, 12);
+
+			assert.match(preview, /\S+\s{12}\S+/);
+		});
+	});
+
 	describe('_formatPercentageValue', function() {
 		it('should return formatted label with column width percentage', function() {
+			prototype._formatInlineChoicePreview = sinon.stub().returns('preview');
+
 			var labels = [
 				'1/12 - 8.33%', '2/12 - 16.66%', '3/12 - 25%', '4/12 - 33.33%', '5/12 - 41.66%', '6/12 - 50%',
 				'7/12 - 58.33%', '8/12 - 66.66%', '9/12 - 75%', '10/12 - 83.33%', '11/12 - 91.66%', '12/12 - 100%'
 			];
 
 			_.forEach(labels, function(label, index) {
-				assert.equal(label, prototype._formatPercentageValue(index + 1));
+				assert(_.startsWith(prototype._formatPercentageValue(index + 1), label));
 			});
+
+			assert(prototype._formatInlineChoicePreview.notCalled, '_formatInlineChoicePreview was not called');
+
+			_.forEach(labels, function(label, index) {
+				var formattedLabel = prototype._formatPercentageValue(index + 1, 0, true);
+
+				assert(_.startsWith(formattedLabel, label), 'starts with label');
+				assert(_.endsWith(formattedLabel, 'preview'), 'adds inline preview to choice label');
+			});
+
+			assert.equal(prototype._formatInlineChoicePreview.callCount, 12);
 		});
 	});
 
@@ -236,8 +266,9 @@ describe('LayoutCreator', function() {
 
 			choices = prototype._getColumnWidthChoices(0, 2, {});
 
-			assert.equal(_.last(choices).value, 11);
-			assert.equal(choices.length, 11);
+			assert.equal(_.last(choices).type, 'separator');
+			assert.equal(choices[choices.length - 2].value, 11);
+			assert.equal(choices.length, 12);
 
 			choices = prototype._getColumnWidthChoices(1, 2, {
 				'0': 5
@@ -250,8 +281,7 @@ describe('LayoutCreator', function() {
 				'0': 5
 			});
 
-			assert.equal(choices.length, 5);
-			assert.equal(choices.length, 5);
+			assert.equal(choices.length, 6);
 		});
 	});
 
