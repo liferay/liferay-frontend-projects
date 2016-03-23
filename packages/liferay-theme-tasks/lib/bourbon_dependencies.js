@@ -32,7 +32,7 @@ exports.createBourbonFile = function(forceCreation) {
 			bourbonFile.push('";');
 		}
 
-		var mixinsPath = themeUtil.resolveDependency(versionMap.getDependencyName('mixins'));
+		var mixinsPath = themeUtil.resolveDependency(versionMap.getDependencyName('mixins'), '7.0');
 
 		bourbonFile.push('@import "');
 		bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));
