@@ -1,8 +1,11 @@
 ## Next Release
+* No changes
+***
+
+## v1.0.8 - March 23, 2016
 * New: allow theme developers to hook gulp tasks
 * Fix: fixed dependency resolve issue in ugprade task for npm versions older than 3.x
 * Update: added more tests
-***
 
 ## v1.0.7 - March 21, 2016
 * Fix: fixed sass compile bug for 7.0 themes caused by node-bourbon dependency
