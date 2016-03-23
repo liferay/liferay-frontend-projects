@@ -17,6 +17,24 @@ var layoutTempletTpl = _.template('<div class="<%= className %>" id="main-conten
 	'<% }); %>' +
 '</div>');
 
+var listRender = inquirer.prompt.prompts.list.prototype.render;
+
+inquirer.prompt.prompts.list.prototype.render = function() {
+	var index = this.selected;
+
+	var choice = this.opt.choices.choices[index];
+
+	var originalName = choice.name;
+
+	if (choice.selectedName) {
+		choice.name = choice.selectedName;
+	}
+
+	listRender.call(this);
+
+	choice.name = originalName;
+};
+
 var LayoutCreator = function(options) {
 	this.after = options.after;
 	this.className = options.className;
@@ -91,10 +109,28 @@ LayoutCreator.prototype = {
 		}
 	},
 
-	_formatPercentageValue: function(spanValue) {
+	_formatInlineChoicePreview: function(spanValue, takenWidth) {
+		var remainingWidth = 12 - (spanValue + takenWidth);
+
+		var takenString = chalk.black.bgWhite(_.repeat(' ', takenWidth));
+		var spanString = chalk.bgCyan(_.repeat(' ', spanValue));
+		var remainingString = _.repeat(' ', remainingWidth);
+
+		return chalk.reset('|') + takenString + spanString + remainingString + chalk.reset('|');
+	},
+
+	_formatPercentageValue: function(spanValue, takenWidth, preview) {
 		var percentage = Math.floor(spanValue / 12 * 10000) / 100;
 
-		return spanValue + '/12 - ' + percentage.toString() + '%';
+		var value = _.padEnd(spanValue + '/12 - ' + percentage.toString() + '% -', 17);
+
+		if (preview) {
+			var inlinePreview = this._formatInlineChoicePreview(spanValue, takenWidth);
+
+			value = value + inlinePreview;
+		}
+
+		return value;
 	},
 
 	_getColumnClassNames: function(number, total) {
@@ -129,9 +165,13 @@ LayoutCreator.prototype = {
 
 		// if it's the last column, give remaining width as the only choice
 		if (columnIndex + 1 >= columnCount) {
+			var selectedName = instance._formatPercentageValue(availableWidth, takenWidth, true);
+
 			return [
 				{
-					name: instance._formatPercentageValue(availableWidth),
+					name: instance._formatPercentageValue(availableWidth, takenWidth),
+					selectedName: selectedName,
+					short: selectedName,
 					value: availableWidth
 				}
 			];
@@ -141,14 +181,22 @@ LayoutCreator.prototype = {
 
 			availableWidth = availableWidth - remainingColumns;
 
-			return _.times(availableWidth, function(index) {
+			var choices = _.times(availableWidth, function(index) {
 				var spanValue = index + 1;
 
+				var selectedName = instance._formatPercentageValue(spanValue, takenWidth, true);
+
 				return {
-					name: instance._formatPercentageValue(spanValue),
+					name: instance._formatPercentageValue(spanValue, takenWidth),
+					selectedName: selectedName,
+					short: selectedName,
 					value: spanValue
 				};
 			});
+
+			choices.push(new inquirer.Separator());
+
+			return choices;
 		}
 	},
 
