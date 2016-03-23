@@ -75,7 +75,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			this.template('docroot/WEB-INF/liferay-plugin-package.properties', 'docroot/WEB-INF/liferay-plugin-package.properties', this);
 		}
 
-		if (this.argv['skip-creation']) {
+		if (!this.options['skip-creation']) {
 			var done = this.async();
 
 			new LayoutCreator({

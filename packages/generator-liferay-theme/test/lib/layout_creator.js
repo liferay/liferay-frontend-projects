@@ -191,7 +191,6 @@ describe('LayoutCreator', function() {
 		});
 	});
 
-
 	describe('_formatInlineChoicePreview', function() {
 		it('should return formatted preview', function() {
 			var preview = prototype._formatInlineChoicePreview(2, 2);
