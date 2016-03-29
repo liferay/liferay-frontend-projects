@@ -78,22 +78,19 @@ module.exports = function(options) {
 		return fastDeploy(path.join(srcRoot, rootDir, '**/*'), srcRoot);
 	});
 
-	gulp.task('deploy:war', function() {
-		var deployPath = store.get('deployPath');
+	gulp.task('deploy:gogo', function(cb) {
+		var sequence = ['build', 'plugin:deploy-gogo', cb];
 
-		var stream = gulp.src(options.pathDist + '/*.war')
-			.pipe(gulp.dest(deployPath));
+		var webBundleDir = store.get('webBundleDir');
 
-		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));
-
-		if (!store.get('deployed')) {
-			stream.on('end', function() {
-				store.set('deployed', true);
-			});
+		if (webBundleDir == 'watching') {
+			sequence.splice(2, 0, 'watch:teardown');
 		}
 
-		return stream;
+		runSequence.apply(this, sequence);
 	});
+
+	gulp.task('deploy:war', ['plugin:deploy']);
 
 	gulp.task('deploy-live:war', function(cb) {
 		var password = argv.p || argv.password;

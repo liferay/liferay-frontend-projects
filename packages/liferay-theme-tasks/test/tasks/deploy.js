@@ -1,12 +1,13 @@
 'use strict';
 
 var chai = require('chai');
+var del = require('del');
 var fs = require('fs-extra');
-var gulp = require('gulp');
+var Gulp = require('gulp').Gulp;
 var os = require('os');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
-var registerTasks = require('../../index.js').registerTasks;
+var registerTasks;
 var runSequence;
 
 var assert = chai.assert;
@@ -32,15 +33,19 @@ describe('Deploy Tasks', function() {
 			instance._buildPath = path.join(tempPath, 'build');
 			instance._tempPath = tempPath;
 
+			registerTasks = require('../../index.js').registerTasks;
+
+			var gulp = new Gulp();
+
 			registerTasks({
+				distName: 'base-theme',
+				pathBuild: './custom_build_path',
 				gulp: gulp,
 				pathSrc: './custom_src_path',
 				rubySass: false
 			});
 
 			runSequence = require('run-sequence').use(gulp);
-
-			var liferayThemeJson = path.join(tempPath, 'liferay-theme.json');
 
 			var store = gulp.storage;
 
@@ -52,11 +57,16 @@ describe('Deploy Tasks', function() {
 		});
 	});
 
-	after(function() {
-		fs.removeSync(deployPath);
-		fs.removeSync(tempPath);
+	after(function(done) {
+		var instance = this;
 
-		process.chdir(this._initCwd);
+		del([path.join(tempPath, '**'), path.join(deployPath, '**')], {
+			force: true
+		}, function() {
+			process.chdir(instance._initCwd);
+
+			done();
+		});
 	});
 
 	it('should deploy to deploy server', function(done) {

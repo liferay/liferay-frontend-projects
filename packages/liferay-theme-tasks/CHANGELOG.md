@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* New: add deploy:gogo task for faster full deploy for 7.0 themes
 ***
 
 ## v1.0.9 - March 30, 2016

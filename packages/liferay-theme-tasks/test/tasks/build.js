@@ -3,11 +3,13 @@
 var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs-extra');
-var gulp = require('gulp');
+var Gulp = require('gulp').Gulp;
 var os = require('os');
 var parseString = require('xml2js').parseString;
 var path = require('path');
 var runSequence;
+
+var gulp;
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -19,6 +21,8 @@ function createBuildTests(version, rubySass) {
 		var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', version, 'base-theme');
 
 		var customCSSFileName = getCssFileName(version);
+
+		gulp = new Gulp();
 
 		before(function(done) {
 			this.timeout(10000);
@@ -46,6 +50,7 @@ function createBuildTests(version, rubySass) {
 				var registerTasks = require('../../index.js').registerTasks;
 
 				registerTasks({
+					distName: lfrThemeConfig.getConfig(true).name,
 					gulp: gulp,
 					pathBuild: './custom_build_path',
 					pathSrc: './custom_src_path',
@@ -240,7 +245,7 @@ function createBuildTests(version, rubySass) {
 		it('should build .war file that matches name of the project', function(done) {
 			var instance = this;
 
-			runSequence('build:war', function(err) {
+			runSequence('plugin:war', function(err) {
 				if (err) throw err;
 
 				assert.isFile(path.join(instance._tempPath, 'dist/base-theme.war'));

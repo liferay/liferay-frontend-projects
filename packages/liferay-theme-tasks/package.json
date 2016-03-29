@@ -41,6 +41,7 @@
     "gulp-util": "^3.0.6",
     "gulp-zip": "^3.0.2",
     "inquirer": "^0.12.0",
+    "liferay-plugin-node-tasks": "*",
     "lodash": "^3.10.0",
     "minimist": "^1.1.0",
     "node-bourbon": "4.2.3",

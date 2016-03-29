@@ -302,13 +302,7 @@ module.exports = function(options) {
 			.on('end', cb);
 	});
 
-	gulp.task('build:war', function() {
-		var themeName = lfrThemeConfig.getConfig(true).name;
-
-		return gulp.src(pathBuild + '/**/*')
-			.pipe(plugins.zip(themeName + '.war'))
-			.pipe(gulp.dest(options.pathDist));
-	});
+	gulp.task('build:war', ['plugin:war']);
 
 	function getSrcPathConfig() {
 		return {

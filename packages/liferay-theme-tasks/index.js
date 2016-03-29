@@ -10,6 +10,8 @@ var plugins = require('gulp-load-plugins')();
 var RegisterHooks = require('./lib/register_hooks');
 var versionControl = require('./lib/version_control.js');
 
+var liferayPluginTasks = require('liferay-plugin-node-tasks');
+
 var gutil = plugins.util;
 
 var themeConfig = lfrThemeConfig.getConfig();
@@ -17,22 +19,24 @@ var themeConfig = lfrThemeConfig.getConfig();
 module.exports.registerTasks = function(options) {
 	options = require('./lib/options')(options);
 
-	var gulp = options.gulp;
-
-	gulp.tasks = {};
-
-	RegisterHooks.hook(gulp, {
+	liferayPluginTasks.registerTasks(_.defaults({
+		extensions: register,
 		hookFn: options.hookFn,
-		hookModules: themeConfig ? themeConfig.hookModules : null
-	});
+		hookModules: themeConfig ? themeConfig.hookModules : null,
+		rootDir: options.pathBuild,
+		storeConfig: {
+			name: 'LiferayTheme',
+			path: 'liferay-theme.json'
+		}
+	}, options));
+};
+
+function register(options) {
+	var gulp = options.gulp;
 
 	gulp = options.gulp = plugins.help(gulp);
 
-	plugins.storage(gulp);
-
 	var store = gulp.storage;
-
-	store.create('LiferayTheme', 'liferay-theme.json');
 
 	store.set('changedFile');
 
@@ -47,4 +51,4 @@ module.exports.registerTasks = function(options) {
 	process.once('beforeExit', function() {
 		versionControl();
 	});
-};
+}

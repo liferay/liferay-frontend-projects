@@ -3,7 +3,7 @@
 var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
-var gulp = require('gulp');
+var Gulp = require('gulp').Gulp;
 var path = require('path');
 var registerTasks = require('../../index.js').registerTasks;
 var runSequence;
@@ -11,6 +11,8 @@ var runSequence;
 var assert = chai.assert;
 var expect = chai.expect;
 chai.use(require('chai-fs'));
+
+var gulp = new Gulp();
 
 var tempDirPath = path.join(process.cwd(), 'test/tmp');
 
