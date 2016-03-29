@@ -91,6 +91,8 @@ function createBuildTests(version, rubySass) {
 		});
 
 		it('should build files from Styled theme to /build', function(done) {
+			this.timeout(6000);
+
 			var instance = this;
 
 			runSequence('build:base', function(err) {
