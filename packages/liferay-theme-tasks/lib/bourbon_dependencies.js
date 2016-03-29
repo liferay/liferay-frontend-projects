@@ -21,28 +21,26 @@ exports.createBourbonFile = function(forceCreation) {
 
 	var bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
 
-	if (!fs.existsSync(bourbonFilePath) || forceCreation) {
-		var bourbonFile = [];
+	var bourbonFile = [];
 
-		var deprecatedMixinsFilePath = path.join(__dirname, '../tmp/_deprecated.scss');
+	var deprecatedMixinsFilePath = path.join(__dirname, '../tmp/_deprecated.scss');
 
-		if (fs.existsSync(deprecatedMixinsFilePath)) {
-			bourbonFile.push('@import "');
-			bourbonFile.push(formatPath(deprecatedMixinsFilePath));
-			bourbonFile.push('";');
-		}
-
-		var mixinsPath = themeUtil.resolveDependency(versionMap.getDependencyName('mixins'), '7.0');
-
+	if (fs.existsSync(deprecatedMixinsFilePath)) {
 		bourbonFile.push('@import "');
-		bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));
+		bourbonFile.push(formatPath(deprecatedMixinsFilePath));
 		bourbonFile.push('";');
-		bourbonFile.push('@import "');
-		bourbonFile.push(formatPath(path.join(mixinsPath, 'liferay/_bourbon_ext.scss')));
-		bourbonFile.push('";');
-
-		fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));
 	}
+
+	var mixinsPath = themeUtil.resolveDependency(versionMap.getDependencyName('mixins'), '7.0');
+
+	bourbonFile.push('@import "');
+	bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));
+	bourbonFile.push('";');
+	bourbonFile.push('@import "');
+	bourbonFile.push(formatPath(path.join(mixinsPath, 'liferay/_bourbon_ext.scss')));
+	bourbonFile.push('";');
+
+	fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));
 
 	return tmpDirPath;
 };
