@@ -7,9 +7,9 @@ var inquirer = require('inquirer');
 
 var layoutTempletTpl = _.template('<div class="<%= className %>" id="main-content" role="main">\n' +
 	'<% _.forEach(rowData, function(row, index) { %>' +
-		'\t<div class="portlet-layout row">\n' +
+		'\t<div class="portlet-layout <%= rowClassName %>">\n' +
 			'<% _.forEach(row, function(column, index) { %>' +
-				'\t\t<div class="col-md-<%= column.size %> portlet-column<%= column.className ? " " + column.className : "" %>" id="column-<%= column.number %>">\n' +
+				'\t\t<div class="<%= columnPrefix %><%= column.size %> portlet-column<%= column.className ? " " + column.className : "" %>" id="column-<%= column.number %>">\n' +
 					'\t\t\t$processor.processColumn("column-<%= column.number %>", "portlet-column-content<%= column.contentClassName ? " " + column.contentClassName : "" %>")\n' +
 				'\t\t</div>\n' +
 			'<% }); %>' +
@@ -38,6 +38,7 @@ inquirer.prompt.prompts.list.prototype.render = function() {
 var LayoutCreator = function(options) {
 	this.after = options.after;
 	this.className = options.className;
+	this.liferayVersion = options.liferayVersion || '7.0';
 	this.rowData = options.rowData;
 
 	if (!this.after) {
@@ -345,7 +346,12 @@ LayoutCreator.prototype = {
 	},
 
 	_renderLayoutTemplate: function(options) {
-		return layoutTempletTpl(options);
+		var liferayVersion = this.liferayVersion;
+
+		return layoutTempletTpl(_.defaults(options, {
+			columnPrefix: liferayVersion == '7.0' ? 'col-md-': 'span',
+			rowClassName: liferayVersion == '7.0' ? 'row': 'row-fluid'
+		}));
 	},
 
 	_validateColumnCount: function(value) {

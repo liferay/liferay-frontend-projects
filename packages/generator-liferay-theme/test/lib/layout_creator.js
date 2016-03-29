@@ -486,6 +486,8 @@ describe('LayoutCreator', function() {
 		it('should compile data into valid template', function() {
 			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json')));
 
+			prototype.liferayVersion = '7.0';
+
 			var tplContent = prototype._renderLayoutTemplate({
 				className: 'my-class-name',
 				rowData: json
