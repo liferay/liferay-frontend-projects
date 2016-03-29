@@ -71,8 +71,10 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 		if (!this.themeLayout) {
 			this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
+			this.template('_package.json', 'package.json', this);
 			this.template('docroot/WEB-INF/liferay-layout-templates.xml', 'docroot/WEB-INF/liferay-layout-templates.xml', this);
 			this.template('docroot/WEB-INF/liferay-plugin-package.properties', 'docroot/WEB-INF/liferay-plugin-package.properties', this);
+			this.template('gulpfile.js', 'gulpfile.js', this);
 		}
 
 		if (!this.options['skip-creation']) {
@@ -84,12 +86,11 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 					done();
 				},
-				className: this.layoutId
+				className: this.layoutId,
+				liferayVersion: this.liferayVersion
 			});
 		}
 	},
-
-	install: _.noop,
 
 	_getPrompts: function() {
 		var instance = this;
@@ -130,6 +131,8 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this.templateFilename = _.snakeCase(layoutId) + '.tpl';
 		this.themeLayout = false;
 		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';
+
+		this._setPackageVersion(this.liferayVersion);
 	},
 
 	_setArgv: function() {
