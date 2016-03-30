@@ -12,6 +12,7 @@ module.exports = function(config) {
 		config.pathDist = config.pathDist || './dist';
 		config.pathSrc = config.pathSrc || './src';
 		config.rubySass = config.rubySass || false;
+		config.sassOptions = config.sassOptions || {};
 
 		options = config;
 	}

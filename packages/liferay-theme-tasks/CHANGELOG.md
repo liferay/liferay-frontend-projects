@@ -1,4 +1,5 @@
 ## Next Release
+* New: allow devs to pass configuration options to sass compiler
 * Fix: reimplement watch task for 7.0 themes using OSGi webbundledir deployment
 ***
 

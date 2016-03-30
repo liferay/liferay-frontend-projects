@@ -87,10 +87,10 @@ module.exports = function(options) {
 	gulp.task('build:compile-lib-sass', function(cb) {
 		var gulpSass = themeUtil.requireDependency('gulp-sass', themeConfig.version);
 
-		var config = {
+		var config = _.assign({
 			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
 			sourceMap: false
-		};
+		}, options.sassOptions);
 
 		var cssBuild = pathBuild + '/_css';
 
@@ -108,11 +108,11 @@ module.exports = function(options) {
 
 		var rubyCompass = themeConfig.version == '6.2';
 
-		var config = {
+		var config = _.assign({
 			compass: rubyCompass,
 			loadPath: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
-			sourceMap: false
-		};
+			sourcemap: false
+		}, options.sassOptions);
 
 		var cssBuild = pathBuild + '/_css';
 
