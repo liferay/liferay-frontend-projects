@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v1.0.9 - March 30, 2016
 * New: allow devs to pass configuration options to sass compiler
 * Fix: reimplement watch task for 7.0 themes using OSGi webbundledir deployment
-***
 
 ## v1.0.8 - March 23, 2016
 * New: allow theme developers to hook gulp tasks
