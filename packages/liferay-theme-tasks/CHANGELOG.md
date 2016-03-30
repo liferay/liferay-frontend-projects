@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Fix: reimplement watch task for 7.0 themes using OSGi webbundledir deployment
 ***
 
 ## v1.0.8 - March 23, 2016
