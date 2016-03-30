@@ -2,7 +2,7 @@
 
 > The liferay-theme-tasks module is intended for use with the yeoman generator for [Liferay themes](https://github.com/natecavanaugh/generator-liferay-theme).
 
-## Available tasks:
+## Available tasks
 
 * [build](#build)
 * [deploy](#deploy)
@@ -80,5 +80,86 @@ After invoking the watch task, every time you save any changes to a file in your
 gulp init
 ```
 Prompts user for local and remote appserver information used for deployment purposes (see [deploy](#deploy) task).
+
+## API
+
+### registerTasks
+
+To register the liferay-theme-tasks you must call the `registerTasks` method in your theme's gulpfile.js, `gulp` being the only required parameter.
+
+```js
+var gulp = require('gulp');
+var liferayThemeTasks = require('liferay-theme-tasks');
+
+liferayThemeTasks.registerTasks({
+	gulp: gulp
+});
+```
+
+#### Options
+
+##### gulp
+
+type: `gulp instance`<br>
+required: `true`
+
+A gulp instance for exposing liferay-theme-tasks.
+
+##### hookFn
+
+type: `function`
+
+Allows theme developers to hook and overwrite tasks/sub tasks.
+
+```js
+var gulp = require('gulp');
+var liferayThemeTasks = require('liferay-theme-tasks');
+
+liferayThemeTasks.registerTasks({
+	gulp: gulp,
+	hookFn: function(gulp) {
+		gulp.hook('before:build:src', function(done) {
+			// Fires before build:src task
+		});
+
+		gulp.hook('after:build', function(done) {
+			// Fires after build task
+		});
+
+		gulp.task('build:base', function(done) {
+			// Overwrites build:base task
+		});
+	}
+});
+```
+Note: `hook` callback function must invoke `done` argument OR return a stream.
+
+##### pathBuild
+
+type: `string`<br>
+default: `./build`
+
+Determines the destination of built files.
+
+##### pathDist
+
+type: `string`<br>
+default: `./dist`
+
+Determines the destination of the generated .war file.
+
+##### pathSrc
+
+type: `string`<br>
+default: `./src`
+
+Determines where theme source files are located. If set to anything other than default value, you must manually relocate all files in src directory to new location.
+
+##### sassOptions
+
+type: `object`
+
+Whatever properties are set in sassOptions get passed to either [gulp-sass](https://www.npmjs.com/package/gulp-sass#options) or [gulp-ruby-sass](https://www.npmjs.com/package/gulp-ruby-sass#options) depending on what sass compiler is implemented.
+
 
 MIT
