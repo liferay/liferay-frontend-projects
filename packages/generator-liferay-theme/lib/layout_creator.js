@@ -121,7 +121,7 @@ LayoutCreator.prototype = {
 	_formatPercentageValue: function(spanValue, takenWidth, preview) {
 		var percentage = Math.floor(spanValue / 12 * 10000) / 100;
 
-		var value = _.padEnd(spanValue + '/12 - ' + percentage.toString() + '% -', 17);
+		var value = _.padEnd(spanValue + '/12 - ' + percentage.toString() + '% -', 16);
 
 		if (preview) {
 			var inlinePreview = this._formatInlineChoicePreview(spanValue, takenWidth);
