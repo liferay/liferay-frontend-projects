@@ -227,7 +227,7 @@ LayoutCreator.prototype = {
 	},
 
 	_printHelpMessage: function() {
-		process.stdout.write('\n  Layout templates implement Bootstrap\'s grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n');
+		this._stdoutWrite('\n  Layout templates implement Bootstrap\'s grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n');
 	},
 
 	_printLayoutPreview: function() {
@@ -239,7 +239,7 @@ LayoutCreator.prototype = {
 			return instance._renderPreviewLine(item, true) + instance._renderPreviewLine(item) + rowSeperator;
 		}).join('');
 
-		process.stdout.write(chalk.cyan('\n  Here is what your layout looks like so far\n') + preview + '\n');
+		this._stdoutWrite(chalk.cyan('\n  Here is what your layout looks like so far\n') + preview + '\n');
 	},
 
 	_promptColumnCount: function(cb) {
@@ -372,6 +372,10 @@ LayoutCreator.prototype = {
 			columnPrefix: liferayVersion == '7.0' ? 'col-md-': 'span',
 			rowClassName: liferayVersion == '7.0' ? 'row': 'row-fluid'
 		}));
+	},
+
+	_stdoutWrite: function(string) {
+		process.stdout.write(string);
 	},
 
 	_validateColumnCount: function(value) {
