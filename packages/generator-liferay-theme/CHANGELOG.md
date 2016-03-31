@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v7.1.4 - March 31, 2016
 * New: added liferay-theme:layout generator for creating layout templates
 * Upgrade: bumped lodash to v4.6.1
-***
 
 ## v7.1.3 - March 1, 2016
 * Update: replaced supportCompass option with rubySass because supportCompass was a misnomer, and removed ability to set this option during import generator
