@@ -167,7 +167,7 @@ LayoutCreator.prototype = {
 			return [
 				{
 					name: instance._formatPercentageValue(availableWidth, takenWidth),
-					selectedName: selectedName,
+					selectedName: selectedName + ' - only available width, hit enter',
 					short: selectedName,
 					value: availableWidth
 				}
@@ -227,24 +227,10 @@ LayoutCreator.prototype = {
 	_printLayoutPreview: function() {
 		var instance = this;
 
-		var rowSeperator = _.repeat('-', 37) + '\n';
+		var rowSeperator = chalk.bold(_.repeat('-', 37) + '\n');
 
 		var preview = rowSeperator + _.map(this.rows, function(item, index) {
-			var line = _.repeat(' ', 35);
-
-			var width = 0;
-
-			_.forEach(item, function(columnWidth, index) {
-				width = width + (columnWidth * 3);
-
-				if (width < 36) {
-					line = instance._replaceAt(line, width - 1, '|');
-				}
-			});
-
-			line = '|' + line + '|\n';
-
-			return _.repeat(line, 2) + rowSeperator;
+			return instance._renderPreviewLine(item, true) + instance._renderPreviewLine(item) + rowSeperator;
 		}).join('');
 
 		process.stdout.write(chalk.cyan('\nHere is what your layout looks like so far\n') + preview);
@@ -307,6 +293,38 @@ LayoutCreator.prototype = {
 		this.rows.pop();
 
 		this._printLayoutPreview();
+	},
+
+	_renderPreviewLine: function(column, label) {
+		var instance = this;
+
+		var line = _.repeat(' ', 35);
+
+		var width = 0;
+
+		_.forEach(column, function(columnWidth, index) {
+			var prevWidth = width;
+
+			width = width + (columnWidth * 3);
+
+			if (width < 36) {
+				line = instance._replaceAt(line, width - 1, '|');
+			}
+
+			if (label) {
+				line = instance._replaceAt(line, prevWidth, columnWidth.toString());
+			}
+		});
+
+		if (label) {
+			line = line.replace(/\d/g, function(match) {
+				return chalk.cyan(match);
+			});
+		}
+
+		line = '|' + line + '|\n';
+
+		return chalk.bold(line)
 	},
 
 	_preprocessLayoutTemplateData: function(rows) {
