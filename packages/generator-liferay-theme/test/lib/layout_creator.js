@@ -484,7 +484,11 @@ describe('LayoutCreator', function() {
 
 	describe('_renderLayoutTemplate', function() {
 		it('should compile data into valid template', function() {
-			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json')));
+			var fileOptions = {
+				encoding: 'utf8'
+			};
+
+			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json'), fileOptions));
 
 			prototype.liferayVersion = '7.0';
 
@@ -493,7 +497,7 @@ describe('LayoutCreator', function() {
 				rowData: json
 			});
 
-			var tplFileContent = fs.readFileSync(path.join(__dirname, '../fixtures/tpl/layout_template.tpl'));
+			var tplFileContent = fs.readFileSync(path.join(__dirname, '../fixtures/tpl/layout_template.tpl'), fileOptions);
 
 			assert.equal(tplContent, tplFileContent, 'correctly renders template');
 		});
