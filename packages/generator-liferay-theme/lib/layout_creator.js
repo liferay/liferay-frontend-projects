@@ -3,19 +3,15 @@
 var _ = require('lodash-bindright')(require('lodash'));
 var async = require('async');
 var chalk = require('chalk');
+var fs = require('fs');
 var inquirer = require('inquirer');
+var path = require('path');
 
-var layoutTempletTpl = _.template('<div class="<%= className %>" id="main-content" role="main">\n' +
-	'<% _.forEach(rowData, function(row, index) { %>' +
-		'\t<div class="portlet-layout <%= rowClassName %>">\n' +
-			'<% _.forEach(row, function(column, index) { %>' +
-				'\t\t<div class="<%= columnPrefix %><%= column.size %> portlet-column<%= column.className ? " " + column.className : "" %>" id="column-<%= column.number %>">\n' +
-					'\t\t\t$processor.processColumn("column-<%= column.number %>", "portlet-column-content<%= column.contentClassName ? " " + column.contentClassName : "" %>")\n' +
-				'\t\t</div>\n' +
-			'<% }); %>' +
-		'\t</div>\n' +
-	'<% }); %>' +
-'</div>');
+var templatString = fs.readFileSync(path.join(__dirname, 'templates', 'layout_template.jst'), {
+	encoding: 'utf8'
+});
+
+var layoutTempletTpl = _.template(templatString);
 
 var listRender = inquirer.prompt.prompts.list.prototype.render;
 
