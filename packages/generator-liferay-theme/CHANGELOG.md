@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* New: added liferay-theme:layout generator for creating layout templates
+* Upgrade: bumped lodash to v4.6.1
 ***
 
 ## v7.1.3 - March 1, 2016
