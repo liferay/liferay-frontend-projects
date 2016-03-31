@@ -55,6 +55,8 @@ LayoutCreator.prototype = {
 		else {
 			this.rows = [];
 
+			this._printHelpMessage();
+
 			this._promptRow(this._afterPrompt.bind(this));
 		}
 	},
@@ -224,16 +226,20 @@ LayoutCreator.prototype = {
 		return string.substr(0, index) + character + string.substr(index + character.length);
 	},
 
+	_printHelpMessage: function() {
+		process.stdout.write('\n  Layout templates implement Bootstrap\'s grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n');
+	},
+
 	_printLayoutPreview: function() {
 		var instance = this;
 
-		var rowSeperator = chalk.bold(_.repeat('-', 37) + '\n');
+		var rowSeperator = chalk.bold('  ' + _.repeat('-', 37) + '\n');
 
 		var preview = rowSeperator + _.map(this.rows, function(item, index) {
 			return instance._renderPreviewLine(item, true) + instance._renderPreviewLine(item) + rowSeperator;
 		}).join('');
 
-		process.stdout.write(chalk.cyan('\nHere is what your layout looks like so far\n') + preview);
+		process.stdout.write(chalk.cyan('\n  Here is what your layout looks like so far\n') + preview + '\n');
 	},
 
 	_promptColumnCount: function(cb) {
@@ -322,7 +328,7 @@ LayoutCreator.prototype = {
 			});
 		}
 
-		line = '|' + line + '|\n';
+		line = '  |' + line + '|\n';
 
 		return chalk.bold(line)
 	},
