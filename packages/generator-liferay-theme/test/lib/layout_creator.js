@@ -3,8 +3,10 @@
 var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs');
+var inquirer = require('inquirer');
 var path = require('path');
 var sinon = require('sinon');
+var stripAnsi = require('strip-ansi');
 
 var assert = chai.assert;
 
@@ -80,6 +82,22 @@ describe('LayoutCreator', function() {
 			assert(prototype.after.calledWith('template'), 'return value of _renderLayoutTemplate is passed to after function');
 
 			done();
+		});
+	});
+
+	describe('prompt', function() {
+		it('should pass arguments to inquirer.prompt', function() {
+			var prompt = inquirer.prompt;
+
+			inquirer.prompt = sinon.spy();
+
+			var cb = sinon.spy();
+
+			prototype.prompt(['question1', 'question2'], cb);
+
+			assert(inquirer.prompt.calledWith(['question1', 'question2'], cb));
+
+			inquirer.prompt = prompt;
 		});
 	});
 
@@ -188,6 +206,23 @@ describe('LayoutCreator', function() {
 
 			assert(cbSpy.calledOnce, 'it did not call cb more than once');
 			assert(prototype._promptRow.calledOnce, 'that it did not restart add prompt');
+		});
+
+		it('should not call anything if invalid value', function() {
+			var cbSpy = sinon.spy();
+			prototype.rows = [1];
+
+			prototype._promptRow = sinon.spy();
+			prototype._removeRow = sinon.spy();
+			prototype._promptFinishRow = sinon.spy();
+
+			prototype._afterPromptFinishRow({
+				finish: 'notsupported'
+			}, cbSpy);
+
+			assert(prototype._promptFinishRow.notCalled);
+			assert(prototype._promptRow.notCalled);
+			assert(prototype._removeRow.notCalled);
 		});
 	});
 
@@ -312,10 +347,31 @@ describe('LayoutCreator', function() {
 		});
 	});
 
-	// describe('_printLayoutPreview', function() {
-	// 	it('should pass', function() {
-	// 	});
-	// });
+	describe('_printLayoutPreview', function() {
+		it('should print layout preview', function() {
+			prototype.rows = [
+				[6, 6],
+				[3, 3, 6]
+			];
+
+			prototype._stdoutWrite = sinon.spy();
+
+			prototype._printLayoutPreview();
+
+			var preview = '\n  Here is what your layout looks like so far\n' +
+				'  -------------------------------------\n' +
+				'  |6                |6                |\n' +
+				'  |                 |                 |\n' +
+				'  -------------------------------------\n' +
+				'  |3       |3       |6                |\n' +
+				'  |        |        |                 |\n' +
+				'  -------------------------------------\n\n';
+
+			var strippedPreview = stripAnsi(prototype._stdoutWrite.getCall(0).args[0]);
+
+			assert.equal(strippedPreview, preview);
+		});
+	});
 
 	describe('_promptColumnCount', function() {
 		it('should prompt user for column count using correct row number in prompt message', function() {
@@ -390,7 +446,7 @@ describe('LayoutCreator', function() {
 		});
 	});
 
-	describe('_removeRow', function() {
+	describe('_promptRow', function() {
 		it('should remove last row and print layout', function(done) {
 			var waterfallSpy = sinon.spy();
 
@@ -417,6 +473,30 @@ describe('LayoutCreator', function() {
 
 				done();
 			});
+		});
+	});
+
+	describe('_renderPreviewLine', function() {
+		it('should render preview line', function() {
+			var line = prototype._renderPreviewLine({
+				'0': 4,
+				'1': 8
+			});
+
+			line = stripAnsi(line);
+
+			assert.equal(line, '  |           |                       |\n');
+
+			line = prototype._renderPreviewLine({
+				'0': 4,
+				'1': 4,
+				'2': 2,
+				'3': 2
+			}, true);
+
+			line = stripAnsi(line);
+
+			assert.equal(line, '  |4          |4          |2    |2    |\n');
 		});
 	});
 
