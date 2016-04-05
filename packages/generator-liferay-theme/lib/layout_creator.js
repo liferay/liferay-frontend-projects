@@ -18,7 +18,17 @@ var listRender = inquirer.prompt.prompts.list.prototype.render;
 inquirer.prompt.prompts.list.prototype.render = function() {
 	var index = this.selected;
 
-	var choice = this.opt.choices.choices[index];
+	var choices = _.reduce(this.opt.choices.choices, function(result, item, index) {
+		if (item.type != 'separator') {
+			result.push(item);
+		}
+
+		return result;
+	}, []);
+
+	var choice = choices[index];
+
+	this.opt.pageSize = 10;
 
 	var originalName = choice.name;
 
@@ -66,7 +76,16 @@ LayoutCreator.prototype = {
 	},
 
 	_addRow: function(data) {
-		this.rows.push(data);
+		var rowInsertIndex = this.rowInsertIndex;
+
+		if (_.isNumber(rowInsertIndex)) {
+			this.rows.splice(rowInsertIndex, 0, data);
+
+			this.rowInsertIndex = null;
+		}
+		else {
+			this.rows.push(data);
+		}
 
 		this._printLayoutPreview();
 	},
@@ -98,14 +117,27 @@ LayoutCreator.prototype = {
 		if (finish == 'add') {
 			this._promptRow(cb);
 		}
+		else if (finish == 'insert') {
+			this._promptInsertRow(cb);
+		}
 		else if (answers.finish == 'finish') {
 			cb(null);
 		}
 		else if (finish == 'remove') {
-			this._removeRow()
-
-			this._promptFinishRow(this.rows, cb);
+			this._promptRemoveRow(cb);
 		}
+	},
+
+	_afterPromptInsertRow: function(answers, cb) {
+		this.rowInsertIndex = answers.rowIndex;
+
+		this._promptRow(cb);
+	},
+
+	_afterPromptRemoveRow: function(answers, cb) {
+		this._removeRow(answers.rowIndex);
+
+		this._promptFinishRow(this.rows, cb);
 	},
 
 	_formatInlineChoicePreview: function(spanValue, takenWidth) {
@@ -209,7 +241,12 @@ LayoutCreator.prototype = {
 
 		if (rows.length) {
 			choices.push({
-				name: 'Remove last row',
+				name: 'Insert row',
+				value: 'insert'
+			});
+
+			choices.push({
+				name: 'Remove row',
 				value: 'remove'
 			});
 
@@ -222,115 +259,75 @@ LayoutCreator.prototype = {
 		return choices;
 	},
 
-	_replaceAt: function(string, index, character) {
-		return string.substr(0, index) + character + string.substr(index + character.length);
-	},
-
-	_printHelpMessage: function() {
-		this._stdoutWrite('\n  Layout templates implement Bootstrap\'s grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n');
-	},
-
-	_printLayoutPreview: function() {
+	_getInsertRowChoices: function() {
 		var instance = this;
 
-		var rowSeperator = chalk.bold('  ' + _.repeat('-', 37) + '\n');
+		var rows = this.rows;
 
-		var preview = rowSeperator + _.map(this.rows, function(item, index) {
-			return instance._renderPreviewLine(item, true) + instance._renderPreviewLine(item) + rowSeperator;
-		}).join('');
-
-		this._stdoutWrite(chalk.cyan('\n  Here is what your layout looks like so far\n') + preview + '\n');
-	},
-
-	_promptColumnCount: function(cb) {
-		var instance = this;
-
-		var row = this.rows.length + 1;
-
-		this.prompt([{
-			default: 1,
-			message: 'How many columns would you like for ' + chalk.cyan('row', row) + '?',
-			name: 'columnCount',
-			validate: instance._validateColumnCount
-		}], _.bindRight(this._afterPromptColumnCount, this, cb));
-	},
-
-	_promptColumnWidths: function(columnCount, cb) {
-		var instance = this;
-
-		var row = this.rows.length + 1;
-
-		var questions = _.times(columnCount, function(index) {
-			var columnNumber = index + 1;
-
-			return {
-				choices: instance._getColumnWidthChoices.bind(instance, index, columnCount),
-				message: 'How wide do you want ' + chalk.cyan('row', row, 'column', columnNumber) + '?',
-				name: index.toString(),
-				type: 'list'
-			}
-		});
-
-		this.prompt(questions, _.bindRight(this._afterPromptColumnWidths, this, cb));
-	},
-
-	_promptFinishRow: function(rows, cb) {
-		var instance = this;
-
-		this.prompt([{
-			choices: this._getFinishRowChoices.bind(this, rows),
-			message: 'What now?',
-			name: 'finish',
-			type: 'list'
-		}], _.bindRight(this._afterPromptFinishRow, this, cb));
-	},
-
-	_promptRow: function(done) {
-		var instance = this;
-
-		async.waterfall([
-			instance._promptColumnCount.bind(instance),
-			instance._promptColumnWidths.bind(instance),
-			instance._promptFinishRow.bind(instance)
-		], done);
-	},
-
-	_removeRow: function() {
-		this.rows.pop();
-
-		this._printLayoutPreview();
-	},
-
-	_renderPreviewLine: function(column, label) {
-		var instance = this;
-
-		var line = _.repeat(' ', 35);
-
-		var width = 0;
-
-		_.forEach(column, function(columnWidth, index) {
-			var prevWidth = width;
-
-			width = width + (columnWidth * 3);
-
-			if (width < 36) {
-				line = instance._replaceAt(line, width - 1, '|');
-			}
-
-			if (label) {
-				line = instance._replaceAt(line, prevWidth, columnWidth.toString());
-			}
-		});
-
-		if (label) {
-			line = line.replace(/\d/g, function(match) {
-				return chalk.cyan(match);
+		var choicesArray = _.reduce(this.rows, function(choices, row, index) {
+			choices.push({
+				name: '  ' + _.repeat('-', 37),
+				short: 'Insert row at index ' + index,
+				value: index
 			});
+
+			choices.push(new inquirer.Separator(instance._renderPreviewLine(row, {
+				label: true
+			})));
+
+			return choices;
+		}, []);
+
+		choicesArray.push({
+			name: '  ' + _.repeat('-', 37),
+			short: 'Insert row at index ' + rows.length,
+			value: rows.length
+		});
+
+		return choicesArray;
+	},
+
+	_getRemoveRowChoices: function() {
+		var instance = this;
+
+		var rows = this.rows;
+
+		var seperator = '  ' + _.repeat('-', 37);
+
+		var choicesArray = _.reduce(this.rows, function(choices, row, index) {
+			choices.push(new inquirer.Separator(seperator));
+
+			choices.push({
+				name: instance._renderPreviewLine(row, {
+					label: true
+				}),
+				selectedName: chalk.red(instance._renderPreviewLine(row, {
+					label: true,
+					style: false
+				})),
+				short: 'Remove row ' + (index + 1),
+				value: index
+			});
+
+			return choices;
+		}, []);
+
+		choicesArray.push(new inquirer.Separator(seperator));
+
+		return choicesArray;
+	},
+
+	_getRowNumber: function() {
+		var rowInsertIndex = this.rowInsertIndex;
+		var rowNumber = this.rows.length;
+
+		if (_.isNumber(rowInsertIndex)) {
+			rowNumber = rowInsertIndex;
 		}
 
-		line = '  |' + line + '|\n';
+		rowNumber = rowNumber + 1;
 
-		return chalk.bold(line)
+		return rowNumber;
 	},
 
 	_preprocessLayoutTemplateData: function(rows) {
@@ -365,6 +362,125 @@ LayoutCreator.prototype = {
 		return rowData;
 	},
 
+	_printHelpMessage: function() {
+		this._stdoutWrite('\n  Layout templates implement Bootstrap\'s grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n');
+	},
+
+	_printLayoutPreview: function() {
+		var instance = this;
+
+		var rowSeperator = chalk.bold('  ' + _.repeat('-', 37) + '\n');
+
+		var preview = rowSeperator + _.map(this.rows, function(item, index) {
+			return instance._renderPreviewLine(item, {
+				label: true
+			}) + '\n' + instance._renderPreviewLine(item) + '\n' + rowSeperator;
+		}).join('');
+
+		this._stdoutWrite(chalk.cyan('\n  Here is what your layout looks like so far\n') + preview + '\n');
+	},
+
+	_promptColumnCount: function(cb) {
+		var instance = this;
+
+		this.prompt([{
+			default: 1,
+			message: 'How many columns would you like for ' + chalk.cyan('row', this._getRowNumber()) + '?',
+			name: 'columnCount',
+			validate: instance._validateColumnCount
+		}], _.bindRight(this._afterPromptColumnCount, this, cb));
+	},
+
+	_promptColumnWidths: function(columnCount, cb) {
+		var instance = this;
+
+		var rowNumber = instance._getRowNumber();
+
+		var questions = _.times(columnCount, function(index) {
+			var columnNumber = index + 1;
+
+			return {
+				choices: instance._getColumnWidthChoices.bind(instance, index, columnCount),
+				message: 'How wide do you want ' + chalk.cyan('row', rowNumber, 'column', columnNumber) + '?',
+				name: index.toString(),
+				type: 'list'
+			}
+		});
+
+		this.prompt(questions, _.bindRight(this._afterPromptColumnWidths, this, cb));
+	},
+
+	_promptFinishRow: function(rows, cb) {
+		this.prompt([{
+			choices: this._getFinishRowChoices.bind(this, rows),
+			message: 'What now?',
+			name: 'finish',
+			type: 'list'
+		}], _.bindRight(this._afterPromptFinishRow, this, cb));
+	},
+
+	_promptInsertRow: function(cb) {
+		this.prompt([{
+			choices: this._getInsertRowChoices.bind(this),
+			message: 'Where would you like to insert a new row?',
+			name: 'rowIndex',
+			type: 'list'
+		}], _.bindRight(this._afterPromptInsertRow, this, cb));
+	},
+
+	_promptRemoveRow: function(cb) {
+		this.prompt([{
+			choices: this._getRemoveRowChoices.bind(this),
+			message: 'What row would you like to remove?',
+			name: 'rowIndex',
+			type: 'list'
+		}], _.bindRight(this._afterPromptRemoveRow, this, cb));
+	},
+
+	_promptRow: function(done) {
+		async.waterfall([
+			this._promptColumnCount.bind(this),
+			this._promptColumnWidths.bind(this),
+			this._promptFinishRow.bind(this)
+		], done);
+	},
+
+	_removeRow: function(index) {
+		this.rows.splice(index, 1);
+
+		this._printLayoutPreview();
+	},
+
+	_renderPreviewLine: function(column, config) {
+		var instance = this;
+
+		config = config || {};
+
+		var label = config.label;
+
+		var line = _.repeat(' ', 35);
+
+		var width = 0;
+
+		_.forEach(column, function(columnWidth, index) {
+			var prevWidth = width;
+
+			width = width + (columnWidth * 3);
+
+			if (width < 36) {
+				line = instance._replaceAt(line, width - 1, '|');
+			}
+
+			if (label) {
+				line = instance._replaceAt(line, prevWidth, columnWidth.toString());
+			}
+		});
+
+		line = '  |' + line + '|';
+
+		return config.style === false ? line : this._stylePreviewLine(line, label);
+	},
+
 	_renderLayoutTemplate: function(options) {
 		var liferayVersion = this.liferayVersion;
 
@@ -374,8 +490,22 @@ LayoutCreator.prototype = {
 		}));
 	},
 
+	_replaceAt: function(string, index, character) {
+		return string.substr(0, index) + character + string.substr(index + character.length);
+	},
+
 	_stdoutWrite: function(string) {
 		process.stdout.write(string);
+	},
+
+	_stylePreviewLine: function(line, label) {
+		if (label) {
+			line = line.replace(/\d/g, function(match) {
+				return chalk.cyan(match);
+			});
+		}
+
+		return chalk.bold(line);
 	},
 
 	_validateColumnCount: function(value) {
