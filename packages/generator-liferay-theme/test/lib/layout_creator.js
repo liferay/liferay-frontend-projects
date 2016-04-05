@@ -340,9 +340,9 @@ describe('LayoutCreator', function() {
 
 			choices = prototype._getColumnWidthChoices(0, 2, {});
 
-			assert.equal(_.last(choices).type, 'separator');
-			assert.equal(choices[choices.length - 2].value, 11);
-			assert.equal(choices.length, 12);
+			//assert.equal(_.last(choices).type, 'separator');
+			assert.equal(choices[choices.length - 1].value, 11);
+			assert.equal(choices.length, 11);
 
 			choices = prototype._getColumnWidthChoices(1, 2, {
 				'0': 5
@@ -355,7 +355,7 @@ describe('LayoutCreator', function() {
 				'0': 5
 			});
 
-			assert.equal(choices.length, 6);
+			assert.equal(choices.length, 5);
 		});
 	});
 
