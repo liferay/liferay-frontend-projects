@@ -28,7 +28,7 @@ inquirer.prompt.prompts.list.prototype.render = function() {
 
 	var choice = choices[index];
 
-	this.opt.pageSize = 10;
+	this.opt.pageSize = 14;
 
 	var originalName = choice.name;
 
@@ -88,6 +88,13 @@ LayoutCreator.prototype = {
 		}
 
 		this._printLayoutPreview();
+	},
+
+	_addWhiteSpace: function(choicesArray) {
+		var separator = new inquirer.Separator(' ');
+
+		choicesArray.push(separator);
+		choicesArray.push(separator);
 	},
 
 	_afterPrompt: function(err) {
@@ -153,10 +160,10 @@ LayoutCreator.prototype = {
 	_formatPercentageValue: function(spanValue, takenWidth, preview) {
 		var percentage = Math.floor(spanValue / 12 * 10000) / 100;
 
-		var value = _.padEnd(spanValue + '/12 - ' + percentage.toString() + '% -', 16);
+		var value = _.padEnd(spanValue + '/12 - ' + percentage.toString() + '%', 14);
 
 		if (preview) {
-			var inlinePreview = this._formatInlineChoicePreview(spanValue, takenWidth);
+			var inlinePreview = ' - ' + this._formatInlineChoicePreview(spanValue, takenWidth);
 
 			value = value + inlinePreview;
 		}
@@ -225,8 +232,6 @@ LayoutCreator.prototype = {
 				};
 			});
 
-			choices.push(new inquirer.Separator());
-
 			return choices;
 		}
 	},
@@ -264,9 +269,13 @@ LayoutCreator.prototype = {
 
 		var rows = this.rows;
 
+		var insertName = '  ' + _.repeat('-', 37);
+		var insertSelectedName = '  ' + _.repeat('=', 37);
+
 		var choicesArray = _.reduce(this.rows, function(choices, row, index) {
 			choices.push({
-				name: '  ' + _.repeat('-', 37),
+				name: insertName,
+				selectedName: insertSelectedName,
 				short: 'Insert row at index ' + index,
 				value: index
 			});
@@ -279,10 +288,18 @@ LayoutCreator.prototype = {
 		}, []);
 
 		choicesArray.push({
-			name: '  ' + _.repeat('-', 37),
+			name: insertName,
+			selectedName: insertSelectedName,
 			short: 'Insert row at index ' + rows.length,
 			value: rows.length
 		});
+
+		if (choicesArray.length > 14) {
+			choicesArray[0].name = this._replaceAt(insertName, 19, 'TOP');
+			choicesArray[0].selectedName = this._replaceAt(insertSelectedName, 19, 'TOP');
+
+			this._addWhiteSpace(choicesArray);
+		}
 
 		return choicesArray;
 	},
@@ -304,7 +321,7 @@ LayoutCreator.prototype = {
 				selectedName: chalk.red(instance._renderPreviewLine(row, {
 					label: true,
 					style: false
-				})),
+				}), 'X'),
 				short: 'Remove row ' + (index + 1),
 				value: index
 			});
@@ -313,6 +330,12 @@ LayoutCreator.prototype = {
 		}, []);
 
 		choicesArray.push(new inquirer.Separator(seperator));
+
+		if (choicesArray.length > 14) {
+			choicesArray.splice(0, 1, new inquirer.Separator(this._replaceAt(seperator, 19, 'TOP')))
+
+			this._addWhiteSpace(choicesArray);
+		}
 
 		return choicesArray;
 	},
