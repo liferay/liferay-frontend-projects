@@ -179,9 +179,10 @@ describe('LayoutCreator', function() {
 			var cbSpy = sinon.spy();
 			prototype.rows = [1];
 
+			prototype._promptInsertRow = sinon.spy();
+			prototype._promptRemoveRow = sinon.spy();
 			prototype._promptRow = sinon.spy();
 			prototype._removeRow = sinon.spy();
-			prototype._promptFinishRow = sinon.spy();
 
 			prototype._afterPromptFinishRow({
 				finish: 'add'
@@ -189,6 +190,13 @@ describe('LayoutCreator', function() {
 
 			assert(prototype._promptRow.calledOnce, 'called correct function');
 			assert(prototype._promptRow.calledWith(cbSpy), 'called with cb function');
+
+			prototype._afterPromptFinishRow({
+				finish: 'insert'
+			}, cbSpy);
+
+			assert(prototype._promptInsertRow.calledOnce, 'called correct function');
+			assert(prototype._promptInsertRow.calledWith(cbSpy), 'called with cb function');
 
 			prototype._afterPromptFinishRow({
 				finish: 'finish'
@@ -200,9 +208,8 @@ describe('LayoutCreator', function() {
 				finish: 'remove'
 			}, cbSpy);
 
-			assert(prototype._promptFinishRow.calledOnce, 'called correct function');
-			assert(prototype._promptFinishRow.calledWith([1], cbSpy), 'called with rows property and cb function');
-			assert(prototype._removeRow.calledOnce, 'called correct function');
+			assert(prototype._promptRemoveRow.calledOnce, 'called correct function');
+			assert(prototype._promptRemoveRow.calledWith(cbSpy), 'called with cb function');
 
 			assert(cbSpy.calledOnce, 'it did not call cb more than once');
 			assert(prototype._promptRow.calledOnce, 'that it did not restart add prompt');
@@ -212,17 +219,50 @@ describe('LayoutCreator', function() {
 			var cbSpy = sinon.spy();
 			prototype.rows = [1];
 
+			prototype._promptInsertRow = sinon.spy();
+			prototype._promptRemoveRow = sinon.spy();
 			prototype._promptRow = sinon.spy();
-			prototype._removeRow = sinon.spy();
-			prototype._promptFinishRow = sinon.spy();
 
 			prototype._afterPromptFinishRow({
 				finish: 'notsupported'
 			}, cbSpy);
 
-			assert(prototype._promptFinishRow.notCalled);
+			assert(cbSpy.notCalled);
+			assert(prototype._promptInsertRow.notCalled);
+			assert(prototype._promptRemoveRow.notCalled);
 			assert(prototype._promptRow.notCalled);
-			assert(prototype._removeRow.notCalled);
+		});
+	});
+
+	describe('_afterPromptInsertRow', function() {
+		it('should set rowInserIndex based on answers and pass cb to _promptRow', function() {
+			var cb = _.noop;
+
+			prototype._promptRow = sinon.spy();
+
+			prototype._afterPromptInsertRow({
+				rowIndex: 2
+			}, cb);
+
+			assert.equal(prototype.rowInsertIndex, 2);
+			assert(prototype._promptRow.calledWith(cb));
+		});
+	});
+
+	describe('_afterPromptRemoveRow', function() {
+		it('should pass rowIndex answer to _removeRow and re-prompt finish row', function() {
+			prototype._promptFinishRow = sinon.spy();
+			prototype._removeRow = sinon.spy();
+			prototype.rows = [2];
+
+			var cb = _.noop;
+
+			prototype._afterPromptRemoveRow({
+				rowIndex: 3
+			}, cb);
+
+			assert(prototype._removeRow.calledWith(3), 'removed row by index');
+			assert(prototype._promptFinishRow.calledWith([2], cb));
 		});
 	});
 
@@ -335,15 +375,145 @@ describe('LayoutCreator', function() {
 
 			choices = prototype._getFinishRowChoices(rows);
 
-			assert.equal(choices.length, 3);
+			assert.equal(choices.length, 4);
 		});
 	});
 
-	describe('_replaceAt', function() {
-		it('should replace string character at index', function() {
-			assert.equal(prototype._replaceAt('string', 0, 'x'), 'xtring');
-			assert.equal(prototype._replaceAt('string', 2, 'x'), 'stxing');
-			assert.equal(prototype._replaceAt('string', 6, 'x'), 'stringx');
+	describe('_getInsertRowChoices', function() {
+		it('should return compact layout preview where row borders are choices', function() {
+			prototype.rows = [
+				{
+					'0': 3,
+					'1': 9
+				},
+				{
+					'0': 3,
+					'1': 9
+				}
+			];
+
+			var choices = prototype._getInsertRowChoices();
+
+			var choiceValue = 0;
+
+			_.forEach(choices, function(choice, index) {
+				index = index + 1;
+
+				if (index % 2 == 0) {
+					assert.equal(choice.type, 'separator');
+					assert.equal(stripAnsi(choice.line), '  |3       |9                         |');
+				}
+				else {
+					assert.equal(choice.name, '  -------------------------------------');
+					assert.equal(choice.value, choiceValue);
+
+					choiceValue++;
+				}
+			});
+
+			assert(choices[choices.length - 1].type != 'separator');
+		});
+	});
+
+	describe('_getRemoveRowChoices', function() {
+		it('should return compact layout preview where row bodies are choices', function() {
+			prototype.rows = [
+				{
+					'0': 3,
+					'1': 9
+				},
+				{
+					'0': 3,
+					'1': 9
+				}
+			];
+
+			var choices = prototype._getRemoveRowChoices();
+
+			var choiceValue = 0;
+
+			_.forEach(choices, function(choice, index) {
+				index = index + 1;
+
+				if (index % 2 == 0) {
+					assert.equal(choice.value, choiceValue);
+					assert.equal(stripAnsi(choice.name), '  |3       |9                         |');
+
+					choiceValue++;
+				}
+				else {
+					assert.equal(stripAnsi(choice.line), '  -------------------------------------');
+					assert.equal(choice.type, 'separator');
+				}
+			});
+
+			assert(choices[choices.length - 1].type == 'separator');
+		});
+	});
+
+	describe('_getRowNumber', function() {
+		it('should return next row number for labels and messages', function() {
+			prototype.rows = [1, 2];
+
+			var rowNumber = prototype._getRowNumber();
+
+			assert.equal(rowNumber, 3);
+
+			prototype.rowInsertIndex = 1;
+
+			rowNumber = prototype._getRowNumber();
+
+			assert.equal(rowNumber, 2);
+		});
+	});
+
+	describe('_preprocessLayoutTemplateData', function() {
+		it('should convert prompt data to data that template can easily process', function() {
+			var rows = [
+				{
+					'0': 2,
+					'1': 10
+				},
+				{
+					'0': 2,
+					'1': 1,
+					'2': 9
+				},
+				{
+					'0': 12
+				}
+			];
+
+			var rowDataFromObjects = prototype._preprocessLayoutTemplateData(rows);
+
+			rows = [
+				[2, 10],
+				[2, 1, 9],
+				[12]
+			];
+
+			var rowDataFromArray = prototype._preprocessLayoutTemplateData(rows);
+
+			assert(_.isArray(rowDataFromObjects), 'rowData is array');
+			assert.deepEqual(rowDataFromObjects, rowDataFromArray, 'that it returns the same data when passing in objects or arrays');
+
+			var number = 0;
+
+			_.forEach(rowDataFromObjects, function(row, index) {
+				assert(_.isArray(row), 'each row is an array');
+
+				_.forEach(row, function(column, index) {
+					assert(_.isObject(column), 'each row is an array');
+
+					number++;
+
+					assert.equal(number, column.number, 'column number is indexed correctly');
+				});
+			});
+
+			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json')));
+
+			assert.deepEqual(rowDataFromObjects, json);
 		});
 	});
 
@@ -427,22 +597,29 @@ describe('LayoutCreator', function() {
 	});
 
 	describe('_promptFinishRow', function() {
-		it('should prompt user for next action (add, remove, finish)', function() {
-			prototype.prompt = sinon.spy();
+		it('should prompt user for next action (add, insert, remove, finish)', function() {
+			assertPromptFn(prototype, '_promptFinishRow', [[], _.noop], {
+				message: 'What now?',
+				name: 'finish'
+			});
+		});
+	});
 
-			prototype.rows = [];
+	describe('_promptInsertRow', function() {
+		it('should prompt user for where they want to insert row', function() {
+			assertPromptFn(prototype, '_promptInsertRow', [_.noop], {
+				message: 'Where would you like to insert a new row?',
+				name: 'rowIndex'
+			});
+		});
+	});
 
-			prototype._promptFinishRow(_.noop);
-
-			var args = prototype.prompt.getCall(0).args;
-			var question = args[0][0];
-
-			assert(_.isFunction(question.choices), 'choices is function');
-			assert.equal(question.message, 'What now?');
-			assert.equal(question.name, 'finish');
-			assert.equal(question.type, 'list');
-
-			assert(_.isFunction(args[1]), 'callback is function');
+	describe('_promptRemoveRow', function() {
+		it('should prompt user for what row they want to remove', function() {
+			assertPromptFn(prototype, '_promptRemoveRow', [_.noop], {
+				message: 'What row would you like to remove?',
+				name: 'rowIndex'
+			});
 		});
 	});
 
@@ -476,6 +653,23 @@ describe('LayoutCreator', function() {
 		});
 	});
 
+	describe('_removeRow', function() {
+		it('should remove row by index and print layout', function() {
+			prototype._printLayoutPreview = sinon.spy();
+			prototype.rows = [1, 2, 3];
+
+			prototype._removeRow(1);
+
+			assert(prototype._printLayoutPreview.calledOnce, 'it printed new layout');
+			assert.deepEqual(prototype.rows, [1, 3], 'it removed middle row');
+
+			prototype._removeRow(1);
+
+			assert(prototype._printLayoutPreview.calledTwice, 'it printed new layout');
+			assert.deepEqual(prototype.rows, [1], 'it removed last row');
+		});
+	});
+
 	describe('_renderPreviewLine', function() {
 		it('should render preview line', function() {
 			var line = prototype._renderPreviewLine({
@@ -485,80 +679,20 @@ describe('LayoutCreator', function() {
 
 			line = stripAnsi(line);
 
-			assert.equal(line, '  |           |                       |\n');
+			assert.equal(line, '  |           |                       |');
 
 			line = prototype._renderPreviewLine({
 				'0': 4,
 				'1': 4,
 				'2': 2,
 				'3': 2
-			}, true);
+			}, {
+				label: true
+			});
 
 			line = stripAnsi(line);
 
-			assert.equal(line, '  |4          |4          |2    |2    |\n');
-		});
-	});
-
-	describe('_removeRow', function() {
-		it('should remove last row and print layout', function() {
-			prototype._printLayoutPreview = sinon.spy();
-			prototype.rows = [1, 2, 3];
-
-			prototype._removeRow();
-
-			assert(prototype._printLayoutPreview.calledOnce, 'it printed new layout');
-			assert.deepEqual(prototype.rows, [1, 2], 'it removed last row');
-		});
-	});
-
-	describe('_preprocessLayoutTemplateData', function() {
-		it('should convert prompt data to data that template can easily process', function() {
-			var rows = [
-				{
-					'0': 2,
-					'1': 10
-				},
-				{
-					'0': 2,
-					'1': 1,
-					'2': 9
-				},
-				{
-					'0': 12
-				}
-			];
-
-			var rowDataFromObjects = prototype._preprocessLayoutTemplateData(rows);
-
-			rows = [
-				[2, 10],
-				[2, 1, 9],
-				[12]
-			];
-
-			var rowDataFromArray = prototype._preprocessLayoutTemplateData(rows);
-
-			assert(_.isArray(rowDataFromObjects), 'rowData is array');
-			assert.deepEqual(rowDataFromObjects, rowDataFromArray, 'that it returns the same data when passing in objects or arrays');
-
-			var number = 0;
-
-			_.forEach(rowDataFromObjects, function(row, index) {
-				assert(_.isArray(row), 'each row is an array');
-
-				_.forEach(row, function(column, index) {
-					assert(_.isObject(column), 'each row is an array');
-
-					number++;
-
-					assert.equal(number, column.number, 'column number is indexed correctly');
-				});
-			});
-
-			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json')));
-
-			assert.deepEqual(rowDataFromObjects, json);
+			assert.equal(line, '  |4          |4          |2    |2    |');
 		});
 	});
 
@@ -580,6 +714,20 @@ describe('LayoutCreator', function() {
 			var tplFileContent = fs.readFileSync(path.join(__dirname, '../fixtures/tpl/layout_template.tpl'), fileOptions);
 
 			assert.equal(tplContent, tplFileContent, 'correctly renders template');
+		});
+	});
+
+	describe('_replaceAt', function() {
+		it('should replace string character at index', function() {
+			assert.equal(prototype._replaceAt('string', 0, 'x'), 'xtring');
+			assert.equal(prototype._replaceAt('string', 2, 'x'), 'stxing');
+			assert.equal(prototype._replaceAt('string', 6, 'x'), 'stringx');
+		});
+	});
+
+	describe('_stylePreviewLine', function() {
+		it('should pass', function() {
+			prototype._stylePreviewLine
 		});
 	});
 
@@ -609,3 +757,19 @@ describe('LayoutCreator', function() {
 		});
 	});
 });
+
+function assertPromptFn(prototype, fnName, args, assertionData) {
+	prototype.prompt = sinon.spy();
+
+	prototype[fnName].apply(prototype, args);
+
+	var args = prototype.prompt.getCall(0).args;
+	var question = args[0][0];
+
+	assert(_.isFunction(question.choices), 'choices is function');
+	assert.equal(question.message, assertionData.message);
+	assert.equal(question.name, assertionData.name);
+	assert.equal(question.type, 'list');
+
+	assert(_.isFunction(args[1]), 'callback is function');
+}
