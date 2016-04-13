@@ -2,6 +2,10 @@
 * No changes
 ***
 
+## v7.1.5 - April 13, 2016
+* New: added default portlet decorators to theme look-and-feel.xml
+* New: added ability to insert and remove specific rows in layout generator
+
 ## v7.1.4 - March 31, 2016
 * New: added liferay-theme:layout generator for creating layout templates
 * Upgrade: bumped lodash to v4.6.1
