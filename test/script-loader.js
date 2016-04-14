@@ -2,6 +2,9 @@
 
 require('./fixture/common.js');
 require('./fixture/script.js');
+
+var fs = require('fs');
+
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
@@ -641,6 +644,37 @@ describe('Loader', function() {
 
             delete global['_'];
             delete global['$'];
+            done();
+        }, 50);
+    });
+
+    it('should not request module if added explicitly', function(done) {
+        var module = {
+            name: 'added_explicitly',
+            dependencies: ['exports'],
+            path: '/modules2/added_explicitly.js'
+        };
+
+        Loader.addModule(module);
+
+        Loader.define(module.name, module.dependencies, function() {});
+
+        var failure = sinon.stub();
+        var success = sinon.stub();
+
+        var origAppendChild = document.head.appendChild;
+
+        document.head.appendChild = sinon.spy(document.head.appendChild);
+
+        Loader.require('added_explicitly', success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(document.head.appendChild.notCalled, 'document.head.appendChild shouldn\'t be called');
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+
+            document.head.appendChild = origAppendChild;
+
             done();
         }, 50);
     });
