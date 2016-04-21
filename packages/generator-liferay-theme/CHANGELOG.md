@@ -2,6 +2,9 @@
 * No changes
 ***
 
+## v7.1.6 - April 21, 2016
+* Fix: added lib directory to npm files array fixing layout generator
+
 ## v7.1.5 - April 13, 2016
 * New: added default portlet decorators to theme look-and-feel.xml
 * New: added ability to insert and remove specific rows in layout generator
