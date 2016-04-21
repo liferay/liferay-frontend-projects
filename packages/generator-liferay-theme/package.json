@@ -24,7 +24,8 @@
     "test": "node test/index.js"
   },
   "files": [
-    "generators"
+    "generators",
+    "lib"
   ],
   "keywords": [
     "yeoman-generator",
