@@ -881,52 +881,51 @@ var LoaderProtoMethods = {
      * @return {Object} The constructed module.
      */
     define: function(name, dependencies, implementation, config) {
+        var self = this;
+
         console.log('DEFINE', name, dependencies);
 
         var passedArgsCount = arguments.length;
+        var anonymousModule = false;
 
         if (passedArgsCount < 2) {
-            console.log('DEFINE, module with one param only, returning');
-            // we don't support modules with implementation only
-            return;
+            console.log('DEFINE, module with one param only, this should be anonymous module');
+            implementation = arguments[0];
+            dependencies = ['module', 'exports'];
+            anonymousModule = true;
         } else if (passedArgsCount === 2) {
             if (typeof name === 'string') {
                 console.log('DEFINE, module with two params only, name and implementation', name);
                 // there are two parameters, but the first one is not an array with dependencies,
                 // this is a module name
-                implementation = dependencies;
                 dependencies = ['module', 'exports'];
+                implementation = arguments[1];
             } else {
-                // anonymous module, we don't support this
-                return;
+                console.log('DEFINE, module with one param only, this should be anonymous module');
+                dependencies = arguments[0];
+                implementation = arguments[1];
+                anonymousModule = true;
             }
         }
 
-        // Create a new module by merging the provided config with the passed name,
-        // dependencies and implementation.
-        var module = config || {};
-        var configParser = this._getConfigParser();
+        if (anonymousModule) {
+            // Postpone module's registration till the next scriptLoaded event
+            var onScriptLoaded = function(loadedModules) {
+                self.off('scriptLoaded', onScriptLoaded);
 
-        var pathResolver = this._getPathResolver();
+                if (loadedModules.length !== 1) {
+                    console.error('Mismatched anonymous module', module);
+                } else {
+                    var moduleName = loadedModules[0];
+                    self._define(moduleName, dependencies, implementation, config);
+                }
+            };
 
-        // Resolve the path according to the parent module. Example:
-        // define('metal/src/component/component', ['../array/array']) will become:
-        // define('metal/src/component/component', ['metal/src/array/array'])
-        dependencies = dependencies.map(function(dependency) {
-            return pathResolver.resolvePath(name, dependency);
-        });
-
-        module.name = name;
-        module.dependencies = dependencies;
-        module.pendingImplementation = implementation;
-
-        configParser.addModule(module);
-
-        if (!this._modulesMap[module.name]) {
-            this._modulesMap[module.name] = true;
+            self.on('scriptLoaded', onScriptLoaded);
+        } else {
+            // This is not an anonymous module, go directly to module's registration flow
+            this._define(name, dependencies, implementation, config);
         }
-
-        this.emit('moduleRegister', name);
     },
 
     /**
@@ -1112,6 +1111,34 @@ var LoaderProtoMethods = {
                 self.on('moduleRegister', onModuleRegister);
             }
         });
+    },
+
+    _define: function(name, dependencies, implementation, config) {
+        // Create a new module by merging the provided config with the passed name,
+        // dependencies and implementation.
+        var module = config || {};
+        var configParser = this._getConfigParser();
+
+        var pathResolver = this._getPathResolver();
+
+        // Resolve the path according to the parent module. Example:
+        // define('metal/src/component/component', ['../array/array']) will become:
+        // define('metal/src/component/component', ['metal/src/array/array'])
+        dependencies = dependencies.map(function(dependency) {
+            return pathResolver.resolvePath(name, dependency);
+        });
+
+        module.name = name;
+        module.dependencies = dependencies;
+        module.pendingImplementation = implementation;
+
+        configParser.addModule(module);
+
+        if (!this._modulesMap[module.name]) {
+            this._modulesMap[module.name] = true;
+        }
+
+        this.emit('moduleRegister', name);
     },
 
     /**
