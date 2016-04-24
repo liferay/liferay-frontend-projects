@@ -3,6 +3,8 @@ AMD Module Loader
 
 Supports loading modules via combo URL. Modules can be loaded automatically when some other module is being triggered, but only if some condition is met.
 
+___Note:___ Loading asynchronous modules via combo URL is not possible. If you want to use asynchronous modules, do not set `combine` to `true` in the configuration.
+
 How to build it?
 -------------
 

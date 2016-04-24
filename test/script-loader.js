@@ -678,4 +678,81 @@ describe('Loader', function() {
             done();
         }, 50);
     });
+
+    describe('when working with anonymous modules', function() {
+        beforeEach(function() {
+            Object.keys(require.cache).forEach(function(cache) {
+                delete require.cache[cache];
+            });
+
+            global.__CONFIG__ = {
+                url: __dirname + '/fixture',
+                basePath: '/modules3'
+            };
+
+            Object.keys(require.cache).forEach(function(cache) {
+                delete require.cache[cache];
+            });
+
+            require('../umd/config-parser.js');
+            require('../umd/event-emitter.js');
+            require('../umd/script-loader.js');
+        });
+
+        it('should load multiple anonymous modules', function(done) {
+            var failure = sinon.stub();
+            var success = sinon.stub();
+
+            Loader.require(['a', 'b', 'c'], success, failure);
+
+            setTimeout(function() {
+                assert.isTrue(failure.notCalled, 'Failure should be not called');
+                assert.isTrue(success.calledOnce, 'Success should be called once');
+
+                done();
+            }, 50);
+        });
+
+        it('should load anonymous modules with anonymous dependencies', function(done) {
+            var failure = sinon.stub();
+            var success = sinon.stub();
+
+            Loader.require(['d'], success, failure);
+
+            setTimeout(function() {
+                assert.isTrue(failure.notCalled, 'Failure should be not called');
+                assert.isTrue(success.calledOnce, 'Success should be called once');
+
+                done();
+            }, 50);
+        });
+
+        it('should load non-anonymous modules with anonymous dependencies', function(done) {
+            var failure = sinon.stub();
+            var success = sinon.stub();
+
+            Loader.require(['e'], success, failure);
+
+            setTimeout(function() {
+                assert.isTrue(success.calledOnce, 'Success should be called once');
+                assert.isTrue(failure.notCalled, 'Failure should not be called');
+
+                done();
+            }, 50);
+        });
+
+        it('should load anonymous modules with non-anonymous dependencies', function(done) {
+            var failure = sinon.stub();
+            var success = sinon.stub();
+
+            Loader.require(['f'], success, failure);
+
+            setTimeout(function() {
+                assert.isTrue(failure.notCalled, 'Failure should be not called');
+                assert.isTrue(success.calledOnce, 'Success should be called once');
+
+                done();
+            }, 50);
+        });
+    });
 });
