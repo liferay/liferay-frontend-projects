@@ -62,14 +62,17 @@ var LoaderProtoMethods = {
 
         console.log('DEFINE', name, dependencies);
 
+        config = config || {};
+
         var passedArgsCount = arguments.length;
-        var anonymousModule = false;
+
+        config.anonymousModule = false;
 
         if (passedArgsCount < 2) {
             console.log('DEFINE, module with one param only, this should be anonymous module');
             implementation = arguments[0];
             dependencies = ['module', 'exports'];
-            anonymousModule = true;
+            config.anonymousModule = true;
         } else if (passedArgsCount === 2) {
             if (typeof name === 'string') {
                 console.log('DEFINE, module with two params only, name and implementation', name);
@@ -81,11 +84,11 @@ var LoaderProtoMethods = {
                 console.log('DEFINE, module with one param only, this should be anonymous module');
                 dependencies = arguments[0];
                 implementation = arguments[1];
-                anonymousModule = true;
+                config.anonymousModule = true;
             }
         }
 
-        if (anonymousModule) {
+        if (config.anonymousModule) {
             // Postpone module's registration till the next scriptLoaded event
             var onScriptLoaded = function(loadedModules) {
                 self.off('scriptLoaded', onScriptLoaded);

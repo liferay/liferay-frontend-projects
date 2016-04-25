@@ -259,4 +259,32 @@ describe('URLBuilder', function () {
         assert.strictEqual('http://localhost:3000/modules?/jquery.js&/yui.js', modulesURL[1].url);
         assert.sameMembers(['jquery', 'yui'], modulesURL[1].modules);
     });
+
+    it('should not combine anonymous modules', function() {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules?',
+            'combine': true,
+            'basePath': '/base',
+            'modules': {
+                'foo': {
+                    'dependencies': []
+                },
+                'bar': {
+                    'dependencies': []
+                },
+                'baz': {
+                    'dependencies': [],
+                    'anonymous': true
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var modulesURL = urlBuilder.build(['foo', 'bar', 'baz']);
+
+        assert.strictEqual(2, modulesURL.length);
+        assert.strictEqual('http://localhost:3000/modules?/base/baz.js', modulesURL[0].url);
+        assert.strictEqual('http://localhost:3000/modules?/base/foo.js&/base/bar.js', modulesURL[1].url);
+    });
 });
