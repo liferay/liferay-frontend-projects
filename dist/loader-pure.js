@@ -889,13 +889,13 @@ var LoaderProtoMethods = {
 
         var passedArgsCount = arguments.length;
 
-        config.anonymousModule = false;
+        config.anonymous = false;
 
         if (passedArgsCount < 2) {
             void 0;
             implementation = arguments[0];
             dependencies = ['module', 'exports'];
-            config.anonymousModule = true;
+            config.anonymous = true;
         } else if (passedArgsCount === 2) {
             if (typeof name === 'string') {
                 void 0;
@@ -907,11 +907,11 @@ var LoaderProtoMethods = {
                 void 0;
                 dependencies = arguments[0];
                 implementation = arguments[1];
-                config.anonymousModule = true;
+                config.anonymous = true;
             }
         }
 
-        if (config.anonymousModule) {
+        if (config.anonymous) {
             // Postpone module's registration till the next scriptLoaded event
             var onScriptLoaded = function(loadedModules) {
                 self.off('scriptLoaded', onScriptLoaded);
