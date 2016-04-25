@@ -3,7 +3,7 @@ AMD Module Loader
 
 Supports loading modules via combo URL. Modules can be loaded automatically when some other module is being triggered, but only if some condition is met.
 
-___Note:___ Loading anonymous modules via combo URL is not possible. If some of the modules is anonymous and `combine` is set to `true`, this module will be excluded from the combo URL, a separate `script` element will be created for it.
+___Note:___ Loading anonymous modules via combo URL is not possible. If some of the modules is anonymous and `combine` is set to `true`, this module will be excluded from the combo URL and a separate `script` element will be created for it.
 
 How to build it?
 -------------

@@ -754,5 +754,20 @@ describe('Loader', function() {
                 done();
             }, 50);
         });
+
+        it('should mark anonymous modules', function() {
+            var moduleName = 'foo';
+
+            Loader.define(function(){});
+            Loader.emit('scriptLoaded', [moduleName]);
+            var modules = Loader.getModules();
+
+            assert.property(modules, moduleName);
+
+            var module = modules[moduleName];
+            assert.isObject(module);
+            assert.propertyVal(module, 'name', moduleName);
+            assert.propertyVal(module, 'anonymous', true);
+        });
     });
 });
