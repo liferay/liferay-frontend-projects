@@ -1593,17 +1593,18 @@ URLBuilder.prototype = {
                         url: path
                     });
 
-                // If combine is disabled, create individual URL based on config URL and module path.
+                // If combine is disabled, or the module is anonymous one,
+                // create individual URL based on config URL and module path.
                 // If the module path starts with "/", do not include basePath in the URL.
-                } else if (!config.combine) {
+                } else if (!config.combine || module.anonymous) {
                     result.push({
                         modules: [module.name],
                         url: config.url + (absolutePath ? '' : basePath) + path
                     });
 
                 } else {
-                    // If combine is true and module does not have full path, it will be collected
-                    // in a buffer to be loaded among with other modules from combo loader.
+                    // If combine is true, this is not anonymous module and the module does not have full path,
+                    // it will be collected in a buffer to be loaded among with other modules from combo loader.
                     // We will put the path in different buffer depending on the fact if it is absolute URL or not.
                     if (absolutePath) {
                         bufferAbsoluteURL.push(path);
@@ -1840,14 +1841,17 @@ var LoaderProtoMethods = {
 
         void 0;
 
+        config = config || {};
+
         var passedArgsCount = arguments.length;
-        var anonymousModule = false;
+
+        config.anonymousModule = false;
 
         if (passedArgsCount < 2) {
             void 0;
             implementation = arguments[0];
             dependencies = ['module', 'exports'];
-            anonymousModule = true;
+            config.anonymousModule = true;
         } else if (passedArgsCount === 2) {
             if (typeof name === 'string') {
                 void 0;
@@ -1859,11 +1863,11 @@ var LoaderProtoMethods = {
                 void 0;
                 dependencies = arguments[0];
                 implementation = arguments[1];
-                anonymousModule = true;
+                config.anonymousModule = true;
             }
         }
 
-        if (anonymousModule) {
+        if (config.anonymousModule) {
             // Postpone module's registration till the next scriptLoaded event
             var onScriptLoaded = function(loadedModules) {
                 self.off('scriptLoaded', onScriptLoaded);
