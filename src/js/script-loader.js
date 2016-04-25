@@ -56,7 +56,6 @@ var LoaderProtoMethods = {
      *              global namespace. In this way you can load legacy modules.
      *          </li>
      *     </ul>
-     * @return {Object} The constructed module.
      */
     define: function(name, dependencies, implementation, config) {
         var self = this;
@@ -291,6 +290,17 @@ var LoaderProtoMethods = {
         });
     },
 
+    /**
+     * Defines a module in the system and fires {@link Loader#event:moduleRegister} event with the registered module as param.
+     * Called internally by {@link Loader#define} method once it normalizes the passed arguments.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {string} name The name of the module.
+     * @param {array} dependencies List of module dependencies.
+     * @param {function} implementation The implementation of the module.
+     * @param {object=} config See {@link Loader:define} for more details.
+     */
     _define: function(name, dependencies, implementation, config) {
         // Create a new module by merging the provided config with the passed name,
         // dependencies and implementation.
