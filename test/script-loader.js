@@ -528,7 +528,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should failure after require timeout, but a valid module should still load', function(done) {
+    it('should fail after a require timeout, but a valid module should still be loaded', function(done) {
         global.__CONFIG__.waitTimeout = 1;
         global.__CONFIG__.paths['delay'] = '/modules2/delay';
 
@@ -674,6 +674,21 @@ describe('Loader', function() {
             assert.isTrue(success.calledOnce, 'Success should be called once');
 
             document.head.appendChild = origAppendChild;
+
+            done();
+        }, 50);
+    });
+
+    it('should load modules even when same module is requested second time with another module', function(done) {
+        var failure = sinon.stub();
+        var success = sinon.stub();
+
+        Loader.require(['module3'], success, failure);
+        Loader.require(['module3', 'module7'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should be not called');
+            assert.isTrue(success.calledTwice, 'Success should be called twice');
 
             done();
         }, 50);
