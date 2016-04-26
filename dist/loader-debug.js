@@ -2276,7 +2276,7 @@ var LoaderProtoMethods = {
                 continue;
             }
 
-            for (var found, j = 0; j < properties.length; j++) {
+            for (var found = 0, j = 0; j < properties.length; j++) {
                 if (registeredModule[properties[j]]) {
                     found = true;
                     break;
@@ -2322,29 +2322,29 @@ var LoaderProtoMethods = {
 
                 console.log('SCRIPTS', modulesURL);
                 Promise.all(pendingScripts).then(function(loadedScripts) {
-                    return self._waitForModules(moduleNames);
-                })
-                // As soon as all scripts were loaded and all dependencies have been resolved,
-                // resolve the main Promise
-                .then(function(loadedModules) {
-                    resolve(loadedModules);
-                })
-                // If any script fails to load or other error happens,
-                // reject the main Promise
-                .catch(function(error) {
-                    reject(error);
-                });
+                        return self._waitForModules(moduleNames);
+                    })
+                    // As soon as all scripts were loaded and all dependencies have been resolved,
+                    // resolve the main Promise
+                    .then(function(loadedModules) {
+                        resolve(loadedModules);
+                    })
+                    // If any script fails to load or other error happens,
+                    // reject the main Promise
+                    .catch(function(error) {
+                        reject(error);
+                    });
             } else {
                 // If there are no any missing modules, just wait for modules dependencies
                 // to be resolved and then resolve the main promise
                 self._waitForModules(moduleNames).then(function(loadedModules) {
-                    resolve(loadedModules);
-                })
-                // If some error happens, for example if some module implementation
-                // throws error, reject the main Promise
-                .catch(function(error) {
-                    reject(error);
-                });
+                        resolve(loadedModules);
+                    })
+                    // If some error happens, for example if some module implementation
+                    // throws error, reject the main Promise
+                    .catch(function(error) {
+                        reject(error);
+                    });
             }
         });
     },
@@ -2450,7 +2450,7 @@ var LoaderProtoMethods = {
 
                     dependencyImplementations.push(exportsImpl);
                 } else if (dependency === 'module') {
-                    exportsImpl = {exports: {}};
+                    exportsImpl = { exports: {} };
 
                     dependencyImplementations.push(exportsImpl);
                 } else {
@@ -2537,7 +2537,7 @@ var LoaderProtoMethods = {
                 // get the implementation from the module.
                 var registeredModules = self._getConfigParser().getModules();
 
-                var defineModules = function () {
+                var defineModules = function() {
                     var definedModules = [];
 
                     for (var i = 0; i < moduleNames.length; i++) {
@@ -2572,6 +2572,7 @@ var LoaderProtoMethods = {
 Object.keys(LoaderProtoMethods).forEach(function(key) {
     Loader.prototype[key] = LoaderProtoMethods[key];
 });
+
 
     return Loader;
 }));
