@@ -1873,7 +1873,9 @@ var LoaderProtoMethods = {
                 self.off('scriptLoaded', onScriptLoaded);
 
                 if (loadedModules.length !== 1) {
-                    console.error('Mismatched anonymous module', module);
+                    throw new Error('Multiple anonymous modules cannot be served via combo service. ' +
+                        'Please set `combine` to `false` or describe the modules in the config ' +
+                        'and mark them as anonymous.', loadedModules);
                 } else {
                     var moduleName = loadedModules[0];
                     self._define(moduleName, dependencies, implementation, config);
