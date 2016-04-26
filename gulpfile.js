@@ -131,7 +131,12 @@ gulp.task('modules2', function() {
         .pipe(gulp.dest('dist/demo/modules2'));
 });
 
-gulp.task('modules', ['copy-bower', 'modules2'], function() {
+gulp.task('modules3', function() {
+    return gulp.src('src/modules3/**/*.js')
+        .pipe(gulp.dest('dist/demo/modules3'));
+});
+
+gulp.task('modules', ['copy-bower', 'modules2', 'modules3'], function() {
     return gulp.src('src/modules/**/*.js')
         .pipe(babel({
             plugins: ['transform-es2015-modules-amd']
