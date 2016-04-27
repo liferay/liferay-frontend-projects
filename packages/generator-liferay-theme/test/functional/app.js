@@ -38,7 +38,7 @@ describe('liferay-theme:app functional tests', function () {
 			var pkg = getPackage(themeId);
 
 			assert.equal(pkg.liferayTheme.rubySass, false);
-			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
+			assert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
 			assert.equal(pkg.liferayTheme.version, '7.0');
 			assert.equal(pkg.name, 'test-theme');
 			assert.equal(pkg.publishConfig.tag, '7_0_x');
@@ -50,7 +50,7 @@ describe('liferay-theme:app functional tests', function () {
 
 			assert.fileContent(pathLookAndFeel, '<version>7.0.0+</version>');
 			assert.fileContent(pathLookAndFeel, '<theme id="test-theme" name="Test Theme">');
-			assert.fileContent(pathLookAndFeel, '<template-extension>vm</template-extension>');
+			assert.fileContent(pathLookAndFeel, '<template-extension>ftl</template-extension>');
 			assert.fileContent(pathLookAndFeel, '<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">');
 
 			done();
