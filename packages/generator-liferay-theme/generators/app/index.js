@@ -28,6 +28,8 @@ module.exports = yeoman.generators.Base.extend({
 
 		this._setArgv();
 
+		this._setPromptDeprecationMap();
+
 		// Have Yeoman greet the user.
 		instance.log(yosay(instance._yosay));
 
@@ -143,7 +145,7 @@ module.exports = yeoman.generators.Base.extend({
 	_getPrompts: function() {
 		var instance = this;
 
-		return [
+		var prompts = [
 			{
 				default: 'My Liferay Theme',
 				message: 'What would you like to call your theme?',
@@ -170,19 +172,31 @@ module.exports = yeoman.generators.Base.extend({
 			{
 				message: 'What template language would you like this theme to use?',
 				name: 'templateLanguage',
-				choices: [
-					{
-						name: 'Freemarker (.ftl)',
-						value: 'ftl'
-					},
-					{
-						name: 'Velocity (.vm)',
-						value: 'vm'
-					}
-				],
+				choices: _.bind(instance._getTemplateLanguageChoices, instance),
 				type: 'list',
 				when: instance._getWhenFn('templateLanguage', 'template', instance._isTemplateLanguage)
 			}
+		];
+
+		return prompts;
+	},
+
+	_getTemplateLanguageChoices: function(answers) {
+		var velocityChoice = {
+			name: 'Velocity (.vm) - deprecated',
+			value: 'vm'
+		};
+
+		if (answers.liferayVersion == '6.2' || this.args.liferayVersion == '6.2') {
+			velocityChoice.name = 'Velocity (.vm)';
+		}
+
+		return [
+			{
+				name: 'Freemarker (.ftl)',
+				value: 'ftl'
+			},
+			velocityChoice
 		];
 	},
 
@@ -192,7 +206,10 @@ module.exports = yeoman.generators.Base.extend({
 		var args = this._getArgs();
 		var argv = this.argv;
 
-		return function() {
+		var deprecated = argv.deprecated;
+		var promptDeprecationMap = this.promptDeprecationMap;
+
+		return function(answers) {
 			var propertyValue = argv[flag];
 
 			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue)) {
@@ -201,13 +218,26 @@ module.exports = yeoman.generators.Base.extend({
 				instance.log(chalk.yellow('Warning:'), 'Invalid value set for', chalk.cyan('--' + flag));
 			}
 
+			var ask = true;
 			var propertyDefined = instance._isDefined(propertyValue);
 
 			if (propertyDefined) {
 				args[propertyName] = propertyValue;
+
+				ask = false;
 			}
 
-			return !propertyDefined;
+			if (promptDeprecationMap) {
+				var deprecatedVersions = promptDeprecationMap[propertyName];
+
+				var liferayVersion = answers.liferayVersion || args.liferayVersion;
+
+				if (!deprecated && deprecatedVersions && deprecatedVersions.indexOf(liferayVersion) > -1) {
+					ask = false;
+				}
+			}
+
+			return ask;
 		};
 	},
 
@@ -227,6 +257,14 @@ module.exports = yeoman.generators.Base.extend({
 		return _.assign(props, args);
 	},
 
+	_printWarnings: function(liferayVersion) {
+		if (liferayVersion == '7.0') {
+			if (this.templateLanguage == 'vm') {
+				this.log(chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'));
+			}
+		}
+	},
+
 	_prompt: function() {
 		var done = this.done;
 
@@ -244,17 +282,14 @@ module.exports = yeoman.generators.Base.extend({
 	_promptCallback: function(props) {
 		var liferayVersion = props.liferayVersion;
 
-		var rubySass = false;
-
-		if (liferayVersion == '6.2') {
-			rubySass = true;
-		}
-
 		this.appname = props.themeId;
 		this.liferayVersion = liferayVersion;
-		this.rubySass = rubySass;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
+
+		this._setDefaults(liferayVersion);
+
+		this._printWarnings(liferayVersion);
 
 		this._setPublishTag(liferayVersion);
 		this._setPackageVersion(liferayVersion);
@@ -272,6 +307,21 @@ module.exports = yeoman.generators.Base.extend({
 		});
 	},
 
+	_setDefaults: function(liferayVersion) {
+		var defaults = {
+			'6.2': {
+				rubySass: true,
+				templateLanguage: 'vm'
+			},
+			'7.0': {
+				rubySass: false,
+				templateLanguage: 'ftl'
+			}
+		};
+
+		_.defaults(this, defaults[liferayVersion]);
+	},
+
 	_setPackageVersion: function(liferayVersion) {
 		var packageVersion = '0.0.0';
 
@@ -280,6 +330,12 @@ module.exports = yeoman.generators.Base.extend({
 		}
 
 		this.packageVersion = packageVersion;
+	},
+
+	_setPromptDeprecationMap: function() {
+		this.promptDeprecationMap = {
+			templateLanguage: ['7.0']
+		};
 	},
 
 	_setPublishTag: function(liferayVersion) {
