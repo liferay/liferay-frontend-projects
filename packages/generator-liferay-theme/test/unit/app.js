@@ -95,6 +95,37 @@ describe('liferay-theme:app unit tests', function() {
 
 			done();
 		});
+
+		it('should not prompt if deprecated for specified liferayVersion', function(done) {
+			liferayThemeApp.prototype.args = {};
+			liferayThemeApp.prototype.argv = {};
+			liferayThemeApp.prototype.promptDeprecationMap = {
+				templateLanguage: ['7.0']
+			};
+
+			var flagName = 'template';
+			var propertyName = 'templateLanguage';
+
+			var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+
+			chaiAssert.isFunction(whenFn);
+			chaiAssert(!whenFn({
+				liferayVersion: '7.0'
+			}));
+
+			liferayThemeApp.prototype.argv = {
+				deprecated: true
+			};
+
+			var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+
+			chaiAssert.isFunction(whenFn);
+			chaiAssert(whenFn({
+				liferayVersion: '7.0'
+			}));
+
+			done();
+		});
 	});
 
 	describe('_mixArgs', function() {
