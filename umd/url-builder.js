@@ -139,15 +139,19 @@ URLBuilder.prototype = {
     _getModulePath: function (module) {
         var path = module.path || module.name;
 
-        var paths = this._configParser.getConfig().paths;
+        var paths = this._configParser.getConfig().paths || {};
 
-        for (var key in paths) {
+        var found = false;
+        Object.keys(paths).forEach(function(item) {
             /* istanbul ignore else */
-            if (Object.prototype.hasOwnProperty.call(paths, key)) {
-                if (path === key || path.indexOf(key + '/') === 0) {
-                    path = paths[key] + path.substring(key.length);
-                }
+            if (path === item || path.indexOf(item + '/') === 0) {
+                path = paths[item] + path.substring(item.length);
             }
+        });
+
+        /* istanbul ignore else */
+        if(!found && typeof paths['*'] === 'function') {
+            path = paths['*'](path);
         }
 
         if (!REGEX_EXTERNAL_PROTOCOLS.test(path) && path.indexOf('.js') !== path.length - 3) {
