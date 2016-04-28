@@ -1,6 +1,9 @@
 ## Next Release
-* Fix: only add defauly portlet decorators for 7.0 themes
+* No changes
 ***
+
+## v7.1.7 - April 27, 2016
+* Fix: only add defauly portlet decorators for 7.0 themes
 
 ## v7.1.6 - April 21, 2016
 * Fix: added lib directory to npm files array fixing layout generator
