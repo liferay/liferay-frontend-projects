@@ -5,7 +5,7 @@
 	<compatibility>
 		<version>7.0.0+</version>
 	</compatibility>
-	<theme id="base-theme" name="base-theme">
+	<theme id="base-theme" name="Base Theme">
 		<template-extension>vm</template-extension>
 		<settings>
 			<setting configurable="true" key="show-breadcrumb" type="checkbox" value="true" />

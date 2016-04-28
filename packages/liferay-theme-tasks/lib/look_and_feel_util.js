@@ -56,12 +56,12 @@ module.exports = {
 		return xml;
 	},
 
-	correctJSONIdentifiers: function(lookAndFeelJSON, id) {
+	correctJSONIdentifiers: function(lookAndFeelJSON, name) {
 		var themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
 
-		if (themeAttrs.id != id) {
-			themeAttrs.id = id;
-			themeAttrs.name = id;
+		if (name != themeAttrs.name) {
+			themeAttrs.name = name;
+			themeAttrs.id = _.kebabCase(name);
 		}
 
 		return lookAndFeelJSON;
@@ -95,6 +95,16 @@ module.exports = {
 		xml2js.parseString(xmlString, function(err, result) {
 			cb(result);
 		});
+	},
+
+	getNameFromPluginPackageProperties: function(themePath) {
+		var pluginPackageProperties = fs.readFileSync(path.join(themePath, pathSrc, 'WEB-INF', 'liferay-plugin-package.properties'), {
+			encoding: 'utf8'
+		});
+
+		var match = pluginPackageProperties.match(/name=(.*)/);
+
+		return match ? match[1] : null;
 	},
 
 	mergeLookAndFeelJSON: function(themePath, lookAndFeelJSON, cb) {

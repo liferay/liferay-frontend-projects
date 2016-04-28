@@ -219,16 +219,18 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:liferay-look-and-feel', function(cb) {
-		lookAndFeelUtil.mergeLookAndFeelJSON(process.cwd(), {}, function(lookAndFeelJSON) {
+		var themePath = process.cwd();
+
+		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, function(lookAndFeelJSON) {
 			if (!lookAndFeelJSON) {
 				return cb();
 			}
 
-			var themeId = _.trimRight(lfrThemeConfig.getConfig(true).name, '-theme');
+			var themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(themePath);
 
-			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeId);
+			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeName);
 
-			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(process.cwd());
+			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(themePath);
 
 			if (!doctypeElement) {
 				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(themeConfig.version);
@@ -236,7 +238,7 @@ module.exports = function(options) {
 
 			var xml = lookAndFeelUtil.buildXML(lookAndFeelJSON, doctypeElement);
 
-			fs.writeFile(path.join(process.cwd(), pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
+			fs.writeFile(path.join(themePath, pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
 				cb();
 			});
 		});

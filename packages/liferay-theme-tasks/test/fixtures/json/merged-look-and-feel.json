@@ -11,7 +11,7 @@
       {
         "$": {
           "id": "base-theme",
-          "name": "base-theme"
+          "name": "Base Theme"
         },
         "template-extension": [
           "vm"

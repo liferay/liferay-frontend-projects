@@ -1,5 +1,6 @@
 ## Next Release
 * New: add deploy:gogo task for faster full deploy for 7.0 themes
+* Fix: fixed issue where theme names were being truncated on deploy
 ***
 
 ## v1.0.9 - March 30, 2016

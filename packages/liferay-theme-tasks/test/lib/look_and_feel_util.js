@@ -32,16 +32,16 @@ describe('Look and Feel Util functions', function() {
 	});
 
 	describe('correctJSONIdentifiers', function() {
-		it('should set the theme element id and name attribute if the id argument is different', function(done) {
-			lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'test-id');
+		it('should set the theme element id and name attribute if the name argument is different - for themes that do not have a look-and-feel.xml', function(done) {
+			lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'Test Name');
 
-			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.id'), 'test-id');
-			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.name'), 'test-id');
+			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.id'), 'test-name');
+			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.name'), 'Test Name');
 
-			lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'base-theme');
+			lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'Base Theme');
 
 			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.id'), 'base-theme');
-			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.name'), 'base-theme');
+			assert.equal(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.name'), 'Base Theme');
 
 			done();
 		});
