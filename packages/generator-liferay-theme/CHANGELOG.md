@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Fix: only add defauly portlet decorators for 7.0 themes
 ***
 
 ## v7.1.6 - April 21, 2016
