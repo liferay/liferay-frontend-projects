@@ -58,6 +58,36 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[1].modules, ['aui-core.js']);
     });
 
+    it('should map module\'s path via function', function () {
+        var configParser = new global.ConfigParser({
+            'modules': {
+                'b': {
+                    'dependencies': ['a']
+                },
+                'a': {
+                    'dependencies': []
+                }
+            },
+            paths: {
+                '*': function(module) {
+                    return 'https://a.com/' + module + '.js';
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var modulesURL = urlBuilder.build(['a', 'b']);
+
+        assert.strictEqual(modulesURL.length, 2);
+
+        assert.strictEqual(modulesURL[0].url, 'https://a.com/a.js');
+        assert.sameMembers(modulesURL[0].modules, ['a']);
+
+        assert.strictEqual(modulesURL[1].url, 'https://a.com/b.js');
+        assert.sameMembers(modulesURL[1].modules, ['b']);
+    });
+
     it('should create url for modules with external URLs', function () {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules',
