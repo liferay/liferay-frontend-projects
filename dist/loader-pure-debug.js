@@ -578,13 +578,13 @@ DependencyBuilder.prototype = {
 // "http", "https", "//" and "www."
 var REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
 
+
 /**
  * Creates an instance of URLBuilder class.
  *
  * @constructor
  * @param {object} - instance of {@link ConfigParser} object.
  */
-
 function URLBuilder(configParser) {
     this._configParser = configParser;
 }
@@ -603,7 +603,6 @@ URLBuilder.prototype = {
         var bufferRelativeURL = [];
         var modulesAbsoluteURL = [];
         var modulesRelativeURL = [];
-
         var result = [];
 
         var config = this._configParser.getConfig();
@@ -637,9 +636,9 @@ URLBuilder.prototype = {
                         url: path
                     });
 
-                // If combine is disabled, or the module is anonymous one,
-                // create individual URL based on config URL and module path.
-                // If the module path starts with "/", do not include basePath in the URL.
+                // If combine is disabled, or the module is an anonymous one,
+                // create an individual URL based on the config URL and module's path.
+                // If the module's path starts with "/", do not include basePath in the URL.
                 } else if (!config.combine || module.anonymous) {
                     result.push({
                         modules: [module.name],
@@ -647,9 +646,9 @@ URLBuilder.prototype = {
                     });
 
                 } else {
-                    // If combine is true, this is not anonymous module and the module does not have full path,
-                    // it will be collected in a buffer to be loaded among with other modules from combo loader.
-                    // We will put the path in different buffer depending on the fact if it is absolute URL or not.
+                    // If combine is true, this is not an anonymous module and the module does not have full path.
+                    // The module will be collected in a buffer to be loaded among with other modules from combo loader.
+                    // The path will be stored in different buffer depending on the fact if it is absolute URL or not.
                     if (absolutePath) {
                         bufferAbsoluteURL.push(path);
                         modulesAbsoluteURL.push(module.name);
@@ -665,21 +664,75 @@ URLBuilder.prototype = {
 
         // Add to the result all modules, which have to be combined.
         if (bufferRelativeURL.length) {
-            result.push({
-                modules: modulesRelativeURL,
-                url: config.url + basePath + bufferRelativeURL.join('&' + basePath)
-            });
+            result = result.concat(
+                this._generateBufferURLs(
+                    modulesRelativeURL,
+                    bufferRelativeURL,
+                    {
+                        basePath: basePath,
+                        url: config.url,
+                        urlMaxLength: config.urlMaxLength
+                    }
+                )
+            );
             bufferRelativeURL.length = 0;
-
         }
 
         if (bufferAbsoluteURL.length) {
-            result.push({
-                modules: modulesAbsoluteURL,
-                url: config.url + bufferAbsoluteURL.join('&')
-            });
+            result = result.concat(
+                this._generateBufferURLs(
+                    modulesAbsoluteURL,
+                    bufferAbsoluteURL,
+                    {
+                        url: config.url,
+                        urlMaxLength: config.urlMaxLength
+                    }
+                )
+            );
             bufferAbsoluteURL.length = 0;
         }
+
+        return result;
+    },
+
+    /**
+     * Generate the appropriate set of URLs based on the list of
+     * required modules and the maximum allowed URL length
+     *
+     * @param {Array<String>} modules Array of module names
+     * @param {Array<String>} urls Array of module URLs
+     * @param {Object} config Configuration object containing URL, basePath and urlMaxLength
+     * @return {Array<Object>} Resulting array of {modules, url} objects
+     */
+    _generateBufferURLs: function(modules, urls, config) {
+        var i;
+        var basePath = config.basePath || '';
+        var result = [];
+        var urlMaxLength = config.urlMaxLength || 2000;
+
+        var urlResult = {
+            modules: [modules[0]],
+            url: config.url + basePath + urls[0]
+        };
+
+        for (i = 1; i < urls.length; i++) {
+            var module = modules[i];
+            var path = urls[i];
+
+            if ((urlResult.url.length + basePath.length + path.length + 1) < urlMaxLength) {
+                urlResult.modules.push(module);
+                urlResult.url += '&' + basePath + path;
+            } else {
+                result.push(urlResult);
+
+                urlResult = {
+                    modules: [module],
+                    url: config.url + basePath + path
+                };
+            }
+        }
+
+        result.push(urlResult);
 
         return result;
     },
