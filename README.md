@@ -152,6 +152,18 @@ URL + basePath + "html/js/loader.js" where URL and basePath will be retrieved fr
 If the URL is "http://localhost:3000/modules" and basePath is "/base", the final path will look like this:
 "http://localhost:3000/modules/base/html/js/loader.js"
 
+The Loader also supports an `*` as key in the `paths` configuration. The value should be a function, which will receive the module as an argument and the returned value will be used as a path for this module. The `*` has lower precedence than a specific key for a given module. Example:
+
+```javascript
+__CONFIG__ = {
+    paths: {
+        '*': function(module) {
+            return 'https://rawgit.com/bkardell/gaps/master/' + module + '.js';
+        }
+    }
+};
+```
+
 Mapping module names
 ======
 You can map module names. Example:
@@ -194,6 +206,23 @@ The module 'liferay/test.js' in the dependencies will be transparently changed t
 
 ```
 'liferay@1.0.0/test.js'
+```
+
+
+The Loader also supports an `*` as key in the `maps` configuration. The value should be a function, which will receive the module as an argument and the returned value will be used as the new module name. The `*` has lower precedence than a specific key for a given module. Example:
+
+```javascript
+__CONFIG__ = {
+    maps: {
+        '*': function(module) {
+            if (module.indexOf('@') === -1) {
+                module += '@1.0';
+            }
+
+            return module;
+        }
+    }
+};
 ```
 
 Loading modules via combo URL
