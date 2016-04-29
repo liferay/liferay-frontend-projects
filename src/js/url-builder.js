@@ -29,8 +29,6 @@ URLBuilder.prototype = {
         var bufferRelativeURL = [];
         var modulesAbsoluteURL = [];
         var modulesRelativeURL = [];
-        var absoluteIndex = 0;
-        var relativeIndex = 0;
         var result = [];
 
         var config = this._configParser.getConfig();
@@ -81,20 +79,8 @@ URLBuilder.prototype = {
                         bufferAbsoluteURL.push(path);
                         modulesAbsoluteURL.push(module.name);
                     } else {
-                        if (bufferRelativeURL[relativeIndex]) {
-                            if ((bufferRelativeURL[relativeIndex].url.length + basePath.length + path.length) <= config.limitCharacters) {
-                                bufferRelativeURL[relativeIndex].url = bufferRelativeURL[relativeIndex].url + '&' + basePath + path;
-                                bufferRelativeURL[relativeIndex].modules.push(module.name);
-                            } else {
-                                relativeIndex++;
-                            }
-                        }
-                        if (!bufferRelativeURL[relativeIndex]) {
-                            bufferRelativeURL[relativeIndex] = {
-                                modules: [module.name],
-                                url: config.url + basePath + path
-                            };
-                        }
+                        bufferRelativeURL.push(path);
+                        modulesRelativeURL.push(module.name);
                     }
                 }
             }
@@ -104,17 +90,76 @@ URLBuilder.prototype = {
 
         //Add to the result all modules, which have to be combined.
         if (bufferRelativeURL.length) {
-            result = result.concat(bufferRelativeURL);
+            result = result.concat(
+                this._generateBufferURLs(
+                    modulesRelativeURL,
+                    bufferRelativeURL,
+                    {
+                        basePath: basePath,
+                        limitCharacters: config.limitCharacters,
+                        url: config.url
+                    }
+                )
+            );
             bufferRelativeURL.length = 0;
         }
 
         if (bufferAbsoluteURL.length) {
-            result.push({
-                modules: modulesAbsoluteURL,
-                url: config.url + bufferAbsoluteURL.join('&')
-            });
+            result = result.concat(
+                this._generateBufferURLs(
+                    modulesAbsoluteURL,
+                    bufferAbsoluteURL,
+                    {
+                        limitCharacters: config.limitCharacters,
+                        url: config.url
+                    }
+                )
+            );
             bufferAbsoluteURL.length = 0;
         }
+
+        return result;
+    },
+
+    /**
+     * Generate the appropriate set of urls based on the list of
+     * required modules and the maximum allowed url length
+     *
+     * @param  {Array<String>} modules Array of module names
+     * @param  {Array<String} urls Array of module urls
+     * @param  {Object} config Configuration object containing
+     * url, basePath and limitCharacters
+     * @return {Array<Object>} Resulting array of {modules, url} objects
+     */
+    _generateBufferURLs: function(modules, urls, config) {
+        var i;
+        var basePath = config.basePath || '';
+        var limitCharacters = config.limitCharacters || 2000;
+        var result = [];
+
+        var urlResult = {
+            modules: [modules[0]],
+            url: config.url + basePath + urls[0]
+        };
+
+        for (i = 1; i < urls.length; i++) {
+            var module = modules[i];
+            var path = urls[i];
+
+            if ((urlResult.url.length + basePath.length + path.length + 1) < limitCharacters) {
+                urlResult.modules.push(module);
+                urlResult.url += '&' + basePath + path;
+            } else {
+                result.push(urlResult);
+
+                urlResult = {
+                    modules: [module],
+                    url: config.url + basePath + path
+                };
+            }
+        }
+
+        result.push(urlResult);
 
         return result;
     },
