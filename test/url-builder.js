@@ -334,39 +334,55 @@ describe('URLBuilder', function () {
             'modules': {
                 'module1': {
                     'dependencies': [],
-                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                    'path': 'module1' + longModuleNameSuffix
                 },
                 'module2': {
                     'dependencies': [],
-                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                    'path': 'module1' + longModuleNameSuffix
                 },
                 'module3': {
                     'dependencies': [],
-                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                    'path': 'module1' + longModuleNameSuffix
                 },
                 'module4': {
                     'dependencies': [],
-                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                    'path': 'module1' + longModuleNameSuffix
                 },
                 'module5': {
                     'dependencies': [],
-                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                    'path': 'module1' + longModuleNameSuffix
                 },
                 'module6': {
                     'dependencies': [],
-                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                    'path': 'module1' + longModuleNameSuffix
+                },
+                'absolute1': {
+                    'dependencies': [],
+                    'path': '/absolute/absolute1' + longModuleNameSuffix
+                },
+                'absolute2': {
+                    'dependencies': [],
+                    'path': '/absolute/absolute2' + longModuleNameSuffix
+                },
+                'absolute3': {
+                    'dependencies': [],
+                    'path': '/absolute/absolute3' + longModuleNameSuffix
+                },
+                'absolute4': {
+                    'dependencies': [],
+                    'path': '/absolute/absolute4' + longModuleNameSuffix
                 }
             },
         });
 
         var urlBuilder = new global.URLBuilder(configParser);
 
-        var modulesURL = urlBuilder.build(['module1', 'module2', 'module3', 'module4', 'module5', 'module6']);
+        var modulesURL = urlBuilder.build(['module1', 'absolute1', 'module2', 'absolute2', 'module3', 'absolute3', 'module4', 'absolute4', 'module5', 'module6']);
 
-        assert.strictEqual(3, modulesURL.length);
-        assert.ok(modulesURL[0].url.length < 2000);
-        assert.ok(modulesURL[1].url.length < 2000);
-        assert.ok(modulesURL[1].url.length < 2000);
+        assert.strictEqual(5, modulesURL.length);
 
+        modulesURL.forEach(function(moduleURL) {
+            assert.ok(moduleURL.url.length < 2000);
+        });
     });
 });
