@@ -4,13 +4,13 @@
 // "http", "https", "//" and "www."
 var REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
 
+
 /**
  * Creates an instance of URLBuilder class.
  *
  * @constructor
  * @param {object} - instance of {@link ConfigParser} object.
  */
-
 function URLBuilder(configParser) {
     this._configParser = configParser;
 }
@@ -29,7 +29,8 @@ URLBuilder.prototype = {
         var bufferRelativeURL = [];
         var modulesAbsoluteURL = [];
         var modulesRelativeURL = [];
-
+        var absoluteIndex = 0;
+        var relativeIndex = 0;
         var result = [];
 
         var config = this._configParser.getConfig();
@@ -80,8 +81,20 @@ URLBuilder.prototype = {
                         bufferAbsoluteURL.push(path);
                         modulesAbsoluteURL.push(module.name);
                     } else {
-                        bufferRelativeURL.push(path);
-                        modulesRelativeURL.push(module.name);
+                        if (bufferRelativeURL[relativeIndex]) {
+                            if ((bufferRelativeURL[relativeIndex].url.length + basePath.length + path.length) <= config.limitCharacters) {
+                                bufferRelativeURL[relativeIndex].url = bufferRelativeURL[relativeIndex].url + '&' + basePath + path;
+                                bufferRelativeURL[relativeIndex].modules.push(module.name);
+                            } else {
+                                relativeIndex++;
+                            }
+                        }
+                        if (!bufferRelativeURL[relativeIndex]) {
+                            bufferRelativeURL[relativeIndex] = {
+                                modules: [module.name],
+                                url: config.url + basePath + path
+                            };
+                        }
                     }
                 }
             }
@@ -89,14 +102,10 @@ URLBuilder.prototype = {
             module.requested = true;
         }
 
-        // Add to the result all modules, which have to be combined.
+        //Add to the result all modules, which have to be combined.
         if (bufferRelativeURL.length) {
-            result.push({
-                modules: modulesRelativeURL,
-                url: config.url + basePath + bufferRelativeURL.join('&' + basePath)
-            });
+            result = result.concat(bufferRelativeURL);
             bufferRelativeURL.length = 0;
-
         }
 
         if (bufferAbsoluteURL.length) {

@@ -155,6 +155,8 @@ ConfigParser.prototype = {
             }
         }
 
+        this._config.limitCharacters = this._config.limitCharacters || 2000;
+
         return this._config;
     },
 

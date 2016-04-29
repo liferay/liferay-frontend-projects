@@ -330,6 +330,7 @@ describe('URLBuilder', function () {
             'url': 'http://localhost:3000/modules?',
             'combine': true,
             'basePath': '/base',
+            'limitCharacters': 2000,
             'modules': {
                 'module1': {
                     'dependencies': [],
@@ -355,15 +356,17 @@ describe('URLBuilder', function () {
                     'dependencies': [],
                     'path': 'module1' + longModuleNameSuffix + '.jx'
                 }
-            }
+            },
         });
 
         var urlBuilder = new global.URLBuilder(configParser);
 
         var modulesURL = urlBuilder.build(['module1', 'module2', 'module3', 'module4', 'module5', 'module6']);
 
-        assert.strictEqual(2, modulesURL.length);
+        assert.strictEqual(3, modulesURL.length);
         assert.ok(modulesURL[0].url.length < 2000);
         assert.ok(modulesURL[1].url.length < 2000);
+        assert.ok(modulesURL[1].url.length < 2000);
+
     });
 });
