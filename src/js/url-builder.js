@@ -96,7 +96,7 @@ URLBuilder.prototype = {
                     bufferRelativeURL,
                     {
                         basePath: basePath,
-                        limitCharacters: config.limitCharacters,
+                        urlMaxLength: config.urlMaxLength,
                         url: config.url
                     }
                 )
@@ -110,7 +110,7 @@ URLBuilder.prototype = {
                     modulesAbsoluteURL,
                     bufferAbsoluteURL,
                     {
-                        limitCharacters: config.limitCharacters,
+                        urlMaxLength: config.urlMaxLength,
                         url: config.url
                     }
                 )
@@ -128,13 +128,13 @@ URLBuilder.prototype = {
      * @param  {Array<String>} modules Array of module names
      * @param  {Array<String} urls Array of module urls
      * @param  {Object} config Configuration object containing
-     * url, basePath and limitCharacters
+     * url, basePath and urlMaxLength
      * @return {Array<Object>} Resulting array of {modules, url} objects
      */
     _generateBufferURLs: function(modules, urls, config) {
         var i;
         var basePath = config.basePath || '';
-        var limitCharacters = config.limitCharacters || 2000;
+        var urlMaxLength = config.urlMaxLength || 2000;
         var result = [];
 
         var urlResult = {
@@ -146,7 +146,7 @@ URLBuilder.prototype = {
             var module = modules[i];
             var path = urls[i];
 
-            if ((urlResult.url.length + basePath.length + path.length + 1) < limitCharacters) {
+            if ((urlResult.url.length + basePath.length + path.length + 1) < urlMaxLength) {
                 urlResult.modules.push(module);
                 urlResult.url += '&' + basePath + path;
             } else {
