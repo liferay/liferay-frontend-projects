@@ -318,19 +318,15 @@ describe('URLBuilder', function () {
         assert.strictEqual('http://localhost:3000/modules?/base/foo.js&/base/bar.js', modulesURL[1].url);
     });
 
-    it('should not create combo urls longer than 2000 characters', function() {
-        var longModuleNameSuffix = '1234567890';
-
+    it('should create combo URLs up to 2000 characters', function() {
         // Create a 640 character suffix
-        for (var i = 0; i < 6; i++) {
-            longModuleNameSuffix += longModuleNameSuffix;
-        }
+        var longModuleNameSuffix = new Array(65).join('1234567890');
 
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules?',
             'combine': true,
             'basePath': '/base',
-            'limitCharacters': 2000,
+            'urlMaxLength': 2000,
             'modules': {
                 'module1': {
                     'dependencies': [],
@@ -382,7 +378,7 @@ describe('URLBuilder', function () {
         assert.strictEqual(5, modulesURL.length);
 
         modulesURL.forEach(function(moduleURL) {
-            assert.ok(moduleURL.url.length < 2000);
+            assert.isTrue(moduleURL.url.length < 2000);
         });
     });
 });
