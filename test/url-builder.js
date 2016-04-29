@@ -317,4 +317,53 @@ describe('URLBuilder', function () {
         assert.strictEqual('http://localhost:3000/modules?/base/baz.js', modulesURL[0].url);
         assert.strictEqual('http://localhost:3000/modules?/base/foo.js&/base/bar.js', modulesURL[1].url);
     });
+
+    it('should not create combo urls longer than 2000 characters', function() {
+        var longModuleNameSuffix = '1234567890';
+
+        // Create a 640 character suffix
+        for (var i = 0; i < 6; i++) {
+            longModuleNameSuffix += longModuleNameSuffix;
+        }
+
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules?',
+            'combine': true,
+            'basePath': '/base',
+            'modules': {
+                'module1': {
+                    'dependencies': [],
+                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                },
+                'module2': {
+                    'dependencies': [],
+                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                },
+                'module3': {
+                    'dependencies': [],
+                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                },
+                'module4': {
+                    'dependencies': [],
+                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                },
+                'module5': {
+                    'dependencies': [],
+                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                },
+                'module6': {
+                    'dependencies': [],
+                    'path': 'module1' + longModuleNameSuffix + '.jx'
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var modulesURL = urlBuilder.build(['module1', 'module2', 'module3', 'module4', 'module5', 'module6']);
+
+        assert.strictEqual(2, modulesURL.length);
+        assert.ok(modulesURL[0].url.length < 2000);
+        assert.ok(modulesURL[1].url.length < 2000);
+    });
 });
