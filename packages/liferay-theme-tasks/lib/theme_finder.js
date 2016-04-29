@@ -3,9 +3,11 @@
 var _ = require('lodash');
 var async = require('async');
 var exec = require('child_process').exec;
+var globby = require('globby');
 var lfrThemeConfig = require('./liferay_theme_config');
 var npmKeyword = require('npm-keyword');
 var packageJson = require('package-json');
+var path = require('path');
 
 var themeConfig = lfrThemeConfig.getConfig();
 
@@ -38,6 +40,56 @@ module.exports = {
 
 			cb(err, pkg);
 		});
+	},
+
+	_findThemeModulesIn: function(paths) {
+		var modules = [];
+
+		_.forEach(paths, function(rootPath) {
+			if (!rootPath) {
+				return;
+			}
+
+			modules = globby.sync([
+				'*-theme',
+				'*-themelet'
+			], {
+				cwd: rootPath
+			}).map(function(match) {
+				return path.join(rootPath, match);
+			}).concat(modules);
+		});
+
+		return modules;
+	},
+
+	_getNpmPaths: function() {
+		var paths = [];
+
+		var win32 = process.platform === 'win32';
+
+		process.cwd().split(path.sep).forEach(function (part, index, parts) {
+			var lookup = path.join.apply(path, parts.slice(0, index + 1).concat(['node_modules']));
+
+			if (!win32) {
+				lookup = '/' + lookup;
+			}
+
+			paths.push(lookup);
+		});
+
+		if (process.env.NODE_PATH) {
+			paths = _.compact(process.env.NODE_PATH.split(path.delimiter)).concat(paths);
+		}
+		else {
+			if (win32) {
+				paths.push(path.join(process.env.APPDATA, 'npm/node_modules'));
+			} else {
+				paths.push('/usr/lib/node_modules');
+			}
+		}
+
+		return paths.reverse();
 	},
 
 	_getPackageJSON: function(theme, cb) {
@@ -77,21 +129,30 @@ module.exports = {
 		return retVal;
 	},
 
-	_fetchGlobalModules: function(cb) {
-		exec('npm list -g -j -l -p --depth=0', {
-			maxBuffer: Infinity
-		}, function(err, stdout, stderr) {
-			var globalModules = JSON.parse(stdout);
+	_matchesSearchTerms: function(pkg, searchTerms) {
+		var description = pkg.description;
 
-			cb(globalModules);
-		});
+		return pkg.name.indexOf(searchTerms) > -1 || (description && description.indexOf(searchTerms) > -1);
 	},
 
-	_reduceModuleResults: function(modules, themelet) {
+	_reduceModuleResults: function(modules, config) {
 		var instance = this;
 
+		var themelet = config.themelet;
+		var searchTerms = config.searchTerms;
+
 		return _.reduce(modules, function(result, item, index) {
+			var valid = false;
+
 			if (instance._isLiferayThemeModule(item, themelet)) {
+				valid = true;
+			}
+
+			if (searchTerms && valid) {
+				valid = instance._matchesSearchTerms(item, searchTerms);
+			}
+
+			if (valid) {
 				result[item.name] = item;
 			}
 
@@ -102,13 +163,23 @@ module.exports = {
 	_seachGlobalModules: function(config, cb) {
 		var instance = this;
 
-		this._fetchGlobalModules(function(modules) {
-			var dependencies = modules ? modules.dependencies : null;
+		var modules = this._findThemeModulesIn(this._getNpmPaths());
 
-			var themeResults = instance._reduceModuleResults(dependencies, config.themelet);
+		modules = _.reduce(modules, function(result, item, index) {
+			try {
+				var json = require(path.join(item, 'package.json'));
 
-			cb(themeResults);
-		});
+				json.realPath = item;
+
+				result.push(json);
+			}
+			catch(e) {
+			}
+
+			return result;
+		}, []);
+
+		cb(instance._reduceModuleResults(modules, config));
 	},
 
 	_searchNpm: function(config, cb) {
@@ -122,7 +193,7 @@ module.exports = {
 					return;
 				}
 
-				var themeResults = instance._reduceModuleResults(results, config.themelet);
+				var themeResults = instance._reduceModuleResults(results, config);
 
 				cb(themeResults);
 			});
