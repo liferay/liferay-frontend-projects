@@ -1,6 +1,6 @@
 'use strict';
 
-var ExtendPrompt = require('../lib/extend_prompt');
+var ExtendPrompt = require('../lib/prompts/extend_prompt');
 
 module.exports = function(options) {
 	var gulp = options.gulp;

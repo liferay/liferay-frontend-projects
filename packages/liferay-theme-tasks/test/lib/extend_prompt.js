@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var chai = require('chai');
-var ExtendPrompt = require('../../lib/extend_prompt');
+var ExtendPrompt = require('../../lib/prompts/extend_prompt');
 var fs = require('fs-extra');
 var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
 var os = require('os');

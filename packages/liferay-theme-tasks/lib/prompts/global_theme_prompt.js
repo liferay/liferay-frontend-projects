@@ -4,10 +4,10 @@ var _ = require('lodash');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
-var getListType = require('./get_list_type');
-var themeFinder = require('./theme_finder');
+var getListType = require('../get_list_type');
+var themeFinder = require('../theme_finder');
 
-function NPMThemePrompt(cb) {
+function GlobalThemePrompt(cb) {
 	var instance = this;
 
 	this.done = cb;
@@ -15,21 +15,20 @@ function NPMThemePrompt(cb) {
 	this._prompt();
 }
 
-NPMThemePrompt.prototype = {
+GlobalThemePrompt.prototype = {
 	_afterPrompt: function(answers) {
-		if (_.isEmpty(this._npmThemes)) {
-			gutil.log(gutil.colors.yellow('No themes matched your search!'));
+		if (_.isEmpty(answers._globalThemes)) {
+			gutil.log(gutil.colors.yellow('No globally installed themes found. Install some with "npm i -g [theme-name]"'));
 		}
 
 		this.done(answers);
 	},
 
-	_getNPMThemes: function(npmSearchTerms, cb) {
+	_getGlobalThemes: function(cb) {
 		var instance = this;
 
 		themeFinder.getLiferayThemeModules({
-			globalModules: false,
-			searchTerms: npmSearchTerms
+			globalModules: true
 		}, cb);
 	},
 
@@ -41,21 +40,17 @@ NPMThemePrompt.prototype = {
 		inquirer.prompt(
 			[
 				{
-					message: 'Search npm for themes:',
-					name: 'npmSearchTerms'
-				},
-				{
 					choices: function(answers) {
-						return _.keys(instance._npmThemes);
+						return _.keys(instance._globalThemes);
 					},
 					message: 'Select a theme',
-					name: 'npmTheme',
+					name: 'globalTheme',
 					type: listType,
 					when: function(answers) {
 						var done = this.async();
 
-						instance._getNPMThemes(answers.npmSearchTerms, function(themes) {
-							instance._npmThemes = themes;
+						instance._getGlobalThemes(function(themes) {
+							instance._globalThemes = themes;
 
 							done(!_.isEmpty(themes));
 						});
@@ -67,4 +62,4 @@ NPMThemePrompt.prototype = {
 	}
 };
 
-module.exports = NPMThemePrompt;
+module.exports = GlobalThemePrompt;

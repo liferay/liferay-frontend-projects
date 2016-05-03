@@ -6,10 +6,10 @@ var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
 
-var getListType = require('./get_list_type');
+var getListType = require('../get_list_type');
 var GlobalThemePrompt = require('./global_theme_prompt');
 var NPMThemePrompt = require('./npm_theme_prompt');
-var themeFinder = require('./theme_finder');
+var themeFinder = require('../theme_finder');
 
 function KiststartPrompt(cb) {
 	var instance = this;
