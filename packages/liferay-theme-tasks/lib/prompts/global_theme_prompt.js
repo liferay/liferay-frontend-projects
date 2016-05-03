@@ -44,7 +44,12 @@ GlobalThemePrompt.prototype = {
 			[
 				{
 					choices: function(answers) {
-						return _.keys(instance._globalThemes);
+						return _.map(instance._globalThemes, function(theme, name) {
+							return {
+								name: name,
+								value: theme.realPath
+							}
+						});
 					},
 					message: instance.themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'globalTheme',
