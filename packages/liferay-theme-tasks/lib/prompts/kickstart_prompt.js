@@ -38,11 +38,15 @@ KiststartPrompt.prototype = {
 	},
 
 	_afterPromptThemeSource: function(answers) {
+		var config = {
+			themelet: false
+		};
+
 		if (answers.themeSource == 'npm') {
-			new NPMThemePrompt(_.bind(this._afterPromptNPMTheme, this));
+			new NPMThemePrompt(config, _.bind(this._afterPromptNPMTheme, this));
 		}
 		else if (answers.themeSource == 'global') {
-			new GlobalThemePrompt(_.bind(this._afterPromptGlobalTheme, this));
+			new GlobalThemePrompt(config, _.bind(this._afterPromptGlobalTheme, this));
 		}
 	},
 

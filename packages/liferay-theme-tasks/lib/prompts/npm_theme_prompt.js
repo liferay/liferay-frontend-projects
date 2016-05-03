@@ -7,8 +7,8 @@ var inquirer = require('inquirer');
 var getListType = require('../get_list_type');
 var themeFinder = require('../theme_finder');
 
-function NPMThemePrompt(cb) {
-	var instance = this;
+function NPMThemePrompt(config, cb) {
+	this.themelet = config.themelet;
 
 	this.done = cb;
 
@@ -17,8 +17,10 @@ function NPMThemePrompt(cb) {
 
 NPMThemePrompt.prototype = {
 	_afterPrompt: function(answers) {
+		var type = this.themelet ? 'themelets' : 'themes';
+
 		if (_.isEmpty(this._npmThemes)) {
-			gutil.log(gutil.colors.yellow('No themes matched your search!'));
+			gutil.log(gutil.colors.yellow('No ' + type + ' matched your search!'));
 		}
 
 		this.done(answers);
@@ -29,7 +31,8 @@ NPMThemePrompt.prototype = {
 
 		themeFinder.getLiferayThemeModules({
 			globalModules: false,
-			searchTerms: npmSearchTerms
+			searchTerms: npmSearchTerms,
+			themelet: this.themelet
 		}, cb);
 	},
 
@@ -38,17 +41,19 @@ NPMThemePrompt.prototype = {
 
 		var listType = getListType();
 
+		var themelet = this.themelet;
+
 		inquirer.prompt(
 			[
 				{
-					message: 'Search npm for themes:',
+					message: themelet ? 'Search npm for themelets:' : 'Search npm for themes:',
 					name: 'npmSearchTerms'
 				},
 				{
 					choices: function(answers) {
 						return _.keys(instance._npmThemes);
 					},
-					message: 'Select a theme',
+					message: themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'npmTheme',
 					type: listType,
 					when: function(answers) {

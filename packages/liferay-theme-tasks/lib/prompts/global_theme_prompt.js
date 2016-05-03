@@ -7,8 +7,8 @@ var inquirer = require('inquirer');
 var getListType = require('../get_list_type');
 var themeFinder = require('../theme_finder');
 
-function GlobalThemePrompt(cb) {
-	var instance = this;
+function GlobalThemePrompt(config, cb) {
+	this.themelet = config.themelet;
 
 	this.done = cb;
 
@@ -17,8 +17,10 @@ function GlobalThemePrompt(cb) {
 
 GlobalThemePrompt.prototype = {
 	_afterPrompt: function(answers) {
+		var type = this.themelet ? 'themelet' : 'theme';
+
 		if (_.isEmpty(this._globalThemes)) {
-			gutil.log(gutil.colors.yellow('No globally installed themes found. Install some with "npm i -g [theme-name]"'));
+			gutil.log(gutil.colors.yellow('No globally installed ' + type + ' found. Install some with "npm i -g [name]"'));
 		}
 
 		this.done(answers);
@@ -28,7 +30,8 @@ GlobalThemePrompt.prototype = {
 		var instance = this;
 
 		themeFinder.getLiferayThemeModules({
-			globalModules: true
+			globalModules: true,
+			themelet: this.themelet
 		}, cb);
 	},
 
@@ -43,7 +46,7 @@ GlobalThemePrompt.prototype = {
 					choices: function(answers) {
 						return _.keys(instance._globalThemes);
 					},
-					message: 'Select a theme',
+					message: instance.themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'globalTheme',
 					type: listType,
 					when: function(answers) {
