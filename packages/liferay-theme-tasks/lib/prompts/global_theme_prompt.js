@@ -17,7 +17,7 @@ function GlobalThemePrompt(cb) {
 
 GlobalThemePrompt.prototype = {
 	_afterPrompt: function(answers) {
-		if (_.isEmpty(answers._globalThemes)) {
+		if (_.isEmpty(this._globalThemes)) {
 			gutil.log(gutil.colors.yellow('No globally installed themes found. Install some with "npm i -g [theme-name]"'));
 		}
 
