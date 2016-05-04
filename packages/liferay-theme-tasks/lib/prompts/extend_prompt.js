@@ -128,22 +128,6 @@ ExtendPrompt.prototype = {
 		}
 	},
 
-	_extendTypeConditional: function(type) {
-		var retVal = (this._extendType == type);
-
-		if (retVal) {
-			var empty = _.isEmpty(this._extendableThemes);
-
-			if (empty) {
-				gutil.log(gutil.colors.yellow('No ' + type + 's found!'));
-			}
-
-			retVal = !empty;
-		}
-
-		return retVal;
-	},
-
 	_getDependencyInstallationArray: function(dependencies) {
 		var instance = this;
 
