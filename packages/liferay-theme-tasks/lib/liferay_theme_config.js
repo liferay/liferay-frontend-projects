@@ -52,8 +52,14 @@ module.exports.removeDependencies = function(dependencies) {
 module.exports.setConfig = function(config) {
 	var packageJSON = getPackageJSON();
 
-	if (config.themeletDependencies && packageJSON.liferayTheme) {
-		packageJSON.liferayTheme.themeletDependencies = undefined;
+	if (packageJSON.liferayTheme) {
+		if (config.baseTheme) {
+			packageJSON.liferayTheme.baseTheme = undefined;
+		}
+
+		if (config.themeletDependencies) {
+			packageJSON.liferayTheme.themeletDependencies = undefined;
+		}
 	}
 
 	packageJSON = _.merge(packageJSON, {
