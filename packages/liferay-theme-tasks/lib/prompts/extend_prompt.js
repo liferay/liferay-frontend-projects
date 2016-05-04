@@ -6,10 +6,15 @@ var exec = require('child_process').exec;
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
+var GlobalModulePrompt = require('./global_module_prompt');
 var lfrThemeConfig = require('../liferay_theme_config');
+var NPMModulePrompt = require('./npm_module_prompt');
+var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
 var moduleName = argv.name;
+
+var themeConfig = lfrThemeConfig.getConfig();
 
 function ExtendPrompt(cb) {
 	var instance = this;
@@ -36,41 +41,89 @@ function ExtendPrompt(cb) {
 		});
 	}
 	else {
-		this._prompt();
+		this._promptThemeSource();
 	}
 }
 
 ExtendPrompt.prototype = {
-	_afterPrompt: function(answers) {
+	_afterPromptModule: function(answers) {
+		if (answers.addedThemelets) {
+			this._afterPromptThemelets(answers);
+		}
+		else {
+			this._afterPromptTheme(answers);
+		}
+	},
+
+	_afterPromptTheme: function(answers) {
 		var instance = this;
 
-		instance._removeUnusedDependencies(answers);
+		var baseTheme = themeConfig.baseTheme;
+		var modulePackages = answers.modules;
+		var module = answers.module;
 
-		answers = instance._normalizeAnswers(answers);
+		if (_.isObject(baseTheme)) {
+			lfrThemeConfig.removeDependencies([baseTheme.name]);
+		}
 
-		lfrThemeConfig.setConfig(answers);
+		var reducedPkg = this._reducePkgData(modulePackages[module]);
 
-		if (!_.isUndefined(answers.themeletDependencies) || !_.isUndefined(answers.baseTheme)) {
-			var updatedData = answers.baseTheme ? answers.baseTheme : answers.themeletDependencies;
+		lfrThemeConfig.setConfig({
+			baseTheme: reducedPkg
+		});
 
-			if (answers.baseTheme && _.isObject(answers.baseTheme)) {
-				var baseThemeObj = {};
+		this._saveDependencies([reducedPkg]);
+	},
 
-				baseThemeObj[answers.baseTheme.name] = answers.baseTheme;
+	_afterPromptThemelets: function(answers) {
+		var instance = this;
 
-				updatedData = baseThemeObj;
+		var modulePackages = answers.modules;
+		var themeletDependencies = themeConfig.themeletDependencies || {};
+
+		var reducedThemelets = _.reduce(answers.addedThemelets, function(result, item, index) {
+			result[item] = instance._reducePkgData(modulePackages[item]);
+
+			return result;
+		}, themeletDependencies);
+
+		var removedThemelets = answers.removedThemelets;
+
+		if (removedThemelets) {
+			_.forEach(removedThemelets, function(item, index) {
+				delete reducedThemelets[item];
+			});
+
+			lfrThemeConfig.removeDependencies(removedThemelets);
+		}
+
+		lfrThemeConfig.setConfig({
+			themeletDependencies: reducedThemelets
+		});
+
+		this._saveDependencies(reducedThemelets);
+
+		this._installDependencies(reducedThemelets);
+	},
+
+	_afterPromptThemeSource: function(answers) {
+		var themelet = answers.extendType == 'themelet';
+		var themeSource = answers.themeSource;
+
+		if (themeSource == 'styled' || themeSource == 'unstyled') {
+			this._setStaticBaseTheme(themeSource);
+		}
+		else {
+			var config = {
+				selectedModules: this._getSelectedModules(themelet),
+				themelet: themelet
+			};
+
+			if (themeSource == 'global') {
+				new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
 			}
-
-			if (_.isObject(updatedData)) {
-				instance._saveDependencies(updatedData);
-
-				instance._installDependencies(updatedData, function(err, data) {
-					if (err) throw err;
-
-					if (instance.done) {
-						instance.done();
-					}
-				});
+			else if (themeSource == 'npm') {
+				new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
 			}
 		}
 	},
@@ -94,7 +147,7 @@ ExtendPrompt.prototype = {
 	_getDependencyInstallationArray: function(dependencies) {
 		var instance = this;
 
-		var themeVersion = lfrThemeConfig.getConfig().version;
+		var themeVersion = themeConfig.version;
 
 		return _.map(dependencies, function(item, index) {
 			var path = item.path;
@@ -118,66 +171,19 @@ ExtendPrompt.prototype = {
 		return tag;
 	},
 
-	_getListType: function() {
-		var listType = 'list';
+	_getSelectedModules: function(themelet) {
+		var selectedModules;
 
-		var os = require('os');
-
-		if (process.version > 'v0.12.7' && os.type() == 'Windows_NT') {
-			listType = 'rawlist';
+		if (themelet) {
+			selectedModules = _.map(themeConfig.themeletDependencies, function(item, index) {
+				return item.name;
+			});
+		}
+		else if (_.isObject(themeConfig.baseTheme)) {
+			selectedModules = [themeConfig.baseTheme.name];
 		}
 
-		return listType;
-	},
-
-	_getThemeletDependenciesFromAnswers: function(answers) {
-		var instance = this;
-
-		var extendableThemes = this._extendableThemes;
-
-		var themeletNames = answers.themeletNames;
-
-		if (themeletNames && !_.isArray(themeletNames)) {
-			themeletNames = [themeletNames];
-		}
-
-		var themeletDependencies = _.reduce(themeletNames, function(result, item, index) {
-			var extendableTheme = extendableThemes[item];
-
-			if (_.isUndefined(extendableTheme)) {
-				instance._handleMissingModule(item, answers, 'themelet');
-
-				return;
-			}
-
-			result[item] = instance._reducePkgData(extendableTheme);
-
-			return result;
-		}, {});
-
-		return themeletDependencies;
-	},
-
-	_getUnusedDependencies: function(answers) {
-		var removedDependencies = [];
-
-		if (answers.baseThemeName) {
-			var baseTheme = lfrThemeConfig.getConfig().baseTheme;
-
-			if (_.isObject(baseTheme)) {
-				removedDependencies.push(baseTheme.name);
-			}
-		}
-
-		return removedDependencies.concat(_.difference(this._themeletChoices, answers.themeletNames));
-	},
-
-	_handleMissingModule: function(name, answers, type) {
-		var message = (answers.extendType == type) ? name + ' not found!' : null;
-
-		if (message) {
-			gutil.log(gutil.colors.yellow(message));
-		}
+		return selectedModules;
 	},
 
 	_hasPublishTag: function(config) {
@@ -202,96 +208,10 @@ ExtendPrompt.prototype = {
 		return (_.isArray(supportedVersion) && _.contains(supportedVersion, version)) || supportedVersion == version;
 	},
 
-	_normalizeAnswers: function(answers) {
-		var baseTheme = this._normalizeBaseTheme(answers);
-
-		if (baseTheme) {
-			answers.baseTheme = baseTheme;
-		}
-
-		var themeletDependencies = this._normalizeThemeletDependencies(answers);
-
-		if (answers.extendType == 'themelet') {
-			answers.themeletDependencies = themeletDependencies;
-		}
-
-		answers.baseThemeName = undefined;
-		answers.extendType = undefined;
-		answers.themeletNames = undefined;
-		answers.themeSource = undefined;
-
-		return answers;
-	},
-
-	_normalizeBaseTheme: function(answers) {
+	_promptThemeSource: function(options) {
 		var instance = this;
 
-		if (answers.extendType == 'theme') {
-			var themeSource = answers.themeSource;
-
-			if (themeSource == 'styled' || themeSource == 'unstyled') {
-				answers.baseThemeName = themeSource;
-			}
-
-			var baseThemeName = answers.baseThemeName;
-
-			if (baseThemeName == 'styled' || baseThemeName == 'unstyled') {
-				return baseThemeName;
-			}
-			else if (baseThemeName) {
-				var baseTheme = this._extendableThemes[baseThemeName];
-
-				if (_.isUndefined(baseTheme)) {
-					instance._handleMissingModule(baseThemeName, answers, 'theme');
-
-					return;
-				}
-
-				return {
-					liferayTheme: baseTheme.liferayTheme,
-					name: baseTheme.name,
-					path: baseTheme.realPath,
-					publishConfig: baseTheme.publishConfig,
-					version: baseTheme.version
-				};
-			}
-		}
-	},
-
-	_normalizeThemeletDependencies: function(answers) {
-		var instance = this;
-
-		var globalModules = (answers.themeSource == 'global');
-
-		var themeConfig = lfrThemeConfig.getConfig();
-
-		var version = themeConfig.version;
-
-		var savedThemeletDependencies = _.reduce(themeConfig.themeletDependencies, function(result, item, index) {
-			var keep = (globalModules && !item.path) || (!globalModules && item.path);
-
-			var itemVersion = item.liferayTheme.version;
-
-			if ((itemVersion != version) && (itemVersion != '*')) {
-				keep = true;
-			}
-
-			if (keep) {
-				result[index] = item;
-			}
-
-			return result;
-		}, {});
-
-		var themeletDependencies = instance._getThemeletDependenciesFromAnswers(answers);
-
-		return _.merge(savedThemeletDependencies, themeletDependencies);
-	},
-
-	_prompt: function(options) {
-		var instance = this;
-
-		var listType = instance._getListType();
+		var listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
@@ -352,78 +272,10 @@ ExtendPrompt.prototype = {
 						return instance._extendType == 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
 					},
 					name: 'themeSource',
-					type: listType,
-					filter: function(input) {
-						var done = this.async();
-
-						if (input == 'styled' || input == 'unstyled') {
-							done(input);
-						}
-						else {
-							themeFinder.getLiferayThemeModules({
-								globalModules: (input == 'global'),
-								themelet: (instance._extendType == 'themelet')
-							}, function(extendableThemes) {
-								instance._extendableThemes = extendableThemes;
-
-								done(input);
-							});
-						}
-					}
-				},
-				{
-					choices: function() {
-						var savedThemeletDependencies = lfrThemeConfig.getConfig().themeletDependencies;
-
-						instance._themeletChoices = [];
-
-						return _.map(instance._extendableThemes, function(item, index) {
-							var checked = savedThemeletDependencies && (savedThemeletDependencies[item.name]);
-
-							instance._themeletChoices.push(item.name);
-
-							return {
-								checked: checked,
-								name: item.name,
-								value: item.name
-							};
-						});
-					},
-					message: 'What themelet would you like to extend?',
-					name: 'themeletNames',
-					type: 'checkbox',
-					when: function(answers) {
-						return instance._extendTypeConditional('themelet');
-					}
-				},
-				{
-					choices: function(answers) {
-						var themeConfig = lfrThemeConfig.getConfig(true);
-
-						var extendableThemeChoices = _.reduce(instance._extendableThemes, function(result, item, index) {
-							if (themeConfig.name != item.name) {
-								result.push({
-									name: item.name,
-									value: item.name
-								});
-							}
-
-							return result;
-						}, []);
-
-						return extendableThemeChoices;
-					},
-					message: 'What base theme would you like to extend?',
-					name: 'baseThemeName',
-					type: listType,
-					when: function(answers) {
-						var themeSource = answers.themeSource;
-
-						return (themeSource == 'global' || themeSource == 'npm') && instance._extendTypeConditional('theme');
-					}
+					type: listType
 				}
 			],
-			_.bind(instance._afterPrompt, instance)
+			_.bind(instance._afterPromptThemeSource, instance)
 		);
 	},
 
@@ -437,14 +289,10 @@ ExtendPrompt.prototype = {
 		return pkg;
 	},
 
-	_removeUnusedDependencies: function(answers) {
-		lfrThemeConfig.removeDependencies(this._getUnusedDependencies(answers));
-	},
-
 	_saveDependencies: function(updatedData) {
 		var instance = this;
 
-		var themeVersion = lfrThemeConfig.getConfig().version;
+		var themeVersion = themeConfig.version;
 
 		var dependencies = _.reduce(updatedData, function(result, item, index) {
 			var moduleVersion = item.path ? item.path : instance._getDistTag(item, themeVersion);
@@ -455,6 +303,20 @@ ExtendPrompt.prototype = {
 		}, {});
 
 		lfrThemeConfig.setDependencies(dependencies);
+	},
+
+	_setStaticBaseTheme: function(themeSource) {
+		var baseTheme = themeConfig.baseTheme;
+
+		if (_.isObject(baseTheme)) {
+			lfrThemeConfig.removeDependencies([baseTheme.name]);
+		}
+
+		lfrThemeConfig.setConfig({
+			baseTheme: themeSource
+		});
+
+		this.done();
 	}
 };
 

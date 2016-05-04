@@ -4,10 +4,11 @@ var _ = require('lodash');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
-var getListType = require('../get_list_type');
+var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
-function GlobalThemePrompt(config, cb) {
+function GlobalModulePrompt(config, cb) {
+	this.selectedModules = config.selectedModules;
 	this.themelet = config.themelet;
 
 	this.done = cb;
@@ -15,13 +16,19 @@ function GlobalThemePrompt(config, cb) {
 	this._prompt();
 }
 
-GlobalThemePrompt.prototype = {
+GlobalModulePrompt.prototype = {
 	_afterPrompt: function(answers) {
 		var type = this.themelet ? 'themelet' : 'theme';
 
-		if (_.isEmpty(this._globalThemes)) {
+		if (_.isEmpty(this._modules)) {
 			gutil.log(gutil.colors.yellow('No globally installed ' + type + ' found. Install some with "npm i -g [name]"'));
 		}
+
+		if (this.themelet) {
+			_.assign(answers, promptUtil.formatThemeletSelection(answers.module, this.selectedModules));
+		}
+
+		answers.modules = this._modules;
 
 		this.done(answers);
 	},
@@ -38,29 +45,26 @@ GlobalThemePrompt.prototype = {
 	_prompt: function(options) {
 		var instance = this;
 
-		var listType = getListType();
+		var themelet = this.themelet;
+
+		var listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
 				{
 					choices: function(answers) {
-						return _.map(instance._globalThemes, function(theme, name) {
-							return {
-								name: name,
-								value: theme.realPath
-							}
-						});
+						return promptUtil.getModuleChoices(instance._modules, instance);
 					},
-					message: instance.themelet ? 'Select a themelet' : 'Select a theme',
-					name: 'globalTheme',
-					type: listType,
+					message: themelet ? 'Select a themelet' : 'Select a theme',
+					name: 'module',
+					type: themelet ? 'checkbox' : listType,
 					when: function(answers) {
 						var done = this.async();
 
-						instance._getGlobalThemes(function(themes) {
-							instance._globalThemes = themes;
+						instance._getGlobalThemes(function(modules) {
+							instance._modules = modules;
 
-							done(!_.isEmpty(themes));
+							done(!_.isEmpty(modules));
 						});
 					}
 				}
@@ -70,4 +74,4 @@ GlobalThemePrompt.prototype = {
 	}
 };
 
-module.exports = GlobalThemePrompt;
+module.exports = GlobalModulePrompt;

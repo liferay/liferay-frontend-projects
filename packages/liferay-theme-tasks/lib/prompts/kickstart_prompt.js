@@ -6,9 +6,9 @@ var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
 
-var getListType = require('../get_list_type');
-var GlobalThemePrompt = require('./global_theme_prompt');
-var NPMThemePrompt = require('./npm_theme_prompt');
+var GlobalModulePrompt = require('./global_module_prompt');
+var NPMModulePrompt = require('./npm_module_prompt');
+var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
 function KiststartPrompt(cb) {
@@ -20,15 +20,11 @@ function KiststartPrompt(cb) {
 }
 
 KiststartPrompt.prototype = {
-	_afterPromptGlobalTheme: function(answers) {
-		this.done(answers);
-	},
-
-	_afterPromptNPMTheme: function(answers) {
+	_afterPromptModule: function(answers) {
 		var done = this.done;
 
-		if (answers.npmTheme) {
-			this._installTempModule(answers.npmTheme, function() {
+		if (answers.module) {
+			this._installTempModule(answers.module, function() {
 				done(answers);
 			});
 		}
@@ -43,10 +39,10 @@ KiststartPrompt.prototype = {
 		};
 
 		if (answers.themeSource == 'npm') {
-			new NPMThemePrompt(config, _.bind(this._afterPromptNPMTheme, this));
+			new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
 		}
 		else if (answers.themeSource == 'global') {
-			new GlobalThemePrompt(config, _.bind(this._afterPromptGlobalTheme, this));
+			new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
 		}
 	},
 
@@ -61,7 +57,7 @@ KiststartPrompt.prototype = {
 	_promptThemeSource: function(options) {
 		var instance = this;
 
-		var listType = getListType();
+		var listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
