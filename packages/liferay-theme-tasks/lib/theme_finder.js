@@ -68,7 +68,7 @@ module.exports = {
 
 		var win32 = process.platform === 'win32';
 
-		process.cwd().split(path.sep).forEach(function (part, index, parts) {
+		path.join(process.cwd(), '..').split(path.sep).forEach(function (part, index, parts) {
 			var lookup = path.join.apply(path, parts.slice(0, index + 1).concat(['node_modules']));
 
 			if (!win32) {
