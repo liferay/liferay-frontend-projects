@@ -14,10 +14,10 @@ var themeFinder = require('../theme_finder');
 
 var moduleName = argv.name;
 
-var themeConfig = lfrThemeConfig.getConfig();
-
-function ExtendPrompt(cb) {
+function ExtendPrompt(config, cb) {
 	var instance = this;
+
+	this.themeConfig = config.themeConfig || lfrThemeConfig.getConfig();
 
 	this.done = cb;
 
@@ -58,7 +58,7 @@ ExtendPrompt.prototype = {
 	_afterPromptTheme: function(answers) {
 		var instance = this;
 
-		var baseTheme = themeConfig.baseTheme;
+		var baseTheme = this.themeConfig.baseTheme;
 		var modulePackages = answers.modules;
 		var module = answers.module;
 
@@ -79,7 +79,7 @@ ExtendPrompt.prototype = {
 		var instance = this;
 
 		var modulePackages = answers.modules;
-		var themeletDependencies = themeConfig.themeletDependencies || {};
+		var themeletDependencies = this.themeConfig.themeletDependencies || {};
 
 		var reducedThemelets = _.reduce(answers.addedThemelets, function(result, item, index) {
 			result[item] = instance._reducePkgData(modulePackages[item]);
@@ -131,7 +131,7 @@ ExtendPrompt.prototype = {
 	_getDependencyInstallationArray: function(dependencies) {
 		var instance = this;
 
-		var themeVersion = themeConfig.version;
+		var themeVersion = this.themeConfig.version;
 
 		return _.map(dependencies, function(item, index) {
 			var path = item.path;
@@ -158,13 +158,15 @@ ExtendPrompt.prototype = {
 	_getSelectedModules: function(themelet) {
 		var selectedModules;
 
+		var baseTheme = this.themeConfig.baseTheme;
+
 		if (themelet) {
-			selectedModules = _.map(themeConfig.themeletDependencies, function(item, index) {
+			selectedModules = _.map(this.themeConfig.themeletDependencies, function(item, index) {
 				return item.name;
 			});
 		}
-		else if (_.isObject(themeConfig.baseTheme)) {
-			selectedModules = [themeConfig.baseTheme.name];
+		else if (_.isObject(baseTheme)) {
+			selectedModules = [baseTheme.name];
 		}
 
 		return selectedModules;
@@ -276,7 +278,7 @@ ExtendPrompt.prototype = {
 	_saveDependencies: function(updatedData) {
 		var instance = this;
 
-		var themeVersion = themeConfig.version;
+		var themeVersion = this.themeConfig.version;
 
 		var dependencies = _.reduce(updatedData, function(result, item, index) {
 			var moduleVersion = item.path ? item.path : instance._getDistTag(item, themeVersion);
@@ -290,7 +292,7 @@ ExtendPrompt.prototype = {
 	},
 
 	_setStaticBaseTheme: function(themeSource) {
-		var baseTheme = themeConfig.baseTheme;
+		var baseTheme = this.themeConfig.baseTheme;
 
 		if (_.isObject(baseTheme)) {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
