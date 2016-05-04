@@ -55,6 +55,16 @@ GlobalModulePrompt.prototype = {
 					choices: function(answers) {
 						return promptUtil.getModuleChoices(instance._modules, instance);
 					},
+					filter: function(input) {
+						if (themelet) {
+							return _.mapValues(instance._modules, function(theme, name) {
+								return input.indexOf(name) > -1;
+							});
+						}
+						else {
+							return input;
+						}
+					},
 					message: themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'module',
 					type: themelet ? 'checkbox' : listType,
