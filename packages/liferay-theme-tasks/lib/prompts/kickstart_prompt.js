@@ -11,15 +11,17 @@ var NPMModulePrompt = require('./npm_module_prompt');
 var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
-function KiststartPrompt(cb) {
-	var instance = this;
-
-	this.done = cb;
-
-	this._promptThemeSource();
+function KiststartPrompt() {
+	this.init.apply(this, arguments);
 }
 
 KiststartPrompt.prototype = {
+	init: function(cb) {
+		this.done = cb;
+
+		this._promptThemeSource();
+	},
+
 	_afterPromptModule: function(answers) {
 		var done = this.done;
 

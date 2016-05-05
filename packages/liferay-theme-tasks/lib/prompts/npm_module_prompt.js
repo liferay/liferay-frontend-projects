@@ -7,16 +7,19 @@ var inquirer = require('inquirer');
 var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
-function NPMModulePrompt(config, cb) {
-	this.selectedModules = config.selectedModules;
-	this.themelet = config.themelet;
-
-	this.done = cb;
-
-	this._promptSearchTerms();
+function NPMModulePrompt() {
+	this.init.apply(this, arguments);
 }
 
 NPMModulePrompt.prototype = {
+	init: function(config, cb) {
+		this.done = cb;
+		this.selectedModules = config.selectedModules;
+		this.themelet = config.themelet;
+
+		this._promptSearchTerms();
+	},
+
 	_afterPrompt: function(answers) {
 		if (this.themelet) {
 			_.assign(answers, promptUtil.formatThemeletSelection(answers.module, this.selectedModules));

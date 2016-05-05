@@ -14,38 +14,42 @@ var themeFinder = require('../theme_finder');
 
 var moduleName = argv.name;
 
-function ExtendPrompt(config, cb) {
-	var instance = this;
-
-	this.themeConfig = config.themeConfig || lfrThemeConfig.getConfig();
-
-	this.done = cb;
-
-	if (moduleName) {
-		themeFinder.getLiferayThemeModule(moduleName, function(err, pkg) {
-			if (err) throw err;
-
-			var dependencyPropertyName = 'baseTheme';
-
-			if (pkg.liferayTheme.themelet) {
-				dependencyPropertyName = 'themeletDependencies';
-			}
-
-			var config = _.set({}, dependencyPropertyName + '.' + moduleName, instance._reducePkgData(pkg));
-
-			lfrThemeConfig.setConfig(config);
-
-			instance._saveDependencies(config[dependencyPropertyName]);
-
-			cb();
-		});
-	}
-	else {
-		this._promptThemeSource();
-	}
+function ExtendPrompt() {
+	this.init.apply(this, arguments);
 }
 
 ExtendPrompt.prototype = {
+	init: function(config, cb) {
+		var instance = this;
+
+		this.themeConfig = config.themeConfig || lfrThemeConfig.getConfig();
+
+		this.done = cb;
+
+		if (moduleName) {
+			themeFinder.getLiferayThemeModule(moduleName, function(err, pkg) {
+				if (err) throw err;
+
+				var dependencyPropertyName = 'baseTheme';
+
+				if (pkg.liferayTheme.themelet) {
+					dependencyPropertyName = 'themeletDependencies';
+				}
+
+				var config = _.set({}, dependencyPropertyName + '.' + moduleName, instance._reducePkgData(pkg));
+
+				lfrThemeConfig.setConfig(config);
+
+				instance._saveDependencies(config[dependencyPropertyName]);
+
+				cb();
+			});
+		}
+		else {
+			this._promptThemeSource();
+		}
+	},
+
 	_afterPromptModule: function(answers) {
 		if (answers.addedThemelets) {
 			this._afterPromptThemelets(answers);
@@ -73,6 +77,10 @@ ExtendPrompt.prototype = {
 		});
 
 		this._saveDependencies([reducedPkg]);
+
+		this._installDependencies([reducedPkg], function() {
+			instance.done();
+		});
 	},
 
 	_afterPromptThemelets: function(answers) {
@@ -103,7 +111,9 @@ ExtendPrompt.prototype = {
 
 		this._saveDependencies(reducedThemelets);
 
-		this._installDependencies(reducedThemelets);
+		this._installDependencies(reducedThemelets, function() {
+			instance.done();
+		});
 	},
 
 	_afterPromptThemeSource: function(answers) {
@@ -126,6 +136,12 @@ ExtendPrompt.prototype = {
 				new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
 			}
 		}
+	},
+
+	_filterExtendType: function(input) {
+		this._extendType = input;
+
+		return input;
 	},
 
 	_getDependencyInstallationArray: function(dependencies) {
@@ -172,6 +188,43 @@ ExtendPrompt.prototype = {
 		return selectedModules;
 	},
 
+	_getThemeSourceChoices: function() {
+		var extendType = this._extendType;
+
+		var searchOptions = [
+			{
+				name: 'Search globally installed npm modules',
+				value: 'global'
+			},
+			{
+				name: 'Search npm registry (published modules)',
+				value: 'npm'
+			}
+		];
+
+		if (extendType == 'theme') {
+			var baseThemeChoices = [
+				{
+					name: 'Styled',
+					value: 'styled'
+				},
+				{
+					name: 'Unstyled',
+					value: 'unstyled'
+				},
+				new inquirer.Separator()
+			];
+
+			searchOptions = baseThemeChoices.concat(searchOptions);
+		}
+
+		return searchOptions;
+	},
+
+	_getThemeSourceMessage: function() {
+		return this._extendType == 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
+	},
+
 	_hasPublishTag: function(config) {
 		return config.publishConfig && config.publishConfig.tag;
 	},
@@ -181,20 +234,15 @@ ExtendPrompt.prototype = {
 
 		var child = exec('npm install ' + modules.join(' '), cb);
 
-		child.stdout.on('data', function(data) {
-			process.stdout.write(data);
-		});
-
-		child.stderr.on('data', function(data) {
-			process.stdout.write(data);
-		});
+		child.stderr.pipe(process.stdout);
+		child.stdout.pipe(process.stdout);
 	},
 
 	_isSupported: function(supportedVersion, version) {
 		return (_.isArray(supportedVersion) && _.contains(supportedVersion, version)) || supportedVersion == version;
 	},
 
-	_promptThemeSource: function(options) {
+	_promptThemeSource: function() {
 		var instance = this;
 
 		var listType = promptUtil.getListType();
@@ -212,51 +260,14 @@ ExtendPrompt.prototype = {
 							value: 'themelet'
 						}
 					],
-					filter: function(input) {
-						instance._extendType = input;
-
-						return input;
-					},
+					filter: _.bind(instance._filterExtendType, instance),
 					message: 'What kind of theme asset would you like to extend?',
 					name: 'extendType',
 					type: listType
 				},
 				{
-					choices: function() {
-						var extendType = instance._extendType;
-
-						var searchOptions = [
-							{
-								name: 'Search globally installed npm modules',
-								value: 'global'
-							},
-							{
-								name: 'Search npm registry (published modules)',
-								value: 'npm'
-							}
-						];
-
-						if (extendType == 'theme') {
-							var baseThemeChoices = [
-								{
-									name: 'Styled',
-									value: 'styled'
-								},
-								{
-									name: 'Unstyled',
-									value: 'unstyled'
-								},
-								new inquirer.Separator()
-							];
-
-							searchOptions = baseThemeChoices.concat(searchOptions);
-						}
-
-						return searchOptions;
-					},
-					message: function() {
-						return instance._extendType == 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
-					},
+					choices: _.bind(instance._getThemeSourceChoices, instance),
+					message: _.bind(instance._getThemeSourceMessage, instance),
 					name: 'themeSource',
 					type: listType
 				}
@@ -270,7 +281,9 @@ ExtendPrompt.prototype = {
 
 		pkg = _.pick(pkg, ['liferayTheme', 'name', 'publishConfig', 'version']);
 
-		pkg.path = realPath;
+		if (realPath) {
+			pkg.path = realPath;
+		}
 
 		return pkg;
 	},
