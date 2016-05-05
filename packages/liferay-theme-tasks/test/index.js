@@ -15,7 +15,7 @@ gulp.task('pre-test', function () {
 });
 
 gulp.task('test', ['pre-test'], function () {
-	return gulp.src(['test/lib/*.js', 'test/tasks/*.js'])
+	return gulp.src(['test/lib/**/*.js', 'test/tasks/**/*.js'])
 		.pipe(mocha({
 			timeout: 4000
 		}))
