@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs-extra');
-var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
+var lfrThemeConfig = require('../../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
@@ -54,12 +54,12 @@ describe('Extend Prompt', function() {
 
 		instance._initCwd = process.cwd();
 
-		fs.copy(path.join(__dirname, '../fixtures/themes/7.0/base-theme'), tempPath, function (err) {
+		fs.copy(path.join(__dirname, '../../fixtures/themes/7.0/base-theme'), tempPath, function (err) {
 			if (err) throw err;
 
 			process.chdir(tempPath);
 
-			ExtendPrompt = require('../../lib/prompts/extend_prompt');
+			ExtendPrompt = require('../../../lib/prompts/extend_prompt');
 
 			instance._buildPath = path.join(tempPath, 'build');
 			instance._tempPath = tempPath;
@@ -226,7 +226,7 @@ describe('Extend Prompt', function() {
 		});
 
 		it('should call GlobalModulePrompt', function() {
-			var GlobalModulePrompt = require('../../lib/prompts/global_module_prompt');
+			var GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt');
 
 			modifiedPrototypes.push({
 				module: GlobalModulePrompt,
@@ -255,7 +255,7 @@ describe('Extend Prompt', function() {
 		});
 
 		it('should call NPMModulePrompt', function() {
-			var NPMModulePrompt = require('../../lib/prompts/npm_module_prompt');
+			var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt');
 
 			modifiedPrototypes.push({
 				module: NPMModulePrompt,
