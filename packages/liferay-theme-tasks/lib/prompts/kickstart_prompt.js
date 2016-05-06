@@ -54,9 +54,10 @@ KiststartPrompt.prototype = {
 		var child = exec('npm install --prefix ' + tempNodeModulesPath + ' ' + moduleName, cb);
 
 		child.stdout.pipe(process.stdout);
+		child.stderr.pipe(process.stdout);
 	},
 
-	_promptThemeSource: function(options) {
+	_promptThemeSource: function() {
 		var instance = this;
 
 		var listType = promptUtil.getListType();
