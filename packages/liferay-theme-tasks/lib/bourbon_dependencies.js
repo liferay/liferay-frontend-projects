@@ -11,6 +11,10 @@ var formatPath = function(filePath) {
 };
 
 exports.createBourbonFile = function(forceCreation) {
+	var options = require('./options')();
+
+	var pathSrc = options.pathSrc;
+
 	var bourbonPath = bourbon.includePaths[0];
 
 	var tmpDirPath = path.join(__dirname, '../tmp');
@@ -23,7 +27,7 @@ exports.createBourbonFile = function(forceCreation) {
 
 	var bourbonFile = [];
 
-	var deprecatedMixinsFilePath = path.join(__dirname, '../tmp/_deprecated.scss');
+	var deprecatedMixinsFilePath = path.join(process.cwd(), pathSrc, 'css', '_deprecated_mixins.scss');
 
 	if (fs.existsSync(deprecatedMixinsFilePath)) {
 		bourbonFile.push('@import "');

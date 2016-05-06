@@ -370,7 +370,8 @@ function getSassInlcudePaths(version, rubySass) {
 
 		includePaths = includePaths.concat(createBourbonFile());
 	}
-	else if (version == 6.2 && !rubySass) {
+
+	if (!rubySass) {
 		includePaths.push(path.dirname(require.resolve('compass-mixins')));
 	}
 
