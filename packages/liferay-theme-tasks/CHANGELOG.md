@@ -2,6 +2,10 @@
 * No changes
 ***
 
+## v1.1.1 - May 6, 2016
+* Fix: fix issue with compass-mixin dependency and latest versions of node-sass
+* Update: improved upgrade task's handling of compass mixins
+
 ## v1.1.0 - April 27, 2016
 * New: add deploy:gogo task for faster full deploy for 7.0 themes
 * Fix: fixed issue where theme names were being truncated on deploy
