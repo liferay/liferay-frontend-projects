@@ -157,7 +157,7 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 		runSequence('upgrade:create-deprecated-mixins', function(err) {
 			if (err) throw err;
 
-			assert.isFile(path.join(instance._initCwd, 'tmp/_deprecated.scss'));
+			assert.isFile(path.join(tempPath, 'src/css/_deprecated_mixins.scss'));
 
 			done();
 		});
