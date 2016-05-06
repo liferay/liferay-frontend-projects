@@ -106,10 +106,8 @@ module.exports = function(options) {
 	gulp.task('build:compile-ruby-sass', function(cb) {
 		var gulpRubySass = themeUtil.requireDependency('gulp-ruby-sass', themeConfig.version);
 
-		var rubyCompass = themeConfig.version == '6.2';
-
 		var config = _.assign({
-			compass: rubyCompass,
+			compass: true,
 			loadPath: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
 			sourcemap: false
 		}, options.sassOptions);
