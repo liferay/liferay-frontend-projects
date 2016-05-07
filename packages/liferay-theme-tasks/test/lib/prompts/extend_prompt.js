@@ -3,10 +3,15 @@
 var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs-extra');
-var lfrThemeConfig = require('../../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
+
+var lfrThemeConfig = require('../../../lib/liferay_theme_config.js');
+var testUtil = require('../../util.js');
+
+var assertBoundFunction = testUtil.assertBoundFunction;
+var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
 var ExtendPrompt;
 
@@ -83,6 +88,8 @@ describe('Extend Prompt', function() {
 	afterEach(function() {
 		ExtendPrompt.prototype._extendableThemes = undefined;
 		ExtendPrompt.prototype._extendType = undefined;
+
+		prototypeMethodSpy.flush();
 	});
 
 	describe('init', function() {
@@ -228,21 +235,18 @@ describe('Extend Prompt', function() {
 		it('should call GlobalModulePrompt', function() {
 			var GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt');
 
-			modifiedPrototypes.push({
-				module: GlobalModulePrompt,
-				prototype: _.create(GlobalModulePrompt.prototype)
-			});
-
 			var answers = {
 				themeSource: 'global'
 			};
 
-			GlobalModulePrompt.prototype.init = sinon.spy();
+			GlobalModulePrompt
+
+			var initSpy = prototypeMethodSpy.add(GlobalModulePrompt.prototype, 'init');
 			prototype._afterPromptModule = sinon.spy();
 
 			prototype._afterPromptThemeSource(answers);
 
-			var args = GlobalModulePrompt.prototype.init.getCall(0).args;
+			var args = initSpy.getCall(0).args;
 
 			assert.deepEqual(args[0], {
 				selectedModules: ['parent-theme'],
@@ -257,21 +261,16 @@ describe('Extend Prompt', function() {
 		it('should call NPMModulePrompt', function() {
 			var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt');
 
-			modifiedPrototypes.push({
-				module: NPMModulePrompt,
-				prototype: _.create(NPMModulePrompt.prototype)
-			});
-
 			var answers = {
 				themeSource: 'npm'
 			};
 
-			NPMModulePrompt.prototype.init = sinon.spy();
+			var initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
 			prototype._afterPromptModule = sinon.spy();
 
 			prototype._afterPromptThemeSource(answers);
 
-			var args = NPMModulePrompt.prototype.init.getCall(0).args;
+			var args = initSpy.getCall(0).args;
 
 			assert.deepEqual(args[0], {
 				selectedModules: ['parent-theme'],
@@ -426,9 +425,9 @@ describe('Extend Prompt', function() {
 			inquirer.prompt = sinon.spy();
 			prototype._afterPromptThemeSource = sinon.spy();
 
-			var assertFilterExtendType = assertBoundFunction('_filterExtendType', prototype);
-			var assertGetThemeSourceChoices = assertBoundFunction('_getThemeSourceChoices', prototype);
-			var assertGetThemeSourceMessage = assertBoundFunction('_getThemeSourceMessage', prototype);
+			var assertFilterExtendType = assertBoundFunction(prototype, '_filterExtendType');
+			var assertGetThemeSourceChoices = assertBoundFunction(prototype, '_getThemeSourceChoices');
+			var assertGetThemeSourceMessage = assertBoundFunction(prototype, '_getThemeSourceMessage');
 
 			prototype._promptThemeSource();
 
@@ -556,14 +555,3 @@ describe('Extend Prompt', function() {
 		});
 	});
 });
-
-function assertBoundFunction(fnName, prototype) {
-	prototype[fnName] = sinon.spy();
-
-	return function(fn) {
-		fn('argument');
-
-		assert(prototype[fnName].calledOnce);
-		assert(prototype[fnName].calledWith('argument'));
-	};
-}

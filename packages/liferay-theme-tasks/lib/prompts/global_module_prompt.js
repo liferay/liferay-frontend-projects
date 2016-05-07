@@ -13,11 +13,17 @@ function GlobalModulePrompt() {
 
 GlobalModulePrompt.prototype = {
 	init: function(config, cb) {
+		var instance = this;
+
 		this.done = cb;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
-		this._prompt();
+		this._getGlobalModules(function(modules) {
+			instance._modules = modules;
+
+			instance._prompt();
+		});
 	},
 
 	_afterPrompt: function(answers) {
@@ -36,16 +42,33 @@ GlobalModulePrompt.prototype = {
 		this.done(answers);
 	},
 
-	_getGlobalThemes: function(cb) {
-		var instance = this;
+	_filterModule: function(input) {
+		if (this.themelet) {
+			return _.mapValues(this._modules, function(theme, name) {
+				return input.indexOf(name) > -1;
+			});
+		}
+		else {
+			return input;
+		}
+	},
 
+	_getGlobalModules: function(cb) {
 		themeFinder.getLiferayThemeModules({
 			globalModules: true,
 			themelet: this.themelet
 		}, cb);
 	},
 
-	_prompt: function(options) {
+	_getModuleWhen: function() {
+		return !_.isEmpty(this._modules);
+	},
+
+	_getModuleChoices: function() {
+		return promptUtil.getModuleChoices(this._modules, this);
+	},
+
+	_prompt: function() {
 		var instance = this;
 
 		var themelet = this.themelet;
@@ -55,31 +78,12 @@ GlobalModulePrompt.prototype = {
 		inquirer.prompt(
 			[
 				{
-					choices: function(answers) {
-						return promptUtil.getModuleChoices(instance._modules, instance);
-					},
-					filter: function(input) {
-						if (themelet) {
-							return _.mapValues(instance._modules, function(theme, name) {
-								return input.indexOf(name) > -1;
-							});
-						}
-						else {
-							return input;
-						}
-					},
+					choices: _.bind(instance._getModuleChoices, instance),
+					filter: _.bind(instance._filterModule, instance),
 					message: themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'module',
 					type: themelet ? 'checkbox' : listType,
-					when: function(answers) {
-						var done = this.async();
-
-						instance._getGlobalThemes(function(modules) {
-							instance._modules = modules;
-
-							done(!_.isEmpty(modules));
-						});
-					}
+					when: _.bind(instance._getModuleWhen, instance)
 				}
 			],
 			_.bind(instance._afterPrompt, instance)
