@@ -32,7 +32,7 @@ NPMModulePrompt.prototype = {
 
 		var themelet = this.themelet;
 
-		this._getNPMThemes(answers.npmSearchTerms, function(modules) {
+		this._getNPMModules(answers.searchTerms, function(modules) {
 			if (_.isEmpty(modules)) {
 				var type = themelet ? 'themelets' : 'themes';
 
@@ -48,10 +48,10 @@ NPMModulePrompt.prototype = {
 		});
 	},
 
-	_getNPMThemes: function(npmSearchTerms, cb) {
+	_getNPMModules: function(searchTerms, cb) {
 		themeFinder.getLiferayThemeModules({
 			globalModules: false,
-			searchTerms: npmSearchTerms,
+			searchTerms: searchTerms,
 			themelet: this.themelet
 		}, cb);
 	},
@@ -65,7 +65,7 @@ NPMModulePrompt.prototype = {
 			[
 				{
 					message: themelet ? 'Search npm for themelets:' : 'Search npm for themes:',
-					name: 'npmSearchTerms'
+					name: 'searchTerms'
 				}
 			],
 			_.bind(this._afterPromptSearchTerms, this)
