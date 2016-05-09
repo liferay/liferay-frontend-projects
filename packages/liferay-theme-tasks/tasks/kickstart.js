@@ -2,13 +2,10 @@
 
 var _ = require('lodash');
 var del = require('del');
-var exec = require('child_process').exec;
-var fs = require('fs-extra');
 var KickstartPrompt = require('../lib/prompts/kickstart_prompt');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
-var themeUtil = require('../lib/util');
 
 var gutil = plugins.util;
 
@@ -24,17 +21,17 @@ module.exports = function(options) {
 	var argv = options.argv;
 
 	gulp.task('kickstart', function(cb) {
-		new KickstartPrompt(function(kickstartData) {
+		new KickstartPrompt(function(answers) {
 			var tempNodeModulesPath;
 			var themeSrcPath;
 
-			if (kickstartData.npmTheme) {
+			if (answers.modulePath) {
+				themeSrcPath = path.join(answers.modulePath, 'src');
+			}
+			else {
 				tempNodeModulesPath = path.join(process.cwd(), '.temp_node_modules');
 
-				themeSrcPath = path.join(tempNodeModulesPath, 'node_modules', kickstartData.npmTheme, 'src');
-			}
-			else if (kickstartData.globalTheme) {
-				themeSrcPath = path.join(kickstartData.globalTheme, 'src');
+				themeSrcPath = path.join(tempNodeModulesPath, 'node_modules', answers.module, 'src');
 			}
 
 			if (themeSrcPath) {

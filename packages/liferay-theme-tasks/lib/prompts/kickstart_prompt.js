@@ -2,14 +2,12 @@
 
 var _ = require('lodash');
 var exec = require('child_process').exec;
-var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
 
 var GlobalModulePrompt = require('./global_module_prompt');
 var NPMModulePrompt = require('./npm_module_prompt');
 var promptUtil = require('./prompt_util');
-var themeFinder = require('../theme_finder');
 
 function KiststartPrompt() {
 	this.init.apply(this, arguments);
@@ -25,12 +23,21 @@ KiststartPrompt.prototype = {
 	_afterPromptModule: function(answers) {
 		var done = this.done;
 
-		if (answers.module) {
-			this._installTempModule(answers.module, function() {
+		var module = answers.module;
+
+		var pkg = answers.modules[module];
+
+		if (!pkg) {
+			done(answers);
+		}
+		else if (!pkg.realPath) {
+			this._installTempModule(module, function() {
 				done(answers);
 			});
 		}
 		else {
+			answers.modulePath = pkg.realPath;
+
 			done(answers);
 		}
 	},

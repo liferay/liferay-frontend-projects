@@ -46,7 +46,11 @@ describe('KickstartPrompt', function() {
 
 	describe('_afterPromptModule', function() {
 		it('should pass answers to done prop or invoke _installTempModule', function() {
-			var answers = {};
+			var answers = {
+				modules: {
+					'some-theme': {}
+				}
+			};
 
 			prototype._installTempModule = sinon.spy();
 			prototype.done = sinon.spy();
@@ -65,6 +69,26 @@ describe('KickstartPrompt', function() {
 			prototype._installTempModule.getCall(0).args[1]();
 
 			assert(prototype.done.getCall(1).calledWith(answers));
+		});
+
+		it('should set modulePath property of answers object if realPath exists in pkg', function() {
+			var answers = {
+				module: 'some-theme',
+				modules: {
+					'some-theme': {
+						realPath: '/path/to/some-theme'
+					}
+				}
+			};
+
+			prototype._installTempModule = sinon.spy();
+			prototype.done = sinon.spy();
+
+			prototype._afterPromptModule(answers);
+
+			assert(prototype._installTempModule.notCalled);
+			assert(prototype.done.calledWith(answers));
+			assert.equal(answers.modulePath, '/path/to/some-theme');
 		});
 	});
 
