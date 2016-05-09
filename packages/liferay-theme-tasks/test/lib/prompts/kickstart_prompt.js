@@ -129,7 +129,9 @@ describe('KickstartPrompt', function() {
 			prototype._installTempModule(name, function(err) {
 				var command = 'npm install --prefix ' + path.join(process.cwd(), '.temp_node_modules') + ' ' + name;
 
-				assert(err.cmd.indexOf(command) > -1);
+				if (err.cmd) {
+					assert(err.cmd.indexOf(command) > -1);
+				}
 
 				done();
 			});

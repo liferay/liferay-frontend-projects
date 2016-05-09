@@ -398,7 +398,9 @@ describe('Extend Prompt', function() {
 	describe('_installDependencies', function() {
 		it('should run child process that installs dependencies', function(done) {
 			prototype._installDependencies(themeletDependencies, function(err, data) {
-				assert(err.cmd.indexOf('npm install themelet-1@* themelet-2@* themelet-3@*') > -1);
+				if (err.cmd) {
+					assert(err.cmd.indexOf('npm install themelet-1@* themelet-2@* themelet-3@*') > -1);
+				}
 
 				done();
 			});
