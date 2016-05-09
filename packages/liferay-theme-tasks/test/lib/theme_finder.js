@@ -67,6 +67,8 @@ describe('themeFinder', function() {
 		});
 
 		it('should return an object when searching for npm modules', function(done) {
+			this.timeout(6000);
+
 			themeFinder.getLiferayThemeModules({
 				globalModules: false,
 				themelet: true
