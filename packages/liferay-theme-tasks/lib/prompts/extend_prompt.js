@@ -111,9 +111,14 @@ ExtendPrompt.prototype = {
 
 		this._saveDependencies(reducedThemelets);
 
-		this._installDependencies(reducedThemelets, function() {
+		if (answers.addedThemelets.length) {
+			this._installDependencies(reducedThemelets, function() {
+				instance.done();
+			});
+		}
+		else {
 			instance.done();
-		});
+		}
 	},
 
 	_afterPromptThemeSource: function(answers) {
