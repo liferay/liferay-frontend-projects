@@ -4,6 +4,7 @@ var _ = require('lodash');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
+var ModulePrompt = require('./module_prompt');
 var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
@@ -13,6 +14,8 @@ function NPMModulePrompt() {
 
 NPMModulePrompt.prototype = {
 	init: function(config, cb) {
+		var instance = this;
+
 		this.done = cb;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
@@ -21,12 +24,6 @@ NPMModulePrompt.prototype = {
 	},
 
 	_afterPrompt: function(answers) {
-		if (this.themelet) {
-			_.assign(answers, promptUtil.formatThemeletSelection(answers.module, this.selectedModules));
-		}
-
-		answers.modules = this._modules;
-
 		this.done(answers);
 	},
 
@@ -35,63 +32,28 @@ NPMModulePrompt.prototype = {
 
 		var themelet = this.themelet;
 
-		var type = themelet ? 'themelets' : 'themes';
-
 		this._getNPMThemes(answers.npmSearchTerms, function(modules) {
 			if (_.isEmpty(modules)) {
+				var type = themelet ? 'themelets' : 'themes';
+
 				gutil.log(gutil.colors.yellow('No ' + type + ' matched your search!'));
 
 				instance._promptSearchTerms();
 			}
 			else {
-				instance._promptModule(modules);
+				instance.modules = modules;
+
+				new ModulePrompt(instance, _.bind(instance._afterPrompt, instance));
 			}
 		});
 	},
 
 	_getNPMThemes: function(npmSearchTerms, cb) {
-		var instance = this;
-
 		themeFinder.getLiferayThemeModules({
 			globalModules: false,
 			searchTerms: npmSearchTerms,
 			themelet: this.themelet
 		}, cb);
-	},
-
-	_promptModule: function(modules) {
-		var instance = this;
-
-		this._modules = modules;
-
-		var themelet = this.themelet;
-
-		var listType = promptUtil.getListType();
-
-		inquirer.prompt(
-			[
-				{
-					choices: _.bind(promptUtil.getModuleChoices, instance, modules, instance),
-					filter: function(input) {
-						if (themelet) {
-							return _.mapValues(modules, function(theme, name) {
-								return input.indexOf(name) > -1;
-							});
-						}
-						else {
-							return input;
-						}
-					},
-					message: themelet ? 'Select a themelet' : 'Select a theme',
-					name: 'module',
-					type: themelet ? 'checkbox' : listType,
-					when: function(answers) {
-						return !_.isEmpty(modules);
-					}
-				}
-			],
-			_.bind(instance._afterPrompt, instance)
-		);
 	},
 
 	_promptSearchTerms: function() {
