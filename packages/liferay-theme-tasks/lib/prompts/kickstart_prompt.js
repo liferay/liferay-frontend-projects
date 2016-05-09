@@ -55,7 +55,7 @@ KiststartPrompt.prototype = {
 		}
 	},
 
-	_installTempModule(moduleName, cb) {
+	_installTempModule: function(moduleName, cb) {
 		var tempNodeModulesPath = path.join(process.cwd(), '.temp_node_modules');
 
 		var child = exec('npm install --prefix ' + tempNodeModulesPath + ' ' + moduleName, cb);
