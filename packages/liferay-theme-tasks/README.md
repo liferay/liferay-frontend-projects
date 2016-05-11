@@ -7,6 +7,7 @@
 * [build](#build)
 * [deploy](#deploy)
 * [extend](#extend)
+* [kickstart](#kickstart)
 * [status](#status)
 * [watch](#watch)
 * [init](#init)
@@ -51,11 +52,21 @@ gulp deploy --live -u test@liferay.com -p test
 gulp extend
 ```
 
-The `extend` task is what allows you to specify what base theme you are extending from. By default, themes created with the [theme generator](https://github.com/natecavanaugh/generator-liferay-theme) will base off the [styled theme](https://github.com/natecavanaugh/liferay-theme-styled).
+The `extend` task is what allows you to specify what base theme you are extending from. By default, themes created with the [theme generator](https://github.com/natecavanaugh/generator-liferay-theme) will base off the [styled theme](https://www.npmjs.com/package/liferay-frontend-theme-styled).
 
 You first are prompted if you want to extend a Base theme or Themelet, then you will be prompted for where you would like to search for modules. `Globally installed npm modules` will search npm modules that have been installed on your computer with the `-g` flag. Selecting `npm registry` will search for published modules on npm.
 
 Once it gives you the options and you make your selection, it will add any selected modules to your package.json under dependencies and run `npm install`.
+
+### Kickstart
+
+```
+gulp kickstart
+```
+
+The `kickstart` task allows you to copy the css, images, js, and templates from another theme into the src directory of your own. This allows you to quickly get up and running with a production ready theme.
+
+`kickstart` is similar to `extend`. The difference is that kickstarting from another theme is a one time inheritance, while extending from another theme is a dynamic inheritance that applies your src files on top of the base theme on every build.
 
 ### Status
 
