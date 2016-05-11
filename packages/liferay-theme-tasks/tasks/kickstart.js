@@ -19,6 +19,13 @@ module.exports = function(options) {
 	var argv = options.argv;
 
 	gulp.task('kickstart', function(cb) {
+		gutil.log(
+			gutil.colors.yellow('Warning:'),
+			'the',
+			gutil.colors.cyan('kickstart'),
+			'task will potentially overwrite files in your src directory'
+		);
+
 		new KickstartPrompt({
 			themeConfig: lfrThemeConfig.getConfig()
 		}, function(answers) {
