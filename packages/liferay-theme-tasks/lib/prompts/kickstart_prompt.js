@@ -8,14 +8,16 @@ var path = require('path');
 var GlobalModulePrompt = require('./global_module_prompt');
 var NPMModulePrompt = require('./npm_module_prompt');
 var promptUtil = require('./prompt_util');
+var themeUtil = require('../util');
 
 function KiststartPrompt() {
 	this.init.apply(this, arguments);
 }
 
 KiststartPrompt.prototype = {
-	init: function(cb) {
+	init: function(config, cb) {
 		this.done = cb;
+		this.themeConfig = config.themeConfig;
 
 		this._promptThemeSource();
 	},
@@ -36,7 +38,7 @@ KiststartPrompt.prototype = {
 			});
 		}
 		else {
-			answers.modulePath = pkg.realPath;
+			answers.modulePath = path.join(pkg.realPath, 'src');
 
 			done(answers);
 		}
@@ -47,11 +49,20 @@ KiststartPrompt.prototype = {
 			themelet: false
 		};
 
-		if (answers.themeSource == 'npm') {
+		var themeSource = answers.themeSource;
+
+		if (themeSource == 'npm') {
 			new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
 		}
-		else if (answers.themeSource == 'global') {
+		else if (themeSource == 'global') {
 			new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
+		}
+		else if (themeSource == 'classic') {
+			var classicPath = themeUtil.resolveDependency('liferay-frontend-theme-classic-web', this.themeConfig.version);
+
+			this.done({
+				modulePath: classicPath
+			});
 		}
 	},
 
@@ -69,19 +80,31 @@ KiststartPrompt.prototype = {
 
 		var listType = promptUtil.getListType();
 
+		var choices = [
+			{
+				name: 'Search globally installed npm modules',
+				value: 'global'
+			},
+			{
+				name: 'Search npm registry (published modules)',
+				value: 'npm'
+			}
+		];
+
+		if (this.themeConfig && this.themeConfig.version != '6.2') {
+			choices = choices.concat([
+				new inquirer.Separator(),
+				{
+					name: 'Classic',
+					value: 'classic'
+				}
+			]);
+		}
+
 		inquirer.prompt(
 			[
 				{
-					choices: [
-						{
-							name: 'Search globally installed npm modules',
-							value: 'global'
-						},
-						{
-							name: 'Search npm registry (published modules)',
-							value: 'npm'
-						}
-					],
+					choices: choices,
 					message: 'Where would you like to search?',
 					name: 'themeSource',
 					type: listType

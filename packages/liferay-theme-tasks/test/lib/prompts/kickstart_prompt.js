@@ -34,12 +34,19 @@ describe('KickstartPrompt', function() {
 	});
 
 	describe('init', function() {
-		it('should should assign callback as done property and invoke prompting', function() {
+		it('should should assign callback as done property, set themeConfig, and invoke prompting', function() {
 			prototype._promptThemeSource = sinon.spy();
 
-			prototype.init(_.noop);
+			var themeConfig = {
+				version: '7.0'
+			};
+
+			prototype.init({
+				themeConfig: themeConfig
+			}, _.noop);
 
 			assert(prototype._promptThemeSource.calledOnce);
+			assert.deepEqual(prototype.themeConfig, themeConfig);
 			assert.equal(prototype.done, _.noop);
 		});
 	});
@@ -88,7 +95,7 @@ describe('KickstartPrompt', function() {
 
 			assert(prototype._installTempModule.notCalled);
 			assert(prototype.done.calledWith(answers));
-			assert.equal(answers.modulePath, '/path/to/some-theme');
+			assert.equal(answers.modulePath, '/path/to/some-theme/src');
 		});
 	});
 

@@ -9,8 +9,6 @@ var plugins = require('gulp-load-plugins')();
 
 var gutil = plugins.util;
 
-var themeConfig = lfrThemeConfig.getConfig(true);
-
 module.exports = function(options) {
 	var gulp = options.gulp;
 
@@ -21,12 +19,14 @@ module.exports = function(options) {
 	var argv = options.argv;
 
 	gulp.task('kickstart', function(cb) {
-		new KickstartPrompt(function(answers) {
+		new KickstartPrompt({
+			themeConfig: lfrThemeConfig.getConfig()
+		}, function(answers) {
 			var tempNodeModulesPath;
 			var themeSrcPath;
 
 			if (answers.modulePath) {
-				themeSrcPath = path.join(answers.modulePath, 'src');
+				themeSrcPath = answers.modulePath;
 			}
 			else if (answers.module) {
 				tempNodeModulesPath = path.join(process.cwd(), '.temp_node_modules');
@@ -42,7 +42,7 @@ module.exports = function(options) {
 				gulp.src(globs, {
 						base: themeSrcPath
 					})
-					.pipe(gulp.dest('src'))
+					.pipe(gulp.dest(pathSrc))
 					.on('end', function() {
 						if (tempNodeModulesPath) {
 							del([tempNodeModulesPath], cb);
