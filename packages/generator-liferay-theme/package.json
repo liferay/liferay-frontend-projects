@@ -41,6 +41,7 @@
     "lodash-bindright": "^1.0.1",
     "minimist": "^1.2.0",
     "slug": "^0.8.0",
+    "update-notifier": "^0.7.0",
     "yeoman-generator": "^0.18.0",
     "yosay": "^0.3.0"
   },

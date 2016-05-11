@@ -6,6 +6,7 @@ var Insight = require('insight');
 var minimist = require('minimist');
 var path = require('path');
 var slug = require('slug');
+var updateNotifier = require('update-notifier');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
@@ -19,6 +20,13 @@ module.exports = yeoman.generators.Base.extend({
 			trackingCode: 'UA-69122110-1',
 			pkg: pkg
 		});
+
+		var notifier = updateNotifier({
+			pkg: pkg,
+			updateCheckInterval: 1000 * 60 * 60 * 12
+		});
+
+		notifier.notify();
 	},
 
 	prompting: function() {
