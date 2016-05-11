@@ -1,6 +1,7 @@
 {
 	"name": "<%= layoutDirName %>",
 	"version": "<%= packageVersion %>",
+	"main": "package.json",
 	"keywords": [
 		"liferay-theme"
 	],
