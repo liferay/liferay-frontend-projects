@@ -30,19 +30,22 @@ ExtendPrompt.prototype = {
 			themeFinder.getLiferayThemeModule(moduleName, function(err, pkg) {
 				if (err) throw err;
 
-				var dependencyPropertyName = 'baseTheme';
+				var modules = {};
+
+				modules[moduleName] = pkg;
 
 				if (pkg.liferayTheme.themelet) {
-					dependencyPropertyName = 'themeletDependencies';
+					instance._afterPromptThemelets({
+						addedThemelets: [moduleName],
+						modules: modules
+					});
 				}
-
-				var config = _.set({}, dependencyPropertyName + '.' + moduleName, instance._reducePkgData(pkg));
-
-				lfrThemeConfig.setConfig(config);
-
-				instance._saveDependencies(config[dependencyPropertyName]);
-
-				cb();
+				else {
+					instance._afterPromptTheme({
+						module: moduleName,
+						modules: modules
+					});
+				}
 			});
 		}
 		else {
