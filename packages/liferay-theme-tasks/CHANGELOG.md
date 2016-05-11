@@ -1,8 +1,11 @@
 ## Next Release
+* No changes
+***
+
+## v1.2.0 - May 11, 2016
 * New: add kickstart task
 * Update: add keyword searching for published modules during extend/kickstart task to limit results
 * Update: warn devs when they have local dependencies installed during doctor script
-***
 
 ## v1.1.1 - May 6, 2016
 * Fix: fix issue with compass-mixin dependency and latest versions of node-sass
