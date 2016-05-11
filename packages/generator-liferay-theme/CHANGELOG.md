@@ -1,9 +1,9 @@
 ## Next Release
-* No changes
+* New: hide deprecated options during theme creation unless --deprecated flag is used
 ***
 
 ## v7.1.7 - April 27, 2016
-* Fix: only add defauly portlet decorators for 7.0 themes
+* Fix: only add default portlet decorators for 7.0 themes
 
 ## v7.1.6 - April 21, 2016
 * Fix: added lib directory to npm files array fixing layout generator
