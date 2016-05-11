@@ -198,7 +198,7 @@ ExtendPrompt.prototype = {
 
 		var searchOptions = [
 			{
-				name: 'Search globally installed npm modules',
+				name: 'Search globally installed npm modules (development purposes only)',
 				value: 'global'
 			},
 			{

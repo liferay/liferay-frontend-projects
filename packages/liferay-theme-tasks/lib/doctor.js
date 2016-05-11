@@ -49,15 +49,49 @@ module.exports = function(themeConfig, halt) {
 		}
 	}
 
+	checkDependencySources(themeConfig.liferayTheme);
+
 	if (halt) {
 		haltTask(missingDeps);
 	}
 };
 
+function checkDependencySources(liferayTheme) {
+	var baseTheme = liferayTheme.baseTheme;
+	var themeletDependencies = liferayTheme.themeletDependencies;
+
+	var localDependencies = [];
+
+	if (_.isObject(baseTheme) && baseTheme.path) {
+		localDependencies.push(baseTheme);
+	}
+
+	if (themeletDependencies) {
+		_.forEach(themeletDependencies, function(item, index) {
+			if (item.path) {
+				localDependencies.push(item);
+			}
+		});
+	}
+
+	if (localDependencies.length) {
+		logLocalDependencies(localDependencies);
+	}
+}
+
 function haltTask(missingDeps) {
 	if (missingDeps > 0) {
 		throw new Error('Missing ' + missingDeps + ' theme dependencies');
 	}
+}
+
+function logLocalDependencies(localDependencies) {
+	var dependenciesString = _.map(localDependencies, function(item, index) {
+		return item.name;
+	}).join(', ');
+
+	gutil.log(chalk.yellow('Warning:'), 'you have dependencies that are installed from local modules. These should only be used for development purposes. Do not publish this npm module with those dependencies!');
+	gutil.log(chalk.yellow('Local module dependencies:'), dependenciesString);
 }
 
 function logMissingDeps(dependencies, moduleName, missingDeps) {
