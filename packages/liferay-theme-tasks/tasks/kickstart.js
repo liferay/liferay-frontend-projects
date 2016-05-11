@@ -28,7 +28,7 @@ module.exports = function(options) {
 			if (answers.modulePath) {
 				themeSrcPath = path.join(answers.modulePath, 'src');
 			}
-			else {
+			else if (answers.module) {
 				tempNodeModulesPath = path.join(process.cwd(), '.temp_node_modules');
 
 				themeSrcPath = path.join(tempNodeModulesPath, 'node_modules', answers.module, 'src');
@@ -53,6 +53,8 @@ module.exports = function(options) {
 					});
 			}
 			else {
+				gutil.log(gutil.colors.yellow('Theme not selected'));
+
 				cb();
 			}
 		});
