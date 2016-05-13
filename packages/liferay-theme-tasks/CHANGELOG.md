@@ -1,6 +1,9 @@
 ## Next Release
-* Update: add --styled-path, --unstyled-path, and --css-common-path flags for using custom theme dependencies during build
+* No changes
 ***
+
+## v1.2.1 - May 13, 2016
+* Update: add --styled-path, --unstyled-path, and --css-common-path flags for using custom theme dependencies during build
 
 ## v1.2.0 - May 11, 2016
 * New: add kickstart task

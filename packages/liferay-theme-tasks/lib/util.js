@@ -3,9 +3,12 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
+var gutil = require('gulp-util');
 var lfrThemeConfig = require('./liferay_theme_config');
 var path = require('path');
 var resolve = require('resolve');
+
+var chalk = gutil.colors;
 
 var themeConfig = lfrThemeConfig.getConfig();
 
@@ -90,6 +93,8 @@ module.exports = {
 		var customPath = this._getCustomDependencyPath(dependency);
 
 		if (customPath) {
+			gutil.log(chalk.magenta(dependency), 'using custom path:', chalk.magenta(customPath));
+
 			return customPath;
 		}
 
