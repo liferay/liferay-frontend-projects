@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Update: add --styled-path, --unstyled-path, and --css-common-path flags for using custom theme dependencies during build
 ***
 
 ## v1.2.0 - May 11, 2016

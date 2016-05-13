@@ -11,6 +11,18 @@ var themeConfig = lfrThemeConfig.getConfig();
 
 var fullDeploy = (argv.full || argv.f);
 
+var CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
+	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
+	'liferay-frontend-theme-styled': 'LIFERAY_THEME_STYLED_PATH',
+	'liferay-frontend-theme-unstyled': 'LIFERAY_THEME_UNSTYLED_PATH'
+};
+
+var CUSTOM_DEP_PATH_FLAG_MAP = {
+	'liferay-frontend-common-css': 'css-common-path',
+	'liferay-frontend-theme-styled': 'styled-path',
+	'liferay-frontend-theme-unstyled': 'unstyled-path'
+};
+
 module.exports = {
 	getCssSrcPath: function(srcPath, config) {
 		if (config.version != '6.2') {
@@ -75,6 +87,12 @@ module.exports = {
 			dirname = true;
 		}
 
+		var customPath = this._getCustomDependencyPath(dependency);
+
+		if (customPath) {
+			return customPath;
+		}
+
 		var depsPath = this._getDepsPath(version);
 
 		var dependencyPath = resolve.sync(dependency, {
@@ -100,6 +118,23 @@ module.exports = {
 		return require(dependencyPath);
 	},
 
+	_getCustomDependencyPath: function(dependency) {
+		var customPath;
+		var envVariable = CUSTOM_DEP_PATH_ENV_VARIABLE_MAP[dependency];
+		var flag = CUSTOM_DEP_PATH_FLAG_MAP[dependency];
+
+		if (flag && argv[flag]) {
+			customPath = argv[flag];
+		}
+		else if (envVariable && process.env[envVariable]) {
+			customPath = process.env[envVariable];
+		}
+
+		this._validateCustomDependencyPath(customPath);
+
+		return customPath;
+	},
+
 	_getDepsPath: function(version) {
 		var depModuleName = 'liferay-theme-deps-7.0';
 
@@ -112,5 +147,20 @@ module.exports = {
 		var depsPath = path.dirname(require.resolve(depModuleName));
 
 		return depsPath;
+	},
+
+	_validateCustomDependencyPath: function(customPath) {
+		if (customPath) {
+			try {
+				var stats = fs.statSync(customPath);
+
+				if (!stats.isDirectory()) {
+					throw new Error(customPath + ' is not a directory');
+				}
+			}
+			catch(err) {
+				throw err;
+			}
+		}
 	}
 };
