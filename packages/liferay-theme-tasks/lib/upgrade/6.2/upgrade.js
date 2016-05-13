@@ -11,7 +11,7 @@ var lfrThemeConfig = require('../../liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
-var spawn = require('child_process').spawn;
+var spawn = require('cross-spawn');
 var themeUtil = require('../../util');
 var vinylPaths = require('vinyl-paths');
 
