@@ -9,6 +9,8 @@ var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 
+var chalk = gutil.colors;
+
 var themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = function(options) {
@@ -17,6 +19,7 @@ module.exports = function(options) {
 	var runSequence = require('run-sequence').use(gulp);
 
 	var argv = options.argv;
+	var pathSrc = options.pathSrc;
 
 	var version = argv.v || argv.version;
 
@@ -33,11 +36,21 @@ module.exports = function(options) {
 	gulp.task('upgrade', function(cb) {
 		if (_.isFunction(versionUpgradeTask)) {
 			runSequence('upgrade:create-backup-files', function() {
-				versionUpgradeTask(cb);
+				versionUpgradeTask(function(err) {
+					if (err) {
+						gutil.log(chalk.red('Error:'), 'something went wrong during the upgrade task, reverting changes.');
+						gutil.log(err);
+
+						runSequence('upgrade:revert-src', cb);
+					}
+					else {
+						cb();
+					}
+				});
 			});
 		}
 		else {
-			throw new gutil.PluginError('gulp-theme-upgrader', gutil.colors.red('Version specific upgrade task must return function.'));
+			throw new gutil.PluginError('gulp-theme-upgrader', chalk.red('Version specific upgrade task must return function.'));
 		}
 	});
 
@@ -45,7 +58,7 @@ module.exports = function(options) {
 		var backupExists = fs.existsSync('_backup');
 
 		var backup = function() {
-			gulp.src('src/**/*')
+			gulp.src(path.join(pathSrc, '**/*'))
 				.pipe(gulp.dest('_backup/src'))
 				.on('end', function() {
 					gulp.src('package.json')
@@ -78,7 +91,7 @@ module.exports = function(options) {
 	gulp.task('upgrade:revert', function(cb) {
 		var backupExists = (fs.existsSync('_backup/src') && fs.statSync('_backup/src').isDirectory());
 
-		var noBackupErr = new gutil.PluginError('gulp-theme-upgrader', gutil.colors.red('No backup files found!'));
+		var noBackupErr = new gutil.PluginError('gulp-theme-upgrader', chalk.red('No backup files found!'));
 
 		if (!backupExists) throw noBackupErr;
 
@@ -90,22 +103,26 @@ module.exports = function(options) {
 			}
 		], function(answers) {
 			if (answers.revert) {
-				del.sync('src/**/*');
-
-				gulp.src('_backup/src/**/*')
-					.pipe(gulp.dest('src'))
-					.on('end', function() {
-						gulp.src('_backup/_package.json')
-							.pipe(plugins.rename('package.json'))
-							.pipe(gulp.dest(process.cwd()))
-							.on('end', cb);
-					});
+				runSequence('upgrade:revert-src', cb);
 			}
 			else {
-				gutil.log(gutil.colors.cyan('No files reverted.'));
+				gutil.log(chalk.cyan('No files reverted.'));
 
 				cb();
 			}
 		});
+	});
+
+	gulp.task('upgrade:revert-src', function(cb) {
+		del.sync(path.join(pathSrc, '**/*'));
+
+		gulp.src('_backup/src/**/*')
+			.pipe(gulp.dest(pathSrc))
+			.on('end', function() {
+				gulp.src('_backup/_package.json')
+					.pipe(plugins.rename('package.json'))
+					.pipe(gulp.dest(process.cwd()))
+					.on('end', cb);
+			});
 	});
 };
