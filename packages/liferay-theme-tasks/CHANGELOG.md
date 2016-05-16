@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Fix: fix dependency upgrade task regression for Windows environments
+* Update: revert any changes if upgrade task fails at any points
 ***
 
 ## v1.2.1 - May 13, 2016
