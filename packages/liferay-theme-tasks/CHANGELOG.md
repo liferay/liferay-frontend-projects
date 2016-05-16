@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v1.2.2 - May 16, 2016
 * Fix: fix dependency upgrade task regression for Windows environments
 * Update: revert any changes if upgrade task fails at any points
-***
 
 ## v1.2.1 - May 13, 2016
 * Update: add --styled-path, --unstyled-path, and --css-common-path flags for using custom theme dependencies during build
