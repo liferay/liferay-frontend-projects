@@ -66,6 +66,8 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			buildPath = '//' + buildPath;
 		}
 
+		buildPath = buildPath.replace(/\s/g, '%20');
+
 		var themeName = themeConfig.name;
 
 		return 'install webbundledir:file:' + buildPath + '?Web-ContextPath=/' + themeName;
