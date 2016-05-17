@@ -135,9 +135,9 @@ module.exports = function(options) {
 
 			var fileExt = path.extname(relativeFilePath);
 
-			var match = relativeFilePath.match(/(.+?)\//);
+			var filePathArray = relativeFilePath.split(path.sep);
 
-			var rootDir = match ? match[1] : '';
+			var rootDir = filePathArray.length ? filePathArray[0] : '';
 
 			var taskArray = ['deploy'];
 
