@@ -2,13 +2,16 @@
 
 var _ = require('lodash');
 var async = require('async');
-var net = require('net');
-var path = require('path');
 var GogoShell = require('gogo-shell');
+var net = require('net');
+var os = require('os');
+var path = require('path');
 
 var lfrThemeConfig = require('./liferay_theme_config');
 
 var themeConfig = lfrThemeConfig.getConfig(true);
+
+var REGEX_WIN = /^win/;
 
 var WatchSocket = function(config) {
 	GogoShell.call(this, config);
@@ -51,6 +54,21 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			.then(function() {
 				instance.end();
 			});
+	},
+
+	_formatWebBundleDirCommand: function() {
+		var buildPath = path.join(process.cwd(), this.webBundleDir);
+
+		if (this._isWin()) {
+			buildPath = '/' + buildPath.split(path.sep).join('/');
+		}
+		else {
+			buildPath = '//' + buildPath;
+		}
+
+		var themeName = themeConfig.name;
+
+		return 'install webbundledir:file:' + buildPath + '?Web-ContextPath=/' + themeName;
 	},
 
 	_getWebBundleData: function(webBundleDir) {
@@ -98,9 +116,11 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	_installWebBundleDir: function() {
-		var buildPath = path.join(process.cwd(), this.webBundleDir);
+		return this.sendCommand(this._formatWebBundleDirCommand());
+	},
 
-		return this.sendCommand('install webbundledir:file://' + buildPath);
+	_isWin: function() {
+		return REGEX_WIN.test(os.platform());
 	},
 
 	_startBundle: function(bundleId) {

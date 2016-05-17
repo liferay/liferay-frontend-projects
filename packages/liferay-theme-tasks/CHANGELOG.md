@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Fix: properly format gogo shell commands for Windows
 ***
 
 ## v1.2.2 - May 16, 2016

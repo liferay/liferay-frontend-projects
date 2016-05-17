@@ -16,15 +16,15 @@ describe('WatchSocket', function() {
 	var responseMap = [
 		{
 			command: 'grep webbundle:file',
-			response: 'lb -u | grep webbundle:file.*march-2-theme\n' +
-				'  474|Resolved   |    1|webbundle:file:/Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/march-2-theme\n' +
+			response: 'lb -u | grep webbundle:file.*base-theme\n' +
+				'  474|Resolved   |    1|webbundle:file:///Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/base-theme\n' +
 				'true\n' +
 				'g!'
 		},
 		{
 			command: 'grep webbundledir:file',
-			response: 'lb -u | grep webbundledir:file.*march-2-theme\n' +
-				'  473|Resolved   |    1|webbundledir:file:/Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/march-2-theme\n' +
+			response: 'lb -u | grep webbundledir:file.*base-theme\n' +
+				'  473|Resolved   |    1|webbundledir:file:///Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/base-theme\n' +
 				'true\n' +
 				'g!'
 		}
@@ -79,7 +79,7 @@ describe('WatchSocket', function() {
 			mockSendCommand([
 				'lb -u | grep webbundle:file.*base-theme',
 				'stop 474',
-				'install webbundledir:file://' + path.join(process.cwd(), '.web_bundle_dir'),
+				'install webbundledir:file://' + path.join(process.cwd(), '.web_bundle_dir?Web-ContextPath=/base-theme'),
 				'start 0'
 			]);
 
@@ -102,6 +102,35 @@ describe('WatchSocket', function() {
 			prototype.end = done;
 
 			prototype.undeploy();
+		});
+	});
+
+	describe('_formatWebBundleDirCommand', function() {
+		it('should properly format install command based on os platform', function() {
+			var sep = path.sep;
+
+			prototype.webBundleDir = '.web_bundle_dir';
+			prototype._isWin = function() {
+				return false;
+			};
+			path.sep = '/';
+
+			var command = prototype._formatWebBundleDirCommand();
+
+			assert(/install webbundledir:file:\/\/\/[A-Za-z]/.test(command));
+			assert(command.indexOf('/liferay-theme-tasks/test/fixtures/themes/7.0/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme' > -1));
+
+			prototype._isWin = function() {
+				return true;
+			};
+			path.sep = '\\';
+
+			command = prototype._formatWebBundleDirCommand();
+
+			assert(command.indexOf('install webbundledir:file:/' + process.cwd() > -1));
+			assert(command.indexOf('/liferay-theme-tasks/test/fixtures/themes/7.0/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme' > -1));
+
+			path.sep = sep;
 		});
 	});
 
@@ -184,7 +213,7 @@ describe('WatchSocket', function() {
 
 			prototype._installWebBundleDir();
 
-			assert(prototype.sendCommand.calledWith(command), 'sendCommand called with correct args');
+			assert(prototype.sendCommand.calledWith(command + '?Web-ContextPath=/base-theme'), 'sendCommand called with correct args');
 			assert.equal(prototype.sendCommand.callCount, 1, 'sendCommand was only invoked once');
 
 			done();
