@@ -141,6 +141,10 @@ module.exports = function(options) {
 
 			var taskArray = ['deploy'];
 
+			if (themeConfig.version != '6.2') {
+				taskArray = ['deploy:gogo'];
+			}
+
 			if (!fullDeploy && store.get('deployed')) {
 				taskArray = getTaskArray(rootDir, taskArray);
 			}
