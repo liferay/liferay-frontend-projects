@@ -1,6 +1,9 @@
 ## Next Release
-* Fix: properly format gogo shell commands for Windows
+* No changes
 ***
+
+## v1.2.3 - May 17, 2016
+* Fix: properly format gogo shell commands for Windows
 
 ## v1.2.2 - May 16, 2016
 * Fix: fix dependency upgrade task regression for Windows environments
