@@ -708,7 +708,7 @@ URLBuilder.prototype = {
         var i;
         var basePath = config.basePath || '';
         var result = [];
-        var urlMaxLength = config.urlMaxLength || 2000;
+        var urlMaxLength = config.urlMaxLength || 2000;
 
         var urlResult = {
             modules: [modules[0]],
@@ -974,11 +974,15 @@ var LoaderProtoMethods = {
                 self.off('scriptLoaded', onScriptLoaded);
 
                 if (loadedModules.length !== 1) {
-                    throw new Error('Multiple anonymous modules cannot be served via combo service. ' +
-                        'Please set `combine` to `false` or describe the modules in the config ' +
-                        'and mark them as anonymous.', loadedModules);
+                    throw new Error('Mismatched anonymous define() module: ' + implementation.toString());
                 } else {
                     var moduleName = loadedModules[0];
+                    var module = self.getModules()[moduleName];
+
+                    if (module && module.pendingImplementation) {
+                        throw new Error('Mismatched anonymous define() module: '  + implementation.toString());
+                    }
+
                     self._define(moduleName, dependencies, implementation, config);
                 }
             };

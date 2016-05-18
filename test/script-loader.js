@@ -784,5 +784,27 @@ describe('Loader', function() {
             assert.propertyVal(module, 'name', moduleName);
             assert.propertyVal(module, 'anonymous', true);
         });
+
+        it('should prevent a mismatched anonymous module to override the implementation of another module', function(done) {
+            var anonModuleImpl = function(){};
+            Loader.define(anonModuleImpl);
+
+            var failure = sinon.stub();
+            var success = sinon.stub();
+
+            Loader.require(['g'], success, failure);
+
+            setTimeout(function() {
+                Loader.emit('scriptLoaded', ['g']);
+                assert.isTrue(failure.notCalled, 'Failure should be not called');
+                assert.isTrue(success.calledOnce, 'Success should be called once');
+
+                var modules = Loader.getModules();
+                var module = modules['g'];
+                assert.notStrictEqual(module.pendingImplementation, anonModuleImpl);
+
+                done();
+            }, 50);
+        });
     });
 });
