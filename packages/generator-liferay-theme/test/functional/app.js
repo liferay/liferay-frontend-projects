@@ -20,9 +20,7 @@ describe('liferay-theme:app functional tests', function () {
 				'gulpfile.js',
 				'package.json',
 				'src/css/_custom.scss',
-				'src/WEB-INF/liferay-plugin-package.properties',
-				'src/WEB-INF/src/resources-importer/readme.txt',
-				'src/WEB-INF/src/resources-importer/sitemap.json'
+				'src/WEB-INF/liferay-plugin-package.properties'
 			]);
 
 			done();
@@ -75,23 +73,6 @@ describe('liferay-theme:app functional tests', function () {
 		});
 	});
 
-	it('populate 7.0 sitemap.json correctly', function(done) {
-		var themeId = 'test-theme';
-
-		runGenerator({
-			themeId: themeId
-		}, function() {
-			var tempThemeDir = path.join(tempDir, themeId);
-
-			var pathSitemapJSON = path.join(tempThemeDir, 'src/WEB-INF/src/resources-importer/sitemap.json');
-
-			assert.fileContent(pathSitemapJSON, '"portletId": "com_liferay_login_web_portlet_LoginPortlet"');
-			assert.fileContent(pathSitemapJSON, '"portletId": "com_liferay_hello_world_web_portlet_HelloWorldPortlet"');
-
-			done();
-		});
-	});
-
 	it('populates 6.2 package.json correctly', function(done) {
 		var themeId = '62-theme';
 
@@ -136,25 +117,6 @@ describe('liferay-theme:app functional tests', function () {
 			assert.fileContent(pathLiferayPluginPackageProperties, 'liferay-versions=6.2.0+');
 			assert.fileContent(pathLiferayPluginPackageProperties, 'name=Test Theme');
 			chaiAssert.fileContentMatch(pathLiferayPluginPackageProperties, /required-deployment-contexts=\\\n#\s+resources-importer-web/);
-
-			done();
-		});
-	});
-
-	it('populate 6.2 sitemap.json correctly', function(done) {
-		var themeId = 'test-theme';
-
-		runGenerator({
-			liferayVersion: '6.2',
-			templateLanguage: 'ftl',
-			themeId: themeId
-		}, function() {
-			var tempThemeDir = path.join(tempDir, themeId);
-
-			var pathSitemapJSON = path.join(tempThemeDir, 'src/WEB-INF/src/resources-importer/sitemap.json');
-
-			assert.fileContent(pathSitemapJSON, '"portletId": "47"');
-			assert.fileContent(pathSitemapJSON, '"portletId": "58"');
 
 			done();
 		});

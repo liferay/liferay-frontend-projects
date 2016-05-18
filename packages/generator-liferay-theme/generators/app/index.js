@@ -106,20 +106,6 @@ module.exports = yeoman.generators.Base.extend({
 			);
 
 			this.template('src/WEB-INF/liferay-look-and-feel.xml', 'src/WEB-INF/liferay-look-and-feel.xml', this);
-
-			var sitemapPortletIds = {
-				helloWorldPortletId: 'com_liferay_hello_world_web_portlet_HelloWorldPortlet',
-				loginPortletId: 'com_liferay_login_web_portlet_LoginPortlet'
-			};
-
-			if (this.liferayVersion == 6.2) {
-				sitemapPortletIds = {
-					helloWorldPortletId: '47',
-					loginPortletId: '58'
-				};
-			}
-
-			this.template('src/WEB-INF/src/resources-importer/sitemap.json', 'src/WEB-INF/src/resources-importer/sitemap.json', sitemapPortletIds);
 		}
 	},
 
