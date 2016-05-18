@@ -134,7 +134,7 @@ URLBuilder.prototype = {
         var i;
         var basePath = config.basePath || '';
         var result = [];
-        var urlMaxLength = config.urlMaxLength || 2000;
+        var urlMaxLength = config.urlMaxLength || 2000;
 
         var urlResult = {
             modules: [modules[0]],
