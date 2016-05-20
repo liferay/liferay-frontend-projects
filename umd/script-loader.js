@@ -676,6 +676,8 @@ var LoaderProtoMethods = {
         if (!reportLevel || reportLevel === 'exception') {
             throw new Error(errorMessage);
         } else if (console && console[reportLevel]) {
+            // Call console's method by using the `call` function
+            // to prevent stripDebug to remove the statement in production
             console[reportLevel].call(console, errorMessage);
         }
     },
