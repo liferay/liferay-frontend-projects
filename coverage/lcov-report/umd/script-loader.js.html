@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.47% </span>
+        <span class="strong">96.82% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>270/277</span>
+        <span class='fraction'>274/283</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.16% </span>
+        <span class="strong">88.8% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>109/117</span>
+        <span class='fraction'>111/125</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.96% </span>
+        <span class="strong">98% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>48/49</span>
+        <span class='fraction'>49/50</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.47% </span>
+        <span class="strong">96.82% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>270/277</span>
+        <span class='fraction'>274/283</span>
       </div>
       <div class='fl pad1y'>
         <span class="strong">5 branches</span>
@@ -871,7 +871,27 @@
 822
 823
 824
-825</td><td class="line-coverage quiet"><span class="cline-any cline-yes">46×</span>
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845</td><td class="line-coverage quiet"><span class="cline-any cline-yes">46×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">46×</span>
@@ -1541,6 +1561,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38×</span>
@@ -1690,7 +1730,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">46×</span>
-<span class="cline-any cline-yes">966×</span>
+<span class="cline-any cline-yes">1012×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1813,13 +1853,13 @@ var LoaderProtoMethods = {
                 self.off('scriptLoaded', onScriptLoaded);
 &nbsp;
                 <span class="missing-if-branch" title="if path not taken" >I</span>if (loadedModules.length !== 1) {
-<span class="cstat-no" title="statement not covered" >                    throw new Error('Mismatched anonymous define() module: ' + implementation.toString());</span>
+<span class="cstat-no" title="statement not covered" >                    self._reportMismatchedAnonymousModules(implementation.toString());</span>
                 } else {
                     var moduleName = loadedModules[0];
                     var module = self.getModules()[moduleName];
 &nbsp;
                     if (module &amp;&amp; module.pendingImplementation) {
-                        throw new Error('Mismatched anonymous define() module: '  + implementation.toString());
+                        self._reportMismatchedAnonymousModules(implementation.toString());
                     }
 &nbsp;
                     self._define(moduleName, dependencies, implementation, config);
@@ -2358,6 +2398,26 @@ var LoaderProtoMethods = {
     },
 &nbsp;
     /**
+     * Reports a mismatched anonymous module error. Depending on the value of the configuration property
+     * `__CONFIG__.reportMismatchedAnonymousModules`, this method will throw an error, use the console[level]
+     * method to log the message or silently ignore it.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {string} msg Additional information to log with the error.
+     */
+    _reportMismatchedAnonymousModules: function(msg) {
+        var errorMessage = 'Mismatched anonymous define() module: ' + msg;
+        var reportLevel = this._config.reportMismatchedAnonymousModules;
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!reportLevel || <span class="branch-1 cbranch-no" title="branch not covered" >reportLevel === 'exception')</span> {
+            throw new Error(errorMessage);
+        } else <span class="cstat-no" title="statement not covered" >if (console &amp;&amp; console[reportLevel]) {</span>
+<span class="cstat-no" title="statement not covered" >            console[reportLevel].call(console, errorMessage);</span>
+        }
+    },
+&nbsp;
+    /**
      * Invokes the implementation method of list of modules passing the implementations of its dependencies.
      *
      * @memberof! Loader#
@@ -2525,7 +2585,7 @@ Object.keys(LoaderProtoMethods).forEach(function(key) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 18 2016 23:18:44 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 20 2016 10:27:22 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

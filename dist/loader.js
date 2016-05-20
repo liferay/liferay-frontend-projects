@@ -1930,13 +1930,13 @@ var LoaderProtoMethods = {
                 self.off('scriptLoaded', onScriptLoaded);
 
                 if (loadedModules.length !== 1) {
-                    throw new Error('Mismatched anonymous define() module: ' + implementation.toString());
+                    self._reportMismatchedAnonymousModules(implementation.toString());
                 } else {
                     var moduleName = loadedModules[0];
                     var module = self.getModules()[moduleName];
 
                     if (module && module.pendingImplementation) {
-                        throw new Error('Mismatched anonymous define() module: '  + implementation.toString());
+                        self._reportMismatchedAnonymousModules(implementation.toString());
                     }
 
                     self._define(moduleName, dependencies, implementation, config);
@@ -2472,6 +2472,26 @@ var LoaderProtoMethods = {
                 reject(error);
             }
         });
+    },
+
+    /**
+     * Reports a mismatched anonymous module error. Depending on the value of the configuration property
+     * `__CONFIG__.reportMismatchedAnonymousModules`, this method will throw an error, use the console[level]
+     * method to log the message or silently ignore it.
+     *
+     * @memberof! Loader#
+     * @protected
+     * @param {string} msg Additional information to log with the error.
+     */
+    _reportMismatchedAnonymousModules: function(msg) {
+        var errorMessage = 'Mismatched anonymous define() module: ' + msg;
+        var reportLevel = this._config.reportMismatchedAnonymousModules;
+
+        if (!reportLevel || reportLevel === 'exception') {
+            throw new Error(errorMessage);
+        } else if (console && console[reportLevel]) {
+            console[reportLevel].call(console, errorMessage);
+        }
     },
 
     /**
