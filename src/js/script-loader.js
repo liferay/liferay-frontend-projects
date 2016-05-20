@@ -643,7 +643,9 @@ var LoaderProtoMethods = {
      * `__CONFIG__.reportMismatchedAnonymousModules`, this method will throw an error, use the console[level]
      * method to log the message or silently ignore it.
      *
-     * @param  {string} msg Additional information to log with the error.
+     * @memberof! Loader#
+     * @protected
+     * @param {string} msg Additional information to log with the error.
      */
     _reportMismatchedAnonymousModules: function(msg) {
         var errorMessage = 'Mismatched anonymous define() module: ' + msg;

@@ -243,6 +243,32 @@ $ lfr-cfgen -b src/config/config-base.js -o src/config/config.js src/modules
 A preferable way to work with the loader would be to generate a separate, base config file and pass it to the config generator as in the code above. In the base file you may define the URLs, combine flags, etc. and then leave config generator to add the modules.
 Look on the example modules and the demo for more information. Then, just load the generated configuration to the browser and the Loader will do the rest.
 
-Enjoy!
+Reporting errors caused mismatched anonymous modules
+======
+By default mismatched anonymous modules will be reported by throwing an exception. This is configurable and there is a property:
+```javascript
+
+// By default, `reportMismatchedAnonymousModules` is not set and
+// in this case the loader will throw an exception
+
+// Throw an exception
+__CONFIG__.reportMismatchedAnonymousModules = 'exception';
+
+// Log the error using console.log
+__CONFIG__.reportMismatchedAnonymousModules = 'log';
+
+// Log the error using console.info
+__CONFIG__.reportMismatchedAnonymousModules = 'info';
+
+// Log the error using console.warn
+__CONFIG__.reportMismatchedAnonymousModules = 'warn';
+
+// Log the error using console.error
+__CONFIG__.reportMismatchedAnonymousModules = 'error';
+
+// Ignore the error
+__CONFIG__.reportMismatchedAnonymousModules = 'off';
+```
+
 
 [![Build Status](https://travis-ci.org/liferay/liferay-amd-loader.svg)](https://travis-ci.org/liferay/liferay-amd-loader)
