@@ -175,17 +175,17 @@ function createBuildTests(version, rubySass) {
 			runSequence('build:themelets', function(err) {
 				if (err) throw err;
 
-				assert.isFile(path.join(instance._buildPath, 'css/themelets/test-themelet/_custom.scss'));
-				assert.isFile(path.join(instance._buildPath, 'images/themelets/test-themelet/icon.png'));
-				assert.isFile(path.join(instance._buildPath, 'js/themelets/test-themelet/main.js'));
-				assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/freemarker.ftl'));
-				assert.isFile(path.join(instance._buildPath, 'templates/themelets/test-themelet/velocity.vm'));
+				assert.isFile(path.join(instance._buildPath, 'themelets/test-themelet/css/_custom.scss'));
+				assert.isFile(path.join(instance._buildPath, 'themelets/test-themelet/images/icon.png'));
+				assert.isFile(path.join(instance._buildPath, 'themelets/test-themelet/js/main.js'));
+				assert.isFile(path.join(instance._buildPath, 'themelets/test-themelet/templates/freemarker.ftl'));
+				assert.isFile(path.join(instance._buildPath, 'themelets/test-themelet/templates/velocity.vm'));
 
-				assert.fileContentMatch(path.join(instance._buildPath, 'css', customCSSFileName), /@import "themelets\/test-themelet\/_custom\.scss";/);
+				assert.fileContentMatch(path.join(instance._buildPath, 'css', customCSSFileName), /@import "\.\.\/themelets\/test-themelet\/css\/_custom\.scss";/);
 
 				// TODO: add inject tags to both 6.2 and 7.0 themes when in development
 				if (version != '6.2') {
-					assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="\/base-theme\/js\/themelets\/test-themelet\/main.js"><\/script>/);
+					assert.fileContentMatch(path.join(instance._buildPath, 'templates/portal_normal.ftl'), /<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/);
 				}
 
 				done();
