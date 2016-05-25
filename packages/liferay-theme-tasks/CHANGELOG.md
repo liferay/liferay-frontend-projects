@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Fix: resolved issue with losing themelet js when making changes to template files during watch task
+* Update: changed build locations of themelet files to build/themelets/ for more intuitive file paths
 ***
 
 ## v1.2.3 - May 17, 2016
