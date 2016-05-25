@@ -13,6 +13,8 @@ var themeConfig = lfrThemeConfig.getConfig();
 
 var CWD = process.cwd();
 
+var FORWARD_SLASH = '/';
+
 module.exports = function(options) {
 	var gulp = options.gulp;
 
@@ -22,14 +24,10 @@ module.exports = function(options) {
 
 	gulp.task('build:themelets', function(cb) {
 		runSequence(
-			['build:themelet-css', 'build:themelet-images', 'build:themelet-js', 'build:themelet-templates'],
+			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
 			cb
 		);
-	});
-
-	gulp.task('build:themelet-css', function(cb) {
-		buildStaticThemeletFiles('css', '.+(css|scss)', cb);
 	});
 
 	gulp.task('build:themelet-css-inject', function(cb) {
@@ -73,7 +71,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:themelet-js-inject', function(cb) {
-		var themeSrcPaths = path.join(pathBuild, 'js/themelets/**/*.js');
+		var themeSrcPaths = path.join(pathBuild, 'themelets', '**', 'js', '**/*.js');
 
 		var injected = false;
 		var themeletSources = false;
@@ -94,20 +92,28 @@ module.exports = function(options) {
 
 		var templateLanguage = themeConfig.templateLanguage || defaultTemplateLanguage;
 
+		var themeRootPath = '${theme_display.getPathThemeRoot()}';
+
+		if (templateLanguage == 'vm') {
+			themeRootPath = '$theme_display.getPathThemeRoot()';
+		}
+
+		var themeName = lfrThemeConfig.getConfig(true).name;
+
 		gulp.src(path.join(pathBuild, 'templates/portal_normal.' + templateLanguage))
 			.pipe(plugins.inject(sources, {
-				starttag: '<!-- inject:js -->',
 				endtag: '<!-- endinject -->',
+				starttag: '<!-- inject:js -->',
 				transform: function(filePath, file, index, length, targetFile) {
 					injected = true;
 
-					var themeName = lfrThemeConfig.getConfig(true).name;
+					var filePathArray = path.join(filePath).split(path.sep);
 
-					var FORWARD_SLASH = '/';
+					filePathArray = filePathArray.slice(filePathArray.indexOf('themelets'), filePathArray.length);
 
-					filePath = FORWARD_SLASH + themeName + FORWARD_SLASH + filePath.replace(/(.*)(js\/.*)/, '$2');
+					filePath = filePathArray.join(FORWARD_SLASH);
 
-					return '<script src="' + filePath + '"></script>';
+					return '<script src="' + themeRootPath + FORWARD_SLASH + filePath + '"></script>';
 				}
 			}))
 			.pipe(gulp.dest(path.join(pathBuild, 'templates')))
@@ -122,45 +128,13 @@ module.exports = function(options) {
 			});
 	});
 
-	gulp.task('build:themelet-images', function(cb) {
-		buildStaticThemeletFiles('images', null, cb);
-	});
-
-	gulp.task('build:themelet-js', function(cb) {
-		buildStaticThemeletFiles('js', '.js', cb);
-	});
-
-	gulp.task('build:themelet-templates', function(cb) {
-		buildStaticThemeletFiles('templates', '.+(ftl|vm)', cb);
-	});
-
-	function getThemeletSrcPaths(fileTypes) {
-		var srcFiles = 'src/**/*';
-
-		if (fileTypes) {
-			srcFiles += fileTypes;
-		}
-
-		var themeSrcPaths = _.map(getThemeletDependencies(), function(item, index) {
-			return path.resolve(CWD, 'node_modules', index, srcFiles);
-		});
-
-		return themeSrcPaths;
-	}
-
-	function buildStaticThemeletFiles(dirName, fileTypes, cb) {
-		var srcFiles = '*';
-
-		if (fileTypes) {
-			srcFiles += fileTypes;
-		}
-
+	gulp.task('build:themelet-src', function(cb) {
 		runThemeletDependenciesSeries(function(item, index, done) {
-			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', dirName, srcFiles))
-				.pipe(gulp.dest(path.join(pathBuild, dirName, 'themelets', index)))
+			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
+				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))
 				.on('end', done);
 		}, cb);
-	}
+	});
 
 	function runThemeletDependenciesSeries(asyncTask, cb) {
 		var themeletStreamMap = _.map(getThemeletDependencies(), function(item, index) {
