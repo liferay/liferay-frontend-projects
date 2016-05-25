@@ -67,15 +67,11 @@ module.exports = function(options) {
 
 		var relativeFilePath = path.relative(path.join(process.cwd(), pathSrc), changedFile.path);
 
-		var match = relativeFilePath.match(/(.+?)\//);
+		var filePathArray = relativeFilePath.split(path.sep);
 
-		var rootDir = match ? match[1] : '';
+		var rootDir = filePathArray.length ? filePathArray[0] : '';
 
-		var fastDeployPaths = getFastDeployPaths();
-
-		var srcRoot = rootDir == 'WEB-INF' ? pathBuild : pathSrc;
-
-		return fastDeploy(path.join(srcRoot, rootDir, '**/*'), srcRoot);
+		return fastDeploy(path.join(pathBuild, rootDir, '**/*'), pathBuild);
 	});
 
 	gulp.task('deploy:gogo', function(cb) {
