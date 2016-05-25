@@ -101,15 +101,14 @@ module.exports = function(options) {
 			taskArray = ['build:clean', 'build:src', 'build:web-inf', 'deploy:folder'];
 		}
 		else if (rootDir == 'templates') {
-			taskArray = ['build:themelet-js', 'build:themelet-js-inject', 'deploy:folder'];
+			taskArray = ['build:themelet-src', 'build:themelet-js-inject', 'deploy:folder'];
 		}
 		else if (rootDir == 'css') {
 			taskArray = [
 				'build:clean',
 				'build:base',
 				'build:src',
-				'build:themelets',
-				'build:themelet-css',
+				'build:themelet-src',
 				'build:themelet-css-inject',
 				'build:rename-css-dir',
 				'build:prep-css',
