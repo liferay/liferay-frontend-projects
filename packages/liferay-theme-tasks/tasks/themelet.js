@@ -31,7 +31,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:themelet-css-inject', function(cb) {
-		var themeSrcPaths = path.join(pathBuild, 'css/themelets/**/*.+(css|scss)');
+		var themeSrcPaths = path.join(pathBuild, 'themelets', '**', 'css', '**/*.+(css|scss)');
 
 		var injected = false;
 		var themeletSources = false;
@@ -53,7 +53,9 @@ module.exports = function(options) {
 				transform: function(filePath, file, index, length, targetFile) {
 					injected = true;
 
-					filePath = filePath.replace(/(.*\/css\/)(.*)/, '$2');
+					var filePathArray = getThemeletFilePathArray(filePath);
+
+					filePath = '..' + FORWARD_SLASH + filePathArray.join(FORWARD_SLASH);
 
 					return '@import "' + filePath + '";';
 				}
@@ -107,9 +109,7 @@ module.exports = function(options) {
 				transform: function(filePath, file, index, length, targetFile) {
 					injected = true;
 
-					var filePathArray = path.join(filePath).split(path.sep);
-
-					filePathArray = filePathArray.slice(filePathArray.indexOf('themelets'), filePathArray.length);
+					var filePathArray = getThemeletFilePathArray(filePath);
 
 					filePath = filePathArray.join(FORWARD_SLASH);
 
@@ -144,6 +144,14 @@ module.exports = function(options) {
 		async.series(themeletStreamMap, cb);
 	}
 };
+
+function getThemeletFilePathArray(filePath) {
+	var filePathArray = path.join(filePath).split(path.sep);
+
+	filePathArray = filePathArray.slice(filePathArray.indexOf('themelets'), filePathArray.length);
+
+	return filePathArray;
+}
 
 function getThemeletDependencies() {
 	var packageJSON = require(path.join(CWD, 'package.json'));
