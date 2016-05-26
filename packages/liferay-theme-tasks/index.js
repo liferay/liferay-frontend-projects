@@ -7,7 +7,6 @@ var glob = require('glob');
 var lfrThemeConfig = require('./lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
-var RegisterHooks = require('./lib/register_hooks');
 var versionControl = require('./lib/version_control.js');
 
 var liferayPluginTasks = require('liferay-plugin-node-tasks');
