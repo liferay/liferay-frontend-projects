@@ -56,21 +56,20 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			});
 	},
 
-	_formatWebBundleDirCommand: function() {
-		var buildPath = path.join(process.cwd(), this.webBundleDir);
+	_formatWebBundleDirCommand: function(themePath) {
+		var buildPath = path.join(themePath, this.webBundleDir);
 
-		if (this._isWin()) {
-			buildPath = '/' + buildPath.split(path.sep).join('/');
-		}
-		else {
-			buildPath = '//' + buildPath;
+		buildPath = buildPath.split(path.sep).join('/');
+
+		if (!this._isWin()) {
+			buildPath = '/' + buildPath;
 		}
 
 		buildPath = buildPath.replace(/\s/g, '%20');
 
 		var themeName = themeConfig.name;
 
-		return 'install webbundledir:file:' + buildPath + '?Web-ContextPath=/' + themeName;
+		return 'install webbundledir:file:/' + buildPath + '?Web-ContextPath=/' + themeName;
 	},
 
 	_getWebBundleData: function(webBundleDir) {
@@ -118,7 +117,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	_installWebBundleDir: function() {
-		return this.sendCommand(this._formatWebBundleDirCommand());
+		return this.sendCommand(this._formatWebBundleDirCommand(process.cwd()));
 	},
 
 	_isWin: function() {

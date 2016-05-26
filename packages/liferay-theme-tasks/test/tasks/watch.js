@@ -65,7 +65,9 @@ describe('Watch Task', function() {
 	});
 
 	after(function() {
-		fs.removeSync(tempDirPath);
+		del.sync(path.join(tempPath, '**'), {
+			force: true
+		});
 
 		process.chdir(this._initCwd);
 	});

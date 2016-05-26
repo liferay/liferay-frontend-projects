@@ -1,6 +1,7 @@
 'use strict';
 
 var chai = require('chai');
+var del = require('del');
 var doctor = require('../../lib/doctor.js');
 var fs = require('fs-extra');
 var os = require('os');
@@ -30,7 +31,9 @@ describe('Doctor', function() {
 	});
 
 	after(function() {
-		fs.removeSync(tempPath);
+		del.sync(path.join(tempPath, '**'), {
+			force: true
+		});
 
 		process.chdir(this._initCwd);
 	});

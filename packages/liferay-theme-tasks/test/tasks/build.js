@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var chai = require('chai');
+var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
 var os = require('os');
@@ -66,7 +67,9 @@ function createBuildTests(version, rubySass) {
 		});
 
 		after(function() {
-			fs.removeSync(tempPath);
+			del.sync(path.join(tempPath, '**'), {
+				force: true
+			});
 
 			deleteJsFromCache();
 
@@ -117,7 +120,11 @@ function createBuildTests(version, rubySass) {
 
 				var customCSSPath = path.join(instance._buildPath, 'css', customCSSFileName);
 
-				assert.fileContent(customCSSPath, '/* inject:imports */\n/* endinject */\n\n/* ' + customCSSFileName + ' */');
+				var fileContent = stripNewlines(fs.readFileSync(customCSSPath, {
+					encoding: 'utf8'
+				}));
+
+				assert.equal(fileContent, '/* inject:imports *//* endinject *//* ' + customCSSFileName + ' */');
 
 				assert.isFile(path.join(instance._buildPath, 'css/base/_text.scss'));
 				assert.isFile(path.join(instance._buildPath, 'js/main.js'));
@@ -287,6 +294,10 @@ function deleteJsFromCache() {
 	var registerTasksPath = require.resolve('../../index.js');
 
 	delete require.cache[registerTasksPath];
+}
+
+function stripNewlines(string) {
+	return string.replace(/\r?\n|\r/g, '');
 }
 
 describe('Build Tasks: 6.2/libSass', createBuildTests('6.2', false));

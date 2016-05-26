@@ -95,7 +95,7 @@ describe('KickstartPrompt', function() {
 
 			assert(prototype._installTempModule.notCalled);
 			assert(prototype.done.calledWith(answers));
-			assert.equal(answers.modulePath, '/path/to/some-theme/src');
+			assert.equal(answers.modulePath, path.join('/path/to/some-theme/src'));
 		});
 	});
 

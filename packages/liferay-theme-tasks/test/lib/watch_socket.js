@@ -76,10 +76,18 @@ describe('WatchSocket', function() {
 
 	describe('deploy', function() {
 		it('should run deploy commands in order', function(done) {
+			var folderPath = path.join(process.cwd(), '.web_bundle_dir?Web-ContextPath=/base-theme');
+
+			folderPath = folderPath.split(path.sep).join('/');
+
+			if (!prototype._isWin()) {
+				folderPath = '/' + folderPath;
+			}
+
 			mockSendCommand([
 				'lb -u | grep webbundle:file.*base-theme',
 				'stop 474',
-				'install webbundledir:file://' + path.join(process.cwd(), '.web_bundle_dir?Web-ContextPath=/base-theme'),
+				'install webbundledir:file:/' + folderPath,
 				'start 0'
 			]);
 
@@ -107,30 +115,20 @@ describe('WatchSocket', function() {
 
 	describe('_formatWebBundleDirCommand', function() {
 		it('should properly format install command based on os platform', function() {
-			var sep = path.sep;
-
 			prototype.webBundleDir = '.web_bundle_dir';
-			prototype._isWin = function() {
-				return false;
-			};
-			path.sep = '/';
 
-			var command = prototype._formatWebBundleDirCommand();
+			var rootDir = prototype._isWin() ? 'c:/Users' : '/Users';
 
-			assert(/install webbundledir:file:\/\/\/[A-Za-z]/.test(command));
-			assert(command.indexOf('/liferay-theme-tasks/test/fixtures/themes/7.0/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme' > -1));
+			var themePath = path.join(rootDir, 'themes', 'base-theme');
 
-			prototype._isWin = function() {
-				return true;
-			};
-			path.sep = '\\';
+			var command = prototype._formatWebBundleDirCommand(themePath);
 
-			command = prototype._formatWebBundleDirCommand();
-
-			assert(command.indexOf('install webbundledir:file:/' + process.cwd() > -1));
-			assert(command.indexOf('/liferay-theme-tasks/test/fixtures/themes/7.0/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme' > -1));
-
-			path.sep = sep;
+			if (!prototype._isWin()) {
+				assert.equal(command, 'install webbundledir:file:///Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme');
+			}
+			else {
+				assert.equal(command, 'install webbundledir:file:/c:/Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme');
+			}
 		});
 	});
 
@@ -209,11 +207,11 @@ describe('WatchSocket', function() {
 			prototype.sendCommand = sinon.spy();
 			prototype.webBundleDir = '.web_bundle_dir';
 
-			var command = 'install webbundledir:file://' + path.join(process.cwd(), prototype.webBundleDir);
+			var command = prototype._formatWebBundleDirCommand(process.cwd());
 
 			prototype._installWebBundleDir();
 
-			assert(prototype.sendCommand.calledWith(command + '?Web-ContextPath=/base-theme'), 'sendCommand called with correct args');
+			assert(prototype.sendCommand.calledWith(command), 'sendCommand called with correct args');
 			assert.equal(prototype.sendCommand.callCount, 1, 'sendCommand was only invoked once');
 
 			done();

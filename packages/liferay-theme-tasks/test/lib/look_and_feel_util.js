@@ -23,9 +23,13 @@ var baseThemePath = path.join(__dirname, '../fixtures/themes/7.0/base-theme');
 describe('Look and Feel Util functions', function() {
 	describe('buildXML', function() {
 		it('should sort json correctly and build valid xml', function(done) {
-			var xml = lookAndFeelUtil.buildXML(mixedLookAndFeelJSON, lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0'));
+			var xml = stripNewlines(lookAndFeelUtil.buildXML(mixedLookAndFeelJSON, lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0')));
 
-			assert.fileContent(path.join(__dirname, '../fixtures/xml/liferay-look-and-feel.xml'), xml);
+			var xmlFileContent = stripNewlines(fs.readFileSync(path.join(__dirname, '../fixtures/xml/liferay-look-and-feel.xml'), {
+				encoding: 'utf8'
+			}));
+
+			assert.equal(xml, xmlFileContent);
 
 			done();
 		});
@@ -240,3 +244,7 @@ describe('Look and Feel Util functions', function() {
 		});
 	});
 });
+
+function stripNewlines(string) {
+	return string.replace(/\r?\n|\r/g, '');
+}

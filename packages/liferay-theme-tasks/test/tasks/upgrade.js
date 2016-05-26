@@ -1,6 +1,7 @@
 'use strict';
 
 var chai = require('chai');
+var del = require('del');
 var fs = require('fs-extra');
 var gulp = require('gulp');
 var gulpBlackList = require('../../lib/upgrade/6.2/gulp_black_list.js');
@@ -48,11 +49,13 @@ describe('6.2 -> 7.0 Upgrade Tasks', function() {
 	});
 
 	after(function() {
-		fs.removeSync(tempPath);
+		del.sync(path.join(tempPath, '**'), {
+			force: true
+		});
 
 		process.chdir(this._initCwd);
 
-		fs.removeSync(path.join(this._initCwd, 'tmp'));
+		del.sync(path.join(this._initCwd, 'tmp', '**'));
 	});
 
 	it('should create backup files from source', function(done) {

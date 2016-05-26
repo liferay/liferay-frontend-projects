@@ -1,6 +1,7 @@
 'use strict';
 
 var chai = require('chai');
+var del = require('del');
 var fs = require('fs-extra');
 var gulp = require('gulp');
 var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
@@ -32,7 +33,9 @@ describe('Liferay theme config', function() {
 	});
 
 	after(function() {
-		fs.removeSync(tempPath);
+		del.sync(path.join(tempPath, '**'), {
+			force: true
+		});
 
 		process.chdir(this._initCwd);
 	});

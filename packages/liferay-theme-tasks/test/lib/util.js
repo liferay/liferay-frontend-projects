@@ -51,7 +51,7 @@ describe('Util functions', function() {
 
 			srcPath = util.getCssSrcPath(originalSrcPath, config);
 
-			assert.equal(srcPath, 'build/_css/custom.scss');
+			assert.equal(srcPath, path.join('build/_css/custom.scss'));
 
 			done();
 		});

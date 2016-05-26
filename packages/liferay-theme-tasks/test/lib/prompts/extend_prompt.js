@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var chai = require('chai');
+var del = require('del');
 var fs = require('fs-extra');
 var os = require('os');
 var path = require('path');
@@ -80,7 +81,9 @@ describe('Extend Prompt', function() {
 	});
 
 	after(function() {
-		fs.removeSync(tempPath);
+		del.sync(path.join(tempPath, '**'), {
+			force: true
+		});
 
 		process.chdir(this._initCwd);
 	});
