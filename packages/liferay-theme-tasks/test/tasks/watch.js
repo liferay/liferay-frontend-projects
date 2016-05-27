@@ -43,12 +43,12 @@ describe('Watch Task', function() {
 
 			runSequence = require('run-sequence').use(gulp);
 
-			var appServerPathTheme = path.join(tempPath, '../appserver/webapps/base-theme');
+			var appServerPathPlugin = path.join(tempPath, '../appserver/webapps/base-theme');
 
-			instance._appServerPathTheme = appServerPathTheme;
+			instance._appServerPathPlugin = appServerPathPlugin;
 
 			gulp.storage.set({
-				appServerPathTheme: appServerPathTheme,
+				appServerPathPlugin: appServerPathPlugin,
 				deployed: true
 			});
 
@@ -59,7 +59,7 @@ describe('Watch Task', function() {
 	});
 
 	beforeEach(function(done) {
-		del([this._appServerPathTheme], {
+		del([this._appServerPathPlugin], {
 			force: true
 		}, done);
 	});
@@ -86,8 +86,8 @@ describe('Watch Task', function() {
 		fs.writeFileSync(filePath, fileContents, 'utf8');
 
 		runCssWatchSequence(function() {
-			var appServerPathTheme = instance._appServerPathTheme;
-			var cssDir = path.join(appServerPathTheme, 'css');
+			var appServerPathPlugin = instance._appServerPathPlugin;
+			var cssDir = path.join(appServerPathPlugin, 'css');
 
 			assert.isFile(path.join(cssDir, 'main.css'));
 			assert.isFile(path.join(cssDir, 'aui.css'));
@@ -97,7 +97,7 @@ describe('Watch Task', function() {
 			assert.fileContentMatch(path.join(cssDir, 'main.css'), regex);
 
 			expect(function() {
-				fs.statSync(path.join(appServerPathTheme, 'js'));
+				fs.statSync(path.join(appServerPathPlugin, 'js'));
 			}).to.throw(/no such file or directory/);
 
 			done();
@@ -114,8 +114,8 @@ describe('Watch Task', function() {
 		setChangedFile(filePath);
 
 		runJsWatchSequence(function() {
-			var appServerPathTheme = instance._appServerPathTheme;
-			var jsDir = path.join(appServerPathTheme, 'js');
+			var appServerPathPlugin = instance._appServerPathPlugin;
+			var jsDir = path.join(appServerPathPlugin, 'js');
 
 			var deployedFilePath = path.join(jsDir, 'main.js');
 
@@ -126,7 +126,7 @@ describe('Watch Task', function() {
 			assert.fileContentMatch(deployedFilePath, regex);
 
 			expect(function() {
-				fs.statSync(path.join(appServerPathTheme, 'css'));
+				fs.statSync(path.join(appServerPathPlugin, 'css'));
 			}).to.throw(/no such file or directory/);
 
 			done();

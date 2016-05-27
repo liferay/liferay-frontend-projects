@@ -40,7 +40,7 @@ module.exports = function(options) {
 			startWatch();
 		}
 		else {
-			store.set('appServerPathTheme', webBundleDir);
+			store.set('appServerPathPlugin', webBundleDir);
 
 			runSequence('build', 'watch:clean', 'watch:setup', function() {
 				var watchSocket = startWatchSocket();

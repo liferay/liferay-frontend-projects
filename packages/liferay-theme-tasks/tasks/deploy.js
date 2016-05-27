@@ -125,7 +125,7 @@ module.exports = function(options) {
 
 	function getFastDeployPaths() {
 		var fastDeployPaths = {
-			dest: store.get('appServerPathTheme')
+			dest: store.get('appServerPathPlugin')
 		};
 
 		var tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
