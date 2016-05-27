@@ -1,4 +1,5 @@
 ## Next Release
+* Fix: resolved issue with appserver theme path not being found during 6.2 watch task
 * Fix: resolved issue with losing themelet js when making changes to template files during watch task
 * Update: changed build locations of themelet files to build/themelets/ for more intuitive file paths
 ***
