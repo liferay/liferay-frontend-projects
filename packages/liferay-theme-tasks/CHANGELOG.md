@@ -1,8 +1,11 @@
 ## Next Release
+* No changes
+***
+
+## v1.3.0 - May 27, 2016
 * Fix: resolved issue with appserver theme path not being found during 6.2 watch task
 * Fix: resolved issue with losing themelet js when making changes to template files during watch task
 * Update: changed build locations of themelet files to build/themelets/ for more intuitive file paths
-***
 
 ## v1.2.3 - May 17, 2016
 * Fix: properly format gogo shell commands for Windows
