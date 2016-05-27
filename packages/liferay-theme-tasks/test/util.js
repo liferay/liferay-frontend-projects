@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var assert = require('chai').assert;
+var fs = require('fs-extra');
+var path = require('path');
 var sinon = require('sinon');
 
 module.exports.assertBoundFunction = function(prototype, methodName, stub) {
@@ -49,3 +51,36 @@ PrototypeMethodSpy.prototype.flush = function() {
 };
 
 module.exports.PrototypeMethodSpy = PrototypeMethodSpy;
+
+function deleteDirJsFromCache(relativePath) {
+	var files = fs.readdirSync(path.join(__dirname, relativePath));
+
+	_.forEach(files, function(item, index) {
+		if (_.endsWith(item, '.js')) {
+			deleteJsFileFromCache(path.join(__dirname, relativePath, item))
+		}
+	});
+}
+
+function deleteJsFileFromCache(filePath) {
+	var registerTasksPath = require.resolve(filePath);
+
+	delete require.cache[registerTasksPath];
+}
+
+function deleteJsFromCache() {
+	deleteDirJsFromCache('../lib');
+	deleteDirJsFromCache('../lib/prompts');
+	deleteDirJsFromCache('../lib/upgrade/6.2');
+	deleteDirJsFromCache('../tasks');
+
+	deleteJsFileFromCache('../index.js');
+}
+
+module.exports.deleteJsFromCache = deleteJsFromCache;
+
+function stripNewlines(string) {
+	return string.replace(/\r?\n|\r/g, '');
+}
+
+module.exports.stripNewlines = stripNewlines;

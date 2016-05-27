@@ -8,11 +8,11 @@ var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
 
-var KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 var testUtil = require('../util');
 
 var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
+var KickstartPrompt;
 var registerTasks;
 var runSequence;
 
@@ -36,6 +36,9 @@ describe('Kickstart Task', function() {
 
 			instance._tempPath = tempPath;
 
+			testUtil.deleteJsFromCache();
+
+			KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 			registerTasks = require('../../index.js').registerTasks;
 
 			var gulp = new Gulp();

@@ -6,13 +6,13 @@ var inquirer = require('inquirer');
 var path = require('path');
 var sinon = require('sinon');
 
-var KickstartPrompt = require('../../../lib/prompts/kickstart_prompt.js');
-var GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt.js');
-var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
-
 var assert = chai.assert;
 
 describe('KickstartPrompt', function() {
+	var KickstartPrompt = require('../../../lib/prompts/kickstart_prompt.js');
+	var GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt.js');
+	var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
+
 	var prototype;
 
 	beforeEach(function() {

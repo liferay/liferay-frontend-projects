@@ -10,6 +10,8 @@ var parseString = require('xml2js').parseString;
 var path = require('path');
 var runSequence;
 
+var testUtil = require('../util');
+
 var gulp;
 
 var assert = chai.assert;
@@ -46,7 +48,7 @@ function createBuildTests(version, rubySass) {
 				instance._buildPath = path.join(tempPath, 'custom_build_path');
 				instance._tempPath = tempPath;
 
-				deleteJsFromCache();
+				testUtil.deleteJsFromCache();
 
 				var registerTasks = require('../../index.js').registerTasks;
 
@@ -71,7 +73,7 @@ function createBuildTests(version, rubySass) {
 				force: true
 			});
 
-			deleteJsFromCache();
+			testUtil.deleteJsFromCache();
 
 			process.chdir(this._initCwd);
 		});
@@ -120,7 +122,7 @@ function createBuildTests(version, rubySass) {
 
 				var customCSSPath = path.join(instance._buildPath, 'css', customCSSFileName);
 
-				var fileContent = stripNewlines(fs.readFileSync(customCSSPath, {
+				var fileContent = testUtil.stripNewlines(fs.readFileSync(customCSSPath, {
 					encoding: 'utf8'
 				}));
 
@@ -271,33 +273,6 @@ function getCssFileName(version) {
 	}
 
 	return fileName;
-}
-
-function deleteDirJsFromCache(relativePath) {
-	var files = fs.readdirSync(path.join(__dirname, relativePath));
-
-	_.forEach(files, function(item, index) {
-		if (_.endsWith(item, '.js')) {
-			var taskPath = require.resolve(path.join(__dirname, relativePath, item));
-
-			delete require.cache[taskPath];
-		}
-	});
-}
-
-function deleteJsFromCache() {
-	var taskFiles = fs.readdirSync(path.join(__dirname, '../../tasks'));
-	deleteDirJsFromCache('../../tasks');
-	deleteDirJsFromCache('../../lib');
-	deleteDirJsFromCache('../../lib/upgrade/6.2');
-
-	var registerTasksPath = require.resolve('../../index.js');
-
-	delete require.cache[registerTasksPath];
-}
-
-function stripNewlines(string) {
-	return string.replace(/\r?\n|\r/g, '');
 }
 
 describe('Build Tasks: 6.2/libSass', createBuildTests('6.2', false));

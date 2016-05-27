@@ -5,7 +5,10 @@ var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
 var path = require('path');
-var registerTasks = require('../../index.js').registerTasks;
+
+var testUtil = require('../util');
+
+var registerTasks;
 var runSequence;
 
 var assert = chai.assert;
@@ -33,6 +36,10 @@ describe('Watch Task', function() {
 
 			instance._buildPath = path.join(tempPath, 'custom_build_path');
 			instance._tempPath = tempPath;
+
+			testUtil.deleteJsFromCache();
+
+			registerTasks = require('../../index.js').registerTasks;
 
 			registerTasks({
 				gulp: gulp,
@@ -132,6 +139,33 @@ describe('Watch Task', function() {
 			done();
 		});
 	});
+
+	it('should deploy template files corrently on change', function(done) {
+		this.timeout(6000);
+
+		var instance = this;
+
+		var filePath = path.join(tempPath, 'custom_src_path/templates/portal_normal.ftl');
+
+		setChangedFile(filePath);
+
+		var appServerPathPlugin = instance._appServerPathPlugin;
+		var templatesDir = path.join(appServerPathPlugin, 'templates');
+
+		var deployedFilePath = path.join(templatesDir, 'portal_normal.ftl');
+
+		runTemplateWatchSequence(function() {
+			assert.isFile(deployedFilePath);
+
+			var deployedFileContent = fs.readFileSync(deployedFilePath, {
+				encoding: 'utf8'
+			});
+
+			assert(/<script src="\${theme_display.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/.test(deployedFileContent), 'themelet js got injected');
+
+			done();
+		});
+	});
 });
 
 function runCssWatchSequence(cb) {
@@ -154,6 +188,12 @@ function runCssWatchSequence(cb) {
 
 function runJsWatchSequence(cb) {
 	var taskArray = ['deploy:file'];
+
+	runWatchSequence(taskArray, cb);
+}
+
+function runTemplateWatchSequence(cb) {
+	var taskArray = ['build:src', 'build:themelet-src', 'build:themelet-js-inject', 'deploy:folder'];
 
 	runWatchSequence(taskArray, cb);
 }
