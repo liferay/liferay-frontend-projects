@@ -673,7 +673,7 @@ var LoaderProtoMethods = {
         var errorMessage = 'Mismatched anonymous define() module: ' + msg;
         var reportLevel = this._config.reportMismatchedAnonymousModules;
 
-        if (!reportLevel || reportLevel === 'exception') {
+        if (!reportLevel || reportLevel === 'exception') {
             throw new Error(errorMessage);
         } else if (console && console[reportLevel]) {
             // Call console's method by using the `call` function
