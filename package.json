@@ -4,7 +4,9 @@
   "description": "AMD Loader with support for combo URL and conditional loading",
   "main": "main.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "publish-please": "publish-please",
+    "prepublish": "publish-please guard"
   },
   "repository": {
     "type": "git",
@@ -44,6 +46,7 @@
     "jshint-stylish": "^2.0.0",
     "liferay-module-config-generator": "latest",
     "merge-stream": "^1.0.0",
+    "publish-please": "^2.1.4",
     "run-sequence": "^1.1.0",
     "sinon": "^1.15.3",
     "v8-natives": "0.0.2"
