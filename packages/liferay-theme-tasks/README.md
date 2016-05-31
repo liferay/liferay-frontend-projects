@@ -121,6 +121,24 @@ liferayThemeTasks.registerTasks({
 
 #### Options
 
+##### distName
+
+type: `string`<br>
+required: `false`
+
+The name that will be given to the generated war file. The `distName` can also be a template which has access to the theme's `package.json` fields.
+
+```js
+liferayThemeTasks.registerTasks({
+	distName: '${name}-${version}',
+	gulp: gulp
+});
+
+// my-theme-1.0.0
+```
+
+**Note:** in 7.0 changing the war file name will also affect the context path of the theme when using `gulp deploy` which can result in having multiple versions of your theme deployed at the same time.
+
 ##### gulp
 
 type: `gulp instance`<br>
