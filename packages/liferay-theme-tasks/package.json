@@ -47,7 +47,7 @@
     "lodash": "^3.10.0",
     "minimist": "^1.1.0",
     "node-bourbon": "4.2.3",
-    "npm-keyword": "^1.1.1",
+    "npm-keyword": "^4.2.0",
     "package-json": "^1.2.0",
     "resolve": "^1.1.7",
     "run-sequence": "^1.0.2",

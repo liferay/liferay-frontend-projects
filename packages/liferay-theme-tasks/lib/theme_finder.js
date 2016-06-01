@@ -185,18 +185,19 @@ module.exports = {
 	_searchNpm: function(config, cb) {
 		var instance = this;
 
-		npmKeyword(config.keyword, function(err, packages) {
-			async.map(packages, instance._getPackageJSON, function(err, results) {
-				if (err) {
-					cb(err);
+		npmKeyword(config.keyword)
+			.then(function(packages) {
+				async.map(packages, instance._getPackageJSON, function(err, results) {
+					if (err) {
+						cb(err);
 
-					return;
-				}
+						return;
+					}
 
-				var themeResults = instance._reduceModuleResults(results, config);
+					var themeResults = instance._reduceModuleResults(results, config);
 
-				cb(themeResults);
+					cb(themeResults);
+				});
 			});
-		});
 	}
 };
