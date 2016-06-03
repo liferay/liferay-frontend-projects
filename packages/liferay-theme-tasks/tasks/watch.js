@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var del = require('del');
 var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var livereload = require('gulp-livereload');
@@ -42,10 +43,12 @@ module.exports = function(options) {
 		else {
 			store.set('appServerPathPlugin', webBundleDir);
 
-			runSequence('build', 'watch:clean', 'watch:setup', function() {
+			runSequence('build', 'watch:clean', 'watch:setup', function(err) {
+				var connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
+
 				var watchSocket = startWatchSocket();
 
-				watchSocket.connect(CONNECT_PARAMS)
+				watchSocket.connect(connectParams)
 					.then(function() {
 						return watchSocket.deploy();
 					})
