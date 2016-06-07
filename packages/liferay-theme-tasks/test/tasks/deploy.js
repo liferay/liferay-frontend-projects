@@ -7,8 +7,10 @@ var Gulp = require('gulp').Gulp;
 var os = require('os');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+
 var registerTasks;
 var runSequence;
+var testUtil = require('../util');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
@@ -33,6 +35,8 @@ describe('Deploy Tasks', function() {
 			instance._buildPath = path.join(tempPath, 'build');
 			instance._tempPath = tempPath;
 
+			testUtil.deleteJsFromCache();
+
 			registerTasks = require('../../index.js').registerTasks;
 
 			var gulp = new Gulp();
@@ -50,6 +54,7 @@ describe('Deploy Tasks', function() {
 			var store = gulp.storage;
 
 			store.set('deployPath', deployPath);
+			store.set('webBundleDir');
 
 			fs.mkdirsSync(deployPath);
 
