@@ -11,7 +11,7 @@
     "theme"
   ],
   "scripts": {
-    "test": "node test/index.js"
+    "test": "mocha test/{lib,tasks}/*"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -62,7 +62,6 @@
     "chai-fs": "^0.1.0",
     "gogo-shell-helper": "^0.0.6",
     "gulp-istanbul": "^0.10.3",
-    "gulp-mocha": "^2.2.0",
     "gulp-ruby-sass": "^2.0.6",
     "gulp-sass": "^2.1.1",
     "liferay-theme-deps-6.2": "*",
