@@ -1,0 +1,39 @@
+{
+	"name": "base-theme",
+	"version": "0.0.0",
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": {
+			"liferayTheme": {
+				"baseTheme": "styled",
+				"rubySass": false,
+				"screenshot": "",
+				"templateLanguage": "vm",
+				"version": "7.0"
+			},
+			"name": "parent-theme",
+			"publishConfig": {
+				"tag": "7_0_x"
+			},
+			"version": "1.0.0"
+		},
+		"rubySass": true,
+		"themeletDependencies": {
+			"test-themelet": {
+				"liferayTheme": {
+					"themelet": true,
+					"version": "7.0"
+				},
+				"name": "test-themelet",
+				"version": "0.0.0"
+			}
+		},
+		"version": "7.0"
+	},
+	"dependencies": {
+		"gulp": "^3.8.10",
+		"liferay-theme-tasks": "*"
+	}
+}

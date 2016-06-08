@@ -1,0 +1,56 @@
+{
+  "look-and-feel": {
+    "compatibility": [
+      {
+        "version": [
+          "7.0.0+"
+        ]
+      }
+    ],
+    "theme": [
+      {
+        "$": {
+          "id": "base-theme",
+          "name": "Base Theme"
+        },
+        "template-extension": [
+          "vm"
+        ],
+        "settings": [
+          {
+            "setting": [
+              {
+                "$": {
+                  "configurable": "true",
+                  "key": "show-breadcrumb",
+                  "type": "checkbox",
+                  "value": "true"
+                }
+              }
+            ]
+          }
+        ],
+        "portlet-decorator": [
+          {
+            "$": {
+              "id": "portlet-decorator-1",
+              "name": "Decorator 1"
+            },
+            "portlet-decorator-css-class": [
+              "portlet-decorator-1"
+            ]
+          },
+          {
+            "$": {
+              "id": "portlet-decorator-2",
+              "name": "Decorator 2"
+            },
+            "portlet-decorator-css-class": [
+              "portlet-decorator-2"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

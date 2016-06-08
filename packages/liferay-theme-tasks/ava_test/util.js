@@ -4,6 +4,7 @@ var _ = require('lodash');
 var assert = require('chai').assert;
 var del = require('del');
 var fs = require('fs-extra');
+var Gulp = require('gulp').Gulp;
 var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
@@ -56,24 +57,75 @@ PrototypeMethodSpy.prototype.flush = function() {
 
 module.exports.PrototypeMethodSpy = PrototypeMethodSpy;
 
-function copyTempTheme(themeName, version, component, cb) {
-	var tempPath = path.join(osTempDir, 'liferay-theme-tasks', component, version, themeName);
+function copyTempTheme(options, cb) {
+	var themeName = options.themeName || 'base-theme';
+	var version = options.version || '7.0';
+
+	var tempPath = path.join(osTempDir, 'liferay-theme-tasks', options.namespace, version, themeName);
+
+	var gulp;
+	var registerTasksOptions;
+	var runSequence;
 
 	fs.copy(path.join(__dirname, './fixtures/themes', version, themeName), tempPath, function(err) {
 		if (err) throw err;
 
 		process.chdir(tempPath);
 
-		cb(tempPath);
+		if (options.themeConfig) {
+			var lfrThemeConfig = require('../lib/liferay_theme_config');
+
+			lfrThemeConfig.setConfig(options.themeConfig);
+		}
+
+		if (options.registerTasksOptions || options.registerTasks) {
+			deleteJsFromCache();
+
+			var registerTasks = require('../index.js').registerTasks;
+
+			gulp = new Gulp();
+
+			registerTasksOptions = _.assign({
+				distName: 'base-theme',
+				pathBuild: './custom_build_path',
+				gulp: gulp,
+				pathSrc: './custom_src_path',
+				rubySass: false
+			}, options.registerTasksOptions);
+
+			registerTasks(registerTasksOptions);
+
+			runSequence = require('run-sequence').use(gulp);
+		}
+
+		cb({
+			gulp: gulp,
+			registerTasksOptions: registerTasksOptions,
+			runSequence: runSequence,
+			tempPath: tempPath
+		});
 	});
 }
 
-function cleanTempTheme(themeName, version, component) {
-	var tempPath = path.join(osTempDir, 'liferay-theme-tasks', component, version, themeName);
-
-	del.sync(path.join(tempPath, '**'), {
+function cleanDirectory(directory) {
+	del.sync(path.join(directory, '**'), {
 		force: true
 	});
+}
+
+function cleanTempTheme(themeName, version, component, cb) {
+	var tempPath = path.join(osTempDir, 'liferay-theme-tasks', component, version, themeName);
+
+	if (arguments.length > 3) {
+		setTimeout(function() {
+			cleanDirectory(tempPath);
+
+			cb();
+		}, 100);
+	}
+	else {
+		cleanDirectory(tempPath);
+	}
 }
 
 module.exports.cleanTempTheme = cleanTempTheme;

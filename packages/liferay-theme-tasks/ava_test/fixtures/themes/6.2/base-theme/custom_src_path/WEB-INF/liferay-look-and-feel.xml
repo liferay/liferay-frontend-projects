@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">
+
+<look-and-feel>
+	<compatibility>
+		<version>6.2.0+</version>
+	</compatibility>
+	<theme id="base-theme" name="Base Theme">
+		<template-extension>ftl</template-extension>
+		<settings>
+			<setting configurable="true" key="show-breadcrumb" type="checkbox" value="true" />
+		</settings>
+		<portlet-decorator id="portlet-decorator-1" name="Decorator 1">
+			<portlet-decorator-css-class>portlet-decorator-1</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="portlet-decorator-2" name="Decorator 2">
+			<portlet-decorator-css-class>portlet-decorator-2</portlet-decorator-css-class>
+		</portlet-decorator>
+	</theme>
+</look-and-feel>

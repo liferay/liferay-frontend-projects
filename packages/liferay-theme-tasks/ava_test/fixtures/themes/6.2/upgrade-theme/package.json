@@ -1,0 +1,22 @@
+{
+	"name": "upgrade-theme",
+	"version": "0.0.0",
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"rubySass": true,
+		"screenshot": "",
+		"templateLanguage": "vm",
+		"version": "6.2"
+	},
+	"devDependencies": {
+		"gulp": "^3.8.10",
+		"liferay-theme-tasks": "*",
+		"liferay-theme-deps-6.2": "*"
+	},
+	"publishConfig": {
+		"tag": "6_2_x"
+	}
+}
