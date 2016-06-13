@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v1.3.1 - June 13, 2016
 * Improve extend task to find globally installed themes/themelets in non-conventional npm environments
 * Allow greater customization for gogo-shell connections
-***
 
 ## v1.3.0 - May 27, 2016
 * Fix: resolved issue with appserver theme path not being found during 6.2 watch task
