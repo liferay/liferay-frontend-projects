@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Improve extend task to find globally installed themes/themelets in non-conventional npm environments
+* Allow greater customization for gogo-shell connections
 ***
 
 ## v1.3.0 - May 27, 2016
