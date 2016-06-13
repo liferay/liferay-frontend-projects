@@ -4,6 +4,8 @@ var _ = require('lodash');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
+var chalk = gutil.colors;
+
 var ModulePrompt = require('./module_prompt');
 var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
@@ -31,7 +33,16 @@ GlobalModulePrompt.prototype = {
 		var type = this.themelet ? 'themelet' : 'theme';
 
 		if (_.isEmpty(this.modules)) {
-			gutil.log(gutil.colors.yellow('No globally installed ' + type + ' found. Install some with "npm i -g [name]"'));
+			gutil.log(chalk.yellow('No globally installed ' + type + ' found. Install some with "npm i -g [name]"'));
+
+			if (!process.env.NODE_PATH) {
+				gutil.log(
+					chalk.yellow('Warning:'),
+					chalk.cyan('NODE_PATH'),
+					'environment variable not found. If you have globally installed modules that are not being located, please set',
+					chalk.cyan('NODE_PATH')
+				);
+			}
 		}
 
 		this.done(answers);

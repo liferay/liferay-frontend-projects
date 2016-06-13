@@ -8,6 +8,7 @@ var lfrThemeConfig = require('./liferay_theme_config');
 var npmKeyword = require('npm-keyword');
 var packageJson = require('package-json');
 var path = require('path');
+var spawn = require('cross-spawn');
 
 var themeConfig = lfrThemeConfig.getConfig();
 
@@ -68,7 +69,7 @@ module.exports = {
 
 		var win32 = process.platform === 'win32';
 
-		path.join(process.cwd(), '..').split(path.sep).forEach(function (part, index, parts) {
+		_.forEach(path.join(process.cwd(), '..').split(path.sep), function(part, index, parts) {
 			var lookup = path.join.apply(path, parts.slice(0, index + 1).concat(['node_modules']));
 
 			if (!win32) {
@@ -82,6 +83,16 @@ module.exports = {
 			paths = _.compact(process.env.NODE_PATH.split(path.delimiter)).concat(paths);
 		}
 		else {
+			var results = spawn.sync('npm', ['root', '-g']);
+
+			if (!results.error && results.stdout) {
+				var npmRoot = results.stdout.toString();
+
+				if (npmRoot) {
+					paths.push(_.trim(npmRoot));
+				}
+			}
+
 			if (win32) {
 				paths.push(path.join(process.env.APPDATA, 'npm/node_modules'));
 			}
