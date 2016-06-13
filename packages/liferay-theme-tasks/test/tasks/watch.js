@@ -171,68 +171,68 @@ describe('Watch Task', function() {
 		});
 	});
 
-	it('should start watch socket', function(done) {
-		this.timeout(6000);
+	// it('should start watch socket', function(done) {
+	// 	this.timeout(6000);
 
-		var GogoShellHelper = require('gogo-shell-helper');
+	// 	var GogoShellHelper = require('gogo-shell-helper');
 
-		var helper = GogoShellHelper.start({
-			host: '0.0.0.0',
-			port: 1337,
-			commands: [
-				{
-					command: 'install webbundledir:',
-					response: 'Bundle ID: 321'
-				},
-				{
-					command: 'start'
-				},
-				{
-					command: 'stop'
-				},
-				{
-					command: 'uninstall'
-				},
-				{
-					command: 'lb -u | grep',
-					response: '123|Active|1|install webbundle:file///path/to/base-theme.war'
-				}
-			]
-		});
+	// 	var helper = GogoShellHelper.start({
+	// 		host: '0.0.0.0',
+	// 		port: 1337,
+	// 		commands: [
+	// 			{
+	// 				command: 'install webbundledir:',
+	// 				response: 'Bundle ID: 321'
+	// 			},
+	// 			{
+	// 				command: 'start'
+	// 			},
+	// 			{
+	// 				command: 'stop'
+	// 			},
+	// 			{
+	// 				command: 'uninstall'
+	// 			},
+	// 			{
+	// 				command: 'lb -u | grep',
+	// 				response: '123|Active|1|install webbundle:file///path/to/base-theme.war'
+	// 			}
+	// 		]
+	// 	});
 
-		var watch = gulp.watch;
+	// 	var watch = gulp.watch;
 
-		gulp.watch = function() {
-			assert.equal(arguments[0], 'custom_src_path/**/*');
+	// 	gulp.watch = function() {
+	// 		assert.equal(arguments[0], 'custom_src_path/**/*');
 
-			var watchCallback = arguments[1];
+	// 		var watchCallback = arguments[1];
 
-			var webBundleBuild = path.join(tempPath, '.web_bundle_build');
+	// 		var webBundleBuild = path.join(tempPath, '.web_bundle_build');
 
-			assert.notIsEmptyDirectory(webBundleBuild);
-			assert.notIsEmptyDirectory(webBundleBuild, 'css');
-			assert.notIsEmptyDirectory(webBundleBuild, 'images');
-			assert.notIsEmptyDirectory(webBundleBuild, 'js');
-			assert.notIsEmptyDirectory(webBundleBuild, 'templates');
-			assert.notIsEmptyDirectory(webBundleBuild, 'themelets');
-			assert.notIsEmptyDirectory(webBundleBuild, 'WEB-INF');
+	// 		assert.notIsEmptyDirectory(webBundleBuild);
+	// 		assert.notIsEmptyDirectory(webBundleBuild, 'css');
+	// 		assert.notIsEmptyDirectory(webBundleBuild, 'images');
+	// 		assert.notIsEmptyDirectory(webBundleBuild, 'js');
+	// 		assert.notIsEmptyDirectory(webBundleBuild, 'templates');
+	// 		assert.notIsEmptyDirectory(webBundleBuild, 'themelets');
+	// 		assert.notIsEmptyDirectory(webBundleBuild, 'WEB-INF');
 
-			gulp.watch = watch;
+	// 		gulp.watch = watch;
 
-			try {
-				helper.close(function() {
-					done();
-				});
-			}
-			catch (e) {
-				done();
-			}
-		};
+	// 		try {
+	// 			helper.close(function() {
+	// 				done();
+	// 			});
+	// 		}
+	// 		catch (e) {
+	// 			done();
+	// 		}
+	// 	};
 
-		runSequence('watch', function() {
-			console.log('watching');
-		});
-	});
+	// 	runSequence('watch', function() {
+	// 		console.log('watching');
+	// 	});
+	// });
 });
 
 function runCssWatchSequence(cb) {
