@@ -11,8 +11,18 @@
     "theme"
   ],
   "scripts": {
-    "test": "mocha test/{lib,tasks}/*",
-    "test_ava": "nyc ava ava_test/{lib,tasks}/*"
+    "test": "nyc ava"
+  },
+  "ava": {
+    "files": [
+      "ava_test/{lib,tasks}/**/*.js"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "index.js",
+      "{lib,tasks}/**/*"
+    ]
   },
   "dependencies": {
     "async": "^0.9.0",
