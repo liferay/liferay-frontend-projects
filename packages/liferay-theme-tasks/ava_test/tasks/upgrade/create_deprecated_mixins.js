@@ -38,7 +38,7 @@ test.cb.after(function(t) {
 });
 
 test.cb('should create deprecated mixins file', function(t) {
-	runSequence('upgrade:create-deprecated-mixins', function(err) {
+	runSequence('upgrade:config', 'upgrade:create-deprecated-mixins', function(err) {
 		if (err) throw err;
 
 		assert.isFile(path.join(tempPath, 'src/css/_deprecated_mixins.scss'));
