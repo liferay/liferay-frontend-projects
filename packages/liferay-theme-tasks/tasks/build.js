@@ -178,7 +178,7 @@ module.exports = function(options) {
 		}
 	});
 
-	gulp.task('build:hook', function(cb) {
+	gulp.task('build:hook', function() {
 		var languageProperties = themeUtil.getLanguageProperties(pathBuild);
 
 		return gulp.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
