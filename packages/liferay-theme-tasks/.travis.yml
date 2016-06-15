@@ -2,7 +2,6 @@ language: node_js
 before_install:
     - gem install sass
     - gem install compass
-    - npm i -g mocha
 node_js:
     - "5.11"
     - "4.4"
