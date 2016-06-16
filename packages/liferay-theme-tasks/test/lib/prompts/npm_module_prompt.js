@@ -1,156 +1,160 @@
 'use strict';
 
 var _ = require('lodash');
-var chai = require('chai');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
 var sinon = require('sinon');
+var test = require('ava');
 
-var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
-var ModulePrompt = require('../../../lib/prompts/module_prompt.js');
 var testUtil = require('../../util.js');
-var themeFinder = require('../../../lib/theme_finder');
+
+var ModulePrompt;
+var NPMModulePrompt;
+var themeFinder;
 
 var assertBoundFunction = testUtil.assertBoundFunction;
-
-var assert = chai.assert;
-
 var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
-describe('NPMModulePrompt', function() {
-	var prototype;
+var initCwd = process.cwd();
 
-	beforeEach(function() {
-		prototype = _.create(NPMModulePrompt.prototype);
+test.cb.before(function(t) {
+	testUtil.copyTempTheme({
+		namespace: 'npm_module_prompt'
+	}, function(config) {
+		NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
+		ModulePrompt = require('../../../lib/prompts/module_prompt.js');
+		themeFinder = require('../../../lib/theme_finder');
+
+		t.end();
 	});
+});
 
-	afterEach(function() {
-		prototypeMethodSpy.flush();
-	});
+test.after(function() {
+	process.chdir(initCwd);
 
-	describe('constructor', function() {
-		it('should pass arguments to init', function() {
-			var initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
+	testUtil.cleanTempTheme('base-theme', '7.0', 'npm_module_prompt');
+});
 
-			new NPMModulePrompt({}, _.noop);
+var prototype;
 
-			assert(initSpy.calledWith({}, _.noop));
-		});
-	});
+test.beforeEach(function() {
+	prototype = _.create(NPMModulePrompt.prototype);
+});
 
-	describe('init', function() {
-		it('should assign callback as done property and invoke prompting', function() {
-			prototype._promptSearchTerms = sinon.spy();
+test.afterEach(function() {
+	prototypeMethodSpy.flush();
+});
 
-			prototype.init({
-				selectedModules: ['module'],
-				themelet: true
-			}, _.noop);
+test('constructor should pass arguments to init', function(t) {
+	var initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
 
-			assert(prototype._promptSearchTerms.calledOnce);
-			assert.deepEqual(prototype.selectedModules, ['module']);
-			assert.equal(prototype.done, _.noop);
-			assert.equal(prototype.themelet, true);
-		});
-	});
+	new NPMModulePrompt({}, _.noop);
 
-	describe('_afterPrompt', function() {
-		it('should pass answers to done property', function() {
-			prototype.done = sinon.spy();
+	t.true(initSpy.calledWith({}, _.noop));
+});
 
-			var answers = {
-				module: 'some-module'
-			};
+test('init should assign callback as done property and invoke prompting', function(t) {
+	prototype._promptSearchTerms = sinon.spy();
 
-			prototype._afterPrompt(answers);
+	prototype.init({
+		selectedModules: ['module'],
+		themelet: true
+	}, _.noop);
 
-			assert(prototype.done.calledWith(answers));
-		});
-	});
+	t.true(prototype._promptSearchTerms.calledOnce);
+	t.deepEqual(prototype.selectedModules, ['module']);
+	t.is(prototype.done, _.noop);
+	t.is(prototype.themelet, true);
+});
 
-	describe('_afterPromptSearchTerms', function() {
-		it('should invoke _getNPMModules with searchTerms', function() {
-			prototype._getNPMModules = sinon.spy();
+test('_afterPrompt should pass answers to done property', function(t) {
+	prototype.done = sinon.spy();
 
-			var answers = {
-				searchTerms: 'some keyword'
-			};
+	var answers = {
+		module: 'some-module'
+	};
 
-			var cbSpy = sinon.spy();
+	prototype._afterPrompt(answers);
 
-			prototype._afterPromptSearchTerms(answers, cbSpy);
+	t.true(prototype.done.calledWith(answers));
+});
 
-			prototype._getNPMModules.calledWith(answers.searchTerms, cbSpy);
-		});
+test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', function(t) {
+	prototype._getNPMModules = sinon.spy();
 
-		it('should either re-prompt search terms or invoke module prompt', function() {
-			prototype._getNPMModules = sinon.spy();
-			prototype._promptSearchTerms = sinon.spy();
-			var logSpy = prototypeMethodSpy.add(gutil, 'log');
-			var modulePromptInitSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
+	var answers = {
+		searchTerms: 'some keyword'
+	};
 
-			var answers = {
-				searchTerms: 'some keyword'
-			};
+	var cbSpy = sinon.spy();
 
-			prototype._afterPromptSearchTerms(answers);
+	prototype._afterPromptSearchTerms(answers, cbSpy);
 
-			var args = prototype._getNPMModules.getCall(0).args;
+	prototype._getNPMModules.calledWith(answers.searchTerms, cbSpy);
+});
 
-			assert.equal(args[0], 'some keyword');
+test('_afterPromptSearchTerms should either re-prompt search terms or invoke module prompt', function(t) {
+	prototype._getNPMModules = sinon.spy();
+	prototype._promptSearchTerms = sinon.spy();
+	var logSpy = prototypeMethodSpy.add(gutil, 'log');
+	var modulePromptInitSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
 
-			var cb = args[1];
+	var answers = {
+		searchTerms: 'some keyword'
+	};
 
-			cb();
+	prototype._afterPromptSearchTerms(answers);
 
-			assert(logSpy.calledOnce);
-			assert(prototype._promptSearchTerms.calledOnce);
+	var args = prototype._getNPMModules.getCall(0).args;
 
-			var modules = {
-				'some-module': {}
-			};
+	t.is(args[0], 'some keyword');
 
-			cb(modules);
+	var cb = args[1];
 
-			assert.deepEqual(prototype.modules, modules);
+	cb();
 
-			assert(modulePromptInitSpy.calledOnce);
-		});
-	});
+	t.true(logSpy.calledOnce);
+	t.true(prototype._promptSearchTerms.calledOnce);
 
-	describe('_getNPMModules', function() {
-		it('should invoke themeFinder.getLiferayThemeModules', function() {
-			var getLiferayThemeModulesSpy = prototypeMethodSpy.add(themeFinder, 'getLiferayThemeModules');
+	var modules = {
+		'some-module': {}
+	};
 
-			prototype.themelet = 'themelet';
+	cb(modules);
 
-			prototype._getNPMModules('some keyword', _.noop);
+	t.deepEqual(prototype.modules, modules);
 
-			assert(getLiferayThemeModulesSpy.calledWith({
-				globalModules: false,
-				searchTerms: 'some keyword',
-				themelet: 'themelet'
-			}, _.noop));
-		});
-	});
+	t.true(modulePromptInitSpy.calledOnce);
+});
 
-	describe('_promptSearchTerms', function() {
-		it('should prompt for search terms', function() {
-			var promptSpy = prototypeMethodSpy.add(inquirer, 'prompt');
+test('_getNPMModules should invoke themeFinder.getLiferayThemeModules', function(t) {
+	var getLiferayThemeModulesSpy = prototypeMethodSpy.add(themeFinder, 'getLiferayThemeModules');
 
-			var assertAfterPromptSearchTerms = assertBoundFunction(prototype, '_afterPromptSearchTerms');
+	prototype.themelet = 'themelet';
 
-			prototype._promptSearchTerms();
+	prototype._getNPMModules('some keyword', _.noop);
 
-			var args = promptSpy.getCall(0).args;
+	t.true(getLiferayThemeModulesSpy.calledWith({
+		globalModules: false,
+		searchTerms: 'some keyword',
+		themelet: 'themelet'
+	}, _.noop));
+});
 
-			var question = args[0][0];
+test('_promptSearchTerms should prompt for search terms', function(t) {
+	var promptSpy = prototypeMethodSpy.add(inquirer, 'prompt');
 
-			assert(question.message.match(/themes/));
-			assert.equal(question.name, 'searchTerms');
+	var assertAfterPromptSearchTerms = assertBoundFunction(prototype, '_afterPromptSearchTerms');
 
-			assertAfterPromptSearchTerms(args[1]);
-		});
-	});
+	prototype._promptSearchTerms();
+
+	var args = promptSpy.getCall(0).args;
+
+	var question = args[0][0];
+
+	t.true(/themes/.test(question.message));
+	t.is(question.name, 'searchTerms');
+
+	assertAfterPromptSearchTerms(args[1]);
 });

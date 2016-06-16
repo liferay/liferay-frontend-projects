@@ -1,79 +1,63 @@
 'use strict';
 
-var chai = require('chai');
+var _ = require('lodash');
 var del = require('del');
 var doctor = require('../../lib/doctor.js');
 var fs = require('fs-extra');
 var os = require('os');
 var path = require('path');
+var test = require('ava');
 
-var assert = chai.assert;
-
+var initCwd = process.cwd();
 var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'doctor-fixtures');
 
-describe('Doctor', function() {
-	before(function(done) {
-		this.timeout(10000);
+test.cb.before(function(t) {
+	fs.copy(path.join(__dirname, '../fixtures/json/_package_outdated_settings.json'), path.join(tempPath, 'package.json'), function(err) {
+		if (err) throw err;
 
-		var instance = this;
+		process.chdir(tempPath);
 
-		instance._initCwd = process.cwd();
-
-		fs.copy(path.join(__dirname, '../fixtures/json/_package_outdated_settings.json'), path.join(tempPath, 'package.json'), function(err) {
-			if (err) throw err;
-
-			process.chdir(tempPath);
-
-			instance._tempPath = tempPath;
-
-			done();
-		});
+		t.end();
 	});
+});
 
-	after(function() {
-		del.sync(path.join(tempPath, '**'), {
-			force: true
-		});
+test.after(function() {
+	process.chdir(initCwd);
 
-		process.chdir(this._initCwd);
+	del.sync(path.join(tempPath, '**'), {
+		force: true
 	});
+});
 
-	it('should throw appropriate error message', function(done) {
-		var pkg = require(path.join(__dirname, '../fixtures/json/_package.json'));
+test('should throw appropriate error message', function(t) {
+	var pkg = require(path.join(__dirname, '../fixtures/json/_package.json'));
 
-		assert.throw(function() {
-			doctor(pkg, true);
-		}, 'Missing 2 theme dependencies');
-
-		done();
-	});
-
-	it('should look for dependencies regardless if devDependency or not', function(done) {
-		var pkg = require(path.join(__dirname, '../fixtures/json/_package_mixed_dependencies.json'));
-
-		assert.doesNotThrow(function() {
-			doctor(pkg, true);
-		});
-
-		done();
-	});
-
-	it('should replace supportCompass with rubySass', function(done) {
-		var pkgPath = path.join(tempPath, 'package.json');
-
-		var pkg = require(pkgPath);
-
+	t.throws(function() {
 		doctor(pkg, true);
+	}, 'Missing 2 theme dependencies');
+});
 
-		var updatedPkg = JSON.parse(fs.readFileSync(pkgPath));
+test('should look for dependencies regardless if devDependency or not', function(t) {
+	var pkg = require(path.join(__dirname, '../fixtures/json/_package_mixed_dependencies.json'));
 
-		var liferayTheme = updatedPkg.liferayTheme;
-
-		assert.equal(liferayTheme.baseTheme, 'styled');
-		assert.equal(liferayTheme.rubySass, false);
-		assert.equal(liferayTheme.version, '7.0');
-		assert.isUndefined(liferayTheme.supportCompass);
-
-		done();
+	t.notThrows(function() {
+		doctor(pkg, true);
 	});
+});
+
+test('should replace supportCompass with rubySass', function(t) {
+	var pkgPath = path.join(tempPath, 'package.json');
+
+	var pkg = require(pkgPath);
+
+	doctor(pkg, true);
+
+	var updatedPkg = JSON.parse(fs.readFileSync(pkgPath));
+
+	var liferayTheme = updatedPkg.liferayTheme;
+
+	t.is(liferayTheme.baseTheme, 'styled');
+	t.is(liferayTheme.rubySass, false);
+	t.is(liferayTheme.version, '7.0');
+	t.true(_.isUndefined(liferayTheme.supportCompass));
 });

@@ -1,25 +1,16 @@
 'use strict';
 
 var _ = require('lodash');
-var chai = require('chai');
-var del = require('del');
-var fs = require('fs-extra');
-var os = require('os');
-var path = require('path');
 var sinon = require('sinon');
+var test = require('ava');
 
 var lfrThemeConfig = require('../../../lib/liferay_theme_config.js');
 var testUtil = require('../../util.js');
 
-var assertBoundFunction = testUtil.assertBoundFunction;
-var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
-
 var ExtendPrompt;
 
-var assert = chai.assert;
-chai.use(require('chai-fs'));
-
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
+var assertBoundFunction = testUtil.assertBoundFunction;
+var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
 var liferayVersion = '7.0';
 
@@ -49,514 +40,458 @@ var themeletDependencies = {
 	}
 };
 
-describe('Extend Prompt', function() {
-	var prototype;
-	var modifiedPrototypes = [];
+var initCwd = process.cwd();
 
-	before(function(done) {
-		this.timeout(10000);
+test.cb.before(function(t) {
+	testUtil.copyTempTheme({
+		namespace: 'extend_prompt'
+	}, function(config) {
+		ExtendPrompt = require('../../../lib/prompts/extend_prompt');
 
-		var instance = this;
-
-		instance._initCwd = process.cwd();
-
-		fs.copy(path.join(__dirname, '../../fixtures/themes/7.0/base-theme'), tempPath, function (err) {
-			if (err) throw err;
-
-			process.chdir(tempPath);
-
-			ExtendPrompt = require('../../../lib/prompts/extend_prompt');
-
-			instance._buildPath = path.join(tempPath, 'build');
-			instance._tempPath = tempPath;
-
-			done();
-		});
+		t.end();
 	});
+});
 
-	beforeEach(function() {
-		prototype = _.create(ExtendPrompt.prototype);
-
-		prototype.themeConfig = lfrThemeConfig.getConfig();
-	});
-
-	after(function() {
-		del.sync(path.join(tempPath, '**'), {
-			force: true
-		});
-
-		process.chdir(this._initCwd);
-	});
-
-	afterEach(function() {
-		ExtendPrompt.prototype._extendableThemes = undefined;
-		ExtendPrompt.prototype._extendType = undefined;
-
-		prototypeMethodSpy.flush();
-	});
-
-	describe('init', function() {
-		it('should pass', function() {
-			//
-		});
-	});
-
-	describe('_afterPromptModule', function() {
-		it('should use after method which corresponds to addedThemelets properties of answers', function() {
-			var answers = {
-				module: 'Test'
-			};
-
-			prototype._afterPromptTheme = sinon.spy();
-			prototype._afterPromptThemelets = sinon.spy();
+test.after(function() {
+	process.chdir(initCwd);
 
-			prototype._afterPromptModule(answers);
+	testUtil.cleanTempTheme('base-theme', '7.0', 'extend_prompt');
+});
 
-			assert(prototype._afterPromptTheme.calledWith(answers));
-			assert.equal(prototype._afterPromptThemelets.callCount, 0);
-
-			answers.addedThemelets = ['some-themelet'];
+var prototype;
 
-			prototype._afterPromptModule(answers);
-
-			assert(prototype._afterPromptThemelets.calledWith(answers));
-			assert.equal(prototype._afterPromptTheme.callCount, 1);
-		});
-	});
-
-	describe('_afterPromptTheme', function() {
-		it('should save and install new dependencies', function() {
-			var removeDependencies = lfrThemeConfig.removeDependencies;
-			var setConfig = lfrThemeConfig.setConfig;
+test.beforeEach(function() {
+	prototype = _.create(ExtendPrompt.prototype);
 
-			lfrThemeConfig.removeDependencies = sinon.spy();
-			lfrThemeConfig.setConfig = sinon.spy();
-			prototype._installDependencies = sinon.spy();
-			prototype._saveDependencies = sinon.spy();
+	prototype.themeConfig = lfrThemeConfig.getConfig();
+});
 
-			var answers = {
-				module: 'some-theme',
-				modules: {
-					'some-theme': {
-						liferayTheme: {
-							baseTheme: 'styled',
-							screenshot: '',
-							rubySass: false,
-							templateLanguage: 'ftl',
-							version: '7.0',
-							themeletDependencies: {}
-						},
-						name: 'some-theme',
-						publishConfig: {
-							tag: '7_0_x'
-						},
-						version: '1.0.0'
-					}
-				}
-			};
+test.afterEach(function() {
+	ExtendPrompt.prototype._extendableThemes = undefined;
+	ExtendPrompt.prototype._extendType = undefined;
 
-			prototype._afterPromptTheme(answers);
+	prototypeMethodSpy.flush();
+});
 
-			assert(lfrThemeConfig.removeDependencies.calledWith(['parent-theme']), 'it removes previous baseTheme from dependencies');
+test('_afterPromptModule should use after method which corresponds to addedThemelets properties of answers', function(t) {
+	var answers = {
+		module: 'Test'
+	};
 
-			var setConfigArgs = lfrThemeConfig.setConfig.getCall(0).args[0];
+	prototype._afterPromptTheme = sinon.spy();
+	prototype._afterPromptThemelets = sinon.spy();
 
-			assert(_.isObject(setConfigArgs.baseTheme.liferayTheme));
-			assert.equal(setConfigArgs.baseTheme.version, '1.0.0');
+	prototype._afterPromptModule(answers);
 
-			assert(prototype._saveDependencies.calledWith([setConfigArgs.baseTheme]));
+	t.true(prototype._afterPromptTheme.calledWith(answers));
+	t.is(prototype._afterPromptThemelets.callCount, 0);
 
-			assert(prototype._installDependencies.calledWith([setConfigArgs.baseTheme]));
+	answers.addedThemelets = ['some-themelet'];
 
-			lfrThemeConfig.removeDependencies = removeDependencies;
-			lfrThemeConfig.setConfig = setConfig;
-		});
-	});
+	prototype._afterPromptModule(answers);
 
-	describe('_afterPromptThemelets', function() {
-		it('should remove unchecked themelets from package.json and save new themelet dependencies', function() {
-			var removeDependencies = lfrThemeConfig.removeDependencies;
-			var setConfig = lfrThemeConfig.setConfig;
+	t.true(prototype._afterPromptThemelets.calledWith(answers));
+	t.is(prototype._afterPromptTheme.callCount, 1);
+});
 
-			lfrThemeConfig.removeDependencies = sinon.spy();
-			lfrThemeConfig.setConfig = sinon.spy();
-			prototype._installDependencies = sinon.spy();
-			prototype._saveDependencies = sinon.spy();
+test('_afterPromptTheme should save and install new dependencies', function(t) {
+	var removeDependencies = lfrThemeConfig.removeDependencies;
+	var setConfig = lfrThemeConfig.setConfig;
 
-			prototype.themeConfig.themeletDependencies = _.assign({}, {
-				'themelet-1': prototype._reducePkgData(themeletDependencies['themelet-1']),
-				'themelet-2': prototype._reducePkgData(themeletDependencies['themelet-2'])
-			});
+	lfrThemeConfig.removeDependencies = sinon.spy();
+	lfrThemeConfig.setConfig = sinon.spy();
+	prototype._installDependencies = sinon.spy();
+	prototype._saveDependencies = sinon.spy();
 
-			var answers = {
-				addedThemelets: ['themelet-3'],
-				modules: themeletDependencies,
-				removedThemelets: ['themelet-1']
-			};
-
-			prototype._afterPromptThemelets(answers);
-
-			assert(lfrThemeConfig.removeDependencies.calledWith(['themelet-1']));
-
-			var reducedThemelets = {
-				'themelet-2': prototype._reducePkgData(themeletDependencies['themelet-2']),
-				'themelet-3': prototype._reducePkgData(themeletDependencies['themelet-3'])
-			}
-
-			assert(lfrThemeConfig.setConfig.calledWith({
-				themeletDependencies: reducedThemelets
-			}));
-
-			assert(prototype._saveDependencies.calledWith(reducedThemelets));
-
-			assert(prototype._installDependencies.calledWith(reducedThemelets));
-
-			lfrThemeConfig.removeDependencies = removeDependencies;
-			lfrThemeConfig.setConfig = setConfig;
-		});
-	});
-
-	describe('_afterPromptThemeSource', function() {
-		it('should set base theme if styled/unstyled', function() {
-			var answers = {
-				themeSource: 'styled'
-			};
-
-			prototype._setStaticBaseTheme = sinon.spy();
-
-			prototype._afterPromptThemeSource(answers);
-
-			assert(prototype._setStaticBaseTheme.getCall(0).calledWith('styled'));
-
-			answers.themeSource = 'unstyled';
-
-			prototype._afterPromptThemeSource(answers);
-
-			assert(prototype._setStaticBaseTheme.getCall(1).calledWith('unstyled'));
-		});
-
-		it('should call GlobalModulePrompt', function() {
-			var GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt');
-
-			var answers = {
-				themeSource: 'global'
-			};
-
-			GlobalModulePrompt
-
-			var initSpy = prototypeMethodSpy.add(GlobalModulePrompt.prototype, 'init');
-			prototype._afterPromptModule = sinon.spy();
-
-			prototype._afterPromptThemeSource(answers);
-
-			var args = initSpy.getCall(0).args;
-
-			assert.deepEqual(args[0], {
-				selectedModules: ['parent-theme'],
-				themelet: false
-			});
-
-			args[1]();
-
-			assert(prototype._afterPromptModule.calledOnce);
-		});
-
-		it('should call NPMModulePrompt', function() {
-			var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt');
-
-			var answers = {
-				themeSource: 'npm'
-			};
-
-			var initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
-			prototype._afterPromptModule = sinon.spy();
-
-			prototype._afterPromptThemeSource(answers);
-
-			var args = initSpy.getCall(0).args;
-
-			assert.deepEqual(args[0], {
-				selectedModules: ['parent-theme'],
-				themelet: false
-			});
-
-			args[1]();
-
-			assert(prototype._afterPromptModule.calledOnce);
-		});
-	});
-
-	describe('_filterExtendType', function() {
-		it('should set _extendType to input arg', function() {
-			prototype._filterExtendType('theme');
-
-			assert.equal(prototype._extendType, 'theme');
-
-			prototype._filterExtendType('themelet');
-
-			assert.equal(prototype._extendType, 'themelet');
-		});
-	});
-
-	describe('_getDependencyInstallationArray', function() {
-		it('should return absolute path if present or name of module', function(done) {
-			var dependencies = prototype._getDependencyInstallationArray({
-				'themelet-1': {
-					liferayTheme: {
-						themelet: true,
-						version: '*'
-					},
-					name: 'themelet-1',
-					version: '1.0'
+	var answers = {
+		module: 'some-theme',
+		modules: {
+			'some-theme': {
+				liferayTheme: {
+					baseTheme: 'styled',
+					screenshot: '',
+					rubySass: false,
+					templateLanguage: 'ftl',
+					version: '7.0',
+					themeletDependencies: {}
 				},
-				'themelet-2': {
-					liferayTheme: {
-						themelet: true,
-						version: '*'
-					},
-					name: 'themelet-2',
-					path: 'path/to/themelet-2',
-					version: '1.0'
-				},
-				'themelet-3': {
-					liferayTheme: {
-						themelet: true,
-						version: '7.0'
-					},
-					name: 'themelet-3',
-					publishConfig: {
-						tag: '7_0_x'
-					},
-					version: '1.0'
-				}
-			});
-
-			assert.deepEqual(dependencies, ['themelet-1@*', 'path/to/themelet-2', 'themelet-3@7_0_x']);
-
-			done();
-		});
-	});
-
-	describe('_getSelectedModules', function() {
-		it('should pass', function() {
-			prototype.themeConfig = {
-				baseTheme: 'styled',
-				themeletDependencies: themeletDependencies
-			};
-
-			assert.deepEqual(prototype._getSelectedModules(true), ['themelet-1', 'themelet-2', 'themelet-3']);
-
-			assert.equal(prototype._getSelectedModules(false), undefined);
-
-			prototype.themeConfig.baseTheme = {
-				name: 'parent-theme'
-			};
-
-			assert.deepEqual(prototype._getSelectedModules(false), ['parent-theme']);
-		});
-	});
-
-	describe('_getThemeSourceChoices', function() {
-		it('should return different choices based on _extendType property', function() {
-			var choices = prototype._getThemeSourceChoices();
-
-			assert.equal(choices.length, 2);
-
-			prototype._extendType = 'theme';
-
-			choices = prototype._getThemeSourceChoices();
-
-			assert.equal(choices.length, 5);
-		});
-	});
-
-	describe('_getThemeSourceMessage', function() {
-		it('should return appropriate message based on _extendType property', function() {
-			var message = prototype._getThemeSourceMessage();
-
-			assert.equal(message, 'Where would you like to search for themelets?');
-
-			prototype._extendType = 'theme';
-
-			message = prototype._getThemeSourceMessage();
-
-			assert.equal(message, 'What base theme would you like to extend?');
-		});
-	});
-
-	describe('_hasPublishTag', function() {
-		it('should return true if publish tag exists', function() {
-			assert(!prototype._hasPublishTag({
-				publishConfig: {}
-			}));
-
-			assert(prototype._hasPublishTag({
+				name: 'some-theme',
 				publishConfig: {
 					tag: '7_0_x'
-				}
-			}));
-		});
-	});
-
-	describe('_installDependencies', function() {
-		it('should run child process that installs dependencies', function(done) {
-			prototype._installDependencies(themeletDependencies, function(err, data) {
-				if (err.cmd) {
-					assert(err.cmd.indexOf('npm install themelet-1@* themelet-2@* themelet-3@*') > -1);
-				}
-
-				done();
-			});
-		});
-	});
-
-	describe('_isSupported', function() {
-		it('should validate version', function() {
-			var version = '7.0';
-
-			assert(!prototype._isSupported('6.2', version));
-			assert(!prototype._isSupported(['6.2'], version));
-			assert(prototype._isSupported(['6.2', version], version));
-			assert(prototype._isSupported(version, version));
-		});
-	});
-
-	describe('_promptThemeSource', function() {
-		it('should prompt correct workflow', function() {
-			var inquirer = require('inquirer');
-
-			var prompt = inquirer.prompt;
-
-			inquirer.prompt = sinon.spy();
-			prototype._afterPromptThemeSource = sinon.spy();
-
-			var assertFilterExtendType = assertBoundFunction(prototype, '_filterExtendType');
-			var assertGetThemeSourceChoices = assertBoundFunction(prototype, '_getThemeSourceChoices');
-			var assertGetThemeSourceMessage = assertBoundFunction(prototype, '_getThemeSourceMessage');
-
-			prototype._promptThemeSource();
-
-			var args = inquirer.prompt.getCall(0).args;
-			var questions = args[0];
-
-			var extendType = questions[0];
-
-			assert.equal(extendType.name, 'extendType');
-			assertFilterExtendType(extendType.filter);
-
-			var themeSource = questions[1];
-
-			assert.equal(themeSource.name, 'themeSource');
-
-			assertGetThemeSourceChoices(themeSource.choices);
-			assertGetThemeSourceMessage(themeSource.message);
-
-			args[1]();
-
-			assert(prototype._afterPromptThemeSource.calledOnce);
-
-			inquirer.prompt = prompt;
-		});
-	});
-
-	describe('_reducePkgData', function() {
-		it('should reduce package data to specified set of properties', function() {
-			var originalData = {
-				liferayTheme: '7.0',
-				name: 'name',
-				version: '1.1.1',
-				publishConfig: {
-					tag: 'tag'
 				},
-				someProp: 'some-value'
-			};
+				version: '1.0.0'
+			}
+		}
+	};
 
-			var pkgData = prototype._reducePkgData(originalData);
+	prototype._afterPromptTheme(answers);
 
-			delete originalData.someProp;
+	t.true(lfrThemeConfig.removeDependencies.calledWith(['parent-theme']), 'it removes previous baseTheme from dependencies');
 
-			assert.deepEqual(pkgData, originalData);
+	var setConfigArgs = lfrThemeConfig.setConfig.getCall(0).args[0];
 
-			pkgData = prototype._reducePkgData({
-				realPath: '/some/path'
-			});
+	t.true(_.isObject(setConfigArgs.baseTheme.liferayTheme));
+	t.is(setConfigArgs.baseTheme.version, '1.0.0');
 
-			assert.equal(pkgData.path, '/some/path');
-		});
+	t.true(prototype._saveDependencies.calledWith([setConfigArgs.baseTheme]));
+
+	t.true(prototype._installDependencies.calledWith([setConfigArgs.baseTheme]));
+
+	lfrThemeConfig.removeDependencies = removeDependencies;
+	lfrThemeConfig.setConfig = setConfig;
+});
+
+test('_afterPromptThemelets should remove unchecked themelets from package.json and save new themelet dependencies', function(t) {
+	var removeDependencies = lfrThemeConfig.removeDependencies;
+	var setConfig = lfrThemeConfig.setConfig;
+
+	lfrThemeConfig.removeDependencies = sinon.spy();
+	lfrThemeConfig.setConfig = sinon.spy();
+	prototype._installDependencies = sinon.spy();
+	prototype._saveDependencies = sinon.spy();
+
+	prototype.themeConfig.themeletDependencies = _.assign({}, {
+		'themelet-1': prototype._reducePkgData(themeletDependencies['themelet-1']),
+		'themelet-2': prototype._reducePkgData(themeletDependencies['themelet-2'])
 	});
 
-	describe('_saveDependencies', function() {
-		it('should save dependencies to package.json', function(done) {
-			var updatedData = {
-				'lfr-flat-tooltip-themelet': {
-					liferayTheme: {
-						themelet: true,
-						version: '7.0'
-					},
-					name: 'lfr-flat-tooltip-themelet',
-					publishConfig: {
-						tag: '7_0_x'
-					},
-					version: '1.0.0'
-				},
-				'lfr-link-flip-themelet': {
-					liferayTheme: {
-						themelet: true,
-						version: '*'
-					},
-					name: 'lfr-link-flip-themelet',
-					version: '1.0.1'
-				}
-			};
+	var answers = {
+		addedThemelets: ['themelet-3'],
+		modules: themeletDependencies,
+		removedThemelets: ['themelet-1']
+	};
 
-			var setDependencies = lfrThemeConfig.setDependencies;
+	prototype._afterPromptThemelets(answers);
 
-			lfrThemeConfig.setDependencies = sinon.spy();
+	t.true(lfrThemeConfig.removeDependencies.calledWith(['themelet-1']));
 
-			prototype._saveDependencies(updatedData);
+	var reducedThemelets = {
+		'themelet-2': prototype._reducePkgData(themeletDependencies['themelet-2']),
+		'themelet-3': prototype._reducePkgData(themeletDependencies['themelet-3'])
+	}
 
-			assert.equal(lfrThemeConfig.setDependencies.callCount, 1);
-			assert(lfrThemeConfig.setDependencies.calledWith({
-				'lfr-flat-tooltip-themelet': '7_0_x',
-				'lfr-link-flip-themelet': '*'
-			}), 'dependencies are saved with correct versioning');
+	t.true(lfrThemeConfig.setConfig.calledWith({
+		themeletDependencies: reducedThemelets
+	}));
 
-			lfrThemeConfig.setDependencies = setDependencies;
+	t.true(prototype._saveDependencies.calledWith(reducedThemelets));
 
-			done();
-		});
+	t.true(prototype._installDependencies.calledWith(reducedThemelets));
+
+	lfrThemeConfig.removeDependencies = removeDependencies;
+	lfrThemeConfig.setConfig = setConfig;
+});
+
+test('_afterPromptThemeSource should set base theme if styled/unstyled', function(t) {
+	var answers = {
+		themeSource: 'styled'
+	};
+
+	prototype._setStaticBaseTheme = sinon.spy();
+
+	prototype._afterPromptThemeSource(answers);
+
+	t.true(prototype._setStaticBaseTheme.getCall(0).calledWith('styled'));
+
+	answers.themeSource = 'unstyled';
+
+	prototype._afterPromptThemeSource(answers);
+
+	t.true(prototype._setStaticBaseTheme.getCall(1).calledWith('unstyled'));
+});
+
+test('_afterPromptThemeSource should call GlobalModulePrompt', function(t) {
+	var GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt');
+
+	var answers = {
+		themeSource: 'global'
+	};
+
+	GlobalModulePrompt
+
+	var initSpy = prototypeMethodSpy.add(GlobalModulePrompt.prototype, 'init');
+	prototype._afterPromptModule = sinon.spy();
+
+	prototype._afterPromptThemeSource(answers);
+
+	var args = initSpy.getCall(0).args;
+
+	t.deepEqual(args[0], {
+		selectedModules: ['parent-theme'],
+		themelet: false
 	});
 
-	describe('_setStaticBaseTheme', function() {
-		it('should set static base theme', function() {
-			prototype.done = sinon.spy();
-			prototype.themeConfig = {
-				baseTheme: 'unstyled'
-			};
+	args[1]();
 
-			var setConfig = lfrThemeConfig.setConfig;
-			var removeDependencies = lfrThemeConfig.removeDependencies;
+	t.true(prototype._afterPromptModule.calledOnce);
+});
 
-			lfrThemeConfig.removeDependencies = sinon.spy();
-			lfrThemeConfig.setConfig = sinon.spy();
+test('_afterPromptThemeSource should call NPMModulePrompt', function(t) {
+	var NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt');
 
-			prototype._setStaticBaseTheme('styled');
+	var answers = {
+		themeSource: 'npm'
+	};
 
-			assert(lfrThemeConfig.setConfig.calledWith({
-				baseTheme: 'styled'
-			}));
-			assert(lfrThemeConfig.removeDependencies.notCalled);
+	var initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
+	prototype._afterPromptModule = sinon.spy();
 
-			prototype.themeConfig.baseTheme = {
-				name: 'some-theme'
-			};
+	prototype._afterPromptThemeSource(answers);
 
-			prototype._setStaticBaseTheme('styled');
+	var args = initSpy.getCall(0).args;
 
-			assert(lfrThemeConfig.removeDependencies.calledWith(['some-theme']));
-
-			lfrThemeConfig.setConfig = setConfig;
-			lfrThemeConfig.removeDependencies = removeDependencies;
-		});
+	t.deepEqual(args[0], {
+		selectedModules: ['parent-theme'],
+		themelet: false
 	});
+
+	args[1]();
+
+	t.true(prototype._afterPromptModule.calledOnce);
+});
+
+test('_filterExtendType should set _extendType to input arg', function(t) {
+	prototype._filterExtendType('theme');
+
+	t.is(prototype._extendType, 'theme');
+
+	prototype._filterExtendType('themelet');
+
+	t.is(prototype._extendType, 'themelet');
+});
+
+test('_getDependencyInstallationArray should return absolute path if present or name of module', function(t) {
+	var dependencies = prototype._getDependencyInstallationArray({
+		'themelet-1': {
+			liferayTheme: {
+				themelet: true,
+				version: '*'
+			},
+			name: 'themelet-1',
+			version: '1.0'
+		},
+		'themelet-2': {
+			liferayTheme: {
+				themelet: true,
+				version: '*'
+			},
+			name: 'themelet-2',
+			path: 'path/to/themelet-2',
+			version: '1.0'
+		},
+		'themelet-3': {
+			liferayTheme: {
+				themelet: true,
+				version: '7.0'
+			},
+			name: 'themelet-3',
+			publishConfig: {
+				tag: '7_0_x'
+			},
+			version: '1.0'
+		}
+	});
+
+	t.deepEqual(dependencies, ['themelet-1@*', 'path/to/themelet-2', 'themelet-3@7_0_x']);
+});
+
+test('_getSelectedModules should pass', function(t) {
+	prototype.themeConfig = {
+		baseTheme: 'styled',
+		themeletDependencies: themeletDependencies
+	};
+
+	t.deepEqual(prototype._getSelectedModules(true), ['themelet-1', 'themelet-2', 'themelet-3']);
+
+	t.is(prototype._getSelectedModules(false), undefined);
+
+	prototype.themeConfig.baseTheme = {
+		name: 'parent-theme'
+	};
+
+	t.deepEqual(prototype._getSelectedModules(false), ['parent-theme']);
+});
+
+test('_getThemeSourceChoices should return different choices based on _extendType property', function(t) {
+	var choices = prototype._getThemeSourceChoices();
+
+	t.is(choices.length, 2);
+
+	prototype._extendType = 'theme';
+
+	choices = prototype._getThemeSourceChoices();
+
+	t.is(choices.length, 5);
+});
+
+test('_getThemeSourceMessage should return appropriate message based on _extendType property', function(t) {
+	var message = prototype._getThemeSourceMessage();
+
+	t.is(message, 'Where would you like to search for themelets?');
+
+	prototype._extendType = 'theme';
+
+	message = prototype._getThemeSourceMessage();
+
+	t.is(message, 'What base theme would you like to extend?');
+});
+
+test('_hasPublishTag should return true if publish tag exists', function(t) {
+	t.true(!prototype._hasPublishTag({
+		publishConfig: {}
+	}));
+
+	t.truthy(prototype._hasPublishTag({
+		publishConfig: {
+			tag: '7_0_x'
+		}
+	}));
+});
+
+test.cb('_installDependencies should run child process that installs dependencies', function(t) {
+	prototype._installDependencies(themeletDependencies, function(err, data) {
+		if (err.cmd) {
+			t.true(err.cmd.indexOf('npm install themelet-1@* themelet-2@* themelet-3@*') > -1);
+		}
+
+		t.end();
+	});
+});
+
+test('_isSupported should validate version', function(t) {
+	var version = '7.0';
+
+	t.true(!prototype._isSupported('6.2', version));
+	t.true(!prototype._isSupported(['6.2'], version));
+	t.true(prototype._isSupported(['6.2', version], version));
+	t.true(prototype._isSupported(version, version));
+});
+
+test('_promptThemeSource should prompt correct workflow', function(t) {
+	var inquirer = require('inquirer');
+
+	var prompt = inquirer.prompt;
+
+	inquirer.prompt = sinon.spy();
+	prototype._afterPromptThemeSource = sinon.spy();
+
+	var assertFilterExtendType = assertBoundFunction(prototype, '_filterExtendType');
+	var assertGetThemeSourceChoices = assertBoundFunction(prototype, '_getThemeSourceChoices');
+	var assertGetThemeSourceMessage = assertBoundFunction(prototype, '_getThemeSourceMessage');
+
+	prototype._promptThemeSource();
+
+	var args = inquirer.prompt.getCall(0).args;
+	var questions = args[0];
+
+	var extendType = questions[0];
+
+	t.is(extendType.name, 'extendType');
+	assertFilterExtendType(extendType.filter);
+
+	var themeSource = questions[1];
+
+	t.is(themeSource.name, 'themeSource');
+
+	assertGetThemeSourceChoices(themeSource.choices);
+	assertGetThemeSourceMessage(themeSource.message);
+
+	args[1]();
+
+	t.true(prototype._afterPromptThemeSource.calledOnce);
+
+	inquirer.prompt = prompt;
+});
+
+test('_reducePkgData should reduce package data to specified set of properties', function(t) {
+	var originalData = {
+		liferayTheme: '7.0',
+		name: 'name',
+		version: '1.1.1',
+		publishConfig: {
+			tag: 'tag'
+		},
+		someProp: 'some-value'
+	};
+
+	var pkgData = prototype._reducePkgData(originalData);
+
+	delete originalData.someProp;
+
+	t.deepEqual(pkgData, originalData);
+
+	pkgData = prototype._reducePkgData({
+		realPath: '/some/path'
+	});
+
+	t.is(pkgData.path, '/some/path');
+});
+
+test('_saveDependencies should save dependencies to package.json', function(t) {
+	var updatedData = {
+		'lfr-flat-tooltip-themelet': {
+			liferayTheme: {
+				themelet: true,
+				version: '7.0'
+			},
+			name: 'lfr-flat-tooltip-themelet',
+			publishConfig: {
+				tag: '7_0_x'
+			},
+			version: '1.0.0'
+		},
+		'lfr-link-flip-themelet': {
+			liferayTheme: {
+				themelet: true,
+				version: '*'
+			},
+			name: 'lfr-link-flip-themelet',
+			version: '1.0.1'
+		}
+	};
+
+	var setDependencies = lfrThemeConfig.setDependencies;
+
+	lfrThemeConfig.setDependencies = sinon.spy();
+
+	prototype._saveDependencies(updatedData);
+
+	t.is(lfrThemeConfig.setDependencies.callCount, 1);
+	t.true(lfrThemeConfig.setDependencies.calledWith({
+		'lfr-flat-tooltip-themelet': '7_0_x',
+		'lfr-link-flip-themelet': '*'
+	}), 'dependencies are saved with correct versioning');
+
+	lfrThemeConfig.setDependencies = setDependencies;
+});
+
+test('_setStaticBaseTheme should set static base theme', function(t) {
+	prototype.done = sinon.spy();
+	prototype.themeConfig = {
+		baseTheme: 'unstyled'
+	};
+
+	var setConfig = lfrThemeConfig.setConfig;
+	var removeDependencies = lfrThemeConfig.removeDependencies;
+
+	lfrThemeConfig.removeDependencies = sinon.spy();
+	lfrThemeConfig.setConfig = sinon.spy();
+
+	prototype._setStaticBaseTheme('styled');
+
+	t.true(lfrThemeConfig.setConfig.calledWith({
+		baseTheme: 'styled'
+	}));
+	t.true(lfrThemeConfig.removeDependencies.notCalled);
+
+	prototype.themeConfig.baseTheme = {
+		name: 'some-theme'
+	};
+
+	prototype._setStaticBaseTheme('styled');
+
+	t.true(lfrThemeConfig.removeDependencies.calledWith(['some-theme']));
+
+	lfrThemeConfig.setConfig = setConfig;
+	lfrThemeConfig.removeDependencies = removeDependencies;
 });

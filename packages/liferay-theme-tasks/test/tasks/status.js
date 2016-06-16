@@ -1,37 +1,30 @@
 'use strict';
 
-var Gulp = require('gulp').Gulp;
-var os = require('os');
-var path = require('path');
+var test = require('ava');
 
-var registerTasks;
+var testUtil = require('../util');
+
 var runSequence;
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
+var initCwd = process.cwd();
 
-describe('Status Task', function() {
-	before(function() {
-		this._initCwd = process.cwd();
+test.cb.before(function(t) {
+	testUtil.copyTempTheme({
+		namespace: 'status_task',
+		registerTasks: true
+	}, function(config) {
+		runSequence = config.runSequence;
 
-		process.chdir(path.join(__dirname, '../fixtures/themes/7.0/base-theme'));
-
-		registerTasks = require('../../index.js').registerTasks;
-
-		var gulp = new Gulp();
-
-		registerTasks({
-			gulp: gulp,
-			rubySass: false
-		});
-
-		runSequence = require('run-sequence').use(gulp);
+		t.end();
 	});
+});
 
-	after(function() {
-		process.chdir(this._initCwd);
-	});
+test.cb.after(function(t) {
+	process.chdir(initCwd);
 
-	it('should print base theme/themelet information', function(cb) {
-		runSequence('status', cb);
-	});
+	testUtil.cleanTempTheme('base-theme', '7.0', 'status_task', t.end);
+});
+
+test.cb('status task should print base theme/themelet information', function(t) {
+	runSequence('status', t.end);
 });

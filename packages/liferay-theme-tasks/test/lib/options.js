@@ -1,53 +1,47 @@
 'use strict';
 
-var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
-var chai = require('chai');
 var path = require('path');
-var sinon = require('sinon');
+var test = require('ava');
 
-var assert = chai.assert;
+test.before(function() {
+	clearCache();
+});
 
-describe('options', function() {
-	before(function() {
-		clearCache();
+test.afterEach(function() {
+	clearCache();
+});
+
+test('options should return default options with no config passed', function(t) {
+	var options = require('../../lib/options')();
+
+	t.deepEqual(options, {
+		argv: argv,
+		pathBuild: './build',
+		pathDist: './dist',
+		pathSrc: './src',
+		rubySass: false,
+		sassOptions: {}
+	});
+});
+
+test('options should return previously set options if no config is passed', function(t) {
+	var options = require('../../lib/options')({
+		pathBuild: './custom_build_path'
 	});
 
-	afterEach(function() {
-		clearCache();
+	t.deepEqual(options, {
+		argv: argv,
+		pathBuild: './custom_build_path',
+		pathDist: './dist',
+		pathSrc: './src',
+		rubySass: false,
+		sassOptions: {}
 	});
 
-	it('should return default options with no config passed', function() {
-		var options = require('../../lib/options')();
+	var secondOptions = require('../../lib/options')();
 
-		assert.deepEqual(options, {
-			argv: argv,
-			pathBuild: './build',
-			pathDist: './dist',
-			pathSrc: './src',
-			rubySass: false,
-			sassOptions: {}
-		});
-	});
-
-	it('should return previously set options if no config is passed', function() {
-		var options = require('../../lib/options')({
-			pathBuild: './custom_build_path'
-		});
-
-		assert.deepEqual(options, {
-			argv: argv,
-			pathBuild: './custom_build_path',
-			pathDist: './dist',
-			pathSrc: './src',
-			rubySass: false,
-			sassOptions: {}
-		});
-
-		var secondOptions = require('../../lib/options')();
-
-		assert.deepEqual(options, secondOptions);
-	});
+	t.deepEqual(options, secondOptions);
 });
 
 function clearCache() {

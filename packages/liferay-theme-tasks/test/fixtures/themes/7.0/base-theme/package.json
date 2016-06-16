@@ -20,6 +20,7 @@
 			"version": "1.0.0"
 		},
 		"rubySass": false,
+		"templateLanguage": "ftl",
 		"themeletDependencies": {
 			"test-themelet": {
 				"liferayTheme": {

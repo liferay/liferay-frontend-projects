@@ -10,7 +10,7 @@
 				"baseTheme": "styled",
 				"rubySass": false,
 				"screenshot": "",
-				"templateLanguage": "ftl",
+				"templateLanguage": "vm",
 				"version": "6.2"
 			},
 			"name": "parent-theme",
@@ -21,7 +21,7 @@
 		},
 		"screenshot": "",
 		"rubySass": true,
-		"templateLanguage": "ftl",
+		"templateLanguage": "vm",
 		"themeletDependencies": {
 			"test-themelet": {
 				"liferayTheme": {

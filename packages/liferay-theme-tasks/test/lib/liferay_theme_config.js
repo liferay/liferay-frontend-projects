@@ -3,140 +3,108 @@
 var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
-var gulp = require('gulp');
 var lfrThemeConfig = require('../../lib/liferay_theme_config.js');
 var os = require('os');
 var path = require('path');
+var test = require('ava');
+
+var testUtil = require('../util');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
+var initCwd = process.cwd();
 
-describe('Liferay theme config', function() {
-	before(function(done) {
-		this.timeout(10000);
+test.cb.before(function(t) {
+	testUtil.copyTempTheme({
+		namespace: 'liferay_theme_config'
+	}, function(config) {
+		t.end();
+	});
+});
 
-		var instance = this;
+test.after(function() {
+	process.chdir(initCwd);
 
-		instance._initCwd = process.cwd();
+	testUtil.cleanTempTheme('base-theme', '7.0', 'liferay_theme_config');
+});
 
-		fs.copy(path.join(__dirname, '../fixtures/themes/7.0/base-theme'), tempPath, function (err) {
-			if (err) throw err;
+test('getConfig should get only liferayTheme namespaced properties from package.json if `all` parameter is false', function(t) {
+	var themeConfig = lfrThemeConfig.getConfig();
 
-			process.chdir(tempPath);
+	assert.isDefined(themeConfig.baseTheme);
+	assert.isDefined(themeConfig.themeletDependencies);
+	assert.isDefined(themeConfig.version);
+	assert.isUndefined(themeConfig.liferayTheme);
 
-			instance._tempPath = tempPath;
+	var packageJSON = lfrThemeConfig.getConfig(true);
 
-			done();
-		});
+	assert.isDefined(packageJSON.liferayTheme);
+	assert.isUndefined(packageJSON.baseTheme);
+	assert.deepEqual(packageJSON.liferayTheme, themeConfig);
+});
+
+test('removeConfig should remove dependencies from package.json', function(t) {
+	lfrThemeConfig.removeConfig(['rubySass']);
+
+	var liferayTheme = lfrThemeConfig.getConfig();
+
+	assert.isUndefined(liferayTheme.rubySass);
+});
+
+test('removeDependencies should remove dependencies from package.json', function() {
+	lfrThemeConfig.removeDependencies(['test-themelet']);
+
+	var packageJSON = lfrThemeConfig.getConfig(true);
+
+	assert.isUndefined(packageJSON.dependencies['test-themelet']);
+	assert.isDefined(packageJSON.dependencies['gulp']);
+	assert.isDefined(packageJSON.dependencies['liferay-theme-tasks']);
+});
+
+test('setConfig should replace old themelet dependencies with new dependencies', function(t) {
+	lfrThemeConfig.setConfig({
+		themeletDependencies: {
+			'fake-themelet': {
+				liferayTheme: {
+					themelet: true,
+					version: 7.0
+				},
+				name: 'test-themelet',
+				version: '0.0.0'
+			}
+		}
 	});
 
-	after(function() {
-		del.sync(path.join(tempPath, '**'), {
-			force: true
-		});
+	var themeConfig = lfrThemeConfig.getConfig();
 
-		process.chdir(this._initCwd);
+	assert.isUndefined(themeConfig.themeletDependencies['test-themelet']);
+	assert.isDefined(themeConfig.themeletDependencies['fake-themelet']);
+});
+
+test('setConfig should add new npm dependencies without removing previously added dependencies', function(t) {
+	lfrThemeConfig.setDependencies({
+		'fake-module': '*'
 	});
 
-	describe('getConfig', function() {
-		it('should get only liferayTheme namespaced properties from package.json if `all` parameter is false', function(done) {
-			var themeConfig = lfrThemeConfig.getConfig();
+	var dependencies = lfrThemeConfig.getConfig(true).dependencies;
 
-			assert.isDefined(themeConfig.baseTheme);
-			assert.isDefined(themeConfig.themeletDependencies);
-			assert.isDefined(themeConfig.version);
-			assert.isUndefined(themeConfig.liferayTheme);
+	assert.isDefined(dependencies['fake-module']);
+	assert.isDefined(dependencies['gulp']);
+	assert.isDefined(dependencies['liferay-theme-tasks']);
+});
 
-			var packageJSON = lfrThemeConfig.getConfig(true);
+test('setConfig should add to devDependencies and leave dependencies alone', function(t) {
+	var originalPackageJSON = lfrThemeConfig.getConfig(true);
 
-			assert.isDefined(packageJSON.liferayTheme);
-			assert.isUndefined(packageJSON.baseTheme);
-			assert.deepEqual(packageJSON.liferayTheme, themeConfig);
+	var newDependencies = {
+		'fake-module': '*'
+	};
 
-			done();
-		});
-	});
+	lfrThemeConfig.setDependencies(newDependencies, true);
 
-	describe('removeConfig', function() {
-		it('should remove dependencies from package.json', function(done) {
-			lfrThemeConfig.removeConfig(['rubySass']);
+	var packageJSON = lfrThemeConfig.getConfig(true);
 
-			var liferayTheme = lfrThemeConfig.getConfig();
-
-			assert.isUndefined(liferayTheme.rubySass);
-
-			done();
-		});
-	});
-
-	describe('removeDependencies', function() {
-		it('should remove dependencies from package.json', function(done) {
-			lfrThemeConfig.removeDependencies(['test-themelet']);
-
-			var packageJSON = lfrThemeConfig.getConfig(true);
-
-			assert.isUndefined(packageJSON.dependencies['test-themelet']);
-			assert.isDefined(packageJSON.dependencies['gulp']);
-			assert.isDefined(packageJSON.dependencies['liferay-theme-tasks']);
-
-			done();
-		});
-	});
-
-	describe('setConfig', function() {
-		it('should replace old themelet dependencies with new dependencies', function(done) {
-			lfrThemeConfig.setConfig({
-				themeletDependencies: {
-					'fake-themelet': {
-						liferayTheme: {
-							themelet: true,
-							version: 7.0
-						},
-						name: 'test-themelet',
-						version: '0.0.0'
-					}
-				}
-			});
-
-			var themeConfig = lfrThemeConfig.getConfig();
-
-			assert.isUndefined(themeConfig.themeletDependencies['test-themelet']);
-			assert.isDefined(themeConfig.themeletDependencies['fake-themelet']);
-
-			done();
-		});
-
-		it('should add new npm dependencies without removing previously added dependencies', function(done) {
-			lfrThemeConfig.setDependencies({
-				'fake-module': '*'
-			});
-
-			var dependencies = lfrThemeConfig.getConfig(true).dependencies;
-
-			assert.isDefined(dependencies['fake-module']);
-			assert.isDefined(dependencies['gulp']);
-			assert.isDefined(dependencies['liferay-theme-tasks']);
-
-			done();
-		});
-
-		it('should add to devDependencies and leave dependencies alone', function(done) {
-			var originalPackageJSON = lfrThemeConfig.getConfig(true);
-
-			var newDependencies = {
-				'fake-module': '*'
-			};
-
-			lfrThemeConfig.setDependencies(newDependencies, true);
-
-			var packageJSON = lfrThemeConfig.getConfig(true);
-
-			assert.deepEqual(originalPackageJSON.dependencies, packageJSON.dependencies);
-			assert.deepEqual(newDependencies, packageJSON.devDependencies);
-
-			done();
-		});
-	});
+	assert.deepEqual(originalPackageJSON.dependencies, packageJSON.dependencies);
+	assert.deepEqual(newDependencies, packageJSON.devDependencies);
 });

@@ -4,87 +4,61 @@ var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
-var os = require('os');
 var path = require('path');
-var plugins = require('gulp-load-plugins')();
+var test = require('ava');
+
+var testUtil = require('../util');
 
 var registerTasks;
 var runSequence;
-var testUtil = require('../util');
 
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', '7.0', 'base-theme');
+var initCwd = process.cwd();
 
-var deployPath = path.join(tempPath, '../appserver/deploy');
+var deployPath;
+var tempPath;
 
-describe('Deploy Tasks', function() {
-	before(function(done) {
-		this.timeout(10000);
+test.cb.before(function(t) {
+	testUtil.copyTempTheme({
+		namespace: 'deploy_task',
+		registerTasks: true
+	}, function(config) {
+		runSequence = config.runSequence;
+		tempPath = config.tempPath;
 
-		var instance = this;
+		deployPath = path.join(tempPath, '../appserver/deploy');
 
-		instance._initCwd = process.cwd();
+		var store = config.gulp.storage;
 
-		fs.copy(path.join(__dirname, '../fixtures/themes/7.0/base-theme'), tempPath, function (err) {
-			if (err) throw err;
+		store.set('deployPath', deployPath);
+		store.set('webBundleDir');
 
-			process.chdir(tempPath);
+		fs.mkdirsSync(deployPath);
 
-			instance._buildPath = path.join(tempPath, 'build');
-			instance._tempPath = tempPath;
-
-			testUtil.deleteJsFromCache();
-
-			registerTasks = require('../../index.js').registerTasks;
-
-			var gulp = new Gulp();
-
-			registerTasks({
-				distName: 'base-theme',
-				pathBuild: './custom_build_path',
-				gulp: gulp,
-				pathSrc: './custom_src_path',
-				rubySass: false
-			});
-
-			runSequence = require('run-sequence').use(gulp);
-
-			var store = gulp.storage;
-
-			store.set('deployPath', deployPath);
-			store.set('webBundleDir');
-
-			fs.mkdirsSync(deployPath);
-
-			done();
-		});
+		t.end();
 	});
+});
 
-	after(function(done) {
-		var instance = this;
+test.cb.after(function(t) {
+	process.chdir(initCwd);
 
-		del([path.join(tempPath, '**'), path.join(deployPath, '**')], {
+	testUtil.cleanTempTheme('base-theme', '7.0', 'deploy_task', function() {
+		del.sync(path.join(deployPath, '**'), {
 			force: true
-		}, function() {
-			process.chdir(instance._initCwd);
-
-			done();
 		});
+
+		t.end();
 	});
+});
 
-	it('should deploy to deploy server', function(done) {
-		var instance = this;
+test.cb('should deploy to deploy server', function(t) {
+	runSequence('deploy', function(err) {
+		if (err) throw err;
 
-		this.timeout(10000);
+		assert.isFile(path.join(deployPath, 'base-theme.war'));
 
-		runSequence('deploy', function(err) {
-			if (err) throw err;
-
-			assert.isFile(path.join(deployPath, 'base-theme.war'));
-
-			done();
-		});
+		t.end();
 	});
 });
