@@ -15,7 +15,7 @@
   },
   "ava": {
     "files": [
-      "ava_test/{lib,tasks}/**/*.js"
+      "test/{lib,tasks}/**/*.js"
     ]
   },
   "nyc": {
