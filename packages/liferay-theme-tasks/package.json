@@ -73,7 +73,7 @@
     "bluebird": "^3.3.4",
     "chai": "^1.10.0",
     "chai-fs": "^0.1.0",
-    "gogo-shell-helper": "^0.0.6",
+    "gogo-shell-helper": "^0.0.8",
     "gulp-ruby-sass": "^2.0.6",
     "gulp-sass": "^2.1.1",
     "liferay-theme-deps-6.2": "*",

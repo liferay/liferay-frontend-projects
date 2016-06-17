@@ -49,7 +49,7 @@ test.cb.after(function(t) {
 	testUtil.cleanTempTheme('base-theme', '7.0', 'watch_task_socket', t.end);
 });
 
-test('watch task should start watch socket', function(t) {
+test.cb('watch task should start watch socket', function(t) {
 	var helper = GogoShellHelper.start({
 		host: '0.0.0.0',
 		port: 1337,
@@ -95,11 +95,11 @@ test('watch task should start watch socket', function(t) {
 
 		try {
 			helper.close(function() {
-				done();
+				t.end();
 			});
 		}
 		catch (e) {
-			done();
+			t.end();
 		}
 	};
 
