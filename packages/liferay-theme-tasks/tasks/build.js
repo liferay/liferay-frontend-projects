@@ -3,7 +3,6 @@
 var _ = require('lodash');
 var del = require('del');
 var fs = require('fs-extra');
-var glob = require('glob');
 var gulpif = require('gulp-if');
 var lfrThemeConfig = require('../lib/liferay_theme_config');
 var lookAndFeelUtil = require('../lib/look_and_feel_util');

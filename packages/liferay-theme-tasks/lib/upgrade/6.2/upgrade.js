@@ -4,7 +4,7 @@ var _ = require('lodash');
 var ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;
 var del = require('del');
 var fs = require('fs-extra');
-var glob = require('glob');
+var globby = require('globby');
 var gulpBlackList = require('./gulp_black_list.js');
 var inquirer = require('inquirer');
 var lfrThemeConfig = require('../../liferay_theme_config');
@@ -40,7 +40,7 @@ module.exports = function(options) {
 	var patterns;
 
 	gulp.task('upgrade:convert-bootstrap', function(cb) {
-		var files = glob.sync('src/css/*');
+		var files = globby.sync('src/css/*');
 
 		var convertBootstrap = new ConvertBootstrapCLI({
 			args: files,

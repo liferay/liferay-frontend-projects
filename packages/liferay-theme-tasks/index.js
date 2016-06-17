@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var async = require('async');
 var doctor = require('./lib/doctor');
-var glob = require('glob');
+var globby = require('globby');
 var lfrThemeConfig = require('./lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
@@ -39,7 +39,7 @@ function register(options) {
 
 	store.set('changedFile');
 
-	glob.sync(path.resolve(__dirname, 'tasks/**/*')).forEach(function(item, index) {
+	globby.sync(path.resolve(__dirname, 'tasks/**/*')).forEach(function(item, index) {
 		require(item)(options);
 	});
 
