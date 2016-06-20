@@ -2,12 +2,10 @@
 
 var _ = require('lodash');
 var gutil = require('gulp-util');
-var inquirer = require('inquirer');
 
 var chalk = gutil.colors;
 
 var ModulePrompt = require('./module_prompt');
-var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
 function GlobalModulePrompt() {

@@ -3,7 +3,6 @@
 var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var exec = require('child_process').exec;
-var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
 var GlobalModulePrompt = require('./global_module_prompt');
@@ -28,7 +27,9 @@ ExtendPrompt.prototype = {
 
 		if (moduleName) {
 			themeFinder.getLiferayThemeModule(moduleName, function(err, pkg) {
-				if (err) throw err;
+				if (err) {
+					throw err;
+				}
 
 				var modules = {};
 
@@ -92,7 +93,7 @@ ExtendPrompt.prototype = {
 		var modulePackages = answers.modules;
 		var themeletDependencies = this.themeConfig.themeletDependencies || {};
 
-		var reducedThemelets = _.reduce(answers.addedThemelets, function(result, item, index) {
+		var reducedThemelets = _.reduce(answers.addedThemelets, function(result, item) {
 			result[item] = instance._reducePkgData(modulePackages[item]);
 
 			return result;
@@ -101,7 +102,7 @@ ExtendPrompt.prototype = {
 		var removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
-			_.forEach(removedThemelets, function(item, index) {
+			_.forEach(removedThemelets, function(item) {
 				delete reducedThemelets[item];
 			});
 
@@ -125,10 +126,10 @@ ExtendPrompt.prototype = {
 	},
 
 	_afterPromptThemeSource: function(answers) {
-		var themelet = answers.extendType == 'themelet';
+		var themelet = answers.extendType === 'themelet';
 		var themeSource = answers.themeSource;
 
-		if (themeSource == 'styled' || themeSource == 'unstyled') {
+		if (themeSource === 'styled' || themeSource === 'unstyled') {
 			this._setStaticBaseTheme(themeSource);
 		}
 		else {
@@ -137,10 +138,10 @@ ExtendPrompt.prototype = {
 				themelet: themelet
 			};
 
-			if (themeSource == 'global') {
+			if (themeSource === 'global') {
 				new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
 			}
-			else if (themeSource == 'npm') {
+			else if (themeSource === 'npm') {
 				new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
 			}
 		}
@@ -157,7 +158,7 @@ ExtendPrompt.prototype = {
 
 		var themeVersion = this.themeConfig.version;
 
-		return _.map(dependencies, function(item, index) {
+		return _.map(dependencies, function(item) {
 			var path = item.path;
 
 			return path ? path : item.name + instance._getDistTag(item, themeVersion, '@');
@@ -185,7 +186,7 @@ ExtendPrompt.prototype = {
 		var baseTheme = this.themeConfig.baseTheme;
 
 		if (themelet) {
-			selectedModules = _.map(this.themeConfig.themeletDependencies, function(item, index) {
+			selectedModules = _.map(this.themeConfig.themeletDependencies, function(item) {
 				return item.name;
 			});
 		}
@@ -210,7 +211,7 @@ ExtendPrompt.prototype = {
 			}
 		];
 
-		if (extendType == 'theme') {
+		if (extendType === 'theme') {
 			var baseThemeChoices = [
 				{
 					name: 'Styled',
@@ -230,7 +231,7 @@ ExtendPrompt.prototype = {
 	},
 
 	_getThemeSourceMessage: function() {
-		return this._extendType == 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
+		return this._extendType === 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
 	},
 
 	_hasPublishTag: function(config) {
@@ -247,7 +248,7 @@ ExtendPrompt.prototype = {
 	},
 
 	_isSupported: function(supportedVersion, version) {
-		return (_.isArray(supportedVersion) && _.contains(supportedVersion, version)) || supportedVersion == version;
+		return (_.isArray(supportedVersion) && _.contains(supportedVersion, version)) || supportedVersion === version;
 	},
 
 	_promptThemeSource: function() {
@@ -301,7 +302,7 @@ ExtendPrompt.prototype = {
 
 		var themeVersion = this.themeConfig.version;
 
-		var dependencies = _.reduce(updatedData, function(result, item, index) {
+		var dependencies = _.reduce(updatedData, function(result, item) {
 			var moduleVersion = item.path ? item.path : instance._getDistTag(item, themeVersion);
 
 			result[item.name] = moduleVersion;

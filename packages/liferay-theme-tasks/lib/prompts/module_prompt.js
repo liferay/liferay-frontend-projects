@@ -37,9 +37,8 @@ ModulePrompt.prototype = {
 				return input.indexOf(name) > -1;
 			});
 		}
-		else {
-			return input;
-		}
+
+		return input;
 	},
 
 	_getModuleWhen: function() {

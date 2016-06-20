@@ -42,7 +42,7 @@ promptUtil.formatThemeletSelection = function(modules, selectedModules) {
 promptUtil.getListType = function() {
 	var listType = 'list';
 
-	if (process.version > 'v0.12.7' && os.type() == 'Windows_NT') {
+	if (process.version > 'v0.12.7' && os.type() === 'Windows_NT') {
 		listType = 'rawlist';
 	}
 
@@ -57,17 +57,16 @@ promptUtil.getModuleChoices = function(modules, config) {
 			return {
 				checked: selectedModules && selectedModules.indexOf(name) > -1,
 				name: name
-			}
+			};
 		});
 	}
-	else {
-		return _.map(modules, function(module, name) {
-			return {
-				name: selectedModules && selectedModules.indexOf(name) > -1 ? name + ' (selected)' : name,
-				value: name
-			}
-		});
-	}
+
+	return _.map(modules, function(module, name) {
+		return {
+			name: selectedModules && selectedModules.indexOf(name) > -1 ? name + ' (selected)' : name,
+			value: name
+		};
+	});
 };
 
 module.exports = promptUtil;

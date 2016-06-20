@@ -5,7 +5,6 @@ var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 
 var ModulePrompt = require('./module_prompt');
-var promptUtil = require('./prompt_util');
 var themeFinder = require('../theme_finder');
 
 function NPMModulePrompt() {
@@ -14,8 +13,6 @@ function NPMModulePrompt() {
 
 NPMModulePrompt.prototype = {
 	init: function(config, cb) {
-		var instance = this;
-
 		this.done = cb;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
@@ -57,8 +54,6 @@ NPMModulePrompt.prototype = {
 	},
 
 	_promptSearchTerms: function() {
-		var instance = this;
-
 		var themelet = this.themelet;
 
 		inquirer.prompt(

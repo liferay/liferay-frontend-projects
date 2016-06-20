@@ -29,17 +29,17 @@ KiststartPrompt.prototype = {
 
 		var pkg = answers.modules[module];
 
-		if (!pkg) {
+		if (pkg && pkg.realPath) {
+			answers.modulePath = path.join(pkg.realPath, 'src');
+
 			done(answers);
 		}
-		else if (!pkg.realPath) {
+		else if (pkg) {
 			this._installTempModule(module, function() {
 				done(answers);
 			});
 		}
 		else {
-			answers.modulePath = path.join(pkg.realPath, 'src');
-
 			done(answers);
 		}
 	},
@@ -51,13 +51,13 @@ KiststartPrompt.prototype = {
 
 		var themeSource = answers.themeSource;
 
-		if (themeSource == 'npm') {
+		if (themeSource === 'npm') {
 			new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
 		}
-		else if (themeSource == 'global') {
+		else if (themeSource === 'global') {
 			new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
 		}
-		else if (themeSource == 'classic') {
+		else if (themeSource === 'classic') {
 			var classicPath = themeUtil.resolveDependency('liferay-frontend-theme-classic-web', this.themeConfig.version);
 
 			this.done({
@@ -91,7 +91,7 @@ KiststartPrompt.prototype = {
 			}
 		];
 
-		if (this.themeConfig && this.themeConfig.version != '6.2') {
+		if (this.themeConfig && this.themeConfig.version !== '6.2') {
 			choices = choices.concat([
 				new inquirer.Separator(),
 				{
