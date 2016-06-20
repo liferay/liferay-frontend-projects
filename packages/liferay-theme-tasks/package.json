@@ -14,7 +14,7 @@
     "test": "nyc ava"
   },
   "ava": {
-    "concurrency": 5,
+    "concurrency": 1,
     "files": [
       "test/{lib,tasks}/**/*.js"
     ]
