@@ -25,6 +25,11 @@
       "{lib,tasks}/**/*"
     ]
   },
+  "xo": {
+    "rules": {
+      "space-before-function-paren": "off"
+    }
+  },
   "dependencies": {
     "async": "^0.9.0",
     "compass-mixins": "^0.12.8",
