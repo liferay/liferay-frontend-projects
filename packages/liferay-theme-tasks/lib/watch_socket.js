@@ -1,9 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var async = require('async');
 var GogoShell = require('gogo-shell');
-var net = require('net');
 var os = require('os');
 var path = require('path');
 

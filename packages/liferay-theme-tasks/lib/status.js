@@ -26,7 +26,7 @@ function status(themeConfig) {
 	if (themeletDependencies) {
 		statusBuffer.push(chalk.cyan('Themelets:'));
 
-		_.forEach(themeletDependencies, function(item, index) {
+		_.forEach(themeletDependencies, function(item) {
 			statusBuffer.push(' - ' + chalk.green(item.name, 'v' + item.version));
 		});
 	}

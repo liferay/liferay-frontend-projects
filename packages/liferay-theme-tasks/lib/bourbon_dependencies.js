@@ -10,7 +10,7 @@ var formatPath = function(filePath) {
 	return filePath.replace(/\\/g, '/');
 };
 
-exports.createBourbonFile = function(forceCreation) {
+exports.createBourbonFile = function() {
 	var options = require('./options')();
 
 	var pathSrc = options.pathSrc;

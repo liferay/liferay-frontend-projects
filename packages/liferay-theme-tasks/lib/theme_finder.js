@@ -2,13 +2,13 @@
 
 var _ = require('lodash');
 var async = require('async');
-var exec = require('child_process').exec;
 var globby = require('globby');
-var lfrThemeConfig = require('./liferay_theme_config');
 var npmKeyword = require('npm-keyword');
 var packageJson = require('package-json');
 var path = require('path');
 var spawn = require('cross-spawn');
+
+var lfrThemeConfig = require('./liferay_theme_config');
 
 var themeConfig = lfrThemeConfig.getConfig();
 
@@ -33,7 +33,7 @@ module.exports = {
 		this._getPackageJSON({
 			name: name
 		}, function(err, pkg) {
-			if (pkg && !pkg.liferayTheme || pkg && !_.contains(pkg.keywords, 'liferay-theme')) {
+			if ((pkg && !pkg.liferayTheme) || (pkg && !_.contains(pkg.keywords, 'liferay-theme'))) {
 				pkg = null;
 
 				err = new Error('Package is not a Liferay theme or themelet module');
@@ -132,7 +132,7 @@ module.exports = {
 			if (_.isArray(liferayThemeVersion) && !_.contains(liferayThemeVersion, themeConfig.version)) {
 				return retVal;
 			}
-			else if (!_.isArray(liferayThemeVersion) && (liferayThemeVersion != '*') && (liferayThemeVersion != themeConfig.version)) {
+			else if (!_.isArray(liferayThemeVersion) && (liferayThemeVersion !== '*') && (liferayThemeVersion !== themeConfig.version)) {
 				return retVal;
 			}
 
@@ -154,7 +154,7 @@ module.exports = {
 		var themelet = config.themelet;
 		var searchTerms = config.searchTerms;
 
-		return _.reduce(modules, function(result, item, index) {
+		return _.reduce(modules, function(result, item) {
 			var valid = false;
 
 			if (instance._isLiferayThemeModule(item, themelet)) {
@@ -178,7 +178,7 @@ module.exports = {
 
 		var modules = this._findThemeModulesIn(this._getNpmPaths());
 
-		modules = _.reduce(modules, function(result, item, index) {
+		modules = _.reduce(modules, function(result, item) {
 			try {
 				var json = require(path.join(item, 'package.json'));
 
@@ -186,7 +186,7 @@ module.exports = {
 
 				result.push(json);
 			}
-			catch(e) {
+			catch (err) {
 			}
 
 			return result;

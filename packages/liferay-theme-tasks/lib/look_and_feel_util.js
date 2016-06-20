@@ -2,10 +2,11 @@
 
 var _ = require('lodash');
 var fs = require('fs-extra');
-var options = require('../lib/options')();
 var path = require('path');
 var util = require('util');
 var xml2js = require('xml2js');
+
+var options = require('../lib/options')();
 
 var pathSrc = options.pathSrc;
 
@@ -28,7 +29,7 @@ module.exports = {
 
 		var themeElement = _.get(lookAndFeelJSON, themeQuery);
 
-		themeElement = _.reduce(THEME_CHILD_ORDER, function(result, item, index) {
+		themeElement = _.reduce(THEME_CHILD_ORDER, function(result, item) {
 			if (themeElement[item]) {
 				result[item] = themeElement[item];
 			}
@@ -46,7 +47,7 @@ module.exports = {
 			xmldec: {
 				encoding: null,
 				standalone: null
-			},
+			}
 		});
 
 		var xml = builder.buildObject(lookAndFeelJSON);
@@ -59,7 +60,7 @@ module.exports = {
 	correctJSONIdentifiers: function(lookAndFeelJSON, name) {
 		var themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
 
-		if (name != themeAttrs.name) {
+		if (name !== themeAttrs.name) {
 			themeAttrs.name = name;
 			themeAttrs.id = _.kebabCase(name);
 		}
@@ -93,6 +94,10 @@ module.exports = {
 		}
 
 		xml2js.parseString(xmlString, function(err, result) {
+			if (err) {
+				throw err;
+			}
+
 			cb(result);
 		});
 	},
@@ -146,7 +151,7 @@ module.exports = {
 		try {
 			fs.statSync(lookAndFeelPath);
 		}
-		catch (e) {
+		catch (err) {
 			lookAndFeelPath = lookAndFeelDefaultPath;
 		}
 
@@ -155,7 +160,7 @@ module.exports = {
 
 			this._xmlCache[themePath] = xmlString;
 		}
-		catch (e) {
+		catch (err) {
 		}
 
 		return xmlString;
@@ -175,10 +180,10 @@ module.exports = {
 			var themeElement = _.get(themeObj, queryString);
 			var baseThemeElement = _.get(baseThemeObj, queryString);
 
-			if (item == 'value') {
+			if (item === 'value') {
 				mergedElement = instance._mergeThemeElementByValue(themeElement, baseThemeElement);
 			}
-			else if (item == 'single') {
+			else if (item === 'single') {
 				mergedElement = themeElement || baseThemeElement;
 			}
 			else {
@@ -203,7 +208,7 @@ module.exports = {
 		var allElements = themeElements.concat(baseThemeElements);
 		var elementIds = [];
 
-		return _.reduce(allElements, function(result, item, index) {
+		return _.reduce(allElements, function(result, item) {
 			var id = item.$[identifier];
 
 			if (elementIds.indexOf(id) < 0) {

@@ -5,7 +5,6 @@ var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
 var url = require('url');
-var util = require('util');
 
 var CWD = process.cwd();
 
@@ -53,12 +52,12 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	},
 
 	_getFileHeaders: function() {
-		var fileName = this.fileName
+		var fileName = this.fileName;
 
 		return '--' + this._getBoundaryKey() + '\r\n' +
-		'Content-Type: application/x-zip\r\n' +
-		'Content-Disposition: form-data; name="' + fileName + '"; filename="' + fileName + '.war"\r\n' +
-		'Content-Transfer-Encoding: binary\r\n\r\n'
+			'Content-Type: application/x-zip\r\n' +
+			'Content-Disposition: form-data; name="' + fileName + '"; filename="' + fileName + '.war"\r\n' +
+			'Content-Transfer-Encoding: binary\r\n\r\n';
 	},
 
 	_getPostOptions: function() {
@@ -79,7 +78,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 			default: defaultValue,
 			message: 'Enter your ' + name + ' for ' + this.host,
 			name: name,
-			type: name == 'password' ? name : 'input'
+			type: name === 'password' ? name : 'input'
 		};
 	},
 
@@ -101,7 +100,9 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		});
 
 		req.on('error', function(err) {
-			if (err) throw err;
+			if (err) {
+				throw err;
+			}
 		});
 
 		this._writeWarFile(req);
@@ -115,16 +116,16 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 				this.deployed = true;
 			}
 		}
-		catch (e) {
+		catch (err) {
 		}
 	},
 
 	_onResponseEnd: function() {
-		if (!this.deployed) {
-			gutil.log(colors.yellow('Warning:'), 'There was a problem deploying', colors.cyan(this.fileName + '.war'), 'to', this.host);
+		if (this.deployed) {
+			gutil.log(colors.cyan(this.fileName + '.war'), 'successfully deployed to', this.host);
 		}
 		else {
-			gutil.log(colors.cyan(this.fileName + '.war'), 'successfully deployed to', this.host);
+			gutil.log(colors.yellow('Warning:'), 'There was a problem deploying', colors.cyan(this.fileName + '.war'), 'to', this.host);
 		}
 	},
 

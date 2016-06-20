@@ -4,9 +4,10 @@ var _ = require('lodash');
 var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs-extra');
 var gutil = require('gulp-util');
-var lfrThemeConfig = require('./liferay_theme_config');
 var path = require('path');
 var resolve = require('resolve');
+
+var lfrThemeConfig = require('./liferay_theme_config');
 
 var chalk = gutil.colors;
 
@@ -28,13 +29,13 @@ var CUSTOM_DEP_PATH_FLAG_MAP = {
 
 module.exports = {
 	getCssSrcPath: function(srcPath, config) {
-		if (config.version != '6.2') {
+		if (config.version !== '6.2') {
 			return srcPath;
 		}
 
 		var changedFile = config.changedFile;
 
-		var changed = (changedFile && (changedFile.type == 'changed'));
+		var changed = (changedFile && (changedFile.type === 'changed'));
 
 		var fastDeploy = (!fullDeploy && config.deployed);
 
@@ -44,7 +45,7 @@ module.exports = {
 			var fileDirname = path.dirname(filePath);
 			var fileName = path.basename(filePath, '.css');
 
-			if (path.basename(fileDirname) != 'css' || this.isSassPartial(fileName)) {
+			if (path.basename(fileDirname) !== 'css' || this.isSassPartial(fileName)) {
 				return srcPath;
 			}
 
@@ -64,7 +65,7 @@ module.exports = {
 
 			_.forEach(
 				contentFiles,
-				function(item, index) {
+				function(item) {
 					if (item.match(/Language.*properties/)) {
 						var xmlElement = '<language-properties>content/' + item + '</language-properties>';
 
@@ -145,7 +146,7 @@ module.exports = {
 
 		version = version || themeConfig.version;
 
-		if (version && version == '6.2') {
+		if (version && version === '6.2') {
 			depModuleName = 'liferay-theme-deps-6.2';
 		}
 
@@ -163,7 +164,7 @@ module.exports = {
 					throw new Error(customPath + ' is not a directory');
 				}
 			}
-			catch(err) {
+			catch (err) {
 				throw err;
 			}
 		}

@@ -67,7 +67,7 @@ function checkDependencySources(liferayTheme) {
 	}
 
 	if (themeletDependencies) {
-		_.forEach(themeletDependencies, function(item, index) {
+		_.forEach(themeletDependencies, function(item) {
 			if (item.path) {
 				localDependencies.push(item);
 			}
@@ -86,7 +86,7 @@ function haltTask(missingDeps) {
 }
 
 function logLocalDependencies(localDependencies) {
-	var dependenciesString = _.map(localDependencies, function(item, index) {
+	var dependenciesString = _.map(localDependencies, function(item) {
 		return item.name;
 	}).join(', ');
 
