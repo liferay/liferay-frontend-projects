@@ -27,7 +27,26 @@
   },
   "xo": {
     "rules": {
-      "space-before-function-paren": "off"
+      "brace-style": "off",
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            [
+              "builtin",
+              "external"
+            ],
+            [
+              "internal",
+              "parent",
+              "sibling",
+              "index"
+            ]
+          ]
+        }
+      ],
+      "space-before-function-paren": "off",
+      "xo/filename-case": "off"
     }
   },
   "dependencies": {
