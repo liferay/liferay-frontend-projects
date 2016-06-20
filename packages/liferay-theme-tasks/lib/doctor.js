@@ -34,14 +34,14 @@ module.exports = function(themeConfig, halt) {
 
 	var missingDeps = 0;
 
-	if (liferayVersion == '7.0') {
+	if (liferayVersion === '7.0') {
 		missingDeps = logMissingDeps(dependencies, 'liferay-theme-deps-7.0', missingDeps);
 
 		if (rubySass) {
 			missingDeps = logMissingDeps(dependencies, 'gulp-ruby-sass', missingDeps);
 		}
 	}
-	else if (liferayVersion == '6.2') {
+	else if (liferayVersion === '6.2') {
 		missingDeps = logMissingDeps(dependencies, 'liferay-theme-deps-6.2', missingDeps);
 
 		if (!rubySass) {
