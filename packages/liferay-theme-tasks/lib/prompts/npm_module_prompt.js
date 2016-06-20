@@ -40,7 +40,7 @@ NPMModulePrompt.prototype = {
 			else {
 				instance.modules = modules;
 
-				new ModulePrompt(instance, _.bind(instance._afterPrompt, instance));
+				ModulePrompt.prompt(instance, _.bind(instance._afterPrompt, instance));
 			}
 		});
 	},
@@ -66,6 +66,10 @@ NPMModulePrompt.prototype = {
 			_.bind(this._afterPromptSearchTerms, this)
 		);
 	}
+};
+
+NPMModulePrompt.prompt = function(config, cb) {
+	return new NPMModulePrompt(config, cb);
 };
 
 module.exports = NPMModulePrompt;

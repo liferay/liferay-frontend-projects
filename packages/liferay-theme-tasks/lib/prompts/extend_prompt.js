@@ -139,10 +139,10 @@ ExtendPrompt.prototype = {
 			};
 
 			if (themeSource === 'global') {
-				new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
+				GlobalModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
 			}
 			else if (themeSource === 'npm') {
-				new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
+				NPMModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
 			}
 		}
 	},
@@ -326,6 +326,10 @@ ExtendPrompt.prototype = {
 
 		this.done();
 	}
+};
+
+ExtendPrompt.prompt = function(config, cb) {
+	return new ExtendPrompt(config, cb);
 };
 
 module.exports = ExtendPrompt;

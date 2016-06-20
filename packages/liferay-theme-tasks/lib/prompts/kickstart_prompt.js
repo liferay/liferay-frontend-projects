@@ -52,10 +52,10 @@ KiststartPrompt.prototype = {
 		var themeSource = answers.themeSource;
 
 		if (themeSource === 'npm') {
-			new NPMModulePrompt(config, _.bind(this._afterPromptModule, this));
+			NPMModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
 		}
 		else if (themeSource === 'global') {
-			new GlobalModulePrompt(config, _.bind(this._afterPromptModule, this));
+			GlobalModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
 		}
 		else if (themeSource === 'classic') {
 			var classicPath = themeUtil.resolveDependency('liferay-frontend-theme-classic-web', this.themeConfig.version);
@@ -113,6 +113,10 @@ KiststartPrompt.prototype = {
 			_.bind(instance._afterPromptThemeSource, instance)
 		);
 	}
+};
+
+KiststartPrompt.prompt = function(config, cb) {
+	return new KiststartPrompt(config, cb);
 };
 
 module.exports = KiststartPrompt;

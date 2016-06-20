@@ -72,4 +72,8 @@ ModulePrompt.prototype = {
 	}
 };
 
+ModulePrompt.prompt = function(config, cb) {
+	return new ModulePrompt(config, cb);
+};
+
 module.exports = ModulePrompt;

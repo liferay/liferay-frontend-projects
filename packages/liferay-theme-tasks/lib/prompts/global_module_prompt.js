@@ -23,7 +23,7 @@ GlobalModulePrompt.prototype = {
 		this._getGlobalModules(function(modules) {
 			instance.modules = modules;
 
-			new ModulePrompt(instance, _.bind(instance._afterPrompt, instance));
+			ModulePrompt.prompt(instance, _.bind(instance._afterPrompt, instance));
 		});
 	},
 
@@ -52,6 +52,10 @@ GlobalModulePrompt.prototype = {
 			themelet: this.themelet
 		}, cb);
 	}
+};
+
+GlobalModulePrompt.prompt = function(config, cb) {
+	return new GlobalModulePrompt(config, cb);
 };
 
 module.exports = GlobalModulePrompt;
