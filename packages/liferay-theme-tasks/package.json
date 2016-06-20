@@ -45,6 +45,7 @@
           ]
         }
       ],
+      "max-lines": "off",
       "space-before-function-paren": "off",
       "xo/filename-case": "off"
     }
