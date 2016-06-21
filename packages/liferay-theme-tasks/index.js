@@ -1,17 +1,14 @@
 'use strict';
 
 var _ = require('lodash');
-var async = require('async');
-var doctor = require('./lib/doctor');
 var globby = require('globby');
-var lfrThemeConfig = require('./lib/liferay_theme_config');
+var liferayPluginTasks = require('liferay-plugin-node-tasks');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+
+var doctor = require('./lib/doctor');
+var lfrThemeConfig = require('./lib/liferay_theme_config');
 var versionControl = require('./lib/version_control.js');
-
-var liferayPluginTasks = require('liferay-plugin-node-tasks');
-
-var gutil = plugins.util;
 
 var themeConfig = lfrThemeConfig.getConfig();
 
@@ -39,7 +36,7 @@ function register(options) {
 
 	store.set('changedFile');
 
-	globby.sync(path.resolve(__dirname, 'tasks/**/*')).forEach(function(item, index) {
+	globby.sync(path.resolve(__dirname, 'tasks/**/*')).forEach(function(item) {
 		require(item)(options);
 	});
 
