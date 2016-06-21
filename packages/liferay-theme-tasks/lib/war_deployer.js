@@ -63,10 +63,10 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	_getPostOptions: function() {
 		return {
 			auth: this._getAuth(),
-			host: this.host,
 			headers: {
 				'Content-Type': 'multipart/form-data; boundary="' + this._getBoundaryKey() + '"'
 			},
+			host: this.host,
 			method: 'POST',
 			path: '/server-manager-web/plugins',
 			port: this.port

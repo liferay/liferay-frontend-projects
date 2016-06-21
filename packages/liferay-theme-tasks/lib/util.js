@@ -86,6 +86,16 @@ module.exports = {
 		return _.startsWith(path.basename(name), '_');
 	},
 
+	requireDependency: function(dependency, version) {
+		var depsPath = this._getDepsPath(version);
+
+		var dependencyPath = resolve.sync(dependency, {
+			basedir: depsPath
+		});
+
+		return require(dependencyPath);
+	},
+
 	resolveDependency: function(dependency, version, dirname) {
 		if (_.isUndefined(dirname)) {
 			dirname = true;
@@ -112,16 +122,6 @@ module.exports = {
 		}
 
 		return resolvedPath;
-	},
-
-	requireDependency: function(dependency, version) {
-		var depsPath = this._getDepsPath(version);
-
-		var dependencyPath = resolve.sync(dependency, {
-			basedir: depsPath
-		});
-
-		return require(dependencyPath);
 	},
 
 	_getCustomDependencyPath: function(dependency) {

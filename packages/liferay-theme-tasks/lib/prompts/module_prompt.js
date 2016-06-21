@@ -41,12 +41,12 @@ ModulePrompt.prototype = {
 		return input;
 	},
 
-	_getModuleWhen: function() {
-		return !_.isEmpty(this.modules);
-	},
-
 	_getModuleChoices: function() {
 		return promptUtil.getModuleChoices(this.modules, this);
+	},
+
+	_getModuleWhen: function() {
+		return !_.isEmpty(this.modules);
 	},
 
 	_prompt: function() {

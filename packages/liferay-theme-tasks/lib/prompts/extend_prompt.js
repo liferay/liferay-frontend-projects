@@ -67,8 +67,8 @@ ExtendPrompt.prototype = {
 		var instance = this;
 
 		var baseTheme = this.themeConfig.baseTheme;
-		var modulePackages = answers.modules;
 		var module = answers.module;
+		var modulePackages = answers.modules;
 
 		if (_.isObject(baseTheme)) {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);

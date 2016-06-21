@@ -13,6 +13,20 @@ var lfrThemeConfig = require('./liferay_theme_config');
 var themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = {
+	getLiferayThemeModule: function(name, cb) {
+		this._getPackageJSON({
+			name: name
+		}, function(err, pkg) {
+			if ((pkg && !pkg.liferayTheme) || (pkg && !_.contains(pkg.keywords, 'liferay-theme'))) {
+				pkg = null;
+
+				err = new Error('Package is not a Liferay theme or themelet module');
+			}
+
+			cb(err, pkg);
+		});
+	},
+
 	getLiferayThemeModules: function(config, cb) {
 		if (_.isUndefined(cb)) {
 			cb = config;
@@ -27,20 +41,6 @@ module.exports = {
 		var searchFn = globalModules ? this._seachGlobalModules : this._searchNpm;
 
 		searchFn.call(this, config, cb);
-	},
-
-	getLiferayThemeModule: function(name, cb) {
-		this._getPackageJSON({
-			name: name
-		}, function(err, pkg) {
-			if ((pkg && !pkg.liferayTheme) || (pkg && !_.contains(pkg.keywords, 'liferay-theme'))) {
-				pkg = null;
-
-				err = new Error('Package is not a Liferay theme or themelet module');
-			}
-
-			cb(err, pkg);
-		});
 	},
 
 	_findThemeModulesIn: function(paths) {
@@ -151,8 +151,8 @@ module.exports = {
 	_reduceModuleResults: function(modules, config) {
 		var instance = this;
 
-		var themelet = config.themelet;
 		var searchTerms = config.searchTerms;
+		var themelet = config.themelet;
 
 		return _.reduce(modules, function(result, item) {
 			var valid = false;

@@ -174,11 +174,11 @@ module.exports = {
 		var instance = this;
 
 		_.forEach(QUERY_ELEMENTS, function(item, index) {
-			var queryString = 'look-and-feel.theme.0.' + index;
 			var mergedElement;
+			var queryString = 'look-and-feel.theme.0.' + index;
 
-			var themeElement = _.get(themeObj, queryString);
 			var baseThemeElement = _.get(baseThemeObj, queryString);
+			var themeElement = _.get(themeObj, queryString);
 
 			if (item === 'value') {
 				mergedElement = instance._mergeThemeElementByValue(themeElement, baseThemeElement);
