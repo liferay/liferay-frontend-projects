@@ -96,9 +96,9 @@ module.exports = function(options) {
 		var themeName = themeConfig.name;
 
 		var warDeployer = new WarDeployer({
-			url: url,
 			fileName: themeName,
 			password: password,
+			url: url,
 			username: username
 		}).on('end', cb);
 

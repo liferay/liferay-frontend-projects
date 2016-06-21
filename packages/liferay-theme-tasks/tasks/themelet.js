@@ -49,8 +49,8 @@ module.exports = function(options) {
 
 		gulp.src(path.join(pathBuild, 'css', fileName))
 			.pipe(plugins.inject(sources, {
-				starttag: '/* inject:imports */',
 				endtag: '/* endinject */',
+				starttag: '/* inject:imports */',
 				transform: function(filePath) {
 					injected = true;
 

@@ -2,9 +2,9 @@
 
 var _ = require('lodash');
 var fs = require('fs');
+var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var path = require('path');
-var gutil = require('gulp-util');
 
 var chalk = gutil.colors;
 
