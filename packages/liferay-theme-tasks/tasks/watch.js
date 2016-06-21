@@ -2,10 +2,11 @@
 
 var _ = require('lodash');
 var del = require('del');
-var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var livereload = require('gulp-livereload');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+
+var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var WatchSocket = require('../lib/watch_socket.js');
 
 var gutil = plugins.util;
@@ -37,13 +38,17 @@ module.exports = function(options) {
 	var webBundleDir = path.join(process.cwd(), webBundleDirName);
 
 	gulp.task('watch', function() {
-		if (themeConfig.version == '6.2') {
+		if (themeConfig.version === '6.2') {
 			startWatch();
 		}
 		else {
 			store.set('appServerPathPlugin', webBundleDir);
 
 			runSequence('build', 'watch:clean', 'watch:setup', function(err) {
+				if (err) {
+					throw err;
+				}
+
 				var connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
 
 				var watchSocket = startWatchSocket();
@@ -100,13 +105,13 @@ module.exports = function(options) {
 		if (staticFileDirs.indexOf(rootDir) > -1) {
 			taskArray = ['deploy:file'];
 		}
-		else if (rootDir == 'WEB-INF') {
+		else if (rootDir === 'WEB-INF') {
 			taskArray = ['build:clean', 'build:src', 'build:web-inf', 'deploy:folder'];
 		}
-		else if (rootDir == 'templates') {
+		else if (rootDir === 'templates') {
 			taskArray = ['build:src', 'build:themelet-src', 'build:themelet-js-inject', 'deploy:folder'];
 		}
-		else if (rootDir == 'css') {
+		else if (rootDir === 'css') {
 			taskArray = [
 				'build:clean',
 				'build:base',
@@ -135,15 +140,13 @@ module.exports = function(options) {
 
 			var relativeFilePath = path.relative(path.join(process.cwd(), pathSrc), vinyl.path);
 
-			var fileExt = path.extname(relativeFilePath);
-
 			var filePathArray = relativeFilePath.split(path.sep);
 
 			var rootDir = filePathArray.length ? filePathArray[0] : '';
 
 			var taskArray = ['deploy'];
 
-			if (themeConfig.version != '6.2') {
+			if (themeConfig.version !== '6.2') {
 				taskArray = ['deploy:gogo'];
 			}
 
@@ -163,7 +166,7 @@ module.exports = function(options) {
 		});
 
 		watchSocket.on('error', function(err) {
-			if (err.code == 'ECONNREFUSED' || err.errno == 'ECONNREFUSED') {
+			if (err.code === 'ECONNREFUSED' || err.errno === 'ECONNREFUSED') {
 				gutil.log(gutil.colors.yellow('Cannot connect to gogo shell. Please ensure local Liferay instance is running.'));
 			}
 		});

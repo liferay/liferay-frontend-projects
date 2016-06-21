@@ -2,10 +2,11 @@
 
 var _ = require('lodash');
 var async = require('async');
-var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var vinylPaths = require('vinyl-paths');
+
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 
 var gutil = plugins.util;
 
@@ -44,13 +45,13 @@ module.exports = function(options) {
 			cb();
 		}));
 
-		var fileName = themeConfig.version == '6.2' ? 'custom.css' : '_custom.scss';
+		var fileName = themeConfig.version === '6.2' ? 'custom.css' : '_custom.scss';
 
 		gulp.src(path.join(pathBuild, 'css', fileName))
 			.pipe(plugins.inject(sources, {
 				starttag: '/* inject:imports */',
 				endtag: '/* endinject */',
-				transform: function(filePath, file, index, length, targetFile) {
+				transform: function(filePath) {
 					injected = true;
 
 					var filePathArray = getThemeletFilePathArray(filePath);
@@ -88,7 +89,7 @@ module.exports = function(options) {
 
 		var defaultTemplateLanguage = 'ftl';
 
-		if (themeConfig.version == '6.2') {
+		if (themeConfig.version === '6.2') {
 			defaultTemplateLanguage = 'vm';
 		}
 
@@ -96,17 +97,15 @@ module.exports = function(options) {
 
 		var themeRootPath = '${theme_display.getPathThemeRoot()}';
 
-		if (templateLanguage == 'vm') {
+		if (templateLanguage === 'vm') {
 			themeRootPath = '$theme_display.getPathThemeRoot()';
 		}
-
-		var themeName = lfrThemeConfig.getConfig(true).name;
 
 		gulp.src(path.join(pathBuild, 'templates/portal_normal.' + templateLanguage))
 			.pipe(plugins.inject(sources, {
 				endtag: '<!-- endinject -->',
 				starttag: '<!-- inject:js -->',
-				transform: function(filePath, file, index, length, targetFile) {
+				transform: function(filePath) {
 					injected = true;
 
 					var filePathArray = getThemeletFilePathArray(filePath);

@@ -2,13 +2,13 @@
 
 var _ = require('lodash');
 var fs = require('fs-extra');
-var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 var themeUtil = require('../lib/util');
 var WarDeployer = require('../lib/war_deployer');
 
-var gutil = plugins.util;
 var livereload = plugins.livereload;
 
 var themeConfig = lfrThemeConfig.getConfig(true);
@@ -33,7 +33,7 @@ module.exports = function(options) {
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
 		}
-		else if (webBundleDir == 'watching') {
+		else if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
 		}
 
@@ -47,7 +47,7 @@ module.exports = function(options) {
 
 		var filePath = store.get('changedFile').path;
 
-		if (version == '6.2' && !themeUtil.isSassPartial(filePath)) {
+		if (version === '6.2' && !themeUtil.isSassPartial(filePath)) {
 			var fileName = path.basename(filePath);
 
 			srcPath = path.join(pathBuild, 'css', fileName);
@@ -79,7 +79,7 @@ module.exports = function(options) {
 
 		var webBundleDir = store.get('webBundleDir');
 
-		if (webBundleDir == 'watching') {
+		if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
 		}
 
@@ -109,8 +109,8 @@ module.exports = function(options) {
 		var fastDeployPaths = getFastDeployPaths();
 
 		var stream = gulp.src(srcPath, {
-				base: basePath
-			})
+			base: basePath
+		})
 			.pipe(plugins.debug())
 			.pipe(gulp.dest(fastDeployPaths.dest));
 

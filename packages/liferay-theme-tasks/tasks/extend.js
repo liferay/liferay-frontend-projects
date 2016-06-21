@@ -7,7 +7,7 @@ module.exports = function(options) {
 	var gulp = options.gulp;
 
 	gulp.task('extend', function(cb) {
-		new ExtendPrompt({
+		ExtendPrompt.prompt({
 			themeConfig: lfrThemeConfig.getConfig()
 		}, cb);
 	});

@@ -3,15 +3,14 @@
 var _ = require('lodash');
 var del = require('del');
 var fs = require('fs-extra');
-var gulpif = require('gulp-if');
-var lfrThemeConfig = require('../lib/liferay_theme_config');
-var lookAndFeelUtil = require('../lib/look_and_feel_util');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
+
+var lfrThemeConfig = require('../lib/liferay_theme_config');
+var lookAndFeelUtil = require('../lib/look_and_feel_util');
 var themeUtil = require('../lib/util');
 var versionMap = require('../lib/version_map');
-var xml2js = require('xml2js');
 
 var STR_FTL = 'ftl';
 
@@ -72,7 +71,7 @@ module.exports = function(options) {
 		var changedFile = getSrcPathConfig().changedFile;
 
 		// During watch task, exit task early if changed file is not css
-		if (changedFile && changedFile.type == 'changed' && !themeUtil.isCssFile(changedFile.path)) {
+		if (changedFile && changedFile.type === 'changed' && !themeUtil.isCssFile(changedFile.path)) {
 			cb();
 
 			return;
@@ -129,7 +128,7 @@ module.exports = function(options) {
 
 	gulp.task('build:fix-at-directives', function() {
 		var keyframeRulesReplace = function(match, m1, m2) {
-			return _.map(m1.split(','), function(item, index) {
+			return _.map(m1.split(','), function(item) {
 				return item.replace(/.*?(from|to|[0-9\.]+%)/g, '$1');
 			}).join(',') + m2;
 		};
@@ -158,7 +157,10 @@ module.exports = function(options) {
 
 	// Temp fix for libSass compilation issue with empty url() functions
 	gulp.task('build:fix-url-functions', function(cb) {
-		if (!themeConfig.rubySass) {
+		if (themeConfig.rubySass) {
+			cb();
+		}
+		else {
 			gulp.src(pathBuild + '/_css/**/*.css')
 				.pipe(replace({
 					patterns: [
@@ -173,9 +175,6 @@ module.exports = function(options) {
 				}))
 				.on('end', cb);
 		}
-		else {
-			cb();
-		}
 	});
 
 	gulp.task('build:hook', function() {
@@ -186,7 +185,7 @@ module.exports = function(options) {
 				patterns: [
 					{
 						match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
-						replacement: function(match) {
+						replacement: function() {
 							var retVal = '';
 
 							if (languageProperties) {
@@ -204,15 +203,15 @@ module.exports = function(options) {
 
 	gulp.task('build:src', function() {
 		return gulp.src(path.join(pathSrc, '**/*'), {
-				base: pathSrc
-			})
+			base: pathSrc
+		})
 			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:web-inf', function() {
 		return gulp.src(pathBuild + '/WEB-INF/src/**/*', {
-				base: pathBuild + '/WEB-INF/src'
-			})
+			base: pathBuild + '/WEB-INF/src'
+		})
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
 
@@ -237,13 +236,17 @@ module.exports = function(options) {
 			var xml = lookAndFeelUtil.buildXML(lookAndFeelJSON, doctypeElement);
 
 			fs.writeFile(path.join(themePath, pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
+				if (err) {
+					throw err;
+				}
+
 				cb();
 			});
 		});
 	});
 
 	gulp.task('build:prep-css', function(cb) {
-		if (themeConfig.version == '6.2') {
+		if (themeConfig.version === '6.2') {
 			runSequence('build:rename-css-files', cb);
 		}
 		else {
@@ -288,8 +291,8 @@ module.exports = function(options) {
 		var base = changeFile ? pathSrc + '/css' : pathBuild + '/css';
 
 		gulp.src(path.join(cssBuild, '**/*.css'), {
-				base: base
-			})
+			base: base
+		})
 			.pipe(plugins.rename({
 				extname: '.scss'
 			}))
@@ -325,10 +328,10 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	}
-	else if (baseTheme == 'styled' || baseTheme == 'classic') {
+	else if (baseTheme === 'styled' || baseTheme === 'classic') {
 		dependencies.splice(1, 0, path.join(themeUtil.resolveDependency(versionMap.getDependencyName('styled')), baseThemeGlob));
 
-		if (baseTheme == 'classic') {
+		if (baseTheme === 'classic') {
 			dependencies.splice(2, 0, path.join(themeUtil.resolveDependency(versionMap.getDependencyName('classic')), baseThemeGlob));
 		}
 
@@ -341,10 +344,10 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 function getBaseThemeGlob(templateLanguage) {
 	var glob = '**/!(package.json';
 
-	if (templateLanguage == STR_FTL) {
+	if (templateLanguage === STR_FTL) {
 		templateLanguage = STR_VM;
 	}
-	else if (templateLanguage == STR_VM) {
+	else if (templateLanguage === STR_VM) {
 		templateLanguage = STR_FTL;
 	}
 	else {
@@ -363,7 +366,7 @@ function getSassInlcudePaths(version, rubySass) {
 		themeUtil.resolveDependency(versionMap.getDependencyName('mixins'))
 	];
 
-	if (version != 6.2) {
+	if (version !== '6.2') {
 		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
 
 		includePaths = includePaths.concat(createBourbonFile());

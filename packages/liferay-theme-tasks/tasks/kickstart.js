@@ -2,10 +2,11 @@
 
 var _ = require('lodash');
 var del = require('del');
-var KickstartPrompt = require('../lib/prompts/kickstart_prompt');
-var lfrThemeConfig = require('../lib/liferay_theme_config');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+
+var KickstartPrompt = require('../lib/prompts/kickstart_prompt');
+var lfrThemeConfig = require('../lib/liferay_theme_config');
 
 var gutil = plugins.util;
 
@@ -13,10 +14,6 @@ module.exports = function(options) {
 	var gulp = options.gulp;
 
 	var pathSrc = options.pathSrc;
-
-	var runSequence = require('run-sequence').use(gulp);
-
-	var argv = options.argv;
 
 	gulp.task('kickstart', function(cb) {
 		gutil.log(
@@ -26,7 +23,7 @@ module.exports = function(options) {
 			'task will potentially overwrite files in your src directory'
 		);
 
-		new KickstartPrompt({
+		KickstartPrompt.prompt({
 			themeConfig: lfrThemeConfig.getConfig()
 		}, function(answers) {
 			var tempNodeModulesPath;
@@ -47,8 +44,8 @@ module.exports = function(options) {
 				});
 
 				gulp.src(globs, {
-						base: themeSrcPath
-					})
+					base: themeSrcPath
+				})
 					.pipe(gulp.dest(pathSrc))
 					.on('end', function() {
 						if (tempNodeModulesPath) {

@@ -33,7 +33,7 @@ module.exports = function(options) {
 		var buildFiles = readdir(path.join(CWD, pathBuild, dirPath));
 		var srcFiles = readdir(path.join(CWD, pathSrc, dirPath));
 
-		var choices = _.reduce(buildFiles, function(result, item, index) {
+		var choices = _.reduce(buildFiles, function(result, item) {
 			var filePath = path.join(dirPath, item);
 
 			var dir = isDir(filePath);
@@ -58,8 +58,8 @@ module.exports = function(options) {
 
 		var parentPath = path.join(dirPath, '..');
 
-		if (dirPath != '.') {
-			goBackChoice.short = parentPath == '.' ? path.basename(pathBuild) : parentPath;
+		if (dirPath !== '.') {
+			goBackChoice.short = parentPath === '.' ? path.basename(pathBuild) : parentPath;
 			goBackChoice.value.path = parentPath;
 
 			choices.splice(0, 0, goBackChoice);
@@ -84,7 +84,7 @@ module.exports = function(options) {
 	function promptFiles(dirPath, cb) {
 		var choices = getFileChoices(dirPath);
 
-		if (dirPath == '.' && !validateBuild(choices)) {
+		if (dirPath === '.' && !validateBuild(choices)) {
 			gutil.log(chalk.yellow('You must run', chalk.cyan('gulp build'), 'prior to using the overwrite task!'));
 
 			return cb();
@@ -96,17 +96,17 @@ module.exports = function(options) {
 			name: 'file',
 			type: 'list'
 		}, function(answers) {
-			if (!answers.file.dir) {
+			if (answers.file.dir) {
+				promptFiles(answers.file.path, cb);
+			}
+			else {
 				logChanges(answers.file.path);
 
 				gulp.src(path.join(pathBuild, answers.file.path), {
-						base: pathBuild
-					})
+					base: pathBuild
+				})
 					.pipe(gulp.dest(pathSrc))
 					.on('end', cb);
-			}
-			else {
-				promptFiles(answers.file.path, cb);
 			}
 		});
 	}
@@ -117,7 +117,7 @@ module.exports = function(options) {
 		try {
 			files = fs.readdirSync(dirPath);
 		}
-		catch (e) {
+		catch (err) {
 		}
 
 		return files;

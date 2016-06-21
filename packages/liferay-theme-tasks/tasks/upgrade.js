@@ -5,9 +5,10 @@ var del = require('del');
 var fs = require('fs-extra');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
-var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+
+var lfrThemeConfig = require('../lib/liferay_theme_config.js');
 
 var chalk = gutil.colors;
 
@@ -91,9 +92,9 @@ module.exports = function(options) {
 	gulp.task('upgrade:revert', function(cb) {
 		var backupExists = (fs.existsSync('_backup/src') && fs.statSync('_backup/src').isDirectory());
 
-		var noBackupErr = new gutil.PluginError('gulp-theme-upgrader', chalk.red('No backup files found!'));
-
-		if (!backupExists) throw noBackupErr;
+		if (!backupExists) {
+			throw new gutil.PluginError('gulp-theme-upgrader', chalk.red('No backup files found!'));
+		}
 
 		inquirer.prompt([
 			{
