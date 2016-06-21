@@ -7,7 +7,7 @@ function getNonBlackListedMixins(mixins, blackList) {
 		mixins = _.keys(mixins);
 	}
 
-	mixins = _.reduce(mixins, function(result, item, index) {
+	mixins = _.reduce(mixins, function(result, item) {
 		if (!_.contains(blackList, item)) {
 			result.push(item);
 		}
@@ -22,8 +22,8 @@ function getPatterns(blackList) {
 	var mixinsBlackList = blackList.mixins;
 
 	var alternativeMixinsMap = {
-		'opaque': 'opacity: 1;',
-		'transparent': 'opacity: 0;'
+		opaque: 'opacity: 1;',
+		transparent: 'opacity: 0;'
 	};
 
 	var alternativeMixinNames = getNonBlackListedMixins(alternativeMixinsMap, mixinsBlackList);
@@ -70,7 +70,7 @@ function getPatterns(blackList) {
 		},
 		{
 			match: alternativeMixinRegExp,
-			replacement: function(match, p1, p2, p3) {
+			replacement: function(match, p1) {
 				var alternativeValue = alternativeMixinsMap[p1];
 
 				return alternativeValue;
