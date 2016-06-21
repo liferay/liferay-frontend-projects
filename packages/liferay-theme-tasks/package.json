@@ -11,7 +11,7 @@
     "theme"
   ],
   "scripts": {
-    "test": "nyc ava --reporter=lcov --reporter=text-lcov"
+    "test": "nyc ava --reporter=lcov"
   },
   "ava": {
     "concurrency": 5,
