@@ -1,6 +1,10 @@
 ## Next Release
-* New: hide deprecated options during theme creation unless --deprecated flag is used
+* No changes
 ***
+
+## v7.1.8 - June 21, 2016
+* New: removed default resources-importer files from generated themes
+* New: hide deprecated options during theme creation unless --deprecated flag is used
 
 ## v7.1.7 - April 27, 2016
 * Fix: only add default portlet decorators for 7.0 themes
