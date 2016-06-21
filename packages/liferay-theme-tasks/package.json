@@ -11,7 +11,7 @@
     "theme"
   ],
   "scripts": {
-    "test": "nyc ava --reporter=lcov"
+    "test": "nyc ava"
   },
   "ava": {
     "concurrency": 5,
@@ -23,6 +23,10 @@
     "include": [
       "index.js",
       "{lib,tasks}/**/*"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
     ]
   },
   "xo": {
