@@ -43,7 +43,7 @@ yo liferay-theme
 
 The default `liferay-theme` generator creates a new theme that inherits styles from [liferay-theme-styled](https://www.npmjs.com/package/liferay-theme-styled) or [liferay-theme-unstyled](https://www.npmjs.com/package/liferay-theme-unstyled).
 
-Note: some theme options are deprecated for 7.0, to view the deprecated options run the generator with the `--deprecated` options.
+Note: some theme options are deprecated for 7.0, to view the deprecated options run the generator with the `--deprecated` option.
 
 ```
 yo liferay-theme --deprecated
