@@ -2,6 +2,9 @@
 * No changes
 ***
 
+## v1.3.2 - June 29, 2016
+* Update: now shrinkwraping dependencies
+
 ## v1.3.1 - June 13, 2016
 * Improve extend task to find globally installed themes/themelets in non-conventional npm environments
 * Allow greater customization for gogo-shell connections
