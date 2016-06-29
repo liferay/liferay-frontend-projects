@@ -11,6 +11,7 @@
     "theme"
   ],
   "scripts": {
+    "prepublish": "npm shrinkwrap",
     "test": "nyc ava"
   },
   "ava": {
