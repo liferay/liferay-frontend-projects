@@ -2,6 +2,9 @@
 * No changes
 ***
 
+## v1.3.3 - June 30, 2016
+* Fix: addressed improper npm shrinkwrap caused by issues with npm3
+
 ## v1.3.2 - June 29, 2016
 * Update: now shrinkwraping dependencies
 
