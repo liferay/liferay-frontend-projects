@@ -1,6 +1,9 @@
 ## Next Release
-* Fix: addressed issue with update-notifier choking on shrinkwrap in Windows environments
+* No changes
 ***
+
+## v1.3.4 - July 6, 2016
+* Fix: addressed issue with update-notifier choking on shrinkwrap in Windows environments
 
 ## v1.3.3 - June 30, 2016
 * Fix: addressed improper npm shrinkwrap caused by issues with npm3
