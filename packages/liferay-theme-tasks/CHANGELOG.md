@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Fix: addressed issue with update-notifier choking on shrinkwrap in Windows environments
 ***
 
 ## v1.3.3 - June 30, 2016

@@ -1,11 +1,14 @@
 'use strict';
 
+var _ = require('lodash');
 var chalk = require('gulp-util').colors;
 var updateNotifier = require('update-notifier');
 
 module.exports = function() {
+	var pkg = _.omit(require('../package.json'), ['_shrinkwrap']);
+
 	var notifier = updateNotifier({
-		pkg: require('../package.json'),
+		pkg: pkg,
 		updateCheckInterval: 1000
 	});
 
