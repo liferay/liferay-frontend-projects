@@ -83,6 +83,6 @@ The advantage of themelets is that reused code/components that often exist in mu
 
 ## Gulp tasks
 
-Once the generator is done creating your theme, there are multiple gulp tasks available to expedite theme development. See [liferay-theme-tasks](https://github.com/Robert-Frampton/liferay-theme-tasks) for more detail.
+Once the generator is done creating your theme, there are multiple gulp tasks available to expedite theme development. See [liferay-theme-tasks](https://github.com/liferay/liferay-theme-tasks) for more detail.
 
 MIT
