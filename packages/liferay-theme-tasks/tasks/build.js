@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var del = require('del');
 var fs = require('fs-extra');
+var gutil = require('gulp-util');;
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var replace = require('gulp-replace-task');
@@ -97,6 +98,13 @@ module.exports = function(options) {
 		gulp.src(srcPath)
 			.pipe(plugins.plumber())
 			.pipe(gulpSass(config))
+			.on('error', function(err) {
+				gutil.log(err);
+
+				if (gulp._watching) {
+					this.emit('end');
+				}
+			})
 			.pipe(gulp.dest(cssBuild))
 			.on('end', cb);
 	});
@@ -115,6 +123,13 @@ module.exports = function(options) {
 		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '*.scss'), getSrcPathConfig());
 
 		gulpRubySass(srcPath, config)
+			.on('error', function(err) {
+				gutil.log(err);
+
+				if (gulp._watching) {
+					this.emit('end');
+				}
+			})
 			.pipe(gulp.dest(cssBuild))
 			.on('end', function() {
 				if (renamedFiles && renamedFiles.length) {
