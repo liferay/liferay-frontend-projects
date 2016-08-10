@@ -98,13 +98,7 @@ module.exports = function(options) {
 		gulp.src(srcPath)
 			.pipe(plugins.plumber())
 			.pipe(gulpSass(config))
-			.on('error', function(err) {
-				gutil.log(err);
-
-				if (gulp._watching) {
-					this.emit('end');
-				}
-			})
+			.on('error', handleScssError)
 			.pipe(gulp.dest(cssBuild))
 			.on('end', cb);
 	});
@@ -123,13 +117,7 @@ module.exports = function(options) {
 		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '*.scss'), getSrcPathConfig());
 
 		gulpRubySass(srcPath, config)
-			.on('error', function(err) {
-				gutil.log(err);
-
-				if (gulp._watching) {
-					this.emit('end');
-				}
-			})
+			.on('error', handleScssError)
 			.pipe(gulp.dest(cssBuild))
 			.on('end', function() {
 				if (renamedFiles && renamedFiles.length) {
@@ -328,6 +316,17 @@ module.exports = function(options) {
 			deployed: store.get('deployed'),
 			version: themeConfig.version
 		};
+	}
+
+	function handleScssError(err) {
+		if (gulp._watching) {
+			gutil.log(err);
+
+			this.emit('end');
+		}
+		else {
+			throw err;
+		}
 	}
 };
 
