@@ -319,7 +319,7 @@ module.exports = function(options) {
 	}
 
 	function handleScssError(err) {
-		if (gulp._watching) {
+		if (options.watching) {
 			gutil.log(err);
 
 			this.emit('end');

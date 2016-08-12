@@ -38,7 +38,7 @@ module.exports = function(options) {
 	var webBundleDir = path.join(process.cwd(), webBundleDirName);
 
 	gulp.task('watch', function() {
-		gulp._watching = true;
+		options.watching = true;
 
 		if (themeConfig.version === '6.2') {
 			startWatch();
