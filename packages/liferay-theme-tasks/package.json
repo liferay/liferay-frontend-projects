@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-tasks",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "A set of tasks for building and deploying Liferay Portal themes.",
   "license": "MIT",
   "main": "index.js",
