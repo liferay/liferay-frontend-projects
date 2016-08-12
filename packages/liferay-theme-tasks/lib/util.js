@@ -11,7 +11,9 @@ var lfrThemeConfig = require('./liferay_theme_config');
 
 var chalk = gutil.colors;
 
-var themeConfig = lfrThemeConfig.getConfig();
+var pkg = lfrThemeConfig.getConfig(true);
+
+var themeConfig = pkg.liferayTheme;
 
 var fullDeploy = (argv.full || argv.f);
 
@@ -87,7 +89,7 @@ module.exports = {
 	},
 
 	requireDependency: function(dependency, version) {
-		var depsPath = this._getDepsPath(version);
+		var depsPath = this._getDepsPath(pkg, dependency, version);
 
 		var dependencyPath = resolve.sync(dependency, {
 			basedir: depsPath
@@ -109,7 +111,7 @@ module.exports = {
 			return customPath;
 		}
 
-		var depsPath = this._getDepsPath(version);
+		var depsPath = this._getDepsPath(pkg, dependency, version);
 
 		var dependencyPath = resolve.sync(dependency, {
 			basedir: depsPath
@@ -141,7 +143,11 @@ module.exports = {
 		return customPath;
 	},
 
-	_getDepsPath: function(version) {
+	_getDepsPath: function(pkg, dependency, version) {
+		if (this._hasDependency(pkg, dependency)) {
+			return process.cwd();
+		}
+
 		var depModuleName = 'liferay-theme-deps-7.0';
 
 		version = version || themeConfig.version;
@@ -153,6 +159,12 @@ module.exports = {
 		var depsPath = path.dirname(require.resolve(depModuleName));
 
 		return depsPath;
+	},
+
+	_hasDependency: function(pkg, dependency) {
+		var themeDependencies = _.assign({}, pkg.dependencies, pkg.devDependencies);
+
+		return themeDependencies[dependency];
 	},
 
 	_validateCustomDependencyPath: function(customPath) {
