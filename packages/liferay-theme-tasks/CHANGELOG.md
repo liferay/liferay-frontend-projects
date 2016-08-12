@@ -1,6 +1,9 @@
 ## Next Release
-* Fix: better handling of errors in sass compilation for improved watch task
+* No changes
 ***
+
+## v1.3.5 - August 12, 2016
+* Fix: better handling of errors in sass compilation for improved watch task
 
 ## v1.3.4 - July 6, 2016
 * Fix: addressed issue with update-notifier choking on shrinkwrap in Windows environments
