@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Fix: better handling of errors in sass compilation for improved watch task
 ***
 
 ## v1.3.4 - July 6, 2016
