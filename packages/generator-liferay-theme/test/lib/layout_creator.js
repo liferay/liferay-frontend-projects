@@ -429,6 +429,18 @@ describe('LayoutCreator', function() {
 			});
 
 			assert(choices[choices.length - 1].type != 'separator');
+
+			while(prototype.rows.length < 7) {
+				prototype.rows.push({
+					'0': 3,
+					'1': 9
+				});
+			}
+
+			var choices = prototype._getInsertRowChoices();
+
+			assert.equal(choices[0].name, '  -----------------TOP-----------------');
+			assert.equal(choices[0].selectedName, '  =================TOP=================');
 		});
 	});
 
@@ -465,6 +477,17 @@ describe('LayoutCreator', function() {
 			});
 
 			assert(choices[choices.length - 1].type == 'separator');
+
+			while(prototype.rows.length < 7) {
+				prototype.rows.push({
+					'0': 3,
+					'1': 9
+				});
+			}
+
+			var choices = prototype._getRemoveRowChoices();
+
+			assert.equal(stripAnsi(choices[0].line), '  -----------------TOP-----------------');
 		});
 	});
 
