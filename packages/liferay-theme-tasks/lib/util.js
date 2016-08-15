@@ -138,7 +138,9 @@ module.exports = {
 			customPath = process.env[envVariable];
 		}
 
-		this._validateCustomDependencyPath(customPath);
+		if (customPath) {
+			this._validateCustomDependencyPath(customPath);
+		}
 
 		return customPath;
 	},
@@ -168,17 +170,10 @@ module.exports = {
 	},
 
 	_validateCustomDependencyPath: function(customPath) {
-		if (customPath) {
-			try {
-				var stats = fs.statSync(customPath);
+		var stats = fs.statSync(customPath);
 
-				if (!stats.isDirectory()) {
-					throw new Error(customPath + ' is not a directory');
-				}
-			}
-			catch (err) {
-				throw err;
-			}
+		if (!stats.isDirectory()) {
+			throw new Error(customPath + ' is not a directory');
 		}
 	}
 };
