@@ -114,6 +114,13 @@ describe('LayoutCreator', function() {
 
 			assert(prototype._printLayoutPreview.calledOnce, 'print layout was called once');
 			assert.deepEqual(prototype.rows[0], rowData);
+
+			prototype.rowInsertIndex = 1;
+
+			prototype._addRow(rowData);
+
+			assert(prototype._printLayoutPreview.calledTwice, 'print layout was called twice');
+			assert.deepEqual(prototype.rows[1], rowData);
 		});
 	});
 
