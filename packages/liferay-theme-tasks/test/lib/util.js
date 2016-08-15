@@ -15,9 +15,12 @@ var utilConfig;
 
 var initCwd = process.cwd();
 
+var themeName = 'explicit-dependency-theme';
+
 test.cb.before(function(t) {
 	testUtil.copyTempTheme({
-		namespace: 'util'
+		namespace: 'util',
+		themeName: themeName
 	}, function(config) {
 		tempPath = config.tempPath;
 
@@ -41,7 +44,7 @@ test.cb.before(function(t) {
 test.after(function() {
 	process.chdir(initCwd);
 
-	testUtil.cleanTempTheme('base-theme', '7.0', 'util');
+	testUtil.cleanTempTheme(themeName, '7.0', 'util');
 });
 
 test('getCssSrcPath should return original src path if version is not equal to 6.2', function(t) {
@@ -131,7 +134,7 @@ test('_getDepsPath should return preset path or cwd of theme if dependency is ex
 		}
 	}, 'liferay-frontend-theme-styled', '7.0');
 
-	t.is(path.basename(depsPath), 'base-theme');
+	t.is(path.basename(depsPath), themeName);
 });
 
 test('_hasDependency should return truthy value if dependency is defined in either dependencies or devDependencies', function(t) {

@@ -37,8 +37,5 @@
     "gulp": "^3.8.10",
     "liferay-theme-deps-7.0": "*",
     "liferay-theme-tasks": "*"
-  },
-  "devDependencies": {
-    "liferay-frontend-theme-styled": "2.0.1"
   }
 }
