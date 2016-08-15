@@ -332,7 +332,7 @@ LayoutCreator.prototype = {
 		choicesArray.push(new inquirer.Separator(seperator));
 
 		if (choicesArray.length > 14) {
-			choicesArray.splice(0, 1, new inquirer.Separator(this._replaceAt(seperator, 19, 'TOP')))
+			choicesArray.splice(0, 1, new inquirer.Separator(this._replaceAt(seperator, 19, 'TOP')));
 
 			this._addWhiteSpace(choicesArray);
 		}
