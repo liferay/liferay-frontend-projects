@@ -117,6 +117,16 @@ describe('LayoutCreator', function() {
 		});
 	});
 
+	describe('_addWhiteSpace', function() {
+		it('should add whitespace', function() {
+			var choices = [];
+
+			prototype._addWhiteSpace(choices);
+
+			assert.deepEqual(choices[0], new inquirer.Separator(' '), 'Array has whitespace.');
+		});
+	});
+
 	describe('_afterPrompt', function() {
 		it('should process data returned from prompts and render template passing content to after property', function() {
 			prototype.after = sinon.spy();
