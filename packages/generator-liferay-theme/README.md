@@ -1,4 +1,4 @@
-# Liferay Theme Generator [![Build Status](https://travis-ci.org/liferay/generator-liferay-theme.svg?branch=master)](https://travis-ci.org/liferay/generator-liferay-theme)
+# Liferay Theme Generator [![Build Status](https://travis-ci.org/liferay/generator-liferay-theme.svg?branch=master)](https://travis-ci.org/liferay/generator-liferay-theme) [![Coverage Status](https://coveralls.io/repos/github/liferay/generator-liferay-theme/badge.svg?branch=add-coveralls)](https://coveralls.io/github/liferay/generator-liferay-theme?branch=add-coveralls)
 
 **Note: the Liferay theme generator is still in development and is not guaranteed to work on all platforms/environments.**
 
