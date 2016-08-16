@@ -21,6 +21,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "coveralls": "gulp coveralls",
     "test": "node test/index.js"
   },
   "files": [
@@ -49,6 +50,7 @@
     "chai": "^1.10.0",
     "chai-fs": "^0.1.0",
     "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
     "sinon": "^1.17.3",
