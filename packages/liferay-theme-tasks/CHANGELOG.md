@@ -1,6 +1,9 @@
 ## Next Release
-* New: add ability to declare specific theme dependencies in addition to using the preset packages
+* No changes
 ***
+
+## v1.3.6 - August 16, 2016
+* New: add ability to declare specific theme dependencies in addition to using the preset packages
 
 ## v1.3.5 - August 12, 2016
 * Fix: better handling of errors in sass compilation for improved watch task
