@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* New: add ability to declare specific theme dependencies in addition to using the preset packages
 ***
 
 ## v1.3.5 - August 12, 2016
