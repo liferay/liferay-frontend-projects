@@ -117,6 +117,8 @@ describe('LayoutCreator', function() {
 
 			prototype.rowInsertIndex = 1;
 
+			rowData.data = 123;
+
 			prototype._addRow(rowData);
 
 			assert(prototype._printLayoutPreview.calledTwice, 'print layout was called twice');
