@@ -1,6 +1,6 @@
 # Liferay Theme Tasks [![Build Status](https://travis-ci.org/liferay/liferay-theme-tasks.svg?branch=master)](https://travis-ci.org/liferay/liferay-theme-tasks)
 
-> The liferay-theme-tasks module is intended for use with the yeoman generator for [Liferay themes](https://github.com/natecavanaugh/generator-liferay-theme).
+> The liferay-theme-tasks module is intended for use with the yeoman generator for [Liferay themes](https://github.com/liferay/generator-liferay-theme).
 
 ## Available tasks
 
