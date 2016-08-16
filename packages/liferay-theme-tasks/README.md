@@ -202,5 +202,14 @@ type: `object`
 
 Whatever properties are set in sassOptions get passed to either [gulp-sass](https://www.npmjs.com/package/gulp-sass#options) or [gulp-ruby-sass](https://www.npmjs.com/package/gulp-ruby-sass#options) depending on what sass compiler is implemented.
 
+## Additional Theme Dependencies
+
+In order for themes to successfully build, they must declare additional dependencies in their package.json file.
+
+These additional dependencies are normally included via the [liferay-theme-deps-7.0](https://github.com/Robert-Frampton/liferay-theme-deps-7.0) and [liferay-theme-deps-6.2](https://github.com/Robert-Frampton/liferay-theme-deps-7.0) preset packages which are automatically added as dependencies to themes created with the [Theme Generator](https://github.com/liferay/generator-liferay-theme).
+
+These preset packages will include the necessary base themes/tools for compiling the theme, such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
+
+If you would like to implement specific versions of these dependencies, you can specify them as dependencies directly in your theme's [package.json file](https://gist.github.com/Robert-Frampton/86a084704afe9bca3e3ccc05d2709a5b).
 
 MIT
