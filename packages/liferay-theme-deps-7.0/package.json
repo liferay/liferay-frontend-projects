@@ -6,8 +6,7 @@
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
   "license": "ISC",
   "scripts": {
-    "install": "node scripts/install.js",
-    "prepublish": "npm shrinkwrap"
+    "install": "node scripts/install.js"
   },
   "dependencies": {
     "compass-mixins": "^0.12.7",
