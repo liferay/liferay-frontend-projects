@@ -121,6 +121,18 @@ describe('liferay-theme:app functional tests', function () {
 			done();
 		});
 	});
+
+	it('tests themeDirName configuration', function(done) {
+		runGenerator({
+			themeId: 'test'
+		}, function() {
+			var pkg = getPackage('test-theme');
+
+			chaiAssert.equal(pkg.name, 'test-theme');
+
+			done();
+		});
+	});
 });
 
 function getPackage(themeId) {
