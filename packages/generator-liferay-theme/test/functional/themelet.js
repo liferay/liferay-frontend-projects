@@ -67,6 +67,18 @@ describe('liferay-theme:themelet functional tests', function() {
 			done();
 		});
 	});
+
+	it('tests themeDirName configuration', function(done) {
+		runGenerator({
+			themeId: 'test'
+		}, function() {
+			var pkg = getPackage();
+
+			chaiAssert.equal(pkg.name, 'test-themelet');
+
+			done();
+		});
+	});
 });
 
 function getPackage() {
