@@ -7,7 +7,7 @@ var slug = require('slug');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
-var liferayThemeGeneratorPrototype = _.clone(require('../app/index').prototype);
+var liferayThemeGeneratorPrototype = _.cloneDeep(require('../app/index').prototype);
 
 var getPrompts = liferayThemeGeneratorPrototype._getPrompts;
 var promptCallback = liferayThemeGeneratorPrototype._promptCallback;
