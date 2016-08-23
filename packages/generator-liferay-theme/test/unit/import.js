@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 var chai = require('chai');
-var fs = require('fs');
 var path = require('path');
 var sinon = require('sinon');
 
