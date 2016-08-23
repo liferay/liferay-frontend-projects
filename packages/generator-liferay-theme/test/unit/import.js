@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var chai = require('chai');
+var chalk = require('chalk');
 var path = require('path');
 var sinon = require('sinon');
 
@@ -14,6 +15,24 @@ describe('liferay-theme:import unit tests', function() {
 
 	beforeEach(function() {
 		prototype = _.create(liferayThemeImport.prototype);
+	});
+
+	describe('_getSettingFromConfigFile', function() {
+		it('should output a specific string if certain conditions are met', function(done) {
+			var config = {};
+			var expectedOutput = chalk.yellow('   Warning ') + '%s not found';
+
+			config.filePath = 'path';
+
+			prototype.importTheme = 'theme';
+			prototype.log = sinon.spy();
+
+			prototype._getSettingFromConfigFile(config);
+
+			assert.isTrue(prototype.log.getCall(0).calledWith(expectedOutput), 'Expected output is printed');
+
+			done();
+		});
 	});
 
 	describe('_validatePath', function() {

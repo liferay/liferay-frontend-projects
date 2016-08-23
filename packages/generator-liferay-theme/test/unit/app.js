@@ -2,6 +2,9 @@
 
 var _ = require('lodash');
 var chai = require('chai');
+var chalk = require('chalk');
+var sinon = require('sinon');
+
 var chaiAssert = chai.assert;
 
 var liferayThemeApp = require('../../generators/app/index');
@@ -170,6 +173,21 @@ describe('liferay-theme:app unit tests', function() {
 				themeId: 'id',
 				themeName: 'name'
 			});
+
+			done();
+		});
+	});
+
+	describe('_printWarnings', function() {
+		it('should output a specific string if certain conditions are met', function(done) {
+			var expectedOutput = chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.');
+
+			liferayThemeApp.prototype.log = sinon.spy();
+			liferayThemeApp.prototype.templateLanguage = 'vm';
+
+			liferayThemeApp.prototype._printWarnings('7.0');
+
+			chaiAssert.isTrue(liferayThemeApp.prototype.log.calledWith(expectedOutput), 'Expected output is printed');
 
 			done();
 		});
