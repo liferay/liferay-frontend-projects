@@ -48,7 +48,7 @@ URLBuilder.prototype = {
             if (module.fullPath) {
                 result.push({
                     modules: [module.name],
-                    url: module.fullPath
+                    url: this._getURLWithParams(module.fullPath)
                 });
 
             } else {
@@ -59,7 +59,7 @@ URLBuilder.prototype = {
                 if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
                     result.push({
                         modules: [module.name],
-                        url: path
+                        url: this._getURLWithParams(path)
                     });
 
                 // If combine is disabled, or the module is an anonymous one,
@@ -68,7 +68,7 @@ URLBuilder.prototype = {
                 } else if (!config.combine || module.anonymous) {
                     result.push({
                         modules: [module.name],
-                        url: config.url + (absolutePath ? '' : basePath) + path
+                        url: this._getURLWithParams(config.url + (absolutePath ? '' : basePath) + path)
                     });
 
                 } else {
@@ -158,6 +158,8 @@ URLBuilder.prototype = {
             }
         }
 
+        urlResult.url = this._getURLWithParams(urlResult.url);
+
         result.push(urlResult);
 
         return result;
@@ -194,5 +196,32 @@ URLBuilder.prototype = {
         }
 
         return path;
+    },
+
+    /**
+     * Returns an url with parameters defined in config.defaultURLParams. If
+     * config.defaultURLParams is not defined or is an empty map, the url will
+     * be returned unchanged.
+     *
+     * @protected
+     * @param {string} url The url to be returned with parameters.
+     * @return {string} url The url with parameters.
+     */
+    _getURLWithParams: function(url) {
+        var config = this._configParser.getConfig();
+
+        var defaultURLParams = config.defaultURLParams || {};
+
+        var keys = Object.keys(defaultURLParams);
+
+        if (!keys.length) {
+            return url;
+        }
+
+        var queryString = keys.map(function(key) {
+            return key + '=' + defaultURLParams[key];
+        }).join('&');
+
+        return url + (url.indexOf('?') > -1 ? '&' : '?') + queryString;
     }
 };
