@@ -129,6 +129,30 @@ describe('liferay-theme:app unit tests', function() {
 		});
 	});
 
+	describe('_isLiferayVersion', function() {
+		it('should check for valid Liferay versions', function(done) {
+			_.forEach(['7.0', '6.2'], function(version) {
+				chaiAssert.isTrue(liferayThemeApp.prototype._isLiferayVersion(version), 0, 'Valid Liferay version');
+			});
+
+			chaiAssert.isFalse(liferayThemeApp.prototype._isLiferayVersion('0.1'), -1, 'Invalid Liferay version');
+
+			done();
+		});
+	});
+
+	describe('_isTemplateLanguage', function() {
+		it('should check for valid template languages', function(done) {
+			_.forEach(['ftl', 'vm'], function(template) {
+				chaiAssert.isTrue(liferayThemeApp.prototype._isTemplateLanguage(template), 0, 'Valid template language');
+			});
+
+			chaiAssert.isFalse(liferayThemeApp.prototype._isTemplateLanguage('casper'), -1, 'Invalid template language');
+
+			done();
+		});
+	});
+
 	describe('_mixArgs', function() {
 		it('mixes props and args', function(done) {
 			var props = liferayThemeApp.prototype._mixArgs({
@@ -172,30 +196,6 @@ describe('liferay-theme:app unit tests', function() {
 			});
 
 			process.argv = originalArgv;
-
-			done();
-		});
-	});
-
-	describe('_isLiferayVersion', function() {
-		it('should check for valid Liferay versions', function(done) {
-			_.forEach(['7.0', '6.2'], function(version) {
-				chaiAssert.isTrue(liferayThemeApp.prototype._isLiferayVersion(version), 0, 'Valid Liferay version');
-			});
-
-			chaiAssert.isFalse(liferayThemeApp.prototype._isLiferayVersion('0.1'), -1, 'Invalid Liferay version');
-
-			done();
-		});
-	});
-
-	describe('_isTemplateLanguage', function() {
-		it('should check for valid template languages', function(done) {
-			_.forEach(['ftl', 'vm'], function(template) {
-				chaiAssert.isTrue(liferayThemeApp.prototype._isTemplateLanguage(template), 0, 'Valid template language');
-			});
-
-			chaiAssert.isFalse(liferayThemeApp.prototype._isTemplateLanguage('casper'), -1, 'Invalid template language');
 
 			done();
 		});
