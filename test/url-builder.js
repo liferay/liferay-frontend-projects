@@ -381,4 +381,64 @@ describe('URLBuilder', function () {
             assert.isTrue(moduleURL.url.length < 2000);
         });
     });
+
+    it('should add parameters to urls', function() {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules',
+            'combine': false,
+            'defaultURLParams': {
+                'languageId': 'en_US'
+            },
+            'basePath': '/base',
+            'modules': {
+                'foo': {
+                    'dependencies': []
+                },
+                'bar': {
+                    'dependencies': []
+                },
+                'baz': {
+                    'dependencies': [],
+                    'anonymous': true
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var modulesURL = urlBuilder.build(['foo']);
+
+        assert.strictEqual(1, modulesURL.length);
+        assert.strictEqual('http://localhost:3000/modules/base/foo.js?languageId=en_US', modulesURL[0].url);
+    });
+
+    it('should add parameters to combined urls', function() {
+        var configParser = new global.ConfigParser({
+            'url': 'http://localhost:3000/modules?',
+            'combine': true,
+            'defaultURLParams': {
+                'languageId': 'en_US'
+            },
+            'basePath': '/base',
+            'modules': {
+                'foo': {
+                    'dependencies': []
+                },
+                'bar': {
+                    'dependencies': []
+                },
+                'baz': {
+                    'dependencies': [],
+                    'anonymous': true
+                }
+            }
+        });
+
+        var urlBuilder = new global.URLBuilder(configParser);
+
+        var modulesURL = urlBuilder.build(['foo', 'bar']);
+
+        assert.strictEqual(1, modulesURL.length);
+        assert.strictEqual('http://localhost:3000/modules?/base/foo.js&/base/bar.js&languageId=en_US', modulesURL[0].url);
+    });
 });
