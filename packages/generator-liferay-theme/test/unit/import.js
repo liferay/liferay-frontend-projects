@@ -7,6 +7,7 @@ var path = require('path');
 var sinon = require('sinon');
 
 var assert = chai.assert;
+var sinonAssert = sinon.assert;
 
 var liferayThemeImport = require('../../generators/import/index');
 
@@ -29,7 +30,7 @@ describe('liferay-theme:import unit tests', function() {
 
 			prototype._getSettingFromConfigFile(config);
 
-			assert.isTrue(prototype.log.getCall(0).calledWith(expectedOutput), 'Expected output is printed');
+			sinonAssert.calledWith(prototype.log.getCall(0), expectedOutput);
 
 			done();
 		});
