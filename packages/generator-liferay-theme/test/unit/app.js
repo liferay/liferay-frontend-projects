@@ -18,7 +18,7 @@ describe('liferay-theme:app unit tests', function() {
 	});
 
 	describe('_getArgs', function() {
-		it('creates new args object only once', function(done) {
+		it('creates new args object only once', function() {
 			var args = prototype._getArgs();
 
 			chaiAssert.isObject(args);
@@ -30,13 +30,11 @@ describe('liferay-theme:app unit tests', function() {
 			args.test2 = 'test';
 
 			chaiAssert.deepEqual(args, prototype._getArgs());
-
-			done();
 		});
 	});
 
 	describe('_getWhenFn', function() {
-		it('returns false false when property has been set on argv and sets property on args object', function(done) {
+		it('returns false false when property has been set on argv and sets property on args object', function() {
 			prototype.args = {};
 			prototype.argv = {};
 
@@ -59,11 +57,9 @@ describe('liferay-theme:app unit tests', function() {
 			chaiAssert.equal(prototype.args[propertyName], 'vm');
 
 			whenFn = prototype._getWhenFn(propertyName, flagName);
-
-			done();
 		});
 
-		it('should correctly implement validator fn', function(done) {
+		it('should correctly implement validator fn', function() {
 			prototype.args = {};
 			prototype.argv = {};
 
@@ -103,11 +99,9 @@ describe('liferay-theme:app unit tests', function() {
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn());
 			chaiAssert.equal(prototype.args[propertyName], undefined);
-
-			done();
 		});
 
-		it('should not prompt if deprecated for specified liferayVersion', function(done) {
+		it('should not prompt if deprecated for specified liferayVersion', function() {
 			prototype.args = {};
 			prototype.argv = {};
 			prototype.promptDeprecationMap = {
@@ -134,37 +128,31 @@ describe('liferay-theme:app unit tests', function() {
 			chaiAssert(whenFn({
 				liferayVersion: '7.0'
 			}));
-
-			done();
 		});
 	});
 
 	describe('_isLiferayVersion', function() {
-		it('should check for valid Liferay versions', function(done) {
+		it('should check for valid Liferay versions', function() {
 			_.forEach(['7.0', '6.2'], function(version) {
 				chaiAssert.isTrue(prototype._isLiferayVersion(version), 0, 'Valid Liferay version');
 			});
 
 			chaiAssert.isFalse(prototype._isLiferayVersion('0.1'), -1, 'Invalid Liferay version');
-
-			done();
 		});
 	});
 
 	describe('_isTemplateLanguage', function() {
-		it('should check for valid template languages', function(done) {
+		it('should check for valid template languages', function() {
 			_.forEach(['ftl', 'vm'], function(template) {
 				chaiAssert.isTrue(prototype._isTemplateLanguage(template), 0, 'Valid template language');
 			});
 
 			chaiAssert.isFalse(prototype._isTemplateLanguage('casper'), -1, 'Invalid template language');
-
-			done();
 		});
 	});
 
 	describe('_mixArgs', function() {
-		it('mixes props and args', function(done) {
+		it('mixes props and args', function() {
 			var props = prototype._mixArgs({
 				liferayVersion: '7.0',
 				templateLanguage: 'ftl'
@@ -180,13 +168,11 @@ describe('liferay-theme:app unit tests', function() {
 				themeId: 'id',
 				themeName: 'name'
 			});
-
-			done();
 		});
 	});
 
 	describe('_printWarnings', function() {
-		it('should output a specific string if certain conditions are met', function(done) {
+		it('should output a specific string if certain conditions are met', function() {
 			var expectedOutput = chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.');
 
 			prototype.log = sinon.spy();
@@ -204,13 +190,11 @@ describe('liferay-theme:app unit tests', function() {
 			prototype._printWarnings('7.0');
 
 			sinonAssert.calledOnce(prototype.log);
-
-			done();
 		});
 	});
 
 	describe('_setArgv', function() {
-		it('should set correct argv properties based on shorthand values', function(done) {
+		it('should set correct argv properties based on shorthand values', function() {
 			var originalArgv = process.argv;
 
 			var mockArgv = ['node', 'yo', 'liferay-theme', '-n', 'My Liferay Theme', '-i', 'my-liferay-theme', '-l', '7.0'];
@@ -230,8 +214,6 @@ describe('liferay-theme:app unit tests', function() {
 			});
 
 			process.argv = originalArgv;
-
-			done();
 		});
 	});
 });

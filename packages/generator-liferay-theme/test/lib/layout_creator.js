@@ -20,7 +20,7 @@ describe('LayoutCreator', function() {
 	});
 
 	describe('constructor', function() {
-		it('should set options as instance properties and throw error if after function is not set', function(done) {
+		it('should set options as instance properties and throw error if after function is not set', function() {
 			var init = LayoutCreator.prototype.init;
 
 			LayoutCreator.prototype.init = sinon.spy();
@@ -41,13 +41,11 @@ describe('LayoutCreator', function() {
 			}, 'Must define an after function!');
 
 			LayoutCreator.prototype.init = init;
-
-			done();
 		});
 	});
 
 	describe('init', function() {
-		it('should set rows to empty array and init prompting if rowData is undefined', function(done) {
+		it('should set rows to empty array and init prompting if rowData is undefined', function() {
 			prototype.after = sinon.spy();
 			prototype._promptRow = sinon.spy();
 
@@ -58,11 +56,9 @@ describe('LayoutCreator', function() {
 
 			assert(_.isFunction(prototype._promptRow.args[0][0]), '_promptRow is called with function as first argument');
 			assert(prototype.after.notCalled, 'after function was not called');
-
-			done();
 		});
 
-		it('should use rowData if defined and skip prompting', function(done) {
+		it('should use rowData if defined and skip prompting', function() {
 			prototype._promptRow = sinon.spy();
 			prototype._renderLayoutTemplate = sinon.stub().returns('template');
 			prototype.after = sinon.spy();
@@ -80,8 +76,6 @@ describe('LayoutCreator', function() {
 			assert(prototype._promptRow.notCalled, 'promptRow was not called');
 			assert(prototype.after.calledOnce, 'after function was called once');
 			assert(prototype.after.calledWith('template'), 'return value of _renderLayoutTemplate is passed to after function');
-
-			done();
 		});
 	});
 

@@ -19,7 +19,7 @@ describe('liferay-theme:import unit tests', function() {
 	});
 
 	describe('_getSettingFromConfigFile', function() {
-		it('should output a specific string if certain conditions are met', function(done) {
+		it('should output a specific string if certain conditions are met', function() {
 			var config = {};
 			var expectedOutput = chalk.yellow('   Warning ') + '%s not found';
 
@@ -31,8 +31,6 @@ describe('liferay-theme:import unit tests', function() {
 			prototype._getSettingFromConfigFile(config);
 
 			sinonAssert.calledWith(prototype.log.getCall(0), expectedOutput);
-
-			done();
 		});
 	});
 
