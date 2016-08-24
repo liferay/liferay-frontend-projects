@@ -6,6 +6,7 @@ var chalk = require('chalk');
 var sinon = require('sinon');
 
 var chaiAssert = chai.assert;
+var sinonAssert = sinon.assert;
 
 var liferayThemeApp = require('../../generators/app/index');
 
@@ -185,9 +186,18 @@ describe('liferay-theme:app unit tests', function() {
 			liferayThemeApp.prototype.log = sinon.spy();
 			liferayThemeApp.prototype.templateLanguage = 'vm';
 
+			liferayThemeApp.prototype._printWarnings('6.2');
 			liferayThemeApp.prototype._printWarnings('7.0');
 
-			chaiAssert.isTrue(liferayThemeApp.prototype.log.calledWith(expectedOutput), 'Expected output is printed');
+			sinonAssert.calledWith(liferayThemeApp.prototype.log, expectedOutput);
+			sinonAssert.calledOnce(liferayThemeApp.prototype.log);
+
+			liferayThemeApp.prototype.templateLanguage = 'ftl';
+
+			liferayThemeApp.prototype._printWarnings('6.2');
+			liferayThemeApp.prototype._printWarnings('7.0');
+
+			sinonAssert.calledOnce(liferayThemeApp.prototype.log);
 
 			done();
 		});
