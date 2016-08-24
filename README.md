@@ -225,6 +225,21 @@ __CONFIG__ = {
 };
 ```
 
+Passing default URL parameters
+======
+Arbitrary URL parameters might be added to each module request. The parameter will be added to all kind of requests - for modules with external or absolute path, anonymous and in case of combined modules.
+To achieve that, you may specify the parameters in `defaultURLParams` configuration property:
+```javascript
+{
+    'url': 'http://localhost:3000/modules?',
+    'defaultURLParams': {
+        'languageId': 'en_US'
+    }
+}
+```
+In this case, `languageId` with value 'en_US' will be added to each module request and the result might look like this:
+`http://localhost:3000/modules?/base/foo.js&/base/bar.js&languageId=en_US`
+
 Loading modules via combo URL
 ======
 In order to load the modules via combo URL, a special config file have to be created first. You can do that manually or using a special tool, which comes together with the loader. It is called `config-generator`. See the next section for more details:

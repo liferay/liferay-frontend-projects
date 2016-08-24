@@ -201,7 +201,7 @@ URLBuilder.prototype = {
     /**
      * Returns an url with parameters defined in config.defaultURLParams. If
      * config.defaultURLParams is not defined or is an empty map, the url will
-     * be returned unchanged.
+     * be returned unmodified.
      *
      * @protected
      * @param {string} url The url to be returned with parameters.
