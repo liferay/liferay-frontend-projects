@@ -252,10 +252,8 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_printWarnings: function(liferayVersion) {
-		if (liferayVersion == '7.0') {
-			if (this.templateLanguage == 'vm') {
-				this.log(chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'));
-			}
+		if (liferayVersion == '7.0' && this.templateLanguage == 'vm') {
+			this.log(chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'));
 		}
 	},
 
