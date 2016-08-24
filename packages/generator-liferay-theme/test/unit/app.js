@@ -11,19 +11,25 @@ var sinonAssert = sinon.assert;
 var liferayThemeApp = require('../../generators/app/index');
 
 describe('liferay-theme:app unit tests', function() {
+	var prototype;
+
+	beforeEach(function() {
+		prototype = _.create(liferayThemeApp.prototype);
+	});
+
 	describe('_getArgs', function() {
 		it('creates new args object only once', function(done) {
-			var args = liferayThemeApp.prototype._getArgs();
+			var args = prototype._getArgs();
 
 			chaiAssert.isObject(args);
 
 			args.test = 'test';
 
-			chaiAssert.deepEqual(args, liferayThemeApp.prototype._getArgs());
+			chaiAssert.deepEqual(args, prototype._getArgs());
 
 			args.test2 = 'test';
 
-			chaiAssert.deepEqual(args, liferayThemeApp.prototype._getArgs());
+			chaiAssert.deepEqual(args, prototype._getArgs());
 
 			done();
 		});
@@ -31,54 +37,54 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_getWhenFn', function() {
 		it('returns false false when property has been set on argv and sets property on args object', function(done) {
-			liferayThemeApp.prototype.args = {};
-			liferayThemeApp.prototype.argv = {};
+			prototype.args = {};
+			prototype.argv = {};
 
 			var flagName = 'template';
 			var propertyName = 'templateLanguage';
 
-			var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+			var whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn());
 
-			liferayThemeApp.prototype.argv = {
+			prototype.argv = {
 				template: 'vm'
 			};
 
-			whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+			whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(!whenFn());
-			chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], 'vm');
+			chaiAssert.equal(prototype.args[propertyName], 'vm');
 
-			whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+			whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			done();
 		});
 
 		it('should correctly implement validator fn', function(done) {
-			liferayThemeApp.prototype.args = {};
-			liferayThemeApp.prototype.argv = {};
+			prototype.args = {};
+			prototype.argv = {};
 
 			var flagName = 'template';
 			var propertyName = 'templateLanguage';
 
-			var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
+			var whenFn = prototype._getWhenFn(propertyName, flagName, function(value) {
 				chaiAssert.fail('Invoked validator with null value', 'Should have not invoked');
 			});
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn());
 
-			liferayThemeApp.prototype.args = {};
-			liferayThemeApp.prototype.argv = {
+			prototype.args = {};
+			prototype.argv = {
 				template: 'ftl'
 			};
 
-			liferayThemeApp.prototype.log = function() {};
+			prototype.log = function() {};
 
-			whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
+			whenFn = prototype._getWhenFn(propertyName, flagName, function(value) {
 				chaiAssert(value);
 
 				return true;
@@ -86,43 +92,43 @@ describe('liferay-theme:app unit tests', function() {
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(!whenFn());
-			chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], 'ftl');
+			chaiAssert.equal(prototype.args[propertyName], 'ftl');
 
-			liferayThemeApp.prototype.args = {};
+			prototype.args = {};
 
-			whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName, function(value) {
+			whenFn = prototype._getWhenFn(propertyName, flagName, function(value) {
 				return false;
 			});
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn());
-			chaiAssert.equal(liferayThemeApp.prototype.args[propertyName], undefined);
+			chaiAssert.equal(prototype.args[propertyName], undefined);
 
 			done();
 		});
 
 		it('should not prompt if deprecated for specified liferayVersion', function(done) {
-			liferayThemeApp.prototype.args = {};
-			liferayThemeApp.prototype.argv = {};
-			liferayThemeApp.prototype.promptDeprecationMap = {
+			prototype.args = {};
+			prototype.argv = {};
+			prototype.promptDeprecationMap = {
 				templateLanguage: ['7.0']
 			};
 
 			var flagName = 'template';
 			var propertyName = 'templateLanguage';
 
-			var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+			var whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(!whenFn({
 				liferayVersion: '7.0'
 			}));
 
-			liferayThemeApp.prototype.argv = {
+			prototype.argv = {
 				deprecated: true
 			};
 
-			var whenFn = liferayThemeApp.prototype._getWhenFn(propertyName, flagName);
+			var whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn({
@@ -136,10 +142,10 @@ describe('liferay-theme:app unit tests', function() {
 	describe('_isLiferayVersion', function() {
 		it('should check for valid Liferay versions', function(done) {
 			_.forEach(['7.0', '6.2'], function(version) {
-				chaiAssert.isTrue(liferayThemeApp.prototype._isLiferayVersion(version), 0, 'Valid Liferay version');
+				chaiAssert.isTrue(prototype._isLiferayVersion(version), 0, 'Valid Liferay version');
 			});
 
-			chaiAssert.isFalse(liferayThemeApp.prototype._isLiferayVersion('0.1'), -1, 'Invalid Liferay version');
+			chaiAssert.isFalse(prototype._isLiferayVersion('0.1'), -1, 'Invalid Liferay version');
 
 			done();
 		});
@@ -148,10 +154,10 @@ describe('liferay-theme:app unit tests', function() {
 	describe('_isTemplateLanguage', function() {
 		it('should check for valid template languages', function(done) {
 			_.forEach(['ftl', 'vm'], function(template) {
-				chaiAssert.isTrue(liferayThemeApp.prototype._isTemplateLanguage(template), 0, 'Valid template language');
+				chaiAssert.isTrue(prototype._isTemplateLanguage(template), 0, 'Valid template language');
 			});
 
-			chaiAssert.isFalse(liferayThemeApp.prototype._isTemplateLanguage('casper'), -1, 'Invalid template language');
+			chaiAssert.isFalse(prototype._isTemplateLanguage('casper'), -1, 'Invalid template language');
 
 			done();
 		});
@@ -159,7 +165,7 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_mixArgs', function() {
 		it('mixes props and args', function(done) {
-			var props = liferayThemeApp.prototype._mixArgs({
+			var props = prototype._mixArgs({
 				liferayVersion: '7.0',
 				templateLanguage: 'ftl'
 			}, {
@@ -183,21 +189,21 @@ describe('liferay-theme:app unit tests', function() {
 		it('should output a specific string if certain conditions are met', function(done) {
 			var expectedOutput = chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.');
 
-			liferayThemeApp.prototype.log = sinon.spy();
-			liferayThemeApp.prototype.templateLanguage = 'vm';
+			prototype.log = sinon.spy();
+			prototype.templateLanguage = 'vm';
 
-			liferayThemeApp.prototype._printWarnings('6.2');
-			liferayThemeApp.prototype._printWarnings('7.0');
+			prototype._printWarnings('6.2');
+			prototype._printWarnings('7.0');
 
-			sinonAssert.calledWith(liferayThemeApp.prototype.log, expectedOutput);
-			sinonAssert.calledOnce(liferayThemeApp.prototype.log);
+			sinonAssert.calledWith(prototype.log, expectedOutput);
+			sinonAssert.calledOnce(prototype.log);
 
-			liferayThemeApp.prototype.templateLanguage = 'ftl';
+			prototype.templateLanguage = 'ftl';
 
-			liferayThemeApp.prototype._printWarnings('6.2');
-			liferayThemeApp.prototype._printWarnings('7.0');
+			prototype._printWarnings('6.2');
+			prototype._printWarnings('7.0');
 
-			sinonAssert.calledOnce(liferayThemeApp.prototype.log);
+			sinonAssert.calledOnce(prototype.log);
 
 			done();
 		});
@@ -211,9 +217,9 @@ describe('liferay-theme:app unit tests', function() {
 
 			process.argv = mockArgv;
 
-			liferayThemeApp.prototype._setArgv();
+			prototype._setArgv();
 
-			chaiAssert.deepEqual(liferayThemeApp.prototype.argv, {
+			chaiAssert.deepEqual(prototype.argv, {
 				_: ['liferay-theme'],
 				i: 'my-liferay-theme',
 				id: 'my-liferay-theme',
