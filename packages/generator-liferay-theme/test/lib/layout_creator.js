@@ -9,6 +9,7 @@ var sinon = require('sinon');
 var stripAnsi = require('strip-ansi');
 
 var assert = chai.assert;
+var sinonAssert = sinon.assert;
 
 var LayoutCreator = require('../../lib/layout_creator');
 
@@ -32,7 +33,7 @@ describe('LayoutCreator', function() {
 
 			assert.equal(layoutCreator.after, _.noop);
 			assert.equal(layoutCreator.className, 'class-name');
-			assert.equal(LayoutCreator.prototype.init.callCount, 1);
+			sinonAssert.callCount(LayoutCreator.prototype.init, 1);
 
 			assert.throws(function() {
 				new LayoutCreator({
@@ -52,10 +53,10 @@ describe('LayoutCreator', function() {
 			prototype.init();
 
 			assert.deepEqual(prototype.rows, []);
-			assert.equal(prototype._promptRow.callCount, 1);
+			sinonAssert.callCount(prototype._promptRow, 1);
 
 			assert(_.isFunction(prototype._promptRow.args[0][0]), '_promptRow is called with function as first argument');
-			assert(prototype.after.notCalled, 'after function was not called');
+			sinonAssert.notCalled(prototype.after);
 		});
 
 		it('should use rowData if defined and skip prompting', function() {
@@ -73,9 +74,9 @@ describe('LayoutCreator', function() {
 				rowData: []
 			}, '_renderLayoutTemplate is called with correct data');
 
-			assert(prototype._promptRow.notCalled, 'promptRow was not called');
-			assert(prototype.after.calledOnce, 'after function was called once');
-			assert(prototype.after.calledWith('template'), 'return value of _renderLayoutTemplate is passed to after function');
+			sinonAssert.notCalled(prototype._promptRow);
+			sinonAssert.calledOnce(prototype.after);
+			sinonAssert.calledWith(prototype.after, 'template');
 		});
 	});
 
@@ -89,7 +90,7 @@ describe('LayoutCreator', function() {
 
 			prototype.prompt(['question1', 'question2'], cb);
 
-			assert(inquirer.prompt.calledWith(['question1', 'question2'], cb));
+			sinonAssert.calledWith(inquirer.prompt, ['question1', 'question2'], cb);
 
 			inquirer.prompt = prompt;
 		});
@@ -106,7 +107,7 @@ describe('LayoutCreator', function() {
 
 			prototype._addRow(rowData);
 
-			assert(prototype._printLayoutPreview.calledOnce, 'print layout was called once');
+			sinonAssert.calledOnce(prototype._printLayoutPreview);
 			assert.deepEqual(prototype.rows[0], rowData);
 
 			prototype.rowInsertIndex = 1;
@@ -115,7 +116,7 @@ describe('LayoutCreator', function() {
 
 			prototype._addRow(rowData);
 
-			assert(prototype._printLayoutPreview.calledTwice, 'print layout was called twice');
+			sinonAssert.calledTwice(prototype._printLayoutPreview);
 			assert.deepEqual(prototype.rows[1], rowData);
 		});
 	});
@@ -149,7 +150,7 @@ describe('LayoutCreator', function() {
 
 			prototype._afterPrompt();
 
-			assert(prototype.after.calledOnce, 'after function was called');
+			sinonAssert.calledOnce(prototype.after);
 		});
 	});
 
@@ -163,8 +164,8 @@ describe('LayoutCreator', function() {
 
 			prototype._afterPromptColumnCount(answers, cb);
 
-			assert(cb.calledOnce, 'cb is called once');
-			assert(cb.calledWith(null, 3), 'cb is called with no error and columnCount from answers');
+			sinonAssert.calledOnce(cb);
+			sinonAssert.calledWith(cb, null, 3);
 		});
 	});
 
@@ -182,8 +183,8 @@ describe('LayoutCreator', function() {
 
 			prototype._afterPromptColumnWidths(answers, cb);
 
-			assert(cb.calledWith(null, [1]), 'cb is called with no error and rows property');
-			assert(prototype._addRow.calledWith(answers), 'row answers are passed to _addRow');
+			sinonAssert.calledWith(cb, null, [1]);
+			sinonAssert.calledWith(prototype._addRow, answers);
 		});
 	});
 
@@ -201,31 +202,31 @@ describe('LayoutCreator', function() {
 				finish: 'add'
 			}, cbSpy);
 
-			assert(prototype._promptRow.calledOnce, 'called correct function');
-			assert(prototype._promptRow.calledWith(cbSpy), 'called with cb function');
+			sinonAssert.calledOnce(prototype._promptRow);
+			sinonAssert.calledWith(prototype._promptRow, cbSpy);
 
 			prototype._afterPromptFinishRow({
 				finish: 'insert'
 			}, cbSpy);
 
-			assert(prototype._promptInsertRow.calledOnce, 'called correct function');
-			assert(prototype._promptInsertRow.calledWith(cbSpy), 'called with cb function');
+			sinonAssert.calledOnce(prototype._promptInsertRow);
+			sinonAssert.calledWith(prototype._promptInsertRow, cbSpy);
 
 			prototype._afterPromptFinishRow({
 				finish: 'finish'
 			}, cbSpy);
 
-			assert(cbSpy.calledOnce, 'called correct function');
+			sinonAssert.calledOnce(cbSpy);
 
 			prototype._afterPromptFinishRow({
 				finish: 'remove'
 			}, cbSpy);
 
-			assert(prototype._promptRemoveRow.calledOnce, 'called correct function');
-			assert(prototype._promptRemoveRow.calledWith(cbSpy), 'called with cb function');
+			sinonAssert.calledOnce(prototype._promptRemoveRow);
+			sinonAssert.calledWith(prototype._promptRemoveRow, cbSpy);
 
-			assert(cbSpy.calledOnce, 'it did not call cb more than once');
-			assert(prototype._promptRow.calledOnce, 'that it did not restart add prompt');
+			sinonAssert.calledOnce(cbSpy);
+			sinonAssert.calledOnce(prototype._promptRow);
 		});
 
 		it('should not call anything if invalid value', function() {
@@ -240,10 +241,10 @@ describe('LayoutCreator', function() {
 				finish: 'notsupported'
 			}, cbSpy);
 
-			assert(cbSpy.notCalled);
-			assert(prototype._promptInsertRow.notCalled);
-			assert(prototype._promptRemoveRow.notCalled);
-			assert(prototype._promptRow.notCalled);
+			sinonAssert.notCalled(cbSpy);
+			sinonAssert.notCalled(prototype._promptInsertRow);
+			sinonAssert.notCalled(prototype._promptRemoveRow);
+			sinonAssert.notCalled(prototype._promptRow);
 		});
 	});
 
@@ -258,7 +259,7 @@ describe('LayoutCreator', function() {
 			}, cb);
 
 			assert.equal(prototype.rowInsertIndex, 2);
-			assert(prototype._promptRow.calledWith(cb));
+			sinonAssert.calledWith(prototype._promptRow, cb);
 		});
 	});
 
@@ -274,8 +275,8 @@ describe('LayoutCreator', function() {
 				rowIndex: 3
 			}, cb);
 
-			assert(prototype._removeRow.calledWith(3), 'removed row by index');
-			assert(prototype._promptFinishRow.calledWith([2], cb));
+			sinonAssert.calledWith(prototype._removeRow, 3);
+			sinonAssert.calledWith(prototype._promptFinishRow, [2], cb);
 		});
 	});
 
@@ -308,7 +309,7 @@ describe('LayoutCreator', function() {
 				assert(_.startsWith(prototype._formatPercentageValue(index + 1), label));
 			});
 
-			assert(prototype._formatInlineChoicePreview.notCalled, '_formatInlineChoicePreview was not called');
+			sinonAssert.notCalled(prototype._formatInlineChoicePreview);
 
 			_.forEach(labels, function(label, index) {
 				var formattedLabel = prototype._formatPercentageValue(index + 1, 0, true);
@@ -317,7 +318,7 @@ describe('LayoutCreator', function() {
 				assert(_.endsWith(formattedLabel, 'preview'), 'adds inline preview to choice label');
 			});
 
-			assert.equal(prototype._formatInlineChoicePreview.callCount, 12);
+			sinonAssert.callCount(prototype._formatInlineChoicePreview, 12);
 		});
 	});
 
@@ -614,7 +615,7 @@ describe('LayoutCreator', function() {
 
 			prototype._promptColumnWidths(2, _.noop);
 
-			assert(prototype.prompt.calledOnce, 'prompt is called once');
+			sinonAssert.calledOnce(prototype.prompt);
 
 			var questions = prototype.prompt.args[0][0];
 
@@ -681,8 +682,8 @@ describe('LayoutCreator', function() {
 
 			prototype._promptRow(function() {
 				assert.equal(waterfallSpy.getCall(0).args[0], '_promptColumnCount');
-				assert(waterfallSpy.getCall(1).calledWith('_promptColumnWidths', '_promptColumnCount'));
-				assert(waterfallSpy.getCall(2).calledWith('_promptFinishRow', '_promptColumnWidths'));
+				sinonAssert.calledWith(waterfallSpy.getCall(1), '_promptColumnWidths', '_promptColumnCount');
+				sinonAssert.calledWith(waterfallSpy.getCall(2), '_promptFinishRow', '_promptColumnWidths');
 
 				done();
 			});
@@ -696,12 +697,12 @@ describe('LayoutCreator', function() {
 
 			prototype._removeRow(1);
 
-			assert(prototype._printLayoutPreview.calledOnce, 'it printed new layout');
+			sinonAssert.calledOnce(prototype._printLayoutPreview);
 			assert.deepEqual(prototype.rows, [1, 3], 'it removed middle row');
 
 			prototype._removeRow(1);
 
-			assert(prototype._printLayoutPreview.calledTwice, 'it printed new layout');
+			sinonAssert.calledTwice(prototype._printLayoutPreview);
 			assert.deepEqual(prototype.rows, [1], 'it removed last row');
 		});
 	});
