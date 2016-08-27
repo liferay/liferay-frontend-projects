@@ -55,7 +55,7 @@ describe('LayoutCreator', function() {
 			assert.deepEqual(prototype.rows, []);
 			sinonAssert.calledOnce(prototype._promptRow);
 
-			assert(_.isFunction(prototype._promptRow.args[0][0]), '_promptRow is called with function as first argument');
+			sinonAssert.calledWithMatch(prototype._promptRow, sinon.match.func);
 			sinonAssert.notCalled(prototype.after);
 		});
 
@@ -590,7 +590,7 @@ describe('LayoutCreator', function() {
 
 			var question = prototype.prompt.args[0][0][0];
 
-			assert(_.isFunction(prototype.prompt.args[0][1]));
+			sinonAssert.calledWithMatch(prototype.prompt.getCall(0), sinon.match.array, sinon.match.func);
 			assert.equal(question.name, 'columnCount');
 			assert.equal(question.validate, prototype._validateColumnCount);
 			assert.match(question.message, /row 1/);
@@ -601,7 +601,7 @@ describe('LayoutCreator', function() {
 
 			question = prototype.prompt.args[1][0][0];
 
-			assert(_.isFunction(prototype.prompt.args[0][1]));
+			sinonAssert.calledWithMatch(prototype.prompt.getCall(1), sinon.match.array, sinon.match.func);
 			assert.equal(question.name, 'columnCount');
 			assert.equal(question.validate, prototype._validateColumnCount);
 			assert.match(question.message, /row 4/);
@@ -619,9 +619,8 @@ describe('LayoutCreator', function() {
 
 			var questions = prototype.prompt.args[0][0];
 
-			assert(_.isArray(questions), 'first arg is array');
+			sinonAssert.calledWithMatch(prototype.prompt.getCall(0), sinon.match.array, sinon.match.func);
 			assert.equal(questions.length, 2, 'it creates a question for every column');
-			assert(_.isFunction(prototype.prompt.args[0][1]), 'second arg is cb');
 
 			_.forEach(questions, function(question, index) {
 				var columnNumber = index + 1;
@@ -803,10 +802,9 @@ function assertPromptFn(prototype, fnName, args, assertionData) {
 	var args = prototype.prompt.getCall(0).args;
 	var question = args[0][0];
 
-	assert(_.isFunction(question.choices), 'choices is function');
+	sinonAssert.calledWithMatch(prototype.prompt.getCall(0), sinon.match.array, sinon.match.func);
+
 	assert.equal(question.message, assertionData.message);
 	assert.equal(question.name, assertionData.name);
 	assert.equal(question.type, 'list');
-
-	assert(_.isFunction(args[1]), 'callback is function');
 }
