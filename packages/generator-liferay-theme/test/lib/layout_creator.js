@@ -33,7 +33,7 @@ describe('LayoutCreator', function() {
 
 			assert.equal(layoutCreator.after, _.noop);
 			assert.equal(layoutCreator.className, 'class-name');
-			sinonAssert.callCount(LayoutCreator.prototype.init, 1);
+			sinonAssert.calledOnce(LayoutCreator.prototype.init);
 
 			assert.throws(function() {
 				new LayoutCreator({
@@ -53,7 +53,7 @@ describe('LayoutCreator', function() {
 			prototype.init();
 
 			assert.deepEqual(prototype.rows, []);
-			sinonAssert.callCount(prototype._promptRow, 1);
+			sinonAssert.calledOnce(prototype._promptRow);
 
 			assert(_.isFunction(prototype._promptRow.args[0][0]), '_promptRow is called with function as first argument');
 			sinonAssert.notCalled(prototype.after);
