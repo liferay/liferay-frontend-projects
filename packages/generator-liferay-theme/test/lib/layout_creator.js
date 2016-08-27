@@ -69,10 +69,10 @@ describe('LayoutCreator', function() {
 
 			prototype.init();
 
-			assert.deepEqual(prototype._renderLayoutTemplate.getCall(0).args[0], {
+			sinonAssert.calledWith(prototype._renderLayoutTemplate.getCall(0), {
 				className: 'class-name',
 				rowData: []
-			}, '_renderLayoutTemplate is called with correct data');
+			});
 
 			sinonAssert.notCalled(prototype._promptRow);
 			sinonAssert.calledOnce(prototype.after);
@@ -680,7 +680,7 @@ describe('LayoutCreator', function() {
 			prototype._promptFinishRow = getWaterfallFunction('_promptFinishRow');
 
 			prototype._promptRow(function() {
-				assert.equal(waterfallSpy.getCall(0).args[0], '_promptColumnCount');
+				sinonAssert.calledWith(waterfallSpy.getCall(0), '_promptColumnCount');
 				sinonAssert.calledWith(waterfallSpy.getCall(1), '_promptColumnWidths', '_promptColumnCount');
 				sinonAssert.calledWith(waterfallSpy.getCall(2), '_promptFinishRow', '_promptColumnWidths');
 
