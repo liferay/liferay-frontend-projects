@@ -202,6 +202,58 @@ type: `object`
 
 Whatever properties are set in sassOptions get passed to either [gulp-sass](https://www.npmjs.com/package/gulp-sass#options) or [gulp-ruby-sass](https://www.npmjs.com/package/gulp-ruby-sass#options) depending on what sass compiler is implemented.
 
+## liferayTheme
+
+The `liferayTheme` object is located in a theme's package.json file and contains various options that relate to the gulp tasks.
+
+```JSON
+{
+	"name": "my-liferay-theme",
+	"version": "1.0.0",
+	"main": "package.json",
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"rubySass": false,
+		"templateLanguage": "ftl",
+		"version": "7.0"
+	},
+	"devDependencies": {
+		"gulp": "^3.8.10",
+		"liferay-theme-deps-7.0": "*",
+		"liferay-theme-tasks": "*"
+	}
+}
+```
+
+### baseTheme
+
+Determines the base theme. This property is set by the `extend` task.
+
+### hookModules
+
+The name or names of npm modules. These modules must expose a function that follows the same pattern as a [hookFn](#hookFn).
+
+If a module is listed in `hookModules`, it must also be added to the `devDependencies` of the theme.
+
+### rubySass
+
+If set to true `gulp-ruby-sass` is used as sass compiler. If set to false `gulp-sass` is used.
+
+If changing this property from the default value, the appropriate sass compiler will need to be added as a dev dependency of your theme.
+
+For example, if your theme is intended for Liferay Portal 7.0 and you set `rubySass` to `true`, you will then need to add `gulp-ruby-sass` to the `devDependencies` of your theme and run `npm install`.
+
+### themelets
+
+Determines the themelets that are implemented by this theme. This property is set by the `extend` task.
+
+### version
+
+Version of Liferay Portal this theme is intended for.
+
 ## Additional Theme Dependencies
 
 In order for themes to successfully build, they must declare additional dependencies in their package.json file.
