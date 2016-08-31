@@ -2,15 +2,12 @@
 
 var _ = require('lodash');
 var async = require('async');
+var fs = require('fs-extra');
 var globby = require('globby');
 var npmKeyword = require('npm-keyword');
 var packageJson = require('package-json');
 var path = require('path');
 var spawn = require('cross-spawn');
-
-var lfrThemeConfig = require('./liferay_theme_config');
-
-var themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = {
 	getLiferayThemeModule: function(name, cb) {
@@ -62,6 +59,16 @@ module.exports = {
 		});
 
 		return modules;
+	},
+
+	_getLiferayThemeConfig: function() {
+		var packageJSONContent = fs.readFileSync(path.join(process.cwd(), 'package.json'), {
+			encoding: 'utf8'
+		});
+
+		var packageJSON = JSON.parse(packageJSONContent);
+
+		return packageJSON.liferayTheme;
 	},
 
 	_getNpmPaths: function() {
@@ -119,6 +126,7 @@ module.exports = {
 
 	_isLiferayThemeModule: function(pkg, themelet) {
 		var retVal = false;
+		var themeConfig = _getLiferayThemeConfig();
 
 		if (pkg) {
 			var liferayTheme = pkg.liferayTheme;
