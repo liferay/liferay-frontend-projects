@@ -2,6 +2,9 @@
 * No changes
 ***
 
+## v1.3.7 - September 13, 2016
+* New: implemented sub task for using package.json version number in theme build
+
 ## v1.3.6 - August 16, 2016
 * New: add ability to declare specific theme dependencies in addition to using the preset packages
 
