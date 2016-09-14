@@ -1379,9 +1379,9 @@
       "resolved": "https://registry.npmjs.org/liferay-css-parse/-/liferay-css-parse-1.7.1.tgz"
     },
     "liferay-plugin-node-tasks": {
-      "version": "1.0.6",
+      "version": "1.0.7",
       "from": "liferay-plugin-node-tasks@*",
-      "resolved": "https://registry.npmjs.org/liferay-plugin-node-tasks/-/liferay-plugin-node-tasks-1.0.6.tgz",
+      "resolved": "https://registry.npmjs.org/liferay-plugin-node-tasks/-/liferay-plugin-node-tasks-1.0.7.tgz",
       "dependencies": {
         "async": {
           "version": "2.0.1",

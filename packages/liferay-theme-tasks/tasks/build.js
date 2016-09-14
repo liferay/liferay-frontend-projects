@@ -308,7 +308,15 @@ module.exports = function(options) {
 			.on('end', cb);
 	});
 
-	gulp.task('build:war', ['plugin:war']);
+	gulp.task('build:war', function(done) {
+		var sequence = ['plugin:war', done];
+
+		if (themeConfig.version !== '6.2') {
+			sequence.splice(0, 0, 'plugin:version');
+		}
+
+		runSequence.apply(this, sequence);
+	});
 
 	function getSrcPathConfig() {
 		return {
