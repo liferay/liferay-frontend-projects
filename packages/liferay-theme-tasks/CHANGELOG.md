@@ -1,6 +1,9 @@
 ## Next Release
-* Update: bump version of liferay-plugin-node-tasks to 1.0.9 for hook module improvements
+* No changes
 ***
+
+## v1.3.8 - September 16, 2016
+* Update: bump version of liferay-plugin-node-tasks to 1.0.9 for hook module improvements
 
 ## v1.3.7 - September 13, 2016
 * New: implemented sub task for using package.json version number in theme build
