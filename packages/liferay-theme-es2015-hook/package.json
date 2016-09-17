@@ -1,11 +1,14 @@
 {
-  "name": "liferay-theme-amd-config-hook",
+  "name": "liferay-theme-es2015-hook",
   "version": "1.0.0",
-  "description": "",
+  "description": "A hook for liferay-theme-tasks that allows for es2015 transpilation.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^0.24.0",
+    "gulp-metal": "^1.9.2",
+    "liferay-module-config-generator": "^1.1.10",
+    "run-sequence": "^1.2.2"
+  }
 }
