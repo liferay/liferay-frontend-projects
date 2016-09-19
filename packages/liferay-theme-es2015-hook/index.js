@@ -11,7 +11,7 @@ module.exports = function(gulp, options) {
 	var pathBuild = options.pathBuild;
 	var pathSrc = options.pathSrc;
 
-	gulp.task('configModules', function(done) {
+	gulp.task('config:amd', function(done) {
 		var metaInfPath = path.join(pathBuild, 'META-INF');
 
 		fs.ensureDirSync(metaInfPath);
@@ -43,6 +43,6 @@ module.exports = function(gulp, options) {
 	});
 
 	gulp.hook('after:build:src', function(done) {
-		runSequence('metal:build:amd', 'configModules', done);
+		runSequence('metal:build:amd', 'config:amd', done);
 	});
 };
