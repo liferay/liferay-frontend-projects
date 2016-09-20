@@ -966,16 +966,19 @@ var LoaderProtoMethods = {
      *          </li>
      *     </ul>
      */
-    define: function(name, dependencies, implementation, config) {
+    define: function() {
         var self = this;
+
+        var name = arguments[0];
+        var dependencies = arguments[1];
+        var implementation = arguments[2];
+        var config = arguments[3] || {};
 
         void 0;
 
-        config = config || {};
+        config.anonymous = false;
 
         var passedArgsCount = arguments.length;
-
-        config.anonymous = false;
 
         if (passedArgsCount < 2) {
             void 0;

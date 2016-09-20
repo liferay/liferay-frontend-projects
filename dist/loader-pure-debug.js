@@ -966,16 +966,19 @@ var LoaderProtoMethods = {
      *          </li>
      *     </ul>
      */
-    define: function(name, dependencies, implementation, config) {
+    define: function() {
         var self = this;
+
+        var name = arguments[0];
+        var dependencies = arguments[1];
+        var implementation = arguments[2];
+        var config = arguments[3] || {};
 
         console.log('DEFINE', name, dependencies);
 
-        config = config || {};
+        config.anonymous = false;
 
         var passedArgsCount = arguments.length;
-
-        config.anonymous = false;
 
         if (passedArgsCount < 2) {
             console.log('DEFINE, module with one param only, this should be anonymous module');
@@ -990,7 +993,7 @@ var LoaderProtoMethods = {
                 dependencies = ['module', 'exports'];
                 implementation = arguments[1];
             } else {
-                console.log('DEFINE, module with one param only, this should be anonymous module');
+                console.log('DEFINE, module with two params only - dependencies and implemenetation, anonymous module');
                 dependencies = arguments[0];
                 implementation = arguments[1];
                 config.anonymous = true;
