@@ -5,10 +5,11 @@
   "main": "index.js",
   "name": "liferay-theme-finder",
   "scripts": {
-    "test": "mocha test"
+    "test": "ava"
   },
   "version": "1.0.0",
   "dependencies": {
+    "ava": "^0.15.2",
     "async": "^2.0.1",
     "cross-spawn": "^4.0.0",
     "fs-extra": "^0.24.0",

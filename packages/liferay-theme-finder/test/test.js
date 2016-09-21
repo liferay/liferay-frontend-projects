@@ -12,11 +12,11 @@ test.after(function() {
 });
 
 test.before(function() {
-	delete require.cache[path.join(__dirname, '../../lib/theme_finder.js')];
+	delete require.cache[path.join(__dirname, '../index.js')];
 
-	process.chdir(path.join(__dirname, '../fixtures/themes/7.0/base-theme'));
+	process.chdir(path.join(__dirname, 'fixtures/themes/7.0/base-theme'));
 
-	themeFinder = require('../../lib/theme_finder.js');
+	themeFinder = require('../index.js');
 });
 
 test.cb('name should retrieve package.json file from npm', function(t) {
