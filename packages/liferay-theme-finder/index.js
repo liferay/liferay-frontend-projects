@@ -10,21 +10,7 @@ var path = require('path');
 var spawn = require('cross-spawn');
 
 module.exports = {
-	getLiferayThemeModule: function(name, cb) {
-		this._getPackageJSON({
-			name: name
-		}, function(err, pkg) {
-			if ((pkg && !pkg.liferayTheme) || (pkg && !_.contains(pkg.keywords, 'liferay-theme'))) {
-				pkg = null;
-
-				err = new Error('Package is not a Liferay theme or themelet module');
-			}
-
-			cb(err, pkg);
-		});
-	},
-
-	getLiferayThemeModules: function(config, cb) {
+	find: function(config, cb) {
 		if (_.isUndefined(cb)) {
 			cb = config;
 
@@ -35,12 +21,12 @@ module.exports = {
 
 		config.keyword = config.keyword || 'liferay-theme';
 
-		var searchFn = globalModules ? this._seachGlobalModules : this._searchNpm;
+		var searchFn = globalModules ? this.seachGlobalModules : this.searchNpm;
 
 		searchFn.call(this, config, cb);
 	},
 
-	_findThemeModulesIn: function(paths) {
+	findThemeModulesIn: function(paths) {
 		var modules = [];
 
 		_.forEach(paths, function(rootPath) {
@@ -61,7 +47,7 @@ module.exports = {
 		return modules;
 	},
 
-	_getLiferayThemeConfig: function() {
+	getLiferayThemeConfig: function() {
 		var packageJSONContent = fs.readFileSync(path.join(process.cwd(), 'package.json'), {
 			encoding: 'utf8'
 		});
@@ -71,7 +57,7 @@ module.exports = {
 		return packageJSON.liferayTheme;
 	},
 
-	_getNpmPaths: function() {
+	getNpmPaths: function() {
 		var paths = [];
 
 		var win32 = process.platform === 'win32';
@@ -112,7 +98,7 @@ module.exports = {
 		return paths.reverse();
 	},
 
-	_getPackageJSON: function(theme, cb) {
+	getPackageJSON: function(theme, cb) {
 		packageJson(theme.name, '*', function(err, pkg) {
 			if (err) {
 				cb(err);
@@ -124,7 +110,7 @@ module.exports = {
 		});
 	},
 
-	_isLiferayThemeModule: function(pkg, themelet) {
+	isLiferayThemeModule: function(pkg, themelet) {
 		var retVal = false;
 		var themeConfig = _getLiferayThemeConfig();
 
@@ -150,13 +136,27 @@ module.exports = {
 		return retVal;
 	},
 
-	_matchesSearchTerms: function(pkg, searchTerms) {
+	matchesSearchTerms: function(pkg, searchTerms) {
 		var description = pkg.description;
 
 		return pkg.name.indexOf(searchTerms) > -1 || (description && description.indexOf(searchTerms) > -1);
 	},
 
-	_reduceModuleResults: function(modules, config) {
+	name: function(name, cb) {
+		this.getPackageJSON({
+			name: name
+		}, function(err, pkg) {
+			if ((pkg && !pkg.liferayTheme) || (pkg && !_.contains(pkg.keywords, 'liferay-theme'))) {
+				pkg = null;
+
+				err = new Error('Package is not a Liferay theme or themelet module');
+			}
+
+			cb(err, pkg);
+		});
+	},
+
+	reduceModuleResults: function(modules, config) {
 		var instance = this;
 
 		var searchTerms = config.searchTerms;
@@ -181,10 +181,10 @@ module.exports = {
 		}, {});
 	},
 
-	_seachGlobalModules: function(config, cb) {
+	seachGlobalModules: function(config, cb) {
 		var instance = this;
 
-		var modules = this._findThemeModulesIn(this._getNpmPaths());
+		var modules = this.findThemeModulesIn(this.getNpmPaths());
 
 		modules = _.reduce(modules, function(result, item) {
 			try {
@@ -203,7 +203,7 @@ module.exports = {
 		cb(instance._reduceModuleResults(modules, config));
 	},
 
-	_searchNpm: function(config, cb) {
+	searchNpm: function(config, cb) {
 		var instance = this;
 
 		npmKeyword(config.keyword)

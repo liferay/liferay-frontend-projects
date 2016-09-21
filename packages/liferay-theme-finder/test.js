@@ -19,10 +19,10 @@ test.before(function() {
 	themeFinder = require('../../lib/theme_finder.js');
 });
 
-test.cb('getLiferayThemeModule should retrieve package.json file from npm', function(t) {
+test.cb('name should retrieve package.json file from npm', function(t) {
 	var pkgName = 'lfr-product-menu-animation-themelet';
 
-	themeFinder.getLiferayThemeModule(pkgName, function(err, pkg) {
+	themeFinder.name(pkgName, function(err, pkg) {
 		t.true(_.isNull(err), 'error is null');
 		t.true(_.isObject(pkg.liferayTheme), 'liferayTheme object is present');
 		t.true(pkg.keywords.indexOf('liferay-theme') > -1, 'package has liferay-theme keyword');
@@ -32,8 +32,8 @@ test.cb('getLiferayThemeModule should retrieve package.json file from npm', func
 	});
 });
 
-test.cb('getLiferayThemeModule should return error because module does not exist', function(t) {
-	themeFinder.getLiferayThemeModule('fake-themelet-123', function(err, pkg) {
+test.cb('name should return error because module does not exist', function(t) {
+	themeFinder.name('fake-themelet-123', function(err, pkg) {
 		t.true(_.isUndefined(pkg), 'pkg is undefined');
 		t.is(err.message, 'Package or version doesn\'t exist', 'it has appropriate error message');
 
@@ -41,8 +41,8 @@ test.cb('getLiferayThemeModule should return error because module does not exist
 	});
 });
 
-test.cb('getLiferayThemeModule should return error because module is not a liferay theme module', function(t) {
-	themeFinder.getLiferayThemeModule('generator-liferay-theme', function(err, pkg) {
+test.cb('name should return error because module is not a liferay theme module', function(t) {
+	themeFinder.name('generator-liferay-theme', function(err, pkg) {
 		t.true(_.isNull(pkg), 'pkg is null');
 		t.is(err.message, 'Package is not a Liferay theme or themelet module', 'it has appropriate error message');
 
@@ -50,16 +50,16 @@ test.cb('getLiferayThemeModule should return error because module is not a lifer
 	});
 });
 
-test.cb('getLiferayThemeModules should return an object when searching for global modules', function(t) {
-	themeFinder.getLiferayThemeModules(function(themeResults) {
+test.cb('find should return an object when searching for global modules', function(t) {
+	themeFinder.find(function(themeResults) {
 		t.true(_.isObject(themeResults));
 
 		t.end();
 	});
 });
 
-test.cb('getLiferayThemeModules should return an object when searching for npm modules', function(t) {
-	themeFinder.getLiferayThemeModules({
+test.cb('find should return an object when searching for npm modules', function(t) {
+	themeFinder.find({
 		globalModules: false,
 		themelet: true
 	}, function(themeResults) {
