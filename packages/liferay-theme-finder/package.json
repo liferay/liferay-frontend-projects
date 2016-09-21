@@ -7,6 +7,11 @@
   "scripts": {
     "test": "ava"
   },
+  "ava": {
+    "files": [
+      "test/test.js"
+    ]
+  },
   "version": "1.0.0",
   "dependencies": {
     "ava": "^0.15.2",
