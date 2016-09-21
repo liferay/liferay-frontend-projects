@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var del = require('del');
 var GogoShell = require('gogo-shell');
 var os = require('os');
 var path = require('path');
@@ -25,7 +26,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 
 		return this._getWebBundleData(false)
 			.then(function(data) {
-				return data.id ? instance._stopBundle(data.id) : data;
+				return data.id ? instance._uninstallBundle(data.id) : data;
 			})
 			.then(this._installWebBundleDir.bind(this))
 			.then(function(data) {
@@ -38,20 +39,21 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			});
 	},
 
-	undeploy: function() {
-		var instance = this;
+	uninstall: function(warPath, distName) {
+		var delPath = del.sync(warPath, {
+			dryRun: true,
+			force: true
+		});
 
-		return this._getWebBundleData(true)
-			.then(function(data) {
-				return data.id ? instance._uninstallBundle(data.id) : data;
-			})
-			.then(this._getWebBundleData.bind(this, false))
-			.then(function(data) {
-				return data.id ? instance._startBundle(data.id) : data;
-			})
-			.then(function() {
-				instance.end();
-			});
+		if (!delPath.length) {
+			return;
+		}
+
+		del.sync(warPath, {
+			force: true
+		});
+
+		return this._waitForUninstall(distName);
 	},
 
 	_formatWebBundleDirCommand: function(themePath) {
@@ -132,6 +134,20 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 
 	_uninstallBundle: function(bundleId) {
 		return this.sendCommand('uninstall', bundleId);
+	},
+
+	_waitForUninstall: function(distName) {
+		var instance = this;
+
+		return this.sendCommand('lb ' + distName)
+			.delay(200)
+			.then(function(data) {
+				if (data.indexOf('No matching bundles found') < 0) {
+					return instance._waitForUninstall(distName);
+				}
+
+				return;
+			});
 	}
 });
 

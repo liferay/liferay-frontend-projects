@@ -37,6 +37,8 @@ module.exports = function(options) {
 
 	var webBundleDir = path.join(process.cwd(), webBundleDirName);
 
+	var connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
+
 	gulp.task('watch', function() {
 		options.watching = true;
 
@@ -46,12 +48,10 @@ module.exports = function(options) {
 		else {
 			store.set('appServerPathPlugin', webBundleDir);
 
-			runSequence('build', 'watch:clean', 'watch:setup', function(err) {
+			runSequence('build', 'watch:clean', 'watch:osgi:clean', 'watch:setup', function(err) {
 				if (err) {
 					throw err;
 				}
-
-				var connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
 
 				var watchSocket = startWatchSocket();
 
@@ -72,29 +72,29 @@ module.exports = function(options) {
 		del([webBundleDir], cb);
 	});
 
+	gulp.task('watch:osgi:clean', function(cb) {
+		var watchSocket = startWatchSocket();
+
+		watchSocket.connect(connectParams)
+			.then(function() {
+				var distName = options.distName;
+
+				var warPath = path.join(store.get('appServerPath'), '..', 'osgi', 'war', distName + '.war');
+
+				return watchSocket.uninstall(warPath, distName);
+			})
+			.then(cb);
+	});
+
 	gulp.task('watch:setup', function() {
 		return gulp.src(path.join(pathBuild, '**/*'))
 			.pipe(gulp.dest(webBundleDir));
 	});
 
 	gulp.task('watch:teardown', function(cb) {
-		var watchSocket = startWatchSocket();
+		store.set('webBundleDir');
 
-		var end = function() {
-			watchSocket.end();
-
-			cb();
-		};
-
-		watchSocket.connect(CONNECT_PARAMS)
-			.then(function() {
-				return watchSocket.undeploy();
-			})
-			.then(function() {
-				store.set('webBundleDir');
-
-				runSequence('watch:clean', end);
-			});
+		runSequence('watch:clean', cb);
 	});
 
 	function clearChangedFile() {
