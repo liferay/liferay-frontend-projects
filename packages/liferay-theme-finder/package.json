@@ -16,8 +16,7 @@
     "globby": "^6.0.0",
     "lodash": "^4.15.0",
     "npm-keyword": "^4.2.0",
-    "package-json": "^2.4.0",
-    "path": "^0.12.7"
+    "package-json": "^2.4.0"
   },
   "devDependencies": {
     "ava": "^0.16.0"
