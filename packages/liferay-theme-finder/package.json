@@ -14,14 +14,14 @@
   },
   "version": "1.0.0",
   "dependencies": {
-    "ava": "^0.15.2",
     "async": "^2.0.1",
+    "ava": "^0.15.2",
     "cross-spawn": "^4.0.0",
     "fs-extra": "^0.24.0",
     "globby": "^6.0.0",
     "lodash": "^4.15.0",
     "npm-keyword": "^4.2.0",
-    "package-json": "^2.4.0"
+    "package-json": "^1.2.0"
   },
   "devDependencies": {
     "ava": "^0.16.0"
