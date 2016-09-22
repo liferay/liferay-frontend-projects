@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Fix: address regression with gulp watch task
+* Update: bump version of liferay-plugin-node-tasks to 1.0.10 for gulp init improvements
 ***
 
 ## v1.3.8 - September 16, 2016
