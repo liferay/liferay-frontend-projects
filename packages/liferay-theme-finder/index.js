@@ -30,7 +30,7 @@ module.exports = {
 		this._getPackageJSON({
 			name: name
 		}, function(err, pkg) {
-			if ((pkg && !pkg.liferayTheme) || (pkg && !_.contains(pkg.keywords, 'liferay-theme'))) {
+			if ((pkg && !pkg.liferayTheme) || (pkg && !_.includes(pkg.keywords, 'liferay-theme'))) {
 				pkg = null;
 
 				err = new Error('Package is not a Liferay theme or themelet module');
@@ -137,7 +137,7 @@ module.exports = {
 
 			var liferayThemeVersion = liferayTheme.version;
 
-			if (_.isArray(liferayThemeVersion) && !_.contains(liferayThemeVersion, themeConfig.version)) {
+			if (_.isArray(liferayThemeVersion) && !_.includes(liferayThemeVersion, themeConfig.version)) {
 				return retVal;
 			}
 			else if (!_.isArray(liferayThemeVersion) && (liferayThemeVersion !== '*') && (liferayThemeVersion !== themeConfig.version)) {
