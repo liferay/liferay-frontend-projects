@@ -6,11 +6,20 @@
   "name": "liferay-theme-finder",
   "scripts": {
     "coveralls": "gulp coveralls",
-    "test": "ava"
+    "test": "nyc ava"
   },
   "ava": {
     "files": [
       "test/test.js"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "index.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
     ]
   },
   "version": "1.0.0",
@@ -26,6 +35,7 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
-    "gulp-coveralls": "^0.1.4"
+    "gulp-coveralls": "^0.1.4",
+    "nyc": "^6.4.4"
   }
 }
