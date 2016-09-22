@@ -37,6 +37,7 @@ test.cb.before(function(t) {
 		appServerPathPlugin = path.join(tempPath, '../appserver');
 
 		config.gulp.storage.set({
+			appServerPath: tempPath,
 			appServerPathPlugin: appServerPathPlugin,
 			deployed: true
 		});
@@ -70,6 +71,10 @@ test.cb('watch task should start watch socket', function(t) {
 			{
 				command: 'lb -u | grep',
 				response: '123|Active|1|install webbundle:file///path/to/base-theme.war'
+			},
+			{
+				command: 'lb base-theme',
+				response: 'No matching bundles found'
 			}
 		]
 	});

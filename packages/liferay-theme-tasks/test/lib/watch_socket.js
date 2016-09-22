@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var assert = require('assert');
+var del = require('del');
 var path = require('path');
 var Promise = require('bluebird');
 var sinon = require('sinon');
@@ -98,17 +99,27 @@ test.cb('deploy should run deploy commands in order', function(t) {
 	prototype.deploy();
 });
 
-test.cb('undeploy should run undeploy commands in order', function(t) {
-	mockSendCommand([
-		'lb -u | grep webbundledir:file.*base-theme',
-		'uninstall 473',
-		'lb -u | grep webbundle:file.*base-theme',
-		'start 474'
-	]);
+test('uninstall only waits for uninstall if war file existed', function(t) {
+	sinon.stub(del, 'sync');
+	del.sync.returns([]);
+	prototype._waitForUninstall = sinon.spy();
 
-	prototype.end = t.end;
+	prototype.uninstall('path/to/my-theme.war', 'my-theme');
 
-	prototype.undeploy();
+	t.true(del.sync.calledOnce);
+	t.true(prototype._waitForUninstall.notCalled);
+
+	del.sync.reset();
+
+	del.sync.returns(['path/to/my-theme.war']);
+
+	prototype.uninstall('path/to/my-theme.war', 'my-theme');
+
+	t.true(del.sync.calledTwice);
+	t.true(prototype._waitForUninstall.calledOnce);
+	t.true(prototype._waitForUninstall.calledWith('my-theme'));
+
+	del.sync.restore();
 });
 
 test('_formatWebBundleDirCommand should properly format install command based on os platform', function(t) {
@@ -225,4 +236,30 @@ test('_uninstallBundle should pass arguments to gogoShell.sendCommand', function
 
 	t.true(prototype.sendCommand.calledWith('uninstall', '123'), 'sendCommand called with correct args');
 	t.is(prototype.sendCommand.callCount, 1, 'sendCommand was only invoked once');
+});
+
+test.cb('_waitForUninstall should recursively check if module has been uninstalled', function(t) {
+	var i = 0;
+	var response = '';
+
+	prototype.sendCommand = function(command) {
+		i++;
+
+		t.is(command, 'lb my-theme');
+
+		return new Promise(function(resolve, reject) {
+			if (i > 2) {
+				response = 'No matching bundles found';
+			}
+
+			resolve(response);
+		});
+	}
+
+	prototype._waitForUninstall('my-theme')
+		.then(function(data) {
+			t.is(i, 3);
+
+			t.end();
+		});
 });
