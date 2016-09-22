@@ -5,6 +5,7 @@
   "main": "index.js",
   "name": "liferay-theme-finder",
   "scripts": {
+    "coveralls": "gulp coveralls",
     "test": "ava"
   },
   "ava": {
@@ -24,6 +25,7 @@
     "package-json": "^1.2.0"
   },
   "devDependencies": {
-    "ava": "^0.16.0"
+    "ava": "^0.16.0",
+    "gulp-coveralls": "^0.1.4"
   }
 }
