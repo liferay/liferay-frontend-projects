@@ -4,6 +4,7 @@
   "license": "ISC",
   "main": "index.js",
   "name": "liferay-theme-finder",
+  "repository": "Robert-Frampton/liferay-theme-finder",
   "scripts": {
     "coveralls": "gulp coveralls",
     "test": "nyc ava"
