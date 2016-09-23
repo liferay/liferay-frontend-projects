@@ -21,7 +21,7 @@ module.exports = {
 
 		config.keyword = config.keyword || 'liferay-theme';
 
-		var searchFn = globalModules ? this._seachGlobalModules : this._searchNpm;
+		var searchFn = globalModules ? this._searchGlobalModules : this._searchNpm;
 
 		searchFn.call(this, config, cb);
 	},
@@ -181,7 +181,7 @@ module.exports = {
 		}, {});
 	},
 
-	_seachGlobalModules: function(config, cb) {
+	_searchGlobalModules: function(config, cb) {
 		var instance = this;
 
 		var modules = this._findThemeModulesIn(this._getNpmPaths());
