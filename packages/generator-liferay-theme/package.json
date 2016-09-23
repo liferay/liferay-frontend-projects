@@ -55,9 +55,5 @@
     "gulp-mocha": "^2.2.0",
     "sinon": "^1.17.3",
     "strip-ansi": "^3.0.1"
-  },
-  "peerDependencies": {
-    "gulp": ">=3.5.0",
-    "yo": ">=1.0.0"
   }
 }
