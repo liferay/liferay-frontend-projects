@@ -6,7 +6,6 @@ var fs = require('fs');
 var minimist = require('minimist');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
 var util = require('util');
 
 var liferayThemeGeneratorPrototype = _.cloneDeep(require('../app/index').prototype);
