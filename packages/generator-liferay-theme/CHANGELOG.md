@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v7.1.9 - September 23, 2016
 * Fix: removes slug as a dependency as it caused issues on windows environments
 * Update: removed peerDependencies as it is no longer supported by npm
-***
 
 ## v7.1.8 - June 21, 2016
 * New: removed default resources-importer files from generated themes
