@@ -5,7 +5,6 @@ var chalk = require('chalk');
 var Insight = require('insight');
 var minimist = require('minimist');
 var path = require('path');
-var slug = require('slug');
 var updateNotifier = require('update-notifier');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
@@ -149,7 +148,7 @@ module.exports = yeoman.generators.Base.extend({
 			},
 			{
 				default: function(answers) {
-					return slug((answers.themeName || '').toLowerCase());
+					return _.kebabCase(_.deburr(answers.themeName || ''));
 				},
 				message: 'Would you like to use this as the themeId?',
 				name: 'themeId',

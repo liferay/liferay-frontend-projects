@@ -6,7 +6,6 @@ var fs = require('fs');
 var LayoutCreator = require('../../lib/layout_creator');
 var minimist = require('minimist');
 var path = require('path');
-var slug = require('slug');
 var yeoman = require('yeoman-generator');
 
 var liferayThemeGeneratorPrototype = _.cloneDeep(require('../app/index').prototype);
@@ -104,7 +103,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			},
 			{
 				default: function(answers) {
-					return slug((answers.layoutName || '').toLowerCase());
+					return _.kebabCase(_.deburr(answers.themeName || ''));
 				},
 				message: 'Would you like to use this as the layout template id?',
 				name: 'layoutId',
