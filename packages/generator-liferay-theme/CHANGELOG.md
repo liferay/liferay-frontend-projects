@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Fix: removes slug as a dependency as it caused issues on windows environments
+* Update: removed peerDependencies as it is no longer supported by npm
 ***
 
 ## v7.1.8 - June 21, 2016
