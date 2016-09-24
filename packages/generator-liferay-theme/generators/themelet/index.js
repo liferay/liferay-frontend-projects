@@ -3,9 +3,7 @@
 var _ = require('lodash');
 var chalk = require('chalk');
 var path = require('path');
-var slug = require('slug');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
 
 var liferayThemeGeneratorPrototype = _.cloneDeep(require('../app/index').prototype);
 
