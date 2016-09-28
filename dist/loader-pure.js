@@ -1289,7 +1289,19 @@ var LoaderProtoMethods = {
      * @return {Any} The retrieved value.
      */
     _getValueGlobalNS: function(exports) {
-        return (0, eval)('this')[exports];
+        var exportVariables = exports.split('.');
+
+        var tmpVal = (0, eval)('this')[exportVariables[0]];
+
+        for (var i = 1; tmpVal && i < exportVariables.length; i++) {
+            if (Object.prototype.hasOwnProperty.call(tmpVal, exportVariables[i])) {
+                tmpVal = tmpVal[exportVariables[i]];
+            } else {
+                return null;
+            }
+        }
+
+        return tmpVal;
     },
 
     /**
