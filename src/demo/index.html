@@ -35,6 +35,19 @@
                 console.error(error);
             });
 
+            Loader.addModule({
+                dependencies: [],
+                exports: 'jquery.labelauty.prop1',
+                name: 'labelauty',
+                path: '/modules2/labelauty'
+            });
+
+            require(['labelauty'], function(labelauty) {
+                console.log(labelauty);
+            }, function(error) {
+                console.error(error);
+            });
+
             require(['impl_as_object'], function(impl_as_object) {
                 console.log('Loaded "impl_as_object" - a module with implementation as an object', impl_as_object);
             }, function(error) {

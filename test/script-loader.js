@@ -580,6 +580,36 @@ describe('Loader', function() {
         }, 50);
     });
 
+    it('should load modules which export multiple level variable', function(done) {
+        Loader.addModule({
+            dependencies: [],
+            exports: 'jquery.labelauty.prop1',
+            name: 'labelauty',
+            path: '/modules2/labelauty.js'
+        });
+
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.stub();
+
+        Loader.require(['labelauty'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called');
+            assert.property(global, 'jquery');
+            assert.property(global.jquery, 'labelauty');
+            assert.property(global.jquery.labelauty, 'prop1');
+
+            var modules = Loader.getModules();
+            assert.property(modules['labelauty'], 'implementation');
+
+            delete global['jquery'];
+            done();
+        }, 50);
+    });
+
     it('should load modules which don\'t expose a define function twice', function(done) {
         Loader.addModule({
             dependencies: [],
