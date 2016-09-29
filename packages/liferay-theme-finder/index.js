@@ -20,6 +20,7 @@ module.exports = {
 		var globalModules = _.isUndefined(config.globalModules) ? true : config.globalModules;
 
 		config.keyword = config.keyword || 'liferay-theme';
+		config.version = config.version || '*';
 
 		var searchFn = globalModules ? this._searchGlobalModules : this._searchNpm;
 
@@ -59,16 +60,6 @@ module.exports = {
 		});
 
 		return modules;
-	},
-
-	_getLiferayThemeConfig: function() {
-		var packageJSONContent = fs.readFileSync(path.join(process.cwd(), 'package.json'), {
-			encoding: 'utf8'
-		});
-
-		var packageJSON = JSON.parse(packageJSONContent);
-
-		return packageJSON.liferayTheme;
 	},
 
 	_getNpmPaths: function() {
@@ -126,21 +117,11 @@ module.exports = {
 
 	_isLiferayThemeModule: function(pkg, themelet) {
 		var retVal = false;
-		var themeConfig = this._getLiferayThemeConfig();
 
 		if (pkg) {
 			var liferayTheme = pkg.liferayTheme;
 
 			if (!liferayTheme) {
-				return retVal;
-			}
-
-			var liferayThemeVersion = liferayTheme.version;
-
-			if (_.isArray(liferayThemeVersion) && !_.includes(liferayThemeVersion, themeConfig.version)) {
-				return retVal;
-			}
-			else if (!_.isArray(liferayThemeVersion) && (liferayThemeVersion !== '*') && (liferayThemeVersion !== themeConfig.version)) {
 				return retVal;
 			}
 
@@ -165,7 +146,7 @@ module.exports = {
 		return _.reduce(modules, function(result, item) {
 			var valid = false;
 
-			if (instance._isLiferayThemeModule(item, themelet)) {
+			if (instance._isLiferayThemeModule(item, themelet) && instance._validateVersion(item, config.version)) {
 				valid = true;
 			}
 
@@ -220,5 +201,22 @@ module.exports = {
 					cb(themeResults);
 				});
 			});
+	},
+
+	_validateVersion: function(pkg, version) {
+		var liferayThemeVersion = pkg.liferayTheme.version;
+		var valid = false;
+
+		if (
+			version === '*' ||
+			liferayThemeVersion === version ||
+			_.isArray(version) && _.includes(version, liferayThemeVersion) ||
+			_.isArray(liferayThemeVersion) && _.includes(liferayThemeVersion, version) ||
+			_.intersection(version, liferayThemeVersion).length
+		) {
+			valid = true;
+		}
+
+		return valid;
 	}
 };
