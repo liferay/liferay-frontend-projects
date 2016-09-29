@@ -181,7 +181,7 @@ module.exports = {
 			return result;
 		}, []);
 
-		cb(instance._reduceModuleResults(modules, config));
+		cb(null, instance._reduceModuleResults(modules, config));
 	},
 
 	_searchNpm: function(config, cb) {
@@ -198,7 +198,7 @@ module.exports = {
 
 					var themeResults = instance._reduceModuleResults(results, config);
 
-					cb(themeResults);
+					cb(err, themeResults);
 				});
 			});
 	},
