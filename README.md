@@ -285,5 +285,12 @@ __CONFIG__.reportMismatchedAnonymousModules = 'error';
 __CONFIG__.reportMismatchedAnonymousModules = 'off';
 ```
 
+Namespacing the Loader
+======
+Setting `namespace` property of the config to a value as a string will expose the Loader to this variable, instead directly to window. For example, if `namespace` is set to "VM", the Loader will be available as `window.VM.Loader`.
+
+Exposing Loader globally
+======
+Setting `exposeGlobal` property of the config will expose the Loader to the window, among with the `define` and `require` functions. By default the value of this property is true. For example, there will be `window.Loader`, `window.require` and `window.define` methods in case `exposeGlobal` is unset or set to true. Otherwise, these will be undefined.
 
 [![Build Status](https://travis-ci.org/liferay/liferay-amd-loader.svg)](https://travis-ci.org/liferay/liferay-amd-loader)
