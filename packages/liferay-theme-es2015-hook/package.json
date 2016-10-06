@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-es2015-hook",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A hook for liferay-theme-tasks that allows for es2015 transpilation and amd module configuration.",
   "main": "index.js",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
