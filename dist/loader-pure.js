@@ -1748,7 +1748,28 @@ Object.keys(LoaderProtoMethods).forEach(function(key) {
     return Loader;
 }));
 
-	window.Loader = global.Loader;
-    window.require = global.require;
-    window.define = global.define;
+	var namespace = null;
+	var exposeGlobal = true;
+
+	if (typeof global.__CONFIG__ === 'object') {
+		if (typeof global.__CONFIG__.namespace === 'string') {
+			namespace = global.__CONFIG__.namespace;
+		}
+
+		if (typeof global.__CONFIG__.exposeGlobal === 'boolean') {
+			exposeGlobal = global.__CONFIG__.exposeGlobal;
+		}
+	}
+
+	if (namespace) {
+		window[global.__CONFIG__.namespace] = {Loader: global.Loader};
+	} else {
+		window.Loader = global.Loader;
+	}
+
+	if (exposeGlobal) {
+		window.Loader = global.Loader;
+	    window.require = global.require;
+	    window.define = global.define;
+	}
 }());
