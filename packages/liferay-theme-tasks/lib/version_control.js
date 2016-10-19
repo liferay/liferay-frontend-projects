@@ -25,5 +25,6 @@ module.exports = function() {
 		}
 	}
 	catch (err) {
+		process.stdout.write(err);
 	}
 };
