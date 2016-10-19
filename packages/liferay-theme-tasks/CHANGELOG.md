@@ -1,5 +1,5 @@
 ## Next Release
-* No changes
+* Fix: preventing potential update-notifier errors from breaking build
 ***
 
 ## v1.3.9 - September 22, 2016
