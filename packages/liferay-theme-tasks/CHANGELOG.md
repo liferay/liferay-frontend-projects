@@ -1,7 +1,10 @@
 ## Next Release
+* No changes
+***
+
+## v1.3.10 - October 19, 2016
 * Fix: preventing potential update-notifier errors from breaking build
 * New: allow devs to skip update-notifier with --skip-update-check CLI flag
-***
 
 ## v1.3.9 - September 22, 2016
 * Fix: address regression with gulp watch task
