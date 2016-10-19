@@ -1,5 +1,6 @@
 ## Next Release
 * Fix: preventing potential update-notifier errors from breaking build
+* New: allow devs to skip update-notifier with --skip-update-check CLI flag
 ***
 
 ## v1.3.9 - September 22, 2016

@@ -44,7 +44,9 @@ function register(options) {
 
 	doctor(null, halt);
 
-	process.once('beforeExit', function() {
-		versionControl();
-	});
+	if (!options.argv['skip-update-check']) {
+		process.once('beforeExit', function() {
+			versionControl();
+		});
+	}
 }
