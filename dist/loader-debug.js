@@ -2917,14 +2917,16 @@ Object.keys(LoaderProtoMethods).forEach(function(key) {
 	}
 
 	if (namespace) {
-		window[global.__CONFIG__.namespace] = {Loader: global.Loader};
+		var ns = window[global.__CONFIG__.namespace] ? window[global.__CONFIG__.namespace] : {};
+		ns.Loader = global.Loader;
+		window[global.__CONFIG__.namespace] = ns;
 	} else {
 		window.Loader = global.Loader;
 	}
 
 	if (exposeGlobal) {
 		window.Loader = global.Loader;
-	    window.require = global.require;
-	    window.define = global.define;
+		window.require = global.require;
+		window.define = global.define;
 	}
 }());
