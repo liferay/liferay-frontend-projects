@@ -73,7 +73,7 @@ gulp.task('create-loader-debug', ['create-loader-pure-debug'], function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('create-loader-min', ['create-loader', 'create-loader-pure-min'], function() {
+gulp.task('create-loader-min', ['create-loader', 'create-loader-pure-min', 'copy-es6promise-map'], function() {
     return gulp.src('dist/loader.js')
         .pipe(uglify())
         .pipe(rename('loader-min.js'))
@@ -119,6 +119,14 @@ gulp.task('create-loader-pure-wrapped', ['jsdoc', 'wrap-event-emitter', 'wrap-co
         ])
         .pipe(concat('loader-pure-wrapped.js'))
         .pipe(gulp.dest('dist'));
+});
+
+
+gulp.task('copy-es6promise-map', function() {
+    return gulp.src([
+        'node_modules/es6-promise/dist/es6-promise.map'
+    ])
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('jsdoc', function() {

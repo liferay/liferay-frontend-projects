@@ -24,13 +24,15 @@
     "url": "https://github.com/liferay/liferay-amd-loader/issues"
   },
   "homepage": "https://github.com/liferay/liferay-amd-loader",
+  "dependencies": {
+    "es6-promise": "^4.0.5"
+  },
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-amd": "^6.3.13",
     "chai": "^3.0.0",
     "combohandler": "^0.4.0",
     "dateformat": "^1.0.12",
     "del": "^2.2.0",
-    "es6-promise": "^3.0.2",
     "escodegen": "^1.6.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
