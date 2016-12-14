@@ -2,8 +2,13 @@
 
 var ConfigGenerator = require('liferay-module-config-generator/lib/config-generator');
 var fs = require('fs-extra');
+var gutil = require('gulp-util');
 var metal = require('gulp-metal');
 var path = require('path');
+
+var chalk = gutil.colors;
+
+var REGEX_PROVIDE_CAPABILITY = /(Provide-Capability=)(.*)/;
 
 module.exports = function(gulp, options) {
 	var runSequence = require('run-sequence').use(gulp);
@@ -33,6 +38,40 @@ module.exports = function(gulp, options) {
 		});
 	});
 
+	gulp.task('provide-capability-property', function(done) {
+		var filePath = path.join(pathBuild, 'WEB-INF', 'liferay-plugin-package.properties');
+
+		fs.readFile(filePath, {
+			encoding: 'utf8'
+		}, function(err, result) {
+			if (err) {
+				throw err;
+			}
+
+			if (REGEX_PROVIDE_CAPABILITY.test(result)) {
+				result = result.replace(
+					REGEX_PROVIDE_CAPABILITY,
+					'$1' + 'osgi.webresource;osgi.webresource=' + options.distName
+				);
+
+				gutil.log(
+					chalk.yellow('Warning:'),
+					chalk.cyan('Provide-Capability'),
+					'property found in',
+					chalk.cyan('liferay-plugin-package.properties'),
+					'. This property is set automatically and should be removed.'
+				);
+			}
+			else {
+				result += '\nProvide-Capability=osgi.webresource;osgi.webresource=' + options.distName;
+			}
+
+			fs.writeFileSync(filePath, result);
+
+			done();
+		});
+	});
+
 	metal.registerTasks({
 		base: path.join(pathSrc, 'js'),
 		buildAmdDest: path.join(pathBuild),
@@ -43,6 +82,11 @@ module.exports = function(gulp, options) {
 	});
 
 	gulp.hook('after:build:src', function(done) {
-		runSequence('metal:build:amd', 'config:amd', done);
+		runSequence(
+			'metal:build:amd',
+			'config:amd',
+			'provide-capability-property',
+			done
+		);
 	});
 };
