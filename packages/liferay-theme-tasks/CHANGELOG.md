@@ -1,5 +1,6 @@
 ## Next Release
-* No changes
+* Fix: addressed error thrown by extend task when no globally installed themes are found
+* New: allows sassOptions to be function that receives default options as arg
 ***
 
 ## v1.3.10 - October 19, 2016
