@@ -70,6 +70,12 @@ ExtendPrompt.prototype = {
 		var module = answers.module;
 		var modulePackages = answers.modules;
 
+		if (!module) {
+			instance.done();
+
+			return;
+		}
+
 		if (_.isObject(baseTheme)) {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
 		}

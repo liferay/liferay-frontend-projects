@@ -141,6 +141,15 @@ test('_afterPromptTheme should save and install new dependencies', function(t) {
 	lfrThemeConfig.setConfig = setConfig;
 });
 
+test.cb('_afterPromptTheme should end task and not throw error if no module was found', function(t) {
+	prototype.done = t.end;
+
+	prototype._afterPromptTheme({
+		module: null,
+		modules: {}
+	});
+});
+
 test('_afterPromptThemelets should remove unchecked themelets from package.json and save new themelet dependencies', function(t) {
 	var removeDependencies = lfrThemeConfig.removeDependencies;
 	var setConfig = lfrThemeConfig.setConfig;
