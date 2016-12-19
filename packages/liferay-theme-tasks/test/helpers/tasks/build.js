@@ -5,6 +5,7 @@ var chai = require('chai');
 var fs = require('fs-extra');
 var parseString = require('xml2js').parseString;
 var path = require('path');
+var sinon = require('sinon');
 
 var testUtil = require('../../util');
 
@@ -28,12 +29,27 @@ _.assign(helper, {
 		var themeName = config.themeName;
 		version = config.version;
 
+		var sassOptionsSpy = sinon.spy();
+
 		test.cb.before(function(t) {
 			testUtil.cleanTempTheme(themeName, version, namespace);
 
 			testUtil.copyTempTheme({
 				namespace: namespace,
 				registerTasksOptions: {
+					sassOptions: function(defaults) {
+						sassOptionsSpy();
+
+						if (rubySass) {
+							assert(defaults.compass, 'assert default sassOptions');
+							assert(defaults.loadPath, 'assert default sassOptions');
+						}
+						else {
+							assert(defaults.includePaths, 'assert default sassOptions');
+						}
+
+						return defaults;
+					},
 					hookFn: hookFn,
 					rubySass: rubySass
 				},
@@ -58,6 +74,8 @@ _.assign(helper, {
 		});
 
 		test.after(function(t) {
+			t.true(sassOptionsSpy.calledOnce);
+
 			process.chdir(initCwd);
 		});
 	},

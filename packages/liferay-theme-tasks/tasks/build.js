@@ -86,10 +86,10 @@ module.exports = function(options) {
 	gulp.task('build:compile-lib-sass', function(cb) {
 		var gulpSass = themeUtil.requireDependency('gulp-sass', themeConfig.version);
 
-		var config = _.assign({
+		var sassOptions = getSassOptions(options.sassOptions, {
 			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
 			sourceMap: false
-		}, options.sassOptions);
+		});
 
 		var cssBuild = pathBuild + '/_css';
 
@@ -97,7 +97,7 @@ module.exports = function(options) {
 
 		gulp.src(srcPath)
 			.pipe(plugins.plumber())
-			.pipe(gulpSass(config))
+			.pipe(gulpSass(sassOptions))
 			.on('error', handleScssError)
 			.pipe(gulp.dest(cssBuild))
 			.on('end', cb);
@@ -106,17 +106,17 @@ module.exports = function(options) {
 	gulp.task('build:compile-ruby-sass', function(cb) {
 		var gulpRubySass = themeUtil.requireDependency('gulp-ruby-sass', themeConfig.version);
 
-		var config = _.assign({
+		var sassOptions = getSassOptions(options.sassOptions, {
 			compass: true,
 			loadPath: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
 			sourcemap: false
-		}, options.sassOptions);
+		});
 
 		var cssBuild = pathBuild + '/_css';
 
 		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '*.scss'), getSrcPathConfig());
 
-		gulpRubySass(srcPath, config)
+		gulpRubySass(srcPath, sassOptions)
 			.on('error', handleScssError)
 			.pipe(gulp.dest(cssBuild))
 			.on('end', function() {
@@ -399,4 +399,15 @@ function getSassInlcudePaths(version, rubySass) {
 	}
 
 	return includePaths;
+}
+
+function getSassOptions(sassOptions, defaults) {
+	if (_.isFunction(sassOptions)) {
+		sassOptions = sassOptions(defaults);
+	}
+	else {
+		sassOptions = _.assign(defaults, sassOptions);
+	}
+
+	return sassOptions;
 }
