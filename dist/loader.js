@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   3.3.1
+ * @version   4.0.5
  */
 
 (function (global, factory) {
@@ -78,9 +78,13 @@ function useNextTick() {
 
 // vertx
 function useVertxTimer() {
-  return function () {
-    vertxNext(flush);
-  };
+  if (typeof vertxNext !== 'undefined') {
+    return function () {
+      vertxNext(flush);
+    };
+  }
+
+  return useSetTimeout();
 }
 
 function useMutationObserver() {
@@ -1143,7 +1147,6 @@ function polyfill() {
     local.Promise = Promise;
 }
 
-polyfill();
 // Strange compat..
 Promise.polyfill = polyfill;
 Promise.Promise = Promise;
@@ -2468,7 +2471,7 @@ var LoaderProtoMethods = {
      * @param {array} moduleNames List of module names to be checked for missing dependencies.
      * @return {Array<string>} A list with all missing dependencies.
      */
-    _getMissingDepenencies: function(moduleNames) {
+    _getMissingDependencies: function(moduleNames) {
         var configParser = this._getConfigParser();
         var registeredModules = configParser.getModules();
 
@@ -2875,7 +2878,7 @@ var LoaderProtoMethods = {
                     resolve(definedModules);
                 };
 
-                var missingDependencies = self._getMissingDepenencies(moduleNames);
+                var missingDependencies = self._getMissingDependencies(moduleNames);
 
                 if (missingDependencies.length) {
                     void 0;
@@ -2898,6 +2901,9 @@ var LoaderProtoMethods = {
 Object.keys(LoaderProtoMethods).forEach(function(key) {
     Loader.prototype[key] = LoaderProtoMethods[key];
 });
+
+Loader.prototype.define.amd = {};
+
 
 
     return Loader;
