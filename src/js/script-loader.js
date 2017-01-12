@@ -834,3 +834,6 @@ var LoaderProtoMethods = {
 Object.keys(LoaderProtoMethods).forEach(function(key) {
     Loader.prototype[key] = LoaderProtoMethods[key];
 });
+
+Loader.prototype.define.amd = {};
+

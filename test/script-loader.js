@@ -199,6 +199,11 @@ describe('Loader', function() {
         assert.isObject(global.define.amd);
     });
 
+    it('should have a define.amd property', function() {
+        assert.property(Loader.define, 'amd');
+        assert.isObject(Loader.define.amd);
+    });
+
     it('should register unregistered modules in require', function() {
         var module = Math.random().toString();
 
