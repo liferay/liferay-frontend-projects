@@ -84,7 +84,7 @@ var LoaderProtoMethods = {
                 dependencies = ['module', 'exports'];
                 implementation = arguments[1];
             } else {
-                console.log('DEFINE, module with two params only - dependencies and implemenetation, anonymous module');
+                console.log('DEFINE, module with two params only - dependencies and implementation, anonymous module');
                 dependencies = arguments[0];
                 implementation = arguments[1];
                 config.anonymous = true;
@@ -404,7 +404,7 @@ var LoaderProtoMethods = {
      * @param {array} moduleNames List of module names to be checked for missing dependencies.
      * @return {Array<string>} A list with all missing dependencies.
      */
-    _getMissingDepenencies: function(moduleNames) {
+    _getMissingDependencies: function(moduleNames) {
         var configParser = this._getConfigParser();
         var registeredModules = configParser.getModules();
 
@@ -811,7 +811,7 @@ var LoaderProtoMethods = {
                     resolve(definedModules);
                 };
 
-                var missingDependencies = self._getMissingDepenencies(moduleNames);
+                var missingDependencies = self._getMissingDependencies(moduleNames);
 
                 if (missingDependencies.length) {
                     console.log('MISSING DEPENDENCIES', 'requested', moduleNames, 'missing', missingDependencies);

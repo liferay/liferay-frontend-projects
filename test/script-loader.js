@@ -150,7 +150,7 @@ describe('Loader', function() {
         Loader.define(module1, [dep1], function() {return 1;});
         Loader.define(module2, [dep2], function() {return 1;});
 
-        var missingDeps = Loader._getMissingDepenencies([module1, module2]);
+        var missingDeps = Loader._getMissingDependencies([module1, module2]);
 
         assert.isArray(missingDeps);
         assert.strictEqual(2, missingDeps.length);
