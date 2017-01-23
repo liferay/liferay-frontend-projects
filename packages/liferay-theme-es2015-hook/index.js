@@ -3,7 +3,8 @@
 var ConfigGenerator = require('liferay-module-config-generator/lib/config-generator');
 var fs = require('fs-extra');
 var gutil = require('gulp-util');
-var metal = require('gulp-metal');
+var metalAmd = require('gulp-metal/lib/tasks/amd');
+var metalSoy = require('gulp-metal/lib/tasks/soy');
 var path = require('path');
 
 var chalk = gutil.colors;
@@ -72,14 +73,17 @@ module.exports = function(gulp, options) {
 		});
 	});
 
-	metal.registerTasks({
+	var metalOptions = {
 		base: path.join(pathSrc, 'js'),
 		buildAmdDest: path.join(pathBuild),
 		buildSrc: path.join(pathSrc, 'js/**/*.es.js'),
 		gulp: gulp,
 		moduleName: 'js',
 		taskPrefix: 'metal:'
-	});
+	};
+
+	metalAmd(metalOptions);
+	metalSoy(metalOptions);
 
 	gulp.hook('after:build:src', function(done) {
 		runSequence(
