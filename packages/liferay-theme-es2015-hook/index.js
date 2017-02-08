@@ -94,11 +94,13 @@ module.exports = function(gulp, options) {
 		);
 	});
 
-	gulp.hook('before:watch', function() {
+	gulp.hook('after:watch:setup', function(done) {
 		metalOptions.buildAmdDest = gulp.storage.get('appServerPathPlugin');
 
 		metalAmd(metalOptions);
 		metalSoy(metalOptions);
+
+		done();
 	});
 
 	gulp.hook('after:deploy:file', function(done) {
