@@ -98,6 +98,7 @@ module.exports = function(gulp, options) {
 		var webBundlePath = gulp.storage.get('appServerPathPlugin');
 
 		metalOptions.buildAmdDest = webBundlePath;
+		metalOptions.cacheNamespace = false;
 
 		metalAmd(metalOptions);
 		metalSoy(metalOptions);
