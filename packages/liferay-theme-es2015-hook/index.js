@@ -93,4 +93,22 @@ module.exports = function(gulp, options) {
 			done
 		);
 	});
+
+	gulp.hook('before:watch', function() {
+		metalOptions.buildAmdDest = gulp.storage.get('appServerPathPlugin');
+
+		metalAmd(metalOptions);
+		metalSoy(metalOptions);
+	});
+
+	gulp.hook('after:deploy:file', function(done) {
+		var file = gulp.storage.get('changedFile');
+
+		if (path.extname(file.path) === '.js') {
+			runSequence('metal:build:amd', done);
+		}
+		else {
+			done();
+		}
+	});
 };
