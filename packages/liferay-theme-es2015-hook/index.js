@@ -17,22 +17,22 @@ module.exports = function(gulp, options) {
 	var pathBuild = options.pathBuild;
 	var pathSrc = options.pathSrc;
 
+	var metaInfPath = path.join(pathBuild, 'META-INF');
+
+	var configGenerator = new ConfigGenerator({
+		args: [path.join(pathBuild, 'js')],
+		config: '',
+		extension: '',
+		filePattern: '**/*.es.js',
+		format: ['/-/g', '_'],
+		ignorePath: true,
+		moduleConfig: path.join(process.cwd(), 'package.json'),
+		moduleRoot: path.join(pathBuild),
+		output: path.join(metaInfPath, 'config.json')
+	});
+
 	gulp.task('config:amd', function(done) {
-		var metaInfPath = path.join(pathBuild, 'META-INF');
-
 		fs.ensureDirSync(metaInfPath);
-
-		var configGenerator = new ConfigGenerator({
-			args: [path.join(pathBuild, 'js')],
-			config: '',
-			extension: '',
-			filePattern: '**/*.es.js',
-			format: ['/-/g', '_'],
-			ignorePath: true,
-			moduleConfig: path.join(process.cwd(), 'package.json'),
-			moduleRoot: path.join(pathBuild),
-			output: path.join(metaInfPath, 'config.json')
-		});
 
 		configGenerator.process().then(function() {
 			done();
@@ -95,10 +95,16 @@ module.exports = function(gulp, options) {
 	});
 
 	gulp.hook('after:watch:setup', function(done) {
-		metalOptions.buildAmdDest = gulp.storage.get('appServerPathPlugin');
+		var webBundlePath = gulp.storage.get('appServerPathPlugin');
+
+		metalOptions.buildAmdDest = webBundlePath;
 
 		metalAmd(metalOptions);
 		metalSoy(metalOptions);
+
+		configGenerator._options.args = [path.join(webBundlePath, 'js')];
+		configGenerator._options.moduleRoot = path.join(webBundlePath);
+		configGenerator._options.output = path.join(webBundlePath, 'META-INF', 'config.json');
 
 		done();
 	});
@@ -107,7 +113,7 @@ module.exports = function(gulp, options) {
 		var file = gulp.storage.get('changedFile');
 
 		if (path.extname(file.path) === '.js') {
-			runSequence('metal:build:amd', done);
+			runSequence('metal:build:amd', 'config:amd', done);
 		}
 		else {
 			done();
