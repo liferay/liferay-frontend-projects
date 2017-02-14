@@ -14,7 +14,7 @@
     "liferay-frontend-common-css": "~1.0.4",
     "liferay-frontend-theme-classic-web": "~2.0.0",
     "liferay-frontend-theme-styled": "~2.0.0",
-    "liferay-frontend-theme-unstyled": "~2.0.0",
+    "liferay-frontend-theme-unstyled": "~2.1.0",
     "liferay-theme-deps-normalize": "*"
   }
 }
