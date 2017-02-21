@@ -72,6 +72,14 @@ module.exports = {
             },
             'path': 'aui-test2.js'
         },
+        'module': {
+            'dependencies': [],
+            'path': 'module/src/module'
+        },
+        'module.js': {
+            'dependencies': [],
+            'path': 'module.js/src/module.js'
+        },
         'liferay@1.0.0': {
             'dependencies': ['exports'],
             'path': 'liferay.js'
