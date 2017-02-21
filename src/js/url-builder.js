@@ -191,7 +191,7 @@ URLBuilder.prototype = {
             path = paths['*'](path);
         }
 
-        if (!REGEX_EXTERNAL_PROTOCOLS.test(path) && path.indexOf('.js') !== path.length - 3) {
+        if (!REGEX_EXTERNAL_PROTOCOLS.test(path) && path.lastIndexOf('.js') !== path.length - 3) {
             path += '.js';
         }
 
