@@ -82,7 +82,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			defaultValue: 6.2,
 			filePath: 'docroot/WEB-INF/liferay-plugin-package.properties',
 			propertyName: 'liferayVersion',
-			regex: /liferay-versions=([0-9]\.[0-9])\..*\+/
+			regex: /liferay-versions=([0-9]\.[0-9])/
 		});
 
 		var liferayVersion = this.liferayVersion;
