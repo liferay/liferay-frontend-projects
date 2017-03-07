@@ -2,6 +2,9 @@
 * No changes
 ***
 
+## v1.3.12 - March 6, 2017
+* Update: using v1.0.11 of liferay-plugin-node-tasks
+
 ## v1.3.11 - December 19, 2016
 * Fix: addressed error thrown by extend task when no globally installed themes are found
 * New: allows sassOptions to be function that receives default options as arg
