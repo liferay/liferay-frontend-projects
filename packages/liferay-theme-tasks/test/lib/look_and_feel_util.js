@@ -6,17 +6,28 @@ var path = require('path');
 var sinon = require('sinon');
 var test = require('ava');
 
-var options = require('../../lib/options')({
-	pathSrc: './custom_src_path'
-});
 var testUtil = require('../util');
-
-var lookAndFeelUtil = require('../../lib/look_and_feel_util.js');
 
 var baseLookAndFeelJSON = require('../fixtures/json/base-look-and-feel.json');
 var mixedLookAndFeelJSON = require('../fixtures/json/mixed-look-and-feel.json');
 
 var baseThemePath = path.join(__dirname, '../fixtures/themes/7.0/base-theme');
+var initCwd = process.cwd();
+var lookAndFeelUtil;
+
+test.after(function() {
+	process.chdir(initCwd);
+});
+
+test.before(function() {
+	process.chdir(baseThemePath);
+
+	require('../../lib/options')({
+		pathSrc: './custom_src_path'
+	});
+
+	lookAndFeelUtil = require('../../lib/look_and_feel_util.js');
+});
 
 test('lookAndFeelUtil should sort json correctly and build valid xml', function(t) {
 	var xml = testUtil.stripNewlines(lookAndFeelUtil.buildXML(mixedLookAndFeelJSON, lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0')));

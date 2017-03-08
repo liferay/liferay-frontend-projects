@@ -5,7 +5,6 @@ var path = require('path');
 var test = require('ava');
 
 var initCwd = process.cwd();
-var themeFinder;
 
 test.after(function() {
 	process.chdir(initCwd);
