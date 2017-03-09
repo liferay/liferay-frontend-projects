@@ -2936,3 +2936,9 @@ Loader.prototype.define.amd = {};
 		window.define = global.define;
 	}
 }());
+
+(function () {
+  if (typeof window.Promise === 'undefined' && typeof window.ES6Promise !== 'undefined') {
+      window.Promise = window.ES6Promise;
+  }
+}());
