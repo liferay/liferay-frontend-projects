@@ -23,7 +23,7 @@ module.exports = function(gulp, options) {
 		args: [path.join(pathBuild, 'js')],
 		config: '',
 		extension: '',
-		filePattern: '**/*.es.js',
+		filePattern: '**/*.+(es.js|soy.js)',
 		format: ['/-/g', '_'],
 		ignorePath: true,
 		moduleConfig: path.join(process.cwd(), 'package.json'),
