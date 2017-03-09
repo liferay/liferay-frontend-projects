@@ -1,6 +1,10 @@
 (function (global, factory) {
     'use strict';
 
+    if (typeof Promise === 'undefined' && typeof ES6Promise !== 'undefined') {
+        self.Promise = ES6Promise;
+    }
+
     var built = factory(global);
 
     /* istanbul ignore else */
