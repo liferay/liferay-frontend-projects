@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "fs-extra": "^0.24.0",
-    "gulp-metal": "^1.9.2",
     "gulp-util": "^3.0.6",
     "liferay-module-config-generator": "^1.1.10",
+    "metal-tools-build-amd": "^3.0.2",
+    "metal-tools-soy": "^3.0.2",
     "run-sequence": "^1.2.2"
   },
   "devDependencies": {

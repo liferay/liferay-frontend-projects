@@ -1,10 +1,10 @@
 'use strict';
 
+var buildAmd = require('metal-tools-build-amd/lib/pipelines/buildAmd');
+var compileSoy = require('metal-tools-soy/lib/pipelines/compileSoy');
 var ConfigGenerator = require('liferay-module-config-generator/lib/config-generator');
 var fs = require('fs-extra');
 var gutil = require('gulp-util');
-var metalAmd = require('gulp-metal/lib/tasks/amd');
-var metalSoy = require('gulp-metal/lib/tasks/soy');
 var path = require('path');
 
 var chalk = gutil.colors;
@@ -76,14 +76,24 @@ module.exports = function(gulp, options) {
 	var metalOptions = {
 		base: path.join(pathSrc, 'js'),
 		buildAmdDest: path.join(pathBuild),
-		buildSrc: path.join(pathSrc, 'js/**/*.es.js'),
-		gulp: gulp,
-		moduleName: 'js',
-		taskPrefix: 'metal:'
+		moduleName: 'js'
 	};
 
-	metalAmd(metalOptions);
-	metalSoy(metalOptions);
+	gulp.task('metal:build:amd', ['metal:compile:soy'], function() {
+		return gulp.src(path.join(pathSrc, 'js/**/*.es.js'), {
+				base: process.cwd()
+			})
+			.pipe(buildAmd(metalOptions))
+			.pipe(gulp.dest(metalOptions.buildAmdDest));
+	});
+
+	gulp.task('metal:compile:soy', function() {
+		return gulp.src(path.join(pathSrc, '**/*.soy'))
+			.pipe(compileSoy()).on('error', function(err) {
+				gutil.log(err);
+			})
+			.pipe(gulp.dest(pathSrc));
+	});
 
 	gulp.hook('after:build:src', function(done) {
 		runSequence(
@@ -99,9 +109,6 @@ module.exports = function(gulp, options) {
 
 		metalOptions.buildAmdDest = webBundlePath;
 		metalOptions.cacheNamespace = false;
-
-		metalAmd(metalOptions);
-		metalSoy(metalOptions);
 
 		configGenerator._options.args = [path.join(webBundlePath, 'js')];
 		configGenerator._options.moduleRoot = path.join(webBundlePath);
