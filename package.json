@@ -1,0 +1,26 @@
+{
+  "name": "eslint-config-liferay",
+  "version": "1.0.0",
+  "description": "ESLint shareable config for the Liferay JavaScript Style",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "code",
+    "quality",
+    "eslint",
+    "eslintconfig",
+    "liferay"
+  ],
+  "author": "Liferay",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-google": "^0.7.1"
+  },
+  "peerDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-google": "^0.7.1"
+  }
+}
