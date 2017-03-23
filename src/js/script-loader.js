@@ -424,7 +424,7 @@ var LoaderProtoMethods = {
 
                 var dependencyModule = registeredModules[dependency];
 
-                if (dependency !== 'exports' && dependency !== 'module' && (!dependencyModule || !dependencyModule.pendingImplementation)) {
+                if (dependency !== 'require' && dependency !== 'exports' && dependency !== 'module' && (!dependencyModule || !dependencyModule.pendingImplementation)) {
                     missingDependencies[dependency] = 1;
                 }
             }
@@ -515,8 +515,8 @@ var LoaderProtoMethods = {
                 continue;
             }
 
-            // We exclude "exports" and "module" modules, which are part of AMD spec.
-            if (registeredModule === 'exports' || registeredModule === 'module') {
+            // We exclude "require", "exports" and "module" modules, which are part of AMD spec.
+            if (registeredModule === 'require' || registeredModule === 'exports' || registeredModule === 'module') {
                 continue;
             }
 
@@ -719,6 +719,22 @@ var LoaderProtoMethods = {
                     exportsImpl = { exports: {} };
 
                     dependencyImplementations.push(exportsImpl);
+                } else if (dependency === 'require') {
+                    var localRequire = function(moduleName) {
+                        var mappedModuleName = configParser.mapModule(moduleName);
+
+                        for (var k = 0; k < module.dependencies.length; k++) {
+                            var dependency = module.dependencies[k];
+
+                            if (dependency === mappedModuleName) {
+                                return dependencyImplementations[k];
+                            }
+                        }
+
+                        throw new Error("Module name '" + moduleName + "' has not been loaded yet for context: " + module.name);
+                    }
+
+                    dependencyImplementations.push(localRequire);
                 } else {
                     // otherwise set as value the implementation of the registered module
                     var dependencyModule = registeredModules[configParser.mapModule(dependency)];
@@ -840,4 +856,3 @@ Object.keys(LoaderProtoMethods).forEach(function(key) {
 });
 
 Loader.prototype.define.amd = {};
-
