@@ -2276,12 +2276,16 @@ var LoaderProtoMethods = {
                         var registeredModules = configParser.getModules();
 
                         var error = new Error('Load timeout for modules: ' + modules);
-                        error.dependecies = dependencies;
+                        error.dependencies = dependencies;
                         error.mappedModules = mappedModules;
                         error.missingDependencies = dependencies.filter(function(dep) {
                             return !registeredModules[dep].implementation;
                         });
                         error.modules = modules;
+
+                        // @deprecated: fill `dependecies` field to maintain
+                        // backward compatibility
+                        error.dependecies = error.dependencies;
 
                         void 0;
                         reject(error);
