@@ -58,7 +58,7 @@ describe('PathResolver', function () {
     it('should ignore "module" path', function() {
         var pathResolver = new global.PathResolver();
 
-        // Exports should be ignored and not resolved at all
+        // Module should be ignored and not resolved at all
         var result = pathResolver.resolvePath('a/b/c/c1', 'module');
         assert.strictEqual('module', result);
     });
