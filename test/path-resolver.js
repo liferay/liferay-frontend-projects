@@ -47,6 +47,14 @@ describe('PathResolver', function () {
         assert.strictEqual('../c', result);
     });
 
+    it('should ignore "require" path', function() {
+        var pathResolver = new global.PathResolver();
+
+        // Require should be ignored and not resolved at all
+        var result = pathResolver.resolvePath('a/b/c/c1', 'require');
+        assert.strictEqual('require', result);
+    });
+
     it('should ignore "exports" path', function() {
         var pathResolver = new global.PathResolver();
 

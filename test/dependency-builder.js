@@ -118,7 +118,27 @@ describe('DependencyBuilder', function () {
         assert.strictEqual(dependencyBuilder._queue.length, 0);
     });
 
-    it('should ignore exports module', function () {
+    it('should ignore "require" module', function () {
+        var configParser = new global.ConfigParser();
+
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'aui-123',
+            dependencies: []
+        });
+
+        configParser.addModule({
+            name: 'test123',
+            dependencies: ['aui-123', 'require']
+        });
+
+        var result = dependencyBuilder.resolveDependencies(['test123']);
+
+        assert.deepEqual(['aui-123', 'test123'], result);
+    });
+
+    it('should ignore "exports" module', function () {
         var configParser = new global.ConfigParser();
 
         var dependencyBuilder = new global.DependencyBuilder(configParser);
@@ -131,6 +151,26 @@ describe('DependencyBuilder', function () {
         configParser.addModule({
             name: 'test123',
             dependencies: ['aui-123', 'exports']
+        });
+
+        var result = dependencyBuilder.resolveDependencies(['test123']);
+
+        assert.deepEqual(['aui-123', 'test123'], result);
+    });
+
+    it('should ignore "module" module', function () {
+        var configParser = new global.ConfigParser();
+
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        configParser.addModule({
+            name: 'aui-123',
+            dependencies: []
+        });
+
+        configParser.addModule({
+            name: 'test123',
+            dependencies: ['aui-123', 'module']
         });
 
         var result = dependencyBuilder.resolveDependencies(['test123']);

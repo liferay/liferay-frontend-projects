@@ -81,6 +81,18 @@ describe('Loader', function() {
                     dependencies: ['exports', 'module'],
                     path: 'module-dep.js'
                 },
+                'module-require': {
+                    dependencies: ['exports', 'require', 'module1'],
+                    path: 'module-require.js'
+                },
+                'module-require-fail': {
+                    dependencies: ['exports', 'require'],
+                    path: 'module-require-fail.js'
+                },
+                'module-require-path': {
+                    dependencies: ['exports', 'require', 'liferay'],
+                    path: 'module-require-path.js'
+                },
                 'liferay@1.0.0/empty': {
                     dependencies: [],
                     path: 'empty.js'
@@ -724,6 +736,64 @@ describe('Loader', function() {
         setTimeout(function() {
             assert.isTrue(failure.notCalled, 'Failure should be not called');
             assert.isTrue(success.calledTwice, 'Success should be called twice');
+
+            done();
+        }, 50);
+    });
+
+    it('should implement local require inside module implementation function', function(done) {
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.spy(function(module) {
+            this.module = module;
+        });
+
+        Loader.require(['module-require'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+            assert.isTrue(success.module.resolved, 'Local require should have resolved module1');
+
+            done();
+        }, 50);
+    });
+
+    it('should map configured paths when local require is invoked', function(done) {
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.spy(function(module) {
+            this.module = module;
+        });
+
+        Loader.require(['module-require-path'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+            assert.isTrue(success.module.resolved, 'Local require should have resolved liferay');
+
+            done();
+        }, 50);
+    });
+
+    it('should fail when local require is called with an undeclared module', function(done) {
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.spy(function(module) {
+            this.module = module;
+        });
+
+        Loader.require(['module-require-fail'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+            assert.isDefined(success.module.error, 'Local require should have NOT resolved the undeclared module');
+            assert.equal(success.module.error, "Error: Module name 'non-existent-module' has not been loaded yet for context: module-require-fail");
 
             done();
         }, 50);
