@@ -2935,6 +2935,8 @@ Loader.prototype.define.amd = {};
 		window.require = global.require;
 		window.define = global.define;
 	}
+
+	global.Loader.version = function() { return '1.5.9' };
 }());
 
 (function () {
