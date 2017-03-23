@@ -10,6 +10,7 @@ var istanbul = require('gulp-istanbul');
 var jsdoc = require('gulp-jsdoc');
 var merge = require('merge-stream');
 var mocha = require('gulp-mocha');
+var pkg = require('./package.json');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var stripDebug = require('gulp-strip-debug');
@@ -87,8 +88,9 @@ gulp.task('create-loader-pure-debug', ['create-loader-pure-wrapped'], function()
 
     return gulp.src('src/template/loader-pure.template')
         .pipe(template({
+            source: loaderPureContent,
             vendor: '',
-            source: loaderPureContent
+            version: pkg.version
         }))
         .pipe(rename('loader-pure-debug.js'))
         .pipe(gulp.dest('dist'));
