@@ -721,17 +721,26 @@ var LoaderProtoMethods = {
                     dependencyImplementations.push(exportsImpl);
                 } else if (dependency === 'require') {
                     var localRequire = function(moduleName) {
-                        var mappedModuleName = configParser.mapModule(moduleName);
+                        var argc = arguments.length;
 
-                        for (var k = 0; k < module.dependencies.length; k++) {
-                            var dependency = module.dependencies[k];
+                        if (argc > 1) {
+                            var error = arguments[argc-1];
+                            var success = arguments[argc-2];
 
-                            if (dependency === mappedModuleName) {
-                                return dependencyImplementations[k];
+                            global.require.apply(global.Loader, arguments);
+                        } else {
+                            var mappedModuleName = configParser.mapModule(moduleName);
+
+                            for (var k = 0; k < module.dependencies.length; k++) {
+                                var dependency = module.dependencies[k];
+
+                                if (dependency === mappedModuleName) {
+                                    return dependencyImplementations[k];
+                                }
                             }
-                        }
 
-                        throw new Error("Module name '" + moduleName + "' has not been loaded yet for context: " + module.name);
+                            throw new Error("Module name '" + moduleName + "' has not been loaded yet for context: " + module.name);
+                        }
                     }
 
                     dependencyImplementations.push(localRequire);
