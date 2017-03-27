@@ -799,6 +799,29 @@ describe('Loader', function() {
         }, 50);
     });
 
+    it('should implement async local require inside module implementation function', function(done) {
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.spy(function(module) {
+            this.module = module;
+        });
+
+        Loader.require(['module-require-async'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+
+            var resolved = success.module.resolved();
+
+            assert.isFunction(resolved.module1.module1log, 'Async local require should have resolved module1');
+            assert.isFunction(resolved.module2.module2log, 'Async local require should have resolved module2');
+
+            done();
+        }, 50);
+    });
+
     describe('when working with anonymous modules', function() {
         beforeEach(function() {
             Object.keys(require.cache).forEach(function(cache) {
