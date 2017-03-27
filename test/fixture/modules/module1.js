@@ -1,4 +1,4 @@
-define('module1', ['module2', 'module3', 'exports'], function (__exports__) {
+define('module1', ['exports', 'module2', 'module3'], function (__exports__) {
     'use strict';
 
     function module1log(text) {
