@@ -187,7 +187,7 @@ DependencyBuilder.prototype = {
             for (var i = 0; i < module.dependencies.length; i++) {
                 var dependencyName = module.dependencies[i];
 
-                if (dependencyName === 'exports' || dependencyName === 'module') {
+                if (dependencyName === 'require' || dependencyName === 'exports' || dependencyName === 'module') {
                     continue;
                 }
 

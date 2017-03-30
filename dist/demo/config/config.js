@@ -28,6 +28,10 @@ __CONFIG__.modules = {
         "dependencies": ["exports"],
         "path": "liferay@1.0.0/aui-event.js"
     },
+    "liferay@1.0.0/local-require": {
+        "dependencies": ["liferay/aui-core"],
+        "path": "liferay@1.0.0/local-require.js"
+    },
     "liferay@1.0.0/relative1": {
         "dependencies": ["exports", "./relative2"],
         "path": "liferay@1.0.0/relative1.js"

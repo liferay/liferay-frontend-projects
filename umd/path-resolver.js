@@ -36,7 +36,7 @@ PathResolver.prototype = {
      * @return {string} The resolved dependency path.
      */
     resolvePath: function(root, dependency) {
-        if (dependency === 'exports' || dependency === 'module' ||
+        if (dependency === 'require' || dependency === 'exports' || dependency === 'module' ||
             !(dependency.indexOf('.') === 0 || dependency.indexOf('..') === 0)) {
 
             return dependency;

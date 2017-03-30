@@ -114,6 +114,11 @@
                 console.error(error);
             });
 
+            require('liferay/local-require', function(localRequire) {
+                console.log('Module local-require has been loaded');
+            }, function(error) {
+                console.error(error);
+            });
         </script>
     </body>
 </html>
