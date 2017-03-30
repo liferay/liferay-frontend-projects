@@ -1,0 +1,29 @@
+{
+  "extends": ["eslint:recommended", "google"],
+  "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+  },
+  "globals": {
+    "assert": true,
+    "Loader": true,
+    "RequestMock": true,
+    "sinon": true
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },
+  "rules": {
+    "camelcase": [0],
+    "comma-dangle": [2, "never"],
+    "max-len": [2, 120, 4],
+    "no-console": 0,
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-process-env": 0,
+    "no-var": 0,
+    "object-curly-spacing": 0
+  }
+}

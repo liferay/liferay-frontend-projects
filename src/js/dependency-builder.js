@@ -6,9 +6,8 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * Creates an instance of DependencyBuilder class.
  *
  * @constructor
- * @param {object} - instance of {@link ConfigParser} object.
+ * @param {object} configParser - instance of {@link ConfigParser} object.
  */
-
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
     this._pathResolver = new global.PathResolver();
@@ -25,7 +24,7 @@ DependencyBuilder.prototype = {
      * @param {array} modules List of modules which dependencies should be resolved.
      * @return {array} List of module names, representing module dependencies. Module name itself is being returned too.
      */
-    resolveDependencies: function (modules) {
+    resolveDependencies: function(modules) {
         // Copy the passed modules to a resolving modules queue.
         // Modules may be added there during the process of resolving.
         this._queue = modules.slice(0);
@@ -38,8 +37,7 @@ DependencyBuilder.prototype = {
             // Reorder the modules list so the modules without dependencies will
             // be moved upfront
             result = this._result.reverse().slice(0);
-        }
-        finally {
+        } finally {
             this._cleanup();
         }
 
@@ -51,7 +49,7 @@ DependencyBuilder.prototype = {
      *
      * @protected
      */
-    _cleanup: function () {
+    _cleanup: function() {
         var modules = this._configParser.getModules();
 
         // Set to false all temporary markers which were set during the process of
@@ -77,7 +75,7 @@ DependencyBuilder.prototype = {
      * @protected
      * @param {object} module Module, which will be checked for conditional modules as dependencies.
      */
-    _processConditionalModules: function (module) {
+    _processConditionalModules: function(module) {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
 
         // If the current module has conditional modules as dependencies,
@@ -88,8 +86,8 @@ DependencyBuilder.prototype = {
             for (var i = 0; i < conditionalModules.length; i++) {
                 var conditionalModule = modules[conditionalModules[i]];
 
-                if (this._queue.indexOf(conditionalModule.name) === -1 && this._testConditionalModule(conditionalModule.condition.test)) {
-
+                if (this._queue.indexOf(conditionalModule.name) === -1 &&
+                    this._testConditionalModule(conditionalModule.condition.test)) {
                     this._queue.push(conditionalModule.name);
                 }
             }
@@ -106,7 +104,7 @@ DependencyBuilder.prototype = {
      *
      * @protected
      */
-    _resolveDependencies: function () {
+    _resolveDependencies: function() {
         // Process all modules in the queue.
         // Note: modules may be added to the queue during the process of evaluating.
         var modules = this._configParser.getModules();
@@ -136,7 +134,7 @@ DependencyBuilder.prototype = {
      * @param {function|string} testFunction The function which have to be executed. May be Function object or string.
      * @return {boolean} The result of the execution of the test function.
      */
-    _testConditionalModule: function (testFunction) {
+    _testConditionalModule: function(testFunction) {
         if (typeof testFunction === 'function') {
             return testFunction();
         } else {
@@ -155,7 +153,8 @@ DependencyBuilder.prototype = {
     _visit: function(module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
         if (module.tmpMark) {
-            throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
+            throw new Error('Error processing module: ' + module.name + '. ' +
+                'The provided configuration is not Directed Acyclic Graph.');
         }
 
         // Check if this module has conditional modules and add them to the queue if so.
@@ -180,7 +179,8 @@ DependencyBuilder.prototype = {
                 var mappedDependencyName = this._configParser.mapModule(dependencyName);
                 var moduleDependency = modules[mappedDependencyName];
 
-                // Register on the fly all unregistered in the configuration dependencies as modules without dependencies.
+                // Register on the fly all unregistered in the configuration dependencies as
+                // modules without dependencies.
                 if (!moduleDependency) {
                     moduleDependency = this._configParser.addModule({
                         name: mappedDependencyName,

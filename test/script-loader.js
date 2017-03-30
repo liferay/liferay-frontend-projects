@@ -3,11 +3,10 @@
 require('./fixture/common.js');
 require('./fixture/script.js');
 
-var fs = require('fs');
-
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
+/* eslint-disable max-len,require-jsdoc,quote-props,no-invalid-this */
 describe('Loader', function() {
     beforeEach(function() {
         Object.keys(require.cache).forEach(function(cache) {
@@ -129,8 +128,8 @@ describe('Loader', function() {
         assert.propertyVal(module, 'name', moduleName);
     });
 
-    it('should define a module without dependencies (except exports)', function (done) {
-        var impl = sinon.spy(function (exports) {
+    it('should define a module without dependencies (except exports)', function(done) {
+        var impl = sinon.spy(function(exports) {
             exports.pejJung = {};
         });
 
@@ -240,7 +239,7 @@ describe('Loader', function() {
         assert.property(modules, alias);
     });
 
-    it('should load already defined (manually) modules', function (done) {
+    it('should load already defined (manually) modules', function(done) {
         var failure = sinon.stub();
         var success = sinon.stub();
 
@@ -254,7 +253,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should load unregistered modules', function (done) {
+    it('should load unregistered modules', function(done) {
         var one;
         var failure = sinon.stub();
         var success = sinon.spy(function(_one) {
@@ -276,7 +275,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should load previously registered modules', function (done) {
+    it('should load previously registered modules', function(done) {
         var failure = sinon.stub();
         var success = sinon.stub();
 
@@ -318,7 +317,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should fail on registered but not existing file', function (done) {
+    it('should fail on registered but not existing file', function(done) {
         var failure = sinon.stub();
         var success = sinon.stub();
 
@@ -332,7 +331,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should fail if there are cyclic dependencies', function (done) {
+    it('should fail if there are cyclic dependencies', function(done) {
         var failure = sinon.stub();
         var success = sinon.stub();
 
@@ -346,7 +345,7 @@ describe('Loader', function() {
         }, 50);
     });
 
-    it('should succeed when requiring modules multiple times', function (done) {
+    it('should succeed when requiring modules multiple times', function(done) {
         var failure = sinon.stub();
         var success = sinon.stub();
 
@@ -914,7 +913,7 @@ describe('Loader', function() {
         });
 
         it('should prevent a mismatched anonymous module to override the implementation of another module', function(done) {
-            var anonModuleImpl = function(){};
+            var anonModuleImpl = function() {};
             Loader.define(anonModuleImpl);
 
             var failure = sinon.stub();

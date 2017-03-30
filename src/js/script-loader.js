@@ -1,13 +1,15 @@
 'use strict';
 
+/* eslint-disable max-len,prefer-rest-params,no-extra-boolean-cast */
+
 /**
  * Creates an instance of Loader class.
  *
  * @namespace Loader
  * @extends EventEmitter
+ * @param {object=} config Configuration options
  * @constructor
  */
-
 function Loader(config) {
     Loader.superclass.constructor.apply(this, arguments);
 
@@ -166,7 +168,6 @@ var LoaderProtoMethods = {
             modules = arguments[0];
             successCallback = typeof arguments[1] === 'function' ? arguments[1] : null;
             failureCallback = typeof arguments[2] === 'function' ? arguments[2] : null;
-
         } else {
             modules = [];
 
@@ -491,7 +492,8 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules which which have to be filtered.
+     * @param {array} moduleNames List of modules which which have to be filtered.
+     * @param {string|Array} property The name of the property to filter by.
      * @return {array} List of modules matching the specified filter.
      */
     _filterModulesByProperty: function(moduleNames, property) {
@@ -540,7 +542,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules to be loaded.
+     * @param {array} moduleNames List of modules to be loaded.
      * @return {Promise} Promise, which will be resolved as soon as all module a being loaded.
      */
     _loadModules: function(moduleNames) {
@@ -594,7 +596,7 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Loads a &ltscript&gt element on the page.
+     * Loads a script element on the page.
      *
      * @memberof! Loader#
      * @protected
@@ -615,7 +617,6 @@ var LoaderProtoMethods = {
             // it depends which browsers will we support at the end
             script.onload = script.onreadystatechange = function() { /* istanbul ignore else */
                 if (!this.readyState || /* istanbul ignore next */ this.readyState === 'complete' || /* istanbul ignore next */ this.readyState === 'load') {
-
                     script.onload = script.onreadystatechange = null;
 
                     resolve(script);
@@ -738,7 +739,7 @@ var LoaderProtoMethods = {
 
                             throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
                         }
-                    }
+                    };
 
                     dependencyImplementations.push(localRequire);
                 } else {
@@ -779,7 +780,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {Object} module The module for which this function should wait.
+     * @param {Object} moduleName The module for which this function should wait.
      * @return {Promise}
      */
     _waitForModule: function(moduleName) {
@@ -804,7 +805,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules for which implementations this function should wait.
+     * @param {array} moduleNames List of modules for which implementations this function should wait.
      * @return {Promise}
      */
     _waitForModules: function(moduleNames) {

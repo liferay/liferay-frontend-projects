@@ -6,8 +6,8 @@ require('./fixture/common.js');
 var config = require('./fixture/config.js');
 var configParser = new global.ConfigParser(config);
 
-describe('URLBuilder', function () {
-    it('should create URL for module with path', function () {
+describe('URLBuilder', function() {
+    it('should create URL for module with path', function() {
         var urlBuilder = new global.URLBuilder(configParser);
 
         var modulesURL = urlBuilder.build(['aui-core']);
@@ -40,7 +40,7 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[0].modules, ['module.js']);
     });
 
-    it('should create URL for module with full path', function () {
+    it('should create URL for module with full path', function() {
         var urlBuilder = new global.URLBuilder(configParser);
 
         var modulesURL = urlBuilder.build(['aui-base']);
@@ -51,7 +51,7 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[0].modules, ['aui-base']);
     });
 
-    it('should create url for module when combine set to false', function () {
+    it('should create url for module when combine set to false', function() {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules',
             'basePath': '/base',
@@ -80,13 +80,13 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[1].modules, ['aui-core.js']);
     });
 
-    it('should map module\'s path via function', function () {
+    it('should map module\'s path via function', function() {
         var configParser = new global.ConfigParser({
-            'modules': {
-                'b': {
+            modules: {
+                b: {
                     'dependencies': ['a']
                 },
-                'a': {
+                a: {
                     'dependencies': []
                 }
             },
@@ -110,7 +110,7 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[1].modules, ['b']);
     });
 
-    it('should create url for modules with external URLs', function () {
+    it('should create url for modules with external URLs', function() {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules',
             'basePath': '/base',
@@ -150,7 +150,7 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[3].modules, ['www.mydomain.com/crap.js']);
     });
 
-    it('should not replace parts of path', function () {
+    it('should not replace parts of path', function() {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules',
             'basePath': '/base',
@@ -219,7 +219,7 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[0].modules, ['jquery', 'underscore']);
     });
 
-    it('should not add trailing slash if base is an empty string', function () {
+    it('should not add trailing slash if base is an empty string', function() {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules?',
             'basePath': '',
@@ -248,7 +248,7 @@ describe('URLBuilder', function () {
         assert.sameMembers(modulesURL[1].modules, ['aui-core.js']);
     });
 
-    it('should not add trailing slash if base is an empty string and combine is true', function () {
+    it('should not add trailing slash if base is an empty string and combine is true', function() {
         var configParser = new global.ConfigParser({
             'url': 'http://localhost:3000/modules?',
             'basePath': '',

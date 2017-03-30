@@ -4,8 +4,8 @@ var assert = require('assert');
 
 require('./fixture/common.js');
 
-describe('PathResolver', function () {
-    it('should resolve modules without paths', function () {
+describe('PathResolver', function() {
+    it('should resolve modules without paths', function() {
         var pathResolver = new global.PathResolver();
 
         var result;
@@ -17,7 +17,7 @@ describe('PathResolver', function () {
         assert.strictEqual('c', result);
     });
 
-    it('should resolve relative paths', function () {
+    it('should resolve relative paths', function() {
         var pathResolver = new global.PathResolver();
 
         var result;

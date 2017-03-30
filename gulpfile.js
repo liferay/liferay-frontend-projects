@@ -170,7 +170,7 @@ gulp.task('test', ['build'], function() {
         });
 });
 
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', ['build'], function() {
     gulp.watch(['src/**/*', '!src/config/*'], ['build']);
 });
 

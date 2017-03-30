@@ -5,8 +5,8 @@ require('./fixture/common.js');
 
 var config = require('./fixture/config.js');
 
-describe('ConfigParser', function () {
-    it('should create an instance of ConfigParser without existing data', function () {
+describe('ConfigParser', function() {
+    it('should create an instance of ConfigParser without existing data', function() {
         var configParser = new global.ConfigParser();
 
         assert.ok(configParser);
@@ -18,7 +18,7 @@ describe('ConfigParser', function () {
         assert.strictEqual(0, Object.keys(conditionalModules).length);
     });
 
-    it('should add new module', function () {
+    it('should add new module', function() {
         var configParser = new global.ConfigParser(config);
 
         var addedModule = configParser.addModule({
@@ -33,7 +33,7 @@ describe('ConfigParser', function () {
         assert.strictEqual(addedModule, modules['aui-test1']);
     });
 
-    it('should overwrite the properties of an existing module', function () {
+    it('should overwrite the properties of an existing module', function() {
         var configParser = new global.ConfigParser(config);
 
         configParser.addModule({
@@ -56,7 +56,7 @@ describe('ConfigParser', function () {
         assert.propertyVal(moduleDefinition, 'path', 'aui-test1.js');
     });
 
-    it('should add conditional module', function () {
+    it('should add conditional module', function() {
         var configParser = new global.ConfigParser();
 
         configParser.addModule({
@@ -65,7 +65,7 @@ describe('ConfigParser', function () {
             path: 'aui-chema-test2.js',
             condition: {
                 trigger: 'aui-nate',
-                test: function () {
+                test: function() {
                     return true;
                 }
             }
@@ -75,7 +75,7 @@ describe('ConfigParser', function () {
         assert.ok(modules['aui-nate'].indexOf('aui-chema-test2') >= 0);
     });
 
-    it('should map a module to its alias', function () {
+    it('should map a module to its alias', function() {
         var configParser = new global.ConfigParser();
 
         configParser.addModule({
@@ -91,7 +91,7 @@ describe('ConfigParser', function () {
         assert.strictEqual('liferay@1.0.0', configParser.mapModule('liferay'));
     });
 
-    it('should map an array of modules to their aliases', function () {
+    it('should map an array of modules to their aliases', function() {
         var configParser = new global.ConfigParser();
 
         configParser.addModule({
@@ -112,7 +112,7 @@ describe('ConfigParser', function () {
         assert.sameMembers(['liferay@1.0.0', 'liferay@2.0.0'], configParser.mapModule(['liferay', 'liferay2']));
     });
 
-    it('should map a module via a mapping function', function () {
+    it('should map a module via a mapping function', function() {
         var configParser = new global.ConfigParser();
 
         configParser._config = {
@@ -126,7 +126,7 @@ describe('ConfigParser', function () {
         assert.sameMembers(['liferaytest', 'liferay2test'], configParser.mapModule(['liferay', 'liferay2']));
     });
 
-    it('should ignore a mapping function if a more specific module mapping exists', function () {
+    it('should ignore a mapping function if a more specific module mapping exists', function() {
         var configParser = new global.ConfigParser();
 
         configParser._config = {

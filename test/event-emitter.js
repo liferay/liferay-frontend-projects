@@ -3,8 +3,8 @@
 var assert = require('chai').assert;
 var sinon = require('sinon');
 
-describe('EventEmitter', function () {
-    it('should add listeners to events', function () {
+describe('EventEmitter', function() {
+    it('should add listeners to events', function() {
         var eventEmitter = new global.EventEmitter();
 
         var listener = sinon.stub();
@@ -20,7 +20,7 @@ describe('EventEmitter', function () {
         assert.strictEqual(1, eventEmitter._events.test.indexOf(listener2));
     });
 
-    it('should invoke liseners on emit', function () {
+    it('should invoke listeners on emit', function() {
         var eventEmitter = new global.EventEmitter();
 
         var listener = sinon.stub();
@@ -39,7 +39,7 @@ describe('EventEmitter', function () {
         assert.strictEqual(1, listener.callCount);
         assert.strictEqual(1, listener2.callCount);
 
-        // Check if event emitter calls the listeners with 
+        // Check if event emitter calls the listeners with the correct params
         var arg = {
             test: 1
         };
@@ -50,7 +50,7 @@ describe('EventEmitter', function () {
         assert.strictEqual(true, listener.calledWith(arg));
     });
 
-    it('should remove listeners', function () {
+    it('should remove listeners', function() {
         var eventEmitter = new global.EventEmitter();
 
         var listener = sinon.stub();
@@ -73,7 +73,7 @@ describe('EventEmitter', function () {
         assert.strictEqual(1, listener2.callCount);
     });
 
-    it('should warn when detaching non attached listeners', function () {
+    it('should warn when detaching non attached listeners', function() {
         var eventEmitter = new global.EventEmitter();
 
         sinon.spy(console, 'warn');
@@ -90,7 +90,7 @@ describe('EventEmitter', function () {
         console.warn.restore();
     });
 
-    it('should warn when emitting event without listeners', function () {
+    it('should warn when emitting event without listeners', function() {
         var eventEmitter = new global.EventEmitter();
 
         sinon.spy(console, 'warn');
@@ -99,18 +99,18 @@ describe('EventEmitter', function () {
         console.warn.restore();
     });
 
-    it('should call all listeners if some of them are being removed on the fly', function () {
+    it('should call all listeners if some of them are being removed on the fly', function() {
         var eventEmitter = new global.EventEmitter();
 
-        var listener1 = sinon.spy(function () {
+        var listener1 = sinon.spy(function() {
             eventEmitter.off(listener1);
         });
 
-        var listener2 = sinon.spy(function () {
+        var listener2 = sinon.spy(function() {
             eventEmitter.off(listener2);
         });
 
-        var listener3 = sinon.spy(function () {
+        var listener3 = sinon.spy(function() {
             eventEmitter.off(listener3);
         });
 
