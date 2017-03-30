@@ -724,9 +724,6 @@ var LoaderProtoMethods = {
                         var argc = arguments.length;
 
                         if (argc > 1) {
-                            var error = arguments[argc-1];
-                            var success = arguments[argc-2];
-
                             global.require.apply(global.Loader, arguments);
                         } else {
                             var mappedModuleName = configParser.mapModule(moduleName);
