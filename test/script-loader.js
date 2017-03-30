@@ -206,7 +206,7 @@ describe('Loader', function() {
         assert.sameMembers(['exports', 'module'], modules[module].dependencies);
     });
 
-    it('should define itself as AMD compatibe loader', function() {
+    it('should define itself as AMD compatible loader', function() {
         assert.property(global.define, 'amd');
         assert.isObject(global.define.amd);
     });
@@ -536,7 +536,7 @@ describe('Loader', function() {
             assert.isTrue(success.notCalled, 'Success should not be called');
 
             assert.instanceOf(failureError, Error);
-            assert.property(failureError, 'dependecies');
+            assert.property(failureError, 'dependencies');
             assert.property(failureError, 'mappedModules');
             assert.property(failureError, 'missingDependencies');
             assert.property(failureError, 'modules');
@@ -793,7 +793,7 @@ describe('Loader', function() {
             assert.isTrue(failure.notCalled, 'Failure should not be called');
             assert.isTrue(success.calledOnce, 'Success should be called once');
             assert.isDefined(success.module.error, 'Local require should have NOT resolved the undeclared module');
-            assert.equal(success.module.error, "Error: Module name 'non-existent-module' has not been loaded yet for context: module-require-fail");
+            assert.equal(success.module.error, 'Error: Module "non-existent-module" has not been loaded yet for context: module-require-fail');
 
             done();
         }, 50);
