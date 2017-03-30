@@ -22,12 +22,11 @@
 // "http", "https", "//" and "www."
 var REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
 
-
 /**
  * Creates an instance of URLBuilder class.
  *
  * @constructor
- * @param {object} - instance of {@link ConfigParser} object.
+ * @param {object} configParser - instance of {@link ConfigParser} object.
  */
 function URLBuilder(configParser) {
     this._configParser = configParser;
@@ -42,7 +41,7 @@ URLBuilder.prototype = {
      * @param {array} modules List of modules for which URLs should be created.
      * @return {array} List of URLs.
      */
-    build: function (modules) {
+    build: function(modules) {
         var bufferAbsoluteURL = [];
         var bufferRelativeURL = [];
         var modulesAbsoluteURL = [];
@@ -68,7 +67,6 @@ URLBuilder.prototype = {
                     modules: [module.name],
                     url: this._getURLWithParams(module.fullPath)
                 });
-
             } else {
                 var path = this._getModulePath(module);
                 var absolutePath = path.indexOf('/') === 0;
@@ -88,7 +86,6 @@ URLBuilder.prototype = {
                         modules: [module.name],
                         url: this._getURLWithParams(config.url + (absolutePath ? '' : basePath) + path)
                     });
-
                 } else {
                     // If combine is true, this is not an anonymous module and the module does not have full path.
                     // The module will be collected in a buffer to be loaded among with other modules from combo loader.
@@ -191,7 +188,7 @@ URLBuilder.prototype = {
      * @param {object} module The module which path should be returned.
      * @return {string} Module path.
      */
-    _getModulePath: function (module) {
+    _getModulePath: function(module) {
         var path = module.path || module.name;
 
         var paths = this._configParser.getConfig().paths || {};
@@ -243,6 +240,7 @@ URLBuilder.prototype = {
         return url + (url.indexOf('?') > -1 ? '&' : '?') + queryString;
     }
 };
+
 
     return URLBuilder;
 }));

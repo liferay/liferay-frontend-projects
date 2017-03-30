@@ -935,7 +935,9 @@
 886
 887
 888
-889</td><td class="line-coverage quiet"><span class="cline-any cline-yes">52×</span>
+889
+890
+891</td><td class="line-coverage quiet"><span class="cline-any cline-yes">52×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">52×</span>
@@ -955,6 +957,8 @@
 <span class="cline-any cline-yes">52×</span>
 <span class="cline-any cline-yes">52×</span>
 <span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1125,7 +1129,6 @@
 <span class="cline-any cline-yes">41×</span>
 <span class="cline-any cline-yes">41×</span>
 <span class="cline-any cline-yes">41×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1454,6 +1457,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48×</span>
@@ -1574,7 +1578,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">69×</span>
 <span class="cline-any cline-yes">66×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">66×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">66×</span>
@@ -1822,6 +1825,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">52×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">52×</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function (global, factory) {
     'use strict';
@@ -1847,14 +1851,16 @@
 &nbsp;
     'use strict';
 &nbsp;
+/* eslint-disable max-len,prefer-rest-params,no-extra-boolean-cast */
+&nbsp;
 /**
  * Creates an instance of Loader class.
  *
  * @namespace Loader
  * @extends EventEmitter
+ * @param {object=} config Configuration options
  * @constructor
  */
-&nbsp;
 function Loader(config) {
     Loader.superclass.constructor.apply(this, arguments);
 &nbsp;
@@ -2013,7 +2019,6 @@ var LoaderProtoMethods = {
             modules = arguments[0];
             successCallback = typeof arguments[1] === 'function' ? arguments[1] : null;
             failureCallback = typeof arguments[2] === 'function' ? arguments[2] : null;
-&nbsp;
         } else {
             modules = [];
 &nbsp;
@@ -2338,7 +2343,8 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules which which have to be filtered.
+     * @param {array} moduleNames List of modules which which have to be filtered.
+     * @param {string|Array} property The name of the property to filter by.
      * @return {array} List of modules matching the specified filter.
      */
     _filterModulesByProperty: function(moduleNames, property) {
@@ -2387,7 +2393,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules to be loaded.
+     * @param {array} moduleNames List of modules to be loaded.
      * @return {Promise} Promise, which will be resolved as soon as all module a being loaded.
      */
     _loadModules: function(moduleNames) {
@@ -2441,7 +2447,7 @@ var LoaderProtoMethods = {
     },
 &nbsp;
     /**
-     * Loads a &amp;ltscript&amp;gt element on the page.
+     * Loads a script element on the page.
      *
      * @memberof! Loader#
      * @protected
@@ -2462,7 +2468,6 @@ var LoaderProtoMethods = {
             // it depends which browsers will we support at the end
             script.onload = script.onreadystatechange = function() { /* istanbul ignore else */
                 <span class="skip-if-branch" title="else path not taken" >E</span>if (!this.readyState || /* istanbul ignore next */ <span class="branch-1 cbranch-skip" title="branch not covered" >this.readyState === 'complete' </span>|| /* istanbul ignore next */ <span class="branch-2 cbranch-skip" title="branch not covered" >this.readyState === 'load')</span> {
-&nbsp;
                     script.onload = script.onreadystatechange = null;
 &nbsp;
                     resolve(script);
@@ -2585,7 +2590,7 @@ var LoaderProtoMethods = {
 &nbsp;
                             throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
                         }
-                    }
+                    };
 &nbsp;
                     dependencyImplementations.push(localRequire);
                 } else {
@@ -2626,7 +2631,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {Object} module The module for which this function should wait.
+     * @param {Object} moduleName The module for which this function should wait.
      * @return {Promise}
      */
     _waitForModule: function(moduleName) {
@@ -2651,7 +2656,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules for which implementations this function should wait.
+     * @param {array} moduleNames List of modules for which implementations this function should wait.
      * @return {Promise}
      */
     _waitForModules: function(moduleNames) {
@@ -2710,6 +2715,7 @@ Object.keys(LoaderProtoMethods).forEach(function(key) {
 &nbsp;
 Loader.prototype.define.amd = {};
 &nbsp;
+&nbsp;
     return Loader;
 }));</pre></td></tr>
 </table></pre>
@@ -2717,7 +2723,7 @@ Loader.prototype.define.amd = {};
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 30 2017 10:59:55 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 30 2017 12:38:07 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

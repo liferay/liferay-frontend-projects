@@ -38,7 +38,6 @@ PathResolver.prototype = {
     resolvePath: function(root, dependency) {
         if (dependency === 'require' || dependency === 'exports' || dependency === 'module' ||
             !(dependency.indexOf('.') === 0 || dependency.indexOf('..') === 0)) {
-
             return dependency;
         }
 
@@ -49,7 +48,7 @@ PathResolver.prototype = {
 
         // Split dependency directories
         var dependencyParts = dependency.split('/');
-        // Extract dependecy name
+        // Extract dependency name
         var dependencyName = dependencyParts.splice(-1, 1);
 
         for (var i = 0; i < dependencyParts.length; i++) {
@@ -57,17 +56,14 @@ PathResolver.prototype = {
 
             if (dependencyPart === '.') {
                 continue;
-
             } else if (dependencyPart === '..') {
                 if (moduleParts.length) {
                     moduleParts.splice(-1, 1);
-                }
-                else {
+                } else {
                     moduleParts = moduleParts.concat(dependencyParts.slice(i));
 
                     break;
                 }
-
             } else {
                 moduleParts.push(dependencyPart);
             }
@@ -78,6 +74,7 @@ PathResolver.prototype = {
         return moduleParts.join('/');
     }
 };
+
 
     return PathResolver;
 }));

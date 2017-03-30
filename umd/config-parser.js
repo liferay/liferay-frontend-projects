@@ -22,9 +22,8 @@
  * Creates an instance of ConfigurationParser class.
  *
  * @constructor
- * @param {object=} - The configuration object to be parsed.
+ * @param {object=} config - The configuration object to be parsed.
  */
-
 function ConfigParser(config) {
     this._config = {};
     this._modules = {};
@@ -51,7 +50,7 @@ ConfigParser.prototype = {
      *     The same as those which config parameter of {@link Loader#define} method accepts.
      * @return {Object} The added module
      */
-    addModule: function (module) {
+    addModule: function(module) {
         // Module might be added via configuration or when it arrives from the server.
         // If it arrives from the server, it will have already a definition. In this case,
         // we will overwrite the existing properties with those, provided from the module definition.
@@ -78,7 +77,7 @@ ConfigParser.prototype = {
      *
      * @return {object} The current configuration.
      */
-    getConfig: function () {
+    getConfig: function() {
         return this._config;
     },
 
@@ -87,7 +86,7 @@ ConfigParser.prototype = {
      *
      * @return {object} Map with all currently registered conditional modules.
      */
-    getConditionalModules: function () {
+    getConditionalModules: function() {
         return this._conditionalModules;
     },
 
@@ -96,7 +95,7 @@ ConfigParser.prototype = {
      *
      * @return {object} Map with all currently registered modules.
      */
-    getModules: function () {
+    getModules: function() {
         return this._modules;
     },
 
@@ -162,7 +161,7 @@ ConfigParser.prototype = {
      * @param {object} config Configuration object to be parsed.
      * @return {object} The created configuration
      */
-    _parseConfig: function (config) {
+    _parseConfig: function(config) {
         for (var key in config) { /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
@@ -183,7 +182,7 @@ ConfigParser.prototype = {
      * @param {object} modules Map of modules to be parsed.
      * @return {object} Map of parsed modules.
      */
-    _parseModules: function (modules) {
+    _parseModules: function(modules) {
         for (var key in modules) { /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
@@ -203,7 +202,7 @@ ConfigParser.prototype = {
      * @protected
      * @param {object} module Module object
      */
-    _registerConditionalModule: function (module) {
+    _registerConditionalModule: function(module) {
         // Create HashMap of all modules, which have conditional modules, as an Array.
         if (module.condition) {
             var existingModules = this._conditionalModules[module.condition.trigger];
@@ -216,6 +215,7 @@ ConfigParser.prototype = {
         }
     }
 };
+
 
     return ConfigParser;
 }));

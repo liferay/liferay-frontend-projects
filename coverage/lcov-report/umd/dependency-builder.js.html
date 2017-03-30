@@ -279,7 +279,8 @@
 230
 231
 232
-233</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+233
+234</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -300,7 +301,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -337,7 +337,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">59×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">62×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -458,6 +457,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">129×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">129×</span>
@@ -480,6 +480,7 @@
 <span class="cline-any cline-yes">61×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">61×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -495,6 +496,7 @@
 <span class="cline-any cline-yes">112×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -537,9 +539,8 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * Creates an instance of DependencyBuilder class.
  *
  * @constructor
- * @param {object} - instance of {@link ConfigParser} object.
+ * @param {object} configParser - instance of {@link ConfigParser} object.
  */
-&nbsp;
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
     this._pathResolver = new global.PathResolver();
@@ -556,7 +557,7 @@ DependencyBuilder.prototype = {
      * @param {array} modules List of modules which dependencies should be resolved.
      * @return {array} List of module names, representing module dependencies. Module name itself is being returned too.
      */
-    resolveDependencies: function (modules) {
+    resolveDependencies: function(modules) {
         // Copy the passed modules to a resolving modules queue.
         // Modules may be added there during the process of resolving.
         this._queue = modules.slice(0);
@@ -569,8 +570,7 @@ DependencyBuilder.prototype = {
             // Reorder the modules list so the modules without dependencies will
             // be moved upfront
             result = this._result.reverse().slice(0);
-        }
-        finally {
+        } finally {
             this._cleanup();
         }
 &nbsp;
@@ -582,7 +582,7 @@ DependencyBuilder.prototype = {
      *
      * @protected
      */
-    _cleanup: function () {
+    _cleanup: function() {
         var modules = this._configParser.getModules();
 &nbsp;
         // Set to false all temporary markers which were set during the process of
@@ -608,7 +608,7 @@ DependencyBuilder.prototype = {
      * @protected
      * @param {object} module Module, which will be checked for conditional modules as dependencies.
      */
-    _processConditionalModules: function (module) {
+    _processConditionalModules: function(module) {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
 &nbsp;
         // If the current module has conditional modules as dependencies,
@@ -619,8 +619,8 @@ DependencyBuilder.prototype = {
             for (var i = 0; i &lt; conditionalModules.length; i++) {
                 var conditionalModule = modules[conditionalModules[i]];
 &nbsp;
-                if (this._queue.indexOf(conditionalModule.name) === -1 &amp;&amp; this._testConditionalModule(conditionalModule.condition.test)) {
-&nbsp;
+                if (this._queue.indexOf(conditionalModule.name) === -1 &amp;&amp;
+                    this._testConditionalModule(conditionalModule.condition.test)) {
                     this._queue.push(conditionalModule.name);
                 }
             }
@@ -637,7 +637,7 @@ DependencyBuilder.prototype = {
      *
      * @protected
      */
-    _resolveDependencies: function () {
+    _resolveDependencies: function() {
         // Process all modules in the queue.
         // Note: modules may be added to the queue during the process of evaluating.
         var modules = this._configParser.getModules();
@@ -667,7 +667,7 @@ DependencyBuilder.prototype = {
      * @param {function|string} testFunction The function which have to be executed. May be Function object or string.
      * @return {boolean} The result of the execution of the test function.
      */
-    _testConditionalModule: function (testFunction) {
+    _testConditionalModule: function(testFunction) {
         if (typeof testFunction === 'function') {
             return testFunction();
         } else {
@@ -686,7 +686,8 @@ DependencyBuilder.prototype = {
     _visit: function(module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
         if (module.tmpMark) {
-            throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
+            throw new Error('Error processing module: ' + module.name + '. ' +
+                'The provided configuration is not Directed Acyclic Graph.');
         }
 &nbsp;
         // Check if this module has conditional modules and add them to the queue if so.
@@ -711,7 +712,8 @@ DependencyBuilder.prototype = {
                 var mappedDependencyName = this._configParser.mapModule(dependencyName);
                 var moduleDependency = modules[mappedDependencyName];
 &nbsp;
-                // Register on the fly all unregistered in the configuration dependencies as modules without dependencies.
+                // Register on the fly all unregistered in the configuration dependencies as
+                // modules without dependencies.
                 if (!moduleDependency) {
                     moduleDependency = this._configParser.addModule({
                         name: mappedDependencyName,
@@ -742,6 +744,7 @@ DependencyBuilder.prototype = {
     _queue: []
 };
 &nbsp;
+&nbsp;
     return DependencyBuilder;
 }));</pre></td></tr>
 </table></pre>
@@ -749,7 +752,7 @@ DependencyBuilder.prototype = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 30 2017 10:59:55 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 30 2017 12:38:07 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -28,7 +28,6 @@
  *
  * @constructor
  */
-
 function EventEmitter() {
     this._events = {};
 }
@@ -42,7 +41,7 @@ EventEmitter.prototype = {
      * @param {string} event The name of the event.
      * @param {Function} callback Callback method to be invoked when event is being emitted.
      */
-    on: function (event, callback) {
+    on: function(event, callback) {
         var listeners = this._events[event] = this._events[event] || [];
 
         listeners.push(callback);
@@ -54,7 +53,7 @@ EventEmitter.prototype = {
      * @param {string} event The name of the event.
      * @param {function} callback Callback method to be removed from the list of listeners.
      */
-    off: function (event, callback) {
+    off: function(event, callback) {
         var listeners = this._events[event];
 
         if (listeners) {
@@ -77,7 +76,7 @@ EventEmitter.prototype = {
      * @param {string} event The name of the event.
      * @param {object} args Object, which will be passed to the listener as only argument.
      */
-    emit: function (event, args) {
+    emit: function(event, args) {
         var listeners = this._events[event];
 
         if (listeners) {
@@ -97,6 +96,7 @@ EventEmitter.prototype = {
         }
     }
 };
+
 
     return EventEmitter;
 }));
@@ -124,9 +124,8 @@ EventEmitter.prototype = {
  * Creates an instance of ConfigurationParser class.
  *
  * @constructor
- * @param {object=} - The configuration object to be parsed.
+ * @param {object=} config - The configuration object to be parsed.
  */
-
 function ConfigParser(config) {
     this._config = {};
     this._modules = {};
@@ -153,7 +152,7 @@ ConfigParser.prototype = {
      *     The same as those which config parameter of {@link Loader#define} method accepts.
      * @return {Object} The added module
      */
-    addModule: function (module) {
+    addModule: function(module) {
         // Module might be added via configuration or when it arrives from the server.
         // If it arrives from the server, it will have already a definition. In this case,
         // we will overwrite the existing properties with those, provided from the module definition.
@@ -180,7 +179,7 @@ ConfigParser.prototype = {
      *
      * @return {object} The current configuration.
      */
-    getConfig: function () {
+    getConfig: function() {
         return this._config;
     },
 
@@ -189,7 +188,7 @@ ConfigParser.prototype = {
      *
      * @return {object} Map with all currently registered conditional modules.
      */
-    getConditionalModules: function () {
+    getConditionalModules: function() {
         return this._conditionalModules;
     },
 
@@ -198,7 +197,7 @@ ConfigParser.prototype = {
      *
      * @return {object} Map with all currently registered modules.
      */
-    getModules: function () {
+    getModules: function() {
         return this._modules;
     },
 
@@ -264,7 +263,7 @@ ConfigParser.prototype = {
      * @param {object} config Configuration object to be parsed.
      * @return {object} The created configuration
      */
-    _parseConfig: function (config) {
+    _parseConfig: function(config) {
         for (var key in config) { /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(config, key)) {
                 if (key === 'modules') {
@@ -285,7 +284,7 @@ ConfigParser.prototype = {
      * @param {object} modules Map of modules to be parsed.
      * @return {object} Map of parsed modules.
      */
-    _parseModules: function (modules) {
+    _parseModules: function(modules) {
         for (var key in modules) { /* istanbul ignore else */
             if (Object.prototype.hasOwnProperty.call(modules, key)) {
                 var module = modules[key];
@@ -305,7 +304,7 @@ ConfigParser.prototype = {
      * @protected
      * @param {object} module Module object
      */
-    _registerConditionalModule: function (module) {
+    _registerConditionalModule: function(module) {
         // Create HashMap of all modules, which have conditional modules, as an Array.
         if (module.condition) {
             var existingModules = this._conditionalModules[module.condition.trigger];
@@ -318,6 +317,7 @@ ConfigParser.prototype = {
         }
     }
 };
+
 
     return ConfigParser;
 }));
@@ -347,9 +347,8 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
  * Creates an instance of DependencyBuilder class.
  *
  * @constructor
- * @param {object} - instance of {@link ConfigParser} object.
+ * @param {object} configParser - instance of {@link ConfigParser} object.
  */
-
 function DependencyBuilder(configParser) {
     this._configParser = configParser;
     this._pathResolver = new global.PathResolver();
@@ -366,7 +365,7 @@ DependencyBuilder.prototype = {
      * @param {array} modules List of modules which dependencies should be resolved.
      * @return {array} List of module names, representing module dependencies. Module name itself is being returned too.
      */
-    resolveDependencies: function (modules) {
+    resolveDependencies: function(modules) {
         // Copy the passed modules to a resolving modules queue.
         // Modules may be added there during the process of resolving.
         this._queue = modules.slice(0);
@@ -379,8 +378,7 @@ DependencyBuilder.prototype = {
             // Reorder the modules list so the modules without dependencies will
             // be moved upfront
             result = this._result.reverse().slice(0);
-        }
-        finally {
+        } finally {
             this._cleanup();
         }
 
@@ -392,7 +390,7 @@ DependencyBuilder.prototype = {
      *
      * @protected
      */
-    _cleanup: function () {
+    _cleanup: function() {
         var modules = this._configParser.getModules();
 
         // Set to false all temporary markers which were set during the process of
@@ -418,7 +416,7 @@ DependencyBuilder.prototype = {
      * @protected
      * @param {object} module Module, which will be checked for conditional modules as dependencies.
      */
-    _processConditionalModules: function (module) {
+    _processConditionalModules: function(module) {
         var conditionalModules = this._configParser.getConditionalModules()[module.name];
 
         // If the current module has conditional modules as dependencies,
@@ -429,8 +427,8 @@ DependencyBuilder.prototype = {
             for (var i = 0; i < conditionalModules.length; i++) {
                 var conditionalModule = modules[conditionalModules[i]];
 
-                if (this._queue.indexOf(conditionalModule.name) === -1 && this._testConditionalModule(conditionalModule.condition.test)) {
-
+                if (this._queue.indexOf(conditionalModule.name) === -1 &&
+                    this._testConditionalModule(conditionalModule.condition.test)) {
                     this._queue.push(conditionalModule.name);
                 }
             }
@@ -447,7 +445,7 @@ DependencyBuilder.prototype = {
      *
      * @protected
      */
-    _resolveDependencies: function () {
+    _resolveDependencies: function() {
         // Process all modules in the queue.
         // Note: modules may be added to the queue during the process of evaluating.
         var modules = this._configParser.getModules();
@@ -477,7 +475,7 @@ DependencyBuilder.prototype = {
      * @param {function|string} testFunction The function which have to be executed. May be Function object or string.
      * @return {boolean} The result of the execution of the test function.
      */
-    _testConditionalModule: function (testFunction) {
+    _testConditionalModule: function(testFunction) {
         if (typeof testFunction === 'function') {
             return testFunction();
         } else {
@@ -496,7 +494,8 @@ DependencyBuilder.prototype = {
     _visit: function(module) {
         // Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
         if (module.tmpMark) {
-            throw new Error('Error processing module: ' + module.name + '. ' + 'The provided configuration is not Directed Acyclic Graph.');
+            throw new Error('Error processing module: ' + module.name + '. ' +
+                'The provided configuration is not Directed Acyclic Graph.');
         }
 
         // Check if this module has conditional modules and add them to the queue if so.
@@ -521,7 +520,8 @@ DependencyBuilder.prototype = {
                 var mappedDependencyName = this._configParser.mapModule(dependencyName);
                 var moduleDependency = modules[mappedDependencyName];
 
-                // Register on the fly all unregistered in the configuration dependencies as modules without dependencies.
+                // Register on the fly all unregistered in the configuration dependencies as
+                // modules without dependencies.
                 if (!moduleDependency) {
                     moduleDependency = this._configParser.addModule({
                         name: mappedDependencyName,
@@ -552,6 +552,7 @@ DependencyBuilder.prototype = {
     _queue: []
 };
 
+
     return DependencyBuilder;
 }));
 (function (global, factory) {
@@ -578,12 +579,11 @@ DependencyBuilder.prototype = {
 // "http", "https", "//" and "www."
 var REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
 
-
 /**
  * Creates an instance of URLBuilder class.
  *
  * @constructor
- * @param {object} - instance of {@link ConfigParser} object.
+ * @param {object} configParser - instance of {@link ConfigParser} object.
  */
 function URLBuilder(configParser) {
     this._configParser = configParser;
@@ -598,7 +598,7 @@ URLBuilder.prototype = {
      * @param {array} modules List of modules for which URLs should be created.
      * @return {array} List of URLs.
      */
-    build: function (modules) {
+    build: function(modules) {
         var bufferAbsoluteURL = [];
         var bufferRelativeURL = [];
         var modulesAbsoluteURL = [];
@@ -624,7 +624,6 @@ URLBuilder.prototype = {
                     modules: [module.name],
                     url: this._getURLWithParams(module.fullPath)
                 });
-
             } else {
                 var path = this._getModulePath(module);
                 var absolutePath = path.indexOf('/') === 0;
@@ -644,7 +643,6 @@ URLBuilder.prototype = {
                         modules: [module.name],
                         url: this._getURLWithParams(config.url + (absolutePath ? '' : basePath) + path)
                     });
-
                 } else {
                     // If combine is true, this is not an anonymous module and the module does not have full path.
                     // The module will be collected in a buffer to be loaded among with other modules from combo loader.
@@ -747,7 +745,7 @@ URLBuilder.prototype = {
      * @param {object} module The module which path should be returned.
      * @return {string} Module path.
      */
-    _getModulePath: function (module) {
+    _getModulePath: function(module) {
         var path = module.path || module.name;
 
         var paths = this._configParser.getConfig().paths || {};
@@ -800,6 +798,7 @@ URLBuilder.prototype = {
     }
 };
 
+
     return URLBuilder;
 }));
 (function (global, factory) {
@@ -842,7 +841,6 @@ PathResolver.prototype = {
     resolvePath: function(root, dependency) {
         if (dependency === 'require' || dependency === 'exports' || dependency === 'module' ||
             !(dependency.indexOf('.') === 0 || dependency.indexOf('..') === 0)) {
-
             return dependency;
         }
 
@@ -853,7 +851,7 @@ PathResolver.prototype = {
 
         // Split dependency directories
         var dependencyParts = dependency.split('/');
-        // Extract dependecy name
+        // Extract dependency name
         var dependencyName = dependencyParts.splice(-1, 1);
 
         for (var i = 0; i < dependencyParts.length; i++) {
@@ -861,17 +859,14 @@ PathResolver.prototype = {
 
             if (dependencyPart === '.') {
                 continue;
-
             } else if (dependencyPart === '..') {
                 if (moduleParts.length) {
                     moduleParts.splice(-1, 1);
-                }
-                else {
+                } else {
                     moduleParts = moduleParts.concat(dependencyParts.slice(i));
 
                     break;
                 }
-
             } else {
                 moduleParts.push(dependencyPart);
             }
@@ -882,6 +877,7 @@ PathResolver.prototype = {
         return moduleParts.join('/');
     }
 };
+
 
     return PathResolver;
 }));
@@ -909,14 +905,16 @@ PathResolver.prototype = {
 
     'use strict';
 
+/* eslint-disable max-len,prefer-rest-params,no-extra-boolean-cast */
+
 /**
  * Creates an instance of Loader class.
  *
  * @namespace Loader
  * @extends EventEmitter
+ * @param {object=} config Configuration options
  * @constructor
  */
-
 function Loader(config) {
     Loader.superclass.constructor.apply(this, arguments);
 
@@ -1075,7 +1073,6 @@ var LoaderProtoMethods = {
             modules = arguments[0];
             successCallback = typeof arguments[1] === 'function' ? arguments[1] : null;
             failureCallback = typeof arguments[2] === 'function' ? arguments[2] : null;
-
         } else {
             modules = [];
 
@@ -1400,7 +1397,8 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules which which have to be filtered.
+     * @param {array} moduleNames List of modules which which have to be filtered.
+     * @param {string|Array} property The name of the property to filter by.
      * @return {array} List of modules matching the specified filter.
      */
     _filterModulesByProperty: function(moduleNames, property) {
@@ -1449,7 +1447,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules to be loaded.
+     * @param {array} moduleNames List of modules to be loaded.
      * @return {Promise} Promise, which will be resolved as soon as all module a being loaded.
      */
     _loadModules: function(moduleNames) {
@@ -1503,7 +1501,7 @@ var LoaderProtoMethods = {
     },
 
     /**
-     * Loads a &ltscript&gt element on the page.
+     * Loads a script element on the page.
      *
      * @memberof! Loader#
      * @protected
@@ -1524,7 +1522,6 @@ var LoaderProtoMethods = {
             // it depends which browsers will we support at the end
             script.onload = script.onreadystatechange = function() { /* istanbul ignore else */
                 if (!this.readyState || /* istanbul ignore next */ this.readyState === 'complete' || /* istanbul ignore next */ this.readyState === 'load') {
-
                     script.onload = script.onreadystatechange = null;
 
                     resolve(script);
@@ -1647,7 +1644,7 @@ var LoaderProtoMethods = {
 
                             throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
                         }
-                    }
+                    };
 
                     dependencyImplementations.push(localRequire);
                 } else {
@@ -1688,7 +1685,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {Object} module The module for which this function should wait.
+     * @param {Object} moduleName The module for which this function should wait.
      * @return {Promise}
      */
     _waitForModule: function(moduleName) {
@@ -1713,7 +1710,7 @@ var LoaderProtoMethods = {
      *
      * @memberof! Loader#
      * @protected
-     * @param {array} modules List of modules for which implementations this function should wait.
+     * @param {array} moduleNames List of modules for which implementations this function should wait.
      * @return {Promise}
      */
     _waitForModules: function(moduleNames) {
@@ -1771,6 +1768,7 @@ Object.keys(LoaderProtoMethods).forEach(function(key) {
 });
 
 Loader.prototype.define.amd = {};
+
 
     return Loader;
 }));

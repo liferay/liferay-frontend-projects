@@ -23,7 +23,6 @@
  *
  * @constructor
  */
-
 function EventEmitter() {
     this._events = {};
 }
@@ -37,7 +36,7 @@ EventEmitter.prototype = {
      * @param {string} event The name of the event.
      * @param {Function} callback Callback method to be invoked when event is being emitted.
      */
-    on: function (event, callback) {
+    on: function(event, callback) {
         var listeners = this._events[event] = this._events[event] || [];
 
         listeners.push(callback);
@@ -49,7 +48,7 @@ EventEmitter.prototype = {
      * @param {string} event The name of the event.
      * @param {function} callback Callback method to be removed from the list of listeners.
      */
-    off: function (event, callback) {
+    off: function(event, callback) {
         var listeners = this._events[event];
 
         if (listeners) {
@@ -72,7 +71,7 @@ EventEmitter.prototype = {
      * @param {string} event The name of the event.
      * @param {object} args Object, which will be passed to the listener as only argument.
      */
-    emit: function (event, args) {
+    emit: function(event, args) {
         var listeners = this._events[event];
 
         if (listeners) {
@@ -92,6 +91,7 @@ EventEmitter.prototype = {
         }
     }
 };
+
 
     return EventEmitter;
 }));
