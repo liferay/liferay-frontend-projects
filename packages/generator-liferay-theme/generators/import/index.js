@@ -68,7 +68,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 
 		if (!match) {
-			this.log(chalk.yellow('   Warning ') + 'could not determine %s property from ' + chalk.yellow('%s') + '. Using ' + chalk.yellow('%s') + ' as default value', config.propertyName, filePath, config.defaultValue);
+			this.log(chalk.yellow('   Warning ') + 'could not determine the property %s from ' + chalk.yellow('%s') + '. Using ' + chalk.yellow('%s') + ' as default value.', config.propertyNameInFile, filePath, config.defaultValue);
 		}
 
 		this[config.propertyName] = defaultValue;
@@ -82,6 +82,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			defaultValue: 6.2,
 			filePath: 'docroot/WEB-INF/liferay-plugin-package.properties',
 			propertyName: 'liferayVersion',
+			propertyNameInFile: 'liferay-versions',
 			regex: /liferay-versions=([0-9]\.[0-9])/
 		});
 
@@ -107,6 +108,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			defaultValue: defaultTemplateLanguage,
 			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
 			propertyName: 'templateLanguage',
+			propertyNameInFile: '<template-extension>',
 			regex: /<template-extension>(.*)<\/template-extension>/
 		});
 	},
