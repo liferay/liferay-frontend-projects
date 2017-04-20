@@ -26,7 +26,7 @@ module.exports = {
     // ---------------------------------------------
     // 'no-cond-assign': 0, // google
     'no-console': 0,
-    // 'no-constant-condition': 2, // eslint:recommended
+    'no-constant-condition': 0,
     // 'no-control-regex': 2, // eslint:recommended
     // 'no-debugger': 2, // eslint:recommended
     // 'no-dupe-args': 2, // eslint:recommended
@@ -161,7 +161,7 @@ module.exports = {
     // 'no-mixed-requires': 0,
     // 'no-new-require': 0,
     // 'no-path-concat': 0,
-    // 'no-process-env': 0,
+    'no-process-env': 0,
     // 'no-process-exit': 0,
     // 'no-restricted-modules': 0,
     // 'no-restricted-properties': 0,
@@ -190,7 +190,7 @@ module.exports = {
     // 'indent': 0,
     // 'jsx-quotes': 0,
     // 'key-spacing': 2, // google
-    // 'keyword-spacing': 0, // google
+    'keyword-spacing': 1,
     // 'line-comment-position': 0,
     // 'linebreak-style': 2, // google
     // 'lines-around-comment': 0,
