@@ -104,16 +104,20 @@ module.exports = function(options) {
 			.pipe(replace({
 				patterns: [
 					{
-						match: /6\.2\.\d+\+/g,
-						replacement: '7.0.0+'
+						match: /(DTD Look and Feel )\d(?:\.\d+)+(\/\/EN)/g,
+						replacement: '$17.0.0$2'
 					},
 					{
-						match: /6\.2\.0/g,
-						replacement: '7.0.0'
+						match: /(liferay-look-and-feel_)\d(?:_\d+)+(\.dtd)/g,
+						replacement: '$17_0_0$2'
 					},
 					{
-						match: /6_2_0/g,
-						replacement: '7_0_0'
+						match: /(<version>).+(<\/version>)/g,
+						replacement: '$17.0.0+$2'
+					},
+					{
+						match: /(liferay-versions=)\d(?:\.\d+)+\+?/g,
+						replacement: '$17.0.0+'
 					}
 				]
 			}))

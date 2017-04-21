@@ -58,7 +58,8 @@ test.cb('upgrade:config', function(t) {
 		assert.fileContentMatch(pluginPackagePropertiesPath, /7\.0\.0\+/);
 
 		assert.notFileContentMatch(lookAndFeelPath, /6\.2\.0/);
-		assert.notFileContentMatch(lookAndFeelPath, /6\.2\.0/);
+		assert.notFileContentMatch(lookAndFeelPath, /6_2_0/);
+		assert.notFileContentMatch(pluginPackagePropertiesPath, /6\.2\.0/);
 
 		t.end();
 	});
