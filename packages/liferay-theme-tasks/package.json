@@ -16,7 +16,8 @@
   "ava": {
     "concurrency": 5,
     "files": [
-      "test/{lib,tasks}/**/*.js"
+      "test/lib/**/*.js",
+      "test/tasks/**/*.js"
     ]
   },
   "nyc": {
