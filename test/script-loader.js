@@ -778,6 +778,26 @@ describe('Loader', function() {
         }, 50);
     });
 
+    it('should support relative paths in local require', function(done) {
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.spy(function(module) {
+            this.module = module;
+        });
+
+        Loader.require(['rel-path/module-require-rel-path'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+            assert.isTrue(success.module.resolvedDot, 'Local require should have resolved ./ relative path');
+            assert.isTrue(success.module.resolvedDot2, 'Local require should have resolved ../ relative path');
+
+            done();
+        }, 50);
+    });
+
     it('should fail when local require is called with an undeclared module', function(done) {
         var failure = sinon.spy(function(error) {
             console.error(error);
