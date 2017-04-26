@@ -91,6 +91,23 @@ describe('ConfigParser', function() {
         assert.strictEqual('liferay@1.0.0', configParser.mapModule('liferay'));
     });
 
+    it('should respect "exactMatch" mappings', function() {
+        var configParser = new global.ConfigParser();
+
+        configParser.addModule({
+            name: 'liferay@1.0.0/index'
+        });
+
+        configParser._config = {
+            maps: {
+                'liferay@1.0.0': {value: 'liferay@1.0.0/index', exactMatch: true}
+            }
+        };
+
+        assert.strictEqual('liferay@1.0.0/index', configParser.mapModule('liferay@1.0.0'));
+        assert.strictEqual('liferay@1.0.0/index', configParser.mapModule('liferay@1.0.0/index'));
+    });
+
     it('should map an array of modules to their aliases', function() {
         var configParser = new global.ConfigParser();
 
