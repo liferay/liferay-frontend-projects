@@ -9,5 +9,9 @@ var __CONFIG__ = {
 };
 __CONFIG__.maps = {
     'liferay': 'liferay@1.0.0',
-    'liferay2': 'liferay@1.0.0'
+    'liferay2': 'liferay@1.0.0',
+    'liferay@1.0.0/package': {
+        value: 'liferay@1.0.0/package/index',
+        exactMatch: true
+    }
 };

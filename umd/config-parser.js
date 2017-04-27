@@ -135,12 +135,27 @@ ConfigParser.prototype = {
             for (var alias in this._config.maps) {
                 /* istanbul ignore else */
                 if (Object.prototype.hasOwnProperty.call(this._config.maps, alias)) {
-                    if (tmpModule === alias || tmpModule.indexOf(alias + '/') === 0) {
-                        tmpModule = this._config.maps[alias] + tmpModule.substring(alias.length);
-                        modules[i] = tmpModule;
+                    var aliasValue = this._config.maps[alias];
 
-                        found = true;
-                        break;
+                    if (aliasValue.value && aliasValue.exactMatch) {
+                        if (modules[i] === alias) {
+                            modules[i] = aliasValue.value;
+
+                            found = true;
+                            break;
+                        }
+                    } else {
+                        if (aliasValue.value) {
+                            aliasValue = aliasValue.value;
+                        }
+
+                        if (tmpModule === alias || tmpModule.indexOf(alias + '/') === 0) {
+                            tmpModule = aliasValue + tmpModule.substring(alias.length);
+                            modules[i] = tmpModule;
+
+                            found = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -215,7 +230,6 @@ ConfigParser.prototype = {
         }
     }
 };
-
 
     return ConfigParser;
 }));

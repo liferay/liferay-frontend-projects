@@ -10,8 +10,8 @@
     <body>
         <h1>Alloy Loader like test page</h1>
 
-        <script src="//localhost:8080/demo/config/config.js"></script>
-        <script src="//localhost:8080/loader-debug.js"></script>
+        <script src="/demo/config/config.js"></script>
+        <script src="/loader-debug.js"></script>
 
         <script>
             __CONFIG__.maps['mappedModule'] = 'mapped-module';
@@ -116,6 +116,18 @@
 
             require('liferay/local-require', function(localRequire) {
                 console.log('Module local-require has been loaded');
+            }, function(error) {
+                console.error(error);
+            });
+
+            require('liferay@1.0.0/package', function(pkg) {
+                console.log('liferay@1.0.0/package', pkg.default);
+            }, function(error) {
+                console.error(error);
+            });
+
+            require('liferay@1.0.0/package/index', function(pkg) {
+                console.log('liferay@1.0.0/package/index', pkg.default);
             }, function(error) {
                 console.error(error);
             });

@@ -9,7 +9,11 @@ var __CONFIG__ = {
 };
 __CONFIG__.maps = {
     'liferay': 'liferay@1.0.0',
-    'liferay2': 'liferay@1.0.0'
+    'liferay2': 'liferay@1.0.0',
+    'liferay@1.0.0/package': {
+        value: 'liferay@1.0.0/package/index',
+        exactMatch: true
+    }
 };
 __CONFIG__.modules = {
     "liferay@1.0.0/aui-base": {
@@ -47,6 +51,10 @@ __CONFIG__.modules = {
     "liferay@1.0.0/sub-relative/sub-relative1": {
         "dependencies": ["exports", "../relative3"],
         "path": "liferay@1.0.0/sub-relative/sub-relative1.js"
+    },
+    "liferay@1.0.0/package/index": {
+        "dependencies": ["exports"],
+        "path": "liferay@1.0.0/package/index.js"
     },
     "liferay@1.0.0/liferay/liferay": {
         "dependencies": ["exports"],
