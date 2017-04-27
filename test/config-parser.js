@@ -186,4 +186,19 @@ describe('ConfigParser', function() {
 
         assert.strictEqual('liferay/index', configParser.mapModule('liferay/index'));
     });
+
+    it('should map local modules correctly', function() {
+        var configParser = new global.ConfigParser();
+
+        configParser.addModule({
+            'name': 'isobject@2.1.0/index',
+            'dependencies': ['module', 'require', 'isarray', 'isarray/index'],
+            'dependencyVersions': {
+                'isarray': '1.0.0'
+            }
+        });
+
+        assert.strictEqual('isarray@1.0.0', configParser.mapDependency('isobject@2.1.0/index', 'isarray'));
+        assert.strictEqual('isarray@1.0.0/index', configParser.mapDependency('isobject@2.1.0/index', 'isarray/index'));
+    });
 });

@@ -83,6 +83,12 @@ module.exports = {
         'liferay@1.0.0': {
             'dependencies': ['exports'],
             'path': 'liferay.js'
+        },
+        'isobject@2.1.0': {
+            'dependencies': ['isarray'],
+            'dependencyVersions': {
+                'isarray': '1.0.0'
+            }
         }
     }
 };

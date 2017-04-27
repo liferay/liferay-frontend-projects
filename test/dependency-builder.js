@@ -37,6 +37,16 @@ describe('DependencyBuilder', function() {
         assert.deepEqual(dependencies, ['aui-base', 'aui-core', 'aui-node', 'aui-dom-node']);
     });
 
+    it('should resolve module with versioned dependencies', function() {
+        var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+        assert.ok(dependencyBuilder);
+
+        var dependencies = dependencyBuilder.resolveDependencies(['isobject@2.1.0']);
+
+        assert.deepEqual(dependencies, ['isarray@1.0.0', 'isobject@2.1.0']);
+    });
+
     it('should resolve module with dependencies and conditional modules', function() {
         var dependencyBuilder = new global.DependencyBuilder(configParser);
 
