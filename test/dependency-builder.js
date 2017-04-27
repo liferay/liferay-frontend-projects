@@ -27,7 +27,7 @@ describe('DependencyBuilder', function() {
         assert.deepEqual(dependencies, ['aui-core']);
     });
 
-    it('should resolve module with dependecies and no conditional modules', function() {
+    it('should resolve module with dependencies and no conditional modules', function() {
         var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
@@ -37,7 +37,7 @@ describe('DependencyBuilder', function() {
         assert.deepEqual(dependencies, ['aui-base', 'aui-core', 'aui-node', 'aui-dom-node']);
     });
 
-    it('should resolve module with dependecies and conditional modules', function() {
+    it('should resolve module with dependencies and conditional modules', function() {
         var dependencyBuilder = new global.DependencyBuilder(configParser);
 
         assert.ok(dependencyBuilder);
