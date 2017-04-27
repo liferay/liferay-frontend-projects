@@ -131,6 +131,51 @@
             }, function(error) {
                 console.error(error);
             });
+
+            __CONFIG__.maps['isarray@1.0.0'] = {
+                value: 'isarray@1.0.0/index',
+                exactMatch: true
+            };
+            Loader.addModule({
+                name: 'isarray@1.0.0/index',
+                path: '/packages/isarray@1.0.0/index.js',
+                dependencies: ['exports']
+            });
+
+            __CONFIG__.maps['isarray@2.0.0'] = {
+                value: 'isarray@2.0.0/index',
+                exactMatch: true
+            };
+            Loader.addModule({
+                name: 'isarray@2.0.0/index',
+                path: '/packages/isarray@2.0.0/index.js',
+                dependencies: ['exports']
+            });
+
+            __CONFIG__.maps['isobject@1.0.0'] = {
+                value: 'isobject@1.0.0/index',
+                exactMatch: true
+            };
+            Loader.addModule({
+                name: 'isobject@1.0.0/index',
+                path: '/packages/isobject@1.0.0/index.js',
+                dependencies: ['exports', 'isarray'],
+                map: {
+                    'isarray': 'isarray@1.0.0'
+                }
+            });
+
+            require('isobject@1.0.0/index', function(isObject) {
+                console.log('isObject({}) returned', isObject.default({}));
+
+                require('isarray@2.0.0/index', function(isArray) {
+                    console.log('isArray({}) returned', isArray.default({}));
+                }, function(error) {
+                    console.error(error);
+                });
+            }, function(error) {
+                console.error(error);
+            });
         </script>
     </body>
 </html>
