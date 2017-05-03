@@ -157,4 +157,24 @@ describe('ConfigParser', function() {
 
         assert.sameMembers(['liferay@1.0.0', 'liferay2test'], configParser.mapModule(['liferay', 'liferay2']));
     });
+
+    it('should apply exactMatches first', function() {
+        var configParser = new global.ConfigParser();
+
+        configParser.addModule({
+            name: 'liferay@1.0.0/index'
+        });
+
+        configParser._config = {
+            maps: {
+                'liferay': 'liferay@2.0.0',
+                'liferay/index': {value: 'liferay@1.0.0/index', exactMatch: true}
+            }
+        };
+
+        assert.strictEqual('liferay@1.0.0/index', configParser.mapModule('liferay/index'));
+        assert.strictEqual('liferay@2.0.0/main', configParser.mapModule('liferay/main'));
+        assert.strictEqual('liferay@2.0.0', configParser.mapModule('liferay'));
+        assert.strictEqual('liferayX', configParser.mapModule('liferayX'));
+    });
 });
