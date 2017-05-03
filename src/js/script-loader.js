@@ -738,7 +738,7 @@ var LoaderProtoMethods = {
                                 throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
                             }
 
-                            return dependencyModule.implementation
+                            return dependencyModule.implementation;
                           }
                     };
 
