@@ -1624,6 +1624,7 @@ var LoaderProtoMethods = {
             // Leave exports implementation undefined by default
             var exportsImpl;
             var configParser = this._getConfigParser();
+            var pathResolver = this._getPathResolver();
 
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
@@ -1646,18 +1647,18 @@ var LoaderProtoMethods = {
                         if (argc > 1) {
                             global.require.apply(global.Loader, arguments);
                         } else {
-                            var mappedModuleName = configParser.mapModule(moduleName);
+                            moduleName = pathResolver.resolvePath(module.name, moduleName);
 
-                            for (var k = 0; k < module.dependencies.length; k++) {
-                                var dependency = module.dependencies[k];
+                            moduleName = configParser.mapModule(moduleName);
 
-                                if (dependency === mappedModuleName) {
-                                    return dependencyImplementations[k];
-                                }
+                            var dependencyModule = configParser.getModules()[moduleName];
+
+                            if (!dependencyModule || !dependencyModule.implementation) {
+                                throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
                             }
 
-                            throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
-                        }
+                            return dependencyModule.implementation;
+                          }
                     };
 
                     dependencyImplementations.push(localRequire);

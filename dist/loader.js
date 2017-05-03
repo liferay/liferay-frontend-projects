@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
  * @license   Licensed under MIT license
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   4.0.5
+ * @version   4.1.0
  */
 
 (function (global, factory) {
@@ -311,6 +311,7 @@ function handleMaybeThenable(promise, maybeThenable, then$$) {
   } else {
     if (then$$ === GET_THEN_ERROR) {
       _reject(promise, GET_THEN_ERROR.error);
+      GET_THEN_ERROR.error = null;
     } else if (then$$ === undefined) {
       fulfill(promise, maybeThenable);
     } else if (isFunction(then$$)) {
@@ -431,7 +432,7 @@ function invokeCallback(settled, promise, callback, detail) {
     if (value === TRY_CATCH_ERROR) {
       failed = true;
       error = value.error;
-      value = null;
+      value.error = null;
     } else {
       succeeded = true;
     }
@@ -1155,6 +1156,7 @@ return Promise;
 
 })));
 //# sourceMappingURL=es6-promise.map
+
 
 (function() {
 	var global = {};
@@ -2782,6 +2784,7 @@ var LoaderProtoMethods = {
             // Leave exports implementation undefined by default
             var exportsImpl;
             var configParser = this._getConfigParser();
+            var pathResolver = this._getPathResolver();
 
             for (var j = 0; j < module.dependencies.length; j++) {
                 var dependency = module.dependencies[j];
@@ -2804,18 +2807,18 @@ var LoaderProtoMethods = {
                         if (argc > 1) {
                             global.require.apply(global.Loader, arguments);
                         } else {
-                            var mappedModuleName = configParser.mapModule(moduleName);
+                            moduleName = pathResolver.resolvePath(module.name, moduleName);
 
-                            for (var k = 0; k < module.dependencies.length; k++) {
-                                var dependency = module.dependencies[k];
+                            moduleName = configParser.mapModule(moduleName);
 
-                                if (dependency === mappedModuleName) {
-                                    return dependencyImplementations[k];
-                                }
+                            var dependencyModule = configParser.getModules()[moduleName];
+
+                            if (!dependencyModule || !dependencyModule.implementation) {
+                                throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
                             }
 
-                            throw new Error('Module "' + moduleName + '" has not been loaded yet for context: ' + module.name);
-                        }
+                            return dependencyModule.implementation;
+                          }
                     };
 
                     dependencyImplementations.push(localRequire);
