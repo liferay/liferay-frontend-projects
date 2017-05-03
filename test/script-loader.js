@@ -759,6 +759,27 @@ describe('Loader', function() {
         }, 50);
     });
 
+    it('should implement localRequire.toUrl inside module implementation function', function(done) {
+        var failure = sinon.spy(function(error) {
+            console.error(error);
+        });
+        var success = sinon.spy(function(module) {
+            this.module = module;
+        });
+
+        Loader.require(['module-require'], success, failure);
+
+        setTimeout(function() {
+            assert.isTrue(failure.notCalled, 'Failure should not be called');
+            assert.isTrue(success.calledOnce, 'Success should be called once');
+            assert.isTrue(
+                success.module.resolvedUrl.endsWith('test/fixture/modules/module1.js'),
+                'Resolved URL incorrect: ' + success.module.resolvedUrl);
+
+            done();
+        }, 50);
+    });
+
     it('should map configured paths when local require is invoked', function(done) {
         var failure = sinon.spy(function(error) {
             console.error(error);

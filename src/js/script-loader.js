@@ -688,6 +688,7 @@ var LoaderProtoMethods = {
      * @param {array} modules List of modules to which implementation should be set.
      */
     _setModuleImplementation: function(modules) {
+        var self = this;
         var registeredModules = this._getConfigParser().getModules();
 
         for (var i = 0; i < modules.length; i++) {
@@ -740,6 +741,12 @@ var LoaderProtoMethods = {
 
                             return dependencyModule.implementation;
                           }
+                    };
+
+                    localRequire.toUrl = function(moduleName) {
+                        var moduleURLs = self._getURLBuilder().build([moduleName]);
+
+                        return moduleURLs[0].url;
                     };
 
                     dependencyImplementations.push(localRequire);

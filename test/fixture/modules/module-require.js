@@ -2,4 +2,5 @@ define('module-require', ['exports', 'require', 'module1'], function (exports, r
     'use strict';
 
     exports.resolved = ( require('module1') === module1 );
+    exports.resolvedUrl = require.toUrl('module1');
 });
