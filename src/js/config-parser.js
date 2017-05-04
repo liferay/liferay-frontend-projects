@@ -124,23 +124,23 @@ ConfigParser.prototype = {
      */
     _getModuleMapper: function(maps) {
         return function(module) {
-            var result = module;
+            var result;
 
             result = this._mapExactMatch(module, maps);
 
             // Apply partial mapping only if exactMatch hasn't been
             // already applied for this mapping
-            if (result === module) {
+            if (!result.matched) {
                 result = this._mapPartialMatch(module, maps);
             }
 
             // Apply * mapping only if neither exactMatch nor
             // partialMatch have been already applied for this mapping
-            if(result === module && typeof maps['*'] === 'function') {
-                result = maps['*'](result);
+            if (!result.matched) {
+                result = this._mapWildcardMatch(module, maps);
             }
 
-            return result;
+            return result.result;
         }.bind(this);
     },
 
@@ -151,7 +151,7 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {string} The mapped module name
+     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
      */
     _mapExactMatch: function(module, maps) {
         for (var alias in maps) {
@@ -161,13 +161,19 @@ ConfigParser.prototype = {
 
                 if (aliasValue.value && aliasValue.exactMatch) {
                     if (module === alias) {
-                        return aliasValue.value;
+                        return {
+                            matched: true,
+                            result: aliasValue.value
+                        };
                     }
                 }
             }
         }
 
-        return module;
+        return {
+            matched: false,
+            result: module
+        };
     },
 
     /**
@@ -177,7 +183,7 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {string} The mapped module name
+     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
      */
     _mapPartialMatch: function(module, maps) {
         for (var alias in maps) {
@@ -191,13 +197,42 @@ ConfigParser.prototype = {
                     }
 
                     if (module === alias || module.indexOf(alias + '/') === 0) {
-                        return (aliasValue + module.substring(alias.length));
+                        return {
+                            matched: true,
+                            result: aliasValue + module.substring(alias.length)
+                        };
                     }
                 }
             }
         }
 
-        return module;
+        return {
+            matched: false,
+            result: module
+        };
+    },
+
+    /**
+     * Transforms a module name using the wildcard mapping in a provided mapping
+     * object.
+     *
+     * @protected
+     * @param {string} module The module which have to be mapped.
+     * @param {object} maps Mapping information.
+     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     */
+    _mapWildcardMatch: function(module, maps) {
+        if(typeof maps['*'] === 'function') {
+            return {
+                matched: true,
+                result: maps['*'](module)
+            };
+        }
+
+        return {
+            matched: false,
+            result: module
+        }
     },
 
     /**

@@ -173,4 +173,17 @@ describe('ConfigParser', function() {
         assert.strictEqual('liferay@2.0.0', configParser.mapModule('liferay'));
         assert.strictEqual('liferayX', configParser.mapModule('liferayX'));
     });
+
+    it('should stop replacement for exact identity matches', function() {
+        var configParser = new global.ConfigParser();
+
+        configParser._config = {
+            maps: {
+                'liferay': 'this-should-not-be-applied',
+                'liferay/index': {value: 'liferay/index', exactMatch: true}
+            }
+        };
+
+        assert.strictEqual('liferay/index', configParser.mapModule('liferay/index'));
+    });
 });
