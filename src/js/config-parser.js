@@ -124,23 +124,23 @@ ConfigParser.prototype = {
      */
     _getModuleMapper: function(maps) {
         return function(module) {
-            var result;
+            var match;
 
-            result = this._mapExactMatch(module, maps);
+            match = this._mapExactMatch(module, maps);
 
             // Apply partial mapping only if exactMatch hasn't been
             // already applied for this mapping
-            if (!result.matched) {
-                result = this._mapPartialMatch(module, maps);
+            if (!match) {
+                match = this._mapPartialMatch(module, maps);
             }
 
             // Apply * mapping only if neither exactMatch nor
             // partialMatch have been already applied for this mapping
-            if (!result.matched) {
-                result = this._mapWildcardMatch(module, maps);
+            if (!match) {
+                match = this._mapWildcardMatch(module, maps);
             }
 
-            return result.result;
+            return match || module;
         }.bind(this);
     },
 
@@ -161,19 +161,11 @@ ConfigParser.prototype = {
 
                 if (aliasValue.value && aliasValue.exactMatch) {
                     if (module === alias) {
-                        return {
-                            matched: true,
-                            result: aliasValue.value
-                        };
+                        return aliasValue.value;
                     }
                 }
             }
         }
-
-        return {
-            matched: false,
-            result: module
-        };
     },
 
     /**
@@ -197,19 +189,11 @@ ConfigParser.prototype = {
                     }
 
                     if (module === alias || module.indexOf(alias + '/') === 0) {
-                        return {
-                            matched: true,
-                            result: aliasValue + module.substring(alias.length)
-                        };
+                        return aliasValue + module.substring(alias.length);
                     }
                 }
             }
         }
-
-        return {
-            matched: false,
-            result: module
-        };
     },
 
     /**
@@ -223,15 +207,7 @@ ConfigParser.prototype = {
      */
     _mapWildcardMatch: function(module, maps) {
         if(typeof maps['*'] === 'function') {
-            return {
-                matched: true,
-                result: maps['*'](module)
-            };
-        }
-
-        return {
-            matched: false,
-            result: module
+            return maps['*'](module);
         }
     },
 
