@@ -86,8 +86,8 @@ module.exports = {
         },
         'isobject@2.1.0': {
             'dependencies': ['isarray'],
-            'dependencyVersions': {
-                'isarray': '1.0.0'
+            'map': {
+                'isarray': 'isarray@1.0.0'
             }
         }
     }

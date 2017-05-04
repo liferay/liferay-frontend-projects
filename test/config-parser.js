@@ -190,15 +190,17 @@ describe('ConfigParser', function() {
     it('should map local modules correctly', function() {
         var configParser = new global.ConfigParser();
 
+        var contextMap = {
+            'isarray': 'isarray@1.0.0'
+        };
+
         configParser.addModule({
             'name': 'isobject@2.1.0/index',
             'dependencies': ['module', 'require', 'isarray', 'isarray/index'],
-            'dependencyVersions': {
-                'isarray': '1.0.0'
-            }
+            'map': contextMap
         });
 
-        assert.strictEqual('isarray@1.0.0', configParser.mapDependency('isobject@2.1.0/index', 'isarray'));
-        assert.strictEqual('isarray@1.0.0/index', configParser.mapDependency('isobject@2.1.0/index', 'isarray/index'));
+        assert.strictEqual('isarray@1.0.0', configParser.mapModule('isarray', contextMap));
+        assert.strictEqual('isarray@1.0.0/index', configParser.mapModule('isarray/index', contextMap));
     });
 });

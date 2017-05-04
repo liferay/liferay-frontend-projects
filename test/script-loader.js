@@ -103,8 +103,8 @@ describe('Loader', function() {
                 'isobject@2.1.0/index': {
                     path: 'isobject@2.1.0/index.js',
                     dependencies: ['exports', 'isarray/index'],
-                    dependencyVersions: {
-                        'isarray' : '1.0.0'
+                    map: {
+                        'isarray' : 'isarray@1.0.0'
                     }
                 },
                 'isarray@1.0.0/index': {
