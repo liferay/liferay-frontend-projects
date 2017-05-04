@@ -92,12 +92,17 @@ ConfigParser.prototype = {
      * then a corresponding alias will be searched. If found, the name will be replaced,
      * so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
      *
+     * Additionally, modules can define a custom map to alias module names just in the context
+     * of that module loading operation. When present, the contextual module mapping will take
+     * precedence over the general one.
+     *
      * @protected
      * @param {array|string} module The module which have to be mapped or array of modules.
+     * @param {?object} contextMap Contextual module mapping information relevant to the current load operation
      * @return {array|string} The mapped module or array of mapped modules.
      */
-    mapModule: function(module) {
-        if (!this._config.maps) {
+    mapModule: function(module, contextMap) {
+        if (!this._config.maps && !contextMap) {
             return module;
         }
 
@@ -109,7 +114,13 @@ ConfigParser.prototype = {
             modules = [module];
         }
 
-        modules = modules.map(this._getModuleMapper(this._config.maps));
+        if (contextMap) {
+            modules = modules.map(this._getModuleMapper(contextMap));
+        }
+
+        if (this._config.maps) {
+            modules = modules.map(this._getModuleMapper(this._config.maps));
+        }
 
         return Array.isArray(module) ? modules : modules[0];
     },

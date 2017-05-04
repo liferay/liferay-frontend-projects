@@ -176,7 +176,7 @@ DependencyBuilder.prototype = {
                 dependencyName = this._pathResolver.resolvePath(module.name, dependencyName);
 
                 // A module may have many dependencies so we should map them.
-                var mappedDependencyName = this._configParser.mapModule(dependencyName);
+                var mappedDependencyName = this._configParser.mapModule(dependencyName, module.map);
                 var moduleDependency = modules[mappedDependencyName];
 
                 // Register on the fly all unregistered in the configuration dependencies as
