@@ -188,6 +188,643 @@
         <dl>
             
 <dt>
+    <h4 class="name" id="_getModuleMapper"><span class="type-signature">&lt;protected> </span>_getModuleMapper<span class="signature">(maps)</span><span class="type-signature"> &rarr; {function}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Creates a function that transforms module names based on a provided
+set of mappings.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>maps</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mapping information.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line125">line 125</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The generated mapper function
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="_mapExactMatch"><span class="type-signature">&lt;protected> </span>_mapExactMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Transforms a module name using the exactMatch mappings
+in a provided mapping object.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>module</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The module which have to be mapped.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maps</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mapping information.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line156">line 156</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    An object with a boolean `matched` field and a string `result` field containing the mapped module name
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="_mapPartialMatch"><span class="type-signature">&lt;protected> </span>_mapPartialMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Transforms a module name using the partial mappings
+in a provided mapping object.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>module</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The module which have to be mapped.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maps</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mapping information.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line180">line 180</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    An object with a boolean `matched` field and a string `result` field containing the mapped module name
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="_mapWildcardMatch"><span class="type-signature">&lt;protected> </span>_mapWildcardMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Transforms a module name using the wildcard mapping in a provided mapping
+object.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>module</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The module which have to be mapped.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maps</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mapping information.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    An object with a boolean `matched` field and a string `result` field containing the mapped module name
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="_parseConfig"><span class="type-signature">&lt;protected> </span>_parseConfig<span class="signature">(config)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
@@ -277,7 +914,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line161">line 161</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -418,7 +1055,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line182">line 182</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -559,7 +1196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line202">line 202</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line262">line 262</a>
     </li></ul></dd>
     
 
@@ -1192,7 +1829,7 @@ so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Wed May 03 2017 10:54:03 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu May 04 2017 12:44:48 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
