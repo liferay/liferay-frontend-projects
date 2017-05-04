@@ -161,10 +161,6 @@ describe('ConfigParser', function() {
     it('should apply exactMatches first', function() {
         var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'liferay@1.0.0/index'
-        });
-
         configParser._config = {
             maps: {
                 'liferay': 'liferay@2.0.0',
