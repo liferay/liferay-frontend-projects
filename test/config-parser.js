@@ -6,17 +6,20 @@ require('./fixture/common.js');
 var config = require('./fixture/config.js');
 
 describe('ConfigParser', function() {
-	it('should create an instance of ConfigParser without existing data', function() {
-		var configParser = new global.ConfigParser();
+	it(
+		'should create an instance of ConfigParser without existing ' + 'data',
+		function() {
+			var configParser = new global.ConfigParser();
 
-		assert.ok(configParser);
+			assert.ok(configParser);
 
-		var modules = configParser.getModules();
-		var conditionalModules = configParser.getModules();
+			var modules = configParser.getModules();
+			var conditionalModules = configParser.getModules();
 
-		assert.strictEqual(0, Object.keys(modules).length);
-		assert.strictEqual(0, Object.keys(conditionalModules).length);
-	});
+			assert.strictEqual(0, Object.keys(modules).length);
+			assert.strictEqual(0, Object.keys(conditionalModules).length);
+		}
+	);
 
 	it('should add new module', function() {
 		var configParser = new global.ConfigParser(config);
@@ -158,23 +161,27 @@ describe('ConfigParser', function() {
 		);
 	});
 
-	it('should ignore a mapping function if a more specific module mapping exists', function() {
-		var configParser = new global.ConfigParser();
+	it(
+		'should ignore a mapping function if a more specific module mapping ' +
+			'exists',
+		function() {
+			var configParser = new global.ConfigParser();
 
-		configParser._config = {
-			maps: {
-				liferay: 'liferay@1.0.0',
-				'*': function(name) {
-					return name + 'test';
+			configParser._config = {
+				maps: {
+					liferay: 'liferay@1.0.0',
+					'*': function(name) {
+						return name + 'test';
+					},
 				},
-			},
-		};
+			};
 
-		assert.sameMembers(
-			['liferay@1.0.0', 'liferay2test'],
-			configParser.mapModule(['liferay', 'liferay2'])
-		);
-	});
+			assert.sameMembers(
+				['liferay@1.0.0', 'liferay2test'],
+				configParser.mapModule(['liferay', 'liferay2'])
+			);
+		}
+	);
 
 	it('should apply exactMatches first', function() {
 		var configParser = new global.ConfigParser();

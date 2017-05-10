@@ -1,5 +1,7 @@
 'use strict';
 
+/* global Loader: false, document: false */
+
 require('./fixture/common.js');
 require('./fixture/script.js');
 
@@ -313,8 +315,6 @@ describe('Loader', function() {
 	});
 
 	it('should load module which implementation is an object', function(done) {
-		var moduleName = Math.random().toString();
-
 		Loader.addModule({
 			name: 'impl_as_object',
 			dependencies: ['exports'],

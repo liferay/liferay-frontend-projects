@@ -1,5 +1,6 @@
 /* eslint-env node */
-var comboServer = require('combohandler/lib/server'), app;
+var comboServer = require('combohandler/lib/server');
+var app;
 
 app = comboServer({
 	roots: {

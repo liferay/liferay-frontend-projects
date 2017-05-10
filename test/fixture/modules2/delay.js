@@ -1,3 +1,5 @@
+/* global global */
+
 setTimeout(function() {
 	define('delay', ['exports', 'module'], function(exports, module) {
 		'use strict';

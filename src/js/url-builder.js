@@ -53,16 +53,18 @@ URLBuilder.prototype = {
 				var path = this._getModulePath(module);
 				var absolutePath = path.indexOf('/') === 0;
 
-				// If the URL starts with external protocol, individual URL shall be created.
+				// If the URL starts with external protocol, individual URL
+				// shall be created.
 				if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
 					result.push({
 						modules: [module.name],
 						url: this._getURLWithParams(path),
 					});
 
-					// If combine is disabled, or the module is an anonymous one,
-					// create an individual URL based on the config URL and module's path.
-					// If the module's path starts with "/", do not include basePath in the URL.
+					// If combine is disabled, or the module is an anonymous
+					// one, create an individual URL based on the config URL and
+					// module's path. If the module's path starts with "/", do
+					// not include basePath in the URL.
 				} else if (!config.combine || module.anonymous) {
 					result.push({
 						modules: [module.name],
@@ -71,9 +73,12 @@ URLBuilder.prototype = {
 						),
 					});
 				} else {
-					// If combine is true, this is not an anonymous module and the module does not have full path.
-					// The module will be collected in a buffer to be loaded among with other modules from combo loader.
-					// The path will be stored in different buffer depending on the fact if it is absolute URL or not.
+					// If combine is true, this is not an anonymous module and
+					// the module does not have full path. The module will be
+					// collected in a buffer to be loaded among with other
+					// modules from combo loader. The path will be stored in
+					// different buffer depending on the fact if it is absolute
+					// URL or not.
 					if (absolutePath) {
 						bufferAbsoluteURL.push(path);
 						modulesAbsoluteURL.push(module.name);
@@ -126,7 +131,8 @@ URLBuilder.prototype = {
      *
      * @param {Array<String>} modules Array of module names
      * @param {Array<String>} urls Array of module URLs
-     * @param {Object} config Configuration object containing URL, basePath and urlMaxLength
+     * @param {Object} config Configuration object containing URL, basePath and
+	 *     urlMaxLength
      * @return {Array<Object>} Resulting array of {modules, url} objects
      */
 	_generateBufferURLs: function(modules, urls, config) {
@@ -168,8 +174,9 @@ URLBuilder.prototype = {
 	},
 
 	/**
-     * Returns the path for a module. If module has property path, it will be returned directly. Otherwise,
-     * the name of module will be used and extension .js will be added to module name if omitted.
+     * Returns the path for a module. If module has property path, it will be
+	 * returned directly. Otherwise, the name of module will be used and
+	 * extension .js will be added to module name if omitted.
      *
      * @protected
      * @param {object} module The module which path should be returned.

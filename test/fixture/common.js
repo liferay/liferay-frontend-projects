@@ -17,19 +17,19 @@ global.printStatus = function(fn) {
 
 	switch (v8.getOptimizationStatus(fn)) {
 		case 1:
-			console.log(fn.name, 'function is optimized');
+			console.log(name, 'function is optimized');
 			break;
 		case 2:
-			console.log(fn.name, 'function is not optimized');
+			console.log(name, 'function is not optimized');
 			break;
 		case 3:
-			console.log(fn.name, 'function is always optimized');
+			console.log(name, 'function is always optimized');
 			break;
 		case 4:
-			console.log(fn.name, 'function is never optimized');
+			console.log(name, 'function is never optimized');
 			break;
 		case 6:
-			console.log(fn.name, 'function is maybe deoptimized');
+			console.log(name, 'function is maybe deoptimized');
 			break;
 	}
 };

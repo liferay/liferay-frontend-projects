@@ -21,33 +21,41 @@ describe('URLBuilder', function() {
 		assert.sameMembers(modulesURL[0].modules, ['aui-core']);
 	});
 
-	it('should append a trailing .js extension if the module path does not have one', function() {
-		var urlBuilder = new global.URLBuilder(configParser);
+	it(
+		'should append a trailing .js extension if the module path does not ' +
+			'have one',
+		function() {
+			var urlBuilder = new global.URLBuilder(configParser);
 
-		var modulesURL = urlBuilder.build(['module']);
+			var modulesURL = urlBuilder.build(['module']);
 
-		assert.strictEqual(modulesURL.length, 1);
+			assert.strictEqual(modulesURL.length, 1);
 
-		assert.strictEqual(
-			modulesURL[0].url,
-			'http://localhost:3000/combo?/modules/module/src/module.js'
-		);
-		assert.sameMembers(modulesURL[0].modules, ['module']);
-	});
+			assert.strictEqual(
+				modulesURL[0].url,
+				'http://localhost:3000/combo?/modules/module/src/module.js'
+			);
+			assert.sameMembers(modulesURL[0].modules, ['module']);
+		}
+	);
 
-	it('should not append the trailing .js extension if the module path already ends in .js', function() {
-		var urlBuilder = new global.URLBuilder(configParser);
+	it(
+		'should not append the trailing .js extension if the module path ' +
+			'already ends in .js',
+		function() {
+			var urlBuilder = new global.URLBuilder(configParser);
 
-		var modulesURL = urlBuilder.build(['module.js']);
+			var modulesURL = urlBuilder.build(['module.js']);
 
-		assert.strictEqual(modulesURL.length, 1);
+			assert.strictEqual(modulesURL.length, 1);
 
-		assert.strictEqual(
-			modulesURL[0].url,
-			'http://localhost:3000/combo?/modules/module.js/src/module.js'
-		);
-		assert.sameMembers(modulesURL[0].modules, ['module.js']);
-	});
+			assert.strictEqual(
+				modulesURL[0].url,
+				'http://localhost:3000/combo?/modules/module.js/src/module.js'
+			);
+			assert.sameMembers(modulesURL[0].modules, ['module.js']);
+		}
+	);
 
 	it('should create URL for module with full path', function() {
 		var urlBuilder = new global.URLBuilder(configParser);
@@ -312,34 +320,41 @@ describe('URLBuilder', function() {
 		assert.sameMembers(modulesURL[1].modules, ['aui-core.js']);
 	});
 
-	it('should not add trailing slash if base is an empty string and combine is true', function() {
-		var configParser = new global.ConfigParser({
-			url: 'http://localhost:3000/modules?',
-			basePath: '',
-			combine: true,
-			modules: {
-				'aui-base': {
-					dependencies: [],
-					path: 'aui-base.js',
+	it(
+		'should not add trailing slash if base is an empty string and ' +
+			'combine is true',
+		function() {
+			var configParser = new global.ConfigParser({
+				url: 'http://localhost:3000/modules?',
+				basePath: '',
+				combine: true,
+				modules: {
+					'aui-base': {
+						dependencies: [],
+						path: 'aui-base.js',
+					},
+					'aui-core.js': {
+						dependencies: [],
+					},
 				},
-				'aui-core.js': {
-					dependencies: [],
-				},
-			},
-		});
+			});
 
-		var urlBuilder = new global.URLBuilder(configParser);
+			var urlBuilder = new global.URLBuilder(configParser);
 
-		var modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
+			var modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
-		assert.strictEqual(modulesURL.length, 1);
+			assert.strictEqual(modulesURL.length, 1);
 
-		assert.strictEqual(
-			modulesURL[0].url,
-			'http://localhost:3000/modules?aui-base.js&aui-core.js'
-		);
-		assert.sameMembers(modulesURL[0].modules, ['aui-base', 'aui-core.js']);
-	});
+			assert.strictEqual(
+				modulesURL[0].url,
+				'http://localhost:3000/modules?aui-base.js&aui-core.js'
+			);
+			assert.sameMembers(modulesURL[0].modules, [
+				'aui-base',
+				'aui-core.js',
+			]);
+		}
+	);
 
 	it('should combine modules with and without absolute url', function() {
 		var configParser = new global.ConfigParser({

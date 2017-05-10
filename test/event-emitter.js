@@ -99,29 +99,33 @@ describe('EventEmitter', function() {
 		console.warn.restore();
 	});
 
-	it('should call all listeners if some of them are being removed on the fly', function() {
-		var eventEmitter = new global.EventEmitter();
+	it(
+		'should call all listeners if some of them are being removed on the ' +
+			'fly',
+		function() {
+			var eventEmitter = new global.EventEmitter();
 
-		var listener1 = sinon.spy(function() {
-			eventEmitter.off(listener1);
-		});
+			var listener1 = sinon.spy(function() {
+				eventEmitter.off(listener1);
+			});
 
-		var listener2 = sinon.spy(function() {
-			eventEmitter.off(listener2);
-		});
+			var listener2 = sinon.spy(function() {
+				eventEmitter.off(listener2);
+			});
 
-		var listener3 = sinon.spy(function() {
-			eventEmitter.off(listener3);
-		});
+			var listener3 = sinon.spy(function() {
+				eventEmitter.off(listener3);
+			});
 
-		eventEmitter.on('test', listener1);
-		eventEmitter.on('test', listener2);
-		eventEmitter.on('test', listener3);
+			eventEmitter.on('test', listener1);
+			eventEmitter.on('test', listener2);
+			eventEmitter.on('test', listener3);
 
-		eventEmitter.emit('test');
+			eventEmitter.emit('test');
 
-		assert(listener1.calledOnce);
-		assert(listener2.calledOnce);
-		assert(listener3.calledOnce);
-	});
+			assert(listener1.calledOnce);
+			assert(listener2.calledOnce);
+			assert(listener3.calledOnce);
+		}
+	);
 });

@@ -13,7 +13,7 @@ describe('DependencyBuilder', function() {
 		assert.ok(dependencyBuilder);
 
 		assert.throws(function() {
-			new dependencyBuilder.resolve();
+			dependencyBuilder.resolve();
 		}, Error);
 	});
 
@@ -27,22 +27,26 @@ describe('DependencyBuilder', function() {
 		assert.deepEqual(dependencies, ['aui-core']);
 	});
 
-	it('should resolve module with dependencies and no conditional modules', function() {
-		var dependencyBuilder = new global.DependencyBuilder(configParser);
+	it(
+		'should resolve module with dependencies and no conditional ' +
+			'modules',
+		function() {
+			var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-		assert.ok(dependencyBuilder);
+			assert.ok(dependencyBuilder);
 
-		var dependencies = dependencyBuilder.resolveDependencies([
-			'aui-dom-node',
-		]);
+			var dependencies = dependencyBuilder.resolveDependencies([
+				'aui-dom-node',
+			]);
 
-		assert.deepEqual(dependencies, [
-			'aui-base',
-			'aui-core',
-			'aui-node',
-			'aui-dom-node',
-		]);
-	});
+			assert.deepEqual(dependencies, [
+				'aui-base',
+				'aui-core',
+				'aui-node',
+				'aui-dom-node',
+			]);
+		}
+	);
 
 	it('should resolve module with versioned dependencies', function() {
 		var dependencyBuilder = new global.DependencyBuilder(configParser);
@@ -56,26 +60,31 @@ describe('DependencyBuilder', function() {
 		assert.deepEqual(dependencies, ['isarray@1.0.0', 'isobject@2.1.0']);
 	});
 
-	it('should resolve module with dependencies and conditional modules', function() {
-		var dependencyBuilder = new global.DependencyBuilder(configParser);
+	it(
+		'should resolve module with dependencies and conditional ' + 'modules',
+		function() {
+			var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-		assert.ok(dependencyBuilder);
+			assert.ok(dependencyBuilder);
 
-		var dependencies = dependencyBuilder.resolveDependencies(['aui-nate']);
+			var dependencies = dependencyBuilder.resolveDependencies([
+				'aui-nate',
+			]);
 
-		assert.deepEqual(dependencies, [
-			'aui-base',
-			'aui-core',
-			'aui-node',
-			'aui-plugin-base',
-			'aui-dialog',
-			'aui-autocomplete',
-			'aui-event',
-			'aui-nate',
-			'aui-chema',
-			'aui-test2',
-		]);
-	});
+			assert.deepEqual(dependencies, [
+				'aui-base',
+				'aui-core',
+				'aui-node',
+				'aui-plugin-base',
+				'aui-dialog',
+				'aui-autocomplete',
+				'aui-event',
+				'aui-nate',
+				'aui-chema',
+				'aui-test2',
+			]);
+		}
+	);
 
 	it('should resolve multiple modules', function() {
 		var dependencyBuilder = new global.DependencyBuilder(configParser);
@@ -283,18 +292,21 @@ describe('DependencyBuilder', function() {
 		assert.property(modules, 'test/not-configured-dep');
 	});
 
-	it('should process modules with "exports" and "module" dependencies', function() {
-		var configParser = new global.ConfigParser();
+	it(
+		'should process modules with "exports" and "module" ' + 'dependencies',
+		function() {
+			var configParser = new global.ConfigParser();
 
-		var dependencyBuilder = new global.DependencyBuilder(configParser);
+			var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-		configParser.addModule({
-			name: 'exports-module',
-			dependencies: ['exports', 'module'],
-		});
+			configParser.addModule({
+				name: 'exports-module',
+				dependencies: ['exports', 'module'],
+			});
 
-		assert.doesNotThrow(function() {
-			dependencyBuilder.resolveDependencies(['exports-module']);
-		}, Error);
-	});
+			assert.doesNotThrow(function() {
+				dependencyBuilder.resolveDependencies(['exports-module']);
+			}, Error);
+		}
+	);
 });

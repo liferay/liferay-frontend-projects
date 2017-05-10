@@ -13,8 +13,10 @@ PathResolver.prototype = {
 	/**
      * Resolves the path of module.
      *
-     * @param {string} root Root path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dependency path, which have to be resolved.
+     * @param {string} root Root path which will be used as reference to resolve
+     *     the path of the dependency.
+     * @param {string} dependency The dependency path, which have to be
+     *     resolved.
      * @return {string} The resolved dependency path.
      */
 	resolvePath: function(root, dependency) {

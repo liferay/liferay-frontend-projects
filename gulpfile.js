@@ -71,7 +71,11 @@ gulp.task('build', function(callback) {
 
 gulp.task('build-config', ['config', 'modules'], function(callback) {
 	exec(
-		'node node_modules/liferay-module-config-generator/bin/index.js -b src/config/config-base.js -m dist/demo/modules/bower.json -o src/config/config.js -r dist/demo/modules dist/demo/modules',
+		'node node_modules/liferay-module-config-generator/bin/index.js ' +
+			'-b src/config/config-base.js ' +
+			'-m dist/demo/modules/bower.json ' +
+			'-o src/config/config.js ' +
+			'-r dist/demo/modules dist/demo/modules',
 		function(err, stdout, stderr) {
 			if (err) {
 				console.error(err);
