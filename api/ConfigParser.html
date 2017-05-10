@@ -278,7 +278,7 @@ set of mappings.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line125">line 125</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -443,7 +443,7 @@ in a provided mapping object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line156">line 156</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -608,7 +608,7 @@ in a provided mapping object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line180">line 180</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -773,7 +773,7 @@ object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line208">line 208</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -914,7 +914,7 @@ object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line221">line 221</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line232">line 232</a>
     </li></ul></dd>
     
 
@@ -1055,7 +1055,7 @@ object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line242">line 242</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -1196,7 +1196,7 @@ object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line262">line 262</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line275">line 275</a>
     </li></ul></dd>
     
 
@@ -1655,7 +1655,7 @@ object.
         
             
 <dt>
-    <h4 class="name" id="mapModule"><span class="type-signature">&lt;protected> </span>mapModule<span class="signature">(module)</span><span class="type-signature"> &rarr; {array|string}</span></h4>
+    <h4 class="name" id="mapModule"><span class="type-signature">&lt;protected> </span>mapModule<span class="signature">(module, contextMap)</span><span class="type-signature"> &rarr; {array|string}</span></h4>
 
     
 </dt>
@@ -1672,6 +1672,10 @@ When someone does require('liferay/html/js/ac.es',...),
 if the module 'liferay/html/js/ac.es' is not defined,
 then a corresponding alias will be searched. If found, the name will be replaced,
 so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
+
+Additionally, modules can define a custom map to alias module names just in the context
+of that module loading operation. When present, the contextual module mapping will take
+precedence over the general one.
     </div>
     
 
@@ -1692,6 +1696,8 @@ so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
 
         <th>Type</th>
 
+        
+        <th>Argument</th>
         
 
         
@@ -1721,10 +1727,51 @@ so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The module which have to be mapped or array of modules.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contextMap</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Contextual module mapping information relevant to the current load operation</td>
         </tr>
 
     
@@ -1755,7 +1802,7 @@ so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line99">line 99</a>
+        <a href="config-parser.js.html">config-parser.js</a>, <a href="config-parser.js.html#line104">line 104</a>
     </li></ul></dd>
     
 
@@ -1829,7 +1876,7 @@ so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu May 04 2017 12:44:48 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Wed May 10 2017 15:16:15 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
