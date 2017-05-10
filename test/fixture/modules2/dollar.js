@@ -1,1 +1,1 @@
-global.$ = function(){};
+global.$ = function() {};

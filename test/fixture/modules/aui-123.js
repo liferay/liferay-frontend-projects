@@ -1,9 +1,8 @@
-define('aui-123', ['exports'], function (__exports__) {
-    'use strict';
+define('aui-123', ['exports'], function(__exports__) {
+	'use strict';
+	function log(text) {
+		console.log('module aui-123 says', text);
+	}
 
-    function log(text) {
-        console.log('module aui-123 says', text);
-    }
-
-    __exports__.log = log;
+	__exports__.log = log;
 });

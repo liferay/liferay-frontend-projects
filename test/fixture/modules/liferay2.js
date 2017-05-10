@@ -1,9 +1,8 @@
-define('liferay@2.0.0', ['exports', 'liferay'], function (__exports__, liferay) {
-    'use strict';
+define('liferay@2.0.0', ['exports', 'liferay'], function(__exports__, liferay) {
+	'use strict';
+	function log(text) {
+		console.log('liferay@2.0.0 says', text);
+	}
 
-    function log(text) {
-        console.log('liferay@2.0.0 says', text);
-    }
-
-    __exports__.log = log;
+	__exports__.log = log;
 });

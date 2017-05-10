@@ -6,201 +6,237 @@ require('./fixture/common.js');
 var config = require('./fixture/config.js');
 
 describe('ConfigParser', function() {
-    it('should create an instance of ConfigParser without existing data', function() {
-        var configParser = new global.ConfigParser();
+	it('should create an instance of ConfigParser without existing data', function() {
+		var configParser = new global.ConfigParser();
 
-        assert.ok(configParser);
+		assert.ok(configParser);
 
-        var modules = configParser.getModules();
-        var conditionalModules = configParser.getModules();
+		var modules = configParser.getModules();
+		var conditionalModules = configParser.getModules();
 
-        assert.strictEqual(0, Object.keys(modules).length);
-        assert.strictEqual(0, Object.keys(conditionalModules).length);
-    });
+		assert.strictEqual(0, Object.keys(modules).length);
+		assert.strictEqual(0, Object.keys(conditionalModules).length);
+	});
 
-    it('should add new module', function() {
-        var configParser = new global.ConfigParser(config);
+	it('should add new module', function() {
+		var configParser = new global.ConfigParser(config);
 
-        var addedModule = configParser.addModule({
-            name: 'aui-test1',
-            dependencies: ['aui-base', 'aui-core'],
-            path: 'aui-test1.js'
-        });
+		var addedModule = configParser.addModule({
+			name: 'aui-test1',
+			dependencies: ['aui-base', 'aui-core'],
+			path: 'aui-test1.js',
+		});
 
-        var modules = configParser.getModules();
+		var modules = configParser.getModules();
 
-        assert.ok(modules['aui-test1']);
-        assert.strictEqual(addedModule, modules['aui-test1']);
-    });
+		assert.ok(modules['aui-test1']);
+		assert.strictEqual(addedModule, modules['aui-test1']);
+	});
 
-    it('should overwrite the properties of an existing module', function() {
-        var configParser = new global.ConfigParser(config);
+	it('should overwrite the properties of an existing module', function() {
+		var configParser = new global.ConfigParser(config);
 
-        configParser.addModule({
-            name: 'aui-test1',
-            dependencies: ['aui-base', 'aui-core'],
-            path: 'aui-test1.js',
-            testMapk: true
-        });
+		configParser.addModule({
+			name: 'aui-test1',
+			dependencies: ['aui-base', 'aui-core'],
+			path: 'aui-test1.js',
+			testMapk: true,
+		});
 
-        configParser.addModule({
-            name: 'aui-test1',
-            dependencies: ['aui-base', 'aui-core']
-        });
+		configParser.addModule({
+			name: 'aui-test1',
+			dependencies: ['aui-base', 'aui-core'],
+		});
 
-        var modules = configParser.getModules();
+		var modules = configParser.getModules();
 
-        var moduleDefinition = modules['aui-test1'];
+		var moduleDefinition = modules['aui-test1'];
 
-        assert.propertyVal(moduleDefinition, 'testMapk', true);
-        assert.propertyVal(moduleDefinition, 'path', 'aui-test1.js');
-    });
+		assert.propertyVal(moduleDefinition, 'testMapk', true);
+		assert.propertyVal(moduleDefinition, 'path', 'aui-test1.js');
+	});
 
-    it('should add conditional module', function() {
-        var configParser = new global.ConfigParser();
+	it('should add conditional module', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'aui-chema-test2',
-            dependencies: ['aui-base', 'aui-core'],
-            path: 'aui-chema-test2.js',
-            condition: {
-                trigger: 'aui-nate',
-                test: function() {
-                    return true;
-                }
-            }
-        });
+		configParser.addModule({
+			name: 'aui-chema-test2',
+			dependencies: ['aui-base', 'aui-core'],
+			path: 'aui-chema-test2.js',
+			condition: {
+				trigger: 'aui-nate',
+				test: function() {
+					return true;
+				},
+			},
+		});
 
-        var modules = configParser.getConditionalModules();
-        assert.ok(modules['aui-nate'].indexOf('aui-chema-test2') >= 0);
-    });
+		var modules = configParser.getConditionalModules();
+		assert.ok(modules['aui-nate'].indexOf('aui-chema-test2') >= 0);
+	});
 
-    it('should map a module to its alias', function() {
-        var configParser = new global.ConfigParser();
+	it('should map a module to its alias', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'liferay@1.0.0'
-        });
+		configParser.addModule({
+			name: 'liferay@1.0.0',
+		});
 
-        configParser._config = {
-            maps: {
-                liferay: 'liferay@1.0.0'
-            }
-        };
+		configParser._config = {
+			maps: {
+				liferay: 'liferay@1.0.0',
+			},
+		};
 
-        assert.strictEqual('liferay@1.0.0', configParser.mapModule('liferay'));
-    });
+		assert.strictEqual('liferay@1.0.0', configParser.mapModule('liferay'));
+	});
 
-    it('should respect "exactMatch" mappings', function() {
-        var configParser = new global.ConfigParser();
+	it('should respect "exactMatch" mappings', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'liferay@1.0.0/index'
-        });
+		configParser.addModule({
+			name: 'liferay@1.0.0/index',
+		});
 
-        configParser._config = {
-            maps: {
-                'liferay@1.0.0': {value: 'liferay@1.0.0/index', exactMatch: true}
-            }
-        };
+		configParser._config = {
+			maps: {
+				'liferay@1.0.0': {
+					value: 'liferay@1.0.0/index',
+					exactMatch: true,
+				},
+			},
+		};
 
-        assert.strictEqual('liferay@1.0.0/index', configParser.mapModule('liferay@1.0.0'));
-        assert.strictEqual('liferay@1.0.0/index', configParser.mapModule('liferay@1.0.0/index'));
-    });
+		assert.strictEqual(
+			'liferay@1.0.0/index',
+			configParser.mapModule('liferay@1.0.0')
+		);
+		assert.strictEqual(
+			'liferay@1.0.0/index',
+			configParser.mapModule('liferay@1.0.0/index')
+		);
+	});
 
-    it('should map an array of modules to their aliases', function() {
-        var configParser = new global.ConfigParser();
+	it('should map an array of modules to their aliases', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'liferay@1.0.0'
-        });
+		configParser.addModule({
+			name: 'liferay@1.0.0',
+		});
 
-        configParser.addModule({
-            name: 'liferay@2.0.0'
-        });
+		configParser.addModule({
+			name: 'liferay@2.0.0',
+		});
 
-        configParser._config = {
-            maps: {
-                liferay: 'liferay@1.0.0',
-                liferay2: 'liferay@2.0.0'
-            }
-        };
+		configParser._config = {
+			maps: {
+				liferay: 'liferay@1.0.0',
+				liferay2: 'liferay@2.0.0',
+			},
+		};
 
-        assert.sameMembers(['liferay@1.0.0', 'liferay@2.0.0'], configParser.mapModule(['liferay', 'liferay2']));
-    });
+		assert.sameMembers(
+			['liferay@1.0.0', 'liferay@2.0.0'],
+			configParser.mapModule(['liferay', 'liferay2'])
+		);
+	});
 
-    it('should map a module via a mapping function', function() {
-        var configParser = new global.ConfigParser();
+	it('should map a module via a mapping function', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser._config = {
-            maps: {
-                '*': function(name) {
-                    return name + 'test';
-                }
-            }
-        };
+		configParser._config = {
+			maps: {
+				'*': function(name) {
+					return name + 'test';
+				},
+			},
+		};
 
-        assert.sameMembers(['liferaytest', 'liferay2test'], configParser.mapModule(['liferay', 'liferay2']));
-    });
+		assert.sameMembers(
+			['liferaytest', 'liferay2test'],
+			configParser.mapModule(['liferay', 'liferay2'])
+		);
+	});
 
-    it('should ignore a mapping function if a more specific module mapping exists', function() {
-        var configParser = new global.ConfigParser();
+	it('should ignore a mapping function if a more specific module mapping exists', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser._config = {
-            maps: {
-                liferay: 'liferay@1.0.0',
-                '*': function(name) {
-                    return name + 'test';
-                }
-            }
-        };
+		configParser._config = {
+			maps: {
+				liferay: 'liferay@1.0.0',
+				'*': function(name) {
+					return name + 'test';
+				},
+			},
+		};
 
-        assert.sameMembers(['liferay@1.0.0', 'liferay2test'], configParser.mapModule(['liferay', 'liferay2']));
-    });
+		assert.sameMembers(
+			['liferay@1.0.0', 'liferay2test'],
+			configParser.mapModule(['liferay', 'liferay2'])
+		);
+	});
 
-    it('should apply exactMatches first', function() {
-        var configParser = new global.ConfigParser();
+	it('should apply exactMatches first', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser._config = {
-            maps: {
-                'liferay': 'liferay@2.0.0',
-                'liferay/index': {value: 'liferay@1.0.0/index', exactMatch: true}
-            }
-        };
+		configParser._config = {
+			maps: {
+				liferay: 'liferay@2.0.0',
+				'liferay/index': {
+					value: 'liferay@1.0.0/index',
+					exactMatch: true,
+				},
+			},
+		};
 
-        assert.strictEqual('liferay@1.0.0/index', configParser.mapModule('liferay/index'));
-        assert.strictEqual('liferay@2.0.0/main', configParser.mapModule('liferay/main'));
-        assert.strictEqual('liferay@2.0.0', configParser.mapModule('liferay'));
-        assert.strictEqual('liferayX', configParser.mapModule('liferayX'));
-    });
+		assert.strictEqual(
+			'liferay@1.0.0/index',
+			configParser.mapModule('liferay/index')
+		);
+		assert.strictEqual(
+			'liferay@2.0.0/main',
+			configParser.mapModule('liferay/main')
+		);
+		assert.strictEqual('liferay@2.0.0', configParser.mapModule('liferay'));
+		assert.strictEqual('liferayX', configParser.mapModule('liferayX'));
+	});
 
-    it('should stop replacement for exact identity matches', function() {
-        var configParser = new global.ConfigParser();
+	it('should stop replacement for exact identity matches', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser._config = {
-            maps: {
-                'liferay': 'this-should-not-be-applied',
-                'liferay/index': {value: 'liferay/index', exactMatch: true}
-            }
-        };
+		configParser._config = {
+			maps: {
+				liferay: 'this-should-not-be-applied',
+				'liferay/index': { value: 'liferay/index', exactMatch: true },
+			},
+		};
 
-        assert.strictEqual('liferay/index', configParser.mapModule('liferay/index'));
-    });
+		assert.strictEqual(
+			'liferay/index',
+			configParser.mapModule('liferay/index')
+		);
+	});
 
-    it('should map local modules correctly', function() {
-        var configParser = new global.ConfigParser();
+	it('should map local modules correctly', function() {
+		var configParser = new global.ConfigParser();
 
-        var contextMap = {
-            'isarray': 'isarray@1.0.0'
-        };
+		var contextMap = {
+			isarray: 'isarray@1.0.0',
+		};
 
-        configParser.addModule({
-            'name': 'isobject@2.1.0/index',
-            'dependencies': ['module', 'require', 'isarray', 'isarray/index'],
-            'map': contextMap
-        });
+		configParser.addModule({
+			name: 'isobject@2.1.0/index',
+			dependencies: ['module', 'require', 'isarray', 'isarray/index'],
+			map: contextMap,
+		});
 
-        assert.strictEqual('isarray@1.0.0', configParser.mapModule('isarray', contextMap));
-        assert.strictEqual('isarray@1.0.0/index', configParser.mapModule('isarray/index', contextMap));
-    });
+		assert.strictEqual(
+			'isarray@1.0.0',
+			configParser.mapModule('isarray', contextMap)
+		);
+		assert.strictEqual(
+			'isarray@1.0.0/index',
+			configParser.mapModule('isarray/index', contextMap)
+		);
+	});
 });

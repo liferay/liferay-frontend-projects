@@ -7,260 +7,294 @@ var config = require('./fixture/config.js');
 var configParser = new global.ConfigParser(config);
 
 describe('DependencyBuilder', function() {
-    it('should throw an exception if no modules are specified', function() {
-        var dependencyBuilder = new global.DependencyBuilder();
+	it('should throw an exception if no modules are specified', function() {
+		var dependencyBuilder = new global.DependencyBuilder();
+
+		assert.ok(dependencyBuilder);
 
-        assert.ok(dependencyBuilder);
+		assert.throws(function() {
+			new dependencyBuilder.resolve();
+		}, Error);
+	});
+
+	it('should resolve module without dependencies', function() {
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+		assert.ok(dependencyBuilder);
+
+		var dependencies = dependencyBuilder.resolveDependencies(['aui-core']);
+
+		assert.deepEqual(dependencies, ['aui-core']);
+	});
+
+	it('should resolve module with dependencies and no conditional modules', function() {
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+		assert.ok(dependencyBuilder);
+
+		var dependencies = dependencyBuilder.resolveDependencies([
+			'aui-dom-node',
+		]);
+
+		assert.deepEqual(dependencies, [
+			'aui-base',
+			'aui-core',
+			'aui-node',
+			'aui-dom-node',
+		]);
+	});
+
+	it('should resolve module with versioned dependencies', function() {
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+		assert.ok(dependencyBuilder);
+
+		var dependencies = dependencyBuilder.resolveDependencies([
+			'isobject@2.1.0',
+		]);
+
+		assert.deepEqual(dependencies, ['isarray@1.0.0', 'isobject@2.1.0']);
+	});
+
+	it('should resolve module with dependencies and conditional modules', function() {
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
+
+		assert.ok(dependencyBuilder);
+
+		var dependencies = dependencyBuilder.resolveDependencies(['aui-nate']);
 
-        assert.throws(function() {
-            new dependencyBuilder.resolve();
-        }, Error);
-    });
+		assert.deepEqual(dependencies, [
+			'aui-base',
+			'aui-core',
+			'aui-node',
+			'aui-plugin-base',
+			'aui-dialog',
+			'aui-autocomplete',
+			'aui-event',
+			'aui-nate',
+			'aui-chema',
+			'aui-test2',
+		]);
+	});
 
-    it('should resolve module without dependencies', function() {
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+	it('should resolve multiple modules', function() {
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        assert.ok(dependencyBuilder);
+		assert.ok(dependencyBuilder);
 
-        var dependencies = dependencyBuilder.resolveDependencies(['aui-core']);
+		var dependencies = dependencyBuilder.resolveDependencies([
+			'aui-dom-node',
+			'aui-dialog',
+		]);
 
-        assert.deepEqual(dependencies, ['aui-core']);
-    });
+		assert.deepEqual(dependencies, [
+			'aui-base',
+			'aui-core',
+			'aui-node',
+			'aui-dom-node',
+			'aui-plugin-base',
+			'aui-dialog',
+			'aui-test2',
+		]);
+	});
 
-    it('should resolve module with dependencies and no conditional modules', function() {
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+	it('should throw error if there are circular dependencies', function() {
+		var configParser = new global.ConfigParser();
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        assert.ok(dependencyBuilder);
+		assert.ok(dependencyBuilder);
 
-        var dependencies = dependencyBuilder.resolveDependencies(['aui-dom-node']);
+		configParser.addModule({
+			name: 'aui-cross1',
+			dependencies: ['aui-cross2'],
+			path: '/html/js/aui-cross1.js',
+		});
 
-        assert.deepEqual(dependencies, ['aui-base', 'aui-core', 'aui-node', 'aui-dom-node']);
-    });
+		configParser.addModule({
+			name: 'aui-cross2',
+			dependencies: ['aui-cross1'],
+			path: '/html/js/aui-cross2.js',
+		});
 
-    it('should resolve module with versioned dependencies', function() {
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		assert.throws(function() {
+			dependencyBuilder.resolveDependencies(['aui-cross1', 'aui-cross2']);
+		}, Error);
+	});
 
-        assert.ok(dependencyBuilder);
+	it('should process provide proper cleanup', function() {
+		var configParser = new global.ConfigParser();
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        var dependencies = dependencyBuilder.resolveDependencies(['isobject@2.1.0']);
+		assert.ok(dependencyBuilder);
 
-        assert.deepEqual(dependencies, ['isarray@1.0.0', 'isobject@2.1.0']);
-    });
+		configParser.addModule({
+			name: 'aui-cross1',
+			dependencies: ['aui-cross2'],
+			path: '/html/js/aui-cross1.js',
+		});
 
-    it('should resolve module with dependencies and conditional modules', function() {
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		configParser.addModule({
+			name: 'aui-cross2',
+			dependencies: ['aui-cross1'],
+			path: '/html/js/aui-cross2.js',
+		});
 
-        assert.ok(dependencyBuilder);
+		assert.throws(function() {
+			dependencyBuilder.resolveDependencies(['aui-cross1', 'aui-cross2']);
+		}, Error);
 
-        var dependencies = dependencyBuilder.resolveDependencies(['aui-nate']);
+		var modules = configParser.getModules();
 
-        assert.deepEqual(dependencies, ['aui-base', 'aui-core', 'aui-node', 'aui-plugin-base', 'aui-dialog', 'aui-autocomplete', 'aui-event', 'aui-nate', 'aui-chema', 'aui-test2']);
-    });
+		var cross1 = modules['aui-cross1'];
+		var cross2 = modules['aui-cross2'];
 
-    it('should resolve multiple modules', function() {
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		assert.strictEqual(cross1.tmpMark, false);
+		assert.strictEqual(cross1.conditionalMark, false);
+		assert.strictEqual(cross1.mark, false);
 
-        assert.ok(dependencyBuilder);
+		assert.strictEqual(cross2.tmpMark, false);
+		assert.strictEqual(cross2.conditionalMark, false);
+		assert.strictEqual(cross2.mark, false);
 
-        var dependencies = dependencyBuilder.resolveDependencies(['aui-dom-node', 'aui-dialog']);
+		assert.strictEqual(dependencyBuilder._queue.length, 0);
+	});
 
-        assert.deepEqual(dependencies, ['aui-base', 'aui-core', 'aui-node', 'aui-dom-node', 'aui-plugin-base', 'aui-dialog', 'aui-test2']);
-    });
+	it('should ignore "require" module', function() {
+		var configParser = new global.ConfigParser();
 
-    it('should throw error if there are circular dependencies', function() {
-        var configParser = new global.ConfigParser();
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        assert.ok(dependencyBuilder);
+		configParser.addModule({
+			name: 'aui-123',
+			dependencies: [],
+		});
 
-        configParser.addModule({
-            name: 'aui-cross1',
-            dependencies: ['aui-cross2'],
-            path: '/html/js/aui-cross1.js'
-        });
+		configParser.addModule({
+			name: 'test123',
+			dependencies: ['aui-123', 'require'],
+		});
 
-        configParser.addModule({
-            name: 'aui-cross2',
-            dependencies: ['aui-cross1'],
-            path: '/html/js/aui-cross2.js'
-        });
+		var result = dependencyBuilder.resolveDependencies(['test123']);
 
-        assert.throws(function() {
-            dependencyBuilder.resolveDependencies(['aui-cross1', 'aui-cross2']);
-        }, Error);
-    });
+		assert.deepEqual(['aui-123', 'test123'], result);
+	});
 
-    it('should process provide proper cleanup', function() {
-        var configParser = new global.ConfigParser();
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+	it('should ignore "exports" module', function() {
+		var configParser = new global.ConfigParser();
 
-        assert.ok(dependencyBuilder);
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        configParser.addModule({
-            name: 'aui-cross1',
-            dependencies: ['aui-cross2'],
-            path: '/html/js/aui-cross1.js'
-        });
+		configParser.addModule({
+			name: 'aui-123',
+			dependencies: [],
+		});
 
-        configParser.addModule({
-            name: 'aui-cross2',
-            dependencies: ['aui-cross1'],
-            path: '/html/js/aui-cross2.js'
-        });
+		configParser.addModule({
+			name: 'test123',
+			dependencies: ['aui-123', 'exports'],
+		});
 
-        assert.throws(function() {
-            dependencyBuilder.resolveDependencies(['aui-cross1', 'aui-cross2']);
-        }, Error);
+		var result = dependencyBuilder.resolveDependencies(['test123']);
 
-        var modules = configParser.getModules();
+		assert.deepEqual(['aui-123', 'test123'], result);
+	});
 
-        var cross1 = modules['aui-cross1'];
-        var cross2 = modules['aui-cross2'];
+	it('should ignore "module" module', function() {
+		var configParser = new global.ConfigParser();
 
-        assert.strictEqual(cross1.tmpMark, false);
-        assert.strictEqual(cross1.conditionalMark, false);
-        assert.strictEqual(cross1.mark, false);
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        assert.strictEqual(cross2.tmpMark, false);
-        assert.strictEqual(cross2.conditionalMark, false);
-        assert.strictEqual(cross2.mark, false);
+		configParser.addModule({
+			name: 'aui-123',
+			dependencies: [],
+		});
 
-        assert.strictEqual(dependencyBuilder._queue.length, 0);
-    });
+		configParser.addModule({
+			name: 'test123',
+			dependencies: ['aui-123', 'module'],
+		});
 
-    it('should ignore "require" module', function() {
-        var configParser = new global.ConfigParser();
+		var result = dependencyBuilder.resolveDependencies(['test123']);
 
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		assert.deepEqual(['aui-123', 'test123'], result);
+	});
 
-        configParser.addModule({
-            name: 'aui-123',
-            dependencies: []
-        });
+	it('should add dependencies on the fly', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'test123',
-            dependencies: ['aui-123', 'require']
-        });
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        var result = dependencyBuilder.resolveDependencies(['test123']);
+		configParser.addModule({
+			name: 'test123',
+			dependencies: ['not-configured-dep'],
+		});
 
-        assert.deepEqual(['aui-123', 'test123'], result);
-    });
+		var deps = dependencyBuilder.resolveDependencies(['test123']);
 
-    it('should ignore "exports" module', function() {
-        var configParser = new global.ConfigParser();
+		var modules = configParser.getModules();
 
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		assert.sameMembers(['test123', 'not-configured-dep'], deps);
+		assert.property(modules, 'test123');
+		assert.property(modules, 'not-configured-dep');
+	});
 
-        configParser.addModule({
-            name: 'aui-123',
-            dependencies: []
-        });
+	it('should map the dependencies of the resolved modules', function() {
+		var configParser = new global.ConfigParser({
+			maps: {
+				'not-configured-dep': 'not_configured_dep',
+			},
+		});
 
-        configParser.addModule({
-            name: 'test123',
-            dependencies: ['aui-123', 'exports']
-        });
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        var result = dependencyBuilder.resolveDependencies(['test123']);
+		configParser.addModule({
+			name: 'test123',
+			dependencies: ['not-configured-dep'],
+		});
 
-        assert.deepEqual(['aui-123', 'test123'], result);
-    });
+		var deps = dependencyBuilder.resolveDependencies(['test123']);
 
-    it('should ignore "module" module', function() {
-        var configParser = new global.ConfigParser();
+		var modules = configParser.getModules();
 
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		assert.sameMembers(['test123', 'not_configured_dep'], deps);
+		assert.property(modules, 'test123');
+		assert.property(modules, 'not_configured_dep');
+	});
 
-        configParser.addModule({
-            name: 'aui-123',
-            dependencies: []
-        });
+	it('should resolve relative paths in module dependencies', function() {
+		var configParser = new global.ConfigParser();
 
-        configParser.addModule({
-            name: 'test123',
-            dependencies: ['aui-123', 'module']
-        });
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        var result = dependencyBuilder.resolveDependencies(['test123']);
+		configParser.addModule({
+			name: 'test/test123/sub1',
+			dependencies: ['../not-configured-dep'],
+		});
 
-        assert.deepEqual(['aui-123', 'test123'], result);
-    });
+		var deps = dependencyBuilder.resolveDependencies(['test/test123/sub1']);
 
-    it('should add dependencies on the fly', function() {
-        var configParser = new global.ConfigParser();
+		var modules = configParser.getModules();
 
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
+		assert.sameMembers(
+			['test/test123/sub1', 'test/not-configured-dep'],
+			deps
+		);
+		assert.property(modules, 'test/test123/sub1');
+		assert.property(modules, 'test/not-configured-dep');
+	});
 
-        configParser.addModule({
-            name: 'test123',
-            dependencies: ['not-configured-dep']
-        });
+	it('should process modules with "exports" and "module" dependencies', function() {
+		var configParser = new global.ConfigParser();
 
-        var deps = dependencyBuilder.resolveDependencies(['test123']);
+		var dependencyBuilder = new global.DependencyBuilder(configParser);
 
-        var modules = configParser.getModules();
+		configParser.addModule({
+			name: 'exports-module',
+			dependencies: ['exports', 'module'],
+		});
 
-        assert.sameMembers(['test123', 'not-configured-dep'], deps);
-        assert.property(modules, 'test123');
-        assert.property(modules, 'not-configured-dep');
-    });
-
-    it('should map the dependencies of the resolved modules', function() {
-        var configParser = new global.ConfigParser({
-            maps: {
-                'not-configured-dep': 'not_configured_dep'
-            }
-        });
-
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
-
-        configParser.addModule({
-            name: 'test123',
-            dependencies: ['not-configured-dep']
-        });
-
-        var deps = dependencyBuilder.resolveDependencies(['test123']);
-
-        var modules = configParser.getModules();
-
-        assert.sameMembers(['test123', 'not_configured_dep'], deps);
-        assert.property(modules, 'test123');
-        assert.property(modules, 'not_configured_dep');
-    });
-
-    it('should resolve relative paths in module dependencies', function() {
-        var configParser = new global.ConfigParser();
-
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
-
-        configParser.addModule({
-            name: 'test/test123/sub1',
-            dependencies: ['../not-configured-dep']
-        });
-
-        var deps = dependencyBuilder.resolveDependencies(['test/test123/sub1']);
-
-        var modules = configParser.getModules();
-
-        assert.sameMembers(['test/test123/sub1', 'test/not-configured-dep'], deps);
-        assert.property(modules, 'test/test123/sub1');
-        assert.property(modules, 'test/not-configured-dep');
-    });
-
-    it('should process modules with "exports" and "module" dependencies', function() {
-        var configParser = new global.ConfigParser();
-
-        var dependencyBuilder = new global.DependencyBuilder(configParser);
-
-        configParser.addModule({
-            name: 'exports-module',
-            dependencies: ['exports', 'module']
-        });
-
-        assert.doesNotThrow(function() {
-            dependencyBuilder.resolveDependencies(['exports-module']);
-        }, Error);
-    });
+		assert.doesNotThrow(function() {
+			dependencyBuilder.resolveDependencies(['exports-module']);
+		}, Error);
+	});
 });

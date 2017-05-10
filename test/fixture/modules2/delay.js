@@ -1,13 +1,12 @@
 setTimeout(function() {
-	define("delay", ["exports", "module"], function(exports, module) {
-	    "use strict";
+	define('delay', ['exports', 'module'], function(exports, module) {
+		'use strict';
+		global.delay = 1;
 
-	    global.delay = 1;
+		function log(text) {
+			console.log(text);
+		}
 
-	    function log(text) {
-	        console.log(text);
-	    }
-
-	    module.exports = log;
+		module.exports = log;
 	});
 }, 20);

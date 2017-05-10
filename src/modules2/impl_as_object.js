@@ -1,3 +1,3 @@
 define('impl_as_object', {
-	pesho: 'konia'
+	pesho: 'konia',
 });

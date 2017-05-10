@@ -1,5 +1,5 @@
 window.jquery = {
 	labelauty: {
-		prop1: function() {}
-	}
+		prop1: function() {},
+	},
 };
