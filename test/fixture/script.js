@@ -26,6 +26,7 @@ var document = {
 	head: {
 		appendChild: function(script) {
 			process.nextTick(function() {
+				document.scripts.push(script);
 				script.load();
 			});
 		},
@@ -34,6 +35,8 @@ var document = {
 			// Empty
 		},
 	},
+
+	scripts: [],
 
 	createElement: function(name) {
 		return new Script();

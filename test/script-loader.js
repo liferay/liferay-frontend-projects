@@ -124,6 +124,8 @@ describe('Loader', function() {
 
 		global.__CONFIG__.paths = {};
 
+		global.document.scripts = [];
+
 		require('../umd/config-parser.js');
 		require('../umd/event-emitter.js');
 		require('../umd/script-loader.js');
@@ -984,6 +986,24 @@ describe('Loader', function() {
 				success.module.default,
 				'isobject@2.1.0 depending on isarray@1.0.0'
 			);
+
+			done();
+		}, 50);
+	});
+
+	it('should insert synchronous DOM script nodes', function(done) {
+		var failure = console.error;
+		var success = function() {};
+
+		Loader.require(['isobject@2.1.0/index'], success, failure);
+
+		setTimeout(function() {
+			global.document.scripts.forEach(function(script) {
+				assert.isFalse(
+					script.async,
+					'DOM script nodes should be synchronous'
+				);
+			});
 
 			done();
 		}, 50);
