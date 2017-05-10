@@ -1,3 +1,4 @@
+/* eslint-env node */
 'use strict';
 
 var babel = require('gulp-babel');
@@ -18,6 +19,7 @@ var template = require('gulp-template');
 var uglify = require('gulp-uglify');
 var prettier = require('prettier');
 var through = require('through2');
+var eslint = require('gulp-eslint');
 
 var formatFile = function(file, encoding, cb) {
 	file.contents = new Buffer(
@@ -48,6 +50,12 @@ gulp.task('format', function(callback) {
 		.src(formatGlobs, gulpOpts)
 		.pipe(through.obj(formatFile))
 		.pipe(gulp.dest(process.cwd()));
+});
+
+gulp.task('lint', ['format'], function() {
+	var lintGlobs = ['*.js', 'src/**/*.js', 'test/**/*.js'];
+
+	gulp.src(lintGlobs).pipe(eslint()).pipe(eslint.formatEach());
 });
 
 gulp.task('build', function(callback) {

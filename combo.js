@@ -1,3 +1,4 @@
+/* eslint-env node */
 var comboServer = require('combohandler/lib/server'), app;
 
 app = comboServer({
