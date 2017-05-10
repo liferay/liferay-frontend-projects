@@ -1,0 +1,8 @@
+{
+    "env": {
+        "amd": true
+    },
+    "rules": {
+        "require-jsdoc": "off"
+    }
+}
