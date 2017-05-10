@@ -8,6 +8,11 @@
         "es6": false
     },
     "rules": {
-        "no-var": 0
+        "no-var": "off",
+        "object-curly-spacing": "off",
+        "quote-props": ["error", "as-needed"],
+        "quotes": ["error", "single", {
+            "avoidEscape": true
+        }]
     }
 }
