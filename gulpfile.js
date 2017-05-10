@@ -19,42 +19,42 @@ var uglify = require('gulp-uglify');
 var prettier = require('prettier');
 var through = require('through2');
 
-function formatFile() {
-	return through.obj(function(file, encoding, cb) {
-		file.contents = new Buffer(
-			prettier.format(file.contents.toString(), {
-				printWidth: 80,
-				useTabs: true,
-				tabWidth: 4,
-				singleQuote: true,
-				trailingComma: 'es5',
-				bracketSpacing: true,
-				jsxBracketSameLine: false,
-				parser: 'babylon',
-				semi: true,
-			})
-		);
+var formatFile = function(file, encoding, cb) {
+    file.contents = new Buffer(
+        prettier.format(file.contents.toString(), {
+            printWidth: 80,
+            useTabs: true,
+            tabWidth: 4,
+            singleQuote: true,
+            trailingComma: 'es5',
+            bracketSpacing: true,
+            jsxBracketSameLine: false,
+            parser: 'babylon',
+            semi: true,
+        })
+    );
 
-		cb(null, file);
-	});
-}
+    cb(null, file);
+};
 
-gulp.task('format', ['format-root', 'format-src', 'format-test']);
+gulp.task('format', function(callback) {
+    var gulpOpts = {
+        base: process.cwd()
+    };
 
-gulp.task('format-root', function(callback) {
-	gulp.src(['*.js']).pipe(formatFile()).pipe(gulp.dest('.'));
-});
+    var formatGlobs = [
+        '*.js',
+        'src/**/*.js',
+        'test/**/*.js'
+    ];
 
-gulp.task('format-src', function(callback) {
-	gulp.src(['src/**/*.js']).pipe(formatFile()).pipe(gulp.dest('src'));
-});
-
-gulp.task('format-test', function(callback) {
-	gulp.src(['test/**/*.js']).pipe(formatFile()).pipe(gulp.dest('test'));
+    return gulp.src(formatGlobs, gulpOpts)
+        .pipe(through.obj(formatFile))
+        .pipe(gulp.dest(process.cwd()));
 });
 
 gulp.task('build', function(callback) {
-    runSequence('clean', 'create-loader-min', 'build-config', 'demo', callback);
+    runSequence('clean', 'create-loader-min', 'build-config', 'format', 'demo', callback);
 });
 
 gulp.task('build-config', ['config', 'modules'], function(callback) {
