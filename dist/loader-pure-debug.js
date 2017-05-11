@@ -2093,5 +2093,5 @@ Loader.prototype.define.amd = {};
 		window.define = global.define;
 	}
 
-	global.Loader.version = function() { return '1.6.0' };
+	global.Loader.version = function() { return '2.0.0' };
 }());
