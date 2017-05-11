@@ -23,6 +23,7 @@
     'use strict';
 
 /* eslint-disable max-len,prefer-rest-params,no-extra-boolean-cast */
+/* global global: false, Promise: false */
 
 /**
  * Creates an instance of Loader class.

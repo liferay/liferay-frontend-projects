@@ -1199,7 +1199,8 @@ EventEmitter.prototype = {
      * Adds event listener to an event.
      *
      * @param {string} event The name of the event.
-     * @param {Function} callback Callback method to be invoked when event is being emitted.
+     * @param {Function} callback Callback method to be invoked when event is
+     *     being emitted.
      */
 	on: function(event, callback) {
 		var listeners = (this._events[event] = this._events[event] || []);
@@ -1211,7 +1212,8 @@ EventEmitter.prototype = {
      * Removes an event from the list of event listeners to some event.
      *
      * @param {string} event The name of the event.
-     * @param {function} callback Callback method to be removed from the list of listeners.
+     * @param {function} callback Callback method to be removed from the list
+     *     of listeners.
      */
 	off: function(event, callback) {
 		var listeners = this._events[event];
@@ -1230,11 +1232,13 @@ EventEmitter.prototype = {
 	},
 
 	/**
-     * Emits an event. The function calls all registered listeners in the order they have been added. The provided args
-     * param will be passed to each listener of the event.
+     * Emits an event. The function calls all registered listeners in the order
+     * they have been added. The provided args param will be passed to each
+     * listener of the event.
      *
      * @param {string} event The name of the event.
-     * @param {object} args Object, which will be passed to the listener as only argument.
+     * @param {object} args Object, which will be passed to the listener as only
+     *     argument.
      */
 	emit: function(event, args) {
 		var listeners = this._events[event];
@@ -1300,8 +1304,8 @@ ConfigParser.prototype = {
 	/**
      * Adds a module to the configuration.
      *
-     * @param {object} module The module which should be added to the configuration. Should have the following
-     *     properties:
+     * @param {object} module The module which should be added to the
+	 *     configuration. Should have the following properties:
      *     <ul>
      *         <strong>Obligatory properties</strong>:
      *         <li>name (String) The name of the module</li>
@@ -1309,14 +1313,16 @@ ConfigParser.prototype = {
      *     </ul>
      *
      *     <strong>Optional properties:</strong>
-     *     The same as those which config parameter of {@link Loader#define} method accepts.
+     *     The same as those which config parameter of {@link Loader#define}
+	 *     method accepts.
      * @return {Object} The added module
      */
 	addModule: function(module) {
-		// Module might be added via configuration or when it arrives from the server.
-		// If it arrives from the server, it will have already a definition. In this case,
-		// we will overwrite the existing properties with those, provided from the module definition.
-		// Otherwise, we will just add it to the map.
+		// Module might be added via configuration or when it arrives from the
+		// server. If it arrives from the server, it will have already a
+		// definition. In this case, we will overwrite the existing properties
+		// with those, provided from the module definition. Otherwise, we will
+		// just add it to the map.
 		var moduleDefinition = this._modules[module.name];
 
 		if (moduleDefinition) {
@@ -1344,7 +1350,8 @@ ConfigParser.prototype = {
 	},
 
 	/**
-     * Returns map with all currently registered conditional modules and their triggers.
+     * Returns map with all currently registered conditional modules and their
+	 * triggers.
      *
      * @return {object} Map with all currently registered conditional modules.
      */
@@ -1369,16 +1376,19 @@ ConfigParser.prototype = {
      *
      * When someone does require('liferay/html/js/ac.es',...),
      * if the module 'liferay/html/js/ac.es' is not defined,
-     * then a corresponding alias will be searched. If found, the name will be replaced,
-     * so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
+     * then a corresponding alias will be searched. If found, the name will be
+	 * replaced, so it will look like user did
+	 * require('liferay@1.0.0/html/js/ac.es',...).
      *
-     * Additionally, modules can define a custom map to alias module names just in the context
-     * of that module loading operation. When present, the contextual module mapping will take
-     * precedence over the general one.
+     * Additionally, modules can define a custom map to alias module names just
+	 * in the context of that module loading operation. When present, the
+	 * contextual module mapping will take precedence over the general one.
      *
      * @protected
-     * @param {array|string} module The module which have to be mapped or array of modules.
-     * @param {?object} contextMap Contextual module mapping information relevant to the current load operation
+     * @param {array|string} module The module which have to be mapped or array
+	 *     of modules.
+     * @param {?object} contextMap Contextual module mapping information
+	 *     relevant to the current load operation
      * @return {array|string} The mapped module or array of mapped modules.
      */
 	mapModule: function(module, contextMap) {
@@ -1442,7 +1452,8 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     * @return {object} An object with a boolean `matched` field and a string
+	 *     `result` field containing the mapped module name
      */
 	_mapExactMatch: function(module, maps) {
 		for (var alias in maps) {
@@ -1466,7 +1477,8 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     * @return {object} An object with a boolean `matched` field and a string
+	 *     `result` field containing the mapped module name
      */
 	_mapPartialMatch: function(module, maps) {
 		for (var alias in maps) {
@@ -1494,7 +1506,8 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     * @return {object} An object with a boolean `matched` field and a string
+	 *     `result` field containing the mapped module name
      */
 	_mapWildcardMatch: function(module, maps) {
 		if (typeof maps['*'] === 'function') {
@@ -1553,7 +1566,8 @@ ConfigParser.prototype = {
      * @param {object} module Module object
      */
 	_registerConditionalModule: function(module) {
-		// Create HashMap of all modules, which have conditional modules, as an Array.
+		// Create HashMap of all modules, which have conditional modules, as an
+		// Array.
 		if (module.condition) {
 			var existingModules = this._conditionalModules[
 				module.condition.trigger
@@ -1593,6 +1607,8 @@ ConfigParser.prototype = {
 
     'use strict';
 
+/* global global: false */
+
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
@@ -1614,8 +1630,10 @@ DependencyBuilder.prototype = {
 	/**
      * Resolves modules dependencies.
      *
-     * @param {array} modules List of modules which dependencies should be resolved.
-     * @return {array} List of module names, representing module dependencies. Module name itself is being returned too.
+     * @param {array} modules List of modules which dependencies should be
+	 *     resolved.
+     * @return {array} List of module names, representing module dependencies.
+	 *     Module name itself is being returned too.
      */
 	resolveDependencies: function(modules) {
 		// Copy the passed modules to a resolving modules queue.
@@ -1645,8 +1663,8 @@ DependencyBuilder.prototype = {
 	_cleanup: function() {
 		var modules = this._configParser.getModules();
 
-		// Set to false all temporary markers which were set during the process of
-		// dependencies resolving.
+		// Set to false all temporary markers which were set during the process
+		// of dependencies resolving.
 		for (var key in modules) {
 			/* istanbul ignore else */
 			if (hasOwnProperty.call(modules, key)) {
@@ -1663,11 +1681,13 @@ DependencyBuilder.prototype = {
 	},
 
 	/**
-     * Processes conditional modules. If a module has conditional module as dependency, this module will be added to
-     * the list of modules, which dependencies should be resolved.
+     * Processes conditional modules. If a module has conditional module as
+	 * dependency, this module will be added to the list of modules, which
+	 * dependencies should be resolved.
      *
      * @protected
-     * @param {object} module Module, which will be checked for conditional modules as dependencies.
+     * @param {object} module Module, which will be checked for conditional
+	 *     modules as dependencies.
      */
 	_processConditionalModules: function(module) {
 		var conditionalModules = this._configParser.getConditionalModules()[
@@ -1697,23 +1717,26 @@ DependencyBuilder.prototype = {
 	},
 
 	/**
-     * Processes all modules in the {@link DependencyBuilder#_queue} and resolves their dependencies.
-     * If the module is not registered to the configuration, it will be automatically added there with no
-     * dependencies. The function implements a standard
+     * Processes all modules in the {@link DependencyBuilder#_queue} and
+	 * resolves their dependencies. If the module is not registered to the
+	 * configuration, it will be automatically added there with no dependencies.
+	 * The function implements a standard
      * [topological sorting based on depth-first search]{@link http://en.wikipedia.org/wiki/Topological_sorting}.
      *
      * @protected
      */
 	_resolveDependencies: function() {
 		// Process all modules in the queue.
-		// Note: modules may be added to the queue during the process of evaluating.
+		// Note: modules may be added to the queue during the process of
+		// evaluating.
 		var modules = this._configParser.getModules();
 
 		for (var i = 0; i < this._queue.length; i++) {
 			var module = modules[this._queue[i]];
 
-			// If not registered, add the module on the fly with no dependencies.
-			// Note: the module name (this._queue[i]) is expected to be already mapped.
+			// If not registered, add the module on the fly with no
+			// dependencies. Note: the module name (this._queue[i]) is expected
+			// to be already mapped.
 			if (!module) {
 				module = this._configParser.addModule({
 					name: this._queue[i],
@@ -1728,10 +1751,11 @@ DependencyBuilder.prototype = {
 	},
 
 	/**
-     * Executes the test function of an conditional module and adds it to the list of module dependencies if the
-     * function returns true.
+     * Executes the test function of an conditional module and adds it to the
+	 * list of module dependencies if the function returns true.
      *
-     * @param {function|string} testFunction The function which have to be executed. May be Function object or string.
+     * @param {function|string} testFunction The function which have to be
+	 * 	   executed. May be Function object or string.
      * @return {boolean} The result of the execution of the test function.
      */
 	_testConditionalModule: function(testFunction) {
@@ -1743,15 +1767,17 @@ DependencyBuilder.prototype = {
 	},
 
 	/**
-     * Visits a module during the process of resolving dependencies. The function will throw exception in case of
-     * circular dependencies among modules. If a dependency is not registered, it will be added to the configuration
-     * as a module without dependencies.
+     * Visits a module during the process of resolving dependencies. The
+	 * function will throw exception in case of circular dependencies among
+	 * modules. If a dependency is not registered, it will be added to the
+	 * configuration as a module without dependencies.
      *
      * @protected
      * @param {object} module The module which have to be visited.
      */
 	_visit: function(module) {
-		// Directed Acyclic Graph is supported only, throw exception if there are circular dependencies.
+		// Directed Acyclic Graph is supported only, throw exception if there
+		// are circular dependencies.
 		if (module.tmpMark) {
 			throw new Error(
 				'Error processing module: ' +
@@ -1761,7 +1787,8 @@ DependencyBuilder.prototype = {
 			);
 		}
 
-		// Check if this module has conditional modules and add them to the queue if so.
+		// Check if this module has conditional modules and add them to the
+		// queue if so.
 		this._processConditionalModules(module);
 
 		if (!module.mark) {
@@ -1793,8 +1820,8 @@ DependencyBuilder.prototype = {
 				);
 				var moduleDependency = modules[mappedDependencyName];
 
-				// Register on the fly all unregistered in the configuration dependencies as
-				// modules without dependencies.
+				// Register on the fly all unregistered in the configuration
+				// dependencies as modules without dependencies.
 				if (!moduleDependency) {
 					moduleDependency = this._configParser.addModule({
 						name: mappedDependencyName,
@@ -1814,9 +1841,10 @@ DependencyBuilder.prototype = {
 	},
 
 	/**
-     * @property {array} _queue List of modules, which dependencies should be resolved. Initially, it is copy of
-     * the array of modules, passed for resolving; during the process more modules may be added to the queue. For
-     * example, these might be conditional modules.
+     * @property {array} _queue List of modules, which dependencies should be
+	 *     resolved. Initially, it is copy of the array of modules, passed for
+	 *     resolving; during the process more modules may be added to the queue.
+	 *     For example, these might be conditional modules.
      *
      * @protected
      * @memberof! DependencyBuilder#
@@ -1901,16 +1929,18 @@ URLBuilder.prototype = {
 				var path = this._getModulePath(module);
 				var absolutePath = path.indexOf('/') === 0;
 
-				// If the URL starts with external protocol, individual URL shall be created.
+				// If the URL starts with external protocol, individual URL
+				// shall be created.
 				if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
 					result.push({
 						modules: [module.name],
 						url: this._getURLWithParams(path),
 					});
 
-					// If combine is disabled, or the module is an anonymous one,
-					// create an individual URL based on the config URL and module's path.
-					// If the module's path starts with "/", do not include basePath in the URL.
+					// If combine is disabled, or the module is an anonymous
+					// one, create an individual URL based on the config URL and
+					// module's path. If the module's path starts with "/", do
+					// not include basePath in the URL.
 				} else if (!config.combine || module.anonymous) {
 					result.push({
 						modules: [module.name],
@@ -1919,9 +1949,12 @@ URLBuilder.prototype = {
 						),
 					});
 				} else {
-					// If combine is true, this is not an anonymous module and the module does not have full path.
-					// The module will be collected in a buffer to be loaded among with other modules from combo loader.
-					// The path will be stored in different buffer depending on the fact if it is absolute URL or not.
+					// If combine is true, this is not an anonymous module and
+					// the module does not have full path. The module will be
+					// collected in a buffer to be loaded among with other
+					// modules from combo loader. The path will be stored in
+					// different buffer depending on the fact if it is absolute
+					// URL or not.
 					if (absolutePath) {
 						bufferAbsoluteURL.push(path);
 						modulesAbsoluteURL.push(module.name);
@@ -1974,7 +2007,8 @@ URLBuilder.prototype = {
      *
      * @param {Array<String>} modules Array of module names
      * @param {Array<String>} urls Array of module URLs
-     * @param {Object} config Configuration object containing URL, basePath and urlMaxLength
+     * @param {Object} config Configuration object containing URL, basePath and
+	 *     urlMaxLength
      * @return {Array<Object>} Resulting array of {modules, url} objects
      */
 	_generateBufferURLs: function(modules, urls, config) {
@@ -2016,8 +2050,9 @@ URLBuilder.prototype = {
 	},
 
 	/**
-     * Returns the path for a module. If module has property path, it will be returned directly. Otherwise,
-     * the name of module will be used and extension .js will be added to module name if omitted.
+     * Returns the path for a module. If module has property path, it will be
+	 * returned directly. Otherwise, the name of module will be used and
+	 * extension .js will be added to module name if omitted.
      *
      * @protected
      * @param {object} module The module which path should be returned.
@@ -2117,8 +2152,10 @@ PathResolver.prototype = {
 	/**
      * Resolves the path of module.
      *
-     * @param {string} root Root path which will be used as reference to resolve the path of the dependency.
-     * @param {string} dependency The dependency path, which have to be resolved.
+     * @param {string} root Root path which will be used as reference to resolve
+     *     the path of the dependency.
+     * @param {string} dependency The dependency path, which have to be
+     *     resolved.
      * @return {string} The resolved dependency path.
      */
 	resolvePath: function(root, dependency) {
@@ -2193,6 +2230,7 @@ PathResolver.prototype = {
     'use strict';
 
 /* eslint-disable max-len,prefer-rest-params,no-extra-boolean-cast */
+/* global global: false, Promise: false */
 
 /**
  * Creates an instance of Loader class.

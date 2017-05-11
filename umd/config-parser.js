@@ -38,8 +38,8 @@ ConfigParser.prototype = {
 	/**
      * Adds a module to the configuration.
      *
-     * @param {object} module The module which should be added to the configuration. Should have the following
-     *     properties:
+     * @param {object} module The module which should be added to the
+	 *     configuration. Should have the following properties:
      *     <ul>
      *         <strong>Obligatory properties</strong>:
      *         <li>name (String) The name of the module</li>
@@ -47,14 +47,16 @@ ConfigParser.prototype = {
      *     </ul>
      *
      *     <strong>Optional properties:</strong>
-     *     The same as those which config parameter of {@link Loader#define} method accepts.
+     *     The same as those which config parameter of {@link Loader#define}
+	 *     method accepts.
      * @return {Object} The added module
      */
 	addModule: function(module) {
-		// Module might be added via configuration or when it arrives from the server.
-		// If it arrives from the server, it will have already a definition. In this case,
-		// we will overwrite the existing properties with those, provided from the module definition.
-		// Otherwise, we will just add it to the map.
+		// Module might be added via configuration or when it arrives from the
+		// server. If it arrives from the server, it will have already a
+		// definition. In this case, we will overwrite the existing properties
+		// with those, provided from the module definition. Otherwise, we will
+		// just add it to the map.
 		var moduleDefinition = this._modules[module.name];
 
 		if (moduleDefinition) {
@@ -82,7 +84,8 @@ ConfigParser.prototype = {
 	},
 
 	/**
-     * Returns map with all currently registered conditional modules and their triggers.
+     * Returns map with all currently registered conditional modules and their
+	 * triggers.
      *
      * @return {object} Map with all currently registered conditional modules.
      */
@@ -107,16 +110,19 @@ ConfigParser.prototype = {
      *
      * When someone does require('liferay/html/js/ac.es',...),
      * if the module 'liferay/html/js/ac.es' is not defined,
-     * then a corresponding alias will be searched. If found, the name will be replaced,
-     * so it will look like user did require('liferay@1.0.0/html/js/ac.es',...).
+     * then a corresponding alias will be searched. If found, the name will be
+	 * replaced, so it will look like user did
+	 * require('liferay@1.0.0/html/js/ac.es',...).
      *
-     * Additionally, modules can define a custom map to alias module names just in the context
-     * of that module loading operation. When present, the contextual module mapping will take
-     * precedence over the general one.
+     * Additionally, modules can define a custom map to alias module names just
+	 * in the context of that module loading operation. When present, the
+	 * contextual module mapping will take precedence over the general one.
      *
      * @protected
-     * @param {array|string} module The module which have to be mapped or array of modules.
-     * @param {?object} contextMap Contextual module mapping information relevant to the current load operation
+     * @param {array|string} module The module which have to be mapped or array
+	 *     of modules.
+     * @param {?object} contextMap Contextual module mapping information
+	 *     relevant to the current load operation
      * @return {array|string} The mapped module or array of mapped modules.
      */
 	mapModule: function(module, contextMap) {
@@ -180,7 +186,8 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     * @return {object} An object with a boolean `matched` field and a string
+	 *     `result` field containing the mapped module name
      */
 	_mapExactMatch: function(module, maps) {
 		for (var alias in maps) {
@@ -204,7 +211,8 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     * @return {object} An object with a boolean `matched` field and a string
+	 *     `result` field containing the mapped module name
      */
 	_mapPartialMatch: function(module, maps) {
 		for (var alias in maps) {
@@ -232,7 +240,8 @@ ConfigParser.prototype = {
      * @protected
      * @param {string} module The module which have to be mapped.
      * @param {object} maps Mapping information.
-     * @return {object} An object with a boolean `matched` field and a string `result` field containing the mapped module name
+     * @return {object} An object with a boolean `matched` field and a string
+	 *     `result` field containing the mapped module name
      */
 	_mapWildcardMatch: function(module, maps) {
 		if (typeof maps['*'] === 'function') {
@@ -291,7 +300,8 @@ ConfigParser.prototype = {
      * @param {object} module Module object
      */
 	_registerConditionalModule: function(module) {
-		// Create HashMap of all modules, which have conditional modules, as an Array.
+		// Create HashMap of all modules, which have conditional modules, as an
+		// Array.
 		if (module.condition) {
 			var existingModules = this._conditionalModules[
 				module.condition.trigger

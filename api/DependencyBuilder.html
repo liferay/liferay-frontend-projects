@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line11">line 11</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -229,9 +229,10 @@
 
             
 
-            <td class="description last">List of modules, which dependencies should be resolved. Initially, it is copy of
-the array of modules, passed for resolving; during the process more modules may be added to the queue. For
-example, these might be conditional modules.</td>
+            <td class="description last">List of modules, which dependencies should be
+    resolved. Initially, it is copy of the array of modules, passed for
+    resolving; during the process more modules may be added to the queue.
+    For example, these might be conditional modules.</td>
         </tr>
 
     
@@ -264,7 +265,7 @@ example, these might be conditional modules.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line232">line 232</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -331,7 +332,7 @@ example, these might be conditional modules.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line52">line 52</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -369,8 +370,9 @@ example, these might be conditional modules.</td>
 
     
     <div class="description">
-        Processes conditional modules. If a module has conditional module as dependency, this module will be added to
-the list of modules, which dependencies should be resolved.
+        Processes conditional modules. If a module has conditional module as
+dependency, this module will be added to the list of modules, which
+dependencies should be resolved.
     </div>
     
 
@@ -420,7 +422,8 @@ the list of modules, which dependencies should be resolved.
 
             
 
-            <td class="description last">Module, which will be checked for conditional modules as dependencies.</td>
+            <td class="description last">Module, which will be checked for conditional
+    modules as dependencies.</td>
         </tr>
 
     
@@ -451,7 +454,7 @@ the list of modules, which dependencies should be resolved.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line79">line 79</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -489,9 +492,10 @@ the list of modules, which dependencies should be resolved.
 
     
     <div class="description">
-        Processes all modules in the <a href="DependencyBuilder.html#_queue">DependencyBuilder#_queue</a> and resolves their dependencies.
-If the module is not registered to the configuration, it will be automatically added there with no
-dependencies. The function implements a standard
+        Processes all modules in the <a href="DependencyBuilder.html#_queue">DependencyBuilder#_queue</a> and
+resolves their dependencies. If the module is not registered to the
+configuration, it will be automatically added there with no dependencies.
+The function implements a standard
 <a href="http://en.wikipedia.org/wiki/Topological_sorting">topological sorting based on depth-first search</a>.
     </div>
     
@@ -525,7 +529,7 @@ dependencies. The function implements a standard
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line114">line 114</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -563,8 +567,8 @@ dependencies. The function implements a standard
 
     
     <div class="description">
-        Executes the test function of an conditional module and adds it to the list of module dependencies if the
-function returns true.
+        Executes the test function of an conditional module and adds it to the
+list of module dependencies if the function returns true.
     </div>
     
 
@@ -617,7 +621,8 @@ function returns true.
 
             
 
-            <td class="description last">The function which have to be executed. May be Function object or string.</td>
+            <td class="description last">The function which have to be
+	   executed. May be Function object or string.</td>
         </tr>
 
     
@@ -648,7 +653,7 @@ function returns true.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line144">line 144</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line154">line 154</a>
     </li></ul></dd>
     
 
@@ -708,9 +713,10 @@ function returns true.
 
     
     <div class="description">
-        Visits a module during the process of resolving dependencies. The function will throw exception in case of
-circular dependencies among modules. If a dependency is not registered, it will be added to the configuration
-as a module without dependencies.
+        Visits a module during the process of resolving dependencies. The
+function will throw exception in case of circular dependencies among
+modules. If a dependency is not registered, it will be added to the
+configuration as a module without dependencies.
     </div>
     
 
@@ -791,7 +797,7 @@ as a module without dependencies.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line160">line 160</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -879,7 +885,8 @@ as a module without dependencies.
 
             
 
-            <td class="description last">List of modules which dependencies should be resolved.</td>
+            <td class="description last">List of modules which dependencies should be
+    resolved.</td>
         </tr>
 
     
@@ -910,7 +917,7 @@ as a module without dependencies.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line27">line 27</a>
+        <a href="dependency-builder.js.html">dependency-builder.js</a>, <a href="dependency-builder.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -937,7 +944,8 @@ as a module without dependencies.
     
             
 <div class="param-desc">
-    List of module names, representing module dependencies. Module name itself is being returned too.
+    List of module names, representing module dependencies.
+    Module name itself is being returned too.
 </div>
 
 
@@ -981,7 +989,7 @@ as a module without dependencies.
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Wed May 10 2017 15:16:15 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu May 11 2017 11:13:52 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
