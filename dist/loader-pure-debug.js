@@ -1760,6 +1760,7 @@ var LoaderProtoMethods = {
 			var script = document.createElement('script');
 
 			script.src = modulesURL.url;
+			script.async = false;
 
 			// On ready state change is needed for IE < 9, not sure if that is needed anymore,
 			// it depends which browsers will we support at the end
