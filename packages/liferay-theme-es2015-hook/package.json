@@ -11,9 +11,9 @@
   "dependencies": {
     "fs-extra": "^0.24.0",
     "gulp-util": "^3.0.6",
-    "liferay-module-config-generator": "^1.1.10",
-    "metal-tools-build-amd": "^3.0.2",
-    "metal-tools-soy": "^3.0.2",
+    "liferay-module-config-generator": "^1.2.1",
+    "metal-tools-build-amd": "^3.0.3",
+    "metal-tools-soy": "^4.1.2",
     "run-sequence": "^1.2.2"
   },
   "devDependencies": {
