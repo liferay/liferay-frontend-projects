@@ -3,6 +3,7 @@ before_install:
     - gem install sass
     - gem install compass
 node_js:
+    - "8.1"
     - "6.9"
     - "5.12"
     - "4.7"
