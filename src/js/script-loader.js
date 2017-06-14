@@ -244,8 +244,10 @@ var LoaderProtoMethods = {
 							error.mappedModules = mappedModules;
 							error.missingDependencies = dependencies.filter(
 								function(dep) {
-									return !registeredModules[dep]
-										.implementation;
+									return (
+										typeof registeredModules[dep]
+											.implementation == 'undefined'
+									);
 								}
 							);
 							error.modules = modules;
@@ -779,9 +781,9 @@ var LoaderProtoMethods = {
 		for (var i = 0; i < modules.length; i++) {
 			var module = modules[i];
 
-			if (module.implementation) {
+			if (typeof module.implementation != 'undefined') {
 				continue;
-			} else if (module.exports) {
+			} else if (typeof module.exports != 'undefined') {
 				module.pendingImplementation = module.implementation = this._getValueGlobalNS(
 					module.exports
 				);
@@ -828,7 +830,8 @@ var LoaderProtoMethods = {
 
 							if (
 								!dependencyModule ||
-								!dependencyModule.implementation
+								typeof dependencyModule.implementation ==
+									'undefined'
 							) {
 								throw new Error(
 									'Module "' +
@@ -875,12 +878,14 @@ var LoaderProtoMethods = {
 				result = module.pendingImplementation;
 			}
 
-			// Store as implementation either the returned value from the function's invocation,
-			// or the value inside module.exports magic dependency.
+			// Store as implementation either the returned value from the
+			// function's invocation, or the value inside module.exports magic
+			// dependency.
 			//
-			// The final implementation of this module may be undefined if there is no
-			// returned value, or the object does not have 'exports' or 'module' dependency.
-			if (result) {
+			// The final implementation of this module may be {} if there is no
+			// returned value, or the object does not assign anything to
+			// module.exports.
+			if (typeof result != 'undefined') {
 				module.implementation = result;
 			} else {
 				module.implementation = moduleImpl.exports;

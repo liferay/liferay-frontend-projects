@@ -1009,7 +1009,7 @@ describe('Loader', function() {
 		}, 50);
 	});
 
-	it('should pass correct dependencies when module and exports is requested', function(
+	it('should pass correct dependencies when module and exports are requested', function(
 		done
 	) {
 		var passedModule;
@@ -1033,6 +1033,52 @@ describe('Loader', function() {
 				passedModule.exports === passedExports,
 				'module.exports and exports are not the same object'
 			);
+
+			done();
+		}, 50);
+	});
+
+	it('should work correctly when a module exports `false`', function(done) {
+		var failure = sinon.spy(function(error) {
+			console.error('****', error);
+		});
+		var success = sinon.spy(function(module) {
+			this.module = module;
+		});
+
+		Loader.define('module', ['module'], function(module) {
+			module.exports = false;
+		});
+
+		Loader.require('module', success, failure);
+
+		setTimeout(function() {
+			assert.isTrue(failure.notCalled, 'Failure should not be called');
+			assert.isTrue(success.calledOnce, 'Success should be called once');
+			assert.isFalse(success.module);
+
+			done();
+		}, 50);
+	});
+
+	it('should work correctly when a module exports `null`', function(done) {
+		var failure = sinon.spy(function(error) {
+			console.error(error);
+		});
+		var success = sinon.spy(function(module) {
+			this.module = module;
+		});
+
+		Loader.define('module', ['module'], function(module) {
+			module.exports = null;
+		});
+
+		Loader.require('module', success, failure);
+
+		setTimeout(function() {
+			assert.isTrue(failure.notCalled, 'Failure should not be called');
+			assert.isTrue(success.calledOnce, 'Success should be called once');
+			assert.isNull(success.module);
 
 			done();
 		}, 50);
