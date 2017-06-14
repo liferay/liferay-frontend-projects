@@ -1009,6 +1009,35 @@ describe('Loader', function() {
 		}, 50);
 	});
 
+	it('should pass correct dependencies when module and exports is requested', function(
+		done
+	) {
+		var passedModule;
+		var passedExports;
+
+		Loader.define('module', ['module', 'exports'], function(
+			module,
+			exports
+		) {
+			passedModule = module;
+			passedExports = exports;
+		});
+
+		Loader.require('module', function() {}, console.error);
+
+		setTimeout(function() {
+			assert.isDefined(passedModule);
+			assert.isDefined(passedModule.exports);
+			assert.isDefined(passedExports);
+			assert.isTrue(
+				passedModule.exports === passedExports,
+				'module.exports and exports are not the same object'
+			);
+
+			done();
+		}, 50);
+	});
+
 	describe('when working with anonymous modules', function() {
 		beforeEach(function() {
 			Object.keys(require.cache).forEach(function(cache) {
