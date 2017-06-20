@@ -77,7 +77,7 @@
     "gulp-prompt": "^0.1.2",
     "gulp-rename": "^1.2.0",
     "gulp-replace-task": "^0.2.1",
-    "gulp-sourcemaps": "^1.2.8",
+    "gulp-sourcemaps": "1.6.0",
     "gulp-storage": "^1.0.6",
     "gulp-util": "^3.0.6",
     "inquirer": "^0.12.0",
