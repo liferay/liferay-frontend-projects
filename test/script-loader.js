@@ -1040,7 +1040,7 @@ describe('Loader', function() {
 
 	it('should work correctly when a module exports `false`', function(done) {
 		var failure = sinon.spy(function(error) {
-			console.error('****', error);
+			console.error(error);
 		});
 		var success = sinon.spy(function(module) {
 			this.module = module;
@@ -1055,7 +1055,7 @@ describe('Loader', function() {
 		setTimeout(function() {
 			assert.isTrue(failure.notCalled, 'Failure should not be called');
 			assert.isTrue(success.calledOnce, 'Success should be called once');
-			assert.isFalse(success.module);
+			assert.strictEqual(success.module, false);
 
 			done();
 		}, 50);

@@ -246,7 +246,7 @@ var LoaderProtoMethods = {
 								function(dep) {
 									return (
 										typeof registeredModules[dep]
-											.implementation == 'undefined'
+											.implementation === 'undefined'
 									);
 								}
 							);
@@ -781,9 +781,9 @@ var LoaderProtoMethods = {
 		for (var i = 0; i < modules.length; i++) {
 			var module = modules[i];
 
-			if (typeof module.implementation != 'undefined') {
+			if (typeof module.implementation !== 'undefined') {
 				continue;
-			} else if (typeof module.exports != 'undefined') {
+			} else if (typeof module.exports !== 'undefined') {
 				module.pendingImplementation = module.implementation = this._getValueGlobalNS(
 					module.exports
 				);
@@ -830,7 +830,7 @@ var LoaderProtoMethods = {
 
 							if (
 								!dependencyModule ||
-								typeof dependencyModule.implementation ==
+								typeof dependencyModule.implementation ===
 									'undefined'
 							) {
 								throw new Error(
@@ -885,7 +885,7 @@ var LoaderProtoMethods = {
 			// The final implementation of this module may be {} if there is no
 			// returned value, or the object does not assign anything to
 			// module.exports.
-			if (typeof result != 'undefined') {
+			if (typeof result !== 'undefined') {
 				module.implementation = result;
 			} else {
 				module.implementation = moduleImpl.exports;
