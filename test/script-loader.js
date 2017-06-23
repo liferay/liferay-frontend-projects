@@ -117,6 +117,21 @@ describe('Loader', function() {
 					path: 'isarray@1.0.0/index.js',
 					dependencies: ['exports'],
 				},
+				'issue-140/a': {
+					path: 'issue-140/a.js',
+					dependencies: ['module'],
+				},
+				'issue-140/m1': {
+					path: 'issue-140/m1.js',
+					dependencies: ['module', 'require', 'issue-140/a'],
+					map: {
+						'mapped-issue-140': 'issue-140',
+					},
+				},
+				'issue-140/m2/m2': {
+					path: 'issue-140/m2/m2.js',
+					dependencies: ['module', 'issue-140/m1'],
+				},
 			},
 		};
 
@@ -1079,6 +1094,26 @@ describe('Loader', function() {
 			assert.isTrue(failure.notCalled, 'Failure should not be called');
 			assert.isTrue(success.calledOnce, 'Success should be called once');
 			assert.isNull(success.module);
+
+			done();
+		}, 50);
+	});
+
+	it('localRequire should not mix contexts (issue 140)', function(done) {
+		var m2;
+
+		Loader.require(
+			'issue-140/m2/m2',
+			function(_m2) {
+				m2 = _m2();
+			},
+			console.error
+		);
+
+		setTimeout(function() {
+			assert.strictEqual(m2.standard, 'standard:a');
+			assert.strictEqual(m2.local, 'local:a');
+			assert.strictEqual(m2.mapped, 'mapped:a');
 
 			done();
 		}, 50);
