@@ -871,8 +871,6 @@ var LoaderProtoMethods = {
 
 				moduleName = configParser.mapModule(moduleName, module.map);
 
-				console.log('********', moduleName);
-
 				var dependencyModule = configParser.getModules()[moduleName];
 
 				if (
