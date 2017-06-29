@@ -71,7 +71,7 @@
 		var n = arguments,
 			r = this,
 			o = new this.constructor(p);
-		void 0 === o[te] && I(o);
+		void 0 === o[te] && q(o);
 		var i = r._state;
 		return i
 			? !(function() {
@@ -221,7 +221,7 @@
 				? b(n, s)
 				: l ? x(n, u) : e === re ? P(n, s) : e === oe && x(n, s));
 	}
-	function E(e, t) {
+	function R(e, t) {
 		try {
 			t(
 				function(t) {
@@ -235,22 +235,22 @@
 			x(e, n);
 		}
 	}
-	function R() {
+	function E() {
 		return ue++;
 	}
-	function I(e) {
+	function q(e) {
 		(e[
 			te
 		] = ue++), (e._state = void 0), (e._result = void 0), (e._subscribers = []);
 	}
-	function S(e, t) {
-		(this._instanceConstructor = e), (this.promise = new e(p)), this.promise[te] || I(this.promise), W(t) ? ((this._input = t), (this.length = t.length), (this._remaining = t.length), (this._result = new Array(this.length)), 0 === this.length ? P(this.promise, this._result) : ((this.length = this.length || 0), this._enumerate(), 0 === this._remaining && P(this.promise, this._result))) : x(this.promise, q());
+	function I(e, t) {
+		(this._instanceConstructor = e), (this.promise = new e(p)), this.promise[te] || q(this.promise), W(t) ? ((this._input = t), (this.length = t.length), (this._remaining = t.length), (this._result = new Array(this.length)), 0 === this.length ? P(this.promise, this._result) : ((this.length = this.length || 0), this._enumerate(), 0 === this._remaining && P(this.promise, this._result))) : x(this.promise, S());
 	}
-	function q() {
+	function S() {
 		return new Error('Array Methods must be provided an Array');
 	}
 	function B(e) {
-		return new S(this, e).promise;
+		return new I(this, e).promise;
 	}
 	function F(e) {
 		var t = this;
@@ -285,7 +285,7 @@
 	function N(e) {
 		(this[
 			te
-		] = R()), (this._result = this._state = void 0), (this._subscribers = []), p !== e && ('function' != typeof e && G(), this instanceof N ? E(this, e) : D());
+		] = E()), (this._result = this._state = void 0), (this._subscribers = []), p !== e && ('function' != typeof e && G(), this instanceof N ? R(this, e) : D());
 	}
 	function U() {
 		var e = void 0;
@@ -347,14 +347,14 @@
 		ie = new L(),
 		se = new L(),
 		ue = 0;
-	return (S.prototype._enumerate = function() {
+	return (I.prototype._enumerate = function() {
 		for (
 			var e = this.length, t = this._input, n = 0;
 			this._state === ne && n < e;
 			n++
 		)
 			this._eachEntry(t[n], n);
-	}), (S.prototype._eachEntry = function(e, t) {
+	}), (I.prototype._eachEntry = function(e, t) {
 		var n = this._instanceConstructor,
 			r = n.resolve;
 		if (r === d) {
@@ -374,14 +374,14 @@
 					t
 				);
 		} else this._willSettleAt(r(e), t);
-	}), (S.prototype._settledAt = function(e, t, n) {
+	}), (I.prototype._settledAt = function(e, t, n) {
 		var r = this.promise;
 		r._state === ne &&
 			(
 				this._remaining--,
 				e === oe ? x(r, n) : (this._result[t] = n)
 			), 0 === this._remaining && P(r, this._result);
-	}), (S.prototype._willSettleAt = function(e, t) {
+	}), (I.prototype._willSettleAt = function(e, t) {
 		var n = this;
 		C(
 			e,
@@ -1167,78 +1167,78 @@
 				if (!n || 'exception' === n) throw new Error(t);
 				console && console[n] && console[n].call(console, t);
 			},
-			_setModuleImplementation: function(t) {
+			_setModuleImplementation: function(e) {
 				for (
-					var n = this,
-						r = this._getConfigParser().getModules(),
-						o = 0;
-					o < t.length;
-					o++
+					var t = this,
+						n = this._getConfigParser().getModules(),
+						r = 0;
+					r < e.length;
+					r++
 				) {
-					var i = t[o];
-					if ('undefined' == typeof i.implementation)
-						if ('undefined' == typeof i.exports) {
+					var o = e[r];
+					if ('undefined' == typeof o.implementation)
+						if ('undefined' == typeof o.exports) {
 							for (
-								var s = [],
-									u = { exports: {} },
-									a = this._getConfigParser(),
-									l = this._getPathResolver(),
-									c = 0;
-								c < i.dependencies.length;
-								c++
+								var i = [],
+									s = { exports: {} },
+									u = t._getConfigParser(),
+									a = 0;
+								a < o.dependencies.length;
+								a++
 							) {
-								var f = i.dependencies[c];
-								if ('exports' === f) s.push(u.exports);
-								else if ('module' === f) s.push(u);
-								else if ('require' === f) {
-									var d = function(t) {
-										var n = arguments.length;
-										if (!(n > 1)) {
-											(t = l.resolvePath(
-												i.name,
-												t
-											)), (t = a.mapModule(t, i.map));
-											var r = a.getModules()[t];
-											if (
-												!r ||
-												'undefined' ==
-													typeof r.implementation
-											)
-												throw new Error(
-													'Module "' +
-														t +
-														'" has not been loaded yet for context: ' +
-														i.name
-												);
-											return r.implementation;
-										}
-										e.require.apply(e.Loader, arguments);
-									};
-									(d.toUrl = function(e) {
-										var t = n._getURLBuilder().build([e]);
-										return t[0].url;
-									}), s.push(d);
+								var l = o.dependencies[a];
+								if ('exports' === l) i.push(s.exports);
+								else if ('module' === l) i.push(s);
+								else if ('require' === l) {
+									var c = t._createLocalRequire(o);
+									(c.toUrl = function(e) {
+										var n = t._getURLBuilder().build([e]);
+										return n[0].url;
+									}), i.push(c);
 								} else {
-									var p = r[a.mapModule(f, i.map)],
-										h = p.implementation;
-									s.push(h);
+									var f = n[u.mapModule(l, o.map)],
+										d = f.implementation;
+									i.push(d);
 								}
 							}
-							var _;
-							(_ = 'function' == typeof i.pendingImplementation
-								? i.pendingImplementation.apply(
-										i.pendingImplementation,
-										s
+							var p;
+							(p = 'function' == typeof o.pendingImplementation
+								? o.pendingImplementation.apply(
+										o.pendingImplementation,
+										i
 									)
-								: i.pendingImplementation), 'undefined' !=
-								typeof _
-								? (i.implementation = _)
-								: (i.implementation = u.exports);
+								: o.pendingImplementation), 'undefined' !=
+								typeof p
+								? (o.implementation = p)
+								: (o.implementation = s.exports);
 						} else
-							i.pendingImplementation = i.implementation = this._getValueGlobalNS(
-								i.exports
+							o.pendingImplementation = o.implementation = this._getValueGlobalNS(
+								o.exports
 							);
 				}
+			},
+			_createLocalRequire: function(t) {
+				var n = this._getConfigParser(),
+					r = this._getPathResolver();
+				return function(o) {
+					var i = arguments.length;
+					if (!(i > 1)) {
+						(o = r.resolvePath(t.name, o)), (o = n.mapModule(
+							o,
+							t.map
+						));
+						var s = n.getModules()[o];
+						if (!s || 'undefined' == typeof s.implementation)
+							throw new Error(
+								'Module "' +
+									o +
+									'" has not been loaded yet for context: ' +
+									t.name
+							);
+						return s.implementation;
+					}
+					e.require.apply(e.Loader, arguments);
+				};
 			},
 			_waitForModule: function(e) {
 				var t = this,

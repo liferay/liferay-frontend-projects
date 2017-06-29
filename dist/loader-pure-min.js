@@ -31,8 +31,8 @@
 				if (n) {
 					n = n.slice(0);
 					for (var o = 0; o < n.length; o++) {
-						var i = n[o];
-						i.call(i, t);
+						var r = n[o];
+						r.call(r, t);
 					}
 				}
 			}
@@ -184,10 +184,10 @@
 						o < t.length;
 						o++
 					) {
-						var i = n[t[o]];
-						this._queue.indexOf(i.name) === -1 &&
-							this._testConditionalModule(i.condition.test) &&
-							this._queue.push(i.name);
+						var r = n[t[o]];
+						this._queue.indexOf(r.name) === -1 &&
+							this._testConditionalModule(r.condition.test) &&
+							this._queue.push(r.name);
 					}
 					e.conditionalMark = !0;
 				}
@@ -232,13 +232,13 @@
 							'module' !== o
 						) {
 							o = this._pathResolver.resolvePath(e.name, o);
-							var i = this._configParser.mapModule(o, e.map),
-								r = t[i];
-							r ||
-								(r = this._configParser.addModule({
-									name: i,
+							var r = this._configParser.mapModule(o, e.map),
+								i = t[r];
+							i ||
+								(i = this._configParser.addModule({
+									name: r,
 									dependencies: []
-								})), this._visit(r);
+								})), this._visit(i);
 						}
 					}
 					(e.mark = !0), (e.tmpMark = !1), this._result.unshift(
@@ -267,8 +267,8 @@
 			build: function(e) {
 				var t = [],
 					o = [],
-					i = [],
 					r = [],
+					i = [],
 					s = [],
 					a = this._configParser.getConfig(),
 					u = a.basePath || '',
@@ -297,15 +297,15 @@
 										)
 									})
 								: p
-									? (t.push(c), i.push(f.name))
-									: (o.push(c), r.push(f.name));
+									? (t.push(c), r.push(f.name))
+									: (o.push(c), i.push(f.name));
 					}
 					f.requested = !0;
 				}
 				return o.length &&
 					(
 						(s = s.concat(
-							this._generateBufferURLs(r, o, {
+							this._generateBufferURLs(i, o, {
 								basePath: u,
 								url: a.url,
 								urlMaxLength: a.urlMaxLength
@@ -315,7 +315,7 @@
 					), t.length &&
 					(
 						(s = s.concat(
-							this._generateBufferURLs(i, t, {
+							this._generateBufferURLs(r, t, {
 								url: a.url,
 								urlMaxLength: a.urlMaxLength
 							})
@@ -325,30 +325,30 @@
 			},
 			_generateBufferURLs: function(e, t, n) {
 				var o,
-					i = n.basePath || '',
-					r = [],
+					r = n.basePath || '',
+					i = [],
 					s = n.urlMaxLength || 2e3,
-					a = { modules: [e[0]], url: n.url + i + t[0] };
+					a = { modules: [e[0]], url: n.url + r + t[0] };
 				for (o = 1; o < t.length; o++) {
 					var u = e[o],
 						l = t[o];
-					a.url.length + i.length + l.length + 1 < s
-						? (a.modules.push(u), (a.url += '&' + i + l))
+					a.url.length + r.length + l.length + 1 < s
+						? (a.modules.push(u), (a.url += '&' + r + l))
 						: (
-								r.push(a),
-								(a = { modules: [u], url: n.url + i + l })
+								i.push(a),
+								(a = { modules: [u], url: n.url + r + l })
 							);
 				}
-				return (a.url = this._getURLWithParams(a.url)), r.push(a), r;
+				return (a.url = this._getURLWithParams(a.url)), i.push(a), i;
 			},
 			_getModulePath: function(e) {
 				var t = e.path || e.name,
 					o = this._configParser.getConfig().paths || {},
-					i = !1;
+					r = !1;
 				return Object.keys(o).forEach(function(e) {
 					(t !== e && 0 !== t.indexOf(e + '/')) ||
 						(t = o[e] + t.substring(e.length));
-				}), i || 'function' != typeof o['*'] || (t = o['*'](t)), n.test(
+				}), r || 'function' != typeof o['*'] || (t = o['*'](t)), n.test(
 					t
 				) ||
 					t.lastIndexOf('.js') === t.length - 3 ||
@@ -359,12 +359,12 @@
 					n = t.defaultURLParams || {},
 					o = Object.keys(n);
 				if (!o.length) return e;
-				var i = o
+				var r = o
 					.map(function(e) {
 						return e + '=' + n[e];
 					})
 					.join('&');
-				return e + (e.indexOf('?') > -1 ? '&' : '?') + i;
+				return e + (e.indexOf('?') > -1 ? '&' : '?') + r;
 			}
 		}), t;
 	}), (function(e, t) {
@@ -391,21 +391,21 @@
 				var n = e.split('/');
 				n.splice(-1, 1);
 				for (
-					var o = t.split('/'), i = o.splice(-1, 1), r = 0;
-					r < o.length;
-					r++
+					var o = t.split('/'), r = o.splice(-1, 1), i = 0;
+					i < o.length;
+					i++
 				) {
-					var s = o[r];
+					var s = o[i];
 					if ('.' !== s)
 						if ('..' === s) {
 							if (!n.length) {
-								n = n.concat(o.slice(r));
+								n = n.concat(o.slice(i));
 								break;
 							}
 							n.splice(-1, 1);
 						} else n.push(s);
 				}
-				return n.push(i), n.join('/');
+				return n.push(r), n.join('/');
 			}
 		}), t;
 	}), (function(e, t) {
@@ -438,18 +438,18 @@
 					t = arguments[0],
 					n = arguments[1],
 					o = arguments[2],
-					i = arguments[3] || {};
-				i.anonymous = !1;
-				var r = arguments.length;
+					r = arguments[3] || {};
+				r.anonymous = !1;
+				var i = arguments.length;
 				if (
 					(
-						r < 2
+						i < 2
 							? (
 									(o = arguments[0]),
 									(n = ['module', 'exports']),
-									(i.anonymous = !0)
+									(r.anonymous = !0)
 								)
-							: 2 === r &&
+							: 2 === i &&
 									('string' == typeof t
 										? (
 												(n = ['module', 'exports']),
@@ -458,26 +458,26 @@
 										: (
 												(n = arguments[0]),
 												(o = arguments[1]),
-												(i.anonymous = !0)
+												(r.anonymous = !0)
 											)),
-						i.anonymous
+						r.anonymous
 					)
 				) {
 					var s = function(t) {
 						if ((e.off('scriptLoaded', s), 1 !== t.length))
 							e._reportMismatchedAnonymousModules(o.toString());
 						else {
-							var r = t[0],
-								a = e.getModules()[r];
+							var i = t[0],
+								a = e.getModules()[i];
 							a &&
 								a.pendingImplementation &&
 								e._reportMismatchedAnonymousModules(
 									o.toString()
-								), e._define(r, n, o, i);
+								), e._define(i, n, o, r);
 						}
 					};
 					e.on('scriptLoaded', s);
-				} else this._define(t, n, o, i);
+				} else this._define(t, n, o, r);
 			},
 			getConditionalModules: function() {
 				return this._getConfigParser().getConditionalModules();
@@ -490,7 +490,7 @@
 					t,
 					n,
 					o,
-					i = this;
+					r = this;
 				if (Array.isArray(arguments[0]))
 					(n = arguments[0]), (o = 'function' == typeof arguments[1]
 						? arguments[1]
@@ -508,54 +508,54 @@
 								: null);
 							break;
 						}
-				var r,
-					s = i._getConfigParser(),
+				var i,
+					s = r._getConfigParser(),
 					a = s.mapModule(n);
 				new Promise(function(e, t) {
-					i._resolveDependencies(a).then(function(o) {
+					r._resolveDependencies(a).then(function(o) {
 						var u = s.getConfig();
 						0 !== u.waitTimeout &&
-							(r = setTimeout(function() {
+							(i = setTimeout(function() {
 								var e = s.getModules(),
-									i = new Error(
+									r = new Error(
 										'Load timeout for modules: ' + n
 									);
-								(i.dependencies = o), (i.mappedModules = a), (i.missingDependencies = o.filter(
+								(r.dependencies = o), (r.mappedModules = a), (r.missingDependencies = o.filter(
 									function(t) {
 										return (
 											'undefined' ==
 											typeof e[t].implementation
 										);
 									}
-								)), (i.modules = n), (i.dependecies = i.dependencies), t(i);
+								)), (r.modules = n), (r.dependecies = r.dependencies), t(r);
 							}, u.waitTimeout ||
-								7e3)), i._loadModules(o).then(e, t);
+								7e3)), r._loadModules(o).then(e, t);
 					}, t);
 				}).then(
 					function(e) {
-						if ((clearTimeout(r), o)) {
-							var t = i._getModuleImplementations(a);
+						if ((clearTimeout(i), o)) {
+							var t = r._getModuleImplementations(a);
 							o.apply(o, t);
 						}
 					},
 					function(t) {
-						clearTimeout(r), e && e.call(e, t);
+						clearTimeout(i), e && e.call(e, t);
 					}
 				);
 			},
 			_createModulePromise: function(e) {
 				var t = this;
 				return new Promise(function(n, o) {
-					var i = t._getConfigParser().getModules(),
-						r = i[e];
-					if (r.exports) {
-						var s = t._getValueGlobalNS(r.exports);
+					var r = t._getConfigParser().getModules(),
+						i = r[e];
+					if (i.exports) {
+						var s = t._getValueGlobalNS(i.exports);
 						if (s) n(s);
 						else {
-							var a = function(i) {
-								if (i.indexOf(e) >= 0) {
+							var a = function(r) {
+								if (r.indexOf(e) >= 0) {
 									t.off('scriptLoaded', a);
-									var s = t._getValueGlobalNS(r.exports);
+									var s = t._getValueGlobalNS(i.exports);
 									s
 										? n(s)
 										: o(
@@ -563,7 +563,7 @@
 													'Module ' +
 														e +
 														' does not export the specified value: ' +
-														r.exports
+														i.exports
 												)
 											);
 								}
@@ -584,15 +584,15 @@
 				});
 			},
 			_define: function(e, t, n, o) {
-				var i = o || {},
-					r = this._getConfigParser(),
+				var r = o || {},
+					i = this._getConfigParser(),
 					s = this._getPathResolver();
 				(t = t.map(function(t) {
 					return s.resolvePath(e, t);
-				})), (i.name = e), (i.dependencies = t), (i.pendingImplementation = n), r.addModule(
-					i
-				), this._modulesMap[i.name] ||
-					(this._modulesMap[i.name] = !0), this.emit(
+				})), (r.name = e), (r.dependencies = t), (r.pendingImplementation = n), i.addModule(
+					r
+				), this._modulesMap[r.name] ||
+					(this._modulesMap[r.name] = !0), this.emit(
 					'moduleRegister',
 					e
 				);
@@ -626,13 +626,13 @@
 					var t = this._getConfigParser(),
 						n = t.getModules(),
 						o = Object.create(null),
-						i = 0;
-					i < e.length;
-					i++
+						r = 0;
+					r < e.length;
+					r++
 				)
 					for (
-						var r = n[e[i]],
-							s = t.mapModule(r.dependencies, r.map),
+						var i = n[e[r]],
+							s = t.mapModule(i.dependencies, i.map),
 							a = 0;
 						a < s.length;
 						a++
@@ -653,8 +653,8 @@
 					o < e.length;
 					o++
 				) {
-					var i = n[e[o]];
-					t.push(i ? i.implementation : void 0);
+					var r = n[e[o]];
+					t.push(r ? r.implementation : void 0);
 				}
 				return t;
 			},
@@ -673,12 +673,12 @@
 				var n = t;
 				'string' == typeof t && (n = [t]);
 				for (
-					var o = [], i = this._getConfigParser().getModules(), r = 0;
-					r < e.length;
-					r++
+					var o = [], r = this._getConfigParser().getModules(), i = 0;
+					i < e.length;
+					i++
 				) {
-					var s = e[r],
-						a = i[e[r]];
+					var s = e[i],
+						a = r[e[i]];
 					if (a) {
 						if (
 							'require' !== a &&
@@ -699,17 +699,17 @@
 			_loadModules: function(e) {
 				var t = this;
 				return new Promise(function(n, o) {
-					var i = t._filterModulesByProperty(e, [
+					var r = t._filterModulesByProperty(e, [
 						'requested',
 						'pendingImplementation'
 					]);
-					if (i.length) {
+					if (r.length) {
 						for (
-							var r = t._getURLBuilder().build(i), s = [], a = 0;
-							a < r.length;
+							var i = t._getURLBuilder().build(r), s = [], a = 0;
+							a < i.length;
 							a++
 						)
-							s.push(t._loadScript(r[a]));
+							s.push(t._loadScript(i[a]));
 						Promise.all(s)
 							.then(function(n) {
 								return t._waitForModules(e);
@@ -730,32 +730,32 @@
 			_loadScript: function(e) {
 				var t = this;
 				return new Promise(function(n, o) {
-					var i = document.createElement('script');
-					(i.src =
-						e.url), (i.async = !1), (i.onload = i.onreadystatechange = function() {
+					var r = document.createElement('script');
+					(r.src =
+						e.url), (r.async = !1), (r.onload = r.onreadystatechange = function() {
 						(this.readyState &&
 							'complete' !== this.readyState &&
 							'load' !== this.readyState) ||
 							(
-								(i.onload = i.onreadystatechange = null),
-								n(i),
+								(r.onload = r.onreadystatechange = null),
+								n(r),
 								t.emit('scriptLoaded', e.modules)
 							);
-					}), (i.onerror = function() {
-						document.head.removeChild(i), o(i);
-					}), document.head.appendChild(i);
+					}), (r.onerror = function() {
+						document.head.removeChild(r), o(r);
+					}), document.head.appendChild(r);
 				});
 			},
 			_resolveDependencies: function(e) {
 				var t = this;
 				return new Promise(function(n, o) {
 					try {
-						var i = t
+						var r = t
 							._getDependencyBuilder()
 							.resolveDependencies(e);
-						n(i);
-					} catch (r) {
-						o(r);
+						n(r);
+					} catch (i) {
+						o(i);
 					}
 				});
 			},
@@ -765,78 +765,78 @@
 				if (!n || 'exception' === n) throw new Error(t);
 				console && console[n] && console[n].call(console, t);
 			},
-			_setModuleImplementation: function(t) {
+			_setModuleImplementation: function(e) {
 				for (
-					var n = this,
-						o = this._getConfigParser().getModules(),
-						i = 0;
-					i < t.length;
-					i++
+					var t = this,
+						n = this._getConfigParser().getModules(),
+						o = 0;
+					o < e.length;
+					o++
 				) {
-					var r = t[i];
+					var r = e[o];
 					if ('undefined' == typeof r.implementation)
 						if ('undefined' == typeof r.exports) {
 							for (
-								var s = [],
-									a = { exports: {} },
-									u = this._getConfigParser(),
-									l = this._getPathResolver(),
-									d = 0;
-								d < r.dependencies.length;
-								d++
+								var i = [],
+									s = { exports: {} },
+									a = t._getConfigParser(),
+									u = 0;
+								u < r.dependencies.length;
+								u++
 							) {
-								var f = r.dependencies[d];
-								if ('exports' === f) s.push(a.exports);
-								else if ('module' === f) s.push(a);
-								else if ('require' === f) {
-									var c = function(t) {
-										var n = arguments.length;
-										if (!(n > 1)) {
-											(t = l.resolvePath(
-												r.name,
-												t
-											)), (t = u.mapModule(t, r.map));
-											var o = u.getModules()[t];
-											if (
-												!o ||
-												'undefined' ==
-													typeof o.implementation
-											)
-												throw new Error(
-													'Module "' +
-														t +
-														'" has not been loaded yet for context: ' +
-														r.name
-												);
-											return o.implementation;
-										}
-										e.require.apply(e.Loader, arguments);
-									};
-									(c.toUrl = function(e) {
-										var t = n._getURLBuilder().build([e]);
-										return t[0].url;
-									}), s.push(c);
+								var l = r.dependencies[u];
+								if ('exports' === l) i.push(s.exports);
+								else if ('module' === l) i.push(s);
+								else if ('require' === l) {
+									var d = t._createLocalRequire(r);
+									(d.toUrl = function(e) {
+										var n = t._getURLBuilder().build([e]);
+										return n[0].url;
+									}), i.push(d);
 								} else {
-									var p = o[u.mapModule(f, r.map)],
-										h = p.implementation;
-									s.push(h);
+									var f = n[a.mapModule(l, r.map)],
+										c = f.implementation;
+									i.push(c);
 								}
 							}
-							var g;
-							(g = 'function' == typeof r.pendingImplementation
+							var p;
+							(p = 'function' == typeof r.pendingImplementation
 								? r.pendingImplementation.apply(
 										r.pendingImplementation,
-										s
+										i
 									)
 								: r.pendingImplementation), 'undefined' !=
-								typeof g
-								? (r.implementation = g)
-								: (r.implementation = a.exports);
+								typeof p
+								? (r.implementation = p)
+								: (r.implementation = s.exports);
 						} else
 							r.pendingImplementation = r.implementation = this._getValueGlobalNS(
 								r.exports
 							);
 				}
+			},
+			_createLocalRequire: function(t) {
+				var n = this._getConfigParser(),
+					o = this._getPathResolver();
+				return function(r) {
+					var i = arguments.length;
+					if (!(i > 1)) {
+						(r = o.resolvePath(t.name, r)), (r = n.mapModule(
+							r,
+							t.map
+						));
+						var s = n.getModules()[r];
+						if (!s || 'undefined' == typeof s.implementation)
+							throw new Error(
+								'Module "' +
+									r +
+									'" has not been loaded yet for context: ' +
+									t.name
+							);
+						return s.implementation;
+					}
+					e.require.apply(e.Loader, arguments);
+				};
 			},
 			_waitForModule: function(e) {
 				var t = this,
@@ -850,13 +850,13 @@
 			_waitForModules: function(e) {
 				var t = this;
 				return new Promise(function(n, o) {
-					for (var i = [], r = 0; r < e.length; r++)
-						i.push(t._waitForModule(e[r]));
-					Promise.all(i).then(function(i) {
-						var r = t._getConfigParser().getModules(),
+					for (var r = [], i = 0; i < e.length; i++)
+						r.push(t._waitForModule(e[i]));
+					Promise.all(r).then(function(r) {
+						var i = t._getConfigParser().getModules(),
 							s = function() {
-								for (var o = [], i = 0; i < e.length; i++)
-									o.push(r[e[i]]);
+								for (var o = [], r = 0; r < e.length; r++)
+									o.push(i[e[r]]);
 								t._setModuleImplementation(o), n(o);
 							},
 							a = t._getMissingDependencies(e);

@@ -1941,8 +1941,7 @@
 
 						// Leave exports implementation undefined by default
 						var moduleImpl = { exports: {} };
-						var configParser = this._getConfigParser();
-						var pathResolver = this._getPathResolver();
+						var configParser = self._getConfigParser();
 
 						for (var j = 0; j < module.dependencies.length; j++) {
 							var dependency = module.dependencies[j];
@@ -1957,45 +1956,9 @@
 							} else if (dependency === 'module') {
 								dependencyImplementations.push(moduleImpl);
 							} else if (dependency === 'require') {
-								var localRequire = function(moduleName) {
-									var argc = arguments.length;
-
-									if (argc > 1) {
-										global.require.apply(
-											global.Loader,
-											arguments
-										);
-									} else {
-										moduleName = pathResolver.resolvePath(
-											module.name,
-											moduleName
-										);
-
-										moduleName = configParser.mapModule(
-											moduleName,
-											module.map
-										);
-
-										var dependencyModule = configParser.getModules()[
-											moduleName
-										];
-
-										if (
-											!dependencyModule ||
-											typeof dependencyModule.implementation ===
-												'undefined'
-										) {
-											throw new Error(
-												'Module "' +
-													moduleName +
-													'" has not been loaded yet for context: ' +
-													module.name
-											);
-										}
-
-										return dependencyModule.implementation;
-									}
-								};
+								var localRequire = self._createLocalRequire(
+									module
+								);
 
 								localRequire.toUrl = function(moduleName) {
 									var moduleURLs = self
@@ -2048,6 +2011,48 @@
 							module.implementation = moduleImpl.exports;
 						}
 					}
+				},
+
+				_createLocalRequire: function(module) {
+					var configParser = this._getConfigParser();
+					var pathResolver = this._getPathResolver();
+
+					return function(moduleName) {
+						var argc = arguments.length;
+
+						if (argc > 1) {
+							global.require.apply(global.Loader, arguments);
+						} else {
+							moduleName = pathResolver.resolvePath(
+								module.name,
+								moduleName
+							);
+
+							moduleName = configParser.mapModule(
+								moduleName,
+								module.map
+							);
+
+							var dependencyModule = configParser.getModules()[
+								moduleName
+							];
+
+							if (
+								!dependencyModule ||
+								typeof dependencyModule.implementation ===
+									'undefined'
+							) {
+								throw new Error(
+									'Module "' +
+										moduleName +
+										'" has not been loaded yet for context: ' +
+										module.name
+								);
+							}
+
+							return dependencyModule.implementation;
+						}
+					};
 				},
 
 				/**
