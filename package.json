@@ -11,7 +11,7 @@
     "test": "gulp test"
   },
   "lint-staged": {
-    "*.js": [
+    "src/js/*.js": [
       "prettier --use-tabs true --tab-width 4 --single-quote --write",
       "git add"
     ]
