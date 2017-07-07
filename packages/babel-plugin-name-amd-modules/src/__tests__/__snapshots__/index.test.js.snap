@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correctly names anonymous modules 1`] = `
+"
+define(\\"package@1.0.0/index.test\\", [], function () {});"
+`;
+
+exports[`correctly renames named modules 1`] = `
+"
+define('package@1.0.0/index.test', [], function () {});"
+`;
