@@ -1,0 +1,38 @@
+{
+  "homepage": "https://github.com/liferay/liferay-npm-build-tools#readme",
+  "license": "LGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liferay/liferay-npm-build-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liferay/liferay-npm-build-tools/issues"
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "format": "prettier --use-tabs true --tab-width 4 --single-quote --trailing-comma all --write packages/*/src/*.js packages/*/src/**/*.js",
+    "lerna": "npm install && lerna bootstrap",
+    "lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
+    "precommit": "lint-staged",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "eslint": "^4.1.1",
+    "eslint-config-liferay": "^1.0.2",
+    "husky": "^0.14.2",
+    "jest": "^20.0.4",
+    "lerna": "^2.0.0-rc.5",
+    "lint-staged": "^4.0.0",
+    "prettier": "^1.5.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --use-tabs true --tab-width 4 --single-quote --trailing-comma all --write",
+      "eslint",
+      "git add"
+    ]
+  },
+  "jest": {
+    "modulePathIgnorePatterns": ["lib/.*"]
+  }
+}
