@@ -1,8 +1,6 @@
 # liferay-npm-build-tools
 
-<!--
 [![Build Status](https://travis-ci.org/liferay/liferay-npm-build-tools.svg?branch=master)](https://travis-ci.org/liferay/liferay-npm-build-tools)
--->
 
 ## Setup
 
