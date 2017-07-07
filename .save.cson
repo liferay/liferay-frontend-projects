@@ -1,0 +1,6 @@
+"packages/babel-plugin-name-amd-modules/**/*.js": [
+  "cd packages/babel-plugin-name-amd-modules && npm run build"
+]
+"packages/liferay-npm-build-tools-common/**/*.js": [
+  "cd packages/liferay-npm-build-tools-common && npm run build"
+]
