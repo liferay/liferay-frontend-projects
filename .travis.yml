@@ -1,0 +1,7 @@
+install: 
+  - npm run lerna
+
+language: node_js
+
+node_js:
+  - "8"
