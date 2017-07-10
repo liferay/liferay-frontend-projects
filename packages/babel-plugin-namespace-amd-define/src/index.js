@@ -5,7 +5,11 @@
  */
 export default function({ types: t }) {
 	const namespaceVisitor = {
-		ExpressionStatement(path) {
+		ExpressionStatement(path, state) {
+			if (state.namespaced) {
+				path.stop();
+			}
+
 			const node = path.node;
 			const expression = node.expression;
 
@@ -17,6 +21,7 @@ export default function({ types: t }) {
 
 					callee.name = `${namespace}.define`;
 
+					state.namespaced = true;
 					path.stop();
 				}
 			}

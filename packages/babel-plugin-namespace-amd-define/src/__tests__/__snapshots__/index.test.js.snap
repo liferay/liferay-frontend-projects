@@ -9,3 +9,13 @@ exports[`does not namespace already qualified define calls 1`] = `
 "
 Other.Namespace.define([], function () {});"
 `;
+
+exports[`only namespaces the first appearance of define() in the source 1`] = `
+"
+if (window.define) {
+	Liferay.Loader.define([], function () {
+		console.log(define('this should not be namespaced'));
+	});
+}
+Liferay.Loader.define('this should not be namespaced');"
+`;
