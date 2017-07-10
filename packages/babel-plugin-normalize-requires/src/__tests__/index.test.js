@@ -25,6 +25,18 @@ describe('when requiring local modules', () => {
 
 		expect(code).toMatchSnapshot();
 	});
+
+	it('removes trailing "/" from module names ending in ".js"', () => {
+		const source = `
+		require('./a-module.js/')
+	    `;
+
+		const { code } = babel.transform(source, {
+			plugins: [plugin],
+		});
+
+		expect(code).toMatchSnapshot();
+	});
 });
 
 describe('when requiring external modules', () => {
@@ -44,6 +56,18 @@ describe('when requiring external modules', () => {
 		const source = `
 		require('a-package/a-module/')
 	    `;
+
+		const { code } = babel.transform(source, {
+			plugins: [plugin],
+		});
+
+		expect(code).toMatchSnapshot();
+	});
+
+	it('removes trailing "/" from module names ending in ".js"', () => {
+		const source = `
+		require('a-package/a-module.js/')
+		`;
 
 		const { code } = babel.transform(source, {
 			plugins: [plugin],
