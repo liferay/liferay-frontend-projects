@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correctly namespaces unqualified define calls 1`] = `
+"
+Liferay.Loader.define([], function () {});"
+`;
+
+exports[`does not namespace already qualified define calls 1`] = `
+"
+Other.Namespace.define([], function () {});"
+`;

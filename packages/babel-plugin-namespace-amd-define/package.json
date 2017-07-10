@@ -1,0 +1,14 @@
+{
+  "name": "babel-plugin-namespace-amd-define",
+  "version": "0.0.0",
+  "description": "A Babel plugin to namespace (prefix) AMD define() calls.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel --source-maps -D -d lib src",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
