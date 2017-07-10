@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when requiring external modules removes trailing ".js" from module names 1`] = `
+"
+require('a-package/a-module');"
+`;
+
+exports[`when requiring external modules removes trailing "/" from module names 1`] = `
+"
+require('a-package/a-module');"
+`;
+
+exports[`when requiring local modules removes trailing ".js" from module names 1`] = `
+"
+require('./a-module');"
+`;
+
+exports[`when requiring local modules removes trailing "/" from module names 1`] = `
+"
+require('./a-module');"
+`;
