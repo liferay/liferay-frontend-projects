@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when using Node.js globals shims __dirname global 1`] = `
+"var __dirname = '/';
+
+console.log(__dirname);"
+`;
+
+exports[`when using Node.js globals shims __dirname global 2`] = `Object {}`;
+
+exports[`when using Node.js globals shims __filename global 1`] = `
+"var __filename = '/index.test.js';
+
+console.log(__filename);"
+`;
+
+exports[`when using Node.js globals shims __filename global 2`] = `Object {}`;
+
+exports[`when using Node.js globals shims Buffer global 1`] = `
+"var Buffer = require('liferay-node-buffer');
+
+const b = Buffer.alloc(10);"
+`;
+
+exports[`when using Node.js globals shims Buffer global 2`] = `
+Object {
+  "liferay-node-buffer": "1.0.0",
+}
+`;
+
+exports[`when using Node.js globals shims clearImmediate global 1`] = `
+"require('liferay-node-setimmediate');
+
+clearImmediate({});"
+`;
+
+exports[`when using Node.js globals shims clearImmediate global 2`] = `
+Object {
+  "liferay-node-setimmediate": "1.0.0",
+}
+`;
+
+exports[`when using Node.js globals shims global global 1`] = `
+"var global = window;
+
+console.log(global);"
+`;
+
+exports[`when using Node.js globals shims global global 2`] = `Object {}`;
+
+exports[`when using Node.js globals shims process global 1`] = `
+"var process = require('liferay-node-process');
+
+console.log(process.env);"
+`;
+
+exports[`when using Node.js globals shims process global 2`] = `
+Object {
+  "liferay-node-process": "1.0.0",
+}
+`;
+
+exports[`when using Node.js globals shims setImmediate global 1`] = `
+"require('liferay-node-setimmediate');
+
+const a = setImmediate(() => {});"
+`;
+
+exports[`when using Node.js globals shims setImmediate global 2`] = `
+Object {
+  "liferay-node-setimmediate": "1.0.0",
+}
+`;
