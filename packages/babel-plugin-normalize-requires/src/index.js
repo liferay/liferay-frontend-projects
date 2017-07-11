@@ -17,7 +17,10 @@ export default function({ types: t }) {
 							if (t.isLiteral(argument) && argument.value) {
 								let moduleName = argument.value;
 
-								if (typeof moduleName === 'string') {
+								if (
+									typeof moduleName === 'string' &&
+									!isPackageName(moduleName)
+								) {
 									if (moduleName.endsWith('.js')) {
 										moduleName = moduleName.substring(
 											0,
@@ -41,4 +44,25 @@ export default function({ types: t }) {
 			},
 		},
 	};
+}
+
+/**
+ * Check whether a module name refers to a package entry point.
+ * @param {String} moduleName the name of a JS module
+ * @return {boolean} true if moduleName is a package name
+ */
+function isPackageName(moduleName) {
+	const firstSlashIndex = moduleName.indexOf('/');
+
+	if (firstSlashIndex == -1) {
+		return true;
+	}
+
+	const restOfModuleName = moduleName.substring(firstSlashIndex + 1);
+
+	if (moduleName.startsWith('@') && restOfModuleName.indexOf('/') == -1) {
+		return true;
+	}
+
+	return false;
 }
