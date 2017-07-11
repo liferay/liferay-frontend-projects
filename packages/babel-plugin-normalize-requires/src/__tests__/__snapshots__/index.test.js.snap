@@ -15,6 +15,16 @@ exports[`when requiring external modules removes trailing "/" from module names 
 require('a-package/a-module.js');"
 `;
 
+exports[`when requiring local modules keeps trailing ".js" from package names 1`] = `
+"
+require('a-package.js');"
+`;
+
+exports[`when requiring local modules keeps trailing ".js" from package names 2`] = `
+"
+require('@some-scope/a-package.js');"
+`;
+
 exports[`when requiring local modules removes trailing ".js" from module names 1`] = `
 "
 require('./a-module');"
