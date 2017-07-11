@@ -17,7 +17,7 @@ console.log(__filename);"
 exports[`when using Node.js globals shims __filename global 2`] = `Object {}`;
 
 exports[`when using Node.js globals shims Buffer global 1`] = `
-"var Buffer = require('liferay-node-buffer');
+"var Buffer = require(\\"liferay-node-buffer\\");
 
 const b = Buffer.alloc(10);"
 `;
@@ -29,7 +29,7 @@ Object {
 `;
 
 exports[`when using Node.js globals shims clearImmediate global 1`] = `
-"require('liferay-node-setimmediate');
+"require(\\"liferay-node-setimmediate\\");
 
 clearImmediate({});"
 `;
@@ -49,7 +49,7 @@ console.log(global);"
 exports[`when using Node.js globals shims global global 2`] = `Object {}`;
 
 exports[`when using Node.js globals shims process global 1`] = `
-"var process = require('liferay-node-process');
+"var process = require(\\"liferay-node-process\\");
 
 console.log(process.env);"
 `;
@@ -61,7 +61,7 @@ Object {
 `;
 
 exports[`when using Node.js globals shims setImmediate global 1`] = `
-"require('liferay-node-setimmediate');
+"require(\\"liferay-node-setimmediate\\");
 
 const a = setImmediate(() => {});"
 `;

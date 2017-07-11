@@ -8,9 +8,6 @@
 	},
 	"rules": {
         "camelcase":"off",
-		"object-curly-spacing": "off",
-		"quotes": ["error", "single", {
-            "avoidEscape": true
-        }]
+		"object-curly-spacing": "off"
 	}
 }

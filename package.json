@@ -33,6 +33,8 @@
     ]
   },
   "jest": {
-    "modulePathIgnorePatterns": ["lib/.*"]
+    "modulePathIgnorePatterns": [
+      "lib/.*"
+    ]
   }
 }
