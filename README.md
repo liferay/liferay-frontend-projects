@@ -1,6 +1,8 @@
 AMD Module Loader
 =====
 
+[![Build Status](https://travis-ci.org/liferay/liferay-amd-loader.svg)](https://travis-ci.org/liferay/liferay-amd-loader)
+
 Supports loading modules via combo URL. Modules can be loaded automatically when some other module is being triggered, but only if some condition is met.
 
 ___Note:___ Loading anonymous modules via combo URL is not possible. If some of the modules is anonymous and `combine` is set to `true`, the module should be registered and `anonymous` property to be set as `true`. In this way this module will be excluded from the combo URL and a separate `script` element will be created for it. If `combine` is set to `false`, describing the module is not needed.
@@ -293,4 +295,7 @@ Exposing Loader globally
 ======
 Setting `exposeGlobal` property of the config will expose the Loader to the window, among with the `define` and `require` functions. By default the value of this property is true. For example, there will be `window.Loader`, `window.require` and `window.define` methods in case `exposeGlobal` is unset or set to true. Otherwise, these will be undefined.
 
-[![Build Status](https://travis-ci.org/liferay/liferay-amd-loader.svg)](https://travis-ci.org/liferay/liferay-amd-loader)
+Ignoring module versions
+======
+Setting `ignoreVersions` property of the config will ignore the `@major.minor.path` version qualifier in a module name to allow for a more lenient module name match in scenarios where undisclosed security vulnerabilities can lead to a security leak if versions are exposed to the
+loader configuration.
