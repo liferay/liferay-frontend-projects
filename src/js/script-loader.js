@@ -376,6 +376,15 @@ var LoaderProtoMethods = {
 		var module = config || {};
 		var configParser = this._getConfigParser();
 
+		if (configParser.getConfig().ignoreVersions) {
+			var nameParts = name.split('/');
+			var packageParts = nameParts[0].split('@');
+
+			nameParts[0] = packageParts[0];
+
+			name = nameParts.join('/');
+		}
+
 		var pathResolver = this._getPathResolver();
 
 		// Resolve the path according to the parent module. Example:
