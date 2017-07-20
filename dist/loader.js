@@ -2595,6 +2595,15 @@ var LoaderProtoMethods = {
 		var module = config || {};
 		var configParser = this._getConfigParser();
 
+		if (configParser.getConfig().ignoreModuleVersion) {
+			var nameParts = name.split('/');
+			var packageParts = nameParts[0].split('@');
+
+			nameParts[0] = packageParts[0];
+
+			name = nameParts.join('/');
+		}
+
 		var pathResolver = this._getPathResolver();
 
 		// Resolve the path according to the parent module. Example:
@@ -2844,7 +2853,7 @@ var LoaderProtoMethods = {
 			// Get all modules without pending implementation or not yet requested
 			var modulesForLoading = self._filterModulesByProperty(moduleNames, [
 				'requested',
-				'pendingImplementation',
+				'pendingImplementation'
 			]);
 
 			if (modulesForLoading.length) {
@@ -3184,7 +3193,7 @@ var LoaderProtoMethods = {
 				}
 			}, reject);
 		});
-	},
+	}
 
 	/**
      * Indicates that a module has been registered.
