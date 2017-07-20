@@ -2865,7 +2865,7 @@ var LoaderProtoMethods = {
 			// Get all modules without pending implementation or not yet requested
 			var modulesForLoading = self._filterModulesByProperty(moduleNames, [
 				'requested',
-				'pendingImplementation'
+				'pendingImplementation',
 			]);
 
 			if (modulesForLoading.length) {
@@ -3211,7 +3211,7 @@ var LoaderProtoMethods = {
 				}
 			}, reject);
 		});
-	}
+	},
 
 	/**
      * Indicates that a module has been registered.
@@ -3258,7 +3258,7 @@ Loader.prototype.define.amd = {};
 		window.define = global.define;
 	}
 
-	global.Loader.version = function() { return '2.1.0' };
+	global.Loader.version = function() { return '2.2.0' };
 }());
 
 (function () {
