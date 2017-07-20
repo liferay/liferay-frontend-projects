@@ -376,7 +376,7 @@ var LoaderProtoMethods = {
 		var module = config || {};
 		var configParser = this._getConfigParser();
 
-		if (configParser.getConfig().ignoreVersions) {
+		if (configParser.getConfig().ignoreModuleVersion) {
 			var nameParts = name.split('/');
 			var packageParts = nameParts[0].split('@');
 

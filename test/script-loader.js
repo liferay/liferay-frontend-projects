@@ -132,9 +132,9 @@ describe('Loader', function() {
 					path: 'issue-140/m2/m2.js',
 					dependencies: ['module', 'issue-140/m1'],
 				},
-				'issue-146/ignoreVersions': {
+				'issue-146/ignoreModuleVersion': {
 					dependencies: [],
-					path: 'issue-146/ignore-versions.js',
+					path: 'issue-146/ignore-module-version.js',
 				},
 			},
 		};
@@ -1123,15 +1123,15 @@ describe('Loader', function() {
 		}, 50);
 	});
 
-	it('should match module names without the version qualifier when ignoreVersions is set to true (issue 146)', function(
+	it('should match module names without the version qualifier when ignoreModuleVersion is set to true (issue 146)', function(
 		done
 	) {
 		var failure = sinon.stub();
 		var success = sinon.stub();
 
-		global.__CONFIG__.ignoreVersions = true;
+		global.__CONFIG__.ignoreModuleVersion = true;
 
-		Loader.require('issue-146/ignoreVersions', success, failure);
+		Loader.require('issue-146/ignoreModuleVersion', success, failure);
 
 		setTimeout(function() {
 			assert.isTrue(failure.notCalled);

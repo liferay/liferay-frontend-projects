@@ -297,5 +297,5 @@ Setting `exposeGlobal` property of the config will expose the Loader to the wind
 
 Ignoring module versions
 ======
-Setting `ignoreVersions` property of the config will ignore the `@major.minor.path` version qualifier in a module name to allow for a more lenient module name match in scenarios where undisclosed security vulnerabilities can lead to a security leak if versions are exposed to the
+Setting `ignoreModuleVersion` property of the config will ignore the `@major.minor.path` version qualifier in a module name to allow for a more lenient module name match in scenarios where undisclosed security vulnerabilities can lead to a security leak if versions are exposed to the
 loader configuration.
