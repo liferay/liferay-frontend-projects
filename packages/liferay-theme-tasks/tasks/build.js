@@ -259,6 +259,16 @@ module.exports = function(options) {
 
 	gulp.task('build:move-compiled-css', function() {
 		return gulp.src(pathBuild + '/_css/**/*')
+			.pipe(replace({
+				patterns: [
+					{
+						match: /@import\surl\(\"(.*\.css)\"\)\;/g,
+						replacement: function(match, m1) {
+							return '@import url("' + m1 + '?t=' + Date.now() + '");';
+						}
+					}
+				]
+			}))
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
