@@ -1,0 +1,13 @@
+{
+	"exclude": {
+        "fbjs": ["flow/**/*"]
+    },
+	"*": {
+		"plugins": [
+			"replace-browser-modules"
+		],
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		}
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"exclude": {
+        "mkdirp": ["bin/**/*"]
+    },
+	"*": {
+		"plugins": [
+			"replace-browser-modules",
+			"inject-angular-dependencies"
+		],
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		}
+	}
+}
