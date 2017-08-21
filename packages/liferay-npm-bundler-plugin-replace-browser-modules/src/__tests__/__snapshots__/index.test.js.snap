@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`does replace ignored modules with empty objects 1`] = `
+"/* Module ignored by liferay-npm-bundler-plugin-replace-browser-modules */
+"
+`;
+
+exports[`replaces main file with browser file 1`] = `
+"/* Module replaced with test-browser.js.file by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * testBrowser function
+ * @return {void}
+ */
+export default function testBrowser() {
+	console.log('Hello from testBrowser');
+}
+"
+`;
+
+exports[`replaces server files with browser files 1`] = `
+"/* Module replaced with test.js.file by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * test function
+ * @return {void}
+ */
+export default function test() {
+	console.log('Hello from test');
+}
+"
+`;
+
+exports[`replaces server files with browser files 2`] = `
+"/* Module replaced with test-2.js.file by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * test2 function
+ * @return {void}
+ */
+export default function test2() {
+	console.log('Hello from test2');
+}
+"
+`;
