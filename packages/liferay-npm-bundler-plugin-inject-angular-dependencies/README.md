@@ -4,7 +4,7 @@
 
 ## Installation
 
-```
+```sh
 npm install --save-dev liferay-npm-bundler-plugin-inject-angular-dependencies
 ```
 
@@ -12,7 +12,7 @@ npm install --save-dev liferay-npm-bundler-plugin-inject-angular-dependencies
 
 Add the following to your `.npmbundlerrc` file:
 
-```
+```json
 {
     "*": {
 		"plugins": [
