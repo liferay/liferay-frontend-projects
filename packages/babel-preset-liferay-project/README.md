@@ -4,7 +4,7 @@
 
 ## Install
 
-```
+```sh
 npm install --save-dev babel-preset-liferay-project
 ```
 
@@ -12,7 +12,7 @@ npm install --save-dev babel-preset-liferay-project
 
 Add the following to your `.babelrc` file:
 
-```
+```json
 {
   "presets": ["liferay-project"]
 }
