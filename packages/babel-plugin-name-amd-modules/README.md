@@ -2,7 +2,53 @@
 
 > Give a name to AMD modules based on package name and version and module path.
 
-## Details
+## Example
+
+**In**
+
+```javascript
+define([], function(){})
+```
+
+**Out**
+
+```javascript
+define("package@1.0.0/index", [], function () {});
+```
+
+## Installation
+
+```sh
+npm install --save-dev babel-plugin-name-amd-modules
+```
+
+## Usage
+
+Add the following to your `.babelrc` file:
+
+**Without options:**
+```json
+{
+  "plugins": ["name-amd-modules"]
+}
+```
+
+**With options:**
+```json
+{
+  "plugins": [
+    ["name-amd-modules", {
+        "packageName": "my-npm-package",
+        "srcPrefixes": [
+            "packages/my-npm-package",
+            "packages/my-other-npm-package"
+        ]
+    }]
+  ]
+}
+```
+
+## Technical Details and Options
 
 This plugins scans modules for AMD `define()` calls and rewrites the module name
 argument with one based on the name of the package that contains the module and
@@ -26,49 +72,3 @@ path is computed to `lib/index.js`.
 
 The default value of the `srcPrefixes` option is 
 `["src/main/resources/META-INF/resources"]`.
-
-## Example
-
-**In**
-
-```
-define([], function(){})
-```
-
-**Out**
-
-```
-define("package@1.0.0/index", [], function () {});
-```
-
-## Installation
-
-```
-npm install --save-dev babel-plugin-name-amd-modules
-```
-
-## Usage
-
-Add the following to your `.babelrc` file:
-
-**Without options:**
-```
-{
-  "plugins": ["name-amd-modules"]
-}
-```
-
-**With options:**
-```
-{
-  "plugins": [
-    ["name-amd-modules", {
-        "packageName": "my-npm-package",
-        "srcPrefixes": [
-            "packages/my-npm-package",
-            "packages/my-other-npm-package"
-        ]
-    }]
-  ]
-}
-```

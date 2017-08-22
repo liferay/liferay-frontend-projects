@@ -2,7 +2,59 @@
 
 > Transform server side code to use Node.js shims for the browser.
 
-## Details
+## Example
+
+**In**
+
+```javascript
+var console = require('console');
+
+console.info('Hello from '+__filename);
+```
+
+**Out**
+
+```javascript
+var __filename = 'index.js';
+var console = require('liferay-node-console');
+
+console.info('Hello from '+__filename);
+```
+
+## Installation
+
+```sh
+npm install --save-dev babel-plugin-shim-nodejs
+```
+
+## Usage
+
+Add the following to your `.babelrc` file:
+
+**Without options:**
+```json
+{
+  "plugins": ["shim-nodejs"]
+}
+```
+
+**With options:**
+```json
+{
+  "plugins": [
+    ["shim-nodejs", {
+        "nodeShimsVersion": "1.5.0",
+        "globals": {
+            "process": "var process = {env: {NODE_ENV: 'production'}}};"
+        },
+        "modules": {
+        }
+    }]
+  ]
+}
+```
+
+## Technical Details and Options
 
 This plugins transforms as much as possible Node.js server code to make it work
 in the browser by using shims. 
@@ -48,55 +100,3 @@ default it maps Node.js v8 globals to a suitable shimmed value (see
 * **modules**: holds a map specifying how builtin module names should be 
 rewritten. By default it maps Node.js v8 builtin modules to their name prepended
 by `liferay-node` (see [modules.js](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/babel-plugin-shim-nodejs/src/node/modules.js) for a more detailed description).
-
-## Example
-
-**In**
-
-```
-var console = require('console');
-
-console.info('Hello from '+__filename);
-```
-
-**Out**
-
-```
-var __filename = 'index.js';
-var console = require('liferay-node-console');
-
-console.info('Hello from '+__filename);
-```
-
-## Installation
-
-```
-npm install --save-dev babel-plugin-shim-nodejs
-```
-
-## Usage
-
-Add the following to your `.babelrc` file:
-
-**Without options:**
-```
-{
-  "plugins": ["shim-nodejs"]
-}
-```
-
-**With options:**
-```
-{
-  "plugins": [
-    ["shim-nodejs", {
-        "nodeShimsVersion": "1.5.0",
-        "globals": {
-            "process": "var process = {env: {NODE_ENV: 'production'}}};"
-        },
-        "modules": {
-        }
-    }]
-  ]
-}
-```
