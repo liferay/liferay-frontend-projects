@@ -2,15 +2,6 @@
 
 > Replace modules listed under `browser` section of `package.json` files.
 
-## Details
-
-This plugin scans `package.json` for a browser entry and copies browser modules
-on top of server modules or deletes them when set to `false`.
-
-Please read the 
-[`browser` field specification](https://github.com/defunctzombie/package-browser-field-spec) 
-for more information.
-
 ## Installation
 
 ```
@@ -30,3 +21,13 @@ Add the following to your `.npmbundlerrc` file:
 	}
 }
 ```
+
+## Technical Details
+
+This plugin scans `package.json` for a browser entry and copies browser modules
+on top of server modules or deletes them when set to `false`.
+
+Please read the 
+[`browser` field specification](https://github.com/defunctzombie/package-browser-field-spec) 
+for more information.
+
