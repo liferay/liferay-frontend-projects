@@ -85,6 +85,7 @@ _.assign(helper, {
 		gulp.hook('after:build:clean', helper._assertClean);
 		gulp.hook('after:build:compile-css', helper._assertCompileCss);
 		gulp.hook('after:build:hook', helper._assertHook);
+		gulp.hook('after:build:fix-at-directives', helper._assertFixAtDirectives);
 		gulp.hook('after:build:move-compiled-css', helper._assertMoveCompiledCss);
 		gulp.hook('after:build:remove-old-css-dir', helper._assertRemoveOldCssDir);
 		gulp.hook('after:build:rename-css-dir', helper._assertRenameCssDir);
@@ -147,6 +148,21 @@ _.assign(helper, {
 
 			cb();
 		});
+	},
+
+	_assertFixAtDirectives: function(cb) {
+		var cssPath = path.join(buildPath, 'css');
+
+		assert.isDirectory(cssPath);
+
+		if (version === '6.2') {
+			assert.fileContentMatch(path.join(cssPath, 'main.css'), /@import\surl\(custom\.css\);/);
+		}
+		else {
+			assert.fileContentMatch(path.join(cssPath, 'main.css'), /@import\surl\(file\.css\?t=[0-9]+\);/);
+		}
+
+		cb();
 	},
 
 	_assertMoveCompiledCss: function(cb) {

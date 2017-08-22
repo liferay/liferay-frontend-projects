@@ -136,30 +136,35 @@ module.exports = function(options) {
 			}).join(',') + m2;
 		};
 
+		var patterns = [
+			{
+				match: /(@font-face|@page|@-ms-viewport)\s*({\n\s*)(.*)\s*({)/g,
+				replacement: function(match, m1, m2, m3, m4) {
+					return m3 + m2 + m1 + ' ' + m4;
+				}
+			},
+			{
+				match: /(@-ms-keyframes.*{)([\s\S]+?)(}\s})/g,
+				replacement: function(match, m1, m2, m3) {
+					m2 = m2.replace(/(.+?)(\s?{)/g, keyframeRulesReplace);
+
+					return m1 + m2 + m3;
+				}
+			}
+		];
+
+		if (themeConfig.version !== '6.2') {
+			patterns.push({
+				match: /@import\s+url\s*\(\s*['\"]?(.+\.css)['\"]?/g,
+				replacement: function(match, m1) {
+					return '@import url(' + m1 + '?t=' + Date.now();
+				}
+			});
+		}
+
 		return gulp.src(pathBuild + '/css/*.css')
 			.pipe(replace({
-				patterns: [
-					{
-						match: /(@font-face|@page|@-ms-viewport)\s*({\n\s*)(.*)\s*({)/g,
-						replacement: function(match, m1, m2, m3, m4) {
-							return m3 + m2 + m1 + ' ' + m4;
-						}
-					},
-					{
-						match: /(@-ms-keyframes.*{)([\s\S]+?)(}\s})/g,
-						replacement: function(match, m1, m2, m3) {
-							m2 = m2.replace(/(.+?)(\s?{)/g, keyframeRulesReplace);
-
-							return m1 + m2 + m3;
-						}
-					},
-					{
-						match: /@import\s+url\s*\(\s*['\"]?(.+\.css)['\"]?/g,
-						replacement: function(match, m1) {
-							return '@import url(' + m1 + '?t=' + Date.now();
-						}
-					}
-				]
+				patterns: patterns
 			}))
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
