@@ -2,7 +2,7 @@
 
 > Transform server side code to use Node.js shims for the browser.
 
-## Example
+## Example
 
 **In**
 

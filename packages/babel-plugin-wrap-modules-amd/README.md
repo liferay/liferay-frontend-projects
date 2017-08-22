@@ -2,7 +2,7 @@
 
 > Wrap modules inside an AMD `define()` module.
 
-## Example
+## Example
 
 **In**
 

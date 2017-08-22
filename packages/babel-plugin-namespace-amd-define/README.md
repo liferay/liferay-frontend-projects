@@ -2,7 +2,7 @@
 
 > Add a prefix to AMD `define()` calls.
 
-## Example
+## Example
 
 **In**
 

@@ -2,7 +2,7 @@
 
 > Normalize AMD `require()` calls.
 
-## Example
+## Example
 
 **In**
 

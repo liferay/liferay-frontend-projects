@@ -2,7 +2,7 @@
 
 > Give a name to AMD modules based on package name and version and module path.
 
-## Example
+## Example
 
 **In**
 
