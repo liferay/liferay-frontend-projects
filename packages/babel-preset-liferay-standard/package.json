@@ -15,6 +15,7 @@
 		"babel-plugin-name-amd-modules": "^0.0.0",
 		"babel-plugin-namespace-amd-define": "^0.0.0",
 		"babel-plugin-normalize-requires": "^0.0.0",
+		"babel-plugin-transform-node-env-inline": "^0.2.0",
 		"babel-plugin-wrap-modules-amd": "^0.0.0"
 	}
 }
