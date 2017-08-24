@@ -1,6 +1,6 @@
 {
   "name": "liferay-npm-build-tools-common",
-  "version": "0.0.0",
+  "version": "0.6.0",
   "description": "Utility library for Liferay NPM Build Tools.",
   "scripts": {
     "build": "babel --source-maps -D -d lib src",

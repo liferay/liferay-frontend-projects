@@ -1,15 +1,15 @@
 {
-	"name": "liferay-npm-bundler-plugin-replace-browser-modules",
-	"version": "0.0.0",
-	"description": "A liferay-npm-bundler plugin to replace files listed under the browser entry of package.json files.",
-	"main": "lib/index.js",
-	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
-		"prepublish": "npm run build"
-	},
-	"devDependencies": {
-		"babel-cli": "^6.24.1",
-		"babel-preset-es2015": "^6.24.1",
-		"cp-file": "^4.2.0"
-	}
+  "name": "liferay-npm-bundler-plugin-replace-browser-modules",
+  "version": "0.6.0",
+  "description": "A liferay-npm-bundler plugin to replace files listed under the browser entry of package.json files.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel --source-maps -D -d lib src",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "cp-file": "^4.2.0"
+  }
 }

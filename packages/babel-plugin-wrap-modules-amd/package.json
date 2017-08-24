@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-wrap-modules-amd",
-  "version": "0.0.0",
+  "version": "0.6.0",
   "description": "A Babel plugin to wrap package modules inside AMD define() calls.",
   "main": "lib/index.js",
   "scripts": {

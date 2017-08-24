@@ -1,10 +1,10 @@
 {
-	"name": "liferay-npm-bundler-preset-isomorphic",
-	"version": "0.0.0",
-	"description": "Isomorphic configuration for liferay-npm-bundler.",
-	"main": "config.json",
-	"dependencies": {
-		"babel-preset-liferay-isomorphic": "^0.0.0",
-		"liferay-npm-bundler-plugin-replace-browser-modules": "^0.0.0"
-	}
+  "name": "liferay-npm-bundler-preset-isomorphic",
+  "version": "0.6.0",
+  "description": "Isomorphic configuration for liferay-npm-bundler.",
+  "main": "config.json",
+  "dependencies": {
+    "babel-preset-liferay-isomorphic": "^0.6.0",
+    "liferay-npm-bundler-plugin-replace-browser-modules": "^0.6.0"
+  }
 }
