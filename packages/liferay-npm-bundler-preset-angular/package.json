@@ -1,11 +1,11 @@
 {
-  "name": "liferay-npm-bundler-preset-angular",
-  "version": "0.0.0",
-  "description": "Angular configuration for liferay-npm-bundler.",
-  "main": "config.json",
-  "dependencies": {
-    "babel-preset-liferay-standard": "^0.5.0",
-    "liferay-npm-bundler-plugin-inject-package-dependencies": "^0.5.0",
-    "liferay-npm-bundler-plugin-replace-browser-modules": "^0.5.0"
-  }
+	"name": "liferay-npm-bundler-preset-angular",
+	"version": "0.0.0",
+	"description": "Angular configuration for liferay-npm-bundler.",
+	"main": "config.json",
+	"dependencies": {
+		"babel-preset-liferay-standard": "^0.0.0",
+		"liferay-npm-bundler-plugin-inject-package-dependencies": "^0.0.0",
+		"liferay-npm-bundler-plugin-replace-browser-modules": "^0.0.0"
+	}
 }

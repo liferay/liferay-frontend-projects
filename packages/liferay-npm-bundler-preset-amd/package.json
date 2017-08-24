@@ -1,9 +1,9 @@
 {
-  "name": "liferay-npm-bundler-preset-amd",
-  "version": "0.0.0",
-  "description": "AMD configuration for liferay-npm-bundler.",
-  "main": "config.json",
-  "dependencies": {
-    "babel-preset-liferay-amd": "^0.5.0"
-  }
+	"name": "liferay-npm-bundler-preset-amd",
+	"version": "0.0.0",
+	"description": "AMD configuration for liferay-npm-bundler.",
+	"main": "config.json",
+	"dependencies": {
+		"babel-preset-liferay-amd": "^0.0.0"
+	}
 }
