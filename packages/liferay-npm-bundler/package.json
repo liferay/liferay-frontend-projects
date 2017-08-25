@@ -3,6 +3,9 @@
   "version": "0.6.0",
   "description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
   "main": "lib/index.js",
+  "bin": {
+    "liferay-npm-bundler": "bin/liferay-npm-bundler.js"
+  },
   "scripts": {
     "build": "babel --source-maps -D -d lib src",
     "prepublish": "npm run build"
