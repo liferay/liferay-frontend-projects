@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-liferay-project",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Babel preset for compiling standard Liferay projects.",
   "main": "lib/index.js",
   "scripts": {
@@ -12,8 +12,8 @@
     "babel-preset-es2015": "^6.24.1"
   },
   "dependencies": {
-    "babel-plugin-name-amd-modules": "^0.6.0",
-    "babel-plugin-namespace-amd-define": "^0.6.0",
+    "babel-plugin-name-amd-modules": "^0.7.0",
+    "babel-plugin-namespace-amd-define": "^0.7.0",
     "babel-plugin-transform-es2015-modules-amd": "^6.24.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-shim-nodejs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A Babel plugin to shim Node.js global objects and modules.",
   "main": "lib/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "babel-template": "^6.25.0",
-    "liferay-npm-build-tools-common": "^0.6.0",
+    "liferay-npm-build-tools-common": "^0.7.0",
     "read-json-sync": "^1.1.1"
   }
 }

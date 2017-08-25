@@ -1,6 +1,6 @@
 {
   "name": "liferay-npm-bundler-plugin-inject-angular-dependencies",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A liferay-npm-bundler plugin to force injection of needed dependencies in Angular packages.",
   "main": "lib/index.js",
   "scripts": {
