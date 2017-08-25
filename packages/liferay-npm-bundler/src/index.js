@@ -2,7 +2,7 @@ import * as babel from 'babel-core';
 import cpFile from 'cp-file';
 import fs from 'fs';
 import globby from 'globby';
-import { mkdirp } from 'liferay-build-tools-util';
+import { mkdirp } from 'liferay-npm-build-tools-common/lib/fs';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
