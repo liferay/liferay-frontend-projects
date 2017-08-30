@@ -38,7 +38,19 @@ describe('getExclusions()', () => {
 		expect(cfg.getExclusions(pkg)).toEqual(['**/*.js', '**/*.css']);
 	});
 
-	it('returns an empty array for unconfigured packages', () => {
+	it('returns the default exclusions for unconfigured packages', () => {
+		const pkg = {
+			id: 'not-existent-package@1.0.0',
+			name: 'not-existent-package',
+			version: '1.0.0',
+			dir: '',
+		};
+
+		expect(cfg.getExclusions(pkg)).toEqual(['test/**/*']);
+	});
+
+	// Impossible to test once we test for default exclusions
+	it.skip('returns an empty array for unconfigured packages', () => {
 		const pkg = {
 			id: 'not-existent-package@1.0.0',
 			name: 'not-existent-package',

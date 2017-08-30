@@ -57,7 +57,8 @@ export function getOutputDir() {
 export function getExclusions(pkg) {
 	let exclusions = config.exclude || {};
 
-	exclusions = exclusions[pkg.id] || exclusions[pkg.name] || [];
+	exclusions =
+		exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
 
 	return exclusions;
 }

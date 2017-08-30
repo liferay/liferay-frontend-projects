@@ -1,6 +1,9 @@
 {
 	"output": "output-dir",
 	"exclude": {
+		"*": [
+			"test/**/*"
+		],
 		"package-a": [
 			"*"
 		],
