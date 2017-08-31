@@ -1,12 +1,16 @@
-let cfg;
+const projectDir = process.cwd();
+const cfg = require('../config');
 
-beforeAll(() => {
-	process.chdir('./packages/liferay-npm-bundler/src/__tests__');
-	cfg = require('../config');
+beforeEach(() => {
+	process.chdir(
+		`${projectDir}/packages/liferay-npm-bundler/src/__tests__/config/` +
+			'default',
+	);
+	cfg.reloadConfig();
 });
 
-afterAll(() => {
-	process.chdir('../../../..');
+afterEach(() => {
+	process.chdir(projectDir);
 });
 
 describe('getOutputDir()', () => {
@@ -50,7 +54,13 @@ describe('getExclusions()', () => {
 	});
 
 	// Impossible to test once we test for default exclusions
-	it.skip('returns an empty array for unconfigured packages', () => {
+	it('returns an empty array for unconfigured packages', () => {
+		process.chdir(
+			`${projectDir}/packages/liferay-npm-bundler/src/__tests__/config/` +
+				'empty',
+		);
+		cfg.reloadConfig();
+
 		const pkg = {
 			id: 'not-existent-package@1.0.0',
 			name: 'not-existent-package',

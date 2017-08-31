@@ -11,7 +11,15 @@ let config = loadConfig();
  */
 function loadConfig() {
 	// Load base configuration
-	let config = readJsonSync('.npmbundlerrc');
+	let config = {};
+
+	try {
+		config = readJsonSync('.npmbundlerrc');
+	} catch (err) {
+		if (err.code !== 'ENOENT') {
+			throw err;
+		}
+	}
 
 	// Apply preset if necessary
 	if (config.preset) {
@@ -38,6 +46,14 @@ function configRequire(module) {
 	});
 
 	return require(pluginFile);
+}
+
+/**
+ * Force a config reload
+ * @return {void}
+ */
+export function reloadConfig() {
+	config = loadConfig();
 }
 
 /**
