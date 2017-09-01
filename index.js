@@ -10,7 +10,7 @@ module.exports = (report) => {
       id: 0,
       errors: 0,
       failures: report.numFailedTests,
-      name: 'jest tests',
+      name: 'Jest',
       package: '',
       skipped: 0,
       tests: report.numTotalTests,
@@ -25,7 +25,7 @@ module.exports = (report) => {
       return {
         'testcase': [{
           _attr: {
-            classname: testCase.ancestorTitles.join(' '),
+            classname: 'Jest.' + testCase.ancestorTitles[testCase.ancestorTitles.length - 1],
             name: testCase.title,
             time: testCase.duration / 1000
           }
