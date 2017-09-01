@@ -16,7 +16,7 @@
     "url": "https://github.com/jbalsas/liferay-jest-junit-reporter/issues"
   },
   "homepage": "https://github.com/jbalsas/liferay-jest-junit-reporter#readme",
-  "devDependencies": {
+  "dependencies": {
     "xml": "^1.0.1"
   }
 }
