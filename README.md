@@ -1,6 +1,8 @@
 # Liferay Frontend Guidelines
 
-## Outline 
+:construction: Guidelines Under Construction
+
+## Supported Languages 
 
 - JavaScript
     - [Formatting](js/formatting.md)
