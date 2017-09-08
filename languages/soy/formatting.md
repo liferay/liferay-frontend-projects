@@ -1,0 +1,1 @@
+# Closure Templates (soy) Formatting
