@@ -45,5 +45,7 @@ Additionally, set up a Pre-commit Hook to ensure all files are always properly f
 }
 ```
 
+---
+
 [1] Defer to our own [JavaScript Formatting](formatting.md) section for information on how to format your JavaScript code.
 [2] All different pre-commit checks should be combined following this same approach

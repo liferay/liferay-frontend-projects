@@ -56,4 +56,6 @@ Additionally, set up a Pre-commit Hook to ensure all files are always properly f
 }
 ```
 
+---
+
 [1] All different pre-commit checks should be combined following this same approach
