@@ -103,7 +103,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			},
 			{
 				default: function(answers) {
-					return _.kebabCase(_.deburr(answers.themeName || ''));
+					return _.kebabCase(_.deburr(answers.layoutName || ''));
 				},
 				message: 'Would you like to use this as the layout template id?',
 				name: 'layoutId',
