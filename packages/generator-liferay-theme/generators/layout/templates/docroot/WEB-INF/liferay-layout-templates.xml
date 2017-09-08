@@ -4,8 +4,8 @@
 <layout-templates>
 	<custom>
 		<layout-template id="<%= layoutId %>" name="<%= layoutName %>">
-			<template-path>/<%= templateFilename %></template-path>
-			<thumbnail-path>/<%= thumbnailFilename %></thumbnail-path>
+			<template-path><%= templateDestination %>/<%= templateFilename %></template-path>
+			<thumbnail-path><%= templateDestination %>/<%= thumbnailFilename %></thumbnail-path>
 		</layout-template>
 	</custom>
 </layout-templates>
