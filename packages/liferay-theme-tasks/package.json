@@ -69,6 +69,7 @@
     "gulp-debug": "^2.0.0",
     "gulp-filter": "^2.0.2",
     "gulp-help": "^1.6.1",
+    "gulp-if": "^2.0.2",
     "gulp-inject": "^2.2.0",
     "gulp-liferay-r2-css": "^0.0.2",
     "gulp-livereload": "^3.8.1",

@@ -84,7 +84,9 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-lib-sass', function(cb) {
+		var gulpIf = themeUtil.requireDependency('gulp-if', themeConfig.version);
 		var gulpSass = themeUtil.requireDependency('gulp-sass', themeConfig.version);
+		var gulpSourceMaps = themeUtil.requireDependency('gulp-sourcemaps', themeConfig.version);
 
 		var sassOptions = getSassOptions(options.sassOptions, {
 			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
@@ -97,14 +99,18 @@ module.exports = function(options) {
 
 		gulp.src(srcPath)
 			.pipe(plugins.plumber())
+			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.init()))
 			.pipe(gulpSass(sassOptions))
 			.on('error', handleScssError)
+			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.write('.')))
 			.pipe(gulp.dest(cssBuild))
 			.on('end', cb);
 	});
 
 	gulp.task('build:compile-ruby-sass', function(cb) {
+		var gulpIf = themeUtil.requireDependency('gulp-if', themeConfig.version);
 		var gulpRubySass = themeUtil.requireDependency('gulp-ruby-sass', themeConfig.version);
+		var gulpSourceMaps = themeUtil.requireDependency('gulp-sourcemaps', themeConfig.version);
 
 		var sassOptions = getSassOptions(options.sassOptions, {
 			compass: true,
@@ -117,7 +123,9 @@ module.exports = function(options) {
 		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '*.scss'), getSrcPathConfig());
 
 		gulpRubySass(srcPath, sassOptions)
+			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.init()))
 			.on('error', handleScssError)
+			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.write('.')))
 			.pipe(gulp.dest(cssBuild))
 			.on('end', function() {
 				if (renamedFiles && renamedFiles.length) {
