@@ -84,9 +84,9 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-lib-sass', function(cb) {
-		var gulpIf = themeUtil.requireDependency('gulp-if', themeConfig.version);
+		var gulpIf = require('gulp-if');
 		var gulpSass = themeUtil.requireDependency('gulp-sass', themeConfig.version);
-		var gulpSourceMaps = themeUtil.requireDependency('gulp-sourcemaps', themeConfig.version);
+		var gulpSourceMaps = require('gulp-sourcemaps');
 
 		var sassOptions = getSassOptions(options.sassOptions, {
 			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
@@ -108,9 +108,9 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-ruby-sass', function(cb) {
-		var gulpIf = themeUtil.requireDependency('gulp-if', themeConfig.version);
+		var gulpIf = require('gulp-if');
 		var gulpRubySass = themeUtil.requireDependency('gulp-ruby-sass', themeConfig.version);
-		var gulpSourceMaps = themeUtil.requireDependency('gulp-sourcemaps', themeConfig.version);
+		var gulpSourceMaps = require('gulp-sourcemaps');
 
 		var sassOptions = getSassOptions(options.sassOptions, {
 			compass: true,
