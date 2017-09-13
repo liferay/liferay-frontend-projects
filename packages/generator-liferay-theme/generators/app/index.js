@@ -282,7 +282,6 @@ module.exports = yeoman.generators.Base.extend({
 
 		this._printWarnings(liferayVersion);
 
-		this._setPublishTag(liferayVersion);
 		this._setPackageVersion(liferayVersion);
 	},
 
@@ -327,12 +326,6 @@ module.exports = yeoman.generators.Base.extend({
 		this.promptDeprecationMap = {
 			templateLanguage: ['7.0']
 		};
-	},
-
-	_setPublishTag: function(liferayVersion) {
-		liferayVersion = liferayVersion.toString();
-
-		this.publishTag = liferayVersion.replace('.', '_') + '_x';
 	},
 
 	_track: function() {

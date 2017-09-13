@@ -19,8 +19,5 @@
 		"liferay-theme-deps-7.0": "~1.2.1"<% } %><% if (liferayVersion == 6.2 && !rubySass) { %>,
 		"gulp-sass": "*"<% } else if (liferayVersion == 7.0 && rubySass) { %>,
 		"gulp-ruby-sass": "*"<% } %>
-	}<% if (publishTag) { %>,
-	"publishConfig": {
-		"tag": "<%= publishTag %>"
-	}<% } %>
+	}
 }

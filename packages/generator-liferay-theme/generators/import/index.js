@@ -95,7 +95,6 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 		this.rubySass = rubySass;
 
-		this._setPublishTag(liferayVersion);
 		this._setPackageVersion(liferayVersion);
 
 		var defaultTemplateLanguage = 'ftl';

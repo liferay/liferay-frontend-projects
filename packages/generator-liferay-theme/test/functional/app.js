@@ -39,7 +39,6 @@ describe('liferay-theme:app functional tests', function () {
 			assert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
 			assert.equal(pkg.liferayTheme.version, '7.0');
 			assert.equal(pkg.name, 'test-theme');
-			assert.equal(pkg.publishConfig.tag, '7_0_x');
 			assert.equal(pkg.version, '1.0.0');
 
 			var tempThemeDir = path.join(tempDir, themeId);
@@ -86,7 +85,6 @@ describe('liferay-theme:app functional tests', function () {
 			assert.equal(pkg.liferayTheme.rubySass, true);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
 			assert.equal(pkg.liferayTheme.version, '6.2');
-			assert.equal(pkg.publishConfig.tag, '6_2_x');
 			assert.equal(pkg.version, '0.0.0');
 
 			var tempThemeDir = path.join(tempDir, themeId);
