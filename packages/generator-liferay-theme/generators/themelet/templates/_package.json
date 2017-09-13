@@ -9,8 +9,5 @@
 		"screenshot": "",
 		"themelet": true,
 		"version": "<%= liferayVersion %>"
-	}<% if (publishTag) { %>,
-	"publishConfig": {
-		"tag": "<%= publishTag %>"
-	}<% } %>
+	}
 }

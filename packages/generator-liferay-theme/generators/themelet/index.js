@@ -80,8 +80,6 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 		if (props.liferayVersion == 'All') {
 			this.liferayVersion = '*';
-
-			this.publishTag = null;
 		}
 	},
 
