@@ -269,6 +269,10 @@ module.exports = function(options) {
 	gulp.task('upgrade:vm-templates', function() {
 		var vmRules = [
 			{
+				message: 'Warning: Support for Velocity (.vm) format is deprecated, consider migrating to FreeMarker (.ftl) format. See: https://goo.gl/48p5sX',
+				regex: /[\s\S]+/g
+			},
+			{
 				message: 'Warning: #dockbar() is deprecated, replace with #control_menu() for new admin controls.',
 				regex: /#dockbar\(\)/g
 			},
