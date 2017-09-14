@@ -2,10 +2,10 @@
 
 exports[`correctly names anonymous modules 1`] = `
 "
-define(\\"package@1.0.0/index.test\\", [], function () {});"
+define(\\"package-name-amd-modules@1.0.0/index.test\\", [], function () {});"
 `;
 
 exports[`correctly renames named modules 1`] = `
 "
-define('package@1.0.0/index.test', [], function () {});"
+define('package-name-amd-modules@1.0.0/index.test', [], function () {});"
 `;
