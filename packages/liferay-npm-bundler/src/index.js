@@ -34,12 +34,19 @@ export default function(args) {
 	const start = new Date().getTime();
 
 	pkgs.forEach(pkg => {
-		console.log(`Bundling ${pkg.id}`);
-
 		const outPkgDir = `${outputDir}/node_modules/${pkg.id.replace(
 			'/',
 			'%2F',
 		)}`;
+
+		try {
+			if (fs.statSync(outPkgDir).isDirectory()) {
+				console.log(`Skipping ${pkg.id} (already bundled)`);
+				return;
+			}
+		} catch (err) {}
+
+		console.log(`Bundling ${pkg.id}`);
 
 		mkdirp(outPkgDir);
 
