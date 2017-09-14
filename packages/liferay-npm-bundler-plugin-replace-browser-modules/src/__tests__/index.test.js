@@ -31,7 +31,9 @@ beforeEach(() => {
 // Delete result files after running each test
 afterEach(() => {
 	pkgFiles.forEach(file => {
-		fs.unlink(`${pkg.dir}/${file}`);
+		try {
+			fs.unlink(`${pkg.dir}/${file}`);
+		} catch (err) {}
 	});
 });
 
