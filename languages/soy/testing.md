@@ -1,1 +1,0 @@
-# Closure Templates (soy) Testing

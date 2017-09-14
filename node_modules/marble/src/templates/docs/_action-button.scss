@@ -1,0 +1,27 @@
+/* Call to Action Button
+   ========================================================================== */
+
+.guide-btn-cta {
+	text-align: center;
+	margin: 0;
+
+	.btn.btn-accent {
+		@include anim(all);
+		color: $white;
+
+		&:hover,
+		&:focus {
+			color: $white;
+		}
+	}
+}
+
+.guide-aux-cta {
+	color: rgba($primary, 0.6);
+	font-family: $font-secondary;
+	font-weight: 600;
+	font-size: 13px;
+	line-height: calc(1rem * #{$lineHeight});
+	margin: 0 0 calc(1rem * #{$lineHeight});
+	text-align: center;
+}

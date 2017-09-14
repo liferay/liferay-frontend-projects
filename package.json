@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "liferay-frontend-guidelines",
+  "version": "0.0.0",
+  "devDependencies": {
+    "electric-marble-components": "^2.0.0",
+    "marble": "~2.7.0",
+    "metal-toggler": "^2.0.0"
+  }
+}

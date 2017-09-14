@@ -1,0 +1,91 @@
+---
+title: "Docs"
+description: "Everything you need to know to get started."
+---
+
+{namespace pageDocsIndex}
+
+/**
+ * @param page
+ */
+{template .render}
+	<div class="main">
+		<main class="content">
+			<div class="docs">
+				{call Topbar.render data="all"}
+					{param elementClasses: 'topbar-docs' /}
+				{/call}
+				{call Sidebar.render}
+					{param section: $page /}
+				{/call}
+				{call .topics data="all" /}
+			</div>
+		</main>
+	</div>
+{/template}
+
+/**
+ * @param page
+ */
+{template .topics}
+	<div class="sidebar-offset">
+		
+		<div class="container-hybrid docs-home-top">
+			<div class="row">
+				<div class="col-xs-16">
+					<h1 class="docs-home-top-title">Frontend Guidelines</h1>
+					<p class="docs-home-top-description">Guidelines for a consistent frontend development in Liferay.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container-hybrid docs-home-top-form">
+					<form action="/search.html" method="GET" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-xs-14 col-xs-offset-1 col-md-10 col-md-offset-3 col-lg-6 col-lg-offset-5">
+								<div class="search">
+									{call ElectricSearchAutocomplete.render}
+										{param maxResults: 3 /}
+										{param path: '/' /}
+										{param placeholder: 'Search Guidelines' /}
+									{/call}
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="docs-home-topics">
+			<div class="container-hybrid">
+				<div class="row">
+					<div class="col-xs-14 col-xs-offset-1 ">
+						<section class="docs-home-middle">
+							<h2 class="docs-home-middle-subtitle">Choose a Language</h2>
+							<p class="docs-home-middle-description">Each one contains different sections with formatting, testing and conventions about the specific Language.</p>
+						</section>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-md-offset-2 col-xs-16">
+						<div class="row">
+							{foreach $childId in $page.childIds}
+								{let $topic: $page.children[$childId] /}
+
+								{if not $topic.hidden}
+									<div class="col-md-8 col-md-offset-0 col-xs-14 col-xs-offset-1">
+										<a class="topic radial-out" href="{$topic.url}">
+											<div class="topic-icon">
+												<span class="icon-16-{$topic.icon}"></span>
+											</div>
+											<h3 class="topic-title">{$topic.title}</h3>
+										</a>
+									</div>
+								{/if}
+							{/foreach}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{/template}

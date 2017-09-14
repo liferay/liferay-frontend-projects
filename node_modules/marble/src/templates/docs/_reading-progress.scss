@@ -1,0 +1,36 @@
+.docs-nav-container {
+	position: relative;
+	display: none;
+
+	@media (min-width: $screen-md-min) {
+		display: flex;
+	}
+}
+
+.docs .docs-nav {
+	width: auto;
+	opacity: 0;
+	animation: fadeIn 0.5s cubic-bezier(0.3, 0, 0.3, 1) 0s 1 forwards;
+}
+
+.docs-nav.affix {
+	top: 20px;
+	z-index: 10;
+}
+
+.docs-nav.affix.topbar-is-fixed {
+	top: 80px;
+}
+
+.docs-nav.affix-top {
+	position: absolute;
+	top: 0;
+}
+
+.docs-nave ul {
+
+}
+
+.docs-nave ul li {
+
+}

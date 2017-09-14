@@ -1,0 +1,19 @@
+{namespace Autocomplete}
+
+/**
+ * This renders the main element.
+ * @param? listId
+ * @param? elementClasses
+ * @param? onListItemSelected_
+ */
+{template .render}
+	<div
+		class="autocomplete autocomplete-list component {$elementClasses ? ' ' + $elementClasses : ''}"
+		data-onclick="handleClick_">
+		{call List.render}
+			{param events: ['itemSelected': $onListItemSelected_] /}
+			{param id: $listId /}
+			{param ref: 'list' /}
+		{/call}
+	</div>
+{/template}

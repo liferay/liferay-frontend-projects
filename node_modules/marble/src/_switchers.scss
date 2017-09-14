@@ -1,0 +1,21 @@
+/* Switcher - Off
+	 ========================================================================== */
+
+.switcher {
+	background: rgba($primary, .4);
+}
+
+.switcher-control {
+	background: rgba($primary, .7);
+}
+
+/* Switcher - On
+	 ========================================================================== */
+
+.switcher-on {
+	background: rgba($brand-success, .4);
+}
+
+.switcher-on .switcher-control {
+	background: $brand-success;
+}

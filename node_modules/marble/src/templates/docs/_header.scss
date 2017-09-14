@@ -1,0 +1,23 @@
+/* Header
+		========================================================================== */
+
+.docs header {
+	background: rgba($primary, 0.02);
+	text-align: center;
+	padding: 60px 0;
+	margin-top: 0;
+}
+
+.docs header.topbar-is-fixed {
+	@media (min-width: 960px) {
+		margin-top: 60px;
+	}
+}
+
+.docs header .title {
+	color: rgba($primary, .8);
+	font-family: $font-primary;
+	font-weight: 700;
+	font-size: $font-h2;
+	line-height: calc(3rem * #{$lineHeight});
+}

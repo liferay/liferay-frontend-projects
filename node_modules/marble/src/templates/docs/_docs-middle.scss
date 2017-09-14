@@ -1,0 +1,34 @@
+/* Home - Middle
+	========================================================================== */
+
+.docs-home-middle {
+	margin: 0 0 48px;
+	padding: 0;
+}
+
+.docs-home-middle-subtitle {
+	color: rgba($primary, .8);
+	font-family: $font-primary;
+	font-weight: 700;
+	font-size: $font-h4;
+	line-height: calc(2rem * #{$lineHeight});
+	margin: 0 0 12px;
+	text-align: center;
+}
+
+.docs-home-middle-description {
+	color: rgba($primary, .6);
+	font-family: $font-secondary;
+	font-weight: 600;
+	font-size: $font-p;
+	line-height: calc(1rem * #{$lineHeight});
+	margin: 0 0 24px;
+	text-align: center;
+}
+
+@media (min-width: $screen-md-min) {
+
+	.topbar-docs-main {
+		display: none;
+	}
+}

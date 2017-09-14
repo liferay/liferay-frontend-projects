@@ -1,22 +1,37 @@
 # Liferay Frontend Guidelines
 
-:construction: Guidelines Under Construction
+[![Built with Electric](https://img.shields.io/badge/built%20with-electric-f3c302.svg?style=flat)](http://electricjs.com)
 
-## Supported Languages 
+## Setup
 
-- JavaScript
-    - [Formatting](languages/js/formatting.md)
-    - [Style Guide](languages/js/style.md)
-    - [Testing](languages/js/testing.md)
-- JSX
-    - [Formatting](languages/jsx/formatting.md)
-    - [Style Guide](languages/jsx/style.md)
-    - [Testing](languages/jsx/testing.md)
-- Sass (scss)
-    - [Formatting](languages/scss/formatting.md)
-    - [Style Guide](languages/scss/style.md)
-    - [Testing](languages/scss/testing.md)
-- Closure Templates (soy)
-    - [Formatting](languages/soy/formatting.md)
-    - [Style Guide](languages/soy/style.md)
-    - [Testing](languages/soy/testing.md)
+1. Make sure you have [node and npm](https://nodejs.org/en/download/) installed:
+
+```sh
+node -v && npm -v
+```
+
+2. Install our global dependencies:
+
+```sh
+[sudo] npm i -g electric-cli
+```
+
+3. Install our local dependencies:
+
+```sh
+npm i
+```
+
+## Usage
+
+* Build the site, serve it locally, and watch for any changes:
+
+```
+electric run
+```
+
+* Deploy to production (send build files to `wedeploy` branch):
+
+```
+electric deploy
+```

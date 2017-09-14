@@ -1,1 +1,0 @@
-# JSX Style Guide

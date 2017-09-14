@@ -1,0 +1,61 @@
+/* Home - Top
+	========================================================================== */
+
+.docs-home-top {
+	padding: 60px 0 72px;
+
+	@media (min-width: $screen-md-min) {
+		padding: 96px 0 144px;
+	}
+}
+
+.docs-home-top-title {
+	font-family: $font-primary;
+	font-weight: 700;
+	color: rgba($primary, .8);
+	font-size: $font-h2;
+	line-height: calc(3rem * #{$lineHeight});
+	text-align: center;
+	margin: 0 0 12px;
+}
+
+.docs-home-top-description {
+	color: rgba($primary, .6);
+	font-family: $font-primary;
+	font-weight: 400;
+	font-size: $font-h5;
+	line-height: calc(1.5rem * #{$lineHeight});
+	margin: 0 0 48px;
+	text-align: center;
+}
+
+.docs-home-top-form .form-control {
+	@include anim(all);
+	border: 1px solid transparent;
+	font-weight: 400;
+
+	.input-inner-icon-helper {
+		@include anim(color);
+	}
+
+	&:focus {
+		background: white;
+		border-color: $accent;
+	}
+
+	&:focus + .input-inner-icon-helper {
+		color: $accent;
+	}
+
+	.btn-sm {
+		width: 100%;
+	}
+}
+
+.docs-home-top-form .btn {
+	padding: 0;
+	margin-top: 24px;
+	@media (min-width: $screen-md-min) {
+		margin-top: 0;
+	}
+}

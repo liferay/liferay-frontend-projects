@@ -1,0 +1,37 @@
+.docs-nav-group a {
+	@include anim(color);
+	color: rgba($primary, .8);
+	font-family: $font-primary;
+	font-weight: 400;
+	font-size: 18px;
+	margin-bottom: 36px;
+}
+
+.docs-nav-group a:hover,
+.docs-nav-group a:focus {
+	color: $accent;
+	text-decoration: none;
+}
+
+.docs-nav-list {
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 46px;
+}
+
+.docs-nav-item {
+	list-style: none;
+	margin-bottom: 10px;
+}
+
+.docs-nav-link {
+	@include anim(color);
+	color: rgba($primary, 0.6);
+	font-size: 14px;
+}
+
+.docs-nav-link:hover,
+.docs-nav-link:focus {
+	color: $accent;
+	text-decoration: none;
+}

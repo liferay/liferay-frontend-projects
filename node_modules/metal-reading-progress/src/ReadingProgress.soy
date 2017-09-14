@@ -1,0 +1,45 @@
+{namespace ReadingProgress}
+
+/**
+ * This renders the main element.
+ * @param? elementClasses
+ * @param items
+ */
+{template .render}
+	<div class="reading-progress{$elementClasses ? ' ' + $elementClasses : ''}">
+		<ul>
+			{foreach $item in $items}
+				{call .item}
+					{param item: $item /}
+				{/call}
+			{/foreach}
+		</ul>
+	</div>
+{/template}
+
+/**
+ * @param item
+ */
+{template .item}
+	<li>
+		<a href="{$item.href}">
+			{if $item.title}
+				<span class="reading-title">{$item.title}</span>
+			{/if}
+			{if $item.time}
+				<span class="reading-subtitle">{$item.time < 60 ? $item.time + ' sec read' : round($item.time / 60) + ' min read'}</span>
+			{/if}
+			<svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+				<circle
+					fill="none"
+					stroke-width="2"
+					cx="18"
+					cy="18"
+					r="16"
+					stroke-dasharray="100 100"
+					transform="rotate(-90 18 18)">
+				</circle>
+			</svg>
+		</a>
+	</li>
+{/template}

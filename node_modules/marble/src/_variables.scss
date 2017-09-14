@@ -1,0 +1,134 @@
+// Colors
+
+$primary  : #0e141a !default;
+$secondary: #0e141a !default;
+$accent   : #00d46a !default;
+
+$black: #000 !default;
+$white: #fff !default;
+
+$brand-primary : $primary !default;
+$brand-success : #00d46a !default;
+$brand-warning : #ffb700 !default;
+$brand-danger  : #ff4040 !default;
+
+$http-get    : #0080ff !default;
+$http-head   : #9343ff !default;
+$http-post   : #6dd64d !default;
+$http-put    : #ffc021 !default;
+$http-patch  : #35d6c3 !default;
+$http-delete : #ff5653 !default;
+
+$color-green  : #00d46a !default;
+$color-blue   : #00a4ff !default;
+$color-violet : #9552ef !default;
+$color-red    : #ff4040 !default;
+$color-orange : #ff6e00 !default;
+$color-yellow : #ffb700 !default;
+
+// Grid
+
+$grid-columns: 16 !default;
+$grid-gutter-width: 24px !default;
+$grid-margin-width: 20px !default;
+
+$screen-xs: 360px !default;
+$screen-sm: 600px !default;
+$screen-md: 960px !default;
+$screen-lg: 1280px !default;
+
+$container-tablet: $screen-sm - $grid-margin-width !default;
+$container-desktop: $screen-md - $grid-margin-width !default;
+$container-large-desktop: $screen-lg !default;
+
+$sidebar-width: 260px !default;
+
+// Scaffolding
+
+$body-bg: $white !default;
+$link-color: $primary !default;
+$link-hover-color: $primary !default;
+$link-hover-decoration: none !default;
+
+// Typography
+
+$font-primary: "Galano", sans-serif !default;
+$font-secondary: "Open Sans", sans-serif !default;
+$font-mono: "Roboto Mono", sans-serif !default;
+
+$font-size-base: 14px !default;
+$font-size-h1: 20px !default;
+$font-size-h2: 18px !default;
+$font-size-h3: 16px !default;
+$font-size-h4: 14px !default;
+$font-size-h5: 13px !default;
+$font-size-h6: 12px !default;
+
+// Buttons
+
+$btn-default-color: rgba($primary, .6) !default;
+$btn-default-bg: rgba($primary, .1) !default;
+$btn-default-border: transparent !default;
+
+$btn-primary-color: $accent !default;
+$btn-primary-bg: rgba($accent, .2) !default;
+$btn-primary-border: transparent !default;
+
+$btn-success-border: transparent !default;
+$btn-danger-border: transparent !default;
+
+$btn-accent-color: white !default;
+$btn-accent-bg: $accent !default;
+$btn-accent-border: transparent !default;
+
+$btn-inverse-color: $white !default;
+$btn-inverse-bg: rgba($white, .1) !default;
+$btn-inverse-border: transparent !default;
+
+$btn-inverse-accent-color: $accent !default;
+$btn-inverse-accent-bg: $white !default;
+$btn-inverse-accent-border: transparent !default;
+
+// Forms
+
+$input-bg: rgba($white, .2) !default;
+$input-border-focus: $accent !default;
+$input-border: rgba($secondary, .2) !default;
+$input-color: $primary !default;
+$input-color-placeholder: rgba($primary, .3) !default;
+$input-group-addon-bg: transparent !default;
+$input-height-base: 60px !default;
+$input-bg-disabled: white !default;
+
+$input-inverse-bg: rgba($primary, .05) !default;
+$input-inverse-border-focus: $white !default;
+$input-inverse-border: rgba($white, .8) !default;
+$input-inverse-color: $white !default;
+$input-inverse-color-placeholder: rgba($white, .8) !default;
+
+// Form states
+
+$state-success-text: $brand-success !default;
+$state-danger-text: $brand-danger !default;
+
+// Components
+
+$border-radius-small: 2px !default;
+$border-radius-large: 4px !default;
+
+// Dropdowns
+
+$dropdown-border: rgba($primary, 0.12) !default;
+$dropdown-link-color: rgba($primary, .5) !default;
+$dropdown-link-hover-color: rgba($primary, .9) !default;
+$dropdown-link-hover-bg: none !default;
+
+// Bonus
+
+$shadow-small: 0 1px 1px rgba($black, 0.08) !default;
+$shadow-large: 0 2px 4px rgba($black, 0.12) !default;
+
+$transition-duration: .3s !default;
+$transition-function: ease-in-out !default;
+
+@import "bootstrap-sass/assets/stylesheets/bootstrap/variables";
