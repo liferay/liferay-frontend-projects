@@ -50,6 +50,36 @@ it('replaces main file with browser file', () => {
 	).toMatchSnapshot();
 });
 
+it('works with unpkg field too', () => {
+	const pkgJson = {
+		name: pkg.name,
+		version: pkg.version,
+		main: 'test-main.js.file',
+		unpkg: 'test-browser.js.file',
+	};
+
+	plugin({ pkg }, { pkgJson });
+
+	expect(
+		fs.readFileSync(`${pkg.dir}/test-main.js.file`).toString(),
+	).toMatchSnapshot();
+});
+
+it('works with jsdelivr field too', () => {
+	const pkgJson = {
+		name: pkg.name,
+		version: pkg.version,
+		main: 'test-main.js.file',
+		jsdelivr: 'test-browser.js.file',
+	};
+
+	plugin({ pkg }, { pkgJson });
+
+	expect(
+		fs.readFileSync(`${pkg.dir}/test-main.js.file`).toString(),
+	).toMatchSnapshot();
+});
+
 it('replaces server files with browser files', () => {
 	const pkgJson = {
 		name: pkg.name,

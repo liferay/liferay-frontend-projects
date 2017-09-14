@@ -4,26 +4,26 @@ import fs from 'fs';
  * @return {void}
  */
 export default function({ pkg, config }, { pkgJson }) {
-	const browser = pkgJson.browser;
+	const browser = pkgJson.browser || pkgJson.unpkg || pkgJson.jsdelivr;
 
 	if (browser) {
 		if (typeof browser === 'string') {
-			replaceMainModule(pkg.dir, pkgJson);
+			replaceMainModule(pkg.dir, browser, pkgJson);
 		} else {
-			replaceModules(pkg.dir, pkgJson);
+			replaceModules(pkg.dir, browser, pkgJson);
 		}
 	}
 }
 
 /**
- * Copy "browser" module file on top of "main" module file.
+ * Copy "browser"/"module" module file on top of "main" module file.
  * @param {String} pkgDir directory where package is placed
+ * @param {String} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
  * @return {void}
  */
-function replaceMainModule(pkgDir, pkgJson) {
+function replaceMainModule(pkgDir, browser, pkgJson) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
-	const browser = pkgJson.browser;
 	const main = pkgJson.main || 'index.js';
 
 	const src = pkgDir + '/' + browser;
@@ -33,14 +33,14 @@ function replaceMainModule(pkgDir, pkgJson) {
 }
 
 /**
- * Copy "browser" module files on top of their server versions.
+ * Copy "browser"/"module" module files on top of their server versions.
  * @param {String} pkgDir directory where package is placed
+ * @param {String} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
  * @return {void}
  */
-function replaceModules(pkgDir, pkgJson) {
+function replaceModules(pkgDir, browser, pkgJson) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
-	const browser = pkgJson.browser;
 
 	Object.keys(browser).forEach(from => {
 		const to = browser[from];

@@ -40,3 +40,27 @@ export default function test2() {
 }
 "
 `;
+
+exports[`works with jsdelivr field too 1`] = `
+"/* Module replaced with test-browser.js.file by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * testBrowser function
+ * @return {void}
+ */
+export default function testBrowser() {
+	console.log('Hello from testBrowser');
+}
+"
+`;
+
+exports[`works with unpkg field too 1`] = `
+"/* Module replaced with test-browser.js.file by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * testBrowser function
+ * @return {void}
+ */
+export default function testBrowser() {
+	console.log('Hello from testBrowser');
+}
+"
+`;

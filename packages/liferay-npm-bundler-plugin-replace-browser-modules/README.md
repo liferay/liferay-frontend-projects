@@ -1,6 +1,7 @@
 # liferay-npm-bundler-plugin-replace-browser-modules
 
-> Replace modules listed under `browser` section of `package.json` files.
+> Replace modules listed under `browser`/`unpkg`/`jsdelivr` section of 
+  `package.json` files.
 
 ## Installation
 
@@ -24,8 +25,9 @@ Add the following to your `.npmbundlerrc` file:
 
 ## Technical Details
 
-This plugin scans `package.json` for a browser entry and copies browser modules
-on top of server modules or deletes them when set to `false`.
+This plugin scans `package.json` for a `browser`/`unpkg`/`jsdelivr` entry and 
+copies browser modules on top of server modules or deletes them when set to 
+`false`.
 
 Please read the 
 [`browser` field specification](https://github.com/defunctzombie/package-browser-field-spec) 
