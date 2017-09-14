@@ -1,10 +1,10 @@
 {
   "name": "liferay-npm-bundler-preset-standard",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Standard configuration for liferay-npm-bundler.",
   "main": "config.json",
   "dependencies": {
-    "babel-preset-liferay-standard": "^1.1.0",
-    "liferay-npm-bundler-plugin-replace-browser-modules": "^1.1.0"
+    "babel-preset-liferay-standard": "^1.2.0",
+    "liferay-npm-bundler-plugin-replace-browser-modules": "^1.2.0"
   }
 }
