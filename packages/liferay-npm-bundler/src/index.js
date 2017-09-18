@@ -17,10 +17,10 @@ import { getPackageDependencies } from './dependencies';
 export default function(args) {
 	let promises = [];
 
-	const outputDir = config.getOutputDir();
+	const outputDir = path.resolve(config.getOutputDir());
 
 	// Create work directories
-	mkdirp(`${outputDir}/node_modules`);
+	mkdirp(path.join(outputDir, 'node_modules'));
 
 	// Copy project's package.json
 	promises.push(copyRootPackageJson(outputDir));
@@ -34,10 +34,11 @@ export default function(args) {
 	const start = new Date().getTime();
 
 	pkgs.forEach(pkg => {
-		const outPkgDir = `${outputDir}/node_modules/${pkg.id.replace(
-			'/',
-			'%2F',
-		)}`;
+		const outPkgDir = path.join(
+			outputDir,
+			'node_modules',
+			pkg.id.replace('/', '%2F'),
+		);
 
 		try {
 			if (fs.statSync(outPkgDir).isDirectory()) {
@@ -79,7 +80,7 @@ export default function(args) {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function copyRootPackageJson(outputDir) {
-	return cpFile('package.json', `${outputDir}/package.json`);
+	return cpFile('package.json', path.join(outputDir, 'package.json'));
 }
 
 /**
@@ -118,7 +119,7 @@ function copyPackage(pkg, dir) {
  */
 function processPackage(phase, pkg) {
 	return new Promise((resolve, reject) => {
-		const pkgJsonPath = `${pkg.dir}/package.json`;
+		const pkgJsonPath = path.join(pkg.dir, 'package.json');
 		const pkgJson = readJsonSync(pkgJsonPath);
 
 		let state = {

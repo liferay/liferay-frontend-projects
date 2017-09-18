@@ -6,27 +6,30 @@ let packageDirCache = {};
 /**
  * Get the full path of the package.json file for a given JS module file.
  * @param {String} modulePath the relative or absolute path to a JS module file
- * @return {String} the full path to the package.json file
+ * @return {String} the full path to the package.json file (with native path 
+ *         separators)
  */
 export function getPackageJsonPath(modulePath) {
-	return `${getPackageDir(modulePath)}/package.json`;
+	return path.join(getPackageDir(modulePath), 'package.json');
 }
 
 /**
  * Get the full path of the package directory for a given JS module file.
  * @param {String} modulePath the relative or absolute path to a JS module file
- * @return {String} the full path to the package directory
+ * @return {String} the full path to the package directory (with native path 
+ *         separators)
  */
 export function getPackageDir(modulePath) {
-	let dir = packageDirCache[modulePath];
+	let absModulePath = path.resolve(modulePath);
+	let dir = packageDirCache[absModulePath];
 
 	if (!dir) {
-		dir = path.resolve(modulePath);
+		dir = absModulePath;
 		let found = false;
 
 		while (!found) {
 			try {
-				fs.statSync(`${dir}${path.sep}/package.json`);
+				fs.statSync(path.join(dir, 'package.json'));
 				found = true;
 			} catch (err) {
 				const dirname = path.dirname(dir);
@@ -41,7 +44,7 @@ export function getPackageDir(modulePath) {
 			}
 		}
 
-		packageDirCache[modulePath] = dir;
+		packageDirCache[absModulePath] = dir;
 	}
 
 	return dir;

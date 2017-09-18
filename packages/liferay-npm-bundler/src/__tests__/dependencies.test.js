@@ -1,3 +1,4 @@
+import path from 'path';
 import { getPackageDependencies } from '../dependencies';
 
 expect.extend({
@@ -30,13 +31,13 @@ expect.extend({
 						`${dep.version} ` + `(expected: ${pkgVersion})`;
 				}
 
-				if (
-					dep.dir != '.' &&
-					!dep.dir.endsWith(`/node_modules/${pkgName}`)
-				) {
+				const expectedDepDir = path.normalize(
+					`/node_modules/${pkgName}`,
+				);
+
+				if (dep.dir != '.' && !dep.dir.endsWith(expectedDepDir)) {
 					invalidFields.dir =
-						`${dep.dir} ` +
-						`(expected: .../node_modules/${pkgName})`;
+						`${dep.dir} ` + `(expected: ...${expectedDepDir})`;
 				}
 
 				if (Object.keys(invalidFields).length > 0) {

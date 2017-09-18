@@ -9,7 +9,7 @@ import path from 'path';
 export function mkdirp(dir) {
 	const info = path.parse(dir);
 
-	if (info.dir != '') {
+	if (path.basename(info.dir) != '') {
 		mkdirp(info.dir);
 	}
 

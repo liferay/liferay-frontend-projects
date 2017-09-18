@@ -17,7 +17,7 @@ import resolveModule from 'resolve';
 export function getPackageDependencies(basedir) {
 	const pkgs = {};
 
-	const packageJson = readJsonSync(basedir + '/package.json');
+	const packageJson = readJsonSync(path.join(basedir, '/package.json'));
 	const pkgId = packageJson.name + '@' + packageJson.version;
 
 	pkgs[pkgId] = {

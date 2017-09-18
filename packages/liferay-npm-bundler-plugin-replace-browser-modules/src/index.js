@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 /**
  * @return {void}
@@ -26,8 +27,8 @@ function replaceMainModule(pkgDir, browser, pkgJson) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 	const main = pkgJson.main || 'index.js';
 
-	const src = pkgDir + '/' + browser;
-	const dest = pkgDir + '/' + main;
+	const src = path.join(pkgDir, browser);
+	const dest = path.join(pkgDir, main);
 
 	replaceFile(pkgId, src, browser, dest, main);
 }
@@ -44,12 +45,12 @@ function replaceModules(pkgDir, browser, pkgJson) {
 
 	Object.keys(browser).forEach(from => {
 		const to = browser[from];
-		const dest = pkgDir + '/' + from;
+		const dest = path.join(pkgDir, from);
 
 		if (to == false) {
 			ignoreFile(dest);
 		} else {
-			const src = pkgDir + '/' + to;
+			const src = path.join(pkgDir, to);
 
 			replaceFile(pkgId, src, to, dest, from);
 		}

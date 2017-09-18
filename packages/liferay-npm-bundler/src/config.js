@@ -1,4 +1,5 @@
 import { getPackageDir } from 'liferay-npm-build-tools-common/lib/packages';
+import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
@@ -58,10 +59,11 @@ export function reloadConfig() {
 
 /**
  * Get the configured output directory
- * @return {String} the directory path 
+ * @return {String} the directory path (with native separators)
  */
 export function getOutputDir() {
-	return config['output'] || 'build/resources/main/META-INF/resources';
+	let dir = config['output'] || 'build/resources/main/META-INF/resources';
+	return path.normalize(dir);
 }
 
 /**

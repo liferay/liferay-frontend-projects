@@ -1,5 +1,3 @@
-// TODO: check that module names work correctly in Windows
-
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -92,17 +90,20 @@ export default function({ types: t }) {
  * Normalize the srcPrefixes Babel option adding a trailing path separator when
  * it is not present.
  * @param {object} opts the Babel plugin options
- * @return {Array} the normalized srcPrefixes array
+ * @return {Array} the normalized srcPrefixes array (with native path 
+ *         separators)
  */
 function getSrcPrefixes(opts) {
 	let srcPrefixes = opts.srcPrefixes || [
 		'src/main/resources/META-INF/resources',
 	];
 
-	return srcPrefixes.map(
-		srcPrefix =>
-			srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep,
-	);
+	return srcPrefixes
+		.map(srcPrefix => path.normalize(srcPrefix))
+		.map(
+			srcPrefix =>
+				srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep,
+		);
 }
 
 /**
@@ -111,7 +112,7 @@ function getSrcPrefixes(opts) {
  *		  the package name from the nearest ancestor package.json file
  * @param {String} filenameRelative the filenameRelative path as given by Babel 
  *        compiler
- * @return {String} the package name ending with '/'
+ * @return {String} the package name (in 'pkg@version' format) ending with '/'
  */
 function getPackageName(packageName, filenameRelative) {
 	packageName = packageName || '<package.json>';
@@ -151,12 +152,16 @@ function getModuleName(filenameRelative, srcPrefixes) {
 	}
 
 	for (let i = 0; i < srcPrefixes.length; i++) {
-		const srcPrefix = srcPrefixes[i];
+		const srcPrefix = path.normalize(srcPrefixes[i]);
 
 		if (moduleName.startsWith(srcPrefix)) {
 			moduleName = moduleName.substring(srcPrefix.length);
 			break;
 		}
+	}
+
+	if (path.sep == '\\') {
+		moduleName = moduleName.replace(/\\/g, '/');
 	}
 
 	return moduleName;
