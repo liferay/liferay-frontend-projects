@@ -57,33 +57,11 @@ export default function(args) {
 	// Process NPM dependencies
 	const start = new Date().getTime();
 
-	promises.push(
-		asyncForEach(pkgs, pkg => {
-			const outPkgDir = path.join(
-				outputDir,
-				'node_modules',
-				pkg.id.replace('/', '%2F'),
-			);
-
-			try {
-				if (fs.statSync(outPkgDir).isDirectory()) {
-					console.log(`Skipping ${pkg.id} (already bundled)`);
-					return;
-				}
-			} catch (err) {}
-
-			console.log(`Bundling ${pkg.id}`);
-
-			mkdirp(outPkgDir);
-
-			return copyPackage(pkg, outPkgDir)
-				.then(() => (pkg.dir = outPkgDir))
-				.then(() => processPackage('pre', pkg))
-				.then(() => runBabel(pkg))
-				.then(() => processPackage('post', pkg))
-				.then(() => console.log(`Bundled ${pkg.id}`));
-		}),
-	);
+	if (config.isProcessSerially()) {
+		promises.push(asyncForEach(pkgs, pkg => bundlePackage(pkg, outputDir)));
+	} else {
+		promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
+	}
 
 	Promise.all(promises)
 		.then(() =>
@@ -105,6 +83,39 @@ export default function(args) {
  */
 function copyRootPackageJson(outputDir) {
 	return fs.copy('package.json', path.join(outputDir, 'package.json'));
+}
+
+/**
+ * Bundle a npm package
+ * @param {Object} pkg the package descriptor hash containing id, name, version
+ *        and dir fields
+ * @param {String} outputDir directory where bundled packages are placed
+ * @return {Promise} a promise that is fulfilled when the package is bundled
+ */
+function bundlePackage(pkg, outputDir) {
+	const outPkgDir = path.join(
+		outputDir,
+		'node_modules',
+		pkg.id.replace('/', '%2F'),
+	);
+
+	try {
+		if (fs.statSync(outPkgDir).isDirectory()) {
+			console.log(`Skipping ${pkg.id} (already bundled)`);
+			return;
+		}
+	} catch (err) {}
+
+	console.log(`Bundling ${pkg.id}`);
+
+	mkdirp(outPkgDir);
+
+	return copyPackage(pkg, outPkgDir)
+		.then(() => (pkg.dir = outPkgDir))
+		.then(() => processPackage('pre', pkg))
+		.then(() => runBabel(pkg))
+		.then(() => processPackage('post', pkg))
+		.then(() => console.log(`Bundled ${pkg.id}`));
 }
 
 /**

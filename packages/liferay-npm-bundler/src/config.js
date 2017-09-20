@@ -160,3 +160,11 @@ export function getBabelConfig(pkg) {
 
 	return babelConfig;
 }
+
+/**
+ * Whether or not to process npm packages serially
+ * @return {boolean}
+ */
+export function isProcessSerially() {
+	return config['process-serially'] || false;
+}
