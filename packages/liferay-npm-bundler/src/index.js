@@ -9,6 +9,31 @@ import * as config from './config';
 import { getPackageDependencies } from './dependencies';
 
 /**
+ *
+ * @param {Array} values array of values to be iterated
+ * @param {function} asyncProcess the async process (that returns a Promise) to 
+ *        be executed on each value
+ * @return {Promise} a Promise that is resolved as soon as the iteration 
+ *         finishes
+ */
+function asyncForEach(values, asyncProcess) {
+	return new Promise(resolve => {
+		if (values.length == 0) {
+			resolve();
+			return;
+		}
+
+		let val = values[0];
+
+		asyncProcess(val).then(() => {
+			asyncForEach(values.slice(1), asyncProcess).then(result => {
+				resolve();
+			});
+		});
+	});
+}
+
+/**
  * Default entry point for the liferay-npm-bundler.
  * @param {Array} args the CLI arguments
  * @return {void}
@@ -32,33 +57,33 @@ export default function(args) {
 	// Process NPM dependencies
 	const start = new Date().getTime();
 
-	pkgs.forEach(pkg => {
-		const outPkgDir = path.join(
-			outputDir,
-			'node_modules',
-			pkg.id.replace('/', '%2F'),
-		);
+	promises.push(
+		asyncForEach(pkgs, pkg => {
+			const outPkgDir = path.join(
+				outputDir,
+				'node_modules',
+				pkg.id.replace('/', '%2F'),
+			);
 
-		try {
-			if (fs.statSync(outPkgDir).isDirectory()) {
-				console.log(`Skipping ${pkg.id} (already bundled)`);
-				return;
-			}
-		} catch (err) {}
+			try {
+				if (fs.statSync(outPkgDir).isDirectory()) {
+					console.log(`Skipping ${pkg.id} (already bundled)`);
+					return;
+				}
+			} catch (err) {}
 
-		console.log(`Bundling ${pkg.id}`);
+			console.log(`Bundling ${pkg.id}`);
 
-		mkdirp(outPkgDir);
+			mkdirp(outPkgDir);
 
-		promises.push(
-			copyPackage(pkg, outPkgDir)
+			return copyPackage(pkg, outPkgDir)
 				.then(() => (pkg.dir = outPkgDir))
 				.then(() => processPackage('pre', pkg))
 				.then(() => runBabel(pkg))
 				.then(() => processPackage('post', pkg))
-				.then(() => console.log(`Bundled ${pkg.id}`)),
-		);
-	});
+				.then(() => console.log(`Bundled ${pkg.id}`));
+		}),
+	);
 
 	Promise.all(promises)
 		.then(() =>
