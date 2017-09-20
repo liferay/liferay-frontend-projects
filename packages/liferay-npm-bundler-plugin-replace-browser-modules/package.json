@@ -1,6 +1,6 @@
 {
   "name": "liferay-npm-bundler-plugin-replace-browser-modules",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A liferay-npm-bundler plugin to replace files listed under the browser/module entry of package.json files.",
   "main": "lib/index.js",
   "scripts": {
