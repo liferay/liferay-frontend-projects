@@ -1,6 +1,5 @@
 import * as babel from 'babel-core';
-import cpFile from 'cp-file';
-import fs from 'fs';
+import fs from 'fs-extra';
 import globby from 'globby';
 import { mkdirp } from 'liferay-npm-build-tools-common/lib/fs';
 import path from 'path';
@@ -80,7 +79,7 @@ export default function(args) {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function copyRootPackageJson(outputDir) {
-	return cpFile('package.json', path.join(outputDir, 'package.json'));
+	return fs.copy('package.json', path.join(outputDir, 'package.json'));
 }
 
 /**
@@ -101,7 +100,7 @@ function copyPackage(pkg, dir) {
 		paths = paths.map(path => path.substring(pkg.dir.length + 1));
 
 		const promises = paths.map(path =>
-			cpFile(`${pkg.dir}/${path}`, `${dir}/${path}`).catch(err => {}),
+			fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`),
 		);
 
 		return Promise.all(promises);
