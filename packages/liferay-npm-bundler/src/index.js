@@ -97,7 +97,9 @@ function copyPackage(pkg, dir) {
 	);
 
 	return globby(globs).then(paths => {
-		paths = paths.map(path => path.substring(pkg.dir.length + 1));
+		paths = paths
+			.filter(path => fs.statSync(path).isFile())
+			.map(path => path.substring(pkg.dir.length + 1));
 
 		const promises = paths.map(path =>
 			fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`),
