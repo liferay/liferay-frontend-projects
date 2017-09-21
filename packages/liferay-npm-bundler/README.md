@@ -146,6 +146,18 @@ file in your project's folder. The full structure of that file is:
 
 ```json
 {
+    "exclude": {
+        "*" : [
+            (list of glob expressions excluding files)
+        ],
+        "(package name)" : [
+            (same as for "*")
+        ],
+        "(package name)@(version)" : [
+            (same as for "*")
+        ]
+    },
+    "output": (relative path of output directory),
     "process-serially": (true|false),
     "*" : {
         "plugins": [
@@ -170,6 +182,11 @@ file in your project's folder. The full structure of that file is:
 
 Where:
 
+* **"exclude"**: defines files to be excluded from bundling from all or specific
+packages.
+* **"output"**: by default the bundled packages are written to 
+`build/resources/main/META-INF/resources`, which is the standard Gradle output
+directory for resources, but it can be overriden for customized builds.
 * **"process-serially"**: defines whether to process dependency packages in 
 parallel, leveraging Node.js asynchronous model, or one by one. The default 
 value is false, so that everything gets processed in parallel, but you can 
