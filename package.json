@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"build": "lerna run build",
-		"format": "prettier --use-tabs true --tab-width 4 --single-quote --trailing-comma all --write packages/*/src/*.js packages/*/src/**/*.js",
+		"format": "prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
 		"lerna": "npm install && lerna bootstrap",
 		"lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
 		"precommit": "lint-staged",
@@ -23,16 +23,17 @@
 		"jest": "^20.0.4",
 		"lerna": "^2.0.0-rc.5",
 		"lint-staged": "^4.0.0",
-		"prettier": "^1.5.2"
+		"prettier-eslint-cli": "^4.3.2"
 	},
 	"lint-staged": {
 		"*.js": [
-			"prettier --use-tabs true --tab-width 4 --single-quote --trailing-comma all --write",
-			"eslint",
+			"prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
 			"git add"
 		]
 	},
 	"jest": {
-		"modulePathIgnorePatterns": ["lib/.*"]
+		"modulePathIgnorePatterns": [
+			"lib/.*"
+		]
 	}
 }
