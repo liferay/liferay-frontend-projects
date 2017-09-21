@@ -9,31 +9,6 @@ import * as config from './config';
 import { getPackageDependencies } from './dependencies';
 
 /**
- *
- * @param {Array} values array of values to be iterated
- * @param {function} asyncProcess the async process (that returns a Promise) to 
- *        be executed on each value
- * @return {Promise} a Promise that is resolved as soon as the iteration 
- *         finishes
- */
-function asyncForEach(values, asyncProcess) {
-	return new Promise(resolve => {
-		if (values.length == 0) {
-			resolve();
-			return;
-		}
-
-		let val = values[0];
-
-		asyncProcess(val).then(() => {
-			asyncForEach(values.slice(1), asyncProcess).then(result => {
-				resolve();
-			});
-		});
-	});
-}
-
-/**
  * Default entry point for the liferay-npm-bundler.
  * @param {Array} args the CLI arguments
  * @return {void}
@@ -58,7 +33,9 @@ export default function(args) {
 	const start = new Date().getTime();
 
 	if (config.isProcessSerially()) {
-		promises.push(asyncForEach(pkgs, pkg => bundlePackage(pkg, outputDir)));
+		promises.push(
+			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir)),
+		);
 	} else {
 		promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
 	}
@@ -83,6 +60,32 @@ export default function(args) {
  */
 function copyRootPackageJson(outputDir) {
 	return fs.copy('package.json', path.join(outputDir, 'package.json'));
+}
+
+/**
+ * Iterate through the elements of an array applying an async process serially 
+ * to each one of them.
+ * @param {Array} values array of values to be iterated
+ * @param {function} asyncProcess the async process (that returns a Promise) to 
+ *        be executed on each value
+ * @return {Promise} a Promise that is resolved as soon as the iteration 
+ *         finishes
+ */
+function iterateSerially(values, asyncProcess) {
+	return new Promise(resolve => {
+		if (values.length == 0) {
+			resolve();
+			return;
+		}
+
+		let val = values[0];
+
+		asyncProcess(val).then(() => {
+			iterateSerially(values.slice(1), asyncProcess).then(result => {
+				resolve();
+			});
+		});
+	});
 }
 
 /**
