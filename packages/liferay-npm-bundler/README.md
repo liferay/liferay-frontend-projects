@@ -146,22 +146,23 @@ file in your project's folder. The full structure of that file is:
 
 ```json
 {
+    "process-serially": (true|false),
     "*" : {
         "plugins": [
-			<list of plugins>
+            (list of plugins)
 		],
 		".babelrc": {
-            <a standard .babelrc file>
+            (standard .babelrc file)
 		},
         "post-plugins": [
-            <list of plugins>
+            (list of plugins)
 		]
     },
-    "<package name>" : {
-        <same as for "*">
+    "(package name)" : {
+        (same as for "*")
     },
-    "<package name>@<version>" : {
-        <same as for "*">
+    "(package name)@(version)" : {
+        (same as for "*")
     }
     ...
 }
@@ -169,15 +170,20 @@ file in your project's folder. The full structure of that file is:
 
 Where:
 
-* **list of plugins**: is a comma separated list of strings defining the 
+* **"process-serially"**: defines whether to process dependency packages in 
+parallel, leveraging Node.js asynchronous model, or one by one. The default 
+value is false, so that everything gets processed in parallel, but you can 
+disable it in case you get EMFILE errors due to opening too many files at the
+same time.
+* **(list of plugins)**: is a comma separated list of strings defining the 
 `liferay-npm-bundler` plugins to call (note that the 
 `liferay-npm-bundler-plugin-` part from the npm package name may be omitted).
-* **standard .babelrc file**: is a `.babelrc` file as defined in [Babel's 
+* **(standard .babelrc file)**: is a `.babelrc` file as defined in [Babel's 
 documentation](https://babeljs.io/docs/usage/babelrc/) that gets passed to 
 Babel when called by `liferay-npm-bundler`.
-* **package name**: is a npm package name and the configuration under its scope 
-will be only applied to packages with that name and *any* version.
-* **version**: is a npm package version and the configuration under its 
+* **(package name)**: is a npm package name and the configuration under its 
+scope will be only applied to packages with that name and *any* version.
+* **(version)**: is a npm package version and the configuration under its 
 `<package name>@<version>` scope will be only applied to packages with that 
 specific name and version.
     
