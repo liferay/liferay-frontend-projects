@@ -2,10 +2,12 @@ import * as babel from 'babel-core';
 import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
+import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 
 import * as config from './config';
 import { getPackageDependencies } from './dependencies';
+import * as log from './log';
 
 /**
  * Default entry point for the liferay-npm-bundler.
@@ -29,7 +31,9 @@ export default function(args) {
 	pkgs = pkgs.filter(pkg => pkg.dir != '.');
 
 	// Process NPM dependencies
-	const start = new Date().getTime();
+	const start = process.hrtime();
+
+	log.info(`Bundling ${pkgs.length} dependencies...`);
 
 	if (config.isProcessSerially()) {
 		promises.push(
@@ -40,14 +44,9 @@ export default function(args) {
 	}
 
 	Promise.all(promises)
-		.then(() =>
-			console.log(
-				`Bundled all dependencies in ${new Date().getTime() -
-					start} milliseconds`,
-			),
-		)
+		.then(() => log.info(`Bundling took ${pretty(process.hrtime(start))}`))
 		.catch(function(err) {
-			console.log(err);
+			log.error(err);
 			process.exit(1);
 		});
 }
@@ -103,12 +102,12 @@ function bundlePackage(pkg, outputDir) {
 
 	try {
 		if (fs.statSync(outPkgDir).isDirectory()) {
-			console.log(`Skipping ${pkg.id} (already bundled)`);
+			log.debug(`Skipping ${pkg.id} (already bundled)`);
 			return;
 		}
 	} catch (err) {}
 
-	console.log(`Bundling ${pkg.id}`);
+	log.debug(`Bundling ${pkg.id}`);
 
 	fs.mkdirsSync(outPkgDir);
 
@@ -117,7 +116,7 @@ function bundlePackage(pkg, outputDir) {
 		.then(() => processPackage('pre', pkg))
 		.then(() => runBabel(pkg))
 		.then(() => processPackage('post', pkg))
-		.then(() => console.log(`Bundled ${pkg.id}`));
+		.then(() => log.debug(`Bundled ${pkg.id}`));
 }
 
 /**
@@ -217,9 +216,7 @@ function runBabel(pkg) {
 						),
 						(err, result) => {
 							if (err) {
-								console.log(
-									`Error processing file: ${filePath}`,
-								);
+								log.error(`Error processing file: ${filePath}`);
 								reject(err);
 							} else {
 								const fileName = path.basename(filePath);

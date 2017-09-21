@@ -168,3 +168,11 @@ export function getBabelConfig(pkg) {
 export function isProcessSerially() {
 	return config['process-serially'] || false;
 }
+
+/**
+ * Whether or not to dump detailed information about what the tool is doing
+ * @return {boolean}
+ */
+export function isVerbose() {
+	return config['verbose'] || false;
+}
