@@ -10,7 +10,7 @@ let packageDirCache = {};
  *         separators)
  */
 export function getPackageJsonPath(modulePath) {
-	return path.join(getPackageDir(modulePath), 'package.json');
+  return path.join(getPackageDir(modulePath), 'package.json');
 }
 
 /**
@@ -20,32 +20,30 @@ export function getPackageJsonPath(modulePath) {
  *         separators)
  */
 export function getPackageDir(modulePath) {
-	let absModulePath = path.resolve(modulePath);
-	let dir = packageDirCache[absModulePath];
+  let absModulePath = path.resolve(modulePath);
+  let dir = packageDirCache[absModulePath];
 
-	if (!dir) {
-		dir = absModulePath;
-		let found = false;
+  if (!dir) {
+    dir = absModulePath;
+    let found = false;
 
-		while (!found) {
-			try {
-				fs.statSync(path.join(dir, 'package.json'));
-				found = true;
-			} catch (err) {
-				const dirname = path.dirname(dir);
+    while (!found) {
+      try {
+        fs.statSync(path.join(dir, 'package.json'));
+        found = true;
+      } catch (err) {
+        const dirname = path.dirname(dir);
 
-				if (dirname == dir) {
-					throw new Error(
-						'Cannot find package.json for file: ' + modulePath,
-					);
-				}
+        if (dirname == dir) {
+          throw new Error('Cannot find package.json for file: ' + modulePath);
+        }
 
-				dir = dirname;
-			}
-		}
+        dir = dirname;
+      }
+    }
 
-		packageDirCache[absModulePath] = dir;
-	}
+    packageDirCache[absModulePath] = dir;
+  }
 
-	return dir;
+  return dir;
 }

@@ -1,4 +1,4 @@
-import { getPackageDir } from 'liferay-npm-build-tools-common/lib/packages';
+import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
@@ -11,29 +11,29 @@ let config = loadConfig();
  * @return {Object} the configuration object
  */
 function loadConfig() {
-	// Load base configuration
-	let config = {};
+  // Load base configuration
+  let config = {};
 
-	try {
-		config = readJsonSync('.npmbundlerrc');
-	} catch (err) {
-		if (err.code !== 'ENOENT') {
-			throw err;
-		}
-	}
+  try {
+    config = readJsonSync('.npmbundlerrc');
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      throw err;
+    }
+  }
 
-	// Apply preset if necessary
-	if (config.preset) {
-		const presetFile = resolveModule.sync(config.preset, {
-			basedir: '.',
-		});
+  // Apply preset if necessary
+  if (config.preset) {
+    const presetFile = resolveModule.sync(config.preset, {
+      basedir: '.',
+    });
 
-		// Merge preset with base configuration
-		config = Object.assign(readJsonSync(presetFile), config);
-		pluginsBaseDir = getPackageDir(presetFile);
-	}
+    // Merge preset with base configuration
+    config = Object.assign(readJsonSync(presetFile), config);
+    pluginsBaseDir = getPackageDir(presetFile);
+  }
 
-	return config;
+  return config;
 }
 
 /**
@@ -42,11 +42,11 @@ function loadConfig() {
  * @return {Object} the required module object
  */
 function configRequire(module) {
-	const pluginFile = resolveModule.sync(module, {
-		basedir: pluginsBaseDir,
-	});
+  const pluginFile = resolveModule.sync(module, {
+    basedir: pluginsBaseDir,
+  });
 
-	return require(pluginFile);
+  return require(pluginFile);
 }
 
 /**
@@ -54,7 +54,7 @@ function configRequire(module) {
  * @return {void}
  */
 export function reloadConfig() {
-	config = loadConfig();
+  config = loadConfig();
 }
 
 /**
@@ -62,8 +62,8 @@ export function reloadConfig() {
  * @return {String} the directory path (with native separators)
  */
 export function getOutputDir() {
-	let dir = config['output'] || 'build/resources/main/META-INF/resources';
-	return path.normalize(dir);
+  let dir = config['output'] || 'build/resources/main/META-INF/resources';
+  return path.normalize(dir);
 }
 
 /**
@@ -73,12 +73,12 @@ export function getOutputDir() {
  * @return {Array} an array of glob expressions
  */
 export function getExclusions(pkg) {
-	let exclusions = config.exclude || {};
+  let exclusions = config.exclude || {};
 
-	exclusions =
-		exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
+  exclusions =
+    exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
 
-	return exclusions;
+  return exclusions;
 }
 
 /**
@@ -88,22 +88,22 @@ export function getExclusions(pkg) {
  * @return {Array} the instantiated Babel plugins
  */
 export function loadBabelPlugins(presets, plugins) {
-	// TODO: if plugins have config decide what to do with it
-	return []
-		.concat(
-			...presets.map(preset => {
-				let presetModule;
+  // TODO: if plugins have config decide what to do with it
+  return []
+    .concat(
+      ...presets.map(preset => {
+        let presetModule;
 
-				try {
-					presetModule = configRequire(preset);
-				} catch (err) {
-					presetModule = configRequire(`babel-preset-${preset}`);
-				}
+        try {
+          presetModule = configRequire(preset);
+        } catch (err) {
+          presetModule = configRequire(`babel-preset-${preset}`);
+        }
 
-				return presetModule.default().plugins;
-			}),
-		)
-		.concat(...plugins);
+        return presetModule.default().plugins;
+      })
+    )
+    .concat(...plugins);
 }
 
 /**
@@ -114,33 +114,33 @@ export function loadBabelPlugins(presets, plugins) {
  * @return {Array} the instantiated Babel plugins
  */
 export function getPlugins(phase, pkg) {
-	const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
+  const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
 
-	let plugins = [];
+  let plugins = [];
 
-	if (config[pkg.id] && config[pkg.id][pluginsKey]) {
-		plugins = config[pkg.id][pluginsKey];
-	} else if (config['*'] && config['*'][pluginsKey]) {
-		plugins = config['*'][pluginsKey];
-	}
+  if (config[pkg.id] && config[pkg.id][pluginsKey]) {
+    plugins = config[pkg.id][pluginsKey];
+  } else if (config['*'] && config['*'][pluginsKey]) {
+    plugins = config['*'][pluginsKey];
+  }
 
-	return plugins.map(pluginName => {
-		let pluginConfig = {};
+  return plugins.map(pluginName => {
+    let pluginConfig = {};
 
-		if (Array.isArray(pluginName)) {
-			pluginConfig = pluginName[1];
-			pluginName = pluginName[0];
-		}
+    if (Array.isArray(pluginName)) {
+      pluginConfig = pluginName[1];
+      pluginName = pluginName[0];
+    }
 
-		const pluginModule = configRequire(
-			`liferay-npm-bundler-plugin-${pluginName}`,
-		);
+    const pluginModule = configRequire(
+      `liferay-npm-bundler-plugin-${pluginName}`
+    );
 
-		return {
-			run: pluginModule.default,
-			config: pluginConfig,
-		};
-	});
+    return {
+      run: pluginModule.default,
+      config: pluginConfig,
+    };
+  });
 }
 
 /**
@@ -150,15 +150,15 @@ export function getPlugins(phase, pkg) {
  * @return {Object} a Babel configuration object as defined by its API
  */
 export function getBabelConfig(pkg) {
-	let babelConfig = {};
+  let babelConfig = {};
 
-	if (config[pkg.id] && config[pkg.id]['.babelrc']) {
-		babelConfig = config[pkg.id]['.babelrc'];
-	} else if (config['*'] && config['*']['.babelrc']) {
-		babelConfig = config['*']['.babelrc'];
-	}
+  if (config[pkg.id] && config[pkg.id]['.babelrc']) {
+    babelConfig = config[pkg.id]['.babelrc'];
+  } else if (config['*'] && config['*']['.babelrc']) {
+    babelConfig = config['*']['.babelrc'];
+  }
 
-	return babelConfig;
+  return babelConfig;
 }
 
 /**
@@ -166,7 +166,7 @@ export function getBabelConfig(pkg) {
  * @return {boolean}
  */
 export function isProcessSerially() {
-	return config['process-serially'] || false;
+  return config['process-serially'] || false;
 }
 
 /**
@@ -174,5 +174,5 @@ export function isProcessSerially() {
  * @return {boolean}
  */
 export function isVerbose() {
-	return config['verbose'] || false;
+  return config['verbose'] || false;
 }

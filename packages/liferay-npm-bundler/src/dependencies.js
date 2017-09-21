@@ -15,37 +15,37 @@ import resolveModule from 'resolve';
  *           }
  */
 export function getPackageDependencies(basedir) {
-	const pkgs = {};
+  const pkgs = {};
 
-	const packageJson = readJsonSync(path.join(basedir, '/package.json'));
-	const pkgId = packageJson.name + '@' + packageJson.version;
+  const packageJson = readJsonSync(path.join(basedir, '/package.json'));
+  const pkgId = packageJson.name + '@' + packageJson.version;
 
-	pkgs[pkgId] = {
-		id: pkgId,
-		name: packageJson.name,
-		version: packageJson.version,
-		dir: basedir,
-	};
+  pkgs[pkgId] = {
+    id: pkgId,
+    name: packageJson.name,
+    version: packageJson.version,
+    dir: basedir,
+  };
 
-	const dependencies = packageJson.dependencies || [];
+  const dependencies = packageJson.dependencies || [];
 
-	let dependencyDirs = Object.keys(dependencies).map(function(dependency) {
-		return resolveDependencyDir(basedir, dependency);
-	});
+  let dependencyDirs = Object.keys(dependencies).map(function(dependency) {
+    return resolveDependencyDir(basedir, dependency);
+  });
 
-	dependencyDirs = dependencyDirs.filter(dependencyDir => {
-		return dependencyDir != null;
-	});
+  dependencyDirs = dependencyDirs.filter(dependencyDir => {
+    return dependencyDir != null;
+  });
 
-	dependencyDirs.forEach(function(dependencyDir) {
-		const depPkgs = getPackageDependencies(dependencyDir);
+  dependencyDirs.forEach(function(dependencyDir) {
+    const depPkgs = getPackageDependencies(dependencyDir);
 
-		Object.keys(depPkgs).forEach(function(pkgId) {
-			pkgs[pkgId] = depPkgs[pkgId];
-		});
-	});
+    Object.keys(depPkgs).forEach(function(pkgId) {
+      pkgs[pkgId] = depPkgs[pkgId];
+    });
+  });
 
-	return pkgs;
+  return pkgs;
 }
 
 /**
@@ -55,9 +55,9 @@ export function getPackageDependencies(basedir) {
  * @return {String} the path of the directory containing the dependency package
  */
 function resolveDependencyDir(packageDir, dependency) {
-	const pkgJsonFile = resolveModule.sync(dependency + '/package.json', {
-		basedir: packageDir,
-	});
+  const pkgJsonFile = resolveModule.sync(dependency + '/package.json', {
+    basedir: packageDir,
+  });
 
-	return path.dirname(pkgJsonFile);
+  return path.dirname(pkgJsonFile);
 }

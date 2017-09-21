@@ -6,7 +6,7 @@ import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 
 import * as config from './config';
-import { getPackageDependencies } from './dependencies';
+import {getPackageDependencies} from './dependencies';
 import * as log from './log';
 
 /**
@@ -15,40 +15,38 @@ import * as log from './log';
  * @return {void}
  */
 export default function(args) {
-	let promises = [];
+  let promises = [];
 
-	const outputDir = path.resolve(config.getOutputDir());
+  const outputDir = path.resolve(config.getOutputDir());
 
-	// Create work directories
-	fs.mkdirsSync(path.join(outputDir, 'node_modules'));
+  // Create work directories
+  fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
-	// Copy project's package.json
-	promises.push(copyRootPackageJson(outputDir));
+  // Copy project's package.json
+  promises.push(copyRootPackageJson(outputDir));
 
-	// Grab NPM dependencies
-	let pkgs = getPackageDependencies('.');
-	pkgs = Object.keys(pkgs).map(id => pkgs[id]);
-	pkgs = pkgs.filter(pkg => pkg.dir != '.');
+  // Grab NPM dependencies
+  let pkgs = getPackageDependencies('.');
+  pkgs = Object.keys(pkgs).map(id => pkgs[id]);
+  pkgs = pkgs.filter(pkg => pkg.dir != '.');
 
-	// Process NPM dependencies
-	const start = process.hrtime();
+  // Process NPM dependencies
+  const start = process.hrtime();
 
-	log.info(`Bundling ${pkgs.length} dependencies...`);
+  log.info(`Bundling ${pkgs.length} dependencies...`);
 
-	if (config.isProcessSerially()) {
-		promises.push(
-			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir)),
-		);
-	} else {
-		promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
-	}
+  if (config.isProcessSerially()) {
+    promises.push(iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir)));
+  } else {
+    promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
+  }
 
-	Promise.all(promises)
-		.then(() => log.info(`Bundling took ${pretty(process.hrtime(start))}`))
-		.catch(function(err) {
-			log.error(err);
-			process.exit(1);
-		});
+  Promise.all(promises)
+    .then(() => log.info(`Bundling took ${pretty(process.hrtime(start))}`))
+    .catch(function(err) {
+      log.error(err);
+      process.exit(1);
+    });
 }
 
 /**
@@ -57,7 +55,7 @@ export default function(args) {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function copyRootPackageJson(outputDir) {
-	return fs.copy('package.json', path.join(outputDir, 'package.json'));
+  return fs.copy('package.json', path.join(outputDir, 'package.json'));
 }
 
 /**
@@ -70,20 +68,20 @@ function copyRootPackageJson(outputDir) {
  *         finishes
  */
 function iterateSerially(values, asyncProcess) {
-	return new Promise(resolve => {
-		if (values.length == 0) {
-			resolve();
-			return;
-		}
+  return new Promise(resolve => {
+    if (values.length == 0) {
+      resolve();
+      return;
+    }
 
-		let val = values[0];
+    let val = values[0];
 
-		asyncProcess(val).then(() => {
-			iterateSerially(values.slice(1), asyncProcess).then(result => {
-				resolve();
-			});
-		});
-	});
+    asyncProcess(val).then(() => {
+      iterateSerially(values.slice(1), asyncProcess).then(result => {
+        resolve();
+      });
+    });
+  });
 }
 
 /**
@@ -94,29 +92,29 @@ function iterateSerially(values, asyncProcess) {
  * @return {Promise} a promise that is fulfilled when the package is bundled
  */
 function bundlePackage(pkg, outputDir) {
-	const outPkgDir = path.join(
-		outputDir,
-		'node_modules',
-		pkg.id.replace('/', '%2F'),
-	);
+  const outPkgDir = path.join(
+    outputDir,
+    'node_modules',
+    pkg.id.replace('/', '%2F')
+  );
 
-	try {
-		if (fs.statSync(outPkgDir).isDirectory()) {
-			log.debug(`Skipping ${pkg.id} (already bundled)`);
-			return;
-		}
-	} catch (err) {}
+  try {
+    if (fs.statSync(outPkgDir).isDirectory()) {
+      log.debug(`Skipping ${pkg.id} (already bundled)`);
+      return;
+    }
+  } catch (err) {}
 
-	log.debug(`Bundling ${pkg.id}`);
+  log.debug(`Bundling ${pkg.id}`);
 
-	fs.mkdirsSync(outPkgDir);
+  fs.mkdirsSync(outPkgDir);
 
-	return copyPackage(pkg, outPkgDir)
-		.then(() => (pkg.dir = outPkgDir))
-		.then(() => processPackage('pre', pkg))
-		.then(() => runBabel(pkg))
-		.then(() => processPackage('post', pkg))
-		.then(() => log.debug(`Bundled ${pkg.id}`));
+  return copyPackage(pkg, outPkgDir)
+    .then(() => (pkg.dir = outPkgDir))
+    .then(() => processPackage('pre', pkg))
+    .then(() => runBabel(pkg))
+    .then(() => processPackage('post', pkg))
+    .then(() => log.debug(`Bundled ${pkg.id}`));
 }
 
 /**
@@ -127,23 +125,23 @@ function bundlePackage(pkg, outputDir) {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function copyPackage(pkg, dir) {
-	const exclusions = config.getExclusions(pkg);
+  const exclusions = config.getExclusions(pkg);
 
-	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
-		exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`),
-	);
+  const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
+    exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`)
+  );
 
-	return globby(globs).then(paths => {
-		paths = paths
-			.filter(path => fs.statSync(path).isFile())
-			.map(path => path.substring(pkg.dir.length + 1));
+  return globby(globs).then(paths => {
+    paths = paths
+      .filter(path => fs.statSync(path).isFile())
+      .map(path => path.substring(pkg.dir.length + 1));
 
-		const promises = paths.map(path =>
-			fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`),
-		);
+    const promises = paths.map(path =>
+      fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
+    );
 
-		return Promise.all(promises);
-	});
+    return Promise.all(promises);
+  });
 }
 
 /**
@@ -156,26 +154,26 @@ function copyPackage(pkg, dir) {
  * @return {Promise} a Promise fulfilled when the process has been finished
  */
 function processPackage(phase, pkg) {
-	return new Promise((resolve, reject) => {
-		const pkgJsonPath = path.join(pkg.dir, 'package.json');
-		const pkgJson = readJsonSync(pkgJsonPath);
+  return new Promise((resolve, reject) => {
+    const pkgJsonPath = path.join(pkg.dir, 'package.json');
+    const pkgJson = readJsonSync(pkgJsonPath);
 
-		let state = {
-			pkgJson: pkgJson,
-		};
+    let state = {
+      pkgJson: pkgJson,
+    };
 
-		try {
-			config.getPlugins(phase, pkg).forEach(plugin => {
-				plugin.run({ pkg, config: plugin.config }, state);
-			});
-		} catch (err) {
-			reject(err);
-		}
+    try {
+      config.getPlugins(phase, pkg).forEach(plugin => {
+        plugin.run({pkg, config: plugin.config}, state);
+      });
+    } catch (err) {
+      reject(err);
+    }
 
-		fs.writeFileSync(pkgJsonPath, JSON.stringify(state.pkgJson, '', 2));
+    fs.writeFileSync(pkgJsonPath, JSON.stringify(state.pkgJson, '', 2));
 
-		resolve();
-	});
+    resolve();
+  });
 }
 
 /**
@@ -185,60 +183,56 @@ function processPackage(phase, pkg) {
  * @return {Promise} a Promise fulfilled when the process has been finished
  */
 function runBabel(pkg) {
-	const babelConfig = config.getBabelConfig(pkg);
+  const babelConfig = config.getBabelConfig(pkg);
 
-	// Intercept presets and plugins to load them from here
-	babelConfig.plugins = config.loadBabelPlugins(
-		babelConfig.presets || [],
-		babelConfig.plugins || [],
-	);
-	babelConfig.presets = [];
+  // Intercept presets and plugins to load them from here
+  babelConfig.plugins = config.loadBabelPlugins(
+    babelConfig.presets || [],
+    babelConfig.plugins || []
+  );
+  babelConfig.presets = [];
 
-	// Tune babel config
-	babelConfig.babelrc = false;
-	babelConfig.only = '**/*';
-	if (babelConfig.sourceMaps === undefined) {
-		babelConfig.sourceMaps = true;
-	}
+  // Tune babel config
+  babelConfig.babelrc = false;
+  babelConfig.only = '**/*';
+  if (babelConfig.sourceMaps === undefined) {
+    babelConfig.sourceMaps = true;
+  }
 
-	// Run babel through it
-	return globby([`${pkg.dir}/**/*.js`]).then(filePaths => {
-		const promises = filePaths.map(
-			filePath =>
-				new Promise((resolve, reject) => {
-					babel.transformFile(
-						filePath,
-						Object.assign(
-							{
-								filenameRelative: filePath,
-							},
-							babelConfig,
-						),
-						(err, result) => {
-							if (err) {
-								log.error(`Error processing file: ${filePath}`);
-								reject(err);
-							} else {
-								const fileName = path.basename(filePath);
+  // Run babel through it
+  return globby([`${pkg.dir}/**/*.js`]).then(filePaths => {
+    const promises = filePaths.map(
+      filePath =>
+        new Promise((resolve, reject) => {
+          babel.transformFile(
+            filePath,
+            Object.assign(
+              {
+                filenameRelative: filePath,
+              },
+              babelConfig
+            ),
+            (err, result) => {
+              if (err) {
+                log.error(`Error processing file: ${filePath}`);
+                reject(err);
+              } else {
+                const fileName = path.basename(filePath);
 
-								fs.writeFileSync(
-									filePath,
-									`${result.code}\n` +
-										`//# sourceMappingURL=${fileName}.map`,
-								);
+                fs.writeFileSync(
+                  filePath,
+                  `${result.code}\n` + `//# sourceMappingURL=${fileName}.map`
+                );
 
-								fs.writeFileSync(
-									`${filePath}.map`,
-									JSON.stringify(result.map),
-								);
+                fs.writeFileSync(`${filePath}.map`, JSON.stringify(result.map));
 
-								resolve();
-							}
-						},
-					);
-				}),
-		);
+                resolve();
+              }
+            }
+          );
+        })
+    );
 
-		return Promise.all(promises);
-	});
+    return Promise.all(promises);
+  });
 }

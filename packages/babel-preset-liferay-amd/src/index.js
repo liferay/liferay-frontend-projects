@@ -8,11 +8,11 @@ import babelPluginNamespaceAmdDefine from 'babel-plugin-namespace-amd-define';
  * @return {Object} a Babel configuration object
  */
 export default function(context, opts = {}) {
-	return {
-		plugins: [
-			babelPluginNormalizeRequires,
-			babelPluginNameAmdModules,
-			babelPluginNamespaceAmdDefine,
-		],
-	};
+  return {
+    plugins: [
+      babelPluginNormalizeRequires,
+      babelPluginNameAmdModules,
+      babelPluginNamespaceAmdDefine,
+    ],
+  };
 }

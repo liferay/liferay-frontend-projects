@@ -1,49 +1,43 @@
 /**
  * @return {object} a babel visitor
  */
-export default function({ types: t }) {
-	return {
-		visitor: {
-			Identifier: {
-				exit(path, state) {
-					const node = path.node;
+export default function({types: t}) {
+  return {
+    visitor: {
+      Identifier: {
+        exit(path, state) {
+          const node = path.node;
 
-					if (node.name == 'require') {
-						const parent = path.parent;
+          if (node.name == 'require') {
+            const parent = path.parent;
 
-						if (t.isCallExpression(parent)) {
-							const argument = parent.arguments[0];
+            if (t.isCallExpression(parent)) {
+              const argument = parent.arguments[0];
 
-							if (t.isLiteral(argument) && argument.value) {
-								let moduleName = argument.value;
+              if (t.isLiteral(argument) && argument.value) {
+                let moduleName = argument.value;
 
-								if (
-									typeof moduleName === 'string' &&
-									!isPackageName(moduleName)
-								) {
-									if (moduleName.endsWith('.js')) {
-										moduleName = moduleName.substring(
-											0,
-											moduleName.length - 3,
-										);
-									}
+                if (
+                  typeof moduleName === 'string' &&
+                  !isPackageName(moduleName)
+                ) {
+                  if (moduleName.endsWith('.js')) {
+                    moduleName = moduleName.substring(0, moduleName.length - 3);
+                  }
 
-									if (moduleName.endsWith('/')) {
-										moduleName = moduleName.substring(
-											0,
-											moduleName.length - 1,
-										);
-									}
-								}
+                  if (moduleName.endsWith('/')) {
+                    moduleName = moduleName.substring(0, moduleName.length - 1);
+                  }
+                }
 
-								argument.value = moduleName;
-							}
-						}
-					}
-				},
-			},
-		},
-	};
+                argument.value = moduleName;
+              }
+            }
+          }
+        },
+      },
+    },
+  };
 }
 
 /**
@@ -52,17 +46,17 @@ export default function({ types: t }) {
  * @return {boolean} true if moduleName is a package name
  */
 function isPackageName(moduleName) {
-	const firstSlashIndex = moduleName.indexOf('/');
+  const firstSlashIndex = moduleName.indexOf('/');
 
-	if (firstSlashIndex == -1) {
-		return true;
-	}
+  if (firstSlashIndex == -1) {
+    return true;
+  }
 
-	const restOfModuleName = moduleName.substring(firstSlashIndex + 1);
+  const restOfModuleName = moduleName.substring(firstSlashIndex + 1);
 
-	if (moduleName.startsWith('@') && restOfModuleName.indexOf('/') == -1) {
-		return true;
-	}
+  if (moduleName.startsWith('@') && restOfModuleName.indexOf('/') == -1) {
+    return true;
+  }
 
-	return false;
+  return false;
 }
