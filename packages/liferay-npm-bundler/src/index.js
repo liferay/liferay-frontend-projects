@@ -1,7 +1,6 @@
 import * as babel from 'babel-core';
 import fs from 'fs-extra';
 import globby from 'globby';
-import { mkdirp } from 'liferay-npm-build-tools-common/lib/fs';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
@@ -19,7 +18,7 @@ export default function(args) {
 	const outputDir = path.resolve(config.getOutputDir());
 
 	// Create work directories
-	mkdirp(path.join(outputDir, 'node_modules'));
+	fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
 	// Copy project's package.json
 	promises.push(copyRootPackageJson(outputDir));
@@ -111,7 +110,7 @@ function bundlePackage(pkg, outputDir) {
 
 	console.log(`Bundling ${pkg.id}`);
 
-	mkdirp(outPkgDir);
+	fs.mkdirsSync(outPkgDir);
 
 	return copyPackage(pkg, outPkgDir)
 		.then(() => (pkg.dir = outPkgDir))
