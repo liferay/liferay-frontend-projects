@@ -238,8 +238,8 @@ accomplish that a new concept named *resolved module* is created.
 
 A resolved module is the reference package exported to the whole Portal frontend 
 when multiple copies of the same package and version exists. It is taken from 
-one of the several bundles exporting the same copies of the package, in an 
-non deterministic way.
+one of the several bundles exporting the same copies of the package, in a **non
+deterministic way**.
 
 In the example above, for each group of canonical URLs referring to the same 
 module inside different OSGi bundles, there's another canonical URL for the 
