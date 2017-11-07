@@ -1,0 +1,10 @@
+{
+	"env": {
+		"browser": true,
+		"jest": true
+	},
+	"extends": "liferay",
+	"globals": {
+		"Liferay": true
+	}
+}
