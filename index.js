@@ -149,7 +149,7 @@ module.exports = {
     // 'no-undef-init': 0,
     // 'no-undef': 2, // eslint:recommended
     // 'no-undefined': 0,
-    // 'no-unused-vars': [2, {args: 'none'}], // google
+    'no-unused-vars': [2, {args: 'after-used'}],
     // 'no-use-before-define': 0,
 
     // Node.js and CommonJS
