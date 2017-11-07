@@ -187,7 +187,7 @@ module.exports = {
     // 'id-blacklist': 0,
     // 'id-length': 0,
     // 'id-match': 0,
-    // 'indent': 0,
+    'indent': ['error', 'tab'],
     // 'jsx-quotes': 0,
     // 'key-spacing': 2, // google
     'keyword-spacing': 1,
@@ -198,9 +198,8 @@ module.exports = {
     // 'max-depth': 0,
     'max-len': [2, { // google
       code: 80,
-      tabWidth: 2,
-      ignoreUrls: true,
-      ignorePattern: '^(goog\.(module|require)|import )',
+      tabWidth: 4,
+      ignoreUrls: true
     }],
     // 'max-lines': 0,
     // 'max-nested-callbacks': 0,
