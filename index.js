@@ -198,8 +198,11 @@ module.exports = {
     // 'max-depth': 0,
     'max-len': [2, { // google
       code: 80,
-      tabWidth: 4,
-      ignoreUrls: true
+      comments: 120,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+      ignoreUrls: true,
+      tabWidth: 4
     }],
     // 'max-lines': 0,
     // 'max-nested-callbacks': 0,
