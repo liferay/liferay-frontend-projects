@@ -4,6 +4,7 @@
   "description": "ESLint shareable config for the Liferay JavaScript Style",
   "main": "index.js",
   "files": [
+    ".eslintrc",
     "index.js"
   ],
   "keywords": [
