@@ -20,12 +20,12 @@
   "author": "Liferay",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^3.17.1"
+    "eslint": "^4.1.1"
   },
   "peerDependencies": {
-    "eslint": "^3.17.1"
+    "eslint": ">=4.1.1"
   },
   "dependencies": {
-    "eslint-config-google": "^0.7.1"
+    "eslint-config-google": "^0.9.1"
   }
 }
