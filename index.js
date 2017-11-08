@@ -225,7 +225,7 @@ module.exports = {
     // 'no-new-object': 2, // google
     // 'no-plusplus': 0,
     // 'no-restricted-syntax': 0,
-    // 'no-tabs': 0,
+    'no-tabs': 0,
     // 'no-ternary': 0,
     // 'no-trailing-spaces': 2, // google
     // 'no-underscore-dangle': 0,
