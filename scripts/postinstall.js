@@ -1,3 +1,4 @@
+const cwd = require('path').resolve();
 const fs = require('fs');
 const { COPYFILE_EXCL } = fs.constants;
 
