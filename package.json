@@ -28,5 +28,8 @@
   },
   "dependencies": {
     "eslint-config-google": "^0.9.1"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
   }
 }
