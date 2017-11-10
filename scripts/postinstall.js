@@ -1,7 +1,19 @@
-const cwd = require('path').resolve();
 const fs = require('fs');
-const { COPYFILE_EXCL } = fs.constants;
+const path = require('path');
 
-fs.copyFile('.eslintrc', '../../.eslintrc', COPYFILE_EXCL, (err) => {
-    if (err) console.log('Preserving .eslintrc file found at ' + cwd);
-});
+const cwd = process.cwd();
+
+const eslintrcPath = path.join(cwd, '.eslintrc');
+
+if (!fs.existsSync(eslintrcPath)) {
+    fs.writeFileSync(
+        eslintrcPath,
+        fs.readFileSync(path.join(__dirname, '../.eslintrc'), {
+            encoding: 'utf8'
+        })
+    );
+
+    console.log('Created .eslintrc file at ' + eslintrcPath);
+} else {
+    console.log('Preserving .eslintrc file found at ' + eslintrcPath);
+}
