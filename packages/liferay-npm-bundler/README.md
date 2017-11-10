@@ -144,37 +144,37 @@ and modified to make them work on Liferay Portal under management of its
 As said before, `liferay-npm-bundler` is configured placing a `.npmbundlerrc` 
 file in your project's folder. The full structure of that file is:
 
-```json
+```
 {
     "exclude": {
         "*" : [
-            (list of glob expressions excluding files)
+            <list of glob expressions excluding files>
         ],
-        "(package name)" : [
-            (same as for "*")
+        "<package name>" : [
+            <same as for "*">
         ],
-        "(package name)@(version)" : [
-            (same as for "*")
+        "<package name>@<version>" : [
+            <same as for "*">
         ]
     },
-    "output": (relative path of output directory),
-    "process-serially": (true|false),
+    "output": <relative path of output directory>,
+    "process-serially": <true|false>,
     "*" : {
         "plugins": [
-            (list of plugins)
+            <list of plugins>
 		],
 		".babelrc": {
-            (standard .babelrc file)
+            <standard .babelrc file>
 		},
         "post-plugins": [
-            (list of plugins)
+            <list of plugins>
 		]
     },
-    "(package name)" : {
-        (same as for "*")
+    "<package name>" : {
+        <same as for "*">
     },
-    "(package name)@(version)" : {
-        (same as for "*")
+    "<package name>@<version>" : {
+        <same as for "*">
     }
     ...
 }
