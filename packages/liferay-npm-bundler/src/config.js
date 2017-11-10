@@ -100,7 +100,7 @@ export function loadBabelPlugins(presets, plugins) {
           presetModule = configRequire(`babel-preset-${preset}`);
         }
 
-        return presetModule.default().plugins;
+        return presetModule.plugins || presetModule.default().plugins;
       })
     )
     .concat(...plugins);
