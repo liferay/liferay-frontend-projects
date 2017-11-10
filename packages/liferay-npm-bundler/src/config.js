@@ -88,7 +88,6 @@ export function getExclusions(pkg) {
  * @return {Array} the instantiated Babel plugins
  */
 export function loadBabelPlugins(presets, plugins) {
-  // TODO: if plugins have config decide what to do with it
   return []
     .concat(
       ...presets.map(preset => {
@@ -103,7 +102,7 @@ export function loadBabelPlugins(presets, plugins) {
         return presetModule.plugins || presetModule.default().plugins;
       })
     )
-    .concat(...plugins);
+    .concat(plugins);
 }
 
 /**
