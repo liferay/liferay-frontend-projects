@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const cwd = process.cwd();
+const cwd = path.join(__dirname, '../../../');
 
 const eslintrcPath = path.join(cwd, '.eslintrc');
 
