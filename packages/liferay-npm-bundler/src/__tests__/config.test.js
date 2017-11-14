@@ -146,7 +146,7 @@ describe('getBabelConfig()', () => {
     expect(config).toEqual({config: 'config-*'});
   });
 
-  it('loads per-package config correctly', () => {
+  it('loads per-package config correctly when configured by id', () => {
     const config = cfg.getBabelConfig({
       id: 'package@1.0.0',
       name: 'package',
@@ -155,5 +155,16 @@ describe('getBabelConfig()', () => {
     });
 
     expect(config).toEqual({config: 'config-package@1.0.0'});
+  });
+
+  it('loads per-package config correctly when configured by name', () => {
+    const config = cfg.getBabelConfig({
+      id: 'package2@1.0.0',
+      name: 'package2',
+      version: '1.0.0',
+      dir: '',
+    });
+
+    expect(config).toEqual({config: 'config-package2'});
   });
 });

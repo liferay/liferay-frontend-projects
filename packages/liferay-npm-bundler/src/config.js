@@ -153,6 +153,8 @@ export function getBabelConfig(pkg) {
 
   if (config[pkg.id] && config[pkg.id]['.babelrc']) {
     babelConfig = config[pkg.id]['.babelrc'];
+  } else if (config[pkg.name] && config[pkg.name]['.babelrc']) {
+    babelConfig = config[pkg.name]['.babelrc'];
   } else if (config['*'] && config['*']['.babelrc']) {
     babelConfig = config['*']['.babelrc'];
   }
