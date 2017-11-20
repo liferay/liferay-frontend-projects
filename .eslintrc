@@ -18,11 +18,11 @@
 		"tinyMCE": true
 	},
 	"plugins": [
-		"liferay-portal"
+		"liferayportal"
 	],
 	"rules": {
 		"brace-style": ["error", "stroustrup"],
-		"liferay-portal/arrowfunction-newline": ["error", "always"],
+		"liferayportal/arrowfunction-newline": ["error", "always"],
 		"lines-around-comment": ["error", {
 			"afterBlockComment": false,
 			"afterLineComment": true,
