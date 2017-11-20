@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-liferay",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "ESLint shareable config for the Liferay JavaScript Style",
   "main": "index.js",
   "files": [
