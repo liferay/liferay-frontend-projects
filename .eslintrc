@@ -21,8 +21,8 @@
 		"liferay-portal"
 	],
 	"rules": {
-		"arrowfunction-newline": ["error", "always"],
 		"brace-style": ["error", "stroustrup"],
+		"liferay-portal/arrowfunction-newline": ["error", "always"],
 		"lines-around-comment": ["error", {
 			"afterBlockComment": false,
 			"afterLineComment": true,
