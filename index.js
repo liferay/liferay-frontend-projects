@@ -12,7 +12,11 @@ module.exports = {
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
+  "plugins": [
+    "liferay-portal"
+  ],
   rules: {
+    'liferay-portal/arrowfunction-newline': 0,
     // The rules below are listed in the order they appear on the eslint
     // rules page. All rules are listed to make it easier to keep in sync
     // as new ESLint rules are added.
