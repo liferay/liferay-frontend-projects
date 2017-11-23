@@ -5,15 +5,15 @@ import {isVerbose} from './config';
  * @return {void}
  */
 export function error(...args) {
-  console.log(...args);
+	console.log(...args);
 }
 
 /**
- * Log message as console.log does 
+ * Log message as console.log does
  * @return {void}
  */
 export function info(...args) {
-  console.log(...args);
+	console.log(...args);
 }
 
 /**
@@ -21,7 +21,7 @@ export function info(...args) {
  * @return {void}
  */
 export function debug(...args) {
-  if (isVerbose()) {
-    console.log(...args);
-  }
+	if (isVerbose()) {
+		console.log(...args);
+	}
 }
