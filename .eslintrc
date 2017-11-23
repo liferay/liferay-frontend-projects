@@ -17,12 +17,8 @@
 		"themeDisplay": true,
 		"tinyMCE": true
 	},
-	"plugins": [
-		"liferayportal"
-	],
 	"rules": {
 		"brace-style": ["error", "stroustrup"],
-		"liferayportal/arrowfunction-newline": ["error", "always"],
 		"lines-around-comment": ["error", {
 			"afterBlockComment": false,
 			"afterLineComment": true,
