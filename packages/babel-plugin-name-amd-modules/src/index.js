@@ -58,8 +58,7 @@ export default function({types: t}) {
 							args.unshift(
 								t.stringLiteral(`${packageName}${moduleName}`)
 							);
-						}
-						else {
+						} else {
 							args[0].value = `${packageName}${moduleName}`;
 						}
 

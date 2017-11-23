@@ -16,8 +16,7 @@ function loadConfig() {
 
 	try {
 		config = readJsonSync('.npmbundlerrc');
-	}
-	catch (err) {
+	} catch (err) {
 		if (err.code !== 'ENOENT') {
 			throw err;
 		}
@@ -96,8 +95,7 @@ export function loadBabelPlugins(presets, plugins) {
 
 				try {
 					presetModule = configRequire(preset);
-				}
-				catch (err) {
+				} catch (err) {
 					presetModule = configRequire(`babel-preset-${preset}`);
 				}
 
@@ -121,8 +119,7 @@ export function getPlugins(phase, pkg) {
 
 	if (config[pkg.id] && config[pkg.id][pluginsKey]) {
 		plugins = config[pkg.id][pluginsKey];
-	}
-	else if (config['*'] && config['*'][pluginsKey]) {
+	} else if (config['*'] && config['*'][pluginsKey]) {
 		plugins = config['*'][pluginsKey];
 	}
 
@@ -156,11 +153,9 @@ export function getBabelConfig(pkg) {
 
 	if (config[pkg.id] && config[pkg.id]['.babelrc']) {
 		babelConfig = config[pkg.id]['.babelrc'];
-	}
-	else if (config[pkg.name] && config[pkg.name]['.babelrc']) {
+	} else if (config[pkg.name] && config[pkg.name]['.babelrc']) {
 		babelConfig = config[pkg.name]['.babelrc'];
-	}
-	else if (config['*'] && config['*']['.babelrc']) {
+	} else if (config['*'] && config['*']['.babelrc']) {
 		babelConfig = config['*']['.babelrc'];
 	}
 

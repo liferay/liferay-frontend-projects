@@ -11,10 +11,9 @@ import * as log from './log';
 
 /**
  * Default entry point for the liferay-npm-bundler.
- * @param {Array} args the CLI arguments
  * @return {void}
  */
-export default function(args) {
+export default function() {
 	let promises = [];
 
 	const outputDir = path.resolve(config.getOutputDir());
@@ -39,8 +38,7 @@ export default function(args) {
 		promises.push(
 			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
 		);
-	}
-	else {
+	} else {
 		promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
 	}
 
@@ -80,7 +78,7 @@ function iterateSerially(values, asyncProcess) {
 		let val = values[0];
 
 		asyncProcess(val).then(() => {
-			iterateSerially(values.slice(1), asyncProcess).then(result => {
+			iterateSerially(values.slice(1), asyncProcess).then(() => {
 				resolve();
 			});
 		});
@@ -106,8 +104,7 @@ function bundlePackage(pkg, outputDir) {
 			log.debug(`Skipping ${pkg.id} (already bundled)`);
 			return;
 		}
-	}
-	catch (err) {}
+	} catch (err) {}
 
 	log.debug(`Bundling ${pkg.id}`);
 
@@ -170,8 +167,7 @@ function processPackage(phase, pkg) {
 			config.getPlugins(phase, pkg).forEach(plugin => {
 				plugin.run({pkg, config: plugin.config}, state);
 			});
-		}
-		catch (err) {
+		} catch (err) {
 			reject(err);
 		}
 
@@ -221,8 +217,7 @@ function runBabel(pkg) {
 							if (err) {
 								log.error(`Error processing file: ${filePath}`);
 								reject(err);
-							}
-							else {
+							} else {
 								const fileName = path.basename(filePath);
 
 								fs.writeFileSync(

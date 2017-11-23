@@ -5,7 +5,7 @@ import readJsonSync from 'read-json-sync';
 /**
  * @return {void}
  */
-export default function({pkg, config}, {pkgJson}) {
+export default function({pkg}, {pkgJson}) {
 	if (pkg.name !== '@angular/forms') {
 		return;
 	}

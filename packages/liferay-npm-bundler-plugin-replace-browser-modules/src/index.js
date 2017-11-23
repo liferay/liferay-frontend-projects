@@ -4,14 +4,13 @@ import path from 'path';
 /**
  * @return {void}
  */
-export default function({pkg, config}, {pkgJson}) {
+export default function({pkg}, {pkgJson}) {
 	const browser = pkgJson.browser || pkgJson.unpkg || pkgJson.jsdelivr;
 
 	if (browser) {
 		if (typeof browser === 'string') {
 			replaceMainModule(pkg.dir, browser, pkgJson);
-		}
-		else {
+		} else {
 			replaceModules(pkg.dir, browser, pkgJson);
 		}
 	}
@@ -50,8 +49,7 @@ function replaceModules(pkgDir, browser, pkgJson) {
 
 		if (to == false) {
 			ignoreFile(dest);
-		}
-		else {
+		} else {
 			const src = path.join(pkgDir, to);
 
 			replaceFile(pkgId, src, to, dest, from);
@@ -86,8 +84,7 @@ function replaceFile(pkgId, src, srcName, dest, destName) {
 				' by liferay-npm-bundler-plugin-replace-browser-modules */\n' +
 				contents
 		);
-	}
-	catch (err) {
+	} catch (err) {
 		if (err.code !== 'ENOENT') {
 			throw err;
 		}

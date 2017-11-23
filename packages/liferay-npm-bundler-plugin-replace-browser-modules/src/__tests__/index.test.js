@@ -33,8 +33,7 @@ afterEach(() => {
 	pkgFiles.forEach(file => {
 		try {
 			fs.unlink(`${pkg.dir}/${file}`);
-		}
-		catch (err) {}
+		} catch (err) {}
 	});
 });
 

@@ -31,8 +31,7 @@ export function getPackageDir(modulePath) {
 			try {
 				fs.statSync(path.join(dir, 'package.json'));
 				found = true;
-			}
-			catch (err) {
+			} catch (err) {
 				const dirname = path.dirname(dir);
 
 				if (dirname == dir) {

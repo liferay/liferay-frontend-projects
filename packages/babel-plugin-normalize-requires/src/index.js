@@ -5,7 +5,7 @@ export default function({types: t}) {
 	return {
 		visitor: {
 			Identifier: {
-				exit(path, state) {
+				exit(path) {
 					const node = path.node;
 
 					if (node.name == 'require') {

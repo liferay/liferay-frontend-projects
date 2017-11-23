@@ -62,11 +62,9 @@ function shimGlobal(
 
 	if (t.isMemberExpression(parent)) {
 		capture = parent.object === node;
-	}
-	else if (t.isVariableDeclarator(parent)) {
+	} else if (t.isVariableDeclarator(parent)) {
 		capture = parent.id !== node;
-	}
-	else {
+	} else {
 		capture = true;
 	}
 

@@ -12,8 +12,7 @@ expect.extend({
 
 			if (!dep) {
 				missingDeps.push(pkgId);
-			}
-			else {
+			} else {
 				const pkgIdParts = pkgId.split('@');
 				const pkgName = pkgIdParts[0];
 				const pkgVersion = pkgIdParts[1];
