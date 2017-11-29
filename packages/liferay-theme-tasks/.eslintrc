@@ -5,7 +5,6 @@
     "extends": "liferay",
     "rules": {
         "eol-last": 0,
-        "max-len": 0,
         "no-invalid-this": 0,
         "no-redeclare": 0,
         "no-unused-vars": 0,

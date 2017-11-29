@@ -11,7 +11,7 @@
     "theme"
   ],
   "scripts": {
-    "checkFormat": "npm run prettier --list-different",
+    "checkFormat": "npm run prettier -- --list-different",
     "format": "npm run prettier -- --write",
     "test": "nyc ava",
     "lint": "eslint '*.js' 'lib/**/*.js' 'tasks/**/*.js' 'test/**/*.js'",
