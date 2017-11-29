@@ -1,33 +1,40 @@
 'use strict';
 
-var bourbon = require('node-bourbon');
-var fs = require('fs-extra');
-var path = require('path');
-var themeUtil = require('./util');
-var versionMap = require('./version_map');
+let bourbon = require('node-bourbon');
+let fs = require('fs-extra');
+let path = require('path');
 
-var formatPath = function(filePath) {
+let themeUtil = require('./util');
+
+let divert = require('./divert');
+
+let formatPath = function(filePath) {
 	return filePath.replace(/\\/g, '/');
 };
 
 exports.createBourbonFile = function() {
-	var options = require('./options')();
+	let options = require('./options')();
 
-	var pathSrc = options.pathSrc;
+	let pathSrc = options.pathSrc;
 
-	var bourbonPath = bourbon.includePaths[0];
+	let bourbonPath = bourbon.includePaths[0];
 
-	var tmpDirPath = path.join(__dirname, '../tmp');
+	let tmpDirPath = path.join(__dirname, '../tmp');
 
 	if (!fs.existsSync(tmpDirPath)) {
 		fs.mkdirSync(tmpDirPath);
 	}
 
-	var bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
+	let bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
 
-	var bourbonFile = [];
+	let bourbonFile = [];
 
-	var deprecatedMixinsFilePath = path.join(process.cwd(), pathSrc, 'css', '_deprecated_mixins.scss');
+	let deprecatedMixinsFilePath = path.join(
+		process.cwd(),
+		pathSrc,
+		'css',
+		'_deprecated_mixins.scss'
+	);
 
 	if (fs.existsSync(deprecatedMixinsFilePath)) {
 		bourbonFile.push('@import "');
@@ -35,13 +42,18 @@ exports.createBourbonFile = function() {
 		bourbonFile.push('";');
 	}
 
-	var mixinsPath = themeUtil.resolveDependency(versionMap.getDependencyName('mixins'), '7.0');
+	let mixinsPath = themeUtil.resolveDependency(
+		divert('dependencies').getDependencyName('mixins'),
+		'7.0'
+	);
 
 	bourbonFile.push('@import "');
 	bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));
 	bourbonFile.push('";');
 	bourbonFile.push('@import "');
-	bourbonFile.push(formatPath(path.join(mixinsPath, 'liferay/_bourbon_ext.scss')));
+	bourbonFile.push(
+		formatPath(path.join(mixinsPath, 'liferay/_bourbon_ext.scss'))
+	);
 	bourbonFile.push('";');
 
 	fs.writeFileSync(bourbonFilePath, bourbonFile.join(''));

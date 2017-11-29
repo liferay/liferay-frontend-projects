@@ -1,38 +1,43 @@
 'use strict';
 
-var _ = require('lodash');
-var globby = require('globby');
-var liferayPluginTasks = require('liferay-plugin-node-tasks');
-var path = require('path');
-var plugins = require('gulp-load-plugins')();
+let _ = require('lodash');
+let globby = require('globby');
+let liferayPluginTasks = require('liferay-plugin-node-tasks');
+let path = require('path');
+let plugins = require('gulp-load-plugins')();
 
-var doctor = require('./lib/doctor');
-var lfrThemeConfig = require('./lib/liferay_theme_config');
-var versionControl = require('./lib/version_control.js');
+let divert = require('./lib/divert');
+let lfrThemeConfig = require('./lib/liferay_theme_config');
+let versionControl = require('./lib/version_control.js');
 
-var themeConfig = lfrThemeConfig.getConfig();
+let themeConfig = lfrThemeConfig.getConfig();
 
 module.exports.registerTasks = function(options) {
 	options = require('./lib/options')(options);
 
-	liferayPluginTasks.registerTasks(_.defaults({
-		extensions: register,
-		hookFn: options.hookFn,
-		hookModules: themeConfig ? themeConfig.hookModules : null,
-		rootDir: options.pathBuild,
-		storeConfig: {
-			name: 'LiferayTheme',
-			path: 'liferay-theme.json'
-		}
-	}, options));
+	liferayPluginTasks.registerTasks(
+		_.defaults(
+			{
+				extensions: register,
+				hookFn: options.hookFn,
+				hookModules: themeConfig ? themeConfig.hookModules : null,
+				rootDir: options.pathBuild,
+				storeConfig: {
+					name: 'LiferayTheme',
+					path: 'liferay-theme.json',
+				},
+			},
+			options
+		)
+	);
 };
 
 function register(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
 	gulp = options.gulp = plugins.help(gulp);
 
-	var store = gulp.storage;
+	let store = gulp.storage;
 
 	store.set('changedFile');
 
@@ -40,9 +45,10 @@ function register(options) {
 		require(item)(options);
 	});
 
-	var halt = _.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
+	let halt =
+		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
 
-	doctor(null, halt);
+	divert('doctor').doctor(null, halt);
 
 	if (!options.argv['skip-update-check']) {
 		process.once('beforeExit', function() {

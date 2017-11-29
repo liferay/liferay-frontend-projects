@@ -1,33 +1,42 @@
 'use strict';
 
-var _ = require('lodash');
-var gutil = require('gulp-util');
+let _ = require('lodash');
+let gutil = require('gulp-util');
 
-var chalk = gutil.colors;
+let chalk = gutil.colors;
 
 function status(themeConfig) {
-	var statusBuffer = [];
+	let statusBuffer = [];
 
-	var baseTheme = themeConfig.baseTheme;
+	let baseTheme = themeConfig.baseTheme;
 
-	var baseThemeLabel = chalk.cyan('Base theme: ');
+	let baseThemeLabel = chalk.cyan('Base theme: ');
 
 	if (baseTheme) {
-		var baseThemeName = baseTheme.name || baseTheme;
+		let baseThemeName = baseTheme.name || baseTheme;
 
-		statusBuffer.push(baseThemeLabel + chalk.green(baseThemeName, baseTheme.version ? 'v' + baseTheme.version : ''));
-	}
-	else {
-		statusBuffer.push(baseThemeLabel + chalk.red('no base theme specified'));
+		statusBuffer.push(
+			baseThemeLabel +
+				chalk.green(
+					baseThemeName,
+					baseTheme.version ? 'v' + baseTheme.version : ''
+				)
+		);
+	} else {
+		statusBuffer.push(
+			baseThemeLabel + chalk.red('no base theme specified')
+		);
 	}
 
-	var themeletDependencies = themeConfig.themeletDependencies;
+	let themeletDependencies = themeConfig.themeletDependencies;
 
 	if (themeletDependencies) {
 		statusBuffer.push(chalk.cyan('Themelets:'));
 
 		_.forEach(themeletDependencies, function(item) {
-			statusBuffer.push(' - ' + chalk.green(item.name, 'v' + item.version));
+			statusBuffer.push(
+				' - ' + chalk.green(item.name, 'v' + item.version)
+			);
 		});
 	}
 

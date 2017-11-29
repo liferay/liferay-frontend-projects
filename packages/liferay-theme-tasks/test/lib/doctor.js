@@ -1,60 +1,72 @@
 'use strict';
 
-var _ = require('lodash');
-var del = require('del');
-var doctor = require('../../lib/doctor.js');
-var fs = require('fs-extra');
-var os = require('os');
-var path = require('path');
-var test = require('ava');
+let _ = require('lodash');
+let del = require('del');
+let divert = require('../../lib/divert');
+let fs = require('fs-extra');
+let os = require('os');
+let path = require('path');
+let test = require('ava');
 
-var initCwd = process.cwd();
-var tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'doctor-fixtures');
+let initCwd = process.cwd();
+let tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'doctor-fixtures');
 
 test.cb.before(function(t) {
-	fs.copy(path.join(__dirname, '../fixtures/json/_package_outdated_settings.json'), path.join(tempPath, 'package.json'), function(err) {
-		if (err) throw err;
+	fs.copy(
+		path.join(
+			__dirname,
+			'../fixtures/json/_package_outdated_settings.json'
+		),
+		path.join(tempPath, 'package.json'),
+		function(err) {
+			if (err) throw err;
 
-		process.chdir(tempPath);
+			process.chdir(tempPath);
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.after(function() {
 	process.chdir(initCwd);
 
 	del.sync(path.join(tempPath, '**'), {
-		force: true
+		force: true,
 	});
 });
 
 test('should throw appropriate error message', function(t) {
-	var pkg = require(path.join(__dirname, '../fixtures/json/_package.json'));
+	let pkg = require(path.join(__dirname, '../fixtures/json/_package.json'));
 
 	t.throws(function() {
-		doctor(pkg, true);
+		divert('doctor').doctor(pkg, true);
 	}, 'Missing 2 theme dependencies');
 });
 
-test('should look for dependencies regardless if devDependency or not', function(t) {
-	var pkg = require(path.join(__dirname, '../fixtures/json/_package_mixed_dependencies.json'));
+test('should look for dependencies regardless if devDependency or not', function(
+	t
+) {
+	let pkg = require(path.join(
+		__dirname,
+		'../fixtures/json/_package_mixed_dependencies.json'
+	));
 
 	t.notThrows(function() {
-		doctor(pkg, true);
+		divert('doctor').doctor(pkg, true);
 	});
 });
 
 test('should replace supportCompass with rubySass', function(t) {
-	var pkgPath = path.join(tempPath, 'package.json');
+	let pkgPath = path.join(tempPath, 'package.json');
 
-	var pkg = require(pkgPath);
+	let pkg = require(pkgPath);
 
-	doctor(pkg, true);
+	divert('doctor').doctor(pkg, true);
 
-	var updatedPkg = JSON.parse(fs.readFileSync(pkgPath));
+	let updatedPkg = JSON.parse(fs.readFileSync(pkgPath));
 
-	var liferayTheme = updatedPkg.liferayTheme;
+	let liferayTheme = updatedPkg.liferayTheme;
 
 	t.is(liferayTheme.baseTheme, 'styled');
 	t.is(liferayTheme.rubySass, false);

@@ -1,22 +1,25 @@
 'use strict';
 
-var test = require('ava');
+let test = require('ava');
 
-var testUtil = require('../util');
+let testUtil = require('../util');
 
-var runSequence;
+let runSequence;
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'status_task',
-		registerTasks: true
-	}, function(config) {
-		runSequence = config.runSequence;
+	testUtil.copyTempTheme(
+		{
+			namespace: 'status_task',
+			registerTasks: true,
+		},
+		function(config) {
+			runSequence = config.runSequence;
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.cb.after(function(t) {
@@ -25,6 +28,8 @@ test.cb.after(function(t) {
 	testUtil.cleanTempTheme('base-theme', '7.0', 'status_task', t.end);
 });
 
-test.cb('status task should print base theme/themelet information', function(t) {
+test.cb('status task should print base theme/themelet information', function(
+	t
+) {
 	runSequence('status', t.end);
 });

@@ -1,36 +1,40 @@
 'use strict';
 
-var chai = require('chai');
-var del = require('del');
-var path = require('path');
-var test = require('ava');
+let chai = require('chai');
+let del = require('del');
+let path = require('path');
+let test = require('ava');
 
-var assert = chai.assert;
+let assert = chai.assert;
+
 chai.use(require('chai-fs'));
 
-var lfrThemeConfig = require('../../../lib/liferay_theme_config.js');
-var testUtil = require('../../util');
+let lfrThemeConfig = require('../../../lib/liferay_theme_config.js');
+let testUtil = require('../../util');
 
-var runSequence;
-var tempPath;
+let runSequence;
+let tempPath;
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'upgrade_task_config',
-		themeName: 'upgrade-theme',
-		version: '6.2',
-		registerTasksOptions: {
-			pathSrc: 'src',
-			rubySass: true
-		}
-	}, function(config) {
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
+	testUtil.copyTempTheme(
+		{
+			namespace: 'upgrade_task_config',
+			themeName: 'upgrade-theme',
+			version: '6.2',
+			registerTasksOptions: {
+				pathSrc: 'src',
+				rubySass: true,
+			},
+		},
+		function(config) {
+			runSequence = config.runSequence;
+			tempPath = config.tempPath;
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.after(function() {
@@ -45,13 +49,19 @@ test.cb('upgrade:config', function(t) {
 	runSequence('upgrade:config', function(err) {
 		if (err) throw err;
 
-		var themeConfig = lfrThemeConfig.getConfig();
+		let themeConfig = lfrThemeConfig.getConfig();
 
 		t.is(themeConfig.version, '7.0');
 		t.is(themeConfig.rubySass, false);
 
-		var lookAndFeelPath = path.join(tempPath, 'src/WEB-INF/liferay-look-and-feel.xml');
-		var pluginPackagePropertiesPath = path.join(tempPath, 'src/WEB-INF/liferay-plugin-package.properties');
+		let lookAndFeelPath = path.join(
+			tempPath,
+			'src/WEB-INF/liferay-look-and-feel.xml'
+		);
+		let pluginPackagePropertiesPath = path.join(
+			tempPath,
+			'src/WEB-INF/liferay-plugin-package.properties'
+		);
 
 		assert.fileContentMatch(lookAndFeelPath, /7\.0\.0/);
 		assert.fileContentMatch(lookAndFeelPath, /7_0_0/);

@@ -1,71 +1,53 @@
 'use strict';
 
-var _ = require('lodash');
-var del = require('del');
-var livereload = require('gulp-livereload');
-var path = require('path');
-var plugins = require('gulp-load-plugins')();
+let _ = require('lodash');
+let del = require('del');
+let livereload = require('gulp-livereload');
+let path = require('path');
+let plugins = require('gulp-load-plugins')();
 
-var lfrThemeConfig = require('../lib/liferay_theme_config.js');
-var WatchSocket = require('../lib/watch_socket.js');
+let divert = require('../lib/divert');
+let lfrThemeConfig = require('../lib/liferay_theme_config.js');
+let WatchSocket = require('../lib/watch_socket.js');
 
-var gutil = plugins.util;
+let gutil = plugins.util;
 
-var themeConfig = lfrThemeConfig.getConfig();
+let themeConfig = lfrThemeConfig.getConfig();
 
-var CONNECT_PARAMS = {
-	port: 11311
+let CONNECT_PARAMS = {
+	port: 11311,
 };
 
 module.exports = function(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
-	var store = gulp.storage;
+	let store = gulp.storage;
 
-	var pathBuild = options.pathBuild;
-	var pathSrc = options.pathSrc;
+	let pathBuild = options.pathBuild;
+	let pathSrc = options.pathSrc;
 
-	var argv = options.argv;
+	let argv = options.argv;
 
-	var fullDeploy = (argv.full || argv.f);
+	let fullDeploy = argv.full || argv.f;
 
-	var runSequence = require('run-sequence').use(gulp);
+	let runSequence = require('run-sequence').use(gulp);
 
-	var staticFileDirs = ['images', 'js'];
+	let staticFileDirs = ['images', 'js'];
 
-	var webBundleDirName = '.web_bundle_build';
+	let webBundleDirName = '.web_bundle_build';
 
-	var webBundleDir = path.join(process.cwd(), webBundleDirName);
+	let webBundleDir = path.join(process.cwd(), webBundleDirName);
 
-	var connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
+	let connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
 
 	gulp.task('watch', function() {
-		options.watching = true;
-
-		if (themeConfig.version === '6.2') {
-			startWatch();
-		}
-		else {
-			store.set('appServerPathPlugin', webBundleDir);
-
-			runSequence('build', 'watch:clean', 'watch:osgi:clean', 'watch:setup', function(err) {
-				if (err) {
-					throw err;
-				}
-
-				var watchSocket = startWatchSocket();
-
-				watchSocket.connect(connectParams)
-					.then(function() {
-						return watchSocket.deploy();
-					})
-					.then(function() {
-						store.set('webBundleDir', 'watching');
-
-						startWatch();
-					});
-			});
-		}
+		divert('watch').taskWatch(
+			options,
+			startWatch,
+			startWatchSocket,
+			webBundleDir,
+			connectParams
+		);
 	});
 
 	gulp.task('watch:clean', function(cb) {
@@ -73,13 +55,20 @@ module.exports = function(options) {
 	});
 
 	gulp.task('watch:osgi:clean', function(cb) {
-		var watchSocket = startWatchSocket();
+		let watchSocket = startWatchSocket();
 
-		watchSocket.connect(connectParams)
+		watchSocket
+			.connect(connectParams)
 			.then(function() {
-				var distName = options.distName;
+				let distName = options.distName;
 
-				var warPath = path.join(store.get('appServerPath'), '..', 'osgi', 'war', distName + '.war');
+				let warPath = path.join(
+					store.get('appServerPath'),
+					'..',
+					'osgi',
+					'war',
+					distName + '.war'
+				);
 
 				return watchSocket.uninstall(warPath, distName);
 			})
@@ -87,7 +76,8 @@ module.exports = function(options) {
 	});
 
 	gulp.task('watch:setup', function() {
-		return gulp.src(path.join(pathBuild, '**/*'))
+		return gulp
+			.src(path.join(pathBuild, '**/*'))
 			.pipe(gulp.dest(webBundleDir));
 	});
 
@@ -102,18 +92,25 @@ module.exports = function(options) {
 	}
 
 	function getTaskArray(rootDir, defaultTaskArray) {
-		var taskArray = defaultTaskArray || [];
+		let taskArray = defaultTaskArray || [];
 
 		if (staticFileDirs.indexOf(rootDir) > -1) {
 			taskArray = ['deploy:file'];
-		}
-		else if (rootDir === 'WEB-INF') {
-			taskArray = ['build:clean', 'build:src', 'build:web-inf', 'deploy:folder'];
-		}
-		else if (rootDir === 'templates') {
-			taskArray = ['build:src', 'build:themelet-src', 'build:themelet-js-inject', 'deploy:folder'];
-		}
-		else if (rootDir === 'css') {
+		} else if (rootDir === 'WEB-INF') {
+			taskArray = [
+				'build:clean',
+				'build:src',
+				'build:web-inf',
+				'deploy:folder',
+			];
+		} else if (rootDir === 'templates') {
+			taskArray = [
+				'build:src',
+				'build:themelet-src',
+				'build:themelet-js-inject',
+				'deploy:folder',
+			];
+		} else if (rootDir === 'css') {
 			taskArray = [
 				'build:clean',
 				'build:base',
@@ -125,7 +122,7 @@ module.exports = function(options) {
 				'build:compile-css',
 				'build:move-compiled-css',
 				'build:remove-old-css-dir',
-				'deploy:css-files'
+				'deploy:css-files',
 			];
 		}
 
@@ -140,17 +137,16 @@ module.exports = function(options) {
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			store.set('changedFile', vinyl);
 
-			var relativeFilePath = path.relative(path.join(process.cwd(), pathSrc), vinyl.path);
+			let relativeFilePath = path.relative(
+				path.join(process.cwd(), pathSrc),
+				vinyl.path
+			);
 
-			var filePathArray = relativeFilePath.split(path.sep);
+			let filePathArray = relativeFilePath.split(path.sep);
 
-			var rootDir = filePathArray.length ? filePathArray[0] : '';
+			let rootDir = filePathArray.length ? filePathArray[0] : '';
 
-			var taskArray = ['deploy'];
-
-			if (themeConfig.version !== '6.2') {
-				taskArray = ['deploy:gogo'];
-			}
+			let taskArray = [divert('watch').deployTask];
 
 			if (!fullDeploy && store.get('deployed')) {
 				taskArray = getTaskArray(rootDir, taskArray);
@@ -163,13 +159,17 @@ module.exports = function(options) {
 	}
 
 	function startWatchSocket() {
-		var watchSocket = new WatchSocket({
-			webBundleDir: webBundleDirName
+		let watchSocket = new WatchSocket({
+			webBundleDir: webBundleDirName,
 		});
 
 		watchSocket.on('error', function(err) {
 			if (err.code === 'ECONNREFUSED' || err.errno === 'ECONNREFUSED') {
-				gutil.log(gutil.colors.yellow('Cannot connect to gogo shell. Please ensure local Liferay instance is running.'));
+				gutil.log(
+					gutil.colors.yellow(
+						'Cannot connect to gogo shell. Please ensure local Liferay instance is running.'
+					)
+				);
 			}
 		});
 

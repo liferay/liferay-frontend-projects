@@ -1,11 +1,11 @@
 'use strict';
 
-var _ = require('lodash');
-var gutil = require('gulp-util');
-var inquirer = require('inquirer');
+let _ = require('lodash');
+let gutil = require('gulp-util');
+let inquirer = require('inquirer');
 
-var ModulePrompt = require('./module_prompt');
-var themeFinder = require('../theme_finder');
+let ModulePrompt = require('./module_prompt');
+let themeFinder = require('../theme_finder');
 
 function NPMModulePrompt() {
 	this.init.apply(this, arguments);
@@ -25,47 +25,56 @@ NPMModulePrompt.prototype = {
 	},
 
 	_afterPromptSearchTerms: function(answers) {
-		var instance = this;
+		let instance = this;
 
-		var themelet = this.themelet;
+		let themelet = this.themelet;
 
 		this._getNPMModules(answers.searchTerms, function(modules) {
 			if (_.isEmpty(modules)) {
-				var type = themelet ? 'themelets' : 'themes';
+				let type = themelet ? 'themelets' : 'themes';
 
-				gutil.log(gutil.colors.yellow('No ' + type + ' matched your search!'));
+				gutil.log(
+					gutil.colors.yellow('No ' + type + ' matched your search!')
+				);
 
 				instance._promptSearchTerms();
-			}
-			else {
+			} else {
 				instance.modules = modules;
 
-				ModulePrompt.prompt(instance, _.bind(instance._afterPrompt, instance));
+				ModulePrompt.prompt(
+					instance,
+					_.bind(instance._afterPrompt, instance)
+				);
 			}
 		});
 	},
 
 	_getNPMModules: function(searchTerms, cb) {
-		themeFinder.getLiferayThemeModules({
-			globalModules: false,
-			searchTerms: searchTerms,
-			themelet: this.themelet
-		}, cb);
+		themeFinder.getLiferayThemeModules(
+			{
+				globalModules: false,
+				searchTerms: searchTerms,
+				themelet: this.themelet,
+			},
+			cb
+		);
 	},
 
 	_promptSearchTerms: function() {
-		var themelet = this.themelet;
+		let themelet = this.themelet;
 
 		inquirer.prompt(
 			[
 				{
-					message: themelet ? 'Search npm for themelets:' : 'Search npm for themes:',
-					name: 'searchTerms'
-				}
+					message: themelet
+						? 'Search npm for themelets:'
+						: 'Search npm for themes:',
+					name: 'searchTerms',
+				},
 			],
 			_.bind(this._afterPromptSearchTerms, this)
 		);
-	}
+	},
 };
 
 NPMModulePrompt.prompt = function(config, cb) {

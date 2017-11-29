@@ -1,30 +1,33 @@
 'use strict';
 
-var _ = require('lodash');
-var gutil = require('gulp-util');
-var sinon = require('sinon');
-var test = require('ava');
+let _ = require('lodash');
+let gutil = require('gulp-util');
+let sinon = require('sinon');
+let test = require('ava');
 
-var testUtil = require('../../util.js');
+let testUtil = require('../../util.js');
 
-var GlobalModulePrompt;
-var ModulePrompt;
-var themeFinder;
+let GlobalModulePrompt;
+let ModulePrompt;
+let themeFinder;
 
-var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
+let prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'global_module_prompt'
-	}, function(config) {
-		GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt.js');
-		ModulePrompt = require('../../../lib/prompts/module_prompt.js');
-		themeFinder = require('../../../lib/theme_finder');
+	testUtil.copyTempTheme(
+		{
+			namespace: 'global_module_prompt',
+		},
+		function(config) {
+			GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt.js');
+			ModulePrompt = require('../../../lib/prompts/module_prompt.js');
+			themeFinder = require('../../../lib/theme_finder');
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.after(function() {
@@ -33,7 +36,7 @@ test.after(function() {
 	testUtil.cleanTempTheme('base-theme', '7.0', 'global_module_prompt');
 });
 
-var prototype;
+let prototype;
 
 test.beforeEach(function() {
 	prototype = _.create(GlobalModulePrompt.prototype);
@@ -44,27 +47,33 @@ test.afterEach(function() {
 });
 
 test('constructor should pass arguments to init', function(t) {
-	var initSpy = prototypeMethodSpy.add(GlobalModulePrompt.prototype, 'init');
+	let initSpy = prototypeMethodSpy.add(GlobalModulePrompt.prototype, 'init');
 
 	new GlobalModulePrompt({}, _.noop);
 
 	t.true(initSpy.calledWith({}, _.noop));
 });
 
-test('init should assign callback as done property and invoke prompting', function(t) {
+test('init should assign callback as done property and invoke prompting', function(
+	t
+) {
 	prototype._getGlobalModules = sinon.spy();
-	var initSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
+	let initSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
 
-	prototype.init({
-		selectedModules: ['module'],
-		themelet: true
-	}, _.noop);
+	prototype.init(
+		{
+			selectedModules: ['module'],
+			themelet: true,
+		},
+		_.noop
+	);
 
-	var cb = prototype._getGlobalModules.getCall(0).args[0];
+	let cb = prototype._getGlobalModules.getCall(0).args[0];
 
 	cb('modules');
 
 	// TODO assert that initSpy is called with correct args
+
 	t.true(initSpy.calledOnce);
 	t.deepEqual(prototype.selectedModules, ['module']);
 	t.is(prototype.modules, 'modules');
@@ -75,7 +84,7 @@ test('init should assign callback as done property and invoke prompting', functi
 test('_afterPrompt should log message if no modules are found', function(t) {
 	prototype.done = sinon.spy();
 
-	var logSpy = prototypeMethodSpy.add(gutil, 'log');
+	let logSpy = prototypeMethodSpy.add(gutil, 'log');
 
 	prototype._afterPrompt({});
 
@@ -84,15 +93,25 @@ test('_afterPrompt should log message if no modules are found', function(t) {
 	t.true(prototype.done.calledWith({}));
 });
 
-test('_getGlobalModules should invoke themeFinder.getLiferayThemeModules', function(t) {
-	var getLiferayThemeModulesSpy = prototypeMethodSpy.add(themeFinder, 'getLiferayThemeModules');
+test('_getGlobalModules should invoke themeFinder.getLiferayThemeModules', function(
+	t
+) {
+	let getLiferayThemeModulesSpy = prototypeMethodSpy.add(
+		themeFinder,
+		'getLiferayThemeModules'
+	);
 
 	prototype.themelet = 'themelet';
 
 	prototype._getGlobalModules(_.noop);
 
-	t.true(getLiferayThemeModulesSpy.calledWith({
-		globalModules: true,
-		themelet: 'themelet'
-	}, _.noop));
+	t.true(
+		getLiferayThemeModulesSpy.calledWith(
+			{
+				globalModules: true,
+				themelet: 'themelet',
+			},
+			_.noop
+		)
+	);
 });

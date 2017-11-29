@@ -1,76 +1,92 @@
 'use strict';
 
-var _ = require('lodash');
-var chai = require('chai');
-var fs = require('fs-extra');
-var parseString = require('xml2js').parseString;
-var path = require('path');
-var sinon = require('sinon');
+let _ = require('lodash');
+let chai = require('chai');
+let fs = require('fs-extra');
+let parseString = require('xml2js').parseString;
+let path = require('path');
+let sinon = require('sinon');
 
-var testUtil = require('../../util');
+let testUtil = require('../../util');
 
-var assert = chai.assert;
+let assert = chai.assert;
+
 chai.use(require('chai-fs'));
 
-var buildPath;
-var tempPath;
-var themeConfig;
-var version;
+let buildPath;
+let tempPath;
+let themeConfig;
+let version;
 
-var helper = {};
+let helper = {};
 
 _.assign(helper, {
 	testBoilerplate: function(test, config, cb) {
-		var initCwd = process.cwd();
+		let initCwd = process.cwd();
 
-		var hookFn = config.hookFn;
-		var namespace = config.namespace;
-		var rubySass = config.rubySass || false;
-		var themeName = config.themeName;
+		let hookFn = config.hookFn;
+		let namespace = config.namespace;
+		let rubySass = config.rubySass || false;
+		let themeName = config.themeName;
+
 		version = config.version;
 
-		var sassOptionsSpy = sinon.spy();
+		let sassOptionsSpy = sinon.spy();
 
 		test.cb.before(function(t) {
 			testUtil.cleanTempTheme(themeName, version, namespace);
 
-			testUtil.copyTempTheme({
-				namespace: namespace,
-				registerTasksOptions: {
-					sassOptions: function(defaults) {
-						sassOptionsSpy();
+			testUtil.copyTempTheme(
+				{
+					namespace: namespace,
+					registerTasksOptions: {
+						sassOptions: function(defaults) {
+							sassOptionsSpy();
 
-						if (rubySass) {
-							assert(defaults.compass, 'assert default sassOptions');
-							assert(defaults.loadPath, 'assert default sassOptions');
-						}
-						else {
-							assert(defaults.includePaths, 'assert default sassOptions');
-						}
+							if (rubySass) {
+								assert(
+									defaults.compass,
+									'assert default sassOptions'
+								);
+								assert(
+									defaults.loadPath,
+									'assert default sassOptions'
+								);
+							} else {
+								assert(
+									defaults.includePaths,
+									'assert default sassOptions'
+								);
+							}
 
-						return defaults;
+							return defaults;
+						},
+						hookFn: hookFn,
+						rubySass: rubySass,
 					},
-					hookFn: hookFn,
-					rubySass: rubySass
+					themeConfig: {
+						rubySass: rubySass,
+					},
+					themeName: themeName,
+					version: version,
 				},
-				themeConfig: {
-					rubySass: rubySass
-				},
-				themeName: themeName,
-				version: version
-			}, function(config) {
-				tempPath = config.tempPath;
+				function(config) {
+					tempPath = config.tempPath;
 
-				buildPath = path.join(tempPath, config.registerTasksOptions.pathBuild);
+					buildPath = path.join(
+						tempPath,
+						config.registerTasksOptions.pathBuild
+					);
 
-				var lfrThemeConfig = require('../../../lib/liferay_theme_config');
+					let lfrThemeConfig = require('../../../lib/liferay_theme_config');
 
-				themeConfig = lfrThemeConfig.getConfig();
+					themeConfig = lfrThemeConfig.getConfig();
 
-				cb(config);
+					cb(config);
 
-				t.end();
-			});
+					t.end();
+				}
+			);
 		});
 
 		test.after(function(t) {
@@ -85,9 +101,18 @@ _.assign(helper, {
 		gulp.hook('after:build:clean', helper._assertClean);
 		gulp.hook('after:build:compile-css', helper._assertCompileCss);
 		gulp.hook('after:build:hook', helper._assertHook);
-		gulp.hook('after:build:fix-at-directives', helper._assertFixAtDirectives);
-		gulp.hook('after:build:move-compiled-css', helper._assertMoveCompiledCss);
-		gulp.hook('after:build:remove-old-css-dir', helper._assertRemoveOldCssDir);
+		gulp.hook(
+			'after:build:fix-at-directives',
+			helper._assertFixAtDirectives
+		);
+		gulp.hook(
+			'after:build:move-compiled-css',
+			helper._assertMoveCompiledCss
+		);
+		gulp.hook(
+			'after:build:remove-old-css-dir',
+			helper._assertRemoveOldCssDir
+		);
 		gulp.hook('after:build:rename-css-dir', helper._assertRenameCssDir);
 		gulp.hook('after:build:src', helper._assertSrc);
 		gulp.hook('after:build:themelets', helper._assertThemelets);
@@ -103,7 +128,7 @@ _.assign(helper, {
 	},
 
 	_assertBeforeBuild: function(cb) {
-		var distPath = path.join(tempPath, 'dist');
+		let distPath = path.join(tempPath, 'dist');
 
 		assert.isDirectory(path.join(tempPath, 'custom_src_path'));
 
@@ -130,19 +155,26 @@ _.assign(helper, {
 	},
 
 	_assertHook: function(cb) {
-		var hookPath = path.join(buildPath, 'WEB-INF', 'liferay-hook.xml.processed');
+		let hookPath = path.join(
+			buildPath,
+			'WEB-INF',
+			'liferay-hook.xml.processed'
+		);
 
 		assert.isFile(hookPath);
 
-		var liferayHookXML = fs.readFileSync(hookPath, {
-			encoding: 'utf8'
+		let liferayHookXML = fs.readFileSync(hookPath, {
+			encoding: 'utf8',
 		});
 
 		parseString(liferayHookXML, function(err, result) {
 			if (err) throw err;
 
 			assert.deepEqual(
-				['content/Language_en.properties', 'content/Language_es.properties'],
+				[
+					'content/Language_en.properties',
+					'content/Language_es.properties',
+				],
 				result.hook['language-properties']
 			);
 
@@ -151,15 +183,20 @@ _.assign(helper, {
 	},
 
 	_assertFixAtDirectives: function(cb) {
-		var cssPath = path.join(buildPath, 'css');
+		let cssPath = path.join(buildPath, 'css');
 
 		assert.isDirectory(cssPath);
 
 		if (version === '6.2') {
-			assert.fileContentMatch(path.join(cssPath, 'main.css'), /@import\surl\(custom\.css\);/);
-		}
-		else {
-			assert.fileContentMatch(path.join(cssPath, 'main.css'), /@import\surl\(file\.css\?t=[0-9]+\);/);
+			assert.fileContentMatch(
+				path.join(cssPath, 'main.css'),
+				/@import\surl\(custom\.css\);/
+			);
+		} else {
+			assert.fileContentMatch(
+				path.join(cssPath, 'main.css'),
+				/@import\surl\(file\.css\?t=[0-9]+\);/
+			);
 		}
 
 		cb();
@@ -186,9 +223,9 @@ _.assign(helper, {
 	},
 
 	_assertSrc: function(cb) {
-		var cssPath = path.join(buildPath, 'css');
-		var jsPath = path.join(buildPath, 'js');
-		var templatesPath = path.join(buildPath, 'templates');
+		let cssPath = path.join(buildPath, 'css');
+		let jsPath = path.join(buildPath, 'js');
+		let templatesPath = path.join(buildPath, 'templates');
 
 		assert.isDirectory(cssPath);
 		assert.isDirectory(jsPath);
@@ -196,47 +233,92 @@ _.assign(helper, {
 		assert.isDirectory(path.join(buildPath, 'WEB-INF'));
 		assert.isDirectory(templatesPath);
 
-		var customCSSFileName = getCssFileName(version);
+		let customCSSFileName = getCssFileName(version);
 
-		var customCSSPath = path.join(cssPath, customCSSFileName);
+		let customCSSPath = path.join(cssPath, customCSSFileName);
 
-		var fileContent = testUtil.stripNewlines(fs.readFileSync(customCSSPath, {
-			encoding: 'utf8'
-		}));
+		let fileContent = testUtil.stripNewlines(
+			fs.readFileSync(customCSSPath, {
+				encoding: 'utf8',
+			})
+		);
 
-		assert(fileContent.indexOf('/* inject:imports *//* endinject *//* ' + customCSSFileName + ' */') > -1);
+		assert(
+			fileContent.indexOf(
+				'/* inject:imports *//* endinject *//* ' +
+					customCSSFileName +
+					' */'
+			) > -1
+		);
 
-		assert.fileContentMatch(path.join(jsPath, 'main.js'), /console\.log\('main\.js'\)/);
+		assert.fileContentMatch(
+			path.join(jsPath, 'main.js'),
+			/console\.log\('main\.js'\)/
+		);
 		assert.isFile(path.join(cssPath, 'base/_text.scss'));
 
-		var templateLanguage = themeConfig.templateLanguage;
+		let templateLanguage = themeConfig.templateLanguage;
 
 		assert.isFile(path.join(templatesPath, 'init.' + templateLanguage));
-		assert.isFile(path.join(templatesPath, 'init_custom.' + templateLanguage));
-		assert.isFile(path.join(templatesPath, 'navigation.' + templateLanguage));
-		assert.isFile(path.join(templatesPath, 'portal_normal.' + templateLanguage));
-		assert.isFile(path.join(templatesPath, 'portal_pop_up.' + templateLanguage));
+		assert.isFile(
+			path.join(templatesPath, 'init_custom.' + templateLanguage)
+		);
+		assert.isFile(
+			path.join(templatesPath, 'navigation.' + templateLanguage)
+		);
+		assert.isFile(
+			path.join(templatesPath, 'portal_normal.' + templateLanguage)
+		);
+		assert.isFile(
+			path.join(templatesPath, 'portal_pop_up.' + templateLanguage)
+		);
 		assert.isFile(path.join(templatesPath, 'portlet.' + templateLanguage));
 
-		assert.fileContentMatch(path.join(templatesPath, 'portal_normal.' + templateLanguage), /BASE_THEME/);
+		assert.fileContentMatch(
+			path.join(templatesPath, 'portal_normal.' + templateLanguage),
+			/BASE_THEME/
+		);
 
 		cb();
 	},
 
 	_assertThemelets: function(cb) {
-		assert.isFile(path.join(buildPath, 'themelets/test-themelet/css/_custom.scss'));
-		assert.isFile(path.join(buildPath, 'themelets/test-themelet/images/icon.png'));
-		assert.isFile(path.join(buildPath, 'themelets/test-themelet/js/main.js'));
-		assert.isFile(path.join(buildPath, 'themelets/test-themelet/templates/freemarker.ftl'));
-		assert.isFile(path.join(buildPath, 'themelets/test-themelet/templates/velocity.vm'));
+		assert.isFile(
+			path.join(buildPath, 'themelets/test-themelet/css/_custom.scss')
+		);
+		assert.isFile(
+			path.join(buildPath, 'themelets/test-themelet/images/icon.png')
+		);
+		assert.isFile(
+			path.join(buildPath, 'themelets/test-themelet/js/main.js')
+		);
+		assert.isFile(
+			path.join(
+				buildPath,
+				'themelets/test-themelet/templates/freemarker.ftl'
+			)
+		);
+		assert.isFile(
+			path.join(
+				buildPath,
+				'themelets/test-themelet/templates/velocity.vm'
+			)
+		);
 
-		var customCSSFileName = getCssFileName(version);
+		let customCSSFileName = getCssFileName(version);
 
-		assert.fileContentMatch(path.join(buildPath, 'css', customCSSFileName), /@import "\.\.\/themelets\/test-themelet\/css\/_custom\.scss";/);
+		assert.fileContentMatch(
+			path.join(buildPath, 'css', customCSSFileName),
+			/@import "\.\.\/themelets\/test-themelet\/css\/_custom\.scss";/
+		);
 
 		// TODO: add inject tags to both 6.2 and 7.0 themes when in development
+
 		if (version != '6.2') {
-			assert.fileContentMatch(path.join(buildPath, 'templates/portal_normal.ftl'), /<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/);
+			assert.fileContentMatch(
+				path.join(buildPath, 'templates/portal_normal.ftl'),
+				/<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/
+			);
 		}
 
 		cb();
@@ -249,20 +331,22 @@ _.assign(helper, {
 	},
 
 	_assertWebInf: function(cb) {
-		var pathWebInf = path.join(buildPath, 'WEB-INF');
+		let pathWebInf = path.join(buildPath, 'WEB-INF');
 
 		assert.isDirectory(pathWebInf);
 
-		assert.isFile(path.join(pathWebInf, 'liferay-plugin-package.properties'));
+		assert.isFile(
+			path.join(pathWebInf, 'liferay-plugin-package.properties')
+		);
 
 		cb();
-	}
+	},
 });
 
 module.exports = helper;
 
 function getCssFileName(version) {
-	var fileName = '_custom.scss';
+	let fileName = '_custom.scss';
 
 	if (version == '6.2') {
 		fileName = 'custom.css';

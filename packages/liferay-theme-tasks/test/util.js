@@ -1,15 +1,15 @@
 'use strict';
 
-var _ = require('lodash');
-var assert = require('chai').assert;
-var del = require('del');
-var fs = require('fs-extra');
-var Gulp = require('gulp').Gulp;
-var os = require('os');
-var path = require('path');
-var sinon = require('sinon');
+let _ = require('lodash');
+let assert = require('chai').assert;
+let del = require('del');
+let fs = require('fs-extra');
+let Gulp = require('gulp').Gulp;
+let os = require('os');
+let path = require('path');
+let sinon = require('sinon');
 
-var osTempDir = os.tmpdir();
+let osTempDir = os.tmpdir();
 
 module.exports.assertBoundFunction = function(prototype, methodName, stub) {
 	prototype[methodName] = sinon.spy();
@@ -22,7 +22,7 @@ module.exports.assertBoundFunction = function(prototype, methodName, stub) {
 	};
 };
 
-var PrototypeMethodSpy = function() {
+let PrototypeMethodSpy = function() {
 	this.methods = [];
 };
 
@@ -34,13 +34,12 @@ PrototypeMethodSpy.prototype.add = function(parent, methodName, stub) {
 	this.methods.push({
 		method: parent[methodName],
 		methodName: methodName,
-		parent: parent
+		parent: parent,
 	});
 
 	if (stub) {
 		parent[methodName] = sinon.stub();
-	}
-	else {
+	} else {
 		parent[methodName] = sinon.spy();
 	}
 
@@ -58,63 +57,82 @@ PrototypeMethodSpy.prototype.flush = function() {
 module.exports.PrototypeMethodSpy = PrototypeMethodSpy;
 
 function copyTempTheme(options, cb) {
-	var themeName = options.themeName || 'base-theme';
-	var version = options.version || '7.0';
+	let themeName = options.themeName || 'base-theme';
+	let version = options.version || '7.0';
 
-	var tempPath = path.join(osTempDir, 'liferay-theme-tasks', options.namespace, version, themeName);
+	let tempPath = path.join(
+		osTempDir,
+		'liferay-theme-tasks',
+		options.namespace,
+		version,
+		themeName
+	);
 
-	var gulp;
-	var registerTasksOptions;
-	var runSequence;
+	let gulp;
+	let registerTasksOptions;
+	let runSequence;
 
-	fs.copy(path.join(__dirname, './fixtures/themes', version, themeName), tempPath, function(err) {
-		if (err) throw err;
+	fs.copy(
+		path.join(__dirname, './fixtures/themes', version, themeName),
+		tempPath,
+		function(err) {
+			if (err) throw err;
 
-		process.chdir(tempPath);
+			process.chdir(tempPath);
 
-		if (options.themeConfig) {
-			var lfrThemeConfig = require('../lib/liferay_theme_config');
+			if (options.themeConfig) {
+				let lfrThemeConfig = require('../lib/liferay_theme_config');
 
-			lfrThemeConfig.setConfig(options.themeConfig);
-		}
+				lfrThemeConfig.setConfig(options.themeConfig);
+			}
 
-		if (options.registerTasksOptions || options.registerTasks) {
-			deleteJsFromCache();
+			if (options.registerTasksOptions || options.registerTasks) {
+				deleteJsFromCache();
 
-			var registerTasks = require('../index.js').registerTasks;
+				let registerTasks = require('../index.js').registerTasks;
 
-			gulp = new Gulp();
+				gulp = new Gulp();
 
-			registerTasksOptions = _.assign({
-				distName: 'base-theme',
-				pathBuild: './custom_build_path',
+				registerTasksOptions = _.assign(
+					{
+						distName: 'base-theme',
+						pathBuild: './custom_build_path',
+						gulp: gulp,
+						pathSrc: './custom_src_path',
+						rubySass: false,
+					},
+					options.registerTasksOptions
+				);
+
+				registerTasks(registerTasksOptions);
+
+				runSequence = require('run-sequence').use(gulp);
+			}
+
+			cb({
 				gulp: gulp,
-				pathSrc: './custom_src_path',
-				rubySass: false
-			}, options.registerTasksOptions);
-
-			registerTasks(registerTasksOptions);
-
-			runSequence = require('run-sequence').use(gulp);
+				registerTasksOptions: registerTasksOptions,
+				runSequence: runSequence,
+				tempPath: tempPath,
+			});
 		}
-
-		cb({
-			gulp: gulp,
-			registerTasksOptions: registerTasksOptions,
-			runSequence: runSequence,
-			tempPath: tempPath
-		});
-	});
+	);
 }
 
 function cleanDirectory(directory) {
 	del.sync(path.join(directory, '**'), {
-		force: true
+		force: true,
 	});
 }
 
 function cleanTempTheme(themeName, version, component, cb) {
-	var tempPath = path.join(osTempDir, 'liferay-theme-tasks', component, version, themeName);
+	let tempPath = path.join(
+		osTempDir,
+		'liferay-theme-tasks',
+		component,
+		version,
+		themeName
+	);
 
 	if (arguments.length > 3) {
 		setTimeout(function() {
@@ -122,8 +140,7 @@ function cleanTempTheme(themeName, version, component, cb) {
 
 			cb();
 		}, 100);
-	}
-	else {
+	} else {
 		cleanDirectory(tempPath);
 	}
 }
@@ -132,17 +149,17 @@ module.exports.cleanTempTheme = cleanTempTheme;
 module.exports.copyTempTheme = copyTempTheme;
 
 function deleteDirJsFromCache(relativePath) {
-	var files = fs.readdirSync(path.join(__dirname, relativePath));
+	let files = fs.readdirSync(path.join(__dirname, relativePath));
 
 	_.forEach(files, function(item, index) {
 		if (_.endsWith(item, '.js')) {
-			deleteJsFileFromCache(path.join(__dirname, relativePath, item))
+			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}
 	});
 }
 
 function deleteJsFileFromCache(filePath) {
-	var registerTasksPath = require.resolve(filePath);
+	let registerTasksPath = require.resolve(filePath);
 
 	delete require.cache[registerTasksPath];
 }

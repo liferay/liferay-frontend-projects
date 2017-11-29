@@ -1,27 +1,28 @@
 'use strict';
 
-var _ = require('lodash');
-var async = require('async');
-var path = require('path');
-var plugins = require('gulp-load-plugins')();
-var vinylPaths = require('vinyl-paths');
+let _ = require('lodash');
+let async = require('async');
+let path = require('path');
+let plugins = require('gulp-load-plugins')();
+let vinylPaths = require('vinyl-paths');
 
-var lfrThemeConfig = require('../lib/liferay_theme_config');
+let divert = require('../lib/divert');
+let lfrThemeConfig = require('../lib/liferay_theme_config');
 
-var gutil = plugins.util;
+let gutil = plugins.util;
 
-var themeConfig = lfrThemeConfig.getConfig();
+let themeConfig = lfrThemeConfig.getConfig();
 
-var CWD = process.cwd();
+let CWD = process.cwd();
 
-var FORWARD_SLASH = '/';
+let FORWARD_SLASH = '/';
 
 module.exports = function(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
-	var pathBuild = options.pathBuild;
+	let pathBuild = options.pathBuild;
 
-	var runSequence = require('run-sequence').use(gulp);
+	let runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('build:themelets', function(cb) {
 		runSequence(
@@ -32,41 +33,65 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:themelet-css-inject', function(cb) {
-		var themeSrcPaths = path.join(pathBuild, 'themelets', '**', 'css', '**/*.+(css|scss)');
+		let themeSrcPaths = path.join(
+			pathBuild,
+			'themelets',
+			'**',
+			'css',
+			'**/*.+(css|scss)'
+		);
 
-		var injected = false;
-		var themeletSources = false;
+		let injected = false;
+		let themeletSources = false;
 
-		var sources = gulp.src(themeSrcPaths, {
-			read: false
-		}).pipe(vinylPaths(function(path, cb) {
-			themeletSources = true;
+		let sources = gulp
+			.src(themeSrcPaths, {
+				read: false,
+			})
+			.pipe(
+				vinylPaths(function(path, cb) {
+					themeletSources = true;
 
-			cb();
-		}));
+					cb();
+				})
+			);
 
-		var fileName = themeConfig.version === '6.2' ? 'custom.css' : '_custom.scss';
+		let fileName = divert('themelet').customCssFileName;
 
-		gulp.src(path.join(pathBuild, 'css', fileName))
-			.pipe(plugins.inject(sources, {
-				endtag: '/* endinject */',
-				starttag: '/* inject:imports */',
-				transform: function(filePath) {
-					injected = true;
+		gulp
+			.src(path.join(pathBuild, 'css', fileName))
+			.pipe(
+				plugins.inject(sources, {
+					endtag: '/* endinject */',
+					starttag: '/* inject:imports */',
+					transform: function(filePath) {
+						injected = true;
 
-					var filePathArray = getThemeletFilePathArray(filePath);
+						let filePathArray = getThemeletFilePathArray(filePath);
 
-					filePath = '..' + FORWARD_SLASH + filePathArray.join(FORWARD_SLASH);
+						filePath =
+							'..' +
+							FORWARD_SLASH +
+							filePathArray.join(FORWARD_SLASH);
 
-					return '@import "' + filePath + '";';
-				}
-			}))
+						return '@import "' + filePath + '";';
+					},
+				})
+			)
 			.pipe(gulp.dest(path.join(pathBuild, 'css')))
 			.on('end', function() {
-				if (!injected && themeletSources && !_.isEmpty(themeConfig.themeletDependencies)) {
-					var colors = gutil.colors;
+				if (
+					!injected &&
+					themeletSources &&
+					!_.isEmpty(themeConfig.themeletDependencies)
+				) {
+					let colors = gutil.colors;
 
-					gutil.log(colors.yellow('Warning:'), 'Failed to automatically inject themelet styles. Make sure inject tags are present in', colors.magenta(fileName));
+					gutil.log(
+						colors.yellow('Warning:'),
+						'Failed to automatically inject themelet styles. Make sure inject tags are present in',
+						colors.magenta(fileName)
+					);
 				}
 
 				cb();
@@ -74,53 +99,83 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:themelet-js-inject', function(cb) {
-		var themeSrcPaths = path.join(pathBuild, 'themelets', '**', 'js', '**/*.js');
+		let themeSrcPaths = path.join(
+			pathBuild,
+			'themelets',
+			'**',
+			'js',
+			'**/*.js'
+		);
 
-		var injected = false;
-		var themeletSources = false;
+		let injected = false;
+		let themeletSources = false;
 
-		var sources = gulp.src(themeSrcPaths, {
-			read: false
-		}).pipe(vinylPaths(function(path, cb) {
-			themeletSources = true;
+		let sources = gulp
+			.src(themeSrcPaths, {
+				read: false,
+			})
+			.pipe(
+				vinylPaths(function(path, cb) {
+					themeletSources = true;
 
-			cb();
-		}));
+					cb();
+				})
+			);
 
-		var defaultTemplateLanguage = 'ftl';
+		let defaultTemplateLanguage = divert('themelet')
+			.defaultTemplateLanguage;
 
-		if (themeConfig.version === '6.2') {
-			defaultTemplateLanguage = 'vm';
-		}
+		let templateLanguage =
+			themeConfig.templateLanguage || defaultTemplateLanguage;
 
-		var templateLanguage = themeConfig.templateLanguage || defaultTemplateLanguage;
-
-		var themeRootPath = '${theme_display.getPathThemeRoot()}';
+		let themeRootPath = '${theme_display.getPathThemeRoot()}';
 
 		if (templateLanguage === 'vm') {
 			themeRootPath = '$theme_display.getPathThemeRoot()';
 		}
 
-		gulp.src(path.join(pathBuild, 'templates/portal_normal.' + templateLanguage))
-			.pipe(plugins.inject(sources, {
-				endtag: '<!-- endinject -->',
-				starttag: '<!-- inject:js -->',
-				transform: function(filePath) {
-					injected = true;
+		gulp
+			.src(
+				path.join(
+					pathBuild,
+					'templates/portal_normal.' + templateLanguage
+				)
+			)
+			.pipe(
+				plugins.inject(sources, {
+					endtag: '<!-- endinject -->',
+					starttag: '<!-- inject:js -->',
+					transform: function(filePath) {
+						injected = true;
 
-					var filePathArray = getThemeletFilePathArray(filePath);
+						let filePathArray = getThemeletFilePathArray(filePath);
 
-					filePath = filePathArray.join(FORWARD_SLASH);
+						filePath = filePathArray.join(FORWARD_SLASH);
 
-					return '<script src="' + themeRootPath + FORWARD_SLASH + filePath + '"></script>';
-				}
-			}))
+						return (
+							'<script src="' +
+							themeRootPath +
+							FORWARD_SLASH +
+							filePath +
+							'"></script>'
+						);
+					},
+				})
+			)
 			.pipe(gulp.dest(path.join(pathBuild, 'templates')))
 			.on('end', function() {
-				if (!injected && themeletSources && !_.isEmpty(themeConfig.themeletDependencies)) {
-					var colors = gutil.colors;
+				if (
+					!injected &&
+					themeletSources &&
+					!_.isEmpty(themeConfig.themeletDependencies)
+				) {
+					let colors = gutil.colors;
 
-					gutil.log(colors.yellow('Warning:'), 'Failed to automatically inject themelet js. Make sure inject tags are present in', colors.magenta('portal_normal.' + templateLanguage));
+					gutil.log(
+						colors.yellow('Warning:'),
+						'Failed to automatically inject themelet js. Make sure inject tags are present in',
+						colors.magenta('portal_normal.' + templateLanguage)
+					);
 				}
 
 				cb();
@@ -129,14 +184,18 @@ module.exports = function(options) {
 
 	gulp.task('build:themelet-src', function(cb) {
 		runThemeletDependenciesSeries(function(item, index, done) {
-			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
+			gulp
+				.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
 				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))
 				.on('end', done);
 		}, cb);
 	});
 
 	function runThemeletDependenciesSeries(asyncTask, cb) {
-		var themeletStreamMap = _.map(getThemeletDependencies(), function(item, index) {
+		let themeletStreamMap = _.map(getThemeletDependencies(), function(
+			item,
+			index
+		) {
 			return _.bind(asyncTask, this, item, index);
 		});
 
@@ -145,19 +204,25 @@ module.exports = function(options) {
 };
 
 function getThemeletFilePathArray(filePath) {
-	var filePathArray = path.join(filePath).split(path.sep);
+	let filePathArray = path.join(filePath).split(path.sep);
 
-	filePathArray = filePathArray.slice(filePathArray.indexOf('themelets'), filePathArray.length);
+	filePathArray = filePathArray.slice(
+		filePathArray.indexOf('themelets'),
+		filePathArray.length
+	);
 
 	return filePathArray;
 }
 
 function getThemeletDependencies() {
-	var packageJSON = require(path.join(CWD, 'package.json'));
+	let packageJSON = require(path.join(CWD, 'package.json'));
 
-	var themeletDependencies;
+	let themeletDependencies;
 
-	if (packageJSON.liferayTheme && packageJSON.liferayTheme.themeletDependencies) {
+	if (
+		packageJSON.liferayTheme &&
+		packageJSON.liferayTheme.themeletDependencies
+	) {
 		themeletDependencies = packageJSON.liferayTheme.themeletDependencies;
 	}
 

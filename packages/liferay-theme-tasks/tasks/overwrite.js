@@ -1,65 +1,73 @@
 'use strict';
 
-var _ = require('lodash');
-var fs = require('fs');
-var gutil = require('gulp-util');
-var inquirer = require('inquirer');
-var path = require('path');
+let _ = require('lodash');
+let fs = require('fs');
+let gutil = require('gulp-util');
+let inquirer = require('inquirer');
+let path = require('path');
 
-var chalk = gutil.colors;
+let chalk = gutil.colors;
 
-var CWD = process.cwd();
+let CWD = process.cwd();
 
 module.exports = function(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
-	var pathBuild = options.pathBuild;
-	var pathSrc = options.pathSrc;
+	let pathBuild = options.pathBuild;
+	let pathSrc = options.pathSrc;
 
 	gulp.task('overwrite', function(cb) {
 		promptFiles('.', cb);
 	});
 
-	var blacklistedDirs = ['WEB-INF'];
+	let blacklistedDirs = ['WEB-INF'];
 
-	var goBackChoice = {
+	let goBackChoice = {
 		name: '^ Up one directory',
 		value: {
-			dir: true
-		}
+			dir: true,
+		},
 	};
 
 	function getFileChoices(dirPath) {
-		var buildFiles = readdir(path.join(CWD, pathBuild, dirPath));
-		var srcFiles = readdir(path.join(CWD, pathSrc, dirPath));
+		let buildFiles = readdir(path.join(CWD, pathBuild, dirPath));
+		let srcFiles = readdir(path.join(CWD, pathSrc, dirPath));
 
-		var choices = _.reduce(buildFiles, function(result, item) {
-			var filePath = path.join(dirPath, item);
+		let choices = _.reduce(
+			buildFiles,
+			function(result, item) {
+				let filePath = path.join(dirPath, item);
 
-			var dir = isDir(filePath);
+				let dir = isDir(filePath);
 
-			var name = dir ? item + '/' : item;
+				let name = dir ? item + '/' : item;
 
-			if ((!dir && srcFiles.indexOf(item) > -1) || (dir && blacklistedDirs.indexOf(item) > -1)) {
-				return result;
-			}
-
-			result.push({
-				name: name,
-				short: filePath,
-				value: {
-					dir: dir,
-					path: filePath
+				if (
+					(!dir && srcFiles.indexOf(item) > -1) ||
+					(dir && blacklistedDirs.indexOf(item) > -1)
+				) {
+					return result;
 				}
-			});
 
-			return result;
-		}, []);
+				result.push({
+					name: name,
+					short: filePath,
+					value: {
+						dir: dir,
+						path: filePath,
+					},
+				});
 
-		var parentPath = path.join(dirPath, '..');
+				return result;
+			},
+			[]
+		);
+
+		let parentPath = path.join(dirPath, '..');
 
 		if (dirPath !== '.') {
-			goBackChoice.short = parentPath === '.' ? path.basename(pathBuild) : parentPath;
+			goBackChoice.short =
+				parentPath === '.' ? path.basename(pathBuild) : parentPath;
 			goBackChoice.value.path = parentPath;
 
 			choices.splice(0, 0, goBackChoice);
@@ -73,52 +81,59 @@ module.exports = function(options) {
 	}
 
 	function logChanges(filePath) {
-		var themeDirName = path.basename(CWD);
+		let themeDirName = path.basename(CWD);
 
-		var destFile = chalk.cyan(path.join(themeDirName, pathSrc, filePath));
-		var srcFile = chalk.cyan(path.join(themeDirName, pathBuild, filePath));
+		let destFile = chalk.cyan(path.join(themeDirName, pathSrc, filePath));
+		let srcFile = chalk.cyan(path.join(themeDirName, pathBuild, filePath));
 
 		gutil.log(srcFile, 'copied to', destFile);
 	}
 
 	function promptFiles(dirPath, cb) {
-		var choices = getFileChoices(dirPath);
+		let choices = getFileChoices(dirPath);
 
 		if (dirPath === '.' && !validateBuild(choices)) {
-			gutil.log(chalk.yellow('You must run', chalk.cyan('gulp build'), 'prior to using the overwrite task!'));
+			gutil.log(
+				chalk.yellow(
+					'You must run',
+					chalk.cyan('gulp build'),
+					'prior to using the overwrite task!'
+				)
+			);
 
 			return cb();
 		}
 
-		inquirer.prompt({
-			choices: choices,
-			message: 'Please select a file or folder',
-			name: 'file',
-			type: 'list'
-		}, function(answers) {
-			if (answers.file.dir) {
-				promptFiles(answers.file.path, cb);
-			}
-			else {
-				logChanges(answers.file.path);
+		inquirer.prompt(
+			{
+				choices: choices,
+				message: 'Please select a file or folder',
+				name: 'file',
+				type: 'list',
+			},
+			function(answers) {
+				if (answers.file.dir) {
+					promptFiles(answers.file.path, cb);
+				} else {
+					logChanges(answers.file.path);
 
-				gulp.src(path.join(pathBuild, answers.file.path), {
-					base: pathBuild
-				})
-					.pipe(gulp.dest(pathSrc))
-					.on('end', cb);
+					gulp
+						.src(path.join(pathBuild, answers.file.path), {
+							base: pathBuild,
+						})
+						.pipe(gulp.dest(pathSrc))
+						.on('end', cb);
+				}
 			}
-		});
+		);
 	}
 
 	function readdir(dirPath) {
-		var files = [];
+		let files = [];
 
 		try {
 			files = fs.readdirSync(dirPath);
-		}
-		catch (err) {
-		}
+		} catch (err) {}
 
 		return files;
 	}

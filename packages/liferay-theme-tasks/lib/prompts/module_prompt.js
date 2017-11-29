@@ -1,9 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
-var inquirer = require('inquirer');
+let _ = require('lodash');
+let inquirer = require('inquirer');
 
-var promptUtil = require('./prompt_util');
+let promptUtil = require('./prompt_util');
 
 function ModulePrompt() {
 	this.init.apply(this, arguments);
@@ -11,7 +11,7 @@ function ModulePrompt() {
 
 ModulePrompt.prototype = {
 	init: function(config, cb) {
-		var instance = this;
+		let instance = this;
 
 		this.done = cb;
 		this.modules = config.modules;
@@ -23,7 +23,13 @@ ModulePrompt.prototype = {
 
 	_afterPrompt: function(answers) {
 		if (this.themelet) {
-			_.assign(answers, promptUtil.formatThemeletSelection(answers.module, this.selectedModules));
+			_.assign(
+				answers,
+				promptUtil.formatThemeletSelection(
+					answers.module,
+					this.selectedModules
+				)
+			);
 		}
 
 		answers.modules = this.modules;
@@ -50,11 +56,11 @@ ModulePrompt.prototype = {
 	},
 
 	_prompt: function() {
-		var instance = this;
+		let instance = this;
 
-		var themelet = this.themelet;
+		let themelet = this.themelet;
 
-		var listType = promptUtil.getListType();
+		let listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
@@ -64,12 +70,12 @@ ModulePrompt.prototype = {
 					message: themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'module',
 					type: themelet ? 'checkbox' : listType,
-					when: _.bind(instance._getModuleWhen, instance)
-				}
+					when: _.bind(instance._getModuleWhen, instance),
+				},
 			],
 			_.bind(instance._afterPrompt, instance)
 		);
-	}
+	},
 };
 
 ModulePrompt.prompt = function(config, cb) {

@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
-var fs = require('fs-extra');
-var path = require('path');
+let _ = require('lodash');
+let fs = require('fs-extra');
+let path = require('path');
 
 function deleteDependencies(sourceDependencies, deletedDependencies) {
 	_.forEach(sourceDependencies, function(item, index) {
@@ -15,25 +15,31 @@ function deleteDependencies(sourceDependencies, deletedDependencies) {
 function getPackageJSON(alternatePath) {
 	alternatePath = alternatePath || process.cwd();
 
-	var packageJSONContent = fs.readFileSync(path.join(alternatePath, 'package.json'), {
-		encoding: 'utf8'
-	});
+	let packageJSONContent = fs.readFileSync(
+		path.join(alternatePath, 'package.json'),
+		{
+			encoding: 'utf8',
+		}
+	);
 
 	return JSON.parse(packageJSONContent);
 }
 
 function writePackageJSON(json) {
-	fs.writeFileSync(path.join(process.cwd(), 'package.json'), JSON.stringify(json, null, '\t'));
+	fs.writeFileSync(
+		path.join(process.cwd(), 'package.json'),
+		JSON.stringify(json, null, '\t')
+	);
 }
 
 module.exports.getConfig = function(all, alternatePath) {
-	var packageJSON = getPackageJSON(alternatePath);
+	let packageJSON = getPackageJSON(alternatePath);
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 };
 
 module.exports.removeConfig = function(settings) {
-	var packageJSON = getPackageJSON();
+	let packageJSON = getPackageJSON();
 
 	packageJSON.liferayTheme = _.omit(packageJSON.liferayTheme, settings);
 
@@ -41,7 +47,7 @@ module.exports.removeConfig = function(settings) {
 };
 
 module.exports.removeDependencies = function(dependencies) {
-	var packageJSON = getPackageJSON();
+	let packageJSON = getPackageJSON();
 
 	deleteDependencies(packageJSON.dependencies, dependencies);
 	deleteDependencies(packageJSON.devDependencies, dependencies);
@@ -50,7 +56,7 @@ module.exports.removeDependencies = function(dependencies) {
 };
 
 module.exports.setConfig = function(config) {
-	var packageJSON = getPackageJSON();
+	let packageJSON = getPackageJSON();
 
 	if (packageJSON.liferayTheme) {
 		if (config.baseTheme) {
@@ -63,16 +69,16 @@ module.exports.setConfig = function(config) {
 	}
 
 	packageJSON = _.merge(packageJSON, {
-		liferayTheme: config
+		liferayTheme: config,
 	});
 
 	writePackageJSON(packageJSON);
 };
 
 module.exports.setDependencies = function(dependencies, devDependencies) {
-	var packageJSON = getPackageJSON();
+	let packageJSON = getPackageJSON();
 
-	var selector = devDependencies ? 'devDependencies' : 'dependencies';
+	let selector = devDependencies ? 'devDependencies' : 'dependencies';
 
 	if (!packageJSON[selector]) {
 		packageJSON[selector] = {};

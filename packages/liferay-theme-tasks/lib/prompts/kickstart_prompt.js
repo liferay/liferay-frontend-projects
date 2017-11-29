@@ -1,14 +1,15 @@
 'use strict';
 
-var _ = require('lodash');
-var exec = require('child_process').exec;
-var inquirer = require('inquirer');
-var path = require('path');
+let _ = require('lodash');
+let exec = require('child_process').exec;
+let inquirer = require('inquirer');
+let path = require('path');
 
-var GlobalModulePrompt = require('./global_module_prompt');
-var NPMModulePrompt = require('./npm_module_prompt');
-var promptUtil = require('./prompt_util');
-var themeUtil = require('../util');
+let GlobalModulePrompt = require('./global_module_prompt');
+let NPMModulePrompt = require('./npm_module_prompt');
+let promptUtil = require('./prompt_util');
+let themeUtil = require('../util');
+let divert = require('../divert');
 
 function KiststartPrompt() {
 	this.init.apply(this, arguments);
@@ -23,96 +24,86 @@ KiststartPrompt.prototype = {
 	},
 
 	_afterPromptModule: function(answers) {
-		var done = this.done;
+		let done = this.done;
 
-		var module = answers.module;
+		let module = answers.module;
 
-		var pkg = answers.modules[module];
+		let pkg = answers.modules[module];
 
 		if (pkg && pkg.realPath) {
 			answers.modulePath = path.join(pkg.realPath, 'src');
 
 			done(answers);
-		}
-		else if (pkg) {
+		} else if (pkg) {
 			this._installTempModule(module, function() {
 				done(answers);
 			});
-		}
-		else {
+		} else {
 			done(answers);
 		}
 	},
 
 	_afterPromptThemeSource: function(answers) {
-		var config = {
-			themelet: false
+		let config = {
+			themelet: false,
 		};
 
-		var themeSource = answers.themeSource;
+		let themeSource = answers.themeSource;
 
 		if (themeSource === 'npm') {
-			NPMModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
-		}
-		else if (themeSource === 'global') {
-			GlobalModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
-		}
-		else if (themeSource === 'classic') {
-			var classicPath = themeUtil.resolveDependency('liferay-frontend-theme-classic-web', this.themeConfig.version);
+			NPMModulePrompt.prompt(
+				config,
+				_.bind(this._afterPromptModule, this)
+			);
+		} else if (themeSource === 'global') {
+			GlobalModulePrompt.prompt(
+				config,
+				_.bind(this._afterPromptModule, this)
+			);
+		} else if (themeSource === 'classic') {
+			let classicPath = themeUtil.resolveDependency(
+				'liferay-frontend-theme-classic-web',
+				this.themeConfig.version
+			);
 
 			this.done({
-				modulePath: classicPath
+				modulePath: classicPath,
 			});
 		}
 	},
 
 	_installTempModule: function(moduleName, cb) {
-		var tempNodeModulesPath = path.join(process.cwd(), '.temp_node_modules');
+		let tempNodeModulesPath = path.join(
+			process.cwd(),
+			'.temp_node_modules'
+		);
 
-		var child = exec('npm install --prefix ' + tempNodeModulesPath + ' ' + moduleName, cb);
+		let child = exec(
+			'npm install --prefix ' + tempNodeModulesPath + ' ' + moduleName,
+			cb
+		);
 
 		child.stdout.pipe(process.stdout);
 		child.stderr.pipe(process.stdout);
 	},
 
 	_promptThemeSource: function() {
-		var instance = this;
+		let instance = this;
 
-		var listType = promptUtil.getListType();
-
-		var choices = [
-			{
-				name: 'Search globally installed npm modules',
-				value: 'global'
-			},
-			{
-				name: 'Search npm registry (published modules)',
-				value: 'npm'
-			}
-		];
-
-		if (this.themeConfig && this.themeConfig.version !== '6.2') {
-			choices = choices.concat([
-				new inquirer.Separator(),
-				{
-					name: 'Classic',
-					value: 'classic'
-				}
-			]);
-		}
+		let listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
 				{
-					choices: choices,
+					choices: divert('kickstart_choices').choices,
 					message: 'Where would you like to search?',
 					name: 'themeSource',
-					type: listType
-				}
+					type: listType,
+				},
 			],
 			_.bind(instance._afterPromptThemeSource, instance)
 		);
-	}
+	},
 };
 
 KiststartPrompt.prompt = function(config, cb) {

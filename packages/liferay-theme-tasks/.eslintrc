@@ -1,0 +1,18 @@
+{
+    "env": {
+        "node": true
+    },
+    "extends": "liferay",
+    "rules": {
+        "eol-last": 0,
+        "max-len": 0,
+        "no-invalid-this": 0,
+        "no-redeclare": 0,
+        "no-unused-vars": 0,
+        "no-useless-escape": 0,
+        "no-var": 0,
+        "prefer-rest-params": 0,
+        "prefer-spread": 0,
+        "require-jsdoc": 0
+    }
+}

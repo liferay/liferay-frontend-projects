@@ -1,46 +1,58 @@
 'use strict';
 
-var _ = require('lodash');
-var os = require('os');
+let _ = require('lodash');
+let os = require('os');
 
-var promptUtil = {};
+let promptUtil = {};
 
 promptUtil.formatThemeletSelection = function(modules, selectedModules) {
-	var formattedSelection = {};
+	let formattedSelection = {};
 
 	if (selectedModules) {
-		formattedSelection.removedThemelets = _.reduce(modules, function(result, selected, name) {
-			if (selectedModules.indexOf(name) > -1 && !selected) {
-				result.push(name);
-			}
+		formattedSelection.removedThemelets = _.reduce(
+			modules,
+			function(result, selected, name) {
+				if (selectedModules.indexOf(name) > -1 && !selected) {
+					result.push(name);
+				}
 
-			return result;
-		}, []);
+				return result;
+			},
+			[]
+		);
 
-		formattedSelection.keptThemelets = _.reduce(modules, function(result, selected, name) {
-			if (selected && selectedModules.indexOf(name) > -1) {
-				result.push(name);
-			}
+		formattedSelection.keptThemelets = _.reduce(
+			modules,
+			function(result, selected, name) {
+				if (selected && selectedModules.indexOf(name) > -1) {
+					result.push(name);
+				}
 
-			return result;
-		}, []);
+				return result;
+			},
+			[]
+		);
 	}
 
 	selectedModules = selectedModules || [];
 
-	formattedSelection.addedThemelets = _.reduce(modules, function(result, selected, name) {
-		if (selected && selectedModules.indexOf(name) < 0) {
-			result.push(name);
-		}
+	formattedSelection.addedThemelets = _.reduce(
+		modules,
+		function(result, selected, name) {
+			if (selected && selectedModules.indexOf(name) < 0) {
+				result.push(name);
+			}
 
-		return result;
-	}, []);
+			return result;
+		},
+		[]
+	);
 
 	return formattedSelection;
 };
 
 promptUtil.getListType = function() {
-	var listType = 'list';
+	let listType = 'list';
 
 	if (process.version > 'v0.12.7' && os.type() === 'Windows_NT') {
 		listType = 'rawlist';
@@ -50,21 +62,24 @@ promptUtil.getListType = function() {
 };
 
 promptUtil.getModuleChoices = function(modules, config) {
-	var selectedModules = config.selectedModules;
+	let selectedModules = config.selectedModules;
 
 	if (config.themelet) {
 		return _.map(modules, function(module, name) {
 			return {
 				checked: selectedModules && selectedModules.indexOf(name) > -1,
-				name: name
+				name: name,
 			};
 		});
 	}
 
 	return _.map(modules, function(module, name) {
 		return {
-			name: selectedModules && selectedModules.indexOf(name) > -1 ? name + ' (selected)' : name,
-			value: name
+			name:
+				selectedModules && selectedModules.indexOf(name) > -1
+					? name + ' (selected)'
+					: name,
+			value: name,
 		};
 	});
 };

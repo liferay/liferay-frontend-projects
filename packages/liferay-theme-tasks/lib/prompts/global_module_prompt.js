@@ -1,12 +1,12 @@
 'use strict';
 
-var _ = require('lodash');
-var gutil = require('gulp-util');
+let _ = require('lodash');
+let gutil = require('gulp-util');
 
-var chalk = gutil.colors;
+let chalk = gutil.colors;
 
-var ModulePrompt = require('./module_prompt');
-var themeFinder = require('../theme_finder');
+let ModulePrompt = require('./module_prompt');
+let themeFinder = require('../theme_finder');
 
 function GlobalModulePrompt() {
 	this.init.apply(this, arguments);
@@ -14,7 +14,7 @@ function GlobalModulePrompt() {
 
 GlobalModulePrompt.prototype = {
 	init: function(config, cb) {
-		var instance = this;
+		let instance = this;
 
 		this.done = cb;
 		this.selectedModules = config.selectedModules;
@@ -23,15 +23,24 @@ GlobalModulePrompt.prototype = {
 		this._getGlobalModules(function(modules) {
 			instance.modules = modules;
 
-			ModulePrompt.prompt(instance, _.bind(instance._afterPrompt, instance));
+			ModulePrompt.prompt(
+				instance,
+				_.bind(instance._afterPrompt, instance)
+			);
 		});
 	},
 
 	_afterPrompt: function(answers) {
-		var type = this.themelet ? 'themelet' : 'theme';
+		let type = this.themelet ? 'themelet' : 'theme';
 
 		if (_.isEmpty(this.modules)) {
-			gutil.log(chalk.yellow('No globally installed ' + type + ' found. Install some with "npm i -g [name]"'));
+			gutil.log(
+				chalk.yellow(
+					'No globally installed ' +
+						type +
+						' found. Install some with "npm i -g [name]"'
+				)
+			);
 
 			if (!process.env.NODE_PATH) {
 				gutil.log(
@@ -47,11 +56,14 @@ GlobalModulePrompt.prototype = {
 	},
 
 	_getGlobalModules: function(cb) {
-		themeFinder.getLiferayThemeModules({
-			globalModules: true,
-			themelet: this.themelet
-		}, cb);
-	}
+		themeFinder.getLiferayThemeModules(
+			{
+				globalModules: true,
+				themelet: this.themelet,
+			},
+			cb
+		);
+	},
 };
 
 GlobalModulePrompt.prompt = function(config, cb) {

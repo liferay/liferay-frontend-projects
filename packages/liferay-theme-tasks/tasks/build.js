@@ -1,37 +1,37 @@
 'use strict';
 
-var _ = require('lodash');
-var del = require('del');
-var fs = require('fs-extra');
-var gutil = require('gulp-util');;
-var path = require('path');
-var plugins = require('gulp-load-plugins')();
-var replace = require('gulp-replace-task');
+let _ = require('lodash');
+let del = require('del');
+let fs = require('fs-extra');
+let gutil = require('gulp-util');
+let path = require('path');
+let plugins = require('gulp-load-plugins')();
+let replace = require('gulp-replace-task');
 
-var lfrThemeConfig = require('../lib/liferay_theme_config');
-var lookAndFeelUtil = require('../lib/look_and_feel_util');
-var themeUtil = require('../lib/util');
-var versionMap = require('../lib/version_map');
+let divert = require('../lib/divert');
+let lfrThemeConfig = require('../lib/liferay_theme_config');
+let lookAndFeelUtil = require('../lib/look_and_feel_util');
+let themeUtil = require('../lib/util');
 
-var STR_FTL = 'ftl';
+let STR_FTL = 'ftl';
 
-var STR_VM = 'vm';
+let STR_VM = 'vm';
 
-var themeConfig = lfrThemeConfig.getConfig();
+let themeConfig = lfrThemeConfig.getConfig();
 
-var baseThemeGlob = getBaseThemeGlob(themeConfig.templateLanguage);
+let baseThemeGlob = getBaseThemeGlob(themeConfig.templateLanguage);
 
-var renamedFiles;
+let renamedFiles;
 
 module.exports = function(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
-	var store = gulp.storage;
+	let store = gulp.storage;
 
-	var pathBuild = options.pathBuild;
-	var pathSrc = options.pathSrc;
+	let pathBuild = options.pathBuild;
+	let pathSrc = options.pathSrc;
 
-	var runSequence = require('run-sequence').use(gulp);
+	let runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('build', function(cb) {
 		runSequence(
@@ -56,12 +56,18 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:base', function() {
-		var sourceFiles = [path.join(themeUtil.resolveDependency(versionMap.getDependencyName('unstyled')), baseThemeGlob)];
+		let sourceFiles = [
+			path.join(
+				themeUtil.resolveDependency(
+					divert('dependencies').getDependencyName('unstyled')
+				),
+				baseThemeGlob
+			),
+		];
 
 		sourceFiles = getBaseThemeDependencies(process.cwd(), sourceFiles);
 
-		return gulp.src(sourceFiles)
-			.pipe(gulp.dest(pathBuild));
+		return gulp.src(sourceFiles).pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:clean', function(cb) {
@@ -69,35 +75,49 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-css', function(cb) {
-		var changedFile = getSrcPathConfig().changedFile;
+		let changedFile = getSrcPathConfig().changedFile;
 
 		// During watch task, exit task early if changed file is not css
-		if (changedFile && changedFile.type === 'changed' && !themeUtil.isCssFile(changedFile.path)) {
+
+		if (
+			changedFile &&
+			changedFile.type === 'changed' &&
+			!themeUtil.isCssFile(changedFile.path)
+		) {
 			cb();
 
 			return;
 		}
 
-		var compileTask = themeConfig.rubySass ? 'build:compile-ruby-sass' : 'build:compile-lib-sass';
+		let compileTask = themeConfig.rubySass
+			? 'build:compile-ruby-sass'
+			: 'build:compile-lib-sass';
 
 		runSequence(compileTask, cb);
 	});
 
 	gulp.task('build:compile-lib-sass', function(cb) {
-		var gulpIf = require('gulp-if');
-		var gulpSass = themeUtil.requireDependency('gulp-sass', themeConfig.version);
-		var gulpSourceMaps = require('gulp-sourcemaps');
+		let gulpIf = require('gulp-if');
+		let gulpSass = themeUtil.requireDependency(
+			'gulp-sass',
+			themeConfig.version
+		);
+		let gulpSourceMaps = require('gulp-sourcemaps');
 
-		var sassOptions = getSassOptions(options.sassOptions, {
-			includePaths: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
-			sourceMap: false
+		let sassOptions = getSassOptions(options.sassOptions, {
+			includePaths: getSassIncludePaths(themeConfig.rubySass),
+			sourceMap: false,
 		});
 
-		var cssBuild = pathBuild + '/_css';
+		let cssBuild = pathBuild + '/_css';
 
-		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '!(_)*.scss'), getSrcPathConfig());
+		let srcPath = themeUtil.getCssSrcPath(
+			path.join(cssBuild, '!(_)*.scss'),
+			getSrcPathConfig()
+		);
 
-		gulp.src(srcPath)
+		gulp
+			.src(srcPath)
 			.pipe(plugins.plumber())
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.init()))
 			.pipe(gulpSass(sassOptions))
@@ -108,19 +128,25 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-ruby-sass', function(cb) {
-		var gulpIf = require('gulp-if');
-		var gulpRubySass = themeUtil.requireDependency('gulp-ruby-sass', themeConfig.version);
-		var gulpSourceMaps = require('gulp-sourcemaps');
+		let gulpIf = require('gulp-if');
+		let gulpRubySass = themeUtil.requireDependency(
+			'gulp-ruby-sass',
+			themeConfig.version
+		);
+		let gulpSourceMaps = require('gulp-sourcemaps');
 
-		var sassOptions = getSassOptions(options.sassOptions, {
+		let sassOptions = getSassOptions(options.sassOptions, {
 			compass: true,
-			loadPath: getSassInlcudePaths(themeConfig.version, themeConfig.rubySass),
-			sourcemap: false
+			loadPath: getSassIncludePaths(themeConfig.rubySass),
+			sourcemap: false,
 		});
 
-		var cssBuild = pathBuild + '/_css';
+		let cssBuild = pathBuild + '/_css';
 
-		var srcPath = themeUtil.getCssSrcPath(path.join(cssBuild, '*.scss'), getSrcPathConfig());
+		let srcPath = themeUtil.getCssSrcPath(
+			path.join(cssBuild, '*.scss'),
+			getSrcPathConfig()
+		);
 
 		gulpRubySass(srcPath, sassOptions)
 			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.init()))
@@ -130,164 +156,161 @@ module.exports = function(options) {
 			.on('end', function() {
 				if (renamedFiles && renamedFiles.length) {
 					del(renamedFiles, cb);
-				}
-				else {
+				} else {
 					cb();
 				}
 			});
 	});
 
 	gulp.task('build:fix-at-directives', function() {
-		var keyframeRulesReplace = function(match, m1, m2) {
-			return _.map(m1.split(','), function(item) {
-				return item.replace(/.*?(from|to|[0-9\.]+%)/g, '$1');
-			}).join(',') + m2;
-		};
+		let patterns = divert('build').getFixAtDirectivesPatterns();
 
-		var patterns = [
-			{
-				match: /(@font-face|@page|@-ms-viewport)\s*({\n\s*)(.*)\s*({)/g,
-				replacement: function(match, m1, m2, m3, m4) {
-					return m3 + m2 + m1 + ' ' + m4;
-				}
-			},
-			{
-				match: /(@-ms-keyframes.*{)([\s\S]+?)(}\s})/g,
-				replacement: function(match, m1, m2, m3) {
-					m2 = m2.replace(/(.+?)(\s?{)/g, keyframeRulesReplace);
-
-					return m1 + m2 + m3;
-				}
-			}
-		];
-
-		if (themeConfig.version !== '6.2') {
-			patterns.push({
-				match: /@import\s+url\s*\(\s*['\"]?(.+\.css)['\"]?/g,
-				replacement: function(match, m1) {
-					return '@import url(' + m1 + '?t=' + Date.now();
-				}
-			});
-		}
-
-		return gulp.src(pathBuild + '/css/*.css')
-			.pipe(replace({
-				patterns: patterns
-			}))
+		return gulp
+			.src(pathBuild + '/css/*.css')
+			.pipe(
+				replace({
+					patterns: patterns,
+				})
+			)
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
+
 	gulp.task('build:fix-url-functions', function(cb) {
 		if (themeConfig.rubySass) {
 			cb();
-		}
-		else {
-			gulp.src(pathBuild + '/_css/**/*.css')
-				.pipe(replace({
-					patterns: [
-						{
-							match: /url\(url\(\)/g,
-							replacement: 'url()'
-						}
-					]
-				}))
-				.pipe(gulp.dest(pathBuild + '/_css', {
-					overwrite: true
-				}))
+		} else {
+			gulp
+				.src(pathBuild + '/_css/**/*.css')
+				.pipe(
+					replace({
+						patterns: [
+							{
+								match: /url\(url\(\)/g,
+								replacement: 'url()',
+							},
+						],
+					})
+				)
+				.pipe(
+					gulp.dest(pathBuild + '/_css', {
+						overwrite: true,
+					})
+				)
 				.on('end', cb);
 		}
 	});
 
 	gulp.task('build:hook', function() {
-		var languageProperties = themeUtil.getLanguageProperties(pathBuild);
+		let languageProperties = themeUtil.getLanguageProperties(pathBuild);
 
-		return gulp.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
-			.pipe(replace({
-				patterns: [
-					{
-						match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
-						replacement: function() {
-							var retVal = '';
+		return gulp
+			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
+							replacement: function() {
+								let retVal = '';
 
-							if (languageProperties) {
-								retVal = languageProperties.join('\n\t');
-							}
+								if (languageProperties) {
+									retVal = languageProperties.join('\n\t');
+								}
 
-							return retVal;
-						}
-					}
-				]
-			}))
+								return retVal;
+							},
+						},
+					],
+				})
+			)
 			.pipe(plugins.rename('liferay-hook.xml.processed'))
 			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
 	gulp.task('build:src', function() {
-		return gulp.src(path.join(pathSrc, '**/*'), {
-			base: pathSrc
-		})
+		return gulp
+			.src(path.join(pathSrc, '**/*'), {
+				base: pathSrc,
+			})
 			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:web-inf', function() {
-		return gulp.src(pathBuild + '/WEB-INF/src/**/*', {
-			base: pathBuild + '/WEB-INF/src'
-		})
+		return gulp
+			.src(pathBuild + '/WEB-INF/src/**/*', {
+				base: pathBuild + '/WEB-INF/src',
+			})
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
 
 	gulp.task('build:liferay-look-and-feel', function(cb) {
-		var themePath = process.cwd();
+		let themePath = process.cwd();
 
-		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, function(lookAndFeelJSON) {
+		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, function(
+			lookAndFeelJSON
+		) {
 			if (!lookAndFeelJSON) {
 				return cb();
 			}
 
-			var themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(themePath);
+			let themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
+				themePath
+			);
 
 			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeName);
 
-			var doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(themePath);
+			let doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(
+				themePath
+			);
 
 			if (!doctypeElement) {
-				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(themeConfig.version);
+				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(
+					themeConfig.version
+				);
 			}
 
-			var xml = lookAndFeelUtil.buildXML(lookAndFeelJSON, doctypeElement);
+			let xml = lookAndFeelUtil.buildXML(lookAndFeelJSON, doctypeElement);
 
-			fs.writeFile(path.join(themePath, pathBuild, 'WEB-INF/liferay-look-and-feel.xml'), xml, function(err) {
-				if (err) {
-					throw err;
+			fs.writeFile(
+				path.join(
+					themePath,
+					pathBuild,
+					'WEB-INF/liferay-look-and-feel.xml'
+				),
+				xml,
+				function(err) {
+					if (err) {
+						throw err;
+					}
+
+					cb();
 				}
-
-				cb();
-			});
+			);
 		});
 	});
 
-	gulp.task('build:prep-css', function(cb) {
-		if (themeConfig.version === '6.2') {
-			runSequence('build:rename-css-files', cb);
-		}
-		else {
-			cb();
-		}
-	});
+	gulp.task('build:prep-css', done =>
+		divert('build').taskPrepCss(gulp, done)
+	);
 
 	gulp.task('build:move-compiled-css', function() {
-		return gulp.src(pathBuild + '/_css/**/*')
+		return gulp
+			.src(pathBuild + '/_css/**/*')
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
 	gulp.task('build:r2', function() {
-		var r2 = require('gulp-liferay-r2-css');
+		let r2 = require('gulp-liferay-r2-css');
 
-		return gulp.src(pathBuild + '/css/*.css')
-			.pipe(plugins.rename({
-				suffix: '_rtl'
-			}))
+		return gulp
+			.src(pathBuild + '/css/*.css')
+			.pipe(
+				plugins.rename({
+					suffix: '_rtl',
+				})
+			)
 			.pipe(plugins.plumber())
 			.pipe(r2())
 			.pipe(gulp.dest(pathBuild + '/css'));
@@ -302,46 +325,43 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:rename-css-files', function(cb) {
-		var cssBuild = pathBuild + '/_css';
+		let cssBuild = pathBuild + '/_css';
 
-		var vinylPaths = require('vinyl-paths');
+		let vinylPaths = require('vinyl-paths');
 
 		renamedFiles = [];
 
-		var changeFile = store.get('changedFile');
+		let changeFile = store.get('changedFile');
 
-		var base = changeFile ? pathSrc + '/css' : pathBuild + '/css';
+		let base = changeFile ? pathSrc + '/css' : pathBuild + '/css';
 
-		gulp.src(path.join(cssBuild, '**/*.css'), {
-			base: base
-		})
-			.pipe(plugins.rename({
-				extname: '.scss'
-			}))
-			.pipe(vinylPaths(function(path, done) {
-				renamedFiles.push(path);
+		gulp
+			.src(path.join(cssBuild, '**/*.css'), {
+				base: base,
+			})
+			.pipe(
+				plugins.rename({
+					extname: '.scss',
+				})
+			)
+			.pipe(
+				vinylPaths(function(path, done) {
+					renamedFiles.push(path);
 
-				done();
-			}))
+					done();
+				})
+			)
 			.pipe(gulp.dest(cssBuild))
 			.on('end', cb);
 	});
 
-	gulp.task('build:war', function(done) {
-		var sequence = ['plugin:war', done];
-
-		if (themeConfig.version !== '6.2') {
-			sequence.splice(0, 0, 'plugin:version');
-		}
-
-		runSequence.apply(this, sequence);
-	});
+	gulp.task('build:war', done => divert('build').taskWar(gulp, done));
 
 	function getSrcPathConfig() {
 		return {
 			changedFile: store.get('changedFile'),
 			deployed: store.get('deployed'),
-			version: themeConfig.version
+			version: themeConfig.version,
 		};
 	}
 
@@ -350,30 +370,50 @@ module.exports = function(options) {
 			gutil.log(err);
 
 			this.emit('end');
-		}
-		else {
+		} else {
 			throw err;
 		}
 	}
 };
 
 function getBaseThemeDependencies(baseThemePath, dependencies) {
-	var baseThemeInfo = getLiferayThemeJSON(baseThemePath);
+	let baseThemeInfo = getLiferayThemeJSON(baseThemePath);
 
-	var baseTheme = baseThemeInfo.baseTheme;
+	let baseTheme = baseThemeInfo.baseTheme;
 
 	if (_.isObject(baseTheme)) {
-		baseThemePath = path.join(baseThemePath, 'node_modules', baseTheme.name);
+		baseThemePath = path.join(
+			baseThemePath,
+			'node_modules',
+			baseTheme.name
+		);
 
 		dependencies.push(path.resolve(baseThemePath, 'src/**/*'));
 
 		return getBaseThemeDependencies(baseThemePath, dependencies);
-	}
-	else if (baseTheme === 'styled' || baseTheme === 'classic') {
-		dependencies.splice(1, 0, path.join(themeUtil.resolveDependency(versionMap.getDependencyName('styled')), baseThemeGlob));
+	} else if (baseTheme === 'styled' || baseTheme === 'classic') {
+		dependencies.splice(
+			1,
+			0,
+			path.join(
+				themeUtil.resolveDependency(
+					divert('dependencies').getDependencyName('styled')
+				),
+				baseThemeGlob
+			)
+		);
 
 		if (baseTheme === 'classic') {
-			dependencies.splice(2, 0, path.join(themeUtil.resolveDependency(versionMap.getDependencyName('classic')), baseThemeGlob));
+			dependencies.splice(
+				2,
+				0,
+				path.join(
+					themeUtil.resolveDependency(
+						divert('dependencies').getDependencyName('classic')
+					),
+					baseThemeGlob
+				)
+			);
 		}
 
 		return dependencies;
@@ -383,15 +423,13 @@ function getBaseThemeDependencies(baseThemePath, dependencies) {
 }
 
 function getBaseThemeGlob(templateLanguage) {
-	var glob = '**/!(package.json';
+	let glob = '**/!(package.json';
 
 	if (templateLanguage === STR_FTL) {
 		templateLanguage = STR_VM;
-	}
-	else if (templateLanguage === STR_VM) {
+	} else if (templateLanguage === STR_VM) {
 		templateLanguage = STR_FTL;
-	}
-	else {
+	} else {
 		return glob + ')';
 	}
 
@@ -402,16 +440,14 @@ function getLiferayThemeJSON(themePath) {
 	return require(path.join(themePath, 'package.json')).liferayTheme;
 }
 
-function getSassInlcudePaths(version, rubySass) {
-	var includePaths = [
-		themeUtil.resolveDependency(versionMap.getDependencyName('mixins'))
+function getSassIncludePaths(rubySass) {
+	let includePaths = [
+		themeUtil.resolveDependency(
+			divert('dependencies').getDependencyName('mixins')
+		),
 	];
 
-	if (version !== '6.2') {
-		var createBourbonFile = require('../lib/bourbon_dependencies').createBourbonFile;
-
-		includePaths = includePaths.concat(createBourbonFile());
-	}
+	includePaths = divert('build').concatBourbonIncludePaths(includePaths);
 
 	if (!rubySass) {
 		includePaths.push(path.dirname(require.resolve('compass-mixins')));
@@ -423,8 +459,7 @@ function getSassInlcudePaths(version, rubySass) {
 function getSassOptions(sassOptions, defaults) {
 	if (_.isFunction(sassOptions)) {
 		sassOptions = sassOptions(defaults);
-	}
-	else {
+	} else {
 		sassOptions = _.assign(defaults, sassOptions);
 	}
 

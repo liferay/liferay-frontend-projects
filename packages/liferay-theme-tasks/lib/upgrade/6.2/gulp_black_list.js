@@ -1,9 +1,9 @@
 'use strict';
 
-var through = require('through2');
+let through = require('through2');
 
 function blackList(fileContents, regexp, list) {
-	var match = regexp.exec(fileContents);
+	let match = regexp.exec(fileContents);
 
 	if (match && list.indexOf(match[1]) < 0) {
 		list.push(match[1]);
@@ -11,13 +11,13 @@ function blackList(fileContents, regexp, list) {
 }
 
 function blackListFunctions(fileContents, list) {
-	var regexp = /@function\s(.*)\(/g;
+	let regexp = /@function\s(.*)\(/g;
 
 	blackList(fileContents, regexp, list);
 }
 
 function blackListMixins(fileContents, list) {
-	var regexp = /@mixin\s(.*)\(/g;
+	let regexp = /@mixin\s(.*)\(/g;
 
 	blackList(fileContents, regexp, list);
 }
@@ -25,29 +25,32 @@ function blackListMixins(fileContents, list) {
 function gulpBlackList(options, done) {
 	options = options || {};
 
-	var blackListData = {
+	let blackListData = {
 		functions: [],
-		mixins: []
+		mixins: [],
 	};
 
-	return through.obj(function(file, enc, cb) {
-		if (file.isNull()) {
-			return cb(null, file);
+	return through.obj(
+		function(file, enc, cb) {
+			if (file.isNull()) {
+				return cb(null, file);
+			}
+
+			if (file.isBuffer()) {
+				let fileContentsString = file.contents.toString('utf8');
+
+				blackListFunctions(fileContentsString, blackListData.functions);
+				blackListMixins(fileContentsString, blackListData.mixins);
+			}
+
+			cb(null, file);
+		},
+		function(cb) {
+			done(blackListData);
+
+			cb();
 		}
-
-		if (file.isBuffer()) {
-			var fileContentsString = file.contents.toString('utf8');
-
-			blackListFunctions(fileContentsString, blackListData.functions);
-			blackListMixins(fileContentsString, blackListData.mixins);
-		}
-
-		cb(null, file);
-	}, function(cb) {
-		done(blackListData);
-
-		cb();
-	});
+	);
 }
 
 module.exports = gulpBlackList;

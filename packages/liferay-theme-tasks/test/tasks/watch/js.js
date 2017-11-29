@@ -1,42 +1,46 @@
 'use strict';
 
-var chai = require('chai');
-var del = require('del');
-var fs = require('fs-extra');
-var path = require('path');
-var test = require('ava');
+let chai = require('chai');
+let del = require('del');
+let fs = require('fs-extra');
+let path = require('path');
+let test = require('ava');
 
-var testUtil = require('../../util');
+let testUtil = require('../../util');
 
-var gulp;
-var runSequence;
+let gulp;
+let runSequence;
 
-var assert = chai.assert;
+let assert = chai.assert;
+
 chai.use(require('chai-fs'));
 
-var appServerPathPlugin;
-var tempPath;
+let appServerPathPlugin;
+let tempPath;
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'watch_task_js',
-		registerTasks: true
-	}, function(config) {
-		gulp = config.gulp;
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
+	testUtil.copyTempTheme(
+		{
+			namespace: 'watch_task_js',
+			registerTasks: true,
+		},
+		function(config) {
+			gulp = config.gulp;
+			runSequence = config.runSequence;
+			tempPath = config.tempPath;
 
-		appServerPathPlugin = path.join(tempPath, '../appserver');
+			appServerPathPlugin = path.join(tempPath, '../appserver');
 
-		config.gulp.storage.set({
-			appServerPathPlugin: appServerPathPlugin,
-			deployed: true
-		});
+			config.gulp.storage.set({
+				appServerPathPlugin: appServerPathPlugin,
+				deployed: true,
+			});
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.cb.after(function(t) {
@@ -46,17 +50,17 @@ test.cb.after(function(t) {
 test.cb('watch task should deploy js files correctly on change', function(t) {
 	gulp.storage.set('changedFile', {
 		path: 'custom_src_path/js/main.js',
-		type: 'changed'
+		type: 'changed',
 	});
 
 	runJsWatchSequence(function() {
-		var jsDir = path.join(appServerPathPlugin, 'js');
+		let jsDir = path.join(appServerPathPlugin, 'js');
 
-		var deployedFilePath = path.join(jsDir, 'main.js');
+		let deployedFilePath = path.join(jsDir, 'main.js');
 
 		assert.isFile(deployedFilePath);
 
-		var regex = /console\.log\(\'main\.js\'\);/;
+		let regex = /console\.log\(\'main\.js\'\);/;
 
 		assert.fileContentMatch(deployedFilePath, regex);
 

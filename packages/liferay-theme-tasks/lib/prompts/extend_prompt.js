@@ -1,17 +1,17 @@
 'use strict';
 
-var _ = require('lodash');
-var argv = require('minimist')(process.argv.slice(2));
-var exec = require('child_process').exec;
-var inquirer = require('inquirer');
+let _ = require('lodash');
+let argv = require('minimist')(process.argv.slice(2));
+let exec = require('child_process').exec;
+let inquirer = require('inquirer');
 
-var GlobalModulePrompt = require('./global_module_prompt');
-var lfrThemeConfig = require('../liferay_theme_config');
-var NPMModulePrompt = require('./npm_module_prompt');
-var promptUtil = require('./prompt_util');
-var themeFinder = require('../theme_finder');
+let GlobalModulePrompt = require('./global_module_prompt');
+let lfrThemeConfig = require('../liferay_theme_config');
+let NPMModulePrompt = require('./npm_module_prompt');
+let promptUtil = require('./prompt_util');
+let themeFinder = require('../theme_finder');
 
-var moduleName = argv.name;
+let moduleName = argv.name;
 
 function ExtendPrompt() {
 	this.init.apply(this, arguments);
@@ -19,7 +19,7 @@ function ExtendPrompt() {
 
 ExtendPrompt.prototype = {
 	init: function(config, cb) {
-		var instance = this;
+		let instance = this;
 
 		this.themeConfig = config.themeConfig || lfrThemeConfig.getConfig();
 
@@ -31,25 +31,23 @@ ExtendPrompt.prototype = {
 					throw err;
 				}
 
-				var modules = {};
+				let modules = {};
 
 				modules[moduleName] = pkg;
 
 				if (pkg.liferayTheme.themelet) {
 					instance._afterPromptThemelets({
 						addedThemelets: [moduleName],
-						modules: modules
+						modules: modules,
 					});
-				}
-				else {
+				} else {
 					instance._afterPromptTheme({
 						module: moduleName,
-						modules: modules
+						modules: modules,
 					});
 				}
 			});
-		}
-		else {
+		} else {
 			this._promptThemeSource();
 		}
 	},
@@ -57,18 +55,17 @@ ExtendPrompt.prototype = {
 	_afterPromptModule: function(answers) {
 		if (answers.addedThemelets) {
 			this._afterPromptThemelets(answers);
-		}
-		else {
+		} else {
 			this._afterPromptTheme(answers);
 		}
 	},
 
 	_afterPromptTheme: function(answers) {
-		var instance = this;
+		let instance = this;
 
-		var baseTheme = this.themeConfig.baseTheme;
-		var module = answers.module;
-		var modulePackages = answers.modules;
+		let baseTheme = this.themeConfig.baseTheme;
+		let module = answers.module;
+		let modulePackages = answers.modules;
 
 		if (!module) {
 			instance.done();
@@ -80,10 +77,10 @@ ExtendPrompt.prototype = {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
 		}
 
-		var reducedPkg = this._reducePkgData(modulePackages[module]);
+		let reducedPkg = this._reducePkgData(modulePackages[module]);
 
 		lfrThemeConfig.setConfig({
-			baseTheme: reducedPkg
+			baseTheme: reducedPkg,
 		});
 
 		this._saveDependencies([reducedPkg]);
@@ -94,18 +91,22 @@ ExtendPrompt.prototype = {
 	},
 
 	_afterPromptThemelets: function(answers) {
-		var instance = this;
+		let instance = this;
 
-		var modulePackages = answers.modules;
-		var themeletDependencies = this.themeConfig.themeletDependencies || {};
+		let modulePackages = answers.modules;
+		let themeletDependencies = this.themeConfig.themeletDependencies || {};
 
-		var reducedThemelets = _.reduce(answers.addedThemelets, function(result, item) {
-			result[item] = instance._reducePkgData(modulePackages[item]);
+		let reducedThemelets = _.reduce(
+			answers.addedThemelets,
+			function(result, item) {
+				result[item] = instance._reducePkgData(modulePackages[item]);
 
-			return result;
-		}, themeletDependencies);
+				return result;
+			},
+			themeletDependencies
+		);
 
-		var removedThemelets = answers.removedThemelets;
+		let removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
 			_.forEach(removedThemelets, function(item) {
@@ -116,7 +117,7 @@ ExtendPrompt.prototype = {
 		}
 
 		lfrThemeConfig.setConfig({
-			themeletDependencies: reducedThemelets
+			themeletDependencies: reducedThemelets,
 		});
 
 		this._saveDependencies(reducedThemelets);
@@ -125,30 +126,33 @@ ExtendPrompt.prototype = {
 			this._installDependencies(reducedThemelets, function() {
 				instance.done();
 			});
-		}
-		else {
+		} else {
 			instance.done();
 		}
 	},
 
 	_afterPromptThemeSource: function(answers) {
-		var themelet = answers.extendType === 'themelet';
-		var themeSource = answers.themeSource;
+		let themelet = answers.extendType === 'themelet';
+		let themeSource = answers.themeSource;
 
 		if (themeSource === 'styled' || themeSource === 'unstyled') {
 			this._setStaticBaseTheme(themeSource);
-		}
-		else {
-			var config = {
+		} else {
+			let config = {
 				selectedModules: this._getSelectedModules(themelet),
-				themelet: themelet
+				themelet: themelet,
 			};
 
 			if (themeSource === 'global') {
-				GlobalModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
-			}
-			else if (themeSource === 'npm') {
-				NPMModulePrompt.prompt(config, _.bind(this._afterPromptModule, this));
+				GlobalModulePrompt.prompt(
+					config,
+					_.bind(this._afterPromptModule, this)
+				);
+			} else if (themeSource === 'npm') {
+				NPMModulePrompt.prompt(
+					config,
+					_.bind(this._afterPromptModule, this)
+				);
 			}
 		}
 	},
@@ -160,26 +164,30 @@ ExtendPrompt.prototype = {
 	},
 
 	_getDependencyInstallationArray: function(dependencies) {
-		var instance = this;
+		let instance = this;
 
-		var themeVersion = this.themeConfig.version;
+		let themeVersion = this.themeConfig.version;
 
 		return _.map(dependencies, function(item) {
-			var path = item.path;
+			let path = item.path;
 
-			return path ? path : item.name + instance._getDistTag(item, themeVersion, '@');
+			return path
+				? path
+				: item.name + instance._getDistTag(item, themeVersion, '@');
 		});
 	},
 
 	_getDistTag: function(config, version, prefix) {
-		var supportedVersion = config.liferayTheme.version;
+		let supportedVersion = config.liferayTheme.version;
 
-		var tag = prefix || '';
+		let tag = prefix || '';
 
-		if (this._isSupported(supportedVersion, version) && this._hasPublishTag(config)) {
+		if (
+			this._isSupported(supportedVersion, version) &&
+			this._hasPublishTag(config)
+		) {
 			tag += version.replace('.', '_') + '_x';
-		}
-		else {
+		} else {
 			tag += '*';
 		}
 
@@ -187,16 +195,18 @@ ExtendPrompt.prototype = {
 	},
 
 	_getSelectedModules: function(themelet) {
-		var selectedModules;
+		let selectedModules;
 
-		var baseTheme = this.themeConfig.baseTheme;
+		let baseTheme = this.themeConfig.baseTheme;
 
 		if (themelet) {
-			selectedModules = _.map(this.themeConfig.themeletDependencies, function(item) {
-				return item.name;
-			});
-		}
-		else if (_.isObject(baseTheme)) {
+			selectedModules = _.map(
+				this.themeConfig.themeletDependencies,
+				function(item) {
+					return item.name;
+				}
+			);
+		} else if (_.isObject(baseTheme)) {
 			selectedModules = [baseTheme.name];
 		}
 
@@ -204,30 +214,31 @@ ExtendPrompt.prototype = {
 	},
 
 	_getThemeSourceChoices: function() {
-		var extendType = this._extendType;
+		let extendType = this._extendType;
 
-		var searchOptions = [
+		let searchOptions = [
 			{
-				name: 'Search globally installed npm modules (development purposes only)',
-				value: 'global'
+				name:
+					'Search globally installed npm modules (development purposes only)',
+				value: 'global',
 			},
 			{
 				name: 'Search npm registry (published modules)',
-				value: 'npm'
-			}
+				value: 'npm',
+			},
 		];
 
 		if (extendType === 'theme') {
-			var baseThemeChoices = [
+			let baseThemeChoices = [
 				{
 					name: 'Styled',
-					value: 'styled'
+					value: 'styled',
 				},
 				{
 					name: 'Unstyled',
-					value: 'unstyled'
+					value: 'unstyled',
 				},
-				new inquirer.Separator()
+				new inquirer.Separator(),
 			];
 
 			searchOptions = baseThemeChoices.concat(searchOptions);
@@ -237,7 +248,9 @@ ExtendPrompt.prototype = {
 	},
 
 	_getThemeSourceMessage: function() {
-		return this._extendType === 'theme' ? 'What base theme would you like to extend?' : 'Where would you like to search for themelets?';
+		return this._extendType === 'theme'
+			? 'What base theme would you like to extend?'
+			: 'Where would you like to search for themelets?';
 	},
 
 	_hasPublishTag: function(config) {
@@ -245,22 +258,26 @@ ExtendPrompt.prototype = {
 	},
 
 	_installDependencies: function(dependencies, cb) {
-		var modules = this._getDependencyInstallationArray(dependencies);
+		let modules = this._getDependencyInstallationArray(dependencies);
 
-		var child = exec('npm install ' + modules.join(' '), cb);
+		let child = exec('npm install ' + modules.join(' '), cb);
 
 		child.stderr.pipe(process.stdout);
 		child.stdout.pipe(process.stdout);
 	},
 
 	_isSupported: function(supportedVersion, version) {
-		return (_.isArray(supportedVersion) && _.contains(supportedVersion, version)) || supportedVersion === version;
+		return (
+			(_.isArray(supportedVersion) &&
+				_.contains(supportedVersion, version)) ||
+			supportedVersion === version
+		);
 	},
 
 	_promptThemeSource: function() {
-		var instance = this;
+		let instance = this;
 
-		var listType = promptUtil.getListType();
+		let listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
@@ -268,31 +285,32 @@ ExtendPrompt.prototype = {
 					choices: [
 						{
 							name: 'Base theme',
-							value: 'theme'
+							value: 'theme',
 						},
 						{
 							name: 'Themelet',
-							value: 'themelet'
-						}
+							value: 'themelet',
+						},
 					],
 					filter: _.bind(instance._filterExtendType, instance),
-					message: 'What kind of theme asset would you like to extend?',
+					message:
+						'What kind of theme asset would you like to extend?',
 					name: 'extendType',
-					type: listType
+					type: listType,
 				},
 				{
 					choices: _.bind(instance._getThemeSourceChoices, instance),
 					message: _.bind(instance._getThemeSourceMessage, instance),
 					name: 'themeSource',
-					type: listType
-				}
+					type: listType,
+				},
 			],
 			_.bind(instance._afterPromptThemeSource, instance)
 		);
 	},
 
 	_reducePkgData: function(pkg) {
-		var realPath = pkg.realPath;
+		let realPath = pkg.realPath;
 
 		pkg = _.pick(pkg, ['liferayTheme', 'name', 'publishConfig', 'version']);
 
@@ -304,34 +322,40 @@ ExtendPrompt.prototype = {
 	},
 
 	_saveDependencies: function(updatedData) {
-		var instance = this;
+		let instance = this;
 
-		var themeVersion = this.themeConfig.version;
+		let themeVersion = this.themeConfig.version;
 
-		var dependencies = _.reduce(updatedData, function(result, item) {
-			var moduleVersion = item.path ? item.path : instance._getDistTag(item, themeVersion);
+		let dependencies = _.reduce(
+			updatedData,
+			function(result, item) {
+				let moduleVersion = item.path
+					? item.path
+					: instance._getDistTag(item, themeVersion);
 
-			result[item.name] = moduleVersion;
+				result[item.name] = moduleVersion;
 
-			return result;
-		}, {});
+				return result;
+			},
+			{}
+		);
 
 		lfrThemeConfig.setDependencies(dependencies);
 	},
 
 	_setStaticBaseTheme: function(themeSource) {
-		var baseTheme = this.themeConfig.baseTheme;
+		let baseTheme = this.themeConfig.baseTheme;
 
 		if (_.isObject(baseTheme)) {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
 		}
 
 		lfrThemeConfig.setConfig({
-			baseTheme: themeSource
+			baseTheme: themeSource,
 		});
 
 		this.done();
-	}
+	},
 };
 
 ExtendPrompt.prompt = function(config, cb) {
