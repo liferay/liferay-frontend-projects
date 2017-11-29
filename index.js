@@ -203,6 +203,7 @@ module.exports = {
     'max-len': [2, { // google
       code: 80,
       comments: 120,
+      ignoreRegExpLiterals: true,
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
       ignoreUrls: true,
