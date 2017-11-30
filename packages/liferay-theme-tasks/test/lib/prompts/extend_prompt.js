@@ -428,11 +428,11 @@ test.cb(
 );
 
 test('_isSupported should validate version', function(t) {
-	let version = '7.0';
+	let version = '2.0';
 
-	t.true(!prototype._isSupported('6.2', version));
-	t.true(!prototype._isSupported(['6.2'], version));
-	t.true(prototype._isSupported(['6.2', version], version));
+	t.true(!prototype._isSupported('1.0', version));
+	t.true(!prototype._isSupported(['1.0'], version));
+	t.true(prototype._isSupported(['1.0', version], version));
 	t.true(prototype._isSupported(version, version));
 });
 

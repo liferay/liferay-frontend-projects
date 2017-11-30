@@ -1,15 +1,20 @@
 'use strict';
 
-let _ = require('lodash');
-let del = require('del');
-let divert = require('../../lib/divert');
-let fs = require('fs-extra');
-let os = require('os');
-let path = require('path');
-let test = require('ava');
+const _ = require('lodash');
+const del = require('del');
+const fs = require('fs-extra');
+const os = require('os');
+const path = require('path');
+const test = require('ava');
 
-let initCwd = process.cwd();
-let tempPath = path.join(os.tmpdir(), 'liferay-theme-tasks', 'doctor-fixtures');
+const {doctor} = require('../../lib/doctor');
+
+const initCwd = process.cwd();
+const tempPath = path.join(
+	os.tmpdir(),
+	'liferay-theme-tasks',
+	'doctor-fixtures'
+);
 
 test.cb.before(function(t) {
 	fs.copy(
@@ -40,7 +45,7 @@ test('should throw appropriate error message', function(t) {
 	let pkg = require(path.join(__dirname, '../fixtures/json/_package.json'));
 
 	t.throws(function() {
-		divert('doctor').doctor(pkg, true);
+		doctor({themeConfig: pkg, haltOnMissingDeps: true, tasks: []});
 	}, 'Missing 2 theme dependencies');
 });
 
@@ -53,7 +58,7 @@ test('should look for dependencies regardless if devDependency or not', function
 	));
 
 	t.notThrows(function() {
-		divert('doctor').doctor(pkg, true);
+		doctor({themeConfig: pkg, haltOnMissingDeps: true, tasks: []});
 	});
 });
 
@@ -62,7 +67,7 @@ test('should replace supportCompass with rubySass', function(t) {
 
 	let pkg = require(pkgPath);
 
-	divert('doctor').doctor(pkg, true);
+	doctor({themeConfig: pkg, haltOnMissingDeps: true, tasks: []});
 
 	let updatedPkg = JSON.parse(fs.readFileSync(pkgPath));
 

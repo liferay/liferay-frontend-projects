@@ -31,9 +31,6 @@ let CUSTOM_DEP_PATH_FLAG_MAP = {
 };
 
 module.exports = {
-	getCssSrcPath: (srcPath, config) =>
-		divert('util_helpers', config.version).getCssSrcPath(srcPath, config),
-
 	getLanguageProperties: function(pathBuild) {
 		let pathContent = path.join(pathBuild, 'WEB-INF/src/content');
 

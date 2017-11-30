@@ -50,38 +50,6 @@ test.after(function() {
 	testUtil.cleanTempTheme(themeName, '7.0', 'util');
 });
 
-test('getCssSrcPath should return original src path if version is not equal to 6.2', function(
-	t
-) {
-	let originalSrcPath = path.join(cssBuild, '*.scss');
-
-	let srcPath = util.getCssSrcPath(originalSrcPath, utilConfig);
-
-	t.is(originalSrcPath, srcPath);
-});
-
-test('getCssSrcPath should return file specific src path if version is 6.2 and changed file is not a sass partial', function(
-	t
-) {
-	utilConfig.changedFile.path = path.join(
-		tempPath,
-		'src/css/_aui_variables.scss'
-	);
-	utilConfig.version = '6.2';
-
-	let originalSrcPath = path.join(cssBuild, '*.scss');
-
-	let srcPath = util.getCssSrcPath(originalSrcPath, utilConfig);
-
-	t.is(originalSrcPath, srcPath);
-
-	utilConfig.changedFile.path = path.join(tempPath, 'src/css/custom.css');
-
-	srcPath = util.getCssSrcPath(originalSrcPath, utilConfig);
-
-	t.is(srcPath, path.join('build/_css/custom.scss'));
-});
-
 test('isCssFile should only return true if css file', function(t) {
 	t.true(util.isCssFile('custom.css'));
 	t.true(!util.isCssFile('main.js'));

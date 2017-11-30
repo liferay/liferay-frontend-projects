@@ -1,16 +1,16 @@
 'use strict';
 
-let _ = require('lodash');
-let globby = require('globby');
-let liferayPluginTasks = require('liferay-plugin-node-tasks');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
+const _ = require('lodash');
+const globby = require('globby');
+const liferayPluginTasks = require('liferay-plugin-node-tasks');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
 
-let divert = require('./lib/divert');
-let lfrThemeConfig = require('./lib/liferay_theme_config');
-let versionControl = require('./lib/version_control.js');
+const {doctor} = require('./lib/doctor');
+const lfrThemeConfig = require('./lib/liferay_theme_config');
+const versionControl = require('./lib/version_control.js');
 
-let themeConfig = lfrThemeConfig.getConfig();
+const themeConfig = lfrThemeConfig.getConfig();
 
 module.exports.registerTasks = function(options) {
 	options = require('./lib/options')(options);
@@ -45,10 +45,12 @@ function register(options) {
 		require(item)(options);
 	});
 
-	let halt =
+	let haltOnMissingDeps =
 		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
 
-	divert('doctor').doctor(null, halt);
+	const tasks = options.insideTests ? [] : options.argv._;
+
+	doctor({haltOnMissingDeps, tasks});
 
 	if (!options.argv['skip-update-check']) {
 		process.once('beforeExit', function() {

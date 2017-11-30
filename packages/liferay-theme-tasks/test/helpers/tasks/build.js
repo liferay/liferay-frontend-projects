@@ -187,17 +187,10 @@ _.assign(helper, {
 
 		assert.isDirectory(cssPath);
 
-		if (version === '6.2') {
-			assert.fileContentMatch(
-				path.join(cssPath, 'main.css'),
-				/@import\surl\(custom\.css\);/
-			);
-		} else {
-			assert.fileContentMatch(
-				path.join(cssPath, 'main.css'),
-				/@import\surl\(file\.css\?t=[0-9]+\);/
-			);
-		}
+		assert.fileContentMatch(
+			path.join(cssPath, 'main.css'),
+			/@import\surl\(file\.css\?t=[0-9]+\);/
+		);
 
 		cb();
 	},
@@ -233,7 +226,7 @@ _.assign(helper, {
 		assert.isDirectory(path.join(buildPath, 'WEB-INF'));
 		assert.isDirectory(templatesPath);
 
-		let customCSSFileName = getCssFileName(version);
+		let customCSSFileName = '_custom.scss';
 
 		let customCSSPath = path.join(cssPath, customCSSFileName);
 
@@ -305,21 +298,19 @@ _.assign(helper, {
 			)
 		);
 
-		let customCSSFileName = getCssFileName(version);
+		let customCSSFileName = '_custom.scss';
 
 		assert.fileContentMatch(
 			path.join(buildPath, 'css', customCSSFileName),
 			/@import "\.\.\/themelets\/test-themelet\/css\/_custom\.scss";/
 		);
 
-		// TODO: add inject tags to both 6.2 and 7.0 themes when in development
+		// TODO: add inject tags to themes when in development
 
-		if (version != '6.2') {
-			assert.fileContentMatch(
-				path.join(buildPath, 'templates/portal_normal.ftl'),
-				/<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/
-			);
-		}
+		assert.fileContentMatch(
+			path.join(buildPath, 'templates/portal_normal.ftl'),
+			/<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/
+		);
 
 		cb();
 	},
@@ -344,13 +335,3 @@ _.assign(helper, {
 });
 
 module.exports = helper;
-
-function getCssFileName(version) {
-	let fileName = '_custom.scss';
-
-	if (version == '6.2') {
-		fileName = 'custom.css';
-	}
-
-	return fileName;
-}

@@ -111,10 +111,7 @@ module.exports = function(options) {
 
 		let cssBuild = pathBuild + '/_css';
 
-		let srcPath = themeUtil.getCssSrcPath(
-			path.join(cssBuild, '!(_)*.scss'),
-			getSrcPathConfig()
-		);
+		let srcPath = path.join(cssBuild, '!(_)*.scss');
 
 		gulp
 			.src(srcPath)
@@ -143,10 +140,7 @@ module.exports = function(options) {
 
 		let cssBuild = pathBuild + '/_css';
 
-		let srcPath = themeUtil.getCssSrcPath(
-			path.join(cssBuild, '*.scss'),
-			getSrcPathConfig()
-		);
+		let srcPath = path.join(cssBuild, '*.scss');
 
 		gulpRubySass(srcPath, sassOptions)
 			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.init()))

@@ -100,6 +100,7 @@ function copyTempTheme(options, cb) {
 						gulp: gulp,
 						pathSrc: './custom_src_path',
 						rubySass: false,
+						insideTests: true,
 					},
 					options.registerTasksOptions
 				);

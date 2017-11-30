@@ -88,18 +88,11 @@ test('getLookAndFeelDoctype should extract doctype from liferay-look-and-feel.xm
 test('getLookAndFeelDoctypeByVersion should generate correct doctype string based on version', function(
 	t
 ) {
-	let doctype = lookAndFeelUtil.getLookAndFeelDoctypeByVersion('7.0');
+	let doctype = lookAndFeelUtil.getLookAndFeelDoctypeByVersion('1.0');
 
 	t.is(
 		doctype,
-		'<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_0_0.dtd">'
-	);
-
-	doctype = lookAndFeelUtil.getLookAndFeelDoctypeByVersion('6.2');
-
-	t.is(
-		doctype,
-		'<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.2.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_2_0.dtd">'
+		'<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 1.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_1_0_0.dtd">'
 	);
 });
 
