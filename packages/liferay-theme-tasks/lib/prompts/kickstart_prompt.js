@@ -1,21 +1,18 @@
 'use strict';
 
-let _ = require('lodash');
-let exec = require('child_process').exec;
+let {exec} = require('child_process');
 let inquirer = require('inquirer');
+let _ = require('lodash');
 let path = require('path');
 
-let GlobalModulePrompt = require('./global_module_prompt');
-let NPMModulePrompt = require('./npm_module_prompt');
 let promptUtil = require('./prompt_util');
-let themeUtil = require('../util');
 let divert = require('../divert');
 
-function KiststartPrompt() {
+function KickstartPrompt() {
 	this.init.apply(this, arguments);
 }
 
-KiststartPrompt.prototype = {
+KickstartPrompt.prototype = {
 	init: function(config, cb) {
 		this.done = cb;
 		this.themeConfig = config.themeConfig;
@@ -44,32 +41,10 @@ KiststartPrompt.prototype = {
 	},
 
 	_afterPromptThemeSource: function(answers) {
-		let config = {
-			themelet: false,
-		};
-
-		let themeSource = answers.themeSource;
-
-		if (themeSource === 'npm') {
-			NPMModulePrompt.prompt(
-				config,
-				_.bind(this._afterPromptModule, this)
-			);
-		} else if (themeSource === 'global') {
-			GlobalModulePrompt.prompt(
-				config,
-				_.bind(this._afterPromptModule, this)
-			);
-		} else if (themeSource === 'classic') {
-			let classicPath = themeUtil.resolveDependency(
-				'liferay-frontend-theme-classic-web',
-				this.themeConfig.version
-			);
-
-			this.done({
-				modulePath: classicPath,
-			});
-		}
+		divert('kickstart_prompt_helpers')._afterPromptThemeSource(
+			answers,
+			this
+		);
 	},
 
 	_installTempModule: function(moduleName, cb) {
@@ -95,7 +70,7 @@ KiststartPrompt.prototype = {
 		inquirer.prompt(
 			[
 				{
-					choices: divert('kickstart_choices').choices,
+					choices: divert('kickstart_prompt_helpers').choices,
 					message: 'Where would you like to search?',
 					name: 'themeSource',
 					type: listType,
@@ -106,8 +81,8 @@ KiststartPrompt.prototype = {
 	},
 };
 
-KiststartPrompt.prompt = function(config, cb) {
-	return new KiststartPrompt(config, cb);
+KickstartPrompt.prompt = function(config, cb) {
+	return new KickstartPrompt(config, cb);
 };
 
-module.exports = KiststartPrompt;
+module.exports = KickstartPrompt;

@@ -3,13 +3,12 @@
 const _ = require('lodash');
 const gutil = require('gulp-util');
 
-const divert = require('./divert');
 const lfrThemeConfig = require('./liferay_theme_config');
 
 const chalk = gutil.colors;
 
 // This array contains all theme versions supported for non-upgrade tasks
-const supportedThemeVersions = ['7.0'];
+const supportedThemeVersions = ['7.0', '7.1'];
 
 // This array contains all theme versions supported for upgrade tasks
 const supportedUpgradeVersions = ['6.2'];
@@ -46,14 +45,7 @@ function doctor(
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
-	let missingDeps = 0;
-
-	missingDeps = divert('doctor_helpers').checkMissingDeps(
-		dependencies,
-		missingDeps,
-		rubySass,
-		logMissingDeps
-	);
+	let missingDeps = checkMissingDeps(dependencies, rubySass);
 
 	checkDependencySources(themeConfig.liferayTheme);
 
@@ -118,6 +110,26 @@ function checkDependencySources(liferayTheme) {
 	if (localDependencies.length) {
 		logLocalDependencies(localDependencies);
 	}
+}
+
+function checkMissingDeps(dependencies, rubySass) {
+	let missingDeps = 0;
+
+	missingDeps = logMissingDeps(
+		dependencies,
+		'liferay-theme-deps-7.0',
+		missingDeps
+	);
+
+	if (rubySass) {
+		missingDeps = logMissingDeps(
+			dependencies,
+			'gulp-ruby-sass',
+			missingDeps
+		);
+	}
+
+	return missingDeps;
 }
 
 function haltTask(missingDeps) {

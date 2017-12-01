@@ -1,30 +1,26 @@
 'use strict';
 
-let _ = require('lodash');
-let argv = require('minimist')(process.argv.slice(2));
-let fs = require('fs-extra');
-let gutil = require('gulp-util');
-let path = require('path');
-let resolve = require('resolve');
+const _ = require('lodash');
+const argv = require('minimist')(process.argv.slice(2));
+const fs = require('fs-extra');
+const gutil = require('gulp-util');
+const path = require('path');
+const resolve = require('resolve');
 
-let divert = require('./divert');
-let lfrThemeConfig = require('./liferay_theme_config');
+const lfrThemeConfig = require('./liferay_theme_config');
 
-let chalk = gutil.colors;
+const chalk = gutil.colors;
+const pkg = lfrThemeConfig.getConfig(true);
+const themeConfig = pkg.liferayTheme;
+const fullDeploy = argv.full || argv.f;
 
-let pkg = lfrThemeConfig.getConfig(true);
-
-let themeConfig = pkg.liferayTheme;
-
-let fullDeploy = argv.full || argv.f;
-
-let CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
+const depModuleName = 'liferay-theme-deps-7.0';
+const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
 	'liferay-frontend-theme-styled': 'LIFERAY_THEME_STYLED_PATH',
 	'liferay-frontend-theme-unstyled': 'LIFERAY_THEME_UNSTYLED_PATH',
 };
-
-let CUSTOM_DEP_PATH_FLAG_MAP = {
+const CUSTOM_DEP_PATH_FLAG_MAP = {
 	'liferay-frontend-common-css': 'css-common-path',
 	'liferay-frontend-theme-styled': 'styled-path',
 	'liferay-frontend-theme-unstyled': 'unstyled-path',
@@ -61,7 +57,9 @@ module.exports = {
 		return _.endsWith(name, '.css') || _.endsWith(name, '.scss');
 	},
 
-	isSassPartial: divert('util_helpers').isSassPartial,
+	isSassPartial: function isSassPartial(name) {
+		return _.startsWith(path.basename(name), '_');
+	},
 
 	requireDependency: function(dependency, version) {
 		let depsPath = this._getDepsPath(pkg, dependency, version);
@@ -129,8 +127,6 @@ module.exports = {
 		}
 
 		version = version || themeConfig.version;
-
-		let depModuleName = divert('util_helpers', version).depModuleName;
 
 		let depsPath = path.dirname(require.resolve(depModuleName));
 

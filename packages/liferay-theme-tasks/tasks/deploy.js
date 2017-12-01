@@ -16,21 +16,15 @@ let livereload = plugins.livereload;
 let themeConfig = lfrThemeConfig.getConfig(true);
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const {argv, gulp, pathBuild, pathSrc} = options;
+	const {storage} = gulp;
 
-	let store = gulp.storage;
-
-	let pathBuild = options.pathBuild;
-	let pathSrc = options.pathSrc;
-
-	let runSequence = require('run-sequence').use(gulp);
-
-	let argv = options.argv;
+	const runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('deploy', function(cb) {
 		let sequence = ['build', 'deploy:war', cb];
 
-		let webBundleDir = store.get('webBundleDir');
+		let webBundleDir = storage.get('webBundleDir');
 
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
@@ -42,17 +36,20 @@ module.exports = function(options) {
 	});
 
 	gulp.task('deploy:css-files', () => {
-		return divert('deploy').taskCssFiles(options, fastDeploy);
+		const srcPath = path.join(pathBuild, 'css/*.css');
+		const filePath = storage.get('changedFile').path;
+
+		return fastDeploy(srcPath, pathBuild);
 	});
 
 	gulp.task('deploy:file', function() {
-		let changedFile = store.get('changedFile');
+		let changedFile = storage.get('changedFile');
 
 		return fastDeploy(changedFile.path, pathSrc);
 	});
 
 	gulp.task('deploy:folder', function() {
-		let changedFile = store.get('changedFile');
+		let changedFile = storage.get('changedFile');
 
 		let relativeFilePath = path.relative(
 			path.join(process.cwd(), pathSrc),
@@ -69,7 +66,7 @@ module.exports = function(options) {
 	gulp.task('deploy:gogo', function(cb) {
 		let sequence = ['build', 'plugin:deploy-gogo', cb];
 
-		let webBundleDir = store.get('webBundleDir');
+		let webBundleDir = storage.get('webBundleDir');
 
 		if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
@@ -82,7 +79,7 @@ module.exports = function(options) {
 
 	gulp.task('deploy-live:war', function(cb) {
 		let password = argv.p || argv.password;
-		let url = argv.url || store.get('url');
+		let url = argv.url || storage.get('url');
 		let username = argv.u || argv.username;
 
 		let themeName = themeConfig.name;
@@ -118,7 +115,7 @@ module.exports = function(options) {
 
 	function getFastDeployPaths() {
 		let fastDeployPaths = {
-			dest: store.get('appServerPathPlugin'),
+			dest: storage.get('appServerPathPlugin'),
 		};
 
 		let tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
@@ -129,7 +126,7 @@ module.exports = function(options) {
 			fs.existsSync(tempDirPath) &&
 			fs.statSync(tempDirPath).isDirectory()
 		) {
-			let themeName = store.get('themeName');
+			let themeName = storage.get('themeName');
 
 			let tempDir = fs.readdirSync(tempDirPath);
 

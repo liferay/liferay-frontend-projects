@@ -1,28 +1,28 @@
 'use strict';
 
-let _ = require('lodash');
-let async = require('async');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
-let vinylPaths = require('vinyl-paths');
+const _ = require('lodash');
+const async = require('async');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
+const vinylPaths = require('vinyl-paths');
 
-let divert = require('../lib/divert');
-let lfrThemeConfig = require('../lib/liferay_theme_config');
+const lfrThemeConfig = require('../../lib/liferay_theme_config');
 
-let gutil = plugins.util;
+const gutil = plugins.util;
 
-let themeConfig = lfrThemeConfig.getConfig();
+const themeConfig = lfrThemeConfig.getConfig();
 
-let CWD = process.cwd();
+const CWD = process.cwd();
 
-let FORWARD_SLASH = '/';
+const FORWARD_SLASH = '/';
+const customCssFileName = '_custom.scss';
+const defaultTemplateLanguage = 'ftl';
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const {gulp} = options;
+	const {pathBuild} = options;
 
-	let pathBuild = options.pathBuild;
-
-	let runSequence = require('run-sequence').use(gulp);
+	const runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('build:themelets', function(cb) {
 		runSequence(
@@ -56,7 +56,7 @@ module.exports = function(options) {
 				})
 			);
 
-		let fileName = divert('themelet').customCssFileName;
+		let fileName = customCssFileName;
 
 		gulp
 			.src(path.join(pathBuild, 'css', fileName))
@@ -121,9 +121,6 @@ module.exports = function(options) {
 					cb();
 				})
 			);
-
-		let defaultTemplateLanguage = divert('themelet')
-			.defaultTemplateLanguage;
 
 		let templateLanguage =
 			themeConfig.templateLanguage || defaultTemplateLanguage;

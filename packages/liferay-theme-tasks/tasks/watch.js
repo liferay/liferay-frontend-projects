@@ -1,52 +1,61 @@
 'use strict';
 
-let _ = require('lodash');
-let del = require('del');
-let livereload = require('gulp-livereload');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
+const _ = require('lodash');
+const del = require('del');
+const livereload = require('gulp-livereload');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
 
-let divert = require('../lib/divert');
-let lfrThemeConfig = require('../lib/liferay_theme_config.js');
-let WatchSocket = require('../lib/watch_socket.js');
+const lfrThemeConfig = require('../lib/liferay_theme_config.js');
+const WatchSocket = require('../lib/watch_socket.js');
 
-let gutil = plugins.util;
+const gutil = plugins.util;
+const themeConfig = lfrThemeConfig.getConfig();
 
-let themeConfig = lfrThemeConfig.getConfig();
-
-let CONNECT_PARAMS = {
+const deployTask = 'deploy:gogo';
+const CONNECT_PARAMS = {
 	port: 11311,
 };
+const staticFileDirs = ['images', 'js'];
+const webBundleDirName = '.web_bundle_build';
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const {argv, gulp, pathBuild, pathSrc} = options;
+	const {storage} = gulp;
 
-	let store = gulp.storage;
-
-	let pathBuild = options.pathBuild;
-	let pathSrc = options.pathSrc;
-
-	let argv = options.argv;
-
-	let fullDeploy = argv.full || argv.f;
-
-	let runSequence = require('run-sequence').use(gulp);
-
-	let staticFileDirs = ['images', 'js'];
-
-	let webBundleDirName = '.web_bundle_build';
-
-	let webBundleDir = path.join(process.cwd(), webBundleDirName);
-
-	let connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
+	const connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
+	const fullDeploy = argv.full || argv.f;
+	const runSequence = require('run-sequence').use(gulp);
+	const webBundleDir = path.join(process.cwd(), webBundleDirName);
 
 	gulp.task('watch', function() {
-		divert('watch').taskWatch(
-			options,
-			startWatch,
-			startWatchSocket,
-			webBundleDir,
-			connectParams
+		options.watching = true;
+
+		storage.set('appServerPathPlugin', webBundleDir);
+
+		runSequence(
+			'build',
+			'watch:clean',
+			'watch:osgi:clean',
+			'watch:setup',
+			function(err) {
+				if (err) {
+					throw err;
+				}
+
+				let watchSocket = startWatchSocket();
+
+				watchSocket
+					.connect(connectParams)
+					.then(function() {
+						return watchSocket.deploy();
+					})
+					.then(function() {
+						storage.set('webBundleDir', 'watching');
+
+						startWatch();
+					});
+			}
 		);
 	});
 
@@ -63,7 +72,7 @@ module.exports = function(options) {
 				let distName = options.distName;
 
 				let warPath = path.join(
-					store.get('appServerPath'),
+					storage.get('appServerPath'),
 					'..',
 					'osgi',
 					'war',
@@ -82,13 +91,13 @@ module.exports = function(options) {
 	});
 
 	gulp.task('watch:teardown', function(cb) {
-		store.set('webBundleDir');
+		storage.set('webBundleDir');
 
 		runSequence('watch:clean', cb);
 	});
 
 	function clearChangedFile() {
-		store.set('changedFile');
+		storage.set('changedFile');
 	}
 
 	function getTaskArray(rootDir, defaultTaskArray) {
@@ -118,7 +127,6 @@ module.exports = function(options) {
 				'build:themelet-src',
 				'build:themelet-css-inject',
 				'build:rename-css-dir',
-				'build:prep-css',
 				'build:compile-css',
 				'build:move-compiled-css',
 				'build:remove-old-css-dir',
@@ -135,7 +143,7 @@ module.exports = function(options) {
 		livereload.listen();
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
-			store.set('changedFile', vinyl);
+			storage.set('changedFile', vinyl);
 
 			let relativeFilePath = path.relative(
 				path.join(process.cwd(), pathSrc),
@@ -146,9 +154,9 @@ module.exports = function(options) {
 
 			let rootDir = filePathArray.length ? filePathArray[0] : '';
 
-			let taskArray = [divert('watch').deployTask];
+			let taskArray = [deployTask];
 
-			if (!fullDeploy && store.get('deployed')) {
+			if (!fullDeploy && storage.get('deployed')) {
 				taskArray = getTaskArray(rootDir, taskArray);
 			}
 

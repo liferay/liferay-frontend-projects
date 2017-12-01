@@ -89,7 +89,6 @@ function runCssWatchSequence(cb) {
 		'build:themelet-src',
 		'build:themelet-css-inject',
 		'build:rename-css-dir',
-		'build:prep-css',
 		'build:compile-css',
 		'build:move-compiled-css',
 		'build:remove-old-css-dir',
