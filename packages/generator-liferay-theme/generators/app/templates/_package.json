@@ -8,16 +8,13 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"screenshot": "",
-		"rubySass": <%= rubySass %>,
+		"rubySass": false,
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "<%= liferayVersion %>"
 	},
 	"devDependencies": {
 		"gulp": "^3.8.10",
-		"liferay-theme-tasks": "^1.4.2",<% if (liferayVersion == 6.2) { %>
-		"liferay-theme-deps-6.2": "*"<% } else { %>
-		"liferay-theme-deps-7.0": "~1.2.1"<% } %><% if (liferayVersion == 6.2 && !rubySass) { %>,
-		"gulp-sass": "*"<% } else if (liferayVersion == 7.0 && rubySass) { %>,
-		"gulp-ruby-sass": "*"<% } %>
+		"liferay-theme-tasks": "^1.4.2",
+		"liferay-theme-deps-7.0": "~1.2.1"
 	}
 }

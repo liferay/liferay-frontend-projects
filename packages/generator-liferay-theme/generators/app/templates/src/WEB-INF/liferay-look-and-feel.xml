@@ -7,7 +7,7 @@
 	</compatibility>
 	<theme id="<%= appname %>" name="<%= themeName %>">
 		<template-extension><%= templateLanguage %></template-extension>
-		<% if (liferayVersion != 6.2) { %><portlet-decorator id="barebone" name="Barebone">
+		<portlet-decorator id="barebone" name="Barebone">
 			<portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>
 		</portlet-decorator>
 		<portlet-decorator id="borderless" name="Borderless">
@@ -16,6 +16,6 @@
 		<portlet-decorator id="decorate" name="Decorate">
 			<default-portlet-decorator>true</default-portlet-decorator>
 			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
-		</portlet-decorator><% } %>
+		</portlet-decorator>
 	</theme>
 </look-and-feel>

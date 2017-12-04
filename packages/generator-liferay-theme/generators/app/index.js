@@ -9,6 +9,8 @@ var updateNotifier = require('update-notifier');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
+var divert = require('../../lib/divert');
+
 module.exports = yeoman.generators.Base.extend({
 	initializing: function() {
 		var pkg = require('../../package.json');
@@ -88,10 +90,6 @@ module.exports = yeoman.generators.Base.extend({
 
 			var customCssName = '_custom.scss';
 
-			if (this.liferayVersion == 6.2) {
-				customCssName = 'custom.css';
-			}
-
 			this.fs.copy(this.templatePath('src/css/custom.css'), this.destinationPath('src/css/' + customCssName));
 
 			this.template(
@@ -158,7 +156,7 @@ module.exports = yeoman.generators.Base.extend({
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.0', '6.2'],
+				choices: ['7.1', '7.0'],
 				type: 'list',
 				when: instance._getWhenFn('liferayVersion', 'liferayVersion', instance._isLiferayVersion)
 			},
@@ -174,24 +172,8 @@ module.exports = yeoman.generators.Base.extend({
 		return prompts;
 	},
 
-	_getTemplateLanguageChoices: function(answers) {
-		var velocityChoice = {
-			name: 'Velocity (.vm) - deprecated',
-			value: 'vm'
-		};
-
-		if (answers.liferayVersion == '6.2' || this.args.liferayVersion == '6.2') {
-			velocityChoice.name = 'Velocity (.vm)';
-		}
-
-		return [
-			{
-				name: 'Freemarker (.ftl)',
-				value: 'ftl'
-			},
-			velocityChoice
-		];
-	},
+	_getTemplateLanguageChoices: (answers) =>
+    divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
 
 	_getWhenFn: function(propertyName, flag, validator) {
 		var instance = this;
@@ -205,7 +187,7 @@ module.exports = yeoman.generators.Base.extend({
 		return function(answers) {
 			var propertyValue = argv[flag];
 
-			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue)) {
+			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue, answers)) {
 				propertyValue = null;
 
 				instance.log(chalk.yellow('Warning:'), 'Invalid value set for', chalk.cyan('--' + flag));
@@ -239,22 +221,19 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isLiferayVersion: function(value) {
-		return ['6.2', '7.0'].indexOf(value) > -1;
+		return ['7.1', '7.0'].indexOf(value) > -1;
 	},
 
-	_isTemplateLanguage: function(value) {
-		return ['ftl', 'vm'].indexOf(value) > -1;
-	},
+	_isTemplateLanguage: (value, answers) =>
+    divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
 
 	_mixArgs: function(props, args) {
 		return _.assign(props, args);
 	},
 
-	_printWarnings: function(liferayVersion) {
-		if (liferayVersion == '7.0' && this.templateLanguage == 'vm') {
-			this.log(chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'));
-		}
-	},
+	_printWarnings: function(props) {
+    return divert('app_helpers')._printWarnings(this, props);
+  },
 
 	_prompt: function() {
 		var done = this.done;
@@ -278,11 +257,13 @@ module.exports = yeoman.generators.Base.extend({
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
+    divert.defaultVersion = liferayVersion;
+
 		this._setDefaults(liferayVersion);
 
-		this._printWarnings(liferayVersion);
+		this._printWarnings(props);
 
-		this._setPackageVersion(liferayVersion);
+		this._setPackageVersion();
 	},
 
 	_setArgv: function() {
@@ -298,28 +279,14 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_setDefaults: function(liferayVersion) {
-		var defaults = {
-			'6.2': {
-				rubySass: true,
-				templateLanguage: 'vm'
-			},
-			'7.0': {
-				rubySass: false,
-				templateLanguage: 'ftl'
-			}
-		};
-
-		_.defaults(this, defaults[liferayVersion]);
+		_.defaults(this, {
+      rubySass: false,
+      templateLanguage: 'ftl'
+    });
 	},
 
-	_setPackageVersion: function(liferayVersion) {
-		var packageVersion = '0.0.0';
-
-		if (liferayVersion == '7.0') {
-			packageVersion = '1.0.0';
-		}
-
-		this.packageVersion = packageVersion;
+	_setPackageVersion: function() {
+		this.packageVersion = '1.0.0';
 	},
 
 	_setPromptDeprecationMap: function() {
