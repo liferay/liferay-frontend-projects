@@ -1,0 +1,20 @@
+{
+	"name": "<%= themeDirName %>",
+	"version": "<%= packageVersion %>",
+	"main": "package.json",
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"screenshot": "",
+		"rubySass": true,
+		"templateLanguage": "<%= templateLanguage %>",
+		"version": "6.2"
+	},
+	"devDependencies": {
+		"gulp": "^3.8.10",
+		"liferay-theme-tasks": "^1.4.2",
+		"liferay-theme-deps-6.2": "*"
+	}
+}
