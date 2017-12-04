@@ -13,7 +13,12 @@ chai.use(require('chai-fs'));
 
 var tempDir = path.join(os.tmpdir(), 'temp-test');
 
-var tempThemeletDir = path.join(tempDir, 'test-themelet');
+var defaults = {
+  liferayVersion: '7.1',
+  themeId: 'test-themelet',
+  themeName: 'Test Themelet'
+};
+var tempThemeletDir = path.join(tempDir, defaults.themeId);
 
 describe('liferay-theme:themelet functional tests', function() {
 	it('creates files', function(done) {
@@ -27,25 +32,27 @@ describe('liferay-theme:themelet functional tests', function() {
 		});
 	});
 
-	it('populates 7.0 package.json correctly', function(done) {
-		runGenerator(null, function() {
+	it('populates 7.1 package.json correctly', function(done) {
+		runGenerator({
+            liferayVersion: '7.1'
+        }, function() {
 			var pkg = getPackage();
 
-			assert.equal(pkg.liferayTheme.version, '7.0');
+			assert.equal(pkg.liferayTheme.version, '7.1');
 			assert.equal(pkg.version, '1.0.0');
 
 			done();
 		});
 	});
 
-	it('populates 6.2 package.json correctly', function(done) {
+	it('populates 7.0 package.json correctly', function(done) {
 		runGenerator({
-			liferayVersion: '6.2'
+			liferayVersion: '7.0'
 		}, function() {
 			var pkg = getPackage();
 
-			assert.equal(pkg.liferayTheme.version, '6.2');
-			assert.equal(pkg.version, '0.0.0');
+			assert.equal(pkg.liferayTheme.version, '7.0');
+			assert.equal(pkg.version, '1.0.0');
 
 			done();
 		});
@@ -65,12 +72,10 @@ describe('liferay-theme:themelet functional tests', function() {
 	});
 
 	it('tests themeDirName configuration', function(done) {
-		runGenerator({
-			themeId: 'test'
-		}, function() {
+		runGenerator(null, function() {
 			var pkg = getPackage();
 
-			chaiAssert.equal(pkg.name, 'test-themelet');
+			chaiAssert.equal(pkg.name, defaults.themeId);
 
 			done();
 		});
@@ -86,11 +91,7 @@ function getPackage() {
 function runGenerator(options, end) {
 	options = options || {};
 
-	options = _.defaults(options, {
-		liferayVersion: '7.0',
-		themeId: 'test-themelet',
-		themeName: 'Test Themelet'
-	});
+	options = _.defaults(options, defaults);
 
 	delete require.cache[path.join(__dirname, '../../generators/app/index.js')];
 

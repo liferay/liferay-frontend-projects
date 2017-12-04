@@ -41,7 +41,7 @@ describe('liferay-theme:import functional tests', function () {
 			assert.equal(pkg.liferayTheme.rubySass, true);
 			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
 			assert.equal(pkg.liferayTheme.version, '6.2');
-			assert.equal(pkg.version, '0.0.0');
+			assert.equal(pkg.version, '1.0.0');
 
 			done();
 		});

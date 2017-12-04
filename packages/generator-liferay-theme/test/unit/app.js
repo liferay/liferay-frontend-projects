@@ -5,6 +5,8 @@ var chai = require('chai');
 var chalk = require('chalk');
 var sinon = require('sinon');
 
+var divert = require('../../lib/divert');
+
 var chaiAssert = chai.assert;
 var sinonAssert = sinon.assert;
 
@@ -133,7 +135,7 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_isLiferayVersion', function() {
 		it('should check for valid Liferay versions', function() {
-			_.forEach(['7.0', '6.2'], function(version) {
+			_.forEach(['7.1', '7.0'], function(version) {
 				chaiAssert.isTrue(prototype._isLiferayVersion(version), 0, 'Valid Liferay version');
 			});
 
@@ -143,11 +145,15 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_isTemplateLanguage', function() {
 		it('should check for valid template languages', function() {
-			_.forEach(['ftl', 'vm'], function(template) {
-				chaiAssert.isTrue(prototype._isTemplateLanguage(template), 0, 'Valid template language');
+			_.forEach(['ftl'], function(template) {
+				chaiAssert.isTrue(prototype._isTemplateLanguage(template, {liferayVersion: '7.0'}), 0, 'Valid template language');
 			});
 
-			chaiAssert.isFalse(prototype._isTemplateLanguage('casper'), -1, 'Invalid template language');
+			_.forEach(['ftl'], function(template) {
+				chaiAssert.isTrue(prototype._isTemplateLanguage(template, {liferayVersion: '7.1'}), 0, 'Valid template language');
+			});
+
+			chaiAssert.isFalse(prototype._isTemplateLanguage('casper', {liferayVersion: '7.1'}), -1, 'Invalid template language');
 		});
 	});
 
@@ -176,20 +182,25 @@ describe('liferay-theme:app unit tests', function() {
 			var expectedOutput = chalk.yellow('   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.');
 
 			prototype.log = sinon.spy();
-			prototype.templateLanguage = 'vm';
 
-			prototype._printWarnings('6.2');
-			prototype._printWarnings('7.0');
+      ['7.1', '7.0'].forEach((version) => {
+        divert.defaultVersion = version;
+  			prototype._printWarnings({templateLanguage: 'vm'});
+      });
 
 			sinonAssert.calledWith(prototype.log, expectedOutput);
 			sinonAssert.calledOnce(prototype.log);
 
+      prototype.log.reset();
+
 			prototype.templateLanguage = 'ftl';
 
-			prototype._printWarnings('6.2');
-			prototype._printWarnings('7.0');
+      ['7.1', '7.0'].forEach((version) => {
+        divert.defaultVersion = version;
+  			prototype._printWarnings({templateLanguage: 'ftl'});
+      });
 
-			sinonAssert.calledOnce(prototype.log);
+			sinonAssert.notCalled(prototype.log);
 		});
 	});
 
