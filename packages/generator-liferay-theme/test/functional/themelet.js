@@ -58,7 +58,7 @@ describe('liferay-theme:themelet functional tests', function() {
 			var pkg = getPackage();
 
 			assert.equal(pkg.liferayTheme.version, '*');
-			assert.equal(pkg.version, '0.0.0');
+			assert.equal(pkg.version, '1.0.0');
 
 			done();
 		});
