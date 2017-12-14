@@ -10,6 +10,7 @@
     "rules": {
         "no-var": "off",
         "object-curly-spacing": "off",
+        "prefer-spread": "off",
         "quote-props": ["error", "as-needed"],
         "quotes": ["error", "single", {
             "avoidEscape": true
