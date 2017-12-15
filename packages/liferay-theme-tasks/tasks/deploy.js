@@ -9,6 +9,7 @@ var lfrThemeConfig = require('../lib/liferay_theme_config');
 var themeUtil = require('../lib/util');
 var WarDeployer = require('../lib/war_deployer');
 
+var gutil = plugins.util;
 var livereload = plugins.livereload;
 
 var themeConfig = lfrThemeConfig.getConfig(true);
@@ -118,7 +119,16 @@ module.exports = function(options) {
 			stream.pipe(gulp.dest(fastDeployPaths.tempDest));
 		}
 
-		stream.pipe(livereload());
+		stream.pipe(gutil.buffer(function(err, files) {
+			for(let file of files) {
+			    var filePath = file.path;
+
+				filePath = filePath.substring(fastDeployPaths.dest.length);
+				filePath = `/${themeConfig.name}${filePath}`;
+
+				livereload.changed(filePath);
+			}
+	  	}));
 
 		return stream;
 	}
