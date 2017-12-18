@@ -237,22 +237,20 @@ var LoaderProtoMethods = {
 						dependencies
 					);
 
-					var fastRejectError = '';
+					var dependencyErrors = dependencies
+						.filter(function(dep) {
+							return dep.indexOf(':ERROR:') == 0;
+						})
+						.map(function(dep) {
+							return dep.substr(7);
+						});
 
-					for (var i = 0; i < dependencies.length; i++) {
-						var dependency = dependencies[i];
-
-						if (dependency.indexOf(':ERROR:') == 0) {
-							fastRejectError += dependency.substr(7) + '\n';
-						}
-					}
-
-					if (fastRejectError.length > 0) {
+					if (dependencyErrors.length > 0) {
 						reject(
 							new Error(
 								'The following problems where detected while ' +
 									'resolving modules:\n' +
-									fastRejectError
+									dependencyErrors.join('\n')
 							)
 						);
 					}
