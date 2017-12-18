@@ -49,3 +49,20 @@ export function getPackageDir(modulePath) {
 
 	return dir;
 }
+
+/**
+ * Converts a package name (optionally versioned) to its target folder name
+ * inside bundled node_modules.
+ * @param  {String} name a package name
+ * @param  {String} [version=null] an optional package version
+ * @return {String} the target folder
+ */
+export function getPackageTargetDir(name, version = null) {
+	let targetFolder = name.replace('/', '%2F');
+
+	if (version) {
+		targetFolder += `@${version}`;
+	}
+
+	return targetFolder;
+}

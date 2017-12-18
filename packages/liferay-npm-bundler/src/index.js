@@ -1,6 +1,7 @@
 import * as babel from 'babel-core';
 import fs from 'fs-extra';
 import globby from 'globby';
+import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
@@ -96,7 +97,7 @@ function bundlePackage(pkg, outputDir) {
 	const outPkgDir = path.join(
 		outputDir,
 		'node_modules',
-		pkg.id.replace('/', '%2F')
+		getPackageTargetDir(pkg.name, pkg.version)
 	);
 
 	try {
