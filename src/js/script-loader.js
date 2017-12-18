@@ -239,7 +239,7 @@ var LoaderProtoMethods = {
 
 					var dependencyErrors = dependencies
 						.filter(function(dep) {
-							return dep.indexOf(':ERROR:') == 0;
+							return dep.indexOf(':ERROR:') === 0;
 						})
 						.map(function(dep) {
 							return dep.substr(7);
