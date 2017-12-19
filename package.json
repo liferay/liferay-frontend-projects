@@ -1,6 +1,6 @@
 {
   "name": "liferay-amd-loader",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "AMD Loader with support for combo URL and conditional loading",
   "main": "main.js",
   "scripts": {
