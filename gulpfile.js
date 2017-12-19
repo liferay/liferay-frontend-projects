@@ -2,13 +2,12 @@
 'use strict';
 
 var babel = require('gulp-babel');
+var childProcess = require('child_process');
 var concat = require('gulp-concat');
 var del = require('del');
-var exec = require('child_process').exec;
 var fs = require('fs');
 var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
-var jsdoc = require('gulp-jsdoc');
 var merge = require('merge-stream');
 var mocha = require('gulp-mocha');
 var pkg = require('./package.json');
@@ -70,7 +69,7 @@ gulp.task('build', function(callback) {
 });
 
 gulp.task('build-config', ['config', 'modules'], function(callback) {
-	exec(
+	childProcess.exec(
 		'node node_modules/liferay-module-config-generator/bin/index.js ' +
 			'-b src/config/config-base.js ' +
 			'-m dist/demo/modules/bower.json ' +
@@ -220,8 +219,25 @@ gulp.task('copy-es6promise-map', function() {
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('jsdoc', function() {
-	gulp.src(['./src/js/**/*.js', 'README.md']).pipe(jsdoc('api'));
+gulp.task('jsdoc', function(cb) {
+	var files = [];
+
+	gulp
+		.src(['./src/js/**/*.js', 'README.md'], { read: false })
+		.pipe(
+			through.obj(function(file, encoding, cb) {
+				files.push(file.path);
+				cb(null, file);
+			})
+		)
+		.on('finish', function() {
+			childProcess.spawnSync(
+				'./node_modules/.bin/jsdoc',
+				['-d', 'api'].concat(files)
+			);
+
+			cb();
+		});
 });
 
 gulp.task('modules2', function() {
