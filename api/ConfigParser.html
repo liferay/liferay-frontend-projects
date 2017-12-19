@@ -23,41 +23,45 @@
 
 
 
+
 <section>
 
 <header>
-    <h2>
-    ConfigParser
-    </h2>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>ConfigParser<span class="signature">(config<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        
     
 </header>
 
 <article>
     <div class="container-overview">
     
-
-    
         
-<dt>
-    <h4 class="name" id="ConfigParser"><span class="type-signature"></span>new ConfigParser<span class="signature">(<span class="optional">config</span>)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Creates an instance of ConfigurationParser class.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="ConfigParser"><span class="type-signature"></span>new ConfigParser<span class="signature">(config<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Creates an instance of ConfigurationParser class.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -69,7 +73,7 @@
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -115,10 +119,20 @@
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -152,23 +166,26 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
     
     </div>
+
+    
 
     
 
@@ -185,29 +202,34 @@
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
-            
-<dt>
-    <h4 class="name" id="_getModuleMapper"><span class="type-signature">&lt;protected> </span>_getModuleMapper<span class="signature">(maps)</span><span class="type-signature"> &rarr; {function}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Creates a function that transforms module names based on a provided
-set of mappings.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
         
+            
+
+    
+
+    
+    <h4 class="name" id="_getModuleMapper"><span class="type-signature">(protected) </span>_getModuleMapper<span class="signature">(maps)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a function that transforms module names based on a provided
+set of mappings.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -253,10 +275,20 @@ set of mappings.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -290,20 +322,20 @@ set of mappings.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The generated mapper function
 </div>
@@ -322,34 +354,40 @@ set of mappings.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_mapExactMatch"><span class="type-signature">&lt;protected> </span>_mapExactMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Transforms a module name using the exactMatch mappings
+    <h4 class="name" id="_mapExactMatch"><span class="type-signature">(protected) </span>_mapExactMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Transforms a module name using the exactMatch mappings
 in a provided mapping object.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -418,10 +456,20 @@ in a provided mapping object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -455,20 +503,20 @@ in a provided mapping object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     An object with a boolean `matched` field and a string
     `result` field containing the mapped module name
@@ -488,34 +536,40 @@ in a provided mapping object.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_mapPartialMatch"><span class="type-signature">&lt;protected> </span>_mapPartialMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Transforms a module name using the partial mappings
+    <h4 class="name" id="_mapPartialMatch"><span class="type-signature">(protected) </span>_mapPartialMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Transforms a module name using the partial mappings
 in a provided mapping object.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -584,10 +638,20 @@ in a provided mapping object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -621,20 +685,20 @@ in a provided mapping object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     An object with a boolean `matched` field and a string
     `result` field containing the mapped module name
@@ -654,34 +718,40 @@ in a provided mapping object.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_mapWildcardMatch"><span class="type-signature">&lt;protected> </span>_mapWildcardMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Transforms a module name using the wildcard mapping in a provided mapping
+    <h4 class="name" id="_mapWildcardMatch"><span class="type-signature">(protected) </span>_mapWildcardMatch<span class="signature">(module, maps)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Transforms a module name using the wildcard mapping in a provided mapping
 object.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -750,10 +820,20 @@ object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -787,20 +867,20 @@ object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     An object with a boolean `matched` field and a string
     `result` field containing the mapped module name
@@ -820,33 +900,39 @@ object.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_parseConfig"><span class="type-signature">&lt;protected> </span>_parseConfig<span class="signature">(config)</span><span class="type-signature"> &rarr; {object}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Parses configuration object.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_parseConfig"><span class="type-signature">(protected) </span>_parseConfig<span class="signature">(config)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Parses configuration object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -892,10 +978,20 @@ object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -929,20 +1025,20 @@ object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The created configuration
 </div>
@@ -961,33 +1057,39 @@ object.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_parseModules"><span class="type-signature">&lt;protected> </span>_parseModules<span class="signature">(modules)</span><span class="type-signature"> &rarr; {object}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Parses a provided modules configuration.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_parseModules"><span class="type-signature">(protected) </span>_parseModules<span class="signature">(modules)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Parses a provided modules configuration.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1033,10 +1135,20 @@ object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1070,20 +1182,20 @@ object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Map of parsed modules.
 </div>
@@ -1102,33 +1214,39 @@ object.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_registerConditionalModule"><span class="type-signature">&lt;protected> </span>_registerConditionalModule<span class="signature">(module)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Registers conditional module to the configuration.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_registerConditionalModule"><span class="type-signature">(protected) </span>_registerConditionalModule<span class="signature">(module)</span><span class="type-signature"></span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Registers conditional module to the configuration.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1174,10 +1292,20 @@ object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1211,43 +1339,49 @@ object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="addModule"><span class="type-signature"></span>addModule<span class="signature">(module)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Adds a module to the configuration.
-    </div>
     
 
     
 
-    
 
+
+<div class="description">
+    Adds a module to the configuration.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1303,10 +1437,20 @@ object.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1340,20 +1484,20 @@ object.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The added module
 </div>
@@ -1372,35 +1516,50 @@ object.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="getConditionalModules"><span class="type-signature"></span>getConditionalModules<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
 
     
-</dt>
-<dd>
 
-    
-    <div class="description">
-        Returns map with all currently registered conditional modules and their
+
+
+<div class="description">
+    Returns map with all currently registered conditional modules and their
 triggers.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -1434,20 +1593,20 @@ triggers.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Map with all currently registered conditional modules.
 </div>
@@ -1466,34 +1625,49 @@ triggers.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="getConfig"><span class="type-signature"></span>getConfig<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns the current configuration.
-    </div>
     
 
     
 
-    
 
-    
 
-    
+<div class="description">
+    Returns the current configuration.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -1527,20 +1701,20 @@ triggers.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The current configuration.
 </div>
@@ -1559,34 +1733,49 @@ triggers.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="getModules"><span class="type-signature"></span>getModules<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns map with all currently registered modules.
-    </div>
     
 
     
 
-    
 
-    
 
-    
+<div class="description">
+    Returns map with all currently registered modules.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -1620,20 +1809,20 @@ triggers.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Map with all currently registered modules.
 </div>
@@ -1652,23 +1841,27 @@ triggers.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="mapModule"><span class="type-signature">&lt;protected> </span>mapModule<span class="signature">(module, contextMap)</span><span class="type-signature"> &rarr; {array|string}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Maps module names to their aliases. Example:
+    <h4 class="name" id="mapModule"><span class="type-signature">(protected) </span>mapModule<span class="signature">(module, contextMap<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {array|string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Maps module names to their aliases. Example:
 __CONFIG__.maps = {
      liferay: 'liferay@1.0.0'
 }
@@ -1682,16 +1875,18 @@ require('liferay@1.0.0/html/js/ac.es',...).
 Additionally, modules can define a custom map to alias module names just
 in the context of that module loading operation. When present, the
 contextual module mapping will take precedence over the general one.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1703,7 +1898,7 @@ contextual module mapping will take precedence over the general one.
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -1785,10 +1980,20 @@ contextual module mapping will take precedence over the general one.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1822,20 +2027,20 @@ contextual module mapping will take precedence over the general one.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The mapped module or array of mapped modules.
 </div>
@@ -1857,12 +2062,13 @@ contextual module mapping will take precedence over the general one.
     </dd>
 </dl>
 
-        
-
     
-</dd>
 
-        </dl>
+
+
+
+
+        
     
 
     
@@ -1878,13 +2084,13 @@ contextual module mapping will take precedence over the general one.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul><h3>Events</h3><ul><li><a href="Loader.html#event:moduleRegister">moduleRegister</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu Jul 20 2017 11:12:55 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 19 2017 13:55:59 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

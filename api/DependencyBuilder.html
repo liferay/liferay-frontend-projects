@@ -23,41 +23,45 @@
 
 
 
+
 <section>
 
 <header>
-    <h2>
-    DependencyBuilder
-    </h2>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>DependencyBuilder<span class="signature">(configParser)</span><span class="type-signature"></span></h2>
+        
     
 </header>
 
 <article>
     <div class="container-overview">
     
+        
 
     
-        
-<dt>
+
+    
     <h4 class="name" id="DependencyBuilder"><span class="type-signature"></span>new DependencyBuilder<span class="signature">(configParser)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Creates an instance of DependencyBuilder class.
-    </div>
     
 
     
 
-    
 
+
+<div class="description">
+    Creates an instance of DependencyBuilder class.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -103,10 +107,20 @@
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -140,20 +154,21 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
     
     </div>
@@ -169,27 +184,26 @@
     
 
     
+
+    
         <h3 class="subsection-title">Members</h3>
 
-        <dl>
+        
             
-<dt>
-    <h4 class="name" id="_queue"><span class="type-signature">&lt;protected> </span>_queue<span class="type-signature"></span></h4>
+<h4 class="name" id="_queue"><span class="type-signature">(protected) </span>_queue<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
 
     
-</dt>
-<dd>
-    
-
-    
-
-    
-<dl class="details">
-    
-
-        <h5 class="subsection-title">Properties:</h5>
-
-        <dl>
 
 <table class="props">
     <thead>
@@ -237,7 +251,18 @@
 
     
     </tbody>
-</table></dl>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
 
     
 
@@ -277,40 +302,53 @@
 </dl>
 
 
-    
 
-    
-</dd>
 
-        </dl>
+
+
+        
     
 
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
+        
             
-<dt>
-    <h4 class="name" id="_cleanup"><span class="type-signature">&lt;protected> </span>_cleanup<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Clears the used resources during the process of resolving dependencies.
-    </div>
-    
 
     
 
     
-
+    <h4 class="name" id="_cleanup"><span class="type-signature">(protected) </span>_cleanup<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
+
+
+
+<div class="description">
+    Clears the used resources during the process of resolving dependencies.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -344,45 +382,51 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_processConditionalModules"><span class="type-signature">&lt;protected> </span>_processConditionalModules<span class="signature">(module)</span><span class="type-signature"></span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Processes conditional modules. If a module has conditional module as
+    <h4 class="name" id="_processConditionalModules"><span class="type-signature">(protected) </span>_processConditionalModules<span class="signature">(module)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Processes conditional modules. If a module has conditional module as
 dependency, this module will be added to the list of modules, which
 dependencies should be resolved.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -429,10 +473,20 @@ dependencies should be resolved.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -466,48 +520,63 @@ dependencies should be resolved.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_resolveDependencies"><span class="type-signature">&lt;protected> </span>_resolveDependencies<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Processes all modules in the <a href="DependencyBuilder.html#_queue">DependencyBuilder#_queue</a> and
+    <h4 class="name" id="_resolveDependencies"><span class="type-signature">(protected) </span>_resolveDependencies<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Processes all modules in the <a href="DependencyBuilder.html#_queue">DependencyBuilder#_queue</a> and
 resolves their dependencies. If the module is not registered to the
 configuration, it will be automatically added there with no dependencies.
 The function implements a standard
 <a href="http://en.wikipedia.org/wiki/Topological_sorting">topological sorting based on depth-first search</a>.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -541,44 +610,50 @@ The function implements a standard
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="_testConditionalModule"><span class="type-signature"></span>_testConditionalModule<span class="signature">(testFunction)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
 
     
-</dt>
-<dd>
 
-    
-    <div class="description">
-        Executes the test function of an conditional module and adds it to the
+
+
+<div class="description">
+    Executes the test function of an conditional module and adds it to the
 list of module dependencies if the function returns true.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -628,10 +703,20 @@ list of module dependencies if the function returns true.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -665,20 +750,20 @@ list of module dependencies if the function returns true.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The result of the execution of the test function.
 </div>
@@ -697,36 +782,42 @@ list of module dependencies if the function returns true.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_visit"><span class="type-signature">&lt;protected> </span>_visit<span class="signature">(module)</span><span class="type-signature"></span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Visits a module during the process of resolving dependencies. The
+    <h4 class="name" id="_visit"><span class="type-signature">(protected) </span>_visit<span class="signature">(module)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Visits a module during the process of resolving dependencies. The
 function will throw exception in case of circular dependencies among
 modules. If a dependency is not registered, it will be added to the
 configuration as a module without dependencies.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -772,10 +863,20 @@ configuration as a module without dependencies.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -809,43 +910,49 @@ configuration as a module without dependencies.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="resolveDependencies"><span class="type-signature"></span>resolveDependencies<span class="signature">(modules)</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Resolves modules dependencies.
-    </div>
     
 
     
 
-    
 
+
+<div class="description">
+    Resolves modules dependencies.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -892,10 +999,20 @@ configuration as a module without dependencies.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -929,20 +1046,20 @@ configuration as a module without dependencies.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     List of module names, representing module dependencies.
     Module name itself is being returned too.
@@ -962,12 +1079,13 @@ configuration as a module without dependencies.
     </dd>
 </dl>
 
-        
-
     
-</dd>
 
-        </dl>
+
+
+
+
+        
     
 
     
@@ -983,13 +1101,13 @@ configuration as a module without dependencies.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul><h3>Events</h3><ul><li><a href="Loader.html#event:moduleRegister">moduleRegister</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu Jul 20 2017 11:12:55 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 19 2017 13:55:59 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

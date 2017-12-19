@@ -2461,6 +2461,31 @@ var LoaderProtoMethods = {
 						dependencies
 					);
 
+					self._log(
+						'Resolved modules:',
+						mappedModules,
+						'to:',
+						dependencies
+					);
+
+					var dependencyErrors = dependencies
+						.filter(function(dep) {
+							return dep.indexOf(':ERROR:') === 0;
+						})
+						.map(function(dep) {
+							return dep.substr(7);
+						});
+
+					if (dependencyErrors.length > 0) {
+						reject(
+							new Error(
+								'The following problems where detected while ' +
+									'resolving modules:\n' +
+									dependencyErrors.join('\n')
+							)
+						);
+					}
+
 					var config = configParser.getConfig();
 
 					// Establish a load timeout and reject the Promise in case of Error
@@ -2518,6 +2543,13 @@ var LoaderProtoMethods = {
 				/* istanbul ignore else */
 				if (failureCallback) {
 					failureCallback.call(failureCallback, error);
+				} else {
+					self._error(
+						'Unhandled failure:',
+						error,
+						'while resolving modules:',
+						mappedModules
+					);
 				}
 			}
 		);
@@ -2961,6 +2993,33 @@ var LoaderProtoMethods = {
 		});
 	},
 
+	_log: function() {
+		var aliasedConsole = console;
+		var args = arguments.length === 1
+			? [arguments[0]]
+			: Array.apply(null, arguments);
+		var config = this._getConfigParser().getConfig();
+
+		if (config.explainResolutions) {
+			aliasedConsole.log.apply(
+				aliasedConsole,
+				['Liferay AMD Loader:'].concat(args)
+			);
+		}
+	},
+
+	_error: function() {
+		var aliasedConsole = console;
+		var args = arguments.length === 1
+			? [arguments[0]]
+			: Array.apply(null, arguments);
+
+		aliasedConsole.log.apply(
+			aliasedConsole,
+			['Liferay AMD Loader:'].concat(args)
+		);
+	},
+
 	/**
      * Resolves modules dependencies.
      *
@@ -3258,7 +3317,7 @@ Loader.prototype.define.amd = {};
 		window.define = global.define;
 	}
 
-	global.Loader.version = function() { return '2.2.0' };
+	global.Loader.version = function() { return '2.3.0' };
 }());
 
 (function () {

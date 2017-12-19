@@ -23,41 +23,45 @@
 
 
 
+
 <section>
 
 <header>
-    <h2>
-    Loader
-    </h2>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>Loader<span class="signature">(config<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        
     
 </header>
 
 <article>
     <div class="container-overview">
     
-
-    
         
-<dt>
-    <h4 class="name" id="Loader"><span class="type-signature"></span>new Loader<span class="signature">(<span class="optional">config</span>)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Creates an instance of Loader class.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="Loader"><span class="type-signature"></span>new Loader<span class="signature">(config<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Creates an instance of Loader class.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -69,7 +73,7 @@
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -115,10 +119,20 @@
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -152,20 +166,21 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
     
     </div>
@@ -173,9 +188,16 @@
     
         <h3 class="subsection-title">Extends</h3>
 
-        <ul>
-            <li><a href="EventEmitter.html">EventEmitter</a></li>
-        </ul>
+        
+
+
+    <ul>
+        <li><a href="EventEmitter.html">EventEmitter</a></li>
+    </ul>
+
+
+    
+
     
 
     
@@ -191,28 +213,33 @@
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
-            
-<dt>
-    <h4 class="name" id="_createModulePromise"><span class="type-signature">&lt;protected> </span>_createModulePromise<span class="signature">(moduleName)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Creates Promise for module. It will be resolved as soon as module is being loaded from server.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
         
+            
+
+    
+
+    
+    <h4 class="name" id="_createModulePromise"><span class="type-signature">(protected) </span>_createModulePromise<span class="signature">(moduleName)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates Promise for module. It will be resolved as soon as module is being loaded from server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -258,10 +285,20 @@
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -283,7 +320,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line303">line 303</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -295,20 +332,20 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise, which will be resolved as soon as the requested module is being loaded.
 </div>
@@ -327,34 +364,40 @@
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_define"><span class="type-signature">&lt;protected> </span>_define<span class="signature">(name, dependencies, implementation, <span class="optional">config</span>)</span><span class="type-signature"></span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Defines a module in the system and fires <a href="Loader.html#event:moduleRegister">Loader#event:moduleRegister</a> event with the registered module as param.
+    <h4 class="name" id="_define"><span class="type-signature">(protected) </span>_define<span class="signature">(name, dependencies, implementation, config<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Defines a module in the system and fires Loader#event:moduleRegister event with the registered module as param.
 Called internally by <a href="Loader.html#define">Loader#define</a> method once it normalizes the passed arguments.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -366,7 +409,7 @@ Called internally by <a href="Loader.html#define">Loader#define</a> method once 
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -505,10 +548,20 @@ Called internally by <a href="Loader.html#define">Loader#define</a> method once 
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -530,7 +583,7 @@ Called internally by <a href="Loader.html#define">Loader#define</a> method once 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line373">line 373</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line405">line 405</a>
     </li></ul></dd>
     
 
@@ -542,44 +595,50 @@ Called internally by <a href="Loader.html#define">Loader#define</a> method once 
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_filterModulesByProperty"><span class="type-signature">&lt;protected> </span>_filterModulesByProperty<span class="signature">(moduleNames, property)</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Filters a list of modules and returns only these which don't have any of the provided list
+    <h4 class="name" id="_filterModulesByProperty"><span class="type-signature">(protected) </span>_filterModulesByProperty<span class="signature">(moduleNames, property)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Filters a list of modules and returns only these which don't have any of the provided list
 of properties.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -651,10 +710,20 @@ of properties.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -676,7 +745,7 @@ of properties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line577">line 577</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line609">line 609</a>
     </li></ul></dd>
     
 
@@ -688,20 +757,20 @@ of properties.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     List of modules matching the specified filter.
 </div>
@@ -720,34 +789,49 @@ of properties.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getConfigParser"><span class="type-signature">&lt;protected> </span>_getConfigParser<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ConfigParser.html">ConfigParser</a>}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns instance of <a href="ConfigParser.html">ConfigParser</a> class.
-    </div>
-    
 
     
 
     
-
+    <h4 class="name" id="_getConfigParser"><span class="type-signature">(protected) </span>_getConfigParser<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ConfigParser.html">ConfigParser</a>}</span></h4>
     
 
     
+
+
+
+<div class="description">
+    Returns instance of <a href="ConfigParser.html">ConfigParser</a> class.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -769,7 +853,7 @@ of properties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line417">line 417</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line449">line 449</a>
     </li></ul></dd>
     
 
@@ -781,20 +865,20 @@ of properties.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Instance of <a href="ConfigParser.html">ConfigParser</a> class.
 </div>
@@ -813,34 +897,49 @@ of properties.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getDependencyBuilder"><span class="type-signature">&lt;protected> </span>_getDependencyBuilder<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="DependencyBuilder.html">DependencyBuilder</a>}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns instance of <a href="DependencyBuilder.html">DependencyBuilder</a> class.
-    </div>
-    
 
     
 
     
-
+    <h4 class="name" id="_getDependencyBuilder"><span class="type-signature">(protected) </span>_getDependencyBuilder<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="DependencyBuilder.html">DependencyBuilder</a>}</span></h4>
     
 
     
+
+
+
+<div class="description">
+    Returns instance of <a href="DependencyBuilder.html">DependencyBuilder</a> class.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -862,7 +961,7 @@ of properties.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line433">line 433</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line465">line 465</a>
     </li></ul></dd>
     
 
@@ -874,20 +973,20 @@ of properties.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Instance of <a href="DependencyBuilder.html">DependencyBuilder</a> class.
 </div>
@@ -906,34 +1005,40 @@ of properties.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getMissingDependencies"><span class="type-signature">&lt;protected> </span>_getMissingDependencies<span class="signature">(moduleNames)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Returns an array of all missing dependencies of the passed modules.
+    <h4 class="name" id="_getMissingDependencies"><span class="type-signature">(protected) </span>_getMissingDependencies<span class="signature">(moduleNames)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns an array of all missing dependencies of the passed modules.
 A missing dependency is a dependency, which does not have pending implementation yet.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -979,10 +1084,20 @@ A missing dependency is a dependency, which does not have pending implementation
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1004,7 +1119,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line478">line 478</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line510">line 510</a>
     </li></ul></dd>
     
 
@@ -1016,20 +1131,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     A list with all missing dependencies.
 </div>
@@ -1048,33 +1163,39 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getModuleImplementations"><span class="type-signature">&lt;protected> </span>_getModuleImplementations<span class="signature">(requiredModules)</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Retrieves module implementations to an array.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_getModuleImplementations"><span class="type-signature">(protected) </span>_getModuleImplementations<span class="signature">(requiredModules)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Retrieves module implementations to an array.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1120,10 +1241,20 @@ A missing dependency is a dependency, which does not have pending implementation
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1145,7 +1276,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line520">line 520</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line552">line 552</a>
     </li></ul></dd>
     
 
@@ -1157,20 +1288,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     List of modules implementations.
 </div>
@@ -1189,34 +1320,49 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getPathResolver"><span class="type-signature">&lt;protected> </span>_getPathResolver<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="PathResolver.html">PathResolver</a>}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns an instance of <a href="PathResolver.html">PathResolver</a> class.
-    </div>
-    
 
     
 
     
-
+    <h4 class="name" id="_getPathResolver"><span class="type-signature">(protected) </span>_getPathResolver<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="PathResolver.html">PathResolver</a>}</span></h4>
     
 
     
+
+
+
+<div class="description">
+    Returns an instance of <a href="PathResolver.html">PathResolver</a> class.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -1238,7 +1384,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line543">line 543</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line575">line 575</a>
     </li></ul></dd>
     
 
@@ -1250,20 +1396,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Instance of <a href="PathResolver.html">PathResolver</a> class.
 </div>
@@ -1282,34 +1428,49 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getURLBuilder"><span class="type-signature">&lt;protected> </span>_getURLBuilder<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="URLBuilder.html">URLBuilder</a>}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns instance of <a href="URLBuilder.html">URLBuilder</a> class.
-    </div>
-    
 
     
 
     
-
+    <h4 class="name" id="_getURLBuilder"><span class="type-signature">(protected) </span>_getURLBuilder<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="URLBuilder.html">URLBuilder</a>}</span></h4>
     
 
     
+
+
+
+<div class="description">
+    Returns instance of <a href="URLBuilder.html">URLBuilder</a> class.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -1331,7 +1492,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line558">line 558</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line590">line 590</a>
     </li></ul></dd>
     
 
@@ -1343,20 +1504,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Instance of <a href="URLBuilder.html">URLBuilder</a> class.
 </div>
@@ -1375,33 +1536,39 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_getValueGlobalNS"><span class="type-signature">&lt;protected> </span>_getValueGlobalNS<span class="signature">(exports)</span><span class="type-signature"> &rarr; {Any}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Retrieves a value from the global namespace.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_getValueGlobalNS"><span class="type-signature">(protected) </span>_getValueGlobalNS<span class="signature">(exports)</span><span class="type-signature"> &rarr; {Any}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Retrieves a value from the global namespace.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1447,10 +1614,20 @@ A missing dependency is a dependency, which does not have pending implementation
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1472,7 +1649,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line451">line 451</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line483">line 483</a>
     </li></ul></dd>
     
 
@@ -1484,20 +1661,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The retrieved value.
 </div>
@@ -1516,33 +1693,39 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_loadModules"><span class="type-signature">&lt;protected> </span>_loadModules<span class="signature">(moduleNames)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Loads list of modules.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_loadModules"><span class="type-signature">(protected) </span>_loadModules<span class="signature">(moduleNames)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Loads list of modules.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1588,10 +1771,20 @@ A missing dependency is a dependency, which does not have pending implementation
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1613,7 +1806,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line630">line 630</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line662">line 662</a>
     </li></ul></dd>
     
 
@@ -1625,20 +1818,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise, which will be resolved as soon as all module a being loaded.
 </div>
@@ -1657,33 +1850,39 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_loadScript"><span class="type-signature">&lt;protected> </span>_loadScript<span class="signature">(modulesURL)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Loads a script element on the page.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_loadScript"><span class="type-signature">(protected) </span>_loadScript<span class="signature">(modulesURL)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Loads a script element on the page.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1731,10 +1930,20 @@ A missing dependency is a dependency, which does not have pending implementation
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1756,7 +1965,7 @@ A missing dependency is a dependency, which does not have pending implementation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line696">line 696</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line728">line 728</a>
     </li></ul></dd>
     
 
@@ -1768,20 +1977,20 @@ A missing dependency is a dependency, which does not have pending implementation
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise which will be resolved as soon as the script is being loaded.
 </div>
@@ -1800,35 +2009,41 @@ A missing dependency is a dependency, which does not have pending implementation
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_reportMismatchedAnonymousModules"><span class="type-signature">&lt;protected> </span>_reportMismatchedAnonymousModules<span class="signature">(msg)</span><span class="type-signature"></span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Reports a mismatched anonymous module error. Depending on the value of the configuration property
+    <h4 class="name" id="_reportMismatchedAnonymousModules"><span class="type-signature">(protected) </span>_reportMismatchedAnonymousModules<span class="signature">(msg)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Reports a mismatched anonymous module error. Depending on the value of the configuration property
 `__CONFIG__.reportMismatchedAnonymousModules`, this method will throw an error, use the console[level]
 method to log the message or silently ignore it.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1874,10 +2089,20 @@ method to log the message or silently ignore it.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -1899,7 +2124,7 @@ method to log the message or silently ignore it.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line766">line 766</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line825">line 825</a>
     </li></ul></dd>
     
 
@@ -1911,43 +2136,49 @@ method to log the message or silently ignore it.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_resolveDependencies"><span class="type-signature">&lt;protected> </span>_resolveDependencies<span class="signature">(modules)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Resolves modules dependencies.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_resolveDependencies"><span class="type-signature">(protected) </span>_resolveDependencies<span class="signature">(modules)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Resolves modules dependencies.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -1993,10 +2224,20 @@ method to log the message or silently ignore it.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -2018,7 +2259,7 @@ method to log the message or silently ignore it.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line741">line 741</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line800">line 800</a>
     </li></ul></dd>
     
 
@@ -2030,20 +2271,20 @@ method to log the message or silently ignore it.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise which will be resolved as soon as all dependencies are being resolved.
 </div>
@@ -2062,33 +2303,39 @@ method to log the message or silently ignore it.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_setModuleImplementation"><span class="type-signature">&lt;protected> </span>_setModuleImplementation<span class="signature">(modules)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Invokes the implementation method of list of modules passing the implementations of its dependencies.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_setModuleImplementation"><span class="type-signature">(protected) </span>_setModuleImplementation<span class="signature">(modules)</span><span class="type-signature"></span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Invokes the implementation method of list of modules passing the implementations of its dependencies.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -2134,10 +2381,20 @@ method to log the message or silently ignore it.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -2159,7 +2416,7 @@ method to log the message or silently ignore it.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line786">line 786</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line845">line 845</a>
     </li></ul></dd>
     
 
@@ -2171,43 +2428,49 @@ method to log the message or silently ignore it.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_waitForModule"><span class="type-signature">&lt;protected> </span>_waitForModule<span class="signature">(moduleName)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Resolves a Promise as soon as all module dependencies are being resolved or it has implementation already.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="_waitForModule"><span class="type-signature">(protected) </span>_waitForModule<span class="signature">(moduleName)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Resolves a Promise as soon as all module dependencies are being resolved or it has implementation already.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -2253,10 +2516,20 @@ method to log the message or silently ignore it.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -2278,7 +2551,7 @@ method to log the message or silently ignore it.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line910">line 910</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line969">line 969</a>
     </li></ul></dd>
     
 
@@ -2290,20 +2563,20 @@ method to log the message or silently ignore it.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 
 
 <dl>
@@ -2318,34 +2591,40 @@ method to log the message or silently ignore it.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="_waitForModules"><span class="type-signature">&lt;protected> </span>_waitForModules<span class="signature">(moduleNames)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
-</dt>
-<dd>
 
     
-    <div class="description">
-        Resolves a Promise as soon as all dependencies of all provided modules are being resolved and modules have
+    <h4 class="name" id="_waitForModules"><span class="type-signature">(protected) </span>_waitForModules<span class="signature">(moduleNames)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Resolves a Promise as soon as all dependencies of all provided modules are being resolved and modules have
 implementations.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -2391,10 +2670,20 @@ implementations.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -2416,7 +2705,7 @@ implementations.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line935">line 935</a>
+        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line994">line 994</a>
     </li></ul></dd>
     
 
@@ -2428,20 +2717,20 @@ implementations.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 
 
 <dl>
@@ -2456,33 +2745,39 @@ implementations.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="addModule"><span class="type-signature"></span>addModule<span class="signature">(module)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Adds a module to the configuration. See <a href="ConfigParser.html#addModule">ConfigParser#addModule</a> for more details.
-    </div>
     
 
     
 
-    
 
+
+<div class="description">
+    Adds a module to the configuration. See <a href="ConfigParser.html#addModule">ConfigParser#addModule</a> for more details.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -2528,10 +2823,20 @@ implementations.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -2565,20 +2870,20 @@ implementations.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Returns the added module to the configuration.
 </div>
@@ -2597,33 +2902,39 @@ implementations.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
-    <h4 class="name" id="define"><span class="type-signature"></span>define<span class="signature">(name, dependencies, implementation, <span class="optional">config</span>)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Defines a module in the system and fires <a href="Loader.html#event:moduleRegister">Loader#event:moduleRegister</a> event with the registered module as param.
-    </div>
-    
 
     
 
     
+    <h4 class="name" id="define"><span class="type-signature"></span>define<span class="signature">(name, dependencies, implementation, config<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
 
     
-        <h5>Parameters:</h5>
-        
+
+
+
+<div class="description">
+    Defines a module in the system and fires Loader#event:moduleRegister event with the registered module as param.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
 
 <table class="params">
     <thead>
@@ -2635,7 +2946,7 @@ implementations.
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -2790,10 +3101,20 @@ implementations.
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -2827,45 +3148,51 @@ implementations.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="emit"><span class="type-signature"></span>emit<span class="signature">(event, args)</span><span class="type-signature"></span></h4>
+    
 
     
-</dt>
-<dd>
 
-    
-    <div class="description">
-        Emits an event. The function calls all registered listeners in the order
+
+
+<div class="description">
+    Emits an event. The function calls all registered listeners in the order
 they have been added. The provided args param will be passed to each
 listener of the event.
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -2935,11 +3262,13 @@ listener of the event.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
+
+
 <dl class="details">
-    
 
     
 
@@ -2949,7 +3278,15 @@ listener of the event.
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
         <a href="EventEmitter.html#emit">EventEmitter#emit</a>
-    </li></dd>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -2977,44 +3314,59 @@ listener of the event.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="getConditionalModules"><span class="type-signature"></span>getConditionalModules<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns list of currently registered conditional modules.
-    </div>
     
 
     
 
-    
 
-    
 
-    
+<div class="description">
+    Returns list of currently registered conditional modules.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -3048,20 +3400,20 @@ listener of the event.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     List of currently registered conditional modules.
 </div>
@@ -3080,34 +3432,49 @@ listener of the event.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="getModules"><span class="type-signature"></span>getModules<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns list of currently registered modules.
-    </div>
     
 
     
 
-    
 
-    
 
-    
+<div class="description">
+    Returns list of currently registered modules.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
+
+    
+
+    
+
+    
+
     
 
     
@@ -3141,20 +3508,20 @@ listener of the event.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     List of currently registered modules.
 </div>
@@ -3173,33 +3540,39 @@ listener of the event.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="off"><span class="type-signature"></span>off<span class="signature">(event, callback)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Removes an event from the list of event listeners to some event.
-    </div>
     
 
     
 
-    
 
+
+<div class="description">
+    Removes an event from the list of event listeners to some event.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -3269,11 +3642,13 @@ listener of the event.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
+
+
 <dl class="details">
-    
 
     
 
@@ -3283,7 +3658,15 @@ listener of the event.
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
         <a href="EventEmitter.html#off">EventEmitter#off</a>
-    </li></dd>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -3311,43 +3694,49 @@ listener of the event.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="on"><span class="type-signature"></span>on<span class="signature">(event, callback)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Adds event listener to an event.
-    </div>
     
 
     
 
-    
 
+
+<div class="description">
+    Adds event listener to an event.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -3417,11 +3806,13 @@ listener of the event.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
+
+
 <dl class="details">
-    
 
     
 
@@ -3431,7 +3822,15 @@ listener of the event.
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
         <a href="EventEmitter.html#on">EventEmitter#on</a>
-    </li></dd>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -3459,44 +3858,50 @@ listener of the event.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
+
+
 
         
             
-<dt>
+
+    
+
+    
     <h4 class="name" id="require"><span class="type-signature"></span>require<span class="signature">(modules, success, failure)</span><span class="type-signature"></span></h4>
+    
 
     
-</dt>
-<dd>
 
-    
-    <div class="description">
-        Requires list of modules. If a module is not yet registered, it will be ignored and its implementation
+
+
+<div class="description">
+    Requires list of modules. If a module is not yet registered, it will be ignored and its implementation
 in the provided success callback will be left undefined.<br>
-    </div>
-    
+</div>
 
-    
 
-    
 
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -3594,10 +3999,20 @@ in the provided success callback will be left undefined.<br>
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-<dl class="details">
+
+    
+
     
 
     
@@ -3631,149 +4046,27 @@ in the provided success callback will be left undefined.<br>
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
 
-        </dl>
-    
 
-    
 
-    
-        <h3 class="subsection-title">Events</h3>
 
-        <dl>
-            
-<dt>
-    <h4 class="name" id="event:moduleRegister">moduleRegister</h4>
 
-    
-</dt>
-<dd>
 
-    
-    <div class="description">
-        Indicates that a module has been registered.
-    </div>
-    
 
-    
 
-    
 
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
 
         
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>module</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The registered module.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
     
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script-loader.js.html">script-loader.js</a>, <a href="script-loader.js.html#line985">line 985</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        </dl>
     
 </article>
 
@@ -3785,13 +4078,13 @@ in the provided success callback will be left undefined.<br>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul><h3>Events</h3><ul><li><a href="Loader.html#event:moduleRegister">moduleRegister</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConfigParser.html">ConfigParser</a></li><li><a href="DependencyBuilder.html">DependencyBuilder</a></li><li><a href="EventEmitter.html">EventEmitter</a></li><li><a href="Loader.html">Loader</a></li><li><a href="PathResolver.html">PathResolver</a></li><li><a href="URLBuilder.html">URLBuilder</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Thu Jul 20 2017 11:12:55 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 19 2017 13:55:59 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
