@@ -12,10 +12,16 @@ import * as log from './log';
 
 /**
  * Default entry point for the liferay-npm-bundler.
+ * @param {Array} args command line arguments
  * @return {void}
  */
-export default function() {
+export default function(args) {
 	let promises = [];
+
+	if (args[0] === '-v' || args[0] === '--version') {
+		showVersions();
+		return;
+	}
 
 	const outputDir = path.resolve(config.getOutputDir());
 
@@ -49,6 +55,22 @@ export default function() {
 			log.error(err);
 			process.exit(1);
 		});
+}
+
+/**
+ * Show versions information
+ * @return {void}
+ */
+function showVersions() {
+	const pkgJson = require('../package.json');
+
+	let info = {
+		'liferay-npm-bundler': pkgJson.version,
+	};
+
+	info = Object.assign(info, config.getPluginVersions());
+
+	console.log(JSON.stringify(info, null, 2));
 }
 
 /**

@@ -165,6 +165,131 @@ export function isVerbose() {
 }
 
 /**
+ * Get version numbers of all plugins used in the build.
+ * @return {Object} a map of {plugin-name: version} values
+ */
+export function getPluginVersions() {
+	let pluginVersions = {};
+
+	// Get preset plugin version
+	if (config.preset) {
+		pluginVersions[config.preset] = configRequire(
+			`${config.preset}/package.json`
+		).version;
+	}
+
+	// Get legacy package and package plugins versions
+	let plugins = [];
+
+	for (let key in config) {
+		if (config.hasOwnProperty(key)) {
+			plugins = concatAllPlugins(plugins, config[key]);
+		}
+	}
+
+	for (let key in config.packages) {
+		if (config.packages.hasOwnProperty(key)) {
+			plugins = concatAllPlugins(plugins, config.packages[key]);
+		}
+	}
+
+	for (let plugin of plugins) {
+		if (!pluginVersions[plugin]) {
+			pluginVersions[plugin] = configRequire(
+				`${plugin}/package.json`
+			).version;
+		}
+	}
+
+	return pluginVersions;
+}
+
+/**
+ * Add version numbers for all bundler and Babel plugins listed in `cfg`.
+ * @param {Array} plugins the array of currently collected plugins
+ * @param {Array} cfg a configuration subsection
+ * @return {Array} the concatenated array of collected plugins
+ */
+function concatAllPlugins(plugins, cfg) {
+	if (cfg) {
+		plugins = concatBundlerPlugins(plugins, cfg['plugins']);
+		plugins = concatBundlerPlugins(plugins, cfg['post-plugins']);
+		plugins = concatBabelPlugins(plugins, cfg['.babelrc']);
+	}
+
+	return plugins;
+}
+
+/**
+ * Add version numbers for all bundler plugins listed in `cfg`.
+ * @param {Array} plugins the array of currently collected plugins
+ * @param {Array} cfg a configuration subsection
+ * @return {Array} the concatenated array of collected plugins
+ */
+function concatBundlerPlugins(plugins, cfg) {
+	if (!cfg) {
+		return plugins;
+	}
+
+	return plugins.concat(
+		cfg.map(name => {
+			if (Array.isArray(name)) {
+				name = name[0];
+			}
+
+			return `liferay-npm-bundler-plugin-${name}`;
+		})
+	);
+}
+
+/**
+ * Add version numbers for all Babel plugins listed in `cfg`.
+ * @param {Array} plugins the array of currently collected plugins
+ * @param {Array} cfg a configuration subsection
+ * @return {Array} the concatenated array of collected plugins
+ */
+function concatBabelPlugins(plugins, cfg) {
+	if (!cfg) {
+		return plugins;
+	}
+
+	const babelPresets = cfg['presets'];
+	const babelPlugins = cfg['plugins'];
+
+	if (babelPresets) {
+		plugins = plugins.concat(
+			babelPresets.map(name => {
+				try {
+					configRequire(name);
+					return name;
+				} catch (err) {
+					return `babel-preset-${name}`;
+				}
+			})
+		);
+	}
+
+	if (babelPlugins) {
+		plugins = plugins.concat(
+			babelPlugins.map(name => {
+				if (Array.isArray(name)) {
+					name = name[0];
+				}
+
+				try {
+					configRequire(name);
+					return name;
+				} catch (err) {
+					return `babel-plugin-${name}`;
+				}
+			})
+		);
+	}
+
+	return plugins;
+}
+
+/**
  * Get a configuration for a specific package. This method looks in the packages
  * section, then at root in the precedence order: first package id, then package
  * name.

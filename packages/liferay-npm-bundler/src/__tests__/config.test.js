@@ -208,3 +208,19 @@ describe('getBabelConfig()', () => {
 		expect(config).toEqual({config: 'config-package2'});
 	});
 });
+
+describe('getPluginVersions()', () => {
+	it.only('analyzes default config correctly', () => {
+		const versions = cfg.getPluginVersions();
+
+		expect(Object.keys(versions).length).toEqual(8);
+		expect(versions['liferay-npm-bundler-plugin-test-0']).toEqual('1.0.0');
+		expect(versions['liferay-npm-bundler-plugin-test-1']).toEqual('1.0.1');
+		expect(versions['liferay-npm-bundler-plugin-test-2']).toEqual('1.0.2');
+		expect(versions['liferay-npm-bundler-plugin-test-3']).toEqual('1.0.3');
+		expect(versions['liferay-npm-bundler-plugin-test-4']).toEqual('1.0.4');
+		expect(versions['liferay-npm-bundler-plugin-test-5']).toEqual('1.0.5');
+		expect(versions['liferay-npm-bundler-plugin-test-6']).toEqual('1.0.6');
+		expect(versions['liferay-npm-bundler-plugin-test-7']).toEqual('1.0.7');
+	});
+});
