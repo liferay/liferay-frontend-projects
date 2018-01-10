@@ -7,7 +7,7 @@ let pluginsBaseDir = '.';
 let config = loadConfig();
 
 /**
- * Load configuration at startup.
+ * Load configuration.
  * @return {Object} the configuration object
  */
 function loadConfig() {
@@ -32,6 +32,9 @@ function loadConfig() {
 		config = Object.assign(readJsonSync(presetFile), config);
 		pluginsBaseDir = getPackageDir(presetFile);
 	}
+
+	// Normalize
+	config.packages = config.packages || {};
 
 	return config;
 }
@@ -62,7 +65,7 @@ export function reloadConfig() {
  * @return {String} the directory path (with native separators)
  */
 export function getOutputDir() {
-	let dir = config['output'] || 'build/resources/main/META-INF/resources';
+	const dir = config['output'] || 'build/resources/main/META-INF/resources';
 	return path.normalize(dir);
 }
 
@@ -114,14 +117,7 @@ export function loadBabelPlugins(presets, plugins) {
  */
 export function getPlugins(phase, pkg) {
 	const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
-
-	let plugins = [];
-
-	if (config[pkg.id] && config[pkg.id][pluginsKey]) {
-		plugins = config[pkg.id][pluginsKey];
-	} else if (config['*'] && config['*'][pluginsKey]) {
-		plugins = config['*'][pluginsKey];
-	}
+	const plugins = getPackageConfig(pkg, pluginsKey) || [];
 
 	return plugins.map(pluginName => {
 		let pluginConfig = {};
@@ -149,17 +145,7 @@ export function getPlugins(phase, pkg) {
  * @return {Object} a Babel configuration object as defined by its API
  */
 export function getBabelConfig(pkg) {
-	let babelConfig = {};
-
-	if (config[pkg.id] && config[pkg.id]['.babelrc']) {
-		babelConfig = config[pkg.id]['.babelrc'];
-	} else if (config[pkg.name] && config[pkg.name]['.babelrc']) {
-		babelConfig = config[pkg.name]['.babelrc'];
-	} else if (config['*'] && config['*']['.babelrc']) {
-		babelConfig = config['*']['.babelrc'];
-	}
-
-	return babelConfig;
+	return getPackageConfig(pkg, '.babelrc') || {};
 }
 
 /**
@@ -176,4 +162,31 @@ export function isProcessSerially() {
  */
 export function isVerbose() {
 	return config['verbose'] || false;
+}
+
+/**
+ * Get a configuration for a specific package. This method looks in the packages
+ * section, then at root in the precedence order: first package id, then package
+ * name.
+ * @param {Object} pkg the package descriptor hash containing id, name, version
+ *        and dir fields
+ * @param  {String} key the key name
+ * @return {Object} a configuration object
+ */
+function getPackageConfig(pkg, key) {
+	let pkgConfig;
+
+	if (config.packages[pkg.id] && config.packages[pkg.id][key]) {
+		pkgConfig = config.packages[pkg.id][key];
+	} else if (config.packages[pkg.name] && config.packages[pkg.name][key]) {
+		pkgConfig = config.packages[pkg.name][key];
+	} else if (config[pkg.id] && config[pkg.id][key]) {
+		pkgConfig = config[pkg.id][key];
+	} else if (config[pkg.name] && config[pkg.name][key]) {
+		pkgConfig = config[pkg.name][key];
+	} else if (config['*'] && config['*'][key]) {
+		pkgConfig = config['*'][key];
+	}
+
+	return pkgConfig;
 }

@@ -25,22 +25,24 @@
 			"config": "config-*"
 		}
 	},
-	"package@1.0.0" : {
-		"plugins": [
-			"test-4",
-			["test-5", "config-5"]
-		],
-		"post-plugins": [
-			"test-6",
-			["test-7", "config-7"]
-		],
-		".babelrc": {
-			"config": "config-package@1.0.0"
-		}
-	},
-	"package2" : {
-		".babelrc": {
-			"config": "config-package2"
+	"packages": {
+		"package@1.0.0" : {
+			"plugins": [
+				"test-4",
+				["test-5", "config-5"]
+			],
+			"post-plugins": [
+				"test-6",
+				["test-7", "config-7"]
+			],
+			".babelrc": {
+				"config": "config-package@1.0.0"
+			}
+		},
+		"package2" : {
+			".babelrc": {
+				"config": "config-package2"
+			}
 		}
 	}
 }

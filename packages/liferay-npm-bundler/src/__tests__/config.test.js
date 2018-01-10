@@ -132,6 +132,46 @@ describe('getPlugins()', () => {
 		expect(plugins[1].run({}, {})).toEqual(7);
 		expect(plugins[1].config).toEqual('config-7');
 	});
+
+	it('supports legacy package configurations correctly', () => {
+		process.chdir(
+			`${projectDir}/packages/liferay-npm-bundler/src/__tests__/config/` +
+				'legacy-packages'
+		);
+		cfg.reloadConfig();
+
+		let plugins = cfg.getPlugins('pre', {
+			id: 'package@1.0.0',
+			name: 'package',
+			version: '1.0.0',
+			dir: '',
+		});
+		expect(plugins[0].run({}, {})).toEqual(1);
+
+		plugins = cfg.getPlugins('pre', {
+			id: 'package2@1.0.0',
+			name: 'package2',
+			version: '1.0.0',
+			dir: '',
+		});
+		expect(plugins[0].run({}, {})).toEqual(2);
+
+		plugins = cfg.getPlugins('pre', {
+			id: 'package3@1.0.0',
+			name: 'package3',
+			version: '1.0.0',
+			dir: '',
+		});
+		expect(plugins[0].run({}, {})).toEqual(4);
+
+		plugins = cfg.getPlugins('pre', {
+			id: 'unconfigured-package@1.0.0',
+			name: 'unconfigured-package',
+			version: '1.0.0',
+			dir: '',
+		});
+		expect(plugins[0].run({}, {})).toEqual(0);
+	});
 });
 
 describe('getBabelConfig()', () => {
