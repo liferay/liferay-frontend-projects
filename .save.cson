@@ -1,6 +1,9 @@
 "packages/babel-plugin-name-amd-modules/**/*.js": [
   "cd packages/babel-plugin-name-amd-modules && npm run build"
 ]
+"packages/babel-plugin-namespace-amd-define/**/*.js": [
+  "cd packages/babel-plugin-namespace-amd-define && npm run build"
+]
 "packages/babel-plugin-namespace-amd-modules/**/*.js": [
   "cd packages/babel-plugin-namespace-amd-modules && npm run build"
 ]
