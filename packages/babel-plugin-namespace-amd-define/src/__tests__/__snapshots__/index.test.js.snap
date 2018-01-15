@@ -1,21 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`correctly namespaces unqualified define calls 1`] = `
-"
-Liferay.Loader.define([], function () {});"
-`;
-
 exports[`does not namespace already qualified define calls 1`] = `
 "
 Other.Namespace.define([], function () {});"
 `;
 
-exports[`only namespaces the first appearance of define() in the source 1`] = `
+exports[`does not namespace references to local define identifier when it is a function 1`] = `
 "
-if (window.define) {
-	Liferay.Loader.define([], function () {
-		console.log(define('this should not be namespaced'));
-	});
-}
-Liferay.Loader.define('this should not be namespaced');"
+function define(x) {
+	console.log(define);
+}"
+`;
+
+exports[`does not namespace references to local define identifier when it is a function parameter 1`] = `
+"
+function fn(define) {
+	console.log(define);
+};"
+`;
+
+exports[`does not namespace references to local define identifier when it is a variable 1`] = `
+"
+let define = 'x';
+
+if (true) {
+	if (true) {
+		console.log(define);
+	}
+}"
+`;
+
+exports[`namespaces references to global define identifier 1`] = `
+"
+if (typeof Liferay.Loader.define === \\"function\\" && Liferay.Loader.define.amd) {
+	console.log('UMD!');
+}"
+`;
+
+exports[`namespaces unqualified define calls 1`] = `
+"
+Liferay.Loader.define([], function () {});"
 `;

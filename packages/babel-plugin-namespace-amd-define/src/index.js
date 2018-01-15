@@ -7,6 +7,13 @@ export default function() {
 	const namespaceVisitor = {
 		Identifier(path) {
 			if (path.node.name === 'define') {
+				if (
+					path.parent.type === 'MemberExpression' &&
+					path.parent.property === path.node
+				) {
+					return;
+				}
+
 				let scope;
 
 				// Find if 'define' is defined in any scope
@@ -17,8 +24,11 @@ export default function() {
 				}
 
 				// If 'define' is not defined in any scope namespace or defined
-				// in the root scope, namespace it
-				if (scope == null || scope.parent == null) {
+				// in the root scope as global, namespace it
+				if (
+					scope == null ||
+					(scope.parent == null && !scope.bindings.define)
+				) {
 					const namespace = this.opts.namespace || 'Liferay.Loader';
 
 					path.node.name = `${namespace}.define`;

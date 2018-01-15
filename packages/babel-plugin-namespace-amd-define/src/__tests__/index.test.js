@@ -1,7 +1,7 @@
 import * as babel from 'babel-core';
 import plugin from '../index';
 
-it('correctly namespaces unqualified define calls', () => {
+it('namespaces unqualified define calls', () => {
 	const source = `
 	define([], function(){})
 	`;
@@ -25,21 +25,11 @@ it('does not namespace already qualified define calls', () => {
 	expect(code).toMatchSnapshot();
 });
 
-// It is not clear what would be the best way to handle multiple define calls in
-// the code.
-// On the one hand, it is faster to only change the first appearance as 99% of
-// the time we will be processing AMD modules with define calls issued by us.
-// On the other hand, some third party modules (like jQuery, for instance) issue
-// define() calls inside their code. We expect only one such call, but if
-// someone does anything more exotic than that, this plugin could "fail".
-it('only namespaces the first appearance of define() in the source', () => {
+it('namespaces references to global define identifier', () => {
 	const source = `
-	if(window.define) {
-		define([], function() {
-			console.log(define('this should not be namespaced'));
-		});
+	if (typeof define === "function" && define.amd) {
+		console.log('UMD!');
 	}
-	define('this should not be namespaced')
 	`;
 
 	const {code} = babel.transform(source, {
@@ -47,4 +37,52 @@ it('only namespaces the first appearance of define() in the source', () => {
 	});
 
 	expect(code).toMatchSnapshot();
+});
+
+describe('does not namespace references to local define identifier', () => {
+	it('when it is a variable', () => {
+		const source = `
+		let define = 'x';
+
+		if(true) {
+			if(true) {
+				console.log(define);
+			}
+	    }
+		`;
+
+		const {code} = babel.transform(source, {
+			plugins: [plugin],
+		});
+
+		expect(code).toMatchSnapshot();
+	});
+
+	it('when it is a function parameter', () => {
+		const source = `
+		function fn(define) {
+			console.log(define);
+		};
+		`;
+
+		const {code} = babel.transform(source, {
+			plugins: [plugin],
+		});
+
+		expect(code).toMatchSnapshot();
+	});
+
+	it('when it is a function', () => {
+		const source = `
+		function define(x) {
+			console.log(define);
+		}
+		`;
+
+		const {code} = babel.transform(source, {
+			plugins: [plugin],
+		});
+
+		expect(code).toMatchSnapshot();
+	});
 });
