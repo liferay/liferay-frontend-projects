@@ -3,26 +3,25 @@
  *     namespace: 'Liferay.Loader'
  * @return {object} a babel visitor
  */
-export default function({types: t}) {
+export default function() {
 	const namespaceVisitor = {
-		ExpressionStatement(path, state) {
-			if (state.namespaced) {
-				path.stop();
-			}
+		Identifier(path) {
+			if (path.node.name === 'define') {
+				let scope;
 
-			const node = path.node;
-			const expression = node.expression;
+				// Find if 'define' is defined in any scope
+				for (scope = path.scope; scope != null; scope = scope.parent) {
+					if (scope.bindings.define || scope.globals.define) {
+						break;
+					}
+				}
 
-			if (t.isCallExpression(expression)) {
-				const callee = expression.callee;
-
-				if (t.isIdentifier(callee, {name: 'define'})) {
+				// If 'define' is not defined in any scope namespace or defined
+				// in the root scope, namespace it
+				if (scope == null || scope.parent == null) {
 					const namespace = this.opts.namespace || 'Liferay.Loader';
 
-					callee.name = `${namespace}.define`;
-
-					state.namespaced = true;
-					path.stop();
+					path.node.name = `${namespace}.define`;
 				}
 			}
 		},
