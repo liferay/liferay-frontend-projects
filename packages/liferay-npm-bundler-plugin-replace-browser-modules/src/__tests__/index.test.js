@@ -32,7 +32,7 @@ beforeEach(() => {
 afterEach(() => {
 	pkgFiles.forEach(file => {
 		try {
-			fs.unlink(`${pkg.dir}/${file}`);
+			fs.unlinkSync(`${pkg.dir}/${file}`);
 		} catch (err) {}
 	});
 });
