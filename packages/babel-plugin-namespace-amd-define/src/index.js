@@ -14,6 +14,13 @@ export default function() {
 					return;
 				}
 
+				if (
+					path.parent.type === 'ObjectProperty' &&
+					path.parent.key === path.node
+				) {
+					return;
+				}
+
 				let scope;
 
 				// Find if 'define' is defined in any scope

@@ -30,6 +30,15 @@ if (true) {
 }"
 `;
 
+exports[`does not namespace references to local define identifier when it is an object field 1`] = `
+"
+var a = {
+	define: function (name, value) {
+		return name;
+	}
+};"
+`;
+
 exports[`namespaces references to global define identifier 1`] = `
 "
 if (typeof Liferay.Loader.define === \\"function\\" && Liferay.Loader.define.amd) {

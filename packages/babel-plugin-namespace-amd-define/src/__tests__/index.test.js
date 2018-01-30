@@ -85,4 +85,20 @@ describe('does not namespace references to local define identifier', () => {
 
 		expect(code).toMatchSnapshot();
 	});
+
+	it('when it is an object field', () => {
+		const source = `
+			var a = {
+				define: function(name, value) {
+					return name;
+				}
+			}
+			`;
+
+		const {code} = babel.transform(source, {
+			plugins: [plugin],
+		});
+
+		expect(code).toMatchSnapshot();
+	});
 });
