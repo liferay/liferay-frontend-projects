@@ -1,10 +1,10 @@
 {
-  "name": "liferay-npm-bundler-preset-react",
-  "version": "1.4.1",
-  "description": "React configuration for liferay-npm-bundler.",
-  "main": "config.json",
-  "dependencies": {
-    "babel-preset-liferay-standard": "^1.4.1",
-    "liferay-npm-bundler-plugin-replace-browser-modules": "1.4.0"
-  }
+	"name": "liferay-npm-bundler-preset-react",
+	"version": "1.4.1",
+	"description": "React configuration for liferay-npm-bundler.",
+	"main": "config.json",
+	"dependencies": {
+		"babel-preset-liferay-standard": "1.4.1",
+		"liferay-npm-bundler-plugin-replace-browser-modules": "1.4.1"
+	}
 }

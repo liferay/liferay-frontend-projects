@@ -1,13 +1,13 @@
 {
-  "name": "liferay-npm-build-tools-common",
-  "version": "1.4.0",
-  "description": "Utility library for Liferay NPM Build Tools.",
-  "scripts": {
-    "build": "babel --source-maps -D -d lib src",
-    "prepublish": "npm run build"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1"
-  }
+	"name": "liferay-npm-build-tools-common",
+	"version": "1.4.1",
+	"description": "Utility library for Liferay NPM Build Tools.",
+	"scripts": {
+		"build": "babel --source-maps -D -d lib src",
+		"prepublish": "npm run build"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-preset-es2015": "^6.24.1"
+	}
 }

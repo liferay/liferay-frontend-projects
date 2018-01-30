@@ -1,7 +1,10 @@
 {
-  "lerna": "2.0.0-rc.5",
-  "packages": [
-    "packages/*"
-  ],
-  "version": "1.4.1"
+	"lerna": "2.0.0-rc.5",
+	"commands": {
+		"publish": {
+			"exact": true
+		}
+	},
+	"packages": ["packages/*"],
+	"version": "1.4.1"
 }
