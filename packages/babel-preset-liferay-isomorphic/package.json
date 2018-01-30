@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-liferay-isomorphic",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Babel preset for bundling isomorphic Liferay projects.",
   "main": "lib/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "babel-plugin-name-amd-modules": "1.4.0",
-    "babel-plugin-namespace-amd-define": "1.4.0",
+    "babel-plugin-namespace-amd-define": "^1.4.1",
     "babel-plugin-normalize-requires": "1.4.0",
     "babel-plugin-shim-nodejs": "1.4.0",
     "babel-plugin-wrap-modules-amd": "1.4.0"
