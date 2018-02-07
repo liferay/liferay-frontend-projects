@@ -1,0 +1,7 @@
+{
+    "env": {
+        "amd": true,
+        "browser": true,
+        "node": false
+    }
+}

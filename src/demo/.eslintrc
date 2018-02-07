@@ -1,0 +1,9 @@
+{
+    "env": {
+        "amd": true,
+        "browser": true
+    },
+    "rules": {
+        "require-jsdoc": "off"
+    }
+}
