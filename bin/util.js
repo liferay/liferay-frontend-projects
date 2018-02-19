@@ -1,7 +1,6 @@
 const {spawnSync} = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
-const originalStripDebug = require('strip-debug');
 
 const copy = (input, output) =>
 	fs.copySync(input, output, {
@@ -16,10 +15,4 @@ const run = (binary, ...args) =>
 		stdio: 'inherit',
 	});
 
-const stripDebug = (inputFile, outputFile) => {
-	const source = fs.readFileSync(inputFile).toString();
-	const result = originalStripDebug(source).toString();
-	fs.writeFileSync(outputFile, result);
-};
-
-module.exports = {copy, run, stripDebug};
+module.exports = {copy, run};

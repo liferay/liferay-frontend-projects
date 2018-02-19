@@ -1,11 +1,9 @@
 const globby = require('globby');
-const {run, stripDebug} = require('./util');
+const {run} = require('./util');
 
-run('webpack', 'src/loader/bootstrap.js', 'build/loader/loader-debug.js');
-
-stripDebug('build/loader/loader-debug.js', 'build/loader/loader.js');
-
-run('uglifyjs', '-o', 'build/loader/loader-min.js', 'build/loader/loader.js');
+run('webpack', '--env.flavor=debug');
+run('webpack', '--env.flavor=prod');
+run('webpack', '--env.flavor=min');
 
 run(
 	...['jsdoc', '-d', 'build/jsdoc']
