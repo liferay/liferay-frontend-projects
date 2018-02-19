@@ -1,7 +1,8 @@
 {
 	"name": "liferay-amd-loader",
 	"version": "3.0.0",
-	"description": "AMD Loader with support for combo URL and conditional loading",
+	"description":
+		"AMD Loader with support for combo URL and conditional loading",
 	"scripts": {
 		"clean": "rm -rf build",
 		"build": "node bin/build-loader.js",
@@ -11,7 +12,8 @@
 		"format": "prettier-eslint --write 'src/**/*.js'",
 		"lint": "eslint 'src/**/*.js'",
 		"prepublish": "publish-please guard",
-		"publish-please": "publish-please"
+		"publish-please": "publish-please",
+		"prepare": "npm run build && npm run build-demo && npm test"
 	},
 	"repository": {
 		"type": "git",
@@ -27,16 +29,24 @@
 	},
 	"author": "Iliyan Peychev",
 	"license": "LGPL-3.0",
-	"keywords": [
-		"Liferay",
-		"AMD",
-		"ES6",
-		"Loader"
-	],
+	"keywords": ["Liferay", "AMD", "ES6", "Loader"],
 	"bugs": {
 		"url": "https://github.com/liferay/liferay-amd-loader/issues"
 	},
 	"homepage": "https://github.com/liferay/liferay-amd-loader",
+	"files": [
+		".babelrc",
+		".eslintrc",
+		".publishrc",
+		"LICENSE.md",
+		"package.json",
+		"README.md",
+		"webpack.config.js",
+		"src",
+		"bin",
+		"build",
+		"src"
+	],
 	"dependencies": {
 		"es6-promise": "^4.0.5"
 	},
