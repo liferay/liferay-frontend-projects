@@ -5,6 +5,7 @@
 	"scripts": {
 		"clean": "rm -rf build",
 		"build": "node bin/build-loader.js",
+		"ci": "prettier-eslint --list-different && npm run lint && npm run build && npm run build-demo && npm test",
 		"build-demo": "node bin/build-demo.js",
 		"demo": "node bin/run-demo.js",
 		"test": "jest",
