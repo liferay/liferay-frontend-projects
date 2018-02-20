@@ -186,61 +186,25 @@ export default class Loader extends EventEmitter {
 	 * 								failure. One parameter with information
 	 * 								about the error will be provided.
 	 */
-	require() {
+	require(...args) {
 		console.log('REQUIRE CALLED');
 
-		let failureCallback;
-		let i;
-		let modules;
-		let successCallback;
-
-		// Modules can be specified by as an array, or just as parameters to the
-		// function. We do not slice or leak arguments to not cause V8
-		// performance penalties.
-		// TODO: This could be extracted as an inline function (hint)
-		/* eslint-disable prefer-rest-params */
-		if (Array.isArray(arguments[0])) {
-			modules = arguments[0];
-			successCallback =
-				typeof arguments[1] === 'function' ? arguments[1] : null;
-			failureCallback =
-				typeof arguments[2] === 'function' ? arguments[2] : null;
-		} else {
-			modules = [];
-
-			for (i = 0; i < arguments.length; ++i) {
-				if (typeof arguments[i] === 'string') {
-					modules[i] = arguments[i];
-
-					/* istanbul ignore else */
-				} else if (typeof arguments[i] === 'function') {
-					successCallback = arguments[i];
-					failureCallback =
-						typeof arguments[++i] === 'function'
-							? arguments[i]
-							: /* istanbul ignore next */ null;
-
-					break;
-				}
-			}
-		}
-		/* eslint-enable prefer-rest-params */
+		const {
+			modules,
+			successCallback,
+			failureCallback,
+		} = this._normalizeRequireArgs(args);
 
 		console.log('REQUIRE called with', modules);
 
-		let configParser = this._getConfigParser();
-
-		// Map the required modules so we start with clean idea what the hell we
-		// should load.
-		let mappedModules = configParser.mapModule(modules);
+		const configParser = this._getConfigParser();
+		const mappedModules = configParser.mapModule(modules);
 
 		console.log('REQUIRE modules mapped to', mappedModules);
 
 		let rejectTimeout;
 
 		new Promise((resolve, reject) => {
-			// Resolve the dependencies of the requested modules,
-			// then load them and resolve the Promise
 			this._resolveDependencies(mappedModules).then(dependencies => {
 				console.log('REQUIRE dependencies resolved to', dependencies);
 
@@ -251,50 +215,21 @@ export default class Loader extends EventEmitter {
 					dependencies
 				);
 
-				let dependencyErrors = dependencies
-					.filter(dep => dep.indexOf(':ERROR:') === 0)
-					.map(dep => dep.substr(7));
+				const resolutionError = this._getResolutionError(dependencies);
 
-				if (dependencyErrors.length > 0) {
-					reject(
-						new Error(
-							'The following problems where detected while ' +
-								'resolving modules:\n' +
-								dependencyErrors.join('\n')
-						)
-					);
+				if (resolutionError) {
+					reject(resolutionError);
+
+					return;
 				}
 
-				let config = configParser.getConfig();
+				rejectTimeout = this._setRejectTimeout(
+					modules,
+					mappedModules,
+					dependencies,
+					reject
+				);
 
-				// Establish a load timeout and reject the Promise in case
-				// of Error
-				if (config.waitTimeout !== 0) {
-					rejectTimeout = setTimeout(() => {
-						let registeredModules = configParser.getModules();
-
-						let error = new Error(
-							'Load timeout for modules: ' + modules
-						);
-						error.dependencies = dependencies;
-						error.mappedModules = mappedModules;
-						error.missingDependencies = dependencies.filter(
-							dep =>
-								typeof registeredModules[dep].implementation ===
-								'undefined'
-						);
-						error.modules = modules;
-
-						// @deprecated: fill `dependecies` field to maintain
-						// backward compatibility
-						error.dependecies = error.dependencies;
-
-						console.log('REQUIRE timeout', error);
-						reject(error);
-					}, config.waitTimeout || 7000);
-				}
-
-				// Load the dependencies, then resolve the Promise
 				this._loadModules(dependencies).then(resolve, reject);
 			}, reject);
 		}).then(
@@ -304,9 +239,12 @@ export default class Loader extends EventEmitter {
 
 				/* istanbul ignore else */
 				if (successCallback) {
-					let moduleImplementations = this._getModuleImplementations(
+					let moduleImplementations;
+
+					moduleImplementations = this._getModuleImplementations(
 						mappedModules
 					);
+
 					successCallback.apply(
 						successCallback,
 						moduleImplementations
@@ -330,6 +268,136 @@ export default class Loader extends EventEmitter {
 				}
 			}
 		);
+	}
+
+	/**
+	 * Extract the three nominal arguments (modules, successCallback, and
+	 * failureCallback) of a require call from the arguments array.
+	 * @param  {Array} args the arguments array of the require call
+	 * @return {Object} an object with three fields: modules, successCallback,
+	 * 					and failureCallback,
+	 */
+	_normalizeRequireArgs(args) {
+		let modules;
+		let successCallback;
+		let failureCallback;
+
+		// Modules can be specified by as an array, or just as parameters to the
+		// function. We do not slice or leak arguments to not cause V8
+		// performance penalties.
+		if (Array.isArray(args[0])) {
+			modules = args[0];
+			successCallback = typeof args[1] === 'function' ? args[1] : null;
+			failureCallback = typeof args[2] === 'function' ? args[2] : null;
+		} else {
+			modules = [];
+
+			for (let i = 0; i < args.length; ++i) {
+				if (typeof args[i] === 'string') {
+					modules[i] = args[i];
+
+					/* istanbul ignore else */
+				} else if (typeof args[i] === 'function') {
+					successCallback = args[i];
+					failureCallback =
+						typeof args[++i] === 'function'
+							? args[i]
+							: /* istanbul ignore next */ null;
+
+					break;
+				}
+			}
+		}
+
+		return {
+			modules,
+			successCallback,
+			failureCallback,
+		};
+	}
+
+	/**
+	 * Traverse a resolved dependencies array looking for server sent errors and
+	 * return an Error if any is found.
+	 * @param  {Array} dependencies the resolved dependencies
+	 * @return {Error} a detailed Error or null if no errors were found
+	 */
+	_getResolutionError(dependencies) {
+		const dependencyErrors = dependencies
+			.filter(dep => dep.indexOf(':ERROR:') === 0)
+			.map(dep => dep.substr(7));
+
+		if (dependencyErrors.length > 0) {
+			return new Error(
+				'The following problems where detected while ' +
+					'resolving modules:\n' +
+					dependencyErrors.join('\n')
+			);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Set a timeout (only if allowed by configuration) to reject a Promise if
+	 * a certain set of modules has not been successfully loaded.
+	 * @param {Array} modules the modules to be loaded
+	 * @param {Array} mappedModules the modules after successful mapping
+	 * @param {Array} dependencies the dependencies of the modules
+	 * @param {function} reject the promise reject function
+	 * @return {int} a timeout id or undefined if configuration disabled timeout
+	 */
+	_setRejectTimeout(modules, mappedModules, dependencies, reject) {
+		const configParser = this._getConfigParser();
+		const config = configParser.getConfig();
+
+		let rejectTimeout;
+
+		// Establish a load timeout and reject the Promise in case
+		// of Error
+		if (config.waitTimeout !== 0) {
+			rejectTimeout = setTimeout(() => {
+				const registeredModules = configParser.getModules();
+
+				let error = new Error('Load timeout for modules: ' + modules);
+
+				error.modules = modules;
+				error.mappedModules = mappedModules;
+				error.dependencies = dependencies;
+
+				let filteredDeps;
+
+				filteredDeps = dependencies.filter(
+					dep =>
+						typeof registeredModules[dep].implementation ===
+						'undefined'
+				);
+				error.missingDependencies = filteredDeps;
+
+				filteredDeps = error.missingDependencies.filter(
+					dep =>
+						typeof registeredModules[dep].pendingImplementation !==
+						'undefined'
+				);
+				error.fetchedMissingDependencies = filteredDeps;
+
+				filteredDeps = error.missingDependencies.filter(
+					dep =>
+						typeof registeredModules[dep].pendingImplementation ===
+						'undefined'
+				);
+				error.unfetchedMissingDependencies = filteredDeps;
+
+				// @deprecated: fill `dependecies` field to maintain
+				// backward compatibility
+				error.dependecies = error.dependencies;
+
+				console.log('REQUIRE timeout', error);
+				reject(error);
+			}, config.waitTimeout || 7000);
+		}
+
+		return rejectTimeout;
 	}
 
 	/**
