@@ -23,6 +23,8 @@ export default class DependencyBuilder {
 		 * might be conditional modules.
 		 */
 		this._queue = [];
+
+		this._cachedResolutions = {};
 	}
 
 	/**
@@ -34,19 +36,30 @@ export default class DependencyBuilder {
 	 *     Module name itself is being returned too.
 	 */
 	resolveDependencies(modules) {
-		try {
-			// Copy the passed modules to a resolving modules queue.
-			// Modules may be added there during the process of resolving.
-			this._queue = modules.slice(0);
+		const modulesSignature = modules.sort().join();
 
-			this._resolveDependencies();
+		let resolution = this._cachedResolutions[modulesSignature];
 
-			// Reorder the modules list so the modules without dependencies will
-			// be moved upfront
-			return this._result.reverse().slice(0);
-		} finally {
-			this._cleanup();
+		if (!resolution) {
+			try {
+				// Copy the passed modules to a resolving modules queue.
+				// Modules may be added there during the process of resolving.
+				this._queue = modules.slice(0);
+
+				this._resolveDependencies();
+
+				// Reorder the modules list so the modules without dependencies will
+				// be moved upfront
+				resolution = this._result.reverse().slice(0);
+
+				// Cache resolution
+				this._cachedResolutions[modulesSignature] = resolution;
+			} finally {
+				this._cleanup();
+			}
 		}
+
+		return resolution;
 	}
 
 	/**
