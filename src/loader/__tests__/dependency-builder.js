@@ -77,9 +77,9 @@ describe('DependencyBuilder', () => {
 			'aui-base',
 			'aui-core',
 			'aui-node',
+			'aui-dom-node',
 			'aui-plugin-base',
 			'aui-dialog',
-			'aui-dom-node',
 			'aui-test2',
 		]);
 	});
@@ -262,7 +262,12 @@ describe('DependencyBuilder', () => {
 		expect(dependencies).toEqual(expectedDependencies);
 
 		expect(
-			dependencyBuilder._cachedResolutions[modules.sort().join()]
+			dependencyBuilder._cachedResolutions[
+				modules
+					.slice()
+					.sort()
+					.join()
+			]
 		).toEqual(expectedDependencies);
 	});
 

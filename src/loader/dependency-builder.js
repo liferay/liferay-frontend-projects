@@ -36,7 +36,10 @@ export default class DependencyBuilder {
 	 *     Module name itself is being returned too.
 	 */
 	resolveDependencies(modules) {
-		const modulesSignature = modules.sort().join();
+		const modulesSignature = modules
+			.slice()
+			.sort()
+			.join();
 
 		let resolution = this._cachedResolutions[modulesSignature];
 
