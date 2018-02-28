@@ -5,6 +5,7 @@ import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
+import mapObj from 'map-obj';
 
 import * as config from './config';
 import {getPackageDependencies} from './dependencies';
@@ -79,7 +80,21 @@ function showVersions() {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function copyRootPackageJson(outputDir) {
-	return fs.copy('package.json', path.join(outputDir, 'package.json'));
+	const pkgJson = readJsonSync('package.json');
+
+	pkgJson.dependencies = mapObj(pkgJson.dependencies, (key, value) => {
+		const packageJsonPath = path.join(value, 'package.json');
+		return [
+			key,
+			fs.existsSync(packageJsonPath)
+				? readJsonSync(packageJsonPath).version
+				: value,
+		];
+	});
+
+	console.log(pkgJson);
+
+	return fs.writeJson(path.join(outputDir, 'package.json'), pkgJson);
 }
 
 /**
