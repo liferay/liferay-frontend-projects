@@ -1,0 +1,20 @@
+{
+  "name": "liferay-theme-deps-7.0",
+  "version": "1.2.1",
+  "description": "Set of dependencies required by liferay-theme-tasks",
+  "main": "package.json",
+  "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+  "license": "ISC",
+  "scripts": {
+    "install": "node scripts/install.js"
+  },
+  "dependencies": {
+    "compass-mixins": "^0.12.7",
+    "gulp-sass": "~3.1.0",
+    "liferay-frontend-common-css": "~1.0.4",
+    "liferay-frontend-theme-classic-web": "~2.0.0",
+    "liferay-frontend-theme-styled": "~2.0.0",
+    "liferay-frontend-theme-unstyled": "~2.1.0",
+    "liferay-theme-deps-normalize": "*"
+  }
+}
