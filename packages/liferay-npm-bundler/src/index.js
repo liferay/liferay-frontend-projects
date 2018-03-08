@@ -5,7 +5,7 @@ import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
-import mapObj from 'map-obj';
+import semver from 'semver';
 
 import * as config from './config';
 import {getPackageDependencies} from './dependencies';
@@ -82,19 +82,25 @@ function showVersions() {
 function copyRootPackageJson(outputDir) {
 	const pkgJson = readJsonSync('package.json');
 
-	pkgJson.dependencies = mapObj(pkgJson.dependencies, (key, value) => {
-		const packageJsonPath = path.join(value, 'package.json');
-		return [
-			key,
-			fs.existsSync(packageJsonPath)
-				? readJsonSync(packageJsonPath).version
-				: value,
-		];
+	['dependencies', 'devDependencies'].forEach(scope => {
+		Object.keys(pkgJson[scope]).forEach(depName => {
+			const depVersion = pkgJson[scope][depName];
+
+			if (semver.valid(depVersion) == null) {
+				const depPkgJsonPath = path.join(
+					depVersion.substring(5),
+					'package.json'
+				);
+				const depPkgJson = readJsonSync(depPkgJsonPath);
+
+				pkgJson[scope][depName] = depPkgJson.version;
+			}
+		});
 	});
 
-	console.log(pkgJson);
-
-	return fs.writeJson(path.join(outputDir, 'package.json'), pkgJson);
+	return fs.writeJson(path.join(outputDir, 'package.json'), pkgJson, {
+		spaces: 2,
+	});
 }
 
 /**
