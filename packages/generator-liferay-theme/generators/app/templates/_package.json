@@ -1,7 +1,9 @@
 {
-	"name": "<%= themeDirName %>",
-	"version": "<%= packageVersion %>",
-	"main": "package.json",
+	"devDependencies": {
+		"gulp": "^3.8.10",
+		"liferay-theme-tasks": "^1.4.2",
+		"liferay-theme-deps-7.0": "~1.2.1"
+	},
 	"keywords": [
 		"liferay-theme"
 	],
@@ -12,9 +14,7 @@
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "<%= liferayVersion %>"
 	},
-	"devDependencies": {
-		"gulp": "^3.8.10",
-		"liferay-theme-tasks": "^1.4.2",
-		"liferay-theme-deps-7.0": "~1.2.1"
-	}
+	"main": "package.json",
+	"name": "<%= themeDirName %>",
+	"version": "<%= packageVersion %>"
 }
