@@ -1,0 +1,3 @@
+# Liferay Theme Finder [![Build Status](https://travis-ci.org/Robert-Frampton/liferay-theme-finder.svg?branch=master)](https://travis-ci.org/Robert-Frampton/liferay-theme-finder) [![Coverage Status](https://coveralls.io/repos/github/Robert-Frampton/liferay-theme-finder/badge.svg?branch=master)](https://coveralls.io/github/Robert-Frampton/liferay-theme-finder?branch=master)
+
+> A tool for finding Liferay themes and themelets on npm
