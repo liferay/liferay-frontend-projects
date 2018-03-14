@@ -89,10 +89,22 @@ afterAll(() => {
 	process.chdir('../../../..');
 });
 
-it.only('loads project dependencies correctly', () => {
+it('loads project dependencies correctly', () => {
 	const deps = getPackageDependencies('.');
 
 	expect(deps).toMatchDependencies(
+		'test-project@1.0.0',
+		'test-project-dep-0@1.0.0',
+		'test-project-dep-1@1.0.0',
+		'test-project-dep-0@0.1.0'
+	);
+});
+
+it('appends extra dependencies correctly', () => {
+	const deps = getPackageDependencies('.', ['stale-package']);
+
+	expect(deps).toMatchDependencies(
+		'stale-package@1.0.0',
 		'test-project@1.0.0',
 		'test-project-dep-0@1.0.0',
 		'test-project-dep-1@1.0.0',

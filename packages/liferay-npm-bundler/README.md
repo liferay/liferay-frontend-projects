@@ -156,6 +156,9 @@ file in your project's folder. The full structure of that file is:
             <same as for "*">
         ]
     },
+    "include-dependencies": {
+        "<package name>", ...
+    },
     "output": <relative path of output directory>,
     "process-serially": <true|false>,
     "verbose": <true|false>
@@ -186,6 +189,11 @@ Where:
 
 * **"exclude"**: defines files to be excluded from bundling from all or specific
 	packages.
+* **"include-dependencies"**: defines packages to be included in bundling even
+	if they are not listed under the `dependencies` section of `package.json`.
+	Obviously, the packages must be available in the `node_modules` folder so,
+	either they are installed manually without saving them to `package.json` or
+	they are listed in the `devDependencies` section.
 * **"output"**: by default the bundled packages are written to
 	`build/resources/main/META-INF/resources`, which is the standard Gradle output
 	directory for resources, but it can be overriden for customized builds.
@@ -208,8 +216,9 @@ Where:
 	specific name and version.
 
 > Note that, prior to version 1.4.0, the `packages` section did not exist and
-> package configurations where placed next to the tools options (like `*`,
-> `output`, `exclude`, and so on). This created the possibility of a collision
-> and thus, the package configurations were namespaced. However, the tool still
-> falls back to the root section (outside `packages`) for packages configuration
-> to maintain backwards compatibility.
+
+    package configurations where placed next to the tools options (like `*`,
+	`output`, `exclude`, and so on). This created the possibility of a collision
+	and thus, the package configurations were namespaced. However, the tool still
+	falls back to the root section (outside `packages`) for packages configuration
+	to maintain backwards compatibility.

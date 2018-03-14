@@ -5,6 +5,8 @@ import resolveModule from 'resolve';
 /**
  * Recursively find the dependencies of a package and return them as
  * @param {String} basedir directory where package lives in
+ * @param {Array} extraDependencies an array of package names to add to
+ * 									dependencies collected from package.json
  * @return {Object} a hash of objects where key is the package id and values
  *         have the following structure:
  *           {
@@ -14,7 +16,7 @@ import resolveModule from 'resolve';
  *             dir: <package dir>
  *           }
  */
-export function getPackageDependencies(basedir) {
+export function getPackageDependencies(basedir, extraDependencies = []) {
 	const pkgs = {};
 
 	const packageJson = readJsonSync(path.join(basedir, '/package.json'));
@@ -27,9 +29,13 @@ export function getPackageDependencies(basedir) {
 		dir: basedir,
 	};
 
-	const dependencies = packageJson.dependencies || [];
+	let dependencies = packageJson.dependencies || [];
 
-	let dependencyDirs = Object.keys(dependencies).map(function(dependency) {
+	dependencies = Object.keys(dependencies);
+
+	dependencies = dependencies.concat(extraDependencies);
+
+	let dependencyDirs = dependencies.map(function(dependency) {
 		return resolveDependencyDir(basedir, dependency);
 	});
 

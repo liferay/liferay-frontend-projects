@@ -39,7 +39,7 @@ export default function(args) {
 	promises.push(copyRootPackageJson(outputDir));
 
 	// Grab NPM dependencies
-	let pkgs = getPackageDependencies('.');
+	let pkgs = getPackageDependencies('.', config.getIncludeDependencies());
 	pkgs = Object.keys(pkgs).map(id => pkgs[id]);
 	pkgs = pkgs.filter(pkg => pkg.dir != '.');
 

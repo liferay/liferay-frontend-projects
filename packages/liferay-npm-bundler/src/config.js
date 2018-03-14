@@ -174,6 +174,15 @@ export function isVerbose() {
 }
 
 /**
+ * Extra dependencies to add to the final bundle (in addition to those listed
+ * under the dependencies section of package.json).
+ * @return {Array} an array of package names
+ */
+export function getIncludeDependencies() {
+	return config['include-dependencies'] || [];
+}
+
+/**
  * Get versions information
  * @return {void}
  */
