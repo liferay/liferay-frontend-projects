@@ -2,6 +2,7 @@ import * as babel from 'babel-core';
 import fs from 'fs-extra';
 import globby from 'globby';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
@@ -10,6 +11,7 @@ import semver from 'semver';
 import * as config from './config';
 import {getPackageDependencies} from './dependencies';
 import * as log from './log';
+import report from './report';
 
 /**
  * Default entry point for the liferay-npm-bundler.
@@ -19,10 +21,14 @@ import * as log from './log';
 export default function(args) {
 	let promises = [];
 
+	const versionsInfo = config.getVersionsInfo();
+
 	if (args[0] === '-v' || args[0] === '--version') {
-		showVersions();
+		console.log(JSON.stringify(versionsInfo, null, 2));
 		return;
 	}
+
+	report.versionsInfo(versionsInfo);
 
 	const outputDir = path.resolve(config.getOutputDir());
 
@@ -37,12 +43,18 @@ export default function(args) {
 	pkgs = Object.keys(pkgs).map(id => pkgs[id]);
 	pkgs = pkgs.filter(pkg => pkg.dir != '.');
 
+	report.dependencies(pkgs);
+
 	// Process NPM dependencies
 	const start = process.hrtime();
 
 	log.info(`Bundling ${pkgs.length} dependencies...`);
 
 	if (config.isProcessSerially()) {
+		report.warn(
+			'Option process-serially is on: this may degrade build performance.'
+		);
+
 		promises.push(
 			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
 		);
@@ -51,27 +63,19 @@ export default function(args) {
 	}
 
 	Promise.all(promises)
-		.then(() => log.info(`Bundling took ${pretty(process.hrtime(start))}`))
+		.then(() => {
+			const hrtime = process.hrtime(start);
+
+			log.info(`Bundling took ${pretty(hrtime)}`);
+			report.executionTime(hrtime);
+
+			fs.writeFileSync(config.getReportFilePath(), report.toHtml());
+			log.info(`Report written to ${config.getReportFilePath()}`);
+		})
 		.catch(function(err) {
 			log.error(err);
 			process.exit(1);
 		});
-}
-
-/**
- * Show versions information
- * @return {void}
- */
-function showVersions() {
-	const pkgJson = require('../package.json');
-
-	let info = {
-		'liferay-npm-bundler': pkgJson.version,
-	};
-
-	info = Object.assign(info, config.getPluginVersions());
-
-	console.log(JSON.stringify(info, null, 2));
 }
 
 /**
@@ -86,14 +90,21 @@ function copyRootPackageJson(outputDir) {
 		Object.keys(pkgJson[scope]).forEach(depName => {
 			const depVersion = pkgJson[scope][depName];
 
-			if (semver.valid(depVersion) == null) {
+			if (semver.validRange(depVersion) == null) {
 				const depPkgJsonPath = path.join(
 					depVersion.substring(5),
 					'package.json'
 				);
+
 				const depPkgJson = readJsonSync(depPkgJsonPath);
 
 				pkgJson[scope][depName] = depPkgJson.version;
+
+				report.linkedDependency(
+					depName,
+					depVersion,
+					depPkgJson.version
+				);
 			}
 		});
 	});
@@ -121,7 +132,9 @@ function iterateSerially(values, asyncProcess) {
 
 		let val = values[0];
 
-		asyncProcess(val).then(() => {
+		let p = asyncProcess(val);
+
+		p.then(() => {
 			iterateSerially(values.slice(1), asyncProcess).then(() => {
 				resolve();
 			});
@@ -146,7 +159,7 @@ function bundlePackage(pkg, outputDir) {
 	try {
 		if (fs.statSync(outPkgDir).isDirectory()) {
 			log.debug(`Skipping ${pkg.id} (already bundled)`);
-			return;
+			return Promise.resolve();
 		}
 	} catch (err) {}
 
@@ -170,16 +183,26 @@ function bundlePackage(pkg, outputDir) {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function copyPackage(pkg, dir) {
+	const rawGlobs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`];
+
 	const exclusions = config.getExclusions(pkg);
 
-	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
+	const globs = rawGlobs.concat(
 		exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`)
 	);
 
 	return globby(globs).then(paths => {
-		paths = paths
-			.filter(path => fs.statSync(path).isFile())
-			.map(path => path.substring(pkg.dir.length + 1));
+		const fileFilter = path => fs.statSync(path).isFile();
+		const relativePathMapper = path => path.substring(pkg.dir.length + 1);
+
+		paths = paths.filter(fileFilter).map(relativePathMapper);
+
+		const rawPaths = globby
+			.sync(rawGlobs)
+			.filter(fileFilter)
+			.map(relativePathMapper);
+
+		report.packageCopy(pkg, rawPaths, paths, exclusions);
 
 		const promises = paths.map(path =>
 			fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
@@ -209,7 +232,11 @@ function processPackage(phase, pkg) {
 
 		try {
 			config.getPlugins(phase, pkg).forEach(plugin => {
-				plugin.run({pkg, config: plugin.config}, state);
+				let logger = new PluginLogger();
+
+				plugin.run({pkg, config: plugin.config, log: logger}, state);
+
+				report.packageProcessBundlerPlugin(phase, pkg, plugin, logger);
 			});
 		} catch (err) {
 			reject(err);
@@ -228,14 +255,8 @@ function processPackage(phase, pkg) {
  * @return {Promise} a Promise fulfilled when the process has been finished
  */
 function runBabel(pkg) {
-	const babelConfig = config.getBabelConfig(pkg);
-
-	// Intercept presets and plugins to load them from here
-	babelConfig.plugins = config.loadBabelPlugins(
-		babelConfig.presets || [],
-		babelConfig.plugins || []
-	);
-	babelConfig.presets = [];
+	// Make a copy of the package's Babel configuration
+	const babelConfig = Object.assign({}, config.getBabelConfig(pkg));
 
 	// Tune babel config
 	babelConfig.babelrc = false;
@@ -244,11 +265,25 @@ function runBabel(pkg) {
 		babelConfig.sourceMaps = true;
 	}
 
+	// Report a copy of the package's Babel configuration before loading plugins
+	report.packageProcessBabelConfig(pkg, Object.assign({}, babelConfig));
+
+	// Intercept presets and plugins to load them from here
+	babelConfig.plugins = config.loadBabelPlugins(
+		babelConfig.presets || [],
+		babelConfig.plugins || []
+	);
+	babelConfig.presets = [];
+
 	// Run babel through it
 	return globby([`${pkg.dir}/**/*.js`]).then(filePaths => {
 		const promises = filePaths.map(
 			filePath =>
-				new Promise((resolve, reject) => {
+				new Promise(resolve => {
+					const logger = new PluginLogger();
+
+					PluginLogger.set(filePath, logger);
+
 					babel.transformFile(
 						filePath,
 						Object.assign(
@@ -258,9 +293,22 @@ function runBabel(pkg) {
 							babelConfig
 						),
 						(err, result) => {
+							// Generate and/or log results
 							if (err) {
-								log.error(`Error processing file: ${filePath}`);
-								reject(err);
+								log.error(
+									`Babel failed processing`,
+									`${filePath.substr(
+										filePath.indexOf(pkg.id)
+									)}:`,
+									'it will be copied verbatim (see report file for more info)'
+								);
+
+								logger.error('babel', err);
+
+								report.warn(
+									'Babel failed processing some .js files: check details of Babel transformations for more info.',
+									{unique: true}
+								);
 							} else {
 								const fileName = path.basename(filePath);
 
@@ -274,9 +322,22 @@ function runBabel(pkg) {
 									`${filePath}.map`,
 									JSON.stringify(result.map)
 								);
-
-								resolve();
 							}
+
+							// Report result of babel run
+							report.packageProcessBabelRun(
+								pkg,
+								filePath.substr(
+									filePath.indexOf(pkg.id) + pkg.id.length + 1
+								),
+								logger
+							);
+
+							// Get rid of logger
+							PluginLogger.delete(filePath);
+
+							// Resolve promise
+							resolve();
 						}
 					);
 				})

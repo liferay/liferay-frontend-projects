@@ -211,9 +211,11 @@ describe('getBabelConfig()', () => {
 
 describe('getPluginVersions()', () => {
 	it.only('analyzes default config correctly', () => {
-		const versions = cfg.getPluginVersions();
+		const versions = cfg.getVersionsInfo();
+		const myVersion = require('../../package.json').version;
 
-		expect(Object.keys(versions).length).toEqual(8);
+		expect(Object.keys(versions).length).toEqual(9);
+		expect(versions['liferay-npm-bundler']).toEqual(myVersion);
 		expect(versions['liferay-npm-bundler-plugin-test-0']).toEqual('1.0.0');
 		expect(versions['liferay-npm-bundler-plugin-test-1']).toEqual('1.0.1');
 		expect(versions['liferay-npm-bundler-plugin-test-2']).toEqual('1.0.2');

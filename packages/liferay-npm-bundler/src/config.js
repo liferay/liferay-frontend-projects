@@ -70,6 +70,14 @@ export function getOutputDir() {
 }
 
 /**
+ * Get the path to the report file or null if no report is configured.
+ * @return {String} a normalized path or null
+ */
+export function getReportFilePath() {
+	return path.join('.', 'liferay-npm-bundler-report.html');
+}
+
+/**
  * Get the configured file exclusions for a given package.
  * @param {Object} pkg the package descriptor hash containing id, name, version
  *        and dir fields
@@ -132,8 +140,9 @@ export function getPlugins(phase, pkg) {
 		);
 
 		return {
-			run: pluginModule.default,
+			name: pluginName,
 			config: pluginConfig,
+			run: pluginModule.default,
 		};
 	});
 }
@@ -165,10 +174,25 @@ export function isVerbose() {
 }
 
 /**
+ * Get versions information
+ * @return {void}
+ */
+export function getVersionsInfo() {
+	const pkgJson = require('../package.json');
+
+	let info = {
+		'liferay-npm-bundler': pkgJson.version,
+	};
+
+	info = Object.assign(info, getPluginVersions());
+
+	return info;
+}
+/**
  * Get version numbers of all plugins used in the build.
  * @return {Object} a map of {plugin-name: version} values
  */
-export function getPluginVersions() {
+function getPluginVersions() {
 	let pluginVersions = {};
 
 	// Get preset plugin version
