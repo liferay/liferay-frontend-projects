@@ -37,10 +37,18 @@ describe('when using PlugginLogger registration', () => {
 
 		PluginLogger.set('a-key', logger);
 
-		expect(PluginLogger.get('a-key')).toBe(logger);
+		logger.info('source', 'hi');
+
+		expect(PluginLogger.get('a-key').messages.length).toBe(1);
 
 		PluginLogger.delete('a-key');
 
-		expect(PluginLogger.get('a-key')).toBeUndefined();
+		expect(PluginLogger.get('a-key').messages.length).toBe(0);
+	});
+
+	it('returns a dummy logger if no loggers are registered', () => {
+		PluginLogger.delete('a-key');
+
+		expect(PluginLogger.get('a-key')).toBeDefined();
 	});
 });

@@ -98,7 +98,7 @@ PluginLogger.get = function(key) {
 		key = key.file.opts.filenameRelative;
 	}
 
-	return global._PluginLogger_[key];
+	return global._PluginLogger_[key] || new PluginLogger();
 };
 
 /**
