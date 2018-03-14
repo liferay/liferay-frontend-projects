@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "inject-angular-dependencies",
+    "things": Array [
+      "Injected dependency",
+      "'rxjs@2.3.4'",
+    ],
+  },
+]
+`;

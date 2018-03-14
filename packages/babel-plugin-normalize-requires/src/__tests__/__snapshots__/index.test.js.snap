@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "normalize-requires",
+    "things": Array [
+      "Normalized",
+      2,
+      "requires",
+    ],
+  },
+]
+`;
+
 exports[`when requiring external modules only removes trailing "/" from module names ending in ".js" 1`] = `
 "
 require('a-package/a-module.js');"

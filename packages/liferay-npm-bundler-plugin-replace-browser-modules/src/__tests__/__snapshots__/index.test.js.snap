@@ -5,6 +5,18 @@ exports[`does replace ignored modules with empty objects 1`] = `
 "
 `;
 
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "replace-browser-modules",
+    "things": Array [
+      "Replacing module test-main.js.file with module test-browser.js.file",
+    ],
+  },
+]
+`;
+
 exports[`replaces main file with browser file 1`] = `
 "/* Module replaced with test-browser.js.file by liferay-npm-bundler-plugin-replace-browser-modules */
 /**

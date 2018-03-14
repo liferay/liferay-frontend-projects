@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "shim-nodejs",
+    "things": Array [
+      "Shimmed 2 globals:",
+      "process, setImmediate",
+    ],
+  },
+  Object {
+    "level": "info",
+    "source": "shim-nodejs",
+    "things": Array [
+      "Injected 2 shim modules:",
+      "liferay-node-process, liferay-node-setimmediate",
+    ],
+  },
+]
+`;
+
 exports[`when using Node.js globals shims __dirname global 1`] = `
 "var __dirname = '/';
 

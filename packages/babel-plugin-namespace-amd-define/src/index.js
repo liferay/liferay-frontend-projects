@@ -1,9 +1,13 @@
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+
 /**
  * Valid babel plugin options are:
  *     namespace: 'Liferay.Loader'
  * @return {object} a babel visitor
  */
 export default function() {
+	let namespaceCount;
+
 	const namespaceVisitor = {
 		Identifier(path) {
 			if (path.node.name === 'define') {
@@ -39,6 +43,8 @@ export default function() {
 					const namespace = this.opts.namespace || 'Liferay.Loader';
 
 					path.node.name = `${namespace}.define`;
+
+					namespaceCount++;
 				}
 			}
 		},
@@ -47,11 +53,22 @@ export default function() {
 	return {
 		visitor: {
 			Program: {
-				exit(path, {opts}) {
+				exit(path, state) {
 					// We must traverse the AST again because the third party
 					// transform-es2015-modules-amd emits its define() call after
 					// Program exit :-(
-					path.traverse(namespaceVisitor, {opts});
+					namespaceCount = 0;
+
+					path.traverse(namespaceVisitor, {opts: state.opts});
+
+					if (namespaceCount > 0) {
+						PluginLogger.get(state).info(
+							'namespace-amd-define',
+							'Namespaced',
+							namespaceCount,
+							'AMD defines'
+						);
+					}
 				},
 			},
 		},

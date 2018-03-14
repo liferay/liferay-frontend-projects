@@ -1,4 +1,5 @@
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
@@ -54,13 +55,18 @@ export default function({types: t}) {
 							getSrcPrefixes(opts)
 						);
 
+						const fullModuleName = `${packageName}${moduleName}`;
+
 						if (unshiftName) {
-							args.unshift(
-								t.stringLiteral(`${packageName}${moduleName}`)
-							);
+							args.unshift(t.stringLiteral(fullModuleName));
 						} else {
-							args[0].value = `${packageName}${moduleName}`;
+							args[0].value = fullModuleName;
 						}
+
+						this.log.info(
+							'name-amd-modules',
+							`Set module name to '${fullModuleName}'`
+						);
 
 						path.stop();
 					}
@@ -79,6 +85,7 @@ export default function({types: t}) {
 					path.traverse(nameVisitor, {
 						filenameRelative: state.file.opts.filenameRelative,
 						opts: state.opts,
+						log: PluginLogger.get(state),
 					});
 				},
 			},

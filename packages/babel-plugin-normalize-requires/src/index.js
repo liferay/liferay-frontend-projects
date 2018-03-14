@@ -1,3 +1,5 @@
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+
 /**
  * @return {object} a babel visitor
  */
@@ -5,8 +7,8 @@ export default function({types: t}) {
 	return {
 		visitor: {
 			Identifier: {
-				exit(path) {
-					const node = path.node;
+				exit(path, state) {
+					const {node} = path;
 
 					if (node.name == 'require') {
 						const parent = path.parent;
@@ -36,9 +38,27 @@ export default function({types: t}) {
 									}
 								}
 
+								if (!state.normalizeCount) {
+									state.normalizeCount = 1;
+								} else {
+									state.normalizeCount++;
+								}
+
 								argument.value = moduleName;
 							}
 						}
+					}
+				},
+			},
+			Program: {
+				exit(path, state) {
+					if (state.normalizeCount) {
+						PluginLogger.get(state).info(
+							'normalize-requires',
+							'Normalized',
+							state.normalizeCount,
+							'requires'
+						);
 					}
 				},
 			},

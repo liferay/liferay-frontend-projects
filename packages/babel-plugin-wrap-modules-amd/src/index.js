@@ -1,4 +1,5 @@
 import template from 'babel-template';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
 const buildDefine = template(`
      define(DEPS, function(module, exports, require) {
@@ -40,13 +41,15 @@ export default function({types: t}) {
 				enter(path, state) {
 					state.dependencies = {};
 				},
-				exit(path, {opts, dependencies}) {
+				exit(path, state) {
+					let {opts, dependencies} = state;
+
 					// We must traverse the AST again because some plugins emit
 					// their require() calls after exiting Program node :-(
 					path.traverse(wrapVisitor, {opts, dependencies});
 
-					const node = path.node;
-					const body = node.body;
+					const {node} = path;
+					const {body} = node;
 
 					dependencies = Object.keys(dependencies).map(
 						dep => `'${dep}'`
@@ -64,6 +67,12 @@ export default function({types: t}) {
 							DEPS: buildDeps(),
 						}),
 					];
+
+					PluginLogger.get(state).info(
+						'wrap-modules-amd',
+						'Detected dependencies:',
+						dependencies.join(', ')
+					);
 				},
 			},
 		},

@@ -9,3 +9,15 @@ exports[`correctly renames named modules 1`] = `
 "
 define('package-name-amd-modules@1.0.0/index.test', [], function () {});"
 `;
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "name-amd-modules",
+    "things": Array [
+      "Set module name to 'package-name-amd-modules@1.0.0/index.test'",
+    ],
+  },
+]
+`;

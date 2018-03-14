@@ -11,7 +11,7 @@ const dependenciesMap = {
 /**
  * @return {void}
  */
-export default function({pkg, config}, {pkgJson}) {
+export default function({pkg, config, log}, {pkgJson}) {
 	const deps = Object.assign(
 		{},
 		dependenciesMap,
@@ -43,6 +43,12 @@ export default function({pkg, config}, {pkgJson}) {
 					);
 
 					pkgJson.dependencies[dep] = depPkgJson.version;
+
+					log.info(
+						'inject-angular-dependencies',
+						'Injected dependency',
+						`'${depPkgJson.name}@${depPkgJson.version}'`
+					);
 
 					break;
 				}

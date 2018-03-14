@@ -9,3 +9,16 @@ exports[`correctly wraps modules 1`] = `
 	module.exports = 'All OK';
 });"
 `;
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "wrap-modules-amd",
+    "things": Array [
+      "Detected dependencies:",
+      "'a-module', 'b-module'",
+    ],
+  },
+]
+`;

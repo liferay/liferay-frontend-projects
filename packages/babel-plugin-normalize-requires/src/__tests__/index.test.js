@@ -1,5 +1,26 @@
 import * as babel from 'babel-core';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
+
+let logger;
+
+beforeEach(() => {
+	PluginLogger.set(__filename, (logger = new PluginLogger()));
+});
+
+it('logs results correctly', () => {
+	const source = `
+	require('a-package.js');
+	require('./a-module.js');
+	`;
+
+	babel.transform(source, {
+		filenameRelative: __filename,
+		plugins: [plugin],
+	});
+
+	expect(logger.messages).toMatchSnapshot();
+});
 
 describe('when requiring package default modules', () => {
 	it('keeps trailing ".js" from package names', () => {
@@ -8,6 +29,7 @@ describe('when requiring package default modules', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -20,6 +42,7 @@ describe('when requiring package default modules', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -34,6 +57,7 @@ describe('when requiring local modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -46,6 +70,7 @@ describe('when requiring local modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -58,6 +83,7 @@ describe('when requiring local modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -72,6 +98,7 @@ describe('when requiring external modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -84,6 +111,7 @@ describe('when requiring external modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -96,6 +124,7 @@ describe('when requiring external modules', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 

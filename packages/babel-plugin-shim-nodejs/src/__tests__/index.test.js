@@ -1,9 +1,11 @@
 import * as babel from 'babel-core';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
 
 // We store the patched package.json information in this global var to be able
 // to check it after the tests.
 let patchedPackageJson;
+let logger;
 
 const configuredPlugin = [
 	[
@@ -17,7 +19,23 @@ const configuredPlugin = [
 ];
 
 beforeEach(() => {
+	PluginLogger.set(__filename, (logger = new PluginLogger()));
 	patchedPackageJson = {};
+});
+
+it('logs results correctly', () => {
+	const source = `
+	console.log(process.env);
+	const a = setImmediate(() => {});
+	const source = 'require("stream");';
+	`;
+
+	babel.transform(source, {
+		filenameRelative: __filename,
+		plugins: configuredPlugin,
+	});
+
+	expect(logger.messages).toMatchSnapshot();
 });
 
 describe('when using Node.js globals', () => {

@@ -1,6 +1,7 @@
 import template from 'babel-template';
 import fs from 'fs';
 import {getPackageJsonPath} from 'liferay-npm-build-tools-common/lib/packages';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import readJsonSync from 'read-json-sync';
 import defaultNodeGlobals from './node/globals';
 import defaultNodeModules from './node/modules';
@@ -38,10 +39,37 @@ export default function({types: t}) {
 						getPackageJsonPath(filenameRelative),
 						moduleShims
 					);
+
+					logResults(state);
 				},
 			},
 		},
 	};
+}
+
+/**
+ * Log results of plugin execution
+ * @param  {Object} state the babel state object
+ * @return {void}
+ */
+function logResults(state) {
+	const {globalShims, moduleShims} = state;
+	const globalShimsKeys = Object.keys(globalShims);
+	const moduleShimsKeys = Object.keys(moduleShims);
+
+	const log = PluginLogger.get(state);
+
+	log.info(
+		'shim-nodejs',
+		`Shimmed ${globalShimsKeys.length} globals:`,
+		globalShimsKeys.join(', ')
+	);
+
+	log.info(
+		'shim-nodejs',
+		`Injected ${moduleShimsKeys.length} shim modules:`,
+		moduleShimsKeys.join(', ')
+	);
 }
 
 /**

@@ -1,5 +1,28 @@
 import * as babel from 'babel-core';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
+
+let logger;
+
+beforeEach(() => {
+	PluginLogger.set(__filename, (logger = new PluginLogger()));
+});
+
+it('logs results correctly', () => {
+	const source = `
+	define([], function(){})
+	if (typeof define === "function" && define.amd) {
+		console.log('UMD!');
+	}
+	`;
+
+	babel.transform(source, {
+		filenameRelative: __filename,
+		plugins: [plugin],
+	});
+
+	expect(logger.messages).toMatchSnapshot();
+});
 
 it('namespaces unqualified define calls', () => {
 	const source = `
@@ -7,6 +30,7 @@ it('namespaces unqualified define calls', () => {
 	`;
 
 	const {code} = babel.transform(source, {
+		filenameRelative: __filename,
 		plugins: [plugin],
 	});
 
@@ -19,6 +43,7 @@ it('does not namespace already qualified define calls', () => {
 	`;
 
 	const {code} = babel.transform(source, {
+		filenameRelative: __filename,
 		plugins: [plugin],
 	});
 
@@ -33,6 +58,7 @@ it('namespaces references to global define identifier', () => {
 	`;
 
 	const {code} = babel.transform(source, {
+		filenameRelative: __filename,
 		plugins: [plugin],
 	});
 
@@ -52,6 +78,7 @@ describe('does not namespace references to local define identifier', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -66,6 +93,7 @@ describe('does not namespace references to local define identifier', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -80,6 +108,7 @@ describe('does not namespace references to local define identifier', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 
@@ -96,6 +125,7 @@ describe('does not namespace references to local define identifier', () => {
 			`;
 
 		const {code} = babel.transform(source, {
+			filenameRelative: __filename,
 			plugins: [plugin],
 		});
 

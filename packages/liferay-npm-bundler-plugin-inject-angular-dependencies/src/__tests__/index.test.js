@@ -1,9 +1,34 @@
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
 
 const fixturesDir =
 	`${process.cwd()}/packages/` +
 	`liferay-npm-bundler-plugin-inject-angular-dependencies/` +
 	`src/__tests__/packages`;
+
+let log;
+
+beforeEach(() => {
+	log = new PluginLogger();
+});
+
+it('logs results correctly', () => {
+	const pkg = {
+		id: '@angular/forms@1.0.0',
+		name: '@angular/forms',
+		version: '1.0.0',
+		dir: `${fixturesDir}/@angular%2Fforms@1.0.0`,
+	};
+	const config = {};
+	const pkgJson = {
+		name: pkg.name,
+		version: pkg.version,
+	};
+
+	plugin({pkg, config, log}, {pkgJson});
+
+	expect(log.messages).toMatchSnapshot();
+});
 
 it('injects rxjs dependency in @angular/forms if not found', () => {
 	const pkg = {
@@ -18,7 +43,7 @@ it('injects rxjs dependency in @angular/forms if not found', () => {
 		version: pkg.version,
 	};
 
-	plugin({pkg, config}, {pkgJson});
+	plugin({pkg, config, log}, {pkgJson});
 
 	expect(pkgJson.dependencies['rxjs']).toEqual('2.3.4');
 });
@@ -39,7 +64,7 @@ it('does not inject rxjs dependency in @angular/forms if found', () => {
 		},
 	};
 
-	plugin({pkg, config}, {pkgJson});
+	plugin({pkg, config, log}, {pkgJson});
 
 	expect(pkgJson.dependencies['rxjs']).toEqual('1.0.0');
 });
@@ -57,7 +82,7 @@ it('injects @angular/animations dependency in @angular/platform-browser if not f
 		version: pkg.version,
 	};
 
-	plugin({pkg, config}, {pkgJson});
+	plugin({pkg, config, log}, {pkgJson});
 
 	expect(pkgJson.dependencies['@angular/animations']).toEqual('2.3.4');
 });
@@ -78,7 +103,7 @@ it('does not inject @angular/animations dependency in @platform-browser/forms if
 		},
 	};
 
-	plugin({pkg, config}, {pkgJson});
+	plugin({pkg, config, log}, {pkgJson});
 
 	expect(pkgJson.dependencies['@angular/animations']).toEqual('1.0.0');
 });
@@ -100,7 +125,7 @@ it('uses configuration values over defaults', () => {
 		version: pkg.version,
 	};
 
-	plugin({pkg, config}, {pkgJson});
+	plugin({pkg, config, log}, {pkgJson});
 
 	expect(pkgJson.dependencies['rxjs']).toBeUndefined();
 	expect(pkgJson.dependencies['@angular/forms']).toEqual('1.0.0');

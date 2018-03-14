@@ -39,6 +39,20 @@ var a = {
 };"
 `;
 
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "namespace-amd-define",
+    "things": Array [
+      "Namespaced",
+      3,
+      "AMD defines",
+    ],
+  },
+]
+`;
+
 exports[`namespaces references to global define identifier 1`] = `
 "
 if (typeof Liferay.Loader.define === \\"function\\" && Liferay.Loader.define.amd) {

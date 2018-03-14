@@ -1,5 +1,6 @@
 import cpFile from 'cp-file';
 import * as fs from 'fs';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
 
 // Package descriptor used in tests
@@ -21,8 +22,11 @@ const pkgFiles = [
 	'test.js.file',
 ];
 
+let log;
+
 // Restore package status prior to running each test
 beforeEach(() => {
+	log = new PluginLogger();
 	pkgFiles.forEach(file => {
 		cpFile.sync(`${pkg.dir}/sources/${file}`, `${pkg.dir}/${file}`);
 	});
@@ -37,6 +41,19 @@ afterEach(() => {
 	});
 });
 
+it('logs results correctly', () => {
+	const pkgJson = {
+		name: pkg.name,
+		version: pkg.version,
+		main: 'test-main.js.file',
+		browser: 'test-browser.js.file',
+	};
+
+	plugin({pkg, log}, {pkgJson});
+
+	expect(log.messages).toMatchSnapshot();
+});
+
 it('replaces main file with browser file', () => {
 	const pkgJson = {
 		name: pkg.name,
@@ -45,7 +62,7 @@ it('replaces main file with browser file', () => {
 		browser: 'test-browser.js.file',
 	};
 
-	plugin({pkg}, {pkgJson});
+	plugin({pkg, log}, {pkgJson});
 
 	expect(
 		fs.readFileSync(`${pkg.dir}/test-main.js.file`).toString()
@@ -60,7 +77,7 @@ it('works with unpkg field too', () => {
 		unpkg: 'test-browser.js.file',
 	};
 
-	plugin({pkg}, {pkgJson});
+	plugin({pkg, log}, {pkgJson});
 
 	expect(
 		fs.readFileSync(`${pkg.dir}/test-main.js.file`).toString()
@@ -75,7 +92,7 @@ it('works with jsdelivr field too', () => {
 		jsdelivr: 'test-browser.js.file',
 	};
 
-	plugin({pkg}, {pkgJson});
+	plugin({pkg, log}, {pkgJson});
 
 	expect(
 		fs.readFileSync(`${pkg.dir}/test-main.js.file`).toString()
@@ -92,7 +109,7 @@ it('replaces server files with browser files', () => {
 		},
 	};
 
-	plugin({pkg}, {pkgJson});
+	plugin({pkg, log}, {pkgJson});
 
 	expect(
 		fs.readFileSync(`${pkg.dir}/test-browser.js.file`).toString()
@@ -112,7 +129,7 @@ it('does replace ignored modules with empty objects', () => {
 		},
 	};
 
-	plugin({pkg}, {pkgJson});
+	plugin({pkg, log}, {pkgJson});
 
 	expect(
 		fs.readFileSync(`${pkg.dir}/test-browser.js.file`).toString()
@@ -127,5 +144,5 @@ it('does not throw on inexistent files', () => {
 		browser: 'non-existent-file.js',
 	};
 
-	plugin({pkg}, {pkgJson});
+	plugin({pkg, log}, {pkgJson});
 });

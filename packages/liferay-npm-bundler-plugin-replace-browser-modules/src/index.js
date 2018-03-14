@@ -4,15 +4,17 @@ import path from 'path';
 /**
  * @return {void}
  */
-export default function({pkg}, {pkgJson}) {
+export default function({pkg, log}, {pkgJson}) {
 	const browser = pkgJson.browser || pkgJson.unpkg || pkgJson.jsdelivr;
 
 	if (browser) {
 		if (typeof browser === 'string') {
-			replaceMainModule(pkg.dir, browser, pkgJson);
+			replaceMainModule(pkg.dir, browser, pkgJson, log);
 		} else {
-			replaceModules(pkg.dir, browser, pkgJson);
+			replaceModules(pkg.dir, browser, pkgJson, log);
 		}
+	} else {
+		log.info('replace-browser-modules', 'No browser modules found');
 	}
 }
 
@@ -21,16 +23,17 @@ export default function({pkg}, {pkgJson}) {
  * @param {String} pkgDir directory where package is placed
  * @param {String} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
+ * @param {PluginLogger} log a logger
  * @return {void}
  */
-function replaceMainModule(pkgDir, browser, pkgJson) {
+function replaceMainModule(pkgDir, browser, pkgJson, log) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 	const main = pkgJson.main || 'index.js';
 
 	const src = path.join(pkgDir, browser);
 	const dest = path.join(pkgDir, main);
 
-	replaceFile(pkgId, src, browser, dest, main);
+	replaceFile(pkgId, src, browser, dest, main, log);
 }
 
 /**
@@ -38,9 +41,10 @@ function replaceMainModule(pkgDir, browser, pkgJson) {
  * @param {String} pkgDir directory where package is placed
  * @param {String} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
+ * @param {PluginLogger} log a logger
  * @return {void}
  */
-function replaceModules(pkgDir, browser, pkgJson) {
+function replaceModules(pkgDir, browser, pkgJson, log) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
 	Object.keys(browser).forEach(from => {
@@ -48,11 +52,11 @@ function replaceModules(pkgDir, browser, pkgJson) {
 		const dest = path.join(pkgDir, from);
 
 		if (to == false) {
-			ignoreFile(dest);
+			ignoreFile(dest, from, log);
 		} else {
 			const src = path.join(pkgDir, to);
 
-			replaceFile(pkgId, src, to, dest, from);
+			replaceFile(pkgId, src, to, dest, from, log);
 		}
 	});
 }
@@ -64,14 +68,21 @@ function replaceModules(pkgDir, browser, pkgJson) {
  * @param {String} srcName the name of the source file
  * @param {String} dest path to destination file
  * @param {String} destName the name of the destination file
+ * @param {PluginLogger} log a logger
  * @return {void}
  */
-function replaceFile(pkgId, src, srcName, dest, destName) {
+function replaceFile(pkgId, src, srcName, dest, destName, log) {
 	const srcModuleName = srcName.replace('.js', '');
 	const destModuleName = destName.replace('.js', '');
 
+	log.info(
+		'replace-browser-modules',
+		`Replacing module ${destName} with module ${srcName}`
+	);
+
 	try {
 		let contents = fs.readFileSync(src).toString();
+
 		contents = contents.replace(
 			`'${pkgId}/${srcModuleName}'`,
 			`'${pkgId}/${destModuleName}'`
@@ -94,9 +105,16 @@ function replaceFile(pkgId, src, srcName, dest, destName) {
 /**
  * Ignores one package
  * @param {String} file path to file to be ignored
+ * @param {String} fileName the name of the file
+ * @param {PluginLogger} log a logger
  * @return {void}
  */
-function ignoreFile(file) {
+function ignoreFile(file, fileName, log) {
+	log.info(
+		'replace-browser-modules',
+		`Emptying module ${fileName} because it is server-only`
+	);
+
 	fs.writeFileSync(
 		file,
 		'/* Module ignored by ' +
