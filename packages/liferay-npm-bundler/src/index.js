@@ -69,8 +69,10 @@ export default function(args) {
 			log.info(`Bundling took ${pretty(hrtime)}`);
 			report.executionTime(hrtime);
 
-			fs.writeFileSync(config.getReportFilePath(), report.toHtml());
-			log.info(`Report written to ${config.getReportFilePath()}`);
+			if (config.isDumpReport()) {
+				fs.writeFileSync(config.getReportFilePath(), report.toHtml());
+				log.info(`Report written to ${config.getReportFilePath()}`);
+			}
 		})
 		.catch(function(err) {
 			log.error(err);

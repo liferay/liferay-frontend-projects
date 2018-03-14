@@ -183,6 +183,14 @@ export function getIncludeDependencies() {
 }
 
 /**
+ * Whether or not to dump report
+ * @return {boolean}
+ */
+export function isDumpReport() {
+	return config['dump-report'] || false;
+}
+
+/**
  * Get versions information
  * @return {void}
  */
