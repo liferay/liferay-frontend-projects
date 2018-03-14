@@ -1,0 +1,535 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correctly dumps HTML report 1`] = `
+"
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<meta charset=\\"utf-8\\" />
+				<title>Report of liferay-npm-bundler execution</title>
+				<style>
+					body, h1, h2, h3, p, li {
+						font-family: sans-serif;
+					}
+					
+					body, p, th, td, li {
+						font-size: 10pt;
+					}
+					
+					h1 {
+						font-size: 16pt;
+						margin: 1em 0 .5em 0;
+					}
+					
+					h2 {
+						font-size: 13pt;
+						margin: 1em 0 .5em 0;
+					}
+					
+					h3 {
+						font-size: 11pt;
+						margin: 1em 0 .5em 0;
+					}
+					
+					table {
+						margin: 0 0 .5em 0;
+					}
+					
+					tr:nth-child(odd) {
+						background-color: #F6F6F6;
+					}
+					
+					th {
+						background-color: #F0F0F0;
+						text-align: left;
+					}
+					
+					th, td {
+						padding: .1em 0;
+						vertical-align: top;
+					}
+					
+					td.info, td.error {
+						background: green;
+						border-radius: 4px;
+						color: white;
+						text-align: center;
+						vertical-align: middle;
+						width: 1px;
+						white-space: nowrap;
+					}
+
+					td.error {
+						background: red;
+					}
+					
+					td.source {
+						white-space: nowrap;
+					}
+
+					ul {
+						padding-left: 1em;
+						margin: 0 0 .5em 0;
+					}
+					
+					p {
+						margin: 0 0 .5em 0;
+					}
+				</style>
+				<script id=\\"report\\" type=\\"application/json\\">
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":\\"1.4.2\\",\\"liferay-npm-bundler-plugin-inject-angular\\":\\"1.4.2\\"},\\"_packages\\":{\\"package-1@1.0.0\\":{\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"],\\"exclusions\\":[\\"b.*\\"],\\"process\\":{\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"link\\":\\"file:../package-1\\",\\"id\\":\\"package-1@1.0.0\\",\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\"},\\"package-2@2.0.0\\":{\\"allFiles\\":[],\\"copiedFiles\\":[],\\"exclusions\\":[],\\"process\\":{\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"id\\":\\"package-2@2.0.0\\",\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
+				</script>
+				<script>
+					window.report = JSON.parse(
+						document.getElementById(\\"report\\").innerHTML
+					);
+				</script>
+			</head>
+			<body>
+				<h1>Report of liferay-npm-bundler execution</h1>
+				
+			<table>
+				<tr><td>Executed at:</td><td>Thu, 01 Jan 1970 00:00:00 GMT</td></tr>
+<tr><td>Execution took:</td><td>1s</td></tr>
+			</table>
+		
+				
+		<h2>Warnings</h2>
+		
+		<ul>
+			<li>warn 1</li> <li>warn 2</li> <li>warn</li>
+		</ul>
+	
+	
+				
+		<h2>Bundler environment versions</h2>
+		
+			<table>
+				<tr><th>Package</th>
+<th>Version</th></tr>
+				<tr>
+					<td>liferay-npm-bundler</td>
+					<td>1.4.2</td>
+				</tr>
+<tr>
+					<td>liferay-npm-bundler-plugin-inject-angular</td>
+					<td>1.4.2</td>
+				</tr>
+			</table>
+		
+	
+				
+		<h2>Bundled packages</h2>
+		
+			<table>
+				<tr><th>Package</th>
+<th>Version</th>
+<th>Copied files</th>
+<th>Excluded files</th>
+<th>Exclusions</th>
+<th>Linked to</th></tr>
+				<tr>
+						<td>package-1</td>
+						<td>1.0.0</td>
+						<td>2</td>
+						<td>1</td>
+						<td>b.*</td>
+						<td>file:../package-1</td>
+					</tr>
+<tr>
+						<td>package-2</td>
+						<td>2.0.0</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+			</table>
+		
+	
+				
+		<h2>Summary of package transformations</h2>
+		
+			<table>
+				<tr><th>Package</th>
+<th>Version</th>
+<th>Pre-babel phase plugins</th>
+<th>Post-babel phase plugins</th>
+<th>Babel phase results</th></tr>
+				<tr>
+						<td>package-1</td>
+						<td>1.0.0</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-pre\\">
+								1 plugins applied
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-post\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-babel\\">
+								1 files processed
+							</a>
+						</td>
+					</tr>
+<tr>
+						<td>package-2</td>
+						<td>2.0.0</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-pre\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-post\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-babel\\">
+								
+							</a>
+						</td>
+					</tr>
+			</table>
+		
+	
+				
+		<h2>Details of bundler transformations</h2>
+		
+		<h3>
+							<a name=\\"package-1@1.0.0-pre\\"></a>
+							package-1@1.0.0
+						</h3>
+		
+			<table>
+				<tr><th>Pre-phase plugin</th>
+<th>Config</th>
+<th>Message</th>
+<th></th></tr>
+				<tr>
+					<td>a-plugin</td> <td>{\\"cfgval1\\":1,\\"cfgval2\\":2}</td>
+					
+					<td></td>
+				</tr>
+			</table>
+		
+
+	
+
+	
+				
+		<h2>Details of Babel transformations</h2>
+		
+		<h3>
+							<a name=\\"package-1@1.0.0-babel\\"></a>
+							package-1@1.0.0
+						</h3>
+		<p>
+							Configuration: 
+							{\\"cfgval1\\":1,\\"cfgval2\\":2}
+						</p>
+
+			<table>
+				<tr><th>File</th>
+<th>Log source</th>
+<th>Message</th>
+<th></th></tr>
+				<tr>
+					<td>a.js</td>
+					<td></td>
+					<td></td> <td></td>
+				</tr>
+			</table>
+		
+	
+
+	
+			</body>
+		</html>
+	"
+`;
+
+exports[`when describing the run correctly removes stale linked dependencies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "id": "package-1@1.0.0",
+      "link": "file:../package-1",
+      "name": "package-1",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "1.0.0",
+    },
+    "package-2@2.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "id": "package-2@2.0.0",
+      "name": "package-2",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "2.0.0",
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores Babel config 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "process": Object {
+        "babel": Object {
+          "config": Object {
+            "cfgval1": 1,
+            "cfgval2": 2,
+          },
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores Babel file run 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {
+            "a.js": Object {
+              "logger": PluginLogger {
+                "_msgs": Array [],
+              },
+            },
+          },
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores bundler plugin runs 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {
+          "a-plugin": Object {
+            "logger": PluginLogger {
+              "_msgs": Array [],
+            },
+            "plugin": Object {
+              "config": Object {
+                "cfgval1": 1,
+                "cfgval2": 2,
+              },
+              "name": "a-plugin",
+              "run": [Function],
+            },
+          },
+        },
+      },
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores dependencies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "id": "package-1@1.0.0",
+      "name": "package-1",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "1.0.0",
+    },
+    "package-2@2.0.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "id": "package-2@2.0.0",
+      "name": "package-2",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "2.0.0",
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores executionTime 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_executionTime": Array [
+    1,
+    2,
+  ],
+  "_packages": Object {},
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores linked dependencies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "a-package@1.1.0": Object {
+      "allFiles": Array [],
+      "copiedFiles": Array [],
+      "exclusions": Array [],
+      "link": "file:../a-package",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores package copies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [
+        "a.js",
+        "b.js",
+        "c.js",
+      ],
+      "copiedFiles": Array [
+        "a.js",
+        "c.js",
+      ],
+      "exclusions": Array [
+        "b.*",
+      ],
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores unique warnings 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_versionsInfo": Object {},
+  "_warnings": Array [
+    "warn",
+  ],
+}
+`;
+
+exports[`when describing the run correctly stores versions info 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_versionsInfo": Object {
+    "liferay-npm-bundler": "1.4.2",
+    "liferay-npm-bundler-plugin-inject-angular": "1.4.2",
+  },
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores warnings 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_versionsInfo": Object {},
+  "_warnings": Array [
+    "warn 1",
+    "warn 2",
+  ],
+}
+`;
