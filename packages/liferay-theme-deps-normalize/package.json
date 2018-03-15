@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-deps-normalize",
-  "version": "1.0.0",
+  "version": "7.0.0",
   "description": "Tool for normalizing liferay-theme-deps modules in post install scripts",
   "main": "index.js",
   "repository": "Robert-Frampton/liferay-theme-deps-normalize",
