@@ -1,5 +1,11 @@
 var chalk = require('chalk');
 
+function _getDevDependencies() {
+  return `\t"gulp": "^3.8.10",
+    \t"liferay-theme-tasks": "^1.4.2",
+    \t"liferay-theme-deps-7.0": "~1.2.1"`;
+}
+
 function _getTemplateLanguageChoices(answers) {
   return [
     {
@@ -21,4 +27,9 @@ function _printWarnings(generator, {templateLanguage}) {
   }
 }
 
-module.exports = {_getTemplateLanguageChoices, _isTemplateLanguage, _printWarnings};
+module.exports = {
+  _getDevDependencies,
+  _getTemplateLanguageChoices,
+  _isTemplateLanguage,
+  _printWarnings
+};

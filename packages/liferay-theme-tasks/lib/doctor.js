@@ -22,6 +22,8 @@ function doctor(
 		return;
 	}
 
+	const liferayVersion = themeConfig.liferayTheme.version;
+
 	assertTasksSupported(themeConfig.liferayTheme.version, tasks);
 
 	let dependencies = themeConfig.dependencies || {};
@@ -45,7 +47,7 @@ function doctor(
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
-	let missingDeps = checkMissingDeps(dependencies, rubySass);
+	let missingDeps = checkMissingDeps(liferayVersion, dependencies, rubySass);
 
 	checkDependencySources(themeConfig.liferayTheme);
 
@@ -112,12 +114,12 @@ function checkDependencySources(liferayTheme) {
 	}
 }
 
-function checkMissingDeps(dependencies, rubySass) {
+function checkMissingDeps(version, dependencies, rubySass) {
 	let missingDeps = 0;
 
 	missingDeps = logMissingDeps(
 		dependencies,
-		'liferay-theme-deps-7.0',
+		`liferay-theme-deps-${version}`,
 		missingDeps
 	);
 
