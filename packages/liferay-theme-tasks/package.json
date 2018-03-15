@@ -15,7 +15,6 @@
     "format": "npm run prettier -- --write",
     "test": "nyc ava",
     "lint": "eslint '*.js' 'lib/**/*.js' 'tasks/**/*.js' 'test/**/*.js'",
-    "precommit": "lint-staged",
     "prettier": "prettier-eslint '*.js' 'lib/**/*.js' 'tasks/**/*.js' 'test/**/*.js'"
   },
   "ava": {
@@ -23,12 +22,6 @@
     "files": [
       "test/lib/**/*.js",
       "test/tasks/**/*.js"
-    ]
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier-eslint --write lib/**/*.js tasks/**/*.js test/**/*.js",
-      "git add"
     ]
   },
   "nyc": {
@@ -92,10 +85,8 @@
     "gulp": "^3.9.0",
     "gulp-ruby-sass": "^2.0.6",
     "gulp-sass": "^3.1.0",
-    "husky": "^0.14.2",
     "liferay-theme-deps-6.2": "*",
     "liferay-theme-deps-7.0": "*",
-    "lint-staged": "^4.0.0",
     "nyc": "^6.4.4",
     "prettier-eslint-cli": "^4.4.0",
     "sinon": "^1.17.2"

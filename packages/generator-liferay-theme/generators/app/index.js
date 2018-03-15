@@ -253,6 +253,7 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
+		this.devDependencies = divert('app_helpers', liferayVersion)._getDevDependencies();
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;

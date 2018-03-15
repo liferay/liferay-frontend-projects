@@ -14,7 +14,6 @@ const pkg = lfrThemeConfig.getConfig(true);
 const themeConfig = pkg.liferayTheme;
 const fullDeploy = argv.full || argv.f;
 
-const depModuleName = 'liferay-theme-deps-7.0';
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
 	'liferay-frontend-theme-styled': 'LIFERAY_THEME_STYLED_PATH',
@@ -128,7 +127,7 @@ module.exports = {
 
 		version = version || themeConfig.version;
 
-		let depsPath = path.dirname(require.resolve(depModuleName));
+		let depsPath = path.dirname(require.resolve(`liferay-theme-deps-${version}`));
 
 		return depsPath;
 	},
