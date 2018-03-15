@@ -44,7 +44,7 @@ inquirer.prompt.prompts.list.prototype.render = function() {
 var LayoutCreator = function(options) {
 	this.after = options.after;
 	this.className = options.className;
-	this.liferayVersion = options.liferayVersion || '7.0';
+	this.liferayVersion = options.liferayVersion || '7.1';
 	this.rowData = options.rowData;
 
 	if (!this.after) {
@@ -508,8 +508,8 @@ LayoutCreator.prototype = {
 		var liferayVersion = this.liferayVersion;
 
 		return layoutTempletTpl(_.defaults(options, {
-			columnPrefix: liferayVersion == '7.0' ? 'col-md-': 'span',
-			rowClassName: liferayVersion == '7.0' ? 'row': 'row-fluid'
+			columnPrefix: 'col-md-',
+			rowClassName: 'row'
 		}));
 	},
 

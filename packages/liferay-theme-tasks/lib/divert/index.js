@@ -8,7 +8,7 @@ function divert(moduleName, version = null) {
 	if (!version) {
 		let config = lfrThemeConfig.getConfig();
 
-		version = config ? config.version : '7.0';
+		version = config ? config.version : '7.1';
 	}
 
 	let module = {};
