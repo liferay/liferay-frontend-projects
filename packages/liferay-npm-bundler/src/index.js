@@ -89,26 +89,28 @@ function copyRootPackageJson(outputDir) {
 	const pkgJson = readJsonSync('package.json');
 
 	['dependencies', 'devDependencies'].forEach(scope => {
-		Object.keys(pkgJson[scope]).forEach(depName => {
-			const depVersion = pkgJson[scope][depName];
+		if (pkgJson[scope] != null) {
+			Object.keys(pkgJson[scope]).forEach(depName => {
+				const depVersion = pkgJson[scope][depName];
 
-			if (semver.validRange(depVersion) == null) {
-				const depPkgJsonPath = path.join(
-					depVersion.substring(5),
-					'package.json'
-				);
+				if (semver.validRange(depVersion) == null) {
+					const depPkgJsonPath = path.join(
+						depVersion.substring(5),
+						'package.json'
+					);
 
-				const depPkgJson = readJsonSync(depPkgJsonPath);
+					const depPkgJson = readJsonSync(depPkgJsonPath);
 
-				pkgJson[scope][depName] = depPkgJson.version;
+					pkgJson[scope][depName] = depPkgJson.version;
 
-				report.linkedDependency(
-					depName,
-					depVersion,
-					depPkgJson.version
-				);
-			}
-		});
+					report.linkedDependency(
+						depName,
+						depVersion,
+						depPkgJson.version
+					);
+				}
+			});
+		}
 	});
 
 	return fs.writeJson(path.join(outputDir, 'package.json'), pkgJson, {
