@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.6.0](https://github.com/liferay/liferay-npm-build-tools/tree/v1.6.0) (2018-03-15)
+[Full Changelog](https://github.com/liferay/liferay-npm-build-tools/compare/v1.5.0...v1.6.0)
+
+**Implemented enhancements:**
+
+- Don't generate liferay-npm-bundler report by default [\#86](https://github.com/liferay/liferay-npm-build-tools/issues/86)
+
+**Fixed bugs:**
+
+- Babel plugins fail when used from babel alone since v1.5.0 [\#85](https://github.com/liferay/liferay-npm-build-tools/issues/85)
+
+**Merged pull requests:**
+
+- Don't generate report by default [\#87](https://github.com/liferay/liferay-npm-build-tools/pull/87) ([izaera](https://github.com/izaera))
+
 ## [v1.5.0](https://github.com/liferay/liferay-npm-build-tools/tree/v1.5.0) (2018-03-14)
 [Full Changelog](https://github.com/liferay/liferay-npm-build-tools/compare/v1.4.2...v1.5.0)
 
