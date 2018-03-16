@@ -1,38 +1,43 @@
 'use strict';
 
-var _ = require('lodash');
-var globby = require('globby');
-var liferayPluginTasks = require('liferay-plugin-node-tasks');
-var path = require('path');
-var plugins = require('gulp-load-plugins')();
+const _ = require('lodash');
+const globby = require('globby');
+const liferayPluginTasks = require('liferay-plugin-node-tasks');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
 
-var doctor = require('./lib/doctor');
-var lfrThemeConfig = require('./lib/liferay_theme_config');
-var versionControl = require('./lib/version_control.js');
+const {doctor} = require('./lib/doctor');
+const lfrThemeConfig = require('./lib/liferay_theme_config');
+const versionControl = require('./lib/version_control.js');
 
-var themeConfig = lfrThemeConfig.getConfig();
+const themeConfig = lfrThemeConfig.getConfig();
 
 module.exports.registerTasks = function(options) {
 	options = require('./lib/options')(options);
 
-	liferayPluginTasks.registerTasks(_.defaults({
-		extensions: register,
-		hookFn: options.hookFn,
-		hookModules: themeConfig ? themeConfig.hookModules : null,
-		rootDir: options.pathBuild,
-		storeConfig: {
-			name: 'LiferayTheme',
-			path: 'liferay-theme.json'
-		}
-	}, options));
+	liferayPluginTasks.registerTasks(
+		_.defaults(
+			{
+				extensions: register,
+				hookFn: options.hookFn,
+				hookModules: themeConfig ? themeConfig.hookModules : null,
+				rootDir: options.pathBuild,
+				storeConfig: {
+					name: 'LiferayTheme',
+					path: 'liferay-theme.json',
+				},
+			},
+			options
+		)
+	);
 };
 
 function register(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
 	gulp = options.gulp = plugins.help(gulp);
 
-	var store = gulp.storage;
+	let store = gulp.storage;
 
 	store.set('changedFile');
 
@@ -40,9 +45,12 @@ function register(options) {
 		require(item)(options);
 	});
 
-	var halt = _.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
+	let haltOnMissingDeps =
+		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
 
-	doctor(null, halt);
+	const tasks = options.insideTests ? [] : options.argv._;
+
+	doctor({haltOnMissingDeps, tasks});
 
 	if (!options.argv['skip-update-check']) {
 		process.once('beforeExit', function() {

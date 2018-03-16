@@ -13,12 +13,6 @@ var liferayThemeGeneratorPrototype = _.cloneDeep(require('../app/index').prototy
 var initializing = liferayThemeGeneratorPrototype.initializing;
 
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
-	initializing: function() {
-		initializing.call(this);
-
-		this.sourceRoot(path.join(this._sourceRoot, '../../app/templates'));
-	},
-
 	writing: {
 		projectfiles: _.noop,
 
@@ -79,7 +73,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this.importTheme = props.importTheme;
 
 		this._getSettingFromConfigFile({
-			defaultValue: 6.2,
+			defaultValue: '6.2',
 			filePath: 'docroot/WEB-INF/liferay-plugin-package.properties',
 			propertyName: 'liferayVersion',
 			propertyNameInFile: 'liferay-versions',
@@ -87,24 +81,15 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		});
 
 		var liferayVersion = this.liferayVersion;
-		var rubySass = false;
 
-		if (liferayVersion == '6.2') {
-			rubySass = true;
-		}
-
-		this.rubySass = rubySass;
+    if(liferayVersion !== '6.2') {
+      throw new Error('Only themes for 6.2 version of Liferay can be imported');
+    }
 
 		this._setPackageVersion(liferayVersion);
 
-		var defaultTemplateLanguage = 'ftl';
-
-		if (liferayVersion == '6.2') {
-			defaultTemplateLanguage = 'vm';
-		}
-
 		this._getSettingFromConfigFile({
-			defaultValue: defaultTemplateLanguage,
+			defaultValue: 'vm',
 			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
 			propertyName: 'templateLanguage',
 			propertyNameInFile: '<template-extension>',

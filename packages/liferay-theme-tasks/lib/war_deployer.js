@@ -1,16 +1,18 @@
-var _ = require('lodash');
-var EventEmitter = require('events').EventEmitter;
-var fs = require('fs');
-var gutil = require('gulp-util');
-var inquirer = require('inquirer');
-var path = require('path');
-var url = require('url');
+'use strict';
 
-var CWD = process.cwd();
+let _ = require('lodash');
+let EventEmitter = require('events').EventEmitter;
+let fs = require('fs');
+let gutil = require('gulp-util');
+let inquirer = require('inquirer');
+let path = require('path');
+let url = require('url');
 
-var colors = gutil.colors;
+let CWD = process.cwd();
 
-var WarDeployer = function(options) {
+let colors = gutil.colors;
+
+let WarDeployer = function(options) {
 	this.init(options);
 };
 
@@ -20,7 +22,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 
 		this._validateOptions(options);
 
-		var siteURL = options.url || 'http://localhost:8080';
+		let siteURL = options.url || 'http://localhost:8080';
 
 		this._setURLSettings(siteURL);
 
@@ -40,7 +42,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	},
 
 	_getBoundaryKey: function() {
-		var boundaryKey = this.boundaryKey;
+		let boundaryKey = this.boundaryKey;
 
 		if (!boundaryKey) {
 			boundaryKey = Math.random().toString(16);
@@ -52,24 +54,35 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	},
 
 	_getFileHeaders: function() {
-		var fileName = this.fileName;
+		let fileName = this.fileName;
 
-		return '--' + this._getBoundaryKey() + '\r\n' +
+		return (
+			'--' +
+			this._getBoundaryKey() +
+			'\r\n' +
 			'Content-Type: application/x-zip\r\n' +
-			'Content-Disposition: form-data; name="' + fileName + '"; filename="' + fileName + '.war"\r\n' +
-			'Content-Transfer-Encoding: binary\r\n\r\n';
+			'Content-Disposition: form-data; name="' +
+			fileName +
+			'"; filename="' +
+			fileName +
+			'.war"\r\n' +
+			'Content-Transfer-Encoding: binary\r\n\r\n'
+		);
 	},
 
 	_getPostOptions: function() {
 		return {
 			auth: this._getAuth(),
 			headers: {
-				'Content-Type': 'multipart/form-data; boundary="' + this._getBoundaryKey() + '"'
+				'Content-Type':
+					'multipart/form-data; boundary="' +
+					this._getBoundaryKey() +
+					'"',
 			},
 			host: this.host,
 			method: 'POST',
 			path: '/server-manager-web/plugins',
-			port: this.port
+			port: this.port,
 		};
 	},
 
@@ -78,16 +91,16 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 			default: defaultValue,
 			message: 'Enter your ' + name + ' for ' + this.host,
 			name: name,
-			type: name === 'password' ? name : 'input'
+			type: name === 'password' ? name : 'input',
 		};
 	},
 
 	_makeRequest: function() {
-		var instance = this;
+		let instance = this;
 
-		var protocol = require(this.protocol);
+		let protocol = require(this.protocol);
 
-		var req = protocol.request(this._getPostOptions(), function(res) {
+		let req = protocol.request(this._getPostOptions(), function(res) {
 			res.setEncoding('utf8');
 
 			res.on('data', function(chunk) {
@@ -110,29 +123,36 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 
 	_onResponseData: function(chunk) {
 		try {
-			var responseData = JSON.parse(chunk);
+			let responseData = JSON.parse(chunk);
 
 			if (responseData && !responseData.error) {
 				this.deployed = true;
 			}
-		}
-		catch (err) {
-		}
+		} catch (err) {}
 	},
 
 	_onResponseEnd: function() {
 		if (this.deployed) {
-			gutil.log(colors.cyan(this.fileName + '.war'), 'successfully deployed to', this.host);
-		}
-		else {
-			gutil.log(colors.yellow('Warning:'), 'There was a problem deploying', colors.cyan(this.fileName + '.war'), 'to', this.host);
+			gutil.log(
+				colors.cyan(this.fileName + '.war'),
+				'successfully deployed to',
+				this.host
+			);
+		} else {
+			gutil.log(
+				colors.yellow('Warning:'),
+				'There was a problem deploying',
+				colors.cyan(this.fileName + '.war'),
+				'to',
+				this.host
+			);
 		}
 	},
 
 	_promptCredentialsIfNeeded: function() {
-		var instance = this;
+		let instance = this;
 
-		var questions = [];
+		let questions = [];
 
 		if (!this.username) {
 			questions.push(this._getQuestion('username', 'test@liferay.com'));
@@ -150,14 +170,13 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 
 				instance._makeRequest();
 			});
-		}
-		else {
+		} else {
 			instance._makeRequest();
 		}
 	},
 
 	_setURLSettings: function(siteURL) {
-		var parsedURL = url.parse(siteURL);
+		let parsedURL = url.parse(siteURL);
 
 		this.host = parsedURL.hostname;
 		this.port = parsedURL.port;
@@ -177,22 +196,23 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 	},
 
 	_writeWarFile: function(req) {
-		var instance = this;
+		let instance = this;
 
-		var boundaryKey = this._getBoundaryKey();
+		let boundaryKey = this._getBoundaryKey();
 
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
 
-		fs.createReadStream(path.join(CWD, 'dist', this.fileName + '.war'))
+		fs
+			.createReadStream(path.join(CWD, 'dist', this.fileName + '.war'))
 			.on('end', function() {
 				req.end('\r\n--' + boundaryKey + '--');
 
 				instance.emit('end');
 			})
 			.pipe(req, {
-				end: false
+				end: false,
 			});
-	}
+	},
 });
 
 module.exports = WarDeployer;

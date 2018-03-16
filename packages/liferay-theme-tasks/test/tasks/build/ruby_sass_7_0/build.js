@@ -1,20 +1,24 @@
 'use strict';
 
-var test = require('ava');
+let test = require('ava');
 
-var buildTestHelper = require('../../../helpers/tasks/build');
+let buildTestHelper = require('../../../helpers/tasks/build');
 
-var runSequence;
+let runSequence;
 
-buildTestHelper.testBoilerplate(test, {
-	hookFn: buildTestHelper.buildHookFn,
-	namespace: 'ruby_sass_build_task',
-	rubySass: true,
-	themeName: 'base-theme',
-	version: '7.0'
-}, function(config) {
-	runSequence = config.runSequence;
-});
+buildTestHelper.testBoilerplate(
+	test,
+	{
+		hookFn: buildTestHelper.buildHookFn,
+		namespace: 'ruby_sass_build_task',
+		rubySass: true,
+		themeName: 'base-theme',
+		version: '7.0',
+	},
+	function(config) {
+		runSequence = config.runSequence;
+	}
+);
 
 test.cb('build task should correctly compile theme', function(t) {
 	runSequence('build', function() {

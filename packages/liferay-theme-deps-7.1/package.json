@@ -1,0 +1,20 @@
+{
+  "author": "Chema Balsas <jose.balsas@liferay.com> (https://github.com/jbalsas)",
+  "dependencies": {
+    "compass-mixins": "0.12.10",
+    "gulp-sass": "3.2.0",
+    "liferay-frontend-common-css": "1.0.4",
+    "liferay-frontend-theme-classic-web": "2.0.2",
+    "liferay-frontend-theme-styled": "3.0.0-alpha.1521181585788",
+    "liferay-frontend-theme-unstyled": "3.0.0-alpha.1521181854318",
+    "liferay-theme-deps-normalize": "1.0.0"
+  },
+  "description": "Set of dependencies required by liferay-theme-tasks",
+  "license": "ISC",
+  "main": "package.json",
+  "name": "liferay-theme-deps-7.1",
+  "version": "0.0.1",
+  "scripts": {
+    "install": "node scripts/install.js"
+  }
+}

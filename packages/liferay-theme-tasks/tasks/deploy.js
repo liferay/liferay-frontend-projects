@@ -1,84 +1,72 @@
 'use strict';
 
-var _ = require('lodash');
-var fs = require('fs-extra');
-var path = require('path');
-var plugins = require('gulp-load-plugins')();
+let _ = require('lodash');
+let fs = require('fs-extra');
+let path = require('path');
+let plugins = require('gulp-load-plugins')();
 
-var lfrThemeConfig = require('../lib/liferay_theme_config');
-var themeUtil = require('../lib/util');
-var WarDeployer = require('../lib/war_deployer');
+let lfrThemeConfig = require('../lib/liferay_theme_config');
+let themeUtil = require('../lib/util');
+let WarDeployer = require('../lib/war_deployer');
 
-var gutil = plugins.util;
-var livereload = plugins.livereload;
+let divert = require('../lib/divert');
 
-var themeConfig = lfrThemeConfig.getConfig(true);
+let livereload = plugins.livereload;
+
+let themeConfig = lfrThemeConfig.getConfig(true);
 
 module.exports = function(options) {
-	var gulp = options.gulp;
+	const {argv, gulp, pathBuild, pathSrc} = options;
+	const {storage} = gulp;
 
-	var store = gulp.storage;
-
-	var pathBuild = options.pathBuild;
-	var pathSrc = options.pathSrc;
-
-	var runSequence = require('run-sequence').use(gulp);
-
-	var argv = options.argv;
+	const runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('deploy', function(cb) {
-		var sequence = ['build', 'deploy:war', cb];
+		let sequence = ['build', 'deploy:war', cb];
 
-		var webBundleDir = store.get('webBundleDir');
+		let webBundleDir = storage.get('webBundleDir');
 
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
-		}
-		else if (webBundleDir === 'watching') {
+		} else if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
 		}
 
 		runSequence.apply(this, sequence);
 	});
 
-	gulp.task('deploy:css-files', function() {
-		var version = themeConfig.liferayTheme.version;
-
-		var srcPath = path.join(pathBuild, 'css/*.css');
-
-		var filePath = store.get('changedFile').path;
-
-		if (version === '6.2' && !themeUtil.isSassPartial(filePath)) {
-			var fileName = path.basename(filePath);
-
-			srcPath = path.join(pathBuild, 'css', fileName);
-		}
+	gulp.task('deploy:css-files', () => {
+		const srcPath = path.join(pathBuild, 'css/*.css');
+		const filePath = storage.get('changedFile').path;
 
 		return fastDeploy(srcPath, pathBuild);
 	});
 
 	gulp.task('deploy:file', function() {
-		var changedFile = store.get('changedFile');
+		let changedFile = storage.get('changedFile');
 
 		return fastDeploy(changedFile.path, pathSrc);
 	});
 
 	gulp.task('deploy:folder', function() {
-		var changedFile = store.get('changedFile');
+		let changedFile = storage.get('changedFile');
 
-		var relativeFilePath = path.relative(path.join(process.cwd(), pathSrc), changedFile.path);
+		let relativeFilePath = path.relative(
+			path.join(process.cwd(), pathSrc),
+			changedFile.path
+		);
 
-		var filePathArray = relativeFilePath.split(path.sep);
+		let filePathArray = relativeFilePath.split(path.sep);
 
-		var rootDir = filePathArray.length ? filePathArray[0] : '';
+		let rootDir = filePathArray.length ? filePathArray[0] : '';
 
 		return fastDeploy(path.join(pathBuild, rootDir, '**/*'), pathBuild);
 	});
 
 	gulp.task('deploy:gogo', function(cb) {
-		var sequence = ['build', 'plugin:deploy-gogo', cb];
+		let sequence = ['build', 'plugin:deploy-gogo', cb];
 
-		var webBundleDir = store.get('webBundleDir');
+		let webBundleDir = storage.get('webBundleDir');
 
 		if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
@@ -90,28 +78,29 @@ module.exports = function(options) {
 	gulp.task('deploy:war', ['plugin:deploy']);
 
 	gulp.task('deploy-live:war', function(cb) {
-		var password = argv.p || argv.password;
-		var url = argv.url || store.get('url');
-		var username = argv.u || argv.username;
+		let password = argv.p || argv.password;
+		let url = argv.url || storage.get('url');
+		let username = argv.u || argv.username;
 
-		var themeName = themeConfig.name;
+		let themeName = themeConfig.name;
 
-		var warDeployer = new WarDeployer({
+		let warDeployer = new WarDeployer({
 			fileName: themeName,
 			password: password,
 			url: url,
-			username: username
+			username: username,
 		}).on('end', cb);
 
 		warDeployer.deploy();
 	});
 
 	function fastDeploy(srcPath, basePath) {
-		var fastDeployPaths = getFastDeployPaths();
+		let fastDeployPaths = getFastDeployPaths();
 
-		var stream = gulp.src(srcPath, {
-			base: basePath
-		})
+		let stream = gulp
+			.src(srcPath, {
+				base: basePath,
+			})
 			.pipe(plugins.debug())
 			.pipe(gulp.dest(fastDeployPaths.dest));
 
@@ -119,33 +108,27 @@ module.exports = function(options) {
 			stream.pipe(gulp.dest(fastDeployPaths.tempDest));
 		}
 
-		stream.pipe(gutil.buffer(function(err, files) {
-			for(let file of files) {
-			    var filePath = file.path;
-
-				filePath = filePath.substring(fastDeployPaths.dest.length);
-				filePath = `/${themeConfig.name}${filePath}`;
-
-				livereload.changed(filePath);
-			}
-	  	}));
+		stream.pipe(livereload());
 
 		return stream;
 	}
 
 	function getFastDeployPaths() {
-		var fastDeployPaths = {
-			dest: store.get('appServerPathPlugin')
+		let fastDeployPaths = {
+			dest: storage.get('appServerPathPlugin'),
 		};
 
-		var tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
+		let tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
 
-		var tempThemeDir;
+		let tempThemeDir;
 
-		if (fs.existsSync(tempDirPath) && fs.statSync(tempDirPath).isDirectory()) {
-			var themeName = store.get('themeName');
+		if (
+			fs.existsSync(tempDirPath) &&
+			fs.statSync(tempDirPath).isDirectory()
+		) {
+			let themeName = storage.get('themeName');
 
-			var tempDir = fs.readdirSync(tempDirPath);
+			let tempDir = fs.readdirSync(tempDirPath);
 
 			tempThemeDir = _.find(tempDir, function(fileName) {
 				return fileName.indexOf(themeName) > -1;

@@ -1,11 +1,11 @@
 'use strict';
 
-var _ = require('lodash');
-var minimist = require('minimist');
+let _ = require('lodash');
+let minimist = require('minimist');
 
-var lfrThemeConfig = require('./liferay_theme_config');
+let lfrThemeConfig = require('./liferay_theme_config');
 
-var options;
+let options;
 
 module.exports = function(config) {
 	if (!options || config) {
@@ -17,7 +17,7 @@ module.exports = function(config) {
 		config.rubySass = config.rubySass || false;
 		config.sassOptions = config.sassOptions || {};
 
-		var themeConfig = lfrThemeConfig.getConfig();
+		let themeConfig = lfrThemeConfig.getConfig();
 
 		_.assign(config, themeConfig);
 

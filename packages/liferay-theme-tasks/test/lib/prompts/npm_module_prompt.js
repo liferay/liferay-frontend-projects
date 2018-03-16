@@ -1,33 +1,36 @@
 'use strict';
 
-var _ = require('lodash');
-var gutil = require('gulp-util');
-var inquirer = require('inquirer');
-var path = require('path');
-var sinon = require('sinon');
-var test = require('ava');
+let _ = require('lodash');
+let gutil = require('gulp-util');
+let inquirer = require('inquirer');
+let path = require('path');
+let sinon = require('sinon');
+let test = require('ava');
 
-var testUtil = require('../../util.js');
+let testUtil = require('../../util.js');
 
-var ModulePrompt;
-var NPMModulePrompt;
-var themeFinder;
+let ModulePrompt;
+let NPMModulePrompt;
+let themeFinder;
 
-var assertBoundFunction = testUtil.assertBoundFunction;
-var prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
+let assertBoundFunction = testUtil.assertBoundFunction;
+let prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'npm_module_prompt'
-	}, function(config) {
-		NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
-		ModulePrompt = require('../../../lib/prompts/module_prompt.js');
-		themeFinder = require('../../../lib/theme_finder');
+	testUtil.copyTempTheme(
+		{
+			namespace: 'npm_module_prompt',
+		},
+		function(config) {
+			NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
+			ModulePrompt = require('../../../lib/prompts/module_prompt.js');
+			themeFinder = require('../../../lib/theme_finder');
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.after(function() {
@@ -36,7 +39,7 @@ test.after(function() {
 	testUtil.cleanTempTheme('base-theme', '7.0', 'npm_module_prompt');
 });
 
-var prototype;
+let prototype;
 
 test.beforeEach(function() {
 	prototype = _.create(NPMModulePrompt.prototype);
@@ -47,20 +50,25 @@ test.afterEach(function() {
 });
 
 test('constructor should pass arguments to init', function(t) {
-	var initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
+	let initSpy = prototypeMethodSpy.add(NPMModulePrompt.prototype, 'init');
 
 	new NPMModulePrompt({}, _.noop);
 
 	t.true(initSpy.calledWith({}, _.noop));
 });
 
-test('init should assign callback as done property and invoke prompting', function(t) {
+test('init should assign callback as done property and invoke prompting', function(
+	t
+) {
 	prototype._promptSearchTerms = sinon.spy();
 
-	prototype.init({
-		selectedModules: ['module'],
-		themelet: true
-	}, _.noop);
+	prototype.init(
+		{
+			selectedModules: ['module'],
+			themelet: true,
+		},
+		_.noop
+	);
 
 	t.true(prototype._promptSearchTerms.calledOnce);
 	t.deepEqual(prototype.selectedModules, ['module']);
@@ -71,8 +79,8 @@ test('init should assign callback as done property and invoke prompting', functi
 test('_afterPrompt should pass answers to done property', function(t) {
 	prototype.done = sinon.spy();
 
-	var answers = {
-		module: 'some-module'
+	let answers = {
+		module: 'some-module',
 	};
 
 	prototype._afterPrompt(answers);
@@ -80,45 +88,54 @@ test('_afterPrompt should pass answers to done property', function(t) {
 	t.true(prototype.done.calledWith(answers));
 });
 
-test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', function(t) {
+test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', function(
+	t
+) {
+	t.plan(0);
+
 	prototype._getNPMModules = sinon.spy();
 
-	var answers = {
-		searchTerms: 'some keyword'
+	let answers = {
+		searchTerms: 'some keyword',
 	};
 
-	var cbSpy = sinon.spy();
+	let cbSpy = sinon.spy();
 
 	prototype._afterPromptSearchTerms(answers, cbSpy);
 
 	prototype._getNPMModules.calledWith(answers.searchTerms, cbSpy);
 });
 
-test('_afterPromptSearchTerms should either re-prompt search terms or invoke module prompt', function(t) {
+test('_afterPromptSearchTerms should either re-prompt search terms or invoke module prompt', function(
+	t
+) {
 	prototype._getNPMModules = sinon.spy();
 	prototype._promptSearchTerms = sinon.spy();
-	var logSpy = prototypeMethodSpy.add(gutil, 'log');
-	var modulePromptInitSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
+	let logSpy = prototypeMethodSpy.add(gutil, 'log');
+	let modulePromptInitSpy = prototypeMethodSpy.add(
+		ModulePrompt.prototype,
+		'init'
+	);
 
-	var answers = {
-		searchTerms: 'some keyword'
+	let answers = {
+		searchTerms: 'some keyword',
 	};
 
 	prototype._afterPromptSearchTerms(answers);
 
-	var args = prototype._getNPMModules.getCall(0).args;
+	let args = prototype._getNPMModules.getCall(0).args;
 
 	t.is(args[0], 'some keyword');
 
-	var cb = args[1];
+	let cb = args[1];
 
 	cb();
 
 	t.true(logSpy.calledOnce);
 	t.true(prototype._promptSearchTerms.calledOnce);
 
-	var modules = {
-		'some-module': {}
+	let modules = {
+		'some-module': {},
 	};
 
 	cb(modules);
@@ -128,30 +145,43 @@ test('_afterPromptSearchTerms should either re-prompt search terms or invoke mod
 	t.true(modulePromptInitSpy.calledOnce);
 });
 
-test('_getNPMModules should invoke themeFinder.getLiferayThemeModules', function(t) {
-	var getLiferayThemeModulesSpy = prototypeMethodSpy.add(themeFinder, 'getLiferayThemeModules');
+test('_getNPMModules should invoke themeFinder.getLiferayThemeModules', function(
+	t
+) {
+	let getLiferayThemeModulesSpy = prototypeMethodSpy.add(
+		themeFinder,
+		'getLiferayThemeModules'
+	);
 
 	prototype.themelet = 'themelet';
 
 	prototype._getNPMModules('some keyword', _.noop);
 
-	t.true(getLiferayThemeModulesSpy.calledWith({
-		globalModules: false,
-		searchTerms: 'some keyword',
-		themelet: 'themelet'
-	}, _.noop));
+	t.true(
+		getLiferayThemeModulesSpy.calledWith(
+			{
+				globalModules: false,
+				searchTerms: 'some keyword',
+				themelet: 'themelet',
+			},
+			_.noop
+		)
+	);
 });
 
 test('_promptSearchTerms should prompt for search terms', function(t) {
-	var promptSpy = prototypeMethodSpy.add(inquirer, 'prompt');
+	let promptSpy = prototypeMethodSpy.add(inquirer, 'prompt');
 
-	var assertAfterPromptSearchTerms = assertBoundFunction(prototype, '_afterPromptSearchTerms');
+	let assertAfterPromptSearchTerms = assertBoundFunction(
+		prototype,
+		'_afterPromptSearchTerms'
+	);
 
 	prototype._promptSearchTerms();
 
-	var args = promptSpy.getCall(0).args;
+	let args = promptSpy.getCall(0).args;
 
-	var question = args[0][0];
+	let question = args[0][0];
 
 	t.true(/themes/.test(question.message));
 	t.is(question.name, 'searchTerms');

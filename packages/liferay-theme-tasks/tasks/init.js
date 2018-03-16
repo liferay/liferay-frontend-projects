@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(options) {
-	var gulp = options.gulp;
+	let gulp = options.gulp;
 
 	gulp.task('init', ['plugin:init']);
 };

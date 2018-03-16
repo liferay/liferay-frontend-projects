@@ -1,44 +1,48 @@
 'use strict';
 
-var chai = require('chai');
-var del = require('del');
-var fs = require('fs-extra');
-var Gulp = require('gulp').Gulp;
-var path = require('path');
-var test = require('ava');
+let chai = require('chai');
+let del = require('del');
+let fs = require('fs-extra');
+let Gulp = require('gulp').Gulp;
+let path = require('path');
+let test = require('ava');
 
-var testUtil = require('../util');
+let testUtil = require('../util');
 
-var registerTasks;
-var runSequence;
+let registerTasks;
+let runSequence;
 
-var assert = chai.assert;
+let assert = chai.assert;
+
 chai.use(require('chai-fs'));
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
-var deployPath;
-var tempPath;
+let deployPath;
+let tempPath;
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'deploy_task',
-		registerTasks: true
-	}, function(config) {
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
+	testUtil.copyTempTheme(
+		{
+			namespace: 'deploy_task',
+			registerTasks: true,
+		},
+		function(config) {
+			runSequence = config.runSequence;
+			tempPath = config.tempPath;
 
-		deployPath = path.join(tempPath, '../appserver/deploy');
+			deployPath = path.join(tempPath, '../appserver/deploy');
 
-		var store = config.gulp.storage;
+			let store = config.gulp.storage;
 
-		store.set('deployPath', deployPath);
-		store.set('webBundleDir');
+			store.set('deployPath', deployPath);
+			store.set('webBundleDir');
 
-		fs.mkdirsSync(deployPath);
+			fs.mkdirsSync(deployPath);
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.cb.after(function(t) {
@@ -46,7 +50,7 @@ test.cb.after(function(t) {
 
 	testUtil.cleanTempTheme('base-theme', '7.0', 'deploy_task', function() {
 		del.sync(path.join(deployPath, '**'), {
-			force: true
+			force: true,
 		});
 
 		t.end();

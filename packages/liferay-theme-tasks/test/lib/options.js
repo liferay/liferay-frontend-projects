@@ -1,10 +1,10 @@
 'use strict';
 
-var argv = require('minimist')(process.argv.slice(2));
-var path = require('path');
-var test = require('ava');
+let argv = require('minimist')(process.argv.slice(2));
+let path = require('path');
+let test = require('ava');
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.after(function() {
 	process.chdir(initCwd);
@@ -22,8 +22,10 @@ test.afterEach(function() {
 	clearCache();
 });
 
-test('options should return default options with no config passed', function(t) {
-	var options = require('../../lib/options')();
+test('options should return default options with no config passed', function(
+	t
+) {
+	let options = require('../../lib/options')();
 
 	t.deepEqual(options, {
 		argv: argv,
@@ -33,13 +35,13 @@ test('options should return default options with no config passed', function(t) 
 				rubySass: false,
 				screenshot: '',
 				templateLanguage: 'vm',
-				version: '7.0'
+				version: '7.0',
 			},
 			name: 'parent-theme',
 			publishConfig: {
-				tag: '7_0_x'
+				tag: '7_0_x',
 			},
-			version: '1.0.0'
+			version: '1.0.0',
 		},
 		pathBuild: './build',
 		pathDist: './dist',
@@ -51,20 +53,22 @@ test('options should return default options with no config passed', function(t) 
 			'test-themelet': {
 				liferayTheme: {
 					themelet: true,
-					version: '7.0'
+					version: '7.0',
 				},
 				name: 'test-themelet',
-				version: '0.0.0'
-			}
+				version: '0.0.0',
+			},
 		},
-		version: '7.0'
+		version: '7.0',
 	});
 });
 
-test('options should return previously set options if no config is passed', function(t) {
-	var options = require('../../lib/options')({
+test('options should return previously set options if no config is passed', function(
+	t
+) {
+	let options = require('../../lib/options')({
 		distName: 'dist-name',
-		pathBuild: './custom_build_path'
+		pathBuild: './custom_build_path',
 	});
 
 	t.deepEqual(options, {
@@ -75,13 +79,13 @@ test('options should return previously set options if no config is passed', func
 				rubySass: false,
 				screenshot: '',
 				templateLanguage: 'vm',
-				version: '7.0'
+				version: '7.0',
 			},
 			name: 'parent-theme',
 			publishConfig: {
-				tag: '7_0_x'
+				tag: '7_0_x',
 			},
-			version: '1.0.0'
+			version: '1.0.0',
 		},
 		distName: 'dist-name',
 		pathBuild: './custom_build_path',
@@ -94,16 +98,16 @@ test('options should return previously set options if no config is passed', func
 			'test-themelet': {
 				liferayTheme: {
 					themelet: true,
-					version: '7.0'
+					version: '7.0',
 				},
 				name: 'test-themelet',
-				version: '0.0.0'
-			}
+				version: '0.0.0',
+			},
 		},
-		version: '7.0'
+		version: '7.0',
 	});
 
-	var secondOptions = require('../../lib/options')();
+	let secondOptions = require('../../lib/options')();
 
 	t.deepEqual(options, secondOptions);
 });

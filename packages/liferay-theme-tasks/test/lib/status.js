@@ -1,15 +1,15 @@
 'use strict';
 
-var test = require('ava');
+let test = require('ava');
 
-var status = require('../../lib/status.js');
+let status = require('../../lib/status.js');
 
 test('status should return appropriate status message', function(t) {
-	var statusMessage = status({
+	let statusMessage = status({
 		baseTheme: {
 			name: 'parent-theme',
-			version: '1.2.3'
-		}
+			version: '1.2.3',
+		},
 	});
 
 	t.true(!/Themelets:/.test(statusMessage));
@@ -21,9 +21,9 @@ test('status should return appropriate status message', function(t) {
 		themeletDependencies: {
 			'themelet-1': {
 				name: 'themelet-1',
-				version: '3.2.1'
-			}
-		}
+				version: '3.2.1',
+			},
+		},
 	});
 
 	t.true(/Base theme:/.test(statusMessage));

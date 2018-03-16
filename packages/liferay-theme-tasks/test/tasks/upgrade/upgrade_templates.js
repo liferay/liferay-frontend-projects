@@ -1,33 +1,40 @@
 'use strict';
 
-var test = require('ava');
+let test = require('ava');
 
-var testUtil = require('../../util');
+let testUtil = require('../../util');
 
-var runSequence;
+let runSequence;
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'upgrade_task_upgrade_templates',
-		themeName: 'upgrade-theme',
-		version: '6.2',
-		registerTasksOptions: {
-			pathSrc: 'src',
-			rubySass: true
-		}
-	}, function(config) {
-		runSequence = config.runSequence;
+	testUtil.copyTempTheme(
+		{
+			namespace: 'upgrade_task_upgrade_templates',
+			themeName: 'upgrade-theme',
+			version: '6.2',
+			registerTasksOptions: {
+				pathSrc: 'src',
+				rubySass: true,
+			},
+		},
+		function(config) {
+			runSequence = config.runSequence;
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.after(function() {
 	process.chdir(initCwd);
 
-	testUtil.cleanTempTheme('upgrade-theme', '6.2', 'upgrade_task_upgrade_templates');
+	testUtil.cleanTempTheme(
+		'upgrade-theme',
+		'6.2',
+		'upgrade_task_upgrade_templates'
+	);
 });
 
 test.cb('should scrape templates for needed changes', function(t) {

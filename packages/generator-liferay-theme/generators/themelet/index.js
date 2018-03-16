@@ -57,7 +57,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				item.message = 'Would you like to use this as the themeletId?';
 			}
 			else if (name == 'liferayVersion') {
-				item.choices = ['7.0', '6.2', 'All'];
+				item.choices = ['7.1', '7.0', 'All'];
 				item.message = 'Which version of Liferay is this themelet for?'
 			}
 
@@ -72,7 +72,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	},
 
 	_isLiferayVersion: function(value) {
-		return ['All', '6.2', '7.0'].indexOf(value) > -1;
+		return ['7.1', '7.0', 'All'].indexOf(value) > -1;
 	},
 
 	_promptCallback: function(props) {

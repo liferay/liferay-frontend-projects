@@ -1,66 +1,101 @@
 'use strict';
 
-var _ = require('lodash');
-var gutil = require('gulp-util');
-var lfrThemeConfig = require('./liferay_theme_config');
+const _ = require('lodash');
+const gutil = require('gulp-util');
 
-var chalk = gutil.colors;
+const lfrThemeConfig = require('./liferay_theme_config');
 
-module.exports = function(themeConfig, halt) {
+const chalk = gutil.colors;
+
+// This array contains all theme versions supported for non-upgrade tasks
+const supportedThemeVersions = ['7.0', '7.1'];
+
+// This array contains all theme versions supported for upgrade tasks
+const supportedUpgradeVersions = ['6.2'];
+
+function doctor(
+	{themeConfig = null, haltOnMissingDeps = false, tasks = []} = {}
+) {
 	themeConfig = themeConfig || lfrThemeConfig.getConfig(true);
 
 	if (!themeConfig) {
 		return;
 	}
 
-	var dependencies = themeConfig.dependencies || {};
+	const liferayVersion = themeConfig.liferayTheme.version;
+
+	assertTasksSupported(themeConfig.liferayTheme.version, tasks);
+
+	let dependencies = themeConfig.dependencies || {};
 
 	if (!_.isEmpty(themeConfig.devDependencies)) {
 		dependencies = _.defaults(dependencies, themeConfig.devDependencies);
 	}
 
-	var liferayVersion = themeConfig.liferayTheme.version;
-	var rubySass = themeConfig.liferayTheme.rubySass;
+	let rubySass = themeConfig.liferayTheme.rubySass;
 
-	if (!_.isUndefined(themeConfig.liferayTheme.supportCompass) && _.isUndefined(rubySass)) {
+	if (
+		!_.isUndefined(themeConfig.liferayTheme.supportCompass) &&
+		_.isUndefined(rubySass)
+	) {
 		rubySass = themeConfig.liferayTheme.supportCompass;
 
 		lfrThemeConfig.setConfig({
-			rubySass: rubySass
+			rubySass: rubySass,
 		});
 
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
-	var missingDeps = 0;
-
-	if (liferayVersion === '7.0') {
-		missingDeps = logMissingDeps(dependencies, 'liferay-theme-deps-7.0', missingDeps);
-
-		if (rubySass) {
-			missingDeps = logMissingDeps(dependencies, 'gulp-ruby-sass', missingDeps);
-		}
-	}
-	else if (liferayVersion === '6.2') {
-		missingDeps = logMissingDeps(dependencies, 'liferay-theme-deps-6.2', missingDeps);
-
-		if (!rubySass) {
-			missingDeps = logMissingDeps(dependencies, 'gulp-sass', missingDeps);
-		}
-	}
+	let missingDeps = checkMissingDeps(liferayVersion, dependencies, rubySass);
 
 	checkDependencySources(themeConfig.liferayTheme);
 
-	if (halt) {
+	if (haltOnMissingDeps) {
 		haltTask(missingDeps);
 	}
-};
+}
+
+/**
+ * Check if a given array of tasks is supported for the current theme version.
+ * @param {String} version the theme version
+ * @param {Array} tasks the list of tasks requested through the CLI
+ * @throws if any of the tasks is not supported in the given version
+ */
+function assertTasksSupported(version, tasks) {
+	for (let task of tasks) {
+		switch (task) {
+		case 'help':
+			break;
+
+		case 'upgrade':
+			if (supportedUpgradeVersions.indexOf(version) == -1) {
+				throw new Error(
+					`Task '${task}' is not supported for themes with ` +
+							`version '${version}' in this version of ` +
+							`'liferay-theme-tasks'`
+				);
+			}
+			break;
+
+		default:
+			if (supportedThemeVersions.indexOf(version) == -1) {
+				throw new Error(
+					`Task '${task}' is not supported for themes with ` +
+							`version '${version}' in this version of ` +
+							`'liferay-theme-tasks'`
+				);
+			}
+			break;
+		}
+	}
+}
 
 function checkDependencySources(liferayTheme) {
-	var baseTheme = liferayTheme.baseTheme;
-	var themeletDependencies = liferayTheme.themeletDependencies;
+	let baseTheme = liferayTheme.baseTheme;
+	let themeletDependencies = liferayTheme.themeletDependencies;
 
-	var localDependencies = [];
+	let localDependencies = [];
 
 	if (_.isObject(baseTheme) && baseTheme.path) {
 		localDependencies.push(baseTheme);
@@ -79,6 +114,26 @@ function checkDependencySources(liferayTheme) {
 	}
 }
 
+function checkMissingDeps(version, dependencies, rubySass) {
+	let missingDeps = 0;
+
+	missingDeps = logMissingDeps(
+		dependencies,
+		`liferay-theme-deps-${version}`,
+		missingDeps
+	);
+
+	if (rubySass) {
+		missingDeps = logMissingDeps(
+			dependencies,
+			'gulp-ruby-sass',
+			missingDeps
+		);
+	}
+
+	return missingDeps;
+}
+
 function haltTask(missingDeps) {
 	if (missingDeps > 0) {
 		throw new Error('Missing ' + missingDeps + ' theme dependencies');
@@ -86,20 +141,32 @@ function haltTask(missingDeps) {
 }
 
 function logLocalDependencies(localDependencies) {
-	var dependenciesString = _.map(localDependencies, function(item) {
+	let dependenciesString = _.map(localDependencies, function(item) {
 		return item.name;
 	}).join(', ');
 
-	gutil.log(chalk.yellow('Warning:'), 'you have dependencies that are installed from local modules. These should only be used for development purposes. Do not publish this npm module with those dependencies!');
+	gutil.log(
+		chalk.yellow('Warning:'),
+		'you have dependencies that are installed from local modules. These should only be used for development purposes. Do not publish this npm module with those dependencies!'
+	);
 	gutil.log(chalk.yellow('Local module dependencies:'), dependenciesString);
 }
 
 function logMissingDeps(dependencies, moduleName, missingDeps) {
 	if (!dependencies[moduleName]) {
-		gutil.log(chalk.red('Warning:'), 'You must install the correct dependencies, please run', chalk.cyan('npm i --save-dev', moduleName), 'from your theme directory.');
+		gutil.log(
+			chalk.red('Warning:'),
+			'You must install the correct dependencies, please run',
+			chalk.cyan('npm i --save-dev', moduleName),
+			'from your theme directory.'
+		);
 
 		missingDeps++;
 	}
 
 	return missingDeps;
 }
+
+module.exports = {
+	doctor,
+};

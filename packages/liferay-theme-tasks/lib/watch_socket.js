@@ -1,18 +1,18 @@
 'use strict';
 
-var _ = require('lodash');
-var del = require('del');
-var GogoShell = require('gogo-shell');
-var os = require('os');
-var path = require('path');
+let _ = require('lodash');
+let del = require('del');
+let GogoShell = require('gogo-shell');
+let os = require('os');
+let path = require('path');
 
-var lfrThemeConfig = require('./liferay_theme_config');
+let lfrThemeConfig = require('./liferay_theme_config');
 
-var themeConfig = lfrThemeConfig.getConfig(true);
+let themeConfig = lfrThemeConfig.getConfig(true);
 
-var REGEX_WIN = /^win/;
+let REGEX_WIN = /^win/;
 
-var WatchSocket = function(config) {
+let WatchSocket = function(config) {
 	GogoShell.call(this, config);
 
 	config = config || {};
@@ -22,7 +22,7 @@ var WatchSocket = function(config) {
 
 WatchSocket.prototype = _.create(GogoShell.prototype, {
 	deploy: function() {
-		var instance = this;
+		let instance = this;
 
 		return this._getWebBundleData(false)
 			.then(function(data) {
@@ -30,7 +30,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			})
 			.then(this._installWebBundleDir.bind(this))
 			.then(function(data) {
-				var webBundleId = instance._getWebBundleIdFromResponse(data);
+				let webBundleId = instance._getWebBundleIdFromResponse(data);
 
 				return instance._startBundle(webBundleId);
 			})
@@ -40,9 +40,9 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	uninstall: function(warPath, distName) {
-		var delPath = del.sync(warPath, {
+		let delPath = del.sync(warPath, {
 			dryRun: true,
-			force: true
+			force: true,
 		});
 
 		if (!delPath.length) {
@@ -50,14 +50,14 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 		}
 
 		del.sync(warPath, {
-			force: true
+			force: true,
 		});
 
 		return this._waitForUninstall(distName);
 	},
 
 	_formatWebBundleDirCommand: function(themePath) {
-		var buildPath = path.join(themePath, this.webBundleDir);
+		let buildPath = path.join(themePath, this.webBundleDir);
 
 		buildPath = buildPath.split(path.sep).join('/');
 
@@ -67,43 +67,50 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 
 		buildPath = buildPath.replace(/\s/g, '%20');
 
-		var themeName = themeConfig.name;
+		let themeName = themeConfig.name;
 
-		return 'install webbundledir:file:/' + buildPath + '?Web-ContextPath=/' + themeName;
+		return (
+			'install webbundledir:file:/' +
+			buildPath +
+			'?Web-ContextPath=/' +
+			themeName
+		);
 	},
 
 	_getWebBundleData: function(webBundleDir) {
-		var instance = this;
+		let instance = this;
 
-		var webBundleDirType = webBundleDir ? 'webbundledir' : 'webbundle';
+		let webBundleDirType = webBundleDir ? 'webbundledir' : 'webbundle';
 
-		var themeName = themeConfig.name;
+		let themeName = themeConfig.name;
 
-		var grepRegex = webBundleDirType + ':file.*' + themeName;
+		let grepRegex = webBundleDirType + ':file.*' + themeName;
 
-		return this.sendCommand('lb -u | grep', grepRegex)
-			.then(function(data) {
-				var lines = data.split('\n');
+		return this.sendCommand('lb -u | grep', grepRegex).then(function(data) {
+			let lines = data.split('\n');
 
-				var result = lines[1];
+			let result = lines[1];
 
-				return instance._getWebBundleDataFromResponse(result, webBundleDirType);
-			});
+			return instance._getWebBundleDataFromResponse(
+				result,
+				webBundleDirType
+			);
+		});
 	},
 
 	_getWebBundleDataFromResponse: function(response, webBundleDirType) {
-		var data = {
-			status: null
+		let data = {
+			status: null,
 		};
 
 		if (response.indexOf(webBundleDirType + ':file') > -1) {
-			var fields = response.split('|');
+			let fields = response.split('|');
 
 			data = {
 				id: _.trim(fields[0]),
 				level: _.trim(fields[2]),
 				status: _.trim(fields[1]),
-				updateLocation: _.trim(fields[3])
+				updateLocation: _.trim(fields[3]),
 			};
 		}
 
@@ -111,7 +118,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	_getWebBundleIdFromResponse: function(response) {
-		var match = response.match(/Bundle\sID:\s*([0-9]+)/);
+		let match = response.match(/Bundle\sID:\s*([0-9]+)/);
 
 		return match ? match[1] : 0;
 	},
@@ -137,7 +144,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	},
 
 	_waitForUninstall: function(distName) {
-		var instance = this;
+		let instance = this;
 
 		return this.sendCommand('lb ' + distName)
 			.delay(200)
@@ -148,7 +155,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 
 				return;
 			});
-	}
+	},
 });
 
 module.exports = WatchSocket;

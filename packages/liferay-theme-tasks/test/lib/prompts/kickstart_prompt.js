@@ -1,29 +1,32 @@
 'use strict';
 
-var _ = require('lodash');
-var inquirer = require('inquirer');
-var path = require('path');
-var sinon = require('sinon');
-var test = require('ava');
+let _ = require('lodash');
+let inquirer = require('inquirer');
+let path = require('path');
+let sinon = require('sinon');
+let test = require('ava');
 
-var testUtil = require('../../util');
+let testUtil = require('../../util');
 
-var GlobalModulePrompt;
-var KickstartPrompt;
-var NPMModulePrompt;
+let GlobalModulePrompt;
+let KickstartPrompt;
+let NPMModulePrompt;
 
-var initCwd = process.cwd();
+let initCwd = process.cwd();
 
 test.cb.before(function(t) {
-	testUtil.copyTempTheme({
-		namespace: 'kickstart_prompt'
-	}, function(config) {
-		GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt.js');
-		KickstartPrompt = require('../../../lib/prompts/kickstart_prompt.js');
-		NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
+	testUtil.copyTempTheme(
+		{
+			namespace: 'kickstart_prompt',
+		},
+		function(config) {
+			GlobalModulePrompt = require('../../../lib/prompts/global_module_prompt.js');
+			KickstartPrompt = require('../../../lib/prompts/kickstart_prompt.js');
+			NPMModulePrompt = require('../../../lib/prompts/npm_module_prompt.js');
 
-		t.end();
-	});
+			t.end();
+		}
+	);
 });
 
 test.after(function() {
@@ -32,14 +35,14 @@ test.after(function() {
 	testUtil.cleanTempTheme('base-theme', '7.0', 'kickstart_prompt');
 });
 
-var prototype;
+let prototype;
 
 test.beforeEach(function() {
 	prototype = _.create(KickstartPrompt.prototype);
 });
 
 test('constructor should pass arguments to init', function(t) {
-	var init = KickstartPrompt.prototype.init;
+	let init = KickstartPrompt.prototype.init;
 
 	KickstartPrompt.prototype.init = sinon.spy();
 
@@ -50,27 +53,34 @@ test('constructor should pass arguments to init', function(t) {
 	KickstartPrompt.prototype.init = init;
 });
 
-test('init should should assign callback as done property, set themeConfig, and invoke prompting', function(t) {
+test('init should should assign callback as done property, set themeConfig, and invoke prompting', function(
+	t
+) {
 	prototype._promptThemeSource = sinon.spy();
 
-	var themeConfig = {
-		version: '7.0'
+	let themeConfig = {
+		version: '7.0',
 	};
 
-	prototype.init({
-		themeConfig: themeConfig
-	}, _.noop);
+	prototype.init(
+		{
+			themeConfig: themeConfig,
+		},
+		_.noop
+	);
 
 	t.true(prototype._promptThemeSource.calledOnce);
 	t.deepEqual(prototype.themeConfig, themeConfig);
 	t.is(prototype.done, _.noop);
 });
 
-test('_afterPromptModule should pass answers to done prop or invoke _installTempModule', function(t) {
-	var answers = {
+test('_afterPromptModule should pass answers to done prop or invoke _installTempModule', function(
+	t
+) {
+	let answers = {
 		modules: {
-			'some-theme': {}
-		}
+			'some-theme': {},
+		},
 	};
 
 	prototype._installTempModule = sinon.spy();
@@ -92,14 +102,16 @@ test('_afterPromptModule should pass answers to done prop or invoke _installTemp
 	t.true(prototype.done.getCall(1).calledWith(answers));
 });
 
-test('_afterPromptModule should set modulePath property of answers object if realPath exists in pkg', function(t) {
-	var answers = {
+test('_afterPromptModule should set modulePath property of answers object if realPath exists in pkg', function(
+	t
+) {
+	let answers = {
 		module: 'some-theme',
 		modules: {
 			'some-theme': {
-				realPath: '/path/to/some-theme'
-			}
-		}
+				realPath: '/path/to/some-theme',
+			},
+		},
 	};
 
 	prototype._installTempModule = sinon.spy();
@@ -112,13 +124,15 @@ test('_afterPromptModule should set modulePath property of answers object if rea
 	t.is(answers.modulePath, path.join('/path/to/some-theme/src'));
 });
 
-test('_afterPromptThemeSource should invoke correct prompt based on themeSource answer passing _afterPromptModule as callback', function(t) {
-	var init = NPMModulePrompt.prototype.init;
+test('_afterPromptThemeSource should invoke correct prompt based on themeSource answer passing _afterPromptModule as callback', function(
+	t
+) {
+	let init = NPMModulePrompt.prototype.init;
 
 	NPMModulePrompt.prototype.init = sinon.spy();
 
-	var answers = {
-		themeSource: 'npm'
+	let answers = {
+		themeSource: 'npm',
 	};
 
 	prototype._afterPromptThemeSource(answers);
@@ -141,10 +155,14 @@ test('_afterPromptThemeSource should invoke correct prompt based on themeSource 
 });
 
 test.cb('_installTempModule should pass', function(t) {
-	var name = 'a-theme-name-that-should-never-exist';
+	let name = 'a-theme-name-that-should-never-exist';
 
 	prototype._installTempModule(name, function(err) {
-		var command = 'npm install --prefix ' + path.join(process.cwd(), '.temp_node_modules') + ' ' + name;
+		let command =
+			'npm install --prefix ' +
+			path.join(process.cwd(), '.temp_node_modules') +
+			' ' +
+			name;
 
 		if (err.cmd) {
 			t.true(err.cmd.indexOf(command) > -1);
@@ -155,14 +173,14 @@ test.cb('_installTempModule should pass', function(t) {
 });
 
 test('_promptThemeSource should pass', function(t) {
-	var prompt = inquirer.prompt;
+	let prompt = inquirer.prompt;
 
 	inquirer.prompt = sinon.spy();
 	prototype._afterPromptThemeSource = sinon.spy();
 
 	prototype._promptThemeSource();
 
-	var args = inquirer.prompt.getCall(0).args;
+	let args = inquirer.prompt.getCall(0).args;
 
 	t.is(args[0][0].name, 'themeSource');
 
