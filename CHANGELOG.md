@@ -1,5 +1,21 @@
 # Change Log
 
+## [v1.6.1](https://github.com/liferay/liferay-npm-build-tools/tree/v1.6.1) (2018-03-16)
+[Full Changelog](https://github.com/liferay/liferay-npm-build-tools/compare/v1.6.0...v1.6.1)
+
+**Implemented enhancements:**
+
+- Add analytics to track frameworks usage [\#90](https://github.com/liferay/liferay-npm-build-tools/issues/90)
+
+**Fixed bugs:**
+
+- liferay-npm-bundler 1.6.0 fails if dependencies field is not available in package.json [\#88](https://github.com/liferay/liferay-npm-build-tools/issues/88)
+
+**Merged pull requests:**
+
+- Add analytics to track frameworks usage [\#91](https://github.com/liferay/liferay-npm-build-tools/pull/91) ([izaera](https://github.com/izaera))
+- add null check [\#89](https://github.com/liferay/liferay-npm-build-tools/pull/89) ([gamerson](https://github.com/gamerson))
+
 ## [v1.6.0](https://github.com/liferay/liferay-npm-build-tools/tree/v1.6.0) (2018-03-15)
 [Full Changelog](https://github.com/liferay/liferay-npm-build-tools/compare/v1.5.0...v1.6.0)
 
