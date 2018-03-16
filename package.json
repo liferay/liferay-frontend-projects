@@ -15,6 +15,8 @@
 		"lerna": "npm install && lerna bootstrap",
 		"lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
 		"precommit": "lint-staged",
+		"release": "lerna publish --force-publish='*' --exact",
+		"release-canary": "lerna publish --force-publish='*' --exact -c",
 		"test": "jest --runInBand"
 	},
 	"devDependencies": {
