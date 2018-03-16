@@ -9,6 +9,7 @@ import readJsonSync from 'read-json-sync';
 import semver from 'semver';
 
 import * as config from './config';
+import * as insight from './insight';
 import {getPackageDependencies} from './dependencies';
 import * as log from './log';
 import report from './report';
@@ -19,21 +20,28 @@ import report from './report';
  * @return {void}
  */
 export default function(args) {
-	let promises = [];
-
 	const versionsInfo = config.getVersionsInfo();
 
 	if (args[0] === '-v' || args[0] === '--version') {
 		console.log(JSON.stringify(versionsInfo, null, 2));
 		return;
+	} else {
+		report.versionsInfo(versionsInfo);
 	}
 
-	report.versionsInfo(versionsInfo);
+	insight.init().then(run);
+}
 
-	const outputDir = path.resolve(config.getOutputDir());
-
+/**
+ * Real tool execution
+ * @return {void}
+ */
+function run() {
 	// Create work directories
+	const outputDir = path.resolve(config.getOutputDir());
 	fs.mkdirsSync(path.join(outputDir, 'node_modules'));
+
+	let promises = [];
 
 	// Copy project's package.json
 	promises.push(copyRootPackageJson(outputDir));
@@ -66,9 +74,14 @@ export default function(args) {
 		.then(() => {
 			const hrtime = process.hrtime(start);
 
-			log.info(`Bundling took ${pretty(hrtime)}`);
 			report.executionTime(hrtime);
 
+			log.info(`Bundling took ${pretty(hrtime)}`);
+
+			// Send report analytics data
+			report.sendAnalytics();
+
+			// Write report if requested
 			if (config.isDumpReport()) {
 				fs.writeFileSync(config.getReportFilePath(), report.toHtml());
 				log.info(`Report written to ${config.getReportFilePath()}`);

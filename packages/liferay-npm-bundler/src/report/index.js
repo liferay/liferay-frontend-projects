@@ -1,4 +1,5 @@
 import {htmlDump} from './html';
+import {analyticsDump} from './analytics';
 
 /**
  * A Report holds data describing a execution of the liferay-npm-bundler so that
@@ -22,6 +23,15 @@ export class Report {
 	 */
 	toHtml() {
 		return htmlDump(this);
+	}
+
+	/**
+	 * Dump report information to insight package so that it gets exported to
+	 * our Google Analytics account.
+	 * @return {void}
+	 */
+	sendAnalytics() {
+		return analyticsDump(this);
 	}
 
 	/**
