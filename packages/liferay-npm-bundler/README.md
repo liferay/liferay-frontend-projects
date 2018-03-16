@@ -161,6 +161,7 @@ file in your project's folder. The full structure of that file is:
     },
     "output": <relative path of output directory>,
     "process-serially": <true|false>,
+    "dump-report": <true|false>,
     "verbose": <true|false>
     "*" : {
         "plugins": [
@@ -202,7 +203,10 @@ Where:
 	value is false, so that everything gets processed in parallel, but you can
 	disable it in case you get EMFILE errors due to opening too many files at the
 	same time.
-* **"verbose"**: dump detailed information about what the tool is doing.
+* **"dump-report"**: write a report HTML file in the project directory with
+	details about how each package is transformed and what has been done.
+* **"verbose"**: dump detailed information about what the tool is doing to the
+	console.
 * **(list of plugins)**: is a comma separated list of strings defining the
 	`liferay-npm-bundler` plugins to call (note that the
 	`liferay-npm-bundler-plugin-` part from the npm package name may be omitted).
