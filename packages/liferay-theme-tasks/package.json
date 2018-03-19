@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-tasks",
-  "version": "8.0.0-alpha.1",
+  "version": "8.0.0-alpha.2",
   "description": "A set of tasks for building and deploying Liferay Portal themes.",
   "license": "MIT",
   "main": "index.js",
@@ -62,8 +62,8 @@
     "gulp-util": "^3.0.6",
     "inquirer": "^0.12.0",
     "liferay-plugin-node-tasks": "^1.0.9",
-    "liferay-theme-deps-7.0": "^8.0.0-alpha.1",
-    "liferay-theme-deps-7.1": "^8.0.0-alpha.1",
+    "liferay-theme-deps-7.0": "^8.0.0-alpha.2",
+    "liferay-theme-deps-7.1": "^8.0.0-alpha.2",
     "lodash": "^3.10.0",
     "minimist": "^1.1.0",
     "node-bourbon": "4.2.3",
