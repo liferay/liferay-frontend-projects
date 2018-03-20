@@ -1,9 +1,9 @@
 {
-  "name": "liferay-theme-deps-normalize",
-  "version": "8.0.0-alpha.3",
-  "description": "Tool for normalizing liferay-theme-deps modules in post install scripts",
-  "main": "index.js",
-  "repository": "Robert-Frampton/liferay-theme-deps-normalize",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "license": "ISC"
+  "description": "Tool for normalizing liferay-theme-deps modules in post install scripts",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "liferay-theme-deps-normalize",
+  "repository": "Robert-Frampton/liferay-theme-deps-normalize",
+  "version": "8.0.0-alpha.3"
 }

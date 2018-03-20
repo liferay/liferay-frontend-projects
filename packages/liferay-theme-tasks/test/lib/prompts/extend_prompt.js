@@ -76,9 +76,7 @@ test.afterEach(function() {
 	prototypeMethodSpy.flush();
 });
 
-test('_afterPromptModule should use after method which corresponds to addedThemelets properties of answers', function(
-	t
-) {
+test('_afterPromptModule should use after method which corresponds to addedThemelets properties of answers', function(t) {
 	let answers = {
 		module: 'Test',
 	};
@@ -163,9 +161,7 @@ test.cb(
 	}
 );
 
-test('_afterPromptThemelets should remove unchecked themelets from package.json and save new themelet dependencies', function(
-	t
-) {
+test('_afterPromptThemelets should remove unchecked themelets from package.json and save new themelet dependencies', function(t) {
 	let removeDependencies = lfrThemeConfig.removeDependencies;
 	let setConfig = lfrThemeConfig.setConfig;
 
@@ -219,9 +215,7 @@ test('_afterPromptThemelets should remove unchecked themelets from package.json 
 	lfrThemeConfig.setConfig = setConfig;
 });
 
-test('_afterPromptThemeSource should set base theme if styled/unstyled', function(
-	t
-) {
+test('_afterPromptThemeSource should set base theme if styled/unstyled', function(t) {
 	let answers = {
 		themeSource: 'styled',
 	};
@@ -301,9 +295,7 @@ test('_filterExtendType should set _extendType to input arg', function(t) {
 	t.is(prototype._extendType, 'themelet');
 });
 
-test('_getDependencyInstallationArray should return absolute path if present or name of module', function(
-	t
-) {
+test('_getDependencyInstallationArray should return absolute path if present or name of module', function(t) {
 	let dependencies = prototype._getDependencyInstallationArray({
 		'themelet-1': {
 			liferayTheme: {
@@ -363,9 +355,7 @@ test('_getSelectedModules should pass', function(t) {
 	t.deepEqual(prototype._getSelectedModules(false), ['parent-theme']);
 });
 
-test('_getThemeSourceChoices should return different choices based on _extendType property', function(
-	t
-) {
+test('_getThemeSourceChoices should return different choices based on _extendType property', function(t) {
 	let choices = prototype._getThemeSourceChoices();
 
 	t.is(choices.length, 2);
@@ -377,9 +367,7 @@ test('_getThemeSourceChoices should return different choices based on _extendTyp
 	t.is(choices.length, 5);
 });
 
-test('_getThemeSourceMessage should return appropriate message based on _extendType property', function(
-	t
-) {
+test('_getThemeSourceMessage should return appropriate message based on _extendType property', function(t) {
 	let message = prototype._getThemeSourceMessage();
 
 	t.is(message, 'Where would you like to search for themelets?');
@@ -481,9 +469,7 @@ test('_promptThemeSource should prompt correct workflow', function(t) {
 	inquirer.prompt = prompt;
 });
 
-test('_reducePkgData should reduce package data to specified set of properties', function(
-	t
-) {
+test('_reducePkgData should reduce package data to specified set of properties', function(t) {
 	let originalData = {
 		liferayTheme: '7.0',
 		name: 'name',

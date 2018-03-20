@@ -54,9 +54,7 @@ test('constructor should pass arguments to init', function(t) {
 	t.true(initSpy.calledWith({}, _.noop));
 });
 
-test('init should assign callback as done property and invoke prompting', function(
-	t
-) {
+test('init should assign callback as done property and invoke prompting', function(t) {
 	prototype._getGlobalModules = sinon.spy();
 	let initSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
 
@@ -93,9 +91,7 @@ test('_afterPrompt should log message if no modules are found', function(t) {
 	t.true(prototype.done.calledWith({}));
 });
 
-test('_getGlobalModules should invoke themeFinder.getLiferayThemeModules', function(
-	t
-) {
+test('_getGlobalModules should invoke themeFinder.getLiferayThemeModules', function(t) {
 	let getLiferayThemeModulesSpy = prototypeMethodSpy.add(
 		themeFinder,
 		'getLiferayThemeModules'

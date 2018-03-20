@@ -22,9 +22,7 @@ test.afterEach(function() {
 	clearCache();
 });
 
-test('options should return default options with no config passed', function(
-	t
-) {
+test('options should return default options with no config passed', function(t) {
 	let options = require('../../lib/options')();
 
 	t.deepEqual(options, {
@@ -63,9 +61,7 @@ test('options should return default options with no config passed', function(
 	});
 });
 
-test('options should return previously set options if no config is passed', function(
-	t
-) {
+test('options should return previously set options if no config is passed', function(t) {
 	let options = require('../../lib/options')({
 		distName: 'dist-name',
 		pathBuild: './custom_build_path',

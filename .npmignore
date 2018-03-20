@@ -1,5 +1,5 @@
 .nyc_output
-/coverage
-/test
-/tmp
+coverage
+test
+tmp
 liferay-theme.json

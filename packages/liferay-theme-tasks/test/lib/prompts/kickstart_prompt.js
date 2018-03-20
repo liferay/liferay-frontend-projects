@@ -53,9 +53,7 @@ test('constructor should pass arguments to init', function(t) {
 	KickstartPrompt.prototype.init = init;
 });
 
-test('init should should assign callback as done property, set themeConfig, and invoke prompting', function(
-	t
-) {
+test('init should should assign callback as done property, set themeConfig, and invoke prompting', function(t) {
 	prototype._promptThemeSource = sinon.spy();
 
 	let themeConfig = {
@@ -74,9 +72,7 @@ test('init should should assign callback as done property, set themeConfig, and 
 	t.is(prototype.done, _.noop);
 });
 
-test('_afterPromptModule should pass answers to done prop or invoke _installTempModule', function(
-	t
-) {
+test('_afterPromptModule should pass answers to done prop or invoke _installTempModule', function(t) {
 	let answers = {
 		modules: {
 			'some-theme': {},
@@ -102,9 +98,7 @@ test('_afterPromptModule should pass answers to done prop or invoke _installTemp
 	t.true(prototype.done.getCall(1).calledWith(answers));
 });
 
-test('_afterPromptModule should set modulePath property of answers object if realPath exists in pkg', function(
-	t
-) {
+test('_afterPromptModule should set modulePath property of answers object if realPath exists in pkg', function(t) {
 	let answers = {
 		module: 'some-theme',
 		modules: {
@@ -124,9 +118,7 @@ test('_afterPromptModule should set modulePath property of answers object if rea
 	t.is(answers.modulePath, path.join('/path/to/some-theme/src'));
 });
 
-test('_afterPromptThemeSource should invoke correct prompt based on themeSource answer passing _afterPromptModule as callback', function(
-	t
-) {
+test('_afterPromptThemeSource should invoke correct prompt based on themeSource answer passing _afterPromptModule as callback', function(t) {
 	let init = NPMModulePrompt.prototype.init;
 
 	NPMModulePrompt.prototype.init = sinon.spy();

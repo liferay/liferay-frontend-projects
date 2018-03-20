@@ -1,29 +1,5 @@
 {
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "description": "A tool for finding Liferay themes and themelets on npm",
-  "license": "ISC",
-  "main": "index.js",
-  "name": "liferay-theme-finder",
-  "repository": "Robert-Frampton/liferay-theme-finder",
-  "scripts": {
-    "coveralls": "gulp coveralls",
-    "test": "nyc ava"
-  },
-  "ava": {
-    "files": [
-      "test/**/*.js"
-    ]
-  },
-  "nyc": {
-    "include": [
-      "index.js"
-    ],
-    "reporter": [
-      "lcov",
-      "text"
-    ]
-  },
-  "version": "8.0.0-alpha.3",
   "dependencies": {
     "async": "^2.0.1",
     "ava": "^0.15.2",
@@ -35,9 +11,10 @@
     "package-json": "^1.2.0",
     "spawn-sync": "^1.0.15"
   },
-  "devDependencies": {
-    "ava": "^0.16.0",
-    "gulp-coveralls": "^0.1.4",
-    "nyc": "^6.4.4"
-  }
+  "description": "A tool for finding Liferay themes and themelets on npm",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "liferay-theme-finder",
+  "repository": "Robert-Frampton/liferay-theme-finder",
+  "version": "8.0.0-alpha.3"
 }

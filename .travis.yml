@@ -1,13 +1,7 @@
 before_install:
-    - gem install sass -v "=3.4.0"
     - gem install compass
 
 language: node_js
-
-node_js:
-    - "8.4"
-    - "6.12"
-    - "node"
 
 script:
     - npm run checkFormat
