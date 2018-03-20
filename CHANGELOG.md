@@ -1,5 +1,12 @@
 # Change Log
 
+## [v8.0.0-alpha.2](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-alpha.2) (2018-03-19)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-alpha.1...v8.0.0-alpha.2)
+
+**Merged pull requests:**
+
+- Updates dependencies [\#4](https://github.com/liferay/liferay-themes-sdk/pull/4) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-alpha.1](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-alpha.1) (2018-03-16)
 **Merged pull requests:**
 
