@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-mixins",
-  "version": "8.0.0-alpha.2",
+  "version": "8.0.0-alpha.3",
   "description": "The base styled theme structure for Liferay themes",
   "main": "index.js",
   "scripts": {
