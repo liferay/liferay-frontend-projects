@@ -1,9 +1,9 @@
 var chalk = require('chalk');
 
 function _getDevDependencies() {
-  return `\t"gulp": "^3.8.10",
-    \t"liferay-theme-tasks": "^1.4.2",
-    \t"liferay-theme-deps-7.0": "~1.2.1"`;
+  return `\t"gulp": "3.9.1",
+    \t"liferay-theme-tasks": "8.0.0-alpha.3",
+    \t"liferay-theme-deps-7.0": "8.0.0-alpha.3"`;
 }
 
 function _getTemplateLanguageChoices(answers) {
