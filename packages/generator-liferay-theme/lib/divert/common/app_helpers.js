@@ -1,7 +1,7 @@
 function _getDevDependencies() {
   return `\t"gulp": "3.9.1",
-    \t"liferay-theme-tasks": "~1.5.0",
-    \t"liferay-theme-deps-7.1": "0.0.1"`;
+    \t"liferay-theme-tasks": "8.0.0-alpha.3",
+    \t"liferay-theme-deps-7.1": "8.0.0-alpha.3"`;
 }
 
 function _getTemplateLanguageChoices(answers) {
