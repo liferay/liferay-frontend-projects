@@ -59,11 +59,9 @@ module.exports = function(options) {
 					.then(function() {
 						storage.set('webBundleDir', 'watching');
 
-						portfinder.getPortPromise().then(
-							port => {
-								startWatch(port);
-							}
-						);
+						portfinder.getPortPromise().then(port => {
+							startWatch(port);
+						});
 					});
 			}
 		);
@@ -150,25 +148,23 @@ module.exports = function(options) {
 	function startWatch(port) {
 		clearChangedFile();
 
-		browserSync.init(
-			{
-				rewriteRules: [
-					{
-						match: /8080/g,
-						replace: port,
-					},
-				],
-				proxy: {
-					target: 'localhost:8080',
-					ws: true,
+		browserSync.init({
+			rewriteRules: [
+				{
+					match: /8080/g,
+					replace: port,
 				},
-				open: true,
-				port: port,
-				ui: false,
-				reloadDelay: 500,
-				reloadOnRestart: true,
-			}
-		);
+			],
+			proxy: {
+				target: 'localhost:8080',
+				ws: true,
+			},
+			open: true,
+			port: port,
+			ui: false,
+			reloadDelay: 500,
+			reloadOnRestart: true,
+		});
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			storage.set('changedFile', vinyl);
