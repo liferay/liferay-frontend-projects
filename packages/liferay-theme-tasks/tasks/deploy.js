@@ -39,7 +39,7 @@ module.exports = function(options) {
 		const srcPath = path.join(pathBuild, 'css/*.css');
 		const filePath = storage.get('changedFile').path;
 
-		return fastDeploy(srcPath, pathBuild);
+		return fastDeploy(srcPath, pathBuild, {stream: true});
 	});
 
 	gulp.task('deploy:file', function() {
@@ -94,8 +94,10 @@ module.exports = function(options) {
 		warDeployer.deploy();
 	});
 
-	function fastDeploy(srcPath, basePath) {
+	function fastDeploy(srcPath, basePath, config) {
 		let fastDeployPaths = getFastDeployPaths();
+
+		const browserSync = gulp.browserSync;
 
 		let stream = gulp
 			.src(srcPath, {
@@ -104,11 +106,15 @@ module.exports = function(options) {
 			.pipe(plugins.debug())
 			.pipe(gulp.dest(fastDeployPaths.dest));
 
+		if (config && config.stream) {
+			stream.pipe(browserSync.stream());
+		} else {
+			browserSync.reload();
+		}
+
 		if (fastDeployPaths.tempDest) {
 			stream.pipe(gulp.dest(fastDeployPaths.tempDest));
 		}
-
-		stream.pipe(livereload());
 
 		return stream;
 	}

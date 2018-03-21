@@ -34,5 +34,9 @@
 		"lint": "eslint 'packages/liferay-theme-tasks/lib/**/*.js' 'packages/liferay-theme-tasks/tasks/**/*.js' 'packages/liferay-theme-tasks/test/**/*.js'",
 		"prettier": "prettier-eslint 'packages/liferay-theme-tasks/lib/**/*.js' 'packages/liferay-theme-tasks/tasks/**/*.js' 'packages/liferay-theme-tasks/test/**/*.js'",
 		"test": "nyc ava"
+	},
+	"dependencies": {
+		"browser-sync": "^2.23.6",
+		"portfinder": "^1.0.13"
 	}
 }
