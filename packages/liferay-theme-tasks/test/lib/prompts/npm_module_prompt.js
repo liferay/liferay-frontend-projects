@@ -57,9 +57,7 @@ test('constructor should pass arguments to init', function(t) {
 	t.true(initSpy.calledWith({}, _.noop));
 });
 
-test('init should assign callback as done property and invoke prompting', function(
-	t
-) {
+test('init should assign callback as done property and invoke prompting', function(t) {
 	prototype._promptSearchTerms = sinon.spy();
 
 	prototype.init(
@@ -88,9 +86,7 @@ test('_afterPrompt should pass answers to done property', function(t) {
 	t.true(prototype.done.calledWith(answers));
 });
 
-test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', function(
-	t
-) {
+test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', function(t) {
 	t.plan(0);
 
 	prototype._getNPMModules = sinon.spy();
@@ -106,9 +102,7 @@ test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', fu
 	prototype._getNPMModules.calledWith(answers.searchTerms, cbSpy);
 });
 
-test('_afterPromptSearchTerms should either re-prompt search terms or invoke module prompt', function(
-	t
-) {
+test('_afterPromptSearchTerms should either re-prompt search terms or invoke module prompt', function(t) {
 	prototype._getNPMModules = sinon.spy();
 	prototype._promptSearchTerms = sinon.spy();
 	let logSpy = prototypeMethodSpy.add(gutil, 'log');
@@ -145,9 +139,7 @@ test('_afterPromptSearchTerms should either re-prompt search terms or invoke mod
 	t.true(modulePromptInitSpy.calledOnce);
 });
 
-test('_getNPMModules should invoke themeFinder.getLiferayThemeModules', function(
-	t
-) {
+test('_getNPMModules should invoke themeFinder.getLiferayThemeModules', function(t) {
 	let getLiferayThemeModulesSpy = prototypeMethodSpy.add(
 		themeFinder,
 		'getLiferayThemeModules'

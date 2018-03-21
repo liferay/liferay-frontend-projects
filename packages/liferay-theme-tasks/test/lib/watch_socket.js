@@ -133,9 +133,7 @@ test('uninstall only waits for uninstall if war file existed', function(t) {
 	del.sync.restore();
 });
 
-test('_formatWebBundleDirCommand should properly format install command based on os platform', function(
-	t
-) {
+test('_formatWebBundleDirCommand should properly format install command based on os platform', function(t) {
 	prototype.webBundleDir = '.web_bundle_dir';
 
 	let rootDir = prototype._isWin() ? 'c:/Users' : '/Users';
@@ -178,9 +176,7 @@ let webBundleResponseData =
 let webBundleDirResponseData =
 	'456|Active     |    1|webbundledir:file:/themes/test-theme.war?Web-ContextPath=/test-theme';
 
-test('_getWebBundleDataFromResponse should scrape bundle data from response', function(
-	t
-) {
+test('_getWebBundleDataFromResponse should scrape bundle data from response', function(t) {
 	let data = prototype._getWebBundleDataFromResponse(
 		webBundleResponseData,
 		'webbundle'
@@ -225,9 +221,7 @@ let responseData =
 	'Bundle ID: 321\n' +
 	'g! ';
 
-test('_getWebBundleIdFromResponse should scrape id from webbundledir install response data', function(
-	t
-) {
+test('_getWebBundleIdFromResponse should scrape id from webbundledir install response data', function(t) {
 	let bundleId = prototype._getWebBundleIdFromResponse(responseData);
 
 	t.is(bundleId, '321', 'bundle id is from socket response data');
@@ -237,9 +231,7 @@ test('_getWebBundleIdFromResponse should scrape id from webbundledir install res
 	t.is(bundleId, 0, 'bundle id is 0 since response data is invalid');
 });
 
-test('_installWebBundleDir should create valid webbundledir path and pass correct command to gogoShell.sendCommand', function(
-	t
-) {
+test('_installWebBundleDir should create valid webbundledir path and pass correct command to gogoShell.sendCommand', function(t) {
 	prototype.sendCommand = sinon.spy();
 	prototype.webBundleDir = '.web_bundle_dir';
 
@@ -258,9 +250,7 @@ test('_installWebBundleDir should create valid webbundledir path and pass correc
 	);
 });
 
-test('_startBundle should pass arguments to gogoShell.sendCommand', function(
-	t
-) {
+test('_startBundle should pass arguments to gogoShell.sendCommand', function(t) {
 	prototype.sendCommand = sinon.spy();
 
 	prototype._startBundle('123');
@@ -292,9 +282,7 @@ test('_stopBundle should pass arguments to gogoShell.sendCommand', function(t) {
 	);
 });
 
-test('_uninstallBundle should pass arguments to gogoShell.sendCommand', function(
-	t
-) {
+test('_uninstallBundle should pass arguments to gogoShell.sendCommand', function(t) {
 	prototype.sendCommand = sinon.spy();
 
 	prototype._uninstallBundle('123');

@@ -57,9 +57,7 @@ test('constructor should pass arguments to init', function(t) {
 	t.true(initSpy.calledWith({}, _.noop));
 });
 
-test('init should assign callback as done property and invoke prompting', function(
-	t
-) {
+test('init should assign callback as done property and invoke prompting', function(t) {
 	prototype._prompt = sinon.spy();
 
 	prototype.init(
@@ -78,9 +76,7 @@ test('init should assign callback as done property and invoke prompting', functi
 	t.is(prototype.themelet, true);
 });
 
-test('_afterPrompt should parse themelet data if themelet is true and pass answers to done', function(
-	t
-) {
+test('_afterPrompt should parse themelet data if themelet is true and pass answers to done', function(t) {
 	prototype.modules = 'modules';
 	prototype.done = sinon.spy();
 	prototype.themelet = true;
@@ -117,9 +113,7 @@ test('_filterModuleshould return unmodified input', function(t) {
 	t.is(val, 'some-value');
 });
 
-test('_filterModule should return map of checked and unchecked themelets', function(
-	t
-) {
+test('_filterModule should return map of checked and unchecked themelets', function(t) {
 	prototype.modules = {
 		'themelet-1': {},
 		'themelet-2': {},
@@ -136,9 +130,7 @@ test('_filterModule should return map of checked and unchecked themelets', funct
 	});
 });
 
-test('_getModuleWhen should return false if no modules are present', function(
-	t
-) {
+test('_getModuleWhen should return false if no modules are present', function(t) {
 	let retVal = prototype._getModuleWhen();
 
 	t.true(!retVal, 'it is false');
@@ -152,9 +144,7 @@ test('_getModuleWhen should return false if no modules are present', function(
 	t.true(retVal, 'it is true');
 });
 
-test('_getModuleChoices should invoke proptUtil.getModulesChoices', function(
-	t
-) {
+test('_getModuleChoices should invoke proptUtil.getModulesChoices', function(t) {
 	let getModuleChoicesSpy = prototypeMethodSpy.add(
 		promptUtil,
 		'getModuleChoices'

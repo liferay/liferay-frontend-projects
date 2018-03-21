@@ -29,9 +29,7 @@ test.before(function() {
 	lookAndFeelUtil = require('../../lib/look_and_feel_util.js');
 });
 
-test('lookAndFeelUtil should sort json correctly and build valid xml', function(
-	t
-) {
+test('lookAndFeelUtil should sort json correctly and build valid xml', function(t) {
 	let xml = testUtil.stripNewlines(
 		lookAndFeelUtil.buildXML(
 			mixedLookAndFeelJSON,
@@ -51,9 +49,7 @@ test('lookAndFeelUtil should sort json correctly and build valid xml', function(
 	t.is(xml, xmlFileContent);
 });
 
-test('correctJSONIdentifiers should set the theme element id and name attribute if the name argument is different - for themes that do not have a look-and-feel.xml', function(
-	t
-) {
+test('correctJSONIdentifiers should set the theme element id and name attribute if the name argument is different - for themes that do not have a look-and-feel.xml', function(t) {
 	lookAndFeelUtil.correctJSONIdentifiers(baseLookAndFeelJSON, 'Test Name');
 
 	t.is(_.get(baseLookAndFeelJSON, 'look-and-feel.theme.0.$.id'), 'test-name');
@@ -74,9 +70,7 @@ test('correctJSONIdentifiers should set the theme element id and name attribute 
 	);
 });
 
-test('getLookAndFeelDoctype should extract doctype from liferay-look-and-feel.xml', function(
-	t
-) {
+test('getLookAndFeelDoctype should extract doctype from liferay-look-and-feel.xml', function(t) {
 	let doctype = lookAndFeelUtil.getLookAndFeelDoctype(baseThemePath);
 
 	t.is(
@@ -85,9 +79,7 @@ test('getLookAndFeelDoctype should extract doctype from liferay-look-and-feel.xm
 	);
 });
 
-test('getLookAndFeelDoctypeByVersion should generate correct doctype string based on version', function(
-	t
-) {
+test('getLookAndFeelDoctypeByVersion should generate correct doctype string based on version', function(t) {
 	let doctype = lookAndFeelUtil.getLookAndFeelDoctypeByVersion('1.0');
 
 	t.is(
@@ -121,9 +113,7 @@ test.cb('mergeLookAndFeelJSON should merge look and feel json', function(t) {
 	});
 });
 
-test('readLookAndFeelXML should return xml and access file only once', function(
-	t
-) {
+test('readLookAndFeelXML should return xml and access file only once', function(t) {
 	// erase cache for sinon spy
 
 	lookAndFeelUtil._xmlCache = {};
@@ -156,9 +146,7 @@ test.cb(
 	}
 );
 
-test('_mergeJSON should merge look-and-feel json and output a valid look-and-feel json object', function(
-	t
-) {
+test('_mergeJSON should merge look-and-feel json and output a valid look-and-feel json object', function(t) {
 	let lookAndFeelJSON = lookAndFeelUtil._mergeJSON(
 		baseLookAndFeelJSON,
 		baseLookAndFeelJSON
@@ -204,17 +192,13 @@ let elements2 = [
 	},
 ];
 
-test('_mergeThemeElementById should return null if both arrays are null', function(
-	t
-) {
+test('_mergeThemeElementById should return null if both arrays are null', function(t) {
 	let mergedElements = lookAndFeelUtil._mergeThemeElementById(null, null);
 
 	t.is(mergedElements, null);
 });
 
-test('_mergeThemeElementById should return non null array if one of the arrays is null', function(
-	t
-) {
+test('_mergeThemeElementById should return non null array if one of the arrays is null', function(t) {
 	let mergedElements = lookAndFeelUtil._mergeThemeElementById(
 		elements1,
 		null
@@ -227,9 +211,7 @@ test('_mergeThemeElementById should return non null array if one of the arrays i
 	t.is(mergedElements, elements2);
 });
 
-test('_mergeThemeElementById should merge arrays and exclude repeated elements according to id', function(
-	t
-) {
+test('_mergeThemeElementById should merge arrays and exclude repeated elements according to id', function(t) {
 	let mergedElements = lookAndFeelUtil._mergeThemeElementById(
 		elements1,
 		elements2
@@ -254,17 +236,13 @@ test('_mergeThemeElementById should merge arrays and exclude repeated elements a
 	]);
 });
 
-test('_mergeThemeElementByValue should return null if both arrays are null', function(
-	t
-) {
+test('_mergeThemeElementByValue should return null if both arrays are null', function(t) {
 	let mergedElements = lookAndFeelUtil._mergeThemeElementByValue(null, null);
 
 	t.is(mergedElements, null);
 });
 
-test('_mergeThemeElementByValue should return non null array if one of the arrays is null', function(
-	t
-) {
+test('_mergeThemeElementByValue should return non null array if one of the arrays is null', function(t) {
 	let elements1 = ['one', 'two'];
 	let elements2 = ['two', 'three'];
 
@@ -280,9 +258,7 @@ test('_mergeThemeElementByValue should return non null array if one of the array
 	t.deepEqual(mergedElements, elements1);
 });
 
-test('_mergeThemeElementByValue should merge arrays and exclude repeated elements', function(
-	t
-) {
+test('_mergeThemeElementByValue should merge arrays and exclude repeated elements', function(t) {
 	let elements1 = ['one', 'two'];
 	let elements2 = ['two', 'three'];
 

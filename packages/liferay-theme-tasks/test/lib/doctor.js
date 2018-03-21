@@ -49,9 +49,7 @@ test('should throw appropriate error message', function(t) {
 	}, 'Missing 2 theme dependencies');
 });
 
-test('should look for dependencies regardless if devDependency or not', function(
-	t
-) {
+test('should look for dependencies regardless if devDependency or not', function(t) {
 	let pkg = require(path.join(
 		__dirname,
 		'../fixtures/json/_package_mixed_dependencies.json'

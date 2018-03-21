@@ -33,9 +33,7 @@ test.after(function() {
 	testUtil.cleanTempTheme('base-theme', '7.0', 'liferay_theme_config');
 });
 
-test('getConfig should get only liferayTheme namespaced properties from package.json if `all` parameter is false', function(
-	t
-) {
+test('getConfig should get only liferayTheme namespaced properties from package.json if `all` parameter is false', function(t) {
 	t.plan(0);
 
 	let themeConfig = lfrThemeConfig.getConfig();
@@ -62,9 +60,7 @@ test('removeConfig should remove dependencies from package.json', function(t) {
 	assert.isUndefined(liferayTheme.rubySass);
 });
 
-test('removeDependencies should remove dependencies from package.json', function(
-	t
-) {
+test('removeDependencies should remove dependencies from package.json', function(t) {
 	t.plan(0);
 
 	lfrThemeConfig.removeDependencies(['test-themelet']);
@@ -76,9 +72,7 @@ test('removeDependencies should remove dependencies from package.json', function
 	assert.isDefined(packageJSON.dependencies['liferay-theme-tasks']);
 });
 
-test('setConfig should replace old themelet dependencies with new dependencies', function(
-	t
-) {
+test('setConfig should replace old themelet dependencies with new dependencies', function(t) {
 	t.plan(0);
 
 	lfrThemeConfig.setConfig({
@@ -100,9 +94,7 @@ test('setConfig should replace old themelet dependencies with new dependencies',
 	assert.isDefined(themeConfig.themeletDependencies['fake-themelet']);
 });
 
-test('setConfig should add new npm dependencies without removing previously added dependencies', function(
-	t
-) {
+test('setConfig should add new npm dependencies without removing previously added dependencies', function(t) {
 	t.plan(0);
 
 	lfrThemeConfig.setDependencies({
@@ -116,9 +108,7 @@ test('setConfig should add new npm dependencies without removing previously adde
 	assert.isDefined(dependencies['liferay-theme-tasks']);
 });
 
-test('setConfig should add to devDependencies and leave dependencies alone', function(
-	t
-) {
+test('setConfig should add to devDependencies and leave dependencies alone', function(t) {
 	t.plan(0);
 
 	let originalPackageJSON = lfrThemeConfig.getConfig(true);

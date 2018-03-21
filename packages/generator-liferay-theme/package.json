@@ -20,10 +20,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "scripts": {
-    "coveralls": "gulp coveralls",
-    "test": "node test/index.js"
-  },
   "files": [
     "generators",
     "lib"

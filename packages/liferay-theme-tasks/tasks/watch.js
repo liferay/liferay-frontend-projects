@@ -2,7 +2,6 @@
 
 const _ = require('lodash');
 const del = require('del');
-const livereload = require('gulp-livereload');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
 
@@ -11,6 +10,11 @@ const WatchSocket = require('../lib/watch_socket.js');
 
 const gutil = plugins.util;
 const themeConfig = lfrThemeConfig.getConfig();
+
+const browserSync = require('browser-sync').create();
+const portfinder = require('portfinder');
+
+portfinder.basePort = 9080;
 
 const deployTask = 'deploy:gogo';
 const CONNECT_PARAMS = {
@@ -27,6 +31,8 @@ module.exports = function(options) {
 	const fullDeploy = argv.full || argv.f;
 	const runSequence = require('run-sequence').use(gulp);
 	const webBundleDir = path.join(process.cwd(), webBundleDirName);
+
+	gulp.browserSync = browserSync;
 
 	gulp.task('watch', function() {
 		options.watching = true;
@@ -53,7 +59,9 @@ module.exports = function(options) {
 					.then(function() {
 						storage.set('webBundleDir', 'watching');
 
-						startWatch();
+						portfinder.getPortPromise().then(port => {
+							startWatch(port);
+						});
 					});
 			}
 		);
@@ -137,10 +145,26 @@ module.exports = function(options) {
 		return taskArray;
 	}
 
-	function startWatch() {
+	function startWatch(port) {
 		clearChangedFile();
 
-		livereload.listen();
+		browserSync.init({
+			rewriteRules: [
+				{
+					match: /8080/g,
+					replace: port,
+				},
+			],
+			proxy: {
+				target: 'localhost:8080',
+				ws: true,
+			},
+			open: true,
+			port: port,
+			ui: false,
+			reloadDelay: 500,
+			reloadOnRestart: true,
+		});
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			storage.set('changedFile', vinyl);
