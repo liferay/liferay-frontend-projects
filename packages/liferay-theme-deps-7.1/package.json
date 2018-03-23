@@ -2,6 +2,7 @@
   "author": "Chema Balsas <jose.balsas@liferay.com> (https://github.com/jbalsas)",
   "dependencies": {
     "compass-mixins": "0.12.10",
+    "gulp-ruby-sass": "^2.0.6",
     "gulp-sass": "3.2.0",
     "liferay-frontend-common-css": "1.0.4",
     "liferay-frontend-theme-classic-web": "2.0.2",

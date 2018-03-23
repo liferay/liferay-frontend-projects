@@ -1,39 +1,5 @@
 {
-  "name": "liferay-theme-tasks",
-  "version": "8.0.0-alpha.3",
-  "description": "A set of tasks for building and deploying Liferay Portal themes.",
-  "license": "MIT",
-  "main": "index.js",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "repository": "liferay/liferay-theme-tasks",
-  "keywords": [
-    "liferay",
-    "theme"
-  ],
-  "scripts": {
-    "checkFormat": "npm run prettier -- --list-different",
-    "format": "npm run prettier -- --write",
-    "test": "nyc ava",
-    "lint": "eslint '*.js' 'lib/**/*.js' 'tasks/**/*.js' 'test/**/*.js'",
-    "prettier": "prettier-eslint '*.js' 'lib/**/*.js' 'tasks/**/*.js' 'test/**/*.js'"
-  },
-  "ava": {
-    "concurrency": 5,
-    "files": [
-      "test/lib/**/*.js",
-      "test/tasks/**/*.js"
-    ]
-  },
-  "nyc": {
-    "include": [
-      "index.js",
-      "{lib,tasks}/**/*"
-    ],
-    "reporter": [
-      "lcov",
-      "text"
-    ]
-  },
   "dependencies": {
     "async": "^0.9.0",
     "compass-mixins": "^0.12.8",
@@ -76,19 +42,21 @@
     "vinyl-paths": "^1.0.0",
     "xml2js": "^0.4.15"
   },
+  "description": "A set of tasks for building and deploying Liferay Portal themes.",
   "devDependencies": {
-    "ava": "^0.24.0",
     "bluebird": "^3.3.4",
-    "chai": "^1.10.0",
-    "chai-fs": "^0.1.0",
-    "eslint": "^4.11.0",
-    "eslint-config-liferay": "^2.0.0",
     "gogo-shell-helper": "^0.0.8",
     "gulp": "^3.9.0",
     "gulp-ruby-sass": "^2.0.6",
-    "gulp-sass": "^3.1.0",
-    "nyc": "^6.4.4",
-    "prettier-eslint-cli": "^4.4.0",
-    "sinon": "^1.17.2"
-  }
+    "gulp-sass": "^3.1.0"
+  },
+  "keywords": [
+    "liferay",
+    "theme"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "liferay-theme-tasks",
+  "repository": "liferay/liferay-theme-tasks",
+  "version": "8.0.0-alpha.3"
 }

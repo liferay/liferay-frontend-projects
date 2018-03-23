@@ -32,9 +32,7 @@ let themeletDependencies = {
 	},
 };
 
-test('formatThemeletSelection should format themelet selection retrieved from getModuleChoices', function(
-	t
-) {
+test('formatThemeletSelection should format themelet selection retrieved from getModuleChoices', function(t) {
 	let data = {
 		'themelet-1': true,
 		'themelet-2': true,
@@ -63,9 +61,7 @@ test('getListType should get listType based on environment', function(t) {
 	t.true(listType == 'list' || listType == 'rawlist');
 });
 
-test('getModuleChoices should get module choices that are appropriate for extend type', function(
-	t
-) {
+test('getModuleChoices should get module choices that are appropriate for extend type', function(t) {
 	let choices = promptUtil.getModuleChoices(themeletDependencies, {});
 
 	_.forEach(choices, function(item, index) {

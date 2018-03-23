@@ -64,9 +64,7 @@ test('_getFileHeaders should generate valid file headers', function(t) {
 	t.true(regex.test(fileHeaders));
 });
 
-test('_getPostOptions should return valid http/https post options', function(
-	t
-) {
+test('_getPostOptions should return valid http/https post options', function(t) {
 	let password = Math.random().toString(36);
 	let username = Math.random().toString(36);
 
@@ -117,9 +115,7 @@ test('_getQuestion should return valid inquirer question object', function(t) {
 	});
 });
 
-test('_onResponseData should set deployed property based on response data', function(
-	t
-) {
+test('_onResponseData should set deployed property based on response data', function(t) {
 	let warDeployer = new WarDeployer({
 		fileName: 'test',
 	});
@@ -137,9 +133,7 @@ test('_onResponseData should set deployed property based on response data', func
 	t.true(warDeployer.deployed);
 });
 
-test('_onResponseEnd should log appropriate message based on deployed status', function(
-	t
-) {
+test('_onResponseEnd should log appropriate message based on deployed status', function(t) {
 	t.plan(0);
 
 	let warDeployer = new WarDeployer({
@@ -163,9 +157,7 @@ test('_onResponseEnd should log appropriate message based on deployed status', f
 	sinon.assert.calledWith(gutil.log, gutil.colors.cyan('test.war'));
 });
 
-test('_promptCredentialsIfNeeded should prompt user if password or username is not specified', function(
-	t
-) {
+test('_promptCredentialsIfNeeded should prompt user if password or username is not specified', function(t) {
 	t.plan(0);
 
 	let warDeployer = new WarDeployer({
@@ -189,9 +181,7 @@ test('_promptCredentialsIfNeeded should prompt user if password or username is n
 	]);
 });
 
-test('_promptCredentialsIfNeeded should immediately invoke _makeRequest if password and username are specified', function(
-	t
-) {
+test('_promptCredentialsIfNeeded should immediately invoke _makeRequest if password and username are specified', function(t) {
 	t.plan(0);
 
 	var warDeployer = new WarDeployer({
@@ -218,9 +208,7 @@ test('_promptCredentialsIfNeeded should immediately invoke _makeRequest if passw
 	sinon.assert.calledOnce(warDeployer._makeRequest);
 });
 
-test('_setURLSettings should parse url option and set host, port, and protocol properties', function(
-	t
-) {
+test('_setURLSettings should parse url option and set host, port, and protocol properties', function(t) {
 	let warDeployer = new WarDeployer({
 		fileName: 'test',
 	});
@@ -232,17 +220,13 @@ test('_setURLSettings should parse url option and set host, port, and protocol p
 	t.is(warDeployer.protocol, 'https');
 });
 
-test('_validateOptions should throw error if fileName is not specified', function(
-	t
-) {
+test('_validateOptions should throw error if fileName is not specified', function(t) {
 	t.throws(function() {
 		new WarDeployer({});
 	});
 });
 
-test('_validateURLSettings should throw error if protocol does not equal http or https', function(
-	t
-) {
+test('_validateURLSettings should throw error if protocol does not equal http or https', function(t) {
 	t.throws(function() {
 		new WarDeployer({
 			fileName: 'test',

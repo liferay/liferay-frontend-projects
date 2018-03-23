@@ -2,7 +2,6 @@
 
 const _ = require('lodash');
 const del = require('del');
-const livereload = require('gulp-livereload');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
 
@@ -11,6 +10,11 @@ const WatchSocket = require('../lib/watch_socket.js');
 
 const gutil = plugins.util;
 const themeConfig = lfrThemeConfig.getConfig();
+
+const browserSync = require('browser-sync').create('liferay-theme-tasks');
+const portfinder = require('portfinder');
+
+portfinder.basePort = 9080;
 
 const deployTask = 'deploy:gogo';
 const CONNECT_PARAMS = {
@@ -26,7 +30,10 @@ module.exports = function(options) {
 	const connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
 	const fullDeploy = argv.full || argv.f;
 	const runSequence = require('run-sequence').use(gulp);
+	const url = argv.url || storage.get('url');
 	const webBundleDir = path.join(process.cwd(), webBundleDirName);
+
+	gulp.browserSync = browserSync;
 
 	gulp.task('watch', function() {
 		options.watching = true;
@@ -53,7 +60,9 @@ module.exports = function(options) {
 					.then(function() {
 						storage.set('webBundleDir', 'watching');
 
-						startWatch();
+						portfinder.getPortPromise().then(port => {
+							startWatch(port, url);
+						});
 					});
 			}
 		);
@@ -137,10 +146,31 @@ module.exports = function(options) {
 		return taskArray;
 	}
 
-	function startWatch() {
+	function startWatch(port, url) {
 		clearChangedFile();
 
-		livereload.listen();
+		const target = url || 'http://localhost:8080';
+		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-\.]+)(:([0-9]+))?(.*)$/.exec(
+			target
+		);
+
+		browserSync.init({
+			rewriteRules: [
+				{
+					match: new RegExp(targetPort || 8080, 'g'),
+					replace: port,
+				},
+			],
+			proxy: {
+				target: target,
+				ws: true,
+			},
+			open: true,
+			port: port,
+			ui: false,
+			reloadDelay: 500,
+			reloadOnRestart: true,
+		});
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			storage.set('changedFile', vinyl);

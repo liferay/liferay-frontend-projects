@@ -127,7 +127,9 @@ module.exports = {
 
 		version = version || themeConfig.version;
 
-		let depsPath = path.dirname(require.resolve(`liferay-theme-deps-${version}`));
+		let depsPath = path.dirname(
+			require.resolve(`liferay-theme-deps-${version}`)
+		);
 
 		return depsPath;
 	},

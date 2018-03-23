@@ -13,9 +13,11 @@ const supportedThemeVersions = ['7.0', '7.1'];
 // This array contains all theme versions supported for upgrade tasks
 const supportedUpgradeVersions = ['6.2'];
 
-function doctor(
-	{themeConfig = null, haltOnMissingDeps = false, tasks = []} = {}
-) {
+function doctor({
+	themeConfig = null,
+	haltOnMissingDeps = false,
+	tasks = [],
+} = {}) {
 	themeConfig = themeConfig || lfrThemeConfig.getConfig(true);
 
 	if (!themeConfig) {

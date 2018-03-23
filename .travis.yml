@@ -1,13 +1,15 @@
 before_install:
-    - gem install sass -v "=3.4.0"
     - gem install compass
+    - npm install -g lerna@2.4.0
+
+install:
+    - npm run lerna
+    - npm install
 
 language: node_js
 
 node_js:
-    - "8.4"
-    - "6.12"
-    - "node"
+  - '8'
 
 script:
     - npm run checkFormat

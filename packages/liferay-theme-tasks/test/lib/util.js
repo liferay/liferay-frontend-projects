@@ -55,9 +55,7 @@ test('isCssFile should only return true if css file', function(t) {
 	t.true(!util.isCssFile('main.js'));
 });
 
-test('isSassPartial should return true for partial scss file names', function(
-	t
-) {
+test('isSassPartial should return true for partial scss file names', function(t) {
 	t.true(util.isSassPartial('_partial.scss'));
 	t.true(!util.isSassPartial('main.scss'));
 });
@@ -71,9 +69,7 @@ test('requireDependency should return dependency', function(t) {
 	t.truthy(unstyled);
 });
 
-test('resolveDependency should return resolved path of dependency', function(
-	t
-) {
+test('resolveDependency should return resolved path of dependency', function(t) {
 	let unstyledPath = util.resolveDependency(
 		'liferay-frontend-theme-unstyled',
 		'7.0'
@@ -90,9 +86,7 @@ test('resolveDependency should return resolved path of dependency', function(
 	t.truthy(!/liferay-theme-deps-7\.0/.test(styledPath));
 });
 
-test('_getCustomDependencyPath should return custom dependency paths set in node env variables', function(
-	t
-) {
+test('_getCustomDependencyPath should return custom dependency paths set in node env variables', function(t) {
 	let CUSTOM_STYLED_PATH = path.join(
 		process.cwd(),
 		'node_modules/liferay-frontend-theme-styled'
@@ -117,9 +111,7 @@ test('_getCustomDependencyPath should return custom dependency paths set in node
 	});
 });
 
-test('_getDepsPath should return preset path or cwd of theme if dependency is explicitly defined in dependencies', function(
-	t
-) {
+test('_getDepsPath should return preset path or cwd of theme if dependency is explicitly defined in dependencies', function(t) {
 	let depsPath = util._getDepsPath(
 		{
 			dependencies: {},
@@ -143,9 +135,7 @@ test('_getDepsPath should return preset path or cwd of theme if dependency is ex
 	t.is(path.basename(depsPath), themeName);
 });
 
-test('_hasDependency should return truthy value if dependency is defined in either dependencies or devDependencies', function(
-	t
-) {
+test('_hasDependency should return truthy value if dependency is defined in either dependencies or devDependencies', function(t) {
 	let dependency = util._hasDependency({}, 'test-package');
 
 	t.true(!dependency);
@@ -173,9 +163,7 @@ test('_hasDependency should return truthy value if dependency is defined in eith
 	t.truthy(dependency);
 });
 
-test('_validateCustomDependencyPath should throw error if customPath does not exist or is not a directory', function(
-	t
-) {
+test('_validateCustomDependencyPath should throw error if customPath does not exist or is not a directory', function(t) {
 	t.notThrows(function() {
 		util._validateCustomDependencyPath(process.cwd());
 	});

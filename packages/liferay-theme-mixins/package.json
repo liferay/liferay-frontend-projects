@@ -1,15 +1,4 @@
 {
-  "name": "liferay-theme-mixins",
-  "version": "8.0.0-alpha.3",
-  "description": "The base styled theme structure for Liferay themes",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "liferay",
-    "theme"
-  ],
   "author": {
     "name": "Nate Cavanaugh",
     "email": "nathan.cavanaugh@liferay.com",
@@ -22,5 +11,13 @@
       "web": "https://github.com/Robert-Frampton"
     }
   ],
-  "license": "LGPL"
+  "description": "The base styled theme structure for Liferay themes",
+  "keywords": [
+    "liferay",
+    "theme"
+  ],
+  "license": "LGPL",
+  "main": "index.js",
+  "name": "liferay-theme-mixins",
+  "version": "8.0.0-alpha.3"
 }
