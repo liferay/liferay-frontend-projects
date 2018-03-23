@@ -11,8 +11,6 @@ let WarDeployer = require('../lib/war_deployer');
 
 let divert = require('../lib/divert');
 
-let livereload = plugins.livereload;
-
 let themeConfig = lfrThemeConfig.getConfig(true);
 
 module.exports = function(options) {

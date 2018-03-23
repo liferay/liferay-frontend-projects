@@ -11,7 +11,7 @@ const WatchSocket = require('../lib/watch_socket.js');
 const gutil = plugins.util;
 const themeConfig = lfrThemeConfig.getConfig();
 
-const browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync').create('liferay-theme-tasks');
 const portfinder = require('portfinder');
 
 portfinder.basePort = 9080;
@@ -30,6 +30,7 @@ module.exports = function(options) {
 	const connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
 	const fullDeploy = argv.full || argv.f;
 	const runSequence = require('run-sequence').use(gulp);
+	const url = argv.url || storage.get('url');
 	const webBundleDir = path.join(process.cwd(), webBundleDirName);
 
 	gulp.browserSync = browserSync;
@@ -60,7 +61,7 @@ module.exports = function(options) {
 						storage.set('webBundleDir', 'watching');
 
 						portfinder.getPortPromise().then(port => {
-							startWatch(port);
+							startWatch(port, url);
 						});
 					});
 			}
@@ -145,18 +146,23 @@ module.exports = function(options) {
 		return taskArray;
 	}
 
-	function startWatch(port) {
+	function startWatch(port, url) {
 		clearChangedFile();
+
+		const target = url || 'http://localhost:8080';
+		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-\.]+)(:([0-9]+))?(.*)$/.exec(
+			target
+		);
 
 		browserSync.init({
 			rewriteRules: [
 				{
-					match: /8080/g,
+					match: new RegExp(targetPort || 8080, 'g'),
 					replace: port,
 				},
 			],
 			proxy: {
-				target: 'localhost:8080',
+				target: target,
 				ws: true,
 			},
 			open: true,
