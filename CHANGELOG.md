@@ -1,5 +1,14 @@
 # Change Log
 
+## [v8.0.0-alpha.4](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-alpha.4) (2018-03-23)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-alpha.3...v8.0.0-alpha.4)
+
+**Merged pull requests:**
+
+- v8.0.0-alpha.4 [\#8](https://github.com/liferay/liferay-themes-sdk/pull/8) ([jbalsas](https://github.com/jbalsas))
+- Uses store url [\#7](https://github.com/liferay/liferay-themes-sdk/pull/7) ([jbalsas](https://github.com/jbalsas))
+- Replaces livereload with browsersync [\#6](https://github.com/liferay/liferay-themes-sdk/pull/6) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-alpha.3](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-alpha.3) (2018-03-20)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-alpha.2...v8.0.0-alpha.3)
 
