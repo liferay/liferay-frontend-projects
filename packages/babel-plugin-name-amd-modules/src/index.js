@@ -1,3 +1,4 @@
+import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import path from 'path';
@@ -13,9 +14,9 @@ export default function({types: t}) {
 	const nameVisitor = {
 		ExpressionStatement(path, state) {
 			const {node: {expression}} = path;
-			const log = PluginLogger.get(state);
 			const {file: {opts: {filenameRelative}}} = state;
 			const {opts: {packageName, srcPrefixes}} = state;
+			const {log} = state;
 
 			if (t.isCallExpression(expression)) {
 				const {callee} = expression;
@@ -81,6 +82,13 @@ export default function({types: t}) {
 	return {
 		visitor: {
 			Program: {
+				enter(path, state) {
+					const {log} = babelIpc.get(state, () => ({
+						log: new PluginLogger(),
+					}));
+
+					state.log = log;
+				},
 				exit(path, state) {
 					// We must traverse the AST again because the
 					// transform-es2015-modules-amd plugin emits its define()

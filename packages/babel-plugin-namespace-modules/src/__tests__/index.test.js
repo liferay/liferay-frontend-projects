@@ -86,15 +86,11 @@ describe('when called from liferay-npm-bundler', () => {
 	let logger;
 
 	beforeEach(() => {
-		PluginLogger.set(__filename, (logger = new PluginLogger()));
 		babelIpc.set(__filename, {
+			log: (logger = new PluginLogger()),
 			rootPkgJson: require('./root-package.json'),
 			globalConfig: {imports},
 		});
-	});
-
-	afterEach(() => {
-		PluginLogger.delete(__filename);
 	});
 
 	it('correctly namespaces require modules', () => {

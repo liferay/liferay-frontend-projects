@@ -7,28 +7,34 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import readJsonSync from 'read-json-sync';
 
 /**
- * Valid babel plugin options are:
- *     namespaces: {
- *     	 module: {
- *     	   name: 'my-package'
- *     	 },
- *     	 dependencies: {
- *     	   name: 'my-package'
- *     	 }
- *     }
- *     imports: [
- *     	 {
- *     	   name: 'project',
- *     	   version: '^1.0.0',
- *     	   modules: [
- *     	     'a-package', 'another-package'
- *     	   ]
- *     	 }
- *     ]
  * @return {object} a babel visitor
  */
 export default function({types: t}) {
 	const amdDefineVisitor = {
+		/**
+		 * This is the visitor responsible of namespacing define() calls.
+		 *
+		 * The structure of opts inside state is:
+		 *     namespaces: {
+		 *     	 module: {
+		 *     	   name: 'my-package'
+		 *     	 },
+		 *     	 dependencies: {
+		 *     	   name: 'my-package'
+		 *     	 }
+		 *     }
+		 *     imports: [
+		 *     	 {
+		 *     	   name: 'project',
+		 *     	   version: '^1.0.0',
+		 *     	   modules: [
+		 *     	     'a-package', 'another-package'
+		 *     	   ]
+		 *     	 }
+		 *     ]
+		 * @param {Object} path the AST path
+		 * @param {Object} state the Babel plugin state containing the opts field
+		 */
 		ExpressionStatement(path, state) {
 			const {node: {expression}} = path;
 			const {opts} = state;
@@ -90,11 +96,33 @@ export default function({types: t}) {
 
 			// Don't traverse any more
 			path.stop();
-
-			// TODO: what happens with UMD modules with their own define call?
 		},
 	};
 	const amdRequireVisitor = {
+		/**
+		 * This is the visitor responsible of namespacing require() calls.
+		 *
+		 * The structure of opts inside state is:
+		 *     namespaces: {
+		 *     	 module: {
+		 *     	   name: 'my-package'
+		 *     	 },
+		 *     	 dependencies: {
+		 *     	   name: 'my-package'
+		 *     	 }
+		 *     }
+		 *     imports: [
+		 *     	 {
+		 *     	   name: 'project',
+		 *     	   version: '^1.0.0',
+		 *     	   modules: [
+		 *     	     'a-package', 'another-package'
+		 *     	   ]
+		 *     	 }
+		 *     ]
+		 * @param {Object} path the AST path
+		 * @param {Object} state the Babel plugin state containing the opts field
+		 */
 		exit(path, state) {
 			const {node} = path;
 			const {opts} = state;
@@ -153,10 +181,12 @@ export default function({types: t}) {
 						})
 					);
 
+					// Check if we need to namespace module name
 					const namespaceModule =
 						rootPkgJson.name !== ownPkgJson.name ||
 						rootPkgJson.version !== ownPkgJson.version;
 
+					// Prepare opts for visitors
 					state.opts = Object.assign(
 						{
 							namespaces: {
@@ -187,7 +217,11 @@ export default function({types: t}) {
 						state.depsCount > 0 ||
 						state.requiresCount > 0
 					) {
-						PluginLogger.get(state).info(
+						const {log} = babelIpc.get(state, () => ({
+							log: new PluginLogger(),
+						}));
+
+						log.info(
 							'namespace-modules',
 							'Namespaced',
 							state.namesCount,
@@ -207,19 +241,18 @@ export default function({types: t}) {
 }
 
 /**
- * TODO: [addDependencyNamespace description]
- * @param {[type]} moduleName [description]
- * @param {[type]} namespacePkg    [description]
- * @param {[type]} imports    [description]
- * @return {String}
+ * Add namespace to a module's dependency
+ * @param {String} moduleName dependency module name
+ * @param {String} namespacePkg package name to use as namespace
+ * @param {Object} imports imports section of .npmbundlerrc file
+ * @return {String} the namespaced module
  */
 function addDependencyNamespace(moduleName, namespacePkg, imports) {
-	// Unroll imports
 	imports = unrollImportsConfig(imports);
 
-	// TODO: handle scope
-	const {pkgName} = mod.splitModuleName(moduleName);
-	const pkg = imports[pkgName] || namespacePkg;
+	const {scope, pkgName} = mod.splitModuleName(moduleName);
+	const fullPkgName = mod.joinModuleName(scope, pkgName);
+	const pkg = imports[fullPkgName] || namespacePkg;
 
 	return ns.addNamespace(moduleName, pkg);
 }
