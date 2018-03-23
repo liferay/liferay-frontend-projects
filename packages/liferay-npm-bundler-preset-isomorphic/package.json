@@ -5,6 +5,8 @@
 	"main": "config.json",
 	"dependencies": {
 		"babel-preset-liferay-isomorphic": "1.6.1",
-		"liferay-npm-bundler-plugin-replace-browser-modules": "1.6.1"
+		"liferay-npm-bundler-plugin-replace-browser-modules": "1.6.1",
+		"liferay-npm-bundler-plugin-inject-peer-dependencies": "1.6.1",
+		"liferay-npm-bundler-plugin-namespace-packages": "1.6.1"
 	}
 }

@@ -65,6 +65,17 @@ describe('when describing the run', () => {
 		);
 	});
 
+	it('correctly stores root package bundler plugin runs', () => {
+		report.rootPackageProcessBundlerPlugin(
+			{
+				name: 'a-plugin',
+				config: {cfgval1: 1, cfgval2: 2},
+				run: () => '',
+			},
+			new PluginLogger()
+		);
+	});
+
 	it('correctly stores bundler plugin runs', () => {
 		report.packageProcessBundlerPlugin(
 			'pre',
@@ -119,6 +130,14 @@ it('correctly dumps HTML report', () => {
 		['a.js', 'b.js', 'c.js'],
 		['a.js', 'c.js'],
 		['b.*']
+	);
+	report.rootPackageProcessBundlerPlugin(
+		{
+			name: 'a-plugin',
+			config: {cfgval1: 1, cfgval2: 2},
+			run: () => '',
+		},
+		new PluginLogger()
 	);
 	report.packageProcessBundlerPlugin(
 		'pre',

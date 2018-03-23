@@ -13,6 +13,7 @@ export class Report {
 	constructor() {
 		this._executionDate = new Date();
 		this._versionsInfo = {};
+		this._rootPackage = {process: {}};
 		this._packages = {};
 		this._warnings = [];
 	}
@@ -83,8 +84,7 @@ export class Report {
 
 	/**
 	 * Register the list of dependencies detected in this build.
-	 * @param  {Array} deps an array of package descriptors (with id, name and
-	 * 						version fields)
+	 * @param  {Array} deps an array of PkgDesc objects
 	 * @return {void}
 	 */
 	dependencies(deps) {
@@ -120,6 +120,19 @@ export class Report {
 			copiedFiles,
 			exclusions,
 		});
+	}
+
+	/**
+	 * Register a liferay-npm-bundler plugin execution for the root package
+	 * @param  {Object} plugin plugin descriptor (with config and run fields)
+	 * @param  {PluginLogger} logger the logger cotaining the process messages
+	 * @return {void}
+	 */
+	rootPackageProcessBundlerPlugin(plugin, logger) {
+		this._rootPackage.process[plugin.name] = {
+			plugin,
+			logger,
+		};
 	}
 
 	/**

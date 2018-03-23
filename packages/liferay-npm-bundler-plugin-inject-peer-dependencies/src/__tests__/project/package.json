@@ -1,0 +1,8 @@
+{
+	"name": "project",
+	"version": "1.0.0",
+	"dependencies": {
+		"is-finite": "1.0.0",
+		"pkg-with-peer-deps": "1.0.0"
+	}
+}

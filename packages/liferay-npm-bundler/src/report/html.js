@@ -8,6 +8,7 @@ export function htmlDump(report) {
 		_warnings,
 		_versionsInfo,
 		_packages,
+		_rootPackage,
 	} = report;
 
 	const title = 'Report of liferay-npm-bundler execution';
@@ -74,6 +75,22 @@ export function htmlDump(report) {
 		)
 	);
 
+	const rootPackageProcess = htmlSection(
+		'Details of root package transformations',
+		...Object.keys(_rootPackage.process)
+			.sort()
+			.map(pluginName => {
+				const process = _rootPackage.process[pluginName];
+
+				return htmlLogOutput(
+					['Bundler plugin', 'Config'],
+					[[pluginName, JSON.stringify(process.plugin.config)]],
+					[process.logger],
+					{source: false}
+				);
+			})
+	);
+
 	const packageProcesses = htmlSection(
 		'Summary of package transformations',
 		htmlTable(
@@ -108,12 +125,12 @@ export function htmlDump(report) {
 						<td>${pkg.name}</td>
 						<td>${pkg.version}</td>
 						<td>
-							<a href="#${pkgId}-pre">
+							<a href="#${pkgId}-bundler">
 								${preNotice}
 							</a>
 						</td>
 						<td>
-							<a href="#${pkgId}-post">
+							<a href="#${pkgId}-bundler">
 								${postNotice}
 							</a>
 						</td>
@@ -140,7 +157,7 @@ export function htmlDump(report) {
 				return htmlIf(preKeys.length > 0 || postKeys.length > 0, () =>
 					htmlSubsection(
 						`
-							<a name="${pkgId}-pre"></a>
+							<a name="${pkgId}-bundler"></a>
 							${pkgId}
 						`,
 						htmlIf(preKeys.length > 0, () =>
@@ -309,6 +326,7 @@ export function htmlDump(report) {
 				${warnings}
 				${versionsInfo}
 				${dependencies}
+				${rootPackageProcess}
 				${packageProcesses}
 				${packageProcessesBundlerDetails}
 				${packageProcessesBabelDetails}

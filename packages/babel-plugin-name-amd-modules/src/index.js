@@ -11,15 +11,17 @@ import readJsonSync from 'read-json-sync';
  */
 export default function({types: t}) {
 	const nameVisitor = {
-		ExpressionStatement(path, {opts}) {
-			const node = path.node;
-			const expression = node.expression;
+		ExpressionStatement(path, state) {
+			const {node: {expression}} = path;
+			const log = PluginLogger.get(state);
+			const {file: {opts: {filenameRelative}}} = state;
+			const {opts: {packageName, srcPrefixes}} = state;
 
 			if (t.isCallExpression(expression)) {
-				const callee = expression.callee;
+				const {callee} = expression;
 
 				if (t.isIdentifier(callee, {name: 'define'})) {
-					const args = expression.arguments;
+					const {arguments: args} = expression;
 
 					let insertName = false;
 					let unshiftName = true;
@@ -45,17 +47,18 @@ export default function({types: t}) {
 					}
 
 					if (insertName) {
-						const packageName = getPackageName(
-							this.opts.packageName,
-							this.filenameRelative
+						let normalizedPackageName = normalizePackageName(
+							packageName,
+							filenameRelative
 						);
 
 						const moduleName = getModuleName(
-							this.filenameRelative,
-							getSrcPrefixes(opts)
+							filenameRelative,
+							normalizeSrcPrefixes(srcPrefixes)
 						);
 
-						const fullModuleName = `${packageName}${moduleName}`;
+						const fullModuleName =
+							normalizedPackageName + moduleName;
 
 						if (unshiftName) {
 							args.unshift(t.stringLiteral(fullModuleName));
@@ -63,7 +66,7 @@ export default function({types: t}) {
 							args[0].value = fullModuleName;
 						}
 
-						this.log.info(
+						log.info(
 							'name-amd-modules',
 							`Set module name to '${fullModuleName}'`
 						);
@@ -82,11 +85,7 @@ export default function({types: t}) {
 					// We must traverse the AST again because the
 					// transform-es2015-modules-amd plugin emits its define()
 					// call after exiting Program node :-(
-					path.traverse(nameVisitor, {
-						filenameRelative: state.file.opts.filenameRelative,
-						opts: state.opts,
-						log: PluginLogger.get(state),
-					});
+					path.traverse(nameVisitor, state);
 				},
 			},
 		},
@@ -96,14 +95,12 @@ export default function({types: t}) {
 /**
  * Normalize the srcPrefixes Babel option adding a trailing path separator when
  * it is not present.
- * @param {object} opts the Babel plugin options
+ * @param {Array} srcPrefixes the original srcPrefixes
  * @return {Array} the normalized srcPrefixes array (with native path
  *         separators)
  */
-function getSrcPrefixes(opts) {
-	let srcPrefixes = opts.srcPrefixes || [
-		'src/main/resources/META-INF/resources',
-	];
+function normalizeSrcPrefixes(srcPrefixes) {
+	srcPrefixes = srcPrefixes || ['src/main/resources/META-INF/resources'];
 
 	return srcPrefixes
 		.map(srcPrefix => path.normalize(srcPrefix))
@@ -114,14 +111,14 @@ function getSrcPrefixes(opts) {
 }
 
 /**
- * Resolve the package name of a JS module file.
+ * Normalize the package name of a JS module file.
  * @param {String} packageName a forced package name or '<package.json>' to get
  *		  the package name from the nearest ancestor package.json file
  * @param {String} filenameRelative the filenameRelative path as given by Babel
  *        compiler
  * @return {String} the package name (in 'pkg@version' format) ending with '/'
  */
-function getPackageName(packageName, filenameRelative) {
+function normalizePackageName(packageName, filenameRelative) {
 	packageName = packageName || '<package.json>';
 
 	if (packageName === '<package.json>') {

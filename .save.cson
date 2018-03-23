@@ -4,8 +4,8 @@
 "packages/babel-plugin-namespace-amd-define/**/*.js": [
   "cd packages/babel-plugin-namespace-amd-define && npm run build"
 ]
-"packages/babel-plugin-namespace-amd-modules/**/*.js": [
-  "cd packages/babel-plugin-namespace-amd-modules && npm run build"
+"packages/babel-plugin-namespace-modules/**/*.js": [
+  "cd packages/babel-plugin-namespace-modules && npm run build"
 ]
 "packages/babel-plugin-normalize-requires/**/*.js": [
   "cd packages/babel-plugin-normalize-requires && npm run build"
@@ -36,6 +36,12 @@
 ]
 "packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-inject-peer-dependencies/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-inject-peer-dependencies && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-namespace-packages/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-namespace-packages && npm run build"
 ]
 "packages/liferay-npm-bundler-plugin-replace-browser-modules/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-replace-browser-modules && npm run build"

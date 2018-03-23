@@ -2,6 +2,7 @@ import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
+import {getRootPkg} from './dependencies';
 
 let pluginsBaseDir = '.';
 let config = loadConfig();
@@ -79,8 +80,7 @@ export function getReportFilePath() {
 
 /**
  * Get the configured file exclusions for a given package.
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @return {Array} an array of glob expressions
  */
 export function getExclusions(pkg) {
@@ -119,15 +119,33 @@ export function loadBabelPlugins(presets, plugins) {
 /**
  * Get the liferay-nmp-bundler plugins for a given package.
  * @param {String} phase 'pre' or 'post'
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @return {Array} the instantiated Babel plugins
  */
 export function getPlugins(phase, pkg) {
 	const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
-	const plugins = getPackageConfig(pkg, pluginsKey) || [];
+	const pluginNames = getPackageConfig(pkg, pluginsKey) || [];
 
-	return plugins.map(pluginName => {
+	return instantiatePlugins(pluginNames);
+}
+
+/**
+ * Get the liferay-nmp-bundler plugins for the root package.
+ * @return {Array} the instantiated Babel plugins
+ */
+export function getRootPackagePlugins() {
+	const pluginNames = getPackageConfig(getRootPkg(), 'plugins') || [];
+
+	return instantiatePlugins(pluginNames);
+}
+
+/**
+ * Instantiate bundler plugins described by their names.
+ * @param  {Array} pluginNames list of plugin names to instantiate
+ * @return {Array} list of plugin descriptors with name, config and run fields
+ */
+function instantiatePlugins(pluginNames) {
+	return pluginNames.map(pluginName => {
 		let pluginConfig = {};
 
 		if (Array.isArray(pluginName)) {
@@ -149,8 +167,7 @@ export function getPlugins(phase, pkg) {
 
 /**
  * Get Babel config for a given package
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @return {Object} a Babel configuration object as defined by its API
  */
 export function getBabelConfig(pkg) {
@@ -334,8 +351,7 @@ function concatBabelPlugins(plugins, cfg) {
  * Get a configuration for a specific package. This method looks in the packages
  * section, then at root in the precedence order: first package id, then package
  * name.
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @param  {String} key the key name
  * @return {Object} a configuration object
  */

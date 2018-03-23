@@ -14,6 +14,7 @@
 	"dependencies": {
 		"babel-plugin-name-amd-modules": "1.6.1",
 		"babel-plugin-namespace-amd-define": "1.6.1",
+		"babel-plugin-namespace-modules": "1.6.1",
 		"babel-plugin-normalize-requires": "1.6.1"
 	}
 }
