@@ -1,14 +1,13 @@
 'use strict';
 
-let _ = require('lodash');
-let del = require('del');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const del = require('del');
+const log = require('fancy-log');
+const path = require('path');
 
-let KickstartPrompt = require('../lib/prompts/kickstart_prompt');
-let lfrThemeConfig = require('../lib/liferay_theme_config');
-
-let gutil = plugins.util;
+const KickstartPrompt = require('../lib/prompts/kickstart_prompt');
+const lfrThemeConfig = require('../lib/liferay_theme_config');
 
 module.exports = function(options) {
 	let gulp = options.gulp;
@@ -16,10 +15,10 @@ module.exports = function(options) {
 	let pathSrc = options.pathSrc;
 
 	gulp.task('kickstart', function(cb) {
-		gutil.log(
-			gutil.colors.yellow('Warning:'),
+		log(
+			colors.yellow('Warning:'),
 			'the',
-			gutil.colors.cyan('kickstart'),
+			colors.cyan('kickstart'),
 			'task will potentially overwrite files in your src directory'
 		);
 
@@ -68,7 +67,7 @@ module.exports = function(options) {
 							}
 						});
 				} else {
-					gutil.log(gutil.colors.yellow('Theme not selected'));
+					log(colors.yellow('Theme not selected'));
 
 					cb();
 				}

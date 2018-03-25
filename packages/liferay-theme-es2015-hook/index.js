@@ -1,13 +1,12 @@
 'use strict';
 
-var buildAmd = require('metal-tools-build-amd/lib/pipelines/buildAmd');
-var compileSoy = require('metal-tools-soy/lib/pipelines/compileSoy');
 var ConfigGenerator = require('liferay-module-config-generator/lib/config-generator');
+var buildAmd = require('metal-tools-build-amd/lib/pipelines/buildAmd');
+var colors = require('ansi-colors');
+var compileSoy = require('metal-tools-soy/lib/pipelines/compileSoy');
 var fs = require('fs-extra');
-var gutil = require('gulp-util');
+var log = require('fancy-log');
 var path = require('path');
-
-var chalk = gutil.colors;
 
 var REGEX_PROVIDE_CAPABILITY = /(Provide-Capability=)(.*)/;
 
@@ -61,11 +60,11 @@ module.exports = function(gulp, options) {
 					'$1' + 'osgi.webresource;osgi.webresource=' + options.distName
 				);
 
-				gutil.log(
-					chalk.yellow('Warning:'),
-					chalk.cyan('Provide-Capability'),
+				log(
+					colors.yellow('Warning:'),
+					colors.cyan('Provide-Capability'),
 					'property found in',
-					chalk.cyan('liferay-plugin-package.properties'),
+					colors.cyan('liferay-plugin-package.properties'),
 					'. This property is set automatically and should be removed.'
 				);
 			}
@@ -96,7 +95,7 @@ module.exports = function(gulp, options) {
 	gulp.task('metal:compile:soy', function() {
 		return gulp.src(path.join(pathSrc, '**/*.soy'))
 			.pipe(compileSoy()).on('error', function(err) {
-				gutil.log(err);
+				log(err);
 			})
 			.pipe(gulp.dest(pathSrc));
 	});

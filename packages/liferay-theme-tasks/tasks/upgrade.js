@@ -1,18 +1,18 @@
 'use strict';
 
-let _ = require('lodash');
-let del = require('del');
-let fs = require('fs-extra');
-let gutil = require('gulp-util');
-let inquirer = require('inquirer');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const del = require('del');
+const fs = require('fs-extra');
+const inquirer = require('inquirer');
+const log = require('fancy-log');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
+const PluginError = require('plugin-error');
 
-let lfrThemeConfig = require('../lib/liferay_theme_config.js');
+const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 
-let chalk = gutil.colors;
-
-let themeConfig = lfrThemeConfig.getConfig();
+const themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = function(options) {
 	let gulp = options.gulp;
@@ -44,11 +44,11 @@ module.exports = function(options) {
 			runSequence('upgrade:create-backup-files', function() {
 				versionUpgradeTask(function(err) {
 					if (err) {
-						gutil.log(
-							chalk.red('Error:'),
+						log(
+							colors.red('Error:'),
 							'something went wrong during the upgrade task, reverting changes.'
 						);
-						gutil.log(err);
+						log(err);
 
 						runSequence('upgrade:revert-src', cb);
 					} else {
@@ -57,9 +57,11 @@ module.exports = function(options) {
 				});
 			});
 		} else {
-			throw new gutil.PluginError(
+			throw new PluginError(
 				'gulp-theme-upgrader',
-				chalk.red('Version specific upgrade task must return function.')
+				colors.red(
+					'Version specific upgrade task must return function.'
+				)
 			);
 		}
 	});
@@ -108,9 +110,9 @@ module.exports = function(options) {
 			fs.statSync('_backup/src').isDirectory();
 
 		if (!backupExists) {
-			throw new gutil.PluginError(
+			throw new PluginError(
 				'gulp-theme-upgrader',
-				chalk.red('No backup files found!')
+				colors.red('No backup files found!')
 			);
 		}
 
@@ -127,7 +129,7 @@ module.exports = function(options) {
 				if (answers.revert) {
 					runSequence('upgrade:revert-src', cb);
 				} else {
-					gutil.log(chalk.cyan('No files reverted.'));
+					log(colors.cyan('No files reverted.'));
 
 					cb();
 				}

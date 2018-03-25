@@ -1,13 +1,12 @@
 'use strict';
 
-let _ = require('lodash');
-let gutil = require('gulp-util');
-let inquirer = require('inquirer');
-let path = require('path');
-let sinon = require('sinon');
-let test = require('ava');
+const _ = require('lodash');
+const inquirer = require('inquirer');
+const path = require('path');
+const sinon = require('sinon');
+const test = require('ava');
 
-let testUtil = require('../../util.js');
+const testUtil = require('../../util.js');
 
 let ModulePrompt;
 let NPMModulePrompt;
@@ -105,7 +104,6 @@ test('_afterPromptSearchTerms should invoke _getNPMModules with searchTerms', fu
 test('_afterPromptSearchTerms should either re-prompt search terms or invoke module prompt', function(t) {
 	prototype._getNPMModules = sinon.spy();
 	prototype._promptSearchTerms = sinon.spy();
-	let logSpy = prototypeMethodSpy.add(gutil, 'log');
 	let modulePromptInitSpy = prototypeMethodSpy.add(
 		ModulePrompt.prototype,
 		'init'
@@ -125,7 +123,6 @@ test('_afterPromptSearchTerms should either re-prompt search terms or invoke mod
 
 	cb();
 
-	t.true(logSpy.calledOnce);
 	t.true(prototype._promptSearchTerms.calledOnce);
 
 	let modules = {

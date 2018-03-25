@@ -1,7 +1,6 @@
 'use strict';
 
 let _ = require('lodash');
-let gutil = require('gulp-util');
 let inquirer = require('inquirer');
 let path = require('path');
 let sinon = require('sinon');

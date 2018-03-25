@@ -1,11 +1,12 @@
 'use strict';
 
-let _ = require('lodash');
-let gutil = require('gulp-util');
-let inquirer = require('inquirer');
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const inquirer = require('inquirer');
+const log = require('fancy-log');
 
-let ModulePrompt = require('./module_prompt');
-let themeFinder = require('../theme_finder');
+const ModulePrompt = require('./module_prompt');
+const themeFinder = require('../theme_finder');
 
 function NPMModulePrompt() {
 	this.init.apply(this, arguments);
@@ -33,9 +34,7 @@ NPMModulePrompt.prototype = {
 			if (_.isEmpty(modules)) {
 				let type = themelet ? 'themelets' : 'themes';
 
-				gutil.log(
-					gutil.colors.yellow('No ' + type + ' matched your search!')
-				);
+				log(colors.yellow('No ' + type + ' matched your search!'));
 
 				instance._promptSearchTerms();
 			} else {

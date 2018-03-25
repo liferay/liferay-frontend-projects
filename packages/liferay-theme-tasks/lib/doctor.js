@@ -1,11 +1,10 @@
 'use strict';
 
 const _ = require('lodash');
-const gutil = require('gulp-util');
+const colors = require('ansi-colors');
+const log = require('fancy-log');
 
 const lfrThemeConfig = require('./liferay_theme_config');
-
-const chalk = gutil.colors;
 
 // This array contains all theme versions supported for non-upgrade tasks
 const supportedThemeVersions = ['7.0', '7.1'];
@@ -147,19 +146,19 @@ function logLocalDependencies(localDependencies) {
 		return item.name;
 	}).join(', ');
 
-	gutil.log(
-		chalk.yellow('Warning:'),
+	log(
+		colors.yellow('Warning:'),
 		'you have dependencies that are installed from local modules. These should only be used for development purposes. Do not publish this npm module with those dependencies!'
 	);
-	gutil.log(chalk.yellow('Local module dependencies:'), dependenciesString);
+	log(colors.yellow('Local module dependencies:'), dependenciesString);
 }
 
 function logMissingDeps(dependencies, moduleName, missingDeps) {
 	if (!dependencies[moduleName]) {
-		gutil.log(
-			chalk.red('Warning:'),
+		log(
+			colors.red('Warning:'),
 			'You must install the correct dependencies, please run',
-			chalk.cyan('npm i --save-dev', moduleName),
+			colors.cyan('npm i --save-dev', moduleName),
 			'from your theme directory.'
 		);
 

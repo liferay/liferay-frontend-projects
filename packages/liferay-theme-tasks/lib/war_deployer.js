@@ -1,18 +1,17 @@
 'use strict';
 
-let _ = require('lodash');
-let EventEmitter = require('events').EventEmitter;
-let fs = require('fs');
-let gutil = require('gulp-util');
-let inquirer = require('inquirer');
-let path = require('path');
-let url = require('url');
+const EventEmitter = require('events').EventEmitter;
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const fs = require('fs');
+const inquirer = require('inquirer');
+const log = require('fancy-log');
+const path = require('path');
+const url = require('url');
 
-let CWD = process.cwd();
+const CWD = process.cwd();
 
-let colors = gutil.colors;
-
-let WarDeployer = function(options) {
+const WarDeployer = function(options) {
 	this.init(options);
 };
 
@@ -133,13 +132,13 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 
 	_onResponseEnd: function() {
 		if (this.deployed) {
-			gutil.log(
+			log(
 				colors.cyan(this.fileName + '.war'),
 				'successfully deployed to',
 				this.host
 			);
 		} else {
-			gutil.log(
+			log(
 				colors.yellow('Warning:'),
 				'There was a problem deploying',
 				colors.cyan(this.fileName + '.war'),

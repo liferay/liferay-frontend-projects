@@ -1,12 +1,11 @@
 'use strict';
 
-let _ = require('lodash');
-let gutil = require('gulp-util');
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const log = require('fancy-log');
 
-let chalk = gutil.colors;
-
-let ModulePrompt = require('./module_prompt');
-let themeFinder = require('../theme_finder');
+const ModulePrompt = require('./module_prompt');
+const themeFinder = require('../theme_finder');
 
 function GlobalModulePrompt() {
 	this.init.apply(this, arguments);
@@ -34,8 +33,8 @@ GlobalModulePrompt.prototype = {
 		let type = this.themelet ? 'themelet' : 'theme';
 
 		if (_.isEmpty(this.modules)) {
-			gutil.log(
-				chalk.yellow(
+			log(
+				colors.yellow(
 					'No globally installed ' +
 						type +
 						' found. Install some with "npm i -g [name]"'
@@ -43,11 +42,11 @@ GlobalModulePrompt.prototype = {
 			);
 
 			if (!process.env.NODE_PATH) {
-				gutil.log(
-					chalk.yellow('Warning:'),
-					chalk.cyan('NODE_PATH'),
+				log(
+					colors.yellow('Warning:'),
+					colors.cyan('NODE_PATH'),
 					'environment variable not found. If you have globally installed modules that are not being located, please set',
-					chalk.cyan('NODE_PATH')
+					colors.cyan('NODE_PATH')
 				);
 			}
 		}
