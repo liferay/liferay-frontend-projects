@@ -2,7 +2,7 @@
 
 module.exports = function() {
 	try {
-		let chalk = require('gulp-util').colors;
+		let colors = require('ansi-colors');
 		let updateNotifier = require('update-notifier');
 
 		let notifier = updateNotifier({
@@ -14,14 +14,14 @@ module.exports = function() {
 
 		if (update) {
 			let message = [
-				'You are running an old version of ' + chalk.cyan(update.name),
+				'You are running an old version of ' + colors.cyan(update.name),
 				'Run ' +
-					chalk.cyan('npm update', update.name) +
+					colors.cyan('npm update', update.name) +
 					' to install newest version',
 				'Current version: ' +
-					chalk.green(update.current) +
+					colors.green(update.current) +
 					' Latest version: ' +
-					chalk.green(update.latest),
+					colors.green(update.latest),
 			].join('\n');
 
 			notifier.notify({

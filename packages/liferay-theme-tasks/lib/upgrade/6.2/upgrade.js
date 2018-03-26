@@ -1,28 +1,25 @@
 'use strict';
 
-let _ = require('lodash');
-let ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;
-let del = require('del');
-let fs = require('fs-extra');
-let globby = require('globby');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
-let replace = require('gulp-replace-task');
-let spawn = require('cross-spawn');
-let vinylPaths = require('vinyl-paths');
+const ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const del = require('del');
+const fs = require('fs-extra');
+const globby = require('globby');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
+const replace = require('gulp-replace-task');
+const spawn = require('cross-spawn');
+const vinylPaths = require('vinyl-paths');
 
-let gulpBlackList = require('./gulp_black_list.js');
-let lfrThemeConfig = require('../../liferay_theme_config');
+const gulpBlackList = require('./gulp_black_list.js');
+const lfrThemeConfig = require('../../liferay_theme_config');
 
-let gutil = plugins.util;
+const CWD = process.cwd();
 
-let colors = gutil.colors;
+const DIR_SRC_CSS = 'src/css';
 
-let CWD = process.cwd();
-
-let DIR_SRC_CSS = 'src/css';
-
-let logBuffers = {
+const logBuffers = {
 	bootstrap: [getLogHeader('Bootstrap Upgrade (2 to 3)')],
 	liferay: [getLogHeader('Liferay Upgrade (6.2 to 7)')],
 };
@@ -423,5 +420,5 @@ function getLogHeader(header) {
 }
 
 function logBuffer(buffer) {
-	process.stdout.write(colors.bgBlack(buffer.join('')));
+	process.stdout.write(colors.bgblack(buffer.join('')));
 }

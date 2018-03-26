@@ -2,13 +2,13 @@
 
 const _ = require('lodash');
 const async = require('async');
+const colors = require('ansi-colors');
+const log = require('fancy-log');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
 const vinylPaths = require('vinyl-paths');
 
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
-
-const gutil = plugins.util;
 
 const themeConfig = lfrThemeConfig.getConfig();
 
@@ -85,9 +85,7 @@ module.exports = function(options) {
 					themeletSources &&
 					!_.isEmpty(themeConfig.themeletDependencies)
 				) {
-					let colors = gutil.colors;
-
-					gutil.log(
+					log(
 						colors.yellow('Warning:'),
 						'Failed to automatically inject themelet styles. Make sure inject tags are present in',
 						colors.magenta(fileName)
@@ -166,9 +164,7 @@ module.exports = function(options) {
 					themeletSources &&
 					!_.isEmpty(themeConfig.themeletDependencies)
 				) {
-					let colors = gutil.colors;
-
-					gutil.log(
+					log(
 						colors.yellow('Warning:'),
 						'Failed to automatically inject themelet js. Make sure inject tags are present in',
 						colors.magenta('portal_normal.' + templateLanguage)
