@@ -110,7 +110,7 @@ function processModuleDependencies(
 		const scopedPkgName = mod.joinModuleName(scope, pkgName);
 
 		if (!pkgJson.dependencies[scopedPkgName]) {
-			let srcPkgName = ns.removeNamespace(scopedPkgName, rootPkgJson);
+			let srcPkgName = ns.removeNamespace(scopedPkgName);
 
 			try {
 				const resolvedPkgJsonPath = resolve.sync(

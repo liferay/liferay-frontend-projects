@@ -1,0 +1,18 @@
+{
+	"name": "liferay-npm-bundler-plugin-inject-imports-dependencies",
+	"version": "1.6.1",
+	"description":
+		"A liferay-npm-bundler plugin to force injection of declared imports as dependencies.",
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "babel --source-maps -D -d lib src",
+		"prepublish": "npm run build"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-preset-es2015": "^6.24.1"
+	},
+	"dependencies": {
+		"liferay-npm-build-tools-common": "1.6.1"
+	}
+}

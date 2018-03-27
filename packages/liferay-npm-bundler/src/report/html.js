@@ -8,7 +8,6 @@ export function htmlDump(report) {
 		_warnings,
 		_versionsInfo,
 		_packages,
-		_rootPackage,
 	} = report;
 
 	const title = 'Report of liferay-npm-bundler execution';
@@ -66,29 +65,13 @@ export function htmlDump(report) {
 					return htmlRow(`
 						<td>${name}</td>
 						<td>${version}</td>
-						<td>${copiedFiles.length}</td>
-						<td>${allFiles.length - copiedFiles.length}</td>
-						<td>${exclusions}</td>
-						<td>${link === undefined ? '' : link}</td>
+						<td>${htmlIf(copiedFiles, () => copiedFiles.length)}</td>
+						<td>${htmlIf(allFiles, () => allFiles.length)}</td>
+						<td>${htmlIf(exclusions, () => exclusions)}</td>
+						<td>${htmlIf(link, () => link)}</td>
 					`);
 				})
 		)
-	);
-
-	const rootPackageProcess = htmlSection(
-		'Details of root package transformations',
-		...Object.keys(_rootPackage.process)
-			.sort()
-			.map(pluginName => {
-				const process = _rootPackage.process[pluginName];
-
-				return htmlLogOutput(
-					['Bundler plugin', 'Config'],
-					[[pluginName, JSON.stringify(process.plugin.config)]],
-					[process.logger],
-					{source: false}
-				);
-			})
 	);
 
 	const packageProcesses = htmlSection(
@@ -157,10 +140,11 @@ export function htmlDump(report) {
 				return htmlIf(preKeys.length > 0 || postKeys.length > 0, () =>
 					htmlSubsection(
 						`
-							<a name="${pkgId}-bundler"></a>
-							${pkgId}
+							<a name="${pkgId}-bundler">
+								${pkg.name}@${pkg.version}
+							</a>
 						`,
-						htmlIf(preKeys.length > 0, () =>
+						...htmlIf(preKeys.length > 0, () =>
 							preKeys
 								.sort()
 								.map(pluginName =>
@@ -180,7 +164,7 @@ export function htmlDump(report) {
 									)
 								)
 						),
-						htmlIf(postKeys.length > 0, () =>
+						...htmlIf(postKeys.length > 0, () =>
 							postKeys
 								.sort()
 								.map(pluginName =>
@@ -217,8 +201,9 @@ export function htmlDump(report) {
 				return htmlIf(babelKeys.length > 0, () =>
 					htmlSubsection(
 						`
-							<a name="${pkgId}-babel"></a>
-							${pkgId}
+							<a name="${pkgId}-babel">
+								${pkg.name}@${pkg.version}
+							</a>
 						`,
 						`<p>
 							Configuration: 
@@ -326,7 +311,6 @@ export function htmlDump(report) {
 				${warnings}
 				${versionsInfo}
 				${dependencies}
-				${rootPackageProcess}
 				${packageProcesses}
 				${packageProcessesBundlerDetails}
 				${packageProcessesBabelDetails}

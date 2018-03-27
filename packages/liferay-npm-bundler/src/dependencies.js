@@ -3,8 +3,8 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
-const rootPkgJson = readJsonSync(path.join('.', 'package.json'));
-const rootPkg = new PkgDesc(rootPkgJson.name, rootPkgJson.version);
+const pkgJson = readJsonSync(path.join('.', 'package.json'));
+const rootPkg = new PkgDesc(pkgJson.name, pkgJson.version);
 
 /**
  * Get root package descriptor

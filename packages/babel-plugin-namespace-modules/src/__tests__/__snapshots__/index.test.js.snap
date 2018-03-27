@@ -1,37 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`when called from babel correctly namespaces all together 1`] = `
+exports[`when called from Babel correctly namespaces all together 1`] = `
 "
-define('a-module', ['test-package$1.0.0$a-module', './a-local-module', 'fs'], function () {
-	require('test-package$1.0.0$a-module');
+define('a-module', ['test-package$a-module', 'provider$imp-module', './a-local-module', 'fs'], function () {
+	require('test-package$a-module');
+	require('provider$imp-module');
 	require('./a-local-module');
 	require('fs');
 });"
 `;
 
-exports[`when called from babel correctly namespaces define() dependencies 1`] = `
+exports[`when called from Babel correctly namespaces define() dependencies 1`] = `
 "
-define(['test-package$1.0.0$a-module', './a-local-module', 'fs'], function () {});"
+define(['test-package$a-module', 'provider$imp-module', './a-local-module', 'fs'], function () {});"
 `;
 
-exports[`when called from babel correctly namespaces require modules 1`] = `
+exports[`when called from Babel correctly namespaces require modules 1`] = `
 "
 define(function () {
-	require('test-package$1.0.0$a-module');
+	require('test-package$a-module');
+	require('provider$imp-module');
 	require('./a-local-module');
 	require('fs');
 });"
 `;
 
-exports[`when called from babel does not namespaces define() module name 1`] = `
+exports[`when called from Babel does not namespace define() module name 1`] = `
 "
 define('a-module', function () {});"
 `;
 
 exports[`when called from liferay-npm-bundler correctly namespaces all together 1`] = `
 "
-define('test-package$1.0.0$a-module', ['test-package$1.0.0$a-module', './a-local-module', 'fs'], function () {
-	require('test-package$1.0.0$a-module');
+define('root-package$a-module', ['root-package$a-module', 'provider$imp-module', './a-local-module', 'fs'], function () {
+	require('root-package$a-module');
+	require('provider$imp-module');
 	require('./a-local-module');
 	require('fs');
 });"
@@ -39,21 +42,27 @@ define('test-package$1.0.0$a-module', ['test-package$1.0.0$a-module', './a-local
 
 exports[`when called from liferay-npm-bundler correctly namespaces define() dependencies 1`] = `
 "
-define(['test-package$1.0.0$a-module', './a-local-module', 'fs'], function () {});"
+define(['root-package$a-module', 'provider$imp-module', './a-local-module', 'fs'], function () {});"
 `;
 
 exports[`when called from liferay-npm-bundler correctly namespaces define() module name 1`] = `
 "
-define('test-package$1.0.0$a-module', function () {});"
+define('root-package$a-module', function () {});"
 `;
 
 exports[`when called from liferay-npm-bundler correctly namespaces require modules 1`] = `
 "
 define(function () {
-	require('test-package$1.0.0$a-module');
+	require('root-package$a-module');
+	require('provider$imp-module');
 	require('./a-local-module');
 	require('fs');
 });"
+`;
+
+exports[`when called from liferay-npm-bundler does not namespace define() module name in the root package 1`] = `
+"
+define('a-module', function () {});"
 `;
 
 exports[`when called from liferay-npm-bundler logs results correctly 1`] = `
@@ -65,10 +74,10 @@ Array [
       "Namespaced",
       1,
       "define() names,",
-      1,
+      2,
       "define() dependencies,",
       "and",
-      1,
+      2,
       "require() names",
     ],
   },

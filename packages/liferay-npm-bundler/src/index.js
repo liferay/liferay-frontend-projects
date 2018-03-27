@@ -6,10 +6,11 @@ import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 
 import * as config from './config';
-import * as insight from './insight';
 import {getPackageDependencies, getRootPkg} from './dependencies';
+import * as insight from './insight';
 import * as log from './log';
 import report from './report';
+
 import {runPlugins, runBabel} from './runners';
 import {
 	iterateSerially,
@@ -50,13 +51,16 @@ function run() {
 
 	// Copy project's package.json
 	promises.push(bundleRootPackage(outputDir));
+	report.rootPackage(getRootPkg());
 
 	// Grab NPM dependencies
 	let pkgs = getPackageDependencies('.', config.getIncludeDependencies());
 	pkgs = Object.keys(pkgs)
 		.map(id => pkgs[id])
 		.filter(pkg => !pkg.isRoot);
+
 	report.dependencies(pkgs);
+	reportLinkedDependencies(readJsonSync('package.json'));
 
 	// Process NPM dependencies
 	log.info(`Bundling ${pkgs.length} dependencies...`);
@@ -103,31 +107,22 @@ function run() {
  * @return {Promise} a Promise fulfilled when the copy has been finished
  */
 function bundleRootPackage(outputDir) {
+	const srcPkg = getRootPkg();
+	const pkg = srcPkg.clone({dir: outputDir});
+
+	// Copy source package.json
 	const srcPkgJson = readJsonSync('package.json');
 
-	reportLinkedDependencies(srcPkgJson);
+	fs.writeFileSync(
+		path.join(pkg.dir, 'package.json'),
+		JSON.stringify(srcPkgJson, '', 2)
+	);
 
-	const destJsonPath = path.join(outputDir, 'package.json');
-
-	return new Promise(resolve => {
-		// Copy source package.json
-		fs.writeFileSync(destJsonPath, JSON.stringify(srcPkgJson, '', 2));
-
-		// Run plugins
-		const state = runPlugins(
-			config.getRootPackagePlugins(),
-			getRootPkg(),
-			getRootPkg().clone({dir: outputDir}),
-			(plugin, log) => {
-				report.rootPackageProcessBundlerPlugin(plugin, log);
-			}
-		);
-
-		// Rewrite package.json
-		fs.writeFileSync(destJsonPath, JSON.stringify(state.pkgJson, '', 2));
-
-		resolve();
-	});
+	// Process package
+	return processPackage('pre', srcPkg, pkg)
+		.then(() => runBabel(pkg))
+		.then(() => processPackage('post', srcPkg, pkg))
+		.then(() => log.debug(`Bundled root package`));
 }
 
 /**

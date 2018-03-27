@@ -1,3 +1,4 @@
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import {Report} from '../index';
 
@@ -36,8 +37,12 @@ describe('when describing the run', () => {
 		});
 	});
 
-	it('correctly stores linked dependencies', () => {
-		report.linkedDependency('a-package', 'file:../a-package', '1.1.0');
+	it('correctly stores root package description', () => {
+		report.rootPackage({
+			id: 'root-package1@1.0.0',
+			name: 'root-package',
+			version: '1.0.0',
+		});
 	});
 
 	it('correctly stores dependencies', () => {
@@ -47,13 +52,19 @@ describe('when describing the run', () => {
 		]);
 	});
 
-	it('correctly removes stale linked dependencies', () => {
+	it('correctly stores linked dependencies', () => {
+		const pkg = {
+			id: 'a-package@1.1.0',
+			name: 'a-package',
+			version: '1.1.0',
+		};
+		report.dependencies([pkg]);
+		report.linkedDependency(pkg.name, 'file:../a-package', pkg.version);
+	});
+
+	it('ignores not previously registered linked dependencies', () => {
 		report.linkedDependency('a-package', 'file:../a-package', '1.1.0');
 		report.linkedDependency('package-1', 'file:../package-1', '1.0.0');
-		report.dependencies([
-			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-			{id: 'package-2@2.0.0', name: 'package-2', version: '2.0.0'},
-		]);
 	});
 
 	it('correctly stores package copies', () => {
@@ -62,17 +73,6 @@ describe('when describing the run', () => {
 			['a.js', 'b.js', 'c.js'],
 			['a.js', 'c.js'],
 			['b.*']
-		);
-	});
-
-	it('correctly stores root package bundler plugin runs', () => {
-		report.rootPackageProcessBundlerPlugin(
-			{
-				name: 'a-plugin',
-				config: {cfgval1: 1, cfgval2: 2},
-				run: () => '',
-			},
-			new PluginLogger()
 		);
 	});
 
@@ -119,25 +119,22 @@ it('correctly dumps HTML report', () => {
 		'liferay-npm-bundler': '1.4.2',
 		'liferay-npm-bundler-plugin-inject-angular': '1.4.2',
 	});
-	report.linkedDependency('a-package', 'file:../a-package', '1.1.0');
-	report.linkedDependency('package-1', 'file:../package-1', '1.0.0');
+	report.rootPackage({
+		id: 'root-package1@1.0.0',
+		name: 'root-package',
+		version: '1.0.0',
+	});
 	report.dependencies([
 		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
 		{id: 'package-2@2.0.0', name: 'package-2', version: '2.0.0'},
 	]);
+	report.linkedDependency('a-package', 'file:../a-package', '1.1.0');
+	report.linkedDependency('package-1', 'file:../package-1', '1.0.0');
 	report.packageCopy(
 		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
 		['a.js', 'b.js', 'c.js'],
 		['a.js', 'c.js'],
 		['b.*']
-	);
-	report.rootPackageProcessBundlerPlugin(
-		{
-			name: 'a-plugin',
-			config: {cfgval1: 1, cfgval2: 2},
-			run: () => '',
-		},
-		new PluginLogger()
 	);
 	report.packageProcessBundlerPlugin(
 		'pre',

@@ -1,7 +1,8 @@
 {
 	"name": "liferay-npm-bundler",
 	"version": "1.6.1",
-	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
+	"description":
+		"A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
 	"main": "lib/index.js",
 	"bin": {
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
@@ -19,6 +20,7 @@
 		"fs-extra": "^4.0.2",
 		"globby": "^6.1.0",
 		"insight": "0.10.0",
+		"liferay-npm-bundler-preset-standard": "1.6.1",
 		"liferay-npm-build-tools-common": "1.6.1",
 		"pretty-time": "^0.2.0",
 		"read-json-sync": "^1.1.1",

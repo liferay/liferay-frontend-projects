@@ -2,7 +2,6 @@ import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
-import {getRootPkg} from './dependencies';
 
 let pluginsBaseDir = '.';
 let config = loadConfig();
@@ -35,6 +34,8 @@ function loadConfig() {
 	}
 
 	// Normalize
+	config['/'] = config['/'] || {};
+	config['global-config'] = config['global-config'] || {};
 	config.packages = config.packages || {};
 
 	return config;
@@ -93,6 +94,14 @@ export function getExclusions(pkg) {
 }
 
 /**
+ * Get global plugins configuration.
+ * @return {Object} the global config hash
+ */
+export function getGlobalConfig() {
+	return config['global-config'];
+}
+
+/**
  * Load Babel plugins from a given array of presets and plugins.
  * @param {Array} presets an array of Babel preset names as defined by .babelrc
  * @param {Array} plugins an array of Babel plugins names as defined by .babelrc
@@ -124,17 +133,7 @@ export function loadBabelPlugins(presets, plugins) {
  */
 export function getPlugins(phase, pkg) {
 	const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
-	const pluginNames = getPackageConfig(pkg, pluginsKey) || [];
-
-	return instantiatePlugins(pluginNames);
-}
-
-/**
- * Get the liferay-nmp-bundler plugins for the root package.
- * @return {Array} the instantiated Babel plugins
- */
-export function getRootPackagePlugins() {
-	const pluginNames = getPackageConfig(getRootPkg(), 'plugins') || [];
+	const pluginNames = getPackageConfig(pkg, pluginsKey, []);
 
 	return instantiatePlugins(pluginNames);
 }
@@ -171,7 +170,7 @@ function instantiatePlugins(pluginNames) {
  * @return {Object} a Babel configuration object as defined by its API
  */
 export function getBabelConfig(pkg) {
-	return getPackageConfig(pkg, '.babelrc') || {};
+	return getPackageConfig(pkg, '.babelrc', {});
 }
 
 /**
@@ -352,22 +351,28 @@ function concatBabelPlugins(plugins, cfg) {
  * section, then at root in the precedence order: first package id, then package
  * name.
  * @param {PkgDesc} pkg the package descriptor
- * @param  {String} key the key name
+ * @param  {String} section the section name (like 'plugins', '.babelrc', ...)
+ * @param  {Object} defaultValue default value if not configured
  * @return {Object} a configuration object
  */
-function getPackageConfig(pkg, key) {
+function getPackageConfig(pkg, section, defaultValue = undefined) {
 	let pkgConfig;
 
-	if (config.packages[pkg.id] && config.packages[pkg.id][key]) {
-		pkgConfig = config.packages[pkg.id][key];
-	} else if (config.packages[pkg.name] && config.packages[pkg.name][key]) {
-		pkgConfig = config.packages[pkg.name][key];
-	} else if (config[pkg.id] && config[pkg.id][key]) {
-		pkgConfig = config[pkg.id][key];
-	} else if (config[pkg.name] && config[pkg.name][key]) {
-		pkgConfig = config[pkg.name][key];
-	} else if (config['*'] && config['*'][key]) {
-		pkgConfig = config['*'][key];
+	if (config.packages[pkg.id] && config.packages[pkg.id][section]) {
+		pkgConfig = config.packages[pkg.id][section];
+	} else if (
+		config.packages[pkg.name] &&
+		config.packages[pkg.name][section]
+	) {
+		pkgConfig = config.packages[pkg.name][section];
+	} else if (config[pkg.id] && config[pkg.id][section]) {
+		pkgConfig = config[pkg.id][section];
+	} else if (config[pkg.name] && config[pkg.name][section]) {
+		pkgConfig = config[pkg.name][section];
+	} else if (config['*'] && config['*'][section]) {
+		pkgConfig = config['*'][section];
+	} else {
+		pkgConfig = defaultValue;
 	}
 
 	return pkgConfig;

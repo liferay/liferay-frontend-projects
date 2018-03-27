@@ -13,7 +13,6 @@ export class Report {
 	constructor() {
 		this._executionDate = new Date();
 		this._versionsInfo = {};
-		this._rootPackage = {process: {}};
 		this._packages = {};
 		this._warnings = [];
 	}
@@ -69,17 +68,15 @@ export class Report {
 	}
 
 	/**
-	 * Register a linked dependency found in the root package.json.
-	 * @param  {String} packageName package name
-	 * @param  {String} packageLink the link to the package
-	 * @param  {String} packageVersion package version
+	 * Register the root package descriptor.
+	 * @param  {PkgDesc} rootPkg root package descriptor
 	 * @return {void}
 	 */
-	linkedDependency(packageName, packageLink, packageVersion) {
-		const pkgId = `${packageName}@${packageVersion}`;
-		let pkg = this._getPackage(pkgId);
+	rootPackage(rootPkg) {
+		let pkg = this._getPackage(rootPkg.id);
 
-		pkg.link = packageLink;
+		pkg.name = rootPkg.name;
+		pkg.version = rootPkg.version;
 	}
 
 	/**
@@ -91,17 +88,28 @@ export class Report {
 		deps.forEach(dep => {
 			let pkg = this._getPackage(dep.id);
 
-			Object.assign(pkg, dep);
+			pkg.name = dep.name;
+			pkg.version = dep.version;
 		});
+	}
 
-		// Remove all pre-registered packages that are not in the deps array
-		Object.keys(this._packages).forEach(pkgId => {
-			const pkg = this._packages[pkgId];
+	/**
+	 * Register a linked dependency found in the root package.json. This method
+	 * must be called after registering all dependencies with the dependencies()
+	 * method. Unknown dependencies will be ignored.
+	 * @param  {String} packageName package name
+	 * @param  {String} packageLink the link to the package
+	 * @param  {String} packageVersion package version
+	 * @return {void}
+	 */
+	linkedDependency(packageName, packageLink, packageVersion) {
+		const pkgId = `${packageName}@${packageVersion}`;
+		let pkg = this._getPackage(pkgId, false);
 
-			if (!pkg.id) {
-				delete this._packages[pkgId];
-			}
-		});
+		if (pkg) {
+			pkg.link = packageLink;
+			pkg.version = packageVersion;
+		}
 	}
 
 	/**
@@ -120,19 +128,6 @@ export class Report {
 			copiedFiles,
 			exclusions,
 		});
-	}
-
-	/**
-	 * Register a liferay-npm-bundler plugin execution for the root package
-	 * @param  {Object} plugin plugin descriptor (with config and run fields)
-	 * @param  {PluginLogger} logger the logger cotaining the process messages
-	 * @return {void}
-	 */
-	rootPackageProcessBundlerPlugin(plugin, logger) {
-		this._rootPackage.process[plugin.name] = {
-			plugin,
-			logger,
-		};
 	}
 
 	/**
@@ -180,16 +175,15 @@ export class Report {
 	/**
 	 * Get a package slot and create it if missing.
 	 * @param  {String} pkgId the package id
+	 * @param  {Boolean} create whether to create the entry if it doesn't exist
 	 * @return {Object} a package slot
 	 */
-	_getPackage(pkgId) {
+	_getPackage(pkgId, create = true) {
 		let pkg = this._packages[pkgId];
 
-		if (!pkg) {
+		if (!pkg && create) {
 			pkg = this._packages[pkgId] = {
-				allFiles: [],
-				copiedFiles: [],
-				exclusions: [],
+				id: pkgId,
 			};
 
 			this._getPackageProcess(pkgId);

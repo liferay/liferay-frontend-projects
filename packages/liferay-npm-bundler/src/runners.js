@@ -31,6 +31,7 @@ export function runPlugins(plugins, srcPkg, pkg, callback) {
 			config: plugin.config,
 			log: new PluginLogger(),
 			rootPkgJson: readJsonSync('package.json'),
+			globalConfig: config.getGlobalConfig(),
 
 			pkg: pkg.clone(),
 
@@ -86,6 +87,7 @@ export function runBabel(pkg) {
 
 					babelIpc.set(filePath, {
 						rootPkgJson: readJsonSync('package.json'),
+						globalConfig: config.getGlobalConfig(),
 					});
 
 					babel.transformFile(

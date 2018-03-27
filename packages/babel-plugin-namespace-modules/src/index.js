@@ -1,4 +1,5 @@
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
+import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
 import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 import {getPackageJsonPath} from 'liferay-npm-build-tools-common/lib/packages';
@@ -6,13 +7,32 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import readJsonSync from 'read-json-sync';
 
 /**
+ * Valid babel plugin options are:
+ *     namespaces: {
+ *     	 module: {
+ *     	   name: 'my-package'
+ *     	 },
+ *     	 dependencies: {
+ *     	   name: 'my-package'
+ *     	 }
+ *     }
+ *     imports: [
+ *     	 {
+ *     	   name: 'project',
+ *     	   version: '^1.0.0',
+ *     	   modules: [
+ *     	     'a-package', 'another-package'
+ *     	   ]
+ *     	 }
+ *     ]
  * @return {object} a babel visitor
  */
 export default function({types: t}) {
 	const amdDefineVisitor = {
 		ExpressionStatement(path, state) {
 			const {node: {expression}} = path;
-			const {rootPkgJson, calledFromBabel} = state;
+			const {opts} = state;
+			const {namespaces, imports} = opts;
 
 			if (!t.isCallExpression(expression)) {
 				return;
@@ -32,12 +52,12 @@ export default function({types: t}) {
 			);
 
 			// Namespace module name
-			if (!calledFromBabel && nameIndex !== undefined) {
+			if (namespaces.module && nameIndex !== undefined) {
 				const moduleName = args[nameIndex].value;
 
 				args[nameIndex].value = ns.addNamespace(
 					moduleName,
-					rootPkgJson
+					namespaces.module
 				);
 
 				state.namesCount++;
@@ -48,16 +68,21 @@ export default function({types: t}) {
 				const deps = args[depsIndex].elements;
 
 				deps.forEach((dep, i) => {
-					const {value: modulePath} = dep;
+					const {value: moduleName} = dep;
 
 					if (
 						!t.isStringLiteral(dep) ||
-						!mod.isExternalDependency(modulePath)
+						!mod.isExternalDependency(moduleName) ||
+						ns.isNamespaced(moduleName)
 					) {
 						return;
 					}
 
-					deps[i].value = ns.addNamespace(modulePath, rootPkgJson);
+					deps[i].value = addDependencyNamespace(
+						moduleName,
+						namespaces.dependencies,
+						imports
+					);
 
 					state.depsCount++;
 				});
@@ -69,21 +94,83 @@ export default function({types: t}) {
 			// TODO: what happens with UMD modules with their own define call?
 		},
 	};
+	const amdRequireVisitor = {
+		exit(path, state) {
+			const {node} = path;
+			const {opts} = state;
+			const {namespaces, imports} = opts;
+
+			if (node.name !== 'require') {
+				return;
+			}
+
+			const {parent} = path;
+
+			if (!t.isCallExpression(parent)) {
+				return;
+			}
+
+			const argument = parent.arguments[0];
+
+			if (!t.isLiteral(argument) || !argument.value) {
+				return;
+			}
+
+			const {value: moduleName} = argument;
+
+			if (
+				typeof moduleName !== 'string' ||
+				mod.isLocalModule(moduleName) ||
+				mod.isNodeCoreModule(moduleName) ||
+				ns.isNamespaced(moduleName)
+			) {
+				return;
+			}
+
+			// Namespace require argument
+			argument.value = addDependencyNamespace(
+				moduleName,
+				namespaces.dependencies,
+				imports
+			);
+
+			state.requiresCount++;
+		},
+	};
 
 	return {
 		visitor: {
 			Program: {
 				enter(path, state) {
-					const {rootPkgJson, calledFromBabel} = babelIpc.get(
+					// Prepare configuration
+					const ownPkgJson = getOwnPkgJson(state);
+
+					const {rootPkgJson, globalConfig} = babelIpc.get(
 						state,
 						() => ({
-							rootPkgJson: getOwnPkgJson(state),
-							calledFromBabel: true,
+							rootPkgJson: ownPkgJson,
+							globalConfig: {},
 						})
 					);
 
-					state.rootPkgJson = rootPkgJson;
-					state.calledFromBabel = calledFromBabel;
+					const namespaceModule =
+						rootPkgJson.name !== ownPkgJson.name ||
+						rootPkgJson.version !== ownPkgJson.version;
+
+					state.opts = Object.assign(
+						{
+							namespaces: {
+								module: namespaceModule
+									? rootPkgJson
+									: undefined,
+								dependencies: rootPkgJson,
+							},
+						},
+						globalConfig,
+						state.opts
+					);
+
+					// Initialize statistics for final report
 					state.namesCount = 0;
 					state.depsCount = 0;
 					state.requiresCount = 0;
@@ -94,6 +181,7 @@ export default function({types: t}) {
 					// call after exiting Program node :-(
 					path.traverse(amdDefineVisitor, state);
 
+					// Dump final report statistics
 					if (
 						state.namesCount > 0 ||
 						state.depsCount > 0 ||
@@ -113,44 +201,27 @@ export default function({types: t}) {
 					}
 				},
 			},
-			Identifier: {
-				exit(path, state) {
-					const {node} = path;
-					const {rootPkgJson} = state;
-
-					if (node.name !== 'require') {
-						return;
-					}
-
-					const {parent} = path;
-
-					if (!t.isCallExpression(parent)) {
-						return;
-					}
-
-					const argument = parent.arguments[0];
-
-					if (!t.isLiteral(argument) || !argument.value) {
-						return;
-					}
-
-					const {value: moduleName} = argument;
-
-					if (
-						typeof moduleName !== 'string' ||
-						mod.isLocalModule(moduleName) ||
-						mod.isNodeCoreModule(moduleName)
-					) {
-						return;
-					}
-
-					// Namespace require argument
-					argument.value = ns.addNamespace(moduleName, rootPkgJson);
-					state.requiresCount++;
-				},
-			},
+			Identifier: amdRequireVisitor,
 		},
 	};
+}
+
+/**
+ * TODO: [addDependencyNamespace description]
+ * @param {[type]} moduleName [description]
+ * @param {[type]} namespacePkg    [description]
+ * @param {[type]} imports    [description]
+ * @return {String}
+ */
+function addDependencyNamespace(moduleName, namespacePkg, imports) {
+	// Unroll imports
+	imports = unrollImportsConfig(imports);
+
+	// TODO: handle scope
+	const {pkgName} = mod.splitModuleName(moduleName);
+	const pkg = imports[pkgName] || namespacePkg;
+
+	return ns.addNamespace(moduleName, pkg);
 }
 
 /**

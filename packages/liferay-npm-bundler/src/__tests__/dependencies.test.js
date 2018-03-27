@@ -41,13 +41,14 @@ expect.extend({
 						`${dep.version} ` + `(expected: ${pkgVersion})`;
 				}
 
-				const expectedDepDir = path.normalize(
-					`/node_modules/${pkgName}`
-				);
+				const expectedDepDir =
+					pkgId === PkgDesc.ROOT_ID
+						? path.normalize('.')
+						: path.normalize(`/node_modules/${pkgName}`);
 
-				if (dep.dir != '.' && !dep.dir.endsWith(expectedDepDir)) {
+				if (dep.dir !== '.' && !dep.dir.endsWith(expectedDepDir)) {
 					invalidFields.dir =
-						`${dep.dir} ` + `(expected: ...${expectedDepDir})`;
+						`${dep.dir} ` + `(expected: ${expectedDepDir})`;
 				}
 
 				if (Object.keys(invalidFields).length > 0) {

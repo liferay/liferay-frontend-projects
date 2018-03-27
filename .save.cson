@@ -37,6 +37,9 @@
 "packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
 ]
+"packages/liferay-npm-bundler-plugin-inject-imports-dependencies/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-inject-imports-dependencies && npm run build"
+]
 "packages/liferay-npm-bundler-plugin-inject-peer-dependencies/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-inject-peer-dependencies && npm run build"
 ]
@@ -45,6 +48,9 @@
 ]
 "packages/liferay-npm-bundler-plugin-replace-browser-modules/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-replace-browser-modules && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-resolve-linked-dependencies/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-resolve-linked-dependencies && npm run build"
 ]
 "packages/liferay-npm-bundler-preset-amd/**/*.js": [
   "cd packages/liferay-npm-bundler-preset-amd && npm run build"
