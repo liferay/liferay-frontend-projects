@@ -71,7 +71,7 @@ export default function(
 	});
 
 	Object.keys(failedDeps).forEach(dep => {
-		log.error(
+		log.warn(
 			'inject-peer-dependencies',
 			'Failed to resolve dependency',
 			dep,

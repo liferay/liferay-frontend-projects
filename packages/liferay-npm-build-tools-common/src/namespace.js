@@ -73,12 +73,12 @@ export function removeNamespace(moduleName) {
 export function getNamespace(moduleName) {
 	const parts = moduleName.split('$');
 
-	if (parts.length == 2) {
+	if (parts.length >= 2 && !parts[0].includes('/')) {
 		if (parts[0].startsWith('@')) {
-			parts[0] = parts[0].substring(1);
+			return parts[0].substring(1) + '$';
+		} else {
+			return parts[0] + '$';
 		}
-
-		return parts[0] + '$';
 	}
 
 	return null;

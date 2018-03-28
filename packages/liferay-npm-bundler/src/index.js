@@ -24,14 +24,26 @@ import {
  * @return {void}
  */
 export default function(args) {
+	if (args[0] === '-h' || args[0] === '--help') {
+		console.log(
+			'Usage:',
+			'liferay-npm-bundler',
+			'[-h|--help]',
+			'[-v|--version]',
+			'[-r|--dump-report]'
+		);
+		return;
+	}
+
 	const versionsInfo = config.getVersionsInfo();
 
 	if (args[0] === '-v' || args[0] === '--version') {
 		console.log(JSON.stringify(versionsInfo, null, 2));
 		return;
-	} else {
-		report.versionsInfo(versionsInfo);
 	}
+
+	config.setProgramArgs(args);
+	report.versionsInfo(versionsInfo);
 
 	insight.init().then(run);
 }

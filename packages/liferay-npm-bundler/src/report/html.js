@@ -66,7 +66,9 @@ export function htmlDump(report) {
 						<td>${name}</td>
 						<td>${version}</td>
 						<td>${htmlIf(copiedFiles, () => copiedFiles.length)}</td>
-						<td>${htmlIf(allFiles, () => allFiles.length)}</td>
+						<td>
+							${htmlIf(allFiles && copiedFiles, () => allFiles.length - copiedFiles.length)}
+						</td>
 						<td>${htmlIf(exclusions, () => exclusions)}</td>
 						<td>${htmlIf(link, () => link)}</td>
 					`);
@@ -269,7 +271,7 @@ export function htmlDump(report) {
 						vertical-align: top;
 					}
 					
-					td.info, td.error {
+					td.info, td.warn, td.error {
 						background: green;
 						border-radius: 4px;
 						color: white;
@@ -277,6 +279,10 @@ export function htmlDump(report) {
 						vertical-align: middle;
 						width: 1px;
 						white-space: nowrap;
+					}
+
+					td.warn {
+						background: orange;
 					}
 
 					td.error {

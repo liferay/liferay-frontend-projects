@@ -90,6 +90,14 @@ export function runBabel(pkg) {
 						globalConfig: config.getGlobalConfig(),
 					});
 
+					const packageFilePath = pkg.isRoot
+						? filePath.substring(
+							path.resolve(config.getOutputDir()).length + 1
+						)
+						: filePath.substring(
+							filePath.indexOf(`${pkg.id}`) + pkg.id.length + 1
+						);
+
 					babel.transformFile(
 						filePath,
 						Object.assign(
@@ -102,17 +110,16 @@ export function runBabel(pkg) {
 							// Generate and/or log results
 							if (err) {
 								log.error(
-									`Babel failed processing`,
-									`${filePath.substr(
-										filePath.indexOf(pkg.id)
-									)}:`,
+									'Babel failed processing',
+									`${pkg.id}/${packageFilePath}:`,
 									'it will be copied verbatim (see report file for more info)'
 								);
 
 								logger.error('babel', err);
 
 								report.warn(
-									'Babel failed processing some .js files: check details of Babel transformations for more info.',
+									'Babel failed processing some .js files: ' +
+										'check details of Babel transformations for more info.',
 									{unique: true}
 								);
 							} else {
@@ -133,9 +140,7 @@ export function runBabel(pkg) {
 							// Report result of babel run
 							report.packageProcessBabelRun(
 								pkg,
-								filePath.substr(
-									filePath.indexOf(pkg.id) + pkg.id.length + 1
-								),
+								packageFilePath,
 								logger
 							);
 

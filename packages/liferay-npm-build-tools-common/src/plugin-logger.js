@@ -25,6 +25,20 @@ export default class PluginLogger {
 	}
 
 	/**
+	 * Log a warn message
+	 * @param {String} source the identifier for the source of the message
+	 * @param {Array} things the objects or strings to print
+	 * @return {void}
+	 */
+	warn(source, ...things) {
+		this._msgs.push({
+			source: source,
+			level: 'warn',
+			things: things,
+		});
+	}
+
+	/**
 	 * Log an error message
 	 * @param {String} source the identifier for the source of the message
 	 * @param {Array} things the objects or strings to print

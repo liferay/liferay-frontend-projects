@@ -5,15 +5,16 @@ import resolveModule from 'resolve';
 
 let pluginsBaseDir = '.';
 let config = loadConfig();
+let programArgs = [];
 
 /**
  * Load configuration.
  * @return {Object} the configuration object
  */
 function loadConfig() {
-	// Load base configuration
 	let config = {};
 
+	// Load base configuration
 	try {
 		config = readJsonSync('.npmbundlerrc');
 	} catch (err) {
@@ -23,19 +24,26 @@ function loadConfig() {
 	}
 
 	// Apply preset if necessary
-	if (config.preset) {
-		const presetFile = resolveModule.sync(config.preset, {
+	let presetFile;
+
+	if (config.preset === undefined) {
+		presetFile = require.resolve('liferay-npm-bundler-preset-standard');
+	} else if (config.preset === '' || config.preset === false) {
+		// don't load preset
+	} else {
+		presetFile = resolveModule.sync(config.preset, {
 			basedir: '.',
 		});
+	}
 
-		// Merge preset with base configuration
+	if (presetFile) {
 		config = Object.assign(readJsonSync(presetFile), config);
 		pluginsBaseDir = getPackageDir(presetFile);
 	}
 
 	// Normalize
 	config['/'] = config['/'] || {};
-	config['global-config'] = config['global-config'] || {};
+	config['config'] = config['config'] || {};
 	config.packages = config.packages || {};
 
 	return config;
@@ -59,7 +67,21 @@ function configRequire(module) {
  * @return {void}
  */
 export function reloadConfig() {
+	pluginsBaseDir = '.';
 	config = loadConfig();
+	setProgramArgs(programArgs);
+}
+
+/**
+ * Set CLI arguments to be able to override some .npmbundlerrc options.
+ * @param {Array} args passed in CLI arguments
+ */
+export function setProgramArgs(args) {
+	programArgs = args;
+
+	if (args.includes('-r') || args.includes('--dump-report')) {
+		config['dump-report'] = true;
+	}
 }
 
 /**
@@ -98,7 +120,7 @@ export function getExclusions(pkg) {
  * @return {Object} the global config hash
  */
 export function getGlobalConfig() {
-	return config['global-config'];
+	return config['config'];
 }
 
 /**
