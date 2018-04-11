@@ -10,9 +10,6 @@ import * as config from './config';
 import * as log from './log';
 import report from './report';
 
-// TODO: pass version and phase to bundler plugins to be able to make sanity checks
-// or force alignment of versions.
-
 /**
  * Run a liferay-npm-bundler plugin
  * @param  {Array} plugins list of plugin descriptors (with name, config and run fields)
@@ -89,9 +86,8 @@ export function runBabel(pkg) {
 				new Promise(resolve => {
 					const logger = new PluginLogger();
 
-					PluginLogger.set(filePath, logger);
-
 					babelIpc.set(filePath, {
+						log: logger,
 						rootPkgJson: readJsonSync('package.json'),
 						globalConfig: config.getGlobalConfig(),
 					});
@@ -149,9 +145,6 @@ export function runBabel(pkg) {
 								packageFilePath,
 								logger
 							);
-
-							// Get rid of logger
-							PluginLogger.delete(filePath);
 
 							// Get rid of Babel IPC values
 							babelIpc.clear(filePath);
