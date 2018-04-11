@@ -77,7 +77,7 @@ describe('when using scoped packages', () => {
 		plugin({config, log, rootPkgJson, pkg, source}, {pkgJson});
 
 		expect(pkgJson.dependencies).toEqual({
-			'@project$1.0.0$scope/number-is-nan': '1.0.0',
+			'@project$scope/number-is-nan': '1.0.0',
 		});
 	});
 });

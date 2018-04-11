@@ -11,7 +11,7 @@ Array [
     ],
   },
   Object {
-    "level": "error",
+    "level": "warn",
     "source": "inject-peer-dependencies",
     "things": Array [
       "Failed to resolve dependency",
