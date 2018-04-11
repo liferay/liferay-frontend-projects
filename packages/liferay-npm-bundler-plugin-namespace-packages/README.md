@@ -1,9 +1,9 @@
 # liferay-npm-bundler-plugin-namespace-packages
 
 > Namespace package names based on the root project's package name and version. 
-> This plugin prepends `<project-package-name>$<project-package-version>$` to 
-> each package name appearance in package.json` files so that the packages
-> are localized per project and don't clash.
+> This plugin prepends `<project-package-name>$` to each package name appearance 
+> in package.json files so that the packages are isolated per project and don't 
+> clash.
 
 ## Installation
 
@@ -19,7 +19,7 @@ Add the following to your `.npmbundlerrc` file:
 ```json
 {
 	"*": {
-		"plugins": ["inject-angular-dependencies"]
+		"plugins": ["namespace-packages"]
 	}
 }
 ```
@@ -27,12 +27,11 @@ Add the following to your `.npmbundlerrc` file:
 ## Technical Details
 
 This plugins rewrites package names in `package.json` files to prepend the root 
-project's name and version to it. 
+project's name to them. 
 
-In case a module belongs to a scoped package, the root project's name and 
-version is prepended to the scope name not including the `@`. So, for example,
-`@a-scope/a-package` would be converted to 
-`@my-project$1.0.0$a-scope/a-package`.
+In case a module belongs to a scoped package, the root project's name is 
+prepended to the scope name not including the `@`. So, for example,
+`@a-scope/a-package` would be converted to `@my-project$a-scope/a-package`.
 
 This plugin is normally used to sandbox dependencies of a whole project so that
 they are not shared with any other project. This, of course, disables the 
