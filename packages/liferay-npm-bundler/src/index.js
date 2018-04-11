@@ -9,6 +9,7 @@ import * as config from './config';
 import {getPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
 import * as log from './log';
+import manifest from './manifest';
 import report from './report';
 
 import {runPlugins, runBabel} from './runners';
@@ -92,10 +93,9 @@ function run() {
 	// Report results
 	Promise.all(promises)
 		.then(() => {
+			// Report and show execution time
 			const hrtime = process.hrtime(start);
-
 			report.executionTime(hrtime);
-
 			log.info(`Bundling took ${pretty(hrtime)}`);
 
 			// Send report analytics data
@@ -122,6 +122,11 @@ function bundleRootPackage(outputDir) {
 	const srcPkg = getRootPkg();
 	const pkg = srcPkg.clone({dir: outputDir});
 
+	if (!manifest.isOutdated(srcPkg)) {
+		log.debug(`Skipping root package (already bundled)`);
+		return Promise.resolve();
+	}
+
 	// Copy source package.json
 	const srcPkgJson = readJsonSync('package.json');
 
@@ -134,6 +139,8 @@ function bundleRootPackage(outputDir) {
 	return processPackage('pre', srcPkg, pkg)
 		.then(() => runBabel(pkg))
 		.then(() => processPackage('post', srcPkg, pkg))
+		.then(() => manifest.addPackage(srcPkg, pkg))
+		.then(() => manifest.save())
 		.then(() => log.debug(`Bundled root package`));
 }
 
@@ -144,23 +151,20 @@ function bundleRootPackage(outputDir) {
  * @return {Promise} a promise that is fulfilled when the package is bundled
  */
 function bundlePackage(srcPkg, outputDir) {
+	if (!manifest.isOutdated(srcPkg)) {
+		log.debug(`Skipping ${srcPkg.id} (already bundled)`);
+		return Promise.resolve();
+	}
+
+	log.debug(`Bundling ${srcPkg.id}`);
+
 	const outPkgDir = path.join(
 		outputDir,
 		'node_modules',
 		getPackageTargetDir(srcPkg.name, srcPkg.version)
 	);
 
-	// Skip if package already exists
-	try {
-		if (fs.statSync(outPkgDir).isDirectory()) {
-			log.debug(`Skipping ${srcPkg.id} (already bundled)`);
-			return Promise.resolve();
-		}
-	} catch (err) {}
-
-	log.debug(`Bundling ${srcPkg.id}`);
-
-	const pkg = srcPkg.clone({dir: outPkgDir});
+	let pkg = srcPkg.clone({dir: outPkgDir});
 
 	fs.mkdirsSync(outPkgDir);
 
@@ -169,6 +173,8 @@ function bundlePackage(srcPkg, outputDir) {
 		.then(() => runBabel(pkg))
 		.then(() => processPackage('post', srcPkg, pkg))
 		.then(() => renamePkgDirIfPkgJsonChanged(pkg))
+		.then(pkg => manifest.addPackage(srcPkg, pkg))
+		.then(() => manifest.save())
 		.then(() => log.debug(`Bundled ${pkg.id}`));
 }
 

@@ -78,6 +78,12 @@ export function runBabel(pkg) {
 
 	// Run babel through it
 	return globby([`${pkg.dir}/**/*.js`]).then(filePaths => {
+		const nodeModulesPrefix = path.resolve(`${pkg.dir}/node_modules`);
+
+		filePaths = filePaths.filter(
+			filePath => !filePath.startsWith(nodeModulesPrefix)
+		);
+
 		const promises = filePaths.map(
 			filePath =>
 				new Promise(resolve => {

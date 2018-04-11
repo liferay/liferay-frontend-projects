@@ -4,6 +4,7 @@ import readJsonSync from 'read-json-sync';
 import semver from 'semver';
 
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import report from './report';
 
 /**
@@ -38,20 +39,29 @@ export function iterateSerially(values, asyncProcess) {
  * Rename a package folder if package.json doesn't match original package name
  * or version.
  * @param {PkgDesc} pkg the package descriptor
- * @return {void}
+ * @return {Promise} a Promise that returns the modified PkgDesc
  */
 export function renamePkgDirIfPkgJsonChanged(pkg) {
 	const pkgJson = readJsonSync(path.join(pkg.dir, 'package.json'));
 	const outputDir = path.dirname(pkg.dir);
 
 	if (pkgJson.name !== pkg.name || pkgJson.version !== pkg.version) {
-		return fs.move(
-			pkg.dir,
-			path.join(
-				outputDir,
-				getPackageTargetDir(pkgJson.name, pkgJson.version)
-			)
+		const newDir = path.join(
+			outputDir,
+			getPackageTargetDir(pkgJson.name, pkgJson.version)
 		);
+
+		return fs
+			.move(pkg.dir, newDir)
+			.then(
+				() =>
+					new PkgDesc(
+						pkgJson.name,
+						pkgJson.version,
+						newDir,
+						pkg.isRoot
+					)
+			);
 	}
 }
 
