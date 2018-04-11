@@ -100,5 +100,21 @@ it('logs results correctly', () => {
 
 	plugin({config, log, rootPkgJson, pkg, source}, {pkgJson});
 
-	expect(log.messages).toMatchSnapshot();
+	expect(log.messages).toHaveLength(2);
+	expect(log.messages[0]).toMatchObject({
+		level: 'info',
+		source: 'inject-peer-dependencies',
+		things: ['Injected dependency', 'number-is-nan@1.0.0'],
+	});
+	expect(log.messages[1]).toMatchObject({
+		level: 'warn',
+		source: 'inject-peer-dependencies',
+	});
+	expect(log.messages[1].things).toHaveLength(4);
+	expect(log.messages[1].things[0]).toBe('Failed to resolve dependency');
+	expect(log.messages[1].things[1]).toBe('missing-dep');
+	expect(log.messages[1].things[2]).toBe('with error:');
+	expect(log.messages[1].things[3].toString()).toMatch(
+		/Error: Cannot find module 'missing-dep\/package.json' from '.*'/
+	);
 });
