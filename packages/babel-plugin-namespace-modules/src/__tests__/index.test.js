@@ -4,8 +4,11 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
 
 const imports = {
-	provider: {
+	'provider': {
 		'imp-module': '^1.0.0',
+	},
+	'': {
+		'no-namespace-module': '^1.0.0',
 	},
 };
 
@@ -15,6 +18,7 @@ describe('when called from Babel', () => {
 			define(function(){
 				require('a-module');
 				require('imp-module');
+				require('no-namespace-module');
 				require('./a-local-module');
 				require('fs');
 			})
@@ -31,7 +35,7 @@ describe('when called from Babel', () => {
 	it('correctly namespaces define() dependencies', () => {
 		const source = `
 			define(
-				['a-module', 'imp-module', './a-local-module', 'fs'], 
+				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
 				function(){
 				}
 			)
@@ -63,10 +67,11 @@ describe('when called from Babel', () => {
 		const source = `
 			define(
 				'a-module', 
-				['a-module', 'imp-module', './a-local-module', 'fs'], 
+				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
 				function(){
 					require('a-module');
 					require('imp-module');
+					require('no-namespace-module');
 					require('./a-local-module');
 					require('fs');
 				}
@@ -98,6 +103,7 @@ describe('when called from liferay-npm-bundler', () => {
 			define(function(){
 				require('a-module');
 				require('imp-module');
+				require('no-namespace-module');
 				require('./a-local-module');
 				require('fs');
 			})
@@ -114,7 +120,7 @@ describe('when called from liferay-npm-bundler', () => {
 	it('correctly namespaces define() dependencies', () => {
 		const source = `
 			define(
-				['a-module', 'imp-module', './a-local-module', 'fs'], 
+				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
 				function(){
 				}
 			)
@@ -166,10 +172,11 @@ describe('when called from liferay-npm-bundler', () => {
 		const source = `
 			define(
 				'a-module', 
-				['a-module', 'imp-module', './a-local-module', 'fs'], 
+				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
 				function(){
 					require('a-module');
 					require('imp-module');
+					require('no-namespace-module');
 					require('./a-local-module');
 					require('fs');
 				}

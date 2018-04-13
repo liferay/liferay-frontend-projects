@@ -254,7 +254,7 @@ function addDependencyNamespace(moduleName, namespacePkg, imports) {
 	const fullPkgName = mod.joinModuleName(scope, pkgName);
 	const pkg = imports[fullPkgName] || namespacePkg;
 
-	return ns.addNamespace(moduleName, pkg);
+	return pkg.name === '' ? moduleName : ns.addNamespace(moduleName, pkg);
 }
 
 /**

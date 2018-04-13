@@ -11,7 +11,10 @@ export default function({globalConfig, config, log}, {pkgJson}) {
 	Object.keys(imports).forEach(namespace => {
 		Object.keys(imports[namespace]).forEach(pkgName => {
 			const version = imports[namespace][pkgName];
-			const name = ns.addNamespace(pkgName, {name: namespace});
+			const name =
+				namespace === ''
+					? pkgName
+					: ns.addNamespace(pkgName, {name: namespace});
 
 			pkgJson.dependencies[name] = version;
 
