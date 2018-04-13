@@ -1,11 +1,14 @@
 import * as babel from 'babel-core';
+import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
 
 let logger;
 
 beforeEach(() => {
-	PluginLogger.set(__filename, (logger = new PluginLogger()));
+	babelIpc.set(__filename, {
+		log: (logger = new PluginLogger()),
+	});
 });
 
 it('logs results correctly', () => {

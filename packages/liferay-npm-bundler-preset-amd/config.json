@@ -1,7 +1,0 @@
-{
-	"*": {
-		".babelrc": {
-			"presets": ["liferay-amd"]
-		}
-	}
-}

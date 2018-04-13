@@ -55,12 +55,12 @@ tool to pack the needed npm packages and transform them to AMD so that
 [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader) may grab 
 them from the Portal.
 
-In essence, `liferay-npm-bundler` is a bundler (like Webpack or Browserify) that
+In essence, `liferay-npm-bundler` is a bundler (like webpack or browserify) that
 targets Liferay Portal as platform and assumes that you will be using your npm
 packages from portlets (as opposed to pure web applications). 
 
 The peculiarity of running npm packages inside portlets makes the workflow a bit
-different from standard bundlers (like Browserify or Webpack) because in this 
+different from standard bundlers (like browserify or webpack) because in this 
 scenario you cannot just bundle all needed Javascript in a single file, but 
 instead you must "link" all packages together in the browser when the full web 
 page is assembled so that different portlets may share versions of modules 
@@ -207,13 +207,7 @@ case, refers to `isarray@1.0.0/index`.
 
 You can leverage 
 [liferay-npm-bundler](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/liferay-npm-bundler) 
-with the correct presets to AMDify your npm modules. All `liferay-npm-bundler` 
-presets found in this repository include some or all of the following Babel 
-plugins to accomplish so:
-
-* [babel-plugin-wrap-modules-amd](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/babel-plugin-wrap-modules-amd)
-* [babel-plugin-name-amd-modules](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/babel-plugin-name-amd-modules)
-* [babel-plugin-namespace-amd-define](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/babel-plugin-namespace-amd-define)
+to AMDify your npm modules.
 
 ## How Liferay Portal publishes npm packages
 
@@ -252,6 +246,28 @@ resolved module. In this example, we would have:
 
 Note how the bundle id `598` disappears and `module` is replaced by 
 `resolved-module`.
+
+#### Per-project package isolation (new since version 2)
+
+The original package deduplication found in version 1 was based on semantic 
+versioning which, even being formally correct, led to divergencies from the 
+standard webpack et al. solutions that caused some setups to fail or be 
+unstable (specially when several versions of the same frameworks were mixed in 
+a single page).
+
+To revert that situation, version 2 defaults to namespacing each bundle's 
+packages so that they don't collide. This, in fact, is equivalent to using 
+browserify or webpack because you don't get any deduplication so, if you are not
+willing to deduplicate any package, you may as well (and we too recommend) use
+browserify or webpack directly.
+
+However, if you are willing to deduplicate packages, with version 2 you can 
+tweak what to deduplicate and what to isolate per bundle, giving you a more 
+fine grained solution compared to version 1. 
+
+To use the new deduplication paradigm you just need to put all your shared 
+packages in their own OSGi bundle and them import them from your projects using
+the `imports` section of the `.npmbundlerrc` file.
 
 ### Advanced topic: How Liferay AMD Loader configuration is exported
 

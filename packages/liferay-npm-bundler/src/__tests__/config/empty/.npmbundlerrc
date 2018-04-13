@@ -1,3 +1,4 @@
 {
+	"preset": false,
 	"output": "output-dir"
 }

@@ -1,10 +1,16 @@
 {
-	"*": {
-		"plugins": [
-			"replace-browser-modules"
-		],
+	"/": {
+		"plugins": ["resolve-linked-dependencies"],
 		".babelrc": {
 			"presets": ["liferay-standard"]
-		}
+		},
+		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+	},
+	"*": {
+		"plugins": ["replace-browser-modules"],
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"post-plugins": ["namespace-packages", "inject-peer-dependencies"]
 	}
 }

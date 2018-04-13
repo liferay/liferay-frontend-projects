@@ -5,15 +5,16 @@ import resolveModule from 'resolve';
 
 let pluginsBaseDir = '.';
 let config = loadConfig();
+let programArgs = [];
 
 /**
  * Load configuration.
  * @return {Object} the configuration object
  */
 function loadConfig() {
-	// Load base configuration
 	let config = {};
 
+	// Load base configuration
 	try {
 		config = readJsonSync('.npmbundlerrc');
 	} catch (err) {
@@ -23,17 +24,26 @@ function loadConfig() {
 	}
 
 	// Apply preset if necessary
-	if (config.preset) {
-		const presetFile = resolveModule.sync(config.preset, {
+	let presetFile;
+
+	if (config.preset === undefined) {
+		presetFile = require.resolve('liferay-npm-bundler-preset-standard');
+	} else if (config.preset === '' || config.preset === false) {
+		// don't load preset
+	} else {
+		presetFile = resolveModule.sync(config.preset, {
 			basedir: '.',
 		});
+	}
 
-		// Merge preset with base configuration
+	if (presetFile) {
 		config = Object.assign(readJsonSync(presetFile), config);
 		pluginsBaseDir = getPackageDir(presetFile);
 	}
 
 	// Normalize
+	config['/'] = config['/'] || {};
+	config['config'] = config['config'] || {};
 	config.packages = config.packages || {};
 
 	return config;
@@ -57,7 +67,21 @@ function configRequire(module) {
  * @return {void}
  */
 export function reloadConfig() {
+	pluginsBaseDir = '.';
 	config = loadConfig();
+	setProgramArgs(programArgs);
+}
+
+/**
+ * Set CLI arguments to be able to override some .npmbundlerrc options.
+ * @param {Array} args passed in CLI arguments
+ */
+export function setProgramArgs(args) {
+	programArgs = args;
+
+	if (args.includes('-r') || args.includes('--dump-report')) {
+		config['dump-report'] = true;
+	}
 }
 
 /**
@@ -79,8 +103,7 @@ export function getReportFilePath() {
 
 /**
  * Get the configured file exclusions for a given package.
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @return {Array} an array of glob expressions
  */
 export function getExclusions(pkg) {
@@ -90,6 +113,14 @@ export function getExclusions(pkg) {
 		exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
 
 	return exclusions;
+}
+
+/**
+ * Get global plugins configuration.
+ * @return {Object} the global config hash
+ */
+export function getGlobalConfig() {
+	return config['config'];
 }
 
 /**
@@ -119,15 +150,23 @@ export function loadBabelPlugins(presets, plugins) {
 /**
  * Get the liferay-nmp-bundler plugins for a given package.
  * @param {String} phase 'pre' or 'post'
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @return {Array} the instantiated Babel plugins
  */
 export function getPlugins(phase, pkg) {
 	const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
-	const plugins = getPackageConfig(pkg, pluginsKey) || [];
+	const pluginNames = getPackageConfig(pkg, pluginsKey, []);
 
-	return plugins.map(pluginName => {
+	return instantiatePlugins(pluginNames);
+}
+
+/**
+ * Instantiate bundler plugins described by their names.
+ * @param  {Array} pluginNames list of plugin names to instantiate
+ * @return {Array} list of plugin descriptors with name, config and run fields
+ */
+function instantiatePlugins(pluginNames) {
+	return pluginNames.map(pluginName => {
 		let pluginConfig = {};
 
 		if (Array.isArray(pluginName)) {
@@ -149,12 +188,11 @@ export function getPlugins(phase, pkg) {
 
 /**
  * Get Babel config for a given package
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
+ * @param {PkgDesc} pkg the package descriptor
  * @return {Object} a Babel configuration object as defined by its API
  */
 export function getBabelConfig(pkg) {
-	return getPackageConfig(pkg, '.babelrc') || {};
+	return getPackageConfig(pkg, '.babelrc', {});
 }
 
 /**
@@ -334,24 +372,29 @@ function concatBabelPlugins(plugins, cfg) {
  * Get a configuration for a specific package. This method looks in the packages
  * section, then at root in the precedence order: first package id, then package
  * name.
- * @param {Object} pkg the package descriptor hash containing id, name, version
- *        and dir fields
- * @param  {String} key the key name
+ * @param {PkgDesc} pkg the package descriptor
+ * @param  {String} section the section name (like 'plugins', '.babelrc', ...)
+ * @param  {Object} defaultValue default value if not configured
  * @return {Object} a configuration object
  */
-function getPackageConfig(pkg, key) {
+function getPackageConfig(pkg, section, defaultValue = undefined) {
 	let pkgConfig;
 
-	if (config.packages[pkg.id] && config.packages[pkg.id][key]) {
-		pkgConfig = config.packages[pkg.id][key];
-	} else if (config.packages[pkg.name] && config.packages[pkg.name][key]) {
-		pkgConfig = config.packages[pkg.name][key];
-	} else if (config[pkg.id] && config[pkg.id][key]) {
-		pkgConfig = config[pkg.id][key];
-	} else if (config[pkg.name] && config[pkg.name][key]) {
-		pkgConfig = config[pkg.name][key];
-	} else if (config['*'] && config['*'][key]) {
-		pkgConfig = config['*'][key];
+	if (config.packages[pkg.id] && config.packages[pkg.id][section]) {
+		pkgConfig = config.packages[pkg.id][section];
+	} else if (
+		config.packages[pkg.name] &&
+		config.packages[pkg.name][section]
+	) {
+		pkgConfig = config.packages[pkg.name][section];
+	} else if (config[pkg.id] && config[pkg.id][section]) {
+		pkgConfig = config[pkg.id][section];
+	} else if (config[pkg.name] && config[pkg.name][section]) {
+		pkgConfig = config[pkg.name][section];
+	} else if (config['*'] && config['*'][section]) {
+		pkgConfig = config['*'][section];
+	} else {
+		pkgConfig = defaultValue;
 	}
 
 	return pkgConfig;

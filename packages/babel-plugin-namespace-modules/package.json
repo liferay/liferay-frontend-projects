@@ -1,0 +1,19 @@
+{
+	"name": "babel-plugin-namespace-modules",
+	"version": "1.6.1",
+	"description":
+		"A Babel plugin to namespace AMD module names based on root's project name.",
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "babel --source-maps -D -d lib src",
+		"prepublish": "npm run build"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-preset-es2015": "^6.24.1"
+	},
+	"dependencies": {
+		"liferay-npm-build-tools-common": "1.6.1",
+		"read-json-sync": "^1.1.1"
+	}
+}

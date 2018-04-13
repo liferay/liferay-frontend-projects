@@ -1,3 +1,4 @@
+import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
 /**
@@ -62,7 +63,11 @@ export default function() {
 					path.traverse(namespaceVisitor, {opts: state.opts});
 
 					if (namespaceCount > 0) {
-						PluginLogger.get(state).info(
+						const {log} = babelIpc.get(state, () => ({
+							log: new PluginLogger(),
+						}));
+
+						log.info(
 							'namespace-amd-define',
 							'Namespaced',
 							namespaceCount,

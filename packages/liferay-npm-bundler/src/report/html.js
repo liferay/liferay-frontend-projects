@@ -65,10 +65,12 @@ export function htmlDump(report) {
 					return htmlRow(`
 						<td>${name}</td>
 						<td>${version}</td>
-						<td>${copiedFiles.length}</td>
-						<td>${allFiles.length - copiedFiles.length}</td>
-						<td>${exclusions}</td>
-						<td>${link === undefined ? '' : link}</td>
+						<td>${htmlIf(copiedFiles, () => copiedFiles.length)}</td>
+						<td>
+							${htmlIf(allFiles && copiedFiles, () => allFiles.length - copiedFiles.length)}
+						</td>
+						<td>${htmlIf(exclusions, () => exclusions)}</td>
+						<td>${htmlIf(link, () => link)}</td>
 					`);
 				})
 		)
@@ -108,12 +110,12 @@ export function htmlDump(report) {
 						<td>${pkg.name}</td>
 						<td>${pkg.version}</td>
 						<td>
-							<a href="#${pkgId}-pre">
+							<a href="#${pkgId}-bundler">
 								${preNotice}
 							</a>
 						</td>
 						<td>
-							<a href="#${pkgId}-post">
+							<a href="#${pkgId}-bundler">
 								${postNotice}
 							</a>
 						</td>
@@ -140,10 +142,11 @@ export function htmlDump(report) {
 				return htmlIf(preKeys.length > 0 || postKeys.length > 0, () =>
 					htmlSubsection(
 						`
-							<a name="${pkgId}-pre"></a>
-							${pkgId}
+							<a name="${pkgId}-bundler">
+								${pkg.name}@${pkg.version}
+							</a>
 						`,
-						htmlIf(preKeys.length > 0, () =>
+						...htmlIf(preKeys.length > 0, () =>
 							preKeys
 								.sort()
 								.map(pluginName =>
@@ -163,7 +166,7 @@ export function htmlDump(report) {
 									)
 								)
 						),
-						htmlIf(postKeys.length > 0, () =>
+						...htmlIf(postKeys.length > 0, () =>
 							postKeys
 								.sort()
 								.map(pluginName =>
@@ -200,8 +203,9 @@ export function htmlDump(report) {
 				return htmlIf(babelKeys.length > 0, () =>
 					htmlSubsection(
 						`
-							<a name="${pkgId}-babel"></a>
-							${pkgId}
+							<a name="${pkgId}-babel">
+								${pkg.name}@${pkg.version}
+							</a>
 						`,
 						`<p>
 							Configuration: 
@@ -267,7 +271,7 @@ export function htmlDump(report) {
 						vertical-align: top;
 					}
 					
-					td.info, td.error {
+					td.info, td.warn, td.error {
 						background: green;
 						border-radius: 4px;
 						color: white;
@@ -275,6 +279,10 @@ export function htmlDump(report) {
 						vertical-align: middle;
 						width: 1px;
 						white-space: nowrap;
+					}
+
+					td.warn {
+						background: orange;
 					}
 
 					td.error {

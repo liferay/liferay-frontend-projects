@@ -1,4 +1,5 @@
 import template from 'babel-template';
+import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
 const buildDefine = template(`
@@ -68,7 +69,12 @@ export default function({types: t}) {
 						}),
 					];
 
-					PluginLogger.get(state).info(
+					// Log results
+					const {log} = babelIpc.get(state, () => ({
+						log: new PluginLogger(),
+					}));
+
+					log.info(
 						'wrap-modules-amd',
 						'Detected dependencies:',
 						dependencies.join(', ')
