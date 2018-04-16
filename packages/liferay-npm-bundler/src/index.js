@@ -166,52 +166,66 @@ function bundlePackage(srcPkg, outputDir) {
 
 	let pkg = srcPkg.clone({dir: outPkgDir});
 
-	fs.mkdirsSync(outPkgDir);
+	return new Promise(resolve => {
+		copyPackage(srcPkg, outPkgDir).then(copied => {
+			if (!copied) {
+				resolve();
+				return;
+			}
 
-	return copyPackage(srcPkg, outPkgDir)
-		.then(() => processPackage('pre', srcPkg, pkg))
-		.then(() => runBabel(pkg))
-		.then(() => processPackage('post', srcPkg, pkg))
-		.then(() => renamePkgDirIfPkgJsonChanged(pkg))
-		.then(pkg => manifest.addPackage(srcPkg, pkg))
-		.then(() => manifest.save())
-		.then(() => log.debug(`Bundled ${pkg.id}`));
+			processPackage('pre', srcPkg, pkg)
+				.then(() => runBabel(pkg))
+				.then(() => processPackage('post', srcPkg, pkg))
+				.then(() => renamePkgDirIfPkgJsonChanged(pkg))
+				.then(pkg => manifest.addPackage(srcPkg, pkg))
+				.then(() => manifest.save())
+				.then(() => log.debug(`Bundled ${pkg.id}`))
+				.then(resolve);
+		});
+	});
 }
 
 /**
  * Copy an NPM package to output directory.
  * @param {PkgDesc} pkg the package descriptor
  * @param {String} dir the output directory path
- * @return {Promise} a Promise fulfilled when the copy has been finished
+ * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
  */
 function copyPackage(pkg, dir) {
 	const rawGlobs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`];
 
 	const exclusions = config.getExclusions(pkg);
 
+	if (exclusions === true) {
+		return Promise.resolve(false);
+	}
+
 	const globs = rawGlobs.concat(
 		exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`)
 	);
 
-	return globby(globs).then(paths => {
-		const fileFilter = path => fs.statSync(path).isFile();
-		const relativePathMapper = path => path.substring(pkg.dir.length + 1);
+	return globby(globs)
+		.then(paths => {
+			const fileFilter = path => fs.statSync(path).isFile();
+			const relativePathMapper = path =>
+				path.substring(pkg.dir.length + 1);
 
-		paths = paths.filter(fileFilter).map(relativePathMapper);
+			paths = paths.filter(fileFilter).map(relativePathMapper);
 
-		const rawPaths = globby
-			.sync(rawGlobs)
-			.filter(fileFilter)
-			.map(relativePathMapper);
+			const rawPaths = globby
+				.sync(rawGlobs)
+				.filter(fileFilter)
+				.map(relativePathMapper);
 
-		report.packageCopy(pkg, rawPaths, paths, exclusions);
+			report.packageCopy(pkg, rawPaths, paths, exclusions);
 
-		const promises = paths.map(path =>
-			fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
-		);
+			const promises = paths.map(path =>
+				fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
+			);
 
-		return Promise.all(promises);
-	});
+			return Promise.all(promises);
+		})
+		.then(() => true);
 }
 
 /**

@@ -109,6 +109,15 @@ export function getReportFilePath() {
 export function getExclusions(pkg) {
 	let exclusions = config.exclude || {};
 
+	// If it is explicitly false, return an empty exclusions array
+	if (
+		exclusions[pkg.id] === false ||
+		exclusions[pkg.name] === false ||
+		exclusions['*'] === false
+	) {
+		return [];
+	}
+
 	exclusions =
 		exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
 
