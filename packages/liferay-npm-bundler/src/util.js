@@ -63,6 +63,8 @@ export function renamePkgDirIfPkgJsonChanged(pkg) {
 					)
 			);
 	}
+
+	return Promise.resolve(pkg);
 }
 
 /**
