@@ -28,6 +28,9 @@
 "packages/babel-preset-liferay-standard/**/*.js": [
   "cd packages/babel-preset-liferay-standard && npm run build"
 ]
+"packages/liferay-npm-bridge-generator/**/*.js": [
+  "cd packages/liferay-npm-bridge-generator && npm run build"
+]
 "packages/liferay-npm-build-tools-common/**/*.js": [
   "cd packages/liferay-npm-build-tools-common && npm run build"
 ]
