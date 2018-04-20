@@ -246,6 +246,22 @@ function processPackage(phase, srcPkg, pkg) {
 				pkg,
 				(plugin, log) => {
 					report.packageProcessBundlerPlugin(phase, pkg, plugin, log);
+
+					if (log.errorsPresent) {
+						report.warn(
+							'There are errors for some of the ' +
+								'liferay-npm-bundler plugins: please check ' +
+								'details of bundler transformations.',
+							{unique: true}
+						);
+					} else if (log.warnsPresent) {
+						report.warn(
+							'There are warnings for some of the ' +
+								'liferay-npm-bundler plugins: please check ' +
+								'details of bundler transformations.',
+							{unique: true}
+						);
+					}
 				}
 			);
 

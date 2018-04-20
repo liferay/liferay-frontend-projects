@@ -146,6 +146,22 @@ export function runBabel(pkg) {
 								logger
 							);
 
+							if (logger.errorsPresent) {
+								report.warn(
+									'There are errors for some of the ' +
+										'Babel plugins: please check details' +
+										'of Babel transformations.',
+									{unique: true}
+								);
+							} else if (logger.warnsPresent) {
+								report.warn(
+									'There are warnings for some of the ' +
+										'Babel plugins: please check details' +
+										'of Babel transformations.',
+									{unique: true}
+								);
+							}
+
 							// Get rid of Babel IPC values
 							babelIpc.clear(filePath);
 

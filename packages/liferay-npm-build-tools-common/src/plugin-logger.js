@@ -61,6 +61,22 @@ export default class PluginLogger {
 	}
 
 	/**
+	 * Test if there are warn messages.
+	 * @return {boolean} if at least one warn message is registered in the logger
+	 */
+	get warnsPresent() {
+		return this._msgs.filter(msg => msg.level === 'warn').length > 0;
+	}
+
+	/**
+	 * Test if there are error messages.
+	 * @return {boolean} if at least one error message is registered in the logger
+	 */
+	get errorsPresent() {
+		return this._msgs.filter(msg => msg.level === 'error').length > 0;
+	}
+
+	/**
 	 * Return a printable string representation of the messages logged till now
 	 * @return {String} a string containing one line per message
 	 */

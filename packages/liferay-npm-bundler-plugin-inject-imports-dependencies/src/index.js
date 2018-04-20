@@ -3,26 +3,46 @@ import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 /**
  * @return {void}
  */
-export default function({globalConfig, config, log}, {pkgJson}) {
+export default function(
+	{rootPkgJson, globalConfig, config, log},
+	{pkgJson}
+) {
 	const imports = config.imports || globalConfig.imports || {};
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
 
 	Object.keys(imports).forEach(namespace => {
 		Object.keys(imports[namespace]).forEach(pkgName => {
-			const version = imports[namespace][pkgName];
-			const name =
+			const localName = ns.addNamespace(pkgName, rootPkgJson);
+
+			// Ignore injection if the package does not really depend on it
+			if (!pkgJson.dependencies[localName]) {
+				return;
+			}
+
+			const importVersion = imports[namespace][pkgName];
+			const importName =
 				namespace === ''
 					? pkgName
 					: ns.addNamespace(pkgName, {name: namespace});
 
-			pkgJson.dependencies[name] = version;
+			pkgJson.dependencies[importName] = importVersion;
 
-			log.info(
-				'inject-imports-dependencies',
-				'Injected dependency',
-				`${name} : ${version}`
-			);
+			if (pkgJson.dependencies[localName] !== importVersion) {
+				log.warn(
+					'inject-imports-dependencies',
+					'Injected dependency',
+					`${importName}@${importVersion}`,
+					'which is not compatible package.json\'s constraints:',
+					`${localName}@${pkgJson.dependencies[localName]}`
+				);
+			} else {
+				log.info(
+					'inject-imports-dependencies',
+					'Injected dependency',
+					`${importName}@${importVersion}`
+				);
+			}
 		});
 	});
 }

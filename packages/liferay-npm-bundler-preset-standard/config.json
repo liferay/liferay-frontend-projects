@@ -11,6 +11,10 @@
 		".babelrc": {
 			"presets": ["liferay-standard"]
 		},
-		"post-plugins": ["namespace-packages", "inject-peer-dependencies"]
+		"post-plugins": [
+			"namespace-packages",
+			"inject-imports-dependencies",
+			"inject-peer-dependencies"
+		]
 	}
 }
