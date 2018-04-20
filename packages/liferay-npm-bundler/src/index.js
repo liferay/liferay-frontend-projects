@@ -196,16 +196,16 @@ function copyPackage(pkg, dir) {
 
 	const exclusions = config.getExclusions(pkg);
 
-	if (exclusions === true) {
-		return Promise.resolve(false);
-	}
-
 	const globs = rawGlobs.concat(
 		exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`)
 	);
 
+	let copied;
+
 	return globby(globs)
 		.then(paths => {
+			copied = paths.length > 0 ? true : false;
+
 			const fileFilter = path => fs.statSync(path).isFile();
 			const relativePathMapper = path =>
 				path.substring(pkg.dir.length + 1);
@@ -225,7 +225,7 @@ function copyPackage(pkg, dir) {
 
 			return Promise.all(promises);
 		})
-		.then(() => true);
+		.then(() => copied);
 }
 
 /**

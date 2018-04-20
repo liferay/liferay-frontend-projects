@@ -118,6 +118,16 @@ export function getExclusions(pkg) {
 		return [];
 	}
 
+	// If it is explicitly true, return an array with '**/*'
+	if (
+		exclusions[pkg.id] === true ||
+		exclusions[pkg.name] === true ||
+		exclusions['*'] === true
+	) {
+		return ['**/*'];
+	}
+
+	// In any other case, return what's in the config
 	exclusions =
 		exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
 
