@@ -15,14 +15,11 @@ import report from './report';
  * @param  {Array} plugins list of plugin descriptors (with name, config and run fields)
  * @param  {PkgDesc} srcPkg source package descriptor
  * @param  {PkgDesc} pkg processed package descriptor
+ * @param  {Object} state state to pass to plugins
  * @param  {function} callback a callback function to invoke once per plugin with the used plugin and PluginLogger
  * @return {Object} the state object
  */
-export function runPlugins(plugins, srcPkg, pkg, callback) {
-	const state = {
-		pkgJson: readJsonSync(path.join(pkg.dir, 'package.json')),
-	};
-
+export function runPlugins(plugins, srcPkg, pkg, state, callback) {
 	plugins.forEach(plugin => {
 		const params = {
 			config: plugin.config,

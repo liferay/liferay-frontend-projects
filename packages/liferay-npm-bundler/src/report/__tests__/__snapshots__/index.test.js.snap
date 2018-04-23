@@ -81,7 +81,7 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 				</style>
 				<script id=\\"report\\" type=\\"application/json\\">
-					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":\\"1.4.2\\",\\"liferay-npm-bundler-plugin-inject-angular\\":\\"1.4.2\\"},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"],\\"exclusions\\":[\\"b.*\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":\\"1.4.2\\",\\"liferay-npm-bundler-plugin-inject-angular\\":\\"1.4.2\\"},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
 				</script>
 				<script>
 					window.report = JSON.parse(
@@ -130,7 +130,6 @@ exports[`correctly dumps HTML report 1`] = `
 <th>Version</th>
 <th>Copied files</th>
 <th>Excluded files</th>
-<th>Exclusions</th>
 <th>Linked to</th></tr>
 				<tr>
 						<td>package-1</td>
@@ -139,7 +138,6 @@ exports[`correctly dumps HTML report 1`] = `
 						<td>
 							1
 						</td>
-						<td>b.*</td>
 						<td>file:../package-1</td>
 					</tr>
 <tr>
@@ -150,7 +148,6 @@ exports[`correctly dumps HTML report 1`] = `
 							
 						</td>
 						<td></td>
-						<td></td>
 					</tr>
 <tr>
 						<td>root-package</td>
@@ -159,7 +156,6 @@ exports[`correctly dumps HTML report 1`] = `
 						<td>
 							
 						</td>
-						<td></td>
 						<td></td>
 					</tr>
 			</table>
@@ -171,25 +167,31 @@ exports[`correctly dumps HTML report 1`] = `
 			<table>
 				<tr><th>Package</th>
 <th>Version</th>
-<th>Pre-babel phase plugins</th>
-<th>Post-babel phase plugins</th>
-<th>Babel phase results</th></tr>
+<th>Copy phase</th>
+<th>Pre-babel phase</th>
+<th>Babel phase</th>
+<th>Post-babel phase</th></tr>
 				<tr>
 						<td>package-1</td>
 						<td>1.0.0</td>
-						<td>
-							<a href=\\"#package-1@1.0.0-bundler\\">
-								1 plugins applied
-							</a>
-						</td>
 						<td>
 							<a href=\\"#package-1@1.0.0-bundler\\">
 								
 							</a>
 						</td>
 						<td>
+							<a href=\\"#package-1@1.0.0-bundler\\">
+								1 plugins applied
+							</a>
+						</td>
+						<td>
 							<a href=\\"#package-1@1.0.0-babel\\">
 								1 files processed
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-bundler\\">
+								
 							</a>
 						</td>
 					</tr>
@@ -211,6 +213,11 @@ exports[`correctly dumps HTML report 1`] = `
 								
 							</a>
 						</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-bundler\\">
+								
+							</a>
+						</td>
 					</tr>
 <tr>
 						<td>root-package</td>
@@ -227,6 +234,11 @@ exports[`correctly dumps HTML report 1`] = `
 						</td>
 						<td>
 							<a href=\\"#root-package1@1.0.0-babel\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#root-package1@1.0.0-bundler\\">
 								
 							</a>
 						</td>
@@ -307,6 +319,7 @@ Report {
           },
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },
@@ -334,6 +347,7 @@ Report {
             },
           },
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },
@@ -355,6 +369,7 @@ Report {
           "config": Object {},
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {
           "a-plugin": Object {
@@ -391,6 +406,7 @@ Report {
           "config": Object {},
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },
@@ -404,6 +420,7 @@ Report {
           "config": Object {},
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },
@@ -441,6 +458,7 @@ Report {
           "config": Object {},
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },
@@ -466,15 +484,13 @@ Report {
         "a.js",
         "c.js",
       ],
-      "exclusions": Array [
-        "b.*",
-      ],
       "id": "package-1@1.0.0",
       "process": Object {
         "babel": Object {
           "config": Object {},
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },
@@ -497,6 +513,7 @@ Report {
           "config": Object {},
           "files": Object {},
         },
+        "copy": Object {},
         "post": Object {},
         "pre": Object {},
       },

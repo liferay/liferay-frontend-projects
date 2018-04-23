@@ -192,40 +192,55 @@ function bundlePackage(srcPkg, outputDir) {
  * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
  */
 function copyPackage(pkg, dir) {
+	// Start by copying everything but inner node_modules files
 	const rawGlobs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`];
 
+	// Get exclusions
 	const exclusions = config.getExclusions(pkg);
 
-	const globs = rawGlobs.concat(
+	// Filter by exclusions
+	let globs = rawGlobs.concat(
 		exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`)
 	);
 
-	let copied;
+	return globby(globs).then(files => {
+		// Filter files with copy-plugins
+		const state = runPlugins(
+			config.getPlugins('copy', pkg),
+			pkg,
+			pkg.clone({dir: dir}),
+			{
+				files,
+			},
+			(plugin, log) => {
+				report.packageProcessBundlerPlugin('copy', pkg, plugin, log);
+			}
+		);
+		files = state.files;
 
-	return globby(globs)
-		.then(paths => {
-			copied = paths.length > 0 ? true : false;
+		// Copy files
+		const fileFilter = path => fs.statSync(path).isFile();
+		const relativePathMapper = path => path.substring(pkg.dir.length + 1);
 
-			const fileFilter = path => fs.statSync(path).isFile();
-			const relativePathMapper = path =>
-				path.substring(pkg.dir.length + 1);
+		files = files.filter(fileFilter).map(relativePathMapper);
 
-			paths = paths.filter(fileFilter).map(relativePathMapper);
+		const allFiles = globby
+			.sync(rawGlobs)
+			.filter(fileFilter)
+			.map(relativePathMapper);
 
-			const rawPaths = globby
-				.sync(rawGlobs)
-				.filter(fileFilter)
-				.map(relativePathMapper);
+		report.packageCopy(pkg, allFiles, files);
 
-			report.packageCopy(pkg, rawPaths, paths, exclusions);
-
-			const promises = paths.map(path =>
+		if (files.length == 0) {
+			return Promise.resolve(false);
+		} else {
+			const promises = files.map(path =>
 				fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
 			);
 
-			return Promise.all(promises);
-		})
-		.then(() => copied);
+			return Promise.all(promises).then(() => true);
+		}
+	});
 }
 
 /**
@@ -244,6 +259,9 @@ function processPackage(phase, srcPkg, pkg) {
 				config.getPlugins(phase, pkg),
 				srcPkg,
 				pkg,
+				{
+					pkgJson: readJsonSync(path.join(pkg.dir, 'package.json')),
+				},
 				(plugin, log) => {
 					report.packageProcessBundlerPlugin(phase, pkg, plugin, log);
 

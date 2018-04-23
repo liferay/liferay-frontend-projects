@@ -168,12 +168,17 @@ export function loadBabelPlugins(presets, plugins) {
 
 /**
  * Get the liferay-nmp-bundler plugins for a given package.
- * @param {String} phase 'pre' or 'post'
+ * @param {String} phase 'pre', 'post' or 'copy'
  * @param {PkgDesc} pkg the package descriptor
  * @return {Array} the instantiated Babel plugins
  */
 export function getPlugins(phase, pkg) {
-	const pluginsKey = phase === 'pre' ? 'plugins' : 'post-plugins';
+	const pluginsKey = {
+		copy: 'copy-plugins',
+		pre: 'plugins',
+		post: 'post-plugins',
+	}[phase];
+
 	const pluginNames = getPackageConfig(pkg, pluginsKey, []);
 
 	return instantiatePlugins(pluginNames);
