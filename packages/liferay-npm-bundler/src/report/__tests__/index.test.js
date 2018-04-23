@@ -71,8 +71,7 @@ describe('when describing the run', () => {
 		report.packageCopy(
 			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
 			['a.js', 'b.js', 'c.js'],
-			['a.js', 'c.js'],
-			['b.*']
+			['a.js', 'c.js']
 		);
 	});
 
@@ -133,8 +132,7 @@ it('correctly dumps HTML report', () => {
 	report.packageCopy(
 		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
 		['a.js', 'b.js', 'c.js'],
-		['a.js', 'c.js'],
-		['b.*']
+		['a.js', 'c.js']
 	);
 	report.packageProcessBundlerPlugin(
 		'pre',

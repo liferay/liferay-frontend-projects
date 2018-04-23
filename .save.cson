@@ -40,6 +40,9 @@
 "packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
 ]
+"packages/liferay-npm-bundler-plugin-exclude-imports/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-exclude-imports && npm run build"
+]
 "packages/liferay-npm-bundler-plugin-inject-imports-dependencies/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-inject-imports-dependencies && npm run build"
 ]

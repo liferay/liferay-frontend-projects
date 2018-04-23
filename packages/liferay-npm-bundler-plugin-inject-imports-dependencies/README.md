@@ -25,4 +25,4 @@ Add the following to your `.npmbundlerrc` file:
 ## Technical Details
 
 This plugin injects dependencies declared as imports inside the `.npmbundlerrc`
-file in the root `package.json` file.
+file in the `package.json` file.

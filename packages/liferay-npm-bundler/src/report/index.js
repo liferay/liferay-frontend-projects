@@ -117,16 +117,14 @@ export class Report {
 	 * @param  {Object} pkg a package descriptor
 	 * @param  {Array} allFiles the list of all files in the package
 	 * @param  {Array} copiedFiles the list of files copied to the target
-	 * @param  {Array} exclusions the list of configured file exclusions
 	 * @return {void}
 	 */
-	packageCopy(pkg, allFiles, copiedFiles, exclusions) {
+	packageCopy(pkg, allFiles, copiedFiles) {
 		let rpkg = this._getPackage(pkg.id);
 
 		Object.assign(rpkg, {
 			allFiles,
 			copiedFiles,
-			exclusions,
 		});
 	}
 
@@ -201,6 +199,7 @@ export class Report {
 		let rpkg = this._getPackage(pkgId);
 
 		rpkg.process = rpkg.process || {
+			copy: {},
 			pre: {},
 			babel: {
 				config: {},

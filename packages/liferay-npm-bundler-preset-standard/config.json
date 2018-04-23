@@ -7,10 +7,15 @@
 		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
 	},
 	"*": {
+		"copy-plugins": ["exclude-imports"],
 		"plugins": ["replace-browser-modules"],
 		".babelrc": {
 			"presets": ["liferay-standard"]
 		},
-		"post-plugins": ["namespace-packages", "inject-peer-dependencies"]
+		"post-plugins": [
+			"namespace-packages",
+			"inject-imports-dependencies",
+			"inject-peer-dependencies"
+		]
 	}
 }

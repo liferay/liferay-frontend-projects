@@ -48,7 +48,6 @@ export function htmlDump(report) {
 			'Version',
 			'Copied files',
 			'Excluded files',
-			'Exclusions',
 			'Linked to',
 			Object.keys(_packages)
 				.sort()
@@ -59,7 +58,6 @@ export function htmlDump(report) {
 						link,
 						allFiles,
 						copiedFiles,
-						exclusions,
 					} = _packages[pkgId];
 
 					return htmlRow(`
@@ -69,7 +67,6 @@ export function htmlDump(report) {
 						<td>
 							${htmlIf(allFiles && copiedFiles, () => allFiles.length - copiedFiles.length)}
 						</td>
-						<td>${htmlIf(exclusions, () => exclusions)}</td>
 						<td>${htmlIf(link, () => link)}</td>
 					`);
 				})
@@ -81,29 +78,35 @@ export function htmlDump(report) {
 		htmlTable(
 			'Package',
 			'Version',
-			'Pre-babel phase plugins',
-			'Post-babel phase plugins',
-			'Babel phase results',
+			'Copy phase',
+			'Pre-babel phase',
+			'Babel phase',
+			'Post-babel phase',
 			Object.keys(_packages)
 				.sort()
 				.map(pkgId => {
 					const pkg = _packages[pkgId];
-					const {pre, post, babel} = pkg.process;
+					const {copy, pre, post, babel} = pkg.process;
+					const copyKeys = Object.keys(copy);
 					const preKeys = Object.keys(pre);
 					const postKeys = Object.keys(post);
 					const babelKeys = Object.keys(babel.files);
 
+					const copyNotice = htmlIf(
+						copyKeys.length > 0,
+						() => `${copyKeys.length} plugins applied`
+					);
 					const preNotice = htmlIf(
 						preKeys.length > 0,
 						() => `${preKeys.length} plugins applied`
 					);
-					const postNotice = htmlIf(
-						postKeys.length > 0,
-						() => `${postKeys.length} plugins applied`
-					);
 					const babelNotice = htmlIf(
 						babelKeys.length > 0,
 						() => `${babelKeys.length} files processed`
+					);
+					const postNotice = htmlIf(
+						postKeys.length > 0,
+						() => `${postKeys.length} plugins applied`
 					);
 
 					return htmlRow(`
@@ -111,17 +114,22 @@ export function htmlDump(report) {
 						<td>${pkg.version}</td>
 						<td>
 							<a href="#${pkgId}-bundler">
-								${preNotice}
+								${copyNotice}
 							</a>
 						</td>
 						<td>
 							<a href="#${pkgId}-bundler">
-								${postNotice}
+								${preNotice}
 							</a>
 						</td>
 						<td>
 							<a href="#${pkgId}-babel">
 								${babelNotice}
+							</a>
+						</td>
+						<td>
+							<a href="#${pkgId}-bundler">
+								${postNotice}
 							</a>
 						</td>
 					`);
@@ -135,58 +143,83 @@ export function htmlDump(report) {
 			.sort()
 			.map(pkgId => {
 				const pkg = _packages[pkgId];
-				const {pre, post} = pkg.process;
+				const {copy, pre, post} = pkg.process;
+				const copyKeys = Object.keys(copy);
 				const preKeys = Object.keys(pre);
 				const postKeys = Object.keys(post);
 
-				return htmlIf(preKeys.length > 0 || postKeys.length > 0, () =>
-					htmlSubsection(
-						`
+				return htmlIf(
+					copyKeys.length > 0 ||
+						preKeys.length > 0 ||
+						postKeys.length > 0,
+					() =>
+						htmlSubsection(
+							`
 							<a name="${pkgId}-bundler">
 								${pkg.name}@${pkg.version}
 							</a>
 						`,
-						...htmlIf(preKeys.length > 0, () =>
-							preKeys
-								.sort()
-								.map(pluginName =>
-									htmlLogOutput(
-										['Pre-phase plugin', 'Config'],
-										[
+							...htmlIf(copyKeys.length > 0, () =>
+								copyKeys
+									.sort()
+									.map(pluginName =>
+										htmlLogOutput(
+											['Copy phase plugin', 'Config'],
 											[
-												pluginName,
-												JSON.stringify(
-													pre[pluginName].plugin
-														.config
-												),
+												[
+													pluginName,
+													JSON.stringify(
+														copy[pluginName].plugin
+															.config
+													),
+												],
 											],
-										],
-										[pre[pluginName].logger],
-										{source: false}
+											[copy[pluginName].logger],
+											{source: false}
+										)
 									)
-								)
-						),
-						...htmlIf(postKeys.length > 0, () =>
-							postKeys
-								.sort()
-								.map(pluginName =>
-									htmlLogOutput(
-										['Post-phase plugin', 'Config'],
-										[
+							),
+							...htmlIf(preKeys.length > 0, () =>
+								preKeys
+									.sort()
+									.map(pluginName =>
+										htmlLogOutput(
+											['Pre-phase plugin', 'Config'],
 											[
-												pluginName,
-												JSON.stringify(
-													post[pluginName].plugin
-														.config
-												),
+												[
+													pluginName,
+													JSON.stringify(
+														pre[pluginName].plugin
+															.config
+													),
+												],
 											],
-										],
-										[post[pluginName].logger],
-										{source: false}
+											[pre[pluginName].logger],
+											{source: false}
+										)
 									)
-								)
+							),
+							...htmlIf(postKeys.length > 0, () =>
+								postKeys
+									.sort()
+									.map(pluginName =>
+										htmlLogOutput(
+											['Post-phase plugin', 'Config'],
+											[
+												[
+													pluginName,
+													JSON.stringify(
+														post[pluginName].plugin
+															.config
+													),
+												],
+											],
+											[post[pluginName].logger],
+											{source: false}
+										)
+									)
+							)
 						)
-					)
 				);
 			})
 	);
