@@ -71,23 +71,13 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	);
 	babelConfig.presets = [];
 
-	// Run babel through it
-	return globby([`${pkg.dir}/**/*.js`]).then(filePaths => {
-		// Filter nested node_modules files
-		const nodeModulesPrefix = path.resolve(`${pkg.dir}/node_modules`);
-		filePaths = filePaths.filter(
-			filePath => !filePath.startsWith(nodeModulesPrefix)
-		);
+	// Determine files to process
+	let globs = [`${pkg.dir}/**/*.js`];
+	globs = globs.concat(ignore.map(path => `!${pkg.dir}/${path}`));
+	globs = globs.concat(`!${pkg.dir}/node_modules/**`);
 
-		// Filter ignore files
-		const outputPrefix = path.resolve(pkg.dir);
-		filePaths = filePaths.filter(
-			filePath =>
-				ignore.indexOf(filePath.substring(outputPrefix.length + 1)) ==
-				-1
-		);
-
-		// Process files
+	// Run babel through them
+	return globby(globs).then(filePaths => {
 		const promises = filePaths.map(
 			filePath =>
 				new Promise(resolve => {
