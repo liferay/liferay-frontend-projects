@@ -137,7 +137,7 @@ function bundleRootPackage(outputDir) {
 
 	// Process package
 	return processPackage('pre', srcPkg, pkg)
-		.then(() => runBabel(pkg))
+		.then(() => runBabel(pkg, {ignore: config.getIgnore()}))
 		.then(() => processPackage('post', srcPkg, pkg))
 		.then(() => manifest.addPackage(srcPkg, pkg))
 		.then(() => manifest.save())
