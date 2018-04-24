@@ -47,9 +47,10 @@ export function runPlugins(plugins, srcPkg, pkg, state, callback) {
 /**
  * Run Babel on a package.
  * @param {PkgDesc} pkg the package descriptor
+ * @param {Array} ignore array of output-relative file paths to avoid when processing with Babel
  * @return {Promise} a Promise fulfilled when the process has been finished
  */
-export function runBabel(pkg) {
+export function runBabel(pkg, {ignore = []} = {}) {
 	// Make a copy of the package's Babel configuration
 	const babelConfig = cloneObject(config.getBabelConfig(pkg));
 
@@ -72,12 +73,21 @@ export function runBabel(pkg) {
 
 	// Run babel through it
 	return globby([`${pkg.dir}/**/*.js`]).then(filePaths => {
+		// Filter nested node_modules files
 		const nodeModulesPrefix = path.resolve(`${pkg.dir}/node_modules`);
-
 		filePaths = filePaths.filter(
 			filePath => !filePath.startsWith(nodeModulesPrefix)
 		);
 
+		// Filter ignore files
+		const outputPrefix = path.resolve(pkg.dir);
+		filePaths = filePaths.filter(
+			filePath =>
+				ignore.indexOf(filePath.substring(outputPrefix.length + 1)) ==
+				-1
+		);
+
+		// Process files
 		const promises = filePaths.map(
 			filePath =>
 				new Promise(resolve => {

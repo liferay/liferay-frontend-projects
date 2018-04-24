@@ -135,6 +135,14 @@ export function getExclusions(pkg) {
 }
 
 /**
+ * Get paths of files to be left untouched by the bundler
+ * @return {Array} array of output-relative file paths to avoid when processing with Babel
+ */
+export function getIgnore() {
+	return config['ignore'];
+}
+
+/**
  * Get global plugins configuration.
  * @return {Object} the global config hash
  */
