@@ -2,6 +2,7 @@ import * as babel from 'babel-core';
 import fs from 'fs-extra';
 import globby from 'globby';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
+import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -72,9 +73,9 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	babelConfig.presets = [];
 
 	// Determine files to process
-	let globs = [`${pkg.dir}/**/*.js`];
-	globs = globs.concat(ignore.map(path => `!${pkg.dir}/${path}`));
-	globs = globs.concat(`!${pkg.dir}/node_modules/**`);
+	let globs = [`${pkg.dir}/**/*.js`]
+		.concat(gl.negate(gl.prefix(`${pkg.dir}/`, ignore)))
+		.concat([`!${pkg.dir}/node_modules/**`]);
 
 	// Run babel through them
 	return globby(globs).then(filePaths => {

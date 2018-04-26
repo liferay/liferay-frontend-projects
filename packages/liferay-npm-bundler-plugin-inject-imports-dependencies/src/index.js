@@ -15,11 +15,6 @@ export default function(
 		Object.keys(imports[namespace]).forEach(pkgName => {
 			const localName = ns.addNamespace(pkgName, rootPkgJson);
 
-			// Ignore injection if the package does not really depend on it
-			if (!pkgJson.dependencies[localName]) {
-				return;
-			}
-
 			const importVersion = imports[namespace][pkgName];
 			const importName =
 				namespace === ''
