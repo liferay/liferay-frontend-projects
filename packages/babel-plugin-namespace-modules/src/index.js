@@ -38,7 +38,7 @@ export default function({types: t}) {
 		ExpressionStatement(path, state) {
 			const {node: {expression}} = path;
 			const {opts} = state;
-			const {namespaces, imports} = opts;
+			const {namespaces, unrolledImports} = opts;
 
 			if (!t.isCallExpression(expression)) {
 				return;
@@ -87,7 +87,7 @@ export default function({types: t}) {
 					deps[i].value = addDependencyNamespace(
 						moduleName,
 						namespaces.dependencies,
-						imports
+						unrolledImports
 					);
 
 					state.depsCount++;
@@ -126,7 +126,7 @@ export default function({types: t}) {
 		exit(path, state) {
 			const {node} = path;
 			const {opts} = state;
-			const {namespaces, imports} = opts;
+			const {namespaces, unrolledImports} = opts;
 
 			if (node.name !== 'require') {
 				return;
@@ -159,7 +159,7 @@ export default function({types: t}) {
 			argument.value = addDependencyNamespace(
 				moduleName,
 				namespaces.dependencies,
-				imports
+				unrolledImports
 			);
 
 			state.requiresCount++;
@@ -177,7 +177,9 @@ export default function({types: t}) {
 						state,
 						() => ({
 							rootPkgJson: ownPkgJson,
-							globalConfig: {},
+							globalConfig: {
+								imports: state.opts.imports,
+							},
 						})
 					);
 
@@ -195,6 +197,9 @@ export default function({types: t}) {
 									: undefined,
 								dependencies: rootPkgJson,
 							},
+							unrolledImports: unrollImportsConfig(
+								globalConfig.imports
+							),
 						},
 						globalConfig,
 						state.opts
@@ -244,15 +249,13 @@ export default function({types: t}) {
  * Add namespace to a module's dependency
  * @param {String} moduleName dependency module name
  * @param {String} namespacePkg package name to use as namespace
- * @param {Object} imports imports section of .npmbundlerrc file
+ * @param {Object} unrolledImports unrolled imports section of .npmbundlerrc file
  * @return {String} the namespaced module
  */
-function addDependencyNamespace(moduleName, namespacePkg, imports) {
-	imports = unrollImportsConfig(imports);
-
+function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
 	const {scope, pkgName} = mod.splitModuleName(moduleName);
 	const fullPkgName = mod.joinModuleName(scope, pkgName);
-	const pkg = imports[fullPkgName] || namespacePkg;
+	const pkg = unrolledImports[fullPkgName] || namespacePkg;
 
 	return pkg.name === '' ? moduleName : ns.addNamespace(moduleName, pkg);
 }
