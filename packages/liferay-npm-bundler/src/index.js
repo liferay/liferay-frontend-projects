@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import globby from 'globby';
+import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import pretty from 'pretty-time';
@@ -192,15 +193,11 @@ function bundlePackage(srcPkg, outputDir) {
  * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
  */
 function copyPackage(pkg, dir) {
-	// Start by copying everything but inner node_modules files
-	const rawGlobs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`];
-
-	// Get exclusions
 	const exclusions = config.getExclusions(pkg);
 
-	// Filter by exclusions
-	let globs = rawGlobs.concat(
-		exclusions.map(exclusion => `!${pkg.dir}/${exclusion}`)
+	// Determine what to copy
+	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
+		gl.negate(gl.prefix(`${pkg.dir}/`, exclusions))
 	);
 
 	return globby(globs).then(files => {
@@ -225,7 +222,7 @@ function copyPackage(pkg, dir) {
 		files = files.filter(fileFilter).map(relativePathMapper);
 
 		const allFiles = globby
-			.sync(rawGlobs)
+			.sync([`${pkg.dir}/**/*`])
 			.filter(fileFilter)
 			.map(relativePathMapper);
 
