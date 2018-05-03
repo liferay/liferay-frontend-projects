@@ -108,7 +108,8 @@ function copyRootPackageJson(outputDir) {
 
 				if (semver.validRange(depVersion) == null) {
 					const depPkgJsonPath = path.join(
-						depVersion.substring(5),
+						'node_modules',
+						depName,
 						'package.json'
 					);
 
