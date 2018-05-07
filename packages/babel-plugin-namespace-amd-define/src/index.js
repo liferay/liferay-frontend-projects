@@ -7,7 +7,8 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
  * @return {object} a babel visitor
  */
 export default function() {
-	let namespaceCount;
+	let extraNamespaceCount;
+	let firstDefineNamespaced;
 
 	const namespaceVisitor = {
 		Identifier(path) {
@@ -35,17 +36,24 @@ export default function() {
 					}
 				}
 
-				// If 'define' is not defined in any scope namespace or defined
-				// in the root scope as global, namespace it
 				if (
 					scope == null ||
 					(scope.parent == null && !scope.bindings.define)
 				) {
-					const namespace = this.opts.namespace || 'Liferay.Loader';
+					// If 'define' is not defined in any scope namespace or
+					// defined in the root scope as global...
+					if (!firstDefineNamespaced) {
+						// ...and it's its first appearance, namespace it
+						const namespace =
+							this.opts.namespace || 'Liferay.Loader';
 
-					path.node.name = `${namespace}.define`;
+						path.node.name = `${namespace}.define`;
 
-					namespaceCount++;
+						firstDefineNamespaced = true;
+					} else {
+						// ...and appeared before, record a new extra appearance
+						extraNamespaceCount++;
+					}
 				}
 			}
 		},
@@ -58,21 +66,33 @@ export default function() {
 					// We must traverse the AST again because the third party
 					// transform-es2015-modules-amd emits its define() call after
 					// Program exit :-(
-					namespaceCount = 0;
+					firstDefineNamespaced = false;
+					extraNamespaceCount = 0;
 
 					path.traverse(namespaceVisitor, {opts: state.opts});
 
-					if (namespaceCount > 0) {
+					if (extraNamespaceCount > 0) {
 						const {log} = babelIpc.get(state, () => ({
 							log: new PluginLogger(),
 						}));
 
-						log.info(
-							'namespace-amd-define',
-							'Namespaced',
-							namespaceCount,
-							'AMD defines'
-						);
+						if (firstDefineNamespaced) {
+							log.info(
+								'namespace-amd-define',
+								'Namespaced first AMD define in file'
+							);
+						}
+
+						if (extraNamespaceCount) {
+							log.warn(
+								'namespace-amd-define',
+								'Found',
+								extraNamespaceCount,
+								'define() calls inside the module definition',
+								'which have been ignored as they should never',
+								'be executed during runtime'
+							);
+						}
 					}
 				},
 			},

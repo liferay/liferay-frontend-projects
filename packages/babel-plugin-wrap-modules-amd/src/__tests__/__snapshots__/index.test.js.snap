@@ -2,6 +2,8 @@
 
 exports[`correctly wraps modules 1`] = `
 "define(['module', 'exports', 'require'], function (module, exports, require) {
+	var define = undefined;
+
 	console.log('Say something');
 	if (1 == 0) {
 		console.log('Something broke in the Matrix');
