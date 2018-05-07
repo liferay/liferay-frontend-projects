@@ -147,7 +147,7 @@ export function runBabel(pkg, {ignore = []} = {}) {
 							if (logger.errorsPresent) {
 								report.warn(
 									'There are errors for some of the ' +
-										'Babel plugins: please check details' +
+										'Babel plugins: please check details ' +
 										'of Babel transformations.',
 									{unique: true}
 								);
