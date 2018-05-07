@@ -106,6 +106,13 @@ function run() {
 			if (config.isDumpReport()) {
 				fs.writeFileSync(config.getReportFilePath(), report.toHtml());
 				log.info(`Report written to ${config.getReportFilePath()}`);
+			} else if (report.warningsPresent) {
+				log.info(
+					'The build has emitted some warning messages: we recommend',
+					'to activate the \'dump-report\' option and review the',
+					'generated report to make sure no problems arise during',
+					'runtime.'
+				);
 			}
 		})
 		.catch(function(err) {

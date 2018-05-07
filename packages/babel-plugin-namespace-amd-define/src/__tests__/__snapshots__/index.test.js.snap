@@ -45,19 +45,21 @@ Array [
     "level": "info",
     "source": "namespace-amd-define",
     "things": Array [
-      "Namespaced",
-      3,
-      "AMD defines",
+      "Namespaced first AMD define in file",
+    ],
+  },
+  Object {
+    "level": "warn",
+    "source": "namespace-amd-define",
+    "things": Array [
+      "Found",
+      2,
+      "define() calls inside the module definition",
+      "which have been ignored as they should never",
+      "be executed during runtime",
     ],
   },
 ]
-`;
-
-exports[`namespaces references to global define identifier 1`] = `
-"
-if (typeof Liferay.Loader.define === \\"function\\" && Liferay.Loader.define.amd) {
-	console.log('UMD!');
-}"
 `;
 
 exports[`namespaces unqualified define calls 1`] = `

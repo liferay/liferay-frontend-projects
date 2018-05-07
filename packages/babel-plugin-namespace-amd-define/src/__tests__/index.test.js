@@ -53,21 +53,6 @@ it('does not namespace already qualified define calls', () => {
 	expect(code).toMatchSnapshot();
 });
 
-it('namespaces references to global define identifier', () => {
-	const source = `
-	if (typeof define === "function" && define.amd) {
-		console.log('UMD!');
-	}
-	`;
-
-	const {code} = babel.transform(source, {
-		filenameRelative: __filename,
-		plugins: [plugin],
-	});
-
-	expect(code).toMatchSnapshot();
-});
-
 describe('does not namespace references to local define identifier', () => {
 	it('when it is a variable', () => {
 		const source = `
