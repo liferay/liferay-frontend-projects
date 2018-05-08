@@ -12,7 +12,8 @@ export default function({log}, {pkgJson}) {
 
 			if (semver.validRange(link) == null) {
 				const depPkgJsonPath = path.join(
-					link.replace('file:', ''),
+					'node_modules',
+					name,
 					'package.json'
 				);
 
