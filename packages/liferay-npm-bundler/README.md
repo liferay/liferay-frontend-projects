@@ -220,8 +220,9 @@ Where:
 	specific name and version.
 
 > Note that, prior to version 1.4.0, the `packages` section did not exist and
-> package configurations where placed next to the tools options (like `*`,
-> `output`, `exclude`, and so on). This created the possibility of a collision
-> and thus, the package configurations were namespaced. However, the tool still
-> falls back to the root section (outside `packages`) for packages configuration
-> to maintain backwards compatibility.
+
+    package configurations where placed next to the tools options (like `*`,
+	`output`, `exclude`, and so on). This created the possibility of a collision
+	and thus, the package configurations were namespaced. However, the tool still
+	falls back to the root section (outside `packages`) for packages configuration
+	to maintain backwards compatibility.
