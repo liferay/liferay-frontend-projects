@@ -1,0 +1,19 @@
+{
+	"name": "liferay-npm-bundler-plugin-resolve-linked-dependencies",
+	"version": "1.6.1",
+	"description": "A liferay-npm-bundler plugin to replace linked dependencies versions by their real values..",
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "babel --source-maps -D -d lib src",
+		"prepublish": "npm run build"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-preset-es2015": "^6.24.1"
+	},
+	"dependencies": {
+		"liferay-npm-build-tools-common": "1.6.1",
+		"read-json-sync": "^2.0.0",
+		"semver": "^5.5.0"
+	}
+}

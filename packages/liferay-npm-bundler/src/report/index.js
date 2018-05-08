@@ -44,6 +44,14 @@ export class Report {
 	}
 
 	/**
+	 * Test if there are global warning messages present.
+	 * @return {boolean} true if warnings exist
+	 */
+	get warningsPresent() {
+		return this._warnings.length > 0;
+	}
+
+	/**
 	 * Register a warning.
 	 * @param  {String} message the warning message
 	 * @param  {boolean} unique set to true if you want this warning to be deduped
@@ -68,7 +76,35 @@ export class Report {
 	}
 
 	/**
-	 * Register a linked dependency found in the root package.json.
+	 * Register the root package descriptor.
+	 * @param  {PkgDesc} rootPkg root package descriptor
+	 * @return {void}
+	 */
+	rootPackage(rootPkg) {
+		let pkg = this._getPackage(rootPkg.id);
+
+		pkg.name = rootPkg.name;
+		pkg.version = rootPkg.version;
+	}
+
+	/**
+	 * Register the list of dependencies detected in this build.
+	 * @param  {Array} deps an array of PkgDesc objects
+	 * @return {void}
+	 */
+	dependencies(deps) {
+		deps.forEach(dep => {
+			let pkg = this._getPackage(dep.id);
+
+			pkg.name = dep.name;
+			pkg.version = dep.version;
+		});
+	}
+
+	/**
+	 * Register a linked dependency found in the root package.json. This method
+	 * must be called after registering all dependencies with the dependencies()
+	 * method. Unknown dependencies will be ignored.
 	 * @param  {String} packageName package name
 	 * @param  {String} packageLink the link to the package
 	 * @param  {String} packageVersion package version
@@ -76,32 +112,12 @@ export class Report {
 	 */
 	linkedDependency(packageName, packageLink, packageVersion) {
 		const pkgId = `${packageName}@${packageVersion}`;
-		let pkg = this._getPackage(pkgId);
+		let pkg = this._getPackage(pkgId, false);
 
-		pkg.link = packageLink;
-	}
-
-	/**
-	 * Register the list of dependencies detected in this build.
-	 * @param  {Array} deps an array of package descriptors (with id, name and
-	 * 						version fields)
-	 * @return {void}
-	 */
-	dependencies(deps) {
-		deps.forEach(dep => {
-			let pkg = this._getPackage(dep.id);
-
-			Object.assign(pkg, dep);
-		});
-
-		// Remove all pre-registered packages that are not in the deps array
-		Object.keys(this._packages).forEach(pkgId => {
-			const pkg = this._packages[pkgId];
-
-			if (!pkg.id) {
-				delete this._packages[pkgId];
-			}
-		});
+		if (pkg) {
+			pkg.link = packageLink;
+			pkg.version = packageVersion;
+		}
 	}
 
 	/**
@@ -109,16 +125,14 @@ export class Report {
 	 * @param  {Object} pkg a package descriptor
 	 * @param  {Array} allFiles the list of all files in the package
 	 * @param  {Array} copiedFiles the list of files copied to the target
-	 * @param  {Array} exclusions the list of configured file exclusions
 	 * @return {void}
 	 */
-	packageCopy(pkg, allFiles, copiedFiles, exclusions) {
+	packageCopy(pkg, allFiles, copiedFiles) {
 		let rpkg = this._getPackage(pkg.id);
 
 		Object.assign(rpkg, {
 			allFiles,
 			copiedFiles,
-			exclusions,
 		});
 	}
 
@@ -167,16 +181,15 @@ export class Report {
 	/**
 	 * Get a package slot and create it if missing.
 	 * @param  {String} pkgId the package id
+	 * @param  {Boolean} create whether to create the entry if it doesn't exist
 	 * @return {Object} a package slot
 	 */
-	_getPackage(pkgId) {
+	_getPackage(pkgId, create = true) {
 		let pkg = this._packages[pkgId];
 
-		if (!pkg) {
+		if (!pkg && create) {
 			pkg = this._packages[pkgId] = {
-				allFiles: [],
-				copiedFiles: [],
-				exclusions: [],
+				id: pkgId,
 			};
 
 			this._getPackageProcess(pkgId);
@@ -194,6 +207,7 @@ export class Report {
 		let rpkg = this._getPackage(pkgId);
 
 		rpkg.process = rpkg.process || {
+			copy: {},
 			pre: {},
 			babel: {
 				config: {},

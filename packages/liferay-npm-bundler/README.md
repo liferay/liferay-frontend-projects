@@ -59,12 +59,15 @@ To do so, it runs the project source files through the following workflow:
 2. Traverse project's dependency tree to determine which packages are needed to
 	run it.
 3. For each dependency package:
-
 	1. Copy package to output dir (in plain _package_@_version_ format, as
 		opposed to the standard `node_modules` tree format).
 	2. Pre-process package with configured plugins.
 	3. Run Babel through each `.js` file in the package with configured plugins.
 	4. Post-process package with configured plugins.
+4. For the project:
+    1. Pre-process project's package with configured plugins.
+    2. Run Babel through each `.js` file in the project with configured plugins.
+    3. Post-process project's package with configured plugins.
 
 The pre and post process steps are the same, they only differ in the moment when
 they are run (before or after Babel is run, respectively). In these steps,
@@ -72,7 +75,8 @@ they are run (before or after Babel is run, respectively). In these steps,
 transformations on the npm packages like, for instance, modifying its
 `package.json` file, or deleting or moving files.
 
-Let's see an example with the following `.npmbundlerrc` file:
+Let's see an example with the following `.npmbundlerrc` file (which is also the 
+default used when no `.npmbundlerrc` file is present):
 
 ```json
 {
@@ -86,11 +90,19 @@ found in `liferay-npm-bundler-preset-standard`:
 
 ```json
 {
+    "/": {
+		"plugins": ["resolve-linked-dependencies"],
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+	},
 	"*": {
 		"plugins": ["replace-browser-modules"],
 		".babelrc": {
 			"presets": ["liferay-standard"]
-		}
+		},
+		"post-plugins": ["namespace-packages", "inject-peer-dependencies"]
 	}
 }
 ```
@@ -108,11 +120,12 @@ files. This means that, for each npm package that our project has as dependency,
 its `package.json` files will have its server side files replaced by their
 counterpart browser versions.
 
-The next part of the `.npmbundlerrc` file specifies the `.babelrc` file to use
-when running Babel through the packages `.js` files. Please keep in mind that,
-in this phase, Babel is used to transform package files (for example to convert
-them to AMD format if necessary) not to transpile them (though, in theory, you
-could transpile them too if you wanted by configuring the proper plugins).
+The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to 
+use when running Babel through the packages'`.js` files. Please keep in mind 
+that, in this phase, Babel is used to transform package files (for example to 
+convert them to AMD format if necessary) not to transpile them (though, in 
+theory, you could transpile them too if you wanted by configuring the proper 
+plugins).
 
 In this example, we use the `liferay-standard` preset, that applies the
 following plugins according to
@@ -122,7 +135,8 @@ following plugins according to
 2. [babel-plugin-transform-node-env-inline](https://www.npmjs.com/package/babel-plugin-transform-node-env-inline)
 3. [babel-plugin-wrap-modules-amd](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-wrap-modules-amd)
 4. [babel-plugin-name-amd-modules](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-name-amd-modules)
-5. [babel-plugin-namespace-amd-define](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-namespace-amd-define)
+5. [babel-plugin-namespace-modules](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-namespace-modules)
+6. [babel-plugin-namespace-amd-define](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-namespace-amd-define)
 
 Checking the documentation of these plugins we find out that Babel will:
 
@@ -131,12 +145,18 @@ Checking the documentation of these plugins we find out that Babel will:
 3. Wrap modules with an AMD `define()` call.
 4. Give a canonical name to each AMD module based on its package and relative
 	path inside it.
-5. Prefix `define()` calls with `Liferay.Loader.`.
+5. Namespace module names in `define()` and `require()` calls with the project's
+    package name.
+6. Prefix `define()` calls with `Liferay.Loader.`.
 
 Thus, after running `liferay-npm-bundler` on our project we will have a folder
 with all our npm dependencies extracted from the project's `node_modules` folder
 and modified to make them work on Liferay Portal under management of its
 [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader).
+
+A similar section for the project's root package (denoted by `/`) is also listed
+in the `.npmbundlerrc` which defines similar steps for the project's 
+`package.json` and `.js` files.
 
 ## Configuration
 
@@ -162,7 +182,21 @@ file in your project's folder. The full structure of that file is:
     "output": <relative path of output directory>,
     "process-serially": <true|false>,
     "dump-report": <true|false>,
-    "verbose": <true|false>
+    "verbose": <true|false>,
+    "config": {
+        ...
+    },
+    "/": {
+        "plugins": [
+            <list of plugins>
+		],
+        ".babelrc": {
+            <standard .babelrc file>
+		},
+        "post-plugins": [
+            <list of plugins>
+		]
+    },
     "*" : {
         "plugins": [
             <list of plugins>
@@ -207,6 +241,8 @@ Where:
 	details about how each package is transformed and what has been done.
 * **"verbose"**: dump detailed information about what the tool is doing to the
 	console.
+* **"config"**: global configuration which is passed to all bundler and Babel
+	plugins.
 * **(list of plugins)**: is a comma separated list of strings defining the
 	`liferay-npm-bundler` plugins to call (note that the
 	`liferay-npm-bundler-plugin-` part from the npm package name may be omitted).
@@ -220,9 +256,8 @@ Where:
 	specific name and version.
 
 > Note that, prior to version 1.4.0, the `packages` section did not exist and
-
-    package configurations where placed next to the tools options (like `*`,
-	`output`, `exclude`, and so on). This created the possibility of a collision
-	and thus, the package configurations were namespaced. However, the tool still
-	falls back to the root section (outside `packages`) for packages configuration
-	to maintain backwards compatibility.
+> package configurations where placed next to the tools options (like `*`,
+> `output`, `exclude`, and so on). This created the possibility of a collision
+> and thus, the package configurations were namespaced. However, the tool still
+> falls back to the root section (outside `packages`) for packages configuration
+> to maintain backwards compatibility.

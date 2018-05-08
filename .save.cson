@@ -4,8 +4,8 @@
 "packages/babel-plugin-namespace-amd-define/**/*.js": [
   "cd packages/babel-plugin-namespace-amd-define && npm run build"
 ]
-"packages/babel-plugin-namespace-amd-modules/**/*.js": [
-  "cd packages/babel-plugin-namespace-amd-modules && npm run build"
+"packages/babel-plugin-namespace-modules/**/*.js": [
+  "cd packages/babel-plugin-namespace-modules && npm run build"
 ]
 "packages/babel-plugin-normalize-requires/**/*.js": [
   "cd packages/babel-plugin-normalize-requires && npm run build"
@@ -28,6 +28,9 @@
 "packages/babel-preset-liferay-standard/**/*.js": [
   "cd packages/babel-preset-liferay-standard && npm run build"
 ]
+"packages/liferay-npm-bridge-generator/**/*.js": [
+  "cd packages/liferay-npm-bridge-generator && npm run build"
+]
 "packages/liferay-npm-build-tools-common/**/*.js": [
   "cd packages/liferay-npm-build-tools-common && npm run build"
 ]
@@ -37,8 +40,23 @@
 "packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
 ]
+"packages/liferay-npm-bundler-plugin-exclude-imports/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-exclude-imports && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-inject-imports-dependencies/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-inject-imports-dependencies && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-inject-peer-dependencies/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-inject-peer-dependencies && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-namespace-packages/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-namespace-packages && npm run build"
+]
 "packages/liferay-npm-bundler-plugin-replace-browser-modules/**/*.js": [
   "cd packages/liferay-npm-bundler-plugin-replace-browser-modules && npm run build"
+]
+"packages/liferay-npm-bundler-plugin-resolve-linked-dependencies/**/*.js": [
+  "cd packages/liferay-npm-bundler-plugin-resolve-linked-dependencies && npm run build"
 ]
 "packages/liferay-npm-bundler-preset-amd/**/*.js": [
   "cd packages/liferay-npm-bundler-preset-amd && npm run build"

@@ -210,7 +210,7 @@ describe('getBabelConfig()', () => {
 });
 
 describe('getPluginVersions()', () => {
-	it.only('analyzes default config correctly', () => {
+	it('analyzes default config correctly', () => {
 		const versions = cfg.getVersionsInfo();
 		const myVersion = require('../../package.json').version;
 

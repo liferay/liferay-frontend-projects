@@ -1,3 +1,4 @@
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import path from 'path';
 import {getPackageDependencies} from '../dependencies';
 
@@ -13,9 +14,18 @@ expect.extend({
 			if (!dep) {
 				missingDeps.push(pkgId);
 			} else {
-				const pkgIdParts = pkgId.split('@');
-				const pkgName = pkgIdParts[0];
-				const pkgVersion = pkgIdParts[1];
+				let pkgName;
+				let pkgVersion;
+
+				if (pkgId === PkgDesc.ROOT_ID) {
+					pkgName = 'test-project';
+					pkgVersion = '1.0.0';
+				} else {
+					const pkgIdParts = pkgId.split('@');
+					pkgName = pkgIdParts[0];
+					pkgVersion = pkgIdParts[1];
+				}
+
 				let invalidFields = invalidDepFields[pkgId] || {};
 
 				if (dep.id != pkgId) {
@@ -31,13 +41,14 @@ expect.extend({
 						`${dep.version} ` + `(expected: ${pkgVersion})`;
 				}
 
-				const expectedDepDir = path.normalize(
-					`/node_modules/${pkgName}`
-				);
+				const expectedDepDir =
+					pkgId === PkgDesc.ROOT_ID
+						? path.normalize('.')
+						: path.normalize(`/node_modules/${pkgName}`);
 
-				if (dep.dir != '.' && !dep.dir.endsWith(expectedDepDir)) {
+				if (dep.dir !== '.' && !dep.dir.endsWith(expectedDepDir)) {
 					invalidFields.dir =
-						`${dep.dir} ` + `(expected: ...${expectedDepDir})`;
+						`${dep.dir} ` + `(expected: ${expectedDepDir})`;
 				}
 
 				if (Object.keys(invalidFields).length > 0) {
@@ -93,7 +104,7 @@ it('loads project dependencies correctly', () => {
 	const deps = getPackageDependencies('.');
 
 	expect(deps).toMatchDependencies(
-		'test-project@1.0.0',
+		PkgDesc.ROOT_ID,
 		'test-project-dep-0@1.0.0',
 		'test-project-dep-1@1.0.0',
 		'test-project-dep-0@0.1.0'
@@ -105,7 +116,7 @@ it('appends extra dependencies correctly', () => {
 
 	expect(deps).toMatchDependencies(
 		'stale-package@1.0.0',
-		'test-project@1.0.0',
+		PkgDesc.ROOT_ID,
 		'test-project-dep-0@1.0.0',
 		'test-project-dep-1@1.0.0',
 		'test-project-dep-0@0.1.0'

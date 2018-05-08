@@ -25,6 +25,20 @@ export default class PluginLogger {
 	}
 
 	/**
+	 * Log a warn message
+	 * @param {String} source the identifier for the source of the message
+	 * @param {Array} things the objects or strings to print
+	 * @return {void}
+	 */
+	warn(source, ...things) {
+		this._msgs.push({
+			source: source,
+			level: 'warn',
+			things: things,
+		});
+	}
+
+	/**
 	 * Log an error message
 	 * @param {String} source the identifier for the source of the message
 	 * @param {Array} things the objects or strings to print
@@ -44,6 +58,22 @@ export default class PluginLogger {
 	 */
 	get messages() {
 		return this._msgs;
+	}
+
+	/**
+	 * Test if there are warn messages.
+	 * @return {boolean} if at least one warn message is registered in the logger
+	 */
+	get warnsPresent() {
+		return this._msgs.filter(msg => msg.level === 'warn').length > 0;
+	}
+
+	/**
+	 * Test if there are error messages.
+	 * @return {boolean} if at least one error message is registered in the logger
+	 */
+	get errorsPresent() {
+		return this._msgs.filter(msg => msg.level === 'error').length > 0;
 	}
 
 	/**
@@ -70,44 +100,3 @@ export default class PluginLogger {
 		);
 	}
 }
-
-global._PluginLogger_ = global._PluginLogger_ || {};
-
-/**
- * Set the logger for a given key. This is used to pass loggers from the
- * liferay-npm-bundler core to the Babel plugins because Babel's API doesn't
- * allow any way to pass per-file custom values to plugins.
- * @param  {String} key the key to identify the logger (usually a file path)
- * @param  {PluginLogger} logger the logger
- * @return {void}
- */
-PluginLogger.set = function(key, logger) {
-	global._PluginLogger_[key] = logger;
-};
-
-/**
- * Get the logger for a given key. This is used to pass loggers from the
- * liferay-npm-bundler core to the Babel plugins because Babel's API doesn't
- * allow any way to pass per-file custom values to plugins.
- * @param  {String|Object} key the key to identify the logger (usually a file path). You can also pass the state object
- *  						   passed to Babel plugins and it will be automatically dereferenced.
- * @return {PluginLogger} the logger
- */
-PluginLogger.get = function(key) {
-	if (key.file && key.file.opts && key.file.opts.filenameRelative) {
-		key = key.file.opts.filenameRelative;
-	}
-
-	return global._PluginLogger_[key] || new PluginLogger();
-};
-
-/**
- * Delete the logger for a given key. This is used to pass loggers from the
- * liferay-npm-bundler core to the Babel plugins because Babel's API doesn't
- * allow any way to pass per-file custom values to plugins.
- * @param  {String} key the key to identify the logger (usually a file path)
- * @return {void}
- */
-PluginLogger.delete = function(key) {
-	delete global._PluginLogger_[key];
-};
