@@ -149,7 +149,6 @@ export default function({types: t}) {
 			if (
 				typeof moduleName !== 'string' ||
 				mod.isLocalModule(moduleName) ||
-				mod.isNodeCoreModule(moduleName) ||
 				ns.isNamespaced(moduleName)
 			) {
 				return;

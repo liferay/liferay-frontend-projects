@@ -80,7 +80,8 @@ export function reportLinkedDependencies(pkgJson) {
 
 				if (semver.validRange(depVersion) == null) {
 					const depPkgJsonPath = path.join(
-						depVersion.replace('file:', ''),
+						'node_modules',
+						depName,
 						'package.json'
 					);
 

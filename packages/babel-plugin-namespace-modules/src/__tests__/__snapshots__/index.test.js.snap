@@ -2,18 +2,18 @@
 
 exports[`when called from Babel correctly namespaces all together 1`] = `
 "
-define('a-module', ['test-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'fs'], function () {
+define('a-module', ['test-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'shims$fs'], function () {
 	require('test-package$a-module');
 	require('provider$imp-module');
 	require('no-namespace-module');
 	require('./a-local-module');
-	require('fs');
+	require('shims$fs');
 });"
 `;
 
 exports[`when called from Babel correctly namespaces define() dependencies 1`] = `
 "
-define(['test-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'fs'], function () {});"
+define(['test-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'shims$fs'], function () {});"
 `;
 
 exports[`when called from Babel correctly namespaces require modules 1`] = `
@@ -23,7 +23,7 @@ define(function () {
 	require('provider$imp-module');
 	require('no-namespace-module');
 	require('./a-local-module');
-	require('fs');
+	require('shims$fs');
 });"
 `;
 
@@ -34,18 +34,18 @@ define('a-module', function () {});"
 
 exports[`when called from liferay-npm-bundler correctly namespaces all together 1`] = `
 "
-define('root-package$a-module', ['root-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'fs'], function () {
+define('root-package$a-module', ['root-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'shims$fs'], function () {
 	require('root-package$a-module');
 	require('provider$imp-module');
 	require('no-namespace-module');
 	require('./a-local-module');
-	require('fs');
+	require('shims$fs');
 });"
 `;
 
 exports[`when called from liferay-npm-bundler correctly namespaces define() dependencies 1`] = `
 "
-define(['root-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'fs'], function () {});"
+define(['root-package$a-module', 'provider$imp-module', 'no-namespace-module', './a-local-module', 'shims$fs'], function () {});"
 `;
 
 exports[`when called from liferay-npm-bundler correctly namespaces define() module name 1`] = `
@@ -60,7 +60,7 @@ define(function () {
 	require('provider$imp-module');
 	require('no-namespace-module');
 	require('./a-local-module');
-	require('fs');
+	require('shims$fs');
 });"
 `;
 
@@ -78,10 +78,10 @@ Array [
       "Namespaced",
       1,
       "define() names,",
-      2,
+      3,
       "define() dependencies,",
       "and",
-      2,
+      3,
       "require() names",
     ],
   },

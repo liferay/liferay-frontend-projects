@@ -33,11 +33,11 @@ it('isReservedDependency() works', () => {
 
 it('isExternalDependency() works', () => {
 	expect(mod.isExternalDependency('a-module')).toBe(true);
+	expect(mod.isExternalDependency('fs')).toBe(true);
 
 	expect(mod.isExternalDependency('./a-module')).toBe(false);
 	expect(mod.isExternalDependency('../a-module')).toBe(false);
 	expect(mod.isExternalDependency('/a-module')).toBe(false);
-	expect(mod.isExternalDependency('fs')).toBe(false);
 });
 
 it('joinModuleName() works', () => {
