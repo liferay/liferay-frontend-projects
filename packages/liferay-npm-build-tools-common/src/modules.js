@@ -77,11 +77,7 @@ export function isReservedDependency(modulePath) {
  * @return {Boolean} true if module is an external dependency
  */
 export function isExternalDependency(modulePath) {
-	return (
-		!isLocalModule(modulePath) &&
-		!isReservedDependency(modulePath) &&
-		!isNodeCoreModule(modulePath)
-	);
+	return !isLocalModule(modulePath) && !isReservedDependency(modulePath);
 }
 
 /**
