@@ -7,6 +7,9 @@ const imports = {
 	'provider': {
 		'imp-module': '^1.0.0',
 	},
+	'shims': {
+		fs: '^1.0.0',
+	},
 	'': {
 		'no-namespace-module': '^1.0.0',
 	},

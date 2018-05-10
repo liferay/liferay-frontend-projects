@@ -102,7 +102,7 @@ function processModuleDependencies(
 	failedDeps
 ) {
 	deps.forEach(dep => {
-		if (!mod.isExternalDependency(dep)) {
+		if (!mod.isExternalDependency(dep) || mod.isNodeCoreModule(dep)) {
 			return;
 		}
 
