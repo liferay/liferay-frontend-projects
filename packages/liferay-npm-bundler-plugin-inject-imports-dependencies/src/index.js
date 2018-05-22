@@ -23,7 +23,10 @@ export default function(
 
 			pkgJson.dependencies[importName] = importVersion;
 
-			if (pkgJson.dependencies[localName] !== importVersion) {
+			if (
+				pkgJson.dependencies[localName] !== undefined &&
+				pkgJson.dependencies[localName] !== importVersion
+			) {
 				log.warn(
 					'inject-imports-dependencies',
 					'Injected dependency',
