@@ -1,3 +1,4 @@
+import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -81,6 +82,10 @@ export function setProgramArgs(args) {
 
 	if (args.includes('-r') || args.includes('--dump-report')) {
 		config['dump-report'] = true;
+	}
+
+	if (args.includes('--no-tracking')) {
+		config['no-tracking'] = true;
 	}
 }
 
@@ -258,6 +263,31 @@ export function getIncludeDependencies() {
  */
 export function isDumpReport() {
 	return config['dump-report'] || false;
+}
+
+/**
+ * Whether or not to track usage
+ * @return {boolean}
+ */
+export function isNoTracking() {
+	if (config['no-tracking'] === undefined) {
+		let dir = process.cwd();
+
+		while (
+			!fs.existsSync(
+				path.join(dir, '.liferay-npm-bundler-no-tracking')
+			) &&
+			path.resolve(dir, '..') !== dir
+		) {
+			dir = path.resolve(dir, '..');
+		}
+
+		config['no-tracking'] = fs.existsSync(
+			path.join(dir, '.liferay-npm-bundler-no-tracking')
+		);
+	}
+
+	return config['no-tracking'];
 }
 
 /**

@@ -3,11 +3,12 @@
 exports[`injects imports 1`] = `
 Object {
   "dependencies": Object {
-    "pkg-a": "^1.0.0",
-    "pkg-b": "^2.0.0",
     "pkg-c": "^3.0.0",
     "provider$pkg-a": "^1.0.0",
     "provider$pkg-b": "^2.0.0",
+    "root$pkg-a": "^1.0.0",
+    "root$pkg-b": "^2.0.0",
+    "root$pkg-c": "^3.0.0",
   },
   "name": "package",
   "version": "2.0.0",
@@ -22,4 +23,35 @@ Object {
   "name": "package",
   "version": "2.0.0",
 }
+`;
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "inject-imports-dependencies",
+    "things": Array [
+      "Injected dependency",
+      "provider$pkg-a@^1.0.0",
+    ],
+  },
+  Object {
+    "level": "warn",
+    "source": "inject-imports-dependencies",
+    "things": Array [
+      "Injected dependency",
+      "provider$pkg-b@^3.0.0",
+      "which is not compatible package.json's constraints:",
+      "root$pkg-b@^2.0.0",
+    ],
+  },
+  Object {
+    "level": "info",
+    "source": "inject-imports-dependencies",
+    "things": Array [
+      "Injected dependency",
+      "pkg-c@^3.0.0",
+    ],
+  },
+]
 `;
