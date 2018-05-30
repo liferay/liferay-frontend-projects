@@ -32,7 +32,8 @@ export default function(args) {
 			'liferay-npm-bundler',
 			'[-h|--help]',
 			'[-v|--version]',
-			'[-r|--dump-report]'
+			'[-r|--dump-report]',
+			'[--no-tracking]'
 		);
 		return;
 	}
@@ -47,7 +48,11 @@ export default function(args) {
 	config.setProgramArgs(args);
 	report.versionsInfo(versionsInfo);
 
-	insight.init().then(run);
+	if (config.isNoTracking()) {
+		run();
+	} else {
+		insight.init().then(run);
+	}
 }
 
 /**
