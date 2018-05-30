@@ -5,44 +5,14 @@ import readJsonSync from 'read-json-sync';
 import yargs from 'yargs';
 
 const argv = yargs
-	// Input folder where source modules live
-	.option('input', {
-		alias: 'i',
-		default: 'classes/META-INF/resources/node_modules',
-	})
-	// Output folder where bridge modules must be placed
-	.option('output', {
-		alias: 'o',
-		default: 'classes/META-INF/resources/bridge',
-	})
-	// The glob expression to filter source modules
-	.option('file-globs', {
-		alias: 'g',
-		default: '**/lib/**/*.js',
-	})
-	// A mapper to convert source file paths to destination file paths
-	.option('dest-file-mapper', {
-		alias: 'f',
-		default: '(.*)\\$(.*)@.*/lib/(.*):$2/src/$3',
-	})
-	// A mapper to convert source file paths to source module names
-	.option('src-mod-name-mapper', {
-		alias: 's',
-		default: '(.*)@[^/]*(.*)\\.js$:$1$2',
-	})
-	// A mapper to convert destination file paths to destination module names
-	.option('dest-mod-name-mapper', {
-		alias: 'd',
-		default: '(.*)\\.js$:bridge/$1',
-	})
 	// Whether or not to explain what's going on
 	.option('verbose', {
 		alias: 'v',
 		default: false,
 	}).argv;
 
-// Template used to generate bridges
-const template = `Liferay.Loader.define('{PKG_NAME}@{PKG_VERSION}/{DEST_MOD}', ['module', '{SRC_MOD}'], function (module, src) {
+// Default template used to generate bridges
+const defaultTemplate = `Liferay.Loader.define('{PKG_NAME}@{PKG_VERSION}/{DEST_MOD}', ['module', '{SRC_MOD}'], function (module, src) {
   module.exports = src;
 });
 `;
@@ -52,47 +22,78 @@ const template = `Liferay.Loader.define('{PKG_NAME}@{PKG_VERSION}/{DEST_MOD}', [
  * @return {void}
  */
 export default function main() {
-	const input = argv.input;
-	const output = argv.output;
-	const fileGlobs = argv.fileGlobs.split(',');
-	const destFileMapper = parseMapperArg(argv.destFileMapper);
-	const srcModNameMapper = parseMapperArg(argv.srcModNameMapper);
-	const destModNameMapper = parseMapperArg(argv.destModNameMapper);
 	const pkgJson = readJsonSync('./package.json');
+	const config = readJsonSync('./.npmbridgerc');
 
-	globby
-		.sync(fileGlobs, {
-			cwd: input,
-		})
-		.forEach(srcFile => {
-			const destFile = srcFile.replace(...destFileMapper);
-			const srcMod = srcFile.replace(...srcModNameMapper);
-			const destMod = destFile.replace(...destModNameMapper);
-			const absDestFile = path.join(output, destFile);
+	Object.keys(config).forEach(key => {
+		const opts = config[key];
 
-			let contents = template;
+		log(`'${key}' bridges:`);
 
-			contents = contents.replace('{PKG_NAME}', pkgJson.name);
-			contents = contents.replace('{PKG_VERSION}', pkgJson.version);
-			contents = contents.replace('{SRC_MOD}', srcMod);
-			contents = contents.replace('{DEST_MOD}', destMod);
+		// Input folder where source modules live
+		const input =
+			opts['input'] || 'classes/META-INF/resources/node_modules';
 
-			fs.mkdirsSync(path.dirname(absDestFile));
-			fs.writeFileSync(absDestFile, contents);
+		// Output folder where bridge modules must be placed
+		const output = opts['output'] || 'classes/META-INF/resources/bridge';
 
-			log(srcFile, '->', destFile);
-		});
-}
+		// The glob expression(s) to filter source modules
+		const fileGlobs = opts['file-globs'] || '**/lib/**/*.js';
 
-/**
- * Parse a mapper type argument and return it as a two items array.
- * @param  {String} mapperArg a RegExp and replace value expression separated by a colon
- * @return {Array} an array with two items: the RegExp and the replace value
- */
-function parseMapperArg(mapperArg) {
-	const mapper = mapperArg.split(':');
-	mapper[0] = new RegExp(mapper[0]);
-	return mapper;
+		// A mapper to convert source file paths to destination file paths
+		const destFileMapper = opts['dest-file-mapper'] || {
+			from: '(.*)\\$(.*)@.*/lib/(.*)',
+			to: '$2/src/$3',
+		};
+
+		// A mapper to convert source file paths to source module names
+		const srcModNameMapper = opts['src-mod-name-mapper'] || {
+			from: '(.*)@[^/]*(.*)\\.js$',
+			to: '$1$2',
+		};
+
+		// A mapper to convert destination file paths to destination module names
+		const destModNameMapper = opts['dest-mod-name-mapper'] || {
+			from: '(.*)\\.js$',
+			to: 'bridge/$1',
+		};
+
+		// Template used to generate bridges
+		const template = opts['template'] || defaultTemplate;
+
+		// Go!
+		globby
+			.sync(fileGlobs.split(','), {
+				cwd: input,
+			})
+			.forEach(srcFile => {
+				const destFile = srcFile.replace(
+					new RegExp(destFileMapper.from),
+					destFileMapper.to
+				);
+				const srcMod = srcFile.replace(
+					new RegExp(srcModNameMapper.from),
+					srcModNameMapper.to
+				);
+				const destMod = destFile.replace(
+					new RegExp(destModNameMapper.from),
+					destModNameMapper.to
+				);
+				const absDestFile = path.join(output, destFile);
+
+				let contents = template;
+
+				contents = contents.replace('{PKG_NAME}', pkgJson.name);
+				contents = contents.replace('{PKG_VERSION}', pkgJson.version);
+				contents = contents.replace('{SRC_MOD}', srcMod);
+				contents = contents.replace('{DEST_MOD}', destMod);
+
+				fs.mkdirsSync(path.dirname(absDestFile));
+				fs.writeFileSync(absDestFile, contents);
+
+				log(srcFile, '->', destFile);
+			});
+	});
 }
 
 /**

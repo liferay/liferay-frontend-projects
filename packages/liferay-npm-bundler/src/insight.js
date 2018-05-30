@@ -25,7 +25,7 @@ export function init() {
 
 			insight = new Insight({
 				trackingCode: GA_TOKEN,
-				pkg: projectPkgJson,
+				pkg: require('../package.json'),
 			});
 		} catch (err) {
 			// ignore
@@ -41,6 +41,10 @@ export function init() {
 
 export const track = (...args) => {
 	if (insight) {
-		insight.track(insight.config.get('clientId'), ...args);
+		insight.track(
+			insight.config.get('clientId'),
+			insight.PROJECT_NAME,
+			...args
+		);
 	}
 };
