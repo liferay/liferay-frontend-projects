@@ -36,7 +36,7 @@
 		"test": "nyc ava"
 	},
 	"dependencies": {
-		"browser-sync": "^2.23.6",
+		"gulp": "^3.9.1",
 		"portfinder": "^1.0.13"
 	}
 }
