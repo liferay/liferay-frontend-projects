@@ -3,6 +3,8 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
+import report from './report';
+
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
 const rootPkg = new PkgDesc(pkgJson.name, pkgJson.version);
 
@@ -39,7 +41,7 @@ export function getPackageDependencies(basedir, extraDependencies = []) {
 
 	let dependencyDirs = dependencies
 		.map(function(dependency) {
-			return resolveDependencyDir(basedir, dependency);
+			return resolveDependencyDir(basedir, packageJson, dependency);
 		})
 		.filter(dependencyDir => {
 			return dependencyDir != null;
@@ -59,13 +61,31 @@ export function getPackageDependencies(basedir, extraDependencies = []) {
 /**
  * Resolves a dependency package and returns its directory.
  * @param {String} packageDir the base directory used for resolution
+ * @param {Object} packageJson the package.json object
  * @param {String} dependency a package name
  * @return {String} the path of the directory containing the dependency package
  */
-function resolveDependencyDir(packageDir, dependency) {
-	const pkgJsonFile = resolveModule.sync(dependency + '/package.json', {
-		basedir: packageDir,
-	});
+function resolveDependencyDir(packageDir, packageJson, dependency) {
+	try {
+		const pkgJsonFile = resolveModule.sync(dependency + '/package.json', {
+			basedir: packageDir,
+		});
 
-	return path.dirname(pkgJsonFile);
+		return path.dirname(pkgJsonFile);
+	} catch (err) {
+		if (
+			packageJson.optionalDependencies &&
+			packageJson.optionalDependencies[dependency]
+		) {
+			report.warn(
+				`Optional dependency '${dependency}' of ` +
+					`'${packageJson.name}' could not be found in ` +
+					`node_modules: it will be missing in the output bundle.`
+			);
+
+			return null;
+		} else {
+			throw err;
+		}
+	}
 }

@@ -60,70 +60,91 @@ export default function(args) {
  * @return {void}
  */
 function run() {
-	const start = process.hrtime();
+	try {
+		const start = process.hrtime();
 
-	// Create work directories
-	const outputDir = path.resolve(config.getOutputDir());
-	fs.mkdirsSync(path.join(outputDir, 'node_modules'));
+		// Create work directories
+		const outputDir = path.resolve(config.getOutputDir());
+		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
-	let promises = [];
+		let promises = [];
 
-	// Copy project's package.json
-	promises.push(bundleRootPackage(outputDir));
-	report.rootPackage(getRootPkg());
+		// Copy project's package.json
+		promises.push(bundleRootPackage(outputDir));
+		report.rootPackage(getRootPkg());
 
-	// Grab NPM dependencies
-	let pkgs = getPackageDependencies('.', config.getIncludeDependencies());
-	pkgs = Object.keys(pkgs)
-		.map(id => pkgs[id])
-		.filter(pkg => !pkg.isRoot);
+		// Grab NPM dependencies
+		let pkgs = getPackageDependencies('.', config.getIncludeDependencies());
+		pkgs = Object.keys(pkgs)
+			.map(id => pkgs[id])
+			.filter(pkg => !pkg.isRoot);
 
-	report.dependencies(pkgs);
-	reportLinkedDependencies(readJsonSync('package.json'));
+		report.dependencies(pkgs);
+		reportLinkedDependencies(readJsonSync('package.json'));
 
-	// Process NPM dependencies
-	log.info(`Bundling ${pkgs.length} dependencies...`);
+		// Process NPM dependencies
+		log.info(`Bundling ${pkgs.length} dependencies...`);
 
-	if (config.isProcessSerially()) {
-		report.warn(
-			'Option process-serially is on: this may degrade build performance.'
-		);
+		if (config.isProcessSerially()) {
+			report.warn(
+				'Option process-serially is on: this may degrade build performance.'
+			);
 
-		promises.push(
-			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
-		);
-	} else {
-		promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
+			promises.push(
+				iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
+			);
+		} else {
+			promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
+		}
+
+		// Report results
+		Promise.all(promises)
+			.then(() => {
+				// Report and show execution time
+				const hrtime = process.hrtime(start);
+				report.executionTime(hrtime);
+				log.info(`Bundling took ${pretty(hrtime)}`);
+
+				// Send report analytics data
+				report.sendAnalytics();
+
+				// Write report if requested
+				if (config.isDumpReport()) {
+					fs.writeFileSync(
+						config.getReportFilePath(),
+						report.toHtml()
+					);
+					log.info(`Report written to ${config.getReportFilePath()}`);
+				} else if (report.warningsPresent) {
+					log.info(`
+*************************************************************
+
+             WARNING FROM liferay-npm-bundler
+
+The build has emitted some warning messages: we recommend 
+cleaning the output, activating the 'dump-report' option 
+in '.npmbundlerrc', and then reviewing the generated 
+'liferay-npm-bundler-report.html' to make sure no problems 
+will arise during runtime.
+
+*************************************************************
+`);
+				}
+			})
+			.catch(abort);
+	} catch (err) {
+		abort(err);
 	}
+}
 
-	// Report results
-	Promise.all(promises)
-		.then(() => {
-			// Report and show execution time
-			const hrtime = process.hrtime(start);
-			report.executionTime(hrtime);
-			log.info(`Bundling took ${pretty(hrtime)}`);
-
-			// Send report analytics data
-			report.sendAnalytics();
-
-			// Write report if requested
-			if (config.isDumpReport()) {
-				fs.writeFileSync(config.getReportFilePath(), report.toHtml());
-				log.info(`Report written to ${config.getReportFilePath()}`);
-			} else if (report.warningsPresent) {
-				log.info(
-					'The build has emitted some warning messages: we recommend',
-					'to activate the \'dump-report\' option and review the',
-					'generated report to make sure no problems arise during',
-					'runtime.'
-				);
-			}
-		})
-		.catch(function(err) {
-			log.error(err);
-			process.exit(1);
-		});
+/**
+ * Abort execution showing error message
+ * @param  {Object} err the error object
+ * @return {void}
+ */
+function abort(err) {
+	log.error(err);
+	process.exit(1);
 }
 
 /**
@@ -179,22 +200,25 @@ function bundlePackage(srcPkg, outputDir) {
 
 	let pkg = srcPkg.clone({dir: outPkgDir});
 
-	return new Promise(resolve => {
-		copyPackage(srcPkg, outPkgDir).then(copied => {
-			if (!copied) {
-				resolve();
-				return;
-			}
+	return new Promise((resolve, reject) => {
+		copyPackage(srcPkg, outPkgDir)
+			.then(copied => {
+				if (!copied) {
+					resolve();
+					return;
+				}
 
-			processPackage('pre', srcPkg, pkg)
-				.then(() => runBabel(pkg))
-				.then(() => processPackage('post', srcPkg, pkg))
-				.then(() => renamePkgDirIfPkgJsonChanged(pkg))
-				.then(pkg => manifest.addPackage(srcPkg, pkg))
-				.then(() => manifest.save())
-				.then(() => log.debug(`Bundled ${pkg.id}`))
-				.then(resolve);
-		});
+				processPackage('pre', srcPkg, pkg)
+					.then(() => runBabel(pkg))
+					.then(() => processPackage('post', srcPkg, pkg))
+					.then(() => renamePkgDirIfPkgJsonChanged(pkg))
+					.then(pkg => manifest.addPackage(srcPkg, pkg))
+					.then(() => manifest.save())
+					.then(() => log.debug(`Bundled ${pkg.id}`))
+					.then(resolve)
+					.catch(reject);
+			})
+			.catch(reject);
 	});
 }
 
