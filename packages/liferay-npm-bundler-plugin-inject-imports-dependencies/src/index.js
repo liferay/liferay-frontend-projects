@@ -27,12 +27,13 @@ export default function(
 				pkgJson.dependencies[localName] !== undefined &&
 				pkgJson.dependencies[localName] !== importVersion
 			) {
-				log.warn(
+				log.info(
 					'inject-imports-dependencies',
 					'Injected dependency',
 					`${importName}@${importVersion}`,
-					'which is not compatible package.json\'s constraints:',
-					`${localName}@${pkgJson.dependencies[localName]}`
+					'(however, note that the same dependency in package.json',
+					'has different constraints:',
+					`${localName}@${pkgJson.dependencies[localName]})`
 				);
 			} else {
 				log.info(
