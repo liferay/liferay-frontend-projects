@@ -42,3 +42,25 @@ it('unrollImportsConfig throws for duplicated definitions', () => {
 		})
 	).toThrow();
 });
+
+describe('unrollImportsConfig handles null namespaces correctly', () => {
+	it('when described the canonical way', () => {
+		const imports = unrollImportsConfig({
+			'': {
+				dep: '^1.0.0',
+			},
+		});
+
+		expect(imports['dep']).toMatchObject({name: '', version: '^1.0.0'});
+	});
+
+	it('when described the sweet way', () => {
+		const imports = unrollImportsConfig({
+			dep: {
+				'/': '^1.0.0',
+			},
+		});
+
+		expect(imports['dep']).toMatchObject({name: '', version: '^1.0.0'});
+	});
+});

@@ -10,6 +10,13 @@ export function unrollImportsConfig(importsConfig) {
 
 	Object.keys(importsConfig).forEach(namespace => {
 		Object.keys(importsConfig[namespace]).forEach(pkgName => {
+			const version = importsConfig[namespace][pkgName];
+
+			if (pkgName === '/') {
+				pkgName = namespace;
+				namespace = '';
+			}
+
 			if (imports[pkgName]) {
 				throw new Error(
 					`Package ${pkgName} is mapped to more than one import`
@@ -18,7 +25,7 @@ export function unrollImportsConfig(importsConfig) {
 
 			imports[pkgName] = {
 				name: namespace,
-				version: importsConfig[namespace][pkgName],
+				version,
 			};
 		});
 	});
