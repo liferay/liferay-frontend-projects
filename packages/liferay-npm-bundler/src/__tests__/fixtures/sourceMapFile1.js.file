@@ -1,0 +1,11 @@
+"use strict";
+
+var define = undefined;
+Object.defineProperty(exports, "__esModule", { value: true });
+var platform_browser_dynamic_1 = require("@npm-angular5-provider$angular/platform-browser-dynamic");
+var app_module_1 = require("./app/app.module");
+function default_1() {
+    platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
+}
+exports.default = default_1;
+//# sourceMappingURL=main.js.map
