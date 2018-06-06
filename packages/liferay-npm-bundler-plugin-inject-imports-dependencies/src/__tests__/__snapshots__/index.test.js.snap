@@ -36,13 +36,14 @@ Array [
     ],
   },
   Object {
-    "level": "warn",
+    "level": "info",
     "source": "inject-imports-dependencies",
     "things": Array [
       "Injected dependency",
       "provider$pkg-b@^3.0.0",
-      "which is not compatible package.json's constraints:",
-      "root$pkg-b@^2.0.0",
+      "(however, note that the same dependency in package.json",
+      "has different constraints:",
+      "root$pkg-b@^2.0.0)",
     ],
   },
   Object {

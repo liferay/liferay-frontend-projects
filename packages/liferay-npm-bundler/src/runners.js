@@ -10,6 +10,7 @@ import readJsonSync from 'read-json-sync';
 import * as config from './config';
 import * as log from './log';
 import report from './report';
+import {loadSourceMap} from './util';
 
 /**
  * Run a liferay-npm-bundler plugin
@@ -103,6 +104,7 @@ export function runBabel(pkg, {ignore = []} = {}) {
 						Object.assign(
 							{
 								filenameRelative: filePath,
+								inputSourceMap: loadSourceMap(filePath),
 							},
 							babelConfig
 						),

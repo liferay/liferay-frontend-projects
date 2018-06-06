@@ -36,6 +36,37 @@ export function iterateSerially(values, asyncProcess) {
 }
 
 /**
+ * Load the source map of a transpiled JS file.
+ * @param  {string} filePath the path to the transpiled JS file
+ * @return {Object|null} the source map object or null if not present
+ */
+export function loadSourceMap(filePath) {
+	const fileContent = fs.readFileSync(filePath);
+
+	const offset1 = fileContent.lastIndexOf('//# sourceMappingURL=');
+	const offset2 = fileContent.lastIndexOf('/*# sourceMappingURL=');
+
+	const offset = Math.max(offset1, offset2);
+
+	const annotation = fileContent.toString().substring(offset);
+
+	let matches = annotation.match(/\/\/# sourceMappingURL=(.*)/);
+	if (!matches) {
+		matches = annotation.match(/\/\*# sourceMappingURL=(.*) \*\//);
+
+		if (!matches) {
+			return null;
+		}
+	}
+
+	const sourceMapFile = path.normalize(
+		path.join(path.dirname(filePath), matches[1])
+	);
+
+	return readJsonSync(sourceMapFile);
+}
+
+/**
  * Rename a package folder if package.json doesn't match original package name
  * or version.
  * @param {PkgDesc} pkg the package descriptor
