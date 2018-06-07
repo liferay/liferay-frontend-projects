@@ -1,1 +1,28 @@
-Welcome to the liferay-npm-build-tools wiki!
+This wiki holds the documentation for the Liferay npm Build Tools (aka npm SDK).
+
+You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-npm-build-tools/issues).
+
+You can also get information about released versions and their changes in the [closed milestones page](https://github.com/liferay/liferay-npm-build-tools/milestones?state=closed). 
+
+And if you want to know what's planned for the next version, just visit the [open milestones page](https://github.com/liferay/liferay-npm-build-tools/milestones?state=open).
+
+Now, let's go with the documentation:
+
+1. Introductory topics:
+
+   1. [[How to use the npm SDK in your project]]
+   2. [[How to deploy npm packages to Liferay]]
+   3. [[How Liferay serves npm packages to the browser]]
+
+
+2. Manuals:
+
+   1. [[liferay-npm-bundler Manual]]
+
+
+3. Other sources of documentation:
+
+   1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
+   2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
+   3. [Liferay Community Slack](https://liferay-community.slack.com/)
+   4. [[Miscellaneous resources]]
