@@ -17,7 +17,8 @@ Now, let's go with the documentation:
 
 2. Manuals:
 
-   1. [[liferay-npm-bundler Manual]]
+   1. [[How to use liferay-npm-bundler]]
+   2. [[How to use liferay-npm-bridge-generator]]
 
 
 3. Other sources of documentation:
