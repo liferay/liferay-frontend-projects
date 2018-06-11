@@ -1,4 +1,5 @@
 import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
+import {normalizeImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 
 /**
  * @return {void}
@@ -7,7 +8,9 @@ export default function(
 	{rootPkgJson, globalConfig, config, log},
 	{pkgJson}
 ) {
-	const imports = config.imports || globalConfig.imports || {};
+	let imports = config.imports || globalConfig.imports || {};
+
+	imports = normalizeImportsConfig(imports);
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
 
