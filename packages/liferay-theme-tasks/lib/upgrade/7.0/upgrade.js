@@ -126,19 +126,23 @@ module.exports = function(options) {
 				regex: /<ul class="list-inline"[^<li]/g,
 			},
 			{
-				message: 'Warning: .container-fluid-1280 has been deprecated. Please use .container-fluid.container-fluid-max-xl instead.',
+				message:
+					'Warning: .container-fluid-1280 has been deprecated. Please use .container-fluid.container-fluid-max-xl instead.',
 				regex: /<div class="container-fluid-1280">/g,
 			},
 			{
-				message: 'Responsive navbar behaviors are now applied to the .navbar class via the required .navbar-expand-{breakpoint}, see https://getbootstrap.com/docs/4.0/migration/#navbar for more information.',
+				message:
+					'Responsive navbar behaviors are now applied to the .navbar class via the required .navbar-expand-{breakpoint}, see https://getbootstrap.com/docs/4.0/migration/#navbar for more information.',
 				regex: /<nav class="navbar">/g,
 			},
 			{
-				message: 'Warning: .navbar-toggle is now .navbar-toggler and has differnt inner markup, see https://getbootstrap.com/docs/4.0/migration/#navbar for more information.',
+				message:
+					'Warning: .navbar-toggle is now .navbar-toggler and has differnt inner markup, see https://getbootstrap.com/docs/4.0/migration/#navbar for more information.',
 				regex: /navbar-toggle[\s|"]>/g,
 			},
 			{
-				message: 'Warning: .navbar-header has been removed. This container should be removed in most cases. Please, use your own container if necessary.',
+				message:
+					'Warning: .navbar-header has been removed. This container should be removed in most cases. Please, use your own container if necessary.',
 				regex: /navbar-header/g,
 			},
 		];
@@ -213,7 +217,7 @@ module.exports = function(options) {
 			.src(cssSrcPath)
 			.pipe(
 				vinylPaths(function(path, done) {
-					checkFile(path, bootstrapVars.rules, 'bootstrap')
+					checkFile(path, bootstrapVars.rules, 'bootstrap');
 
 					done();
 				})
@@ -226,8 +230,11 @@ module.exports = function(options) {
 			.src(cssSrcPath)
 			.pipe(
 				vinylPaths(function(path, done) {
-					const usedLexiconMixins = checkFile(path, lexiconMixins.rules, 'lexicon')
-						.map(({name}) => name);
+					const usedLexiconMixins = checkFile(
+						path,
+						lexiconMixins.rules,
+						'lexicon'
+					).map(({name}) => name);
 
 					lexiconUpgrade.removedMixinsUsage[path] = usedLexiconMixins;
 
@@ -242,8 +249,11 @@ module.exports = function(options) {
 			.src(cssSrcPath)
 			.pipe(
 				vinylPaths(function(path, done) {
-					const usedLexiconVars = checkFile(path, lexiconVars.rules, 'lexicon')
-						.map(({name}) => name);
+					const usedLexiconVars = checkFile(
+						path,
+						lexiconVars.rules,
+						'lexicon'
+					).map(({name}) => name);
 
 					lexiconUpgrade.removedVarsUsage[path] = usedLexiconVars;
 
@@ -254,16 +264,24 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-removed-lexicon-mixins-file', function(cb) {
-		const removedMixinsUsage = Object.keys(lexiconUpgrade.removedMixinsUsage)
+		const removedMixinsUsage = Object.keys(
+			lexiconUpgrade.removedMixinsUsage
+		)
 			.map(file => lexiconUpgrade.removedMixinsUsage[file])
 			.reduce((acc, value) => acc.concat(value));
 
 		if (removedMixinsUsage.length) {
-			const removedMixinsFileContent = [...new Set(removedMixinsUsage)].map(
-				mixinName => {
-					return fs.readFileSync(path.normalize(`${__dirname}/theme_data/mixins/${lexiconMixins.removed[mixinName]}.scss`));
-				}
-			);
+			const removedMixinsFileContent = [
+				...new Set(removedMixinsUsage),
+			].map(mixinName => {
+				return fs.readFileSync(
+					path.normalize(
+						`${__dirname}/theme_data/mixins/${
+							lexiconMixins.removed[mixinName]
+						}.scss`
+					)
+				);
+			});
 
 			let deprecatedMixinsFilePath = path.join(
 				process.cwd(),
@@ -272,7 +290,10 @@ module.exports = function(options) {
 				'_mixins_deprecated.scss'
 			);
 
-			fs.writeFileSync(deprecatedMixinsFilePath, removedMixinsFileContent);
+			fs.writeFileSync(
+				deprecatedMixinsFilePath,
+				removedMixinsFileContent
+			);
 		}
 
 		cb();
@@ -302,8 +323,9 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:import-removed-lexicon-mixins', function() {
-		const removedMixinsUsage = Object.keys(lexiconUpgrade.removedMixinsUsage)
-			.filter(file => lexiconUpgrade.removedMixinsUsage[file].length);
+		const removedMixinsUsage = Object.keys(
+			lexiconUpgrade.removedMixinsUsage
+		).filter(file => lexiconUpgrade.removedMixinsUsage[file].length);
 
 		if (removedMixinsUsage.length) {
 			const importsFilePath = path.join(
@@ -313,15 +335,17 @@ module.exports = function(options) {
 				'_imports.scss'
 			);
 
-			return gulp.src(importsFilePath)
+			return gulp
+				.src(importsFilePath)
 				.pipe(plugins.insert.append('@import "mixins_deprecated";\n\n'))
 				.pipe(gulp.dest(DIR_SRC_CSS));
 		}
 	});
 
 	gulp.task('upgrade:import-removed-lexicon-vars', function() {
-		const removedVarsUsage = Object.keys(lexiconUpgrade.removedVarsUsage)
-			.filter(file => lexiconUpgrade.removedVarsUsage[file].length);
+		const removedVarsUsage = Object.keys(
+			lexiconUpgrade.removedVarsUsage
+		).filter(file => lexiconUpgrade.removedVarsUsage[file].length);
 
 		if (removedVarsUsage.length) {
 			const importsFilePath = path.join(
@@ -331,8 +355,11 @@ module.exports = function(options) {
 				'_imports.scss'
 			);
 
-			return gulp.src(importsFilePath)
-				.pipe(plugins.insert.append('@import "variables_deprecated";\n\n'))
+			return gulp
+				.src(importsFilePath)
+				.pipe(
+					plugins.insert.append('@import "variables_deprecated";\n\n')
+				)
 				.pipe(gulp.dest(DIR_SRC_CSS));
 		}
 	});
@@ -345,7 +372,15 @@ module.exports = function(options) {
 				);
 
 				logBuffers.liferay.push(fileName);
-				logBuffers.liferay.push('    ' + colors.red('Velocity templates for themes were deprecated in 7.0 and are unsupported in 7.0. ') + colors.white(' Please move your templates to Freemarker.' + '\n'));
+				logBuffers.liferay.push(
+					'    ' +
+						colors.red(
+							'Velocity templates for themes were deprecated in 7.0 and are unsupported in 7.0. '
+						) +
+						colors.white(
+							' Please move your templates to Freemarker.' + '\n'
+						)
+				);
 
 				done();
 			})
@@ -364,7 +399,7 @@ module.exports = function(options) {
 			'upgrade:collect-removed-lexicon-vars',
 			'upgrade:create-removed-lexicon-vars-file',
 			'upgrade:import-removed-lexicon-vars',
-			//'upgrade:convert-bootstrap',
+			// 'upgrade:convert-bootstrap',
 			'upgrade:ftl-templates',
 			'upgrade:unsupported-vm-templates',
 			'upgrade:dependencies',

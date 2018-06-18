@@ -33,15 +33,13 @@ const removed = [
 	'state-danger-border',
 ];
 
-const rules = removed.map(
-	varName => {
-		return {
-			name: varName,
-			message: `$${varName} was removed in Bootstrap 4.x.x`,
-			regex: new RegExp(`\\$${varName}`, 'g'),
-		};
-	}
-);
+const rules = removed.map(varName => {
+	return {
+		name: varName,
+		message: `$${varName} was removed in Bootstrap 4.x.x`,
+		regex: new RegExp(`\\$${varName}`, 'g'),
+	};
+});
 
 module.exports = {
 	removed: removed,
