@@ -37,7 +37,6 @@
 		"test": "nyc ava"
 	},
 	"dependencies": {
-		"gulp": "^3.9.1",
-		"portfinder": "^1.0.13"
+		"gulp": "^3.9.1"
 	}
 }
