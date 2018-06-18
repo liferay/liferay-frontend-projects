@@ -4,6 +4,6 @@
   "license": "ISC",
   "main": "index.js",
   "name": "liferay-theme-deps-normalize",
-  "repository": "Robert-Frampton/liferay-theme-deps-normalize",
+  "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-deps-normalize",
   "version": "8.0.0-alpha.4"
 }

@@ -19,5 +19,6 @@
   "license": "LGPL",
   "main": "index.js",
   "name": "liferay-theme-mixins",
+  "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-mixins",
   "version": "8.0.0-alpha.4"
 }
