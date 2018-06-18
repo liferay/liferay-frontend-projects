@@ -2,14 +2,14 @@
 
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
+const colors = require('ansi-colors');
 const fs = require('fs-extra');
-const gutil = require('gulp-util');
+const log = require('fancy-log');
 const path = require('path');
 const resolve = require('resolve');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
-const chalk = gutil.colors;
 const pkg = lfrThemeConfig.getConfig(true);
 const themeConfig = pkg.liferayTheme;
 const fullDeploy = argv.full || argv.f;
@@ -78,10 +78,10 @@ module.exports = {
 		let customPath = this._getCustomDependencyPath(dependency);
 
 		if (customPath) {
-			gutil.log(
-				chalk.magenta(dependency),
+			log(
+				colors.magenta(dependency),
 				'using custom path:',
-				chalk.magenta(customPath)
+				colors.magenta(customPath)
 			);
 
 			return customPath;

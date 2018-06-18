@@ -1,10 +1,10 @@
 'use strict';
 
-const del = require('del');
-const plugins = require('gulp-load-plugins')();
-const gutil = require('gulp-util');
 const _ = require('lodash');
+const del = require('del');
 const path = require('path');
+const plugins = require('gulp-load-plugins')();
+var log = require('fancy-log');
 
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 const divert = require('../../lib/divert');
@@ -19,7 +19,7 @@ module.exports = function(options) {
 
 	const handleScssError = err => {
 		if (options.watching) {
-			gutil.log(err);
+			log(err);
 
 			this.emit('end');
 		} else {

@@ -1,14 +1,14 @@
 'use strict';
 
 const _ = require('lodash');
+const colors = require('ansi-colors');
 const del = require('del');
+const log = require('fancy-log');
 const path = require('path');
-const plugins = require('gulp-load-plugins')();
 
 const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 const WatchSocket = require('../lib/watch_socket.js');
 
-const gutil = plugins.util;
 const themeConfig = lfrThemeConfig.getConfig();
 
 const browserSync = require('browser-sync').create('liferay-theme-tasks');
@@ -203,8 +203,8 @@ module.exports = function(options) {
 
 		watchSocket.on('error', function(err) {
 			if (err.code === 'ECONNREFUSED' || err.errno === 'ECONNREFUSED') {
-				gutil.log(
-					gutil.colors.yellow(
+				log(
+					colors.yellow(
 						'Cannot connect to gogo shell. Please ensure local Liferay instance is running.'
 					)
 				);

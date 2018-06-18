@@ -5,6 +5,7 @@
   "main": "package.json",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
   "license": "ISC",
+  "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-deps-7.0",
   "scripts": {
     "install": "node scripts/install.js"
   },

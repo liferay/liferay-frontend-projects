@@ -1,14 +1,13 @@
 'use strict';
 
-let _ = require('lodash');
-let fs = require('fs');
-let gutil = require('gulp-util');
-let inquirer = require('inquirer');
-let path = require('path');
+const _ = require('lodash');
+const colors = require('ansi-colors');
+const fs = require('fs');
+const inquirer = require('inquirer');
+const log = require('fancy-log');
+const path = require('path');
 
-let chalk = gutil.colors;
-
-let CWD = process.cwd();
+const CWD = process.cwd();
 
 module.exports = function(options) {
 	let gulp = options.gulp;
@@ -83,20 +82,20 @@ module.exports = function(options) {
 	function logChanges(filePath) {
 		let themeDirName = path.basename(CWD);
 
-		let destFile = chalk.cyan(path.join(themeDirName, pathSrc, filePath));
-		let srcFile = chalk.cyan(path.join(themeDirName, pathBuild, filePath));
+		let destFile = colors.cyan(path.join(themeDirName, pathSrc, filePath));
+		let srcFile = colors.cyan(path.join(themeDirName, pathBuild, filePath));
 
-		gutil.log(srcFile, 'copied to', destFile);
+		log(srcFile, 'copied to', destFile);
 	}
 
 	function promptFiles(dirPath, cb) {
 		let choices = getFileChoices(dirPath);
 
 		if (dirPath === '.' && !validateBuild(choices)) {
-			gutil.log(
-				chalk.yellow(
+			log(
+				colors.yellow(
 					'You must run',
-					chalk.cyan('gulp build'),
+					colors.cyan('gulp build'),
 					'prior to using the overwrite task!'
 				)
 			);

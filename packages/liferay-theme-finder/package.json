@@ -15,6 +15,6 @@
   "license": "ISC",
   "main": "index.js",
   "name": "liferay-theme-finder",
-  "repository": "Robert-Frampton/liferay-theme-finder",
+  "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-finder",
   "version": "8.0.0-alpha.4"
 }

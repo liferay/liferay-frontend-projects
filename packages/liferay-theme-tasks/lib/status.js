@@ -1,41 +1,37 @@
 'use strict';
 
-let _ = require('lodash');
-let gutil = require('gulp-util');
-
-let chalk = gutil.colors;
+const _ = require('lodash');
+const colors = require('ansi-colors');
 
 function status(themeConfig) {
 	let statusBuffer = [];
 
 	let baseTheme = themeConfig.baseTheme;
 
-	let baseThemeLabel = chalk.cyan('Base theme: ');
+	let baseThemeLabel = colors.cyan('Base theme: ');
 
 	if (baseTheme) {
 		let baseThemeName = baseTheme.name || baseTheme;
+		let baseThemeVersion = baseTheme.version ? 'v' + baseTheme.version : '';
 
 		statusBuffer.push(
 			baseThemeLabel +
-				chalk.green(
-					baseThemeName,
-					baseTheme.version ? 'v' + baseTheme.version : ''
-				)
+				colors.green(`${baseThemeName} ${baseThemeVersion}`)
 		);
 	} else {
 		statusBuffer.push(
-			baseThemeLabel + chalk.red('no base theme specified')
+			baseThemeLabel + colors.red('no base theme specified')
 		);
 	}
 
 	let themeletDependencies = themeConfig.themeletDependencies;
 
 	if (themeletDependencies) {
-		statusBuffer.push(chalk.cyan('Themelets:'));
+		statusBuffer.push(colors.cyan('Themelets:'));
 
 		_.forEach(themeletDependencies, function(item) {
 			statusBuffer.push(
-				' - ' + chalk.green(item.name, 'v' + item.version)
+				' - ' + colors.green(item.name + ' v' + item.version)
 			);
 		});
 	}
