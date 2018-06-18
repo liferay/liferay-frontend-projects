@@ -14,7 +14,7 @@
   "license": "ISC",
   "main": "package.json",
   "name": "liferay-theme-deps-7.1",
-  "version": "8.0.0-alpha.4",
+  "version": "8.0.0-alpha.5",
   "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-deps-7.1",
   "scripts": {
     "install": "node scripts/install.js"
