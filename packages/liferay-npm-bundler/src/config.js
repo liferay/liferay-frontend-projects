@@ -271,6 +271,12 @@ export function isDumpReport() {
  */
 export function isNoTracking() {
 	if (config['no-tracking'] === undefined) {
+		if (process.env.LIFERAY_NPM_BUNDLER_NO_TRACKING) {
+			config['no-tracking'] = true;
+		}
+	}
+
+	if (config['no-tracking'] === undefined) {
 		let dir = process.cwd();
 
 		while (
