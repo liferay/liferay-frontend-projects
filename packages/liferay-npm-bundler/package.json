@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"babel-core": "^6.25.0",
+		"data-urls": "^1.0.0",
 		"fs-extra": "^4.0.2",
 		"globby": "^6.1.0",
 		"insight": "0.10.0",

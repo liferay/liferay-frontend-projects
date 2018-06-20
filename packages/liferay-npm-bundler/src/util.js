@@ -1,3 +1,4 @@
+import parseDataURL from 'data-urls';
 import fs from 'fs-extra';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -59,11 +60,25 @@ export function loadSourceMap(filePath) {
 		}
 	}
 
-	const sourceMapFile = path.normalize(
-		path.join(path.dirname(filePath), matches[1])
-	);
+	const url = matches[1];
 
-	return readJsonSync(sourceMapFile);
+	if (url.indexOf('data:') == 0) {
+		const {mimeType, body} = parseDataURL(url);
+
+		if (mimeType.toString() === 'application/json') {
+			return JSON.parse(body.toString());
+		}
+	} else {
+		const sourceMapFile = path.normalize(
+			path.join(path.dirname(filePath), url)
+		);
+
+		try {
+			return readJsonSync(sourceMapFile);
+		} catch (err) {}
+	}
+
+	return null;
 }
 
 /**
