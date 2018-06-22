@@ -173,7 +173,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_getTemplateLanguageChoices: (answers) =>
-    divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
+	divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
 
 	_getWhenFn: function(propertyName, flag, validator) {
 		var instance = this;
@@ -225,15 +225,15 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isTemplateLanguage: (value, answers) =>
-    divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
+	divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
 
 	_mixArgs: function(props, args) {
 		return _.assign(props, args);
 	},
 
 	_printWarnings: function(props) {
-    return divert('app_helpers')._printWarnings(this, props);
-  },
+		return divert('app_helpers')._printWarnings(this, props);
+	},
 
 	_prompt: function() {
 		var done = this.done;
@@ -258,7 +258,7 @@ module.exports = yeoman.generators.Base.extend({
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
-    divert.defaultVersion = liferayVersion;
+	divert.defaultVersion = liferayVersion;
 
 		this._setDefaults(liferayVersion);
 
@@ -281,9 +281,9 @@ module.exports = yeoman.generators.Base.extend({
 
 	_setDefaults: function(liferayVersion) {
 		_.defaults(this, {
-      rubySass: false,
-      templateLanguage: 'ftl'
-    });
+			rubySass: false,
+			templateLanguage: 'ftl'
+		});
 	},
 
 	_setPackageVersion: function() {
