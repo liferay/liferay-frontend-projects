@@ -26,4 +26,5 @@ Now, let's go with the documentation:
    1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
    2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
    3. [Liferay Community Slack](https://liferay-community.slack.com/)
-   4. [[Miscellaneous resources]]
+   4. [Question issues](https://github.com/liferay/liferay-npm-build-tools/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aquestion+)
+   5. [[Miscellaneous resources]]
