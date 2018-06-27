@@ -187,6 +187,12 @@ module.exports = yeoman.generators.Base.extend({
 		return function(answers) {
 			var propertyValue = argv[flag];
 
+			var liferayVersion = answers.liferayVersion || argv.liferayVersion;
+
+			if ((!answers.liferayVersion || !args.liferayVersion) && argv.liferayVersion) {
+				answers.liferayVersion  = args.liferayVersion = liferayVersion;
+			}
+
 			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue, answers)) {
 				propertyValue = null;
 
