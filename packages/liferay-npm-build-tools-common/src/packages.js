@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import readJsonSync from 'read-json-sync';
 
 let packageDirCache = {};
 
@@ -29,7 +30,16 @@ export function getPackageDir(modulePath) {
 
 		while (!found) {
 			try {
-				fs.statSync(path.join(dir, 'package.json'));
+				const pkgJsonPath = path.join(dir, 'package.json');
+
+				fs.statSync(pkgJsonPath);
+
+				const {version} = readJsonSync(pkgJsonPath);
+
+				if (version === undefined) {
+					throw new Error('No valid version field found');
+				}
+
 				found = true;
 			} catch (err) {
 				const dirname = path.dirname(dir);
