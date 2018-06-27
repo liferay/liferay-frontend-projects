@@ -201,14 +201,13 @@ module.exports = yeoman.generators.Base.extend({
 
 				ask = false;
 			}
-
-			if (promptDeprecationMap) {
+			else if (promptDeprecationMap) {
 				var deprecatedVersions = promptDeprecationMap[propertyName];
 
-				var liferayVersion = answers.liferayVersion || args.liferayVersion;
+				ask = !deprecatedVersions;
 
-				if (!deprecated && deprecatedVersions && deprecatedVersions.indexOf(liferayVersion) > -1) {
-					ask = false;
+				if (deprecated && deprecatedVersions && deprecatedVersions.indexOf(liferayVersion) > -1) {
+					ask = true;
 				}
 			}
 
