@@ -173,7 +173,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_getTemplateLanguageChoices: (answers) =>
-	divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
+		divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
 
 	_getWhenFn: function(propertyName, flag, validator) {
 		var instance = this;
@@ -230,7 +230,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isTemplateLanguage: (value, answers) =>
-	divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
+		divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
 
 	_mixArgs: function(props, args) {
 		return _.assign(props, args);
@@ -263,7 +263,7 @@ module.exports = yeoman.generators.Base.extend({
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
-	divert.defaultVersion = liferayVersion;
+		divert.defaultVersion = liferayVersion;
 
 		this._setDefaults(liferayVersion);
 
