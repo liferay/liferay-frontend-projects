@@ -173,7 +173,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_getTemplateLanguageChoices: (answers) =>
-	divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
+		divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
 
 	_getWhenFn: function(propertyName, flag, validator) {
 		var instance = this;
@@ -186,6 +186,12 @@ module.exports = yeoman.generators.Base.extend({
 
 		return function(answers) {
 			var propertyValue = argv[flag];
+
+			var liferayVersion = answers.liferayVersion || argv.liferayVersion;
+
+			if ((!answers.liferayVersion || !args.liferayVersion) && argv.liferayVersion) {
+				answers.liferayVersion  = args.liferayVersion = liferayVersion;
+			}
 
 			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue, answers)) {
 				propertyValue = null;
@@ -201,14 +207,13 @@ module.exports = yeoman.generators.Base.extend({
 
 				ask = false;
 			}
-
-			if (promptDeprecationMap) {
+			else if (promptDeprecationMap) {
 				var deprecatedVersions = promptDeprecationMap[propertyName];
 
-				var liferayVersion = answers.liferayVersion || args.liferayVersion;
+				ask = !deprecatedVersions;
 
-				if (!deprecated && deprecatedVersions && deprecatedVersions.indexOf(liferayVersion) > -1) {
-					ask = false;
+				if (deprecated && deprecatedVersions && deprecatedVersions.indexOf(liferayVersion) > -1) {
+					ask = true;
 				}
 			}
 
@@ -225,7 +230,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isTemplateLanguage: (value, answers) =>
-	divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
+		divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
 
 	_mixArgs: function(props, args) {
 		return _.assign(props, args);
@@ -258,7 +263,7 @@ module.exports = yeoman.generators.Base.extend({
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
-	divert.defaultVersion = liferayVersion;
+		divert.defaultVersion = liferayVersion;
 
 		this._setDefaults(liferayVersion);
 
