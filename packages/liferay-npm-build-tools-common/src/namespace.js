@@ -1,3 +1,5 @@
+import * as mod from './modules';
+
 /**
  * Test if a module name is namespaced according to any root package.
  * @param {String} moduleName a module name
@@ -10,6 +12,7 @@ export function isNamespaced(moduleName) {
 /**
  * Namespace a module name according to some root package name. If the module
  * name is already namespaced with a different root package, an Error is thrown.
+ * If the module is local it is left untouched.
  * @param {String} moduleName a module name
  * @param {String} name name of root package
  * @param {Boolean} allowOverride don't fail when trying to change the namespace
@@ -38,7 +41,11 @@ export function addNamespace(
 		}
 	}
 
-	if (moduleName.startsWith('@')) {
+	if (mod.isLocalModule(moduleName)) {
+		return moduleName;
+	} else if (moduleName.startsWith(`${name}/`) || moduleName === name) {
+		return moduleName;
+	} else if (moduleName.startsWith('@')) {
 		return moduleName.replace('@', `@${namespace}`);
 	} else {
 		return namespace + moduleName;
