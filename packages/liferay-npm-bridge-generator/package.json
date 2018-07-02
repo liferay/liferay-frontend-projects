@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bridge-generator",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"description": "A CLI utility to generate module bridges (modules that re-export other modules).",
 	"bin": {
 		"liferay-npm-bridge-generator": "bin/liferay-npm-bridge-generator.js"
