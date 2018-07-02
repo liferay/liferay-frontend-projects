@@ -75,6 +75,20 @@ describe('when using regular packages', () => {
 		).toBe('a-package$b-package/a-module');
 	});
 
+	it('addNamespace leaves local module names untouched', () => {
+		expect(ns.addNamespace('./path/to/module', {name: 'a-package'})).toBe(
+			'./path/to/module'
+		);
+
+		expect(
+			ns.addNamespace('../path/to/module', {name: 'a-package'})
+		).toBe('../path/to/module');
+
+		expect(
+			ns.addNamespace('a-package/path/to/module', {name: 'a-package'})
+		).toBe('a-package/path/to/module');
+	});
+
 	it('removeNamespace works', () => {
 		// Package alone
 		expect(ns.removeNamespace('a-package$b-package')).toBe('b-package');
@@ -180,6 +194,22 @@ describe('when using scoped packages', () => {
 				allowOverride: true,
 			})
 		).toBe('@a-package$scope/b-package/a-module');
+	});
+
+	it('addNamespace leaves local module names untouched', () => {
+		expect(
+			ns.addNamespace('./path/to/module', {name: '@scope/a-package'})
+		).toBe('./path/to/module');
+
+		expect(
+			ns.addNamespace('../path/to/module', {name: '@scope/a-package'})
+		).toBe('../path/to/module');
+
+		expect(
+			ns.addNamespace('@scope/a-package/path/to/module', {
+				name: '@scope/a-package',
+			})
+		).toBe('@scope/a-package/path/to/module');
 	});
 
 	it('removeNamespace works', () => {
