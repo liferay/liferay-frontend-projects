@@ -1,6 +1,6 @@
 {
   "name": "liferay-theme-deps-7.0",
-  "version": "8.0.0-alpha.6",
+  "version": "8.0.0-beta.0",
   "description": "Set of dependencies required by liferay-theme-tasks",
   "main": "package.json",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
@@ -17,6 +17,6 @@
     "liferay-frontend-theme-classic-web": "~2.0.0",
     "liferay-frontend-theme-styled": "~2.0.0",
     "liferay-frontend-theme-unstyled": "~2.1.0",
-    "liferay-theme-deps-normalize": "^8.0.0-alpha.6"
+    "liferay-theme-deps-normalize": "^8.0.0-beta.0"
   }
 }
