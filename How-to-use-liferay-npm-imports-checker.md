@@ -63,6 +63,17 @@ would make the tool ignore the `@angular/core` check of `npm-angular5-portlet-sa
 
 To make it easier to build this file, you can leverage the `--write-ignores` command line option to write an initial version where all failing checks are configured as ignored. Then, you can fix and remove any ignored check that you still want to test in the future.
 
+* `exclude-folders`: this is an array of folder names that will be excluded from load when the tool is run. This is useful to make the tool run faster by not recursing unneded folders.
+
+For example, if you configure:
+
+```json
+{
+  "exclude-folders": ["build", "classes"],
+}
+```
+the tool will completely skip (it won't even look inside) folders named `build` or `classes` when doing the checks. However, note that the `node_modules` folder is excluded by default and you don't need to add it to the configuration file.
+
 ## Command line arguments
 
 You can pass the following arguments to the tool (from the command line):
