@@ -1,11 +1,13 @@
 /**
  * Normalize an imports configuration to canonicalize all syntactic sugar.
  * @param  {Object} importsConfig the configuration in its original format
+ * @param  {Boolean} useSlashFormat whether to use slash or empty string format
  * @return {Object} the normalized configuration after resolving all syntactic sugar
  */
-export function normalizeImportsConfig(importsConfig) {
+export function normalizeImportsConfig(importsConfig, useSlashFormat = false) {
 	let normalized = {};
 
+	// Normalize to empty-string format
 	Object.keys(importsConfig).forEach(namespace => {
 		Object.keys(importsConfig[namespace]).forEach(pkgName => {
 			const version = importsConfig[namespace][pkgName];
@@ -19,6 +21,24 @@ export function normalizeImportsConfig(importsConfig) {
 			normalized[namespace][pkgName] = version;
 		});
 	});
+
+	// If necessary convert back to slash format
+	if (useSlashFormat) {
+		Object.keys(normalized).forEach(namespace => {
+			Object.keys(normalized[namespace]).forEach(pkgName => {
+				if (namespace === '') {
+					normalized[pkgName] = normalized[pkgName] || {};
+					normalized[pkgName]['/'] = normalized[namespace][pkgName];
+
+					delete normalized[namespace][pkgName];
+
+					if (Object.keys(normalized[namespace]).length == 0) {
+						delete normalized[namespace];
+					}
+				}
+			});
+		});
+	}
 
 	return normalized;
 }
