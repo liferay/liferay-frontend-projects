@@ -126,10 +126,12 @@ module.exports = {
 	_getPackageJSON: function(theme, cb) {
 		(async () => {
 			try {
-				const pkg = await packageJson(theme.name, {fullMetadata: true});
+				const pkg = await packageJson(theme.name, {
+					fullMetadata: true,
+				});
 
 				cb(null, pkg);
-			} catch(err) {
+			} catch (err) {
 				cb(err);
 			}
 		})();
