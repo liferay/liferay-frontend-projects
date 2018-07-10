@@ -20,6 +20,7 @@
 		"fs-extra": "^4.0.2",
 		"globby": "^6.1.0",
 		"insight": "0.10.0",
+		"jszip": "^3.1.5",
 		"liferay-npm-build-tools-common": "2.1.1",
 		"liferay-npm-bundler-preset-standard": "2.1.1",
 		"pretty-time": "^0.2.0",
