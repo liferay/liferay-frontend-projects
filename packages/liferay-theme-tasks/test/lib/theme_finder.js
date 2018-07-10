@@ -51,7 +51,7 @@ test.cb(
 			t.true(_.isUndefined(pkg), 'pkg is undefined');
 			t.is(
 				err.message,
-				'Package or version doesn\'t exist',
+				'Package `fake-themelet-123` doesn\'t exist',
 				'it has appropriate error message'
 			);
 
