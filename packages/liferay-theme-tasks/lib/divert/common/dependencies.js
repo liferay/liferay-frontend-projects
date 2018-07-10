@@ -40,7 +40,11 @@ function getBaseThemeDependencies(baseThemePath) {
 		dependencies.push(path.resolve(baseThemePath, 'src/**/*'));
 
 		return getBaseThemeDependencies(baseThemePath, dependencies);
-	} else if (baseTheme === 'styled' || baseTheme === 'classic' || baseTheme === 'admin') {
+	} else if (
+		baseTheme === 'styled' ||
+		baseTheme === 'classic' ||
+		baseTheme === 'admin'
+	) {
 		dependencies.splice(
 			1,
 			0,
