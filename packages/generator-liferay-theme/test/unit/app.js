@@ -46,7 +46,7 @@ describe('liferay-theme:app unit tests', function() {
 			var whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
-			chaiAssert(whenFn());
+			chaiAssert(whenFn({}));
 
 			prototype.argv = {
 				template: 'vm'
@@ -55,7 +55,7 @@ describe('liferay-theme:app unit tests', function() {
 			whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
-			chaiAssert(!whenFn());
+			chaiAssert(!whenFn({}));
 			chaiAssert.equal(prototype.args[propertyName], 'vm');
 
 			whenFn = prototype._getWhenFn(propertyName, flagName);
@@ -73,7 +73,7 @@ describe('liferay-theme:app unit tests', function() {
 			});
 
 			chaiAssert.isFunction(whenFn);
-			chaiAssert(whenFn());
+			chaiAssert(whenFn({}));
 
 			prototype.args = {};
 			prototype.argv = {
@@ -89,7 +89,7 @@ describe('liferay-theme:app unit tests', function() {
 			});
 
 			chaiAssert.isFunction(whenFn);
-			chaiAssert(!whenFn());
+			chaiAssert(!whenFn({}));
 			chaiAssert.equal(prototype.args[propertyName], 'ftl');
 
 			prototype.args = {};
@@ -99,7 +99,7 @@ describe('liferay-theme:app unit tests', function() {
 			});
 
 			chaiAssert.isFunction(whenFn);
-			chaiAssert(whenFn());
+			chaiAssert(whenFn({}));
 			chaiAssert.equal(prototype.args[propertyName], undefined);
 		});
 
