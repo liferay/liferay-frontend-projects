@@ -124,15 +124,13 @@ module.exports = {
 	},
 
 	_getPackageJSON: function(theme, cb) {
-		packageJson(theme.name, '*', function(err, pkg) {
-			if (err) {
+		packageJson(theme.name, {fullMetadata: true})
+			.then(function(pkg) {
+				cb(null, pkg);
+			})
+			.catch(function(err) {
 				cb(err);
-
-				return;
-			}
-
-			cb(null, pkg);
-		});
+			});
 	},
 
 	_isLiferayThemeModule: function(pkg, themelet) {
