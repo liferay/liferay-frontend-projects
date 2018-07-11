@@ -124,17 +124,13 @@ module.exports = {
 	},
 
 	_getPackageJSON: function(theme, cb) {
-		(async () => {
-			try {
-				const pkg = await packageJson(theme.name, {
-					fullMetadata: true,
-				});
-
+		packageJson(theme.name, {fullMetadata: true})
+			.then(function(pkg) {
 				cb(null, pkg);
-			} catch (err) {
+			})
+			.catch(function(err) {
 				cb(err);
-			}
-		})();
+			});
 	},
 
 	_isLiferayThemeModule: function(pkg, themelet) {
