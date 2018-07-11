@@ -7,11 +7,14 @@
     "fs-extra": "^0.24.0",
     "globby": "^6.0.0",
     "lodash": "^4.15.0",
-    "npm-keyword": "^4.2.0",
-    "package-json": "^1.2.0",
+    "npm-keyword": "^5.0.0",
+    "package-json": "^5.0.0",
     "spawn-sync": "^1.0.15"
   },
   "description": "A tool for finding Liferay themes and themelets on npm",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "license": "ISC",
   "main": "index.js",
   "name": "liferay-theme-finder",

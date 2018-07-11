@@ -53,6 +53,9 @@
     "gulp-ruby-sass": "^2.0.6",
     "gulp-sass": "^3.1.0"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "keywords": [
     "liferay",
     "theme"
