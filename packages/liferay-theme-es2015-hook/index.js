@@ -33,6 +33,7 @@ module.exports = function(gulp, options) {
 		ignorePath: true,
 		moduleConfig: moduleConfig,
 		moduleRoot: path.join(pathBuild),
+		namespace: 'Liferay.Loader',
 		output: path.join(metaInfPath, 'config.json')
 	});
 
