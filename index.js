@@ -25,8 +25,8 @@ module.exports = (report) => {
       return {
         'testcase': [{
           _attr: {
-            classname: 'Jest.' + testCase.ancestorTitles[testCase.ancestorTitles.length - 1],
-            name: testCase.title,
+            classname: testCase.ancestorTitles[0],
+            name: `${testCase.ancestorTitles.join(' ')} ${testCase.title}`,
             time: testCase.duration / 1000
           }
         }]
@@ -34,7 +34,7 @@ module.exports = (report) => {
     });
 
   fs.writeFileSync('TEST-frontend-js.xml', xml(
-    {'testsuite': [generalMetrics, ...testResults]}, 
+    {'testsuite': [generalMetrics, ...testResults]},
     { declaration: true, indent: '  '}
   ));
 
