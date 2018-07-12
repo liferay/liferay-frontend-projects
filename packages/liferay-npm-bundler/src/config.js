@@ -80,6 +80,10 @@ export function reloadConfig() {
 export function setProgramArgs(args) {
 	programArgs = args;
 
+	if (args.includes('-j') || args.includes('--create-jar')) {
+		config['create-jar'] = true;
+	}
+
 	if (args.includes('-r') || args.includes('--dump-report')) {
 		config['dump-report'] = true;
 	}
@@ -94,7 +98,10 @@ export function setProgramArgs(args) {
  * @return {String} the directory path (with native separators)
  */
 export function getOutputDir() {
-	const dir = config['output'] || 'build/resources/main/META-INF/resources';
+	const dir =
+		config['output'] ||
+		(isCreateJar() ? 'build' : 'build/resources/main/META-INF/resources');
+
 	return path.normalize(dir);
 }
 
@@ -230,6 +237,14 @@ function instantiatePlugins(pluginNames) {
  */
 export function getBabelConfig(pkg) {
 	return getPackageConfig(pkg, '.babelrc', {});
+}
+
+/**
+ * Whether or not to create an OSGi bundle
+ * @return {boolean}
+ */
+export function isCreateJar() {
+	return config['create-jar'] || false;
 }
 
 /**
