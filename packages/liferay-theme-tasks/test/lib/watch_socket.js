@@ -16,18 +16,10 @@ let WatchSocket;
 
 let responseMap = [
 	{
-		command: 'grep webbundle:file',
+		command: 'lb -u | grep \'webbundle(dir|):file.*base-theme\'',
 		response:
-			'lb -u | grep webbundle:file.*base-theme\n' +
+			'lb -u | grep \'webbundle(dir|):file.*base-theme\'\n' +
 			'  474|Resolved   |    1|webbundle:file:///Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/base-theme\n' +
-			'true\n' +
-			'g!',
-	},
-	{
-		command: 'grep webbundledir:file',
-		response:
-			'lb -u | grep webbundledir:file.*base-theme\n' +
-			'  473|Resolved   |    1|webbundledir:file:///Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/base-theme\n' +
 			'true\n' +
 			'g!',
 	},
@@ -177,10 +169,7 @@ let webBundleDirResponseData =
 	'456|Active     |    1|webbundledir:file:/themes/test-theme.war?Web-ContextPath=/test-theme';
 
 test('_getWebBundleDataFromResponse should scrape bundle data from response', function(t) {
-	let data = prototype._getWebBundleDataFromResponse(
-		webBundleResponseData,
-		'webbundle'
-	);
+	let data = prototype._getWebBundleDataFromResponse(webBundleResponseData);
 
 	t.deepEqual(data, {
 		id: '456',
@@ -190,10 +179,7 @@ test('_getWebBundleDataFromResponse should scrape bundle data from response', fu
 			'webbundle:file:/themes/test-theme.war?Web-ContextPath=/test-theme',
 	});
 
-	data = prototype._getWebBundleDataFromResponse(
-		webBundleDirResponseData,
-		'webbundledir'
-	);
+	data = prototype._getWebBundleDataFromResponse(webBundleDirResponseData);
 
 	t.deepEqual(data, {
 		id: '456',
@@ -203,10 +189,7 @@ test('_getWebBundleDataFromResponse should scrape bundle data from response', fu
 			'webbundledir:file:/themes/test-theme.war?Web-ContextPath=/test-theme',
 	});
 
-	data = prototype._getWebBundleDataFromResponse(
-		webBundleResponseData,
-		'webbundledir'
-	);
+	data = prototype._getWebBundleDataFromResponse('');
 
 	t.deepEqual(data, {
 		status: null,

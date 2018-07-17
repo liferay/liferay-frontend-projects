@@ -37,7 +37,7 @@ module.exports = function(options) {
 		const srcPath = path.join(pathBuild, 'css/*.css');
 		const filePath = storage.get('changedFile').path;
 
-		return fastDeploy(srcPath, pathBuild, {stream: true});
+		return fastDeploy(srcPath, pathBuild, '*.css');
 	});
 
 	gulp.task('deploy:file', function() {
@@ -92,7 +92,17 @@ module.exports = function(options) {
 		warDeployer.deploy();
 	});
 
-	function fastDeploy(srcPath, basePath, config) {
+	/**
+	 * Force a hot deploy of modified files and notify browserSync about the
+	 * change with the given file globs.
+	 * @param  {String} srcPath glob expression of files to be refreshed
+	 * @param  {String} basePath the base path of the srcPath expression
+	 * @param  {String|Array} fileGlobs the glob expressions to send to
+	 * 				browserSync refresh or null if the whole page should be
+	 * 				reloaded
+	 * @return {Stream} the gulp stream
+	 */
+	function fastDeploy(srcPath, basePath, fileGlobs) {
 		let fastDeployPaths = getFastDeployPaths();
 
 		const browserSync = gulp.browserSync;
@@ -104,8 +114,8 @@ module.exports = function(options) {
 			.pipe(plugins.debug())
 			.pipe(gulp.dest(fastDeployPaths.dest));
 
-		if (config && config.stream) {
-			stream.pipe(browserSync.stream());
+		if (fileGlobs) {
+			browserSync.reload(fileGlobs);
 		} else {
 			browserSync.reload();
 		}
