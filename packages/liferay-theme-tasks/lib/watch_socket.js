@@ -24,7 +24,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 	deploy: function() {
 		let instance = this;
 
-		return this._getWebBundleData(false)
+		return this._getWebBundleData()
 			.then(function(data) {
 				return data.id ? instance._uninstallBundle(data.id) : data;
 			})
@@ -77,33 +77,40 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 		);
 	},
 
-	_getWebBundleData: function(webBundleDir) {
+	_getWebBundleData: function() {
 		let instance = this;
-
-		let webBundleDirType = webBundleDir ? 'webbundledir' : 'webbundle';
 
 		let themeName = themeConfig.name;
 
-		let grepRegex = webBundleDirType + ':file.*' + themeName;
+		let grepRegex = '\'webbundle(dir|):file.*' + themeName + '\'';
 
-		return this.sendCommand('lb -u | grep', grepRegex).then(function(data) {
+		return this.sendCommand('lb -u | grep ' + grepRegex).then(function(
+			data
+		) {
 			let lines = data.split('\n');
 
 			let result = lines[1];
 
-			return instance._getWebBundleDataFromResponse(
-				result,
-				webBundleDirType
-			);
+			return instance._getWebBundleDataFromResponse(result);
 		});
 	},
 
-	_getWebBundleDataFromResponse: function(response, webBundleDirType) {
+	_getWebBundleDataFromResponse: function(response) {
 		let data = {
 			status: null,
 		};
 
-		if (response.indexOf(webBundleDirType + ':file') > -1) {
+		if (!response) {
+			return data;
+		}
+
+		let i = response.indexOf('webbundle:file');
+
+		if (i == -1) {
+			i = response.indexOf('webbundledir:file');
+		}
+
+		if (i > -1) {
 			let fields = response.split('|');
 
 			data = {

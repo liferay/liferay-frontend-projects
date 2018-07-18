@@ -93,6 +93,19 @@ module.exports = function(options) {
 			.then(cb);
 	});
 
+	gulp.task('watch:osgi:reinstall', function(cb) {
+		let watchSocket = startWatchSocket();
+
+		watchSocket
+			.connect(connectParams)
+			.then(function() {
+				return watchSocket.deploy();
+			})
+			.then(function() {
+				cb();
+			});
+	});
+
 	gulp.task('watch:setup', function() {
 		return gulp
 			.src(path.join(pathBuild, '**/*'))
@@ -113,12 +126,13 @@ module.exports = function(options) {
 		let taskArray = defaultTaskArray || [];
 
 		if (staticFileDirs.indexOf(rootDir) > -1) {
-			taskArray = ['deploy:file'];
+			taskArray = ['watch:osgi:reinstall', 'deploy:file'];
 		} else if (rootDir === 'WEB-INF') {
 			taskArray = [
 				'build:clean',
 				'build:src',
 				'build:web-inf',
+				'watch:osgi:reinstall',
 				'deploy:folder',
 			];
 		} else if (rootDir === 'templates') {
@@ -126,6 +140,7 @@ module.exports = function(options) {
 				'build:src',
 				'build:themelet-src',
 				'build:themelet-js-inject',
+				'watch:osgi:reinstall',
 				'deploy:folder',
 			];
 		} else if (rootDir === 'css') {
@@ -139,6 +154,7 @@ module.exports = function(options) {
 				'build:compile-css',
 				'build:move-compiled-css',
 				'build:remove-old-css-dir',
+				'watch:osgi:reinstall',
 				'deploy:css-files',
 			];
 		}
