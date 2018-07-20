@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-require('../lib/index').default(process.argv.slice(2));
+let config = require('../lib/config');
+let args = process.argv.slice(2);
+config.setProgramArgs(args);
+require('../lib/index').default(args);

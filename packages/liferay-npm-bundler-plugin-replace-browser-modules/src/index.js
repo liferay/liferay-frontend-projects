@@ -1,4 +1,5 @@
 import fs from 'fs';
+import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 
 /**
@@ -30,8 +31,8 @@ function replaceMainModule(pkgDir, browser, pkgJson, log) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 	const main = pkgJson.main || 'index.js';
 
-	const src = path.join(pkgDir, browser);
-	const dest = path.join(pkgDir, main);
+	const src = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, browser));
+	const dest = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, main));
 
 	replaceFile(pkgId, src, browser, dest, main, log);
 }
@@ -49,12 +50,12 @@ function replaceModules(pkgDir, browser, pkgJson, log) {
 
 	Object.keys(browser).forEach(from => {
 		const to = browser[from];
-		const dest = path.join(pkgDir, from);
+		const dest = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, from));
 
 		if (to == false) {
 			ignoreFile(dest, from, log);
 		} else {
-			const src = path.join(pkgDir, to);
+			const src = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, to));
 
 			replaceFile(pkgId, src, to, dest, from, log);
 		}

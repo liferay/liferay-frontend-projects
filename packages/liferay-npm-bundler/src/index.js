@@ -9,6 +9,7 @@ import readJsonSync from 'read-json-sync';
 import * as config from './config';
 import {getPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
+import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
@@ -33,6 +34,7 @@ export default function(args) {
 			'[-h|--help]',
 			'[-v|--version]',
 			'[-r|--dump-report]',
+			'[-j|--create-jar]',
 			'[--no-tracking]'
 		);
 		return;
@@ -45,7 +47,6 @@ export default function(args) {
 		return;
 	}
 
-	config.setProgramArgs(args);
 	report.versionsInfo(versionsInfo);
 
 	if (config.isNoTracking()) {
@@ -99,6 +100,7 @@ function run() {
 
 		// Report results
 		Promise.all(promises)
+			.then(() => (config.isCreateJar() ? createJar() : undefined))
 			.then(() => {
 				// Report and show execution time
 				const hrtime = process.hrtime(start);

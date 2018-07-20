@@ -1,8 +1,10 @@
 import * as babel from 'babel-core';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import path from 'path';
 import plugin from '../index';
 
+const filenameRelative = path.join(__dirname, '__fixtures__', 'source.js');
 const imports = {
 	'provider': {
 		'imp-module': '^1.0.0',
@@ -28,7 +30,7 @@ describe('when called from Babel', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [[plugin, {imports}]],
 		});
 
@@ -45,7 +47,7 @@ describe('when called from Babel', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [[plugin, {imports}]],
 		});
 
@@ -59,7 +61,7 @@ describe('when called from Babel', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [[plugin, {imports}]],
 		});
 
@@ -82,7 +84,7 @@ describe('when called from Babel', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [[plugin, {imports}]],
 		});
 
@@ -94,9 +96,9 @@ describe('when called from liferay-npm-bundler', () => {
 	let logger;
 
 	beforeEach(() => {
-		babelIpc.set(__filename, {
+		babelIpc.set(filenameRelative, {
 			log: (logger = new PluginLogger()),
-			rootPkgJson: require('./root-package.json'),
+			rootPkgJson: require('./__fixtures__/root-package.json'),
 			globalConfig: {imports},
 		});
 	});
@@ -113,7 +115,7 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -130,7 +132,7 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -144,7 +146,7 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -158,13 +160,13 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		// Make the plugin think that it is processing the root package
-		babelIpc.set(__filename, {
-			rootPkgJson: require('./package.json'),
+		babelIpc.set(filenameRelative, {
+			rootPkgJson: require('./__fixtures__/package.json'),
 			globalConfig: {imports},
 		});
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -187,7 +189,7 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -209,7 +211,7 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		babel.transform(source, {
-			filenameRelative: __filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 

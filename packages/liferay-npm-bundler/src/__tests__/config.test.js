@@ -1,16 +1,16 @@
-const projectDir = process.cwd();
+import path from 'path';
+
 const cfg = require('../config');
 
+const savedCwd = process.cwd();
+
 beforeEach(() => {
-	process.chdir(
-		`${projectDir}/packages/liferay-npm-bundler/src/__tests__/config/` +
-			'default'
-	);
+	process.chdir(path.join(__dirname, '__fixtures__', 'config', 'default'));
 	cfg.reloadConfig();
 });
 
 afterEach(() => {
-	process.chdir(projectDir);
+	process.chdir(savedCwd);
 });
 
 describe('getOutputDir()', () => {
@@ -55,10 +55,7 @@ describe('getExclusions()', () => {
 
 	// Impossible to test once we test for default exclusions
 	it('returns an empty array for unconfigured packages', () => {
-		process.chdir(
-			`${projectDir}/packages/liferay-npm-bundler/src/__tests__/config/` +
-				'empty'
-		);
+		process.chdir(path.join(__dirname, '__fixtures__', 'config', 'empty'));
 		cfg.reloadConfig();
 
 		const pkg = {
@@ -135,8 +132,7 @@ describe('getPlugins()', () => {
 
 	it('supports legacy package configurations correctly', () => {
 		process.chdir(
-			`${projectDir}/packages/liferay-npm-bundler/src/__tests__/config/` +
-				'legacy-packages'
+			path.join(__dirname, '__fixtures__', 'config', 'legacy-packages')
 		);
 		cfg.reloadConfig();
 

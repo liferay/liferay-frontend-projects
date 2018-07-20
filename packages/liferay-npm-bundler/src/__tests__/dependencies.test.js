@@ -92,12 +92,14 @@ expect.extend({
 	},
 });
 
+const savedCwd = process.cwd();
+
 beforeAll(() => {
-	process.chdir('./packages/liferay-npm-bundler/src/__tests__');
+	process.chdir(path.join(__dirname, '__fixtures__', 'project'));
 });
 
 afterAll(() => {
-	process.chdir('../../../..');
+	process.chdir(savedCwd);
 });
 
 it('loads project dependencies correctly', () => {
