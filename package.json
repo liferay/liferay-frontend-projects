@@ -37,6 +37,10 @@
 	"jest": {
 		"modulePathIgnorePatterns": [
 			"lib/.*"
+		],
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"/__fixtures__/"
 		]
 	}
 }

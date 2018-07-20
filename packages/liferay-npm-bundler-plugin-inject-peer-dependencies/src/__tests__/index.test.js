@@ -1,11 +1,9 @@
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import path from 'path';
 import plugin from '../index';
 
-const fixturesDir =
-	`${process.cwd()}/packages/` +
-	`liferay-npm-bundler-plugin-inject-peer-dependencies/` +
-	`src/__tests__`;
+const fixturesDir = path.join(__dirname, '__fixtures__');
 
 describe('when using regular packages', () => {
 	it('injects peer dependencies as needed', () => {
