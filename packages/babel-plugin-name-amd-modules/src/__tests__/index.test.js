@@ -1,12 +1,15 @@
 import * as babel from 'babel-core';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import path from 'path';
 import plugin from '../index';
+
+const filenameRelative = path.join(__dirname, '__fixtures__', 'source.js');
 
 let logger;
 
 beforeEach(() => {
-	babelIpc.set(__filename, {
+	babelIpc.set(filenameRelative, {
 		log: (logger = new PluginLogger()),
 	});
 });
@@ -17,7 +20,7 @@ it('logs results correctly', () => {
 	`;
 
 	babel.transform(source, {
-		filenameRelative: __filename,
+		filenameRelative,
 		plugins: [plugin],
 	});
 
@@ -30,7 +33,7 @@ it('correctly names anonymous modules', () => {
 	`;
 
 	const {code} = babel.transform(source, {
-		filenameRelative: __filename,
+		filenameRelative,
 		plugins: [plugin],
 	});
 
@@ -43,7 +46,7 @@ it('correctly renames named modules', () => {
 	`;
 
 	const {code} = babel.transform(source, {
-		filenameRelative: __filename,
+		filenameRelative,
 		plugins: [plugin],
 	});
 
