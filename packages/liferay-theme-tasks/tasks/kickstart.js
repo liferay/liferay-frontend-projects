@@ -9,10 +9,9 @@ const path = require('path');
 const KickstartPrompt = require('../lib/prompts/kickstart_prompt');
 const lfrThemeConfig = require('../lib/liferay_theme_config');
 
-module.exports = function(options) {
-	let gulp = options.gulp;
-
-	let pathSrc = options.pathSrc;
+function registerTasks(options) {
+	const gulp = options.gulp;
+	const pathSrc = options.pathSrc;
 
 	gulp.task('kickstart', function(cb) {
 		log(
@@ -74,4 +73,6 @@ module.exports = function(options) {
 			}
 		);
 	});
-};
+}
+
+module.exports = registerTasks;

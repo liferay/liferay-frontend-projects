@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const colors = require('ansi-colors');
 const inquirer = require('inquirer');
@@ -8,47 +6,42 @@ const log = require('fancy-log');
 const ModulePrompt = require('./module_prompt');
 const themeFinder = require('../theme_finder');
 
-function NPMModulePrompt() {
-	this.init.apply(this, arguments);
-}
+class NPMModulePrompt {
+	constructor(...args) {
+		this.init(...args);
+	}
 
-NPMModulePrompt.prototype = {
-	init: function(config, cb) {
+	init(config, cb) {
 		this.done = cb;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
 		this._promptSearchTerms();
-	},
+	}
 
-	_afterPrompt: function(answers) {
+	_afterPrompt(answers) {
 		this.done(answers);
-	},
+	}
 
-	_afterPromptSearchTerms: function(answers) {
-		let instance = this;
+	_afterPromptSearchTerms(answers) {
+		const themelet = this.themelet;
 
-		let themelet = this.themelet;
-
-		this._getNPMModules(answers.searchTerms, function(modules) {
+		this._getNPMModules(answers.searchTerms, modules => {
 			if (_.isEmpty(modules)) {
-				let type = themelet ? 'themelets' : 'themes';
+				const type = themelet ? 'themelets' : 'themes';
 
 				log(colors.yellow('No ' + type + ' matched your search!'));
 
-				instance._promptSearchTerms();
+				this._promptSearchTerms();
 			} else {
-				instance.modules = modules;
+				this.modules = modules;
 
-				ModulePrompt.prompt(
-					instance,
-					_.bind(instance._afterPrompt, instance)
-				);
+				ModulePrompt.prompt(this, _.bind(this._afterPrompt, this));
 			}
 		});
-	},
+	}
 
-	_getNPMModules: function(searchTerms, cb) {
+	_getNPMModules(searchTerms, cb) {
 		themeFinder.getLiferayThemeModules(
 			{
 				globalModules: false,
@@ -57,10 +50,10 @@ NPMModulePrompt.prototype = {
 			},
 			cb
 		);
-	},
+	}
 
-	_promptSearchTerms: function() {
-		let themelet = this.themelet;
+	_promptSearchTerms() {
+		const themelet = this.themelet;
 
 		inquirer.prompt(
 			[
@@ -73,11 +66,9 @@ NPMModulePrompt.prototype = {
 			],
 			_.bind(this._afterPromptSearchTerms, this)
 		);
-	},
-};
+	}
+}
 
-NPMModulePrompt.prompt = function(config, cb) {
-	return new NPMModulePrompt(config, cb);
-};
+NPMModulePrompt.prompt = (config, cb) => new NPMModulePrompt(config, cb);
 
 module.exports = NPMModulePrompt;

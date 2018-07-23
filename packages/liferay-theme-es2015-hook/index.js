@@ -34,7 +34,7 @@ module.exports = function(gulp, options) {
 		moduleConfig: moduleConfig,
 		moduleRoot: path.join(pathBuild),
 		namespace: 'Liferay.Loader',
-		output: path.join(metaInfPath, 'config.json')
+		output: path.join(metaInfPath, 'config.json'),
 	});
 
 	gulp.task('config:amd', function(done) {
@@ -46,56 +46,70 @@ module.exports = function(gulp, options) {
 	});
 
 	gulp.task('provide-capability-property', function(done) {
-		var filePath = path.join(pathBuild, 'WEB-INF', 'liferay-plugin-package.properties');
+		var filePath = path.join(
+			pathBuild,
+			'WEB-INF',
+			'liferay-plugin-package.properties'
+		);
 
-		fs.readFile(filePath, {
-			encoding: 'utf8'
-		}, function(err, result) {
-			if (err) {
-				throw err;
+		fs.readFile(
+			filePath,
+			{
+				encoding: 'utf8',
+			},
+			function(err, result) {
+				if (err) {
+					throw err;
+				}
+
+				if (REGEX_PROVIDE_CAPABILITY.test(result)) {
+					result = result.replace(
+						REGEX_PROVIDE_CAPABILITY,
+						'$1' +
+							'osgi.webresource;osgi.webresource=' +
+							options.distName
+					);
+
+					log(
+						colors.yellow('Warning:'),
+						colors.cyan('Provide-Capability'),
+						'property found in',
+						colors.cyan('liferay-plugin-package.properties'),
+						'. This property is set automatically and should be removed.'
+					);
+				} else {
+					result +=
+						'\nProvide-Capability=osgi.webresource;osgi.webresource=' +
+						options.distName;
+				}
+
+				fs.writeFileSync(filePath, result);
+
+				done();
 			}
-
-			if (REGEX_PROVIDE_CAPABILITY.test(result)) {
-				result = result.replace(
-					REGEX_PROVIDE_CAPABILITY,
-					'$1' + 'osgi.webresource;osgi.webresource=' + options.distName
-				);
-
-				log(
-					colors.yellow('Warning:'),
-					colors.cyan('Provide-Capability'),
-					'property found in',
-					colors.cyan('liferay-plugin-package.properties'),
-					'. This property is set automatically and should be removed.'
-				);
-			}
-			else {
-				result += '\nProvide-Capability=osgi.webresource;osgi.webresource=' + options.distName;
-			}
-
-			fs.writeFileSync(filePath, result);
-
-			done();
-		});
+		);
 	});
 
 	var metalOptions = {
 		base: path.join(pathSrc, 'js'),
 		buildAmdDest: path.join(pathBuild),
-		moduleName: 'js'
+		moduleName: 'js',
 	};
 
 	gulp.task('metal:build:amd', ['metal:compile:soy'], function() {
-		return gulp.src(path.join(pathSrc, 'js/**/*.es.js'), {
-				base: process.cwd()
+		return gulp
+			.src(path.join(pathSrc, 'js/**/*.es.js'), {
+				base: process.cwd(),
 			})
 			.pipe(buildAmd(metalOptions))
 			.pipe(gulp.dest(metalOptions.buildAmdDest));
 	});
 
 	gulp.task('metal:compile:soy', function() {
-		return gulp.src(path.join(pathSrc, '**/*.soy'))
-			.pipe(compileSoy()).on('error', function(err) {
+		return gulp
+			.src(path.join(pathSrc, '**/*.soy'))
+			.pipe(compileSoy())
+			.on('error', function(err) {
 				log(err);
 			})
 			.pipe(gulp.dest(pathSrc));
@@ -118,7 +132,11 @@ module.exports = function(gulp, options) {
 
 		configGenerator._options.args = [path.join(webBundlePath, 'js')];
 		configGenerator._options.moduleRoot = path.join(webBundlePath);
-		configGenerator._options.output = path.join(webBundlePath, 'META-INF', 'config.json');
+		configGenerator._options.output = path.join(
+			webBundlePath,
+			'META-INF',
+			'config.json'
+		);
 
 		done();
 	});
@@ -128,8 +146,7 @@ module.exports = function(gulp, options) {
 
 		if (path.extname(file.path) === '.js') {
 			runSequence('metal:build:amd', 'config:amd', done);
-		}
-		else {
+		} else {
 			done();
 		}
 	});

@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const colors = require('ansi-colors');
 const log = require('fancy-log');
@@ -56,6 +54,10 @@ function doctor({
 		haltTask(missingDeps);
 	}
 }
+
+module.exports = {
+	doctor,
+};
 
 /**
  * Check if a given array of tasks is supported for the current theme version.
@@ -167,7 +169,3 @@ function logMissingDeps(dependencies, moduleName, missingDeps) {
 
 	return missingDeps;
 }
-
-module.exports = {
-	doctor,
-};

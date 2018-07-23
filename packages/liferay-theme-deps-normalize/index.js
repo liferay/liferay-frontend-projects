@@ -4,7 +4,7 @@ var path = require('path');
 function insertInjectTag(filePath, regex, replacer) {
 	try {
 		var fileContents = fs.readFileSync(filePath, {
-			encoding: 'utf8'
+			encoding: 'utf8',
 		});
 
 		regex = new RegExp(regex, 'g');
@@ -12,10 +12,9 @@ function insertInjectTag(filePath, regex, replacer) {
 		fileContents = fileContents.replace(regex, replacer);
 
 		fs.writeFileSync(filePath, fileContents, {
-			encoding: 'utf8'
+			encoding: 'utf8',
 		});
-	}
-	catch(e) {
+	} catch (e) {
 		console.log('Unable to add inject tags to', filePath);
 	}
 }
@@ -31,7 +30,12 @@ function normalizeTemplates(config) {
 		return '<!-- inject:js -->\n<!-- endinject -->\n\n' + match;
 	};
 
-	var portalNormalPath = path.join(require.resolve(config.unstyled), '..', 'templates', 'portal_normal');
+	var portalNormalPath = path.join(
+		require.resolve(config.unstyled),
+		'..',
+		'templates',
+		'portal_normal'
+	);
 
 	insertInjectTag(portalNormalPath + '.ftl', templateRegex, templateReplacer);
 	insertInjectTag(portalNormalPath + '.vm', templateRegex, templateReplacer);

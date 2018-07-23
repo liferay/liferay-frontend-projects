@@ -1,9 +1,7 @@
 {
-	"name": "base-theme",
+	"name": "kickstart-theme",
 	"version": "0.0.0",
-	"keywords": [
-		"liferay-theme"
-	],
+	"keywords": ["liferay-theme"],
 	"liferayTheme": {
 		"baseTheme": {
 			"liferayTheme": {

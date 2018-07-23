@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const colors = require('ansi-colors');
 const log = require('fancy-log');
@@ -7,30 +5,25 @@ const log = require('fancy-log');
 const ModulePrompt = require('./module_prompt');
 const themeFinder = require('../theme_finder');
 
-function GlobalModulePrompt() {
-	this.init.apply(this, arguments);
-}
+class GlobalModulePrompt {
+	constructor(...args) {
+		this.init(...args);
+	}
 
-GlobalModulePrompt.prototype = {
-	init: function(config, cb) {
-		let instance = this;
-
+	init(config, cb) {
 		this.done = cb;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
-		this._getGlobalModules(function(modules) {
-			instance.modules = modules;
+		this._getGlobalModules(modules => {
+			this.modules = modules;
 
-			ModulePrompt.prompt(
-				instance,
-				_.bind(instance._afterPrompt, instance)
-			);
+			ModulePrompt.prompt(this, _.bind(this._afterPrompt, this));
 		});
-	},
+	}
 
-	_afterPrompt: function(answers) {
-		let type = this.themelet ? 'themelet' : 'theme';
+	_afterPrompt(answers) {
+		const type = this.themelet ? 'themelet' : 'theme';
 
 		if (_.isEmpty(this.modules)) {
 			log(
@@ -52,9 +45,9 @@ GlobalModulePrompt.prototype = {
 		}
 
 		this.done(answers);
-	},
+	}
 
-	_getGlobalModules: function(cb) {
+	_getGlobalModules(cb) {
 		themeFinder.getLiferayThemeModules(
 			{
 				globalModules: true,
@@ -62,11 +55,9 @@ GlobalModulePrompt.prototype = {
 			},
 			cb
 		);
-	},
-};
+	}
+}
 
-GlobalModulePrompt.prompt = function(config, cb) {
-	return new GlobalModulePrompt(config, cb);
-};
+GlobalModulePrompt.prompt = (config, cb) => new GlobalModulePrompt(config, cb);
 
 module.exports = GlobalModulePrompt;
