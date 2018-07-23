@@ -1,71 +1,67 @@
-'use strict';
+const {exec} = require('child_process');
+const inquirer = require('inquirer');
+const _ = require('lodash');
+const path = require('path');
 
-let {exec} = require('child_process');
-let inquirer = require('inquirer');
-let _ = require('lodash');
-let path = require('path');
+const promptUtil = require('./prompt_util');
+const divert = require('../divert');
 
-let promptUtil = require('./prompt_util');
-let divert = require('../divert');
+class KickstartPrompt {
+	constructor(...args) {
+		this.init(...args);
+	}
 
-function KickstartPrompt() {
-	this.init.apply(this, arguments);
-}
-
-KickstartPrompt.prototype = {
-	init: function(config, cb) {
+	init(config, cb) {
 		this.done = cb;
 		this.themeConfig = config.themeConfig;
 
 		this._promptThemeSource();
-	},
+	}
 
-	_afterPromptModule: function(answers) {
-		let done = this.done;
+	_afterPromptModule(answers) {
+		const done = this.done;
 
-		let module = answers.module;
+		const module = answers.module;
 
-		let pkg = answers.modules[module];
+		const pkg = answers.modules[module];
 
 		if (pkg && pkg.realPath) {
 			answers.modulePath = path.join(pkg.realPath, 'src');
 
 			done(answers);
 		} else if (pkg) {
-			this._installTempModule(module, function() {
-				done(answers);
-			});
+			this._installTempModule(module, () => done(answers));
 		} else {
 			done(answers);
 		}
-	},
+	}
 
-	_afterPromptThemeSource: function(answers) {
+	_afterPromptThemeSource(answers) {
 		divert('kickstart_prompt_helpers')._afterPromptThemeSource(
 			answers,
 			this
 		);
-	},
+	}
 
-	_installTempModule: function(moduleName, cb) {
-		let tempNodeModulesPath = path.join(
+	_installTempModule(moduleName, cb, hideOutput) {
+		const tempNodeModulesPath = path.join(
 			process.cwd(),
 			'.temp_node_modules'
 		);
 
-		let child = exec(
+		const child = exec(
 			'npm install --prefix ' + tempNodeModulesPath + ' ' + moduleName,
 			cb
 		);
 
-		child.stdout.pipe(process.stdout);
-		child.stderr.pipe(process.stdout);
-	},
+		if (!hideOutput) {
+			child.stdout.pipe(process.stdout);
+			child.stderr.pipe(process.stdout);
+		}
+	}
 
-	_promptThemeSource: function() {
-		let instance = this;
-
-		let listType = promptUtil.getListType();
+	_promptThemeSource() {
+		const listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
@@ -76,13 +72,11 @@ KickstartPrompt.prototype = {
 					type: listType,
 				},
 			],
-			_.bind(instance._afterPromptThemeSource, instance)
+			_.bind(this._afterPromptThemeSource, this)
 		);
-	},
-};
+	}
+}
 
-KickstartPrompt.prompt = function(config, cb) {
-	return new KickstartPrompt(config, cb);
-};
+KickstartPrompt.prompt = (config, cb) => new KickstartPrompt(config, cb);
 
 module.exports = KickstartPrompt;

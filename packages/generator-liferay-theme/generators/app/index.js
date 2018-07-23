@@ -19,12 +19,12 @@ module.exports = yeoman.generators.Base.extend({
 
 		this._insight = new Insight({
 			trackingCode: 'UA-69122110-1',
-			pkg: pkg
+			pkg: pkg,
 		});
 
 		var notifier = updateNotifier({
 			pkg: pkg,
-			updateCheckInterval: 1000 * 60 * 60 * 12
+			updateCheckInterval: 1000 * 60 * 60 * 12,
 		});
 
 		notifier.notify();
@@ -46,8 +46,7 @@ module.exports = yeoman.generators.Base.extend({
 
 		if (_.isUndefined(insight.optOut)) {
 			insight.askPermission(null, _.bind(this._prompt, this));
-		}
-		else {
+		} else {
 			this._prompt();
 		}
 	},
@@ -56,7 +55,7 @@ module.exports = yeoman.generators.Base.extend({
 		setThemeDirName: function() {
 			var themeDirName = this.appname;
 
-			if (!(/-theme$/.test(themeDirName))) {
+			if (!/-theme$/.test(themeDirName)) {
 				themeDirName += '-theme';
 			}
 
@@ -64,33 +63,46 @@ module.exports = yeoman.generators.Base.extend({
 		},
 
 		enforceFolderName: function() {
-			if (this.themeDirName !== _.last(this.destinationRoot().split(path.sep))) {
+			if (
+				this.themeDirName !==
+				_.last(this.destinationRoot().split(path.sep))
+			) {
 				this.destinationRoot(this.themeDirName);
 			}
 
 			this.config.save();
-		}
+		},
 	},
 
 	writing: {
 		app: function() {
 			this.template('_package.json', 'package.json', this);
 
-			this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
+			this.fs.copy(
+				this.templatePath('gitignore'),
+				this.destinationPath('.gitignore')
+			);
 
 			this.template('gulpfile.js', 'gulpfile.js', this);
 		},
 
 		projectfiles: function() {
-			this.fs.copy(this.templatePath('src/**'), this.destinationPath('src'), {
-				globOptions: {
-					ignore: this.templatePath('src/css/custom.css')
+			this.fs.copy(
+				this.templatePath('src/**'),
+				this.destinationPath('src'),
+				{
+					globOptions: {
+						ignore: this.templatePath('src/css/custom.css'),
+					},
 				}
-			});
+			);
 
 			var customCssName = '_custom.scss';
 
-			this.fs.copy(this.templatePath('src/css/custom.css'), this.destinationPath('src/css/' + customCssName));
+			this.fs.copy(
+				this.templatePath('src/css/custom.css'),
+				this.destinationPath('src/css/' + customCssName)
+			);
 
 			this.template(
 				'src/WEB-INF/liferay-plugin-package.properties',
@@ -98,12 +110,16 @@ module.exports = yeoman.generators.Base.extend({
 				{
 					liferayVersion: this.liferayVersion,
 					liferayVersions: this.liferayVersion + '.0+',
-					themeDisplayName: this.themeName
+					themeDisplayName: this.themeName,
 				}
 			);
 
-			this.template('src/WEB-INF/liferay-look-and-feel.xml', 'src/WEB-INF/liferay-look-and-feel.xml', this);
-		}
+			this.template(
+				'src/WEB-INF/liferay-look-and-feel.xml',
+				'src/WEB-INF/liferay-look-and-feel.xml',
+				this
+			);
+		},
 	},
 
 	install: function() {
@@ -116,7 +132,7 @@ module.exports = yeoman.generators.Base.extend({
 				bower: false,
 				callback: function() {
 					instance.spawnCommand('gulp', ['init']);
-				}
+				},
 			});
 		}
 	},
@@ -142,7 +158,7 @@ module.exports = yeoman.generators.Base.extend({
 				message: 'What would you like to call your theme?',
 				name: 'themeName',
 				type: 'input',
-				when: instance._getWhenFn('themeName', 'name', _.isString)
+				when: instance._getWhenFn('themeName', 'name', _.isString),
 			},
 			{
 				default: function(answers) {
@@ -151,29 +167,41 @@ module.exports = yeoman.generators.Base.extend({
 				message: 'Would you like to use this as the themeId?',
 				name: 'themeId',
 				type: 'input',
-				when: instance._getWhenFn('themeId', 'id', _.isString)
+				when: instance._getWhenFn('themeId', 'id', _.isString),
 			},
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
 				choices: ['7.1', '7.0'],
 				type: 'list',
-				when: instance._getWhenFn('liferayVersion', 'liferayVersion', instance._isLiferayVersion)
+				when: instance._getWhenFn(
+					'liferayVersion',
+					'liferayVersion',
+					instance._isLiferayVersion
+				),
 			},
 			{
-				message: 'What template language would you like this theme to use?',
+				message:
+					'What template language would you like this theme to use?',
 				name: 'templateLanguage',
 				choices: _.bind(instance._getTemplateLanguageChoices, instance),
 				type: 'list',
-				when: instance._getWhenFn('templateLanguage', 'template', instance._isTemplateLanguage)
-			}
+				when: instance._getWhenFn(
+					'templateLanguage',
+					'template',
+					instance._isTemplateLanguage
+				),
+			},
 		];
 
 		return prompts;
 	},
 
-	_getTemplateLanguageChoices: (answers) =>
-		divert('app_helpers', answers.liferayVersion)._getTemplateLanguageChoices(answers),
+	_getTemplateLanguageChoices: answers =>
+		divert(
+			'app_helpers',
+			answers.liferayVersion
+		)._getTemplateLanguageChoices(answers),
 
 	_getWhenFn: function(propertyName, flag, validator) {
 		var instance = this;
@@ -189,14 +217,25 @@ module.exports = yeoman.generators.Base.extend({
 
 			var liferayVersion = answers.liferayVersion || argv.liferayVersion;
 
-			if ((!answers.liferayVersion || !args.liferayVersion) && argv.liferayVersion) {
-				answers.liferayVersion  = args.liferayVersion = liferayVersion;
+			if (
+				(!answers.liferayVersion || !args.liferayVersion) &&
+				argv.liferayVersion
+			) {
+				answers.liferayVersion = args.liferayVersion = liferayVersion;
 			}
 
-			if (validator && instance._isDefined(propertyValue) && !validator(propertyValue, answers)) {
+			if (
+				validator &&
+				instance._isDefined(propertyValue) &&
+				!validator(propertyValue, answers)
+			) {
 				propertyValue = null;
 
-				instance.log(chalk.yellow('Warning:'), 'Invalid value set for', chalk.cyan('--' + flag));
+				instance.log(
+					chalk.yellow('Warning:'),
+					'Invalid value set for',
+					chalk.cyan('--' + flag)
+				);
 			}
 
 			var ask = true;
@@ -206,13 +245,16 @@ module.exports = yeoman.generators.Base.extend({
 				args[propertyName] = propertyValue;
 
 				ask = false;
-			}
-			else if (promptDeprecationMap) {
+			} else if (promptDeprecationMap) {
 				var deprecatedVersions = promptDeprecationMap[propertyName];
 
 				ask = !deprecatedVersions;
 
-				if (deprecated && deprecatedVersions && deprecatedVersions.indexOf(liferayVersion) > -1) {
+				if (
+					deprecated &&
+					deprecatedVersions &&
+					deprecatedVersions.indexOf(liferayVersion) > -1
+				) {
 					ask = true;
 				}
 			}
@@ -230,7 +272,9 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isTemplateLanguage: (value, answers) =>
-		divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(value),
+		divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(
+			value
+		),
 
 	_mixArgs: function(props, args) {
 		return _.assign(props, args);
@@ -243,22 +287,28 @@ module.exports = yeoman.generators.Base.extend({
 	_prompt: function() {
 		var done = this.done;
 
-		this.prompt(this._getPrompts(), function(props) {
-			props = this._mixArgs(props, this._getArgs());
+		this.prompt(
+			this._getPrompts(),
+			function(props) {
+				props = this._mixArgs(props, this._getArgs());
 
-			this._promptCallback(props);
+				this._promptCallback(props);
 
-			this._track();
+				this._track();
 
-			done();
-		}.bind(this));
+				done();
+			}.bind(this)
+		);
 	},
 
 	_promptCallback: function(props) {
 		var liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
-		this.devDependencies = divert('app_helpers', liferayVersion)._getDevDependencies();
+		this.devDependencies = divert(
+			'app_helpers',
+			liferayVersion
+		)._getDevDependencies();
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
@@ -278,16 +328,16 @@ module.exports = yeoman.generators.Base.extend({
 				id: 'i',
 				liferayVersion: 'l',
 				name: 'n',
-				template: 't'
+				template: 't',
 			},
-			string: ['liferayVersion']
+			string: ['liferayVersion'],
 		});
 	},
 
 	_setDefaults: function(liferayVersion) {
 		_.defaults(this, {
 			rubySass: false,
-			templateLanguage: 'ftl'
+			templateLanguage: 'ftl',
 		});
 	},
 
@@ -297,7 +347,7 @@ module.exports = yeoman.generators.Base.extend({
 
 	_setPromptDeprecationMap: function() {
 		this.promptDeprecationMap = {
-			templateLanguage: ['7.0']
+			templateLanguage: ['7.0'],
 		};
 	},
 
@@ -307,8 +357,14 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = this.liferayVersion;
 
 		insight.track('theme', liferayVersion);
-		insight.track('theme', liferayVersion, 'templateLanguage', this.templateLanguage);
+		insight.track(
+			'theme',
+			liferayVersion,
+			'templateLanguage',
+			this.templateLanguage
+		);
 	},
 
-	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!'
+	_yosay:
+		'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!',
 });

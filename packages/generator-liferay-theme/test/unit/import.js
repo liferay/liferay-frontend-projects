@@ -40,15 +40,32 @@ describe('liferay-theme:import unit tests', function() {
 
 			assert.equal(retVal, '"/does/not/exist" does not exist');
 
-			retVal = prototype._validatePath(path.join(__dirname, '../fixtures/sdk-theme/docroot/WEB-INF/liferay-look-and-feel.xml'));
+			retVal = prototype._validatePath(
+				path.join(
+					__dirname,
+					'../fixtures/sdk-theme/docroot/WEB-INF/liferay-look-and-feel.xml'
+				)
+			);
 
-			assert.match(retVal, /liferay-look-and-feel\.xml" is not a directory/, 'return value should match');
+			assert.match(
+				retVal,
+				/liferay-look-and-feel\.xml" is not a directory/,
+				'return value should match'
+			);
 
-			retVal = prototype._validatePath(path.join(__dirname, '../fixtures/sdk-theme/docroot'));
+			retVal = prototype._validatePath(
+				path.join(__dirname, '../fixtures/sdk-theme/docroot')
+			);
 
-			assert.match(retVal, /sdk-theme\/docroot" doesn't appear to be a theme in the SDK/, 'return value should match');
+			assert.match(
+				retVal,
+				/sdk-theme\/docroot" doesn't appear to be a theme in the SDK/,
+				'return value should match'
+			);
 
-			retVal = prototype._validatePath(path.join(__dirname, '../fixtures/sdk-theme'));
+			retVal = prototype._validatePath(
+				path.join(__dirname, '../fixtures/sdk-theme')
+			);
 
 			assert(retVal, 'returns true');
 		});

@@ -28,7 +28,7 @@ describe('LayoutCreator', function() {
 
 			var layoutCreator = new LayoutCreator({
 				after: _.noop,
-				className: 'class-name'
+				className: 'class-name',
 			});
 
 			assert.equal(layoutCreator.after, _.noop);
@@ -37,7 +37,7 @@ describe('LayoutCreator', function() {
 
 			assert.throws(function() {
 				new LayoutCreator({
-					className: 'class-name'
+					className: 'class-name',
 				});
 			}, 'Must define an after function!');
 
@@ -71,7 +71,7 @@ describe('LayoutCreator', function() {
 
 			sinonAssert.calledWith(prototype._renderLayoutTemplate.getCall(0), {
 				className: 'class-name',
-				rowData: []
+				rowData: [],
 			});
 
 			sinonAssert.notCalled(prototype._promptRow);
@@ -90,7 +90,11 @@ describe('LayoutCreator', function() {
 
 			prototype.prompt(['question1', 'question2'], cb);
 
-			sinonAssert.calledWith(inquirer.prompt, ['question1', 'question2'], cb);
+			sinonAssert.calledWith(
+				inquirer.prompt,
+				['question1', 'question2'],
+				cb
+			);
 
 			inquirer.prompt = prompt;
 		});
@@ -102,7 +106,7 @@ describe('LayoutCreator', function() {
 			prototype.rows = [];
 
 			var rowData = {
-				data: 'data'
+				data: 'data',
 			};
 
 			prototype._addRow(rowData);
@@ -127,7 +131,11 @@ describe('LayoutCreator', function() {
 
 			prototype._addWhiteSpace(choices);
 
-			assert.deepEqual(choices[0], new inquirer.Separator(' '), 'Array has whitespace.');
+			assert.deepEqual(
+				choices[0],
+				new inquirer.Separator(' '),
+				'Array has whitespace.'
+			);
 		});
 	});
 
@@ -139,13 +147,13 @@ describe('LayoutCreator', function() {
 				[
 					{
 						size: 6,
-						columnNumber: 1
+						columnNumber: 1,
 					},
 					{
 						size: 6,
-						columnNumber: 2
-					}
-				]
+						columnNumber: 2,
+					},
+				],
 			];
 
 			prototype._afterPrompt();
@@ -157,7 +165,7 @@ describe('LayoutCreator', function() {
 	describe('_afterPromptColumnCount', function() {
 		it('should should pass columnCount to cb function', function() {
 			var answers = {
-				columnCount: 3
+				columnCount: 3,
 			};
 
 			var cb = sinon.spy();
@@ -176,7 +184,7 @@ describe('LayoutCreator', function() {
 
 			var answers = {
 				'0': 6,
-				'1': 6
+				'1': 6,
 			};
 
 			var cb = sinon.spy();
@@ -198,29 +206,41 @@ describe('LayoutCreator', function() {
 			prototype._promptRow = sinon.spy();
 			prototype._removeRow = sinon.spy();
 
-			prototype._afterPromptFinishRow({
-				finish: 'add'
-			}, cbSpy);
+			prototype._afterPromptFinishRow(
+				{
+					finish: 'add',
+				},
+				cbSpy
+			);
 
 			sinonAssert.calledOnce(prototype._promptRow);
 			sinonAssert.calledWith(prototype._promptRow, cbSpy);
 
-			prototype._afterPromptFinishRow({
-				finish: 'insert'
-			}, cbSpy);
+			prototype._afterPromptFinishRow(
+				{
+					finish: 'insert',
+				},
+				cbSpy
+			);
 
 			sinonAssert.calledOnce(prototype._promptInsertRow);
 			sinonAssert.calledWith(prototype._promptInsertRow, cbSpy);
 
-			prototype._afterPromptFinishRow({
-				finish: 'finish'
-			}, cbSpy);
+			prototype._afterPromptFinishRow(
+				{
+					finish: 'finish',
+				},
+				cbSpy
+			);
 
 			sinonAssert.calledOnce(cbSpy);
 
-			prototype._afterPromptFinishRow({
-				finish: 'remove'
-			}, cbSpy);
+			prototype._afterPromptFinishRow(
+				{
+					finish: 'remove',
+				},
+				cbSpy
+			);
 
 			sinonAssert.calledOnce(prototype._promptRemoveRow);
 			sinonAssert.calledWith(prototype._promptRemoveRow, cbSpy);
@@ -237,9 +257,12 @@ describe('LayoutCreator', function() {
 			prototype._promptRemoveRow = sinon.spy();
 			prototype._promptRow = sinon.spy();
 
-			prototype._afterPromptFinishRow({
-				finish: 'notsupported'
-			}, cbSpy);
+			prototype._afterPromptFinishRow(
+				{
+					finish: 'notsupported',
+				},
+				cbSpy
+			);
 
 			sinonAssert.notCalled(cbSpy);
 			sinonAssert.notCalled(prototype._promptInsertRow);
@@ -254,9 +277,12 @@ describe('LayoutCreator', function() {
 
 			prototype._promptRow = sinon.spy();
 
-			prototype._afterPromptInsertRow({
-				rowIndex: 2
-			}, cb);
+			prototype._afterPromptInsertRow(
+				{
+					rowIndex: 2,
+				},
+				cb
+			);
 
 			assert.equal(prototype.rowInsertIndex, 2);
 			sinonAssert.calledWith(prototype._promptRow, cb);
@@ -271,9 +297,12 @@ describe('LayoutCreator', function() {
 
 			var cb = _.noop;
 
-			prototype._afterPromptRemoveRow({
-				rowIndex: 3
-			}, cb);
+			prototype._afterPromptRemoveRow(
+				{
+					rowIndex: 3,
+				},
+				cb
+			);
 
 			sinonAssert.calledWith(prototype._removeRow, 3);
 			sinonAssert.calledWith(prototype._promptFinishRow, [2], cb);
@@ -298,24 +327,51 @@ describe('LayoutCreator', function() {
 
 	describe('_formatPercentageValue', function() {
 		it('should return formatted label with column width percentage', function() {
-			prototype._formatInlineChoicePreview = sinon.stub().returns('preview');
+			prototype._formatInlineChoicePreview = sinon
+				.stub()
+				.returns('preview');
 
 			var labels = [
-				'1/12 - 8.33%', '2/12 - 16.66%', '3/12 - 25%', '4/12 - 33.33%', '5/12 - 41.66%', '6/12 - 50%',
-				'7/12 - 58.33%', '8/12 - 66.66%', '9/12 - 75%', '10/12 - 83.33%', '11/12 - 91.66%', '12/12 - 100%'
+				'1/12 - 8.33%',
+				'2/12 - 16.66%',
+				'3/12 - 25%',
+				'4/12 - 33.33%',
+				'5/12 - 41.66%',
+				'6/12 - 50%',
+				'7/12 - 58.33%',
+				'8/12 - 66.66%',
+				'9/12 - 75%',
+				'10/12 - 83.33%',
+				'11/12 - 91.66%',
+				'12/12 - 100%',
 			];
 
 			_.forEach(labels, function(label, index) {
-				assert(_.startsWith(prototype._formatPercentageValue(index + 1), label));
+				assert(
+					_.startsWith(
+						prototype._formatPercentageValue(index + 1),
+						label
+					)
+				);
 			});
 
 			sinonAssert.notCalled(prototype._formatInlineChoicePreview);
 
 			_.forEach(labels, function(label, index) {
-				var formattedLabel = prototype._formatPercentageValue(index + 1, 0, true);
+				var formattedLabel = prototype._formatPercentageValue(
+					index + 1,
+					0,
+					true
+				);
 
-				assert(_.startsWith(formattedLabel, label), 'starts with label');
-				assert(_.endsWith(formattedLabel, 'preview'), 'adds inline preview to choice label');
+				assert(
+					_.startsWith(formattedLabel, label),
+					'starts with label'
+				);
+				assert(
+					_.endsWith(formattedLabel, 'preview'),
+					'adds inline preview to choice label'
+				);
 			});
 
 			sinonAssert.callCount(prototype._formatInlineChoicePreview, 12);
@@ -354,19 +410,19 @@ describe('LayoutCreator', function() {
 
 			choices = prototype._getColumnWidthChoices(0, 2, {});
 
-			//assert.equal(_.last(choices).type, 'separator');
+			// assert.equal(_.last(choices).type, 'separator');
 			assert.equal(choices[choices.length - 1].value, 11);
 			assert.equal(choices.length, 11);
 
 			choices = prototype._getColumnWidthChoices(1, 2, {
-				'0': 5
+				'0': 5,
 			});
 
 			assert.equal(choices.length, 1);
 			assert.equal(choices[0].value, 7);
 
 			choices = prototype._getColumnWidthChoices(1, 4, {
-				'0': 5
+				'0': 5,
 			});
 
 			assert.equal(choices.length, 5);
@@ -382,7 +438,7 @@ describe('LayoutCreator', function() {
 			assert.equal(choices.length, 1);
 			assert.deepEqual(choices[0], {
 				name: 'Add row',
-				value: 'add'
+				value: 'add',
 			});
 
 			rows = [1];
@@ -398,12 +454,12 @@ describe('LayoutCreator', function() {
 			prototype.rows = [
 				{
 					'0': 3,
-					'1': 9
+					'1': 9,
 				},
 				{
 					'0': 3,
-					'1': 9
-				}
+					'1': 9,
+				},
 			];
 
 			var choices = prototype._getInsertRowChoices();
@@ -415,10 +471,15 @@ describe('LayoutCreator', function() {
 
 				if (index % 2 == 0) {
 					assert.equal(choice.type, 'separator');
-					assert.equal(stripAnsi(choice.line), '  |3       |9                         |');
-				}
-				else {
-					assert.equal(choice.name, '  -------------------------------------');
+					assert.equal(
+						stripAnsi(choice.line),
+						'  |3       |9                         |'
+					);
+				} else {
+					assert.equal(
+						choice.name,
+						'  -------------------------------------'
+					);
 					assert.equal(choice.value, choiceValue);
 
 					choiceValue++;
@@ -427,17 +488,23 @@ describe('LayoutCreator', function() {
 
 			assert(choices[choices.length - 1].type != 'separator');
 
-			while(prototype.rows.length < 7) {
+			while (prototype.rows.length < 7) {
 				prototype.rows.push({
 					'0': 3,
-					'1': 9
+					'1': 9,
 				});
 			}
 
 			var choices = prototype._getInsertRowChoices();
 
-			assert.equal(choices[0].name, '  -----------------TOP-----------------');
-			assert.equal(choices[0].selectedName, '  =================TOP=================');
+			assert.equal(
+				choices[0].name,
+				'  -----------------TOP-----------------'
+			);
+			assert.equal(
+				choices[0].selectedName,
+				'  =================TOP================='
+			);
 		});
 	});
 
@@ -446,12 +513,12 @@ describe('LayoutCreator', function() {
 			prototype.rows = [
 				{
 					'0': 3,
-					'1': 9
+					'1': 9,
 				},
 				{
 					'0': 3,
-					'1': 9
-				}
+					'1': 9,
+				},
 			];
 
 			var choices = prototype._getRemoveRowChoices();
@@ -463,28 +530,36 @@ describe('LayoutCreator', function() {
 
 				if (index % 2 == 0) {
 					assert.equal(choice.value, choiceValue);
-					assert.equal(stripAnsi(choice.name), '  |3       |9                         |');
+					assert.equal(
+						stripAnsi(choice.name),
+						'  |3       |9                         |'
+					);
 
 					choiceValue++;
-				}
-				else {
-					assert.equal(stripAnsi(choice.line), '  -------------------------------------');
+				} else {
+					assert.equal(
+						stripAnsi(choice.line),
+						'  -------------------------------------'
+					);
 					assert.equal(choice.type, 'separator');
 				}
 			});
 
 			assert(choices[choices.length - 1].type == 'separator');
 
-			while(prototype.rows.length < 7) {
+			while (prototype.rows.length < 7) {
 				prototype.rows.push({
 					'0': 3,
-					'1': 9
+					'1': 9,
 				});
 			}
 
 			var choices = prototype._getRemoveRowChoices();
 
-			assert.equal(stripAnsi(choices[0].line), '  -----------------TOP-----------------');
+			assert.equal(
+				stripAnsi(choices[0].line),
+				'  -----------------TOP-----------------'
+			);
 		});
 	});
 
@@ -509,30 +584,34 @@ describe('LayoutCreator', function() {
 			var rows = [
 				{
 					'0': 2,
-					'1': 10
+					'1': 10,
 				},
 				{
 					'0': 2,
 					'1': 1,
-					'2': 9
+					'2': 9,
 				},
 				{
-					'0': 12
-				}
+					'0': 12,
+				},
 			];
 
-			var rowDataFromObjects = prototype._preprocessLayoutTemplateData(rows);
+			var rowDataFromObjects = prototype._preprocessLayoutTemplateData(
+				rows
+			);
 
-			rows = [
-				[2, 10],
-				[2, 1, 9],
-				[12]
-			];
+			rows = [[2, 10], [2, 1, 9], [12]];
 
-			var rowDataFromArray = prototype._preprocessLayoutTemplateData(rows);
+			var rowDataFromArray = prototype._preprocessLayoutTemplateData(
+				rows
+			);
 
 			assert(_.isArray(rowDataFromObjects), 'rowData is array');
-			assert.deepEqual(rowDataFromObjects, rowDataFromArray, 'that it returns the same data when passing in objects or arrays');
+			assert.deepEqual(
+				rowDataFromObjects,
+				rowDataFromArray,
+				'that it returns the same data when passing in objects or arrays'
+			);
 
 			var number = 0;
 
@@ -544,11 +623,22 @@ describe('LayoutCreator', function() {
 
 					number++;
 
-					assert.equal(number, column.number, 'column number is indexed correctly');
+					assert.equal(
+						number,
+						column.number,
+						'column number is indexed correctly'
+					);
 				});
 			});
 
-			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json')));
+			var json = JSON.parse(
+				fs.readFileSync(
+					path.join(
+						__dirname,
+						'../fixtures/json/processed_template_data.json'
+					)
+				)
+			);
 
 			assert.deepEqual(rowDataFromObjects, json);
 		});
@@ -556,16 +646,14 @@ describe('LayoutCreator', function() {
 
 	describe('_printLayoutPreview', function() {
 		it('should print layout preview', function() {
-			prototype.rows = [
-				[6, 6],
-				[3, 3, 6]
-			];
+			prototype.rows = [[6, 6], [3, 3, 6]];
 
 			prototype._stdoutWrite = sinon.spy();
 
 			prototype._printLayoutPreview();
 
-			var preview = '\n  Here is what your layout looks like so far\n' +
+			var preview =
+				'\n  Here is what your layout looks like so far\n' +
 				'  -------------------------------------\n' +
 				'  |6                |6                |\n' +
 				'  |                 |                 |\n' +
@@ -574,7 +662,9 @@ describe('LayoutCreator', function() {
 				'  |        |        |                 |\n' +
 				'  -------------------------------------\n\n';
 
-			var strippedPreview = stripAnsi(prototype._stdoutWrite.getCall(0).args[0]);
+			var strippedPreview = stripAnsi(
+				prototype._stdoutWrite.getCall(0).args[0]
+			);
 
 			assert.equal(strippedPreview, preview);
 		});
@@ -590,7 +680,11 @@ describe('LayoutCreator', function() {
 
 			var question = prototype.prompt.args[0][0][0];
 
-			sinonAssert.calledWithMatch(prototype.prompt.getCall(0), sinon.match.array, sinon.match.func);
+			sinonAssert.calledWithMatch(
+				prototype.prompt.getCall(0),
+				sinon.match.array,
+				sinon.match.func
+			);
 			assert.equal(question.name, 'columnCount');
 			assert.equal(question.validate, prototype._validateColumnCount);
 			assert.match(question.message, /row 1/);
@@ -601,7 +695,11 @@ describe('LayoutCreator', function() {
 
 			question = prototype.prompt.args[1][0][0];
 
-			sinonAssert.calledWithMatch(prototype.prompt.getCall(1), sinon.match.array, sinon.match.func);
+			sinonAssert.calledWithMatch(
+				prototype.prompt.getCall(1),
+				sinon.match.array,
+				sinon.match.func
+			);
 			assert.equal(question.name, 'columnCount');
 			assert.equal(question.validate, prototype._validateColumnCount);
 			assert.match(question.message, /row 4/);
@@ -619,14 +717,25 @@ describe('LayoutCreator', function() {
 
 			var questions = prototype.prompt.args[0][0];
 
-			sinonAssert.calledWithMatch(prototype.prompt.getCall(0), sinon.match.array, sinon.match.func);
-			assert.equal(questions.length, 2, 'it creates a question for every column');
+			sinonAssert.calledWithMatch(
+				prototype.prompt.getCall(0),
+				sinon.match.array,
+				sinon.match.func
+			);
+			assert.equal(
+				questions.length,
+				2,
+				'it creates a question for every column'
+			);
 
 			_.forEach(questions, function(question, index) {
 				var columnNumber = index + 1;
 
 				assert.equal(index, question.name, 'name is index');
-				assert.match(question.message, new RegExp('column ' + columnNumber));
+				assert.match(
+					question.message,
+					new RegExp('column ' + columnNumber)
+				);
 				assert(_.isFunction(question.choices), 'choices is function');
 			});
 		});
@@ -636,7 +745,7 @@ describe('LayoutCreator', function() {
 		it('should prompt user for next action (add, insert, remove, finish)', function() {
 			assertPromptFn(prototype, '_promptFinishRow', [[], _.noop], {
 				message: 'What now?',
-				name: 'finish'
+				name: 'finish',
 			});
 		});
 	});
@@ -645,7 +754,7 @@ describe('LayoutCreator', function() {
 		it('should prompt user for where they want to insert row', function() {
 			assertPromptFn(prototype, '_promptInsertRow', [_.noop], {
 				message: 'Where would you like to insert a new row?',
-				name: 'rowIndex'
+				name: 'rowIndex',
 			});
 		});
 	});
@@ -654,7 +763,7 @@ describe('LayoutCreator', function() {
 		it('should prompt user for what row they want to remove', function() {
 			assertPromptFn(prototype, '_promptRemoveRow', [_.noop], {
 				message: 'What row would you like to remove?',
-				name: 'rowIndex'
+				name: 'rowIndex',
 			});
 		});
 	});
@@ -672,17 +781,34 @@ describe('LayoutCreator', function() {
 					waterfallSpy(name, data);
 
 					cb(null, name);
-				}
+				};
 			};
 
-			prototype._promptColumnCount = getWaterfallFunction('_promptColumnCount');
-			prototype._promptColumnWidths = getWaterfallFunction('_promptColumnWidths');
-			prototype._promptFinishRow = getWaterfallFunction('_promptFinishRow');
+			prototype._promptColumnCount = getWaterfallFunction(
+				'_promptColumnCount'
+			);
+			prototype._promptColumnWidths = getWaterfallFunction(
+				'_promptColumnWidths'
+			);
+			prototype._promptFinishRow = getWaterfallFunction(
+				'_promptFinishRow'
+			);
 
 			prototype._promptRow(function() {
-				sinonAssert.calledWith(waterfallSpy.getCall(0), '_promptColumnCount');
-				sinonAssert.calledWith(waterfallSpy.getCall(1), '_promptColumnWidths', '_promptColumnCount');
-				sinonAssert.calledWith(waterfallSpy.getCall(2), '_promptFinishRow', '_promptColumnWidths');
+				sinonAssert.calledWith(
+					waterfallSpy.getCall(0),
+					'_promptColumnCount'
+				);
+				sinonAssert.calledWith(
+					waterfallSpy.getCall(1),
+					'_promptColumnWidths',
+					'_promptColumnCount'
+				);
+				sinonAssert.calledWith(
+					waterfallSpy.getCall(2),
+					'_promptFinishRow',
+					'_promptColumnWidths'
+				);
 
 				done();
 			});
@@ -710,21 +836,24 @@ describe('LayoutCreator', function() {
 		it('should render preview line', function() {
 			var line = prototype._renderPreviewLine({
 				'0': 4,
-				'1': 8
+				'1': 8,
 			});
 
 			line = stripAnsi(line);
 
 			assert.equal(line, '  |           |                       |');
 
-			line = prototype._renderPreviewLine({
-				'0': 4,
-				'1': 4,
-				'2': 2,
-				'3': 2
-			}, {
-				label: true
-			});
+			line = prototype._renderPreviewLine(
+				{
+					'0': 4,
+					'1': 4,
+					'2': 2,
+					'3': 2,
+				},
+				{
+					label: true,
+				}
+			);
 
 			line = stripAnsi(line);
 
@@ -735,21 +864,36 @@ describe('LayoutCreator', function() {
 	describe('_renderLayoutTemplate', function() {
 		it('should compile data into valid template', function() {
 			var fileOptions = {
-				encoding: 'utf8'
+				encoding: 'utf8',
 			};
 
-			var json = JSON.parse(fs.readFileSync(path.join(__dirname, '../fixtures/json/processed_template_data.json'), fileOptions));
+			var json = JSON.parse(
+				fs.readFileSync(
+					path.join(
+						__dirname,
+						'../fixtures/json/processed_template_data.json'
+					),
+					fileOptions
+				)
+			);
 
 			prototype.liferayVersion = '7.0';
 
 			var tplContent = prototype._renderLayoutTemplate({
 				className: 'my-class-name',
-				rowData: json
+				rowData: json,
 			});
 
-			var tplFileContent = fs.readFileSync(path.join(__dirname, '../fixtures/tpl/layout_template.tpl'), fileOptions);
+			var tplFileContent = fs.readFileSync(
+				path.join(__dirname, '../fixtures/tpl/layout_template.tpl'),
+				fileOptions
+			);
 
-			assert.equal(tplContent, tplFileContent, 'correctly renders template');
+			assert.equal(
+				tplContent,
+				tplFileContent,
+				'correctly renders template'
+			);
 		});
 	});
 
@@ -763,7 +907,7 @@ describe('LayoutCreator', function() {
 
 	describe('_stylePreviewLine', function() {
 		it('should pass', function() {
-			prototype._stylePreviewLine
+			prototype._stylePreviewLine;
 		});
 	});
 
@@ -802,7 +946,11 @@ function assertPromptFn(prototype, fnName, args, assertionData) {
 	var args = prototype.prompt.getCall(0).args;
 	var question = args[0][0];
 
-	sinonAssert.calledWithMatch(prototype.prompt.getCall(0), sinon.match.array, sinon.match.func);
+	sinonAssert.calledWithMatch(
+		prototype.prompt.getCall(0),
+		sinon.match.array,
+		sinon.match.func
+	);
 
 	assert.equal(question.message, assertionData.message);
 	assert.equal(question.name, assertionData.name);

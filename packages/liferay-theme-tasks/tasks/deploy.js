@@ -1,19 +1,17 @@
-'use strict';
+const _ = require('lodash');
+const fs = require('fs-extra');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
 
-let _ = require('lodash');
-let fs = require('fs-extra');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
+const lfrThemeConfig = require('../lib/liferay_theme_config');
+const themeUtil = require('../lib/util');
+const WarDeployer = require('../lib/war_deployer');
 
-let lfrThemeConfig = require('../lib/liferay_theme_config');
-let themeUtil = require('../lib/util');
-let WarDeployer = require('../lib/war_deployer');
+const divert = require('../lib/divert');
 
-let divert = require('../lib/divert');
+const themeConfig = lfrThemeConfig.getConfig(true);
 
-let themeConfig = lfrThemeConfig.getConfig(true);
-
-module.exports = function(options) {
+function registerTasks(options) {
 	const {argv, gulp, pathBuild, pathSrc} = options;
 	const {storage} = gulp;
 
@@ -153,4 +151,6 @@ module.exports = function(options) {
 
 		return fastDeployPaths;
 	}
-};
+}
+
+module.exports = registerTasks;

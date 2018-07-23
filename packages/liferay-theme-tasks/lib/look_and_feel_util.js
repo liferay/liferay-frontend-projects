@@ -1,16 +1,12 @@
-'use strict';
+const _ = require('lodash');
+const fs = require('fs-extra');
+const path = require('path');
+const util = require('util');
+const xml2js = require('xml2js');
 
-let _ = require('lodash');
-let fs = require('fs-extra');
-let path = require('path');
-let util = require('util');
-let xml2js = require('xml2js');
+const {pathSrc} = require('./options')();
 
-let options = require('../lib/options')();
-
-let pathSrc = options.pathSrc;
-
-let QUERY_ELEMENTS = {
+const QUERY_ELEMENTS = {
 	'color-scheme': 'id',
 	'layout-templates.0.custom.0.layout-template': 'id',
 	'layout-templates.0.standard.0.layout-template': 'id',
@@ -19,9 +15,9 @@ let QUERY_ELEMENTS = {
 	'settings.0.setting': 'key',
 };
 
-let STR_LOOK_AND_FEEL = 'look-and-feel';
+const STR_LOOK_AND_FEEL = 'look-and-feel';
 
-let THEME_CHILD_ORDER = [
+const THEME_CHILD_ORDER = [
 	'$',
 	'root-path',
 	'templates-path',
@@ -40,247 +36,259 @@ let THEME_CHILD_ORDER = [
 	'portlet-decorator',
 ];
 
-module.exports = {
-	buildXML: function(lookAndFeelJSON, doctypeElement) {
-		let themeQuery = 'look-and-feel.theme.0';
+function buildXML(lookAndFeelJSON, doctypeElement) {
+	let themeQuery = 'look-and-feel.theme.0';
 
-		let themeElement = _.get(lookAndFeelJSON, themeQuery);
+	let themeElement = _.get(lookAndFeelJSON, themeQuery);
 
-		themeElement = _.reduce(
-			THEME_CHILD_ORDER,
-			function(result, item) {
-				if (themeElement[item]) {
-					result[item] = themeElement[item];
-				}
-
-				return result;
-			},
-			{}
-		);
-
-		_.set(lookAndFeelJSON, themeQuery, themeElement);
-
-		let builder = new xml2js.Builder({
-			renderOpts: {
-				indent: '\t',
-				pretty: true,
-			},
-			xmldec: {
-				encoding: null,
-				standalone: null,
-			},
-		});
-
-		let xml = builder.buildObject(lookAndFeelJSON);
-
-		xml = xml.replace(/(<\?xml.*>)/, '$1\n' + doctypeElement + '\n');
-
-		return xml;
-	},
-
-	correctJSONIdentifiers: function(lookAndFeelJSON, name) {
-		let themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
-
-		if (name !== themeAttrs.name) {
-			themeAttrs.name = name;
-			themeAttrs.id = _.kebabCase(name);
-		}
-
-		return lookAndFeelJSON;
-	},
-
-	getLookAndFeelDoctype: function(themePath) {
-		let xmlString = this.readLookAndFeelXML(themePath);
-
-		let match;
-
-		if (xmlString) {
-			match = xmlString.match(/(<!DOCTYPE.*>)/);
-		}
-
-		return match ? match[0] : null;
-	},
-
-	getLookAndFeelDoctypeByVersion: function(version) {
-		version += '.0';
-
-		return util.format(
-			'<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel %s//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_%s.dtd">',
-			version,
-			version.replace(/\./g, '_')
-		);
-	},
-
-	getLookAndFeelJSON: function(themePath, cb) {
-		let xmlString = this.readLookAndFeelXML(themePath);
-
-		if (!xmlString) {
-			return cb();
-		}
-
-		xml2js.parseString(xmlString, function(err, result) {
-			if (err) {
-				throw err;
+	themeElement = _.reduce(
+		THEME_CHILD_ORDER,
+		function(result, item) {
+			if (themeElement[item]) {
+				result[item] = themeElement[item];
 			}
 
-			cb(result);
-		});
-	},
+			return result;
+		},
+		{}
+	);
 
-	getNameFromPluginPackageProperties: function(themePath) {
-		let pluginPackageProperties = fs.readFileSync(
-			path.join(
-				themePath,
-				pathSrc,
-				'WEB-INF',
-				'liferay-plugin-package.properties'
-			),
-			{
-				encoding: 'utf8',
-			}
-		);
+	_.set(lookAndFeelJSON, themeQuery, themeElement);
 
-		let match = pluginPackageProperties.match(/name=(.*)/);
+	let builder = new xml2js.Builder({
+		renderOpts: {
+			indent: '\t',
+			pretty: true,
+		},
+		xmldec: {
+			encoding: null,
+			standalone: null,
+		},
+	});
 
-		return match ? match[1] : null;
-	},
+	let xml = builder.buildObject(lookAndFeelJSON);
 
-	mergeLookAndFeelJSON: function(themePath, lookAndFeelJSON, cb) {
-		let instance = this;
+	xml = xml.replace(/(<\?xml.*>)/, '$1\n' + doctypeElement + '\n');
 
-		instance.getLookAndFeelJSON(themePath, function(json) {
-			if (_.isEmpty(lookAndFeelJSON)) {
-				lookAndFeelJSON = json;
-			} else if (json) {
-				lookAndFeelJSON = instance._mergeJSON(lookAndFeelJSON, json);
-			}
+	return xml;
+}
 
-			let themeInfo = require(path.join(themePath, 'package.json'))
-				.liferayTheme;
+function correctJSONIdentifiers(lookAndFeelJSON, name) {
+	let themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
 
-			let baseTheme = themeInfo.baseTheme;
+	if (name !== themeAttrs.name) {
+		themeAttrs.name = name;
+		themeAttrs.id = _.kebabCase(name);
+	}
 
-			if (_.isObject(baseTheme)) {
-				themePath = path.join(
-					themePath,
-					'node_modules',
-					baseTheme.name
-				);
+	return lookAndFeelJSON;
+}
 
-				instance.mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb);
-			} else {
-				cb(lookAndFeelJSON);
-			}
-		});
-	},
+function getLookAndFeelDoctype(themePath) {
+	let xmlString = this.readLookAndFeelXML(themePath);
 
-	readLookAndFeelXML: function(themePath) {
-		let xmlString = this._xmlCache[themePath];
+	let match;
 
-		if (xmlString) {
-			return xmlString;
+	if (xmlString) {
+		match = xmlString.match(/(<!DOCTYPE.*>)/);
+	}
+
+	return match ? match[0] : null;
+}
+
+function getLookAndFeelDoctypeByVersion(version) {
+	version += '.0';
+
+	return util.format(
+		'<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel %s//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_%s.dtd">',
+		version,
+		version.replace(/\./g, '_')
+	);
+}
+
+function getLookAndFeelJSON(themePath, cb) {
+	let xmlString = this.readLookAndFeelXML(themePath);
+
+	if (!xmlString) {
+		return cb();
+	}
+
+	xml2js.parseString(xmlString, function(err, result) {
+		if (err) {
+			throw err;
 		}
 
-		let lookAndFeelDefaultPath = path.join(
-			themePath,
-			'src/WEB-INF/liferay-look-and-feel.xml'
-		);
-		let lookAndFeelPath = path.join(
+		cb(result);
+	});
+}
+
+function getNameFromPluginPackageProperties(themePath) {
+	let pluginPackageProperties = fs.readFileSync(
+		path.join(
 			themePath,
 			pathSrc,
-			'WEB-INF/liferay-look-and-feel.xml'
-		);
+			'WEB-INF',
+			'liferay-plugin-package.properties'
+		),
+		{
+			encoding: 'utf8',
+		}
+	);
 
-		try {
-			fs.statSync(lookAndFeelPath);
-		} catch (err) {
-			lookAndFeelPath = lookAndFeelDefaultPath;
+	let match = pluginPackageProperties.match(/name=(.*)/);
+
+	return match ? match[1] : null;
+}
+
+function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
+	let instance = this;
+
+	instance.getLookAndFeelJSON(themePath, function(json) {
+		if (_.isEmpty(lookAndFeelJSON)) {
+			lookAndFeelJSON = json;
+		} else if (json) {
+			lookAndFeelJSON = instance.mergeJSON(lookAndFeelJSON, json);
 		}
 
-		try {
-			xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
+		let themeInfo = require(path.join(themePath, 'package.json'))
+			.liferayTheme;
 
-			this._xmlCache[themePath] = xmlString;
-		} catch (err) {}
+		let baseTheme = themeInfo.baseTheme;
 
+		if (_.isObject(baseTheme)) {
+			themePath = path.join(themePath, 'node_modules', baseTheme.name);
+
+			instance.mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb);
+		} else {
+			cb(lookAndFeelJSON);
+		}
+	});
+}
+
+function readLookAndFeelXML(themePath) {
+	let xmlString = this.xmlCache[themePath];
+
+	if (xmlString) {
 		return xmlString;
-	},
+	}
 
-	_extractThemeElement: function(obj, key) {
-		return obj[STR_LOOK_AND_FEEL].theme[0][key];
-	},
+	let lookAndFeelDefaultPath = path.join(
+		themePath,
+		'src/WEB-INF/liferay-look-and-feel.xml'
+	);
+	let lookAndFeelPath = path.join(
+		themePath,
+		pathSrc,
+		'WEB-INF/liferay-look-and-feel.xml'
+	);
 
-	_mergeJSON: function(themeObj, baseThemeObj) {
-		let instance = this;
+	try {
+		fs.statSync(lookAndFeelPath);
+	} catch (err) {
+		lookAndFeelPath = lookAndFeelDefaultPath;
+	}
 
-		_.forEach(QUERY_ELEMENTS, function(item, index) {
-			let mergedElement;
-			let queryString = 'look-and-feel.theme.0.' + index;
+	try {
+		xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
 
-			let baseThemeElement = _.get(baseThemeObj, queryString);
-			let themeElement = _.get(themeObj, queryString);
+		this.xmlCache[themePath] = xmlString;
+	} catch (err) {}
 
-			if (item === 'value') {
-				mergedElement = instance._mergeThemeElementByValue(
-					themeElement,
-					baseThemeElement
-				);
-			} else if (item === 'single') {
-				mergedElement = themeElement || baseThemeElement;
-			} else {
-				mergedElement = instance._mergeThemeElementById(
-					themeElement,
-					baseThemeElement,
-					item
-				);
-			}
+	return xmlString;
+}
 
-			if (mergedElement) {
-				_.set(themeObj, queryString, mergedElement);
-			}
-		});
-
-		return themeObj;
-	},
-
-	_mergeThemeElementById: function(
-		themeElements,
-		baseThemeElements,
-		identifier
-	) {
-		if (!themeElements || !baseThemeElements) {
-			return themeElements ? themeElements : baseThemeElements;
-		}
-
-		identifier = identifier || 'id';
-
-		let allElements = themeElements.concat(baseThemeElements);
-		let elementIds = [];
-
-		return _.reduce(
-			allElements,
-			function(result, item) {
-				let id = item.$[identifier];
-
-				if (elementIds.indexOf(id) < 0) {
-					elementIds.push(id);
-
-					result.push(item);
-				}
-
-				return result;
-			},
-			[]
-		);
-	},
-
-	_mergeThemeElementByValue: function(themeElements, baseThemeElements) {
-		if (!themeElements || !baseThemeElements) {
-			return themeElements ? themeElements : baseThemeElements;
-		}
-
-		return _.uniq(themeElements.concat(baseThemeElements));
-	},
-
-	_xmlCache: {},
+module.exports = {
+	buildXML,
+	correctJSONIdentifiers,
+	getLookAndFeelDoctype,
+	getLookAndFeelDoctypeByVersion,
+	getLookAndFeelJSON,
+	getNameFromPluginPackageProperties,
+	mergeLookAndFeelJSON,
+	readLookAndFeelXML,
 };
+
+const xmlCache = {};
+
+function extractThemeElement(obj, key) {
+	return obj[STR_LOOK_AND_FEEL].theme[0][key];
+}
+
+function mergeJSON(themeObj, baseThemeObj) {
+	let instance = this;
+
+	_.forEach(QUERY_ELEMENTS, function(item, index) {
+		let mergedElement;
+		let queryString = 'look-and-feel.theme.0.' + index;
+
+		let baseThemeElement = _.get(baseThemeObj, queryString);
+		let themeElement = _.get(themeObj, queryString);
+
+		if (item === 'value') {
+			mergedElement = instance.mergeThemeElementByValue(
+				themeElement,
+				baseThemeElement
+			);
+		} else if (item === 'single') {
+			mergedElement = themeElement || baseThemeElement;
+		} else {
+			mergedElement = instance.mergeThemeElementById(
+				themeElement,
+				baseThemeElement,
+				item
+			);
+		}
+
+		if (mergedElement) {
+			_.set(themeObj, queryString, mergedElement);
+		}
+	});
+
+	return themeObj;
+}
+
+function mergeThemeElementById(themeElements, baseThemeElements, identifier) {
+	if (!themeElements || !baseThemeElements) {
+		return themeElements ? themeElements : baseThemeElements;
+	}
+
+	identifier = identifier || 'id';
+
+	let allElements = themeElements.concat(baseThemeElements);
+	let elementIds = [];
+
+	return _.reduce(
+		allElements,
+		function(result, item) {
+			let id = item.$[identifier];
+
+			if (elementIds.indexOf(id) < 0) {
+				elementIds.push(id);
+
+				result.push(item);
+			}
+
+			return result;
+		},
+		[]
+	);
+}
+
+function mergeThemeElementByValue(themeElements, baseThemeElements) {
+	if (!themeElements || !baseThemeElements) {
+		return themeElements ? themeElements : baseThemeElements;
+	}
+
+	return _.uniq(themeElements.concat(baseThemeElements));
+}
+
+// Export private methods when in tests
+if (jest) {
+	Object.assign(module.exports, {
+		extractThemeElement,
+		mergeJSON,
+		mergeThemeElementById,
+		mergeThemeElementByValue,
+		xmlCache,
+	});
+}

@@ -17,7 +17,7 @@ var tempThemeDir = path.join(tempDir, 'sdk-theme');
 
 var pathSdkTheme = path.join(__dirname, '../fixtures/sdk-theme');
 
-describe('liferay-theme:import functional tests', function () {
+describe('liferay-theme:import functional tests', function() {
 	it('creates files', function(done) {
 		runGenerator(null, function() {
 			assert.file([
@@ -27,7 +27,7 @@ describe('liferay-theme:import functional tests', function () {
 				'src/templates/portal_normal.vm',
 				'src/WEB-INF/liferay-look-and-feel.xml',
 				'src/WEB-INF/liferay-plugin-package.properties',
-				'src/WEB-INF/liferay-releng.properties'
+				'src/WEB-INF/liferay-releng.properties',
 			]);
 
 			done();
@@ -58,15 +58,16 @@ function runGenerator(options, end) {
 	options = options || {};
 
 	options = _.defaults(options, {
-		importTheme: pathSdkTheme
+		importTheme: pathSdkTheme,
 	});
 
 	delete require.cache[path.join(__dirname, '../../generators/app/index.js')];
 
-	helpers.run(path.join(__dirname, '../../generators/import'))
+	helpers
+		.run(path.join(__dirname, '../../generators/import'))
 		.inDir(tempDir)
 		.withOptions({
-			'skip-install': true
+			'skip-install': true,
 		})
 		.withPrompt(options)
 		.on('end', end);

@@ -1,5 +1,3 @@
-'use strict';
-
 const EventEmitter = require('events').EventEmitter;
 const _ = require('lodash');
 const colors = require('ansi-colors');
@@ -11,12 +9,13 @@ const url = require('url');
 
 const CWD = process.cwd();
 
-const WarDeployer = function(options) {
-	this.init(options);
-};
+class WarDeployer extends EventEmitter {
+	constructor(options) {
+		super();
+		this.init(options);
+	}
 
-WarDeployer.prototype = _.create(EventEmitter.prototype, {
-	init: function(options) {
+	init(options) {
 		EventEmitter.call(this);
 
 		this._validateOptions(options);
@@ -30,17 +29,17 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		this.fileName = options.fileName;
 		this.password = options.password;
 		this.username = options.username;
-	},
+	}
 
-	deploy: function() {
+	deploy() {
 		this._promptCredentialsIfNeeded();
-	},
+	}
 
-	_getAuth: function() {
+	_getAuth() {
 		return this.username + ':' + this.password;
-	},
+	}
 
-	_getBoundaryKey: function() {
+	_getBoundaryKey() {
 		let boundaryKey = this.boundaryKey;
 
 		if (!boundaryKey) {
@@ -50,9 +49,9 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		}
 
 		return boundaryKey;
-	},
+	}
 
-	_getFileHeaders: function() {
+	_getFileHeaders() {
 		let fileName = this.fileName;
 
 		return (
@@ -67,9 +66,9 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 			'.war"\r\n' +
 			'Content-Transfer-Encoding: binary\r\n\r\n'
 		);
-	},
+	}
 
-	_getPostOptions: function() {
+	_getPostOptions() {
 		return {
 			auth: this._getAuth(),
 			headers: {
@@ -83,18 +82,18 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 			path: '/server-manager-web/plugins',
 			port: this.port,
 		};
-	},
+	}
 
-	_getQuestion: function(name, defaultValue) {
+	_getQuestion(name, defaultValue) {
 		return {
 			default: defaultValue,
 			message: 'Enter your ' + name + ' for ' + this.host,
 			name: name,
 			type: name === 'password' ? name : 'input',
 		};
-	},
+	}
 
-	_makeRequest: function() {
+	_makeRequest() {
 		let instance = this;
 
 		let protocol = require(this.protocol);
@@ -118,9 +117,9 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		});
 
 		this._writeWarFile(req);
-	},
+	}
 
-	_onResponseData: function(chunk) {
+	_onResponseData(chunk) {
 		try {
 			let responseData = JSON.parse(chunk);
 
@@ -128,9 +127,9 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 				this.deployed = true;
 			}
 		} catch (err) {}
-	},
+	}
 
-	_onResponseEnd: function() {
+	_onResponseEnd() {
 		if (this.deployed) {
 			log(
 				colors.cyan(this.fileName + '.war'),
@@ -146,9 +145,9 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 				this.host
 			);
 		}
-	},
+	}
 
-	_promptCredentialsIfNeeded: function() {
+	_promptCredentialsIfNeeded() {
 		let instance = this;
 
 		let questions = [];
@@ -172,29 +171,29 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 		} else {
 			instance._makeRequest();
 		}
-	},
+	}
 
-	_setURLSettings: function(siteURL) {
+	_setURLSettings(siteURL) {
 		let parsedURL = url.parse(siteURL);
 
 		this.host = parsedURL.hostname;
 		this.port = parsedURL.port;
 		this.protocol = _.trimRight(parsedURL.protocol, ':');
-	},
+	}
 
-	_validateOptions: function(options) {
+	_validateOptions(options) {
 		if (!options.fileName) {
 			throw new Error('fileName required');
 		}
-	},
+	}
 
-	_validateURLSettings: function() {
+	_validateURLSettings() {
 		if (['http', 'https'].indexOf(this.protocol) < 0) {
 			throw new Error('http or https must be used as protocol');
 		}
-	},
+	}
 
-	_writeWarFile: function(req) {
+	_writeWarFile(req) {
 		let instance = this;
 
 		let boundaryKey = this._getBoundaryKey();
@@ -211,7 +210,7 @@ WarDeployer.prototype = _.create(EventEmitter.prototype, {
 			.pipe(req, {
 				end: false,
 			});
-	},
-});
+	}
+}
 
 module.exports = WarDeployer;

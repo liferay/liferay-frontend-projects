@@ -1,5 +1,3 @@
-'use strict';
-
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
 const colors = require('ansi-colors');
@@ -25,130 +23,143 @@ const CUSTOM_DEP_PATH_FLAG_MAP = {
 	'liferay-frontend-theme-unstyled': 'unstyled-path',
 };
 
-module.exports = {
-	getLanguageProperties: function(pathBuild) {
-		let pathContent = path.join(pathBuild, 'WEB-INF/src/content');
+function getLanguageProperties(pathBuild) {
+	const pathContent = path.join(pathBuild, 'WEB-INF/src/content');
 
-		let languageKeys = [];
+	const languageKeys = [];
 
-		if (
-			fs.existsSync(pathContent) &&
-			fs.statSync(pathContent).isDirectory()
-		) {
-			let contentFiles = fs.readdirSync(pathContent);
+	if (fs.existsSync(pathContent) && fs.statSync(pathContent).isDirectory()) {
+		const contentFiles = fs.readdirSync(pathContent);
 
-			_.forEach(contentFiles, function(item) {
-				if (item.match(/Language.*properties/)) {
-					let xmlElement =
-						'<language-properties>content/' +
-						item +
-						'</language-properties>';
+		_.forEach(contentFiles, item => {
+			if (item.match(/Language.*properties/)) {
+				const xmlElement =
+					'<language-properties>content/' +
+					item +
+					'</language-properties>';
 
-					languageKeys.push(xmlElement);
-				}
-			});
-		}
-
-		return languageKeys;
-	},
-
-	isCssFile: function(name) {
-		return _.endsWith(name, '.css') || _.endsWith(name, '.scss');
-	},
-
-	isSassPartial: function isSassPartial(name) {
-		return _.startsWith(path.basename(name), '_');
-	},
-
-	requireDependency: function(dependency, version) {
-		let depsPath = this._getDepsPath(pkg, dependency, version);
-
-		let dependencyPath = resolve.sync(dependency, {
-			basedir: depsPath,
+				languageKeys.push(xmlElement);
+			}
 		});
+	}
 
-		return require(dependencyPath);
-	},
+	return languageKeys;
+}
 
-	resolveDependency: function(dependency, version, dirname) {
-		if (_.isUndefined(dirname)) {
-			dirname = true;
-		}
+function isCssFile(name) {
+	return _.endsWith(name, '.css') || _.endsWith(name, '.scss');
+}
 
-		let customPath = this._getCustomDependencyPath(dependency);
+function isSassPartial(name) {
+	return _.startsWith(path.basename(name), '_');
+}
 
-		if (customPath) {
-			log(
-				colors.magenta(dependency),
-				'using custom path:',
-				colors.magenta(customPath)
-			);
+function requireDependency(dependency, version) {
+	const depsPath = this.getDepsPath(pkg, dependency, version);
 
-			return customPath;
-		}
+	const dependencyPath = resolve.sync(dependency, {
+		basedir: depsPath,
+	});
 
-		let depsPath = this._getDepsPath(pkg, dependency, version);
+	return require(dependencyPath);
+}
 
-		let dependencyPath = resolve.sync(dependency, {
-			basedir: depsPath,
-		});
+function resolveDependency(dependency, version, dirname) {
+	if (_.isUndefined(dirname)) {
+		dirname = true;
+	}
 
-		let resolvedPath = require.resolve(dependencyPath);
+	const customPath = this.getCustomDependencyPath(dependency);
 
-		if (dirname) {
-			resolvedPath = path.dirname(resolvedPath);
-		}
-
-		return resolvedPath;
-	},
-
-	_getCustomDependencyPath: function(dependency) {
-		let customPath;
-		let envVariable = CUSTOM_DEP_PATH_ENV_VARIABLE_MAP[dependency];
-		let flag = CUSTOM_DEP_PATH_FLAG_MAP[dependency];
-
-		if (flag && argv[flag]) {
-			customPath = argv[flag];
-		} else if (envVariable && process.env[envVariable]) {
-			customPath = process.env[envVariable];
-		}
-
-		if (customPath) {
-			this._validateCustomDependencyPath(customPath);
-		}
+	if (customPath) {
+		log(
+			colors.magenta(dependency),
+			'using custom path:',
+			colors.magenta(customPath)
+		);
 
 		return customPath;
-	},
+	}
 
-	_getDepsPath: function(pkg, dependency, version) {
-		if (this._hasDependency(pkg, dependency)) {
-			return process.cwd();
-		}
+	const depsPath = this.getDepsPath(pkg, dependency, version);
 
-		version = version || themeConfig.version;
+	const dependencyPath = resolve.sync(dependency, {
+		basedir: depsPath,
+	});
 
-		let depsPath = path.dirname(
-			require.resolve(`liferay-theme-deps-${version}`)
-		);
+	let resolvedPath = require.resolve(dependencyPath);
 
-		return depsPath;
-	},
+	if (dirname) {
+		resolvedPath = path.dirname(resolvedPath);
+	}
 
-	_hasDependency: function(pkg, dependency) {
-		let themeDependencies = _.assign(
-			{},
-			pkg.dependencies,
-			pkg.devDependencies
-		);
+	return resolvedPath;
+}
 
-		return themeDependencies[dependency];
-	},
-
-	_validateCustomDependencyPath: function(customPath) {
-		let stats = fs.statSync(customPath);
-
-		if (!stats.isDirectory()) {
-			throw new Error(customPath + ' is not a directory');
-		}
-	},
+module.exports = {
+	getLanguageProperties,
+	isCssFile,
+	isSassPartial,
+	requireDependency,
+	resolveDependency,
 };
+
+function getCustomDependencyPath(dependency) {
+	let customPath;
+	const envVariable = CUSTOM_DEP_PATH_ENV_VARIABLE_MAP[dependency];
+	const flag = CUSTOM_DEP_PATH_FLAG_MAP[dependency];
+
+	if (flag && argv[flag]) {
+		customPath = argv[flag];
+	} else if (envVariable && process.env[envVariable]) {
+		customPath = process.env[envVariable];
+	}
+
+	if (customPath) {
+		this.validateCustomDependencyPath(customPath);
+	}
+
+	return customPath;
+}
+
+function getDepsPath(pkg, dependency, version) {
+	if (this.hasDependency(pkg, dependency)) {
+		return process.cwd();
+	}
+
+	version = version || themeConfig.version;
+
+	const depsPath = path.dirname(
+		require.resolve(`liferay-theme-deps-${version}`)
+	);
+
+	return depsPath;
+}
+
+function hasDependency(pkg, dependency) {
+	const themeDependencies = _.assign(
+		{},
+		pkg.dependencies,
+		pkg.devDependencies
+	);
+
+	return themeDependencies[dependency];
+}
+
+function validateCustomDependencyPath(customPath) {
+	const stats = fs.statSync(customPath);
+
+	if (!stats.isDirectory()) {
+		throw new Error(customPath + ' is not a directory');
+	}
+}
+
+// Export private methods when in tests
+if (jest) {
+	Object.assign(module.exports, {
+		getCustomDependencyPath,
+		getDepsPath,
+		hasDependency,
+		validateCustomDependencyPath,
+	});
+}
