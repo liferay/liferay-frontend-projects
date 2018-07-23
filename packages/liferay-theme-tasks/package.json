@@ -47,7 +47,6 @@
 	},
 	"description": "A set of tasks for building and deploying Liferay Portal themes.",
 	"devDependencies": {
-		"ava": "^0.25.0",
 		"bluebird": "^3.3.4",
 		"gogo-shell-helper": "^0.0.8",
 		"gulp": "^3.9.1",
@@ -65,8 +64,5 @@
 	"main": "index.js",
 	"name": "liferay-theme-tasks",
 	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-tasks",
-	"version": "8.0.0-beta.1",
-	"scripts": {
-		"test": "ava"
-	}
+	"version": "8.0.0-beta.1"
 }
