@@ -10,8 +10,7 @@
 	"private": true,
 	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-tasks",
 	"scripts": {
-		"ci":
-			"prettier-eslint --list-different 'packages/**/*.js' && npm run lint && npm run test",
+		"ci": "prettier-eslint --list-different 'packages/**/*.js' && npm run lint && npm run test",
 		"format": "prettier-eslint --write 'packages/**/*.js'",
 		"lerna": "lerna bootstrap -- --no-optional && npm install",
 		"lint": "eslint 'packages/**/*.js'",
@@ -21,7 +20,10 @@
 		"gulp": "^3.9.1"
 	},
 	"jest": {
-		"testPathIgnorePatterns": ["/node_modules/", "/__fixtures__/"],
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"/__fixtures__/"
+		],
 		"modulePathIgnorePatterns": [
 			"/liferay-theme-finder/",
 			"/generator-liferay-theme/generators/layout/"
