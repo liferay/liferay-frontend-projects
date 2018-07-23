@@ -21,6 +21,8 @@ afterAll(() => {
 });
 
 beforeEach(() => {
+	jest.setTimeout(20000);
+
 	testUtil.hideConsole();
 });
 
