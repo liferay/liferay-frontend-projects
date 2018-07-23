@@ -22,6 +22,9 @@
 	},
 	"jest": {
 		"testPathIgnorePatterns": ["/node_modules/", "/__fixtures__/"],
-		"modulePathIgnorePatterns": ["/liferay-theme-finder/"]
+		"modulePathIgnorePatterns": [
+			"/liferay-theme-finder/",
+			"/generator-liferay-theme/generators/layout/"
+		]
 	}
 }

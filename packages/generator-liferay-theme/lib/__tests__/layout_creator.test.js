@@ -1,5 +1,3 @@
-'use strict';
-
 var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs');
@@ -635,7 +633,7 @@ describe('LayoutCreator', function() {
 				fs.readFileSync(
 					path.join(
 						__dirname,
-						'../fixtures/json/processed_template_data.json'
+						'./__fixtures__/processed_template_data.json'
 					)
 				)
 			);
@@ -871,7 +869,7 @@ describe('LayoutCreator', function() {
 				fs.readFileSync(
 					path.join(
 						__dirname,
-						'../fixtures/json/processed_template_data.json'
+						'./__fixtures__/processed_template_data.json'
 					),
 					fileOptions
 				)
@@ -885,7 +883,7 @@ describe('LayoutCreator', function() {
 			});
 
 			var tplFileContent = fs.readFileSync(
-				path.join(__dirname, '../fixtures/tpl/layout_template.tpl'),
+				path.join(__dirname, './__fixtures__/layout_template.tpl'),
 				fileOptions
 			);
 
