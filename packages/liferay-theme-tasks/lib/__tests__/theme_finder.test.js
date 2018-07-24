@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const path = require('path');
 
+const testUtil = require('../../test/util');
+
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,
@@ -10,6 +12,8 @@ const baseThemePath = path.join(
 let themeFinder;
 
 beforeEach(() => {
+	testUtil.hideConsole();
+
 	process.chdir(baseThemePath);
 
 	delete require.cache[path.join(__dirname, '../theme_finder.js')];
@@ -18,6 +22,8 @@ beforeEach(() => {
 
 afterEach(() => {
 	process.chdir(initCwd);
+
+	testUtil.restoreConsole();
 });
 
 it('getLiferayThemeModule should retrieve package.json file from npm', done => {

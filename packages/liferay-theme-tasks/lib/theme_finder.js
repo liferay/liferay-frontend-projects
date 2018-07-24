@@ -47,10 +47,44 @@ function getLiferayThemeModules(config, cb) {
 
 	let searchFn = globalModules ? searchGlobalModules : searchNpm;
 
-	searchFn.call(this, config, cb);
+	searchFn.call(this, config, moduleResults => {
+		reportDiscardedModules(
+			moduleResults,
+			isLiferayThemeModule.NO_PACKAGE_JSON,
+			'with no package.json'
+		);
+		reportDiscardedModules(
+			moduleResults,
+			isLiferayThemeModule.NO_LIFERAY_THEME,
+			'with no liferayTheme section in package.json'
+		);
+		reportDiscardedModules(
+			moduleResults,
+			isLiferayThemeModule.TARGET_VERSION_DOES_NOT_MATCH,
+			`not targeting ${themeConfig.version} version`
+		);
+		reportDiscardedModules(
+			moduleResults,
+			isLiferayThemeModule.THEMELET_FLAG_DOES_NOT_MATCH,
+			'with mismatching themelet flag'
+		);
+
+		cb(moduleResults[isLiferayThemeModule.OK] || []);
+	});
 }
 
 module.exports = {getLiferayThemeModule, getLiferayThemeModules};
+
+function reportDiscardedModules(moduleResults, outcome, message) {
+	if (moduleResults[outcome]) {
+		console.log(
+			'Warning: found',
+			Object.keys(moduleResults[outcome]).length,
+			'packages (matching criteria)',
+			message
+		);
+	}
+}
 
 function findThemeModulesIn(paths) {
 	let modules = [];
@@ -124,13 +158,11 @@ function getPackageJSON(theme, cb) {
 }
 
 function isLiferayThemeModule(pkg, themelet) {
-	let retVal = false;
-
 	if (pkg) {
 		let liferayTheme = pkg.liferayTheme;
 
 		if (!liferayTheme) {
-			return retVal;
+			return isLiferayThemeModule.NO_LIFERAY_THEME;
 		}
 
 		let liferayThemeVersion = liferayTheme.version;
@@ -139,22 +171,34 @@ function isLiferayThemeModule(pkg, themelet) {
 			_.isArray(liferayThemeVersion) &&
 			!_.contains(liferayThemeVersion, themeConfig.version)
 		) {
-			return retVal;
-		} else if (
+			return isLiferayThemeModule.TARGET_VERSION_DOES_NOT_MATCH;
+		}
+
+		if (
 			!_.isArray(liferayThemeVersion) &&
 			liferayThemeVersion !== '*' &&
 			liferayThemeVersion !== themeConfig.version
 		) {
-			return retVal;
+			return isLiferayThemeModule.TARGET_VERSION_DOES_NOT_MATCH;
 		}
 
-		retVal =
-			liferayTheme &&
-			(themelet ? liferayTheme.themelet : !liferayTheme.themelet);
+		if (themelet != liferayTheme.themelet) {
+			return isLiferayThemeModule.THEMELET_FLAG_DOES_NOT_MATCH;
+		}
+
+		return isLiferayThemeModule.OK;
 	}
 
-	return retVal;
+	return isLiferayThemeModule.NO_PACKAGE_JSON;
 }
+
+Object.assign(isLiferayThemeModule, {
+	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
+	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
+	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
+	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
+	OK: 'OK',
+});
 
 function matchesSearchTerms(pkg, searchTerms) {
 	let description = pkg.description;
@@ -166,27 +210,20 @@ function matchesSearchTerms(pkg, searchTerms) {
 }
 
 function reduceModuleResults(modules, config) {
-	let instance = this;
-
 	let searchTerms = config.searchTerms;
 	let themelet = config.themelet;
 
 	return _.reduce(
 		modules,
 		(result, item) => {
-			let valid = false;
-
-			if (instance.isLiferayThemeModule(item, themelet)) {
-				valid = true;
+			if (searchTerms && !matchesSearchTerms(item, searchTerms)) {
+				return result;
 			}
 
-			if (searchTerms && valid) {
-				valid = instance.matchesSearchTerms(item, searchTerms);
-			}
+			const outcome = isLiferayThemeModule(item, themelet);
 
-			if (valid) {
-				result[item.name] = item;
-			}
+			result[outcome] = result[outcome] || {};
+			result[outcome][item.name] = item;
 
 			return result;
 		},
@@ -195,8 +232,6 @@ function reduceModuleResults(modules, config) {
 }
 
 function searchGlobalModules(config, cb) {
-	let instance = this;
-
 	let modules = this.findThemeModulesIn(this.getNpmPaths());
 
 	modules = _.reduce(
@@ -215,23 +250,23 @@ function searchGlobalModules(config, cb) {
 		[]
 	);
 
-	cb(instance.reduceModuleResults(modules, config));
+	const moduleResults = reduceModuleResults(modules, config);
+
+	cb(moduleResults);
 }
 
 function searchNpm(config, cb) {
-	let instance = this;
-
 	npmKeyword(config.keyword).then(packages => {
-		async.map(packages, instance.getPackageJSON, (err, results) => {
+		async.map(packages, getPackageJSON, (err, results) => {
 			if (err) {
 				cb(err);
 
 				return;
 			}
 
-			let themeResults = instance.reduceModuleResults(results, config);
+			const moduleResults = reduceModuleResults(results, config);
 
-			cb(themeResults);
+			cb(moduleResults);
 		});
 	});
 }
