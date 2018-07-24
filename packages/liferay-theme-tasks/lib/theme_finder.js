@@ -237,7 +237,7 @@ function searchNpm(config, cb) {
 }
 
 // Export private methods when in tests
-if (jest) {
+if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
 		findThemeModulesIn,
 		getNpmPaths,
