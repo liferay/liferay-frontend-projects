@@ -12,6 +12,8 @@ const baseThemePath = path.join(
 let themeFinder;
 
 beforeEach(() => {
+	jest.setTimeout(30000);
+
 	testUtil.hideConsole();
 
 	process.chdir(baseThemePath);
