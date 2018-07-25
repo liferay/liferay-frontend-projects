@@ -94,19 +94,17 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_makeRequest() {
-		let instance = this;
-
 		let protocol = require(this.protocol);
 
 		let req = protocol.request(this._getPostOptions(), function(res) {
 			res.setEncoding('utf8');
 
 			res.on('data', function(chunk) {
-				instance._onResponseData(chunk);
+				this._onResponseData(chunk);
 			});
 
 			res.on('end', function() {
-				instance._onResponseEnd();
+				this._onResponseEnd();
 			});
 		});
 
@@ -148,8 +146,6 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_promptCredentialsIfNeeded() {
-		let instance = this;
-
 		let questions = [];
 
 		if (!this.username) {
@@ -163,13 +159,13 @@ class WarDeployer extends EventEmitter {
 		if (questions.length) {
 			inquirer.prompt(questions, function(answers) {
 				Object.keys(answers).forEach(function(key) {
-					instance[key] = answers[key];
+					this[key] = answers[key];
 				});
 
-				instance._makeRequest();
+				this._makeRequest();
 			});
 		} else {
-			instance._makeRequest();
+			this._makeRequest();
 		}
 	}
 
@@ -194,8 +190,6 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_writeWarFile(req) {
-		let instance = this;
-
 		let boundaryKey = this._getBoundaryKey();
 
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
@@ -205,7 +199,7 @@ class WarDeployer extends EventEmitter {
 			.on('end', function() {
 				req.end('\r\n--' + boundaryKey + '--');
 
-				instance.emit('end');
+				this.emit('end');
 			})
 			.pipe(req, {
 				end: false,

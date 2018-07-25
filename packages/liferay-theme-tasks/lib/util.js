@@ -155,7 +155,7 @@ function validateCustomDependencyPath(customPath) {
 }
 
 // Export private methods when in tests
-if (jest) {
+if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
 		getCustomDependencyPath,
 		getDepsPath,

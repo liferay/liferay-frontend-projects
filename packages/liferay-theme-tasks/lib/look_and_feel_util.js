@@ -85,7 +85,7 @@ function correctJSONIdentifiers(lookAndFeelJSON, name) {
 }
 
 function getLookAndFeelDoctype(themePath) {
-	let xmlString = this.readLookAndFeelXML(themePath);
+	let xmlString = readLookAndFeelXML(themePath);
 
 	let match;
 
@@ -107,7 +107,7 @@ function getLookAndFeelDoctypeByVersion(version) {
 }
 
 function getLookAndFeelJSON(themePath, cb) {
-	let xmlString = this.readLookAndFeelXML(themePath);
+	let xmlString = readLookAndFeelXML(themePath);
 
 	if (!xmlString) {
 		return cb();
@@ -141,13 +141,11 @@ function getNameFromPluginPackageProperties(themePath) {
 }
 
 function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
-	let instance = this;
-
-	instance.getLookAndFeelJSON(themePath, function(json) {
+	getLookAndFeelJSON(themePath, function(json) {
 		if (_.isEmpty(lookAndFeelJSON)) {
 			lookAndFeelJSON = json;
 		} else if (json) {
-			lookAndFeelJSON = instance.mergeJSON(lookAndFeelJSON, json);
+			lookAndFeelJSON = mergeJSON(lookAndFeelJSON, json);
 		}
 
 		let themeInfo = require(path.join(themePath, 'package.json'))
@@ -158,7 +156,7 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 		if (_.isObject(baseTheme)) {
 			themePath = path.join(themePath, 'node_modules', baseTheme.name);
 
-			instance.mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb);
+			mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb);
 		} else {
 			cb(lookAndFeelJSON);
 		}
@@ -166,7 +164,7 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 }
 
 function readLookAndFeelXML(themePath) {
-	let xmlString = this.xmlCache[themePath];
+	let xmlString = xmlCache[themePath];
 
 	if (xmlString) {
 		return xmlString;
@@ -191,7 +189,7 @@ function readLookAndFeelXML(themePath) {
 	try {
 		xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
 
-		this.xmlCache[themePath] = xmlString;
+		xmlCache[themePath] = xmlString;
 	} catch (err) {}
 
 	return xmlString;
@@ -215,8 +213,6 @@ function extractThemeElement(obj, key) {
 }
 
 function mergeJSON(themeObj, baseThemeObj) {
-	let instance = this;
-
 	_.forEach(QUERY_ELEMENTS, function(item, index) {
 		let mergedElement;
 		let queryString = 'look-and-feel.theme.0.' + index;
@@ -225,14 +221,14 @@ function mergeJSON(themeObj, baseThemeObj) {
 		let themeElement = _.get(themeObj, queryString);
 
 		if (item === 'value') {
-			mergedElement = instance.mergeThemeElementByValue(
+			mergedElement = mergeThemeElementByValue(
 				themeElement,
 				baseThemeElement
 			);
 		} else if (item === 'single') {
 			mergedElement = themeElement || baseThemeElement;
 		} else {
-			mergedElement = instance.mergeThemeElementById(
+			mergedElement = mergeThemeElementById(
 				themeElement,
 				baseThemeElement,
 				item
@@ -283,7 +279,7 @@ function mergeThemeElementByValue(themeElements, baseThemeElements) {
 }
 
 // Export private methods when in tests
-if (jest) {
+if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
 		extractThemeElement,
 		mergeJSON,

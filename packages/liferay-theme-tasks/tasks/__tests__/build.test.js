@@ -45,7 +45,7 @@ function testBoilerplate(test, options) {
 	let themeConfig;
 
 	beforeEach(() => {
-		jest.setTimeout(20000);
+		jest.setTimeout(30000);
 
 		testUtil.hideConsole();
 		testUtil.cleanTempTheme(themeName, version, namespace, null);

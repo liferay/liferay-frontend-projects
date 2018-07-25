@@ -4,7 +4,7 @@ var path = require('path');
 var themeFinder = require('../index');
 
 beforeEach(() => {
-	jest.setTimeout(10000);
+	jest.setTimeout(30000);
 });
 
 it('name should retrieve package.json file from npm', done => {

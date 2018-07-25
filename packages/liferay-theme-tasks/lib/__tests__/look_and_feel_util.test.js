@@ -101,7 +101,9 @@ it('mergeLookAndFeelJSON should merge look and feel json', done => {
 
 it('readLookAndFeelXML should return xml and access file only once', () => {
 	// erase cache for sinon spy
-	lookAndFeelUtil.xmlCache = {};
+	Object.keys(lookAndFeelUtil.xmlCache).forEach(
+		key => delete lookAndFeelUtil.xmlCache[key]
+	);
 
 	const spy = sinon.spy(fs, 'readFileSync');
 
@@ -110,7 +112,7 @@ it('readLookAndFeelXML should return xml and access file only once', () => {
 	xml = lookAndFeelUtil.readLookAndFeelXML(baseThemePath);
 
 	expect(/<look-and-feel>/.test(xml)).toBeTruthy();
-	expect(spy.calledOnce).toBe(true);
+	expect(spy.callCount).toBe(1);
 });
 
 it('extractThemeElement should extract elements based on tag name', done => {
