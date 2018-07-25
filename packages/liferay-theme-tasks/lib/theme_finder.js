@@ -50,30 +50,38 @@ function getLiferayThemeModules(config, cb) {
 	searchFn.call(this, config, moduleResults => {
 		reportDiscardedModules(
 			moduleResults,
-			isLiferayThemeModule.NO_PACKAGE_JSON,
+			LiferayThemeModuleStatus.NO_PACKAGE_JSON,
 			'with no package.json'
 		);
 		reportDiscardedModules(
 			moduleResults,
-			isLiferayThemeModule.NO_LIFERAY_THEME,
+			LiferayThemeModuleStatus.NO_LIFERAY_THEME,
 			'with no liferayTheme section in package.json'
 		);
 		reportDiscardedModules(
 			moduleResults,
-			isLiferayThemeModule.TARGET_VERSION_DOES_NOT_MATCH,
+			LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH,
 			`not targeting ${themeConfig.version} version`
 		);
 		reportDiscardedModules(
 			moduleResults,
-			isLiferayThemeModule.THEMELET_FLAG_DOES_NOT_MATCH,
+			LiferayThemeModuleStatus.THEMELET_FLAG_DOES_NOT_MATCH,
 			'with mismatching themelet flag'
 		);
 
-		cb(moduleResults[isLiferayThemeModule.OK] || []);
+		cb(moduleResults[LiferayThemeModuleStatus.OK] || []);
 	});
 }
 
 module.exports = {getLiferayThemeModule, getLiferayThemeModules};
+
+const LiferayThemeModuleStatus = {
+	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
+	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
+	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
+	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
+	OK: 'OK',
+};
 
 function reportDiscardedModules(moduleResults, outcome, message) {
 	if (moduleResults[outcome]) {
@@ -157,12 +165,12 @@ function getPackageJSON(theme, cb) {
 		.catch(cb);
 }
 
-function isLiferayThemeModule(pkg, themelet) {
+function getLiferayThemeModuleStatus(pkg, themelet) {
 	if (pkg) {
 		let liferayTheme = pkg.liferayTheme;
 
 		if (!liferayTheme) {
-			return isLiferayThemeModule.NO_LIFERAY_THEME;
+			return LiferayThemeModuleStatus.NO_LIFERAY_THEME;
 		}
 
 		let liferayThemeVersion = liferayTheme.version;
@@ -171,7 +179,7 @@ function isLiferayThemeModule(pkg, themelet) {
 			_.isArray(liferayThemeVersion) &&
 			!_.contains(liferayThemeVersion, themeConfig.version)
 		) {
-			return isLiferayThemeModule.TARGET_VERSION_DOES_NOT_MATCH;
+			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
 		}
 
 		if (
@@ -179,26 +187,18 @@ function isLiferayThemeModule(pkg, themelet) {
 			liferayThemeVersion !== '*' &&
 			liferayThemeVersion !== themeConfig.version
 		) {
-			return isLiferayThemeModule.TARGET_VERSION_DOES_NOT_MATCH;
+			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
 		}
 
 		if (themelet != liferayTheme.themelet) {
-			return isLiferayThemeModule.THEMELET_FLAG_DOES_NOT_MATCH;
+			return LiferayThemeModuleStatus.THEMELET_FLAG_DOES_NOT_MATCH;
 		}
 
-		return isLiferayThemeModule.OK;
+		return LiferayThemeModuleStatus.OK;
 	}
 
-	return isLiferayThemeModule.NO_PACKAGE_JSON;
+	return LiferayThemeModuleStatus.NO_PACKAGE_JSON;
 }
-
-Object.assign(isLiferayThemeModule, {
-	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
-	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
-	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
-	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
-	OK: 'OK',
-});
 
 function matchesSearchTerms(pkg, searchTerms) {
 	let description = pkg.description;
@@ -220,7 +220,7 @@ function reduceModuleResults(modules, config) {
 				return result;
 			}
 
-			const outcome = isLiferayThemeModule(item, themelet);
+			const outcome = getLiferayThemeModuleStatus(item, themelet);
 
 			result[outcome] = result[outcome] || {};
 			result[outcome][item.name] = item;
@@ -277,7 +277,6 @@ if (typeof jest !== 'undefined') {
 		findThemeModulesIn,
 		getNpmPaths,
 		getPackageJSON,
-		isLiferayThemeModule,
 		matchesSearchTerms,
 		reduceModuleResults,
 		searchGlobalModules,
