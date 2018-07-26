@@ -55,7 +55,7 @@ function isSassPartial(name) {
 }
 
 function requireDependency(dependency, version) {
-	const depsPath = this.getDepsPath(pkg, dependency, version);
+	const depsPath = getDepsPath(pkg, dependency, version);
 
 	const dependencyPath = resolve.sync(dependency, {
 		basedir: depsPath,
@@ -69,7 +69,7 @@ function resolveDependency(dependency, version, dirname) {
 		dirname = true;
 	}
 
-	const customPath = this.getCustomDependencyPath(dependency);
+	const customPath = getCustomDependencyPath(dependency);
 
 	if (customPath) {
 		log(
@@ -81,7 +81,7 @@ function resolveDependency(dependency, version, dirname) {
 		return customPath;
 	}
 
-	const depsPath = this.getDepsPath(pkg, dependency, version);
+	const depsPath = getDepsPath(pkg, dependency, version);
 
 	const dependencyPath = resolve.sync(dependency, {
 		basedir: depsPath,
@@ -116,14 +116,14 @@ function getCustomDependencyPath(dependency) {
 	}
 
 	if (customPath) {
-		this.validateCustomDependencyPath(customPath);
+		validateCustomDependencyPath(customPath);
 	}
 
 	return customPath;
 }
 
 function getDepsPath(pkg, dependency, version) {
-	if (this.hasDependency(pkg, dependency)) {
+	if (hasDependency(pkg, dependency)) {
 		return process.cwd();
 	}
 

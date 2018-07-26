@@ -11,7 +11,7 @@ const lfrThemeConfig = require('./liferay_theme_config');
 const themeConfig = lfrThemeConfig.getConfig();
 
 function getLiferayThemeModule(name, cb) {
-	this.getPackageJSON(
+	getPackageJSON(
 		{
 			name: name,
 		},
@@ -232,7 +232,7 @@ function reduceModuleResults(modules, config) {
 }
 
 function searchGlobalModules(config, cb) {
-	let modules = this.findThemeModulesIn(this.getNpmPaths());
+	let modules = findThemeModulesIn(getNpmPaths());
 
 	modules = _.reduce(
 		modules,
