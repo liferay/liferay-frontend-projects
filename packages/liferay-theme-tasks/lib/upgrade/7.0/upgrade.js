@@ -85,7 +85,6 @@ module.exports = function(options) {
 		let lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
-			rubySass: false,
 			version: '7.1',
 		});
 
