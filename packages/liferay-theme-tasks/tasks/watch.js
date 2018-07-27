@@ -16,11 +16,9 @@ const portfinder = require('portfinder');
 
 portfinder.basePort = 9080;
 
-const deployTask = 'deploy:gogo';
 const CONNECT_PARAMS = {
 	port: 11311,
 };
-const staticFileDirs = ['images', 'js'];
 const webBundleDirName = '.web_bundle_build';
 
 module.exports = function(options) {
@@ -125,9 +123,7 @@ module.exports = function(options) {
 	function getTaskArray(rootDir, defaultTaskArray) {
 		let taskArray = defaultTaskArray || [];
 
-		if (staticFileDirs.indexOf(rootDir) > -1) {
-			taskArray = ['watch:osgi:reinstall', 'deploy:file'];
-		} else if (rootDir === 'WEB-INF') {
+		if (rootDir === 'WEB-INF') {
 			taskArray = [
 				'build:clean',
 				'build:src',
@@ -157,6 +153,8 @@ module.exports = function(options) {
 				'watch:osgi:reinstall',
 				'deploy:css-files',
 			];
+		} else {
+			taskArray = ['watch:osgi:reinstall', 'deploy:file'];
 		}
 
 		return taskArray;
@@ -191,19 +189,14 @@ module.exports = function(options) {
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			storage.set('changedFile', vinyl);
 
-			let relativeFilePath = path.relative(
-				path.join(process.cwd(), pathSrc),
-				vinyl.path
-			);
+			let rootDir = path.dirname(vinyl.path);
 
-			let filePathArray = relativeFilePath.split(path.sep);
+			rootDir = path.relative(path.join(process.cwd(), pathSrc), rootDir);
 
-			let rootDir = filePathArray.length ? filePathArray[0] : '';
-
-			let taskArray = [deployTask];
+			let taskArray = ['deploy:file'];
 
 			if (!fullDeploy && storage.get('deployed')) {
-				taskArray = getTaskArray(rootDir, taskArray);
+				taskArray = getTaskArray(rootDir, []);
 			}
 
 			taskArray.push(clearChangedFile);
