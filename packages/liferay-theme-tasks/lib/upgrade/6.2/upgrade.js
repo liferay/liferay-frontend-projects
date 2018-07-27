@@ -211,7 +211,7 @@ module.exports = function(options) {
 			},
 			{
 				message:
-					'Warning: ${theme} variable is no longer available in Freemarker templates, see https://goo.gl/9fXzYt for more information.',
+					'Warning: ${theme} variable is no longer available in Freemarker templates, see https://bit.ly/2NPkVDr for more information.',
 				regex: /\${theme/g,
 			},
 		];
@@ -333,7 +333,7 @@ module.exports = function(options) {
 		let vmRules = [
 			{
 				message:
-					'Warning: Support for Velocity (.vm) format is deprecated, consider migrating to FreeMarker (.ftl) format. See: https://goo.gl/48p5sX',
+					'Warning: Support for Velocity (.vm) format is deprecated, consider migrating to FreeMarker (.ftl) format. See: https://bit.ly/2uSXySe',
 				regex: /[\s\S]+/g,
 			},
 			{
