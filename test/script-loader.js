@@ -1103,6 +1103,37 @@ describe('Loader', function() {
 		}, 50);
 	});
 
+	it('should work correctly when locally requiring a dependency that exports `undefined`', function(
+		done
+	) {
+		let failure = sinon.spy(function(error) {
+			console.error(error);
+		});
+		let success = sinon.spy(function(module) {
+			this.module = module;
+		});
+
+		Loader.define('dependency', ['module'], function(module) {
+			module.exports = undefined;
+		});
+		Loader.define('module', ['module', 'require', 'dependency'], function(
+			module,
+			require
+		) {
+			module.exports = require('dependency');
+		});
+
+		Loader.require('module', success, failure);
+
+		setTimeout(function() {
+			assert.isTrue(failure.notCalled, 'Failure should not be called');
+			assert.isTrue(success.calledOnce, 'Success should be called once');
+			assert.isUndefined(success.module);
+
+			done();
+		}, 50);
+	});
+
 	it('localRequire should not mix contexts (issue 140)', function(done) {
 		var m2;
 
