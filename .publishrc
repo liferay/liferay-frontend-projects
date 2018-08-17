@@ -4,10 +4,11 @@
     "uncommittedChanges": true,
     "untrackedFiles": true,
     "sensitiveData": true,
-    "branch": "master",
+    "branch": "2.x",
     "gitTag": true
   },
   "confirm": true,
-  "publishTag": "latest",
-  "prePublishScript": false
+  "publishTag": "maintenance",
+  "prePublishScript": false,
+  "postPublishScript": ""
 }
