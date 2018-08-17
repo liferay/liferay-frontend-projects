@@ -936,7 +936,7 @@ export default class Loader extends EventEmitter {
 
 			let dependencyImplementations = [];
 
-			// Leave exports implementation undefined by default
+			// Leave exports implementation to be {} by default
 			let moduleImpl = {exports: {}};
 			let configParser = this._getConfigParser();
 
@@ -1022,7 +1022,7 @@ export default class Loader extends EventEmitter {
 
 				if (
 					!dependencyModule ||
-					typeof dependencyModule.implementation === 'undefined'
+					!('implementation' in dependencyModule)
 				) {
 					throw new Error(
 						'Module "' +

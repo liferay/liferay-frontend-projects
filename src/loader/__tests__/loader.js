@@ -1025,6 +1025,35 @@ describe('Loader', function() {
 		}, 50);
 	});
 
+	it('should work correctly when locally requiring a dependency that exports `undefined`', function(done) {
+		let failure = jest.fn();
+
+		let successModule;
+		let success = jest
+			.fn()
+			.mockImplementation(module => (successModule = module));
+
+		loader.define('dependency', ['module'], function(module) {
+			module.exports = undefined;
+		});
+		loader.define('module', ['module', 'require', 'dependency'], function(
+			module,
+			require
+		) {
+			module.exports = require('dependency');
+		});
+
+		loader.require('module', success, failure);
+
+		setTimeout(function() {
+			expect(failure.mock.calls).toHaveLength(0);
+			expect(success.mock.calls).toHaveLength(1);
+			expect(successModule).toBeUndefined();
+
+			done();
+		}, 50);
+	});
+
 	it('localRequire should not mix contexts (issue 140)', function(done) {
 		let m2;
 
