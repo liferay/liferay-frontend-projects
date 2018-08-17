@@ -965,7 +965,7 @@ var LoaderProtoMethods = {
 
 				if (
 					!dependencyModule ||
-					typeof dependencyModule.implementation === 'undefined'
+					!('implementation' in dependencyModule)
 				) {
 					throw new Error(
 						'Module "' +

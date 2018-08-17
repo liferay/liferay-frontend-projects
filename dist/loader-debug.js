@@ -3174,7 +3174,7 @@ var LoaderProtoMethods = {
 
 				if (
 					!dependencyModule ||
-					typeof dependencyModule.implementation === 'undefined'
+					!('implementation' in dependencyModule)
 				) {
 					throw new Error(
 						'Module "' +
@@ -3317,7 +3317,7 @@ Loader.prototype.define.amd = {};
 		window.define = global.define;
 	}
 
-	global.Loader.version = function() { return '2.3.0' };
+	global.Loader.version = function() { return '2.3.1' };
 }());
 
 (function () {
