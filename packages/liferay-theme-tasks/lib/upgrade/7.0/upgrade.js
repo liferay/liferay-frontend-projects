@@ -146,9 +146,24 @@ module.exports = function(options) {
 			},
 		];
 
+		let portletFtlRules = [
+			{
+				message:
+					'Warning: Several Applications in Liferay Portal 7.1 rely on a portlet_header_${portletId} extension point to show additional controls. When overwriting portlet.ftl, please, make sure you add a `<@liferay_util["dynamic-include"] key="portlet_header_${portlet_display_root_portlet_id}" />`.',
+				negativeMatch: true,
+				regex: /<@liferay_util["dynamic-include"] key="portlet_header_${portlet_display_root_portlet_id}" \/>/g,
+			},
+		];
+
 		return gulp.src('src/templates/**/*.ftl').pipe(
 			vinylPaths(function(path, done) {
-				checkFile(path, ftlRules, 'liferay');
+				checkFile(
+					path,
+					path.includes('portlet.ftl')
+						? ftlRules.concat(portletFtlRules)
+						: ftlRules,
+					'liferay'
+				);
 
 				done();
 			})
@@ -398,7 +413,7 @@ module.exports = function(options) {
 			'upgrade:collect-removed-lexicon-vars',
 			'upgrade:create-removed-lexicon-vars-file',
 			'upgrade:import-removed-lexicon-vars',
-			// 'upgrade:convert-bootstrap',
+			'upgrade:convert-bootstrap',
 			'upgrade:ftl-templates',
 			'upgrade:unsupported-vm-templates',
 			'upgrade:dependencies',
