@@ -98,7 +98,7 @@ describe('config', () => {
 			const themeConfig = lfrThemeConfig.getConfig();
 
 			expect(themeConfig.version).toBe('7.0');
-			expect(themeConfig.rubySass).toBe(false);
+			expect(themeConfig.rubySass).toBe(true);
 
 			const lookAndFeelPath = path.join(
 				tempPath,
