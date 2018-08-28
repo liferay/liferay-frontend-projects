@@ -1,5 +1,44 @@
 # Change Log
 
+## [v8.0.0-beta.2](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.2) (2018-08-28)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.1...v8.0.0-beta.2)
+
+**Implemented enhancements:**
+
+- "Upgrade" Gulp Task: Add note about Bootstrap 3's box model changes [\#51](https://github.com/liferay/liferay-themes-sdk/issues/51)
+- Upgrade task should warn about expected portlet\_header dynamic-include extension point [\#35](https://github.com/liferay/liferay-themes-sdk/issues/35)
+- Improve information regarding theme/themelet npm search [\#31](https://github.com/liferay/liferay-themes-sdk/issues/31)
+- Setup watching of UI files outside of the standard Liferay theme directories [\#28](https://github.com/liferay/liferay-themes-sdk/issues/28)
+
+**Fixed bugs:**
+
+- Upgrade task overwrites properties in package.json with incorrect values [\#37](https://github.com/liferay/liferay-themes-sdk/issues/37)
+- Using gulp extend searching for themelet results in error [\#33](https://github.com/liferay/liferay-themes-sdk/issues/33)
+- URL in upgrade script is giving a 404 error [\#10](https://github.com/liferay/liferay-themes-sdk/issues/10)
+
+**Closed issues:**
+
+- Update liferay-theme-deps-7.0 to include latest liferay-frontend-theme-styled [\#42](https://github.com/liferay/liferay-themes-sdk/issues/42)
+- 8.0.0-beta.1 doesn't include liferay-theme-deps-6.2 [\#38](https://github.com/liferay/liferay-themes-sdk/issues/38)
+- gulp extend search npm search is not finding some packages [\#25](https://github.com/liferay/liferay-themes-sdk/issues/25)
+- ConfigGenerator task in es2015 hook doesn't namespace modules [\#21](https://github.com/liferay/liferay-themes-sdk/issues/21)
+- gulp watch crashes after restart on Windows 10 [\#18](https://github.com/liferay/liferay-themes-sdk/issues/18)
+- Error when we search a themelet in NPM [\#17](https://github.com/liferay/liferay-themes-sdk/issues/17)
+
+**Merged pull requests:**
+
+- Prepares v8.0.0-beta.2 [\#55](https://github.com/liferay/liferay-themes-sdk/pull/55) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#35 - Adds warning if a portlet.ftl file is found and does not contain the portlet\_header extension point [\#54](https://github.com/liferay/liferay-themes-sdk/pull/54) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#38 - Adds liferay-theme-deps-6.2 dependency to support upgrading from 6.2 with the 8.x version of the theme-tasks directly [\#53](https://github.com/liferay/liferay-themes-sdk/pull/53) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#51 - Adds Note regarding Bootstrap3 box model change [\#52](https://github.com/liferay/liferay-themes-sdk/pull/52) ([jbalsas](https://github.com/jbalsas))
+- Don't overwrite rubySass setting when upgrading theme [\#41](https://github.com/liferay/liferay-themes-sdk/pull/41) ([izaera](https://github.com/izaera))
+- Update links to documentation and stop using deprecated Google URL shortener [\#40](https://github.com/liferay/liferay-themes-sdk/pull/40) ([izaera](https://github.com/izaera))
+- Setup watching of UI files outside of the standard Liferay theme directories [\#39](https://github.com/liferay/liferay-themes-sdk/pull/39) ([izaera](https://github.com/izaera))
+- Fix broken references to "this" [\#34](https://github.com/liferay/liferay-themes-sdk/pull/34) ([izaera](https://github.com/izaera))
+- Improve information regarding theme/themelet npm search [\#32](https://github.com/liferay/liferay-themes-sdk/pull/32) ([izaera](https://github.com/izaera))
+- SF [\#29](https://github.com/liferay/liferay-themes-sdk/pull/29) ([izaera](https://github.com/izaera))
+- Update package-lock.json files [\#27](https://github.com/liferay/liferay-themes-sdk/pull/27) ([izaera](https://github.com/izaera))
+
 ## [v8.0.0-beta.1](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.1) (2018-07-11)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.0...v8.0.0-beta.1)
 
