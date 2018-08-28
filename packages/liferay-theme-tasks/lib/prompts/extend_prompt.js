@@ -1,32 +1,28 @@
-'use strict';
+const _ = require('lodash');
+const argv = require('minimist')(process.argv.slice(2));
+const exec = require('child_process').exec;
+const inquirer = require('inquirer');
 
-let _ = require('lodash');
-let argv = require('minimist')(process.argv.slice(2));
-let exec = require('child_process').exec;
-let inquirer = require('inquirer');
+const GlobalModulePrompt = require('./global_module_prompt');
+const lfrThemeConfig = require('../liferay_theme_config');
+const NPMModulePrompt = require('./npm_module_prompt');
+const promptUtil = require('./prompt_util');
+const themeFinder = require('../theme_finder');
 
-let GlobalModulePrompt = require('./global_module_prompt');
-let lfrThemeConfig = require('../liferay_theme_config');
-let NPMModulePrompt = require('./npm_module_prompt');
-let promptUtil = require('./prompt_util');
-let themeFinder = require('../theme_finder');
+const moduleName = argv.name;
 
-let moduleName = argv.name;
+class ExtendPrompt {
+	constructor(...args) {
+		this.init(...args);
+	}
 
-function ExtendPrompt() {
-	this.init.apply(this, arguments);
-}
-
-ExtendPrompt.prototype = {
-	init: function(config, cb) {
-		let instance = this;
-
+	init(config, cb) {
 		this.themeConfig = config.themeConfig || lfrThemeConfig.getConfig();
 
 		this.done = cb;
 
 		if (moduleName) {
-			themeFinder.getLiferayThemeModule(moduleName, function(err, pkg) {
+			themeFinder.getLiferayThemeModule(moduleName, (err, pkg) => {
 				if (err) {
 					throw err;
 				}
@@ -36,12 +32,12 @@ ExtendPrompt.prototype = {
 				modules[moduleName] = pkg;
 
 				if (pkg.liferayTheme.themelet) {
-					instance._afterPromptThemelets({
+					this._afterPromptThemelets({
 						addedThemelets: [moduleName],
 						modules: modules,
 					});
 				} else {
-					instance._afterPromptTheme({
+					this._afterPromptTheme({
 						module: moduleName,
 						modules: modules,
 					});
@@ -50,25 +46,23 @@ ExtendPrompt.prototype = {
 		} else {
 			this._promptThemeSource();
 		}
-	},
+	}
 
-	_afterPromptModule: function(answers) {
+	_afterPromptModule(answers) {
 		if (answers.addedThemelets) {
 			this._afterPromptThemelets(answers);
 		} else {
 			this._afterPromptTheme(answers);
 		}
-	},
+	}
 
-	_afterPromptTheme: function(answers) {
-		let instance = this;
-
-		let baseTheme = this.themeConfig.baseTheme;
-		let module = answers.module;
-		let modulePackages = answers.modules;
+	_afterPromptTheme(answers) {
+		const baseTheme = this.themeConfig.baseTheme;
+		const module = answers.module;
+		const modulePackages = answers.modules;
 
 		if (!module) {
-			instance.done();
+			this.done();
 
 			return;
 		}
@@ -85,28 +79,25 @@ ExtendPrompt.prototype = {
 
 		this._saveDependencies([reducedPkg]);
 
-		this._installDependencies([reducedPkg], function() {
-			instance.done();
-		});
-	},
+		this._installDependencies([reducedPkg], () => this.done());
+	}
 
-	_afterPromptThemelets: function(answers) {
-		let instance = this;
+	_afterPromptThemelets(answers) {
+		const modulePackages = answers.modules;
+		const themeletDependencies =
+			this.themeConfig.themeletDependencies || {};
 
-		let modulePackages = answers.modules;
-		let themeletDependencies = this.themeConfig.themeletDependencies || {};
-
-		let reducedThemelets = _.reduce(
+		const reducedThemelets = _.reduce(
 			answers.addedThemelets,
-			function(result, item) {
-				result[item] = instance._reducePkgData(modulePackages[item]);
+			(result, item) => {
+				result[item] = this._reducePkgData(modulePackages[item]);
 
 				return result;
 			},
 			themeletDependencies
 		);
 
-		let removedThemelets = answers.removedThemelets;
+		const removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
 			_.forEach(removedThemelets, function(item) {
@@ -123,17 +114,15 @@ ExtendPrompt.prototype = {
 		this._saveDependencies(reducedThemelets);
 
 		if (answers.addedThemelets.length) {
-			this._installDependencies(reducedThemelets, function() {
-				instance.done();
-			});
+			this._installDependencies(reducedThemelets, () => this.done());
 		} else {
-			instance.done();
+			this.done();
 		}
-	},
+	}
 
-	_afterPromptThemeSource: function(answers) {
-		let themelet = answers.extendType === 'themelet';
-		let themeSource = answers.themeSource;
+	_afterPromptThemeSource(answers) {
+		const themelet = answers.extendType === 'themelet';
+		const themeSource = answers.themeSource;
 
 		if (themeSource === 'styled' || themeSource === 'unstyled') {
 			this._setStaticBaseTheme(themeSource);
@@ -155,30 +144,28 @@ ExtendPrompt.prototype = {
 				);
 			}
 		}
-	},
+	}
 
-	_filterExtendType: function(input) {
+	_filterExtendType(input) {
 		this._extendType = input;
 
 		return input;
-	},
+	}
 
-	_getDependencyInstallationArray: function(dependencies) {
-		let instance = this;
+	_getDependencyInstallationArray(dependencies) {
+		const themeVersion = this.themeConfig.version;
 
-		let themeVersion = this.themeConfig.version;
-
-		return _.map(dependencies, function(item) {
-			let path = item.path;
+		return _.map(dependencies, item => {
+			const path = item.path;
 
 			return path
 				? path
-				: item.name + instance._getDistTag(item, themeVersion, '@');
+				: item.name + this._getDistTag(item, themeVersion, '@');
 		});
-	},
+	}
 
-	_getDistTag: function(config, version, prefix) {
-		let supportedVersion = config.liferayTheme.version;
+	_getDistTag(config, version, prefix) {
+		const supportedVersion = config.liferayTheme.version;
 
 		let tag = prefix || '';
 
@@ -192,29 +179,27 @@ ExtendPrompt.prototype = {
 		}
 
 		return tag;
-	},
+	}
 
-	_getSelectedModules: function(themelet) {
+	_getSelectedModules(themelet) {
+		const baseTheme = this.themeConfig.baseTheme;
+
 		let selectedModules;
-
-		let baseTheme = this.themeConfig.baseTheme;
 
 		if (themelet) {
 			selectedModules = _.map(
 				this.themeConfig.themeletDependencies,
-				function(item) {
-					return item.name;
-				}
+				item => item.name
 			);
 		} else if (_.isObject(baseTheme)) {
 			selectedModules = [baseTheme.name];
 		}
 
 		return selectedModules;
-	},
+	}
 
-	_getThemeSourceChoices: function() {
-		let extendType = this._extendType;
+	_getThemeSourceChoices() {
+		const extendType = this._extendType;
 
 		let searchOptions = [
 			{
@@ -245,39 +230,39 @@ ExtendPrompt.prototype = {
 		}
 
 		return searchOptions;
-	},
+	}
 
-	_getThemeSourceMessage: function() {
+	_getThemeSourceMessage() {
 		return this._extendType === 'theme'
 			? 'What base theme would you like to extend?'
 			: 'Where would you like to search for themelets?';
-	},
+	}
 
-	_hasPublishTag: function(config) {
+	_hasPublishTag(config) {
 		return config.publishConfig && config.publishConfig.tag;
-	},
+	}
 
-	_installDependencies: function(dependencies, cb) {
-		let modules = this._getDependencyInstallationArray(dependencies);
+	_installDependencies(dependencies, cb, hideOutput) {
+		const modules = this._getDependencyInstallationArray(dependencies);
 
-		let child = exec('npm install ' + modules.join(' '), cb);
+		const child = exec('npm install ' + modules.join(' '), cb);
 
-		child.stderr.pipe(process.stdout);
-		child.stdout.pipe(process.stdout);
-	},
+		if (!hideOutput) {
+			child.stderr.pipe(process.stdout);
+			child.stdout.pipe(process.stdout);
+		}
+	}
 
-	_isSupported: function(supportedVersion, version) {
+	_isSupported(supportedVersion, version) {
 		return (
 			(_.isArray(supportedVersion) &&
 				_.contains(supportedVersion, version)) ||
 			supportedVersion === version
 		);
-	},
+	}
 
-	_promptThemeSource: function() {
-		let instance = this;
-
-		let listType = promptUtil.getListType();
+	_promptThemeSource() {
+		const listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
@@ -292,25 +277,25 @@ ExtendPrompt.prototype = {
 							value: 'themelet',
 						},
 					],
-					filter: _.bind(instance._filterExtendType, instance),
+					filter: _.bind(this._filterExtendType, this),
 					message:
 						'What kind of theme asset would you like to extend?',
 					name: 'extendType',
 					type: listType,
 				},
 				{
-					choices: _.bind(instance._getThemeSourceChoices, instance),
-					message: _.bind(instance._getThemeSourceMessage, instance),
+					choices: _.bind(this._getThemeSourceChoices, this),
+					message: _.bind(this._getThemeSourceMessage, this),
 					name: 'themeSource',
 					type: listType,
 				},
 			],
-			_.bind(instance._afterPromptThemeSource, instance)
+			_.bind(this._afterPromptThemeSource, this)
 		);
-	},
+	}
 
-	_reducePkgData: function(pkg) {
-		let realPath = pkg.realPath;
+	_reducePkgData(pkg) {
+		const realPath = pkg.realPath;
 
 		pkg = _.pick(pkg, ['liferayTheme', 'name', 'publishConfig', 'version']);
 
@@ -319,19 +304,17 @@ ExtendPrompt.prototype = {
 		}
 
 		return pkg;
-	},
+	}
 
-	_saveDependencies: function(updatedData) {
-		let instance = this;
+	_saveDependencies(updatedData) {
+		const themeVersion = this.themeConfig.version;
 
-		let themeVersion = this.themeConfig.version;
-
-		let dependencies = _.reduce(
+		const dependencies = _.reduce(
 			updatedData,
-			function(result, item) {
-				let moduleVersion = item.path
+			(result, item) => {
+				const moduleVersion = item.path
 					? item.path
-					: instance._getDistTag(item, themeVersion);
+					: this._getDistTag(item, themeVersion);
 
 				result[item.name] = moduleVersion;
 
@@ -341,10 +324,10 @@ ExtendPrompt.prototype = {
 		);
 
 		lfrThemeConfig.setDependencies(dependencies);
-	},
+	}
 
-	_setStaticBaseTheme: function(themeSource) {
-		let baseTheme = this.themeConfig.baseTheme;
+	_setStaticBaseTheme(themeSource) {
+		const baseTheme = this.themeConfig.baseTheme;
 
 		if (_.isObject(baseTheme)) {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
@@ -355,11 +338,9 @@ ExtendPrompt.prototype = {
 		});
 
 		this.done();
-	},
-};
+	}
+}
 
-ExtendPrompt.prompt = function(config, cb) {
-	return new ExtendPrompt(config, cb);
-};
+ExtendPrompt.prompt = (config, cb) => new ExtendPrompt(config, cb);
 
 module.exports = ExtendPrompt;

@@ -1,46 +1,42 @@
-'use strict';
+const _ = require('lodash');
+const del = require('del');
+const GogoShell = require('gogo-shell');
+const os = require('os');
+const path = require('path');
 
-let _ = require('lodash');
-let del = require('del');
-let GogoShell = require('gogo-shell');
-let os = require('os');
-let path = require('path');
+const lfrThemeConfig = require('./liferay_theme_config');
 
-let lfrThemeConfig = require('./liferay_theme_config');
+const themeConfig = lfrThemeConfig.getConfig(true);
 
-let themeConfig = lfrThemeConfig.getConfig(true);
+const REGEX_WIN = /^win/;
 
-let REGEX_WIN = /^win/;
+class WatchSocket extends GogoShell {
+	constructor(config) {
+		super(config);
 
-let WatchSocket = function(config) {
-	GogoShell.call(this, config);
+		config = config || {};
 
-	config = config || {};
+		this.webBundleDir = config.webBundleDir || '.web_bundle_build';
+	}
 
-	this.webBundleDir = config.webBundleDir || '.web_bundle_build';
-};
-
-WatchSocket.prototype = _.create(GogoShell.prototype, {
-	deploy: function() {
-		let instance = this;
-
-		return this._getWebBundleData(false)
-			.then(function(data) {
-				return data.id ? instance._uninstallBundle(data.id) : data;
+	deploy() {
+		return this._getWebBundleData()
+			.then(data => {
+				return data.id ? this._uninstallBundle(data.id) : data;
 			})
 			.then(this._installWebBundleDir.bind(this))
-			.then(function(data) {
-				let webBundleId = instance._getWebBundleIdFromResponse(data);
+			.then(data => {
+				const webBundleId = this._getWebBundleIdFromResponse(data);
 
-				return instance._startBundle(webBundleId);
+				return this._startBundle(webBundleId);
 			})
-			.then(function() {
-				instance.end();
+			.then(() => {
+				this.end();
 			});
-	},
+	}
 
-	uninstall: function(warPath, distName) {
-		let delPath = del.sync(warPath, {
+	uninstall(warPath, distName) {
+		const delPath = del.sync(warPath, {
 			dryRun: true,
 			force: true,
 		});
@@ -54,9 +50,9 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 		});
 
 		return this._waitForUninstall(distName);
-	},
+	}
 
-	_formatWebBundleDirCommand: function(themePath) {
+	_formatWebBundleDirCommand(themePath) {
 		let buildPath = path.join(themePath, this.webBundleDir);
 
 		buildPath = buildPath.split(path.sep).join('/');
@@ -67,7 +63,7 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 
 		buildPath = buildPath.replace(/\s/g, '%20');
 
-		let themeName = themeConfig.name;
+		const themeName = themeConfig.name;
 
 		return (
 			'install webbundledir:file:/' +
@@ -75,36 +71,39 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 			'?Web-ContextPath=/' +
 			themeName
 		);
-	},
+	}
 
-	_getWebBundleData: function(webBundleDir) {
-		let instance = this;
+	_getWebBundleData() {
+		const themeName = themeConfig.name;
 
-		let webBundleDirType = webBundleDir ? 'webbundledir' : 'webbundle';
+		const grepRegex = '\'webbundle(dir|):file.*' + themeName + '\'';
 
-		let themeName = themeConfig.name;
+		return this.sendCommand('lb -u | grep ' + grepRegex).then(data => {
+			const lines = data.split('\n');
 
-		let grepRegex = webBundleDirType + ':file.*' + themeName;
+			const result = lines[1];
 
-		return this.sendCommand('lb -u | grep', grepRegex).then(function(data) {
-			let lines = data.split('\n');
-
-			let result = lines[1];
-
-			return instance._getWebBundleDataFromResponse(
-				result,
-				webBundleDirType
-			);
+			return this._getWebBundleDataFromResponse(result);
 		});
-	},
+	}
 
-	_getWebBundleDataFromResponse: function(response, webBundleDirType) {
+	_getWebBundleDataFromResponse(response) {
 		let data = {
 			status: null,
 		};
 
-		if (response.indexOf(webBundleDirType + ':file') > -1) {
-			let fields = response.split('|');
+		if (!response) {
+			return data;
+		}
+
+		let i = response.indexOf('webbundle:file');
+
+		if (i == -1) {
+			i = response.indexOf('webbundledir:file');
+		}
+
+		if (i > -1) {
+			const fields = response.split('|');
 
 			data = {
 				id: _.trim(fields[0]),
@@ -115,47 +114,43 @@ WatchSocket.prototype = _.create(GogoShell.prototype, {
 		}
 
 		return data;
-	},
+	}
 
-	_getWebBundleIdFromResponse: function(response) {
-		let match = response.match(/Bundle\sID:\s*([0-9]+)/);
+	_getWebBundleIdFromResponse(response) {
+		const match = response.match(/Bundle\sID:\s*([0-9]+)/);
 
 		return match ? match[1] : 0;
-	},
+	}
 
-	_installWebBundleDir: function() {
+	_installWebBundleDir() {
 		return this.sendCommand(this._formatWebBundleDirCommand(process.cwd()));
-	},
+	}
 
-	_isWin: function() {
+	_isWin() {
 		return REGEX_WIN.test(os.platform());
-	},
+	}
 
-	_startBundle: function(bundleId) {
+	_startBundle(bundleId) {
 		return this.sendCommand('start', bundleId);
-	},
+	}
 
-	_stopBundle: function(bundleId) {
+	_stopBundle(bundleId) {
 		return this.sendCommand('stop', bundleId);
-	},
+	}
 
-	_uninstallBundle: function(bundleId) {
+	_uninstallBundle(bundleId) {
 		return this.sendCommand('uninstall', bundleId);
-	},
+	}
 
-	_waitForUninstall: function(distName) {
-		let instance = this;
-
+	_waitForUninstall(distName) {
 		return this.sendCommand('lb ' + distName)
 			.delay(200)
-			.then(function(data) {
+			.then(data => {
 				if (data.indexOf('No matching bundles found') < 0) {
-					return instance._waitForUninstall(distName);
+					return this._waitForUninstall(distName);
 				}
-
-				return;
 			});
-	},
-});
+	}
+}
 
 module.exports = WatchSocket;

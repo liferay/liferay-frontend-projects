@@ -6,9 +6,9 @@
     "gulp-sass": "3.2.0",
     "liferay-frontend-common-css": "1.0.4",
     "liferay-frontend-theme-classic-web": "2.0.2",
-    "liferay-frontend-theme-styled": "3.0.0-alpha.1521181585788",
-    "liferay-frontend-theme-unstyled": "3.0.0-alpha.1521181854318",
-    "liferay-theme-deps-normalize": "1.0.0"
+    "liferay-frontend-theme-styled": "3.0.7",
+    "liferay-frontend-theme-unstyled": "3.0.9",
+    "liferay-theme-deps-normalize": "8.0.0-beta.1"
   },
   "description": "Set of dependencies required by liferay-theme-tasks",
   "license": "ISC",

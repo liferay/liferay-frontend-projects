@@ -1,27 +1,23 @@
-'use strict';
+const _ = require('lodash');
+const inquirer = require('inquirer');
 
-let _ = require('lodash');
-let inquirer = require('inquirer');
+const promptUtil = require('./prompt_util');
 
-let promptUtil = require('./prompt_util');
+class ModulePrompt {
+	constructor(...args) {
+		this.init(...args);
+	}
 
-function ModulePrompt() {
-	this.init.apply(this, arguments);
-}
-
-ModulePrompt.prototype = {
-	init: function(config, cb) {
-		let instance = this;
-
+	init(config, cb) {
 		this.done = cb;
 		this.modules = config.modules;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
-		instance._prompt();
-	},
+		this._prompt();
+	}
 
-	_afterPrompt: function(answers) {
+	_afterPrompt(answers) {
 		if (this.themelet) {
 			_.assign(
 				answers,
@@ -35,9 +31,9 @@ ModulePrompt.prototype = {
 		answers.modules = this.modules;
 
 		this.done(answers);
-	},
+	}
 
-	_filterModule: function(input) {
+	_filterModule(input) {
 		if (this.themelet) {
 			return _.mapValues(this.modules, function(theme, name) {
 				return input.indexOf(name) > -1;
@@ -45,41 +41,37 @@ ModulePrompt.prototype = {
 		}
 
 		return input;
-	},
+	}
 
-	_getModuleChoices: function() {
+	_getModuleChoices() {
 		return promptUtil.getModuleChoices(this.modules, this);
-	},
+	}
 
-	_getModuleWhen: function() {
+	_getModuleWhen() {
 		return !_.isEmpty(this.modules);
-	},
+	}
 
-	_prompt: function() {
-		let instance = this;
+	_prompt() {
+		const themelet = this.themelet;
 
-		let themelet = this.themelet;
-
-		let listType = promptUtil.getListType();
+		const listType = promptUtil.getListType();
 
 		inquirer.prompt(
 			[
 				{
-					choices: _.bind(instance._getModuleChoices, instance),
-					filter: _.bind(instance._filterModule, instance),
+					choices: _.bind(this._getModuleChoices, this),
+					filter: _.bind(this._filterModule, this),
 					message: themelet ? 'Select a themelet' : 'Select a theme',
 					name: 'module',
 					type: themelet ? 'checkbox' : listType,
-					when: _.bind(instance._getModuleWhen, instance),
+					when: _.bind(this._getModuleWhen, this),
 				},
 			],
-			_.bind(instance._afterPrompt, instance)
+			_.bind(this._afterPrompt, this)
 		);
-	},
-};
+	}
+}
 
-ModulePrompt.prompt = function(config, cb) {
-	return new ModulePrompt(config, cb);
-};
+ModulePrompt.prompt = (config, cb) => new ModulePrompt(config, cb);
 
 module.exports = ModulePrompt;

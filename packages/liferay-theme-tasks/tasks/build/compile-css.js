@@ -11,8 +11,6 @@ const divert = require('../../lib/divert');
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
 const themeUtil = require('../../lib/util');
 
-const themeConfig = lfrThemeConfig.getConfig();
-
 module.exports = function(options) {
 	const {gulp, pathBuild} = options;
 	const {storage} = gulp;
@@ -43,6 +41,8 @@ module.exports = function(options) {
 			return;
 		}
 
+		const themeConfig = lfrThemeConfig.getConfig();
+
 		let compileTask = themeConfig.rubySass
 			? 'build:compile-ruby-sass'
 			: 'build:compile-lib-sass';
@@ -51,6 +51,8 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-lib-sass', function(cb) {
+		const themeConfig = lfrThemeConfig.getConfig();
+
 		let gulpIf = require('gulp-if');
 		let gulpSass = themeUtil.requireDependency(
 			'gulp-sass',
@@ -79,6 +81,8 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-ruby-sass', function(cb) {
+		const themeConfig = lfrThemeConfig.getConfig();
+
 		let gulpIf = require('gulp-if');
 		let gulpRubySass = themeUtil.requireDependency(
 			'gulp-ruby-sass',
@@ -136,6 +140,8 @@ function getSassOptions(sassOptions, defaults) {
 }
 
 function getSrcPathConfig(storage) {
+	const themeConfig = lfrThemeConfig.getConfig();
+
 	return {
 		changedFile: storage.get('changedFile'),
 		deployed: storage.get('deployed'),

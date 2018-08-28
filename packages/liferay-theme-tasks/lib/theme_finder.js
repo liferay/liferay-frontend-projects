@@ -1,91 +1,126 @@
-'use strict';
+const _ = require('lodash');
+const async = require('async');
+const globby = require('globby');
+const npmKeyword = require('npm-keyword');
+const packageJson = require('package-json');
+const path = require('path');
+const spawn = require('cross-spawn');
 
-let _ = require('lodash');
-let async = require('async');
-let globby = require('globby');
-let npmKeyword = require('npm-keyword');
-let packageJson = require('package-json');
-let path = require('path');
-let spawn = require('cross-spawn');
+const lfrThemeConfig = require('./liferay_theme_config');
 
-let lfrThemeConfig = require('./liferay_theme_config');
+const themeConfig = lfrThemeConfig.getConfig();
 
-let themeConfig = lfrThemeConfig.getConfig();
+function getLiferayThemeModule(name, cb) {
+	getPackageJSON(
+		{
+			name: name,
+		},
+		(err, pkg) => {
+			if (
+				(pkg && !pkg.liferayTheme) ||
+				(pkg && !_.contains(pkg.keywords, 'liferay-theme'))
+			) {
+				pkg = null;
 
-module.exports = {
-	getLiferayThemeModule: function(name, cb) {
-		this._getPackageJSON(
-			{
-				name: name,
-			},
-			function(err, pkg) {
-				if (
-					(pkg && !pkg.liferayTheme) ||
-					(pkg && !_.contains(pkg.keywords, 'liferay-theme'))
-				) {
-					pkg = null;
-
-					err = new Error(
-						'Package is not a Liferay theme or themelet module'
-					);
-				}
-
-				cb(err, pkg);
+				err = new Error(
+					'Package is not a Liferay theme or themelet module'
+				);
 			}
+
+			cb(err, pkg);
+		}
+	);
+}
+
+function getLiferayThemeModules(config, cb) {
+	if (_.isUndefined(cb)) {
+		cb = config;
+
+		config = {};
+	}
+
+	let globalModules = _.isUndefined(config.globalModules)
+		? true
+		: config.globalModules;
+
+	config.keyword = config.keyword || 'liferay-theme';
+
+	let searchFn = globalModules ? searchGlobalModules : searchNpm;
+
+	searchFn.call(this, config, moduleResults => {
+		reportDiscardedModules(
+			moduleResults,
+			LiferayThemeModuleStatus.NO_PACKAGE_JSON,
+			'with no package.json'
 		);
-	},
+		reportDiscardedModules(
+			moduleResults,
+			LiferayThemeModuleStatus.NO_LIFERAY_THEME,
+			'with no liferayTheme section in package.json'
+		);
+		reportDiscardedModules(
+			moduleResults,
+			LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH,
+			`not targeting ${themeConfig.version} version`
+		);
+		reportDiscardedModules(
+			moduleResults,
+			LiferayThemeModuleStatus.THEMELET_FLAG_DOES_NOT_MATCH,
+			'with mismatching themelet flag'
+		);
 
-	getLiferayThemeModules: function(config, cb) {
-		if (_.isUndefined(cb)) {
-			cb = config;
+		cb(moduleResults[LiferayThemeModuleStatus.OK] || []);
+	});
+}
 
-			config = {};
+module.exports = {getLiferayThemeModule, getLiferayThemeModules};
+
+const LiferayThemeModuleStatus = {
+	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
+	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
+	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
+	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
+	OK: 'OK',
+};
+
+function reportDiscardedModules(moduleResults, outcome, message) {
+	if (moduleResults[outcome]) {
+		console.log(
+			'Warning: found',
+			Object.keys(moduleResults[outcome]).length,
+			'packages (matching criteria)',
+			message
+		);
+	}
+}
+
+function findThemeModulesIn(paths) {
+	let modules = [];
+
+	_.forEach(paths, rootPath => {
+		if (!rootPath) {
+			return;
 		}
 
-		let globalModules = _.isUndefined(config.globalModules)
-			? true
-			: config.globalModules;
+		modules = globby
+			.sync(['*-theme', '*-themelet'], {
+				cwd: rootPath,
+			})
+			.map(match => path.join(rootPath, match))
+			.concat(modules);
+	});
 
-		config.keyword = config.keyword || 'liferay-theme';
+	return modules;
+}
 
-		let searchFn = globalModules
-			? this._seachGlobalModules
-			: this._searchNpm;
+function getNpmPaths() {
+	let paths = [];
 
-		searchFn.call(this, config, cb);
-	},
+	let win32 = process.platform === 'win32';
 
-	_findThemeModulesIn: function(paths) {
-		let modules = [];
-
-		_.forEach(paths, function(rootPath) {
-			if (!rootPath) {
-				return;
-			}
-
-			modules = globby
-				.sync(['*-theme', '*-themelet'], {
-					cwd: rootPath,
-				})
-				.map(function(match) {
-					return path.join(rootPath, match);
-				})
-				.concat(modules);
-		});
-
-		return modules;
-	},
-
-	_getNpmPaths: function() {
-		let paths = [];
-
-		let win32 = process.platform === 'win32';
-
-		_.forEach(path.join(process.cwd(), '..').split(path.sep), function(
-			part,
-			index,
-			parts
-		) {
+	_.forEach(
+		path.join(process.cwd(), '..').split(path.sep),
+		(part, index, parts) => {
 			let lookup = path.join(
 				...parts.slice(0, index + 1).concat(['node_modules'])
 			);
@@ -95,160 +130,156 @@ module.exports = {
 			}
 
 			paths.push(lookup);
-		});
+		}
+	);
 
-		if (process.env.NODE_PATH) {
-			paths = _.compact(
-				process.env.NODE_PATH.split(path.delimiter)
-			).concat(paths);
+	if (process.env.NODE_PATH) {
+		paths = _.compact(process.env.NODE_PATH.split(path.delimiter)).concat(
+			paths
+		);
+	} else {
+		let results = spawn.sync('npm', ['root', '-g']);
+
+		if (!results.error && results.stdout) {
+			let npmRoot = results.stdout.toString();
+
+			if (npmRoot) {
+				paths.push(_.trim(npmRoot));
+			}
+		}
+
+		if (win32) {
+			paths.push(path.join(process.env.APPDATA, 'npm/node_modules'));
 		} else {
-			let results = spawn.sync('npm', ['root', '-g']);
+			paths.push('/usr/lib/node_modules');
+			paths.push('/usr/local/lib/node_modules');
+		}
+	}
 
-			if (!results.error && results.stdout) {
-				let npmRoot = results.stdout.toString();
+	return paths.reverse();
+}
 
-				if (npmRoot) {
-					paths.push(_.trim(npmRoot));
-				}
-			}
+function getPackageJSON(theme, cb) {
+	packageJson(theme.name, {fullMetadata: true})
+		.then(pkg => cb(null, pkg))
+		.catch(cb);
+}
 
-			if (win32) {
-				paths.push(path.join(process.env.APPDATA, 'npm/node_modules'));
-			} else {
-				paths.push('/usr/lib/node_modules');
-				paths.push('/usr/local/lib/node_modules');
-			}
+function getLiferayThemeModuleStatus(pkg, themelet) {
+	if (pkg) {
+		let liferayTheme = pkg.liferayTheme;
+
+		if (!liferayTheme) {
+			return LiferayThemeModuleStatus.NO_LIFERAY_THEME;
 		}
 
-		return paths.reverse();
-	},
+		let liferayThemeVersion = liferayTheme.version;
 
-	_getPackageJSON: function(theme, cb) {
-		packageJson(theme.name, {fullMetadata: true})
-			.then(function(pkg) {
-				cb(null, pkg);
-			})
-			.catch(function(err) {
+		if (
+			_.isArray(liferayThemeVersion) &&
+			!_.contains(liferayThemeVersion, themeConfig.version)
+		) {
+			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
+		}
+
+		if (
+			!_.isArray(liferayThemeVersion) &&
+			liferayThemeVersion !== '*' &&
+			liferayThemeVersion !== themeConfig.version
+		) {
+			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
+		}
+
+		if (themelet != liferayTheme.themelet) {
+			return LiferayThemeModuleStatus.THEMELET_FLAG_DOES_NOT_MATCH;
+		}
+
+		return LiferayThemeModuleStatus.OK;
+	}
+
+	return LiferayThemeModuleStatus.NO_PACKAGE_JSON;
+}
+
+function matchesSearchTerms(pkg, searchTerms) {
+	let description = pkg.description;
+
+	return (
+		pkg.name.indexOf(searchTerms) > -1 ||
+		(description && description.indexOf(searchTerms) > -1)
+	);
+}
+
+function reduceModuleResults(modules, config) {
+	let searchTerms = config.searchTerms;
+	let themelet = config.themelet;
+
+	return _.reduce(
+		modules,
+		(result, item) => {
+			if (searchTerms && !matchesSearchTerms(item, searchTerms)) {
+				return result;
+			}
+
+			const outcome = getLiferayThemeModuleStatus(item, themelet);
+
+			result[outcome] = result[outcome] || {};
+			result[outcome][item.name] = item;
+
+			return result;
+		},
+		{}
+	);
+}
+
+function searchGlobalModules(config, cb) {
+	let modules = findThemeModulesIn(getNpmPaths());
+
+	modules = _.reduce(
+		modules,
+		(result, item) => {
+			try {
+				let json = require(path.join(item, 'package.json'));
+
+				json.realPath = item;
+
+				result.push(json);
+			} catch (err) {}
+
+			return result;
+		},
+		[]
+	);
+
+	const moduleResults = reduceModuleResults(modules, config);
+
+	cb(moduleResults);
+}
+
+function searchNpm(config, cb) {
+	npmKeyword(config.keyword).then(packages => {
+		async.map(packages, getPackageJSON, (err, results) => {
+			if (err) {
 				cb(err);
-			});
-	},
 
-	_isLiferayThemeModule: function(pkg, themelet) {
-		let retVal = false;
-
-		if (pkg) {
-			let liferayTheme = pkg.liferayTheme;
-
-			if (!liferayTheme) {
-				return retVal;
+				return;
 			}
 
-			let liferayThemeVersion = liferayTheme.version;
+			const moduleResults = reduceModuleResults(results, config);
 
-			if (
-				_.isArray(liferayThemeVersion) &&
-				!_.contains(liferayThemeVersion, themeConfig.version)
-			) {
-				return retVal;
-			} else if (
-				!_.isArray(liferayThemeVersion) &&
-				liferayThemeVersion !== '*' &&
-				liferayThemeVersion !== themeConfig.version
-			) {
-				return retVal;
-			}
-
-			retVal =
-				liferayTheme &&
-				(themelet ? liferayTheme.themelet : !liferayTheme.themelet);
-		}
-
-		return retVal;
-	},
-
-	_matchesSearchTerms: function(pkg, searchTerms) {
-		let description = pkg.description;
-
-		return (
-			pkg.name.indexOf(searchTerms) > -1 ||
-			(description && description.indexOf(searchTerms) > -1)
-		);
-	},
-
-	_reduceModuleResults: function(modules, config) {
-		let instance = this;
-
-		let searchTerms = config.searchTerms;
-		let themelet = config.themelet;
-
-		return _.reduce(
-			modules,
-			function(result, item) {
-				let valid = false;
-
-				if (instance._isLiferayThemeModule(item, themelet)) {
-					valid = true;
-				}
-
-				if (searchTerms && valid) {
-					valid = instance._matchesSearchTerms(item, searchTerms);
-				}
-
-				if (valid) {
-					result[item.name] = item;
-				}
-
-				return result;
-			},
-			{}
-		);
-	},
-
-	_seachGlobalModules: function(config, cb) {
-		let instance = this;
-
-		let modules = this._findThemeModulesIn(this._getNpmPaths());
-
-		modules = _.reduce(
-			modules,
-			function(result, item) {
-				try {
-					let json = require(path.join(item, 'package.json'));
-
-					json.realPath = item;
-
-					result.push(json);
-				} catch (err) {}
-
-				return result;
-			},
-			[]
-		);
-
-		cb(instance._reduceModuleResults(modules, config));
-	},
-
-	_searchNpm: function(config, cb) {
-		let instance = this;
-
-		npmKeyword(config.keyword).then(function(packages) {
-			async.map(packages, instance._getPackageJSON, function(
-				err,
-				results
-			) {
-				if (err) {
-					cb(err);
-
-					return;
-				}
-
-				let themeResults = instance._reduceModuleResults(
-					results,
-					config
-				);
-
-				cb(themeResults);
-			});
+			cb(moduleResults);
 		});
-	},
-};
+	});
+}
+
+// Export private methods when in tests
+if (typeof jest !== 'undefined') {
+	Object.assign(module.exports, {
+		findThemeModulesIn,
+		getNpmPaths,
+		getPackageJSON,
+		matchesSearchTerms,
+		reduceModuleResults,
+		searchGlobalModules,
+		searchNpm,
+	});
+}

@@ -1,17 +1,13 @@
-'use strict';
+const _ = require('lodash');
+const os = require('os');
 
-let _ = require('lodash');
-let os = require('os');
-
-let promptUtil = {};
-
-promptUtil.formatThemeletSelection = function(modules, selectedModules) {
-	let formattedSelection = {};
+function formatThemeletSelection(modules, selectedModules) {
+	const formattedSelection = {};
 
 	if (selectedModules) {
 		formattedSelection.removedThemelets = _.reduce(
 			modules,
-			function(result, selected, name) {
+			(result, selected, name) => {
 				if (selectedModules.indexOf(name) > -1 && !selected) {
 					result.push(name);
 				}
@@ -23,7 +19,7 @@ promptUtil.formatThemeletSelection = function(modules, selectedModules) {
 
 		formattedSelection.keptThemelets = _.reduce(
 			modules,
-			function(result, selected, name) {
+			(result, selected, name) => {
 				if (selected && selectedModules.indexOf(name) > -1) {
 					result.push(name);
 				}
@@ -49,9 +45,9 @@ promptUtil.formatThemeletSelection = function(modules, selectedModules) {
 	);
 
 	return formattedSelection;
-};
+}
 
-promptUtil.getListType = function() {
+function getListType() {
 	let listType = 'list';
 
 	if (process.version > 'v0.12.7' && os.type() === 'Windows_NT') {
@@ -59,13 +55,13 @@ promptUtil.getListType = function() {
 	}
 
 	return listType;
-};
+}
 
-promptUtil.getModuleChoices = function(modules, config) {
-	let selectedModules = config.selectedModules;
+function getModuleChoices(modules, config) {
+	const selectedModules = config.selectedModules;
 
 	if (config.themelet) {
-		return _.map(modules, function(module, name) {
+		return _.map(modules, (module, name) => {
 			return {
 				checked: selectedModules && selectedModules.indexOf(name) > -1,
 				name: name,
@@ -73,7 +69,7 @@ promptUtil.getModuleChoices = function(modules, config) {
 		});
 	}
 
-	return _.map(modules, function(module, name) {
+	return _.map(modules, (module, name) => {
 		return {
 			name:
 				selectedModules && selectedModules.indexOf(name) > -1
@@ -82,6 +78,6 @@ promptUtil.getModuleChoices = function(modules, config) {
 			value: name,
 		};
 	});
-};
+}
 
-module.exports = promptUtil;
+module.exports = {formatThemeletSelection, getListType, getModuleChoices};

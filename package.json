@@ -1,42 +1,32 @@
 {
-	"ava": {
-		"concurrency": 5,
-		"files": [
-			"packages/liferay-theme-tasks/test/lib/**/*.js",
-			"packages/liferay-theme-tasks/test/tasks/**/*.js"
-		]
-	},
 	"devDependencies": {
-		"ava": "^0.25.0",
-		"chai": "^4.1.2",
-		"chai-fs": "^2.0.0",
 		"eslint": "^4.19.0",
 		"eslint-config-liferay": "^2.0.18",
+		"jest": "^23.4.1",
 		"lerna": "^2.4.0",
-		"nyc": "^11.6.0",
 		"prettier-eslint-cli": "^4.7.1",
 		"sinon": "^4.4.6"
-	},
-	"nyc": {
-		"include": [
-			"packages/liferay-theme-tasks/{lib,tasks}/**/*"
-		],
-		"reporter": [
-			"lcov",
-			"text"
-		]
 	},
 	"private": true,
 	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-tasks",
 	"scripts": {
-		"checkFormat": "npm run prettier -- --list-different",
-		"format": "npm run prettier -- --write",
+		"ci": "prettier-eslint --list-different 'packages/**/*.js' && npm run lint && npm run test",
+		"format": "prettier-eslint --write 'packages/**/*.js'",
 		"lerna": "lerna bootstrap -- --no-optional && npm install",
-		"lint": "eslint 'packages/liferay-theme-tasks/lib/**/*.js' 'packages/liferay-theme-tasks/tasks/**/*.js' 'packages/liferay-theme-tasks/test/**/*.js'",
-		"prettier": "prettier-eslint 'packages/liferay-theme-tasks/lib/**/*.js' 'packages/liferay-theme-tasks/tasks/**/*.js' 'packages/liferay-theme-tasks/test/**/*.js'",
-		"test": "nyc ava"
+		"lint": "eslint 'packages/**/*.js'",
+		"test": "jest"
 	},
 	"dependencies": {
 		"gulp": "^3.9.1"
+	},
+	"jest": {
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"/__fixtures__/"
+		],
+		"modulePathIgnorePatterns": [
+			"/liferay-theme-finder/",
+			"/generator-liferay-theme/generators/layout/"
+		]
 	}
 }

@@ -16,11 +16,9 @@ const portfinder = require('portfinder');
 
 portfinder.basePort = 9080;
 
-const deployTask = 'deploy:gogo';
 const CONNECT_PARAMS = {
 	port: 11311,
 };
-const staticFileDirs = ['images', 'js'];
 const webBundleDirName = '.web_bundle_build';
 
 module.exports = function(options) {
@@ -93,6 +91,19 @@ module.exports = function(options) {
 			.then(cb);
 	});
 
+	gulp.task('watch:osgi:reinstall', function(cb) {
+		let watchSocket = startWatchSocket();
+
+		watchSocket
+			.connect(connectParams)
+			.then(function() {
+				return watchSocket.deploy();
+			})
+			.then(function() {
+				cb();
+			});
+	});
+
 	gulp.task('watch:setup', function() {
 		return gulp
 			.src(path.join(pathBuild, '**/*'))
@@ -112,13 +123,12 @@ module.exports = function(options) {
 	function getTaskArray(rootDir, defaultTaskArray) {
 		let taskArray = defaultTaskArray || [];
 
-		if (staticFileDirs.indexOf(rootDir) > -1) {
-			taskArray = ['deploy:file'];
-		} else if (rootDir === 'WEB-INF') {
+		if (rootDir === 'WEB-INF') {
 			taskArray = [
 				'build:clean',
 				'build:src',
 				'build:web-inf',
+				'watch:osgi:reinstall',
 				'deploy:folder',
 			];
 		} else if (rootDir === 'templates') {
@@ -126,6 +136,7 @@ module.exports = function(options) {
 				'build:src',
 				'build:themelet-src',
 				'build:themelet-js-inject',
+				'watch:osgi:reinstall',
 				'deploy:folder',
 			];
 		} else if (rootDir === 'css') {
@@ -139,8 +150,11 @@ module.exports = function(options) {
 				'build:compile-css',
 				'build:move-compiled-css',
 				'build:remove-old-css-dir',
+				'watch:osgi:reinstall',
 				'deploy:css-files',
 			];
+		} else {
+			taskArray = ['watch:osgi:reinstall', 'deploy:file'];
 		}
 
 		return taskArray;
@@ -175,19 +189,14 @@ module.exports = function(options) {
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			storage.set('changedFile', vinyl);
 
-			let relativeFilePath = path.relative(
-				path.join(process.cwd(), pathSrc),
-				vinyl.path
-			);
+			let rootDir = path.dirname(vinyl.path);
 
-			let filePathArray = relativeFilePath.split(path.sep);
+			rootDir = path.relative(path.join(process.cwd(), pathSrc), rootDir);
 
-			let rootDir = filePathArray.length ? filePathArray[0] : '';
-
-			let taskArray = [deployTask];
+			let taskArray = ['deploy:file'];
 
 			if (!fullDeploy && storage.get('deployed')) {
-				taskArray = getTaskArray(rootDir, taskArray);
+				taskArray = getTaskArray(rootDir, []);
 			}
 
 			taskArray.push(clearChangedFile);

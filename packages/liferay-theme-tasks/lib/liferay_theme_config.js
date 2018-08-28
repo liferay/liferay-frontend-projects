@@ -1,8 +1,71 @@
-'use strict';
+const _ = require('lodash');
+const fs = require('fs-extra');
+const path = require('path');
 
-let _ = require('lodash');
-let fs = require('fs-extra');
-let path = require('path');
+function getConfig(all, alternatePath) {
+	let packageJSON = getPackageJSON(alternatePath);
+
+	return all ? packageJSON : packageJSON.liferayTheme;
+}
+
+function removeConfig(settings) {
+	let packageJSON = getPackageJSON();
+
+	packageJSON.liferayTheme = _.omit(packageJSON.liferayTheme, settings);
+
+	writePackageJSON(packageJSON);
+}
+
+function removeDependencies(dependencies) {
+	let packageJSON = getPackageJSON();
+
+	deleteDependencies(packageJSON.dependencies, dependencies);
+	deleteDependencies(packageJSON.devDependencies, dependencies);
+
+	writePackageJSON(packageJSON);
+}
+
+function setConfig(config) {
+	let packageJSON = getPackageJSON();
+
+	if (packageJSON.liferayTheme) {
+		if (config.baseTheme) {
+			packageJSON.liferayTheme.baseTheme = undefined;
+		}
+
+		if (config.themeletDependencies) {
+			packageJSON.liferayTheme.themeletDependencies = undefined;
+		}
+	}
+
+	packageJSON = _.merge(packageJSON, {
+		liferayTheme: config,
+	});
+
+	writePackageJSON(packageJSON);
+}
+
+function setDependencies(dependencies, devDependencies) {
+	let packageJSON = getPackageJSON();
+
+	let selector = devDependencies ? 'devDependencies' : 'dependencies';
+
+	if (!packageJSON[selector]) {
+		packageJSON[selector] = {};
+	}
+
+	_.merge(packageJSON[selector], dependencies);
+
+	writePackageJSON(packageJSON);
+}
+
+module.exports = {
+	getConfig,
+	removeConfig,
+	removeDependencies,
+	setConfig,
+	setDependencies,
+};
 
 function deleteDependencies(sourceDependencies, deletedDependencies) {
 	_.forEach(sourceDependencies, function(item, index) {
@@ -31,60 +94,3 @@ function writePackageJSON(json) {
 		JSON.stringify(json, null, '\t')
 	);
 }
-
-module.exports.getConfig = function(all, alternatePath) {
-	let packageJSON = getPackageJSON(alternatePath);
-
-	return all ? packageJSON : packageJSON.liferayTheme;
-};
-
-module.exports.removeConfig = function(settings) {
-	let packageJSON = getPackageJSON();
-
-	packageJSON.liferayTheme = _.omit(packageJSON.liferayTheme, settings);
-
-	writePackageJSON(packageJSON);
-};
-
-module.exports.removeDependencies = function(dependencies) {
-	let packageJSON = getPackageJSON();
-
-	deleteDependencies(packageJSON.dependencies, dependencies);
-	deleteDependencies(packageJSON.devDependencies, dependencies);
-
-	writePackageJSON(packageJSON);
-};
-
-module.exports.setConfig = function(config) {
-	let packageJSON = getPackageJSON();
-
-	if (packageJSON.liferayTheme) {
-		if (config.baseTheme) {
-			packageJSON.liferayTheme.baseTheme = undefined;
-		}
-
-		if (config.themeletDependencies) {
-			packageJSON.liferayTheme.themeletDependencies = undefined;
-		}
-	}
-
-	packageJSON = _.merge(packageJSON, {
-		liferayTheme: config,
-	});
-
-	writePackageJSON(packageJSON);
-};
-
-module.exports.setDependencies = function(dependencies, devDependencies) {
-	let packageJSON = getPackageJSON();
-
-	let selector = devDependencies ? 'devDependencies' : 'dependencies';
-
-	if (!packageJSON[selector]) {
-		packageJSON[selector] = {};
-	}
-
-	_.merge(packageJSON[selector], dependencies);
-
-	writePackageJSON(packageJSON);
-};

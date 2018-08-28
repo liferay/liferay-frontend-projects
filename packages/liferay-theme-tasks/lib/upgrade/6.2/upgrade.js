@@ -20,7 +20,12 @@ const CWD = process.cwd();
 const DIR_SRC_CSS = 'src/css';
 
 const logBuffers = {
-	bootstrap: [getLogHeader('Bootstrap Upgrade (2 to 3)')],
+	bootstrap: [
+		getLogHeader('Bootstrap Upgrade (2 to 3)'),
+		getLogHeaderNote(
+			'Because Liferay Portal 7.0 uses Bootstrap 3, the default box model has been changed to box-sizing: border-box. So if you were using width or height, and padding together on an element, you may need to make changes, or those elements may have unexpected sizes.'
+		),
+	],
 	liferay: [getLogHeader('Liferay Upgrade (6.2 to 7)')],
 };
 
@@ -100,7 +105,6 @@ module.exports = function(options) {
 		let lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
-			rubySass: false,
 			version: '7.0',
 		});
 
@@ -211,7 +215,7 @@ module.exports = function(options) {
 			},
 			{
 				message:
-					'Warning: ${theme} variable is no longer available in Freemarker templates, see https://goo.gl/9fXzYt for more information.',
+					'Warning: ${theme} variable is no longer available in Freemarker templates, see https://bit.ly/2NPkVDr for more information.',
 				regex: /\${theme/g,
 			},
 		];
@@ -333,7 +337,7 @@ module.exports = function(options) {
 		let vmRules = [
 			{
 				message:
-					'Warning: Support for Velocity (.vm) format is deprecated, consider migrating to FreeMarker (.ftl) format. See: https://goo.gl/48p5sX',
+					'Warning: Support for Velocity (.vm) format is deprecated, consider migrating to FreeMarker (.ftl) format. See: https://bit.ly/2uSXySe',
 				regex: /[\s\S]+/g,
 			},
 			{
@@ -417,6 +421,10 @@ function getLogHeader(header) {
 	let line = new Array(65).join('-');
 
 	return colors.bold('\n' + line + '\n ' + header + '\n' + line + '\n\n');
+}
+
+function getLogHeaderNote(headerNote) {
+	return colors.cyan('| ' + headerNote + '\n\n');
 }
 
 function logBuffer(buffer) {

@@ -1,132 +1,292 @@
-'use strict';
+const _ = require('lodash');
+const del = require('del');
+const fs = require('fs-extra');
+const Gulp = require('gulp').Gulp;
+const os = require('os');
+const path = require('path');
+const sinon = require('sinon');
 
-let _ = require('lodash');
-let assert = require('chai').assert;
-let del = require('del');
-let fs = require('fs-extra');
-let Gulp = require('gulp').Gulp;
-let os = require('os');
-let path = require('path');
-let sinon = require('sinon');
+const osTempDir = os.tmpdir();
+const saved = {
+	console: {
+		log: console.log,
+	},
+	process: {
+		stdout: {
+			write: process.stdout.write,
+		},
+	},
+};
 
-let osTempDir = os.tmpdir();
+function hideConsole() {
+	process.stdout.write = console.log = () => undefined;
+}
 
-module.exports.assertBoundFunction = function(prototype, methodName, stub) {
+function restoreConsole() {
+	process.stdout.write = saved.process.stdout.write;
+	console.log = saved.console.log;
+}
+
+expect.extend({
+	toBeFile(path) {
+		let pass = true;
+		let message = '';
+
+		try {
+			if (!fs.statSync(path).isFile()) {
+				pass = false;
+				message = `Path '${path}' is not a file`;
+			}
+		} catch (err) {
+			pass = false;
+			message = err.toString();
+		}
+
+		if (this.isNot && pass) {
+			message = `File '${path}' exists`;
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+
+	toBeFolder(path) {
+		let pass = true;
+		let message = '';
+
+		try {
+			if (!fs.statSync(path).isDirectory()) {
+				pass = false;
+				message = `Path '${path}' is not a folder`;
+			}
+		} catch (err) {
+			pass = false;
+			message = err.toString();
+		}
+
+		if (this.isNot && pass) {
+			message = `Folder '${path}' exists`;
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+
+	toBeEmptyFolder(path) {
+		let pass = true;
+		let message = '';
+
+		if (this.isNot) {
+			try {
+				if (!fs.statSync(path).isDirectory()) {
+					pass = false;
+					message = `Path '${path}' is not a folder`;
+				} else if (fs.readdirSync(path).length == 0) {
+					pass = false;
+					message = `Folder '${path}' is empty`;
+				}
+			} catch (err) {
+				pass = false;
+
+				if (err.code === 'ENOENT') {
+					message = `Folder '${path}' does not exist`;
+				} else {
+					message = err.toString();
+				}
+			}
+
+			pass = !pass;
+		} else {
+			try {
+				if (!fs.statSync(path).isDirectory()) {
+					pass = false;
+					message = `Path '${path}' is not a folder`;
+				} else if (fs.readdirSync(path).length != 0) {
+					pass = false;
+					message = `Folder '${path}' is not empty`;
+				}
+			} catch (err) {
+				pass = false;
+
+				if (err.code === 'ENOENT') {
+					message = `Folder '${path}' does not exist`;
+				} else {
+					message = err.toString();
+				}
+			}
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+
+	toBeFileMatching(path, regex) {
+		let pass = true;
+		let message = '';
+
+		if (this.isNot) {
+			try {
+				if (!fs.statSync(path).isFile()) {
+					pass = false;
+					message = `Path '${path}' is not a file`;
+				} else if (regex.test(fs.readFileSync(path).toString())) {
+					pass = false;
+					message = `File '${path}' matches ${regex}`;
+				}
+			} catch (err) {
+				pass = false;
+
+				if (err.code === 'ENOENT') {
+					message = `File '${path}' does not exist`;
+				} else {
+					message = err.toString();
+				}
+			}
+
+			pass = !pass;
+		} else {
+			try {
+				if (!fs.statSync(path).isFile()) {
+					pass = false;
+					message = `Path '${path}' is not a file`;
+				} else if (!regex.test(fs.readFileSync(path).toString())) {
+					pass = false;
+					message = `File '${path}' does not match ${regex}`;
+				}
+			} catch (err) {
+				pass = false;
+
+				if (err.code === 'ENOENT') {
+					message = `File '${path}' does not exist`;
+				} else {
+					message = err.toString();
+				}
+			}
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+});
+
+class PrototypeMethodSpy {
+	constructor() {
+		this.methods = [];
+	}
+
+	add(parent, methodName, stub) {
+		if (!parent[methodName]) {
+			throw new Error(methodName + ' is not a method of ' + parent.name);
+		}
+
+		this.methods.push({
+			method: parent[methodName],
+			methodName: methodName,
+			parent: parent,
+		});
+
+		if (stub) {
+			parent[methodName] = sinon.stub();
+		} else {
+			parent[methodName] = sinon.spy();
+		}
+
+		return parent[methodName];
+	}
+
+	flush() {
+		_.forEach(this.methods, function(item, index) {
+			item.parent[item.methodName] = item.method;
+		});
+
+		this.methods = [];
+	}
+}
+
+function assertBoundFunction(prototype, methodName, stub) {
 	prototype[methodName] = sinon.spy();
 
 	return function(fn) {
 		fn('argument');
 
-		assert(prototype[methodName].calledOnce);
-		assert(prototype[methodName].calledWith('argument'));
+		expect(prototype[methodName].calledOnce).toBe(true);
+		expect(prototype[methodName].calledWith('argument')).toBe(true);
 	};
-};
+}
 
-let PrototypeMethodSpy = function() {
-	this.methods = [];
-};
-
-PrototypeMethodSpy.prototype.add = function(parent, methodName, stub) {
-	if (!parent[methodName]) {
-		throw new Error(methodName + ' is not a method of ' + parent.name);
-	}
-
-	this.methods.push({
-		method: parent[methodName],
-		methodName: methodName,
-		parent: parent,
-	});
-
-	if (stub) {
-		parent[methodName] = sinon.stub();
-	} else {
-		parent[methodName] = sinon.spy();
-	}
-
-	return parent[methodName];
-};
-
-PrototypeMethodSpy.prototype.flush = function() {
-	_.forEach(this.methods, function(item, index) {
-		item.parent[item.methodName] = item.method;
-	});
-
-	this.methods = [];
-};
-
-module.exports.PrototypeMethodSpy = PrototypeMethodSpy;
-
-function copyTempTheme(options, cb) {
+function copyTempTheme(options) {
 	let themeName = options.themeName || 'base-theme';
 	let version = options.version || '7.0';
+	let namespace = options.namespace;
 
 	let tempPath = path.join(
 		osTempDir,
 		'liferay-theme-tasks',
-		options.namespace,
+		namespace,
 		version,
 		themeName
 	);
+
+	cleanDirectory(tempPath);
 
 	let gulp;
 	let registerTasksOptions;
 	let runSequence;
 
-	fs.copy(
+	fs.copySync(
 		path.join(__dirname, './fixtures/themes', version, themeName),
-		tempPath,
-		function(err) {
-			if (err) throw err;
-
-			process.chdir(tempPath);
-
-			if (options.themeConfig) {
-				let lfrThemeConfig = require('../lib/liferay_theme_config');
-
-				lfrThemeConfig.setConfig(options.themeConfig);
-			}
-
-			if (options.registerTasksOptions || options.registerTasks) {
-				deleteJsFromCache();
-
-				let registerTasks = require('../index.js').registerTasks;
-
-				gulp = new Gulp();
-
-				registerTasksOptions = _.assign(
-					{
-						distName: 'base-theme',
-						pathBuild: './custom_build_path',
-						gulp: gulp,
-						pathSrc: './custom_src_path',
-						rubySass: false,
-						insideTests: true,
-					},
-					options.registerTasksOptions
-				);
-
-				registerTasks(registerTasksOptions);
-
-				runSequence = require('run-sequence').use(gulp);
-			}
-
-			cb({
-				gulp: gulp,
-				registerTasksOptions: registerTasksOptions,
-				runSequence: runSequence,
-				tempPath: tempPath,
-			});
-		}
+		tempPath
 	);
+
+	process.chdir(tempPath);
+
+	if (options.themeConfig) {
+		let lfrThemeConfig = require('../lib/liferay_theme_config');
+
+		lfrThemeConfig.setConfig(options.themeConfig);
+	}
+
+	if (options.registerTasksOptions || options.registerTasks) {
+		deleteJsFromCache();
+
+		let registerTasks = require('../index.js').registerTasks;
+
+		gulp = new Gulp();
+
+		registerTasksOptions = _.assign(
+			{
+				distName: 'base-theme',
+				pathBuild: './custom_build_path',
+				gulp: gulp,
+				pathSrc: './custom_src_path',
+				rubySass: false,
+				insideTests: true,
+			},
+			options.registerTasksOptions
+		);
+
+		registerTasks(registerTasksOptions);
+
+		runSequence = require('run-sequence').use(gulp);
+	}
+
+	return {
+		gulp: gulp,
+		registerTasksOptions: registerTasksOptions,
+		runSequence: runSequence,
+		tempPath: tempPath,
+	};
 }
 
-function cleanDirectory(directory) {
-	del.sync(path.join(directory, '**'), {
-		force: true,
-	});
-}
-
-function cleanTempTheme(themeName, version, component, cb) {
+function cleanTempTheme(themeName, version, component, initCwd) {
 	let tempPath = path.join(
 		osTempDir,
 		'liferay-theme-tasks',
@@ -135,19 +295,12 @@ function cleanTempTheme(themeName, version, component, cb) {
 		themeName
 	);
 
-	if (arguments.length > 3) {
-		setTimeout(function() {
-			cleanDirectory(tempPath);
+	cleanDirectory(tempPath);
 
-			cb();
-		}, 100);
-	} else {
-		cleanDirectory(tempPath);
+	if (initCwd != null) {
+		process.chdir(initCwd);
 	}
 }
-
-module.exports.cleanTempTheme = cleanTempTheme;
-module.exports.copyTempTheme = copyTempTheme;
 
 function deleteDirJsFromCache(relativePath) {
 	let files = fs.readdirSync(path.join(__dirname, relativePath));
@@ -165,19 +318,30 @@ function deleteJsFileFromCache(filePath) {
 	delete require.cache[registerTasksPath];
 }
 
+function stripNewlines(string) {
+	return string.replace(/\r?\n|\r/g, '');
+}
+
+module.exports = {
+	copyTempTheme,
+	cleanTempTheme,
+	PrototypeMethodSpy,
+	assertBoundFunction,
+	stripNewlines,
+	hideConsole,
+	restoreConsole,
+};
+
+function cleanDirectory(directory) {
+	del.sync(path.join(directory, '**'), {
+		force: true,
+	});
+}
+
 function deleteJsFromCache() {
 	deleteDirJsFromCache('../lib');
 	deleteDirJsFromCache('../lib/prompts');
 	deleteDirJsFromCache('../lib/upgrade/6.2');
 	deleteDirJsFromCache('../tasks');
-
 	deleteJsFileFromCache('../index.js');
 }
-
-module.exports.deleteJsFromCache = deleteJsFromCache;
-
-function stripNewlines(string) {
-	return string.replace(/\r?\n|\r/g, '');
-}
-
-module.exports.stripNewlines = stripNewlines;

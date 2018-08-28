@@ -1,19 +1,17 @@
-'use strict';
+const _ = require('lodash');
+const fs = require('fs-extra');
+const path = require('path');
+const plugins = require('gulp-load-plugins')();
 
-let _ = require('lodash');
-let fs = require('fs-extra');
-let path = require('path');
-let plugins = require('gulp-load-plugins')();
+const lfrThemeConfig = require('../lib/liferay_theme_config');
+const themeUtil = require('../lib/util');
+const WarDeployer = require('../lib/war_deployer');
 
-let lfrThemeConfig = require('../lib/liferay_theme_config');
-let themeUtil = require('../lib/util');
-let WarDeployer = require('../lib/war_deployer');
+const divert = require('../lib/divert');
 
-let divert = require('../lib/divert');
+const themeConfig = lfrThemeConfig.getConfig(true);
 
-let themeConfig = lfrThemeConfig.getConfig(true);
-
-module.exports = function(options) {
+function registerTasks(options) {
 	const {argv, gulp, pathBuild, pathSrc} = options;
 	const {storage} = gulp;
 
@@ -37,7 +35,7 @@ module.exports = function(options) {
 		const srcPath = path.join(pathBuild, 'css/*.css');
 		const filePath = storage.get('changedFile').path;
 
-		return fastDeploy(srcPath, pathBuild, {stream: true});
+		return fastDeploy(srcPath, pathBuild, '*.css');
 	});
 
 	gulp.task('deploy:file', function() {
@@ -92,7 +90,17 @@ module.exports = function(options) {
 		warDeployer.deploy();
 	});
 
-	function fastDeploy(srcPath, basePath, config) {
+	/**
+	 * Force a hot deploy of modified files and notify browserSync about the
+	 * change with the given file globs.
+	 * @param  {String} srcPath glob expression of files to be refreshed
+	 * @param  {String} basePath the base path of the srcPath expression
+	 * @param  {String|Array} fileGlobs the glob expressions to send to
+	 * 				browserSync refresh or null if the whole page should be
+	 * 				reloaded
+	 * @return {Stream} the gulp stream
+	 */
+	function fastDeploy(srcPath, basePath, fileGlobs) {
 		let fastDeployPaths = getFastDeployPaths();
 
 		const browserSync = gulp.browserSync;
@@ -104,8 +112,8 @@ module.exports = function(options) {
 			.pipe(plugins.debug())
 			.pipe(gulp.dest(fastDeployPaths.dest));
 
-		if (config && config.stream) {
-			stream.pipe(browserSync.stream());
+		if (fileGlobs) {
+			browserSync.reload(fileGlobs);
 		} else {
 			browserSync.reload();
 		}
@@ -143,4 +151,6 @@ module.exports = function(options) {
 
 		return fastDeployPaths;
 	}
-};
+}
+
+module.exports = registerTasks;

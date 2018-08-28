@@ -8,7 +8,9 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var util = require('util');
 
-var liferayThemeGeneratorPrototype = _.cloneDeep(require('../app/index').prototype);
+var liferayThemeGeneratorPrototype = _.cloneDeep(
+	require('../app/index').prototype
+);
 
 var initializing = liferayThemeGeneratorPrototype.initializing;
 
@@ -21,7 +23,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 			this.directory('docroot/_diffs', 'src');
 			this.directory('docroot/WEB-INF', 'src/WEB-INF');
-		}
+		},
 	},
 
 	_getPrompts: function() {
@@ -34,8 +36,8 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				name: 'importTheme',
 				type: 'input',
 				validate: instance._validatePath,
-				when: instance._getWhenFn('importTheme', 'path')
-			}
+				when: instance._getWhenFn('importTheme', 'path'),
+			},
 		];
 	},
 
@@ -48,7 +50,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 		try {
 			var fileContents = fs.readFileSync(filePath, {
-				encoding: 'utf8'
+				encoding: 'utf8',
 			});
 
 			match = fileContents.match(config.regex);
@@ -56,13 +58,22 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			if (match) {
 				defaultValue = match[1];
 			}
-		}
-		catch(e) {
+		} catch (e) {
 			this.log(chalk.yellow('   Warning ') + '%s not found', filePath);
 		}
 
 		if (!match) {
-			this.log(chalk.yellow('   Warning ') + 'could not determine the property %s from ' + chalk.yellow('%s') + '. Using ' + chalk.yellow('%s') + ' as default value.', config.propertyNameInFile, filePath, config.defaultValue);
+			this.log(
+				chalk.yellow('   Warning ') +
+					'could not determine the property %s from ' +
+					chalk.yellow('%s') +
+					'. Using ' +
+					chalk.yellow('%s') +
+					' as default value.',
+				config.propertyNameInFile,
+				filePath,
+				config.defaultValue
+			);
 		}
 
 		this[config.propertyName] = defaultValue;
@@ -77,14 +88,16 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			filePath: 'docroot/WEB-INF/liferay-plugin-package.properties',
 			propertyName: 'liferayVersion',
 			propertyNameInFile: 'liferay-versions',
-			regex: /liferay-versions=([0-9]\.[0-9])/
+			regex: /liferay-versions=([0-9]\.[0-9])/,
 		});
 
 		var liferayVersion = this.liferayVersion;
 
-    if(liferayVersion !== '6.2') {
-      throw new Error('Only themes for 6.2 version of Liferay can be imported');
-    }
+		if (liferayVersion !== '6.2') {
+			throw new Error(
+				'Only themes for 6.2 version of Liferay can be imported'
+			);
+		}
 
 		this._setPackageVersion(liferayVersion);
 
@@ -93,7 +106,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			filePath: 'docroot/WEB-INF/liferay-look-and-feel.xml',
 			propertyName: 'templateLanguage',
 			propertyNameInFile: '<template-extension>',
-			regex: /<template-extension>(.*)<\/template-extension>/
+			regex: /<template-extension>(.*)<\/template-extension>/,
 		});
 	},
 
@@ -101,12 +114,12 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this.argv = minimist(process.argv.slice(2), {
 			alias: {
 				compass: 'c',
-				path: 'p'
+				path: 'p',
 			},
 			default: {
-				compass: null
+				compass: null,
 			},
-			boolean: ['compass']
+			boolean: ['compass'],
 		});
 	},
 
@@ -118,14 +131,20 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 			if (!fs.existsSync(filePath)) {
 				retVal = '"%s" does not exist';
-			}
-			else if (!fs.statSync(filePath).isDirectory()) {
+			} else if (!fs.statSync(filePath).isDirectory()) {
 				retVal = '"%s" is not a directory';
-			}
-			else {
-				var propsFile = path.join(filePath, 'docroot', 'WEB-INF', 'liferay-plugin-package.properties');
+			} else {
+				var propsFile = path.join(
+					filePath,
+					'docroot',
+					'WEB-INF',
+					'liferay-plugin-package.properties'
+				);
 
-				if (!fs.existsSync(propsFile) || !fs.statSync(propsFile).isFile()) {
+				if (
+					!fs.existsSync(propsFile) ||
+					!fs.statSync(propsFile).isFile()
+				) {
 					retVal = '"%s" doesn\'t appear to be a theme in the SDK';
 				}
 			}
@@ -146,7 +165,10 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		insight.track('import', liferayVersion);
 	},
 
-	_yosay: 'Welcome to the splendid ' + chalk.red('Liferay Theme Importer') + ' generator!'
+	_yosay:
+		'Welcome to the splendid ' +
+		chalk.red('Liferay Theme Importer') +
+		' generator!',
 });
 
 module.exports = yeoman.generators.Base.extend(importerGeneratorPrototype);

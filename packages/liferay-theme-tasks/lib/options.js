@@ -1,13 +1,11 @@
-'use strict';
+const _ = require('lodash');
+const minimist = require('minimist');
 
-let _ = require('lodash');
-let minimist = require('minimist');
-
-let lfrThemeConfig = require('./liferay_theme_config');
+const lfrThemeConfig = require('./liferay_theme_config');
 
 let options;
 
-module.exports = function(config) {
+function getOptions(config) {
 	if (!options || config) {
 		config = config || {};
 		config.argv = minimist(process.argv.slice(2));
@@ -25,4 +23,6 @@ module.exports = function(config) {
 	}
 
 	return options;
-};
+}
+
+module.exports = getOptions;
