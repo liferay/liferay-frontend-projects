@@ -20,7 +20,12 @@ const CWD = process.cwd();
 const DIR_SRC_CSS = 'src/css';
 
 const logBuffers = {
-	bootstrap: [getLogHeader('Bootstrap Upgrade (2 to 3)')],
+	bootstrap: [
+		getLogHeader('Bootstrap Upgrade (2 to 3)'),
+		getLogHeaderNote(
+			'Because Liferay Portal 7.0 uses Bootstrap 3, the default box model has been changed to box-sizing: border-box. So if you were using width or height, and padding together on an element, you may need to make changes, or those elements may have unexpected sizes.'
+		),
+	],
 	liferay: [getLogHeader('Liferay Upgrade (6.2 to 7)')],
 };
 
@@ -416,6 +421,10 @@ function getLogHeader(header) {
 	let line = new Array(65).join('-');
 
 	return colors.bold('\n' + line + '\n ' + header + '\n' + line + '\n\n');
+}
+
+function getLogHeaderNote(headerNote) {
+	return colors.cyan('| ' + headerNote + '\n\n');
 }
 
 function logBuffer(buffer) {
