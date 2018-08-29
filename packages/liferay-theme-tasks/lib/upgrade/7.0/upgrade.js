@@ -220,6 +220,14 @@ module.exports = function(options) {
 							match: /@import \"aui\/lexicon\/atlas-theme\/mixins\";/g,
 							replacement: '',
 						},
+						{
+							match: /@import \"aui\/alloy-font-awesome\/scss\/mixins-alloy\";/g,
+							replacement: '',
+						},
+						{
+							match: /@import \"aui\/alloy-font-awesome\/scss\/variables\";/g,
+							replacement: '',
+						},
 					],
 				})
 			)
