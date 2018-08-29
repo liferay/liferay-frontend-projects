@@ -67,8 +67,8 @@ module.exports = function(options) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.0']);
 		lfrThemeConfig.setDependencies(
 			{
-				'liferay-theme-deps-7.1': '8.0.0-beta.1',
-				'liferay-theme-tasks': '8.0.0-beta.1',
+				'liferay-theme-deps-7.1': '8.0.0-beta.2',
+				'liferay-theme-tasks': '8.0.0-beta.2',
 			},
 			true
 		);
@@ -218,6 +218,14 @@ module.exports = function(options) {
 						},
 						{
 							match: /@import \"aui\/lexicon\/atlas-theme\/mixins\";/g,
+							replacement: '',
+						},
+						{
+							match: /@import \"aui\/alloy-font-awesome\/scss\/mixins-alloy\";/g,
+							replacement: '',
+						},
+						{
+							match: /@import \"aui\/alloy-font-awesome\/scss\/variables\";/g,
 							replacement: '',
 						},
 					],

@@ -14,10 +14,12 @@
 		"format": "prettier-eslint --write 'packages/**/*.js'",
 		"lerna": "lerna bootstrap -- --no-optional && npm install",
 		"lint": "eslint 'packages/**/*.js'",
+		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
 	"dependencies": {
-		"gulp": "^3.9.1"
+		"gulp": "^3.9.1",
+		"replace-in-file": "^3.4.2"
 	},
 	"jest": {
 		"testPathIgnorePatterns": [
