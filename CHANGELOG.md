@@ -1,5 +1,27 @@
 # Change Log
 
+## [v8.0.0-beta.3](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.3) (2018-08-29)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.2...v8.0.0-beta.3)
+
+**Implemented enhancements:**
+
+- Create pre-publish build step to properly update package versions [\#60](https://github.com/liferay/liferay-themes-sdk/issues/60)
+- Remove alloy-font-awesome import during upgrade task from a 6.2 theme [\#36](https://github.com/liferay/liferay-themes-sdk/issues/36)
+
+**Fixed bugs:**
+
+- Version reverts to 8.0.0-beta.1 after running Gulp Upgrade task for 7.0 theme [\#57](https://github.com/liferay/liferay-themes-sdk/issues/57)
+- Generated `liferay-theme-tasks` version is outdated for `liferay-theme:import`  [\#56](https://github.com/liferay/liferay-themes-sdk/issues/56)
+- Remove alloy-font-awesome import during upgrade task from a 6.2 theme [\#36](https://github.com/liferay/liferay-themes-sdk/issues/36)
+
+**Merged pull requests:**
+
+- v8.0.0-beta.3 [\#63](https://github.com/liferay/liferay-themes-sdk/pull/63) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#60 - Creates script to update package dependencies within files [\#62](https://github.com/liferay/liferay-themes-sdk/pull/62) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#36 - Removes alloy-font-awesome imports [\#61](https://github.com/liferay/liferay-themes-sdk/pull/61) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#57 - Updates dependencies [\#59](https://github.com/liferay/liferay-themes-sdk/pull/59) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#56 - Updates dependency version [\#58](https://github.com/liferay/liferay-themes-sdk/pull/58) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-beta.2](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.2) (2018-08-28)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.1...v8.0.0-beta.2)
 
