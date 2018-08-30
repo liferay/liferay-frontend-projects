@@ -67,8 +67,8 @@ module.exports = function(options) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.0']);
 		lfrThemeConfig.setDependencies(
 			{
-				'liferay-theme-deps-7.1': '8.0.0-beta.3',
-				'liferay-theme-tasks': '8.0.0-beta.3',
+				'liferay-theme-deps-7.1': '8.0.0-beta.4',
+				'liferay-theme-tasks': '8.0.0-beta.4',
 			},
 			true
 		);
