@@ -1,7 +1,7 @@
 {
   "name": "liferay-theme-es2015-hook",
   "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-es2015-hook",
-  "version": "8.0.0-beta.3",
+  "version": "8.0.0-beta.4",
   "description": "A hook for liferay-theme-tasks that allows for es2015 transpilation and amd module configuration.",
   "main": "index.js",
   "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "liferay-theme-tasks": "^8.0.0-beta.3"
+    "liferay-theme-tasks": "^8.0.0-beta.4"
   }
 }
