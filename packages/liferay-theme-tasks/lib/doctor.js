@@ -69,6 +69,7 @@ function assertTasksSupported(version, tasks) {
 	for (let task of tasks) {
 		switch (task) {
 		case 'help':
+		case 'init':
 			break;
 
 		case 'upgrade':
