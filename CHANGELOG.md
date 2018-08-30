@@ -1,5 +1,17 @@
 # Change Log
 
+## [v8.0.0-beta.4](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.4) (2018-08-30)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.3...v8.0.0-beta.4)
+
+**Fixed bugs:**
+
+- Import generator fails on Gulp init task [\#64](https://github.com/liferay/liferay-themes-sdk/issues/64)
+
+**Merged pull requests:**
+
+- v8.0.0-beta.4 [\#66](https://github.com/liferay/liferay-themes-sdk/pull/66) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#64 - Removes version check for init command [\#65](https://github.com/liferay/liferay-themes-sdk/pull/65) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-beta.3](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.3) (2018-08-29)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.2...v8.0.0-beta.3)
 
