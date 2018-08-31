@@ -1,5 +1,19 @@
 # Change Log
 
+## [v8.0.0-beta.5](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.5) (2018-08-31)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.4...v8.0.0-beta.5)
+
+**Fixed bugs:**
+
+- Liferay Theme Generator adds 7.0-theme-deps for new 7.1 theme [\#71](https://github.com/liferay/liferay-themes-sdk/issues/71)
+- Generator-Liferay-Theme: Do not insist on app server directory [\#67](https://github.com/liferay/liferay-themes-sdk/issues/67)
+
+**Merged pull requests:**
+
+- v8.0.0-beta.5 Prepares templates [\#75](https://github.com/liferay/liferay-themes-sdk/pull/75) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#67 - Updates liferay-plugin-node-tasks to v2.0.0 [\#74](https://github.com/liferay/liferay-themes-sdk/pull/74) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#71 - Diverts generated theme devDependencies for 7.0 and 7.1 versions [\#73](https://github.com/liferay/liferay-themes-sdk/pull/73) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-beta.4](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.4) (2018-08-30)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.3...v8.0.0-beta.4)
 
