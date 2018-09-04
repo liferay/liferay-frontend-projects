@@ -14,7 +14,6 @@
 		"format": "prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
 		"lerna": "npm install && lerna bootstrap",
 		"lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
-		"precommit": "lint-staged",
 		"release": "lerna publish --force-publish='*' --exact",
 		"release-canary": "lerna publish --force-publish='*' --exact -c",
 		"test": "jest --runInBand"
@@ -22,17 +21,9 @@
 	"devDependencies": {
 		"eslint": "^4.11.0",
 		"eslint-config-liferay": "^2.0.0",
-		"husky": "^0.14.2",
 		"jest": "^20.0.4",
 		"lerna": "^2.0.0-rc.5",
-		"lint-staged": "^4.0.0",
 		"prettier-eslint-cli": "^4.4.0"
-	},
-	"lint-staged": {
-		"*.js": [
-			"prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
-			"git add"
-		]
 	},
 	"jest": {
 		"modulePathIgnorePatterns": [
