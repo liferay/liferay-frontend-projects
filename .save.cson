@@ -1,81 +1,84 @@
-"packages/babel-plugin-name-amd-modules/**/*.js": [
-  "cd packages/babel-plugin-name-amd-modules && npm run build"
-]
-"packages/babel-plugin-namespace-amd-define/**/*.js": [
-  "cd packages/babel-plugin-namespace-amd-define && npm run build"
-]
-"packages/babel-plugin-namespace-modules/**/*.js": [
-  "cd packages/babel-plugin-namespace-modules && npm run build"
-]
-"packages/babel-plugin-normalize-requires/**/*.js": [
-  "cd packages/babel-plugin-normalize-requires && npm run build"
-]
-"packages/babel-plugin-shim-nodejs/**/*.js": [
-  "cd packages/babel-plugin-shim-nodejs && npm run build"
-]
-"packages/babel-plugin-wrap-modules-amd/**/*.js": [
-  "cd packages/babel-plugin-wrap-modules-amd && npm run build"
-]
-"packages/babel-preset-liferay-amd/**/*.js": [
-  "cd packages/babel-preset-liferay-amd && npm run build"
-]
-"packages/babel-preset-liferay-isomorphic/**/*.js": [
-  "cd packages/babel-preset-liferay-isomorphic && npm run build"
-]
-"packages/babel-preset-liferay-project/**/*.js": [
-  "cd packages/babel-preset-liferay-project && npm run build"
-]
-"packages/babel-preset-liferay-standard/**/*.js": [
-  "cd packages/babel-preset-liferay-standard && npm run build"
-]
-"packages/liferay-npm-bridge-generator/**/*.js": [
-  "cd packages/liferay-npm-bridge-generator && npm run build"
-]
-"packages/liferay-npm-build-tools-common/**/*.js": [
-  "cd packages/liferay-npm-build-tools-common && npm run build"
-]
-"packages/liferay-npm-bundler/**/*.js": [
-  "cd packages/liferay-npm-bundler && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-exclude-imports/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-exclude-imports && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-inject-imports-dependencies/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-inject-imports-dependencies && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-inject-peer-dependencies/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-inject-peer-dependencies && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-namespace-packages/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-namespace-packages && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-replace-browser-modules/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-replace-browser-modules && npm run build"
-]
-"packages/liferay-npm-bundler-plugin-resolve-linked-dependencies/**/*.js": [
-  "cd packages/liferay-npm-bundler-plugin-resolve-linked-dependencies && npm run build"
-]
-"packages/liferay-npm-bundler-preset-amd/**/*.js": [
-  "cd packages/liferay-npm-bundler-preset-amd && npm run build"
-]
-"packages/liferay-npm-bundler-preset-angular/**/*.js": [
-  "cd packages/liferay-npm-bundler-preset-angular && npm run build"
-]
-"packages/liferay-npm-bundler-preset-isomorphic/**/*.js": [
-  "cd packages/liferay-npm-bundler-preset-isomorphic && npm run build"
-]
-"packages/liferay-npm-bundler-preset-react/**/*.js": [
-  "cd packages/liferay-npm-bundler-preset-react && npm run build"
-]
-"packages/liferay-npm-bundler-preset-standard/**/*.js": [
-  "cd packages/liferay-npm-bundler-preset-standard && npm run build"
-]
-"packages/liferay-npm-bundler-preset-vue/**/*.js": [
-  "cd packages/liferay-npm-bundler-preset-vue && npm run build"
-]
-"packages/liferay-npm-imports-checker/**/*.js": [
-  "cd packages/liferay-npm-imports-checker && npm run build"
-]
+"packages/babel-plugin-name-amd-modules/**/*.js": {
+  command: "cd packages/babel-plugin-name-amd-modules && npm run build"
+}
+"packages/babel-plugin-namespace-amd-define/**/*.js": {
+  command: "cd packages/babel-plugin-namespace-amd-define && npm run build"
+}
+"packages/babel-plugin-namespace-modules/**/*.js": {
+  command: "cd packages/babel-plugin-namespace-modules && npm run build"
+}
+"packages/babel-plugin-normalize-requires/**/*.js": {
+  command: "cd packages/babel-plugin-normalize-requires && npm run build"
+}
+"packages/babel-plugin-shim-nodejs/**/*.js": {
+  command: "cd packages/babel-plugin-shim-nodejs && npm run build"
+}
+"packages/babel-plugin-wrap-modules-amd/**/*.js": {
+  command: "cd packages/babel-plugin-wrap-modules-amd && npm run build"
+}
+"packages/babel-preset-liferay-amd/**/*.js": {
+  command: "cd packages/babel-preset-liferay-amd && npm run build"
+}
+"packages/babel-preset-liferay-isomorphic/**/*.js": {
+  command: "cd packages/babel-preset-liferay-isomorphic && npm run build"
+}
+"packages/babel-preset-liferay-project/**/*.js": {
+  command: "cd packages/babel-preset-liferay-project && npm run build"
+}
+"packages/babel-preset-liferay-standard/**/*.js": {
+  command: "cd packages/babel-preset-liferay-standard && npm run build"
+}
+"packages/generator-npm-portlet-extender/**/*": {
+  command: "cd packages/generator-npm-portlet-extender && npm run build"
+}
+"packages/liferay-npm-bridge-generator/**/*.js": {
+  command: "cd packages/liferay-npm-bridge-generator && npm run build"
+}
+"packages/liferay-npm-build-tools-common/**/*.js": {
+  command: "cd packages/liferay-npm-build-tools-common && npm run build"
+}
+"packages/liferay-npm-bundler/**/*.js": {
+  command: "cd packages/liferay-npm-bundler && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-exclude-imports/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-exclude-imports && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-inject-imports-dependencies/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-inject-imports-dependencies && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-inject-peer-dependencies/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-inject-peer-dependencies && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-namespace-packages/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-namespace-packages && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-replace-browser-modules/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-replace-browser-modules && npm run build"
+}
+"packages/liferay-npm-bundler-plugin-resolve-linked-dependencies/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-resolve-linked-dependencies && npm run build"
+}
+"packages/liferay-npm-bundler-preset-amd/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-amd && npm run build"
+}
+"packages/liferay-npm-bundler-preset-angular/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-angular && npm run build"
+}
+"packages/liferay-npm-bundler-preset-isomorphic/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-isomorphic && npm run build"
+}
+"packages/liferay-npm-bundler-preset-react/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-react && npm run build"
+}
+"packages/liferay-npm-bundler-preset-standard/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-standard && npm run build"
+}
+"packages/liferay-npm-bundler-preset-vue/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-vue && npm run build"
+}
+"packages/liferay-npm-imports-checker/**/*.js": {
+  command: "cd packages/liferay-npm-imports-checker && npm run build"
+}
