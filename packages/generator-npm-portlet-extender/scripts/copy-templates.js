@@ -29,7 +29,8 @@ generators.forEach(generator => {
 });
 
 /**
- * @param  {String} dir [description]
+ * Fail safe mkdir
+ * @param  {String} dir directory name
  */
 function mkdir(dir) {
 	try {
