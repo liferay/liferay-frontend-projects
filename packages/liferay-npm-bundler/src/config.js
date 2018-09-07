@@ -248,6 +248,25 @@ export function isCreateJar() {
 }
 
 /**
+ * Whether or not to add manifest header in JAR file to make the Portal auto
+ * deploy a portlet.
+ * @return {boolean}
+ */
+export function isAutoDeployPortlet() {
+	if (!isCreateJar()) {
+		return false;
+	}
+
+	if (typeof config['create-jar'] === 'object') {
+		if (config['create-jar']['auto-deploy-portlet'] === false) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
  * Whether or not to process npm packages serially
  * @return {boolean}
  */
