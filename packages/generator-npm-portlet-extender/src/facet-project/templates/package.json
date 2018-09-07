@@ -1,0 +1,12 @@
+{
+	"name": "<%= name %>",
+	"version": "1.0.0",
+	"description": "<%= description %>",
+	"devDependencies": {
+		"liferay-npm-bundler": "^2.0.0"
+	},
+	"dependencies": {},
+	"scripts": {
+		"build": "liferay-npm-bundler"
+	}
+}
