@@ -8,15 +8,13 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"screenshot": "",
-		"rubySass": true,
+		"rubySass": false,
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "6.2"
 	},
 	"devDependencies": {
 		"gulp": "^3.9.1",
 		"liferay-theme-tasks": "8.0.0-beta.5",
-		"liferay-theme-deps-6.2": "7.0.0",
-		"liferay-theme-deps-7.0": "8.0.0-beta.5",
-		"liferay-theme-deps-7.1": "8.0.0-beta.5"
+		"liferay-theme-deps-6.2": "7.0.0"
 	}
 }
