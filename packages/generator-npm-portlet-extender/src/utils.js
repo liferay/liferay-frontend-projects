@@ -220,7 +220,7 @@ export class NpmbundlerrcModifier extends JsonModifier {
 }
 
 /**
-* A class to help modifying the styles.css file.
+ * A class to help modifying the styles.css file.
  */
 export class StylesCssModifier {
 	/**
