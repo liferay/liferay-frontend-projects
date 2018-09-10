@@ -20,8 +20,16 @@ export default class extends Generator {
 				message: 'What type of project do you want to create?',
 				choices: targets,
 			},
+			{
+				type: 'input',
+				name: 'folder',
+				message:
+					'What name shall I give to the folder hosting your project?',
+				default: 'my-project',
+			},
 		]);
 
+		this.destinationRoot(path.resolve(answers.folder));
 		this.composeWith(require.resolve(`../target-${answers.target}`));
 	}
 
