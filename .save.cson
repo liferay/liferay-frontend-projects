@@ -1,3 +1,6 @@
+"packages/**/*.js": {
+  command: "node_modules/.bin/prettier-eslint --write ${path}"
+}
 "packages/babel-plugin-name-amd-modules/**/*.js": {
   command: "cd packages/babel-plugin-name-amd-modules && npm run build"
 }
