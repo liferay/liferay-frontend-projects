@@ -1,0 +1,6 @@
+{
+	"create-jar": {
+		"auto-deploy-portlet": false
+	},
+	"dump-report": true
+}
