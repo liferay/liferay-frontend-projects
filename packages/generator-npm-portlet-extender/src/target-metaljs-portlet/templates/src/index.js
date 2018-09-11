@@ -1,4 +1,6 @@
+<% if (sampleWanted) { %>
 import AppComponent from './AppComponent';
+<% } %>
 
 /**
  * This is the main entry point of the portlet. It receives a hash of values
@@ -22,7 +24,9 @@ import AppComponent from './AppComponent';
  * @return {void}
  */
 export default function main({portletNamespace, contextPath, portletElementId}) {
+    <% if (sampleWanted) { %>
     const node = document.getElementById(portletElementId);
 
 	new AppComponent({portletNamespace, contextPath, portletElementId}, node);
+    <% } %>
 };

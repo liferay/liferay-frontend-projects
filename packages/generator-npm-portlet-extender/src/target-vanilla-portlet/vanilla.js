@@ -26,6 +26,12 @@ export default class extends Generator {
 					'Do you want to use Babel to transpile Javascript sources?',
 				default: true,
 			},
+			{
+				type: 'confirm',
+				name: 'sampleWanted',
+				message: 'Do you want to generate sample code?',
+				default: false,
+			},
 		]);
 	}
 
@@ -36,8 +42,9 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const {useBabel, sampleWanted} = this.answers;
 
-		if (this.answers.useBabel) {
+		if (useBabel) {
 			pkgJson.addDevDependency('babel-cli', '^6.26.0');
 			pkgJson.addDevDependency('babel-preset-env', '^1.7.0');
 			pkgJson.addBuildStep('babel --source-maps -D -d build src');
@@ -49,13 +56,15 @@ export default class extends Generator {
 		}
 
 		pkgJson.setMain('index.js');
-		if (this.answers.useBabel) {
+		if (useBabel) {
 			cp.copyFile('src/index.babel.js', {dest: 'src/index.js'});
 		} else {
 			cp.copyFile('src/index.nobabel.js', {dest: 'src/index.js'});
 		}
 
-		stylesCss.addRule('.tag', 'font-weight: bold;');
-		stylesCss.addRule('.value', 'font-style: italic;');
+		if (sampleWanted) {
+			stylesCss.addRule('.tag', 'font-weight: bold;');
+			stylesCss.addRule('.value', 'font-style: italic;');
+		}
 	}
 }

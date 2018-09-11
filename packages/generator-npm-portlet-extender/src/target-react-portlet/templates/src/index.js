@@ -1,7 +1,9 @@
+<% if (sampleWanted) { %>
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import AppComponent from './AppComponent';
+<% } %>
 
 /**
  * This is the main entry point of the portlet. It receives a hash of values
@@ -25,6 +27,7 @@ import AppComponent from './AppComponent';
  * @return {void}
  */
 export default function main({portletNamespace, contextPath, portletElementId}) {
+    <% if (sampleWanted) { %>
     ReactDOM.render(
         <AppComponent 
             portletNamespace={portletNamespace} 
@@ -33,4 +36,5 @@ export default function main({portletNamespace, contextPath, portletElementId}) 
         />, 
         document.getElementById(portletElementId)
     );
+    <% } %>
 }

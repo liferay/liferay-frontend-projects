@@ -19,7 +19,14 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = {};
+		this.answers = await this.prompt([
+			{
+				type: 'confirm',
+				name: 'sampleWanted',
+				message: 'Do you want to generate sample code?',
+				default: false,
+			},
+		]);
 	}
 
 	/**
@@ -29,6 +36,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const {sampleWanted} = this.answers;
 
 		pkgJson.addDevDependency('ncp', '^2.0.0');
 		pkgJson.addBuildStep('node ./scripts/copy-resources');
@@ -42,9 +50,14 @@ export default class extends Generator {
 		cp.copyFile('tsconfig.json');
 
 		pkgJson.setMain('bootstrap.js');
-		cp.copyDir('src');
+		cp.copyFile('src/polyfills.ts');
+		cp.copyFile('src/bootstrap.ts');
+		cp.copyDir('src/types');
 
-		stylesCss.addRule('.tag', 'font-weight: bold;');
-		stylesCss.addRule('.value', 'font-style: italic;');
+		if (sampleWanted) {
+			cp.copyDir('src');
+			stylesCss.addRule('.tag', 'font-weight: bold;');
+			stylesCss.addRule('.value', 'font-style: italic;');
+		}
 	}
 }

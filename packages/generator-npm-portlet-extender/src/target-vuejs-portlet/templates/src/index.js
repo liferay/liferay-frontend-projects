@@ -1,4 +1,6 @@
+<% if (sampleWanted) { %>
 import Vue from 'vue/dist/vue.common';
+<% } %>
 
 /**
  * This is the main entry point of the portlet. It receives a hash of values
@@ -22,6 +24,7 @@ import Vue from 'vue/dist/vue.common';
  * @return {void}
  */
 export default function main({portletNamespace, contextPath, portletElementId}) {
+    <% if (sampleWanted) { %>
     const node = document.getElementById(portletElementId);
     
     // Dynamically write markup to portlet's node
@@ -55,4 +58,5 @@ export default function main({portletNamespace, contextPath, portletElementId}) 
 			portletNamespace, contextPath, portletElementId
 		}
 	});
+    <% } %>
 }

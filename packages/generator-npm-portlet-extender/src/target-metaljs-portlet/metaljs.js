@@ -33,6 +33,12 @@ export default class extends Generator {
 					'Do you want to import Metal.js packages from Liferay?',
 				default: true,
 			},
+			{
+				type: 'confirm',
+				name: 'sampleWanted',
+				message: 'Do you want to generate sample code?',
+				default: false,
+			},
 		]);
 	}
 
@@ -44,8 +50,9 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const {importMetaljs, sampleWanted} = this.answers;
 
-		if (this.answers.importMetaljs) {
+		if (importMetaljs) {
 			npmbundlerrc.mergeImports(importsJson);
 			npmbundlerrc.addExclusion('incremental-dom');
 			npmbundlerrc.addExclusion('incremental-dom-string');
@@ -56,9 +63,12 @@ export default class extends Generator {
 		cp.copyFile('.babelrc');
 
 		pkgJson.setMain('index.js');
-		cp.copyDir('src');
+		cp.copyFile('src/index.js');
 
-		stylesCss.addRule('.tag', 'font-weight: bold;');
-		stylesCss.addRule('.value', 'font-style: italic;');
+		if (sampleWanted) {
+			cp.copyDir('src');
+			stylesCss.addRule('.tag', 'font-weight: bold;');
+			stylesCss.addRule('.value', 'font-style: italic;');
+		}
 	}
 }

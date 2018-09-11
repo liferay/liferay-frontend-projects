@@ -20,6 +20,7 @@
  * @return {void}
  */
 function main(params) {
+    <% if (sampleWanted) { %>
     var node = document.getElementById(params.portletElementId);
 
     node.innerHTML =
@@ -41,6 +42,7 @@ function main(params) {
                 params.portletElementId +
             '</span>' +
         '</div>';
+    <% } %>
 }
 
 module.exports = main;

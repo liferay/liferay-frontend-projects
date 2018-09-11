@@ -20,6 +20,7 @@
  * @return {void}
  */
 export default function main({portletNamespace, contextPath, portletElementId}) {
+    <% if (sampleWanted) { %>
     const node = document.getElementById(portletElementId);
 
     node.innerHTML =`
@@ -36,4 +37,5 @@ export default function main({portletNamespace, contextPath, portletElementId}) 
             <span class="value">${portletElementId}</span>
         </div>
     `;
+    <% } %>
 }
