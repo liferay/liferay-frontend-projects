@@ -1,5 +1,5 @@
 {
-	"name": "generator-npm-portlet-extender",
+	"name": "generator-liferay-bundle",
 	"version": "2.1.1",
 	"description": "A Yeoman generator to bootstrap npm Portlet Extender projects.",
 	"files": [
@@ -8,7 +8,7 @@
 	"keywords": [
 		"yeoman-generator",
 		"liferay",
-		"npm-portlet-extender"
+		"liferay-bundle"
 	],
 	"scripts": {
 		"build": "node ./scripts/copy-templates && babel --source-maps -D -d generators src --ignore 'src/*/templates/**/*'",

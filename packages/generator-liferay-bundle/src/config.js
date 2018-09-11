@@ -5,7 +5,9 @@ import readJsonSync from 'read-json-sync';
 let cfg = {};
 
 try {
-	cfg = readJsonSync(path.join(os.homedir(), '.npm-portlet-extender.json'));
+	cfg = readJsonSync(
+		path.join(os.homedir(), '.generator-liferay-bundle.json')
+	);
 } catch (err) {
 	if (err.code !== 'ENOENT') {
 		throw err;

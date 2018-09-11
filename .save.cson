@@ -31,8 +31,8 @@
 "packages/babel-preset-liferay-standard/**/*.js": {
   command: "cd packages/babel-preset-liferay-standard && npm run build"
 }
-"packages/generator-npm-portlet-extender/**/*": {
-  command: "cd packages/generator-npm-portlet-extender && npm run build"
+"packages/generator-liferay-bundle/**/*": {
+  command: "cd packages/generator-liferay-bundle && npm run build"
 }
 "packages/liferay-npm-bridge-generator/**/*.js": {
   command: "cd packages/liferay-npm-bridge-generator && npm run build"
