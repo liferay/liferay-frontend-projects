@@ -9,6 +9,7 @@ import {
 	NpmbundlerrcModifier,
 	PkgJsonModifier,
 	StylesCssModifier,
+	ScriptsStartWebpackRulesJsonModifier,
 } from '../utils';
 
 /**
@@ -59,6 +60,7 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new ScriptsStartWebpackRulesJsonModifier(this);
 		const {importMetaljs, sampleWanted} = this.answers;
 
 		if (importMetaljs) {
@@ -73,6 +75,9 @@ export default class extends Generator {
 
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/index.js');
+
+		pkgJson.addDevDependency('babel-loader', '^7.0.0');
+		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			cp.copyDir('src');
