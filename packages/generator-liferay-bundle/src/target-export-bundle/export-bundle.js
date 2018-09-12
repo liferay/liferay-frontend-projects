@@ -1,6 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import {Copier, PkgJsonModifier} from '../utils';
 
 /**
@@ -23,7 +24,11 @@ export default class extends Generator {
 				type: 'confirm',
 				name: 'createInitializer',
 				message: 'Does your export bundle need an initializer?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-export-bundle',
+					'createInitializer',
+					false
+				),
 			},
 		]);
 	}

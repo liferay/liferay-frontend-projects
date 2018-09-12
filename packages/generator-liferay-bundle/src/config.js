@@ -14,13 +14,42 @@ try {
 	}
 }
 
-cfg.defaultDeployDir = cfg.defaultDeployDir || '/liferay';
-cfg.defaultDeployDir = path.resolve(cfg.defaultDeployDir);
-
 /**
- * Get the default absolute path to deploy directory as configured by the user.
- * @return {String}
+ * Get the default answer value for a given prompt.
+ * @param  {string} namespace unique string identifying the calling context
+ * @param  {string} question name of property identifying the question
+ * @param  {*} defaultDefault default value is nothing is configured
+ * @return {*} the default value for the answer
  */
-export function getDefaultDeployDir() {
-	return cfg.defaultDeployDir;
+export function getDefaultAnswer(
+	namespace,
+	question,
+	defaultDefault = undefined
+) {
+	// Return defaultDefault if no answers section
+	if (cfg.answers === undefined) {
+		return defaultDefault;
+	}
+
+	let value;
+
+	// Try to get value from specific namespace section
+	if (cfg.answers[namespace] !== undefined) {
+		value = cfg.answers[namespace][question];
+	}
+
+	// If not found in specific namespace section, try to get value from *
+	if (value === undefined) {
+		if (cfg.answers['*'] !== undefined) {
+			value = cfg.answers['*'][question];
+		}
+	}
+
+	// If not found in any section return defaultDefault
+	if (value === undefined) {
+		return defaultDefault;
+	}
+
+	// If found, return the configured value
+	return value;
 }

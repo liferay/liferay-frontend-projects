@@ -1,6 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
 import {Copier, PkgJsonModifier, StylesCssModifier} from '../utils';
 
@@ -24,7 +25,11 @@ export default class extends Generator {
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-vuejs-portlet',
+					'sampleWanted',
+					false
+				),
 			},
 		]);
 	}

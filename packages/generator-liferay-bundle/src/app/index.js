@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
+import * as cfg from '../config';
 import Generator from 'yeoman-generator';
 
 /**
@@ -19,13 +20,14 @@ export default class extends Generator {
 				name: 'target',
 				message: 'What type of project do you want to create?',
 				choices: targets,
+				default: cfg.getDefaultAnswer('app', 'target'),
 			},
 			{
 				type: 'input',
 				name: 'folder',
 				message:
 					'What name shall I give to the folder hosting your project?',
-				default: 'my-project',
+				default: cfg.getDefaultAnswer('app', 'folder', 'my-project'),
 			},
 		]);
 

@@ -1,6 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import {Copier} from '../utils';
 
 /**
@@ -24,7 +25,11 @@ export default class extends Generator {
 				name: 'description',
 				message:
 					'What is the human readable description of your project?',
-				default: path.basename(process.cwd()),
+				default: cfg.getDefaultAnswer(
+					'facet-portlet',
+					'category',
+					path.basename(process.cwd())
+				),
 			},
 		]);
 	}

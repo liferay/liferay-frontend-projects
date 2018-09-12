@@ -1,6 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import {
 	Copier,
 	PkgJsonModifier,
@@ -29,13 +30,21 @@ export default class extends Generator {
 				name: 'useBabel',
 				message:
 					'Do you want to use Babel to transpile Javascript sources?',
-				default: true,
+				default: cfg.getDefaultAnswer(
+					'target-vanilla-portlet',
+					'useBabel',
+					true
+				),
 			},
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-vanilla-portlet',
+					'sampleWanted',
+					false
+				),
 			},
 		]);
 	}

@@ -1,6 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import {Copier, NpmbundlerrcModifier, PkgJsonModifier} from '../utils';
 
 /**
@@ -23,7 +24,11 @@ export default class extends Generator {
 				type: 'input',
 				name: 'category',
 				message: 'Under which category should your portlet be listed?',
-				default: 'category.sample',
+				default: cfg.getDefaultAnswer(
+					'facet-portlet',
+					'category',
+					'category.sample'
+				),
 			},
 		]);
 	}

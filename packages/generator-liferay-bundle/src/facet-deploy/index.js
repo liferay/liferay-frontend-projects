@@ -26,7 +26,11 @@ export default class extends Generator {
 				name: 'liferayPresent',
 				message:
 					'Do you have a local installation of Liferay for development?',
-				default: true,
+				default: cfg.getDefaultAnswer(
+					'facet-deploy',
+					'liferayPresent',
+					true
+				),
 			},
 		]);
 
@@ -39,7 +43,11 @@ export default class extends Generator {
 				type: 'input',
 				name: 'liferayDir',
 				message: 'Where is your local installation of Liferay placed?',
-				default: cfg.getDefaultDeployDir(),
+				default: cfg.getDefaultAnswer(
+					'facet-deploy',
+					'liferayDir',
+					'/liferay'
+				),
 				validate: validateLiferayDir,
 			},
 		]);
