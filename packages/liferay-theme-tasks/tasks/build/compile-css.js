@@ -62,7 +62,7 @@ module.exports = function(options) {
 
 		let sassOptions = getSassOptions(options.sassOptions, {
 			includePaths: getSassIncludePaths(themeConfig.rubySass),
-			sourceMap: false,
+			sourceMap: true,
 		});
 
 		let cssBuild = pathBuild + '/_css';
@@ -93,7 +93,7 @@ module.exports = function(options) {
 		let sassOptions = getSassOptions(options.sassOptions, {
 			compass: true,
 			loadPath: getSassIncludePaths(themeConfig.rubySass),
-			sourcemap: false,
+			sourcemap: true,
 		});
 
 		let cssBuild = pathBuild + '/_css';
