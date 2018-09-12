@@ -1,10 +1,10 @@
 'use strict';
 
 const _ = require('lodash');
-const del = require('del');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
-var log = require('fancy-log');
+const log = require('fancy-log');
+const postcss = require('gulp-postcss');
 
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 const divert = require('../../lib/divert');
@@ -65,6 +65,8 @@ module.exports = function(options) {
 			sourceMap: false,
 		});
 
+		const postCSSOptions = getPostCSSOptions(options.postcss);
+
 		let cssBuild = pathBuild + '/_css';
 
 		let srcPath = path.join(cssBuild, '!(_)*.scss');
@@ -74,6 +76,9 @@ module.exports = function(options) {
 			.pipe(plugins.plumber())
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.init()))
 			.pipe(gulpSass(sassOptions))
+			.pipe(
+				gulpIf(postCSSOptions.enabled, postcss(postCSSOptions.plugins))
+			)
 			.on('error', handleScssError)
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.write('.')))
 			.pipe(gulp.dest(cssBuild))
@@ -96,12 +101,17 @@ module.exports = function(options) {
 			sourcemap: false,
 		});
 
+		const postCSSOptions = getPostCSSOptions(options.postcss);
+
 		let cssBuild = pathBuild + '/_css';
 
 		let srcPath = path.join(cssBuild, '*.scss');
 
 		gulpRubySass(srcPath, sassOptions)
 			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.init()))
+			.pipe(
+				gulpIf(postCSSOptions.enabled, postcss(postCSSOptions.plugins))
+			)
 			.on('error', handleScssError)
 			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.write('.')))
 			.pipe(gulp.dest(cssBuild))
@@ -111,6 +121,28 @@ module.exports = function(options) {
 
 function concatBourbonIncludePaths(includePaths) {
 	return includePaths.concat(createBourbonFile());
+}
+
+function getPostCSSOptions(config) {
+	let postCSSOptions = {
+		enabled: false,
+	};
+
+	// We bundle autoprefixer automatically, so do not try to resolve it to the theme
+
+	if (_.isArray(config) && config.length > 0) {
+		postCSSOptions.enabled = true;
+		postCSSOptions.plugins = config
+			.map(
+				pluginName =>
+					pluginName === 'autoprefixer'
+						? pluginName
+						: themeUtil.resolveDependency(pluginName)
+			)
+			.map(pluginDependency => require(pluginDependency));
+	}
+
+	return postCSSOptions;
 }
 
 function getSassIncludePaths(rubySass) {

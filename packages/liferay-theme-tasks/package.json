@@ -2,6 +2,7 @@
 	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
 	"dependencies": {
 		"async": "^2.6.1",
+		"autoprefixer": "^9.1.5",
 		"browser-sync": "^2.24.4",
 		"compass-mixins": "^0.12.8",
 		"convert-bootstrap-2-to-3": "^1.0.1",
@@ -22,6 +23,7 @@
 		"gulp-livereload": "^3.8.1",
 		"gulp-load-plugins": "^0.8.0",
 		"gulp-plumber": "^0.6.6",
+		"gulp-postcss": "^8.0.0",
 		"gulp-prompt": "^0.1.2",
 		"gulp-rename": "^1.2.0",
 		"gulp-replace-task": "^0.2.1",
