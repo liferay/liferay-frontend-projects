@@ -1,7 +1,12 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, PkgJsonModifier, StylesCssModifier} from '../utils';
+import {
+	Copier,
+	PkgJsonModifier,
+	StylesCssModifier,
+	ScriptsStartWebpackRulesJsonModifier,
+} from '../utils';
 
 /**
  * Implementation of generation of plain Javascript portlets.
@@ -42,6 +47,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new ScriptsStartWebpackRulesJsonModifier(this);
 		const {useBabel, sampleWanted} = this.answers;
 
 		if (useBabel) {
@@ -58,6 +64,9 @@ export default class extends Generator {
 		pkgJson.setMain('index.js');
 		if (useBabel) {
 			cp.copyFile('src/index.babel.js', {dest: 'src/index.js'});
+
+			pkgJson.addDevDependency('babel-loader', '^7.0.0');
+			webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 		} else {
 			cp.copyFile('src/index.nobabel.js', {dest: 'src/index.js'});
 		}

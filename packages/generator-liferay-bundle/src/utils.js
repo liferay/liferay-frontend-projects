@@ -52,9 +52,9 @@ export class Copier {
 			const filePath = path.join(src, file);
 
 			if (fs.statSync(gen.templatePath(filePath)).isDirectory()) {
-				this.copyDir(filePath, context);
+				this.copyDir(filePath, {context});
 			} else {
-				this.copyFile(filePath, context);
+				this.copyFile(filePath, {context});
 			}
 		});
 	}
@@ -74,6 +74,14 @@ export class JsonModifier {
 	}
 
 	/**
+	 * Get the JSON object associated to this modifier
+	 * @return {Object} a parsed JSON object
+	 */
+	get json() {
+		return JSON.parse(this._generator.fs.read(this._path));
+	}
+
+	/**
 	 * Modify an existing JSON file.
 	 * @param {Function} modifier the code that modifies the JSON (it receives a
 	 * 						single parameter with the JSON object)
@@ -81,7 +89,7 @@ export class JsonModifier {
 	modifyJson(modifier) {
 		const gen = this._generator;
 
-		let json = JSON.parse(gen.fs.read(this._path));
+		let json = this.json;
 
 		modifier(json);
 
@@ -215,6 +223,36 @@ export class NpmbundlerrcModifier extends JsonModifier {
 		this.modifyJson(json => {
 			json['exclude'] = json['exclude'] || {};
 			json['exclude'][name] = value;
+		});
+	}
+}
+
+/**
+ * A class to help modifying the webpack.rules.json file of the start script.
+ */
+export class ScriptsStartWebpackRulesJsonModifier extends JsonModifier {
+	/**
+	 * @param {Generator} generator a Yeoman generator
+	 */
+	constructor(generator) {
+		super(generator, 'scripts/start/webpack.rules.json');
+	}
+
+	/**
+	 * Add a rule to webpack.rules.json file.
+	 * @param {RegExp} regex a regex expression to match files
+	 * @param {string} loader the name of a webpack loader
+	 */
+	addRule(regex, loader) {
+		this.modifyJson(json => {
+			let test = regex.toString();
+
+			test = test.substring(1, test.length - 1);
+
+			json.push({
+				test: test,
+				use: loader,
+			});
 		});
 	}
 }
