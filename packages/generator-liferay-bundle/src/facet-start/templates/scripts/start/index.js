@@ -1,4 +1,4 @@
-var main = require('???');
+var main = require('../src/index.js');
 
 var params = {
 	portletElementId: 'the-portlet',
