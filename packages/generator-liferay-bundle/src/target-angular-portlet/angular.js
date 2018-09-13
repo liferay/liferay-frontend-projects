@@ -5,7 +5,7 @@ import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
 import {Copier} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
-import StylesCssModifier from '../utils/modifier/css/styles.css';
+import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
 import IndexJsModifier from '../utils/modifier/scripts/start/index.js';
 import WebpackExtensionsJsonModifier from '../utils/modifier/scripts/start/webpack.extensions.json';
 import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
@@ -52,10 +52,6 @@ export default class extends Generator {
 
 		const {sampleWanted} = this.answers;
 
-		pkgJson.addDevDependency('ncp', '^2.0.0');
-		pkgJson.addBuildStep('node ./scripts/copy-resources');
-		cp.copyFile('scripts/copy-resources.js');
-
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('tsc');
 		cp.copyFile('tsconfig.json');
@@ -72,6 +68,7 @@ export default class extends Generator {
 
 		if (sampleWanted) {
 			cp.copyDir('src', {context: {pkgJson: pkgJson.json}});
+			cp.copyDir('assets');
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
 		}

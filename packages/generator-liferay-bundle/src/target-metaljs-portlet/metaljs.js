@@ -7,7 +7,7 @@ import importsJson from './imports.json';
 import {Copier} from '../utils';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
-import StylesCssModifier from '../utils/css/styles.css';
+import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
 import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
@@ -68,7 +68,7 @@ export default class extends Generator {
 		}
 
 		pkgJson.mergeDependencies(dependenciesJson);
-		pkgJson.addBuildStep('babel --source-maps -D -d build src');
+		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
 		pkgJson.setMain('index.js');

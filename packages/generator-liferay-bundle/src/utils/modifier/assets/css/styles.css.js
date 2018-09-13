@@ -7,6 +7,7 @@ export default class {
 	 */
 	constructor(generator) {
 		this._generator = generator;
+		this._path = 'assets/css/styles.css';
 	}
 
 	/**
@@ -17,12 +18,12 @@ export default class {
 	addRule(selector, ...values) {
 		const gen = this._generator;
 
-		let css = gen.fs.read('css/styles.css');
+		let css = gen.fs.read(this._path);
 
 		css += `${selector} {
 ${values.map(value => `	${value}`).join('\n')}
 }\n\n`;
 
-		gen.fs.write('css/styles.css', css);
+		gen.fs.write(this._path, css);
 	}
 }

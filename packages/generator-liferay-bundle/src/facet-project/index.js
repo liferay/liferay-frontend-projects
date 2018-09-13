@@ -48,5 +48,7 @@ export default class extends Generator {
 		cp.copyFile('package.json', {context});
 		cp.copyFile('.gitignore');
 		cp.copyFile('.npmbundlerrc');
+		cp.copyDir('assets');
+		cp.copyDir('scripts');
 	}
 }

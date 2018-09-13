@@ -48,10 +48,6 @@ export default class extends Generator {
 			json['create-jar']['auto-deploy-portlet'] = true;
 		});
 
-		pkgJson.addDevDependency('ncp', '^2.0.0');
-		pkgJson.addBuildStep('node ./scripts/copy-css');
-		cp.copyFile('scripts/copy-css.js');
-
 		pkgJson.modifyJson(json => {
 			json.portlet = json.portlet || {};
 			json.portlet['javax.portlet.display-name'] = json.description || '';
@@ -63,6 +59,6 @@ export default class extends Generator {
 			json.portlet['com.liferay.portlet.header-portlet-css'] =
 				'/css/styles.css';
 		});
-		cp.copyFile('css/styles.css');
+		cp.copyDir('assets');
 	}
 }

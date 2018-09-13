@@ -4,7 +4,7 @@ import Generator from 'yeoman-generator';
 import * as cfg from '../config';
 import {Copier} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
-import StylesCssModifier from '../utils/css/styles.css';
+import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
 import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
@@ -60,12 +60,12 @@ export default class extends Generator {
 		if (useBabel) {
 			pkgJson.addDevDependency('babel-cli', '^6.26.0');
 			pkgJson.addDevDependency('babel-preset-env', '^1.7.0');
-			pkgJson.addBuildStep('babel --source-maps -D -d build src');
+			pkgJson.addBuildStep('babel --source-maps -d build src');
 			cp.copyFile('.babelrc');
 		} else {
 			pkgJson.addDevDependency('ncp', '^2.0.0');
-			pkgJson.addBuildStep('node ./scripts/copy-files');
-			cp.copyFile('scripts/copy-files.js');
+			pkgJson.addBuildStep('node ./scripts/build');
+			cp.copyFile('scripts/build.js');
 		}
 
 		pkgJson.setMain('index.js');

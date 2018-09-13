@@ -3,11 +3,13 @@
 	"version": "1.0.0",
 	"description": "<%= description %>",
 	"devDependencies": {
-		"liferay-npm-bundler": "^2.0.0"
+		"liferay-npm-bundler": "^2.0.0",
+		"ncp": "^2.0.0"
 	},
 	"dependencies": {},
 	"scripts": {
-		"build": "liferay-npm-bundler"
+		"build": "npm run copy-assets && liferay-npm-bundler",
+		"copy-assets": "node ./scripts/copy-assets"
 	},
 	"osgi": {
 		"Web-ContextPath": "/<%= name %>"
