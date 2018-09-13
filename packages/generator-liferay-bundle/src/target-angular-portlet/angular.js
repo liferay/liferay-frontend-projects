@@ -49,9 +49,6 @@ export default class extends Generator {
 		pkgJson.addBuildStep('node ./scripts/copy-resources');
 		cp.copyFile('scripts/copy-resources.js');
 
-		pkgJson.addBuildStep('node ./scripts/replace-tokens');
-		cp.copyFile('scripts/replace-tokens.js');
-
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('tsc');
 		cp.copyFile('tsconfig.json');
