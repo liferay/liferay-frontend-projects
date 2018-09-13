@@ -56,9 +56,9 @@ export default class extends Generator {
 		pkgJson.addBuildStep('tsc');
 		cp.copyFile('tsconfig.json');
 
-		pkgJson.setMain('bootstrap.js');
+		pkgJson.setMain('index.js');
 		cp.copyFile('src/polyfills.ts');
-		cp.copyFile('src/bootstrap.ts');
+		cp.copyFile('src/index.ts');
 		cp.copyDir('src/types');
 
 		if (sampleWanted) {
