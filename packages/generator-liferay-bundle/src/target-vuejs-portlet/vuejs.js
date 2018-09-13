@@ -3,12 +3,10 @@ import Generator from 'yeoman-generator';
 
 import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
-import {
-	Copier,
-	PkgJsonModifier,
-	StylesCssModifier,
-	ScriptsStartWebpackRulesJsonModifier,
-} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Vue.js portlets.
@@ -46,7 +44,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-		const webpackRulesJson = new ScriptsStartWebpackRulesJsonModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {sampleWanted} = this.answers;
 
 		pkgJson.mergeDependencies(dependenciesJson);

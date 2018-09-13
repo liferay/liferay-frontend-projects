@@ -4,13 +4,11 @@ import Generator from 'yeoman-generator';
 import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
 import importsJson from './imports.json';
-import {
-	Copier,
-	NpmbundlerrcModifier,
-	PkgJsonModifier,
-	StylesCssModifier,
-	ScriptsStartWebpackRulesJsonModifier,
-} from '../utils';
+import {Copier} from '../utils';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Metal.js portlets.
@@ -60,7 +58,7 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-		const webpackRulesJson = new ScriptsStartWebpackRulesJsonModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {importMetaljs, sampleWanted} = this.answers;
 
 		if (importMetaljs) {

@@ -1,7 +1,8 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, PkgJsonModifier} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Generator to add start support to projects.

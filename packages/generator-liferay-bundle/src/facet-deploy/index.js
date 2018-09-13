@@ -3,7 +3,8 @@ import path from 'path';
 import Generator from 'yeoman-generator';
 
 import * as cfg from '../config';
-import {Copier, PkgJsonModifier} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Generator to add deploy support to projects.

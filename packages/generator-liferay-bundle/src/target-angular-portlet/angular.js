@@ -3,7 +3,9 @@ import Generator from 'yeoman-generator';
 
 import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
-import {Copier, PkgJsonModifier, StylesCssModifier} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/modifier/css/styles.css';
 
 /**
  * Implementation of generation of Angular portlets.

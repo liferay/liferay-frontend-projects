@@ -2,7 +2,9 @@ import path from 'path';
 import Generator from 'yeoman-generator';
 
 import * as cfg from '../config';
-import {Copier, NpmbundlerrcModifier, PkgJsonModifier} from '../utils';
+import {Copier} from '../utils';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Generator to add portlet support to projects.
