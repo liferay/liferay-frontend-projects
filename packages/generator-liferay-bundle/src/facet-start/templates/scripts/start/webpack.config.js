@@ -12,7 +12,8 @@ var cfg = {
     devServer: {
         contentBase: path.resolve('../..'),
         open: true,
-        openPage: 'scripts/start'
+        openPage: 'scripts/start',
+        publicPath: '/o/<%= pkgName %>/'
     },
 };
 

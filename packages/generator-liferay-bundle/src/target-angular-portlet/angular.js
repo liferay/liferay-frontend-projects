@@ -62,7 +62,7 @@ export default class extends Generator {
 		cp.copyDir('src/types');
 
 		if (sampleWanted) {
-			cp.copyDir('src');
+			cp.copyDir('src', {context: {pkgJson: pkgJson.json}});
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
 		}

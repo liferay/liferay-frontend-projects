@@ -8,5 +8,8 @@
 	"dependencies": {},
 	"scripts": {
 		"build": "liferay-npm-bundler"
+	},
+	"osgi": {
+		"Web-ContextPath": "/<%= name %>"
 	}
 }
