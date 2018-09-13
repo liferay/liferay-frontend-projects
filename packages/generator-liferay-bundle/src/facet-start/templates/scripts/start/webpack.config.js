@@ -24,6 +24,7 @@ var cfg = {
     ]
 };
 
+// Add rules
 var rules = JSON.parse(fs.readFileSync('webpack.rules.json'));
 
 cfg.module = {
@@ -39,4 +40,14 @@ for(var i=0; i<rules.length; i++) {
     })
 }
 
+// Add extensions
+var extensions = JSON.parse(fs.readFileSync('webpack.extensions.json'));
+
+if (extensions.length > 0) {
+    cfg.resolve = {
+        extensions: extensions
+    }
+}
+
+// Export configuration
 module.exports = cfg;
