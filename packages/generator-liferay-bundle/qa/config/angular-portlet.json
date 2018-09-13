@@ -1,0 +1,14 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "angular-portlet",
+			"folder": "angular-portlet",
+			"description": "Angular portlet",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"sampleWanted": true
+		}
+	}
+}
