@@ -1,7 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
@@ -21,16 +21,12 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'facet-portlet', [
 			{
 				type: 'input',
 				name: 'category',
 				message: 'Under which category should your portlet be listed?',
-				default: cfg.getDefaultAnswer(
-					'facet-portlet',
-					'category',
-					'category.sample'
-				),
+				default: 'category.sample',
 			},
 		]);
 	}

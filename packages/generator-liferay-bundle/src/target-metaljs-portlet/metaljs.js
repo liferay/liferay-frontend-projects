@@ -1,7 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
 import importsJson from './imports.json';
 import {Copier} from '../utils';
@@ -25,27 +25,19 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-metaljs-portlet', [
 			{
 				type: 'confirm',
 				name: 'importMetaljs',
 				message:
 					'Do you want to import Metal.js packages from Liferay?',
-				default: cfg.getDefaultAnswer(
-					'target-metaljs-portlet',
-					'importMetaljs',
-					true
-				),
+				default: true,
 			},
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: cfg.getDefaultAnswer(
-					'target-metaljs-portlet',
-					'sampleWanted',
-					false
-				),
+				default: false,
 			},
 		]);
 	}

@@ -1,7 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
 import {Copier} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
@@ -25,16 +25,12 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-angular-portlet', [
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: cfg.getDefaultAnswer(
-					'target-angular-portlet',
-					'sampleWanted',
-					false
-				),
+				default: false,
 			},
 		]);
 	}

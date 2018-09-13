@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
 
@@ -21,17 +21,13 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		const answers = await this.prompt([
+		const answers = await promptWithConfig(this, 'facet-deploy', [
 			{
 				type: 'confirm',
 				name: 'liferayPresent',
 				message:
 					'Do you have a local installation of Liferay for development?',
-				default: cfg.getDefaultAnswer(
-					'facet-deploy',
-					'liferayPresent',
-					true
-				),
+				default: true,
 			},
 		]);
 
@@ -39,16 +35,12 @@ export default class extends Generator {
 			return;
 		}
 
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'facet-deploy', [
 			{
 				type: 'input',
 				name: 'liferayDir',
 				message: 'Where is your local installation of Liferay placed?',
-				default: cfg.getDefaultAnswer(
-					'facet-deploy',
-					'liferayDir',
-					'/liferay'
-				),
+				default: '/liferay',
 				validate: validateLiferayDir,
 			},
 		]);

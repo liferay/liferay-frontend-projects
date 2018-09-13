@@ -1,7 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
 
@@ -20,16 +20,12 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-export-bundle', [
 			{
 				type: 'confirm',
 				name: 'createInitializer',
 				message: 'Does your export bundle need an initializer?',
-				default: cfg.getDefaultAnswer(
-					'target-export-bundle',
-					'createInitializer',
-					false
-				),
+				default: false,
 			},
 		]);
 	}

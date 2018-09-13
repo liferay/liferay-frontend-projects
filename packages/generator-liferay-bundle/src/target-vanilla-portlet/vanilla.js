@@ -1,7 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
@@ -22,27 +22,19 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-vanilla-portlet', [
 			{
 				type: 'confirm',
 				name: 'useBabel',
 				message:
 					'Do you want to use Babel to transpile Javascript sources?',
-				default: cfg.getDefaultAnswer(
-					'target-vanilla-portlet',
-					'useBabel',
-					true
-				),
+				default: true,
 			},
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: cfg.getDefaultAnswer(
-					'target-vanilla-portlet',
-					'sampleWanted',
-					false
-				),
+				default: false,
 			},
 		]);
 	}

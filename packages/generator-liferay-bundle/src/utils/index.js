@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import * as cfg from '../config';
+
 /**
  * A class to help copying Yeoman templates.
  */
@@ -94,5 +96,44 @@ export class JsonModifier {
 		modifier(json);
 
 		gen.fs.write(this._path, JSON.stringify(json, null, '	'));
+	}
+}
+
+/**
+ * A function to process prompts as specified in the configuration file.
+ * @param  {Generator} generator a Yeoman generator
+ * @param {string} namespace the generator namespace as defined in
+ * 					config.getDefaultAnswer()
+ * @param  {Array} prompts a Yeoman prompts array
+ * @return {object} the set of answers
+ */
+export async function promptWithConfig(generator, namespace, prompts) {
+	// Tweak defaults with config values
+	prompts = prompts.map(prompt => {
+		let defaultDefault = undefined;
+
+		if (prompt.default !== undefined) {
+			defaultDefault = prompt.default;
+		}
+
+		prompt.default = cfg.getDefaultAnswer(
+			namespace,
+			prompt.name,
+			defaultDefault
+		);
+
+		return prompt;
+	});
+
+	// Decide wether to run in batch or interactive mode
+	if (cfg.batchMode()) {
+		return prompts.reduce(
+			(answers, prompt) => (
+				(answers[prompt.name] = prompt.default), answers
+			),
+			{}
+		);
+	} else {
+		return await generator.prompt(prompts);
 	}
 }

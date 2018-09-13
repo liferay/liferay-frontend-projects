@@ -1,7 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import * as cfg from '../config';
+import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 
 /**
@@ -19,17 +19,13 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'facet-project', [
 			{
 				type: 'input',
 				name: 'description',
 				message:
 					'What is the human readable description of your project?',
-				default: cfg.getDefaultAnswer(
-					'facet-portlet',
-					'category',
-					path.basename(process.cwd())
-				),
+				default: path.basename(process.cwd()),
 			},
 		]);
 	}
