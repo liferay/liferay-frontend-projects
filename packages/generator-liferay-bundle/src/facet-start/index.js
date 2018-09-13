@@ -29,6 +29,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 
+		pkgJson.addDevDependency('copy-webpack-plugin', '^4.0.0');
 		pkgJson.addDevDependency('webpack', '^4.0.0');
 		pkgJson.addDevDependency('webpack-cli', '^3.0.0');
 		pkgJson.addDevDependency('webpack-dev-server', '^3.0.0');

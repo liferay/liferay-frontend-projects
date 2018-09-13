@@ -5,10 +5,12 @@ var path = require('path');
 var proc = child_process.spawn(
 	process.execPath, 
 	[
-		path.join('..', '..', 'node_modules', '.bin', 'webpack-dev-server')
+		path.resolve(
+			path.join('node_modules', '.bin', 'webpack-dev-server')
+		)
 	], 
 	{
-		cwd: 'scripts/start'
+		cwd: path.resolve(path.join('scripts', 'start'))
 	}
 );
 
