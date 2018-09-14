@@ -1,8 +1,12 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
-import {Copier, PkgJsonModifier, StylesCssModifier} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Vue.js portlets.
@@ -19,7 +23,7 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-vuejs-portlet', [
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
@@ -36,14 +40,18 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {sampleWanted} = this.answers;
 
 		pkgJson.mergeDependencies(dependenciesJson);
-		pkgJson.addBuildStep('babel --source-maps -D -d build src');
+		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
 		pkgJson.setMain('index.js');
 		cp.copyDir('src');
+
+		pkgJson.addDevDependency('babel-loader', '^7.0.0');
+		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			stylesCss.addRule('.tag', 'font-weight: bold;');

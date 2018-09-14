@@ -1,8 +1,12 @@
+import './polyfills';
+
+<% if (sampleWanted) { %>
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppComponent } from './app/app.component';
 import { AppModule } from './app/app.module';
 import { DynamicLoader } from './app/dynamic.loader';
+<% } %>
 import LiferayParams from './types/LiferayParams'
 
 /**
@@ -13,6 +17,7 @@ import LiferayParams from './types/LiferayParams'
  * 									portlet
  */
 export default function(params: LiferayParams) {
+	<% if (sampleWanted) { %>
 	platformBrowserDynamic()
 		.bootstrapModule(AppModule)
 		.then((injector: any) => {
@@ -24,4 +29,5 @@ export default function(params: LiferayParams) {
 
 			dynamicLoader.loadComponent(AppComponent, params);
 		});
+	<% } %>
 }

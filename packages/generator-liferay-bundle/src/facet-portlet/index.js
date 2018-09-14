@@ -1,7 +1,10 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, NpmbundlerrcModifier, PkgJsonModifier} from '../utils';
+import {promptWithConfig} from '../utils';
+import {Copier} from '../utils';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Generator to add portlet support to projects.
@@ -18,7 +21,7 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'facet-portlet', [
 			{
 				type: 'input',
 				name: 'category',
@@ -41,10 +44,6 @@ export default class extends Generator {
 			json['create-jar']['auto-deploy-portlet'] = true;
 		});
 
-		pkgJson.addDevDependency('ncp', '^2.0.0');
-		pkgJson.addBuildStep('node ./scripts/copy-css');
-		cp.copyFile('scripts/copy-css.js');
-
 		pkgJson.modifyJson(json => {
 			json.portlet = json.portlet || {};
 			json.portlet['javax.portlet.display-name'] = json.description || '';
@@ -56,6 +55,6 @@ export default class extends Generator {
 			json.portlet['com.liferay.portlet.header-portlet-css'] =
 				'/css/styles.css';
 		});
-		cp.copyFile('css/styles.css');
+		cp.copyDir('assets');
 	}
 }

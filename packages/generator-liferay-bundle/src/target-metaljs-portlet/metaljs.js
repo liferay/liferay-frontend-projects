@@ -1,14 +1,14 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
 import importsJson from './imports.json';
-import {
-	Copier,
-	NpmbundlerrcModifier,
-	PkgJsonModifier,
-	StylesCssModifier,
-} from '../utils';
+import {Copier} from '../utils';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Metal.js portlets.
@@ -25,7 +25,7 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-metaljs-portlet', [
 			{
 				type: 'confirm',
 				name: 'importMetaljs',
@@ -50,6 +50,7 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {importMetaljs, sampleWanted} = this.answers;
 
 		if (importMetaljs) {
@@ -59,11 +60,14 @@ export default class extends Generator {
 		}
 
 		pkgJson.mergeDependencies(dependenciesJson);
-		pkgJson.addBuildStep('babel --source-maps -D -d build src');
+		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/index.js');
+
+		pkgJson.addDevDependency('babel-loader', '^7.0.0');
+		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			cp.copyDir('src');

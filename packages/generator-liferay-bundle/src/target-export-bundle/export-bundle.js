@@ -1,7 +1,9 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, PkgJsonModifier} from '../utils';
+import {promptWithConfig} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Implementation of generation of export bundles.
@@ -18,7 +20,7 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithConfig(this, 'target-export-bundle', [
 			{
 				type: 'confirm',
 				name: 'createInitializer',
@@ -48,7 +50,7 @@ export default class extends Generator {
 
 		pkgJson.addDevDependency('babel-cli', '^6.26.0');
 		pkgJson.addDevDependency('babel-preset-env', '^1.7.0');
-		pkgJson.addBuildStep('babel --source-maps -D -d build src');
+		pkgJson.addBuildStep('babel --source-maps -d build src');
 
 		pkgJson.setMain('index.js');
 	}

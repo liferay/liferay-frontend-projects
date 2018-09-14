@@ -5,11 +5,11 @@ try {
     fs.mkdirSync("build");
 } catch (err) {}
 
-ncp("css", "build/css", err => {
+ncp("src", "build", err => {
     if (err) {
         console.error(err);
         process.exit(1);
     } else {
-        console.log("Project files copied OK");
+        console.log("Javascript files copied.");
     }
 });

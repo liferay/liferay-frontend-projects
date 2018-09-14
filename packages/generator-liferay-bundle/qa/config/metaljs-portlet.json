@@ -1,0 +1,14 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "metaljs-portlet",
+			"folder": "metaljs-portlet",
+			"description": "Metal.js portlet",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"sampleWanted": true
+		}
+	}
+}

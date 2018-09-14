@@ -1,0 +1,14 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "export-bundle",
+			"folder": "export-bundle",
+			"description": "Export bundle",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"createInitializer": true
+		}
+	}
+}

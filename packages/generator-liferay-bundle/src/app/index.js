@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
+import {promptWithConfig} from '../utils';
 import Generator from 'yeoman-generator';
 
 /**
@@ -13,7 +14,7 @@ export default class extends Generator {
 	async initializing() {
 		const targets = this._findTargets();
 
-		const answers = await this.prompt([
+		const answers = await promptWithConfig(this, 'app', [
 			{
 				type: 'list',
 				name: 'target',
