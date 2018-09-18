@@ -3,9 +3,9 @@ import Generator from 'yeoman-generator';
 
 import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
-import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of plain Javascript portlets.
@@ -44,9 +44,9 @@ export default class extends Generator {
 	 */
 	writing() {
 		const cp = new Copier(this);
+		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {useBabel, sampleWanted} = this.answers;
 
 		if (useBabel) {
@@ -55,9 +55,8 @@ export default class extends Generator {
 			pkgJson.addBuildStep('babel --source-maps -d build src');
 			cp.copyFile('.babelrc');
 		} else {
-			pkgJson.addDevDependency('ncp', '^2.0.0');
-			pkgJson.addBuildStep('node ./scripts/build');
-			cp.copyFile('scripts/build.js');
+			pkgJson.addBuildStep('npm run copy-sources');
+			pkgJson.addScript('copy-sources', 'lnbs-copy-sources');
 		}
 
 		pkgJson.setMain('index.js');
@@ -65,7 +64,7 @@ export default class extends Generator {
 			cp.copyFile('src/index.babel.js', {dest: 'src/index.js'});
 
 			pkgJson.addDevDependency('babel-loader', '^7.0.0');
-			webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
+			npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 		} else {
 			cp.copyFile('src/index.nobabel.js', {dest: 'src/index.js'});
 		}

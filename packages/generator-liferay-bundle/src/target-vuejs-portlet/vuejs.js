@@ -4,9 +4,9 @@ import Generator from 'yeoman-generator';
 import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
 import {Copier} from '../utils';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
-import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Vue.js portlets.
@@ -38,9 +38,9 @@ export default class extends Generator {
 	 */
 	writing() {
 		const cp = new Copier(this);
+		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {sampleWanted} = this.answers;
 
 		pkgJson.mergeDependencies(dependenciesJson);
@@ -51,7 +51,7 @@ export default class extends Generator {
 		cp.copyDir('src');
 
 		pkgJson.addDevDependency('babel-loader', '^7.0.0');
-		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
+		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			stylesCss.addRule('.tag', 'font-weight: bold;');
