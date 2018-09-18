@@ -50,7 +50,7 @@ gulp deploy --live -u test@liferay.com -p test
 
 #### Deploy Gogo
 
-For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for 6.2 themes.**
+For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for 6.2 themes and for Docker deployment strategy.**
 
 ```
 gulp deploy:gogo
@@ -201,6 +201,13 @@ Determines where theme source files are located. If set to anything other than d
 type: `array`<br>
 
 Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compiled CSS after the SASS compilation
+
+### dockerThemesDir
+
+type: `string`<br>
+default: `/home/liferay/tmp/themes`
+
+Determines where temporary files, necessary to launch the `watch` task, are created. Liferay user must have read and write permissions on the selected directory.
 
 ##### sassOptions
 

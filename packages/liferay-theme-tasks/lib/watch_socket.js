@@ -5,6 +5,7 @@ const os = require('os');
 const path = require('path');
 
 const lfrThemeConfig = require('./liferay_theme_config');
+const themeUtil = require('./util');
 
 const themeConfig = lfrThemeConfig.getConfig(true);
 
@@ -17,6 +18,9 @@ class WatchSocket extends GogoShell {
 		config = config || {};
 
 		this.webBundleDir = config.webBundleDir || '.web_bundle_build';
+		this.deploymentStrategy = config.deploymentStrategy;
+		this.dockerContainerName = config.dockerContainerName;
+		this.dockerThemePath = config.dockerThemePath;
 	}
 
 	deploy() {
@@ -36,18 +40,32 @@ class WatchSocket extends GogoShell {
 	}
 
 	uninstall(warPath, distName) {
-		const delPath = del.sync(warPath, {
-			dryRun: true,
-			force: true,
-		});
+		if (this._isDocker()) {
+			const delPath =
+				themeUtil.dockerExec(
+					this.dockerContainerName, 'ls ' + warPath
+				).stdout.toString();
 
-		if (!delPath.length) {
-			return;
+			if (!delPath.length) {
+				return;
+			}
+
+			themeUtil.dockerExec(this.dockerContainerName,
+				'rm -rf ' + warPath);
+		} else {
+			const delPath = del.sync(warPath, {
+				dryRun: true,
+				force: true,
+			});
+
+			if (!delPath.length) {
+				return;
+			}
+
+			del.sync(warPath, {
+				force: true,
+			});
 		}
-
-		del.sync(warPath, {
-			force: true,
-		});
 
 		return this._waitForUninstall(distName);
 	}
@@ -57,7 +75,7 @@ class WatchSocket extends GogoShell {
 
 		buildPath = buildPath.split(path.sep).join('/');
 
-		if (!this._isWin()) {
+		if (!this._isWin() || this._isDocker()) {
 			buildPath = '/' + buildPath;
 		}
 
@@ -124,11 +142,16 @@ class WatchSocket extends GogoShell {
 	}
 
 	_installWebBundleDir() {
-		return this.sendCommand(this._formatWebBundleDirCommand(process.cwd()));
+		return this.sendCommand(this._formatWebBundleDirCommand(
+			this._isDocker()? this.dockerThemePath : process.cwd()));
 	}
 
 	_isWin() {
 		return REGEX_WIN.test(os.platform());
+	}
+
+	_isDocker() {
+		return this.deploymentStrategy === 'DockerContainer';
 	}
 
 	_startBundle(bundleId) {

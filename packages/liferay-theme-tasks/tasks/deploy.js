@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const fs = require('fs-extra');
+const listStream = require('list-stream');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
 
@@ -10,12 +11,17 @@ const WarDeployer = require('../lib/war_deployer');
 const divert = require('../lib/divert');
 
 const themeConfig = lfrThemeConfig.getConfig(true);
+const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 function registerTasks(options) {
-	const {argv, gulp, pathBuild, pathSrc} = options;
+	const {argv, gulp, pathBuild, pathSrc, pathDist, dockerThemesDir} = options;
 	const {storage} = gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
+	const deploymentStrategy = storage.get('deploymentStrategy');
+	const dockerContainerName = storage.get('dockerContainerName');
+	const pluginName = storage.get('pluginName') || '';
+	const dockerThemePath = path.posix.join(dockerThemesDir, pluginName);
 
 	gulp.task('deploy', function(cb) {
 		let sequence = ['build', 'deploy:war', cb];
@@ -36,6 +42,20 @@ function registerTasks(options) {
 		const filePath = storage.get('changedFile').path;
 
 		return fastDeploy(srcPath, pathBuild, '*.css');
+	});
+
+	gulp.task('deploy:docker', function(cb) {
+		const deployPath = storage.get('deployPath');
+		const themeName = themeConfig.name;
+
+		themeUtil.dockerCopy(dockerContainerName,
+			pathDist, deployPath, [themeName + '.war'],
+			function(err, data) {
+				if (err) throw err;
+
+				storage.set('deployed', true);
+				cb();
+			});
 	});
 
 	gulp.task('deploy:file', function() {
@@ -71,7 +91,18 @@ function registerTasks(options) {
 		runSequence.apply(this, sequence);
 	});
 
-	gulp.task('deploy:war', ['plugin:deploy']);
+	gulp.task('deploy:war', function(cb) {
+		let sequence = [];
+
+		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
+			sequence.push('deploy:docker');
+		} else {
+			sequence.push('plugin:deploy');
+		}
+
+		sequence.push(cb);
+		runSequence.apply(this, sequence);
+	});
 
 	gulp.task('deploy-live:war', function(cb) {
 		let password = argv.p || argv.password;
@@ -103,8 +134,6 @@ function registerTasks(options) {
 	function fastDeploy(srcPath, basePath, fileGlobs) {
 		let fastDeployPaths = getFastDeployPaths();
 
-		const browserSync = gulp.browserSync;
-
 		let stream = gulp
 			.src(srcPath, {
 				base: basePath,
@@ -112,10 +141,30 @@ function registerTasks(options) {
 			.pipe(plugins.debug())
 			.pipe(gulp.dest(fastDeployPaths.dest));
 
-		if (fileGlobs) {
-			browserSync.reload(fileGlobs);
+		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
+			const deployDir = path.basename(fastDeployPaths.dest);
+			const dockerDestDirPath = path.posix
+				.join(dockerThemePath, deployDir);
+			let deployFiles = [];
+
+			stream.pipe(listStream.obj(function(err, files) {
+				if (err) throw err;
+
+				_.forEach(files, function(file) {
+					const filePath = file.path
+						.substring(fastDeployPaths.dest.length)
+						.split(path.sep).join(path.posix.sep);
+					deployFiles.push(filePath);
+				});
+
+				themeUtil.dockerCopy(dockerContainerName,
+					deployDir, dockerDestDirPath, deployFiles, function(err) {
+						if (err) throw err;
+						reloadBrowser(fileGlobs);
+					});
+			}));
 		} else {
-			browserSync.reload();
+			reloadBrowser(fileGlobs);
 		}
 
 		if (fastDeployPaths.tempDest) {
@@ -123,6 +172,16 @@ function registerTasks(options) {
 		}
 
 		return stream;
+	}
+
+	function reloadBrowser(fileGlobs) {
+		const browserSync = gulp.browserSync;
+
+		if (fileGlobs) {
+			browserSync.reload(fileGlobs);
+		} else {
+			browserSync.reload();
+		}
 	}
 
 	function getFastDeployPaths() {

@@ -1,10 +1,13 @@
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
 const colors = require('ansi-colors');
+const childProcess = require('child_process');
+const es = require('event-stream');
 const fs = require('fs-extra');
 const log = require('fancy-log');
 const path = require('path');
 const resolve = require('resolve');
+const tar = require('tar-fs');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
@@ -22,6 +25,67 @@ const CUSTOM_DEP_PATH_FLAG_MAP = {
 	'liferay-frontend-theme-styled': 'styled-path',
 	'liferay-frontend-theme-unstyled': 'unstyled-path',
 };
+
+const DEPLOYMENT_STRATEGIES = {
+	LOCAL_APP_SERVER: 'LocalAppServer',
+	DOCKER_CONTAINER: 'DockerContainer',
+	OTHER: 'Other',
+};
+
+function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
+	if (_.isFunction(sourceFiles)) {
+		cb = sourceFiles;
+		sourceFiles = undefined;
+	}
+
+	let packConfig = {
+		dmode: parseInt(755, 8),
+		fmode: parseInt(644, 8),
+	};
+
+	if (sourceFiles) {
+		_.assign(packConfig, {
+			entries: sourceFiles,
+		});
+	}
+
+	tar.pack(sourceFolder, packConfig)
+		.pipe(es.wait(function(err, body) {
+			if (err) throw err;
+
+			childProcess.spawnSync('docker',
+				[
+					'exec',
+					'-i',
+					containerName,
+					'sh',
+					'-c',
+					'"tar xp -C ' + destFolder + '"',
+				],
+				{
+					input: body,
+					shell: true,
+				}
+			);
+
+			if (cb) cb();
+		}));
+}
+
+function dockerExec(containerName, command) {
+	return childProcess.spawnSync('docker',
+		[
+			'exec',
+			containerName,
+			'sh',
+			'-c',
+			'"' + command + '"',
+		],
+		{
+			shell: true,
+		}
+	);
+}
 
 function getLanguageProperties(pathBuild) {
 	const pathContent = path.join(pathBuild, 'WEB-INF/src/content');
@@ -97,7 +161,11 @@ function resolveDependency(dependency, version, dirname) {
 }
 
 module.exports = {
+	DEPLOYMENT_STRATEGIES,
+	dockerCopy,
+	dockerExec,
 	getLanguageProperties,
+	getPath,
 	isCssFile,
 	isSassPartial,
 	requireDependency,
@@ -134,6 +202,11 @@ function getDepsPath(pkg, dependency, version) {
 	);
 
 	return depsPath;
+}
+
+function getPath(deploymentStrategy) {
+	return deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER?
+		path.posix : path;
 }
 
 function hasDependency(pkg, dependency) {
