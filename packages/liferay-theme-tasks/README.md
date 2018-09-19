@@ -196,6 +196,12 @@ default: `./src`
 
 Determines where theme source files are located. If set to anything other than default value, you must manually relocate all files in src directory to new location.
 
+##### postcss
+
+type: `array`<br>
+
+Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compiled CSS after the SASS compilation
+
 ##### sassOptions
 
 type: `object`
