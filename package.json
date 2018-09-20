@@ -27,7 +27,8 @@
 	},
 	"jest": {
 		"modulePathIgnorePatterns": [
-			"lib/.*", "generators/.*"
+			"lib/.*",
+			"generators/.*"
 		],
 		"testPathIgnorePatterns": [
 			"/node_modules/",

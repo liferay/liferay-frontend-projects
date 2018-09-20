@@ -4,11 +4,9 @@ import Generator from 'yeoman-generator';
 import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
 import {Copier} from '../utils';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
-import IndexJsModifier from '../utils/modifier/scripts/start/index.js';
-import WebpackExtensionsJsonModifier from '../utils/modifier/scripts/start/webpack.extensions.json';
-import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Angular portlets.
@@ -40,11 +38,9 @@ export default class extends Generator {
 	 */
 	writing() {
 		const cp = new Copier(this);
+		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-		const webpackRulesJson = new WebpackRulesJsonModifier(this);
-		const webpackExtensionsJson = new WebpackExtensionsJsonModifier(this);
-		const indexJs = new IndexJsModifier(this);
 
 		const {sampleWanted} = this.answers;
 
@@ -58,9 +54,9 @@ export default class extends Generator {
 		cp.copyDir('src/types');
 
 		pkgJson.addDevDependency('ts-loader', '^5.0.0');
-		webpackRulesJson.addRule(/src\/.*\.ts$/, 'ts-loader');
-		webpackExtensionsJson.addExtensions('.ts', '.js');
-		indexJs.setMainModule('index.ts');
+		npmbuildrc.addWebpackRule(/src\/.*\.ts$/, 'ts-loader');
+		npmbuildrc.addWebpackExtensions('.ts', '.js');
+		npmbuildrc.setWebpackMainModule('index.ts');
 
 		if (sampleWanted) {
 			cp.copyDir('src', {context: {pkgJson: pkgJson.json}});

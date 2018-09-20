@@ -5,10 +5,10 @@ import {promptWithConfig} from '../utils';
 import dependenciesJson from './dependencies.json';
 import importsJson from './imports.json';
 import {Copier} from '../utils';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
-import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Metal.js portlets.
@@ -47,10 +47,10 @@ export default class extends Generator {
 	 */
 	writing() {
 		const cp = new Copier(this);
+		const npmbuildrc = new NpmbuildrcModifier(this);
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {importMetaljs, sampleWanted} = this.answers;
 
 		if (importMetaljs) {
@@ -67,7 +67,7 @@ export default class extends Generator {
 		cp.copyFile('src/index.js');
 
 		pkgJson.addDevDependency('babel-loader', '^7.0.0');
-		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
+		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			cp.copyDir('src');

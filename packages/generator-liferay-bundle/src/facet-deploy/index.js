@@ -3,7 +3,7 @@ import path from 'path';
 import Generator from 'yeoman-generator';
 
 import {promptWithConfig} from '../utils';
-import {Copier} from '../utils';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
@@ -54,12 +54,11 @@ export default class extends Generator {
 			return;
 		}
 
-		const cp = new Copier(this);
+		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 
-		cp.copyFile('scripts/deploy.js');
-
-		pkgJson.addScript('deploy', 'npm run build && node ./scripts/deploy');
+		npmbuildrc.setLiferayDir(this.answers.liferayDir);
+		pkgJson.addScript('deploy', 'npm run build && lnbs-deploy');
 	}
 }
 

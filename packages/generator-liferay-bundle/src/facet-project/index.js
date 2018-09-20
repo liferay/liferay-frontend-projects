@@ -43,8 +43,8 @@ export default class extends Generator {
 		cp.copyFile('README.md', {context});
 		cp.copyFile('package.json', {context});
 		cp.copyFile('.gitignore');
+		cp.copyFile('.npmbuildrc');
 		cp.copyFile('.npmbundlerrc');
 		cp.copyDir('assets');
-		cp.copyDir('scripts');
 	}
 }
