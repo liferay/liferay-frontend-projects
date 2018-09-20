@@ -20,6 +20,7 @@ Now, let's go with the documentation:
    1. [[How to use liferay-npm-bundler]]
    2. [[How to use liferay-npm-bridge-generator]]
    3. [[How to use liferay-npm-imports-checker]]
+   4. [[How to use liferay-bundle Yeoman generator]]
 
 
 3. Other sources of documentation:
