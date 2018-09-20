@@ -19,12 +19,18 @@ export function getRootPkg() {
 /**
  * Recursively find the dependencies of a package and return them as PkgDesc
  * objects.
- * @param {String} basedir directory where package lives in
+ * @param {object} collectedDependencies a hash of objects where key is the
+ * 					package id and values are PkgDesc objects
+ * @param {string} basedir directory where package lives in
  * @param {Array} extraDependencies an array of package names to add to
- * 									dependencies collected from package.json
- * @return {Object} a hash of objects where key is the package id and values are PkgDesc objects
+ *					dependencies collected from package.json
+ * @return {object} the given collectedDependencies object
  */
-export function getPackageDependencies(basedir, extraDependencies = []) {
+export function addPackageDependencies(
+	collectedDependencies,
+	basedir,
+	extraDependencies = []
+) {
 	const packageJson = readJsonSync(path.join(basedir, '/package.json'));
 	const pkg = new PkgDesc(
 		packageJson.name,
@@ -32,30 +38,29 @@ export function getPackageDependencies(basedir, extraDependencies = []) {
 		basedir == '.' ? null : basedir
 	);
 
-	const pkgs = {};
-	pkgs[pkg.id] = pkg;
+	if (collectedDependencies[pkg.id]) {
+		return;
+	}
 
-	let dependencies = packageJson.dependencies || [];
+	collectedDependencies[pkg.id] = pkg;
+
+	let dependencies = packageJson.dependencies || {};
 	dependencies = Object.keys(dependencies);
 	dependencies = dependencies.concat(extraDependencies);
 
 	let dependencyDirs = dependencies
-		.map(function(dependency) {
+		.map(dependency => {
 			return resolveDependencyDir(basedir, packageJson, dependency);
 		})
 		.filter(dependencyDir => {
 			return dependencyDir != null;
 		});
 
-	dependencyDirs.forEach(function(dependencyDir) {
-		const depPkgs = getPackageDependencies(dependencyDir);
-
-		Object.keys(depPkgs).forEach(function(pkgId) {
-			pkgs[pkgId] = depPkgs[pkgId];
-		});
+	dependencyDirs.forEach(dependencyDir => {
+		addPackageDependencies(collectedDependencies, dependencyDir);
 	});
 
-	return pkgs;
+	return collectedDependencies;
 }
 
 /**
