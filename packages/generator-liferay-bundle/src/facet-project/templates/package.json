@@ -1,0 +1,17 @@
+{
+  "name": "<%= name %>",
+  "version": "1.0.0",
+  "description": "<%= description %>",
+  "devDependencies": {
+    "liferay-npm-bundler": "^2.0.0",
+    "liferay-npm-build-support": "^2.0.0"
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "npm run copy-assets && liferay-npm-bundler",
+    "copy-assets": "lnbs-copy-assets"
+  },
+  "osgi": {
+    "Web-ContextPath": "/<%= name %>"
+  }
+}

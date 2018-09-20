@@ -7,7 +7,7 @@ import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 
 import * as config from './config';
-import {getPackageDependencies, getRootPkg} from './dependencies';
+import {addPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
 import createJar from './jar';
 import * as log from './log';
@@ -75,7 +75,12 @@ function run() {
 		report.rootPackage(getRootPkg());
 
 		// Grab NPM dependencies
-		let pkgs = getPackageDependencies('.', config.getIncludeDependencies());
+		let pkgs = addPackageDependencies(
+			{},
+			'.',
+			config.getIncludeDependencies()
+		);
+
 		pkgs = Object.keys(pkgs)
 			.map(id => pkgs[id])
 			.filter(pkg => !pkg.isRoot);

@@ -63,10 +63,14 @@ export function loadSourceMap(filePath) {
 	const url = matches[1];
 
 	if (url.indexOf('data:') == 0) {
-		const {mimeType, body} = parseDataURL(url);
+		const parsedData = parseDataURL(url);
 
-		if (mimeType.toString() === 'application/json') {
-			return JSON.parse(body.toString());
+		if (parsedData) {
+			const {mimeType, body} = parsedData;
+
+			if (mimeType.toString() === 'application/json') {
+				return JSON.parse(body.toString());
+			}
 		}
 	} else {
 		const sourceMapFile = path.normalize(

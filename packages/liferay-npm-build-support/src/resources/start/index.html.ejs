@@ -1,0 +1,18 @@
+<html>
+
+<head>
+	<title>
+		<%= pkgName %> - <%= pkgVersion %>
+	</title>
+	<% if (cssPath) { %>
+	<link rel="stylesheet" type="text/css" href="/o/<%= pkgName %><%= cssPath %>">
+	</link>
+	<% } %>
+</head>
+
+<body>
+	<div id="the-portlet"></div>
+	<script type="text/javascript" src="/o/<%= pkgName %>/webpack.bundle.js"></script>
+</body>
+
+</html>

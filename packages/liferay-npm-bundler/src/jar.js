@@ -52,8 +52,18 @@ function addManifest(zip) {
 	contents += `Provide-Capability: osgi.webresource;osgi.webresource=${
 		pkgJson.name
 	};version:Version="${pkgJson.version}"\n`;
-	contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
-	contents += `Web-ContextPath: /${pkgJson.name}-${pkgJson.version}\n`;
+
+	let webContextPath = `/${pkgJson.name}-${pkgJson.version}`;
+
+	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
+		webContextPath = pkgJson.osgi['Web-ContextPath'];
+	}
+
+	contents += `Web-ContextPath: ${webContextPath}\n`;
+
+	if (config.isAutoDeployPortlet()) {
+		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
+	}
 
 	zip.folder('META-INF').file('MANIFEST.MF', contents);
 }

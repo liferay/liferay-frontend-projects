@@ -1,0 +1,16 @@
+{
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-metal-jsx": "^0.1.1"
+	},
+	"dependencies": {
+		"metal": "^2.0.0",
+		"metal-component": "^2.0.0",
+		"metal-dom": "^2.0.0",
+		"metal-events": "^2.0.0",
+		"metal-incremental-dom": "^2.0.0",
+		"metal-jsx": "^2.0.0",
+		"metal-state": "^2.0.0"
+	}
+}

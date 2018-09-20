@@ -1,0 +1,14 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "react-portlet",
+			"folder": "react-portlet-nosample",
+			"description": "React portlet (no sample)",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"sampleWanted": false
+		}
+	}
+}

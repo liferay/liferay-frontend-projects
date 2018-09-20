@@ -1,6 +1,6 @@
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import path from 'path';
-import {getPackageDependencies} from '../dependencies';
+import {addPackageDependencies} from '../dependencies';
 
 expect.extend({
 	toMatchDependencies(deps, ...pkgIds) {
@@ -103,7 +103,7 @@ afterAll(() => {
 });
 
 it('loads project dependencies correctly', () => {
-	const deps = getPackageDependencies('.');
+	const deps = addPackageDependencies({}, '.');
 
 	expect(deps).toMatchDependencies(
 		PkgDesc.ROOT_ID,
@@ -114,7 +114,7 @@ it('loads project dependencies correctly', () => {
 });
 
 it('appends extra dependencies correctly', () => {
-	const deps = getPackageDependencies('.', ['stale-package']);
+	const deps = addPackageDependencies({}, '.', ['stale-package']);
 
 	expect(deps).toMatchDependencies(
 		'stale-package@1.0.0',
