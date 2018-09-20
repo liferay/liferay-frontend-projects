@@ -1,1 +1,0 @@
-The liferay-bundle [Yeoman](http://yeoman.io/) generator is a tool to generate projects based on an [npm](https://www.npmjs.com/) + [liferay-npm-bundler](https://github.com/liferay/liferay-npm-build-tools/tree/master/packages/liferay-npm-bundler#liferay-npm-bundler) toolchain.
