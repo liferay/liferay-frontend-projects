@@ -10,9 +10,10 @@ Now, let's go with the documentation:
 
 1. Introductory topics:
 
-   1. [[How to use the npm SDK in your project]]
-   2. [[How to deploy npm packages to Liferay]]
-   3. [[How Liferay serves npm packages to the browser]]
+   1. [[How to create projects from scratch]] (Javascript based toolchain)
+   2. [[How to use the npm SDK in your project]] (Java based toolchain)
+   3. [[How to deploy npm packages to Liferay]]
+   4. [[How Liferay serves npm packages to the browser]]
 
 
 2. Manuals:
