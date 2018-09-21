@@ -8,15 +8,18 @@ And if you want to know what's planned for the next version, just visit the [ope
 
 Now, let's go with the documentation:
 
-1. Introductory topics:
+1. Most usual tasks:
 
    1. [How to create projects from scratch](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle)
-   2. [[How to use the npm SDK in your project]] (with a Java based toolchain)
-   3. [[How to deploy npm packages to Liferay]]
-   4. [[How Liferay serves npm packages to the browser]]
+
+2. Introductory topics:
+
+   1. [[How to use the npm SDK in your project]] (explains how to tweak a Java based portlet project to use the SDK)
+   2. [[How to deploy npm packages to Liferay]]
+   3. [[How Liferay serves npm packages to the browser]]
 
 
-2. Manuals:
+3. Manuals:
 
    1. [[How to use liferay-npm-bundler]]
    2. [[How to use liferay-npm-bridge-generator]]
@@ -24,7 +27,7 @@ Now, let's go with the documentation:
    4. [[How to use generator-liferay-bundle]]
 
 
-3. Other sources of documentation:
+4. Other sources of documentation:
 
    1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
    2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
