@@ -94,3 +94,5 @@ To:
 * [[Migrate a React project to bundler 2.x]]
 * [[Migrate a Metal.js project to bundler 2.x]]
 * [[Migrate a Vue.js project to bundler 2.x]]
+
+> 👀 For Billboard.js and jQuery based projects you can follow the steps in [[Migrate a plain Javascript project to bundler 2.x]].
