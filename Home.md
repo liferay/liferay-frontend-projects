@@ -10,7 +10,7 @@ Now, let's go with the documentation:
 
 1. Introductory topics:
 
-   1. [[How to create projects from scratch]]
+   1. [How to create projects from scratch](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle)
    2. [[How to use the npm SDK in your project]] (with a Java based toolchain)
    3. [[How to deploy npm packages to Liferay]]
    4. [[How Liferay serves npm packages to the browser]]
