@@ -10,7 +10,8 @@ Now, let's go with the documentation:
 
 1. Most usual tasks:
 
-   1. [How to create projects from scratch](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle)
+   1. [How to create projects from scratch](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle) (explains how to create pure Javascript projects that can be deployed to Liferay)
+   2. [[Migrating bundler from 1.x to 2.x]]
 
 2. Introductory topics:
 
@@ -19,7 +20,7 @@ Now, let's go with the documentation:
    3. [[How Liferay serves npm packages to the browser]]
 
 
-3. Manuals:
+3. Tool manuals:
 
    1. [[How to use liferay-npm-bundler]]
    2. [[How to use liferay-npm-bridge-generator]]
