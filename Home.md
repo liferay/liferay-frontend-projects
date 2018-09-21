@@ -1,5 +1,10 @@
 This wiki holds the documentation for the Liferay npm Build Tools (aka npm SDK).
 
+> 👀 Unless otherwise stated, all tools work for **ANY** version of Liferay starting from 7.0.
+
+> 👀 Please note that currently, there are two version lines for the npm SDK known as `1.x` and `2.x`. 
+> The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](https://github.com/liferay/liferay-npm-build-tools/wiki/Migrating-bundler-from-1.x-to-2.x) to get more information on how to perform that task.
+
 You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-npm-build-tools/issues).
 
 You can also get information about released versions and their changes in the [closed milestones page](https://github.com/liferay/liferay-npm-build-tools/milestones?state=closed). 
