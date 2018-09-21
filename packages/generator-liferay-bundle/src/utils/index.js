@@ -30,7 +30,7 @@ export class Copier {
 		dest = dest || src;
 
 		gen.fs.copyTpl(
-			gen.templatePath(src),
+			gen.templatePath(`${src}.ejs`),
 			gen.destinationPath(dest),
 			fullContext
 		);
@@ -56,7 +56,7 @@ export class Copier {
 			if (fs.statSync(gen.templatePath(filePath)).isDirectory()) {
 				this.copyDir(filePath, {context});
 			} else {
-				this.copyFile(filePath, {context});
+				this.copyFile(filePath.replace(/\.ejs$/, ''), {context});
 			}
 		});
 	}
