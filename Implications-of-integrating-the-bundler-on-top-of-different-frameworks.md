@@ -29,7 +29,7 @@ To integrate with `create-react-app` we would need to:
 4. Add the bundler to the build process
 5. Create a specific entry point for Liferay
 6. Add entry point to `package.json`'s `main` entry
-7. [optional] Move react-scripts package from `dependencies` to `devDependencies` section (because `create-react-app` incorrectly writes it to the former). This is to make build faster.
+7. `optional` Move react-scripts package from `dependencies` to `devDependencies` section (because `create-react-app` incorrectly writes it to the former). This is to make build faster.
 
 
 ## Vue.js
