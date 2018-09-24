@@ -53,13 +53,7 @@ function addManifest(zip) {
 		pkgJson.name
 	};version:Version="${pkgJson.version}"\n`;
 
-	let webContextPath = `/${pkgJson.name}-${pkgJson.version}`;
-
-	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
-		webContextPath = pkgJson.osgi['Web-ContextPath'];
-	}
-
-	contents += `Web-ContextPath: ${webContextPath}\n`;
+	contents += `Web-ContextPath: ${config.getWebContextPath()}\n`;
 
 	if (config.isAutoDeployPortlet()) {
 		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
