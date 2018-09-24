@@ -281,6 +281,10 @@ export function getWebContextPath() {
 		return config['create-jar']['web-context-path'];
 	}
 
+	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
+		return pkgJson.osgi['Web-ContextPath'];
+	}
+
 	return `/${pkgJson.name}-${pkgJson.version}`;
 }
 
