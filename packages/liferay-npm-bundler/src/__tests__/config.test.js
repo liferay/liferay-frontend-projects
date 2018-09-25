@@ -80,6 +80,21 @@ describe('getWebContextPath()', () => {
 	});
 });
 
+describe('getJarOutputDir()', () => {
+	it('works when specified in .npmbundlerrc', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'create-jar')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.getJarOutputDir()).toEqual('dist');
+	});
+
+	it('works when not set', () => {
+		expect(cfg.getJarOutputDir()).toEqual(cfg.getOutputDir());
+	});
+});
+
 describe('getOutputDir()', () => {
 	it('works', () => {
 		expect(cfg.getOutputDir()).toEqual('output-dir');
