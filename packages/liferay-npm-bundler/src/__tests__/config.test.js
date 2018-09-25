@@ -63,7 +63,7 @@ describe('getWebContextPath()', () => {
 		);
 		cfg.reloadConfig();
 
-		expect(cfg.getWebContextPath()).toEqual('/perico');
+		expect(cfg.getWebContextPath()).toEqual('/my-portlet');
 	});
 
 	it('works when specified in package.json', () => {
@@ -72,7 +72,7 @@ describe('getWebContextPath()', () => {
 		);
 		cfg.reloadConfig();
 
-		expect(cfg.getWebContextPath()).toEqual('/juanito');
+		expect(cfg.getWebContextPath()).toEqual('/other-portlet');
 	});
 
 	it('works when not set', () => {

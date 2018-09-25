@@ -7,8 +7,8 @@ describe('promptWithConfig()', () => {
 			batchMode: true,
 			answers: {
 				test: {
-					target: 'pedro',
-					file: 'fortunato',
+					target: 'cfg-target',
+					file: 'cfg-file',
 				},
 			},
 		});
@@ -16,11 +16,11 @@ describe('promptWithConfig()', () => {
 		const answers = await promptWithConfig({}, 'test', [
 			{
 				name: 'target',
-				default: 'perico',
+				default: 'ans-target',
 			},
 			{
 				name: 'folder',
-				default: 'jacinto',
+				default: 'ans-folder',
 			},
 			{
 				name: 'file',
@@ -28,9 +28,9 @@ describe('promptWithConfig()', () => {
 		]);
 
 		expect(answers).toEqual({
-			target: 'pedro',
-			folder: 'jacinto',
-			file: 'fortunato',
+			target: 'cfg-target',
+			folder: 'ans-folder',
+			file: 'cfg-file',
 		});
 	});
 
@@ -38,8 +38,8 @@ describe('promptWithConfig()', () => {
 		cfg.set({
 			answers: {
 				test: {
-					target: 'pedro',
-					file: 'fortunato',
+					target: 'cfg-target',
+					file: 'cfg-file',
 				},
 			},
 		});
@@ -57,11 +57,11 @@ describe('promptWithConfig()', () => {
 		const answers = await promptWithConfig(generator, 'test', [
 			{
 				name: 'target',
-				default: 'perico',
+				default: 'ans-target',
 			},
 			{
 				name: 'folder',
-				default: 'jacinto',
+				default: 'ans-folder',
 			},
 			{
 				name: 'file',
@@ -72,15 +72,15 @@ describe('promptWithConfig()', () => {
 		expect(capturedPrompts).toEqual([
 			{
 				name: 'target',
-				default: 'pedro',
+				default: 'cfg-target',
 			},
 			{
 				name: 'folder',
-				default: 'jacinto',
+				default: 'ans-folder',
 			},
 			{
 				name: 'file',
-				default: 'fortunato',
+				default: 'cfg-file',
 			},
 		]);
 	});
