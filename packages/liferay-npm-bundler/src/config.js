@@ -7,6 +7,7 @@ import resolveModule from 'resolve';
 let pluginsBaseDir = '.';
 let config = loadConfig();
 let programArgs = [];
+let pkgJson;
 
 /**
  * Load configuration.
@@ -14,6 +15,8 @@ let programArgs = [];
  */
 function loadConfig() {
 	let config = {};
+
+	pkgJson = readJsonSync('package.json');
 
 	// Load base configuration
 	try {
@@ -264,6 +267,25 @@ export function isAutoDeployPortlet() {
 	}
 
 	return true;
+}
+
+/**
+ * Get the configured web context path value.
+ * @return {string}
+ */
+export function getWebContextPath() {
+	if (
+		typeof config['create-jar'] === 'object' &&
+		config['create-jar']['web-context-path']
+	) {
+		return config['create-jar']['web-context-path'];
+	}
+
+	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
+		return pkgJson.osgi['Web-ContextPath'];
+	}
+
+	return `/${pkgJson.name}-${pkgJson.version}`;
 }
 
 /**
