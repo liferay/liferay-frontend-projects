@@ -289,6 +289,22 @@ export function getWebContextPath() {
 }
 
 /**
+ * Get the output directory for JAR files. Defaults to getOutputDir() if none is
+ * specified.
+ * @return {string}
+ */
+export function getJarOutputDir() {
+	if (
+		typeof config['create-jar'] === 'object' &&
+		config['create-jar']['output-dir']
+	) {
+		return config['create-jar']['output-dir'];
+	}
+
+	return getOutputDir();
+}
+
+/**
  * Whether or not to process npm packages serially
  * @return {boolean}
  */

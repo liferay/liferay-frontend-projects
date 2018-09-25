@@ -63,7 +63,7 @@ describe('getWebContextPath()', () => {
 		);
 		cfg.reloadConfig();
 
-		expect(cfg.getWebContextPath()).toEqual('/perico');
+		expect(cfg.getWebContextPath()).toEqual('/my-portlet');
 	});
 
 	it('works when specified in package.json', () => {
@@ -72,11 +72,26 @@ describe('getWebContextPath()', () => {
 		);
 		cfg.reloadConfig();
 
-		expect(cfg.getWebContextPath()).toEqual('/juanito');
+		expect(cfg.getWebContextPath()).toEqual('/other-portlet');
 	});
 
 	it('works when not set', () => {
 		expect(cfg.getWebContextPath()).toEqual('/default-1.0.0');
+	});
+});
+
+describe('getJarOutputDir()', () => {
+	it('works when specified in .npmbundlerrc', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'create-jar')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.getJarOutputDir()).toEqual('dist');
+	});
+
+	it('works when not set', () => {
+		expect(cfg.getJarOutputDir()).toEqual(cfg.getOutputDir());
 	});
 });
 
