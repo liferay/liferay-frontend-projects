@@ -32,6 +32,8 @@ export default class extends Generator {
 		]);
 
 		if (!answers.liferayPresent) {
+			this.answers = {};
+
 			return;
 		}
 

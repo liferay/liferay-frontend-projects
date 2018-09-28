@@ -56,6 +56,45 @@ describe('isAutoDeployPortlet()', () => {
 	});
 });
 
+describe('getWebContextPath()', () => {
+	it('works when specified in .npmbundlerrc', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'create-jar')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.getWebContextPath()).toEqual('/my-portlet');
+	});
+
+	it('works when specified in package.json', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'create-jar-empty')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.getWebContextPath()).toEqual('/other-portlet');
+	});
+
+	it('works when not set', () => {
+		expect(cfg.getWebContextPath()).toEqual('/default-1.0.0');
+	});
+});
+
+describe('getJarOutputDir()', () => {
+	it('works when specified in .npmbundlerrc', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'create-jar')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.getJarOutputDir()).toEqual('dist');
+	});
+
+	it('works when not set', () => {
+		expect(cfg.getJarOutputDir()).toEqual(cfg.getOutputDir());
+	});
+});
+
 describe('getOutputDir()', () => {
 	it('works', () => {
 		expect(cfg.getOutputDir()).toEqual('output-dir');

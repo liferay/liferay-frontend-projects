@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import globby from 'globby';
 import JSZip from 'jszip';
 import path from 'path';
@@ -19,14 +19,14 @@ export default function createJar() {
 	addManifest(zip);
 	addBuildFiles(zip);
 
-	return zip
-		.generateAsync({type: 'nodebuffer'})
-		.then(buffer =>
-			fs.writeFileSync(
-				path.join(config.getOutputDir(), jarFileName),
-				buffer
-			)
+	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
+		fs.mkdirpSync(config.getJarOutputDir());
+
+		fs.writeFileSync(
+			path.join(config.getJarOutputDir(), jarFileName),
+			buffer
 		);
+	});
 }
 
 /**
@@ -53,13 +53,7 @@ function addManifest(zip) {
 		pkgJson.name
 	};version:Version="${pkgJson.version}"\n`;
 
-	let webContextPath = `/${pkgJson.name}-${pkgJson.version}`;
-
-	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
-		webContextPath = pkgJson.osgi['Web-ContextPath'];
-	}
-
-	contents += `Web-ContextPath: ${webContextPath}\n`;
+	contents += `Web-ContextPath: ${config.getWebContextPath()}\n`;
 
 	if (config.isAutoDeployPortlet()) {
 		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
