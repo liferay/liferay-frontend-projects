@@ -7,14 +7,14 @@ var fs = require('fs');
 var inquirer = require('inquirer');
 var path = require('path');
 
-var templatString = fs.readFileSync(
+var templateString = fs.readFileSync(
 	path.join(__dirname, 'templates', 'layout_template.jst'),
 	{
 		encoding: 'utf8',
 	}
 );
 
-var layoutTempletTpl = _.template(templatString);
+var layoutTemplateTpl = _.template(templateString);
 
 var listRender = inquirer.prompt.prompts.list.prototype.render;
 
@@ -618,7 +618,7 @@ LayoutCreator.prototype = {
 	_renderLayoutTemplate: function(options) {
 		var liferayVersion = this.liferayVersion;
 
-		return layoutTempletTpl(
+		return layoutTemplateTpl(
 			_.defaults(options, {
 				columnPrefix: 'col-md-',
 				rowClassName: 'row',
