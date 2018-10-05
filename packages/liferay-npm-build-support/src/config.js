@@ -18,7 +18,7 @@ function loadConfig() {
 	npmbuildrc.webpack = npmbuildrc.webpack || {};
 	npmbuildrc.webpack.mainModule = npmbuildrc.webpack.mainModule || 'index.js';
 	npmbuildrc.webpack.rules = npmbuildrc.webpack.rules || [];
-	npmbuildrc.webpack.extensions = npmbuildrc.webpack.extensions || [];
+	npmbuildrc.webpack.extensions = npmbuildrc.webpack.extensions || ['.js'];
 
 	npmbundlerrc['create-jar'] = npmbundlerrc['create-jar'] || {};
 	// TODO: Extract this to liferay-npm-build-tools-common (see #213)
