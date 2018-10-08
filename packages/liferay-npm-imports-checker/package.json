@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-imports-checker",
-	"version": "2.4.0",
+	"version": "2.5.0",
 	"description": "A CLI utility to check `imports` sections of `.npmbundlerrc` files in a multiproject source tree.",
 	"bin": {
 		"liferay-npm-imports-checker": "bin/liferay-npm-imports-checker.js"
@@ -17,7 +17,7 @@
 		"chalk": "^2.4.1",
 		"fs-extra": "^5.0.0",
 		"globby": "^8.0.1",
-		"liferay-npm-build-tools-common": "2.4.0",
+		"liferay-npm-build-tools-common": "2.5.0",
 		"read-json-sync": "^2.0.0",
 		"resolve": "^1.8.1",
 		"semver": "^5.5.0"
