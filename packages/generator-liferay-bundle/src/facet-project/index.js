@@ -1,6 +1,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import pkgJson from '../../package.json';
 import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 
@@ -38,6 +39,7 @@ export default class extends Generator {
 
 		const context = {
 			name: path.basename(process.cwd()),
+			sdkVersion: `^${pkgJson.version}`,
 		};
 
 		cp.copyFile('README.md', {context});

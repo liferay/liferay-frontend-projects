@@ -6,6 +6,9 @@ Object {
     "depA": "3.0.0",
     "depB": "4.0.0",
   },
+  "depB": Object {
+    "depC": "5.0.0",
+  },
   "provider1": Object {
     "dep1": "^1.0.0",
     "dep2": "^2.0.0",
@@ -24,6 +27,7 @@ Object {
   },
   "depB": Object {
     "/": "4.0.0",
+    "depC": "5.0.0",
   },
   "provider1": Object {
     "dep1": "^1.0.0",

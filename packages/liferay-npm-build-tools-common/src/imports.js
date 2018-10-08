@@ -11,14 +11,15 @@ export function normalizeImportsConfig(importsConfig, useSlashFormat = false) {
 	Object.keys(importsConfig).forEach(namespace => {
 		Object.keys(importsConfig[namespace]).forEach(pkgName => {
 			const version = importsConfig[namespace][pkgName];
+			let normalizedSpace = namespace;
 
 			if (pkgName === '/') {
 				pkgName = namespace;
-				namespace = '';
+				normalizedSpace = '';
 			}
 
-			normalized[namespace] = normalized[namespace] || {};
-			normalized[namespace][pkgName] = version;
+			normalized[normalizedSpace] = normalized[normalizedSpace] || {};
+			normalized[normalizedSpace][pkgName] = version;
 		});
 	});
 

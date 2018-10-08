@@ -16,6 +16,7 @@ describe('normalizeImportsConfig()', () => {
 			},
 			'depB': {
 				'/': '4.0.0',
+				'depC': '5.0.0',
 			},
 		});
 
@@ -38,6 +39,7 @@ describe('normalizeImportsConfig()', () => {
 				},
 				'depB': {
 					'/': '4.0.0',
+					'depC': '5.0.0',
 				},
 			},
 			true

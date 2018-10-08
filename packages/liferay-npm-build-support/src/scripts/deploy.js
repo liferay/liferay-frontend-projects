@@ -9,13 +9,14 @@ import * as cfg from '../config';
  */
 export default function() {
 	const projectDir = cfg.getProjectDir();
+	const outputDir = cfg.getOutputDir();
 	const liferayDir = cfg.getLiferayDir();
 
-	const pkgJson = readJsonSync(`${projectDir}/package.json`);
+	const pkgJson = readJsonSync(path.join(projectDir, 'package.json'));
 	const jarName = pkgJson.name + '-' + pkgJson.version + '.jar';
 
 	fs.copyFileSync(
-		path.join('build', jarName),
+		path.join(outputDir, jarName),
 		path.join(liferayDir, 'osgi', 'modules', jarName)
 	);
 
