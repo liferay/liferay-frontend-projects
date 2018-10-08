@@ -1,6 +1,7 @@
 import childProcess from 'child_process';
 import ejs from 'ejs';
 import fs from 'fs-extra';
+import os from 'os';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import util from 'util';
@@ -88,18 +89,36 @@ function getCssPath() {
  *
  */
 function runWebpackDevServer() {
-	const webpackDevServerPath = path.resolve(
-		path.join(
-			cfg.getProjectDir(),
-			'node_modules',
-			'.bin',
-			'webpack-dev-server'
-		)
-	);
+	let proc;
 
-	const proc = childProcess.spawn(process.execPath, [webpackDevServerPath], {
-		cwd: webpackDir,
-	});
+	if (os.platform() === 'win32') {
+		const webpackDevServerPath = path.resolve(
+			path.join(
+				cfg.getProjectDir(),
+				'node_modules',
+				'.bin',
+				'webpack-dev-server.cmd'
+			)
+		);
+
+		proc = childProcess.spawn(webpackDevServerPath, [], {
+			cwd: webpackDir,
+			shell: true,
+		});
+	} else {
+		const webpackDevServerPath = path.resolve(
+			path.join(
+				cfg.getProjectDir(),
+				'node_modules',
+				'.bin',
+				'webpack-dev-server'
+			)
+		);
+
+		proc = childProcess.spawn(process.execPath, [webpackDevServerPath], {
+			cwd: webpackDir,
+		});
+	}
 
 	proc.stdout.on('data', function(data) {
 		console.log(data.toString());
