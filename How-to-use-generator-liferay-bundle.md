@@ -1,5 +1,5 @@
 
-> 👀 This tool is under development and it's still in experimental phase. It won't work unless you build Liferay from its [master branch](https://github.com/liferay/liferay-portal/).
+> 👀 This tool is under development and it's still in experimental phase. It won't work unless you have Liferay 7.1+ and the [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926) installed.
 
 
 The liferay-bundle [Yeoman](http://yeoman.io/) generator is a tool to generate projects based on a toolchain where [npm](https://www.npmjs.com/) and [liferay-npm-bundler](https://github.com/liferay/liferay-npm-build-tools/tree/master/packages/liferay-npm-bundler#liferay-npm-bundler) are used to manage project's configuration and build process.
