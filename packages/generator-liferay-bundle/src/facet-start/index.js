@@ -31,7 +31,7 @@ export default class extends Generator {
 
 		gitignore.add('.webpack/*');
 
-		pkgJson.addDevDependency('copy-webpack-plugin', '^4.0.0');
+		pkgJson.addDevDependency('copy-webpack-plugin', '^4.5.4');
 		pkgJson.addDevDependency('webpack', '^4.0.0');
 		pkgJson.addDevDependency('webpack-cli', '^3.0.0');
 		pkgJson.addDevDependency('webpack-dev-server', '^3.0.0');
