@@ -1,38 +1,39 @@
 {
-	"homepage": "https://github.com/liferay/liferay-npm-build-tools#readme",
-	"license": "LGPL-3.0",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/liferay/liferay-npm-build-tools.git"
-	},
-	"bugs": {
-		"url": "https://github.com/liferay/liferay-npm-build-tools/issues"
-	},
-	"scripts": {
-		"build": "lerna run build",
-		"ci": "prettier-eslint --list-different && npm run lint && npm run test",
-		"format": "prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
-		"lerna": "npm install && lerna bootstrap",
-		"lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
-		"release": "lerna publish --force-publish='*' --exact",
-		"release-canary": "lerna publish --force-publish='*' --exact -c",
-		"test": "jest --runInBand"
-	},
-	"devDependencies": {
-		"eslint": "^4.11.0",
-		"eslint-config-liferay": "^2.0.0",
-		"jest": "^20.0.4",
-		"lerna": "^2.0.0-rc.5",
-		"prettier-eslint-cli": "^4.4.0"
-	},
-	"jest": {
-		"modulePathIgnorePatterns": [
-			"lib/.*",
-			"generators/.*"
-		],
-		"testPathIgnorePatterns": [
-			"/node_modules/",
-			"/__fixtures__/"
-		]
-	}
+  "homepage": "https://github.com/liferay/liferay-npm-build-tools#readme",
+  "license": "LGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liferay/liferay-npm-build-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liferay/liferay-npm-build-tools/issues"
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "ci": "prettier-eslint --list-different && npm run lint && npm run test",
+    "format": "prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
+    "lerna": "npm install && lerna bootstrap",
+    "lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
+    "release": "lerna publish --force-publish='*' --exact",
+    "release-canary": "lerna publish --force-publish='*' --exact -c",
+    "test": "jest --runInBand"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-liferay": "^2.0.0",
+    "jest": "^20.0.4",
+    "lerna": "^2.0.0-rc.5",
+    "prettier-eslint-cli": "^4.4.0"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "lib/.*",
+      "generators/.*",
+      "qa/.*"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__fixtures__/"
+    ]
+  }
 }

@@ -30,6 +30,28 @@ describe('resolveModuleFile', () => {
 		);
 	});
 
+	it('works for existing modules with .js on their name', () => {
+		expect(
+			pkgs.resolveModuleFile(pkgDir, './no-package-json/file.js')
+		).toBe('no-package-json/file.js.js');
+	});
+
+	it('works for non-existent modules', () => {
+		expect(
+			pkgs.resolveModuleFile(
+				pkgDir,
+				'./no-package-json/non-existent-module'
+			)
+		).toBe('no-package-json/non-existent-module.js');
+
+		expect(
+			pkgs.resolveModuleFile(
+				pkgDir,
+				'./no-package-json/non-existent-module.js'
+			)
+		).toBe('no-package-json/non-existent-module.js');
+	});
+
 	it('works for directories without package.json file', () => {
 		expect(pkgs.resolveModuleFile(pkgDir, 'no-package-json')).toBe(
 			'no-package-json/index.js'
