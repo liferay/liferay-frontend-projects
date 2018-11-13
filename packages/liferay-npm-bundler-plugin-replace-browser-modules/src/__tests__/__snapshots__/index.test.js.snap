@@ -77,6 +77,38 @@ export default function test2() {
 "
 `;
 
+exports[`works well with non-existent files when browser field has a unique file 1`] = `
+"/* Module replaced with non-existent-file.js by liferay-npm-bundler-plugin-replace-browser-modules */
+"
+`;
+
+exports[`works well with non-existent files when browser field has several files 1`] = `
+"/* Module ignored by liferay-npm-bundler-plugin-replace-browser-modules */
+"
+`;
+
+exports[`works well with non-existent files when browser field has several files 2`] = `
+"/* Module ignored by liferay-npm-bundler-plugin-replace-browser-modules */
+"
+`;
+
+exports[`works well with non-existent files when browser field has several files 3`] = `
+"/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * testBrowser function
+ * @return {void}
+ */
+export default function testBrowser() {
+	console.log('Hello from testBrowser');
+}
+"
+`;
+
+exports[`works well with non-existent files when browser field has several files 4`] = `
+"/* Module replaced with non-existent-file-4.js by liferay-npm-bundler-plugin-replace-browser-modules */
+"
+`;
+
 exports[`works with jsdelivr field too 1`] = `
 "/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
 /**

@@ -140,13 +140,52 @@ it('does replace ignored modules with empty objects', () => {
 	).toMatchSnapshot();
 });
 
-it('does not throw on inexistent files', () => {
-	const pkgJson = {
-		name: pkg.name,
-		version: pkg.version,
-		main: 'main.js',
-		browser: 'non-existent-file.js',
-	};
+describe('works well with non-existent files', () => {
+	it('when browser field has a unique file', () => {
+		const pkgJson = {
+			name: pkg.name,
+			version: pkg.version,
+			main: 'main.js',
+			browser: 'non-existent-file.js',
+		};
 
-	plugin({pkg, log}, {pkgJson});
+		plugin({pkg, log}, {pkgJson});
+
+		expect(
+			fs.readFileSync(`${pkg.dir}/main.js`).toString()
+		).toMatchSnapshot();
+	});
+
+	it('when browser field has several files', () => {
+		const pkgJson = {
+			name: pkg.name,
+			version: pkg.version,
+			main: 'main.js',
+			browser: {
+				'non-existent-file.js': false,
+				'non-existent-dir/non-existent-file-in-dir.js': false,
+				'non-existent-file-2.js': 'test-browser.js',
+				'non-existent-file-3.js': 'non-existent-file-4.js',
+			},
+		};
+
+		plugin({pkg, log}, {pkgJson});
+
+		expect(
+			fs.readFileSync(`${pkg.dir}/non-existent-file.js`).toString()
+		).toMatchSnapshot();
+		expect(
+			fs
+				.readFileSync(
+					`${pkg.dir}/non-existent-dir/non-existent-file-in-dir.js`
+				)
+				.toString()
+		).toMatchSnapshot();
+		expect(
+			fs.readFileSync(`${pkg.dir}/non-existent-file-2.js`).toString()
+		).toMatchSnapshot();
+		expect(
+			fs.readFileSync(`${pkg.dir}/non-existent-file-3.js`).toString()
+		).toMatchSnapshot();
+	});
 });
