@@ -1,3 +1,5 @@
+import os from 'os';
+
 import {JsonModifier} from '..';
 
 /**
@@ -36,8 +38,14 @@ export default class extends JsonModifier {
 	 * Add a webpack rule to the .npmbuildrc file.
 	 * @param {RegExp} regex a regex expression to match files
 	 * @param {string} loader the name of a webpack loader
+	 * @param {boolean} fixPathSepsInWindows wether to replace / path separators
+	 * 						by \ when running on Windows
 	 */
-	addWebpackRule(regex, loader) {
+	addWebpackRule(regex, loader, fixPathSepsInWindows = true) {
+		if (fixPathSepsInWindows && os.platform() === 'win32') {
+			regex = new RegExp(regex.source.replace('/', '\\'), regex.flags);
+		}
+
 		this.modifyJson(json => {
 			let test = regex.toString();
 

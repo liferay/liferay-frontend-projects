@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 
@@ -82,12 +82,22 @@ function replaceFile(pkgId, src, srcName, dest, destName, log) {
 	);
 
 	try {
-		let contents = fs.readFileSync(src).toString();
+		let contents = '';
+
+		try {
+			contents = fs.readFileSync(src).toString();
+		} catch (err) {
+			if (err.code !== 'ENOENT') {
+				throw err;
+			}
+		}
 
 		contents = contents.replace(
 			`'${pkgId}/${srcModuleName}'`,
 			`'${pkgId}/${destModuleName}'`
 		);
+
+		fs.mkdirsSync(path.dirname(dest));
 
 		fs.writeFileSync(
 			dest,
@@ -115,6 +125,8 @@ function ignoreFile(file, fileName, log) {
 		'replace-browser-modules',
 		`Emptying module ${fileName} because it is server-only`
 	);
+
+	fs.mkdirsSync(path.dirname(file));
 
 	fs.writeFileSync(
 		file,
