@@ -1,6 +1,6 @@
 {
 	"name": "generator-liferay-bundle",
-	"version": "2.5.0",
+	"version": "2.5.1",
 	"description": "A Yeoman generator to bootstrap npm Portlet Extender projects.",
 	"files": [
 		"generators"
