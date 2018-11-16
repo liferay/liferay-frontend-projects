@@ -20,10 +20,10 @@ export default function createJar() {
 	addBuildFiles(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
-		fs.mkdirpSync(config.getJarOutputDir());
+		fs.mkdirpSync(config.jar.getOutputDir());
 
 		fs.writeFileSync(
-			path.join(config.getJarOutputDir(), jarFileName),
+			path.join(config.jar.getOutputDir(), jarFileName),
 			buffer
 		);
 	});
@@ -53,9 +53,9 @@ function addManifest(zip) {
 		pkgJson.name
 	};version:Version="${pkgJson.version}"\n`;
 
-	contents += `Web-ContextPath: ${config.getWebContextPath()}\n`;
+	contents += `Web-ContextPath: ${config.jar.getWebContextPath()}\n`;
 
-	if (config.isAutoDeployPortlet()) {
+	if (config.jar.isAutoDeployPortlet()) {
 		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
 	}
 

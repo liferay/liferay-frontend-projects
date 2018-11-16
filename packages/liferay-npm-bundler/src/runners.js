@@ -54,7 +54,7 @@ export function runPlugins(plugins, srcPkg, pkg, state, callback) {
  */
 export function runBabel(pkg, {ignore = []} = {}) {
 	// Make a copy of the package's Babel configuration
-	const babelConfig = cloneObject(config.getBabelConfig(pkg));
+	const babelConfig = cloneObject(config.babel.getConfig(pkg));
 
 	// Tune babel config
 	babelConfig.babelrc = false;
@@ -67,7 +67,7 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	report.packageProcessBabelConfig(pkg, cloneObject(babelConfig));
 
 	// Intercept presets and plugins to load them from here
-	babelConfig.plugins = config.loadBabelPlugins(
+	babelConfig.plugins = config.babel.loadBabelPlugins(
 		babelConfig.presets || [],
 		babelConfig.plugins || []
 	);
