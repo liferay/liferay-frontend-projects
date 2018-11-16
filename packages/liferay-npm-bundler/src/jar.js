@@ -18,6 +18,7 @@ export default function createJar() {
 
 	addManifest(zip);
 	addBuildFiles(zip);
+	addLocalizationFiles(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
 		fs.mkdirpSync(config.jar.getOutputDir());
@@ -59,6 +60,13 @@ function addManifest(zip) {
 		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
 	}
 
+	if (config.jar.getLocalizationFile()) {
+		const bundleName = path.basename(config.jar.getLocalizationFile());
+
+		contents += `Provide-Capability: liferay.resource.bundle;`;
+		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
+	}
+
 	zip.folder('META-INF').file('MANIFEST.MF', contents);
 }
 
@@ -67,8 +75,33 @@ function addManifest(zip) {
  * @param {JSZip} zip the ZIP file
  */
 function addBuildFiles(zip) {
-	const filePaths = globby.sync(['**/*', `!${jarFileName}`], {
-		cwd: config.getOutputDir(),
+	addFiles(
+		config.getOutputDir(),
+		['**/*', `!${jarFileName}`],
+		zip.folder('META-INF').folder('resources')
+	);
+}
+
+/**
+ * Add the localization bundle files if configured.
+ * @param {JSZip} zip the ZIP file
+ */
+function addLocalizationFiles(zip) {
+	const resourceBundleName = config.jar.getLocalizationFile();
+	const resourceBundleDir = path.dirname(resourceBundleName);
+
+	addFiles(resourceBundleDir, ['**/*'], zip.folder('content'));
+}
+
+/**
+ * Add several files to a ZIP folder.
+ * @param {string} srcDir source folder
+ * @param {array} srcGlobs array of globs describing files to include
+ * @param {JSZip} destFolder the destination folder in the ZIP file
+ */
+function addFiles(srcDir, srcGlobs, destFolder) {
+	const filePaths = globby.sync(srcGlobs, {
+		cwd: srcDir,
 		nodir: true,
 	});
 
@@ -79,12 +112,9 @@ function addBuildFiles(zip) {
 
 		const folder = dirs.reduce(
 			(folder, dir) => (folder = folder.folder(dir)),
-			zip.folder('META-INF').folder('resources')
+			destFolder
 		);
 
-		folder.file(
-			name,
-			fs.readFileSync(path.join(config.getOutputDir(), filePath))
-		);
+		folder.file(name, fs.readFileSync(path.join(srcDir, filePath)));
 	});
 }

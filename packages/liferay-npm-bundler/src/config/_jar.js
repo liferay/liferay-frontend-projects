@@ -36,6 +36,22 @@ export function isRequireJsExtender() {
 }
 
 /**
+ * Get localization bundle path.
+ * @return {string} the full path of file or undefined if not configured
+ */
+export function getLocalizationFile() {
+	const jarConfig = getNormalizedJarConfig();
+
+	if (jarConfig['liferay']) {
+		if (jarConfig['liferay']['localization']) {
+			return jarConfig['liferay']['localization'];
+		}
+	}
+
+	return undefined;
+}
+
+/**
  * Get the configured web context path value.
  * @return {string}
  */
