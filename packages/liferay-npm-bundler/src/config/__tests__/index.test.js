@@ -13,6 +13,26 @@ afterEach(() => {
 	process.chdir(savedCwd);
 });
 
+describe('deprecated config', () => {
+	it('create-jar/auto-deploy-portlet', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'legacy-test-1')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.jar.isRequireJsExtender()).toBe(false);
+	});
+
+	it('create-jar/web-context-path', () => {
+		process.chdir(
+			path.join(__dirname, '__fixtures__', 'config', 'legacy-test-1')
+		);
+		cfg.reloadConfig();
+
+		expect(cfg.jar.getWebContextPath()).toBe('/my-portlet');
+	});
+});
+
 describe('global config', () => {
 	describe('isCreateJar()', () => {
 		it('returns false when config missing', () => {
@@ -309,11 +329,7 @@ describe('jar config', () => {
 		});
 	});
 
-	describe('isAutoDeployPortlet()', () => {
-		it('returns false when create-jar config missing', () => {
-			expect(cfg.jar.isAutoDeployPortlet()).toBe(false);
-		});
-
+	describe('isRequireJsExtender()', () => {
 		it('returns true when create-jar config present and auto-deploy-portlet missing', () => {
 			process.chdir(
 				path.join(
@@ -325,11 +341,16 @@ describe('jar config', () => {
 			);
 			cfg.reloadConfig();
 
-			expect(cfg.jar.isAutoDeployPortlet()).toBe(true);
+			expect(cfg.jar.isRequireJsExtender()).toBe(true);
 		});
 
 		it('returns false when create-jar config present and auto-deploy-portlet false', () => {
-			expect(cfg.jar.isAutoDeployPortlet()).toBe(false);
+			process.chdir(
+				path.join(__dirname, '__fixtures__', 'config', 'create-jar')
+			);
+			cfg.reloadConfig();
+
+			expect(cfg.jar.isRequireJsExtender()).toBe(false);
 		});
 	});
 });

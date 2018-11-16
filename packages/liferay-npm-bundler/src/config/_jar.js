@@ -14,17 +14,20 @@ export function init(state) {
 }
 
 /**
- * Whether or not to add manifest header in JAR file to make the Portal auto
- * deploy a portlet.
+ * Whether or not to add a manifest header in JAR file to make the JS extender
+ * process this bundle.
  * @return {boolean}
  */
-export function isAutoDeployPortlet() {
-	if (!base.isCreateJar()) {
-		return false;
-	}
+export function isRequireJsExtender() {
+	const jarConfig = getNormalizedJarConfig();
 
-	if (typeof config['create-jar'] === 'object') {
-		if (config['create-jar']['auto-deploy-portlet'] === false) {
+	if (jarConfig['liferay']) {
+		if (jarConfig['liferay']['require-js-extender'] === false) {
+			return false;
+		}
+	} else {
+		// TODO: deprecated branch, remove for the next major version
+		if (jarConfig['auto-deploy-portlet'] === false) {
 			return false;
 		}
 	}
@@ -37,11 +40,10 @@ export function isAutoDeployPortlet() {
  * @return {string}
  */
 export function getWebContextPath() {
-	if (
-		typeof config['create-jar'] === 'object' &&
-		config['create-jar']['web-context-path']
-	) {
-		return config['create-jar']['web-context-path'];
+	const jarConfig = getNormalizedJarConfig();
+
+	if (jarConfig['web-context-path']) {
+		return jarConfig['web-context-path'];
 	}
 
 	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
@@ -57,12 +59,27 @@ export function getWebContextPath() {
  * @return {string}
  */
 export function getOutputDir() {
-	if (
-		typeof config['create-jar'] === 'object' &&
-		config['create-jar']['output-dir']
-	) {
-		return config['create-jar']['output-dir'];
+	const jarConfig = getNormalizedJarConfig();
+
+	if (jarConfig['output-dir']) {
+		return jarConfig['output-dir'];
 	}
 
 	return base.getOutputDir();
+}
+
+/**
+ * Get normalized JAR config
+ * @return {object}
+ */
+function getNormalizedJarConfig() {
+	if (config['create-jar'] === undefined) {
+		return {};
+	}
+
+	if (typeof config['create-jar'] !== 'object') {
+		return {};
+	}
+
+	return config['create-jar'];
 }

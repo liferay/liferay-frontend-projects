@@ -1,7 +1,9 @@
 {
-	"create-jar": {
-		"auto-deploy-portlet": false,
-		"web-context-path": "/my-portlet",
-		"output-dir": "dist"
-	}
+  "create-jar": {
+    "web-context-path": "/my-portlet",
+    "output-dir": "dist",
+    "liferay": {
+      "require-js-extender": false
+    }
+  }
 }

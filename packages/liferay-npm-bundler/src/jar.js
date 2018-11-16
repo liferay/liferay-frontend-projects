@@ -55,7 +55,7 @@ function addManifest(zip) {
 
 	contents += `Web-ContextPath: ${config.jar.getWebContextPath()}\n`;
 
-	if (config.jar.isAutoDeployPortlet()) {
+	if (config.jar.isRequireJsExtender()) {
 		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
 	}
 
