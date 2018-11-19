@@ -140,11 +140,7 @@ function testBoilerplate(test, options) {
 	}
 
 	function _assertHook(cb) {
-		const hookPath = path.join(
-			buildPath,
-			'WEB-INF',
-			'liferay-hook.xml.processed'
-		);
+		const hookPath = path.join(buildPath, 'WEB-INF', 'liferay-hook.xml');
 
 		expect(fs.existsSync(hookPath)).toBe(true);
 
