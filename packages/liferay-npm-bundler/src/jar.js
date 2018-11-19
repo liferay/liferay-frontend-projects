@@ -3,6 +3,7 @@ import globby from 'globby';
 import JSZip from 'jszip';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
+import {js2xml, xml2js} from 'xml-js';
 
 import * as config from './config';
 
@@ -19,6 +20,7 @@ export default function createJar() {
 	addManifest(zip);
 	addBuildFiles(zip);
 	addLocalizationFiles(zip);
+	addMetatypeFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
 		fs.mkdirpSync(config.jar.getOutputDir());
@@ -117,4 +119,79 @@ function addFiles(srcDir, srcGlobs, destFolder) {
 
 		folder.file(name, fs.readFileSync(path.join(srcDir, filePath)));
 	});
+}
+
+/**
+ * Add the localization bundle files if configured.
+ * @param {JSZip} zip the ZIP file
+ */
+function addMetatypeFile(zip) {
+	const filePath = config.jar.getMetatypeFile();
+
+	if (filePath) {
+		const localizationFile = config.jar.getLocalizationFile();
+		const xml = fs.readFileSync(filePath);
+		const js = xml2js(xml, {});
+
+		const metadata = findXmlChild(js, 'metatype:MetaData');
+
+		if (localizationFile) {
+			const bundleName = path.basename(config.jar.getLocalizationFile());
+
+			metadata.attributes['localization'] = `content/${bundleName}`;
+		}
+
+		const ocd = findXmlChild(metadata, 'OCD');
+
+		addXmlAttr(ocd, 'name', pkgJson.description || pkgJson.name);
+		addXmlAttr(ocd, 'id', pkgJson.name);
+
+		const designate = findXmlChild(metadata, 'Designate', true);
+
+		addXmlAttr(designate, 'pid', pkgJson.name);
+
+		const object = findXmlChild(designate, 'Object', true);
+
+		addXmlAttr(object, 'ocdref', pkgJson.name);
+
+		zip
+			.folder('OSGI-INF')
+			.folder('metatype')
+			.file(`${pkgJson.name}.xml`, js2xml(js, {spaces: 2}));
+	}
+}
+
+/**
+ * Find an XML child node creating it if necessary.
+ * @param {object} parentNode
+ * @param {string} childName
+ * @param {boolean} create
+ * @return {object} the child node
+ */
+function findXmlChild(parentNode, childName, create = false) {
+	let childNode = parentNode.elements.find(node => node.name == childName);
+
+	if (childNode === undefined && create) {
+		childNode = {
+			type: 'element',
+			name: childName,
+			attributes: {},
+			elements: [],
+		};
+
+		parentNode.elements.push(childNode);
+	}
+
+	return childNode;
+}
+
+/**
+ * Add an attribute to an XML node.
+ * @param {object} node
+ * @param {string} name
+ * @param {string} value
+ */
+function addXmlAttr(node, name, value) {
+	node.attributes = node.attributes || {};
+	node.attributes[name] = value;
 }

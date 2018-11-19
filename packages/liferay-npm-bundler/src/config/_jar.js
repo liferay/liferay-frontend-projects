@@ -51,6 +51,20 @@ export function getLocalizationFile() {
 }
 
 /**
+ * Get metatype file path.
+ * @return {string} the full path of file or undefined if not configured
+ */
+export function getMetatypeFile() {
+	const jarConfig = getNormalizedJarConfig();
+
+	if (jarConfig['features'] && jarConfig['features']['settings']) {
+		return jarConfig['features']['settings'];
+	}
+
+	return undefined;
+}
+
+/**
  * Get the configured web context path value.
  * @return {string}
  */
