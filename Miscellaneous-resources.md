@@ -4,6 +4,7 @@ This page is a compilation of miscellaneous external resources related to the pr
 
 * A [talk](https://www.youtube.com/watch?v=ay0wy2_tLTA&index=6&t=0s&list=PLKb_gn-WO_Kr2J9kcDvDDlcciKoDXfOAq) on the first release of the npm SDK at Liferay DEVCON 2017
 * A [talk](https://www.youtube.com/watch?v=CyhR2l2eVSQ) on the improvements of npm SDK at LSNA 2018.
+* The [previous talk but given in Spanish](https://www.youtube.com/watch?v=4BhPJhx__rc&index=15&list=PLKb_gn-WO_Ko0Zf7nffZ1kGDS8kWuUQNu&t=0s) at Spain Liferay Symposium 2018.
 
 ## Blog posts
 
