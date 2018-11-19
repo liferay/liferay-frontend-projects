@@ -41,7 +41,7 @@ export default class extends Generator {
 
 		npmbundlerrc.modifyJson(json => {
 			json['create-jar'] = json['create-jar'] || {};
-			json['create-jar']['auto-deploy-portlet'] = true;
+			json['create-jar']['features']['js-extender'] = true;
 		});
 
 		pkgJson.modifyJson(json => {
