@@ -1,5 +1,1 @@
-{
-  "osgi": {
-    "Web-ContextPath": "/other-portlet"
-  }
-}
+{}

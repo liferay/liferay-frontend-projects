@@ -1,0 +1,5 @@
+{
+	"osgi": {
+		"Web-ContextPath": "/my-portlet"
+	}
+}

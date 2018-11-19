@@ -21,15 +21,16 @@ export function init(state) {
 export function isRequireJsExtender() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (jarConfig['liferay']) {
-		if (jarConfig['liferay']['require-js-extender'] === false) {
-			return false;
-		}
-	} else {
-		// TODO: deprecated branch, remove for the next major version
-		if (jarConfig['auto-deploy-portlet'] === false) {
-			return false;
-		}
+	if (
+		jarConfig['features'] &&
+		jarConfig['features']['js-extender'] === false
+	) {
+		return false;
+	}
+
+	// TODO: deprecated branch, remove for the next major version
+	if (jarConfig['auto-deploy-portlet'] === false) {
+		return false;
 	}
 
 	return true;
@@ -42,10 +43,8 @@ export function isRequireJsExtender() {
 export function getLocalizationFile() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (jarConfig['liferay']) {
-		if (jarConfig['liferay']['localization']) {
-			return jarConfig['liferay']['localization'];
-		}
+	if (jarConfig['features'] && jarConfig['features']['localization']) {
+		return jarConfig['features']['localization'];
 	}
 
 	return undefined;
@@ -58,10 +57,16 @@ export function getLocalizationFile() {
 export function getWebContextPath() {
 	const jarConfig = getNormalizedJarConfig();
 
+	if (jarConfig['features'] && jarConfig['features']['web-context']) {
+		return jarConfig['features']['web-context'];
+	}
+
+	// TODO: deprecated branch, remove for the next major version
 	if (jarConfig['web-context-path']) {
 		return jarConfig['web-context-path'];
 	}
 
+	// TODO: deprecated branch, remove for the next major version
 	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
 		return pkgJson.osgi['Web-ContextPath'];
 	}
