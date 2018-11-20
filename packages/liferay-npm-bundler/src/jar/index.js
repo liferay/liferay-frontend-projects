@@ -5,10 +5,11 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import {js2xml, xml2js} from 'xml-js';
 
-import * as config from './config';
+import * as config from '../config';
+import * as xml from './xml';
 
-const pkgJson = readJsonSync(path.join('.', 'package.json'));
 const jarFileName = `${pkgJson.name}-${pkgJson.version}.jar`;
+const pkgJson = readJsonSync(path.join('.', 'package.json'));
 
 /**
  * Create an OSGi bundle with build's output
@@ -30,6 +31,55 @@ export default function createJar() {
 			buffer
 		);
 	});
+}
+
+/**
+ * Add build's output files to ZIP archive
+ * @param {JSZip} zip the ZIP file
+ */
+function addBuildFiles(zip) {
+	addFiles(
+		config.getOutputDir(),
+		['**/*', `!${jarFileName}`],
+		zip.folder('META-INF').folder('resources')
+	);
+}
+
+/**
+ * Add several files to a ZIP folder.
+ * @param {string} srcDir source folder
+ * @param {array} srcGlobs array of globs describing files to include
+ * @param {JSZip} destFolder the destination folder in the ZIP file
+ */
+function addFiles(srcDir, srcGlobs, destFolder) {
+	const filePaths = globby.sync(srcGlobs, {
+		cwd: srcDir,
+		nodir: true,
+	});
+
+	filePaths.forEach(filePath => {
+		const parts = filePath.split(path.sep);
+		const dirs = parts.slice(0, parts.length - 1);
+		const name = parts[parts.length - 1];
+
+		const folder = dirs.reduce(
+			(folder, dir) => (folder = folder.folder(dir)),
+			destFolder
+		);
+
+		folder.file(name, fs.readFileSync(path.join(srcDir, filePath)));
+	});
+}
+
+/**
+ * Add the localization bundle files if configured.
+ * @param {JSZip} zip the ZIP file
+ */
+function addLocalizationFiles(zip) {
+	const resourceBundleName = config.jar.getLocalizationFile();
+	const resourceBundleDir = path.dirname(resourceBundleName);
+
+	addFiles(resourceBundleDir, ['**/*'], zip.folder('content'));
 }
 
 /**
@@ -88,55 +138,6 @@ function addManifest(zip) {
 }
 
 /**
- * Add build's output files to ZIP archive
- * @param {JSZip} zip the ZIP file
- */
-function addBuildFiles(zip) {
-	addFiles(
-		config.getOutputDir(),
-		['**/*', `!${jarFileName}`],
-		zip.folder('META-INF').folder('resources')
-	);
-}
-
-/**
- * Add the localization bundle files if configured.
- * @param {JSZip} zip the ZIP file
- */
-function addLocalizationFiles(zip) {
-	const resourceBundleName = config.jar.getLocalizationFile();
-	const resourceBundleDir = path.dirname(resourceBundleName);
-
-	addFiles(resourceBundleDir, ['**/*'], zip.folder('content'));
-}
-
-/**
- * Add several files to a ZIP folder.
- * @param {string} srcDir source folder
- * @param {array} srcGlobs array of globs describing files to include
- * @param {JSZip} destFolder the destination folder in the ZIP file
- */
-function addFiles(srcDir, srcGlobs, destFolder) {
-	const filePaths = globby.sync(srcGlobs, {
-		cwd: srcDir,
-		nodir: true,
-	});
-
-	filePaths.forEach(filePath => {
-		const parts = filePath.split(path.sep);
-		const dirs = parts.slice(0, parts.length - 1);
-		const name = parts[parts.length - 1];
-
-		const folder = dirs.reduce(
-			(folder, dir) => (folder = folder.folder(dir)),
-			destFolder
-		);
-
-		folder.file(name, fs.readFileSync(path.join(srcDir, filePath)));
-	});
-}
-
-/**
  * Add the localization bundle files if configured.
  * @param {JSZip} zip the ZIP file
  */
@@ -145,10 +146,9 @@ function addMetatypeFile(zip) {
 
 	if (filePath) {
 		const localizationFile = config.jar.getLocalizationFile();
-		const xml = fs.readFileSync(filePath);
-		const js = xml2js(xml, {});
+		const js = xml2js(fs.readFileSync(filePath), {});
 
-		const metadata = findXmlChild(js, 'metatype:MetaData');
+		const metadata = xml.findChild(js, 'metatype:MetaData');
 
 		if (localizationFile) {
 			const bundleName = path.basename(config.jar.getLocalizationFile());
@@ -156,59 +156,24 @@ function addMetatypeFile(zip) {
 			metadata.attributes['localization'] = `content/${bundleName}`;
 		}
 
-		const ocd = findXmlChild(metadata, 'OCD');
+		const ocd = xml.findChild(metadata, 'OCD');
 
-		addXmlAttr(ocd, 'name', pkgJson.description || pkgJson.name);
-		addXmlAttr(ocd, 'id', pkgJson.name);
+		xml.addAttr(ocd, 'name', pkgJson.description || pkgJson.name);
+		xml.addAttr(ocd, 'id', pkgJson.name);
 
-		const designate = findXmlChild(metadata, 'Designate', true);
+		const designate = xml.findChild(metadata, 'Designate', true);
 
-		addXmlAttr(designate, 'pid', pkgJson.name);
+		xml.addAttr(designate, 'pid', pkgJson.name);
 
-		const object = findXmlChild(designate, 'Object', true);
+		const object = xml.findChild(designate, 'Object', true);
 
-		addXmlAttr(object, 'ocdref', pkgJson.name);
+		xml.addAttr(object, 'ocdref', pkgJson.name);
 
 		zip
 			.folder('OSGI-INF')
 			.folder('metatype')
 			.file(`${pkgJson.name}.xml`, js2xml(js, {spaces: 2}));
 	}
-}
-
-/**
- * Find an XML child node creating it if necessary.
- * @param {object} parentNode
- * @param {string} childName
- * @param {boolean} create
- * @return {object} the child node
- */
-function findXmlChild(parentNode, childName, create = false) {
-	let childNode = parentNode.elements.find(node => node.name == childName);
-
-	if (childNode === undefined && create) {
-		childNode = {
-			type: 'element',
-			name: childName,
-			attributes: {},
-			elements: [],
-		};
-
-		parentNode.elements.push(childNode);
-	}
-
-	return childNode;
-}
-
-/**
- * Add an attribute to an XML node.
- * @param {object} node
- * @param {string} name
- * @param {string} value
- */
-function addXmlAttr(node, name, value) {
-	node.attributes = node.attributes || {};
-	node.attributes[name] = value;
 }
 
 /**
