@@ -16,16 +16,17 @@ export function init(state) {
 /**
  * Whether or not to add a manifest header in JAR file to make the JS extender
  * process this bundle.
- * @return {boolean}
+ * @return {boolean|string} a boolean or a string forcing a capability version
+ * 				number (or 'any' to leave version unbounded)
  */
-export function isRequireJsExtender() {
+export function getRequireJsExtender() {
 	const jarConfig = getNormalizedJarConfig();
 
 	if (
 		jarConfig['features'] &&
-		jarConfig['features']['js-extender'] === false
+		jarConfig['features']['js-extender'] !== undefined
 	) {
-		return false;
+		return jarConfig['features']['js-extender'];
 	}
 
 	// TODO: deprecated branch, remove for the next major version

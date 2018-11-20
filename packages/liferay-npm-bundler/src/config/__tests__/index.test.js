@@ -21,7 +21,7 @@ describe('deprecated config', () => {
 			);
 			cfg.reloadConfig();
 
-			expect(cfg.jar.isRequireJsExtender()).toBe(false);
+			expect(cfg.jar.getRequireJsExtender()).toBe(false);
 		});
 
 		it('create-jar/web-context-path', () => {
@@ -328,7 +328,7 @@ describe('jar config', () => {
 		});
 	});
 
-	describe('isRequireJsExtender()', () => {
+	describe('getRequireJsExtender()', () => {
 		it('returns true when create-jar config present and features/js-extender missing', () => {
 			process.chdir(
 				path.join(
@@ -340,7 +340,7 @@ describe('jar config', () => {
 			);
 			cfg.reloadConfig();
 
-			expect(cfg.jar.isRequireJsExtender()).toBe(true);
+			expect(cfg.jar.getRequireJsExtender()).toBe(true);
 		});
 
 		it('returns false when create-jar config present and features/js-extender false', () => {
@@ -349,7 +349,7 @@ describe('jar config', () => {
 			);
 			cfg.reloadConfig();
 
-			expect(cfg.jar.isRequireJsExtender()).toBe(false);
+			expect(cfg.jar.getRequireJsExtender()).toBe(false);
 		});
 	});
 });

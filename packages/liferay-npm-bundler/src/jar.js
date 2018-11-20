@@ -52,21 +52,36 @@ function addManifest(zip) {
 		contents += `Bundle-Name: ${pkgJson.description}\n`;
 	}
 
-	contents += `Provide-Capability: osgi.webresource;osgi.webresource=${
-		pkgJson.name
-	};version:Version="${pkgJson.version}"\n`;
-
 	contents += `Web-ContextPath: ${config.jar.getWebContextPath()}\n`;
 
-	if (config.jar.isRequireJsExtender()) {
-		contents += `Require-Capability: osgi.extender;filter:="(osgi.extender=liferay.frontend.js.portlet)"\n`;
-	}
+	contents +=
+		`Provide-Capability: osgi.webresource;` +
+		`osgi.webresource=${pkgJson.name};` +
+		`version:Version="${pkgJson.version}"\n`;
 
 	if (config.jar.getLocalizationFile()) {
 		const bundleName = path.basename(config.jar.getLocalizationFile());
 
 		contents += `Provide-Capability: liferay.resource.bundle;`;
 		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
+	}
+
+	if (config.jar.getRequireJsExtender()) {
+		let filter;
+
+		const minimumExtenderVersion = getMinimumExtenderVersion();
+
+		if (minimumExtenderVersion) {
+			filter =
+				`(&` +
+				`(osgi.extender=liferay.frontend.js.portlet)` +
+				`(version>=${minimumExtenderVersion})` +
+				`)`;
+		} else {
+			filter = `(osgi.extender=liferay.frontend.js.portlet)`;
+		}
+
+		contents += `Require-Capability: osgi.extender;filter:="${filter}"\n`;
 	}
 
 	zip.folder('META-INF').file('MANIFEST.MF', contents);
@@ -194,4 +209,29 @@ function findXmlChild(parentNode, childName, create = false) {
 function addXmlAttr(node, name, value) {
 	node.attributes = node.attributes || {};
 	node.attributes[name] = value;
+}
+
+/**
+ * Get the minimum extender version needed for the capabilities of this bundle
+ * to work
+ * @return {string|undefined} a version number or undefined if no one is required
+ */
+function getMinimumExtenderVersion() {
+	const requireJsExtender = config.jar.getRequireJsExtender();
+
+	if (typeof requireJsExtender === 'string') {
+		if (requireJsExtender === 'any') {
+			return undefined;
+		}
+
+		return requireJsExtender;
+	}
+
+	let minExtenderMinorVersion = 0;
+
+	if (config.jar.getMetatypeFile()) {
+		minExtenderMinorVersion = Math.max(minExtenderMinorVersion, 1);
+	}
+
+	return `1.${minExtenderMinorVersion}.0`;
 }
