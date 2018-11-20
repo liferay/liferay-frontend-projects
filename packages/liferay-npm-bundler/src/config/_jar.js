@@ -1,4 +1,5 @@
 import prop from 'dot-prop';
+import fs from 'fs';
 
 import * as base from './index';
 
@@ -49,7 +50,13 @@ export function getLocalizationFile() {
 export function getMetatypeFile() {
 	const jarConfig = getNormalizedJarConfig();
 
-	return prop.get(jarConfig, 'features.settings');
+	let defaultValue = undefined;
+
+	if (fs.existsSync('./features/settings.xml')) {
+		defaultValue = 'features/settings.xml';
+	}
+
+	return prop.get(jarConfig, 'features.settings', defaultValue);
 }
 
 /**
