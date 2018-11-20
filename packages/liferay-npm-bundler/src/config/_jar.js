@@ -40,7 +40,13 @@ export function getRequireJsExtender() {
 export function getLocalizationFile() {
 	const jarConfig = getNormalizedJarConfig();
 
-	return prop.get(jarConfig, 'features.localization');
+	let defaultValue = undefined;
+
+	if (fs.existsSync('./features/localization/Language.properties')) {
+		defaultValue = 'features/localization/Language';
+	}
+
+	return prop.get(jarConfig, 'features.localization', defaultValue);
 }
 
 /**
