@@ -1,3 +1,4 @@
+import prop from 'dot-prop';
 import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
@@ -33,7 +34,7 @@ export {babel, bundler, jar};
  * @return {Object} the global config hash
  */
 export function getGlobalConfig() {
-	return config['config'];
+	return prop.get(config, 'config');
 }
 
 /**
@@ -41,9 +42,11 @@ export function getGlobalConfig() {
  * @return {String} the directory path (with native separators)
  */
 export function getOutputDir() {
-	const dir =
-		config['output'] ||
-		(isCreateJar() ? 'build' : 'build/resources/main/META-INF/resources');
+	const dir = prop.get(
+		config,
+		'output',
+		isCreateJar() ? 'build' : 'build/resources/main/META-INF/resources'
+	);
 
 	return path.normalize(dir);
 }
@@ -77,7 +80,7 @@ export function getVersionsInfo() {
  * @return {boolean}
  */
 export function isCreateJar() {
-	return config['create-jar'] || false;
+	return prop.get(config, 'create-jar', false);
 }
 
 /**
@@ -85,7 +88,7 @@ export function isCreateJar() {
  * @return {boolean}
  */
 export function isDumpReport() {
-	return config['dump-report'] || false;
+	return prop.get(config, 'dump-report', false);
 }
 
 /**
@@ -93,13 +96,13 @@ export function isDumpReport() {
  * @return {boolean}
  */
 export function isNoTracking() {
-	if (config['no-tracking'] === undefined) {
-		if (process.env.LIFERAY_NPM_BUNDLER_NO_TRACKING) {
-			config['no-tracking'] = true;
+	if (!prop.has(config, 'no-tracking')) {
+		if (prop.has(process, 'env.LIFERAY_NPM_BUNDLER_NO_TRACKING')) {
+			prop.set(config, 'no-tracking', true);
 		}
 	}
 
-	if (config['no-tracking'] === undefined) {
+	if (!prop.has(config, 'no-tracking')) {
 		let dir = process.cwd();
 
 		while (
@@ -111,12 +114,14 @@ export function isNoTracking() {
 			dir = path.resolve(dir, '..');
 		}
 
-		config['no-tracking'] = fs.existsSync(
-			path.join(dir, '.liferay-npm-bundler-no-tracking')
+		prop.set(
+			config,
+			'no-tracking',
+			fs.existsSync(path.join(dir, '.liferay-npm-bundler-no-tracking'))
 		);
 	}
 
-	return config['no-tracking'];
+	return prop.get(config, 'no-tracking', false);
 }
 
 /**
@@ -124,7 +129,7 @@ export function isNoTracking() {
  * @return {boolean}
  */
 export function isVerbose() {
-	return config['verbose'] || false;
+	return prop.get(config, 'verbose', false);
 }
 
 /**
@@ -252,9 +257,9 @@ function getPluginVersions() {
 
 	// Get preset plugin version
 	if (config.preset) {
-		pluginVersions[config.preset] = util.configRequire(
-			`${config.preset}/package.json`
-		).version;
+		const pkgJson = util.configRequire(`${config.preset}/package.json`);
+
+		pluginVersions[config.preset] = pkgJson.version;
 	}
 
 	// Get legacy package and package plugins versions
@@ -274,9 +279,9 @@ function getPluginVersions() {
 
 	for (let plugin of plugins) {
 		if (!pluginVersions[plugin]) {
-			pluginVersions[plugin] = util.configRequire(
-				`${plugin}/package.json`
-			).version;
+			const pkgJson = util.configRequire(`${plugin}/package.json`);
+
+			pluginVersions[plugin] = pkgJson.version;
 		}
 	}
 

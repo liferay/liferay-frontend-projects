@@ -1,3 +1,5 @@
+import prop from 'dot-prop';
+
 import {configRequire, getPackageConfig} from './_util';
 
 let config;
@@ -50,7 +52,7 @@ export function getExclusions(pkg) {
  * @return {Array} an array of package names
  */
 export function getIncludeDependencies() {
-	return config['include-dependencies'] || [];
+	return prop.get(config, 'include-dependencies', []);
 }
 
 /**
@@ -76,7 +78,7 @@ export function getPlugins(phase, pkg) {
  * @return {boolean}
  */
 export function isProcessSerially() {
-	return config['process-serially'] || false;
+	return prop.get(config, 'process-serially', false);
 }
 
 /**

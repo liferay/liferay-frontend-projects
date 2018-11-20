@@ -1,3 +1,5 @@
+import prop from 'dot-prop';
+
 import {configRequire, getPackageConfig} from './_util';
 
 let config;
@@ -25,7 +27,7 @@ export function getConfig(pkg) {
  * @return {Array} array of output-relative file paths to avoid when processing with Babel
  */
 export function getIgnore() {
-	return config['ignore'];
+	return prop.get(config, 'ignore');
 }
 
 /**

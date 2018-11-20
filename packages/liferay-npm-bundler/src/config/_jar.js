@@ -1,3 +1,5 @@
+import prop from 'dot-prop';
+
 import * as base from './index';
 
 let config;
@@ -22,19 +24,12 @@ export function init(state) {
 export function getRequireJsExtender() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (
-		jarConfig['features'] &&
-		jarConfig['features']['js-extender'] !== undefined
-	) {
-		return jarConfig['features']['js-extender'];
-	}
-
-	// TODO: deprecated branch, remove for the next major version
-	if (jarConfig['auto-deploy-portlet'] === false) {
-		return false;
-	}
-
-	return true;
+	return prop.get(
+		jarConfig,
+		'features.js-extender',
+		// TODO: deprecated 'auto-deploy-portlet', remove for the next major version
+		prop.get(jarConfig, 'auto-deploy-portlet', true)
+	);
 }
 
 /**
@@ -44,11 +39,7 @@ export function getRequireJsExtender() {
 export function getLocalizationFile() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (jarConfig['features'] && jarConfig['features']['localization']) {
-		return jarConfig['features']['localization'];
-	}
-
-	return undefined;
+	return prop.get(jarConfig, 'features.localization');
 }
 
 /**
@@ -58,11 +49,7 @@ export function getLocalizationFile() {
 export function getMetatypeFile() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (jarConfig['features'] && jarConfig['features']['settings']) {
-		return jarConfig['features']['settings'];
-	}
-
-	return undefined;
+	return prop.get(jarConfig, 'features.settings');
 }
 
 /**
@@ -72,21 +59,21 @@ export function getMetatypeFile() {
 export function getWebContextPath() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (jarConfig['features'] && jarConfig['features']['web-context']) {
-		return jarConfig['features']['web-context'];
-	}
-
-	// TODO: deprecated branch, remove for the next major version
-	if (jarConfig['web-context-path']) {
-		return jarConfig['web-context-path'];
-	}
-
-	// TODO: deprecated branch, remove for the next major version
-	if (pkgJson.osgi && pkgJson.osgi['Web-ContextPath']) {
-		return pkgJson.osgi['Web-ContextPath'];
-	}
-
-	return `/${pkgJson.name}-${pkgJson.version}`;
+	return prop.get(
+		jarConfig,
+		'features.web-context',
+		// TODO: deprecated 'web-context-path', remove for the next major version
+		prop.get(
+			jarConfig,
+			'web-context-path',
+			// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
+			prop.get(
+				pkgJson,
+				'osgi.Web-ContextPath',
+				`/${pkgJson.name}-${pkgJson.version}`
+			)
+		)
+	);
 }
 
 /**
@@ -97,15 +84,13 @@ export function getWebContextPath() {
 export function getOutputDir() {
 	const jarConfig = getNormalizedJarConfig();
 
-	if (jarConfig['output-dir']) {
-		return jarConfig['output-dir'];
-	}
-
-	return base.getOutputDir();
+	return prop.get(jarConfig, 'output-dir', base.getOutputDir());
 }
 
 /**
- * Get normalized JAR config
+ * Get normalized JAR config as an object. Note that if JAR config is false this
+ * method returns an object too so it only makes sense in a context where
+ * cfg.isCreateJar() has already been checked and returned true.
  * @return {object}
  */
 function getNormalizedJarConfig() {
