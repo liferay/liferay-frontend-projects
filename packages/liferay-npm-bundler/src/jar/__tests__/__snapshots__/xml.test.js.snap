@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`patchMetatypeXml works with localization file 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
+<metatype:MetaData xmlns:metatype=\\"http://www.osgi.org/xmlns/metatype/v1.1.0\\" localization=\\"content/Language\\">
+  <OCD name=\\"My portlet\\" id=\\"my-portlet\\">
+    <AD name=\\"a-number\\" id=\\"a-number\\" cardinality=\\"0\\" required=\\"false\\" default=\\"1\\" type=\\"Integer\\" description=\\"a-number-help\\"/>
+    <AD name=\\"an-option\\" id=\\"an-option\\" cardinality=\\"0\\" required=\\"false\\" default=\\"A\\" type=\\"String\\" description=\\"an-option-help\\">
+      <Option label=\\"option-a\\" value=\\"A\\"/>
+      <Option label=\\"option-b\\" value=\\"B\\"/>
+    </AD>
+  </OCD>
+  <Designate pid=\\"my-portlet\\">
+    <Object ocdref=\\"my-portlet\\"/>
+  </Designate>
+</metatype:MetaData>"
+`;
+
+exports[`patchMetatypeXml works without localization file 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
+<metatype:MetaData xmlns:metatype=\\"http://www.osgi.org/xmlns/metatype/v1.1.0\\">
+  <OCD name=\\"My portlet\\" id=\\"my-portlet\\">
+    <AD name=\\"a-number\\" id=\\"a-number\\" cardinality=\\"0\\" required=\\"false\\" default=\\"1\\" type=\\"Integer\\" description=\\"a-number-help\\"/>
+    <AD name=\\"an-option\\" id=\\"an-option\\" cardinality=\\"0\\" required=\\"false\\" default=\\"A\\" type=\\"String\\" description=\\"an-option-help\\">
+      <Option label=\\"option-a\\" value=\\"A\\"/>
+      <Option label=\\"option-b\\" value=\\"B\\"/>
+    </AD>
+  </OCD>
+  <Designate pid=\\"my-portlet\\">
+    <Object ocdref=\\"my-portlet\\"/>
+  </Designate>
+</metatype:MetaData>"
+`;

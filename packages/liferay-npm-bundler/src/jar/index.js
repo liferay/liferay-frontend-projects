@@ -3,13 +3,12 @@ import globby from 'globby';
 import JSZip from 'jszip';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
-import {js2xml, xml2js} from 'xml-js';
 
 import * as config from '../config';
-import * as xml from './xml';
+import {patchMetatypeXml} from './xml';
 
-const jarFileName = `${pkgJson.name}-${pkgJson.version}.jar`;
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
+const jarFileName = `${pkgJson.name}-${pkgJson.version}.jar`;
 
 /**
  * Create an OSGi bundle with build's output
@@ -145,34 +144,27 @@ function addMetatypeFile(zip) {
 	const filePath = config.jar.getMetatypeFile();
 
 	if (filePath) {
-		const localizationFile = config.jar.getLocalizationFile();
-		const js = xml2js(fs.readFileSync(filePath), {});
+		const bundleName = path.basename(config.jar.getLocalizationFile());
+		let localization = undefined;
+		const name = pkgJson.description || pkgJson.name;
+		const pid = pkgJson.name;
 
-		const metadata = xml.findChild(js, 'metatype:MetaData');
+		const localizationFile = config.jar.getLocalizationFile();
 
 		if (localizationFile) {
-			const bundleName = path.basename(config.jar.getLocalizationFile());
-
-			metadata.attributes['localization'] = `content/${bundleName}`;
+			localization = `content/${bundleName}`;
 		}
 
-		const ocd = xml.findChild(metadata, 'OCD');
-
-		xml.addAttr(ocd, 'name', pkgJson.description || pkgJson.name);
-		xml.addAttr(ocd, 'id', pkgJson.name);
-
-		const designate = xml.findChild(metadata, 'Designate', true);
-
-		xml.addAttr(designate, 'pid', pkgJson.name);
-
-		const object = xml.findChild(designate, 'Object', true);
-
-		xml.addAttr(object, 'ocdref', pkgJson.name);
+		const xml = patchMetatypeXml(fs.readFileSync(filePath), {
+			localization,
+			name,
+			pid,
+		});
 
 		zip
 			.folder('OSGI-INF')
 			.folder('metatype')
-			.file(`${pkgJson.name}.xml`, js2xml(js, {spaces: 2}));
+			.file(`${pkgJson.name}.xml`, xml);
 	}
 }
 
