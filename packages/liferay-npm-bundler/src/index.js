@@ -78,7 +78,7 @@ function run() {
 		let pkgs = addPackageDependencies(
 			{},
 			'.',
-			config.getIncludeDependencies()
+			config.bundler.getIncludeDependencies()
 		);
 
 		pkgs = Object.keys(pkgs)
@@ -91,7 +91,7 @@ function run() {
 		// Process NPM dependencies
 		log.info(`Bundling ${pkgs.length} dependencies...`);
 
-		if (config.isProcessSerially()) {
+		if (config.bundler.isProcessSerially()) {
 			report.warn(
 				'Option process-serially is on: this may degrade build performance.'
 			);
@@ -178,7 +178,7 @@ function bundleRootPackage(outputDir) {
 
 	// Process package
 	return processPackage('pre', srcPkg, pkg)
-		.then(() => runBabel(pkg, {ignore: config.getIgnore()}))
+		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
 		.then(() => processPackage('post', srcPkg, pkg))
 		.then(() => manifest.addPackage(srcPkg, pkg))
 		.then(() => manifest.save())
@@ -236,7 +236,7 @@ function bundlePackage(srcPkg, outputDir) {
  * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
  */
 function copyPackage(pkg, dir) {
-	const exclusions = config.getExclusions(pkg);
+	const exclusions = config.bundler.getExclusions(pkg);
 
 	// Determine what to copy
 	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
@@ -246,7 +246,7 @@ function copyPackage(pkg, dir) {
 	return globby(globs).then(files => {
 		// Filter files with copy-plugins
 		const state = runPlugins(
-			config.getPlugins('copy', pkg),
+			config.bundler.getPlugins('copy', pkg),
 			pkg,
 			pkg.clone({dir: dir}),
 			{
@@ -296,7 +296,7 @@ function processPackage(phase, srcPkg, pkg) {
 	return new Promise((resolve, reject) => {
 		try {
 			const state = runPlugins(
-				config.getPlugins(phase, pkg),
+				config.bundler.getPlugins(phase, pkg),
 				srcPkg,
 				pkg,
 				{
