@@ -4,6 +4,7 @@ import Generator from 'yeoman-generator';
 import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import {DEFAULT_LOCALIZATION} from './constants';
 
 /**
  * Generator to add localization support to projects.
@@ -41,10 +42,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 
-		npmbundlerrc.setFeature(
-			'localization',
-			'features/localization/Language'
-		);
+		npmbundlerrc.setFeature('localization', DEFAULT_LOCALIZATION);
 
 		cp.copyDir('features');
 	}
