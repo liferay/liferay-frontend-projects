@@ -97,6 +97,15 @@ export class JsonModifier {
 
 		gen.fs.write(this._path, JSON.stringify(json, null, '	'));
 	}
+
+	/**
+	 * Escape a property name to make it suitable for use in dot-prop
+	 * @param {string} name name of property
+	 * @return {string} the escaped name
+	 */
+	_escapeProp(name) {
+		return name.replace(/\./g, '\\.');
+	}
 }
 
 /**

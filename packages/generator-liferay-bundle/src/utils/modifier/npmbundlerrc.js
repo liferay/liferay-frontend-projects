@@ -1,3 +1,5 @@
+import prop from 'dot-prop';
+
 import {JsonModifier} from '..';
 
 /**
@@ -17,15 +19,17 @@ export default class extends JsonModifier {
 	 */
 	mergeImports(imports) {
 		this.modifyJson(json => {
-			json['config'] = json['config'] || {};
-			json['config']['imports'] = json['config']['imports'] || {};
-
 			Object.entries(imports).forEach(([provider, dependencies]) => {
-				json['config']['imports'][provider] =
-					json['config']['imports'][provider] || {};
+				provider = this._escapeProp(provider);
 
 				Object.entries(dependencies).forEach(([name, semver]) => {
-					json['config']['imports'][provider][name] = semver;
+					name = this._escapeProp(name);
+
+					prop.set(
+						json,
+						`config.imports.${provider}.${name}`,
+						semver
+					);
 				});
 			});
 		});
@@ -37,9 +41,10 @@ export default class extends JsonModifier {
 	 * @param {boolean} value true to exclude package
 	 */
 	addExclusion(name, value = true) {
+		name = this._escapeProp(name);
+
 		this.modifyJson(json => {
-			json['exclude'] = json['exclude'] || {};
-			json['exclude'][name] = value;
+			prop.set(json, `exclude.${name}`, value);
 		});
 	}
 
@@ -49,11 +54,10 @@ export default class extends JsonModifier {
 	 * @param {any} value value of feature
 	 */
 	setFeature(name, value) {
+		name = this._escapeProp(name);
+
 		this.modifyJson(json => {
-			json['create-jar'] = json['create-jar'] || {};
-			json['create-jar']['features'] =
-				json['create-jar']['features'] || {};
-			json['create-jar']['features'][name] = value;
+			prop.set(json, `create-jar.features.${name}`, value);
 		});
 	}
 }
