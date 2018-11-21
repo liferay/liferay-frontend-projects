@@ -1,4 +1,5 @@
 import prop from 'dot-prop';
+import path from 'path';
 
 import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
 
@@ -43,7 +44,19 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
-	 * Get the path to localization file.
+	 * Get the basename of the localization file (without the .properties
+	 * extension)
+	 * @return {string}
+	 */
+	get localizationBundleName() {
+		const bundleName = path.basename(this.localizationFilePath);
+		const extname = path.extname(bundleName);
+
+		return bundleName.replace(new RegExp(extname.replace('.', '\\.')), '');
+	}
+
+	/**
+	 * Get the path to localization properties file.
 	 * @return {string}
 	 */
 	get localizationFilePath() {
