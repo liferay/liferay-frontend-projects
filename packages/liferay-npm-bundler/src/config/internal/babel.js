@@ -1,6 +1,6 @@
 import prop from 'dot-prop';
 
-import {configRequire, getPackageConfig} from './_util';
+import {configRequire, getPackageConfig} from './util';
 
 let config;
 

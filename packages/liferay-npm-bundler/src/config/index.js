@@ -5,10 +5,10 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
-import * as babel from './_babel';
-import * as bundler from './_bundler';
-import * as jar from './_jar';
-import * as util from './_util';
+import * as babel from './internal/babel';
+import * as bundler from './internal/bundler';
+import * as jar from './internal/jar';
+import * as util from './internal/util';
 
 // These state objects are consts so that they can be injected into private
 // submodules just once.

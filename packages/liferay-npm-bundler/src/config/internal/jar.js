@@ -1,7 +1,7 @@
 import prop from 'dot-prop';
 import fs from 'fs';
 
-import * as base from './index';
+import * as base from '../index';
 
 let config;
 let pkgJson;
