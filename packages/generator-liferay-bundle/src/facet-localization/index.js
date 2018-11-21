@@ -41,11 +41,10 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 
-		npmbundlerrc.modifyJson(json => {
-			json['create-jar'] = json['create-jar'] || {};
-			json['create-jar']['features']['localization'] =
-				'features/localization/Language';
-		});
+		npmbundlerrc.setFeature(
+			'localization',
+			'features/localization/Language'
+		);
 
 		cp.copyDir('features');
 	}

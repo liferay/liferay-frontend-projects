@@ -42,4 +42,18 @@ export default class extends JsonModifier {
 			json['exclude'][name] = value;
 		});
 	}
+
+	/**
+	 * Set a feature value.
+	 * @param {string} name name of feature
+	 * @param {any} value value of feature
+	 */
+	setFeature(name, value) {
+		this.modifyJson(json => {
+			json['create-jar'] = json['create-jar'] || {};
+			json['create-jar']['features'] =
+				json['create-jar']['features'] || {};
+			json['create-jar']['features'][name] = value;
+		});
+	}
 }

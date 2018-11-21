@@ -84,4 +84,16 @@ export default class extends JsonModifier {
 			json.scripts[name] = command;
 		});
 	}
+
+	/**
+	 * Add a property inside the portlet section.
+	 * @param {string} name name of property
+	 * @param {any} value value of property
+	 */
+	addPortletProperty(name, value) {
+		this.modifyJson(json => {
+			json.portlet = json.portlet || {};
+			json.portlet[name] = value;
+		});
+	}
 }

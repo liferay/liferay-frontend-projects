@@ -39,22 +39,26 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 
-		npmbundlerrc.modifyJson(json => {
-			json['create-jar'] = json['create-jar'] || {};
-			json['create-jar']['features']['js-extender'] = true;
-		});
+		npmbundlerrc.setFeature('js-extender', true);
 
-		pkgJson.modifyJson(json => {
-			json.portlet = json.portlet || {};
-			json.portlet['javax.portlet.display-name'] = json.description || '';
-			json.portlet['javax.portlet.security-role-ref'] = 'power-user,user';
-			json.portlet['com.liferay.portlet.instanceable'] = true;
-			json.portlet[
-				'com.liferay.portlet.display-category'
-			] = this.answers.category;
-			json.portlet['com.liferay.portlet.header-portlet-css'] =
-				'/css/styles.css';
-		});
+		pkgJson.addPortletProperty(
+			'javax.portlet.display-name',
+			pkgJson.json.description || ''
+		);
+		pkgJson.addPortletProperty(
+			'javax.portlet.security-role-ref',
+			'power-user,user'
+		);
+		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
+		pkgJson.addPortletProperty(
+			'com.liferay.portlet.display-category',
+			this.answers.category
+		);
+		pkgJson.addPortletProperty(
+			'com.liferay.portlet.header-portlet-css',
+			'/css/styles.css'
+		);
+
 		cp.copyDir('assets');
 	}
 }
