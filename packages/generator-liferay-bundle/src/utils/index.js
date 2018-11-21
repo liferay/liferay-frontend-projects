@@ -146,3 +146,29 @@ export async function promptWithConfig(generator, namespace, prompts) {
 		return await generator.prompt(prompts);
 	}
 }
+
+/**
+ * Converts a technical string to human readable form.
+ * @param {string} string string to capitalize
+ * @return {string}
+ */
+export function toHumanReadable(string) {
+	let capitalizeNext = true;
+	let humanizedString = '';
+
+	for (let i = 0; i < string.length; i++) {
+		if (string[i].match(/[\\._-]/)) {
+			humanizedString += ' ';
+			capitalizeNext = true;
+		} else {
+			if (capitalizeNext) {
+				humanizedString += string[i].toLocaleUpperCase();
+				capitalizeNext = false;
+			} else {
+				humanizedString += string[i];
+			}
+		}
+	}
+
+	return humanizedString;
+}
