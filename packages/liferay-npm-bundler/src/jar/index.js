@@ -76,9 +76,12 @@ function addFiles(srcDir, srcGlobs, destFolder) {
  */
 function addLocalizationFiles(zip) {
 	const resourceBundleName = config.jar.getLocalizationFile();
-	const resourceBundleDir = path.dirname(resourceBundleName);
 
-	addFiles(resourceBundleDir, ['**/*'], zip.folder('content'));
+	if (resourceBundleName) {
+		const resourceBundleDir = path.dirname(resourceBundleName);
+
+		addFiles(resourceBundleDir, ['**/*'], zip.folder('content'));
+	}
 }
 
 /**
