@@ -44,18 +44,13 @@ export default class extends Generator {
 		const portletName = getPortletName(projectAnalyzer);
 		const portletDisplayName = getPortletDisplayName(projectAnalyzer);
 
-		// Add standard portlet properties
-		pkgJson.addPortletProperty(
-			'javax.portlet.display-name',
-			portletDisplayName
-		);
-		pkgJson.addPortletProperty('javax.portlet.name', portletName);
-		pkgJson.addPortletProperty(
-			'javax.portlet.security-role-ref',
-			'power-user,user'
-		);
+		// Require extender
+		npmbundlerrc.setFeature('js-extender', true);
 
-		// Add Liferay portlet properties
+		// Copy static assets
+		cp.copyDir('assets');
+
+		// Add portlet properties
 		pkgJson.addPortletProperty(
 			'com.liferay.portlet.display-category',
 			this.answers.category
@@ -65,29 +60,31 @@ export default class extends Generator {
 			'/css/styles.css'
 		);
 		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
+		pkgJson.addPortletProperty('javax.portlet.name', portletName);
+		pkgJson.addPortletProperty(
+			'javax.portlet.security-role-ref',
+			'power-user,user'
+		);
 
-		// Require extender
-		npmbundlerrc.setFeature('js-extender', true);
-
-		// Add localization if needed
+		// Add portlet display name as needed
 		if (projectAnalyzer.hasLocalization) {
-			const languagePropertiesModifier = new LanguagePropertiesModifier(
-				this
-			);
-
-			languagePropertiesModifier.addProperty(
-				`javax.portlet.title.${portletName}`,
-				portletDisplayName
-			);
-
+			// Add resource bundle portlet property
 			pkgJson.addPortletProperty(
 				'javax.portlet.resource-bundle',
 				`content.${projectAnalyzer.localizationBundleName}`
 			);
-		}
 
-		// Copy static assets
-		cp.copyDir('assets');
+			// Add portlet display name localization key
+			new LanguagePropertiesModifier(this).addProperty(
+				`javax.portlet.title.${portletName}`,
+				portletDisplayName
+			);
+		} else {
+			pkgJson.addPortletProperty(
+				'javax.portlet.display-name',
+				portletDisplayName
+			);
+		}
 	}
 }
 

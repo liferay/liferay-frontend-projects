@@ -14,6 +14,19 @@ export default class extends JsonModifier {
 	}
 
 	/**
+	 * Add an exclusion to the .npmbundlerrc file.
+	 * @param {string} name name of package
+	 * @param {boolean} value true to exclude package
+	 */
+	addExclusion(name, value = true) {
+		name = this._escapeProp(name);
+
+		this.modifyJson(json => {
+			prop.set(json, `exclude.${name}`, value);
+		});
+	}
+
+	/**
 	 * Merge all imports contained in a JSON object into the .npmbundlerrc file.
 	 * @param {Object} imports an object containing the config.imports section
 	 */
@@ -32,19 +45,6 @@ export default class extends JsonModifier {
 					);
 				});
 			});
-		});
-	}
-
-	/**
-	 * Add an exclusion to the .npmbundlerrc file.
-	 * @param {string} name name of package
-	 * @param {boolean} value true to exclude package
-	 */
-	addExclusion(name, value = true) {
-		name = this._escapeProp(name);
-
-		this.modifyJson(json => {
-			prop.set(json, `exclude.${name}`, value);
 		});
 	}
 
