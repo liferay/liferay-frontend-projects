@@ -1,12 +1,13 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
-import dependenciesJson from './dependencies.json';
-import {Copier} from '../utils';
+import {Copier, formatLabels, promptWithConfig} from '../utils';
+import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
+import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
+import dependenciesJson from './dependencies.json';
 
 /**
  * Implementation of generation of Angular portlets.
@@ -41,28 +42,55 @@ export default class extends Generator {
 		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
-
+		const projectAnalyzer = new ProjectAnalyzer(this);
 		const {sampleWanted} = this.answers;
 
+		// Configure build
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('tsc');
 		cp.copyFile('tsconfig.json');
 
-		pkgJson.setMain('index.js');
-		cp.copyFile('src/polyfills.ts');
-		cp.copyFile('src/index.ts');
-		cp.copyDir('src/types');
-
+		// Configure webpack
 		pkgJson.addDevDependency('ts-loader', '^5.0.0');
 		npmbuildrc.addWebpackRule(/src\/.*\.ts$/, 'ts-loader');
 		npmbuildrc.addWebpackExtensions('.ts', '.js');
 		npmbuildrc.setWebpackMainModule('index.ts');
 
+		// Prepare text labels
+		const labels = formatLabels({
+			portletNamespace: 'Porlet Namespace',
+			contextPath: 'Context Path',
+			portletElementId: 'Portlet Element Id',
+		});
+
+		// Copy source files
+		pkgJson.setMain('index.js');
+		cp.copyFile('src/polyfills.ts');
+		cp.copyFile('src/index.ts');
+		cp.copyDir('src/types');
+
+		// Generate sample contents
 		if (sampleWanted) {
-			cp.copyDir('src', {context: {pkgJson: pkgJson.json}});
-			cp.copyDir('assets');
+			// Add styles
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
+
+			// Copy sample source files
+			cp.copyDir('src', {
+				context: {
+					pkgJson: pkgJson.json,
+					labels:
+						labels[
+							projectAnalyzer.hasLocalization ? 'template' : 'raw'
+						],
+				},
+			});
+			cp.copyDir('assets');
+
+			// Add localization keys
+			if (projectAnalyzer.hasLocalization) {
+				new LanguagePropertiesModifier(this).addProperties(labels.raw);
+			}
 		}
 	}
 }
