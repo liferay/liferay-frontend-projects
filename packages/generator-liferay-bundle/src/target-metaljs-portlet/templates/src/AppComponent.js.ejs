@@ -6,17 +6,17 @@ export default class AppComponent extends JSXComponent {
         return (
             <div>
 				<div>
-					<span class="tag">Portlet Namespace:</span> 
+					<span class="tag"><%- labels.porletNamespace %>:</span> 
 					<span class="value">{this.props.portletNamespace}</span>
 				</div>
 
 				<div>
-					<span class="tag">Context Path:</span> 
+					<span class="tag"><%- labels.contextPath %>:</span> 
 					<span class="value">{this.props.contextPath}</span>
 				</div>
 
 				<div>
-					<span class="tag">Portlet Element Id:</span>
+					<span class="tag"><%- labels.portletElementId %>:</span>
 					<span class="value">{this.props.portletElementId}</span>
 				</div>
 			</div>
