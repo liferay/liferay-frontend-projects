@@ -1,0 +1,15 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "metaljs-portlet",
+			"folder": "metaljs-portlet-l10n",
+			"description": "Metal.js portlet (without L10N)",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"useLocalization": false,
+			"sampleWanted": true
+		}
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "vuejs-portlet",
+			"folder": "vuejs-portlet",
+			"description": "Vue.js portlet (without L10N)",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"useLocalization": false,
+			"sampleWanted": true
+		}
+	}
+}

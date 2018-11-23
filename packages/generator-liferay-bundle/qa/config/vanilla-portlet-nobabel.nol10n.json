@@ -1,0 +1,16 @@
+{
+	"batchMode": true,
+	"answers": {
+		"*": {
+			"target": "vanilla-portlet",
+			"folder": "vanilla-portlet-nobabel",
+			"description": "Vanilla ES5 portlet (without L10N)",
+			"category": "category.sample",
+			"liferayPresent": true,
+			"liferayDir": "/Users/ivan/Liferay/CE/bundles",
+			"useBabel": false,
+			"useLocalization": false,
+			"sampleWanted": true
+		}
+	}
+}
