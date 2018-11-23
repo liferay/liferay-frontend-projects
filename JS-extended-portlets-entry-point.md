@@ -15,4 +15,4 @@ As shown, the function receives a single object with several fields:
 * **portletElementId**: the id of the DOM node where the portlet's UI must be rendered.
 * **contextPath**: the path to the web context of the module to be able to download static resources. It does not contain server, protocol or port parts, just the path portion of the URL (i.e. something like `/o/my-portlet`).
 * **portletNamespace**: the portlet namespace as defined in the portlet specification.
-* **configuration** `since JS Portlet Extender 1.1.0`: this field contains the OSGi configuration associated to the bundle. If no configuration is defined it will be an empty object.
+* **configuration** `[since JS Portlet Extender 1.1.0]`: this field contains the OSGi configuration associated to the bundle. If no configuration is defined it will be an empty object.
