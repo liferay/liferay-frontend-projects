@@ -13,9 +13,9 @@ export class AppComponent {
 
 	constructor() {
 		this.labels = {        
-			portletNamespace: Liferay.Language.get("portletNamespace"),
-        	contextPath: Liferay.Language.get("contextPath"),
-			portletElementId: Liferay.Language.get("portletElementId")
+			portletNamespace: <%- labels.portletNamespace %>,
+        	contextPath: <%- labels.contextPath %>,
+			portletElementId: <%- labels.portletElementId %>
 		}
 	}
 }

@@ -81,7 +81,7 @@ export default class extends Generator {
 					pkgJson: pkgJson.json,
 					labels:
 						labels[
-							projectAnalyzer.hasLocalization ? 'template' : 'raw'
+							projectAnalyzer.hasLocalization ? 'js' : 'quoted'
 						],
 				},
 			});
