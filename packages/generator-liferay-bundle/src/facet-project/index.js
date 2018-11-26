@@ -3,7 +3,7 @@ import Generator from 'yeoman-generator';
 
 import pkgJson from '../../package.json';
 import {promptWithConfig} from '../utils';
-import {Copier} from '../utils';
+import {Copier, toHumanReadable} from '../utils';
 
 /**
  * Generator to add base scaffolding to projects.
@@ -26,7 +26,7 @@ export default class extends Generator {
 				name: 'description',
 				message:
 					'What is the human readable description of your project?',
-				default: path.basename(process.cwd()),
+				default: toHumanReadable(path.basename(process.cwd())),
 			},
 		]);
 	}

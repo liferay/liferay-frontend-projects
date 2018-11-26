@@ -1,3 +1,5 @@
+import prop from 'dot-prop';
+
 import {JsonModifier} from '..';
 
 /**
@@ -17,7 +19,7 @@ export default class extends JsonModifier {
 	 */
 	setMain(module) {
 		this.modifyJson(json => {
-			json.main = module;
+			prop.set(json, 'main', module);
 		});
 	}
 
@@ -27,9 +29,10 @@ export default class extends JsonModifier {
 	 * @param {String} semver semver constraints
 	 */
 	addDevDependency(name, semver) {
+		name = this._escapeProp(name);
+
 		this.modifyJson(json => {
-			json.devDependencies = json.devDependencies || {};
-			json.devDependencies[name] = semver;
+			prop.set(json, `devDependencies.${name}`, semver);
 		});
 	}
 
@@ -39,9 +42,10 @@ export default class extends JsonModifier {
 	 * @param {String} semver semver constraints
 	 */
 	addDependency(name, semver) {
+		name = this._escapeProp(name);
+
 		this.modifyJson(json => {
-			json.dependencies = json.dependencies || {};
-			json.dependencies[name] = semver;
+			prop.set(json, `dependencies.${name}`, semver);
 		});
 	}
 
@@ -67,9 +71,13 @@ export default class extends JsonModifier {
 	 */
 	addBuildStep(command) {
 		this.modifyJson(json => {
-			json.scripts = json.scripts || {};
-			json.scripts.build = json.scripts.build || '';
-			json.scripts.build = `${command} && ${json.scripts.build}`;
+			const currentBuild = prop.get(json, 'scripts.build');
+
+			if (currentBuild) {
+				command = `${command} && ${currentBuild}`;
+			}
+
+			prop.set(json, 'scripts.build', command);
 		});
 	}
 
@@ -79,9 +87,23 @@ export default class extends JsonModifier {
 	 * @param {String} command command to run
 	 */
 	addScript(name, command) {
+		name = this._escapeProp(name);
+
 		this.modifyJson(json => {
-			json.scripts = json.scripts || {};
-			json.scripts[name] = command;
+			prop.set(json, `scripts.${name}`, command);
+		});
+	}
+
+	/**
+	 * Add a property inside the portlet section.
+	 * @param {string} name name of property
+	 * @param {any} value value of property
+	 */
+	addPortletProperty(name, value) {
+		name = this._escapeProp(name);
+
+		this.modifyJson(json => {
+			prop.set(json, `portlet.${name}`, value);
 		});
 	}
 }

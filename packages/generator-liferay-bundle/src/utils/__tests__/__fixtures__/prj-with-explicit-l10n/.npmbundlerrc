@@ -1,0 +1,7 @@
+{
+  "create-jar": {
+    "features": {
+      "localization": "features/localization/MyKeys"
+    }
+  }
+}

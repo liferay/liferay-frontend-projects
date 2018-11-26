@@ -1,3 +1,4 @@
+import prop from 'dot-prop';
 import os from 'os';
 
 import {JsonModifier} from '..';
@@ -19,7 +20,7 @@ export default class extends JsonModifier {
 	 */
 	setLiferayDir(liferayDir) {
 		this.modifyJson(json => {
-			json.liferayDir = liferayDir;
+			prop.set(json, 'liferayDir', liferayDir);
 		});
 	}
 
@@ -29,8 +30,7 @@ export default class extends JsonModifier {
 	 */
 	setWebpackMainModule(mainModule) {
 		this.modifyJson(json => {
-			json.webpack = json.webpack || {};
-			json.webpack.mainModule = mainModule;
+			prop.set(json, 'webpack.mainModule', mainModule);
 		});
 	}
 
@@ -51,12 +51,14 @@ export default class extends JsonModifier {
 
 			test = test.substring(1, test.length - 1);
 
-			json.webpack = json.webpack || {};
-			json.webpack.rules = json.webpack.rules || [];
-			json.webpack.rules.push({
+			let currentRules = prop.get(json, 'webpack.rules', []);
+
+			currentRules.push({
 				test: test,
 				use: loader,
 			});
+
+			prop.set(json, 'webpack.rules', currentRules);
 		});
 	}
 
@@ -66,9 +68,11 @@ export default class extends JsonModifier {
 	 */
 	addWebpackExtensions(...extensions) {
 		this.modifyJson(json => {
-			json.webpack = json.webpack || {};
-			json.webpack.extensions = json.webpack.extensions || [];
-			json.webpack.extensions.push(...extensions);
+			let currentExtensions = prop.get(json, 'webpack.extensions', []);
+
+			currentExtensions.push(...extensions);
+
+			prop.set(json, 'webpack.extensions', currentExtensions);
 		});
 	}
 }

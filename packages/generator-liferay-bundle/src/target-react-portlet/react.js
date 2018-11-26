@@ -1,12 +1,14 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
-import dependenciesJson from './dependencies.json';
-import {Copier} from '../utils';
+import {Copier, promptWithConfig} from '../utils';
+import {formatLabels} from '../utils/l10n';
+import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
+import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
+import dependenciesJson from './dependencies.json';
 
 /**
  * Implementation of generation of React portlets.
@@ -41,22 +43,49 @@ export default class extends Generator {
 		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const projectAnalyzer = new ProjectAnalyzer(this);
 		const {sampleWanted} = this.answers;
 
+		// Configure build
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
-		pkgJson.setMain('index.js');
-		cp.copyFile('src/index.js');
-
+		// Configure webpack
 		pkgJson.addDevDependency('babel-loader', '^7.0.0');
 		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
+		// Prepare text labels
+		const labels = formatLabels({
+			porletNamespace: 'Porlet Namespace',
+			contextPath: 'Context Path',
+			portletElementId: 'Portlet Element Id',
+		});
+
+		// Copy javascript files
+		pkgJson.setMain('index.js');
+		cp.copyFile('src/index.js');
+
+		// Generate sample contents
 		if (sampleWanted) {
-			cp.copyDir('src');
+			// Add styles
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
+
+			// Copy sample Javascript files
+			cp.copyDir('src', {
+				context: {
+					labels:
+						labels[projectAnalyzer.hasLocalization ? 'jsx' : 'raw'],
+				},
+			});
+
+			// Add localization keys
+			if (projectAnalyzer.hasLocalization) {
+				new LanguagePropertiesModifier(this).addProperties(
+					labels.properties
+				);
+			}
 		}
 	}
 }

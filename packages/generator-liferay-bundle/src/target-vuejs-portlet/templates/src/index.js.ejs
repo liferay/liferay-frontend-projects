@@ -3,22 +3,10 @@ import Vue from 'vue/dist/vue.common';
 <% } %>
 
 /**
- * This is the main entry point of the portlet. It receives a hash of values
- * describing the context of execution. The values are:
+ * This is the main entry point of the portlet.
  *
- *   - portletElementId:
- *   		The id of the DOM node which acts as a container for the portlet.
- *   		Usually you will want to attach any generated HTML code to this
- * 			node.
- *
- *   - portletNamespace:
- *   		Portlet namespace, which is the unique identifier for this portlet
- *   		instance.
- *
- *   - contextPath:
- *   		The absolute path portion to this module's resources. It starts with
- *   		'/' and doesn't contain the protocol, host, port or authentication
- *   		values. Just the path.
+ * See https://tinyurl.com/js-ext-portlet-entry-point for the most recent 
+ * information on the signature of this function.
  *
  * @param  {Object} params a hash with values of interest to the portlet
  * @return {void}
@@ -31,15 +19,15 @@ export default function main({portletNamespace, contextPath, portletElementId}) 
     node.innerHTML = `
         <div>
             <div>
-                <span class="tag">Portlet Namespace:</span> 
+                <span class="tag"><%- labels.porletNamespace %>:</span> 
                 <span class="value">{{portletNamespace}}</span>
             </div>
             <div>
-                <span class="tag">Context Path:</span> 
+                <span class="tag"><%- labels.contextPath %>:</span>
                 <span class="value">{{contextPath}}</span>
             </div>
             <div>
-                <span class="tag">Portlet Element Id:</span>
+                <span class="tag"><%- labels.portletElementId %>:</span>
                 <span class="value">{{portletElementId}}</span>
             </div>
         </div>

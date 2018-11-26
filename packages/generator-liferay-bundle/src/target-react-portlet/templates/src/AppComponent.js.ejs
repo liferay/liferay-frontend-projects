@@ -6,15 +6,15 @@ export default class extends React.Component {
 		return (
             <div>
 				<div>
-					<span className="tag">Portlet Namespace:</span> 
+        	        <span className="tag"><%- labels.porletNamespace %>:</span> 
 					<span className="value">{this.props.portletNamespace}</span>
 				</div>
 				<div>
-					<span className="tag">Context Path:</span> 
+    	            <span className="tag"><%- labels.contextPath %>:</span>
 					<span className="value">{this.props.contextPath}</span>
 				</div>
 				<div>
-					<span className="tag">Portlet Element Id:</span>
+	                <span className="tag"><%- labels.portletElementId %>:</span>
 					<span className="value">{this.props.portletElementId}</span>
 				</div>
 			</div>

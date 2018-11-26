@@ -97,6 +97,15 @@ export class JsonModifier {
 
 		gen.fs.write(this._path, JSON.stringify(json, null, '	'));
 	}
+
+	/**
+	 * Escape a property name to make it suitable for use in dot-prop
+	 * @param {string} name name of property
+	 * @return {string} the escaped name
+	 */
+	_escapeProp(name) {
+		return name.replace(/\./g, '\\.');
+	}
 }
 
 /**
@@ -136,4 +145,30 @@ export async function promptWithConfig(generator, namespace, prompts) {
 	} else {
 		return await generator.prompt(prompts);
 	}
+}
+
+/**
+ * Converts a technical string to human readable form.
+ * @param {string} string string to capitalize
+ * @return {string}
+ */
+export function toHumanReadable(string) {
+	let capitalizeNext = true;
+	let humanizedString = '';
+
+	for (let i = 0; i < string.length; i++) {
+		if (string[i].match(/[\\._-]/)) {
+			humanizedString += ' ';
+			capitalizeNext = true;
+		} else {
+			if (capitalizeNext) {
+				humanizedString += string[i].toLocaleUpperCase();
+				capitalizeNext = false;
+			} else {
+				humanizedString += string[i];
+			}
+		}
+	}
+
+	return humanizedString;
 }
