@@ -109,34 +109,6 @@ export class JsonModifier {
 }
 
 /**
- * Format label values according to different formats.
- * @param {object} labels
- * @return {object} returns an object with labels transformed according to
- * 			different formats: 'raw', 'quoted', 'template', 'js'
- */
-export function formatLabels(labels) {
-	return {
-		raw: labels,
-		quoted: Object.entries(labels).reduce((obj, [key, value]) => {
-			obj[key] = `'${value}'`;
-			return obj;
-		}, {}),
-		template: Object.keys(labels).reduce((obj, key) => {
-			obj[key] = `\${Liferay.Language.get('${key}')}`;
-			return obj;
-		}, {}),
-		js: Object.keys(labels).reduce((obj, key) => {
-			obj[key] = `Liferay.Language.get('${key}')`;
-			return obj;
-		}, {}),
-		jsx: Object.keys(labels).reduce((obj, key) => {
-			obj[key] = `{Liferay.Language.get('${key}')}`;
-			return obj;
-		}, {}),
-	};
-}
-
-/**
  * A function to process prompts as specified in the configuration file.
  * @param  {Generator} generator a Yeoman generator
  * @param {string} namespace the generator namespace as defined in

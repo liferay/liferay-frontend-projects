@@ -1,5 +1,5 @@
 import * as cfg from '../../config';
-import {promptWithConfig, formatLabels} from '../index';
+import {promptWithConfig} from '../index';
 
 describe('promptWithConfig()', () => {
 	it('works in batch mode', async () => {
@@ -83,57 +83,5 @@ describe('promptWithConfig()', () => {
 				default: 'cfg-file',
 			},
 		]);
-	});
-});
-
-describe('formatLabels()', () => {
-	const labels = {
-		label1: 'Label one',
-		label2: 'Label two',
-	};
-
-	it('works for raw', () => {
-		const fl = formatLabels(labels);
-
-		expect(fl.raw).toEqual({
-			label1: 'Label one',
-			label2: 'Label two',
-		});
-	});
-
-	it('works for quoted', () => {
-		const fl = formatLabels(labels);
-
-		expect(fl.quoted).toEqual({
-			label1: '\'Label one\'',
-			label2: '\'Label two\'',
-		});
-	});
-
-	it('works for template', () => {
-		const fl = formatLabels(labels);
-
-		expect(fl.template).toEqual({
-			label1: '${Liferay.Language.get(\'label1\')}',
-			label2: '${Liferay.Language.get(\'label2\')}',
-		});
-	});
-
-	it('works for js', () => {
-		const fl = formatLabels(labels);
-
-		expect(fl.js).toEqual({
-			label1: 'Liferay.Language.get(\'label1\')',
-			label2: 'Liferay.Language.get(\'label2\')',
-		});
-	});
-
-	it('works for jsx', () => {
-		const fl = formatLabels(labels);
-
-		expect(fl.jsx).toEqual({
-			label1: '{Liferay.Language.get(\'label1\')}',
-			label2: '{Liferay.Language.get(\'label2\')}',
-		});
 	});
 });

@@ -1,7 +1,8 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, formatLabels, promptWithConfig} from '../utils';
+import {Copier, promptWithConfig} from '../utils';
+import {formatLabels} from '../utils/l10n';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
@@ -97,7 +98,9 @@ export default class extends Generator {
 
 			// Add localization keys
 			if (projectAnalyzer.hasLocalization) {
-				new LanguagePropertiesModifier(this).addProperties(labels.raw);
+				new LanguagePropertiesModifier(this).addProperties(
+					labels.properties
+				);
 			}
 		}
 	}
