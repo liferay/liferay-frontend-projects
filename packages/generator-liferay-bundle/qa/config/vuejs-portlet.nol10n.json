@@ -3,7 +3,7 @@
 	"answers": {
 		"*": {
 			"target": "vuejs-portlet",
-			"folder": "vuejs-portlet",
+			"folder": "vuejs-portlet-nol10n",
 			"description": "Vue.js portlet (without L10N)",
 			"category": "category.sample",
 			"liferayPresent": true,

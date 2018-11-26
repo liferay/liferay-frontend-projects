@@ -3,7 +3,7 @@
 	"answers": {
 		"*": {
 			"target": "vanilla-portlet",
-			"folder": "vanilla-portlet-babel",
+			"folder": "vanilla-portlet-babel-nol10n",
 			"description": "Vanilla ES2015+ portlet (without L10N)",
 			"category": "category.sample",
 			"liferayPresent": true,

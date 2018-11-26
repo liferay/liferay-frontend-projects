@@ -3,7 +3,7 @@
 	"answers": {
 		"*": {
 			"target": "metaljs-portlet",
-			"folder": "metaljs-portlet-l10n",
+			"folder": "metaljs-portlet-nol10n",
 			"description": "Metal.js portlet (without L10N)",
 			"category": "category.sample",
 			"liferayPresent": true,

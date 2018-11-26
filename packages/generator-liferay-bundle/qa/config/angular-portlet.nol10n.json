@@ -3,7 +3,7 @@
 	"answers": {
 		"*": {
 			"target": "angular-portlet",
-			"folder": "angular-portlet-l10n",
+			"folder": "angular-portlet-nol10n",
 			"description": "Angular portlet (without L10N)",
 			"category": "category.sample",
 			"liferayPresent": true,

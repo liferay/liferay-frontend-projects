@@ -3,7 +3,7 @@
 	"answers": {
 		"*": {
 			"target": "vanilla-portlet",
-			"folder": "vanilla-portlet-nobabel",
+			"folder": "vanilla-portlet-nobabel-nol10n",
 			"description": "Vanilla ES5 portlet (without L10N)",
 			"category": "category.sample",
 			"liferayPresent": true,
