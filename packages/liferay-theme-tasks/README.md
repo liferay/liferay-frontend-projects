@@ -202,13 +202,6 @@ type: `array`<br>
 
 Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compiled CSS after the SASS compilation
 
-### dockerThemesDir
-
-type: `string`<br>
-default: `/home/liferay/tmp/themes`
-
-Determines where temporary files, necessary to launch the `watch` task, are created. Liferay user must have read and write permissions on the selected directory.
-
 ##### sassOptions
 
 type: `object`

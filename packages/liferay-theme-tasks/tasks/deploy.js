@@ -14,14 +14,14 @@ const themeConfig = lfrThemeConfig.getConfig(true);
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 function registerTasks(options) {
-	const {argv, gulp, pathBuild, pathSrc, pathDist, dockerThemesDir} = options;
+	const {argv, gulp, pathBuild, pathSrc, pathDist} = options;
 	const {storage} = gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
 	const pluginName = storage.get('pluginName') || '';
-	const dockerThemePath = path.posix.join(dockerThemesDir, pluginName);
+	const dockerThemePath = path.posix.join('/tmp', pluginName);
 
 	gulp.task('deploy', function(cb) {
 		let sequence = ['build', 'deploy:war', cb];

@@ -25,7 +25,7 @@ const CONNECT_PARAMS = {
 const webBundleDirName = '.web_bundle_build';
 
 module.exports = function(options) {
-	const {argv, gulp, pathBuild, pathSrc, dockerThemesDir} = options;
+	const {argv, gulp, pathBuild, pathSrc} = options;
 	const {storage} = gulp;
 
 	const connectParams = _.assign({},
@@ -39,7 +39,7 @@ module.exports = function(options) {
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
 	const pluginName = storage.get('pluginName') || '';
-	const dockerThemePath = path.posix.join(dockerThemesDir, pluginName);
+	const dockerThemePath = path.posix.join('/tmp', pluginName);
 	const dockerBundleDirPath = path.posix
 		.join(dockerThemePath, webBundleDirName);
 

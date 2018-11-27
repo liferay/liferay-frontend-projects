@@ -14,7 +14,6 @@ function getOptions(config) {
 		config.pathSrc = config.pathSrc || './src';
 		config.rubySass = config.rubySass || false;
 		config.sassOptions = config.sassOptions || {};
-		config.dockerThemesDir = config.dockerThemesDir || '/home/liferay/tmp/themes';
 
 		let themeConfig = lfrThemeConfig.getConfig();
 

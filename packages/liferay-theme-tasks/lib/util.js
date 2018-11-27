@@ -48,7 +48,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 			entries: sourceFiles,
 		});
 	}
-
+	
 	tar.pack(sourceFolder, packConfig)
 		.pipe(es.wait(function(err, body) {
 			if (err) throw err;

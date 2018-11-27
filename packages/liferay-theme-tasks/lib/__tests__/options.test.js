@@ -40,7 +40,6 @@ it('options should return default options with no config passed', () => {
 		pathSrc: './src',
 		rubySass: false,
 		sassOptions: {},
-		dockerThemesDir: '/home/liferay/tmp/themes',
 		templateLanguage: 'ftl',
 		themeletDependencies: {
 			'test-themelet': {
@@ -84,7 +83,6 @@ it('options should return previously set options if no config is passed', () => 
 		pathSrc: './src',
 		rubySass: false,
 		sassOptions: {},
-		dockerThemesDir: '/home/liferay/tmp/themes',
 		templateLanguage: 'ftl',
 		themeletDependencies: {
 			'test-themelet': {

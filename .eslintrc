@@ -6,7 +6,6 @@
     "extends": "liferay",
     "rules": {
         "eol-last": "off",
-        "linebreak-style": "off",
         "no-invalid-this": "off",
         "no-redeclare": "off",
         "no-unused-vars": "off",
