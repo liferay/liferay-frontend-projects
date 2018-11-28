@@ -1,27 +1,92 @@
-import fs from 'fs';
-import path from 'path';
+import {
+	addMetatypeAttr,
+	addMetatypeLocalization,
+	createMetatype,
+	format,
+} from '../xml';
 
-import {patchMetatypeXml} from '../xml';
-
-describe('patchMetatypeXml', () => {
-	it('works with localization file', () => {
-		const xmlFile = path.join(__dirname, '__fixtures__', 'metatype.xml');
-
-		const xml = patchMetatypeXml(fs.readFileSync(xmlFile), {
-			localization: 'content/Language',
-			pid: 'my-portlet',
+describe('addMetatypeAttr', () => {
+	it('works with just the type', () => {
+		const xml = createMetatype('id', 'name');
+		addMetatypeAttr(xml, 'an-attr', {
+			type: 'string',
 		});
 
 		expect(xml).toMatchSnapshot();
 	});
 
-	it('works without localization file', () => {
-		const xmlFile = path.join(__dirname, '__fixtures__', 'metatype.xml');
-
-		const xml = patchMetatypeXml(fs.readFileSync(xmlFile), {
-			pid: 'my-portlet',
+	it('adds description if present', () => {
+		const xml = createMetatype('id', 'name');
+		addMetatypeAttr(xml, 'an-attr', {
+			type: 'string',
+			description: 'a-description',
 		});
 
 		expect(xml).toMatchSnapshot();
 	});
+
+	it('adds required if present', () => {
+		const xml = createMetatype('id', 'name');
+		addMetatypeAttr(xml, 'an-attr', {
+			type: 'string',
+			required: true,
+		});
+
+		expect(xml).toMatchSnapshot();
+	});
+
+	it('adds default if present', () => {
+		const xml = createMetatype('id', 'name');
+		addMetatypeAttr(xml, 'an-attr', {
+			type: 'string',
+			default: 'default-value',
+		});
+
+		expect(xml).toMatchSnapshot();
+	});
+
+	it('adds options if present', () => {
+		const xml = createMetatype('id', 'name');
+		addMetatypeAttr(xml, 'an-attr', {
+			type: 'string',
+			options: {
+				A: {name: 'option-a'},
+				B: {name: 'option-b'},
+			},
+		});
+
+		expect(xml).toMatchSnapshot();
+	});
+});
+
+it('addMetatypeLocalization works', () => {
+	const xml = createMetatype('id', 'name');
+	addMetatypeLocalization(xml, 'localization/file.properties');
+
+	expect(xml).toMatchSnapshot();
+});
+
+it('createMetatype works', () => {
+	const xml = createMetatype('id', 'name');
+
+	expect(xml).toMatchSnapshot();
+});
+
+it('all together works', () => {
+	const xml = createMetatype('id', 'name');
+	addMetatypeLocalization(xml, 'localization/file.properties');
+	addMetatypeAttr(xml, 'a-number', {type: 'number'});
+	addMetatypeAttr(xml, 'a-float', {type: 'float'});
+	addMetatypeAttr(xml, 'a-string', {type: 'string'});
+	addMetatypeAttr(xml, 'a-boolean', {type: 'boolean'});
+	addMetatypeAttr(xml, 'an-option', {
+		type: 'string',
+		default: 'A',
+		options: {
+			A: {name: 'option-a'},
+			B: {name: 'option-b'},
+		},
+	});
+
+	expect(format(xml)).toMatchSnapshot();
 });
