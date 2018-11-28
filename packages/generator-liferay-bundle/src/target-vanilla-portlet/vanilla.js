@@ -1,13 +1,13 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, promptWithConfig} from '../utils';
-import {formatLabels} from '../utils/l10n';
+import LocalizationSampleGenerator from '../facet-localization/sample-generator';
+import SettingsSampleGenerator from '../facet-settings/sample-generator';
+import {Copier, formatLabels, promptWithConfig} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
-import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 
 /**
  * Implementation of generation of plain Javascript portlets.
@@ -74,18 +74,28 @@ export default class extends Generator {
 			porletNamespace: 'Porlet Namespace',
 			contextPath: 'Context Path',
 			portletElementId: 'Portlet Element Id',
+			configuration: projectAnalyzer.hasSettings
+				? 'Configuration'
+				: undefined,
 		});
+
+		// Prepare configuration display
+		const signature =
+			'portletNamespace, contextPath, portletElementId' +
+			(projectAnalyzer.hasSettings ? ', configuration' : '');
 
 		// Copy Javascript files
 		pkgJson.setMain('index.js');
 		cp.copyFile(`src/index.${useBabel ? 'babel' : 'nobabel'}.js`, {
 			context: {
+				hasConfiguration: projectAnalyzer.hasSettings,
 				labels:
 					labels[
 						projectAnalyzer.hasLocalization
 							? useBabel ? 'template' : 'js'
 							: useBabel ? 'raw' : 'quoted'
 					],
+				signature,
 			},
 			dest: 'src/index.js',
 		});
@@ -97,11 +107,10 @@ export default class extends Generator {
 			stylesCss.addRule('.value', 'font-style: italic;');
 
 			// Add localization keys
-			if (projectAnalyzer.hasLocalization) {
-				new LanguagePropertiesModifier(this).addProperties(
-					labels.properties
-				);
-			}
+			new LocalizationSampleGenerator(this).generate(labels.raw);
+
+			// Add sample settings
+			new SettingsSampleGenerator(this).generate();
 		}
 	}
 }
