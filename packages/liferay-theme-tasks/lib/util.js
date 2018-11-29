@@ -38,6 +38,16 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 		sourceFiles = undefined;
 	}
 
+	const wcb = error => {
+		if (!cb) return;
+
+		if (error) {
+			cb(error);
+		} else {
+			cb();
+		}
+	};
+
 	let packConfig = {
 		dmode: parseInt(755, 8),
 		fmode: parseInt(644, 8),
@@ -48,12 +58,13 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 			entries: sourceFiles,
 		});
 	}
-	
-	tar.pack(sourceFolder, packConfig)
-		.pipe(es.wait(function(err, body) {
+
+	tar.pack(sourceFolder, packConfig).pipe(
+		es.wait(function(err, body) {
 			if (err) throw err;
 
-			childProcess.spawnSync('docker',
+			const proc = childProcess.spawnSync(
+				'docker',
 				[
 					'exec',
 					'-i',
@@ -68,8 +79,13 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 				}
 			);
 
-			if (cb) cb();
-		}));
+			if (proc.error) {
+				console.error(proc.stderr.toString());
+			}
+
+			wcb(proc.error);
+		})
+	);
 }
 
 function dockerExec(containerName, command) {
