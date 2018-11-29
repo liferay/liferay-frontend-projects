@@ -94,11 +94,11 @@ it('_formatWebBundleDirCommand should properly format install command based on o
 
 	if (!prototype._isWin()) {
 		expect(command).toEqual(
-			'install webbundledir:file:///Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme'
+			'install \'webbundledir:file:///Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme\''
 		);
 	} else {
 		expect(command).toEqual(
-			'install webbundledir:file:/c:/Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme'
+			'install \'webbundledir:file:/c:/Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme\''
 		);
 	}
 });
