@@ -176,7 +176,6 @@ module.exports = {
 	dockerCopy,
 	dockerExec,
 	getLanguageProperties,
-	getPath,
 	isCssFile,
 	isSassPartial,
 	requireDependency,
@@ -213,12 +212,6 @@ function getDepsPath(pkg, dependency, version) {
 	);
 
 	return depsPath;
-}
-
-function getPath(deploymentStrategy) {
-	return deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER
-		? path.posix
-		: path;
 }
 
 function hasDependency(pkg, dependency) {
