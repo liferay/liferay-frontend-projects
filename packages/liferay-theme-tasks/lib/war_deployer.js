@@ -194,16 +194,18 @@ class WarDeployer extends EventEmitter {
 
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
 
-		fs
-			.createReadStream(path.join(CWD, 'dist', this.fileName + '.war'))
+		fs.createReadStream(path.join(CWD, 'dist', this.fileName + '.war'))
 			.on('end', function() {
 				req.end('\r\n--' + boundaryKey + '--');
 
 				this.emit('end');
 			})
-			.pipe(req, {
-				end: false,
-			});
+			.pipe(
+				req,
+				{
+					end: false,
+				}
+			);
 	}
 }
 

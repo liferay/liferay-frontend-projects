@@ -116,10 +116,9 @@ module.exports = function(options) {
 				} else {
 					logChanges(answers.file.path);
 
-					gulp
-						.src(path.join(pathBuild, answers.file.path), {
-							base: pathBuild,
-						})
+					gulp.src(path.join(pathBuild, answers.file.path), {
+						base: pathBuild,
+					})
 						.pipe(gulp.dest(pathSrc))
 						.on('end', cb);
 				}

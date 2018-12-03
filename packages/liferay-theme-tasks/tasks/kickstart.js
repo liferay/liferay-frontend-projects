@@ -53,10 +53,9 @@ function registerTasks(options) {
 						}
 					);
 
-					gulp
-						.src(globs, {
-							base: themeSrcPath,
-						})
+					gulp.src(globs, {
+						base: themeSrcPath,
+					})
 						.pipe(gulp.dest(pathSrc))
 						.on('end', function() {
 							if (tempNodeModulesPath) {

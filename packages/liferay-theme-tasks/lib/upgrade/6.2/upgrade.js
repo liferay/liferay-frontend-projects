@@ -279,8 +279,7 @@ module.exports = function(options) {
 
 		let promptResults;
 
-		gulp
-			.src(srcPaths)
+		gulp.src(srcPaths)
 			.pipe(
 				plugins.prompt.prompt(prompts, function(results) {
 					promptResults = results;
