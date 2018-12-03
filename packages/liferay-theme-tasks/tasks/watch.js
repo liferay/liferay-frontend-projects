@@ -28,10 +28,7 @@ module.exports = function(options) {
 	const {argv, gulp, pathBuild, pathSrc} = options;
 	const {storage} = gulp;
 
-	const connectParams = _.assign({},
-		CONNECT_PARAMS,
-		options.gogoShellConfig
-	);
+	const connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
 	const fullDeploy = argv.full || argv.f;
 	const runSequence = require('run-sequence').use(gulp);
 	const url = argv.url || storage.get('url');
@@ -40,8 +37,10 @@ module.exports = function(options) {
 	const dockerContainerName = storage.get('dockerContainerName');
 	const pluginName = storage.get('pluginName') || '';
 	const dockerThemePath = path.posix.join('/tmp', pluginName);
-	const dockerBundleDirPath = path.posix
-		.join(dockerThemePath, webBundleDirName);
+	const dockerBundleDirPath = path.posix.join(
+		dockerThemePath,
+		webBundleDirName
+	);
 
 	gulp.browserSync = browserSync;
 
@@ -69,28 +68,26 @@ module.exports = function(options) {
 			];
 		}
 
-		taskArray.push(
-			function(err) {
-				if (err) {
-					throw err;
-				}
-
-				let watchSocket = startWatchSocket();
-
-				watchSocket
-					.connect(connectParams)
-					.then(function() {
-						return watchSocket.deploy();
-					})
-					.then(function() {
-						storage.set('webBundleDir', 'watching');
-
-						portfinder.getPortPromise().then(port => {
-							startWatch(port, url);
-						});
-					});
+		taskArray.push(function(err) {
+			if (err) {
+				throw err;
 			}
-		);
+
+			let watchSocket = startWatchSocket();
+
+			watchSocket
+				.connect(connectParams)
+				.then(function() {
+					return watchSocket.deploy();
+				})
+				.then(function() {
+					storage.set('webBundleDir', 'watching');
+
+					portfinder.getPortPromise().then(port => {
+						startWatch(port, url);
+					});
+				});
+		});
 
 		runSequence.apply(this, taskArray);
 	});
@@ -107,13 +104,15 @@ module.exports = function(options) {
 			.then(function() {
 				let distName = options.distName;
 
-				let warPath = themeUtil.getPath(deploymentStrategy).join(
-					storage.get('appServerPath'),
-					'..',
-					'osgi',
-					'war',
-					distName + '.war'
-				);
+				let warPath = themeUtil
+					.getPath(deploymentStrategy)
+					.join(
+						storage.get('appServerPath'),
+						'..',
+						'osgi',
+						'war',
+						distName + '.war'
+					);
 
 				return watchSocket.uninstall(warPath, distName);
 			})
@@ -121,17 +120,25 @@ module.exports = function(options) {
 	});
 
 	gulp.task('watch:docker:clean', function(cb) {
-		themeUtil.dockerExec(dockerContainerName,
-			'rm -rf ' + dockerBundleDirPath);
+		themeUtil.dockerExec(
+			dockerContainerName,
+			'rm -rf ' + dockerBundleDirPath
+		);
 
 		cb();
 	});
 
 	gulp.task('watch:docker:copy', function(cb) {
-		themeUtil.dockerExec(dockerContainerName,
-			'mkdir -p ' + dockerBundleDirPath);
-		themeUtil.dockerCopy(dockerContainerName,
-			webBundleDir, dockerBundleDirPath, cb);
+		themeUtil.dockerExec(
+			dockerContainerName,
+			'mkdir -p ' + dockerBundleDirPath
+		);
+		themeUtil.dockerCopy(
+			dockerContainerName,
+			webBundleDir,
+			dockerBundleDirPath,
+			cb
+		);
 	});
 
 	gulp.task('watch:osgi:reinstall', function(cb) {

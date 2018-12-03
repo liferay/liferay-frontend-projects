@@ -41,17 +41,15 @@ class WatchSocket extends GogoShell {
 
 	uninstall(warPath, distName) {
 		if (this._isDocker()) {
-			const delPath =
-				themeUtil.dockerExec(
-					this.dockerContainerName, 'ls ' + warPath
-				).stdout.toString();
+			const delPath = themeUtil
+				.dockerExec(this.dockerContainerName, 'ls ' + warPath)
+				.stdout.toString();
 
 			if (!delPath.length) {
 				return;
 			}
 
-			themeUtil.dockerExec(this.dockerContainerName,
-				'rm -rf ' + warPath);
+			themeUtil.dockerExec(this.dockerContainerName, 'rm -rf ' + warPath);
 		} else {
 			const delPath = del.sync(warPath, {
 				dryRun: true,
@@ -142,8 +140,11 @@ class WatchSocket extends GogoShell {
 	}
 
 	_installWebBundleDir() {
-		return this.sendCommand(this._formatWebBundleDirCommand(
-			this._isDocker()? this.dockerThemePath : process.cwd()));
+		return this.sendCommand(
+			this._formatWebBundleDirCommand(
+				this._isDocker() ? this.dockerThemePath : process.cwd()
+			)
+		);
 	}
 
 	_isWin() {

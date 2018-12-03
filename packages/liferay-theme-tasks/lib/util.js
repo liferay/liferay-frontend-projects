@@ -89,14 +89,9 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 }
 
 function dockerExec(containerName, command) {
-	return childProcess.spawnSync('docker',
-		[
-			'exec',
-			containerName,
-			'sh',
-			'-c',
-			'"' + command + '"',
-		],
+	return childProcess.spawnSync(
+		'docker',
+		['exec', containerName, 'sh', '-c', '"' + command + '"'],
 		{
 			shell: true,
 		}
@@ -221,8 +216,9 @@ function getDepsPath(pkg, dependency, version) {
 }
 
 function getPath(deploymentStrategy) {
-	return deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER?
-		path.posix : path;
+	return deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER
+		? path.posix
+		: path;
 }
 
 function hasDependency(pkg, dependency) {

@@ -48,14 +48,18 @@ function registerTasks(options) {
 		const deployPath = storage.get('deployPath');
 		const themeName = themeConfig.name;
 
-		themeUtil.dockerCopy(dockerContainerName,
-			pathDist, deployPath, [themeName + '.war'],
+		themeUtil.dockerCopy(
+			dockerContainerName,
+			pathDist,
+			deployPath,
+			[themeName + '.war'],
 			function(err, data) {
 				if (err) throw err;
 
 				storage.set('deployed', true);
 				cb();
-			});
+			}
+		);
 	});
 
 	gulp.task('deploy:file', function() {
@@ -143,26 +147,36 @@ function registerTasks(options) {
 
 		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
 			const deployDir = path.basename(fastDeployPaths.dest);
-			const dockerDestDirPath = path.posix
-				.join(dockerThemePath, deployDir);
+			const dockerDestDirPath = path.posix.join(
+				dockerThemePath,
+				deployDir
+			);
 			let deployFiles = [];
 
-			stream.pipe(listStream.obj(function(err, files) {
-				if (err) throw err;
+			stream.pipe(
+				listStream.obj(function(err, files) {
+					if (err) throw err;
 
-				_.forEach(files, function(file) {
-					const filePath = file.path
-						.substring(fastDeployPaths.dest.length)
-						.split(path.sep).join(path.posix.sep);
-					deployFiles.push(filePath);
-				});
-
-				themeUtil.dockerCopy(dockerContainerName,
-					deployDir, dockerDestDirPath, deployFiles, function(err) {
-						if (err) throw err;
-						reloadBrowser(fileGlobs);
+					_.forEach(files, function(file) {
+						const filePath = file.path
+							.substring(fastDeployPaths.dest.length)
+							.split(path.sep)
+							.join(path.posix.sep);
+						deployFiles.push(filePath);
 					});
-			}));
+
+					themeUtil.dockerCopy(
+						dockerContainerName,
+						deployDir,
+						dockerDestDirPath,
+						deployFiles,
+						function(err) {
+							if (err) throw err;
+							reloadBrowser(fileGlobs);
+						}
+					);
+				})
+			);
 		} else {
 			reloadBrowser(fileGlobs);
 		}
