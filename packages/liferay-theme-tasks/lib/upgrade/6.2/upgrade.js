@@ -279,8 +279,7 @@ module.exports = function(options) {
 
 		let promptResults;
 
-		gulp
-			.src(srcPaths)
+		gulp.src(srcPaths)
 			.pipe(
 				plugins.prompt.prompt(prompts, function(results) {
 					promptResults = results;
@@ -428,5 +427,5 @@ function getLogHeaderNote(headerNote) {
 }
 
 function logBuffer(buffer) {
-	process.stdout.write(colors.bgblack(buffer.join('')));
+	process.stdout.write(colors.bgBlack(buffer.join('')));
 }

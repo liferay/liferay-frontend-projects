@@ -71,8 +71,7 @@ module.exports = function(options) {
 
 		let srcPath = path.join(cssBuild, '!(_)*.scss');
 
-		gulp
-			.src(srcPath)
+		gulp.src(srcPath)
 			.pipe(plugins.plumber())
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.init()))
 			.pipe(gulpSass(sassOptions))
@@ -133,11 +132,10 @@ function getPostCSSOptions(config) {
 	if (_.isArray(config) && config.length > 0) {
 		postCSSOptions.enabled = true;
 		postCSSOptions.plugins = config
-			.map(
-				pluginName =>
-					pluginName === 'autoprefixer'
-						? pluginName
-						: themeUtil.resolveDependency(pluginName)
+			.map(pluginName =>
+				pluginName === 'autoprefixer'
+					? pluginName
+					: themeUtil.resolveDependency(pluginName)
 			)
 			.map(pluginDependency => require(pluginDependency));
 	}

@@ -70,8 +70,7 @@ module.exports = function(options) {
 		if (themeConfig.rubySass) {
 			cb();
 		} else {
-			gulp
-				.src(pathBuild + '/_css/**/*.css')
+			gulp.src(pathBuild + '/_css/**/*.css')
 				.pipe(
 					replace({
 						patterns: [

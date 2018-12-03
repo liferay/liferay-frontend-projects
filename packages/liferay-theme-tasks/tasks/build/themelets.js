@@ -58,8 +58,7 @@ module.exports = function(options) {
 
 		let fileName = customCssFileName;
 
-		gulp
-			.src(path.join(pathBuild, 'css', fileName))
+		gulp.src(path.join(pathBuild, 'css', fileName))
 			.pipe(
 				plugins.inject(sources, {
 					endtag: '/* endinject */',
@@ -129,13 +128,9 @@ module.exports = function(options) {
 			themeRootPath = '$theme_display.getPathThemeRoot()';
 		}
 
-		gulp
-			.src(
-				path.join(
-					pathBuild,
-					'templates/portal_normal.' + templateLanguage
-				)
-			)
+		gulp.src(
+			path.join(pathBuild, 'templates/portal_normal.' + templateLanguage)
+		)
 			.pipe(
 				plugins.inject(sources, {
 					endtag: '<!-- endinject -->',
@@ -177,8 +172,7 @@ module.exports = function(options) {
 
 	gulp.task('build:themelet-src', function(cb) {
 		runThemeletDependenciesSeries(function(item, index, done) {
-			gulp
-				.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
+			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
 				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))
 				.on('end', done);
 		}, cb);

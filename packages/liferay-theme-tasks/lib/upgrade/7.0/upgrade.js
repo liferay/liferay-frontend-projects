@@ -183,8 +183,7 @@ module.exports = function(options) {
 
 		let promptResults;
 
-		gulp
-			.src(auiScssPath)
+		gulp.src(auiScssPath)
 			.pipe(
 				plugins.rename(function(path) {
 					path.basename = 'clay';
@@ -480,5 +479,5 @@ function getLogHeader(header) {
 }
 
 function logBuffer(buffer) {
-	process.stdout.write(colors.bgblack(buffer.join('')));
+	process.stdout.write(colors.bgBlack(buffer.join('')));
 }
