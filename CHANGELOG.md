@@ -1,5 +1,47 @@
 # Change Log
 
+## [v8.0.0-rc.0](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.0) (2018-12-04)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.5...v8.0.0-rc.0)
+
+**Implemented enhancements:**
+
+- Generate SourceMaps by default [\#86](https://github.com/liferay/liferay-themes-sdk/issues/86)
+- Dependencies warning message is missing module name [\#78](https://github.com/liferay/liferay-themes-sdk/issues/78)
+- Support Docker Development [\#72](https://github.com/liferay/liferay-themes-sdk/issues/72)
+- Add out-of-the-box support for PostCSS [\#46](https://github.com/liferay/liferay-themes-sdk/issues/46)
+
+**Fixed bugs:**
+
+- gulp theme build script does not correctly expand liferay-hook.xml language property settings [\#106](https://github.com/liferay/liferay-themes-sdk/issues/106)
+- gulp watch doesn't work [\#102](https://github.com/liferay/liferay-themes-sdk/issues/102)
+- When using gulp:watch, activate theme by default [\#93](https://github.com/liferay/liferay-themes-sdk/issues/93)
+- Theme generator uses Velocity syntax instead of FreeMarker for 7.1 [\#91](https://github.com/liferay/liferay-themes-sdk/issues/91)
+- Standard as an option in gulp kickstart [\#85](https://github.com/liferay/liferay-themes-sdk/issues/85)
+- liferay-theme-deps-7.1 is left when reverting 7.1 theme to 7.0 [\#77](https://github.com/liferay/liferay-themes-sdk/issues/77)
+
+**Closed issues:**
+
+- generator-liferay-theme is using event-stream 3.3.5 [\#112](https://github.com/liferay/liferay-themes-sdk/issues/112)
+- Deploy with gulp watch fails with NPE [\#94](https://github.com/liferay/liferay-themes-sdk/issues/94)
+- Fix Sourcemap support for libsass [\#81](https://github.com/liferay/liferay-themes-sdk/issues/81)
+- Minor typo in prompt [\#76](https://github.com/liferay/liferay-themes-sdk/issues/76)
+- Theme dependent on another OSGi bundle: how? [\#49](https://github.com/liferay/liferay-themes-sdk/issues/49)
+
+**Merged pull requests:**
+
+- v8.0.0-rc.1 [\#119](https://github.com/liferay/liferay-themes-sdk/pull/119) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#72 - Show error messages [\#118](https://github.com/liferay/liferay-themes-sdk/pull/118) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#112 - Updates packages affected by event-stream@3.3.6 to latest versions [\#117](https://github.com/liferay/liferay-themes-sdk/pull/117) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#102 - Fix tests [\#115](https://github.com/liferay/liferay-themes-sdk/pull/115) ([izaera](https://github.com/izaera))
+- Fixes \#106 - Updates tests [\#109](https://github.com/liferay/liferay-themes-sdk/pull/109) ([jbalsas](https://github.com/jbalsas))
+- Add keyword to be found by a yeoman search [\#108](https://github.com/liferay/liferay-themes-sdk/pull/108) ([marcoscv-work](https://github.com/marcoscv-work))
+- Fixes \#91 - Fixes typos [\#99](https://github.com/liferay/liferay-themes-sdk/pull/99) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#86 - Enables sourcemap generation by default [\#89](https://github.com/liferay/liferay-themes-sdk/pull/89) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#85 - Removes Standard option from Kickstart task [\#88](https://github.com/liferay/liferay-themes-sdk/pull/88) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#46 - Documents postcss option [\#87](https://github.com/liferay/liferay-themes-sdk/pull/87) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#77 - Sets rubySass to false by default since node-sass should be more stable now. If necessary, a developer can always set it to true following the instructions [\#84](https://github.com/liferay/liferay-themes-sdk/pull/84) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#78 - Display module name with warning [\#82](https://github.com/liferay/liferay-themes-sdk/pull/82) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-beta.5](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-beta.5) (2018-08-31)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.4...v8.0.0-beta.5)
 
@@ -7,6 +49,7 @@
 
 - Liferay Theme Generator adds 7.0-theme-deps for new 7.1 theme [\#71](https://github.com/liferay/liferay-themes-sdk/issues/71)
 - Generator-Liferay-Theme: Do not insist on app server directory [\#67](https://github.com/liferay/liferay-themes-sdk/issues/67)
+- Generator-Liferay-Theme crashes on Node 8 [\#43](https://github.com/liferay/liferay-themes-sdk/issues/43)
 
 **Merged pull requests:**
 
