@@ -479,5 +479,5 @@ function getLogHeader(header) {
 }
 
 function logBuffer(buffer) {
-	process.stdout.write(colors.bgBlack(buffer.join('')));
+	process.stdout.write(colors.bgblack(buffer.join('')));
 }
