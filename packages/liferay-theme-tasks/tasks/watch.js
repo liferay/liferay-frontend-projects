@@ -3,13 +3,16 @@
 const _ = require('lodash');
 const colors = require('ansi-colors');
 const del = require('del');
+const fs = require('fs-extra');
 const log = require('fancy-log');
 const path = require('path');
 
 const lfrThemeConfig = require('../lib/liferay_theme_config.js');
+const themeUtil = require('../lib/util');
 const WatchSocket = require('../lib/watch_socket.js');
 
 const themeConfig = lfrThemeConfig.getConfig();
+const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 const browserSync = require('browser-sync').create('liferay-theme-tasks');
 const portfinder = require('portfinder');
@@ -30,40 +33,63 @@ module.exports = function(options) {
 	const runSequence = require('run-sequence').use(gulp);
 	const url = argv.url || storage.get('url');
 	const webBundleDir = path.join(process.cwd(), webBundleDirName);
+	const deploymentStrategy = storage.get('deploymentStrategy');
+	const dockerContainerName = storage.get('dockerContainerName');
+	const pluginName = storage.get('pluginName') || '';
+	const dockerThemePath = path.posix.join('/tmp', pluginName);
+	const dockerBundleDirPath = path.posix.join(
+		dockerThemePath,
+		webBundleDirName
+	);
 
 	gulp.browserSync = browserSync;
 
 	gulp.task('watch', function() {
+		let taskArray;
 		options.watching = true;
 
 		storage.set('appServerPathPlugin', webBundleDir);
 
-		runSequence(
-			'build',
-			'watch:clean',
-			'watch:osgi:clean',
-			'watch:setup',
-			function(err) {
-				if (err) {
-					throw err;
-				}
+		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
+			taskArray = [
+				'build',
+				'watch:clean',
+				'watch:docker:clean',
+				'watch:osgi:clean',
+				'watch:setup',
+				'watch:docker:copy',
+			];
+		} else {
+			taskArray = [
+				'build',
+				'watch:clean',
+				'watch:osgi:clean',
+				'watch:setup',
+			];
+		}
 
-				let watchSocket = startWatchSocket();
-
-				watchSocket
-					.connect(connectParams)
-					.then(function() {
-						return watchSocket.deploy();
-					})
-					.then(function() {
-						storage.set('webBundleDir', 'watching');
-
-						portfinder.getPortPromise().then(port => {
-							startWatch(port, url);
-						});
-					});
+		taskArray.push(function(err) {
+			if (err) {
+				throw err;
 			}
-		);
+
+			let watchSocket = startWatchSocket();
+
+			watchSocket
+				.connect(connectParams)
+				.then(function() {
+					return watchSocket.deploy();
+				})
+				.then(function() {
+					storage.set('webBundleDir', 'watching');
+
+					portfinder.getPortPromise().then(port => {
+						startWatch(port, url);
+					});
+				});
+		});
+
+		runSequence.apply(this, taskArray);
 	});
 
 	gulp.task('watch:clean', function(cb) {
@@ -78,17 +104,41 @@ module.exports = function(options) {
 			.then(function() {
 				let distName = options.distName;
 
-				let warPath = path.join(
-					storage.get('appServerPath'),
-					'..',
-					'osgi',
-					'war',
-					distName + '.war'
-				);
+				let warPath = themeUtil
+					.getPath(deploymentStrategy)
+					.join(
+						storage.get('appServerPath'),
+						'..',
+						'osgi',
+						'war',
+						distName + '.war'
+					);
 
 				return watchSocket.uninstall(warPath, distName);
 			})
 			.then(cb);
+	});
+
+	gulp.task('watch:docker:clean', function(cb) {
+		themeUtil.dockerExec(
+			dockerContainerName,
+			'rm -rf ' + dockerBundleDirPath
+		);
+
+		cb();
+	});
+
+	gulp.task('watch:docker:copy', function(cb) {
+		themeUtil.dockerExec(
+			dockerContainerName,
+			'mkdir -p ' + dockerBundleDirPath
+		);
+		themeUtil.dockerCopy(
+			dockerContainerName,
+			webBundleDir,
+			dockerBundleDirPath,
+			cb
+		);
 	});
 
 	gulp.task('watch:osgi:reinstall', function(cb) {
@@ -112,8 +162,15 @@ module.exports = function(options) {
 
 	gulp.task('watch:teardown', function(cb) {
 		storage.set('webBundleDir');
+		let sequence = ['watch:clean'];
 
-		runSequence('watch:clean', cb);
+		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
+			sequence.push('watch:docker:clean');
+		}
+
+		sequence.push(cb);
+
+		runSequence.apply(this, sequence);
 	});
 
 	function clearChangedFile() {
@@ -179,6 +236,7 @@ module.exports = function(options) {
 				target: target,
 				ws: true,
 			},
+			notify: false,
 			open: true,
 			port: port,
 			ui: false,
@@ -208,6 +266,9 @@ module.exports = function(options) {
 	function startWatchSocket() {
 		let watchSocket = new WatchSocket({
 			webBundleDir: webBundleDirName,
+			deploymentStrategy: deploymentStrategy,
+			dockerContainerName: dockerContainerName,
+			dockerThemePath: dockerThemePath,
 		});
 
 		watchSocket.on('error', function(err) {

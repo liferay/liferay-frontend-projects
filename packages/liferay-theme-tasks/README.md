@@ -50,7 +50,7 @@ gulp deploy --live -u test@liferay.com -p test
 
 #### Deploy Gogo
 
-For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for 6.2 themes.**
+For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for 6.2 themes and for Docker deployment strategy.**
 
 ```
 gulp deploy:gogo
