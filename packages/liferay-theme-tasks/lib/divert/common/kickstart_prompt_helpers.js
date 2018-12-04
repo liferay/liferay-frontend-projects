@@ -17,11 +17,6 @@ const choices = [
 		name: 'Search npm registry (published modules)',
 		value: 'npm',
 	},
-	new inquirer.Separator(),
-	{
-		name: 'Standard',
-		value: 'standard',
-	},
 ];
 
 function _afterPromptThemeSource(answers, promptInstance) {
@@ -41,15 +36,6 @@ function _afterPromptThemeSource(answers, promptInstance) {
 			config,
 			_.bind(promptInstance._afterPromptModule, promptInstance)
 		);
-	} else if (themeSource === 'standard') {
-		let standardPath = themeUtil.resolveDependency(
-			divert('dependencies').getDependencyName('standard'),
-			promptInstance.themeConfig.version
-		);
-
-		promptInstance.done({
-			modulePath: standardPath,
-		});
 	}
 }
 

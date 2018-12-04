@@ -183,8 +183,7 @@ module.exports = function(options) {
 
 		let promptResults;
 
-		gulp
-			.src(auiScssPath)
+		gulp.src(auiScssPath)
 			.pipe(
 				plugins.rename(function(path) {
 					path.basename = 'clay';

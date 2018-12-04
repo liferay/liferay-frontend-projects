@@ -50,7 +50,7 @@ gulp deploy --live -u test@liferay.com -p test
 
 #### Deploy Gogo
 
-For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for 6.2 themes.**
+For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for 6.2 themes and for Docker deployment strategy.**
 
 ```
 gulp deploy:gogo
@@ -195,6 +195,12 @@ type: `string`<br>
 default: `./src`
 
 Determines where theme source files are located. If set to anything other than default value, you must manually relocate all files in src directory to new location.
+
+##### postcss
+
+type: `array`<br>
+
+Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compiled CSS after the SASS compilation
 
 ##### sassOptions
 

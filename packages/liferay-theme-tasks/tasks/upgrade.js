@@ -70,12 +70,10 @@ module.exports = function(options) {
 		let backupExists = fs.existsSync('_backup');
 
 		let backup = function() {
-			gulp
-				.src(path.join(pathSrc, '**/*'))
+			gulp.src(path.join(pathSrc, '**/*'))
 				.pipe(gulp.dest('_backup/src'))
 				.on('end', function() {
-					gulp
-						.src('package.json')
+					gulp.src('package.json')
 						.pipe(plugins.rename('_package.json'))
 						.pipe(gulp.dest('_backup'))
 						.on('end', cb);
@@ -140,12 +138,10 @@ module.exports = function(options) {
 	gulp.task('upgrade:revert-src', function(cb) {
 		del.sync(path.join(pathSrc, '**/*'));
 
-		gulp
-			.src('_backup/src/**/*')
+		gulp.src('_backup/src/**/*')
 			.pipe(gulp.dest(pathSrc))
 			.on('end', function() {
-				gulp
-					.src('_backup/_package.json')
+				gulp.src('_backup/_package.json')
 					.pipe(plugins.rename('package.json'))
 					.pipe(gulp.dest(process.cwd()))
 					.on('end', cb);

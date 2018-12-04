@@ -161,7 +161,7 @@ function logMissingDeps(dependencies, moduleName, missingDeps) {
 		log(
 			colors.red('Warning:'),
 			'You must install the correct dependencies, please run',
-			colors.cyan('npm i --save-dev', moduleName),
+			colors.cyan('npm i --save-dev ' + moduleName),
 			'from your theme directory.'
 		);
 

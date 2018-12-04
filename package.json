@@ -17,6 +17,9 @@
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
+	"keywords": [
+		"yeoman-generator"
+	],
 	"dependencies": {
 		"gulp": "^3.9.1",
 		"replace-in-file": "^3.4.2"

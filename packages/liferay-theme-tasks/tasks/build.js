@@ -70,8 +70,7 @@ module.exports = function(options) {
 		if (themeConfig.rubySass) {
 			cb();
 		} else {
-			gulp
-				.src(pathBuild + '/_css/**/*.css')
+			gulp.src(pathBuild + '/_css/**/*.css')
 				.pipe(
 					replace({
 						patterns: [
@@ -92,7 +91,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:hook', function() {
-		let languageProperties = themeUtil.getLanguageProperties(pathBuild);
+		let languageProperties = themeUtil.getLanguageProperties(pathSrc);
 
 		return gulp
 			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
@@ -114,7 +113,7 @@ module.exports = function(options) {
 					],
 				})
 			)
-			.pipe(plugins.rename('liferay-hook.xml.processed'))
+			.pipe(plugins.rename('liferay-hook.xml'))
 			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
