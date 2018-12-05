@@ -17,9 +17,11 @@ export default class {
 	 * @param {object} properties
 	 */
 	addProperties(properties) {
-		Object.entries(properties).forEach(([name, value]) =>
-			this.addProperty(name, value)
-		);
+		Object.entries(properties).forEach(([name, value]) => {
+			if (value !== undefined) {
+				this.addProperty(name, value);
+			}
+		});
 	}
 
 	/**
