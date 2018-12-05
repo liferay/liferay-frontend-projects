@@ -2,6 +2,7 @@ import prop from 'dot-prop';
 import path from 'path';
 
 import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
+import {DEFAULT_SETTINGS} from '../facet-settings/constants';
 
 /**
  * A class to be able to analyze what the project does and doesn't.
@@ -44,6 +45,19 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
+	 * Test if the project has settings configuration.
+	 * @return {boolean}
+	 */
+	get hasSettings() {
+		const fs = this._generator.fs;
+
+		return (
+			prop.has(this._npmbundlerrc, 'create-jar.features.settings') ||
+			fs.exists(DEFAULT_SETTINGS)
+		);
+	}
+
+	/**
 	 * Get the basename of the localization file (without the .properties
 	 * extension)
 	 * @return {string}
@@ -74,6 +88,29 @@ export default class ProjectAnalyzer {
 
 			if (fs.exists(localization)) {
 				return localization;
+			}
+		}
+
+		return undefined;
+	}
+
+	/**
+	 * Get the path to the settings configuration file.
+	 * @return {string}
+	 */
+	get settingsFilePath() {
+		const fs = this._generator.fs;
+
+		let settings = prop.get(
+			this._npmbundlerrc,
+			'create-jar.features.settings'
+		);
+
+		if (settings) {
+			return settings;
+		} else {
+			if (fs.exists(DEFAULT_SETTINGS)) {
+				return DEFAULT_SETTINGS;
 			}
 		}
 
