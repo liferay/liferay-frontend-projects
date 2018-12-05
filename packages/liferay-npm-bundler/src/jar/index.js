@@ -146,32 +146,44 @@ function addManifest(zip) {
 function addMetatypeFile(zip) {
 	const filePath = config.jar.getMetatypeFile();
 
-	if (filePath) {
-		const json = fs.readJSONSync(filePath);
-
-		const localization = config.jar.getLocalizationFile()
-			? `content/${path.basename(config.jar.getLocalizationFile())}`
-			: undefined;
-
-		const name =
-			json.name ||
-			(localization ? pkgJson.name : pkgJson.description || pkgJson.name);
-
-		const metatype = xml.createMetatype(pkgJson.name, name);
-
-		if (localization) {
-			xml.addMetatypeLocalization(metatype, localization);
-		}
-
-		Object.entries(json.fields).forEach(([id, desc]) => {
-			xml.addMetatypeAttr(metatype, id, desc);
-		});
-
-		zip
-			.folder('OSGI-INF')
-			.folder('metatype')
-			.file(`${pkgJson.name}.xml`, xml.format(metatype));
+	if (!filePath) {
+		return;
 	}
+
+	const json = fs.readJSONSync(filePath);
+
+	if (!json.fields) {
+		return;
+	}
+
+	const fields = Object.entries(json.fields);
+
+	if (fields.length == 0) {
+		return;
+	}
+
+	const localization = config.jar.getLocalizationFile()
+		? `content/${path.basename(config.jar.getLocalizationFile())}`
+		: undefined;
+
+	const name =
+		json.name ||
+		(localization ? pkgJson.name : pkgJson.description || pkgJson.name);
+
+	const metatype = xml.createMetatype(pkgJson.name, name);
+
+	if (localization) {
+		xml.addMetatypeLocalization(metatype, localization);
+	}
+
+	fields.forEach(([id, desc]) => {
+		xml.addMetatypeAttr(metatype, id, desc);
+	});
+
+	zip
+		.folder('OSGI-INF')
+		.folder('metatype')
+		.file(`${pkgJson.name}.xml`, xml.format(metatype));
 }
 
 /**
