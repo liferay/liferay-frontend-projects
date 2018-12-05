@@ -50,8 +50,8 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			options: {
-				A: {name: 'option-a'},
-				B: {name: 'option-b'},
+				A: 'option-a',
+				B: 'option-b',
 			},
 		});
 
@@ -83,8 +83,8 @@ it('all together works', () => {
 		type: 'string',
 		default: 'A',
 		options: {
-			A: {name: 'option-a'},
-			B: {name: 'option-b'},
+			A: 'option-a',
+			B: 'option-b',
 		},
 	});
 

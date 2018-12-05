@@ -34,10 +34,10 @@ export function addMetatypeAttr(metatype, id, desc) {
 		addAttr(ad, 'default', desc.default);
 	}
 	if (desc.options) {
-		Object.entries(desc.options).forEach(([value, {name}]) => {
+		Object.entries(desc.options).forEach(([value, label]) => {
 			const option = addChild(ad, 'Option');
 
-			addAttr(option, 'label', name);
+			addAttr(option, 'label', label);
 			addAttr(option, 'value', value);
 		});
 	}
