@@ -42,16 +42,16 @@ To do so, it runs the project source files through the following workflow:
 
 3. For each dependency package:
 
-	1. Copy package to output dir (in plain _package_@_version_ format, as opposed to the standard `node_modules` tree format).
-	2. Pre-process package with configured plugins.
-	3. Run Babel through each `.js` file in the package with configured plugins.
-	4. Post-process package with configured plugins.
+   1. Copy package to output dir (in plain _package_@_version_ format, as opposed to the standard `node_modules` tree format). To determine what is copied, the bundler invokes a special type of plugins intended to filter the package file list.
+   2. Pre-process package with configured plugins.
+   3. Run Babel through each `.js` file in the package with configured plugins.
+   4. Post-process package with configured plugins.
 
 4. For the project:
 
-    1. Pre-process project's package with configured plugins.
-    2. Run Babel through each `.js` file in the project with configured plugins.
-    3. Post-process project's package with configured plugins.
+   1. Pre-process project's package with configured plugins.
+   2. Run Babel through each `.js` file in the project with configured plugins.
+   3. Post-process project's package with configured plugins.
 
 The pre and post process steps are the same, they only differ in the moment when they are run (before or after Babel is run, respectively). In these steps, `liferay-npm-bundler` calls all the configured plugins so that they can perform transformations on the npm packages like, for instance, modifying its `package.json` file, or deleting or moving files.
 
@@ -59,7 +59,7 @@ Let's see an example with the following `.npmbundlerrc` file (which is also the 
 
 ```json
 {
-    "preset": "liferay-npm-bundler-preset-standard"
+  "preset": "liferay-npm-bundler-preset-standard"
 }
 ```
 
@@ -67,20 +67,20 @@ If we run `liferay-npm-bundler` with this file, it will apply the [config file](
 
 ```json
 {
-    "/": {
-		"plugins": ["resolve-linked-dependencies"],
-		".babelrc": {
-			"presets": ["liferay-standard"]
-		},
-		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
-	},
-	"*": {
-		"plugins": ["replace-browser-modules"],
-		".babelrc": {
-			"presets": ["liferay-standard"]
-		},
-		"post-plugins": ["namespace-packages", "inject-peer-dependencies"]
-	}
+  "/": {
+    "plugins": ["resolve-linked-dependencies"],
+    ".babelrc": {
+      "presets": ["liferay-standard"]
+    },
+    "post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+  },
+  "*": {
+    "plugins": ["replace-browser-modules"],
+    ".babelrc": {
+      "presets": ["liferay-standard"]
+    },
+    "post-plugins": ["namespace-packages", "inject-peer-dependencies"]
+  }
 }
 ```
 
@@ -89,7 +89,7 @@ This states that for all npm packages (`*`) the pre-process phase (`plugins`) mu
 Looking at the [documentation](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md) of `replace-browser-modules` plugin we can see that this plugin replaces Javascript modules as defined under the `browser` section of `package.json`
 files. This means that, for each npm package that our project has as dependency, `liferay-npm-bundler` will make sure that each one having a `browser` section in its `package.json` files will have its server side files replaced by their counterpart browser versions.
 
-The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to  use when running Babel through the packages'`.js` files. Please keep in mind  that, in this phase, Babel is used to transform package files (for example to  convert them to AMD format if necessary) not to transpile them (though, in theory, you could transpile them too if you wanted by configuring the proper plugins).
+The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to use when running Babel through the packages'`.js` files. Please keep in mind that, in this phase, Babel is used to transform package files (for example to convert them to AMD format if necessary) not to transpile them (though, in theory, you could transpile them too if you wanted by configuring the proper plugins).
 
 In this example, we use the `liferay-standard` preset, that applies the following plugins according to
 [its documentation](https://github.com/liferay/liferay-npm-build-tools/tree/master/packages/babel-preset-liferay-amd):
@@ -114,86 +114,69 @@ Thus, after running `liferay-npm-bundler` on our project we will have a folder w
 
 A similar section for the project's root package (denoted by `/`) is also listed in the `.npmbundlerrc` which defines similar steps for the project's `package.json` and `.js` files.
 
-## Configuration
+## Controlling what files are transformed
 
-As said before, `liferay-npm-bundler` is configured placing a `.npmbundlerrc` file in your project's folder. The full structure of that file is:
+You can control what gets transformed and what doesn't at three levels:
 
-```
-{
-    "exclude": {
-        "*" : [
-            <list of glob expressions excluding files>
-        ],
-        "<package name>" : [
-            <same as for "*">
-        ],
-        "<package name>@<version>" : [
-            <same as for "*">
-        ]
-    },
-    "include-dependencies": {
-        "<package name>", ...
-    },
-    "output": <relative path of output directory>,
-    "process-serially": <true|false>,
-    "dump-report": <true|false>,
-    "verbose": <true|false>,
-    "config": {
-        ...
-    },
-    "/": {
-        "plugins": [
-            <list of plugins>
-	],
-        ".babelrc": {
-            <standard .babelrc file>
-	},
-        "post-plugins": [
-            <list of plugins>
-	]
-    },
-    "*" : {
-        "plugins": [
-            <list of plugins>
-	],
-        ".babelrc": {
-            <standard .babelrc file>
-	},
-        "post-plugins": [
-            <list of plugins>
-	]
-    },
-    "packages": {
-        "<package name>" : {
-            <same as for "*">
-        },
-        "<package name>@<version>" : {
-            <same as for "*">
-        }
-    }
-    ...
-}
-```
+1. You can force inclusion of npm packages in the output artifact even if they are not used anywhere in the code. This can be useful to bundle badly configured transitive dependencies, for example. See the [`include-dependencies`]([[.npmbundlerrc-file-reference#include-dependencies]]) option for more information.
+2. You can exclude any subset of files (or the whole package) in npm packages. This is useful to prevent imported packages from being bundled or optimize the resulting JAR by removing unused (or server only) files. See the [`exclude`]([[.npmbundlerrc-file-reference#exclude]]) section for more information.
+3. You can tell the tool to avoid processing (specifically with Babel) of any subset of files in the project (not of npm packages). This can be useful if you want to provide some Javascript files in your project that don't need to be AMDized, for example. See the [`ignore`]([[.npmbundlerrc-file-reference#ignore]]) section for more information.
 
-Where:
+## Creating OSGi bundles
 
-* **"exclude"**: defines files to be excluded from bundling from all or specific packages.
-* **"include-dependencies"**: defines packages to be included in bundling even if they are not listed under the `dependencies` section of `package.json`. Obviously, the packages must be available in the `node_modules` folder so, either they are installed manually without saving them to `package.json` or they are listed in the `devDependencies` section.
-* **"output"**: by default the bundled packages are written to `build/resources/main/META-INF/resources`, which is the standard Gradle output directory for resources, but it can be overriden for customized builds.
-* **"process-serially"**: defines whether to process dependency packages in parallel, leveraging Node.js asynchronous model, or one by one. The default value is false, so that everything gets processed in parallel, but you can disable it in case you get EMFILE errors due to opening too many files at the same time.
-* **"dump-report"**: write a report HTML file in the project directory with details about how each package is transformed and what has been done.
-* **"verbose"**: dump detailed information about what the tool is doing to the console.
-* **"config"**: global configuration which is passed to all bundler and Babel plugins.
-* **(list of plugins)**: is a comma separated list of strings defining the `liferay-npm-bundler` plugins to call (note that the `liferay-npm-bundler-plugin-` part from the npm package name may be omitted).
-* **(standard .babelrc file)**: is a `.babelrc` file as defined in [Babel's documentation](https://babeljs.io/docs/usage/babelrc/) that gets passed to Babel when called by `liferay-npm-bundler`.
-* **(package name)**: is a npm package name and the configuration under its scope will be only applied to packages with that name and _any_ version.
-* **(version)**: is a npm package version and the configuration under its `<package name>@<version>` scope will be only applied to packages with that specific name and version.
+As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`]([[.npmbundlerrc-file-reference#create-jar]]) option is given.
 
-```
-👀 Note that, prior to version 1.4.0, the `packages` section did not exist and
-   package configurations where placed next to the tools options (like '*',
-   'output', 'exclude', and so on). This created the possibility of a collision
-   and thus, the package configurations were namespaced. However, the tool still
-   falls back to the root section (outside 'packages') for packages configuration
-   to maintain backwards compatibility.
-```
+See [[Creating OSGi bundles]] for a detailed explanation of this feature.
+
+## Configuring the bundler
+
+As said before, `liferay-npm-bundler` is configured placing a `.npmbundlerrc` file in your project's folder. The available options for that file are described in the following sections.
+
+In addition, some of the options in `.npmbundlerrc` can be passed using command line arguments and/or environment variables. See the detailed explanations of `.npmbundlerrc` options to know more about them.
+
+### Miscellaneous options
+
+- [`output`]([[.npmbundlerrc-file-reference#output]]): specifies output directory of the project
+- [`preset`]([[.npmbundlerrc-file-reference#preset]]): specifies the name of the `liferay-npm-bundler` preset to use as base configuration
+- [`config`]([[.npmbundlerrc-file-reference#config]]): specifies plugin specific configuration
+
+#### Logging
+
+- [`verbose`]([[.npmbundlerrc-file-reference#verbose]]): controls verbose logging of what the tool is doing
+- [`dump-report`]([[.npmbundlerrc-file-reference#dump-report]]): controls generation of a detailed report file
+
+#### Privacy
+
+- [`no-tracking`]([[.npmbundlerrc-file-reference#no-tracking]]): controls sending of usage analytics to our servers
+  doing
+
+### Package processing options
+
+#### Miscellaneous options
+
+- [`process-serially`]([[.npmbundlerrc-file-reference#process-serially]]): tells the tool wether to process each npm package sequentially or all in parallel
+
+#### Plugin configuration options
+
+- [`*`]([[.npmbundlerrc-file-reference#-asterisk]]): defines default plugin configuration for all npm packages
+- [`/`]([[.npmbundlerrc-file-reference#-forward-slash]]): defines plugin configuration for project files
+- [`packages`]([[.npmbundlerrc-file-reference#packages]]): defines per-package plugin configuration for npm packages
+
+#### Exclusion, ignores, and inclusions
+
+- [`exclude`]([[.npmbundlerrc-file-reference#exclude]]): excludes any subset of files in npm packages (or whole packages)
+- [`ignore`]([[.npmbundlerrc-file-reference#ignore]]): skips processing of project's Javascript files with Babel
+- [`include-dependencies`]([[.npmbundlerrc-file-reference#include-dependencies]]): force inclusion of dependency packages even if they are not used by the project
+
+### OSGi bundle creation options
+
+#### Miscellaneous options
+
+- [`create-jar.output-dir`]([[.npmbundlerrc-file-reference#create-jar.output-dir]]): specifies where to place the final JAR
+- [`create-jar.features.js-extender`]([[.npmbundlerrc-file-reference#create-jar.features.js-extender]]): controls whether to process the OSGi bundle with the [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926)
+- [`create-jar.features.web-context`]([[.npmbundlerrc-file-reference#create-jar.features.web-context]]): specifies the context path to use for publishing bundle's static resources
+
+#### Features
+
+- [`create-jar.features.localization`]([[.npmbundlerrc-file-reference#create-jar.features.localization]]): specifies the L10N file to be used by the bundle (see [Localization](#localization) for more information)
+- [`create-jar.features.settings`]([[.npmbundlerrc-file-reference#create-jar.features.settings]]): specifies the JSON file describing the configuration structure (see [Settings configuration](#settings-configuration) for more information)

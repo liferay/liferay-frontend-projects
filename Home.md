@@ -2,12 +2,12 @@ This wiki holds the documentation for the Liferay npm Build Tools (aka npm SDK).
 
 > 👀 Unless otherwise stated, all tools work for **ANY** version of Liferay starting from 7.0.
 
-> 👀 Please note that currently, there are two version lines for the npm SDK known as `1.x` and `2.x`. 
+> 👀 Please note that currently, there are two version lines for the npm SDK known as `1.x` and `2.x`.
 > The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](https://github.com/liferay/liferay-npm-build-tools/wiki/Migrating-bundler-from-1.x-to-2.x) to get more information on how to perform that task.
 
 You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-npm-build-tools/issues).
 
-You can also get information about released versions and their changes in the [closed milestones page](https://github.com/liferay/liferay-npm-build-tools/milestones?state=closed). 
+You can also get information about released versions and their changes in the [closed milestones page](https://github.com/liferay/liferay-npm-build-tools/milestones?state=closed).
 
 And if you want to know what's planned for the next version, just visit the [open milestones page](https://github.com/liferay/liferay-npm-build-tools/milestones?state=open).
 
@@ -18,13 +18,11 @@ Now, let's go with the documentation:
    1. [How to create projects from scratch](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle) (explains how to create pure Javascript projects that can be deployed to Liferay)
    2. [[Migrating bundler from 1.x to 2.x]]
 
-
-2. Introductory topics:
+2) Introductory topics:
 
    1. [[How to use the npm SDK in your project]] (explains how to tweak a Java based portlet project to use the SDK)
    2. [[How to deploy npm packages to Liferay]]
    3. [[How Liferay serves npm packages to the browser]]
-
 
 3. Tool manuals:
 
@@ -34,8 +32,10 @@ Now, let's go with the documentation:
    4. [[How to use generator-liferay-bundle]]
 
 4. Reference
-   
-   1. [[JS-extended portlets entry point]]
+
+   1. [[.npmbundlerrc file reference]]
+   2. [[JS-extended portlets entry point]]
+   3. [[settings.json file reference]]
 
 5. Other sources of documentation:
 
