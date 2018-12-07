@@ -1,4 +1,4 @@
-As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`]([[.npmbundlerrc-file-reference#create-jar]]) option is given.
+As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](https://github.com/liferay/liferay-npm-build-tools/wiki/.npmbundlerrc-file-reference#create-jar) option is given.
 
 Some of the features available to OSGi bundles require the [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926) to be installed in the server and the [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jar.features.js-extender) option of `.npmbundlerrc` to be active.
 
