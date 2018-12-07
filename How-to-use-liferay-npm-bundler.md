@@ -119,8 +119,8 @@ A similar section for the project's root package (denoted by `/`) is also listed
 You can control what gets transformed and what doesn't at three levels:
 
 1. You can force inclusion of npm packages in the output artifact even if they are not used anywhere in the code. This can be useful to bundle badly configured transitive dependencies, for example. See the [`include-dependencies`](.npmbundlerrc-file-reference#include-dependencies) option for more information.
-2. You can exclude any subset of files (or the whole package) in npm packages. This is useful to prevent imported packages from being bundled or optimize the resulting JAR by removing unused (or server only) files. See the [`exclude`]([[.npmbundlerrc-file-reference#exclude]]) section for more information.
-3. You can tell the tool to avoid processing (specifically with Babel) of any subset of files in the project (not of npm packages). This can be useful if you want to provide some Javascript files in your project that don't need to be AMDized, for example. See the [`ignore`]([[.npmbundlerrc-file-reference#ignore]]) section for more information.
+2. You can exclude any subset of files (or the whole package) in npm packages. This is useful to prevent imported packages from being bundled or optimize the resulting JAR by removing unused (or server only) files. See the [`exclude`](.npmbundlerrc-file-reference#exclude) section for more information.
+3. You can tell the tool to avoid processing (specifically with Babel) of any subset of files in the project (not of npm packages). This can be useful if you want to provide some Javascript files in your project that don't need to be AMDized, for example. See the [`ignore`](.npmbundlerrc-file-reference#ignore) section for more information.
 
 ## Creating OSGi bundles
 
