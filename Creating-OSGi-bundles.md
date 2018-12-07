@@ -20,7 +20,7 @@ When activated, the Extender creates a portlet on-the-fly that is rendered by ca
 
 Since [#232](https://github.com/liferay/liferay-npm-build-tools/issues/232) you can use localization files in your projects. These files follow the standard format for Liferay bundles which is based on Java's [`ResourceBundle`](https://docs.oracle.com/javase/7/docs/api/java/util/ResourceBundle.html).
 
-Basically all you need to do to have localization is creating a `features/localization` folder in your project with a `Language.properties` file inside (but you can also override that location with the [`create-jar.features.localization`]([[.npmbundlerrc-file-reference#create-jar.features.localization]]) configuration option).
+Basically all you need to do to have localization is creating a `features/localization` folder in your project with a `Language.properties` file inside (but you can also override that location with the [`create-jar.features.localization`](.npmbundlerrc-file-reference#create-jarfeatureslocalization) configuration option).
 
 Then fill the `Language.properties` file with `key=value` pairs and use those keys in localization-aware places like portlet name, configuration labels and so on.
 
