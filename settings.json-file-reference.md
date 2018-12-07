@@ -6,21 +6,23 @@ This page describes the format used to describe settings configuration in `lifer
 {
 	"name": "{name of configuration}",
 	"fields": {
-		"{field id}": {
+		"{field id 1}": {
 			"type": "{field type}",
 			"name": "{field name}",
 			"description": "{field description}",
 			"default": "{default value}",
 			"options": {
-				"{option id}": "{option name}",
-				"{option id}": "{option name}",
-				...
+				"{option id 1}": "{option name 1}",
+				"{option id 2}": "{option name 2}",
+
+				"{option id n}": "{option name n}"
 			}
 		},
-		"{field id}" : {
-			...
+		"{field id 2}" : {
 		},
-		...
+
+		"{field id n}" : {
+		}
 	}
 }
 ```
