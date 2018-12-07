@@ -124,7 +124,7 @@ You can control what gets transformed and what doesn't at three levels:
 
 ## Creating OSGi bundles
 
-As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`]([[.npmbundlerrc-file-reference#create-jar]]) option is given.
+As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
 
 See [[Creating OSGi bundles]] for a detailed explanation of this feature.
 
@@ -136,47 +136,47 @@ In addition, some of the options in `.npmbundlerrc` can be passed using command 
 
 ### Miscellaneous options
 
-- [`output`]([[.npmbundlerrc-file-reference#output]]): specifies output directory of the project
-- [`preset`]([[.npmbundlerrc-file-reference#preset]]): specifies the name of the `liferay-npm-bundler` preset to use as base configuration
-- [`config`]([[.npmbundlerrc-file-reference#config]]): specifies plugin specific configuration
+- [`output`](.npmbundlerrc-file-reference#output): specifies output directory of the project
+- [`preset`](.npmbundlerrc-file-reference#preset): specifies the name of the `liferay-npm-bundler` preset to use as base configuration
+- [`config`](.npmbundlerrc-file-reference#config): specifies plugin specific configuration
 
 #### Logging
 
-- [`verbose`]([[.npmbundlerrc-file-reference#verbose]]): controls verbose logging of what the tool is doing
-- [`dump-report`]([[.npmbundlerrc-file-reference#dump-report]]): controls generation of a detailed report file
+- [`verbose`](.npmbundlerrc-file-reference#verbose): controls verbose logging of what the tool is doing
+- [`dump-report`](.npmbundlerrc-file-reference#dump-report): controls generation of a detailed report file
 
 #### Privacy
 
-- [`no-tracking`]([[.npmbundlerrc-file-reference#no-tracking]]): controls sending of usage analytics to our servers
+- [`no-tracking`](.npmbundlerrc-file-reference#no-tracking): controls sending of usage analytics to our servers
   doing
 
 ### Package processing options
 
 #### Miscellaneous options
 
-- [`process-serially`]([[.npmbundlerrc-file-reference#process-serially]]): tells the tool wether to process each npm package sequentially or all in parallel
+- [`process-serially`](.npmbundlerrc-file-reference#process-serially): tells the tool wether to process each npm package sequentially or all in parallel
 
 #### Plugin configuration options
 
-- [`*`]([[.npmbundlerrc-file-reference#-asterisk]]): defines default plugin configuration for all npm packages
-- [`/`]([[.npmbundlerrc-file-reference#-forward-slash]]): defines plugin configuration for project files
-- [`packages`]([[.npmbundlerrc-file-reference#packages]]): defines per-package plugin configuration for npm packages
+- [`*`](.npmbundlerrc-file-reference#-asterisk): defines default plugin configuration for all npm packages
+- [`/`](.npmbundlerrc-file-reference#-forward-slash): defines plugin configuration for project files
+- [`packages`](.npmbundlerrc-file-reference#packages): defines per-package plugin configuration for npm packages
 
 #### Exclusion, ignores, and inclusions
 
-- [`exclude`]([[.npmbundlerrc-file-reference#exclude]]): excludes any subset of files in npm packages (or whole packages)
-- [`ignore`]([[.npmbundlerrc-file-reference#ignore]]): skips processing of project's Javascript files with Babel
-- [`include-dependencies`]([[.npmbundlerrc-file-reference#include-dependencies]]): force inclusion of dependency packages even if they are not used by the project
+- [`exclude`](.npmbundlerrc-file-reference#exclude): excludes any subset of files in npm packages (or whole packages)
+- [`ignore`](.npmbundlerrc-file-reference#ignore): skips processing of project's Javascript files with Babel
+- [`include-dependencies`](.npmbundlerrc-file-reference#include-dependencies): force inclusion of dependency packages even if they are not used by the project
 
 ### OSGi bundle creation options
 
 #### Miscellaneous options
 
-- [`create-jar.output-dir`]([[.npmbundlerrc-file-reference#create-jar.output-dir]]): specifies where to place the final JAR
-- [`create-jar.features.js-extender`]([[.npmbundlerrc-file-reference#create-jar.features.js-extender]]): controls whether to process the OSGi bundle with the [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926)
-- [`create-jar.features.web-context`]([[.npmbundlerrc-file-reference#create-jar.features.web-context]]): specifies the context path to use for publishing bundle's static resources
+- [`create-jar.output-dir`](.npmbundlerrc-file-reference#create-jaroutput-dir): specifies where to place the final JAR
+- [`create-jar.features.js-extender`](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender): controls whether to process the OSGi bundle with the [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926)
+- [`create-jar.features.web-context`](.npmbundlerrc-file-reference#create-jarfeaturesweb-context): specifies the context path to use for publishing bundle's static resources
 
 #### Features
 
-- [`create-jar.features.localization`]([[.npmbundlerrc-file-reference#create-jar.features.localization]]): specifies the L10N file to be used by the bundle (see [Localization](#localization) for more information)
-- [`create-jar.features.settings`]([[.npmbundlerrc-file-reference#create-jar.features.settings]]): specifies the JSON file describing the configuration structure (see [Settings configuration](#settings-configuration) for more information)
+- [`create-jar.features.localization`](.npmbundlerrc-file-reference#create-jarfeatureslocalization): specifies the L10N file to be used by the bundle (see [Localization](#localization) for more information)
+- [`create-jar.features.settings`](.npmbundlerrc-file-reference#create-jarfeaturessettings): specifies the JSON file describing the configuration structure (see [Settings configuration](#settings-configuration) for more information)
