@@ -1,6 +1,6 @@
 import prop from 'dot-prop';
 
-import {JsonModifier} from '../..';
+import JsonModifier from '../../JsonModifier';
 import ProjectAnalyzer from '../../ProjectAnalyzer';
 
 /**

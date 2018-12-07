@@ -1,7 +1,7 @@
 import prop from 'dot-prop';
 import os from 'os';
 
-import {JsonModifier} from '..';
+import JsonModifier from '../JsonModifier';
 
 /**
  * A class to help modifying the .npmbuildrc file.

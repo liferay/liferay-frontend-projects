@@ -1,6 +1,6 @@
 import prop from 'dot-prop';
 
-import {JsonModifier} from '..';
+import JsonModifier from '../JsonModifier';
 
 /**
  * A class to help modifying the package.json file.
