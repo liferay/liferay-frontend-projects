@@ -4,7 +4,7 @@ Some of the features available to OSGi bundles require the [JS Portlet Extender]
 
 Because there can be several versions of the Extender with increasing levels of features as version numbers go up, the bundler automatically requests the minimum necessary version (for all features used in your project) to be present at the server and, if such requirement is not fullfilled, the bundle is not deployed.
 
-However, in case you want to deploy to older versions of the Extender because you have fallback code in your bundle when a feature is not provided by the Extender, you can force the version number directly or leave it unbounded so that your bundle deploys in any version of the Extender. Please see [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jar.features.js-extender) for more information on this.
+However, in case you want to deploy to older versions of the Extender because you have fallback code in your bundle when a feature is not provided by the Extender, you can force the version number directly or leave it unbounded so that your bundle deploys in any version of the Extender. Please see [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender) for more information on this.
 
 To finish with, see the [[How to use generator liferay bundle]] page if you need information on how to create this type of projects from scratch.
 
