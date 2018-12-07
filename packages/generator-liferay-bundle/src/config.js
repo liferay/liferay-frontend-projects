@@ -5,15 +5,20 @@ import readJsonSync from 'read-json-sync';
 let cfg = {};
 
 try {
-	let configPath = path.join(os.homedir(), '.generator-liferay-bundle.json');
+	cfg = readJsonSync(
+		path.join(os.homedir(), '.generator-liferay-bundle.json')
+	);
 
 	const argv = process.argv;
 
 	if (argv.length >= 5 && argv[3] === '--config') {
-		configPath = argv[4];
+		cfg = Object.assign(
+			{
+				sdkVersion: cfg.sdkVersion,
+			},
+			readJsonSync(argv[4])
+		);
 	}
-
-	cfg = readJsonSync(configPath);
 } catch (err) {
 	if (err.code !== 'ENOENT') {
 		throw err;
@@ -78,4 +83,13 @@ export function getDefaultAnswer(
 
 	// If found, return the configured value
 	return value;
+}
+
+/**
+ * Returns the SDK version to use when generating projects. If a path is used it
+ * it must point to the root folder of the SDK's lerna repo.
+ * @return {string} the forced SDK version to use
+ */
+export function getSDKVersion() {
+	return cfg.sdkVersion;
 }

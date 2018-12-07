@@ -63,40 +63,52 @@ export class Copier {
 }
 
 /**
- * A class to help modifying JSON files.
+ * Format label values according to different formats.
+ * @param {object} labels
+ * @return {object} returns an object with labels transformed according to
+ * 			different formats: 'raw', 'quoted', 'template', 'js'
  */
-export class JsonModifier {
-	/**
-	 * @param {Generator} generator a Yeoman generator
-	 * @param {String} path path to file
-	 */
-	constructor(generator, path) {
-		this._generator = generator;
-		this._path = path;
+export function formatLabels(labels) {
+	return {
+		raw: labels,
+		quoted: Object.entries(labels).reduce((obj, [key, value]) => {
+			obj[key] = `'${value}'`;
+			return obj;
+		}, {}),
+		template: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `\${Liferay.Language.get('${hyphenate(key)}')}`;
+			return obj;
+		}, {}),
+		js: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `Liferay.Language.get('${hyphenate(key)}')`;
+			return obj;
+		}, {}),
+		jsx: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `{Liferay.Language.get('${hyphenate(key)}')}`;
+			return obj;
+		}, {}),
+	};
+}
+
+/**
+ * Convert key from camel case to hyphens.
+ * @param {string} key
+ * @return {string}
+ */
+export function hyphenate(key) {
+	let ret = '';
+
+	for (let i = 0; i < key.length; i++) {
+		let char = key.charAt(i);
+
+		if (char === char.toUpperCase()) {
+			char = `-${char.toLowerCase()}`;
+		}
+
+		ret += char;
 	}
 
-	/**
-	 * Get the JSON object associated to this modifier
-	 * @return {Object} a parsed JSON object
-	 */
-	get json() {
-		return JSON.parse(this._generator.fs.read(this._path));
-	}
-
-	/**
-	 * Modify an existing JSON file.
-	 * @param {Function} modifier the code that modifies the JSON (it receives a
-	 * 						single parameter with the JSON object)
-	 */
-	modifyJson(modifier) {
-		const gen = this._generator;
-
-		let json = this.json;
-
-		modifier(json);
-
-		gen.fs.write(this._path, JSON.stringify(json, null, '	'));
-	}
+	return ret;
 }
 
 /**
@@ -136,4 +148,30 @@ export async function promptWithConfig(generator, namespace, prompts) {
 	} else {
 		return await generator.prompt(prompts);
 	}
+}
+
+/**
+ * Converts a technical string to human readable form.
+ * @param {string} string string to capitalize
+ * @return {string}
+ */
+export function toHumanReadable(string) {
+	let capitalizeNext = true;
+	let humanizedString = '';
+
+	for (let i = 0; i < string.length; i++) {
+		if (string[i].match(/[\\._-]/)) {
+			humanizedString += ' ';
+			capitalizeNext = true;
+		} else {
+			if (capitalizeNext) {
+				humanizedString += string[i].toLocaleUpperCase();
+				capitalizeNext = false;
+			} else {
+				humanizedString += string[i];
+			}
+		}
+	}
+
+	return humanizedString;
 }

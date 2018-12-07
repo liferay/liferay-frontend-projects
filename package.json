@@ -35,5 +35,8 @@
 			"/node_modules/",
 			"/__fixtures__/"
 		]
+	},
+	"dependencies": {
+		"xml-js": "^1.6.8"
 	}
 }

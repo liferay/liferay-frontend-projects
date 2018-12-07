@@ -1,0 +1,430 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addMetatypeAttr adds default if present 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "cardinality": 0,
+                "default": "default-value",
+                "id": "an-attr",
+                "name": "an-attr",
+                "type": "String",
+              },
+              "elements": Array [],
+              "name": "AD",
+              "type": "element",
+            },
+          ],
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;
+
+exports[`addMetatypeAttr adds description if present 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "cardinality": 0,
+                "description": "a-description",
+                "id": "an-attr",
+                "name": "an-attr",
+                "type": "String",
+              },
+              "elements": Array [],
+              "name": "AD",
+              "type": "element",
+            },
+          ],
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;
+
+exports[`addMetatypeAttr adds options if present 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "cardinality": 0,
+                "id": "an-attr",
+                "name": "an-attr",
+                "type": "String",
+              },
+              "elements": Array [
+                Object {
+                  "attributes": Object {
+                    "label": "option-a",
+                    "value": "A",
+                  },
+                  "elements": Array [],
+                  "name": "Option",
+                  "type": "element",
+                },
+                Object {
+                  "attributes": Object {
+                    "label": "option-b",
+                    "value": "B",
+                  },
+                  "elements": Array [],
+                  "name": "Option",
+                  "type": "element",
+                },
+              ],
+              "name": "AD",
+              "type": "element",
+            },
+          ],
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;
+
+exports[`addMetatypeAttr adds required if present 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "cardinality": 0,
+                "id": "an-attr",
+                "name": "an-attr",
+                "required": true,
+                "type": "String",
+              },
+              "elements": Array [],
+              "name": "AD",
+              "type": "element",
+            },
+          ],
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;
+
+exports[`addMetatypeAttr works with just the type 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "cardinality": 0,
+                "id": "an-attr",
+                "name": "an-attr",
+                "type": "String",
+              },
+              "elements": Array [],
+              "name": "AD",
+              "type": "element",
+            },
+          ],
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;
+
+exports[`addMetatypeLocalization works 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "localization": "localization/file.properties",
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;
+
+exports[`all together works 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
+<metatype:MetaData xmlns:metatype=\\"http://www.osgi.org/xmlns/metatype/v1.1.0\\" localization=\\"localization/file.properties\\">
+  <OCD name=\\"name\\" id=\\"id\\">
+    <AD id=\\"a-number\\" type=\\"Integer\\" name=\\"a-number\\" cardinality=\\"0\\"/>
+    <AD id=\\"a-float\\" type=\\"Double\\" name=\\"a-float\\" cardinality=\\"0\\"/>
+    <AD id=\\"a-string\\" type=\\"String\\" name=\\"a-string\\" cardinality=\\"0\\"/>
+    <AD id=\\"a-boolean\\" type=\\"Boolean\\" name=\\"a-boolean\\" cardinality=\\"0\\"/>
+    <AD id=\\"an-option\\" type=\\"String\\" name=\\"an-option\\" cardinality=\\"0\\" default=\\"A\\">
+      <Option label=\\"option-a\\" value=\\"A\\"/>
+      <Option label=\\"option-b\\" value=\\"B\\"/>
+    </AD>
+  </OCD>
+  <Designate pid=\\"id\\">
+    <Object ocdref=\\"id\\"/>
+  </Designate>
+</metatype:MetaData>"
+`;
+
+exports[`createMetatype works 1`] = `
+Object {
+  "declaration": Object {
+    "attributes": Object {
+      "encoding": "UTF-8",
+      "version": "1.0",
+    },
+  },
+  "elements": Array [
+    Object {
+      "attributes": Object {
+        "xmlns:metatype": "http://www.osgi.org/xmlns/metatype/v1.1.0",
+      },
+      "elements": Array [
+        Object {
+          "attributes": Object {
+            "id": "id",
+            "name": "name",
+          },
+          "name": "OCD",
+          "type": "element",
+        },
+        Object {
+          "attributes": Object {
+            "pid": "id",
+          },
+          "elements": Array [
+            Object {
+              "attributes": Object {
+                "ocdref": "id",
+              },
+              "name": "Object",
+              "type": "element",
+            },
+          ],
+          "name": "Designate",
+          "type": "element",
+        },
+      ],
+      "name": "metatype:MetaData",
+      "type": "element",
+    },
+  ],
+}
+`;

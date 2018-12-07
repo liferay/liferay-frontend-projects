@@ -1,8 +1,10 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
-import {Copier} from '../utils';
+import LocalizationSampleGenerator from '../facet-localization/sample-generator';
+import SettingsSampleGenerator from '../facet-settings/sample-generator';
+import {Copier, formatLabels, promptWithConfig} from '../utils';
+import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
@@ -47,8 +49,10 @@ export default class extends Generator {
 		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const projectAnalyzer = new ProjectAnalyzer(this);
 		const {useBabel, sampleWanted} = this.answers;
 
+		// Configure build
 		if (useBabel) {
 			pkgJson.addDevDependency('babel-cli', '^6.26.0');
 			pkgJson.addDevDependency('babel-preset-env', '^1.7.0');
@@ -59,19 +63,54 @@ export default class extends Generator {
 			pkgJson.addScript('copy-sources', 'lnbs-copy-sources');
 		}
 
-		pkgJson.setMain('index.js');
+		// Configure webpack
 		if (useBabel) {
-			cp.copyFile('src/index.babel.js', {dest: 'src/index.js'});
-
 			pkgJson.addDevDependency('babel-loader', '^7.0.0');
 			npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
-		} else {
-			cp.copyFile('src/index.nobabel.js', {dest: 'src/index.js'});
 		}
 
+		// Prepare text labels
+		const labels = formatLabels({
+			porletNamespace: 'Porlet Namespace',
+			contextPath: 'Context Path',
+			portletElementId: 'Portlet Element Id',
+			configuration: projectAnalyzer.hasSettings
+				? 'Configuration'
+				: undefined,
+		});
+
+		// Prepare configuration display
+		const signature =
+			'portletNamespace, contextPath, portletElementId' +
+			(projectAnalyzer.hasSettings ? ', configuration' : '');
+
+		// Copy Javascript files
+		pkgJson.setMain('index.js');
+		cp.copyFile(`src/index.${useBabel ? 'babel' : 'nobabel'}.js`, {
+			context: {
+				hasConfiguration: projectAnalyzer.hasSettings,
+				labels:
+					labels[
+						projectAnalyzer.hasLocalization
+							? useBabel ? 'template' : 'js'
+							: useBabel ? 'raw' : 'quoted'
+					],
+				signature,
+			},
+			dest: 'src/index.js',
+		});
+
+		// Generate sample contents
 		if (sampleWanted) {
+			// Add styles
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
+
+			// Add localization keys
+			new LocalizationSampleGenerator(this).generate(labels.raw);
+
+			// Add sample settings
+			new SettingsSampleGenerator(this).generate();
 		}
 	}
 }

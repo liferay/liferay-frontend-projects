@@ -1,4 +1,6 @@
-import {JsonModifier} from '..';
+import prop from 'dot-prop';
+
+import JsonModifier from '../JsonModifier';
 
 /**
  * A class to help modifying the .npmbundlerrc file.
@@ -12,34 +14,50 @@ export default class extends JsonModifier {
 	}
 
 	/**
+	 * Add an exclusion to the .npmbundlerrc file.
+	 * @param {string} name name of package
+	 * @param {boolean} value true to exclude package
+	 */
+	addExclusion(name, value = true) {
+		name = this._escapeProp(name);
+
+		this.modifyJson(json => {
+			prop.set(json, `exclude.${name}`, value);
+		});
+	}
+
+	/**
 	 * Merge all imports contained in a JSON object into the .npmbundlerrc file.
 	 * @param {Object} imports an object containing the config.imports section
 	 */
 	mergeImports(imports) {
 		this.modifyJson(json => {
-			json['config'] = json['config'] || {};
-			json['config']['imports'] = json['config']['imports'] || {};
-
 			Object.entries(imports).forEach(([provider, dependencies]) => {
-				json['config']['imports'][provider] =
-					json['config']['imports'][provider] || {};
+				provider = this._escapeProp(provider);
 
 				Object.entries(dependencies).forEach(([name, semver]) => {
-					json['config']['imports'][provider][name] = semver;
+					name = this._escapeProp(name);
+
+					prop.set(
+						json,
+						`config.imports.${provider}.${name}`,
+						semver
+					);
 				});
 			});
 		});
 	}
 
 	/**
-	 * Add an exclusion to the .npmbundlerrc file.
-	 * @param {string} name name of package
-	 * @param {boolean} value true to exclude package
+	 * Set a feature value.
+	 * @param {string} name name of feature
+	 * @param {any} value value of feature
 	 */
-	addExclusion(name, value = true) {
+	setFeature(name, value) {
+		name = this._escapeProp(name);
+
 		this.modifyJson(json => {
-			json['exclude'] = json['exclude'] || {};
-			json['exclude'][name] = value;
+			prop.set(json, `create-jar.features.${name}`, value);
 		});
 	}
 }

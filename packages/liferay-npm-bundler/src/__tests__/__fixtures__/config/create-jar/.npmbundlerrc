@@ -1,7 +1,0 @@
-{
-	"create-jar": {
-		"auto-deploy-portlet": false,
-		"web-context-path": "/my-portlet",
-		"output-dir": "dist"
-	}
-}

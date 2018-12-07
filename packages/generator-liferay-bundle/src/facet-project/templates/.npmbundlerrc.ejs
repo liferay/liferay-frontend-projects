@@ -1,8 +1,10 @@
 {
 	"create-jar": {
-		"auto-deploy-portlet": false,
-		"web-context-path": "/<%= name %>",
-		"output-dir": "dist"		
+		"output-dir": "dist",
+		"features": {
+			"js-extender": false,
+			"web-context": "/<%= name %>"
+		}		
 	},
 	"dump-report": true
 }
