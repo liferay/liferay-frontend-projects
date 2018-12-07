@@ -58,7 +58,7 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 As of [#234](https://github.com/liferay/liferay-npm-build-tools/issues/234) you can define configuration for your bundle that appears in the the `System Settings` panel of Liferay and is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
 
-All you need to do to enable configuration is creating a `features/settings.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.settings`]([[.npmbundlerrc-file-reference#create-jar.features.settings]]) option.
+All you need to do to enable configuration is creating a `features/settings.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.settings`](.npmbundlerrc-file-reference#create-jarfeaturessettings) option.
 
 The format of the file is described in [[settings.json file reference]].
 
