@@ -11,4 +11,10 @@
 		<span class="tag">{{labels.portletElementId}}:</span>
 		<span class="value">{{params.portletElementId}}</span>
 	</div>
+	<% if (hasConfiguration) { %>
+	<div>
+		<span class="tag">{{labels.configuration}}:</span>
+		<span class="value">{{configurationJSON}}</span>
+	</div>
+	<% } %>
 </div>

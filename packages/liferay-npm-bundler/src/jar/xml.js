@@ -1,34 +1,81 @@
 import {js2xml, xml2js} from 'xml-js';
 
+const TYPES = {
+	boolean: 'Boolean',
+	float: 'Double',
+	number: 'Integer',
+	password: 'Password',
+	string: 'String',
+};
+
 /**
- * Patch a parsed metatype XML file to add pids, localization, etc.
- * @param {string} xml
- * @param {string} localization path of localization file
- * @param {string} pid configuration ID
- * @return {string} the patched XML
+ * Add a metatype AD node to the XML
+ * @param {object} metatype
+ * @param {string} id id of field
+ * @param {object} desc an object with type, name, description, required,
+ * 			default, min, max and options fields
  */
-export function patchMetatypeXml(xml, {localization, pid}) {
-	const js = xml2js(xml, {});
-
-	const metadata = findChild(js, 'metatype:MetaData');
-
-	if (localization) {
-		metadata.attributes['localization'] = localization;
-	}
-
+export function addMetatypeAttr(metatype, id, desc) {
+	const metadata = findChild(metatype, 'metatype:MetaData');
 	const ocd = findChild(metadata, 'OCD');
+	const ad = addChild(ocd, 'AD');
 
-	addAttr(ocd, 'id', pid);
+	addAttr(ad, 'id', id);
+	addAttr(ad, 'type', TYPES[desc.type]);
+	addAttr(ad, 'name', desc.name || id);
+	if (desc.description !== undefined) {
+		addAttr(ad, 'description', desc.description);
+	}
+	addAttr(ad, 'cardinality', 0);
+	if (desc.required !== undefined) {
+		addAttr(ad, 'required', desc.required);
+	}
+	if (desc.default !== undefined) {
+		addAttr(ad, 'default', desc.default);
+	}
+	if (desc.options) {
+		Object.entries(desc.options).forEach(([value, label]) => {
+			const option = addChild(ad, 'Option');
 
-	const designate = findChild(metadata, 'Designate', true);
+			addAttr(option, 'label', label);
+			addAttr(option, 'value', value);
+		});
+	}
+}
 
-	addAttr(designate, 'pid', pid);
+/**
+ *
+ * @param {object} xml
+ * @param {string} localization
+ */
+export function addMetatypeLocalization(xml, localization) {
+	const metadata = findChild(xml, 'metatype:MetaData');
 
-	const object = findChild(designate, 'Object', true);
+	addAttr(metadata, 'localization', localization);
+}
 
-	addAttr(object, 'ocdref', pid);
+/**
+ * @param {string} id id of configuration
+ * @param {string} name human readable name of configuration
+ * @return {object}
+ */
+export function createMetatype(id, name) {
+	return xml2js(`<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.1.0">
+	<OCD name="${name}" id="${id}"/>
+	<Designate pid="${id}">
+		<Object ocdref="${id}"/>
+	</Designate>
+</metatype:MetaData>`);
+}
 
-	return js2xml(js, {spaces: 2});
+/**
+ * Format an XML object and return it as a string.
+ * @param {object} xml
+ * @return {string}
+ */
+export function format(xml) {
+	return js2xml(xml, {spaces: 2});
 }
 
 /**
@@ -43,6 +90,26 @@ function addAttr(node, name, value) {
 }
 
 /**
+ * Add a child node to an existing node.
+ * @param {object} parentNode
+ * @param {string} childName
+ * @return {object} the child node
+ */
+function addChild(parentNode, childName) {
+	const childNode = {
+		type: 'element',
+		name: childName,
+		attributes: {},
+		elements: [],
+	};
+
+	parentNode.elements = parentNode.elements || [];
+	parentNode.elements.push(childNode);
+
+	return childNode;
+}
+
+/**
  * Find an XML child node creating it if necessary.
  * @param {object} parentNode
  * @param {string} childName
@@ -50,7 +117,9 @@ function addAttr(node, name, value) {
  * @return {object} the child node
  */
 function findChild(parentNode, childName, create = false) {
-	let childNode = parentNode.elements.find(node => node.name == childName);
+	const elements = parentNode.elements || [];
+
+	let childNode = elements.find(node => node.name == childName);
 
 	if (childNode === undefined && create) {
 		childNode = {
@@ -60,6 +129,7 @@ function findChild(parentNode, childName, create = false) {
 			elements: [],
 		};
 
+		parentNode.elements = elements;
 		parentNode.elements.push(childNode);
 	}
 

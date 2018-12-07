@@ -7,7 +7,7 @@
  * @param  {Object} params a hash with values of interest to the portlet
  * @return {void}
  */
-export default function main({portletNamespace, contextPath, portletElementId}) {
+export default function main({<%- signature %>}) {
     <% if (sampleWanted) { %>
     const node = document.getElementById(portletElementId);
 
@@ -24,6 +24,14 @@ export default function main({portletNamespace, contextPath, portletElementId}) 
             <span class="tag"><%- labels.portletElementId %>:</span>
             <span class="value">${portletElementId}</span>
         </div>
+        <% if (hasConfiguration) { %>
+        <div>
+            <span class="tag"><%- labels.configuration %>:</span>
+            <span class="value">
+                ${JSON.stringify(configuration, null, 2)}
+            </span>
+        </div>
+        <% } %>
     `;
     <% } %>
 }

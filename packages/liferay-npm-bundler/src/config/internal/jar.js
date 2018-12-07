@@ -58,8 +58,8 @@ export function getMetatypeFile() {
 
 	let defaultValue = undefined;
 
-	if (fs.existsSync('./features/settings.xml')) {
-		defaultValue = 'features/settings.xml';
+	if (fs.existsSync('./features/settings.json')) {
+		defaultValue = 'features/settings.json';
 	}
 
 	return prop.get(jarConfig, 'features.settings', defaultValue);

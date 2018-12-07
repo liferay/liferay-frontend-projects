@@ -63,49 +63,52 @@ export class Copier {
 }
 
 /**
- * A class to help modifying JSON files.
+ * Format label values according to different formats.
+ * @param {object} labels
+ * @return {object} returns an object with labels transformed according to
+ * 			different formats: 'raw', 'quoted', 'template', 'js'
  */
-export class JsonModifier {
-	/**
-	 * @param {Generator} generator a Yeoman generator
-	 * @param {String} path path to file
-	 */
-	constructor(generator, path) {
-		this._generator = generator;
-		this._path = path;
+export function formatLabels(labels) {
+	return {
+		raw: labels,
+		quoted: Object.entries(labels).reduce((obj, [key, value]) => {
+			obj[key] = `'${value}'`;
+			return obj;
+		}, {}),
+		template: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `\${Liferay.Language.get('${hyphenate(key)}')}`;
+			return obj;
+		}, {}),
+		js: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `Liferay.Language.get('${hyphenate(key)}')`;
+			return obj;
+		}, {}),
+		jsx: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `{Liferay.Language.get('${hyphenate(key)}')}`;
+			return obj;
+		}, {}),
+	};
+}
+
+/**
+ * Convert key from camel case to hyphens.
+ * @param {string} key
+ * @return {string}
+ */
+export function hyphenate(key) {
+	let ret = '';
+
+	for (let i = 0; i < key.length; i++) {
+		let char = key.charAt(i);
+
+		if (char === char.toUpperCase()) {
+			char = `-${char.toLowerCase()}`;
+		}
+
+		ret += char;
 	}
 
-	/**
-	 * Get the JSON object associated to this modifier
-	 * @return {Object} a parsed JSON object
-	 */
-	get json() {
-		return JSON.parse(this._generator.fs.read(this._path));
-	}
-
-	/**
-	 * Modify an existing JSON file.
-	 * @param {Function} modifier the code that modifies the JSON (it receives a
-	 * 						single parameter with the JSON object)
-	 */
-	modifyJson(modifier) {
-		const gen = this._generator;
-
-		let json = this.json;
-
-		modifier(json);
-
-		gen.fs.write(this._path, JSON.stringify(json, null, '	'));
-	}
-
-	/**
-	 * Escape a property name to make it suitable for use in dot-prop
-	 * @param {string} name name of property
-	 * @return {string} the escaped name
-	 */
-	_escapeProp(name) {
-		return name.replace(/\./g, '\\.');
-	}
+	return ret;
 }
 
 /**

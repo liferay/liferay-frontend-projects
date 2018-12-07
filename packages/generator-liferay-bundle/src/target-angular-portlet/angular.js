@@ -1,13 +1,13 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, promptWithConfig} from '../utils';
-import {formatLabels} from '../utils/l10n';
+import LocalizationSampleGenerator from '../facet-localization/sample-generator';
+import SettingsSampleGenerator from '../facet-settings/sample-generator';
+import {Copier, formatLabels, promptWithConfig} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
-import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 import dependenciesJson from './dependencies.json';
 
 /**
@@ -62,13 +62,23 @@ export default class extends Generator {
 			portletNamespace: 'Porlet Namespace',
 			contextPath: 'Context Path',
 			portletElementId: 'Portlet Element Id',
+			configuration: projectAnalyzer.hasSettings
+				? 'Configuration'
+				: undefined,
 		});
+
+		// Prepare context
+		const context = {
+			hasConfiguration: projectAnalyzer.hasSettings,
+			labels: labels[projectAnalyzer.hasLocalization ? 'js' : 'quoted'],
+			pkgJson: pkgJson.json,
+		};
 
 		// Copy source files
 		pkgJson.setMain('index.js');
-		cp.copyFile('src/polyfills.ts');
-		cp.copyFile('src/index.ts');
-		cp.copyDir('src/types');
+		cp.copyFile('src/polyfills.ts', {context});
+		cp.copyFile('src/index.ts', {context});
+		cp.copyDir('src/types', {context});
 
 		// Generate sample contents
 		if (sampleWanted) {
@@ -77,23 +87,14 @@ export default class extends Generator {
 			stylesCss.addRule('.value', 'font-style: italic;');
 
 			// Copy sample source files
-			cp.copyDir('src', {
-				context: {
-					pkgJson: pkgJson.json,
-					labels:
-						labels[
-							projectAnalyzer.hasLocalization ? 'js' : 'quoted'
-						],
-				},
-			});
-			cp.copyDir('assets');
+			cp.copyDir('src', {context});
+			cp.copyDir('assets', {context});
 
 			// Add localization keys
-			if (projectAnalyzer.hasLocalization) {
-				new LanguagePropertiesModifier(this).addProperties(
-					labels.properties
-				);
-			}
+			new LocalizationSampleGenerator(this).generate(labels.raw);
+
+			// Add sample settings
+			new SettingsSampleGenerator(this).generate();
 		}
 	}
 }

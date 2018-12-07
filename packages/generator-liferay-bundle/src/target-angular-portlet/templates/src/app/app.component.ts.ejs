@@ -13,9 +13,16 @@ export class AppComponent {
 
 	constructor() {
 		this.labels = {        
+			<% if (hasConfiguration) { %>
+			configuration: <%- labels.configuration %>,
+			<% } %>
 			portletNamespace: <%- labels.portletNamespace %>,
         	contextPath: <%- labels.contextPath %>,
 			portletElementId: <%- labels.portletElementId %>
 		}
+	}
+
+	get configurationJSON() {
+		return JSON.stringify(this.params.configuration, null, 2);
 	}
 }
