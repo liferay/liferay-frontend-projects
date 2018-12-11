@@ -1,0 +1,27 @@
+{
+	"name": "liferay-npm-scripts",
+	"version": "0.0.1",
+	"description": "Collection of NPM scripts used for Liferay portlets",
+	"main": "index.js",
+	"scripts": {},
+	"author": "Bryce Osterhaus",
+	"license": "MIT",
+	"files": [
+		"bin",
+		"scripts"
+	],
+	"bin": {
+		"liferay-npm-scripts": "./bin/liferay-npm-scripts.js"
+	},
+	"dependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-eslint": "^10.0.1",
+		"babel-preset-env": "^1.7.0",
+		"check-source-formatting": "^2.0.13",
+		"liferay-npm-bridge-generator": "^2.6.1",
+		"liferay-npm-bundler": "^2.5.1",
+		"liferay-npm-bundler-preset-liferay-dev": "^1.1.0",
+		"metal-tools-soy": "^6.0.0",
+		"minimist": "^1.2.0"
+	}
+}
