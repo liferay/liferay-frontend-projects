@@ -22,103 +22,116 @@ portfinder.basePort = 9080;
 const CONNECT_PARAMS = {
 	port: 11311,
 };
-const webBundleDirName = '.web_bundle_build';
+const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
 
 module.exports = function(options) {
-	const {argv, gulp, pathBuild, pathSrc} = options;
-	const {storage} = gulp;
+	// Get things from options
+	const {
+		argv,
+		distName,
+		gogoShellConfig,
+		gulp,
+		pathBuild,
+		pathSrc,
+	} = options;
 
-	const connectParams = _.assign({}, CONNECT_PARAMS, options.gogoShellConfig);
+	// Initialize global things
+	const {storage} = gulp;
+	const connectParams = _.assign({}, CONNECT_PARAMS, gogoShellConfig);
 	const fullDeploy = argv.full || argv.f;
 	const runSequence = require('run-sequence').use(gulp);
+
+	// Get config from liferay-theme.json
 	const url = argv.url || storage.get('url');
-	const webBundleDir = path.join(process.cwd(), webBundleDirName);
+	const appServerPath = storage.get('appServerPath');
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
 	const pluginName = storage.get('pluginName') || '';
+
+	// Calculate some values
+	const explodedBuildDir = path.join(process.cwd(), EXPLODED_BUILD_DIR_NAME);
 	const dockerThemePath = path.posix.join('/tmp', pluginName);
 	const dockerBundleDirPath = path.posix.join(
 		dockerThemePath,
-		webBundleDirName
+		EXPLODED_BUILD_DIR_NAME
 	);
+	const dockerPath =
+		deploymentStrategy == DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER
+			? path.posix
+			: path;
 
+	// Share browserSync with deploy task
 	gulp.browserSync = browserSync;
 
+	/**
+	 * Start watching project folder
+	 */
 	gulp.task('watch', function() {
-		let taskArray;
 		options.watching = true;
 
-		storage.set('appServerPathPlugin', webBundleDir);
+		storage.set('appServerPathPlugin', explodedBuildDir);
 
-		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
-			taskArray = [
-				'build',
-				'watch:clean',
-				'watch:docker:clean',
-				'watch:osgi:clean',
-				'watch:setup',
-				'watch:docker:copy',
-			];
-		} else {
-			taskArray = [
-				'build',
-				'watch:clean',
-				'watch:osgi:clean',
-				'watch:setup',
-			];
-		}
+		// Get tasks array
+		let taskArray = getCleanTaskArray(deploymentStrategy);
 
-		taskArray.push(function(err) {
+		// Push final task that deploys the theme and starts live reloads
+		taskArray.push(err => {
 			if (err) {
 				throw err;
 			}
 
-			let watchSocket = startWatchSocket();
-
-			watchSocket
-				.connect(connectParams)
-				.then(function() {
-					return watchSocket.deploy();
-				})
-				.then(function() {
+			getWatchSocket()
+				.then(watchSocket => watchSocket.deploy())
+				.then(() => {
 					storage.set('webBundleDir', 'watching');
 
-					portfinder.getPortPromise().then(port => {
-						startWatch(port, url);
-					});
-				});
+					return portfinder.getPortPromise();
+				})
+				.then(port => startWatch(port, url));
 		});
 
+		// Run tasks in sequence
 		runSequence.apply(this, taskArray);
 	});
 
+	/**
+	 * Clean the exploded build dir
+	 */
 	gulp.task('watch:clean', function(cb) {
-		del([webBundleDir], cb);
+		del([explodedBuildDir], cb);
 	});
 
+	/**
+	 * Uninstall bundled WAR file from OSGi
+	 */
 	gulp.task('watch:osgi:clean', function(cb) {
-		let watchSocket = startWatchSocket();
-
-		watchSocket
-			.connect(connectParams)
-			.then(function() {
-				let distName = options.distName;
-
-				let warPath = themeUtil
-					.getPath(deploymentStrategy)
-					.join(
-						storage.get('appServerPath'),
-						'..',
-						'osgi',
-						'war',
-						distName + '.war'
-					);
+		getWatchSocket()
+			.then(function(watchSocket) {
+				const warPath = dockerPath.join(
+					appServerPath,
+					'..',
+					'osgi',
+					'war',
+					distName + '.war'
+				);
 
 				return watchSocket.uninstall(warPath, distName);
 			})
 			.then(cb);
 	});
 
+	/**
+	 * Deploy bundled WAR file to OSGi
+	 */
+	gulp.task('watch:osgi:reinstall', function(cb) {
+		getWatchSocket()
+			.then(watchSocket => watchSocket.deploy())
+			.then(cb);
+	});
+
+	/**
+	 * Clean the remote exploded build dir in docker
+	 */
 	gulp.task('watch:docker:clean', function(cb) {
 		themeUtil.dockerExec(
 			dockerContainerName,
@@ -128,56 +141,111 @@ module.exports = function(options) {
 		cb();
 	});
 
+	/**
+	 * Copy the exploded build dir to docker
+	 */
 	gulp.task('watch:docker:copy', function(cb) {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'mkdir -p ' + dockerBundleDirPath
 		);
+
 		themeUtil.dockerCopy(
 			dockerContainerName,
-			webBundleDir,
+			explodedBuildDir,
 			dockerBundleDirPath,
 			cb
 		);
 	});
 
-	gulp.task('watch:osgi:reinstall', function(cb) {
-		let watchSocket = startWatchSocket();
-
-		watchSocket
-			.connect(connectParams)
-			.then(function() {
-				return watchSocket.deploy();
-			})
-			.then(function() {
-				cb();
-			});
-	});
-
+	/**
+	 * Copy output files to exploded build dir
+	 */
 	gulp.task('watch:setup', function() {
 		return gulp
 			.src(path.join(pathBuild, '**/*'))
-			.pipe(gulp.dest(webBundleDir));
+			.pipe(gulp.dest(explodedBuildDir));
 	});
 
+	/**
+	 * Cleanup watch machinery
+	 */
 	gulp.task('watch:teardown', function(cb) {
 		storage.set('webBundleDir');
-		let sequence = ['watch:clean'];
 
-		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
-			sequence.push('watch:docker:clean');
-		}
+		let taskArray = getTeardownTaskArray();
 
-		sequence.push(cb);
+		taskArray.push(cb);
 
-		runSequence.apply(this, sequence);
+		runSequence.apply(this, taskArray);
 	});
+
+	/**
+	 * Start live reload server and watch for changes in project files.
+	 * @param {int} port
+	 * @param {string} url
+	 */
+	function startWatch(port, url) {
+		clearChangedFile();
+
+		const target = url || 'http://localhost:8080';
+		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-\.]+)(:([0-9]+))?(.*)$/.exec(
+			target
+		);
+
+		browserSync.init({
+			rewriteRules: [
+				{
+					match: new RegExp(targetPort || 8080, 'g'),
+					replace: port,
+				},
+			],
+			proxy: {
+				target: target,
+				ws: true,
+			},
+			notify: false,
+			open: true,
+			port: port,
+			ui: false,
+			reloadDelay: 500,
+			reloadOnRestart: true,
+		});
+
+		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
+			storage.set('changedFile', vinyl);
+
+			let rootDir = path.dirname(vinyl.path);
+
+			rootDir = path.relative(path.join(process.cwd(), pathSrc), rootDir);
+
+			let taskArray = ['deploy:file'];
+
+			if (!fullDeploy && storage.get('deployed')) {
+				taskArray = getBuildTaskArray(rootDir, []);
+			}
+
+			taskArray.push(clearChangedFile);
+
+			runSequence.apply(this, taskArray);
+		});
+	}
 
 	function clearChangedFile() {
 		storage.set('changedFile');
 	}
 
-	function getTaskArray(rootDir, defaultTaskArray) {
+	function getTeardownTaskArray() {
+		let taskArray = ['watch:clean'];
+
+		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
+			taskArray.push('watch:docker:clean');
+		}
+
+		return taskArray;
+	}
+
+	function getBuildTaskArray(rootDir, defaultTaskArray) {
 		let taskArray = defaultTaskArray || [];
 
 		if (rootDir === 'WEB-INF') {
@@ -217,70 +285,64 @@ module.exports = function(options) {
 		return taskArray;
 	}
 
-	function startWatch(port, url) {
-		clearChangedFile();
+	function getCleanTaskArray(deploymentStrategy) {
+		switch (deploymentStrategy) {
+		case DEPLOYMENT_STRATEGIES.LOCAL_APP_SERVER:
+			return [
+				'build',
+				'watch:clean',
+				'watch:osgi:clean',
+				'watch:setup',
+			];
 
-		const target = url || 'http://localhost:8080';
-		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-\.]+)(:([0-9]+))?(.*)$/.exec(
-			target
-		);
-
-		browserSync.init({
-			rewriteRules: [
-				{
-					match: new RegExp(targetPort || 8080, 'g'),
-					replace: port,
-				},
-			],
-			proxy: {
-				target: target,
-				ws: true,
-			},
-			notify: false,
-			open: true,
-			port: port,
-			ui: false,
-			reloadDelay: 500,
-			reloadOnRestart: true,
-		});
-
-		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
-			storage.set('changedFile', vinyl);
-
-			let rootDir = path.dirname(vinyl.path);
-
-			rootDir = path.relative(path.join(process.cwd(), pathSrc), rootDir);
-
-			let taskArray = ['deploy:file'];
-
-			if (!fullDeploy && storage.get('deployed')) {
-				taskArray = getTaskArray(rootDir, []);
-			}
-
-			taskArray.push(clearChangedFile);
-
-			runSequence.apply(this, taskArray);
-		});
+		case DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER:
+			return [
+				'build',
+				'watch:clean',
+				'watch:docker:clean',
+				'watch:osgi:clean',
+				'watch:setup',
+				'watch:docker:copy',
+			];
+		}
 	}
 
-	function startWatchSocket() {
-		let watchSocket = new WatchSocket({
-			webBundleDir: webBundleDirName,
-			deploymentStrategy: deploymentStrategy,
-			dockerContainerName: dockerContainerName,
-			dockerThemePath: dockerThemePath,
-		});
+	function getWatchSocket() {
+		return new Promise((resolve, reject) => {
+			let watchSocket = getWatchSocket.watchSocket;
 
-		watchSocket.on('error', function(err) {
-			if (err.code === 'ECONNREFUSED' || err.errno === 'ECONNREFUSED') {
-				log(
-					colors.yellow(
-						'Cannot connect to gogo shell. Please ensure local Liferay instance is running.'
-					)
-				);
+			if (!watchSocket) {
+				watchSocket = new WatchSocket({
+					webBundleDir: EXPLODED_BUILD_DIR_NAME,
+					deploymentStrategy: deploymentStrategy,
+					dockerContainerName: dockerContainerName,
+					dockerThemePath: dockerThemePath,
+				});
+
+				watchSocket.on('error', function(err) {
+					if (
+						err.code === 'ECONNREFUSED' ||
+						err.errno === 'ECONNREFUSED'
+					) {
+						log(
+							colors.yellow(
+								'Cannot connect to gogo shell. Please ensure local Liferay instance is running.'
+							)
+						);
+					}
+				});
+
+				watchSocket
+					.connect(connectParams)
+					.then(() => {
+						getWatchSocket.watchSocket = watchSocket;
+
+						resolve(watchSocket);
+					})
+					.catch(reject);
+			} else {
+				resolve(watchSocket);
 			}
 		});
-
-		return watchSocket;
 	}
 };
