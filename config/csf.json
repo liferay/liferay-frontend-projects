@@ -1,0 +1,69 @@
+{
+	"path:**/*.js": {
+		"js": {
+			"lint": {
+				"env": {
+					"browser": true,
+					"jest": true,
+					"mocha": true
+				},
+				"extends": "liferay",
+				"globals": {
+					"$": true,
+					"AlloyEditor": true,
+					"CKEDITOR": true,
+					"MODULE_PATH": true,
+					"main": true
+				},
+				"parser": "babel-eslint",
+				"parserOptions": {
+					"ecmaFeatures": {
+						"allowImportExportEverywhere": true,
+						"experimentalObjectRestSpread": true,
+						"jsx": true
+					},
+					"ecmaVersion": 2017,
+					"sourceType": "module"
+				},
+				"plugins": ["./node_modules/eslint-plugin-react"],
+				"rules": {
+					"keyword-spacing": [
+						2,
+						{
+							"overrides": {
+								"catch": {
+									"after": true
+								}
+							}
+						}
+					],
+					"newline-after-var": 2,
+					"no-console": 0,
+					"no-unknown-property": 0,
+					"react/jsx-uses-react": 0,
+					"react/jsx-uses-vars": 2,
+					"require-jsdoc": 0
+				}
+			}
+		}
+	},
+	"path:**/*.jsp": {
+		"js": {
+			"lint": {
+				"env": {
+					"browser": true,
+					"jest": true,
+					"mocha": true
+				},
+				"extends": "liferay",
+				"globals": {
+					"$": true,
+					"AlloyEditor": true,
+					"CKEDITOR": true,
+					"MODULE_PATH": true,
+					"main": true
+				}
+			}
+		}
+	}
+}
