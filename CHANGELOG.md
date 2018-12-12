@@ -1,5 +1,17 @@
 # Change Log
 
+## [v8.0.0-rc.1](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.1) (2018-12-12)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-rc.0...v8.0.0-rc.1)
+
+**Fixed bugs:**
+
+- Programatically created Bourbon file breaks sourcemap [\#83](https://github.com/liferay/liferay-themes-sdk/issues/83)
+
+**Merged pull requests:**
+
+- v8.0.0-rc.1 [\#122](https://github.com/liferay/liferay-themes-sdk/pull/122) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#72 - Make watch work by using a single WatchSocket for everything [\#121](https://github.com/liferay/liferay-themes-sdk/pull/121) ([izaera](https://github.com/izaera))
+
 ## [v8.0.0-rc.0](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.0) (2018-12-04)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-beta.5...v8.0.0-rc.0)
 
