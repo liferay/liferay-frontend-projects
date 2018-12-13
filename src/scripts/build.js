@@ -1,7 +1,7 @@
 const {spawn} = require('cross-spawn');
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
+const which = require('npm-which')(__dirname);
 
 const deepMerge = require('../utils/deep-merge');
 const getConfig = require('../utils/get-config');
@@ -14,21 +14,18 @@ const BUILD_CONFIG = deepMerge(
 	getConfig('.liferaynpmscriptsrc')
 ).build;
 
-const DEFAULT_INPUT = path.join(CWD, 'src/main/resources/META-INF/resources');
-const DEFAULT_OUTPUT = path.join(CWD, 'classes/META-INF/resources');
 const TEMP_PATH = path.join(__dirname, '../TEMP');
 
 const CUSTOM_BABEL_CONFIG = getConfig('.babelrc', 'babel');
-const BUNDLER_RC = getConfig('.npmbundlerrc');
+const CUSTOM_BUNDLER_CONFIG = getConfig('.npmbundlerrc');
 
 const BABEL_CONFIG = deepMerge(require('../config/babel'), CUSTOM_BABEL_CONFIG);
-const BUNDLER_CONFIG = deepMerge(require('../config/npm-bundler'), BUNDLER_RC);
+const BUNDLER_CONFIG = deepMerge(
+	require('../config/npm-bundler'),
+	CUSTOM_BUNDLER_CONFIG
+);
 
 function compileBabel() {
-	if (!fs.existsSync(TEMP_PATH)) {
-		fs.mkdirSync(TEMP_PATH);
-	}
-
 	fs.writeFileSync(
 		TEMP_PATH + '/babel-config.json',
 		JSON.stringify(BABEL_CONFIG)
@@ -36,10 +33,10 @@ function compileBabel() {
 
 	const args = [
 		'NODE_ENV=production',
-		path.join(__dirname, '../node_modules/.bin/babel'),
-		BUILD_CONFIG.input,
+		which.sync('babel'),
+		path.join(CWD, BUILD_CONFIG.input),
 		'--out-dir',
-		BUILD_CONFIG.output,
+		path.join(CWD, BUILD_CONFIG.output),
 		'--config-file',
 		TEMP_PATH + '/babel-config.json',
 		'--source-maps'
@@ -53,7 +50,7 @@ function compileBabel() {
 		args.concat('--plugins', BABEL_CONFIG.plugins.join(' '));
 	}
 
-	spawn.sync(path.join(__dirname, '../node_modules/.bin/cross-env'), args, {
+	spawn.sync(which.sync('cross-env'), args, {
 		cwd: __dirname,
 		stdio: 'inherit'
 	});
@@ -63,7 +60,7 @@ function buildSoy() {
 	const stringDependencies = BUILD_CONFIG.dependencies.join('|');
 
 	spawn.sync(
-		path.join(__dirname, '../node_modules/.bin/metalsoy'),
+		which.sync('metalsoy'),
 		['--soyDeps', `node_modules/+(${stringDependencies})/**/*.soy`],
 		{cwd: CWD, stdio: 'inherit'}
 	);
@@ -74,21 +71,19 @@ function runBundler() {
 
 	fs.writeFileSync(CWD + '/.npmbundlerrc', JSON.stringify(BUNDLER_CONFIG));
 
-	spawn.sync(
-		path.join(__dirname, '../node_modules/.bin/liferay-npm-bundler'),
-		[],
-		{cwd: CWD, stdio: 'inherit'}
-	);
+	spawn.sync(which.sync('liferay-npm-bundler'), [], {
+		cwd: CWD,
+		stdio: 'inherit'
+	});
 
 	remove(CWD, '.npmbundlerrc');
 }
 
 function cleanSoy() {
-	spawn.sync(
-		path.join(__dirname, '../node_modules/.bin/rimraf'),
-		['src/**/*.soy.js'],
-		{cwd: CWD, stdio: 'inherit'}
-	);
+	spawn.sync(which.sync('rimraf'), ['src/**/*.soy.js'], {
+		cwd: CWD,
+		stdio: 'inherit'
+	});
 }
 
 module.exports = function(flags, config) {
@@ -108,6 +103,4 @@ module.exports = function(flags, config) {
 	if (useSoy) {
 		cleanSoy();
 	}
-
-	rimraf.sync(TEMP_PATH);
 };
