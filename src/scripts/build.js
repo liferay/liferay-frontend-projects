@@ -1,3 +1,7 @@
+// Do this as the first thing so that any code reading it knows the right env.
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
+
 const {spawn} = require('cross-spawn');
 const fs = require('fs');
 const path = require('path');
@@ -32,7 +36,6 @@ function compileBabel() {
 	);
 
 	const args = [
-		'NODE_ENV=production',
 		which.sync('babel'),
 		path.join(CWD, BUILD_CONFIG.input),
 		'--out-dir',
