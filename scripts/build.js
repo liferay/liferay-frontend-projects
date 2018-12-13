@@ -2,22 +2,27 @@ const {spawn} = require('cross-spawn');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
+
 const deepMerge = require('../utils/deep-merge');
 const getConfig = require('../utils/get-config');
+const {remove, write} = require('../utils/write-temp');
 
 const CWD = process.cwd();
+
+const BUILD_CONFIG = deepMerge(
+	require('../config/liferay-npm-scripts-rc'),
+	getConfig('.liferaynpmscriptsrc')
+).build;
 
 const DEFAULT_INPUT = path.join(CWD, 'src/main/resources/META-INF/resources');
 const DEFAULT_OUTPUT = path.join(CWD, 'classes/META-INF/resources');
 const TEMP_PATH = path.join(__dirname, '../TEMP');
 
 const CUSTOM_BABEL_CONFIG = getConfig('.babelrc', 'babel');
+const BUNDLER_RC = getConfig('.npmbundlerrc');
 
 const BABEL_CONFIG = deepMerge(require('../config/babel'), CUSTOM_BABEL_CONFIG);
-
-function spawnProcessSync(binLocation, args) {
-	spawn.sync(binLocation, args, {cwd: __dirname, stdio: 'inherit'});
-}
+const BUNDLER_CONFIG = deepMerge(require('../config/npm-bundler'), BUNDLER_RC);
 
 function compileBabel() {
 	if (!fs.existsSync(TEMP_PATH)) {
@@ -32,9 +37,9 @@ function compileBabel() {
 	const args = [
 		'NODE_ENV=production',
 		path.join(__dirname, '../node_modules/.bin/babel'),
-		DEFAULT_INPUT,
+		BUILD_CONFIG.input,
 		'--out-dir',
-		DEFAULT_OUTPUT,
+		BUILD_CONFIG.output,
 		'--config-file',
 		TEMP_PATH + '/babel-config.json',
 		'--source-maps'
@@ -54,45 +59,40 @@ function compileBabel() {
 	});
 }
 
-const generateSoyDependencies = dependencies => {
-	const stringDependencies = dependencies.join('|');
+function buildSoy() {
+	const stringDependencies = BUILD_CONFIG.dependencies.join('|');
 
-	return `node_modules/+(${stringDependencies})/**/*.soy`;
-};
-
-function buildSoy(dependencies) {
-	spawnProcessSync(path.join(__dirname, '../node_modules/.bin/metalsoy'), [
-		'--soyDeps',
-		generateSoyDependencies(dependencies)
-	]);
+	spawn.sync(
+		path.join(__dirname, '../node_modules/.bin/metalsoy'),
+		['--soyDeps', `node_modules/+(${stringDependencies})/**/*.soy`],
+		{cwd: CWD, stdio: 'inherit'}
+	);
 }
 
 function runBundler() {
+	write(CWD, '.npmbundlerrc');
+
+	fs.writeFileSync(CWD + '/.npmbundlerrc', JSON.stringify(BUNDLER_CONFIG));
+
 	spawn.sync(
 		path.join(__dirname, '../node_modules/.bin/liferay-npm-bundler'),
 		[],
 		{cwd: CWD, stdio: 'inherit'}
 	);
-}
 
-function runBridge() {
-	spawnProcessSync(
-		path.join(
-			__dirname,
-			'../node_modules/.bin/liferay-npm-bridge-generator'
-		)
-	);
+	remove(CWD, '.npmbundlerrc');
 }
 
 function cleanSoy() {
-	spawnProcessSync(path.join(__dirname, '../node_modules/.bin/rimraf'), [
-		'src/**/*.soy.js'
-	]);
+	spawn.sync(
+		path.join(__dirname, '../node_modules/.bin/rimraf'),
+		['src/**/*.soy.js'],
+		{cwd: CWD, stdio: 'inherit'}
+	);
 }
 
 module.exports = function(flags, config) {
-	const useBundler = fs.existsSync(path.join(CWD, '.npmbundlerrc'));
-	const useBridge = fs.existsSync(path.join(CWD, '.npmbridgerc'));
+	const useBundler = flags.bundler;
 	const useSoy = flags.soy;
 
 	if (useSoy) {
@@ -103,10 +103,6 @@ module.exports = function(flags, config) {
 
 	if (useBundler) {
 		runBundler();
-	}
-
-	if (useBridge) {
-		runBridge();
 	}
 
 	if (useSoy) {

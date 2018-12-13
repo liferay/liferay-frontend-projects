@@ -13,7 +13,7 @@ module.exports = function(filename, packageKey) {
 		const configFile = fs.readFileSync(FILE_PATH);
 
 		config = JSON.parse(configFile);
-	} else if (fs.existsSync(PACKAGE_FILE_PATH)) {
+	} else if (packageKey && fs.existsSync(PACKAGE_FILE_PATH)) {
 		const configFile = fs.readFileSync(PACKAGE_FILE_PATH);
 		const configJSON = JSON.parse(configFile);
 

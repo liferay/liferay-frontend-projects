@@ -1,0 +1,6 @@
+{
+	"build": {
+		"input": "src/main/resources/META-INF/resources",
+		"output": "classes/META-INF/resources"
+	}
+}
