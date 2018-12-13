@@ -4,13 +4,12 @@ const path = require('path');
 const rimraf = require('rimraf');
 const buildScript = require('./scripts/build');
 
-const TEMP_PATH = path.join(__dirname, '../TEMP');
+const CWD = process.cwd();
+
+const TEMP_PATH = path.join(CWD, 'TEMP_LIFERAY_NPM_SCRIPTS');
+const CONFIG_PATH = path.join(CWD, '.liferaynpmscriptsrc');
 
 module.exports = function() {
-	const CWD = process.cwd();
-
-	const CONFIG_PATH = path.join(CWD, '.liferaynpmscriptsrc');
-
 	let configFile = '{}';
 
 	if (fs.existsSync(CONFIG_PATH)) {

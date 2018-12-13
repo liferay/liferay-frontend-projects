@@ -2,31 +2,31 @@
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 
+const CWD = process.cwd();
+
 const {spawn} = require('cross-spawn');
 const fs = require('fs');
 const path = require('path');
-const which = require('npm-which')(__dirname);
+const which = require('npm-which')(CWD);
 
 const deepMerge = require('../utils/deep-merge');
-const getConfig = require('../utils/get-config');
-const {remove, write} = require('../utils/write-temp');
+const getUserConfig = require('../utils/get-user-config');
+const {removeFromTemp, moveToTemp} = require('../utils/move-to-temp');
 
-const CWD = process.cwd();
+const TEMP_PATH = path.join(CWD, 'TEMP_LIFERAY_NPM_SCRIPTS');
 
+const USER_BABEL_CONFIG = getUserConfig('.babelrc', 'babel');
+const USER_BUNDLER_CONFIG = getUserConfig('.npmbundlerrc');
+const USER_NPM_SCRIPTS_CONFIG = getUserConfig('.liferaynpmscriptsrc');
+
+const BABEL_CONFIG = deepMerge(require('../config/babel'), USER_BABEL_CONFIG);
 const BUILD_CONFIG = deepMerge(
-	require('../config/liferay-npm-scripts-rc'),
-	getConfig('.liferaynpmscriptsrc')
+	require('../config/liferay-npm-scripts'),
+	getUserConfig('.liferaynpmscriptsrc')
 ).build;
-
-const TEMP_PATH = path.join(__dirname, '../TEMP');
-
-const CUSTOM_BABEL_CONFIG = getConfig('.babelrc', 'babel');
-const CUSTOM_BUNDLER_CONFIG = getConfig('.npmbundlerrc');
-
-const BABEL_CONFIG = deepMerge(require('../config/babel'), CUSTOM_BABEL_CONFIG);
 const BUNDLER_CONFIG = deepMerge(
 	require('../config/npm-bundler'),
-	CUSTOM_BUNDLER_CONFIG
+	USER_BUNDLER_CONFIG
 );
 
 function compileBabel() {
@@ -36,10 +36,9 @@ function compileBabel() {
 	);
 
 	const args = [
-		which.sync('babel'),
-		path.join(CWD, BUILD_CONFIG.input),
+		BUILD_CONFIG.input,
 		'--out-dir',
-		path.join(CWD, BUILD_CONFIG.output),
+		BUILD_CONFIG.output,
 		'--config-file',
 		TEMP_PATH + '/babel-config.json',
 		'--source-maps'
@@ -53,8 +52,8 @@ function compileBabel() {
 		args.concat('--plugins', BABEL_CONFIG.plugins.join(' '));
 	}
 
-	spawn.sync(which.sync('cross-env'), args, {
-		cwd: __dirname,
+	spawn.sync(which.sync('babel'), args, {
+		cwd: CWD,
 		stdio: 'inherit'
 	});
 }
@@ -64,22 +63,26 @@ function buildSoy() {
 
 	spawn.sync(
 		which.sync('metalsoy'),
-		['--soyDeps', `node_modules/+(${stringDependencies})/**/*.soy`],
+		['--soyDeps', 'node_modules/+(com.liferay.frontend.js.web)/**/*.soy'],
 		{cwd: CWD, stdio: 'inherit'}
 	);
 }
 
 function runBundler() {
-	write(CWD, '.npmbundlerrc');
+	moveToTemp(CWD, '.npmbundlerrc');
 
-	fs.writeFileSync(CWD + '/.npmbundlerrc', JSON.stringify(BUNDLER_CONFIG));
+	const RC_PATH = path.join(CWD, '.npmbundlerrc');
+
+	fs.writeFileSync(RC_PATH, JSON.stringify(BUNDLER_CONFIG));
 
 	spawn.sync(which.sync('liferay-npm-bundler'), [], {
 		cwd: CWD,
 		stdio: 'inherit'
 	});
 
-	remove(CWD, '.npmbundlerrc');
+	fs.unlinkSync(RC_PATH);
+
+	removeFromTemp(CWD, '.npmbundlerrc');
 }
 
 function cleanSoy() {
@@ -94,7 +97,7 @@ module.exports = function(flags, config) {
 	const useSoy = flags.soy;
 
 	if (useSoy) {
-		buildSoy(config.dependencies);
+		buildSoy();
 	}
 
 	compileBabel();

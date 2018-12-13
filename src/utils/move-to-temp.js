@@ -3,7 +3,7 @@ const path = require('path');
 
 const CWD = process.cwd();
 
-function remove(dir, fileName) {
+function removeFromTemp(dir, fileName) {
 	const filePath = path.join(dir, 'TEMP-' + fileName);
 	const fileExists = fs.existsSync(filePath);
 
@@ -12,7 +12,7 @@ function remove(dir, fileName) {
 	}
 }
 
-function write(dir, fileName) {
+function moveToTemp(dir, fileName) {
 	const filePath = path.join(dir, fileName);
 	const fileExists = fs.existsSync(filePath);
 
@@ -21,5 +21,5 @@ function write(dir, fileName) {
 	}
 }
 
-exports.remove = remove;
-exports.write = write;
+exports.removeFromTemp = removeFromTemp;
+exports.moveToTemp = moveToTemp;

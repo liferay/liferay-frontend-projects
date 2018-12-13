@@ -10,7 +10,7 @@
 	"license": "MIT",
 	"files": [
 		"bin",
-		"scripts"
+		"src"
 	],
 	"bin": {
 		"liferay-npm-scripts": "./bin/liferay-npm-scripts.js"
@@ -20,7 +20,6 @@
 		"@babel/core": "^7.2.0",
 		"@babel/preset-env": "^7.2.0",
 		"check-source-formatting": "^2.0.13",
-		"cross-env": "^5.2.0",
 		"cross-spawn": "^6.0.5",
 		"deepmerge": "^3.0.0",
 		"liferay-npm-bridge-generator": "^2.6.1",
