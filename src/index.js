@@ -1,8 +1,10 @@
 const fs = require('fs');
 const minimist = require('minimist');
+const inquirer = require('inquirer');
 const path = require('path');
 const rimraf = require('rimraf');
 const buildScript = require('./scripts/build');
+const ejectScript = require('./scripts/eject');
 
 const CWD = process.cwd();
 
@@ -30,6 +32,21 @@ module.exports = function() {
 	switch (type) {
 		case 'build':
 			buildScript(flags, config.build);
+			break;
+		case 'eject':
+			inquirer
+				.prompt({
+					type: 'confirm',
+					name: 'eject',
+					message:
+						'Are you sure you want to eject? This action is permanent.',
+					default: false
+				})
+				.then(({eject}) => {
+					if (eject) {
+						ejectScript();
+					}
+				});
 			break;
 		default:
 			console.log(

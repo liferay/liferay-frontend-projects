@@ -9,25 +9,15 @@ const fs = require('fs');
 const path = require('path');
 const which = require('npm-which')(CWD);
 
-const deepMerge = require('../utils/deep-merge');
-const getUserConfig = require('../utils/get-user-config');
+const generateSoyDependencies = require('../utils/generate-soy-dependencies');
+const getMergedConfig = require('../utils/get-merged-config');
 const {removeFromTemp, moveToTemp} = require('../utils/move-to-temp');
 
 const TEMP_PATH = path.join(CWD, 'TEMP_LIFERAY_NPM_SCRIPTS');
 
-const USER_BABEL_CONFIG = getUserConfig('.babelrc', 'babel');
-const USER_BUNDLER_CONFIG = getUserConfig('.npmbundlerrc');
-const USER_NPM_SCRIPTS_CONFIG = getUserConfig('.liferaynpmscriptsrc');
-
-const BABEL_CONFIG = deepMerge(require('../config/babel'), USER_BABEL_CONFIG);
-const BUILD_CONFIG = deepMerge(
-	require('../config/liferay-npm-scripts'),
-	getUserConfig('.liferaynpmscriptsrc')
-).build;
-const BUNDLER_CONFIG = deepMerge(
-	require('../config/npm-bundler'),
-	USER_BUNDLER_CONFIG
-);
+const BABEL_CONFIG = getMergedConfig('babel');
+const BUILD_CONFIG = getMergedConfig('npmscripts').build;
+const BUNDLER_CONFIG = getMergedConfig('bundler');
 
 function compileBabel() {
 	fs.writeFileSync(
@@ -59,11 +49,9 @@ function compileBabel() {
 }
 
 function buildSoy() {
-	const stringDependencies = BUILD_CONFIG.dependencies.join('|');
-
 	spawn.sync(
 		which.sync('metalsoy'),
-		['--soyDeps', 'node_modules/+(com.liferay.frontend.js.web)/**/*.soy'],
+		['--soyDeps', generateSoyDependencies(BUILD_CONFIG.dependencies)],
 		{cwd: CWD, stdio: 'inherit'}
 	);
 }

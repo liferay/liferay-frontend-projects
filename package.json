@@ -19,14 +19,15 @@
 		"@babel/cli": "^7.2.0",
 		"@babel/core": "^7.2.0",
 		"@babel/preset-env": "^7.2.0",
-		"check-source-formatting": "^2.0.13",
+		"cross-env": "^5.2.0",
 		"cross-spawn": "^6.0.5",
 		"deepmerge": "^3.0.0",
-		"liferay-npm-bridge-generator": "^2.6.1",
+		"inquirer": "^6.2.1",
 		"liferay-npm-bundler": "^2.5.1",
 		"liferay-npm-bundler-preset-liferay-dev": "^1.1.0",
 		"metal-tools-soy": "^6.0.0",
 		"minimist": "^1.2.0",
-		"npm-which": "^3.0.1"
+		"npm-which": "^3.0.1",
+		"rimraf": "^2.6.2"
 	}
 }
