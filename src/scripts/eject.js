@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const sortKeys = require('sort-keys');
 
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
@@ -84,10 +85,10 @@ module.exports = function() {
 			scriptsDependencies['liferay-npm-bundler'];
 	}
 
-	projectPackage.devDependencies = {
+	projectPackage.devDependencies = sortKeys({
 		...newDevDependencies,
 		...projectPackage.devDependencies
-	};
+	});
 
 	// Write new package.json
 	fs.writeFileSync(
