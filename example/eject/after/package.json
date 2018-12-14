@@ -1,0 +1,23 @@
+{
+	"dependencies": {
+		"metal": "^2.13.2",
+		"metal-component": "^2.13.2",
+		"metal-debounce": "^2.0.0",
+		"metal-promise": "^2.0.1",
+		"metal-soy": "^2.13.2"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.2.0",
+		"@babel/core": "^7.2.0",
+		"@babel/preset-env": "^7.2.0",
+		"cross-env": "^5.2.0",
+		"liferay-npm-bundler": "^2.5.1",
+		"liferay-npm-scripts": "^0.0.2",
+		"metal-tools-soy": "^6.0.0"
+	},
+	"scripts": {
+		"build": "metalsoy --soyDeps \"node_modules/+(com.liferay.frontend.js.web|management-toolbar)/**/*.soy\" && cross-env NODE_ENV=production babel --source-maps -d classes/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler&& npm run cleanSoy",
+		"cleanSoy": "rimraf src/**/*.soy.js"
+	},
+	"version": "1.0.0"
+}
