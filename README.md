@@ -41,6 +41,22 @@ Add `--bundler` for bundling
 liferay-npm-scripts build --bundler
 ```
 
+### lint
+
+```sh
+liferay-npm-scripts lint
+```
+
+Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts).
+
+### format
+
+```sh
+liferay-npm-scripts format
+```
+
+Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts).
+
 ### eject
 
 **Note: this is a one-way operation. Once you eject, you can't go back.**
@@ -58,3 +74,5 @@ If you need to add additional configuration you can do so by creating a `.lifera
 ### Other Config
 
 If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel), [Default Bundler Config](./src/config/npm-bundler)
+
+For more control over `lint` and `format`, follow the configuration options [here](https://github.com/liferay/liferay-frontend-source-formatter#custom-configuration)

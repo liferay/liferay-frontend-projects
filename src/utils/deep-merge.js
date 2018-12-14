@@ -1,4 +1,4 @@
-const deepmerge = require('deepmerge');
+const merge = require('deepmerge');
 
 const emptyTarget = value => (Array.isArray(value) ? [] : {});
 const clone = (value, options) => merge(emptyTarget(value), value, options);
@@ -21,5 +21,5 @@ function combineMerge(target, source, options) {
 }
 
 module.exports = function(defaultConfig, customConfig) {
-	return deepmerge(customConfig, defaultConfig, {arrayMerge: combineMerge});
+	return merge(customConfig, defaultConfig, {arrayMerge: combineMerge});
 };

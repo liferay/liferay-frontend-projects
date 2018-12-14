@@ -5,6 +5,8 @@ const path = require('path');
 const rimraf = require('rimraf');
 const buildScript = require('./scripts/build');
 const ejectScript = require('./scripts/eject');
+const lintScript = require('./scripts/lint');
+const formatScript = require('./scripts/format');
 
 const CWD = process.cwd();
 
@@ -47,6 +49,12 @@ module.exports = function() {
 						ejectScript();
 					}
 				});
+			break;
+		case 'lint':
+			lintScript();
+			break;
+		case 'format':
+			formatScript();
 			break;
 		default:
 			console.log(

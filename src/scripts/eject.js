@@ -63,14 +63,18 @@ module.exports = function() {
 	}
 
 	projectPackage.scripts = {
-		build: generateBuildScript(flags)
+		build: generateBuildScript(flags),
+		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
+		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`
 	};
 
 	const newDevDependencies = {
 		'@babel/cli': scriptsDependencies['@babel/cli'],
 		'@babel/core': scriptsDependencies['@babel/core'],
 		'@babel/preset-env': scriptsDependencies['@babel/preset-env'],
-		'cross-env': scriptsDependencies['cross-env']
+		'cross-env': scriptsDependencies['cross-env'],
+		'check-source-formatting':
+			scriptsDependencies['check-source-formatting']
 	};
 
 	if (flags.soy) {

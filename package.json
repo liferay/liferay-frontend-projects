@@ -19,6 +19,7 @@
 		"@babel/cli": "^7.2.0",
 		"@babel/core": "^7.2.0",
 		"@babel/preset-env": "^7.2.0",
+		"check-source-formatting": "^2.0.13",
 		"cross-env": "^5.2.0",
 		"cross-spawn": "^6.0.5",
 		"deepmerge": "^3.0.0",

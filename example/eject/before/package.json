@@ -11,7 +11,9 @@
 	},
 	"scripts": {
 		"build": "liferay-npm-scripts build --soy --bundler",
-		"eject": "liferay-npm-scripts eject"
+		"eject": "liferay-npm-scripts eject",
+		"format": "liferay-npm-scripts format",
+		"lint": "liferay-npm-scripts lint"
 	},
 	"version": "1.0.0"
 }
