@@ -2,6 +2,10 @@ const sortKeys = require('sort-keys');
 const getUserConfig = require('./get-user-config');
 const deepMerge = require('./deep-merge');
 
+/**
+ * Helper to get JSON configs
+ * @param {string} type Name of configuration
+ */
 module.exports = function(type) {
 	switch (type) {
 		case 'babel':

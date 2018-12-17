@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'production';
 
 const CWD = process.cwd();
 
-const {spawn} = require('cross-spawn');
+const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
 const which = require('npm-which')(CWD);
@@ -19,43 +19,38 @@ const BABEL_CONFIG = getMergedConfig('babel');
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
 
+/**
+ * Compiles javascript files by running `babel` bin with merged config(user + default) and source-maps enabled
+ */
 function compileBabel() {
 	fs.writeFileSync(
 		TEMP_PATH + '/babel-config.json',
 		JSON.stringify(BABEL_CONFIG)
 	);
 
-	const args = [
+	spawnSync(which.sync('babel'), [
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
 		'--config-file',
 		TEMP_PATH + '/babel-config.json',
 		'--source-maps'
-	];
-
-	if (BABEL_CONFIG.presets.length) {
-		args.concat('--presets', BABEL_CONFIG.presets.join(' '));
-	}
-
-	if (BABEL_CONFIG.plugins.length) {
-		args.concat('--plugins', BABEL_CONFIG.plugins.join(' '));
-	}
-
-	spawn.sync(which.sync('babel'), args, {
-		cwd: CWD,
-		stdio: 'inherit'
-	});
+	]);
 }
 
+/**
+ * Compiles soy files by running `metalsoy` bin with specified soy dependencies
+ */
 function buildSoy() {
-	spawn.sync(
-		which.sync('metalsoy'),
-		['--soyDeps', generateSoyDependencies(BUILD_CONFIG.dependencies)],
-		{cwd: CWD, stdio: 'inherit'}
-	);
+	spawnSync(which.sync('metalsoy'), [
+		'--soyDeps',
+		generateSoyDependencies(BUILD_CONFIG.dependencies)
+	]);
 }
 
+/**
+ * Creates a temporary npmbundler config(user + default) and then runs `liferay-npm-bundler` bin
+ */
 function runBundler() {
 	moveToTemp(CWD, '.npmbundlerrc');
 
@@ -63,23 +58,24 @@ function runBundler() {
 
 	fs.writeFileSync(RC_PATH, JSON.stringify(BUNDLER_CONFIG));
 
-	spawn.sync(which.sync('liferay-npm-bundler'), [], {
-		cwd: CWD,
-		stdio: 'inherit'
-	});
+	spawnSync(which.sync('liferay-npm-bundler'));
 
 	fs.unlinkSync(RC_PATH);
 
 	removeFromTemp(CWD, '.npmbundlerrc');
 }
 
+/**
+ * Removes any generated soy.js files
+ */
 function cleanSoy() {
-	spawn.sync(which.sync('rimraf'), ['src/**/*.soy.js'], {
-		cwd: CWD,
-		stdio: 'inherit'
-	});
+	spawnSync(which.sync('rimraf'), ['src/**/*.soy.js']);
 }
 
+/**
+ * Main script that runs all all specified build tasks synchronously.
+ * Babel is always run and the user can also include flags to run soy and bundler.
+ */
 module.exports = function(flags, config) {
 	const useBundler = flags.bundler;
 	const useSoy = flags.soy;

@@ -3,6 +3,12 @@ const path = require('path');
 
 const CWD = process.cwd();
 
+/**
+ * Helper to get configuration that is found in either a file or package.json
+ * @param {string} filename Name of user config file
+ * @param {string=} packageKey Name of the key used in package.json for configuration
+ * @returns {Object}
+ */
 module.exports = function(filename, packageKey) {
 	let config = {};
 

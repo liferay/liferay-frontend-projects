@@ -15,6 +15,11 @@ const projectPackage = require(path.join(CWD, 'package.json'));
 const scriptsDependencies = require(path.join(__dirname, '../../package.json'))
 	.dependencies;
 
+/**
+ * Helper for generating the npm `build` script
+ * @param {Object} flags Flags included via CLI
+ * @returns {string}
+ */
 function generateBuildScript(flags) {
 	let retStr = '';
 
@@ -39,6 +44,9 @@ function generateBuildScript(flags) {
 	return retStr;
 }
 
+/**
+ * Main function for ejecting configuration to package.json and configuration
+ */
 module.exports = function() {
 	const flags = projectPackage.scripts.build
 		.match(/(?<=--)(?:\w+)/g)
@@ -62,12 +70,14 @@ module.exports = function() {
 		);
 	}
 
+	// Set initial npm scripts
 	projectPackage.scripts = {
 		build: generateBuildScript(flags),
 		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
 		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`
 	};
 
+	// Set initial devDependencies for package.json
 	const newDevDependencies = {
 		'@babel/cli': scriptsDependencies['@babel/cli'],
 		'@babel/core': scriptsDependencies['@babel/core'],
@@ -77,6 +87,7 @@ module.exports = function() {
 			scriptsDependencies['check-source-formatting']
 	};
 
+	// Additional if --soy flag is included
 	if (flags.soy) {
 		newDevDependencies['metal-tools-soy'] =
 			scriptsDependencies['metal-tools-soy'];
@@ -84,6 +95,7 @@ module.exports = function() {
 		projectPackage.scripts.cleanSoy = 'rimraf src/**/*.soy.js';
 	}
 
+	// Additional if --bundler flag is included
 	if (flags.bundler) {
 		newDevDependencies['liferay-npm-bundler'] =
 			scriptsDependencies['liferay-npm-bundler'];

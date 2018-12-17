@@ -1,11 +1,15 @@
 const CWD = process.cwd();
 
 const getMergedConfig = require('../utils/get-merged-config');
-const {spawn} = require('cross-spawn');
+const spawnSync = require('../utils/spawnSync');
 const which = require('npm-which')(CWD);
 
 const LINT_PATHS = getMergedConfig('npmscripts').lint;
 
+/**
+ * Main function for linting and formatting files
+ * @param {boolean} fix Specify if the linter should auto-fix the files
+ */
 module.exports = function(fix) {
 	const args = [...LINT_PATHS];
 
@@ -13,8 +17,5 @@ module.exports = function(fix) {
 		args.push('-i');
 	}
 
-	spawn.sync(which.sync('csf'), args, {
-		cwd: CWD,
-		stdio: 'inherit'
-	});
+	spawnSync(which.sync('csf'), args);
 };
