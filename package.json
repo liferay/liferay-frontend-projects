@@ -16,9 +16,8 @@
 		"liferay-npm-scripts": "./bin/liferay-npm-scripts.js"
 	},
 	"dependencies": {
-		"@babel/cli": "^7.2.0",
-		"@babel/core": "^7.2.0",
-		"@babel/preset-env": "^7.2.0",
+		"babel-cli": "6.26.0",
+		"babel-preset-env": "^1.6.1",
 		"check-source-formatting": "^2.0.13",
 		"cross-env": "^5.2.0",
 		"cross-spawn": "^6.0.5",

@@ -23,19 +23,22 @@ const BUNDLER_CONFIG = getMergedConfig('bundler');
  * Compiles javascript files by running `babel` bin with merged config(user + default) and source-maps enabled
  */
 function compileBabel() {
-	fs.writeFileSync(
-		TEMP_PATH + '/babel-config.json',
-		JSON.stringify(BABEL_CONFIG)
-	);
+	moveToTemp(CWD, '.babelrc', 'babel');
+
+	const RC_PATH = path.join(CWD, '.babelrc');
+
+	fs.writeFileSync(RC_PATH, JSON.stringify(BABEL_CONFIG));
 
 	spawnSync(which.sync('babel'), [
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
-		'--config-file',
-		TEMP_PATH + '/babel-config.json',
 		'--source-maps'
 	]);
+
+	fs.unlinkSync(RC_PATH);
+
+	removeFromTemp(CWD, '.babelrc', 'babel');
 }
 
 /**
