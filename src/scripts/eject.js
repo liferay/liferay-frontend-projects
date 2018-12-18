@@ -1,6 +1,5 @@
 const CWD = process.cwd();
 
-const npm = require('npm');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
