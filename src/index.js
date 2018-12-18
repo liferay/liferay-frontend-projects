@@ -3,10 +3,6 @@ const minimist = require('minimist');
 const inquirer = require('inquirer');
 const path = require('path');
 const rimraf = require('rimraf');
-const buildScript = require('./scripts/build');
-const ejectScript = require('./scripts/eject');
-const lintScript = require('./scripts/lint');
-const formatScript = require('./scripts/format');
 
 const CWD = process.cwd();
 
@@ -33,7 +29,7 @@ module.exports = function() {
 
 	switch (type) {
 		case 'build':
-			buildScript(flags, config.build);
+			require('./scripts/build')(flags, config.build);
 			break;
 		case 'eject':
 			inquirer
@@ -46,15 +42,15 @@ module.exports = function() {
 				})
 				.then(({eject}) => {
 					if (eject) {
-						ejectScript();
+						require('./scripts/eject')();
 					}
 				});
 			break;
 		case 'lint':
-			lintScript();
+			require('./scripts/lint')();
 			break;
 		case 'format':
-			formatScript();
+			require('./scripts/format')();
 			break;
 		default:
 			console.log(

@@ -1,11 +1,15 @@
+const CWD = process.cwd();
+
+const npm = require('npm');
 const fs = require('fs');
 const path = require('path');
+const rimraf = require('rimraf');
 const sortKeys = require('sort-keys');
+const which = require('npm-which')(CWD);
 
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
-
-const CWD = process.cwd();
+const spawnSync = require('../utils/spawnSync');
 
 const BABEL_CONFIG = getMergedConfig('babel');
 const NPM_SCRIPTS_CONFIG = getMergedConfig('npmscripts');
@@ -79,9 +83,8 @@ module.exports = function() {
 
 	// Set initial devDependencies for package.json
 	const newDevDependencies = {
-		'@babel/cli': scriptsDependencies['@babel/cli'],
-		'@babel/core': scriptsDependencies['@babel/core'],
-		'@babel/preset-env': scriptsDependencies['@babel/preset-env'],
+		'babel-cli': scriptsDependencies['babel-cli'],
+		'babel-preset-env': scriptsDependencies['babel-preset-env'],
 		'cross-env': scriptsDependencies['cross-env'],
 		'check-source-formatting':
 			scriptsDependencies['check-source-formatting']
@@ -91,6 +94,7 @@ module.exports = function() {
 	if (flags.soy) {
 		newDevDependencies['metal-tools-soy'] =
 			scriptsDependencies['metal-tools-soy'];
+		newDevDependencies['rimraf'] = scriptsDependencies['rimraf'];
 
 		projectPackage.scripts.cleanSoy = 'rimraf src/**/*.soy.js';
 	}
@@ -106,6 +110,9 @@ module.exports = function() {
 		...projectPackage.devDependencies
 	});
 
+	// Remove liferay-npm-scripts dependency
+	delete projectPackage.devDependencies['liferay-npm-scripts'];
+
 	// Write new package.json
 	fs.writeFileSync(
 		path.join(CWD, 'package.json'),
@@ -114,4 +121,8 @@ module.exports = function() {
 
 	// Remove .liferaynpmscriptsrc configuration
 	fs.unlinkSync(path.join(CWD, '.liferaynpmscriptsrc'));
+
+	// Remove old node_modules and re-install node_modules with new dependencies
+	rimraf.sync(path.join(CWD, 'node_modules'));
+	spawnSync('npm', ['install']);
 };

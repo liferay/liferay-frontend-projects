@@ -24,10 +24,10 @@ function removeFromTemp(dir, fileName, packageKey) {
 		const configFile = fs.readFileSync(PACKAGE_FILE_PATH);
 		let config = JSON.parse(configFile);
 
-		if (config && config[packageKey]) {
-			config = config[packageKey];
+		if (config && config[TEMP_STRING + packageKey]) {
+			config[packageKey] = config[TEMP_STRING + packageKey];
 
-			config.delete(TEMP_STRING + packageKey);
+			delete config[TEMP_STRING + packageKey];
 
 			fs.writeFileSync(
 				path.join(CWD, 'package.json'),
@@ -56,9 +56,9 @@ function moveToTemp(dir, fileName, packageKey) {
 		let config = JSON.parse(configFile);
 
 		if (config && config[packageKey]) {
-			config = config[TEMP_STRING + packageKey];
+			config[TEMP_STRING + packageKey] = config[packageKey];
 
-			config.delete(packageKey);
+			delete config[packageKey];
 
 			fs.writeFileSync(
 				path.join(CWD, 'package.json'),
