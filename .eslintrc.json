@@ -12,9 +12,8 @@
 	},
 	"plugins": ["sort-destructure-keys"],
 	"rules": {
+		"comma-dangle": [2, "always"],
 		"default-case": 2,
-		"eol-last": [2, "never"],
-		"max-len": 0,
 		"no-return-assign": [2, "always"],
 		"no-undef": 2,
 		"no-underscore-dangle": [
@@ -46,7 +45,6 @@
 				"caseSensitive": false
 			}
 		],
-		"sort-vars": 2,
-		"valid-jsdoc": 2
+		"sort-vars": 2
 	}
 }

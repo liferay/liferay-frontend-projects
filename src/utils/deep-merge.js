@@ -31,5 +31,5 @@ function combineMerge(target, source, options) {
  * @returns {Object}
  */
 module.exports = function(defaultConfig, customConfig) {
-	return merge(customConfig, defaultConfig, {arrayMerge: combineMerge});
+	return merge(customConfig, defaultConfig, {arrayMerge: combineMerge,});
 };

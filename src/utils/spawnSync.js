@@ -1,6 +1,6 @@
 const CWD = process.cwd();
 
-const {spawn} = require('cross-spawn');
+const {spawn,} = require('cross-spawn');
 
 /**
  * Wrapper function for spawning a synchronous process.
@@ -12,6 +12,6 @@ module.exports = function(command, args = [], options = {}) {
 	spawn.sync(command, args, {
 		cwd: CWD,
 		stdio: 'inherit',
-		...options
+		...options,
 	});
 };

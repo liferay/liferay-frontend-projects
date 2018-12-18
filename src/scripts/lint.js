@@ -11,7 +11,7 @@ const LINT_PATHS = getMergedConfig('npmscripts').lint;
  * @param {boolean} fix Specify if the linter should auto-fix the files
  */
 module.exports = function(fix) {
-	const args = [...LINT_PATHS];
+	const args = [...LINT_PATHS,];
 
 	if (fix) {
 		args.push('-i');

@@ -22,7 +22,7 @@ function removeFromTemp(dir, fileName, packageKey) {
 
 	if (packageKey && fs.existsSync(PACKAGE_FILE_PATH)) {
 		const configFile = fs.readFileSync(PACKAGE_FILE_PATH);
-		let config = JSON.parse(configFile);
+		const config = JSON.parse(configFile);
 
 		if (config && config[TEMP_STRING + packageKey]) {
 			config[packageKey] = config[TEMP_STRING + packageKey];
@@ -53,7 +53,7 @@ function moveToTemp(dir, fileName, packageKey) {
 
 	if (packageKey && fs.existsSync(PACKAGE_FILE_PATH)) {
 		const configFile = fs.readFileSync(PACKAGE_FILE_PATH);
-		let config = JSON.parse(configFile);
+		const config = JSON.parse(configFile);
 
 		if (config && config[packageKey]) {
 			config[TEMP_STRING + packageKey] = config[packageKey];

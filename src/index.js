@@ -19,7 +19,7 @@ module.exports = function() {
 	const config = JSON.parse(configFile);
 
 	const {
-		_: [type],
+		_: [type,],
 		...flags
 	} = minimist(process.argv.slice(2));
 
@@ -34,13 +34,13 @@ module.exports = function() {
 		case 'eject':
 			inquirer
 				.prompt({
-					type: 'confirm',
-					name: 'eject',
+					default: false,
 					message:
 						'Are you sure you want to eject? This action is permanent.',
-					default: false
+					name: 'eject',
+					type: 'confirm',
 				})
-				.then(({eject}) => {
+				.then(({eject,}) => {
 					if (eject) {
 						require('./scripts/eject')();
 					}

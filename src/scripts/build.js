@@ -11,9 +11,7 @@ const which = require('npm-which')(CWD);
 
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
-const {removeFromTemp, moveToTemp} = require('../utils/move-to-temp');
-
-const TEMP_PATH = path.join(CWD, 'TEMP_LIFERAY_NPM_SCRIPTS');
+const {moveToTemp, removeFromTemp,} = require('../utils/move-to-temp');
 
 const BABEL_CONFIG = getMergedConfig('babel');
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
@@ -33,7 +31,7 @@ function compileBabel() {
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
-		'--source-maps'
+		'--source-maps',
 	]);
 
 	fs.unlinkSync(RC_PATH);
@@ -47,7 +45,7 @@ function compileBabel() {
 function buildSoy() {
 	spawnSync(which.sync('metalsoy'), [
 		'--soyDeps',
-		generateSoyDependencies(BUILD_CONFIG.dependencies)
+		generateSoyDependencies(BUILD_CONFIG.dependencies),
 	]);
 }
 
@@ -72,14 +70,14 @@ function runBundler() {
  * Removes any generated soy.js files
  */
 function cleanSoy() {
-	spawnSync(which.sync('rimraf'), ['src/**/*.soy.js']);
+	spawnSync(which.sync('rimraf'), ['src/**/*.soy.js',]);
 }
 
 /**
  * Main script that runs all all specified build tasks synchronously.
  * Babel is always run and the user can also include flags to run soy and bundler.
  */
-module.exports = function(flags, config) {
+module.exports = function(flags) {
 	const useBundler = flags.bundler;
 	const useSoy = flags.soy;
 

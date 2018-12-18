@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const sortKeys = require('sort-keys');
-const which = require('npm-which')(CWD);
 
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
@@ -53,7 +52,7 @@ function generateBuildScript(flags) {
 module.exports = function() {
 	const flags = projectPackage.scripts.build
 		.match(/(?<=--)(?:\w+)/g)
-		.reduce((prev, cur) => ({...prev, [cur]: true}), {});
+		.reduce((prev, cur) => ({...prev, [cur]: true,}), {});
 
 	// Write config for babel
 	if (!projectPackage.babel) {
@@ -77,16 +76,16 @@ module.exports = function() {
 	projectPackage.scripts = {
 		build: generateBuildScript(flags),
 		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
-		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`
+		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`,
 	};
 
 	// Set initial devDependencies for package.json
 	const newDevDependencies = {
 		'babel-cli': scriptsDependencies['babel-cli'],
 		'babel-preset-env': scriptsDependencies['babel-preset-env'],
-		'cross-env': scriptsDependencies['cross-env'],
 		'check-source-formatting':
-			scriptsDependencies['check-source-formatting']
+			scriptsDependencies['check-source-formatting'],
+		'cross-env': scriptsDependencies['cross-env'],
 	};
 
 	// Additional if --soy flag is included
@@ -106,7 +105,7 @@ module.exports = function() {
 
 	projectPackage.devDependencies = sortKeys({
 		...newDevDependencies,
-		...projectPackage.devDependencies
+		...projectPackage.devDependencies,
 	});
 
 	// Remove liferay-npm-scripts dependency
@@ -123,5 +122,5 @@ module.exports = function() {
 
 	// Remove old node_modules and re-install node_modules with new dependencies
 	rimraf.sync(path.join(CWD, 'node_modules'));
-	spawnSync('npm', ['install']);
+	spawnSync('npm', ['install',]);
 };
