@@ -1,9 +1,71 @@
+env:
+  - GENERATOR_DIR=$TRAVIS_BUILD_DIR/packages/generator-liferay-bundle
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install p7zip-full
+  - sudo apt-get install parallel
+  - mysql -e 'CREATE DATABASE lportal char set utf8;'
+  - mysql -e 'SHOW DATABASES;'
+ # - mysql -u root -e "CREATE USER ''@'localhost' IDENTIFIED BY '';"
+ # - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO ''@'localhost';"
+ # - mysql -u root -e 'CREATE DATABASE lportal;'
+
 install: 
   - npm run lerna
+ # - travis_wait 30 mvn install
+ #
 
 language: node_js
+
+matrix:
+  fast_finish: true
 
 node_js:
   - "8"
 
-script: npm run ci
+addons:
+    #chrome: stable
+    firefox: "45.0"
+
+git:
+    depth: 1
+
+jdk: oraclejdk8s
+
+jobs:
+    include: 
+        
+        # - stage: javascript format tests
+
+        #   script: npm run ci
+
+        - stage: generator liferay bundle test
+        
+          before_script:
+                # - docker pull vcatechnology/linux-mint
+                - cd $GENERATOR_DIR && npm install -g yo && npm install -g lerna && npm install -g wait-on && npm install -g --save @types/jasmine@2.8.6 && npm install -g
+                - cd $GENERATOR_DIR/qa
+                - sh ./setup.sh unzip-portal-snapshot-bundle
+                - sh ./setup.sh config-portlets
+                - sh ./setup.sh generate-samples
+                - sh ./setup.sh deploy-portlets
+                - cd $GENERATOR_DIR/qa
+
+          script: travis_wait sh ./setup.sh start-and-run
+
+services:
+  - docker
+  - mysql
+
+dist: xenial
+
+sudo: required
+
+cache:
+  directories:
+     - $TRAVIS_BUILD_DIR/packages/generator-liferay-bundle/node_modules
+#     directories:
+#         - $HOME/.gradle/caches/
+#         - $HOME/.gradle/wrapper/
+#     timeout: 600
