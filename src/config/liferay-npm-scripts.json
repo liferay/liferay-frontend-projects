@@ -4,6 +4,18 @@
 		"input": "src/main/resources/META-INF/resources",
 		"output": "classes/META-INF/resources"
 	},
-	"format": ["src/**/*.js"],
-	"lint": ["src/**/*.js"]
+	"format": [
+		"src/**/*.css",
+		"src/**/*.js",
+		"src/**/*.jspf",
+		"src/**/*.jsp",
+		"src/**/*.scss"
+	],
+	"lint": [
+		"src/**/*.css",
+		"src/**/*.js",
+		"src/**/*.jspf",
+		"src/**/*.jsp",
+		"src/**/*.scss"
+	]
 }
