@@ -5,7 +5,7 @@
 ## Usage
 
 ```sh
-npm install --save liferay-npm-scripts
+npm install --save-dev liferay-npm-scripts
 ```
 
 `package.json`
