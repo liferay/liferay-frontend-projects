@@ -47,7 +47,7 @@ liferay-npm-scripts build --bundler
 liferay-npm-scripts lint
 ```
 
-Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts).
+Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts.json#L14-L20).
 
 ### format
 
@@ -55,7 +55,7 @@ Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scr
 liferay-npm-scripts format
 ```
 
-Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts).
+Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts.json#L7-L13).
 
 ### eject
 
@@ -69,10 +69,10 @@ Eject will remove `liferay-npm-scripts` as a dependency and write all of the nec
 
 ## Config
 
-If you need to add additional configuration you can do so by creating a `.liferaynpmscriptsrc` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts).
+If you need to add additional configuration you can do so by creating a `.liferaynpmscriptsrc` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.json).
 
 ### Other Config
 
-If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel), [Default Bundler Config](./src/config/npm-bundler)
+If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel.json), [Default Bundler Config](./src/config/npm-bundler.json)
 
 For more control over `lint` and `format`, follow the configuration options [here](https://github.com/liferay/liferay-frontend-source-formatter#custom-configuration)
