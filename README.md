@@ -65,6 +65,22 @@ liferay-npm-scripts format
 
 Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts.json#L7-L13).
 
+### test
+
+```sh
+liferay-npm-scripts test
+```
+
+Runs `jest` with a default configuration specified in [jest.json](./src/config/jest.json). You can override or add any additional configuration by following jest documentaion.
+
+Additionally if you want to use any flags for jest, such as `--watch` you can do so.
+
+For example
+
+```sh
+liferay-npm-scripts test --watch
+```
+
 ### eject
 
 **Note: this is a one-way operation. Once you eject, you can't go back.**
