@@ -18,10 +18,12 @@ module.exports = function() {
 
 	const config = JSON.parse(configFile);
 
+	const ARGS_ARRAY = process.argv.slice(2);
+
 	const {
 		_: [type,],
 		...flags
-	} = minimist(process.argv.slice(2));
+	} = minimist(ARGS_ARRAY);
 
 	if (!fs.existsSync(TEMP_PATH)) {
 		fs.mkdirSync(TEMP_PATH);
@@ -51,6 +53,9 @@ module.exports = function() {
 			break;
 		case 'format':
 			require('./scripts/format')();
+			break;
+		case 'test':
+			require('./scripts/test')(ARGS_ARRAY);
 			break;
 		default:
 			console.log(

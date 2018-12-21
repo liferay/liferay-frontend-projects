@@ -1,0 +1,10 @@
+{
+	"globals": {
+		"Liferay": {}
+	},
+	"coverageDirectory": "build/coverage",
+	"modulePathIgnorePatterns": ["/__fixtures__/", "/classes/"],
+	"testMatch": ["**/test/**/*.js"],
+	"testResultsProcessor": "./node_modules/liferay-jest-junit-reporter",
+	"testURL": "http://localhost"
+}

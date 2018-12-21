@@ -24,6 +24,14 @@ module.exports = function(type) {
 				)
 			);
 			break;
+		case 'jest':
+			return sortKeys(
+				deepMerge(
+					getUserConfig('jest.config.js', 'jest'),
+					require('../config/jest')
+				)
+			);
+			break;
 		case 'npmscripts':
 			return sortKeys(
 				deepMerge(

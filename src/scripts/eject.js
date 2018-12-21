@@ -12,6 +12,7 @@ const spawnSync = require('../utils/spawnSync');
 const BABEL_CONFIG = getMergedConfig('babel');
 const NPM_SCRIPTS_CONFIG = getMergedConfig('npmscripts');
 const BUNDLER_CONFIG = getMergedConfig('bundler');
+const JEST_CONFIG = getMergedConfig('jest');
 
 const projectPackage = require(path.join(CWD, 'package.json'));
 const scriptsDependencies = require(path.join(__dirname, '../../package.json'))
@@ -68,6 +69,16 @@ module.exports = function() {
 		projectPackage.babel = BABEL_CONFIG;
 	}
 
+	// Write config for jest
+	if (fs.existsSync(path.join(CWD, 'jest.config.js'))) {
+		fs.writeFileSync(
+			path.join(CWD, 'jest.config.js'),
+			JSON.stringify(JEST_CONFIG, null, '\t')
+		);
+	} else {
+		projectPackage.jest = JEST_CONFIG;
+	}
+
 	// Write config file for bundler
 	if (flags.bundler) {
 		fs.writeFileSync(
@@ -81,6 +92,7 @@ module.exports = function() {
 		build: generateBuildScript(flags),
 		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
 		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`,
+		test: 'jest',
 	};
 
 	// Set initial devDependencies for package.json
@@ -90,6 +102,9 @@ module.exports = function() {
 		'check-source-formatting':
 			scriptsDependencies['check-source-formatting'],
 		'cross-env': scriptsDependencies['cross-env'],
+		jest: scriptsDependencies['jest'],
+		'liferay-jest-junit-reporter':
+			scriptsDependencies['liferay-jest-junit-reporter'],
 	};
 
 	// Additional if --soy flag is included
