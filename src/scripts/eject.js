@@ -39,6 +39,10 @@ function generateBuildScript(flags) {
 		retStr += ' && liferay-npm-bundler';
 	}
 
+	if (flags.bridge) {
+		retStr += ' && liferay-npm-bridge-generator';
+	}
+
 	if (flags.soy) {
 		retStr += '&& npm run cleanSoy';
 	}

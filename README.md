@@ -41,6 +41,14 @@ Add `--bundler` for bundling
 liferay-npm-scripts build --bundler
 ```
 
+Add `--bridge` to use `liferay-npm-bridge-generator`
+
+```sh
+liferay-npm-scripts build --bridge
+```
+
+If you use this flag, You will need to follow the configuration options seen [here](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-liferay-npm-bridge-generator).
+
 ### lint
 
 ```sh

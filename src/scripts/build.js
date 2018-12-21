@@ -67,6 +67,13 @@ function runBundler() {
 }
 
 /**
+ * Runs `liferay-npm-bridge-generator` bin
+ */
+function runBridge() {
+	spawnSync(which.sync('liferay-npm-bridge-generator'));
+}
+
+/**
  * Removes any generated soy.js files
  */
 function cleanSoy() {
@@ -78,6 +85,7 @@ function cleanSoy() {
  * Babel is always run and the user can also include flags to run soy and bundler.
  */
 module.exports = function(flags) {
+	const useBridge = flags.bridge;
 	const useBundler = flags.bundler;
 	const useSoy = flags.soy;
 
@@ -89,6 +97,10 @@ module.exports = function(flags) {
 
 	if (useBundler) {
 		runBundler();
+	}
+
+	if (useBridge) {
+		runBridge();
 	}
 
 	if (useSoy) {
