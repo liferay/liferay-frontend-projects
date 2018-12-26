@@ -1,5 +1,3 @@
-🚧 Work in Progress 🚧
-
 # liferay-npm-scripts
 
 ## Usage
