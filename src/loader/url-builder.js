@@ -31,7 +31,6 @@ export default class URLBuilder {
 		let config = this._configParser.getConfig();
 
 		let basePath = config.basePath || '';
-		let registeredModules = this._configParser.getModules();
 
 		/* istanbul ignore else */
 		if (basePath.length && basePath.charAt(basePath.length - 1) !== '/') {
@@ -39,12 +38,12 @@ export default class URLBuilder {
 		}
 
 		for (let i = 0; i < modules.length; i++) {
-			let module = registeredModules[modules[i]];
+			let module = modules[i];
 
 			// If module has fullPath, individual URL have to be created.
 			if (module.fullPath) {
 				result.push({
-					modules: [module.name],
+					modules: [module],
 					url: this._getURLWithParams(module.fullPath),
 				});
 			} else {
@@ -55,7 +54,7 @@ export default class URLBuilder {
 				// shall be created.
 				if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
 					result.push({
-						modules: [module.name],
+						modules: [module],
 						url: this._getURLWithParams(path),
 					});
 
@@ -65,7 +64,7 @@ export default class URLBuilder {
 					// not include basePath in the URL.
 				} else if (!config.combine || module.anonymous) {
 					result.push({
-						modules: [module.name],
+						modules: [module],
 						url: this._getURLWithParams(
 							config.url + (absolutePath ? '' : basePath) + path
 						),
@@ -79,15 +78,13 @@ export default class URLBuilder {
 					// URL or not.
 					if (absolutePath) {
 						bufferAbsoluteURL.push(path);
-						modulesAbsoluteURL.push(module.name);
+						modulesAbsoluteURL.push(module);
 					} else {
 						bufferRelativeURL.push(path);
-						modulesRelativeURL.push(module.name);
+						modulesRelativeURL.push(module);
 					}
 				}
 			}
-
-			module.requested = true;
 		}
 
 		// Add to the result all modules, which have to be combined.
@@ -181,7 +178,7 @@ export default class URLBuilder {
 	 * @return {string} Module path.
 	 */
 	_getModulePath(module) {
-		let path = module.path || module.name;
+		let path = module.path || module.name || module;
 
 		let paths = this._configParser.getConfig().paths || {};
 

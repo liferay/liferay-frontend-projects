@@ -196,21 +196,31 @@ export default class Loader extends EventEmitter {
 		} = this._normalizeRequireArgs(args);
 
 		console.log('REQUIRE called with', modules);
-
-		const configParser = this._getConfigParser();
-		const mappedModules = configParser.mapModule(modules);
-
-		console.log('REQUIRE modules mapped to', mappedModules);
-
 		let rejectTimeout;
 
 		new Promise((resolve, reject) => {
-			this._resolveDependencies(mappedModules).then(dependencies => {
-				console.log('REQUIRE dependencies resolved to', dependencies);
+			this._resolveDependencies(modules).then(resolved => {
+
+				let dependencies = resolved.resolvedModules;
+				let modulesMap = resolved.modulesMap;
+				let configMap = resolved.configMap;
+
+				let configParser = this._getConfigParser();
+
+				for (let alias in modulesMap) {
+					let moduleMap = {
+						name: alias,
+						map: modulesMap[alias]
+					}
+
+					configParser.addModule(moduleMap);
+				}
+
+				configParser._config.maps = Object.assign({}, configParser._config.maps, configMap);
 
 				this._log(
 					'Resolved modules:',
-					mappedModules,
+					modules,
 					'to:',
 					dependencies
 				);
@@ -225,7 +235,7 @@ export default class Loader extends EventEmitter {
 
 				rejectTimeout = this._setRejectTimeout(
 					modules,
-					mappedModules,
+					modules,
 					dependencies,
 					reject
 				);
@@ -242,7 +252,7 @@ export default class Loader extends EventEmitter {
 					let moduleImplementations;
 
 					moduleImplementations = this._getModuleImplementations(
-						mappedModules
+						modules
 					);
 
 					successCallback.apply(
@@ -263,7 +273,7 @@ export default class Loader extends EventEmitter {
 						'Unhandled failure:',
 						error,
 						'while resolving modules:',
-						mappedModules
+						modules
 					);
 				}
 			}
@@ -599,15 +609,16 @@ export default class Loader extends EventEmitter {
 		for (let i = 0; i < moduleNames.length; i++) {
 			let module = registeredModules[moduleNames[i]];
 
-			let mappedDependencies = configParser.mapModule(
-				module.dependencies,
-				module.map
-			);
-
-			for (let j = 0; j < mappedDependencies.length; j++) {
-				let dependency = mappedDependencies[j];
+			for (let j = 0; j < module.dependencies.length; j++) {
+				let dependency = module.dependencies[j];
 
 				let dependencyModule = registeredModules[dependency];
+
+				if (!dependencyModule) {
+					let mappedDependencyName = configParser.mapModule(dependency, module.map);
+
+					dependencyModule = registeredModules[mappedDependencyName];
+				}
 
 				if (
 					dependency !== 'require' &&
@@ -636,10 +647,12 @@ export default class Loader extends EventEmitter {
 	_getModuleImplementations(requiredModules) {
 		let moduleImplementations = [];
 
+		let mappedModules = this._getConfigParser().mapModule(requiredModules);
+
 		let modules = this._getConfigParser().getModules();
 
-		for (let i = 0; i < requiredModules.length; i++) {
-			let requiredModule = modules[requiredModules[i]];
+		for (let i = 0; i < mappedModules.length; i++) {
+			let requiredModule = modules[mappedModules[i]];
 
 			moduleImplementations.push(
 				requiredModule ? requiredModule.implementation : undefined
@@ -880,15 +893,9 @@ export default class Loader extends EventEmitter {
 	 * @return {Promise} Promise which will be resolved as soon as all dependencies are being resolved.
 	 */
 	_resolveDependencies(modules) {
-		return new Promise((resolve, reject) => {
-			try {
-				const dependencyBuilder = this._getDependencyBuilder();
-
-				resolve(dependencyBuilder.resolveDependencies(modules));
-			} catch (error) {
-				reject(error);
-			}
-		});
+		const dependencyBuilder = this._getDependencyBuilder();
+		
+		return dependencyBuilder.resolveDependencies(modules);
 	}
 
 	/**
@@ -964,10 +971,11 @@ export default class Loader extends EventEmitter {
 					dependencyImplementations.push(localRequire);
 				} else {
 					// otherwise set as value the implementation of the registered module
-					let dependencyModule =
-						registeredModules[
-							configParser.mapModule(dependency, module.map)
-						];
+					let dependencyModule = registeredModules[dependency];
+
+					if (!dependencyModule) {
+						dependencyModule = registeredModules[configParser.mapModule(dependency, module.map)]
+					}
 
 					let impl = dependencyModule.implementation;
 
@@ -1014,11 +1022,15 @@ export default class Loader extends EventEmitter {
 			if (rest.length > 0) {
 				return this.require(moduleName, ...rest);
 			} else {
-				moduleName = pathResolver.resolvePath(module.name, moduleName);
+				let resolvedPath = pathResolver.resolvePath(module.name, moduleName);
 
-				moduleName = configParser.mapModule(moduleName, module.map);
+				let dependencyModule = configParser.getModules()[resolvedPath];
 
-				let dependencyModule = configParser.getModules()[moduleName];
+				if (!dependencyModule) {
+					let mappedModuleName = configParser.mapModule(resolvedPath, module.map);
+	
+					dependencyModule = configParser.getModules()[mappedModuleName];
+				}
 
 				if (
 					!dependencyModule ||

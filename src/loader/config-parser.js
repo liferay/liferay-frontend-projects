@@ -140,7 +140,11 @@ export default class ConfigParser {
 	 */
 	_getModuleMapper(maps) {
 		return module => {
-			let match;
+			let match = maps[module];
+
+			if (match) {
+				return match;
+			}
 
 			match = this._mapExactMatch(module, maps);
 
