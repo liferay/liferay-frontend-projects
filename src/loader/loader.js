@@ -204,6 +204,7 @@ export default class Loader extends EventEmitter {
 				let dependencies = resolved.resolvedModules;
 				let modulesMap = resolved.modulesMap;
 				let configMap = resolved.configMap;
+				let pathMap = resolved.pathMap;
 
 				let configParser = this._getConfigParser();
 
@@ -217,6 +218,7 @@ export default class Loader extends EventEmitter {
 				}
 
 				configParser._config.maps = Object.assign({}, configParser._config.maps, configMap);
+				configParser._config.paths = Object.assign({}, configParser._config.paths, pathMap);
 
 				this._log(
 					'Resolved modules:',
