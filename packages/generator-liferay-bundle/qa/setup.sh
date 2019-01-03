@@ -24,19 +24,27 @@ elif [ "$1" = "generate-samples" ] ; then
     ls -l
     cd ../..
 
-elif [ "$1" = "start-and-run" ] ; then 
-    parallel -k sh ./setup.sh {} --args{} ::: start-bundle run-script
+elif [ "$1" = "start-and-run" ] ; then
+    echo start bundle && 
+    cd liferay-portal-master/tomcat-*/bin && 
+    sh ./catalina.sh run &
+    wait-on -t 600000 http://localhost:8080
+    ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
+    cd liferay-portal-master/tomcat-*/bin
+    sh ./shutdown.sh
 
 elif [ "$1" = "start-bundle" ] ; then 
-    echo start bundle && cd liferay-portal-master/tomcat-*/bin && sh ./catalina.sh run
+    echo start bundle && 
+    cd liferay-portal-master/tomcat-*/bin && 
+    sh ./catalina.sh run
 
 elif [ "$1" = "deploy-portlets" ] ; then 
     cd samples
     lerna run deploy &&
     cd ..
 
-elif [ "$1" = "run-script" ] ; then
-    echo run-script
+elif [ "$1" = "run-poshi-test" ] ; then
+    echo run-poshi-test
     wait-on -t 600000 http://localhost:8080
     ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
     cd liferay-portal-master/tomcat-*/bin
@@ -52,7 +60,7 @@ else
     echo "  start-and-run                     Run liferay bundle and run poshi test"
     echo "  deploy-portlets                   Deploys generated portlets to liferay bundle"
     echo "  start-bundle                      Run liferay bundle"
-    echo "  run script                        Run poshi test"
+    echo "  run-poshi-test                    Run poshi test"
 
     exit 1
 fi

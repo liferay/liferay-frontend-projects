@@ -13,8 +13,6 @@ before_install:
 
 install: 
   - npm run lerna
- # - travis_wait 30 mvn install
- #
 
 language: node_js
 
@@ -25,13 +23,13 @@ node_js:
   - "8"
 
 addons:
-    #chrome: stable
     firefox: "45.0"
 
 git:
     depth: 1
 
-jdk: oraclejdk8s
+jdk: 
+  - oraclejdk8
 
 jobs:
     include: 
@@ -43,29 +41,25 @@ jobs:
         - stage: generator liferay bundle test
         
           before_script:
-                # - docker pull vcatechnology/linux-mint
-                - cd $GENERATOR_DIR && npm install -g yo && npm install -g lerna && npm install -g wait-on && npm install -g --save @types/jasmine@2.8.6 && npm install -g
+                - "export DISPLAY=:99.0"
+                - "sh -e /etc/init.d/xvfb start"
+                - cd $GENERATOR_DIR && npm install -g yo && npm install -g lerna && npm install -g wait-on && npm install -g
                 - cd $GENERATOR_DIR/qa
                 - sh ./setup.sh unzip-portal-snapshot-bundle
-                - sh ./setup.sh config-portlets
-                - sh ./setup.sh generate-samples
-                - sh ./setup.sh deploy-portlets
+                #- sh ./setup.sh config-portlets
+                #- sh ./setup.sh generate-samples
+                #- sh ./setup.sh deploy-portlets
                 - cd $GENERATOR_DIR/qa
 
-          script: travis_wait sh ./setup.sh start-and-run
+          script: travis_wait 40 sh ./setup.sh start-and-run
 
 services:
-  - docker
   - mysql
 
-dist: xenial
+dist: trusty
 
 sudo: required
 
 cache:
   directories:
      - $TRAVIS_BUILD_DIR/packages/generator-liferay-bundle/node_modules
-#     directories:
-#         - $HOME/.gradle/caches/
-#         - $HOME/.gradle/wrapper/
-#     timeout: 600
