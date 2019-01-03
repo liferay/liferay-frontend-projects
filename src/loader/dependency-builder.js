@@ -32,6 +32,7 @@ export default class DependencyBuilder {
 
 			if (resolution) {
 				resolve(resolution);
+				return;
 			}
 
 			let url = '/o/js_module_loader?modules=' + encodeURIComponent(modules);
