@@ -199,8 +199,9 @@ export default class Loader extends EventEmitter {
 		let rejectTimeout;
 
 		new Promise((resolve, reject) => {
-			this._resolveDependencies(modules).then(resolved => {
+			const dependencyBuilder = this._getDependencyBuilder();
 
+			dependencyBuilder.resolveDependencies(modules).then(resolved => {
 				let dependencies = resolved.resolvedModules;
 				let modulesMap = resolved.modulesMap;
 				let configMap = resolved.configMap;
@@ -209,16 +210,21 @@ export default class Loader extends EventEmitter {
 				let configParser = this._getConfigParser();
 
 				for (let alias in modulesMap) {
-					let moduleMap = {
-						name: alias,
-						map: modulesMap[alias]
-					}
+					if ({}.hasOwnProperty.call(modulesMap, alias)) {
+						let moduleMap = {
+							name: alias,
+							map: modulesMap[alias],
+						};
 
-					configParser.addModule(moduleMap);
+						configParser.addModule(moduleMap);
+					}
 				}
 
-				configParser._config.maps = Object.assign({}, configParser._config.maps, configMap);
-				configParser._config.paths = Object.assign({}, configParser._config.paths, pathMap);
+				configParser._config.maps = Object.assign(
+					{}, configParser._config.maps, configMap);
+
+				configParser._config.paths = Object.assign(
+					{}, configParser._config.paths, pathMap);
 
 				this._log(
 					'Resolved modules:',
@@ -329,6 +335,28 @@ export default class Loader extends EventEmitter {
 	}
 
 	/**
+	 * Returns the registered module for the moduleName. If not found
+	 * it maps the module name and return the registeredModule for the
+	 * mapped name
+	 * @param {string} moduleName the module name
+	 * @param {Object} map the root module map
+	 * @return {Object} the registed module object
+	 */
+	_getRegisteredModule(moduleName, map) {
+		const configParser = this._getConfigParser();
+		const registeredModules = configParser.getModules();
+
+		let module = registeredModules[moduleName];
+
+		if (!module) {
+			let mappedName = configParser.mapModule(moduleName, map);
+			module = registeredModules[mappedName];
+		}
+
+		return module;
+	}
+
+	/**
 	 * Traverse a resolved dependencies array looking for server sent errors and
 	 * return an Error if any is found.
 	 * @param  {Array} dependencies the resolved dependencies
@@ -425,11 +453,9 @@ export default class Loader extends EventEmitter {
 	 */
 	_createModulePromise(moduleName) {
 		return new Promise((resolve, reject) => {
-			let registeredModules = this._getConfigParser().getModules();
-
 			// Check if this is a module, which exports something
 			// If so, check if the exported value is available
-			let module = registeredModules[moduleName];
+			let module = this._getRegisteredModule(moduleName);
 
 			if (module.exports) {
 				let exportedValue = this._getValueGlobalNS(module.exports);
@@ -603,24 +629,18 @@ export default class Loader extends EventEmitter {
 	 * @return {Array<string>} A list with all missing dependencies.
 	 */
 	_getMissingDependencies(moduleNames) {
-		let configParser = this._getConfigParser();
-		let registeredModules = configParser.getModules();
-
 		let missingDependencies = Object.create(null);
 
 		for (let i = 0; i < moduleNames.length; i++) {
-			let module = registeredModules[moduleNames[i]];
+			const moduleName = moduleNames[i];
+
+			let module = this._getRegisteredModule(moduleName);
 
 			for (let j = 0; j < module.dependencies.length; j++) {
 				let dependency = module.dependencies[j];
 
-				let dependencyModule = registeredModules[dependency];
-
-				if (!dependencyModule) {
-					let mappedDependencyName = configParser.mapModule(dependency, module.map);
-
-					dependencyModule = registeredModules[mappedDependencyName];
-				}
+				let dependencyModule = this._getRegisteredModule(
+					dependency, module.map);
 
 				if (
 					dependency !== 'require' &&
@@ -715,12 +735,10 @@ export default class Loader extends EventEmitter {
 
 		let missingModules = [];
 
-		let registeredModules = this._getConfigParser().getModules();
-
 		for (let i = 0; i < moduleNames.length; i++) {
 			let moduleName = moduleNames[i];
 
-			let registeredModule = registeredModules[moduleNames[i]];
+			let registeredModule = this._getRegisteredModule(moduleName);
 
 			if (!registeredModule) {
 				missingModules.push(moduleName);
@@ -887,20 +905,6 @@ export default class Loader extends EventEmitter {
 	}
 
 	/**
-	 * Resolves modules dependencies.
-	 *
-	 * @memberof! Loader#
-	 * @protected
-	 * @param {array} modules List of modules which dependencies should be resolved.
-	 * @return {Promise} Promise which will be resolved as soon as all dependencies are being resolved.
-	 */
-	_resolveDependencies(modules) {
-		const dependencyBuilder = this._getDependencyBuilder();
-		
-		return dependencyBuilder.resolveDependencies(modules);
-	}
-
-	/**
 	 * Reports a mismatched anonymous module error. Depending on the value of the configuration property
 	 * `__CONFIG__.reportMismatchedAnonymousModules`, this method will throw an error, use the console[level]
 	 * method to log the message or silently ignore it.
@@ -930,8 +934,6 @@ export default class Loader extends EventEmitter {
 	 * @param {array} modules List of modules to which implementation should be set.
 	 */
 	_setModuleImplementation(modules) {
-		let registeredModules = this._getConfigParser().getModules();
-
 		for (let i = 0; i < modules.length; i++) {
 			let module = modules[i];
 
@@ -947,7 +949,6 @@ export default class Loader extends EventEmitter {
 
 			// Leave exports implementation to be {} by default
 			let moduleImpl = {exports: {}};
-			let configParser = this._getConfigParser();
 
 			for (let j = 0; j < module.dependencies.length; j++) {
 				let dependency = module.dependencies[j];
@@ -973,11 +974,8 @@ export default class Loader extends EventEmitter {
 					dependencyImplementations.push(localRequire);
 				} else {
 					// otherwise set as value the implementation of the registered module
-					let dependencyModule = registeredModules[dependency];
-
-					if (!dependencyModule) {
-						dependencyModule = registeredModules[configParser.mapModule(dependency, module.map)]
-					}
+					let dependencyModule = this._getRegisteredModule(
+						dependency, module.map);
 
 					let impl = dependencyModule.implementation;
 
@@ -1017,22 +1015,17 @@ export default class Loader extends EventEmitter {
 	 * @return {function} the local require implementation for the given module
 	 */
 	_createLocalRequire(module) {
-		let configParser = this._getConfigParser();
 		let pathResolver = this._getPathResolver();
 
 		return (moduleName, ...rest) => {
 			if (rest.length > 0) {
 				return this.require(moduleName, ...rest);
 			} else {
-				let resolvedPath = pathResolver.resolvePath(module.name, moduleName);
+				let resolvedPath = pathResolver.resolvePath(
+					module.name, moduleName);
 
-				let dependencyModule = configParser.getModules()[resolvedPath];
-
-				if (!dependencyModule) {
-					let mappedModuleName = configParser.mapModule(resolvedPath, module.map);
-	
-					dependencyModule = configParser.getModules()[mappedModuleName];
-				}
+				let dependencyModule = this._getRegisteredModule(
+					resolvedPath, module.map);
 
 				if (
 					!dependencyModule ||
@@ -1063,6 +1056,11 @@ export default class Loader extends EventEmitter {
 		// Check if there is already a promise for this module.
 		// If there is not - create one and store it to module promises map.
 		let modulePromise = this._modulesMap[moduleName];
+
+		if (!modulePromise) {
+			let mappedName = this._getConfigParser().mapModule(moduleName);
+			modulePromise = this._modulesMap[mappedName];
+		}
 
 		if (!modulePromise) {
 			modulePromise = this._createModulePromise(moduleName);
@@ -1096,13 +1094,13 @@ export default class Loader extends EventEmitter {
 				// one more time, because some dependencies might have not been registered in the configuration.
 				// In this case we have to load them too, otherwise we won't be able to properly
 				// get the implementation from the module.
-				let registeredModules = this._getConfigParser().getModules();
-
 				let defineModules = () => {
 					let definedModules = [];
 
 					for (let i = 0; i < moduleNames.length; i++) {
-						definedModules.push(registeredModules[moduleNames[i]]);
+						const moduleName = moduleNames[i];
+						let module = this._getRegisteredModule(moduleName);
+						definedModules.push(module);
 					}
 
 					this._setModuleImplementation(definedModules);

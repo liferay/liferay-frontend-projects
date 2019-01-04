@@ -143,6 +143,10 @@ export default class ConfigParser {
 			let match = maps[module];
 
 			if (match) {
+				if (typeof match === 'object') {
+					return match.value;
+				}
+
 				return match;
 			}
 

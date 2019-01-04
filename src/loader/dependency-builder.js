@@ -27,7 +27,6 @@ export default class DependencyBuilder {
 	 */
 	resolveDependencies(modules) {
 		return new Promise((resolve, reject) => {
-
 			let resolution = this._cachedResolutions[modules];
 
 			if (resolution) {
@@ -39,12 +38,15 @@ export default class DependencyBuilder {
 
 			fetch(url)
 				.then((response) => {
-					response.text().then(text => {
-						let dependencies = JSON.parse(text);
-						this._cachedResolutions[modules] = dependencies;
-						resolve(dependencies);
-					}).catch(reject);
-				}).catch(reject);
+					response.text()
+						.then(text => {
+							let dependencies = JSON.parse(text);
+							this._cachedResolutions[modules] = dependencies;
+							resolve(dependencies);
+						})
+						.catch(reject);
+				})
+				.catch(reject);
 		});
 	}
 }

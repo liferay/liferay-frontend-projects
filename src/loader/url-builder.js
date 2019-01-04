@@ -40,10 +40,14 @@ export default class URLBuilder {
 		for (let i = 0; i < modules.length; i++) {
 			let module = modules[i];
 
+			if (this._configParser.getModules()[module]) {
+				module = this._configParser.getModules()[module];
+			}
+
 			// If module has fullPath, individual URL have to be created.
 			if (module.fullPath) {
 				result.push({
-					modules: [module],
+					modules: [module.name || module],
 					url: this._getURLWithParams(module.fullPath),
 				});
 			} else {
@@ -54,7 +58,7 @@ export default class URLBuilder {
 				// shall be created.
 				if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
 					result.push({
-						modules: [module],
+						modules: [module.name || module],
 						url: this._getURLWithParams(path),
 					});
 
@@ -64,7 +68,7 @@ export default class URLBuilder {
 					// not include basePath in the URL.
 				} else if (!config.combine || module.anonymous) {
 					result.push({
-						modules: [module],
+						modules: [module.name || module],
 						url: this._getURLWithParams(
 							config.url + (absolutePath ? '' : basePath) + path
 						),
@@ -78,10 +82,10 @@ export default class URLBuilder {
 					// URL or not.
 					if (absolutePath) {
 						bufferAbsoluteURL.push(path);
-						modulesAbsoluteURL.push(module);
+						modulesAbsoluteURL.push(module.name || module);
 					} else {
 						bufferRelativeURL.push(path);
-						modulesRelativeURL.push(module);
+						modulesRelativeURL.push(module.name || module);
 					}
 				}
 			}

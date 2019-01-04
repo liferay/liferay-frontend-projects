@@ -1,5 +1,7 @@
 import document from './fixture/virtual-document.js';
 import Loader from '../loader';
+import DependencyBuilder from '../dependency-builder';
+jest.mock('../dependency-builder');
 
 const {log, warn} = console;
 let config;
@@ -9,6 +11,16 @@ describe('Loader', function() {
 	beforeEach(function() {
 		console.log = jest.fn();
 		console.warn = jest.fn();
+
+		DependencyBuilder.mockClear();
+
+		DependencyBuilder.mockImplementation(() => {
+			return {
+				resolveDependencies: (modules) => {
+					return Promise.resolve({resolvedModules: modules});
+				},
+			};
+		});
 
 		Object.keys(require.cache).forEach(function(cache) {
 			delete require.cache[cache];
@@ -22,6 +34,9 @@ describe('Loader', function() {
 				liferay2: 'liferay@2.0.0',
 			},
 			modules: {
+				'delay': {
+					dependencies: [],
+				},
 				'module1': {
 					dependencies: ['module2', 'module3'],
 				},
@@ -42,12 +57,6 @@ describe('Loader', function() {
 				},
 				'moduleMissing': {
 					dependencies: [],
-				},
-				'moduleCyclic1': {
-					dependencies: ['moduleCyclic2'],
-				},
-				'moduleCyclic2': {
-					dependencies: ['moduleCyclic1'],
 				},
 				'liferay@1.0.0/relative1': {
 					dependencies: ['exports', 'module', './relative2'],
@@ -258,32 +267,6 @@ describe('Loader', function() {
 		expect(typeof loader.define.amd).toBe('object');
 	});
 
-	it('should register unregistered modules in require', function() {
-		let module = '45014EE1-042B-487D-ADB5-71AE652E28E6';
-
-		loader.require(module);
-		let modules = loader.getModules();
-
-		expect(modules).toHaveProperty(module);
-		expect(typeof modules[module]).toBe('object');
-		expect(modules[module]).toHaveProperty('dependencies');
-		expect(Array.isArray(modules[module].dependencies)).toBe(true);
-	});
-
-	it('should map modules in require', function() {
-		let module = '432004A5-E69C-42AA-9301-D2E5F029662C';
-		let alias = '80D1189A-64E2-4CFC-AB24-9196CCE98C96';
-
-		config.maps[module] = alias;
-
-		loader.require(module, [], function() {
-			return 1;
-		});
-		let modules = loader.getModules();
-
-		expect(modules).toHaveProperty(alias);
-	});
-
 	it('should load already defined (manually) modules', function(done) {
 		let failure = jest.fn();
 		let success = jest.fn();
@@ -310,6 +293,7 @@ describe('Loader', function() {
 		loader.require(['one'], success, failure);
 
 		setTimeout(function() {
+			expect(DependencyBuilder).toHaveBeenCalledTimes(1);
 			expect(failure.mock.calls).toHaveLength(0);
 			expect(success.mock.calls).toHaveLength(1);
 			expect(typeof one).toBe('function');
@@ -363,20 +347,6 @@ describe('Loader', function() {
 		let success = jest.fn();
 
 		loader.require('moduleMissing', success, failure);
-
-		setTimeout(function() {
-			expect(failure.mock.calls).toHaveLength(1);
-			expect(success.mock.calls).toHaveLength(0);
-
-			done();
-		}, 50);
-	});
-
-	it('should fail if there are cyclic dependencies', function(done) {
-		let failure = jest.fn();
-		let success = jest.fn();
-
-		loader.require('moduleCyclic1', 'moduleCyclic2', success, failure);
 
 		setTimeout(function() {
 			expect(failure.mock.calls).toHaveLength(1);
@@ -502,29 +472,26 @@ describe('Loader', function() {
 		}, 50);
 	});
 
-	it('should load module with relative path', function(done) {
-		let failure = jest.fn();
-
-		let successValue;
-		let success = jest.fn().mockImplementation(val => (successValue = val));
-
-		loader.require(['liferay/relative1'], success, failure);
-
-		setTimeout(function() {
-			expect(failure.mock.calls).toHaveLength(0);
-			expect(success.mock.calls).toHaveLength(1);
-
-			expect(typeof successValue).toBe('object');
-
-			done();
-		}, 50);
-	});
-
 	it('should resolve the missing dependencies without multiple require calls', function(done) {
 		loader.require = jest.spyOn(loader, 'require');
 
 		let failure = jest.fn();
 		let success = jest.fn();
+
+		DependencyBuilder.mockImplementation(() => {
+			return {
+				resolveDependencies: () => {
+					return Promise.resolve({
+						resolvedModules: [
+							'liferay@1.0.0/relative3',
+							'liferay@1.0.0/sub-relative/sub-relative1',
+							'liferay@1.0.0/relative2',
+							'liferay@1.0.0/relative1',
+						],
+					});
+				},
+			};
+		});
 
 		loader.require(['liferay@1.0.0/relative1'], success, failure);
 
@@ -542,6 +509,20 @@ describe('Loader', function() {
 
 		let failure = jest.fn();
 		let success = jest.fn();
+
+		DependencyBuilder.mockImplementation(() => {
+			return {
+				resolveDependencies: () => {
+					return Promise.resolve({
+						resolvedModules: [
+							'liferay@1.0.0',
+							'liferay@2.0.0',
+							'liferay@1.0.0/mappeddeps',
+						],
+					});
+				},
+			};
+		});
 
 		loader.require(['liferay/mappeddeps'], success, failure);
 
@@ -903,6 +884,19 @@ describe('Loader', function() {
 			.fn()
 			.mockImplementation(module => (successModule = module));
 
+		DependencyBuilder.mockImplementation(() => {
+			return {
+				resolveDependencies: () => {
+					return Promise.resolve({
+						resolvedModules: [
+							'isarray@1.0.0/index',
+							'isobject@2.1.0/index',
+						],
+					});
+				},
+			};
+		});
+
 		loader.require(['isobject@2.1.0/index'], success, failure);
 
 		setTimeout(function() {
@@ -1012,35 +1006,6 @@ describe('Loader', function() {
 
 		loader.define('module', ['module'], function(module) {
 			module.exports = undefined;
-		});
-
-		loader.require('module', success, failure);
-
-		setTimeout(function() {
-			expect(failure.mock.calls).toHaveLength(0);
-			expect(success.mock.calls).toHaveLength(1);
-			expect(successModule).toBeUndefined();
-
-			done();
-		}, 50);
-	});
-
-	it('should work correctly when locally requiring a dependency that exports `undefined`', function(done) {
-		let failure = jest.fn();
-
-		let successModule;
-		let success = jest
-			.fn()
-			.mockImplementation(module => (successModule = module));
-
-		loader.define('dependency', ['module'], function(module) {
-			module.exports = undefined;
-		});
-		loader.define('module', ['module', 'require', 'dependency'], function(
-			module,
-			require
-		) {
-			module.exports = require('dependency');
 		});
 
 		loader.require('module', success, failure);
