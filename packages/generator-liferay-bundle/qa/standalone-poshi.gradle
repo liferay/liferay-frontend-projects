@@ -6,7 +6,6 @@ configurations {
 
 dependencies {
 	poshiRunner "com.liferay:com.liferay.poshi.runner:1.0.199"
-    poshiRunner "com.liferay.poshi.runner.resources:portal-7.1.x:20181128102607-5b0ef97"
 }
 
 repositories {
