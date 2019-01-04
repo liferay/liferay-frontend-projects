@@ -1,4 +1,4 @@
-if [ "$1" = "unzip-portal-snapshot-bundle" ] ; then 
+if [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     mkdir temp
     echo extracting archive: temp/liferay-portal-tomcat-master.7z...
     echo Please wait...
@@ -11,34 +11,48 @@ if [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     rm -rf data logs work osgi/state tomcat-*/work
     cd ..
 
-elif [ "$1" = "config-portlets" ] ; then 
+elif [ "$1" = "config-portlets" ] ; then
     cd config
     # sed -i 's/\"liferayDir\": \"\/Users\/ivan\/Liferay\/CE\/bundles\"/\"liferayDir\": \"$GENERATOR_DIR\/qa\/liferay-portal-master\"/g' *.json
     sed -i 's,/Users/ivan/Liferay/CE/bundles,'"$GENERATOR_DIR"'/qa/liferay-portal-master,g' *.json
     cat angular-portlet.json
     cd ..
 
-elif [ "$1" = "generate-samples" ] ; then 
+elif [ "$1" = "generate-samples" ] ; then
     node generate-samples.js &&
     cd samples/packages
     ls -l
     cd ../..
 
 elif [ "$1" = "start-and-run" ] ; then
-    echo start bundle && 
-    cd liferay-portal-master/tomcat-*/bin && 
+    echo start bundle &&
+    cd liferay-portal-master/tomcat-*/bin &&
     sh ./catalina.sh run &
     wait-on -t 600000 http://localhost:8080
     ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
     cd liferay-portal-master/tomcat-*/bin
     sh ./shutdown.sh
 
-elif [ "$1" = "start-bundle" ] ; then 
-    echo start bundle && 
-    cd liferay-portal-master/tomcat-*/bin && 
+elif [ "$1" = "sync-master-poshi-tests" ] ; then
+    echo syncing master poshi tests
+    echo extracting poshi resource jar (portal-7.1.x-20181128102607-5b0ef97.jar) into poshi/standalone...
+    echo Please wait...
+    cd poshi
+    mkdir standalone
+    wget https://repository.liferay.com/nexus/content/repositories/liferay-public-releases/com/liferay/poshi/runner/resources/portal-7.1.x/20181128102607-5b0ef97/portal-7.1.x-20181128102607-5b0ef97.jar -P standalone
+    7z x standalone/portal-7.1.x-20181128102607-5b0ef97.jar -ostandalone > null
+    cd poshi resource jar extracted
+    cd master
+    echo updating poshi/standalone files with changes from poshi/master
+    rsync -a -v . ../standalone/testFunctional
+    cd ../..
+
+elif [ "$1" = "start-bundle" ] ; then
+    echo start bundle &&
+    cd liferay-portal-master/tomcat-*/bin &&
     sh ./catalina.sh run
 
-elif [ "$1" = "deploy-portlets" ] ; then 
+elif [ "$1" = "deploy-portlets" ] ; then
     cd samples
     lerna run deploy &&
     cd ..
@@ -47,8 +61,8 @@ elif [ "$1" = "run-poshi-test" ] ; then
     echo run-poshi-test
     wait-on -t 600000 http://localhost:8080
     ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
-    cd liferay-portal-master/tomcat-*/bin
-    sh ./shutdown.sh
+    #cd liferay-portal-master/tomcat-*/bin
+    #sh ./shutdown.sh
 
 
 else

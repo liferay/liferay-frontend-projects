@@ -5,13 +5,14 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install p7zip-full
   - sudo apt-get install parallel
+  - sudo apt-get install rsync
   - mysql -e 'CREATE DATABASE lportal char set utf8;'
   - mysql -e 'SHOW DATABASES;'
  # - mysql -u root -e "CREATE USER ''@'localhost' IDENTIFIED BY '';"
  # - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO ''@'localhost';"
  # - mysql -u root -e 'CREATE DATABASE lportal;'
 
-install: 
+install:
   - npm run lerna
 
 language: node_js
@@ -28,18 +29,18 @@ addons:
 git:
     depth: 1
 
-jdk: 
+jdk:
   - oraclejdk8
 
 jobs:
-    include: 
-        
+    include:
+
         # - stage: javascript format tests
 
         #   script: npm run ci
 
         - stage: generator liferay bundle test
-        
+
           before_script:
                 - "export DISPLAY=:99.0"
                 - "sh -e /etc/init.d/xvfb start"
@@ -50,6 +51,7 @@ jobs:
                 #- sh ./setup.sh generate-samples
                 #- sh ./setup.sh deploy-portlets
                 - cd $GENERATOR_DIR/qa
+                - sh ./setup.sh sync-master-poshi-tests
 
           script: travis_wait 40 sh ./setup.sh start-and-run
 
