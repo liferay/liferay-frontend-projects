@@ -4,7 +4,6 @@ env:
 before_install:
   - sudo apt-get update
   - sudo apt-get install p7zip-full
-  - sudo apt-get install parallel
   - sudo apt-get install rsync
   - mysql -e 'CREATE DATABASE lportal char set utf8;'
   - mysql -e 'SHOW DATABASES;'
@@ -47,6 +46,7 @@ jobs:
                 - cd $GENERATOR_DIR && npm install -g yo && npm install -g lerna && npm install -g wait-on && npm install -g
                 - cd $GENERATOR_DIR/qa
                 - sh ./setup.sh unzip-portal-snapshot-bundle
+                - sh ./setup.sh prepare-portal-properties
                 #- sh ./setup.sh config-portlets
                 #- sh ./setup.sh generate-samples
                 #- sh ./setup.sh deploy-portlets

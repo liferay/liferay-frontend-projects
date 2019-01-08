@@ -1,8 +1,9 @@
 if [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     mkdir temp
-    echo extracting archive: temp/liferay-portal-tomcat-master.7z...
+    echo Downloading archive: temp/liferay-portal-tomcat-master.7z...
     echo Please wait...
     wget https://releases.liferay.com/portal/snapshot-master/latest/liferay-portal-tomcat-master.7z -P temp
+    echo Extracting archive...
     7z x temp/liferay-portal-tomcat-master.7z > null
     echo Extraction Complete
     ls ./liferay-portal-master
@@ -11,11 +12,14 @@ if [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     rm -rf data logs work osgi/state tomcat-*/work
     cd ..
 
+elif [ "$1" = "prepare-portal-properties" ] ; then
+    cp poshi/portal-ext.properties liferay-portal-master
+
 elif [ "$1" = "config-portlets" ] ; then
     cd config
     # sed -i 's/\"liferayDir\": \"\/Users\/ivan\/Liferay\/CE\/bundles\"/\"liferayDir\": \"$GENERATOR_DIR\/qa\/liferay-portal-master\"/g' *.json
     sed -i 's,/Users/ivan/Liferay/CE/bundles,'"$GENERATOR_DIR"'/qa/liferay-portal-master,g' *.json
-    cat angular-portlet.json
+    cat export-bundle.json
     cd ..
 
 elif [ "$1" = "generate-samples" ] ; then
