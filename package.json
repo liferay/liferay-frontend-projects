@@ -25,7 +25,8 @@
 		"modulePathIgnorePatterns": [
 			"liferay-amd-loader/build/.*",
 			".*/__tests__/fixture/.*"
-		]
+		],
+		"testURL": "http://localhost/"
 	},
 	"author": "Iliyan Peychev",
 	"license": "LGPL-3.0",

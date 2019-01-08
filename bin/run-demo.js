@@ -9,6 +9,7 @@ if (!fs.existsSync('build/demo/index.html')) {
 spawn('node', ['./bin/combo.js'], {
 	stdio: 'inherit',
 });
-spawnSync('http-server', ['./build/demo', '-p', '8080'], {
+
+spawnSync('node', ['./bin/demo-server.js'], {
 	stdio: 'inherit',
 });

@@ -40,8 +40,10 @@ export default class URLBuilder {
 		for (let i = 0; i < modules.length; i++) {
 			let module = modules[i];
 
-			if (this._configParser.getModules()[module]) {
-				module = this._configParser.getModules()[module];
+			let registeredModule = this._getRegisteredModule(module);
+
+			if (registeredModule) {
+				module = registeredModule;
 			}
 
 			// If module has fullPath, individual URL have to be created.
@@ -207,6 +209,27 @@ export default class URLBuilder {
 		}
 
 		return path;
+	}
+
+	/**
+	 * Returns the registered module for the moduleName. If not found
+	 * it maps the module name and return the registeredModule for the
+	 * mapped name
+	 * @param {string} moduleName the module name
+	 * @param {Object} map the root module map
+	 * @return {Object} the registed module object
+	 */
+	_getRegisteredModule(moduleName, map) {
+		const registeredModules = this._configParser.getModules();
+
+		let module = registeredModules[moduleName];
+
+		if (!module) {
+			let mappedName = this._configParser.mapModule(moduleName, map);
+			module = registeredModules[mappedName];
+		}
+
+		return module;
 	}
 
 	/**
