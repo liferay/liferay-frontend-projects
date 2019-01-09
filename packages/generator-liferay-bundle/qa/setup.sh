@@ -68,6 +68,20 @@ elif [ "$1" = "run-poshi-test" ] ; then
     #cd liferay-portal-master/tomcat-*/bin
     #sh ./shutdown.sh
 
+elif [ "$1" = "create-liferay-bundle-json" ] ; then
+    FILE="$HOME/.generator-liferay-bundle.json"
+
+    /bin/cat <<EOM >$FILE
+{
+    "sdkVersion": "../../../../../..",
+    "answers": {
+            "facet-deploy": {
+                    "liferayPresent": true,
+                    "liferayDir": "../../../liferay-portal-master"
+            }
+    }
+}
+EOM
 
 else
     echo "Usage: setup.sh ( commands ... )"
