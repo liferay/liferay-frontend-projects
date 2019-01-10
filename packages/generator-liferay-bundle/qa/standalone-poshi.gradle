@@ -5,7 +5,12 @@ configurations {
 }
 
 dependencies {
-	poshiRunner "com.liferay:com.liferay.poshi.runner:1.0.199"
+	poshiRunner "com.liferay:com.liferay.poshi.runner:1.0.210"
+
+//      OPTIONAL the following adds a poshi-resource jar into the classpath during execution
+//      To execute any testcase or macro from this jar, use 'Portal' as the namespace, (i.e Portal.PortalSmoke#Smoke)
+
+    poshiRunner "com.liferay.poshi.runner.resources:portal-7.1.x:7.1.1-ga2"
 }
 
 repositories {
@@ -23,9 +28,20 @@ task checkPoshiRunnerExtPropertyFileNames {
 		project.ext.poshiRunnerExtPropertyFileNames = null
 	}
 	else {
-		println "Poshi runner ext property file names: "
+		println "Poshi Runner ext property file names: "
 		println poshiRunnerExtPropertyFileNames
 	}
+}
+
+task expandPoshiRunner(type: Copy) {
+    File poshiRunnerJar = findPoshiRunnerJar()
+
+    if (poshiRunnerJar == null) {
+        throw new Exception("The Poshi Runner jar cannot be found from dependencies")
+    }
+
+    from zipTree(poshiRunnerJar)
+    into "$buildDir/poshi-runner"
 }
 
 task help {
@@ -39,14 +55,12 @@ task help {
     println ""
 }
 
-task runPoshi (type: JavaExec) {
-    main = "com.liferay.poshi.runner.PoshiRunnerCommandExecutor"
-    workingDir = "."
+task runPoshi (type: Test) {
     classpath = configurations.poshiRunner
-    args('runPoshi')
-    systemProperties = [
-    	poshiRunnerExtPropertyFileNames: poshiRunnerExtPropertyFileNames
-    ]
+    include 'com/liferay/poshi/runner/PoshiRunner.class'
+    scanForTestClasses = false
+    systemProperties getPoshiRunnerExtProperties(poshiRunnerExtPropertyFileNames)
+    testClassesDir = new File("$buildDir/poshi-runner")
 }
 
 task validatePoshi (type: JavaExec) {
@@ -69,6 +83,47 @@ task writePoshiProperties (type: JavaExec) {
     ]
 }
 
-runPoshi.dependsOn validatePoshi
+def findPoshiRunnerJar() {
+     Iterator<File> iterator = configurations.poshiRunner.iterator();
+
+      while (iterator.hasNext()) {
+        File file = iterator.next();
+
+        String fileName = file.getName();
+
+        if (fileName.startsWith("com.liferay.poshi.runner-")) {
+            return file;
+        }
+      }
+
+      return null;
+}
+
+def getPoshiRunnerExtProperties(poshiRunnerExtPropertyFileNames) {
+    Properties poshiRunnerExtProperties = new Properties();
+
+    if (poshiRunnerExtPropertyFileNames != null) {
+        for (String poshiRunnerExtPropertyFileName : poshiRunnerExtPropertyFileNames.split(",")) {
+            try {
+                InputStream inputStream = new FileInputStream(
+                    poshiRunnerExtPropertyFileName);
+
+                poshiRunnerExtProperties.load(inputStream);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+
+                throw e;
+            }
+        }
+    }
+
+    poshiRunnerExtProperties.putAll(System.getProperties());
+
+    return poshiRunnerExtProperties
+}
+
+expandPoshiRunner.dependsOn clean
+runPoshi.dependsOn expandPoshiRunner
 validatePoshi.dependsOn checkPoshiRunnerExtPropertyFileNames
 writePoshiProperties.dependsOn validatePoshi
