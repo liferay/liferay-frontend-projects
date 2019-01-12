@@ -187,7 +187,7 @@
 
 	<command name="addPublicPage">
 		<var name="key_breadcrumbName" value="Pages" />
-		<var name="key_itemName" value="Public Pages" />
+		<var name="key_menuItem" value="Public Pages" />
 
 		<if>
 			<condition function="IsElementPresent" locator1="Message#EMPTY_INFO_TAGLIB" />

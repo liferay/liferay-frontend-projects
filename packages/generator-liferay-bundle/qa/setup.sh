@@ -19,6 +19,7 @@ elif [ "$1" = "config-portlets" ] ; then
     cd config
     # sed -i 's/\"liferayDir\": \"\/Users\/ivan\/Liferay\/CE\/bundles\"/\"liferayDir\": \"$GENERATOR_DIR\/qa\/liferay-portal-master\"/g' *.json
     sed -i 's,/Users/ivan/Liferay/CE/bundles,'"$GENERATOR_DIR"'/qa/liferay-portal-master,g' *.json
+    #sed -i 's,/Users/ivan/Liferay/CE/bundles,../../../liferay-portal-master,g' *.json
     cat export-bundle.json
     cd ..
 
@@ -29,13 +30,8 @@ elif [ "$1" = "generate-samples" ] ; then
     cd ../..
 
 elif [ "$1" = "start-and-run" ] ; then
-    echo start bundle &&
-    cd liferay-portal-master/tomcat-*/bin &&
-    sh ./catalina.sh run &
-    wait-on -t 600000 http://localhost:8080
-    ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
-    cd liferay-portal-master/tomcat-*/bin
-    sh ./shutdown.sh
+    sh ./setup.sh start-bundle &
+    sh ./setup.sh run-poshi-test
 
 elif [ "$1" = "sync-master-poshi-tests" ] ; then
     echo syncing master poshi tests
@@ -58,15 +54,26 @@ elif [ "$1" = "start-bundle" ] ; then
 
 elif [ "$1" = "deploy-portlets" ] ; then
     cd samples
-    lerna run deploy &&
+    sed -i 's,packages/,packages/angular,g' lerna.json
+    lerna run deploy
+    sed -i 's,packages/angular,packages/export,g' lerna.json
+    lerna run deploy
     cd ..
 
 elif [ "$1" = "run-poshi-test" ] ; then
     echo run-poshi-test
     wait-on -t 600000 http://localhost:8080
     ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
-    #cd liferay-portal-master/tomcat-*/bin
-    #sh ./shutdown.sh
+    if [ $? -eq 1 ] ; then
+        echo "Exit code is 1"
+        cd liferay-portal-master/tomcat-*/bin
+        sh ./shutdown.sh
+        exit 1
+    else
+        echo "Exit code is not 1"
+        cd liferay-portal-master/tomcat-*/bin
+        sh ./shutdown.sh
+    fi
 
 elif [ "$1" = "create-liferay-bundle-json" ] ; then
     FILE="$HOME/.generator-liferay-bundle.json"

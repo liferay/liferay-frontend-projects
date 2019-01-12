@@ -56,6 +56,8 @@ task help {
 }
 
 task runPoshi (type: Test) {
+    testLogging.showStandardStreams = true
+
     classpath = configurations.poshiRunner
     include 'com/liferay/poshi/runner/PoshiRunner.class'
     scanForTestClasses = false
