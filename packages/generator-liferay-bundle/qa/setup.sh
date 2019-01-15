@@ -18,8 +18,8 @@ elif [ "$1" = "prepare-portal-properties" ] ; then
 elif [ "$1" = "config-portlets" ] ; then
     cd config
     # sed -i 's/\"liferayDir\": \"\/Users\/ivan\/Liferay\/CE\/bundles\"/\"liferayDir\": \"$GENERATOR_DIR\/qa\/liferay-portal-master\"/g' *.json
-    sed -i 's,/Users/ivan/Liferay/CE/bundles,'"$GENERATOR_DIR"'/qa/liferay-portal-master,g' *.json
-    #sed -i 's,/Users/ivan/Liferay/CE/bundles,../../../liferay-portal-master,g' *.json
+    #sed -i 's,/Users/ivan/Liferay/CE/bundles,'"$GENERATOR_DIR"'/qa/liferay-portal-master,g' *.json
+    sed -i 's,/Users/ivan/Liferay/CE/bundles,../../../liferay-portal-master,g' *.json
     cat export-bundle.json
     cd ..
 
@@ -56,8 +56,8 @@ elif [ "$1" = "deploy-portlets" ] ; then
     cd samples
     sed -i 's,packages/,packages/angular,g' lerna.json
     lerna run deploy
-    sed -i 's,packages/angular,packages/export,g' lerna.json
-    lerna run deploy
+    # sed -i 's,packages/angular,packages/export,g' lerna.json
+    # lerna run deploy
     cd ..
 
 elif [ "$1" = "run-poshi-test" ] ; then
