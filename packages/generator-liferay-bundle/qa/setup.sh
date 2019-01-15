@@ -39,8 +39,8 @@ elif [ "$1" = "sync-master-poshi-tests" ] ; then
     echo Please wait...
     cd poshi
     mkdir standalone
-    wget https://repository.liferay.com/nexus/content/repositories/liferay-public-releases/com/liferay/poshi/runner/resources/portal-7.1.x/20181128102607-5b0ef97/portal-7.1.x-20181128102607-5b0ef97.jar -P standalone
-    7z x standalone/portal-7.1.x-20181128102607-5b0ef97.jar -ostandalone > null
+    wget https://repository.liferay.com/nexus/content/repositories/liferay-public-releases/com/liferay/poshi/runner/resources/portal-7.1.x/20190110-e3c1b50/portal-7.1.x-20190110-e3c1b50.jar -P standalone
+    7z x standalone/portal-7.1.x-20190110-e3c1b50.jar -ostandalone > null
     cd poshi resource jar extracted
     cd master
     echo updating poshi/standalone files with changes from poshi/master

@@ -64,7 +64,7 @@ jobs:
                 - cd $GENERATOR_DIR/qa
                 - sh ./setup.sh sync-master-poshi-tests
 
-          script: sh ./setup.sh start-and-run
+          script: travis_wait 40 sh ./setup.sh start-and-run
 
 services:
   - mysql
