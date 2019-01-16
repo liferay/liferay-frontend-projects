@@ -1,78 +1,9 @@
-env:
-  - GENERATOR_DIR=$TRAVIS_BUILD_DIR/packages/generator-liferay-bundle
-
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install p7zip-full
-  - sudo apt-get install rsync
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo mysql_upgrade -u root
-  - sudo service mysql restart
-  - mysql -e 'CREATE DATABASE lportal char set utf8;'
-  - mysql -e 'SHOW DATABASES;'
- # - mysql -u root -e "CREATE USER ''@'localhost' IDENTIFIED BY '';"
- # - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO ''@'localhost';"
- # - mysql -u root -e 'CREATE DATABASE lportal;'
-
 install:
   - npm run lerna
 
 language: node_js
 
-matrix:
-  fast_finish: false
-
 node_js:
   - "8"
 
-addons:
-  firefox: "45.0"
-
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-server
-      - mysql-client
-
-git:
-    depth: 1
-
-jdk:
-  - oraclejdk8
-
-jobs:
-    include:
-
-        # - stage: javascript format tests
-
-        #   script: npm run ci
-
-        - stage: generator liferay bundle test
-
-          before_script:
-                - "export DISPLAY=:99.0"
-                - "sh -e /etc/init.d/xvfb start"
-                - cd $GENERATOR_DIR && npm install -g yo && npm install -g lerna && npm install -g wait-on && npm install -g
-                - cd $GENERATOR_DIR/qa
-                - sh ./setup.sh unzip-portal-snapshot-bundle
-                - sh ./setup.sh prepare-portal-properties
-                - sh ./setup.sh create-liferay-bundle-json
-                - sh ./setup.sh config-portlets
-                - sh ./setup.sh generate-samples
-                - travis_wait 40 sh ./setup.sh deploy-portlets
-                - cd $GENERATOR_DIR/qa
-                - sh ./setup.sh sync-master-poshi-tests
-
-          script: travis_wait 40 sh ./setup.sh start-and-run
-
-services:
-  - mysql
-
-dist: trusty
-
-sudo: required
-
-cache:
-  directories:
-     - $TRAVIS_BUILD_DIR/packages/generator-liferay-bundle/node_modules
+script: npm run ci
