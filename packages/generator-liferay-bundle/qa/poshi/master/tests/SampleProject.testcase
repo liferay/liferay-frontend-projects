@@ -1,0 +1,46 @@
+@component-name = "portal-collaboration"
+definition {
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Frontend Infrastructure";
+	var pageName = "Samples Page";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+        Portlet.deletePG(portletName = "angular-portlet-l10n-cfg-sample");
+
+        Portlet.deletePG(portletName = "angular-portlet-l10n-cfg-nosample");
+
+        Page.tearDownCP();
+	}
+
+    @priority = "5"
+	test AddSamplePortlet {
+		Navigator.gotoPage(pageName = "Welcome");
+
+		Portlet.addPG(portletName = "angular-portlet-l10n-cfg-sample");
+
+        Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-sample");
+
+		Portlet.viewBody(
+			portletBody = "angular-portlet-l10n-cfg-sample",
+			portletName = "angular-portlet-l10n-cfg-sample"
+		);
+
+		Navigator.gotoPage(pageName = "Welcome");
+
+        Portlet.addPG(portletName = "angular-portlet-l10n-cfg-nosample");
+
+        Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-nosample");
+
+        Portlet.viewBody(
+			portletBody = "",
+			portletName = "angular-portlet-l10n-cfg-sample"
+		);
+	}
+}
