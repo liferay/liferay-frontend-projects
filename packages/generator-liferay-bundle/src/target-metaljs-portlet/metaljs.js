@@ -94,7 +94,7 @@ export default class extends Generator {
 			signature,
 		};
 
-		// Copy Javascript files
+		// Copy JavaScript files
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/index.js', {context});
 
@@ -104,7 +104,7 @@ export default class extends Generator {
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
 
-			// Copy sample Javascript files
+			// Copy sample JavaScript files
 			cp.copyDir('src', {context});
 
 			// Add localization keys

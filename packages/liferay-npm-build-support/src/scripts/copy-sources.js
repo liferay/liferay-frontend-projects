@@ -12,7 +12,7 @@ export default function() {
 			console.error(err);
 			process.exit(1);
 		} else {
-			console.log('Javascript files copied.');
+			console.log('JavaScript files copied.');
 		}
 	});
 }
