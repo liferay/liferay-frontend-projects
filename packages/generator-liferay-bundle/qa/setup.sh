@@ -1,14 +1,16 @@
-if [ "$1" = "setup-test-all" ] ; then
+if [ "$1" = "test-all-samples" ] ; then
     sh ./setup.sh clean
     sh ./setup.sh unzip-portal-snapshot-bundle
+    sh ./setup.sh create-liferay-bundle-json
     sh ./setup.sh config-portlets
     sh ./setup.sh generate-samples
     sh ./setup.sh deploy-portlets
     sh ./setup.sh sync-master-poshi-tests
+    sh ./setup.sh sample-list
     sh ./setup.sh start-and-run
 
 elif [ "$1" = "clean" ] ; then
-    rm -rf .gradle build liferay-portal-master null poshi/null poshi/standalone test-results
+    rm -rf .gradle build liferay-portal-master null poshi/null poshi/standalone poshi/dependencies test-results
 
 elif [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     mkdir temp
@@ -25,8 +27,35 @@ elif [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     cd ..
     sh ./setup.sh prepare-portal-properties
 
+elif [ "$1" = "create-liferay-bundle-json" ] ; then
+    FILE="$HOME/.generator-liferay-bundle.json"
+
+    /bin/cat <<EOM >$FILE
+{
+    "sdkVersion": "../../../../../..",
+    "answers": {
+            "facet-deploy": {
+                    "liferayPresent": true,
+                    "liferayDir": "../../../liferay-portal-master"
+            }
+    }
+}
+EOM
+
 elif [ "$1" = "prepare-portal-properties" ] ; then
     cp poshi/portal-ext.properties liferay-portal-master
+
+elif [ "$1" = "sample-list" ] ; then
+    rm -rfd poshi/dependencies
+    mkdir -p poshi/dependencies &&
+    cd samples/packages &&
+    ls >> ../../poshi/dependencies/temp_list.txt
+    cd ../../poshi/dependencies
+    # Export bundle sample projects are not addable widgets that can be tested
+    sed '/export-bundle/d' -i temp_list.txt
+    tr '\n' ',' < temp_list.txt > sample_list.txt
+    rm temp_list.txt
+    cd ../..
 
 elif [ "$1" = "config-portlets" ] ; then
     cd config
@@ -44,10 +73,8 @@ elif [ "$1" = "generate-samples" ] ; then
 
 elif [ "$1" = "deploy-portlets" ] ; then
     cd samples
-    sed -i 's,packages/,packages/angular,g' lerna.json
+    sed -i 's/\["packages.*"\]/\["packages\/'"$2"'*"\]/g' lerna.json
     lerna run deploy
-    # sed -i 's,packages/angular,packages/export,g' lerna.json
-    # lerna run deploy
     cd ..
 
 elif [ "$1" = "sync-master-poshi-tests" ] ; then
@@ -78,30 +105,14 @@ elif [ "$1" = "run-poshi-test" ] ; then
     wait-on -t 600000 http://localhost:8080
     ./gradlew -b standalone-poshi.gradle -PposhiRunnerExtPropertyFileNames=poshi-runner.properties runPoshi
     if [ $? -eq 1 ] ; then
-        echo "Exit code is 1"
         cd liferay-portal-master/tomcat-*/bin
         sh ./shutdown.sh
         exit 1
     else
-        echo "Exit code is not 1"
         cd liferay-portal-master/tomcat-*/bin
         sh ./shutdown.sh
+        exit 1
     fi
-
-elif [ "$1" = "create-liferay-bundle-json" ] ; then
-    FILE="$HOME/.generator-liferay-bundle.json"
-
-    /bin/cat <<EOM >$FILE
-{
-    "sdkVersion": "../../../../../..",
-    "answers": {
-            "facet-deploy": {
-                    "liferayPresent": true,
-                    "liferayDir": "../../../liferay-portal-master"
-            }
-    }
-}
-EOM
 
 else
     echo "Usage: setup.sh ( commands ... )"
