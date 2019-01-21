@@ -18,5 +18,8 @@
   "homepage": "https://github.com/jbalsas/liferay-jest-junit-reporter#readme",
   "dependencies": {
     "xml": "^1.0.1"
+  },
+  "devDependencies": {
+	"prettier": "^1.16.0"
   }
 }
