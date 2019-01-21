@@ -2,6 +2,18 @@
 
 const xml = require('xml');
 const fs = require('fs');
+const path = require('path');
+const stripAnsi = require('strip-ansi');
+
+const NEW_LINE = '\n';
+
+const RELATIVE_APPS_DIR = '/modules/apps/';
+
+const APPS_DIR = new RegExp('^.+' + RELATIVE_APPS_DIR);
+
+function formatDirectoryPath(dirPath) {
+	return dirPath.replace(APPS_DIR, '').replace(/\//g, '.');
+}
 
 module.exports = report => {
 	const generalMetrics = {
@@ -11,7 +23,7 @@ module.exports = report => {
 			errors: 0,
 			failures: report.numFailedTests,
 			name: 'Jest',
-			package: '',
+			package: formatDirectoryPath(process.cwd()),
 			skipped: 0,
 			tests: report.numTotalTests,
 			time: 0,
@@ -23,23 +35,52 @@ module.exports = report => {
 		.reduce(
 			(results, suite) =>
 				suite.testResults.length
-					? results.concat(suite.testResults)
+					? results.concat(
+							suite.testResults.map(test => ({
+								...test,
+								testFilePath: suite.testFilePath
+							}))
+					  )
 					: results,
 			[]
 		)
 		.map(testCase => {
-			return {
-				testcase: [
-					{
-						_attr: {
-							classname: testCase.ancestorTitles[0],
-							name: `${testCase.ancestorTitles.join(' ')} ${
-								testCase.title
-							}`,
-							time: testCase.duration / 1000
-						}
+			const results = [
+				{
+					_attr: {
+						classname: formatDirectoryPath(
+							path.dirname(testCase.testFilePath)
+						),
+						name: testCase.fullName,
+						time: testCase.duration / 1000
 					}
-				]
+				}
+			];
+
+			if (testCase.failureMessages && testCase.failureMessages.length) {
+				const failureMessageArr = testCase.failureMessages.map(
+					failureMessage =>
+						failureMessage.split(NEW_LINE).map(stripAnsi)
+				);
+
+				results.push({
+					failure: [
+						{
+							_attr: {
+								message: failureMessageArr[0][0]
+							}
+						},
+						failureMessageArr
+							.map(failureMessage =>
+								failureMessage.join(NEW_LINE)
+							)
+							.join(NEW_LINE)
+					]
+				});
+			}
+
+			return {
+				testcase: results
 			};
 		});
 
