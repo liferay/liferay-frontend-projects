@@ -9,7 +9,7 @@ const NEW_LINE = '\n';
 
 const RELATIVE_APPS_DIR = '/modules/apps/';
 
-const APPS_DIR = new RegExp('^.+' + RELATIVE_APPS_DIR);
+const APPS_DIR = new RegExp('/.+' + RELATIVE_APPS_DIR, 'gm');
 
 function formatDirectoryPath(dirPath) {
 	return dirPath.replace(APPS_DIR, '').replace(/\//g, '.');
@@ -60,7 +60,11 @@ module.exports = report => {
 			if (testCase.failureMessages && testCase.failureMessages.length) {
 				const failureMessageArr = testCase.failureMessages.map(
 					failureMessage =>
-						failureMessage.split(NEW_LINE).map(stripAnsi)
+						failureMessage
+							.split(NEW_LINE)
+							.map(message =>
+								stripAnsi(message).replace(APPS_DIR, '')
+							)
 				);
 
 				results.push({
