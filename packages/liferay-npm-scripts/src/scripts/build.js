@@ -9,9 +9,9 @@ const fs = require('fs');
 const path = require('path');
 const which = require('npm-which')(CWD);
 
-const generateSoyDependencies = require('../utils/generate-soy-dependencies');
+const {buildSoy, cleanSoy} = require('./soy');
 const getMergedConfig = require('../utils/get-merged-config');
-const {moveToTemp, removeFromTemp,} = require('../utils/move-to-temp');
+const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
 
 const BABEL_CONFIG = getMergedConfig('babel');
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
@@ -31,22 +31,12 @@ function compileBabel() {
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
-		'--source-maps',
+		'--source-maps'
 	]);
 
 	fs.unlinkSync(RC_PATH);
 
 	removeFromTemp(CWD, '.babelrc', 'babel');
-}
-
-/**
- * Compiles soy files by running `metalsoy` bin with specified soy dependencies
- */
-function buildSoy() {
-	spawnSync(which.sync('metalsoy'), [
-		'--soyDeps',
-		generateSoyDependencies(BUILD_CONFIG.dependencies),
-	]);
 }
 
 /**
@@ -71,13 +61,6 @@ function runBundler() {
  */
 function runBridge() {
 	spawnSync(which.sync('liferay-npm-bridge-generator'));
-}
-
-/**
- * Removes any generated soy.js files
- */
-function cleanSoy() {
-	spawnSync(which.sync('rimraf'), ['src/**/*.soy.js',]);
 }
 
 /**

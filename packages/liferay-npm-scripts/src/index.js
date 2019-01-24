@@ -21,7 +21,7 @@ module.exports = function() {
 	const ARGS_ARRAY = process.argv.slice(2);
 
 	const {
-		_: [type,],
+		_: [type],
 		...flags
 	} = minimist(ARGS_ARRAY);
 
@@ -40,9 +40,9 @@ module.exports = function() {
 					message:
 						'Are you sure you want to eject? This action is permanent.',
 					name: 'eject',
-					type: 'confirm',
+					type: 'confirm'
 				})
-				.then(({eject,}) => {
+				.then(({eject}) => {
 					if (eject) {
 						require('./scripts/eject')();
 					}
@@ -55,7 +55,7 @@ module.exports = function() {
 			require('./scripts/format')();
 			break;
 		case 'test':
-			require('./scripts/test')(ARGS_ARRAY);
+			require('./scripts/test')(ARGS_ARRAY, flags);
 			break;
 		default:
 			console.log(
