@@ -9,11 +9,11 @@ const fs = require('fs');
 const path = require('path');
 const which = require('npm-which')(CWD);
 
-const {buildSoy, cleanSoy} = require('./soy');
+const {buildSoy, cleanSoy,} = require('./soy');
+const {removeBabelConfig, setBabelConfig,} = require('./babel');
 const getMergedConfig = require('../utils/get-merged-config');
-const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
+const {moveToTemp, removeFromTemp,} = require('../utils/move-to-temp');
 
-const BABEL_CONFIG = getMergedConfig('babel');
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
 
@@ -21,22 +21,16 @@ const BUNDLER_CONFIG = getMergedConfig('bundler');
  * Compiles javascript files by running `babel` bin with merged config(user + default) and source-maps enabled
  */
 function compileBabel() {
-	moveToTemp(CWD, '.babelrc', 'babel');
-
-	const RC_PATH = path.join(CWD, '.babelrc');
-
-	fs.writeFileSync(RC_PATH, JSON.stringify(BABEL_CONFIG));
+	setBabelConfig();
 
 	spawnSync(which.sync('babel'), [
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
-		'--source-maps'
+		'--source-maps',
 	]);
 
-	fs.unlinkSync(RC_PATH);
-
-	removeFromTemp(CWD, '.babelrc', 'babel');
+	removeBabelConfig();
 }
 
 /**

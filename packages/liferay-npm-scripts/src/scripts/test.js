@@ -11,6 +11,7 @@ const which = require('npm-which')(CWD);
 
 const {buildSoy, cleanSoy,} = require('./soy');
 const getMergedConfig = require('../utils/get-merged-config');
+const {removeBabelConfig, setBabelConfig,} = require('./babel');
 
 const JEST_CONFIG = getMergedConfig('jest');
 
@@ -23,6 +24,8 @@ module.exports = function(arrArgs, flags) {
 	const CONFIG_PATH = path.join(CWD, 'TEMP_jest.config.json');
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
+
+	setBabelConfig();
 
 	if (useSoy) {
 		buildSoy();
@@ -39,6 +42,8 @@ module.exports = function(arrArgs, flags) {
 	if (useSoy) {
 		cleanSoy();
 	}
+
+	removeBabelConfig();
 
 	fs.unlinkSync(CONFIG_PATH);
 };
