@@ -1,4 +1,4 @@
-import ConfigParser from './config-parser';
+import Config from './config';
 import DependencyBuilder from './dependency-builder';
 import EventEmitter from './event-emitter';
 import ModuleLoader from './module-loader';
@@ -25,13 +25,13 @@ export default class Loader extends EventEmitter {
 
 		this._pathResolver = new PathResolver();
 
-		this._configParser = new ConfigParser(config || window.__CONFIG__);
+		this._config = new Config(config || window.__CONFIG__);
 
-		this._dependencyBuilder = new DependencyBuilder(this._configParser);
+		this._dependencyBuilder = new DependencyBuilder(this._config);
 		this._moduleLoader = new ModuleLoader(
 			document || window.document,
 			this,
-			this._configParser
+			this._config
 		);
 	}
 
@@ -52,7 +52,7 @@ export default class Loader extends EventEmitter {
 	 * @param {function} factory the AMD factory function of the module
 	 */
 	define(...args) {
-		const configParser = this._configParser;
+		const config = this._config;
 
 		const name = args[0];
 		let dependencies = args[1];
@@ -71,7 +71,7 @@ export default class Loader extends EventEmitter {
 			factory = () => exportedValue;
 		}
 
-		const module = configParser.addModule(name);
+		const module = config.addModule(name);
 
 		module.defined = true;
 		module.factory = factory;
@@ -155,8 +155,7 @@ export default class Loader extends EventEmitter {
 			.resolveDependencies(moduleNames)
 			.then(resolution => {
 				const moduleLoader = this._moduleLoader;
-				const configParser = this._configParser;
-				const config = configParser.getConfig();
+				const config = this._config;
 
 				// Show extra information when explainResolutions is active
 				if (config.explainResolutions) {
@@ -184,21 +183,21 @@ export default class Loader extends EventEmitter {
 				const pathMap = resolution.pathMap;
 
 				resolvedModuleNames.forEach(resolvedModuleName =>
-					configParser.addModule(resolvedModuleName)
+					config.addModule(resolvedModuleName)
 				);
 
 				// Merge module local maps from resolution
 				Object.entries(moduleMap).forEach(([name, map]) => {
-					const module = configParser.addModule(name);
+					const module = config.addModule(name);
 
 					module.map = map;
 				});
 
 				// Merge global maps from resolution
-				configParser.addMappings(configMap);
+				config.addMappings(configMap);
 
 				// Merge paths from resolution
-				configParser.addPaths(pathMap);
+				config.addPaths(pathMap);
 
 				// Prepare load timeout
 				const rejectTimeout = this._setRejectTimeout(
@@ -212,7 +211,7 @@ export default class Loader extends EventEmitter {
 					() => {
 						clearTimeout(rejectTimeout);
 
-						const modules = configParser.getModules(moduleNames);
+						const modules = config.getModules(moduleNames);
 
 						const implementations = modules.map(
 							module => module.implementation
@@ -234,7 +233,7 @@ export default class Loader extends EventEmitter {
 	 * @return {Array}
 	 */
 	_getModules(...moduleNames) {
-		return this._configParser.getModules(moduleNames);
+		return this._config.getModules(moduleNames);
 	}
 
 	/**
@@ -272,15 +271,14 @@ export default class Loader extends EventEmitter {
 	 * @return {int} a timeout id or undefined if configuration disabled timeout
 	 */
 	_setRejectTimeout(modules, resolution, reject) {
-		const configParser = this._configParser;
-		const config = configParser.getConfig();
+		const config = this._config;
 
 		if (config.waitTimeout === 0) {
 			return undefined;
 		}
 
 		return setTimeout(() => {
-			const registeredModules = configParser.getModules();
+			const registeredModules = config.getModules();
 			const resolvedModuleNames = resolution.resolvedModules;
 
 			const missingDependencies = resolvedModuleNames.filter(
@@ -315,7 +313,7 @@ export default class Loader extends EventEmitter {
 			);
 
 			reject(error);
-		}, config.waitTimeout || 7000);
+		}, config.waitTimeout);
 	}
 
 	/**
@@ -328,9 +326,9 @@ export default class Loader extends EventEmitter {
 	 * @return {array} List of modules implementations.
 	 */
 	_getModuleImplementations(modules) {
-		const configParser = this._configParser;
-		const registeredModules = configParser.getModules();
-		const mappedModules = configParser.mapModules(modules);
+		const config = this._config;
+		const registeredModules = config.getModules();
+		const mappedModules = config.mapModules(modules);
 
 		return mappedModules.map(mappedModule => {
 			const module = registeredModules[mappedModule];

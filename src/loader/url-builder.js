@@ -6,13 +6,12 @@ const REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
  */
 export default class URLBuilder {
 	/**
-	 * Creates an instance of URLBuilder class.
-	 *
+	 * Creates an instance of URLBuilder class
 	 * @constructor
-	 * @param {object} configParser - instance of {@link ConfigParser} object.
+	 * @param {Config} config
 	 */
-	constructor(configParser) {
-		this._configParser = configParser;
+	constructor(config) {
+		this._config = config;
 	}
 
 	/**
@@ -22,8 +21,7 @@ export default class URLBuilder {
 	 * @return {array} List of URLs.
 	 */
 	build(modules) {
-		const configParser = this._configParser;
-		const config = configParser.getConfig();
+		const config = this._config;
 
 		let bufferAbsoluteURL = [];
 		let bufferRelativeURL = [];
@@ -31,7 +29,7 @@ export default class URLBuilder {
 		let modulesRelativeURL = [];
 		let result = [];
 
-		let basePath = config.basePath || '';
+		let basePath = config.basePath;
 
 		if (basePath.length && basePath.charAt(basePath.length - 1) !== '/') {
 			basePath += '/';
@@ -40,7 +38,7 @@ export default class URLBuilder {
 		for (let i = 0; i < modules.length; i++) {
 			let module = modules[i];
 
-			let registeredModule = configParser.getModule(module);
+			let registeredModule = config.getModule(module);
 
 			if (registeredModule) {
 				module = registeredModule;
@@ -138,9 +136,9 @@ export default class URLBuilder {
 	 */
 	_generateBufferURLs(modules, urls, config) {
 		let i;
-		let basePath = config.basePath || '';
+		let basePath = config.basePath;
 		let result = [];
-		let urlMaxLength = config.urlMaxLength || 2000;
+		let urlMaxLength = config.urlMaxLength;
 
 		let urlResult = {
 			modules: [modules[0]],
@@ -186,17 +184,15 @@ export default class URLBuilder {
 	_getModulePath(module) {
 		let path = module.path || module.name || module;
 
-		let paths = this._configParser.getConfig().paths || {};
+		let paths = this._config.paths || {};
 
 		let found = false;
 		Object.keys(paths).forEach(function(item) {
-			/* istanbul ignore else */
 			if (path === item || path.indexOf(item + '/') === 0) {
 				path = paths[item] + path.substring(item.length);
 			}
 		});
 
-		/* istanbul ignore else */
 		if (!found && typeof paths['*'] === 'function') {
 			path = paths['*'](path);
 		}
@@ -221,7 +217,7 @@ export default class URLBuilder {
 	 * @return {string} url The url with parameters.
 	 */
 	_getURLWithParams(url) {
-		let config = this._configParser.getConfig();
+		const config = this._config;
 
 		let defaultURLParams = config.defaultURLParams || {};
 

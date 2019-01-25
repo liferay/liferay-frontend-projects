@@ -1,14 +1,14 @@
-import config from './fixture/config.js';
-import ConfigParser from '../config-parser';
+import cfg from './fixture/config.js';
+import Config from '../config';
 import DependencyBuilder from '../dependency-builder';
 
-let configParser;
+let config;
 let dependencyBuilder;
 
 describe('DependencyBuilder', () => {
 	beforeEach(() => {
-		configParser = new ConfigParser(config);
-		dependencyBuilder = new DependencyBuilder(configParser);
+		config = new Config(cfg);
+		dependencyBuilder = new DependencyBuilder(config);
 
 		window.fetch = jest.fn().mockImplementation(param => {
 			let encodedModules = param.split(

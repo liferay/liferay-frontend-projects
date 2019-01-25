@@ -1,12 +1,12 @@
-import config from './fixture/config.js';
-import ConfigParser from '../config-parser';
+import cfg from './fixture/cfg.js';
+import Config from '../cfg-parser';
 import URLBuilder from '../url-builder';
 
-const configParser = new ConfigParser(config);
+const config = new Config(cfg);
 
 describe('URLBuilder', function() {
 	it('should create URL for module with path', function() {
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['aui-core']);
 
@@ -22,7 +22,7 @@ describe('URLBuilder', function() {
 		'should append a trailing .js extension if the module path does not ' +
 			'have one',
 		function() {
-			let urlBuilder = new URLBuilder(configParser);
+			let urlBuilder = new URLBuilder(config);
 
 			let modulesURL = urlBuilder.build(['module']);
 
@@ -38,7 +38,7 @@ describe('URLBuilder', function() {
 		'should not append the trailing .js extension if the module path ' +
 			'already ends in .js',
 		function() {
-			let urlBuilder = new URLBuilder(configParser);
+			let urlBuilder = new URLBuilder(config);
 
 			let modulesURL = urlBuilder.build(['module.js']);
 
@@ -52,7 +52,7 @@ describe('URLBuilder', function() {
 	);
 
 	it('should create URL for module with full path', function() {
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['aui-base']);
 
@@ -65,7 +65,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should create url for module when combine set to false', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules',
 			basePath: '/base',
 			combine: false,
@@ -80,7 +80,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
@@ -98,7 +98,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should map module\'s path via function', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			modules: {
 				b: {
 					dependencies: ['a'],
@@ -114,7 +114,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['a', 'b']);
 
@@ -128,7 +128,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should create url for modules with external URLs', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules',
 			basePath: '/base',
 			modules: {
@@ -148,7 +148,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build([
 			'https://code.jquery.com/ui/1.11.2/jquery-ui.min.js',
@@ -183,7 +183,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should not replace parts of path', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules',
 			basePath: '/base',
 			paths: {
@@ -206,7 +206,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build([
 			'jquery',
@@ -239,7 +239,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should not add basePath when module has absolute url', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules?',
 			combine: true,
 			basePath: '/base',
@@ -255,7 +255,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['jquery', 'underscore']);
 
@@ -267,7 +267,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should not add trailing slash if base is an empty string', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules?',
 			basePath: '',
 			combine: false,
@@ -282,7 +282,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
@@ -303,7 +303,7 @@ describe('URLBuilder', function() {
 		'should not add trailing slash if base is an empty string and ' +
 			'combine is true',
 		function() {
-			let configParser = new ConfigParser({
+			let config = new Config({
 				url: 'http://localhost:3000/modules?',
 				basePath: '',
 				combine: true,
@@ -318,7 +318,7 @@ describe('URLBuilder', function() {
 				},
 			});
 
-			let urlBuilder = new URLBuilder(configParser);
+			let urlBuilder = new URLBuilder(config);
 
 			let modulesURL = urlBuilder.build(['aui-base', 'aui-core.js']);
 
@@ -332,7 +332,7 @@ describe('URLBuilder', function() {
 	);
 
 	it('should combine modules with and without absolute url', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules?',
 			combine: true,
 			basePath: '/base',
@@ -356,7 +356,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build([
 			'jquery',
@@ -379,7 +379,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should not combine anonymous modules', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules?',
 			combine: true,
 			basePath: '/base',
@@ -397,7 +397,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['foo', 'bar', 'baz']);
 
@@ -414,7 +414,7 @@ describe('URLBuilder', function() {
 		// Create a 640 character suffix
 		let longModuleNameSuffix = new Array(65).join('1234567890');
 
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules?',
 			combine: true,
 			basePath: '/base',
@@ -463,7 +463,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build([
 			'module1',
@@ -486,7 +486,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should add parameters to urls', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules',
 			combine: false,
 			defaultURLParams: {
@@ -507,7 +507,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['foo']);
 
@@ -518,7 +518,7 @@ describe('URLBuilder', function() {
 	});
 
 	it('should add parameters to combined urls', function() {
-		let configParser = new ConfigParser({
+		let config = new Config({
 			url: 'http://localhost:3000/modules?',
 			combine: true,
 			defaultURLParams: {
@@ -539,7 +539,7 @@ describe('URLBuilder', function() {
 			},
 		});
 
-		let urlBuilder = new URLBuilder(configParser);
+		let urlBuilder = new URLBuilder(config);
 
 		let modulesURL = urlBuilder.build(['foo', 'bar']);
 

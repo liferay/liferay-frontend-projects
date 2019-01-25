@@ -9,14 +9,14 @@ export default class ModuleLoader {
 	/**
 	 * @param {object} document DOM document object to use
 	 * @param {Loader} loader
-	 * @param {ConfigParser} configParser
+	 * @param {Config} config
 	 */
-	constructor(document, loader, configParser) {
+	constructor(document, loader, config) {
 		this._document = document;
 		this._loader = loader;
-		this._configParser = configParser;
+		this._config = config;
 
-		this._urlBuilder = new URLBuilder(configParser);
+		this._urlBuilder = new URLBuilder(config);
 		this._pathResolver = new PathResolver();
 
 		this._injectedScripts = {};
@@ -59,11 +59,11 @@ export default class ModuleLoader {
 	 * @return {Promise}
 	 */
 	_waitForModuleImplementations(moduleNames) {
-		const configParser = this._configParser;
+		const config = this._config;
 
 		return new Promise((resolve, reject) => {
 			this._waitForModuleDefinitions(moduleNames).then(() => {
-				const modules = configParser.getModules(moduleNames);
+				const modules = config.getModules(moduleNames);
 
 				try {
 					this._setModuleImplementations(modules);
@@ -96,8 +96,8 @@ export default class ModuleLoader {
 	 * @return {Promise}
 	 */
 	_waitForModuleDefinition(moduleName) {
-		const configParser = this._configParser;
-		const module = configParser.getModule(moduleName);
+		const config = this._config;
+		const module = config.getModule(moduleName);
 
 		if (!module.definitionPromise) {
 			this._createWaitForModuleDefinitionPromise(moduleName);
@@ -112,8 +112,8 @@ export default class ModuleLoader {
 	 * 					should be created
 	 */
 	_createWaitForModuleDefinitionPromise(moduleName) {
-		const configParser = this._configParser;
-		const module = configParser.getModule(moduleName);
+		const config = this._config;
+		const module = config.getModule(moduleName);
 
 		if (module && module.defined) {
 			module.definitionPromise = Promise.resolve();
@@ -141,12 +141,12 @@ export default class ModuleLoader {
 	 * @return {Array<string>} A list with all missing dependencies.
 	 */
 	_getUndefinedDependencies(moduleNames) {
-		const configParser = this._configParser;
+		const config = this._config;
 
 		let undefinedDependencies = {};
 
 		for (let moduleName of moduleNames) {
-			const module = configParser.getModule(moduleName);
+			const module = config.getModule(moduleName);
 
 			for (let dependency of module.dependencies) {
 				if (
@@ -157,7 +157,7 @@ export default class ModuleLoader {
 					continue;
 				}
 
-				const dependencyModule = configParser.getModule(
+				const dependencyModule = config.getModule(
 					dependency,
 					module.map
 				);
@@ -178,7 +178,7 @@ export default class ModuleLoader {
 	 * @return {function} the local require implementation for the given module
 	 */
 	_createLocalRequire(module) {
-		const configParser = this._configParser;
+		const config = this._config;
 		const pathResolver = this._pathResolver;
 
 		const localRequire = (moduleName, ...rest) => {
@@ -190,7 +190,7 @@ export default class ModuleLoader {
 					moduleName
 				);
 
-				let dependencyModule = configParser.getModule(
+				let dependencyModule = config.getModule(
 					resolvedPath,
 					module.map
 				);
@@ -256,9 +256,9 @@ export default class ModuleLoader {
 					this.readyState === 'complete' ||
 					this.readyState === 'load'
 				) {
-					const configParser = this._configParser;
+					const config = this._config;
 
-					const modules = configParser.getModules(modulesURL.modules);
+					const modules = config.getModules(modulesURL.modules);
 
 					modules.forEach(module => (module.fetched = true));
 
@@ -307,7 +307,7 @@ export default class ModuleLoader {
 	 * @return {array} List of modules matching the specified filter.
 	 */
 	_getUndefinedModuleNames(moduleNames) {
-		const configParser = this._configParser;
+		const config = this._config;
 
 		let missingModuleNames = [];
 
@@ -316,7 +316,7 @@ export default class ModuleLoader {
 				continue;
 			}
 
-			const module = configParser.getModule(moduleName);
+			const module = config.getModule(moduleName);
 
 			if (!module || !module.defined) {
 				missingModuleNames.push(moduleName);
@@ -332,7 +332,7 @@ export default class ModuleLoader {
 	 * @param {array} modules list of modules to invoke
 	 */
 	_setModuleImplementations(modules) {
-		const configParser = this._configParser;
+		const config = this._config;
 
 		let errors = {};
 
@@ -355,7 +355,7 @@ export default class ModuleLoader {
 						} else if (dependency === 'require') {
 							return this._createLocalRequire(module);
 						} else {
-							const dependencyModule = configParser.getModule(
+							const dependencyModule = config.getModule(
 								dependency,
 								module.map
 							);

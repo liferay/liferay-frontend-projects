@@ -1,31 +1,81 @@
 /**
  *
  */
-export default class ConfigParser {
+export default class Config {
 	/**
-	 * Creates an instance of ConfigurationParser class.
-	 *
+	 * Creates an instance of Configuration class
 	 * @constructor
-	 * @param {object=} config - The configuration object to be parsed.
+	 * @param {object=} cfg configuration properties
 	 */
-	constructor(config) {
-		this._config = {maps: {}, paths: {}};
+	constructor(cfg) {
 		this._modules = {};
+		this._maps = {};
+		this._paths = {};
 
-		for (let key in config) {
-			if (config.hasOwnProperty(key)) {
-				this._config[key] = config[key];
-			}
-		}
+		this._config = {maps: {}, paths: {}};
+		this._parse(cfg, 'explainResolutions', false);
+		this._parse(cfg, 'waitTimeout', 7000);
+		this._parse(cfg, 'basePath', '');
+		this._parse(cfg, 'combine', false);
+		this._parse(cfg, 'url', '');
+		this._parse(cfg, 'urlMaxLength', 2000);
 	}
 
 	/**
-	 * Returns the current configuration.
-	 *
-	 * @return {object} The current configuration.
+	 * Whether or not to explain how require() calls are resolved
 	 */
-	getConfig() {
-		return this._config;
+	get explainResolutions() {
+		return this._config.explainResolutions;
+	}
+
+	/**
+	 * Time to wait for module script requests to load (in milliseconds)
+	 */
+	get waitTimeout() {
+		return this._config.waitTimeout;
+	}
+
+	/**
+	 * The base path from where modules must be retrieved
+	 */
+	get basePath() {
+		return this._config.basePath;
+	}
+
+	/**
+	 * Whether or not to combine module requests into combo URLs
+	 */
+	get combine() {
+		return this._config.combine;
+	}
+
+	/**
+	 * The URL of the server
+	 */
+	get url() {
+		return this._config.url;
+	}
+
+	/**
+	 * The maximum length of a combo URL. If URL is larger than that it is split
+	 * in as many requests as needed.
+	 */
+	get urlMaxLength() {
+		return this._config.urlMaxLength;
+	}
+
+	/**
+	 * Default parameters to add to the module request URLs
+	 */
+	get defaultURLParams() {
+		return this._config.defaultURLParams;
+	}
+
+	/**
+	 * An object with registered module paths
+	 */
+	get paths() {
+		return this._paths;
 	}
 
 	/**
@@ -49,7 +99,7 @@ export default class ConfigParser {
 	 * @param {object} mappings an object with one or more mappings
 	 */
 	addMappings(mappings) {
-		Object.assign(this._config.maps, mappings);
+		Object.assign(this._maps, mappings);
 	}
 
 	/**
@@ -57,7 +107,40 @@ export default class ConfigParser {
 	 * @param {object} paths an object with one or more path mappings
 	 */
 	addPaths(paths) {
-		Object.assign(this._config.paths, paths);
+		Object.assign(this._paths, paths);
+	}
+
+	/**
+	 * Returns map with all registered modules or the requested subset of them.
+	 * @param {?Array} moduleNames optional list of module names to retrieve
+	 * @return {Array}
+	 */
+	getModules(moduleNames) {
+		if (moduleNames) {
+			return moduleNames.map(moduleName => this.getModule(moduleName));
+		} else {
+			return this._modules;
+		}
+	}
+
+	/**
+	 * Returns the registered module for the moduleName. If not found it maps
+	 * the module name and return the registeredModule for the mapped name.
+	 * @param {string} moduleName the module name
+	 * @param {?object} contextMap contextual module mapping information
+	 *     relevant to the current load operation
+	 * @return {Object} the registed module object
+	 */
+	getModule(moduleName, contextMap) {
+		let module = this._modules[moduleName];
+
+		if (!module) {
+			const mappedName = this.mapModule(moduleName, contextMap);
+
+			module = this._modules[mappedName];
+		}
+
+		return module;
 	}
 
 	/**
@@ -92,52 +175,27 @@ export default class ConfigParser {
 	 * @return {array} The mapped module
 	 */
 	mapModule(moduleName, contextMap) {
-		if (!this._config.maps && !contextMap) {
-			return moduleName;
-		}
-
 		if (contextMap) {
 			moduleName = this._mapMatches(moduleName, contextMap);
 		}
 
-		if (this._config.maps) {
-			moduleName = this._mapMatches(moduleName, this._config.maps);
+		if (Object.keys(this._maps).length > 0) {
+			moduleName = this._mapMatches(moduleName, this._maps);
 		}
 
 		return moduleName;
 	}
 
 	/**
-	 * Returns map with all registered modules or the requested subset of them.
-	 * @param {?Array} moduleNames optional list of module names to retrieve
-	 * @return {Array}
+	 * Parse a configuration property to store it in _config.
+	 * @param {object} cfg
+	 * @param {string} property
+	 * @param {*} defaultValue
 	 */
-	getModules(moduleNames) {
-		if (moduleNames) {
-			return moduleNames.map(moduleName => this.getModule(moduleName));
-		} else {
-			return this._modules;
-		}
-	}
-
-	/**
-	 * Returns the registered module for the moduleName. If not found it maps
-	 * the module name and return the registeredModule for the mapped name.
-	 * @param {string} moduleName the module name
-	 * @param {?object} contextMap contextual module mapping information
-	 *     relevant to the current load operation
-	 * @return {Object} the registed module object
-	 */
-	getModule(moduleName, contextMap) {
-		let module = this._modules[moduleName];
-
-		if (!module) {
-			const mappedName = this.mapModule(moduleName, contextMap);
-
-			module = this._modules[mappedName];
-		}
-
-		return module;
+	_parse(cfg, property, defaultValue) {
+		this._config[property] = cfg.hasOwnProperty(property)
+			? cfg[property]
+			: defaultValue;
 	}
 
 	/**
@@ -253,8 +311,7 @@ export default class ConfigParser {
  */
 class Module {
 	/**
-	 *
-	 * @param {string} name
+	 * @param {string} name name of module
 	 */
 	constructor(name) {
 		this._name = name;
@@ -265,36 +322,68 @@ class Module {
 		this._implemented = false;
 	}
 
-	/* eslint-disable require-jsdoc */
-
+	/**
+	 * Name of module
+	 */
 	get name() {
 		return this._name;
 	}
 
+	/**
+	 * AMD factory function
+	 */
 	get factory() {
 		return this._factory;
 	}
 
+	/**
+	 * Result of factory invocation (module.exports)
+	 */
 	get implementation() {
 		return this._implementation;
 	}
 
+	/**
+	 * Fetched (retrieved from server) flag. It is set to true when the <script>
+	 * containing the module definition has been loaded.
+	 *
+	 * Note that a module may be defined even if it is not yet fetched because
+	 * define() gets called while the script is being loaded.
+	 */
 	get fetched() {
 		return this._fetched;
 	}
 
+	/**
+	 * Defined is set to true when the module has been registered through the
+	 * AMD define() call.
+	 *
+	 * Note that definition does not imply implementation.
+	 */
 	get defined() {
 		return this._defined;
 	}
 
+	/**
+	 * Implemented is set to true when the module has been defined and its
+	 * AMD factory function has been invoked successfully.
+	 */
 	get implemented() {
 		return this._implemented;
 	}
 
+	/**
+	 * Name of module
+	 * @param {string} name
+	 */
 	set name(name) {
 		throw new Error(`Name of module ${this.name} is read-only`);
 	}
 
+	/**
+	 * AMD factory function
+	 * @param {function} factory
+	 */
 	set factory(factory) {
 		if (this._factory) {
 			throw new Error(`Factory of module ${this.name} already set`);
@@ -303,6 +392,10 @@ class Module {
 		this._factory = factory;
 	}
 
+	/**
+	 * Result of factory invocation (module.exports)
+	 * @param {*} implementation
+	 */
 	set implementation(implementation) {
 		if (this._implementation) {
 			throw new Error(
@@ -313,6 +406,10 @@ class Module {
 		this._implementation = implementation;
 	}
 
+	/**
+	 * Fetched flag. See getter for description.
+	 * @param {boolean} fetched
+	 */
 	set fetched(fetched) {
 		if (this._fetched) {
 			throw new Error(`Fetched flag of module ${this.name} already set`);
@@ -321,6 +418,10 @@ class Module {
 		this._fetched = fetched;
 	}
 
+	/**
+	 * Defined flag. See getter for description.
+	 * @param {boolean} defined
+	 */
 	set defined(defined) {
 		if (this._defined) {
 			throw new Error(`Defined flag of module ${this.name} already set`);
@@ -329,6 +430,10 @@ class Module {
 		this._defined = defined;
 	}
 
+	/**
+	 * Implemented flag. See getter for description.
+	 * @param {boolean} implemented
+	 */
 	set implemented(implemented) {
 		if (this._implemented) {
 			throw new Error(
@@ -338,6 +443,4 @@ class Module {
 
 		this._implemented = implemented;
 	}
-
-	/* eslint-enable require-jsdoc */
 }

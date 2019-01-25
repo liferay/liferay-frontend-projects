@@ -5,25 +5,23 @@ import PathResolver from './path-resolver';
  */
 export default class DependencyBuilder {
 	/**
-	 * Creates an instance of DependencyBuilder class.
-	 *
+	 * Creates an instance of DependencyBuilder class
 	 * @constructor
-	 * @param {object} configParser - instance of {@link ConfigParser} object.
+	 * @param {Config} config
 	 */
-	constructor(configParser) {
-		this._configParser = configParser;
+	constructor(config) {
+		this._config = config;
 
 		this._pathResolver = new PathResolver();
 		this._cachedResolutions = {};
 	}
 
 	/**
-	 * Resolves modules dependencies.
-	 *
-	 * @param {array} modules List of modules which dependencies should be
-	 *     resolved.
-	 * @return {array} List of module names, representing module dependencies.
-	 *     Module name itself is being returned too.
+	 * Resolves modules dependencies
+	 * @param {array} modules list of modules which dependencies should be
+	 *     						resolved
+	 * @return {array} list of module names, representing module dependencies
+	 *     				(module name itself is being returned too)
 	 */
 	resolveDependencies(modules) {
 		return new Promise((resolve, reject) => {
