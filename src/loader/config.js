@@ -1,3 +1,5 @@
+import Module from './module';
+
 /**
  *
  */
@@ -116,10 +118,10 @@ export default class Config {
 	 * @return {Array}
 	 */
 	getModules(moduleNames) {
-		if (moduleNames) {
+		if (moduleNames.length > 0) {
 			return moduleNames.map(moduleName => this.getModule(moduleName));
 		} else {
-			return this._modules;
+			return Object.values(this._modules);
 		}
 	}
 
@@ -135,7 +137,7 @@ export default class Config {
 		let module = this._modules[moduleName];
 
 		if (!module) {
-			const mappedName = this.mapModule(moduleName, contextMap);
+			const mappedName = this._mapModule(moduleName, contextMap);
 
 			module = this._modules[mappedName];
 		}
@@ -144,12 +146,15 @@ export default class Config {
 	}
 
 	/**
-	 * Map a list of module names at once
-	 * @param {Array} moduleNames module names to map
-	 * @return {Array} mapped module names
+	 * Parse a configuration property to store it in _config.
+	 * @param {object} cfg
+	 * @param {string} property
+	 * @param {*} defaultValue
 	 */
-	mapModules(moduleNames) {
-		return moduleNames.map(moduleName => this.mapModule(moduleName));
+	_parse(cfg, property, defaultValue) {
+		this._config[property] = cfg.hasOwnProperty(property)
+			? cfg[property]
+			: defaultValue;
 	}
 
 	/**
@@ -174,7 +179,7 @@ export default class Config {
 	 *     relevant to the current load operation
 	 * @return {array} The mapped module
 	 */
-	mapModule(moduleName, contextMap) {
+	_mapModule(moduleName, contextMap) {
 		if (contextMap) {
 			moduleName = this._mapMatches(moduleName, contextMap);
 		}
@@ -184,18 +189,6 @@ export default class Config {
 		}
 
 		return moduleName;
-	}
-
-	/**
-	 * Parse a configuration property to store it in _config.
-	 * @param {object} cfg
-	 * @param {string} property
-	 * @param {*} defaultValue
-	 */
-	_parse(cfg, property, defaultValue) {
-		this._config[property] = cfg.hasOwnProperty(property)
-			? cfg[property]
-			: defaultValue;
 	}
 
 	/**
@@ -303,144 +296,5 @@ export default class Config {
 		if (typeof maps['*'] === 'function') {
 			return maps['*'](module);
 		}
-	}
-}
-
-/**
- *
- */
-class Module {
-	/**
-	 * @param {string} name name of module
-	 */
-	constructor(name) {
-		this._name = name;
-		this._factory = undefined;
-		this._implementation = undefined;
-		this._fetched = false;
-		this._defined = false;
-		this._implemented = false;
-	}
-
-	/**
-	 * Name of module
-	 */
-	get name() {
-		return this._name;
-	}
-
-	/**
-	 * AMD factory function
-	 */
-	get factory() {
-		return this._factory;
-	}
-
-	/**
-	 * Result of factory invocation (module.exports)
-	 */
-	get implementation() {
-		return this._implementation;
-	}
-
-	/**
-	 * Fetched (retrieved from server) flag. It is set to true when the <script>
-	 * containing the module definition has been loaded.
-	 *
-	 * Note that a module may be defined even if it is not yet fetched because
-	 * define() gets called while the script is being loaded.
-	 */
-	get fetched() {
-		return this._fetched;
-	}
-
-	/**
-	 * Defined is set to true when the module has been registered through the
-	 * AMD define() call.
-	 *
-	 * Note that definition does not imply implementation.
-	 */
-	get defined() {
-		return this._defined;
-	}
-
-	/**
-	 * Implemented is set to true when the module has been defined and its
-	 * AMD factory function has been invoked successfully.
-	 */
-	get implemented() {
-		return this._implemented;
-	}
-
-	/**
-	 * Name of module
-	 * @param {string} name
-	 */
-	set name(name) {
-		throw new Error(`Name of module ${this.name} is read-only`);
-	}
-
-	/**
-	 * AMD factory function
-	 * @param {function} factory
-	 */
-	set factory(factory) {
-		if (this._factory) {
-			throw new Error(`Factory of module ${this.name} already set`);
-		}
-
-		this._factory = factory;
-	}
-
-	/**
-	 * Result of factory invocation (module.exports)
-	 * @param {*} implementation
-	 */
-	set implementation(implementation) {
-		if (this._implementation) {
-			throw new Error(
-				`Implementation of module ${this.name} already set`
-			);
-		}
-
-		this._implementation = implementation;
-	}
-
-	/**
-	 * Fetched flag. See getter for description.
-	 * @param {boolean} fetched
-	 */
-	set fetched(fetched) {
-		if (this._fetched) {
-			throw new Error(`Fetched flag of module ${this.name} already set`);
-		}
-
-		this._fetched = fetched;
-	}
-
-	/**
-	 * Defined flag. See getter for description.
-	 * @param {boolean} defined
-	 */
-	set defined(defined) {
-		if (this._defined) {
-			throw new Error(`Defined flag of module ${this.name} already set`);
-		}
-
-		this._defined = defined;
-	}
-
-	/**
-	 * Implemented flag. See getter for description.
-	 * @param {boolean} implemented
-	 */
-	set implemented(implemented) {
-		if (this._implemented) {
-			throw new Error(
-				`Implemented flag of module ${this.name} already set`
-			);
-		}
-
-		this._implemented = implemented;
 	}
 }

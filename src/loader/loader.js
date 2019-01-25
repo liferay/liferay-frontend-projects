@@ -1,7 +1,7 @@
 import Config from './config';
 import DependencyBuilder from './dependency-builder';
 import EventEmitter from './event-emitter';
-import ModuleLoader from './module-loader';
+import ScriptLoader from './script-loader';
 import PathResolver from './path-resolver';
 import packageJson from '../../package.json';
 
@@ -28,9 +28,8 @@ export default class Loader extends EventEmitter {
 		this._config = new Config(config || window.__CONFIG__);
 
 		this._dependencyBuilder = new DependencyBuilder(this._config);
-		this._moduleLoader = new ModuleLoader(
+		this._scriptLoader = new ScriptLoader(
 			document || window.document,
-			this,
 			this._config
 		);
 	}
@@ -73,7 +72,7 @@ export default class Loader extends EventEmitter {
 
 		const module = config.addModule(name);
 
-		module.defined = true;
+		module.define.resolve(args);
 		module.factory = factory;
 		module.dependencies = dependencies.map(dependency =>
 			this._pathResolver.resolvePath(name, dependency)
@@ -99,6 +98,9 @@ export default class Loader extends EventEmitter {
 	 * 								about the error will be provided.
 	 */
 	require(...args) {
+		const moduleLoader = this._scriptLoader;
+		const config = this._config;
+
 		let moduleNames;
 		let success;
 		let failure;
@@ -154,9 +156,6 @@ export default class Loader extends EventEmitter {
 		this._dependencyBuilder
 			.resolveDependencies(moduleNames)
 			.then(resolution => {
-				const moduleLoader = this._moduleLoader;
-				const config = this._config;
-
 				// Show extra information when explainResolutions is active
 				if (config.explainResolutions) {
 					console.log(
@@ -182,21 +181,27 @@ export default class Loader extends EventEmitter {
 				const configMap = resolution.configMap;
 				const pathMap = resolution.pathMap;
 
+				// Register all resolved modules
 				resolvedModuleNames.forEach(resolvedModuleName =>
 					config.addModule(resolvedModuleName)
 				);
 
-				// Merge module local maps from resolution
+				// Grab undefined modules
+				const undefinedModuleNames = this._getUndefinedModuleNames(
+					resolvedModuleNames
+				);
+
+				// Merge module-local maps from resolution into config
 				Object.entries(moduleMap).forEach(([name, map]) => {
 					const module = config.addModule(name);
 
 					module.map = map;
 				});
 
-				// Merge global maps from resolution
+				// Merge global maps from resolution into config
 				config.addMappings(configMap);
 
-				// Merge paths from resolution
+				// Merge paths from resolution into config
 				config.addPaths(pathMap);
 
 				// Prepare load timeout
@@ -207,24 +212,24 @@ export default class Loader extends EventEmitter {
 				);
 
 				// Load the modules
-				moduleLoader.loadModules(resolvedModuleNames).then(
-					() => {
+				moduleLoader
+					.loadModules(undefinedModuleNames)
+					.then(() =>
+						this._waitForModuleDefinitions(undefinedModuleNames)
+					)
+					.then(() => {
 						clearTimeout(rejectTimeout);
 
-						const modules = config.getModules(moduleNames);
+						this._setModuleImplementations(undefinedModuleNames);
 
-						const implementations = modules.map(
-							module => module.implementation
-						);
-
-						success(...implementations);
-					},
-					err => {
+						success(...this._getModuleImplementations(moduleNames));
+					})
+					.catch(err => {
 						clearTimeout(rejectTimeout);
 						failure(err);
-					}
-				);
-			}, failure);
+					});
+			})
+			.catch(failure);
 	}
 
 	/**
@@ -234,6 +239,22 @@ export default class Loader extends EventEmitter {
 	 */
 	_getModules(...moduleNames) {
 		return this._config.getModules(moduleNames);
+	}
+
+	/**
+	 * Filters a list of modules and returns only those which are not yet
+	 * defined.
+	 * @param {array} moduleNames list of module names to be tested
+	 * @return {array} list of modules matching the specified filter
+	 */
+	_getUndefinedModuleNames(moduleNames) {
+		const config = this._config;
+
+		return moduleNames.filter(moduleName => {
+			const module = config.getModule(moduleName);
+
+			return !module || !module.defined;
+		});
 	}
 
 	/**
@@ -317,24 +338,147 @@ export default class Loader extends EventEmitter {
 	}
 
 	/**
-	 * Retrieves module implementations to an array.
-	 *
-	 * @memberof! Loader#
-	 * @protected
-	 * @param {array} modules List of modules, which implementations
-	 * 					will be added to an array.
-	 * @return {array} List of modules implementations.
+	 * Resolves a Promise as soon as all provided modules are defined.
+	 * @param {array} moduleNames list of module names for which to wait
+	 * @return {Promise}
 	 */
-	_getModuleImplementations(modules) {
+	_waitForModuleDefinitions(moduleNames) {
 		const config = this._config;
-		const registeredModules = config.getModules();
-		const mappedModules = config.mapModules(modules);
 
-		return mappedModules.map(mappedModule => {
-			const module = registeredModules[mappedModule];
+		return Promise.all(
+			config.getModules(moduleNames).map(module => module.define)
+		);
+	}
 
-			return module ? module.implementation : undefined;
+	/**
+	 * Invokes the implementation method of modules passing the implementations
+	 * of its dependencies.
+	 * @param {array} moduleNames list of modules to invoke
+	 */
+	_setModuleImplementations(moduleNames) {
+		const config = this._config;
+		const modules = config.getModules(moduleNames);
+
+		const errors = {};
+
+		modules.filter(module => !module.implemented).forEach(module => {
+			try {
+				// Prepare CommonJS module implementation object
+				const moduleImpl = {exports: {}};
+
+				// Prepare arguments for the AMD factory function
+				const dependencyImplementations = module.dependencies.map(
+					dependency => {
+						if (dependency === 'exports') {
+							return moduleImpl.exports;
+						} else if (dependency === 'module') {
+							return moduleImpl;
+						} else if (dependency === 'require') {
+							return this._createLocalRequire(module);
+						} else {
+							const dependencyModule = config.getModule(
+								dependency,
+								module.map
+							);
+
+							if (!dependencyModule) {
+								throw new Error(
+									`Unsatisfied dependency: ${dependency}`
+								);
+							}
+
+							return dependencyModule.implementation;
+						}
+					}
+				);
+
+				// Invoke AMD factory function
+				const result = module.factory(...dependencyImplementations);
+
+				if (result !== undefined) {
+					module.implementation = result;
+				} else {
+					module.implementation = moduleImpl.exports;
+				}
+
+				module.implement.resolve(module.implementation);
+			} catch (err) {
+				module.implement.reject(err);
+				errors[module.name] = err;
+			}
 		});
+
+		if (Object.keys(errors).length > 0) {
+			throw Object.assign(
+				new Error('Factory invocation failed for some modules'),
+				{
+					errors,
+				}
+			);
+		}
+	}
+
+	/**
+	 * Create a function implementing the local require method of the AMD
+	 * specification.
+	 * @param  {Object} module a module descriptor
+	 * @return {function} the local require implementation for the given module
+	 */
+	_createLocalRequire(module) {
+		const config = this._config;
+		const pathResolver = this._pathResolver;
+
+		const localRequire = (moduleName, ...rest) => {
+			if (rest.length > 0) {
+				return this.require(moduleName, ...rest);
+			} else {
+				let resolvedPath = pathResolver.resolvePath(
+					module.name,
+					moduleName
+				);
+
+				let dependencyModule = config.getModule(
+					resolvedPath,
+					module.map
+				);
+
+				if (
+					!dependencyModule ||
+					!('implementation' in dependencyModule)
+				) {
+					throw new Error(
+						'Module "' +
+							moduleName +
+							'" has not been loaded yet for context: ' +
+							module.name
+					);
+				}
+
+				return dependencyModule.implementation;
+			}
+		};
+
+		localRequire.toUrl = moduleName => {
+			const moduleURLs = this._urlBuilder.build([moduleName]);
+
+			return moduleURLs[0].url;
+		};
+
+		return localRequire;
+	}
+
+	/**
+	 * Retrieves module implementations to an array.
+	 * @param {array} moduleNames list of modules, which implementations
+	 * 					will be collected
+	 * @return {array} list of modules implementations.
+	 */
+	_getModuleImplementations(moduleNames) {
+		const config = this._config;
+
+		return config
+			.getModules(moduleNames)
+			.map(module => module.implementation);
 	}
 
 	/**
