@@ -2,7 +2,6 @@
 
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const {WebpackClearConsole} = require('webpack-clear-console');
 
 module.exports = ({flavor}) => {
 	const baseConfig = {
@@ -37,7 +36,6 @@ module.exports = ({flavor}) => {
 			output: Object.assign({}, baseConfig.output, {
 				filename: 'loader.js',
 			}),
-			plugins: [new WebpackClearConsole()],
 		},
 		min: {
 			output: Object.assign({}, baseConfig.output, {
@@ -46,11 +44,6 @@ module.exports = ({flavor}) => {
 			plugins: [
 				new UglifyJsPlugin({
 					sourceMap: true,
-					uglifyOptions: {
-						compress: {
-							drop_console: true,
-						},
-					},
 				}),
 			],
 		},
