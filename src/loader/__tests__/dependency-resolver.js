@@ -1,14 +1,14 @@
 import cfg from './fixture/config.js';
 import Config from '../config';
-import DependencyBuilder from '../dependency-builder';
+import DependencyResolver from '../dependency-resolver';
 
 let config;
-let dependencyBuilder;
+let dependencyResolver;
 
-describe('DependencyBuilder', () => {
+describe('DependencyResolver', () => {
 	beforeEach(() => {
 		config = new Config(cfg);
-		dependencyBuilder = new DependencyBuilder(config);
+		dependencyResolver = new DependencyResolver(config);
 
 		window.fetch = jest.fn().mockImplementation(param => {
 			let encodedModules = param.split(
@@ -24,25 +24,18 @@ describe('DependencyBuilder', () => {
 	});
 
 	it('should throw an exception if no modules are specified', () => {
-		expect(() => dependencyBuilder.resolve()).toThrow();
+		expect(() => dependencyResolver.resolve()).toThrow();
 	});
 
 	it('should resolve module', () => {
-		return dependencyBuilder
-			.resolveDependencies(['aui-core'])
-			.then(dependencies => {
-				expect(dependencies).toEqual(['aui-core']);
-			});
+		return dependencyResolver.resolve(['aui-core']).then(dependencies => {
+			expect(dependencies).toEqual(['aui-core']);
+		});
 	});
 
 	it('should resolve multiple modules', () => {
-		return dependencyBuilder
-			.resolveDependencies([
-				'aui-base',
-				'aui-core',
-				'aui-node',
-				'aui-dom-node',
-			])
+		return dependencyResolver
+			.resolve(['aui-base', 'aui-core', 'aui-node', 'aui-dom-node'])
 			.then(dependencies => {
 				expect(dependencies).toEqual([
 					'aui-base',
@@ -56,18 +49,14 @@ describe('DependencyBuilder', () => {
 	it('should resolve with cached resolution', async () => {
 		expect(window.fetch.mock.calls.length).toBe(0);
 
-		let dependencies = await dependencyBuilder.resolveDependencies([
-			'isobject@2.1.0',
-		]);
+		let dependencies = await dependencyResolver.resolve(['isobject@2.1.0']);
 
 		expect(dependencies).toEqual(['isobject@2.1.0']);
 		expect(window.fetch.mock.calls.length).toBe(1);
 
-		dependencies = await dependencyBuilder.resolveDependencies([
-			'isobject@2.1.0',
-		]);
+		dependencies = await dependencyResolver.resolve(['isobject@2.1.0']);
 
-		expect(Object.keys(dependencyBuilder._cachedResolutions)).toContain(
+		expect(Object.keys(dependencyResolver._cachedResolutions)).toContain(
 			'isobject@2.1.0'
 		);
 		expect(dependencies).toEqual(['isobject@2.1.0']);

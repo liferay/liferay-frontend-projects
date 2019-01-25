@@ -1,5 +1,5 @@
 import Config from './config';
-import DependencyBuilder from './dependency-builder';
+import DependencyResolver from './dependency-resolver';
 import EventEmitter from './event-emitter';
 import ScriptLoader from './script-loader';
 import PathResolver from './path-resolver';
@@ -27,7 +27,7 @@ export default class Loader extends EventEmitter {
 
 		this._config = new Config(config || window.__CONFIG__);
 
-		this._dependencyBuilder = new DependencyBuilder(this._config);
+		this._dependencyResolver = new DependencyResolver(this._config);
 		this._scriptLoader = new ScriptLoader(
 			document || window.document,
 			this._config
@@ -153,8 +153,8 @@ export default class Loader extends EventEmitter {
 		}
 
 		// Grab the modules
-		this._dependencyBuilder
-			.resolveDependencies(moduleNames)
+		this._dependencyResolver
+			.resolve(moduleNames)
 			.then(resolution => {
 				// Show extra information when explainResolutions is active
 				if (config.explainResolutions) {

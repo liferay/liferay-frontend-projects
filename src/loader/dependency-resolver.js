@@ -3,9 +3,9 @@ import PathResolver from './path-resolver';
 /**
  *
  */
-export default class DependencyBuilder {
+export default class DependencyResolver {
 	/**
-	 * Creates an instance of DependencyBuilder class
+	 * Creates an instance of DependencyResolver class
 	 * @constructor
 	 * @param {Config} config
 	 */
@@ -23,7 +23,7 @@ export default class DependencyBuilder {
 	 * @return {array} list of module names, representing module dependencies
 	 *     				(module name itself is being returned too)
 	 */
-	resolveDependencies(modules) {
+	resolve(modules) {
 		return new Promise((resolve, reject) => {
 			let resolution = this._cachedResolutions[modules];
 

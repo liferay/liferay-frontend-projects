@@ -16,7 +16,7 @@ describe('Loader', function() {
 
 		DependencyBuilder.mockImplementation(() => {
 			return {
-				resolveDependencies: (modules) => {
+				resolve: (modules) => {
 					return Promise.resolve({resolvedModules: modules});
 				},
 			};
@@ -480,7 +480,7 @@ describe('Loader', function() {
 
 		DependencyBuilder.mockImplementation(() => {
 			return {
-				resolveDependencies: () => {
+				resolve: () => {
 					return Promise.resolve({
 						resolvedModules: [
 							'liferay@1.0.0/relative3',
@@ -512,7 +512,7 @@ describe('Loader', function() {
 
 		DependencyBuilder.mockImplementation(() => {
 			return {
-				resolveDependencies: () => {
+				resolve: () => {
 					return Promise.resolve({
 						resolvedModules: [
 							'liferay@1.0.0',
@@ -886,7 +886,7 @@ describe('Loader', function() {
 
 		DependencyBuilder.mockImplementation(() => {
 			return {
-				resolveDependencies: () => {
+				resolve: () => {
 					return Promise.resolve({
 						resolvedModules: [
 							'isarray@1.0.0/index',
