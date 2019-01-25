@@ -1,6 +1,6 @@
 {
-    "extends": "../../.eslintrc",
-	"env": {
-        "browser": true
-	}
+  "extends": "../../.eslintrc",
+  "env": {
+    "browser": true
+  }
 }
