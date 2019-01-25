@@ -1,6 +1,5 @@
 import Config from './config';
 import DependencyResolver from './dependency-resolver';
-import EventEmitter from './event-emitter';
 import ScriptLoader from './script-loader';
 import PathResolver from './path-resolver';
 import packageJson from '../../package.json';
@@ -8,12 +7,10 @@ import packageJson from '../../package.json';
 /**
  *
  */
-export default class Loader extends EventEmitter {
+export default class Loader {
 	/**
 	 * Creates an instance of Loader class.
-	 *
 	 * @namespace Loader
-	 * @extends EventEmitter
 	 * @param {object=} config Configuration options (defaults to
 	 * 							window.__CONFIG__)
 	 * @param {object} document DOM document object to use (defaults to
@@ -21,8 +18,6 @@ export default class Loader extends EventEmitter {
 	 * @constructor
 	 */
 	constructor(config = null, document = null) {
-		super();
-
 		this._pathResolver = new PathResolver();
 
 		this._config = new Config(config || window.__CONFIG__);
@@ -77,8 +72,6 @@ export default class Loader extends EventEmitter {
 		module.dependencies = dependencies.map(dependency =>
 			this._pathResolver.resolvePath(name, dependency)
 		);
-
-		this.emit('moduleDefined', name);
 	}
 
 	/**
@@ -480,28 +473,6 @@ export default class Loader extends EventEmitter {
 			.getModules(moduleNames)
 			.map(module => module.implementation);
 	}
-
-	/**
-	 * Indicates that a module has been registered through a define() call. Note
-	 * that registration does not imply implementation, i.e., the module factory
-	 * function has been registered but it has not been called yet.
-	 * @event Loader#moduleDefined
-	 * @param {object} module the registered module
-	 */
-
-	/**
-	 * Indicates that a module has been successfully implemented after a
-	 * define() call.
-	 * @event Loader#moduleImplemented
-	 * @param {object} module the registered module
-	 */
-
-	/**
-	 * Indicates that a script resource has been loaded.
-	 * @event Loader#scriptLoaded
-	 * @param {array} modules the modules contained in the script
-	 * @param {string} url the URL of the script
-	 */
 }
 
 Loader.prototype.define.amd = {};

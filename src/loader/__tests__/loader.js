@@ -1136,7 +1136,6 @@ describe('Loader', function() {
 			let moduleName = 'foo';
 
 			loader.define(function() {});
-			loader.emit('scriptLoaded', [moduleName]);
 
 			let modules = loader.getModules();
 
@@ -1159,8 +1158,6 @@ describe('Loader', function() {
 			loader.require(['g'], success, failure);
 
 			setTimeout(function() {
-				loader.emit('scriptLoaded', ['g']);
-
 				expect(failure.mock.calls).toHaveLength(0);
 				expect(success.mock.calls).toHaveLength(1);
 
