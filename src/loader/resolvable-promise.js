@@ -1,5 +1,5 @@
 /**
- * A Promise with resolve and reject methods so that it can be fulfilled
+ * A Promise with resolve() and reject() methods so that it can be fulfilled
  * asynchronously from outside instead of the callback.
  *
  * Because Promise cannot be extended in the usual way, we need to do some

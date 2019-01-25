@@ -1,4 +1,6 @@
-// External protocols regex, supports: "http", "https", "//" and "www."
+/**
+ * External protocols regex, supports: "http", "https", "//" and "www."
+ */
 const REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
 
 /**
@@ -16,7 +18,6 @@ export default class URLBuilder {
 
 	/**
 	 * Returns a list of URLs from provided list of modules.
-	 *
 	 * @param {array} modules List of modules for which URLs should be created.
 	 * @return {array} List of URLs.
 	 */
@@ -127,11 +128,10 @@ export default class URLBuilder {
 	/**
 	 * Generate the appropriate set of URLs based on the list of
 	 * required modules and the maximum allowed URL length
-	 *
 	 * @param {Array<String>} modules Array of module names
 	 * @param {Array<String>} urls Array of module URLs
 	 * @param {Object} config Configuration object containing URL, basePath and
-	 *     urlMaxLength
+	 *     						urlMaxLength
 	 * @return {Array<Object>} Resulting array of {modules, url} objects
 	 */
 	_generateBufferURLs(modules, urls, config) {
@@ -176,8 +176,6 @@ export default class URLBuilder {
 	 * Returns the path for a module. If module has property path, it will be
 	 * returned directly. Otherwise, the name of module will be used and
 	 * extension .js will be added to module name if omitted.
-	 *
-	 * @protected
 	 * @param {object} module The module which path should be returned.
 	 * @return {string} Module path.
 	 */
@@ -211,8 +209,6 @@ export default class URLBuilder {
 	 * Returns an url with parameters defined in config.defaultURLParams. If
 	 * config.defaultURLParams is not defined or is an empty map, the url will
 	 * be returned unmodified.
-	 *
-	 * @protected
 	 * @param {string} url The url to be returned with parameters.
 	 * @return {string} url The url with parameters.
 	 */

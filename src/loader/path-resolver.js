@@ -1,15 +1,14 @@
 /**
- *
+ * A class to resolve paths inside modules.
  */
 export default class PathResolver {
 	/**
-	 * Resolves the path of module.
-	 *
-	 * @param {string} root Root path which will be used as reference to resolve
-	 *     the path of the dependency.
-	 * @param {string} dependency The dependency path, which have to be
-	 *     resolved.
-	 * @return {string} The resolved dependency path.
+	 * Resolves the path of module
+	 * @param {string} root root path which will be used as reference to resolve
+	 *     						the path of the dependency
+	 * @param {string} dependency the dependency path, which has to be
+	 *     							resolved
+	 * @return {string} the resolved dependency path.
 	 */
 	resolvePath(root, dependency) {
 		if (

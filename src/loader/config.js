@@ -172,8 +172,6 @@ export default class Config {
 	 * Additionally, modules can define a custom map to alias module names just
 	 * in the context of that module loading operation. When present, the
 	 * contextual module mapping will take precedence over the general one.
-	 *
-	 * @protected
 	 * @param {string} moduleName The module which have to be mapped
 	 * @param {?object} contextMap Contextual module mapping information
 	 *     relevant to the current load operation
@@ -194,8 +192,6 @@ export default class Config {
 	/**
 	 * Creates a function that transforms module names based on a provided
 	 * set of mappings.
-	 *
-	 * @protected
 	 * @param {string} moduleName module name
 	 * @param {object} maps Mapping information.
 	 * @return {function} The generated mapper function
@@ -231,12 +227,10 @@ export default class Config {
 	/**
 	 * Transforms a module name using the exactMatch mappings
 	 * in a provided mapping object.
-	 *
-	 * @protected
 	 * @param {string} module The module which have to be mapped.
 	 * @param {object} maps Mapping information.
 	 * @return {object} An object with a boolean `matched` field and a string
-	 *     `result` field containing the mapped module name
+	 *     					`result` field containing the mapped module name
 	 */
 	_mapExactMatch(module, maps) {
 		for (let alias in maps) {
@@ -256,12 +250,10 @@ export default class Config {
 	/**
 	 * Transforms a module name using the partial mappings
 	 * in a provided mapping object.
-	 *
-	 * @protected
 	 * @param {string} module The module which have to be mapped.
 	 * @param {object} maps Mapping information.
 	 * @return {object} An object with a boolean `matched` field and a string
-	 *     `result` field containing the mapped module name
+	 *     					`result` field containing the mapped module name
 	 */
 	_mapPartialMatch(module, maps) {
 		for (let alias in maps) {
@@ -285,12 +277,10 @@ export default class Config {
 	/**
 	 * Transforms a module name using the wildcard mapping in a provided mapping
 	 * object.
-	 *
-	 * @protected
 	 * @param {string} module The module which have to be mapped.
 	 * @param {object} maps Mapping information.
 	 * @return {object} An object with a boolean `matched` field and a string
-	 *     `result` field containing the mapped module name
+	 *     					`result` field containing the mapped module name
 	 */
 	_mapWildcardMatch(module, maps) {
 		if (typeof maps['*'] === 'function') {

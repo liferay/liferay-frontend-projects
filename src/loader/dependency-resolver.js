@@ -1,7 +1,7 @@
 import PathResolver from './path-resolver';
 
 /**
- *
+ * A class that calls the server to resolve module dependencies.
  */
 export default class DependencyResolver {
 	/**
@@ -25,7 +25,7 @@ export default class DependencyResolver {
 	 */
 	resolve(modules) {
 		return new Promise((resolve, reject) => {
-			let resolution = this._cachedResolutions[modules];
+			const resolution = this._cachedResolutions[modules];
 
 			if (resolution) {
 				resolve(resolution);
@@ -35,15 +35,11 @@ export default class DependencyResolver {
 			fetch(
 				'/o/js_resolve_modules?modules=' + encodeURIComponent(modules)
 			)
-				.then(response => {
-					response
-						.text()
-						.then(text => {
-							const resolution = JSON.parse(text);
-							this._cachedResolutions[modules] = resolution;
-							resolve(resolution);
-						})
-						.catch(reject);
+				.then(response => response.text())
+				.then(text => {
+					const resolution = JSON.parse(text);
+					this._cachedResolutions[modules] = resolution;
+					resolve(resolution);
 				})
 				.catch(reject);
 		});

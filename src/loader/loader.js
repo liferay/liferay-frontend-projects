@@ -11,11 +11,11 @@ export default class Loader {
 	/**
 	 * Creates an instance of Loader class.
 	 * @namespace Loader
+	 * @constructor
 	 * @param {object=} config Configuration options (defaults to
 	 * 							window.__CONFIG__)
 	 * @param {object} document DOM document object to use (defaults to
 	 * 								window.document)
-	 * @constructor
 	 */
 	constructor(config = null, document = null) {
 		this._pathResolver = new PathResolver();
@@ -39,8 +39,6 @@ export default class Loader {
 
 	/**
 	 * Defines a module in the system and fires
-	 * {@link Loader#event:moduleDefined} event with the registered module as
-	 * param.
 	 * @param {string} name the name of the module
 	 * @param {array} dependencies list of module dependencies
 	 * @param {function} factory the AMD factory function of the module
@@ -78,8 +76,6 @@ export default class Loader {
 	 * Requires list of modules. If a module is not yet registered, it will be
 	 * ignored and its implementation in the provided success callback will be
 	 * left undefined.
-	 *
-	 * @memberof! Loader#
 	 * @param {array|string[]} modules Modules can be specified as an array of
 	 * 									strings or provided as multiple string
 	 * 									parameters.
