@@ -190,7 +190,9 @@ function getLiferayThemeModuleStatus(pkg, themelet) {
 			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
 		}
 
-		if (themelet != liferayTheme.themelet) {
+		const liferayThemelet = liferayTheme.themelet || false;
+
+		if (themelet !== liferayThemelet) {
 			return LiferayThemeModuleStatus.THEMELET_FLAG_DOES_NOT_MATCH;
 		}
 
