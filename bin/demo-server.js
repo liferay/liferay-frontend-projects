@@ -2,44 +2,34 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 
-const _processModules = (req, res) => {
-	let params = url.parse(req.url, true);
+const processResource = (resource, res) => {
+	fs.createReadStream('build/demo' + resource).pipe(res);
+};
+
+const processModules = (resource, res) => {
+	let params = url.parse(resource, true);
 
 	let modules = params.query.modules;
 
-	let modulesArray = modules.split(',');
+	modules = modules.replace(/,/g, '_');
+	modules = modules.replace(/\//g, '_');
 
-	const flatMap = (arr) => [].concat(...arr.map(x => {
-		if (x === 'isobject@1.0.0/index') {
-			return ['isarray@1.0.0', 'isobject@1.0.0/index'];
-		}
+	let path = 'build/demo/resolutions/' + modules + '.json';
 
-		if (x === 'mappedModule') {
-			return 'mapped-module';
-		}
-
-		return x;
-	}));
-
-	res.end(JSON.stringify({
-		resolvedModules: flatMap(modulesArray),
-	}));
+	fs.createReadStream(path).pipe(res);
 };
 
 const server = http.createServer((req, res) => {
-	if (req.url.startsWith('/o/js_module_loader')) {
-		_processModules(req, res);
-		return;
-	}
-
 	let resource = req.url;
 
-	if (req.url === '/') {
+	if (resource === '/') {
 		resource = '/index.html';
 	}
 
-	if (fs.existsSync('build/demo' + resource)) {
-		fs.createReadStream('build/demo' + resource).pipe(res);
+	if (resource.startsWith('/o/js_resolve_modules')) {
+		processModules(resource, res);
+	} else if (fs.existsSync('build/demo' + resource)) {
+		processResource(resource, res);
 	} else {
 		res.end();
 	}
