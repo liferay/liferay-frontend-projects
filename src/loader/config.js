@@ -18,6 +18,7 @@ export default class Config {
 		this._parse(cfg, 'explainResolutions', false);
 		this._parse(cfg, 'waitTimeout', 7000);
 		this._parse(cfg, 'basePath', '');
+		this._parse(cfg, 'resolvePath', '/o/js_resolve_modules');
 		this._parse(cfg, 'combine', false);
 		this._parse(cfg, 'url', '');
 		this._parse(cfg, 'urlMaxLength', 2000);
@@ -42,6 +43,13 @@ export default class Config {
 	 */
 	get basePath() {
 		return this._config.basePath;
+	}
+
+	/**
+	 * The path invoke when resolving module dependencies
+	 */
+	get resolvePath() {
+		return this._config.resolvePath;
 	}
 
 	/**

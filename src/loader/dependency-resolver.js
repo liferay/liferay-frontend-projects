@@ -24,6 +24,8 @@ export default class DependencyResolver {
 	 *     				(module name itself is being returned too)
 	 */
 	resolve(modules) {
+		const config = this._config;
+
 		return new Promise((resolve, reject) => {
 			const resolution = this._cachedResolutions[modules];
 
@@ -33,7 +35,7 @@ export default class DependencyResolver {
 			}
 
 			fetch(
-				'/o/js_resolve_modules?modules=' + encodeURIComponent(modules)
+				`${config.resolvePath}?modules=` + encodeURIComponent(modules)
 			)
 				.then(response => response.text())
 				.then(text => {
