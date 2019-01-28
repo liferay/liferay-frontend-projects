@@ -22,12 +22,14 @@ function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 	const {baseTheme} = getLiferayThemeJSON(baseThemePath);
 	const baseThemeGlob = getBaseThemeGlob(baseThemePath);
 
-	dependencies = _.uniq(dependencies.concat([
-		path.join(
-			themeUtil.resolveDependency(getDependencyName('unstyled')),
-			baseThemeGlob
-		),
-	]));
+	dependencies = _.uniq(
+		dependencies.concat([
+			path.join(
+				themeUtil.resolveDependency(getDependencyName('unstyled')),
+				baseThemeGlob
+			),
+		])
+	);
 
 	if (_.isObject(baseTheme)) {
 		baseThemePath = path.join(
