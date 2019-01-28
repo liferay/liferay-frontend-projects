@@ -1,6 +1,5 @@
 'use strict';
 
-const ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;
 const _ = require('lodash');
 const bootstrapVars = require('./bootstrap_vars');
 const colors = require('ansi-colors');
@@ -27,7 +26,6 @@ const lexiconUpgrade = {
 };
 
 const logBuffers = {
-	bootstrap: [getLogHeader('Bootstrap Upgrade (3 to 4)')],
 	lexicon: [getLogHeader('Lexicon Upgrade (1.0 to 2.0)')],
 	liferay: [getLogHeader('Liferay Upgrade (7.0 to 7.1)')],
 };
@@ -40,28 +38,6 @@ module.exports = function(options) {
 	let cssSrcPath = path.join(CWD, 'src/css/**/*.+(css|scss)');
 
 	let pathSrc = options.pathSrc;
-
-	gulp.task('upgrade:convert-bootstrap', function(cb) {
-		let files = globby.sync('src/css/*');
-
-		let convertBootstrap = new ConvertBootstrapCLI({
-			args: files,
-			flags: {
-				inlineEdit: true,
-				variables: true,
-			},
-		});
-
-		_.assign(convertBootstrap, {
-			logResults: function(out) {
-				logBuffers.bootstrap.push(out);
-			},
-
-			onFinish: cb,
-		});
-
-		convertBootstrap.init();
-	});
 
 	gulp.task('upgrade:dependencies', function(cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.0']);
@@ -171,7 +147,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:log-changes', function(cb) {
-		logBuffer(logBuffers.bootstrap);
 		logBuffer(logBuffers.lexicon);
 		logBuffer(logBuffers.liferay);
 
@@ -420,7 +395,6 @@ module.exports = function(options) {
 			'upgrade:collect-removed-lexicon-vars',
 			'upgrade:create-removed-lexicon-vars-file',
 			'upgrade:import-removed-lexicon-vars',
-			'upgrade:convert-bootstrap',
 			'upgrade:ftl-templates',
 			'upgrade:unsupported-vm-templates',
 			'upgrade:dependencies',
