@@ -10,7 +10,7 @@ function getNonBlackListedMixins(mixins, blackList) {
 	mixins = _.reduce(
 		mixins,
 		function(result, item) {
-			if (!_.contains(blackList, item)) {
+			if (!_.includes(blackList, item)) {
 				result.push(item);
 			}
 

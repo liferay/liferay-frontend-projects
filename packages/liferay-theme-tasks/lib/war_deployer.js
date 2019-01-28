@@ -174,7 +174,7 @@ class WarDeployer extends EventEmitter {
 
 		this.host = parsedURL.hostname;
 		this.port = parsedURL.port;
-		this.protocol = _.trimRight(parsedURL.protocol, ':');
+		this.protocol = _.trimEnd(parsedURL.protocol, ':');
 	}
 
 	_validateOptions(options) {
