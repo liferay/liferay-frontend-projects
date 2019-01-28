@@ -18,7 +18,7 @@ function getLiferayThemeModule(name, cb) {
 		(err, pkg) => {
 			if (
 				(pkg && !pkg.liferayTheme) ||
-				(pkg && !_.contains(pkg.keywords, 'liferay-theme'))
+				(pkg && !_.includes(pkg.keywords, 'liferay-theme'))
 			) {
 				pkg = null;
 
@@ -177,7 +177,7 @@ function getLiferayThemeModuleStatus(pkg, themelet) {
 
 		if (
 			_.isArray(liferayThemeVersion) &&
-			!_.contains(liferayThemeVersion, themeConfig.version)
+			!_.includes(liferayThemeVersion, themeConfig.version)
 		) {
 			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
 		}
@@ -190,7 +190,9 @@ function getLiferayThemeModuleStatus(pkg, themelet) {
 			return LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH;
 		}
 
-		if (themelet != liferayTheme.themelet) {
+		const liferayThemelet = liferayTheme.themelet || false;
+
+		if (themelet !== liferayThemelet) {
 			return LiferayThemeModuleStatus.THEMELET_FLAG_DOES_NOT_MATCH;
 		}
 

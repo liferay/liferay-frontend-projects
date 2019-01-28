@@ -256,7 +256,7 @@ class ExtendPrompt {
 	_isSupported(supportedVersion, version) {
 		return (
 			(_.isArray(supportedVersion) &&
-				_.contains(supportedVersion, version)) ||
+				_.includes(supportedVersion, version)) ||
 			supportedVersion === version
 		);
 	}
