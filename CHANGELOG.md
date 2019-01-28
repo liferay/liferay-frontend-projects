@@ -1,5 +1,22 @@
 # Change Log
 
+## [v8.0.0-rc.2](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.2) (2019-01-28)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-rc.1...v8.0.0-rc.2)
+
+**Fixed bugs:**
+
+- Gulp upgrade changes camel-case to kebab-case only within some files [\#133](https://github.com/liferay/liferay-themes-sdk/issues/133)
+- TypeError: colors.bgblack is not a function in liferay-theme-tasks/lib/upgrade/7.0/upgrade.js:482:30\) [\#125](https://github.com/liferay/liferay-themes-sdk/issues/125)
+- gulp kickstart unable to find globally installed themes [\#100](https://github.com/liferay/liferay-themes-sdk/issues/100)
+- Building an extended theme doesn't add the parent theme files [\#11](https://github.com/liferay/liferay-themes-sdk/issues/11)
+
+**Merged pull requests:**
+
+- v.8.0.0-rc.2 [\#135](https://github.com/liferay/liferay-themes-sdk/pull/135) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#133 - Updated lock files [\#134](https://github.com/liferay/liferay-themes-sdk/pull/134) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#10 - SF [\#132](https://github.com/liferay/liferay-themes-sdk/pull/132) ([jbalsas](https://github.com/jbalsas))
+- Fix for the theme extension bug [\#131](https://github.com/liferay/liferay-themes-sdk/pull/131) ([GianBe](https://github.com/GianBe))
+
 ## [v8.0.0-rc.1](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.1) (2018-12-12)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-rc.0...v8.0.0-rc.1)
 
