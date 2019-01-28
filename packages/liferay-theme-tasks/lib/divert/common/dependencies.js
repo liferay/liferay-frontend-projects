@@ -19,16 +19,16 @@ const moduleNamesMap = {
 
 const getDependencyName = name => moduleNamesMap[name];
 
-function getBaseThemeDependencies(baseThemePath) {
+function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 	const {baseTheme} = getLiferayThemeJSON(baseThemePath);
 	const baseThemeGlob = getBaseThemeGlob(baseThemePath);
 
-	let dependencies = [
+	dependencies = _.uniq(dependencies.concat([
 		path.join(
 			themeUtil.resolveDependency(getDependencyName('unstyled')),
 			baseThemeGlob
 		),
-	];
+	]));
 
 	if (_.isObject(baseTheme)) {
 		baseThemePath = path.join(
