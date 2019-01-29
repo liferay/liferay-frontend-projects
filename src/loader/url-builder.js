@@ -22,17 +22,17 @@ export default class URLBuilder {
 	 * @return {array} List of URLs.
 	 */
 	build(modules) {
+		const configParser = this._configParser;
+		const config = configParser.getConfig();
+
 		let bufferAbsoluteURL = [];
 		let bufferRelativeURL = [];
 		let modulesAbsoluteURL = [];
 		let modulesRelativeURL = [];
 		let result = [];
 
-		let config = this._configParser.getConfig();
-
 		let basePath = config.basePath || '';
 
-		/* istanbul ignore else */
 		if (basePath.length && basePath.charAt(basePath.length - 1) !== '/') {
 			basePath += '/';
 		}
@@ -40,7 +40,7 @@ export default class URLBuilder {
 		for (let i = 0; i < modules.length; i++) {
 			let module = modules[i];
 
-			let registeredModule = this._getRegisteredModule(module);
+			let registeredModule = configParser.getModule(module);
 
 			if (registeredModule) {
 				module = registeredModule;
@@ -209,27 +209,6 @@ export default class URLBuilder {
 		}
 
 		return path;
-	}
-
-	/**
-	 * Returns the registered module for the moduleName. If not found
-	 * it maps the module name and return the registeredModule for the
-	 * mapped name
-	 * @param {string} moduleName the module name
-	 * @param {Object} map the root module map
-	 * @return {Object} the registed module object
-	 */
-	_getRegisteredModule(moduleName, map) {
-		const registeredModules = this._configParser.getModules();
-
-		let module = registeredModules[moduleName];
-
-		if (!module) {
-			let mappedName = this._configParser.mapModule(moduleName, map);
-			module = registeredModules[mappedName];
-		}
-
-		return module;
 	}
 
 	/**

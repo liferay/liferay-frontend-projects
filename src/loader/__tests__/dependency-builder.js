@@ -10,8 +10,10 @@ describe('DependencyBuilder', () => {
 		configParser = new ConfigParser(config);
 		dependencyBuilder = new DependencyBuilder(configParser);
 
-		window.fetch = jest.fn().mockImplementation((param) => {
-			let encodedModules = param.split('/o/js_module_loader?modules=')[1];
+		window.fetch = jest.fn().mockImplementation(param => {
+			let encodedModules = param.split(
+				'/o/js_resolve_modules?modules='
+			)[1];
 
 			let modules = decodeURIComponent(encodedModules);
 
@@ -26,27 +28,29 @@ describe('DependencyBuilder', () => {
 	});
 
 	it('should resolve module', () => {
-		return dependencyBuilder.resolveDependencies([
-			'aui-core',
-		]).then(dependencies => {
-			expect(dependencies).toEqual(['aui-core']);
-		});
+		return dependencyBuilder
+			.resolveDependencies(['aui-core'])
+			.then(dependencies => {
+				expect(dependencies).toEqual(['aui-core']);
+			});
 	});
 
 	it('should resolve multiple modules', () => {
-		return dependencyBuilder.resolveDependencies([
-			'aui-base',
-			'aui-core',
-			'aui-node',
-			'aui-dom-node',
-		]).then(dependencies => {
-			expect(dependencies).toEqual([
+		return dependencyBuilder
+			.resolveDependencies([
 				'aui-base',
 				'aui-core',
 				'aui-node',
 				'aui-dom-node',
-			]);
-		});
+			])
+			.then(dependencies => {
+				expect(dependencies).toEqual([
+					'aui-base',
+					'aui-core',
+					'aui-node',
+					'aui-dom-node',
+				]);
+			});
 	});
 
 	it('should resolve with cached resolution', async () => {
@@ -63,7 +67,9 @@ describe('DependencyBuilder', () => {
 			'isobject@2.1.0',
 		]);
 
-		expect(Object.keys(dependencyBuilder._cachedResolutions)).toContain('isobject@2.1.0');
+		expect(Object.keys(dependencyBuilder._cachedResolutions)).toContain(
+			'isobject@2.1.0'
+		);
 		expect(dependencies).toEqual(['isobject@2.1.0']);
 		expect(window.fetch.mock.calls.length).toBe(1);
 	});

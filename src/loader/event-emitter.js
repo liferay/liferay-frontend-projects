@@ -25,6 +25,20 @@ export default class EventEmitter {
 	}
 
 	/**
+	 * Adds event listener to an event and unregisters it as soon as it fires
+	 *
+	 * @param {string} event The name of the event.
+	 * @param {Function} callback Callback method to be invoked when event is
+	 *     being emitted.
+	 */
+	once(event, callback) {
+		this.on(event, (...args) => {
+			this.off(event, callback);
+			callback(...args);
+		});
+	}
+
+	/**
 	 * Removes an event from the list of event listeners to some event.
 	 *
 	 * @param {string} event The name of the event.
@@ -41,11 +55,16 @@ export default class EventEmitter {
 				listeners.splice(callbackIndex, 1);
 			} else {
 				console.warn(
-					'Off: callback was not removed: ' + callback.toString()
+					'Liferay AMD Loader: off: callback ' +
+						callback.toString() +
+						' was not removed'
 				);
 			}
 		} else {
-			console.warn('Off: there are no listeners for event: ' + event);
+			console.warn(
+				'Liferay AMD Loader: off: there are no listeners for event ' +
+					event
+			);
 		}
 	}
 
@@ -73,8 +92,6 @@ export default class EventEmitter {
 
 				listener.call(listener, args);
 			}
-		} else {
-			console.warn('No listeners for event: ' + event);
 		}
 	}
 }

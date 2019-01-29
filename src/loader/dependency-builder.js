@@ -12,8 +12,8 @@ export default class DependencyBuilder {
 	 */
 	constructor(configParser) {
 		this._configParser = configParser;
-		this._pathResolver = new PathResolver();
 
+		this._pathResolver = new PathResolver();
 		this._cachedResolutions = {};
 	}
 
@@ -34,15 +34,16 @@ export default class DependencyBuilder {
 				return;
 			}
 
-			let url = '/o/js_module_loader?modules=' + encodeURIComponent(modules);
-
-			fetch(url)
-				.then((response) => {
-					response.text()
+			fetch(
+				'/o/js_resolve_modules?modules=' + encodeURIComponent(modules)
+			)
+				.then(response => {
+					response
+						.text()
 						.then(text => {
-							let dependencies = JSON.parse(text);
-							this._cachedResolutions[modules] = dependencies;
-							resolve(dependencies);
+							const resolution = JSON.parse(text);
+							this._cachedResolutions[modules] = resolution;
+							resolve(resolution);
 						})
 						.catch(reject);
 				})
