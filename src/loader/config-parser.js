@@ -9,50 +9,14 @@ export default class ConfigParser {
 	 * @param {object=} config - The configuration object to be parsed.
 	 */
 	constructor(config) {
-		this._config = {};
+		this._config = {maps: {}, paths: {}};
 		this._modules = {};
-		this._conditionalModules = {};
 
-		this._parseConfig(config);
-	}
-
-	/**
-	 * Adds a module to the configuration.
-	 *
-	 * @param {object} module The module which should be added to the
-	 *     configuration. Should have the following properties:
-	 *     <ul>
-	 *         <strong>Obligatory properties</strong>:
-	 *         <li>name (String) The name of the module</li>
-	 *         <li>dependencies (Array) The modules from which it depends</li>
-	 *     </ul>
-	 *
-	 *     <strong>Optional properties:</strong>
-	 *     The same as those which config parameter of {@link Loader#define}
-	 *     method accepts.
-	 * @return {Object} The added module
-	 */
-	addModule(module) {
-		// Module might be added via configuration or when it arrives from the
-		// server. If it arrives from the server, it will have already a
-		// definition. In this case, we will overwrite the existing properties
-		// with those, provided from the module definition. Otherwise, we will
-		// just add it to the map.
-		const moduleDefinition = this._modules[module.name];
-
-		if (moduleDefinition) {
-			for (let key in module) {
-				if (Object.prototype.hasOwnProperty.call(module, key)) {
-					moduleDefinition[key] = module[key];
-				}
+		for (let key in config) {
+			if (config.hasOwnProperty(key)) {
+				this._config[key] = config[key];
 			}
-		} else {
-			this._modules[module.name] = module;
 		}
-
-		this._registerConditionalModule(module);
-
-		return this._modules[module.name];
 	}
 
 	/**
@@ -65,22 +29,44 @@ export default class ConfigParser {
 	}
 
 	/**
-	 * Returns map with all currently registered conditional modules and their
-	 * triggers.
-	 *
-	 * @return {object} Map with all currently registered conditional modules.
+	 * Adds a module to the configuration with default field values if it
+	 * doesn't exist. Otherwise, returns the module.
+	 * @param {string} moduleName
+	 * @return {Object} the module
 	 */
-	getConditionalModules() {
-		return this._conditionalModules;
+	addModule(moduleName) {
+		let module = this._modules[moduleName];
+
+		if (!module) {
+			this._modules[moduleName] = module = new Module(moduleName);
+		}
+
+		return module;
 	}
 
 	/**
-	 * Returns map with all currently registered modules.
-	 *
-	 * @return {object} Map with all currently registered modules.
+	 * Add mappings to the current configuration
+	 * @param {object} mappings an object with one or more mappings
 	 */
-	getModules() {
-		return this._modules;
+	addMappings(mappings) {
+		Object.assign(this._config.maps, mappings);
+	}
+
+	/**
+	 * Add path mappings to the current configuration
+	 * @param {object} paths an object with one or more path mappings
+	 */
+	addPaths(paths) {
+		Object.assign(this._config.paths, paths);
+	}
+
+	/**
+	 * Map a list of module names at once
+	 * @param {Array} moduleNames module names to map
+	 * @return {Array} mapped module names
+	 */
+	mapModules(moduleNames) {
+		return moduleNames.map(moduleName => this.mapModule(moduleName));
 	}
 
 	/**
@@ -100,34 +86,58 @@ export default class ConfigParser {
 	 * contextual module mapping will take precedence over the general one.
 	 *
 	 * @protected
-	 * @param {array|string} module The module which have to be mapped or array
-	 *     of modules.
+	 * @param {string} moduleName The module which have to be mapped
 	 * @param {?object} contextMap Contextual module mapping information
 	 *     relevant to the current load operation
-	 * @return {array|string} The mapped module or array of mapped modules.
+	 * @return {array} The mapped module
 	 */
-	mapModule(module, contextMap) {
+	mapModule(moduleName, contextMap) {
 		if (!this._config.maps && !contextMap) {
-			return module;
-		}
-
-		let modules;
-
-		if (Array.isArray(module)) {
-			modules = module;
-		} else {
-			modules = [module];
+			return moduleName;
 		}
 
 		if (contextMap) {
-			modules = modules.map(this._getModuleMapper(contextMap));
+			moduleName = this._mapMatches(moduleName, contextMap);
 		}
 
 		if (this._config.maps) {
-			modules = modules.map(this._getModuleMapper(this._config.maps));
+			moduleName = this._mapMatches(moduleName, this._config.maps);
 		}
 
-		return Array.isArray(module) ? modules : modules[0];
+		return moduleName;
+	}
+
+	/**
+	 * Returns map with all registered modules or the requested subset of them.
+	 * @param {?Array} moduleNames optional list of module names to retrieve
+	 * @return {Array}
+	 */
+	getModules(moduleNames) {
+		if (moduleNames) {
+			return moduleNames.map(moduleName => this.getModule(moduleName));
+		} else {
+			return this._modules;
+		}
+	}
+
+	/**
+	 * Returns the registered module for the moduleName. If not found it maps
+	 * the module name and return the registeredModule for the mapped name.
+	 * @param {string} moduleName the module name
+	 * @param {?object} contextMap contextual module mapping information
+	 *     relevant to the current load operation
+	 * @return {Object} the registed module object
+	 */
+	getModule(moduleName, contextMap) {
+		let module = this._modules[moduleName];
+
+		if (!module) {
+			const mappedName = this.mapModule(moduleName, contextMap);
+
+			module = this._modules[mappedName];
+		}
+
+		return module;
 	}
 
 	/**
@@ -135,37 +145,36 @@ export default class ConfigParser {
 	 * set of mappings.
 	 *
 	 * @protected
+	 * @param {string} moduleName module name
 	 * @param {object} maps Mapping information.
 	 * @return {function} The generated mapper function
 	 */
-	_getModuleMapper(maps) {
-		return module => {
-			let match = maps[module];
+	_mapMatches(moduleName, maps) {
+		let match = maps[moduleName];
 
-			if (match) {
-				if (typeof match === 'object') {
-					return match.value;
-				}
-
-				return match;
+		if (match) {
+			if (typeof match === 'object') {
+				return match.value;
 			}
 
-			match = this._mapExactMatch(module, maps);
+			return match;
+		}
 
-			// Apply partial mapping only if exactMatch hasn't been
-			// already applied for this mapping
-			if (!match) {
-				match = this._mapPartialMatch(module, maps);
-			}
+		match = this._mapExactMatch(moduleName, maps);
 
-			// Apply * mapping only if neither exactMatch nor
-			// partialMatch have been already applied for this mapping
-			if (!match) {
-				match = this._mapWildcardMatch(module, maps);
-			}
+		// Apply partial mapping only if exactMatch hasn't been
+		// already applied for this mapping
+		if (!match) {
+			match = this._mapPartialMatch(moduleName, maps);
+		}
 
-			return match || module;
-		};
+		// Apply * mapping only if neither exactMatch nor
+		// partialMatch have been already applied for this mapping
+		if (!match) {
+			match = this._mapWildcardMatch(moduleName, maps);
+		}
+
+		return match || moduleName;
 	}
 
 	/**
@@ -237,72 +246,98 @@ export default class ConfigParser {
 			return maps['*'](module);
 		}
 	}
+}
 
+/**
+ *
+ */
+class Module {
 	/**
-	 * Parses configuration object.
 	 *
-	 * @protected
-	 * @param {object} config Configuration object to be parsed.
-	 * @return {object} The created configuration
+	 * @param {string} name
 	 */
-	_parseConfig(config) {
-		for (let key in config) {
-			/* istanbul ignore else */
-			if (Object.prototype.hasOwnProperty.call(config, key)) {
-				if (key === 'modules') {
-					this._parseModules(config[key]);
-				} else {
-					this._config[key] = config[key];
-				}
-			}
-		}
-
-		return this._config;
+	constructor(name) {
+		this._name = name;
+		this._factory = undefined;
+		this._implementation = undefined;
+		this._fetched = false;
+		this._defined = false;
+		this._implemented = false;
 	}
 
-	/**
-	 * Parses a provided modules configuration.
-	 *
-	 * @protected
-	 * @param {object} modules Map of modules to be parsed.
-	 * @return {object} Map of parsed modules.
-	 */
-	_parseModules(modules) {
-		for (let key in modules) {
-			/* istanbul ignore else */
-			if (Object.prototype.hasOwnProperty.call(modules, key)) {
-				let module = modules[key];
+	/* eslint-disable require-jsdoc */
 
-				module.name = key;
-
-				this.addModule(module);
-			}
-		}
-
-		return this._modules;
+	get name() {
+		return this._name;
 	}
 
-	/**
-	 * Registers conditional module to the configuration.
-	 *
-	 * @protected
-	 * @param {object} module Module object
-	 */
-	_registerConditionalModule(module) {
-		// Create HashMap of all modules, which have conditional modules, as an
-		// Array.
-		if (module.condition) {
-			let existingModules = this._conditionalModules[
-				module.condition.trigger
-			];
-
-			if (!existingModules) {
-				this._conditionalModules[
-					module.condition.trigger
-				] = existingModules = [];
-			}
-
-			existingModules.push(module.name);
-		}
+	get factory() {
+		return this._factory;
 	}
+
+	get implementation() {
+		return this._implementation;
+	}
+
+	get fetched() {
+		return this._fetched;
+	}
+
+	get defined() {
+		return this._defined;
+	}
+
+	get implemented() {
+		return this._implemented;
+	}
+
+	set name(name) {
+		throw new Error(`Name of module ${this.name} is read-only`);
+	}
+
+	set factory(factory) {
+		if (this._factory) {
+			throw new Error(`Factory of module ${this.name} already set`);
+		}
+
+		this._factory = factory;
+	}
+
+	set implementation(implementation) {
+		if (this._implementation) {
+			throw new Error(
+				`Implementation of module ${this.name} already set`
+			);
+		}
+
+		this._implementation = implementation;
+	}
+
+	set fetched(fetched) {
+		if (this._fetched) {
+			throw new Error(`Fetched flag of module ${this.name} already set`);
+		}
+
+		this._fetched = fetched;
+	}
+
+	set defined(defined) {
+		if (this._defined) {
+			throw new Error(`Defined flag of module ${this.name} already set`);
+		}
+
+		this._defined = defined;
+	}
+
+	set implemented(implemented) {
+		if (this._implemented) {
+			throw new Error(
+				`Implemented flag of module ${this.name} already set`
+			);
+		}
+
+		this._implemented = implemented;
+	}
+
+	/* eslint-enable require-jsdoc */
 }
