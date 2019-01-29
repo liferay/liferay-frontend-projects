@@ -1,76 +1,76 @@
 {
-	"name": "liferay-amd-loader",
-	"version": "4.0.0-alpha.0",
-	"description": "AMD Loader with support for combo URL and conditional loading",
-	"scripts": {
-		"clean": "rm -rf build",
-		"build": "node bin/build-loader.js",
-		"ci": "prettier-eslint --list-different && npm run lint && npm run build && npm run build-demo && npm test",
-		"build-demo": "node bin/build-demo.js",
-		"demo": "node bin/run-demo.js",
-		"test": "jest",
-		"format": "prettier-eslint --write 'src/**/*.js'",
-		"lint": "eslint 'src/**/*.js' && eslint 'bin/**/*.js'",
-		"prepublish": "publish-please guard",
-		"publish-please": "publish-please",
-		"prepublishOnly": "npm run build && npm run build-demo && npm test"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-amd-loader.git"
-	},
-	"jest": {
-		"collectCoverage": true,
-		"coverageDirectory": "build/coverage",
-		"modulePathIgnorePatterns": [
-			"liferay-amd-loader/build/.*",
-			".*/__tests__/fixture/.*"
-		],
-		"testURL": "http://localhost/"
-	},
-	"author": "Iliyan Peychev",
-	"license": "LGPL-3.0",
-	"keywords": [
-		"Liferay",
-		"AMD",
-		"ES6",
-		"Loader"
-	],
-	"bugs": {
-		"url": "https://github.com/liferay/liferay-amd-loader/issues"
-	},
-	"homepage": "https://github.com/liferay/liferay-amd-loader",
-	"files": [
-		".babelrc",
-		".eslintrc",
-		".publishrc",
-		"LICENSE.md",
-		"package.json",
-		"README.md",
-		"webpack.config.js",
-		"src",
-		"bin",
-		"build",
-		"src"
-	],
-	"dependencies": {
-		"es6-promise": "^4.0.5"
-	},
-	"devDependencies": {
-		"babel-loader": "^7.1.2",
-		"babel-preset-es2015": "^6.24.1",
-		"combohandler": "^0.4.0",
-		"eslint": "^4.17.0",
-		"eslint-config-liferay": "^2.0.18",
-		"fs-extra": "^5.0.0",
-		"globby": "^7.1.1",
-		"http-server": "^0.11.1",
-		"jest": "^22.2.1",
-		"liferay-module-config-generator": "^1.3.3",
-		"prettier-eslint-cli": "^4.7.0",
-		"publish-please": "^2.3.1",
-		"uglifyjs-webpack-plugin": "^1.2.0",
-		"webpack": "^3.10.0",
-		"webpack-clear-console": "^1.0.3"
-	}
+  "name": "liferay-amd-loader",
+  "version": "4.0.0-alpha.0",
+  "description": "AMD Loader with support for combo URL and conditional loading",
+  "scripts": {
+    "clean": "rm -rf build",
+    "build": "node bin/build-loader.js",
+    "ci": "prettier-eslint --list-different && npm run lint && npm run build && npm run build-demo && npm test",
+    "build-demo": "node bin/build-demo.js",
+    "demo": "node bin/run-demo.js",
+    "test": "jest",
+    "format": "prettier-eslint --write 'src/**/*.js'",
+    "lint": "eslint 'src/**/*.js' && eslint 'bin/**/*.js'",
+    "prepublish": "publish-please guard",
+    "publish-please": "publish-please",
+    "prepublishOnly": "npm run build && npm run build-demo && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liferay/liferay-amd-loader.git"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "build/coverage",
+    "modulePathIgnorePatterns": [
+      "liferay-amd-loader/build/.*",
+      ".*/__tests__/fixture/.*"
+    ],
+    "testURL": "http://localhost/"
+  },
+  "author": {
+    "name": "Iliyan Peychev"
+  },
+  "license": "LGPL-3.0",
+  "keywords": [
+    "Liferay",
+    "AMD",
+    "ES6",
+    "Loader"
+  ],
+  "bugs": {
+    "url": "https://github.com/liferay/liferay-amd-loader/issues"
+  },
+  "homepage": "https://github.com/liferay/liferay-amd-loader",
+  "files": [
+    ".babelrc",
+    ".eslintrc",
+    ".publishrc",
+    "LICENSE.md",
+    "package.json",
+    "README.md",
+    "webpack.config.js",
+    "src",
+    "bin",
+    "build",
+    "src"
+  ],
+  "dependencies": {
+    "es6-promise": "^4.0.5"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "combohandler": "^0.4.0",
+    "eslint": "^4.17.0",
+    "eslint-config-liferay": "^2.0.18",
+    "fs-extra": "^5.0.0",
+    "globby": "^7.1.1",
+    "http-server": "^0.11.1",
+    "jest": "^22.2.1",
+    "prettier-eslint-cli": "^4.7.0",
+    "publish-please": "^2.3.1",
+    "uglifyjs-webpack-plugin": "^1.2.0",
+    "webpack": "^3.10.0"
+  }
 }
