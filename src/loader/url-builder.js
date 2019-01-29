@@ -1,9 +1,4 @@
 /**
- * External protocols regex, supports: "http", "https", "//" and "www."
- */
-const REGEX_EXTERNAL_PROTOCOLS = /^https?:\/\/|\/\/|www\./;
-
-/**
  *
  */
 export default class URLBuilder {
@@ -18,16 +13,15 @@ export default class URLBuilder {
 
 	/**
 	 * Returns a list of URLs from provided list of modules.
-	 * @param {array} modules List of modules for which URLs should be created.
-	 * @return {array} List of URLs.
+	 * @param {array} moduleNames list of modules for which URLs should be
+	 * 								created
+	 * @return {array} list of URLs
 	 */
-	build(modules) {
+	build(moduleNames) {
 		const config = this._config;
 
-		let bufferAbsoluteURL = [];
-		let bufferRelativeURL = [];
-		let modulesAbsoluteURL = [];
-		let modulesRelativeURL = [];
+		const bufferURL = [];
+		const modulesURL = [];
 		let result = [];
 
 		let basePath = config.basePath;
@@ -36,90 +30,31 @@ export default class URLBuilder {
 			basePath += '/';
 		}
 
-		for (let i = 0; i < modules.length; i++) {
-			let module = modules[i];
+		for (let moduleName of moduleNames) {
+			const module = config.getModule(moduleName);
+			const path = this._getModulePath(module);
 
-			let registeredModule = config.getModule(module);
-
-			if (registeredModule) {
-				module = registeredModule;
-			}
-
-			// If module has fullPath, individual URL have to be created.
-			if (module.fullPath) {
-				result.push({
-					modules: [module.name || module],
-					url: this._getURLWithParams(module.fullPath),
-				});
+			if (config.combine) {
+				bufferURL.push(path);
+				modulesURL.push(module.name);
 			} else {
-				let path = this._getModulePath(module);
-				let absolutePath = path.indexOf('/') === 0;
-
-				// If the URL starts with external protocol, individual URL
-				// shall be created.
-				if (REGEX_EXTERNAL_PROTOCOLS.test(path)) {
-					result.push({
-						modules: [module.name || module],
-						url: this._getURLWithParams(path),
-					});
-
-					// If combine is disabled, or the module is an anonymous
-					// one, create an individual URL based on the config URL and
-					// module's path. If the module's path starts with "/", do
-					// not include basePath in the URL.
-				} else if (!config.combine || module.anonymous) {
-					result.push({
-						modules: [module.name || module],
-						url: this._getURLWithParams(
-							config.url + (absolutePath ? '' : basePath) + path
-						),
-					});
-				} else {
-					// If combine is true, this is not an anonymous module and
-					// the module does not have full path. The module will be
-					// collected in a buffer to be loaded among with other
-					// modules from combo loader. The path will be stored in
-					// different buffer depending on the fact if it is absolute
-					// URL or not.
-					if (absolutePath) {
-						bufferAbsoluteURL.push(path);
-						modulesAbsoluteURL.push(module.name || module);
-					} else {
-						bufferRelativeURL.push(path);
-						modulesRelativeURL.push(module.name || module);
-					}
-				}
+				result.push({
+					modules: [module.name],
+					url: this._getURLWithParams(config.url + basePath + path),
+				});
 			}
 		}
 
 		// Add to the result all modules, which have to be combined.
-		if (bufferRelativeURL.length) {
+		if (bufferURL.length) {
 			result = result.concat(
-				this._generateBufferURLs(
-					modulesRelativeURL,
-					bufferRelativeURL,
-					{
-						basePath: basePath,
-						url: config.url,
-						urlMaxLength: config.urlMaxLength,
-					}
-				)
+				this._generateBufferURLs(modulesURL, bufferURL, {
+					basePath: basePath,
+					url: config.url,
+					urlMaxLength: config.urlMaxLength,
+				})
 			);
-			bufferRelativeURL.length = 0;
-		}
-
-		if (bufferAbsoluteURL.length) {
-			result = result.concat(
-				this._generateBufferURLs(
-					modulesAbsoluteURL,
-					bufferAbsoluteURL,
-					{
-						url: config.url,
-						urlMaxLength: config.urlMaxLength,
-					}
-				)
-			);
-			bufferAbsoluteURL.length = 0;
+			bufferURL.length = 0;
 		}
 
 		return result;
@@ -135,7 +70,6 @@ export default class URLBuilder {
 	 * @return {Array<Object>} Resulting array of {modules, url} objects
 	 */
 	_generateBufferURLs(modules, urls, config) {
-		let i;
 		let basePath = config.basePath;
 		let result = [];
 		let urlMaxLength = config.urlMaxLength;
@@ -145,9 +79,9 @@ export default class URLBuilder {
 			url: config.url + basePath + urls[0],
 		};
 
-		for (i = 1; i < urls.length; i++) {
-			let module = modules[i];
-			let path = urls[i];
+		for (let i = 1; i < urls.length; i++) {
+			const module = modules[i];
+			const path = urls[i];
 
 			if (
 				urlResult.url.length + basePath.length + path.length + 1 <
@@ -180,25 +114,17 @@ export default class URLBuilder {
 	 * @return {string} Module path.
 	 */
 	_getModulePath(module) {
-		let path = module.path || module.name || module;
+		const paths = this._config.paths;
 
-		let paths = this._config.paths || {};
+		let path = module.name;
 
-		let found = false;
 		Object.keys(paths).forEach(function(item) {
 			if (path === item || path.indexOf(item + '/') === 0) {
 				path = paths[item] + path.substring(item.length);
 			}
 		});
 
-		if (!found && typeof paths['*'] === 'function') {
-			path = paths['*'](path);
-		}
-
-		if (
-			!REGEX_EXTERNAL_PROTOCOLS.test(path) &&
-			path.lastIndexOf('.js') !== path.length - 3
-		) {
+		if (path.lastIndexOf('.js') !== path.length - 3) {
 			path += '.js';
 		}
 
@@ -215,15 +141,15 @@ export default class URLBuilder {
 	_getURLWithParams(url) {
 		const config = this._config;
 
-		let defaultURLParams = config.defaultURLParams || {};
+		const defaultURLParams = config.defaultURLParams || {};
 
-		let keys = Object.keys(defaultURLParams);
+		const keys = Object.keys(defaultURLParams);
 
 		if (!keys.length) {
 			return url;
 		}
 
-		let queryString = keys
+		const queryString = keys
 			.map(function(key) {
 				return key + '=' + defaultURLParams[key];
 			})

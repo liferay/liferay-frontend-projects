@@ -1,21 +1,21 @@
-import cfg from './fixture/config.js';
 import Config from '../config';
 import DependencyResolver from '../dependency-resolver';
 
-let config;
-let dependencyResolver;
-
 describe('DependencyResolver', () => {
+	let config;
+	let dependencyResolver;
+
 	beforeEach(() => {
-		config = new Config(cfg);
+		config = new Config();
 		dependencyResolver = new DependencyResolver(config);
 
 		window.fetch = jest.fn().mockImplementation(param => {
-			let encodedModules = param.split(
-				'/o/js_resolve_modules?modules='
-			)[1];
+			const encodedModules = param.replace(
+				`${config.resolvePath}?modules=`,
+				''
+			);
 
-			let modules = decodeURIComponent(encodedModules);
+			const modules = decodeURIComponent(encodedModules);
 
 			return Promise.resolve({
 				text: () => Promise.resolve(JSON.stringify(modules.split(','))),

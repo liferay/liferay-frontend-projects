@@ -24,6 +24,10 @@ export default class DependencyResolver {
 	 *     				(module name itself is being returned too)
 	 */
 	resolve(modules) {
+		if (modules === undefined || modules.length == 0) {
+			throw new Error(`Invalid argument 'modules': ${modules}`);
+		}
+
 		const config = this._config;
 
 		return new Promise((resolve, reject) => {

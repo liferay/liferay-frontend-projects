@@ -2,6 +2,7 @@ import Config from './config';
 import DependencyResolver from './dependency-resolver';
 import ScriptLoader from './script-loader';
 import PathResolver from './path-resolver';
+import URLBuilder from './url-builder';
 import packageJson from '../../package.json';
 
 /**
@@ -23,6 +24,7 @@ export default class Loader {
 		this._config = new Config(config || window.__CONFIG__);
 
 		this._dependencyResolver = new DependencyResolver(this._config);
+		this._urlBuilder = new URLBuilder(this._config);
 		this._scriptLoader = new ScriptLoader(
 			document || window.document,
 			this._config
@@ -114,8 +116,8 @@ export default class Loader {
 			failure = undefined;
 		}
 
-		// Normalize moduleNames argument
-		moduleNames = moduleNames.flat();
+		// Flatten moduleNames argument
+		moduleNames = [].concat(...moduleNames);
 
 		// Provide default value for success
 		if (success === undefined) {
@@ -365,9 +367,9 @@ export default class Loader {
 						} else if (dependency === 'require') {
 							return this._createLocalRequire(module);
 						} else {
-							const dependencyModule = config.getModule(
-								dependency,
-								module.map
+							const dependencyModule = config.getDependency(
+								module.name,
+								dependency
 							);
 
 							if (!dependencyModule) {
@@ -392,7 +394,9 @@ export default class Loader {
 
 				module.implement.resolve(module.implementation);
 			} catch (err) {
-				module.implement.reject(err);
+				if (!module.implement.fulfilled) {
+					module.implement.reject(err);
+				}
 				errors[module.name] = err;
 			}
 		});
@@ -426,9 +430,9 @@ export default class Loader {
 					moduleName
 				);
 
-				let dependencyModule = config.getModule(
-					resolvedPath,
-					module.map
+				let dependencyModule = config.getDependency(
+					module.name,
+					resolvedPath
 				);
 
 				if (

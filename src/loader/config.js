@@ -9,7 +9,7 @@ export default class Config {
 	 * @constructor
 	 * @param {object=} cfg configuration properties
 	 */
-	constructor(cfg) {
+	constructor(cfg = {}) {
 		this._modules = {};
 		this._maps = {};
 		this._paths = {};
@@ -17,7 +17,7 @@ export default class Config {
 		this._config = {maps: {}, paths: {}};
 		this._parse(cfg, 'explainResolutions', false);
 		this._parse(cfg, 'waitTimeout', 7000);
-		this._parse(cfg, 'basePath', '');
+		this._parse(cfg, 'basePath', '/');
 		this._parse(cfg, 'resolvePath', '/o/js_resolve_modules');
 		this._parse(cfg, 'combine', false);
 		this._parse(cfg, 'url', '');
@@ -121,11 +121,12 @@ export default class Config {
 	}
 
 	/**
-	 * Returns map with all registered modules or the requested subset of them.
+	 * Returns array with all registered modules or the requested subset of
+	 * them.
 	 * @param {?Array} moduleNames optional list of module names to retrieve
 	 * @return {Array}
 	 */
-	getModules(moduleNames) {
+	getModules(moduleNames = []) {
 		if (moduleNames.length > 0) {
 			return moduleNames.map(moduleName => this.getModule(moduleName));
 		} else {
@@ -134,23 +135,40 @@ export default class Config {
 	}
 
 	/**
-	 * Returns the registered module for the moduleName. If not found it maps
-	 * the module name and return the registeredModule for the mapped name.
+	 * Returns the registered module for the moduleName.
 	 * @param {string} moduleName the module name
-	 * @param {?object} contextMap contextual module mapping information
-	 *     relevant to the current load operation
 	 * @return {Object} the registed module object
 	 */
-	getModule(moduleName, contextMap) {
+	getModule(moduleName) {
 		let module = this._modules[moduleName];
 
 		if (!module) {
-			const mappedName = this._mapModule(moduleName, contextMap);
+			const mappedName = this._mapModule(moduleName);
 
 			module = this._modules[mappedName];
 		}
 
 		return module;
+	}
+
+	/**
+	 * Returns the registered module for the dependency of moduleName.
+	 * @param {string} moduleName the module name
+	 * @param {string} dependencyName the dependencyName name
+	 * @return {Object} the registed module object
+	 */
+	getDependency(moduleName, dependencyName) {
+		const module = this.getModule(moduleName);
+
+		let dependencyModule = this._modules[dependencyName];
+
+		if (!dependencyModule) {
+			const mappedName = this._mapModule(dependencyName, module.map);
+
+			dependencyModule = this._modules[mappedName];
+		}
+
+		return dependencyModule;
 	}
 
 	/**

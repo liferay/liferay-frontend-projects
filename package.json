@@ -8,7 +8,7 @@
     "ci": "prettier-eslint --list-different && npm run lint && npm run build && npm run build-demo && npm test",
     "build-demo": "node bin/build-demo.js",
     "demo": "node bin/run-demo.js",
-    "test": "jest",
+    "test": "jest --runInBand",
     "format": "prettier-eslint --write 'src/**/*.js'",
     "lint": "eslint 'src/**/*.js' && eslint 'bin/**/*.js'",
     "prepublish": "publish-please guard",
@@ -24,7 +24,7 @@
     "coverageDirectory": "build/coverage",
     "modulePathIgnorePatterns": [
       "liferay-amd-loader/build/.*",
-      ".*/__tests__/fixture/.*"
+      ".*/__tests__/__fixtures__/.*"
     ],
     "testURL": "http://localhost/"
   },

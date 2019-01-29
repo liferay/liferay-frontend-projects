@@ -37,6 +37,9 @@ ResolvablePromise.new = () => {
 	promise.resolve = value => resolve(promise, value);
 	promise.reject = error => reject(promise, error);
 
+	// This is to avoid UnhandledPromiseRejectionWarning errors in node
+	promise.catch(() => {});
+
 	return promise;
 };
 
