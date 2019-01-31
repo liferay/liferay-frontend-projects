@@ -1,22 +1,27 @@
-const http = require('http');
 const fs = require('fs');
+const http = require('http');
+const path = require('path');
 const url = require('url');
 
 const processResource = (resource, res) => {
-	fs.createReadStream('build/demo' + resource).pipe(res);
+	fs.createReadStream(path.join('build', 'demo', resource)).pipe(res);
 };
 
 const processModules = (resource, res) => {
-	let params = url.parse(resource, true);
+	const params = url.parse(resource, true);
 
 	let modules = params.query.modules;
 
-	modules = modules.replace(/,/g, '_');
-	modules = modules.replace(/\//g, '_');
+	modules = modules.replace(/[,/]/g, '_');
 
-	let path = 'build/demo/resolutions/' + modules + '.json';
+	const filePath = path.join(
+		'build',
+		'demo',
+		'resolutions',
+		modules + '.json'
+	);
 
-	fs.createReadStream(path).pipe(res);
+	fs.createReadStream(filePath).pipe(res);
 };
 
 const server = http.createServer((req, res) => {
@@ -28,7 +33,7 @@ const server = http.createServer((req, res) => {
 
 	if (resource.startsWith('/o/js_resolve_modules')) {
 		processModules(resource, res);
-	} else if (fs.existsSync('build/demo' + resource)) {
+	} else if (fs.existsSync(path.join('build', 'demo', resource))) {
 		processResource(resource, res);
 	} else {
 		res.end();

@@ -4,12 +4,14 @@ import DependencyResolver from '../dependency-resolver';
 describe('DependencyResolver', () => {
 	let config;
 	let dependencyResolver;
+	let originalFetch;
 
 	beforeEach(() => {
 		config = new Config();
 		dependencyResolver = new DependencyResolver(config);
 
-		window.fetch = jest.fn().mockImplementation(param => {
+		originalFetch = window.fetch;
+		window.fetch = jest.fn(param => {
 			const encodedModules = param.replace(
 				`${config.resolvePath}?modules=`,
 				''
@@ -21,6 +23,10 @@ describe('DependencyResolver', () => {
 				text: () => Promise.resolve(JSON.stringify(modules.split(','))),
 			});
 		});
+	});
+
+	afterEach(() => {
+		window.fetch = originalFetch;
 	});
 
 	it('should throw an exception if no modules are specified', () => {

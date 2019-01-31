@@ -39,7 +39,7 @@ describe('ResolvablePromise', () => {
 		}, 100);
 	});
 
-	it('reject should invoke pre and post registered catchs', done => {
+	it('reject should invoke pre and post registered catches', done => {
 		let preCalled;
 		let postCalled;
 

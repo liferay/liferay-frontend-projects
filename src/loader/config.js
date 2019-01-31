@@ -25,7 +25,7 @@ export default class Config {
 	}
 
 	/**
-	 * Whether or not to explain how require() calls are resolved
+	 * Whether to explain how require() calls are resolved
 	 */
 	get explainResolutions() {
 		return this._config.explainResolutions;
@@ -46,14 +46,14 @@ export default class Config {
 	}
 
 	/**
-	 * The path invoke when resolving module dependencies
+	 * The path to use when calling the server to resolve module dependencies
 	 */
 	get resolvePath() {
 		return this._config.resolvePath;
 	}
 
 	/**
-	 * Whether or not to combine module requests into combo URLs
+	 * Whether to combine module requests into combo URLs
 	 */
 	get combine() {
 		return this._config.combine;
@@ -260,7 +260,6 @@ export default class Config {
 	 */
 	_mapExactMatch(module, maps) {
 		for (let alias in maps) {
-			/* istanbul ignore else */
 			if (Object.prototype.hasOwnProperty.call(maps, alias)) {
 				const aliasValue = maps[alias];
 
@@ -283,7 +282,6 @@ export default class Config {
 	 */
 	_mapPartialMatch(module, maps) {
 		for (let alias in maps) {
-			/* istanbul ignore else */
 			if (Object.prototype.hasOwnProperty.call(maps, alias)) {
 				let aliasValue = maps[alias];
 

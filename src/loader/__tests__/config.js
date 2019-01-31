@@ -7,11 +7,11 @@ describe('Config', () => {
 		config = new Config();
 	});
 
-	it('should create an instance of Config without existing data', () => {
+	it('creates an instance of Config without existing data', () => {
 		expect(config.getModules()).toHaveLength(0);
 	});
 
-	it('should add new module', () => {
+	it('adds new module', () => {
 		const addedModule = config.addModule('a-module');
 		const modules = config.getModules();
 
@@ -20,14 +20,14 @@ describe('Config', () => {
 		expect(modules[0].name).toBe('a-module');
 	});
 
-	it('should return existing module when addModule called twice', () => {
+	it('returns existing module when addModule called twice', () => {
 		const addedModule1 = config.addModule('a-module');
 		const addedModule2 = config.addModule('a-module');
 
 		expect(addedModule1).toBe(addedModule2);
 	});
 
-	it('should map a module to its alias', () => {
+	it('maps a module to its alias', () => {
 		const addedModule = config.addModule('liferay@1.0.0');
 
 		config.addMappings({liferay: 'liferay@1.0.0'});
@@ -37,7 +37,7 @@ describe('Config', () => {
 		expect(mappedModule).toBe(addedModule);
 	});
 
-	it('should respect "exactMatch" mappings', () => {
+	it('respects "exactMatch" mappings', () => {
 		const addedModule = config.addModule('liferay@1.0.0/index');
 
 		config.addMappings({
@@ -56,7 +56,7 @@ describe('Config', () => {
 		expect(mappedModule).toBe(addedModule);
 	});
 
-	it('should map an array of modules to their aliases', () => {
+	it('maps an array of modules to their aliases', () => {
 		const addedModule1 = config.addModule('liferay@1.0.0');
 		const addedModule2 = config.addModule('liferay@2.0.0');
 
@@ -70,7 +70,7 @@ describe('Config', () => {
 		expect(mappedModules).toEqual([addedModule1, addedModule2]);
 	});
 
-	it('should map a module via a mapping function', () => {
+	it('maps a module via a mapping function', () => {
 		const addedModule1 = config.addModule('liferaytest');
 		const addedModule2 = config.addModule('liferay2test');
 
@@ -83,25 +83,21 @@ describe('Config', () => {
 		expect(mappedModules).toEqual([addedModule1, addedModule2]);
 	});
 
-	it(
-		'should ignore a mapping function if a more specific module mapping ' +
-			'exists',
-		() => {
-			const addedModule1 = config.addModule('liferay@1.0.0');
-			const addedModule2 = config.addModule('liferay2test');
+	it('ignores a mapping function if a more specific module mapping exists', () => {
+		const addedModule1 = config.addModule('liferay@1.0.0');
+		const addedModule2 = config.addModule('liferay2test');
 
-			config.addMappings({
-				'liferay': 'liferay@1.0.0',
-				'*': name => name + 'test',
-			});
+		config.addMappings({
+			'liferay': 'liferay@1.0.0',
+			'*': name => name + 'test',
+		});
 
-			const mappedModules = config.getModules(['liferay', 'liferay2']);
+		const mappedModules = config.getModules(['liferay', 'liferay2']);
 
-			expect(mappedModules).toEqual([addedModule1, addedModule2]);
-		}
-	);
+		expect(mappedModules).toEqual([addedModule1, addedModule2]);
+	});
 
-	it('should apply exactMatches first', () => {
+	it('applies exactMatches first', () => {
 		const addedModule1 = config.addModule('liferay@1.0.0/index');
 		const addedModule2 = config.addModule('liferay@2.0.0/main');
 		const addedModule3 = config.addModule('liferay@2.0.0');
@@ -132,7 +128,7 @@ describe('Config', () => {
 		expect(mappedModule).toBe(addedModule4);
 	});
 
-	it('should stop replacement for exact identity matches', () => {
+	it('stops replacement for exact identity matches', () => {
 		const addedModule = config.addModule('liferay/index');
 
 		config.addMappings({
@@ -145,7 +141,7 @@ describe('Config', () => {
 		expect(mappedModule).toBe(addedModule);
 	});
 
-	it('should map local modules correctly', () => {
+	it('maps local modules correctly', () => {
 		const currentModule = config.addModule('isobject@2.1.0/index');
 		const dependency1 = config.addModule('isarray@1.0.0');
 		const dependency2 = config.addModule('isarray@1.0.0/index');

@@ -25,7 +25,7 @@ export default class DependencyResolver {
 	 */
 	resolve(modules) {
 		if (modules === undefined || modules.length == 0) {
-			throw new Error(`Invalid argument 'modules': ${modules}`);
+			throw new Error(`Argument 'modules' cannot be undefined or empty`);
 		}
 
 		const config = this._config;

@@ -29,6 +29,6 @@ globby.sync('src/demo/modules/**/*.js').forEach(file => {
 
 	copy(
 		path.join('src', 'demo', 'modules', filePath),
-		path.join('build', 'demo', 'modules', 'filePath}')
+		path.join('build', 'demo', 'modules', filePath)
 	);
 });

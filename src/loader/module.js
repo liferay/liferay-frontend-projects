@@ -49,7 +49,7 @@ export default class Module {
 	}
 
 	/**
-	 * Get the fetch promise which if fulfilled when the script containing the
+	 * Get the fetch promise which is fulfilled when the script containing the
 	 * module definition has been loaded/failed.
 	 *
 	 * Note that a module may be defined even if it is not yet fetched because
