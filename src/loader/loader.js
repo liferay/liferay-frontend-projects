@@ -352,54 +352,56 @@ export default class Loader {
 
 		const errors = {};
 
-		modules.filter(module => !module.implemented).forEach(module => {
-			try {
-				// Prepare CommonJS module implementation object
-				const moduleImpl = {exports: {}};
+		modules
+			.filter(module => !module.implemented)
+			.forEach(module => {
+				try {
+					// Prepare CommonJS module implementation object
+					const moduleImpl = {exports: {}};
 
-				// Prepare arguments for the AMD factory function
-				const dependencyImplementations = module.dependencies.map(
-					dependency => {
-						if (dependency === 'exports') {
-							return moduleImpl.exports;
-						} else if (dependency === 'module') {
-							return moduleImpl;
-						} else if (dependency === 'require') {
-							return this._createLocalRequire(module);
-						} else {
-							const dependencyModule = config.getDependency(
-								module.name,
-								dependency
-							);
-
-							if (!dependencyModule) {
-								throw new Error(
-									`Unsatisfied dependency: ${dependency}`
+					// Prepare arguments for the AMD factory function
+					const dependencyImplementations = module.dependencies.map(
+						dependency => {
+							if (dependency === 'exports') {
+								return moduleImpl.exports;
+							} else if (dependency === 'module') {
+								return moduleImpl;
+							} else if (dependency === 'require') {
+								return this._createLocalRequire(module);
+							} else {
+								const dependencyModule = config.getDependency(
+									module.name,
+									dependency
 								);
+
+								if (!dependencyModule) {
+									throw new Error(
+										`Unsatisfied dependency: ${dependency}`
+									);
+								}
+
+								return dependencyModule.implementation;
 							}
-
-							return dependencyModule.implementation;
 						}
+					);
+
+					// Invoke AMD factory function
+					const result = module.factory(...dependencyImplementations);
+
+					if (result !== undefined) {
+						module.implementation = result;
+					} else {
+						module.implementation = moduleImpl.exports;
 					}
-				);
 
-				// Invoke AMD factory function
-				const result = module.factory(...dependencyImplementations);
-
-				if (result !== undefined) {
-					module.implementation = result;
-				} else {
-					module.implementation = moduleImpl.exports;
+					module.implement.resolve(module.implementation);
+				} catch (err) {
+					if (!module.implement.fulfilled) {
+						module.implement.reject(err);
+					}
+					errors[module.name] = err;
 				}
-
-				module.implement.resolve(module.implementation);
-			} catch (err) {
-				if (!module.implement.fulfilled) {
-					module.implement.reject(err);
-				}
-				errors[module.name] = err;
-			}
-		});
+			});
 
 		if (Object.keys(errors).length > 0) {
 			throw Object.assign(
