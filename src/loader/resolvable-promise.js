@@ -37,8 +37,10 @@ ResolvablePromise.new = () => {
 	promise.resolve = value => resolve(promise, value);
 	promise.reject = error => reject(promise, error);
 
-	// This is to avoid UnhandledPromiseRejectionWarning errors in node
-	promise.catch(() => {});
+	// This is to avoid UnhandledPromiseRejectionWarning errors during the tests
+	if (typeof jest !== 'undefined') {
+		promise.catch(() => {});
+	}
 
 	return promise;
 };
