@@ -1,12 +1,11 @@
 {
-  "extends": "../../.eslintrc",
+  "extends": "../.eslintrc",
   "env": {
     "amd": true,
     "browser": true
   },
   "globals": {
-    "__CONFIG__": true,
-    "Liferay": true
+    "Loader": true
   },
   "rules": {
     "require-jsdoc": "off"
