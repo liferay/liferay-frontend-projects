@@ -38,9 +38,19 @@ export default class DependencyResolver {
 				return;
 			}
 
-			fetch(
-				`${config.resolvePath}?modules=` + encodeURIComponent(modules)
-			)
+			const modulesParam = `modules=${encodeURIComponent(modules)}`;
+			let url = `${config.resolvePath}?${modulesParam}`;
+			let options = {};
+
+			if (url.length > config.urlMaxLength) {
+				url = config.resolvePath;
+				options = {
+					method: 'POST',
+					body: modulesParam,
+				};
+			}
+
+			fetch(url, options)
 				.then(response => response.text())
 				.then(text => {
 					const resolution = JSON.parse(text);
