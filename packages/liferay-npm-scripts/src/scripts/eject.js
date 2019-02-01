@@ -120,6 +120,14 @@ module.exports = function() {
 	if (flags.bundler) {
 		newDevDependencies['liferay-npm-bundler'] =
 			scriptsDependencies['liferay-npm-bundler'];
+		newDevDependencies['liferay-npm-bundler-preset-liferay-dev'] =
+			scriptsDependencies['liferay-npm-bundler-preset-liferay-dev'];
+	}
+
+	// Additional if --bridge flag is included
+	if (flags.bridge) {
+		newDevDependencies['liferay-npm-bridge-generator'] =
+			scriptsDependencies['liferay-npm-bridge-generator'];
 	}
 
 	projectPackage.devDependencies = sortKeys({
