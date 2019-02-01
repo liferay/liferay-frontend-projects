@@ -63,7 +63,6 @@ function runBridge() {
  */
 module.exports = function(flags) {
 	const useBridge = flags.bridge;
-	const useBundler = flags.bundler;
 	const useSoy = flags.soy;
 
 	if (useSoy) {
@@ -72,9 +71,7 @@ module.exports = function(flags) {
 
 	compileBabel();
 
-	if (useBundler) {
-		runBundler();
-	}
+	runBundler();
 
 	if (useBridge) {
 		runBridge();
