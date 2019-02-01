@@ -82,3 +82,9 @@ If you need to add additional configuration you can do so by creating a `.lifera
 If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel.json), [Default Bundler Config](./src/config/npm-bundler.json)
 
 For more control over `lint` and `format`, follow the configuration options [here](https://github.com/liferay/liferay-frontend-source-formatter#custom-configuration)
+
+Want to use a different `NODE_ENV`? Try doing something like
+
+```sh
+NODE_ENV=development liferay-npm-scripts build
+```
