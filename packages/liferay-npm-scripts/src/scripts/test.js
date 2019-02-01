@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const which = require('npm-which')(CWD);
 
-const {buildSoy, cleanSoy,} = require('./soy');
+const {buildSoy, cleanSoy, soyExists,} = require('./soy');
 const getMergedConfig = require('../utils/get-merged-config');
 const {removeBabelConfig, setBabelConfig,} = require('./babel');
 
@@ -18,8 +18,8 @@ const JEST_CONFIG = getMergedConfig('jest');
 /**
  * Main script that runs `jest` with a merged config
  */
-module.exports = function(arrArgs, flags) {
-	const useSoy = flags.soy;
+module.exports = function(arrArgs) {
+	const useSoy = soyExists();
 
 	const CONFIG_PATH = path.join(CWD, 'TEMP_jest.config.json');
 
@@ -29,8 +29,6 @@ module.exports = function(arrArgs, flags) {
 
 	if (useSoy) {
 		buildSoy();
-
-		arrArgs = arrArgs.filter(item => item !== '--soy');
 	}
 
 	spawnSync(which.sync('jest'), [

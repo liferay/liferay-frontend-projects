@@ -7,22 +7,12 @@ const rimraf = require('rimraf');
 const CWD = process.cwd();
 
 const TEMP_PATH = path.join(CWD, 'TEMP_LIFERAY_NPM_SCRIPTS');
-const CONFIG_PATH = path.join(CWD, '.liferaynpmscriptsrc');
 
 module.exports = function() {
-	let configFile = '{}';
-
-	if (fs.existsSync(CONFIG_PATH)) {
-		configFile = fs.readFileSync(CONFIG_PATH);
-	}
-
-	const config = JSON.parse(configFile);
-
 	const ARGS_ARRAY = process.argv.slice(2);
 
 	const {
-		_: [type],
-		...flags
+		_: [type,],
 	} = minimist(ARGS_ARRAY);
 
 	if (!fs.existsSync(TEMP_PATH)) {
@@ -31,7 +21,7 @@ module.exports = function() {
 
 	switch (type) {
 		case 'build':
-			require('./scripts/build')(flags, config.build);
+			require('./scripts/build')();
 			break;
 		case 'eject':
 			inquirer
@@ -40,9 +30,9 @@ module.exports = function() {
 					message:
 						'Are you sure you want to eject? This action is permanent.',
 					name: 'eject',
-					type: 'confirm'
+					type: 'confirm',
 				})
-				.then(({eject}) => {
+				.then(({eject,}) => {
 					if (eject) {
 						require('./scripts/eject')();
 					}
@@ -55,7 +45,7 @@ module.exports = function() {
 			require('./scripts/format')();
 			break;
 		case 'test':
-			require('./scripts/test')(ARGS_ARRAY, flags);
+			require('./scripts/test')(ARGS_ARRAY);
 			break;
 		default:
 			console.log(

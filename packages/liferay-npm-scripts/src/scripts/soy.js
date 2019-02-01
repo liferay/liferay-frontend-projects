@@ -1,3 +1,5 @@
+const glob = require('glob');
+const path = require('path');
 const which = require('npm-which')(process.cwd());
 const spawnSync = require('../utils/spawnSync');
 const getMergedConfig = require('../utils/get-merged-config');
@@ -20,4 +22,11 @@ exports.buildSoy = function() {
 		'--soyDeps',
 		generateSoyDependencies(BUILD_CONFIG.dependencies),
 	]);
+};
+
+/**
+ * Checks to see if there are any soy files
+ */
+exports.soyExists = function() {
+	return !!glob.sync(path.join(BUILD_CONFIG.input, '/**/*.soy')).length;
 };

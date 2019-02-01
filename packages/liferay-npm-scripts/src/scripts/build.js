@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const which = require('npm-which')(CWD);
 
-const {buildSoy, cleanSoy,} = require('./soy');
+const {buildSoy, cleanSoy, soyExists,} = require('./soy');
 const {removeBabelConfig, setBabelConfig,} = require('./babel');
 const getMergedConfig = require('../utils/get-merged-config');
 const {moveToTemp, removeFromTemp,} = require('../utils/move-to-temp');
@@ -61,9 +61,8 @@ function runBridge() {
  * Main script that runs all all specified build tasks synchronously.
  * Babel is always run and the user can also include flags to run soy and bundler.
  */
-module.exports = function(flags) {
-	const useBridge = flags.bridge;
-	const useSoy = flags.soy;
+module.exports = function() {
+	const useSoy = soyExists();
 
 	if (useSoy) {
 		buildSoy();
@@ -73,7 +72,7 @@ module.exports = function(flags) {
 
 	runBundler();
 
-	if (useBridge) {
+	if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
 		runBridge();
 	}
 
