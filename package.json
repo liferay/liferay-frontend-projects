@@ -29,7 +29,8 @@
 		"modulePathIgnorePatterns": [
 			"lib/.*",
 			"generators/.*",
-			"qa/.*"
+			"qa/.*",
+			"__fixtures__/.*"
 		],
 		"testPathIgnorePatterns": [
 			"/node_modules/",
