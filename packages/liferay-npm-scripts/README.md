@@ -27,25 +27,9 @@ Build script that compiles all necessary javascript, soy, and bundles it togethe
 liferay-npm-scripts build
 ```
 
-Add `--soy` to build soy templates
+Do you have soy dependencies? `build` should automatically detect them.
 
-```sh
-liferay-npm-scripts build --soy
-```
-
-Add `--bundler` for bundling
-
-```sh
-liferay-npm-scripts build --bundler
-```
-
-Add `--bridge` to use `liferay-npm-bridge-generator`
-
-```sh
-liferay-npm-scripts build --bridge
-```
-
-If you use this flag, You will need to follow the configuration options seen [here](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-liferay-npm-bridge-generator).
+Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` file and follow the configuration options [here](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-liferay-npm-bridge-generator).
 
 ### lint
 
@@ -61,7 +45,7 @@ Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scr
 liferay-npm-scripts format
 ```
 
-Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts.json#L7-L13).
+Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `.liferaynpmscriptsrc` configuration. Or defaults seen [here](./src/config/liferay-npm-scripts.json#L7-L13).
 
 ### test
 
