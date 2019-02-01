@@ -144,7 +144,7 @@ function addManifest(zip) {
  * @param {JSZip} zip the ZIP file
  */
 function addMetatypeFile(zip) {
-	const filePath = config.jar.getMetatypeFile();
+	const filePath = config.jar.getSettingsFile();
 
 	if (!filePath) {
 		return;
@@ -204,7 +204,7 @@ function getMinimumExtenderVersion() {
 
 	let minExtenderMinorVersion = 0;
 
-	if (config.jar.getMetatypeFile()) {
+	if (config.jar.getSettingsFile()) {
 		minExtenderMinorVersion = Math.max(minExtenderMinorVersion, 1);
 	}
 

@@ -26,8 +26,11 @@ export default class extends Generator {
 			{
 				type: 'confirm',
 				name: 'useSettings',
-				message: 'Do you want to add settings support?',
-				default: true,
+				message:
+					'Do you want to add settings support?\n' +
+					'  (👀 needs JS Portlet Extender 1.1.0)',
+				// TODO: change to true once Extender 1.1.0 is relased
+				default: false,
 			},
 		]);
 	}

@@ -50,10 +50,10 @@ export function getLocalizationFile() {
 }
 
 /**
- * Get metatype file path.
+ * Get settings file path.
  * @return {string} the full path of file or undefined if not configured
  */
-export function getMetatypeFile() {
+export function getSettingsFile() {
 	const jarConfig = getNormalizedJarConfig();
 
 	let defaultValue = undefined;
