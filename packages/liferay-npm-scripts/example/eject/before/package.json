@@ -10,7 +10,7 @@
 		"liferay-npm-scripts": "^0.0.2"
 	},
 	"scripts": {
-		"build": "liferay-npm-scripts build --soy --bundler",
+		"build": "liferay-npm-scripts build",
 		"eject": "liferay-npm-scripts eject",
 		"format": "liferay-npm-scripts format",
 		"lint": "liferay-npm-scripts lint",

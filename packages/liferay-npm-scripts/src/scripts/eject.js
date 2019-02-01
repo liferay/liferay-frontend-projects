@@ -5,6 +5,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const sortKeys = require('sort-keys');
 
+const {soyExists,} = require('./soy');
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawnSync');
@@ -20,13 +21,13 @@ const scriptsDependencies = require(path.join(__dirname, '../../package.json'))
 
 /**
  * Helper for generating the npm `build` script
- * @param {Object} flags Flags included via CLI
+ * @param {Object} config Options derived from file structure
  * @returns {string}
  */
-function generateBuildScript(flags) {
+function generateBuildScript(config) {
 	let retStr = '';
 
-	if (flags.soy) {
+	if (config.soy) {
 		retStr += `metalsoy --soyDeps \"${generateSoyDependencies(
 			NPM_SCRIPTS_CONFIG.build.dependencies
 		)}\" && `;
@@ -36,15 +37,13 @@ function generateBuildScript(flags) {
 		NPM_SCRIPTS_CONFIG.build.output
 	} ${NPM_SCRIPTS_CONFIG.build.input}`;
 
-	if (flags.bundler) {
-		retStr += ' && liferay-npm-bundler';
-	}
+	retStr += ' && liferay-npm-bundler';
 
-	if (flags.bridge) {
+	if (config.bridge) {
 		retStr += ' && liferay-npm-bridge-generator';
 	}
 
-	if (flags.soy) {
+	if (config.soy) {
 		retStr += '&& npm run cleanSoy';
 	}
 
@@ -55,9 +54,10 @@ function generateBuildScript(flags) {
  * Main function for ejecting configuration to package.json and configuration
  */
 module.exports = function() {
-	const flags = projectPackage.scripts.build
-		.match(/(?<=--)(?:\w+)/g)
-		.reduce((prev, cur) => ({...prev, [cur]: true,}), {});
+	const config = {
+		bridge: fs.existsSync(path.join(CWD, '.npmbridgerc')),
+		soy: soyExists(),
+	};
 
 	// Write config for babel
 	if (!projectPackage.babel) {
@@ -80,16 +80,14 @@ module.exports = function() {
 	}
 
 	// Write config file for bundler
-	if (flags.bundler) {
-		fs.writeFileSync(
-			path.join(CWD, '.npmbundlerrc'),
-			JSON.stringify(BUNDLER_CONFIG, null, '\t')
-		);
-	}
+	fs.writeFileSync(
+		path.join(CWD, '.npmbundlerrc'),
+		JSON.stringify(BUNDLER_CONFIG, null, '\t')
+	);
 
 	// Set initial npm scripts
 	projectPackage.scripts = {
-		build: generateBuildScript(flags),
+		build: generateBuildScript(),
 		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
 		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`,
 		test: 'jest',
@@ -105,10 +103,13 @@ module.exports = function() {
 		jest: scriptsDependencies['jest'],
 		'liferay-jest-junit-reporter':
 			scriptsDependencies['liferay-jest-junit-reporter'],
+		'liferay-npm-bundler': scriptsDependencies['liferay-npm-bundler'],
+		'liferay-npm-bundler-preset-liferay-dev':
+			scriptsDependencies['liferay-npm-bundler-preset-liferay-dev'],
 	};
 
-	// Additional if --soy flag is included
-	if (flags.soy) {
+	// Additional if soy is used
+	if (config.soy) {
 		newDevDependencies['metal-tools-soy'] =
 			scriptsDependencies['metal-tools-soy'];
 		newDevDependencies['rimraf'] = scriptsDependencies['rimraf'];
@@ -116,16 +117,8 @@ module.exports = function() {
 		projectPackage.scripts.cleanSoy = 'rimraf src/**/*.soy.js';
 	}
 
-	// Additional if --bundler flag is included
-	if (flags.bundler) {
-		newDevDependencies['liferay-npm-bundler'] =
-			scriptsDependencies['liferay-npm-bundler'];
-		newDevDependencies['liferay-npm-bundler-preset-liferay-dev'] =
-			scriptsDependencies['liferay-npm-bundler-preset-liferay-dev'];
-	}
-
-	// Additional if --bridge flag is included
-	if (flags.bridge) {
+	// Additional if bridge is used
+	if (config.bridge) {
 		newDevDependencies['liferay-npm-bridge-generator'] =
 			scriptsDependencies['liferay-npm-bridge-generator'];
 	}
