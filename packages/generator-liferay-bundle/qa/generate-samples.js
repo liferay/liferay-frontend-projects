@@ -104,7 +104,7 @@ configs.forEach(config => {
 	const proc = childProcess.spawnSync(
 		'yo',
 		['liferay-bundle', '--config', path.resolve('config', config)],
-		{stdio: 'inherit', cwd: pkgsDir}
+		{stdio: 'inherit', cwd: pkgsDir, shell: true}
 	);
 
 	if (proc.error || proc.status != 0) {
@@ -121,7 +121,11 @@ console.log(`
 
 fs.writeFileSync(path.join(outDir, 'lerna.json'), '{}');
 
-childProcess.spawnSync('lerna', ['init'], {stdio: 'inherit', cwd: outDir});
+childProcess.spawnSync('lerna', ['init'], {
+	stdio: 'inherit',
+	cwd: outDir,
+	shell: true,
+});
 
 console.log(
 	'Full generation of samples took',
