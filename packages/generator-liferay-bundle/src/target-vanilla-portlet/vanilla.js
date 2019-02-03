@@ -10,7 +10,7 @@ import PkgJsonModifier from '../utils/modifier/package.json';
 import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
 
 /**
- * Implementation of generation of plain Javascript portlets.
+ * Implementation of generation of plain JavaScript portlets.
  */
 export default class extends Generator {
 	/**
@@ -29,7 +29,7 @@ export default class extends Generator {
 				type: 'confirm',
 				name: 'useBabel',
 				message:
-					'Do you want to use Babel to transpile Javascript sources?',
+					'Do you want to use Babel to transpile JavaScript sources?',
 				default: true,
 			},
 			{
@@ -84,7 +84,7 @@ export default class extends Generator {
 			'portletNamespace, contextPath, portletElementId' +
 			(projectAnalyzer.hasSettings ? ', configuration' : '');
 
-		// Copy Javascript files
+		// Copy JavaScript files
 		pkgJson.setMain('index.js');
 		cp.copyFile(`src/index.${useBabel ? 'babel' : 'nobabel'}.js`, {
 			context: {

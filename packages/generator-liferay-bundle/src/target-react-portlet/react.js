@@ -87,7 +87,7 @@ export default class extends Generator {
 			stylesCss.addRule('.tag', 'font-weight: bold;');
 			stylesCss.addRule('.value', 'font-style: italic;');
 
-			// Copy sample Javascript files
+			// Copy sample JavaScript files
 			cp.copyDir('src', {context});
 
 			// Add localization keys
