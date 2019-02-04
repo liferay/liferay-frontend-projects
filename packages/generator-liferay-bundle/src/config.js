@@ -4,25 +4,18 @@ import readJsonSync from 'read-json-sync';
 
 let cfg = {};
 
-try {
-	cfg = readJsonSync(
-		path.join(os.homedir(), '.generator-liferay-bundle.json')
+Object.assign(
+	cfg,
+	safeReadJsonSync(path.join(os.homedir(), '.generator-liferay-bundle.json'))
+);
+
+if (process.argv.length >= 5 && process.argv[3] === '--config') {
+	cfg = Object.assign(
+		{
+			sdkVersion: cfg.sdkVersion,
+		},
+		readJsonSync(process.argv[4])
 	);
-
-	const argv = process.argv;
-
-	if (argv.length >= 5 && argv[3] === '--config') {
-		cfg = Object.assign(
-			{
-				sdkVersion: cfg.sdkVersion,
-			},
-			readJsonSync(argv[4])
-		);
-	}
-} catch (err) {
-	if (err.code !== 'ENOENT') {
-		throw err;
-	}
 }
 
 /**
@@ -92,4 +85,20 @@ export function getDefaultAnswer(
  */
 export function getSDKVersion() {
 	return cfg.sdkVersion;
+}
+
+/**
+ * Reads a JSON file returning an empty object if the file does not exist.
+ * @param {string} path
+ * @return {object}
+ */
+function safeReadJsonSync(path) {
+	try {
+		return readJsonSync(path);
+	} catch (err) {
+		if (err.code !== 'ENOENT') {
+			throw err;
+		}
+		return {};
+	}
 }
