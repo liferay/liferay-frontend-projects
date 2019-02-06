@@ -1,31 +1,12 @@
 #!/usr/bin/env node
 
 const childProcess = require('child_process');
-const {get, has} = require('dot-prop');
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
-const readJsonSync = require('read-json-sync');
 const rimraf = require('rimraf');
 
 const outDir = path.resolve('samples');
 const pkgsDir = path.join(outDir, 'packages');
-
-const homeConfig = readJsonSync(
-	path.join(os.homedir(), '.generator-liferay-bundle.json')
-);
-
-if (
-	!has(homeConfig, 'answers.facet-deploy.liferayDir') &&
-	!has(homeConfig, 'answers.*.liferayDir')
-) {
-	console.error(
-		`Property 'answers.facet-deploy.liferayDir' must be set in`,
-		path.join(os.homedir(), '.generator-liferay-bundle.json'),
-		'for the generated projects to be deployed. Exiting.'
-	);
-	process.exit(1);
-}
 
 /**
  * @param {object} options
@@ -40,17 +21,14 @@ function writeConfig(options) {
 		JSON.stringify(
 			{
 				batchMode: true,
+				sdkVersion: '../../../../../..',
 				answers: {
 					'*': Object.assign(
 						{
 							description: options.folder,
 							category: 'category.sample',
 							liferayPresent: true,
-							liferayDir: get(
-								homeConfig,
-								'answers.facet-deploy.liferayDir',
-								get(homeConfig, 'answers.*.liferayDir')
-							),
+							liferayDir: '../../../liferay-portal-master',
 						},
 						options
 					),
@@ -126,7 +104,7 @@ configs.forEach(config => {
 	const proc = childProcess.spawnSync(
 		'yo',
 		['liferay-bundle', '--config', path.resolve('config', config)],
-		{stdio: 'inherit', cwd: pkgsDir}
+		{stdio: 'inherit', cwd: pkgsDir, shell: true}
 	);
 
 	if (proc.error || proc.status != 0) {
@@ -143,7 +121,11 @@ console.log(`
 
 fs.writeFileSync(path.join(outDir, 'lerna.json'), '{}');
 
-childProcess.spawnSync('lerna', ['init'], {stdio: 'inherit', cwd: outDir});
+childProcess.spawnSync('lerna', ['init'], {
+	stdio: 'inherit',
+	cwd: outDir,
+	shell: true,
+});
 
 console.log(
 	'Full generation of samples took',
