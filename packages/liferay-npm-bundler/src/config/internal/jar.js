@@ -50,6 +50,22 @@ export function getLocalizationFile() {
 }
 
 /**
+ * Get portlet preferences file path.
+ * @return {string} the full path of file or undefined if not configured
+ */
+export function getPreferencesFile() {
+	const jarConfig = getNormalizedJarConfig();
+
+	let defaultValue = undefined;
+
+	if (fs.existsSync('./features/preferences.json')) {
+		defaultValue = 'features/preferences.json';
+	}
+
+	return prop.get(jarConfig, 'features.preferences', defaultValue);
+}
+
+/**
  * Get settings file path.
  * @return {string} the full path of file or undefined if not configured
  */

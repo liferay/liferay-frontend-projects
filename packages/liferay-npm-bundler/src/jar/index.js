@@ -6,6 +6,7 @@ import readJsonSync from 'read-json-sync';
 
 import * as config from '../config';
 import * as xml from './xml';
+import * as ddm from './ddm';
 
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
 const jarFileName = `${pkgJson.name}-${pkgJson.version}.jar`;
@@ -21,6 +22,7 @@ export default function createJar() {
 	addBuildFiles(zip);
 	addLocalizationFiles(zip);
 	addMetatypeFile(zip);
+	addPreferencesFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
 		fs.mkdirpSync(config.jar.getOutputDir());
@@ -140,7 +142,7 @@ function addManifest(zip) {
 }
 
 /**
- * Add the localization bundle files if configured.
+ * Add the metatype configuration (settings) file if configured.
  * @param {JSZip} zip the ZIP file
  */
 function addMetatypeFile(zip) {
@@ -184,6 +186,26 @@ function addMetatypeFile(zip) {
 		.folder('OSGI-INF')
 		.folder('metatype')
 		.file(`${pkgJson.name}.xml`, xml.format(metatype));
+}
+
+/**
+ * Add the portlet preferences file if configured.
+ * @param {JSZip} zip the ZIP file
+ */
+function addPreferencesFile(zip) {
+	const filePath = config.jar.getPreferencesFile();
+
+	if (!filePath) {
+		return;
+	}
+
+	const preferencesJson = readJsonSync(filePath);
+
+	const ddmJson = ddm.transformPreferences(preferencesJson);
+
+	zip
+		.folder('features')
+		.file('preferences.json', JSON.stringify(ddmJson, null, 2));
 }
 
 /**
