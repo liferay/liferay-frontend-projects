@@ -2,6 +2,7 @@ import path from 'path';
 import Generator from 'yeoman-generator';
 
 import LocalizationSampleGenerator from '../facet-localization/sample-generator';
+import PreferencesSampleGenerator from '../facet-preferences/sample-generator';
 import SettingsSampleGenerator from '../facet-settings/sample-generator';
 import {Copier, formatLabels, promptWithConfig} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
@@ -112,6 +113,9 @@ export default class extends Generator {
 
 			// Add sample settings
 			new SettingsSampleGenerator(this).generate();
+
+			// Add sample preferences
+			new PreferencesSampleGenerator(this).generate();
 		}
 	}
 }

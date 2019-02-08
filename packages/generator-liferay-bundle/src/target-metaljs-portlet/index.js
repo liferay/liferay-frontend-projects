@@ -11,6 +11,7 @@ export default class extends Generator {
 		this.composeWith(require.resolve('../facet-project'));
 		this.composeWith(require.resolve('../facet-localization'));
 		this.composeWith(require.resolve('../facet-settings'));
+		this.composeWith(require.resolve('../facet-preferences'));
 		this.composeWith(require.resolve('../facet-portlet'));
 		this.composeWith(require.resolve('../facet-deploy'));
 		this.composeWith(require.resolve('../facet-start'));

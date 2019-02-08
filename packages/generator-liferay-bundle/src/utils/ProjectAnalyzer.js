@@ -3,6 +3,7 @@ import path from 'path';
 
 import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
 import {DEFAULT_SETTINGS} from '../facet-settings/constants';
+import {DEFAULT_PREFERENCES} from '../facet-preferences/constants';
 
 /**
  * A class to be able to analyze what the project does and doesn't.
@@ -111,6 +112,29 @@ export default class ProjectAnalyzer {
 		} else {
 			if (fs.exists(DEFAULT_SETTINGS)) {
 				return DEFAULT_SETTINGS;
+			}
+		}
+
+		return undefined;
+	}
+
+	/**
+	 * Get the path to the preferences file.
+	 * @return {string}
+	 */
+	get preferencesFilePath() {
+		const fs = this._generator.fs;
+
+		let preferences = prop.get(
+			this._npmbundlerrc,
+			'create-jar.features.preferences'
+		);
+
+		if (preferences) {
+			return preferences;
+		} else {
+			if (fs.exists(DEFAULT_PREFERENCES)) {
+				return DEFAULT_PREFERENCES;
 			}
 		}
 
