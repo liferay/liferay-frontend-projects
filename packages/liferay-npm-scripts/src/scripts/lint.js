@@ -1,8 +1,5 @@
-const CWD = process.cwd();
-
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawnSync');
-const which = require('npm-which')(CWD);
 
 const LINT_PATHS = getMergedConfig('npmscripts').lint;
 
@@ -17,5 +14,5 @@ module.exports = function(fix) {
 		args.push('-i');
 	}
 
-	spawnSync(which.sync('csf'), args);
+	spawnSync('csf', args);
 };
