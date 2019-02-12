@@ -20,6 +20,13 @@ if [ $? != 0 ] ; then
     exit 1
 fi
 
+which lerna > /dev/null
+if [ $? != 0 ] ; then
+    echo "No lerna command found. Please install it as it is needed."
+    echo "Hint: run 'npm install -g lerna'."
+    exit 1
+fi
+
 if [ "$FIREFOX" != "" ] ; then
     FIREFOX=$FIREFOX
 elif [ -x /opt/firefox45/firefox ] ; then
