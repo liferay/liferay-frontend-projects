@@ -26,6 +26,7 @@ const lexiconUpgrade = {
 };
 
 const logBuffers = {
+	bootstrap: [getLogHeader('Bootstrap Upgrade (3 to 4)')],
 	lexicon: [getLogHeader('Lexicon Upgrade (1.0 to 2.0)')],
 	liferay: [getLogHeader('Liferay Upgrade (7.0 to 7.1)')],
 };
