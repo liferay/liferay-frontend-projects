@@ -52,18 +52,21 @@ const start = new Date();
 [true, false].forEach(useBabel => {
 	[true, false].forEach(useLocalization => {
 		[true, false].forEach(useSettings => {
-			[true, false].forEach(sampleWanted => {
-				writeConfig({
-					target: `vanilla-portlet`,
-					folder:
-						`vanilla-portlet` +
-						`-${useBabel ? 'es6' : 'es5'}` +
-						`-${useLocalization ? 'l10n' : 'nol10n'}` +
-						`-${useSettings ? 'cfg' : 'nocfg'}` +
-						`-${sampleWanted ? 'sample' : 'nosample'}`,
-					useLocalization,
-					useSettings,
-					sampleWanted,
+			[true, false].forEach(usePreferences => {
+				[true, false].forEach(sampleWanted => {
+					writeConfig({
+						target: `vanilla-portlet`,
+						folder:
+							`vanilla-portlet` +
+							`-${useBabel ? 'es6' : 'es5'}` +
+							`-${useLocalization ? 'l10n' : 'nol10n'}` +
+							`-${useSettings ? 'cfg' : 'nocfg'}` +
+							`-${usePreferences ? 'prefs' : 'noprefs'}` +
+							`-${sampleWanted ? 'sample' : 'nosample'}`,
+						useLocalization,
+						useSettings,
+						sampleWanted,
+					});
 				});
 			});
 		});
@@ -74,17 +77,20 @@ const start = new Date();
 ['angular', 'metaljs', 'react', 'vuejs'].forEach(fw => {
 	[true, false].forEach(useLocalization => {
 		[true, false].forEach(useSettings => {
-			[true, false].forEach(sampleWanted => {
-				writeConfig({
-					target: `${fw}-portlet`,
-					folder:
-						`${fw}-portlet` +
-						`-${useLocalization ? 'l10n' : 'nol10n'}` +
-						`-${useSettings ? 'cfg' : 'nocfg'}` +
-						`-${sampleWanted ? 'sample' : 'nosample'}`,
-					useLocalization,
-					useSettings,
-					sampleWanted,
+			[true, false].forEach(usePreferences => {
+				[true, false].forEach(sampleWanted => {
+					writeConfig({
+						target: `${fw}-portlet`,
+						folder:
+							`${fw}-portlet` +
+							`-${useLocalization ? 'l10n' : 'nol10n'}` +
+							`-${useSettings ? 'cfg' : 'nocfg'}` +
+							`-${usePreferences ? 'prefs' : 'noprefs'}` +
+							`-${sampleWanted ? 'sample' : 'nosample'}`,
+						useLocalization,
+						useSettings,
+						sampleWanted,
+					});
 				});
 			});
 		});
