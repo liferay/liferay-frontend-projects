@@ -115,7 +115,7 @@ export function generateLabels(generator) {
 	const projectAnalyzer = new ProjectAnalyzer(generator);
 
 	return formatLabels({
-		porletNamespace: 'Porlet Namespace',
+		portletNamespace: 'Portlet Namespace',
 		contextPath: 'Context Path',
 		portletElementId: 'Portlet Element Id',
 		configuration: projectAnalyzer.hasSettings
