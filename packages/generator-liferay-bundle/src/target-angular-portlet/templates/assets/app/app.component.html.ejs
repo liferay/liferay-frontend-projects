@@ -17,4 +17,10 @@
 		<span class="value">{{configurationJSON}}</span>
 	</div>
 	<% } %>
+	<% if (hasPreferences) { %>
+	<div>
+		<span class="tag">{{labels.preferences}}:</span>
+		<span class="value">{{preferencesJSON}}</span>
+	</div>
+	<% } %>
 </div>

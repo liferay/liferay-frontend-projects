@@ -1,29 +1,24 @@
 import Generator from 'yeoman-generator';
 
+import * as standardTarget from '../utils/target/standard';
+
 /**
  * Generator for Metal.js portlets.
  */
-export default class extends Generator {
+export default class ThisGenerator extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
 	initializing() {
-		this.composeWith(require.resolve('../facet-project'));
-		this.composeWith(require.resolve('../facet-localization'));
-		this.composeWith(require.resolve('../facet-settings'));
-		this.composeWith(require.resolve('../facet-preferences'));
-		this.composeWith(require.resolve('../facet-portlet'));
-		this.composeWith(require.resolve('../facet-deploy'));
-		this.composeWith(require.resolve('../facet-start'));
-		this.composeWith(require.resolve('./metaljs'));
+		standardTarget.initializing(this);
+
+		this.composeWith(require.resolve('./metaljs-portlet'));
 	}
 
 	/**
-	 * Standard Yeoman dependencies installation function
+	 * Standard Yeoman install function
 	 */
 	install() {
-		this.installDependencies({
-			bower: false,
-		});
+		standardTarget.install(this);
 	}
 }

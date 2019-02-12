@@ -25,6 +25,14 @@ export default class extends React.Component {
 					</span>
 				</div>
 				<% } %>
+				<% if (hasPreferences) { %>
+				<div>
+					<span className="tag"><%- labels.preferences %>:</span>
+					<span className="value">
+						{JSON.stringify(this.props.preferences, null, 2)}
+					</span>
+				</div>
+				<% } %>
 			</div>
 		);
 	}	

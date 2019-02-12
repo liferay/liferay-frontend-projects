@@ -46,6 +46,19 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
+	 * Test if the project has preferences configuration.
+	 * @return {boolean}
+	 */
+	get hasPreferences() {
+		const fs = this._generator.fs;
+
+		return (
+			prop.has(this._npmbundlerrc, 'create-jar.features.preferences') ||
+			fs.exists(DEFAULT_PREFERENCES)
+		);
+	}
+
+	/**
 	 * Test if the project has settings configuration.
 	 * @return {boolean}
 	 */

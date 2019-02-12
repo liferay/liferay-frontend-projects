@@ -120,6 +120,11 @@ export function hyphenate(key) {
  * @return {object} the set of answers
  */
 export async function promptWithConfig(generator, namespace, prompts) {
+	if (Array.isArray(namespace)) {
+		prompts = namespace;
+		namespace = generator.namespace;
+	}
+
 	// Tweak defaults with config values
 	prompts = prompts.map(prompt => {
 		let defaultDefault = undefined;

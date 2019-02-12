@@ -16,13 +16,20 @@ export class AppComponent {
 			<% if (hasConfiguration) { %>
 			configuration: <%- labels.configuration %>,
 			<% } %>
+			<% if (hasPreferences) { %>
+			preferences: <%- labels.preferences %>,
+			<% } %>
 			portletNamespace: <%- labels.portletNamespace %>,
         	contextPath: <%- labels.contextPath %>,
-			portletElementId: <%- labels.portletElementId %>
+			portletElementId: <%- labels.portletElementId %>,
 		}
 	}
 
 	get configurationJSON() {
 		return JSON.stringify(this.params.configuration, null, 2);
+	}
+
+	get preferencesJSON() {
+		return JSON.stringify(this.params.preferences, null, 2);
 	}
 }

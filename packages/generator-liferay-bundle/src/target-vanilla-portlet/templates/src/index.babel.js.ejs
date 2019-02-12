@@ -32,6 +32,14 @@ export default function main({<%- signature %>}) {
             </span>
         </div>
         <% } %>
-    `;
+        <% if (hasPreferences) { %>
+        <div>
+            <span class="tag"><%- labels.preferences %>:</span>
+            <span class="value">
+                ${JSON.stringify(preferences, null, 2)}
+            </span>
+        </div>
+        <% } %>
+        `;
     <% } %>
 }

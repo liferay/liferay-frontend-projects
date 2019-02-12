@@ -47,6 +47,17 @@ function main(params) {
             '</span>' +
         '</div>';
     <% } %>
+    <% if (hasPreferences) { %>
+    node.innerHTML +=
+        '<div>' +
+            '<span class="tag">' + 
+                <%- labels.preferences %> + ':' +
+            '</span>' +
+            '<span class="value">' +
+                JSON.stringify(params.preferences, null, 2) +
+            '</span>' +
+        '</div>';
+    <% } %>
     <% } %>
 }
 

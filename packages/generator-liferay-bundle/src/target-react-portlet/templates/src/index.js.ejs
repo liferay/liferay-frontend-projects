@@ -24,7 +24,10 @@ export default function main({<%- signature %>}) {
             <% if (hasConfiguration) { %>
             configuration={configuration}
             <% } %>
-        />, 
+            <% if (hasPreferences) { %>
+            preferences={preferences}
+            <% } %>
+            />, 
         document.getElementById(portletElementId)
     );
     <% } %>
