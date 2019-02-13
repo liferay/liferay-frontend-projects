@@ -36,7 +36,10 @@ module.exports = function(type) {
 			return sortKeys(
 				deepMerge(
 					getUserConfig('.liferaynpmscriptsrc'),
-					require('../config/liferay-npm-scripts')
+					require('../config/liferay-npm-scripts'),
+					require('../config/liferay-npm-scripts-build-deps-clay.json'),
+					require('../config/liferay-npm-scripts-build-deps-liferay.json'),
+					require('../config/liferay-npm-scripts-build-deps-metal.json')
 				)
 			);
 			break;

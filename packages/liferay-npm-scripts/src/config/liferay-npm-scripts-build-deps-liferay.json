@@ -1,0 +1,12 @@
+{
+	"build": {
+		"dependencies": [
+			"com.liferay.frontend.js.metal.web",
+			"com.liferay.frontend.js.web",
+			"com.liferay.frontend.taglib.clay",
+			"com.liferay.frontend.taglib",
+			"com.liferay.hello.soy.web",
+			"com.liferay.layout.admin.web"
+		]
+	}
+}
