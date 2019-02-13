@@ -3,7 +3,6 @@ const CWD = process.cwd();
 const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
-const which = require('npm-which')(CWD);
 
 const {buildSoy, cleanSoy, soyExists,} = require('./soy');
 const {removeBabelConfig, setBabelConfig,} = require('./babel');
@@ -19,7 +18,7 @@ const BUNDLER_CONFIG = getMergedConfig('bundler');
 function compileBabel() {
 	setBabelConfig();
 
-	spawnSync(which.sync('babel'), [
+	spawnSync('babel', [
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
@@ -39,7 +38,7 @@ function runBundler() {
 
 	fs.writeFileSync(RC_PATH, JSON.stringify(BUNDLER_CONFIG));
 
-	spawnSync(which.sync('liferay-npm-bundler'));
+	spawnSync('liferay-npm-bundler');
 
 	fs.unlinkSync(RC_PATH);
 
@@ -50,7 +49,7 @@ function runBundler() {
  * Runs `liferay-npm-bridge-generator` bin
  */
 function runBridge() {
-	spawnSync(which.sync('liferay-npm-bridge-generator'));
+	spawnSync('liferay-npm-bridge-generator');
 }
 
 /**

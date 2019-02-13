@@ -7,7 +7,6 @@ const CWD = process.cwd();
 const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
-const which = require('npm-which')(CWD);
 
 const {buildSoy, cleanSoy, soyExists,} = require('./soy');
 const getMergedConfig = require('../utils/get-merged-config');
@@ -31,11 +30,7 @@ module.exports = function(arrArgs) {
 		buildSoy();
 	}
 
-	spawnSync(which.sync('jest'), [
-		'--config',
-		CONFIG_PATH,
-		...arrArgs.slice(1),
-	]);
+	spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1),]);
 
 	if (useSoy) {
 		cleanSoy();
