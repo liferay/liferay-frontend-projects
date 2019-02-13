@@ -33,8 +33,8 @@
 		"inquirer": "^0.12.0",
 		"liferay-plugin-node-tasks": "^2.0.0",
 		"liferay-theme-deps-6.2": "^7.0.0",
-		"liferay-theme-deps-7.0": "^8.0.0-rc.2",
-		"liferay-theme-deps-7.1": "^8.0.0-rc.2",
+		"liferay-theme-deps-7.0": "^8.0.0-rc.3",
+		"liferay-theme-deps-7.1": "^8.0.0-rc.3",
 		"list-stream": "^1.0.0",
 		"lodash": "^4.17.11",
 		"minimist": "^1.1.0",
@@ -70,5 +70,5 @@
 	"main": "index.js",
 	"name": "liferay-theme-tasks",
 	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-tasks",
-	"version": "8.0.0-rc.2"
+	"version": "8.0.0-rc.3"
 }
