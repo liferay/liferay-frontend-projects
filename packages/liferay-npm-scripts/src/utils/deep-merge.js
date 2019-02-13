@@ -30,6 +30,6 @@ function combineMerge(target, source, options) {
  * @param {Object} customConfig Config file
  * @returns {Object}
  */
-module.exports = function(defaultConfig, customConfig) {
-	return merge(customConfig, defaultConfig, {arrayMerge: combineMerge,});
+module.exports = function() {
+	return merge.all([...arguments,], {arrayMerge: combineMerge,});
 };
