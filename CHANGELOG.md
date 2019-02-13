@@ -1,5 +1,18 @@
 # Change Log
 
+## [v8.0.0-rc.3](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.3) (2019-02-13)
+[Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-rc.2...v8.0.0-rc.3)
+
+**Closed issues:**
+
+- TypeError thrown when upgrading a theme from 7.0 to 7.1 with 8.0.0-rc.2 [\#138](https://github.com/liferay/liferay-themes-sdk/issues/138)
+- Remove `ruby-sass` option from Theme Generator as it's no longer required for Windows [\#137](https://github.com/liferay/liferay-themes-sdk/issues/137)
+
+**Merged pull requests:**
+
+- Fixes \#137 - Updates theme deps versions [\#140](https://github.com/liferay/liferay-themes-sdk/pull/140) ([jbalsas](https://github.com/jbalsas))
+- Fixes \#138 - Adds bootstrap log buffer [\#139](https://github.com/liferay/liferay-themes-sdk/pull/139) ([jbalsas](https://github.com/jbalsas))
+
 ## [v8.0.0-rc.2](https://github.com/liferay/liferay-themes-sdk/tree/v8.0.0-rc.2) (2019-01-28)
 [Full Changelog](https://github.com/liferay/liferay-themes-sdk/compare/v8.0.0-rc.1...v8.0.0-rc.2)
 
