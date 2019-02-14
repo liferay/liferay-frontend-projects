@@ -49,6 +49,20 @@ export default class Loader {
 		const config = this._config;
 
 		const name = args[0];
+
+		let module = config.getModule(name);
+
+		if (module && module.defined) {
+			if (config.showWarnings) {
+				console.warn(
+					`Liferay AMD Loader: Module '${name}' is being ` +
+						'redefined; only the first definition will be used'
+				);
+			}
+
+			return;
+		}
+
 		let dependencies = args[1];
 		let factory = args[2];
 
@@ -65,7 +79,7 @@ export default class Loader {
 			factory = () => exportedValue;
 		}
 
-		const module = config.addModule(name);
+		module = config.addModule(name);
 
 		module.define.resolve(args);
 		module.factory = factory;
@@ -134,7 +148,12 @@ export default class Loader {
 				console.log('  · modules:', moduleNames);
 				console.log('  · origin:', stack);
 				console.log('  · error:', error);
-				['missingDependencies', 'errors'].forEach(field => {
+				[
+					'definedDependencies',
+					'implementedDependencies',
+					'missingDependencies',
+					'errors',
+				].forEach(field => {
 					if (error[field]) {
 						console.log(`  · ${field}:`, error[field]);
 					}
@@ -290,26 +309,36 @@ export default class Loader {
 		}
 
 		return setTimeout(() => {
-			const registeredModules = config.getModules();
 			const resolvedModuleNames = resolution.resolvedModules;
 
-			const missingDependencies = resolvedModuleNames.filter(
-				dep =>
-					registeredModules[dep] === undefined ||
-					registeredModules[dep].implementation === undefined
-			);
+			const missingDependencies = resolvedModuleNames.filter(dep => {
+				const module = config.getModule(dep);
+				return !module || !module.implemented;
+			});
 
 			const fetchedMissingDependencies = missingDependencies.filter(
-				dep =>
-					registeredModules[dep] !== undefined &&
-					registeredModules[dep].fetched
+				dep => {
+					const module = config.getModule(dep);
+					return module && module.fetched;
+				}
 			);
 
 			const unfetchedMissingDependencies = missingDependencies.filter(
-				dep =>
-					registeredModules[dep] !== undefined &&
-					!registeredModules[dep].fetched
+				dep => {
+					const module = config.getModule(dep);
+					return module && !module.fetched;
+				}
 			);
+
+			const definedDependencies = resolvedModuleNames.filter(dep => {
+				const module = config.getModule(dep);
+				return module && module.defined;
+			});
+
+			const implementedDependencies = resolvedModuleNames.filter(dep => {
+				const module = config.getModule(dep);
+				return module && module.implemented;
+			});
 
 			const error = Object.assign(
 				new Error('Load timeout for modules: ' + modules),
@@ -321,6 +350,8 @@ export default class Loader {
 						fetched: fetchedMissingDependencies,
 						unfetched: unfetchedMissingDependencies,
 					},
+					definedDependencies,
+					implementedDependencies,
 				}
 			);
 

@@ -72,7 +72,24 @@ export default class ScriptLoader {
 				script.onload = script.onreadystatechange = null;
 				script.onerror = null;
 
-				modules.forEach(module => module.fetch.resolve(script));
+				modules.forEach(module => {
+					if (module.fetch.fulfilled) {
+						if (config.showWarnings) {
+							console.warn(
+								`Liferay AMD Loader: Module '${module.name}' ` +
+									`is being fetched from\n${script.src}\n` +
+									`but was already fetched from\n` +
+									(module.fetch.resolved
+										? module.fetch.resolution.src
+										: module.fetch.rejection.script.src)
+							);
+						}
+
+						return;
+					}
+
+					module.fetch.resolve(script);
+				});
 			};
 
 			script.onerror = () => {

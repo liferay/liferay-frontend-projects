@@ -16,6 +16,7 @@ export default class Config {
 
 		this._config = {maps: {}, paths: {}};
 		this._parse(cfg, 'explainResolutions', false);
+		this._parse(cfg, 'showWarnings', false);
 		this._parse(cfg, 'waitTimeout', 7000);
 		this._parse(cfg, 'basePath', '/');
 		this._parse(cfg, 'resolvePath', '/o/js_resolve_modules');
@@ -29,6 +30,13 @@ export default class Config {
 	 */
 	get explainResolutions() {
 		return this._config.explainResolutions;
+	}
+
+	/**
+	 * Whether to show development warnings
+	 */
+	get showWarnings() {
+		return this._config.showWarnings;
 	}
 
 	/**
