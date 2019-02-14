@@ -326,7 +326,7 @@ export default class Loader {
 			const unfetchedMissingDependencies = missingDependencies.filter(
 				dep => {
 					const module = config.getModule(dep);
-					return module && !module.fetched;
+					return !module || !module.fetched;
 				}
 			);
 
