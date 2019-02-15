@@ -65,6 +65,7 @@ const start = new Date();
 							`-${sampleWanted ? 'sample' : 'nosample'}`,
 						useLocalization,
 						useSettings,
+						usePreferences,
 						sampleWanted,
 					});
 				});
@@ -89,6 +90,7 @@ const start = new Date();
 							`-${sampleWanted ? 'sample' : 'nosample'}`,
 						useLocalization,
 						useSettings,
+						usePreferences,
 						sampleWanted,
 					});
 				});
