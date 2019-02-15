@@ -36,14 +36,14 @@ function main(params) {
                 params.portletElementId +
             '</span>' +
         '</div>';
-    <% if (hasConfiguration) { %>
+    <% if (hasSettings) { %>
     node.innerHTML +=
         '<div>' +
             '<span class="tag">' + 
-                <%- labels.configuration %> + ':' +
+                <%- labels.settings %> + ':' +
             '</span>' +
             '<span class="value">' +
-                JSON.stringify(params.configuration, null, 2) +
+                JSON.stringify(params.settings, null, 2) +
             '</span>' +
         '</div>';
     <% } %>

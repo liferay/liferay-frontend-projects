@@ -8,7 +8,7 @@ import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
 import {DEFAULT_SETTINGS} from './constants';
 
 /**
- * Generator to add settings configuration support to projects.
+ * Generator to add settings support to projects.
  */
 export default class extends Generator {
 	/**

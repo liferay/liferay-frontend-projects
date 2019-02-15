@@ -3,8 +3,7 @@ import prop from 'dot-prop';
 import JsonModifier from './JsonModifier';
 
 /**
- * A class to help modifying configuration (settings and portlet preferences)
- * JSON files
+ * A class to help modifying configuration (settings and preferences) JSON files
  */
 export default class extends JsonModifier {
 	/**

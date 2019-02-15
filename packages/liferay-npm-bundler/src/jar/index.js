@@ -142,7 +142,7 @@ function addManifest(zip) {
 }
 
 /**
- * Add the metatype configuration (settings) file if configured.
+ * Add the settings file if configured.
  * @param {JSZip} zip the ZIP file
  */
 function addMetatypeFile(zip) {

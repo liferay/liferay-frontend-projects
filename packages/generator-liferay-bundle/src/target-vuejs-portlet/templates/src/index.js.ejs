@@ -30,11 +30,11 @@ export default function main({<%- signature %>}) {
                 <span class="tag"><%- labels.portletElementId %>:</span>
                 <span class="value">{{portletElementId}}</span>
             </div>
-            <% if (hasConfiguration) { %>
+            <% if (hasSettings) { %>
             <div>
-                <span class="tag"><%- labels.configuration %>:</span>
+                <span class="tag"><%- labels.settings %>:</span>
                 <span class="value">
-                    {{JSON.stringify(configuration, null, 2)}}
+                    {{JSON.stringify(settings, null, 2)}}
                 </span>
             </div>
             <% } %>

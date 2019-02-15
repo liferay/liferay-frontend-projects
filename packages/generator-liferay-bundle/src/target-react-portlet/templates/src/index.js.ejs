@@ -21,8 +21,8 @@ export default function main({<%- signature %>}) {
             portletNamespace={portletNamespace} 
             contextPath={contextPath}
             portletElementId={portletElementId}
-            <% if (hasConfiguration) { %>
-            configuration={configuration}
+            <% if (hasSettings) { %>
+            settings={settings}
             <% } %>
             <% if (hasPreferences) { %>
             preferences={preferences}

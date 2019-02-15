@@ -58,7 +58,7 @@ export function generateContext(generator, extra = {}) {
 
 	return Object.assign(
 		{
-			hasConfiguration: projectAnalyzer.hasSettings,
+			hasSettings: projectAnalyzer.hasSettings,
 			hasPreferences: projectAnalyzer.hasPreferences,
 			signature: generateSignature(generator),
 		},
@@ -101,7 +101,7 @@ export function generateSignature(generator) {
 
 	return (
 		'portletNamespace, contextPath, portletElementId' +
-		(projectAnalyzer.hasSettings ? ', configuration' : '') +
+		(projectAnalyzer.hasSettings ? ', settings' : '') +
 		(projectAnalyzer.hasPreferences ? ', preferences' : '')
 	);
 }
@@ -118,9 +118,7 @@ export function generateLabels(generator) {
 		portletNamespace: 'Portlet Namespace',
 		contextPath: 'Context Path',
 		portletElementId: 'Portlet Element Id',
-		configuration: projectAnalyzer.hasSettings
-			? 'Configuration'
-			: undefined,
+		settings: projectAnalyzer.hasSettings ? 'Settings' : undefined,
 		preferences: projectAnalyzer.hasPreferences ? 'Preferences' : undefined,
 	});
 }

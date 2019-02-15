@@ -13,8 +13,8 @@ export class AppComponent {
 
 	constructor() {
 		this.labels = {        
-			<% if (hasConfiguration) { %>
-			configuration: <%- labels.configuration %>,
+			<% if (hasSettings) { %>
+			settings: <%- labels.settings %>,
 			<% } %>
 			<% if (hasPreferences) { %>
 			preferences: <%- labels.preferences %>,
@@ -25,8 +25,8 @@ export class AppComponent {
 		}
 	}
 
-	get configurationJSON() {
-		return JSON.stringify(this.params.configuration, null, 2);
+	get settingsJSON() {
+		return JSON.stringify(this.params.settings, null, 2);
 	}
 
 	get preferencesJSON() {

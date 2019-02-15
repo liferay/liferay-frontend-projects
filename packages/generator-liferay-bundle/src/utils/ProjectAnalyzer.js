@@ -46,7 +46,7 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
-	 * Test if the project has preferences configuration.
+	 * Test if the project has preferences.
 	 * @return {boolean}
 	 */
 	get hasPreferences() {
@@ -59,7 +59,7 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
-	 * Test if the project has settings configuration.
+	 * Test if the project has settings.
 	 * @return {boolean}
 	 */
 	get hasSettings() {
@@ -109,7 +109,7 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
-	 * Get the path to the settings configuration file.
+	 * Get the path to the settings file.
 	 * @return {string}
 	 */
 	get settingsFilePath() {
