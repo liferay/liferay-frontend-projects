@@ -111,27 +111,67 @@ export default class Loader {
 		let failure;
 
 		// Account for call polymorphism
-		if (typeof args[args.length - 1] === 'function') {
-			if (typeof args[args.length - 2] === 'function') {
-				// Both success and failure given
-				moduleNames = args.slice(0, args.length - 2);
-				success = args[args.length - 2];
-				failure = args[args.length - 1];
+		if (args.length == 1) {
+			moduleNames = args[0];
+			success = undefined;
+			failure = undefined;
+		} else if (args.length == 2) {
+			const lastArg = args[args.length - 1];
+
+			if (typeof lastArg === 'function') {
+				moduleNames = args[0];
+				success = lastArg;
+				failure = undefined;
+			} else if (lastArg == null) {
+				moduleNames = args[0];
+				success = undefined;
+				failure = undefined;
 			} else {
-				// Only success given
-				moduleNames = args.slice(0, args.length - 1);
-				success = args[args.length - 1];
+				moduleNames = args;
+				success = undefined;
 				failure = undefined;
 			}
 		} else {
-			// No success or failure given
-			moduleNames = args;
-			success = undefined;
-			failure = undefined;
+			const lastArg = args[args.length - 1];
+			let successGiven = false;
+
+			if (typeof lastArg === 'function' || lastArg == null) {
+				successGiven = true;
+			}
+
+			if (!successGiven) {
+				moduleNames = args;
+				success = undefined;
+				failure = undefined;
+			} else {
+				const penultimateArg = args[args.length - 2];
+				let failureGiven = false;
+
+				if (
+					typeof penultimateArg === 'function' ||
+					penultimateArg == null
+				) {
+					failureGiven = true;
+				}
+
+				if (!failureGiven) {
+					moduleNames = args.slice(0, args.length - 1);
+					success = lastArg;
+					failure = undefined;
+				} else {
+					moduleNames = args.slice(0, args.length - 2);
+					success = penultimateArg;
+					failure = lastArg;
+				}
+			}
 		}
 
-		// Flatten moduleNames argument
-		moduleNames = [].concat(...moduleNames);
+		// Flatten moduleNames argument if necessary
+		if (typeof moduleNames === 'string') {
+			moduleNames = [moduleNames];
+		} else if (moduleNames.length == 1 && Array.isArray(moduleNames[0])) {
+			moduleNames = [].concat(...moduleNames);
+		}
 
 		// Provide default value for success
 		if (success === undefined) {

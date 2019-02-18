@@ -10,6 +10,8 @@ describe('Loader', function() {
 	let fetchResponse;
 
 	beforeEach(function() {
+		jest.setTimeout(200);
+
 		config = new Config();
 
 		fetchResponse = undefined;
@@ -70,7 +72,47 @@ describe('Loader', function() {
 		global.Loader = loader = new Loader(config, document);
 	});
 
-	it('should fail after a require timeout', done => {
+	describe('require can be called with different signatures', () => {
+		const noop = () => {};
+
+		it('array, function, function', done => {
+			loader.require(['say-hello'], () => done(), noop);
+		});
+
+		it('...string, function, function', done => {
+			loader.require('say-hello', 'say-goodbye', () => done(), noop);
+		});
+
+		it('string, function, function', done => {
+			loader.require('say-hello', () => done(), noop);
+		});
+
+		it('array, function, null', done => {
+			loader.require(['say-hello'], () => done(), null);
+		});
+
+		it('...string, function, null', done => {
+			loader.require('say-hello', 'say-goodbye', () => done(), null);
+		});
+
+		it('string, function, null', done => {
+			loader.require('say-hello', () => done(), null);
+		});
+
+		it('array, function', done => {
+			loader.require(['say-hello'], () => done());
+		});
+
+		it('...string, function', done => {
+			loader.require('say-hello', 'say-goodbye', () => done());
+		});
+
+		it('string, function', done => {
+			loader.require('say-hello', () => done());
+		});
+	});
+
+	it('fails after a require timeout', done => {
 		config._config.waitTimeout = 100;
 
 		loader.require('missing-module', jest.fn(), err => {
@@ -79,7 +121,7 @@ describe('Loader', function() {
 		});
 	});
 
-	it('should implement local require', done => {
+	it('implements local require', done => {
 		fetchResponse = {
 			resolvedModules: ['local-require/a', 'local-require/sync'],
 			moduleMap: {},
@@ -93,14 +135,14 @@ describe('Loader', function() {
 		});
 	});
 
-	it('should implement localRequire.toUrl', done => {
+	it('implements localRequire.toUrl', done => {
 		loader.require(['local-require/to-url'], module => {
 			expect(module).toBe('/local-require/to-url.js');
 			done();
 		});
 	});
 
-	it('should support relative paths in local require', done => {
+	it('supports relative paths in local require', done => {
 		fetchResponse = {
 			resolvedModules: ['local-require/a', 'local-require/rel-path'],
 			moduleMap: {},
@@ -114,28 +156,28 @@ describe('Loader', function() {
 		});
 	});
 
-	it.only('should fail when local require is called with an undeclared module', done => {
+	it('fails when local require is called with an undeclared module', done => {
 		loader.require(['local-require/failure'], jest.fn(), err => {
 			expect(err).toBeDefined();
 			done();
 		});
 	});
 
-	it('should work correctly when a module exports `false`', done => {
+	it('works correctly when a module exports `false`', done => {
 		loader.require('export-false', module => {
 			expect(module).toBe(false);
 			done();
 		});
 	});
 
-	it('should work correctly when a module exports `null`', done => {
+	it('works correctly when a module exports `null`', done => {
 		loader.require('export-null', module => {
 			expect(module).toBeNull();
 			done();
 		});
 	});
 
-	it('should work correctly when a module exports `undefined`', done => {
+	it('works correctly when a module exports `undefined`', done => {
 		loader.require('export-undefined', module => {
 			expect(module).toBeUndefined();
 			done();
