@@ -329,6 +329,24 @@ module.exports = function(options) {
 		cb();
 	});
 
+	gulp.task('upgrade:import-removed-bootstrap-mixins', function() {
+		const importsFilePath = path.join(
+			process.cwd(),
+			pathSrc,
+			'css',
+			'_imports.scss'
+		);
+
+		return gulp
+			.src(importsFilePath)
+			.pipe(
+				plugins.insert.append(
+					'\n// Adds mixins removed by Bootstrap4\n@import "compat/mixins";'
+				)
+			)
+			.pipe(gulp.dest(DIR_SRC_CSS));
+	});
+
 	gulp.task('upgrade:import-removed-lexicon-mixins', function() {
 		const removedMixinsUsage = Object.keys(
 			lexiconUpgrade.removedMixinsUsage
@@ -402,6 +420,7 @@ module.exports = function(options) {
 			'upgrade:collect-removed-bootstrap-vars',
 			'upgrade:collect-removed-lexicon-mixins',
 			'upgrade:create-removed-lexicon-mixins-file',
+			'upgrade:import-removed-bootstrap-mixins',
 			'upgrade:import-removed-lexicon-mixins',
 			'upgrade:collect-removed-lexicon-vars',
 			'upgrade:create-removed-lexicon-vars-file',
