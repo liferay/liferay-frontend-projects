@@ -19,6 +19,7 @@ function loadConfig() {
 	npmbuildrc.webpack.mainModule = npmbuildrc.webpack.mainModule || 'index.js';
 	npmbuildrc.webpack.rules = npmbuildrc.webpack.rules || [];
 	npmbuildrc.webpack.extensions = npmbuildrc.webpack.extensions || ['.js'];
+	npmbuildrc.webpack.port = npmbuildrc.webpack.port || 8080;
 
 	npmbundlerrc['create-jar'] = npmbundlerrc['create-jar'] || {};
 	// TODO: Extract this to liferay-npm-build-tools-common (see #213)
@@ -72,6 +73,14 @@ export function getWebpackRules() {
  */
 export function getWebpackExtensions() {
 	return npmbuildrc.webpack.extensions;
+}
+
+/**
+ * Get the webpack port to use.
+ * @return {Number}
+ */
+export function getWebpackPort() {
+	return npmbuildrc.webpack.port;
 }
 
 /**
