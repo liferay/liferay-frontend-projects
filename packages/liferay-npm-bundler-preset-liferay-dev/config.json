@@ -83,6 +83,9 @@
 			"frontend-taglib": {
 				"/": ">=4.0.0"
 			},
+			"frontend-taglib-chart": {
+				"clay-charts": ">=2.8.3"
+			},
 			"frontend-taglib-clay": {
 				"clay-alert": ">=2.5.1",
 				"clay-autocomplete": ">=2.5.1",
