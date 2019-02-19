@@ -206,6 +206,16 @@ module.exports = function(options) {
 					],
 				})
 			)
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /lexicon-base(.*)/g,
+							replacement: 'base$1',
+						},
+					],
+				})
+			)
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
