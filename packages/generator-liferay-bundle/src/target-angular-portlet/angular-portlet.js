@@ -1,13 +1,11 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import LocalizationSampleGenerator from '../facet-localization/sample-generator';
-import SettingsSampleGenerator from '../facet-settings/sample-generator';
-import {Copier, formatLabels, promptWithConfig} from '../utils';
+import {Copier} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
-import PkgJsonModifier from '../utils/modifier/package.json';
-import StylesCssModifier from '../utils/modifier/assets/css/styles.css';
+import PkgJsonModifier from '../utils/modifier/package.json.js';
+import * as standardTarget from '../utils/target/standard';
 import dependenciesJson from './dependencies.json';
 
 /**
@@ -19,20 +17,14 @@ export default class extends Generator {
 	 */
 	initializing() {
 		this.sourceRoot(path.join(__dirname, 'templates'));
+		this.namespace = 'target-angular-portlet';
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		this.answers = await promptWithConfig(this, 'target-angular-portlet', [
-			{
-				type: 'confirm',
-				name: 'sampleWanted',
-				message: 'Do you want to generate sample code?',
-				default: false,
-			},
-		]);
+		await standardTarget.prompting(this);
 	}
 
 	/**
@@ -42,7 +34,6 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
-		const stylesCss = new StylesCssModifier(this);
 		const projectAnalyzer = new ProjectAnalyzer(this);
 		const {sampleWanted} = this.answers;
 
@@ -58,21 +49,13 @@ export default class extends Generator {
 		npmbuildrc.setWebpackMainModule('index.ts');
 
 		// Prepare text labels
-		const labels = formatLabels({
-			portletNamespace: 'Porlet Namespace',
-			contextPath: 'Context Path',
-			portletElementId: 'Portlet Element Id',
-			configuration: projectAnalyzer.hasSettings
-				? 'Configuration'
-				: undefined,
-		});
+		const labels = standardTarget.generateLabels(this);
 
 		// Prepare context
-		const context = {
-			hasConfiguration: projectAnalyzer.hasSettings,
+		const context = standardTarget.generateContext(this, {
 			labels: labels[projectAnalyzer.hasLocalization ? 'js' : 'quoted'],
 			pkgJson: pkgJson.json,
-		};
+		});
 
 		// Copy source files
 		pkgJson.setMain('index.js');
@@ -81,20 +64,10 @@ export default class extends Generator {
 		cp.copyDir('src/types', {context});
 
 		// Generate sample contents
+		standardTarget.generateSamples(this, labels);
 		if (sampleWanted) {
-			// Add styles
-			stylesCss.addRule('.tag', 'font-weight: bold;');
-			stylesCss.addRule('.value', 'font-style: italic;');
-
-			// Copy sample source files
 			cp.copyDir('src', {context});
 			cp.copyDir('assets', {context});
-
-			// Add localization keys
-			new LocalizationSampleGenerator(this).generate(labels.raw);
-
-			// Add sample settings
-			new SettingsSampleGenerator(this).generate();
 		}
 	}
 }

@@ -13,7 +13,7 @@ export default function main({<%- signature %>}) {
 
     node.innerHTML =`
         <div>
-            <span class="tag"><%- labels.porletNamespace %>:</span>
+            <span class="tag"><%- labels.portletNamespace %>:</span>
             <span class="value">${portletNamespace}</span>
         </div>
         <div>
@@ -24,14 +24,22 @@ export default function main({<%- signature %>}) {
             <span class="tag"><%- labels.portletElementId %>:</span>
             <span class="value">${portletElementId}</span>
         </div>
-        <% if (hasConfiguration) { %>
+        <% if (hasSettings) { %>
         <div>
-            <span class="tag"><%- labels.configuration %>:</span>
+            <span class="tag"><%- labels.settings %>:</span>
             <span class="value">
-                ${JSON.stringify(configuration, null, 2)}
+                ${JSON.stringify(settings, null, 2)}
             </span>
         </div>
         <% } %>
-    `;
+        <% if (hasPreferences) { %>
+        <div>
+            <span class="tag"><%- labels.preferences %>:</span>
+            <span class="value">
+                ${JSON.stringify(preferences, null, 2)}
+            </span>
+        </div>
+        <% } %>
+        `;
     <% } %>
 }

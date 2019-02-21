@@ -19,6 +19,13 @@ if not %ERRORLEVEL% == 0 (
     rem exit 1
 )
 
+where lerna > NUL
+if not %ERRORLEVEL% == 0 (
+    echo "No lerna command found. Please install it as it is needed."
+    echo "Hint: run 'npm install -g lerna'."
+    rem exit 1
+)
+
 if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
     set FIREFOX=C:\/Program Files\/Mozilla Firefox\/firefox.exe
 ) else (

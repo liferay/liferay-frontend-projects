@@ -14,7 +14,7 @@ function main(params) {
     node.innerHTML =
         '<div>' +
             '<span class="tag">' + 
-                <%- labels.porletNamespace %> + ':' +
+                <%- labels.portletNamespace %> + ':' +
             '</span>' +
             '<span class="value">' +
                 params.portletNamespace +
@@ -36,14 +36,25 @@ function main(params) {
                 params.portletElementId +
             '</span>' +
         '</div>';
-    <% if (hasConfiguration) { %>
+    <% if (hasSettings) { %>
     node.innerHTML +=
         '<div>' +
             '<span class="tag">' + 
-                <%- labels.configuration %> + ':' +
+                <%- labels.settings %> + ':' +
             '</span>' +
             '<span class="value">' +
-                JSON.stringify(params.configuration, null, 2) +
+                JSON.stringify(params.settings, null, 2) +
+            '</span>' +
+        '</div>';
+    <% } %>
+    <% if (hasPreferences) { %>
+    node.innerHTML +=
+        '<div>' +
+            '<span class="tag">' + 
+                <%- labels.preferences %> + ':' +
+            '</span>' +
+            '<span class="value">' +
+                JSON.stringify(params.preferences, null, 2) +
             '</span>' +
         '</div>';
     <% } %>

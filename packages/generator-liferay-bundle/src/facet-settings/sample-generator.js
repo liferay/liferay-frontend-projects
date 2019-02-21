@@ -23,7 +23,7 @@ export default class {
 			const settingsJson = new SettingsJsonModifier(this._generator);
 
 			if (projectAnalyzer.hasLocalization) {
-				// Add configuration description
+				// Add settings description
 				settingsJson.addField('fruit', 'string', {
 					name: 'fruit',
 					description: 'fruit-help',
@@ -36,7 +36,7 @@ export default class {
 					},
 				});
 
-				// Add configuration localization
+				// Add settings localization
 				new LanguagePropertiesModifier(this._generator).addProperties({
 					'fruit': 'Favourite fruit',
 					'fruit-help': 'Choose the fruit you like the most',
@@ -45,7 +45,7 @@ export default class {
 					'an-apple': 'An apple',
 				});
 			} else {
-				// Add configuration description
+				// Add settings description
 				settingsJson.addField('fruit', 'string', {
 					name: 'Favourite fruit',
 					description: 'Choose the fruit you like the most',

@@ -4,6 +4,12 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
+const yargs = require('yargs');
+
+const argv = yargs.option('projects', {
+	alias: 'p',
+	default: 'all',
+}).argv;
 
 const outDir = path.resolve('samples');
 const pkgsDir = path.join(outDir, 'packages');
@@ -52,18 +58,22 @@ const start = new Date();
 [true, false].forEach(useBabel => {
 	[true, false].forEach(useLocalization => {
 		[true, false].forEach(useSettings => {
-			[true, false].forEach(sampleWanted => {
-				writeConfig({
-					target: `vanilla-portlet`,
-					folder:
-						`vanilla-portlet` +
-						`-${useBabel ? 'es6' : 'es5'}` +
-						`-${useLocalization ? 'l10n' : 'nol10n'}` +
-						`-${useSettings ? 'cfg' : 'nocfg'}` +
-						`-${sampleWanted ? 'sample' : 'nosample'}`,
-					useLocalization,
-					useSettings,
-					sampleWanted,
+			[true, false].forEach(usePreferences => {
+				[true, false].forEach(sampleWanted => {
+					writeConfig({
+						target: `vanilla-portlet`,
+						folder:
+							`vanilla-portlet` +
+							`-${useBabel ? 'es6' : 'es5'}` +
+							`-${useLocalization ? 'l10n' : 'nol10n'}` +
+							`-${useSettings ? 'sets' : 'nosets'}` +
+							`-${usePreferences ? 'prefs' : 'noprefs'}` +
+							`-${sampleWanted ? 'sample' : 'nosample'}`,
+						useLocalization,
+						useSettings,
+						usePreferences,
+						sampleWanted,
+					});
 				});
 			});
 		});
@@ -74,26 +84,58 @@ const start = new Date();
 ['angular', 'metaljs', 'react', 'vuejs'].forEach(fw => {
 	[true, false].forEach(useLocalization => {
 		[true, false].forEach(useSettings => {
-			[true, false].forEach(sampleWanted => {
-				writeConfig({
-					target: `${fw}-portlet`,
-					folder:
-						`${fw}-portlet` +
-						`-${useLocalization ? 'l10n' : 'nol10n'}` +
-						`-${useSettings ? 'cfg' : 'nocfg'}` +
-						`-${sampleWanted ? 'sample' : 'nosample'}`,
-					useLocalization,
-					useSettings,
-					sampleWanted,
+			[true, false].forEach(usePreferences => {
+				[true, false].forEach(sampleWanted => {
+					writeConfig({
+						target: `${fw}-portlet`,
+						folder:
+							`${fw}-portlet` +
+							`-${useLocalization ? 'l10n' : 'nol10n'}` +
+							`-${useSettings ? 'sets' : 'nosets'}` +
+							`-${usePreferences ? 'prefs' : 'noprefs'}` +
+							`-${sampleWanted ? 'sample' : 'nosample'}`,
+						useLocalization,
+						useSettings,
+						usePreferences,
+						sampleWanted,
+					});
 				});
 			});
 		});
 	});
 });
 
-// Generate samples
-const configs = fs.readdirSync('config');
+// Decide which projects should be generated
+let configs;
 
+switch (argv.projects) {
+case 'all':
+	configs = fs.readdirSync('config');
+	break;
+
+case 'essential':
+	configs = [
+		'angular-portlet-l10n-sets-prefs-sample.json',
+		'export-bundle.json',
+		'metaljs-portlet-l10n-sets-prefs-sample.json',
+		'react-portlet-l10n-sets-prefs-sample.json',
+		'vanilla-portlet-es5-l10n-sets-prefs-sample.json',
+		'vanilla-portlet-es6-l10n-sets-prefs-sample.json',
+		'vuejs-portlet-l10n-sets-prefs-sample.json',
+	];
+	break;
+
+case 'none':
+	configs = [];
+	break;
+
+default:
+	console.error(`Invalid --projects value: ${argv.projects}`);
+	process.exit(1);
+	break;
+}
+
+// Generate samples
 configs.forEach(config => {
 	console.log(`
 ********************************************************************************
