@@ -37,6 +37,7 @@ function copyWebpackResources() {
 	});
 	render('webpack.config.js', {
 		pkgName: pkgJson.name,
+		port: cfg.getWebpackPort(),
 		rules: util.inspect(
 			cfg
 				.getWebpackRules()
