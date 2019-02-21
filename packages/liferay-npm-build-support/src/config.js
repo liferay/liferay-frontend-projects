@@ -77,7 +77,7 @@ export function getWebpackExtensions() {
 
 /**
  * Get the webpack port to use.
- * @return {Number}
+ * @return {number}
  */
 export function getWebpackPort() {
 	return npmbuildrc.webpack.port;
