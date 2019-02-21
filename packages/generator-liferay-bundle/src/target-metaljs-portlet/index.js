@@ -5,7 +5,7 @@ import * as standardTarget from '../utils/target/standard';
 /**
  * Generator for Metal.js portlets.
  */
-export default class ThisGenerator extends Generator {
+export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */

@@ -138,17 +138,15 @@ export default class ProjectAnalyzer {
 	get preferencesFilePath() {
 		const fs = this._generator.fs;
 
-		let preferences = prop.get(
+		const preferences = prop.get(
 			this._npmbundlerrc,
 			'create-jar.features.preferences'
 		);
 
 		if (preferences) {
 			return preferences;
-		} else {
-			if (fs.exists(DEFAULT_PREFERENCES)) {
-				return DEFAULT_PREFERENCES;
-			}
+		} else if (fs.exists(DEFAULT_PREFERENCES)) {
+			return DEFAULT_PREFERENCES;
 		}
 
 		return undefined;
