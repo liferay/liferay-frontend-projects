@@ -32,7 +32,7 @@ This page describes the format used to describe settings configuration in `lifer
 
 #### `{category identifier}`
 
-> 👀 You need to have [LPS-91044](https://issues.liferay.com/browse/LPS-91044) applied to your portal and [#270](https://github.com/liferay/liferay-npm-build-tools/issues/270) in the `liferay-npm-bundler` for this feature to work
+> 👀 You need to have [LPS-91044](https://issues.liferay.com/browse/LPS-91044) applied to your portal and [#270](https://github.com/liferay/liferay-npm-build-tools/issues/270) in the `liferay-npm-bundler` for this feature to work. Otherwise, the configuration will show up under `Platform` > `Third Party` in `Sytem Settings`.
 
 Describes the identifier of the configuration category where the settings must be placed. It's equivalent to the `category` field of the `@ExtendedObjectClassDefinition` annotation explained [here](https://dev.liferay.com/es/develop/tutorials/-/knowledge_base/7-1/categorizing-the-configuration).
 
