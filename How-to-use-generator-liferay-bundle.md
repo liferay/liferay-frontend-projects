@@ -78,3 +78,5 @@ This script lets you test the application in a local webpack installation instea
 On the other hand, you are not running the application in a Liferay instance, so you won't have access to any of its APIs or resources. That is: you are run in a plain browser environment, not a Liferay one.
 
 If you need to access Liferay APIs and still want to use the `start` script, you will have to wrap your access to Liferay resources into some piece of code that can mimick them when running from `start`, and pass on the calls when running inside Liferay. This can be complex to setup, but in the long term it will have more benefits, as it will allow you to test your projects more easily and will decouple your code from the runtime platform.
+
+Now, head on to [[Creating OSGi bundles]] to read more about how the project can be configured.
