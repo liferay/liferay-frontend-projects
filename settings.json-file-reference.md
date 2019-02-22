@@ -4,6 +4,7 @@ This page describes the format used to describe settings configuration in `lifer
 
 ```json
 {
+	"category": "{category identifier}",
 	"name": "{name of configuration}",
 	"fields": {
 		"{field id 1}": {
@@ -28,6 +29,12 @@ This page describes the format used to describe settings configuration in `lifer
 ```
 
 ### Where
+
+#### `{category identifier}`
+
+Describes the identifier of the configuration category where the settings must be placed. It's equivalent to the `category` field of the `@ExtendedObjectClassDefinition` annotation explained [here](https://dev.liferay.com/es/develop/tutorials/-/knowledge_base/7-1/categorizing-the-configuration).
+
+The `category` field of `settings.json` is optional and, when not set, the project's name as specified in `package.json` is used.
 
 #### `{name of configuration}`
 
@@ -75,6 +82,7 @@ Can be a string or a localization key describing the human readable name of the 
 
 ```json
 {
+  "category": "third-party",
   "name": "My project",
   "fields": {
     "a-number": {
