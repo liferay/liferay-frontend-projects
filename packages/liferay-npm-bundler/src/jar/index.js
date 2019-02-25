@@ -210,7 +210,7 @@ function addMetatypeJsonFile(zip) {
 
 	zip
 		.folder('features')
-		.file(`metatype.json`, JSON.stringify(metatypeJson, null, 2));
+		.file('metatype.json', JSON.stringify(metatypeJson, null, 2));
 }
 
 /**
