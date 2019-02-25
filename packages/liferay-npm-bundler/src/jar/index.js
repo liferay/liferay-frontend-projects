@@ -22,6 +22,7 @@ export default function createJar() {
 	addBuildFiles(zip);
 	addLocalizationFiles(zip);
 	addMetatypeFile(zip);
+	addMetatypeJsonFile(zip);
 	addPreferencesFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
@@ -186,6 +187,30 @@ function addMetatypeFile(zip) {
 		.folder('OSGI-INF')
 		.folder('metatype')
 		.file(`${pkgJson.name}.xml`, xml.format(metatype));
+}
+
+/**
+ * Add the settings metadata file if configured.
+ * @param {JSZip} zip the ZIP file
+ */
+function addMetatypeJsonFile(zip) {
+	const filePath = config.jar.getSettingsFile();
+
+	if (!filePath) {
+		return;
+	}
+
+	const json = fs.readJSONSync(filePath);
+
+	const metatypeJson = {};
+
+	if (json.category) {
+		metatypeJson.category = json.category;
+	}
+
+	zip
+		.folder('features')
+		.file('metatype.json', JSON.stringify(metatypeJson, null, 2));
 }
 
 /**
