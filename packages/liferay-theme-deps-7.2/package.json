@@ -1,0 +1,21 @@
+{
+	"author": "Julien Castelain <julien.castelain@liferay.com> (https://github.com/julien)",
+	"dependencies": {
+		"compass-mixins": "0.12.10",
+		"gulp-sass": "3.2.0",
+		"liferay-frontend-common-css": "1.0.4",
+		"liferay-frontend-theme-classic-web": "2.0.2",
+		"liferay-frontend-theme-styled": "3.0.13",
+		"liferay-frontend-theme-unstyled": "3.0.13",
+		"liferay-theme-deps-normalize": "^8.0.0-rc.3"
+	},
+	"description": "Set of dependencies required by liferay-theme-tasks",
+	"license": "ISC",
+	"main": "package.json",
+	"name": "liferay-theme-deps-7.2",
+	"version": "8.0.0-rc.3",
+	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-deps-7.2",
+	"scripts": {
+		"install": "node scripts/install.js"
+	}
+}
