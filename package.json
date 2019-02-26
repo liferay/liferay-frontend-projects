@@ -34,10 +34,10 @@
 			"/generator-liferay-theme/generators/layout/"
 		]
 	},
-  "resolutions": {
-    "ansi-colors": "3.2.3"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+	"resolutions": {
+		"ansi-colors": "3.2.3"
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }
