@@ -191,7 +191,7 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
-ansi-align@^1.0.0, ansi-align@^1.1.0:
+ansi-align@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-1.1.0.tgz#2f0c1658829739add5ebb15e6b0c6e3423f016ba"
   integrity sha1-LwwWWIKXOa3V67FeawxuNCPwFro=
@@ -1513,21 +1513,6 @@ boxen@^0.5.1:
   resolved "https://registry.yarnpkg.com/boxen/-/boxen-0.5.1.tgz#5b73d8840eb7f3c8a155cbf69ed3ed68d4720014"
   integrity sha1-W3PYhA6388ihVcv2ntPtaNRyABQ=
   dependencies:
-    camelcase "^2.1.0"
-    chalk "^1.1.1"
-    cli-boxes "^1.0.0"
-    filled-array "^1.0.0"
-    object-assign "^4.0.1"
-    repeating "^2.0.0"
-    string-width "^1.0.1"
-    widest-line "^1.0.0"
-
-boxen@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/boxen/-/boxen-0.6.0.tgz#8364d4248ac34ff0ef1b2f2bf49a6c60ce0d81b6"
-  integrity sha1-g2TUJIrDT/DvGy8r9JpsYM4NgbY=
-  dependencies:
-    ansi-align "^1.1.0"
     camelcase "^2.1.0"
     chalk "^1.1.1"
     cli-boxes "^1.0.0"
@@ -6974,11 +6959,6 @@ lazy-cache@^1.0.3:
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
   integrity sha1-odePw6UEdMuAhF07O24dpJpEbo4=
 
-lazy-req@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/lazy-req/-/lazy-req-1.1.0.tgz#bdaebead30f8d824039ce0ce149d4daa07ba1fac"
-  integrity sha1-va6+rTD42CQDnODOFJ1Nqge6H6w=
-
 lazystream@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lazystream/-/lazystream-1.0.0.tgz#f6995fe0f820392f61396be89462407bb77168e4"
@@ -11861,20 +11841,6 @@ update-notifier@^0.7.0:
     configstore "^2.0.0"
     is-npm "^1.0.0"
     latest-version "^2.0.0"
-    semver-diff "^2.0.0"
-    xdg-basedir "^2.0.0"
-
-update-notifier@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-1.0.3.tgz#8f92c515482bd6831b7c93013e70f87552c7cf5a"
-  integrity sha1-j5LFFUgr1oMbfJMBPnD4dVLHz1o=
-  dependencies:
-    boxen "^0.6.0"
-    chalk "^1.0.0"
-    configstore "^2.0.0"
-    is-npm "^1.0.0"
-    latest-version "^2.0.0"
-    lazy-req "^1.1.0"
     semver-diff "^2.0.0"
     xdg-basedir "^2.0.0"
 

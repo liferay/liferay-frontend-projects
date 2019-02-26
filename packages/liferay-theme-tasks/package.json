@@ -48,7 +48,6 @@
 		"run-sequence": "^1.0.2",
 		"tar-fs": "^1.16.3",
 		"through2": "^2.0.0",
-		"update-notifier": "^1.0.0",
 		"vinyl-paths": "^1.0.0",
 		"xml2js": "^0.4.15"
 	},

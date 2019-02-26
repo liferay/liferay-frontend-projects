@@ -8,7 +8,6 @@ const plugins = require('gulp-load-plugins')();
 
 const {doctor} = require('./lib/doctor');
 const lfrThemeConfig = require('./lib/liferay_theme_config');
-const versionControl = require('./lib/version_control.js');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
@@ -55,10 +54,4 @@ function register(options) {
 	const tasks = options.insideTests ? [] : options.argv._;
 
 	doctor({haltOnMissingDeps, tasks});
-
-	if (!options.argv['skip-update-check']) {
-		process.once('beforeExit', function() {
-			versionControl();
-		});
-	}
 }
