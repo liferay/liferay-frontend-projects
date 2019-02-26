@@ -123,15 +123,15 @@ function run() {
 					);
 					log.info(`Report written to ${config.getReportFilePath()}`);
 				} else if (report.warningsPresent) {
-					log.info(`
+					log.debug(`
 *************************************************************
 
              WARNING FROM liferay-npm-bundler
 
-The build has emitted some warning messages: we recommend 
-cleaning the output, activating the 'dump-report' option 
-in '.npmbundlerrc', and then reviewing the generated 
-'liferay-npm-bundler-report.html' to make sure no problems 
+The build has emitted some warning messages: we recommend
+cleaning the output, activating the 'dump-report' option
+in '.npmbundlerrc', and then reviewing the generated
+'liferay-npm-bundler-report.html' to make sure no problems
 will arise during runtime.
 
 *************************************************************
