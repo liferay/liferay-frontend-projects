@@ -31,9 +31,7 @@ function doctor({
 		dependencies = _.defaults(dependencies, themeConfig.devDependencies);
 	}
 
-	if (
-		!_.isUndefined(themeConfig.liferayTheme.supportCompass)
-	) {
+	if (!_.isUndefined(themeConfig.liferayTheme.supportCompass)) {
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 

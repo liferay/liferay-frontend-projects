@@ -11,7 +11,12 @@ const initCwd = process.cwd();
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
-	testUtil.cleanTempTheme('base-theme', '7.0', 'lib_sass_build_task', initCwd);
+	testUtil.cleanTempTheme(
+		'base-theme',
+		'7.0',
+		'lib_sass_build_task',
+		initCwd
+	);
 });
 
 describe('using lib_sass', () => {
