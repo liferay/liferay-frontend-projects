@@ -4,7 +4,6 @@
 	"keywords": ["liferay-theme"],
 	"liferayTheme": {
 		"baseTheme": "styled",
-		"rubySass": false,
 		"templateLanguage": "ftl",
 		"themeletDependencies": {},
 		"version": "7.0"

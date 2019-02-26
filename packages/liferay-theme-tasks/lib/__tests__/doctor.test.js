@@ -41,7 +41,7 @@ it('should throw appropriate error message', () => {
 
 	expect(() =>
 		doctor({themeConfig: pkgJson, haltOnMissingDeps: true, tasks: []})
-	).toThrow(new Error('Missing 2 theme dependencies'));
+	).toThrow(new Error('Missing 1 theme dependencies'));
 });
 
 it('should look for dependencies regardless if devDependency or not', () => {
@@ -56,7 +56,7 @@ it('should look for dependencies regardless if devDependency or not', () => {
 	).not.toThrow();
 });
 
-it('should replace supportCompass with rubySass', () => {
+it('should remove supportCompass', () => {
 	const pkgJsonPath = path.join(tempPath, 'package.json');
 	const pkgJson = require(pkgJsonPath);
 
@@ -67,7 +67,6 @@ it('should replace supportCompass with rubySass', () => {
 	const liferayTheme = updatedPkg.liferayTheme;
 
 	expect(liferayTheme.baseTheme).toBe('styled');
-	expect(liferayTheme.rubySass).toBe(false);
 	expect(liferayTheme.version).toBe('7.0');
 	expect(liferayTheme.supportCompass).toBeUndefined();
 });

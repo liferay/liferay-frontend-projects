@@ -11,33 +11,18 @@ const initCwd = process.cwd();
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
-	['lib_sass_build_task', 'ruby_sass_build_task'].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.0', namespace, initCwd)
+	testUtil.cleanTempTheme(
+		'base-theme',
+		'7.0',
+		'lib_sass_build_task',
+		initCwd
 	);
 });
 
-describe('using lib_sass', () =>
-	testBoilerplate(test, {
-		namespace: 'lib_sass_build_task',
-		themeName: 'base-theme',
-		version: '7.0',
-		rubySass: false,
-	}));
-
-describe('using ruby_sass', () =>
-	testBoilerplate(test, {
-		namespace: 'ruby_sass_build_task',
-		themeName: 'base-theme',
-		version: '7.0',
-		rubySass: true,
-	}));
-
-function testBoilerplate(test, options) {
-	const namespace = options.namespace;
-	const rubySass = options.rubySass || false;
-	const themeName = options.themeName;
-	const version = options.version;
-
+describe('using lib_sass', () => {
+	const namespace = 'lib_sass_build_task';
+	const themeName = 'base-theme';
+	const version = '7.0';
 	const sassOptionsSpy = sinon.spy();
 	let runSequence;
 	let buildPath;
@@ -56,21 +41,13 @@ function testBoilerplate(test, options) {
 				sassOptions: defaults => {
 					sassOptionsSpy();
 
-					if (rubySass) {
-						expect(defaults.compass).toBeTruthy();
-						expect(defaults.loadPath).toBeTruthy();
-					} else {
-						expect(defaults.includePaths).toBeTruthy();
-					}
+					expect(defaults.includePaths).toBeTruthy();
 
 					return defaults;
 				},
 				hookFn: buildHookFn,
-				rubySass: rubySass,
 			},
-			themeConfig: {
-				rubySass: rubySass,
-			},
+			themeConfig: {},
 			themeName: themeName,
 			version: version,
 		});
@@ -343,4 +320,4 @@ function testBoilerplate(test, options) {
 
 		cb();
 	}
-}
+});

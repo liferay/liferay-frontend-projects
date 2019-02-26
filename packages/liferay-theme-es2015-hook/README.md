@@ -23,7 +23,6 @@ After npm is done installing the dependency you must add the hook to the `lifera
   "liferayTheme": {
     "baseTheme": "styled",
     "hookModules": ["liferay-theme-es2015-hook"],
-    "rubySass": false,
     "templateLanguage": "ftl",
     "version": "7.0"
   },

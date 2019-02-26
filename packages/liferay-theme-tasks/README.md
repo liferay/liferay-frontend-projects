@@ -222,7 +222,6 @@ The `liferayTheme` object is located in a theme's package.json file and contains
 	],
 	"liferayTheme": {
 		"baseTheme": "styled",
-		"rubySass": false,
 		"templateLanguage": "ftl",
 		"version": "7.0"
 	},
@@ -243,14 +242,6 @@ Determines the base theme. This property is set by the `extend` task.
 The name or names of npm modules. These modules must expose a function that follows the same pattern as a [hookFn](#hookFn).
 
 If a module is listed in `hookModules`, it must also be added to the `devDependencies` of the theme.
-
-### rubySass
-
-If set to true `gulp-ruby-sass` is used as sass compiler. If set to false `gulp-sass` is used.
-
-If changing this property from the default value, the appropriate sass compiler will need to be added as a dev dependency of your theme.
-
-For example, if your theme is intended for Liferay Portal 7.0 and you set `rubySass` to `true`, you will then need to add `gulp-ruby-sass` to the `devDependencies` of your theme and run `npm install`.
 
 ### themelets
 

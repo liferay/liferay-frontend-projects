@@ -8,7 +8,6 @@
 		"baseTheme": {
 			"liferayTheme": {
 				"baseTheme": "styled",
-				"rubySass": false,
 				"screenshot": "",
 				"templateLanguage": "vm",
 				"version": "7.0"
@@ -19,7 +18,6 @@
 			},
 			"version": "1.0.0"
 		},
-		"rubySass": true,
 		"themeletDependencies": {
 			"test-themelet": {
 				"liferayTheme": {

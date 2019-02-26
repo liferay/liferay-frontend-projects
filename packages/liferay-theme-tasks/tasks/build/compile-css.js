@@ -43,9 +43,7 @@ module.exports = function(options) {
 
 		const themeConfig = lfrThemeConfig.getConfig();
 
-		let compileTask = themeConfig.rubySass
-			? 'build:compile-ruby-sass'
-			: 'build:compile-lib-sass';
+		let compileTask = 'build:compile-lib-sass';
 
 		runSequence(compileTask, cb);
 	});
@@ -61,7 +59,7 @@ module.exports = function(options) {
 		let gulpSourceMaps = require('gulp-sourcemaps');
 
 		let sassOptions = getSassOptions(options.sassOptions, {
-			includePaths: getSassIncludePaths(themeConfig.rubySass),
+			includePaths: getSassIncludePaths(),
 			sourceMap: true,
 		});
 
@@ -80,39 +78,6 @@ module.exports = function(options) {
 			)
 			.on('error', handleScssError)
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.write('.')))
-			.pipe(gulp.dest(cssBuild))
-			.on('end', cb);
-	});
-
-	gulp.task('build:compile-ruby-sass', function(cb) {
-		const themeConfig = lfrThemeConfig.getConfig();
-
-		let gulpIf = require('gulp-if');
-		let gulpRubySass = themeUtil.requireDependency(
-			'gulp-ruby-sass',
-			themeConfig.version
-		);
-		let gulpSourceMaps = require('gulp-sourcemaps');
-
-		let sassOptions = getSassOptions(options.sassOptions, {
-			compass: true,
-			loadPath: getSassIncludePaths(themeConfig.rubySass),
-			sourcemap: true,
-		});
-
-		const postCSSOptions = getPostCSSOptions(options.postcss);
-
-		let cssBuild = pathBuild + '/_css';
-
-		let srcPath = path.join(cssBuild, '*.scss');
-
-		gulpRubySass(srcPath, sassOptions)
-			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.init()))
-			.pipe(
-				gulpIf(postCSSOptions.enabled, postcss(postCSSOptions.plugins))
-			)
-			.on('error', handleScssError)
-			.pipe(gulpIf(sassOptions.sourcemap, gulpSourceMaps.write('.')))
 			.pipe(gulp.dest(cssBuild))
 			.on('end', cb);
 	});
@@ -143,7 +108,7 @@ function getPostCSSOptions(config) {
 	return postCSSOptions;
 }
 
-function getSassIncludePaths(rubySass) {
+function getSassIncludePaths() {
 	let includePaths = [
 		themeUtil.resolveDependency(
 			divert('dependencies').getDependencyName('mixins')
@@ -151,10 +116,7 @@ function getSassIncludePaths(rubySass) {
 	];
 
 	includePaths = concatBourbonIncludePaths(includePaths);
-
-	if (!rubySass) {
-		includePaths.push(path.dirname(require.resolve('compass-mixins')));
-	}
+	includePaths.push(path.dirname(require.resolve('compass-mixins')));
 
 	return includePaths;
 }

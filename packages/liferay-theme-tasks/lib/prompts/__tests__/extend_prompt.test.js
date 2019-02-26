@@ -94,7 +94,6 @@ it('_afterPromptTheme should save and install new dependencies', () => {
 				liferayTheme: {
 					baseTheme: 'styled',
 					screenshot: '',
-					rubySass: false,
 					templateLanguage: 'ftl',
 					version: '7.0',
 					themeletDependencies: {},

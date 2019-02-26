@@ -8,7 +8,6 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"screenshot": "",
-		"rubySass": false,
 		"templateLanguage": "<%= templateLanguage %>",
 		"version": "6.2"
 	},

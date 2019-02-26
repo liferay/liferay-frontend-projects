@@ -99,7 +99,6 @@ describe('liferay-theme:import unit tests', function() {
 // 		runGenerator(null, function() {
 // 			var pkg = getPackage();
 //
-// 			assert.equal(pkg.liferayTheme.rubySass, true);
 // 			assert.equal(pkg.liferayTheme.templateLanguage, 'vm');
 // 			assert.equal(pkg.liferayTheme.version, '6.2');
 // 			assert.equal(pkg.version, '1.0.0');
