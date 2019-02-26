@@ -11,7 +11,9 @@ it('name should retrieve package.json file from npm', done => {
 
 	themeFinder.name(pkgName, (err, pkg) => {
 		expect(err).toBeNull();
-		expect(pkg.liferayTheme).toMatchObject({version: expect.stringMatching(/^\d+\.\d+/)});
+		expect(pkg.liferayTheme).toMatchObject({
+			version: expect.stringMatching(/^\d+\.\d+/),
+		});
 		expect(pkg.keywords.indexOf('liferay-theme') > -1).toBe(true);
 		expect(pkg.name).toBe(pkgName);
 
