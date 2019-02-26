@@ -28,11 +28,10 @@ message for traceability purposes.
 ## Tests
 
 Any change (be it an improvement, a new feature or a bug fix) needs to include
-a test, and all tests from the repo need to be passing. To run the tests you
-can use our npm script:
+a test, and all tests from the repo need to be passing. To run the tests:
 
 ```
-npm test
+yarn test
 ```
 
 This will run the complete test suite using Jest.
@@ -40,10 +39,10 @@ This will run the complete test suite using Jest.
 ## Formatting
 
 All changes need to follow the general formatting guidelines that are enforced
-in the CI. To format your code, simply run our npm script:
+in the CI. To format your code:
 
 ```
-npm run format
+yarn format
 ```
 
 ## JS Docs
@@ -70,7 +69,7 @@ git checkout -b release/vX.X.X
 2. Prepare the templates for the new version
 
 ```
-npm run updatePackageVersions {version}
+yarn updatePackageVersions {version}
 git add .
 git commit -m "v{version} Prepares templates"
 ```
