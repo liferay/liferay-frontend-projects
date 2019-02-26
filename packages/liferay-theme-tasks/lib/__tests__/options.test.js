@@ -24,7 +24,6 @@ it('options should return default options with no config passed', () => {
 		baseTheme: {
 			liferayTheme: {
 				baseTheme: 'styled',
-				rubySass: false,
 				screenshot: '',
 				templateLanguage: 'vm',
 				version: '7.0',
@@ -38,7 +37,6 @@ it('options should return default options with no config passed', () => {
 		pathBuild: './build',
 		pathDist: './dist',
 		pathSrc: './src',
-		rubySass: false,
 		sassOptions: {},
 		templateLanguage: 'ftl',
 		themeletDependencies: {
@@ -66,7 +64,6 @@ it('options should return previously set options if no config is passed', () => 
 		baseTheme: {
 			liferayTheme: {
 				baseTheme: 'styled',
-				rubySass: false,
 				screenshot: '',
 				templateLanguage: 'vm',
 				version: '7.0',
@@ -81,7 +78,6 @@ it('options should return previously set options if no config is passed', () => 
 		pathBuild: './custom_build_path',
 		pathDist: './dist',
 		pathSrc: './src',
-		rubySass: false,
 		sassOptions: {},
 		templateLanguage: 'ftl',
 		themeletDependencies: {

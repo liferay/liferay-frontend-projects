@@ -315,7 +315,6 @@ describe('liferay-theme:app unit tests', function() {
 // 			function() {
 // 				var pkg = getPackage(defaults.themeId);
 //
-// 				chaiAssert.equal(pkg.liferayTheme.rubySass, false);
 // 				chaiAssert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
 // 				chaiAssert.equal(pkg.liferayTheme.version, '7.1');
 // 				chaiAssert.equal(pkg.name, defaults.themeId);
@@ -391,7 +390,6 @@ describe('liferay-theme:app unit tests', function() {
 // 			function() {
 // 				var pkg = getPackage(defaults.themeId);
 //
-// 				chaiAssert.equal(pkg.liferayTheme.rubySass, false);
 // 				chaiAssert.equal(pkg.liferayTheme.templateLanguage, 'ftl');
 // 				chaiAssert.equal(pkg.liferayTheme.version, '7.0');
 // 				chaiAssert.equal(pkg.name, defaults.themeId);

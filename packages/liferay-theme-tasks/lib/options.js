@@ -12,7 +12,6 @@ function getOptions(config) {
 		config.pathBuild = config.pathBuild || './build';
 		config.pathDist = config.pathDist || './dist';
 		config.pathSrc = config.pathSrc || './src';
-		config.rubySass = config.rubySass || false;
 		config.sassOptions = config.sassOptions || {};
 
 		let themeConfig = lfrThemeConfig.getConfig();

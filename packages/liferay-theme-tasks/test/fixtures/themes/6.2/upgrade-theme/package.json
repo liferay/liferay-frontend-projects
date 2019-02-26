@@ -6,7 +6,6 @@
 	],
 	"liferayTheme": {
 		"baseTheme": "styled",
-		"rubySass": true,
 		"screenshot": "",
 		"templateLanguage": "vm",
 		"version": "6.2"

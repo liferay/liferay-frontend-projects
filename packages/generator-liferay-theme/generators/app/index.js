@@ -336,7 +336,6 @@ module.exports = yeoman.generators.Base.extend({
 
 	_setDefaults: function(liferayVersion) {
 		_.defaults(this, {
-			rubySass: false,
 			templateLanguage: 'ftl',
 		});
 	},

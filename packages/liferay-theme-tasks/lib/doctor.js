@@ -31,22 +31,13 @@ function doctor({
 		dependencies = _.defaults(dependencies, themeConfig.devDependencies);
 	}
 
-	let rubySass = themeConfig.liferayTheme.rubySass;
-
 	if (
-		!_.isUndefined(themeConfig.liferayTheme.supportCompass) &&
-		_.isUndefined(rubySass)
+		!_.isUndefined(themeConfig.liferayTheme.supportCompass)
 	) {
-		rubySass = themeConfig.liferayTheme.supportCompass;
-
-		lfrThemeConfig.setConfig({
-			rubySass: rubySass,
-		});
-
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
-	let missingDeps = checkMissingDeps(liferayVersion, dependencies, rubySass);
+	let missingDeps = checkMissingDeps(liferayVersion, dependencies);
 
 	checkDependencySources(themeConfig.liferayTheme);
 
@@ -118,7 +109,7 @@ function checkDependencySources(liferayTheme) {
 	}
 }
 
-function checkMissingDeps(version, dependencies, rubySass) {
+function checkMissingDeps(version, dependencies) {
 	let missingDeps = 0;
 
 	missingDeps = logMissingDeps(
@@ -126,14 +117,6 @@ function checkMissingDeps(version, dependencies, rubySass) {
 		`liferay-theme-deps-${version}`,
 		missingDeps
 	);
-
-	if (rubySass) {
-		missingDeps = logMissingDeps(
-			dependencies,
-			'gulp-ruby-sass',
-			missingDeps
-		);
-	}
 
 	return missingDeps;
 }

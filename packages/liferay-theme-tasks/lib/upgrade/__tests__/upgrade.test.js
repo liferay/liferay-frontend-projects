@@ -45,7 +45,6 @@ describe('black list', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -83,7 +82,6 @@ describe('config', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -98,7 +96,6 @@ describe('config', () => {
 			const themeConfig = lfrThemeConfig.getConfig();
 
 			expect(themeConfig.version).toBe('7.0');
-			expect(themeConfig.rubySass).toBe(true);
 
 			const lookAndFeelPath = path.join(
 				tempPath,
@@ -133,7 +130,6 @@ describe('convert bootstrap', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -169,7 +165,6 @@ describe('create backup files', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -209,7 +204,6 @@ describe('create css diff', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -247,7 +241,6 @@ describe('create deprecated mixins', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -282,7 +275,6 @@ describe('log changes', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -311,7 +303,6 @@ describe('replace compass', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 
@@ -349,7 +340,6 @@ describe('upgrade templates', () => {
 			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
-				rubySass: true,
 			},
 		});
 

@@ -38,12 +38,12 @@ it('getConfig should get only liferayTheme namespaced properties from package.js
 	expect(packageJSON.liferayTheme).toEqual(themeConfig);
 });
 
-it('removeConfig should remove dependencies from package.json', () => {
-	lfrThemeConfig.removeConfig(['rubySass']);
+it('removeConfig should remove properties from package.json', () => {
+	lfrThemeConfig.removeConfig(['templateLanguage']);
 
 	const liferayTheme = lfrThemeConfig.getConfig();
 
-	expect(liferayTheme).not.toHaveProperty('rubySass');
+	expect(liferayTheme).not.toHaveProperty('templateLanguage');
 });
 
 it('removeDependencies should remove dependencies from package.json', () => {

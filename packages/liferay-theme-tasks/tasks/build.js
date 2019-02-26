@@ -67,27 +67,23 @@ module.exports = function(options) {
 	// Temp fix for libSass compilation issue with empty url() functions
 
 	gulp.task('build:fix-url-functions', function(cb) {
-		if (themeConfig.rubySass) {
-			cb();
-		} else {
-			gulp.src(pathBuild + '/_css/**/*.css')
-				.pipe(
-					replace({
-						patterns: [
-							{
-								match: /url\(url\(\)/g,
-								replacement: 'url()',
-							},
-						],
-					})
-				)
-				.pipe(
-					gulp.dest(pathBuild + '/_css', {
-						overwrite: true,
-					})
-				)
-				.on('end', cb);
-		}
+		gulp.src(pathBuild + '/_css/**/*.css')
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /url\(url\(\)/g,
+							replacement: 'url()',
+						},
+					],
+				})
+			)
+			.pipe(
+				gulp.dest(pathBuild + '/_css', {
+					overwrite: true,
+				})
+			)
+			.on('end', cb);
 	});
 
 	gulp.task('build:hook', function() {
