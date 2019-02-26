@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var async = require('async');
 var fs = require('fs-extra');
 var globby = require('globby');
@@ -9,17 +8,34 @@ var packageJson = require('package-json');
 var path = require('path');
 var spawn = require('cross-spawn');
 
+function toArray(value) {
+	return Array.isArray(value) ? value : [value];
+}
+
+function intersection(a, b) {
+	a = toArray(a);
+	b = toArray(b);
+
+	const set = new Set(b);
+	const common = [];
+	a.forEach(function(item) {
+		if (set.has(item)) {
+			common.push(item);
+		}
+	});
+	return common;
+}
+
 module.exports = {
 	find: function(config, cb) {
-		if (_.isUndefined(cb)) {
+		if (!cb) {
 			cb = config;
 
 			config = {};
 		}
 
-		var globalModules = _.isUndefined(config.globalModules)
-			? true
-			: config.globalModules;
+		var globalModules =
+			config.globalModules != null ? config.globalModules : true;
 
 		config.keyword = config.keyword || 'liferay-theme';
 		config.version = config.version || '*';
@@ -37,15 +53,18 @@ module.exports = {
 				name: name,
 			},
 			function(err, pkg) {
-				if (
-					(pkg && !pkg.liferayTheme) ||
-					(pkg && !_.includes(pkg.keywords, 'liferay-theme'))
-				) {
-					pkg = null;
+				if (pkg) {
+					if (
+						!pkg.liferayTheme ||
+						!pkg.keywords ||
+						pkg.keywords.indexOf('liferay-theme') === -1
+					) {
+						pkg = null;
 
-					err = new Error(
-						'Package is not a Liferay theme or themelet module'
-					);
+						err = new Error(
+							'Package is not a Liferay theme or themelet module'
+						);
+					}
 				}
 
 				cb(err, pkg);
@@ -56,7 +75,7 @@ module.exports = {
 	_findThemeModulesIn: function(paths) {
 		var modules = [];
 
-		_.forEach(paths, function(rootPath) {
+		paths.forEach(function(rootPath) {
 			if (!rootPath) {
 				return;
 			}
@@ -79,27 +98,25 @@ module.exports = {
 
 		var win32 = process.platform === 'win32';
 
-		_.forEach(path.join(process.cwd(), '..').split(path.sep), function(
-			part,
-			index,
-			parts
-		) {
-			var lookup = path.join.apply(
-				path,
-				parts.slice(0, index + 1).concat(['node_modules'])
-			);
+		path.join(process.cwd(), '..')
+			.split(path.sep)
+			.forEach(function(part, index, parts) {
+				var lookup = path.join.apply(
+					path,
+					parts.slice(0, index + 1).concat(['node_modules'])
+				);
 
-			if (!win32) {
-				lookup = '/' + lookup;
-			}
+				if (!win32) {
+					lookup = '/' + lookup;
+				}
 
-			paths.push(lookup);
-		});
+				paths.push(lookup);
+			});
 
 		if (process.env.NODE_PATH) {
-			paths = _.compact(
-				process.env.NODE_PATH.split(path.delimiter)
-			).concat(paths);
+			paths = process.env.NODE_PATH.split(path.delimiter)
+				.filter(Boolean)
+				.concat(paths);
 		} else {
 			var results = spawn.sync('npm', ['root', '-g']);
 
@@ -107,7 +124,7 @@ module.exports = {
 				var npmRoot = results.stdout.toString();
 
 				if (npmRoot) {
-					paths.push(_.trim(npmRoot));
+					paths.push(npmRoot.trim());
 				}
 			}
 
@@ -167,30 +184,26 @@ module.exports = {
 		var searchTerms = config.searchTerms;
 		var themelet = config.themelet;
 
-		return _.reduce(
-			modules,
-			function(result, item) {
-				var valid = false;
+		return modules.reduce(function(result, item) {
+			var valid = false;
 
-				if (
-					instance._isLiferayThemeModule(item, themelet) &&
-					instance._validateVersion(item, config.version)
-				) {
-					valid = true;
-				}
+			if (
+				instance._isLiferayThemeModule(item, themelet) &&
+				instance._validateVersion(item, config.version)
+			) {
+				valid = true;
+			}
 
-				if (searchTerms && valid) {
-					valid = instance._matchesSearchTerms(item, searchTerms);
-				}
+			if (searchTerms && valid) {
+				valid = instance._matchesSearchTerms(item, searchTerms);
+			}
 
-				if (valid) {
-					result[item.name] = item;
-				}
+			if (valid) {
+				result[item.name] = item;
+			}
 
-				return result;
-			},
-			{}
-		);
+			return result;
+		}, {});
 	},
 
 	_searchGlobalModules: function(config, cb) {
@@ -198,21 +211,17 @@ module.exports = {
 
 		var modules = this._findThemeModulesIn(this._getNpmPaths());
 
-		modules = _.reduce(
-			modules,
-			function(result, item) {
-				try {
-					var json = require(path.join(item, 'package.json'));
+		modules = modules.reduce(function(result, item) {
+			try {
+				var json = require(path.join(item, 'package.json'));
 
-					json.realPath = item;
+				json.realPath = item;
 
-					result.push(json);
-				} catch (err) {}
+				result.push(json);
+			} catch (err) {}
 
-				return result;
-			},
-			[]
-		);
+			return result;
+		}, []);
 
 		cb(null, instance._reduceModuleResults(modules, config));
 	},
@@ -243,19 +252,11 @@ module.exports = {
 
 	_validateVersion: function(pkg, version) {
 		var liferayThemeVersion = pkg.liferayTheme.version;
-		var valid = false;
 
-		if (
-			version === '*' ||
-			liferayThemeVersion === version ||
-			(_.isArray(version) && _.includes(version, liferayThemeVersion)) ||
-			(_.isArray(liferayThemeVersion) &&
-				_.includes(liferayThemeVersion, version)) ||
-			_.intersection(version, liferayThemeVersion).length
-		) {
-			valid = true;
+		if (version === '*' || liferayThemeVersion === version) {
+			return true;
+		} else {
+			return !!intersection(version, liferayThemeVersion).length;
 		}
-
-		return valid;
 	},
 };
