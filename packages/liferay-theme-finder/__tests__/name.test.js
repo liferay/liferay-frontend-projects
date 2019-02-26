@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var path = require('path');
 
 var themeFinder = require('../index');
@@ -12,7 +11,7 @@ it('name should retrieve package.json file from npm', done => {
 
 	themeFinder.name(pkgName, (err, pkg) => {
 		expect(err).toBeNull();
-		expect(_.isObject(pkg.liferayTheme)).toBe(true);
+		expect(pkg.liferayTheme).toMatchObject({version: expect.stringMatching(/^\d+\.\d+/)});
 		expect(pkg.keywords.indexOf('liferay-theme') > -1).toBe(true);
 		expect(pkg.name).toBe(pkgName);
 
