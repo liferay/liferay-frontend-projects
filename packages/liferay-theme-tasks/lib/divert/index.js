@@ -13,7 +13,7 @@ function divert(moduleName, version = null) {
 	if (!version) {
 		let config = lfrThemeConfig.getConfig();
 
-		version = config ? config.version : '7.1';
+		version = config ? config.version : divert.defaultVersion;
 	}
 
 	let module = {};
@@ -23,6 +23,8 @@ function divert(moduleName, version = null) {
 
 	return module;
 }
+
+divert.defaultVersion = '7.1';
 
 function safeRequire(moduleName) {
 	let module = {};
