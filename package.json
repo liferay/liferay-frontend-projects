@@ -10,9 +10,9 @@
 	"private": true,
 	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-tasks",
 	"scripts": {
-		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/*.md' 'packages/**/*.js' && npm run lint && npm run test",
+		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/*.md' 'packages/**/*.js' && yarn lint && yarn test",
 		"format": "prettier-eslint --write '*.{js,json,md}' 'packages/*.md' 'packages/**/*.js'",
-		"lerna": "lerna bootstrap -- --no-optional && npm install",
+		"lerna": "lerna bootstrap -- --no-optional && yarn",
 		"lint": "eslint 'packages/**/*.js'",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
