@@ -14,28 +14,25 @@ After npm is done installing the dependency you must add the hook to the `lifera
 
 ```json
 {
-  "name": "my-liferay-theme",
-  "version": "1.0.0",
-  "main": "package.json",
-  "keywords": [
-    "liferay-theme"
-  ],
-  "liferayTheme": {
-    "baseTheme": "styled",
-    "hookModules": ["liferay-theme-es2015-hook"],
-    "templateLanguage": "ftl",
-    "version": "7.0"
-  },
-  "devDependencies": {
-    "gulp": "^3.8.10",
-    "liferay-theme-tasks": "*",
-    "liferay-theme-deps-7.0": "*"
-  },
-  "dependencies": {
-    "liferay-theme-es2015-hook": "^1.0.0"
-  }
+	"name": "my-liferay-theme",
+	"version": "1.0.0",
+	"main": "package.json",
+	"keywords": ["liferay-theme"],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"hookModules": ["liferay-theme-es2015-hook"],
+		"templateLanguage": "ftl",
+		"version": "7.0"
+	},
+	"devDependencies": {
+		"gulp": "^3.8.10",
+		"liferay-theme-tasks": "*",
+		"liferay-theme-deps-7.0": "*"
+	},
+	"dependencies": {
+		"liferay-theme-es2015-hook": "^1.0.0"
+	}
 }
-
 ```
 
 ## Build
@@ -63,10 +60,7 @@ After building, `my_component.es.js` will be transpiled and packaged as an AMD m
 ```javascript
 // my-liferay-theme/src/js/main.js
 
-require(
-	'my-liferay-theme/js/my_component.es',
-	function(MyComponent) {
-		new MyComponent.default();
-	}
-);
+require('my-liferay-theme/js/my_component.es', function(MyComponent) {
+	new MyComponent.default();
+});
 ```

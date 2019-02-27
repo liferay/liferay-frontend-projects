@@ -1,22 +1,22 @@
 {
-  "author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-  "dependencies": {
-    "async": "^2.0.1",
-    "ava": "^0.15.2",
-    "cross-spawn": "^4.0.0",
-    "fs-extra": "^0.24.0",
-    "globby": "^6.0.0",
-    "npm-keyword": "^5.0.0",
-    "package-json": "^5.0.0",
-    "spawn-sync": "^1.0.15"
-  },
-  "description": "A tool for finding Liferay themes and themelets on npm",
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "license": "ISC",
-  "main": "index.js",
-  "name": "liferay-theme-finder",
-  "repository": "liferay/liferay-themes-sdk/packages/liferay-theme-finder",
-  "version": "8.0.0-rc.3"
+	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+	"dependencies": {
+		"async": "^2.0.1",
+		"ava": "^0.15.2",
+		"cross-spawn": "^4.0.0",
+		"fs-extra": "^0.24.0",
+		"globby": "^6.0.0",
+		"npm-keyword": "^5.0.0",
+		"package-json": "^5.0.0",
+		"spawn-sync": "^1.0.15"
+	},
+	"description": "A tool for finding Liferay themes and themelets on npm",
+	"engines": {
+		"node": ">=8.0.0"
+	},
+	"license": "ISC",
+	"main": "index.js",
+	"name": "liferay-theme-finder",
+	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-finder",
+	"version": "8.0.0-rc.3"
 }

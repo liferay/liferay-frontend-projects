@@ -2,14 +2,14 @@
 
 ## Pull requests & Github issues
 
-* All pull requests should be sent to the `develop` branch, as the `master`
-branch should always reflect the most recent release.
-* Any merged changes will remain in the `develop` branch until the next
-scheduled release.
-* The only exception to this rule is for emergency hot fixes, in which case the
-pull request can be sent to the `master` branch.
-* A Github issue should also be created for any bug fix or feature, this helps
-when generating the CHANGELOG.md file.
+-   All pull requests should be sent to the `develop` branch, as the `master`
+    branch should always reflect the most recent release.
+-   Any merged changes will remain in the `develop` branch until the next
+    scheduled release.
+-   The only exception to this rule is for emergency hot fixes, in which case the
+    pull request can be sent to the `master` branch.
+-   A Github issue should also be created for any bug fix or feature, this helps
+    when generating the CHANGELOG.md file.
 
 ## Tests
 
@@ -99,12 +99,12 @@ git merge master
 ```
 
 9. Do GitHub release using the pushed vX.X.X tag and the appropriate portion of
-CHANGELOG.md
+   CHANGELOG.md
 
 ## Hot fix
 
 1. Create a feature branch from `master` (assuming hot fix has already been
-merged)
+   merged)
 
 ```
 git checkout master

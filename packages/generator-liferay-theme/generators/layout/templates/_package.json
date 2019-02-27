@@ -2,9 +2,7 @@
 	"name": "<%= layoutDirName %>",
 	"version": "<%= packageVersion %>",
 	"main": "package.json",
-	"keywords": [
-		"liferay-theme"
-	],
+	"keywords": ["liferay-theme"],
 	"liferayLayoutTemplate": {
 		"version": "<%= liferayVersion %>"
 	},
