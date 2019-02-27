@@ -8,7 +8,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
-var divert = require('../../lib/divert');
+var divert = require('liferay-theme-tasks/lib/divert');
 
 module.exports = yeoman.generators.Base.extend({
 	initializing: function() {

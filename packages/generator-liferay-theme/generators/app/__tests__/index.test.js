@@ -7,7 +7,7 @@ const path = require('path');
 const sinon = require('sinon');
 const helpers = require('yeoman-generator').test;
 
-const divert = require('../../../lib/divert');
+const divert = require('liferay-theme-tasks/lib/divert');
 const liferayThemeApp = require('../index');
 
 chai.use(require('chai-fs'));
