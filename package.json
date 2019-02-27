@@ -30,7 +30,6 @@
 			"/__fixtures__/"
 		],
 		"modulePathIgnorePatterns": [
-			"/liferay-theme-finder/",
 			"/generator-liferay-theme/generators/layout/"
 		]
 	},
