@@ -25,5 +25,5 @@ module.exports = function(dependencies) {
 		.filter(Boolean)
 		.join(',');
 
-	return `{${stringDependencies}}/**/*.soy`;
+	return `{${stringDependencies}}/src/**/*.soy`;
 };
