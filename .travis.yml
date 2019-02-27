@@ -1,10 +1,10 @@
 before_install:
     - gem install compass
-    - npm install -g lerna@2.4.0
+    - yarn global add lerna@3.13.0
 
 install:
-    - npm run lerna
-    - npm install
+    - yarn
+    - yarn lerna
 
 language: node_js
 
@@ -12,4 +12,4 @@ node_js:
   - '8'
 
 script:
-    - npm run ci
+    - yarn ci
