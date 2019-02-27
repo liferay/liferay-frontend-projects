@@ -8,8 +8,6 @@ const lfrThemeConfig = require('../lib/liferay_theme_config');
 const themeUtil = require('../lib/util');
 const WarDeployer = require('../lib/war_deployer');
 
-const divert = require('../lib/divert');
-
 const themeConfig = lfrThemeConfig.getConfig(true);
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
