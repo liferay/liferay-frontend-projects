@@ -1,6 +1,11 @@
 'use strict';
 
-let _ = require('lodash');
+function isPlainObject(value) {
+	return (
+		value !== null &&
+		Object.prototype.toString.call(value) === '[object Object]'
+	);
+}
 
 let lfrThemeConfig = require('../liferay_theme_config');
 
@@ -30,7 +35,7 @@ function safeRequire(moduleName) {
 		}
 	}
 
-	if (!_.isPlainObject(module)) {
+	if (!isPlainObject(module)) {
 		throw new Error(
 			'Only modules exporting plain objects can be used with divert'
 		);
