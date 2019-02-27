@@ -4,19 +4,20 @@
 
 ## Available tasks
 
-* [build](#build)
-* [deploy](#deploy)
-* [extend](#extend)
-* [kickstart](#kickstart)
-* [status](#status)
-* [watch](#watch)
-* [init](#init)
+-   [build](#build)
+-   [deploy](#deploy)
+-   [extend](#extend)
+-   [kickstart](#kickstart)
+-   [status](#status)
+-   [watch](#watch)
+-   [init](#init)
 
 ### Build
 
 ```
 gulp build
 ```
+
 The `build` task generates the base theme files, compiles sass into css, and zips all theme files into a .war file, ready to be deployed to a Liferay server.
 
 ### Deploy
@@ -40,6 +41,7 @@ If you want to deploy to a different server without changing the default server 
 ```
 gulp deploy --live --url http://some-host.com
 ```
+
 You may also specify your login credentials using the `-u`/`--username` and `-p`/`--password` flags.
 
 ```
@@ -85,6 +87,7 @@ The `kickstart` task allows you to copy the css, images, js, and templates from 
 ```
 gulp status
 ```
+
 Displays what base theme/themelets your theme is extending.
 
 ### Watch
@@ -102,6 +105,7 @@ After invoking the watch task, every time you save any changes to a file in your
 ```
 gulp init
 ```
+
 Prompts user for local and remote appserver information used for deployment purposes (see [deploy](#deploy) task).
 
 ## API
@@ -115,7 +119,7 @@ var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
 
 liferayThemeTasks.registerTasks({
-	gulp: gulp
+	gulp: gulp,
 });
 ```
 
@@ -131,7 +135,7 @@ The name that will be given to the generated war file. The `distName` can also b
 ```js
 liferayThemeTasks.registerTasks({
 	distName: '${name}-${version}',
-	gulp: gulp
+	gulp: gulp,
 });
 
 // my-theme-1.0.0
@@ -170,9 +174,10 @@ liferayThemeTasks.registerTasks({
 		gulp.task('build:base', function(done) {
 			// Overwrites build:base task
 		});
-	}
+	},
 });
 ```
+
 Note: `hook` callback function must invoke `done` argument OR return a stream.
 
 ##### pathBuild

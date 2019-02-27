@@ -30,10 +30,10 @@ There is one other possible alternative that some may find easier to setup. You 
 
 Available generators:
 
-* [liferay-theme](#create)
-* [liferay-theme:import](#import)
-* [liferay-theme:layout](#layout)
-* [liferay-theme:themelet](#themelet)
+-   [liferay-theme](#create)
+-   [liferay-theme:import](#import)
+-   [liferay-theme:layout](#layout)
+-   [liferay-theme:themelet](#themelet)
 
 ### Create
 
@@ -69,7 +69,6 @@ The `liferay-theme:layout` generator creates a layout template.
 
 If you run the generator from the root directory of a theme (created with `yo liferay-theme`) it will add the layout template as a part of the theme in `src/layouttpl`.
 
-
 ### Themelet
 
 ```
@@ -79,7 +78,6 @@ yo liferay-theme:themelet
 The `liferay-theme:themelet` generator enables you to create theme fragments called `themelets`.
 
 The advantage of themelets is that reused code/components that often exist in multiple themes can be abstracted and easily reused in all of your themes.
-
 
 ## Gulp tasks
 

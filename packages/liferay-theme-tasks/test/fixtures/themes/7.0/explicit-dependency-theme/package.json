@@ -1,7 +1,9 @@
 {
 	"name": "explicit-dependency-theme",
 	"version": "0.0.0",
-	"keywords": ["liferay-theme"],
+	"keywords": [
+		"liferay-theme"
+	],
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"templateLanguage": "ftl",
