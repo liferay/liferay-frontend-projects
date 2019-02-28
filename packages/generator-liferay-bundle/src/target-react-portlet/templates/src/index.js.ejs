@@ -21,11 +21,8 @@ export default function main({<%- signature %>}) {
             portletNamespace={portletNamespace} 
             contextPath={contextPath}
             portletElementId={portletElementId}
-            <% if (hasSettings) { %>
-            settings={settings}
-            <% } %>
-            <% if (hasPreferences) { %>
-            preferences={preferences}
+            <% if (hasConfiguration) { %>
+            configuration={configuration}
             <% } %>
             />, 
         document.getElementById(portletElementId)

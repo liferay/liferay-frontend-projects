@@ -8,7 +8,9 @@ export default interface LiferayParams {
 	portletElementId: string;
 	contextPath: string;
 	portletNamespace: string;
-	settings: any;
-	preferences: any;
+	configuration: {
+		system: any,
+		portletInstance: any
+	}
 }
 

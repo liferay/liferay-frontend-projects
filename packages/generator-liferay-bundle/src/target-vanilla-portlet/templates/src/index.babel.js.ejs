@@ -24,20 +24,10 @@ export default function main({<%- signature %>}) {
             <span class="tag"><%- labels.portletElementId %>:</span>
             <span class="value">${portletElementId}</span>
         </div>
-        <% if (hasSettings) { %>
+        <% if (hasConfiguration) { %>
         <div>
-            <span class="tag"><%- labels.settings %>:</span>
-            <span class="value">
-                ${JSON.stringify(settings, null, 2)}
-            </span>
-        </div>
-        <% } %>
-        <% if (hasPreferences) { %>
-        <div>
-            <span class="tag"><%- labels.preferences %>:</span>
-            <span class="value">
-                ${JSON.stringify(preferences, null, 2)}
-            </span>
+            <span class="tag"><%- labels.configuration %>:</span>
+            <span class="value pre">${JSON.stringify(configuration, null, 2)}</span>
         </div>
         <% } %>
         `;
