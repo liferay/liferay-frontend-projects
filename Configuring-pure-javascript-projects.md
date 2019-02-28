@@ -56,7 +56,7 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 > 👀 Needs JS Portlet Extender 1.1.0
 
-Since JS Portlet Extender version 1.1.0 you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
+Since [#232](https://github.com/liferay/liferay-npm-build-tools/issues/232), [#262](https://github.com/liferay/liferay-npm-build-tools/issues/262), and [#270](https://github.com/liferay/liferay-npm-build-tools/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
 
 The configuration can have diffent scopes:
 
