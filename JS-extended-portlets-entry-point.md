@@ -1,4 +1,4 @@
-Since the introduction of the [create-jar](.npmbundlerrc-file-reference#create-jar) option in the bundler, the developer can write 100% Javascript portlets that are bootstrapped from the [JS Portlet Extender](https://web.liferay.com/en/marketplace/-/mp/application/115542926) in the server.
+Since the introduction of the [create-jar](.npmbundlerrc-file-reference#create-jar) option in the bundler, the developer can write pure Javascript portlets that are bootstrapped by the [JS Portlet Extender](https://web.liferay.com/en/marketplace/-/mp/application/115542926) in the server.
 
 This document describes the _contract_ between the JS Portlet Extender and the portlet.
 
@@ -6,10 +6,10 @@ Once the extender detects a JS-extended portlet, it looks for its `main` entry o
 
 ```javascript
 function entryPoint({
-  portletElementId,
+  configuration,
   contextPath,
-  portletNamespace,
-  configuration
+  portletElementId,
+  portletNamespace
 }) {
   // function body
 }
@@ -17,7 +17,10 @@ function entryPoint({
 
 As shown, the function receives a single object with several fields:
 
-- **portletElementId**: the id of the DOM node where the portlet's UI must be rendered.
+- **configuration** `[since JS Portlet Extender 1.1.0]`: this field contains the system (OSGi) and portlet instance (preferences as described in the Portlet spec) configuration associated to the portlet. It has two subfields:
+  - **system**: contains the system level configuration (defined in `Control Panel` > `System Settings`)
+  - **portletInstance**: contains the per-portlet configuration (defined in the `Configuration` menu option of the portlet)
+    > Note that all values are received as strings, no matter what their underlying type is in OSGi configuration store.
 - **contextPath**: the path to the web context of the module to be able to download static resources. It does not contain server, protocol or port parts, just the path portion of the URL (i.e. something like `/o/my-portlet`).
+- **portletElementId**: the id of the DOM node where the portlet's UI must be rendered.
 - **portletNamespace**: the portlet namespace as defined in the portlet specification.
-- **configuration** `[since JS Portlet Extender 1.1.0]`: this field contains the OSGi configuration associated to the bundle. If no configuration is defined it will be an empty object. Note that all values are received as strings, no matter what their underlying type is in OSGi configuration store.
