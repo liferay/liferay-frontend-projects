@@ -111,7 +111,7 @@ function getPostCSSOptions(config) {
 function getSassIncludePaths() {
 	let includePaths = [
 		themeUtil.resolveDependency(
-			divert('dependencies').getDependencyName('mixins')
+			'liferay-frontend-common-css'
 		),
 	];
 

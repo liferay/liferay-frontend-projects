@@ -9,15 +9,6 @@ const {
 } = require('../../theme_inspector');
 const themeUtil = require('../../util');
 
-const moduleNamesMap = {
-	classic: 'liferay-frontend-theme-classic-web',
-	mixins: 'liferay-frontend-common-css',
-	styled: 'liferay-frontend-theme-styled',
-	unstyled: 'liferay-frontend-theme-unstyled',
-};
-
-const getDependencyName = name => moduleNamesMap[name];
-
 function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 	const {baseTheme} = getLiferayThemeJSON(baseThemePath);
 	const baseThemeGlob = getBaseThemeGlob(baseThemePath);
@@ -25,7 +16,7 @@ function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 	dependencies = _.uniq(
 		dependencies.concat([
 			path.join(
-				themeUtil.resolveDependency(getDependencyName('unstyled')),
+				themeUtil.resolveDependency('liferay-frontend-theme-unstyled'),
 				baseThemeGlob
 			),
 		])
@@ -46,7 +37,7 @@ function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 			1,
 			0,
 			path.join(
-				themeUtil.resolveDependency(getDependencyName('styled')),
+				themeUtil.resolveDependency('liferay-frontend-theme-styled'),
 				baseThemeGlob
 			)
 		);
@@ -56,7 +47,7 @@ function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 				2,
 				0,
 				path.join(
-					themeUtil.resolveDependency(getDependencyName('classic')),
+					themeUtil.resolveDependency('liferay-frontend-theme-classic-web'),
 					baseThemeGlob
 				)
 			);
@@ -68,4 +59,4 @@ function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 	return dependencies;
 }
 
-module.exports = {getDependencyName, getBaseThemeDependencies};
+module.exports = {getBaseThemeDependencies};

@@ -43,7 +43,7 @@ exports.createBourbonFile = function() {
 	}
 
 	let mixinsPath = themeUtil.resolveDependency(
-		divert('dependencies').getDependencyName('mixins'),
+		'liferay-frontend-common-css',
 		'7.0'
 	);
 
