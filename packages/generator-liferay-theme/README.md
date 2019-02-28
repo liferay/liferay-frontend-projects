@@ -6,8 +6,8 @@
 
 ## Dependencies
 
-1. Install [Node.JS](http://nodejs.org/), if you don't have it yet.<br>
-2. run `<sudo> npm install -g yo gulp` to install global dependencies.
+1. Install [Node.JS](http://nodejs.org/), if you don't have it yet.
+2. Run `<sudo> npm install -g yo` to install global dependencies.
 
 ## Generator use
 

@@ -123,7 +123,9 @@ module.exports = yeoman.generators.Base.extend({
 			this.installDependencies({
 				bower: false,
 				callback: function() {
-					instance.spawnCommand('gulp', ['init']);
+					const gulp = require('gulp');
+					require('liferay-theme-tasks').registerTasks({gulp: gulp});
+					gulp.start('init');
 				},
 			});
 		}
