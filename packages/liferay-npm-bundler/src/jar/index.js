@@ -21,9 +21,8 @@ export default function createJar() {
 	addManifest(zip);
 	addBuildFiles(zip);
 	addLocalizationFiles(zip);
-	addMetatypeFile(zip);
-	addMetatypeJsonFile(zip);
-	addPreferencesFile(zip);
+	addSystemConfigurationFiles(zip);
+	addPortletInstanceConfigurationFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
 		fs.mkdirpSync(config.jar.getOutputDir());
@@ -143,34 +142,23 @@ function addManifest(zip) {
 }
 
 /**
- * Add the settings file if configured.
+ * Add the settings files if configured.
  * @param {JSZip} zip the ZIP file
  */
-function addMetatypeFile(zip) {
-	const filePath = config.jar.getSettingsFile();
+function addSystemConfigurationFiles(zip) {
+	const systemConfigJson = getSystemConfigurationJson();
 
-	if (!filePath) {
+	if (!systemConfigJson) {
 		return;
 	}
 
-	const json = fs.readJSONSync(filePath);
-
-	if (!json.fields) {
-		return;
-	}
-
-	const fields = Object.entries(json.fields);
-
-	if (fields.length == 0) {
-		return;
-	}
-
+	// Add OSGI-INF/metatype/metatype.xml file
 	const localization = config.jar.getLocalizationFile()
 		? `content/${path.basename(config.jar.getLocalizationFile())}`
 		: undefined;
 
 	const name =
-		json.name ||
+		systemConfigJson.name ||
 		(localization ? pkgJson.name : pkgJson.description || pkgJson.name);
 
 	const metatype = xml.createMetatype(pkgJson.name, name);
@@ -178,6 +166,8 @@ function addMetatypeFile(zip) {
 	if (localization) {
 		xml.addMetatypeLocalization(metatype, localization);
 	}
+
+	const fields = Object.entries(systemConfigJson.fields);
 
 	fields.forEach(([id, desc]) => {
 		xml.addMetatypeAttr(metatype, id, desc);
@@ -187,25 +177,12 @@ function addMetatypeFile(zip) {
 		.folder('OSGI-INF')
 		.folder('metatype')
 		.file(`${pkgJson.name}.xml`, xml.format(metatype));
-}
 
-/**
- * Add the settings metadata file if configured.
- * @param {JSZip} zip the ZIP file
- */
-function addMetatypeJsonFile(zip) {
-	const filePath = config.jar.getSettingsFile();
-
-	if (!filePath) {
-		return;
-	}
-
-	const json = fs.readJSONSync(filePath);
-
+	// Add features/metatype.json file
 	const metatypeJson = {};
 
-	if (json.category) {
-		metatypeJson.category = json.category;
+	if (systemConfigJson.category) {
+		metatypeJson.category = systemConfigJson.category;
 	}
 
 	zip
@@ -217,26 +194,24 @@ function addMetatypeJsonFile(zip) {
  * Add the portlet preferences file if configured.
  * @param {JSZip} zip the ZIP file
  */
-function addPreferencesFile(zip) {
-	const filePath = config.jar.getPreferencesFile();
+function addPortletInstanceConfigurationFile(zip) {
+	const portletInstanceConfigJson = getPortletInstanceConfigurationJson();
 
-	if (!filePath) {
+	if (!portletInstanceConfigJson) {
 		return;
 	}
 
-	const preferencesJson = readJsonSync(filePath);
-
-	const ddmJson = ddm.transformPreferences(preferencesJson);
+	const ddmJson = ddm.transformPreferences(portletInstanceConfigJson);
 
 	zip
 		.folder('features')
-		.file('preferences.json', JSON.stringify(ddmJson, null, 2));
+		.file('portletPreferences.json', JSON.stringify(ddmJson, null, 2));
 }
 
 /**
  * Get the minimum extender version needed for the capabilities of this bundle
  * to work
- * @return {string|undefined} a version number or undefined if no one is required
+ * @return {string|undefined} a version number or undefined if none is required
  */
 function getMinimumExtenderVersion() {
 	const requireJsExtender = config.jar.getRequireJsExtender();
@@ -251,9 +226,62 @@ function getMinimumExtenderVersion() {
 
 	let minExtenderMinorVersion = 0;
 
-	if (config.jar.getSettingsFile()) {
+	if (getSystemConfigurationJson()) {
+		minExtenderMinorVersion = Math.max(minExtenderMinorVersion, 1);
+	}
+
+	if (getPortletInstanceConfigurationJson()) {
 		minExtenderMinorVersion = Math.max(minExtenderMinorVersion, 1);
 	}
 
 	return `1.${minExtenderMinorVersion}.0`;
+}
+
+/**
+ * Get portlet instance configuration JSON object from getConfigurationFile()
+ * file.
+ * @return {object}
+ */
+function getPortletInstanceConfigurationJson() {
+	const filePath = config.jar.getConfigurationFile();
+
+	if (!filePath) {
+		return undefined;
+	}
+
+	const configurationJson = fs.readJSONSync(filePath);
+
+	if (
+		!configurationJson.portletInstance ||
+		!configurationJson.portletInstance.fields ||
+		Object.keys(configurationJson.portletInstance.fields).length == 0
+	) {
+		return undefined;
+	}
+
+	return configurationJson.portletInstance;
+}
+
+/**
+ * Get system configuration JSON object from getConfigurationFile() file.
+ * @return {object}
+ */
+function getSystemConfigurationJson() {
+	const filePath = config.jar.getConfigurationFile();
+
+	if (!filePath) {
+		return undefined;
+	}
+
+	const configurationJson = fs.readJSONSync(filePath);
+
+	if (
+		!configurationJson.system ||
+		!configurationJson.system.fields ||
+		Object.keys(configurationJson.system.fields).length == 0
+	) {
+		return undefined;
+	}
+
+	return configurationJson.system;
 }
