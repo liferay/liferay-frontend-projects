@@ -7,7 +7,6 @@ const log = require('fancy-log');
 const postcss = require('gulp-postcss');
 
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
-const divert = require('../../lib/divert');
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
 const themeUtil = require('../../lib/util');
 

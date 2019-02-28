@@ -6,8 +6,6 @@ let path = require('path');
 
 let themeUtil = require('./util');
 
-let divert = require('./divert');
-
 let formatPath = function(filePath) {
 	return filePath.replace(/\\/g, '/');
 };
