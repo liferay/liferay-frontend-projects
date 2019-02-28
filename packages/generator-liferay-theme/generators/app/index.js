@@ -124,7 +124,9 @@ module.exports = yeoman.generators.Base.extend({
 				bower: false,
 				callback: function() {
 					const gulp = require('gulp');
-					require('liferay-theme-tasks').registerTasks({gulp: gulp});
+					require('liferay-theme-tasks').registerTasks({
+						gulp: gulp,
+					});
 					gulp.start('init');
 				},
 			});
