@@ -1,4 +1,5 @@
 const path = require('path');
+const process = require('process');
 
 /**
  * Helper to generate string glob of soy dependencies
@@ -6,6 +7,8 @@ const path = require('path');
  * @returns {string}
  */
 module.exports = function(dependencies) {
+	const cwd = process.cwd();
+
 	const stringDependencies = dependencies.map(
 		function(dependency) {
 			let resolvedDependency = null;
@@ -23,6 +26,7 @@ module.exports = function(dependencies) {
 			return resolvedDependency;
 		})
 		.filter(Boolean)
+		.filter(dependencyPath => dependencyPath !== cwd)
 		.join(',');
 
 	return `{${stringDependencies}}/src/**/*.soy`;
