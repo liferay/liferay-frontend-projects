@@ -52,14 +52,17 @@ window.alert(Liferay.Language.get("hello-world"));
 
 If a user with the Spanish locale enters the application he will see an alert with the message `Hola mundo`. On the other hand, any user with a locale other than Spanish will see an alert with the message `Hello world`.
 
-## Settings configuration
+## Configuration
 
 > 👀 Needs JS Portlet Extender 1.1.0
 
-As of [#234](https://github.com/liferay/liferay-npm-build-tools/issues/234) you can define configuration for your bundle that appears in the the `System Settings` panel of Liferay and is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
+Since JS Portlet Extender version 1.1.0 you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
 
-All you need to do to enable configuration is creating a `features/settings.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.settings`](.npmbundlerrc-file-reference#create-jarfeaturessettings) option.
+The configuration can have diffent scopes:
 
-The format of the file is described in [[settings.json file reference]].
+- **System**: appears in the the `System Settings` panel of Liferay and is passed to your portlet inside the `system` field of the `configuration` parameter. It's shared among all the portlet instances.
+- **Portlet instance**: appears in the `Configuration` dialog of each portlet and is passed inside the `portletInstance` field of the `configuration` parameter. Each portlet instance has its own copy.
 
-Even though you can define the configuration without the Extender being active and it will show up in the Control Panel, you still need the Extender to pass the configuration to the Javascript code in the entry point (see [[JS extended portlets entry point]]).
+All you need to do to enable configuration is creating a `features/configuration.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.configuration`](.npmbundlerrc-file-reference#create-jarfeaturesconfiguration) option.
+
+The format of the file is described in [[configuration.json file reference]].

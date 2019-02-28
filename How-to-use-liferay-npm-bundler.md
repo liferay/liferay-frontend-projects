@@ -178,5 +178,5 @@ In addition, some of the options in `.npmbundlerrc` can be passed using command 
 
 #### Features
 
-- [`create-jar.features.localization`](.npmbundlerrc-file-reference#create-jarfeatureslocalization): specifies the L10N file to be used by the bundle (see [Localization](Creating-OSGi-bundles#localization) for more information)
-- [`create-jar.features.settings`](.npmbundlerrc-file-reference#create-jarfeaturessettings): specifies the JSON file describing the configuration structure (see [Settings configuration](Creating-OSGi-bundles#settings-configuration) for more information)
+- [`create-jar.features.localization`](.npmbundlerrc-file-reference#create-jarfeatureslocalization): specifies the L10N file to be used by the bundle (see [Localization](Configuring-pure-javascript-projects#localization) for more information)
+- [`create-jar.features.configuration`](.npmbundlerrc-file-reference#create-jarfeaturesconfiguration): specifies the JSON file describing the configuration structure (see [Configuration](Configuring-pure-javascript-projects#configuration) for more information)

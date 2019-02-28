@@ -15,29 +15,33 @@ Now, let's go with the documentation:
 
 1. Most usual tasks:
 
-   1. [How to create projects from scratch](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle) (explains how to create pure Javascript projects that can be deployed to Liferay)
-   2. [[Migrating bundler from 1.x to 2.x]]
+   1. [How to create pure Javascript projects](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle)
+      1. [How to configure Liferay features in pure Javascript projects](https://github.com/liferay/liferay-npm-build-tools/wiki/Configuring-pure-javascript-projects)
+   2. [[How to create mixed Java/Javascript projects]]
 
-2) Introductory topics:
+2. More esoteric tasks:
 
-   1. [[How to use the npm SDK in your project]] (explains how to tweak a Java based portlet project to use the SDK)
-   2. [[How to deploy npm packages to Liferay]]
-   3. [[How Liferay serves npm packages to the browser]]
+   1. [[Migrating bundler from 1.x to 2.x]]
 
-3. Tool manuals:
+3. Low level (platform architecture) topics:
+
+   1. [[How to deploy npm packages to Liferay]]
+   2. [[How Liferay serves npm packages to the browser]]
+
+4. Tool manuals:
 
    1. [[How to use liferay-npm-bundler]]
    2. [[How to use liferay-npm-bridge-generator]]
    3. [[How to use liferay-npm-imports-checker]]
    4. [[How to use generator-liferay-bundle]]
 
-4. Reference
+5. Reference
 
    1. [[.npmbundlerrc file reference]]
    2. [[JS-extended portlets entry point]]
-   3. [[settings.json file reference]]
+   3. [[configuration.json file reference]]
 
-5. Other sources of documentation:
+6. Other sources of documentation:
 
    1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
    2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
