@@ -2,8 +2,7 @@ import prop from 'dot-prop';
 import path from 'path';
 
 import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
-import {DEFAULT_SETTINGS} from '../facet-settings/constants';
-import {DEFAULT_PREFERENCES} from '../facet-preferences/constants';
+import {DEFAULT_CONFIGURATION} from '../facet-configuration/constants';
 
 /**
  * A class to be able to analyze what the project does and doesn't.
@@ -33,6 +32,20 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
+	 * Get project display name (description if present, otherwise the name).
+	 * @return {string}
+	 */
+	get displayName() {
+		let displayName = this.description;
+
+		if (displayName === '') {
+			displayName = this.name;
+		}
+
+		return displayName;
+	}
+
+	/**
 	 * Test if the project has localization enabled.
 	 * @return {boolean}
 	 */
@@ -46,28 +59,15 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
-	 * Test if the project has preferences.
+	 * Test if the project has configuration.
 	 * @return {boolean}
 	 */
-	get hasPreferences() {
+	get hasConfiguration() {
 		const fs = this._generator.fs;
 
 		return (
-			prop.has(this._npmbundlerrc, 'create-jar.features.preferences') ||
-			fs.exists(DEFAULT_PREFERENCES)
-		);
-	}
-
-	/**
-	 * Test if the project has settings.
-	 * @return {boolean}
-	 */
-	get hasSettings() {
-		const fs = this._generator.fs;
-
-		return (
-			prop.has(this._npmbundlerrc, 'create-jar.features.settings') ||
-			fs.exists(DEFAULT_SETTINGS)
+			prop.has(this._npmbundlerrc, 'create-jar.features.configuration') ||
+			fs.exists(DEFAULT_CONFIGURATION)
 		);
 	}
 
@@ -109,44 +109,23 @@ export default class ProjectAnalyzer {
 	}
 
 	/**
-	 * Get the path to the settings file.
+	 * Get the path to the configuration file.
 	 * @return {string}
 	 */
-	get settingsFilePath() {
+	get configurationFilePath() {
 		const fs = this._generator.fs;
 
-		let settings = prop.get(
+		const configuration = prop.get(
 			this._npmbundlerrc,
-			'create-jar.features.settings'
+			'create-jar.features.configuration'
 		);
 
-		if (settings) {
-			return settings;
+		if (configuration) {
+			return configuration;
 		} else {
-			if (fs.exists(DEFAULT_SETTINGS)) {
-				return DEFAULT_SETTINGS;
+			if (fs.exists(DEFAULT_CONFIGURATION)) {
+				return DEFAULT_CONFIGURATION;
 			}
-		}
-
-		return undefined;
-	}
-
-	/**
-	 * Get the path to the preferences file.
-	 * @return {string}
-	 */
-	get preferencesFilePath() {
-		const fs = this._generator.fs;
-
-		const preferences = prop.get(
-			this._npmbundlerrc,
-			'create-jar.features.preferences'
-		);
-
-		if (preferences) {
-			return preferences;
-		} else if (fs.exists(DEFAULT_PREFERENCES)) {
-			return DEFAULT_PREFERENCES;
 		}
 
 		return undefined;
