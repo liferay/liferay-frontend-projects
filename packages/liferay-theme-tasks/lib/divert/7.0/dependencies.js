@@ -47,7 +47,9 @@ function getBaseThemeDependencies(baseThemePath, dependencies = []) {
 				2,
 				0,
 				path.join(
-					themeUtil.resolveDependency('liferay-frontend-theme-classic-web'),
+					themeUtil.resolveDependency(
+						'liferay-frontend-theme-classic-web'
+					),
 					baseThemeGlob
 				)
 			);

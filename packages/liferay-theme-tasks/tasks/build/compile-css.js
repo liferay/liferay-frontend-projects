@@ -109,9 +109,7 @@ function getPostCSSOptions(config) {
 
 function getSassIncludePaths() {
 	let includePaths = [
-		themeUtil.resolveDependency(
-			'liferay-frontend-common-css'
-		),
+		themeUtil.resolveDependency('liferay-frontend-common-css'),
 	];
 
 	includePaths = concatBourbonIncludePaths(includePaths);
