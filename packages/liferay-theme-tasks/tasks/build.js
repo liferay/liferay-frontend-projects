@@ -41,76 +41,16 @@ module.exports = function(options) {
 		);
 	});
 
+	gulp.task('build:clean', function(cb) {
+		del([pathBuild], cb);
+	});
+
 	gulp.task('build:base', function() {
 		const sourceFiles = divert('dependencies').getBaseThemeDependencies(
 			process.cwd()
 		);
 
 		return gulp.src(sourceFiles).pipe(gulp.dest(pathBuild));
-	});
-
-	gulp.task('build:clean', function(cb) {
-		del([pathBuild], cb);
-	});
-
-	gulp.task('build:fix-at-directives', function() {
-		return gulp
-			.src(pathBuild + '/css/*.css')
-			.pipe(
-				replace({
-					patterns: getFixAtDirectivesPatterns(),
-				})
-			)
-			.pipe(gulp.dest(pathBuild + '/css'));
-	});
-
-	// Temp fix for libSass compilation issue with empty url() functions
-
-	gulp.task('build:fix-url-functions', function(cb) {
-		gulp.src(pathBuild + '/_css/**/*.css')
-			.pipe(
-				replace({
-					patterns: [
-						{
-							match: /url\(url\(\)/g,
-							replacement: 'url()',
-						},
-					],
-				})
-			)
-			.pipe(
-				gulp.dest(pathBuild + '/_css', {
-					overwrite: true,
-				})
-			)
-			.on('end', cb);
-	});
-
-	gulp.task('build:hook', function() {
-		let languageProperties = themeUtil.getLanguageProperties(pathSrc);
-
-		return gulp
-			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
-			.pipe(
-				replace({
-					patterns: [
-						{
-							match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
-							replacement: function() {
-								let retVal = '';
-
-								if (languageProperties) {
-									retVal = languageProperties.join('\n\t');
-								}
-
-								return retVal;
-							},
-						},
-					],
-				})
-			)
-			.pipe(plugins.rename('liferay-hook.xml'))
-			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
 	gulp.task('build:src', function() {
@@ -175,9 +115,76 @@ module.exports = function(options) {
 		});
 	});
 
+	gulp.task('build:hook', function() {
+		let languageProperties = themeUtil.getLanguageProperties(pathSrc);
+
+		return gulp
+			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
+							replacement: function() {
+								let retVal = '';
+
+								if (languageProperties) {
+									retVal = languageProperties.join('\n\t');
+								}
+
+								return retVal;
+							},
+						},
+					],
+				})
+			)
+			.pipe(plugins.rename('liferay-hook.xml'))
+			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
+	});
+
+	gulp.task('build:rename-css-dir', function(cb) {
+		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
+	});
+
+	// Temp fix for libSass compilation issue with empty url() functions
+	gulp.task('build:fix-url-functions', function(cb) {
+		gulp.src(pathBuild + '/_css/**/*.css')
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /url\(url\(\)/g,
+							replacement: 'url()',
+						},
+					],
+				})
+			)
+			.pipe(
+				gulp.dest(pathBuild + '/_css', {
+					overwrite: true,
+				})
+			)
+			.on('end', cb);
+	});
+
 	gulp.task('build:move-compiled-css', function() {
 		return gulp
 			.src(pathBuild + '/_css/**/*')
+			.pipe(gulp.dest(pathBuild + '/css'));
+	});
+
+	gulp.task('build:remove-old-css-dir', function(cb) {
+		del([pathBuild + '/_css'], cb);
+	});
+
+	gulp.task('build:fix-at-directives', function() {
+		return gulp
+			.src(pathBuild + '/css/*.css')
+			.pipe(
+				replace({
+					patterns: getFixAtDirectivesPatterns(),
+				})
+			)
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
@@ -194,14 +201,6 @@ module.exports = function(options) {
 			.pipe(plugins.plumber())
 			.pipe(r2())
 			.pipe(gulp.dest(pathBuild + '/css'));
-	});
-
-	gulp.task('build:remove-old-css-dir', function(cb) {
-		del([pathBuild + '/_css'], cb);
-	});
-
-	gulp.task('build:rename-css-dir', function(cb) {
-		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
 
 	gulp.task('build:war', done => {
