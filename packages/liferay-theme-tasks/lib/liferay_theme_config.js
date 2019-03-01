@@ -75,15 +75,10 @@ function deleteDependencies(sourceDependencies, deletedDependencies) {
 	});
 }
 
-function getPackageJSON(alternatePath) {
-	alternatePath = alternatePath || process.cwd();
-
-	let packageJSONContent = fs.readFileSync(
-		path.join(alternatePath, 'package.json'),
-		{
-			encoding: 'utf8',
-		}
-	);
+function getPackageJSON() {
+	let packageJSONContent = fs.readFileSync('package.json', {
+		encoding: 'utf8',
+	});
 
 	return JSON.parse(packageJSONContent);
 }
