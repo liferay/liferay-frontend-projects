@@ -3,7 +3,6 @@
 const inquirer = require('inquirer');
 const _ = require('lodash');
 
-const divert = require('../../divert');
 const GlobalModulePrompt = require('../../prompts/global_module_prompt');
 const NPMModulePrompt = require('../../prompts/npm_module_prompt');
 const themeUtil = require('../../util');
