@@ -230,22 +230,40 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_printWarnings', function() {
 		it('should output a specific string if certain conditions are met', function() {
-			var expectedOutput = chalk.yellow(
-				'   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'
-			);
+			const deprecated =
+				'   Warning: Velocity is deprecated for 7.0, ' +
+				'some features will be removed in the next release.';
+			const removed = '   Warning: Velocity support was removed in 7.1.';
 
 			prototype.log = sinon.spy();
-			prototype._printWarnings({templateLanguage: 'vm'});
+			prototype._printWarnings({
+				liferayVersion: '7.0',
+				templateLanguage: 'vm',
+			});
 
-			sinonAssert.calledWith(prototype.log, expectedOutput);
+			sinonAssert.calledWith(prototype.log, chalk.yellow(deprecated));
 			expect(prototype.log.callCount).toBe(1);
 
-			prototype.log.reset();
+			['7.1', '7.2'].forEach(liferayVersion => {
+				prototype.log.reset();
+				prototype._printWarnings({
+					liferayVersion: '7.1',
+					templateLanguage: 'vm',
+				});
+				sinonAssert.calledWith(prototype.log, chalk.yellow(removed));
+				expect(prototype.log.callCount).toBe(1);
+			});
 
-			prototype.templateLanguage = 'ftl';
-			prototype._printWarnings({templateLanguage: 'ftl'});
+			['7.0', '7.1', '7.2'].forEach(liferayVersion => {
+				prototype.log.reset();
 
-			sinonAssert.notCalled(prototype.log);
+				prototype.templateLanguage = 'ftl';
+				prototype._printWarnings({
+					liferayVersion,
+					templateLanguage: 'ftl',
+				});
+				sinonAssert.notCalled(prototype.log);
+			});
 		});
 	});
 
