@@ -277,7 +277,10 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_printWarnings: function(props) {
-		return divert('app_helpers')._printWarnings(this, props);
+		return divert('app_helpers', props.liferayVersion)._printWarnings(
+			this,
+			props
+		);
 	},
 
 	_prompt: function() {
@@ -308,8 +311,6 @@ module.exports = yeoman.generators.Base.extend({
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
-
-		divert.defaultVersion = liferayVersion;
 
 		this._setDefaults(liferayVersion);
 
