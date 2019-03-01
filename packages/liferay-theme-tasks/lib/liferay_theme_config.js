@@ -83,8 +83,5 @@ function getPackageJSON() {
 }
 
 function writePackageJSON(json) {
-	fs.writeFileSync(
-		'package.json',
-		JSON.stringify(json, null, '\t')
-	);
+	fs.writeFileSync('package.json', JSON.stringify(json, null, '\t'));
 }
