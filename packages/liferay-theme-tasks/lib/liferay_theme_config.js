@@ -2,8 +2,8 @@ const _ = require('lodash');
 const fs = require('fs-extra');
 const path = require('path');
 
-function getConfig(all, alternatePath) {
-	let packageJSON = getPackageJSON(alternatePath);
+function getConfig(all) {
+	let packageJSON = getPackageJSON();
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 }
