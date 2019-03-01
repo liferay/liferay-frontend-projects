@@ -2,13 +2,13 @@ const _ = require('lodash');
 const fs = require('fs-extra');
 
 function getConfig(all) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 }
 
 function removeConfig(settings) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
 	packageJSON.liferayTheme = _.omit(packageJSON.liferayTheme, settings);
 
@@ -16,7 +16,7 @@ function removeConfig(settings) {
 }
 
 function removeDependencies(dependencies) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
 	deleteDependencies(packageJSON.dependencies, dependencies);
 	deleteDependencies(packageJSON.devDependencies, dependencies);
@@ -45,9 +45,9 @@ function setConfig(config) {
 }
 
 function setDependencies(dependencies, devDependencies) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
-	let selector = devDependencies ? 'devDependencies' : 'dependencies';
+	const selector = devDependencies ? 'devDependencies' : 'dependencies';
 
 	if (!packageJSON[selector]) {
 		packageJSON[selector] = {};
@@ -75,7 +75,7 @@ function deleteDependencies(sourceDependencies, deletedDependencies) {
 }
 
 function getPackageJSON() {
-	let packageJSONContent = fs.readFileSync('package.json', {
+	const packageJSONContent = fs.readFileSync('package.json', {
 		encoding: 'utf8',
 	});
 
