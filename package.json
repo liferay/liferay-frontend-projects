@@ -22,7 +22,7 @@
 	"author": "Liferay",
 	"license": "MIT",
 	"devDependencies": {
-		"eslint": "^4.1.1",
+		"eslint": "5.14.1",
 		"prettier": "*"
 	},
 	"peerDependencies": {
