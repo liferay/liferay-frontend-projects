@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 
-function insertInjectTag(filePath, regex, replacer) {
+function insertInjectTag(filePath, beforeRegex, replacementContent) {
 	const relativePath = path.relative('', filePath);
 
 	if (fs.existsSync(filePath)) {
@@ -9,15 +9,21 @@ function insertInjectTag(filePath, regex, replacer) {
 			encoding: 'utf8',
 		});
 
-		regex = new RegExp(regex, 'g');
+		if (fileContents.indexOf(replacementContent) !== -1) {
+			console.log(
+				`Skipping tag injection for ${relativePath} (already done)`
+			);
+		} else {
+			fileContents = fileContents.replace(beforeRegex, function(match) {
+				return replacementContent + match;
+			});
 
-		fileContents = fileContents.replace(regex, replacer);
+			fs.writeFileSync(filePath, fileContents, {
+				encoding: 'utf8',
+			});
 
-		fs.writeFileSync(filePath, fileContents, {
-			encoding: 'utf8',
-		});
-
-		console.log(`Completed tag injection for ${relativePath}`);
+			console.log(`Completed tag injection for ${relativePath}`);
+		}
 	} else {
 		console.log(
 			`Skipping tag injection for ${relativePath} (does not exist)`
@@ -25,16 +31,10 @@ function insertInjectTag(filePath, regex, replacer) {
 	}
 }
 
-function normalize(config) {
-	normalizeTemplates(config);
-}
+function normalize() {
+	var beforeRegex = /<\/body>/;
 
-function normalizeTemplates() {
-	var templateRegex = '(<\\/body>)';
-
-	var templateReplacer = function(match) {
-		return '<!-- inject:js -->\n<!-- endinject -->\n\n' + match;
-	};
+	var replacementContent = '<!-- inject:js -->\n<!-- endinject -->\n\n';
 
 	var portalNormalPath = path.join(
 		require.resolve('liferay-frontend-theme-unstyled'),
@@ -43,8 +43,8 @@ function normalizeTemplates() {
 		'portal_normal'
 	);
 
-	insertInjectTag(portalNormalPath + '.ftl', templateRegex, templateReplacer);
-	insertInjectTag(portalNormalPath + '.vm', templateRegex, templateReplacer);
+	insertInjectTag(portalNormalPath + '.ftl', beforeRegex, replacementContent);
+	insertInjectTag(portalNormalPath + '.vm', beforeRegex, replacementContent);
 }
 
 module.exports = normalize;
