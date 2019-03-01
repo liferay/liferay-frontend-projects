@@ -205,7 +205,7 @@ function addPortletInstanceConfigurationFile(zip) {
 
 	zip
 		.folder('features')
-		.file('portletPreferences.json', JSON.stringify(ddmJson, null, 2));
+		.file('portlet_preferences.json', JSON.stringify(ddmJson, null, 2));
 }
 
 /**
