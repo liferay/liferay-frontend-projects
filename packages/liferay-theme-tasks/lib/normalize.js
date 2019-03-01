@@ -1,6 +1,9 @@
 /**
  * "Normalize" an HTML template by adding JS-injection placeholders as
  * HTML comments at the end of the template <body>.
+ *
+ * @param {string} template
+ * @return {string}
  */
 function normalize(template) {
 	const beforeRegex = /<\/body>/;
