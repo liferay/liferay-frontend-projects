@@ -1,9 +1,0 @@
-{
-	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
-	"description": "Tool for normalizing liferay-theme-deps modules in post install scripts",
-	"license": "ISC",
-	"main": "index.js",
-	"name": "liferay-theme-deps-normalize",
-	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-deps-normalize",
-	"version": "8.0.0-rc.3"
-}
