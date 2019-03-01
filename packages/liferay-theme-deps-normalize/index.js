@@ -2,7 +2,9 @@ var fs = require('fs');
 var path = require('path');
 
 function insertInjectTag(filePath, regex, replacer) {
-	try {
+	const relativePath = path.relative('', filePath);
+
+	if (fs.existsSync(filePath)) {
 		var fileContents = fs.readFileSync(filePath, {
 			encoding: 'utf8',
 		});
@@ -14,8 +16,12 @@ function insertInjectTag(filePath, regex, replacer) {
 		fs.writeFileSync(filePath, fileContents, {
 			encoding: 'utf8',
 		});
-	} catch (e) {
-		console.log('Unable to add inject tags to', filePath);
+
+		console.log(`Completed tag injection for ${relativePath}`);
+	} else {
+		console.log(
+			`Skipping tag injection for ${relativePath} (does not exist)`
+		);
 	}
 }
 
