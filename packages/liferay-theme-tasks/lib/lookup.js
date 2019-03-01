@@ -17,6 +17,7 @@ function lookup(key, version = null) {
 	}
 
 	return {
+		'baseThemeDependencies': require('./lookup/base').getBaseDependencies,
 		'devDependencies': require('./lookup/dependencies').devDependencies,
 		'kickstart:choices': require('./lookup/kickstart').choices,
 		'kickstart:afterPromptThemeSource': require('./lookup/kickstart')
