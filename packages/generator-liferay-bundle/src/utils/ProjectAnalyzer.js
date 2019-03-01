@@ -122,10 +122,8 @@ export default class ProjectAnalyzer {
 
 		if (configuration) {
 			return configuration;
-		} else {
-			if (fs.exists(DEFAULT_CONFIGURATION)) {
-				return DEFAULT_CONFIGURATION;
-			}
+		} else if (fs.exists(DEFAULT_CONFIGURATION)) {
+			return DEFAULT_CONFIGURATION;
 		}
 
 		return undefined;
