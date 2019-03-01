@@ -63,12 +63,12 @@ export default class {
 
 				// Add configuration localization
 				new LanguagePropertiesModifier(this._generator).addProperties({
-					'fruit': 'Favourite fruit',
+					'fruit': 'Favorite fruit',
 					'fruit-help': 'Choose the fruit you like the most',
 					'an-orange': 'An orange',
 					'a-pear': 'A pear',
 					'an-apple': 'An apple',
-					'drink': 'Favourite drink',
+					'drink': 'Favorite drink',
 					'drink-help': 'Choose the drink you like the most',
 					'water': 'Water',
 					'wine': 'Wine',
@@ -81,7 +81,7 @@ export default class {
 					'fruit',
 					'string',
 					{
-						name: 'Favourite fruit',
+						name: 'Favorite fruit',
 						description: 'Choose the fruit you like the most',
 						required: false,
 						defaultValue: 'orange',
@@ -99,7 +99,7 @@ export default class {
 					'drink',
 					'string',
 					{
-						name: 'Favourite drink',
+						name: 'Favorite drink',
 						description: 'Choose the drink you like the most',
 						required: false,
 						defaultValue: 'water',
