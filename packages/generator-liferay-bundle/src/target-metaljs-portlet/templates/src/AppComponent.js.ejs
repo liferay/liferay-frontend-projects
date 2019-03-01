@@ -20,21 +20,10 @@ export default class AppComponent extends JSXComponent {
 					<span class="value">{this.props.portletElementId}</span>
 				</div>
 
-				<% if (hasSettings) { %>
+				<% if (hasConfiguration) { %>
 				<div>
-					<span class="tag"><%- labels.settings %>:</span>
-					<span class="value">
-						{JSON.stringify(this.props.settings, null, 2)}
-					</span>
-				</div>
-				<% } %>
-
-				<% if (hasPreferences) { %>
-				<div>
-					<span class="tag"><%- labels.preferences %>:</span>
-					<span class="value">
-						{JSON.stringify(this.props.preferences, null, 2)}
-					</span>
+					<span class="tag"><%- labels.configuration %>:</span>
+					<span class="value pre">{JSON.stringify(this.props.configuration, null, 2)}</span>
 				</div>
 				<% } %>
 			</div>
@@ -43,18 +32,12 @@ export default class AppComponent extends JSXComponent {
 }
 
 AppComponent.PROPS = {
-	<% if (hasSettings) { %>
-	settings: {
+	<% if (hasConfiguration) { %>
+	configuration: {
 		validator: core.isObject,
-        value: '(unknown settings)'
+        value: '(unknown configuration)'
 	},
 	<% } %>
-	<% if (hasPreferences) { %>
-	preferences: {
-		validator: core.isObject,
-		value: '(unknown preferences)'
-	},
-	<% } %>	
 	portletNamespace: {
         validator: core.isString,
         value: '(unknown portletNamespace)'

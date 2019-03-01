@@ -1,4 +1,3 @@
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import {Report} from '../index';
 

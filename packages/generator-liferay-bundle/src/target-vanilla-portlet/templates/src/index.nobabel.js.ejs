@@ -36,28 +36,17 @@ function main(params) {
                 params.portletElementId +
             '</span>' +
         '</div>';
-    <% if (hasSettings) { %>
-    node.innerHTML +=
-        '<div>' +
-            '<span class="tag">' + 
-                <%- labels.settings %> + ':' +
-            '</span>' +
-            '<span class="value">' +
-                JSON.stringify(params.settings, null, 2) +
-            '</span>' +
-        '</div>';
-    <% } %>
-    <% if (hasPreferences) { %>
-    node.innerHTML +=
-        '<div>' +
-            '<span class="tag">' + 
-                <%- labels.preferences %> + ':' +
-            '</span>' +
-            '<span class="value">' +
-                JSON.stringify(params.preferences, null, 2) +
-            '</span>' +
-        '</div>';
-    <% } %>
+        <% if (hasConfiguration) { %>
+        node.innerHTML +=
+            '<div>' +
+                '<span class="tag">' + 
+                    <%- labels.configuration %> + ':' +
+                '</span>' +
+                '<span class="value pre">' +
+                    JSON.stringify(params.configuration, null, 2) +
+                '</span>' +
+            '</div>';
+        <% } %>
     <% } %>
 }
 

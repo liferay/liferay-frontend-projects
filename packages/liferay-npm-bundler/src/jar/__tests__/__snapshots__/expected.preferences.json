@@ -60,7 +60,7 @@
 			"type": "select",
 			"name": "fruit",
 			"label": {
-				"": "Favourite fruit"
+				"": "Favorite fruit"
 			},
 			"tip": {
 				"": "Choose the fruit you like the most"

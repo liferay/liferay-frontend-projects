@@ -42,7 +42,7 @@ export default class extends Generator {
 		const pkgJson = new PkgJsonModifier(this);
 		const projectAnalyzer = new ProjectAnalyzer(this);
 		const portletName = getPortletName(projectAnalyzer);
-		const portletDisplayName = getPortletDisplayName(projectAnalyzer);
+		const portletDisplayName = projectAnalyzer.displayName;
 
 		// Require extender
 		npmbundlerrc.setFeature('js-extender', true);
@@ -86,21 +86,6 @@ export default class extends Generator {
 			);
 		}
 	}
-}
-
-/**
- * Get portlet's display name
- * @param {ProjectAnalyzer} projectAnalyzer
- * @return {string}
- */
-function getPortletDisplayName(projectAnalyzer) {
-	let displayName = projectAnalyzer.description;
-
-	if (displayName === '') {
-		displayName = projectAnalyzer.name;
-	}
-
-	return displayName;
 }
 
 /**

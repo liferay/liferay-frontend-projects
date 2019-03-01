@@ -3,6 +3,10 @@ import fs from 'fs';
 
 import * as base from '../index';
 
+const notifiedWarnings = {
+	settings: false,
+};
+
 let config;
 let pkgJson;
 
@@ -50,35 +54,19 @@ export function getLocalizationFile() {
 }
 
 /**
- * Get portlet preferences file path.
+ * Get configuration file path.
  * @return {string} the full path of file or undefined if not configured
  */
-export function getPreferencesFile() {
+export function getConfigurationFile() {
 	const jarConfig = getNormalizedJarConfig();
 
 	let defaultValue = undefined;
 
-	if (fs.existsSync('./features/preferences.json')) {
-		defaultValue = 'features/preferences.json';
+	if (fs.existsSync('./features/configuration.json')) {
+		defaultValue = 'features/configuration.json';
 	}
 
-	return prop.get(jarConfig, 'features.preferences', defaultValue);
-}
-
-/**
- * Get settings file path.
- * @return {string} the full path of file or undefined if not configured
- */
-export function getSettingsFile() {
-	const jarConfig = getNormalizedJarConfig();
-
-	let defaultValue = undefined;
-
-	if (fs.existsSync('./features/settings.json')) {
-		defaultValue = 'features/settings.json';
-	}
-
-	return prop.get(jarConfig, 'features.settings', defaultValue);
+	return prop.get(jarConfig, 'features.configuration', defaultValue);
 }
 
 /**
@@ -131,5 +119,21 @@ function getNormalizedJarConfig() {
 		return {};
 	}
 
-	return config['create-jar'];
+	const jarConfig = config['create-jar'];
+
+	// Make deprecation checks
+	if (
+		!notifiedWarnings.settings &&
+		prop.get(jarConfig, 'features.settings') !== undefined
+	) {
+		notifiedWarnings.settings = true;
+
+		console.warn(
+			'\n' +
+				'👀 WARNING: configuration value \'create-jar.configuration.settings\' is no longer supported\n' +
+				'            (see https://tinyurl.com/settings-not-supported for more information)\n'
+		);
+	}
+
+	return jarConfig;
 }

@@ -1,8 +1,7 @@
 import {formatLabels, promptWithConfig} from '..';
 import ProjectAnalyzer from '../ProjectAnalyzer';
 import LocalizationSampleGenerator from '../../facet-localization/sample-generator';
-import PreferencesSampleGenerator from '../../facet-preferences/sample-generator';
-import SettingsSampleGenerator from '../../facet-settings/sample-generator';
+import ConfigurationSampleGenerator from '../../facet-configuration/sample-generator';
 import StylesCssModifier from '../modifier/assets/css/styles.css';
 
 /**
@@ -12,8 +11,7 @@ import StylesCssModifier from '../modifier/assets/css/styles.css';
 export function initializing(generator) {
 	generator.composeWith(require.resolve('../../facet-project'));
 	generator.composeWith(require.resolve('../../facet-localization'));
-	generator.composeWith(require.resolve('../../facet-settings'));
-	generator.composeWith(require.resolve('../../facet-preferences'));
+	generator.composeWith(require.resolve('../../facet-configuration'));
 	generator.composeWith(require.resolve('../../facet-portlet'));
 	generator.composeWith(require.resolve('../../facet-deploy'));
 	generator.composeWith(require.resolve('../../facet-start'));
@@ -25,16 +23,19 @@ export function initializing(generator) {
  * @param {string} namespace
  */
 export async function prompting(generator) {
-	generator.answers == generator.answers || {};
+	generator.answers = generator.answers || {};
 
-	generator.answers = await promptWithConfig(generator, [
-		{
-			type: 'confirm',
-			name: 'sampleWanted',
-			message: 'Do you want to generate sample code?',
-			default: false,
-		},
-	]);
+	Object.assign(
+		generator.answers,
+		await promptWithConfig(generator, [
+			{
+				type: 'confirm',
+				name: 'sampleWanted',
+				message: 'Do you want to generate sample code?',
+				default: false,
+			},
+		])
+	);
 }
 
 /**
@@ -58,8 +59,7 @@ export function generateContext(generator, extra = {}) {
 
 	return Object.assign(
 		{
-			hasSettings: projectAnalyzer.hasSettings,
-			hasPreferences: projectAnalyzer.hasPreferences,
+			hasConfiguration: projectAnalyzer.hasConfiguration,
 			signature: generateSignature(generator),
 		},
 		extra
@@ -77,17 +77,15 @@ export function generateSamples(generator, labels) {
 
 	if (sampleWanted) {
 		// Add styles
-		stylesCss.addRule('.tag', 'font-weight: bold;');
-		stylesCss.addRule('.value', 'font-style: italic;');
+		stylesCss.addRule('.tag', 'font-weight: bold; margin-right: 1em;');
+		stylesCss.addRule('.value', 'font-family: monospace;');
+		stylesCss.addRule('.pre', 'font-family: monospace; white-space: pre;');
 
 		// Add localization keys
 		new LocalizationSampleGenerator(generator).generate(labels.raw);
 
-		// Add sample settings
-		new SettingsSampleGenerator(generator).generate();
-
-		// Add sample preferences
-		new PreferencesSampleGenerator(generator).generate();
+		// Add sample configuration
+		new ConfigurationSampleGenerator(generator).generate();
 	}
 }
 
@@ -101,8 +99,7 @@ export function generateSignature(generator) {
 
 	return (
 		'portletNamespace, contextPath, portletElementId' +
-		(projectAnalyzer.hasSettings ? ', settings' : '') +
-		(projectAnalyzer.hasPreferences ? ', preferences' : '')
+		(projectAnalyzer.hasConfiguration ? ', configuration' : '')
 	);
 }
 
@@ -118,7 +115,8 @@ export function generateLabels(generator) {
 		portletNamespace: 'Portlet Namespace',
 		contextPath: 'Context Path',
 		portletElementId: 'Portlet Element Id',
-		settings: projectAnalyzer.hasSettings ? 'Settings' : undefined,
-		preferences: projectAnalyzer.hasPreferences ? 'Preferences' : undefined,
+		configuration: projectAnalyzer.hasConfiguration
+			? 'Configuration'
+			: undefined,
 	});
 }

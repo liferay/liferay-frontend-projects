@@ -1,7 +1,11 @@
 {
-	"env": {
-		"node": true,
-		"jest": true
-	},
-	"extends": "liferay"
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": "liferay",
+  "root": true,
+  "rules": {
+    "no-unused-expressions": "error"
+  }
 }

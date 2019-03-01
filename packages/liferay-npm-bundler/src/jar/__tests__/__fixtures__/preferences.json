@@ -25,7 +25,7 @@
 			"description": "A true|false value"
 		},
 		"fruit": {
-			"name": "Favourite fruit",
+			"name": "Favorite fruit",
 			"description": "Choose the fruit you like the most",
 			"default": "orange",
 			"options": {
