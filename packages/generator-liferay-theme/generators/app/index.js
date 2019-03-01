@@ -8,7 +8,6 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
-var divert = require('liferay-theme-tasks/lib/divert');
 var lookup = require('liferay-theme-tasks/lib/lookup');
 
 module.exports = yeoman.generators.Base.extend({
@@ -297,10 +296,7 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
-		this.devDependencies = divert(
-			'app_helpers',
-			liferayVersion
-		)._getDevDependencies();
+		this.devDependencies = lookup('devDependencies', liferayVersion);
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
