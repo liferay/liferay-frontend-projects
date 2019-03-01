@@ -1,4 +1,4 @@
-{
+module.exports = {
 	"env": {
 		"browser": true,
 		"jest": true,
@@ -32,4 +32,4 @@
 			{ "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
 		]
 	}
-}
+};

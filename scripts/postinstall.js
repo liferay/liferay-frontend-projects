@@ -1,19 +1,43 @@
 const fs = require('fs');
 const path = require('path');
 
-const cwd = path.join(__dirname, '../../../');
+/**
+ * From: https://eslint.org/docs/user-guide/configuring#configuration-file-formats
+ */
+const eslintrcFilenames = [
+	'.eslintrc.js',
+	'.eslintrc.yaml',
+	'.eslintrc.yml',
+	'.eslintrc.json',
+	'.eslintrc',
+];
 
-const eslintrcPath = path.join(cwd, '.eslintrc');
+function findConfig(filename) {
+	return fs.existsSync(filename) ? filename : null;
+}
 
-if (!fs.existsSync(eslintrcPath)) {
-    fs.writeFileSync(
-        eslintrcPath,
-        fs.readFileSync(path.join(__dirname, '../.eslintrc'), {
-            encoding: 'utf8'
-        })
-    );
+function detectPackageJSONConfig() {
+	try {
+		const packageJSON = require('./package.json');
+		return typeof packageJSON.eslintConfig === 'object';
+	} catch (_error) {
+		return false;
+	}
+}
 
-    console.log('Created .eslintrc file at ' + eslintrcPath);
+const config = eslintrcFilenames.find(findConfig);
+
+if (config) {
+    console.log(`Preserving .eslintrc file found at ${config}`);
+} else if (detectPackageJSONConfig()) {
+	console.log('Existing "eslintConfig" property found in package.json');
 } else {
-    console.log('Preserving .eslintrc file found at ' + eslintrcPath);
+	fs.writeFileSync(
+		config,
+		fs.readFileSync(path.join(__dirname, '../.eslintrc.js'), {
+			encoding: 'utf8'
+		})
+	);
+
+	console.log('Created .eslintrc.js file at ' + config);
 }
