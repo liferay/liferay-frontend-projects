@@ -4,6 +4,7 @@
     "jest": true
   },
   "extends": "liferay",
+  "root": true,
   "rules": {
     "no-unused-expressions": "error"
   }
