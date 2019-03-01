@@ -18,7 +18,6 @@ module.exports = {
 		'tinyMCE': true,
 	},
 	'rules': {
-		'brace-style': ['error', 'stroustrup'],
 		'lines-around-comment': ['error', {
 			'afterBlockComment': false,
 			'afterLineComment': true,

@@ -25,8 +25,7 @@ function prepareConfig() {
 	rc.extends = extendsArray.map(config => {
 		if (config === 'liferay') {
 			return path.join(__dirname, '../index.js');
-		}
-		else {
+		} else {
 			return config;
 		}
 	});
