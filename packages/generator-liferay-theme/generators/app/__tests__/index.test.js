@@ -235,23 +235,15 @@ describe('liferay-theme:app unit tests', function() {
 			);
 
 			prototype.log = sinon.spy();
-
-			['7.1', '7.0'].forEach(version => {
-				divert.defaultVersion = version;
-				prototype._printWarnings({templateLanguage: 'vm'});
-			});
+			prototype._printWarnings({templateLanguage: 'vm'});
 
 			sinonAssert.calledWith(prototype.log, expectedOutput);
-			expect(prototype.log.callCount).toBe(2);
+			expect(prototype.log.callCount).toBe(1);
 
 			prototype.log.reset();
 
 			prototype.templateLanguage = 'ftl';
-
-			['7.1', '7.0'].forEach(version => {
-				divert.defaultVersion = version;
-				prototype._printWarnings({templateLanguage: 'ftl'});
-			});
+			prototype._printWarnings({templateLanguage: 'ftl'});
 
 			sinonAssert.notCalled(prototype.log);
 		});
