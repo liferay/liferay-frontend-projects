@@ -29,7 +29,7 @@ function normalize(config) {
 	normalizeTemplates(config);
 }
 
-function normalizeTemplates(config) {
+function normalizeTemplates() {
 	var templateRegex = '(<\\/body>)';
 
 	var templateReplacer = function(match) {
@@ -37,7 +37,7 @@ function normalizeTemplates(config) {
 	};
 
 	var portalNormalPath = path.join(
-		require.resolve(config.unstyled),
+		require.resolve('liferay-frontend-theme-unstyled'),
 		'..',
 		'templates',
 		'portal_normal'
