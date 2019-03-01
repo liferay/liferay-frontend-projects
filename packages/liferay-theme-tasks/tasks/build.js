@@ -40,9 +40,14 @@ function injectJS() {
 				);
 			});
 		} else if (file.isBuffer()) {
-			file.contents = Buffer.from(normalize(file.contents.toString('utf8')));
+			file.contents = Buffer.from(
+				normalize(file.contents.toString('utf8'))
+			);
 		} else {
-			return this.emit('error', new PluginError('injectJS', 'Unsupported file type'));
+			return this.emit(
+				'error',
+				new PluginError('injectJS', 'Unsupported file type')
+			);
 		}
 
 		return callback(null, file);
@@ -85,7 +90,8 @@ module.exports = function(options) {
 			process.cwd()
 		);
 
-		return gulp.src(sourceFiles)
+		return gulp
+			.src(sourceFiles)
 			.pipe(injectJS())
 			.pipe(gulp.dest(pathBuild));
 	});
