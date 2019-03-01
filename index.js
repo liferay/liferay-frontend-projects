@@ -7,6 +7,7 @@ module.exports = {
 	extends: [
 		'eslint:recommended',
 		require.resolve('eslint-config-google'), // Resolve the eslint-config-google dependency so users of the config don't need to add it as a dependency of their projects
+		require.resolve('eslint-config-prettier'),
 	],
 	parserOptions: {
 		ecmaVersion: 2017,

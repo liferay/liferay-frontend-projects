@@ -30,6 +30,7 @@
 	},
 	"dependencies": {
 		"eslint-config-google": "^0.9.1",
+		"eslint-config-prettier": "4.1.0",
 		"eslint-plugin-liferayportal": "^1.0.0"
 	},
 	"scripts": {
