@@ -32,6 +32,8 @@
     "eslint-plugin-liferayportal": "^1.0.0"
   },
   "scripts": {
+    "lint": "node scripts/lint.js",
+    "lint:fix": "node scripts/lint.js --fix",
     "postinstall": "node scripts/postinstall.js"
   }
 }
