@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const fs = require('fs-extra');
-const path = require('path');
 
 function getConfig(all) {
 	let packageJSON = getPackageJSON();
@@ -85,7 +84,7 @@ function getPackageJSON() {
 
 function writePackageJSON(json) {
 	fs.writeFileSync(
-		path.join(process.cwd(), 'package.json'),
+		'package.json',
 		JSON.stringify(json, null, '\t')
 	);
 }
