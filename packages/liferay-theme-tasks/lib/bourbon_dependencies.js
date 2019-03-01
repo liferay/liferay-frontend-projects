@@ -6,8 +6,6 @@ let path = require('path');
 
 let themeUtil = require('./util');
 
-let divert = require('./divert');
-
 let formatPath = function(filePath) {
 	return filePath.replace(/\\/g, '/');
 };
@@ -43,7 +41,7 @@ exports.createBourbonFile = function() {
 	}
 
 	let mixinsPath = themeUtil.resolveDependency(
-		divert('dependencies').getDependencyName('mixins'),
+		'liferay-frontend-common-css',
 		'7.0'
 	);
 

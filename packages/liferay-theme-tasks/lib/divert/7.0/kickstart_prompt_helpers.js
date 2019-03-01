@@ -43,7 +43,7 @@ function _afterPromptThemeSource(answers, promptInstance) {
 		);
 	} else if (themeSource === 'classic') {
 		let classicPath = themeUtil.resolveDependency(
-			divert('dependencies').getDependencyName('classic'),
+			'liferay-frontend-theme-classic-web',
 			promptInstance.themeConfig.version
 		);
 
