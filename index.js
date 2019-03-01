@@ -1,21 +1,19 @@
 'use strict';
 
 module.exports = {
-	'env': {
-		'es6': true,
+	env: {
+		es6: true,
 	},
-	'extends': [
+	extends: [
 		'eslint:recommended',
 		require.resolve('eslint-config-google'), // Resolve the eslint-config-google dependency so users of the config don't need to add it as a dependency of their projects
 	],
-	'parserOptions': {
-		'ecmaVersion': 2017,
-		'sourceType': 'module',
+	parserOptions: {
+		ecmaVersion: 2017,
+		sourceType: 'module',
 	},
-	'plugins': [
-		'liferayportal',
-	],
-	'rules': {
+	plugins: ['liferayportal'],
+	rules: {
 		'liferayportal/arrowfunction-newline': 0,
 		// The rules below are listed in the order they appear on the eslint
 		// rules page. All rules are listed to make it easier to keep in sync
@@ -65,7 +63,6 @@ module.exports = {
 		//  prefer: {returns: 'return'},
 		//  }],
 		// 'valid-typeof': 2 // eslint:recommended
-
 
 		// Best Practices
 		// http://eslint.org/docs/rules/#best-practices
@@ -197,7 +194,7 @@ module.exports = {
 		// 'id-length': 0,
 		// 'id-match': 0,
 
-		'indent': ['error', 'tab'],
+		indent: ['error', 'tab'],
 		// 'jsx-quotes': 0,
 		// 'key-spacing': 2, // google
 
@@ -207,15 +204,19 @@ module.exports = {
 		// 'lines-around-comment': 0,
 		// 'lines-around-directive': 0,
 		// 'max-depth': 0,
-		'max-len': [2, { // google
-			code: 80,
-			comments: 120,
-			ignoreRegExpLiterals: true,
-			ignoreStrings: true,
-			ignoreTemplateLiterals: true,
-			ignoreUrls: true,
-			tabWidth: 4,
-		}],
+		'max-len': [
+			2,
+			{
+				// google
+				code: 80,
+				comments: 120,
+				ignoreRegExpLiterals: true,
+				ignoreStrings: true,
+				ignoreTemplateLiterals: true,
+				ignoreUrls: true,
+				tabWidth: 4,
+			},
+		],
 		// 'max-lines': 0,
 		// 'max-nested-callbacks': 0,
 		// 'max-params': 0,
@@ -315,6 +316,5 @@ module.exports = {
 		// 'symbol-description': 0,
 		// 'template-curly-spacing': 0,
 		// 'yield-star-spacing': [2, 'after'], // google
-
 	},
 };

@@ -2,10 +2,7 @@ const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const LINT_GLOBS = [
-	'**/*.js',
-	'.*.js',
-];
+const LINT_GLOBS = ['**/*.js', '.*.js'];
 
 /**
  * In order for eslint-config-liferay to be applied to itself, we need
@@ -18,9 +15,7 @@ function prepareConfig() {
 
 	// Minor future-proofing: deal with array or string "extends" property.
 
-	const extendsArray =
-		Array.isArray(rc.extends) ?
-			rc.extends : [rc.extends];
+	const extendsArray = Array.isArray(rc.extends) ? rc.extends : [rc.extends];
 
 	rc.extends = extendsArray.map(config => {
 		if (config === 'liferay') {
@@ -34,9 +29,13 @@ function prepareConfig() {
 }
 
 function formatConfig(config) {
-	return 'module.exports = ' + JSON
-		.stringify(config, null, 1)
-		.replace(/^ +/mg, match => '\t'.repeat(match.length)) + ';';
+	return (
+		'module.exports = ' +
+		JSON.stringify(config, null, 1).replace(/^ +/gm, match =>
+			'\t'.repeat(match.length)
+		) +
+		';'
+	);
 }
 
 function writeConfig(configString) {
@@ -56,13 +55,11 @@ function parseArgs(args) {
 function lint(configPath) {
 	const args = parseArgs(process.argv);
 
-	child_process.spawnSync('eslint', [
-		'--no-eslintrc',
-		'--config',
-		configPath,
-		...args,
-		...LINT_GLOBS,
-	], {stdio: 'inherit'});
+	child_process.spawnSync(
+		'eslint',
+		['--no-eslintrc', '--config', configPath, ...args, ...LINT_GLOBS],
+		{stdio: 'inherit'}
+	);
 }
 
 const config = prepareConfig();
