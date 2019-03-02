@@ -30,7 +30,8 @@
 	},
 	"dependencies": {
 		"eslint-config-prettier": "4.1.0",
-		"eslint-plugin-liferayportal": "^1.0.0"
+		"eslint-plugin-liferayportal": "^1.0.0",
+		"eslint-plugin-no-only-tests": "^2.1.0"
 	},
 	"scripts": {
 		"format": "prettier --write -- '**/*.{js,json,md}' '.*.js'",
