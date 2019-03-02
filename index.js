@@ -11,18 +11,18 @@ module.exports = {
 	},
 	plugins: ['liferayportal', 'no-only-tests'],
 	rules: {
-		'liferayportal/arrowfunction-newline': 0,
-		'no-console': 0,
-		'no-constant-condition': 0,
-		'no-empty': 0,
+		'liferayportal/arrowfunction-newline': 'off',
+		'no-console': 'off',
+		'no-constant-condition': 'off',
+		'no-empty': 'off',
 		'no-only-tests/no-only-tests': 'error',
 		'no-unused-expressions': 'error',
-		'no-process-env': 0,
-		'comma-spacing': 0,
+		'no-process-env': 'off',
+		'comma-spacing': 'off',
 		indent: ['error', 'tab'],
-		'keyword-spacing': 1,
+		'keyword-spacing': 'warn',
 		'max-len': [
-			2,
+			'error',
 			{
 				code: 80,
 				comments: 120,
@@ -33,7 +33,7 @@ module.exports = {
 				tabWidth: 4,
 			},
 		],
-		'no-tabs': 0,
-		'arrow-parens': 0, // Setting for Prettier
+		'no-tabs': 'off',
+		'arrow-parens': 'off', // Setting for Prettier
 	},
 };
