@@ -1,6 +1,14 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
-module.exports = {
+const fs = require('fs');
+
+const config = {
 	env: {
 		es6: true,
 	},
@@ -9,7 +17,7 @@ module.exports = {
 		ecmaVersion: 2017,
 		sourceType: 'module',
 	},
-	plugins: ['liferayportal', 'no-only-tests'],
+	plugins: ['liferayportal', 'no-only-tests', 'notice'],
 	rules: {
 		'liferayportal/arrowfunction-newline': 0,
 		'no-console': 0,
@@ -37,3 +45,14 @@ module.exports = {
 		'arrow-parens': 0, // Setting for Prettier
 	},
 };
+
+if (fs.existsSync('copyright.js')) {
+	config.rules['notice/notice'] = [
+		'error',
+		{
+			templateFile: 'copyright.js',
+		},
+	];
+}
+
+module.exports = config;
