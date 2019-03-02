@@ -40,5 +40,5 @@ if (config) {
 		})
 	);
 
-	console.log('Created .eslintrc.js file at ' + config);
+	console.log(`Created ${config}`);
 }
