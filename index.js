@@ -16,7 +16,7 @@ module.exports = {
 		'no-constant-condition': 0,
 		'no-empty': 0,
 		'no-only-tests/no-only-tests': 'error',
-		'no-unused-vars': [2, {args: 'after-used'}],
+		'no-unused-expressions': 'error',
 		'no-process-env': 0,
 		'comma-spacing': 0,
 		indent: ['error', 'tab'],
