@@ -1,37 +1,42 @@
 {
-  "name": "eslint-config-liferay",
-  "version": "2.0.18",
-  "description": "ESLint shareable config for the Liferay JavaScript Style",
-  "main": "index.js",
-  "files": [
-    ".eslintrc",
-    "index.js",
-    "scripts"
-  ],
-  "keywords": [
-    "code",
-    "quality",
-    "eslint",
-    "eslintconfig",
-    "liferay"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/liferay/eslint-config-liferay.git"
-  },
-  "author": "Liferay",
-  "license": "MIT",
-  "devDependencies": {
-    "eslint": "^4.1.1"
-  },
-  "peerDependencies": {
-    "eslint": ">=4.1.1"
-  },
-  "dependencies": {
-    "eslint-config-google": "^0.9.1",
-    "eslint-plugin-liferayportal": "^1.0.0"
-  },
-  "scripts": {
-    "postinstall": "node scripts/postinstall.js"
-  }
+	"name": "eslint-config-liferay",
+	"version": "2.0.18",
+	"description": "ESLint shareable config for the Liferay JavaScript Style",
+	"main": "index.js",
+	"files": [
+		".eslintrc.js",
+		"index.js",
+		"scripts"
+	],
+	"keywords": [
+		"code",
+		"quality",
+		"eslint",
+		"eslintconfig",
+		"liferay"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/eslint-config-liferay.git"
+	},
+	"author": "Liferay",
+	"license": "MIT",
+	"devDependencies": {
+		"eslint": "5.14.1",
+		"prettier": "*"
+	},
+	"peerDependencies": {
+		"eslint": ">=4.1.1"
+	},
+	"dependencies": {
+		"eslint-config-prettier": "4.1.0",
+		"eslint-plugin-liferayportal": "^1.0.0"
+	},
+	"scripts": {
+		"format": "prettier --write -- '**/*.{js,json,md}' '.*.js'",
+		"format:check": "prettier --list-different -- '**/*.{js,json,md}' '.*.js'",
+		"lint": "node scripts/lint.js",
+		"lint:fix": "node scripts/lint.js --fix",
+		"postinstall": "node scripts/postinstall.js"
+	}
 }
