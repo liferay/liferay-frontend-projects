@@ -17,15 +17,17 @@ function lookup(key, version = null) {
 	}
 
 	return {
-		'baseThemeDependencies': require('./lookup/base').getBaseDependencies,
-		'devDependencies': require('./lookup/dependencies').devDependencies,
-		'kickstart:choices': require('./lookup/kickstart').choices,
-		'kickstart:afterPromptThemeSource': require('./lookup/kickstart')
-			.afterPromptThemeSource,
-		'template:choices': require('./lookup/template').choices,
-		'template:isLanguage': require('./lookup/template').isLanguage,
-		'template:printWarnings': require('./lookup/template').printWarnings,
-	}[key](version);
+		'baseThemeDependencies': () =>
+			require('./lookup/base').getBaseDependencies,
+		'devDependencies': () => require('./lookup/dependencies').devDependencies,
+		'kickstart:choices': () => require('./lookup/kickstart').choices,
+		'kickstart:afterPromptThemeSource': () =>
+			require('./lookup/kickstart').afterPromptThemeSource,
+		'template:choices': () => require('./lookup/template').choices,
+		'template:isLanguage': () => require('./lookup/template').isLanguage,
+		'template:printWarnings': () =>
+			require('./lookup/template').printWarnings,
+	}[key]()(version);
 }
 
 module.exports = lookup;
