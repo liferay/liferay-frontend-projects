@@ -6,9 +6,9 @@
 
 module.exports = {
 	env: {
-		browser: true,
-		jest: true,
-		mocha: true,
+		// Available environments: https://eslint.org/docs/user-guide/configuring#specifying-environments
+		es6: true,
+		node: true,
 	},
 	extends: 'liferay',
 	globals: {
