@@ -4,7 +4,7 @@ const _ = require('lodash');
 const path = require('path');
 
 const promptUtil = require('./prompt_util');
-const divert = require('../divert');
+const lookup = require('../lookup');
 
 class KickstartPrompt {
 	constructor(...args) {
@@ -37,10 +37,7 @@ class KickstartPrompt {
 	}
 
 	_afterPromptThemeSource(answers) {
-		divert('kickstart_prompt_helpers')._afterPromptThemeSource(
-			answers,
-			this
-		);
+		lookup('kickstart:afterPromptThemeSource')(answers, this);
 	}
 
 	_installTempModule(moduleName, cb, hideOutput) {
@@ -66,7 +63,7 @@ class KickstartPrompt {
 		inquirer.prompt(
 			[
 				{
-					choices: divert('kickstart_prompt_helpers').choices,
+					choices: lookup('kickstart:choices'),
 					message: 'Where would you like to search?',
 					name: 'themeSource',
 					type: listType,

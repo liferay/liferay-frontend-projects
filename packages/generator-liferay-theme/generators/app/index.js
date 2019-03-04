@@ -8,7 +8,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 
-var divert = require('liferay-theme-tasks/lib/divert');
+var lookup = require('liferay-theme-tasks/lib/lookup');
 
 module.exports = yeoman.generators.Base.extend({
 	initializing: function() {
@@ -194,10 +194,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_getTemplateLanguageChoices: answers =>
-		divert(
-			'app_helpers',
-			answers.liferayVersion
-		)._getTemplateLanguageChoices(answers),
+		lookup('template:choices', answers.liferayVersion),
 
 	_getWhenFn: function(propertyName, flag, validator) {
 		var instance = this;
@@ -268,16 +265,14 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isTemplateLanguage: (value, answers) =>
-		divert('app_helpers', answers.liferayVersion)._isTemplateLanguage(
-			value
-		),
+		lookup('template:isLanguage', answers.liferayVersion)(value),
 
 	_mixArgs: function(props, args) {
 		return _.assign(props, args);
 	},
 
 	_printWarnings: function(props) {
-		return divert('app_helpers')._printWarnings(this, props);
+		lookup('template:printWarnings', props.liferayVersion)(this, props);
 	},
 
 	_prompt: function() {
@@ -301,15 +296,10 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
-		this.devDependencies = divert(
-			'app_helpers',
-			liferayVersion
-		)._getDevDependencies();
+		this.devDependencies = lookup('devDependencies', liferayVersion);
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
-
-		divert.defaultVersion = liferayVersion;
 
 		this._setDefaults(liferayVersion);
 

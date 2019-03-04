@@ -7,7 +7,6 @@ const path = require('path');
 const sinon = require('sinon');
 const helpers = require('yeoman-generator').test;
 
-const divert = require('liferay-theme-tasks/lib/divert');
 const liferayThemeApp = require('../index');
 
 chai.use(require('chai-fs'));
@@ -230,30 +229,40 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_printWarnings', function() {
 		it('should output a specific string if certain conditions are met', function() {
-			var expectedOutput = chalk.yellow(
-				'   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'
-			);
+			const deprecated =
+				'   Warning: Velocity is deprecated for 7.0, ' +
+				'some features will be removed in the next release.';
+			const removed = '   Warning: Velocity support was removed in 7.1.';
 
 			prototype.log = sinon.spy();
-
-			['7.1', '7.0'].forEach(version => {
-				divert.defaultVersion = version;
-				prototype._printWarnings({templateLanguage: 'vm'});
+			prototype._printWarnings({
+				liferayVersion: '7.0',
+				templateLanguage: 'vm',
 			});
 
-			sinonAssert.calledWith(prototype.log, expectedOutput);
-			expect(prototype.log.callCount).toBe(2);
+			sinonAssert.calledWith(prototype.log, chalk.yellow(deprecated));
+			expect(prototype.log.callCount).toBe(1);
 
-			prototype.log.reset();
-
-			prototype.templateLanguage = 'ftl';
-
-			['7.1', '7.0'].forEach(version => {
-				divert.defaultVersion = version;
-				prototype._printWarnings({templateLanguage: 'ftl'});
+			['7.1', '7.2'].forEach(liferayVersion => {
+				prototype.log.reset();
+				prototype._printWarnings({
+					liferayVersion: '7.1',
+					templateLanguage: 'vm',
+				});
+				sinonAssert.calledWith(prototype.log, chalk.yellow(removed));
+				expect(prototype.log.callCount).toBe(1);
 			});
 
-			sinonAssert.notCalled(prototype.log);
+			['7.0', '7.1', '7.2'].forEach(liferayVersion => {
+				prototype.log.reset();
+
+				prototype.templateLanguage = 'ftl';
+				prototype._printWarnings({
+					liferayVersion,
+					templateLanguage: 'ftl',
+				});
+				sinonAssert.notCalled(prototype.log);
+			});
 		});
 	});
 

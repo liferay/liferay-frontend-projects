@@ -1,15 +1,14 @@
 const _ = require('lodash');
 const fs = require('fs-extra');
-const path = require('path');
 
-function getConfig(all, alternatePath) {
-	let packageJSON = getPackageJSON(alternatePath);
+function getConfig(all) {
+	const packageJSON = getPackageJSON();
 
 	return all ? packageJSON : packageJSON.liferayTheme;
 }
 
 function removeConfig(settings) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
 	packageJSON.liferayTheme = _.omit(packageJSON.liferayTheme, settings);
 
@@ -17,7 +16,7 @@ function removeConfig(settings) {
 }
 
 function removeDependencies(dependencies) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
 	deleteDependencies(packageJSON.dependencies, dependencies);
 	deleteDependencies(packageJSON.devDependencies, dependencies);
@@ -46,9 +45,9 @@ function setConfig(config) {
 }
 
 function setDependencies(dependencies, devDependencies) {
-	let packageJSON = getPackageJSON();
+	const packageJSON = getPackageJSON();
 
-	let selector = devDependencies ? 'devDependencies' : 'dependencies';
+	const selector = devDependencies ? 'devDependencies' : 'dependencies';
 
 	if (!packageJSON[selector]) {
 		packageJSON[selector] = {};
@@ -75,22 +74,14 @@ function deleteDependencies(sourceDependencies, deletedDependencies) {
 	});
 }
 
-function getPackageJSON(alternatePath) {
-	alternatePath = alternatePath || process.cwd();
-
-	let packageJSONContent = fs.readFileSync(
-		path.join(alternatePath, 'package.json'),
-		{
-			encoding: 'utf8',
-		}
-	);
+function getPackageJSON() {
+	const packageJSONContent = fs.readFileSync('package.json', {
+		encoding: 'utf8',
+	});
 
 	return JSON.parse(packageJSONContent);
 }
 
 function writePackageJSON(json) {
-	fs.writeFileSync(
-		path.join(process.cwd(), 'package.json'),
-		JSON.stringify(json, null, '\t')
-	);
+	fs.writeFileSync('package.json', JSON.stringify(json, null, '\t'));
 }

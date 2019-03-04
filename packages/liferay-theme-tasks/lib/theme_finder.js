@@ -272,16 +272,3 @@ function searchNpm(config, cb) {
 		});
 	});
 }
-
-// Export private methods when in tests
-if (typeof jest !== 'undefined') {
-	Object.assign(module.exports, {
-		findThemeModulesIn,
-		getNpmPaths,
-		getPackageJSON,
-		matchesSearchTerms,
-		reduceModuleResults,
-		searchGlobalModules,
-		searchNpm,
-	});
-}
