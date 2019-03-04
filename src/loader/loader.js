@@ -5,6 +5,8 @@ import PathResolver from './path-resolver';
 import URLBuilder from './url-builder';
 import packageJson from '../../package.json';
 
+/* eslint-disable no-console */
+
 /**
  *
  */

@@ -26,11 +26,15 @@ describe('ResolvablePromise', () => {
 		let preCalled;
 		let postCalled;
 
-		resolvablePromise.then(() => (preCalled = 'pre'));
+		resolvablePromise.then(() => {
+			preCalled = 'pre';
+		});
 
 		resolvablePromise.resolve();
 
-		resolvablePromise.then(() => (postCalled = 'post'));
+		resolvablePromise.then(() => {
+			postCalled = 'post';
+		});
 
 		setTimeout(() => {
 			expect(preCalled).toBe('pre');
@@ -43,11 +47,15 @@ describe('ResolvablePromise', () => {
 		let preCalled;
 		let postCalled;
 
-		resolvablePromise.catch(() => (preCalled = 'pre'));
+		resolvablePromise.catch(() => {
+			preCalled = 'pre';
+		});
 
 		resolvablePromise.reject();
 
-		resolvablePromise.catch(() => (postCalled = 'post'));
+		resolvablePromise.catch(() => {
+			postCalled = 'post';
+		});
 
 		setTimeout(() => {
 			expect(preCalled).toBe('pre');

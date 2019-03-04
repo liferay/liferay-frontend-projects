@@ -30,7 +30,7 @@ export default class URLBuilder {
 			basePath += '/';
 		}
 
-		for (const moduleName of moduleNames) {
+		moduleNames.forEach(moduleName => {
 			const module = config.getModule(moduleName);
 			const path = this._getModulePath(module);
 
@@ -43,7 +43,7 @@ export default class URLBuilder {
 					url: this._getURLWithParams(config.url + basePath + path),
 				});
 			}
-		}
+		});
 
 		// Add to the result all modules, which have to be combined.
 		if (bufferURL.length) {

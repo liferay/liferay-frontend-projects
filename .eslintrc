@@ -1,3 +1,7 @@
 {
-	"extends": "liferay"
+	"extends": "liferay",
+	"plugins": [],
+	"rules": {
+		"sort-keys": "off"
+	}
 }

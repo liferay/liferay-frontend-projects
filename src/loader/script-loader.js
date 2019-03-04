@@ -1,5 +1,7 @@
 import URLBuilder from './url-builder';
 
+/* eslint-disable no-console */
+
 /**
  * A class responsible for loading the script resources that contain modules
  * from the server.

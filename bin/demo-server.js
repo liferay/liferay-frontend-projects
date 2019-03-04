@@ -41,6 +41,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(8080, 'localhost', () => {
+	/* eslint-disable no-console */
 	console.log('Starting up http-server');
 	console.log('Available on:');
 	console.log('http://localhost:8080');

@@ -12,7 +12,9 @@ describe('Module', () => {
 	});
 
 	it('name should be read only', () => {
-		expect(() => (module.name = 'x')).toThrow();
+		expect(() => {
+			module.name = 'x';
+		}).toThrow();
 	});
 
 	it('dependencies should be writable just once', () => {
@@ -24,7 +26,9 @@ describe('Module', () => {
 
 		expect(module.dependencies).toBe(dependencies);
 
-		expect(() => (module.dependencies = dependencies)).toThrow();
+		expect(() => {
+			module.dependencies = dependencies;
+		}).toThrow();
 
 		expect(module.dependencies).toBe(dependencies);
 	});
@@ -38,7 +42,9 @@ describe('Module', () => {
 
 		expect(module.factory).toBe(factory);
 
-		expect(() => (module.factory = factory)).toThrow();
+		expect(() => {
+			module.factory = factory;
+		}).toThrow();
 
 		expect(module.factory).toBe(factory);
 	});
@@ -52,7 +58,9 @@ describe('Module', () => {
 
 		expect(module.implementation).toBe(implementation);
 
-		expect(() => (module.implementation = implementation)).toThrow();
+		expect(() => {
+			module.implementation = implementation;
+		}).toThrow();
 
 		expect(module.implementation).toBe(implementation);
 	});
