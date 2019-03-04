@@ -296,7 +296,14 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
-		this.devDependencies = lookup('devDependencies', liferayVersion);
+		this.devDependencies = JSON.stringify(
+			lookup('devDependencies', liferayVersion),
+			null,
+			2
+		)
+			.split(/\n\s*/)
+			.join('\n\t\t')
+			.replace('\t\t}', '\t}');
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
