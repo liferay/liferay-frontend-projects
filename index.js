@@ -20,12 +20,8 @@ const config = {
 	plugins: ['liferayportal', 'no-only-tests', 'notice'],
 	rules: {
 		'liferayportal/arrowfunction-newline': 'off',
-		'no-console': 'off',
-		'no-constant-condition': 'off',
-		'no-empty': 'off',
 		'no-only-tests/no-only-tests': 'error',
 		'no-unused-expressions': 'error',
-		'no-process-env': 'off',
 	},
 };
 
