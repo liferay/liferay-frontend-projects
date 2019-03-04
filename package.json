@@ -9,7 +9,7 @@
     "build-demo": "node bin/build-demo.js",
     "demo": "node bin/run-demo.js",
     "test": "jest --runInBand",
-    "format": "prettier-eslint --write 'src/**/*.js'",
+    "format": "prettier-eslint --write 'bin/**/*.js' 'src/**/*.js'",
     "lint": "eslint 'src/**/*.js' 'bin/**/*.js'",
     "prepublish": "publish-please guard",
     "publish-please": "publish-please",
