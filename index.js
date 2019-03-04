@@ -17,13 +17,7 @@ const config = {
 		ecmaVersion: 2017,
 		sourceType: 'module',
 	},
-	plugins: [
-		'liferayportal',
-		'no-for-of-loops',
-		'no-only-tests',
-		'notice',
-		'sort-destructure-keys',
-	],
+	plugins: ['liferayportal', 'no-for-of-loops', 'no-only-tests', 'notice'],
 	rules: {
 		'default-case': 'error',
 		'liferayportal/arrowfunction-newline': 'off',
@@ -35,9 +29,6 @@ const config = {
 		'object-shorthand': 'error',
 		'prefer-const': 'error',
 		'quote-props': ['error', 'as-needed'],
-		'sort-destructure-keys/sort-destructure-keys': 'error',
-		'sort-keys': 'error',
-		'sort-vars': 'error',
 	},
 };
 
