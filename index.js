@@ -26,23 +26,6 @@ const config = {
 		'no-only-tests/no-only-tests': 'error',
 		'no-unused-expressions': 'error',
 		'no-process-env': 'off',
-		'comma-spacing': 'off',
-		indent: ['error', 'tab'],
-		'keyword-spacing': 'warn',
-		'max-len': [
-			'error',
-			{
-				code: 80,
-				comments: 120,
-				ignoreRegExpLiterals: true,
-				ignoreStrings: true,
-				ignoreTemplateLiterals: true,
-				ignoreUrls: true,
-				tabWidth: 4,
-			},
-		],
-		'no-tabs': 'off',
-		'arrow-parens': 'off', // Setting for Prettier
 	},
 };
 
