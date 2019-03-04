@@ -206,13 +206,6 @@ eslint-plugin-notice@0.7.8:
     lodash ">=2.4.0"
     metric-lcs "^0.1.2"
 
-eslint-plugin-sort-destructure-keys@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-sort-destructure-keys/-/eslint-plugin-sort-destructure-keys-1.2.0.tgz#1dddbc775bd3672319fd92f88d4efd6fe88dba1b"
-  integrity sha512-2rvRzhImWcq9r0hBojlvzCKlT7lYLrHCH/N37GWu7SKdn3G0PbEIXLt5pdHY6I4F49bmBQr1+7cBMM8XWv0xgQ==
-  dependencies:
-    natural-compare-lite "^1.4.0"
-
 eslint-scope@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.0.tgz#50bf3071e9338bcdc43331794a0cb533f0136172"
@@ -551,11 +544,6 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
-
-natural-compare-lite@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/natural-compare-lite/-/natural-compare-lite-1.4.0.tgz#17b09581988979fddafe0201e931ba933c96cbb4"
-  integrity sha1-F7CVgZiJef3a/gIB6TG6kzyWy7Q=
 
 natural-compare@^1.4.0:
   version "1.4.0"
