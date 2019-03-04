@@ -10,7 +10,7 @@
     "demo": "node bin/run-demo.js",
     "test": "jest --runInBand",
     "format": "prettier-eslint --write 'src/**/*.js'",
-    "lint": "eslint 'src/**/*.js' && eslint 'bin/**/*.js'",
+    "lint": "eslint 'src/**/*.js' 'bin/**/*.js'",
     "prepublish": "publish-please guard",
     "publish-please": "publish-please",
     "prepublishOnly": "npm run build && npm run build-demo && npm test"
