@@ -253,7 +253,7 @@ function concatBundlerPlugins(plugins, cfg) {
  * @return {Object} a map of {plugin-name: version} values
  */
 function getPluginVersions() {
-	let pluginVersions = {};
+	const pluginVersions = {};
 
 	// Get preset plugin version
 	if (config.preset) {
@@ -265,19 +265,19 @@ function getPluginVersions() {
 	// Get legacy package and package plugins versions
 	let plugins = [];
 
-	for (let key in config) {
+	for (const key in config) {
 		if (config.hasOwnProperty(key)) {
 			plugins = concatAllPlugins(plugins, config[key]);
 		}
 	}
 
-	for (let key in config.packages) {
+	for (const key in config.packages) {
 		if (config.packages.hasOwnProperty(key)) {
 			plugins = concatAllPlugins(plugins, config.packages[key]);
 		}
 	}
 
-	for (let plugin of plugins) {
+	for (const plugin of plugins) {
 		if (!pluginVersions[plugin]) {
 			const pkgJson = util.configRequire(`${plugin}/package.json`);
 
@@ -294,7 +294,7 @@ function getPluginVersions() {
  */
 function loadConfig() {
 	// Clean configuration
-	for (let key in config) {
+	for (const key in config) {
 		if (config.hasOwnProperty(key)) {
 			delete config[key];
 		}
@@ -343,7 +343,7 @@ function loadConfig() {
  */
 function loadPkgJson() {
 	// Clean pkgJson
-	for (let key in pkgJson) {
+	for (const key in pkgJson) {
 		if (pkgJson.hasOwnProperty(key)) {
 			delete pkgJson[key];
 		}

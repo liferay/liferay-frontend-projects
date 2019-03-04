@@ -6,10 +6,10 @@ import plugin from '../index';
 
 const filenameRelative = path.join(__dirname, '__fixtures__', 'source.js');
 const imports = {
-	'provider': {
+	provider: {
 		'imp-module': '^1.0.0',
 	},
-	'shims': {
+	shims: {
 		fs: '^1.0.0',
 	},
 	'': {

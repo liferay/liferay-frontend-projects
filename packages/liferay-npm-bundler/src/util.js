@@ -24,9 +24,9 @@ export function iterateSerially(values, asyncProcess) {
 			return;
 		}
 
-		let val = values[0];
+		const val = values[0];
 
-		let p = asyncProcess(val);
+		const p = asyncProcess(val);
 
 		p.then(() => {
 			iterateSerially(values.slice(1), asyncProcess).then(() => {
@@ -66,7 +66,7 @@ export function loadSourceMap(filePath) {
 		const parsedData = parseDataURL(url);
 
 		if (parsedData) {
-			const {mimeType, body} = parsedData;
+			const {body, mimeType} = parsedData;
 
 			if (mimeType.toString() === 'application/json') {
 				return JSON.parse(body.toString());
@@ -79,7 +79,9 @@ export function loadSourceMap(filePath) {
 
 		try {
 			return readJsonSync(sourceMapFile);
-		} catch (err) {}
+		} catch (err) {
+			// Swallow.
+		}
 	}
 
 	return null;

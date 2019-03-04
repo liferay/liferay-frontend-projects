@@ -18,11 +18,7 @@ export function isNamespaced(moduleName) {
  * @param {Boolean} allowOverride don't fail when trying to change the namespace
  * @return {String} the namespaced module name
  */
-export function addNamespace(
-	moduleName,
-	{name},
-	{allowOverride = false} = {}
-) {
+export function addNamespace(moduleName, {name}, {allowOverride = false} = {}) {
 	const moduleNamespace = getNamespace(moduleName);
 	const namespace = makeNamespace({name});
 

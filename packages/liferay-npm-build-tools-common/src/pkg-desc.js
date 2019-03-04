@@ -28,7 +28,12 @@ export default class PkgDesc {
 	 * @return {PkgDesc} a clone of this (perhaps modified) package descriptor
 	 */
 	clone({dir} = {}) {
-		let clone = new PkgDesc(this.name, this.version, this.dir, this.isRoot);
+		const clone = new PkgDesc(
+			this.name,
+			this.version,
+			this.dir,
+			this.isRoot
+		);
 
 		if (dir) {
 			clone.dir = dir;

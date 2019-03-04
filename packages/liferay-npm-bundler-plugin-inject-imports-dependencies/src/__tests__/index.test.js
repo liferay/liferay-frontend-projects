@@ -20,7 +20,7 @@ it('injects imports', () => {
 			},
 			globalConfig: {
 				imports: {
-					'provider': {
+					provider: {
 						'pkg-a': '^1.0.0',
 						'pkg-b': '^2.0.0',
 					},
@@ -85,7 +85,7 @@ it('logs results correctly', () => {
 			},
 			globalConfig: {
 				imports: {
-					'provider': {
+					provider: {
 						'pkg-a': '^1.0.0',
 						'pkg-b': '^3.0.0',
 					},

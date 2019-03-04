@@ -80,9 +80,9 @@ describe('when using regular packages', () => {
 			'./path/to/module'
 		);
 
-		expect(
-			ns.addNamespace('../path/to/module', {name: 'a-package'})
-		).toBe('../path/to/module');
+		expect(ns.addNamespace('../path/to/module', {name: 'a-package'})).toBe(
+			'../path/to/module'
+		);
 
 		expect(
 			ns.addNamespace('a-package/path/to/module', {name: 'a-package'})

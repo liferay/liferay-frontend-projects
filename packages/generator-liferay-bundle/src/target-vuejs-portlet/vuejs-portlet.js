@@ -50,7 +50,8 @@ export default class extends Generator {
 
 		// Prepare context
 		const context = standardTarget.generateContext(this, {
-			labels: labels[projectAnalyzer.hasLocalization ? 'template' : 'raw'],
+			labels:
+				labels[projectAnalyzer.hasLocalization ? 'template' : 'raw'],
 		});
 
 		// Copy javascript files

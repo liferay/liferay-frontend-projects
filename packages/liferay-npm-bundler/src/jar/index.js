@@ -64,7 +64,7 @@ function addFiles(srcDir, srcGlobs, destFolder) {
 		const name = parts[parts.length - 1];
 
 		const folder = dirs.reduce(
-			(folder, dir) => (folder = folder.folder(dir)),
+			(folder, dir) => folder.folder(dir),
 			destFolder
 		);
 

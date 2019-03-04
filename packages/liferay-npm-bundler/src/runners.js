@@ -74,7 +74,7 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	babelConfig.presets = [];
 
 	// Determine files to process
-	let globs = [`${pkg.dir}/**/*.js`]
+	const globs = [`${pkg.dir}/**/*.js`]
 		.concat(gl.negate(gl.prefix(`${pkg.dir}/`, ignore)))
 		.concat([`!${pkg.dir}/node_modules/**`]);
 
@@ -93,11 +93,11 @@ export function runBabel(pkg, {ignore = []} = {}) {
 
 					const packageFilePath = pkg.isRoot
 						? filePath.substring(
-							path.resolve(config.getOutputDir()).length + 1
-						)
+								path.resolve(config.getOutputDir()).length + 1
+							)
 						: filePath.substring(
-							filePath.indexOf(`${pkg.id}`) + pkg.id.length + 1
-						);
+								filePath.indexOf(`${pkg.id}`) + pkg.id.length + 1
+							);
 
 					babel.transformFile(
 						filePath,

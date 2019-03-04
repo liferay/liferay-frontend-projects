@@ -28,27 +28,32 @@ export default function({types: t}) {
 					let unshiftName = true;
 
 					switch (args.length) {
-					case 1:
-						insertName = t.isFunctionExpression(args[0]);
-						break;
+						case 1:
+							insertName = t.isFunctionExpression(args[0]);
+							break;
 
-					case 2:
-						insertName =
+						case 2:
+							insertName =
 								t.isArrayExpression(args[0]) &&
 								t.isFunctionExpression(args[1]);
-						break;
+							break;
 
-					case 3:
-						unshiftName = false;
-						insertName =
+						case 3:
+							unshiftName = false;
+							insertName =
 								t.isStringLiteral(args[0]) &&
 								t.isArrayExpression(args[1]) &&
 								t.isFunctionExpression(args[2]);
-						break;
+							break;
+
+						default:
+							throw new Error(
+								`Unexpected argument count of ${args.length}`
+							);
 					}
 
 					if (insertName) {
-						let normalizedPackageName = normalizePackageName(
+						const normalizedPackageName = normalizePackageName(
 							packageName,
 							filenameRelative
 						);

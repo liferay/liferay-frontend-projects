@@ -75,35 +75,36 @@ function getTypeProps(props) {
 	}
 
 	switch (props.type) {
-	case 'string':
-		return {
-			dataType: 'string',
-			type: 'text',
-		};
+		case 'string':
+			return {
+				dataType: 'string',
+				type: 'text',
+			};
 
-	case 'number':
-		return {
-			dataType: 'number',
-			type: 'ddm-number',
-		};
+		case 'number':
+			return {
+				dataType: 'number',
+				type: 'ddm-number',
+			};
 
-	case 'float':
-		return {
-			dataType: 'double',
-			type: 'ddm-decimal',
-		};
+		case 'float':
+			return {
+				dataType: 'double',
+				type: 'ddm-decimal',
+			};
 
-	case 'boolean':
-		return {
-			dataType: 'boolean',
-			type: 'checkbox',
-		};
+		case 'boolean':
+			return {
+				dataType: 'boolean',
+				type: 'checkbox',
+			};
 
-	case 'password':
-		throw new Error('Password fields are not supported in preferences');
+		case 'password':
+			throw new Error('Password fields are not supported in preferences');
+
+		default:
+			throw new Error(`Unknown field type: ${props.type}`);
 	}
-
-	throw new Error(`Unknown field type: ${props.type}`);
 }
 
 /**

@@ -11,7 +11,7 @@ export default function() {
 		'assets',
 		'build',
 		{
-			filter: function(path) {
+			filter(path) {
 				return !/\/\.placeholder$/.test(path);
 			},
 		},

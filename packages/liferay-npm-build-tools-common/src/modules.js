@@ -147,7 +147,7 @@ export function splitModuleName(moduleName) {
 		parts = parts.slice(1);
 	}
 
-	let modulePath = parts.join('/');
+	const modulePath = parts.join('/');
 
 	if (modulePath !== '') {
 		ret.modulePath = `/${modulePath}`;

@@ -20,8 +20,8 @@ describe('formatLabels()', () => {
 		const fl = formatLabels(labels);
 
 		expect(fl.quoted).toEqual({
-			labelOne: '\'Label one\'',
-			labelTwo: '\'Label two\'',
+			labelOne: "'Label one'",
+			labelTwo: "'Label two'",
 		});
 	});
 
@@ -29,8 +29,8 @@ describe('formatLabels()', () => {
 		const fl = formatLabels(labels);
 
 		expect(fl.template).toEqual({
-			labelOne: '${Liferay.Language.get(\'label-one\')}',
-			labelTwo: '${Liferay.Language.get(\'label-two\')}',
+			labelOne: "${Liferay.Language.get('label-one')}",
+			labelTwo: "${Liferay.Language.get('label-two')}",
 		});
 	});
 
@@ -38,8 +38,8 @@ describe('formatLabels()', () => {
 		const fl = formatLabels(labels);
 
 		expect(fl.js).toEqual({
-			labelOne: 'Liferay.Language.get(\'label-one\')',
-			labelTwo: 'Liferay.Language.get(\'label-two\')',
+			labelOne: "Liferay.Language.get('label-one')",
+			labelTwo: "Liferay.Language.get('label-two')",
 		});
 	});
 
@@ -47,8 +47,8 @@ describe('formatLabels()', () => {
 		const fl = formatLabels(labels);
 
 		expect(fl.jsx).toEqual({
-			labelOne: '{Liferay.Language.get(\'label-one\')}',
-			labelTwo: '{Liferay.Language.get(\'label-two\')}',
+			labelOne: "{Liferay.Language.get('label-one')}",
+			labelTwo: "{Liferay.Language.get('label-two')}",
 		});
 	});
 });

@@ -34,7 +34,7 @@ import * as insight from '../insight';
  * @return {void}
  */
 export function analyticsDump(report) {
-	const {_versionsInfo, _packages} = report;
+	const {_packages, _versionsInfo} = report;
 
 	// Report project name
 	insight.track('name', insight.PROJECT_NAME);

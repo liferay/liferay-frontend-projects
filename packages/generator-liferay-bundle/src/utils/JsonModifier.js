@@ -27,7 +27,7 @@ export default class JsonModifier {
 	modifyJson(modifier) {
 		const gen = this._generator;
 
-		let json = this.json;
+		const json = this.json;
 
 		modifier(json);
 
