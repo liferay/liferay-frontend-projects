@@ -33,7 +33,7 @@ export default class PathResolver {
 		const dependencyName = dependencyParts.splice(-1, 1);
 
 		for (let i = 0; i < dependencyParts.length; i++) {
-			let dependencyPart = dependencyParts[i];
+			const dependencyPart = dependencyParts[i];
 
 			if (dependencyPart === '.') {
 				continue;

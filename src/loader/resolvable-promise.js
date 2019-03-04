@@ -12,7 +12,7 @@ export default class ResolvablePromise {
 	 */
 	constructor() {
 		throw new Error(
-			'Don\'t construct ResolvablePromise objects directly: ' +
+			"Don't construct ResolvablePromise objects directly: " +
 				'rely on ResolvablePromise.new() instead'
 		);
 	}

@@ -30,7 +30,7 @@ export default class URLBuilder {
 			basePath += '/';
 		}
 
-		for (let moduleName of moduleNames) {
+		for (const moduleName of moduleNames) {
 			const module = config.getModule(moduleName);
 			const path = this._getModulePath(module);
 
@@ -49,7 +49,7 @@ export default class URLBuilder {
 		if (bufferURL.length) {
 			result = result.concat(
 				this._generateBufferURLs(modulesURL, bufferURL, {
-					basePath: basePath,
+					basePath,
 					url: config.url,
 					urlMaxLength: config.urlMaxLength,
 				})
@@ -70,9 +70,9 @@ export default class URLBuilder {
 	 * @return {Array<Object>} Resulting array of {modules, url} objects
 	 */
 	_generateBufferURLs(modules, urls, config) {
-		let basePath = config.basePath;
-		let result = [];
-		let urlMaxLength = config.urlMaxLength;
+		const basePath = config.basePath;
+		const result = [];
+		const urlMaxLength = config.urlMaxLength;
 
 		let urlResult = {
 			modules: [modules[0]],

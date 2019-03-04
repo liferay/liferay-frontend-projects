@@ -498,12 +498,12 @@ export default class Loader {
 			if (rest.length > 0) {
 				return this.require(moduleName, ...rest);
 			} else {
-				let resolvedPath = pathResolver.resolvePath(
+				const resolvedPath = pathResolver.resolvePath(
 					module.name,
 					moduleName
 				);
 
-				let dependencyModule = config.getDependency(
+				const dependencyModule = config.getDependency(
 					module.name,
 					resolvedPath
 				);

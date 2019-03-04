@@ -88,7 +88,7 @@ describe('Config', () => {
 		const addedModule2 = config.addModule('liferay2test');
 
 		config.addMappings({
-			'liferay': 'liferay@1.0.0',
+			liferay: 'liferay@1.0.0',
 			'*': name => name + 'test',
 		});
 
@@ -104,7 +104,7 @@ describe('Config', () => {
 		const addedModule4 = config.addModule('liferayX');
 
 		config.addMappings({
-			'liferay': 'liferay@2.0.0',
+			liferay: 'liferay@2.0.0',
 			'liferay/index': {
 				value: 'liferay@1.0.0/index',
 				exactMatch: true,
@@ -132,7 +132,7 @@ describe('Config', () => {
 		const addedModule = config.addModule('liferay/index');
 
 		config.addMappings({
-			'liferay': 'this-should-not-be-applied',
+			liferay: 'this-should-not-be-applied',
 			'liferay/index': {value: 'liferay/index', exactMatch: true},
 		});
 

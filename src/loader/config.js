@@ -267,7 +267,7 @@ export default class Config {
 	 *     					`result` field containing the mapped module name
 	 */
 	_mapExactMatch(module, maps) {
-		for (let alias in maps) {
+		for (const alias in maps) {
 			if (Object.prototype.hasOwnProperty.call(maps, alias)) {
 				const aliasValue = maps[alias];
 
@@ -289,7 +289,7 @@ export default class Config {
 	 *     					`result` field containing the mapped module name
 	 */
 	_mapPartialMatch(module, maps) {
-		for (let alias in maps) {
+		for (const alias in maps) {
 			if (Object.prototype.hasOwnProperty.call(maps, alias)) {
 				let aliasValue = maps[alias];
 

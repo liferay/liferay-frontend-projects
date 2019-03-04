@@ -3,7 +3,7 @@ Loader.define('issue-140/m1', ['module', 'require', 'issue-140/a'], function(
 	require
 ) {
 	module.exports = function() {
-		let result = {};
+		const result = {};
 
 		try {
 			result.standard = 'standard:' + require('issue-140/a');
