@@ -1,7 +1,5 @@
 {
-	"devDependencies": {
-	<%= devDependencies %>
-	},
+	"devDependencies": <%= devDependencies %>,
 	"keywords": [
 		"liferay-theme"
 	],
