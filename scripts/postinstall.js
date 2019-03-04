@@ -32,12 +32,16 @@ function detectPackageJSONConfig() {
 	}
 }
 
+function log(message) {
+	console.log(message); // eslint-disable-line no-console
+}
+
 const config = eslintrcFilenames.find(findConfig);
 
 if (config) {
-	console.log(`Preserving .eslintrc file found at ${config}`);
+	log(`Preserving .eslintrc file found at ${config}`);
 } else if (detectPackageJSONConfig()) {
-	console.log('Existing "eslintConfig" property found in package.json');
+	log('Existing "eslintConfig" property found in package.json');
 } else {
 	fs.writeFileSync(
 		config,
@@ -46,5 +50,5 @@ if (config) {
 		})
 	);
 
-	console.log(`Created ${config}`);
+	log(`Created ${config}`);
 }

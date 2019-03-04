@@ -17,11 +17,27 @@ const config = {
 		ecmaVersion: 2017,
 		sourceType: 'module',
 	},
-	plugins: ['liferayportal', 'no-only-tests', 'notice'],
+	plugins: [
+		'liferayportal',
+		'no-for-of-loops',
+		'no-only-tests',
+		'notice',
+		'sort-destructure-keys',
+	],
 	rules: {
+		'default-case': 'error',
 		'liferayportal/arrowfunction-newline': 'off',
+		'no-for-of-loops/no-for-of-loops': 'error',
 		'no-only-tests/no-only-tests': 'error',
+		'no-return-assign': ['error', 'always'],
 		'no-unused-expressions': 'error',
+		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
+		'object-shorthand': 'error',
+		'prefer-const': 'error',
+		'quote-props': ['error', 'as-needed'],
+		'sort-destructure-keys/sort-destructure-keys': 'error',
+		'sort-keys': 'error',
+		'sort-vars': 'error',
 	},
 };
 
