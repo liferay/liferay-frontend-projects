@@ -130,7 +130,7 @@ function getNormalizedJarConfig() {
 
 		console.warn(
 			'\n' +
-				'👀 WARNING: configuration value \'create-jar.configuration.settings\' is no longer supported\n' +
+				"👀 WARNING: configuration value 'create-jar.configuration.settings' is no longer supported\n" +
 				'            (see https://tinyurl.com/settings-not-supported for more information)\n'
 		);
 	}

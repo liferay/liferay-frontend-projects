@@ -86,7 +86,7 @@ function processArguments(args) {
  */
 function loadProjects() {
 	const _msg = cfg.shouldShowProjectsLoad() ? msg : () => {};
-	let projects = {};
+	const projects = {};
 
 	_msg(0, 'Loading npm bundler projects:');
 
@@ -127,7 +127,9 @@ function loadProjects() {
 				};
 
 				_msg(1, pkgJsonDir);
-			} catch (err) {}
+			} catch (err) {
+				// Swallow.
+			}
 		});
 
 	return projects;
@@ -139,7 +141,7 @@ function loadProjects() {
  * @return {Object} a hash with results
  */
 function checkProjects(projects) {
-	let results = {};
+	const results = {};
 
 	msg(0, 'Checking projects:');
 
@@ -380,7 +382,7 @@ function getMaxExitCode(results) {
  * @return {void}
  */
 function writeIgnores(results) {
-	let ignores = {};
+	const ignores = {};
 
 	Object.entries(results).forEach(project => {
 		Object.entries(project[1]).forEach(importedProject => {

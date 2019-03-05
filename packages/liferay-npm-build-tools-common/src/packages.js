@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
-let packageDirCache = {};
+const packageDirCache = {};
 
 /**
  * Get the full path of the package.json file for a given JS module file.
@@ -21,7 +21,7 @@ export function getPackageJsonPath(modulePath) {
  *         separators)
  */
 export function getPackageDir(modulePath) {
-	let absModulePath = path.resolve(modulePath);
+	const absModulePath = path.resolve(modulePath);
 	let dir = packageDirCache[absModulePath];
 
 	if (!dir) {

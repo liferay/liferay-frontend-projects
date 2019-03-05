@@ -3,7 +3,7 @@ import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 /**
  * @return {void}
  */
-export default function({pkg, log, rootPkgJson}, {pkgJson}) {
+export default function({log, pkg, rootPkgJson}, {pkgJson}) {
 	if (!pkg.isRoot) {
 		pkgJson.name = ns.addNamespace(pkgJson.name, rootPkgJson);
 

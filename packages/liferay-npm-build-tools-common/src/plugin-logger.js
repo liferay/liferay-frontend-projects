@@ -18,9 +18,9 @@ export default class PluginLogger {
 	 */
 	info(source, ...things) {
 		this._msgs.push({
-			source: source,
+			source,
 			level: 'info',
-			things: things,
+			things,
 		});
 	}
 
@@ -32,9 +32,9 @@ export default class PluginLogger {
 	 */
 	warn(source, ...things) {
 		this._msgs.push({
-			source: source,
+			source,
 			level: 'warn',
-			things: things,
+			things,
 		});
 	}
 
@@ -46,9 +46,9 @@ export default class PluginLogger {
 	 */
 	error(source, ...things) {
 		this._msgs.push({
-			source: source,
+			source,
 			level: 'error',
-			things: things,
+			things,
 		});
 	}
 
@@ -82,7 +82,7 @@ export default class PluginLogger {
 	 */
 	toString() {
 		return this._msgs.reduce(
-			(str, {source, level, things}) =>
+			(str, {level, source, things}) =>
 				`${str}${source}:${level}: ${things.join(' ')}\n`,
 			''
 		);
@@ -94,7 +94,7 @@ export default class PluginLogger {
 	 */
 	toHtml() {
 		return this._msgs.reduce(
-			(str, {source, level, things}) =>
+			(str, {level, source, things}) =>
 				`${str}${source}:${level}: ${things.join(' ')}<br>`,
 			''
 		);

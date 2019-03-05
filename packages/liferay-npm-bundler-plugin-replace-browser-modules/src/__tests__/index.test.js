@@ -104,7 +104,7 @@ it('replaces server files with browser files', () => {
 		name: pkg.name,
 		version: pkg.version,
 		browser: {
-			'dir': 'test-main.js',
+			dir: 'test-main.js',
 			'test-browser.js': 'test.js',
 			'test-browser-2.js': 'test-2.js',
 		},

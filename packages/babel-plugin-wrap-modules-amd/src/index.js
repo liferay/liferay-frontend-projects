@@ -45,7 +45,8 @@ export default function({types: t}) {
 					state.dependencies = {};
 				},
 				exit(path, state) {
-					let {opts, dependencies} = state;
+					const {opts} = state;
+					let {dependencies} = state;
 
 					// We must traverse the AST again because some plugins emit
 					// their require() calls after exiting Program node :-(

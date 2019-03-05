@@ -48,7 +48,7 @@ export function addPackageDependencies(
 	dependencies = Object.keys(dependencies);
 	dependencies = dependencies.concat(extraDependencies);
 
-	let dependencyDirs = dependencies
+	const dependencyDirs = dependencies
 		.map(dependency => {
 			return resolveDependencyDir(basedir, packageJson, dependency);
 		})

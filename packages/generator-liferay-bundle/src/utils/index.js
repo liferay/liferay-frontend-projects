@@ -144,12 +144,10 @@ export async function promptWithConfig(generator, namespace, prompts) {
 
 	// Decide wether to run in batch or interactive mode
 	if (cfg.batchMode()) {
-		return prompts.reduce(
-			(answers, prompt) => (
-				(answers[prompt.name] = prompt.default), answers
-			),
-			{}
-		);
+		return prompts.reduce((answers, prompt) => {
+			answers[prompt.name] = prompt.default;
+			return answers;
+		}, {});
 	} else {
 		return await generator.prompt(prompts);
 	}

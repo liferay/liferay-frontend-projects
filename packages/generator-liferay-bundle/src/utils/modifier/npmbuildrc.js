@@ -51,10 +51,10 @@ export default class extends JsonModifier {
 
 			test = test.substring(1, test.length - 1);
 
-			let currentRules = prop.get(json, 'webpack.rules', []);
+			const currentRules = prop.get(json, 'webpack.rules', []);
 
 			currentRules.push({
-				test: test,
+				test,
 				use: loader,
 			});
 
@@ -68,7 +68,7 @@ export default class extends JsonModifier {
 	 */
 	addWebpackExtensions(...extensions) {
 		this.modifyJson(json => {
-			let currentExtensions = prop.get(json, 'webpack.extensions', []);
+			const currentExtensions = prop.get(json, 'webpack.extensions', []);
 
 			currentExtensions.push(...extensions);
 

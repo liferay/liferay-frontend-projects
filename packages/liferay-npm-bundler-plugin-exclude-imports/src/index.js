@@ -3,7 +3,7 @@ import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 /**
  * @return {void}
  */
-export default function({pkg, globalConfig, config, log}, {files}) {
+export default function({config, globalConfig, log, pkg}, {files}) {
 	let imports = config.imports || globalConfig.imports || {};
 
 	imports = unrollImportsConfig(imports);

@@ -5,7 +5,7 @@ import path from 'path';
 /**
  * @return {void}
  */
-export default function({pkg, log}, {pkgJson}) {
+export default function({log, pkg}, {pkgJson}) {
 	const browser = pkgJson.browser || pkgJson.unpkg || pkgJson.jsdelivr;
 
 	if (browser) {

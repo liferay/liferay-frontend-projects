@@ -5,7 +5,7 @@
  * @return {Object} the normalized configuration after resolving all syntactic sugar
  */
 export function normalizeImportsConfig(importsConfig, useSlashFormat = false) {
-	let normalized = {};
+	const normalized = {};
 
 	// Normalize to empty-string format
 	Object.keys(importsConfig).forEach(namespace => {
@@ -52,7 +52,7 @@ export function normalizeImportsConfig(importsConfig, useSlashFormat = false) {
 export function unrollImportsConfig(importsConfig) {
 	importsConfig = normalizeImportsConfig(importsConfig || {});
 
-	let imports = {};
+	const imports = {};
 
 	Object.keys(importsConfig).forEach(namespace => {
 		Object.keys(importsConfig[namespace]).forEach(pkgName => {

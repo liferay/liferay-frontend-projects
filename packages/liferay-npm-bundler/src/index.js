@@ -68,7 +68,7 @@ function run() {
 		const outputDir = path.resolve(config.getOutputDir());
 		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
-		let promises = [];
+		const promises = [];
 
 		// Copy project's package.json
 		promises.push(bundleRootPackage(outputDir));
@@ -205,7 +205,7 @@ function bundlePackage(srcPkg, outputDir) {
 		getPackageTargetDir(srcPkg.name, srcPkg.version)
 	);
 
-	let pkg = srcPkg.clone({dir: outPkgDir});
+	const pkg = srcPkg.clone({dir: outPkgDir});
 
 	return new Promise((resolve, reject) => {
 		copyPackage(srcPkg, outPkgDir)
@@ -248,7 +248,7 @@ function copyPackage(pkg, dir) {
 		const state = runPlugins(
 			config.bundler.getPlugins('copy', pkg),
 			pkg,
-			pkg.clone({dir: dir}),
+			pkg.clone({dir}),
 			{
 				files,
 			},

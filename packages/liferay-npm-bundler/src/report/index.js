@@ -81,7 +81,7 @@ export class Report {
 	 * @return {void}
 	 */
 	rootPackage(rootPkg) {
-		let pkg = this._getPackage(rootPkg.id);
+		const pkg = this._getPackage(rootPkg.id);
 
 		pkg.name = rootPkg.name;
 		pkg.version = rootPkg.version;
@@ -94,7 +94,7 @@ export class Report {
 	 */
 	dependencies(deps) {
 		deps.forEach(dep => {
-			let pkg = this._getPackage(dep.id);
+			const pkg = this._getPackage(dep.id);
 
 			pkg.name = dep.name;
 			pkg.version = dep.version;
@@ -112,7 +112,7 @@ export class Report {
 	 */
 	linkedDependency(packageName, packageLink, packageVersion) {
 		const pkgId = `${packageName}@${packageVersion}`;
-		let pkg = this._getPackage(pkgId, false);
+		const pkg = this._getPackage(pkgId, false);
 
 		if (pkg) {
 			pkg.link = packageLink;
@@ -128,7 +128,7 @@ export class Report {
 	 * @return {void}
 	 */
 	packageCopy(pkg, allFiles, copiedFiles) {
-		let rpkg = this._getPackage(pkg.id);
+		const rpkg = this._getPackage(pkg.id);
 
 		Object.assign(rpkg, {
 			allFiles,
@@ -145,7 +145,7 @@ export class Report {
 	 * @return {void}
 	 */
 	packageProcessBundlerPlugin(phase, pkg, plugin, logger) {
-		let pkgProcess = this._getPackageProcess(pkg.id);
+		const pkgProcess = this._getPackageProcess(pkg.id);
 
 		pkgProcess[phase][plugin.name] = {
 			plugin,
@@ -160,7 +160,7 @@ export class Report {
 	 * @return {void}
 	 */
 	packageProcessBabelConfig(pkg, babelConfig) {
-		let {babel} = this._getPackageProcess(pkg.id);
+		const {babel} = this._getPackageProcess(pkg.id);
 
 		babel.config = babelConfig;
 	}
@@ -173,7 +173,7 @@ export class Report {
 	 * @return {void}
 	 */
 	packageProcessBabelRun(pkg, filePath, logger) {
-		let {babel} = this._getPackageProcess(pkg.id);
+		const {babel} = this._getPackageProcess(pkg.id);
 
 		babel.files[filePath] = {logger};
 	}
@@ -204,7 +204,7 @@ export class Report {
 	 * @return {Object} a package process slot
 	 */
 	_getPackageProcess(pkgId) {
-		let rpkg = this._getPackage(pkgId);
+		const rpkg = this._getPackage(pkgId);
 
 		rpkg.process = rpkg.process || {
 			copy: {},

@@ -4,9 +4,9 @@ import {addPackageDependencies} from '../dependencies';
 
 expect.extend({
 	toMatchDependencies(deps, ...pkgIds) {
-		let missingDeps = [];
-		let extraDeps = [];
-		let invalidDepFields = {};
+		const missingDeps = [];
+		const extraDeps = [];
+		const invalidDepFields = {};
 
 		pkgIds.forEach(pkgId => {
 			const dep = deps[pkgId];
@@ -26,7 +26,7 @@ expect.extend({
 					pkgVersion = pkgIdParts[1];
 				}
 
-				let invalidFields = invalidDepFields[pkgId] || {};
+				const invalidFields = invalidDepFields[pkgId] || {};
 
 				if (dep.id != pkgId) {
 					invalidFields.id = `${dep.id} (expected: ${pkgId})`;
