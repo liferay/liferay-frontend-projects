@@ -127,10 +127,10 @@ describe('liferay-theme:app unit tests', function() {
 				templateLanguage: ['7.0'],
 			};
 
-			var flagName = 'template';
-			var propertyName = 'templateLanguage';
+			const flagName = 'template';
+			const propertyName = 'templateLanguage';
 
-			var whenFn = prototype._getWhenFn(propertyName, flagName);
+			let whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(
@@ -143,7 +143,7 @@ describe('liferay-theme:app unit tests', function() {
 				deprecated: true,
 			};
 
-			var whenFn = prototype._getWhenFn(propertyName, flagName);
+			whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(

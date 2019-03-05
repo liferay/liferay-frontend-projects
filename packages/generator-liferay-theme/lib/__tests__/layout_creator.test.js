@@ -460,9 +460,9 @@ describe('LayoutCreator', function() {
 				},
 			];
 
-			var choices = prototype._getInsertRowChoices();
+			let choices = prototype._getInsertRowChoices();
 
-			var choiceValue = 0;
+			let choiceValue = 0;
 
 			_.forEach(choices, function(choice, index) {
 				index = index + 1;
@@ -493,7 +493,7 @@ describe('LayoutCreator', function() {
 				});
 			}
 
-			var choices = prototype._getInsertRowChoices();
+			choices = prototype._getInsertRowChoices();
 
 			assert.equal(
 				choices[0].name,
@@ -519,9 +519,9 @@ describe('LayoutCreator', function() {
 				},
 			];
 
-			var choices = prototype._getRemoveRowChoices();
+			let choices = prototype._getRemoveRowChoices();
 
-			var choiceValue = 0;
+			let choiceValue = 0;
 
 			_.forEach(choices, function(choice, index) {
 				index = index + 1;
@@ -552,7 +552,7 @@ describe('LayoutCreator', function() {
 				});
 			}
 
-			var choices = prototype._getRemoveRowChoices();
+			choices = prototype._getRemoveRowChoices();
 
 			assert.equal(
 				stripAnsi(choices[0].line),
@@ -941,8 +941,8 @@ function assertPromptFn(prototype, fnName, args, assertionData) {
 
 	prototype[fnName].apply(prototype, args);
 
-	var args = prototype.prompt.getCall(0).args;
-	var question = args[0][0];
+	args = prototype.prompt.getCall(0).args;
+	const question = args[0][0];
 
 	sinonAssert.calledWithMatch(
 		prototype.prompt.getCall(0),
