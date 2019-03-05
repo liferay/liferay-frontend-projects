@@ -190,7 +190,9 @@ function readLookAndFeelXML(themePath) {
 		xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
 
 		xmlCache[themePath] = xmlString;
-	} catch (err) {}
+	} catch (err) {
+		// Swallow.
+	}
 
 	return xmlString;
 }

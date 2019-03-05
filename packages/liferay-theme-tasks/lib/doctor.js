@@ -55,7 +55,9 @@ module.exports = {
  * @throws if any of the tasks is not supported in the given version
  */
 function assertTasksSupported(version, tasks) {
-	for (const task of tasks) {
+	for (let i = 0; i < tasks.length; i++) {
+		const task = tasks[i];
+
 		switch (task) {
 			case 'help':
 			case 'init':

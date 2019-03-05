@@ -7,6 +7,9 @@ const path = require('path');
 const sinon = require('sinon');
 
 const osTempDir = os.tmpdir();
+
+/* eslint-disable no-console */
+
 const saved = {
 	console: {
 		log: console.log,

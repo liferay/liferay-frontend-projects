@@ -904,8 +904,8 @@ describe('LayoutCreator', function() {
 	});
 
 	describe('_stylePreviewLine', function() {
-		it('should pass', function() {
-			prototype._stylePreviewLine;
+		it('passes', function() {
+			expect(() => prototype._stylePreviewLine).not.toThrow();
 		});
 	});
 

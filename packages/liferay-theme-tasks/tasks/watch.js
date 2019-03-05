@@ -297,6 +297,9 @@ module.exports = function(options) {
 					'watch:setup',
 					'watch:docker:copy',
 				];
+
+			default:
+				return [];
 		}
 	}
 

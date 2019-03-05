@@ -135,7 +135,9 @@ module.exports = function(options) {
 
 		try {
 			files = fs.readdirSync(dirPath);
-		} catch (err) {}
+		} catch (err) {
+			// Swallow.
+		}
 
 		return files;
 	}

@@ -124,7 +124,9 @@ class WarDeployer extends EventEmitter {
 			if (responseData && !responseData.error) {
 				this.deployed = true;
 			}
-		} catch (err) {}
+		} catch (err) {
+			// Swallow.
+		}
 	}
 
 	_onResponseEnd() {

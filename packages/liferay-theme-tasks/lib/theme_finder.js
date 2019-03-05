@@ -85,6 +85,7 @@ const LiferayThemeModuleStatus = {
 
 function reportDiscardedModules(moduleResults, outcome, message) {
 	if (moduleResults[outcome]) {
+		// eslint-disable-next-line no-console
 		console.log(
 			'Warning: found',
 			Object.keys(moduleResults[outcome]).length,
@@ -245,7 +246,9 @@ function searchGlobalModules(config, cb) {
 				json.realPath = item;
 
 				result.push(json);
-			} catch (err) {}
+			} catch (err) {
+				// Swallow.
+			}
 
 			return result;
 		},

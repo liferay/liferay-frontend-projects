@@ -9,7 +9,6 @@ const assertBoundFunction = testUtil.assertBoundFunction;
 const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
 const initCwd = process.cwd();
-const savedConsoleLog = console.log;
 
 let ModulePrompt;
 let NPMModulePrompt;

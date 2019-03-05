@@ -80,6 +80,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 			);
 
 			if (proc.error) {
+				// eslint-disable-next-line no-console
 				console.error(proc.stderr.toString());
 			}
 
