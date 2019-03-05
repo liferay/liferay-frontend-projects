@@ -1,5 +1,21 @@
 # Change Log
 
+## [v3.0.0](https://github.com/liferay/eslint-config-liferay/tree/v3.0.0) (2019-03-05)
+[Full Changelog](https://github.com/liferay/eslint-config-liferay/compare/v3.0.0-rc.0...v3.0.0)
+
+**Implemented enhancements:**
+
+- Set up Travis CI [\#32](https://github.com/liferay/eslint-config-liferay/issues/32)
+
+**Closed issues:**
+
+- Tweak rules and plug-ins based on experience integrating into other projects [\#33](https://github.com/liferay/eslint-config-liferay/issues/33)
+
+**Merged pull requests:**
+
+- Tweak rules and plug-ins based on experience integrating into other projects \(\#33\) [\#35](https://github.com/liferay/eslint-config-liferay/pull/35) ([wincent](https://github.com/wincent))
+- Set up Travis CI \(\#32\) [\#34](https://github.com/liferay/eslint-config-liferay/pull/34) ([wincent](https://github.com/wincent))
+
 ## [v3.0.0-rc.0](https://github.com/liferay/eslint-config-liferay/tree/v3.0.0-rc.0) (2019-03-04)
 [Full Changelog](https://github.com/liferay/eslint-config-liferay/compare/v2.0.10...v3.0.0-rc.0)
 
@@ -28,6 +44,7 @@
 
 **Merged pull requests:**
 
+- v3.0.0-rc.0 [\#31](https://github.com/liferay/eslint-config-liferay/pull/31) ([wincent](https://github.com/wincent))
 -  Sync with latest changes from liferay/clay \(\#25\) [\#30](https://github.com/liferay/eslint-config-liferay/pull/30) ([wincent](https://github.com/wincent))
 - Fix pre-existing lints inside eslint-config-liferay [\#29](https://github.com/liferay/eslint-config-liferay/pull/29) ([wincent](https://github.com/wincent))
 - Document how to use "copyright.js" [\#28](https://github.com/liferay/eslint-config-liferay/pull/28) ([wincent](https://github.com/wincent))
