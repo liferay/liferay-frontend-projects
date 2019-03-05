@@ -12,13 +12,11 @@ var liferayThemeGeneratorPrototype = _.cloneDeep(
 	require('../app/index').prototype
 );
 
-var initializing = liferayThemeGeneratorPrototype.initializing;
-
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	writing: {
 		projectfiles: _.noop,
 
-		themeFiles: function() {
+		themeFiles() {
 			this.sourceRoot(this.importTheme);
 
 			this.directory('docroot/_diffs', 'src');
@@ -26,7 +24,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		},
 	},
 
-	_getPrompts: function() {
+	_getPrompts() {
 		var instance = this;
 
 		return [
@@ -41,7 +39,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		];
 	},
 
-	_getSettingFromConfigFile: function(config) {
+	_getSettingFromConfigFile(config) {
 		var defaultValue = config.defaultValue;
 
 		var filePath = path.join(this.importTheme, config.filePath);
@@ -79,7 +77,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this[config.propertyName] = defaultValue;
 	},
 
-	_promptCallback: function(props) {
+	_promptCallback(props) {
 		this.appname = path.basename(props.importTheme);
 		this.importTheme = props.importTheme;
 
@@ -110,7 +108,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		});
 	},
 
-	_setArgv: function() {
+	_setArgv() {
 		this.argv = minimist(process.argv.slice(2), {
 			alias: {
 				compass: 'c',
@@ -123,7 +121,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		});
 	},
 
-	_validatePath: function(filePath) {
+	_validatePath(filePath) {
 		var retVal = false;
 
 		if (filePath) {
@@ -157,7 +155,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		return retVal;
 	},
 
-	_track: function() {
+	_track() {
 		var insight = this._insight;
 
 		var liferayVersion = this.liferayVersion;

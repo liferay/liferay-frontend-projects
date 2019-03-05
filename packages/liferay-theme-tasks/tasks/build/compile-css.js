@@ -26,7 +26,7 @@ module.exports = function(options) {
 	const runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('build:compile-css', function(cb) {
-		let changedFile = getSrcPathConfig(storage).changedFile;
+		const changedFile = getSrcPathConfig(storage).changedFile;
 
 		// During watch task, exit task early if changed file is not css
 
@@ -40,9 +40,7 @@ module.exports = function(options) {
 			return;
 		}
 
-		const themeConfig = lfrThemeConfig.getConfig();
-
-		let compileTask = 'build:compile-lib-sass';
+		const compileTask = 'build:compile-lib-sass';
 
 		runSequence(compileTask, cb);
 	});
@@ -50,23 +48,23 @@ module.exports = function(options) {
 	gulp.task('build:compile-lib-sass', function(cb) {
 		const themeConfig = lfrThemeConfig.getConfig();
 
-		let gulpIf = require('gulp-if');
-		let gulpSass = themeUtil.requireDependency(
+		const gulpIf = require('gulp-if');
+		const gulpSass = themeUtil.requireDependency(
 			'gulp-sass',
 			themeConfig.version
 		);
-		let gulpSourceMaps = require('gulp-sourcemaps');
+		const gulpSourceMaps = require('gulp-sourcemaps');
 
-		let sassOptions = getSassOptions(options.sassOptions, {
+		const sassOptions = getSassOptions(options.sassOptions, {
 			includePaths: getSassIncludePaths(),
 			sourceMap: true,
 		});
 
 		const postCSSOptions = getPostCSSOptions(options.postcss);
 
-		let cssBuild = pathBuild + '/_css';
+		const cssBuild = pathBuild + '/_css';
 
-		let srcPath = path.join(cssBuild, '!(_)*.scss');
+		const srcPath = path.join(cssBuild, '!(_)*.scss');
 
 		gulp.src(srcPath)
 			.pipe(plugins.plumber())
@@ -87,7 +85,7 @@ function concatBourbonIncludePaths(includePaths) {
 }
 
 function getPostCSSOptions(config) {
-	let postCSSOptions = {
+	const postCSSOptions = {
 		enabled: false,
 	};
 

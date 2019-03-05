@@ -10,18 +10,18 @@ const path = require('path');
 const CWD = process.cwd();
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const gulp = options.gulp;
 
-	let pathBuild = options.pathBuild;
-	let pathSrc = options.pathSrc;
+	const pathBuild = options.pathBuild;
+	const pathSrc = options.pathSrc;
 
 	gulp.task('overwrite', function(cb) {
 		promptFiles('.', cb);
 	});
 
-	let blacklistedDirs = ['WEB-INF'];
+	const blacklistedDirs = ['WEB-INF'];
 
-	let goBackChoice = {
+	const goBackChoice = {
 		name: '^ Up one directory',
 		value: {
 			dir: true,
@@ -29,17 +29,17 @@ module.exports = function(options) {
 	};
 
 	function getFileChoices(dirPath) {
-		let buildFiles = readdir(path.join(CWD, pathBuild, dirPath));
-		let srcFiles = readdir(path.join(CWD, pathSrc, dirPath));
+		const buildFiles = readdir(path.join(CWD, pathBuild, dirPath));
+		const srcFiles = readdir(path.join(CWD, pathSrc, dirPath));
 
-		let choices = _.reduce(
+		const choices = _.reduce(
 			buildFiles,
 			function(result, item) {
-				let filePath = path.join(dirPath, item);
+				const filePath = path.join(dirPath, item);
 
-				let dir = isDir(filePath);
+				const dir = isDir(filePath);
 
-				let name = dir ? item + '/' : item;
+				const name = dir ? item + '/' : item;
 
 				if (
 					(!dir && srcFiles.indexOf(item) > -1) ||
@@ -49,10 +49,10 @@ module.exports = function(options) {
 				}
 
 				result.push({
-					name: name,
+					name,
 					short: filePath,
 					value: {
-						dir: dir,
+						dir,
 						path: filePath,
 					},
 				});
@@ -62,7 +62,7 @@ module.exports = function(options) {
 			[]
 		);
 
-		let parentPath = path.join(dirPath, '..');
+		const parentPath = path.join(dirPath, '..');
 
 		if (dirPath !== '.') {
 			goBackChoice.short =
@@ -80,16 +80,20 @@ module.exports = function(options) {
 	}
 
 	function logChanges(filePath) {
-		let themeDirName = path.basename(CWD);
+		const themeDirName = path.basename(CWD);
 
-		let destFile = colors.cyan(path.join(themeDirName, pathSrc, filePath));
-		let srcFile = colors.cyan(path.join(themeDirName, pathBuild, filePath));
+		const destFile = colors.cyan(
+			path.join(themeDirName, pathSrc, filePath)
+		);
+		const srcFile = colors.cyan(
+			path.join(themeDirName, pathBuild, filePath)
+		);
 
 		log(srcFile, 'copied to', destFile);
 	}
 
 	function promptFiles(dirPath, cb) {
-		let choices = getFileChoices(dirPath);
+		const choices = getFileChoices(dirPath);
 
 		if (dirPath === '.' && !validateBuild(choices)) {
 			log(
@@ -105,7 +109,7 @@ module.exports = function(options) {
 
 		inquirer.prompt(
 			{
-				choices: choices,
+				choices,
 				message: 'Please select a file or folder',
 				name: 'file',
 				type: 'list',
@@ -131,7 +135,9 @@ module.exports = function(options) {
 
 		try {
 			files = fs.readdirSync(dirPath);
-		} catch (err) {}
+		} catch (err) {
+			// Swallow.
+		}
 
 		return files;
 	}

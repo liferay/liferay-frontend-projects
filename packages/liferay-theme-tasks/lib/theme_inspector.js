@@ -8,14 +8,14 @@ function getBaseThemeGlob(themePath) {
 	const glob = '**/!(package.json';
 
 	switch (templateLanguage) {
-	case TEMPLATE_LANG_FTL:
-		return glob + '|*.' + TEMPLATE_LANG_VM + ')';
+		case TEMPLATE_LANG_FTL:
+			return glob + '|*.' + TEMPLATE_LANG_VM + ')';
 
-	case TEMPLATE_LANG_VM:
-		return glob + '|*.' + TEMPLATE_LANG_FTL + ')';
+		case TEMPLATE_LANG_VM:
+			return glob + '|*.' + TEMPLATE_LANG_FTL + ')';
 
-	default:
-		return glob + ')';
+		default:
+			return glob + ')';
 	}
 }
 

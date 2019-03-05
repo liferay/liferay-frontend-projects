@@ -3,15 +3,12 @@
 const _ = require('lodash');
 const colors = require('ansi-colors');
 const del = require('del');
-const fs = require('fs-extra');
 const log = require('fancy-log');
 const path = require('path');
 
-const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 const themeUtil = require('../lib/util');
 const WatchSocket = require('../lib/watch_socket.js');
 
-const themeConfig = lfrThemeConfig.getConfig();
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 const browserSync = require('browser-sync').create('liferay-theme-tasks');
@@ -26,14 +23,7 @@ const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
 
 module.exports = function(options) {
 	// Get things from options
-	const {
-		argv,
-		distName,
-		gogoShellConfig,
-		gulp,
-		pathBuild,
-		pathSrc,
-	} = options;
+	const {argv, distName, gogoShellConfig, gulp, pathBuild, pathSrc} = options;
 
 	// Initialize global things
 	const {storage} = gulp;
@@ -72,7 +62,7 @@ module.exports = function(options) {
 		storage.set('appServerPathPlugin', explodedBuildDir);
 
 		// Get tasks array
-		let taskArray = getCleanTaskArray(deploymentStrategy);
+		const taskArray = getCleanTaskArray(deploymentStrategy);
 
 		// Push final task that deploys the theme and starts live reloads
 		taskArray.push(err => {
@@ -173,7 +163,7 @@ module.exports = function(options) {
 	gulp.task('watch:teardown', function(cb) {
 		storage.set('webBundleDir');
 
-		let taskArray = getTeardownTaskArray();
+		const taskArray = getTeardownTaskArray();
 
 		taskArray.push(cb);
 
@@ -189,7 +179,7 @@ module.exports = function(options) {
 		clearChangedFile();
 
 		const target = url || 'http://localhost:8080';
-		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-\.]+)(:([0-9]+))?(.*)$/.exec(
+		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-.]+)(:([0-9]+))?(.*)$/.exec(
 			target
 		);
 
@@ -201,12 +191,12 @@ module.exports = function(options) {
 				},
 			],
 			proxy: {
-				target: target,
+				target,
 				ws: true,
 			},
 			notify: false,
 			open: true,
-			port: port,
+			port,
 			ui: false,
 			reloadDelay: 500,
 			reloadOnRestart: true,
@@ -236,7 +226,7 @@ module.exports = function(options) {
 	}
 
 	function getTeardownTaskArray() {
-		let taskArray = ['watch:clean'];
+		const taskArray = ['watch:clean'];
 
 		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
 			taskArray.push('watch:docker:clean');
@@ -287,23 +277,26 @@ module.exports = function(options) {
 
 	function getCleanTaskArray(deploymentStrategy) {
 		switch (deploymentStrategy) {
-		case DEPLOYMENT_STRATEGIES.LOCAL_APP_SERVER:
-			return [
-				'build',
-				'watch:clean',
-				'watch:osgi:clean',
-				'watch:setup',
-			];
+			case DEPLOYMENT_STRATEGIES.LOCAL_APP_SERVER:
+				return [
+					'build',
+					'watch:clean',
+					'watch:osgi:clean',
+					'watch:setup',
+				];
 
-		case DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER:
-			return [
-				'build',
-				'watch:clean',
-				'watch:docker:clean',
-				'watch:osgi:clean',
-				'watch:setup',
-				'watch:docker:copy',
-			];
+			case DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER:
+				return [
+					'build',
+					'watch:clean',
+					'watch:docker:clean',
+					'watch:osgi:clean',
+					'watch:setup',
+					'watch:docker:copy',
+				];
+
+			default:
+				return [];
 		}
 	}
 
@@ -314,9 +307,9 @@ module.exports = function(options) {
 			if (!watchSocket) {
 				watchSocket = new WatchSocket({
 					webBundleDir: EXPLODED_BUILD_DIR_NAME,
-					deploymentStrategy: deploymentStrategy,
-					dockerContainerName: dockerContainerName,
-					dockerThemePath: dockerThemePath,
+					deploymentStrategy,
+					dockerContainerName,
+					dockerThemePath,
 				});
 
 				watchSocket.on('error', function(err) {

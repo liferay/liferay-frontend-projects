@@ -30,20 +30,20 @@ const logBuffers = {
 };
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const gulp = options.gulp;
 
-	let runSequence = require('run-sequence').use(gulp);
+	const runSequence = require('run-sequence').use(gulp);
 
-	let cssSrcPath = path.join(CWD, 'src/css/**/*.+(css|scss)');
+	const cssSrcPath = path.join(CWD, 'src/css/**/*.+(css|scss)');
 
-	let pathSrc = options.pathSrc;
+	const pathSrc = options.pathSrc;
 
 	let patterns;
 
 	gulp.task('upgrade:convert-bootstrap', function(cb) {
-		let files = globby.sync('src/css/*');
+		const files = globby.sync('src/css/*');
 
-		let convertBootstrap = new ConvertBootstrapCLI({
+		const convertBootstrap = new ConvertBootstrapCLI({
 			args: files,
 			flags: {
 				inlineEdit: true,
@@ -52,7 +52,7 @@ module.exports = function(options) {
 		});
 
 		_.assign(convertBootstrap, {
-			logResults: function(out) {
+			logResults(out) {
 				logBuffers.bootstrap.push(out);
 			},
 
@@ -63,7 +63,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-css-diff', function() {
-		let gulpCssDiff = require('./gulp_css_diff.js');
+		const gulpCssDiff = require('./gulp_css_diff.js');
 
 		return gulp
 			.src('src/css/**/*')
@@ -85,7 +85,7 @@ module.exports = function(options) {
 			true
 		);
 
-		let npmInstall = spawn('npm', ['install']);
+		const npmInstall = spawn('npm', ['install']);
 
 		npmInstall.stderr.pipe(process.stderr);
 		npmInstall.stdout.pipe(process.stdout);
@@ -102,7 +102,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:config', function() {
-		let lfrThemeConfig = require('../../liferay_theme_config.js');
+		const lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
 			version: '7.0',
@@ -138,9 +138,9 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
-		let NEW_LINE = '\n';
+		const NEW_LINE = '\n';
 
-		let includeCompass =
+		const includeCompass =
 			'@import "compass";' +
 			NEW_LINE +
 			NEW_LINE +
@@ -155,10 +155,10 @@ module.exports = function(options) {
 			NEW_LINE +
 			NEW_LINE;
 
-		let deprecatedMixins = _.map(
+		const deprecatedMixins = _.map(
 			require('./theme_data/deprecated_mixins.json'),
 			function(item) {
-				let buffer = ['@mixin '];
+				const buffer = ['@mixin '];
 
 				buffer.push(item);
 				buffer.push('-deprecated');
@@ -182,7 +182,7 @@ module.exports = function(options) {
 			}
 		);
 
-		let filePath = path.join(
+		const filePath = path.join(
 			process.cwd(),
 			pathSrc,
 			'css',
@@ -191,7 +191,7 @@ module.exports = function(options) {
 
 		fs.writeFileSync(filePath, includeCompass + deprecatedMixins.join(''));
 
-		let createBourbonFile = require('../../bourbon_dependencies')
+		const createBourbonFile = require('../../bourbon_dependencies')
 			.createBourbonFile;
 
 		createBourbonFile(true);
@@ -200,7 +200,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:ftl-templates', function() {
-		let ftlRules = [
+		const ftlRules = [
 			{
 				message:
 					'Warning: <@liferay.dockbar /> is deprecated, replace with <@liferay.control_menu /> for new admin controls.',
@@ -237,15 +237,15 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:rename-core-files', function(cb) {
-		let renamedCssFiles = require('./theme_data/renamed_css_files.json');
+		const renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
-		let baseFile = ['aui', 'main'];
+		const baseFile = ['aui', 'main'];
 
-		let prompts = [];
+		const prompts = [];
 		let srcPaths = [];
 
 		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), function(item) {
-			let fileName = path.basename(item, '.css');
+			const fileName = path.basename(item, '.css');
 
 			if (
 				path.extname(item) === '.css' &&
@@ -253,13 +253,13 @@ module.exports = function(options) {
 			) {
 				srcPaths.push(path.join(CWD, DIR_SRC_CSS, item));
 
-				let scssSuffixMessage =
+				const scssSuffixMessage =
 					'Do you want to rename ' +
 					item +
 					' to ' +
 					fileName +
 					'.scss?';
-				let underscorePrefixMessage =
+				const underscorePrefixMessage =
 					'Do you want to rename ' +
 					item +
 					' to _' +
@@ -287,7 +287,7 @@ module.exports = function(options) {
 			)
 			.pipe(
 				plugins.filter(function(file) {
-					let fileName = path.basename(file.path);
+					const fileName = path.basename(file.path);
 
 					return promptResults[fileName];
 				})
@@ -306,7 +306,7 @@ module.exports = function(options) {
 				srcPaths = _.reduce(
 					srcPaths,
 					function(result, item) {
-						let fileName = path.basename(item);
+						const fileName = path.basename(item);
 
 						if (promptResults[fileName]) {
 							result.push(item);
@@ -326,14 +326,14 @@ module.exports = function(options) {
 			.src(cssSrcPath)
 			.pipe(
 				replace({
-					patterns: patterns,
+					patterns,
 				})
 			)
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
 	gulp.task('upgrade:vm-templates', function() {
-		let vmRules = [
+		const vmRules = [
 			{
 				message:
 					'Warning: Support for Velocity (.vm) format is deprecated, consider migrating to FreeMarker (.ftl) format. See: https://bit.ly/2uSXySe',
@@ -381,21 +381,21 @@ module.exports = function(options) {
 };
 
 function checkFile(filePath, rules) {
-	let config = {
+	const config = {
 		encoding: 'utf8',
 	};
 
 	if (fs.existsSync(filePath)) {
-		let logs = [];
+		const logs = [];
 
-		let fileContents = fs.readFileSync(filePath, config);
+		const fileContents = fs.readFileSync(filePath, config);
 
 		_.forEach(rules, function(item) {
 			if (item.fileName && item.fileName !== path.basename(filePath)) {
 				return;
 			}
 
-			let match = item.negativeMatch
+			const match = item.negativeMatch
 				? !item.regex.test(fileContents)
 				: item.regex.test(fileContents);
 
@@ -405,7 +405,7 @@ function checkFile(filePath, rules) {
 		});
 
 		if (logs.length) {
-			let fileName = colors.white(
+			const fileName = colors.white(
 				'File: ' + colors.underline(path.basename(filePath)) + '\n'
 			);
 
@@ -417,7 +417,7 @@ function checkFile(filePath, rules) {
 }
 
 function getLogHeader(header) {
-	let line = new Array(65).join('-');
+	const line = new Array(65).join('-');
 
 	return colors.bold('\n' + line + '\n ' + header + '\n' + line + '\n\n');
 }

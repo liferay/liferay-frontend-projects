@@ -45,7 +45,7 @@ class NPMModulePrompt {
 		themeFinder.getLiferayThemeModules(
 			{
 				globalModules: false,
-				searchTerms: searchTerms,
+				searchTerms,
 				themelet: this.themelet,
 			},
 			cb

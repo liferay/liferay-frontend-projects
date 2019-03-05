@@ -21,8 +21,8 @@ it('_getAuth should get authorization string', () => {
 
 	const warDeployer = new WarDeployer({
 		fileName: 'test',
-		password: password,
-		username: username,
+		password,
+		username,
 	});
 
 	expect(warDeployer._getAuth()).toEqual(username + ':' + password);
@@ -67,9 +67,9 @@ it('_getPostOptions should return valid http/https post options', () => {
 
 	const warDeployer = new WarDeployer({
 		fileName: 'test',
-		password: password,
+		password,
 		url: 'http://some-host:1234',
-		username: username,
+		username,
 	});
 
 	const postOptions = warDeployer._getPostOptions();

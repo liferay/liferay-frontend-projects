@@ -56,7 +56,6 @@ function injectJS() {
 
 module.exports = function(options) {
 	const {gulp, pathBuild, pathSrc} = options;
-	const {storage} = gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
 
@@ -111,7 +110,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:liferay-look-and-feel', function(cb) {
-		let themePath = process.cwd();
+		const themePath = process.cwd();
 
 		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, function(
 			lookAndFeelJSON
@@ -120,7 +119,7 @@ module.exports = function(options) {
 				return cb();
 			}
 
-			let themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
+			const themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
 				themePath
 			);
 
@@ -136,7 +135,10 @@ module.exports = function(options) {
 				);
 			}
 
-			let xml = lookAndFeelUtil.buildXML(lookAndFeelJSON, doctypeElement);
+			const xml = lookAndFeelUtil.buildXML(
+				lookAndFeelJSON,
+				doctypeElement
+			);
 
 			fs.writeFile(
 				path.join(
@@ -157,7 +159,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:hook', function() {
-		let languageProperties = themeUtil.getLanguageProperties(pathSrc);
+		const languageProperties = themeUtil.getLanguageProperties(pathSrc);
 
 		return gulp
 			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
@@ -166,7 +168,7 @@ module.exports = function(options) {
 					patterns: [
 						{
 							match: /<language-properties>content\/Language\*\.properties<\/language-properties>/,
-							replacement: function() {
+							replacement() {
 								let retVal = '';
 
 								if (languageProperties) {
@@ -230,7 +232,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:r2', function() {
-		let r2 = require('gulp-liferay-r2-css');
+		const r2 = require('gulp-liferay-r2-css');
 
 		return gulp
 			.src(pathBuild + '/css/*.css')
@@ -250,10 +252,10 @@ module.exports = function(options) {
 };
 
 function getFixAtDirectivesPatterns() {
-	let keyframeRulesReplace = function(match, m1, m2) {
+	const keyframeRulesReplace = function(match, m1, m2) {
 		return (
 			_.map(m1.split(','), function(item) {
-				return item.replace(/.*?(from|to|[0-9\.]+%)/g, '$1');
+				return item.replace(/.*?(from|to|[0-9.]+%)/g, '$1');
 			}).join(',') + m2
 		);
 	};
@@ -261,21 +263,21 @@ function getFixAtDirectivesPatterns() {
 	return [
 		{
 			match: /(@font-face|@page|@-ms-viewport)\s*({\n\s*)(.*)\s*({)/g,
-			replacement: function(match, m1, m2, m3, m4) {
+			replacement(match, m1, m2, m3, m4) {
 				return m3 + m2 + m1 + ' ' + m4;
 			},
 		},
 		{
 			match: /(@-ms-keyframes.*{)([\s\S]+?)(}\s})/g,
-			replacement: function(match, m1, m2, m3) {
+			replacement(match, m1, m2, m3) {
 				m2 = m2.replace(/(.+?)(\s?{)/g, keyframeRulesReplace);
 
 				return m1 + m2 + m3;
 			},
 		},
 		{
-			match: /@import\s+url\s*\(\s*['\"]?(.+\.css)['\"]?/g,
-			replacement: function(match, m1) {
+			match: /@import\s+url\s*\(\s*['"]?(.+\.css)['"]?/g,
+			replacement(match, m1) {
 				return '@import url(' + m1 + '?t=' + Date.now();
 			},
 		},

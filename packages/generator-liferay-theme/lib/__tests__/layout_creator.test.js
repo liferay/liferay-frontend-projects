@@ -181,8 +181,8 @@ describe('LayoutCreator', function() {
 			prototype.rows = [1];
 
 			var answers = {
-				'0': 6,
-				'1': 6,
+				0: 6,
+				1: 6,
 			};
 
 			var cb = sinon.spy();
@@ -413,14 +413,14 @@ describe('LayoutCreator', function() {
 			assert.equal(choices.length, 11);
 
 			choices = prototype._getColumnWidthChoices(1, 2, {
-				'0': 5,
+				0: 5,
 			});
 
 			assert.equal(choices.length, 1);
 			assert.equal(choices[0].value, 7);
 
 			choices = prototype._getColumnWidthChoices(1, 4, {
-				'0': 5,
+				0: 5,
 			});
 
 			assert.equal(choices.length, 5);
@@ -451,18 +451,18 @@ describe('LayoutCreator', function() {
 		it('should return compact layout preview where row borders are choices', function() {
 			prototype.rows = [
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 			];
 
-			var choices = prototype._getInsertRowChoices();
+			let choices = prototype._getInsertRowChoices();
 
-			var choiceValue = 0;
+			let choiceValue = 0;
 
 			_.forEach(choices, function(choice, index) {
 				index = index + 1;
@@ -488,12 +488,12 @@ describe('LayoutCreator', function() {
 
 			while (prototype.rows.length < 7) {
 				prototype.rows.push({
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				});
 			}
 
-			var choices = prototype._getInsertRowChoices();
+			choices = prototype._getInsertRowChoices();
 
 			assert.equal(
 				choices[0].name,
@@ -510,18 +510,18 @@ describe('LayoutCreator', function() {
 		it('should return compact layout preview where row bodies are choices', function() {
 			prototype.rows = [
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 			];
 
-			var choices = prototype._getRemoveRowChoices();
+			let choices = prototype._getRemoveRowChoices();
 
-			var choiceValue = 0;
+			let choiceValue = 0;
 
 			_.forEach(choices, function(choice, index) {
 				index = index + 1;
@@ -547,12 +547,12 @@ describe('LayoutCreator', function() {
 
 			while (prototype.rows.length < 7) {
 				prototype.rows.push({
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				});
 			}
 
-			var choices = prototype._getRemoveRowChoices();
+			choices = prototype._getRemoveRowChoices();
 
 			assert.equal(
 				stripAnsi(choices[0].line),
@@ -581,16 +581,16 @@ describe('LayoutCreator', function() {
 		it('should convert prompt data to data that template can easily process', function() {
 			var rows = [
 				{
-					'0': 2,
-					'1': 10,
+					0: 2,
+					1: 10,
 				},
 				{
-					'0': 2,
-					'1': 1,
-					'2': 9,
+					0: 2,
+					1: 1,
+					2: 9,
 				},
 				{
-					'0': 12,
+					0: 12,
 				},
 			];
 
@@ -613,10 +613,10 @@ describe('LayoutCreator', function() {
 
 			var number = 0;
 
-			_.forEach(rowDataFromObjects, function(row, index) {
+			_.forEach(rowDataFromObjects, function(row) {
 				assert(_.isArray(row), 'each row is an array');
 
-				_.forEach(row, function(column, index) {
+				_.forEach(row, function(column) {
 					assert(_.isObject(column), 'each row is an array');
 
 					number++;
@@ -833,8 +833,8 @@ describe('LayoutCreator', function() {
 	describe('_renderPreviewLine', function() {
 		it('should render preview line', function() {
 			var line = prototype._renderPreviewLine({
-				'0': 4,
-				'1': 8,
+				0: 4,
+				1: 8,
 			});
 
 			line = stripAnsi(line);
@@ -843,10 +843,10 @@ describe('LayoutCreator', function() {
 
 			line = prototype._renderPreviewLine(
 				{
-					'0': 4,
-					'1': 4,
-					'2': 2,
-					'3': 2,
+					0: 4,
+					1: 4,
+					2: 2,
+					3: 2,
 				},
 				{
 					label: true,
@@ -904,8 +904,8 @@ describe('LayoutCreator', function() {
 	});
 
 	describe('_stylePreviewLine', function() {
-		it('should pass', function() {
-			prototype._stylePreviewLine;
+		it('passes', function() {
+			expect(() => prototype._stylePreviewLine).not.toThrow();
 		});
 	});
 
@@ -941,8 +941,8 @@ function assertPromptFn(prototype, fnName, args, assertionData) {
 
 	prototype[fnName].apply(prototype, args);
 
-	var args = prototype.prompt.getCall(0).args;
-	var question = args[0][0];
+	args = prototype.prompt.getCall(0).args;
+	const question = args[0][0];
 
 	sinonAssert.calledWithMatch(
 		prototype.prompt.getCall(0),

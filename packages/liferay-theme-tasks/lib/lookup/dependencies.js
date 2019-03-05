@@ -1,6 +1,6 @@
 function devDependencies(version) {
 	const dependencies = {
-		'gulp': '3.9.1',
+		gulp: '3.9.1',
 		'liferay-theme-tasks': '8.0.0-rc.3',
 	};
 

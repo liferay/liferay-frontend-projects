@@ -45,7 +45,7 @@ it('getLiferayThemeModule should return error because module does not exist', do
 	themeFinder.getLiferayThemeModule('fake-themelet-123', (err, pkg) => {
 		expect(_.isUndefined(pkg)).toBe(true);
 		expect(err.message).toEqual(
-			'Package `fake-themelet-123` doesn\'t exist'
+			"Package `fake-themelet-123` doesn't exist"
 		);
 
 		done();
@@ -78,7 +78,7 @@ it('getLiferayThemeModules should return an object when searching for npm module
 			themelet: true,
 		},
 		themeResults => {
-			_.forEach(themeResults, (item, index) => {
+			_.forEach(themeResults, item => {
 				expect(_.isObject(item)).toBe(true);
 				expect(_.isObject(item.liferayTheme)).toBe(true);
 				expect(item.keywords.indexOf('liferay-theme') > -1).toBe(true);

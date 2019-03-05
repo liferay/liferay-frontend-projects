@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const gutil = require('gulp-util');
 const sinon = require('sinon');
 
 const testUtil = require('../../../test/util.js');
@@ -77,6 +76,8 @@ it('init should assign callback as done property and invoke prompting', () => {
 /*
 
 TODO FIND A BETTER WAY TO TEST THIS
+
+const gutil = require('gulp-util');
 
 it('_afterPrompt should log message if no modules are found', () => {
 	prototype.done = sinon.spy();

@@ -1,17 +1,17 @@
 'use strict';
 
-let _ = require('lodash');
-let fs = require('fs-extra');
-let jsDiff = require('diff');
-let path = require('path');
-let through = require('through2');
+const _ = require('lodash');
+const fs = require('fs-extra');
+const jsDiff = require('diff');
+const path = require('path');
+const through = require('through2');
 
-let renamedCssFiles = require('./theme_data/renamed_css_files.json');
+const renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
-let CWD = process.cwd();
+const CWD = process.cwd();
 
 function getBackupFilePath(filePath) {
-	let fileName = path.basename(filePath, path.extname(filePath));
+	const fileName = path.basename(filePath, path.extname(filePath));
 
 	let backupFilePath = path.join(CWD, '_backup', filePath.replace(CWD, ''));
 
@@ -19,9 +19,9 @@ function getBackupFilePath(filePath) {
 		!fs.existsSync(backupFilePath) &&
 		_.includes(renamedCssFiles, fileName.replace('_', ''))
 	) {
-		let fileBasename = path.basename(backupFilePath);
+		const fileBasename = path.basename(backupFilePath);
 
-		let oldFileBasename = fileBasename
+		const oldFileBasename = fileBasename
 			.replace('.scss', '.css')
 			.replace('_', '');
 
@@ -31,25 +31,26 @@ function getBackupFilePath(filePath) {
 	return backupFilePath;
 }
 
-function gulpCssDiff(options) {
-	options = options || {};
-
+function gulpCssDiff(_options) {
 	return through.obj(function(file, enc, cb) {
 		if (file.isNull()) {
 			return cb(null, file);
 		}
 
 		if (file.isBuffer()) {
-			let fileContentsString = file.contents.toString('utf8');
+			const fileContentsString = file.contents.toString('utf8');
 
-			let backupFilePath = getBackupFilePath(file.path);
+			const backupFilePath = getBackupFilePath(file.path);
 
 			let filesPatch = '';
 
 			if (fs.existsSync(backupFilePath)) {
-				let backupFileContentsString = fs.readFileSync(backupFilePath, {
-					encoding: 'utf8',
-				});
+				const backupFileContentsString = fs.readFileSync(
+					backupFilePath,
+					{
+						encoding: 'utf8',
+					}
+				);
 
 				filesPatch = jsDiff.createTwoFilesPatch(
 					path.basename(backupFilePath),

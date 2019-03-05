@@ -31,7 +31,7 @@ module.exports = function(gulp, options) {
 		filePattern: '**/*.+(es.js|soy.js)',
 		format: ['/-/g', '_'],
 		ignorePath: true,
-		moduleConfig: moduleConfig,
+		moduleConfig,
 		moduleRoot: path.join(pathBuild),
 		namespace: 'Liferay.Loader',
 		output: path.join(metaInfPath, 'config.json'),

@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const fs = require('fs-extra');
 const parseString = require('xml2js').parseString;
 const path = require('path');
@@ -36,7 +35,7 @@ describe('using lib_sass', () => {
 		testUtil.cleanTempTheme(themeName, version, namespace, null);
 
 		const config = testUtil.copyTempTheme({
-			namespace: namespace,
+			namespace,
 			registerTasksOptions: {
 				sassOptions: defaults => {
 					sassOptionsSpy();
@@ -48,8 +47,8 @@ describe('using lib_sass', () => {
 				hookFn: buildHookFn,
 			},
 			themeConfig: {},
-			themeName: themeName,
-			version: version,
+			themeName,
+			version,
 		});
 
 		tempPath = config.tempPath;

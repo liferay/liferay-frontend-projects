@@ -27,19 +27,19 @@ class ExtendPrompt {
 					throw err;
 				}
 
-				let modules = {};
+				const modules = {};
 
 				modules[moduleName] = pkg;
 
 				if (pkg.liferayTheme.themelet) {
 					this._afterPromptThemelets({
 						addedThemelets: [moduleName],
-						modules: modules,
+						modules,
 					});
 				} else {
 					this._afterPromptTheme({
 						module: moduleName,
-						modules: modules,
+						modules,
 					});
 				}
 			});
@@ -71,7 +71,7 @@ class ExtendPrompt {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
 		}
 
-		let reducedPkg = this._reducePkgData(modulePackages[module]);
+		const reducedPkg = this._reducePkgData(modulePackages[module]);
 
 		lfrThemeConfig.setConfig({
 			baseTheme: reducedPkg,
@@ -127,9 +127,9 @@ class ExtendPrompt {
 		if (themeSource === 'styled' || themeSource === 'unstyled') {
 			this._setStaticBaseTheme(themeSource);
 		} else {
-			let config = {
+			const config = {
 				selectedModules: this._getSelectedModules(themelet),
-				themelet: themelet,
+				themelet,
 			};
 
 			if (themeSource === 'global') {
@@ -214,7 +214,7 @@ class ExtendPrompt {
 		];
 
 		if (extendType === 'theme') {
-			let baseThemeChoices = [
+			const baseThemeChoices = [
 				{
 					name: 'Styled',
 					value: 'styled',

@@ -42,6 +42,6 @@ const rules = removed.map(varName => {
 });
 
 module.exports = {
-	removed: removed,
-	rules: rules,
+	removed,
+	rules,
 };

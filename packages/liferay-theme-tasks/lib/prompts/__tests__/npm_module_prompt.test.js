@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const inquirer = require('inquirer');
-const path = require('path');
 const sinon = require('sinon');
 
 const testUtil = require('../../../test/util.js');
@@ -9,7 +8,6 @@ const assertBoundFunction = testUtil.assertBoundFunction;
 const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
 const initCwd = process.cwd();
-const savedConsoleLog = console.log;
 
 let ModulePrompt;
 let NPMModulePrompt;

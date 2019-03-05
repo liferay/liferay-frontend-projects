@@ -1,4 +1,3 @@
-const del = require('del');
 const path = require('path');
 
 const gulpBlackList = require('../6.2/gulp_black_list.js');
@@ -294,7 +293,6 @@ describe('log changes', () => {
 
 describe('replace compass', () => {
 	let runSequence;
-	let tempPath;
 
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
@@ -307,7 +305,6 @@ describe('replace compass', () => {
 		});
 
 		runSequence = config.runSequence;
-		tempPath = config.tempPath;
 	});
 
 	it('upgrade:replace-compass should replace compass mixins with bourbon equivalents exluding anything mixins/functions on blacklist', done => {

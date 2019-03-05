@@ -1,6 +1,6 @@
 'use strict';
 
-let _ = require('lodash');
+const _ = require('lodash');
 
 function getNonBlackListedMixins(mixins, blackList) {
 	if (_.isPlainObject(mixins)) {
@@ -23,33 +23,33 @@ function getNonBlackListedMixins(mixins, blackList) {
 }
 
 function getPatterns(blackList) {
-	let mixinsBlackList = blackList.mixins;
+	const mixinsBlackList = blackList.mixins;
 
-	let alternativeMixinsMap = {
+	const alternativeMixinsMap = {
 		opaque: 'opacity: 1;',
 		transparent: 'opacity: 0;',
 	};
 
-	let alternativeMixinNames = getNonBlackListedMixins(
+	const alternativeMixinNames = getNonBlackListedMixins(
 		alternativeMixinsMap,
 		mixinsBlackList
 	);
-	let alternativeMixinRegExp = new RegExp(
+	const alternativeMixinRegExp = new RegExp(
 		'@include (' + alternativeMixinNames + ')\\(.*\\);',
 		'g'
 	);
 
-	let deprecatedMixins = getNonBlackListedMixins(
+	const deprecatedMixins = getNonBlackListedMixins(
 		require('./theme_data/deprecated_mixins.json'),
 		mixinsBlackList
 	);
 
-	let deprecatedMixinRegExp = new RegExp(
+	const deprecatedMixinRegExp = new RegExp(
 		'(@include (' + deprecatedMixins + '))(\\(|;)',
 		'g'
 	);
 
-	let unnecessaryMixins = getNonBlackListedMixins(
+	const unnecessaryMixins = getNonBlackListedMixins(
 		[
 			'background-clip',
 			'background-origin',
@@ -67,22 +67,22 @@ function getPatterns(blackList) {
 		mixinsBlackList
 	);
 
-	let unnecessaryMixinRegExp = new RegExp(
+	const unnecessaryMixinRegExp = new RegExp(
 		'@include ((' + unnecessaryMixins + ')\\((.*)\\));',
 		'g'
 	);
 
-	let updatedMixinMap = {
+	const updatedMixinMap = {
 		'display-flex': 'display',
 		'input-placeholder': 'placeholder',
 		'word-break': 'word-wrap',
 	};
 
-	let updateMixinNames = getNonBlackListedMixins(
+	const updateMixinNames = getNonBlackListedMixins(
 		updatedMixinMap,
 		mixinsBlackList
 	);
-	let updatedMixinNameRegExp = new RegExp(
+	const updatedMixinNameRegExp = new RegExp(
 		'(@include )(' + updateMixinNames + ')(\\(.*\\);)',
 		'g'
 	);
@@ -93,13 +93,13 @@ function getPatterns(blackList) {
 			replacement: '$1bourbon$2',
 		},
 		{
-			match: /([^\w\-]|^)\.aui([^\w\-])/g,
+			match: /([^\w-]|^)\.aui([^\w-])/g,
 			replacement: '$1html$2',
 		},
 		{
 			match: alternativeMixinRegExp,
-			replacement: function(match, p1) {
-				let alternativeValue = alternativeMixinsMap[p1];
+			replacement(match, p1) {
+				const alternativeValue = alternativeMixinsMap[p1];
 
 				return alternativeValue;
 			},
@@ -114,8 +114,8 @@ function getPatterns(blackList) {
 		},
 		{
 			match: updatedMixinNameRegExp,
-			replacement: function(match, p1, p2, p3) {
-				let updatedMixinName = updatedMixinMap[p2];
+			replacement(match, p1, p2, p3) {
+				const updatedMixinName = updatedMixinMap[p2];
 
 				return p1 + updatedMixinName + p3;
 			},

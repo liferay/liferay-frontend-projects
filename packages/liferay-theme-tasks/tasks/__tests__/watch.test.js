@@ -1,6 +1,5 @@
 const del = require('del');
 const fs = require('fs-extra');
-const GogoShellHelper = require('gogo-shell-helper');
 const path = require('path');
 
 const testUtil = require('../../test/util');
@@ -52,7 +51,7 @@ describe('when changing css files', () => {
 		);
 
 		config.gulp.storage.set({
-			appServerPathPlugin: appServerPathPlugin,
+			appServerPathPlugin,
 			deployed: true,
 		});
 	});
@@ -62,14 +61,17 @@ describe('when changing css files', () => {
 	});
 
 	it('watch task should deploy files correctly on change', done => {
-		let filePath = path.join(tempPath, 'custom_src_path/css/_custom.scss');
+		const filePath = path.join(
+			tempPath,
+			'custom_src_path/css/_custom.scss'
+		);
 
 		gulp.storage.set('changedFile', {
 			path: filePath,
 			type: 'changed',
 		});
 
-		let fileContents =
+		const fileContents =
 			fs.readFileSync(filePath, 'utf8') + '\n\n/* this is the change */';
 
 		fs.writeFileSync(filePath, fileContents, 'utf8');
@@ -124,7 +126,7 @@ describe('when changing js files', () => {
 		appServerPathPlugin = path.join(tempPath, '../appserver');
 
 		config.gulp.storage.set({
-			appServerPathPlugin: appServerPathPlugin,
+			appServerPathPlugin,
 			deployed: true,
 		});
 	});
@@ -146,7 +148,7 @@ describe('when changing js files', () => {
 
 			expect(deployedFilePath).toBeFile();
 
-			const regex = /console\.log\(\'main\.js\'\);/;
+			const regex = /console\.log\('main\.js'\);/;
 
 			expect(deployedFilePath).toBeFileMatching(regex);
 
@@ -178,7 +180,7 @@ describe('when changing template files', () => {
 		appServerPathPlugin = path.join(tempPath, '../appserver');
 
 		config.gulp.storage.set({
-			appServerPathPlugin: appServerPathPlugin,
+			appServerPathPlugin,
 			deployed: true,
 		});
 	});
@@ -222,6 +224,7 @@ describe('when changing template files', () => {
 });
 
 // TODO: fix failing test
+// const GogoShellHelper = require('gogo-shell-helper');
 // describe('socket', () => {
 // 	let gulp;
 // 	let runSequence;

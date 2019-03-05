@@ -11,7 +11,7 @@ const QUERY_ELEMENTS = {
 	'layout-templates.0.custom.0.layout-template': 'id',
 	'layout-templates.0.standard.0.layout-template': 'id',
 	'portlet-decorator': 'id',
-	'roles': 'single',
+	roles: 'single',
 	'settings.0.setting': 'key',
 };
 
@@ -37,7 +37,7 @@ const THEME_CHILD_ORDER = [
 ];
 
 function buildXML(lookAndFeelJSON, doctypeElement) {
-	let themeQuery = 'look-and-feel.theme.0';
+	const themeQuery = 'look-and-feel.theme.0';
 
 	let themeElement = _.get(lookAndFeelJSON, themeQuery);
 
@@ -55,7 +55,7 @@ function buildXML(lookAndFeelJSON, doctypeElement) {
 
 	_.set(lookAndFeelJSON, themeQuery, themeElement);
 
-	let builder = new xml2js.Builder({
+	const builder = new xml2js.Builder({
 		renderOpts: {
 			indent: '\t',
 			pretty: true,
@@ -74,7 +74,7 @@ function buildXML(lookAndFeelJSON, doctypeElement) {
 }
 
 function correctJSONIdentifiers(lookAndFeelJSON, name) {
-	let themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
+	const themeAttrs = lookAndFeelJSON[STR_LOOK_AND_FEEL].theme[0].$;
 
 	if (name !== themeAttrs.name) {
 		themeAttrs.name = name;
@@ -85,7 +85,7 @@ function correctJSONIdentifiers(lookAndFeelJSON, name) {
 }
 
 function getLookAndFeelDoctype(themePath) {
-	let xmlString = readLookAndFeelXML(themePath);
+	const xmlString = readLookAndFeelXML(themePath);
 
 	let match;
 
@@ -107,7 +107,7 @@ function getLookAndFeelDoctypeByVersion(version) {
 }
 
 function getLookAndFeelJSON(themePath, cb) {
-	let xmlString = readLookAndFeelXML(themePath);
+	const xmlString = readLookAndFeelXML(themePath);
 
 	if (!xmlString) {
 		return cb();
@@ -123,7 +123,7 @@ function getLookAndFeelJSON(themePath, cb) {
 }
 
 function getNameFromPluginPackageProperties(themePath) {
-	let pluginPackageProperties = fs.readFileSync(
+	const pluginPackageProperties = fs.readFileSync(
 		path.join(
 			themePath,
 			pathSrc,
@@ -135,7 +135,7 @@ function getNameFromPluginPackageProperties(themePath) {
 		}
 	);
 
-	let match = pluginPackageProperties.match(/name=(.*)/);
+	const match = pluginPackageProperties.match(/name=(.*)/);
 
 	return match ? match[1] : null;
 }
@@ -148,10 +148,10 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 			lookAndFeelJSON = mergeJSON(lookAndFeelJSON, json);
 		}
 
-		let themeInfo = require(path.join(themePath, 'package.json'))
+		const themeInfo = require(path.join(themePath, 'package.json'))
 			.liferayTheme;
 
-		let baseTheme = themeInfo.baseTheme;
+		const baseTheme = themeInfo.baseTheme;
 
 		if (_.isObject(baseTheme)) {
 			themePath = path.join(themePath, 'node_modules', baseTheme.name);
@@ -170,7 +170,7 @@ function readLookAndFeelXML(themePath) {
 		return xmlString;
 	}
 
-	let lookAndFeelDefaultPath = path.join(
+	const lookAndFeelDefaultPath = path.join(
 		themePath,
 		'src/WEB-INF/liferay-look-and-feel.xml'
 	);
@@ -190,7 +190,9 @@ function readLookAndFeelXML(themePath) {
 		xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
 
 		xmlCache[themePath] = xmlString;
-	} catch (err) {}
+	} catch (err) {
+		// Swallow.
+	}
 
 	return xmlString;
 }
@@ -215,10 +217,10 @@ function extractThemeElement(obj, key) {
 function mergeJSON(themeObj, baseThemeObj) {
 	_.forEach(QUERY_ELEMENTS, function(item, index) {
 		let mergedElement;
-		let queryString = 'look-and-feel.theme.0.' + index;
+		const queryString = 'look-and-feel.theme.0.' + index;
 
-		let baseThemeElement = _.get(baseThemeObj, queryString);
-		let themeElement = _.get(themeObj, queryString);
+		const baseThemeElement = _.get(baseThemeObj, queryString);
+		const themeElement = _.get(themeObj, queryString);
 
 		if (item === 'value') {
 			mergedElement = mergeThemeElementByValue(
@@ -250,13 +252,13 @@ function mergeThemeElementById(themeElements, baseThemeElements, identifier) {
 
 	identifier = identifier || 'id';
 
-	let allElements = themeElements.concat(baseThemeElements);
-	let elementIds = [];
+	const allElements = themeElements.concat(baseThemeElements);
+	const elementIds = [];
 
 	return _.reduce(
 		allElements,
 		function(result, item) {
-			let id = item.$[identifier];
+			const id = item.$[identifier];
 
 			if (elementIds.indexOf(id) < 0) {
 				elementIds.push(id);

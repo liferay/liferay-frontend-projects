@@ -117,7 +117,7 @@ it('readLookAndFeelXML should return xml and access file only once', () => {
 
 it('extractThemeElement should extract elements based on tag name', done => {
 	lookAndFeelUtil.getLookAndFeelJSON(baseThemePath, result => {
-		let portletDecorators = lookAndFeelUtil.extractThemeElement(
+		const portletDecorators = lookAndFeelUtil.extractThemeElement(
 			result,
 			'portlet-decorator'
 		);
@@ -147,20 +147,20 @@ it('mergeJSON should merge look-and-feel json and output a valid look-and-feel j
 });
 
 it('mergeThemeElementById should return null if both arrays are null', () => {
-	let mergedElements = lookAndFeelUtil.mergeThemeElementById(null, null);
+	const mergedElements = lookAndFeelUtil.mergeThemeElementById(null, null);
 
 	expect(mergedElements).toBeNull();
 });
 
 it('mergeThemeElementById should return non null array if one of the arrays is null', () => {
-	let elements1 = [
+	const elements1 = [
 		{
 			$: {
 				id: 'one',
 			},
 		},
 	];
-	let elements2 = [
+	const elements2 = [
 		{
 			$: {
 				id: 'two',
@@ -178,7 +178,7 @@ it('mergeThemeElementById should return non null array if one of the arrays is n
 });
 
 it('mergeThemeElementById should merge arrays and exclude repeated elements according to id', () => {
-	let elements1 = [
+	const elements1 = [
 		{
 			$: {
 				id: 'one',
@@ -190,7 +190,7 @@ it('mergeThemeElementById should merge arrays and exclude repeated elements acco
 			},
 		},
 	];
-	let elements2 = [
+	const elements2 = [
 		{
 			$: {
 				id: 'two',
@@ -203,7 +203,7 @@ it('mergeThemeElementById should merge arrays and exclude repeated elements acco
 		},
 	];
 
-	let mergedElements = lookAndFeelUtil.mergeThemeElementById(
+	const mergedElements = lookAndFeelUtil.mergeThemeElementById(
 		elements1,
 		elements2
 	);
@@ -228,14 +228,13 @@ it('mergeThemeElementById should merge arrays and exclude repeated elements acco
 });
 
 it('mergeThemeElementByValue should return null if both arrays are null', () => {
-	let mergedElements = lookAndFeelUtil.mergeThemeElementByValue(null, null);
+	const mergedElements = lookAndFeelUtil.mergeThemeElementByValue(null, null);
 
 	expect(mergedElements).toBeNull();
 });
 
 it('mergeThemeElementByValue should return non null array if one of the arrays is null', () => {
-	let elements1 = ['one', 'two'];
-	let elements2 = ['two', 'three'];
+	const elements1 = ['one', 'two'];
 
 	let mergedElements = lookAndFeelUtil.mergeThemeElementByValue(
 		elements1,
@@ -250,10 +249,10 @@ it('mergeThemeElementByValue should return non null array if one of the arrays i
 });
 
 it('mergeThemeElementByValue should merge arrays and exclude repeated elements', () => {
-	let elements1 = ['one', 'two'];
-	let elements2 = ['two', 'three'];
+	const elements1 = ['one', 'two'];
+	const elements2 = ['two', 'three'];
 
-	let mergedElements = lookAndFeelUtil.mergeThemeElementByValue(
+	const mergedElements = lookAndFeelUtil.mergeThemeElementByValue(
 		elements1,
 		elements2
 	);

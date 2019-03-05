@@ -24,7 +24,7 @@ function afterPromptThemeSource(version) {
 				_.bind(promptInstance._afterPromptModule, promptInstance)
 			);
 		} else if (version === '7.0' && themeSource === 'classic') {
-			let classicPath = themeUtil.resolveDependency(
+			const classicPath = themeUtil.resolveDependency(
 				'liferay-frontend-theme-classic-web',
 				promptInstance.themeConfig.version
 			);

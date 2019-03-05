@@ -1,33 +1,33 @@
 'use strict';
 
-let bourbon = require('node-bourbon');
-let fs = require('fs-extra');
-let path = require('path');
+const bourbon = require('node-bourbon');
+const fs = require('fs-extra');
+const path = require('path');
 
-let themeUtil = require('./util');
+const themeUtil = require('./util');
 
-let formatPath = function(filePath) {
+const formatPath = function(filePath) {
 	return filePath.replace(/\\/g, '/');
 };
 
 exports.createBourbonFile = function() {
-	let options = require('./options')();
+	const options = require('./options')();
 
-	let pathSrc = options.pathSrc;
+	const pathSrc = options.pathSrc;
 
-	let bourbonPath = bourbon.includePaths[0];
+	const bourbonPath = bourbon.includePaths[0];
 
-	let tmpDirPath = path.join(__dirname, '../tmp');
+	const tmpDirPath = path.join(__dirname, '../tmp');
 
 	if (!fs.existsSync(tmpDirPath)) {
 		fs.mkdirSync(tmpDirPath);
 	}
 
-	let bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
+	const bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
 
-	let bourbonFile = [];
+	const bourbonFile = [];
 
-	let deprecatedMixinsFilePath = path.join(
+	const deprecatedMixinsFilePath = path.join(
 		process.cwd(),
 		pathSrc,
 		'css',
@@ -40,7 +40,7 @@ exports.createBourbonFile = function() {
 		bourbonFile.push('";');
 	}
 
-	let mixinsPath = themeUtil.resolveDependency(
+	const mixinsPath = themeUtil.resolveDependency(
 		'liferay-frontend-common-css',
 		'7.0'
 	);

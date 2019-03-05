@@ -35,7 +35,7 @@ function doctor({
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
-	let missingDeps = checkMissingDeps(liferayVersion, dependencies);
+	const missingDeps = checkMissingDeps(liferayVersion, dependencies);
 
 	checkDependencySources(themeConfig.liferayTheme);
 
@@ -55,40 +55,42 @@ module.exports = {
  * @throws if any of the tasks is not supported in the given version
  */
 function assertTasksSupported(version, tasks) {
-	for (let task of tasks) {
+	for (let i = 0; i < tasks.length; i++) {
+		const task = tasks[i];
+
 		switch (task) {
-		case 'help':
-		case 'init':
-			break;
+			case 'help':
+			case 'init':
+				break;
 
-		case 'upgrade':
-			if (supportedUpgradeVersions.indexOf(version) == -1) {
-				throw new Error(
-					`Task '${task}' is not supported for themes with ` +
+			case 'upgrade':
+				if (supportedUpgradeVersions.indexOf(version) == -1) {
+					throw new Error(
+						`Task '${task}' is not supported for themes with ` +
 							`version '${version}' in this version of ` +
 							`'liferay-theme-tasks'`
-				);
-			}
-			break;
+					);
+				}
+				break;
 
-		default:
-			if (supportedThemeVersions.indexOf(version) == -1) {
-				throw new Error(
-					`Task '${task}' is not supported for themes with ` +
+			default:
+				if (supportedThemeVersions.indexOf(version) == -1) {
+					throw new Error(
+						`Task '${task}' is not supported for themes with ` +
 							`version '${version}' in this version of ` +
 							`'liferay-theme-tasks'`
-				);
-			}
-			break;
+					);
+				}
+				break;
 		}
 	}
 }
 
 function checkDependencySources(liferayTheme) {
-	let baseTheme = liferayTheme.baseTheme;
-	let themeletDependencies = liferayTheme.themeletDependencies;
+	const baseTheme = liferayTheme.baseTheme;
+	const themeletDependencies = liferayTheme.themeletDependencies;
 
-	let localDependencies = [];
+	const localDependencies = [];
 
 	if (_.isObject(baseTheme) && baseTheme.path) {
 		localDependencies.push(baseTheme);
@@ -126,7 +128,7 @@ function haltTask(missingDeps) {
 }
 
 function logLocalDependencies(localDependencies) {
-	let dependenciesString = _.map(localDependencies, function(item) {
+	const dependenciesString = _.map(localDependencies, function(item) {
 		return item.name;
 	}).join(', ');
 

@@ -46,7 +46,7 @@ function registerTasks(options) {
 				}
 
 				if (themeSrcPath) {
-					let globs = _.map(
+					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
 						function(folder) {
 							return path.join(themeSrcPath, folder, '**/*');

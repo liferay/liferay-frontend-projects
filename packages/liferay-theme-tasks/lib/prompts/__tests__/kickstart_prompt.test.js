@@ -51,7 +51,7 @@ it('init should should assign callback as done property, set themeConfig, and in
 
 	prototype.init(
 		{
-			themeConfig: themeConfig,
+			themeConfig,
 		},
 		_.noop
 	);

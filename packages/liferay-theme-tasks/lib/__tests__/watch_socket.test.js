@@ -10,9 +10,9 @@ const testUtil = require('../../test/util');
 const initCwd = process.cwd();
 const responseMap = [
 	{
-		command: 'lb -u | grep \'webbundle(dir|):file.*base-theme\'',
+		command: "lb -u | grep 'webbundle(dir|):file.*base-theme'",
 		response:
-			'lb -u | grep \'webbundle(dir|):file.*base-theme\'\n' +
+			"lb -u | grep 'webbundle(dir|):file.*base-theme'\n" +
 			'  474|Resolved   |    1|webbundle:file:///Users/rframpton/Projects/Portal/CE/trunk/osgi/configs/march-2-theme.war?Web-ContextPath=/base-theme\n' +
 			'true\n' +
 			'g!',
@@ -94,11 +94,11 @@ it('_formatWebBundleDirCommand should properly format install command based on o
 
 	if (!prototype._isWin()) {
 		expect(command).toEqual(
-			'install \'webbundledir:file:///Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme\''
+			"install 'webbundledir:file:///Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme'"
 		);
 	} else {
 		expect(command).toEqual(
-			'install \'webbundledir:file:/c:/Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme\''
+			"install 'webbundledir:file:/c:/Users/themes/base-theme/.web_bundle_dir?Web-ContextPath=/base-theme'"
 		);
 	}
 });
@@ -215,7 +215,7 @@ it('_waitForUninstall should recursively check if module has been uninstalled', 
 
 		expect(command).toBe('lb my-theme');
 
-		return new Promise(function(resolve, reject) {
+		return new Promise(function(resolve, _reject) {
 			if (i > 2) {
 				response = 'No matching bundles found';
 			}
@@ -224,7 +224,7 @@ it('_waitForUninstall should recursively check if module has been uninstalled', 
 		});
 	};
 
-	prototype._waitForUninstall('my-theme').then(function(data) {
+	prototype._waitForUninstall('my-theme').then(function() {
 		expect(i).toBe(3);
 
 		done();
@@ -240,7 +240,7 @@ function mockSendCommand(commands) {
 				? Array.prototype.slice.call(arguments).join(' ')
 				: command;
 
-		return new Promise(function(resolve, reject) {
+		return new Promise(function(resolve, _reject) {
 			let response = '';
 
 			if (commands) {
@@ -249,7 +249,7 @@ function mockSendCommand(commands) {
 				i++;
 			}
 
-			_.some(responseMap, function(item, index) {
+			_.some(responseMap, function(item) {
 				if (command.indexOf(item.command) > -1) {
 					response = item.response;
 

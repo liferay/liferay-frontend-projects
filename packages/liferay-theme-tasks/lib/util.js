@@ -13,7 +13,6 @@ const lfrThemeConfig = require('./liferay_theme_config');
 
 const pkg = lfrThemeConfig.getConfig(true);
 const themeConfig = pkg.liferayTheme;
-const fullDeploy = argv.full || argv.f;
 
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
@@ -48,7 +47,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 		}
 	};
 
-	let packConfig = {
+	const packConfig = {
 		dmode: parseInt(755, 8),
 		fmode: parseInt(644, 8),
 	};
@@ -80,6 +79,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 			);
 
 			if (proc.error) {
+				// eslint-disable-next-line no-console
 				console.error(proc.stderr.toString());
 			}
 

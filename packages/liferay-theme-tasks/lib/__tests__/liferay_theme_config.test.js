@@ -1,8 +1,3 @@
-const del = require('del');
-const fs = require('fs-extra');
-const os = require('os');
-const path = require('path');
-
 const lfrThemeConfig = require('../liferay_theme_config.js');
 const testUtil = require('../../test/util');
 

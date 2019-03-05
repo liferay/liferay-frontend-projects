@@ -14,7 +14,7 @@ var promptCallback = liferayThemeGeneratorPrototype._promptCallback;
 
 var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	configuring: {
-		setThemeDirName: function() {
+		setThemeDirName() {
 			var themeDirName = this.appname;
 
 			if (!/-themelet$/.test(themeDirName)) {
@@ -26,7 +26,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	},
 
 	writing: {
-		app: function() {
+		app() {
 			this.template('_package.json', 'package.json', this);
 
 			this.sourceRoot(path.join(this._sourceRoot, '../../app/templates'));
@@ -37,7 +37,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			);
 		},
 
-		projectfiles: function() {
+		projectfiles() {
 			this.sourceRoot(
 				path.join(this._sourceRoot, '../../themelet/templates')
 			);
@@ -51,14 +51,14 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 	install: _.noop,
 
-	_getPrompts: function() {
+	_getPrompts() {
 		var instance = this;
 
 		var prompts = getPrompts.call(instance);
 
 		prompts = _.reduce(
 			prompts,
-			function(result, item, index) {
+			function(result, item) {
 				var name = item.name;
 
 				if (name == 'themeName') {
@@ -85,11 +85,11 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		return prompts;
 	},
 
-	_isLiferayVersion: function(value) {
+	_isLiferayVersion(value) {
 		return ['7.1', '7.0', 'All'].indexOf(value) > -1;
 	},
 
-	_promptCallback: function(props) {
+	_promptCallback(props) {
 		promptCallback.call(this, props);
 
 		if (props.liferayVersion == 'All') {
@@ -97,7 +97,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 	},
 
-	_track: function() {
+	_track() {
 		this._insight.track('themelet', this.liferayVersion);
 	},
 

@@ -1,9 +1,9 @@
 'use strict';
 
-let through = require('through2');
+const through = require('through2');
 
 function blackList(fileContents, regexp, list) {
-	let match = regexp.exec(fileContents);
+	const match = regexp.exec(fileContents);
 
 	if (match && list.indexOf(match[1]) < 0) {
 		list.push(match[1]);
@@ -11,13 +11,13 @@ function blackList(fileContents, regexp, list) {
 }
 
 function blackListFunctions(fileContents, list) {
-	let regexp = /@function\s(.*)\(/g;
+	const regexp = /@function\s(.*)\(/g;
 
 	blackList(fileContents, regexp, list);
 }
 
 function blackListMixins(fileContents, list) {
-	let regexp = /@mixin\s(.*)\(/g;
+	const regexp = /@mixin\s(.*)\(/g;
 
 	blackList(fileContents, regexp, list);
 }
@@ -25,7 +25,7 @@ function blackListMixins(fileContents, list) {
 function gulpBlackList(options, done) {
 	options = options || {};
 
-	let blackListData = {
+	const blackListData = {
 		functions: [],
 		mixins: [],
 	};
@@ -37,7 +37,7 @@ function gulpBlackList(options, done) {
 			}
 
 			if (file.isBuffer()) {
-				let fileContentsString = file.contents.toString('utf8');
+				const fileContentsString = file.contents.toString('utf8');
 
 				blackListFunctions(fileContentsString, blackListData.functions);
 				blackListMixins(fileContentsString, blackListData.mixins);
