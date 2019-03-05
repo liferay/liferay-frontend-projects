@@ -5,12 +5,13 @@
   "scripts": {
     "clean": "rm -rf build",
     "build": "node bin/build-loader.js",
-    "ci": "prettier-eslint --list-different && npm run lint && npm run build && npm run build-demo && npm test",
+    "ci": "npm run format:check && npm run lint && npm run build && npm run build-demo && npm test",
     "build-demo": "node bin/build-demo.js",
     "demo": "node bin/run-demo.js",
     "test": "jest --runInBand",
-    "format": "prettier-eslint --write 'bin/**/*.js' 'src/**/*.js'",
-    "lint": "eslint 'src/**/*.js' 'bin/**/*.js'",
+    "format": "prettier-eslint --write '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+    "format:check": "prettier-eslint --list-different '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+    "lint": "eslint '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
     "prepublish": "publish-please guard",
     "publish-please": "publish-please",
     "prepublishOnly": "npm run build && npm run build-demo && npm test"
