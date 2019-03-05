@@ -1,37 +1,19 @@
-const os = require('os');
 const path = require('path');
 
 const testUtil = require('../../test/util');
 
-const cssBuild = 'build/_css';
 const themeName = 'explicit-dependency-theme';
 const initCwd = process.cwd();
 
-let changedFile;
 let util;
-let tempPath;
-let utilConfig;
 
 beforeEach(() => {
-	const config = testUtil.copyTempTheme({
+	testUtil.copyTempTheme({
 		namespace: 'util',
 		themeName,
 	});
 
-	tempPath = config.tempPath;
-
 	util = require('../../lib/util');
-
-	changedFile = {
-		path: path.join(tempPath, 'src/css/_custom.scss'),
-		type: 'changed',
-	};
-
-	utilConfig = {
-		changedFile,
-		deployed: true,
-		version: '7.0',
-	};
 });
 
 afterEach(() => {

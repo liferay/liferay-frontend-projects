@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const fs = require('fs-extra');
 const parseString = require('xml2js').parseString;
 const path = require('path');

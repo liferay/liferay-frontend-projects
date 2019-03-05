@@ -31,9 +31,7 @@ function getBackupFilePath(filePath) {
 	return backupFilePath;
 }
 
-function gulpCssDiff(options) {
-	options = options || {};
-
+function gulpCssDiff(_options) {
 	return through.obj(function(file, enc, cb) {
 		if (file.isNull()) {
 			return cb(null, file);

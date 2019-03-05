@@ -1,20 +1,14 @@
 const _ = require('lodash');
 const chai = require('chai');
 const chalk = require('chalk');
-const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const sinon = require('sinon');
-const helpers = require('yeoman-generator').test;
 
 chai.use(require('chai-fs'));
 const assert = chai.assert;
 const sinonAssert = sinon.assert;
 
 const liferayThemeImport = require('../index');
-const tempDir = path.join(os.tmpdir(), 'temp-test');
-const tempThemeDir = path.join(tempDir, 'sdk-theme');
-const pathSdkTheme = path.join(__dirname, './fixtures/sdk-theme');
 
 describe('liferay-theme:import unit tests', function() {
 	var prototype;
@@ -78,6 +72,12 @@ describe('liferay-theme:import unit tests', function() {
 });
 
 // TODO: fix functional tests
+// const fs = require('fs');
+// const helpers = require('yeoman-generator').test;
+// const os = require('os');
+// const tempDir = path.join(os.tmpdir(), 'temp-test');
+// const tempThemeDir = path.join(tempDir, 'sdk-theme');
+// const pathSdkTheme = path.join(__dirname, './fixtures/sdk-theme');
 // describe('liferay-theme:import functional tests', function() {
 // 	it('creates files', function(done) {
 // 		runGenerator(null, function() {

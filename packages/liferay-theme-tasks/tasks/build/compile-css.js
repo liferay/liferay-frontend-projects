@@ -40,8 +40,6 @@ module.exports = function(options) {
 			return;
 		}
 
-		const themeConfig = lfrThemeConfig.getConfig();
-
 		const compileTask = 'build:compile-lib-sass';
 
 		runSequence(compileTask, cb);

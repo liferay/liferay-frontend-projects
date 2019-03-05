@@ -1,13 +1,11 @@
 const del = require('del');
 const fs = require('fs-extra');
-const Gulp = require('gulp').Gulp;
 const path = require('path');
 
 const testUtil = require('../../test/util');
 
 const initCwd = process.cwd();
 
-let registerTasks;
 let runSequence;
 let deployPath;
 let tempPath;

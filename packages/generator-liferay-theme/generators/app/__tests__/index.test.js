@@ -1,24 +1,13 @@
 const _ = require('lodash');
 const chai = require('chai');
 const chalk = require('chalk');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
 const sinon = require('sinon');
-const helpers = require('yeoman-generator').test;
 
 const liferayThemeApp = require('../index');
 
 chai.use(require('chai-fs'));
 const chaiAssert = chai.assert;
 const sinonAssert = sinon.assert;
-
-const tempDir = path.join(os.tmpdir(), 'temp-test');
-const defaults = {
-	liferayVersion: '7.1',
-	themeId: 'test-theme',
-	themeName: 'Test Theme',
-};
 
 describe('liferay-theme:app unit tests', function() {
 	var prototype;
@@ -77,7 +66,7 @@ describe('liferay-theme:app unit tests', function() {
 			var propertyName = 'templateLanguage';
 
 			var whenFn = prototype._getWhenFn(propertyName, flagName, function(
-				value
+				_value
 			) {
 				chaiAssert.fail(
 					'Invoked validator with null value',
@@ -110,7 +99,7 @@ describe('liferay-theme:app unit tests', function() {
 			prototype.args = {};
 
 			whenFn = prototype._getWhenFn(propertyName, flagName, function(
-				value
+				_value
 			) {
 				return false;
 			});
@@ -246,7 +235,7 @@ describe('liferay-theme:app unit tests', function() {
 			['7.1', '7.2'].forEach(liferayVersion => {
 				prototype.log.reset();
 				prototype._printWarnings({
-					liferayVersion: '7.1',
+					liferayVersion,
 					templateLanguage: 'vm',
 				});
 				sinonAssert.calledWith(prototype.log, chalk.yellow(removed));
@@ -302,6 +291,16 @@ describe('liferay-theme:app unit tests', function() {
 });
 
 // TODO: fix functional tests
+// const fs = require('fs');
+// const helpers = require('yeoman-generator').test;
+// const os = require('os');
+// const path = require('path');
+// const tempDir = path.join(os.tmpdir(), 'temp-test');
+// const defaults = {
+// 	liferayVersion: '7.1',
+// 	themeId: 'test-theme',
+// 	themeName: 'Test Theme',
+// };
 // describe('liferay-theme:app functional tests', function() {
 // 	it('creates files', function(done) {
 // 		runGenerator(null, function() {

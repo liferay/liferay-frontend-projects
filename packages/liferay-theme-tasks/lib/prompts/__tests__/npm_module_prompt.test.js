@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const inquirer = require('inquirer');
-const path = require('path');
 const sinon = require('sinon');
 
 const testUtil = require('../../../test/util.js');

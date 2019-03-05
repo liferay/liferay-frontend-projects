@@ -1,6 +1,5 @@
 const del = require('del');
 const fs = require('fs-extra');
-const GogoShellHelper = require('gogo-shell-helper');
 const path = require('path');
 
 const testUtil = require('../../test/util');
@@ -225,6 +224,7 @@ describe('when changing template files', () => {
 });
 
 // TODO: fix failing test
+// const GogoShellHelper = require('gogo-shell-helper');
 // describe('socket', () => {
 // 	let gulp;
 // 	let runSequence;

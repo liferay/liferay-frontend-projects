@@ -3,15 +3,12 @@
 const _ = require('lodash');
 const colors = require('ansi-colors');
 const del = require('del');
-const fs = require('fs-extra');
 const log = require('fancy-log');
 const path = require('path');
 
-const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 const themeUtil = require('../lib/util');
 const WatchSocket = require('../lib/watch_socket.js');
 
-const themeConfig = lfrThemeConfig.getConfig();
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 const browserSync = require('browser-sync').create('liferay-theme-tasks');

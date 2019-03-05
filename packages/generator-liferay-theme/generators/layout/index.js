@@ -12,8 +12,6 @@ var liferayThemeGeneratorPrototype = _.cloneDeep(
 	require('../app/index').prototype
 );
 
-var initializing = liferayThemeGeneratorPrototype.initializing;
-
 var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	configuring: {
 		setThemeDirName() {

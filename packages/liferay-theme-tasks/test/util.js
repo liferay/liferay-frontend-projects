@@ -206,7 +206,7 @@ class PrototypeMethodSpy {
 	}
 
 	flush() {
-		_.forEach(this.methods, function(item, index) {
+		_.forEach(this.methods, function(item) {
 			item.parent[item.methodName] = item.method;
 		});
 
@@ -214,7 +214,7 @@ class PrototypeMethodSpy {
 	}
 }
 
-function assertBoundFunction(prototype, methodName, stub) {
+function assertBoundFunction(prototype, methodName, _stub) {
 	prototype[methodName] = sinon.spy();
 
 	return function(fn) {
@@ -307,7 +307,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 function deleteDirJsFromCache(relativePath) {
 	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
-	_.forEach(files, function(item, index) {
+	_.forEach(files, function(item) {
 		if (_.endsWith(item, '.js')) {
 			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}

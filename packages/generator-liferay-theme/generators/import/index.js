@@ -12,8 +12,6 @@ var liferayThemeGeneratorPrototype = _.cloneDeep(
 	require('../app/index').prototype
 );
 
-var initializing = liferayThemeGeneratorPrototype.initializing;
-
 var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	writing: {
 		projectfiles: _.noop,

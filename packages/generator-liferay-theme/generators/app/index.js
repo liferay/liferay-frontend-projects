@@ -115,8 +115,6 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	install() {
-		var instance = this;
-
 		var skipInstall = this.options['skip-install'];
 
 		if (!skipInstall) {
@@ -327,7 +325,7 @@ module.exports = yeoman.generators.Base.extend({
 		});
 	},
 
-	_setDefaults(liferayVersion) {
+	_setDefaults(_liferayVersion) {
 		_.defaults(this, {
 			templateLanguage: 'ftl',
 		});

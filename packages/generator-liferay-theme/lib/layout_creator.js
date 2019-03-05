@@ -23,7 +23,7 @@ inquirer.prompt.prompts.list.prototype.render = function() {
 
 	var choices = _.reduce(
 		this.opt.choices.choices,
-		function(result, item, index) {
+		function(result, item) {
 			if (item.type != 'separator') {
 				result.push(item);
 			}
@@ -104,7 +104,7 @@ LayoutCreator.prototype = {
 		choicesArray.push(separator);
 	},
 
-	_afterPrompt(err) {
+	_afterPrompt(_err) {
 		var rowData = this._preprocessLayoutTemplateData(this.rows);
 
 		var templateContent = this._renderLayoutTemplate({
@@ -208,7 +208,7 @@ LayoutCreator.prototype = {
 		var takenWidth = 0;
 		var totalWidth = 12;
 
-		_.forEach(answers, function(item, index) {
+		_.forEach(answers, function(item) {
 			item = _.parseInt(item);
 
 			takenWidth = takenWidth + item;
@@ -348,8 +348,6 @@ LayoutCreator.prototype = {
 	_getRemoveRowChoices() {
 		var instance = this;
 
-		var rows = this.rows;
-
 		var seperator = '  ' + _.repeat('-', 37);
 
 		var choicesArray = _.reduce(
@@ -410,7 +408,7 @@ LayoutCreator.prototype = {
 
 		var totalColumnCount = 0;
 
-		var rowData = _.map(rows, function(row, rowIndex) {
+		var rowData = _.map(rows, function(row) {
 			var columnCount = _.size(row);
 
 			return _.map(row, function(size, index) {
@@ -453,7 +451,7 @@ LayoutCreator.prototype = {
 
 		var preview =
 			rowSeperator +
-			_.map(this.rows, function(item, index) {
+			_.map(this.rows, function(item) {
 				return (
 					instance._renderPreviewLine(item, {
 						label: true,
@@ -590,7 +588,7 @@ LayoutCreator.prototype = {
 
 		var width = 0;
 
-		_.forEach(column, function(columnWidth, index) {
+		_.forEach(column, function(columnWidth) {
 			var prevWidth = width;
 
 			width = width + columnWidth * 3;
@@ -616,8 +614,6 @@ LayoutCreator.prototype = {
 	},
 
 	_renderLayoutTemplate(options) {
-		var liferayVersion = this.liferayVersion;
-
 		return layoutTemplateTpl(
 			_.defaults(options, {
 				columnPrefix: 'col-md-',

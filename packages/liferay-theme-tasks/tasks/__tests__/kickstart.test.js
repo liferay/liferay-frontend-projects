@@ -102,7 +102,6 @@ describe('globally installed theme', () => {
 describe('npm theme', () => {
 	let KickstartPrompt;
 	let runSequence;
-	let tempPath;
 
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
@@ -111,7 +110,6 @@ describe('npm theme', () => {
 		});
 
 		runSequence = config.runSequence;
-		tempPath = config.tempPath;
 
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});

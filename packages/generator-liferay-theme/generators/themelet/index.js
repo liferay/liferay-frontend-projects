@@ -58,7 +58,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 
 		prompts = _.reduce(
 			prompts,
-			function(result, item, index) {
+			function(result, item) {
 				var name = item.name;
 
 				if (name == 'themeName') {

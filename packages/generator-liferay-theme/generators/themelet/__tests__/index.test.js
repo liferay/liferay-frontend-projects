@@ -1,22 +1,10 @@
-const fs = require('fs');
 const chai = require('chai');
 const _ = require('lodash');
-const os = require('os');
-const path = require('path');
-const helpers = require('yeoman-generator').test;
 
 const liferayThemeThemelet = require('../index');
 
 chai.use(require('chai-fs'));
 const assert = chai.assert;
-
-const tempDir = path.join(os.tmpdir(), 'temp-test');
-const defaults = {
-	liferayVersion: '7.1',
-	themeId: 'test-themelet',
-	themeName: 'Test Themelet',
-};
-const tempThemeletDir = path.join(tempDir, defaults.themeId);
 
 describe('liferay-theme:themelet unit tests', function() {
 	describe('_isLiferayVersion', function() {
@@ -39,6 +27,17 @@ describe('liferay-theme:themelet unit tests', function() {
 });
 
 // TODO: fix functional tests
+// const defaults = {
+// 	liferayVersion: '7.1',
+// 	themeId: 'test-themelet',
+// 	themeName: 'Test Themelet',
+// };
+// const fs = require('fs');
+// const helpers = require('yeoman-generator').test;
+// const os = require('os');
+// const path = require('path');
+// const tempDir = path.join(os.tmpdir(), 'temp-test');
+// const tempThemeletDir = path.join(tempDir, defaults.themeId);
 // describe('liferay-theme:themelet functional tests', function() {
 // 	it('creates files', function(done) {
 // 		runGenerator(null, function() {

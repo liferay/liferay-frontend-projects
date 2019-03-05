@@ -613,10 +613,10 @@ describe('LayoutCreator', function() {
 
 			var number = 0;
 
-			_.forEach(rowDataFromObjects, function(row, index) {
+			_.forEach(rowDataFromObjects, function(row) {
 				assert(_.isArray(row), 'each row is an array');
 
-				_.forEach(row, function(column, index) {
+				_.forEach(row, function(column) {
 					assert(_.isObject(column), 'each row is an array');
 
 					number++;

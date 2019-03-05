@@ -4,7 +4,5 @@ module.exports = {
         "jest": true
     },
     "extends": "liferay",
-    "rules": {
-        "no-unused-vars": "off",
-    }
+    "rules": {}
 };

@@ -215,7 +215,7 @@ it('_waitForUninstall should recursively check if module has been uninstalled', 
 
 		expect(command).toBe('lb my-theme');
 
-		return new Promise(function(resolve, reject) {
+		return new Promise(function(resolve, _reject) {
 			if (i > 2) {
 				response = 'No matching bundles found';
 			}
@@ -224,7 +224,7 @@ it('_waitForUninstall should recursively check if module has been uninstalled', 
 		});
 	};
 
-	prototype._waitForUninstall('my-theme').then(function(data) {
+	prototype._waitForUninstall('my-theme').then(function() {
 		expect(i).toBe(3);
 
 		done();
@@ -240,7 +240,7 @@ function mockSendCommand(commands) {
 				? Array.prototype.slice.call(arguments).join(' ')
 				: command;
 
-		return new Promise(function(resolve, reject) {
+		return new Promise(function(resolve, _reject) {
 			let response = '';
 
 			if (commands) {
@@ -249,7 +249,7 @@ function mockSendCommand(commands) {
 				i++;
 			}
 
-			_.some(responseMap, function(item, index) {
+			_.some(responseMap, function(item) {
 				if (command.indexOf(item.command) > -1) {
 					response = item.response;
 

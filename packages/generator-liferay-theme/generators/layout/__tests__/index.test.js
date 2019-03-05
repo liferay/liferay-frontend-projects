@@ -1,16 +1,15 @@
-var _ = require('lodash');
-var assert = require('yeoman-generator').assert;
 var chai = require('chai');
-var helpers = require('yeoman-generator').test;
-var os = require('os');
-var path = require('path');
 
-var chaiAssert = chai.assert;
 chai.use(require('chai-fs'));
 
-var tempDir = path.join(os.tmpdir(), 'temp-test');
-
 // TODO: fix functional tests and remove from ignores list
+// var _ = require('lodash');
+// var assert = require('yeoman-generator').assert;
+// var helpers = require('yeoman-generator').test;
+// var chaiAssert = chai.assert;
+// var os = require('os');
+// var path = require('path');
+// var tempDir = path.join(os.tmpdir(), 'temp-test');
 // describe('liferay-theme:layout functional tests', function() {
 // 	it('should create files', function(done) {
 // 		runGenerator(null, function() {

@@ -13,7 +13,6 @@ const lfrThemeConfig = require('./liferay_theme_config');
 
 const pkg = lfrThemeConfig.getConfig(true);
 const themeConfig = pkg.liferayTheme;
-const fullDeploy = argv.full || argv.f;
 
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',

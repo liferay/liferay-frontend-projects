@@ -385,7 +385,7 @@ it('_hasPublishTag should return true if publish tag exists', () => {
 it('_installDependencies should run child process that installs dependencies', done => {
 	prototype._installDependencies(
 		themeletDependencies,
-		(err, data) => {
+		(err, _data) => {
 			if (err.cmd) {
 				expect(
 					err.cmd.indexOf(

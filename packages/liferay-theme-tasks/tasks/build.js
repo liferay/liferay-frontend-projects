@@ -56,7 +56,6 @@ function injectJS() {
 
 module.exports = function(options) {
 	const {gulp, pathBuild, pathSrc} = options;
-	const {storage} = gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
 

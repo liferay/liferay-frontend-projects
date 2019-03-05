@@ -235,7 +235,6 @@ it('mergeThemeElementByValue should return null if both arrays are null', () => 
 
 it('mergeThemeElementByValue should return non null array if one of the arrays is null', () => {
 	const elements1 = ['one', 'two'];
-	const elements2 = ['two', 'three'];
 
 	let mergedElements = lookAndFeelUtil.mergeThemeElementByValue(
 		elements1,

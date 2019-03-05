@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const inquirer = require('inquirer');
-const path = require('path');
 const sinon = require('sinon');
 
 const testUtil = require('../../../test/util.js');
@@ -12,7 +11,6 @@ const initCwd = process.cwd();
 
 let ModulePrompt;
 let promptUtil;
-let themeFinder;
 let prototype;
 
 beforeEach(() => {
@@ -22,7 +20,6 @@ beforeEach(() => {
 
 	ModulePrompt = require('../../../lib/prompts/module_prompt.js');
 	promptUtil = require('../../../lib/prompts/prompt_util.js');
-	themeFinder = require('../../../lib/theme_finder');
 
 	prototype = _.create(ModulePrompt.prototype);
 });

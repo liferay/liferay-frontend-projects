@@ -5,7 +5,6 @@ const bootstrapVars = require('./bootstrap_vars');
 const colors = require('ansi-colors');
 const del = require('del');
 const fs = require('fs-extra');
-const globby = require('globby');
 const lexiconMixins = require('./lexicon_mixins');
 const lexiconVars = require('./lexicon_vars');
 const path = require('path');
@@ -156,8 +155,6 @@ module.exports = function(options) {
 
 	gulp.task('upgrade:rename-core-files', function(cb) {
 		const auiScssPath = path.join(CWD, DIR_SRC_CSS, 'aui.scss');
-
-		let promptResults;
 
 		gulp.src(auiScssPath)
 			.pipe(

@@ -37,7 +37,6 @@ function registerTasks(options) {
 
 	gulp.task('deploy:css-files', () => {
 		const srcPath = path.join(pathBuild, 'css/*.css');
-		const filePath = storage.get('changedFile').path;
 
 		return fastDeploy(srcPath, pathBuild, '*.css');
 	});
@@ -51,7 +50,7 @@ function registerTasks(options) {
 			pathDist,
 			deployPath,
 			[themeName + '.war'],
-			function(err, data) {
+			function(err, _data) {
 				if (err) throw err;
 
 				storage.set('deployed', true);
