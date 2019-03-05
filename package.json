@@ -45,7 +45,7 @@
   "homepage": "https://github.com/liferay/liferay-amd-loader",
   "files": [
     ".babelrc",
-    ".eslintrc",
+    ".eslintrc.js",
     ".publishrc",
     "LICENSE.md",
     "package.json",
