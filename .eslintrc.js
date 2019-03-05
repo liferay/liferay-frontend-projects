@@ -5,14 +5,8 @@ module.exports = {
     },
     "extends": "liferay",
     "rules": {
-        "eol-last": "off",
-        "no-invalid-this": "off",
         "no-redeclare": "off",
         "no-unused-vars": "off",
         "no-useless-escape": "off",
-        "no-var": "off",
-        "prefer-spread": "off",
-        "prefer-rest-params": "off",
-        "require-jsdoc": "off"
     }
 };
