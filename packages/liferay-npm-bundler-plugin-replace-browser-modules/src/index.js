@@ -8,12 +8,10 @@ import path from 'path';
 export default function({log, pkg}, {pkgJson}) {
 	const browser = pkgJson.browser || pkgJson.unpkg || pkgJson.jsdelivr;
 
-	if (browser) {
-		if (typeof browser === 'string') {
-			replaceMainModule(pkg.dir, browser, pkgJson, log);
-		} else {
-			replaceModules(pkg.dir, browser, pkgJson, log);
-		}
+	if (typeof browser === 'string') {
+		replaceMainModule(pkg.dir, browser, pkgJson, log);
+	} else if (browser) {
+		replaceModules(pkg.dir, browser, pkgJson, log);
 	} else {
 		log.info('replace-browser-modules', 'No browser modules found');
 	}
