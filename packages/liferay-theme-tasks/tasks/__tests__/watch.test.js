@@ -149,7 +149,7 @@ describe('when changing js files', () => {
 
 			expect(deployedFilePath).toBeFile();
 
-			const regex = /console\.log\(\'main\.js\'\);/;
+			const regex = /console\.log\('main\.js'\);/;
 
 			expect(deployedFilePath).toBeFileMatching(regex);
 

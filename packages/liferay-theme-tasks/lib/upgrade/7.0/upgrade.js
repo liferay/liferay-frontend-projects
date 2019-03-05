@@ -180,27 +180,27 @@ module.exports = function(options) {
 				replace({
 					patterns: [
 						{
-							match: /(@import \")aui\/lexicon(.*)/g,
+							match: /(@import ")aui\/lexicon(.*)/g,
 							replacement: '$1clay$2',
 						},
 						{
-							match: /@import \"aui\/lexicon\/bootstrap\/mixins\";/g,
+							match: /@import "aui\/lexicon\/bootstrap\/mixins";/g,
 							replacement: '',
 						},
 						{
-							match: /@import \"aui\/lexicon\/lexicon-base\/mixins\";/g,
+							match: /@import "aui\/lexicon\/lexicon-base\/mixins";/g,
 							replacement: '',
 						},
 						{
-							match: /@import \"aui\/lexicon\/atlas-theme\/mixins\";/g,
+							match: /@import "aui\/lexicon\/atlas-theme\/mixins";/g,
 							replacement: '',
 						},
 						{
-							match: /@import \"aui\/alloy-font-awesome\/scss\/mixins-alloy\";/g,
+							match: /@import "aui\/alloy-font-awesome\/scss\/mixins-alloy";/g,
 							replacement: '',
 						},
 						{
-							match: /@import \"aui\/alloy-font-awesome\/scss\/variables\";/g,
+							match: /@import "aui\/alloy-font-awesome\/scss\/variables";/g,
 							replacement: '',
 						},
 					],

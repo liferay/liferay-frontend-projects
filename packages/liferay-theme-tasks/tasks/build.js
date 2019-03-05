@@ -256,7 +256,7 @@ function getFixAtDirectivesPatterns() {
 	const keyframeRulesReplace = function(match, m1, m2) {
 		return (
 			_.map(m1.split(','), function(item) {
-				return item.replace(/.*?(from|to|[0-9\.]+%)/g, '$1');
+				return item.replace(/.*?(from|to|[0-9.]+%)/g, '$1');
 			}).join(',') + m2
 		);
 	};
@@ -277,7 +277,7 @@ function getFixAtDirectivesPatterns() {
 			},
 		},
 		{
-			match: /@import\s+url\s*\(\s*['\"]?(.+\.css)['\"]?/g,
+			match: /@import\s+url\s*\(\s*['"]?(.+\.css)['"]?/g,
 			replacement(match, m1) {
 				return '@import url(' + m1 + '?t=' + Date.now();
 			},

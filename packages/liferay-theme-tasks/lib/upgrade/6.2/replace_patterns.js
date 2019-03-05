@@ -93,7 +93,7 @@ function getPatterns(blackList) {
 			replacement: '$1bourbon$2',
 		},
 		{
-			match: /([^\w\-]|^)\.aui([^\w\-])/g,
+			match: /([^\w-]|^)\.aui([^\w-])/g,
 			replacement: '$1html$2',
 		},
 		{

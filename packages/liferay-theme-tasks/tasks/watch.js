@@ -182,7 +182,7 @@ module.exports = function(options) {
 		clearChangedFile();
 
 		const target = url || 'http://localhost:8080';
-		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-\.]+)(:([0-9]+))?(.*)$/.exec(
+		const targetPort = /^(.*:)\/\/([A-Za-z0-9\-.]+)(:([0-9]+))?(.*)$/.exec(
 			target
 		);
 
