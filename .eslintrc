@@ -7,7 +7,6 @@
   "root": true,
   "rules": {
     "no-console": "off",
-    "no-for-of-loops/no-for-of-loops": "off",
-    "sort-keys": "off"
+    "no-for-of-loops/no-for-of-loops": "off"
   }
 }

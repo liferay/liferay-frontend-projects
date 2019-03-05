@@ -19,8 +19,8 @@
 		"test": "jest --runInBand"
 	},
 	"devDependencies": {
-		"eslint": "5.15.0",
-		"eslint-config-liferay": "3.0.0-rc.0",
+		"eslint": "^5.15.1",
+		"eslint-config-liferay": "^3.0.0",
 		"jest": "^20.0.4",
 		"lerna": "^2.0.0-rc.5",
 		"prettier-eslint-cli": "^4.4.0"
