@@ -87,7 +87,7 @@ it('_afterPromptTheme should save and install new dependencies', () => {
 	prototype._installDependencies = sinon.spy();
 	prototype._saveDependencies = sinon.spy();
 
-	let answers = {
+	const answers = {
 		module: 'some-theme',
 		modules: {
 			'some-theme': {
@@ -324,7 +324,7 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 it('_getSelectedModules should pass', () => {
 	prototype.themeConfig = {
 		baseTheme: 'styled',
-		themeletDependencies: themeletDependencies,
+		themeletDependencies,
 	};
 
 	expect(prototype._getSelectedModules(true)).toEqual([
@@ -524,8 +524,8 @@ it('_setStaticBaseTheme should set static base theme', () => {
 		baseTheme: 'unstyled',
 	};
 
-	let setConfig = lfrThemeConfig.setConfig;
-	let removeDependencies = lfrThemeConfig.removeDependencies;
+	const setConfig = lfrThemeConfig.setConfig;
+	const removeDependencies = lfrThemeConfig.removeDependencies;
 
 	lfrThemeConfig.removeDependencies = sinon.spy();
 	lfrThemeConfig.setConfig = sinon.spy();

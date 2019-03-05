@@ -33,7 +33,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:themelet-css-inject', function(cb) {
-		let themeSrcPaths = path.join(
+		const themeSrcPaths = path.join(
 			pathBuild,
 			'themelets',
 			'**',
@@ -44,7 +44,7 @@ module.exports = function(options) {
 		let injected = false;
 		let themeletSources = false;
 
-		let sources = gulp
+		const sources = gulp
 			.src(themeSrcPaths, {
 				read: false,
 			})
@@ -56,17 +56,19 @@ module.exports = function(options) {
 				})
 			);
 
-		let fileName = customCssFileName;
+		const fileName = customCssFileName;
 
 		gulp.src(path.join(pathBuild, 'css', fileName))
 			.pipe(
 				plugins.inject(sources, {
 					endtag: '/* endinject */',
 					starttag: '/* inject:imports */',
-					transform: function(filePath) {
+					transform(filePath) {
 						injected = true;
 
-						let filePathArray = getThemeletFilePathArray(filePath);
+						const filePathArray = getThemeletFilePathArray(
+							filePath
+						);
 
 						filePath =
 							'..' +
@@ -96,7 +98,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:themelet-js-inject', function(cb) {
-		let themeSrcPaths = path.join(
+		const themeSrcPaths = path.join(
 			pathBuild,
 			'themelets',
 			'**',
@@ -107,7 +109,7 @@ module.exports = function(options) {
 		let injected = false;
 		let themeletSources = false;
 
-		let sources = gulp
+		const sources = gulp
 			.src(themeSrcPaths, {
 				read: false,
 			})
@@ -119,7 +121,7 @@ module.exports = function(options) {
 				})
 			);
 
-		let templateLanguage =
+		const templateLanguage =
 			themeConfig.templateLanguage || defaultTemplateLanguage;
 
 		let themeRootPath = '${theme_display.getPathThemeRoot()}';
@@ -135,10 +137,12 @@ module.exports = function(options) {
 				plugins.inject(sources, {
 					endtag: '<!-- endinject -->',
 					starttag: '<!-- inject:js -->',
-					transform: function(filePath) {
+					transform(filePath) {
 						injected = true;
 
-						let filePathArray = getThemeletFilePathArray(filePath);
+						const filePathArray = getThemeletFilePathArray(
+							filePath
+						);
 
 						filePath = filePathArray.join(FORWARD_SLASH);
 
@@ -179,7 +183,7 @@ module.exports = function(options) {
 	});
 
 	function runThemeletDependenciesSeries(asyncTask, cb) {
-		let themeletStreamMap = _.map(getThemeletDependencies(), function(
+		const themeletStreamMap = _.map(getThemeletDependencies(), function(
 			item,
 			index
 		) {
@@ -202,7 +206,7 @@ function getThemeletFilePathArray(filePath) {
 }
 
 function getThemeletDependencies() {
-	let packageJSON = require(path.join(CWD, 'package.json'));
+	const packageJSON = require(path.join(CWD, 'package.json'));
 
 	let themeletDependencies;
 

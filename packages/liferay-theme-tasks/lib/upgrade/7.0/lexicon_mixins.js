@@ -12,6 +12,6 @@ const rules = Object.keys(removed).map(varName => {
 });
 
 module.exports = {
-	removed: removed,
-	rules: rules,
+	removed,
+	rules,
 };

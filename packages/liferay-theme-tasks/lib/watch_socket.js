@@ -82,18 +82,18 @@ class WatchSocket extends GogoShell {
 		const themeName = themeConfig.name;
 
 		return (
-			'install \'webbundledir:file:/' +
+			"install 'webbundledir:file:/" +
 			buildPath +
 			'?Web-ContextPath=/' +
 			themeName +
-			'\''
+			"'"
 		);
 	}
 
 	_getWebBundleData() {
 		const themeName = themeConfig.name;
 
-		const grepRegex = '\'webbundle(dir|):file.*' + themeName + '\'';
+		const grepRegex = "'webbundle(dir|):file.*" + themeName + "'";
 
 		return this.sendCommand('lb -u | grep ' + grepRegex).then(data => {
 			const lines = data.split('\n');

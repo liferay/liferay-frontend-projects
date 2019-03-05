@@ -32,13 +32,13 @@ const logBuffers = {
 };
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const gulp = options.gulp;
 
-	let runSequence = require('run-sequence').use(gulp);
+	const runSequence = require('run-sequence').use(gulp);
 
-	let cssSrcPath = path.join(CWD, 'src/css/**/*.+(css|scss)');
+	const cssSrcPath = path.join(CWD, 'src/css/**/*.+(css|scss)');
 
-	let pathSrc = options.pathSrc;
+	const pathSrc = options.pathSrc;
 
 	gulp.task('upgrade:dependencies', function(cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.0']);
@@ -50,7 +50,7 @@ module.exports = function(options) {
 			true
 		);
 
-		let npmInstall = spawn('npm', ['install']);
+		const npmInstall = spawn('npm', ['install']);
 
 		npmInstall.stderr.pipe(process.stderr);
 		npmInstall.stdout.pipe(process.stdout);
@@ -59,7 +59,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:config', function() {
-		let lfrThemeConfig = require('../../liferay_theme_config.js');
+		const lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
 			version: '7.1',
@@ -95,7 +95,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:ftl-templates', function() {
-		let ftlRules = [
+		const ftlRules = [
 			{
 				message:
 					'Warning: List items inside a .list-inline now require the .list-inline-item class, see https://getbootstrap.com/docs/4.0/migration/#typography for more information.',
@@ -123,7 +123,7 @@ module.exports = function(options) {
 			},
 		];
 
-		let portletFtlRules = [
+		const portletFtlRules = [
 			{
 				message:
 					'Warning: Several Applications in Liferay Portal 7.1 rely on a portlet_header_${portletId} extension point to show additional controls. When overwriting portlet.ftl, please, make sure you add a `<@liferay_util["dynamic-include"] key="portlet_header_${portlet_display_root_portlet_id}" />`.',
@@ -155,7 +155,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:rename-core-files', function(cb) {
-		let auiScssPath = path.join(CWD, DIR_SRC_CSS, 'aui.scss');
+		const auiScssPath = path.join(CWD, DIR_SRC_CSS, 'aui.scss');
 
 		let promptResults;
 
@@ -290,7 +290,7 @@ module.exports = function(options) {
 				);
 			});
 
-			let deprecatedMixinsFilePath = path.join(
+			const deprecatedMixinsFilePath = path.join(
 				process.cwd(),
 				pathSrc,
 				'css',
@@ -316,7 +316,7 @@ module.exports = function(options) {
 				path.normalize(`${__dirname}/theme_data/vars/removed.scss`)
 			);
 
-			let deprecatedVarsFilePath = path.join(
+			const deprecatedVarsFilePath = path.join(
 				process.cwd(),
 				pathSrc,
 				'css',
@@ -392,7 +392,7 @@ module.exports = function(options) {
 	gulp.task('upgrade:unsupported-vm-templates', function() {
 		return gulp.src('src/templates/**/*.vm').pipe(
 			vinylPaths(function(filePath, done) {
-				let fileName = colors.white(
+				const fileName = colors.white(
 					'File: ' + colors.underline(path.basename(filePath)) + '\n'
 				);
 
@@ -435,23 +435,23 @@ module.exports = function(options) {
 };
 
 function checkFile(filePath, rules, logBuffer) {
-	let results = [];
+	const results = [];
 
-	let config = {
+	const config = {
 		encoding: 'utf8',
 	};
 
 	if (fs.existsSync(filePath)) {
-		let logs = [];
+		const logs = [];
 
-		let fileContents = fs.readFileSync(filePath, config);
+		const fileContents = fs.readFileSync(filePath, config);
 
 		_.forEach(rules, function(item) {
 			if (item.fileName && item.fileName !== path.basename(filePath)) {
 				return;
 			}
 
-			let match = item.negativeMatch
+			const match = item.negativeMatch
 				? !item.regex.test(fileContents)
 				: item.regex.test(fileContents);
 
@@ -463,7 +463,7 @@ function checkFile(filePath, rules, logBuffer) {
 		});
 
 		if (logs.length) {
-			let fileName = colors.white(
+			const fileName = colors.white(
 				'File: ' + colors.underline(path.basename(filePath)) + '\n'
 			);
 
@@ -477,7 +477,7 @@ function checkFile(filePath, rules, logBuffer) {
 }
 
 function getLogHeader(header) {
-	let line = new Array(65).join('-');
+	const line = new Array(65).join('-');
 
 	return colors.bold('\n' + line + '\n ' + header + '\n' + line + '\n\n');
 }

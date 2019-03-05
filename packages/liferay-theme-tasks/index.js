@@ -36,7 +36,7 @@ function register(options) {
 
 	gulp = options.gulp = plugins.help(gulp);
 
-	let store = gulp.storage;
+	const store = gulp.storage;
 
 	store.set('changedFile');
 
@@ -48,7 +48,7 @@ function register(options) {
 			}
 		});
 
-	let haltOnMissingDeps =
+	const haltOnMissingDeps =
 		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
 
 	const tasks = options.insideTests ? [] : options.argv._;

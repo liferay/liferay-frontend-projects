@@ -16,7 +16,7 @@ var initializing = liferayThemeGeneratorPrototype.initializing;
 
 var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 	configuring: {
-		setThemeDirName: function() {
+		setThemeDirName() {
 			var layoutDirName = this.layoutId;
 
 			if (!/-layouttpl$/.test(layoutDirName)) {
@@ -26,7 +26,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			this.layoutDirName = layoutDirName;
 		},
 
-		enforceFolderName: function() {
+		enforceFolderName() {
 			var instance = this;
 
 			var done = this.async();
@@ -67,7 +67,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		},
 	},
 
-	writing: function() {
+	writing() {
 		var instance = this;
 
 		var thumbnailDestination = this.themeLayout
@@ -121,7 +121,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			var done = this.async();
 
 			new LayoutCreator({
-				after: function(templateContent) {
+				after(templateContent) {
 					instance.fs.write(templateDestination, templateContent);
 
 					done();
@@ -132,7 +132,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 	},
 
-	_getPrompts: function() {
+	_getPrompts() {
 		var instance = this;
 
 		return [
@@ -144,7 +144,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				when: instance._getWhenFn('layoutName', 'name', _.isString),
 			},
 			{
-				default: function(answers) {
+				default(answers) {
 					return _.kebabCase(_.deburr(answers.layoutName || ''));
 				},
 				message:
@@ -168,7 +168,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		];
 	},
 
-	_promptCallback: function(props) {
+	_promptCallback(props) {
 		var layoutId = props.layoutId;
 
 		this.layoutId = layoutId;
@@ -181,7 +181,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this._setPackageVersion(this.liferayVersion);
 	},
 
-	_setArgv: function() {
+	_setArgv() {
 		this.argv = minimist(process.argv.slice(2), {
 			alias: {
 				id: 'i',
@@ -192,7 +192,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		});
 	},
 
-	_track: function() {
+	_track() {
 		this._insight.track('layout', this.liferayVersion);
 	},
 

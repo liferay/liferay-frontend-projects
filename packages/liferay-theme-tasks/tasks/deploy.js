@@ -22,9 +22,9 @@ function registerTasks(options) {
 	const dockerThemePath = path.posix.join('/tmp', pluginName);
 
 	gulp.task('deploy', function(cb) {
-		let sequence = ['build', 'deploy:war', cb];
+		const sequence = ['build', 'deploy:war', cb];
 
-		let webBundleDir = storage.get('webBundleDir');
+		const webBundleDir = storage.get('webBundleDir');
 
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
@@ -61,30 +61,30 @@ function registerTasks(options) {
 	});
 
 	gulp.task('deploy:file', function() {
-		let changedFile = storage.get('changedFile');
+		const changedFile = storage.get('changedFile');
 
 		return fastDeploy(changedFile.path, pathSrc);
 	});
 
 	gulp.task('deploy:folder', function() {
-		let changedFile = storage.get('changedFile');
+		const changedFile = storage.get('changedFile');
 
-		let relativeFilePath = path.relative(
+		const relativeFilePath = path.relative(
 			path.join(process.cwd(), pathSrc),
 			changedFile.path
 		);
 
-		let filePathArray = relativeFilePath.split(path.sep);
+		const filePathArray = relativeFilePath.split(path.sep);
 
-		let rootDir = filePathArray.length ? filePathArray[0] : '';
+		const rootDir = filePathArray.length ? filePathArray[0] : '';
 
 		return fastDeploy(path.join(pathBuild, rootDir, '**/*'), pathBuild);
 	});
 
 	gulp.task('deploy:gogo', function(cb) {
-		let sequence = ['build', 'plugin:deploy-gogo', cb];
+		const sequence = ['build', 'plugin:deploy-gogo', cb];
 
-		let webBundleDir = storage.get('webBundleDir');
+		const webBundleDir = storage.get('webBundleDir');
 
 		if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
@@ -94,7 +94,7 @@ function registerTasks(options) {
 	});
 
 	gulp.task('deploy:war', function(cb) {
-		let sequence = [];
+		const sequence = [];
 
 		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
 			sequence.push('deploy:docker');
@@ -107,17 +107,17 @@ function registerTasks(options) {
 	});
 
 	gulp.task('deploy-live:war', function(cb) {
-		let password = argv.p || argv.password;
-		let url = argv.url || storage.get('url');
-		let username = argv.u || argv.username;
+		const password = argv.p || argv.password;
+		const url = argv.url || storage.get('url');
+		const username = argv.u || argv.username;
 
-		let themeName = themeConfig.name;
+		const themeName = themeConfig.name;
 
-		let warDeployer = new WarDeployer({
+		const warDeployer = new WarDeployer({
 			fileName: themeName,
-			password: password,
-			url: url,
-			username: username,
+			password,
+			url,
+			username,
 		}).on('end', cb);
 
 		warDeployer.deploy();
@@ -134,9 +134,9 @@ function registerTasks(options) {
 	 * @return {Stream} the gulp stream
 	 */
 	function fastDeploy(srcPath, basePath, fileGlobs) {
-		let fastDeployPaths = getFastDeployPaths();
+		const fastDeployPaths = getFastDeployPaths();
 
-		let stream = gulp
+		const stream = gulp
 			.src(srcPath, {
 				base: basePath,
 			})
@@ -149,7 +149,7 @@ function registerTasks(options) {
 				dockerThemePath,
 				deployDir
 			);
-			let deployFiles = [];
+			const deployFiles = [];
 
 			stream.pipe(
 				listStream.obj(function(err, files) {
@@ -197,11 +197,11 @@ function registerTasks(options) {
 	}
 
 	function getFastDeployPaths() {
-		let fastDeployPaths = {
+		const fastDeployPaths = {
 			dest: storage.get('appServerPathPlugin'),
 		};
 
-		let tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
+		const tempDirPath = path.join(fastDeployPaths.dest, '../../temp/');
 
 		let tempThemeDir;
 
@@ -209,9 +209,9 @@ function registerTasks(options) {
 			fs.existsSync(tempDirPath) &&
 			fs.statSync(tempDirPath).isDirectory()
 		) {
-			let themeName = storage.get('themeName');
+			const themeName = storage.get('themeName');
 
-			let tempDir = fs.readdirSync(tempDirPath);
+			const tempDir = fs.readdirSync(tempDirPath);
 
 			tempThemeDir = _.find(tempDir, function(fileName) {
 				return fileName.indexOf(themeName) > -1;

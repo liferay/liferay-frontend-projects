@@ -20,7 +20,7 @@ class WarDeployer extends EventEmitter {
 
 		this._validateOptions(options);
 
-		let siteURL = options.url || 'http://localhost:8080';
+		const siteURL = options.url || 'http://localhost:8080';
 
 		this._setURLSettings(siteURL);
 
@@ -52,7 +52,7 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_getFileHeaders() {
-		let fileName = this.fileName;
+		const fileName = this.fileName;
 
 		return (
 			'--' +
@@ -88,15 +88,15 @@ class WarDeployer extends EventEmitter {
 		return {
 			default: defaultValue,
 			message: 'Enter your ' + name + ' for ' + this.host,
-			name: name,
+			name,
 			type: name === 'password' ? name : 'input',
 		};
 	}
 
 	_makeRequest() {
-		let protocol = require(this.protocol);
+		const protocol = require(this.protocol);
 
-		let req = protocol.request(this._getPostOptions(), function(res) {
+		const req = protocol.request(this._getPostOptions(), function(res) {
 			res.setEncoding('utf8');
 
 			res.on('data', function(chunk) {
@@ -119,7 +119,7 @@ class WarDeployer extends EventEmitter {
 
 	_onResponseData(chunk) {
 		try {
-			let responseData = JSON.parse(chunk);
+			const responseData = JSON.parse(chunk);
 
 			if (responseData && !responseData.error) {
 				this.deployed = true;
@@ -146,7 +146,7 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_promptCredentialsIfNeeded() {
-		let questions = [];
+		const questions = [];
 
 		if (!this.username) {
 			questions.push(this._getQuestion('username', 'test@liferay.com'));
@@ -170,7 +170,7 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_setURLSettings(siteURL) {
-		let parsedURL = url.parse(siteURL);
+		const parsedURL = url.parse(siteURL);
 
 		this.host = parsedURL.hostname;
 		this.port = parsedURL.port;
@@ -190,7 +190,7 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_writeWarFile(req) {
-		let boundaryKey = this._getBoundaryKey();
+		const boundaryKey = this._getBoundaryKey();
 
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
 

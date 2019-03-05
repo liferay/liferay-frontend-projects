@@ -64,7 +64,7 @@ function getModuleChoices(modules, config) {
 		return _.map(modules, (module, name) => {
 			return {
 				checked: selectedModules && selectedModules.indexOf(name) > -1,
-				name: name,
+				name,
 			};
 		});
 	}

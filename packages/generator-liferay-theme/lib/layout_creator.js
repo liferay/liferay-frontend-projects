@@ -62,7 +62,7 @@ var LayoutCreator = function(options) {
 };
 
 LayoutCreator.prototype = {
-	init: function() {
+	init() {
 		if (this.rowData) {
 			this.after(
 				this._renderLayoutTemplate({
@@ -79,11 +79,11 @@ LayoutCreator.prototype = {
 		}
 	},
 
-	prompt: function(questions, cb) {
+	prompt(questions, cb) {
 		inquirer.prompt(questions, cb);
 	},
 
-	_addRow: function(data) {
+	_addRow(data) {
 		var rowInsertIndex = this.rowInsertIndex;
 
 		if (_.isNumber(rowInsertIndex)) {
@@ -97,35 +97,35 @@ LayoutCreator.prototype = {
 		this._printLayoutPreview();
 	},
 
-	_addWhiteSpace: function(choicesArray) {
+	_addWhiteSpace(choicesArray) {
 		var separator = new inquirer.Separator(' ');
 
 		choicesArray.push(separator);
 		choicesArray.push(separator);
 	},
 
-	_afterPrompt: function(err) {
+	_afterPrompt(err) {
 		var rowData = this._preprocessLayoutTemplateData(this.rows);
 
 		var templateContent = this._renderLayoutTemplate({
 			className: this.className,
-			rowData: rowData,
+			rowData,
 		});
 
 		this.after(templateContent);
 	},
 
-	_afterPromptColumnCount: function(answers, cb) {
+	_afterPromptColumnCount(answers, cb) {
 		cb(null, answers.columnCount);
 	},
 
-	_afterPromptColumnWidths: function(answers, cb) {
+	_afterPromptColumnWidths(answers, cb) {
 		this._addRow(answers);
 
 		cb(null, this.rows);
 	},
 
-	_afterPromptFinishRow: function(answers, cb) {
+	_afterPromptFinishRow(answers, cb) {
 		var finish = answers.finish;
 
 		if (finish == 'add') {
@@ -139,19 +139,19 @@ LayoutCreator.prototype = {
 		}
 	},
 
-	_afterPromptInsertRow: function(answers, cb) {
+	_afterPromptInsertRow(answers, cb) {
 		this.rowInsertIndex = answers.rowIndex;
 
 		this._promptRow(cb);
 	},
 
-	_afterPromptRemoveRow: function(answers, cb) {
+	_afterPromptRemoveRow(answers, cb) {
 		this._removeRow(answers.rowIndex);
 
 		this._promptFinishRow(this.rows, cb);
 	},
 
-	_formatInlineChoicePreview: function(spanValue, takenWidth) {
+	_formatInlineChoicePreview(spanValue, takenWidth) {
 		var remainingWidth = 12 - (spanValue + takenWidth);
 
 		var takenString = chalk.black.bgWhite(_.repeat(' ', takenWidth));
@@ -167,7 +167,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_formatPercentageValue: function(spanValue, takenWidth, preview) {
+	_formatPercentageValue(spanValue, takenWidth, preview) {
 		var percentage = Math.floor((spanValue / 12) * 10000) / 100;
 
 		var value = _.padEnd(
@@ -185,7 +185,7 @@ LayoutCreator.prototype = {
 		return value;
 	},
 
-	_getColumnClassNames: function(number, total) {
+	_getColumnClassNames(number, total) {
 		var classNames;
 
 		if (total <= 1) {
@@ -202,7 +202,7 @@ LayoutCreator.prototype = {
 		return classNames;
 	},
 
-	_getColumnWidthChoices: function(columnIndex, columnCount, answers) {
+	_getColumnWidthChoices(columnIndex, columnCount, answers) {
 		var instance = this;
 
 		var takenWidth = 0;
@@ -255,7 +255,7 @@ LayoutCreator.prototype = {
 						spanValue,
 						takenWidth
 					),
-					selectedName: selectedName,
+					selectedName,
 					short: selectedName,
 					value: spanValue,
 				};
@@ -265,7 +265,7 @@ LayoutCreator.prototype = {
 		}
 	},
 
-	_getFinishRowChoices: function(rows) {
+	_getFinishRowChoices(rows) {
 		var choices = [
 			{
 				name: 'Add row',
@@ -293,7 +293,7 @@ LayoutCreator.prototype = {
 		return choices;
 	},
 
-	_getInsertRowChoices: function() {
+	_getInsertRowChoices() {
 		var instance = this;
 
 		var rows = this.rows;
@@ -345,7 +345,7 @@ LayoutCreator.prototype = {
 		return choicesArray;
 	},
 
-	_getRemoveRowChoices: function() {
+	_getRemoveRowChoices() {
 		var instance = this;
 
 		var rows = this.rows;
@@ -392,7 +392,7 @@ LayoutCreator.prototype = {
 		return choicesArray;
 	},
 
-	_getRowNumber: function() {
+	_getRowNumber() {
 		var rowInsertIndex = this.rowInsertIndex;
 		var rowNumber = this.rows.length;
 
@@ -405,7 +405,7 @@ LayoutCreator.prototype = {
 		return rowNumber;
 	},
 
-	_preprocessLayoutTemplateData: function(rows) {
+	_preprocessLayoutTemplateData(rows) {
 		var instance = this;
 
 		var totalColumnCount = 0;
@@ -420,7 +420,7 @@ LayoutCreator.prototype = {
 
 				var columnData = {
 					number: totalColumnCount,
-					size: size,
+					size,
 				};
 
 				var classNames = instance._getColumnClassNames(
@@ -440,13 +440,13 @@ LayoutCreator.prototype = {
 		return rowData;
 	},
 
-	_printHelpMessage: function() {
+	_printHelpMessage() {
 		this._stdoutWrite(
-			'\n  Layout templates implement Bootstrap\'s grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n'
+			"\n  Layout templates implement Bootstrap's grid system.\n  Every row consists of 12 sections, so columns range in size from 1 to 12.\n\n"
 		);
 	},
 
-	_printLayoutPreview: function() {
+	_printLayoutPreview() {
 		var instance = this;
 
 		var rowSeperator = chalk.bold('  ' + _.repeat('-', 37) + '\n');
@@ -472,7 +472,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptColumnCount: function(cb) {
+	_promptColumnCount(cb) {
 		var instance = this;
 
 		this.prompt(
@@ -491,7 +491,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptColumnWidths: function(columnCount, cb) {
+	_promptColumnWidths(columnCount, cb) {
 		var instance = this;
 
 		var rowNumber = instance._getRowNumber();
@@ -520,7 +520,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptFinishRow: function(rows, cb) {
+	_promptFinishRow(rows, cb) {
 		this.prompt(
 			[
 				{
@@ -534,7 +534,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptInsertRow: function(cb) {
+	_promptInsertRow(cb) {
 		this.prompt(
 			[
 				{
@@ -548,7 +548,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptRemoveRow: function(cb) {
+	_promptRemoveRow(cb) {
 		this.prompt(
 			[
 				{
@@ -562,7 +562,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptRow: function(done) {
+	_promptRow(done) {
 		async.waterfall(
 			[
 				this._promptColumnCount.bind(this),
@@ -573,13 +573,13 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_removeRow: function(index) {
+	_removeRow(index) {
 		this.rows.splice(index, 1);
 
 		this._printLayoutPreview();
 	},
 
-	_renderPreviewLine: function(column, config) {
+	_renderPreviewLine(column, config) {
 		var instance = this;
 
 		config = config || {};
@@ -615,7 +615,7 @@ LayoutCreator.prototype = {
 			: this._stylePreviewLine(line, label);
 	},
 
-	_renderLayoutTemplate: function(options) {
+	_renderLayoutTemplate(options) {
 		var liferayVersion = this.liferayVersion;
 
 		return layoutTemplateTpl(
@@ -626,7 +626,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_replaceAt: function(string, index, character) {
+	_replaceAt(string, index, character) {
 		return (
 			string.substr(0, index) +
 			character +
@@ -634,11 +634,11 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_stdoutWrite: function(string) {
+	_stdoutWrite(string) {
 		process.stdout.write(string);
 	},
 
-	_stylePreviewLine: function(line, label) {
+	_stylePreviewLine(line, label) {
 		if (label) {
 			line = line.replace(/\d/g, function(match) {
 				return chalk.cyan(match);
@@ -648,7 +648,7 @@ LayoutCreator.prototype = {
 		return chalk.bold(line);
 	},
 
-	_validateColumnCount: function(value) {
+	_validateColumnCount(value) {
 		value = _.parseInt(value);
 
 		var retVal = 'Please enter a number between 1 and 12!';

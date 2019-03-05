@@ -48,7 +48,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 		}
 	};
 
-	let packConfig = {
+	const packConfig = {
 		dmode: parseInt(755, 8),
 		fmode: parseInt(644, 8),
 	};

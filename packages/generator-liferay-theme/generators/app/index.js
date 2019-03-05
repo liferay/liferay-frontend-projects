@@ -11,18 +11,18 @@ var yosay = require('yosay');
 var lookup = require('liferay-theme-tasks/lib/lookup');
 
 module.exports = yeoman.generators.Base.extend({
-	initializing: function() {
+	initializing() {
 		var pkg = require('../../package.json');
 
 		this.pkg = pkg;
 
 		this._insight = new Insight({
 			trackingCode: 'UA-69122110-1',
-			pkg: pkg,
+			pkg,
 		});
 	},
 
-	prompting: function() {
+	prompting() {
 		var instance = this;
 
 		instance.done = instance.async();
@@ -44,7 +44,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	configuring: {
-		setThemeDirName: function() {
+		setThemeDirName() {
 			var themeDirName = this.appname;
 
 			if (!/-theme$/.test(themeDirName)) {
@@ -54,7 +54,7 @@ module.exports = yeoman.generators.Base.extend({
 			this.themeDirName = themeDirName;
 		},
 
-		enforceFolderName: function() {
+		enforceFolderName() {
 			if (
 				this.themeDirName !==
 				_.last(this.destinationRoot().split(path.sep))
@@ -67,7 +67,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	writing: {
-		app: function() {
+		app() {
 			this.template('_package.json', 'package.json', this);
 
 			this.fs.copy(
@@ -78,7 +78,7 @@ module.exports = yeoman.generators.Base.extend({
 			this.template('gulpfile.js', 'gulpfile.js', this);
 		},
 
-		projectfiles: function() {
+		projectfiles() {
 			this.fs.copy(
 				this.templatePath('src/**'),
 				this.destinationPath('src'),
@@ -114,7 +114,7 @@ module.exports = yeoman.generators.Base.extend({
 		},
 	},
 
-	install: function() {
+	install() {
 		var instance = this;
 
 		var skipInstall = this.options['skip-install'];
@@ -122,10 +122,10 @@ module.exports = yeoman.generators.Base.extend({
 		if (!skipInstall) {
 			this.installDependencies({
 				bower: false,
-				callback: function() {
+				callback() {
 					const gulp = require('gulp');
 					require('liferay-theme-tasks').registerTasks({
-						gulp: gulp,
+						gulp,
 					});
 					gulp.start('init');
 				},
@@ -133,7 +133,7 @@ module.exports = yeoman.generators.Base.extend({
 		}
 	},
 
-	_getArgs: function() {
+	_getArgs() {
 		var args = this.args;
 
 		if (!args) {
@@ -145,7 +145,7 @@ module.exports = yeoman.generators.Base.extend({
 		return args;
 	},
 
-	_getPrompts: function() {
+	_getPrompts() {
 		var instance = this;
 
 		var prompts = [
@@ -157,7 +157,7 @@ module.exports = yeoman.generators.Base.extend({
 				when: instance._getWhenFn('themeName', 'name', _.isString),
 			},
 			{
-				default: function(answers) {
+				default(answers) {
 					return _.kebabCase(_.deburr(answers.themeName || ''));
 				},
 				message: 'Would you like to use this as the themeId?',
@@ -196,7 +196,7 @@ module.exports = yeoman.generators.Base.extend({
 	_getTemplateLanguageChoices: answers =>
 		lookup('template:choices', answers.liferayVersion),
 
-	_getWhenFn: function(propertyName, flag, validator) {
+	_getWhenFn(propertyName, flag, validator) {
 		var instance = this;
 
 		var args = this._getArgs();
@@ -256,26 +256,26 @@ module.exports = yeoman.generators.Base.extend({
 		};
 	},
 
-	_isDefined: function(value) {
+	_isDefined(value) {
 		return !_.isUndefined(value) && !_.isNull(value);
 	},
 
-	_isLiferayVersion: function(value) {
+	_isLiferayVersion(value) {
 		return ['7.2', '7.1', '7.0'].indexOf(value) > -1;
 	},
 
 	_isTemplateLanguage: (value, answers) =>
 		lookup('template:isLanguage', answers.liferayVersion)(value),
 
-	_mixArgs: function(props, args) {
+	_mixArgs(props, args) {
 		return _.assign(props, args);
 	},
 
-	_printWarnings: function(props) {
+	_printWarnings(props) {
 		lookup('template:printWarnings', props.liferayVersion)(this, props);
 	},
 
-	_prompt: function() {
+	_prompt() {
 		var done = this.done;
 
 		this.prompt(
@@ -292,7 +292,7 @@ module.exports = yeoman.generators.Base.extend({
 		);
 	},
 
-	_promptCallback: function(props) {
+	_promptCallback(props) {
 		var liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
@@ -315,7 +315,7 @@ module.exports = yeoman.generators.Base.extend({
 		this._setPackageVersion();
 	},
 
-	_setArgv: function() {
+	_setArgv() {
 		this.argv = minimist(process.argv.slice(2), {
 			alias: {
 				id: 'i',
@@ -327,23 +327,23 @@ module.exports = yeoman.generators.Base.extend({
 		});
 	},
 
-	_setDefaults: function(liferayVersion) {
+	_setDefaults(liferayVersion) {
 		_.defaults(this, {
 			templateLanguage: 'ftl',
 		});
 	},
 
-	_setPackageVersion: function() {
+	_setPackageVersion() {
 		this.packageVersion = '1.0.0';
 	},
 
-	_setPromptDeprecationMap: function() {
+	_setPromptDeprecationMap() {
 		this.promptDeprecationMap = {
 			templateLanguage: ['7.0'],
 		};
 	},
 
-	_track: function() {
+	_track() {
 		var insight = this._insight;
 
 		var liferayVersion = this.liferayVersion;

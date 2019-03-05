@@ -2,15 +2,17 @@ const _ = require('lodash');
 const colors = require('ansi-colors');
 
 function status(themeConfig) {
-	let statusBuffer = [];
+	const statusBuffer = [];
 
-	let baseTheme = themeConfig.baseTheme;
+	const baseTheme = themeConfig.baseTheme;
 
-	let baseThemeLabel = colors.cyan('Base theme: ');
+	const baseThemeLabel = colors.cyan('Base theme: ');
 
 	if (baseTheme) {
-		let baseThemeName = baseTheme.name || baseTheme;
-		let baseThemeVersion = baseTheme.version ? 'v' + baseTheme.version : '';
+		const baseThemeName = baseTheme.name || baseTheme;
+		const baseThemeVersion = baseTheme.version
+			? 'v' + baseTheme.version
+			: '';
 
 		statusBuffer.push(
 			baseThemeLabel +
@@ -22,7 +24,7 @@ function status(themeConfig) {
 		);
 	}
 
-	let themeletDependencies = themeConfig.themeletDependencies;
+	const themeletDependencies = themeConfig.themeletDependencies;
 
 	if (themeletDependencies) {
 		statusBuffer.push(colors.cyan('Themelets:'));

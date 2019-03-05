@@ -20,7 +20,7 @@ it('options should return default options with no config passed', () => {
 	const options = require('../../lib/options')();
 
 	expect(options).toEqual({
-		argv: argv,
+		argv,
 		baseTheme: {
 			liferayTheme: {
 				baseTheme: 'styled',
@@ -60,7 +60,7 @@ it('options should return previously set options if no config is passed', () => 
 	});
 
 	expect(options).toEqual({
-		argv: argv,
+		argv,
 		baseTheme: {
 			liferayTheme: {
 				baseTheme: 'styled',

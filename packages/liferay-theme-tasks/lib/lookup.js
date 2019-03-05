@@ -11,15 +11,15 @@ const DEFAULT_VERSION = '7.1';
  */
 function lookup(key, version = null) {
 	if (!version) {
-		let config = lfrThemeConfig.getConfig();
+		const config = lfrThemeConfig.getConfig();
 
 		version = config ? config.version : DEFAULT_VERSION;
 	}
 
 	return {
-		'baseThemeDependencies': () =>
+		baseThemeDependencies: () =>
 			require('./lookup/base').getBaseDependencies,
-		'devDependencies': () => require('./lookup/dependencies').devDependencies,
+		devDependencies: () => require('./lookup/dependencies').devDependencies,
 		'kickstart:choices': () => require('./lookup/kickstart').choices,
 		'kickstart:afterPromptThemeSource': () =>
 			require('./lookup/kickstart').afterPromptThemeSource,

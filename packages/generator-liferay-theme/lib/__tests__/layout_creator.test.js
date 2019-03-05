@@ -181,8 +181,8 @@ describe('LayoutCreator', function() {
 			prototype.rows = [1];
 
 			var answers = {
-				'0': 6,
-				'1': 6,
+				0: 6,
+				1: 6,
 			};
 
 			var cb = sinon.spy();
@@ -413,14 +413,14 @@ describe('LayoutCreator', function() {
 			assert.equal(choices.length, 11);
 
 			choices = prototype._getColumnWidthChoices(1, 2, {
-				'0': 5,
+				0: 5,
 			});
 
 			assert.equal(choices.length, 1);
 			assert.equal(choices[0].value, 7);
 
 			choices = prototype._getColumnWidthChoices(1, 4, {
-				'0': 5,
+				0: 5,
 			});
 
 			assert.equal(choices.length, 5);
@@ -451,12 +451,12 @@ describe('LayoutCreator', function() {
 		it('should return compact layout preview where row borders are choices', function() {
 			prototype.rows = [
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 			];
 
@@ -488,8 +488,8 @@ describe('LayoutCreator', function() {
 
 			while (prototype.rows.length < 7) {
 				prototype.rows.push({
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				});
 			}
 
@@ -510,12 +510,12 @@ describe('LayoutCreator', function() {
 		it('should return compact layout preview where row bodies are choices', function() {
 			prototype.rows = [
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 				{
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				},
 			];
 
@@ -547,8 +547,8 @@ describe('LayoutCreator', function() {
 
 			while (prototype.rows.length < 7) {
 				prototype.rows.push({
-					'0': 3,
-					'1': 9,
+					0: 3,
+					1: 9,
 				});
 			}
 
@@ -581,16 +581,16 @@ describe('LayoutCreator', function() {
 		it('should convert prompt data to data that template can easily process', function() {
 			var rows = [
 				{
-					'0': 2,
-					'1': 10,
+					0: 2,
+					1: 10,
 				},
 				{
-					'0': 2,
-					'1': 1,
-					'2': 9,
+					0: 2,
+					1: 1,
+					2: 9,
 				},
 				{
-					'0': 12,
+					0: 12,
 				},
 			];
 
@@ -833,8 +833,8 @@ describe('LayoutCreator', function() {
 	describe('_renderPreviewLine', function() {
 		it('should render preview line', function() {
 			var line = prototype._renderPreviewLine({
-				'0': 4,
-				'1': 8,
+				0: 4,
+				1: 8,
 			});
 
 			line = stripAnsi(line);
@@ -843,10 +843,10 @@ describe('LayoutCreator', function() {
 
 			line = prototype._renderPreviewLine(
 				{
-					'0': 4,
-					'1': 4,
-					'2': 2,
-					'3': 2,
+					0: 4,
+					1: 4,
+					2: 2,
+					3: 2,
 				},
 				{
 					label: true,

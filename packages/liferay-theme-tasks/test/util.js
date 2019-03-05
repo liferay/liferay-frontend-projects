@@ -189,8 +189,8 @@ class PrototypeMethodSpy {
 
 		this.methods.push({
 			method: parent[methodName],
-			methodName: methodName,
-			parent: parent,
+			methodName,
+			parent,
 		});
 
 		if (stub) {
@@ -223,11 +223,11 @@ function assertBoundFunction(prototype, methodName, stub) {
 }
 
 function copyTempTheme(options) {
-	let themeName = options.themeName || 'base-theme';
-	let version = options.version || '7.0';
-	let namespace = options.namespace;
+	const themeName = options.themeName || 'base-theme';
+	const version = options.version || '7.0';
+	const namespace = options.namespace;
 
-	let tempPath = path.join(
+	const tempPath = path.join(
 		osTempDir,
 		'liferay-theme-tasks',
 		namespace,
@@ -249,7 +249,7 @@ function copyTempTheme(options) {
 	process.chdir(tempPath);
 
 	if (options.themeConfig) {
-		let lfrThemeConfig = require('../lib/liferay_theme_config');
+		const lfrThemeConfig = require('../lib/liferay_theme_config');
 
 		lfrThemeConfig.setConfig(options.themeConfig);
 	}
@@ -257,7 +257,7 @@ function copyTempTheme(options) {
 	if (options.registerTasksOptions || options.registerTasks) {
 		deleteJsFromCache();
 
-		let registerTasks = require('../index.js').registerTasks;
+		const registerTasks = require('../index.js').registerTasks;
 
 		gulp = new Gulp();
 
@@ -265,7 +265,7 @@ function copyTempTheme(options) {
 			{
 				distName: 'base-theme',
 				pathBuild: './custom_build_path',
-				gulp: gulp,
+				gulp,
 				pathSrc: './custom_src_path',
 				insideTests: true,
 			},
@@ -278,15 +278,15 @@ function copyTempTheme(options) {
 	}
 
 	return {
-		gulp: gulp,
-		registerTasksOptions: registerTasksOptions,
-		runSequence: runSequence,
-		tempPath: tempPath,
+		gulp,
+		registerTasksOptions,
+		runSequence,
+		tempPath,
 	};
 }
 
 function cleanTempTheme(themeName, version, component, initCwd) {
-	let tempPath = path.join(
+	const tempPath = path.join(
 		osTempDir,
 		'liferay-theme-tasks',
 		component,
@@ -302,7 +302,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 }
 
 function deleteDirJsFromCache(relativePath) {
-	let files = fs.readdirSync(path.join(__dirname, relativePath));
+	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
 	_.forEach(files, function(item, index) {
 		if (_.endsWith(item, '.js')) {
@@ -312,7 +312,7 @@ function deleteDirJsFromCache(relativePath) {
 }
 
 function deleteJsFileFromCache(filePath) {
-	let registerTasksPath = require.resolve(filePath);
+	const registerTasksPath = require.resolve(filePath);
 
 	delete require.cache[registerTasksPath];
 }

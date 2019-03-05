@@ -14,7 +14,7 @@ function getOptions(config) {
 		config.pathSrc = config.pathSrc || './src';
 		config.sassOptions = config.sassOptions || {};
 
-		let themeConfig = lfrThemeConfig.getConfig();
+		const themeConfig = lfrThemeConfig.getConfig();
 
 		_.assign(config, themeConfig);
 

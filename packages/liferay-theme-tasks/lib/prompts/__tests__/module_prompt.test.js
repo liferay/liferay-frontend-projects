@@ -34,7 +34,7 @@ afterEach(() => {
 });
 
 it('constructor should pass arguments to init', () => {
-	let initSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
+	const initSpy = prototypeMethodSpy.add(ModulePrompt.prototype, 'init');
 
 	new ModulePrompt({}, _.noop);
 

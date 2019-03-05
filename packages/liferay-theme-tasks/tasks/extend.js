@@ -1,10 +1,10 @@
 'use strict';
 
-let ExtendPrompt = require('../lib/prompts/extend_prompt');
-let lfrThemeConfig = require('../lib/liferay_theme_config');
+const ExtendPrompt = require('../lib/prompts/extend_prompt');
+const lfrThemeConfig = require('../lib/liferay_theme_config');
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const gulp = options.gulp;
 
 	gulp.task('extend', function(cb) {
 		ExtendPrompt.prompt(

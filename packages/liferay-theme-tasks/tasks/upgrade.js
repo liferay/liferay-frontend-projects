@@ -15,18 +15,18 @@ const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 const themeConfig = lfrThemeConfig.getConfig();
 
 module.exports = function(options) {
-	let gulp = options.gulp;
+	const gulp = options.gulp;
 
-	let runSequence = require('run-sequence').use(gulp);
+	const runSequence = require('run-sequence').use(gulp);
 
-	let argv = options.argv;
-	let pathSrc = options.pathSrc;
+	const argv = options.argv;
+	const pathSrc = options.pathSrc;
 
 	let version = argv.v || argv.version;
 
 	version = version ? version.toString() : themeConfig.version;
 
-	let modulePath = path.join(
+	const modulePath = path.join(
 		__dirname,
 		'../lib/upgrade',
 		version,
@@ -67,9 +67,9 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:create-backup-files', function(cb) {
-		let backupExists = fs.existsSync('_backup');
+		const backupExists = fs.existsSync('_backup');
 
-		let backup = function() {
+		const backup = function() {
 			gulp.src(path.join(pathSrc, '**/*'))
 				.pipe(gulp.dest('_backup/src'))
 				.on('end', function() {
@@ -85,7 +85,7 @@ module.exports = function(options) {
 				{
 					default: false,
 					message:
-						'Would you like to overwrite the existing _backup directory and it\'s contents?',
+						"Would you like to overwrite the existing _backup directory and it's contents?",
 					name: 'backup',
 					type: 'confirm',
 				},
@@ -103,7 +103,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:revert', function(cb) {
-		let backupExists =
+		const backupExists =
 			fs.existsSync('_backup/src') &&
 			fs.statSync('_backup/src').isDirectory();
 

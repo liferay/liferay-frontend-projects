@@ -45,7 +45,7 @@ it('getLiferayThemeModule should return error because module does not exist', do
 	themeFinder.getLiferayThemeModule('fake-themelet-123', (err, pkg) => {
 		expect(_.isUndefined(pkg)).toBe(true);
 		expect(err.message).toEqual(
-			'Package `fake-themelet-123` doesn\'t exist'
+			"Package `fake-themelet-123` doesn't exist"
 		);
 
 		done();

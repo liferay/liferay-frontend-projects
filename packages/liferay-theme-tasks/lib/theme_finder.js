@@ -13,7 +13,7 @@ const themeConfig = lfrThemeConfig.getConfig();
 function getLiferayThemeModule(name, cb) {
 	getPackageJSON(
 		{
-			name: name,
+			name,
 		},
 		(err, pkg) => {
 			if (
@@ -39,13 +39,13 @@ function getLiferayThemeModules(config, cb) {
 		config = {};
 	}
 
-	let globalModules = _.isUndefined(config.globalModules)
+	const globalModules = _.isUndefined(config.globalModules)
 		? true
 		: config.globalModules;
 
 	config.keyword = config.keyword || 'liferay-theme';
 
-	let searchFn = globalModules ? searchGlobalModules : searchNpm;
+	const searchFn = globalModules ? searchGlobalModules : searchNpm;
 
 	searchFn.call(this, config, moduleResults => {
 		reportDiscardedModules(
@@ -116,7 +116,7 @@ function findThemeModulesIn(paths) {
 function getNpmPaths() {
 	let paths = [];
 
-	let win32 = process.platform === 'win32';
+	const win32 = process.platform === 'win32';
 
 	_.forEach(
 		path.join(process.cwd(), '..').split(path.sep),
@@ -138,10 +138,10 @@ function getNpmPaths() {
 			paths
 		);
 	} else {
-		let results = spawn.sync('npm', ['root', '-g']);
+		const results = spawn.sync('npm', ['root', '-g']);
 
 		if (!results.error && results.stdout) {
-			let npmRoot = results.stdout.toString();
+			const npmRoot = results.stdout.toString();
 
 			if (npmRoot) {
 				paths.push(_.trim(npmRoot));
@@ -167,13 +167,13 @@ function getPackageJSON(theme, cb) {
 
 function getLiferayThemeModuleStatus(pkg, themelet) {
 	if (pkg) {
-		let liferayTheme = pkg.liferayTheme;
+		const liferayTheme = pkg.liferayTheme;
 
 		if (!liferayTheme) {
 			return LiferayThemeModuleStatus.NO_LIFERAY_THEME;
 		}
 
-		let liferayThemeVersion = liferayTheme.version;
+		const liferayThemeVersion = liferayTheme.version;
 
 		if (
 			_.isArray(liferayThemeVersion) &&
@@ -203,7 +203,7 @@ function getLiferayThemeModuleStatus(pkg, themelet) {
 }
 
 function matchesSearchTerms(pkg, searchTerms) {
-	let description = pkg.description;
+	const description = pkg.description;
 
 	return (
 		pkg.name.indexOf(searchTerms) > -1 ||
@@ -212,8 +212,8 @@ function matchesSearchTerms(pkg, searchTerms) {
 }
 
 function reduceModuleResults(modules, config) {
-	let searchTerms = config.searchTerms;
-	let themelet = config.themelet;
+	const searchTerms = config.searchTerms;
+	const themelet = config.themelet;
 
 	return _.reduce(
 		modules,
@@ -240,7 +240,7 @@ function searchGlobalModules(config, cb) {
 		modules,
 		(result, item) => {
 			try {
-				let json = require(path.join(item, 'package.json'));
+				const json = require(path.join(item, 'package.json'));
 
 				json.realPath = item;
 

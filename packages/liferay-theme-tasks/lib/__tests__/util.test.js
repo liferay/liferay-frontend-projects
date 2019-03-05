@@ -15,7 +15,7 @@ let utilConfig;
 beforeEach(() => {
 	const config = testUtil.copyTempTheme({
 		namespace: 'util',
-		themeName: themeName,
+		themeName,
 	});
 
 	tempPath = config.tempPath;
@@ -28,7 +28,7 @@ beforeEach(() => {
 	};
 
 	utilConfig = {
-		changedFile: changedFile,
+		changedFile,
 		deployed: true,
 		version: '7.0',
 	};

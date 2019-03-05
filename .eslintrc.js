@@ -1,4 +1,4 @@
-{
+module.exports = {
     "env": {
         "node": true,
         "jest": true
@@ -15,4 +15,4 @@
         "prefer-rest-params": "off",
         "require-jsdoc": "off"
     }
-}
+};
