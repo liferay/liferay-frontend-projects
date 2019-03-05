@@ -40,7 +40,7 @@ function replaceMainModule(pkgDir, browser, pkgJson, log) {
 /**
  * Copy "browser"/"module" module files on top of their server versions.
  * @param {String} pkgDir directory where package is placed
- * @param {String} browser the value of the "browser"/"module" field
+ * @param {Object} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
  * @param {PluginLogger} log a logger
  * @return {void}
