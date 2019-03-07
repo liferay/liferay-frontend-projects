@@ -24,8 +24,6 @@ node-gyp requires Python and Visual Studio to be installed. You can read more at
 [node-gyp Installation](https://github.com/nodejs/node-gyp#installation)<br>
 [Visual Studio Setup](https://github.com/nodejs/node-gyp/wiki/Visual-Studio-2010-Setup)
 
-There is one other possible alternative that some may find easier to setup. You can use the ruby based version of Sass. In order to use that version of Sass, you'll need to install Ruby with the [Ruby Installer](http://rubyinstaller.org/), and install the Sass and Compass gems from the command line (`gem install sass compass`), and when the generator asks you if you need Compass support, type "Y". This will bypass node-gyp completely, and use the Ruby versions of Sass and Compass.
-
 ## Generators
 
 Available generators:
