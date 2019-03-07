@@ -12,7 +12,7 @@ beforeEach(() => {
 afterEach(() => {
 	testUtil.cleanTempTheme(
 		'base-theme',
-		'7.0',
+		'7.1',
 		'liferay_theme_config',
 		initCwd
 	);

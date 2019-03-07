@@ -17,7 +17,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme(themeName, '7.0', 'util', initCwd);
+	testUtil.cleanTempTheme(themeName, '7.1', 'util', initCwd);
 });
 
 it('isCssFile should only return true if css file', () => {
@@ -33,7 +33,7 @@ it('isSassPartial should return true for partial scss file names', () => {
 it('requireDependency should return dependency', () => {
 	const unstyled = util.requireDependency(
 		'liferay-frontend-theme-unstyled',
-		'7.0'
+		'7.1'
 	);
 
 	expect(unstyled).toBeTruthy();
@@ -42,14 +42,14 @@ it('requireDependency should return dependency', () => {
 it('resolveDependency should return resolved path of dependency', () => {
 	const unstyledPath = util.resolveDependency(
 		'liferay-frontend-theme-unstyled',
-		'7.0'
+		'7.1'
 	);
 
 	expect(unstyledPath).toBeTruthy();
 
 	const styledPath = util.resolveDependency(
 		'liferay-frontend-theme-styled',
-		'7.0'
+		'7.1'
 	);
 
 	expect(styledPath).toBeTruthy();
@@ -87,19 +87,19 @@ it('getDepsPath should return preset path or cwd of theme if dependency is expli
 			dependencies: {},
 		},
 		'liferay-frontend-theme-styled',
-		'7.0'
+		'7.1'
 	);
 
-	expect(path.basename(depsPath)).toEqual('liferay-theme-deps-7.0');
+	expect(path.basename(depsPath)).toEqual('liferay-theme-deps-7.1');
 
 	depsPath = util.getDepsPath(
 		{
 			dependencies: {
-				'liferay-frontend-theme-styled': '2.0.1',
+				'liferay-frontend-theme-styled': '3.0.1',
 			},
 		},
 		'liferay-frontend-theme-styled',
-		'7.0'
+		'7.1'
 	);
 
 	expect(path.basename(depsPath)).toBe(themeName);

@@ -12,7 +12,7 @@ const parentLookAndFeelJSON = require('./fixtures/look_and_feel_util/parent-look
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,
-	'../../test/fixtures/themes/7.0/base-theme'
+	'../../test/fixtures/themes/7.1/base-theme'
 );
 
 let lookAndFeelUtil;

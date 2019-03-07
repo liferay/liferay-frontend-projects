@@ -9,12 +9,12 @@
 			"liferayTheme": {
 				"baseTheme": "styled",
 				"screenshot": "",
-				"templateLanguage": "vm",
-				"version": "7.0"
+				"templateLanguage": "ftl",
+				"version": "7.1"
 			},
 			"name": "parent-theme",
 			"publishConfig": {
-				"tag": "7_0_x"
+				"tag": "7_1_x"
 			},
 			"version": "1.0.0"
 		},
@@ -23,17 +23,17 @@
 			"test-themelet": {
 				"liferayTheme": {
 					"themelet": true,
-					"version": "7.0"
+					"version": "7.1"
 				},
 				"name": "test-themelet",
 				"version": "0.0.0"
 			}
 		},
-		"version": "7.0"
+		"version": "7.1"
 	},
 	"dependencies": {
 		"gulp": "^3.8.10",
-		"liferay-theme-deps-7.0": "*",
+		"liferay-theme-deps-7.1": "*",
 		"liferay-theme-tasks": "*"
 	}
 }

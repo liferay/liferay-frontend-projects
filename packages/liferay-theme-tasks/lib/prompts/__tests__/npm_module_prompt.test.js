@@ -31,7 +31,7 @@ beforeEach(() => {
 afterEach(() => {
 	prototypeMethodSpy.flush();
 
-	testUtil.cleanTempTheme('base-theme', '7.0', 'npm_module_prompt', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'npm_module_prompt', initCwd);
 
 	testUtil.restoreConsole();
 });

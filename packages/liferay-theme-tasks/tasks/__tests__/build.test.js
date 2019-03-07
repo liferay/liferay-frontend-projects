@@ -12,7 +12,7 @@ afterAll(() => {
 	// over async operations when changing tests.
 	testUtil.cleanTempTheme(
 		'base-theme',
-		'7.0',
+		'7.1',
 		'lib_sass_build_task',
 		initCwd
 	);
@@ -21,7 +21,7 @@ afterAll(() => {
 describe('using lib_sass', () => {
 	const namespace = 'lib_sass_build_task';
 	const themeName = 'base-theme';
-	const version = '7.0';
+	const version = '7.1';
 	const sassOptionsSpy = sinon.spy();
 	let runSequence;
 	let buildPath;

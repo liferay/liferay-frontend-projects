@@ -15,7 +15,7 @@ afterAll(() => {
 		'watch_task_template',
 		'watch_task_socket',
 	].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.0', namespace, initCwd)
+		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
 	);
 });
 
@@ -88,7 +88,6 @@ describe('when changing css files', () => {
 				const cssDir = path.join(appServerPathPlugin, 'css');
 
 				expect(path.join(cssDir, 'main.css')).toBeFile();
-				expect(path.join(cssDir, 'aui.css')).toBeFile();
 
 				const regex = /\/\* this is the change \*\//;
 

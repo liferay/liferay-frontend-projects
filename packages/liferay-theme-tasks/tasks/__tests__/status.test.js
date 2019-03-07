@@ -15,7 +15,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.0', 'status_task', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'status_task', initCwd);
 
 	testUtil.restoreConsole();
 });

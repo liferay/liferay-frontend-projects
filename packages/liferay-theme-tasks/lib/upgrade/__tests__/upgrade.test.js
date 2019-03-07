@@ -8,17 +8,9 @@ const initCwd = process.cwd();
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
-	[
-		'upgrade_task_black_list',
-		'upgrade_task_config',
-		'upgrade_task_convert_bootstrap',
-		'upgrade_task_create_backup_files',
-		'upgrade_task_create_css_diff',
-		'upgrade_task_log_changes',
-		'upgrade_task_replace_compass',
-		'upgrade_task_upgrade_templates',
-	].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.0', namespace, initCwd)
+	['upgrade_task_config', 'upgrade_task_upgrade_templates'].forEach(
+		namespace =>
+			testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
 	);
 });
 
@@ -51,7 +43,7 @@ describe('config', () => {
 
 			const themeConfig = lfrThemeConfig.getConfig();
 
-			expect(themeConfig.version).toBe('7.1');
+			expect(themeConfig.version).toBe('7.2');
 
 			const lookAndFeelPath = path.join(
 				tempPath,
@@ -62,13 +54,13 @@ describe('config', () => {
 				'src/WEB-INF/liferay-plugin-package.properties'
 			);
 
-			expect(lookAndFeelPath).toBeFileMatching(/7\.1\.0/);
-			expect(lookAndFeelPath).toBeFileMatching(/7_1_0/);
-			expect(pluginPackagePropertiesPath).toBeFileMatching(/7\.1\.0\+/);
+			expect(lookAndFeelPath).toBeFileMatching(/7\.2\.0/);
+			expect(lookAndFeelPath).toBeFileMatching(/7_2_0/);
+			expect(pluginPackagePropertiesPath).toBeFileMatching(/7\.2\.0\+/);
 
-			expect(lookAndFeelPath).not.toBeFileMatching(/7\.0\.0/);
-			expect(lookAndFeelPath).not.toBeFileMatching(/7_0_0/);
-			expect(pluginPackagePropertiesPath).not.toBeFileMatching(/7\.0\.0/);
+			expect(lookAndFeelPath).not.toBeFileMatching(/7\.1\.0/);
+			expect(lookAndFeelPath).not.toBeFileMatching(/7_1_0/);
+			expect(pluginPackagePropertiesPath).not.toBeFileMatching(/7\.1\.0/);
 
 			done();
 		});
@@ -99,54 +91,6 @@ describe('create backup files', () => {
 			expect(
 				path.join(tempPath, '_backup/src/css/_custom.scss')
 			).toBeFile();
-
-			done();
-		});
-	});
-});
-
-describe('log changes', () => {
-	let runSequence;
-
-	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
-			namespace: 'upgrade_task_log_changes',
-			themeName: 'base-theme',
-			registerTasksOptions: {},
-		});
-
-		runSequence = config.runSequence;
-	});
-
-	it('should log changes that have been and should be made', done => {
-		runSequence('upgrade:log-changes', function(err) {
-			if (err) throw err;
-
-			// implement sinon stubs
-
-			done();
-		});
-	});
-});
-
-describe('upgrade templates', () => {
-	let runSequence;
-
-	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
-			namespace: 'upgrade_task_upgrade_templates',
-			themeName: 'base-theme',
-			registerTasksOptions: {},
-		});
-
-		runSequence = config.runSequence;
-	});
-
-	it('should scrape templates for needed changes', done => {
-		runSequence('upgrade:ftl-templates', err => {
-			if (err) throw err;
-
-			// TODO: implement 'upgrade templates' test
 
 			done();
 		});

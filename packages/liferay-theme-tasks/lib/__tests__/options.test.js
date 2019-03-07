@@ -4,7 +4,7 @@ const path = require('path');
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,
-	'../../test/fixtures/themes/7.0/base-theme'
+	'../../test/fixtures/themes/7.1/base-theme'
 );
 
 beforeEach(() => {
@@ -25,12 +25,12 @@ it('options should return default options with no config passed', () => {
 			liferayTheme: {
 				baseTheme: 'styled',
 				screenshot: '',
-				templateLanguage: 'vm',
-				version: '7.0',
+				templateLanguage: 'ftl',
+				version: '7.1',
 			},
 			name: 'parent-theme',
 			publishConfig: {
-				tag: '7_0_x',
+				tag: '7_1_x',
 			},
 			version: '1.0.0',
 		},
@@ -43,13 +43,13 @@ it('options should return default options with no config passed', () => {
 			'test-themelet': {
 				liferayTheme: {
 					themelet: true,
-					version: '7.0',
+					version: '7.1',
 				},
 				name: 'test-themelet',
 				version: '0.0.0',
 			},
 		},
-		version: '7.0',
+		version: '7.1',
 	});
 });
 
@@ -65,12 +65,12 @@ it('options should return previously set options if no config is passed', () => 
 			liferayTheme: {
 				baseTheme: 'styled',
 				screenshot: '',
-				templateLanguage: 'vm',
-				version: '7.0',
+				templateLanguage: 'ftl',
+				version: '7.1',
 			},
 			name: 'parent-theme',
 			publishConfig: {
-				tag: '7_0_x',
+				tag: '7_1_x',
 			},
 			version: '1.0.0',
 		},
@@ -84,13 +84,13 @@ it('options should return previously set options if no config is passed', () => 
 			'test-themelet': {
 				liferayTheme: {
 					themelet: true,
-					version: '7.0',
+					version: '7.1',
 				},
 				name: 'test-themelet',
 				version: '0.0.0',
 			},
 		},
-		version: '7.0',
+		version: '7.1',
 	});
 
 	const secondOptions = require('../../lib/options')();

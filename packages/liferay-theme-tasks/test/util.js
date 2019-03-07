@@ -227,7 +227,7 @@ function assertBoundFunction(prototype, methodName, _stub) {
 
 function copyTempTheme(options) {
 	const themeName = options.themeName || 'base-theme';
-	const version = options.version || '7.0';
+	const version = options.version || '7.1';
 	const namespace = options.namespace;
 
 	const tempPath = path.join(

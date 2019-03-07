@@ -67,6 +67,6 @@ it('should remove supportCompass', () => {
 	const liferayTheme = updatedPkg.liferayTheme;
 
 	expect(liferayTheme.baseTheme).toBe('styled');
-	expect(liferayTheme.version).toBe('7.0');
+	expect(liferayTheme.version).toBe('7.1');
 	expect(liferayTheme.supportCompass).toBeUndefined();
 });

@@ -8,12 +8,12 @@
 		"baseTheme": "styled",
 		"templateLanguage": "ftl",
 		"themeletDependencies": {},
-		"version": "7.0"
+		"version": "7.1"
 	},
 	"devDependencies": {
 		"gulp": "^3.8.10",
 		"liferay-frontend-theme-styled": "2.0.1",
-		"liferay-theme-deps-7.0": "*",
+		"liferay-theme-deps-7.1": "*",
 		"liferay-theme-tasks": "*"
 	}
 }

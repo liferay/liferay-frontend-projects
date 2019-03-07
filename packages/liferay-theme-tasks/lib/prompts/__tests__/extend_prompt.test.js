@@ -54,7 +54,7 @@ afterEach(() => {
 	ExtendPrompt.prototype._extendType = undefined;
 	prototypeMethodSpy.flush();
 
-	testUtil.cleanTempTheme('base-theme', '7.0', 'extend_prompt', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'extend_prompt', initCwd);
 });
 
 it('_afterPromptModule should use after method which corresponds to addedThemelets properties of answers', () => {
@@ -304,11 +304,11 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 		'themelet-3': {
 			liferayTheme: {
 				themelet: true,
-				version: '7.0',
+				version: '7.1',
 			},
 			name: 'themelet-3',
 			publishConfig: {
-				tag: '7_0_x',
+				tag: '7_1_x',
 			},
 			version: '1.0',
 		},
@@ -317,7 +317,7 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 	expect(dependencies).toEqual([
 		'themelet-1@*',
 		'path/to/themelet-2',
-		'themelet-3@7_0_x',
+		'themelet-3@7_1_x',
 	]);
 });
 
@@ -483,11 +483,11 @@ it('_saveDependencies should save dependencies to package.json', () => {
 		'lfr-flat-tooltip-themelet': {
 			liferayTheme: {
 				themelet: true,
-				version: '7.0',
+				version: '7.1',
 			},
 			name: 'lfr-flat-tooltip-themelet',
 			publishConfig: {
-				tag: '7_0_x',
+				tag: '7_1_x',
 			},
 			version: '1.0.0',
 		},
@@ -510,7 +510,7 @@ it('_saveDependencies should save dependencies to package.json', () => {
 	expect(lfrThemeConfig.setDependencies.callCount).toBe(1);
 	expect(
 		lfrThemeConfig.setDependencies.calledWith({
-			'lfr-flat-tooltip-themelet': '7_0_x',
+			'lfr-flat-tooltip-themelet': '7_1_x',
 			'lfr-link-flip-themelet': '*',
 		})
 	).toBe(true);

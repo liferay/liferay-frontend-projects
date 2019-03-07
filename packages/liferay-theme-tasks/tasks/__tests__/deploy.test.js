@@ -34,7 +34,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.0', 'deploy_task', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'deploy_task', initCwd);
 	del.sync(path.join(deployPath, '**'), {
 		force: true,
 	});
