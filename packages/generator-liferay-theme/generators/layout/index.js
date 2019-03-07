@@ -155,7 +155,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
-				choices: ['7.1', '7.0'],
+				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',
