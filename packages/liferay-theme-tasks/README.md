@@ -264,6 +264,6 @@ These additional dependencies are normally included via the [liferay-theme-deps-
 
 These preset packages will include the necessary base themes/tools for compiling the theme, such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
 
-If you would like to implement specific versions of these dependencies, you can specify them as dependencies directly in your theme's [package.json file](https://gist.github.com/Robert-Frampton/86a084704afe9bca3e3ccc05d2709a5b).
+If you would like to require specific versions of these dependencies, you can specify them directly in your theme's package.json file.
 
 MIT
