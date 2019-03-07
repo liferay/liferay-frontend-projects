@@ -64,4 +64,19 @@ The advantage of themelets is that reused code/components that often exist in mu
 
 Once the generator is done creating your theme, there are multiple gulp tasks available to expedite theme development. See [liferay-theme-tasks](https://github.com/liferay/liferay-theme-tasks) for more detail.
 
+## Development
+
+To test an unpublished change to the generator:
+
+```sh
+# Test the main theme generator:
+yo ./packages/generator-liferay-theme
+
+# Test the layout generator:
+yo ./packages/generator-liferay-theme/generators/layout/index.js
+
+# Test the themelet generator:
+yo ./packages/generator-liferay-theme/generators/themelet/index.js
+```
+
 MIT
