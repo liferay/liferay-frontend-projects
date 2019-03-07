@@ -1,1 +1,1 @@
-# liferay-themes-sdk
+# liferay-themes-toolkit
