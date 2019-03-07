@@ -57,7 +57,7 @@ For example, using the `deprecated` flag will allow you to select Velocity as th
 yo liferay-theme:import
 ```
 
-The `liferay-theme:import` generator enables you to import pre-existing Liferay themes from the SDK.
+The `liferay-theme:import` generator enables you to import pre-existing Liferay themes from the toolkit.
 
 ### Layout
 
