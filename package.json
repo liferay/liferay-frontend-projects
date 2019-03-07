@@ -2,7 +2,7 @@
 	"devDependencies": {
 		"eslint": "^5.15.1",
 		"eslint-config-liferay": "^3.0.0",
-		"jest": "^23.4.1",
+		"jest": "^24.1.0",
 		"lerna": "^3.13.0",
 		"prettier-eslint-cli": "^4.7.1",
 		"sinon": "^4.4.6"
@@ -34,7 +34,7 @@
 		]
 	},
 	"resolutions": {
-		"ansi-colors": "3.2.3"
+		"ansi-colors": "3.2.4"
 	},
 	"workspaces": [
 		"packages/*"
