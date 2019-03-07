@@ -73,9 +73,7 @@ var themeletGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 						'Which version of Liferay is this themelet for?';
 				}
 
-				if (name != 'supportCompass' && name != 'templateLanguage') {
-					result.push(item);
-				}
+				result.push(item);
 
 				return result;
 			},

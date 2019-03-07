@@ -29,8 +29,6 @@ module.exports = yeoman.generators.Base.extend({
 
 		this._setArgv();
 
-		this._setPromptDeprecationMap();
-
 		// Have Yeoman greet the user.
 		instance.log(yosay(instance._yosay));
 
@@ -174,25 +172,10 @@ module.exports = yeoman.generators.Base.extend({
 					instance._isLiferayVersion
 				),
 			},
-			{
-				message:
-					'What template language would you like this theme to use?',
-				name: 'templateLanguage',
-				choices: _.bind(instance._getTemplateLanguageChoices, instance),
-				type: 'list',
-				when: instance._getWhenFn(
-					'templateLanguage',
-					'template',
-					instance._isTemplateLanguage
-				),
-			},
 		];
 
 		return prompts;
 	},
-
-	_getTemplateLanguageChoices: answers =>
-		lookup('template:choices', answers.liferayVersion),
 
 	_getWhenFn(propertyName, flag, validator) {
 		var instance = this;
@@ -201,7 +184,6 @@ module.exports = yeoman.generators.Base.extend({
 		var argv = this.argv;
 
 		var deprecated = argv.deprecated;
-		var promptDeprecationMap = this.promptDeprecationMap;
 
 		return function(answers) {
 			var propertyValue = argv[flag];
@@ -236,18 +218,6 @@ module.exports = yeoman.generators.Base.extend({
 				args[propertyName] = propertyValue;
 
 				ask = false;
-			} else if (promptDeprecationMap) {
-				var deprecatedVersions = promptDeprecationMap[propertyName];
-
-				ask = !deprecatedVersions;
-
-				if (
-					deprecated &&
-					deprecatedVersions &&
-					deprecatedVersions.indexOf(liferayVersion) > -1
-				) {
-					ask = true;
-				}
 			}
 
 			return ask;
@@ -262,15 +232,8 @@ module.exports = yeoman.generators.Base.extend({
 		return ['7.2', '7.1', '7.0'].indexOf(value) > -1;
 	},
 
-	_isTemplateLanguage: (value, answers) =>
-		lookup('template:isLanguage', answers.liferayVersion)(value),
-
 	_mixArgs(props, args) {
 		return _.assign(props, args);
-	},
-
-	_printWarnings(props) {
-		lookup('template:printWarnings', props.liferayVersion)(this, props);
 	},
 
 	_prompt() {
@@ -303,12 +266,7 @@ module.exports = yeoman.generators.Base.extend({
 			.join('\n\t\t')
 			.replace('\t\t}', '\t}');
 		this.liferayVersion = liferayVersion;
-		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
-
-		this._setDefaults(liferayVersion);
-
-		this._printWarnings(props);
 
 		this._setPackageVersion();
 	},
@@ -325,20 +283,8 @@ module.exports = yeoman.generators.Base.extend({
 		});
 	},
 
-	_setDefaults(_liferayVersion) {
-		_.defaults(this, {
-			templateLanguage: 'ftl',
-		});
-	},
-
 	_setPackageVersion() {
 		this.packageVersion = '1.0.0';
-	},
-
-	_setPromptDeprecationMap() {
-		this.promptDeprecationMap = {
-			templateLanguage: ['7.0'],
-		};
 	},
 
 	_track() {
@@ -347,12 +293,6 @@ module.exports = yeoman.generators.Base.extend({
 		var liferayVersion = this.liferayVersion;
 
 		insight.track('theme', liferayVersion);
-		insight.track(
-			'theme',
-			liferayVersion,
-			'templateLanguage',
-			this.templateLanguage
-		);
 	},
 
 	_yosay:
