@@ -3,7 +3,7 @@
 	"version": "8.0.0-rc.3",
 	"description": "Set of dependencies required by liferay-theme-tasks",
 	"main": "package.json",
-	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+	"author": "Rob Frampton <rob.g.frampton@gmail.com>",
 	"license": "ISC",
 	"repository": {
 		"type": "git",

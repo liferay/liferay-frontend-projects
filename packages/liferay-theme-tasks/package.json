@@ -1,5 +1,5 @@
 {
-	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+	"author": "Rob Frampton <rob.g.frampton@gmail.com>",
 	"dependencies": {
 		"async": "^2.6.1",
 		"autoprefixer": "^9.1.5",

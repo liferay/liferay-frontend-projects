@@ -260,7 +260,7 @@ Version of Liferay Portal this theme is intended for.
 
 In order for themes to successfully build, they must declare additional dependencies in their package.json file.
 
-These additional dependencies are normally included via the [liferay-theme-deps-7.0](https://github.com/Robert-Frampton/liferay-theme-deps-7.0) and [liferay-theme-deps-6.2](https://github.com/Robert-Frampton/liferay-theme-deps-7.0) preset packages which are automatically added as dependencies to themes created with the [Theme Generator](https://github.com/liferay/generator-liferay-theme).
+These additional dependencies are normally included via the [liferay-theme-deps-7.0](https://github.com/liferay/liferay-themes-sdk/tree/8.x-stable/packages/liferay-theme-deps-7.0) and [liferay-theme-deps-6.2](https://www.npmjs.com/package/liferay-theme-deps-6.2) preset packages which are automatically added as dependencies to themes created with the [Theme Generator](https://github.com/liferay/generator-liferay-theme).
 
 These preset packages will include the necessary base themes/tools for compiling the theme, such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
 
