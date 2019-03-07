@@ -42,7 +42,7 @@ exports.createBourbonFile = function() {
 
 	const mixinsPath = themeUtil.resolveDependency(
 		'liferay-frontend-common-css',
-		'7.0'
+		'7.1'
 	);
 
 	bourbonFile.push('@import "');

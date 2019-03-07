@@ -7719,12 +7719,12 @@ liferay-css-parse@~1.7.1:
   resolved "https://registry.yarnpkg.com/liferay-css-parse/-/liferay-css-parse-1.7.1.tgz#c0750cc0f0645d2190eeefee845b6fcb154f3e45"
   integrity sha1-wHUMwPBkXSGQ7u/uhFtvyxVPPkU=
 
-liferay-frontend-common-css@1.0.4, liferay-frontend-common-css@~1.0.4:
+liferay-frontend-common-css@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
 
-liferay-frontend-theme-classic-web@2.0.2, liferay-frontend-theme-classic-web@~2.0.0:
+liferay-frontend-theme-classic-web@2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/liferay-frontend-theme-classic-web/-/liferay-frontend-theme-classic-web-2.0.2.tgz#985ad8d78ee6ec7c0e5fa61a1465dcefa36e1b5a"
   integrity sha1-mFrY147m7HwOX6YaFGXc76NuG1o=
@@ -7734,22 +7734,12 @@ liferay-frontend-theme-styled@3.0.13:
   resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-3.0.13.tgz#6740ec438f27308046c2e251511661241e54f87e"
   integrity sha512-boi2OiH6nNz0hMwrZtJoCvnRYYsb/CQhFzm5iGffpFCTe3YfAusu6NavqDAliZUmmAPFuSuKuY7Pu5c5vRu48Q==
 
-liferay-frontend-theme-styled@~2.0.0:
-  version "2.0.28"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-2.0.28.tgz#210c7681c8c78527301dc764dc6852d750ba0ab8"
-  integrity sha1-IQx2gcjHhScwHcdk3GhS11C6Crg=
-
 liferay-frontend-theme-unstyled@3.0.13:
   version "3.0.13"
   resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-3.0.13.tgz#aeab4cdc92893641e3bbb45ed3618c0e6e629a5b"
   integrity sha512-wFcOZReTkGUwP87jTeJF+BH7bKwvm6baPpN0JIdklRxAdnF7NnmTyhXWAuBkT99eEcGSaJ1AdrVQWHPYBIq7QA==
   dependencies:
     clay-css "2.3.4"
-
-liferay-frontend-theme-unstyled@~2.1.0:
-  version "2.1.16"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-2.1.16.tgz#28f6aa14fd43a837d2c18a5c29ee69f20d6f75ea"
-  integrity sha1-KPaqFP1DqDfSwYpcKe5p8g1vdeo=
 
 liferay-module-config-generator@^1.3.1:
   version "1.3.3"
