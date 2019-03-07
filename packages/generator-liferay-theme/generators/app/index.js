@@ -183,8 +183,6 @@ module.exports = yeoman.generators.Base.extend({
 		var args = this._getArgs();
 		var argv = this.argv;
 
-		var deprecated = argv.deprecated;
-
 		return function(answers) {
 			var propertyValue = argv[flag];
 

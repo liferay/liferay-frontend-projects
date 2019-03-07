@@ -1,13 +1,10 @@
 const _ = require('lodash');
 const chai = require('chai');
-const chalk = require('chalk');
-const sinon = require('sinon');
 
 const liferayThemeApp = require('../index');
 
 chai.use(require('chai-fs'));
 const chaiAssert = chai.assert;
-const sinonAssert = sinon.assert;
 
 describe('liferay-theme:app unit tests', function() {
 	var prototype;
