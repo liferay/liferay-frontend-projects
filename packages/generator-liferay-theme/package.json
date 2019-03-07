@@ -4,7 +4,11 @@
 	"description": "Yeoman generator for creating Liferay themes",
 	"license": "MIT",
 	"main": "generators/app/index.js",
-	"repository": "liferay/liferay-themes-sdk/packages/generator-liferay-theme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-themes-sdk",
+		"directory": "packages/generator-liferay-theme"
+	},
 	"author": {
 		"name": "Nate Cavanaugh",
 		"email": "nathan.cavanaugh@liferay.com",

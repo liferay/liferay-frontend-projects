@@ -68,6 +68,10 @@
 	"license": "MIT",
 	"main": "index.js",
 	"name": "liferay-theme-tasks",
-	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-tasks",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-themes-sdk",
+		"directory": "packages/liferay-theme-tasks"
+	},
 	"version": "8.0.0-rc.3"
 }

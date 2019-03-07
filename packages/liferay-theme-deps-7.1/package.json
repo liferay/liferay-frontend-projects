@@ -13,5 +13,9 @@
 	"main": "package.json",
 	"name": "liferay-theme-deps-7.1",
 	"version": "8.0.0-rc.3",
-	"repository": "liferay/liferay-themes-sdk/packages/liferay-theme-deps-7.1"
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-themes-sdk",
+		"directory": "liferay-theme-deps-7.1"
+	}
 }
