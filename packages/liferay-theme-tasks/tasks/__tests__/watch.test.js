@@ -61,10 +61,7 @@ describe('when changing css files', () => {
 	});
 
 	it('watch task should deploy files correctly on change', done => {
-		const filePath = path.join(
-			tempPath,
-			'src/css/_custom.scss'
-		);
+		const filePath = path.join(tempPath, 'src/css/_custom.scss');
 
 		gulp.storage.set('changedFile', {
 			path: filePath,
