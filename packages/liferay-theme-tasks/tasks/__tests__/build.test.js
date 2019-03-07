@@ -96,7 +96,7 @@ describe('using lib_sass', () => {
 
 	function _assertBeforeBuild(cb) {
 		const distPath = path.join(tempPath, 'dist');
-		const customSrcPath = path.join(tempPath, 'custom_src_path');
+		const customSrcPath = path.join(tempPath, 'src');
 
 		expect(fs.existsSync(customSrcPath)).toBe(true);
 		expect(() => fs.statSync(buildPath)).toThrow();

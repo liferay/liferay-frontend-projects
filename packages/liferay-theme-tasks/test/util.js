@@ -269,7 +269,6 @@ function copyTempTheme(options) {
 				distName: 'base-theme',
 				pathBuild: './custom_build_path',
 				gulp,
-				pathSrc: './custom_src_path',
 				insideTests: true,
 			},
 			options.registerTasksOptions
@@ -343,7 +342,6 @@ function cleanDirectory(directory) {
 function deleteJsFromCache() {
 	deleteDirJsFromCache('../lib');
 	deleteDirJsFromCache('../lib/prompts');
-	deleteDirJsFromCache('../lib/upgrade/6.2');
 	deleteDirJsFromCache('../tasks');
 	deleteJsFileFromCache('../index.js');
 }

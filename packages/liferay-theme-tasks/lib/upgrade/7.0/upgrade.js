@@ -73,11 +73,11 @@ module.exports = function(options) {
 					patterns: [
 						{
 							match: /(DTD Look and Feel )\d(?:\.\d+)+(\/\/EN)/g,
-							replacement: '$17.0.0$2',
+							replacement: '$17.1.0$2',
 						},
 						{
 							match: /(liferay-look-and-feel_)\d(?:_\d+)+(\.dtd)/g,
-							replacement: '$17_0_0$2',
+							replacement: '$17_1_0$2',
 						},
 						{
 							match: /(<version>).+(<\/version>)/g,

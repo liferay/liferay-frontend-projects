@@ -63,7 +63,7 @@ describe('when changing css files', () => {
 	it('watch task should deploy files correctly on change', done => {
 		const filePath = path.join(
 			tempPath,
-			'custom_src_path/css/_custom.scss'
+			'src/css/_custom.scss'
 		);
 
 		gulp.storage.set('changedFile', {
@@ -137,7 +137,7 @@ describe('when changing js files', () => {
 
 	it('watch task should deploy files correctly on change', done => {
 		gulp.storage.set('changedFile', {
-			path: 'custom_src_path/js/main.js',
+			path: 'src/js/main.js',
 			type: 'changed',
 		});
 
@@ -191,7 +191,7 @@ describe('when changing template files', () => {
 
 	it('watch task should deploy files correctly on change', done => {
 		gulp.storage.set('changedFile', {
-			path: 'custom_src_path/templates/portal_normal.ftl',
+			path: 'src/templates/portal_normal.ftl',
 			type: 'changed',
 		});
 
@@ -288,7 +288,7 @@ describe('when changing template files', () => {
 // 		const watch = gulp.watch;
 //
 // 		gulp.watch = function() {
-// 			expect(arguments[0]).toEqual('custom_src_path/**/*');
+// 			expect(arguments[0]).toEqual('src/**/*');
 //
 // 			const watchCallback = arguments[1];
 //

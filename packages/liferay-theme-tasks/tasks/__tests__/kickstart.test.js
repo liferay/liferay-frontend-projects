@@ -49,7 +49,7 @@ describe('globally installed theme', () => {
 		);
 
 		runSequence('kickstart', function() {
-			const srcDir = path.join(tempPath, 'custom_src_path');
+			const srcDir = path.join(tempPath, 'src');
 
 			expect(
 				fs

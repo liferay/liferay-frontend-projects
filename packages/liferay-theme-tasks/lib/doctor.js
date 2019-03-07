@@ -8,7 +8,7 @@ const lfrThemeConfig = require('./liferay_theme_config');
 const supportedThemeVersions = ['7.0', '7.1', '7.2'];
 
 // This array contains all theme versions supported for upgrade tasks
-const supportedUpgradeVersions = ['6.2', '7.0'];
+const supportedUpgradeVersions = ['7.0'];
 
 function doctor({
 	themeConfig = null,

@@ -20,9 +20,7 @@ let lookAndFeelUtil;
 beforeEach(() => {
 	process.chdir(baseThemePath);
 
-	require('../../lib/options')({
-		pathSrc: './custom_src_path',
-	});
+	require('../../lib/options')({});
 
 	lookAndFeelUtil = require('../look_and_feel_util.js');
 });
