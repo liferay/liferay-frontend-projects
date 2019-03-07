@@ -10,8 +10,9 @@
 	},
 	"scripts": {
 		"build": "lerna run build",
-		"ci": "prettier-eslint --list-different && npm run lint && npm run test",
-		"format": "prettier-eslint --write 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
+		"ci": "npm run format:check && npm run lint && npm run test",
+		"format": "prettier-eslint --write '.*.js' 'packages/*/src/**/*.js'",
+		"format:check": "prettier-eslint --list-different '.*.js' 'packages/*/src/**/*.js'",
 		"lerna": "npm install && lerna bootstrap",
 		"lint": "eslint 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
 		"release": "lerna publish --force-publish='*' --exact",
@@ -19,8 +20,8 @@
 		"test": "jest --runInBand"
 	},
 	"devDependencies": {
-		"eslint": "5.15.0",
-		"eslint-config-liferay": "3.0.0-rc.0",
+		"eslint": "^5.15.1",
+		"eslint-config-liferay": "^3.0.0",
 		"jest": "^20.0.4",
 		"lerna": "^2.0.0-rc.5",
 		"prettier-eslint-cli": "^4.4.0"
