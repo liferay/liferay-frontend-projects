@@ -29,7 +29,6 @@ node-gyp requires Python and Visual Studio to be installed. You can read more at
 Available generators:
 
 -   [liferay-theme](#create)
--   [liferay-theme:import](#import)
 -   [liferay-theme:layout](#layout)
 -   [liferay-theme:themelet](#themelet)
 
@@ -48,14 +47,6 @@ yo liferay-theme --deprecated
 ```
 
 For example, using the `deprecated` flag will allow you to select Velocity as the template language for 7.0 themes.
-
-### Import
-
-```
-yo liferay-theme:import
-```
-
-The `liferay-theme:import` generator enables you to import pre-existing Liferay themes from the toolkit.
 
 ### Layout
 

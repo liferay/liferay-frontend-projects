@@ -13,6 +13,7 @@ Starting with version 9 of the toolkit, in order to keep the toolkit simple, eac
 
 | Capability                                         | Required toolkit version |
 | -------------------------------------------------- | ------------------------ |
+| Import a Liferay 6.2 theme                         | v8.x                     |
 | Create themes for Liferay DXP 7.0                  | v8.x                     |
 | Create themes for Liferay DXP 7.1                  | v8.x                     |
 | Upgrade a theme for Liferay 6.2 to Liferay DXP 7.0 | v8.x                     |
