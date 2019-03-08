@@ -30,15 +30,6 @@ it('isSassPartial should return true for partial scss file names', () => {
 	expect(!util.isSassPartial('main.scss')).toBe(true);
 });
 
-it('requireDependency should return dependency', () => {
-	const unstyled = util.requireDependency(
-		'liferay-frontend-theme-unstyled',
-		'7.1'
-	);
-
-	expect(unstyled).toBeTruthy();
-});
-
 it('resolveDependency should return resolved path of dependency', () => {
 	const unstyledPath = util.resolveDependency(
 		'liferay-frontend-theme-unstyled',

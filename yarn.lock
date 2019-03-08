@@ -5663,18 +5663,7 @@ gulp-replace@^0.5.4:
     readable-stream "^2.0.1"
     replacestream "^4.0.0"
 
-gulp-sass@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/gulp-sass/-/gulp-sass-3.2.0.tgz#1997e6e722a5e83d6dc227d1ce260ee7a9c08b8b"
-  integrity sha512-lIF2rC8LejqVLw5lnL7efLWjOrir/n87icopRNxOMCfz9rE52IXUP9Bgxt/OAWzIsBbNSjVWlbxaHtjDFnPhfQ==
-  dependencies:
-    gulp-util "^3.0"
-    lodash.clonedeep "^4.3.2"
-    node-sass "^4.8.1"
-    through2 "^2.0.0"
-    vinyl-sourcemaps-apply "^0.2.0"
-
-gulp-sass@^3.1.0:
+gulp-sass@^3.2.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/gulp-sass/-/gulp-sass-3.2.1.tgz#2e3688a96fd8be1c0c01340750c191b2e79fab94"
   integrity sha512-UATbRpSDsyXCnpYSPBUEvdvtSEzksJs7/oQ0CujIpzKqKrO6vlnYwhX2UTsGrf4rNLwqlSSaM271It0uHYvJ3Q==
@@ -9012,7 +9001,7 @@ node-releases@^1.1.8:
   dependencies:
     semver "^5.3.0"
 
-node-sass@^4.8.1, node-sass@^4.8.3:
+node-sass@^4.8.3:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.11.0.tgz#183faec398e9cbe93ba43362e2768ca988a6369a"
   integrity sha512-bHUdHTphgQJZaF1LASx0kAviPH7sGlcyNhWade4eVIpFp6tsn7SV8xNMTbsQFpEV9VXpnwTTnNYlfsZXgGgmkA==

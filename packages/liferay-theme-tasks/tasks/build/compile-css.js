@@ -46,13 +46,8 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:compile-lib-sass', function(cb) {
-		const themeConfig = lfrThemeConfig.getConfig();
-
 		const gulpIf = require('gulp-if');
-		const gulpSass = themeUtil.requireDependency(
-			'gulp-sass',
-			themeConfig.version
-		);
+		const gulpSass = require('gulp-sass');
 		const gulpSourceMaps = require('gulp-sourcemaps');
 
 		const sassOptions = getSassOptions(options.sassOptions, {

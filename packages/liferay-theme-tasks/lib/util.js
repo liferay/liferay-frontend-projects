@@ -129,16 +129,6 @@ function isSassPartial(name) {
 	return _.startsWith(path.basename(name), '_');
 }
 
-function requireDependency(dependency, version) {
-	const depsPath = getDepsPath(pkg, dependency, version);
-
-	const dependencyPath = resolve.sync(dependency, {
-		basedir: depsPath,
-	});
-
-	return require(dependencyPath);
-}
-
 function resolveDependency(dependency, version, dirname) {
 	if (_.isUndefined(dirname)) {
 		dirname = true;
@@ -178,7 +168,6 @@ module.exports = {
 	getLanguageProperties,
 	isCssFile,
 	isSassPartial,
-	requireDependency,
 	resolveDependency,
 };
 
