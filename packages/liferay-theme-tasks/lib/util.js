@@ -133,12 +133,6 @@ function resolveDependency(dependency, version) {
 	const customPath = getCustomDependencyPath(dependency);
 
 	if (customPath) {
-		log(
-			colors.magenta(dependency),
-			'using custom path:',
-			colors.magenta(customPath)
-		);
-
 		return customPath;
 	}
 
@@ -150,16 +144,6 @@ function resolveDependency(dependency, version) {
 
 	return path.dirname(require.resolve(dependencyPath));
 }
-
-module.exports = {
-	DEPLOYMENT_STRATEGIES,
-	dockerCopy,
-	dockerExec,
-	getLanguageProperties,
-	isCssFile,
-	isSassPartial,
-	resolveDependency,
-};
 
 function getCustomDependencyPath(dependency) {
 	let customPath;
@@ -173,11 +157,28 @@ function getCustomDependencyPath(dependency) {
 	}
 
 	if (customPath) {
+		log(
+			colors.magenta(dependency),
+			'using custom path:',
+			colors.magenta(customPath)
+		);
+
 		validateCustomDependencyPath(customPath);
 	}
 
 	return customPath;
 }
+
+module.exports = {
+	DEPLOYMENT_STRATEGIES,
+	dockerCopy,
+	dockerExec,
+	getCustomDependencyPath,
+	getLanguageProperties,
+	isCssFile,
+	isSassPartial,
+	resolveDependency,
+};
 
 function getDepsPath(pkg, dependency, version) {
 	if (hasDependency(pkg, dependency)) {
@@ -214,7 +215,6 @@ function validateCustomDependencyPath(customPath) {
 // Export private methods when in tests
 if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
-		getCustomDependencyPath,
 		getDepsPath,
 		hasDependency,
 		validateCustomDependencyPath,
