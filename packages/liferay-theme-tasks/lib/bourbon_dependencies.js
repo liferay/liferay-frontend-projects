@@ -40,10 +40,9 @@ exports.createBourbonFile = function() {
 		bourbonFile.push('";');
 	}
 
-	const mixinsPath = themeUtil.resolveDependency(
-		'liferay-frontend-common-css',
-		'7.1'
-	);
+	const mixinsPath =
+		themeUtil.getCustomDependencyPath('liferay-frontend-common-css') ||
+		path.dirname(require.resolve('liferay-frontend-common-css'));
 
 	bourbonFile.push('@import "');
 	bourbonFile.push(formatPath(path.join(bourbonPath, 'bourbon')));

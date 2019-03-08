@@ -7708,7 +7708,7 @@ liferay-css-parse@~1.7.1:
   resolved "https://registry.yarnpkg.com/liferay-css-parse/-/liferay-css-parse-1.7.1.tgz#c0750cc0f0645d2190eeefee845b6fcb154f3e45"
   integrity sha1-wHUMwPBkXSGQ7u/uhFtvyxVPPkU=
 
-liferay-frontend-common-css@1.0.4:
+liferay-frontend-common-css@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
