@@ -2514,6 +2514,11 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+clay-css@2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/clay-css/-/clay-css-2.5.1.tgz#e47a2427d16766502b09487441ec31dc48873720"
+  integrity sha512-J9EEbLe7X9BA1mS4DZXqKM/J6ukt5Gw++67KTMuwooSUc2TH3tLkadueBibNhxTGSkAHWQwPk4VU3BtONC89fQ==
+
 cli-color@~0.2.2:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/cli-color/-/cli-color-0.2.3.tgz#0a25ceae5a6a1602be7f77d28563c36700274e88"
@@ -7707,6 +7712,18 @@ liferay-frontend-common-css@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
+
+liferay-frontend-theme-styled@^3.0.13:
+  version "3.0.15"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-3.0.15.tgz#8efec6f0c09be68fc73dd8a45a9272320df02f57"
+  integrity sha512-E/bv97nE4epQ2eQQLLgRxRGHUv1aXpvmk/K6ViqpfpUeQr+beg19T66ydx8/RbHqDDg7lPFcciHvFysMISzS5w==
+
+liferay-frontend-theme-unstyled@^3.0.13:
+  version "3.0.18"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-3.0.18.tgz#fccb17b9708ade448e833c0bc6bf04914f3791d0"
+  integrity sha512-MD2SHFgAsNRCjjyMQKlFzocLIMx2BdOLpBBR3yFzUA8raAseCa1PAK3x0Zqp0jn1ZsiRixK2PLk/BdvpY+FuPQ==
+  dependencies:
+    clay-css "2.5.1"
 
 liferay-module-config-generator@^1.3.1:
   version "1.3.3"

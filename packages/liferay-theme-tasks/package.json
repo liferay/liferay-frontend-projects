@@ -52,7 +52,9 @@
 	"devDependencies": {
 		"bluebird": "^3.3.4",
 		"gogo-shell-helper": "^0.0.8",
-		"gulp": "^3.9.1"
+		"gulp": "^3.9.1",
+		"liferay-frontend-theme-styled": "^3.0.13",
+		"liferay-frontend-theme-unstyled": "^3.0.13"
 	},
 	"engines": {
 		"node": ">=8.0.0"
