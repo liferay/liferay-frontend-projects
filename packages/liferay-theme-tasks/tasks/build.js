@@ -17,6 +17,11 @@ const themeUtil = require('../lib/util');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
+/**
+ * Add JS-injection placeholders (HTML comments of the form
+ * `<!-- inject:js -->`/`<!-- endinject -->`) to templates
+ * in the base theme dependencies.
+ */
 function injectJS() {
 	const targetRegExp = new RegExp(
 		'/liferay-frontend-theme-unstyled/templates/portal_normal\\.(ftl|vm)$'
