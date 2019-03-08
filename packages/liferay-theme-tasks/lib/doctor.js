@@ -3,6 +3,7 @@ const colors = require('ansi-colors');
 const log = require('fancy-log');
 
 const lfrThemeConfig = require('./liferay_theme_config');
+const lookup = require('./lookup');
 
 // This array contains all theme versions supported for non-upgrade tasks
 const supportedThemeVersions = ['7.0', '7.1', '7.2'];
@@ -35,7 +36,10 @@ function doctor({
 		lfrThemeConfig.removeConfig(['supportCompass']);
 	}
 
-	const missingDeps = checkMissingDeps(liferayVersion, dependencies);
+	const missingDeps = getMissingDeps(liferayVersion, dependencies);
+	if (missingDeps.length) {
+		logMissingDeps(missingDeps);
+	}
 
 	checkDependencySources(themeConfig.liferayTheme);
 
@@ -109,21 +113,44 @@ function checkDependencySources(liferayTheme) {
 	}
 }
 
-function checkMissingDeps(version, dependencies) {
-	let missingDeps = 0;
+function getMissingDeps(version, actualDependencies) {
+	switch (version) {
+		case '6.2':
+		case '7.0':
+		case '7.1': {
+			// Only a loose check for these older versions, because the
+			// only task you can do with them anyway is an upgrade from
+			// 7.1 to 7.2.
+			const name = `liferay-theme-deps-${version}`;
+			if (actualDependencies.hasOwnProperty(name)) {
+				return [];
+			} else {
+				return [[name, '*']];
+			}
+		}
 
-	missingDeps = logMissingDeps(
-		dependencies,
-		`liferay-theme-deps-${version}`,
-		missingDeps
-	);
+		case '7.2': {
+			const requiredDependencies = lookup('devDependencies', '7.2');
+			return Object.keys(requiredDependencies)
+				.map(name => {
+					const requiredVersion = requiredDependencies[name];
+					if (actualDependencies[name] !== requiredVersion) {
+						return [name, requiredVersion];
+					}
+				})
+				.filter(Boolean);
+		}
 
-	return missingDeps;
+		default:
+			throw new Error(`Unrecognized version ${version}`);
+	}
 }
 
 function haltTask(missingDeps) {
-	if (missingDeps > 0) {
-		throw new Error('Missing ' + missingDeps + ' theme dependencies');
+	const count = missingDeps.length;
+	if (count > 0) {
+		const dependencies = count === 1 ? 'dependency' : 'dependencies';
+		throw new Error(`Missing ${count} theme ${dependencies}`);
 	}
 }
 
@@ -139,17 +166,14 @@ function logLocalDependencies(localDependencies) {
 	log(colors.yellow('Local module dependencies:'), dependenciesString);
 }
 
-function logMissingDeps(dependencies, moduleName, missingDeps) {
-	if (!dependencies[moduleName]) {
-		log(
-			colors.red('Warning:'),
-			'You must install the correct dependencies, please run',
-			colors.cyan('npm i --save-dev ' + moduleName),
-			'from your theme directory.'
-		);
-
-		missingDeps++;
-	}
-
-	return missingDeps;
+function logMissingDeps(dependencies) {
+	const dependenciesAndVersions = dependencies.map(([name, version]) => {
+		return `${name}@${version}`;
+	});
+	log(
+		colors.red('Warning:'),
+		'You must install the correct dependencies, please run',
+		colors.cyan('npm i --save-dev ' + dependenciesAndVersions.join(' ')),
+		'from your theme directory.'
+	);
 }

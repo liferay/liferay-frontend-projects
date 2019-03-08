@@ -164,7 +164,7 @@ module.exports = yeoman.generators.Base.extend({
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.2', '7.1', '7.0'],
+				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',
@@ -227,7 +227,7 @@ module.exports = yeoman.generators.Base.extend({
 	},
 
 	_isLiferayVersion(value) {
-		return ['7.2', '7.1', '7.0'].indexOf(value) > -1;
+		return ['7.2'].indexOf(value) > -1;
 	},
 
 	_mixArgs(props, args) {

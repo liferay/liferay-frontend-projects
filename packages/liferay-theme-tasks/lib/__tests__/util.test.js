@@ -30,7 +30,9 @@ it('isSassPartial should return true for partial scss file names', () => {
 	expect(!util.isSassPartial('main.scss')).toBe(true);
 });
 
-it('resolveDependency should return resolved path of dependency', () => {
+// TODO: replace this with tests that verify the new behavior of
+// resolveDependency after we repurpose it
+xit('resolveDependency should return resolved path of dependency', () => {
 	const unstyledPath = util.resolveDependency(
 		'liferay-frontend-theme-unstyled',
 		'7.1'
@@ -70,58 +72,6 @@ it('getCustomDependencyPath should return custom dependency paths set in node en
 	expect(() => {
 		util.getCustomDependencyPath(STYLED);
 	}).toThrow();
-});
-
-it('getDepsPath should return preset path or cwd of theme if dependency is explicitly defined in dependencies', () => {
-	let depsPath = util.getDepsPath(
-		{
-			dependencies: {},
-		},
-		'liferay-frontend-theme-styled',
-		'7.1'
-	);
-
-	expect(path.basename(depsPath)).toEqual('liferay-theme-deps-7.1');
-
-	depsPath = util.getDepsPath(
-		{
-			dependencies: {
-				'liferay-frontend-theme-styled': '3.0.1',
-			},
-		},
-		'liferay-frontend-theme-styled',
-		'7.1'
-	);
-
-	expect(path.basename(depsPath)).toBe(themeName);
-});
-
-it('hasDependency should return truthy value if dependency is defined in either dependencies or devDependencies', () => {
-	let dependency = util.hasDependency({}, 'test-package');
-
-	expect(!dependency).toBe(true);
-
-	dependency = util.hasDependency(
-		{
-			dependencies: {
-				'test-package': '*',
-			},
-		},
-		'test-package'
-	);
-
-	expect(dependency).toBeTruthy();
-
-	dependency = util.hasDependency(
-		{
-			devDependencies: {
-				'test-package': '*',
-			},
-		},
-		'test-package'
-	);
-
-	expect(dependency).toBeTruthy();
 });
 
 it('validateCustomDependencyPath should throw error if customPath does not exist or is not a directory', () => {

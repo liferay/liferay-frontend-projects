@@ -41,7 +41,12 @@ it('should throw appropriate error message', () => {
 
 	expect(() =>
 		doctor({themeConfig: pkgJson, haltOnMissingDeps: true, tasks: []})
-	).toThrow(new Error('Missing 1 theme dependencies'));
+	).toThrow(new Error('Missing 1 theme dependency'));
+
+	pkgJson.liferayTheme.version = '7.2';
+	expect(() =>
+		doctor({themeConfig: pkgJson, haltOnMissingDeps: true, tasks: []})
+	).toThrow(new Error('Missing 6 theme dependencies'));
 });
 
 it('should look for dependencies regardless if devDependency or not', () => {

@@ -109,13 +109,11 @@ describe('liferay-theme:app unit tests', function() {
 
 	describe('_isLiferayVersion', function() {
 		it('should check for valid Liferay versions', function() {
-			_.forEach(['7.1', '7.0'], function(version) {
-				chaiAssert.isTrue(
-					prototype._isLiferayVersion(version),
-					0,
-					'Valid Liferay version'
-				);
-			});
+			chaiAssert.isTrue(
+				prototype._isLiferayVersion('7.2'),
+				0,
+				'Valid Liferay version'
+			);
 
 			chaiAssert.isFalse(
 				prototype._isLiferayVersion('0.1'),

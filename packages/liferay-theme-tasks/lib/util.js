@@ -9,11 +9,6 @@ const path = require('path');
 const resolve = require('resolve');
 const tar = require('tar-fs');
 
-const lfrThemeConfig = require('./liferay_theme_config');
-
-const pkg = lfrThemeConfig.getConfig(true);
-const themeConfig = pkg.liferayTheme;
-
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
 	'liferay-frontend-theme-styled': 'LIFERAY_THEME_STYLED_PATH',
@@ -129,14 +124,14 @@ function isSassPartial(name) {
 	return _.startsWith(path.basename(name), '_');
 }
 
-function resolveDependency(dependency, version) {
+function resolveDependency(dependency) {
 	const customPath = getCustomDependencyPath(dependency);
 
 	if (customPath) {
 		return customPath;
 	}
 
-	const depsPath = getDepsPath(pkg, dependency, version);
+	const depsPath = process.cwd();
 
 	const dependencyPath = resolve.sync(dependency, {
 		basedir: depsPath,
@@ -180,30 +175,6 @@ module.exports = {
 	resolveDependency,
 };
 
-function getDepsPath(pkg, dependency, version) {
-	if (hasDependency(pkg, dependency)) {
-		return process.cwd();
-	}
-
-	version = version || themeConfig.version;
-
-	const depsPath = path.dirname(
-		require.resolve(`liferay-theme-deps-${version}`)
-	);
-
-	return depsPath;
-}
-
-function hasDependency(pkg, dependency) {
-	const themeDependencies = _.assign(
-		{},
-		pkg.dependencies,
-		pkg.devDependencies
-	);
-
-	return themeDependencies[dependency];
-}
-
 function validateCustomDependencyPath(customPath) {
 	const stats = fs.statSync(customPath);
 
@@ -215,8 +186,6 @@ function validateCustomDependencyPath(customPath) {
 // Export private methods when in tests
 if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
-		getDepsPath,
-		hasDependency,
 		validateCustomDependencyPath,
 	});
 }
