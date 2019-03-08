@@ -129,11 +129,7 @@ function isSassPartial(name) {
 	return _.startsWith(path.basename(name), '_');
 }
 
-function resolveDependency(dependency, version, dirname) {
-	if (_.isUndefined(dirname)) {
-		dirname = true;
-	}
-
+function resolveDependency(dependency, version) {
 	const customPath = getCustomDependencyPath(dependency);
 
 	if (customPath) {
@@ -152,13 +148,7 @@ function resolveDependency(dependency, version, dirname) {
 		basedir: depsPath,
 	});
 
-	let resolvedPath = require.resolve(dependencyPath);
-
-	if (dirname) {
-		resolvedPath = path.dirname(resolvedPath);
-	}
-
-	return resolvedPath;
+	return path.dirname(require.resolve(dependencyPath));
 }
 
 module.exports = {
