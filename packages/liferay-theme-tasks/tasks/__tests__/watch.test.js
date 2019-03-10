@@ -6,6 +6,33 @@ const testUtil = require('../../test/util');
 
 const initCwd = process.cwd();
 
+const themeName = 'base-theme-7-2';
+const version = '7.2';
+
+let styledPath;
+let unstyledPath;
+
+function getDependency(name) {
+	return path.dirname(require.resolve(path.join(name, 'package.json')));
+}
+
+function setEnv(key, value) {
+	const previousValue = process.env[key];
+	process.env[key] = value;
+	return previousValue;
+}
+
+beforeAll(() => {
+	styledPath = setEnv(
+		'LIFERAY_THEME_STYLED_PATH',
+		getDependency('liferay-frontend-theme-styled')
+	);
+	unstyledPath = setEnv(
+		'LIFERAY_THEME_UNSTYLED_PATH',
+		getDependency('liferay-frontend-theme-unstyled')
+	);
+});
+
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
@@ -15,8 +42,11 @@ afterAll(() => {
 		'watch_task_template',
 		'watch_task_socket',
 	].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
+		testUtil.cleanTempTheme(themeName, version, namespace, initCwd)
 	);
+
+	setEnv('LIFERAY_THEME_STYLED_PATH', styledPath);
+	setEnv('LIFERAY_THEME_UNSTYLED_PATH', unstyledPath);
 });
 
 beforeEach(() => {
@@ -39,6 +69,8 @@ describe('when changing css files', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'watch_task_css',
 			registerTasks: true,
+			themeName,
+			version,
 		});
 
 		gulp = config.gulp;
@@ -47,7 +79,7 @@ describe('when changing css files', () => {
 
 		appServerPathPlugin = path.join(
 			tempPath,
-			'../appserver/webapps/base-theme'
+			'../appserver/webapps/base-theme-7-2'
 		);
 
 		config.gulp.storage.set({
@@ -113,6 +145,8 @@ describe('when changing js files', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'watch_task_js',
 			registerTasks: true,
+			themeName,
+			version,
 		});
 
 		gulp = config.gulp;
@@ -167,6 +201,8 @@ describe('when changing template files', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'watch_task_template',
 			registerTasks: true,
+			themeName,
+			version,
 		});
 
 		gulp = config.gulp;
