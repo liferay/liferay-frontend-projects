@@ -7,12 +7,25 @@ const testUtil = require('../../test/util');
 
 const initCwd = process.cwd();
 
+let styledPath;
+let unstyledPath;
+
+function getDependency(name) {
+	return path.dirname(require.resolve(path.join(name, 'package.json')));
+}
+
+function setEnv(key, value) {
+	const previousValue = process.env[key];
+	process.env[key] = value;
+	return previousValue;
+}
+
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
 	testUtil.cleanTempTheme(
-		'base-theme',
-		'7.1',
+		'base-theme-7-2',
+		'7.2',
 		'lib_sass_build_task',
 		initCwd
 	);
@@ -20,8 +33,8 @@ afterAll(() => {
 
 describe('using lib_sass', () => {
 	const namespace = 'lib_sass_build_task';
-	const themeName = 'base-theme';
-	const version = '7.1';
+	const themeName = 'base-theme-7-2';
+	const version = '7.2';
 	const sassOptionsSpy = sinon.spy();
 	let runSequence;
 	let buildPath;
@@ -33,6 +46,15 @@ describe('using lib_sass', () => {
 
 		testUtil.hideConsole();
 		testUtil.cleanTempTheme(themeName, version, namespace, null);
+
+		styledPath = setEnv(
+			'LIFERAY_THEME_STYLED_PATH',
+			getDependency('liferay-frontend-theme-styled')
+		);
+		unstyledPath = setEnv(
+			'LIFERAY_THEME_UNSTYLED_PATH',
+			getDependency('liferay-frontend-theme-unstyled')
+		);
 
 		const config = testUtil.copyTempTheme({
 			namespace,
@@ -64,6 +86,9 @@ describe('using lib_sass', () => {
 
 	afterEach(() => {
 		expect(sassOptionsSpy.calledOnce).toBe(true);
+
+		setEnv('LIFERAY_THEME_STYLED_PATH', styledPath);
+		setEnv('LIFERAY_THEME_UNSTYLED_PATH', unstyledPath);
 
 		testUtil.restoreConsole();
 	});
