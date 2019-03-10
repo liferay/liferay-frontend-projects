@@ -6,18 +6,41 @@ const testUtil = require('../../test/util');
 
 const initCwd = process.cwd();
 
-let runSequence;
 let deployPath;
+let runSequence;
+let styledPath;
 let tempPath;
+let unstyledPath;
+
+function getDependency(name) {
+	return path.dirname(require.resolve(path.join(name, 'package.json')));
+}
+
+function setEnv(key, value) {
+	const previousValue = process.env[key];
+	process.env[key] = value;
+	return previousValue;
+}
 
 beforeEach(() => {
 	jest.setTimeout(30000);
 
 	testUtil.hideConsole();
 
+	styledPath = setEnv(
+		'LIFERAY_THEME_STYLED_PATH',
+		getDependency('liferay-frontend-theme-styled')
+	);
+	unstyledPath = setEnv(
+		'LIFERAY_THEME_UNSTYLED_PATH',
+		getDependency('liferay-frontend-theme-unstyled')
+	);
+
 	const config = testUtil.copyTempTheme({
 		namespace: 'deploy_task',
 		registerTasks: true,
+		themeName: 'base-theme-7-2',
+		version: '7.2',
 	});
 
 	runSequence = config.runSequence;
@@ -34,10 +57,12 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.1', 'deploy_task', initCwd);
+	testUtil.cleanTempTheme('base-theme-7-2', '7.2', 'deploy_task', initCwd);
 	del.sync(path.join(deployPath, '**'), {
 		force: true,
 	});
+	setEnv('LIFERAY_THEME_STYLED_PATH', styledPath);
+	setEnv('LIFERAY_THEME_UNSTYLED_PATH', unstyledPath);
 
 	testUtil.restoreConsole();
 });
