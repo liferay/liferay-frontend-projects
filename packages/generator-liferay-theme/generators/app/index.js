@@ -10,6 +10,8 @@ var yosay = require('yosay');
 
 var lookup = require('liferay-theme-tasks/lib/lookup');
 
+const {getVersionSupportMessage} = require('../common/messages');
+
 module.exports = yeoman.generators.Base.extend({
 	initializing() {
 		var pkg = require('../../package.json');
@@ -31,6 +33,8 @@ module.exports = yeoman.generators.Base.extend({
 
 		// Have Yeoman greet the user.
 		instance.log(yosay(instance._yosay));
+
+		instance.log(getVersionSupportMessage(this.options.namespace));
 
 		var insight = this._insight;
 
