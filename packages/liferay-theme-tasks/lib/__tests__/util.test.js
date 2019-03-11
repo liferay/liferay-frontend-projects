@@ -30,23 +30,31 @@ it('isSassPartial should return true for partial scss file names', () => {
 	expect(!util.isSassPartial('main.scss')).toBe(true);
 });
 
-// TODO: replace this with tests that verify the new behavior of
-// resolveDependency after we repurpose it
-xit('resolveDependency should return resolved path of dependency', () => {
-	const unstyledPath = util.resolveDependency(
-		'liferay-frontend-theme-unstyled',
-		'7.1'
-	);
+describe('resolveDependency()', () => {
+	it('uses the custom dependency path when provided', () => {
+		try {
+			process.env.LIFERAY_THEME_STYLED_PATH = path.join(
+				__dirname,
+				'../../../../node_modules/liferay-frontend-theme-styled'
+			);
+			const styledPath = util.resolveDependency(
+				'liferay-frontend-theme-styled'
+			);
 
-	expect(unstyledPath).toBeTruthy();
+			expect(styledPath).toContain('liferay-frontend-theme-styled');
+		} finally {
+			delete process.env.LIFERAY_THEME_STYLED_PATH;
+		}
+	});
 
-	const styledPath = util.resolveDependency(
-		'liferay-frontend-theme-styled',
-		'7.1'
-	);
-
-	expect(styledPath).toBeTruthy();
-	expect(!/liferay-theme-deps-7\.0/.test(styledPath)).toBeTruthy();
+	it('resolves relative to the current working directory', () => {
+		// Note that due to use of copyTempTheme(), the current working
+		// directory will be some "tmp" directory outside the repo.
+		const resolved = util.resolveDependency(
+			'liferay-frontend-theme-styled'
+		);
+		expect(resolved).toContain(process.cwd());
+	});
 });
 
 it('getCustomDependencyPath should return custom dependency paths set in node env variables', () => {
