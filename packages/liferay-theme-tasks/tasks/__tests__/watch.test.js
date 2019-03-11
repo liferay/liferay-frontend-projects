@@ -9,27 +9,16 @@ const initCwd = process.cwd();
 const themeName = 'base-theme-7-2';
 const version = '7.2';
 
-let styledPath;
-let unstyledPath;
-
 function getDependency(name) {
 	return path.dirname(require.resolve(path.join(name, 'package.json')));
 }
 
-function setEnv(key, value) {
-	const previousValue = process.env[key];
-	process.env[key] = value;
-	return previousValue;
-}
-
 beforeAll(() => {
-	styledPath = setEnv(
-		'LIFERAY_THEME_STYLED_PATH',
-		getDependency('liferay-frontend-theme-styled')
+	process.env.LIFERAY_THEME_STYLED_PATH = getDependency(
+		'liferay-frontend-theme-styled'
 	);
-	unstyledPath = setEnv(
-		'LIFERAY_THEME_UNSTYLED_PATH',
-		getDependency('liferay-frontend-theme-unstyled')
+	process.env.LIFERAY_THEME_UNSTYLED_PATH = getDependency(
+		'liferay-frontend-theme-unstyled'
 	);
 });
 
@@ -45,8 +34,8 @@ afterAll(() => {
 		testUtil.cleanTempTheme(themeName, version, namespace, initCwd)
 	);
 
-	setEnv('LIFERAY_THEME_STYLED_PATH', styledPath);
-	setEnv('LIFERAY_THEME_UNSTYLED_PATH', unstyledPath);
+	delete process.env.LIFERAY_THEME_STYLED_PATH;
+	delete process.env.LIFERAY_THEME_UNSTYLED_PATH;
 });
 
 beforeEach(() => {
