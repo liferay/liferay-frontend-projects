@@ -35,7 +35,7 @@ afterEach(() => {
 	testUtil.restoreConsole();
 });
 
-it('should throw appropriate error message', () => {
+it('throws appropriate error message', () => {
 	const pkgJsonPath = path.join(__dirname, './fixtures/doctor/_package.json');
 	const pkgJson = require(pkgJsonPath);
 
@@ -49,7 +49,7 @@ it('should throw appropriate error message', () => {
 	).toThrow(new Error('Missing 6 theme dependencies'));
 });
 
-it('should look for dependencies regardless if devDependency or not', () => {
+it('looks for dependencies regardless if devDependency or not', () => {
 	const pkgJsonPath = path.join(
 		__dirname,
 		'./fixtures/doctor/_package_mixed_dependencies.json'
@@ -61,7 +61,7 @@ it('should look for dependencies regardless if devDependency or not', () => {
 	).not.toThrow();
 });
 
-it('should remove supportCompass', () => {
+it('removes supportCompass', () => {
 	const pkgJsonPath = path.join(tempPath, 'package.json');
 	const pkgJson = require(pkgJsonPath);
 
@@ -74,4 +74,28 @@ it('should remove supportCompass', () => {
 	expect(liferayTheme.baseTheme).toBe('styled');
 	expect(liferayTheme.version).toBe('7.1');
 	expect(liferayTheme.supportCompass).toBeUndefined();
+});
+
+it('explains how to upgrade old versions', () => {
+	const pkgJsonPath = path.join(__dirname, './fixtures/doctor/_package.json');
+	const pkgJson = require(pkgJsonPath);
+	pkgJson.liferayTheme.version = '7.0';
+
+	expect(() => doctor({themeConfig: pkgJson, tasks: ['upgrade']})).toThrow(
+		/please use v8 of the toolkit/
+	);
+});
+
+it('explains how to run non-upgrade tasks with old versions', () => {
+	const pkgJsonPath = path.join(__dirname, './fixtures/doctor/_package.json');
+	const pkgJson = require(pkgJsonPath);
+	pkgJson.liferayTheme.version = '7.1';
+
+	const tasks = ['build', 'deploy', 'extend', 'kickstart', 'watch', 'status'];
+
+	tasks.forEach(task => {
+		expect(() => doctor({themeConfig: pkgJson, tasks: [task]})).toThrow(
+			new RegExp(`\\b${task}\\b.+please use v8 of the toolkit`)
+		);
+	});
 });

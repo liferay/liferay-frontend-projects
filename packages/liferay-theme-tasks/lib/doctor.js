@@ -2,14 +2,16 @@ const _ = require('lodash');
 const colors = require('ansi-colors');
 const log = require('fancy-log');
 
+const tasksVersion = require('../package.json').version;
+
 const lfrThemeConfig = require('./liferay_theme_config');
 const lookup = require('./lookup');
 
 // This array contains all theme versions supported for non-upgrade tasks
-const supportedThemeVersions = ['7.0', '7.1', '7.2'];
+const supportedThemeVersions = ['7.2'];
 
 // This array contains all theme versions supported for upgrade tasks
-const supportedUpgradeVersions = ['7.0'];
+const supportedUpgradeVersions = ['7.1'];
 
 function doctor({
 	themeConfig = null,
@@ -70,9 +72,9 @@ function assertTasksSupported(version, tasks) {
 			case 'upgrade':
 				if (supportedUpgradeVersions.indexOf(version) == -1) {
 					throw new Error(
-						`Task '${task}' is not supported for themes with ` +
-							`version '${version}' in this version of ` +
-							`'liferay-theme-tasks'`
+						`This version of liferay-js-themes-toolkit (${tasksVersion}) ` +
+							'can upgrade a Liferay DXP v7.1 theme for DXP v7.2. ' +
+							`To upgrade a ${version} theme, please use v8 of the toolkit`
 					);
 				}
 				break;
@@ -80,9 +82,10 @@ function assertTasksSupported(version, tasks) {
 			default:
 				if (supportedThemeVersions.indexOf(version) == -1) {
 					throw new Error(
-						`Task '${task}' is not supported for themes with ` +
-							`version '${version}' in this version of ` +
-							`'liferay-theme-tasks'`
+						`Task '${task}' is not supported for themes with version ` +
+							`'${version}' in this version of liferay-js-themes-toolkit ` +
+							`(${tasksVersion}). To run this task with a ${version} ` +
+							'theme, please use v8 of the toolkit'
 					);
 				}
 				break;
