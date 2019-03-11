@@ -188,6 +188,10 @@ function registerTasks(options) {
 	function reloadBrowser(fileGlobs) {
 		const browserSync = gulp.browserSync;
 
+		if (!browserSync) {
+			return;
+		}
+
 		if (fileGlobs) {
 			browserSync.reload(fileGlobs);
 		} else {
