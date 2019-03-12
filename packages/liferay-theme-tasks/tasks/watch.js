@@ -1,20 +1,21 @@
 'use strict';
 
 const del = require('del');
-const path = require('path');
-const themeUtil = require('../lib/util');
-const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
-
-const portfinder = require('portfinder');
-portfinder.basePort = 9080;
-
-const TINYLR_PORT = 35729;
 const fs = require('fs');
 const http = require('http');
 const httpProxy = require('http-proxy');
+const opn = require('opn');
+const path = require('path');
+const themeUtil = require('../lib/util');
 const tinylr = require('tiny-lr');
+const url = require('url');
+const portfinder = require('portfinder');
+portfinder.basePort = 9080;
 
+const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
+const IGNORED_EXTENSIONS = ['.ftl', '.vm'];
+const TINYLR_PORT = 35729;
 
 module.exports = function(options) {
 	// Get things from options
@@ -26,7 +27,7 @@ module.exports = function(options) {
 	const runSequence = require('run-sequence').use(gulp);
 
 	// Get config from liferay-theme.json
-	const url = argv.url || storage.get('url');
+	const proxyUrl = argv.url || storage.get('url');
 	const appServerPath = storage.get('appServerPath');
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
@@ -65,7 +66,7 @@ module.exports = function(options) {
 				.then(port => {
 					storage.set('webBundleDir', 'watching');
 
-					startWatch(port, url);
+					startWatch(port, proxyUrl);
 				});
 		});
 
@@ -146,26 +147,30 @@ module.exports = function(options) {
 	});
 
 	gulp.task('watch:reload', function(cb) {
+		const changedFile = storage.get('changedFile');
+		const srcPath = path.relative(process.cwd(), changedFile.path);
+		const dstPath = srcPath.replace(/^src\//, '');
+		const urlPath = `/o/${distName}/${dstPath}`;
+
 		livereload.changed({
 			body: {
-				files: ['/o/test-theme/css/main.css'],
+				files: [urlPath],
 			},
 		});
 		cb();
 	});
-
 
 	let livereload;
 
 	/**
 	 * Start live reload server and watch for changes in project files.
 	 * @param {int} port
-	 * @param {string} url
+	 * @param {string} proxyUrl
 	 */
-	function startWatch(port, url) {
+	function startWatch(port, proxyUrl) {
 		clearChangedFile();
 
-		const cssRegExp = new RegExp('/o/' + options.distName + '/css/main.css\\?');
+		const themePattern = new RegExp('(?!.*.(clay|ftl|vm))/o/' + distName + '/\.\*');
 
 		livereload = tinylr();
 		livereload.server.on('error', err => {
@@ -177,7 +182,7 @@ module.exports = function(options) {
 
 		http.createServer((req, res) => {
 			proxy.web(req, res, {
-				target: url
+				target: proxyUrl,
 			});
 
 			if (req.url === '/') {
@@ -185,16 +190,30 @@ module.exports = function(options) {
 				res.write(`<script>document.write('<script src=\"http://localhost:${TINYLR_PORT}/livereload.js?snipver=1\"></' + 'script>')</script>`);
 			}
 
-			if (req.url.match(cssRegExp)) {
-				const cssPath = path.resolve(process.cwd(), 'build', 'css', 'main.css');
-				fs.createReadStream(cssPath)
-					.on('error', err => {
-						console.error('Stream error\n', err);
-					})
-					.pipe(res);
+			if (req.url.match(themePattern)) {
+				const parsedUrl = url.parse(req.url);
+				const pathname = parsedUrl.pathname.replace(`/o/${distName}/`, '');
+				const extension = path.extname(pathname);
+
+				if (IGNORED_EXTENSIONS.includes(extension)) {
+					return;
+				}
+
+				const filepath = path.resolve(process.cwd(), 'build', pathname);
+
+				fs.createReadStream(filepath)
+					.pipe(res)
+					.on('error', err => {
+						// NOTE: For some reason when we try to "pipe" this file:
+						// liferay-themes-sdk/test-theme/build/css/clay.css
+						// We sometimes get this error:
+						// NodeError: write after end
+						console.error(err);
+					});
 			}
 		}).listen(port, function() {
-			console.log(`Proxy server listening on ${port}`);
+			// console.log(`Proxy server listening on ${port}`);
+			opn(`http://localhost:${port}/`);
 		});
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
@@ -259,10 +278,16 @@ module.exports = function(options) {
 				'build:rename-css-dir',
 				'build:compile-css',
 				'build:move-compiled-css',
-				'watch:reload',
 				'build:remove-old-css-dir',
+				'watch:reload',
 				'watch:osgi:reinstall',
 				'deploy:css-files',
+			];
+		} else if (rootDir === 'js') {
+			taskArray = [
+				'build:src',
+				'watch:osgi:reinstall',
+				'watch:reload',
 			];
 		} else {
 			taskArray = ['watch:osgi:reinstall', 'deploy:file'];
