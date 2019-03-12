@@ -1,4 +1,7 @@
+const path = require('path');
+
 const CWD = process.cwd();
+const PATH = path.resolve(`${__dirname}/../../node_modules/.bin`);
 
 const {spawn,} = require('cross-spawn');
 
@@ -9,8 +12,13 @@ const {spawn,} = require('cross-spawn');
  * @param {Object=} options={} Options to pass to spawn.sync
  */
 module.exports = function(command, args = [], options = {}) {
+	const env = process.env;
+
+	env.PATH = `${PATH}:${env.PATH}`;
+
 	spawn.sync(command, args, {
 		cwd: CWD,
+		env,
 		stdio: 'inherit',
 		...options,
 	});
