@@ -8,18 +8,16 @@ const opn = require('opn');
 const path = require('path');
 const themeUtil = require('../lib/util');
 const tinylr = require('tiny-lr');
-const url = require('url');
 const portfinder = require('portfinder');
 portfinder.basePort = 9080;
 
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
-const IGNORED_EXTENSIONS = ['.ftl', '.vm'];
 const TINYLR_PORT = 35729;
 
 module.exports = function(options) {
 	// Get things from options
-	const {argv, distName, gogoShellConfig, gulp, pathBuild, pathSrc} = options;
+	const {argv, distName, gulp, pathBuild, pathSrc} = options;
 
 	// Initialize global things
 	const {storage} = gulp;
@@ -27,7 +25,7 @@ module.exports = function(options) {
 	const runSequence = require('run-sequence').use(gulp);
 
 	// Get config from liferay-theme.json
-	const proxyUrl = argv.url || storage.get('url');
+	const url = argv.url || storage.get('url');
 	const appServerPath = storage.get('appServerPath');
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
@@ -66,7 +64,7 @@ module.exports = function(options) {
 				.then(port => {
 					storage.set('webBundleDir', 'watching');
 
-					startWatch(port, proxyUrl);
+					startWatch(port, url);
 				});
 		});
 
@@ -165,12 +163,12 @@ module.exports = function(options) {
 	/**
 	 * Start live reload server and watch for changes in project files.
 	 * @param {int} port
-	 * @param {string} proxyUrl
+	 * @param {string} url
 	 */
-	function startWatch(port, proxyUrl) {
+	function startWatch(port, url) {
 		clearChangedFile();
 
-		const themePattern = new RegExp('(?!.*.(clay|ftl|vm))/o/' + distName + '/\.\*');
+		const themePattern = new RegExp('(?!.*.(clay|ftl|tpl|vm))(/o/' + distName + '/)(\.\*)(\\?\.\*)');
 
 		livereload = tinylr();
 		livereload.server.on('error', err => {
@@ -182,7 +180,7 @@ module.exports = function(options) {
 
 		http.createServer((req, res) => {
 			proxy.web(req, res, {
-				target: proxyUrl,
+				target: url,
 			});
 
 			if (req.url === '/') {
@@ -190,16 +188,9 @@ module.exports = function(options) {
 				res.write(`<script>document.write('<script src=\"http://localhost:${TINYLR_PORT}/livereload.js?snipver=1\"></' + 'script>')</script>`);
 			}
 
-			if (req.url.match(themePattern)) {
-				const parsedUrl = url.parse(req.url);
-				const pathname = parsedUrl.pathname.replace(`/o/${distName}/`, '');
-				const extension = path.extname(pathname);
-
-				if (IGNORED_EXTENSIONS.includes(extension)) {
-					return;
-				}
-
-				const filepath = path.resolve(process.cwd(), 'build', pathname);
+			const match = themePattern.exec(req.url);
+			if (match && match.length >= 4) {
+				const filepath = path.resolve(process.cwd(), 'build', match[3]);
 
 				fs.createReadStream(filepath)
 					.pipe(res)
@@ -212,7 +203,6 @@ module.exports = function(options) {
 					});
 			}
 		}).listen(port, function() {
-			// console.log(`Proxy server listening on ${port}`);
 			opn(`http://localhost:${port}/`);
 		});
 
