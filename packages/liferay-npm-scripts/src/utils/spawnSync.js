@@ -12,13 +12,12 @@ const {spawn,} = require('cross-spawn');
  * @param {Object=} options={} Options to pass to spawn.sync
  */
 module.exports = function(command, args = [], options = {}) {
-	const env = process.env;
-
-	env.PATH = `${PATH}:${env.PATH}`;
-
 	spawn.sync(command, args, {
 		cwd: CWD,
-		env,
+		env: {
+			...process.env,
+			PATH: `${PATH}:${process.env.PATH}`,
+		},
 		stdio: 'inherit',
 		...options,
 	});
