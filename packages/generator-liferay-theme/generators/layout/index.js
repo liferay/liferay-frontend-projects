@@ -153,7 +153,19 @@ module.exports = class extends Base {
 	}
 
 	install() {
-		super.install();
+		const skipInstall = this.options['skip-install'];
+
+		if (!skipInstall) {
+			this.on('npmInstall:end', () => {
+				const gulp = require('gulp');
+				require('liferay-plugin-node-tasks').registerTasks({
+					gulp,
+				});
+				gulp.start('init');
+			});
+
+			this.installDependencies({bower: false});
+		}
 	}
 
 	_getPrompts() {
