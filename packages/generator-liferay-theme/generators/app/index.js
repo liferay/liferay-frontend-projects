@@ -1,20 +1,20 @@
 'use strict';
 
-var _ = require('lodash');
-var chalk = require('chalk');
-var Insight = require('insight');
-var minimist = require('minimist');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
+const _ = require('lodash');
+const chalk = require('chalk');
+const Insight = require('insight');
+const minimist = require('minimist');
+const path = require('path');
+const Generator = require('yeoman-generator');
+const yosay = require('yosay');
 
-var lookup = require('liferay-theme-tasks/lib/lookup');
+const lookup = require('liferay-theme-tasks/lib/lookup');
 
 const {getVersionSupportMessage} = require('../common/messages');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = class extends Generator {
 	initializing() {
-		var pkg = require('../../package.json');
+		const pkg = require('../../package.json');
 
 		this.pkg = pkg;
 
@@ -22,119 +22,135 @@ module.exports = yeoman.generators.Base.extend({
 			trackingCode: 'UA-69122110-1',
 			pkg,
 		});
-	},
+	}
 
 	prompting() {
-		var instance = this;
+		const instance = this;
 
 		instance.done = instance.async();
 
 		this._setArgv();
 
 		// Have Yeoman greet the user.
-		instance.log(yosay(instance._yosay));
+		instance.log(
+			yosay(
+				'Welcome to the splendid ' +
+					chalk.red(this.options.namespace) +
+					' generator!'
+			)
+		);
 
 		instance.log(getVersionSupportMessage(this.options.namespace));
 
-		var insight = this._insight;
+		const insight = this._insight;
 
 		if (_.isUndefined(insight.optOut)) {
 			insight.askPermission(null, _.bind(this._prompt, this));
 		} else {
 			this._prompt();
 		}
-	},
+	}
 
-	configuring: {
-		setThemeDirName() {
-			var themeDirName = this.appname;
+	_setThemeDirName() {
+		let themeDirName = this.appname;
 
-			if (!/-theme$/.test(themeDirName)) {
-				themeDirName += '-theme';
+		if (!/-theme$/.test(themeDirName)) {
+			themeDirName += '-theme';
+		}
+
+		this.themeDirName = themeDirName;
+	}
+
+	_enforceFolderName() {
+		if (
+			this.themeDirName !== _.last(this.destinationRoot().split(path.sep))
+		) {
+			this.destinationRoot(this.themeDirName);
+		}
+
+		this.config.save();
+	}
+
+	configuring() {
+		this._setThemeDirName();
+		this._enforceFolderName();
+	}
+
+	_writeApp() {
+		this.fs.copyTpl(
+			this.templatePath('_package.json'),
+			this.destinationPath('package.json'),
+			this
+		);
+
+		this.fs.copy(
+			this.templatePath('gitignore'),
+			this.destinationPath('.gitignore')
+		);
+
+		this.fs.copyTpl(
+			this.templatePath('gulpfile.js'),
+			this.destinationPath('gulpfile.js'),
+			this
+		);
+	}
+
+	_writeProjectFiles() {
+		this.fs.copy(this.templatePath('src/**'), this.destinationPath('src'), {
+			globOptions: {
+				ignore: [this.templatePath('src/css/custom.css')],
+			},
+		});
+
+		const customCssName = '_custom.scss';
+
+		this.fs.copy(
+			this.templatePath('src/css/custom.css'),
+			this.destinationPath('src/css/' + customCssName)
+		);
+
+		this.fs.copyTpl(
+			this.templatePath('src/WEB-INF/liferay-plugin-package.properties'),
+			this.destinationPath(
+				'src/WEB-INF/liferay-plugin-package.properties'
+			),
+			{
+				liferayVersion: this.liferayVersion,
+				liferayVersions: this.liferayVersion + '.0+',
+				themeDisplayName: this.themeName,
 			}
+		);
 
-			this.themeDirName = themeDirName;
-		},
+		this.fs.copyTpl(
+			this.templatePath('src/WEB-INF/liferay-look-and-feel.xml'),
+			this.destinationPath('src/WEB-INF/liferay-look-and-feel.xml'),
+			this
+		);
+	}
 
-		enforceFolderName() {
-			if (
-				this.themeDirName !==
-				_.last(this.destinationRoot().split(path.sep))
-			) {
-				this.destinationRoot(this.themeDirName);
-			}
-
-			this.config.save();
-		},
-	},
-
-	writing: {
-		app() {
-			this.template('_package.json', 'package.json', this);
-
-			this.fs.copy(
-				this.templatePath('gitignore'),
-				this.destinationPath('.gitignore')
-			);
-
-			this.template('gulpfile.js', 'gulpfile.js', this);
-		},
-
-		projectfiles() {
-			this.fs.copy(
-				this.templatePath('src/**'),
-				this.destinationPath('src'),
-				{
-					globOptions: {
-						ignore: this.templatePath('src/css/custom.css'),
-					},
-				}
-			);
-
-			var customCssName = '_custom.scss';
-
-			this.fs.copy(
-				this.templatePath('src/css/custom.css'),
-				this.destinationPath('src/css/' + customCssName)
-			);
-
-			this.template(
-				'src/WEB-INF/liferay-plugin-package.properties',
-				'src/WEB-INF/liferay-plugin-package.properties',
-				{
-					liferayVersion: this.liferayVersion,
-					liferayVersions: this.liferayVersion + '.0+',
-					themeDisplayName: this.themeName,
-				}
-			);
-
-			this.template(
-				'src/WEB-INF/liferay-look-and-feel.xml',
-				'src/WEB-INF/liferay-look-and-feel.xml',
-				this
-			);
-		},
-	},
+	writing() {
+		this._writeApp();
+		this._writeProjectFiles();
+	}
 
 	install() {
-		var skipInstall = this.options['skip-install'];
+		const skipInstall = this.options['skip-install'];
 
 		if (!skipInstall) {
-			this.installDependencies({
-				bower: false,
-				callback() {
-					const gulp = require('gulp');
-					require('liferay-theme-tasks').registerTasks({
-						gulp,
-					});
-					gulp.start('init');
-				},
+			this.on('npmInstall:end', () => {
+				const gulp = require('gulp');
+				require('liferay-theme-tasks').registerTasks({
+					gulp,
+				});
+				gulp.start('init');
 			});
+
+			this.installDependencies({bower: false});
 		}
-	},
+	}
 
 	_getArgs() {
-		var args = this.args;
+		let args = this.args;
 
 		if (!args) {
 			args = {};
@@ -143,12 +159,12 @@ module.exports = yeoman.generators.Base.extend({
 		}
 
 		return args;
-	},
+	}
 
 	_getPrompts() {
-		var instance = this;
+		const instance = this;
 
-		var prompts = [
+		const prompts = [
 			{
 				default: 'My Liferay Theme',
 				message: 'What would you like to call your theme?',
@@ -179,18 +195,19 @@ module.exports = yeoman.generators.Base.extend({
 		];
 
 		return prompts;
-	},
+	}
 
 	_getWhenFn(propertyName, flag, validator) {
-		var instance = this;
+		const instance = this;
 
-		var args = this._getArgs();
-		var argv = this.argv;
+		const args = this._getArgs();
+		const argv = this.argv;
 
 		return function(answers) {
-			var propertyValue = argv[flag];
+			let propertyValue = argv[flag];
 
-			var liferayVersion = answers.liferayVersion || argv.liferayVersion;
+			const liferayVersion =
+				answers.liferayVersion || argv.liferayVersion;
 
 			if (
 				(!answers.liferayVersion || !args.liferayVersion) &&
@@ -213,8 +230,8 @@ module.exports = yeoman.generators.Base.extend({
 				);
 			}
 
-			var ask = true;
-			var propertyDefined = instance._isDefined(propertyValue);
+			let ask = true;
+			const propertyDefined = instance._isDefined(propertyValue);
 
 			if (propertyDefined) {
 				args[propertyName] = propertyValue;
@@ -224,39 +241,34 @@ module.exports = yeoman.generators.Base.extend({
 
 			return ask;
 		};
-	},
+	}
 
 	_isDefined(value) {
 		return !_.isUndefined(value) && !_.isNull(value);
-	},
+	}
 
 	_isLiferayVersion(value) {
 		return ['7.2'].indexOf(value) > -1;
-	},
+	}
 
 	_mixArgs(props, args) {
 		return _.assign(props, args);
-	},
+	}
 
 	_prompt() {
-		var done = this.done;
+		this.prompt(this._getPrompts()).then(props => {
+			props = this._mixArgs(props, this._getArgs());
 
-		this.prompt(
-			this._getPrompts(),
-			function(props) {
-				props = this._mixArgs(props, this._getArgs());
+			this._promptCallback(props);
 
-				this._promptCallback(props);
+			this._track();
 
-				this._track();
-
-				done();
-			}.bind(this)
-		);
-	},
+			this.done();
+		});
+	}
 
 	_promptCallback(props) {
-		var liferayVersion = props.liferayVersion;
+		const liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
 		this.devDependencies = JSON.stringify(
@@ -271,7 +283,7 @@ module.exports = yeoman.generators.Base.extend({
 		this.themeName = props.themeName;
 
 		this._setPackageVersion();
-	},
+	}
 
 	_setArgv() {
 		this.argv = minimist(process.argv.slice(2), {
@@ -283,20 +295,17 @@ module.exports = yeoman.generators.Base.extend({
 			},
 			string: ['liferayVersion'],
 		});
-	},
+	}
 
 	_setPackageVersion() {
 		this.packageVersion = '1.0.0';
-	},
+	}
 
 	_track() {
-		var insight = this._insight;
+		const insight = this._insight;
 
-		var liferayVersion = this.liferayVersion;
+		const liferayVersion = this.liferayVersion;
 
 		insight.track('theme', liferayVersion);
-	},
-
-	_yosay:
-		'Welcome to the splendid ' + chalk.red('Liferay Theme') + ' generator!',
-});
+	}
+};
