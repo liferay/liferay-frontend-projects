@@ -68,7 +68,7 @@
 	"name": "liferay-theme-tasks",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-themes-sdk",
+		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
 		"directory": "packages/liferay-theme-tasks"
 	},
 	"version": "8.0.0-rc.3"

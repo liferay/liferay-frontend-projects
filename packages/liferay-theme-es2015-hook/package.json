@@ -2,7 +2,7 @@
 	"name": "liferay-theme-es2015-hook",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-themes-sdk",
+		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
 		"directory": "packages/liferay-theme-es2015-hook"
 	},
 	"version": "8.0.0-rc.3",

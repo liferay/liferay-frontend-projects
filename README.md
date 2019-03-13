@@ -1,11 +1,11 @@
-# liferay-themes-toolkit
+# liferay-js-themes-toolkit
 
 ## Overview
 
-This repo contains the source for a [set of NPM packages](https://github.com/liferay/liferay-themes-sdk/tree/master/packages) designed to help create, update, and maintain Liferay Themes. The packages that you are most likely to interact with directly are:
+This repo contains the source for a [set of NPM packages](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages) designed to help create, update, and maintain Liferay Themes. The packages that you are most likely to interact with directly are:
 
--   [generator-liferay-theme](https://github.com/liferay/liferay-themes-sdk/tree/master/packages/generator-liferay-theme): A [Yeoman](https://yeoman.io/) generator for creating new themes, themelets, and layout templates.
--   [liferay-theme-tasks](https://github.com/liferay/liferay-themes-sdk/tree/master/packages/liferay-theme-tasks): A set of [Gulp](https://gulpjs.com/) tasks for building and deploying themes.
+-   [generator-liferay-theme](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/generator-liferay-theme): A [Yeoman](https://yeoman.io/) generator for creating new themes, themelets, and layout templates.
+-   [liferay-theme-tasks](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/liferay-theme-tasks): A set of [Gulp](https://gulpjs.com/) tasks for building and deploying themes.
 
 ## Compatibility
 
