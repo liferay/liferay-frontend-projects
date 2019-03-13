@@ -1,31 +1,51 @@
 'use strict';
 
-var _ = require('lodash');
-var chalk = require('chalk');
-var fs = require('fs');
-var minimist = require('minimist');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var util = require('util');
+const _ = require('lodash');
+const chalk = require('chalk');
+const fs = require('fs');
+const minimist = require('minimist');
+const path = require('path');
+const util = require('util');
 
-var liferayThemeGeneratorPrototype = _.cloneDeep(
-	require('../app/index').prototype
-);
+const Base = require('../app');
 
-var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
-	writing: {
-		projectfiles: _.noop,
+module.exports = class extends Base {
+	initializing() {
+		super.initializing();
+	}
 
-		themeFiles() {
-			this.sourceRoot(this.importTheme);
+	prompting() {
+		super.prompting();
+	}
 
-			this.directory('docroot/_diffs', 'src');
-			this.directory('docroot/WEB-INF', 'src/WEB-INF');
-		},
-	},
+	configuring() {
+		super.configuring();
+	}
+
+	_writeThemeFiles() {
+		this.sourceRoot(this.importTheme);
+
+		this.fs.copy(
+			this.templatePath('docroot/_diffs'),
+			this.destinationPath('src')
+		);
+		this.fs.copy(
+			this.templatePath('docroot/WEB-INF'),
+			this.destinationPath('src/WEB-INF')
+		);
+	}
+
+	writing() {
+		this._writeApp();
+		this._writeThemeFiles();
+	}
+
+	install() {
+		super.install();
+	}
 
 	_getPrompts() {
-		var instance = this;
+		const instance = this;
 
 		return [
 			{
@@ -37,17 +57,17 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				when: instance._getWhenFn('importTheme', 'path'),
 			},
 		];
-	},
+	}
 
 	_getSettingFromConfigFile(config) {
-		var defaultValue = config.defaultValue;
+		let defaultValue = config.defaultValue;
 
-		var filePath = path.join(this.importTheme, config.filePath);
+		const filePath = path.join(this.importTheme, config.filePath);
 
-		var match;
+		let match;
 
 		try {
-			var fileContents = fs.readFileSync(filePath, {
+			const fileContents = fs.readFileSync(filePath, {
 				encoding: 'utf8',
 			});
 
@@ -75,7 +95,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 
 		this[config.propertyName] = defaultValue;
-	},
+	}
 
 	_promptCallback(props) {
 		this.appname = path.basename(props.importTheme);
@@ -89,7 +109,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			regex: /liferay-versions=([0-9]\.[0-9])/,
 		});
 
-		var liferayVersion = this.liferayVersion;
+		const liferayVersion = this.liferayVersion;
 
 		if (liferayVersion !== '6.2') {
 			throw new Error(
@@ -106,7 +126,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			propertyNameInFile: '<template-extension>',
 			regex: /<template-extension>(.*)<\/template-extension>/,
 		});
-	},
+	}
 
 	_setArgv() {
 		this.argv = minimist(process.argv.slice(2), {
@@ -119,10 +139,10 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			},
 			boolean: ['compass'],
 		});
-	},
+	}
 
 	_validatePath(filePath) {
-		var retVal = false;
+		let retVal = false;
 
 		if (filePath) {
 			retVal = true;
@@ -132,7 +152,7 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			} else if (!fs.statSync(filePath).isDirectory()) {
 				retVal = '"%s" is not a directory';
 			} else {
-				var propsFile = path.join(
+				const propsFile = path.join(
 					filePath,
 					'docroot',
 					'WEB-INF',
@@ -153,20 +173,13 @@ var importerGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 
 		return retVal;
-	},
+	}
 
 	_track() {
-		var insight = this._insight;
+		const insight = this._insight;
 
-		var liferayVersion = this.liferayVersion;
+		const liferayVersion = this.liferayVersion;
 
 		insight.track('import', liferayVersion);
-	},
-
-	_yosay:
-		'Welcome to the splendid ' +
-		chalk.red('Liferay Theme Importer') +
-		' generator!',
-});
-
-module.exports = yeoman.generators.Base.extend(importerGeneratorPrototype);
+	}
+};
