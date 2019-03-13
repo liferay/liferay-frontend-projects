@@ -130,6 +130,23 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		}
 	},
 
+	install() {
+		var skipInstall = this.options['skip-install'];
+
+		if (!skipInstall) {
+			this.installDependencies({
+				bower: false,
+				callback() {
+					const gulp = require('gulp');
+					require('liferay-plugin-node-tasks').registerTasks({
+						gulp,
+					});
+					gulp.start('init');
+				},
+			});
+		}
+	},
+
 	_getPrompts() {
 		var instance = this;
 
