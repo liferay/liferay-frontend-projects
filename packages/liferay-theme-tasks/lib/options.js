@@ -12,6 +12,7 @@ function getOptions(config) {
 		config.pathBuild = config.pathBuild || './build';
 		config.pathDist = config.pathDist || './dist';
 		config.pathSrc = config.pathSrc || './src';
+		config.resourcePrefix = config.resourcePrefix || '/o';
 		config.sassOptions = config.sassOptions || {};
 
 		const themeConfig = lfrThemeConfig.getConfig();
