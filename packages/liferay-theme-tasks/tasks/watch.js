@@ -9,15 +9,14 @@ const path = require('path');
 const themeUtil = require('../lib/util');
 const tinylr = require('tiny-lr');
 const portfinder = require('portfinder');
-portfinder.basePort = 9080;
+const url = require('url');
 
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
-const TINYLR_PORT = 35729;
 
 module.exports = function(options) {
 	// Get things from options
-	const {argv, distName, gulp, pathBuild, pathSrc} = options;
+	const {argv, distName, gulp, pathBuild, pathSrc, resourcePrefix} = options;
 
 	// Initialize global things
 	const {storage} = gulp;
@@ -25,7 +24,7 @@ module.exports = function(options) {
 	const runSequence = require('run-sequence').use(gulp);
 
 	// Get config from liferay-theme.json
-	const url = argv.url || storage.get('url');
+	const proxyUrl = argv.url || storage.get('url');
 	const appServerPath = storage.get('appServerPath');
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
@@ -60,12 +59,13 @@ module.exports = function(options) {
 				throw err;
 			}
 
-			portfinder.getPortPromise()
-				.then(port => {
+			Promise.all([
+				portfinder.getPortPromise({port: 9080}),
+				portfinder.getPortPromise({port: 35729}),
+			]).then(([httpPort, tinylrPort]) => {
 					storage.set('webBundleDir', 'watching');
-
-					startWatch(port, url);
-				});
+					startWatch(httpPort, tinylrPort, proxyUrl);
+			});
 		});
 
 		// Run tasks in sequence
@@ -86,12 +86,6 @@ module.exports = function(options) {
 		cb();
 	});
 
-	/**
-	 * Deploy bundled WAR file to OSGi
-	 */
-	gulp.task('watch:osgi:reinstall', function(cb) {
-		cb();
-	});
 
 	/**
 	 * Clean the remote exploded build dir in docker
@@ -148,7 +142,7 @@ module.exports = function(options) {
 		const changedFile = storage.get('changedFile');
 		const srcPath = path.relative(process.cwd(), changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
-		const urlPath = `/o/${distName}/${dstPath}`;
+		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
 
 		livereload.changed({
 			body: {
@@ -158,52 +152,68 @@ module.exports = function(options) {
 		cb();
 	});
 
+	gulp.task('watch:reload:slow', function(cb) {
+		const changedFile = storage.get('changedFile');
+		const srcPath = path.relative(process.cwd(), changedFile.path);
+		const dstPath = srcPath.replace(/^src\//, '');
+		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
+
+		setTimeout(() => {
+			livereload.changed({
+				body: {
+					files: [urlPath],
+				},
+			});
+			cb();
+		}, 10000);
+	});
+
 	let livereload;
 
 	/**
 	 * Start live reload server and watch for changes in project files.
-	 * @param {int} port
-	 * @param {string} url
+	 * @param {int} httpPort   The port for the http server
+	 * @param {int} tinylrPort The port for the livereload server
+	 * @param {string} proxyUrl     The proxy target URL
 	 */
-	function startWatch(port, url) {
+	function startWatch(httpPort, tinylrPort, proxyUrl) {
 		clearChangedFile();
 
-		const themePattern = new RegExp('(?!.*.(clay|ftl|tpl|vm))(/o/' + distName + '/)(\.\*)(\\?\.\*)');
+		const themePattern = new RegExp('(?!.*.(ftl|tpl|vm))(/o/' + distName + '/)(\.\*)');
 
 		livereload = tinylr();
 		livereload.server.on('error', err => {
 			console.error(err);
 		});
-		livereload.listen(TINYLR_PORT);
+		livereload.listen(tinylrPort);
 
 		const proxy = httpProxy.createServer();
 
 		http.createServer((req, res) => {
-			proxy.web(req, res, {
-				target: url,
-			});
 
-			if (req.url === '/') {
-				// Inject the livereload script
-				res.write(`<script>document.write('<script src=\"http://localhost:${TINYLR_PORT}/livereload.js?snipver=1\"></' + 'script>')</script>`);
+			if (req.headers.accept && req.headers.accept.includes('text/html')) {
+				res.write(`<script>document.write('<script src="http://localhost:${tinylrPort}/livereload.js?snipver=1"></' + 'script>')</script>`);
 			}
 
-			const match = themePattern.exec(req.url);
+			const requestUrl = url.parse(req.url);
+
+			const match = themePattern.exec(requestUrl.pathname);
 			if (match && match.length >= 4) {
 				const filepath = path.resolve(process.cwd(), 'build', match[3]);
 
 				fs.createReadStream(filepath)
-					.pipe(res)
 					.on('error', err => {
-						// NOTE: For some reason when we try to "pipe" this file:
-						// liferay-themes-sdk/test-theme/build/css/clay.css
-						// We sometimes get this error:
-						// NodeError: write after end
 						console.error(err);
-					});
+					})
+					.pipe(res);
+			} else {
+				proxy.web(req, res, {
+					target: proxyUrl,
+				});
 			}
-		}).listen(port, function() {
-			opn(`http://localhost:${port}/`);
+
+		}).listen(httpPort, function() {
+			opn(`http://localhost:${httpPort}/`);
 		});
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
@@ -247,16 +257,16 @@ module.exports = function(options) {
 				'build:clean',
 				'build:src',
 				'build:web-inf',
-				'watch:osgi:reinstall',
 				'deploy:folder',
+				'watch:reload',
 			];
 		} else if (rootDir === 'templates') {
 			taskArray = [
 				'build:src',
 				'build:themelet-src',
 				'build:themelet-js-inject',
-				'watch:osgi:reinstall',
 				'deploy:folder',
+				'watch:reload',
 			];
 		} else if (rootDir === 'css') {
 			taskArray = [
@@ -270,17 +280,15 @@ module.exports = function(options) {
 				'build:move-compiled-css',
 				'build:remove-old-css-dir',
 				'watch:reload',
-				'watch:osgi:reinstall',
 				'deploy:css-files',
 			];
 		} else if (rootDir === 'js') {
 			taskArray = [
 				'build:src',
-				'watch:osgi:reinstall',
 				'watch:reload',
 			];
 		} else {
-			taskArray = ['watch:osgi:reinstall', 'deploy:file'];
+			taskArray = ['deploy:file'];
 		}
 
 		return taskArray;
