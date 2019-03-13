@@ -6,7 +6,7 @@
 	"main": "generators/app/index.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-themes-sdk",
+		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
 		"directory": "packages/generator-liferay-theme"
 	},
 	"author": {
