@@ -25,7 +25,6 @@ module.exports = function(options) {
 
 	// Get config from liferay-theme.json
 	const proxyUrl = argv.url || storage.get('url');
-	const appServerPath = storage.get('appServerPath');
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
 	const pluginName = storage.get('pluginName') || '';
@@ -37,10 +36,6 @@ module.exports = function(options) {
 		dockerThemePath,
 		EXPLODED_BUILD_DIR_NAME
 	);
-	const dockerPath =
-		deploymentStrategy == DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER
-			? path.posix
-			: path;
 
 	/**
 	 * Start watching project folder
@@ -168,6 +163,7 @@ module.exports = function(options) {
 
 		livereload = tinylr();
 		livereload.server.on('error', err => {
+			// eslint-disable-next-line
 			console.error(err);
 		});
 		livereload.listen(tinylrPort);
@@ -192,6 +188,7 @@ module.exports = function(options) {
 
 				fs.createReadStream(filepath)
 					.on('error', err => {
+						// eslint-disable-next-line
 						console.error(err);
 					})
 					.pipe(res);
