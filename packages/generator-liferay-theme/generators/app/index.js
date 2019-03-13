@@ -137,9 +137,12 @@ module.exports = class extends Generator {
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
 				const gulp = require('gulp');
-				require('liferay-theme-tasks').registerTasks({
-					gulp,
-				});
+
+				// TODO: remove in v9
+				// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
+				process.argv = process.argv.slice(0, 2).concat(['init']);
+
+				require('liferay-theme-tasks').registerTasks({gulp});
 				gulp.start('init');
 			});
 

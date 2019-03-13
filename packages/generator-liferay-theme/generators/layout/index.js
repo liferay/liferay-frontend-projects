@@ -158,9 +158,12 @@ module.exports = class extends Base {
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
 				const gulp = require('gulp');
-				require('liferay-plugin-node-tasks').registerTasks({
-					gulp,
-				});
+
+				// TODO: remove in v9
+				// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
+				process.argv = process.argv.slice(0, 2).concat(['init']);
+
+				require('liferay-plugin-node-tasks').registerTasks({gulp});
 				gulp.start('init');
 			});
 
