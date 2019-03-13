@@ -63,8 +63,8 @@ module.exports = function(options) {
 				portfinder.getPortPromise({port: 9080}),
 				portfinder.getPortPromise({port: 35729}),
 			]).then(([httpPort, tinylrPort]) => {
-					storage.set('webBundleDir', 'watching');
-					startWatch(httpPort, tinylrPort, proxyUrl);
+				storage.set('webBundleDir', 'watching');
+				startWatch(httpPort, tinylrPort, proxyUrl);
 			});
 		});
 
@@ -85,7 +85,6 @@ module.exports = function(options) {
 	gulp.task('watch:osgi:clean', function(cb) {
 		cb();
 	});
-
 
 	/**
 	 * Clean the remote exploded build dir in docker
@@ -138,6 +137,8 @@ module.exports = function(options) {
 		runSequence.apply(this, taskArray);
 	});
 
+	let livereload;
+
 	gulp.task('watch:reload', function(cb) {
 		const changedFile = storage.get('changedFile');
 		const srcPath = path.relative(process.cwd(), changedFile.path);
@@ -152,24 +153,6 @@ module.exports = function(options) {
 		cb();
 	});
 
-	gulp.task('watch:reload:slow', function(cb) {
-		const changedFile = storage.get('changedFile');
-		const srcPath = path.relative(process.cwd(), changedFile.path);
-		const dstPath = srcPath.replace(/^src\//, '');
-		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
-
-		setTimeout(() => {
-			livereload.changed({
-				body: {
-					files: [urlPath],
-				},
-			});
-			cb();
-		}, 10000);
-	});
-
-	let livereload;
-
 	/**
 	 * Start live reload server and watch for changes in project files.
 	 * @param {int} httpPort   The port for the http server
@@ -179,7 +162,9 @@ module.exports = function(options) {
 	function startWatch(httpPort, tinylrPort, proxyUrl) {
 		clearChangedFile();
 
-		const themePattern = new RegExp('(?!.*.(ftl|tpl|vm))(/o/' + distName + '/)(\.\*)');
+		const themePattern = new RegExp(
+			'(?!.*.(ftl|tpl|vm))(/o/' + distName + '/)(.*)'
+		);
 
 		livereload = tinylr();
 		livereload.server.on('error', err => {
@@ -190,9 +175,13 @@ module.exports = function(options) {
 		const proxy = httpProxy.createServer();
 
 		http.createServer((req, res) => {
-
-			if (req.headers.accept && req.headers.accept.includes('text/html')) {
-				res.write(`<script>document.write('<script src="http://localhost:${tinylrPort}/livereload.js?snipver=1"></' + 'script>')</script>`);
+			if (
+				req.headers.accept &&
+				req.headers.accept.includes('text/html')
+			) {
+				res.write(
+					`<script>document.write('<script src="http://localhost:${tinylrPort}/livereload.js?snipver=1"></' + 'script>')</script>`
+				);
 			}
 
 			const requestUrl = url.parse(req.url);
@@ -211,7 +200,6 @@ module.exports = function(options) {
 					target: proxyUrl,
 				});
 			}
-
 		}).listen(httpPort, function() {
 			opn(`http://localhost:${httpPort}/`);
 		});
@@ -283,10 +271,7 @@ module.exports = function(options) {
 				'deploy:css-files',
 			];
 		} else if (rootDir === 'js') {
-			taskArray = [
-				'build:src',
-				'watch:reload',
-			];
+			taskArray = ['build:src', 'watch:reload'];
 		} else {
 			taskArray = ['deploy:file'];
 		}
