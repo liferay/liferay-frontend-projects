@@ -1,1 +1,1 @@
-# liferay-themes-toolkit
+# liferay-js-themes-toolkit
