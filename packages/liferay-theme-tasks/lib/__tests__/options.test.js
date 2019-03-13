@@ -37,6 +37,7 @@ it('options should return default options with no config passed', () => {
 		pathBuild: './build',
 		pathDist: './dist',
 		pathSrc: './src',
+		resourcePrefix: '/o',
 		sassOptions: {},
 		templateLanguage: 'ftl',
 		themeletDependencies: {
@@ -78,6 +79,7 @@ it('options should return previously set options if no config is passed', () => 
 		pathBuild: './custom_build_path',
 		pathDist: './dist',
 		pathSrc: './src',
+		resourcePrefix: '/o',
 		sassOptions: {},
 		templateLanguage: 'ftl',
 		themeletDependencies: {
