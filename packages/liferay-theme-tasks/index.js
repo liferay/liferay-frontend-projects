@@ -6,7 +6,6 @@ const liferayPluginTasks = require('liferay-plugin-node-tasks');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
 
-const {doctor} = require('./lib/doctor');
 const lfrThemeConfig = require('./lib/liferay_theme_config');
 
 const themeConfig = lfrThemeConfig.getConfig();
@@ -32,10 +31,7 @@ module.exports.registerTasks = function(options) {
 };
 
 function register(options) {
-	let gulp = options.gulp;
-
-	gulp = options.gulp = plugins.help(gulp);
-
+	const gulp = (options.gulp = plugins.help(options.gulp));
 	const store = gulp.storage;
 
 	store.set('changedFile');
@@ -47,11 +43,4 @@ function register(options) {
 				require(item)(options);
 			}
 		});
-
-	const haltOnMissingDeps =
-		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
-
-	const tasks = options.insideTests ? [] : options.argv._;
-
-	doctor({haltOnMissingDeps, tasks});
 }

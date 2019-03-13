@@ -1,81 +1,87 @@
 'use strict';
 
-var _ = require('lodash');
-var chalk = require('chalk');
-var fs = require('fs');
-var LayoutCreator = require('../../lib/layout_creator');
-var minimist = require('minimist');
-var path = require('path');
-var yeoman = require('yeoman-generator');
+const _ = require('lodash');
+const fs = require('fs');
+const LayoutCreator = require('../../lib/layout_creator');
+const minimist = require('minimist');
+const path = require('path');
 
-var liferayThemeGeneratorPrototype = _.cloneDeep(
-	require('../app/index').prototype
-);
+const Base = require('../app');
 
-var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
-	configuring: {
-		setThemeDirName() {
-			var layoutDirName = this.layoutId;
+module.exports = class extends Base {
+	initializing() {
+		super.initializing();
+	}
 
-			if (!/-layouttpl$/.test(layoutDirName)) {
-				layoutDirName += '-layouttpl';
-			}
+	prompting() {
+		super.prompting();
+	}
 
-			this.layoutDirName = layoutDirName;
-		},
+	_setThemeDirName() {
+		let layoutDirName = this.layoutId;
 
-		enforceFolderName() {
-			var instance = this;
+		if (!/-layouttpl$/.test(layoutDirName)) {
+			layoutDirName += '-layouttpl';
+		}
 
-			var done = this.async();
+		this.layoutDirName = layoutDirName;
+	}
 
-			instance.rootDir = instance.destinationRoot();
+	_enforceFolderName() {
+		const instance = this;
+		const done = this.async();
 
-			if (
-				this.layoutDirName !==
-				_.last(this.destinationRoot().split(path.sep))
-			) {
-				var layoutDirName = this.layoutDirName;
+		instance.rootDir = instance.destinationRoot();
 
-				var themePackagePath = path.join(process.cwd(), 'package.json');
+		if (
+			this.layoutDirName !==
+			_.last(this.destinationRoot().split(path.sep))
+		) {
+			let layoutDirName = this.layoutDirName;
 
-				fs.stat(themePackagePath, function(err, stat) {
-					if (!err && stat.isFile()) {
-						var themePackage = require(themePackagePath);
+			const themePackagePath = path.join(process.cwd(), 'package.json');
 
-						if (themePackage.liferayTheme) {
-							layoutDirName = path.join(
-								'src/layouttpl/custom',
-								layoutDirName
-							);
+			fs.stat(themePackagePath, function(err, stat) {
+				if (!err && stat.isFile()) {
+					const themePackage = require(themePackagePath);
 
-							instance.themeLayout = true;
-						}
+					if (themePackage.liferayTheme) {
+						layoutDirName = path.join(
+							'src/layouttpl/custom',
+							layoutDirName
+						);
+
+						instance.themeLayout = true;
 					}
+				}
 
-					instance.destinationRoot(layoutDirName);
+				instance.destinationRoot(layoutDirName);
 
-					instance.config.save();
+				instance.config.save();
 
-					done();
-				});
-			} else {
 				done();
-			}
-		},
-	},
+			});
+		} else {
+			done();
+		}
+	}
+
+	configuring() {
+		this._setThemeDirName();
+		this._enforceFolderName();
+	}
 
 	writing() {
-		var instance = this;
+		const instance = this;
 
-		var thumbnailDestination = this.themeLayout
+		const thumbnailDestination = this.themeLayout
 			? this.thumbnailFilename
 			: path.join('docroot', this.thumbnailFilename);
-		var templateDestination = this.themeLayout
+		const templateDestination = this.themeLayout
 			? this.templateFilename
 			: path.join('docroot', this.templateFilename);
 
-		var xmlDestination = 'docroot/WEB-INF/liferay-layout-templates.xml';
+		let xmlDestination = 'docroot/WEB-INF/liferay-layout-templates.xml';
 
 		this.templateDestination = '';
 
@@ -83,20 +89,36 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			this.templatePath('docroot/layout.png'),
 			this.destinationPath(thumbnailDestination)
 		);
-		this.template('docroot/layout.tpl', templateDestination, this);
+		this.fs.copyTpl(
+			this.templatePath('docroot/layout.tpl'),
+			this.destinationPath(templateDestination),
+			this
+		);
 
 		if (!this.themeLayout) {
 			this.fs.copy(
 				this.templatePath('gitignore'),
 				this.destinationPath('.gitignore')
 			);
-			this.template('_package.json', 'package.json', this);
-			this.template(
-				'docroot/WEB-INF/liferay-plugin-package.properties',
-				'docroot/WEB-INF/liferay-plugin-package.properties',
+			this.fs.copyTpl(
+				this.templatePath('_package.json'),
+				this.destinationPath('package.json'),
 				this
 			);
-			this.template('gulpfile.js', 'gulpfile.js', this);
+			this.fs.copyTpl(
+				this.templatePath(
+					'docroot/WEB-INF/liferay-plugin-package.properties'
+				),
+				this.destinationPath(
+					'docroot/WEB-INF/liferay-plugin-package.properties'
+				),
+				this
+			);
+			this.fs.copyTpl(
+				this.templatePath('gulpfile.js'),
+				this.destinationPath('gulpfile.js'),
+				this
+			);
 		} else {
 			this.templateDestination = path.join(
 				'/layouttpl/custom/',
@@ -109,14 +131,14 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			);
 		}
 
-		this.template(
-			'docroot/WEB-INF/liferay-layout-templates.xml',
-			xmlDestination,
+		this.fs.copyTpl(
+			this.templatePath('docroot/WEB-INF/liferay-layout-templates.xml'),
+			this.destinationPath(xmlDestination),
 			this
 		);
 
 		if (!this.options['skip-creation']) {
-			var done = this.async();
+			const done = this.async();
 
 			new LayoutCreator({
 				after(templateContent) {
@@ -128,10 +150,26 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				liferayVersion: this.liferayVersion,
 			});
 		}
-	},
+	}
+
+	install() {
+		const skipInstall = this.options['skip-install'];
+
+		if (!skipInstall) {
+			this.on('npmInstall:end', () => {
+				const gulp = require('gulp');
+				require('liferay-plugin-node-tasks').registerTasks({
+					gulp,
+				});
+				gulp.start('init');
+			});
+
+			this.installDependencies({bower: false});
+		}
+	}
 
 	_getPrompts() {
-		var instance = this;
+		const instance = this;
 
 		return [
 			{
@@ -164,10 +202,10 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 				),
 			},
 		];
-	},
+	}
 
 	_promptCallback(props) {
-		var layoutId = props.layoutId;
+		const layoutId = props.layoutId;
 
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;
@@ -177,7 +215,7 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';
 
 		this._setPackageVersion(this.liferayVersion);
-	},
+	}
 
 	_setArgv() {
 		this.argv = minimist(process.argv.slice(2), {
@@ -188,16 +226,9 @@ var layoutGeneratorPrototype = _.merge(liferayThemeGeneratorPrototype, {
 			},
 			string: ['liferayVersion'],
 		});
-	},
+	}
 
 	_track() {
 		this._insight.track('layout', this.liferayVersion);
-	},
-
-	_yosay:
-		'Welcome to the splendid ' +
-		chalk.red('Liferay Layout Template') +
-		' generator!',
-});
-
-module.exports = yeoman.generators.Base.extend(layoutGeneratorPrototype);
+	}
+};
