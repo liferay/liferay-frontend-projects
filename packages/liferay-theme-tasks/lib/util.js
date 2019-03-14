@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
 const colors = require('ansi-colors');

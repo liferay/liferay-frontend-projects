@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var _ = require('lodash-bindright')(require('lodash'));

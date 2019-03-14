@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var ConfigGenerator = require('liferay-module-config-generator/lib/config-generator');

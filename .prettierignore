@@ -3,3 +3,6 @@ CHANGELOG.md
 
 # Template file, not actually valid JSON.
 /packages/generator-liferay-theme/generators/app/templates/_package.json
+
+# We don't want Prettier to strip the trailing blank line.
+/copyright.js

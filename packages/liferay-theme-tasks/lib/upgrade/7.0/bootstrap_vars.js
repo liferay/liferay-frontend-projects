@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const removed = [
 	'line-height-computed',
 	'padding-base-horizontal',

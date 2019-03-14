@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 const ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;

@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const removed = {
 	'color-placeholder': 'color_placeholder',
 	'select-box-icon': 'select_box_icon',

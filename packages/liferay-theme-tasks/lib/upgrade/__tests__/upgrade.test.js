@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const path = require('path');
 
 const gulpBlackList = require('../6.2/gulp_black_list.js');

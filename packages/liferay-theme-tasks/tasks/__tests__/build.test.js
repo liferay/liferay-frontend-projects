@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const fs = require('fs-extra');
 const parseString = require('xml2js').parseString;
 const path = require('path');

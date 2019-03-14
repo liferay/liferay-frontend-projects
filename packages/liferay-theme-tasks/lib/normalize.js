@@ -1,4 +1,10 @@
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * "Normalize" an HTML template by adding JS-injection placeholders as
  * HTML comments at the end of the template <body>.
  *
