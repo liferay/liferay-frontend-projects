@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 const _ = require('lodash');
@@ -139,9 +145,7 @@ module.exports = class extends Generator {
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
 				const gulp = require('gulp');
-				require('liferay-theme-tasks').registerTasks({
-					gulp,
-				});
+				require('liferay-theme-tasks').registerTasks({gulp});
 				gulp.start('init');
 			});
 

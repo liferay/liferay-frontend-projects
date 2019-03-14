@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const _ = require('lodash');
 const fs = require('fs-extra');
 const listStream = require('list-stream');
@@ -127,12 +133,9 @@ function registerTasks(options) {
 	 * change with the given file globs.
 	 * @param  {String} srcPath glob expression of files to be refreshed
 	 * @param  {String} basePath the base path of the srcPath expression
-	 * @param  {String|Array} fileGlobs the glob expressions to send to
-	 * 				browserSync refresh or null if the whole page should be
-	 * 				reloaded
 	 * @return {Stream} the gulp stream
 	 */
-	function fastDeploy(srcPath, basePath, fileGlobs) {
+	function fastDeploy(srcPath, basePath) {
 		const fastDeployPaths = getFastDeployPaths();
 
 		const stream = gulp
@@ -169,13 +172,10 @@ function registerTasks(options) {
 						deployFiles,
 						function(err) {
 							if (err) throw err;
-							reloadBrowser(fileGlobs);
 						}
 					);
 				})
 			);
-		} else {
-			reloadBrowser(fileGlobs);
 		}
 
 		if (fastDeployPaths.tempDest) {
@@ -183,16 +183,6 @@ function registerTasks(options) {
 		}
 
 		return stream;
-	}
-
-	function reloadBrowser(fileGlobs) {
-		const browserSync = gulp.browserSync;
-
-		if (fileGlobs) {
-			browserSync.reload(fileGlobs);
-		} else {
-			browserSync.reload();
-		}
 	}
 
 	function getFastDeployPaths() {

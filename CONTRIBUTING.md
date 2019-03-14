@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-If you wish to contribute to Liferay Themes SDK these guidelines will be
+If you wish to contribute to Liferay Themes Toolkit these guidelines will be
 important for you. They cover instructions for setup, information on how the
 repository is organized, as well as contribution requirements.
 
