@@ -93,12 +93,9 @@ module.exports = class extends Base {
 
 	_promptCallback(props) {
 		if (props.liferayVersion == 'Any') {
-			props.liferayVersion = '7.2';
-			super._promptCallback.call(this, props);
-			this.liferayVersion = '*';
-		} else {
-			super._promptCallback.call(this, props);
+			props.liferayVersion = '*';
 		}
+		super._promptCallback.call(this, props);
 	}
 
 	_track() {
