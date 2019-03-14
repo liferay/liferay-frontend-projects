@@ -26,11 +26,17 @@
 	},
 	"jest": {
 		"testPathIgnorePatterns": [
-			"/node_modules/",
-			"/__fixtures__/"
+			"/__fixtures__/",
+			"/fixtures/",
+			"/node_modules/"
 		],
 		"modulePathIgnorePatterns": [
 			"/generator-liferay-theme/generators/layout/"
+		],
+		"testRegex": [
+			".*\\.test\\.js",
+			"/__tests__/.*\\.js",
+			"/test/.*\\.js"
 		]
 	},
 	"resolutions": {

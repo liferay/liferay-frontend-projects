@@ -1162,7 +1162,14 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
-ansi-colors@3.2.4, ansi-colors@^1.0.1, ansi-colors@^3.2.1:
+ansi-colors@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-1.1.0.tgz#6374b4dd5d4718ff3ce27a671a3b1cad077132a9"
+  integrity sha512-SFKX67auSNoVR38N3L+nvsPjOE0bybKTYbkf5tRvushrAPQ9V75huw0ZxBkKVeRU9kqH3d6HA4xTckbwZ4ixmA==
+  dependencies:
+    ansi-wrap "^0.1.0"
+
+ansi-colors@^3.2.1:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
   integrity sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==
@@ -1231,7 +1238,7 @@ ansi-styles@~1.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-1.0.0.tgz#cb102df1c56f5123eab8b67cd7b98027a0279178"
   integrity sha1-yxAt8cVvUSPquLZ817mAJ6AnkXg=
 
-ansi-wrap@0.1.0:
+ansi-wrap@0.1.0, ansi-wrap@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ansi-wrap/-/ansi-wrap-0.1.0.tgz#a82250ddb0015e9a27ca82e82ea603bbfa45efaf"
   integrity sha1-qCJQ3bABXponyoLoLqYDu/pF768=
@@ -1451,7 +1458,7 @@ async@1.5.2, async@1.x, async@^1.2.1, async@^1.5.2:
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
-async@^2.0.0-rc.2, async@^2.1.4, async@^2.5.0, async@^2.6.0, async@^2.6.1:
+async@^2.1.4, async@^2.5.0, async@^2.6.0, async@^2.6.1:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.2.tgz#18330ea7e6e313887f5d2f2a904bac6fe4dd5381"
   integrity sha512-H1qVYh1MYhEEFLsP97cVKqCGo7KfCyTt6uEWqsTBr9SO84oK9Uwbyd/yCW+6rKJLHksBNUVWZDAjfS+Ccx0Bbg==
@@ -2119,7 +2126,7 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bluebird@^3.0.5, bluebird@^3.0.6, bluebird@^3.3.3, bluebird@^3.3.4, bluebird@^3.5.1, bluebird@^3.5.3:
+bluebird@^3.0.5, bluebird@^3.0.6, bluebird@^3.3.4, bluebird@^3.5.1, bluebird@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
   integrity sha512-/qKPUQlaW1OyR51WeCPBvRnAlnZFUJkCSG5HzGnuIqhgyJtF+T94lFnn33eiazjRm2LAHVy2guNnaq48X9SJuw==
@@ -5199,14 +5206,6 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-gogo-shell@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/gogo-shell/-/gogo-shell-0.0.5.tgz#a37539c03bf29b6f637dbbcaf9a4d344f0166707"
-  integrity sha1-o3U5wDvym29jfbvK+aTTRPAWZwc=
-  dependencies:
-    bluebird "^3.3.3"
-    lodash "^4.6.1"
-
 got@^5.0.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/got/-/got-5.7.1.tgz#5f81635a61e4a6589f180569ea4e381680a51f35"
@@ -7552,24 +7551,6 @@ liferay-module-config-generator@^1.3.1:
     update-notifier "^0.6.0"
     walk "^2.3.9"
 
-liferay-plugin-node-tasks@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/liferay-plugin-node-tasks/-/liferay-plugin-node-tasks-2.1.0.tgz#1f8b7c33e770b4c8cbf925e08f5e8136b02b7a2b"
-  integrity sha512-EcIjhtBMY0FBoWV2CqW78rIx9gb4cQeGlnbRxxSHP02Q77U6UElHM8b/iU/9A8CREKQHbL3hCvTlCOLrAYAHBw==
-  dependencies:
-    async "^2.0.0-rc.2"
-    gogo-shell "0.0.5"
-    gulp "^3.9.1"
-    gulp-help "^1.6.1"
-    gulp-storage "^1.0.6"
-    gulp-util "^3.0.7"
-    gulp-zip "^3.2.0"
-    inquirer "^0.12.0"
-    lodash "^4.6.1"
-    minimist "^1.2.0"
-    require-directory "^2.1.1"
-    run-sequence "^1.1.5"
-
 liferay-r2@^0.4.2:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/liferay-r2/-/liferay-r2-0.4.4.tgz#cc00059efdfb89ccb0224eb4ddc7f2739dc427fb"
@@ -7971,7 +7952,7 @@ lodash@3.x, lodash@^3.10.0, lodash@^3.10.1:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
-lodash@>=2.4.0, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1, lodash@~4.17.10:
+lodash@>=2.4.0, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -10660,7 +10641,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-run-sequence@^1.0.2, run-sequence@^1.1.5, run-sequence@^1.2.2:
+run-sequence@^1.0.2, run-sequence@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/run-sequence/-/run-sequence-1.2.2.tgz#5095a0bebe98733b0140bd08dd80ec030ddacdeb"
   integrity sha1-UJWgvr6YczsBQL0I3YDsAw3azes=

@@ -8,7 +8,7 @@
 
 const _ = require('lodash');
 const globby = require('globby');
-const liferayPluginTasks = require('liferay-plugin-node-tasks');
+const pluginTasks = require('./plugin');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
 
@@ -19,7 +19,7 @@ const themeConfig = lfrThemeConfig.getConfig();
 module.exports.registerTasks = function(options) {
 	options = require('./lib/options')(options);
 
-	liferayPluginTasks.registerTasks(
+	pluginTasks.registerTasks(
 		_.defaults(
 			{
 				extensions: register,

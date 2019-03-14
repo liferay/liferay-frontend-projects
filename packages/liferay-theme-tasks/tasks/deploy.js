@@ -86,18 +86,6 @@ function registerTasks(options) {
 		return fastDeploy(path.join(pathBuild, rootDir, '**/*'), pathBuild);
 	});
 
-	gulp.task('deploy:gogo', function(cb) {
-		const sequence = ['build', 'plugin:deploy-gogo', cb];
-
-		const webBundleDir = storage.get('webBundleDir');
-
-		if (webBundleDir === 'watching') {
-			sequence.splice(2, 0, 'watch:teardown');
-		}
-
-		runSequence.apply(this, sequence);
-	});
-
 	gulp.task('deploy:war', function(cb) {
 		const sequence = [];
 
