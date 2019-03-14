@@ -17,7 +17,7 @@ afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
 	['kickstart_task_global', 'kickstart_task_npm'].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.0', namespace, initCwd)
+		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
 	);
 });
 
@@ -38,7 +38,7 @@ describe('globally installed theme', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'kickstart_task_global',
 			themeName: 'base-theme',
-			version: '7.0',
+			version: '7.1',
 			registerTasks: true,
 		});
 
@@ -55,7 +55,7 @@ describe('globally installed theme', () => {
 		);
 
 		runSequence('kickstart', function() {
-			const srcDir = path.join(tempPath, 'custom_src_path');
+			const srcDir = path.join(tempPath, 'src');
 
 			expect(
 				fs
@@ -90,7 +90,7 @@ describe('globally installed theme', () => {
 
 		const kickstartThemePath = path.join(
 			__dirname,
-			'../../test/fixtures/themes/7.0/kickstart-theme/src'
+			'../../test/fixtures/themes/7.1/kickstart-theme/src'
 		);
 
 		const answers = {

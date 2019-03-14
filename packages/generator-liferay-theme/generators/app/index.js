@@ -16,6 +16,8 @@ const yosay = require('yosay');
 
 const lookup = require('liferay-theme-tasks/lib/lookup');
 
+const {getVersionSupportMessage} = require('../common/messages');
+
 module.exports = class extends Generator {
 	initializing() {
 		const pkg = require('../../package.json');
@@ -35,8 +37,6 @@ module.exports = class extends Generator {
 
 		this._setArgv();
 
-		this._setPromptDeprecationMap();
-
 		// Have Yeoman greet the user.
 		instance.log(
 			yosay(
@@ -45,6 +45,8 @@ module.exports = class extends Generator {
 					' generator!'
 			)
 		);
+
+		instance.log(getVersionSupportMessage(this.options.namespace));
 
 		const insight = this._insight;
 
@@ -143,11 +145,6 @@ module.exports = class extends Generator {
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
 				const gulp = require('gulp');
-
-				// TODO: remove in v9
-				// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
-				process.argv = process.argv.slice(0, 2).concat(['init']);
-
 				require('liferay-theme-tasks').registerTasks({gulp});
 				gulp.start('init');
 			});
@@ -191,7 +188,7 @@ module.exports = class extends Generator {
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.1', '7.0'],
+				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',
@@ -199,25 +196,9 @@ module.exports = class extends Generator {
 					instance._isLiferayVersion
 				),
 			},
-			{
-				message:
-					'What template language would you like this theme to use?',
-				name: 'templateLanguage',
-				choices: _.bind(instance._getTemplateLanguageChoices, instance),
-				type: 'list',
-				when: instance._getWhenFn(
-					'templateLanguage',
-					'template',
-					instance._isTemplateLanguage
-				),
-			},
 		];
 
 		return prompts;
-	}
-
-	_getTemplateLanguageChoices(answers) {
-		return lookup('template:choices', answers.liferayVersion);
 	}
 
 	_getWhenFn(propertyName, flag, validator) {
@@ -225,9 +206,6 @@ module.exports = class extends Generator {
 
 		const args = this._getArgs();
 		const argv = this.argv;
-
-		const deprecated = argv.deprecated;
-		const promptDeprecationMap = this.promptDeprecationMap;
 
 		return function(answers) {
 			let propertyValue = argv[flag];
@@ -263,18 +241,6 @@ module.exports = class extends Generator {
 				args[propertyName] = propertyValue;
 
 				ask = false;
-			} else if (promptDeprecationMap) {
-				const deprecatedVersions = promptDeprecationMap[propertyName];
-
-				ask = !deprecatedVersions;
-
-				if (
-					deprecated &&
-					deprecatedVersions &&
-					deprecatedVersions.indexOf(liferayVersion) > -1
-				) {
-					ask = true;
-				}
 			}
 
 			return ask;
@@ -286,19 +252,11 @@ module.exports = class extends Generator {
 	}
 
 	_isLiferayVersion(value) {
-		return ['7.1', '7.0'].indexOf(value) > -1;
-	}
-
-	_isTemplateLanguage(value, answers) {
-		return lookup('template:isLanguage', answers.liferayVersion)(value);
+		return ['7.2'].indexOf(value) > -1;
 	}
 
 	_mixArgs(props, args) {
 		return _.assign(props, args);
-	}
-
-	_printWarnings(props) {
-		lookup('template:printWarnings', props.liferayVersion)(this, props);
 	}
 
 	_prompt() {
@@ -328,12 +286,7 @@ module.exports = class extends Generator {
 				.replace('\t\t}', '\t}');
 		}
 		this.liferayVersion = liferayVersion;
-		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
-
-		this._setDefaults();
-
-		this._printWarnings(props);
 
 		this._setPackageVersion();
 	}
@@ -350,20 +303,8 @@ module.exports = class extends Generator {
 		});
 	}
 
-	_setDefaults() {
-		_.defaults(this, {
-			templateLanguage: 'ftl',
-		});
-	}
-
 	_setPackageVersion() {
 		this.packageVersion = '1.0.0';
-	}
-
-	_setPromptDeprecationMap() {
-		this.promptDeprecationMap = {
-			templateLanguage: ['7.0'],
-		};
 	}
 
 	_track() {
@@ -372,11 +313,5 @@ module.exports = class extends Generator {
 		const liferayVersion = this.liferayVersion;
 
 		insight.track('theme', liferayVersion);
-		insight.track(
-			'theme',
-			liferayVersion,
-			'templateLanguage',
-			this.templateLanguage
-		);
 	}
 };

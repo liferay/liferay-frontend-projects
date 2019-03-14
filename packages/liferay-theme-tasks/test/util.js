@@ -232,8 +232,9 @@ function assertBoundFunction(prototype, methodName, _stub) {
 }
 
 function copyTempTheme(options) {
+	// TODO: rework all this
 	const themeName = options.themeName || 'base-theme';
-	const version = options.version || '7.0';
+	const version = options.version || '7.1';
 	const namespace = options.namespace;
 
 	const tempPath = path.join(
@@ -275,7 +276,6 @@ function copyTempTheme(options) {
 				distName: 'base-theme',
 				pathBuild: './custom_build_path',
 				gulp,
-				pathSrc: './custom_src_path',
 				insideTests: true,
 			},
 			options.registerTasksOptions
@@ -349,7 +349,6 @@ function cleanDirectory(directory) {
 function deleteJsFromCache() {
 	deleteDirJsFromCache('../lib');
 	deleteDirJsFromCache('../lib/prompts');
-	deleteDirJsFromCache('../lib/upgrade/6.2');
 	deleteDirJsFromCache('../tasks');
 	deleteJsFileFromCache('../index.js');
 }

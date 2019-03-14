@@ -4,24 +4,30 @@
  * SPDX-License-Identifier: MIT
  */
 
-var _ = require('lodash');
-var chai = require('chai');
-var fs = require('fs');
-var inquirer = require('inquirer');
-var path = require('path');
-var sinon = require('sinon');
-var stripAnsi = require('strip-ansi');
+const _ = require('lodash');
+const chai = require('chai');
+const fs = require('fs');
+const inquirer = require('inquirer');
+const testUtil = require('liferay-theme-tasks/test/util');
+const path = require('path');
+const sinon = require('sinon');
+const stripAnsi = require('strip-ansi');
 
-var assert = chai.assert;
-var sinonAssert = sinon.assert;
+const assert = chai.assert;
+const sinonAssert = sinon.assert;
 
-var LayoutCreator = require('../../lib/layout_creator');
+const LayoutCreator = require('../../lib/layout_creator');
 
 describe('LayoutCreator', function() {
 	var prototype;
 
 	beforeEach(function() {
+		testUtil.hideConsole();
 		prototype = _.create(LayoutCreator.prototype);
+	});
+
+	afterEach(() => {
+		testUtil.restoreConsole();
 	});
 
 	describe('constructor', function() {

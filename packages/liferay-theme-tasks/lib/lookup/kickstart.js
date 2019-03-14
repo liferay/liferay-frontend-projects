@@ -31,8 +31,7 @@ function afterPromptThemeSource(version) {
 			);
 		} else if (version === '7.0' && themeSource === 'classic') {
 			const classicPath = themeUtil.resolveDependency(
-				'liferay-frontend-theme-classic-web',
-				promptInstance.themeConfig.version
+				'liferay-frontend-theme-classic-web'
 			);
 
 			promptInstance.done({

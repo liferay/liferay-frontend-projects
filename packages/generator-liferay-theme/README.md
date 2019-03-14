@@ -24,14 +24,11 @@ node-gyp requires Python and Visual Studio to be installed. You can read more at
 [node-gyp Installation](https://github.com/nodejs/node-gyp#installation)<br>
 [Visual Studio Setup](https://github.com/nodejs/node-gyp/wiki/Visual-Studio-2010-Setup)
 
-There is one other possible alternative that some may find easier to setup. You can use the ruby based version of Sass. In order to use that version of Sass, you'll need to install Ruby with the [Ruby Installer](http://rubyinstaller.org/), and install the Sass and Compass gems from the command line (`gem install sass compass`), and when the generator asks you if you need Compass support, type "Y". This will bypass node-gyp completely, and use the Ruby versions of Sass and Compass.
-
 ## Generators
 
 Available generators:
 
 -   [liferay-theme](#create)
--   [liferay-theme:import](#import)
 -   [liferay-theme:layout](#layout)
 -   [liferay-theme:themelet](#themelet)
 
@@ -42,22 +39,6 @@ yo liferay-theme
 ```
 
 The default `liferay-theme` generator creates a new theme that inherits styles from [liferay-theme-styled](https://www.npmjs.com/package/liferay-theme-styled) or [liferay-theme-unstyled](https://www.npmjs.com/package/liferay-theme-unstyled).
-
-Note: some theme options are deprecated for 7.0, to view the deprecated options run the generator with the `--deprecated` option.
-
-```
-yo liferay-theme --deprecated
-```
-
-For example, using the `deprecated` flag will allow you to select Velocity as the template language for 7.0 themes.
-
-### Import
-
-```
-yo liferay-theme:import
-```
-
-The `liferay-theme:import` generator enables you to import pre-existing Liferay themes from the SDK.
 
 ### Layout
 
@@ -82,5 +63,20 @@ The advantage of themelets is that reused code/components that often exist in mu
 ## Gulp tasks
 
 Once the generator is done creating your theme, there are multiple gulp tasks available to expedite theme development. See [liferay-theme-tasks](https://github.com/liferay/liferay-theme-tasks) for more detail.
+
+## Development
+
+To test an unpublished change to the generator:
+
+```sh
+# Test the main theme generator:
+yo ./packages/generator-liferay-theme
+
+# Test the layout generator:
+yo ./packages/generator-liferay-theme/generators/layout/index.js
+
+# Test the themelet generator:
+yo ./packages/generator-liferay-theme/generators/themelet/index.js
+```
 
 MIT

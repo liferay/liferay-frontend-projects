@@ -5,10 +5,10 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"themeletDependencies": {},
-		"version": "7.0"
+		"version": "7.1"
 	},
 	"dependencies": {
-		"liferay-theme-deps-7.0": "*"
+		"liferay-theme-deps-7.1": "*"
 	},
 	"devDependencies": {
 		"gulp": "^3.8.10",

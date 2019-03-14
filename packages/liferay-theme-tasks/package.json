@@ -1,11 +1,10 @@
 {
-	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+	"author": "Rob Frampton <rob.g.frampton@gmail.com>",
 	"dependencies": {
 		"async": "^2.6.1",
 		"autoprefixer": "^9.1.5",
 		"browser-sync": "^2.24.4",
 		"compass-mixins": "^0.12.8",
-		"convert-bootstrap-2-to-3": "^1.0.1",
 		"cross-spawn": "^2.2.3",
 		"del": "^1.1.1",
 		"diff": "^1.4.0",
@@ -28,14 +27,13 @@
 		"gulp-prompt": "^0.1.2",
 		"gulp-rename": "^1.2.0",
 		"gulp-replace-task": "^0.11.0",
+		"gulp-sass": "^3.2.0",
 		"gulp-sourcemaps": "1.6.0",
 		"gulp-storage": "^1.0.6",
 		"http-proxy": "^1.17.0",
 		"inquirer": "^0.12.0",
+		"liferay-frontend-common-css": "^1.0.4",
 		"liferay-plugin-node-tasks": "^2.0.0",
-		"liferay-theme-deps-6.2": "^7.0.0",
-		"liferay-theme-deps-7.0": "^8.0.0-rc.3",
-		"liferay-theme-deps-7.1": "^8.0.0-rc.3",
 		"list-stream": "^1.0.0",
 		"lodash": "^4.17.11",
 		"minimist": "^1.1.0",
@@ -58,7 +56,8 @@
 		"bluebird": "^3.3.4",
 		"gogo-shell-helper": "^0.0.8",
 		"gulp": "^3.9.1",
-		"gulp-sass": "^3.1.0"
+		"liferay-frontend-theme-styled": "^3.0.13",
+		"liferay-frontend-theme-unstyled": "^3.0.13"
 	},
 	"engines": {
 		"node": ">=8.0.0"

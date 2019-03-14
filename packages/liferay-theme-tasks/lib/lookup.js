@@ -29,10 +29,6 @@ function lookup(key, version = null) {
 		'kickstart:choices': () => require('./lookup/kickstart').choices,
 		'kickstart:afterPromptThemeSource': () =>
 			require('./lookup/kickstart').afterPromptThemeSource,
-		'template:choices': () => require('./lookup/template').choices,
-		'template:isLanguage': () => require('./lookup/template').isLanguage,
-		'template:printWarnings': () =>
-			require('./lookup/template').printWarnings,
 	}[key]()(version);
 }
 

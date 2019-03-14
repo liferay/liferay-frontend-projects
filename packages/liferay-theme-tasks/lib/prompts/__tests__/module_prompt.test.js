@@ -33,7 +33,7 @@ beforeEach(() => {
 afterEach(() => {
 	prototypeMethodSpy.flush();
 
-	testUtil.cleanTempTheme('base-theme', '7.0', 'module_prompt', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'module_prompt', initCwd);
 });
 
 it('constructor should pass arguments to init', () => {

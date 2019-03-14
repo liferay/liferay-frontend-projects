@@ -6,14 +6,11 @@
 
 const _ = require('lodash');
 const chai = require('chai');
-const chalk = require('chalk');
-const sinon = require('sinon');
 
 const liferayThemeApp = require('../index');
 
 chai.use(require('chai-fs'));
 const chaiAssert = chai.assert;
-const sinonAssert = sinon.assert;
 
 describe('liferay-theme:app unit tests', function() {
 	var prototype;
@@ -39,39 +36,39 @@ describe('liferay-theme:app unit tests', function() {
 	});
 
 	describe('_getWhenFn', function() {
-		it('returns false false when property has been set on argv and sets property on args object', function() {
+		it('returns false when property has been set on argv and sets property on args object', function() {
 			prototype.args = {};
 			prototype.argv = {};
 
-			var flagName = 'template';
-			var propertyName = 'templateLanguage';
+			const flagName = 'name';
+			const propertyName = 'themeName';
 
-			var whenFn = prototype._getWhenFn(propertyName, flagName);
+			let whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn({}));
 
 			prototype.argv = {
-				template: 'vm',
+				name: 'My Liferay Theme',
 			};
 
 			whenFn = prototype._getWhenFn(propertyName, flagName);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(!whenFn({}));
-			chaiAssert.equal(prototype.args[propertyName], 'vm');
+			chaiAssert.equal(prototype.args[propertyName], 'My Liferay Theme');
 
 			whenFn = prototype._getWhenFn(propertyName, flagName);
 		});
 
-		it('should correctly implement validator fn', function() {
+		it('implements a validator fn', function() {
 			prototype.args = {};
 			prototype.argv = {};
 
-			var flagName = 'template';
-			var propertyName = 'templateLanguage';
+			const flagName = 'name';
+			const propertyName = 'themeName';
 
-			var whenFn = prototype._getWhenFn(propertyName, flagName, function(
+			let whenFn = prototype._getWhenFn(propertyName, flagName, function(
 				_value
 			) {
 				chaiAssert.fail(
@@ -85,7 +82,7 @@ describe('liferay-theme:app unit tests', function() {
 
 			prototype.args = {};
 			prototype.argv = {
-				template: 'ftl',
+				name: 'My Liferay Theme',
 			};
 
 			prototype.log = function() {};
@@ -100,7 +97,7 @@ describe('liferay-theme:app unit tests', function() {
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(!whenFn({}));
-			chaiAssert.equal(prototype.args[propertyName], 'ftl');
+			chaiAssert.equal(prototype.args[propertyName], 'My Liferay Theme');
 
 			prototype.args = {};
 
@@ -114,50 +111,15 @@ describe('liferay-theme:app unit tests', function() {
 			chaiAssert(whenFn({}));
 			chaiAssert.equal(prototype.args[propertyName], undefined);
 		});
-
-		it('should not prompt if deprecated for specified liferayVersion', function() {
-			prototype.args = {};
-			prototype.argv = {};
-			prototype.promptDeprecationMap = {
-				templateLanguage: ['7.0'],
-			};
-
-			const flagName = 'template';
-			const propertyName = 'templateLanguage';
-
-			let whenFn = prototype._getWhenFn(propertyName, flagName);
-
-			chaiAssert.isFunction(whenFn);
-			chaiAssert(
-				!whenFn({
-					liferayVersion: '7.0',
-				})
-			);
-
-			prototype.argv = {
-				deprecated: true,
-			};
-
-			whenFn = prototype._getWhenFn(propertyName, flagName);
-
-			chaiAssert.isFunction(whenFn);
-			chaiAssert(
-				whenFn({
-					liferayVersion: '7.0',
-				})
-			);
-		});
 	});
 
 	describe('_isLiferayVersion', function() {
 		it('should check for valid Liferay versions', function() {
-			_.forEach(['7.1', '7.0'], function(version) {
-				chaiAssert.isTrue(
-					prototype._isLiferayVersion(version),
-					0,
-					'Valid Liferay version'
-				);
-			});
+			chaiAssert.isTrue(
+				prototype._isLiferayVersion('7.2'),
+				0,
+				'Valid Liferay version'
+			);
 
 			chaiAssert.isFalse(
 				prototype._isLiferayVersion('0.1'),
@@ -167,96 +129,23 @@ describe('liferay-theme:app unit tests', function() {
 		});
 	});
 
-	describe('_isTemplateLanguage', function() {
-		it('should check for valid template languages', function() {
-			_.forEach(['ftl'], function(template) {
-				chaiAssert.isTrue(
-					prototype._isTemplateLanguage(template, {
-						liferayVersion: '7.0',
-					}),
-					0,
-					'Valid template language'
-				);
-			});
-
-			_.forEach(['ftl'], function(template) {
-				chaiAssert.isTrue(
-					prototype._isTemplateLanguage(template, {
-						liferayVersion: '7.1',
-					}),
-					0,
-					'Valid template language'
-				);
-			});
-
-			chaiAssert.isFalse(
-				prototype._isTemplateLanguage('casper', {
-					liferayVersion: '7.1',
-				}),
-				-1,
-				'Invalid template language'
-			);
-		});
-	});
-
 	describe('_mixArgs', function() {
 		it('mixes props and args', function() {
 			var props = prototype._mixArgs(
 				{
 					liferayVersion: '7.0',
-					templateLanguage: 'ftl',
 				},
 				{
-					templateLanguage: 'vm',
+					liferayVersion: '7.1',
 					themeId: 'id',
 					themeName: 'name',
 				}
 			);
 
 			chaiAssert.deepEqual(props, {
-				liferayVersion: '7.0',
-				templateLanguage: 'vm',
+				liferayVersion: '7.1',
 				themeId: 'id',
 				themeName: 'name',
-			});
-		});
-	});
-
-	describe('_printWarnings', function() {
-		it('should output a specific string if certain conditions are met', function() {
-			const deprecated =
-				'   Warning: Velocity is deprecated for 7.0, ' +
-				'some features will be removed in the next release.';
-			const removed = '   Warning: Velocity support was removed in 7.1.';
-
-			prototype.log = sinon.spy();
-			prototype._printWarnings({
-				liferayVersion: '7.0',
-				templateLanguage: 'vm',
-			});
-
-			sinonAssert.calledWith(prototype.log, chalk.yellow(deprecated));
-			expect(prototype.log.callCount).toBe(1);
-
-			['7.1'].forEach(liferayVersion => {
-				prototype.log.reset();
-				prototype._printWarnings({
-					liferayVersion,
-					templateLanguage: 'vm',
-				});
-				sinonAssert.calledWith(prototype.log, chalk.yellow(removed));
-				expect(prototype.log.callCount).toBe(1);
-			});
-
-			['7.0', '7.1'].forEach(liferayVersion => {
-				prototype.log.reset();
-
-				prototype.templateLanguage = 'ftl';
-				prototype._printWarnings({
-					liferayVersion,
-					templateLanguage: 'ftl',
-				});
-				sinonAssert.notCalled(prototype.log);
 			});
 		});
 	});

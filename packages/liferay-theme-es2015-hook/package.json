@@ -8,7 +8,7 @@
 	"version": "8.0.0-rc.3",
 	"description": "A hook for liferay-theme-tasks that allows for es2015 transpilation and amd module configuration.",
 	"main": "index.js",
-	"author": "Rob Frampton <rob.g.frampton@gmail.com> (https://github.com/Robert-Frampton)",
+	"author": "Rob Frampton <rob.g.frampton@gmail.com>",
 	"license": "ISC",
 	"dependencies": {
 		"ansi-colors": "^3.2.1",

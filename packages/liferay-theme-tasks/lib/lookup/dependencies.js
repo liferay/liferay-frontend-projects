@@ -5,18 +5,22 @@
  */
 
 function devDependencies(version) {
-	const dependencies = {
-		gulp: '3.9.1',
-		'liferay-theme-tasks': '8.0.0-rc.3',
-	};
-
-	if (version === '7.0') {
-		dependencies['liferay-theme-deps-7.0'] = '8.0.0-rc.3';
-	} else if (version === '7.1') {
-		dependencies['liferay-theme-deps-7.1'] = '8.0.0-rc.3';
+	if (version !== '7.2') {
+		throw new Error(`Unexpected version ${version}`);
 	}
 
-	return dependencies;
+	return {
+		gulp: '3.9.1',
+		'liferay-theme-tasks': '8.0.0-rc.3',
+		'compass-mixins': '0.12.10',
+
+		// TODO: remove this as it only applied to 7.0, I think
+		'liferay-frontend-theme-classic-web': '2.0.2',
+
+		// TODO: update after v4 of these dependencies get cut
+		'liferay-frontend-theme-styled': '3.0.13',
+		'liferay-frontend-theme-unstyled': '3.0.13',
+	};
 }
 
 module.exports = {

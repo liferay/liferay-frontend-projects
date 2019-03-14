@@ -13,21 +13,37 @@ const testUtil = require('../../test/util');
 
 const initCwd = process.cwd();
 
+function getDependency(name) {
+	return path.dirname(require.resolve(path.join(name, 'package.json')));
+}
+
+beforeAll(() => {
+	process.env.LIFERAY_THEME_STYLED_PATH = getDependency(
+		'liferay-frontend-theme-styled'
+	);
+	process.env.LIFERAY_THEME_UNSTYLED_PATH = getDependency(
+		'liferay-frontend-theme-unstyled'
+	);
+});
+
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
 	testUtil.cleanTempTheme(
-		'base-theme',
-		'7.0',
+		'base-theme-7-2',
+		'7.2',
 		'lib_sass_build_task',
 		initCwd
 	);
+
+	delete process.env.LIFERAY_THEME_STYLED_PATH;
+	delete process.env.LIFERAY_THEME_UNSTYLED_PATH;
 });
 
 describe('using lib_sass', () => {
 	const namespace = 'lib_sass_build_task';
-	const themeName = 'base-theme';
-	const version = '7.0';
+	const themeName = 'base-theme-7-2';
+	const version = '7.2';
 	const sassOptionsSpy = sinon.spy();
 	let runSequence;
 	let buildPath;
@@ -102,7 +118,7 @@ describe('using lib_sass', () => {
 
 	function _assertBeforeBuild(cb) {
 		const distPath = path.join(tempPath, 'dist');
-		const customSrcPath = path.join(tempPath, 'custom_src_path');
+		const customSrcPath = path.join(tempPath, 'src');
 
 		expect(fs.existsSync(customSrcPath)).toBe(true);
 		expect(() => fs.statSync(buildPath)).toThrow();

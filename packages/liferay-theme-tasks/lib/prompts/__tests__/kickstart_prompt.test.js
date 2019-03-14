@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.0', 'kickstart_prompt', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'kickstart_prompt', initCwd);
 });
 
 it('constructor should pass arguments to init', () => {

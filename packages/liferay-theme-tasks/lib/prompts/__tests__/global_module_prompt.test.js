@@ -36,7 +36,7 @@ afterEach(() => {
 
 	testUtil.cleanTempTheme(
 		'base-theme',
-		'7.0',
+		'7.1',
 		'global_module_prompt',
 		initCwd
 	);

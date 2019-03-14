@@ -15,11 +15,6 @@ const path = require('path');
 const resolve = require('resolve');
 const tar = require('tar-fs');
 
-const lfrThemeConfig = require('./liferay_theme_config');
-
-const pkg = lfrThemeConfig.getConfig(true);
-const themeConfig = pkg.liferayTheme;
-
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
 	'liferay-frontend-theme-styled': 'LIFERAY_THEME_STYLED_PATH',
@@ -135,58 +130,21 @@ function isSassPartial(name) {
 	return _.startsWith(path.basename(name), '_');
 }
 
-function requireDependency(dependency, version) {
-	const depsPath = getDepsPath(pkg, dependency, version);
-
-	const dependencyPath = resolve.sync(dependency, {
-		basedir: depsPath,
-	});
-
-	return require(dependencyPath);
-}
-
-function resolveDependency(dependency, version, dirname) {
-	if (_.isUndefined(dirname)) {
-		dirname = true;
-	}
-
+function resolveDependency(dependency) {
 	const customPath = getCustomDependencyPath(dependency);
 
 	if (customPath) {
-		log(
-			colors.magenta(dependency),
-			'using custom path:',
-			colors.magenta(customPath)
-		);
-
 		return customPath;
 	}
 
-	const depsPath = getDepsPath(pkg, dependency, version);
+	const depsPath = process.cwd();
 
 	const dependencyPath = resolve.sync(dependency, {
 		basedir: depsPath,
 	});
 
-	let resolvedPath = require.resolve(dependencyPath);
-
-	if (dirname) {
-		resolvedPath = path.dirname(resolvedPath);
-	}
-
-	return resolvedPath;
+	return path.dirname(require.resolve(dependencyPath));
 }
-
-module.exports = {
-	DEPLOYMENT_STRATEGIES,
-	dockerCopy,
-	dockerExec,
-	getLanguageProperties,
-	isCssFile,
-	isSassPartial,
-	requireDependency,
-	resolveDependency,
-};
 
 function getCustomDependencyPath(dependency) {
 	let customPath;
@@ -200,35 +158,28 @@ function getCustomDependencyPath(dependency) {
 	}
 
 	if (customPath) {
+		log(
+			colors.magenta(dependency),
+			'using custom path:',
+			colors.magenta(customPath)
+		);
+
 		validateCustomDependencyPath(customPath);
 	}
 
 	return customPath;
 }
 
-function getDepsPath(pkg, dependency, version) {
-	if (hasDependency(pkg, dependency)) {
-		return process.cwd();
-	}
-
-	version = version || themeConfig.version;
-
-	const depsPath = path.dirname(
-		require.resolve(`liferay-theme-deps-${version}`)
-	);
-
-	return depsPath;
-}
-
-function hasDependency(pkg, dependency) {
-	const themeDependencies = _.assign(
-		{},
-		pkg.dependencies,
-		pkg.devDependencies
-	);
-
-	return themeDependencies[dependency];
-}
+module.exports = {
+	DEPLOYMENT_STRATEGIES,
+	dockerCopy,
+	dockerExec,
+	getCustomDependencyPath,
+	getLanguageProperties,
+	isCssFile,
+	isSassPartial,
+	resolveDependency,
+};
 
 function validateCustomDependencyPath(customPath) {
 	const stats = fs.statSync(customPath);
@@ -241,9 +192,6 @@ function validateCustomDependencyPath(customPath) {
 // Export private methods when in tests
 if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
-		getCustomDependencyPath,
-		getDepsPath,
-		hasDependency,
 		validateCustomDependencyPath,
 	});
 }

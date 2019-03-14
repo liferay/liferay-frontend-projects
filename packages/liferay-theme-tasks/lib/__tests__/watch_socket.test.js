@@ -38,7 +38,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.0', 'watch_socket', initCwd);
+	testUtil.cleanTempTheme('base-theme', '7.1', 'watch_socket', initCwd);
 });
 
 it('deploy should run deploy commands in order', done => {

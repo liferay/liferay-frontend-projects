@@ -6,7 +6,7 @@
 	"liferayTheme": {
 		"baseTheme": "styled",
 		"screenshot": "",
-		"templateLanguage": "<%= templateLanguage %>",
+		"templateLanguage": "ftl",
 		"version": "<%= liferayVersion %>"
 	},
 	"main": "package.json",

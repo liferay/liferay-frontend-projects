@@ -2,7 +2,7 @@
 	"look-and-feel": {
 		"compatibility": [
 			{
-				"version": ["7.0.0+"]
+				"version": ["7.1.0+"]
 			}
 		],
 		"theme": [
@@ -11,7 +11,7 @@
 					"id": "base-theme",
 					"name": "Base Theme"
 				},
-				"template-extension": ["vm"],
+				"template-extension": ["ftl"],
 				"settings": [
 					{
 						"setting": [

@@ -12,6 +12,22 @@ const testUtil = require('../../test/util');
 
 const initCwd = process.cwd();
 
+const themeName = 'base-theme-7-2';
+const version = '7.2';
+
+function getDependency(name) {
+	return path.dirname(require.resolve(path.join(name, 'package.json')));
+}
+
+beforeAll(() => {
+	process.env.LIFERAY_THEME_STYLED_PATH = getDependency(
+		'liferay-frontend-theme-styled'
+	);
+	process.env.LIFERAY_THEME_UNSTYLED_PATH = getDependency(
+		'liferay-frontend-theme-unstyled'
+	);
+});
+
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
@@ -21,8 +37,11 @@ afterAll(() => {
 		'watch_task_template',
 		'watch_task_socket',
 	].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.0', namespace, initCwd)
+		testUtil.cleanTempTheme(themeName, version, namespace, initCwd)
 	);
+
+	delete process.env.LIFERAY_THEME_STYLED_PATH;
+	delete process.env.LIFERAY_THEME_UNSTYLED_PATH;
 });
 
 beforeEach(() => {
@@ -45,6 +64,8 @@ describe('when changing css files', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'watch_task_css',
 			registerTasks: true,
+			themeName,
+			version,
 		});
 
 		gulp = config.gulp;
@@ -53,7 +74,7 @@ describe('when changing css files', () => {
 
 		appServerPathPlugin = path.join(
 			tempPath,
-			'../appserver/webapps/base-theme'
+			'../appserver/webapps/base-theme-7-2'
 		);
 
 		config.gulp.storage.set({
@@ -67,10 +88,7 @@ describe('when changing css files', () => {
 	});
 
 	it('watch task should deploy files correctly on change', done => {
-		const filePath = path.join(
-			tempPath,
-			'custom_src_path/css/_custom.scss'
-		);
+		const filePath = path.join(tempPath, 'src/css/_custom.scss');
 
 		gulp.storage.set('changedFile', {
 			path: filePath,
@@ -97,7 +115,6 @@ describe('when changing css files', () => {
 				const cssDir = path.join(appServerPathPlugin, 'css');
 
 				expect(path.join(cssDir, 'main.css')).toBeFile();
-				expect(path.join(cssDir, 'aui.css')).toBeFile();
 
 				const regex = /\/\* this is the change \*\//;
 
@@ -123,6 +140,8 @@ describe('when changing js files', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'watch_task_js',
 			registerTasks: true,
+			themeName,
+			version,
 		});
 
 		gulp = config.gulp;
@@ -143,7 +162,7 @@ describe('when changing js files', () => {
 
 	it('watch task should deploy files correctly on change', done => {
 		gulp.storage.set('changedFile', {
-			path: 'custom_src_path/js/main.js',
+			path: 'src/js/main.js',
 			type: 'changed',
 		});
 
@@ -177,6 +196,8 @@ describe('when changing template files', () => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'watch_task_template',
 			registerTasks: true,
+			themeName,
+			version,
 		});
 
 		gulp = config.gulp;
@@ -197,7 +218,7 @@ describe('when changing template files', () => {
 
 	it('watch task should deploy files correctly on change', done => {
 		gulp.storage.set('changedFile', {
-			path: 'custom_src_path/templates/portal_normal.ftl',
+			path: 'src/templates/portal_normal.ftl',
 			type: 'changed',
 		});
 
@@ -294,7 +315,7 @@ describe('when changing template files', () => {
 // 		const watch = gulp.watch;
 //
 // 		gulp.watch = function() {
-// 			expect(arguments[0]).toEqual('custom_src_path/**/*');
+// 			expect(arguments[0]).toEqual('src/**/*');
 //
 // 			const watchCallback = arguments[1];
 //

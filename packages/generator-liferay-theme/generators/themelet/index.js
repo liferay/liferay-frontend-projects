@@ -83,24 +83,22 @@ module.exports = class extends Base {
 			} else if (name == 'themeId') {
 				item.message = 'Would you like to use this as the themeletId?';
 			} else if (name == 'liferayVersion') {
-				item.choices = ['7.1', '7.0', 'All'];
+				item.choices = ['7.2', 'Any'];
 				item.message = 'Which version of Liferay is this themelet for?';
 			}
 
-			if (name !== 'supportCompass' && name !== 'templateLanguage') {
-				result.push(item);
-			}
+			result.push(item);
 
 			return result;
 		}, []);
 	}
 
 	_isLiferayVersion(value) {
-		return ['7.1', '7.0', 'All'].indexOf(value) > -1;
+		return ['7.2', 'Any'].indexOf(value) > -1;
 	}
 
 	_promptCallback(props) {
-		if (props.liferayVersion == 'All') {
+		if (props.liferayVersion == 'Any') {
 			props.liferayVersion = '*';
 		}
 		super._promptCallback.call(this, props);

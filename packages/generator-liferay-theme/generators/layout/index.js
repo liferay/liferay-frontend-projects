@@ -164,12 +164,9 @@ module.exports = class extends Base {
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
 				const gulp = require('gulp');
-
-				// TODO: remove in v9
-				// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
-				process.argv = process.argv.slice(0, 2).concat(['init']);
-
-				require('liferay-plugin-node-tasks').registerTasks({gulp});
+				require('liferay-plugin-node-tasks').registerTasks({
+					gulp,
+				});
 				gulp.start('init');
 			});
 
@@ -202,7 +199,7 @@ module.exports = class extends Base {
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
-				choices: ['7.1', '7.0'],
+				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',

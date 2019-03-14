@@ -23,7 +23,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme(themeName, '7.0', 'util', initCwd);
+	testUtil.cleanTempTheme(themeName, '7.1', 'util', initCwd);
 });
 
 it('isCssFile should only return true if css file', () => {
@@ -36,30 +36,31 @@ it('isSassPartial should return true for partial scss file names', () => {
 	expect(!util.isSassPartial('main.scss')).toBe(true);
 });
 
-it('requireDependency should return dependency', () => {
-	const unstyled = util.requireDependency(
-		'liferay-frontend-theme-unstyled',
-		'7.0'
-	);
+describe('resolveDependency()', () => {
+	it('uses the custom dependency path when provided', () => {
+		try {
+			process.env.LIFERAY_THEME_STYLED_PATH = path.join(
+				__dirname,
+				'../../../../node_modules/liferay-frontend-theme-styled'
+			);
+			const styledPath = util.resolveDependency(
+				'liferay-frontend-theme-styled'
+			);
 
-	expect(unstyled).toBeTruthy();
-});
+			expect(styledPath).toContain('liferay-frontend-theme-styled');
+		} finally {
+			delete process.env.LIFERAY_THEME_STYLED_PATH;
+		}
+	});
 
-it('resolveDependency should return resolved path of dependency', () => {
-	const unstyledPath = util.resolveDependency(
-		'liferay-frontend-theme-unstyled',
-		'7.0'
-	);
-
-	expect(unstyledPath).toBeTruthy();
-
-	const styledPath = util.resolveDependency(
-		'liferay-frontend-theme-styled',
-		'7.0'
-	);
-
-	expect(styledPath).toBeTruthy();
-	expect(!/liferay-theme-deps-7\.0/.test(styledPath)).toBeTruthy();
+	it('resolves relative to the current working directory', () => {
+		// Note that due to use of copyTempTheme(), the current working
+		// directory will be some "tmp" directory outside the repo.
+		const resolved = util.resolveDependency(
+			'liferay-frontend-theme-styled'
+		);
+		expect(resolved).toContain(process.cwd());
+	});
 });
 
 it('getCustomDependencyPath should return custom dependency paths set in node env variables', () => {
@@ -85,58 +86,6 @@ it('getCustomDependencyPath should return custom dependency paths set in node en
 	expect(() => {
 		util.getCustomDependencyPath(STYLED);
 	}).toThrow();
-});
-
-it('getDepsPath should return preset path or cwd of theme if dependency is explicitly defined in dependencies', () => {
-	let depsPath = util.getDepsPath(
-		{
-			dependencies: {},
-		},
-		'liferay-frontend-theme-styled',
-		'7.0'
-	);
-
-	expect(path.basename(depsPath)).toEqual('liferay-theme-deps-7.0');
-
-	depsPath = util.getDepsPath(
-		{
-			dependencies: {
-				'liferay-frontend-theme-styled': '2.0.1',
-			},
-		},
-		'liferay-frontend-theme-styled',
-		'7.0'
-	);
-
-	expect(path.basename(depsPath)).toBe(themeName);
-});
-
-it('hasDependency should return truthy value if dependency is defined in either dependencies or devDependencies', () => {
-	let dependency = util.hasDependency({}, 'test-package');
-
-	expect(!dependency).toBe(true);
-
-	dependency = util.hasDependency(
-		{
-			dependencies: {
-				'test-package': '*',
-			},
-		},
-		'test-package'
-	);
-
-	expect(dependency).toBeTruthy();
-
-	dependency = util.hasDependency(
-		{
-			devDependencies: {
-				'test-package': '*',
-			},
-		},
-		'test-package'
-	);
-
-	expect(dependency).toBeTruthy();
 });
 
 it('validateCustomDependencyPath should throw error if customPath does not exist or is not a directory', () => {
