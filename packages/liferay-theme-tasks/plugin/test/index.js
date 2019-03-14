@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var chai = require('chai');
@@ -14,7 +20,11 @@ chai.use(require('chai-fs'));
 
 var assert = chai.assert;
 
-var tempPath = path.join(os.tmpdir(), 'liferay-plugin-tasks', 'test-plugin-layouttpl');
+var tempPath = path.join(
+	os.tmpdir(),
+	'liferay-plugin-tasks',
+	'test-plugin-layouttpl'
+);
 
 var deployPath = path.join(tempPath, '../appserver/deploy');
 
@@ -23,34 +33,38 @@ var registerTasks;
 var runSequence;
 
 beforeAll(function(done) {
-	fs.copy(path.join(__dirname, './fixtures/plugins/test-plugin-layouttpl'), tempPath, function(err) {
-		if (err) {
-			throw err;
+	fs.copy(
+		path.join(__dirname, './fixtures/plugins/test-plugin-layouttpl'),
+		tempPath,
+		function(err) {
+			if (err) {
+				throw err;
+			}
+
+			process.chdir(tempPath);
+
+			registerTasks = require('../index').registerTasks;
+
+			registerTasks({
+				gulp,
+			});
+
+			runSequence = require('run-sequence').use(gulp);
+
+			var store = gulp.storage;
+
+			store.set('deployPath', deployPath);
+
+			fs.mkdirsSync(deployPath);
+
+			done();
 		}
-
-		process.chdir(tempPath);
-
-		registerTasks = require('../index').registerTasks;
-
-		registerTasks({
-			gulp: gulp,
-		});
-
-		runSequence = require('run-sequence').use(gulp);
-
-		var store = gulp.storage;
-
-		store.set('deployPath', deployPath);
-
-		fs.mkdirsSync(deployPath);
-
-		done();
-	});
+	);
 });
 
 afterAll(function(done) {
 	del([path.join(tempPath, '**')], {
-		force: true
+		force: true,
 	}).then(function() {
 		process.chdir(initCwd);
 
@@ -60,7 +74,7 @@ afterAll(function(done) {
 
 afterEach(function() {
 	del.sync(path.join(deployPath, '**'), {
-		force: true
+		force: true,
 	});
 });
 
@@ -72,13 +86,13 @@ test('registerTasks should invoke extension functions', function(done) {
 			argv: require('minimist')(process.argv.slice(2)),
 			distName: 'test-plugin-layouttpl',
 			extensions: [extFunction],
-			gulp: gulp,
+			gulp,
 			pathDist: 'dist',
 			rootDir: 'docroot',
 			storeConfig: {
 				name: 'LiferayPlugin',
-				path: 'liferay-plugin.json'
-			}
+				path: 'liferay-plugin.json',
+			},
 		});
 
 		done();
@@ -86,27 +100,24 @@ test('registerTasks should invoke extension functions', function(done) {
 
 	registerTasks({
 		extensions: extFunction,
-		gulp: gulp
+		gulp,
 	});
 });
 
-test(
-    'registerTasks should accept array of extension function',
-    function(done) {
-        gulp = new Gulp();
+test('registerTasks should accept array of extension function', function(done) {
+	gulp = new Gulp();
 
-        var extFunction = function(options) {
-            expect(options.gulp).toBe(gulp);
+	var extFunction = function(options) {
+		expect(options.gulp).toBe(gulp);
 
-            done();
-        };
+		done();
+	};
 
-        registerTasks({
-            extensions: [extFunction],
-            gulp: gulp
-        });
-    }
-);
+	registerTasks({
+		extensions: [extFunction],
+		gulp,
+	});
+});
 
 test('registerTasks should register hooks', function(done) {
 	gulp = new Gulp();
@@ -134,8 +145,8 @@ test('registerTasks should register hooks', function(done) {
 	};
 
 	registerTasks({
-		gulp: gulp,
-		hookFn: hookFn
+		gulp,
+		hookFn,
 	});
 
 	gulp.storage.set('deployPath', deployPath);
@@ -155,50 +166,49 @@ test('registerTasks should register hooks', function(done) {
 	});
 });
 
-test(
-    'registerTasks should register hooks for extension tasks',
-    function(done) {
-        gulp = new Gulp();
+test('registerTasks should register hooks for extension tasks', function(done) {
+	gulp = new Gulp();
 
-        var hookSpy = sinon.spy();
+	var hookSpy = sinon.spy();
 
-        var hookFn = function(gulp) {
-            gulp.hook('before:plugin:war', function(cb) {
-                hookSpy('before:plugin:war');
+	var hookFn = function(gulp) {
+		gulp.hook('before:plugin:war', function(cb) {
+			hookSpy('before:plugin:war');
 
-                cb();
-            });
+			cb();
+		});
 
-            gulp.hook('after:my-custom:task', function(cb) {
-                hookSpy('after:my-custom:task');
+		gulp.hook('after:my-custom:task', function(cb) {
+			hookSpy('after:my-custom:task');
 
-                cb();
-            });
-        };
+			cb();
+		});
+	};
 
-        registerTasks({
-            extensions: function(options) {
-                options.gulp.task('my-custom:task', function(cb) {
-                    hookSpy('my-custom:task');
+	registerTasks({
+		extensions(options) {
+			options.gulp.task('my-custom:task', function(cb) {
+				hookSpy('my-custom:task');
 
-                    cb();
-                });
-            },
-            gulp: gulp,
-            hookFn: hookFn
-        });
+				cb();
+			});
+		},
+		gulp,
+		hookFn,
+	});
 
-        runSequence = require('run-sequence').use(gulp);
+	runSequence = require('run-sequence').use(gulp);
 
-        runSequence('plugin:war', 'my-custom:task', function() {
-            expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
-            expect(hookSpy.getCall(1).calledWith('my-custom:task')).toBe(true);
-            expect(hookSpy.getCall(2).calledWith('after:my-custom:task')).toBe(true);
+	runSequence('plugin:war', 'my-custom:task', function() {
+		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
+		expect(hookSpy.getCall(1).calledWith('my-custom:task')).toBe(true);
+		expect(hookSpy.getCall(2).calledWith('after:my-custom:task')).toBe(
+			true
+		);
 
-            done();
-        });
-    }
-);
+		done();
+	});
+});
 
 test('registerTasks should overwrite task', function(done) {
 	gulp = new Gulp();
@@ -220,8 +230,8 @@ test('registerTasks should overwrite task', function(done) {
 	};
 
 	registerTasks({
-		gulp: gulp,
-		hookFn: hookFn
+		gulp,
+		hookFn,
 	});
 
 	runSequence = require('run-sequence').use(gulp);
@@ -234,19 +244,16 @@ test('registerTasks should overwrite task', function(done) {
 	});
 });
 
-test(
-    'registerTasks should use distName as template if delimiters are present',
-    function(done) {
-        gulp = new Gulp();
+test('registerTasks should use distName as template if delimiters are present', function(done) {
+	gulp = new Gulp();
 
-        registerTasks({
-            distName: '${name}-${version}-${liferayPlugin.version}',
-            extensions: function(options) {
-                expect(options.distName).toBe('test-plugin-layouttpl-1.2.3-7.0');
+	registerTasks({
+		distName: '${name}-${version}-${liferayPlugin.version}',
+		extensions(options) {
+			expect(options.distName).toBe('test-plugin-layouttpl-1.2.3-7.0');
 
-                done();
-            },
-            gulp: gulp
-        });
-    }
-);
+			done();
+		},
+		gulp,
+	});
+});

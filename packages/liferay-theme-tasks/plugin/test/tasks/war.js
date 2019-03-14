@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var chai = require('chai');
@@ -13,35 +19,44 @@ chai.use(require('chai-fs'));
 
 var assert = chai.assert;
 
-var tempPath = path.join(os.tmpdir(), 'liferay-plugin-tasks', 'war-task', 'test-plugin-layouttpl');
+var tempPath = path.join(
+	os.tmpdir(),
+	'liferay-plugin-tasks',
+	'war-task',
+	'test-plugin-layouttpl'
+);
 
 var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
 beforeAll(function(done) {
-	fs.copy(path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'), tempPath, function(err) {
-		if (err) {
-			throw err;
+	fs.copy(
+		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
+		tempPath,
+		function(err) {
+			if (err) {
+				throw err;
+			}
+
+			process.chdir(tempPath);
+
+			registerTasks = require('../../index').registerTasks;
+
+			registerTasks({
+				gulp,
+			});
+
+			runSequence = require('run-sequence').use(gulp);
+
+			done();
 		}
-
-		process.chdir(tempPath);
-
-		registerTasks = require('../../index').registerTasks;
-
-		registerTasks({
-			gulp: gulp
-		});
-
-		runSequence = require('run-sequence').use(gulp);
-
-		done();
-	});
+	);
 });
 
 afterAll(function(done) {
 	del([path.join(tempPath, '**')], {
-		force: true
+		force: true,
 	}).then(function() {
 		process.chdir(initCwd);
 
@@ -57,23 +72,22 @@ test('plugin:war should build war file', function(done) {
 	});
 });
 
-test(
-    'plugin:war should use name for war file and pathDist for alternative dist location',
-    function(done) {
-        gulp = new Gulp();
+test('plugin:war should use name for war file and pathDist for alternative dist location', function(done) {
+	gulp = new Gulp();
 
-        registerTasks({
-            distName: 'my-plugin-name',
-            gulp: gulp,
-            pathDist: 'dist_alternative'
-        });
+	registerTasks({
+		distName: 'my-plugin-name',
+		gulp,
+		pathDist: 'dist_alternative',
+	});
 
-        runSequence = require('run-sequence').use(gulp);
+	runSequence = require('run-sequence').use(gulp);
 
-        runSequence('plugin:war', function() {
-            assert.isFile(path.join(tempPath, 'dist_alternative', 'my-plugin-name.war'));
+	runSequence('plugin:war', function() {
+		assert.isFile(
+			path.join(tempPath, 'dist_alternative', 'my-plugin-name.war')
+		);
 
-            done();
-        });
-    }
-);
+		done();
+	});
+});

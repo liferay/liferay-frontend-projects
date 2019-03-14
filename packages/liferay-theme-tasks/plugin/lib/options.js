@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var _ = require('lodash');
@@ -17,9 +23,7 @@ module.exports = function(options) {
 		pkg = require(path.join(CWD, 'package.json'));
 
 		distName = pkg.name;
-	}
-	catch(e) {
-	}
+	} catch (e) {}
 
 	distName = options.distName || distName;
 
@@ -33,10 +37,13 @@ module.exports = function(options) {
 	options.distName = distName;
 	options.pathDist = options.pathDist || 'dist';
 	options.rootDir = options.rootDir || 'docroot';
-	options.storeConfig = _.assign({
-		name: 'LiferayPlugin',
-		path: 'liferay-plugin.json'
-	}, options.storeConfig);
+	options.storeConfig = _.assign(
+		{
+			name: 'LiferayPlugin',
+			path: 'liferay-plugin.json',
+		},
+		options.storeConfig
+	);
 
 	return options;
 };

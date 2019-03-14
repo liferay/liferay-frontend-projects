@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var _ = require('lodash');
@@ -20,7 +26,10 @@ module.exports.registerTasks = function(options) {
 
 	var store = gulp.storage;
 
-	store.create(options.storeConfig.name, path.join(CWD, options.storeConfig.path));
+	store.create(
+		options.storeConfig.name,
+		path.join(CWD, options.storeConfig.path)
+	);
 
 	var tasks = require('./tasks/index');
 
@@ -41,6 +50,6 @@ module.exports.registerTasks = function(options) {
 	RegisterHooks.hook(gulp, {
 		hookFn: options.hookFn,
 		hookModules: options.hookModules,
-		options: options
+		options,
 	});
 };

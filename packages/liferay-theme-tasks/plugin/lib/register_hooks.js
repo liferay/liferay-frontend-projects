@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var _ = require('lodash');
@@ -21,19 +27,17 @@ RegisterHooks.hook = function(gulp, config) {
 };
 
 RegisterHooks.prototype = {
-	_addToSequence: function(sequence, fn) {
+	_addToSequence(sequence, fn) {
 		if (_.isFunction(fn)) {
 			sequence.push(function(cb) {
 				if (fn.length) {
 					fn(cb);
-				}
-				else {
+				} else {
 					var stream = fn();
 
 					if (stream && stream.on) {
 						stream.on('end', cb);
-					}
-					else {
+					} else {
 						cb();
 					}
 				}
@@ -41,7 +45,7 @@ RegisterHooks.prototype = {
 		}
 	},
 
-	_applyHooks: function() {
+	_applyHooks() {
 		var instance = this;
 
 		var taskHookMap = this._getTaskHookMap();
@@ -65,7 +69,7 @@ RegisterHooks.prototype = {
 		});
 	},
 
-	_createTaskSequence: function(fn, hooks) {
+	_createTaskSequence(fn, hooks) {
 		var instance = this;
 
 		var sequence = [];
@@ -83,69 +87,75 @@ RegisterHooks.prototype = {
 		return sequence;
 	},
 
-	_getTaskHookMap: function() {
+	_getTaskHookMap() {
 		var instance = this;
 
 		var hooks = this.hooks;
 
-		return _.reduce(hooks, function(taskHookMap, hook, name) {
-			var data = instance._getTaskName(name);
+		return _.reduce(
+			hooks,
+			function(taskHookMap, hook, name) {
+				var data = instance._getTaskName(name);
 
-			var when = data[0];
-			var taskName = data[1];
+				var when = data[0];
+				var taskName = data[1];
 
-			if (when != 'after' && when != 'before') {
+				if (when != 'after' && when != 'before') {
+					return taskHookMap;
+				}
+
+				if (!taskHookMap[taskName]) {
+					taskHookMap[taskName] = {};
+				}
+
+				taskHookMap[taskName][when] = hook;
+
 				return taskHookMap;
-			}
-
-			if (!taskHookMap[taskName]) {
-				taskHookMap[taskName] = {};
-			}
-
-			taskHookMap[taskName][when] = hook;
-
-			return taskHookMap;
-		}, {});
+			},
+			{}
+		);
 	},
 
-	_getTaskName: function(hookName) {
+	_getTaskName(hookName) {
 		var data = hookName.split(/:(.+)?/);
 
 		return data;
 	},
 
-	_logHookRegister: function(name, fn) {
+	_logHookRegister(name, fn) {
 		if (_.isFunction(fn)) {
 			gutil.log('Successfully registered', chalk.cyan(name), 'hook.');
 		}
 	},
 
-	_registerHookFn: function() {
+	_registerHookFn() {
 		if (_.isFunction(this.hookFn)) {
 			this.hookFn(this.gulp, this.options);
-		}
-		else if (this.hookFn) {
+		} else if (this.hookFn) {
 			gutil.log(chalk.red('hookFn must be a function.'));
 		}
 	},
 
-	_registerHookModule: function(moduleName) {
+	_registerHookModule(moduleName) {
 		try {
 			var hookFn = require(moduleName);
 
 			if (_.isFunction(hookFn)) {
 				hookFn(this.gulp, this.options);
+			} else {
+				gutil.log(
+					chalk.red(
+						moduleName,
+						'does not return a function. All hook modules must return a function.'
+					)
+				);
 			}
-			else {
-				gutil.log(chalk.red(moduleName, 'does not return a function. All hook modules must return a function.'));
-			}
-		}
-		catch (e) {
+		} catch (e) {
 			gutil.log('There was an issue registering', moduleName);
 		}
 	},
 
-	_registerHookModules: function() {
+	_registerHookModules() {
 		var instance = this;
 
 		var hookModules = this.hookModules;
@@ -159,7 +169,7 @@ RegisterHooks.prototype = {
 		}
 	},
 
-	_registerHooks: function() {
+	_registerHooks() {
 		var instance = this;
 
 		var gulp = this.gulp;
@@ -179,7 +189,7 @@ RegisterHooks.prototype = {
 		this._registerHookFn();
 
 		this._applyHooks();
-	}
+	},
 };
 
 module.exports = RegisterHooks;

@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var _ = require('lodash');
@@ -14,7 +20,7 @@ function getDefaultAnswers() {
 		appServerPath: path.join(__dirname, '../fixtures/server/tomcat'),
 		deployPath: path.join(__dirname, '../fixtures/server/deploy'),
 		url: 'http://localhost:8080',
-		webappsPath: path.join(__dirname, '../fixtures/server/tomcat/webapps')
+		webappsPath: path.join(__dirname, '../fixtures/server/tomcat/webapps'),
 	};
 }
 
@@ -34,7 +40,7 @@ beforeEach(function() {
 
 test('_afterPrompt should store normalized answers', function() {
 	prototype.store = {
-		store: sinon.spy()
+		store: sinon.spy(),
 	};
 
 	var defaultAnswers = getDefaultAnswers();
@@ -60,53 +66,47 @@ test('_afterPrompt should store normalized answers', function() {
 	prototype._afterPrompt(defaultAnswers);
 });
 
-test(
-    '_deployPathWhen should return false and add deployPath to answers',
-    function(done) {
-        var defaultAnswers = getDefaultAnswers();
+test('_deployPathWhen should return false and add deployPath to answers', function(done) {
+	var defaultAnswers = getDefaultAnswers();
 
-        var answers = {
-            appServerPath: defaultAnswers.appServerPath
-        };
+	var answers = {
+		appServerPath: defaultAnswers.appServerPath,
+	};
 
-        prototype.async = function() {
-            return function(ask) {
-                expect(answers.deployPath).toBe(defaultAnswers.deployPath);
-                expect(!ask).toBe(true);
+	prototype.async = function() {
+		return function(ask) {
+			expect(answers.deployPath).toBe(defaultAnswers.deployPath);
+			expect(!ask).toBe(true);
 
-                done();
-            };
-        };
+			done();
+		};
+	};
 
-        prototype._deployPathWhen(answers);
-    }
-);
+	prototype._deployPathWhen(answers);
+});
 
-test(
-    '_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath',
-    function(done) {
-        var defaultAnswers = getDefaultAnswers();
+test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', function(done) {
+	var defaultAnswers = getDefaultAnswers();
 
-        var answers = {
-            appServerPath: path.join(defaultAnswers.appServerPath, '..')
-        };
+	var answers = {
+		appServerPath: path.join(defaultAnswers.appServerPath, '..'),
+	};
 
-        prototype.async = function() {
-            return function(ask) {
-                expect(_.isUndefined(answers.deployPath)).toBe(true);
-                expect(ask).toBeTruthy();
+	prototype.async = function() {
+		return function(ask) {
+			expect(_.isUndefined(answers.deployPath)).toBe(true);
+			expect(ask).toBeTruthy();
 
-                done();
-            };
-        };
+			done();
+		};
+	};
 
-        prototype._deployPathWhen(answers);
-    }
-);
+	prototype._deployPathWhen(answers);
+});
 
 test('_getDefaultDeployPath should return defualy deploy path value based on answers', function() {
 	var defaultPath = prototype._getDefaultDeployPath({
-		appServerPath: '/path-to/appserver/tomcat'
+		appServerPath: '/path-to/appserver/tomcat',
 	});
 
 	expect(path.join('/path-to', 'appserver', 'deploy')).toBe(defaultPath);
@@ -125,8 +125,11 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	expect(answers.pluginName).toBe('liferay-plugin-node-tasks');
 	expect(answers.deployed).toBe(false);
 	expect(answers.appServerPathPlugin).toBe(
-        path.join(defaultAnswers.appServerPath, 'webapps/liferay-plugin-node-tasks')
-    );
+		path.join(
+			defaultAnswers.appServerPath,
+			'webapps/liferay-plugin-node-tasks'
+		)
+	);
 
 	answers = _.assign({}, defaultAnswers);
 
@@ -135,8 +138,11 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	prototype._normalizeAnswers(answers);
 
 	expect(answers.appServerPathPlugin).toBe(
-        path.join(defaultAnswers.appServerPath, 'webapps/liferay-plugin-node-tasks')
-    );
+		path.join(
+			defaultAnswers.appServerPath,
+			'webapps/liferay-plugin-node-tasks'
+		)
+	);
 });
 
 test('_prompt should invoke inquirer.prompt with correct args', function() {
@@ -170,27 +176,41 @@ test('_validateAppServerPath should properly validate path and return appropriat
 
 	expect(retVal).toBe('"/fake/path" does not exist');
 
-	retVal = prototype._validateAppServerPath(path.join(__dirname, 'init_prompt.js'));
+	retVal = prototype._validateAppServerPath(
+		path.join(__dirname, 'init_prompt.js')
+	);
 
 	expect(/is not a directory/.test(retVal)).toBe(true);
 
-	retVal = prototype._validateAppServerPath(path.join(defaultAnswers.appServerPath, '..'));
+	retVal = prototype._validateAppServerPath(
+		path.join(defaultAnswers.appServerPath, '..')
+	);
 
-	expect(/doesn't appear to be an app server directory/.test(retVal)).toBe(true);
+	expect(/doesn't appear to be an app server directory/.test(retVal)).toBe(
+		true
+	);
 
-	retVal = prototype._validateAppServerPath(path.join(__dirname, '../fixtures/server/glassfish'));
-
-	expect(retVal).toBe(true);
-
-	retVal = prototype._validateAppServerPath(path.join(__dirname, '../fixtures/server/jboss'));
-
-	expect(retVal).toBe(true);
-
-	retVal = prototype._validateAppServerPath(path.join(__dirname, '../fixtures/server/tomcat'));
+	retVal = prototype._validateAppServerPath(
+		path.join(__dirname, '../fixtures/server/glassfish')
+	);
 
 	expect(retVal).toBe(true);
 
-	retVal = prototype._validateAppServerPath(path.join(__dirname, '../fixtures/server/wildfly'));
+	retVal = prototype._validateAppServerPath(
+		path.join(__dirname, '../fixtures/server/jboss')
+	);
+
+	expect(retVal).toBe(true);
+
+	retVal = prototype._validateAppServerPath(
+		path.join(__dirname, '../fixtures/server/tomcat')
+	);
+
+	expect(retVal).toBe(true);
+
+	retVal = prototype._validateAppServerPath(
+		path.join(__dirname, '../fixtures/server/wildfly')
+	);
 
 	expect(retVal).toBe(true);
 });

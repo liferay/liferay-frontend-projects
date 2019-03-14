@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var gutil = require('gulp-util');
@@ -19,7 +25,8 @@ module.exports = function(options) {
 	gulp.task(TASK_PLUGIN_DEPLOY, function() {
 		var deployPath = store.get('deployPath');
 
-		var stream = gulp.src(path.join(options.pathDist, options.distName + '.war'))
+		var stream = gulp
+			.src(path.join(options.pathDist, options.distName + '.war'))
 			.pipe(gulp.dest(deployPath));
 
 		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));

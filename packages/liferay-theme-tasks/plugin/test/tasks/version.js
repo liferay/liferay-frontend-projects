@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var chai = require('chai');
@@ -13,35 +19,44 @@ chai.use(require('chai-fs'));
 
 var assert = chai.assert;
 
-var tempPath = path.join(os.tmpdir(), 'liferay-plugin-tasks', 'version-task', 'test-plugin-layouttpl');
+var tempPath = path.join(
+	os.tmpdir(),
+	'liferay-plugin-tasks',
+	'version-task',
+	'test-plugin-layouttpl'
+);
 
 var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
 beforeAll(function(done) {
-	fs.copy(path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'), tempPath, function(err) {
-		if (err) {
-			throw err;
+	fs.copy(
+		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
+		tempPath,
+		function(err) {
+			if (err) {
+				throw err;
+			}
+
+			process.chdir(tempPath);
+
+			registerTasks = require('../../index').registerTasks;
+
+			registerTasks({
+				gulp,
+			});
+
+			runSequence = require('run-sequence').use(gulp);
+
+			done();
 		}
-
-		process.chdir(tempPath);
-
-		registerTasks = require('../../index').registerTasks;
-
-		registerTasks({
-			gulp: gulp
-		});
-
-		runSequence = require('run-sequence').use(gulp);
-
-		done();
-	});
+	);
 });
 
 afterAll(function(done) {
 	del([path.join(tempPath, '**')], {
-		force: true
+		force: true,
 	}).then(function() {
 		process.chdir(initCwd);
 
@@ -49,32 +64,38 @@ afterAll(function(done) {
 	});
 });
 
-test(
-    'plugin:version should add package.json version to liferay-plugin-package.properties',
-    function(done) {
-        runSequence('plugin:version', function() {
-            assert.fileContentMatch(path.join(tempPath, 'docroot/WEB-INF/liferay-plugin-package.properties'), /module-version=1\.2\.3/);
+test('plugin:version should add package.json version to liferay-plugin-package.properties', function(done) {
+	runSequence('plugin:version', function() {
+		assert.fileContentMatch(
+			path.join(
+				tempPath,
+				'docroot/WEB-INF/liferay-plugin-package.properties'
+			),
+			/module-version=1\.2\.3/
+		);
 
-            done();
-        });
-    }
-);
+		done();
+	});
+});
 
-test(
-    'plugin:version should add package.json version to liferay-plugin-package.properties',
-    function(done) {
-        var pkgPath = path.join(tempPath, 'package.json');
+test('plugin:version should add package.json version to liferay-plugin-package.properties', function(done) {
+	var pkgPath = path.join(tempPath, 'package.json');
 
-        var pkg = require(pkgPath);
+	var pkg = require(pkgPath);
 
-        pkg.version = '1.2.4';
+	pkg.version = '1.2.4';
 
-        fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, '\t'));
+	fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, '\t'));
 
-        runSequence('plugin:version', function() {
-            assert.fileContentMatch(path.join(tempPath, 'docroot/WEB-INF/liferay-plugin-package.properties'), /module-version=1\.2\.4/);
+	runSequence('plugin:version', function() {
+		assert.fileContentMatch(
+			path.join(
+				tempPath,
+				'docroot/WEB-INF/liferay-plugin-package.properties'
+			),
+			/module-version=1\.2\.4/
+		);
 
-            done();
-        });
-    }
-);
+		done();
+	});
+});

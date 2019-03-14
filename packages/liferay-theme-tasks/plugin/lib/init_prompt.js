@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var _ = require('lodash');
@@ -15,11 +21,14 @@ var DEPLOYMENT_STRATEGY_OTHER = 'Other';
 var DEFAULT_DEPLOYMENT_STRATEGY = DEPLOYMENT_STRATEGY_LOCAL_APP_SERVER;
 
 function getPath(answers) {
-	return isDocker(answers)? path.posix : path;
+	return isDocker(answers) ? path.posix : path;
 }
 
 function isDocker(answers) {
-	return answers && answers.deploymentStrategy === DEPLOYMENT_STRATEGY_DOCKER_CONTAINER;
+	return (
+		answers &&
+		answers.deploymentStrategy === DEPLOYMENT_STRATEGY_DOCKER_CONTAINER
+	);
 }
 
 function InitPrompt(options, cb) {
@@ -32,7 +41,7 @@ function InitPrompt(options, cb) {
 }
 
 InitPrompt.prototype = {
-	_afterPrompt: function(answers) {
+	_afterPrompt(answers) {
 		answers = this._normalizeAnswers(answers);
 
 		this.store.store(answers);
@@ -42,16 +51,18 @@ InitPrompt.prototype = {
 		}
 	},
 
-	_appServerPathWhen: function(answers) {
-		return answers.deploymentStrategy === DEPLOYMENT_STRATEGY_LOCAL_APP_SERVER ||
-			isDocker(answers);
+	_appServerPathWhen(answers) {
+		return (
+			answers.deploymentStrategy ===
+				DEPLOYMENT_STRATEGY_LOCAL_APP_SERVER || isDocker(answers)
+		);
 	},
 
-	_dockerContainerNameWhen: function(answers) {
+	_dockerContainerNameWhen(answers) {
 		return isDocker(answers);
 	},
 
-	_deployPathWhen: function(answers) {
+	_deployPathWhen(answers) {
 		if (isDocker(answers)) {
 			return true;
 		}
@@ -59,7 +70,9 @@ InitPrompt.prototype = {
 		var appServerPath = answers.appServerPath;
 
 		if (appServerPath) {
-			var deployPath = path.resolve(path.join(appServerPath, '../deploy'));
+			var deployPath = path.resolve(
+				path.join(appServerPath, '../deploy')
+			);
 
 			var done = this.async();
 
@@ -75,11 +88,11 @@ InitPrompt.prototype = {
 		}
 	},
 
-	_getDefaultDeployPath: function(answers) {
+	_getDefaultDeployPath(answers) {
 		return getPath(answers).join(answers.appServerPath, '../deploy');
 	},
 
-	_normalizeAnswers: function(answers) {
+	_normalizeAnswers(answers) {
 		var appServerPath = answers.appServerPath;
 
 		if (appServerPath) {
@@ -91,19 +104,22 @@ InitPrompt.prototype = {
 
 			var pluginName = path.basename(CWD);
 
-			var appServerPathPlugin = getPath(answers).join(appServerPath, pluginName);
+			var appServerPathPlugin = getPath(answers).join(
+				appServerPath,
+				pluginName
+			);
 
 			answers = _.assign(answers, {
-				appServerPathPlugin: appServerPathPlugin,
+				appServerPathPlugin,
 				deployed: false,
-				pluginName: pluginName
+				pluginName,
 			});
 		}
 
 		return answers;
 	},
 
-	_prompt: function(options) {
+	_prompt(options) {
 		var instance = this;
 
 		inquirer.prompt(
@@ -113,18 +129,20 @@ InitPrompt.prototype = {
 					choices: [
 						{
 							name: 'Local App Server',
-							value: DEPLOYMENT_STRATEGY_LOCAL_APP_SERVER
-						}, {
+							value: DEPLOYMENT_STRATEGY_LOCAL_APP_SERVER,
+						},
+						{
 							name: 'Docker Container',
-							value: DEPLOYMENT_STRATEGY_DOCKER_CONTAINER
-						}, {
+							value: DEPLOYMENT_STRATEGY_DOCKER_CONTAINER,
+						},
+						{
 							name: 'Other',
-							value: DEPLOYMENT_STRATEGY_OTHER
-						}
+							value: DEPLOYMENT_STRATEGY_OTHER,
+						},
 					],
 					name: 'deploymentStrategy',
 					message: 'Select your deployment strategy',
-					type: 'list'
+					type: 'list',
 				},
 				{
 					default: options.appServerPathDefault,
@@ -133,7 +151,7 @@ InitPrompt.prototype = {
 					name: 'appServerPath',
 					type: 'input',
 					validate: instance._validateAppServerPath,
-					when: instance._appServerPathWhen
+					when: instance._appServerPathWhen,
 				},
 				{
 					default: options.dockerContainerNameDefault,
@@ -141,7 +159,7 @@ InitPrompt.prototype = {
 					message: 'Enter the name of your Liferay container:',
 					name: 'dockerContainerName',
 					type: 'input',
-					when: instance._dockerContainerNameWhen
+					when: instance._dockerContainerNameWhen,
 				},
 				{
 					default: instance._getDefaultDeployPath,
@@ -149,20 +167,21 @@ InitPrompt.prototype = {
 					message: 'Enter in your deploy directory:',
 					name: 'deployPath',
 					type: 'input',
-					when: instance._deployPathWhen
+					when: instance._deployPathWhen,
 				},
 				{
 					default: 'http://localhost:8080',
-					message: 'Enter the url to your production or development site:',
+					message:
+						'Enter the url to your production or development site:',
 					name: 'url',
-					type: 'input'
-				}
+					type: 'input',
+				},
 			],
 			_.bind(instance._afterPrompt, instance)
 		);
 	},
 
-	_validateAppServerPath: function(appServerPath, answers) {
+	_validateAppServerPath(appServerPath, answers) {
 		appServerPath = _.trim(appServerPath);
 
 		var retVal = false;
@@ -170,26 +189,34 @@ InitPrompt.prototype = {
 		if (appServerPath) {
 			retVal = true;
 
-			if(isDocker(answers)) {
+			if (isDocker(answers)) {
 				return retVal;
 			}
 
 			if (!fs.existsSync(appServerPath)) {
 				retVal = '"%s" does not exist';
-			}
-			else if (!fs.statSync(appServerPath).isDirectory()) {
+			} else if (!fs.statSync(appServerPath).isDirectory()) {
 				retVal = '"%s" is not a directory';
-			}
-			else {
+			} else {
 				var glassfishPath = path.join(appServerPath, 'domains');
-				var jbossPath = path.join(appServerPath, 'standalone/deployments');
+				var jbossPath = path.join(
+					appServerPath,
+					'standalone/deployments'
+				);
 				var tomcatPath = path.join(appServerPath, 'webapps');
 
-				if ((fs.existsSync(glassfishPath) && fs.statSync(glassfishPath).isDirectory()) || (fs.existsSync(jbossPath) && fs.statSync(jbossPath).isDirectory()) || (fs.existsSync(tomcatPath) && fs.statSync(tomcatPath).isDirectory())) {
+				if (
+					(fs.existsSync(glassfishPath) &&
+						fs.statSync(glassfishPath).isDirectory()) ||
+					(fs.existsSync(jbossPath) &&
+						fs.statSync(jbossPath).isDirectory()) ||
+					(fs.existsSync(tomcatPath) &&
+						fs.statSync(tomcatPath).isDirectory())
+				) {
 					return retVal;
-				}
-				else {
-					retVal = '"%s" doesn\'t appear to be an app server directory';
+				} else {
+					retVal =
+						'"%s" doesn\'t appear to be an app server directory';
 				}
 			}
 		}
@@ -199,7 +226,7 @@ InitPrompt.prototype = {
 		}
 
 		return retVal;
-	}
+	},
 };
 
 module.exports = InitPrompt;
