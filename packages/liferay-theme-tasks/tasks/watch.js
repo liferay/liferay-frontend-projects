@@ -184,6 +184,11 @@ module.exports = function(options) {
 			const match = themePattern.exec(requestUrl.pathname);
 			if (match) {
 				const filepath = path.resolve('build', match[3]);
+				const ext = path.extname(filepath);
+
+				if (ext === '.css') {
+					res.setHeader('Content-Type', 'text/css');
+				}
 
 				fs.createReadStream(filepath)
 					.on('error', err => {
