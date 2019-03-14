@@ -19,6 +19,10 @@ const url = require('url');
 
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
+const MIME_TYPES = {
+	'.css': 'text/css',
+	'.js': 'text/javacript',
+};
 
 module.exports = function(options) {
 	// Get things from options
@@ -186,8 +190,8 @@ module.exports = function(options) {
 				const filepath = path.resolve('build', match[3]);
 				const ext = path.extname(filepath);
 
-				if (ext === '.css') {
-					res.setHeader('Content-Type', 'text/css');
+				if (MIME_TYPES[ext]) {
+					res.setHeader('Content-Type', MIME_TYPES[ext]);
 				}
 
 				fs.createReadStream(filepath)
