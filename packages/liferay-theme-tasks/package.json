@@ -12,7 +12,6 @@
 		"event-stream": "^4.0.0",
 		"fs-extra": "^0.24.0",
 		"globby": "^4.0.0",
-		"gogo-shell": "*",
 		"gulp-concat": "^2.5.2",
 		"gulp-debug": "^2.0.0",
 		"gulp-filter": "^2.0.2",
@@ -56,7 +55,6 @@
 	"description": "A set of tasks for building and deploying Liferay Portal themes.",
 	"devDependencies": {
 		"bluebird": "^3.3.4",
-		"gogo-shell-helper": "^0.0.8",
 		"gulp": "^3.9.1",
 		"gulp-sass": "^3.1.0"
 	},
