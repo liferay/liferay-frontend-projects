@@ -11,7 +11,7 @@ const log = require('fancy-log');
 const lfrThemeConfig = require('./liferay_theme_config');
 
 // This array contains all theme versions supported for non-upgrade tasks
-const supportedThemeVersions = ['7.0', '7.1', '7.2'];
+const supportedThemeVersions = ['7.0', '7.1'];
 
 // This array contains all theme versions supported for upgrade tasks
 const supportedUpgradeVersions = ['6.2', '7.0'];

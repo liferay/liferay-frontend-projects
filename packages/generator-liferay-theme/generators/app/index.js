@@ -191,7 +191,7 @@ module.exports = class extends Generator {
 			{
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.2', '7.1', '7.0'],
+				choices: ['7.1', '7.0'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',
@@ -286,7 +286,7 @@ module.exports = class extends Generator {
 	}
 
 	_isLiferayVersion(value) {
-		return ['7.2', '7.1', '7.0'].indexOf(value) > -1;
+		return ['7.1', '7.0'].indexOf(value) > -1;
 	}
 
 	_isTemplateLanguage(value, answers) {

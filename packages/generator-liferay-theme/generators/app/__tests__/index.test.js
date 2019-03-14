@@ -238,7 +238,7 @@ describe('liferay-theme:app unit tests', function() {
 			sinonAssert.calledWith(prototype.log, chalk.yellow(deprecated));
 			expect(prototype.log.callCount).toBe(1);
 
-			['7.1', '7.2'].forEach(liferayVersion => {
+			['7.1'].forEach(liferayVersion => {
 				prototype.log.reset();
 				prototype._printWarnings({
 					liferayVersion,
@@ -248,7 +248,7 @@ describe('liferay-theme:app unit tests', function() {
 				expect(prototype.log.callCount).toBe(1);
 			});
 
-			['7.0', '7.1', '7.2'].forEach(liferayVersion => {
+			['7.0', '7.1'].forEach(liferayVersion => {
 				prototype.log.reset();
 
 				prototype.templateLanguage = 'ftl';
