@@ -317,19 +317,21 @@ module.exports = class extends Generator {
 		const liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
-		this.devDependencies = JSON.stringify(
-			lookup('devDependencies', liferayVersion),
-			null,
-			2
-		)
-			.split(/\n\s*/)
-			.join('\n\t\t')
-			.replace('\t\t}', '\t}');
+		if (liferayVersion !== '*') {
+			this.devDependencies = JSON.stringify(
+				lookup('devDependencies', liferayVersion),
+				null,
+				2
+			)
+				.split(/\n\s*/)
+				.join('\n\t\t')
+				.replace('\t\t}', '\t}');
+		}
 		this.liferayVersion = liferayVersion;
 		this.templateLanguage = props.templateLanguage;
 		this.themeName = props.themeName;
 
-		this._setDefaults(liferayVersion);
+		this._setDefaults();
 
 		this._printWarnings(props);
 
@@ -348,7 +350,7 @@ module.exports = class extends Generator {
 		});
 	}
 
-	_setDefaults(_liferayVersion) {
+	_setDefaults() {
 		_.defaults(this, {
 			templateLanguage: 'ftl',
 		});
