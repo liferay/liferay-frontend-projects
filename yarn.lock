@@ -5199,14 +5199,7 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-gogo-shell-helper@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/gogo-shell-helper/-/gogo-shell-helper-0.0.8.tgz#cf1007e7efdbcc1d34d1f4aa47daa38752f2dd4d"
-  integrity sha1-zxAH5+/bzB000fSqR9qjh1Ly3U0=
-  dependencies:
-    lodash "^4.7.0"
-
-gogo-shell@*, gogo-shell@0.0.5:
+gogo-shell@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/gogo-shell/-/gogo-shell-0.0.5.tgz#a37539c03bf29b6f637dbbcaf9a4d344f0166707"
   integrity sha1-o3U5wDvym29jfbvK+aTTRPAWZwc=
@@ -7978,7 +7971,7 @@ lodash@3.x, lodash@^3.10.0, lodash@^3.10.1:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
-lodash@>=2.4.0, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1, lodash@^4.7.0, lodash@~4.17.10:
+lodash@>=2.4.0, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
