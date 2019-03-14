@@ -169,13 +169,10 @@ function registerTasks(options) {
 						deployFiles,
 						function(err) {
 							if (err) throw err;
-							reloadBrowser(fileGlobs);
 						}
 					);
 				})
 			);
-		} else {
-			reloadBrowser(fileGlobs);
 		}
 
 		if (fastDeployPaths.tempDest) {
@@ -183,20 +180,6 @@ function registerTasks(options) {
 		}
 
 		return stream;
-	}
-
-	function reloadBrowser(fileGlobs) {
-		const browserSync = gulp.browserSync;
-
-		if (!browserSync) {
-			return;
-		}
-
-		if (fileGlobs) {
-			browserSync.reload(fileGlobs);
-		} else {
-			browserSync.reload();
-		}
 	}
 
 	function getFastDeployPaths() {
