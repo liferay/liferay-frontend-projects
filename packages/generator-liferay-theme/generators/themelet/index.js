@@ -101,10 +101,9 @@ module.exports = class extends Base {
 
 	_promptCallback(props) {
 		if (props.liferayVersion == 'All') {
-			this.liferayVersion = '*';
-		} else {
-			super._promptCallback.call(this, props);
+			props.liferayVersion = '*';
 		}
+		super._promptCallback.call(this, props);
 	}
 
 	_track() {
