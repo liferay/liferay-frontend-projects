@@ -75,13 +75,6 @@ module.exports = function(options) {
 	});
 
 	/**
-	 * Uninstall bundled WAR file from OSGi
-	 */
-	gulp.task('watch:osgi:clean', function(cb) {
-		cb();
-	});
-
-	/**
 	 * Clean the remote exploded build dir in docker
 	 */
 	gulp.task('watch:docker:clean', function(cb) {
@@ -158,7 +151,7 @@ module.exports = function(options) {
 		clearChangedFile();
 
 		const themePattern = new RegExp(
-			'(?!.*.(ftl|tpl|vm))(/o/' + distName + '/)(.*)'
+			`(?!.*.(ftl|tpl|vm))(${resourcePrefix}/${distName}/)(.*)`
 		);
 
 		livereload = tinylr();
@@ -176,15 +169,15 @@ module.exports = function(options) {
 				req.headers.accept.includes('text/html')
 			) {
 				res.write(
-					`<script>document.write('<script src="http://localhost:${tinylrPort}/livereload.js?snipver=1"></' + 'script>')</script>`
+					`<script src="http://localhost:${tinylrPort}/livereload.js"></script>`
 				);
 			}
 
 			const requestUrl = url.parse(req.url);
 
 			const match = themePattern.exec(requestUrl.pathname);
-			if (match && match.length >= 4) {
-				const filepath = path.resolve(process.cwd(), 'build', match[3]);
+			if (match) {
+				const filepath = path.resolve('build', match[3]);
 
 				fs.createReadStream(filepath)
 					.on('error', err => {
@@ -279,19 +272,13 @@ module.exports = function(options) {
 	function getCleanTaskArray(deploymentStrategy) {
 		switch (deploymentStrategy) {
 			case DEPLOYMENT_STRATEGIES.LOCAL_APP_SERVER:
-				return [
-					'build',
-					'watch:clean',
-					'watch:osgi:clean',
-					'watch:setup',
-				];
+				return ['build', 'watch:clean', 'watch:setup'];
 
 			case DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER:
 				return [
 					'build',
 					'watch:clean',
 					'watch:docker:clean',
-					'watch:osgi:clean',
 					'watch:setup',
 					'watch:docker:copy',
 				];
