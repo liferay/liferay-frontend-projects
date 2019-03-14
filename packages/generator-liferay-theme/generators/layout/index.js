@@ -96,7 +96,7 @@ module.exports = class extends Base {
 			this.destinationPath(thumbnailDestination)
 		);
 		this.fs.copyTpl(
-			this.templatePath('docroot/layout.tpl'),
+			this.templatePath('docroot/layout.ftl'),
 			this.destinationPath(templateDestination),
 			this
 		);
@@ -219,7 +219,7 @@ module.exports = class extends Base {
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;
 		this.liferayVersion = props.liferayVersion;
-		this.templateFilename = _.snakeCase(layoutId) + '.tpl';
+		this.templateFilename = _.snakeCase(layoutId) + '.ftl';
 		this.themeLayout = false;
 		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';
 
