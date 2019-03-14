@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const lfrThemeConfig = require('../liferay_theme_config.js');
 const testUtil = require('../../test/util');
 

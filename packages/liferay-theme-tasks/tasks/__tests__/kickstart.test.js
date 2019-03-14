@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const fs = require('fs');
 const path = require('path');
 
@@ -65,7 +71,7 @@ describe('globally installed theme', () => {
 
 			expect(
 				fs.readFileSync(path.join(srcDir, 'js/main.js')).toString()
-			).toEqual('// kickstart-theme js\n');
+			).toContain('// kickstart-theme js\n');
 
 			expect(
 				fs

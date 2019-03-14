@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 const {exec} = require('child_process');
 const inquirer = require('inquirer');
 const _ = require('lodash');

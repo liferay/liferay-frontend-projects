@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 function devDependencies(version) {
 	const dependencies = {
 		gulp: '3.9.1',
