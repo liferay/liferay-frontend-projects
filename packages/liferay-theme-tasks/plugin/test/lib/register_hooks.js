@@ -194,10 +194,7 @@ test('_registerHookModule should register hook or log appropriate log messages',
 	);
 	expect(gutil.log.callCount).toBe(1);
 
-	var moduleHook = require(path.join(
-		__dirname,
-		'../fixtures/hook_modules/hook-module-1'
-	));
+	require(path.join(__dirname, '../fixtures/hook_modules/hook-module-1'));
 
 	prototype.gulp = {
 		hook: sinon.spy(),

@@ -7,7 +7,6 @@
 'use strict';
 
 var _ = require('lodash');
-var chai = require('chai');
 var path = require('path');
 var sinon = require('sinon');
 
@@ -156,7 +155,7 @@ test('_prompt should invoke inquirer.prompt with correct args', function() {
 
 	var args = inquirer.prompt.args[0];
 
-	_.forEach(args[0], function(item, index) {
+	_.forEach(args[0], function(item) {
 		expect(_.isObject(item)).toBe(true);
 	});
 

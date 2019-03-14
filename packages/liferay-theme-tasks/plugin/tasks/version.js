@@ -12,7 +12,7 @@ var path = require('path');
 
 var chalk = gutil.colors;
 
-var REGEX_MODULE_VERSION = /module-version=([0-9\.]+)/;
+var REGEX_MODULE_VERSION = /module-version=([0-9.]+)/;
 
 module.exports = function(options) {
 	var gulp = options.gulp;
@@ -43,8 +43,8 @@ module.exports = function(options) {
 
 				if (moduleVersion && moduleVersion[1] != npmPackageVersion) {
 					result = result.replace(REGEX_MODULE_VERSION, function(
-						match,
-						g1
+						_match,
+						_g1
 					) {
 						return 'module-version=' + npmPackageVersion;
 					});

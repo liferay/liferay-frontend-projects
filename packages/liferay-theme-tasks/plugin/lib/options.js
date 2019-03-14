@@ -23,7 +23,9 @@ module.exports = function(options) {
 		pkg = require(path.join(CWD, 'package.json'));
 
 		distName = pkg.name;
-	} catch (e) {}
+	} catch (e) {
+		// Swallow.
+	}
 
 	distName = options.distName || distName;
 

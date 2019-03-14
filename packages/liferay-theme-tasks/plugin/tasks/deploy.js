@@ -9,8 +9,6 @@
 var gutil = require('gulp-util');
 var path = require('path');
 
-var chalk = gutil.colors;
-
 var TASK_BUILD = 'build';
 
 var TASK_PLUGIN_DEPLOY = 'plugin:deploy';

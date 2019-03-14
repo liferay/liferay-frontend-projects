@@ -74,13 +74,13 @@ RegisterHooks.prototype = {
 
 		var sequence = [];
 
-		_.forEach(hooks.before, function(hookFn, index) {
+		_.forEach(hooks.before, function(hookFn) {
 			instance._addToSequence(sequence, hookFn);
 		});
 
 		this._addToSequence(sequence, fn);
 
-		_.forEach(hooks.after, function(hookFn, index) {
+		_.forEach(hooks.after, function(hookFn) {
 			instance._addToSequence(sequence, hookFn);
 		});
 
@@ -156,8 +156,6 @@ RegisterHooks.prototype = {
 	},
 
 	_registerHookModules() {
-		var instance = this;
-
 		var hookModules = this.hookModules;
 
 		if (hookModules) {
@@ -171,8 +169,6 @@ RegisterHooks.prototype = {
 
 	_registerHooks() {
 		var instance = this;
-
-		var gulp = this.gulp;
 
 		this.gulp.hook = function(name, fn) {
 			var hooks = instance.hooks;

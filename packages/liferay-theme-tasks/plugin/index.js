@@ -33,7 +33,7 @@ module.exports.registerTasks = function(options) {
 
 	var tasks = require('./tasks/index');
 
-	_.forEach(tasks, function(task, index) {
+	_.forEach(tasks, function(task) {
 		task(options);
 	});
 

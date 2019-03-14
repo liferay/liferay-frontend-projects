@@ -12,7 +12,6 @@ var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
 var os = require('os');
 var path = require('path');
-var sinon = require('sinon');
 
 var gulp = new Gulp();
 
