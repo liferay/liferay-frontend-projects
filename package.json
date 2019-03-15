@@ -27,6 +27,7 @@
 	"jest": {
 		"testPathIgnorePatterns": [
 			"/__fixtures__/",
+			"/__snapshots__/",
 			"/fixtures/",
 			"/node_modules/"
 		],
@@ -36,7 +37,7 @@
 		"testRegex": [
 			".*\\.test\\.js",
 			"/__tests__/.*\\.js",
-			"/test/.*\\.js"
+			"/plugin/test/.*\\.js"
 		]
 	},
 	"resolutions": {
