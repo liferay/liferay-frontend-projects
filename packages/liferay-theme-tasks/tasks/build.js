@@ -91,8 +91,8 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('build:clean', function(cb) {
-		del([pathBuild], cb);
+	gulp.task('build:clean', function() {
+		return del([pathBuild]);
 	});
 
 	gulp.task('build:base', function() {
@@ -227,8 +227,8 @@ module.exports = function(options) {
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
-	gulp.task('build:remove-old-css-dir', function(cb) {
-		del([pathBuild + '/_css'], cb);
+	gulp.task('build:remove-old-css-dir', function() {
+		return del([pathBuild + '/_css']);
 	});
 
 	gulp.task('build:fix-at-directives', function() {

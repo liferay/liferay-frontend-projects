@@ -80,8 +80,8 @@ module.exports = function(options) {
 	/**
 	 * Clean the exploded build dir
 	 */
-	gulp.task('watch:clean', function(cb) {
-		del([explodedBuildDir], cb);
+	gulp.task('watch:clean', function() {
+		return del([explodedBuildDir]);
 	});
 
 	/**
