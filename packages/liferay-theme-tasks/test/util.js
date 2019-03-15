@@ -16,17 +16,6 @@ const osTempDir = os.tmpdir();
 
 /* eslint-disable no-console */
 
-const saved = {
-	console: {
-		log: console.log,
-	},
-	process: {
-		stdout: {
-			write: process.stdout.write,
-		},
-	},
-};
-
 expect.extend({
 	toBeFile(path) {
 		let pass = true;

@@ -7,8 +7,6 @@
 const _ = require('lodash');
 const path = require('path');
 
-const testUtil = require('../../test/util');
-
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,

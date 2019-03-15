@@ -5,7 +5,6 @@
  */
 
 const status = require('../../lib/status.js');
-const testUtil = require('../../test/util');
 
 it('status should return appropriate status message', () => {
 	let statusMessage = status({
