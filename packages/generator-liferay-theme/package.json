@@ -40,7 +40,6 @@
 		"insight": "^0.10.1",
 		"liferay-theme-tasks": "^8.0.0-rc.3",
 		"lodash": "^4.17.10",
-		"lodash-bindright": "^1.0.1",
 		"minimist": "^1.2.0",
 		"yeoman-generator": "^3.2.0",
 		"yosay": "^0.3.0"
