@@ -21,8 +21,6 @@ let themeFinder;
 let prototype;
 
 beforeEach(() => {
-	testUtil.hideConsole();
-
 	testUtil.copyTempTheme({
 		namespace: 'npm_module_prompt',
 	});
@@ -38,8 +36,6 @@ afterEach(() => {
 	prototypeMethodSpy.flush();
 
 	testUtil.cleanTempTheme('base-theme', '7.1', 'npm_module_prompt', initCwd);
-
-	testUtil.restoreConsole();
 });
 
 it('constructor should pass arguments to init', () => {

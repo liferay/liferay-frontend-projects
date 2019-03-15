@@ -44,8 +44,6 @@ let ExtendPrompt;
 let prototype;
 
 beforeEach(() => {
-	jest.setTimeout(30000);
-
 	testUtil.copyTempTheme({
 		namespace: 'extend_prompt',
 	});

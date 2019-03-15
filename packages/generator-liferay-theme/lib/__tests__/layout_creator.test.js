@@ -8,7 +8,6 @@ const _ = require('lodash');
 const chai = require('chai');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const testUtil = require('liferay-theme-tasks/test/util');
 const path = require('path');
 const sinon = require('sinon');
 const stripAnsi = require('strip-ansi');
@@ -22,12 +21,7 @@ describe('LayoutCreator', function() {
 	var prototype;
 
 	beforeEach(function() {
-		testUtil.hideConsole();
 		prototype = _.create(LayoutCreator.prototype);
-	});
-
-	afterEach(() => {
-		testUtil.restoreConsole();
 	});
 
 	describe('constructor', function() {

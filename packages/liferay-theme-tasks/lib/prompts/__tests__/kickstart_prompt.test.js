@@ -19,8 +19,6 @@ let NPMModulePrompt;
 let prototype;
 
 beforeEach(() => {
-	jest.setTimeout(30000);
-
 	testUtil.copyTempTheme({
 		namespace: 'kickstart_prompt',
 	});

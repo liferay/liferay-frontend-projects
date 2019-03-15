@@ -8,6 +8,6 @@
 	},
 	"devDependencies": {
 		"gulp": "^3.9.1",
-		"liferay-plugin-node-tasks": "1.0.11"
+		"liferay-theme-tasks": "<%= tasksVersion %>"
 	}
 }

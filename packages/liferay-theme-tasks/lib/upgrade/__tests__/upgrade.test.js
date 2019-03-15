@@ -20,14 +20,6 @@ afterAll(() => {
 	);
 });
 
-beforeEach(() => {
-	testUtil.hideConsole();
-});
-
-afterEach(() => {
-	testUtil.restoreConsole();
-});
-
 describe('config', () => {
 	let runSequence;
 	let tempPath;

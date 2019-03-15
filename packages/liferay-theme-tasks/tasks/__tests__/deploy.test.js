@@ -35,10 +35,6 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-	jest.setTimeout(30000);
-
-	testUtil.hideConsole();
-
 	const config = testUtil.copyTempTheme({
 		namespace: 'deploy_task',
 		registerTasks: true,
@@ -64,8 +60,6 @@ afterEach(() => {
 	del.sync(path.join(deployPath, '**'), {
 		force: true,
 	});
-
-	testUtil.restoreConsole();
 });
 
 it('should deploy to deploy server', done => {

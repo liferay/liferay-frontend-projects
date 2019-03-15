@@ -50,16 +50,6 @@ gulp deploy --live -u test@liferay.com -p test
 
 **Note:** the `deploy --live` task is not currently working for Liferay 7.0 as the `server-manager-web` plugin has not been migrated to work with OSGi.
 
-#### Deploy Gogo
-
-For Liferay 7.0 themes, there is an optional deploy command for deploying your theme via OSGi. **This task will NOT work for Docker deployment strategy.**
-
-```
-gulp deploy:gogo
-```
-
-Note that Liferay Portal's gogo shell must be running for this command to work.
-
 ### Extend
 
 ```

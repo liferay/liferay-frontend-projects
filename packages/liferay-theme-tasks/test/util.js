@@ -16,26 +16,6 @@ const osTempDir = os.tmpdir();
 
 /* eslint-disable no-console */
 
-const saved = {
-	console: {
-		log: console.log,
-	},
-	process: {
-		stdout: {
-			write: process.stdout.write,
-		},
-	},
-};
-
-function hideConsole() {
-	process.stdout.write = console.log = () => undefined;
-}
-
-function restoreConsole() {
-	process.stdout.write = saved.process.stdout.write;
-	console.log = saved.console.log;
-}
-
 expect.extend({
 	toBeFile(path) {
 		let pass = true;
@@ -336,8 +316,6 @@ module.exports = {
 	PrototypeMethodSpy,
 	assertBoundFunction,
 	stripNewlines,
-	hideConsole,
-	restoreConsole,
 };
 
 function cleanDirectory(directory) {

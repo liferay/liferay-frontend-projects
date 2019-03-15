@@ -25,12 +25,22 @@
 		"replace-in-file": "^3.4.2"
 	},
 	"jest": {
+		"setupFilesAfterEnv": [
+			"<rootDir>/jest.js"
+		],
 		"testPathIgnorePatterns": [
-			"/node_modules/",
-			"/__fixtures__/"
+			"/__fixtures__/",
+			"/__snapshots__/",
+			"/fixtures/",
+			"/node_modules/"
 		],
 		"modulePathIgnorePatterns": [
 			"/generator-liferay-theme/generators/layout/"
+		],
+		"testRegex": [
+			".*\\.test\\.js",
+			"/__tests__/.*\\.js",
+			"/plugin/test/.*\\.js"
 		]
 	},
 	"resolutions": {

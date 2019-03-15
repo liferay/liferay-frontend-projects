@@ -21,14 +21,6 @@ afterAll(() => {
 	);
 });
 
-beforeEach(() => {
-	testUtil.hideConsole();
-});
-
-afterEach(() => {
-	testUtil.restoreConsole();
-});
-
 describe('globally installed theme', () => {
 	let KickstartPrompt;
 	let runSequence;
