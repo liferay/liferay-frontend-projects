@@ -3,7 +3,6 @@
 	"dependencies": {
 		"async": "^2.6.1",
 		"autoprefixer": "^9.1.5",
-		"browser-sync": "^2.24.4",
 		"compass-mixins": "^0.12.8",
 		"cross-spawn": "^2.2.3",
 		"del": "^4.0.0",
