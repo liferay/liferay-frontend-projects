@@ -65,7 +65,7 @@ function registerTasks(options) {
 						.pipe(gulp.dest(pathSrc))
 						.on('end', function() {
 							if (tempNodeModulesPath) {
-								del([tempNodeModulesPath]).then(cb);
+								del([tempNodeModulesPath]).then(() => cb());
 							} else {
 								cb();
 							}

@@ -92,7 +92,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:clean', function(cb) {
-		del([pathBuild]).then(cb);
+		del([pathBuild]).then(() => cb());
 	});
 
 	gulp.task('build:base', function() {
@@ -228,7 +228,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:remove-old-css-dir', function(cb) {
-		del([pathBuild + '/_css']).then(cb);
+		del([pathBuild + '/_css']).then(() => cb());
 	});
 
 	gulp.task('build:fix-at-directives', function() {
