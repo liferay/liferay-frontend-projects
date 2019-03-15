@@ -34,7 +34,8 @@
 		"eslint-plugin-no-for-of-loops": "^1.0.0",
 		"eslint-plugin-no-only-tests": "^2.1.0",
 		"eslint-plugin-notice": "0.7.8",
-		"eslint-plugin-react": "7.13.0"
+		"eslint-plugin-react": "7.13.0",
+		"eslint-plugin-react-hooks": "1.6.0"
 	},
 	"scripts": {
 		"ci": "yarn lint && yarn format:check",

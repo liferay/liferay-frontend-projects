@@ -13,12 +13,18 @@ const config = {
 			jsx: true,
 		},
 	},
-	plugins: ['react'],
+	plugins: ['react', 'react-hooks'],
 
-	/**
-	 * @see https://github.com/yannickcr/eslint-plugin-react
-	 */
 	rules: {
+		/**
+		 * @see https://reactjs.org/docs/hooks-rules.html
+		 */
+		'react-hooks/exhaustive-deps': 'warn',
+		'react-hooks/rules-of-hooks': 'error',
+
+		/**
+		 * @see https://github.com/yannickcr/eslint-plugin-react
+		 */
 		'react/jsx-no-comment-textnodes': 'error',
 		'react/jsx-no-duplicate-props': 'error',
 		'react/jsx-no-undef': 'error',
