@@ -121,12 +121,12 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	expect(answers.deployPath).toBe(defaultAnswers.deployPath);
 	expect(answers.url).toBe(defaultAnswers.url);
 
-	expect(answers.pluginName).toBe('liferay-plugin-node-tasks');
+	expect(answers.pluginName).toBe('plugin');
 	expect(answers.deployed).toBe(false);
 	expect(answers.appServerPathPlugin).toBe(
 		path.join(
 			defaultAnswers.appServerPath,
-			'webapps/liferay-plugin-node-tasks'
+			'webapps/plugin'
 		)
 	);
 
@@ -139,7 +139,7 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	expect(answers.appServerPathPlugin).toBe(
 		path.join(
 			defaultAnswers.appServerPath,
-			'webapps/liferay-plugin-node-tasks'
+			'webapps/plugin'
 		)
 	);
 });
