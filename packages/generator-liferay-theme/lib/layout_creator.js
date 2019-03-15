@@ -518,9 +518,8 @@ LayoutCreator.prototype = {
 			};
 		});
 
-		this.prompt(
-			questions,
-			answers => this._afterPromptColumnWidths(answers, cb)
+		this.prompt(questions, answers =>
+			this._afterPromptColumnWidths(answers, cb)
 		);
 	},
 
