@@ -35,8 +35,6 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-	jest.setTimeout(30000);
-
 	testUtil.hideConsole();
 
 	const config = testUtil.copyTempTheme({

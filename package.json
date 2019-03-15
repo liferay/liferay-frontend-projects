@@ -25,6 +25,9 @@
 		"replace-in-file": "^3.4.2"
 	},
 	"jest": {
+		"setupFilesAfterEnv": [
+			"<rootDir>/jest.js"
+		],
 		"testPathIgnorePatterns": [
 			"/__fixtures__/",
 			"/__snapshots__/",

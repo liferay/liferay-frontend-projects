@@ -51,8 +51,6 @@ describe('using lib_sass', () => {
 	let themeConfig;
 
 	beforeEach(() => {
-		jest.setTimeout(30000);
-
 		testUtil.hideConsole();
 		testUtil.cleanTempTheme(themeName, version, namespace, null);
 
