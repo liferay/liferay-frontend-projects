@@ -10,6 +10,7 @@ const _ = require('lodash');
 const fs = require('fs');
 const LayoutCreator = require('../../lib/layout_creator');
 const minimist = require('minimist');
+const lookup = require('liferay-theme-tasks/lib/lookup');
 const path = require('path');
 
 const Base = require('../app');
@@ -164,7 +165,7 @@ module.exports = class extends Base {
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
 				const gulp = require('gulp');
-				require('liferay-plugin-node-tasks').registerTasks({
+				require('liferay-theme-tasks/plugin').registerTasks({
 					gulp,
 				});
 				gulp.start('init');
@@ -212,10 +213,12 @@ module.exports = class extends Base {
 
 	_promptCallback(props) {
 		const layoutId = props.layoutId;
+		const liferayVersion = props.liferayVersion;
 
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;
-		this.liferayVersion = props.liferayVersion;
+		this.liferayVersion = liferayVersion;
+		this.tasksVersion = lookup('devDependencies', liferayVersion)['liferay-theme-tasks'];
 		this.templateFilename = _.snakeCase(layoutId) + '.ftl';
 		this.themeLayout = false;
 		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';
