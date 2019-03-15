@@ -218,7 +218,9 @@ module.exports = class extends Base {
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;
 		this.liferayVersion = liferayVersion;
-		this.tasksVersion = lookup('devDependencies', liferayVersion)['liferay-theme-tasks'];
+		this.tasksVersion = lookup('devDependencies', liferayVersion)[
+			'liferay-theme-tasks'
+		];
 		this.templateFilename = _.snakeCase(layoutId) + '.ftl';
 		this.themeLayout = false;
 		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';

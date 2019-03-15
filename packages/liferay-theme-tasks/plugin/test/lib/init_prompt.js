@@ -124,10 +124,7 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	expect(answers.pluginName).toBe('plugin');
 	expect(answers.deployed).toBe(false);
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(
-			defaultAnswers.appServerPath,
-			'webapps/plugin'
-		)
+		path.join(defaultAnswers.appServerPath, 'webapps/plugin')
 	);
 
 	answers = _.assign({}, defaultAnswers);
@@ -137,10 +134,7 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	prototype._normalizeAnswers(answers);
 
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(
-			defaultAnswers.appServerPath,
-			'webapps/plugin'
-		)
+		path.join(defaultAnswers.appServerPath, 'webapps/plugin')
 	);
 });
 
