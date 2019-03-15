@@ -7,14 +7,6 @@
 const status = require('../../lib/status.js');
 const testUtil = require('../../test/util');
 
-beforeEach(() => {
-	testUtil.hideConsole();
-});
-
-afterEach(() => {
-	testUtil.restoreConsole();
-});
-
 it('status should return appropriate status message', () => {
 	let statusMessage = status({
 		baseTheme: {

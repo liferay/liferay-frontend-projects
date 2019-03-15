@@ -22,12 +22,7 @@ describe('LayoutCreator', function() {
 	var prototype;
 
 	beforeEach(function() {
-		testUtil.hideConsole();
 		prototype = _.create(LayoutCreator.prototype);
-	});
-
-	afterEach(() => {
-		testUtil.restoreConsole();
 	});
 
 	describe('constructor', function() {

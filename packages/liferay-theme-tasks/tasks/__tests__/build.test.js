@@ -51,7 +51,6 @@ describe('using lib_sass', () => {
 	let themeConfig;
 
 	beforeEach(() => {
-		testUtil.hideConsole();
 		testUtil.cleanTempTheme(themeName, version, namespace, null);
 
 		const config = testUtil.copyTempTheme({
@@ -84,8 +83,6 @@ describe('using lib_sass', () => {
 
 	afterEach(() => {
 		expect(sassOptionsSpy.calledOnce).toBe(true);
-
-		testUtil.restoreConsole();
 	});
 
 	it('build task should correctly compile theme', done => {

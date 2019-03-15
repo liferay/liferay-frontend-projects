@@ -44,14 +44,6 @@ afterAll(() => {
 	delete process.env.LIFERAY_THEME_UNSTYLED_PATH;
 });
 
-beforeEach(() => {
-	testUtil.hideConsole();
-});
-
-afterEach(() => {
-	testUtil.restoreConsole();
-});
-
 describe('when changing css files', () => {
 	let gulp;
 	let runSequence;

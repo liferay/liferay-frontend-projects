@@ -27,15 +27,6 @@ const saved = {
 	},
 };
 
-function hideConsole() {
-	process.stdout.write = console.log = () => undefined;
-}
-
-function restoreConsole() {
-	process.stdout.write = saved.process.stdout.write;
-	console.log = saved.console.log;
-}
-
 expect.extend({
 	toBeFile(path) {
 		let pass = true;
@@ -336,8 +327,6 @@ module.exports = {
 	PrototypeMethodSpy,
 	assertBoundFunction,
 	stripNewlines,
-	hideConsole,
-	restoreConsole,
 };
 
 function cleanDirectory(directory) {
