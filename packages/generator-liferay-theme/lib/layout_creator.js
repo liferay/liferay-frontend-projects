@@ -6,7 +6,7 @@
 
 'use strict';
 
-var _ = require('lodash-bindright')(require('lodash'));
+var _ = require('lodash');
 var async = require('async');
 var chalk = require('chalk');
 var fs = require('fs');
@@ -491,7 +491,7 @@ LayoutCreator.prototype = {
 					validate: instance._validateColumnCount,
 				},
 			],
-			_.bindRight(this._afterPromptColumnCount, this, cb)
+			answers => this._afterPromptColumnCount(answers, cb)
 		);
 	},
 
@@ -518,9 +518,8 @@ LayoutCreator.prototype = {
 			};
 		});
 
-		this.prompt(
-			questions,
-			_.bindRight(this._afterPromptColumnWidths, this, cb)
+		this.prompt(questions, answers =>
+			this._afterPromptColumnWidths(answers, cb)
 		);
 	},
 
@@ -534,7 +533,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			_.bindRight(this._afterPromptFinishRow, this, cb)
+			answers => this._afterPromptFinishRow(answers, cb)
 		);
 	},
 
@@ -548,7 +547,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			_.bindRight(this._afterPromptInsertRow, this, cb)
+			answers => this._afterPromptInsertRow(answers, cb)
 		);
 	},
 
@@ -562,7 +561,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			_.bindRight(this._afterPromptRemoveRow, this, cb)
+			answers => this._afterPromptRemoveRow(answers, cb)
 		);
 	},
 
