@@ -25,7 +25,6 @@ function lookup(key, version = null) {
 	return {
 		baseThemeDependencies: () =>
 			require('./lookup/base').getBaseDependencies,
-		devDependencies: () => require('./lookup/dependencies').devDependencies,
 	}[key]()(version);
 }
 
