@@ -58,71 +58,82 @@ releases, and one for emergency hot fixes.
 
 ## Scheduled release
 
-1. Create a release branch from the updated `develop` branch
+### 1. Update the `master` branch
 
-```
-git checkout develop
-git pull upstream develop
-git checkout -b release/vX.X.X
-```
-
-2. Prepare the templates for the new version
-
-```
-yarn updatePackageVersions {version}
-git add .
-git commit -m "v{version} Prepares templates"
-```
-
-3. Send release PR to `master`
-
-4. Wait to see that all tests pass and then merge with merge commit
-
-5. Checkout and pull `master` locally
-
-```
-git checkout master && git pull upstream master
-```
-
-6. Release
-
-```
-lerna publish [Pick the appropriate version and answer the required prompts]
-```
-
-7. Generate changelog
-
-github_changelog_generator (https://github.com/skywinder/github-changelog-generator)
-
-9. Commit changelog and push to `master`
-
-```
-git add CHANGELOG.md
-git commit -m "v{version} CHANGELOG"
-git push
-```
-
-10. Sync `develop` with `master`
-
-```
-git checkout develop
-git merge master
-```
-
-11. Do GitHub release using the pushed vX.X.X tag and the appropriate portion of
-    CHANGELOG.md
-
-## Hot fix
-
-1. Create a feature branch from `master` (assuming hot fix has already been
-   merged)
-
-```
+```sh
 git checkout master
 git pull upstream master
-git checkout -b feature/fix_foo
 ```
 
-2. Send a fix PR to `master`
+### 2. Update dependency versions
 
-3. Follow steps 3-11 of a scheduled release
+Some of these can be updates can be performed automatically by running the `updatePackageVersions` task, and others with `yarn` and manual editing:
+
+```sh
+yarn updatePackageVersions $VERSION
+
+for PACKAGE in $(ls packages); do
+  yarn version --no-git-tag-version $VERSION
+done
+
+# Edit the one place that needs changing manually:
+$EDITOR packages/liferay-theme-tasks/lib/lookup/dependencies.js
+```
+
+### 3. Generate changelog
+
+Using [`github_changelog_generator`](https://github.com/skywinder/github-changelog-generator):
+
+```sh
+github_changelog_generator \
+  liferay/liferay-js-themes-toolkit \
+  -t $GITHUB_ACCESS_TOKEN \
+  --future-release $VERSION
+```
+
+### 4. Send a release PR
+
+```sh
+# See the tests pass locally:
+yarn ci
+
+# Prepare and push final commit:
+git add -A
+git commit -m "Prepare for $VERSION release"
+git push upstream master
+```
+
+You can now create a draft PR (proposing a merge of "master" into "stable"); **we won't actually merge this PR; we just want to see the CI pass**.
+
+### 5. Perform the merge to `stable`
+
+Once we've seen the CI pass above, we can **close the PR without merging it** (it was already pushed to the "master" branch) and publish our tags.
+
+```sh
+git checkout stable
+git pull upstream stable
+git merge --ff-only master
+git tag $VERSION -m $VERSION
+git push upstream stable --follow-tags
+```
+
+### 6. Update the release notes
+
+Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
+
+### 7. Do the NPM publish
+
+We used to use Lerna to manage this repo, but as the number of packages has reduced to (to just 3 on the current "master" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
+
+- First "liferay-theme-tasks".
+- Then "generator-liferay-theme".
+- "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
+
+```sh
+cd packages
+(cd liferay-theme-tasks && yarn publish)
+(cd generator-liferay-theme && yarn publish)
+(cd liferay-theme-mixins && yarn publish)
+```
+
+We may partially automate this in the future, but if we do, it will be in the form of a very simple shell script.
