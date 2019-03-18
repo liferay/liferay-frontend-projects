@@ -1,16 +1,17 @@
 {
 	"devDependencies": {
-		"eslint": "^5.15.1",
+		"eslint": "^5.15.2",
 		"eslint-config-liferay": "^3.0.0",
 		"jest": "^24.1.0",
-		"prettier-eslint-cli": "^4.7.1",
+		"prettier": "^1.16.4",
 		"sinon": "^4.4.6"
 	},
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
-		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/**/*.{js,json,md}' && yarn lint && yarn test",
-		"format": "prettier-eslint --write '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
+		"ci": "yarn format:check && yarn lint && yarn test",
+		"format": "prettier --write '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
+		"format:check": "prettier --list-different '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
 		"lint": "eslint 'packages/**/*.js'",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
