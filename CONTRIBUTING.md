@@ -128,7 +128,7 @@ We used to use Lerna to manage this repo, but as the number of packages has redu
 - First "liferay-theme-deps-7.0" and "liferay-theme-deps-7.1" (in any order).
 - Then "liferay-theme-tasks".
 - And finally "generator-liferay-theme".
-- "liferay-theme-mixins" is specifies no dependencies and is not depended on by the other packages, so can be published at any point.
+- "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
 
 ```sh
 cd packages
