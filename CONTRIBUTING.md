@@ -125,10 +125,10 @@ Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-
 
 We used to use Lerna to manage this repo, but as the number of packages has reduced to (to just 3 on the current "master" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
 
-- First "liferay-theme-deps-7.0" and "liferay-theme-deps-7.1" (in any order).
-- Then "liferay-theme-tasks".
-- And finally "generator-liferay-theme".
-- "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
+-   First "liferay-theme-deps-7.0" and "liferay-theme-deps-7.1" (in any order).
+-   Then "liferay-theme-tasks".
+-   And finally "generator-liferay-theme".
+-   "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
 
 ```sh
 cd packages
