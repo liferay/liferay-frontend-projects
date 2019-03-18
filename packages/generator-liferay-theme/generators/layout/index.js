@@ -6,7 +6,6 @@
 
 'use strict';
 
-const _ = require('lodash');
 const fs = require('fs');
 const LayoutCreator = require('../../lib/layout_creator');
 const minimist = require('minimist');
@@ -14,6 +13,19 @@ const lookup = require('liferay-theme-tasks/lib/lookup');
 const path = require('path');
 
 const Base = require('../app');
+const isString = require('../common/isString');
+const normalizeName = require('../common/normalizeName');
+
+/**
+ * Returns a "snake case" version of `name` (eg. "foo_bar_baz").
+ */
+function snakeCase(name) {
+	return name
+		.trim()
+		.split(/[ _-]|(?<=[a-z])(?=[A-Z])/)
+		.map(word => word.toLowerCase())
+		.join('_');
+}
 
 module.exports = class extends Base {
 	initializing() {
@@ -40,10 +52,9 @@ module.exports = class extends Base {
 
 		instance.rootDir = instance.destinationRoot();
 
-		if (
-			this.layoutDirName !==
-			_.last(this.destinationRoot().split(path.sep))
-		) {
+		const pathComponents = this.destinationRoot().split(path.sep);
+		const last = pathComponents[pathComponents.length - 1];
+		if (this.layoutDirName !== last) {
 			let layoutDirName = this.layoutDirName;
 
 			const themePackagePath = path.join(process.cwd(), 'package.json');
@@ -184,17 +195,17 @@ module.exports = class extends Base {
 				message: 'What would you like to call your layout template?',
 				name: 'layoutName',
 				type: 'input',
-				when: instance._getWhenFn('layoutName', 'name', _.isString),
+				when: instance._getWhenFn('layoutName', 'name', isString),
 			},
 			{
 				default(answers) {
-					return _.kebabCase(_.deburr(answers.layoutName || ''));
+					return normalizeName(answers.layoutName || '');
 				},
 				message:
 					'Would you like to use this as the layout template id?',
 				name: 'layoutId',
 				type: 'input',
-				when: instance._getWhenFn('layoutId', 'id', _.isString),
+				when: instance._getWhenFn('layoutId', 'id', isString),
 			},
 			{
 				message:
@@ -221,9 +232,9 @@ module.exports = class extends Base {
 		this.tasksVersion = lookup('devDependencies', liferayVersion)[
 			'liferay-theme-tasks'
 		];
-		this.templateFilename = _.snakeCase(layoutId) + '.ftl';
+		this.templateFilename = snakeCase(layoutId) + '.ftl';
 		this.themeLayout = false;
-		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';
+		this.thumbnailFilename = snakeCase(layoutId) + '.png';
 
 		this._setPackageVersion(this.liferayVersion);
 	}

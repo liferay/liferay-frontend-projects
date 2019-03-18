@@ -4,5 +4,8 @@ module.exports = {
         "jest": true
     },
     "extends": "liferay",
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
     "rules": {}
 };

@@ -16,11 +16,8 @@ const yosay = require('yosay');
 const lookup = require('liferay-theme-tasks/lib/lookup');
 
 const {getVersionSupportMessage} = require('../common/messages');
+const isString = require('../common/isString');
 const normalizeName = require('../common/normalizeName');
-
-function isString(value) {
-	return typeof value === 'string';
-}
 
 module.exports = class extends Generator {
 	initializing() {
