@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const chai = require('chai');
 
 const liferayThemeApp = require('../index');
@@ -16,7 +15,7 @@ describe('liferay-theme:app unit tests', function() {
 	var prototype;
 
 	beforeEach(function() {
-		prototype = _.create(liferayThemeApp.prototype);
+		prototype = Object.create(liferayThemeApp.prototype);
 	});
 
 	describe('_getArgs', function() {
@@ -188,6 +187,7 @@ describe('liferay-theme:app unit tests', function() {
 // TODO: fix functional tests
 // const fs = require('fs');
 // const helpers = require('yeoman-generator').test;
+// const _ = require('lodash');
 // const os = require('os');
 // const path = require('path');
 // const tempDir = path.join(os.tmpdir(), 'temp-test');

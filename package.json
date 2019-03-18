@@ -11,7 +11,7 @@
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
 		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/**/*.{js,json,md}' && yarn lint && yarn test",
-		"format": "prettier-eslint --write '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
+		"format": "prettier-eslint --write '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
 		"lerna": "lerna bootstrap -- --no-optional && yarn",
 		"lint": "eslint 'packages/**/*.js'",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",

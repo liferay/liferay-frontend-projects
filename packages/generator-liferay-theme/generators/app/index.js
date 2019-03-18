@@ -6,7 +6,6 @@
 
 'use strict';
 
-const _ = require('lodash');
 const chalk = require('chalk');
 const Insight = require('insight');
 const minimist = require('minimist');
@@ -17,6 +16,8 @@ const yosay = require('yosay');
 const lookup = require('liferay-theme-tasks/lib/lookup');
 
 const {getVersionSupportMessage} = require('../common/messages');
+const isString = require('../common/isString');
+const normalizeName = require('../common/normalizeName');
 
 module.exports = class extends Generator {
 	initializing() {
@@ -50,8 +51,8 @@ module.exports = class extends Generator {
 
 		const insight = this._insight;
 
-		if (_.isUndefined(insight.optOut)) {
-			insight.askPermission(null, _.bind(this._prompt, this));
+		if (insight.optOut == undefined) {
+			insight.askPermission(null, () => this._prompt());
 		} else {
 			this._prompt();
 		}
@@ -68,9 +69,9 @@ module.exports = class extends Generator {
 	}
 
 	_enforceFolderName() {
-		if (
-			this.themeDirName !== _.last(this.destinationRoot().split(path.sep))
-		) {
+		const pathComponents = this.destinationRoot().split(path.sep);
+		const last = pathComponents[pathComponents.length - 1];
+		if (this.themeDirName !== last) {
 			this.destinationRoot(this.themeDirName);
 		}
 
@@ -174,16 +175,16 @@ module.exports = class extends Generator {
 				message: 'What would you like to call your theme?',
 				name: 'themeName',
 				type: 'input',
-				when: instance._getWhenFn('themeName', 'name', _.isString),
+				when: instance._getWhenFn('themeName', 'name', isString),
 			},
 			{
 				default(answers) {
-					return _.kebabCase(_.deburr(answers.themeName || ''));
+					return normalizeName(answers.themeName || '');
 				},
 				message: 'Would you like to use this as the themeId?',
 				name: 'themeId',
 				type: 'input',
-				when: instance._getWhenFn('themeId', 'id', _.isString),
+				when: instance._getWhenFn('themeId', 'id', isString),
 			},
 			{
 				message: 'Which version of Liferay is this theme for?',
@@ -222,7 +223,7 @@ module.exports = class extends Generator {
 
 			if (
 				validator &&
-				instance._isDefined(propertyValue) &&
+				propertyValue != null &&
 				!validator(propertyValue, answers)
 			) {
 				propertyValue = null;
@@ -235,7 +236,7 @@ module.exports = class extends Generator {
 			}
 
 			let ask = true;
-			const propertyDefined = instance._isDefined(propertyValue);
+			const propertyDefined = propertyValue != null;
 
 			if (propertyDefined) {
 				args[propertyName] = propertyValue;
@@ -247,16 +248,12 @@ module.exports = class extends Generator {
 		};
 	}
 
-	_isDefined(value) {
-		return !_.isUndefined(value) && !_.isNull(value);
-	}
-
 	_isLiferayVersion(value) {
 		return ['7.2'].indexOf(value) > -1;
 	}
 
 	_mixArgs(props, args) {
-		return _.assign(props, args);
+		return Object.assign(props, args);
 	}
 
 	_prompt() {
