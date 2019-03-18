@@ -11,7 +11,7 @@ function devDependencies(version) {
 
 	return {
 		gulp: '3.9.1',
-		'liferay-theme-tasks': '8.0.0-rc.3',
+		'liferay-theme-tasks': '9.0.0-alpha.0',
 		'compass-mixins': '0.12.10',
 
 		// TODO: remove this as it only applied to 7.0, I think

@@ -16,7 +16,7 @@ function getVersionSupportMessage(generatorNamespace) {
 		`\n` +
 		`For older versions of Liferay DXP, please use v8 of the toolkit:\n` +
 		`\n` +
-		`    npm i -g generator-liferay-theme@^8.0.0-rc.3\n` +
+		`    npm i -g generator-liferay-theme@^8.0.0\n` +
 		`    yo ${generatorNamespace}\n`
 	);
 }
