@@ -4,14 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-const inquirer = require('inquirer');
 const _ = require('lodash');
 
 const GlobalModulePrompt = require('../prompts/global_module_prompt');
 const NPMModulePrompt = require('../prompts/npm_module_prompt');
-const themeUtil = require('../util');
 
-function afterPromptThemeSource(version) {
+function afterPromptThemeSource(_version) {
 	return function(answers, promptInstance) {
 		const config = {
 			themelet: false,
@@ -29,20 +27,12 @@ function afterPromptThemeSource(version) {
 				config,
 				_.bind(promptInstance._afterPromptModule, promptInstance)
 			);
-		} else if (version === '7.0' && themeSource === 'classic') {
-			const classicPath = themeUtil.resolveDependency(
-				'liferay-frontend-theme-classic-web'
-			);
-
-			promptInstance.done({
-				modulePath: classicPath,
-			});
 		}
 	};
 }
 
-function choices(version) {
-	let choices = [
+function choices(_version) {
+	return [
 		{
 			name: 'Search globally installed npm modules',
 			value: 'global',
@@ -52,18 +42,6 @@ function choices(version) {
 			value: 'npm',
 		},
 	];
-
-	if (version === '7.0') {
-		choices = choices.concat([
-			new inquirer.Separator(),
-			{
-				name: 'Classic',
-				value: 'classic',
-			},
-		]);
-	}
-
-	return choices;
 }
 
 module.exports = {

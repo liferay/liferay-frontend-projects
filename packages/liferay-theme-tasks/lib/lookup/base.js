@@ -38,11 +38,7 @@ function getBaseDependencies(version) {
 			dependencies.push(path.resolve(baseThemePath, 'src/**/*'));
 
 			return get(baseThemePath, dependencies);
-		} else if (
-			baseTheme === 'styled' ||
-			baseTheme === 'classic' ||
-			baseTheme === 'admin'
-		) {
+		} else if (baseTheme === 'styled' || baseTheme === 'admin') {
 			dependencies.splice(
 				1,
 				0,
@@ -53,19 +49,6 @@ function getBaseDependencies(version) {
 					baseThemeGlob
 				)
 			);
-
-			if (baseTheme === 'classic') {
-				dependencies.splice(
-					2,
-					0,
-					path.join(
-						themeUtil.resolveDependency(
-							'liferay-frontend-theme-classic-web'
-						),
-						baseThemeGlob
-					)
-				);
-			}
 
 			if (baseTheme === 'admin' && version !== '7.0') {
 				dependencies.splice(
