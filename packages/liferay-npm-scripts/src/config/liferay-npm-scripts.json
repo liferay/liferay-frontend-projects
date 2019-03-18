@@ -9,13 +9,15 @@
 		"src/**/*.js",
 		"src/**/*.jspf",
 		"src/**/*.jsp",
-		"src/**/*.scss"
+		"src/**/*.scss",
+		"src/**/*.soy"
 	],
 	"lint": [
 		"src/**/*.css",
 		"src/**/*.js",
 		"src/**/*.jspf",
 		"src/**/*.jsp",
-		"src/**/*.scss"
+		"src/**/*.scss",
+		"src/**/*.soy"
 	]
 }
