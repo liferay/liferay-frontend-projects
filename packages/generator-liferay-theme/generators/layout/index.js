@@ -15,16 +15,15 @@ const path = require('path');
 const Base = require('../app');
 const isString = require('../common/isString');
 const normalizeName = require('../common/normalizeName');
+const splitWords = require('../common/splitWords');
 
 /**
  * Returns a "snake case" version of `name` (eg. "foo_bar_baz").
  */
 function snakeCase(name) {
-	return name
-		.trim()
-		.split(/[ _-]|(?<=[a-z])(?=[A-Z])/)
-		.map(word => word.toLowerCase())
-		.join('_');
+	return splitWords(name)
+		.join('_')
+		.toLowerCase();
 }
 
 module.exports = class extends Base {
