@@ -249,9 +249,7 @@ function checkProjects(projects) {
 								'error',
 								`Package ${fmt.package.bold(
 									pkgName
-								)} version constraints don't match ${
-									srcVersion
-								} in imported project`
+								)} version constraints don't match ${srcVersion} in imported project`
 							);
 						}
 					}

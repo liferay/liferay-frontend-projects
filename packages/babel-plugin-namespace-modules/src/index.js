@@ -36,7 +36,9 @@ export default function({types: t}) {
 		 * @param {Object} state the Babel plugin state containing the opts field
 		 */
 		ExpressionStatement(path, state) {
-			const {node: {expression}} = path;
+			const {
+				node: {expression},
+			} = path;
 			const {opts} = state;
 			const {namespaces, unrolledImports} = opts;
 
@@ -265,7 +267,11 @@ function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
  * @return {Object} the contents of our own package.json
  */
 function getOwnPkgJson(state) {
-	const {file: {opts: {filenameRelative}}} = state;
+	const {
+		file: {
+			opts: {filenameRelative},
+		},
+	} = state;
 
 	return readJsonSync(getPackageJsonPath(filenameRelative));
 }

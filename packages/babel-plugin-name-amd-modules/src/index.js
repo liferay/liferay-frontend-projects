@@ -13,9 +13,17 @@ import readJsonSync from 'read-json-sync';
 export default function({types: t}) {
 	const nameVisitor = {
 		ExpressionStatement(path, state) {
-			const {node: {expression}} = path;
-			const {file: {opts: {filenameRelative}}} = state;
-			const {opts: {packageName, srcPrefixes}} = state;
+			const {
+				node: {expression},
+			} = path;
+			const {
+				file: {
+					opts: {filenameRelative},
+				},
+			} = state;
+			const {
+				opts: {packageName, srcPrefixes},
+			} = state;
 			const {log} = state;
 
 			if (t.isCallExpression(expression)) {
@@ -117,9 +125,8 @@ function normalizeSrcPrefixes(srcPrefixes) {
 
 	return srcPrefixes
 		.map(srcPrefix => path.normalize(srcPrefix))
-		.map(
-			srcPrefix =>
-				srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep
+		.map(srcPrefix =>
+			srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep
 		);
 }
 

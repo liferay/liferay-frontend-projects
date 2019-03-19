@@ -71,8 +71,12 @@ export default class VanillaPortletGenerator extends Generator {
 			labels:
 				labels[
 					projectAnalyzer.hasLocalization
-						? useBabel ? 'template' : 'js'
-						: useBabel ? 'raw' : 'quoted'
+						? useBabel
+							? 'template'
+							: 'js'
+						: useBabel
+						? 'raw'
+						: 'quoted'
 				],
 		});
 
