@@ -12,6 +12,7 @@
     "format": "prettier --write '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
     "format:check": "prettier --list-different '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
     "lint": "eslint '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+    "lint:fix": "eslint --fix '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
     "prepublish": "publish-please guard",
     "publish-please": "publish-please",
     "prepublishOnly": "npm run build && npm run build-demo && npm test"
