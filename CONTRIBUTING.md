@@ -121,11 +121,13 @@ We used to use Lerna to manage this repo, but as the number of packages has redu
 -   Then "generator-liferay-theme".
 -   "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
 
+To publish a normal release, use a `$TAG` of `latest` (or simply omit the `--tag` option). To publish an "alpha", "beta" or other prerelease, use a `$TAG` of `next`:
+
 ```sh
 cd packages
-(cd liferay-theme-tasks && yarn publish)
-(cd generator-liferay-theme && yarn publish)
-(cd liferay-theme-mixins && yarn publish)
+(cd liferay-theme-tasks && yarn publish --tag=$TAG)
+(cd generator-liferay-theme && yarn publish --tag=$TAG)
+(cd liferay-theme-mixins && yarn publish --tag=$TAG)
 ```
 
 We may partially automate this in the future, but if we do, it will be in the form of a very simple shell script.
