@@ -9,7 +9,7 @@
 const fs = require('fs');
 const LayoutCreator = require('../../lib/layout_creator');
 const minimist = require('minimist');
-const lookup = require('liferay-theme-tasks/lib/lookup');
+const devDependencies = require('liferay-theme-tasks/lib/devDependencies');
 const path = require('path');
 
 const Base = require('../app');
@@ -228,9 +228,7 @@ module.exports = class extends Base {
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;
 		this.liferayVersion = liferayVersion;
-		this.tasksVersion = lookup('devDependencies', liferayVersion)[
-			'liferay-theme-tasks'
-		];
+		this.tasksVersion = devDependencies['liferay-theme-tasks'];
 		this.templateFilename = snakeCase(layoutId) + '.ftl';
 		this.themeLayout = false;
 		this.thumbnailFilename = snakeCase(layoutId) + '.png';

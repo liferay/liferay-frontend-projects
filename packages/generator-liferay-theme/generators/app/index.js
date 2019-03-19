@@ -8,12 +8,11 @@
 
 const chalk = require('chalk');
 const Insight = require('insight');
+const devDependencies = require('liferay-theme-tasks/lib/devDependencies');
 const minimist = require('minimist');
 const path = require('path');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
-
-const lookup = require('liferay-theme-tasks/lib/lookup');
 
 const {getVersionSupportMessage} = require('../common/messages');
 const isString = require('../common/isString');
@@ -273,11 +272,7 @@ module.exports = class extends Generator {
 
 		this.appname = props.themeId;
 		if (liferayVersion !== '*') {
-			this.devDependencies = JSON.stringify(
-				lookup('devDependencies', liferayVersion),
-				null,
-				2
-			)
+			this.devDependencies = JSON.stringify(devDependencies, null, 2)
 				.split(/\n\s*/)
 				.join('\n\t\t')
 				.replace('\t\t}', '\t}');

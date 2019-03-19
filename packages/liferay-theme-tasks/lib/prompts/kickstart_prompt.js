@@ -9,8 +9,9 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const path = require('path');
 
+const GlobalModulePrompt = require('./global_module_prompt');
+const NPMModulePrompt = require('./npm_module_prompt');
 const promptUtil = require('./prompt_util');
-const lookup = require('../lookup');
 
 class KickstartPrompt {
 	constructor(...args) {
@@ -43,7 +44,21 @@ class KickstartPrompt {
 	}
 
 	_afterPromptThemeSource(answers) {
-		lookup('kickstart:afterPromptThemeSource')(answers, this);
+		const config = {
+			themelet: false,
+		};
+
+		const themeSource = answers.themeSource;
+
+		if (themeSource === 'npm') {
+			NPMModulePrompt.prompt(config, answers =>
+				this._afterPromptModule(answers)
+			);
+		} else if (themeSource === 'global') {
+			GlobalModulePrompt.prompt(config, answers =>
+				this._afterPromptModule(answers)
+			);
+		}
 	}
 
 	_installTempModule(moduleName, cb, hideOutput) {
@@ -69,7 +84,16 @@ class KickstartPrompt {
 		inquirer.prompt(
 			[
 				{
-					choices: lookup('kickstart:choices'),
+					choices: [
+						{
+							name: 'Search globally installed npm modules',
+							value: 'global',
+						},
+						{
+							name: 'Search npm registry (published modules)',
+							value: 'npm',
+						},
+					],
 					message: 'Where would you like to search?',
 					name: 'themeSource',
 					type: listType,

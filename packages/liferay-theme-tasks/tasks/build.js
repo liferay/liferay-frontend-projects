@@ -15,9 +15,9 @@ const replace = require('gulp-replace-task');
 const through = require('through2');
 const PluginError = require('plugin-error');
 
+const getBaseThemeDependencies = require('../lib/getBaseThemeDependencies');
 const lfrThemeConfig = require('../lib/liferay_theme_config');
 const lookAndFeelUtil = require('../lib/look_and_feel_util');
-const lookup = require('../lib/lookup');
 const normalize = require('../lib/normalize');
 const themeUtil = require('../lib/util');
 
@@ -96,7 +96,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:base', function() {
-		const sourceFiles = lookup('baseThemeDependencies')();
+		const sourceFiles = getBaseThemeDependencies();
 
 		return gulp
 			.src(sourceFiles)

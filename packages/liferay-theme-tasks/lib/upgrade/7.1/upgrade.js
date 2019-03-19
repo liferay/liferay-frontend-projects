@@ -9,8 +9,8 @@
 const replace = require('gulp-replace-task');
 const spawn = require('cross-spawn');
 
+const devDependencies = require('../../devDependencies');
 const lfrThemeConfig = require('../../liferay_theme_config');
-const lookup = require('../../lookup');
 
 module.exports = function(options) {
 	const gulp = options.gulp;
@@ -19,7 +19,7 @@ module.exports = function(options) {
 
 	gulp.task('upgrade:dependencies', function(cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.1']);
-		lfrThemeConfig.setDependencies(lookup('devDependencies', '7.2'), true);
+		lfrThemeConfig.setDependencies(devDependencies, true);
 
 		const npmInstall = spawn('npm', ['install']);
 
