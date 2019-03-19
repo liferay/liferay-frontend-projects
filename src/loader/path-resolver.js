@@ -1,4 +1,10 @@
 /**
+ * © 2014 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * A class to resolve paths inside modules.
  */
 export default class PathResolver {
