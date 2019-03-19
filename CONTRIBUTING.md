@@ -67,17 +67,16 @@ git pull upstream master
 
 ### 2. Update dependency versions
 
-Some of these can be updates can be performed automatically by running the `updatePackageVersions` task, and others with `yarn` and manual editing:
-
 ```sh
 yarn updatePackageVersions $VERSION
 
-for PACKAGE in $(ls packages); do
-  yarn version --no-git-tag-version $VERSION
-done
+# Sanity check the changed versions:
+git diff
 
-# Edit the one place that needs changing manually:
-$EDITOR packages/liferay-theme-tasks/lib/lookup/dependencies.js
+# And check for any straggling references to the old version;
+# for example, if the last release was 9.0.0-alpha.0, check
+# that there are no hits for that version:
+git grep 9.0.0-alpha.0
 ```
 
 ### 3. Generate changelog
