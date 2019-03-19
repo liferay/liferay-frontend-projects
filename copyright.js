@@ -4,10 +4,3 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/**
- * Test plugin
- * @return {int}
- */
-module.exports.default = function() {
-	return 0;
-};

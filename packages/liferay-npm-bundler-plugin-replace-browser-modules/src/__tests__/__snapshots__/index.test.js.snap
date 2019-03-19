@@ -20,6 +20,12 @@ Array [
 exports[`replaces main directory with browser file 1`] = `
 "/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * testBrowser function
  * @return {void}
  */
@@ -31,6 +37,12 @@ export default function testBrowser() {
 
 exports[`replaces main file with browser file 1`] = `
 "/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 /**
  * testBrowser function
  * @return {void}
@@ -44,6 +56,12 @@ export default function testBrowser() {
 exports[`replaces server files with browser files 1`] = `
 "/* Module replaced with test-main.js by liferay-npm-bundler-plugin-replace-browser-modules */
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * testMain function
  * @return {void}
  */
@@ -56,6 +74,12 @@ export default function testMain() {
 exports[`replaces server files with browser files 2`] = `
 "/* Module replaced with test.js by liferay-npm-bundler-plugin-replace-browser-modules */
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * test function
  * @return {void}
  */
@@ -67,6 +91,12 @@ export default function test() {
 
 exports[`replaces server files with browser files 3`] = `
 "/* Module replaced with test-2.js by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 /**
  * test2 function
  * @return {void}
@@ -95,6 +125,12 @@ exports[`works well with non-existent files when browser field has several files
 exports[`works well with non-existent files when browser field has several files 3`] = `
 "/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * testBrowser function
  * @return {void}
  */
@@ -112,6 +148,12 @@ exports[`works well with non-existent files when browser field has several files
 exports[`works with jsdelivr field too 1`] = `
 "/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * testBrowser function
  * @return {void}
  */
@@ -123,6 +165,12 @@ export default function testBrowser() {
 
 exports[`works with unpkg field too 1`] = `
 "/* Module replaced with test-browser.js by liferay-npm-bundler-plugin-replace-browser-modules */
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 /**
  * testBrowser function
  * @return {void}

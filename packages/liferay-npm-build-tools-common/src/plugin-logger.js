@@ -1,4 +1,10 @@
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * An object to hold babel or liferay-npm-bundler plugin messages.
  * @type {PluginLogger}
  */
