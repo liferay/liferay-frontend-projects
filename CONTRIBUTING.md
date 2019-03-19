@@ -79,16 +79,9 @@ git diff
 git grep 9.0.0-alpha.0
 ```
 
-### 3. Generate changelog
+### 3. Update CHANGELOG.md
 
-Using [`github_changelog_generator`](https://github.com/skywinder/github-changelog-generator):
-
-```sh
-github_changelog_generator \
-  liferay/liferay-js-themes-toolkit \
-  -t $GITHUB_ACCESS_TOKEN \
-  --future-release $VERSION
-```
+Consult the release milestone (from the [list of milestones](https://github.com/liferay/liferay-js-themes-toolkit/milestones)) and update the CHANGELOG.md file accordingly.
 
 ### 4. Send a release PR
 
