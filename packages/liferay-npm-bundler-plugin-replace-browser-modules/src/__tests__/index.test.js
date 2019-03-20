@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as fs from 'fs-extra';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import rcopy from 'recursive-copy';

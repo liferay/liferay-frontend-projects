@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 // List of built-in Node.js v7.10.0 modules.
 // Get the full list from https://nodejs.org/docs/latest/api/index.html
 // Or alternatively: https://github.com/sindresorhus/builtin-modules

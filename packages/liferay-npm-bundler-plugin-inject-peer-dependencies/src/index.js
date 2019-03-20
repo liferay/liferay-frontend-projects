@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as fs from 'fs';
 import * as globby from 'globby';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';

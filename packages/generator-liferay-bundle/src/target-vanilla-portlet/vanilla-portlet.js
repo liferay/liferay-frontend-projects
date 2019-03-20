@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import path from 'path';
 import Generator from 'yeoman-generator';
 
@@ -71,8 +77,12 @@ export default class VanillaPortletGenerator extends Generator {
 			labels:
 				labels[
 					projectAnalyzer.hasLocalization
-						? useBabel ? 'template' : 'js'
-						: useBabel ? 'raw' : 'quoted'
+						? useBabel
+							? 'template'
+							: 'js'
+						: useBabel
+						? 'raw'
+						: 'quoted'
 				],
 		});
 

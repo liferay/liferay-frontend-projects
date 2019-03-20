@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import {resolve} from 'path';
 
 global._babel_ipc_ = global._babel_ipc_ || {};

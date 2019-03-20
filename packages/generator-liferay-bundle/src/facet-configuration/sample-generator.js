@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import ConfigurationJsonModifier from '../utils/modifier/features/configuration.json';
 import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';

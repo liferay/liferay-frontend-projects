@@ -1,4 +1,10 @@
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * Transform a preferences.json file into a DDM form JSON definition
  * @param {object} preferencesJson a preferences JSON object
  * @return {object} a DDM form JSON object

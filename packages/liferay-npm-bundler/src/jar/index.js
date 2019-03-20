@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs-extra';
 import globby from 'globby';
 import JSZip from 'jszip';
@@ -173,8 +179,7 @@ function addSystemConfigurationFiles(zip) {
 		xml.addMetatypeAttr(metatype, id, desc);
 	});
 
-	zip
-		.folder('OSGI-INF')
+	zip.folder('OSGI-INF')
 		.folder('metatype')
 		.file(`${pkgJson.name}.xml`, xml.format(metatype));
 
@@ -185,9 +190,10 @@ function addSystemConfigurationFiles(zip) {
 		metatypeJson.category = systemConfigJson.category;
 	}
 
-	zip
-		.folder('features')
-		.file('metatype.json', JSON.stringify(metatypeJson, null, 2));
+	zip.folder('features').file(
+		'metatype.json',
+		JSON.stringify(metatypeJson, null, 2)
+	);
 }
 
 /**
@@ -203,9 +209,10 @@ function addPortletInstanceConfigurationFile(zip) {
 
 	const ddmJson = ddm.transformPreferences(portletInstanceConfigJson);
 
-	zip
-		.folder('features')
-		.file('portlet_preferences.json', JSON.stringify(ddmJson, null, 2));
+	zip.folder('features').file(
+		'portlet_preferences.json',
+		JSON.stringify(ddmJson, null, 2)
+	);
 }
 
 /**

@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
@@ -36,7 +42,9 @@ export default function({types: t}) {
 		 * @param {Object} state the Babel plugin state containing the opts field
 		 */
 		ExpressionStatement(path, state) {
-			const {node: {expression}} = path;
+			const {
+				node: {expression},
+			} = path;
 			const {opts} = state;
 			const {namespaces, unrolledImports} = opts;
 
@@ -265,7 +273,11 @@ function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
  * @return {Object} the contents of our own package.json
  */
 function getOwnPkgJson(state) {
-	const {file: {opts: {filenameRelative}}} = state;
+	const {
+		file: {
+			opts: {filenameRelative},
+		},
+	} = state;
 
 	return readJsonSync(getPackageJsonPath(filenameRelative));
 }

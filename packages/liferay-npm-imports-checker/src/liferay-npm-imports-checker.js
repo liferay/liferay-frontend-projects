@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
@@ -249,9 +255,7 @@ function checkProjects(projects) {
 								'error',
 								`Package ${fmt.package.bold(
 									pkgName
-								)} version constraints don't match ${
-									srcVersion
-								} in imported project`
+								)} version constraints don't match ${srcVersion} in imported project`
 							);
 						}
 					}

@@ -1,4 +1,10 @@
 /**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * Normalize an imports configuration to canonicalize all syntactic sugar.
  * @param  {Object} importsConfig the configuration in its original format
  * @param  {Boolean} useSlashFormat whether to use slash or empty string format

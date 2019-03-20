@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as babel from 'babel-core';
 import fs from 'fs-extra';
 import globby from 'globby';
@@ -94,10 +100,12 @@ export function runBabel(pkg, {ignore = []} = {}) {
 					const packageFilePath = pkg.isRoot
 						? filePath.substring(
 								path.resolve(config.getOutputDir()).length + 1
-							)
+						  )
 						: filePath.substring(
-								filePath.indexOf(`${pkg.id}`) + pkg.id.length + 1
-							);
+								filePath.indexOf(`${pkg.id}`) +
+									pkg.id.length +
+									1
+						  );
 
 					babel.transformFile(
 						filePath,
