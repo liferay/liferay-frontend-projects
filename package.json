@@ -10,9 +10,10 @@
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
 		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
-		"format:check": "prettier --list-different '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
-		"lint:fix": "eslint --fix 'packages/**/*.js'",
+		"format": "prettier --write '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}' 'scripts/*.js'",
+		"format:check": "prettier --list-different '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}' 'scripts/*.js'",
+		"lint": "eslint 'packages/**/*.js' 'scripts/*.js'",
+		"lint:fix": "eslint --fix 'packages/**/*.js' 'scripts/*.js'",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
