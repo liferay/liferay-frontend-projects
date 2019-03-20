@@ -24,6 +24,23 @@ const MIME_TYPES = {
 	'.js': 'text/javacript',
 };
 
+/**
+ * Splits a path into an array of path components.
+ */
+function getPathComponents(pathString) {
+	return pathString.split(path.sep);
+}
+
+/**
+ * Give a path to a resource such as "src/css/partials/_header.scss",
+ * returns the the name of the child directory under "src/" containing
+ * the resource (eg. "css").
+ */
+function getResourceDir(pathString, pathSrc) {
+	const relativePath = path.relative(pathSrc, pathString);
+	return getPathComponents(relativePath)[0];
+}
+
 module.exports = function(options) {
 	// Get things from options
 	const {argv, distName, gulp, pathBuild, pathSrc, resourcePrefix} = options;
@@ -212,14 +229,12 @@ module.exports = function(options) {
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
 			storage.set('changedFile', vinyl);
 
-			let rootDir = path.dirname(vinyl.path);
-
-			rootDir = path.relative(path.join(process.cwd(), pathSrc), rootDir);
+			const resourceDir = getResourceDir(vinyl.path, pathSrc);
 
 			let taskArray = ['deploy:file'];
 
 			if (!fullDeploy && storage.get('deployed')) {
-				taskArray = getBuildTaskArray(rootDir, []);
+				taskArray = getBuildTaskArray(resourceDir, []);
 			}
 
 			taskArray.push(clearChangedFile);
@@ -242,10 +257,10 @@ module.exports = function(options) {
 		return taskArray;
 	}
 
-	function getBuildTaskArray(rootDir, defaultTaskArray) {
+	function getBuildTaskArray(resourceDir, defaultTaskArray) {
 		let taskArray = defaultTaskArray || [];
 
-		if (rootDir === 'WEB-INF') {
+		if (resourceDir === 'WEB-INF') {
 			taskArray = [
 				'build:clean',
 				'build:src',
@@ -253,7 +268,7 @@ module.exports = function(options) {
 				'deploy:folder',
 				'watch:reload',
 			];
-		} else if (rootDir === 'templates') {
+		} else if (resourceDir === 'templates') {
 			taskArray = [
 				'build:src',
 				'build:themelet-src',
@@ -261,7 +276,7 @@ module.exports = function(options) {
 				'deploy:folder',
 				'watch:reload',
 			];
-		} else if (rootDir === 'css') {
+		} else if (resourceDir === 'css') {
 			taskArray = [
 				'build:clean',
 				'build:base',
@@ -275,7 +290,7 @@ module.exports = function(options) {
 				'watch:reload',
 				'deploy:css-files',
 			];
-		} else if (rootDir === 'js') {
+		} else if (resourceDir === 'js') {
 			taskArray = ['build:src', 'watch:reload'];
 		} else {
 			taskArray = ['deploy:file'];
