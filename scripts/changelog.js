@@ -290,6 +290,7 @@ function printUsage() {
 		`${relative(__filename)} [option...]`,
 		'',
 		'Options:',
+		'  --force                      [optional: disable safety checks]',
 		'  --from=FROM                  [default: previous tag]',
 		'  --to=TO                      [default: HEAD]',
 		'  --help',
@@ -308,7 +309,55 @@ function option(name) {
 	}
 }
 
-function parseArgs(args) {
+const NUMBER_PREFIX_REGEX = /^\d/;
+const V_PREFIX_REGEX = /^v\d/;
+
+/**
+ * Make sure `version` starts with "v", if that's the convention in this
+ * project, and vice versa: remove an unwanted prefix, if that is not the
+ * convention.
+ */
+async function normalizeVersion(version, {force}) {
+	const tags = (await git('tag', '-l')).trim().split('\n');
+
+	// Calculate a "coefficient" that reflects the likelihood that this repo
+	// uses a "v" prefix by convention.
+	const coefficient = tags.reduce((current, tag) => {
+		return current + (V_PREFIX_REGEX.test(tag) ? 1 : -1);
+	}, 0);
+
+	const hasPrefix = V_PREFIX_REGEX.test(version);
+	const hasNumber = NUMBER_PREFIX_REGEX.test(version);
+	if (coefficient > 0 && !hasPrefix) {
+		if (force || !hasNumber) {
+			warn(`Version "${version}" is missing expected "v" prefix`);
+		} else {
+			warn(
+				[
+					`Adding expected "v" prefix to version "${version}"`,
+					'use --force to disable this coercion',
+				].join('\n')
+			);
+			return `v${version}`;
+		}
+	} else if (coefficient < 0 && hasPrefix) {
+		if (force) {
+			warn(`Version "${version}" has unexpected "v" prefix`);
+		} else if (version.length > 1) {
+			warn(
+				[
+					`Removing unexpected "v" prefix from "${version}"`,
+					'use --force to disable this coercion',
+				].join('\n')
+			);
+			return version.slice(1);
+		}
+	}
+
+	return version;
+}
+
+async function parseArgs(args) {
 	const options = {
 		outfile: './CHANGELOG.md',
 		to: 'HEAD',
@@ -316,6 +365,12 @@ function parseArgs(args) {
 
 	let match;
 	args.forEach(arg => {
+		match = arg.match(option('force'));
+		if (match) {
+			options.force = true;
+			return;
+		}
+
 		match = arg.match(option('help'));
 		if (match) {
 			printUsage();
@@ -395,11 +450,11 @@ async function generate({from, to, date, remote, version}) {
 }
 
 async function main(_node, _script, ...args) {
-	const options = parseArgs(args);
+	const options = await parseArgs(args);
 	if (!options) {
 		process.exit(1);
 	}
-	const {outfile, to, version} = options;
+	const {outfile, to} = options;
 
 	printBanner(`
 		changelog.js
@@ -408,6 +463,8 @@ async function main(_node, _script, ...args) {
 		Reporting
 		for duty!
 	`);
+
+	const version = await normalizeVersion(options.version, options);
 
 	const remote = await getRemote(options);
 	let from = await getPreviousReleasedVersion(to);
