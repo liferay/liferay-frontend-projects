@@ -284,10 +284,12 @@ export default class Loader {
 
 						this._setModuleImplementations(undefinedModuleNames);
 
+						const implementations = this._getModuleImplementations(
+							moduleNames
+						);
+
 						try {
-							success(
-								...this._getModuleImplementations(moduleNames)
-							);
+							success(...implementations);
 						} catch (err) {
 							console.error(err);
 						}
