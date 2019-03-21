@@ -1,13 +1,18 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 const CWD = process.cwd();
 
 const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
 
-const {buildSoy, cleanSoy, soyExists,} = require('./soy');
-const {removeBabelConfig, setBabelConfig,} = require('./babel');
+const {buildSoy, cleanSoy, soyExists} = require('./soy');
+const {removeBabelConfig, setBabelConfig} = require('./babel');
 const getMergedConfig = require('../utils/get-merged-config');
-const {moveToTemp, removeFromTemp,} = require('../utils/move-to-temp');
+const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
@@ -22,7 +27,7 @@ function compileBabel() {
 		BUILD_CONFIG.input,
 		'--out-dir',
 		BUILD_CONFIG.output,
-		'--source-maps',
+		'--source-maps'
 	]);
 
 	removeBabelConfig();

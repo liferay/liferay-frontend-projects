@@ -1,3 +1,8 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 const merge = require('deepmerge');
 
 const emptyTarget = value => (Array.isArray(value) ? [] : {});
@@ -31,5 +36,5 @@ function combineMerge(target, source, options) {
  * @returns {Object}
  */
 module.exports = function() {
-	return merge.all([...arguments,], {arrayMerge: combineMerge,});
+	return merge.all([...arguments], {arrayMerge: combineMerge});
 };

@@ -1,3 +1,8 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 // Do this as the first thing so that any code reading it knows the right env.
 if (!process.env.NODE_ENV) {
 	process.env.NODE_ENV = 'production';
@@ -17,7 +22,7 @@ module.exports = function() {
 	const ARGS_ARRAY = process.argv.slice(2);
 
 	const {
-		_: [type,],
+		_: [type]
 	} = minimist(ARGS_ARRAY);
 
 	if (!fs.existsSync(TEMP_PATH)) {
@@ -35,9 +40,9 @@ module.exports = function() {
 					message:
 						'Are you sure you want to eject? This action is permanent.',
 					name: 'eject',
-					type: 'confirm',
+					type: 'confirm'
 				})
-				.then(({eject,}) => {
+				.then(({eject}) => {
 					if (eject) {
 						require('./scripts/eject')();
 					}

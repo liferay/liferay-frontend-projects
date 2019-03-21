@@ -1,3 +1,8 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 const glob = require('glob');
 const path = require('path');
 
@@ -11,7 +16,7 @@ const BUILD_CONFIG = getMergedConfig('npmscripts').build;
  * Removes any generated soy.js files
  */
 exports.cleanSoy = function() {
-	spawnSync('rimraf', ['src/**/*.soy.js',]);
+	spawnSync('rimraf', ['src/**/*.soy.js']);
 };
 
 /**
@@ -20,7 +25,7 @@ exports.cleanSoy = function() {
 exports.buildSoy = function() {
 	spawnSync('metalsoy', [
 		'--soyDeps',
-		generateSoyDependencies(BUILD_CONFIG.dependencies),
+		generateSoyDependencies(BUILD_CONFIG.dependencies)
 	]);
 };
 

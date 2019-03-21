@@ -1,3 +1,8 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 const CWD = process.cwd();
 
 const fs = require('fs');
@@ -5,7 +10,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const sortKeys = require('sort-keys');
 
-const {soyExists,} = require('./soy');
+const {soyExists} = require('./soy');
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawnSync');
@@ -56,7 +61,7 @@ function generateBuildScript(config) {
 module.exports = function() {
 	const config = {
 		bridge: fs.existsSync(path.join(CWD, '.npmbridgerc')),
-		soy: soyExists(),
+		soy: soyExists()
 	};
 
 	// Write config for babel
@@ -90,7 +95,7 @@ module.exports = function() {
 		build: generateBuildScript(),
 		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
 		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`,
-		test: 'jest',
+		test: 'jest'
 	};
 
 	// Set initial devDependencies for package.json
@@ -105,7 +110,7 @@ module.exports = function() {
 			scriptsDependencies['liferay-jest-junit-reporter'],
 		'liferay-npm-bundler': scriptsDependencies['liferay-npm-bundler'],
 		'liferay-npm-bundler-preset-liferay-dev':
-			scriptsDependencies['liferay-npm-bundler-preset-liferay-dev'],
+			scriptsDependencies['liferay-npm-bundler-preset-liferay-dev']
 	};
 
 	// Additional if soy is used
@@ -125,7 +130,7 @@ module.exports = function() {
 
 	projectPackage.devDependencies = sortKeys({
 		...newDevDependencies,
-		...projectPackage.devDependencies,
+		...projectPackage.devDependencies
 	});
 
 	// Remove liferay-npm-scripts dependency
@@ -142,5 +147,5 @@ module.exports = function() {
 
 	// Remove old node_modules and re-install node_modules with new dependencies
 	rimraf.sync(path.join(CWD, 'node_modules'));
-	spawnSync('npm', ['install',]);
+	spawnSync('npm', ['install']);
 };
