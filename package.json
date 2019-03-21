@@ -1,8 +1,12 @@
 {
 	"devDependencies": {
-		"lerna": "^2.4.0"
+		"eslint": "^5.15.3",
+		"eslint-config-liferay": "^3.0.0",
+		"lerna": "^2.4.0",
+		"prettier-eslint-cli": "^4.7.1"
 	},
 	"scripts": {
+		"format": "prettier-eslint \"./**/*.js\" --write",
 		"lerna": "npm install && lerna bootstrap"
 	}
 }

@@ -3,9 +3,6 @@
 	"version": "1.4.2",
 	"description": "Collection of NPM scripts used for Liferay portlets",
 	"main": "index.js",
-	"scripts": {
-		"format": "prettier-eslint \"./**/*.js\" --write"
-	},
 	"author": {
 		"name": "Bryce Osterhaus"
 	},
@@ -35,9 +32,5 @@
 		"minimist": "^1.2.0",
 		"rimraf": "^2.6.2",
 		"sort-keys": "^2.0.0"
-	},
-	"devDependencies": {
-		"eslint-plugin-sort-destructure-keys": "^1.1.0",
-		"prettier-eslint-cli": "^4.7.1"
 	}
 }
