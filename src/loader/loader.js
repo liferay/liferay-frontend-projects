@@ -191,6 +191,10 @@ export default class Loader {
 			const stack = new Error('Require caller stack trace');
 
 			failure = error => {
+				if (!config.explainResolutions) {
+					return;
+				}
+
 				console.log('---------------------------------------');
 				console.log('Liferay AMD Loader: Unhandled require failure:');
 				console.log('  · modules:', moduleNames);
@@ -280,7 +284,13 @@ export default class Loader {
 
 						this._setModuleImplementations(undefinedModuleNames);
 
-						success(...this._getModuleImplementations(moduleNames));
+						try {
+							success(
+								...this._getModuleImplementations(moduleNames)
+							);
+						} catch (err) {
+							console.error(err);
+						}
 					})
 					.catch(err => {
 						clearTimeout(rejectTimeout);
