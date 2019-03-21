@@ -9,6 +9,8 @@
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
+		"changelog": "scripts/changelog.js",
+		"changelog:regenerate": "scripts/changelog.js --regenerate",
 		"ci": "yarn format:check && yarn lint && yarn test",
 		"format": "prettier --write '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}' 'scripts/*.js'",
 		"format:check": "prettier --list-different '.*.js' '*.{js,json,md}' 'packages/**/*.{js,json,md}' 'scripts/*.js'",
