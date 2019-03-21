@@ -9,6 +9,8 @@
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
+		"changelog": "git show master:scripts/changelog.js | sed 1d | node -",
+		"changelog:regenerate": "git show master:scripts/changelog.js | sed 1d | node - --regenerate",
 		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/**/*.{js,json,md}' && yarn lint && yarn test",
 		"format": "prettier-eslint --write '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
 		"lint": "eslint 'packages/**/*.js'",
