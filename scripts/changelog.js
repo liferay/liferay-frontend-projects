@@ -50,29 +50,29 @@ const YELLOW = '\x1b[33m';
 /**
  * Log a line to stderr.
  */
-function log(message) {
-	process.stderr.write(`${message}\n`);
+function log(...args) {
+	process.stderr.write(`${args.join('\n')}\n`);
 }
 
 /**
  * Log a line to stderr, using green formatting.
  */
-function info(message) {
-	log(`${GREEN}${message}${RESET}`);
+function info(...args) {
+	log(`${GREEN}${args.join('\n')}${RESET}`);
 }
 
 /**
  * Log a line to stderr, using error formatting.
  */
-function error(message) {
-	log(`${RED}error: ${message}${RESET}`);
+function error(...args) {
+	log(`${RED}error: ${args.join('\n')}${RESET}`);
 }
 
 /**
  * Log a line to stderr, using warning formatting.
  */
-function warn(message) {
-	log(`${YELLOW}warning: ${message}${RESET}`);
+function warn(...args) {
+	log(`${YELLOW}warning: ${args.join('\n')}${RESET}`);
 }
 
 /**
@@ -84,9 +84,9 @@ function run(command, ...args) {
 			if (err) {
 				const invocation = `${command} ${args.join(' ')}`;
 				log(
-					`command: ${invocation}\n` +
-						`stdout: ${stdout}\n` +
-						`stderr: ${stderr}`
+					`command: ${invocation}`,
+					`stdout: ${stdout}`,
+					`stderr: ${stderr}`
 				);
 				reject(new Error(`Command: "${invocation}" failed: ${err}`));
 			} else {
@@ -170,10 +170,8 @@ async function getRemote(options) {
 	}
 
 	warn(
-		[
-			'Unable to determine remote repository URL!',
-			'Please specify one with --remote-url=REPOSITORY_URL',
-		].join('\n')
+		'Unable to determine remote repository URL!',
+		'Please specify one with --remote-url=REPOSITORY_URL'
 	);
 	return null;
 }
@@ -285,7 +283,7 @@ function relative(filePath) {
 }
 
 function printUsage() {
-	[
+	log(
 		'',
 		`${relative(__filename)} [option...]`,
 		'',
@@ -297,8 +295,8 @@ function printUsage() {
 		'  --outfile=FILE               [default: ./CHANGELOG.md]',
 		'  --remote-url=REPOSITORY_URL  [default: inferred]',
 		'  --regenerate                 [optional: replace entire changelog]',
-		'  --version=VERSION            [required: version being released]',
-	].forEach(log);
+		'  --version=VERSION            [required: version being released]'
+	);
 }
 
 function option(name) {
@@ -333,10 +331,8 @@ async function normalizeVersion(version, {force}) {
 			warn(`Version "${version}" is missing expected "v" prefix`);
 		} else {
 			warn(
-				[
-					`Adding expected "v" prefix to version "${version}"`,
-					'use --force to disable this coercion',
-				].join('\n')
+				`Adding expected "v" prefix to version "${version}"`,
+				'use --force to disable this coercion'
 			);
 			return `v${version}`;
 		}
@@ -345,10 +341,8 @@ async function normalizeVersion(version, {force}) {
 			warn(`Version "${version}" has unexpected "v" prefix`);
 		} else if (version.length > 1) {
 			warn(
-				[
-					`Removing unexpected "v" prefix from "${version}"`,
-					'use --force to disable this coercion',
-				].join('\n')
+				`Removing unexpected "v" prefix from "${version}"`,
+				'use --force to disable this coercion'
 			);
 			return version.slice(1);
 		}
@@ -513,10 +507,8 @@ async function main(_node, _script, ...args) {
 
 		if (previousContents.indexOf(`[${version}]`) !== -1) {
 			warn(
-				[
-					`${outfile} already contains a reference to ${version}.`,
-					'Did you mean to regenerate using the --regenerate switch?',
-				].join('\n')
+				`${outfile} already contains a reference to ${version}.`,
+				'Did you mean to regenerate using the --regenerate switch?'
 			);
 		}
 
@@ -530,7 +522,7 @@ async function main(_node, _script, ...args) {
 	info(`Wrote ${outfile} ${written} bytes ✨`);
 }
 
-main(...process.argv).catch(error => {
-	log(error);
+main(...process.argv).catch(err => {
+	log(err);
 	process.exit(1);
 });
