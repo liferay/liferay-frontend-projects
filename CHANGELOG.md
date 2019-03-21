@@ -1,5 +1,3 @@
-# Change Log
-
 ## [v9.0.0-alpha.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-alpha.0) (2019-03-19)
 [Full Changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0...v9.0.0-alpha.0)
 
