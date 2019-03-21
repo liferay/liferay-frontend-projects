@@ -1,9 +1,9 @@
-## [8.0.1](https://github.com/liferay/liferay-js-themes-toolkit.git/tree/8.0.1) (2019-03-20)
+## [8.0.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.1) (2019-03-20)
 
-[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit.git/compare/v8.0.0...8.0.1)
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0...v8.0.1)
 
-- Make `gulp watch` pick up changes in subdirectories (#235) ([\#238](https://github.com/liferay/liferay-js-themes-toolkit.git/pull/238))
--  Update CONTRIBUTING.md ([\#222](https://github.com/liferay/liferay-js-themes-toolkit.git/pull/222))
+- Make `gulp watch` pick up changes in subdirectories (#235) ([\#238](https://github.com/liferay/liferay-js-themes-toolkit/pull/238))
+-  Update CONTRIBUTING.md ([\#222](https://github.com/liferay/liferay-js-themes-toolkit/pull/222))
 
 ## [v8.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.0) (2019-03-18)
 [Full Changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0-rc.3...v8.0.0)
