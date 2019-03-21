@@ -105,7 +105,7 @@ Once we've seen the CI pass above, we can **close the PR without merging it** (i
 git checkout stable
 git pull upstream stable
 git merge --ff-only master
-git tag $VERSION -m $VERSION
+git tag v$VERSION -m v$VERSION
 git push upstream stable --follow-tags
 ```
 
