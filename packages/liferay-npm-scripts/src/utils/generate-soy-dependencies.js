@@ -1,3 +1,8 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 const path = require('path');
 const process = require('process');
 
@@ -9,8 +14,8 @@ const process = require('process');
 module.exports = function(dependencies) {
 	const cwd = process.cwd();
 
-	const stringDependencies = dependencies.map(
-		function(dependency) {
+	const stringDependencies = dependencies
+		.map(function(dependency) {
 			let resolvedDependency = null;
 
 			try {
@@ -20,8 +25,7 @@ module.exports = function(dependencies) {
 				resolvedDependency = path.dirname(
 					require.resolve(`${dependency}/package.json`)
 				);
-			}
-			catch (err) {}
+			} catch (err) {}
 
 			return resolvedDependency;
 		})

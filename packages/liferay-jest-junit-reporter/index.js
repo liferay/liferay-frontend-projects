@@ -1,3 +1,8 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 'use strict';
 
 const xml = require('xml');
@@ -31,7 +36,7 @@ module.exports = report => {
 		}
 	};
 
-	let testResults = report.testResults
+	const testResults = report.testResults
 		.reduce(
 			(results, suite) =>
 				suite.testResults.length

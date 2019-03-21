@@ -1,9 +1,15 @@
+
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 const path = require('path');
 
 const CWD = process.cwd();
 const PATH = path.resolve(`${__dirname}/../../node_modules/.bin`);
 
-const {spawn,} = require('cross-spawn');
+const {spawn} = require('cross-spawn');
 
 /**
  * Wrapper function for spawning a synchronous process.
@@ -19,6 +25,6 @@ module.exports = function(command, args = [], options = {}) {
 			PATH: `${PATH}:${process.env.PATH}`,
 		},
 		stdio: 'inherit',
-		...options,
+		...options
 	});
 };
