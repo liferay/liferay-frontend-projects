@@ -72,23 +72,28 @@ Some of these can be updates can be performed automatically by running the `upda
 ```sh
 yarn updatePackageVersions $VERSION
 
-for PACKAGE in $(ls packages); do
-  yarn version --no-git-tag-version $VERSION
+cd packages
+for PACKAGE in $(ls); do
+  (cd $PACKAGE && yarn version --no-git-tag-version --new-version $VERSION)
 done
 
 # Edit the one place that needs changing manually:
 $EDITOR packages/liferay-theme-tasks/lib/lookup/dependencies.js
+
+# Update package inter-dependencies using yarn (updates yarn.lock):
+cd packages/generator-liferay-theme
+yarn add liferay-theme-tasks@^$VERSION
+cd ../liferay-theme-tasks
+yarn add liferay-theme-deps-7.0@^$VERSION liferay-theme-deps-7.1@^$VERSION
+
+# Final sanity check
+git grep $OLD_VERSION
 ```
 
 ### 3. Generate changelog
 
-Using [`github_changelog_generator`](https://github.com/skywinder/github-changelog-generator):
-
 ```sh
-github_changelog_generator \
-  liferay/liferay-js-themes-toolkit \
-  -t $GITHUB_ACCESS_TOKEN \
-  --future-release $VERSION
+yarn changelog --version=$VERSION
 ```
 
 ### 4. Send a release PR
