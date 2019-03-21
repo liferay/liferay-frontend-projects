@@ -93,7 +93,7 @@ git grep $OLD_VERSION
 ### 3. Generate changelog
 
 ```sh
-yarn changelog --version=$VERSION
+yarn changelog --version=v$VERSION
 ```
 
 ### 4. Send a release PR
@@ -118,7 +118,7 @@ Once we've seen the CI pass above, we can **close the PR without merging it** (i
 git checkout 8.x-stable
 git pull upstream 8.x-stable
 git merge --ff-only 8.x
-git tag $VERSION -m $VERSION
+git tag v$VERSION -m v$VERSION
 git push upstream 8.x-stable --follow-tags
 ```
 
