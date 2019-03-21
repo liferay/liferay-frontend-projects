@@ -1,6 +1,6 @@
 {
   "name": "liferay-amd-loader",
-  "version": "4.0.0-alpha.2",
+  "version": "4.0.0-alpha.3",
   "description": "AMD Loader with support for combo URL and conditional loading",
   "scripts": {
     "clean": "rm -rf build",
