@@ -162,9 +162,10 @@ async function getRemote(options) {
 	const lines = remotes.split('\n');
 
 	for (let i = 0; i < lines.length; i++) {
-		const match = lines[i].match(/\bgithub.com\/liferay\/(\S+)(?:\.git)?/i);
+		const match = lines[i].match(/\bgithub.com\/liferay\/(\S+)/i);
 		if (match) {
-			return `https://github.com/liferay/${match[1]}`;
+			const remote = match[1].replace(/\.git$/, '');
+			return `https://github.com/liferay/${remote}`;
 		}
 	}
 

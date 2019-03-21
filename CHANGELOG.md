@@ -1,8 +1,9 @@
-## [9.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit.git/tree/9.0.0-alpha.1) (2019-03-21)
+## [v9.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-alpha.1) (2019-03-21)
 
-[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit.git/compare/v9.0.0-alpha.0...9.0.0-alpha.1)
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-alpha.0...v9.0.0-alpha.1)
 
-- Make `gulp watch` pick up changes in subdirectories (v8.x) ([\#237](https://github.com/liferay/liferay-js-themes-toolkit.git/pull/237))
+- Create new changelog generator and use it to create 9.0.0-alpha.1 changelog ([\#239](https://github.com/liferay/liferay-js-themes-toolkit/pull/239))
+- Make `gulp watch` pick up changes in subdirectories (v8.x) ([\#237](https://github.com/liferay/liferay-js-themes-toolkit/pull/237))
 
 ## [v9.0.0-alpha.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-alpha.0) (2019-03-19)
 [Full Changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0...v9.0.0-alpha.0)
