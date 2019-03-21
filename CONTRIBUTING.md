@@ -81,7 +81,7 @@ git grep 9.0.0-alpha.0
 
 ### 3. Update CHANGELOG.md
 
-Consult the release milestone (from the [list of milestones](https://github.com/liferay/liferay-js-themes-toolkit/milestones)) and update the CHANGELOG.md file accordingly.
+Run `scripts/changelog.js $VERSION`.
 
 ### 4. Send a release PR
 
