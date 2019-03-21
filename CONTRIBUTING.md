@@ -81,7 +81,7 @@ git grep 9.0.0-alpha.0
 
 ### 3. Update CHANGELOG.md
 
-Run `yarn changelog --version=$VERSION`.
+Run `yarn changelog --version=v$VERSION`.
 
 ### 4. Send a release PR
 
