@@ -24,6 +24,12 @@ module.exports = class extends Base {
 		super.prompting();
 	}
 
+	_enforceFolderName() {
+		this.destinationRoot(path.resolve(this.importTheme));
+
+		this.config.save();
+	}
+
 	configuring() {
 		super.configuring();
 	}
