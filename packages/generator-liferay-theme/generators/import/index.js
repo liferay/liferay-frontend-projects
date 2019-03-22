@@ -29,7 +29,7 @@ module.exports = class extends Base {
 	}
 
 	_writeThemeFiles() {
-		this.sourceRoot(this.importTheme);
+		this.sourceRoot(this.destinationRoot());
 
 		this.fs.copy(
 			this.templatePath('docroot/_diffs'),
