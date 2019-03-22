@@ -327,6 +327,7 @@ async function normalizeVersion(version, {force}) {
 
 	const hasPrefix = V_PREFIX_REGEX.test(version);
 	const hasNumber = NUMBER_PREFIX_REGEX.test(version);
+
 	if (coefficient > 0 && !hasPrefix) {
 		if (force || !hasNumber) {
 			warn(`Version "${version}" is missing expected "v" prefix`);
