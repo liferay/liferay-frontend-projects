@@ -14,6 +14,7 @@
 		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/**/*.{js,json,md}' && yarn lint && yarn test",
 		"format": "prettier-eslint --write '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
 		"lint": "eslint 'packages/**/*.js'",
+		"lint:fix": "eslint --fix 'packages/**/*.js'",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
