@@ -29,6 +29,7 @@ module.exports = class extends Base {
 	}
 
 	_writeThemeFiles() {
+		// Importing updates the imported theme files in-place.
 		this.sourceRoot(this.destinationRoot());
 
 		this.fs.copy(
