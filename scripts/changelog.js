@@ -352,7 +352,7 @@ async function normalizeVersion(version, {force}) {
 	return version;
 }
 
-async function parseArgs(args) {
+function parseArgs(args) {
 	const options = {
 		outfile: './CHANGELOG.md',
 		to: 'HEAD',
@@ -445,7 +445,7 @@ async function generate({from, to, date, remote, version}) {
 }
 
 async function main(_node, _script, ...args) {
-	const options = await parseArgs(args);
+	const options = parseArgs(args);
 	if (!options) {
 		process.exit(1);
 	}
