@@ -29,7 +29,8 @@ module.exports = class extends Base {
 	}
 
 	_writeThemeFiles() {
-		this.sourceRoot(this.importTheme);
+		// Importing updates the imported theme files in-place.
+		this.sourceRoot(this.destinationRoot());
 
 		this.fs.copy(
 			this.templatePath('docroot/_diffs'),
