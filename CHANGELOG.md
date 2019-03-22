@@ -1,3 +1,13 @@
+## [v8.0.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.2) (2019-03-22)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.1...v8.0.2)
+
+- Make theme importing work regardless of theme location ([\#251](https://github.com/liferay/liferay-js-themes-toolkit/pull/251))
+- Fix "gulp upgrade" task for 6.2 themes (#244) ([\#249](https://github.com/liferay/liferay-js-themes-toolkit/pull/249))
+- Provide a hint to run "gulp upgrade" before "build" after import ([\#252](https://github.com/liferay/liferay-js-themes-toolkit/pull/252))
+- Add lint:fix script as a convenience ([\#250](https://github.com/liferay/liferay-js-themes-toolkit/pull/250))
+- Teach liferay-theme:import generator to work with relative paths ([\#246](https://github.com/liferay/liferay-js-themes-toolkit/pull/246))
+
 ## [8.0.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.1) (2019-03-20)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0...v8.0.1)
