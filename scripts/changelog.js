@@ -50,29 +50,29 @@ const YELLOW = '\x1b[33m';
 /**
  * Log a line to stderr.
  */
-function log(message) {
-	process.stderr.write(`${message}\n`);
+function log(...args) {
+	process.stderr.write(`${args.join('\n')}\n`);
 }
 
 /**
  * Log a line to stderr, using green formatting.
  */
-function info(message) {
-	log(`${GREEN}${message}${RESET}`);
+function info(...args) {
+	log(`${GREEN}${args.join('\n')}${RESET}`);
 }
 
 /**
  * Log a line to stderr, using error formatting.
  */
-function error(message) {
-	log(`${RED}error: ${message}${RESET}`);
+function error(...args) {
+	log(`${RED}error: ${args.join('\n')}${RESET}`);
 }
 
 /**
  * Log a line to stderr, using warning formatting.
  */
-function warn(message) {
-	log(`${YELLOW}warning: ${message}${RESET}`);
+function warn(...args) {
+	log(`${YELLOW}warning: ${args.join('\n')}${RESET}`);
 }
 
 /**
@@ -84,9 +84,9 @@ function run(command, ...args) {
 			if (err) {
 				const invocation = `${command} ${args.join(' ')}`;
 				log(
-					`command: ${invocation}\n` +
-						`stdout: ${stdout}\n` +
-						`stderr: ${stderr}`
+					`command: ${invocation}`,
+					`stdout: ${stdout}`,
+					`stderr: ${stderr}`
 				);
 				reject(new Error(`Command: "${invocation}" failed: ${err}`));
 			} else {
@@ -162,18 +162,17 @@ async function getRemote(options) {
 	const lines = remotes.split('\n');
 
 	for (let i = 0; i < lines.length; i++) {
-		const match = lines[i].match(/\bgithub.com\/liferay\/(\S+)/i);
+		const match = lines[i].match(
+			/\bgithub\.com\/liferay\/(\S+?)(?:\.git)?\s/i
+		);
 		if (match) {
-			const remote = match[1].replace(/\.git$/, '');
-			return `https://github.com/liferay/${remote}`;
+			return `https://github.com/liferay/${match[1]}`;
 		}
 	}
 
 	warn(
-		[
-			'Unable to determine remote repository URL!',
-			'Please specify one with --remote-url=REPOSITORY_URL',
-		].join('\n')
+		'Unable to determine remote repository URL!',
+		'Please specify one with --remote-url=REPOSITORY_URL'
 	);
 	return null;
 }
@@ -285,19 +284,20 @@ function relative(filePath) {
 }
 
 function printUsage() {
-	[
+	log(
 		'',
 		`${relative(__filename)} [option...]`,
 		'',
 		'Options:',
+		'  --force                      [optional: disable safety checks]',
 		'  --from=FROM                  [default: previous tag]',
 		'  --to=TO                      [default: HEAD]',
 		'  --help',
 		'  --outfile=FILE               [default: ./CHANGELOG.md]',
 		'  --remote-url=REPOSITORY_URL  [default: inferred]',
 		'  --regenerate                 [optional: replace entire changelog]',
-		'  --version=VERSION            [required: version being released]',
-	].forEach(log);
+		'  --version=VERSION            [required: version being released]'
+	);
 }
 
 function option(name) {
@@ -308,6 +308,51 @@ function option(name) {
 	}
 }
 
+const NUMBER_PREFIX_REGEX = /^\d/;
+const V_PREFIX_REGEX = /^v\d/;
+
+/**
+ * Make sure `version` starts with "v", if that's the convention in this
+ * project, and vice versa: remove an unwanted prefix, if that is not the
+ * convention.
+ */
+async function normalizeVersion(version, {force}) {
+	const tags = (await git('tag', '-l')).trim().split('\n');
+
+	// Calculate a "coefficient" that reflects the likelihood that this repo
+	// uses a "v" prefix by convention.
+	const coefficient = tags.reduce((current, tag) => {
+		return current + (V_PREFIX_REGEX.test(tag) ? 1 : -1);
+	}, 0);
+
+	const hasPrefix = V_PREFIX_REGEX.test(version);
+	const hasNumber = NUMBER_PREFIX_REGEX.test(version);
+
+	if (coefficient > 0 && !hasPrefix) {
+		if (force || !hasNumber) {
+			warn(`Version "${version}" is missing expected "v" prefix`);
+		} else {
+			warn(
+				`Adding expected "v" prefix to version "${version}"`,
+				'use --force to disable this coercion'
+			);
+			return `v${version}`;
+		}
+	} else if (coefficient < 0 && hasPrefix) {
+		if (force) {
+			warn(`Version "${version}" has unexpected "v" prefix`);
+		} else if (version.length > 1) {
+			warn(
+				`Removing unexpected "v" prefix from "${version}"`,
+				'use --force to disable this coercion'
+			);
+			return version.slice(1);
+		}
+	}
+
+	return version;
+}
+
 function parseArgs(args) {
 	const options = {
 		outfile: './CHANGELOG.md',
@@ -316,6 +361,12 @@ function parseArgs(args) {
 
 	let match;
 	args.forEach(arg => {
+		match = arg.match(option('force'));
+		if (match) {
+			options.force = true;
+			return;
+		}
+
 		match = arg.match(option('help'));
 		if (match) {
 			printUsage();
@@ -399,7 +450,7 @@ async function main(_node, _script, ...args) {
 	if (!options) {
 		process.exit(1);
 	}
-	const {outfile, to, version} = options;
+	const {outfile, to} = options;
 
 	printBanner(`
 		changelog.js
@@ -408,6 +459,8 @@ async function main(_node, _script, ...args) {
 		Reporting
 		for duty!
 	`);
+
+	const version = await normalizeVersion(options.version, options);
 
 	const remote = await getRemote(options);
 	let from = await getPreviousReleasedVersion(to);
@@ -456,10 +509,8 @@ async function main(_node, _script, ...args) {
 
 		if (previousContents.indexOf(`[${version}]`) !== -1) {
 			warn(
-				[
-					`${outfile} already contains a reference to ${version}.`,
-					'Did you mean to regenerate using the --regenerate switch?',
-				].join('\n')
+				`${outfile} already contains a reference to ${version}.`,
+				'Did you mean to regenerate using the --regenerate switch?'
 			);
 		}
 
@@ -473,7 +524,7 @@ async function main(_node, _script, ...args) {
 	info(`Wrote ${outfile} ${written} bytes ✨`);
 }
 
-main(...process.argv).catch(error => {
-	log(error);
+main(...process.argv).catch(err => {
+	log(err);
 	process.exit(1);
 });
