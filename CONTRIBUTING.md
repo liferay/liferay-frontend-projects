@@ -145,3 +145,13 @@ cd packages
 ```
 
 We may partially automate this in the future, but don't actually anticipate much change on the 8.x branch moving forward, so it may not be worth it.
+
+### 8. Final sanity checking
+
+Check that the releases are reflected on the NPM registry pages:
+
+-   https://www.npmjs.com/package/liferay-theme-deps-7.0
+-   https://www.npmjs.com/package/liferay-theme-deps-7.1
+-   https://www.npmjs.com/package/liferay-theme-tasks
+-   https://www.npmjs.com/package/generator-liferay-theme
+-   https://www.npmjs.com/package/liferay-theme-mixins
