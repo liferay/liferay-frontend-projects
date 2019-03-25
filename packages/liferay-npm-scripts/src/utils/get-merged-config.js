@@ -16,35 +16,35 @@ module.exports = function(type) {
 		case 'babel':
 			return sortKeys(
 				deepMerge(
-					getUserConfig('.babelrc', 'babel'),
-					require('../config/babel')
+					require('../config/babel'),
+					getUserConfig('.babelrc', 'babel')
 				)
 			);
 			break;
 		case 'bundler':
 			return sortKeys(
 				deepMerge(
-					getUserConfig('.npmbundlerrc'),
-					require('../config/npm-bundler')
+					require('../config/npm-bundler'),
+					getUserConfig('.npmbundlerrc')
 				)
 			);
 			break;
 		case 'jest':
 			return sortKeys(
 				deepMerge(
-					getUserConfig('jest.config.js', 'jest'),
-					require('../config/jest')
+					require('../config/jest'),
+					getUserConfig('jest.config.js', 'jest')
 				)
 			);
 			break;
 		case 'npmscripts':
 			return sortKeys(
 				deepMerge(
-					getUserConfig('.liferaynpmscriptsrc'),
 					require('../config/liferay-npm-scripts'),
 					require('../config/liferay-npm-scripts-build-deps-clay.json'),
 					require('../config/liferay-npm-scripts-build-deps-liferay.json'),
-					require('../config/liferay-npm-scripts-build-deps-metal.json')
+					require('../config/liferay-npm-scripts-build-deps-metal.json'),
+					getUserConfig('.liferaynpmscriptsrc')
 				)
 			);
 			break;
