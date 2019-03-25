@@ -88,12 +88,12 @@ export default class Loader {
 		}
 
 		module = config.addModule(name);
-
-		module.define.resolve(args);
 		module.factory = factory;
 		module.dependencies = dependencies.map(dependency =>
 			this._pathResolver.resolvePath(name, dependency)
 		);
+
+		module.define.resolve(args);
 	}
 
 	/**
@@ -438,6 +438,10 @@ export default class Loader {
 	 * @param {array} moduleNames list of modules to invoke
 	 */
 	_setModuleImplementations(moduleNames) {
+		if (moduleNames.length == 0) {
+			return;
+		}
+
 		const config = this._config;
 		const modules = config.getModules(moduleNames);
 
