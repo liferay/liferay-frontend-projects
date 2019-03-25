@@ -1,9 +1,13 @@
+
 /**
  * © 2019 Liferay, Inc. <https://liferay.com>
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+const path = require('path');
+
 const CWD = process.cwd();
+const PATH = path.resolve(`${__dirname}/../../node_modules/.bin`);
 
 const {spawn} = require('cross-spawn');
 
@@ -16,6 +20,10 @@ const {spawn} = require('cross-spawn');
 module.exports = function(command, args = [], options = {}) {
 	spawn.sync(command, args, {
 		cwd: CWD,
+		env: {
+			...process.env,
+			PATH: `${PATH}:${process.env.PATH}`,
+		},
 		stdio: 'inherit',
 		...options
 	});
