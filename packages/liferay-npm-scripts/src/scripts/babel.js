@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const fs = require('fs');
 const path = require('path');
 const CWD = process.cwd();

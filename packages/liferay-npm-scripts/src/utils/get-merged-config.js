@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const sortKeys = require('sort-keys');
 const getUserConfig = require('./get-user-config');
 const deepMerge = require('./deep-merge');
