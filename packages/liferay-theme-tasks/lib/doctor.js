@@ -12,20 +12,28 @@ const lfrThemeConfig = require('./liferay_theme_config');
 
 /* eslint-disable quote-props */
 
-// Theme version support for upgrade tasks:
-const supportedUpgradeVersions = {
-	'6.2': true,
-	'7.0': true,
-};
+const SUPPORTED_TASKS = {
+	upgrade: {
+		'6.2': true,
+		'7.0': true,
+		'7.1':
+			' - to upgrade a 7.1 theme please run ' +
+			'"npm install --save-dev liferay-theme-tasks@9.0.0-alpha.1" ' +
+			'and then "gulp upgrade" again',
+	},
 
-// Theme version support for non-upgrade tasks:
-const supportedThemeVersions = {
-	'6.2': ' - please run "gulp upgrade" first',
-	'7.0': true,
-	'7.1': true,
+	default: {
+		'6.2': ' - please run "gulp upgrade" first',
+		'7.0': true,
+		'7.1': true,
+	},
 };
 
 /* eslint-enable quote-props */
+
+function getSupportedTasks(task) {
+	return SUPPORTED_TASKS[task] || SUPPORTED_TASKS.default;
+}
 
 function doctor({
 	themeConfig = null,
@@ -80,25 +88,16 @@ function assertTasksSupported(version, tasks) {
 			case 'init':
 				break;
 
-			case 'upgrade':
-				if (supportedUpgradeVersions[version] !== true) {
-					throw new Error(
-						`Task '${task}' is not supported for themes with ` +
-							`version '${version}' in this version of ` +
-							`'liferay-theme-tasks'`
-					);
-				}
-				break;
-
 			default:
-				if (supportedThemeVersions[version] !== true) {
-					const message = supportedThemeVersions[version] || '';
-
-					throw new Error(
-						`Task '${task}' is not supported for themes with ` +
-							`version '${version}' in this version of ` +
-							`'liferay-theme-tasks'${message}`
-					);
+				{
+					const message = getSupportedTasks(task)[version] || '';
+					if (message !== true) {
+						throw new Error(
+							`Task '${task}' is not supported for themes with ` +
+								`version '${version}' in this version of ` +
+								`'liferay-theme-tasks'${message}`
+						);
+					}
 				}
 				break;
 		}
