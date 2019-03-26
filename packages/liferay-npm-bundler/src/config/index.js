@@ -10,6 +10,7 @@ import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
+import merge from 'merge';
 
 import * as babel from './internal/babel';
 import * as bundler from './internal/bundler';
@@ -333,7 +334,10 @@ function loadConfig() {
 
 	if (presetFile) {
 		const originalConfig = Object.assign({}, config);
-		Object.assign(config, readJsonSync(presetFile), originalConfig);
+		Object.assign(
+			config,
+			merge.recursive(true, readJsonSync(presetFile), originalConfig)
+		);
 		config.pluginsBaseDir = getPackageDir(presetFile);
 	}
 
