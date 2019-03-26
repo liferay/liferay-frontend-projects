@@ -17,7 +17,7 @@ const SUPPORTED_TASKS = {
 		'6.2': true,
 		'7.0': true,
 		'7.1':
-			' - to upgrade a 7.1 theme please run ' +
+			' - please run ' +
 			'"npm install --save-dev liferay-theme-tasks@9.0.0-alpha.1" ' +
 			'and then "gulp upgrade" again',
 	},
@@ -92,11 +92,14 @@ function assertTasksSupported(version, tasks) {
 				{
 					const message = getSupportedTasks(task)[version] || '';
 					if (message !== true) {
-						throw new Error(
-							`Task '${task}' is not supported for themes with ` +
-								`version '${version}' in this version of ` +
-								`'liferay-theme-tasks'${message}`
+						log(
+							colors.yellow(
+								`Task '${task}' is not supported for themes ` +
+									`with version '${version}' in this ` +
+									`version of 'liferay-theme-tasks'${message}`
+							)
 						);
+						throw new Error('Unsupported task');
 					}
 				}
 				break;
