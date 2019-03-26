@@ -1,3 +1,12 @@
+## [v8.0.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.3) (2019-03-26)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.2...v8.0.3)
+
+- feat: Make "doctor" tips stand out in a different color ([\#263](https://github.com/liferay/liferay-js-themes-toolkit/pull/263))
+- feat: Provide hint to update to v9.x in order to upgrade a 7.1 theme ([\#261](https://github.com/liferay/liferay-js-themes-toolkit/pull/261))
+- fix: "import" generator performing in-place imports ([\#260](https://github.com/liferay/liferay-js-themes-toolkit/pull/260))
+- Add NPM page links to CONTRIBUTING.md ([\#254](https://github.com/liferay/liferay-js-themes-toolkit/pull/254))
+
 ## [v8.0.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.2) (2019-03-22)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.1...v8.0.2)
