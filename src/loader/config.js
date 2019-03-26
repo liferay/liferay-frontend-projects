@@ -21,6 +21,7 @@ export default class Config {
 		this._paths = {};
 
 		this._config = {maps: {}, paths: {}};
+		this._parse(cfg, 'defaultURLParams', {});
 		this._parse(cfg, 'explainResolutions', false);
 		this._parse(cfg, 'showWarnings', false);
 		this._parse(cfg, 'waitTimeout', 7000);
