@@ -58,6 +58,7 @@ module.exports = function() {
 			require('./scripts/test')(ARGS_ARRAY);
 			break;
 		default:
+			// eslint-disable-next-line no-console
 			console.log(
 				`'${type}' is not a valid command for liferay-npm-scripts.`
 			);

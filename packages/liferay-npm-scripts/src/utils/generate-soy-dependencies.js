@@ -25,7 +25,9 @@ module.exports = function(dependencies) {
 				resolvedDependency = path.dirname(
 					require.resolve(`${dependency}/package.json`)
 				);
-			} catch (err) {}
+			} catch (err) {
+				// Swallow.
+			}
 
 			return resolvedDependency;
 		})

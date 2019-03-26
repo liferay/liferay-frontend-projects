@@ -20,7 +20,7 @@ module.exports = function(type) {
 					getUserConfig('.babelrc', 'babel')
 				)
 			);
-			break;
+
 		case 'bundler':
 			return sortKeys(
 				deepMerge(
@@ -28,7 +28,7 @@ module.exports = function(type) {
 					getUserConfig('.npmbundlerrc')
 				)
 			);
-			break;
+
 		case 'jest':
 			return sortKeys(
 				deepMerge(
@@ -36,7 +36,7 @@ module.exports = function(type) {
 					getUserConfig('jest.config.js', 'jest')
 				)
 			);
-			break;
+
 		case 'npmscripts':
 			return sortKeys(
 				deepMerge(
@@ -47,8 +47,9 @@ module.exports = function(type) {
 					getUserConfig('.liferaynpmscriptsrc')
 				)
 			);
-			break;
+
 		default:
+			// eslint-disable-next-line no-console
 			console.log(`'${type}' is not a valid config`);
 	}
 };

@@ -6,8 +6,10 @@
 	},
 	"private": true,
 	"scripts": {
-		"format": "prettier --write \"./**/*.js\"",
-		"format:check": "prettier --list-different \"./**/*.js\""
+		"format": "prettier --write '**/*.js'",
+		"format:check": "prettier --list-different '**/*.js'",
+		"lint": "eslint '**/*.js'",
+		"lint:fix": "eslint --fix '**/*.js'"
 	},
 	"workspaces": [
 		"packages/*"
