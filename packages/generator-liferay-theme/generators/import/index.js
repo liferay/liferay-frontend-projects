@@ -24,19 +24,15 @@ module.exports = class extends Base {
 		super.prompting();
 	}
 
-	_enforceFolderName() {
-		this.destinationRoot(path.resolve(this.importTheme));
-
-		this.config.save();
-	}
-
 	configuring() {
+		// Must resolve theme files path before calling super (which chdirs).
+		this.themeFiles = path.resolve(this.importTheme);
+
 		super.configuring();
 	}
 
 	_writeThemeFiles() {
-		// Importing updates the imported theme files in-place.
-		this.sourceRoot(this.destinationRoot());
+		this.sourceRoot(this.themeFiles);
 
 		this.fs.copy(
 			this.templatePath('docroot/_diffs'),
@@ -49,7 +45,10 @@ module.exports = class extends Base {
 	}
 
 	writing() {
+		// Copy files from ../templates:
 		this._writeApp();
+
+		// Copy files from imported theme:
 		this._writeThemeFiles();
 	}
 
