@@ -336,7 +336,7 @@ function loadConfig() {
 		const originalConfig = Object.assign({}, config);
 		Object.assign(
 			config,
-			merge.recursive(true, readJsonSync(presetFile), originalConfig)
+			merge.recursive(readJsonSync(presetFile), originalConfig),
 		);
 		config.pluginsBaseDir = getPackageDir(presetFile);
 	}
