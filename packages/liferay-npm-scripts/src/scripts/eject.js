@@ -100,8 +100,8 @@ module.exports = function() {
 
 	// Set initial devDependencies for package.json
 	const newDevDependencies = {
-		'babel-cli': scriptsDependencies['babel-cli'],
-		'babel-preset-env': scriptsDependencies['babel-preset-env'],
+		'@babel/cli': scriptsDependencies['@babel/cli'],
+		'@babel/preset-env': scriptsDependencies['@babel/preset-env'],
 		'check-source-formatting':
 			scriptsDependencies['check-source-formatting'],
 		'cross-env': scriptsDependencies['cross-env'],
