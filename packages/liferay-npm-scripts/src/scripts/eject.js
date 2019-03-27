@@ -92,7 +92,7 @@ module.exports = function() {
 
 	// Set initial npm scripts
 	projectPackage.scripts = {
-		build: generateBuildScript(),
+		build: generateBuildScript(config),
 		format: `csf ${NPM_SCRIPTS_CONFIG.format.join(' ')} --inline-edit`,
 		lint: `csf ${NPM_SCRIPTS_CONFIG.lint.join(' ')}`,
 		test: 'jest'
