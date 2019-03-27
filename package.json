@@ -2,11 +2,12 @@
 	"devDependencies": {
 		"eslint": "^5.15.3",
 		"eslint-config-liferay": "^3.0.0",
-		"prettier-eslint-cli": "^4.7.1"
+		"prettier": "^1.16.4"
 	},
 	"private": true,
 	"scripts": {
-		"format": "prettier-eslint \"./**/*.js\" --write"
+		"format": "prettier --write \"./**/*.js\"",
+		"format:check": "prettier --list-different \"./**/*.js\""
 	},
 	"workspaces": [
 		"packages/*"
