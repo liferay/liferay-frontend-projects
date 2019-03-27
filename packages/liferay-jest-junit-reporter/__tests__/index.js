@@ -52,8 +52,18 @@ const passedTestReport = {
 };
 
 describe('liferay-jest-junit-reporter', () => {
+	beforeEach(() => {
+		// Prevent user-specific context from appearing in snapshots.
+		jest.spyOn(process, 'cwd').mockImplementation(() => 'reporter-tests')
+	});
+
+	afterEach(() => {
+		jest.restoreAllMocks();
+	});
+
 	it('should write a file for a passing test', () => {
 		reporter(passedTestReport);
+
 
 		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
 
