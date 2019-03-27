@@ -25,7 +25,9 @@ exports.cleanSoy = function() {
 exports.buildSoy = function() {
 	spawnSync('metalsoy', [
 		'--soyDeps',
-		generateSoyDependencies(BUILD_CONFIG.dependencies)
+		generateSoyDependencies(BUILD_CONFIG.dependencies),
+		'--externalMsgFormat',
+		'Liferay.Language.get(\'$2\')',
 	]);
 };
 
