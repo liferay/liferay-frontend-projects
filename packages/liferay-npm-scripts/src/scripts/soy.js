@@ -27,7 +27,7 @@ exports.buildSoy = function() {
 		'--soyDeps',
 		generateSoyDependencies(BUILD_CONFIG.dependencies),
 		'--externalMsgFormat',
-		'Liferay.Language.get(\'$2\')',
+		"Liferay.Language.get('$2')"
 	]);
 };
 

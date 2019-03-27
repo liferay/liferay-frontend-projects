@@ -1,4 +1,3 @@
-
 /**
  * © 2019 Liferay, Inc. <https://liferay.com>
  *
@@ -22,7 +21,7 @@ module.exports = function(command, args = [], options = {}) {
 		cwd: CWD,
 		env: {
 			...process.env,
-			PATH: `${PATH}:${process.env.PATH}`,
+			PATH: `${PATH}:${process.env.PATH}`
 		},
 		stdio: 'inherit',
 		...options
