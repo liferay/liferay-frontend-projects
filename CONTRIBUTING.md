@@ -4,9 +4,9 @@ At the time of writing we have a pretty informal release process for the package
 
 
 ```sh
-# Make sure the local "develop" branch is up-to-date:
-git checkout develop
-git pull --ff-only upstream develop
+# Make sure the local "master" branch is up-to-date:
+git checkout master
+git pull --ff-only upstream master
 
 # Make sure formatting is up-to-date:
 yarn format:check
@@ -36,31 +36,26 @@ cd ../..
 # Ensure lockfile is up-to-date.
 yarn
 
-# Produce final commit.
+# Produce and push final commit.
 git commit -p
+git push upstream master.
 
-# Create tags.
+# Update stable branch and create tags.
+git checkout stable
+git pull upstream --ff-only stable
+git merge --ff-only master
 git tag liferay-jest-junit-reporter/v1.0.1 -m 'liferay-jest-junit-reporter v1.0.1'
 git tag liferay-npm-bundler-preset-liferay-dev/v1.1.4 -m 'liferay-npm-bundler-preset-liferay-dev v1.1.4'
 git tag liferay-npm-scripts/v1.4.8 -m 'liferay-npm-scripts v1.4.8'
 
-# Sanity-check what will be pushed.
-git push upstream develop --follow-tags --dry-run
-
-# Actually push, updating "develop" and publishing the tags.
-git push upstream develop --follow-tags
+# Publish the tags.
+git push upstream stable --follow-tags
 
 # Publish packages in order; liferay-npm-scripts must
 # always go last because it depends on the others.
 (cd packages/liferay-jest-junit-reporter && yarn publish)
 (cd packages/liferay-npm-bundler-preset-liferay-dev && yarn publish)
 (cd packages/liferay-npm-scripts && yarn publish)
-
-# Update "master" to reflect release.
-git checkout master
-git pull --ff-only upstream master
-git merge --ff-only upstream/develop
-git push upstream master
 ```
 
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
