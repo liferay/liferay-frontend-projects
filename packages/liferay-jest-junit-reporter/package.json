@@ -1,6 +1,6 @@
 {
 	"name": "liferay-jest-junit-reporter",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A JUnit reporter for Jest and Liferay CI",
 	"main": "index.js",
 	"scripts": {
