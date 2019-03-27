@@ -62,3 +62,9 @@ git pull --ff-only upstream master
 git merge --ff-only upstream/develop
 git push upstream master
 ```
+
+After the release, you can confirm that the packages are correctly listed in the NPM registry:
+
+- https://www.npmjs.com/package/liferay-jest-junit-reporter
+- https://www.npmjs.com/package/liferay-npm-bundler-preset-liferay-dev
+- https://www.npmjs.com/package/liferay-npm-scripts
