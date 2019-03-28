@@ -248,7 +248,7 @@ module.exports = function(options) {
 		const baseFile = ['aui', 'main'];
 
 		const prompts = [];
-		let srcPaths = [];
+		const srcPaths = [];
 
 		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), function(item) {
 			const fileName = path.basename(item, '.css');
@@ -284,6 +284,7 @@ module.exports = function(options) {
 		});
 
 		let promptResults;
+		const filteredPaths = [];
 
 		gulp.src(srcPaths)
 			.pipe(
@@ -293,9 +294,15 @@ module.exports = function(options) {
 			)
 			.pipe(
 				plugins.filter(function(file) {
-					const fileName = path.basename(file.path);
+					const extname = path.extname(file.path).slice(1);
+					const basename = path.basename(file.path, `.${extname}`);
 
-					return promptResults[fileName];
+					if (promptResults[basename][extname]) {
+						filteredPaths.push(file.path);
+						return true;
+					}
+
+					return false;
 				})
 			)
 			.pipe(
@@ -309,21 +316,7 @@ module.exports = function(options) {
 			)
 			.pipe(gulp.dest(DIR_SRC_CSS))
 			.on('end', function() {
-				srcPaths = _.reduce(
-					srcPaths,
-					function(result, item) {
-						const fileName = path.basename(item);
-
-						if (promptResults[fileName]) {
-							result.push(item);
-						}
-
-						return result;
-					},
-					[]
-				);
-
-				del(srcPaths, cb);
+				del(filteredPaths, cb);
 			});
 	});
 
