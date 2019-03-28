@@ -19,8 +19,6 @@ afterAll(() => {
 		'upgrade_task_black_list',
 		'upgrade_task_config',
 		'upgrade_task_convert_bootstrap',
-		'upgrade_task_create_backup_files',
-		'upgrade_task_create_css_diff',
 		'upgrade_task_create_deprecated_mixins',
 		'upgrade_task_log_changes',
 		'upgrade_task_replace_compass',
@@ -156,82 +154,6 @@ describe('convert bootstrap', () => {
 
 			done();
 		});
-	});
-});
-
-describe('create backup files', () => {
-	let runSequence;
-	let tempPath;
-
-	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
-			namespace: 'upgrade_task_create_backup_files',
-			themeName: 'upgrade-theme',
-			version: '6.2',
-			registerTasksOptions: {
-				pathSrc: 'src',
-			},
-		});
-
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
-	});
-
-	it('upgrade:create-backup-files should create backup files from source', done => {
-		runSequence('upgrade:create-backup-files', err => {
-			if (err) throw err;
-
-			expect(path.join(tempPath, '_backup')).toBeFolder();
-			expect(path.join(tempPath, '_backup/src')).toBeFolder();
-			expect(
-				path.join(tempPath, '_backup/src/css/custom.css')
-			).toBeFile();
-
-			done();
-		});
-	});
-});
-
-describe('create css diff', () => {
-	let runSequence;
-	let tempPath;
-
-	beforeEach(() => {
-		testUtil.cleanTempTheme(
-			'upgrade-theme',
-			'6.2',
-			'upgrade_task_create_css_diff'
-		);
-
-		const config = testUtil.copyTempTheme({
-			namespace: 'upgrade_task_create_css_diff',
-			themeName: 'upgrade-theme',
-			version: '6.2',
-			registerTasksOptions: {
-				pathSrc: 'src',
-			},
-		});
-
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
-	});
-
-	it('upgrade:create-css-diff should create css.diff file showing what has been changed in theme css files', done => {
-		runSequence(
-			'upgrade:create-backup-files',
-			'upgrade:convert-bootstrap',
-			'upgrade:create-css-diff',
-			err => {
-				if (err) throw err;
-
-				const cssDiffPath = path.join(tempPath, '_backup/css.diff');
-
-				expect(cssDiffPath).toBeFileMatching(/-\$grayDark:\s#333;/);
-				expect(cssDiffPath).toBeFileMatching(/\+\$gray-dark:\s#333;/);
-
-				done();
-			}
-		);
 	});
 });
 
