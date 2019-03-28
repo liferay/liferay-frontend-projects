@@ -64,33 +64,3 @@ describe('config', () => {
 		});
 	});
 });
-
-describe('create backup files', () => {
-	let runSequence;
-	let tempPath;
-
-	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
-			namespace: 'upgrade_task_create_backup_files',
-			themeName: 'base-theme',
-			registerTasksOptions: {},
-		});
-
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
-	});
-
-	it('upgrade:create-backup-files should create backup files from source', done => {
-		runSequence('upgrade:create-backup-files', err => {
-			if (err) throw err;
-
-			expect(path.join(tempPath, '_backup')).toBeFolder();
-			expect(path.join(tempPath, '_backup/src')).toBeFolder();
-			expect(
-				path.join(tempPath, '_backup/src/css/_custom.scss')
-			).toBeFile();
-
-			done();
-		});
-	});
-});
