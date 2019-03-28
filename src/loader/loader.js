@@ -37,6 +37,8 @@ export default class Loader {
 			document || window.document,
 			this._config
 		);
+
+		this._requireCallId = 0;
 	}
 
 	/**
@@ -87,7 +89,30 @@ export default class Loader {
 			factory = () => exportedValue;
 		}
 
-		module = config.addModule(name);
+		// Do the things
+		module = config.getModule(name);
+
+		if (!module) {
+			throw new Error(
+				`Trying to define a module that was not registered: ${name}\n` +
+					'This usually means that someone is calling define() ' +
+					'for a module that has not been previously required.'
+			);
+		}
+
+		if (module.defined) {
+			throw new Error(
+				`Trying to define a module more than once: ${name}\n` +
+					'This usually means that someone is calling define() ' +
+					'more than once for the same module, which can lead to ' +
+					'unexpected results.'
+			);
+		}
+
+		if (config.explainResolutions) {
+			console.log('Liferay AMD Loader:', 'Defining', module.name);
+		}
+
 		module.factory = factory;
 		module.dependencies = dependencies.map(dependency =>
 			this._pathResolver.resolvePath(name, dependency)
@@ -113,6 +138,7 @@ export default class Loader {
 	require(...args) {
 		const moduleLoader = this._scriptLoader;
 		const config = this._config;
+		const requireCallId = this._requireCallId++;
 
 		let moduleNames;
 		let success;
@@ -188,7 +214,10 @@ export default class Loader {
 
 		// Provide default value for failure
 		if (failure === undefined) {
-			const stack = new Error('Require caller stack trace');
+			const stack = new Error(
+				'This is not a real error, but a fake one created to capture ' +
+					"require()'s caller stack trace"
+			);
 
 			failure = error => {
 				if (!config.explainResolutions) {
@@ -197,149 +226,203 @@ export default class Loader {
 
 				console.log('---------------------------------------');
 				console.log('Liferay AMD Loader: Unhandled require failure:');
-				console.log('  · modules:', moduleNames);
-				console.log('  · origin:', stack);
-				console.log('  · error:', error);
-				[
-					'definedDependencies',
-					'implementedDependencies',
-					'missingDependencies',
-					'errors',
-				].forEach(field => {
-					if (error[field]) {
-						console.log(`  · ${field}:`, error[field]);
-					}
-				});
+				console.log(
+					'\nNOTE: You are seeing this message because you have\n' +
+						'invoked require() without a failure handler. It\n' +
+						'does not necessarily mean that the Loader is\n' +
+						'broken and may be caused by errors in your code or\n' +
+						'third party modules.\n\n' +
+						'If you want to avoid it make sure to provide a\n' +
+						'failure handler when calling require().\n\n'
+				);
+				console.log('A detailed report of what happened follows:');
+				console.log('  · Require call id:', requireCallId);
+				console.log('  · Required modules:', moduleNames);
+				console.log('  · Error cause:', error);
+				if (error.missingModules) {
+					console.log('  · Missing modules:', error.missingModules);
+				}
+				console.log("  · Caller's stack trace:", stack);
 				console.log('---------------------------------------');
 			};
 		}
 
-		// Grab the modules
+		// Intercept handlers to explain resolutions
+		success = this._interceptHandler(success, 'success', requireCallId);
+		failure = this._interceptHandler(failure, 'failure', requireCallId);
+
+		// Global closure variables
+		let resolvedModuleNames;
+		let unregisteredModuleNames;
+		let rejectTimeout;
+		let timeoutRejected = false;
+
+		// Do the things (note that each then() block contains a synchronous
+		// block of code, that means that between then() blocks may be
+		// interrupted by any parallel call)
 		this._dependencyResolver
 			.resolve(moduleNames)
 			.then(resolution => {
 				// Show extra information when explainResolutions is active
-				if (config.explainResolutions) {
-					console.log(
-						'Liferay AMD Loader: Resolved modules',
-						moduleNames,
-						'to',
-						resolution
-					);
-				}
+				this._explainResolution(requireCallId, moduleNames, resolution);
 
 				// Fail if resolution errors present
-				const resolutionError = this._getResolutionError(resolution);
+				this._throwOnResolutionErrors(resolution);
 
-				if (resolutionError) {
-					failure(resolutionError);
+				// Merge global maps from resolution into config
+				config.addMappings(resolution.configMap);
 
-					return;
-				}
+				// Merge global paths from resolution into config
+				config.addPaths(resolution.pathMap);
 
-				// Process resolution
-				const resolvedModuleNames = resolution.resolvedModules;
-				const moduleMap = resolution.moduleMap;
-				const configMap = resolution.configMap;
-				const pathMap = resolution.pathMap;
+				// Store resolved module names
+				resolvedModuleNames = resolution.resolvedModules;
 
-				// Register all resolved modules
-				resolvedModuleNames.forEach(resolvedModuleName =>
-					config.addModule(resolvedModuleName)
-				);
-
-				// Grab undefined modules
-				const undefinedModuleNames = this._getUndefinedModuleNames(
+				// Grab unregistered module names (some of the resolved modules
+				// may have been registered by a parallel require() call, so we
+				// are not responsible for loading them).
+				unregisteredModuleNames = this._getUnregisteredModuleNames(
 					resolvedModuleNames
 				);
 
-				// Merge module-local maps from resolution into config
-				Object.entries(moduleMap).forEach(([name, map]) => {
-					const module = config.addModule(name);
-
-					module.map = map;
-				});
-
-				// Merge global maps from resolution into config
-				config.addMappings(configMap);
-
-				// Merge paths from resolution into config
-				config.addPaths(pathMap);
-
-				// Prepare load timeout
-				const rejectTimeout = this._setRejectTimeout(
-					moduleNames,
-					resolution,
-					failure
+				// Register the modules
+				unregisteredModuleNames.forEach(moduleName =>
+					config.addModule(moduleName, {
+						map: resolution.moduleMap[moduleName],
+					})
 				);
 
-				// Load the modules
-				moduleLoader
-					.loadModules(undefinedModuleNames)
-					.then(() =>
-						this._waitForModuleDefinitions(undefinedModuleNames)
-					)
-					.then(() => {
-						clearTimeout(rejectTimeout);
+				// Prepare load timeout
+				rejectTimeout = this._setRejectTimeout(
+					moduleNames,
+					resolution,
+					(...args) => {
+						timeoutRejected = true;
+						failure(...args);
+					}
+				);
 
-						this._setModuleImplementations(undefinedModuleNames);
+				// Load the modules we are responsible for
+				if (config.explainResolutions) {
+					console.log(
+						'Liferay AMD Loader:',
+						'Fetching',
+						unregisteredModuleNames,
+						'from require call',
+						requireCallId
+					);
+				}
 
-						const implementations = this._getModuleImplementations(
-							moduleNames
-						);
-
-						try {
-							success(...implementations);
-						} catch (err) {
-							console.error(err);
-						}
-					})
-					.catch(err => {
-						clearTimeout(rejectTimeout);
-						failure(err);
-					});
+				return moduleLoader.loadModules(unregisteredModuleNames);
 			})
-			.catch(failure);
+			.then(() => {
+				// If reject timeout was hit don't do anything else
+				if (timeoutRejected) return;
+
+				// Wait for all unregistered modules to be defined
+				return this._waitForModuleDefinitions(resolvedModuleNames);
+			})
+			.then(() => {
+				// If reject timeout was hit don't do anything else
+				if (timeoutRejected) return;
+
+				// Everything went well so we can clear the timeout
+				clearTimeout(rejectTimeout);
+
+				// Set the implementations of all needed modules. Note that we
+				// set the implementation of modules not loaded by this
+				// require() call but it is necessary in case the require()
+				// call that loaded them aborted because of an error in the
+				// implementation of some module.
+				this._setModuleImplementations(
+					requireCallId,
+					resolvedModuleNames
+				);
+
+				// Now get all needed modules implementations
+				const implementations = this._getModuleImplementations(
+					moduleNames
+				);
+
+				// And invoke the sucess handler
+				success(...implementations);
+			})
+			.catch(err => {
+				// If reject timeout was hit don't do anything else
+				if (timeoutRejected) return;
+
+				if (rejectTimeout) {
+					clearTimeout(rejectTimeout);
+				}
+
+				failure(err);
+			});
 	}
 
 	/**
-	 * Get the internal module objects of the loader.
-	 * @param  {...string} moduleNames the list of module names to retrieve
-	 * @return {Array}
+	 * Intercept a require success or failure handler to show information to
+	 * explain resolutions.
+	 * @param {function} handler
+	 * @param {string} type
+	 * @param {number} requireCallId
 	 */
-	_getModules(...moduleNames) {
-		return this._config.getModules(moduleNames);
-	}
-
-	/**
-	 * Filters a list of modules and returns only those which are not yet
-	 * defined.
-	 * @param {array} moduleNames list of module names to be tested
-	 * @return {array} list of modules matching the specified filter
-	 */
-	_getUndefinedModuleNames(moduleNames) {
+	_interceptHandler(handler, type, requireCallId) {
 		const config = this._config;
 
-		return moduleNames.filter(moduleName => {
-			const module = config.getModule(moduleName);
+		return (...args) => {
+			if (config.explainResolutions) {
+				console.log(
+					'Liferay AMD Loader: Invoking',
+					type,
+					'handler for',
+					'require call',
+					requireCallId
+				);
+			}
 
-			return !module || !module.defined;
-		});
+			try {
+				handler(...args);
+			} catch (err) {
+				console.error(err);
+			}
+		};
+	}
+
+	/**
+	 * Explain resolution if flag is active
+	 * @param {number} requireCallId
+	 * @param {Array<string>} moduleNames
+	 * @param {object} resolution
+	 */
+	_explainResolution(requireCallId, moduleNames, resolution) {
+		const config = this._config;
+
+		if (config.explainResolutions) {
+			console.log(
+				'Liferay AMD Loader:',
+				'Require call',
+				requireCallId,
+				'resolved modules',
+				moduleNames,
+				'to',
+				resolution
+			);
+		}
 	}
 
 	/**
 	 * Traverse a resolved dependencies array looking for server sent errors and
-	 * return an Error if any is found.
-	 * @param  {object} resolution the resolution object
-	 * @return {Error} a detailed Error or null if no errors were found
+	 * throw an Error if any is found.
+	 * @param {object} resolution the resolution object
+	 * @throws {Error} if a resolution error is found
 	 */
-	_getResolutionError(resolution) {
+	_throwOnResolutionErrors(resolution) {
 		const resolutionErrors = resolution.resolvedModules
 			.filter(dep => dep.indexOf(':ERROR:') === 0)
 			.map(dep => dep.substr(7));
 
 		if (resolutionErrors.length > 0) {
-			return Object.assign(
+			throw Object.assign(
 				new Error(
 					'The following problems where detected while ' +
 						'resolving modules:\n' +
@@ -348,8 +431,18 @@ export default class Loader {
 				{resolutionErrors}
 			);
 		}
+	}
 
-		return null;
+	/**
+	 * Filters a list of modules and returns only those which are not yet
+	 * registered.
+	 * @param {array} moduleNames list of module names to be tested
+	 * @return {array} list of modules matching the specified filter
+	 */
+	_getUnregisteredModuleNames(moduleNames) {
+		const config = this._config;
+
+		return moduleNames.filter(moduleName => !config.getModule(moduleName));
 	}
 
 	/**
@@ -371,33 +464,9 @@ export default class Loader {
 		return setTimeout(() => {
 			const resolvedModuleNames = resolution.resolvedModules;
 
-			const missingDependencies = resolvedModuleNames.filter(dep => {
-				const module = config.getModule(dep);
+			const missingModules = resolvedModuleNames.filter(moduleName => {
+				const module = config.getModule(moduleName);
 				return !module || !module.implemented;
-			});
-
-			const fetchedMissingDependencies = missingDependencies.filter(
-				dep => {
-					const module = config.getModule(dep);
-					return module && module.fetched;
-				}
-			);
-
-			const unfetchedMissingDependencies = missingDependencies.filter(
-				dep => {
-					const module = config.getModule(dep);
-					return !module || !module.fetched;
-				}
-			);
-
-			const definedDependencies = resolvedModuleNames.filter(dep => {
-				const module = config.getModule(dep);
-				return module && module.defined;
-			});
-
-			const implementedDependencies = resolvedModuleNames.filter(dep => {
-				const module = config.getModule(dep);
-				return module && module.implemented;
 			});
 
 			const error = Object.assign(
@@ -405,13 +474,7 @@ export default class Loader {
 				{
 					modules,
 					resolution,
-					missingDependencies: {
-						all: missingDependencies,
-						fetched: fetchedMissingDependencies,
-						unfetched: unfetchedMissingDependencies,
-					},
-					definedDependencies,
-					implementedDependencies,
+					missingModules,
 				}
 			);
 
@@ -433,79 +496,109 @@ export default class Loader {
 	}
 
 	/**
+	 * Resolves a Promise as soon as all provided modules are implemented.
+	 * @param {array} moduleNames list of module names for which to wait
+	 * @return {Promise}
+	 */
+	_waitForModuleImplementations(moduleNames) {
+		const config = this._config;
+
+		return Promise.all(
+			config.getModules(moduleNames).map(module => module.implement)
+		);
+	}
+
+	/**
 	 * Invokes the implementation method of modules passing the implementations
 	 * of its dependencies.
+	 * @throws {Error} as soon as any factory fails
+	 * @param {number} requireCallId
 	 * @param {array} moduleNames list of modules to invoke
 	 */
-	_setModuleImplementations(moduleNames) {
-		if (moduleNames.length == 0) {
-			return;
-		}
-
+	_setModuleImplementations(requireCallId, moduleNames) {
 		const config = this._config;
-		const modules = config.getModules(moduleNames);
 
-		const errors = {};
+		config.getModules(moduleNames).forEach(module => {
+			// Skip already implemented modules
+			if (module.implemented) {
+				return;
+			}
 
-		modules
-			.filter(module => !module.implemented)
-			.forEach(module => {
-				try {
-					// Prepare CommonJS module implementation object
-					const moduleImpl = {exports: {}};
+			// Fail for already rejected implementations
+			if (module.implement.rejected) {
+				throw module.implement.rejection;
+			}
 
-					// Prepare arguments for the AMD factory function
-					const dependencyImplementations = module.dependencies.map(
-						dependency => {
-							if (dependency === 'exports') {
-								return moduleImpl.exports;
-							} else if (dependency === 'module') {
-								return moduleImpl;
-							} else if (dependency === 'require') {
-								return this._createLocalRequire(module);
-							} else {
-								const dependencyModule = config.getDependency(
-									module.name,
-									dependency
+			// Show info about resolution
+			if (config.explainResolutions) {
+				console.log(
+					'Liferay AMD Loader:',
+					'Implementing',
+					module.name,
+					'from require call',
+					requireCallId
+				);
+			}
+
+			try {
+				// Prepare CommonJS module implementation object
+				const moduleImpl = {exports: {}};
+
+				// Prepare arguments for the AMD factory function
+				const dependencyImplementations = module.dependencies.map(
+					dependency => {
+						if (dependency === 'exports') {
+							return moduleImpl.exports;
+						} else if (dependency === 'module') {
+							return moduleImpl;
+						} else if (dependency === 'require') {
+							return this._createLocalRequire(module);
+						} else {
+							const dependencyModule = config.getDependency(
+								module.name,
+								dependency
+							);
+
+							if (!dependencyModule) {
+								throw new Error(
+									`Unsatisfied dependency: ${dependency} ` +
+										`found in module ${module.name}`
 								);
-
-								if (!dependencyModule) {
-									throw new Error(
-										`Unsatisfied dependency: ${dependency}`
-									);
-								}
-
-								return dependencyModule.implementation;
 							}
+
+							if (!dependencyModule.implemented) {
+								throw new Error(
+									`Module ${module.name} depends on ` +
+										`${dependencyModule.name} which is ` +
+										'not yet implemented (this may be ' +
+										'due to a cyclic dependency)'
+								);
+							}
+
+							return dependencyModule.implementation;
 						}
-					);
-
-					// Invoke AMD factory function
-					const result = module.factory(...dependencyImplementations);
-
-					if (result !== undefined) {
-						module.implementation = result;
-					} else {
-						module.implementation = moduleImpl.exports;
 					}
+				);
 
-					module.implement.resolve(module.implementation);
-				} catch (err) {
-					if (!module.implement.fulfilled) {
-						module.implement.reject(err);
-					}
-					errors[module.name] = err;
-				}
-			});
+				// Invoke AMD factory function
+				const result = module.factory(...dependencyImplementations);
 
-		if (Object.keys(errors).length > 0) {
-			throw Object.assign(
-				new Error('Factory invocation failed for some modules'),
-				{
-					errors,
+				// Resolve the implementation
+				if (result !== undefined) {
+					module.implementation = result;
+				} else {
+					module.implementation = moduleImpl.exports;
 				}
-			);
-		}
+
+				module.implement.resolve(module.implementation);
+			} catch (err) {
+				if (!module.implement.fulfilled) {
+					module.implement.reject(err);
+				}
+
+				throw err;
+			}
+		});
 	}
 
 	/**
