@@ -141,12 +141,12 @@ export default class Config {
 	 * @param {?Array} moduleNames optional list of module names to retrieve
 	 * @return {Array}
 	 */
-	getModules(moduleNames = []) {
-		if (moduleNames.length > 0) {
-			return moduleNames.map(moduleName => this.getModule(moduleName));
-		} else {
+	getModules(moduleNames = undefined) {
+		if (moduleNames === undefined) {
 			return Object.values(this._modules);
 		}
+
+		return moduleNames.map(moduleName => this.getModule(moduleName));
 	}
 
 	/**

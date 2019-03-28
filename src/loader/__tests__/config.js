@@ -17,6 +17,18 @@ describe('Config', () => {
 		expect(config.getModules()).toHaveLength(0);
 	});
 
+	it('getModules() returns all modules when called without arguments', () => {
+		config.addModule('a-module');
+		config.addModule('b-module');
+		expect(config.getModules()).toHaveLength(2);
+	});
+
+	it('getModules() returns no modules when called with empty array', () => {
+		config.addModule('a-module');
+		config.addModule('b-module');
+		expect(config.getModules([])).toHaveLength(0);
+	});
+
 	it('adds new module', () => {
 		const addedModule = config.addModule('a-module');
 		const modules = config.getModules();
