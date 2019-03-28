@@ -38,11 +38,9 @@ describe('Config', () => {
 		expect(modules[0].name).toBe('a-module');
 	});
 
-	it('returns existing module when addModule called twice', () => {
-		const addedModule1 = config.addModule('a-module');
-		const addedModule2 = config.addModule('a-module');
-
-		expect(addedModule1).toBe(addedModule2);
+	it('throws when addModule called twice', () => {
+		config.addModule('a-module');
+		expect(() => config.addModule('a-module')).toThrow();
 	});
 
 	it('maps a module to its alias', () => {

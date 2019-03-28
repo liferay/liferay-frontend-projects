@@ -105,16 +105,23 @@ export default class Config {
 
 	/**
 	 * Adds a module to the configuration with default field values if it
-	 * doesn't exist. Otherwise, returns the module.
+	 * doesn't exist. Otherwise, throws an exception.
 	 * @param {string} moduleName
+	 * @param {object} extraProps
 	 * @return {Object} the module
 	 */
-	addModule(moduleName) {
-		let module = this._modules[moduleName];
-
-		if (!module) {
-			this._modules[moduleName] = module = new Module(moduleName);
+	addModule(moduleName, extraProps = {}) {
+		if (this._modules[moduleName]) {
+			throw new Error(`Module is already registered: ${moduleName}`);
 		}
+
+		const module = new Module(moduleName);
+
+		Object.entries(extraProps).forEach(([key, value]) => {
+			module[key] = value;
+		});
+
+		this._modules[moduleName] = module;
 
 		return module;
 	}
