@@ -5,6 +5,7 @@
  */
 
 import Config from '../config';
+import Module from '../module';
 
 describe('Config', () => {
 	let config;
@@ -21,13 +22,16 @@ describe('Config', () => {
 		it('returns all modules when called without arguments', () => {
 			config.addModule('a-module');
 			config.addModule('b-module');
-			expect(config.getModules()).toHaveLength(2);
+			expect(config.getModules()).toMatchObject([
+				expect.any(Module),
+				expect.any(Module),
+			]);
 		});
 
 		it('returns no modules when called with empty array', () => {
 			config.addModule('a-module');
 			config.addModule('b-module');
-			expect(config.getModules([])).toHaveLength(0);
+			expect(config.getModules([])).toMatchObject([]);
 		});
 
 		it('returns undefined for missing modules', () => {
@@ -35,8 +39,7 @@ describe('Config', () => {
 
 			const modules = config.getModules(['a-module', 'b-module']);
 
-			expect(modules).toHaveLength(2);
-			expect(modules[1]).toBeUndefined();
+			expect(modules).toMatchObject([expect.any(Module), undefined]);
 		});
 	});
 
