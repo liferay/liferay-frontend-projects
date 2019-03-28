@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 jest.mock('fs');
 
 const reporter = require('../index');

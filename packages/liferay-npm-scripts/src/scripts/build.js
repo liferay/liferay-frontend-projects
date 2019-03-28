@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const CWD = process.cwd();
 
 const spawnSync = require('../utils/spawnSync');

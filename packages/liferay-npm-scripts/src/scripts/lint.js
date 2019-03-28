@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawnSync');
 

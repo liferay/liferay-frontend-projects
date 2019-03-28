@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const sortKeys = require('sort-keys');
 const getUserConfig = require('./get-user-config');
 const deepMerge = require('./deep-merge');
@@ -20,7 +21,7 @@ module.exports = function(type) {
 					getUserConfig('.babelrc', 'babel')
 				)
 			);
-			break;
+
 		case 'bundler':
 			return sortKeys(
 				deepMerge(
@@ -28,7 +29,7 @@ module.exports = function(type) {
 					getUserConfig('.npmbundlerrc')
 				)
 			);
-			break;
+
 		case 'jest':
 			return sortKeys(
 				deepMerge(
@@ -36,7 +37,7 @@ module.exports = function(type) {
 					getUserConfig('jest.config.js', 'jest')
 				)
 			);
-			break;
+
 		case 'npmscripts':
 			return sortKeys(
 				deepMerge(
@@ -47,8 +48,9 @@ module.exports = function(type) {
 					getUserConfig('.liferaynpmscriptsrc')
 				)
 			);
-			break;
+
 		default:
+			// eslint-disable-next-line no-console
 			console.log(`'${type}' is not a valid config`);
 	}
 };

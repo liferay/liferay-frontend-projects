@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const merge = require('deepmerge');
 
 const emptyTarget = value => (Array.isArray(value) ? [] : {});

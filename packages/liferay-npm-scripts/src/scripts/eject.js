@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 const CWD = process.cwd();
 
 const fs = require('fs');
@@ -33,9 +34,9 @@ function generateBuildScript(config) {
 	let retStr = '';
 
 	if (config.soy) {
-		retStr += `metalsoy --soyDeps \"${generateSoyDependencies(
+		retStr += `metalsoy --soyDeps "${generateSoyDependencies(
 			NPM_SCRIPTS_CONFIG.build.dependencies
-		)}\" && `;
+		)}" && `;
 	}
 
 	retStr += `cross-env NODE_ENV=production babel --source-maps -d ${

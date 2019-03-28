@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
+
 // Do this as the first thing so that any code reading it knows the right env.
 if (!process.env.NODE_ENV) {
 	process.env.NODE_ENV = 'production';
@@ -58,6 +59,7 @@ module.exports = function() {
 			require('./scripts/test')(ARGS_ARRAY);
 			break;
 		default:
+			// eslint-disable-next-line no-console
 			console.log(
 				`'${type}' is not a valid command for liferay-npm-scripts.`
 			);
