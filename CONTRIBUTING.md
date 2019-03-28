@@ -1,0 +1,70 @@
+# Release process
+
+At the time of writing we have a pretty informal release process for the packages in this repo. There are obvious improvements that we can and should make, but for now we're starting by documenting the current process. By way of example, here are the steps taken to publish updated packages based on [ff680bb9ebbee](https://github.com/liferay/liferay-npm-tools/commit/ff680bb9ebbee43711bb7bf03d3e852716c54616):
+
+
+```sh
+# Make sure the local "develop" branch is up-to-date:
+git checkout develop
+git pull --ff-only upstream develop
+
+# Make sure formatting is up-to-date:
+yarn format:check
+
+# Run tests (currently, we don't have many of them):
+(cd packages/liferay-jest-junit-reporter && yarn test)
+
+# Update individual package versions:
+# - Note that this time we updated all the packages,
+#   but on many occasions we'll update only one, or two.
+cd packages/liferay-jest-junit-reporter
+yarn version --no-git-tag-version --new-version 1.0.1
+cd ../liferay-npm-bundler-preset-liferay-dev
+yarn version --no-git-tag-version --new-version 1.1.4
+cd ../liferay-npm-scripts
+yarn version --no-git-tag-version --new-version 1.4.8
+cd ../..
+
+# Note that if you update the preset, or the reporter,
+# you need to update liferay-npm-scripts as well, because it
+# depends on the others.
+cd packages/liferay-npm-scripts
+yarn add liferay-jest-junit-reporter@1.0.1 \
+         liferay-npm-bundler-preset-liferay-dev@1.1.4
+cd ../..
+
+# Ensure lockfile is up-to-date.
+yarn
+
+# Produce final commit.
+git commit -p
+
+# Create tags.
+git tag liferay-jest-junit-reporter/v1.0.1 -m 'liferay-jest-junit-reporter v1.0.1'
+git tag liferay-npm-bundler-preset-liferay-dev/v1.1.4 -m 'liferay-npm-bundler-preset-liferay-dev v1.1.4'
+git tag liferay-npm-scripts/v1.4.8 -m 'liferay-npm-scripts v1.4.8'
+
+# Sanity-check what will be pushed.
+git push upstream develop --follow-tags --dry-run
+
+# Actually push, updating "develop" and publishing the tags.
+git push upstream develop --follow-tags
+
+# Publish packages in order; liferay-npm-scripts must
+# always go last because it depends on the others.
+(cd packages/liferay-jest-junit-reporter && yarn publish)
+(cd packages/liferay-npm-bundler-preset-liferay-dev && yarn publish)
+(cd packages/liferay-npm-scripts && yarn publish)
+
+# Update "master" to reflect release.
+git checkout master
+git pull --ff-only upstream master
+git merge --ff-only upstream/develop
+git push upstream master
+```
+
+After the release, you can confirm that the packages are correctly listed in the NPM registry:
+
+- https://www.npmjs.com/package/liferay-jest-junit-reporter
+- https://www.npmjs.com/package/liferay-npm-bundler-preset-liferay-dev
+- https://www.npmjs.com/package/liferay-npm-scripts
