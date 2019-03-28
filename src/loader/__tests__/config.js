@@ -17,16 +17,27 @@ describe('Config', () => {
 		expect(config.getModules()).toHaveLength(0);
 	});
 
-	it('getModules() returns all modules when called without arguments', () => {
-		config.addModule('a-module');
-		config.addModule('b-module');
-		expect(config.getModules()).toHaveLength(2);
-	});
+	describe('getModules()', () => {
+		it('returns all modules when called without arguments', () => {
+			config.addModule('a-module');
+			config.addModule('b-module');
+			expect(config.getModules()).toHaveLength(2);
+		});
 
-	it('getModules() returns no modules when called with empty array', () => {
-		config.addModule('a-module');
-		config.addModule('b-module');
-		expect(config.getModules([])).toHaveLength(0);
+		it('returns no modules when called with empty array', () => {
+			config.addModule('a-module');
+			config.addModule('b-module');
+			expect(config.getModules([])).toHaveLength(0);
+		});
+
+		it('returns undefined for missing modules', () => {
+			config.addModule('a-module');
+
+			const modules = config.getModules(['a-module', 'b-module']);
+
+			expect(modules).toHaveLength(2);
+			expect(modules[1]).toBeUndefined();
+		});
 	});
 
 	it('adds new module', () => {
