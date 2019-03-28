@@ -18,6 +18,7 @@ export default class Module {
 		this._dependencies = undefined;
 		this._factory = undefined;
 		this._implementation = undefined;
+		this._map = undefined;
 
 		this._state = {
 			_fetch: ResolvablePromise.new(),
@@ -52,6 +53,13 @@ export default class Module {
 	 */
 	get implementation() {
 		return this._implementation;
+	}
+
+	/**
+	 * Local module mappings for module
+	 */
+	get map() {
+		return this._map;
 	}
 
 	/**
@@ -153,5 +161,19 @@ export default class Module {
 		}
 
 		this._implementation = implementation;
+	}
+
+	/**
+	 * Local module mappings for module
+	 * @param {object} map
+	 */
+	set map(map) {
+		if (this._map) {
+			throw new Error(
+				`Local module map of module ${this.name} already set`
+			);
+		}
+
+		this._map = map;
 	}
 }
