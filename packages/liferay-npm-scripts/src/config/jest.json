@@ -3,7 +3,7 @@
 		"Liferay": {}
 	},
 	"coverageDirectory": "build/coverage",
-	"modulePathIgnorePatterns": ["/__fixtures__/", "/classes/"],
+	"modulePathIgnorePatterns": ["/__fixtures__/", "/build/", "/classes/"],
 	"testMatch": ["**/test/**/*.js"],
 	"testResultsProcessor": "liferay-jest-junit-reporter",
 	"testURL": "http://localhost"
