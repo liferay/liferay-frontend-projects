@@ -1,3 +1,9 @@
+## [v8.0.4](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.4) (2019-03-29)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.3...v8.0.4)
+
+- fix: failure to rename css -&gt; scss files during 6.2 -&gt; 7.0 upgrade (#265) ([\#268](https://github.com/liferay/liferay-js-themes-toolkit/pull/268))
+
 ## [v8.0.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.3) (2019-03-26)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.2...v8.0.3)
