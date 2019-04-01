@@ -23,7 +23,7 @@ const JEST_CONFIG = getMergedConfig('jest');
 /**
  * Main script that runs `jest` with a merged config
  */
-module.exports = function(arrArgs) {
+module.exports = function(arrArgs = []) {
 	const useSoy = soyExists();
 
 	const CONFIG_PATH = path.join(CWD, 'TEMP_jest.config.json');
