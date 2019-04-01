@@ -11,6 +11,10 @@ const PATH = path.resolve(`${__dirname}/../../node_modules/.bin`);
 
 const {spawn} = require('cross-spawn');
 
+function getDescription(command, args) {
+	return [command].concat(args).join(' ');
+}
+
 /**
  * Wrapper function for spawning a synchronous process.
  * @param {string} command Path to bin file
@@ -18,7 +22,7 @@ const {spawn} = require('cross-spawn');
  * @param {Object=} options={} Options to pass to spawn.sync
  */
 module.exports = function(command, args = [], options = {}) {
-	spawn.sync(command, args, {
+	const {error, status} = spawn.sync(command, args, {
 		cwd: CWD,
 		env: {
 			...process.env,
@@ -27,4 +31,20 @@ module.exports = function(command, args = [], options = {}) {
 		stdio: 'inherit',
 		...options
 	});
+
+	if (status) {
+		throw new Error(
+			`Command ${getDescription(
+				command,
+				args
+			)} exited with code ${status}`
+		);
+	} else if (error) {
+		throw new Error(
+			`Command ${getDescription(
+				command,
+				args
+			)} failed with error ${error}`
+		);
+	}
 };
