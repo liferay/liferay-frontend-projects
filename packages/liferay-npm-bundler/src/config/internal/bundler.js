@@ -86,10 +86,10 @@ export function getPlugins(phase, pkg) {
 export function getMaxParallelFiles() {
 	// Default values for "ulimit -n" vary across different OSes. Some values
 	// I have found are:
-	//   - Apparently Mac OS X limit is 256 but usually people increases it
+	//   - Apparently Mac OS X limit is 256 but usually people increase it
 	//   - Fedora: 1024
 	//   - Windows: there's no ulimit, but MSVCRT.DLL has a 2048 limit
-	// Given this mess and the impossibility to retrieve the limit from Node,
+	// Given this mess and the impossibility of retrieving the limit from Node,
 	// I'm giving this a default value of 128 because it looks like it doesn't
 	// impact performance and should be low enough to make it work in all OSes.
 	return prop.get(config, 'max-parallel-files', 128);

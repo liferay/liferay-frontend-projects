@@ -91,8 +91,8 @@ export function runBabel(pkg, {ignore = []} = {}) {
 }
 
 /**
- * Recursively process Javascript files with Babel chunk by chunk, to maintain
- * an upper bound in the maximum number of open files so as to avoid EMFILE
+ * Recursively process JavaScript files with Babel chunk by chunk, to maintain
+ * an upper bound on the maximum number of open files so as to avoid EMFILE
  * errors.
  * @param {Array<string>} filePaths list of files to process
  * @param {number} chunkIndex
@@ -120,16 +120,16 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 				babelIpc.set(filePath, {
 					log: logger,
 					rootPkgJson: readJsonSync('package.json'),
-					globalConfig: config.getGlobalConfig(),
+					globalConfig: cloneObject(config.getGlobalConfig()),
 				});
 
 				const packageFilePath = pkg.isRoot
 					? filePath.substring(
 							path.resolve(config.getOutputDir()).length + 1
-					  )
+						)
 					: filePath.substring(
-							filePath.indexOf(`${pkg.id}`) + pkg.id.length + 1
-					  );
+							filePath.indexOf(pkg.id) + pkg.id.length + 1
+						);
 
 				babel.transformFile(
 					filePath,
