@@ -97,17 +97,9 @@ function run() {
 		// Process NPM dependencies
 		log.info(`Bundling ${pkgs.length} dependencies...`);
 
-		if (config.bundler.isProcessSerially()) {
-			report.warn(
-				'Option process-serially is on: this may degrade build performance.'
-			);
-
-			promises.push(
-				iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
-			);
-		} else {
-			promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
-		}
+		promises.push(
+			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
+		);
 
 		// Report results
 		Promise.all(promises)

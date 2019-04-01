@@ -85,102 +85,131 @@ export function runBabel(pkg, {ignore = []} = {}) {
 		.concat([`!${pkg.dir}/node_modules/**`]);
 
 	// Run babel through them
-	return globby(globs).then(filePaths => {
-		const promises = filePaths.map(
-			filePath =>
-				new Promise(resolve => {
-					const logger = new PluginLogger();
+	const filePaths = globby.sync(globs);
 
-					babelIpc.set(filePath, {
-						log: logger,
-						rootPkgJson: readJsonSync('package.json'),
-						globalConfig: config.getGlobalConfig(),
-					});
+	return processBabelFiles(filePaths, 0, pkg, babelConfig);
+}
 
-					const packageFilePath = pkg.isRoot
-						? filePath.substring(
-								path.resolve(config.getOutputDir()).length + 1
-						  )
-						: filePath.substring(
-								filePath.indexOf(`${pkg.id}`) +
-									pkg.id.length +
-									1
-						  );
+/**
+ * Recursively process JavaScript files with Babel chunk by chunk, to maintain
+ * an upper bound on the maximum number of open files so as to avoid EMFILE
+ * errors.
+ * @param {Array<string>} filePaths list of files to process
+ * @param {number} chunkIndex
+ * @param {object} pkg
+ * @param {object} babelConfig
+ * @return {Promise}
+ */
+function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
+	const chunkSize = config.bundler.getMaxParallelFiles();
 
-					babel.transformFile(
-						filePath,
-						Object.assign(
-							{
-								filenameRelative: filePath,
-								inputSourceMap: loadSourceMap(filePath),
-							},
-							babelConfig
-						),
-						(err, result) => {
-							// Generate and/or log results
-							if (err) {
-								log.error(
-									'Babel failed processing',
-									`${pkg.id}/${packageFilePath}:`,
-									'it will be copied verbatim (see report file for more info)'
-								);
+	const chunksCount = Math.floor(
+		(filePaths.length + chunkSize - 1) / chunkSize
+	);
 
-								logger.error('babel', err);
+	const filePathsChunk = filePaths.slice(
+		chunkIndex * chunkSize,
+		Math.min(filePaths.length, (chunkIndex + 1) * chunkSize)
+	);
 
-								report.warn(
-									'Babel failed processing some .js files: ' +
-										'check details of Babel transformations for more info.',
-									{unique: true}
-								);
-							} else {
-								const fileName = path.basename(filePath);
+	const promises = filePathsChunk.map(
+		filePath =>
+			new Promise(resolve => {
+				const logger = new PluginLogger();
 
-								fs.writeFileSync(
-									filePath,
-									`${result.code}\n` +
-										`//# sourceMappingURL=${fileName}.map`
-								);
+				babelIpc.set(filePath, {
+					log: logger,
+					rootPkgJson: readJsonSync('package.json'),
+					globalConfig: cloneObject(config.getGlobalConfig()),
+				});
 
-								fs.writeFileSync(
-									`${filePath}.map`,
-									JSON.stringify(result.map)
-								);
-							}
+				const packageFilePath = pkg.isRoot
+					? filePath.substring(
+							path.resolve(config.getOutputDir()).length + 1
+					  )
+					: filePath.substring(
+							filePath.indexOf(pkg.id) + pkg.id.length + 1
+					  );
 
-							// Report result of babel run
-							report.packageProcessBabelRun(
-								pkg,
-								packageFilePath,
-								logger
+				babel.transformFile(
+					filePath,
+					Object.assign(
+						{
+							filenameRelative: filePath,
+							inputSourceMap: loadSourceMap(filePath),
+						},
+						babelConfig
+					),
+					(err, result) => {
+						// Generate and/or log results
+						if (err) {
+							log.error(
+								'Babel failed processing',
+								`${pkg.id}/${packageFilePath}:`,
+								'it will be copied verbatim (see report file for more info)'
 							);
 
-							if (logger.errorsPresent) {
-								report.warn(
-									'There are errors for some of the ' +
-										'Babel plugins: please check details ' +
-										'of Babel transformations.',
-									{unique: true}
-								);
-							} else if (logger.warnsPresent) {
-								report.warn(
-									'There are warnings for some of the ' +
-										'Babel plugins: please check details' +
-										'of Babel transformations.',
-									{unique: true}
-								);
-							}
+							logger.error('babel', err);
 
-							// Get rid of Babel IPC values
-							babelIpc.clear(filePath);
+							report.warn(
+								'Babel failed processing some .js files: ' +
+									'check details of Babel transformations for more info.',
+								{unique: true}
+							);
+						} else {
+							const fileName = path.basename(filePath);
 
-							// Resolve promise
-							resolve();
+							fs.writeFileSync(
+								filePath,
+								`${result.code}\n` +
+									`//# sourceMappingURL=${fileName}.map`
+							);
+
+							fs.writeFileSync(
+								`${filePath}.map`,
+								JSON.stringify(result.map)
+							);
 						}
-					);
-				})
-		);
 
-		return Promise.all(promises);
+						// Report result of babel run
+						report.packageProcessBabelRun(
+							pkg,
+							packageFilePath,
+							logger
+						);
+
+						if (logger.errorsPresent) {
+							report.warn(
+								'There are errors for some of the ' +
+									'Babel plugins: please check details ' +
+									'of Babel transformations.',
+								{unique: true}
+							);
+						} else if (logger.warnsPresent) {
+							report.warn(
+								'There are warnings for some of the ' +
+									'Babel plugins: please check details' +
+									'of Babel transformations.',
+								{unique: true}
+							);
+						}
+
+						// Get rid of Babel IPC values
+						babelIpc.clear(filePath);
+
+						// Resolve promise
+						resolve();
+					}
+				);
+			})
+	);
+
+	return Promise.all(promises).then(() => {
+		chunkIndex++;
+
+		if (chunkIndex < chunksCount) {
+			return processBabelFiles(filePaths, chunkIndex, pkg, babelConfig);
+		}
 	});
 }
 
