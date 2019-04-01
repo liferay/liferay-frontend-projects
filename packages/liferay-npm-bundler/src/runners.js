@@ -126,10 +126,10 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 				const packageFilePath = pkg.isRoot
 					? filePath.substring(
 							path.resolve(config.getOutputDir()).length + 1
-						)
+					  )
 					: filePath.substring(
 							filePath.indexOf(pkg.id) + pkg.id.length + 1
-						);
+					  );
 
 				babel.transformFile(
 					filePath,
