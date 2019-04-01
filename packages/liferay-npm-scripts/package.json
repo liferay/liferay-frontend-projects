@@ -27,7 +27,7 @@
 		"liferay-jest-junit-reporter": "1.0.1",
 		"liferay-npm-bridge-generator": "2.7.1",
 		"liferay-npm-bundler": "2.7.1",
-		"liferay-npm-bundler-preset-liferay-dev": "1.1.5",
+		"liferay-npm-bundler-preset-liferay-dev": "1.1.6",
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
 		"rimraf": "^2.6.2",
