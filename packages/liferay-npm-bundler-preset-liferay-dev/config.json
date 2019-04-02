@@ -196,6 +196,7 @@
 		"@babel/traverse": true,
 		"@babel/types": true,
 		"ansi-styles": true,
+		"bootstrap": true,
 		"browserslist": true,
 		"caniuse-lite": true,
 		"chalk": true,
