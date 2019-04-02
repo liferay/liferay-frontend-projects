@@ -18,11 +18,8 @@ Note: the generator will create a new folder in your current directory that will
 
 ### Usage on Windows
 
-Unfortunately, there can be some minor headaches when using the generator on Windows.
-The main reason is because, by default, we use [node-sass](https://www.npmjs.com/package/node-sass), which requires node-gyp to run.
-node-gyp requires Python and Visual Studio to be installed. You can read more at the following links:<br>
+Some additional steps may be required when using the generator on Windows. We use [node-sass](https://www.npmjs.com/package/node-sass), which requires node-gyp to run, and node-gyp requires Python to be installed. You can read more at the following link:<br>
 [node-gyp Installation](https://github.com/nodejs/node-gyp#installation)<br>
-[Visual Studio Setup](https://github.com/nodejs/node-gyp/wiki/Visual-Studio-2010-Setup)
 
 ## Generators
 
