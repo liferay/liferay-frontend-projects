@@ -163,7 +163,7 @@ async function getRemote(options) {
 
 	for (let i = 0; i < lines.length; i++) {
 		const match = lines[i].match(
-			/\bgithub\.com\/liferay\/(\S+?)(?:\.git)?\s/i
+			/\bgithub\.com[/:]liferay\/(\S+?)(?:\.git)?\s/i
 		);
 		if (match) {
 			return `https://github.com/liferay/${match[1]}`;
