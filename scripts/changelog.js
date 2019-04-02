@@ -293,6 +293,7 @@ function printUsage() {
 		'  --from=FROM                  [default: previous tag]',
 		'  --to=TO                      [default: HEAD]',
 		'  --help',
+		'  --no-update-tags             [optional: disable tag prefetching]',
 		'  --outfile=FILE               [default: ./CHANGELOG.md]',
 		'  --remote-url=REPOSITORY_URL  [default: inferred]',
 		'  --regenerate                 [optional: replace entire changelog]',
@@ -357,6 +358,7 @@ function parseArgs(args) {
 	const options = {
 		outfile: './CHANGELOG.md',
 		to: 'HEAD',
+		updateTags: true,
 	};
 
 	let match;
@@ -382,6 +384,12 @@ function parseArgs(args) {
 		match = arg.match(option('from='));
 		if (match) {
 			options.from = match[1];
+			return;
+		}
+
+		match = arg.match(option('(no-)?update-tags'));
+		if (match) {
+			options.updateTags = !match[1];
 			return;
 		}
 
@@ -450,7 +458,7 @@ async function main(_node, _script, ...args) {
 	if (!options) {
 		process.exit(1);
 	}
-	const {outfile, to} = options;
+	const {outfile, to, updateTags} = options;
 
 	printBanner(`
 		changelog.js
@@ -459,6 +467,15 @@ async function main(_node, _script, ...args) {
 		Reporting
 		for duty!
 	`);
+
+	if (updateTags) {
+		try {
+			info('Fetching remote tags: run with --no-update-tags to skip');
+			await git('remote', 'update');
+		} catch (err) {
+			warn('Failed to update tags: run with --no-update-tags to skip');
+		}
+	}
 
 	const version = await normalizeVersion(options.version, options);
 
