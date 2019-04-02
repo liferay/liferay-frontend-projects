@@ -510,7 +510,7 @@ async function main(_node, _script, ...args) {
 		if (previousContents.indexOf(`[${version}]`) !== -1) {
 			const message = [
 				`${outfile} already contains a reference to ${version}.`,
-				'Did you mean to regenerate using the --regenerate switch?'
+				'Did you mean to regenerate using the --regenerate switch?',
 			];
 			if (options.force) {
 				warn(...message);
