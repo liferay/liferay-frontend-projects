@@ -21,8 +21,6 @@ Note: the generator will create a new folder in your current directory that will
 Some additional steps may be required when using the generator on Windows. We use [node-sass](https://www.npmjs.com/package/node-sass), which requires node-gyp to run, and node-gyp requires Python to be installed. You can read more at the following link:<br>
 [node-gyp Installation](https://github.com/nodejs/node-gyp#installation)<br>
 
-There is one other possible alternative that some may find easier to setup. You can use the ruby based version of Sass. In order to use that version of Sass, you'll need to install Ruby with the [Ruby Installer](http://rubyinstaller.org/), and install the Sass and Compass gems from the command line (`gem install sass compass`), and when the generator asks you if you need Compass support, type "Y". This will bypass node-gyp completely, and use the Ruby versions of Sass and Compass.
-
 ## Generators
 
 Available generators:
