@@ -163,7 +163,7 @@ async function getRemote(options) {
 
 	for (let i = 0; i < lines.length; i++) {
 		const match = lines[i].match(
-			/\bgithub\.com\/liferay\/(\S+?)(?:\.git)?\s/i
+			/\bgithub\.com[/:]liferay\/(\S+?)(?:\.git)?\s/i
 		);
 		if (match) {
 			return `https://github.com/liferay/${match[1]}`;
@@ -525,10 +525,19 @@ async function main(_node, _script, ...args) {
 		}
 
 		if (previousContents.indexOf(`[${version}]`) !== -1) {
-			warn(
+			const message = [
 				`${outfile} already contains a reference to ${version}.`,
-				'Did you mean to regenerate using the --regenerate switch?'
-			);
+				'Did you mean to regenerate using the --regenerate switch?',
+			];
+			if (options.force) {
+				warn(...message);
+			} else {
+				error(
+					...message,
+					'Alternatively, proceed anyway by using the --force switch.'
+				);
+				process.exit(1);
+			}
 		}
 
 		const newContents = [contents, previousContents]
