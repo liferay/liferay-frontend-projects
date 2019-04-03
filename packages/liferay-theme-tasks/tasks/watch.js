@@ -6,6 +6,7 @@
 
 'use strict';
 
+const chalk = require('chalk');
 const del = require('del');
 const fs = require('fs');
 const http = require('http');
@@ -223,7 +224,22 @@ module.exports = function(options) {
 				});
 			}
 		}).listen(httpPort, function() {
-			opn(`http://localhost:${httpPort}/`);
+			const url = `http://localhost:${httpPort}/`;
+			const messages = [
+				`Watch mode is now active at: ${url}`,
+				`Proxying: ${proxyUrl}`,
+			];
+			const width = messages.reduce((max, line) => {
+				return Math.max(line.length, max);
+			}, 0);
+			const ruler = '-'.repeat(width);
+
+			// eslint-disable-next-line no-console
+			console.log(
+				'\n' + chalk.yellow([ruler, ...messages, ruler].join('\n'))
+			);
+
+			opn(url);
 		});
 
 		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
