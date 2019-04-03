@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const fs = require('fs');
 const path = require('path');
-
-const CWD = process.cwd();
-const PATH = path.resolve(`${__dirname}/../../node_modules/.bin`);
 
 const {spawn} = require('cross-spawn');
 
@@ -22,12 +20,14 @@ function getDescription(command, args) {
  * @param {Object=} options={} Options to pass to spawn.sync
  */
 module.exports = function(command, args = [], options = {}) {
-	const {error, status} = spawn.sync(command, args, {
-		cwd: CWD,
-		env: {
-			...process.env,
-			PATH: `${PATH}:${process.env.PATH}`
-		},
+	const localCommand = path.join(
+		__dirname,
+		'../../node_modules/.bin',
+		command
+	);
+	const executable = fs.existsSync(localCommand) ? localCommand : command;
+
+	const {error, status} = spawn.sync(executable, args, {
 		stdio: 'inherit',
 		...options
 	});
@@ -35,14 +35,14 @@ module.exports = function(command, args = [], options = {}) {
 	if (status) {
 		throw new Error(
 			`Command ${getDescription(
-				command,
+				executable,
 				args
 			)} exited with code ${status}`
 		);
 	} else if (error) {
 		throw new Error(
 			`Command ${getDescription(
-				command,
+				executable,
 				args
 			)} failed with error ${error}`
 		);
