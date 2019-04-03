@@ -31,6 +31,16 @@ export default class extends JsonModifier {
 	}
 
 	/**
+	 * Set Microsoft Translator credentials
+	 * @param {string} key
+	 */
+	setTranslatorTextKey(translatorTextKey) {
+		this.modifyJson(json => {
+			prop.set(json, 'translatorTextKey', translatorTextKey);
+		});
+	}
+
+	/**
 	 * Set webpack's main module.
 	 * @param {string} mainModule
 	 */

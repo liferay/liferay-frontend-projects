@@ -9,7 +9,9 @@ import Generator from 'yeoman-generator';
 
 import {promptWithConfig} from '../utils';
 import {Copier} from '../utils';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
 import {DEFAULT_LOCALIZATION} from './constants';
 
 /**
@@ -46,10 +48,16 @@ export default class extends Generator {
 		}
 
 		const cp = new Copier(this);
+		const npmbuildrc = new NpmbuildrcModifier(this);
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
+		const pkgJson = new PkgJsonModifier(this);
+
+		npmbuildrc.setTranslatorTextKey('');
 
 		npmbundlerrc.setFeature('localization', DEFAULT_LOCALIZATION);
 
 		cp.copyDir('features');
+
+		pkgJson.addScript('translate', 'lnbs-translate');
 	}
 }
