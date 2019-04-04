@@ -202,6 +202,7 @@ describe('scripts/theme.js', () => {
 		describe('other tasks', () => {
 			it('passes the arguments through unchanged', () => {
 				run('help');
+				expect(spawnSync).toHaveBeenCalledWith('gulp', ['help']);
 			});
 		});
 	});
