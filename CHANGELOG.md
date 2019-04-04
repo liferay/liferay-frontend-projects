@@ -10,7 +10,7 @@
 
 **Breaking changes:**
 
-- Version 9 is a streamlined and modernized toolkit, focusing exclusively on generating themes, layouts and themelets for Liferay DXP 7.2. At the same time, we just released [version 8.0.0 of the toolkit](https://github.com/liferay/liferay-js-themes-toolkit/releases/tag/v8.0.0) that provides tools for working with Liferay DXP 7.0 and 7.1 (#184).
+- Version 9 is a streamlined and modernized toolkit, focusing exclusively on generating themes, layouts and themelets for Liferay DXP and Portal CE 7.2. At the same time, we just released [version 8.0.0 of the toolkit](https://github.com/liferay/liferay-js-themes-toolkit/releases/tag/v8.0.0) that provides tools for working with Liferay DXP and Portal CE versions 7.0 and 7.1 (#184).
 
 **Other changes:**
 
@@ -45,7 +45,7 @@
 - Retire doctor [\#196](https://github.com/liferay/liferay-js-themes-toolkit/issues/196)
 - Fold liferay-plugin-node-tasks into liferay-theme-tasks [\#193](https://github.com/liferay/liferay-js-themes-toolkit/issues/193)
 - Rename to liferay-js-themes-toolkit [\#185](https://github.com/liferay/liferay-js-themes-toolkit/issues/185)
-- Clarify "compatibility matrix" between versions of liferay-js-themes-toolkit and Liferay DXP [\#184](https://github.com/liferay/liferay-js-themes-toolkit/issues/184)
+- Clarify "compatibility matrix" between versions of liferay-js-themes-toolkit and Liferay DXP and Portal CE [\#184](https://github.com/liferay/liferay-js-themes-toolkit/issues/184)
 - Add LICENSE.md files [\#169](https://github.com/liferay/liferay-js-themes-toolkit/issues/169)
 - \[RFC\] Eliminate liferay-theme-deps-\* packages [\#168](https://github.com/liferay/liferay-js-themes-toolkit/issues/168)
 - Fold liferay-theme-finder package into main SDK package [\#166](https://github.com/liferay/liferay-js-themes-toolkit/issues/166)
@@ -75,7 +75,7 @@
 - Update template paths [\#210](https://github.com/liferay/liferay-js-themes-toolkit/pull/210) ([julien](https://github.com/julien))
 - Send correct MIME type \(Content-Type\) header for local css files [\#209](https://github.com/liferay/liferay-js-themes-toolkit/pull/209) ([julien](https://github.com/julien))
 - Fix "packageVersion is not defined" generator an "All" themelet [\#207](https://github.com/liferay/liferay-js-themes-toolkit/pull/207) ([wincent](https://github.com/wincent))
-- Remove incomplete DXP 7.2 support from v8 of toolkit [\#206](https://github.com/liferay/liferay-js-themes-toolkit/pull/206) ([wincent](https://github.com/wincent))
+- Remove incomplete DXP and Portal CE 7.2 support from v8 of toolkit [\#206](https://github.com/liferay/liferay-js-themes-toolkit/pull/206) ([wincent](https://github.com/wincent))
 - Add license headers to files [\#203](https://github.com/liferay/liferay-js-themes-toolkit/pull/203) ([wincent](https://github.com/wincent))
 - Add LICENSE.md files [\#202](https://github.com/liferay/liferay-js-themes-toolkit/pull/202) ([wincent](https://github.com/wincent))
 - Apply clean-up to new "watch" implementation [\#201](https://github.com/liferay/liferay-js-themes-toolkit/pull/201) ([julien](https://github.com/julien))
