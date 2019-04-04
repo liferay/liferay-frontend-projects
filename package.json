@@ -11,8 +11,9 @@
 	"scripts": {
 		"changelog": "git show master:scripts/changelog.js | sed 1d | node -",
 		"changelog:regenerate": "git show master:scripts/changelog.js | sed 1d | node - --regenerate",
-		"ci": "prettier-eslint --list-different '*.{js,json,md}' 'packages/**/*.{js,json,md}' && yarn lint && yarn test",
-		"format": "prettier-eslint --write '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
+		"ci": "yarn format:check && yarn lint && yarn test",
+		"format": "prettier --write '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
+		"format:check": "prettier --list-different '*.{js,json,md}' 'packages/**/*.{js,json,md}'",
 		"lint": "eslint 'packages/**/*.js'",
 		"lint:fix": "eslint --fix 'packages/**/*.js'",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",

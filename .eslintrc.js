@@ -1,8 +1,8 @@
 module.exports = {
-    "env": {
-        "node": true,
-        "jest": true
-    },
-    "extends": "liferay",
-    "rules": {}
+	env: {
+		node: true,
+		jest: true,
+	},
+	extends: 'liferay',
+	rules: {},
 };
