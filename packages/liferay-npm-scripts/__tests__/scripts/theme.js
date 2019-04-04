@@ -22,7 +22,7 @@ const UNSTYLED = path.join(
 	'frontend-theme-unstyled/src/main/resources/META-INF/resources/_unstyled'
 );
 
-describe('', () => {
+describe('scripts/theme.js', () => {
 	let cwd;
 	let spawnSync;
 
