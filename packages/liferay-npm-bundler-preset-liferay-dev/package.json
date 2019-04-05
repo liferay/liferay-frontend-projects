@@ -11,5 +11,8 @@
 		"liferay-npm-bundler-plugin-namespace-packages": "2.7.1",
 		"liferay-npm-bundler-plugin-replace-browser-modules": "2.7.1",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.7.1"
+	},
+	"scripts": {
+		"test": "echo 'No tests currently defined for liferay-npm-bundler-preset-liferay-dev'"
 	}
 }

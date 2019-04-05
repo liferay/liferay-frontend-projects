@@ -9,7 +9,8 @@
 		"format": "prettier --write '**/*.js'",
 		"format:check": "prettier --list-different '**/*.js'",
 		"lint": "eslint '**/*.js'",
-		"lint:fix": "eslint --fix '**/*.js'"
+		"lint:fix": "eslint --fix '**/*.js'",
+		"test": "yarn workspaces run test"
 	},
 	"workspaces": [
 		"packages/*"
