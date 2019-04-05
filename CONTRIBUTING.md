@@ -134,6 +134,6 @@ We may partially automate this in the future, but if we do, it will be in the fo
 
 ### 8. Sanity check the package pages on the NPM website:
 
-- https://www.npmjs.com/package/liferay-theme-tasks
-- https://www.npmjs.com/package/generator-liferay-theme
-- https://www.npmjs.com/package/liferay-theme-mixins
+-   https://www.npmjs.com/package/liferay-theme-tasks
+-   https://www.npmjs.com/package/generator-liferay-theme
+-   https://www.npmjs.com/package/liferay-theme-mixins
