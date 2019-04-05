@@ -63,6 +63,22 @@ For example
 liferay-npm-scripts test --watch
 ```
 
+### theme
+
+```sh
+liferay-npm-scripts theme TASK
+```
+
+Inside a theme directory, runs one of the [available Gulp tasks](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/liferay-theme-tasks#available-tasks), `TASK`, from [liferay-theme-tasks](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/liferay-theme-tasks), automatically passing settings for use inside [liferay-portal](https://github.com/liferay/liferay-portal).
+
+For example:
+
+```sh
+liferay-npm-scripts theme build
+```
+
+Runs the "build" task, providing it with the configuration it needs to find core dependencies such as the [`liferay-frontend-theme-styled` base theme files](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled).
+
 ### eject
 
 **Note: this is a one-way operation. Once you eject, you can't go back.**
