@@ -12,8 +12,7 @@ git pull --ff-only upstream master
 yarn format:check
 
 # Run tests (currently, we don't have many of them):
-(cd packages/liferay-jest-junit-reporter && yarn test)
-(cd packages/liferay-npm-scripts && yarn test)
+yarn test
 
 # Update individual package versions:
 # - Note that this time we updated all the packages,
