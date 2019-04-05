@@ -1,3 +1,12 @@
+## [v8.0.5](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.5) (2019-04-04)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.4...v8.0.5)
+
+- chore: Update references to "DXP" in user-facing messages (8.x) (#280) ([\#282](https://github.com/liferay/liferay-js-themes-toolkit/pull/282))
+- fix: broken format script in package.json ([\#281](https://github.com/liferay/liferay-js-themes-toolkit/pull/281))
+- feat: print watch info when starting watch (v8.x) (#277) ([\#279](https://github.com/liferay/liferay-js-themes-toolkit/pull/279))
+- doc: remove stale references to Visual Studio (#271) ([\#273](https://github.com/liferay/liferay-js-themes-toolkit/pull/273))
+
 ## [v8.0.4](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.4) (2019-03-29)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.3...v8.0.4)

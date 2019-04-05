@@ -77,6 +77,7 @@ for PACKAGE in $(ls); do
   (cd $PACKAGE && yarn version --no-git-tag-version --new-version $VERSION)
 done
 
+cd ..
 # Edit the one place that needs changing manually:
 $EDITOR packages/liferay-theme-tasks/lib/lookup/dependencies.js
 
@@ -87,7 +88,11 @@ cd ../liferay-theme-tasks
 yarn add liferay-theme-deps-7.0@^$VERSION liferay-theme-deps-7.1@^$VERSION
 
 # Final sanity check
+cd ../..
 git grep $OLD_VERSION
+
+# Force update of yarn.lock
+yarn
 ```
 
 ### 3. Generate changelog
