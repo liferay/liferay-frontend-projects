@@ -131,3 +131,9 @@ cd packages
 ```
 
 We may partially automate this in the future, but if we do, it will be in the form of a very simple shell script.
+
+### 8. Sanity check the package pages on the NPM website:
+
+- https://www.npmjs.com/package/liferay-theme-tasks
+- https://www.npmjs.com/package/generator-liferay-theme
+- https://www.npmjs.com/package/liferay-theme-mixins
