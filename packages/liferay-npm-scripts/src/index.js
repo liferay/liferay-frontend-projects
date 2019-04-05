@@ -55,6 +55,9 @@ module.exports = function() {
 		case 'format':
 			require('./scripts/format')();
 			break;
+		case 'theme':
+			require('./scripts/theme').run(...ARGS_ARRAY.slice(1));
+			break;
 		case 'test':
 			require('./scripts/test')(ARGS_ARRAY);
 			break;
