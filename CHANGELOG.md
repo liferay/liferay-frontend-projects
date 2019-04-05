@@ -1,3 +1,14 @@
+## [v9.0.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.0) (2019-04-03)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-alpha.1...v9.0.0-beta.0)
+
+- feat: print watch info when starting watch (#277) ([\#278](https://github.com/liferay/liferay-js-themes-toolkit/pull/278))
+- fix: make it harder to accidentally produce duplicate entries in changelog ([\#276](https://github.com/liferay/liferay-js-themes-toolkit/pull/276))
+- feat: automatically prefetch tags before running changelog generator ([\#275](https://github.com/liferay/liferay-js-themes-toolkit/pull/275))
+- doc: remove stale references to Visual Studio (#271) ([\#272](https://github.com/liferay/liferay-js-themes-toolkit/pull/272))
+- feat: teach the changelog generator to correct errors with "v" prefix ([\#243](https://github.com/liferay/liferay-js-themes-toolkit/pull/243))
+- fix: broken links in generated changelog ([\#242](https://github.com/liferay/liferay-js-themes-toolkit/pull/242))
+
 ## [v9.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-alpha.1) (2019-03-21)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-alpha.0...v9.0.0-alpha.1)
