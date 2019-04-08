@@ -38,6 +38,11 @@
 						"title": "Enumerated Field Value:Label",
 						"pattern": "^(.*)$"
 					}
+				},
+				"repeatable": {
+					"type": "boolean",
+					"title": "Multiple Field Flag",
+					"default": false
 				}
 			}
 		},
