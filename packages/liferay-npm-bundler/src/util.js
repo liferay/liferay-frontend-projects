@@ -101,7 +101,7 @@ export function renamePkgDirIfPkgJsonChanged(pkg) {
 			getPackageTargetDir(pkgJson.name, pkgJson.version)
 		);
 
-		rimraf.sync(`${newDir}/**`);
+		rimraf.sync(newDir);
 
 		return fs
 			.move(pkg.dir, newDir)
