@@ -21,7 +21,6 @@
 		"gulp-liferay-r2-css": "^0.0.2",
 		"gulp-livereload": "^4.0.1",
 		"gulp-load-plugins": "^1.5.0",
-		"gulp-plumber": "^0.6.6",
 		"gulp-postcss": "^8.0.0",
 		"gulp-prompt": "^1.2.0",
 		"gulp-rename": "^1.2.0",
