@@ -8,6 +8,7 @@ import parseDataURL from 'data-urls';
 import fs from 'fs-extra';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
+import rimraf from 'rimraf';
 import semver from 'semver';
 
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
@@ -24,22 +25,13 @@ import report from './report';
  *         finishes
  */
 export function iterateSerially(values, asyncProcess) {
-	return new Promise(resolve => {
-		if (values.length == 0) {
-			resolve();
-			return;
-		}
+	if (values.length == 0) {
+		return Promise.resolve();
+	}
 
-		const val = values[0];
-
-		const p = asyncProcess(val);
-
-		p.then(() => {
-			iterateSerially(values.slice(1), asyncProcess).then(() => {
-				resolve();
-			});
-		});
-	});
+	return asyncProcess(values[0]).then(() =>
+		iterateSerially(values.slice(1), asyncProcess)
+	);
 }
 
 /**
@@ -108,6 +100,8 @@ export function renamePkgDirIfPkgJsonChanged(pkg) {
 			outputDir,
 			getPackageTargetDir(pkgJson.name, pkgJson.version)
 		);
+
+		rimraf.sync(newDir);
 
 		return fs
 			.move(pkg.dir, newDir)
