@@ -137,8 +137,9 @@ function getPostCSSOptions(config) {
 
 		postCSSOptions.enabled = true;
 
-		postCSSOptions.plugins = config
-			.map(pluginDependency => require(pluginDependency));
+		postCSSOptions.plugins = config.map(pluginDependency =>
+			require(pluginDependency)
+		);
 	} else if (rc) {
 		postCSSOptions.enabled = true;
 	}
