@@ -3298,14 +3298,6 @@ gulp-mocha@^2.2.0:
     temp "^0.8.3"
     through "^2.3.4"
 
-gulp-plumber@^0.6.6:
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/gulp-plumber/-/gulp-plumber-0.6.6.tgz#9f9846a513c70d03216ce7a2a8ce6fd5a3fc3175"
-  integrity sha1-n5hGpRPHDQMhbOeiqM5v1aP8MXU=
-  dependencies:
-    gulp-util "~3"
-    through2 "~0.6"
-
 gulp-postcss@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/gulp-postcss/-/gulp-postcss-8.0.0.tgz#8d3772cd4d27bca55ec8cb4c8e576e3bde4dc550"
@@ -3402,7 +3394,7 @@ gulp-storage@^1.0.6:
     lodash "^2.4.1"
     through2 "*"
 
-gulp-util@*, gulp-util@^3.0, gulp-util@^3.0.0, gulp-util@^3.0.1, gulp-util@^3.0.4, gulp-util@^3.0.7, gulp-util@~3:
+gulp-util@*, gulp-util@^3.0, gulp-util@^3.0.0, gulp-util@^3.0.1, gulp-util@^3.0.4, gulp-util@^3.0.7:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-3.0.8.tgz#0054e1e744502e27c04c187c3ecc505dd54bbb4f"
   integrity sha1-AFTh50RQLifATBh8PsxQXdVLu08=
@@ -8324,7 +8316,7 @@ through2@^0.5.0:
     readable-stream "~1.0.17"
     xtend "~3.0.0"
 
-through2@^0.6.1, through2@^0.6.3, through2@~0.6:
+through2@^0.6.1, through2@^0.6.3:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-0.6.5.tgz#41ab9c67b29d57209071410e1d7a7a968cd3ad48"
   integrity sha1-QaucZ7KdVyCQcUEOHXp6lozTrUg=
