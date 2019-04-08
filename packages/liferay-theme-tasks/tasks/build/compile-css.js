@@ -132,14 +132,7 @@ function getPostCSSOptions(config) {
 
 		postCSSOptions.enabled = true;
 
-		// We bundle autoprefixer automatically, so do not try to
-		// resolve it to the theme
 		postCSSOptions.plugins = config
-			.map(pluginName =>
-				pluginName === 'autoprefixer'
-					? pluginName
-					: themeUtil.resolveDependency(pluginName)
-			)
 			.map(pluginDependency => require(pluginDependency));
 	} else if (rc) {
 		postCSSOptions.enabled = true;
