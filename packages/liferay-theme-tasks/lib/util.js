@@ -12,7 +12,6 @@ const es = require('event-stream');
 const fs = require('fs-extra');
 const log = require('fancy-log');
 const path = require('path');
-const resolve = require('resolve');
 const tar = require('tar-fs');
 
 const lfrThemeConfig = require('./liferay_theme_config');
@@ -138,18 +137,12 @@ function isSassPartial(name) {
 function requireDependency(dependency, version) {
 	const depsPath = getDepsPath(pkg, dependency, version);
 
-	const dependencyPath = resolve.sync(dependency, {
-		basedir: depsPath,
-	});
+	const dependencyPath = require.resolve(dependency, {paths: [depsPath]});
 
 	return require(dependencyPath);
 }
 
-function resolveDependency(dependency, version, dirname) {
-	if (_.isUndefined(dirname)) {
-		dirname = true;
-	}
-
+function resolveDependency(dependency, version) {
 	const customPath = getCustomDependencyPath(dependency);
 
 	if (customPath) {
@@ -164,17 +157,7 @@ function resolveDependency(dependency, version, dirname) {
 
 	const depsPath = getDepsPath(pkg, dependency, version);
 
-	const dependencyPath = resolve.sync(dependency, {
-		basedir: depsPath,
-	});
-
-	let resolvedPath = require.resolve(dependencyPath);
-
-	if (dirname) {
-		resolvedPath = path.dirname(resolvedPath);
-	}
-
-	return resolvedPath;
+	return path.dirname(require.resolve(dependency, {paths: [depsPath]}));
 }
 
 module.exports = {
