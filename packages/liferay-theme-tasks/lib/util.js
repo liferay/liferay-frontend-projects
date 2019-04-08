@@ -12,7 +12,6 @@ const es = require('event-stream');
 const fs = require('fs-extra');
 const log = require('fancy-log');
 const path = require('path');
-const resolve = require('resolve');
 const tar = require('tar-fs');
 
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
@@ -137,13 +136,7 @@ function resolveDependency(dependency) {
 		return customPath;
 	}
 
-	const depsPath = process.cwd();
-
-	const dependencyPath = resolve.sync(dependency, {
-		basedir: depsPath,
-	});
-
-	return path.dirname(require.resolve(dependencyPath));
+	return path.dirname(require.resolve(dependency, {paths: [process.cwd()]}));
 }
 
 function getCustomDependencyPath(dependency) {
