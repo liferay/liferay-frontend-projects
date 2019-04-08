@@ -8,7 +8,6 @@
 
 const _ = require('lodash');
 const path = require('path');
-const plugins = require('gulp-load-plugins')();
 const log = require('fancy-log');
 const postcss = require('gulp-postcss');
 
