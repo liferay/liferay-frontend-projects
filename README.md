@@ -18,6 +18,5 @@ Starting with version 9 of the toolkit, in order to keep the toolkit simple, eac
 | Create themes for 7.1          | v8.x                     |
 | Upgrade a theme for 6.2 to 7.0 | v8.x                     |
 | Upgrade a theme for 7.0 to 7.1 | v8.x                     |
-| Run tasks using Gulp v3        | v8.x                     |
 | Create themes for 7.2          | v9.x                     |
 | Upgrade a theme for 7.1 to 7.2 | v9.x                     |
