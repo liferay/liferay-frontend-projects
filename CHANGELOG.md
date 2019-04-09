@@ -1,3 +1,11 @@
+## [v8.0.6](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.6) (2019-04-09)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.5...v8.0.6)
+
+- doc: remove Gulp entry from version table (v8.x) ([\#293](https://github.com/liferay/liferay-js-themes-toolkit/pull/293))
+- feat: add ability to config PostCSS plug-ins (8.x) (#126)  ([\#290](https://github.com/liferay/liferay-js-themes-toolkit/pull/290))
+- fix: silent failures when using autoprefixer (8.x) (#274) ([\#288](https://github.com/liferay/liferay-js-themes-toolkit/pull/288))
+
 ## [v8.0.5](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.5) (2019-04-04)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.4...v8.0.5)
