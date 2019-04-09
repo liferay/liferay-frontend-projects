@@ -276,23 +276,7 @@ module.exports = function(options) {
 	function getBuildTaskArray(resourceDir, defaultTaskArray) {
 		let taskArray = defaultTaskArray || [];
 
-		if (resourceDir === 'WEB-INF') {
-			taskArray = [
-				'build:clean',
-				'build:src',
-				'build:web-inf',
-				'deploy:folder',
-				'watch:reload',
-			];
-		} else if (resourceDir === 'templates') {
-			taskArray = [
-				'build:src',
-				'build:themelet-src',
-				'build:themelet-js-inject',
-				'deploy:folder',
-				'watch:reload',
-			];
-		} else if (resourceDir === 'css') {
+		if (resourceDir === 'css') {
 			taskArray = [
 				'build:clean',
 				'build:base',
@@ -309,7 +293,7 @@ module.exports = function(options) {
 		} else if (resourceDir === 'js') {
 			taskArray = ['build:src', 'watch:reload'];
 		} else {
-			taskArray = ['deploy:file'];
+			taskArray = ['deploy', 'watch:reload'];
 		}
 
 		return taskArray;
