@@ -6,6 +6,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
 const log = require('fancy-log');
@@ -88,22 +89,59 @@ function concatBourbonIncludePaths(includePaths) {
 	return includePaths.concat(createBourbonFile());
 }
 
+/**
+ * Returns the string `file` if a file with that name exists, and
+ * `false` otherwise.
+ *
+ * Example:
+ *
+ *     > exists('package.json')
+ *     'package.json'
+ */
+function exists(file) {
+	return fs.existsSync(file) && file;
+}
+
+/**
+ * Returns a string indicating which of the standard methods for
+ * configuring PostCSS applies to the current theme, if any. Otherwise,
+ * returns `false`.
+ */
+function getPostCSSRC() {
+	const themeConfig = lfrThemeConfig.getConfig(true);
+	return (
+		(themeConfig.hasOwnProperty('postcss') && 'package.json "postcss"') ||
+		exists('.postcssrc') ||
+		exists('.postcssrc.js') ||
+		exists('.postcssrc.json') ||
+		exists('.postcssrc.yml') ||
+		exists('postcss.config.js')
+	);
+}
+
 function getPostCSSOptions(config) {
 	const postCSSOptions = {
 		enabled: false,
 	};
 
-	// We bundle autoprefixer automatically, so do not try to resolve it to the theme
+	const rc = getPostCSSRC();
 
 	if (_.isArray(config) && config.length > 0) {
+		if (rc) {
+			throw new Error(
+				'PostCSS must be configured in only one place but it was ' +
+					'configured in both "liferayTheme" properties of the ' +
+					`package.json and also in ${rc}`
+			);
+		}
+
 		postCSSOptions.enabled = true;
-		postCSSOptions.plugins = config
-			.map(pluginName =>
-				pluginName === 'autoprefixer'
-					? pluginName
-					: themeUtil.resolveDependency(pluginName)
-			)
-			.map(pluginDependency => require(pluginDependency));
+
+		postCSSOptions.plugins = config.map(pluginDependency =>
+			require(pluginDependency)
+		);
+	} else if (rc) {
+		postCSSOptions.enabled = true;
 	}
 
 	return postCSSOptions;
