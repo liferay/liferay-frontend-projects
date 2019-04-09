@@ -48,7 +48,6 @@ module.exports = function(options) {
 
 	// Initialize global things
 	const {storage} = gulp;
-	const fullDeploy = argv.full || argv.f;
 	const runSequence = require('run-sequence').use(gulp);
 
 	// Get config from liferay-theme.json
@@ -247,11 +246,7 @@ module.exports = function(options) {
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);
 
-			let taskArray = ['deploy:file'];
-
-			if (!fullDeploy && storage.get('deployed')) {
-				taskArray = getBuildTaskArray(resourceDir, []);
-			}
+			const taskArray = getBuildTaskArray(resourceDir);
 
 			taskArray.push(clearChangedFile);
 
@@ -273,8 +268,8 @@ module.exports = function(options) {
 		return taskArray;
 	}
 
-	function getBuildTaskArray(resourceDir, defaultTaskArray) {
-		let taskArray = defaultTaskArray || [];
+	function getBuildTaskArray(resourceDir) {
+		let taskArray;
 
 		if (resourceDir === 'css') {
 			taskArray = [
@@ -288,7 +283,6 @@ module.exports = function(options) {
 				'build:move-compiled-css',
 				'build:remove-old-css-dir',
 				'watch:reload',
-				'deploy:css-files',
 			];
 		} else if (resourceDir === 'js') {
 			taskArray = ['build:src', 'watch:reload'];
@@ -302,11 +296,11 @@ module.exports = function(options) {
 	function getCleanTaskArray(deploymentStrategy) {
 		switch (deploymentStrategy) {
 			case DEPLOYMENT_STRATEGIES.LOCAL_APP_SERVER:
-				return ['build', 'watch:clean', 'watch:setup'];
+				return ['deploy', 'watch:clean', 'watch:setup'];
 
 			case DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER:
 				return [
-					'build',
+					'deploy',
 					'watch:clean',
 					'watch:docker:clean',
 					'watch:setup',
