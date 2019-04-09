@@ -6,7 +6,7 @@
 
 module.exports = {
 	gulp: '3.9.1',
-	'liferay-theme-tasks': '^9.0.0-beta.0',
+	'liferay-theme-tasks': '^9.0.0-beta.1',
 	'compass-mixins': '0.12.10',
 	'liferay-frontend-common-css': '^1.0.4',
 	'liferay-frontend-theme-styled': '^4.0.0-alpha.1552930087997',

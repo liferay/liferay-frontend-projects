@@ -1,3 +1,11 @@
+## [v9.0.0-beta.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.1) (2019-04-09)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-beta.0...v9.0.0-beta.1)
+
+- doc: remove Gulp entry from version table (v9.x) ([\#294](https://github.com/liferay/liferay-js-themes-toolkit/pull/294))
+- feat: add ability to config PostCSS plug-ins (9.x) (#126) ([\#289](https://github.com/liferay/liferay-js-themes-toolkit/pull/289))
+- fix: silent failures when using autoprefixer (9.x) (#274) ([\#287](https://github.com/liferay/liferay-js-themes-toolkit/pull/287))
+
 ## [v9.0.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.0) (2019-04-03)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-alpha.1...v9.0.0-beta.0)
