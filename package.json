@@ -6,6 +6,7 @@
 	},
 	"private": true,
 	"scripts": {
+		"ci": "yarn format:check && yarn lint && yarn test",
 		"format": "prettier --write '**/*.js'",
 		"format:check": "prettier --list-different '**/*.js'",
 		"lint": "eslint '**/*.js'",
