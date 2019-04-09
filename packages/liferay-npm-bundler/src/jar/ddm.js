@@ -32,6 +32,10 @@ export function transformPreferences(preferencesJson) {
 				field.required = props.required;
 			}
 
+			if (props.repeatable !== undefined) {
+				field.repeatable = props.repeatable;
+			}
+
 			if (props.options) {
 				field.options = [];
 
