@@ -2,7 +2,7 @@
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0...v9.1.0)
 
-- feat: teach theme tasks to accept --sass-include-paths option (#305) ([\#306](https://github.com/liferay/liferay-js-themes-toolkit/pull/306))
+- feat: teach theme tasks to accept `--sass-include-paths` option (#305) ([\#306](https://github.com/liferay/liferay-js-themes-toolkit/pull/306))
 
 ## [v9.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0) (2019-04-09)
 
