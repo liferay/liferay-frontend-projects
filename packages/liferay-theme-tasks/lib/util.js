@@ -5,12 +5,12 @@
  */
 
 const _ = require('lodash');
-const argv = require('minimist')(process.argv.slice(2));
 const colors = require('ansi-colors');
 const childProcess = require('child_process');
 const es = require('event-stream');
 const fs = require('fs-extra');
 const log = require('fancy-log');
+const minimist = require('minimist');
 const path = require('path');
 const tar = require('tar-fs');
 
@@ -98,6 +98,10 @@ function dockerExec(containerName, command) {
 	);
 }
 
+function getArgv() {
+	return minimist(process.argv.slice(2));
+}
+
 function getLanguageProperties(pathBuild) {
 	const pathContent = path.join(pathBuild, 'WEB-INF/src/content');
 
@@ -143,6 +147,7 @@ function getCustomDependencyPath(dependency) {
 	let customPath;
 	const envVariable = CUSTOM_DEP_PATH_ENV_VARIABLE_MAP[dependency];
 	const flag = CUSTOM_DEP_PATH_FLAG_MAP[dependency];
+	const argv = getArgv();
 
 	if (flag && argv[flag]) {
 		customPath = argv[flag];
@@ -167,6 +172,7 @@ module.exports = {
 	DEPLOYMENT_STRATEGIES,
 	dockerCopy,
 	dockerExec,
+	getArgv,
 	getCustomDependencyPath,
 	getLanguageProperties,
 	isCssFile,

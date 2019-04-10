@@ -201,7 +201,7 @@ Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compil
 
 type: `object`
 
-Whatever properties are set in sassOptions get passed to either [gulp-sass](https://www.npmjs.com/package/gulp-sass#options) or [gulp-ruby-sass](https://www.npmjs.com/package/gulp-ruby-sass#options) depending on what sass compiler is implemented.
+Whatever properties are set in sassOptions get passed to [gulp-sass](https://www.npmjs.com/package/gulp-sass#options).
 
 ## liferayTheme
 

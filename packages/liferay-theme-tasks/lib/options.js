@@ -5,7 +5,7 @@
  */
 
 const _ = require('lodash');
-const minimist = require('minimist');
+const {getArgv} = require('./util');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
@@ -14,7 +14,7 @@ let options;
 function getOptions(config) {
 	if (!options || config) {
 		config = config || {};
-		config.argv = minimist(process.argv.slice(2));
+		config.argv = getArgv();
 		config.pathBuild = config.pathBuild || './build';
 		config.pathDist = config.pathDist || './dist';
 		config.pathSrc = config.pathSrc || './src';

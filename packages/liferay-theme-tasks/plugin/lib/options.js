@@ -7,11 +7,11 @@
 'use strict';
 
 var _ = require('lodash');
-var minimist = require('minimist');
 var path = require('path');
+var {getArgv} = require('../../lib/util');
 
 module.exports = function(options) {
-	var argv = minimist(process.argv.slice(2));
+	var argv = getArgv();
 
 	var CWD = process.cwd();
 
