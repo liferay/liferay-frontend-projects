@@ -7,13 +7,13 @@
 function devDependencies(version) {
 	const dependencies = {
 		gulp: '3.9.1',
-		'liferay-theme-tasks': '8.0.6',
+		'liferay-theme-tasks': '8.0.7',
 	};
 
 	if (version === '7.0') {
-		dependencies['liferay-theme-deps-7.0'] = '8.0.6';
+		dependencies['liferay-theme-deps-7.0'] = '8.0.7';
 	} else if (version === '7.1') {
-		dependencies['liferay-theme-deps-7.1'] = '8.0.6';
+		dependencies['liferay-theme-deps-7.1'] = '8.0.7';
 	}
 
 	return dependencies;
