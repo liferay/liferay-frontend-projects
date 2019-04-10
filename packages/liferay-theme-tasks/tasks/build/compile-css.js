@@ -6,6 +6,7 @@
 
 'use strict';
 
+const colors = require('ansi-colors');
 const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
@@ -150,6 +151,23 @@ function getSassIncludePaths() {
 
 	includePaths = concatBourbonIncludePaths(includePaths);
 	includePaths.push(path.dirname(require.resolve('compass-mixins')));
+
+	const argv = themeUtil.getArgv();
+	if (argv['sass-include-paths']) {
+		const customPaths = argv['sass-include-paths']
+			.split(',')
+			.map(item => path.resolve(item));
+		log(
+			'using custom SASS include paths:',
+			colors.magenta(customPaths.join(', '))
+		);
+		includePaths.push(...customPaths);
+	}
+
+	const themeNodeModules = path.resolve('node_modules');
+	if (fs.existsSync(themeNodeModules)) {
+		includePaths.push(themeNodeModules);
+	}
 
 	return includePaths;
 }
