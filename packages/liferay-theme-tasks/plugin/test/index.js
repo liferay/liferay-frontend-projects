@@ -14,6 +14,8 @@ var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
 
+var {getArgv} = require('../../lib/util');
+
 var gulp = new Gulp();
 
 chai.use(require('chai-fs'));
@@ -83,7 +85,7 @@ test('registerTasks should invoke extension functions', function(done) {
 
 	var extFunction = function(options) {
 		expect(options).toEqual({
-			argv: require('minimist')(process.argv.slice(2)),
+			argv: getArgv(),
 			distName: 'test-plugin-layouttpl',
 			extensions: [extFunction],
 			gulp,

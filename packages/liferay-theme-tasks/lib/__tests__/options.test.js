@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-const argv = require('minimist')(process.argv.slice(2));
+const {getArgv} = require('../util');
 const path = require('path');
 
+const argv = getArgv();
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,

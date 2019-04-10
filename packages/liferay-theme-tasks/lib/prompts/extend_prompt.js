@@ -5,7 +5,6 @@
  */
 
 const _ = require('lodash');
-const argv = require('minimist')(process.argv.slice(2));
 const exec = require('child_process').exec;
 const inquirer = require('inquirer');
 
@@ -14,8 +13,9 @@ const lfrThemeConfig = require('../liferay_theme_config');
 const NPMModulePrompt = require('./npm_module_prompt');
 const promptUtil = require('./prompt_util');
 const themeFinder = require('../theme_finder');
+const {getArgv} = require('../util');
 
-const moduleName = argv.name;
+const moduleName = getArgv().name;
 
 class ExtendPrompt {
 	constructor(...args) {
