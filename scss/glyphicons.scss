@@ -5,12 +5,12 @@ $icon-font-glyphicons-svg-id: "glyphicons_halflingsregular" !default;
 @at-root {
 	@font-face {
 		font-family: 'Glyphicons Halflings';
-		src: url(#{$icon-font-glyphicons-path}#{$icon-font-glyphicons-name}.eot);
-		src: url(#{$icon-font-glyphicons-path}#{$icon-font-glyphicons-name}.eot?#iefix) format('embedded-opentype'),
-			url(#{$icon-font-glyphicons-path}#{$icon-font-glyphicons-name}.woff2) format('woff2'),
-			url(#{$icon-font-glyphicons-path}#{$icon-font-glyphicons-name}.woff) format('woff'),
-			url(#{$icon-font-glyphicons-path}#{$icon-font-glyphicons-name}.ttf) format('truetype'),
-			url(#{$icon-font-glyphicons-path}#{$icon-font-glyphicons-name}.svg#{$icon-font-glyphicons-svg-id}) format('svg');
+		src: url(#{$icon-font-glyphicons-path}/#{$icon-font-glyphicons-name}.eot);
+		src: url(#{$icon-font-glyphicons-path}/#{$icon-font-glyphicons-name}.eot?#iefix) format('embedded-opentype'),
+			url(#{$icon-font-glyphicons-path}/#{$icon-font-glyphicons-name}.woff2) format('woff2'),
+			url(#{$icon-font-glyphicons-path}/#{$icon-font-glyphicons-name}.woff) format('woff'),
+			url(#{$icon-font-glyphicons-path}/#{$icon-font-glyphicons-name}.ttf) format('truetype'),
+			url(#{$icon-font-glyphicons-path}/#{$icon-font-glyphicons-name}.svg#{$icon-font-glyphicons-svg-id}) format('svg');
 	}
 }
 
