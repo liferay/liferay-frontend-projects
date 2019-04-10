@@ -1,8 +1,15 @@
 {
   "name": "liferay-font-awesome",
   "description": "The iconic font designed for Bootstrap",
-  "version": "3.2.1",
-  "keywords": ["font", "awesome", "fontawesome", "icon", "font", "bootstrap"],
+  "version": "3.3.0",
+  "keywords": [
+    "font",
+    "awesome",
+    "fontawesome",
+    "icon",
+    "font",
+    "bootstrap"
+  ],
   "homepage": "http://fontawesome.io/",
   "author": {
     "name": "Dave Gandy",
