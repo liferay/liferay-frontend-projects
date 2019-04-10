@@ -8,10 +8,12 @@ const os = require('os');
 const path = require('path');
 
 const FIXTURES = path.resolve(__dirname, '../../__fixtures__/scripts/theme');
-const APPS = path.join(FIXTURES, 'modules/apps');
+const MODULES = path.join(FIXTURES, 'modules');
+const APPS = path.join(MODULES, 'apps');
+const NODE_MODULES = path.join(MODULES, 'node_modules');
 const FJORD = path.join(APPS, 'frontend-theme-fjord/frontend-theme-fjord');
 const CLASSIC = path.join(APPS, 'frontend-theme/frontend-theme-classic');
-const BAD = path.join(FIXTURES, 'not/the/apps/you/are/looking/for');
+const BAD = path.join(FIXTURES, 'not/the/modules/you/are/looking/for');
 const FRONTEND = path.join(APPS, 'frontend-theme');
 const STYLED = path.join(
 	FRONTEND,
@@ -62,6 +64,12 @@ describe('scripts/theme.js', () => {
 			}).toThrow(/Must not supply --unstyled-path/);
 		});
 
+		it('complains about --sass-include-paths', () => {
+			expect(() => {
+				checkExistingBuildArgs(['--sass-include-paths', '.']);
+			}).toThrow(/Must not supply --sass-include-paths/);
+		});
+
 		it('accepts other arguments', () => {
 			expect(() => {
 				checkExistingBuildArgs(['--verbose']);
@@ -75,20 +83,20 @@ describe('scripts/theme.js', () => {
 		});
 	});
 
-	describe('findAppsDirectory()', () => {
-		let findAppsDirectory;
+	describe('findModulesDirectory()', () => {
+		let findModulesDirectory;
 
 		beforeEach(() => {
-			({findAppsDirectory} = require('../../src/scripts/theme'));
+			({findModulesDirectory} = require('../../src/scripts/theme'));
 		});
 
-		it('returns null when there is no "apps" ancestor', () => {
-			expect(findAppsDirectory(os.tmpdir())).toBe(null);
+		it('returns null when there is no "modules" ancestor', () => {
+			expect(findModulesDirectory(os.tmpdir())).toBe(null);
 		});
 
-		it('returns the path when there is an "apps" ancestor', () => {
-			expect(findAppsDirectory(CLASSIC)).toBe(APPS);
-			expect(findAppsDirectory(FJORD)).toBe(APPS);
+		it('returns the path when there is an "modules" ancestor', () => {
+			expect(findModulesDirectory(CLASSIC)).toBe(MODULES);
+			expect(findModulesDirectory(FJORD)).toBe(MODULES);
 		});
 	});
 
@@ -99,10 +107,10 @@ describe('scripts/theme.js', () => {
 			({prepareAdditionalBuildArgs} = require('../../src/scripts/theme'));
 		});
 
-		it('complains if there is no "apps" ancestor', () => {
+		it('complains if there is no "modules" ancestor', () => {
 			process.chdir(os.tmpdir());
 			expect(() => prepareAdditionalBuildArgs()).toThrow(
-				/Unable to find "apps"/
+				/Unable to find "modules"/
 			);
 		});
 
@@ -121,7 +129,9 @@ describe('scripts/theme.js', () => {
 				'--styled-path',
 				STYLED,
 				'--unstyled-path',
-				UNSTYLED
+				UNSTYLED,
+				'--sass-include-paths',
+				NODE_MODULES
 			]);
 		});
 
@@ -133,7 +143,9 @@ describe('scripts/theme.js', () => {
 				'--styled-path',
 				STYLED,
 				'--unstyled-path',
-				UNSTYLED
+				UNSTYLED,
+				'--sass-include-paths',
+				NODE_MODULES
 			]);
 		});
 	});
@@ -156,7 +168,9 @@ describe('scripts/theme.js', () => {
 					'--styled-path',
 					STYLED,
 					'--unstyled-path',
-					UNSTYLED
+					UNSTYLED,
+					'--sass-include-paths',
+					NODE_MODULES
 				]);
 			});
 
@@ -170,7 +184,9 @@ describe('scripts/theme.js', () => {
 					'--styled-path',
 					STYLED,
 					'--unstyled-path',
-					UNSTYLED
+					UNSTYLED,
+					'--sass-include-paths',
+					NODE_MODULES
 				]);
 			});
 
@@ -186,9 +202,9 @@ describe('scripts/theme.js', () => {
 				expect(() => run('build', '--verbose', '.')).not.toThrow();
 			});
 
-			it('complains if there is no "apps" ancestor', () => {
+			it('complains if there is no "modules" ancestor', () => {
 				process.chdir(os.tmpdir());
-				expect(() => run('build')).toThrow(/Unable to find "apps"/);
+				expect(() => run('build')).toThrow(/Unable to find "modules"/);
 			});
 
 			it('complains if called when there is no "frontend-theme"', () => {
