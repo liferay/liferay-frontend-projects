@@ -8,26 +8,27 @@ const fs = require('fs');
 const path = require('path');
 const spawnSync = require('../utils/spawnSync');
 
-const APPS_ROOT_DIR = '<AppsRootDir>';
+const MODULES_DIR = '<RootDir>';
 
 const BUILD_ARGS = {
 	'--css-common-path': './build_gradle/frontend-css-common',
-	'--styled-path': `${APPS_ROOT_DIR}/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled`,
-	'--unstyled-path': `${APPS_ROOT_DIR}/frontend-theme/frontend-theme-unstyled/src/main/resources/META-INF/resources/_unstyled`
+	'--styled-path': `${MODULES_DIR}/apps/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled`,
+	'--unstyled-path': `${MODULES_DIR}/apps/frontend-theme/frontend-theme-unstyled/src/main/resources/META-INF/resources/_unstyled`,
+	'--sass-include-paths': `${MODULES_DIR}/node_modules`
 };
 
 /**
- * Walk up the directory hierarchy looking for an "apps" directory.
+ * Walk up the directory hierarchy looking for a "modules" directory.
  * Returns `null` if none can be found.
  */
-function findAppsDirectory(from = process.cwd()) {
+function findModulesDirectory(from = process.cwd()) {
 	let current = from;
 	let previous = null;
 
 	while (current !== previous) {
-		const apps = path.join(current, 'apps');
-		if (fs.existsSync(apps)) {
-			return apps;
+		const modules = path.join(current, 'modules');
+		if (fs.existsSync(modules)) {
+			return modules;
 		}
 		previous = current;
 		current = path.dirname(current);
@@ -55,12 +56,12 @@ function checkExistingBuildArgs(args) {
  * Returns an array of additional build arguments required to build a theme.
  */
 function prepareAdditionalBuildArgs() {
-	const apps = findAppsDirectory();
-	if (!apps) {
-		throw new Error('Unable to find "apps" directory');
+	const modules = findModulesDirectory();
+	if (!modules) {
+		throw new Error('Unable to find "modules" directory');
 	}
 
-	const themes = path.join(apps, 'frontend-theme');
+	const themes = path.join(modules, 'apps/frontend-theme');
 	if (!fs.existsSync(themes)) {
 		throw new Error('Unable to find "frontend-theme" directory');
 	}
@@ -68,7 +69,7 @@ function prepareAdditionalBuildArgs() {
 	const args = [];
 	Object.keys(BUILD_ARGS).forEach(key => {
 		const value = BUILD_ARGS[key];
-		args.push(key, value.replace(APPS_ROOT_DIR, apps));
+		args.push(key, value.replace(MODULES_DIR, modules));
 	});
 	return args;
 }
@@ -94,7 +95,7 @@ function run(...subcommandAndArgs) {
 
 module.exports = {
 	checkExistingBuildArgs,
-	findAppsDirectory,
+	findModulesDirectory,
 	prepareAdditionalBuildArgs,
 	run
 };
