@@ -1,3 +1,10 @@
+## [v9.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0) (2019-04-09)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-beta.1...v9.0.0)
+
+- feat: auto-deploy when starting `gulp watch` (#291) ([\#299](https://github.com/liferay/liferay-js-themes-toolkit/pull/299))
+- fix: failure to update after non-JS/CSS changes in watch mode (#291) ([\#297](https://github.com/liferay/liferay-js-themes-toolkit/pull/297))
+
 ## [v9.0.0-beta.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.1) (2019-04-09)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-beta.0...v9.0.0-beta.1)
