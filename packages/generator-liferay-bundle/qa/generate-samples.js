@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -19,8 +25,6 @@ const pkgsDir = path.join(outDir, 'packages');
  */
 function writeConfig(options) {
 	const name = options.folder;
-
-	console.log('Generating test config for', name);
 
 	fs.writeFileSync(
 		path.join('config', `${name}.json`),
@@ -109,30 +113,30 @@ const start = new Date();
 let configs;
 
 switch (argv.projects) {
-case 'all':
-	configs = fs.readdirSync('config');
-	break;
+	case 'all':
+		configs = fs.readdirSync('config');
+		break;
 
-case 'essential':
-	configs = [
-		'angular-portlet-l10n-sets-prefs-sample.json',
-		'export-bundle.json',
-		'metaljs-portlet-l10n-sets-prefs-sample.json',
-		'react-portlet-l10n-sets-prefs-sample.json',
-		'vanilla-portlet-es5-l10n-sets-prefs-sample.json',
-		'vanilla-portlet-es6-l10n-sets-prefs-sample.json',
-		'vuejs-portlet-l10n-sets-prefs-sample.json',
-	];
-	break;
+	case 'essential':
+		configs = [
+			'angular-portlet-l10n-sets-prefs-sample.json',
+			'export-bundle.json',
+			'metaljs-portlet-l10n-sets-prefs-sample.json',
+			'react-portlet-l10n-sets-prefs-sample.json',
+			'vanilla-portlet-es5-l10n-sets-prefs-sample.json',
+			'vanilla-portlet-es6-l10n-sets-prefs-sample.json',
+			'vuejs-portlet-l10n-sets-prefs-sample.json',
+		];
+		break;
 
-case 'none':
-	configs = [];
-	break;
+	case 'none':
+		configs = [];
+		break;
 
-default:
-	console.error(`Invalid --projects value: ${argv.projects}`);
-	process.exit(1);
-	break;
+	default:
+		console.error(`Invalid --projects value: ${argv.projects}`);
+		process.exit(1);
+		break;
 }
 
 // Generate samples
