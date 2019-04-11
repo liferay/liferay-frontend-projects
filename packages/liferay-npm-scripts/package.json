@@ -34,6 +34,7 @@
 		"sort-keys": "^2.0.0"
 	},
 	"scripts": {
+		"preversion": "cd ../.. && yarn ci",
 		"test": "jest"
 	},
 	"jest": {
