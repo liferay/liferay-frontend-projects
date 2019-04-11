@@ -8,21 +8,15 @@ At the time of writing we have a pretty informal release process for the package
 git checkout master
 git pull --ff-only upstream master
 
-# Make sure formatting is up-to-date:
-yarn format:check
-
-# Run tests (currently, we don't have many of them):
-yarn test
-
 # Update individual package versions:
 # - Note that this time we updated all the packages,
 #   but on many occasions we'll update only one, or two.
 cd packages/liferay-jest-junit-reporter
-yarn version --no-git-tag-version --new-version 1.0.1
+yarn version --new-version 1.0.1 # or: yarn version --patch etc
 cd ../liferay-npm-bundler-preset-liferay-dev
-yarn version --no-git-tag-version --new-version 1.1.4
+yarn version --new-version 1.1.4
 cd ../liferay-npm-scripts
-yarn version --no-git-tag-version --new-version 1.4.8
+yarn version --new-version 1.4.8
 cd ../..
 
 # Note that if you update the preset, or the reporter,
@@ -36,17 +30,13 @@ cd ../..
 # Ensure lockfile is up-to-date.
 yarn
 
-# Produce and push final commit.
-git commit -p
+# Push final commit(s).
 git push upstream master.
 
-# Update stable branch and create tags.
+# Update stable branch and tags.
 git checkout stable
 git pull upstream --ff-only stable
 git merge --ff-only master
-git tag liferay-jest-junit-reporter/v1.0.1 -m 'liferay-jest-junit-reporter v1.0.1'
-git tag liferay-npm-bundler-preset-liferay-dev/v1.1.4 -m 'liferay-npm-bundler-preset-liferay-dev v1.1.4'
-git tag liferay-npm-scripts/v1.4.8 -m 'liferay-npm-scripts v1.4.8'
 
 # Publish the tags.
 git push upstream stable --follow-tags

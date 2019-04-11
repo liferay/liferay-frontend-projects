@@ -13,6 +13,7 @@
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.7.1"
 	},
 	"scripts": {
+		"preversion": "cd ../.. && yarn ci",
 		"test": "echo 'No tests currently defined for liferay-npm-bundler-preset-liferay-dev'"
 	}
 }
