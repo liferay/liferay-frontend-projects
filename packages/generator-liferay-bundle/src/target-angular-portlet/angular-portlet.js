@@ -49,7 +49,7 @@ export default class extends Generator {
 		cp.copyFile('tsconfig.json');
 
 		// Configure webpack
-		pkgJson.addDevDependency('ts-loader', '^5.0.0');
+		pkgJson.addDevDependency('ts-loader', '5.3.3');
 		npmbuildrc.addWebpackRule(/src\/.*\.ts$/, 'ts-loader');
 		npmbuildrc.addWebpackExtensions('.ts', '.js');
 		npmbuildrc.setWebpackMainModule('index.ts');

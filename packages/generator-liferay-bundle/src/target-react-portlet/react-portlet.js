@@ -49,7 +49,7 @@ export default class extends Generator {
 		cp.copyFile('.babelrc');
 
 		// Configure webpack
-		pkgJson.addDevDependency('babel-loader', '^7.0.0');
+		pkgJson.addDevDependency('babel-loader', '7.1.5');
 		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
 		// Prepare text labels
