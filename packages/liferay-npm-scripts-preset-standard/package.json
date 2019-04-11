@@ -1,0 +1,10 @@
+{
+	"name": "liferay-npm-scripts-preset-standard",
+	"version": "1.0.0",
+	"description": "Configuration preset for `liferay-npm-scripts`",
+	"main": "index.js",
+	"author": {
+		"name": "Bryce Osterhaus"
+	},
+	"license": "MIT"
+}
