@@ -6,21 +6,26 @@ LOG_FILE="$QA_DIR/logs/$1.log"
 POSHI_FILE="portal-7.1.x-20190110-e3c1b50.jar"
 
 # Check pre-requisites
-which 7z > /dev/null
+SEVENZIP=7z
+which 7z > /dev/null 2>&1
 if [ $? != 0 ] ; then
-    echo "No 7z command found. Please install it as it is needed."
-    echo "Hint: install the 'p7zip' package."
-    exit 1
+    SEVENZIP=7za
+    which 7za > /dev/null 2>&1
+    if [ $? != 0 ] ; then
+        echo "No 7z command found. Please install it as it is needed."
+        echo "Hint: install the 'p7zip' package."
+        exit 1
+    fi
 fi
 
-which wget > /dev/null
+which wget > /dev/null 2>&1
 if [ $? != 0 ] ; then
     echo "No wget command found. Please install it as it is needed."
     echo "Hint: install the 'wget' package."
     exit 1
 fi
 
-which lerna > /dev/null
+which lerna > /dev/null 2>&1
 if [ $? != 0 ] ; then
     echo "No lerna command found. Please install it as it is needed."
     echo "Hint: run 'npm install -g lerna'."
@@ -33,6 +38,8 @@ elif [ -x /opt/firefox45/firefox ] ; then
     FIREFOX='/opt/firefox45/firefox'
 elif [ -x '/Applications/Firefox.app/Contents/MacOS/firefox' ] ; then
     FIREFOX='/Applications/Firefox.app/Contents/MacOS/firefox'
+elif [ -x '/usr/bin/firefox' ] ; then
+    FIREFOX='/usr/bin/firefox'
 else 
     echo "No Firefox executable found. Please install it or point the FIREFOX env var to its location."
     exit 1
@@ -77,7 +84,7 @@ elif [ "$1" = "unzip-portal-snapshot-bundle" ] ; then
     wget https://releases.liferay.com/portal/snapshot-master/latest/liferay-portal-tomcat-master.7z -P temp >> $LOG_FILE 2>&1
 
     echo Extracting archive
-    7z x temp/liferay-portal-tomcat-master.7z >> $LOG_FILE
+    $SEVENZIP x temp/liferay-portal-tomcat-master.7z >> $LOG_FILE
     
     echo Preparing Tomcat instance
     rm -rf temp
@@ -132,6 +139,7 @@ elif [ "$1" = "sample-list" ] ; then
     echo Filling the list of generated samples to test
     rm -rfd poshi/dependencies
     mkdir -p poshi/dependencies 
+    mkdir -p samples/packages
     cd samples/packages 
     ls >> ../../poshi/dependencies/temp_list.txt
     cd ../../poshi/dependencies
