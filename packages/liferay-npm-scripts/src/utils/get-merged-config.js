@@ -17,39 +17,47 @@ module.exports = function(type) {
 	switch (type) {
 		case 'babel':
 			return sortKeys(
-				deepMerge(
+				deepMerge([
 					require('../config/babel'),
 					getUserConfig('.babelrc', 'babel')
-				)
+				])
 			);
 
 		case 'bundler':
 			return sortKeys(
-				deepMerge(
+				deepMerge([
 					require('../config/npm-bundler'),
 					getUserConfig('.npmbundlerrc')
-				)
+				])
 			);
 
 		case 'jest':
 			return sortKeys(
-				deepMerge(
+				deepMerge([
 					require('../config/jest'),
 					getUserConfig('jest.config.js', 'jest')
-				)
+				])
 			);
 
-		case 'npmscripts':
-			return sortKeys(
-				deepMerge(
-					require('../config/liferay-npm-scripts'),
-					require('../config/liferay-npm-scripts-build-deps-clay.json'),
-					require('../config/liferay-npm-scripts-build-deps-liferay.json'),
-					require('../config/liferay-npm-scripts-build-deps-metal.json'),
-					getUserConfig('.liferaynpmscriptsrc')
-				)
-			);
+		case 'npmscripts': {
+			let presetConfig = {};
 
+			let userConfig = getUserConfig('.liferaynpmscriptsrc');
+
+			// Use default config if no user config exists
+			if (!userConfig) {
+				userConfig = require('../config/liferay-npm-scripts');
+			}
+
+			// Check for preset before creating config
+			if (userConfig.preset) {
+				presetConfig = require(`liferay-npm-scripts-preset-${
+					userConfig.preset
+				}`);
+			}
+
+			return sortKeys(deepMerge([presetConfig, userConfig], true));
+		}
 		default:
 			// eslint-disable-next-line no-console
 			console.log(`'${type}' is not a valid config`);
