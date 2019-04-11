@@ -91,7 +91,38 @@ Eject will remove `liferay-npm-scripts` as a dependency and write all of the nec
 
 ## Config
 
-If you need to add additional configuration you can do so by creating a `.liferaynpmscriptsrc` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.json).
+If you need to add additional configuration you can do so by creating a `.liferaynpmscriptsrc` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.js).
+
+### `preset`
+
+`.liferaynpmscriptsrc` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](../liferay-npm-scripts-preset-standard). If you want to create your own preset, you need to create an npm package named `liferay-npm-scripts-preset-{YOUR_NAME_HERE}` and include it as a dependency to your project. You can also extend from a preset by creating a `.liferaynpmscriptsrc` that looks something like...
+
+```json
+{
+	"preset": "standard",
+	"build": {
+		"input": "some/path/here"
+	}
+}
+```
+
+This will use `liferay-npm-scripts-preset-standard` and overwrite build.input to be `some/path/here`. If you want to add an additional dependency, you will have to do something like...
+
+```js
+const standardPreset = require('liferay-npm-scripts-preset-standard');
+
+module.exports = {
+	preset: 'standard',
+	build: {
+		dependencies: [
+			...standardPreset.build.dependencies,
+			'my-new-dependency'
+		]
+	}
+};
+```
+
+If you just set dependencies to be `['my-new-dependency']`, it will override the existing dependencies from `liferay-npm-scripts-preset-standard`.
 
 ### Other Config
 
