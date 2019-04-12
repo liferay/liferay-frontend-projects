@@ -1,3 +1,11 @@
+## [v9.1.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.1) (2019-04-12)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.0...v9.1.1)
+
+- doc: add v7 to the compatibility table (9.x) (#313) ([\#317](https://github.com/liferay/liferay-js-themes-toolkit/pull/317))
+- fix: make "watch" mode work with portal gzipped (#311) ([\#314](https://github.com/liferay/liferay-js-themes-toolkit/pull/314))
+- fix: broken CSS and sign-in when using "watch" proxy (#309, #310) ([\#312](https://github.com/liferay/liferay-js-themes-toolkit/pull/312))
+
 ## [v9.1.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.0) (2019-04-10)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0...v9.1.0)
