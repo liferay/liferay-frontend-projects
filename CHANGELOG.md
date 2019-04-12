@@ -1,3 +1,11 @@
+## [v8.0.8](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.8) (2019-04-12)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.7...v8.0.8)
+
+- doc: add v7 to the compatibility table (#313) ([\#318](https://github.com/liferay/liferay-js-themes-toolkit/pull/318))
+- fix: make "watch" mode work with portal gzipped (#311) ([\#316](https://github.com/liferay/liferay-js-themes-toolkit/pull/316))
+- fix: broken CSS and sign-in when using "watch" proxy (8.x) (#309, #310) ([\#315](https://github.com/liferay/liferay-js-themes-toolkit/pull/315))
+
 ## [v8.0.7](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.7) (2019-04-09)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.6...v8.0.7)
