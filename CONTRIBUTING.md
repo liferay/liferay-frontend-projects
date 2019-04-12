@@ -109,7 +109,7 @@ yarn ci
 
 # Prepare and push final commit:
 git add -A
-git commit -m "Prepare for $VERSION release"
+git commit -m "chore: prepare $VERSION release"
 git push upstream 8.x
 ```
 
