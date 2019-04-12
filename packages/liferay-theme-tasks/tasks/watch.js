@@ -11,12 +11,18 @@ const del = require('del');
 const fs = require('fs');
 const http = require('http');
 const httpProxy = require('http-proxy');
+const passes = require('http-proxy/lib/http-proxy/passes/web-outgoing');
 const opn = require('opn');
 const path = require('path');
 const themeUtil = require('../lib/util');
 const tinylr = require('tiny-lr');
 const portfinder = require('portfinder');
 const url = require('url');
+const util = require('util');
+
+const PASSES = Object.values(passes);
+
+const accessAsync = util.promisify(fs.access);
 
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
@@ -40,6 +46,14 @@ function getPathComponents(pathString) {
 function getResourceDir(pathString, pathSrc) {
 	const relativePath = path.relative(pathSrc, pathString);
 	return getPathComponents(relativePath)[0];
+}
+
+/**
+ * Returns a Promise that resolves to `true` if `file` exists and `false`
+ * otherwise.
+ */
+function isReadable(file) {
+	return accessAsync(file, fs.constants.R_OK).then(() => true, () => false);
 }
 
 module.exports = function(options) {
@@ -181,6 +195,7 @@ module.exports = function(options) {
 			`(?!.*.(ftl|tpl|vm))(${resourcePrefix}/${distName}/)(.*)`
 		);
 
+		const livereloadTag = `<script src="http://localhost:${tinylrPort}/livereload.js"></script>`;
 		livereload = tinylr();
 		livereload.server.on('error', err => {
 			// eslint-disable-next-line
@@ -190,15 +205,42 @@ module.exports = function(options) {
 
 		const proxy = httpProxy.createServer();
 
-		http.createServer((req, res) => {
-			if (
-				req.headers.accept &&
-				req.headers.accept.includes('text/html')
-			) {
-				res.write(
-					`<script src="http://localhost:${tinylrPort}/livereload.js"></script>`
-				);
+		proxy.on('proxyRes', (proxyRes, req, res) => {
+			// Make sure that "web passes" (eg. header setting and such) still
+			// happen even though we are in "selfHandleResponse" mode.
+			// See: https://github.com/nodejitsu/node-http-proxy/issues/1263
+			for (let i = 0; i < PASSES.length; i++) {
+				if (PASSES[i](req, res, proxyRes, options)) {
+					break;
+				}
 			}
+
+			let body = Buffer.from('');
+			proxyRes.on('data', data => {
+				body = Buffer.concat([body, data]);
+			});
+
+			proxyRes.on('end', () => {
+				const appendLivereloadTag =
+					req.headers.accept &&
+					req.headers.accept.includes('text/html') &&
+					(res.getHeader('Content-Type') || '').indexOf(
+						'text/html'
+					) === 0;
+
+				const content = appendLivereloadTag
+					? body.toString() + livereloadTag
+					: body;
+				res.end(content);
+			});
+		});
+
+		http.createServer((req, res) => {
+			const dispatchToProxy = () =>
+				proxy.web(req, res, {
+					selfHandleResponse: true,
+					target: proxyUrl,
+				});
 
 			const requestUrl = url.parse(req.url);
 
@@ -207,20 +249,24 @@ module.exports = function(options) {
 				const filepath = path.resolve('build', match[3]);
 				const ext = path.extname(filepath);
 
-				if (MIME_TYPES[ext]) {
-					res.setHeader('Content-Type', MIME_TYPES[ext]);
-				}
+				isReadable(filepath).then(exists => {
+					if (exists) {
+						if (MIME_TYPES[ext]) {
+							res.setHeader('Content-Type', MIME_TYPES[ext]);
+						}
 
-				fs.createReadStream(filepath)
-					.on('error', err => {
-						// eslint-disable-next-line
-						console.error(err);
-					})
-					.pipe(res);
-			} else {
-				proxy.web(req, res, {
-					target: proxyUrl,
+						fs.createReadStream(filepath)
+							.on('error', err => {
+								// eslint-disable-next-line
+								console.error(err);
+							})
+							.pipe(res);
+					} else {
+						dispatchToProxy();
+					}
 				});
+			} else {
+				dispatchToProxy();
 			}
 		}).listen(httpPort, function() {
 			const url = `http://localhost:${httpPort}/`;
