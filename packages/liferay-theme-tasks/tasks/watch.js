@@ -18,8 +18,11 @@ const themeUtil = require('../lib/util');
 const tinylr = require('tiny-lr');
 const portfinder = require('portfinder');
 const url = require('url');
+const util = require('util');
 
 const PASSES = Object.values(passes);
+
+const accessAsync = util.promisify(fs.access);
 
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
@@ -43,6 +46,14 @@ function getPathComponents(pathString) {
 function getResourceDir(pathString, pathSrc) {
 	const relativePath = path.relative(pathSrc, pathString);
 	return getPathComponents(relativePath)[0];
+}
+
+/**
+ * Returns a Promise that resolves to `true` if `file` exists and `false`
+ * otherwise.
+ */
+function isReadable(file) {
+	return accessAsync(file, fs.constants.R_OK).then(() => true, () => false);
 }
 
 module.exports = function(options) {
@@ -225,29 +236,37 @@ module.exports = function(options) {
 		});
 
 		http.createServer((req, res) => {
-			const requestUrl = url.parse(req.url);
-
-			const match = themePattern.exec(requestUrl.pathname);
-
-			if (match) {
-				const filepath = path.resolve('build', match[3]);
-				const ext = path.extname(filepath);
-
-				if (MIME_TYPES[ext]) {
-					res.setHeader('Content-Type', MIME_TYPES[ext]);
-				}
-
-				fs.createReadStream(filepath)
-					.on('error', err => {
-						// eslint-disable-next-line
-						console.error(err);
-					})
-					.pipe(res);
-			} else {
+			const dispatchToProxy = () =>
 				proxy.web(req, res, {
 					selfHandleResponse: true,
 					target: proxyUrl,
 				});
+
+			const requestUrl = url.parse(req.url);
+
+			const match = themePattern.exec(requestUrl.pathname);
+			if (match) {
+				const filepath = path.resolve('build', match[3]);
+				const ext = path.extname(filepath);
+
+				isReadable(filepath).then(exists => {
+					if (exists) {
+						if (MIME_TYPES[ext]) {
+							res.setHeader('Content-Type', MIME_TYPES[ext]);
+						}
+
+						fs.createReadStream(filepath)
+							.on('error', err => {
+								// eslint-disable-next-line
+								console.error(err);
+							})
+							.pipe(res);
+					} else {
+						dispatchToProxy();
+					}
+				});
+			} else {
+				dispatchToProxy();
 			}
 		}).listen(httpPort, function() {
 			const url = `http://localhost:${httpPort}/`;
