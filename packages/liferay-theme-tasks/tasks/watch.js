@@ -205,6 +205,12 @@ module.exports = function(options) {
 
 		const proxy = httpProxy.createServer();
 
+		proxy.on('proxyReq', function(proxyReq, _req, _res, _options) {
+			// Disable compression because it complicates the task of appending
+			// our livereload tag.
+			proxyReq.setHeader('Accept-Encoding', 'identity');
+		});
+
 		proxy.on('proxyRes', (proxyRes, req, res) => {
 			// Make sure that "web passes" (eg. header setting and such) still
 			// happen even though we are in "selfHandleResponse" mode.
