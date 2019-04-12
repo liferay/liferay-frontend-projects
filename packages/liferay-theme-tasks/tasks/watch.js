@@ -230,7 +230,7 @@ module.exports = function(options) {
 
 				const content = appendLivereloadTag
 					? body.toString() + livereloadTag
-					: body.toString();
+					: body;
 				res.end(content);
 			});
 		});
