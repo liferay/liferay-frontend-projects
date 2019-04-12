@@ -6,5 +6,8 @@
 	"author": {
 		"name": "Bryce Osterhaus"
 	},
-	"license": "MIT"
+	"license": "MIT",
+	"scripts": {
+		"test": "echo 'No tests currently defined for liferay-npm-scripts-preset-standard'"
+	}
 }
