@@ -1,3 +1,10 @@
+## [v9.1.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.2) (2019-04-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.1...v9.1.2)
+
+- perf: avoid unnecessary buffering of responses in watch mode (#324) ([\#325](https://github.com/liferay/liferay-js-themes-toolkit/pull/325))
+- fix: invalid "this" in deploy-live:war task (9.x) ([\#322](https://github.com/liferay/liferay-js-themes-toolkit/pull/322))
+
 ## [v9.1.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.1) (2019-04-12)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.0...v9.1.1)
