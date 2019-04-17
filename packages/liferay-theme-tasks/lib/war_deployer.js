@@ -102,19 +102,19 @@ class WarDeployer extends EventEmitter {
 	_makeRequest() {
 		const protocol = require(this.protocol);
 
-		const req = protocol.request(this._getPostOptions(), function(res) {
+		const req = protocol.request(this._getPostOptions(), res => {
 			res.setEncoding('utf8');
 
-			res.on('data', function(chunk) {
+			res.on('data', chunk => {
 				this._onResponseData(chunk);
 			});
 
-			res.on('end', function() {
+			res.on('end', () => {
 				this._onResponseEnd();
 			});
 		});
 
-		req.on('error', function(err) {
+		req.on('error', err => {
 			if (err) {
 				throw err;
 			}
@@ -165,8 +165,8 @@ class WarDeployer extends EventEmitter {
 		}
 
 		if (questions.length) {
-			inquirer.prompt(questions, function(answers) {
-				Object.keys(answers).forEach(function(key) {
+			inquirer.prompt(questions, answers => {
+				Object.keys(answers).forEach(key => {
 					this[key] = answers[key];
 				});
 
@@ -203,7 +203,7 @@ class WarDeployer extends EventEmitter {
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
 
 		fs.createReadStream(path.join(CWD, 'dist', this.fileName + '.war'))
-			.on('end', function() {
+			.on('end', () => {
 				req.end('\r\n--' + boundaryKey + '--');
 
 				this.emit('end');
