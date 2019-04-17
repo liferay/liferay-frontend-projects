@@ -221,9 +221,8 @@ module.exports = function(options) {
 				}
 			}
 
-			let body = Buffer.from('');
 			proxyRes.on('data', data => {
-				body = Buffer.concat([body, data]);
+				res.write(data);
 			});
 
 			proxyRes.on('end', () => {
@@ -234,10 +233,11 @@ module.exports = function(options) {
 						'text/html'
 					) === 0;
 
-				const content = appendLivereloadTag
-					? body.toString() + livereloadTag
-					: body;
-				res.end(content);
+				if (appendLivereloadTag) {
+					res.end(livereloadTag);
+				} else {
+					res.end();
+				}
 			});
 		});
 
