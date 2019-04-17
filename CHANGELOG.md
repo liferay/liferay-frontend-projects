@@ -1,3 +1,10 @@
+## [v8.0.9](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.9) (2019-04-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.8...v8.0.9)
+
+- perf: avoid unnecessary buffering of responses in watch mode (#324) ([\#326](https://github.com/liferay/liferay-js-themes-toolkit/pull/326))
+- fix: invalid "this" in deploy-live:war task (8.x) ([\#323](https://github.com/liferay/liferay-js-themes-toolkit/pull/323))
+
 ## [v8.0.8](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.8) (2019-04-12)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.7...v8.0.8)
