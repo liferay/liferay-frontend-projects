@@ -34,6 +34,7 @@ module.exports = function() {
 		case 'build':
 			require('./scripts/build')();
 			break;
+
 		case 'eject':
 			inquirer
 				.prompt({
@@ -49,18 +50,23 @@ module.exports = function() {
 					}
 				});
 			break;
-		case 'lint':
-			require('./scripts/lint')();
-			break;
+
 		case 'format':
 			require('./scripts/format')();
 			break;
-		case 'theme':
-			require('./scripts/theme').run(...ARGS_ARRAY.slice(1));
+
+		case 'lint':
+			require('./scripts/lint')();
 			break;
+
 		case 'test':
 			require('./scripts/test')(ARGS_ARRAY);
 			break;
+
+		case 'theme':
+			require('./scripts/theme').run(...ARGS_ARRAY.slice(1));
+			break;
+
 		default:
 			// eslint-disable-next-line no-console
 			console.log(
