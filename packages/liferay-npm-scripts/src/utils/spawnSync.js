@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const {spawn} = require('cross-spawn');
 const fs = require('fs');
 const path = require('path');
-
-const {spawn} = require('cross-spawn');
 
 function getDescription(command, args) {
 	return [command].concat(args).join(' ');

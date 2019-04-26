@@ -6,20 +6,21 @@
 
 const CWD = process.cwd();
 
-const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
 
-const {buildSoy, cleanSoy, soyExists} = require('./soy');
-const {removeBabelConfig, setBabelConfig} = require('./babel');
+const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 const getMergedConfig = require('../utils/get-merged-config');
 const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
+const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
+const spawnSync = require('../utils/spawnSync');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
 
 /**
- * Compiles javascript files by running `babel` bin with merged config(user + default) and source-maps enabled
+ * Compiles JavaScript files by running `babel` with merged config(user +
+ * default) and source-maps enabled.
  */
 function compileBabel() {
 	setBabelConfig();
@@ -35,7 +36,8 @@ function compileBabel() {
 }
 
 /**
- * Creates a temporary npmbundler config(user + default) and then runs `liferay-npm-bundler` bin
+ * Creates a temporary npmbundler config(user + default) and then runs the
+ * `liferay-npm-bundler` executable.
  */
 function runBundler() {
 	moveToTemp(CWD, '.npmbundlerrc');
@@ -52,7 +54,7 @@ function runBundler() {
 }
 
 /**
- * Runs `liferay-npm-bridge-generator` bin
+ * Runs the `liferay-npm-bridge-generator` executable.
  */
 function runBridge() {
 	spawnSync('liferay-npm-bridge-generator');
@@ -60,7 +62,10 @@ function runBridge() {
 
 /**
  * Main script that runs all all specified build tasks synchronously.
- * Babel is always run and the user can also include flags to run soy and bundler.
+ *
+ * Babel and liferay-npm-bundler are always run, liferay-npm-bridge-generator is
+ * run if the corresponding .npmbridgerc config file is present, and soy is run
+ * when soy files are detected.
  */
 module.exports = function() {
 	const useSoy = soyExists();

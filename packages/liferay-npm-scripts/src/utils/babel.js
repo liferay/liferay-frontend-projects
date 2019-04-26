@@ -6,11 +6,11 @@
 
 const fs = require('fs');
 const path = require('path');
+
+const getMergedConfig = require('./get-merged-config');
+const {moveToTemp, removeFromTemp} = require('./move-to-temp');
+
 const CWD = process.cwd();
-
-const getMergedConfig = require('../utils/get-merged-config');
-const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
-
 const RC_PATH = path.join(CWD, '.babelrc');
 
 const BABEL_CONFIG = getMergedConfig('babel');

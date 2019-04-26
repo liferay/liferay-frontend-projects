@@ -10,13 +10,13 @@ process.env.NODE_ENV = 'production';
 
 const CWD = process.cwd();
 
-const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
 
-const {buildSoy, cleanSoy, soyExists} = require('./soy');
+const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 const getMergedConfig = require('../utils/get-merged-config');
-const {removeBabelConfig, setBabelConfig} = require('./babel');
+const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
+const spawnSync = require('../utils/spawnSync');
 
 const JEST_CONFIG = getMergedConfig('jest');
 
