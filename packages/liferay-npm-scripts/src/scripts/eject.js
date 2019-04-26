@@ -11,7 +11,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const sortKeys = require('sort-keys');
 
-const {soyExists} = require('./soy');
+const {soyExists} = require('../utils/soy');
 const generateSoyDependencies = require('../utils/generate-soy-dependencies');
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawnSync');

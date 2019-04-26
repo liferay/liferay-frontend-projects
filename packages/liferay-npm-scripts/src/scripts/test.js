@@ -14,7 +14,7 @@ const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
 
-const {buildSoy, cleanSoy, soyExists} = require('./soy');
+const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const getMergedConfig = require('../utils/get-merged-config');
 const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 
