@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 const {buildSoy, cleanSoy, soyExists} = require('./soy');
-const {removeBabelConfig, setBabelConfig} = require('./babel');
+const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 const getMergedConfig = require('../utils/get-merged-config');
 const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
 

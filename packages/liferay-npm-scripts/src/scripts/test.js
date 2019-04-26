@@ -16,7 +16,7 @@ const path = require('path');
 
 const {buildSoy, cleanSoy, soyExists} = require('./soy');
 const getMergedConfig = require('../utils/get-merged-config');
-const {removeBabelConfig, setBabelConfig} = require('./babel');
+const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 
 const JEST_CONFIG = getMergedConfig('jest');
 
