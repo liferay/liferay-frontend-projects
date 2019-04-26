@@ -7,9 +7,9 @@
 const glob = require('glob');
 const path = require('path');
 
-const spawnSync = require('./spawnSync');
 const getMergedConfig = require('./get-merged-config');
 const generateSoyDependencies = require('./generate-soy-dependencies');
+const spawnSync = require('./spawnSync');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 

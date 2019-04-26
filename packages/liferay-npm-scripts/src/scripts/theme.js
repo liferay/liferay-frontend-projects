@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const spawnSync = require('../utils/spawnSync');
 
 const MODULES_DIR = '<RootDir>';

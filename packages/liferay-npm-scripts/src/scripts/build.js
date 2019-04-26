@@ -6,14 +6,14 @@
 
 const CWD = process.cwd();
 
-const spawnSync = require('../utils/spawnSync');
 const fs = require('fs');
 const path = require('path');
 
-const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 const getMergedConfig = require('../utils/get-merged-config');
 const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
+const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
+const spawnSync = require('../utils/spawnSync');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
