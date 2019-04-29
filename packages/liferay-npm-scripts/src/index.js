@@ -68,7 +68,7 @@ module.exports = function() {
 			break;
 
 		case 'webpack':
-			require('./scripts/webpack')();
+			require('./scripts/webpack')(...ARGS_ARRAY.slice(1));
 			break;
 
 		default:
