@@ -17,7 +17,7 @@ module.exports = function(...args) {
 	if (watch !== -1) {
 		if (!fs.existsSync(WATCH_CONFIG_FILE)) {
 			throw new Error(
-				`--watch suppiled but "${WATCH_CONFIG_FILE}" not found`
+				`--watch supplied but "${WATCH_CONFIG_FILE}" not found`
 			);
 		} else {
 			// Cut out the "watch" argument; `splice()` would mutate, so create
@@ -34,6 +34,6 @@ module.exports = function(...args) {
 			]);
 		}
 	} else {
-		spawnSync('webpack');
+		spawnSync('webpack', args);
 	}
 };
