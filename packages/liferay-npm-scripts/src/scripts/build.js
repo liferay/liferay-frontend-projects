@@ -61,11 +61,19 @@ function runBridge() {
 }
 
 /**
+ * Runs `webpack` with "webpack.config.js".
+ */
+function runWebpack() {
+	spawnSync('webpack');
+}
+
+/**
  * Main script that runs all all specified build tasks synchronously.
  *
- * Babel and liferay-npm-bundler are always run, liferay-npm-bridge-generator is
- * run if the corresponding .npmbridgerc config file is present, and soy is run
- * when soy files are detected.
+ * Babel and liferay-npm-bundler are always run,
+ * liferay-npm-bridge-generator and webpack are run if the corresponding
+ * ".npmbridgerc" and "webpack.config.js" files, respectively, are
+ * present, and soy is run when soy files are detected.
  */
 module.exports = function() {
 	const useSoy = soyExists();
@@ -75,6 +83,10 @@ module.exports = function() {
 	}
 
 	compileBabel();
+
+	if (fs.existsSync(path.join(CWD, 'webpack.config.js'))) {
+		runWebpack();
+	}
 
 	runBundler();
 
