@@ -24,11 +24,12 @@ module.exports = function(...args) {
 			// a new array instead.
 			const otherArgs = [
 				...args.slice(0, watch),
-				...args.slice(watch + 1),
+				...args.slice(watch + 1)
 			];
 
 			spawnSync('webpack-dev-server', [
-				'--config', WATCH_CONFIG_FILE,
+				'--config',
+				WATCH_CONFIG_FILE,
 				...otherArgs
 			]);
 		}
