@@ -11,6 +11,7 @@ const inquirer = require('inquirer');
 const GlobalModulePrompt = require('./global_module_prompt');
 const lfrThemeConfig = require('../liferay_theme_config');
 const NPMModulePrompt = require('./npm_module_prompt');
+const URLPackagePrompt = require('./url_package_prompt');
 const promptUtil = require('./prompt_util');
 const themeFinder = require('../theme_finder');
 const {getArgv} = require('../util');
@@ -141,12 +142,17 @@ class ExtendPrompt {
 			if (themeSource === 'global') {
 				GlobalModulePrompt.prompt(
 					config,
-					_.bind(this._afterPromptModule, this)
+					this._afterPromptModule.bind(this)
 				);
 			} else if (themeSource === 'npm') {
 				NPMModulePrompt.prompt(
 					config,
-					_.bind(this._afterPromptModule, this)
+					this._afterPromptModule.bind(this)
+				);
+			} else if (themeSource === 'url') {
+				URLPackagePrompt.prompt(
+					config,
+					this._afterPromptModule.bind(this)
 				);
 			}
 		}
@@ -216,6 +222,10 @@ class ExtendPrompt {
 			{
 				name: 'Search npm registry (published modules)',
 				value: 'npm',
+			},
+			{
+				name: 'Specify a package URL',
+				value: 'url',
 			},
 		];
 
