@@ -6,11 +6,15 @@
 
 const _ = require('lodash');
 const async = require('async');
+const child_process = require('child_process');
+const fs = require('fs');
 const globby = require('globby');
 const npmKeyword = require('npm-keyword');
+const os = require('os');
 const packageJson = require('package-json');
 const path = require('path');
 const spawn = require('cross-spawn');
+const {URL} = require('url');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
@@ -22,10 +26,7 @@ function getLiferayThemeModule(name, cb) {
 			name,
 		},
 		(err, pkg) => {
-			if (
-				(pkg && !pkg.liferayTheme) ||
-				(pkg && !_.includes(pkg.keywords, 'liferay-theme'))
-			) {
+			if (!isLiferayTheme(pkg)) {
 				pkg = null;
 
 				err = new Error(
@@ -36,6 +37,51 @@ function getLiferayThemeModule(name, cb) {
 			cb(err, pkg);
 		}
 	);
+}
+
+/**
+ * Given a package URL, attempts to download it, extract the package.json, and
+ * validate it.
+ */
+function getLiferayThemeModuleFromURL(url, cb) {
+	try {
+		// Throw if `url` is invalid.
+		new URL(url);
+
+		let config;
+
+		// Install the package in a temporary directory in order to get
+		// the package.json.
+		withScratchDirectory(() => {
+			child_process.spawnSync('npm', ['init', '-y']);
+
+			// Ideally, we wouldn't install any dependencies at all, but this is
+			// the closest we can get (production only, skipping optional
+			// dependencies).
+			child_process.spawnSync('npm', [
+				'install',
+				'--ignore-scripts',
+				'--no-optional',
+				'--production',
+				url,
+			]);
+
+			// Just in case package name doesn't match URL basename, read it.
+			const {dependencies} = JSON.parse(fs.readFileSync('package.json'));
+			const themeName = Object.keys(dependencies)[0];
+
+			const json = path.join('node_modules', themeName, 'package.json');
+			config = JSON.parse(fs.readFileSync(json));
+		});
+
+		if (!isLiferayTheme(config)) {
+			throw new Error(`URL ${url} is not a liferay-theme`);
+		} else {
+			return config;
+		}
+	} catch (err) {
+		cb(err);
+	}
 }
 
 function getLiferayThemeModules(config, cb) {
@@ -79,15 +125,40 @@ function getLiferayThemeModules(config, cb) {
 	});
 }
 
-module.exports = {getLiferayThemeModule, getLiferayThemeModules};
-
-const LiferayThemeModuleStatus = {
-	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
-	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
-	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
-	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
-	OK: 'OK',
+module.exports = {
+	getLiferayThemeModule,
+	getLiferayThemeModuleFromURL,
+	getLiferayThemeModules,
 };
+
+/**
+ * Execute `cb()` in the context of a temporary directory.
+ *
+ * Note that `cb()` should be entirely synchronous, because clean-up is
+ * performed as soon as it returns.
+ */
+function withScratchDirectory(cb) {
+	const template = path.join(os.tmpdir(), 'theme-finder-');
+	const directory = fs.mkdtempSync(template);
+
+	const cwd = process.cwd();
+
+	try {
+		process.chdir(directory);
+		cb();
+	} finally {
+		process.chdir(cwd);
+	}
+}
+
+function isLiferayTheme(config) {
+	return (
+		config &&
+		config.liferayTheme &&
+		config.keywords &&
+		config.keywords.indexOf('liferay-theme') !== -1
+	);
+}
 
 function reportDiscardedModules(moduleResults, outcome, message) {
 	if (moduleResults[outcome]) {
@@ -171,6 +242,14 @@ function getPackageJSON(theme, cb) {
 		.then(pkg => cb(null, pkg))
 		.catch(cb);
 }
+
+const LiferayThemeModuleStatus = {
+	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
+	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
+	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
+	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
+	OK: 'OK',
+};
 
 function getLiferayThemeModuleStatus(pkg, themelet) {
 	if (pkg) {
