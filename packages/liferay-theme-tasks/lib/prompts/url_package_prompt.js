@@ -47,7 +47,7 @@ class URLPackagePrompt {
 		answers.module = config.name;
 		answers.modules = {
 			[config.name]: Object.assign({}, config, {
-				realPath: answers.packageURL,
+				__realPath__: answers.packageURL,
 			}),
 		};
 		this.done(answers);
