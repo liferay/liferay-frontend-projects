@@ -67,6 +67,7 @@ class ExtendPrompt {
 		const baseTheme = this.themeConfig.baseTheme;
 		const module = answers.module;
 		const modulePackages = answers.modules;
+		const pkg = modulePackages[module];
 
 		if (!module) {
 			this.done();
@@ -78,15 +79,15 @@ class ExtendPrompt {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
 		}
 
-		const reducedPkg = this._reducePkgData(modulePackages[module]);
+		const reducedPkg = this._reducePkgData(pkg);
 
 		lfrThemeConfig.setConfig({
 			baseTheme: reducedPkg,
 		});
 
-		this._saveDependencies([reducedPkg]);
+		this._saveDependencies([pkg]);
 
-		this._installDependencies([reducedPkg], () => this.done());
+		this._installDependencies([pkg], () => this.done());
 	}
 
 	_afterPromptThemelets(answers) {
@@ -168,11 +169,12 @@ class ExtendPrompt {
 		const themeVersion = this.themeConfig.version;
 
 		return _.map(dependencies, item => {
-			const path = item.path;
+			const pathOrURL = item.__realPath__ || item.__packageURL__;
 
-			return path
-				? path
-				: item.name + this._getDistTag(item, themeVersion, '@');
+			return (
+				pathOrURL ||
+				item.name + this._getDistTag(item, themeVersion, '@')
+			);
 		});
 	}
 
@@ -328,9 +330,10 @@ class ExtendPrompt {
 		const dependencies = _.reduce(
 			updatedData,
 			(result, item) => {
-				const moduleVersion = item.path
-					? item.path
-					: this._getDistTag(item, themeVersion);
+				const moduleVersion =
+					item.__realPath__ ||
+					item.__packageURL__ ||
+					this._getDistTag(item, themeVersion);
 
 				result[item.name] = moduleVersion;
 

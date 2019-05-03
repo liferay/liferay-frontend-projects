@@ -304,7 +304,7 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 				version: '*',
 			},
 			name: 'themelet-2',
-			path: 'path/to/themelet-2',
+			__realPath__: 'path/to/themelet-2',
 			version: '1.0',
 		},
 		'themelet-3': {
@@ -395,7 +395,7 @@ it('_installDependencies should run child process that installs dependencies', d
 			if (err.cmd) {
 				expect(
 					err.cmd.indexOf(
-						'npm install themelet-1@* themelet-2@* themelet-3@*'
+						'npm install path/to/themelet-1 path/to/themelet-2 path/to/themelet-3'
 					) > -1
 				).toBe(true);
 			}
