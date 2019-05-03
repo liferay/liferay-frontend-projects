@@ -43,44 +43,39 @@ function getLiferayThemeModule(name, cb) {
  * Given a package URL, attempts to download it, extract the package.json, and
  * validate it.
  */
-function getLiferayThemeModuleFromURL(url, cb) {
-	try {
-		// Throw if `url` is invalid.
-		new URL(url);
+function getLiferayThemeModuleFromURL(url) {
+	new URL(url);
 
-		let config;
+	let config;
 
-		// Install the package in a temporary directory in order to get
-		// the package.json.
-		withScratchDirectory(() => {
-			child_process.spawnSync('npm', ['init', '-y']);
+	// Install the package in a temporary directory in order to get
+	// the package.json.
+	withScratchDirectory(() => {
+		child_process.spawnSync('npm', ['init', '-y']);
 
-			// Ideally, we wouldn't install any dependencies at all, but this is
-			// the closest we can get (production only, skipping optional
-			// dependencies).
-			child_process.spawnSync('npm', [
-				'install',
-				'--ignore-scripts',
-				'--no-optional',
-				'--production',
-				url,
-			]);
+		// Ideally, we wouldn't install any dependencies at all, but this is
+		// the closest we can get (production only, skipping optional
+		// dependencies).
+		child_process.spawnSync('npm', [
+			'install',
+			'--ignore-scripts',
+			'--no-optional',
+			'--production',
+			url,
+		]);
 
-			// Just in case package name doesn't match URL basename, read it.
-			const {dependencies} = JSON.parse(fs.readFileSync('package.json'));
-			const themeName = Object.keys(dependencies)[0];
+		// Just in case package name doesn't match URL basename, read it.
+		const {dependencies} = JSON.parse(fs.readFileSync('package.json'));
+		const themeName = Object.keys(dependencies)[0];
 
-			const json = path.join('node_modules', themeName, 'package.json');
-			config = JSON.parse(fs.readFileSync(json));
-		});
+		const json = path.join('node_modules', themeName, 'package.json');
+		config = JSON.parse(fs.readFileSync(json));
+	});
 
-		if (!isLiferayTheme(config)) {
-			throw new Error(`URL ${url} is not a liferay-theme`);
-		} else {
-			return config;
-		}
-	} catch (err) {
-		cb(err);
+	if (!isLiferayTheme(config)) {
+		throw new Error(`URL ${url} is not a liferay-theme`);
+	} else {
+		return config;
 	}
 }
 
