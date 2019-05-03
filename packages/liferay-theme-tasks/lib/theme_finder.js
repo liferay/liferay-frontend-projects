@@ -26,7 +26,7 @@ function getLiferayThemeModule(name, cb) {
 			name,
 		},
 		(err, pkg) => {
-			if (!isLiferayTheme(pkg)) {
+			if (pkg && !isLiferayTheme(pkg)) {
 				pkg = null;
 
 				err = new Error(
