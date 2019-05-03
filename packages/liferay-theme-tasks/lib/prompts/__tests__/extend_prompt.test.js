@@ -286,7 +286,7 @@ it('_filterExtendType should set _extendType to input arg', () => {
 	expect(prototype._extendType).toBe('themelet');
 });
 
-it('_getDependencyInstallationArray should return absolute path if present or name of module', () => {
+it('_getDependencyInstallationArray should return paths, URLs or names', () => {
 	const dependencies = prototype._getDependencyInstallationArray({
 		'themelet-1': {
 			liferayTheme: {
@@ -316,12 +316,22 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 			},
 			version: '1.0',
 		},
+		'themelet-4': {
+			liferayTheme: {
+				themelet: true,
+				version: '7.0',
+			},
+			name: 'themelet-4',
+			__packageURL__: 'https://registry.example.org/themelet-4-1.0.0.tgz',
+			version: '1.0',
+		},
 	});
 
 	expect(dependencies).toEqual([
 		'themelet-1@*',
 		'path/to/themelet-2',
 		'themelet-3@7_1_x',
+		'https://registry.example.org/themelet-4-1.0.0.tgz',
 	]);
 });
 
