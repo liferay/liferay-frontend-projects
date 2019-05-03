@@ -351,13 +351,13 @@ it('_getSelectedModules should pass', () => {
 it('_getThemeSourceChoices should return different choices based on _extendType property', () => {
 	let choices = prototype._getThemeSourceChoices();
 
-	expect(choices.length).toBe(2);
+	expect(choices.length).toBe(3);
 
 	prototype._extendType = 'theme';
 
 	choices = prototype._getThemeSourceChoices();
 
-	expect(choices).toHaveLength(5);
+	expect(choices).toHaveLength(6);
 });
 
 it('_getThemeSourceMessage should return appropriate message based on _extendType property', () => {
