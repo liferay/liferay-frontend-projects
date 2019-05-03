@@ -34,6 +34,10 @@ export default function() {
 		process.exit(2);
 	}
 
+	showMissingSupportedLocales();
+
+	createMissingSupportedLocalesFiles();
+
 	const localizationFiles = cfg.getLocalizationFiles();
 
 	const locales = Object.keys(localizationFiles).filter(
@@ -41,11 +45,15 @@ export default function() {
 	);
 
 	if (locales.length == 0) {
-		console.log('No locales found: nothing to translate.\n');
+		console.log(
+			'No locales found: nothing to translate.\n\n' +
+				'You can edit your .npmbuildrc file to add new supported ' +
+				"locales using the 'supportedLocales' array.\n"
+		);
 		return;
 	}
 
-	console.log(`Found ${locales.length} locales: ${locales.join(', ')}`);
+	console.log(`\nFound ${locales.length} locales: ${locales.join(', ')}\n`);
 
 	console.log('Adding missing translations:');
 
@@ -53,14 +61,11 @@ export default function() {
 		translateFile(subscriptionKey, locales, localizationFiles.default),
 		...locales.map(locale => parseFile(localizationFiles[locale])),
 	])
-		.then(([translation, ...labels]) => {
-			return addMissingTranslations(
-				translation,
-				arrayToMap(labels, locales)
-			);
-		})
+		.then(([translation, ...labels]) =>
+			addMissingTranslations(translation, arrayToMap(labels, locales))
+		)
 		.then(labels => {
-			console.log('Writing localization files:');
+			console.log('\nWriting localization files:');
 
 			Object.entries(labels).forEach(([locale, labels]) => {
 				fs.writeFileSync(
@@ -70,10 +75,14 @@ export default function() {
 				console.log(`  · Wrote ${localizationFiles[locale]}`);
 			});
 
-			console.log('Finished\n');
+			console.log('\nFinished\n');
 		})
 		.catch(err => {
-			console.error(err);
+			console.error(
+				'\nThere was an error translating files:\n\n' + ' ',
+				err,
+				'\n'
+			);
 			process.exit(1);
 		});
 }
@@ -189,6 +198,62 @@ export function makeChunks(texts) {
 }
 
 /**
+ * Show missing supported locales: those for which there's a .properties file
+ * but are not configured.
+ */
+function showMissingSupportedLocales() {
+	const localizationFiles = cfg.getLocalizationFiles();
+
+	const locales = Object.keys(localizationFiles).filter(
+		locale => locale != 'default'
+	);
+
+	const supportedLocales = cfg.getSupportedLocales();
+
+	const missingLocales = locales.filter(
+		locale => supportedLocales.indexOf(locale) == -1
+	);
+
+	if (missingLocales.length > 0) {
+		console.log(`Found ${missingLocales.length} unsupported locale files:`);
+
+		missingLocales.forEach(locale =>
+			console.log(`  · Found file for unsupported locale ${locale}`)
+		);
+
+		console.log(
+			'\n  You can edit your .npmbuildrc file to add these unsupported \n' +
+				'  locales or remove their .properties files to hide this warning.'
+		);
+	}
+}
+
+/**
+ * Creates missing locale files according to .npmbuildrc configuration
+ */
+function createMissingSupportedLocalesFiles() {
+	const localizationFiles = cfg.getLocalizationFiles();
+
+	const locales = Object.keys(localizationFiles).filter(
+		locale => locale != 'default'
+	);
+
+	const supportedLocales = cfg.getSupportedLocales();
+
+	const missingLocales = supportedLocales.filter(
+		locale => locales.indexOf(locale) == -1
+	);
+
+	if (missingLocales.length > 0) {
+		const localizationFile = cfg.getLocalizationFile();
+
+		missingLocales.forEach(locale =>
+			fs.writeFileSync(`${localizationFile}_${locale}.properties`, '')
+		);
+	}
+}
+
+/**
  * Parses a .properties file
  * @param {string} filePath
  * @return {Promise<object>} the map of properties
@@ -242,7 +307,7 @@ function translate(subscriptionKey, locales, texts) {
 						} else if (response.statusCode != 200) {
 							reject({
 								code: response.statusCode,
-								message: `HTTP error ${response.statusCode}`,
+								message: response.statusMessage,
 							});
 						} else if (body.error) {
 							reject(body.error);

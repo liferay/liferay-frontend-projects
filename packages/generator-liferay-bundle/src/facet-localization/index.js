@@ -53,6 +53,7 @@ export default class extends Generator {
 		const pkgJson = new PkgJsonModifier(this);
 
 		npmbuildrc.setTranslatorTextKey('');
+		npmbuildrc.setSupportedLocales([]);
 
 		npmbundlerrc.setFeature('localization', DEFAULT_LOCALIZATION);
 

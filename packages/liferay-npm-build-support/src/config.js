@@ -25,6 +25,7 @@ function loadConfig() {
 	// TODO: Extract this to liferay-npm-build-tools-common (see #213)
 
 	// Normalize configurations
+	normalize(npmbuildrc, 'supportedLocales', []);
 	normalize(npmbuildrc, 'webpack.mainModule', 'index.js');
 	normalize(npmbuildrc, 'webpack.rules', []);
 	normalize(npmbuildrc, 'webpack.extensions', ['.js']);
@@ -103,15 +104,29 @@ export function getWebpackPort() {
 }
 
 /**
+ * Get the list of supported locales
+ * @return {Array<string>}
+ */
+export function getSupportedLocales() {
+	return npmbuildrc.supportedLocales;
+}
+
+/**
+ * Get base name of localization files
+ * @return {string}
+ */
+export function getLocalizationFile() {
+	return prop.get(npmbundlerrc, 'create-jar.features.localization');
+}
+
+/**
  * Get the list of localization files for the project indexed by locale
  * abbreviation
  * @return {object}
  */
 export function getLocalizationFiles() {
-	const localizationFile = prop.get(
-		npmbundlerrc,
-		'create-jar.features.localization'
-	);
+	const localizationFile = getLocalizationFile();
+
 	const localizationDir = path.dirname(localizationFile);
 
 	const files = fs.readdirSync(localizationDir);
