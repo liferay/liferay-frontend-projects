@@ -31,8 +31,8 @@ class KickstartPrompt {
 
 		const pkg = answers.modules[module];
 
-		if (pkg && pkg.realPath) {
-			answers.modulePath = path.join(pkg.realPath, 'src');
+		if (pkg && pkg.__realPath__) {
+			answers.modulePath = path.join(pkg.__realPath__, 'src');
 
 			done(answers);
 		} else if (pkg) {

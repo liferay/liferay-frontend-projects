@@ -323,7 +323,7 @@ function searchGlobalModules(config, cb) {
 			try {
 				const json = require(path.join(item, 'package.json'));
 
-				json.realPath = item;
+				json.__realPath__ = item;
 
 				result.push(json);
 			} catch (err) {

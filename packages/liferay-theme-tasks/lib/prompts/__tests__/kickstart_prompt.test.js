@@ -93,12 +93,12 @@ it('_afterPromptModule should pass answers to done prop or invoke _installTempMo
 	expect(prototype.done.getCall(1).calledWith(answers)).toBe(true);
 });
 
-it('_afterPromptModule should set modulePath property of answers object if realPath exists in pkg', () => {
+it('_afterPromptModule should set modulePath property of answers object if __realPath__ exists in pkg', () => {
 	const answers = {
 		module: 'some-theme',
 		modules: {
 			'some-theme': {
-				realPath: '/path/to/some-theme',
+				__realPath__: '/path/to/some-theme',
 			},
 		},
 	};

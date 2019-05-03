@@ -311,12 +311,12 @@ class ExtendPrompt {
 	}
 
 	_reducePkgData(pkg) {
-		const realPath = pkg.realPath;
+		const __realPath__ = pkg.__realPath__;
 
 		pkg = _.pick(pkg, ['liferayTheme', 'name', 'publishConfig', 'version']);
 
-		if (realPath) {
-			pkg.path = realPath;
+		if (__realPath__) {
+			pkg.path = __realPath__;
 		}
 
 		return pkg;
