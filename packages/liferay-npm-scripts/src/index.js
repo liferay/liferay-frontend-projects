@@ -67,6 +67,10 @@ module.exports = function() {
 			require('./scripts/theme').run(...ARGS_ARRAY.slice(1));
 			break;
 
+		case 'webpack':
+			require('./scripts/webpack')(...ARGS_ARRAY.slice(1));
+			break;
+
 		default:
 			// eslint-disable-next-line no-console
 			console.log(
