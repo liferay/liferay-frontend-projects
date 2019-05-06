@@ -16,8 +16,8 @@ Now, let's go with the documentation:
 1. Most usual tasks:
 
    1. [How to create pure Javascript projects](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-generator-liferay-bundle)
-      1. [How to configure Liferay features in pure Javascript projects](https://github.com/liferay/liferay-npm-build-tools/wiki/Configuring-pure-javascript-projects)
-      2. [How to build the project](https://github.com/liferay/liferay-npm-build-tools/wiki/Running-build-npm-scripts)
+      1. [How to build the project](https://github.com/liferay/liferay-npm-build-tools/wiki/Running-build-npm-scripts)
+      2. [How to configure the project](https://github.com/liferay/liferay-npm-build-tools/wiki/Configuring-pure-javascript-projects)
    2. [[How to create mixed Java/Javascript projects]]
 
 2. More esoteric tasks:
