@@ -60,6 +60,7 @@ export default class extends Generator {
 		cp.copyFile('.gitignore');
 		cp.copyFile('.npmbuildrc');
 		cp.copyFile('.npmbundlerrc', {context});
+		cp.copyFile('.npmignore');
 		cp.copyDir('assets');
 	}
 
