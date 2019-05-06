@@ -12,7 +12,7 @@ The following sections explain the features you can use in OSGi bundles.
 
 ## Portlets
 
-> 👀 Needs JS Portlet Extender 1.0.0
+> 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.0.0
 
 When activated, the Extender creates a portlet on-the-fly that is rendered by calling the default exported function of the project's main module (see [[JS extended portlets entry point]] for more information on how to write the entry point function).
 
@@ -54,7 +54,7 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 ## Configuration
 
-> 👀 Needs JS Portlet Extender 1.1.0
+> 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.1.0
 
 Since [#232](https://github.com/liferay/liferay-npm-build-tools/issues/232), [#262](https://github.com/liferay/liferay-npm-build-tools/issues/262), and [#270](https://github.com/liferay/liferay-npm-build-tools/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
 

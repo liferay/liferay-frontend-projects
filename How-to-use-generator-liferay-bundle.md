@@ -58,7 +58,9 @@ See the following sections for a description of the available scripts.
 
 ### build
 
-This script places the output of `liferay-npm-bundler` in your project's `build` subfolder. The standard output contains the processed files and a JAR file, named upon the name and version of the project, that can be manually deployed to Liferay.
+This script places the output of `liferay-npm-bundler` in your project's `dist` subfolder. The standard output contains a JAR file, named upon the name and version of the project, that can be manually deployed to Liferay.
+
+Note that intermediate files are generated in the `build` subfolder, too.
 
 ### deploy
 
