@@ -11,8 +11,7 @@ npm install --save-dev liferay-npm-scripts
 ```json
 {
 	"scripts": {
-		"build": "liferay-npm-scripts build",
-		"eject": "liferay-npm-scripts eject"
+		"build": "liferay-npm-scripts build"
 	}
 }
 ```
@@ -78,16 +77,6 @@ liferay-npm-scripts theme build
 ```
 
 Runs the "build" task, providing it with the configuration it needs to find core dependencies such as the [`liferay-frontend-theme-styled` base theme files](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled).
-
-### eject
-
-**Note: this is a one-way operation. Once you eject, you can't go back.**
-
-```sh
-liferay-npm-scripts eject
-```
-
-Eject will remove `liferay-npm-scripts` as a dependency and write all of the necessary configuration files and replace npm scripts. To see the before and after, check out the [example](./example/eject).
 
 ## Config
 
