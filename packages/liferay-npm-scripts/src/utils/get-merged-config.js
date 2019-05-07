@@ -42,18 +42,16 @@ module.exports = function(type) {
 		case 'npmscripts': {
 			let presetConfig = {};
 
-			let userConfig = getUserConfig('.liferaynpmscriptsrc');
+			let userConfig = getUserConfig('liferaynpmscripts.js');
 
 			// Use default config if no user config exists
-			if (!userConfig) {
+			if (Object.keys(userConfig).length === 0) {
 				userConfig = require('../config/liferay-npm-scripts');
 			}
 
 			// Check for preset before creating config
 			if (userConfig.preset) {
-				presetConfig = require(`liferay-npm-scripts-preset-${
-					userConfig.preset
-				}`);
+				presetConfig = require(userConfig.preset);
 			}
 
 			return sortKeys(deepMerge([presetConfig, userConfig], true));

@@ -45,7 +45,7 @@ Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scr
 liferay-npm-scripts format
 ```
 
-Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `.liferaynpmscriptsrc` configuration. Or defaults seen [here](./src/config/liferay-npm-scripts.json#L7-L13).
+Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `liferaynpmscripts.js` configuration. Or defaults seen [here](./src/config/liferay-npm-scripts.json#L7-L13).
 
 ### test
 
@@ -91,38 +91,40 @@ Eject will remove `liferay-npm-scripts` as a dependency and write all of the nec
 
 ## Config
 
-If you need to add additional configuration you can do so by creating a `.liferaynpmscriptsrc` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.js).
+> Note: as of v2.x the config file was renamed from `.liferaynpmscriptsrc` to `liferaynpmscripts.js`
+
+If you need to add additional configuration you can do so by creating a `liferaynpmscripts.js` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.js).
 
 ### `preset`
 
-`.liferaynpmscriptsrc` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](../liferay-npm-scripts-preset-standard). If you want to create your own preset, you need to create an npm package named `liferay-npm-scripts-preset-{YOUR_NAME_HERE}` and include it as a dependency to your project. You can also extend from a preset by creating a `.liferaynpmscriptsrc` that looks something like...
-
-```json
-{
-	"preset": "standard",
-	"build": {
-		"input": "some/path/here"
-	}
-}
-```
-
-This will use `liferay-npm-scripts-preset-standard` and overwrite build.input to be `some/path/here`. If you want to add an additional dependency, you will have to do something like...
+`liferaynpmscripts.js` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](src/presets/standard/index). If you want to create your own preset, you need to create an npm package or a local dependency. You can also extend from a preset by creating a `liferaynpmscripts.js` that looks something like...
 
 ```js
-const standardPreset = require('liferay-npm-scripts-preset-standard');
+module.exports = {
+	preset: 'path/to/some/dependency'
+};
+
+// or npm package (this needs to also be specified in your package.json)
 
 module.exports = {
-	preset: 'standard',
+	preset: 'my-cool-preset'
+};
+```
+
+This will use the `standard` preset and add a dependency of `"asset-taglib"`. If you want to add an additional dependency, you will have to do something like...
+
+```js
+const standardPreset = require('liferay-npm-scripts/src/presets/standard/index');
+
+module.exports = {
+	preset: 'liferay-npm-scripts/src/presets/standard/index',
 	build: {
-		dependencies: [
-			...standardPreset.build.dependencies,
-			'my-new-dependency'
-		]
+		dependencies: [...standardPreset.build.dependencies, 'asset-taglib']
 	}
 };
 ```
 
-If you just set dependencies to be `['my-new-dependency']`, it will override the existing dependencies from `liferay-npm-scripts-preset-standard`.
+If you just set dependencies to be `['my-new-dependency']`, it will override the existing dependencies from the `standard` preset.
 
 ### Other Config
 
