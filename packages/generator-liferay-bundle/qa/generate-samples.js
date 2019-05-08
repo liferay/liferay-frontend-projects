@@ -61,23 +61,19 @@ const start = new Date();
 // Generate vanilla samples configuration
 [true, false].forEach(useBabel => {
 	[true, false].forEach(useLocalization => {
-		[true, false].forEach(useSettings => {
-			[true, false].forEach(usePreferences => {
-				[true, false].forEach(sampleWanted => {
-					writeConfig({
-						target: `vanilla-portlet`,
-						folder:
-							`vanilla-portlet` +
-							`-${useBabel ? 'es6' : 'es5'}` +
-							`-${useLocalization ? 'l10n' : 'nol10n'}` +
-							`-${useSettings ? 'sets' : 'nosets'}` +
-							`-${usePreferences ? 'prefs' : 'noprefs'}` +
-							`-${sampleWanted ? 'sample' : 'nosample'}`,
-						useLocalization,
-						useSettings,
-						usePreferences,
-						sampleWanted,
-					});
+		[true, false].forEach(useConfiguration => {
+			[true, false].forEach(sampleWanted => {
+				writeConfig({
+					target: `vanilla-portlet`,
+					folder:
+						`vanilla-portlet` +
+						`-${useBabel ? 'es6' : 'es5'}` +
+						`-${useLocalization ? 'l10n' : 'nol10n'}` +
+						`-${useConfiguration ? 'cfg' : 'nocfg'}` +
+						`-${sampleWanted ? 'sample' : 'nosample'}`,
+					useLocalization,
+					useConfiguration,
+					sampleWanted,
 				});
 			});
 		});
@@ -87,22 +83,18 @@ const start = new Date();
 // Generate framework samples configuration
 ['angular', 'metaljs', 'react', 'vuejs'].forEach(fw => {
 	[true, false].forEach(useLocalization => {
-		[true, false].forEach(useSettings => {
-			[true, false].forEach(usePreferences => {
-				[true, false].forEach(sampleWanted => {
-					writeConfig({
-						target: `${fw}-portlet`,
-						folder:
-							`${fw}-portlet` +
-							`-${useLocalization ? 'l10n' : 'nol10n'}` +
-							`-${useSettings ? 'sets' : 'nosets'}` +
-							`-${usePreferences ? 'prefs' : 'noprefs'}` +
-							`-${sampleWanted ? 'sample' : 'nosample'}`,
-						useLocalization,
-						useSettings,
-						usePreferences,
-						sampleWanted,
-					});
+		[true, false].forEach(useConfiguration => {
+			[true, false].forEach(sampleWanted => {
+				writeConfig({
+					target: `${fw}-portlet`,
+					folder:
+						`${fw}-portlet` +
+						`-${useLocalization ? 'l10n' : 'nol10n'}` +
+						`-${useConfiguration ? 'cfg' : 'nocfg'}` +
+						`-${sampleWanted ? 'sample' : 'nosample'}`,
+					useLocalization,
+					useConfiguration,
+					sampleWanted,
 				});
 			});
 		});
@@ -119,13 +111,13 @@ switch (argv.projects) {
 
 	case 'essential':
 		configs = [
-			'angular-portlet-l10n-sets-prefs-sample.json',
+			'angular-portlet-l10n-cfg-sample.json',
 			'export-bundle.json',
-			'metaljs-portlet-l10n-sets-prefs-sample.json',
-			'react-portlet-l10n-sets-prefs-sample.json',
-			'vanilla-portlet-es5-l10n-sets-prefs-sample.json',
-			'vanilla-portlet-es6-l10n-sets-prefs-sample.json',
-			'vuejs-portlet-l10n-sets-prefs-sample.json',
+			'metaljs-portlet-l10n-cfg-sample.json',
+			'react-portlet-l10n-cfg-sample.json',
+			'vanilla-portlet-es5-l10n-cfg-sample.json',
+			'vanilla-portlet-es6-l10n-cfg-sample.json',
+			'vuejs-portlet-l10n-cfg-sample.json',
 		];
 		break;
 
