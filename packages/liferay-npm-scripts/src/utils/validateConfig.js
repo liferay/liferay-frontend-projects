@@ -19,14 +19,11 @@ const validateConfig = (config, reqKeys, location = 'liferay-npm-scripts') => {
 	);
 
 	if (invalidKeys.length) {
-		// eslint-disable-next-line no-console
-		console.error(
-			`${location} config is not valid. Requires keys:\n    ${invalidKeys.join(
-				'\n    '
-			)}.`
+		throw new Error(
+			`${location} config is not valid. Requires keys: \`${invalidKeys.join(
+				'`, `'
+			)}\`.`
 		);
-
-		process.exit(1);
 	}
 };
 
