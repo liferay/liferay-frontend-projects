@@ -36,7 +36,7 @@ Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` fil
 liferay-npm-scripts lint
 ```
 
-Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts.json#L14-L20).
+Lint calls `check-source-formatting` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32)..
 
 ### format
 
@@ -44,7 +44,7 @@ Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scr
 liferay-npm-scripts format
 ```
 
-Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `liferaynpmscripts.js` configuration. Or defaults seen [here](./src/config/liferay-npm-scripts.json#L7-L13).
+Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
 
 ### test
 
@@ -80,13 +80,13 @@ Runs the "build" task, providing it with the configuration it needs to find core
 
 ## Config
 
-> Note: as of v2.x the config file was renamed from `.liferaynpmscriptsrc` to `liferaynpmscripts.js`
+> Note: as of v2.x the config file was renamed from `.liferaynpmscriptsrc` to `npmscripts.config.js`
 
-If you need to add additional configuration you can do so by creating a `liferaynpmscripts.js` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.js).
+If you need to add additional configuration you can do so by creating a `npmscripts.config.js` file at the root of your project. The default configuration of this file can be seen [here](./src/config/npmscripts.config.js).
 
 ### `preset`
 
-`liferaynpmscripts.js` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](src/presets/standard/index). If you want to create your own preset, you need to create an npm package or a local dependency. You can also extend from a preset by creating a `liferaynpmscripts.js` that looks something like...
+`npmscripts.config.js` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](src/presets/standard/index). If you want to create your own preset, you need to create an npm package or a local dependency. You can also extend from a preset by creating a `npmscripts.config.js` that looks something like...
 
 ```js
 module.exports = {
@@ -100,7 +100,7 @@ module.exports = {
 };
 ```
 
-This will use the `standard` preset and add a dependency of `"asset-taglib"`. If you want to add an additional dependency, you will have to do something like...
+If you want to extend from the standard preset and then add an additional dependency, you will have to do something like...
 
 ```js
 const standardPreset = require('liferay-npm-scripts/src/presets/standard/index');
