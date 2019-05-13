@@ -119,7 +119,12 @@ async function getDate(commitish) {
 }
 
 async function getPreviousReleasedVersion(before) {
-	const describe = await git('describe', '--abbrev=0', `${before}~`);
+	const describe = await git(
+		'describe',
+		'--abbrev=0',
+		'--tags',
+		`${before}~`
+	);
 	return describe.trim();
 }
 
