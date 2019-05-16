@@ -11,8 +11,7 @@ npm install --save-dev liferay-npm-scripts
 ```json
 {
 	"scripts": {
-		"build": "liferay-npm-scripts build",
-		"eject": "liferay-npm-scripts eject"
+		"build": "liferay-npm-scripts build"
 	}
 }
 ```
@@ -37,7 +36,7 @@ Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` fil
 liferay-npm-scripts lint
 ```
 
-Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scripts](./src/config/liferay-npm-scripts.json#L14-L20).
+Lint calls `check-source-formatting` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32)..
 
 ### format
 
@@ -45,7 +44,7 @@ Lint calls `check-source-formatting` for the globs specified in [liferay-npm-scr
 liferay-npm-scripts format
 ```
 
-Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `.liferaynpmscriptsrc` configuration. Or defaults seen [here](./src/config/liferay-npm-scripts.json#L7-L13).
+Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
 
 ### test
 
@@ -79,19 +78,42 @@ liferay-npm-scripts theme build
 
 Runs the "build" task, providing it with the configuration it needs to find core dependencies such as the [`liferay-frontend-theme-styled` base theme files](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled).
 
-### eject
-
-**Note: this is a one-way operation. Once you eject, you can't go back.**
-
-```sh
-liferay-npm-scripts eject
-```
-
-Eject will remove `liferay-npm-scripts` as a dependency and write all of the necessary configuration files and replace npm scripts. To see the before and after, check out the [example](./example/eject).
-
 ## Config
 
-If you need to add additional configuration you can do so by creating a `.liferaynpmscriptsrc` file at the root of your project. The default configuration of this file can be seen [here](./src/config/liferay-npm-scripts.json).
+> Note: as of v2.x the config file was renamed from `.liferaynpmscriptsrc` to `npmscripts.config.js`
+
+If you need to add additional configuration you can do so by creating a `npmscripts.config.js` file at the root of your project. The default configuration of this file can be seen [here](./src/config/npmscripts.config.js).
+
+### `preset`
+
+`npmscripts.config.js` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](src/presets/standard/index). If you want to create your own preset, you need to create an npm package or a local dependency. You can also extend from a preset by creating a `npmscripts.config.js` that looks something like...
+
+```js
+module.exports = {
+	preset: 'path/to/some/dependency'
+};
+
+// or npm package (this needs to also be specified in your package.json)
+
+module.exports = {
+	preset: 'my-cool-preset'
+};
+```
+
+If you want to extend from the standard preset and then add an additional dependency, you will have to do something like...
+
+```js
+const standardPreset = require('liferay-npm-scripts/src/presets/standard/index');
+
+module.exports = {
+	preset: 'liferay-npm-scripts/src/presets/standard/index',
+	build: {
+		dependencies: [...standardPreset.build.dependencies, 'asset-taglib']
+	}
+};
+```
+
+If you just set dependencies to be `['my-new-dependency']`, it will override the existing dependencies from the `standard` preset.
 
 ### Other Config
 

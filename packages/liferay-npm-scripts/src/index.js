@@ -11,7 +11,6 @@ if (!process.env.NODE_ENV) {
 
 const fs = require('fs');
 const minimist = require('minimist');
-const inquirer = require('inquirer');
 const path = require('path');
 const rimraf = require('rimraf');
 
@@ -33,22 +32,6 @@ module.exports = function() {
 	switch (type) {
 		case 'build':
 			require('./scripts/build')();
-			break;
-
-		case 'eject':
-			inquirer
-				.prompt({
-					default: false,
-					message:
-						'Are you sure you want to eject? This action is permanent.',
-					name: 'eject',
-					type: 'confirm'
-				})
-				.then(({eject}) => {
-					if (eject) {
-						require('./scripts/eject')();
-					}
-				});
 			break;
 
 		case 'format':
