@@ -16,6 +16,8 @@
 	},
 	"dependencies": {
 		"@babel/cli": "^7.2.3",
+		"@babel/plugin-proposal-class-properties": "7.4.4",
+		"@babel/plugin-proposal-object-rest-spread": "7.4.4",
 		"@babel/preset-env": "^7.4.2",
 		"check-source-formatting": "2.0.14",
 		"cross-env": "^5.2.0",
@@ -32,7 +34,7 @@
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
 		"rimraf": "^2.6.2",
-		"sort-keys": "^2.0.0",
+		"sort-keys": "^3.0.0",
 		"webpack": "^4.30.0",
 		"webpack-cli": "^3.3.1",
 		"webpack-dev-server": "^3.3.1"
