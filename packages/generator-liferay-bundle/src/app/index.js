@@ -10,6 +10,8 @@ import path from 'path';
 import {promptWithConfig} from '../utils';
 import Generator from 'yeoman-generator';
 
+import pkgJson from '../../package.json';
+
 /**
  * Default main generator that makes the user choose between available targets.
  */
@@ -18,6 +20,37 @@ export default class extends Generator {
 	 * Standard Yeoman initialization function
 	 */
 	async initializing() {
+		console.log(`
+*************************************************************
+
+                        WARNING !!!
+
+ Since version ${pkgJson.version} the liferay-bundle generator has been
+ renamed to liferay-js in order to unify Liferay Toolkits and
+ make them more coherent.
+
+ This means that this generator (generator-liferay-bundle)
+ will never be updated again. Only the new one
+ (generator-liferay-js) will be supported from now on.
+
+ Please run:
+	 
+		 npm install -g generator-liferay-js
+		 npm uninstall -g generator-liferay-bundle
+		 
+ to install the new generator and remove this one.
+
+ Then run:
+
+		 yo liferay-js
+		 
+ to continue using it as usual.
+
+ Sorry for any inconvenience.
+
+*************************************************************
+   `);
+
 		const targets = this._findTargets();
 
 		const answers = await promptWithConfig(this, 'app', [
