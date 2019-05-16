@@ -34,7 +34,7 @@
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
 		"rimraf": "^2.6.2",
-		"sort-keys": "^2.0.0",
+		"sort-keys": "^3.0.0",
 		"webpack": "^4.30.0",
 		"webpack-cli": "^3.3.1",
 		"webpack-dev-server": "^3.3.1"
