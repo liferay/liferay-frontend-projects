@@ -6,8 +6,13 @@
 
 const fs = require('fs');
 const spawnSync = require('../utils/spawnSync');
+const withBabelConfig = require('../utils/with-babel-config');
 
 const WATCH_CONFIG_FILE = 'webpack.config.dev.js';
+
+function spawn(command, args) {
+	withBabelConfig(() => spawnSync(command, args));
+}
 
 /**
  * Main function for running webpack within the liferay-portal repo.
@@ -27,13 +32,13 @@ module.exports = function(...args) {
 				...args.slice(watch + 1)
 			];
 
-			spawnSync('webpack-dev-server', [
+			spawn('webpack-dev-server', [
 				'--config',
 				WATCH_CONFIG_FILE,
 				...otherArgs
 			]);
 		}
 	} else {
-		spawnSync('webpack', args);
+		spawn('webpack', args);
 	}
 };
