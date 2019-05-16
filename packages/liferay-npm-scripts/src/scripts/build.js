@@ -9,12 +9,12 @@ const CWD = process.cwd();
 const fs = require('fs');
 const path = require('path');
 
-const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 const getMergedConfig = require('../utils/get-merged-config');
 const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
+const withBabelConfig = require('../utils/with-babel-config');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
@@ -24,16 +24,14 @@ const BUNDLER_CONFIG = getMergedConfig('bundler');
  * default) and source-maps enabled.
  */
 function compileBabel() {
-	setBabelConfig();
-
-	spawnSync('babel', [
-		BUILD_CONFIG.input,
-		'--out-dir',
-		BUILD_CONFIG.output,
-		'--source-maps'
-	]);
-
-	removeBabelConfig();
+	withBabelConfig(() => {
+		spawnSync('babel', [
+			BUILD_CONFIG.input,
+			'--out-dir',
+			BUILD_CONFIG.output,
+			'--source-maps'
+		]);
+	});
 }
 
 /**
