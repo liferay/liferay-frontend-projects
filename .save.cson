@@ -34,6 +34,9 @@
 "packages/generator-liferay-bundle/**/*": {
   command: "cd packages/generator-liferay-bundle && npm run build"
 }
+"packages/generator-liferay-js/**/*": {
+  command: "cd packages/generator-liferay-js && npm run build"
+}
 "packages/liferay-npm-bridge-generator/**/*.js": {
   command: "cd packages/liferay-npm-bridge-generator && npm run build"
 }
