@@ -25,15 +25,15 @@ export default class extends Generator {
 
                         WARNING !!!
 
- Since version ${pkgJson.version} the liferay-bundle generator has been 
- renamed to liferay-js to unify Liferay Toolkits and make
- them more coherent.
+ Since version ${pkgJson.version} the liferay-bundle generator has been
+ renamed to liferay-js in order to unify Liferay Toolkits and
+ make them more coherent.
 
  This means that this generator (generator-liferay-bundle)
- will never be updated again. Only the new one 
+ will never be updated again. Only the new one
  (generator-liferay-js) will be supported from now on.
 
- Please run: 
+ Please run:
 	 
 		 npm install -g generator-liferay-js
 		 npm uninstall -g generator-liferay-bundle
