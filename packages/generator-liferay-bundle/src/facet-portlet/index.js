@@ -33,7 +33,7 @@ export default class extends Generator {
 			{
 				type: 'input',
 				name: 'category',
-				message: 'Under which category should your portlet be listed?',
+				message: 'Under which category should your widget be listed?',
 				default: 'category.sample',
 			},
 		]);

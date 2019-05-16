@@ -35,7 +35,8 @@ export default class extends Generator {
 				name: 'useConfiguration',
 				message:
 					'Do you want to add configuration support?\n' +
-					'  (👀 needs JS Portlet Extender 1.1.0)',
+					'  (👀 needs Liferay DXP/Portal CE 7.1 with JS Portlet Extender 1.1.0\n' +
+					'      or Liferay DXP/Portal CE 7.2+)',
 				default: true,
 			},
 		]);
