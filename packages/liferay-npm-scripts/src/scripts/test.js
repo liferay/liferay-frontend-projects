@@ -13,10 +13,10 @@ const CWD = process.cwd();
 const fs = require('fs');
 const path = require('path');
 
-const {removeBabelConfig, setBabelConfig} = require('../utils/babel');
 const getMergedConfig = require('../utils/get-merged-config');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
+const withBabelConfig = require('../utils/with-babel-config');
 
 const JEST_CONFIG = getMergedConfig('jest');
 
@@ -30,19 +30,17 @@ module.exports = function(arrArgs = []) {
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
 
-	setBabelConfig();
-
 	if (useSoy) {
 		buildSoy();
 	}
 
-	spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)]);
+	withBabelConfig(() => {
+		spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)]);
+	});
 
 	if (useSoy) {
 		cleanSoy();
 	}
-
-	removeBabelConfig();
 
 	fs.unlinkSync(CONFIG_PATH);
 };
