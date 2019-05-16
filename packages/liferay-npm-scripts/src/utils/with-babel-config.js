@@ -18,13 +18,13 @@ function setBabelConfig() {
 	moveToTemp(CWD, '.babelrc', 'babel');
 
 	fs.writeFileSync(RC_PATH, JSON.stringify(BABEL_CONFIG));
-};
+}
 
 function removeBabelConfig() {
 	fs.unlinkSync(RC_PATH);
 
 	removeFromTemp(CWD, '.babelrc', 'babel');
-};
+}
 
 /**
  * Configures the Babel environment, executes `callback` (which is expected to
