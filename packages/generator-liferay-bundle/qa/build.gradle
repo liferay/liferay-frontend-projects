@@ -1,7 +1,0 @@
-task myTask(type:Exec) {
- 
-    workingDir '.'
- 
-    commandLine './setup.sh unzip-portal-snapshot-bundle'
- 
-}
