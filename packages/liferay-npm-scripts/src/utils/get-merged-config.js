@@ -17,10 +17,13 @@ module.exports = function(type) {
 	switch (type) {
 		case 'babel':
 			return sortKeys(
-				deepMerge([
-					require('../config/babel'),
-					getUserConfig('.babelrc', 'babel')
-				])
+				deepMerge(
+					[
+						require('../config/babel'),
+						getUserConfig('.babelrc', 'babel')
+					],
+					deepMerge.MODE.BABEL
+				)
 			);
 
 		case 'bundler':
@@ -54,7 +57,12 @@ module.exports = function(type) {
 				presetConfig = require(userConfig.preset);
 			}
 
-			return sortKeys(deepMerge([presetConfig, userConfig], true));
+			return sortKeys(
+				deepMerge(
+					[presetConfig, userConfig],
+					deepMerge.MODE.OVERWRITE_ARRAYS
+				)
+			);
 		}
 		default:
 			// eslint-disable-next-line no-console
