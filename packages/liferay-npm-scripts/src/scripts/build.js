@@ -39,17 +39,19 @@ function compileBabel() {
  * `liferay-npm-bundler` executable.
  */
 function runBundler() {
-	moveToTemp(CWD, '.npmbundlerrc');
+	try {
+		moveToTemp(CWD, '.npmbundlerrc');
 
-	const RC_PATH = path.join(CWD, '.npmbundlerrc');
+		const RC_PATH = path.join(CWD, '.npmbundlerrc');
 
-	fs.writeFileSync(RC_PATH, JSON.stringify(BUNDLER_CONFIG));
+		fs.writeFileSync(RC_PATH, JSON.stringify(BUNDLER_CONFIG));
 
-	spawnSync('liferay-npm-bundler');
+		spawnSync('liferay-npm-bundler');
 
-	fs.unlinkSync(RC_PATH);
-
-	removeFromTemp(CWD, '.npmbundlerrc');
+		fs.unlinkSync(RC_PATH);
+	} finally {
+		removeFromTemp(CWD, '.npmbundlerrc');
+	}
 }
 
 /**
