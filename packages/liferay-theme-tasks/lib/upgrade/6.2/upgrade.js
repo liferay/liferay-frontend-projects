@@ -68,20 +68,6 @@ module.exports = function(options) {
 		convertBootstrap.init();
 	});
 
-	gulp.task('upgrade:create-css-diff', function() {
-		const gulpCssDiff = require('./gulp_css_diff.js');
-
-		return gulp
-			.src('src/css/**/*')
-			.pipe(gulpCssDiff())
-			.pipe(plugins.concat('css.diff'))
-			.pipe(
-				gulp.dest('_backup', {
-					overwrite: true,
-				})
-			);
-	});
-
 	gulp.task('upgrade:dependencies', function(cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-6.2']);
 		lfrThemeConfig.setDependencies(
@@ -368,7 +354,6 @@ module.exports = function(options) {
 			'upgrade:convert-bootstrap',
 			'upgrade:config',
 			'upgrade:rename-core-files',
-			'upgrade:create-css-diff',
 			'upgrade:dependencies',
 			'upgrade:create-deprecated-mixins',
 			'upgrade:ftl-templates',
