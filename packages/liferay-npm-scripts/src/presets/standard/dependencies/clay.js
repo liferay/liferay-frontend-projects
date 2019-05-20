@@ -21,6 +21,7 @@ module.exports = [
 	'clay-label',
 	'clay-link',
 	'clay-list',
+	'clay-loading-indicator',
 	'clay-management-toolbar',
 	'clay-modal',
 	'clay-multi-select',
