@@ -426,7 +426,7 @@ export default class Loader {
 				new Error(
 					'The following problems where detected while ' +
 						'resolving modules:\n' +
-						resolutionErrors.join('\n')
+						resolutionErrors.map(line => `    · ${line}`).join('\n')
 				),
 				{resolutionErrors}
 			);
