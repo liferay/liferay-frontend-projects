@@ -151,7 +151,11 @@ describe('Loader', function() {
 	it('supports relative paths in local require', done => {
 		fetchResponse = {
 			resolvedModules: ['local-require/a', 'local-require/rel-path'],
-			moduleMap: {},
+			moduleMap: {
+				'local-require/rel-path': {
+					'./a': 'local-require/a',
+				},
+			},
 			configMap: {},
 			pathMap: {},
 		};
@@ -195,6 +199,7 @@ describe('Loader', function() {
 			resolvedModules: ['issue-140/a', 'issue-140/m1', 'issue-140/m2/m2'],
 			moduleMap: {
 				'issue-140/m1': {
+					'./a': 'issue-140/a',
 					'mapped-issue-140/a': 'issue-140/a',
 				},
 			},

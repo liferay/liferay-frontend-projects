@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PathResolver from './path-resolver';
-
 /**
  * A class that calls the server to resolve module dependencies.
  */
@@ -18,7 +16,6 @@ export default class DependencyResolver {
 	constructor(config) {
 		this._config = config;
 
-		this._pathResolver = new PathResolver();
 		this._cachedResolutions = {};
 	}
 

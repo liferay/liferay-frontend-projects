@@ -7,7 +7,6 @@
 import Config from './config';
 import DependencyResolver from './dependency-resolver';
 import ScriptLoader from './script-loader';
-import PathResolver from './path-resolver';
 import URLBuilder from './url-builder';
 import packageJson from '../../package.json';
 
@@ -27,8 +26,6 @@ export default class Loader {
 	 * 								window.document)
 	 */
 	constructor(config = null, document = null) {
-		this._pathResolver = new PathResolver();
-
 		this._config = new Config(config || window.__CONFIG__);
 
 		this._dependencyResolver = new DependencyResolver(this._config);
@@ -114,9 +111,7 @@ export default class Loader {
 		}
 
 		module.factory = factory;
-		module.dependencies = dependencies.map(dependency =>
-			this._pathResolver.resolvePath(name, dependency)
-		);
+		module.dependencies = dependencies;
 
 		module.define.resolve(args);
 	}
@@ -609,20 +604,14 @@ export default class Loader {
 	 */
 	_createLocalRequire(module) {
 		const config = this._config;
-		const pathResolver = this._pathResolver;
 
 		const localRequire = (moduleName, ...rest) => {
 			if (rest.length > 0) {
 				return this.require(moduleName, ...rest);
 			} else {
-				const resolvedPath = pathResolver.resolvePath(
-					module.name,
-					moduleName
-				);
-
 				const dependencyModule = config.getDependency(
 					module.name,
-					resolvedPath
+					moduleName
 				);
 
 				if (
