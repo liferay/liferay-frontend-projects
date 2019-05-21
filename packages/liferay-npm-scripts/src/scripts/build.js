@@ -15,6 +15,7 @@ const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 const withBabelConfig = require('../utils/with-babel-config');
+const webpack = require('./webpack');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
 const BUNDLER_CONFIG = getMergedConfig('bundler');
@@ -62,13 +63,6 @@ function runBridge() {
 }
 
 /**
- * Runs `webpack` with "webpack.config.js".
- */
-function runWebpack() {
-	spawnSync('webpack');
-}
-
-/**
  * Main script that runs all all specified build tasks synchronously.
  *
  * Babel and liferay-npm-bundler are always run,
@@ -92,7 +86,7 @@ module.exports = function() {
 	compileBabel();
 
 	if (fs.existsSync(path.join(CWD, 'webpack.config.js'))) {
-		runWebpack();
+		webpack();
 	}
 
 	runBundler();
