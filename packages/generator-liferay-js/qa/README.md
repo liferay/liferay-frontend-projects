@@ -11,7 +11,7 @@ instances that can be used to do QA testing in the project.
 
     ```
     {
-        "sdkVersion": "directory/of/your/local/liferay-npm-build-tools",
+        "sdkVersion": "directory/of/your/local/liferay-js-toolkit",
         "answers": {
                 "facet-deploy": {
                         "liferayPresent": true,
