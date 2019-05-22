@@ -1,4 +1,4 @@
-As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
+As of [#164](https://github.com/liferay/liferay-js-toolkit/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
 
 Some of the features available to OSGi bundles require the [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926) to be installed in the server and the [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender) option of `.npmbundlerrc` to be active.
 
@@ -6,7 +6,7 @@ Because there can be several versions of the Extender with increasing levels of 
 
 However, in case you want to deploy to older versions of the Extender because you have fallback code in your bundle when a feature is not provided by the Extender, you can force the version number directly or leave it unbounded so that your bundle deploys in any version of the Extender. Please see [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender) for more information on this.
 
-To finish with, see the [[How to use generator liferay bundle]] page if you need information on how to create this type of projects from scratch.
+To finish with, see the [[How to use generator liferay js]] page if you need information on how to create this type of projects from scratch.
 
 The following sections explain the features you can use in OSGi bundles.
 
@@ -18,7 +18,7 @@ When activated, the Extender creates a portlet on-the-fly that is rendered by ca
 
 ## Localization
 
-Since [#232](https://github.com/liferay/liferay-npm-build-tools/issues/232) you can use localization files in your projects. These files follow the standard format for Liferay bundles which is based on Java's [`ResourceBundle`](https://docs.oracle.com/javase/7/docs/api/java/util/ResourceBundle.html).
+Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232) you can use localization files in your projects. These files follow the standard format for Liferay bundles which is based on Java's [`ResourceBundle`](https://docs.oracle.com/javase/7/docs/api/java/util/ResourceBundle.html).
 
 Basically all you need to do to have localization is creating a `features/localization` folder in your project with a `Language.properties` file inside (but you can also override that location with the [`create-jar.features.localization`](.npmbundlerrc-file-reference#create-jarfeatureslocalization) configuration option).
 
@@ -56,7 +56,7 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 > 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.1.0
 
-Since [#232](https://github.com/liferay/liferay-npm-build-tools/issues/232), [#262](https://github.com/liferay/liferay-npm-build-tools/issues/262), and [#270](https://github.com/liferay/liferay-npm-build-tools/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
+Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
 
 The configuration can have diffent scopes:
 

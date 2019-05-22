@@ -2,8 +2,8 @@ This page is a compilation of miscellaneous external resources related to the pr
 
 ## Videos
 
-- A [talk](https://www.youtube.com/watch?v=ay0wy2_tLTA&index=6&t=0s&list=PLKb_gn-WO_Kr2J9kcDvDDlcciKoDXfOAq) on the first release of the npm SDK at Liferay DEVCON 2017
-- A [talk](https://www.youtube.com/watch?v=CyhR2l2eVSQ) on the improvements of npm SDK at LSNA 2018.
+- A [talk](https://www.youtube.com/watch?v=ay0wy2_tLTA&index=6&t=0s&list=PLKb_gn-WO_Kr2J9kcDvDDlcciKoDXfOAq) on the first release of the JS Toolkit at Liferay DEVCON 2017
+- A [talk](https://www.youtube.com/watch?v=CyhR2l2eVSQ) on the improvements of JS Toolkit at LSNA 2018.
 - The [previous talk but given in Spanish](https://www.youtube.com/watch?v=4BhPJhx__rc&index=15&list=PLKb_gn-WO_Ko0Zf7nffZ1kGDS8kWuUQNu&t=0s) at Spain Liferay Symposium 2018.
 - The [same talk but given again in English](https://www.youtube.com/watch?reload=9&v=domq2R5Z0jU&feature=youtu.be) at DEVCON 2018.
 

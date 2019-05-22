@@ -63,7 +63,7 @@ Let's see an example with the following `.npmbundlerrc` file (which is also the 
 }
 ```
 
-If we run `liferay-npm-bundler` with this file, it will apply the [config file](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/liferay-npm-bundler-preset-standard/config.json) found in `liferay-npm-bundler-preset-standard`:
+If we run `liferay-npm-bundler` with this file, it will apply the [config file](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler-preset-standard/config.json) found in `liferay-npm-bundler-preset-standard`:
 
 ```json
 {
@@ -86,20 +86,20 @@ If we run `liferay-npm-bundler` with this file, it will apply the [config file](
 
 This states that for all npm packages (`*`) the pre-process phase (`plugins`) must run the `replace-browser-modules` plugin (if we wanted to run that plugin during the post phase, it should say `post-plugins` instead of `plugins`).
 
-Looking at the [documentation](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md) of `replace-browser-modules` plugin we can see that this plugin replaces Javascript modules as defined under the `browser` section of `package.json`
+Looking at the [documentation](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md) of `replace-browser-modules` plugin we can see that this plugin replaces Javascript modules as defined under the `browser` section of `package.json`
 files. This means that, for each npm package that our project has as dependency, `liferay-npm-bundler` will make sure that each one having a `browser` section in its `package.json` files will have its server side files replaced by their counterpart browser versions.
 
 The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to use when running Babel through the packages'`.js` files. Please keep in mind that, in this phase, Babel is used to transform package files (for example to convert them to AMD format if necessary) not to transpile them (though, in theory, you could transpile them too if you wanted by configuring the proper plugins).
 
 In this example, we use the `liferay-standard` preset, that applies the following plugins according to
-[its documentation](https://github.com/liferay/liferay-npm-build-tools/tree/master/packages/babel-preset-liferay-amd):
+[its documentation](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/babel-preset-liferay-amd):
 
-1. [babel-plugin-normalize-requires](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-normalize-requires)
+1. [babel-plugin-normalize-requires](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-normalize-requires)
 2. [babel-plugin-transform-node-env-inline](https://www.npmjs.com/package/babel-plugin-transform-node-env-inline)
-3. [babel-plugin-wrap-modules-amd](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-wrap-modules-amd)
-4. [babel-plugin-name-amd-modules](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-name-amd-modules)
-5. [babel-plugin-namespace-modules](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-namespace-modules)
-6. [babel-plugin-namespace-amd-define](https://github.com/izaera/liferay-npm-build-tools/tree/master/packages/babel-plugin-namespace-amd-define)
+3. [babel-plugin-wrap-modules-amd](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-wrap-modules-amd)
+4. [babel-plugin-name-amd-modules](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-name-amd-modules)
+5. [babel-plugin-namespace-modules](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-namespace-modules)
+6. [babel-plugin-namespace-amd-define](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-namespace-amd-define)
 
 Checking the documentation of these plugins we find out that Babel will:
 
@@ -124,7 +124,7 @@ You can control what gets transformed and what doesn't at three levels:
 
 ## Creating OSGi bundles
 
-As of [#164](https://github.com/liferay/liferay-npm-build-tools/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
+As of [#164](https://github.com/liferay/liferay-js-toolkit/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
 
 See [[Creating OSGi bundles]] for a detailed explanation of this feature.
 

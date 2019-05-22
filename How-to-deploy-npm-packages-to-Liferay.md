@@ -48,7 +48,7 @@ This allows you to deploy an inline Javascript package (named `my-bundle-package
 
 The inline package must be directly placed under the OSGi's standard `META-INF/resources` folder and is defined by a standard npm `package.json` file.
 
-The packages inside `node_modules` have the same internal format followed by the npm tool and can be, in fact, copied (after, maybe, a little processing) from a standard `node_modules` folder. You can place as many npm packages as you want in the `node_modules` folder even different versions of the same package. You can also place none. 
+The packages inside `node_modules` have the same internal format followed by the npm tool and can be, in fact, copied (after, maybe, a little processing) from a standard `node_modules` folder. You can place as many npm packages as you want in the `node_modules` folder even different versions of the same package. You can also place none.
 
 Note, however, that in this case all the packages are at the same level and have a trailing `@x.y.z` suffix to acomodate different versions. That is not the case when you run `npm` where packages can be nested inside each others.
 
@@ -61,29 +61,29 @@ Given that [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader) f
 Let's see an example with `isobject@2.1.0` package. This package has a main module called `index.js` which contains the following code:
 
 ```javascript
-'use strict';
+"use strict";
 
-var isArray = require('isarray');
+var isArray = require("isarray");
 
 module.exports = function isObject(val) {
-	return val != null && typeof val === 'object' && isArray(val) === false;
+  return val != null && typeof val === "object" && isArray(val) === false;
 };
 ```
 
 This is clearly a CommonJS module, so we need to AMDify it before copying it to the `node_modules/isarray@2.1.0` folder. To do that, we simply wrap it inside an AMD `define` call like the following:
 
 ```javascript
-define('isobject@2.1.0/index', ['module', 'require', 'isarray'], function(
-	module,
-	require
+define("isobject@2.1.0/index", ["module", "require", "isarray"], function(
+  module,
+  require
 ) {
-	'use strict';
+  "use strict";
 
-	var isArray = require('isarray');
+  var isArray = require("isarray");
 
-	module.exports = function isObject(val) {
-		return val != null && typeof val === 'object' && isArray(val) === false;
-	};
+  module.exports = function isObject(val) {
+    return val != null && typeof val === "object" && isArray(val) === false;
+  };
 });
 ```
 
@@ -101,4 +101,4 @@ The following dependencies just state the modules on which this module depends. 
 
 Also note that Liferay has enough information in the `package.json` files to not only know that `isarray` refers to `isarray/index`, but also that it must be resolved to version `1.0.0` of such package, i.e., that `isarray/index` in this case, refers to `isarray@1.0.0/index`.
 
-In case you are wondering how to AMDifiy your modules, you can leverage [liferay-npm-bundler](https://github.com/liferay/liferay-npm-build-tools/blob/master/packages/liferay-npm-bundler) to do that for you 😉.
+In case you are wondering how to AMDifiy your modules, you can leverage [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler) to do that for you 😉.
