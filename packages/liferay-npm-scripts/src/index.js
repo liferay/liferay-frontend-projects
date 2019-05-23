@@ -4,11 +4,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-// Do this as the first thing so that any code reading it knows the right env.
-if (!process.env.NODE_ENV) {
-	process.env.NODE_ENV = 'production';
-}
-
 const fs = require('fs');
 const minimist = require('minimist');
 const path = require('path');
