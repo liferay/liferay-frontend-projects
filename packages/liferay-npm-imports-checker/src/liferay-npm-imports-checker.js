@@ -17,13 +17,13 @@ import semver from 'semver';
 import * as cfg from './config';
 
 const fmt = {
-	project: chalk.hex('#000090'),
-	import: chalk.hex('#000090'),
-	package: chalk.hex('#000090'),
+	project: chalk.hex('#505090').bgHex('#CCC'),
+	import: chalk.hex('#303090').bgHex('#CCC'),
+	package: chalk.hex('#000090').bgHex('#CCC'),
 
 	ignore: chalk.bold.hex('#008000'),
 	success: chalk.bold.hex('#008000'),
-	warn: chalk.bold.hex('#dddd00'),
+	warn: chalk.bold.hex('#DDDD00'),
 	error: chalk.bold.red,
 };
 
