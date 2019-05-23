@@ -154,19 +154,11 @@ function loadProjects() {
  * @param {string} projectPath
  */
 function looksLikeProjectDir(projectPath) {
-	if (fs.existsSync(path.join(projectPath, 'build.gradle'))) {
-		return true;
-	}
+	const fileNames = ['build.gradle', '.npmbundlerrc', '.npmbuildrc'];
 
-	if (fs.existsSync(path.join(projectPath, '.npmbundlerrc'))) {
-		return true;
-	}
-
-	if (fs.existsSync(path.join(projectPath, '.npmbuildrc'))) {
-		return true;
-	}
-
-	return false;
+	return fileNames.some(fileName =>
+		fs.existsSync(path.join(projectPath, fileName))
+	);
 }
 
 /**
