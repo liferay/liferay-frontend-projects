@@ -1,11 +1,11 @@
-liferay-npm-imports-checker is a tool to check `imports` sections of `.npmbundlerrc` files in a multiproject
+`liferay-npm-imports-checker` is a tool to check `imports` sections of `.npmbundlerrc` files in a multiproject
 source tree.
 
 This is normally used in builds containing multiple projects where some of them import packages from others. An example of such a project would be the [liferay-npm-bundler-2-example](https://github.com/izaera/liferay-npm-bundler-2-example), where [npm-angular5-portlet-say-hello](https://github.com/izaera/liferay-npm-bundler-2-example/tree/master/modules/npm-angular5-portlet-say-hello) imports packages from [npm-angular5-provider](https://github.com/izaera/liferay-npm-bundler-2-example/tree/master/modules/npm-angular5-provider) by means of a [.npmbundlerrc file](https://github.com/izaera/liferay-npm-bundler-2-example/blob/master/modules/npm-angular5-portlet-say-hello/.npmbundlerrc).
 
 When having projects like this one, a common problem is to guarantee that the `imports` in the `.npmbundlerrc` file match the versions in the provider. If such condition doesn't hold the project will fail in runtime with the loader saying that it cannot resolve some version.
 
-To avoid such runtime errors, you can leverage the liferay-npm-imports-checker to check that for you during build time and, thus, not deploying failing bundles.
+To avoid such runtime errors, you can leverage the `liferay-npm-imports-checker` tool to check that for you during build time and, thus, not deploying failing bundles.
 
 ## Installation
 
@@ -82,10 +82,10 @@ You can pass the following arguments to the tool (from the command line):
 
 * **--help**: shows help about accepted command line arguments.
 
-* **--version**: when given, shows the liferay-npm-imports-checker version.
+* **--version**: when given, shows the `liferay-npm-imports-checker` version.
 
 * **--check-project-versions**: same as `check-project-versions: true` in the configuration file.
 
-* **--write-ignores**: when given, the liferay-npm-imports-checker will update the `ignore` section of your `.npmimportscheckerrc` file with those projects that failed. This can be used to obtain an initial `.npmimportscheckerrc` file than can then be tweaked manually.
+* **--write-ignores**: when given, the `liferay-npm-imports-checker` tool will update the `ignore` section of your `.npmimportscheckerrc` file with those projects that failed. This can be used to obtain an initial `.npmimportscheckerrc` file than can then be tweaked manually.
 
 * **--show-projects-load**: when given, the tool will log all projects found inside the source tree. This can be useful to fix issues and/or enhance the performance of the tool by ignoring spurious detected projects.
