@@ -74,6 +74,8 @@ For example, if you configure:
 ```
 the tool will completely skip (it won't even look inside) folders named `build` or `classes` when doing the checks. However, note that the `node_modules` folder is excluded by default and you don't need to add it to the configuration file.
 
+* `check-project-versions`: when set to true, it not only matches semver constraints in `.npmbundlerrc` against the provider, but also against the project's `node_modules` folder to make sure that the constraints in `package.json` and `.npmbundlerrc` are compatible. This is interesting if you are running tests against the imported packages, for example, so that you run the tests with a version compatible with the one being used in runtime.
+
 ## Command line arguments
 
 You can pass the following arguments to the tool (from the command line):
@@ -82,6 +84,8 @@ You can pass the following arguments to the tool (from the command line):
 
 * **--version**: when given, shows the liferay-npm-imports-checker version.
 
-* **--check-package-json**: when given, it not only matches semver constraints in `.npmbundlerrc` against the provider, but also against the project's `node_modules` folder to make sure that the constraints in `package.json` and `.npmbundlerrc` are compatible. This is interesting if you are running tests against the imported packages, for example, so that you run the tests with a version compatible with the one being used in runtime.
+* **--check-project-versions**: same as `check-project-versions: true` in the configuration file.
 
 * **--write-ignores**: when given, the liferay-npm-imports-checker will update the `ignore` section of your `.npmimportscheckerrc` file with those projects that failed. This can be used to obtain an initial `.npmimportscheckerrc` file than can then be tweaked manually.
+
+* **--show-projects-load**: when given, the tool will log all projects found inside the source tree. This can be useful to fix issues and/or enhance the performance of the tool by ignoring spurious detected projects.
