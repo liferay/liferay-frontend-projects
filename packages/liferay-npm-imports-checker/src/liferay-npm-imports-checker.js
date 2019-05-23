@@ -106,7 +106,6 @@ function loadProjects() {
 			);
 
 			const pkgJsonDir = path.dirname(pkgJsonPath);
-			const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 
 			if (!looksLikeProjectDir(pkgJsonDir)) {
 				return;
@@ -114,7 +113,17 @@ function loadProjects() {
 
 			try {
 				const pkgJson = readJsonSync(pkgJsonPath);
+				const project = projects[pkgJson.name];
 
+				if (project) {
+					msg(0, fmt.warn('Duplicate projects found in:'));
+					msg(1, `- ${pkgJsonDir}`);
+					msg(1, `- ${project.dir}`);
+
+					return;
+				}
+
+				const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 				const npmBundlerRc = safeReadJsonSync(npmBundlerRcPath);
 
 				if (npmBundlerRc.config && npmBundlerRc.config.imports) {
@@ -154,10 +163,6 @@ function looksLikeProjectDir(projectPath) {
 	}
 
 	if (fs.existsSync(path.join(projectPath, '.npmbuildrc'))) {
-		return true;
-	}
-
-	if (fs.existsSync(path.join(projectPath, 'node_modules'))) {
 		return true;
 	}
 
