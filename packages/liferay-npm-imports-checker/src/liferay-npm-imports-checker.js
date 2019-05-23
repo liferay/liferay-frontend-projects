@@ -17,13 +17,13 @@ import semver from 'semver';
 import * as cfg from './config';
 
 const fmt = {
-	project: chalk.hex('#000090'),
-	import: chalk.hex('#000090'),
-	package: chalk.hex('#000090'),
+	project: chalk.hex('#505090').bgHex('#CCC'),
+	import: chalk.hex('#303090').bgHex('#CCC'),
+	package: chalk.hex('#000090').bgHex('#CCC'),
 
 	ignore: chalk.bold.hex('#008000'),
 	success: chalk.bold.hex('#008000'),
-	warn: chalk.bold.hex('#dddd00'),
+	warn: chalk.bold.hex('#DDDD00'),
 	error: chalk.bold.red,
 };
 
@@ -67,7 +67,7 @@ function processArguments(args) {
 			'liferay-npm-imports-checker',
 			'[-h|--help]',
 			'[-v|--version]',
-			'[-p|--check-package-json]',
+			'[-p|--check-project-versions]',
 			'[-i|--write-ignores]',
 			'[-l|--show-projects-load]'
 		);
@@ -106,16 +106,24 @@ function loadProjects() {
 			);
 
 			const pkgJsonDir = path.dirname(pkgJsonPath);
-			const buildGradlePath = path.join(pkgJsonDir, 'build.gradle');
-			const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 
-			if (!fs.existsSync(buildGradlePath)) {
+			if (!looksLikeProjectDir(pkgJsonDir)) {
 				return;
 			}
 
 			try {
 				const pkgJson = readJsonSync(pkgJsonPath);
+				const project = projects[pkgJson.name];
 
+				if (project) {
+					msg(0, fmt.warn('Duplicate projects found in:'));
+					msg(1, `- ${pkgJsonDir}`);
+					msg(1, `- ${project.dir}`);
+
+					return;
+				}
+
+				const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 				const npmBundlerRc = safeReadJsonSync(npmBundlerRcPath);
 
 				if (npmBundlerRc.config && npmBundlerRc.config.imports) {
@@ -139,6 +147,18 @@ function loadProjects() {
 		});
 
 	return projects;
+}
+
+/**
+ * Guess if a certain folder contains a project.
+ * @param {string} projectPath
+ */
+function looksLikeProjectDir(projectPath) {
+	const fileNames = ['build.gradle', '.npmbundlerrc', '.npmbuildrc'];
+
+	return fileNames.some(fileName =>
+		fs.existsSync(path.join(projectPath, fileName))
+	);
 }
 
 /**
