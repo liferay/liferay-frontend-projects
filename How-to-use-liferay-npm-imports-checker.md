@@ -27,7 +27,7 @@ To do so, you must have something similar to this in your `package.json` file:
 
 Where the `...` refers to any previous step you need to perform like, for example, running tests or checking source code format.
 
-When the tool is run, it scans all subdirectories for projects containing both a `build.gradle` and a `package.json` file. This identifies projects containing and/or using npm packages.
+When the tool is run, it scans all subdirectories for directories that contain and/or use npm packages and look like a project (those containing a `build.gradle`, `.npmbundlerrc` or `.npmbuildrc` file, or a `node_modules` folder).
 
 After that, it checks, among those projects, the ones containing a `.npmbundlerrc` file with an `imports` section and tests if the semver constraints in them match the versions exported by the providers.
 
