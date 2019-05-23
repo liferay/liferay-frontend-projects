@@ -287,5 +287,64 @@ describe('deepMerge()', () => {
 				);
 			}).toThrow(/malformed item/);
 		});
+
+		it('complains about non-shorthand "@babel/plugin-foo"', () => {
+			expect(() => {
+				deepMerge(
+					[{plugins: []}, {plugins: ['@babel/plugin-foo']}],
+					deepMerge.MODE.BABEL
+				);
+			}).toThrow('expected "@babel/foo"');
+		});
+
+		it('complains about non-shorthand "@org/babel-plugin-foo"', () => {
+			expect(() => {
+				deepMerge(
+					[{plugins: []}, {plugins: ['@org/babel-plugin-foo']}],
+					deepMerge.MODE.BABEL
+				);
+			}).toThrow('expected "@org/foo"');
+		});
+
+		it('complains about non-shorthand "babel-plugin-foo"', () => {
+			expect(() => {
+				deepMerge(
+					[{plugins: []}, {plugins: ['babel-plugin-foo']}],
+					deepMerge.MODE.BABEL
+				);
+			}).toThrow('expected "foo"');
+		});
+
+		it('complains about non-canonical "@babel/foo"', () => {
+			// Note that this one is the odd one out in the sense that
+			// Babel does understand both "@babel/preset-foo" and
+			// "@babel/foo", but in the docs it recommends the long-hand
+			// form. This is unlike plugins, where it again understands
+			// both, but recommends the short-hand form.
+			expect(() => {
+				deepMerge(
+					[{presets: []}, {presets: ['@babel/foo']}],
+					deepMerge.MODE.BABEL
+				);
+			}).toThrow('expected "@babel/preset-foo"');
+		});
+
+		it('complains about non-shorthand "@org/babel-preset-foo"', () => {
+			expect(() => {
+				deepMerge(
+					[{presets: []}, {presets: ['@org/babel-preset-foo']}],
+					deepMerge.MODE.BABEL
+				);
+			}).toThrow('expected "@org/foo"');
+		});
+
+		it('complains about non-shorthand "babel-preset-foo"', () => {
+			expect(() => {
+				deepMerge(
+					[{presets: []}, {presets: ['babel-preset-foo']}],
+					deepMerge.MODE.BABEL
+				);
+			}).toThrow('expected "foo"');
+		});
 	});
 });
