@@ -45,11 +45,60 @@ function getItemDescription(item) {
 	}
 }
 
-function getBabelName(item) {
+/**
+ * Checks the supplied Babel preset or plugin name to confirm that
+ * it has been normalized to conventional "shorthand" form, so that
+ * names can be compared reliably.
+ *
+ * @see https://babeljs.io/docs/en/plugins#plugin-shorthand
+ * @see https://babeljs.io/docs/en/presets#preset-shorthand
+ */
+function checkBabelName(name, kind) {
+	const NORMALIZERS = {
+		plugin: {
+			// @babel/plugin-foo -> @babel/foo
+			'^@babel/(?:plugin-)?([\\w-]+)': '@babel/$1',
+
+			// @org/babel-plugin-foo -> @org/foo
+			// babel-plugin-foo      -> foo
+			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2'
+		},
+		preset: {
+			// @babel/preset-foo -> @babel/preset-foo
+			// @babel/foo        -> @babel/preset-foo
+			'^@babel/(?:preset-)?([\\w-]+)': '@babel/preset-$1',
+
+			// @org/babel-preset-foo -> @org/foo
+			// babel-preset-foo      -> foo
+			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2'
+		}
+	};
+
+	Object.entries(NORMALIZERS[kind]).reduce((done, [pattern, replacement]) => {
+		if (!done) {
+			const regExp = new RegExp(pattern);
+			if (regExp.test(name)) {
+				const normalized = name.replace(regExp, replacement);
+				if (normalized !== name) {
+					throw new Error(
+						`checkBabelName(): expected "${normalized}", got "${name}"`
+					);
+				}
+				done = true;
+			}
+		}
+
+		return done;
+	}, false);
+
+	return name;
+}
+
+function getBabelName(item, kind) {
 	if (typeof item === 'string') {
-		return item;
+		return checkBabelName(item, kind);
 	} else if (Array.isArray(item) && typeof item[0] === 'string') {
-		return item[0];
+		return checkBabelName(item[0], kind);
 	} else {
 		throw new Error(
 			`getBabelName(): malformed item ${getItemDescription(item)}`
@@ -77,15 +126,20 @@ function getBabelOptions(item) {
  * Custom merge that knows how to merge "plugins" and "presets".
  */
 function babelMerge(key) {
-	if (key === 'plugins' || key === 'presets') {
+	const kind = {
+		plugins: 'plugin',
+		presets: 'preset'
+	}[key];
+
+	if (kind === 'plugin' || kind === 'preset') {
 		return function(target, source, options) {
 			// Create a mutable copy of `source`.
 			const pending = source.slice();
 
 			const result = target.map(targetItem => {
-				const targetName = getBabelName(targetItem);
+				const targetName = getBabelName(targetItem, kind);
 				const sourceIndex = pending.findIndex(sourceItem => {
-					const sourceName = getBabelName(sourceItem);
+					const sourceName = getBabelName(sourceItem, kind);
 					return sourceName === targetName;
 				});
 				if (sourceIndex !== -1) {
@@ -109,7 +163,7 @@ function babelMerge(key) {
 
 			return result.concat(
 				pending.map(item => {
-					const itemName = getBabelName(item);
+					const itemName = getBabelName(item, kind);
 					const itemOptions = getBabelOptions(item);
 					return itemOptions ? [itemName, itemOptions] : itemName;
 				})
