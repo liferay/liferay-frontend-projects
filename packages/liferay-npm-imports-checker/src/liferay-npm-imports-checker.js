@@ -67,7 +67,7 @@ function processArguments(args) {
 			'liferay-npm-imports-checker',
 			'[-h|--help]',
 			'[-v|--version]',
-			'[-p|--check-package-json]',
+			'[-p|--check-project-versions]',
 			'[-i|--write-ignores]',
 			'[-l|--show-projects-load]'
 		);
