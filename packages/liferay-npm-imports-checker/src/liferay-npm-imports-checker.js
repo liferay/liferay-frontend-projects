@@ -106,10 +106,9 @@ function loadProjects() {
 			);
 
 			const pkgJsonDir = path.dirname(pkgJsonPath);
-			const buildGradlePath = path.join(pkgJsonDir, 'build.gradle');
 			const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 
-			if (!fs.existsSync(buildGradlePath)) {
+			if (!looksLikeProjectDir(pkgJsonDir)) {
 				return;
 			}
 
@@ -139,6 +138,30 @@ function loadProjects() {
 		});
 
 	return projects;
+}
+
+/**
+ * Guess if a certain folder contains a project.
+ * @param {string} projectPath
+ */
+function looksLikeProjectDir(projectPath) {
+	if (fs.existsSync(path.join(projectPath, 'build.gradle'))) {
+		return true;
+	}
+
+	if (fs.existsSync(path.join(projectPath, '.npmbundlerrc'))) {
+		return true;
+	}
+
+	if (fs.existsSync(path.join(projectPath, '.npmbuildrc'))) {
+		return true;
+	}
+
+	if (fs.existsSync(path.join(projectPath, 'node_modules'))) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
