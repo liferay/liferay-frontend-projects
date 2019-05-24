@@ -13,7 +13,7 @@ const getUserConfig = require('./get-user-config');
  * Helper to get JSON configs
  * @param {string} type Name of configuration
  */
-module.exports = function(type) {
+function getMergedConfig(type) {
 	switch (type) {
 		case 'babel':
 			return sortKeys(
@@ -64,8 +64,10 @@ module.exports = function(type) {
 				)
 			);
 		}
+
 		default:
-			// eslint-disable-next-line no-console
-			console.log(`'${type}' is not a valid config`);
+			throw new Error(`'${type}' is not a valid config`);
 	}
-};
+}
+
+module.exports = getMergedConfig;
