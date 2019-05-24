@@ -11,6 +11,7 @@ const path = require('path');
 
 const getMergedConfig = require('../utils/get-merged-config');
 const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
+const setEnv = require('../utils/set-env');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
@@ -71,6 +72,8 @@ function runBridge() {
  * present, and soy is run when soy files are detected.
  */
 module.exports = function() {
+	setEnv('production');
+
 	validateConfig(
 		BUILD_CONFIG,
 		['input', 'output', 'dependencies'],
