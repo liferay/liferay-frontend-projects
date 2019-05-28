@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
 import prop from 'dot-prop';
+import fs from 'fs';
 import path from 'path';
 import properties from 'properties';
 import readJsonSync from 'read-json-sync';
@@ -23,7 +23,8 @@ export class Project {
 			? readJsonSync(npmbundlerrcPath)
 			: {};
 
-		this._labels = {};
+		this._cachedLabels = {};
+		this._cachedLocalizationFiles = undefined;
 	}
 
 	get supportsLocalization() {
@@ -54,21 +55,21 @@ export class Project {
 			return undefined;
 		}
 
-		if (this._labels[locale]) {
-			return this._labels[locale];
+		if (this._cachedLabels[locale]) {
+			return this._cachedLabels[locale];
 		}
 
 		const filePath = this._localizationFiles[locale];
 
 		if (filePath) {
-			this._labels[locale] = properties.parse(
+			this._cachedLabels[locale] = properties.parse(
 				fs.readFileSync(filePath).toString()
 			);
 		} else {
-			this._labels[locale] = {};
+			this._cachedLabels[locale] = {};
 		}
 
-		return this._labels[locale];
+		return this._cachedLabels[locale];
 	}
 
 	/**
@@ -84,22 +85,22 @@ export class Project {
 			return undefined;
 		}
 
-		if (this.__localizationFiles) {
-			return this.__localizationFiles;
+		if (this._cachedLocalizationFiles) {
+			return this._cachedLocalizationFiles;
 		}
 
 		const localizationDir = path.dirname(localizationFileBaseName);
 
 		const files = fs.readdirSync(localizationDir);
 
-		this.__localizationFiles = files.reduce(
+		this._cachedLocalizationFiles = files.reduce(
 			(map, file) => (
 				(map[getLocale(file)] = path.join(localizationDir, file)), map
 			),
 			{}
 		);
 
-		return this.__localizationFiles;
+		return this._cachedLocalizationFiles;
 	}
 
 	get _localizationFileBaseName() {
@@ -129,7 +130,7 @@ export default new Project('.');
 function getLocale(fileName) {
 	const start = fileName.indexOf('_');
 
-	if (start == -1) {
+	if (start === -1) {
 		return 'default';
 	}
 
