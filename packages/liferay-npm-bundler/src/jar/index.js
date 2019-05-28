@@ -7,6 +7,7 @@
 import fs from 'fs-extra';
 import globby from 'globby';
 import JSZip from 'jszip';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
@@ -207,7 +208,10 @@ function addPortletInstanceConfigurationFile(zip) {
 		return;
 	}
 
-	const ddmJson = ddm.transformPreferences(portletInstanceConfigJson);
+	const ddmJson = ddm.transformPreferences(
+		project,
+		portletInstanceConfigJson
+	);
 
 	zip.folder('features').file(
 		'portlet_preferences.json',

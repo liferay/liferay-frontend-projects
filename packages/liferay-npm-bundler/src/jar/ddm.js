@@ -6,26 +6,27 @@
 
 /**
  * Transform a preferences.json file into a DDM form JSON definition
+ * @param {Project} project the project descriptor
  * @param {object} preferencesJson a preferences JSON object
  * @return {object} a DDM form JSON object
  */
-export function transformPreferences(preferencesJson) {
+export function transformPreferences(project, preferencesJson) {
 	return {
-		availableLanguageIds: [],
+		availableLanguageIds: project.availableLocales || [],
 		fields: Object.entries(preferencesJson.fields).map(([name, props]) => {
 			const field = {
 				name,
-				label: localized(props.name || name),
+				label: localized(project, props.name || name),
 			};
 
 			Object.assign(field, getTypeProps(props));
 
 			if (props.description) {
-				field.tip = localized(props.description);
+				field.tip = localized(project, props.description);
 			}
 
 			if (props.default) {
-				field.predefinedValue = getPredefinedValue(props);
+				field.predefinedValue = getPredefinedValue(project, props);
 			}
 
 			if (props.required !== undefined) {
@@ -42,7 +43,7 @@ export function transformPreferences(preferencesJson) {
 				Object.entries(props.options).forEach(([key, value]) => {
 					field.options.push({
 						value: key,
-						label: localized(value),
+						label: localized(project, value),
 					});
 				});
 			}
@@ -54,10 +55,11 @@ export function transformPreferences(preferencesJson) {
 
 /**
  * Get a predefinedValue DDM object for a given field
+ * @param {Project} project the project descriptor
  * @param {object} props the field props (in preferences.json format)
  * @return {*} the predefinedValue DDM object
  */
-function getPredefinedValue(props) {
+function getPredefinedValue(project, props) {
 	if (props.options) {
 		// DDM uses JSON inside a JSON, so we do this to make sure this code is
 		// maintenable and doesn't break anything
@@ -65,9 +67,23 @@ function getPredefinedValue(props) {
 
 		json = json.replace(/{"value":(.*)}/, '$1');
 
-		return localized(json);
-	} else {
-		return localized(props.default);
+		return {'': json};
+	}
+
+	switch (props.type) {
+		case 'string':
+			return localized(project, props.default);
+
+		case 'number':
+		case 'float':
+		case 'boolean':
+			return {'': props.default};
+
+		case 'password':
+			throw new Error('Password fields are not supported in preferences');
+
+		default:
+			throw new Error(`Unknown field type: ${props.type}`);
 	}
 }
 
@@ -120,11 +136,26 @@ function getTypeProps(props) {
 /**
  * Transform a string into a localized DDM value (the string is used as the
  * default locale value)
+ * @param {Project} project the project descriptor
  * @param {string} string the string to localize
  * @return {object} the DDM localized value
  */
-function localized(string) {
-	return {
-		'': string,
-	};
+function localized(project, string) {
+	if (!project.supportsLocalization) {
+		return {'': string};
+	}
+
+	const obj = {};
+
+	let labels = project.getLabels();
+
+	obj[''] = labels[string];
+
+	project.availableLocales.forEach(locale => {
+		labels = project.getLabels(locale);
+
+		obj[locale] = labels[string];
+	});
+
+	return obj;
 }
