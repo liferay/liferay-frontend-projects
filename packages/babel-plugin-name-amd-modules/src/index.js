@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
@@ -13,9 +19,17 @@ import readJsonSync from 'read-json-sync';
 export default function({types: t}) {
 	const nameVisitor = {
 		ExpressionStatement(path, state) {
-			const {node: {expression}} = path;
-			const {file: {opts: {filenameRelative}}} = state;
-			const {opts: {packageName, srcPrefixes}} = state;
+			const {
+				node: {expression},
+			} = path;
+			const {
+				file: {
+					opts: {filenameRelative},
+				},
+			} = state;
+			const {
+				opts: {packageName, srcPrefixes},
+			} = state;
 			const {log} = state;
 
 			if (t.isCallExpression(expression)) {
@@ -28,27 +42,32 @@ export default function({types: t}) {
 					let unshiftName = true;
 
 					switch (args.length) {
-					case 1:
-						insertName = t.isFunctionExpression(args[0]);
-						break;
+						case 1:
+							insertName = t.isFunctionExpression(args[0]);
+							break;
 
-					case 2:
-						insertName =
+						case 2:
+							insertName =
 								t.isArrayExpression(args[0]) &&
 								t.isFunctionExpression(args[1]);
-						break;
+							break;
 
-					case 3:
-						unshiftName = false;
-						insertName =
+						case 3:
+							unshiftName = false;
+							insertName =
 								t.isStringLiteral(args[0]) &&
 								t.isArrayExpression(args[1]) &&
 								t.isFunctionExpression(args[2]);
-						break;
+							break;
+
+						default:
+							throw new Error(
+								`Unexpected argument count of ${args.length}`
+							);
 					}
 
 					if (insertName) {
-						let normalizedPackageName = normalizePackageName(
+						const normalizedPackageName = normalizePackageName(
 							packageName,
 							filenameRelative
 						);
@@ -112,9 +131,8 @@ function normalizeSrcPrefixes(srcPrefixes) {
 
 	return srcPrefixes
 		.map(srcPrefix => path.normalize(srcPrefix))
-		.map(
-			srcPrefix =>
-				srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep
+		.map(srcPrefix =>
+			srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep
 		);
 }
 

@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import template from 'babel-template';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
@@ -45,7 +51,8 @@ export default function({types: t}) {
 					state.dependencies = {};
 				},
 				exit(path, state) {
-					let {opts, dependencies} = state;
+					const {opts} = state;
+					let {dependencies} = state;
 
 					// We must traverse the AST again because some plugins emit
 					// their require() calls after exiting Program node :-(

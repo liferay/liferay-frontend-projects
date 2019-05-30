@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as fs from 'fs';
 import * as globby from 'globby';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
@@ -9,16 +15,13 @@ import resolve from 'resolve';
 /**
  * @return {void}
  */
-export default function(
-	{config, log, rootPkgJson, pkg, source},
-	{pkgJson}
-) {
+export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
 	const defineCall = (config.defineCall || 'Liferay.Loader.define') + '(';
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
 
-	let injectedDeps = {};
-	let failedDeps = {};
+	const injectedDeps = {};
+	const failedDeps = {};
 
 	globby
 		.sync([path.join(path.resolve(pkg.dir), '**/*.js')])
@@ -106,11 +109,11 @@ function processModuleDependencies(
 			return;
 		}
 
-		const {scope, pkgName} = mod.splitModuleName(dep);
+		const {pkgName, scope} = mod.splitModuleName(dep);
 		const scopedPkgName = mod.joinModuleName(scope, pkgName);
 
 		if (!pkgJson.dependencies[scopedPkgName]) {
-			let srcPkgName = ns.removeNamespace(scopedPkgName);
+			const srcPkgName = ns.removeNamespace(scopedPkgName);
 
 			try {
 				const resolvedPkgJsonPath = resolve.sync(
@@ -147,13 +150,16 @@ function removeModuleName(line) {
 			}
 		} else {
 			switch (line[i]) {
-			case '\'':
-			case '"':
-				inString = line[i];
-				break;
+				case "'":
+				case '"':
+					inString = line[i];
+					break;
 
-			case ',':
-				return line.substr(i + 1);
+				case ',':
+					return line.substr(i + 1);
+
+				default:
+				// Keep scanning.
 			}
 		}
 	}

@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as babel from 'babel-core';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
@@ -6,10 +12,10 @@ import plugin from '../index';
 
 const filenameRelative = path.join(__dirname, '__fixtures__', 'source.js');
 const imports = {
-	'provider': {
+	provider: {
 		'imp-module': '^1.0.0',
 	},
-	'shims': {
+	shims: {
 		fs: '^1.0.0',
 	},
 	'': {

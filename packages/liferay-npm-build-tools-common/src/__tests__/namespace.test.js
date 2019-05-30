@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as ns from '../namespace';
 
 const pkg = {
@@ -80,9 +86,9 @@ describe('when using regular packages', () => {
 			'./path/to/module'
 		);
 
-		expect(
-			ns.addNamespace('../path/to/module', {name: 'a-package'})
-		).toBe('../path/to/module');
+		expect(ns.addNamespace('../path/to/module', {name: 'a-package'})).toBe(
+			'../path/to/module'
+		);
 
 		expect(
 			ns.addNamespace('a-package/path/to/module', {name: 'a-package'})

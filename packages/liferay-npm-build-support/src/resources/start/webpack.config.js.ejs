@@ -11,6 +11,7 @@ module.exports = {
 	devServer: {
 		open: true,
 		openPage: '',
+		port: <%= port %>,
 		publicPath: '/o/<%= pkgName %>/',
 	},
 	plugins: [new require('copy-webpack-plugin')(['../assets'])],

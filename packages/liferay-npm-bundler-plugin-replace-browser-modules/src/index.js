@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs-extra';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
@@ -5,15 +11,13 @@ import path from 'path';
 /**
  * @return {void}
  */
-export default function({pkg, log}, {pkgJson}) {
+export default function({log, pkg}, {pkgJson}) {
 	const browser = pkgJson.browser || pkgJson.unpkg || pkgJson.jsdelivr;
 
-	if (browser) {
-		if (typeof browser === 'string') {
-			replaceMainModule(pkg.dir, browser, pkgJson, log);
-		} else {
-			replaceModules(pkg.dir, browser, pkgJson, log);
-		}
+	if (typeof browser === 'string') {
+		replaceMainModule(pkg.dir, browser, pkgJson, log);
+	} else if (browser) {
+		replaceModules(pkg.dir, browser, pkgJson, log);
 	} else {
 		log.info('replace-browser-modules', 'No browser modules found');
 	}
@@ -40,7 +44,7 @@ function replaceMainModule(pkgDir, browser, pkgJson, log) {
 /**
  * Copy "browser"/"module" module files on top of their server versions.
  * @param {String} pkgDir directory where package is placed
- * @param {String} browser the value of the "browser"/"module" field
+ * @param {Object} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
  * @param {PluginLogger} log a logger
  * @return {void}

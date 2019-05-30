@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import childProcess from 'child_process';
 import ejs from 'ejs';
 import fs from 'fs-extra';
@@ -37,10 +43,12 @@ function copyWebpackResources() {
 	});
 	render('webpack.config.js', {
 		pkgName: pkgJson.name,
+		port: cfg.getWebpackPort(),
 		rules: util.inspect(
-			cfg
-				.getWebpackRules()
-				.map(rule => ((rule.test = new RegExp(rule.test)), rule))
+			cfg.getWebpackRules().map(rule => {
+				rule.test = new RegExp(rule.test);
+				return rule;
+			})
 		),
 		extensions: util.inspect(cfg.getWebpackExtensions()),
 	});

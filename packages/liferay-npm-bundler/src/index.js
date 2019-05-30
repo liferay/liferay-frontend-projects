@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs-extra';
 import globby from 'globby';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
@@ -68,7 +74,7 @@ function run() {
 		const outputDir = path.resolve(config.getOutputDir());
 		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
-		let promises = [];
+		const promises = [];
 
 		// Copy project's package.json
 		promises.push(bundleRootPackage(outputDir));
@@ -91,17 +97,9 @@ function run() {
 		// Process NPM dependencies
 		log.info(`Bundling ${pkgs.length} dependencies...`);
 
-		if (config.bundler.isProcessSerially()) {
-			report.warn(
-				'Option process-serially is on: this may degrade build performance.'
-			);
-
-			promises.push(
-				iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
-			);
-		} else {
-			promises.push(...pkgs.map(pkg => bundlePackage(pkg, outputDir)));
-		}
+		promises.push(
+			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
+		);
 
 		// Report results
 		Promise.all(promises)
@@ -123,15 +121,15 @@ function run() {
 					);
 					log.info(`Report written to ${config.getReportFilePath()}`);
 				} else if (report.warningsPresent) {
-					log.info(`
+					log.debug(`
 *************************************************************
 
              WARNING FROM liferay-npm-bundler
 
-The build has emitted some warning messages: we recommend 
-cleaning the output, activating the 'dump-report' option 
-in '.npmbundlerrc', and then reviewing the generated 
-'liferay-npm-bundler-report.html' to make sure no problems 
+The build has emitted some warning messages: we recommend
+cleaning the output, activating the 'dump-report' option
+in '.npmbundlerrc', and then reviewing the generated
+'liferay-npm-bundler-report.html' to make sure no problems
 will arise during runtime.
 
 *************************************************************
@@ -205,7 +203,7 @@ function bundlePackage(srcPkg, outputDir) {
 		getPackageTargetDir(srcPkg.name, srcPkg.version)
 	);
 
-	let pkg = srcPkg.clone({dir: outPkgDir});
+	const pkg = srcPkg.clone({dir: outPkgDir});
 
 	return new Promise((resolve, reject) => {
 		copyPackage(srcPkg, outPkgDir)
@@ -248,7 +246,7 @@ function copyPackage(pkg, dir) {
 		const state = runPlugins(
 			config.bundler.getPlugins('copy', pkg),
 			pkg,
-			pkg.clone({dir: dir}),
+			pkg.clone({dir}),
 			{
 				files,
 			},

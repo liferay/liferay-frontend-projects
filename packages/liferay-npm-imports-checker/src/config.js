@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs';
 import globby from 'globby';
 import path from 'path';
@@ -45,13 +51,12 @@ export function reloadConfig() {
 			),
 			{cwd: projectRootPath}
 		)
-		.forEach(
-			filePath =>
-				(cfg = mergeConfig(
-					cfg,
-					path.join(projectRootPath, path.dirname(filePath))
-				))
-		);
+		.forEach(filePath => {
+			cfg = mergeConfig(
+				cfg,
+				path.join(projectRootPath, path.dirname(filePath))
+			);
+		});
 
 	// Override configuration with program arguments
 	setProgramArgs(savedProgramArgs);
@@ -174,7 +179,7 @@ function mergeConfig(cfg, dir) {
 
 	const pkgJson = readJsonSync(path.join(dir, 'package.json'));
 
-	let ignore = rc.ignore || {};
+	const ignore = rc.ignore || {};
 
 	Object.entries(ignore).forEach(([key, value]) => {
 		ignore[key] = value.reduce((hash, item) => {

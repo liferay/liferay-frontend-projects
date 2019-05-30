@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
@@ -11,13 +17,13 @@ import semver from 'semver';
 import * as cfg from './config';
 
 const fmt = {
-	project: chalk.hex('#000090'),
-	import: chalk.hex('#000090'),
-	package: chalk.hex('#000090'),
+	project: chalk.hex('#505090').bgHex('#CCC'),
+	import: chalk.hex('#303090').bgHex('#CCC'),
+	package: chalk.hex('#000090').bgHex('#CCC'),
 
 	ignore: chalk.bold.hex('#008000'),
 	success: chalk.bold.hex('#008000'),
-	warn: chalk.bold.hex('#dddd00'),
+	warn: chalk.bold.hex('#DDDD00'),
 	error: chalk.bold.red,
 };
 
@@ -61,7 +67,7 @@ function processArguments(args) {
 			'liferay-npm-imports-checker',
 			'[-h|--help]',
 			'[-v|--version]',
-			'[-p|--check-package-json]',
+			'[-p|--check-project-versions]',
 			'[-i|--write-ignores]',
 			'[-l|--show-projects-load]'
 		);
@@ -86,7 +92,7 @@ function processArguments(args) {
  */
 function loadProjects() {
 	const _msg = cfg.shouldShowProjectsLoad() ? msg : () => {};
-	let projects = {};
+	const projects = {};
 
 	_msg(0, 'Loading npm bundler projects:');
 
@@ -100,16 +106,24 @@ function loadProjects() {
 			);
 
 			const pkgJsonDir = path.dirname(pkgJsonPath);
-			const buildGradlePath = path.join(pkgJsonDir, 'build.gradle');
-			const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 
-			if (!fs.existsSync(buildGradlePath)) {
+			if (!looksLikeProjectDir(pkgJsonDir)) {
 				return;
 			}
 
 			try {
 				const pkgJson = readJsonSync(pkgJsonPath);
+				const project = projects[pkgJson.name];
 
+				if (project) {
+					msg(0, fmt.warn('Duplicate projects found in:'));
+					msg(1, `- ${pkgJsonDir}`);
+					msg(1, `- ${project.dir}`);
+
+					return;
+				}
+
+				const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
 				const npmBundlerRc = safeReadJsonSync(npmBundlerRcPath);
 
 				if (npmBundlerRc.config && npmBundlerRc.config.imports) {
@@ -127,10 +141,24 @@ function loadProjects() {
 				};
 
 				_msg(1, pkgJsonDir);
-			} catch (err) {}
+			} catch (err) {
+				// Swallow.
+			}
 		});
 
 	return projects;
+}
+
+/**
+ * Guess if a certain folder contains a project.
+ * @param {string} projectPath
+ */
+function looksLikeProjectDir(projectPath) {
+	const fileNames = ['build.gradle', '.npmbundlerrc', '.npmbuildrc'];
+
+	return fileNames.some(fileName =>
+		fs.existsSync(path.join(projectPath, fileName))
+	);
 }
 
 /**
@@ -139,7 +167,7 @@ function loadProjects() {
  * @return {Object} a hash with results
  */
 function checkProjects(projects) {
-	let results = {};
+	const results = {};
 
 	msg(0, 'Checking projects:');
 
@@ -247,9 +275,7 @@ function checkProjects(projects) {
 								'error',
 								`Package ${fmt.package.bold(
 									pkgName
-								)} version constraints don't match ${
-									srcVersion
-								} in imported project`
+								)} version constraints don't match ${srcVersion} in imported project`
 							);
 						}
 					}
@@ -380,7 +406,7 @@ function getMaxExitCode(results) {
  * @return {void}
  */
 function writeIgnores(results) {
-	let ignores = {};
+	const ignores = {};
 
 	Object.entries(results).forEach(project => {
 		Object.entries(project[1]).forEach(importedProject => {

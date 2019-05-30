@@ -1,29 +1,31 @@
 {
-	"homepage": "https://github.com/liferay/liferay-npm-build-tools#readme",
+	"homepage": "https://github.com/liferay/liferay-js-toolkit#readme",
 	"license": "LGPL-3.0",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/liferay/liferay-npm-build-tools.git"
+		"url": "git+https://github.com/liferay/liferay-js-toolkit.git"
 	},
 	"bugs": {
-		"url": "https://github.com/liferay/liferay-npm-build-tools/issues"
+		"url": "https://github.com/liferay/liferay-js-toolkit/issues"
 	},
 	"scripts": {
 		"build": "lerna run build",
-		"ci": "prettier-eslint --list-different && npm run lint && npm run test",
-		"format": "prettier-eslint --write packages/*/src/*.js packages/*/src/**/*.js",
+		"ci": "npm run format:check && npm run lint && npm run test",
+		"format": "prettier --write '.*.js' 'packages/*/src/**/*.js'",
+		"format:check": "prettier --list-different '.*.js' 'packages/*/src/**/*.js'",
 		"lerna": "npm install && lerna bootstrap",
-		"lint": "eslint packages/*/src/*.js packages/*/src/**/*.js",
+		"lint": "eslint 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
+		"lint:fix": "eslint --fix 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
 		"release": "lerna publish --force-publish='*' --exact",
 		"release-canary": "lerna publish --force-publish='*' --exact -c",
 		"test": "jest --runInBand"
 	},
 	"devDependencies": {
-		"eslint": "^4.11.0",
-		"eslint-config-liferay": "^2.0.0",
+		"eslint": "^5.15.1",
+		"eslint-config-liferay": "^3.0.0",
 		"jest": "^20.0.4",
 		"lerna": "^2.0.0-rc.5",
-		"prettier-eslint-cli": "^4.4.0"
+		"prettier": "1.16.4"
 	},
 	"jest": {
 		"modulePathIgnorePatterns": [

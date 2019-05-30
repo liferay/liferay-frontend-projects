@@ -1,12 +1,18 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import path from 'path';
 import {addPackageDependencies} from '../dependencies';
 
 expect.extend({
 	toMatchDependencies(deps, ...pkgIds) {
-		let missingDeps = [];
-		let extraDeps = [];
-		let invalidDepFields = {};
+		const missingDeps = [];
+		const extraDeps = [];
+		const invalidDepFields = {};
 
 		pkgIds.forEach(pkgId => {
 			const dep = deps[pkgId];
@@ -26,7 +32,7 @@ expect.extend({
 					pkgVersion = pkgIdParts[1];
 				}
 
-				let invalidFields = invalidDepFields[pkgId] || {};
+				const invalidFields = invalidDepFields[pkgId] || {};
 
 				if (dep.id != pkgId) {
 					invalidFields.id = `${dep.id} (expected: ${pkgId})`;

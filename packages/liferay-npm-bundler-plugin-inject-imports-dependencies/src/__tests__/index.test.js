@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import plugin from '../index';
 
@@ -20,7 +26,7 @@ it('injects imports', () => {
 			},
 			globalConfig: {
 				imports: {
-					'provider': {
+					provider: {
 						'pkg-a': '^1.0.0',
 						'pkg-b': '^2.0.0',
 					},
@@ -85,7 +91,7 @@ it('logs results correctly', () => {
 			},
 			globalConfig: {
 				imports: {
-					'provider': {
+					provider: {
 						'pkg-a': '^1.0.0',
 						'pkg-b': '^3.0.0',
 					},

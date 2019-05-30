@@ -1,13 +1,16 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 import {normalizeImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 
 /**
  * @return {void}
  */
-export default function(
-	{rootPkgJson, globalConfig, config, log},
-	{pkgJson}
-) {
+export default function({config, globalConfig, log, rootPkgJson}, {pkgJson}) {
 	let imports = config.imports || globalConfig.imports || {};
 
 	imports = normalizeImportsConfig(imports);

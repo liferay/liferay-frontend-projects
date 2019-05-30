@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 /* eslint require-jsdoc: off */
 import pretty from 'pretty-time';
 
@@ -5,9 +11,9 @@ export function htmlDump(report) {
 	const {
 		_executionDate,
 		_executionTime,
-		_warnings,
-		_versionsInfo,
 		_packages,
+		_versionsInfo,
+		_warnings,
 	} = report;
 
 	const title = 'Report of liferay-npm-bundler execution';
@@ -53,11 +59,11 @@ export function htmlDump(report) {
 				.sort()
 				.map(pkgId => {
 					const {
-						name,
-						version,
-						link,
 						allFiles,
 						copiedFiles,
+						link,
+						name,
+						version,
 					} = _packages[pkgId];
 
 					return htmlRow(`
@@ -86,7 +92,7 @@ export function htmlDump(report) {
 				.sort()
 				.map(pkgId => {
 					const pkg = _packages[pkgId];
-					const {copy, pre, post, babel} = pkg.process;
+					const {babel, copy, post, pre} = pkg.process;
 					const copyKeys = Object.keys(copy);
 					const preKeys = Object.keys(pre);
 					const postKeys = Object.keys(post);
@@ -143,7 +149,7 @@ export function htmlDump(report) {
 			.sort()
 			.map(pkgId => {
 				const pkg = _packages[pkgId];
-				const {copy, pre, post} = pkg.process;
+				const {copy, post, pre} = pkg.process;
 				const copyKeys = Object.keys(copy);
 				const preKeys = Object.keys(pre);
 				const postKeys = Object.keys(post);
@@ -436,7 +442,7 @@ function htmlLogOutput(
 		);
 	}
 
-	let logColums = ['Message', ''];
+	const logColums = ['Message', ''];
 
 	if (source) {
 		logColums.splice(0, 0, 'Log source');
@@ -444,7 +450,7 @@ function htmlLogOutput(
 
 	const columns = prefixColumns.concat(logColums);
 
-	let rows = [];
+	const rows = [];
 
 	prefixCells.forEach((cells, i) => {
 		if (cells.length != prefixColumns.length) {
@@ -461,9 +467,9 @@ function htmlLogOutput(
 					${cells.map(cell => `<td>${cell}</td>`).join(' ')}
 					${htmlIf(source, () => `<td></td>`)}
 					${logColums
-		.splice(1)
-		.map(() => '<td></td>')
-		.join(' ')}
+						.splice(1)
+						.map(() => '<td></td>')
+						.join(' ')}
 				`)
 			);
 		} else {

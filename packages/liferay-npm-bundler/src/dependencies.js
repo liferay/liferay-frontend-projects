@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -48,7 +54,7 @@ export function addPackageDependencies(
 	dependencies = Object.keys(dependencies);
 	dependencies = dependencies.concat(extraDependencies);
 
-	let dependencyDirs = dependencies
+	const dependencyDirs = dependencies
 		.map(dependency => {
 			return resolveDependencyDir(basedir, packageJson, dependency);
 		})

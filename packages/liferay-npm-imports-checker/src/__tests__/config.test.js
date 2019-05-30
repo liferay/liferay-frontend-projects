@@ -1,9 +1,15 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import path from 'path';
 
 let cfg;
 
 beforeEach(() => {
-	let savedDir = process.cwd();
+	const savedDir = process.cwd();
 
 	try {
 		// Load config after chdir to avoid failure the first time it is loaded if

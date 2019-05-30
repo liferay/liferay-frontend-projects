@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs-extra';
 import {ncp} from 'ncp';
 
@@ -11,7 +17,7 @@ export default function() {
 		'assets',
 		'build',
 		{
-			filter: function(path) {
+			filter(path) {
 				return !/\/\.placeholder$/.test(path);
 			},
 		},

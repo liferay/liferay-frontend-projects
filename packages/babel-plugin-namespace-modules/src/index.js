@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
@@ -36,7 +42,9 @@ export default function({types: t}) {
 		 * @param {Object} state the Babel plugin state containing the opts field
 		 */
 		ExpressionStatement(path, state) {
-			const {node: {expression}} = path;
+			const {
+				node: {expression},
+			} = path;
 			const {opts} = state;
 			const {namespaces, unrolledImports} = opts;
 
@@ -52,7 +60,7 @@ export default function({types: t}) {
 
 			const {arguments: args} = expression;
 
-			let {name: nameIndex, dependencies: depsIndex} = getDefineIndices(
+			const {dependencies: depsIndex, name: nameIndex} = getDefineIndices(
 				t,
 				args
 			);
@@ -172,7 +180,7 @@ export default function({types: t}) {
 					// Prepare configuration
 					const ownPkgJson = getOwnPkgJson(state);
 
-					const {rootPkgJson, globalConfig} = babelIpc.get(
+					const {globalConfig, rootPkgJson} = babelIpc.get(
 						state,
 						() => ({
 							rootPkgJson: ownPkgJson,
@@ -252,7 +260,7 @@ export default function({types: t}) {
  * @return {String} the namespaced module
  */
 function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
-	const {scope, pkgName} = mod.splitModuleName(moduleName);
+	const {pkgName, scope} = mod.splitModuleName(moduleName);
 	const fullPkgName = mod.joinModuleName(scope, pkgName);
 	const pkg = unrolledImports[fullPkgName] || namespacePkg;
 
@@ -265,7 +273,11 @@ function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
  * @return {Object} the contents of our own package.json
  */
 function getOwnPkgJson(state) {
-	const {file: {opts: {filenameRelative}}} = state;
+	const {
+		file: {
+			opts: {filenameRelative},
+		},
+	} = state;
 
 	return readJsonSync(getPackageJsonPath(filenameRelative));
 }
@@ -283,24 +295,27 @@ function getDefineIndices(t, args) {
 
 	// Define signature is: define(id?, dependencies?, factory);
 	switch (args.length) {
-	case 1:
-		factoryIndex = 0;
-		break;
+		case 1:
+			factoryIndex = 0;
+			break;
 
-	case 2:
-		if (t.isStringLiteral(args[0])) {
+		case 2:
+			if (t.isStringLiteral(args[0])) {
+				nameIndex = 0;
+			} else if (t.isArrayExpression(args[0])) {
+				depsIndex = 0;
+			}
+			factoryIndex = 1;
+			break;
+
+		case 3:
 			nameIndex = 0;
-		} else if (t.isArrayExpression(args[0])) {
-			depsIndex = 0;
-		}
-		factoryIndex = 1;
-		break;
+			depsIndex = 1;
+			factoryIndex = 2;
+			break;
 
-	case 3:
-		nameIndex = 0;
-		depsIndex = 1;
-		factoryIndex = 2;
-		break;
+		default:
+			throw new Error(`Unexpected argument count of ${args.length}`);
 	}
 
 	return {

@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import * as fs from 'fs-extra';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import rcopy from 'recursive-copy';
@@ -104,7 +110,7 @@ it('replaces server files with browser files', () => {
 		name: pkg.name,
 		version: pkg.version,
 		browser: {
-			'dir': 'test-main.js',
+			dir: 'test-main.js',
 			'test-browser.js': 'test.js',
 			'test-browser-2.js': 'test-2.js',
 		},

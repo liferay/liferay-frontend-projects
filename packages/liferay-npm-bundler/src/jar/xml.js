@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import {js2xml, xml2js} from 'xml-js';
 
 const TYPES = {
@@ -26,7 +32,7 @@ export function addMetatypeAttr(metatype, id, desc) {
 	if (desc.description !== undefined) {
 		addAttr(ad, 'description', desc.description);
 	}
-	addAttr(ad, 'cardinality', 0);
+	addAttr(ad, 'cardinality', desc.repeatable ? -32767 : 0);
 	if (desc.required !== undefined) {
 		addAttr(ad, 'required', desc.required);
 	}

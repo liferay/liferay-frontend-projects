@@ -1,9 +1,16 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import prop from 'dot-prop';
 import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
+import merge from 'merge';
 
 import * as babel from './internal/babel';
 import * as bundler from './internal/bundler';
@@ -253,7 +260,7 @@ function concatBundlerPlugins(plugins, cfg) {
  * @return {Object} a map of {plugin-name: version} values
  */
 function getPluginVersions() {
-	let pluginVersions = {};
+	const pluginVersions = {};
 
 	// Get preset plugin version
 	if (config.preset) {
@@ -265,19 +272,19 @@ function getPluginVersions() {
 	// Get legacy package and package plugins versions
 	let plugins = [];
 
-	for (let key in config) {
+	for (const key in config) {
 		if (config.hasOwnProperty(key)) {
 			plugins = concatAllPlugins(plugins, config[key]);
 		}
 	}
 
-	for (let key in config.packages) {
+	for (const key in config.packages) {
 		if (config.packages.hasOwnProperty(key)) {
 			plugins = concatAllPlugins(plugins, config.packages[key]);
 		}
 	}
 
-	for (let plugin of plugins) {
+	for (const plugin of plugins) {
 		if (!pluginVersions[plugin]) {
 			const pkgJson = util.configRequire(`${plugin}/package.json`);
 
@@ -294,7 +301,7 @@ function getPluginVersions() {
  */
 function loadConfig() {
 	// Clean configuration
-	for (let key in config) {
+	for (const key in config) {
 		if (config.hasOwnProperty(key)) {
 			delete config[key];
 		}
@@ -327,7 +334,10 @@ function loadConfig() {
 
 	if (presetFile) {
 		const originalConfig = Object.assign({}, config);
-		Object.assign(config, readJsonSync(presetFile), originalConfig);
+		Object.assign(
+			config,
+			merge.recursive(readJsonSync(presetFile), originalConfig)
+		);
 		config.pluginsBaseDir = getPackageDir(presetFile);
 	}
 
@@ -343,7 +353,7 @@ function loadConfig() {
  */
 function loadPkgJson() {
 	// Clean pkgJson
-	for (let key in pkgJson) {
+	for (const key in pkgJson) {
 		if (pkgJson.hasOwnProperty(key)) {
 			delete pkgJson[key];
 		}
