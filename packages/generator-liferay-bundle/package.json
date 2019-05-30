@@ -1,6 +1,6 @@
 {
 	"name": "generator-liferay-bundle",
-	"version": "2.7.1",
+	"version": "2.8.0",
 	"description": "A Yeoman generator to bootstrap Liferay DXP and Portal CE widget projects.",
 	"main": "generators/app/index.js",
 	"files": [
