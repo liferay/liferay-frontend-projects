@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const fs = require('fs');
+const path = require('path');
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawnSync');
 
@@ -14,11 +16,18 @@ const LINT_PATHS = getMergedConfig('npmscripts').lint;
  * @param {boolean} fix Specify if the linter should auto-fix the files
  */
 module.exports = function(fix) {
-	const args = [...LINT_PATHS];
+	const CONFIG_PATH = path.join(process.cwd(), 'TEMP-prettier-config.json');
 
-	if (fix) {
-		args.push('-i');
-	}
+	fs.writeFileSync(CONFIG_PATH, JSON.stringify(getMergedConfig('prettier')));
 
-	spawnSync('csf', args);
+	const args = [
+		'--config',
+		CONFIG_PATH,
+		fix ? '--write' : '--check',
+		...LINT_PATHS
+	];
+
+	spawnSync('prettier', args, {}, true);
+
+	fs.unlinkSync(CONFIG_PATH);
 };

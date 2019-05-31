@@ -4,42 +4,17 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const fs = require('fs');
-const path = require('path');
-
 const CWD = process.cwd();
+const cosmiconfig = require('cosmiconfig');
 
 /**
- * Helper to get configuration that is found in either a file or package.json
- * @param {string} filename Name of user config file, can be either .js file or JSON
- * @param {string=} packageKey Name of the key used in package.json for configuration
- * @returns {Object | undefined}
+ * Helper to get configuration via `cosmiconfig`
+ * @param {string} moduleName Name of user config file
  */
-module.exports = function(filename, packageKey) {
-	let config = {};
+module.exports = function(moduleName) {
+	const explorer = cosmiconfig(moduleName, {stopDir: CWD});
 
-	const FILE_PATH = path.join(CWD, filename);
-	const PACKAGE_FILE_PATH = path.join(CWD, 'package.json');
+	const result = explorer.searchSync();
 
-	if (fs.existsSync(FILE_PATH)) {
-		if (path.extname(FILE_PATH) === '.js') {
-			const configFile = require(FILE_PATH);
-
-			config =
-				typeof configFile === 'function' ? configFile() : configFile;
-		} else {
-			const configFile = fs.readFileSync(FILE_PATH);
-
-			config = JSON.parse(configFile);
-		}
-	} else if (packageKey && fs.existsSync(PACKAGE_FILE_PATH)) {
-		const configFile = fs.readFileSync(PACKAGE_FILE_PATH);
-		const configJSON = JSON.parse(configFile);
-
-		if (configJSON && configJSON[packageKey]) {
-			config = configJSON[packageKey];
-		}
-	}
-
-	return config;
+	return result ? result.config : {};
 };
