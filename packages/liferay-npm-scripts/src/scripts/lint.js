@@ -9,13 +9,15 @@ const path = require('path');
 const getMergedConfig = require('../utils/get-merged-config');
 const spawnSync = require('../utils/spawn-sync');
 
-const LINT_PATHS = getMergedConfig('npmscripts').lint;
+const CONFIG = getMergedConfig('npmscripts');
 
 /**
  * Main function for linting and formatting files
  * @param {boolean} fix Specify if the linter should auto-fix the files
  */
 module.exports = function(fix) {
+	const globs = fix ? CONFIG.format : CONFIG.lint;
+
 	const CONFIG_PATH = path.join(process.cwd(), 'TEMP-prettier-config.json');
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(getMergedConfig('prettier')));
@@ -25,7 +27,7 @@ module.exports = function(fix) {
 			'--config',
 			CONFIG_PATH,
 			fix ? '--write' : '--check',
-			...LINT_PATHS
+			...globs
 		];
 
 		spawnSync('prettier', args);
