@@ -28,7 +28,7 @@ module.exports = function(fix) {
 			...LINT_PATHS
 		];
 
-		spawnSync('prettier', args, {});
+		spawnSync('prettier', args);
 	} finally {
 		fs.unlinkSync(CONFIG_PATH);
 	}
