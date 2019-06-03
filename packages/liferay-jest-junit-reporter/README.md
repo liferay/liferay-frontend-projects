@@ -1,2 +1,3 @@
 # liferay-jest-junit-reporter
-A JUnit reporter for Jest 
+
+A JUnit reporter for Jest
