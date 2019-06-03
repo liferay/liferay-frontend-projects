@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-function log(message) {
-	// eslint-disable-next-line no-console
-	console.log(message);
-}
+const log = require('./log');
 
 /**
  * Sets NODE_ENV to the supplied `env`, unless the user has already explicitly
