@@ -17,9 +17,8 @@ function getDescription(command, args) {
  * @param {string} command Path to bin file
  * @param {Array=} args=[] List of string arguments
  * @param {Object=} options={} Options to pass to spawn.sync
- * @param {boolean} silent=false Should swallow non-error exit codes.
  */
-module.exports = function(command, args = [], options = {}, silent = false) {
+function spawnSync(command, args = [], options = {}) {
 	const localCommand = path.join(
 		__dirname,
 		'../../node_modules/.bin',
@@ -32,7 +31,7 @@ module.exports = function(command, args = [], options = {}, silent = false) {
 		...options
 	});
 
-	if (status && !silent) {
+	if (status) {
 		throw new Error(
 			`Command ${getDescription(
 				executable,
@@ -47,4 +46,6 @@ module.exports = function(command, args = [], options = {}, silent = false) {
 			)} failed with error ${error}`
 		);
 	}
-};
+}
+
+module.exports = spawnSync;
