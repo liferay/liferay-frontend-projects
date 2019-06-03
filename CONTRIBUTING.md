@@ -2,7 +2,6 @@
 
 At the time of writing we have a pretty informal release process for the packages in this repo. There are obvious improvements that we can and should make, but for now we're starting by documenting the current process. By way of example, here are the steps taken to publish updated packages based on [ff680bb9ebbee](https://github.com/liferay/liferay-npm-tools/commit/ff680bb9ebbee43711bb7bf03d3e852716c54616):
 
-
 ```sh
 # Make sure the local "master" branch is up-to-date:
 git checkout master
@@ -48,6 +47,6 @@ git push upstream stable --follow-tags
 
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
-- https://www.npmjs.com/package/liferay-jest-junit-reporter
-- https://www.npmjs.com/package/liferay-npm-bundler-preset-liferay-dev
-- https://www.npmjs.com/package/liferay-npm-scripts
+-   https://www.npmjs.com/package/liferay-jest-junit-reporter
+-   https://www.npmjs.com/package/liferay-npm-bundler-preset-liferay-dev
+-   https://www.npmjs.com/package/liferay-npm-scripts

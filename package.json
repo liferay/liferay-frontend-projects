@@ -7,8 +7,8 @@
 	"private": true,
 	"scripts": {
 		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write '**/*.js'",
-		"format:check": "prettier --list-different '**/*.js'",
+		"format": "prettier --write '**/*.js' '**/*.json' '**/*.md'",
+		"format:check": "prettier --list-different '**/*.js' '**/*.json' '**/*.md'",
 		"lint": "eslint '**/*.js'",
 		"lint:fix": "eslint --fix '**/*.js'",
 		"test": "yarn workspaces run test"

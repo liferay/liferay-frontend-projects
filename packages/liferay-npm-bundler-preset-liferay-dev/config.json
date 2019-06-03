@@ -126,11 +126,7 @@
 		}
 	},
 	"exclude": {
-		"*": [
-			"**/tests/**/*",
-			"**/test/**/*",
-			"**/__tests__/**/*"
-		],
+		"*": ["**/tests/**/*", "**/test/**/*", "**/__tests__/**/*"],
 		"@babel/code-frame": true,
 		"@babel/generator": true,
 		"@babel/helper-annotate-as-pure": true,
