@@ -5,7 +5,6 @@
  */
 
 const sortKeys = require('sort-keys');
-
 const deepMerge = require('./deep-merge');
 const getUserConfig = require('./get-user-config');
 
@@ -18,10 +17,7 @@ function getMergedConfig(type) {
 		case 'babel':
 			return sortKeys(
 				deepMerge(
-					[
-						require('../config/babel'),
-						getUserConfig('.babelrc', 'babel')
-					],
+					[require('../config/babel'), getUserConfig('babel')],
 					deepMerge.MODE.BABEL
 				)
 			);
@@ -30,22 +26,27 @@ function getMergedConfig(type) {
 			return sortKeys(
 				deepMerge([
 					require('../config/npm-bundler'),
-					getUserConfig('.npmbundlerrc')
+					getUserConfig('npmbundler')
 				])
 			);
 
 		case 'jest':
 			return sortKeys(
+				deepMerge([require('../config/jest'), getUserConfig('jest')])
+			);
+
+		case 'prettier':
+			return sortKeys(
 				deepMerge([
-					require('../config/jest'),
-					getUserConfig('jest.config.js', 'jest')
+					require('../config/prettier'),
+					getUserConfig('prettier')
 				])
 			);
 
 		case 'npmscripts': {
 			let presetConfig = {};
 
-			let userConfig = getUserConfig('npmscripts.config.js');
+			let userConfig = getUserConfig('npmscripts');
 
 			// Use default config if no user config exists
 			if (Object.keys(userConfig).length === 0) {

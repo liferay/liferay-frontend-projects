@@ -8,6 +8,14 @@ const {spawn} = require('cross-spawn');
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * Represents an error inside the spawned process.
+ *
+ * Used to indicate that we succeeded in spawning the process, but it exited
+ * with a non-zero exit code.
+ */
+class SpawnError extends Error {}
+
 function getDescription(command, args) {
 	return [command].concat(args).join(' ');
 }
@@ -18,7 +26,7 @@ function getDescription(command, args) {
  * @param {Array=} args=[] List of string arguments
  * @param {Object=} options={} Options to pass to spawn.sync
  */
-module.exports = function(command, args = [], options = {}) {
+function spawnSync(command, args = [], options = {}) {
 	const localCommand = path.join(
 		__dirname,
 		'../../node_modules/.bin',
@@ -32,13 +40,14 @@ module.exports = function(command, args = [], options = {}) {
 	});
 
 	if (status) {
-		throw new Error(
+		throw new SpawnError(
 			`Command ${getDescription(
 				executable,
 				args
 			)} exited with code ${status}`
 		);
 	} else if (error) {
+		// We didn't successfully spawn, so this is a hard error.
 		throw new Error(
 			`Command ${getDescription(
 				executable,
@@ -46,4 +55,8 @@ module.exports = function(command, args = [], options = {}) {
 			)} failed with error ${error}`
 		);
 	}
-};
+}
+
+spawnSync.SpawnError = SpawnError;
+
+module.exports = spawnSync;

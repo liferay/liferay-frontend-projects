@@ -18,8 +18,8 @@ describe('scripts/webpack.js', () => {
 
 	beforeEach(() => {
 		cwd = process.cwd();
-		jest.mock('../../src/utils/spawnSync');
-		spawnSync = require('../../src/utils/spawnSync');
+		jest.mock('../../src/utils/spawn-sync');
+		spawnSync = require('../../src/utils/spawn-sync');
 		webpack = require('../../src/scripts/webpack');
 	});
 
