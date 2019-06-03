@@ -20,14 +20,16 @@ module.exports = function(fix) {
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(getMergedConfig('prettier')));
 
-	const args = [
-		'--config',
-		CONFIG_PATH,
-		fix ? '--write' : '--check',
-		...LINT_PATHS
-	];
+	try {
+		const args = [
+			'--config',
+			CONFIG_PATH,
+			fix ? '--write' : '--check',
+			...LINT_PATHS
+		];
 
-	spawnSync('prettier', args, {}, true);
-
-	fs.unlinkSync(CONFIG_PATH);
+		spawnSync('prettier', args, {}, true);
+	} finally {
+		fs.unlinkSync(CONFIG_PATH);
+	}
 };
