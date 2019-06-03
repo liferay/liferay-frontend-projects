@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const getMergedConfig = require('../utils/get-merged-config');
-const spawnSync = require('../utils/spawnSync');
+const spawnSync = require('../utils/spawn-sync');
 
 const LINT_PATHS = getMergedConfig('npmscripts').lint;
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const spawnSync = require('../../src/utils/spawnSync');
+const spawnSync = require('../../src/utils/spawn-sync');
 
 describe('spawnSync()', () => {
 	it('throws for non-existent commands', () => {

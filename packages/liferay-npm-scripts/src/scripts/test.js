@@ -11,7 +11,7 @@ const path = require('path');
 
 const getMergedConfig = require('../utils/get-merged-config');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
-const spawnSync = require('../utils/spawnSync');
+const spawnSync = require('../utils/spawn-sync');
 const withBabelConfig = require('../utils/with-babel-config');
 
 const JEST_CONFIG = getMergedConfig('jest');
