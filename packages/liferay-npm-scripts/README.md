@@ -36,7 +36,7 @@ Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` fil
 liferay-npm-scripts lint
 ```
 
-Lint calls `check-source-formatting` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32)..
+Lint calls `prettier` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32)..
 
 ### format
 
@@ -44,7 +44,7 @@ Lint calls `check-source-formatting` for the globs specified in your `npmscripts
 liferay-npm-scripts format
 ```
 
-Format calls `check-source-formatting` with the `--inline-edit` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
+Format calls `prettier` with the `--write` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
 
 ### test
 
