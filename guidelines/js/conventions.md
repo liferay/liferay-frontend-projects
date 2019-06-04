@@ -1,21 +1,6 @@
----
-title: "Conventions"
-description: "Set of conventions or coding standards focusing primarily on the hard-and-fast rules and leaving aside formatting concerns."
-layout: "guideline"
-weight: 1
----
-
-###### {$page.description}
-
-<article id="1">
-
 ## Best Practices
 
 With the few exceptions listed below, JavaScript inside Liferay should follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)<sup>[1]</sup>
-
-</article>
-
-<article id="2">
 
 ## Tooling
 
@@ -34,11 +19,7 @@ The preferrable way to configure ESLint for interop with different workflows and
 }
 ```
 
-</article>
-
-<article id="3">
-
-## Workflow Integration 
+## Workflow Integration
 
 Whenever possible, use [npm scripts](https://docs.npmjs.com/cli/run-script) to configure a `lint` script to run eslint:
 
@@ -72,5 +53,3 @@ Additionally, set up a Pre-commit Hook to ensure all files are always properly f
     }
 }
 ```
-
-</article>

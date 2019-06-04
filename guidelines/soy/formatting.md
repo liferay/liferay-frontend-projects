@@ -1,14 +1,3 @@
----
-title: "Formatting"
-description: "Having a common style guide is valuable for a project & team but getting there is a very painful and unrewarding process."
-layout: "guideline"
-weight: 2
----
-
-###### {$page.description}
-
-<article id="1">
-
 ## Best Practices
 
 ### Empty lines
@@ -74,14 +63,8 @@ If an element has more than two attributes place each one in a different line.
 &#123;/template&#125;
 ```
 
-</article>
-
-<article id="2">
-
 ## Tooling
 
 At the moment of this writing, there is no easy way to auto-format Closure Templates (Soy). For this reason, below you can find a set of patterns to follow when writing Soy templates.
 
-Refer to [Closure Tempaltes (soy) Style](style.md) for naming conventions and preferred patterns. 
-
-</article>
+Refer to [Closure Tempaltes (soy) Style](style.md) for naming conventions and preferred patterns.

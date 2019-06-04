@@ -1,14 +1,3 @@
----
-title: "Conventions"
-description: "Set of conventions or coding standards focusing primarily on the hard-and-fast rules and leaving aside formatting concerns."
-layout: "guideline"
-weight: 1
----
-
-###### {$page.description}
-
-<article id="1">
-
 ## Best Practices
 
 ### Params
@@ -17,11 +6,11 @@ weight: 1
 
 Private attributes:
 
-- Should be named with a leading underscore (`_count`, `_myName`, etc.)
-- Should use the `internal()` flag in the `.js`
-- Will need to be declared as optional in the template (`@{lb}param? name: string{rb}`).
+-   Should be named with a leading underscore (`_count`, `_myName`, etc.)
+-   Should use the `internal()` flag in the `.js`
+-   Will need to be declared as optional in the template (`@{lb}param? name: string{rb}`).
 
-*Hint: A function in the template will always be optional*
+_Hint: A function in the template will always be optional_
 
 A function that will manage an event should be named prefixed with `_handle` follow by the action that happens.
 
@@ -78,7 +67,7 @@ since it would only be referenced in the template. Also prefer using the
 
 ```javascript
 import Component from 'metal-component';
-import { Config } from 'metal-state';
+import {Config} from 'metal-state';
 
 /**
  * MyComponent description.
@@ -92,9 +81,9 @@ class MyComponent extends Component {}
  */
 MyComponent.STATE = {
 	/**
-	* Make sure to add the required() flag if the prop does not have a `?` in
-	* your template.
-	**/
+	 * Make sure to add the required() flag if the prop does not have a `?` in
+	 * your template.
+	 **/
 	name: Config.string().required()
 };
 
@@ -102,13 +91,14 @@ export default MyComponent;
 ```
 
 When specifying types of params, try to be consistent and use the correct types:
-* For **primitives**, use (`string`, `number`, etc.). `Map`s and `List`s should use `map<T, U>` and `list<T>`.
-* For **functions**, use the `any` type, since there is no native function type for
-Soy.
+
+-   For **primitives**, use (`string`, `number`, etc.). `Map`s and `List`s should use `map<T, U>` and `list<T>`.
+-   For **functions**, use the `any` type, since there is no native function type for
+    Soy.
 
 #### Default values
 
-Prefer the `?:` operator over the ternary (`? : `), when declaring default
+Prefer the `?:` operator over the ternary (`? :`), when declaring default
 values in your template:
 
 ```soy
@@ -192,10 +182,9 @@ In both cases all attributes must be alphabetically ordered as usual.
 #### Avoid `data="all"`
 
 Soy has a feature that allows all parameters in the parent scope to be
-automatically passed to a template being called (`{lb}call .mySubtemplate
-data="all" /{rb}`). There are several reasons to avoid this feature.
+automatically passed to a template being called (`{lb}call .mySubtemplate data="all" /{rb}`). There are several reasons to avoid this feature.
 
-Because `metal-soy` is both a templating *and* component system, it's very
+Because `metal-soy` is both a templating _and_ component system, it's very
 common that calls to other templates are in fact calls to other components as
 well (as opposed to helper templates declared in the same namespace). This means
 that if the parent and child template have a prop by the same name, it's likely
@@ -206,7 +195,7 @@ problems, without any warnings. We know this from experience.
 
 It also makes reading the code much harder. Understanding which props are being
 used now requires exact knowledge of which params the component takes.
-Explicitly passing those props is much easier to read. To quote [the *Zen of Python*](https://www.python.org/dev/peps/pep-0020/#id3), "Explicit is better than Implicit".
+Explicitly passing those props is much easier to read. To quote [the _Zen of Python_](https://www.python.org/dev/peps/pep-0020/#id3), "Explicit is better than Implicit".
 
 ```soy
 &#123;template myTemplate&#125;
@@ -257,10 +246,6 @@ As usual all params should be ordered alphabetically.
 &#123;/template&#125;
 ```
 
-</article>
-
-<article id="2">
-
 ## Tooling
 
 Use [metal-soy-critic](https://github.com/mthadley/metal-soy-critic) to verify the correctness of your Soy templates.
@@ -279,11 +264,7 @@ The preferrable way to configure Metal-Soy-Critic for interop with different wor
 }
 ```
 
-</article>
-
-<article id="3">
-
-## Workflow Integration 
+## Workflow Integration
 
 Whenever possible, use [npm scripts](https://docs.npmjs.com/cli/run-script) to configure a `mcritic` script to run metal-soy-critic:
 
@@ -317,5 +298,3 @@ Additionally, set up a Pre-commit Hook to ensure all files are always properly f
     }
 }
 ```
-
-</article>
