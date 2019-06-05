@@ -36,7 +36,7 @@ Ideally, "master" is always in a releasable state, but if it isn't, we can apply
 
 ### Examples
 
--   [liferay-npm-tools](https://github.com/liferay/eslint-config-liferay/)
+-   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools/)
 
 "liferay-npm-tools" is actually an interesting example of a repo that is probably simple enough to warrant being a "one-branch" project. It's only consumed inside [liferay-portal](https://github.com/liferay/eslint-config-liferay/), and typically advances only in service of what is needed on liferay-portal's "master" branch.
 
