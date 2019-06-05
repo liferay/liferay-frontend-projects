@@ -68,5 +68,5 @@ BREAKING CHANGE: The x() function now returns a promise.
 
 Additionally, you may highlight the presence of the breaking change by including an exclamation mark immediately before the colon on the commit title as in the following examples:
 
--   feat**!**: expose new version of table API (#12)
+-   feat!: expose new version of table API (#12)
 -   fix(bundler)**!**: replace invalid output format (#101)
