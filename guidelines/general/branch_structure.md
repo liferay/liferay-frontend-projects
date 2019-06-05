@@ -10,7 +10,7 @@ We have three basic branch structures that we employ, according to the requireme
 
 Simple is good. For projects that can afford to use a one-branch structure, using a single "master" branch minimizes maintenance overhead and is our recommendation:
 
--   master: active development branch
+-   **master**: active development branch
 
 ### Typical workflow
 
@@ -25,8 +25,8 @@ Pull requests target master and are merged in after review. We periodically cut 
 
 These are projects which operate just like the "one-branch" projects, but with the addition of a "stable" branch that always points at the latest release.
 
--   master: active development branch
--   stable: points to the latest release; may be used as a base for preparing urgent hotfix releases.
+-   **master**: active development branch
+-   **stable**: points to the latest release; may be used as a base for preparing urgent hotfix releases.
 
 ### Typical workflow
 
@@ -44,10 +44,10 @@ Ideally, "master" is always in a releasable state, but if it isn't, we can apply
 
 These operate just like "master" + "stable" branch projects, with the addition of maintenance branches that correspond to the previous major version release. For example, if we're doing our work in the 2.x series of a project on "master", but occasionally need to update and release the prior 1.x series, the branch structure would be this:
 
--   master: active development branch
--   stable: points to the latest release; may be used as a base for preparing urgent hotfix releases.
--   1.x: previous active development branch for prior major version (1.x series, less frequently updated, generally only with bug-fixes).
--   1.x-stable: points to the latest 1.x release (less frequently updated).
+-   **master**: active development branch
+-   **stable**: points to the latest release; may be used as a base for preparing urgent hotfix releases.
+-   **1.x**: previous active development branch for prior major version (1.x series, less frequently updated, generally only with bug-fixes).
+-   **1.x-stable**: points to the latest 1.x release (less frequently updated).
 
 ### Typical workflow
 
