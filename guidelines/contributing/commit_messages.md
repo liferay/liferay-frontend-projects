@@ -43,7 +43,7 @@ The description should start with a verb:
 -   refactor: **simplify** options parser
 -   chore: **prepare** v2.3 release
 
-and may if it is in relation to an issue, it should include the issue number in parentheses as a suffix
+and may, if it is in relation to an issue, include the issue number in parentheses as a suffix:
 
 -   fix: make archive generation idempotent **(#12)**
 -   test: fill in holes in picker test coverage **(#92)**
