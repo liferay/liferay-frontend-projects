@@ -2,7 +2,7 @@
 
 Liferay's frontend formatting tool of choice is [Prettier](https://prettier.io/)
 
-# Settings
+## Settings
 
 To maintain some consistency with other parts of Liferay's codebase, we **recommend** overriding some of [Prettier's default values](https://prettier.io/docs/en/options.html) to the following:
 
@@ -15,9 +15,9 @@ To maintain some consistency with other parts of Liferay's codebase, we **recomm
 | [tabWidth](https://prettier.io/docs/en/options.html#tab-width)             | 4     | Specify the number of spaces per indentation-level |            |
 |  [useTabs](https://prettier.io/docs/en/options.html#tabs)                  | true  |  Indent lines with tabs instead of spaces          |            |
 
-# Workflow Integration
+## Workflow Integration
 
-## Standalone Projects
+### Standalone Projects
 
 As a recommendation, create a `.prettierrc` file in your standalone projects with the following configuration:
 
@@ -50,28 +50,7 @@ Check [Prettier documentation](https://prettier.io/docs/en) for a more detailed 
 
 ## Liferay DXP
 
-[Prettier](https://prettier.io/) usage is built-in inside [Liferay DXP](https://github.com/liferay/liferay-portal) thanks to the [`liferay-npm-scripts`](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts) package that encapsulates all the necessary logic, dependencies and configuration for it to work.
-
-> Only JavaScript and SCSS files are formatted using Prettier
-
-Every module inside [Liferay DXP](https://github.com/liferay/liferay-portal) with JavaScript or SCSS files should contain a `package.json` file with at least the following npm scripts:
-
-```javascript
-{
-    "scripts": {
-        "checkFormat": "liferay-npm-scripts lint",
-        "format": "liferay-npm-scripts format"
-    }
-}
-```
-
-### format
-
-The `format` script will run prettier with the default configuration and save the changes to your files. It can be invoked either directly as `yarn format` or `npm run format` or through the Gradle Wrapper as `gradlew npmRunFormat`.
-
-### checkFormat
-
-The `checkFormat` script will run prettier without saving your files and exit with an error if there are changes. This task is meant to run on CI to prevent files from being commited without the proper formatting.
+Please, read the [Liferay DXP Formatting Guidelines](../dxp/formatting.md) for specific information about how code is formatted inside the `liferay-portal` repo.
 
 ## IDE integrations
 
