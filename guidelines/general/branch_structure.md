@@ -8,7 +8,7 @@ We have three basic branch structures that we employ, according to the requireme
 
 ## 1. One-branch projects
 
-Simple is good. For projects that can afford to use a one-branch structure, using a single "master" branch minimized maintenance overhead and is our recommendation:
+Simple is good. For projects that can afford to use a one-branch structure, using a single "master" branch minimizes maintenance overhead and is our recommendation:
 
 -   master: active development branch
 
@@ -32,7 +32,7 @@ These are projects which operate just like the "one-branch" projects, but with t
 
 Pull requests target master and are merged in after review. When we cut a release, we update the "stable" branch to match "master" (generally a so-called "fast-forward" merge). Further development resumes on "master".
 
-Ideally, "master" is always in a releasable state, but if it isn't, we can apply "hotfixes" by sending a PR that targets the "stable" branch, and then cut a release from there. The same fix is also incorporated in the "master" branch via cherry-picking or merging. This is in some sense a hypothetical scenario: if we keep "master" in shape, you may never have see this happen in practice.
+Ideally, "master" is always in a releasable state, but if it isn't, we can apply "hotfixes" by sending a PR that targets the "stable" branch, and then cut a release from there. The same fix is also incorporated in the "master" branch via cherry-picking or merging. This is in some sense a hypothetical scenario: if we keep "master" in shape, you may never see this happen in practice.
 
 ### Examples
 
@@ -42,7 +42,7 @@ Ideally, "master" is always in a releasable state, but if it isn't, we can apply
 
 ## 3. "master" + "stable" + maintenance branch projects
 
-These operate just like "master" + "stable" branch projects, with the addition of maintenance branches that correspond to the previous release. For example, if we're doing our work in the 2.x series of a project on "master", but occasionally need to update and release the prior 1.x series, the branch structure would be this:
+These operate just like "master" + "stable" branch projects, with the addition of maintenance branches that correspond to the previous major version release. For example, if we're doing our work in the 2.x series of a project on "master", but occasionally need to update and release the prior 1.x series, the branch structure would be this:
 
 -   master: active development branch
 -   stable: points to the latest release; may be used as a base for preparing urgent hotfix releases.
@@ -65,5 +65,5 @@ Additionally, changes can be backported (via cherry-picking, or otherwise hand-c
 # A note on tags
 
 -   We tag our releases with an annotated tag of the form "v1.2.3" (Annotated tags are tags that include a message; in our case, we make the message the same as the tag name.)
--   In a monorepo like [Clay](https://github.com/liferay/clay), all packages are released together an share the same version number and a single tag.
+-   In a monorepo like [Clay](https://github.com/liferay/clay), all packages are released together and share the same version number and a single tag.
 -   In a monorepo like [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools), the packages are released independently, so the tags have the format "package/v1.2.3" (eg. "liferay-npm-scripts/v2.2.0"). We automate this with `.yarnrc` files like [this one](https://github.com/liferay/liferay-npm-tools/blob/25733d82dbab8b1278743d653799a2682c832359/packages/liferay-jest-junit-reporter/.yarnrc) that ensure that `yarn version` produces tags of the desired format.
