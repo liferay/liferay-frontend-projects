@@ -1,0 +1,15 @@
+{
+	"description": "Liferay Frontend Guidelines",
+	"devDependencies": {
+		"prettier": "1.17.1"
+	},
+	"name": "liferay-frontend-guidelines",
+	"private": true,
+	"repository": "https://github.com/liferay/liferay-frontend-guidelines.git",
+	"scripts": {
+		"format": "prettier --write '**/{.,}*.js{,on}' '**/*.md'",
+		"format:changed": "git ls-files -mz -- '*.js' '*.json' '*.md' | xargs -0 prettier --write --",
+		"format:check": "prettier --list-different '**/{.,}*.js{,on}' '**/*.md'"
+	},
+	"version": "0.0.1"
+}
