@@ -6,6 +6,8 @@
 
 'use strict';
 
+require('./lib/checkNodeVersion')();
+
 const _ = require('lodash');
 const globby = require('globby');
 const liferayPluginTasks = require('liferay-plugin-node-tasks');
