@@ -5,7 +5,8 @@
 			"Responsible": "john.doe@somewhere.net"
 		},
 		"features": {
-			"localization": "features/localization/Language"
+			"localization": "features/localization/Language",
+			"manifest": "features/manifest.json"
 		}
 	}
 }
