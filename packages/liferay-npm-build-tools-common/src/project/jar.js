@@ -5,6 +5,9 @@
  */
 
 import prop from 'dot-prop';
+import readJsonSync from 'read-json-sync';
+
+import {getFeaturesFilePath} from './util';
 
 /**
  * Reflects JAR file configuration of JS Toolkit projects.
@@ -14,23 +17,37 @@ export default class Jar {
 	 *
 	 * @param {Project} project
 	 */
-	constructor({_npmbundlerrc}) {
-		this._npmbundlerrc = _npmbundlerrc;
+	constructor(project) {
+		this._project = project;
 	}
 
 	/**
 	 * Get user configured manifest headers
 	 */
 	get customManifestHeaders() {
+		const {_npmbundlerrc} = this._project;
+
 		if (this._customManifestHeaders === undefined) {
-			this._customManifestHeaders = prop.get(
-				this._npmbundlerrc,
-				'create-jar.customManifestHeaders'
+			const manifestFilePath = getFeaturesFilePath(
+				this._project,
+				'create-jar.features.manifest',
+				'features/manifest.json'
 			);
 
-			if (this._customManifestHeaders === undefined) {
-				this._customManifestHeaders = {};
-			}
+			const featuresHeaders = manifestFilePath
+				? readJsonSync(manifestFilePath)
+				: {};
+
+			const npmbundlerrcHeaders = prop.get(
+				_npmbundlerrc,
+				'create-jar.customManifestHeaders',
+				{}
+			);
+
+			this._customManifestHeaders = Object.assign(
+				featuresHeaders,
+				npmbundlerrcHeaders
+			);
 		}
 
 		return this._customManifestHeaders;
