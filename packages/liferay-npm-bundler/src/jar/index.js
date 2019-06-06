@@ -84,12 +84,12 @@ function addFiles(srcDir, srcGlobs, destFolder) {
  * @param {JSZip} zip the ZIP file
  */
 function addLocalizationFiles(zip) {
-	const resourceBundleName = config.jar.getLocalizationFile();
+	const languageFileBaseName = project.l10n.languageFileBaseName;
 
-	if (resourceBundleName) {
-		const resourceBundleDir = path.dirname(resourceBundleName);
+	if (languageFileBaseName) {
+		const localizationDir = path.dirname(languageFileBaseName);
 
-		addFiles(resourceBundleDir, ['**/*'], zip.folder('content'));
+		addFiles(localizationDir, ['**/*'], zip.folder('content'));
 	}
 }
 
@@ -120,8 +120,8 @@ function addManifest(zip) {
 		`osgi.webresource=${pkgJson.name};` +
 		`version:Version="${pkgJson.version}"\n`;
 
-	if (config.jar.getLocalizationFile()) {
-		const bundleName = path.basename(config.jar.getLocalizationFile());
+	if (project.l10n.supported) {
+		const bundleName = path.basename(project.l10n.languageFileBaseName);
 
 		contents += `Provide-Capability: liferay.resource.bundle;`;
 		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
@@ -145,6 +145,12 @@ function addManifest(zip) {
 		contents += `Require-Capability: osgi.extender;filter:="${filter}"\n`;
 	}
 
+	Object.entries(project.jar.customManifestHeaders).forEach(
+		([key, value]) => {
+			contents += `${key}: ${value}\n`;
+		}
+	);
+
 	zip.folder('META-INF').file('MANIFEST.MF', contents);
 }
 
@@ -160,8 +166,8 @@ function addSystemConfigurationFiles(zip) {
 	}
 
 	// Add OSGI-INF/metatype/metatype.xml file
-	const localization = config.jar.getLocalizationFile()
-		? `content/${path.basename(config.jar.getLocalizationFile())}`
+	const localization = project.l10n.supported
+		? `content/${path.basename(project.l10n.languageFileBaseName)}`
 		: undefined;
 
 	const name =
