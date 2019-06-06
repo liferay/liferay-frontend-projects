@@ -1,0 +1,11 @@
+{
+	"create-jar": {
+		"customManifestHeaders": {
+			"Project-Name": "Test Project",
+			"Responsible": "john.doe@somewhere.net"
+		},
+		"features": {
+			"localization": "features/localization/Language"
+		}
+	}
+}

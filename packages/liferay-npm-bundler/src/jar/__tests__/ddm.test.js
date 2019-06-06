@@ -12,7 +12,9 @@ import {transformPreferences} from '../ddm';
 describe('transformPreferences', () => {
 	it('works without L10N', () => {
 		const mockProject = {
-			supportsLocalization: false,
+			l10n: {
+				supported: false,
+			},
 		};
 
 		const preferencesJson = readJsonSync(
@@ -57,9 +59,11 @@ describe('transformPreferences', () => {
 		};
 
 		const mockProject = {
-			supportsLocalization: true,
-			availableLocales: ['es_ES'],
-			getLabels: (locale = 'default') => labels[locale],
+			l10n: {
+				availableLocales: ['es_ES'],
+				getLabels: (locale = 'default') => labels[locale],
+				supported: true,
+			},
 		};
 
 		const preferencesJson = readJsonSync(

@@ -12,7 +12,7 @@
  */
 export function transformPreferences(project, preferencesJson) {
 	return {
-		availableLanguageIds: project.availableLocales || [],
+		availableLanguageIds: project.l10n.availableLocales || [],
 		fields: Object.entries(preferencesJson.fields).map(([name, props]) => {
 			const field = {
 				name,
@@ -141,18 +141,18 @@ function getTypeProps(props) {
  * @return {object} the DDM localized value
  */
 function localized(project, string) {
-	if (!project.supportsLocalization) {
+	if (!project.l10n.supported) {
 		return {'': string};
 	}
 
 	const obj = {};
 
-	let labels = project.getLabels();
+	let labels = project.l10n.getLabels();
 
 	obj[''] = labels[string];
 
-	project.availableLocales.forEach(locale => {
-		labels = project.getLabels(locale);
+	project.l10n.availableLocales.forEach(locale => {
+		labels = project.l10n.getLabels(locale);
 
 		obj[locale] = labels[string];
 	});
