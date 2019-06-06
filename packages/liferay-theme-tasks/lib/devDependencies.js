@@ -9,6 +9,6 @@ module.exports = {
 	'liferay-theme-tasks': '^9.1.2',
 	'compass-mixins': '0.12.10',
 	'liferay-frontend-common-css': '^1.0.4',
-	'liferay-frontend-theme-styled': '^4.0.0-alpha.1552930087997',
-	'liferay-frontend-theme-unstyled': '^4.0.0-alpha.1552930030671',
+	'liferay-frontend-theme-styled': '^4.0.7',
+	'liferay-frontend-theme-unstyled': '^4.0.4',
 };
