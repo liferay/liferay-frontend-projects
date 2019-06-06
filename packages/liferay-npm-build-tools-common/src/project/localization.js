@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import prop from 'dot-prop';
 import fs from 'fs';
 import path from 'path';
 import properties from 'properties';
+
+import {getFeaturesFilePath} from './util';
 
 const DEFAULT_LOCALE = 'default';
 
@@ -19,9 +20,8 @@ export default class Localization {
 	 *
 	 * @param {Project} project
 	 */
-	constructor({_projectDir, _npmbundlerrc}) {
-		this._projectDir = _projectDir;
-		this._npmbundlerrc = _npmbundlerrc;
+	constructor(project) {
+		this._project = project;
 
 		this._cachedAvailableLocales = undefined;
 		this._cachedLabels = {};
@@ -73,29 +73,13 @@ export default class Localization {
 	 */
 	get languageFileBaseName() {
 		if (this._cachedLanguageFileBaseName === undefined) {
-			const cfgValue = prop.get(
-				this._npmbundlerrc,
-				'create-jar.features.localization'
+			this._cachedLanguageFileBaseName = getFeaturesFilePath(
+				this._project,
+				'create-jar.features.localization',
+				'features/localization/Language.properties'
 			);
-
-			if (cfgValue !== undefined) {
-				this._cachedLanguageFileBaseName = path.join(
-					this._projectDir,
-					cfgValue
-				);
-			} else {
-				const defaultLanguageFilePath = path.join(
-					this._projectDir,
-					'features',
-					'localization',
-					'Language.properties'
-				);
-
-				if (fs.existsSync(defaultLanguageFilePath)) {
-					this._cachedLanguageFileBaseName = defaultLanguageFilePath;
-				}
-			}
 		}
+
 		return this._cachedLanguageFileBaseName;
 	}
 
