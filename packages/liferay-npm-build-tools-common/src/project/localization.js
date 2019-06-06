@@ -26,7 +26,7 @@ export default class Localization {
 		this._cachedAvailableLocales = undefined;
 		this._cachedLabels = {};
 		this._cachedLanguageFileBaseName = undefined;
-		this._cachedLocalizationFiles = undefined;
+		this._cachedLocalizationFileMap = undefined;
 
 		this.DEFAULT_LOCALE = DEFAULT_LOCALE;
 	}
@@ -38,7 +38,7 @@ export default class Localization {
 	get availableLocales() {
 		if (this._cachedAvailableLocales === undefined) {
 			this._cachedAvailableLocales = Object.keys(
-				this._localizationFiles
+				this.localizationFileMap
 			).filter(locale => locale !== DEFAULT_LOCALE);
 		}
 
@@ -52,7 +52,7 @@ export default class Localization {
 	 */
 	getLabels(locale = DEFAULT_LOCALE) {
 		if (this._cachedLabels[locale] === undefined) {
-			const filePath = this._localizationFiles[locale];
+			const filePath = this.localizationFileMap[locale];
 
 			if (filePath) {
 				this._cachedLabels[locale] = properties.parse(
@@ -100,6 +100,39 @@ export default class Localization {
 	}
 
 	/**
+	 * Get the map of localization files' absolute path for the project indexed
+	 * by locale abbreviation.
+	 * @param {string} localization base localization file name
+	 * @return {object}
+	 */
+	get localizationFileMap() {
+		if (this._cachedLocalizationFileMap === undefined) {
+			const languageFileBaseName = this.languageFileBaseName;
+
+			if (languageFileBaseName === undefined) {
+				this._cachedLocalizationFileMap = {};
+			} else {
+				const localizationDir = path.dirname(languageFileBaseName);
+
+				const files = fs.readdirSync(localizationDir);
+
+				this._cachedLocalizationFileMap = files.reduce(
+					(map, file) => (
+						(map[this._getFileNameLocale(file)] = path.join(
+							localizationDir,
+							file
+						)),
+						map
+					),
+					{}
+				);
+			}
+		}
+
+		return this._cachedLocalizationFileMap;
+	}
+
+	/**
 	 * @return {boolean}
 	 */
 	get supported() {
@@ -121,38 +154,5 @@ export default class Localization {
 		const end = fileName.lastIndexOf('.properties');
 
 		return fileName.substring(start + 1, end);
-	}
-
-	/**
-	 * Get the list of localization files' absolute path for the project indexed
-	 * by locale abbreviation.
-	 * @param {string} localization base localization file name
-	 * @return {object}
-	 */
-	get _localizationFiles() {
-		if (this._cachedLocalizationFiles === undefined) {
-			const languageFileBaseName = this.languageFileBaseName;
-
-			if (languageFileBaseName === undefined) {
-				this._cachedLocalizationFiles = {};
-			} else {
-				const localizationDir = path.dirname(languageFileBaseName);
-
-				const files = fs.readdirSync(localizationDir);
-
-				this._cachedLocalizationFiles = files.reduce(
-					(map, file) => (
-						(map[this._getFileNameLocale(file)] = path.join(
-							localizationDir,
-							file
-						)),
-						map
-					),
-					{}
-				);
-			}
-		}
-
-		return this._cachedLocalizationFiles;
 	}
 }

@@ -40,6 +40,10 @@ describe('empty project', () => {
 			expect(project.l10n.languageFileBaseName).toBeUndefined();
 		});
 
+		it('returns localizationFileMap', () => {
+			expect(project.l10n.localizationFileMap).toEqual({});
+		});
+
 		it('returns supported', () => {
 			expect(project.l10n.supported).toBe(false);
 		});
@@ -95,6 +99,29 @@ describe('standard project', () => {
 					'Language'
 				)
 			);
+		});
+
+		it('returns localizationFileMap', () => {
+			expect(project.l10n.localizationFileMap).toEqual({
+				default: path.join(
+					__dirname,
+					'__fixtures__',
+					'project',
+					'standard',
+					'features',
+					'localization',
+					'Language.properties'
+				),
+				es_ES: path.join(
+					__dirname,
+					'__fixtures__',
+					'project',
+					'standard',
+					'features',
+					'localization',
+					'Language_es_ES.properties'
+				),
+			});
 		});
 
 		it('returns supported', () => {
