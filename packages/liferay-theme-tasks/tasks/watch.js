@@ -28,7 +28,10 @@ const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
 const MIME_TYPES = {
 	'.css': 'text/css',
+	'.ico': 'image/x-icon',
 	'.js': 'text/javacript',
+	'.map': 'application/json',
+	'.svg': 'image/svg+xml',
 };
 
 /**
