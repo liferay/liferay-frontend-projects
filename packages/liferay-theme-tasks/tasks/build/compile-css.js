@@ -19,7 +19,6 @@ const themeUtil = require('../../lib/util');
 
 module.exports = function(options) {
 	const {gulp, pathBuild} = options;
-	const {storage} = gulp;
 
 	const handleScssError = err => {
 		if (options.watching) {
@@ -33,23 +32,9 @@ module.exports = function(options) {
 	const runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('build:compile-css', function(cb) {
-		const changedFile = getSrcPathConfig(storage).changedFile;
-
-		// During watch task, exit task early if changed file is not css
-
-		if (
-			changedFile &&
-			changedFile.type === 'changed' &&
-			!themeUtil.isCssFile(changedFile.path)
-		) {
-			cb();
-
-			return;
-		}
-
-		const compileTask = 'build:compile-lib-sass';
-
-		runSequence(compileTask, cb);
+		// For backwards compatibility we keep this task around, but all it does
+		// is call through to the one that does the actual work:
+		runSequence('build:compile-lib-sass', cb);
 	});
 
 	gulp.task('build:compile-lib-sass', function(cb) {
@@ -180,14 +165,4 @@ function getSassOptions(sassOptions, defaults) {
 	}
 
 	return sassOptions;
-}
-
-function getSrcPathConfig(storage) {
-	const themeConfig = lfrThemeConfig.getConfig();
-
-	return {
-		changedFile: storage.get('changedFile'),
-		deployed: storage.get('deployed'),
-		version: themeConfig.version,
-	};
 }
