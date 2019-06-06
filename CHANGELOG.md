@@ -1,3 +1,13 @@
+## [v9.1.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.3) (2019-06-06)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.2...v9.1.3)
+
+- fix(tasks): non-CSS/JS file changes break CSS when using "watch" (#340) ([\#345](https://github.com/liferay/liferay-js-themes-toolkit/pull/345))
+- feat: add a runtime NodeJS version check (#339) ([\#343](https://github.com/liferay/liferay-js-themes-toolkit/pull/343))
+- chore: Update theme dependencies for Liferay 7.2 release (#341) ([\#342](https://github.com/liferay/liferay-js-themes-toolkit/pull/342))
+- chore: remove backup/revert functionality (9.x) (#267) ([\#286](https://github.com/liferay/liferay-js-themes-toolkit/pull/286))
+- feat: handle lightweight tags in changelog script ([\#335](https://github.com/liferay/liferay-js-themes-toolkit/pull/335))
+
 ## [v9.1.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.2) (2019-04-17)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.1...v9.1.2)
