@@ -67,35 +67,11 @@ export default class Localization {
 	}
 
 	/**
-	 * @return {boolean}
-	 */
-	get supported() {
-		return this._languageFileBaseName !== undefined;
-	}
-
-	/**
-	 * Get the locale of a .properties file based on its name
-	 * @param {string} fileName
-	 * @return {string}
-	 */
-	_getFileNameLocale(fileName) {
-		const start = fileName.indexOf('_');
-
-		if (start === -1) {
-			return DEFAULT_LOCALE;
-		}
-
-		const end = fileName.lastIndexOf('.properties');
-
-		return fileName.substring(start + 1, end);
-	}
-
-	/**
-	 * Get the language file base name (path and name without .properties
-	 * extension)
+	 * Get the language file base name (absolute path plus name, without
+	 * .properties extension)
 	 * @return {object|undefined}
 	 */
-	get _languageFileBaseName() {
+	get languageFileBaseName() {
 		if (this._cachedLanguageFileBaseName === undefined) {
 			const cfgValue = prop.get(
 				this._npmbundlerrc,
@@ -124,14 +100,38 @@ export default class Localization {
 	}
 
 	/**
-	 * Get the list of localization files for the project indexed by locale
-	 * abbreviation
+	 * @return {boolean}
+	 */
+	get supported() {
+		return this.languageFileBaseName !== undefined;
+	}
+
+	/**
+	 * Get the locale of a .properties file based on its name
+	 * @param {string} fileName
+	 * @return {string}
+	 */
+	_getFileNameLocale(fileName) {
+		const start = fileName.indexOf('_');
+
+		if (start === -1) {
+			return DEFAULT_LOCALE;
+		}
+
+		const end = fileName.lastIndexOf('.properties');
+
+		return fileName.substring(start + 1, end);
+	}
+
+	/**
+	 * Get the list of localization files' absolute path for the project indexed
+	 * by locale abbreviation.
 	 * @param {string} localization base localization file name
 	 * @return {object}
 	 */
 	get _localizationFiles() {
 		if (this._cachedLocalizationFiles === undefined) {
-			const languageFileBaseName = this._languageFileBaseName;
+			const languageFileBaseName = this.languageFileBaseName;
 
 			if (languageFileBaseName === undefined) {
 				this._cachedLocalizationFiles = {};

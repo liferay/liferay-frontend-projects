@@ -36,6 +36,10 @@ describe('empty project', () => {
 			expect(project.l10n.getLabels('fr_FR')).toEqual({});
 		});
 
+		it('returns languageFileBaseName', () => {
+			expect(project.l10n.languageFileBaseName).toBeUndefined();
+		});
+
 		it('returns supported', () => {
 			expect(project.l10n.supported).toBe(false);
 		});
@@ -77,6 +81,20 @@ describe('standard project', () => {
 
 		it('returns labels for missing locale', () => {
 			expect(project.l10n.getLabels('fr_FR')).toEqual({});
+		});
+
+		it('returns languageFileBaseName', () => {
+			expect(project.l10n.languageFileBaseName).toEqual(
+				path.join(
+					__dirname,
+					'__fixtures__',
+					'project',
+					'standard',
+					'features',
+					'localization',
+					'Language'
+				)
+			);
 		});
 
 		it('returns supported', () => {
