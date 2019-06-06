@@ -1,3 +1,11 @@
+## [v8.0.10](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.10) (2019-06-06)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.9...v8.0.10)
+
+- fix(tasks): non-CSS/JS file changes break CSS when using "watch" (#340) ([\#346](https://github.com/liferay/liferay-js-themes-toolkit/pull/346))
+- feat: add a runtime NodeJS version check (#339) ([\#344](https://github.com/liferay/liferay-js-themes-toolkit/pull/344))
+- chore: remove backup/revert functionality (8.x) (#267) ([\#269](https://github.com/liferay/liferay-js-themes-toolkit/pull/269))
+
 ## [v8.0.9](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.9) (2019-04-17)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.8...v8.0.9)
