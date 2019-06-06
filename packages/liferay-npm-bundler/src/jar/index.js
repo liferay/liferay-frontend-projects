@@ -145,6 +145,12 @@ function addManifest(zip) {
 		contents += `Require-Capability: osgi.extender;filter:="${filter}"\n`;
 	}
 
+	Object.entries(project.jar.customManifestHeaders).forEach(
+		([key, value]) => {
+			contents += `${key}: ${value}\n`;
+		}
+	);
+
 	zip.folder('META-INF').file('MANIFEST.MF', contents);
 }
 
