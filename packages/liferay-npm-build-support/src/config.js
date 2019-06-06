@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
 import path from 'path';
 import prop from 'dot-prop';
 import readJsonSync from 'read-json-sync';
@@ -109,51 +108,6 @@ export function getWebpackPort() {
  */
 export function getSupportedLocales() {
 	return npmbuildrc.supportedLocales;
-}
-
-/**
- * Get base name of localization files
- * @return {string}
- */
-export function getLocalizationFile() {
-	return prop.get(npmbundlerrc, 'create-jar.features.localization');
-}
-
-/**
- * Get the list of localization files for the project indexed by locale
- * abbreviation
- * @return {object}
- */
-export function getLocalizationFiles() {
-	const localizationFile = getLocalizationFile();
-
-	const localizationDir = path.dirname(localizationFile);
-
-	const files = fs.readdirSync(localizationDir);
-
-	return files.reduce(
-		(map, file) => (
-			(map[getLocale(file)] = path.join(localizationDir, file)), map
-		),
-		{}
-	);
-}
-
-/**
- * Get the locale of a .properties file based on its name
- * @param {string} fileName
- * @return {string}
- */
-function getLocale(fileName) {
-	const start = fileName.lastIndexOf('_');
-
-	if (start == -1) {
-		return 'default';
-	}
-
-	const end = fileName.lastIndexOf('.properties');
-
-	return fileName.substring(start + 1, end);
 }
 
 /**

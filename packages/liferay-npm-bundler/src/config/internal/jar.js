@@ -44,22 +44,6 @@ export function getRequireJsExtender() {
 }
 
 /**
- * Get localization bundle path.
- * @return {string} the full path of file or undefined if not configured
- */
-export function getLocalizationFile() {
-	const jarConfig = getNormalizedJarConfig();
-
-	let defaultValue = undefined;
-
-	if (fs.existsSync('./features/localization/Language.properties')) {
-		defaultValue = 'features/localization/Language';
-	}
-
-	return prop.get(jarConfig, 'features.localization', defaultValue);
-}
-
-/**
  * Get configuration file path.
  * @return {string} the full path of file or undefined if not configured
  */

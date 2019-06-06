@@ -5,6 +5,7 @@
  */
 
 import fs from 'fs';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import properties from 'properties';
 import request from 'request';
 import uuidv4 from 'uuid/v4';
@@ -38,7 +39,7 @@ export default function() {
 
 	createMissingSupportedLocalesFiles();
 
-	const localizationFiles = cfg.getLocalizationFiles();
+	const localizationFiles = project.l10n.localizationFileMap;
 
 	const locales = Object.keys(localizationFiles).filter(
 		locale => locale != 'default'
@@ -202,15 +203,11 @@ export function makeChunks(texts) {
  * but are not configured.
  */
 function showMissingSupportedLocales() {
-	const localizationFiles = cfg.getLocalizationFiles();
-
-	const locales = Object.keys(localizationFiles).filter(
-		locale => locale != 'default'
-	);
+	const availableLocales = project.l10n.availableLocales;
 
 	const supportedLocales = cfg.getSupportedLocales();
 
-	const missingLocales = locales.filter(
+	const missingLocales = availableLocales.filter(
 		locale => supportedLocales.indexOf(locale) == -1
 	);
 
@@ -232,23 +229,17 @@ function showMissingSupportedLocales() {
  * Creates missing locale files according to .npmbuildrc configuration
  */
 function createMissingSupportedLocalesFiles() {
-	const localizationFiles = cfg.getLocalizationFiles();
-
-	const locales = Object.keys(localizationFiles).filter(
-		locale => locale != 'default'
-	);
-
 	const supportedLocales = cfg.getSupportedLocales();
 
 	const missingLocales = supportedLocales.filter(
-		locale => locales.indexOf(locale) == -1
+		locale => project.l10n.availableLocales.indexOf(locale) == -1
 	);
 
 	if (missingLocales.length > 0) {
-		const localizationFile = cfg.getLocalizationFile();
+		const languageFileBaseName = project.l10n.languageFileBaseName;
 
 		missingLocales.forEach(locale =>
-			fs.writeFileSync(`${localizationFile}_${locale}.properties`, '')
+			fs.writeFileSync(`${languageFileBaseName}_${locale}.properties`, '')
 		);
 	}
 }
@@ -278,13 +269,28 @@ function parseFile(filePath) {
  * 								locale
  */
 function translate(subscriptionKey, locales, texts) {
+	// Map from ['es_ES', 'es_AR'] to {'es_ES': 'es', 'es_AR': 'es'}
+	const localesMap = locales.reduce((map, locale) => {
+		const targetLocale = locale.split('_')[0];
+
+		if (map[targetLocale] === undefined) {
+			map[targetLocale] = [];
+		}
+
+		map[targetLocale].push(locale);
+
+		return map;
+	}, {});
+
+	const targetLocales = [...new Set(Object.keys(localesMap))];
+
 	const options = {
 		method: 'POST',
 		baseUrl: 'https://api.cognitive.microsofttranslator.com/',
 		url: 'translate',
 		qs: {
 			'api-version': '3.0',
-			to: locales,
+			to: targetLocales,
 		},
 		headers: {
 			'Ocp-Apim-Subscription-Key': subscriptionKey,
@@ -324,7 +330,9 @@ function translate(subscriptionKey, locales, texts) {
 
 		flattenResponses(responses).forEach(response => {
 			response.translations.forEach(translation => {
-				translations[translation.to].push(translation.text);
+				localesMap[translation.to].forEach(locale =>
+					translations[locale].push(translation.text)
+				);
 			});
 		});
 
