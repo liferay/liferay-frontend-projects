@@ -12,7 +12,7 @@ import Jar from './jar';
 import Localization from './localization';
 
 /**
- * Describes an standard JS Toolkit project.
+ * Describes a standard JS Toolkit project.
  */
 export class Project {
 	/**
