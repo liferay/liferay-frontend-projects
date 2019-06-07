@@ -3549,7 +3549,7 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-liferay@^3.0.0:
+eslint-config-liferay@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/eslint-config-liferay/-/eslint-config-liferay-3.0.0.tgz#9219a4820719114ed7e9f02c49a51042e0c6cb2b"
   integrity sha512-8FFCspVYNG44ebP/P4nNpxstWaX+H+JdNOnJjel/Kc5Y4s9rTEXar/xmBARyzU7GTejYxLgNTOqjSy5wrg9Scw==

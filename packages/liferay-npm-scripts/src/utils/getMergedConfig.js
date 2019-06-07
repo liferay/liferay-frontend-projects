@@ -25,6 +25,13 @@ function getMergedConfig(type) {
 				getUserConfig('npmbundler')
 			]);
 
+		case 'eslint':
+			mergedConfig = deepMerge([
+				require('../config/eslint'),
+				getUserConfig('eslint')
+			]);
+			break;
+
 		case 'jest':
 			return deepMerge([
 				require('../config/jest'),
