@@ -18,12 +18,12 @@ module.exports = function() {
 			require('./scripts/build')();
 		},
 
-		fix() {
-			require('./scripts/fix')();
-		},
-
 		check() {
 			require('./scripts/check')();
+		},
+
+		fix() {
+			require('./scripts/fix')();
 		},
 
 		test() {
