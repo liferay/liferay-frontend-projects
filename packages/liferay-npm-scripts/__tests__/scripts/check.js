@@ -8,19 +8,19 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-describe('scripts/lint.js', () => {
+describe('scripts/check.js', () => {
 	let cwd;
-	let lint;
+	let check;
 	let spawnSync;
 	let temp;
 
 	beforeEach(() => {
 		cwd = process.cwd();
-		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'lint-'));
+		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'check-'));
 		process.chdir(temp);
 
 		jest.mock('../../src/utils/spawn-sync');
-		lint = require('../../src/scripts/lint');
+		check = require('../../src/scripts/check');
 		spawnSync = require('../../src/utils/spawn-sync');
 	});
 
@@ -30,16 +30,16 @@ describe('scripts/lint.js', () => {
 	});
 
 	it('invokes prettier', () => {
-		lint();
+		check();
 		expect(spawnSync).toHaveBeenCalledWith('prettier', expect.anything());
 	});
 
-	describe('when no "lint" globs are configured', () => {
+	describe('when no "check" globs are configured', () => {
 		let log;
 
 		beforeEach(() => {
 			const config = `module.exports = ${JSON.stringify(
-				{lint: []},
+				{check: []},
 				null,
 				2
 			)};`;
@@ -48,13 +48,13 @@ describe('scripts/lint.js', () => {
 
 			jest.resetModules();
 			jest.mock('../../src/utils/log');
-			lint = require('../../src/scripts/lint');
+			check = require('../../src/scripts/check');
 			log = require('../../src/utils/log');
 			spawnSync = require('../../src/utils/spawn-sync');
 		});
 
 		it('logs a message indicating how to configure globs', () => {
-			lint();
+			check();
 			expect(log).toHaveBeenCalledWith(
 				expect.stringContaining(
 					'paths can be configured via npmscripts.config.js'
@@ -63,7 +63,7 @@ describe('scripts/lint.js', () => {
 		});
 
 		it('does not run prettier', () => {
-			lint();
+			check();
 			expect(spawnSync).not.toHaveBeenCalled();
 		});
 	});

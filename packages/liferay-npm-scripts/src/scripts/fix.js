@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const lintScript = require('./lint');
+const check = require('./check');
 
 /**
- * Main function for formatting files
+ * Main function for fixing (formatting and applying lint fixes to) files.
  */
 module.exports = function() {
-	lintScript(true);
+	check(true);
 };
