@@ -14,10 +14,10 @@ module.exports = {
 		input: 'src/main/resources/META-INF/resources',
 		output: 'classes/META-INF/resources'
 	},
-	format: [
+	check: [
 		'{src,test}/**/*.css',
 		'{src,test}/**/*.js',
 		'{src,test}/**/*.scss'
 	],
-	lint: ['{src,test}/**/*.css', '{src,test}/**/*.js', '{src,test}/**/*.scss']
+	fix: ['{src,test}/**/*.css', '{src,test}/**/*.js', '{src,test}/**/*.scss']
 };

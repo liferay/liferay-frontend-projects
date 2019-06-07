@@ -12,12 +12,12 @@ const spawnSync = require('../utils/spawn-sync');
 
 /**
  * Main function for linting and formatting files
- * @param {boolean} fix Specify if the linter should auto-fix the files
+ * @param {boolean} fix Specify whether to auto-fix the files
  */
 module.exports = function(fix) {
 	const CONFIG = getMergedConfig('npmscripts');
 
-	const globs = fix ? CONFIG.format : CONFIG.lint;
+	const globs = fix ? CONFIG.fix : CONFIG.check;
 
 	if (!globs.length) {
 		log(

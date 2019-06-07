@@ -30,21 +30,21 @@ Do you have soy dependencies? `build` should automatically detect them.
 
 Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` file and follow the configuration options [here](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-liferay-npm-bridge-generator).
 
-### lint
+### check
 
 ```sh
-liferay-npm-scripts lint
+liferay-npm-scripts check
 ```
 
-Lint calls `prettier` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32)..
+Check calls `prettier` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32).
 
-### format
+### fix
 
 ```sh
-liferay-npm-scripts format
+liferay-npm-scripts fix
 ```
 
-Format calls `prettier` with the `--write` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
+Fix calls `prettier` with the `--write` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
 
 ### test
 
@@ -119,7 +119,7 @@ If you just set dependencies to be `['my-new-dependency']`, it will override the
 
 If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel.json), [Default Bundler Config](./src/config/npm-bundler.json)
 
-For more control over `lint` and `format`, follow the configuration options [here](https://github.com/liferay/liferay-frontend-source-formatter#custom-configuration)
+For more control over `check` and `fix`, follow the configuration options [here](https://github.com/liferay/liferay-frontend-source-formatter#custom-configuration)
 
 Want to use a different `NODE_ENV`? Try doing something like
 
