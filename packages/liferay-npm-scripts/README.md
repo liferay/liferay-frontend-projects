@@ -36,7 +36,7 @@ Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` fil
 liferay-npm-scripts check
 ```
 
-Check calls `prettier` for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32).
+Check calls `prettier` with the `--check` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32).
 
 ### fix
 
