@@ -12,7 +12,7 @@ const process = require('process');
  * @param {Array.<string>} dependencies
  * @returns {string}
  */
-module.exports = function(dependencies) {
+function generateSoyDependencies(dependencies) {
 	const cwd = process.cwd();
 
 	const stringDependencies = dependencies
@@ -37,4 +37,6 @@ module.exports = function(dependencies) {
 		.join(',');
 
 	return `{${stringDependencies}}/src/**/*.soy`;
-};
+}
+
+module.exports = generateSoyDependencies;

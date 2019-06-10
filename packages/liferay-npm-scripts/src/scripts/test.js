@@ -9,10 +9,10 @@ const CWD = process.cwd();
 const fs = require('fs');
 const path = require('path');
 
-const getMergedConfig = require('../utils/get-merged-config');
+const getMergedConfig = require('../utils/getMergedConfig');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
-const spawnSync = require('../utils/spawn-sync');
-const withBabelConfig = require('../utils/with-babel-config');
+const spawnSync = require('../utils/spawnSync');
+const withBabelConfig = require('../utils/withBabelConfig');
 
 const JEST_CONFIG = getMergedConfig('jest');
 

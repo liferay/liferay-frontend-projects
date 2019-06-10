@@ -5,25 +5,23 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 
-const getMergedConfig = require('./get-merged-config');
-const {moveToTemp, removeFromTemp} = require('./move-to-temp');
+const getMergedConfig = require('./getMergedConfig');
+const moveToTemp = require('../utils/moveToTemp');
+const removeFromTemp = require('../utils/removeFromTemp');
 
 const BABEL_CONFIG = getMergedConfig('babel');
-const CWD = process.cwd();
-const RC_PATH = path.join(CWD, '.babelrc');
 
 function setBabelConfig() {
-	moveToTemp(CWD, '.babelrc', 'babel');
+	moveToTemp('.babelrc', 'babel');
 
-	fs.writeFileSync(RC_PATH, JSON.stringify(BABEL_CONFIG));
+	fs.writeFileSync('.babelrc', JSON.stringify(BABEL_CONFIG));
 }
 
 function removeBabelConfig() {
-	fs.unlinkSync(RC_PATH);
+	fs.unlinkSync('.babelrc');
 
-	removeFromTemp(CWD, '.babelrc', 'babel');
+	removeFromTemp('.babelrc', 'babel');
 }
 
 /**

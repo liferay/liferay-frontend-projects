@@ -6,7 +6,7 @@
 
 jest.mock('fs');
 
-const reporter = require('../index');
+const reporter = require('../src');
 const fs = require('fs');
 
 const faildTestReport = {

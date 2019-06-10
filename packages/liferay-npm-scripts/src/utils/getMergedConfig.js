@@ -5,8 +5,8 @@
  */
 
 const sortKeys = require('sort-keys');
-const deepMerge = require('./deep-merge');
-const getUserConfig = require('./get-user-config');
+const deepMerge = require('./deepMerge');
+const getUserConfig = require('./getUserConfig');
 
 /**
  * Helper to get JSON configs
