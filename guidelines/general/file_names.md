@@ -32,7 +32,7 @@ Choosing names is one of [two hard things](https://martinfowler.com/bliki/TwoHar
 -   One place where it is often appropriate to export many things is the file indicated by the "main" property in the "package.json": in this case, "index.js" is often a good name for this file.
 -   When creating a file with multiple exports is the most practical choice, pick a name that describes the purpose of the contents: if you cannot identify a single purpose, that is a sign that you should find a way to split the file.
 
-### Why `tests/**/*.js`?
+### Why `test/**/*.js`?
 
 In practice, tooling can be configured to work well with alternatives like `__tests__/**/*.js`, `*-test.js` (etc), so in a sense the choice is arbitrary. We chose, however, to favor top-level "src/" and "test/" directories a long time ago in order to make it clear that code in the latter would never be bundled and delivered to clients.
 
