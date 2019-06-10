@@ -16,7 +16,7 @@ import * as xml from './xml';
 import * as ddm from './ddm';
 
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
-const jarFileName = `${pkgJson.name}-${pkgJson.version}.jar`;
+const jarFileName = (config.jar.getOutputFilename() !== '' ? config.jar.getOutputFilename() : `${pkgJson.name}-${pkgJson.version}.jar`);
 
 /**
  * Create an OSGi bundle with build's output
