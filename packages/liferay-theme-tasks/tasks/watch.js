@@ -29,7 +29,7 @@ const EXPLODED_BUILD_DIR_NAME = '.web_bundle_build';
 const MIME_TYPES = {
 	'.css': 'text/css',
 	'.ico': 'image/x-icon',
-	'.js': 'text/javacript',
+	'.js': 'text/javascript',
 	'.map': 'application/json',
 	'.svg': 'image/svg+xml',
 };
