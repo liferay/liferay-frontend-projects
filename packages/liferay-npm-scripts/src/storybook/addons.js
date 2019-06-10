@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
- /**
+/**
  * Order determines the order they will be displayed in the tabs.
  */
 import '@storybook/addon-knobs/register';
