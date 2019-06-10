@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const getMergedConfig = require('../../src/utils/get-merged-config');
+const getMergedConfig = require('../../src/utils/getMergedConfig');
 
 describe('getMergedConfig()', () => {
 	it('rejects invalid types', () => {

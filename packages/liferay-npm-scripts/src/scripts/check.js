@@ -6,9 +6,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const getMergedConfig = require('../utils/get-merged-config');
+const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
-const spawnSync = require('../utils/spawn-sync');
+const spawnSync = require('../utils/spawnSync');
 
 /**
  * Main function for linting and formatting files

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const deepMerge = require('../../src/utils/deep-merge');
+const deepMerge = require('../../src/utils/deepMerge');
 
 describe('deepMerge()', () => {
 	it('uses the "DEFAULT" mode by default', () => {

@@ -5,8 +5,8 @@
  */
 
 const fs = require('fs');
-const spawnSync = require('../utils/spawn-sync');
-const withBabelConfig = require('../utils/with-babel-config');
+const spawnSync = require('../utils/spawnSync');
+const withBabelConfig = require('../utils/withBabelConfig');
 
 const WATCH_CONFIG_FILE = 'webpack.config.dev.js';
 

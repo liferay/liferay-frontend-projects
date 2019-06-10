@@ -19,9 +19,9 @@ describe('scripts/check.js', () => {
 		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'check-'));
 		process.chdir(temp);
 
-		jest.mock('../../src/utils/spawn-sync');
+		jest.mock('../../src/utils/spawnSync');
 		check = require('../../src/scripts/check');
-		spawnSync = require('../../src/utils/spawn-sync');
+		spawnSync = require('../../src/utils/spawnSync');
 	});
 
 	afterEach(() => {
@@ -50,7 +50,7 @@ describe('scripts/check.js', () => {
 			jest.mock('../../src/utils/log');
 			check = require('../../src/scripts/check');
 			log = require('../../src/utils/log');
-			spawnSync = require('../../src/utils/spawn-sync');
+			spawnSync = require('../../src/utils/spawnSync');
 		});
 
 		it('logs a message indicating how to configure globs', () => {

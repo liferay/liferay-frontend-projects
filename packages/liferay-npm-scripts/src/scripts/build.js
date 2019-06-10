@@ -9,13 +9,14 @@ const CWD = process.cwd();
 const fs = require('fs');
 const path = require('path');
 
-const getMergedConfig = require('../utils/get-merged-config');
-const {moveToTemp, removeFromTemp} = require('../utils/move-to-temp');
-const setEnv = require('../utils/set-env');
+const getMergedConfig = require('../utils/getMergedConfig');
+const moveToTemp = require('../utils/moveToTemp');
+const removeFromTemp = require('../utils/removeFromTemp');
+const setEnv = require('../utils/setEnv');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
-const spawnSync = require('../utils/spawn-sync');
+const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
-const withBabelConfig = require('../utils/with-babel-config');
+const withBabelConfig = require('../utils/withBabelConfig');
 const webpack = require('./webpack');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts').build;
@@ -42,7 +43,7 @@ function compileBabel() {
  */
 function runBundler() {
 	try {
-		moveToTemp(CWD, '.npmbundlerrc');
+		moveToTemp('.npmbundlerrc');
 
 		const RC_PATH = path.join(CWD, '.npmbundlerrc');
 
@@ -52,7 +53,7 @@ function runBundler() {
 
 		fs.unlinkSync(RC_PATH);
 	} finally {
-		removeFromTemp(CWD, '.npmbundlerrc');
+		removeFromTemp('.npmbundlerrc');
 	}
 }
 

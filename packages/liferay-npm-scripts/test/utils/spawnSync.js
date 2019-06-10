@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const spawnSync = require('../../src/utils/spawn-sync');
+const spawnSync = require('../../src/utils/spawnSync');
 
 const {SpawnError} = spawnSync;
 
