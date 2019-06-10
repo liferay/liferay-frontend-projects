@@ -6,6 +6,8 @@
 
 const path = require('path');
 
+const CWD = process.cwd();
+
 /**
  * This is a custom webpack config for storybook builds.
  *
@@ -21,7 +23,7 @@ module.exports = async ({config, mode}) => {
 	config.module.rules = [
 		...config.module.rules,
 		{
-			include: path.resolve(__dirname, '../../'),
+			include: path.resolve(CWD),
 			loaders: ['style-loader', 'css-loader', 'sass-loader'],
 			test: /\.scss$/
 		},
@@ -32,7 +34,7 @@ module.exports = async ({config, mode}) => {
 				{
 					loader: 'liferay-lang-key-dev-loader',
 					options: {
-						path: './src/main/resources/content/Language.properties'
+						path: CWD + '/src/main/resources/content/Language.properties'
 					}
 				}
 			]
