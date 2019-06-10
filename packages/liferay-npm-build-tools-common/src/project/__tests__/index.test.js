@@ -17,6 +17,12 @@ describe('empty project', () => {
 		);
 	});
 
+	it('loads liferay-npm-bundler-preset-standard preset', () => {
+		expect(project._npmbundlerrc['*']['.babelrc']['presets']).toEqual([
+			'liferay-standard',
+		]);
+	});
+
 	it('returns dir', () => {
 		expect(project.dir).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'empty')
@@ -191,5 +197,31 @@ describe('specific features', () => {
 		expect(project.jar.customManifestHeaders).toEqual({});
 		expect(project.jar.outputDir).toBe(project.buildDir);
 		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
+	});
+});
+
+describe('honors presets', () => {
+	beforeEach(() => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+		);
+	});
+
+	it('loads project.dir from preset', () => {
+		expect(project.dir).toBe(
+			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+		);
+	});
+
+	it('loads project.buildDir from preset', () => {
+		expect(project.buildDir).toBe('preset-build');
+	});
+
+	it('loads project.jar.outputDir from preset', () => {
+		expect(project.jar.outputDir).toBe('preset-dist');
+	});
+
+	it('detects JAR configuration even if only in preset', () => {
+		expect(project.jar.supported).toBe(true);
 	});
 });

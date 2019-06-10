@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "dot-prop": "^5.0.0",
+    "liferay-npm-bundler-preset-standard": "2.10.0",
+    "merge": "^1.2.1",
     "properties": "^1.2.1",
-    "read-json-sync": "^2.0.0"
+    "read-json-sync": "^2.0.0",
+    "resolve": "^1.11.1"
   }
 }
