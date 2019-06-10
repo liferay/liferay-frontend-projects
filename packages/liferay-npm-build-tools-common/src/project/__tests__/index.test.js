@@ -17,6 +17,12 @@ describe('empty project', () => {
 		);
 	});
 
+	it('returns dir', () => {
+		expect(project.dir).toBe(
+			path.join(__dirname, '__fixtures__', 'project', 'empty')
+		);
+	});
+
 	it('returns buildDir', () => {
 		expect(project.buildDir).toBe(
 			'build/resources/main/META-INF/resources'
@@ -71,6 +77,12 @@ describe('empty project', () => {
 describe('standard project', () => {
 	beforeEach(() => {
 		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'standard')
+		);
+	});
+
+	it('returns dir', () => {
+		expect(project.dir).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'standard')
 		);
 	});

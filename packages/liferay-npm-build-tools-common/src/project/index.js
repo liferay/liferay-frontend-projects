@@ -58,6 +58,13 @@ export class Project {
 
 		return this._buildDir;
 	}
+
+	/**
+	 * Get project's directory
+	 */
+	get dir() {
+		return this._projectDir;
+	}
 }
 
 export default new Project('.');
