@@ -45,8 +45,8 @@
 		"test": "jest"
 	},
 	"jest": {
-		"testRegex": [
-			"/__tests__/.*"
+		"testMatch": [
+			"**/test/**/*.js"
 		]
 	}
 }
