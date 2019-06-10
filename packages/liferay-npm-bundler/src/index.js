@@ -237,6 +237,11 @@ function bundlePackage(srcPkg, outputDir) {
 function copyPackage(pkg, dir) {
 	const exclusions = config.bundler.getExclusions(pkg);
 
+	// Optimize execution time when a "exclude everything" glob is found
+	if (exclusions.find(exclusion => exclusion === '**/*')) {
+		return Promise.resolve(false);
+	}
+
 	// Determine what to copy
 	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
 		gl.negate(gl.prefix(`${pkg.dir}/`, exclusions))
