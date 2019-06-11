@@ -1,3 +1,10 @@
+## [v9.1.4](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.4) (2019-06-11)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.3...v9.1.4)
+
+- chore: strictly peg dependency versions (#352) ([\#353](https://github.com/liferay/liferay-js-themes-toolkit/pull/353))
+- fix: Fix typo in JS MIME type (9.x) (#349) ([\#351](https://github.com/liferay/liferay-js-themes-toolkit/pull/351))
+
 ## [v9.1.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.3) (2019-06-06)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.2...v9.1.3)
