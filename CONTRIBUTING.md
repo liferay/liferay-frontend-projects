@@ -142,11 +142,11 @@ We used to use Lerna to manage this repo, but as the number of packages has redu
 
 ```sh
 cd packages
-(cd liferay-theme-deps-7.0 && yarn publish)
-(cd liferay-theme-deps-7.1 && yarn publish)
-(cd liferay-theme-tasks && yarn publish)
-(cd generator-liferay-theme && yarn publish)
-(cd liferay-theme-mixins && yarn publish)
+(cd liferay-theme-deps-7.0 && yarn publish --tag 8.x)
+(cd liferay-theme-deps-7.1 && yarn publish --tag 8.x)
+(cd liferay-theme-tasks && yarn publish --tag 8.x)
+(cd generator-liferay-theme && yarn publish --tag 8.x)
+(cd liferay-theme-mixins && yarn publish --tag 8.x)
 ```
 
 We may partially automate this in the future, but don't actually anticipate much change on the 8.x branch moving forward, so it may not be worth it.
