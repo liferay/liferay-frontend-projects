@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+const webpack = require('webpack');
 
 const CWD = process.cwd();
 
@@ -40,6 +41,12 @@ module.exports = async ({config, mode}) => {
 			]
 		}
 	];
+
+	config.plugins.push(
+		new webpack.DefinePlugin({
+			'process.env.STORYBOOK_CWD': JSON.stringify(CWD)
+		})
+	);
 
 	return config;
 };

@@ -7,7 +7,7 @@
 import {configure} from '@storybook/react';
 
 function loadStories() {
-	require(`${process.env.STORYBOOK_CWD}/stories`);
+	require(process.env.STORYBOOK_CWD + '/stories');
 }
 
 configure(loadStories, module);

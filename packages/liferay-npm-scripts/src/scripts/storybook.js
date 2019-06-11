@@ -11,12 +11,6 @@ const spawnSync = require('../utils/spawn-sync');
 const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 
 /**
- * Used for storybook/config.js to load stories from the current working
- * directory.
- */
-const STORYBOOK_ENV_CWD = `STORYBOOK_CWD=${process.cwd()}`;
-
-/**
  * Starts a storybook server for testing frontend components.
  */
 module.exports = function() {
@@ -27,5 +21,5 @@ module.exports = function() {
 		path.join(__dirname, '../storybook')
 	];
 
-	spawnSync(`${STORYBOOK_ENV_CWD} start-storybook`, args, {shell: true});
+	spawnSync('start-storybook', args);
 };
