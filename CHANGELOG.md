@@ -1,3 +1,10 @@
+## [v8.0.11](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.11) (2019-06-11)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.10...v8.0.11)
+
+- docs: indicate the use of `--tag` when publishing ([\#355](https://github.com/liferay/liferay-js-themes-toolkit/pull/355))
+- fix: Fix typo in JS MIME type (8.x) (#349) ([\#350](https://github.com/liferay/liferay-js-themes-toolkit/pull/350))
+
 ## [v8.0.10](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.10) (2019-06-06)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.9...v8.0.10)
