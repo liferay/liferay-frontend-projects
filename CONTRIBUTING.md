@@ -142,8 +142,13 @@ We used to use Lerna to manage this repo, but as the number of packages has redu
 
 ```sh
 cd packages
-(cd liferay-theme-deps-7.0 && yarn publish --tag 8.x)
-(cd liferay-theme-deps-7.1 && yarn publish --tag 8.x)
+
+# No need to use `--tag` for these because only v8.x contains them:
+(cd liferay-theme-deps-7.0 && yarn publish)
+(cd liferay-theme-deps-7.1 && yarn publish)
+
+# Note the use of `--tag` here to ensure that only v9.x releases
+# are considered "latest":
 (cd liferay-theme-tasks && yarn publish --tag 8.x)
 (cd generator-liferay-theme && yarn publish --tag 8.x)
 (cd liferay-theme-mixins && yarn publish --tag 8.x)
