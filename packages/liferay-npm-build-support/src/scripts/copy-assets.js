@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import cpr from 'cpr';
 import fs from 'fs-extra';
-import {ncp} from 'ncp';
 
 /**
  *
@@ -13,15 +13,15 @@ import {ncp} from 'ncp';
 export default function() {
 	fs.mkdirpSync('build');
 
-	ncp(
+	cpr(
 		'assets',
 		'build',
 		{
-			filter(path) {
-				return !/\/\.placeholder$/.test(path);
-			},
+			confirm: true,
+			filter: path => !/\/\.placeholder$/.test(path),
+			overwrite: true,
 		},
-		function(err) {
+		err => {
 			if (err) {
 				console.error(err);
 				process.exit(1);
