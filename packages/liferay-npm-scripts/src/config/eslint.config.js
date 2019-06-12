@@ -5,6 +5,20 @@
  */
 
 module.exports = {
+	env: {
+		browser: true
+	},
 	extends: [require.resolve('eslint-config-liferay')],
+	globals: {
+		Liferay: true
+	},
+	overrides: [
+		{
+			files: ['**/test/**/*.js'],
+			env: {
+				jest: true
+			}
+		}
+	],
 	root: true
 };
