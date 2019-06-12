@@ -16,7 +16,6 @@ import * as xml from './xml';
 import * as ddm from './ddm';
 
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
-const jarFileName = (config.jar.getOutputFilename() !== '' ? config.jar.getOutputFilename() : `${pkgJson.name}-${pkgJson.version}.jar`);
 
 /**
  * Create an OSGi bundle with build's output
@@ -35,7 +34,10 @@ export default function createJar() {
 		fs.mkdirpSync(config.jar.getOutputDir());
 
 		fs.writeFileSync(
-			path.join(config.jar.getOutputDir(), jarFileName),
+			path.join(
+				config.jar.getOutputDir(),
+				config.jar.getOutputFilename()
+			),
 			buffer
 		);
 	});
@@ -48,7 +50,7 @@ export default function createJar() {
 function addBuildFiles(zip) {
 	addFiles(
 		config.getOutputDir(),
-		['**/*', `!${jarFileName}`],
+		['**/*', `!${config.jar.getOutputFilename()}`],
 		zip.folder('META-INF').folder('resources')
 	);
 }

@@ -95,15 +95,18 @@ export function getOutputDir() {
 }
 
 /**
- * Get the output file name for JAR files. Defaults to an empty string if none is
- * specified, requiring the caller to generate the default based upon the package 
- * name and version specified in the package.json.
+ * Get the output file name for JAR files. Defaults to
+ * `${pkgJson.name}-${pkgJson.version}.jar` if none is specified.
  * @return {string}
  */
 export function getOutputFilename() {
 	const jarConfig = getNormalizedJarConfig();
 
-	return prop.get(jarConfig, 'output-filename', '');
+	return prop.get(
+		jarConfig,
+		'output-filename',
+		`${pkgJson.name}-${pkgJson.version}.jar`
+	);
 }
 
 /**
