@@ -1,0 +1,24 @@
+var scriptsInjected = false;
+
+module.exports = function(args) {
+  if (!scriptsInjected) {
+    var script;
+
+    <% jsFiles.forEach(jsFile => { %>
+    script = document.createElement("script");
+    script.src = "/o<%= webContextPath %>/react-app/static/js/<%= jsFile %>";
+    script.async = false;
+    document.head.appendChild(script);
+    <% }) %>
+  
+    scriptsInjected = true;
+  }
+
+  Liferay.Loader.require(
+    'frontend-js-portlet-extender/webpack/registry', 
+    function(registry) {
+      registry = registry.default;
+      registry.launchPortlet("<%= pkgJson.name %>@<%= pkgJson.version %>", args);
+    }
+  );
+}
