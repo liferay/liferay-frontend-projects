@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const sortKeys = require('sort-keys');
 const deepMerge = require('./deepMerge');
 const getUserConfig = require('./getUserConfig');
 
@@ -15,33 +14,28 @@ const getUserConfig = require('./getUserConfig');
 function getMergedConfig(type) {
 	switch (type) {
 		case 'babel':
-			return sortKeys(
-				deepMerge(
-					[require('../config/babel'), getUserConfig('babel')],
-					deepMerge.MODE.BABEL
-				)
+			return deepMerge(
+				[require('../config/babel'), getUserConfig('babel')],
+				deepMerge.MODE.BABEL
 			);
 
 		case 'bundler':
-			return sortKeys(
-				deepMerge([
-					require('../config/npm-bundler'),
-					getUserConfig('npmbundler')
-				])
-			);
+			return deepMerge([
+				require('../config/npm-bundler'),
+				getUserConfig('npmbundler')
+			]);
 
 		case 'jest':
-			return sortKeys(
-				deepMerge([require('../config/jest'), getUserConfig('jest')])
-			);
+			return deepMerge([
+				require('../config/jest'),
+				getUserConfig('jest')
+			]);
 
 		case 'prettier':
-			return sortKeys(
-				deepMerge([
-					require('../config/prettier'),
-					getUserConfig('prettier')
-				])
-			);
+			return deepMerge([
+				require('../config/prettier'),
+				getUserConfig('prettier')
+			]);
 
 		case 'npmscripts': {
 			let presetConfig = {};
@@ -58,11 +52,9 @@ function getMergedConfig(type) {
 				presetConfig = require(userConfig.preset);
 			}
 
-			return sortKeys(
-				deepMerge(
-					[presetConfig, userConfig],
-					deepMerge.MODE.OVERWRITE_ARRAYS
-				)
+			return deepMerge(
+				[presetConfig, userConfig],
+				deepMerge.MODE.OVERWRITE_ARRAYS
 			);
 		}
 
