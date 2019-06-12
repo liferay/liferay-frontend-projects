@@ -51,6 +51,10 @@ describe('empty project', () => {
 		it('returns supported', () => {
 			expect(project.jar.supported).toBe(false);
 		});
+
+		it('returns webContextPath', () => {
+			expect(project.jar.webContextPath).toBe('/empty-1.0.0');
+		});
 	});
 
 	describe('project.l10n', () => {
@@ -120,6 +124,10 @@ describe('standard project', () => {
 
 		it('returns supported', () => {
 			expect(project.jar.supported).toBe(true);
+		});
+
+		it('returns webContextPath', () => {
+			expect(project.jar.webContextPath).toBe('/standard');
 		});
 	});
 

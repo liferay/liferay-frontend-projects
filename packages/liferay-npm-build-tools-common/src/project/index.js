@@ -24,6 +24,7 @@ export class Project {
 	constructor(projectDir) {
 		this._projectDir = projectDir;
 
+		this._loadPkgJson();
 		this._loadNpmbundlerrc();
 
 		const pkgJsonPath = path.join(projectDir, 'package.json');
@@ -94,6 +95,12 @@ export class Project {
 		}
 
 		this._npmbundlerrc = config;
+	}
+
+	_loadPkgJson() {
+		this._pkgJson = readJsonSync(
+			path.join(this._projectDir, 'package.json')
+		);
 	}
 }
 
