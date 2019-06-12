@@ -74,7 +74,7 @@ function getMergedConfig(type, property) {
 
 		case 'eslint':
 			mergedConfig = deepMerge([
-				require('../config/eslint'),
+				require('../config/eslint.config'),
 				getUserConfig('eslint')
 			]);
 			break;
