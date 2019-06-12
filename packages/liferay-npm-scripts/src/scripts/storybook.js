@@ -5,8 +5,8 @@
  */
 
 const path = require('path');
-const getMergedConfig = require('../utils/get-merged-config');
-const spawnSync = require('../utils/spawn-sync');
+const getMergedConfig = require('../utils/getMergedConfig');
+const spawnSync = require('../utils/spawnSync');
 
 const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 

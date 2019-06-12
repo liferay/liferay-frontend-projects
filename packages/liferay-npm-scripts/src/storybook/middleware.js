@@ -6,7 +6,7 @@
 
 const proxy = require('http-proxy-middleware');
 
-const getMergedConfig = require('../utils/get-merged-config');
+const getMergedConfig = require('../utils/getMergedConfig');
 
 const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 
