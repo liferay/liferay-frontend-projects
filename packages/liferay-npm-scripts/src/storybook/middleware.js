@@ -6,16 +6,19 @@
 
 const proxy = require('http-proxy-middleware');
 
+const getMergedConfig = require('../utils/get-merged-config');
+
+const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
+
 /**
- * Middleware to proxy portal resources. This was first created to be able to
- * reference icons in the admin theme from Storybook.
+ * Middleware to proxy portal resources.
  */
 module.exports = function expressMiddleware(router) {
 	router.use(
 		'/o',
 		proxy({
 			changeOrigin: true,
-			target: 'http://0.0.0.0:8080'
+			target: STORYBOOK_CONFIG.portalURL
 		})
 	);
 };
