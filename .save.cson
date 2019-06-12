@@ -13,32 +13,20 @@
 "packages/babel-plugin-normalize-requires/**/*.js": {
   command: "cd packages/babel-plugin-normalize-requires && npm run build"
 }
-"packages/babel-plugin-shim-nodejs/**/*.js": {
-  command: "cd packages/babel-plugin-shim-nodejs && npm run build"
-}
 "packages/babel-plugin-wrap-modules-amd/**/*.js": {
   command: "cd packages/babel-plugin-wrap-modules-amd && npm run build"
-}
-"packages/babel-preset-liferay-amd/**/*.js": {
-  command: "cd packages/babel-preset-liferay-amd && npm run build"
-}
-"packages/babel-preset-liferay-isomorphic/**/*.js": {
-  command: "cd packages/babel-preset-liferay-isomorphic && npm run build"
-}
-"packages/babel-preset-liferay-project/**/*.js": {
-  command: "cd packages/babel-preset-liferay-project && npm run build"
 }
 "packages/babel-preset-liferay-standard/**/*.js": {
   command: "cd packages/babel-preset-liferay-standard && npm run build"
 }
-"packages/generator-liferay-bundle/**/*": {
-  command: "cd packages/generator-liferay-bundle && npm run build"
-}
-"packages/generator-liferay-js/**/*": {
+"packages/generator-liferay-js/**/*.js": {
   command: "cd packages/generator-liferay-js && npm run build"
 }
 "packages/liferay-npm-bridge-generator/**/*.js": {
   command: "cd packages/liferay-npm-bridge-generator && npm run build"
+}
+"packages/liferay-npm-build-support/**/*.js": {
+  command: "cd packages/liferay-npm-build-support && npm run build"
 }
 "packages/liferay-npm-build-tools-common/**/*.js": {
   command: "cd packages/liferay-npm-build-tools-common && npm run build"
@@ -46,8 +34,8 @@
 "packages/liferay-npm-bundler/**/*.js": {
   command: "cd packages/liferay-npm-bundler && npm run build"
 }
-"packages/liferay-npm-bundler-plugin-inject-angular-dependencies/**/*.js": {
-  command: "cd packages/liferay-npm-bundler-plugin-inject-angular-dependencies && npm run build"
+"packages/liferay-npm-bundler-plugin-create-react-app/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-plugin-create-react-app && npm run build"
 }
 "packages/liferay-npm-bundler-plugin-exclude-imports/**/*.js": {
   command: "cd packages/liferay-npm-bundler-plugin-exclude-imports && npm run build"
@@ -67,23 +55,11 @@
 "packages/liferay-npm-bundler-plugin-resolve-linked-dependencies/**/*.js": {
   command: "cd packages/liferay-npm-bundler-plugin-resolve-linked-dependencies && npm run build"
 }
-"packages/liferay-npm-bundler-preset-amd/**/*.js": {
-  command: "cd packages/liferay-npm-bundler-preset-amd && npm run build"
-}
-"packages/liferay-npm-bundler-preset-angular/**/*.js": {
-  command: "cd packages/liferay-npm-bundler-preset-angular && npm run build"
-}
-"packages/liferay-npm-bundler-preset-isomorphic/**/*.js": {
-  command: "cd packages/liferay-npm-bundler-preset-isomorphic && npm run build"
-}
-"packages/liferay-npm-bundler-preset-react/**/*.js": {
-  command: "cd packages/liferay-npm-bundler-preset-react && npm run build"
+"packages/liferay-npm-bundler-preset-create-react-app/**/*.js": {
+  command: "cd packages/liferay-npm-bundler-preset-create-react-app && npm run build"
 }
 "packages/liferay-npm-bundler-preset-standard/**/*.js": {
   command: "cd packages/liferay-npm-bundler-preset-standard && npm run build"
-}
-"packages/liferay-npm-bundler-preset-vue/**/*.js": {
-  command: "cd packages/liferay-npm-bundler-preset-vue && npm run build"
 }
 "packages/liferay-npm-imports-checker/**/*.js": {
   command: "cd packages/liferay-npm-imports-checker && npm run build"
