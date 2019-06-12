@@ -28,7 +28,7 @@ function loadConfig() {
 	normalize(npmbuildrc, 'webpack.mainModule', 'index.js');
 	normalize(npmbuildrc, 'webpack.rules', []);
 	normalize(npmbuildrc, 'webpack.extensions', ['.js']);
-	normalize(npmbuildrc, 'webpack.port', 8080);
+	normalize(npmbuildrc, 'webpack.port', null);
 
 	normalize(npmbundlerrc, 'create-jar.output-dir', 'build');
 	normalize(

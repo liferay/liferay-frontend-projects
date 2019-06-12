@@ -1,11 +1,12 @@
 {
 	"create-jar": {
 		"customManifestHeaders": {
-			"Project-Name": "Test Project",
+			"Project-Name": "Overriden in manifest.json",
 			"Responsible": "john.doe@somewhere.net"
 		},
 		"features": {
-			"localization": "features/localization/Language"
+			"localization": "features/localization/Language",
+			"manifest": "features/manifest.json"
 		}
 	}
 }
