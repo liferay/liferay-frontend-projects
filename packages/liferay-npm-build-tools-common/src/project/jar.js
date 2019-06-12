@@ -45,8 +45,8 @@ export default class Jar {
 			);
 
 			this._customManifestHeaders = Object.assign(
-				featuresHeaders,
-				npmbundlerrcHeaders
+				npmbundlerrcHeaders,
+				featuresHeaders
 			);
 		}
 
