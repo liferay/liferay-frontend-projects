@@ -1,0 +1,21 @@
+{
+	"/": {
+		"plugins": ["resolve-linked-dependencies"],
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"post-plugins": ["create-react-app"]
+	},
+	"create-jar": {
+		"output-dir": "build.lr",
+		"features": {
+			"js-extender": true
+		}
+	},
+	"exclude": {
+		"*": ["**/*"]
+	},
+	"ignore": ["react-app/**"],
+	"no-tracking": true,
+	"output": "build.lr/jar"
+}
