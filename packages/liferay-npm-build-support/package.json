@@ -3,6 +3,7 @@
 	"version": "2.11.0",
 	"description": "A library of scripts and helpers used by generated projects in their build processes.",
 	"bin": {
+		"lnbs-build": "bin/lnbs-build.js",
 		"lnbs-copy-assets": "bin/lnbs-copy-assets.js",
 		"lnbs-copy-sources": "bin/lnbs-copy-sources.js",
 		"lnbs-deploy": "bin/lnbs-deploy.js",
