@@ -95,6 +95,21 @@ export function getOutputDir() {
 }
 
 /**
+ * Get the output file name for JAR files. Defaults to
+ * `${pkgJson.name}-${pkgJson.version}.jar` if none is specified.
+ * @return {string}
+ */
+export function getOutputFilename() {
+	const jarConfig = getNormalizedJarConfig();
+
+	return prop.get(
+		jarConfig,
+		'output-filename',
+		`${pkgJson.name}-${pkgJson.version}.jar`
+	);
+}
+
+/**
  * Get normalized JAR config as an object. Note that if JAR config is false this
  * method returns an object too so it only makes sense in a context where
  * cfg.isCreateJar() has already been checked and returned true.
