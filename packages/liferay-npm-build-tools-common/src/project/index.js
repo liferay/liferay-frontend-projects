@@ -41,6 +41,7 @@ export class Project {
 
 	/**
 	 * Get directory where files to be transformed live.
+	 * @return {string} the directory path (with native separators)
 	 */
 	get buildDir() {
 		if (this._buildDir === undefined) {

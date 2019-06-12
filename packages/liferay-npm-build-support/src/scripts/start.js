@@ -5,6 +5,7 @@
  */
 
 import childProcess from 'child_process';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import os from 'os';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -13,10 +14,9 @@ import util from 'util';
 import * as cfg from '../config';
 import Renderer from '../util';
 
-const projectDir = cfg.getProjectDir();
 const templatesDir = path.join(__dirname, '..', 'resources', 'start');
-const webpackDir = path.join(projectDir, '.webpack');
-const pkgJson = readJsonSync(`${projectDir}/package.json`);
+const webpackDir = path.join(project.dir, '.webpack');
+const pkgJson = readJsonSync(path.join(project.dir, 'package.json'));
 
 /**
  *
@@ -83,7 +83,7 @@ function runWebpackDevServer() {
 	if (os.platform() === 'win32') {
 		const webpackDevServerPath = path.resolve(
 			path.join(
-				cfg.getProjectDir(),
+				project.dir,
 				'node_modules',
 				'.bin',
 				'webpack-dev-server.cmd'
@@ -96,12 +96,7 @@ function runWebpackDevServer() {
 		});
 	} else {
 		const webpackDevServerPath = path.resolve(
-			path.join(
-				cfg.getProjectDir(),
-				'node_modules',
-				'.bin',
-				'webpack-dev-server'
-			)
+			path.join(project.dir, 'node_modules', '.bin', 'webpack-dev-server')
 		);
 
 		proc = childProcess.spawn(process.execPath, [webpackDevServerPath], {

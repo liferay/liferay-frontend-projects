@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+// TODO: Move this whole file to liferay-npm-build-tools-common (see #328)
+
 import path from 'path';
 import prop from 'dot-prop';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import readJsonSync from 'read-json-sync';
 
-const projectDir = process.cwd();
 let npmbuildrc = {};
 let npmbundlerrc = {};
 
@@ -18,10 +20,8 @@ loadConfig();
  * Load project configuration
  */
 function loadConfig() {
-	npmbuildrc = safeReadJsonSync(path.join(projectDir, '.npmbuildrc'));
-	npmbundlerrc = safeReadJsonSync(path.join(projectDir, '.npmbundlerrc'));
-
-	// TODO: Extract this to liferay-npm-build-tools-common (see #213)
+	npmbuildrc = safeReadJsonSync(path.join(project.dir, '.npmbuildrc'));
+	npmbundlerrc = project._npmbundlerrc;
 
 	// Normalize configurations
 	normalize(npmbuildrc, 'supportedLocales', []);
@@ -35,14 +35,6 @@ function loadConfig() {
 		'create-jar.features.localization',
 		'features/localization/Language'
 	);
-}
-
-/**
- * Get project's absolute path
- * @return {string}
- */
-export function getProjectDir() {
-	return projectDir;
 }
 
 /**

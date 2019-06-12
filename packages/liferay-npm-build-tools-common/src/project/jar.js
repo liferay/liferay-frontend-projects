@@ -100,7 +100,7 @@ export default class Jar {
 	get supported() {
 		const {_npmbundlerrc} = this._project;
 
-		return prop.has(_npmbundlerrc, 'create-jar');
+		return !!prop.has(_npmbundlerrc, 'create-jar', false);
 	}
 
 	get webContextPath() {
