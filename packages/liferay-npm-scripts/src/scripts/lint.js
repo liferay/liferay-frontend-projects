@@ -25,9 +25,9 @@ function lint(options = {}) {
 		...options
 	};
 
-	const CONFIG = getMergedConfig('npmscripts');
-
-	const globs = fix ? CONFIG.fix : CONFIG.check;
+	const globs = fix
+		? getMergedConfig('npmscripts', 'fix')
+		: getMergedConfig('npmscripts', 'check');
 
 	if (!globs.length) {
 		log(

@@ -40,5 +40,17 @@ describe('getMergedConfig()', () => {
 				);
 			});
 		});
+
+		it('returns a specific property when requested', () => {
+			expect(getMergedConfig('npmscripts', 'check')).toEqual(
+				expect.any(Array)
+			);
+		});
+
+		it('complains if a non-existent property is requested', () => {
+			expect(() => getMergedConfig('npmscripts', 'lint')).toThrow(
+				'property "lint" is missing'
+			);
+		});
 	});
 });

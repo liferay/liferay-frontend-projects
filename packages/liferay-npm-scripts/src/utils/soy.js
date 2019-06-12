@@ -11,7 +11,7 @@ const getMergedConfig = require('./getMergedConfig');
 const generateSoyDependencies = require('./generateSoyDependencies');
 const spawnSync = require('./spawnSync');
 
-const BUILD_CONFIG = getMergedConfig('npmscripts').build;
+const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
 
 /**
  * Removes any generated soy.js files

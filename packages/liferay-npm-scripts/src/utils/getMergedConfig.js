@@ -27,22 +27,50 @@ function validateGlobs(config) {
 }
 
 /**
- * Helper to get JSON configs
- * @param {string} type Name of configuration
+ * Pluck a specific property, `property`, from the configuration object,
+ * `config`.
+ *
+ * If no property is specified, returns the entire object.
  */
-function getMergedConfig(type) {
+function pluck(config, property) {
+	if (!property) {
+		return config;
+	}
+
+	if (!config.hasOwnProperty(property)) {
+		const keys = JSON.stringify(Object.keys(config));
+		const missing = JSON.stringify(property);
+		throw new Error(
+			`getMergedConfig(): property ${missing} is missing from configuration (existing keys are: ${keys})`
+		);
+	}
+
+	return config[property];
+}
+
+/**
+ * Helper to get JSON configs
+ * @param {string} type Name of configuration ("babel", "bundler", "jest" etc)
+ * @param {string=} property Specific configuration property to extract. If not
+ * supplied, the entire configuration object is returned.
+ */
+function getMergedConfig(type, property) {
+	let mergedConfig;
+
 	switch (type) {
 		case 'babel':
-			return deepMerge(
+			mergedConfig = deepMerge(
 				[require('../config/babel'), getUserConfig('babel')],
 				deepMerge.MODE.BABEL
 			);
+			break;
 
 		case 'bundler':
-			return deepMerge([
+			mergedConfig = deepMerge([
 				require('../config/npm-bundler'),
 				getUserConfig('npmbundler')
 			]);
+			break;
 
 		case 'eslint':
 			mergedConfig = deepMerge([
@@ -52,16 +80,18 @@ function getMergedConfig(type) {
 			break;
 
 		case 'jest':
-			return deepMerge([
+			mergedConfig = deepMerge([
 				require('../config/jest'),
 				getUserConfig('jest')
 			]);
+			break;
 
 		case 'prettier':
-			return deepMerge([
+			mergedConfig = deepMerge([
 				require('../config/prettier'),
 				getUserConfig('prettier')
 			]);
+			break;
 
 		case 'npmscripts': {
 			let presetConfig = {};
@@ -78,19 +108,20 @@ function getMergedConfig(type) {
 				presetConfig = require(userConfig.preset);
 			}
 
-			const mergedConfig = deepMerge(
+			mergedConfig = deepMerge(
 				[presetConfig, userConfig],
 				deepMerge.MODE.OVERWRITE_ARRAYS
 			);
 
 			validateGlobs(mergedConfig);
-
-			return mergedConfig;
+			break;
 		}
 
 		default:
 			throw new Error(`'${type}' is not a valid config`);
 	}
+
+	return pluck(mergedConfig, property);
 }
 
 module.exports = getMergedConfig;

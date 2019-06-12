@@ -19,7 +19,7 @@ const validateConfig = require('../utils/validateConfig');
 const withBabelConfig = require('../utils/withBabelConfig');
 const webpack = require('./webpack');
 
-const BUILD_CONFIG = getMergedConfig('npmscripts').build;
+const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
 const BUNDLER_CONFIG = getMergedConfig('bundler');
 
 /**

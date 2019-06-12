@@ -15,9 +15,9 @@ const spawnSync = require('../utils/spawnSync');
  * @param {boolean} fix Specify whether to auto-fix the files
  */
 module.exports = function(fix) {
-	const CONFIG = getMergedConfig('npmscripts');
-
-	const globs = fix ? CONFIG.fix : CONFIG.check;
+	const globs = fix
+		? getMergedConfig('npmscripts', 'fix')
+		: getMergedConfig('npmscripts', 'check');
 
 	if (!globs.length) {
 		log(
