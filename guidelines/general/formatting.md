@@ -11,9 +11,9 @@ To maintain some consistency with other parts of Liferay's codebase, we **recomm
 | [bracketSpacing](https://prettier.io/docs/en/options.html#bracket-spacing) | false | Print spaces between brackets in object literals.  | {foo: bar} |
 | [endOfLine](https://prettier.io/docs/en/options.html#end-of-line)          | "lf"  | Flavor of line endings in text files               |            |
 | [jsxSingleQuote](https://prettier.io/docs/en/options.html#jsx-quotes)      | true  | Use single quotes instead of double quotes in JSX. |            |
-| [singleQupte](https://prettier.io/docs/en/options.html#quotes)             | true  | Use single quotes instead of double quotes         |            |
+| [singleQuote](https://prettier.io/docs/en/options.html#quotes)             | true  | Use single quotes instead of double quotes         |            |
 | [tabWidth](https://prettier.io/docs/en/options.html#tab-width)             | 4     | Specify the number of spaces per indentation-level |            |
-|  [useTabs](https://prettier.io/docs/en/options.html#tabs)                  | true  |  Indent lines with tabs instead of spaces          |            |
+| [useTabs](https://prettier.io/docs/en/options.html#tabs)                   | true  |  Indent lines with tabs instead of spaces          |            |
 
 ## Workflow Integration
 
