@@ -1,0 +1,7 @@
+{
+	"name": "context-path-2",
+	"version": "1.0.0",
+	"osgi": {
+		"Web-ContextPath": "/my-portlet"
+	}
+}

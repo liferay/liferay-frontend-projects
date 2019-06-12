@@ -233,3 +233,53 @@ describe('honors presets', () => {
 		expect(project.jar.supported).toBe(true);
 	});
 });
+
+describe('project.jar.outputFilename', () => {
+	it('returns package name and version if not specified', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'bool-create-jar')
+		);
+
+		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
+	});
+});
+
+describe('project.jar.supported', () => {
+	it('works with true boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'bool-create-jar')
+		);
+
+		expect(project.jar.supported).toBe(true);
+	});
+
+	it('works with false boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'false-create-jar')
+		);
+
+		expect(project.jar.supported).toBe(false);
+	});
+});
+
+describe('deprecated config', () => {
+	describe('.npmbundlerrc', () => {
+		it('create-jar/web-context-path', () => {
+			project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-1')
+			);
+
+			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
+	});
+
+	describe('package.json', () => {
+		it('osgi/web-context-path', () => {
+			project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-2')
+			);
+
+			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
+	});
+});
