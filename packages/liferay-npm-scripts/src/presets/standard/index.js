@@ -14,10 +14,6 @@ module.exports = {
 		input: 'src/main/resources/META-INF/resources',
 		output: 'classes/META-INF/resources'
 	},
-	check: [
-		'{src,test}/**/*.css',
-		'{src,test}/**/*.js',
-		'{src,test}/**/*.scss'
-	],
-	fix: ['{src,test}/**/*.css', '{src,test}/**/*.js', '{src,test}/**/*.scss']
+	check: ['{src,test}/**/*.js', '{src,test}/**/*.scss'],
+	fix: ['{src,test}/**/*.js', '{src,test}/**/*.scss']
 };

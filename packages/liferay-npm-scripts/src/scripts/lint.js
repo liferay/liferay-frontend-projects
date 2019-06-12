@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const filterGlobs = require('../utils/filterGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const spawnSync = require('../utils/spawnSync');
@@ -17,6 +18,11 @@ const DEFAULT_OPTIONS = {
 };
 
 /**
+ * File extensions that ESLint can process.
+ */
+const EXTENSIONS = ['.js', '.ts', '.tsx'];
+
+/**
  * ESLint wrapper.
  */
 function lint(options = {}) {
@@ -25,13 +31,17 @@ function lint(options = {}) {
 		...options
 	};
 
-	const globs = fix
+	const config = fix
 		? getMergedConfig('npmscripts', 'fix')
 		: getMergedConfig('npmscripts', 'check');
 
+	const globs = filterGlobs(config, ...EXTENSIONS);
+
 	if (!globs.length) {
+		const extensions = EXTENSIONS.join(', ');
+
 		log(
-			'No paths specified: paths can be configured via npmscripts.config.js'
+			`No globs applicable to ${extensions} files specified: globs can be configured via npmscripts.config.js`
 		);
 
 		return;

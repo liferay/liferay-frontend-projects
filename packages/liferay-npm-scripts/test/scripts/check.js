@@ -56,9 +56,7 @@ describe('scripts/check.js', () => {
 		it('logs a message indicating how to configure globs', () => {
 			check();
 			expect(log).toHaveBeenCalledWith(
-				expect.stringContaining(
-					'paths can be configured via npmscripts.config.js'
-				)
+				expect.stringContaining('No globs applicable')
 			);
 		});
 
