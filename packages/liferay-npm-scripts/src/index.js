@@ -13,7 +13,7 @@ module.exports = function() {
 		_: [type]
 	} = minimist(ARGS_ARRAY);
 
-	const COMMANDS = {
+	const PUBLIC_COMMANDS = {
 		build() {
 			require('./scripts/build')();
 		},
@@ -39,10 +39,32 @@ module.exports = function() {
 		}
 	};
 
+	const PRIVATE_COMMANDS = {
+		lint() {
+			require('./scripts/lint')();
+		},
+
+		'lint:fix': function lintFix() {
+			require('./scripts/lint')({fix: true});
+		},
+
+		/**
+		 * Only errors are reported. Warnings are ignored.
+		 */
+		'lint:quiet': function lintQuiet() {
+			require('./scripts/lint')({quiet: true});
+		}
+	};
+
+	const COMMANDS = {
+		...PUBLIC_COMMANDS,
+		...PRIVATE_COMMANDS
+	};
+
 	if (COMMANDS[type]) {
 		COMMANDS[type]();
 	} else {
-		const commands = Object.keys(COMMANDS).join(', ');
+		const commands = Object.keys(PUBLIC_COMMANDS).join(', ');
 		throw new Error(
 			`liferay-npm-scripts requires a valid command (${commands})`
 		);

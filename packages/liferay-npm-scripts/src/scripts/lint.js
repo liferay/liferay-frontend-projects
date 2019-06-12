@@ -6,21 +6,31 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const filterGlobs = require('../utils/filterGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const spawnSync = require('../utils/spawnSync');
 
-/**
- * File extensions that we want Prettier to process.
- */
-const EXTENSIONS = ['.js', '.scss'];
+const DEFAULT_OPTIONS = {
+	fix: false,
+	quiet: false
+};
 
 /**
- * Main function for linting and formatting files
- * @param {boolean} fix Specify whether to auto-fix the files
+ * File extensions that ESLint can process.
  */
-module.exports = function(fix) {
+const EXTENSIONS = ['.js', '.ts', '.tsx'];
+
+/**
+ * ESLint wrapper.
+ */
+function lint(options = {}) {
+	const {fix, quiet} = {
+		...DEFAULT_OPTIONS,
+		...options
+	};
+
 	const config = fix
 		? getMergedConfig('npmscripts', 'fix')
 		: getMergedConfig('npmscripts', 'check');
@@ -37,20 +47,24 @@ module.exports = function(fix) {
 		return;
 	}
 
-	const CONFIG_PATH = path.join(process.cwd(), 'TEMP-prettier-config.json');
+	const CONFIG_PATH = path.join(process.cwd(), 'TEMP-eslint-config.json');
 
-	fs.writeFileSync(CONFIG_PATH, JSON.stringify(getMergedConfig('prettier')));
+	fs.writeFileSync(CONFIG_PATH, JSON.stringify(getMergedConfig('eslint')));
 
 	try {
 		const args = [
+			'--no-eslintrc',
 			'--config',
 			CONFIG_PATH,
-			fix ? '--write' : '--check',
+			fix ? '--fix' : null,
+			quiet ? '--quiet' : null,
 			...globs
-		];
+		].filter(Boolean);
 
-		spawnSync('prettier', args);
+		spawnSync('eslint', args);
 	} finally {
 		fs.unlinkSync(CONFIG_PATH);
 	}
-};
+}
+
+module.exports = lint;
