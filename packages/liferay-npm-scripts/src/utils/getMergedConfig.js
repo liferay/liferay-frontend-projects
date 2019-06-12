@@ -8,6 +8,25 @@ const deepMerge = require('./deepMerge');
 const getUserConfig = require('./getUserConfig');
 
 /**
+ * Require "simple" globs (ie. disallowing compound extensions like
+ * ".{js,scss}") so that we can trivially explode them for processing with
+ * specific tools per file-type.
+ */
+function validateGlobs(config) {
+	['fix', 'check'].forEach(key => {
+		const globs = config[key] || [];
+
+		globs.forEach(glob => {
+			if (!glob.match(/\.\w+$/)) {
+				throw new Error(
+					`getMergedConfig(): glob "${glob}" must end with a simple extension`
+				);
+			}
+		});
+	});
+}
+
+/**
  * Helper to get JSON configs
  * @param {string} type Name of configuration
  */
@@ -59,10 +78,14 @@ function getMergedConfig(type) {
 				presetConfig = require(userConfig.preset);
 			}
 
-			return deepMerge(
+			const mergedConfig = deepMerge(
 				[presetConfig, userConfig],
 				deepMerge.MODE.OVERWRITE_ARRAYS
 			);
+
+			validateGlobs(mergedConfig);
+
+			return mergedConfig;
 		}
 
 		default:
