@@ -1,8 +1,8 @@
 {
 	"devDependencies": {
-		"eslint": "^5.15.3",
+		"eslint": "5.16.0",
 		"eslint-config-liferay": "3.0.0",
-		"prettier": "^1.16.4"
+		"prettier": "1.18.2"
 	},
 	"private": true,
 	"scripts": {
