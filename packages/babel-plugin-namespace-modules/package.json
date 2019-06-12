@@ -4,7 +4,7 @@
 	"description": "A Babel plugin to namespace AMD module names based on root's project name.",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
+		"build": "babel --source-maps -D -d lib src --ignore '**/__tests__/**'",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {

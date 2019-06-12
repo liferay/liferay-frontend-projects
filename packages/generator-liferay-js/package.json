@@ -12,7 +12,7 @@
 		"liferay-js"
 	],
 	"scripts": {
-		"build": "node ./scripts/copy-templates && babel --source-maps -D -d generators src --ignore 'src/*/templates/**/*'",
+		"build": "node ./scripts/copy-templates && babel --source-maps -D -d generators src --ignore 'src/*/templates/**/*' --ignore '**/__tests__/**'",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {
