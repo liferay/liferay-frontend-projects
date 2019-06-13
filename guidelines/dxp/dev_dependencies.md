@@ -10,7 +10,7 @@ As much as we believe in `the right tool for the job`, the build process for Lif
 
 Traditional frontend projects live in isolation and their developers are free to choose the tools they want. This usually results in "a minimal dependencies footprint", in the sense that to use the project you would only need to install the tools the project needs.
 
-Liferay DXP is built as a whole from scratch (`ant all`). After that, incremental builds are possible. Currently, we are using [yarn](https://yarnpkg.com/) with a [workspaces setup](https://yarnpkg.com/en/docs/workspaces) to determine the set of dependencies and relations needed globally<sup>[1](related-resources)</sup>.
+Liferay DXP is built as a whole from scratch (`ant all`). After that, incremental builds are possible. Currently, we are using [yarn](https://yarnpkg.com/) with a [workspaces setup](https://yarnpkg.com/en/docs/workspaces) to determine the set of dependencies and relations needed globally<sup>[1](#related-resources)</sup>.
 
 Some of the reasons to "veto" arbitrary developer dependencies are:
 
