@@ -6,7 +6,9 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const getMergedConfig = require('../utils/getMergedConfig');
+const log = require('../utils/log');
 const spawnSync = require('../utils/spawnSync');
 
 const BABEL_CONFIG = getMergedConfig('babel');
@@ -35,6 +37,53 @@ function copyStorybookConfigFiles(files) {
 }
 
 /**
+ * Combine multiple Language.properties files to a single file for
+ * liferay-lang-key-dev-loader to read from.
+ * @param {Array} paths List of path strings to Language.properties files.
+ */
+function compileLanguageProperties(paths) {
+	const PORTAL_LANG_PATH = path.join(
+		PORTAL_ROOT,
+		'/portal-impl/src/content/Language.properties'
+	);
+
+	const LANG_PATHS = [PORTAL_LANG_PATH, ...paths];
+
+	// Used for keeping track of the current file being processed to show the
+	// correct file that caused an error.
+	let currentLangPath;
+
+	try {
+		const bufferArray = LANG_PATHS.filter(path => fs.existsSync(path)).map(
+			path => {
+				currentLangPath = path;
+
+				return Buffer.concat([
+					fs.readFileSync(path),
+					Buffer.from('\n')
+				]);
+			}
+		);
+
+		const buffer = Buffer.concat(bufferArray);
+
+		fs.writeFileSync(
+			path.join(STORYBOOK_CONFIG_DIR_BUILD_PATH, 'Language.properties'),
+			buffer.toString('utf8')
+		);
+	} catch (e) {
+		log(`Failed to read lang key file: ${currentLangPath}`);
+
+		// Write an empty file to prevent liferay-lang-key-dev-loader from
+		// breaking the build if no file is found.
+		fs.writeFileSync(
+			path.join(STORYBOOK_CONFIG_DIR_BUILD_PATH, 'Language.properties'),
+			''
+		);
+	}
+}
+
+/**
  * Starts a storybook server for testing frontend components.
  */
 module.exports = function() {
@@ -54,6 +103,8 @@ module.exports = function() {
 		'preview-head.html',
 		'webpack.config.js'
 	]);
+
+	compileLanguageProperties(STORYBOOK_CONFIG.languagePaths);
 
 	const args = [
 		// Set port that storybook will use to run the server on.

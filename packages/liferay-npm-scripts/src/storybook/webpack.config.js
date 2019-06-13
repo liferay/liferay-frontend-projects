@@ -35,10 +35,7 @@ module.exports = async ({config, mode}) => {
 				{
 					loader: 'liferay-lang-key-dev-loader',
 					options: {
-						path: path.join(
-							CWD,
-							'/src/main/resources/content/Language.properties'
-						)
+						path: path.join(__dirname, 'Language.properties')
 					}
 				}
 			]

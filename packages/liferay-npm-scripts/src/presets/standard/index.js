@@ -19,6 +19,7 @@ module.exports = {
 	check: [...JS_GLOBS, '{src,test}/**/*.scss'],
 	fix: [...JS_GLOBS, '{src,test}/**/*.scss'],
 	storybook: {
+		languagePaths: ['src/main/resources/content/Language.properties'],
 		port: '9000',
 		portalURL: 'http://0.0.0.0:8080'
 	}
