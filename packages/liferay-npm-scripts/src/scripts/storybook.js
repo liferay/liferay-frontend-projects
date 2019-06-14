@@ -21,6 +21,14 @@ const STORYBOOK_CONFIG_DIR_BUILD_PATH = path.join(
 	'../../build/storybook'
 );
 
+const STORYBOOK_CONFIG_FILES = [
+	'addons.js',
+	'config.js',
+	'middleware.js',
+	'preview-head.html',
+	'webpack.config.js'
+];
+
 const PORTAL_ROOT = process.cwd().split('/modules')[0];
 
 /**
@@ -96,13 +104,7 @@ module.exports = function() {
 		JSON.stringify(BABEL_CONFIG)
 	);
 
-	copyStorybookConfigFiles([
-		'addons.js',
-		'config.js',
-		'middleware.js',
-		'preview-head.html',
-		'webpack.config.js'
-	]);
+	copyStorybookConfigFiles(STORYBOOK_CONFIG_FILES);
 
 	compileLanguageProperties(STORYBOOK_CONFIG.languagePaths);
 
