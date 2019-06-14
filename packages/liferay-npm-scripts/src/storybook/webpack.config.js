@@ -20,7 +20,7 @@ const CWD = process.cwd();
  * Additional documentation can be read here:
  * https://storybook.js.org/docs/configurations/custom-webpack-config/
  */
-module.exports = async ({config, mode}) => {
+module.exports = async ({config}) => {
 	config.module.rules = [
 		...config.module.rules,
 		{

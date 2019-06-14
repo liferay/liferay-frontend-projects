@@ -49,12 +49,12 @@ Write your first story. Below is an example:
 const {storiesOf} = StorybookReact;
 
 storiesOf('Button', module)
-	.add('default', () => (
-		<Button />
-	)
-	.add('primary', () => (
-		<Button style="primary" />
-	)
+    .add('default', () => (
+        <Button />
+    )
+    .add('primary', () => (
+        <Button style="primary" />
+    )
 );
 ```
 
