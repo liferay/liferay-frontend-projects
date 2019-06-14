@@ -7,7 +7,6 @@
 import * as StorybookReact from '@storybook/react';
 import * as StorybookAddonKnobs from '@storybook/addon-knobs';
 import * as StorybookAddonActions from '@storybook/addon-actions';
-import * as StorybookAddonA11y from '@storybook/addon-a11y';
 
 const STORYBOOK_CONSTANTS = {
 	SPRITEMAP_PATH:
@@ -16,7 +15,6 @@ const STORYBOOK_CONSTANTS = {
 
 export {
 	STORYBOOK_CONSTANTS,
-	StorybookAddonA11y,
 	StorybookAddonActions,
 	StorybookAddonKnobs,
 	StorybookReact
