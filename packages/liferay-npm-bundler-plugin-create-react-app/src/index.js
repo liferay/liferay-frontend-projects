@@ -10,7 +10,7 @@ import path from 'path';
 /**
  * @return {void}
  */
-export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
+export default function({pkg}, {pkgJson}) {
 	// NOTE: The name of the "main" file must be in synch with the one generated
 	// by the liferay-npm-build-support build script for create-react-app
 	// projects.
