@@ -14,9 +14,11 @@ import JsonModifier from '../JsonModifier';
 export default class extends JsonModifier {
 	/**
 	 * @param {Generator} generator a Yeoman generator
+	 * @param {string|number} space the space string/number of spaces to use
+	 * 			when stringifying
 	 */
-	constructor(generator) {
-		super(generator, 'package.json');
+	constructor(generator, space = '	') {
+		super(generator, 'package.json', space);
 	}
 
 	/**
