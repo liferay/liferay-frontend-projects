@@ -13,6 +13,7 @@ import resolveModule from 'resolve';
 
 import Jar from './jar';
 import Localization from './localization';
+import Probe from './probe';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -37,6 +38,7 @@ export class Project {
 
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
+		this.probe = new Probe(this);
 	}
 
 	/**

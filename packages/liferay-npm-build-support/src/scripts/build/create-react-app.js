@@ -104,11 +104,7 @@ const renderer = new Renderer(templatesDir, explodedJarDir);
  * @return {boolean}
  */
 export function probe() {
-	return (
-		pkgJson.dependencies &&
-		(pkgJson.dependencies['react-scripts'] ||
-			pkgJson.devDependencies['react-scripts'])
-	);
+	return project.probe.type === project.probe.TYPE_CREATE_REACT_APP;
 }
 
 /**
