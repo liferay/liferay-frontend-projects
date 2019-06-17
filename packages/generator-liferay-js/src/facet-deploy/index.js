@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
+import {promptWithConfig, validateLiferayDir} from '../utils';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
 
@@ -68,21 +67,4 @@ export default class extends Generator {
 		npmbuildrc.setLiferayDir(this.answers.liferayDir);
 		pkgJson.addScript('deploy', 'npm run build && lnbs-deploy');
 	}
-}
-
-/**
- * Check if a given directory path contains a valid Liferay installation.
- * @param  {String} input directory path
- * @return {boolean}
- */
-function validateLiferayDir(input) {
-	if (!fs.existsSync(input)) {
-		return 'Directory does not exist';
-	}
-
-	if (!fs.existsSync(path.join(input, 'osgi', 'modules'))) {
-		return 'Directory does not look like a Liferay installation: osgi/modules directory is missing';
-	}
-
-	return true;
 }

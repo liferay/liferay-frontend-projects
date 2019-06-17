@@ -7,6 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 
+import pkgJson from '../../package.json';
 import * as cfg from '../config';
 
 /**
@@ -97,6 +98,41 @@ export function formatLabels(labels) {
 }
 
 /**
+ * Get the portlet name.
+ * @param {ProjectAnalyzer} projectAnalyzer
+ * @return {string}
+ */
+export function getPortletName(projectAnalyzer) {
+	let portletName = projectAnalyzer.name;
+
+	portletName = portletName.replace(/-/g, '');
+	portletName = portletName.replace(/[^A-Za-z0-9]/g, '_');
+
+	return portletName;
+}
+
+/**
+ * Get the semver constraints for a SDK package based on user's
+ * .generator-liferay-js.json file and running SDK version.
+ * @param {string} packageName
+ */
+export function getSDKVersion(packageName) {
+	let version = `^${pkgJson.version}`;
+
+	const sdkVersion = cfg.getSDKVersion();
+
+	if (sdkVersion) {
+		if (Number.isNaN(parseInt(sdkVersion.charAt(0)))) {
+			version = `${sdkVersion}/packages/${packageName}`;
+		} else {
+			version = sdkVersion;
+		}
+	}
+
+	return version;
+}
+
+/**
  * Convert key from camel case to hyphens.
  * @param {string} key
  * @return {string}
@@ -183,4 +219,21 @@ export function toHumanReadable(string) {
 	}
 
 	return humanizedString;
+}
+
+/**
+ * Check if a given directory path contains a valid Liferay installation.
+ * @param  {String} input directory path
+ * @return {boolean}
+ */
+export function validateLiferayDir(input) {
+	if (!fs.existsSync(input)) {
+		return 'Directory does not exist';
+	}
+
+	if (!fs.existsSync(path.join(input, 'osgi', 'modules'))) {
+		return 'Directory does not look like a Liferay installation: osgi/modules directory is missing';
+	}
+
+	return true;
 }
