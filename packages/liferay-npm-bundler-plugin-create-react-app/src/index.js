@@ -29,4 +29,7 @@ export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
 	pkgJson.portlet['com.liferay.portlet.header-portlet-css'] = cssFiles.map(
 		cssFile => `react-app/static/css/${path.basename(cssFile)}`
 	);
+
+	// Add SPA off option to portlet
+	pkgJson.portlet['com.liferay.portlet.single-page-application'] = false;
 }
