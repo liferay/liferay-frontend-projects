@@ -6,7 +6,8 @@
 
 module.exports = {
 	env: {
-		browser: true
+		browser: true,
+		es6: true
 	},
 	extends: [require.resolve('eslint-config-liferay')],
 	globals: {
@@ -20,5 +21,12 @@ module.exports = {
 			}
 		}
 	],
+	parser: 'babel-eslint',
+	parserOptions: {
+		ecmaFeatures: {
+			jsx: true
+		},
+		ecmaVersion: 2018
+	},
 	root: true
 };
