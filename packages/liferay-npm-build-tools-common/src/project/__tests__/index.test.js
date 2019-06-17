@@ -262,6 +262,18 @@ describe('project.jar.supported', () => {
 	});
 });
 
+describe('default features are detected', () => {
+	it('project.l10n.languageFileBaseName', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'default-features')
+		);
+
+		expect(project.l10n.languageFileBaseName).toBe(
+			path.join(project.dir, 'features', 'localization', 'Language')
+		);
+	});
+});
+
 describe('deprecated config', () => {
 	describe('.npmbundlerrc', () => {
 		it('create-jar/web-context-path', () => {

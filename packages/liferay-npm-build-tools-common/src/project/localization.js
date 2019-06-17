@@ -78,6 +78,17 @@ export default class Localization {
 				'create-jar.features.localization',
 				'features/localization/Language.properties'
 			);
+
+			// Be lenient: remove trailing .properties if present
+			if (
+				this._cachedLanguageFileBaseName !== undefined &&
+				this._cachedLanguageFileBaseName.endsWith('.properties')
+			) {
+				this._cachedLanguageFileBaseName = this._cachedLanguageFileBaseName.substring(
+					0,
+					this._cachedLanguageFileBaseName.length - 11
+				);
+			}
 		}
 
 		return this._cachedLanguageFileBaseName;
