@@ -66,4 +66,14 @@ export default class extends JsonModifier {
 			prop.set(json, `create-jar.features.${name}`, value);
 		});
 	}
+
+	/**
+	 * Set preset package name.
+	 * @param {string} presetName
+	 */
+	setPreset(presetName) {
+		this.modifyJson(json => {
+			prop.set(json, `preset`, presetName);
+		});
+	}
 }
