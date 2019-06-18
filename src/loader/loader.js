@@ -537,7 +537,7 @@ export default class Loader {
 
 			try {
 				// Prepare CommonJS module implementation object
-				const moduleImpl = {exports: {}};
+				const moduleImpl = {exports: module.implementation};
 
 				// Prepare arguments for the AMD factory function
 				const dependencyImplementations = module.dependencies.map(
@@ -561,12 +561,11 @@ export default class Loader {
 								);
 							}
 
-							if (!dependencyModule.implemented) {
+							if (!dependencyModule.implementation && !dependencyModule.implemented) {
 								throw new Error(
-									`Module ${module.name} depends on ` +
-										`${dependencyModule.name} which is ` +
-										'not yet implemented (this may be ' +
-										'due to a cyclic dependency)'
+									'Module "' + dependencyModule.name +
+									'" has not been loaded yet for context: ' +
+									module.name
 								);
 							}
 

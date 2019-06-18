@@ -17,7 +17,13 @@ export default class Module {
 		this._name = name;
 		this._dependencies = undefined;
 		this._factory = undefined;
-		this._implementation = undefined;
+		this._implementation = {};
+
+		// added to avoid wrapping twice in interops
+		Object.defineProperty(this._implementation, "__esModule", {
+			value: true
+		});
+
 		this._map = undefined;
 
 		this._state = {
@@ -154,13 +160,16 @@ export default class Module {
 	 * @param {*} implementation
 	 */
 	set implementation(implementation) {
-		if (this._implementation) {
-			throw new Error(
-				`Implementation of module ${this.name} already set`
-			);
+		if (Object.hasOwnProperty.call(implementation, 'default')) {
+			// Do not override the module implementation reference
+			Object.getOwnPropertyNames(implementation).forEach(p => {
+				try {
+					this._implementation[p] = implementation[p];
+				} catch (e) {}
+			});
+		} else {
+			this._implementation = implementation;
 		}
-
-		this._implementation = implementation;
 	}
 
 	/**

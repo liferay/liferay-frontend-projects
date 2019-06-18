@@ -39,6 +39,17 @@
                         console.log('isobject@1.0.0:', isobject);
                     }
                 );
+                require(
+                    [
+                        "circular@1.0.0"
+                    ],
+                    function(index) {
+                        index.default();
+                    },
+                    function() {
+                        console.log('failed to load circular module');
+                    }
+                );
             } catch(err) {
                 console.log(err);
             }
