@@ -16,19 +16,21 @@ Make sure you add the [`frontend-js-web`](https://github.com/liferay/liferay-por
 },
 ```
 
-### Use case: making a request to and endpoint that returns `json`
+### Use case: making a request to and endpoint that returns json
 
 ```
-import {fetch} from `frontend-js-web`;
+import {fetch} from 'frontend-js-web';
 
-const url = `http://localhost:8080/path/to/an/existing/endpoint`;
+const url = 'http://localhost:8080/path/to/an/existing/endpoint';
 
 fetch(url)
 	.then(res => res.json())
 	.then(res => {
 		// Use the data returned by the request
-	})
+	});
 ```
+
+*NOTE*: In case you aren't using modules (i.e. `import`), you can access the `fetch` wrapper through the `Liferay.Util.fetch` method.
 
 ## More information.
 
