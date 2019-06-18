@@ -20,8 +20,8 @@ export default class Module {
 		this._implementation = {};
 
 		// added to avoid wrapping twice in interops
-		Object.defineProperty(this._implementation, "__esModule", {
-			value: true
+		Object.defineProperty(this._implementation, '__esModule', {
+			value: true,
 		});
 
 		this._map = undefined;
@@ -165,7 +165,9 @@ export default class Module {
 			Object.getOwnPropertyNames(implementation).forEach(p => {
 				try {
 					this._implementation[p] = implementation[p];
-				} catch (e) {}
+				} catch (e) {
+					// catch setting readonly properties error
+				}
 			});
 		} else {
 			this._implementation = implementation;

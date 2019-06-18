@@ -561,11 +561,15 @@ export default class Loader {
 								);
 							}
 
-							if (!dependencyModule.implementation && !dependencyModule.implemented) {
+							if (
+								!dependencyModule.implementation &&
+								!dependencyModule.implemented
+							) {
 								throw new Error(
-									'Module "' + dependencyModule.name +
-									'" has not been loaded yet for context: ' +
-									module.name
+									'Module "' +
+										dependencyModule.name +
+										'" has not been loaded yet for context: ' +
+										module.name
 								);
 							}
 
