@@ -119,6 +119,7 @@ export function run() {
 		.then(restoreIndexJs)
 		.then(copyCreateReactAppBuild)
 		.then(injectSources)
+		.then(tweakMediaURLs)
 		.then(() => runNpmBin('liferay-npm-bundler'))
 		.catch(err => {
 			console.error(`\n${err.humanMessage ? err.humanMessage : err}\n`);
@@ -250,6 +251,27 @@ function injectSources() {
 		],
 		pkgJson,
 		webContextPath: project.jar.webContextPath,
+	});
+}
+
+function tweakMediaURLs() {
+	const jsDir = path.join(explodedJarDir, 'react-app', 'static', 'js');
+
+	const jsFiles = fs
+		.readdirSync(jsDir)
+		.filter(jsFile => jsFile.endsWith('.js'));
+
+	jsFiles.forEach(jsFile => {
+		const jsFilePath = path.join(jsDir, jsFile);
+
+		let js = fs.readFileSync(jsFilePath).toString();
+
+		js = js.replace(
+			/static\/media\//g,
+			`o${project.jar.webContextPath}/react-app/static/media/`
+		);
+
+		fs.writeFileSync(jsFilePath, js);
 	});
 }
 
