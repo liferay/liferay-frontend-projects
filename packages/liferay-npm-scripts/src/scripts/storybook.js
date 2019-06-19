@@ -5,6 +5,7 @@
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 const getMergedConfig = require('../utils/getMergedConfig');
@@ -15,11 +16,6 @@ const BABEL_CONFIG = getMergedConfig('babel');
 const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 
 const STORYBOOK_CONFIG_DIR_PATH = path.join(__dirname, '../storybook');
-
-const STORYBOOK_CONFIG_DIR_BUILD_PATH = path.join(
-	__dirname,
-	'../../build/storybook'
-);
 
 const STORYBOOK_CONFIG_FILES = [
 	'addons.js',
@@ -33,13 +29,14 @@ const PORTAL_ROOT = process.cwd().split('/modules')[0];
 
 /**
  * Copies storybook config files into the build path.
+ * @param {String} buildPath Path to the build directory.
  * @param {Array} files The list of files to copy.
  */
-function copyStorybookConfigFiles(files) {
+function copyStorybookConfigFiles(buildPath, files) {
 	files.forEach(function(file) {
 		fs.copyFileSync(
 			path.join(STORYBOOK_CONFIG_DIR_PATH, file),
-			path.join(STORYBOOK_CONFIG_DIR_BUILD_PATH, file)
+			path.join(buildPath, file)
 		);
 	});
 }
@@ -47,9 +44,10 @@ function copyStorybookConfigFiles(files) {
 /**
  * Combine multiple Language.properties files to a single file for
  * liferay-lang-key-dev-loader to read from.
+ * @param {String} buildPath Path to the build directory.
  * @param {Array} paths List of path strings to Language.properties files.
  */
-function compileLanguageProperties(paths) {
+function compileLanguageProperties(buildPath, paths) {
 	const PORTAL_LANG_PATH = path.join(
 		PORTAL_ROOT,
 		'/portal-impl/src/content/Language.properties'
@@ -76,7 +74,7 @@ function compileLanguageProperties(paths) {
 		const buffer = Buffer.concat(bufferArray);
 
 		fs.writeFileSync(
-			path.join(STORYBOOK_CONFIG_DIR_BUILD_PATH, 'Language.properties'),
+			path.join(buildPath, 'Language.properties'),
 			buffer.toString('utf8')
 		);
 	} catch (e) {
@@ -84,10 +82,7 @@ function compileLanguageProperties(paths) {
 
 		// Write an empty file to prevent liferay-lang-key-dev-loader from
 		// breaking the build if no file is found.
-		fs.writeFileSync(
-			path.join(STORYBOOK_CONFIG_DIR_BUILD_PATH, 'Language.properties'),
-			''
-		);
+		fs.writeFileSync(path.join(buildPath, 'Language.properties'), '');
 	}
 }
 
@@ -96,17 +91,19 @@ function compileLanguageProperties(paths) {
  */
 module.exports = function() {
 	// Create directory to store built storybook configs.
-	fs.mkdirSync(STORYBOOK_CONFIG_DIR_BUILD_PATH, {recursive: true});
+	const buildPath = fs.mkdtempSync(path.join(os.tmpdir(), 'storybook-'));
+
+	log(`Building storybook files to: ${buildPath}`);
 
 	// Generate custom babel config using current working directory's .babelrc.
 	fs.writeFileSync(
-		path.join(STORYBOOK_CONFIG_DIR_BUILD_PATH, '.babelrc'),
+		path.join(buildPath, '.babelrc'),
 		JSON.stringify(BABEL_CONFIG)
 	);
 
-	copyStorybookConfigFiles(STORYBOOK_CONFIG_FILES);
+	copyStorybookConfigFiles(buildPath, STORYBOOK_CONFIG_FILES);
 
-	compileLanguageProperties(STORYBOOK_CONFIG.languagePaths);
+	compileLanguageProperties(buildPath, STORYBOOK_CONFIG.languagePaths);
 
 	const args = [
 		// Set port that storybook will use to run the server on.
@@ -115,7 +112,7 @@ module.exports = function() {
 
 		// Set directory where the storybook config files are.
 		'--config-dir',
-		STORYBOOK_CONFIG_DIR_BUILD_PATH,
+		buildPath,
 
 		// Set portal root directory to retrieve static resources from.
 		'--static-dir',
