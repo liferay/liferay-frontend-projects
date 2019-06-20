@@ -31,6 +31,10 @@ const _interceptedFoo = AOP.after(target => {
 }, foo, 'bar');
 
 foo.bar(); // "modified bar"
+
+handle.detach(); // We can detach the interception
+
+foo.bar(); // "bar"
 ```
 
 ## Use case: Preventing an instance method from being invoked
@@ -46,6 +50,10 @@ const _interceptedFoo = AOP.before(target => {
 	}, foo, 'bar');
 
 foo.bar(); // undefined
+
+handle.detach(); // We can detach the interception
+
+foo.bar(); // "bar"
 ```
 
 ## Use case in portal
