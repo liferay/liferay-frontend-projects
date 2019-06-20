@@ -23,11 +23,11 @@ Once the `eslint-config-liferay` package is installed, you can use it by specify
 
 ### React
 
-To use React-based rules provided by Liferay, you can use it by specifying `liferay/react` in the `extends` session of your [ESlint configuration](http://eslint.org/docs/user-guide/configuring).
+For React projects, you can extend `liferay/react` instead:
 
 ```js
 {
-  "extends": ["liferay", "liferay/react"],
+  "extends": ["liferay/react"],
   "rules": {
     // Additional, per-project rules...
   }
