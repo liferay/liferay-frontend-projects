@@ -23,14 +23,14 @@
 	"author": "Liferay",
 	"license": "MIT",
 	"devDependencies": {
-		"eslint": "5.14.1",
+		"eslint": "5.16.0",
 		"prettier": "*"
 	},
 	"peerDependencies": {
 		"eslint": ">=4.1.1"
 	},
 	"dependencies": {
-		"eslint-config-prettier": "4.1.0",
+		"eslint-config-prettier": "5.0.0",
 		"eslint-plugin-no-for-of-loops": "^1.0.0",
 		"eslint-plugin-no-only-tests": "^2.1.0",
 		"eslint-plugin-notice": "0.7.8",
