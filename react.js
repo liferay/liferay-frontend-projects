@@ -14,7 +14,6 @@ const config = {
 		},
 	},
 	plugins: ['react', 'react-hooks'],
-
 	rules: {
 		/**
 		 * @see https://reactjs.org/docs/hooks-rules.html
@@ -41,7 +40,6 @@ const config = {
 		'react/no-unknown-property': 'error',
 		'react/require-render-return': 'error',
 	},
-
 	settings: {
 		react: {
 			version: 'detect',
