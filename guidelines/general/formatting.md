@@ -72,7 +72,7 @@ In your terminal:
 
 -   Create a folder in your user home npm-global
 -   Execute: npm config set prefix ‘~/npm-global’
--   Exeucte: npm install --global prettier eslint eslint-config-liferay
+-   Execute: npm install --global prettier eslint eslint-config-liferay
 
 In Intellij:
 
