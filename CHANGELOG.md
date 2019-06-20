@@ -1,3 +1,10 @@
+## [v4.0.0](https://github.com/liferay/eslint-config-liferay/tree/v4.0.0) (2019-06-20)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v3.0.0...v4.0.0)
+
+- feat: add "react" variant ([\#42](https://github.com/liferay/eslint-config-liferay/pull/42))
+- chore: remove liferayportal plugin (#40) ([\#41](https://github.com/liferay/eslint-config-liferay/pull/41))
+
 ## [v3.0.0](https://github.com/liferay/eslint-config-liferay/tree/v3.0.0) (2019-03-05)
 [Full Changelog](https://github.com/liferay/eslint-config-liferay/compare/v3.0.0-rc.0...v3.0.0)
 
