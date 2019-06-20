@@ -219,6 +219,12 @@ describe('scripts/lint.js', () => {
 		it('does not include .eslintignore patterns from other projects', () => {
 			expect(contents).not.toContain('A project-level .eslintignore');
 		});
+
+		it('does not relativize project-specific patterns', () => {
+			expect(contents).toMatch(
+				new RegExp('^\\*\\*/legacy/\\*$', MULTILINE)
+			);
+		});
 	});
 
 	describe('when running from a project with a local yarn.lock', () => {
