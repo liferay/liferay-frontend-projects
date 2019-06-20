@@ -21,6 +21,19 @@ Once the `eslint-config-liferay` package is installed, you can use it by specify
 }
 ```
 
+### React
+
+For React projects, you can extend `liferay/react` instead:
+
+```js
+{
+  "extends": ["liferay/react"],
+  "rules": {
+    // Additional, per-project rules...
+  }
+}
+```
+
 ### Copyright headers
 
 The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugin-notice) plug-in can be used to enforce the use of uniform copyright headers across a project by placing a template named `copyright.js` in the project root (for example, see [the file defining the headers used in eslint-config-liferay itself](https://github.com/liferay/eslint-config-liferay/blob/master/copyright.js)).
