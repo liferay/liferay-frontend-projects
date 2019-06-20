@@ -11,7 +11,12 @@ module.exports = {
 	},
 	extends: [require.resolve('eslint-config-liferay')],
 	globals: {
-		Liferay: true
+		AUI: true,
+		CKEDITOR: true,
+		Liferay: true,
+		submitForm: true,
+		svg4everybody: true,
+		themeDisplay: true
 	},
 	overrides: [
 		{
