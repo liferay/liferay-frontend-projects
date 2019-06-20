@@ -25,10 +25,10 @@ const config = {
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react
 		 */
+		'react/jsx-key': 'error',
 		'react/jsx-no-comment-textnodes': 'error',
 		'react/jsx-no-duplicate-props': 'error',
 		'react/jsx-no-undef': 'error',
-		'react/jsx-key': 'error',
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
 		'react/no-children-prop': 'error',
