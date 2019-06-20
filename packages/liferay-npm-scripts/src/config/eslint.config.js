@@ -4,6 +4,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const CONFIG_FILES = [
+	'**/.eslintrc.js',
+	'**/.prettierrc.js',
+	'**/npmscripts.config.js'
+];
+
 module.exports = {
 	env: {
 		browser: true,
@@ -19,6 +25,12 @@ module.exports = {
 		themeDisplay: true
 	},
 	overrides: [
+		{
+			files: CONFIG_FILES,
+			env: {
+				node: true
+			}
+		},
 		{
 			files: ['**/test/**/*.js'],
 			env: {
