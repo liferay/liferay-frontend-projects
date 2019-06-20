@@ -1,0 +1,3 @@
+# Not really a lockfile, and projects aren't supposed to have their own
+# lockfiles, but we want to make sure the code doesn't misidentify a directory
+# like this one as being the top-level.
