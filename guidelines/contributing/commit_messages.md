@@ -48,7 +48,7 @@ and may, if it is in relation to an issue, include the issue number in parenthes
 -   fix: make archive generation idempotent **(#12)**
 -   test: fill in holes in picker test coverage **(#92)**
 
-Endeavor to make the description as concise as possible while still communicating what the change does. It is desirable to keep the total title length under 72 characters if possible (some places recommend it be as short as 50 characters), but this is a guideline rather than a hard rule. Do your best and use your judgement.
+Endeavor to make the description as concise as possible while still communicating what the change does. It is desirable to keep the total title length under 72 characters if possible (some places recommend it be as short as 50 characters), but this is a guideline rather than a hard rule. Do your best and use your judgment.
 
 ### Footer
 
