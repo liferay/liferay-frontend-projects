@@ -77,13 +77,13 @@ function findProjectIgnoreFiles(root) {
 		return [];
 	}
 
-	const entries = fs.readdirSync(apps);
+	const entries = fs.readdirSync(apps).sort();
 
 	return entries.reduce((acc, entry) => {
 		const directory = path.join(apps, entry);
 
 		if (fs.statSync(directory).isDirectory()) {
-			const projects = fs.readdirSync(directory);
+			const projects = fs.readdirSync(directory).sort();
 
 			projects.forEach(project => {
 				const ignore = path.join(directory, project, '.eslintignore');
@@ -122,7 +122,7 @@ function getIgnoreFilePath() {
 
 	if (process.cwd() === root) {
 		findProjectIgnoreFiles(root).forEach(file => {
-			const directory = path.dirname(file);
+			const directory = path.relative('', path.dirname(file));
 			const lines = fs
 				.readFileSync(file)
 				.toString()
@@ -161,6 +161,8 @@ function getIgnoreFilePath() {
 		} else {
 			log(`Did not find expected .eslintignore at ${root}`);
 		}
+	} else {
+		log(`Unable to find "modules/" root`);
 	}
 
 	const contents = ignores.join('\n');
