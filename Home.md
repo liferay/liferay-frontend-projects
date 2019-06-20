@@ -19,6 +19,7 @@ Now, let's go with the documentation:
       1. [How to build the project](https://github.com/liferay/liferay-js-toolkit/wiki/Running-build-npm-scripts)
       2. [How to configure the project](https://github.com/liferay/liferay-js-toolkit/wiki/Configuring-pure-javascript-projects)
    2. [[How to create mixed Java/Javascript projects]]
+   3. [[How to troubleshoot your setups]]
 
 2. More esoteric tasks:
 
