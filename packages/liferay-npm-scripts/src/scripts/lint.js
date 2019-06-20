@@ -211,7 +211,6 @@ function lint(options = {}) {
 		const ignorePath = getIgnoreFilePath();
 
 		const args = [
-			'--no-eslintrc',
 			'--config',
 			configPath,
 			'--ignore-path',
