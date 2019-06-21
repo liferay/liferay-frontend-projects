@@ -155,18 +155,7 @@ export default class Module {
 	 * @param {*} implementation
 	 */
 	set implementation(implementation) {
-		if (Object.hasOwnProperty.call(implementation, 'default')) {
-			// Do not override the module implementation reference
-			Object.getOwnPropertyNames(implementation).forEach(p => {
-				try {
-					this._implementation[p] = implementation[p];
-				} catch (e) {
-					// catch setting readonly properties error
-				}
-			});
-		} else {
-			this._implementation = implementation;
-		}
+		this._implementation = implementation;
 	}
 
 	/**

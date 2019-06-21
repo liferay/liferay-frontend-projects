@@ -54,20 +54,4 @@ describe('Module', () => {
 
 		expect(module.factory).toBe(factory);
 	});
-
-	it('implementation should be writable just once', () => {
-		expect(module.implementation).toBeUndefined();
-
-		const implementation = {};
-
-		module.implementation = implementation;
-
-		expect(module.implementation).toBe(implementation);
-
-		expect(() => {
-			module.implementation = implementation;
-		}).toThrow();
-
-		expect(module.implementation).toBe(implementation);
-	});
 });

@@ -537,7 +537,14 @@ export default class Loader {
 
 			try {
 				// Prepare CommonJS module implementation object
-				const moduleImpl = {exports: module.implementation};
+				const moduleImpl = {
+					get exports() {
+						return module.implementation;
+					},
+					set exports(exports) {
+						module.implementation = exports;
+					},
+				};
 
 				// Prepare arguments for the AMD factory function
 				const dependencyImplementations = module.dependencies.map(
@@ -584,8 +591,6 @@ export default class Loader {
 				// Resolve the implementation
 				if (result !== undefined) {
 					module.implementation = result;
-				} else {
-					module.implementation = moduleImpl.exports;
 				}
 
 				module.implement.resolve(module.implementation);
