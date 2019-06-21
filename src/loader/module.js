@@ -19,11 +19,6 @@ export default class Module {
 		this._factory = undefined;
 		this._implementation = {};
 
-		// added to avoid wrapping twice in interops
-		Object.defineProperty(this._implementation, '__esModule', {
-			value: true,
-		});
-
 		this._map = undefined;
 
 		this._state = {
