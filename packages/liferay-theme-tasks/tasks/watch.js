@@ -244,6 +244,11 @@ module.exports = function(options) {
 			});
 		});
 
+		proxy.on('error', (err) => {
+			// eslint-disable-next-line
+			console.error(err);
+		});
+
 		http.createServer((req, res) => {
 			const dispatchToProxy = () =>
 				proxy.web(req, res, {
