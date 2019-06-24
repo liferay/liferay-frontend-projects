@@ -244,7 +244,7 @@ module.exports = function(options) {
 			});
 		});
 
-		proxy.on('error', (err) => {
+		proxy.on('error', err => {
 			// eslint-disable-next-line
 			console.error(err);
 		});
