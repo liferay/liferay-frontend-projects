@@ -79,6 +79,15 @@
 				"util": ">=0.10.3",
 				"vm-browserify": ">=0.0.4"
 			},
+			"frontend-js-react-web": {
+				"classnames": ">=2.2.6",
+				"formik": ">=1.4.3",
+				"prop-types": ">=15.7.2",
+				"react": ">=16.8.6",
+				"react-dnd": ">=7.0.2",
+				"react-dnd-html5-backend": ">=7.0.2",
+				"react-dom": ">=16.8.6"
+			},
 			"frontend-js-spa-web": {
 				"senna": ">=2.6.1"
 			},
