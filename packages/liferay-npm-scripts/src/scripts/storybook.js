@@ -15,6 +15,11 @@ const spawnSync = require('../utils/spawnSync');
 const BABEL_CONFIG = getMergedConfig('babel');
 const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 
+const NODE_PATHS = [
+	path.join(__dirname, '../../../../node_modules'),
+	path.join(__dirname, '../../node_modules')
+];
+
 const STORYBOOK_CONFIG_DIR_PATH = path.join(__dirname, '../storybook');
 
 const STORYBOOK_CONFIG_FILES = [
@@ -26,6 +31,15 @@ const STORYBOOK_CONFIG_FILES = [
 ];
 
 const PORTAL_ROOT = process.cwd().split('/modules')[0];
+
+/**
+ * Builds the string used for defining the NODE_PATH environment.
+ * On Windows, NODE_PATH is delimited by semicolons (;) instead of colons.
+ * @returns {String}
+ */
+function buildNodePath() {
+	return NODE_PATHS.join(process.platform === 'win32' ? ';' : ':');
+}
 
 /**
  * Copies storybook config files into the build path.
@@ -119,5 +133,10 @@ module.exports = function() {
 		PORTAL_ROOT
 	];
 
-	spawnSync('start-storybook', args);
+	spawnSync('start-storybook', args, {
+		env: {
+			...process.env,
+			NODE_PATH: buildNodePath()
+		}
+	});
 };
