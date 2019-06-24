@@ -1,3 +1,9 @@
+## [v9.1.5](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.5) (2019-06-24)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.4...v9.1.5)
+
+- fix: prevent proxy errors from killing the watcher ([\#358](https://github.com/liferay/liferay-js-themes-toolkit/pull/358))
+
 ## [v9.1.4](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.4) (2019-06-11)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.3...v9.1.4)
