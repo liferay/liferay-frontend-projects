@@ -201,7 +201,7 @@ module.exports = function(options) {
 		const livereloadTag = `<script src="http://localhost:${tinylrPort}/livereload.js"></script>`;
 		livereload = tinylr();
 		livereload.server.on('error', err => {
-			// eslint-disable-next-line
+			// eslint-disable-next-line no-console
 			console.error(err);
 		});
 		livereload.listen(tinylrPort);
@@ -244,6 +244,11 @@ module.exports = function(options) {
 			});
 		});
 
+		proxy.on('error', err => {
+			// eslint-disable-next-line no-console
+			console.error(err);
+		});
+
 		http.createServer((req, res) => {
 			const dispatchToProxy = () =>
 				proxy.web(req, res, {
@@ -266,7 +271,7 @@ module.exports = function(options) {
 
 						fs.createReadStream(filepath)
 							.on('error', err => {
-								// eslint-disable-next-line
+								// eslint-disable-next-line no-console
 								console.error(err);
 							})
 							.pipe(res);
