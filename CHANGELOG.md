@@ -1,3 +1,10 @@
+## [v8.0.12](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.12) (2019-06-24)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.11...v8.0.12)
+
+- fix: prevent proxy errors from killing the watcher (8.x) ([\#360](https://github.com/liferay/liferay-js-themes-toolkit/pull/360))
+- docs: clarify that only some packages need to be tagged ([\#357](https://github.com/liferay/liferay-js-themes-toolkit/pull/357))
+
 ## [v8.0.11](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.11) (2019-06-11)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.10...v8.0.11)
