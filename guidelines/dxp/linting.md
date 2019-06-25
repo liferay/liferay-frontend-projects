@@ -2,7 +2,7 @@
 
 We use the following linting tools in [Liferay DXP](https://github.com/liferay/liferay-portal):
 
--   Underlying linting framework: [ESLint](https://eslint.org/)
+-   Underlying linting framework: [ESLint](https://eslint.org/).
 -   Our standard ESLint configuration: [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay).
 -   Helper for actually applying the above tools: [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts).
 
