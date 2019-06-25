@@ -94,7 +94,10 @@ export function runBabel(pkg, {ignore = []} = {}) {
 
 export function runLoaderRules(rules, pkg, srcPkg) {
 	rules.forEach(rule => {
-		const globs = [`${srcPkg.dir}/${rule.test}`];
+		const globs = [`${srcPkg.dir}/${rule.test}`].concat(
+			gl.negate(gl.prefix(`${srcPkg.dir}/`, rule.exclude))
+		);
+
 		const filePaths = globby.sync(globs);
 
 		filePaths.forEach(filePath => {

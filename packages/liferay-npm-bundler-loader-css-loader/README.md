@@ -12,6 +12,7 @@ In order to use this loader you must declare a rule in your module's `.npmbundle
 	    "rules": [
 		    {
 			    "test": "src/**/*.css",
+			    "exclude": [],
 			    "extension": ".js",
 			    "use": "css-loader"
 		    }
