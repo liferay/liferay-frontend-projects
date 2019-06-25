@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const fs = require('fs');
+const path = require('path');
 const proxy = require('http-proxy-middleware');
 
-const getMergedConfig = require('../../src/utils/getMergedConfig');
-
-const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
+const STORYBOOK_CONFIG = JSON.parse(
+	fs.readFileSync(path.join(__dirname, 'storybook-config.json'))
+);
 
 /**
  * Middleware to proxy portal resources.

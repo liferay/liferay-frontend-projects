@@ -115,6 +115,12 @@ module.exports = function() {
 		JSON.stringify(BABEL_CONFIG)
 	);
 
+	// Write storybook config to a file for storybook files to access.
+	fs.writeFileSync(
+		path.join(buildPath, 'storybook-config.json'),
+		JSON.stringify(STORYBOOK_CONFIG)
+	);
+
 	copyStorybookConfigFiles(buildPath, STORYBOOK_CONFIG_FILES);
 
 	compileLanguageProperties(buildPath, STORYBOOK_CONFIG.languagePaths);
