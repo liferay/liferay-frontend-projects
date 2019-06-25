@@ -16,7 +16,7 @@ Make sure you add the [`frontend-js-web`](https://github.com/liferay/liferay-por
 },
 ```
 
-### Use case: making a request to and endpoint that returns json
+### Use case: making a request to an endpoint that returns json
 
 ```
 import {fetch} from 'frontend-js-web';
