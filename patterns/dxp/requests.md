@@ -30,7 +30,7 @@ fetch(url)
 	});
 ```
 
-*NOTE*: In case you aren't using modules (i.e. `import`), you can access the `fetch` wrapper through the `Liferay.Util.fetch` method.
+_NOTE_: In case you aren't using modules (i.e. `import`), you can access the `fetch` wrapper through the `Liferay.Util.fetch` method.
 
 ## More information.
 

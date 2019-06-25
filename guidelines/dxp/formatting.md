@@ -19,8 +19,12 @@ Every module inside [Liferay DXP](https://github.com/liferay/liferay-portal) wit
 
 ## format
 
-The `format` script will run Prettier with the default configuration and save the changes to your files. It can be invoked either directly as `yarn format` or through the Gradle Wrapper as `gradlew npmRunFormat`.
+Among [other things](./linting.md), the `format` script will run Prettier with the default configuration and save the changes to your files. It can be invoked either directly as `yarn format` or through the Gradle Wrapper as `gradlew npmRunFormat`.
 
 ## checkFormat
 
-The `checkFormat` script will run Prettier and list any files that aren't correctly formatted (in which case it will exit with an error). This task is meant to run on CI to prevent files from being committed without the proper formatting.
+The `checkFormat` script will run Prettier (and some other checks described in "[Linting](./linting.md)") without saving your files and exit with an error if there are changes. This task is meant to run on CI to prevent files from being committed without the proper formatting.
+
+# See also
+
+-   [Linting](./linting.md): information on checking and fixing the non-presentational aspects of our source code.
