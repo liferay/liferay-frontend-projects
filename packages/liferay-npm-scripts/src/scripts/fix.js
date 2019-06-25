@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const check = require('./check');
+const spawnMultiple = require('../utils/spawnMultiple');
+const format = require('./format');
+const lint = require('./lint');
 
-/**
- * Main function for fixing (formatting and applying lint fixes to) files.
- */
-module.exports = function() {
-	check(true);
-};
+function fix() {
+	spawnMultiple(() => format(), () => lint({fix: true}));
+}
+
+module.exports = fix;

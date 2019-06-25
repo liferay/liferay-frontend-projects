@@ -40,6 +40,14 @@ module.exports = function() {
 	};
 
 	const PRIVATE_COMMANDS = {
+		'format:check': function formatCheck() {
+			require('./scripts/format')({check: true});
+		},
+
+		format() {
+			require('./scripts/format')();
+		},
+
 		lint() {
 			require('./scripts/lint')();
 		},
