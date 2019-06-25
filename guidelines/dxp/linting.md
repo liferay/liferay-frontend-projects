@@ -2,9 +2,9 @@
 
 We use the following linting tools in [Liferay DXP](https://github.com/liferay/liferay-portal):
 
-- Underlying linting framework: [ESLint](https://eslint.org/)
-- Our standard ESLint configuration: [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay).
-- Helper for actually applying the above tools: [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts).
+-   Underlying linting framework: [ESLint](https://eslint.org/)
+-   Our standard ESLint configuration: [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay).
+-   Helper for actually applying the above tools: [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts).
 
 ## Set-up
 
@@ -37,7 +37,7 @@ The `format` script not only reports problems but attempts to apply automatic fi
 // .eslintrc.js
 
 module.exports = {
-  "extends": ["liferay"]
+	extends: ['liferay']
 };
 ```
 
@@ -47,7 +47,7 @@ In order to activate React-specific rules in a project, you can create an `.esli
 // .eslintrc.js
 
 module.exports = {
-  "extends": ["liferay/react"]
+	extends: ['liferay/react']
 };
 ```
 
@@ -75,8 +75,8 @@ As such, overrides need be applied using in-file comments of the form:
 
 Key points to note:
 
-- If a suppression is temporary, prefer downgrading it from an error to a warning rather than turning it off completely. In this way, it will continue to be visible but it won't cause CI runs to fail.
-- If a suppression is permanent and the code cannot (or should not) be rewritten to avoid it, prefer narrowly scoped suppressions (eg. `eslint-disable-next-line` over `eslint-disable`).
+-   If a suppression is temporary, prefer downgrading it from an error to a warning rather than turning it off completely. In this way, it will continue to be visible but it won't cause CI runs to fail.
+-   If a suppression is permanent and the code cannot (or should not) be rewritten to avoid it, prefer narrowly scoped suppressions (eg. `eslint-disable-next-line` over `eslint-disable`).
 
 **NOTE:** Comments written with a leading `//` will not work:
 
@@ -86,4 +86,4 @@ Key points to note:
 
 # See also
 
-* [Formatting](./formatting.md): information on checking and fixing the presentational aspects of our source code.
+-   [Formatting](./formatting.md): information on checking and fixing the presentational aspects of our source code.

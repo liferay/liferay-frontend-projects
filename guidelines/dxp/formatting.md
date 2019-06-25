@@ -27,4 +27,4 @@ The `checkFormat` script will run Prettier (and some other checks described in "
 
 # See also
 
-* [Linting](./linting.md): information on checking and fixing the non-presentational aspects of our source code.
+-   [Linting](./linting.md): information on checking and fixing the non-presentational aspects of our source code.
