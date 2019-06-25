@@ -18,14 +18,6 @@ module.exports = function() {
 			require('./scripts/build')();
 		},
 
-		check() {
-			require('./scripts/check')();
-		},
-
-		fix() {
-			require('./scripts/fix')();
-		},
-
 		test() {
 			require('./scripts/test')(ARGS_ARRAY);
 		},
@@ -40,6 +32,14 @@ module.exports = function() {
 	};
 
 	const PRIVATE_COMMANDS = {
+		'format:check': function formatCheck() {
+			require('./scripts/format')({check: true});
+		},
+
+		format() {
+			require('./scripts/format')();
+		},
+
 		lint() {
 			require('./scripts/lint')();
 		},

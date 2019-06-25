@@ -11,19 +11,27 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const spawnSync = require('../utils/spawnSync');
 
+const DEFAULT_OPTIONS = {
+	check: false
+};
+
 /**
  * File extensions that we want Prettier to process.
  */
 const EXTENSIONS = ['.js', '.scss'];
 
 /**
- * Main function for linting and formatting files
- * @param {boolean} fix Specify whether to auto-fix the files
+ * Prettier wrapper.
  */
-module.exports = function(fix) {
-	const config = fix
-		? getMergedConfig('npmscripts', 'fix')
-		: getMergedConfig('npmscripts', 'check');
+function format(options = {}) {
+	const {check} = {
+		...DEFAULT_OPTIONS,
+		...options
+	};
+
+	const config = check
+		? getMergedConfig('npmscripts', 'check')
+		: getMergedConfig('npmscripts', 'fix');
 
 	const globs = filterGlobs(config, ...EXTENSIONS);
 
@@ -45,7 +53,7 @@ module.exports = function(fix) {
 		const args = [
 			'--config',
 			CONFIG_PATH,
-			fix ? '--write' : '--check',
+			check ? '--check' : '--write',
 			...globs
 		];
 
@@ -53,4 +61,6 @@ module.exports = function(fix) {
 	} finally {
 		fs.unlinkSync(CONFIG_PATH);
 	}
-};
+}
+
+module.exports = format;
