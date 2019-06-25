@@ -18,6 +18,14 @@ module.exports = function() {
 			require('./scripts/build')();
 		},
 
+		check() {
+			require('./scripts/check')();
+		},
+
+		fix() {
+			require('./scripts/fix')();
+		},
+
 		test() {
 			require('./scripts/test')(ARGS_ARRAY);
 		},
