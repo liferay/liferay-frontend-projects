@@ -19,7 +19,6 @@ module.exports = {
 	check: [...JS_GLOBS, '{src,test}/**/*.scss'],
 	fix: [...JS_GLOBS, '{src,test}/**/*.scss'],
 	storybook: {
-		path: './stories',
 		port: '9000'
 	}
 };
