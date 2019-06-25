@@ -4,7 +4,7 @@ This is a live (changing) repository containing [guidelines](/guidelines) for do
 
 ## Guideline development
 
-We don't have a formalized procedure for implementation changes, but informally, we expect most changes to evlove like this:
+We don't have a formalized procedure for implementation changes, but informally, we expect most changes to evolve like this:
 
 1.  Somebody submits a question (eg. an issue) or proposal (eg. could be an issue or PR).
 
