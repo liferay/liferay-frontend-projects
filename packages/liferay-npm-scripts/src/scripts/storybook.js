@@ -69,41 +69,28 @@ function compileLanguageProperties(buildPath, paths) {
 
 	const LANG_PATHS = [PORTAL_LANG_PATH, ...paths];
 
-	// Used for keeping track of the current file being processed to show the
-	// correct file that caused an error.
-	let currentLangPath;
+	const output = [];
 
-	try {
-		const bufferArray = LANG_PATHS.filter(path => fs.existsSync(path)).map(
-			path => {
-				currentLangPath = path;
+	LANG_PATHS.filter(fs.existsSync).forEach(langPath => {
+		try {
+			output.push(fs.readFileSync(langPath).toString());
+		} catch (error) {
+			log(
+				`Failed to read lang key file "${langPath}" due to error: ${error}`
+			);
+		}
+	});
 
-				return Buffer.concat([
-					fs.readFileSync(path),
-					Buffer.from('\n')
-				]);
-			}
-		);
-
-		const buffer = Buffer.concat(bufferArray);
-
-		fs.writeFileSync(
-			path.join(buildPath, 'Language.properties'),
-			buffer.toString('utf8')
-		);
-	} catch (e) {
-		log(`Failed to read lang key file: ${currentLangPath}`);
-
-		// Write an empty file to prevent liferay-lang-key-dev-loader from
-		// breaking the build if no file is found.
-		fs.writeFileSync(path.join(buildPath, 'Language.properties'), '');
-	}
+	fs.writeFileSync(
+		path.join(buildPath, 'Language.properties'),
+		output.join('\n')
+	);
 }
 
 /**
  * Starts a storybook server for testing frontend components.
  */
-module.exports = function() {
+function storybook() {
 	// Create directory to store built storybook configs.
 	const buildPath = fs.mkdtempSync(path.join(os.tmpdir(), 'storybook-'));
 
@@ -145,4 +132,6 @@ module.exports = function() {
 			NODE_PATH: buildNodePath()
 		}
 	});
-};
+}
+
+module.exports = storybook;
