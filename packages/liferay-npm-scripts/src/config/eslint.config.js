@@ -44,5 +44,6 @@ module.exports = {
 			jsx: true
 		},
 		ecmaVersion: 2018
-	}
+	},
+	root: true
 };
