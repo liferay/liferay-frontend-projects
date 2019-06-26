@@ -7,6 +7,7 @@
 'use strict';
 
 const fs = require('fs');
+const local = require('./utils/local');
 
 const config = {
 	env: {
@@ -17,9 +18,10 @@ const config = {
 		ecmaVersion: 2017,
 		sourceType: 'module',
 	},
-	plugins: ['no-for-of-loops', 'no-only-tests', 'notice'],
+	plugins: [local('liferay'), 'no-for-of-loops', 'no-only-tests', 'notice'],
 	rules: {
 		'default-case': 'error',
+		'liferay/no-it-should': 'error',
 		'no-for-of-loops/no-for-of-loops': 'error',
 		'no-only-tests/no-only-tests': 'error',
 		'no-return-assign': ['error', 'always'],
