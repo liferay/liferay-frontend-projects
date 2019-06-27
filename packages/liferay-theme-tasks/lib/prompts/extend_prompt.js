@@ -11,6 +11,7 @@ const inquirer = require('inquirer');
 const GlobalModulePrompt = require('./global_module_prompt');
 const lfrThemeConfig = require('../liferay_theme_config');
 const NPMModulePrompt = require('./npm_module_prompt');
+const URLPackagePrompt = require('./url_package_prompt');
 const promptUtil = require('./prompt_util');
 const themeFinder = require('../theme_finder');
 const {getArgv} = require('../util');
@@ -66,6 +67,7 @@ class ExtendPrompt {
 		const baseTheme = this.themeConfig.baseTheme;
 		const module = answers.module;
 		const modulePackages = answers.modules;
+		const pkg = modulePackages[module];
 
 		if (!module) {
 			this.done();
@@ -77,15 +79,15 @@ class ExtendPrompt {
 			lfrThemeConfig.removeDependencies([baseTheme.name]);
 		}
 
-		const reducedPkg = this._reducePkgData(modulePackages[module]);
+		const reducedPkg = this._reducePkgData(pkg);
 
 		lfrThemeConfig.setConfig({
 			baseTheme: reducedPkg,
 		});
 
-		this._saveDependencies([reducedPkg]);
+		this._saveDependencies([pkg]);
 
-		this._installDependencies([reducedPkg], () => this.done());
+		this._installDependencies([pkg], () => this.done());
 	}
 
 	_afterPromptThemelets(answers) {
@@ -141,12 +143,17 @@ class ExtendPrompt {
 			if (themeSource === 'global') {
 				GlobalModulePrompt.prompt(
 					config,
-					_.bind(this._afterPromptModule, this)
+					this._afterPromptModule.bind(this)
 				);
 			} else if (themeSource === 'npm') {
 				NPMModulePrompt.prompt(
 					config,
-					_.bind(this._afterPromptModule, this)
+					this._afterPromptModule.bind(this)
+				);
+			} else if (themeSource === 'url') {
+				URLPackagePrompt.prompt(
+					config,
+					this._afterPromptModule.bind(this)
 				);
 			}
 		}
@@ -162,11 +169,12 @@ class ExtendPrompt {
 		const themeVersion = this.themeConfig.version;
 
 		return _.map(dependencies, item => {
-			const path = item.path;
+			const pathOrURL = item.__realPath__ || item.__packageURL__;
 
-			return path
-				? path
-				: item.name + this._getDistTag(item, themeVersion, '@');
+			return (
+				pathOrURL ||
+				item.name + this._getDistTag(item, themeVersion, '@')
+			);
 		});
 	}
 
@@ -216,6 +224,10 @@ class ExtendPrompt {
 			{
 				name: 'Search npm registry (published modules)',
 				value: 'npm',
+			},
+			{
+				name: 'Specify a package URL',
+				value: 'url',
 			},
 		];
 
@@ -301,12 +313,12 @@ class ExtendPrompt {
 	}
 
 	_reducePkgData(pkg) {
-		const realPath = pkg.realPath;
+		const __realPath__ = pkg.__realPath__;
 
 		pkg = _.pick(pkg, ['liferayTheme', 'name', 'publishConfig', 'version']);
 
-		if (realPath) {
-			pkg.path = realPath;
+		if (__realPath__) {
+			pkg.path = __realPath__;
 		}
 
 		return pkg;
@@ -318,9 +330,10 @@ class ExtendPrompt {
 		const dependencies = _.reduce(
 			updatedData,
 			(result, item) => {
-				const moduleVersion = item.path
-					? item.path
-					: this._getDistTag(item, themeVersion);
+				const moduleVersion =
+					item.__realPath__ ||
+					item.__packageURL__ ||
+					this._getDistTag(item, themeVersion);
 
 				result[item.name] = moduleVersion;
 

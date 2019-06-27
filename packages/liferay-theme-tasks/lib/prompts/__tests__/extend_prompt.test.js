@@ -23,19 +23,19 @@ const themeletDependencies = {
 	'themelet-1': {
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-1',
-		realPath: 'path/to/themelet-1',
+		__realPath__: 'path/to/themelet-1',
 		version: liferayVersion,
 	},
 	'themelet-2': {
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-2',
-		realPath: 'path/to/themelet-2',
+		__realPath__: 'path/to/themelet-2',
 		version: liferayVersion,
 	},
 	'themelet-3': {
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-3',
-		realPath: 'path/to/themelet-3',
+		__realPath__: 'path/to/themelet-3',
 		version: liferayVersion,
 	},
 };
@@ -286,7 +286,7 @@ it('_filterExtendType should set _extendType to input arg', () => {
 	expect(prototype._extendType).toBe('themelet');
 });
 
-it('_getDependencyInstallationArray should return absolute path if present or name of module', () => {
+it('_getDependencyInstallationArray should return paths, URLs or names', () => {
 	const dependencies = prototype._getDependencyInstallationArray({
 		'themelet-1': {
 			liferayTheme: {
@@ -302,7 +302,7 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 				version: '*',
 			},
 			name: 'themelet-2',
-			path: 'path/to/themelet-2',
+			__realPath__: 'path/to/themelet-2',
 			version: '1.0',
 		},
 		'themelet-3': {
@@ -316,12 +316,22 @@ it('_getDependencyInstallationArray should return absolute path if present or na
 			},
 			version: '1.0',
 		},
+		'themelet-4': {
+			liferayTheme: {
+				themelet: true,
+				version: '7.0',
+			},
+			name: 'themelet-4',
+			__packageURL__: 'https://registry.example.org/themelet-4-1.0.0.tgz',
+			version: '1.0',
+		},
 	});
 
 	expect(dependencies).toEqual([
 		'themelet-1@*',
 		'path/to/themelet-2',
 		'themelet-3@7_1_x',
+		'https://registry.example.org/themelet-4-1.0.0.tgz',
 	]);
 });
 
@@ -349,13 +359,13 @@ it('_getSelectedModules should pass', () => {
 it('_getThemeSourceChoices should return different choices based on _extendType property', () => {
 	let choices = prototype._getThemeSourceChoices();
 
-	expect(choices.length).toBe(2);
+	expect(choices.length).toBe(3);
 
 	prototype._extendType = 'theme';
 
 	choices = prototype._getThemeSourceChoices();
 
-	expect(choices).toHaveLength(5);
+	expect(choices).toHaveLength(6);
 });
 
 it('_getThemeSourceMessage should return appropriate message based on _extendType property', () => {
@@ -393,7 +403,7 @@ it('_installDependencies should run child process that installs dependencies', d
 			if (err.cmd) {
 				expect(
 					err.cmd.indexOf(
-						'npm install themelet-1@* themelet-2@* themelet-3@*'
+						'npm install path/to/themelet-1 path/to/themelet-2 path/to/themelet-3'
 					) > -1
 				).toBe(true);
 			}
@@ -476,7 +486,7 @@ it('_reducePkgData should reduce package data to specified set of properties', (
 	expect(pkgData).toEqual(originalData);
 
 	pkgData = prototype._reducePkgData({
-		realPath: '/some/path',
+		__realPath__: '/some/path',
 	});
 
 	expect(pkgData.path).toEqual('/some/path');
