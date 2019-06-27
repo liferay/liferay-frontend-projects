@@ -18,7 +18,7 @@ function strict(version) {
 
 module.exports = {
 	gulp: '3.9.1',
-	'liferay-theme-tasks': '^9.1.5',
+	'liferay-theme-tasks': '^9.2.0',
 	'compass-mixins': strict('0.12.10'),
 	'liferay-frontend-common-css': strict('1.0.4'),
 	'liferay-frontend-theme-styled': strict('4.0.7'),

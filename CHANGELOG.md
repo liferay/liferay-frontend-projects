@@ -1,3 +1,9 @@
+## [v9.2.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.2.0) (2019-06-27)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.5...v9.2.0)
+
+- feat: teach `gulp extend` to accept a package URL (9.x) (#266) ([\#333](https://github.com/liferay/liferay-js-themes-toolkit/pull/333))
+
 ## [v9.1.5](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.5) (2019-06-24)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.4...v9.1.5)
