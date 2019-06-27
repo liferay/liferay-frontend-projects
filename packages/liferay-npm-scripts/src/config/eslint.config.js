@@ -15,7 +15,7 @@ module.exports = {
 		browser: true,
 		es6: true
 	},
-	extends: [require.resolve('eslint-config-liferay')],
+	extends: [require.resolve('eslint-config-liferay/portal')],
 	globals: {
 		AUI: true,
 		CKEDITOR: true,
