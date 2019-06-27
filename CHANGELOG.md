@@ -1,3 +1,11 @@
+## [v4.1.1](https://github.com/liferay/eslint-config-liferay/tree/v4.1.1) (2019-06-27)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.1.0...v4.1.1)
+
+- fix(no-it-should): anchor "should" pattern to start of string ([\#48](https://github.com/liferay/eslint-config-liferay/pull/48))
+- docs: correct rule name in README.md ([\#47](https://github.com/liferay/eslint-config-liferay/pull/47))
+- docs: add CONTRIBUTING.md ([\#46](https://github.com/liferay/eslint-config-liferay/pull/46))
+
 ## [v4.1.0](https://github.com/liferay/eslint-config-liferay/tree/v4.1.0) (2019-06-27)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.0.0...v4.1.0)
