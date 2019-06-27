@@ -32,7 +32,7 @@ module.exports = {
 						argument &&
 						argument.type === 'Literal' &&
 						typeof argument.value === 'string' &&
-						argument.value.match(/\s*should/)
+						argument.value.match(/^\s*should/)
 					) {
 						context.report({
 							message: DESCRIPTION,

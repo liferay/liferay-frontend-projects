@@ -14,6 +14,9 @@ ruleTester.run('no-it-should', rule, {
 		{
 			code: 'it("behaves")',
 		},
+		{
+			code: `it('has a checkbox with label "should notify"')`,
+		},
 	],
 
 	invalid: [
