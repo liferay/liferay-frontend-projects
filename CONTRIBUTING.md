@@ -44,3 +44,7 @@
 8.  Publish to NPM.
 
         yarn publish
+
+9.  Sanity check [the eslint-config-liferay page](https://www.npmjs.com/package/eslint-config-liferay) on npmjs.com
+
+    Specifically, you should see the version you just released under the "Versions" tab on that page.
