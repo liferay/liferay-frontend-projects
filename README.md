@@ -25,6 +25,10 @@ Once the `eslint-config-liferay` package is installed, you can use it by specify
 
 In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `liferay/portal` preset instead, which activates some additional rules specific to liferay-portal. See the `eslint-plugin-liferay-portal` section below for more details.
 
+> **An important disclaimer about the use of ESLint in liferay-portal**
+>
+> JavaScript code that appears inline inside JSP files and other templates is not currently checked by ESLint. Our long-term strategy is to move as much code as possible out of JSP and into React components, but in the interim, our only option is to rely on liferay-portal's existing source formatter for those files.
+
 ### React
 
 For React projects, you can extend `liferay/react` instead:
