@@ -3,7 +3,7 @@
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.0.0...v4.1.0)
 
 - docs: add a disclaimer about ESLint coverage in liferay-portal ([\#45](https://github.com/liferay/eslint-config-liferay/pull/45))
-- feat: add liferay/no-side-navigation rule ([\#44](https://github.com/liferay/eslint-config-liferay/pull/44))
+- feat: add liferay-portal/no-side-navigation rule ([\#44](https://github.com/liferay/eslint-config-liferay/pull/44))
 - feat: add liferay/no-it-should rule ([\#43](https://github.com/liferay/eslint-config-liferay/pull/43))
 
 ## [v4.0.0](https://github.com/liferay/eslint-config-liferay/tree/v4.0.0) (2019-06-20)
