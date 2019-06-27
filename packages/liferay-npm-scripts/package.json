@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-scripts",
-	"version": "4.1.0",
+	"version": "4.2.0",
 	"description": "Collection of NPM scripts used for Liferay portlets",
 	"main": "index.js",
 	"author": {
