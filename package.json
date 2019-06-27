@@ -6,8 +6,10 @@
 	"files": [
 		".eslintrc.js",
 		"index.js",
+		"plugins",
 		"react.js",
-		"scripts"
+		"scripts",
+		"utils"
 	],
 	"keywords": [
 		"code",
@@ -38,11 +40,12 @@
 		"eslint-plugin-react-hooks": "1.6.0"
 	},
 	"scripts": {
-		"ci": "yarn lint && yarn format:check",
+		"ci": "yarn lint && yarn format:check && yarn test",
 		"format": "prettier --write -- '**/*.{js,json,md}' '.*.js'",
 		"format:check": "prettier --list-different -- '**/*.{js,json,md}' '.*.js'",
 		"lint": "node scripts/lint.js",
 		"lint:fix": "node scripts/lint.js --fix",
-		"postinstall": "node scripts/postinstall.js"
+		"postinstall": "node scripts/postinstall.js",
+		"test": "node scripts/test.js"
 	}
 }

@@ -38,6 +38,14 @@ For React projects, you can extend `liferay/react` instead:
 
 The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugin-notice) plug-in can be used to enforce the use of uniform copyright headers across a project by placing a template named `copyright.js` in the project root (for example, see [the file defining the headers used in eslint-config-liferay itself](https://github.com/liferay/eslint-config-liferay/blob/master/copyright.js)).
 
+### Custom rules
+
+#### `eslint-plugin-liferay`
+
+The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plugins/eslint-plugin-liferay/docs/rules):
+
+-   [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md): This rule enforces that `it()` descriptions start with a verb, not with "should".
+
 ## License
 
 MIT
