@@ -62,7 +62,7 @@ describe('liferay-jest-junit-reporter', () => {
 		jest.restoreAllMocks();
 	});
 
-	it('should write a file for a passing test', () => {
+	it('writes a file for a passing test', () => {
 		reporter(passedTestReport);
 
 		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
@@ -70,7 +70,7 @@ describe('liferay-jest-junit-reporter', () => {
 		expect(xmlWritten).toMatchSnapshot();
 	});
 
-	it('should write a file for a failing test', () => {
+	it('writes a file for a failing test', () => {
 		reporter(faildTestReport);
 
 		const xmlWritten = fs.writeFileSync.mock.calls[1][1];
