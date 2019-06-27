@@ -21,6 +21,10 @@ Once the `eslint-config-liferay` package is installed, you can use it by specify
 }
 ```
 
+### liferay-portal
+
+In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `liferay/portal` preset instead, which activates some additional rules specific to liferay-portal. See the `eslint-plugin-liferay-portal` section below for more details.
+
 ### React
 
 For React projects, you can extend `liferay/react` instead:
@@ -28,6 +32,17 @@ For React projects, you can extend `liferay/react` instead:
 ```js
 {
   "extends": ["liferay/react"],
+  "rules": {
+    // Additional, per-project rules...
+  }
+}
+```
+
+Or, for React projects inside liferay-portal, extend both `liferay/react` and `liferay/portal`:
+
+```js
+{
+  "extends": ["liferay/react", "liferay/portal"],
   "rules": {
     // Additional, per-project rules...
   }
@@ -44,7 +59,13 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 
 The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plugins/eslint-plugin-liferay/docs/rules):
 
--   [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md): This rule enforces that `it()` descriptions start with a verb, not with "should".
+-   [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md): Enforces that `it()` descriptions start with a verb, not with "should".
+
+#### `eslint-plugin-liferay-portal`
+
+The bundled `eslint-plugin-liferay-portal` plugin includes the following [rules](./plugins/eslint-plugin-liferay-portal/docs/rules):
+
+-   [liferay/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md): Guards against the use of the legacy jQuery `sideNavigation` plugin.
 
 ## License
 
