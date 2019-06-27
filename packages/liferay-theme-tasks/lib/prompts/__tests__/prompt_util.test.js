@@ -17,13 +17,13 @@ const themeletDependencies = {
 	'themelet-1': {
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-1',
-		realPath: 'path/to/themelet-1',
+		__realPath__: 'path/to/themelet-1',
 		version: liferayVersion,
 	},
 	'themelet-2': {
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-2',
-		realPath: 'path/to/themelet-2',
+		__realPath__: 'path/to/themelet-2',
 		version: liferayVersion,
 	},
 	'themelet-3': {
