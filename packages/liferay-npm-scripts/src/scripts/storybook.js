@@ -25,6 +25,7 @@ const STORYBOOK_CONFIG_DIR_PATH = path.join(__dirname, '../storybook');
 const STORYBOOK_CONFIG_FILES = [
 	'addons.js',
 	'config.js',
+	'frontend-js-web.mock.js',
 	'middleware.js',
 	'preview-head.html',
 	'webpack.config.js'

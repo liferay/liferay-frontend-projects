@@ -48,5 +48,12 @@ module.exports = async ({config}) => {
 		})
 	);
 
+	config.plugins.push(
+		new webpack.NormalModuleReplacementPlugin(
+			/frontend-js-web/,
+			path.join(__dirname, 'frontend-js-web.mock.js')
+		)
+	);
+
 	return config;
 };
