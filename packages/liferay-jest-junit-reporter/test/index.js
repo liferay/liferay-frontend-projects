@@ -9,7 +9,7 @@ jest.mock('fs');
 const reporter = require('../src');
 const fs = require('fs');
 
-const faildTestReport = {
+const failedTestReport = {
 	numFailedTests: 1,
 	numTotalTests: 1,
 	startTime: 1000,
@@ -71,7 +71,7 @@ describe('liferay-jest-junit-reporter', () => {
 	});
 
 	it('writes a file for a failing test', () => {
-		reporter(faildTestReport);
+		reporter(failedTestReport);
 
 		const xmlWritten = fs.writeFileSync.mock.calls[1][1];
 
