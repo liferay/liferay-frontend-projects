@@ -78,8 +78,6 @@ for PACKAGE in $(ls); do
 done
 
 cd ..
-# Edit the one place that needs changing manually:
-$EDITOR packages/liferay-theme-tasks/lib/lookup/dependencies.js
 
 # Update package inter-dependencies using yarn (updates yarn.lock):
 cd packages/generator-liferay-theme

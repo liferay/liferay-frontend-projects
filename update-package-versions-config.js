@@ -17,11 +17,15 @@ module.exports = {
 		/"liferay-theme-tasks": ".*"/g,
 		/'liferay-theme-deps-7.(\d)': '.*'/g,
 		/'liferay-theme-tasks': '.*'/g,
+		/dependencies\['liferay-theme-deps-7.0'\] = '.*';/,
+		/dependencies\['liferay-theme-deps-7.1'\] = '.*';/,
 	],
 	to: [
 		`"liferay-theme-deps-7.$1": "${version}"`,
 		`"liferay-theme-tasks": "${version}"`,
 		`'liferay-theme-deps-7.$1': '${version}'`,
 		`'liferay-theme-tasks': '${version}'`,
+		`dependencies['liferay-theme-deps-7.0'] = '${version}';`,
+		`dependencies['liferay-theme-deps-7.1'] = '${version}';`,
 	],
 };
