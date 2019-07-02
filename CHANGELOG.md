@@ -1,3 +1,11 @@
+## [v8.1.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.1.1) (2019-07-02)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.1.0...v8.1.1)
+
+- feat: make `yarn updatePackageVersions` change all usages ([\#371](https://github.com/liferay/liferay-js-themes-toolkit/pull/371))
+- fix: silent `npm install` failures on Windows in extend and kickstart ([\#368](https://github.com/liferay/liferay-js-themes-toolkit/pull/368))
+- fix: Windows compatibility extending themes via URL (#365) ([\#367](https://github.com/liferay/liferay-js-themes-toolkit/pull/367))
+
 ## [v8.1.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.1.0) (2019-06-27)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.12...v8.1.0)
