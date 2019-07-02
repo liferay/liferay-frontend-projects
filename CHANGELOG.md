@@ -1,3 +1,10 @@
+## [v9.2.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.2.1) (2019-07-02)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.2.0...v9.2.1)
+
+- fix: silent `npm install` failures on Windows in extend and kickstart ([\#370](https://github.com/liferay/liferay-js-themes-toolkit/pull/370))
+- fix: Windows compatibility extending themes via URL (#365) ([\#369](https://github.com/liferay/liferay-js-themes-toolkit/pull/369))
+
 ## [v9.2.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.2.0) (2019-06-27)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.5...v9.2.0)
