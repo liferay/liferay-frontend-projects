@@ -139,28 +139,6 @@ it('_afterPromptThemeSource should invoke correct prompt based on themeSource an
 	GlobalModulePrompt.prototype.init = init;
 });
 
-it('_installTempModule should pass', done => {
-	const name = 'a-theme-name-that-should-never-exist';
-
-	prototype._installTempModule(
-		name,
-		function(err) {
-			const command =
-				'npm install --prefix ' +
-				path.join(process.cwd(), '.temp_node_modules') +
-				' ' +
-				name;
-
-			if (err.cmd) {
-				expect(err.cmd.indexOf(command) > -1).toBe(true);
-			}
-
-			done();
-		},
-		true
-	);
-});
-
 it('_promptThemeSource should pass', () => {
 	const prompt = inquirer.prompt;
 
