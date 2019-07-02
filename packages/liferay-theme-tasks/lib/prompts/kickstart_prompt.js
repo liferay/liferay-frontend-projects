@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {exec} = require('child_process');
+const spawn = require('cross-spawn');
 const inquirer = require('inquirer');
 const _ = require('lodash');
 const path = require('path');
@@ -46,21 +46,42 @@ class KickstartPrompt {
 		lookup('kickstart:afterPromptThemeSource')(answers, this);
 	}
 
-	_installTempModule(moduleName, cb, hideOutput) {
+	_installTempModule(moduleName, cb) {
 		const tempNodeModulesPath = path.join(
 			process.cwd(),
 			'.temp_node_modules'
 		);
 
-		const child = exec(
-			'npm install --prefix ' + tempNodeModulesPath + ' ' + moduleName,
-			cb
-		);
+		const args = ['install', '--prefix', tempNodeModulesPath, moduleName];
 
-		if (!hideOutput) {
-			child.stdout.pipe(process.stdout);
-			child.stderr.pipe(process.stdout);
-		}
+		const child = spawn('npm', args, {stdio: 'inherit'});
+
+		let done = false;
+
+		const finalize = () => {
+			if (!done) {
+				done = true;
+				cb();
+			}
+		};
+
+		child.on('error', error => {
+			// eslint-disable-next-line no-console
+			console.log.bind(error);
+
+			finalize();
+		});
+
+		child.on('exit', code => {
+			if (code) {
+				const command = `npm ${args.join(' ')}`;
+
+				// eslint-disable-next-line no-console
+				console.log(`Command: \`${command}\` exited with code ${code}`);
+			}
+
+			finalize();
+		});
 	}
 
 	_promptThemeSource() {

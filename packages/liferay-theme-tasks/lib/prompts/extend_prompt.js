@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
+const spawn = require('cross-spawn');
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
-const exec = require('child_process').exec;
 const inquirer = require('inquirer');
 
 const GlobalModulePrompt = require('./global_module_prompt');
@@ -260,15 +260,39 @@ class ExtendPrompt {
 		return config.publishConfig && config.publishConfig.tag;
 	}
 
-	_installDependencies(dependencies, cb, hideOutput) {
+	_installDependencies(dependencies, cb) {
 		const modules = this._getDependencyInstallationArray(dependencies);
 
-		const child = exec('npm install ' + modules.join(' '), cb);
+		const args = ['install', ...modules];
 
-		if (!hideOutput) {
-			child.stderr.pipe(process.stdout);
-			child.stdout.pipe(process.stdout);
-		}
+		const child = spawn('npm', args, {stdio: 'inherit'});
+
+		let done = false;
+
+		const finalize = () => {
+			if (!done) {
+				done = true;
+				cb();
+			}
+		};
+
+		child.on('error', error => {
+			// eslint-disable-next-line no-console
+			console.log.bind(error);
+
+			finalize();
+		});
+
+		child.on('exit', code => {
+			if (code) {
+				const command = `npm ${args.join(' ')}`;
+
+				// eslint-disable-next-line no-console
+				console.log(`Command: \`${command}\` exited with code ${code}`);
+			}
+
+			finalize();
+		});
 	}
 
 	_isSupported(supportedVersion, version) {
