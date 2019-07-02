@@ -6,7 +6,6 @@
 
 const _ = require('lodash');
 const async = require('async');
-const child_process = require('child_process');
 const fs = require('fs');
 const globby = require('globby');
 const npmKeyword = require('npm-keyword');
@@ -51,12 +50,12 @@ function getLiferayThemeModuleFromURL(url) {
 	// Install the package in a temporary directory in order to get
 	// the package.json.
 	withScratchDirectory(() => {
-		child_process.spawnSync('npm', ['init', '-y']);
+		spawn.sync('npm', ['init', '-y']);
 
 		// Ideally, we wouldn't install any dependencies at all, but this is
 		// the closest we can get (production only, skipping optional
 		// dependencies).
-		child_process.spawnSync('npm', [
+		spawn.sync('npm', [
 			'install',
 			'--ignore-scripts',
 			'--no-optional',
