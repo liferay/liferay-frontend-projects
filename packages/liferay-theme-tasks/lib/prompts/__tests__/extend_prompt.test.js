@@ -398,24 +398,6 @@ it('_hasPublishTag should return true if publish tag exists', () => {
 	).toBeTruthy();
 });
 
-it('_installDependencies should run child process that installs dependencies', done => {
-	prototype._installDependencies(
-		themeletDependencies,
-		(err, _data) => {
-			if (err.cmd) {
-				expect(
-					err.cmd.indexOf(
-						'npm install path/to/themelet-1 path/to/themelet-2 path/to/themelet-3'
-					) > -1
-				).toBe(true);
-			}
-
-			done();
-		},
-		true
-	);
-});
-
 it('_isSupported should validate version', () => {
 	const version = '2.0';
 
