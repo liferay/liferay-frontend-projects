@@ -7,7 +7,7 @@
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
 const colors = require('ansi-colors');
-const childProcess = require('child_process');
+const spawn = require('cross-spawn');
 const es = require('event-stream');
 const fs = require('fs-extra');
 const log = require('fancy-log');
@@ -67,7 +67,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 		es.wait(function(err, body) {
 			if (err) throw err;
 
-			const proc = childProcess.spawnSync(
+			const proc = spawn.sync(
 				'docker',
 				[
 					'exec',
@@ -94,7 +94,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 }
 
 function dockerExec(containerName, command) {
-	return childProcess.spawnSync(
+	return spawn.sync(
 		'docker',
 		['exec', containerName, 'sh', '-c', '"' + command + '"'],
 		{
