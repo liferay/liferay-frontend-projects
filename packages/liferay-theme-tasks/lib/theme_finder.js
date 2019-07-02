@@ -6,7 +6,6 @@
 
 const _ = require('lodash');
 const async = require('async');
-const child_process = require('child_process');
 const fs = require('fs');
 const globby = require('globby');
 const npmKeyword = require('npm-keyword');
@@ -40,6 +39,51 @@ function getLiferayThemeModule(name, cb) {
 }
 
 /**
+ * Wrapper for spawn.sync that fails on any error.
+ */
+function run(command, args) {
+	const getDescription = () => `${command} ${args.join(' ')}`;
+
+	let error;
+
+	const results = spawn.sync(command, args);
+
+	if (results.error) {
+		error = new Error(
+			`Command \`${getDescription()}\` encountered an error: ${
+				results.error
+			}`
+		);
+	} else if (results.signal) {
+		error = new Error(
+			`Command \`${getDescription()}\` exited due to signal: ${
+				results.signal
+			}`
+		);
+	} else if (results.status) {
+		error = new Error(
+			`Command \`${getDescription()}\` exited with status: ${
+				results.status
+			}`
+		);
+	}
+
+	if (error) {
+		if (results.stdout) {
+			// eslint-disable-next-line no-console
+			console.log(results.stdout.toString());
+		}
+
+		if (results.stderr) {
+			// eslint-disable-next-line no-console
+			console.log(results.stderr.toString());
+		}
+
+		throw error;
+	}
+}
+
+/**
  * Given a package URL, attempts to download it, extract the package.json, and
  * validate it.
  */
@@ -51,12 +95,12 @@ function getLiferayThemeModuleFromURL(url) {
 	// Install the package in a temporary directory in order to get
 	// the package.json.
 	withScratchDirectory(() => {
-		child_process.spawnSync('npm', ['init', '-y']);
+		run('npm', ['init', '-y']);
 
 		// Ideally, we wouldn't install any dependencies at all, but this is
 		// the closest we can get (production only, skipping optional
 		// dependencies).
-		child_process.spawnSync('npm', [
+		run('npm', [
 			'install',
 			'--ignore-scripts',
 			'--no-optional',
