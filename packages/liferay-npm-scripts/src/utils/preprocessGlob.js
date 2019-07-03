@@ -53,7 +53,6 @@ function preprocessGlob(glob) {
 		} else if (bracketCount === 0) {
 			// We are capturing normal text.
 			const index = template.length - 1;
-
 			template[index] = template[index] + char;
 		} else {
 			// We are capturing substitution(s).
