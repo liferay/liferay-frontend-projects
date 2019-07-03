@@ -137,20 +137,30 @@ function instantiateLoaderRules(rulesConfigs) {
 			useArray = [{loader: ruleConfig.use}];
 		}
 
-		const loaders = useArray.map(use => {
-			const loaderName = use.loader;
-			const options = use.options || {};
+		const loaders = useArray
+			.map(use => {
+				let loaderName;
+				let options;
 
-			const loaderModule = configRequire(
-				`liferay-npm-bundler-loader-${loaderName}`
-			);
+				if (typeof use === 'string') {
+					loaderName = use;
+					options = {};
+				} else {
+					loaderName = use.loader;
+					options = use.options || {};
+				}
 
-			return {
-				name: loaderName,
-				exec: loaderModule.default,
-				options,
-			};
-		});
+				const loaderModule = configRequire(
+					`liferay-npm-bundler-loader-${loaderName}`
+				);
+
+				return {
+					name: loaderName,
+					exec: loaderModule.default,
+					options,
+				};
+			})
+			.reverse();
 
 		return {
 			test: ruleConfig.test,
