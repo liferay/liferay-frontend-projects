@@ -1,0 +1,16 @@
+{
+  "name": "liferay-npm-bundler-loader-sass-loader",
+  "version": "1.0.0",
+  "description": "A liferay-npm-bundler loader that transforms SCSS to CSS. Based on Webpack sass-loader",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel --source-maps -D -d lib src",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "node-sass": "^4.12.0",
+    "sass": "^1.22.2"
+  }
+}
