@@ -11,17 +11,21 @@ const path = require('path');
 describe('scripts/format.js', () => {
 	let cwd;
 	let format;
-	let spawnSync;
+	let prettier;
 	let temp;
+
+	const source = 'alert("hello");';
 
 	beforeEach(() => {
 		cwd = process.cwd();
 		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'format-'));
 		process.chdir(temp);
+		fs.mkdirSync('src');
+		fs.writeFileSync('src/example.js', source);
 
-		jest.mock('../../src/utils/spawnSync');
+		jest.mock('prettier');
 		format = require('../../src/scripts/format');
-		spawnSync = require('../../src/utils/spawnSync');
+		prettier = require('prettier');
 	});
 
 	afterEach(() => {
@@ -31,7 +35,10 @@ describe('scripts/format.js', () => {
 
 	it('invokes prettier', () => {
 		format();
-		expect(spawnSync).toHaveBeenCalledWith('prettier', expect.anything());
+		expect(prettier.check).toHaveBeenCalledWith(
+			source,
+			expect.objectContaining({filepath: 'src/example.js'})
+		);
 	});
 
 	describe('when no globs are configured', () => {
@@ -50,7 +57,6 @@ describe('scripts/format.js', () => {
 			jest.mock('../../src/utils/log');
 			format = require('../../src/scripts/format');
 			log = require('../../src/utils/log');
-			spawnSync = require('../../src/utils/spawnSync');
 		});
 
 		it('logs a message indicating how to configure globs', () => {
@@ -60,9 +66,9 @@ describe('scripts/format.js', () => {
 			);
 		});
 
-		it('does not run prettier', () => {
+		it('does not invoke prettier', () => {
 			format();
-			expect(spawnSync).not.toHaveBeenCalled();
+			expect(prettier.check).not.toHaveBeenCalled();
 		});
 	});
 });
