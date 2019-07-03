@@ -5,9 +5,11 @@
  */
 
 const fs = require('fs');
+const path = require('path');
 const prettier = require('prettier');
 const expandGlobs = require('../utils/expandGlobs');
 const filterGlobs = require('../utils/filterGlobs');
+const findRoot = require('../utils/findRoot');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const preprocessGlob = require('../utils/preprocessGlob');
@@ -48,9 +50,10 @@ function format(options = {}) {
 		return;
 	}
 
-	// TODO: only exists at top level; refactor to share logic with
-	// .eslintignore handling.
-	const ignores = readIgnoreFile('.prettierignore');
+	const root = findRoot();
+	const ignoreFile = path.join(root || '.', '.prettierignore');
+
+	const ignores = fs.existsSync(ignoreFile) ? readIgnoreFile(ignoreFile) : [];
 
 	// Match Prettier behavior and ignore node_modules by default.
 	if (ignores.indexOf('node_modules/**') === -1) {
