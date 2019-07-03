@@ -1,15 +1,16 @@
 {
-	"name": "liferay-npm-bundler-preset-standard",
-	"version": "2.12.0",
-	"description": "Standard configuration for liferay-npm-bundler.",
-	"main": "config.json",
-	"dependencies": {
-		"babel-preset-liferay-standard": "2.12.0",
-		"liferay-npm-bundler-plugin-exclude-imports": "2.12.0",
-		"liferay-npm-bundler-plugin-inject-imports-dependencies": "2.12.0",
-		"liferay-npm-bundler-plugin-inject-peer-dependencies": "2.12.0",
-		"liferay-npm-bundler-plugin-namespace-packages": "2.12.0",
-		"liferay-npm-bundler-plugin-replace-browser-modules": "2.12.0",
-		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.12.0"
-	}
+  "name": "liferay-npm-bundler-preset-standard",
+  "version": "2.12.0",
+  "description": "Standard configuration for liferay-npm-bundler.",
+  "main": "config.json",
+  "dependencies": {
+    "babel-preset-liferay-standard": "2.12.0",
+    "liferay-npm-bundler-plugin-exclude-imports": "2.12.0",
+    "liferay-npm-bundler-plugin-inject-imports-dependencies": "2.12.0",
+    "liferay-npm-bundler-plugin-inject-peer-dependencies": "2.12.0",
+    "liferay-npm-bundler-plugin-namespace-packages": "2.12.0",
+    "liferay-npm-bundler-plugin-replace-browser-modules": "2.12.0",
+    "liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.12.0",
+    "liferay-npm-bundler-loader-css-loader": "1.0.0"
+  }
 }

@@ -92,6 +92,32 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	return processBabelFiles(filePaths, 0, pkg, babelConfig);
 }
 
+export function runLoaderRules(rules, pkg, srcPkg) {
+	rules.forEach(rule => {
+		const globs = [`${srcPkg.dir}/${rule.test}`];
+		const filePaths = globby.sync(globs);
+
+		filePaths.forEach(filePath => {
+			let destPath = filePath.replace(srcPkg.dir, pkg.dir);
+			destPath = destPath.replace('/src', '');
+
+			if (rule.extension) {
+				destPath = destPath.concat(rule.extension);
+			}
+
+			fs.copyFileSync(filePath, destPath);
+
+			let content = fs.readFileSync(destPath, 'utf8');
+
+			rule.loaders.forEach(loader => {
+				content = loader.exec(content);
+			});
+
+			fs.writeFileSync(destPath, content);
+		});
+	});
+}
+
 /**
  * Recursively process JavaScript files with Babel chunk by chunk, to maintain
  * an upper bound on the maximum number of open files so as to avoid EMFILE

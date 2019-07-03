@@ -21,7 +21,7 @@ import * as log from './log';
 import manifest from './manifest';
 import report from './report';
 
-import {runPlugins, runBabel} from './runners';
+import {runPlugins, runBabel, runLoaderRules} from './runners';
 import {
 	iterateSerially,
 	renamePkgDirIfPkgJsonChanged,
@@ -176,7 +176,8 @@ function bundleRootPackage(outputDir) {
 	);
 
 	// Process package
-	return processPackage('pre', srcPkg, pkg)
+	return processLoaders(pkg, srcPkg)
+		.then(() => processPackage('pre', srcPkg, pkg))
 		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
 		.then(() => processPackage('post', srcPkg, pkg))
 		.then(() => manifest.addPackage(srcPkg, pkg))
@@ -331,6 +332,20 @@ function processPackage(phase, srcPkg, pkg) {
 				path.join(pkg.dir, 'package.json'),
 				JSON.stringify(state.pkgJson, '', 2)
 			);
+
+			resolve();
+		} catch (err) {
+			reject(err);
+		}
+	});
+}
+
+function processLoaders(pkg, srcPkg) {
+	return new Promise((resolve, reject) => {
+		try {
+			const rules = config.bundler.getLoaderRules(pkg);
+
+			runLoaderRules(rules, pkg, srcPkg);
 
 			resolve();
 		} catch (err) {

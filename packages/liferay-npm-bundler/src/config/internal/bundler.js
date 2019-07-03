@@ -81,6 +81,12 @@ export function getPlugins(phase, pkg) {
 	return instantiatePlugins(pluginNames);
 }
 
+export function getLoaderRules(pkg) {
+	const rulesConfigs = getPackageConfig(pkg, 'rules', []);
+
+	return instantiateLoaderRules(rulesConfigs);
+}
+
 /**
  * Get maximum number of files to process in parallel.
  * @return {number}
@@ -119,6 +125,37 @@ function instantiatePlugins(pluginNames) {
 			name: pluginName,
 			config: pluginConfig,
 			run: pluginModule.default,
+		};
+	});
+}
+
+function instantiateLoaderRules(rulesConfigs) {
+	return rulesConfigs.map(ruleConfig => {
+		let useArray = ruleConfig.use;
+
+		if (typeof ruleConfig.use === 'string') {
+			useArray = [{loader: ruleConfig.use}];
+		}
+
+		const loaders = useArray.map(use => {
+			const loaderName = use.loader;
+			const options = use.options || {};
+
+			const loaderModule = configRequire(
+				`liferay-npm-bundler-loader-${loaderName}`
+			);
+
+			return {
+				name: loaderName,
+				exec: loaderModule.default,
+				options,
+			};
+		});
+
+		return {
+			test: ruleConfig.test,
+			extension: ruleConfig.extension,
+			loaders,
 		};
 	});
 }
