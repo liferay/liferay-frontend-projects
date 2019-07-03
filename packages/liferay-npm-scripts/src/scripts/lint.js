@@ -9,6 +9,7 @@ const os = require('os');
 const path = require('path');
 
 const filterGlobs = require('../utils/filterGlobs');
+const findRoot = require('../utils/findRoot');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const spawnSync = require('../utils/spawnSync');
@@ -22,33 +23,6 @@ const DEFAULT_OPTIONS = {
  * File extensions that ESLint can process.
  */
 const EXTENSIONS = ['.js', '.ts', '.tsx'];
-
-/**
- * Attempt to locate the "modules/" root directory in the liferay-portal repo by
- * walking up the tree looking for a yarn.lock.
- */
-function findRoot() {
-	let directory = process.cwd();
-
-	while (directory) {
-		if (fs.existsSync(path.join(directory, 'yarn.lock'))) {
-			if (path.basename(directory) === 'modules') {
-				return directory;
-			} else {
-				log(
-					`Found a yarn.lock in ${directory}, but it is not the "modules/" root`
-				);
-			}
-		}
-
-		if (path.dirname(directory) === directory) {
-			// Can't go any higher.
-			directory = null;
-		} else {
-			directory = path.dirname(directory);
-		}
-	}
-}
 
 /**
  * Scan for ignore files at locations of the form:
