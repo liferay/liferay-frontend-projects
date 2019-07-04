@@ -108,6 +108,12 @@ export function runLoaderRules(rules, pkg, srcPkg) {
 				destPath = destPath.concat(rule.extension);
 			}
 
+			const dir = destPath.substring(0, destPath.lastIndexOf('/'));
+
+			if (!fs.existsSync(dir)) {
+				fs.mkdirSync(dir, {recursive: true});
+			}
+
 			fs.copyFileSync(filePath, destPath);
 
 			let content = fs.readFileSync(destPath, 'utf8');
