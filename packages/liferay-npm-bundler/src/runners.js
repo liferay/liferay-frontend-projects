@@ -19,6 +19,7 @@ import * as config from './config';
 import * as log from './log';
 import report from './report';
 import {loadSourceMap} from './util';
+import {processFile} from './loader-runner';
 
 /**
  * Run a liferay-npm-bundler plugin
@@ -93,37 +94,28 @@ export function runBabel(pkg, {ignore = []} = {}) {
 }
 
 export function runLoaderRules(rules, pkg, srcPkg) {
-	rules.forEach(rule => {
-		const globs = [`${srcPkg.dir}/${rule.test}`].concat(
-			gl.negate(gl.prefix(`${srcPkg.dir}/`, rule.exclude))
-		);
+	return new Promise((resolve, reject) => {
+		const rulePromises = rules.map(rule => {
+			return new Promise((resolve, reject) => {
+				const globs = [`${srcPkg.dir}/${rule.test}`].concat(
+					gl.negate(gl.prefix(`${srcPkg.dir}/`, rule.exclude))
+				);
 
-		const filePaths = globby.sync(globs);
+				const filePaths = globby.sync(globs);
 
-		filePaths.forEach(filePath => {
-			let destPath = filePath.replace(srcPkg.dir, pkg.dir);
-			destPath = destPath.replace('/src', '');
+				const filePromises = filePaths.map(filePath => {
+					return processFile(filePath, srcPkg, pkg, rule);
+				});
 
-			if (rule.extension) {
-				destPath = destPath.concat(rule.extension);
-			}
-
-			const dir = destPath.substring(0, destPath.lastIndexOf('/'));
-
-			if (!fs.existsSync(dir)) {
-				fs.mkdirSync(dir, {recursive: true});
-			}
-
-			fs.copyFileSync(filePath, destPath);
-
-			let content = fs.readFileSync(destPath, 'utf8');
-
-			rule.loaders.forEach(loader => {
-				content = loader.exec(content);
+				Promise.all(filePromises)
+					.then(resolve)
+					.catch(reject);
 			});
-
-			fs.writeFileSync(destPath, content);
 		});
+
+		Promise.all(rulePromises)
+			.then(resolve)
+			.catch(reject);
 	});
 }
 

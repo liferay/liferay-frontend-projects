@@ -345,9 +345,9 @@ function processLoaders(pkg, srcPkg) {
 		try {
 			const rules = config.bundler.getLoaderRules(pkg);
 
-			runLoaderRules(rules, pkg, srcPkg);
-
-			resolve();
+			runLoaderRules(rules, pkg, srcPkg)
+				.then(resolve)
+				.catch(reject);
 		} catch (err) {
 			reject(err);
 		}
