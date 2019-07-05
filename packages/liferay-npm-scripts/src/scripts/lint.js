@@ -122,7 +122,7 @@ function lint(options = {}) {
 			`${autofixable} ${plural(
 				'issue',
 				autofixable
-			)} are potentially fixable with lint:fix`
+			)} potentially fixable with lint:fix`
 		);
 	}
 
