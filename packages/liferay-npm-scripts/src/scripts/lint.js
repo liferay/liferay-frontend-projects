@@ -80,7 +80,11 @@ function lint(options = {}) {
 		//   fixes do not have an "output" property, but
 		//   `report.fixableErrorCount` and `report.fixableWarningCount` will be
 		//   set.
-		fix
+		fix,
+
+		// Avoid spurious warnings of the form, "File ignored by
+		// default. Use a negated ignore pattern ... to override"
+		ignorePattern: '!*'
 	});
 
 	const report = cli.executeOnFiles(paths);
