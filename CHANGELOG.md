@@ -1,3 +1,9 @@
+## [v4.2.0](https://github.com/liferay/eslint-config-liferay/tree/v4.2.0) (2019-07-08)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.1.1...v4.2.0)
+
+- feat: make notice/notice plugin work in liferay-portal projects ([\#49](https://github.com/liferay/eslint-config-liferay/pull/49))
+
 ## [v4.1.1](https://github.com/liferay/eslint-config-liferay/tree/v4.1.1) (2019-06-27)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.1.0...v4.1.1)
