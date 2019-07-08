@@ -17,7 +17,7 @@ if [ "$OS" = "Windows_NT" ]; then
   #   out after 10 minutes...
   # - Even `yarn jest` doesn't work, because `jest` is a .bat script too.
   #
-  node_modules/.bin/jest
+  node node_modules/jest-cli/bin/jest.js
 else
   yarn format:check && yarn lint && yarn test
 fi
