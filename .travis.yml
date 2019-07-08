@@ -1,5 +1,9 @@
 before_install: ./.travis/before_install.sh
 
+env:
+  global:
+    - YARN_GPG=no
+
 install: ./.travis/install.sh
 
 language: node_js
