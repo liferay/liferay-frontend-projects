@@ -4,6 +4,11 @@
 		"eslint-config-liferay": "^4.2.0",
 		"prettier": "1.18.2"
 	},
+	"jest": {
+		"testMatch": [
+			"**/test/**/*.js"
+		]
+	},
 	"private": true,
 	"scripts": {
 		"ci": "yarn format:check && yarn lint && yarn test",
@@ -11,7 +16,7 @@
 		"format:check": "prettier --list-different '**/*.js' '**/*.json' '**/*.md'",
 		"lint": "eslint '**/*.js'",
 		"lint:fix": "eslint --fix '**/*.js'",
-		"test": "yarn workspaces run test"
+		"test": "jest"
 	},
 	"workspaces": [
 		"packages/*"

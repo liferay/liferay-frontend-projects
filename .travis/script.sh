@@ -15,8 +15,9 @@ if [ "$OS" = "Windows_NT" ]; then
   #   (https://github.com/npm/npm/issues/2938#issuecomment-11337463).
   # - This causes our script here to return early, and then the whole run times
   #   out after 10 minutes...
+  # - Even `yarn jest` doesn't work, because `jest` is a .bat script too.
   #
-  find packages -type d -maxdepth 1 -mindepth 1 -print0 | xargs -0 -n1 -I {} yarn --cwd {} test
+  node_modules/.bin/jest
 else
   yarn format:check && yarn lint && yarn test
 fi
