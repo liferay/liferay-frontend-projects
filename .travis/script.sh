@@ -18,5 +18,3 @@ if [ "$OS" = "Windows_NT" ]; then
 else
   yarn format:check && yarn lint && yarn test
 fi
-
-ps -ef
