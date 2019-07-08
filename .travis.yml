@@ -3,6 +3,7 @@ before_install:
     - curl -L -o "$HOME/.yarn/bin/yarn" https://github.com/yarnpkg/yarn/releases/download/v1.15.2/yarn-1.15.2.js
     - chmod +x "$HOME/.yarn/bin/yarn"
     - export PATH="$HOME/.yarn/bin:$PATH"
+    - yarn config delete proxy
 
 install:
     - yarn
