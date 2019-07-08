@@ -1,8 +1,6 @@
-before_install:
-  - ./.travis/before_install.sh
+before_install: ./.travis/before_install.sh
 
-install:
-  - yarn
+install: ./.travis/install.sh
 
 language: node_js
 
@@ -13,5 +11,4 @@ os:
   - linux
   - windows
 
-script:
-    - yarn ci
+script: ./.travis/script.sh
