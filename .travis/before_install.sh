@@ -5,9 +5,7 @@ curl -L -o "$HOME/.yarn/bin/yarn" https://github.com/yarnpkg/yarn/releases/downl
 chmod +x "$HOME/.yarn/bin/yarn"
 export PATH="$HOME/.yarn/bin:$PATH"
 
-export
-
-if [ -n "$WINDIR" ]; then
+if [ "$OS" = "Windows_NT" ]; then
   # Speed up Yarn install on Windows.
   #
   # See: https://travis-ci.community/t/yarn-network-troubles/333/6
