@@ -100,7 +100,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = []) {
 	function traverse(directory) {
 		const entries = fs.readdirSync(directory);
 		entries.forEach(entry => {
-			const file = path.join(directory, entry);
+			const file = path.posix.join(directory, entry);
 
 			// Check trie to see whether entire subtree can be pruned.
 			let trie = prunable;
