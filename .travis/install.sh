@@ -1,3 +1,3 @@
 #!/bin/bash
 
-yarn
+env YARN_GPG=no yarn

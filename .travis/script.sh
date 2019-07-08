@@ -1,8 +1,5 @@
 #!/bin/bash
 
-set -e
-set -x
-
 if [ "$OS" = "Windows_NT" ]; then
   # On Windows, just the tests, not the format checks or lints, because
   # `prettier` is going to freak out about nothing matching the globs on
@@ -22,5 +19,4 @@ else
   yarn format:check && yarn lint && yarn test
 fi
 
-# Debugging.
 ps -ef
