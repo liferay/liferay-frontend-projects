@@ -1,6 +1,6 @@
 # Liferay Frontend Guidelines
 
-This is a live (changing) repository containing [guidelines](/guidelines) for doing Frontend Development at Liferay Inc.
+This is a live (changing) repository containing [general](/general) and [Liferay DXP-specific](/dxp) guidelines for doing Frontend Development at Liferay Inc.
 
 ## Guideline development
 
