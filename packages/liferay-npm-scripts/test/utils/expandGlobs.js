@@ -75,6 +75,13 @@ const PORTAL_IGNORE_GLOBS = [
 describe('expandGlobs()', () => {
 	let cwd;
 
+	function expand() {
+		// Isolate ourselves from platform-specific file-system traversal
+		// ordering issues (for example, on Windows, files starting with "_"
+		// will be visited after other files).
+		return expandGlobs(...arguments).sort();
+	}
+
 	beforeAll(() => {
 		cwd = process.cwd();
 
@@ -95,13 +102,13 @@ describe('expandGlobs()', () => {
 	});
 
 	it('can match all files', () => {
-		const matches = expandGlobs(['*']);
+		const matches = expand(['*']);
 
 		expect(matches).toEqual(FIXTURES);
 	});
 
 	it('can match a subset of files', () => {
-		const matches = expandGlobs(['.eslintrc.js']);
+		const matches = expand(['.eslintrc.js']);
 
 		expect(matches).toEqual([
 			'.eslintrc.js',
@@ -111,7 +118,7 @@ describe('expandGlobs()', () => {
 	});
 
 	it('excludes ignored files', () => {
-		const matches = expandGlobs(['*'], ['sdk/**']);
+		const matches = expand(['*'], ['sdk/**']);
 
 		const filtered = FIXTURES.filter(entry => !entry.startsWith('sdk'));
 
@@ -119,7 +126,7 @@ describe('expandGlobs()', () => {
 	});
 
 	it('respects negated ignore patterns', () => {
-		const matches = expandGlobs(['*.js'], ['*.js', '!*.es.js']);
+		const matches = expand(['*.js'], ['*.js', '!*.es.js']);
 
 		const filtered = FIXTURES.filter(entry => entry.endsWith('.es.js'));
 
@@ -127,7 +134,7 @@ describe('expandGlobs()', () => {
 	});
 
 	it('treats negated match patterns as non-negated ignores', () => {
-		const matches = expandGlobs(['*.js', '!*.js'], ['!*.es.js']);
+		const matches = expand(['*.js', '!*.js'], ['!*.es.js']);
 
 		const filtered = FIXTURES.filter(entry => entry.endsWith('.es.js'));
 
@@ -135,7 +142,7 @@ describe('expandGlobs()', () => {
 	});
 
 	it('handles complex arrays of globs and negations', () => {
-		const matches = expandGlobs(PORTAL_GLOBS, PORTAL_IGNORE_GLOBS);
+		const matches = expand(PORTAL_GLOBS, PORTAL_IGNORE_GLOBS);
 
 		expect(matches).toEqual([
 			'.eslintrc.js',
@@ -152,22 +159,22 @@ describe('expandGlobs()', () => {
 	});
 
 	it('complains about redundant ignore patterns', () => {
-		expect(() =>
-			expandGlobs([], ['build/css/clay/**', 'build/**'])
-		).toThrow(/Redundant ignore patterns/);
-		expect(() =>
-			expandGlobs([], ['build/**', 'build/css/clay/**'])
-		).toThrow(/Redundant ignore patterns/);
-		expect(() => expandGlobs([], ['build/**', 'build/**'])).toThrow(
+		expect(() => expand([], ['build/css/clay/**', 'build/**'])).toThrow(
 			/Redundant ignore patterns/
 		);
-		expect(() => expandGlobs([], ['a/b/c/**', 'x/a/b/c/**'])).toThrow(
+		expect(() => expand([], ['build/**', 'build/css/clay/**'])).toThrow(
 			/Redundant ignore patterns/
 		);
-		expect(() => expandGlobs([], ['x/a/b/c/**', 'a/b/c/**'])).toThrow(
+		expect(() => expand([], ['build/**', 'build/**'])).toThrow(
 			/Redundant ignore patterns/
 		);
-		expect(() => expandGlobs([], ['a/b/c/**', 'a/b/c/**'])).toThrow(
+		expect(() => expand([], ['a/b/c/**', 'x/a/b/c/**'])).toThrow(
+			/Redundant ignore patterns/
+		);
+		expect(() => expand([], ['x/a/b/c/**', 'a/b/c/**'])).toThrow(
+			/Redundant ignore patterns/
+		);
+		expect(() => expand([], ['a/b/c/**', 'a/b/c/**'])).toThrow(
 			/Redundant ignore patterns/
 		);
 	});
