@@ -9,19 +9,25 @@ const path = require('path');
 const log = require('./log');
 
 /**
- * Attempt to locate the "modules/" root directory in the liferay-portal repo by
- * walking up the tree looking for a yarn.lock.
+ * Attempt to locate the nearest "root" directory in the liferay-portal repo by
+ * walking up the tree looking for a yarn.lock. In practice, the possible roots
+ * are:
+ *
+ *   - modules/
+ *   - modules/private/
  */
 function findRoot() {
 	let directory = process.cwd();
 
 	while (directory) {
 		if (fs.existsSync(path.join(directory, 'yarn.lock'))) {
-			if (path.basename(directory) === 'modules') {
+			const basename = path.basename(directory);
+
+			if (basename === 'modules' || basename === 'private') {
 				return directory;
 			} else {
 				log(
-					`Found a yarn.lock in ${directory}, but it is not the "modules/" root`
+					`Found a yarn.lock in ${directory}, but it is not in the "modules/" or "modules/private/" roots`
 				);
 			}
 		}
