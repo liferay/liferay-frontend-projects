@@ -6,6 +6,7 @@
 	"files": [
 		".eslintrc.js",
 		"index.js",
+		"metal.js",
 		"plugins",
 		"portal.js",
 		"react.js",

@@ -53,6 +53,21 @@ Or, for React projects inside liferay-portal, extend both `liferay/react` and `l
 }
 ```
 
+### metal-jsx
+
+For legacy projects inside liferay-portal that use [metal-jsx](https://www.npmjs.com/package/metal-jsx), we have a "metal" preset:
+
+```js
+{
+  "extends": ["liferay/portal", "liferay/metal"],
+  "rules": {
+    // Additional, per-project rules...
+  }
+}
+```
+
+Use this preset to stop ESLint from [spuriously warning that variables that are used as JSX components are unused](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-uses-vars.md).
+
 ### Copyright headers
 
 The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugin-notice) plug-in can be used to enforce the use of uniform copyright headers across a project by placing a template named `copyright.js` in the project root (for example, see [the file defining the headers used in eslint-config-liferay itself](https://github.com/liferay/eslint-config-liferay/blob/master/copyright.js)).
