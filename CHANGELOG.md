@@ -1,3 +1,9 @@
+## [v4.3.0](https://github.com/liferay/eslint-config-liferay/tree/v4.3.0) (2019-07-09)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.2.0...v4.3.0)
+
+- feat: add "liferay/metal" preset ([\#50](https://github.com/liferay/eslint-config-liferay/pull/50))
+
 ## [v4.2.0](https://github.com/liferay/eslint-config-liferay/tree/v4.2.0) (2019-07-08)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.1.1...v4.2.0)
