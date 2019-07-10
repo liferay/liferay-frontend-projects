@@ -1,7 +1,5 @@
 # Aspect Oriented Programming (AOP) guidelines
 
-> **NOTE:** This plugin was originally in metal-plugins but now lives in [liferay-portal](https://github.com/liferay/liferay-portal) so we can provide a better developing experience.
-
 AOP provides tools to improve control of what is executed before and after another method is invoked. You can find this component in the [`frontend-js-web`](https://github.com/liferay/liferay-portal/tree/c0c13433600398fed8768f539aa8212978f7409c/modules/apps/frontend-js/frontend-js-web) module.
 
 See more about Aspect Oriented Programming in [this article](https://medium.com/@kyuwoo.choi/sneak-peek-to-javascript-aop-16458f807842).
