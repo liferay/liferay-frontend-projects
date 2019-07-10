@@ -16,6 +16,7 @@ class URLPackagePrompt {
 
 	init(config, cb) {
 		this.done = cb;
+		this.themelet = config.themelet;
 
 		inquirer.prompt(
 			[
@@ -44,10 +45,18 @@ class URLPackagePrompt {
 		const config = themeFinder.getLiferayThemeModuleFromURL(
 			answers.packageURL
 		);
-		answers.module = config.name;
+
 		answers.modules = {
 			[config.name]: {...config, __packageURL__: answers.packageURL},
 		};
+
+		if (this.themelet) {
+			answers.module = {[config.name]: true};
+			answers.addedThemelets = [config.name];
+		} else {
+			answers.module = config.name;
+		}
+
 		this.done(answers);
 	}
 }
