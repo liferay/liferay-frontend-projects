@@ -6,15 +6,18 @@
 
 const fs = require('fs');
 const path = require('path');
-const log = require('./log');
 
 /**
- * Attempt to locate the nearest "root" directory in the liferay-portal repo by
- * walking up the tree looking for a yarn.lock. In practice, the possible roots
- * are:
+ * Attempt to locate the definitive "root" directory in the
+ * liferay-portal repo by walking up the tree looking for a
+ * yarn.lock. In practice, the possible locations for lock files are:
  *
  *   - modules/
  *   - modules/private/
+ *
+ * and we keep going until we hit the former, because that is where our
+ * global configuration files (like .eslintignore and .prettierignore)
+ * should reside.
  */
 function findRoot() {
 	let directory = process.cwd();
@@ -23,12 +26,8 @@ function findRoot() {
 		if (fs.existsSync(path.join(directory, 'yarn.lock'))) {
 			const basename = path.basename(directory);
 
-			if (basename === 'modules' || basename === 'private') {
+			if (basename === 'modules') {
 				return directory;
-			} else {
-				log(
-					`Found a yarn.lock in ${directory}, but it is not in the "modules/" or "modules/private/" roots`
-				);
 			}
 		}
 
