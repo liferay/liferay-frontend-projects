@@ -29,14 +29,6 @@ class URLPackagePrompt {
 		this._handleThemeletSelection(answers);
 
 		if (answers.packageURL) {
-			const error = this._validatePackageURL(answers.packageURL, answers);
-
-			if (error !== true) {
-				console.error(error);
-				this._prompt();
-				return;
-			}
-
 			const config = themeFinder.getLiferayThemeModuleFromURL(
 				answers.packageURL
 			);
@@ -123,12 +115,17 @@ class URLPackagePrompt {
 			message: 'Enter the URL for the package: (Empty to skip)',
 			name: 'packageURL',
 			type: 'input',
+			validate: this._validatePackageURL,
 		});
 
 		inquirer.prompt(questions, this._afterPrompt.bind(this));
 	}
 
 	_validatePackageURL(packageURL, _answers) {
+		if (!packageURL) {
+			return true;
+		}
+
 		try {
 			new URL(packageURL);
 		} catch (err) {
