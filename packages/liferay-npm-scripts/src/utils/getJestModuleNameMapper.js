@@ -1,0 +1,114 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const expandGlobs = require('./expandGlobs');
+const findRoot = require('./findRoot');
+const log = require('./log');
+
+/**
+ * Where source really lives, relative to the directory containing the
+ * "package.json" file.
+ */
+const SRC_PATH = ['src', 'main', 'resources', 'META-INF', 'resources'];
+
+const IGNORE_GLOBS = ['node_modules/**'];
+
+/**
+ * Returns a Jest "moduleNameMapper" configuration that enables tests to
+ * `import` modules from other projects.
+ *
+ * For example, in order for "segments/segments-web" to `import
+ * {something} from 'frontend-js-web'`, we need mappings like:
+ *
+ *    "frontend-js-web": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js"
+ *
+ * and:
+ *
+ *    "frontend-js-web/(.*)": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/$1"
+ *
+ * We create such mappings by:
+ *
+ *    1. Reading the Yarn workspace globs defined in the top-level
+ *       "modules/package.json".
+ *    2. Expanding those globs to identify possible projects.
+ *    3. Selecting only projects which have a "package.json" with a "main"
+ *       property that points to an existing file under
+ *       "src/main/resources/META-INF/resources".
+ *
+ * @see https://jestjs.io/docs/en/configuration#modulenamemapper-object-string-string
+ */
+function getJestModuleNameMapper() {
+	// Note a limitation here: when running on a project under
+	// "modules/private", the `root` will be "modules", and only projects under
+	// "modules/apps" (not "modules/private/apps"), will be considered. This
+	// means that, for now, tests in projects in "modules/private" can import
+	// from projects under "modules/apps" but not from those under
+	// "modules/private/apps".
+	const root = findRoot();
+
+	if (root) {
+		const cwd = process.cwd();
+
+		try {
+			process.chdir(root);
+
+			const {workspaces} = JSON.parse(fs.readFileSync('package.json'));
+
+			const mappings = {};
+			const projects = expandGlobs(workspaces.packages, IGNORE_GLOBS, {
+				maxDepth: 3,
+				type: 'directory'
+			});
+
+			projects.forEach(project => {
+				const packageJson = path.join(project, 'package.json');
+
+				if (fs.existsSync(packageJson)) {
+					const {main} = JSON.parse(fs.readFileSync(packageJson));
+					if (main) {
+						const file = path.join(project, ...SRC_PATH, main);
+
+						if (fs.existsSync(file)) {
+							const relative = path.relative(cwd, file);
+							const dirname = path.dirname(relative);
+							const basename = path.basename(project);
+
+							if (fs.statSync(file).isDirectory()) {
+								// Special-case, for now, for projects like
+								// some under "dynamic-data-mapping/*", that
+								// have a "main" property of "./".
+								mappings[
+									`${basename}/(.*)`
+								] = `<rootDir>${relative}/$1`;
+							} else {
+								mappings[basename] = `<rootDir>${relative}`;
+
+								mappings[
+									`${basename}/(.*)`
+								] = `<rootDir>${dirname}/$1`;
+							}
+						}
+					}
+				}
+			});
+
+			return {
+				moduleNameMapper: mappings
+			};
+		} catch (error) {
+			log(`getJestModuleNameMapper(): error \`${error}\``);
+		} finally {
+			process.chdir(cwd);
+		}
+	}
+
+	return {};
+}
+
+module.exports = getJestModuleNameMapper;

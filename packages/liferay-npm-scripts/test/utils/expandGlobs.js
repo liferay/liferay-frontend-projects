@@ -117,6 +117,46 @@ describe('expandGlobs()', () => {
 		]);
 	});
 
+	it('can match directories', () => {
+		const matches = expand(['apps/*/*-web'], [], {type: 'directory'});
+
+		expect(matches).toEqual([
+			'apps/app-builder/app-builder-web',
+			'apps/change-tracking/change-tracking-change-lists-configuration-web',
+			'apps/change-tracking/change-tracking-change-lists-indicator-web',
+			'apps/document-library/document-library-web',
+			'apps/frontend-css/frontend-css-web',
+			'apps/frontend-js/frontend-js-web',
+			'apps/journal/journal-web',
+			'apps/layout/layout-content-page-editor-web'
+		]);
+	});
+
+	it('can stop at the provided `maxDepth`', () => {
+		const matches = expand(['*.js'], [], {maxDepth: 3});
+
+		expect(matches).toEqual([
+			'.eslintrc.js',
+			'.prettierrc.js',
+			'node_modules/domain-browser/.eslintrc.js',
+			'npmscripts.config.js'
+		]);
+	});
+
+	it('supports the use of the `type` and `maxDepth` options together', () => {
+		const matches = expand(['*g*'], [], {maxDepth: 3, type: 'directory'});
+
+		expect(matches).toEqual([
+			'apps/change-tracking',
+			'apps/document-library/document-library-preview-image',
+			'apps/fragment',
+			'apps/frontend-theme-porygon',
+			'apps/layout/layout-content-page-editor-web',
+			'apps/portal-portlet-bridge',
+			'sdk/gradle-plugins-theme-builder'
+		]);
+	});
+
 	it('excludes ignored files', () => {
 		const matches = expand(['*'], ['sdk/**']);
 

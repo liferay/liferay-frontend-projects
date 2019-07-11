@@ -8,11 +8,20 @@ const fs = require('fs');
 const path = require('path');
 const getRegExpForGlob = require('./getRegExpForGlob');
 
+const DEFAULT_OPTIONS = {
+	type: 'file',
+	maxDepth: Infinity
+};
+
 /**
  * Given a list of glob patterns and a list of ignore patterns, returns a list
  * of matching files, searching in the current dirctory.
  */
-function expandGlobs(matchGlobs, ignoreGlobs = []) {
+function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
+	const {type, maxDepth} = {
+		...DEFAULT_OPTIONS,
+		...options
+	};
 	const ignorers = [];
 	const matchers = matchGlobs.map(getRegExpForGlob);
 	const results = [];
@@ -97,7 +106,15 @@ function expandGlobs(matchGlobs, ignoreGlobs = []) {
 		}
 	}
 
+	let currentDepth = 0;
+
 	function traverse(directory) {
+		if (currentDepth >= maxDepth) {
+			return;
+		}
+
+		currentDepth++;
+
 		const entries = fs.readdirSync(directory);
 		entries.forEach(entry => {
 			const file = path.posix.join(directory, entry);
@@ -147,12 +164,20 @@ function expandGlobs(matchGlobs, ignoreGlobs = []) {
 
 			const stat = fs.statSync(file);
 
+			const match = () => matchers.some(matcher => matcher.test(file));
+
 			if (stat.isDirectory()) {
-				traverse(file);
-			} else if (matchers.some(matcher => matcher.test(file))) {
+				if (type === 'directory' && match()) {
+					results.push(file);
+				} else {
+					traverse(file);
+				}
+			} else if (type === 'file' && match()) {
 				results.push(file);
 			}
 		});
+
+		currentDepth--;
 	}
 
 	traverse('.');
