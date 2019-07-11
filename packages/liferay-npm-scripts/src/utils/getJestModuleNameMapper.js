@@ -24,13 +24,13 @@ const IGNORE_GLOBS = ['node_modules/**'];
  * `import` modules from other projects.
  *
  * For example, in order for "segments/segments-web" to `import
- * {something} from 'frontend-js-web'`, we need a mapping like:
+ * {something} from 'frontend-js-web'`, we need mappings like:
  *
  *    "frontend-js-web": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js"
  *
- * or:
+ * and:
  *
- *    "frontend-js-web(/.*)?": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js$1"
+ *    "frontend-js-web/(.*)": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/$1"
  *
  * We create such mappings by:
  *
@@ -73,12 +73,26 @@ function getJestModuleNameMapper() {
 					const {main} = JSON.parse(fs.readFileSync(packageJson));
 					if (main) {
 						const file = path.join(project, ...SRC_PATH, main);
-						const relative = path.relative(cwd, file);
 
 						if (fs.existsSync(file)) {
-							mappings[
-								path.basename(project) + '(/.*)?'
-							] = `<rootDir>${relative}$1`;
+							const relative = path.relative(cwd, file);
+							const dirname = path.dirname(relative);
+							const basename = path.basename(project);
+
+							if (fs.statSync(file).isDirectory()) {
+								// Special-case, for now, for projects like
+								// some under "dynamic-data-mapping/*", that
+								// have a "main" property of "./".
+								mappings[
+									`${basename}/(.*)`
+								] = `<rootDir>${relative}/$1`;
+							} else {
+								mappings[basename] = `<rootDir>${relative}`;
+
+								mappings[
+									`${basename}/(.*)`
+								] = `<rootDir>${dirname}/$1`;
+							}
 						}
 					}
 				}
