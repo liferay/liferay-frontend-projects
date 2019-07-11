@@ -82,6 +82,7 @@ function getMergedConfig(type, property) {
 		case 'jest':
 			mergedConfig = deepMerge([
 				require('../config/jest'),
+				require('../utils/getJestModuleNameMapper')(),
 				getUserConfig('jest')
 			]);
 			break;
