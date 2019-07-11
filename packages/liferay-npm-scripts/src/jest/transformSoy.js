@@ -6,10 +6,10 @@
 
 /**
  * This transform allows tests to require files of the form "Foo.soy"
- * from other modules without blowing up, by substituting no-op
+ * from other projects without blowing up, by substituting no-op
  * templates that can be safely passed to `Soy.register()`.
  *
- * In tests that exercise their own Soy templates, we already build
+ * In tests that exercise their own project's Soy templates, we already build
  * corresponding "Foo.soy.js" files and have mappings configured so that Jest
  * can resolve them.
  */
