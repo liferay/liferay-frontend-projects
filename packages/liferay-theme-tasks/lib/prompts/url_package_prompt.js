@@ -112,20 +112,28 @@ class URLPackagePrompt {
 		}
 
 		questions.push({
-			message: 'Enter the URL for the package: (Empty to skip)',
+			message: `Enter the URL for the package:${
+				this.themelet ? ' (Empty to skip)' : ''
+			}`,
 			name: 'packageURL',
 			type: 'input',
-			validate: this._validatePackageURL,
+			validate: this.themelet
+				? this._validatePackageURLAllowEmpty
+				: this._validatePackageURL,
 		});
 
 		inquirer.prompt(questions, this._afterPrompt.bind(this));
 	}
 
-	_validatePackageURL(packageURL, _answers) {
+	_validatePackageURLAllowEmpty(packageURL, _answers) {
 		if (!packageURL) {
 			return true;
 		}
 
+		return this._validatePackageURL(packageURL, _answers);
+	}
+
+	_validatePackageURL(packageURL, _answers) {
 		try {
 			new URL(packageURL);
 		} catch (err) {

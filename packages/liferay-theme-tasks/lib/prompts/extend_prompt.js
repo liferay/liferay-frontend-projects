@@ -343,7 +343,7 @@ class ExtendPrompt {
 
 	_reduceThemelets(answers, accumulator, reduceFunction) {
 		const modulePackages = answers.modules;
-		const reduceAccumulator = (accumulator = accumulator || {});
+		const reduceAccumulator = accumulator || {};
 		const reduce = reduceFunction || (item => item);
 
 		const reducedThemelets = _.reduce(
