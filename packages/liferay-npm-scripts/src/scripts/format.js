@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const prettier = require('prettier');
 const expandGlobs = require('../utils/expandGlobs');
+const filterChangedFiles = require('../utils/filterChangedFiles');
 const filterGlobs = require('../utils/filterGlobs');
 const findRoot = require('../utils/findRoot');
 const getMergedConfig = require('../utils/getMergedConfig');
@@ -65,7 +66,9 @@ function format(options = {}) {
 
 	globs.forEach(glob => preprocessedGlobs.push(...preprocessGlob(glob)));
 
-	const paths = expandGlobs(preprocessedGlobs, ignores);
+	const expandedGlobs = expandGlobs(preprocessedGlobs, ignores);
+
+	const paths = filterChangedFiles(expandedGlobs);
 
 	const config = getMergedConfig('prettier');
 
