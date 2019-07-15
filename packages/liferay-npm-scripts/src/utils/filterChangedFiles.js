@@ -13,7 +13,7 @@ const git = require('./git');
  * eligible files (eg. files changed on the current branch). To achieve this, we
  * check the LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME environment variable and if
  * it is set, filter the `files` list to contain only files changed with respect
- * to that branch (usually "master", but may also be "master-private".
+ * to that branch (usually "master", but may also be "master-private").
  *
  * If the variable is not set, the `files` list is return unchanged.
  */
