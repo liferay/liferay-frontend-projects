@@ -1,3 +1,9 @@
+## [v4.4.0](https://github.com/liferay/eslint-config-liferay/tree/v4.4.0) (2019-07-16)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.3.0...v4.4.0)
+
+- style: sort JSX properties ([\#51](https://github.com/liferay/eslint-config-liferay/pull/51))
+
 ## [v4.3.0](https://github.com/liferay/eslint-config-liferay/tree/v4.3.0) (2019-07-09)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.2.0...v4.3.0)
