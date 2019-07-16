@@ -28,6 +28,7 @@ const config = {
 		'react/jsx-no-comment-textnodes': 'error',
 		'react/jsx-no-duplicate-props': 'error',
 		'react/jsx-no-undef': 'error',
+		'react/jsx-sort-props': 'error',
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
 		'react/no-children-prop': 'error',
