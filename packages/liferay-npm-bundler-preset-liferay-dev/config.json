@@ -92,10 +92,10 @@
 				"senna": ">=2.6.1"
 			},
 			"frontend-js-web": {
-				"/": ">=3.0.0"
+				"/": ">=1.0.0"
 			},
 			"frontend-taglib": {
-				"/": ">=4.0.0"
+				"/": ">=1.0.0"
 			},
 			"frontend-taglib-chart": {
 				"clay-charts": ">=2.9.0"
