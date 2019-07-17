@@ -1,3 +1,10 @@
+## [v4.5.0](https://github.com/liferay/eslint-config-liferay/tree/v4.5.0) (2019-07-17)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.4.0...v4.5.0)
+
+- feat: add liferay-portal/no-explicit-extend rule ([\#54](https://github.com/liferay/eslint-config-liferay/pull/54))
+- docs: simplify instructions in README ([\#53](https://github.com/liferay/eslint-config-liferay/pull/53))
+
 ## [v4.4.0](https://github.com/liferay/eslint-config-liferay/tree/v4.4.0) (2019-07-16)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.3.0...v4.4.0)
