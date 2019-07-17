@@ -3725,10 +3725,10 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-liferay@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-liferay/-/eslint-config-liferay-4.4.0.tgz#8045808479e210dc264eb83300b87026af5b0db6"
-  integrity sha512-/SxI84oqUTD3QE/TZGctkwHlKfsD8zpeJlmkYhhaNQvWKC/QUCYipRfjCWGfI4YAjVPSboO1TzQCU6msMVIG9A==
+eslint-config-liferay@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-liferay/-/eslint-config-liferay-4.5.0.tgz#18e8932119100da1374bf424cd0e5fa2f8d51851"
+  integrity sha512-GWTdvufDnSp1DKQ7SaJc9ZvcZsjor4wjWspDgVOK8Kt/6EZmLzuLyoWsb/N3AjMjfCR9FFscOd9OHvWHBlLKRQ==
   dependencies:
     eslint-config-prettier "5.0.0"
     eslint-plugin-no-for-of-loops "^1.0.0"
