@@ -84,6 +84,7 @@ The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plug
 
 The bundled `eslint-plugin-liferay-portal` plugin includes the following [rules](./plugins/eslint-plugin-liferay-portal/docs/rules):
 
+-   [liferay-portal/no-explicit-extend](./plugins/eslint-plugin-liferay-portal/docs/rules/no-explicit-extend.md): Prevents unnecessary `extends: ["liferay/portal"]` configuration.
 -   [liferay-portal/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md): Guards against the use of the legacy jQuery `sideNavigation` plugin.
 
 ## License
