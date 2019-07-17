@@ -13,44 +13,19 @@ $ npm install --save-dev eslint eslint-config-liferay
 Once the `eslint-config-liferay` package is installed, you can use it by specifying `liferay` in the [`extends`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files) section of your [ESLint configuration](http://eslint.org/docs/user-guide/configuring).
 
 ```js
-{
-  "extends": "liferay",
-  "rules": {
-    // Additional, per-project rules...
-  }
-}
+module.exports = {
+	extends: ['liferay'],
+};
 ```
-
-### liferay-portal
-
-In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `liferay/portal` preset instead, which activates some additional rules specific to liferay-portal. See the `eslint-plugin-liferay-portal` section below for more details.
-
-> **An important disclaimer about the use of ESLint in liferay-portal**
->
-> JavaScript code that appears inline inside JSP files and other templates is not currently checked by ESLint. Our long-term strategy is to move as much code as possible out of JSP and into React components, but in the interim, our only option is to rely on liferay-portal's existing source formatter for those files.
 
 ### React
 
 For React projects, you can extend `liferay/react` instead:
 
 ```js
-{
-  "extends": ["liferay/react"],
-  "rules": {
-    // Additional, per-project rules...
-  }
-}
-```
-
-Or, for React projects inside liferay-portal, extend both `liferay/react` and `liferay/portal`:
-
-```js
-{
-  "extends": ["liferay/react", "liferay/portal"],
-  "rules": {
-    // Additional, per-project rules...
-  }
-}
+module.exports = {
+	extends: ['liferay/react'],
+};
 ```
 
 ### metal-jsx
@@ -58,15 +33,22 @@ Or, for React projects inside liferay-portal, extend both `liferay/react` and `l
 For legacy projects inside liferay-portal that use [metal-jsx](https://www.npmjs.com/package/metal-jsx), we have a "metal" preset:
 
 ```js
-{
-  "extends": ["liferay/portal", "liferay/metal"],
-  "rules": {
-    // Additional, per-project rules...
-  }
-}
+module.exports = {
+	extends: ['liferay/metal'],
+};
 ```
 
 Use this preset to stop ESLint from [spuriously warning that variables that are used as JSX components are unused](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-uses-vars.md).
+
+### liferay-portal
+
+In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `liferay/portal` preset instead, which activates some additional rules specific to liferay-portal. See the `eslint-plugin-liferay-portal` section below for more details.
+
+This extension is applied automatically by [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts), so you don't have to configure it explicitly.
+
+> **An important disclaimer about the use of ESLint in liferay-portal**
+>
+> JavaScript code that appears inline inside JSP files and other templates is not currently checked by ESLint. Our long-term strategy is to move as much code as possible out of JSP and into React components, but in the interim, our only option is to rely on liferay-portal's existing source formatter for those files.
 
 ### Copyright headers
 
