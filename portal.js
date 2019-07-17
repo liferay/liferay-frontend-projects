@@ -19,6 +19,7 @@ const config = {
 	},
 	plugins: [local('liferay-portal')],
 	rules: {
+		'liferay-portal/no-explicit-extend': 'error',
 		'liferay-portal/no-side-navigation': 'error',
 	},
 };
