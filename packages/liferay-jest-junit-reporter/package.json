@@ -4,6 +4,7 @@
 	"description": "A JUnit reporter for Jest and Liferay CI",
 	"main": "src/index.js",
 	"scripts": {
+		"postversion": "node ../../publish.js",
 		"preversion": "cd ../.. && yarn ci",
 		"test": "jest"
 	},

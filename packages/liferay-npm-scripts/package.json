@@ -47,6 +47,7 @@
 		"webpack-dev-server": "^3.3.1"
 	},
 	"scripts": {
+		"postversion": "node ../../publish.js",
 		"preversion": "cd ../.. && yarn ci",
 		"test": "jest"
 	},
