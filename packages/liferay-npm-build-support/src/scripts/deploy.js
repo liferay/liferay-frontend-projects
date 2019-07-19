@@ -19,7 +19,12 @@ export default function() {
 	const liferayDir = cfg.getLiferayDir();
 
 	const pkgJson = readJsonSync(path.join(projectDir, 'package.json'));
-	const jarName = pkgJson.name + '-' + pkgJson.version + '.jar';
+
+	let jarName = cfg.getOutputFilename();
+
+	if (!jarName) {
+		jarName = pkgJson.name + '-' + pkgJson.version + '.jar';
+	}
 
 	fs.copyFileSync(
 		path.join(outputDir, jarName),
