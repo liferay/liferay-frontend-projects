@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const CWD = process.cwd();
-
 const fs = require('fs');
-const path = require('path');
 
 const getMergedConfig = require('../utils/getMergedConfig');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
@@ -22,7 +19,7 @@ const JEST_CONFIG = getMergedConfig('jest');
 module.exports = function(arrArgs = []) {
 	const useSoy = soyExists();
 
-	const CONFIG_PATH = path.join(CWD, 'TEMP_jest.config.json');
+	const CONFIG_PATH = 'TEMP_jest.config.json';
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
 
