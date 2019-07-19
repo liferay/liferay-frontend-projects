@@ -31,6 +31,8 @@ function loadConfig() {
 	normalize(npmbuildrc, 'webpack.port', null);
 
 	normalize(npmbundlerrc, 'create-jar.output-dir', 'build');
+	normalize(npmbundlerrc, 'create-jar.output-filename', null);
+
 	normalize(
 		npmbundlerrc,
 		'create-jar.features.localization',
@@ -60,6 +62,14 @@ export function getOutputDir() {
  */
 export function getLiferayDir() {
 	return npmbuildrc.liferayDir;
+}
+
+/**
+ * Get the project's output filename.
+ * @return {string|undefined}
+ */
+export function getOutputFilename() {
+	return prop.get(npmbundlerrc, 'create-jar.output-filename');
 }
 
 /**
