@@ -24,6 +24,7 @@ describe('scripts/format.js', () => {
 		fs.writeFileSync('src/example.js', source);
 
 		jest.mock('prettier');
+		jest.mock('../../src/utils/log');
 		format = require('../../src/scripts/format');
 		prettier = require('prettier');
 	});
