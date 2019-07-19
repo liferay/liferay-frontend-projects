@@ -108,17 +108,16 @@ function format(options = {}) {
 	});
 
 	const files = count => (count === 1 ? 'file' : 'files');
+	const have = count => (count === 1 ? 'has' : 'have');
 
-	const summary = [
-		`Prettier checked ${checked} ${files(checked)}`,
-		`found ${bad} ${files(bad)} with problems`
-	];
+	const summary = [`Prettier checked ${checked} ${files(checked)}`];
 
 	if (fixed) {
 		summary.push(`fixed ${fixed} ${files(fixed)}`);
 	}
 
 	if (bad) {
+		summary.push(`${bad} ${files(bad)} ${have(bad)} problems`);
 		throw new SpawnError(summary.join(', '));
 	} else {
 		log(summary.join(', '));
