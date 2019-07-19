@@ -26,17 +26,19 @@ module.exports = function(arrArgs = []) {
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
 
-	if (useSoy) {
-		buildSoy();
+	try {
+		if (useSoy) {
+			buildSoy();
+		}
+
+		withBabelConfig(() => {
+			spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)]);
+		});
+
+		if (useSoy) {
+			cleanSoy();
+		}
+	} finally {
+		fs.unlinkSync(CONFIG_PATH);
 	}
-
-	withBabelConfig(() => {
-		spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)]);
-	});
-
-	if (useSoy) {
-		cleanSoy();
-	}
-
-	fs.unlinkSync(CONFIG_PATH);
 };
