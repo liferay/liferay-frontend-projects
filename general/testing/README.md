@@ -42,7 +42,7 @@ One way to think about this is of tests as testing "black box" functionality:
 
 ### Write tests for the reader, not the writer
 
-In software development, we try to balance a number of nebulous concepts like "readability", "maintainability", and "ergonomics". This in turn leads to maxims like "Don't Repeat Yourself" (DRY).
+In software development, we try to balance a number of nebulous concepts like "readability", "maintainability", and "ergonomics". This in turn leads to maxims like "[Don't Repeat Yourself](http://wiki.c2.com/?DontRepeatYourself)" (DRY).
 
 > In test code, it is **even more important that code be readable and intention-revealing**. Don't worry about duplication in tests: it may actually be a good thing.
 
@@ -158,7 +158,7 @@ describe('positioning controls in the centre', () => {
 });
 ```
 
-This (contrived) example is one where your intuition may be to "DRY" up the code, but consider the position of the person who reads a report of a "test failure on line 123" and now has to figure out which iteration of the loop. It's better for them if we spell out each example alone.
+This (contrived) example is one where your intuition may be to ["DRY" up the code, but consider the position of the person who reads a report of a "test failure on line 123"](#write-tests-for-the-reader-not-the-writer) and now has to figure out which iteration of the loop. It's better for them if we spell out each example alone.
 
 #### Optimize assertions for readability when failure occurs
 
