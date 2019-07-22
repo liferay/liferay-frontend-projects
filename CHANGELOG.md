@@ -1,3 +1,9 @@
+## [v9.3.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.3.0) (2019-07-22)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.2.1...v9.3.0)
+
+- feat: add support for font awesome on theme creation ([\#377](https://github.com/liferay/liferay-js-themes-toolkit/pull/377))
+
 ## [v9.2.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.2.1) (2019-07-02)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.2.0...v9.2.1)

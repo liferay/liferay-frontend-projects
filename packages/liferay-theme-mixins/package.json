@@ -23,5 +23,5 @@
 		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
 		"directory": "packages/liferay-theme-mixins"
 	},
-	"version": "9.2.1"
+	"version": "9.3.0"
 }
