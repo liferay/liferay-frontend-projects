@@ -1,6 +1,6 @@
-# Recommendations for testing
+# Testing UI components
 
-## Testing UI components
+## High-level principles
 
 ### On shapshots
 
@@ -22,7 +22,7 @@ This doesn't mean that snapshots are bad — a snapshot test is better than no 
 
 > A "data-testid" says "this thing is important to me". But if it is important, why isn't it targetable in some user-visible way? That is, users care about behavior and content of specific things (buttons, sliders, charts etc). If the only way I can label something as important is via _a mechanism that is invisible to the user_ (not even in the source code on the client), then there is a risk that I might be testing an implementation detail and not something which a user actually cares about.
 
-## Targeting elements without `data-testid`
+#### Targeting elements without `data-testid`
 
 -   In the absence of "data-testid", we seek the most stable way to target elements in tests ("stable" in the sense that tests are less likely to break as a result of superficial changes); we think the methods that are most likely to remain stable are the following and therefore recommend that we SHOULD use:
     -   Attributes or content that are significant to the user (for example, the text of a button such as "Publish"); at the end of the day, the visible (or audible) content and behavior of a product is literally the reason we build products, so the highest value tests should focus on aspects that are perceptible and observable to the user. In the button example, if the text changes, then we _want_ the test to break.
@@ -33,29 +33,3 @@ This doesn't mean that snapshots are bad — a snapshot test is better than no 
 ### Writing user-centric tests
 
 In [liferay-portal](https://github.com/liferay/liferay-portal) we bundle [@testing-library/user-event](https://github.com/testing-library/user-event/) via [liferay-npm-scripts](https://github.com/liferay/liferay-npm-scripts) so that we can write UI tests that express user actions in a high-level, expressive fashion in terms of clicking, typing and so on (instead of a low-level `fireEvent()` API). Not only does this train our focus on what matters (user and product behavior, instead of implementation details), as a bonus it shields us from the nitty-gritty details of how (in what combinations and in what order) browsers fire events.
-
-## Start `it()` descriptions with a verb, not with "should"
-
-Descriptions that start with "should" can usually be rewritten more concisely and without loss of information by dropping the "should" and starting with an appropriate verb. This is useful because it reduces the likelihood we'll have to introduce an ugly linebreak that harms readability:
-
-## Example
-
-Write this:
-
-```javascript
-it('applies default settings if none are given', () => {
-	// ...
-});
-```
-
-instead of:
-
-```javascript
-it('should apply default settings if none are given', () => {
-	// ...
-});
-```
-
-## Enforcement
-
-[eslint-config-liferay](https://github.com/liferay/eslint-config-liferay) provide a custom lint rule, [liferay/no-it-should](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/no-it-should.md), to guard against the use of "should" at the start of `it()` descriptions. It is active by default in all projects that use eslint-config-liferay.
