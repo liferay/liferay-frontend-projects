@@ -86,6 +86,7 @@ module.exports = function(options) {
 			'build:remove-old-css-dir',
 			'build:fix-at-directives',
 			'build:r2',
+			'build:copy:fontAwesome',
 			'build:war',
 			cb
 		);
@@ -254,6 +255,27 @@ module.exports = function(options) {
 			)
 			.pipe(r2())
 			.pipe(gulp.dest(pathBuild + '/css'));
+	});
+
+	gulp.task('build:copy:fontAwesome', done => {
+		const themePath = process.cwd();
+
+		const packageJSON = require(path.join(themePath, 'package.json'))
+			.liferayTheme;
+
+		if (!packageJSON.fontAwesome) {
+			return done();
+		}
+
+		const liferayFontAwesome = themeUtil.resolveDependency(
+			'liferay-font-awesome'
+		);
+
+		fs.copy(
+			path.join(liferayFontAwesome, 'font'),
+			path.join(pathBuild, 'font'),
+			done
+		);
 	});
 
 	gulp.task('build:war', done => {

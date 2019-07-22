@@ -196,6 +196,11 @@ module.exports = class extends Generator {
 					instance._isLiferayVersion
 				),
 			},
+			{
+				message: 'Would you like to add Font Awesome to your theme?',
+				name: 'fontAwesome',
+				type: 'confirm',
+			},
 		];
 
 		return prompts;
@@ -271,8 +276,24 @@ module.exports = class extends Generator {
 		const liferayVersion = props.liferayVersion;
 
 		this.appname = props.themeId;
+		this.fontAwesome = props.fontAwesome;
+
+		const devDependenciesToInsert = devDependencies.default;
+
 		if (liferayVersion !== '*') {
-			this.devDependencies = JSON.stringify(devDependencies, null, 2)
+			if (this.fontAwesome) {
+				const fontAwesomeVersion =
+					devDependencies.optional['liferay-font-awesome'];
+				devDependenciesToInsert[
+					'liferay-font-awesome'
+				] = fontAwesomeVersion;
+			}
+
+			this.devDependencies = JSON.stringify(
+				devDependenciesToInsert,
+				null,
+				2
+			)
 				.split(/\n\s*/)
 				.join('\n\t\t')
 				.replace('\t\t}', '\t}');
