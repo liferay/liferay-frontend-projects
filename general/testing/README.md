@@ -100,25 +100,27 @@ describe('prepareConfig()', => {
 });
 ```
 
+By creating small, targeted `it()` blocks:
+
 -   A failure early on in the `it()` block does not preclude the other assertions from being evaluated.
 -   These assertions more readable if you look at it in isolation (because each one is simpler).
 -   They are also more intention-revealing.
 -   The test output now serves as better documentation of the expected behavior, because we see:
 
-```
-  prepareConfig()
-    ✓ returns a non-null configuration (54ms)
-    ✓ returns a frozen object (3ms)
-    ✓ includes plugin configuration (10ms)
-    ✓ rejects unknown preset names (4ms)
-```
+    ```
+      prepareConfig()
+        ✓ returns a non-null configuration (54ms)
+        ✓ returns a frozen object (3ms)
+        ✓ includes plugin configuration (10ms)
+        ✓ rejects unknown preset names (4ms)
+    ```
 
-instead of just:
+    instead of just:
 
-```
-  prepareConfig()
-    ✓ generates the right config (103ms)
-```
+    ```
+      prepareConfig()
+        ✓ generates the right config (103ms)
+    ```
 
 #### Don't dynamically create `describe()` and `it()` blocks
 
@@ -156,7 +158,7 @@ describe('positioning controls in the centre', () => {
 });
 ```
 
-This (contrived) example is one where your intuition may be to "DRY" up the code, but consider the position of the person how reads a report of a "test failure on line 123" and now has to figure out which iteration of the loop. It's better for them if we spell out each example alone.
+This (contrived) example is one where your intuition may be to "DRY" up the code, but consider the position of the person who reads a report of a "test failure on line 123" and now has to figure out which iteration of the loop. It's better for them if we spell out each example alone.
 
 #### Optimize assertions for readability when failure occurs
 
