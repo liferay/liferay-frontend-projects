@@ -42,16 +42,27 @@ module.exports = function(options) {
 	gulp.task('upgrade', function(cb) {
 		if (_.isFunction(versionUpgradeTask)) {
 			inquirer.prompt(
-				{
-					default: false,
-					message:
-						'We recommend creating a backup of your theme files before proceeding. ' +
-						'Are you sure you wish to start the upgrade process?',
-					name: 'sure',
-					type: 'confirm',
-				},
+				[
+					{
+						default: false,
+						message:
+							'We recommend creating a backup of your theme files before proceeding. ' +
+							'Are you sure you wish to start the upgrade process?',
+						name: 'sure',
+						type: 'confirm',
+					},
+					{
+						default: true,
+						message:
+						'Do you want to include Font Awesome in your theme?',
+						name: 'includeFontAwesome',
+						type: 'confirm',
+					}
+				],
 				function(answers) {
 					if (answers.sure) {
+						options.includeFontAwesome = answers.includeFontAwesome;
+
 						versionUpgradeTask(function(err) {
 							if (err) {
 								log(

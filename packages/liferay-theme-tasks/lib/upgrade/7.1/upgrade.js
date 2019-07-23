@@ -21,6 +21,19 @@ module.exports = function(options) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.1']);
 		lfrThemeConfig.setDependencies(devDependencies.default, true);
 
+		if (options.includeFontAwesome) {
+			lfrThemeConfig.setDependencies(
+				{
+					'liferay-font-awesome':
+						devDependencies.optional['liferay-font-awesome'],
+				},
+				true
+			);
+		}
+		else {
+			lfrThemeConfig.removeDependencies(['liferay-font-awesome']);
+		}
+
 		const npmInstall = spawn('npm', ['install']);
 
 		npmInstall.stderr.pipe(process.stderr);
@@ -33,6 +46,7 @@ module.exports = function(options) {
 		const lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
+			fontAwesome: options.includeFontAwesome,
 			version: '7.2',
 		});
 
@@ -65,7 +79,28 @@ module.exports = function(options) {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
+	gulp.task('upgrade:fontAwesome', function() {
+		return gulp
+			.src(
+				'src/css/_custom.scss'
+			)
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /\/\* inject\:imports \*\//g,
+							replacement: '/* inject:imports */\n' +
+								"@import 'liferay-font-awesome/scss/font-awesome';\n" +
+								"@import 'liferay-font-awesome/scss/glyphicons';\n\n" +
+								"@import 'clay/base';",
+						},
+					],
+				})
+			)
+			.pipe(gulp.dest('src/css/'));
+	});
+
 	return function(cb) {
-		runSequence('upgrade:config', 'upgrade:dependencies', cb);
+		runSequence('upgrade:config', 'upgrade:dependencies', 'upgrade:fontAwesome', cb);
 	};
 };
