@@ -191,6 +191,10 @@ export default class Module {
 	 * @param {boolean} esModule
 	 */
 	set esModule(esModule) {
-		this._implementation.__esModule = esModule;
+		Object.defineProperty(this._implementation, '__esModule', {
+			configurable: true,
+			value: esModule,
+			writable: true,
+		});
 	}
 }
