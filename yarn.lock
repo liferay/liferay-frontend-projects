@@ -6864,10 +6864,10 @@ liferay-r2@^0.4.2:
     css-stringify "~1.4.0"
     liferay-css-parse "~1.7.1"
 
-liferay-theme-tasks@9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/liferay-theme-tasks/-/liferay-theme-tasks-9.1.1.tgz#7fd834356b8cff9e2a3e2eb9358e2580f7c889bf"
-  integrity sha512-36ZgJX1bXj5tojSp7QEeSLR9b/pEdPPxuECax037tbiZRo4sakRSxHFSPVf7vI7NOdysDRiwTNTwlza2XbB7Mg==
+liferay-theme-tasks@9.3.0:
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/liferay-theme-tasks/-/liferay-theme-tasks-9.3.0.tgz#3c36ccc58660b3dc46c39ce6ab9352ad6a34e14d"
+  integrity sha512-LdZ18vmwimBNLynlbEYGJss6+7Dd9pRF6/UqLm2rhIg47f64YiN+Tly0XbaxCInzkmdSpGqDAk+bhnp1LEuB0w==
   dependencies:
     async "^2.6.1"
     autoprefixer "^9.1.5"
