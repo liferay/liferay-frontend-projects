@@ -64,6 +64,16 @@ export default class Module {
 	}
 
 	/**
+	 * Flag informing that this module's implementation needs to have __esModule
+	 * property defined as true even before it is implemented.
+	 *
+	 * This is necessary for cyclic dependencies to work for ES6+ modules.
+	 */
+	get esModule() {
+		return this._implementation.__esModule;
+	}
+
+	/**
 	 * Get the fetch promise which is fulfilled when the script containing the
 	 * module definition has been loaded/failed.
 	 *
@@ -170,5 +180,17 @@ export default class Module {
 		}
 
 		this._map = map;
+	}
+
+	/**
+	 * Flag informing that this module's implementation needs to have __esModule
+	 * property defined as true even before it is implemented.
+	 *
+	 * This is necessary for cyclic dependencies to work for ES6+ modules.
+	 *
+	 * @param {boolean} esModule
+	 */
+	set esModule(esModule) {
+		this._implementation.__esModule = esModule;
 	}
 }

@@ -281,11 +281,23 @@ export default class Loader {
 				);
 
 				// Register the modules
-				unregisteredModuleNames.forEach(moduleName =>
-					config.addModule(moduleName, {
+				unregisteredModuleNames.forEach(moduleName => {
+					const moduleProperties = {
 						map: resolution.moduleMap[moduleName],
-					})
-				);
+					};
+
+					let moduleFlags = resolution.moduleFlags
+						? resolution.moduleFlags[moduleName]
+						: {};
+
+					moduleFlags = moduleFlags || {};
+
+					if (moduleFlags.esModule) {
+						moduleProperties.esModule = true;
+					}
+
+					config.addModule(moduleName, moduleProperties);
+				});
 
 				// Prepare load timeout
 				rejectTimeout = this._setRejectTimeout(
