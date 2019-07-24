@@ -1,6 +1,6 @@
 {
 	"name": "generator-liferay-js",
-	"version": "2.10.0",
+	"version": "2.11.0",
 	"description": "Yeoman generators for Liferay DXP and Portal CE JavaScript projects.",
 	"main": "generators/app/index.js",
 	"files": [
