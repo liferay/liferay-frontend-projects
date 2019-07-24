@@ -10,6 +10,7 @@ import globby from 'globby';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import manifest from './manifest';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
@@ -119,6 +120,7 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 
 				babelIpc.set(filePath, {
 					log: logger,
+					manifest,
 					rootPkgJson: readJsonSync('package.json'),
 					globalConfig: cloneObject(config.getGlobalConfig()),
 				});
