@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import babelPluginAddModuleMetadata from 'babel-plugin-add-module-metadata';
 import babelPluginNormalizeRequires from 'babel-plugin-normalize-requires';
 import babelPluginTransformNodeEnvInline from 'babel-plugin-transform-node-env-inline';
 import babelPluginWrapModulesAmd from 'babel-plugin-wrap-modules-amd';
@@ -17,6 +18,7 @@ import babelPluginNamespaceAmdDefine from 'babel-plugin-namespace-amd-define';
 export default function() {
 	return {
 		plugins: [
+			babelPluginAddModuleMetadata,
 			babelPluginNormalizeRequires,
 			babelPluginTransformNodeEnvInline,
 			babelPluginWrapModulesAmd,
