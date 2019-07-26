@@ -53,39 +53,6 @@ describe('deprecated config', () => {
 });
 
 describe('global config', () => {
-	describe('isCreateJar()', () => {
-		it('returns false when config missing', () => {
-			expect(cfg.isCreateJar()).toBeFalsy();
-		});
-
-		it('works with boolean config', () => {
-			process.chdir(
-				path.join(
-					__dirname,
-					'__fixtures__',
-					'config',
-					'create-jar-bool'
-				)
-			);
-			cfg.reloadConfig();
-
-			expect(cfg.isCreateJar()).toBeTruthy();
-		});
-
-		it('works with Object config', () => {
-			process.chdir(
-				path.join(__dirname, '__fixtures__', 'config', 'create-jar')
-			);
-			cfg.reloadConfig();
-
-			expect(cfg.isCreateJar()).toBeTruthy();
-		});
-	});
-
-	it('getOutputDir() works', () => {
-		expect(cfg.getOutputDir()).toEqual('output-dir');
-	});
-
 	it('getVersionsInfo() works', () => {
 		const versions = cfg.getVersionsInfo();
 		const myVersion = require('../../../package.json').version;
@@ -304,21 +271,6 @@ describe('bundler config', () => {
 });
 
 describe('jar config', () => {
-	describe('getOutputDir()', () => {
-		it('works when specified in .npmbundlerrc', () => {
-			process.chdir(
-				path.join(__dirname, '__fixtures__', 'config', 'create-jar')
-			);
-			cfg.reloadConfig();
-
-			expect(cfg.jar.getOutputDir()).toEqual('dist');
-		});
-
-		it('works when not set', () => {
-			expect(cfg.jar.getOutputDir()).toEqual(cfg.getOutputDir());
-		});
-	});
-
 	describe('getWebContextPath()', () => {
 		it('works when specified in .npmbundlerrc', () => {
 			process.chdir(
