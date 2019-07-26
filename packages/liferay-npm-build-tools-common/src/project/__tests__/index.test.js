@@ -6,7 +6,7 @@
 
 import path from 'path';
 
-import {Project} from '../project';
+import {Project} from '../index';
 
 let project;
 
