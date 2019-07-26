@@ -17,9 +17,27 @@ describe('empty project', () => {
 		);
 	});
 
+	it('returns buildDir', () => {
+		expect(project.buildDir).toBe(
+			'build/resources/main/META-INF/resources'
+		);
+	});
+
 	describe('project.jar', () => {
 		it('returns customManifestHeaders', () => {
 			expect(project.jar.customManifestHeaders).toEqual({});
+		});
+
+		it('returns outputDir', () => {
+			expect(project.jar.outputDir).toBeUndefined();
+		});
+
+		it('returns outputFilename', () => {
+			expect(project.jar.outputFilename).toBeUndefined();
+		});
+
+		it('returns supported', () => {
+			expect(project.jar.supported).toBe(false);
 		});
 	});
 
@@ -57,6 +75,10 @@ describe('standard project', () => {
 		);
 	});
 
+	it('returns buildDir', () => {
+		expect(project.buildDir).toBe('build');
+	});
+
 	describe('project.jar', () => {
 		it('returns customManifestHeaders', () => {
 			expect(project.jar.customManifestHeaders).toEqual({
@@ -68,6 +90,18 @@ describe('standard project', () => {
 				// Coming from both, but .npmbundlerrc wins
 				'Project-Name': 'Test Project',
 			});
+		});
+
+		it('returns outputDir', () => {
+			expect(project.jar.outputDir).toBe('dist');
+		});
+
+		it('returns outputFilename', () => {
+			expect(project.jar.outputFilename).toBe('output.jar');
+		});
+
+		it('returns supported', () => {
+			expect(project.jar.supported).toBe(true);
 		});
 	});
 
@@ -132,5 +166,18 @@ describe('standard project', () => {
 		it('returns supported', () => {
 			expect(project.l10n.supported).toBe(true);
 		});
+	});
+});
+
+describe('specific features', () => {
+	describe('project.jar works with boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'bool-create-jar')
+		);
+
+		expect(project.jar.supported).toBe(true);
+		expect(project.jar.customManifestHeaders).toEqual({});
+		expect(project.jar.outputDir).toBe(project.buildDir);
+		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
 	});
 });
