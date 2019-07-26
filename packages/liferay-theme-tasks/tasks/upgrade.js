@@ -54,10 +54,10 @@ module.exports = function(options) {
 					{
 						default: true,
 						message:
-						'Do you want to include Font Awesome in your theme?',
+							'Do you want to include Font Awesome in your theme?',
 						name: 'includeFontAwesome',
 						type: 'confirm',
-					}
+					},
 				],
 				function(answers) {
 					if (answers.sure) {

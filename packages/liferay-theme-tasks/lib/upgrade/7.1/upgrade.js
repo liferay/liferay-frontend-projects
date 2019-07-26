@@ -29,8 +29,7 @@ module.exports = function(options) {
 				},
 				true
 			);
-		}
-		else {
+		} else {
 			lfrThemeConfig.removeDependencies(['liferay-font-awesome']);
 		}
 
@@ -81,15 +80,14 @@ module.exports = function(options) {
 
 	gulp.task('upgrade:fontAwesome', function() {
 		return gulp
-			.src(
-				'src/css/_custom.scss'
-			)
+			.src('src/css/_custom.scss')
 			.pipe(
 				replace({
 					patterns: [
 						{
-							match: /\/\* inject\:imports \*\//g,
-							replacement: '/* inject:imports */\n' +
+							match: /\/\* inject:imports \*\//g,
+							replacement:
+								'/* inject:imports */\n' +
 								"@import 'liferay-font-awesome/scss/font-awesome';\n" +
 								"@import 'liferay-font-awesome/scss/glyphicons';\n\n" +
 								"@import 'clay/base';",
@@ -101,6 +99,11 @@ module.exports = function(options) {
 	});
 
 	return function(cb) {
-		runSequence('upgrade:config', 'upgrade:dependencies', 'upgrade:fontAwesome', cb);
+		runSequence(
+			'upgrade:config',
+			'upgrade:dependencies',
+			'upgrade:fontAwesome',
+			cb
+		);
 	};
 };
