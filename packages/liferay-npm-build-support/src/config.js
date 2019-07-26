@@ -30,9 +30,6 @@ function loadConfig() {
 	normalize(npmbuildrc, 'webpack.extensions', ['.js']);
 	normalize(npmbuildrc, 'webpack.port', null);
 
-	normalize(npmbundlerrc, 'create-jar.output-dir', 'build');
-	normalize(npmbundlerrc, 'create-jar.output-filename', null);
-
 	normalize(
 		npmbundlerrc,
 		'create-jar.features.localization',
@@ -49,27 +46,11 @@ export function getProjectDir() {
 }
 
 /**
- * Get project's output directory
- * @return {string}
- */
-export function getOutputDir() {
-	return prop.get(npmbundlerrc, 'create-jar.output-dir');
-}
-
-/**
  * Get the path to the local installation of Liferay (if any).
  * @return {string|undefined}
  */
 export function getLiferayDir() {
 	return npmbuildrc.liferayDir;
-}
-
-/**
- * Get the project's output filename.
- * @return {string|undefined}
- */
-export function getOutputFilename() {
-	return prop.get(npmbundlerrc, 'create-jar.output-filename');
 }
 
 /**
