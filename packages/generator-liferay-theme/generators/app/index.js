@@ -110,9 +110,10 @@ module.exports = class extends Generator {
 
 		const customCssName = '_custom.scss';
 
-		this.fs.copy(
+		this.fs.copyTpl(
 			this.templatePath('src/css/custom.css'),
-			this.destinationPath('src/css/' + customCssName)
+			this.destinationPath('src/css/' + customCssName),
+			this
 		);
 
 		this.fs.copyTpl(
