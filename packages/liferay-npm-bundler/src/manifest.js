@@ -5,12 +5,9 @@
  */
 
 import Manifest from 'liferay-npm-build-tools-common/lib/manifest';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as config from './config';
-
-const manifest = new Manifest(
-	path.join(config.getOutputDir(), 'manifest.json')
-);
+const manifest = new Manifest(path.join(project.buildDir, 'manifest.json'));
 
 export default manifest;
