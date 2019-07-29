@@ -8,7 +8,6 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
@@ -72,7 +71,7 @@ function run() {
 		const start = process.hrtime();
 
 		// Create work directories
-		const outputDir = path.resolve(project.buildDir);
+		const outputDir = path.resolve(config.getOutputDir());
 		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
 		const promises = [];
@@ -104,7 +103,7 @@ function run() {
 
 		// Report results
 		Promise.all(promises)
-			.then(() => (project.jar.supported ? createJar() : undefined))
+			.then(() => (config.isCreateJar() ? createJar() : undefined))
 			.then(() => {
 				// Report and show execution time
 				const hrtime = process.hrtime(start);

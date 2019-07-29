@@ -30,6 +30,7 @@ function loadConfig() {
 	normalize(npmbuildrc, 'webpack.extensions', ['.js']);
 	normalize(npmbuildrc, 'webpack.port', null);
 
+	normalize(npmbundlerrc, 'create-jar.output-dir', 'build');
 	normalize(
 		npmbundlerrc,
 		'create-jar.features.localization',
@@ -43,6 +44,14 @@ function loadConfig() {
  */
 export function getProjectDir() {
 	return projectDir;
+}
+
+/**
+ * Get project's output directory
+ * @return {string}
+ */
+export function getOutputDir() {
+	return prop.get(npmbundlerrc, 'create-jar.output-dir');
 }
 
 /**

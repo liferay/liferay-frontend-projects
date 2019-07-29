@@ -31,10 +31,13 @@ export default function createJar() {
 	addPortletInstanceConfigurationFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
-		fs.mkdirpSync(project.jar.outputDir);
+		fs.mkdirpSync(config.jar.getOutputDir());
 
 		fs.writeFileSync(
-			path.join(project.jar.outputDir, project.jar.outputFilename),
+			path.join(
+				config.jar.getOutputDir(),
+				config.jar.getOutputFilename()
+			),
 			buffer
 		);
 	});
@@ -46,8 +49,8 @@ export default function createJar() {
  */
 function addBuildFiles(zip) {
 	addFiles(
-		project.buildDir,
-		['**/*', `!${project.jar.outputFilename}`],
+		config.getOutputDir(),
+		['**/*', `!${config.jar.getOutputFilename()}`],
 		zip.folder('META-INF').folder('resources')
 	);
 }

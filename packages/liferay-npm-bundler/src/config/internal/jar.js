@@ -7,6 +7,8 @@
 import prop from 'dot-prop';
 import fs from 'fs';
 
+import * as base from '../index';
+
 const notifiedWarnings = {
 	settings: false,
 };
@@ -78,6 +80,32 @@ export function getWebContextPath() {
 				`/${pkgJson.name}-${pkgJson.version}`
 			)
 		)
+	);
+}
+
+/**
+ * Get the output directory for JAR files. Defaults to getOutputDir() if none is
+ * specified.
+ * @return {string}
+ */
+export function getOutputDir() {
+	const jarConfig = getNormalizedJarConfig();
+
+	return prop.get(jarConfig, 'output-dir', base.getOutputDir());
+}
+
+/**
+ * Get the output file name for JAR files. Defaults to
+ * `${pkgJson.name}-${pkgJson.version}.jar` if none is specified.
+ * @return {string}
+ */
+export function getOutputFilename() {
+	const jarConfig = getNormalizedJarConfig();
+
+	return prop.get(
+		jarConfig,
+		'output-filename',
+		`${pkgJson.name}-${pkgJson.version}.jar`
 	);
 }
 
