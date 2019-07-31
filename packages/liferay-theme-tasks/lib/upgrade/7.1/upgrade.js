@@ -98,11 +98,14 @@ module.exports = function(options) {
 	});
 
 	return function(cb) {
-		runSequence(
-			'upgrade:config',
-			'upgrade:dependencies',
-			'upgrade:fontAwesome',
-			cb
-		);
+		var taskArray = ['upgrade:config', 'upgrade:dependencies'];
+
+		if (options.includeFontAwesome) {
+			taskArray.push('upgrade:fontAwesome');
+		}
+
+		taskArray.push(cb);
+
+		runSequence.apply(this, taskArray);
 	};
 };
