@@ -6,6 +6,7 @@
 
 'use strict';
 
+const insert = require('gulp-insert');
 const replace = require('gulp-replace-task');
 const spawn = require('cross-spawn');
 
@@ -82,17 +83,10 @@ module.exports = function(options) {
 		return gulp
 			.src('src/css/_custom.scss')
 			.pipe(
-				replace({
-					patterns: [
-						{
-							match: /\/\* inject:imports \*\//g,
-							replacement:
-								'/* inject:imports */\n' +
-								"@import 'liferay-font-awesome/scss/font-awesome';\n" +
-								"@import 'liferay-font-awesome/scss/glyphicons';\n\n",
-						},
-					],
-				})
+				insert.prepend(
+					"@import 'liferay-font-awesome/scss/font-awesome';\n" +
+						"@import 'liferay-font-awesome/scss/glyphicons';\n\n"
+				)
 			)
 			.pipe(gulp.dest('src/css/'));
 	});
