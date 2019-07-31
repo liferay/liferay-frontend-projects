@@ -4,8 +4,6 @@
 <% if (fontAwesome) { %>
 @import 'liferay-font-awesome/scss/font-awesome';
 @import 'liferay-font-awesome/scss/glyphicons';
-    
-@import 'clay/base';
 <% } %>
 /* endinject */
 

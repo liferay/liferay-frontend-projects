@@ -89,8 +89,7 @@ module.exports = function(options) {
 							replacement:
 								'/* inject:imports */\n' +
 								"@import 'liferay-font-awesome/scss/font-awesome';\n" +
-								"@import 'liferay-font-awesome/scss/glyphicons';\n\n" +
-								"@import 'clay/base';",
+								"@import 'liferay-font-awesome/scss/glyphicons';\n\n",
 						},
 					],
 				})
