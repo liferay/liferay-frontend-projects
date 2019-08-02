@@ -45,8 +45,8 @@ const msg = {
 		See http://bit.ly/js-toolkit-wiki for the full list of {npm} scripts 
 		that may be used in your newly adapted project.
 		
-		Nevertheless, you can start with {'npm run lr:deploy'} to deploy it to 
-		your Liferay server.
+		Nevertheless, you can start with {'npm run deploy:liferay'} to deploy it
+		to your Liferay server.
 		`,
 	],
 	questions: `
@@ -180,8 +180,8 @@ export default class extends Generator {
 		const pkgJson = new PkgJsonModifier(this, 2);
 		const projectAnalyzer = new ProjectAnalyzer(this);
 
-		// Git ignore build.lr directory
-		gitignore.add('build.lr');
+		// Git ignore build.liferay directory
+		gitignore.add('build.liferay');
 
 		// Configure deploy target
 		if (this.answers.liferayDir) {
@@ -199,8 +199,11 @@ export default class extends Generator {
 		);
 
 		// Add npm scripts
-		pkgJson.addScript('lr:build', 'lnbs-build');
-		pkgJson.addScript('lr:deploy', 'npm run lr:build && lnbs-deploy');
+		pkgJson.addScript('build:liferay', 'lnbs-build');
+		pkgJson.addScript(
+			'deploy:liferay',
+			'npm run build:liferay && lnbs-deploy'
+		);
 
 		// Add portlet section
 		pkgJson.addPortletProperty(

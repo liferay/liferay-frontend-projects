@@ -35,7 +35,7 @@ const indexJsNoticeHeader =
 	' IF IN CASE 2, THERE SHOULD BE A BACKUP OF THE ORIGINAL FILE NAMED\n' +
 	" '.index.js' IN THIS SAME DIRECTORY.\n" +
 	'\n' +
-	" IF YOU RUN 'npm run lr:build' AGAIN IT WILL ASK YOU IF YOU WANT\n" +
+	" IF YOU RUN 'npm run build:liferay' AGAIN IT WILL ASK YOU IF YOU WANT\n" +
 	' TO RESTORE IT BUT IF YOU WANT TO DO IT MANUALLY YOU CAN, TOO.\n' +
 	'\n' +
 	' SORRY FOR ANY INCONVENIENCE :-(\n' +
@@ -116,7 +116,7 @@ const msg = {
 };
 
 const createReactAppBuildDir = path.join(project.dir, 'build');
-const explodedJarDir = path.join(project.dir, 'build.lr', 'jar');
+const explodedJarDir = path.join(project.dir, 'build.liferay', 'jar');
 const pkgJson = readJsonSync(`${project.dir}/package.json`);
 const templatesDir = path.join(
 	__dirname,

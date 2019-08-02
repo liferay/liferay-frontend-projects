@@ -7,7 +7,7 @@
 		"post-plugins": ["create-react-app"]
 	},
 	"create-jar": {
-		"output-dir": "build.lr",
+		"output-dir": "build.liferay",
 		"features": {
 			"js-extender": true
 		}
@@ -17,5 +17,5 @@
 	},
 	"ignore": ["react-app/**"],
 	"no-tracking": true,
-	"output": "build.lr/jar"
+	"output": "build.liferay/jar"
 }
