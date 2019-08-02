@@ -7,6 +7,7 @@
 import * as babel from 'babel-core';
 import template from 'babel-template';
 import cpr from 'cpr';
+import crypto from 'crypto';
 import fs from 'fs-extra';
 import {
 	error,
@@ -148,7 +149,8 @@ export function run() {
 		.then(() => runNpmScript('build'))
 		.then(restoreIndexJs)
 		.then(copyCreateReactAppBuild)
-		.then(injectSources)
+		.then(generateIndexJs)
+		.then(namespaceWepbackJsonp)
 		.then(tweakMediaURLs)
 		.then(() => runNpmBin('liferay-npm-bundler'))
 		.catch(err => {
@@ -270,7 +272,41 @@ function copyCreateReactAppBuild() {
 	});
 }
 
-function injectSources() {
+function namespaceWepbackJsonp() {
+	return new Promise(resolve => {
+		const hash = crypto.createHash('MD5');
+
+		hash.update(pkgJson.name);
+		hash.update(pkgJson.version);
+
+		const uuid = hash
+			.digest('base64')
+			.replace(/\+/g, '_')
+			.replace(/\//g, '_')
+			.replace(/=/g, '');
+
+		const jsDir = path.join(explodedJarDir, 'react-app', 'static', 'js');
+
+		const jsFiles = fs
+			.readdirSync(jsDir)
+			.filter(jsFile => jsFile.endsWith('.js'))
+			.map(jsFile => path.join(jsDir, jsFile));
+
+		jsFiles.push(path.join(explodedJarDir, 'index.js'));
+
+		jsFiles.forEach(filePath => {
+			let content = fs.readFileSync(filePath).toString();
+
+			content = content.replace(/webpackJsonp/g, `webpackJsonp_${uuid}`);
+
+			fs.writeFileSync(filePath, content);
+		});
+
+		resolve();
+	});
+}
+
+function generateIndexJs() {
 	const jsDir = path.join(createReactAppBuildDir, 'static', 'js');
 
 	const jsFiles = fs
