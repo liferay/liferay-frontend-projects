@@ -4,6 +4,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {
+	info,
+	error,
+	print,
+	success,
+	title,
+	warn,
+} from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import Generator from 'yeoman-generator';
@@ -23,35 +31,61 @@ import PkgJsonModifier from '../utils/modifier/package.json';
 import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 
 const msg = {
-	createReactAppDetected:
-		"Looks like your project was created with 'create-react-app'.",
-	warnAboutOverwrite:
-		'\n' +
-		'Now, your project files will be modified. As a consequence, Yeoman\n' +
-		'may notify you about the existence of a conflict and prompt for \n' +
-		'permission to overwrite your files.\n' +
-		'\n' +
-		"Make sure to answer 'a' or otherwise the adaptation to Liferay\n" +
-		'will fail.\n' +
-		'\n' +
-		'Note that you can also avoid this conflict warning providing\n' +
-		"the '--force' argument to Yeoman.\n",
-	questions:
-		'It will be tuned accordingly, so that you can deploy it to\n' +
-		'Liferay DXP or Liferay Portal CE.\n' +
-		'\n' +
-		'But first we need you to answer some customization questions...\n',
-	welcome:
-		'\n' + 'Welcome to Liferay JavaScript Toolkit project adapter 👋\n',
-	unsupportedProjectType:
-		'\n' +
-		'Oops!\n' +
-		'\n' +
-		'Your project type is not supported by Liferay JS Toolkit or cannot\n' +
-		'cannot be autodetected.\n' +
-		'\n' +
-		'Please visit http://bit.ly/js-toolkit-wiki for the full list of\n' +
-		'supported project types and how they are detected.\n',
+	createReactAppDetected: [
+		success`
+		We have detected a project of type {create-react-app}
+		`,
+	],
+	projectAdapted: [
+		``,
+		success`
+		Your project has been successfully adapted to {Liferay JS Toolkit}.
+		`,
+		info`
+		See http://bit.ly/js-toolkit-wiki for the full list of {npm} scripts 
+		that may be used in your newly adapted project.
+		
+		Nevertheless, you can start with {'npm run lr:deploy'} to deploy it to 
+		your Liferay server.
+		`,
+	],
+	questions: `
+		It will be tuned accordingly, so that you can deploy it to your Liferay
+		server.
+
+		But first we need you to answer some customization questions...
+		`,
+	unsupportedProjectType: [
+		error`
+		Oops! Your project type is not supported by {Liferay JS Toolkit} or 
+		cannot be autodetected.
+		`,
+		info`
+		Please visit http://bit.ly/js-toolkit-wiki for the full list of 
+		supported project types and how they are detected.
+		`,
+	],
+	warnAboutOverwrite: [
+		'',
+		warn`
+		Now your project files will be modified. As a consequence, {Yeoman} may
+		notify you about the existence of a conflict and prompt for permission 
+		to overwrite your files.
+
+		Make sure to answer {'a'} or otherwise the adaptation to {Liferay JS 
+		Toolkit} will fail.
+		`,
+		info`
+		Note that you can also avoid this conflict warning providing the 
+		{'--force'} argument to Yeoman.
+		`,
+	],
+	welcome: [
+		title`
+		
+		|👋 |Welcome to Liferay JS Toolkit project adapter 
+		`,
+	],
 };
 
 /**
@@ -64,16 +98,16 @@ export default class extends Generator {
 	initializing() {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 
-		console.log(msg.welcome);
+		print(msg.welcome);
 
 		switch (project.probe.type) {
 			case project.probe.TYPE_CREATE_REACT_APP:
-				console.log(msg.createReactAppDetected);
+				print(msg.createReactAppDetected);
 				this._tuneProject = () => this._tuneCreateReactAppProject();
 				break;
 
 			default:
-				console.error(msg.unsupportedProjectType);
+				print(msg.unsupportedProjectType);
 				process.exit(1);
 		}
 	}
@@ -82,7 +116,7 @@ export default class extends Generator {
 	 * Standard Yeoman prompt function
 	 */
 	async prompting() {
-		console.log(msg.questions);
+		print(msg.questions);
 
 		const answers = await promptWithConfig(this, 'adapt', [
 			{
@@ -115,7 +149,7 @@ export default class extends Generator {
 	 * Standard Yeoman generation function
 	 */
 	writing() {
-		console.log(msg.warnAboutOverwrite);
+		print(msg.warnAboutOverwrite);
 
 		this._copyTemplates();
 		this._modifyTemplates();
@@ -126,6 +160,8 @@ export default class extends Generator {
 	 * Standard Yeoman install function
 	 */
 	install() {
+		print(msg.projectAdapted);
+
 		this.installDependencies({
 			bower: false,
 		});
