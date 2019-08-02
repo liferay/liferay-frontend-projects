@@ -15,6 +15,35 @@ module.exports = function(args) {
       );
     }
 
+    window.webpackJsonp = [];
+
+    window["<%= pkgJson.name %>@<%= pkgJson.version %>"] = 
+      (function() {
+        var entryPoint = undefined;
+        var pendingLaunchs = [];
+
+        return {
+          launch: function(args) {
+            if (entryPoint) {
+              entryPoint(args);
+            }
+            else {
+              pendingLaunchs.push(args);
+            }
+          },
+
+          register: function(main) {
+            entryPoint = main;
+
+            for (var i=0; i<pendingLaunchs.length; i++) {
+              entryPoint(pendingLaunchs[i]);
+            }
+
+            pendingLaunchs = [];
+          }
+        };
+      })();
+    
     var script;
 
     <% jsFiles.forEach(jsFile => { %>
@@ -27,11 +56,5 @@ module.exports = function(args) {
     scriptsInjected = true;
   }
 
-  Liferay.Loader.require(
-    'frontend-js-portlet-extender/webpack/registry', 
-    function(registry) {
-      registry = registry.default;
-      registry.launchPortlet("<%= pkgJson.name %>@<%= pkgJson.version %>", args);
-    }
-  );
+  window["<%= pkgJson.name %>@<%= pkgJson.version %>"].launch(args);
 }

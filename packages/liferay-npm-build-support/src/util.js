@@ -24,9 +24,14 @@ export class Renderer {
 	 *
 	 * @param {string} template the template path
 	 * @param {Object} data the contextual data to render the template
+	 * @param {string} dir optional relative directory in output path
+	 * @param {string} name optional output file name
 	 */
-	render(template, data = {}) {
-		const outputPath = path.join(this._outputDir, template);
+	render(template, data = {}, {dir = '', name} = {}) {
+		dir = path.join(this._outputDir, dir);
+		name = name || template;
+
+		const outputPath = path.join(dir, name);
 
 		fs.mkdirSync(path.dirname(outputPath), {recursive: true});
 

@@ -388,17 +388,11 @@ function babelPlugin({types: t}) {
 					const nodes = path.node.body;
 
 					const wrapperCode = template(`
-						window.Liferay.Loader.require(
-							"frontend-js-portlet-extender/webpack/registry",
-							registry => {
-								registry.default.registerPortlet(
-									PORTLET_ID, 
+						window["${pkgJson.name}@${pkgJson.version}"].register(
 							({ portletElementId }) => {
 								SOURCE
 							}
-								);
-							}
-						);
+						)
 					`);
 
 					path.node.body = [
