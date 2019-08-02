@@ -196,6 +196,7 @@ export default class extends Generator {
 		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this, 2);
 		const projectAnalyzer = new ProjectAnalyzer(this);
+		const portletName = getPortletName(projectAnalyzer);
 
 		// Git ignore build.liferay directory
 		gitignore.add('build.liferay');
@@ -227,6 +228,7 @@ export default class extends Generator {
 			'com.liferay.portlet.display-category',
 			this.answers.category
 		);
+		pkgJson.addPortletProperty('javax.portlet.name', portletName);
 		pkgJson.addPortletProperty(
 			'javax.portlet.security-role-ref',
 			'power-user,user'
@@ -238,7 +240,7 @@ export default class extends Generator {
 
 		// Add localization key for portlet name
 		languagePropertiesModifier.addProperty(
-			`javax.portlet.title.${getPortletName(projectAnalyzer)}`,
+			`javax.portlet.title.${portletName}`,
 			projectAnalyzer.displayName
 		);
 	}
