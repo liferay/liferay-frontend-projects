@@ -118,6 +118,21 @@ export default class extends Generator {
 	async prompting() {
 		print(msg.questions);
 
+		this.answers = {};
+
+		Object.assign(
+			this.answers,
+			await promptWithConfig(this, 'adapt', [
+				{
+					type: 'input',
+					name: 'category',
+					message:
+						'Under which category should your widget be listed?',
+					default: 'category.sample',
+				},
+			])
+		);
+
 		const answers = await promptWithConfig(this, 'adapt', [
 			{
 				type: 'confirm',
@@ -129,20 +144,22 @@ export default class extends Generator {
 		]);
 
 		if (!answers.liferayPresent) {
-			this.answers = {};
-
 			return;
 		}
 
-		this.answers = await promptWithConfig(this, 'adapt', [
-			{
-				type: 'input',
-				name: 'liferayDir',
-				message: 'Where is your local installation of Liferay placed?',
-				default: '/liferay',
-				validate: validateLiferayDir,
-			},
-		]);
+		Object.assign(
+			this.answers,
+			await promptWithConfig(this, 'adapt', [
+				{
+					type: 'input',
+					name: 'liferayDir',
+					message:
+						'Where is your local installation of Liferay placed?',
+					default: '/liferay',
+					validate: validateLiferayDir,
+				},
+			])
+		);
 	}
 
 	/**
@@ -208,7 +225,7 @@ export default class extends Generator {
 		// Add portlet section
 		pkgJson.addPortletProperty(
 			'com.liferay.portlet.display-category',
-			'Adapted Widgets'
+			this.answers.category
 		);
 		pkgJson.addPortletProperty(
 			'javax.portlet.security-role-ref',
