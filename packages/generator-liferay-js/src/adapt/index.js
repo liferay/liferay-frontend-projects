@@ -228,6 +228,7 @@ export default class extends Generator {
 			'com.liferay.portlet.display-category',
 			this.answers.category
 		);
+		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
 		pkgJson.addPortletProperty('javax.portlet.name', portletName);
 		pkgJson.addPortletProperty(
 			'javax.portlet.security-role-ref',
