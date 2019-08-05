@@ -1,3 +1,9 @@
+## [v9.4.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.0) (2019-08-05)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.3.0...v9.4.0)
+
+- feat: add font-awesome in upgrade process ([\#382](https://github.com/liferay/liferay-js-themes-toolkit/pull/382))
+
 ## [v9.3.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.3.0) (2019-07-22)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.2.1...v9.3.0)
