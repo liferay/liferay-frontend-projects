@@ -22,7 +22,7 @@ export default function() {
 			overwrite: true,
 		},
 		err => {
-			if (err) {
+			if (err && err.message !== 'No files to copy') {
 				console.error(err);
 				process.exit(1);
 			} else {
