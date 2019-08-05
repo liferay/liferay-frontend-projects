@@ -359,7 +359,12 @@ function babelPlugin({types: t}) {
 					const {callee} = node;
 
 					if (
-						!isStaticMemberExpression(t, callee, 'ReactDOM.render')
+						!isStaticMemberExpression(
+							t,
+							callee,
+							'ReactDOM.render'
+						) &&
+						!(t.isIdentifier(callee) && callee.name === 'render')
 					) {
 						return;
 					}
