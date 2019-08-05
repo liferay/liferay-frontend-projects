@@ -92,7 +92,7 @@ module.exports = function(options) {
 	});
 
 	return function(cb) {
-		var taskArray = ['upgrade:config', 'upgrade:dependencies'];
+		const taskArray = ['upgrade:config', 'upgrade:dependencies'];
 
 		if (options.includeFontAwesome) {
 			taskArray.push('upgrade:fontAwesome');
