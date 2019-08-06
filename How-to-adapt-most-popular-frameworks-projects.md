@@ -1,7 +1,7 @@
-Since #347 a new effort has begun to support easy adaptation of mainstream
-frameworks' projects to Liferay JS Toolkit. Such feature lets you create JS
-projects with your favourite tool and then deploy it to Liferay without any need
-to tweak anything.
+Since [#347](https://github.com/liferay/liferay-js-toolkit/issues/347) a new
+effort has begun to support easy adaptation of mainstream frameworks' projects
+to Liferay JS Toolkit. Such feature lets you create JS projects with your
+favourite tool and then deploy it to Liferay without any need to tweak anything.
 
 For example, you can create a React project with the
 [create-react-app](https://facebook.github.io/create-react-app/) tool and then
@@ -9,6 +9,7 @@ adapt it so that it can be deployed to Liferay without any change.
 
 This has the benefit of letting you use the workflow you love most and, in
 addition, lets you create projects that can be delivered to different platforms.
+
 For example, you can have a `create-react-app` project that can be built both as
 a single page web application or as Liferay portlet with zero cost of
 maintenance.
@@ -80,18 +81,17 @@ Now, let's see what type of projects can be adapted.
 Right now the list of supported projects categorized by framework is:
 
 1. [React](https://reactjs.org/) framework
-   1. Projects created with [create-react-app](https://facebook.github.io/create-react-app/) tool
+   1. Javascript projects created with [create-react-app](https://facebook.github.io/create-react-app/) [ℹ️](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#create-react-app)
+   2. Typescript projects created with [create-react-app](https://facebook.github.io/create-react-app/) (coming soon!)
 
 ## How project types are detected and what requirements they must fulfill
 
 This section explains the details of each project type: how the adapter detects
 them and what the injected npm scripts expect to make their work.
 
-```
-👀 Note: if you want to know more about the internals of project type detection
-	see file [probe.js](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/project/probe.js)
-	inside the project.
-```
+> 👀 Note: if you want to know more about the internals of project type detection
+> see file [probe.js](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/project/probe.js)
+> inside the project.
 
 ### create-react-app
 
