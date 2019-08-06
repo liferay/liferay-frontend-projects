@@ -81,7 +81,7 @@ Now, let's see what type of projects can be adapted.
 Right now the list of supported projects categorized by framework is:
 
 1. [React](https://reactjs.org/) framework
-   1. Javascript projects created with [create-react-app](https://facebook.github.io/create-react-app/) [ℹ️](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#create-react-app)
+   1. Javascript projects created with [create-react-app](https://facebook.github.io/create-react-app/) [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#create-react-app)
    2. Typescript projects created with [create-react-app](https://facebook.github.io/create-react-app/) (coming soon!)
 
 ## How project types are detected and what requirements they must fulfill
