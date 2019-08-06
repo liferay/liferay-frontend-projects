@@ -5,11 +5,11 @@
  */
 
 /**
- * ESLint doesn't provide a way to bundle a config and rules together in one
- * package, so this ghastly helper monkey-patches `require` to enable us to
- * expose bundled rule plugins from inside eslint-config-liferay without
- * actually having to separately publish a "eslint-plugin-liferay" or
- * "eslint-plugin-liferay-portal" package.
+ * ESLint doesn't provide a way to bundle a config and rules together
+ * in one package, so this ghastly helper applies monkey-patches
+ * to enable us to expose bundled rule plugins from inside
+ * eslint-config-liferay without actually having to separately publish a
+ * "eslint-plugin-liferay" or "eslint-plugin-liferay-portal" package.
  */
 
 const fs = require('fs');
@@ -20,21 +20,49 @@ const localPlugins = new Map();
 
 let originalRequire;
 
+let originalResolve;
+
 /**
- * Monkey-patches `require` with an override that knows how to locate plug-ins
- * that have been previously registered with `local()`.
+ * Apply monkey-patches that know how to locate plug-ins that have been
+ * previously registered with `local()`.
+ *
+ * Prior to ESLInt 6, we patch `require` itself.
+ *
+ * For ESLint 6, we have to patch its "relative-module-resolver", because it no
+ * longer uses `require` since:
+ *
+ * https://github.com/eslint/eslint/commit/6ae21a4bfe5a
  */
 function patch() {
-	if (!originalRequire) {
-		originalRequire = Module.prototype.require;
+	const match = require('eslint/package.json').version.match(/^(\d+)/);
+	const majorVersion = match ? parseInt(match[1], 10) : 0;
 
-		Module.prototype.require = function(id) {
-			if (localPlugins.has(id)) {
-				return originalRequire.call(this, localPlugins.get(id));
-			} else {
-				return originalRequire.call(this, id);
-			}
-		};
+	if (majorVersion > 5) {
+		if (!originalResolve) {
+			const resolver = require('eslint/lib/shared/relative-module-resolver');
+
+			originalResolve = resolver.resolve;
+
+			resolver.resolve = function(id, ...rest) {
+				if (localPlugins.has(id)) {
+					return localPlugins.get(id);
+				} else {
+					return originalResolve.call(resolver, id, ...rest);
+				}
+			};
+		}
+	} else {
+		if (!originalRequire) {
+			originalRequire = Module.prototype.require;
+
+			Module.prototype.require = function(id) {
+				if (localPlugins.has(id)) {
+					return originalRequire.call(this, localPlugins.get(id));
+				} else {
+					return originalRequire.call(this, id);
+				}
+			};
+		}
 	}
 }
 
@@ -54,7 +82,7 @@ function local(pluginName) {
 
 	localPlugins.set(basename, location);
 
-	// Make sure `require()` implementation is patched.
+	// Make sure patches are applied.
 	patch();
 
 	return pluginName;
