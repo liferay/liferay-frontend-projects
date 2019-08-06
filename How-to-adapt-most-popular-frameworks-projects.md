@@ -78,11 +78,12 @@ Now, let's see what type of projects can be adapted.
 
 ## Supported projects
 
-Right now the list of supported projects categorized by framework is:
+Right now the list of supported projects categorized by framework and tool is:
 
 1. [React](https://reactjs.org/) framework
-   1. Javascript projects created with [create-react-app](https://facebook.github.io/create-react-app/) [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#create-react-app)
-   2. Typescript projects created with [create-react-app](https://facebook.github.io/create-react-app/) (coming soon!)
+   1. [create-react-app](https://facebook.github.io/create-react-app/) project generator
+      1. JavaScript projects [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#JavaScript-create-react-app-projects)
+      2. Typescript projects (coming soon!)
 
 ## How project types are detected and what requirements they must fulfill
 
@@ -93,7 +94,7 @@ them and what the injected npm scripts expect to make their work.
 > see file [probe.js](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/project/probe.js)
 > inside the project.
 
-### create-react-app
+### JavaScript create-react-app projects
 
 #### Detection
 
