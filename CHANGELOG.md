@@ -1,3 +1,9 @@
+## [v4.6.0](https://github.com/liferay/eslint-config-liferay/tree/v4.6.0) (2019-08-06)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.5.0...v4.6.0)
+
+- chore: update to ESLint v6 ([\#56](https://github.com/liferay/eslint-config-liferay/pull/56))
+
 ## [v4.5.0](https://github.com/liferay/eslint-config-liferay/tree/v4.5.0) (2019-07-17)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.4.0...v4.5.0)
