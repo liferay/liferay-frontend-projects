@@ -119,14 +119,14 @@ When `build:liferay` is run, the standard webpack based build of
 inside the `build` directory.
 
 These files are then tweaked by the adapter scripts so that they can be launched
-from Liferay's standard entry point (see [[JS-extended-portlets-entry-point]]).
+from Liferay's standard entry point (see [[JS extended portlets entry point]]).
 
 To achieve that, the `document.getElementById()` will be changed so that it
 returns the portlet's main `<div>` node (identified by the `portletElementId`
-parameter of the Liferay's entry point) and thus React attaches its UI to it.
+parameter of the Liferay's entry point) and React attaches its UI to it.
 
-All this happens automagically under the hood when the `build:liferay` script is
-run so that you don't need to do anything other than adapting to the expected
+All this happens _automagically_ under the hood when the `build:liferay` script
+is run so that you don't need to do anything other than adapting to the expected
 code structure.
 
 ## One final note
@@ -134,7 +134,7 @@ code structure.
 The general idea of the adaptation is to be able to deploy _native_ framework
 projects to Liferay. However, because the adapted projects are also true Liferay
 JS Toolkit project they can be configured according to the article
-[[Configuring-pure-javascript-projects]].
+[[Configuring pure JavaScript projects]].
 
 Keep in mind that, the farther you drift from the framework's structure, the
 most tied you will be to Liferay's platform so it is worth considering migrating
