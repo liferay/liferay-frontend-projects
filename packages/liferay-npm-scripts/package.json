@@ -28,7 +28,7 @@
 		"cosmiconfig": "^5.2.1",
 		"cross-env": "^5.2.0",
 		"cross-spawn": "^6.0.5",
-		"deepmerge": "^3.0.0",
+		"deepmerge": "^4.0.0",
 		"eslint": "5.16.0",
 		"eslint-config-liferay": "^4.5.0",
 		"glob": "^7.1.3",
