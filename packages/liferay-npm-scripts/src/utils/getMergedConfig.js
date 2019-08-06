@@ -37,7 +37,7 @@ function pluck(config, property) {
 		return config;
 	}
 
-	if (!config.hasOwnProperty(property)) {
+	if (!Object.hasOwnProperty.call(config, property)) {
 		const keys = JSON.stringify(Object.keys(config));
 		const missing = JSON.stringify(property);
 		throw new Error(
