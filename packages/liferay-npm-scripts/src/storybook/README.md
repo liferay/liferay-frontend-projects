@@ -99,6 +99,7 @@ Default storybook configuration:
 
 ```javascript
 module.exports = {
+	preset: 'liferay-npm-scripts/src/presets/standard',
 	storybook: {
 		// A list of Language.properties files to translate
 		// Liferay.Language.get() functions.
