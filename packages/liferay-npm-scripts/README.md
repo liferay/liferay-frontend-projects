@@ -46,14 +46,6 @@ liferay-npm-scripts fix
 
 Fix calls `prettier` with the `--write` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
 
-### storybook
-
-```sh
-liferay-npm-scripts storybook
-```
-
-Starts a [Storybook](https://storybook.js.org/) sandbox for developing and viewing React components. For documentation on how to write and configure Storybook stories, read more [here](./src/storybook/README.md).
-
 ### test
 
 ```sh
