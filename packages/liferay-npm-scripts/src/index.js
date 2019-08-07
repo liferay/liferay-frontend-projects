@@ -26,6 +26,10 @@ module.exports = function() {
 			require('./scripts/fix')();
 		},
 
+		storybook() {
+			require('./scripts/storybook')();
+		},
+
 		test() {
 			require('./scripts/test')(ARGS_ARRAY);
 		},

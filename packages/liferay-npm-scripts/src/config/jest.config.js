@@ -13,6 +13,7 @@ module.exports = {
 	coverageDirectory: 'build/coverage',
 	modulePathIgnorePatterns: ['/__fixtures__/', '/build/', '/classes/'],
 	testMatch: ['**/test/**/*.js'],
+	testPathIgnorePatterns: ['/node_modules/', '<rootDir>/test/stories/'],
 	testResultsProcessor: 'liferay-jest-junit-reporter',
 	testURL: 'http://localhost',
 	transform: {
