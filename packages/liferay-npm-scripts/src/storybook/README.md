@@ -128,8 +128,8 @@ import {
 
 import '../src/main/resources/META-INF/resources/css/main.scss';
 
-import Conjunction from 'components/criteria_builder/Conjunction.es';
-import ThemeContext from 'ThemeContext.es';
+import Conjunction from '../src/main/resources/META-INF/resources/js/components/criteria_builder/Conjunction.es';
+import ThemeContext from '../src/main/resources/META-INF/resources/js/ThemeContext.es';
 
 const {addDecorator, storiesOf} = StorybookReact;
 const {action} = StorybookAddonActions;
