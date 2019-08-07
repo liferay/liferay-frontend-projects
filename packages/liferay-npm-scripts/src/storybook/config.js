@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+import {withA11y} from '@storybook/addon-a11y';
+import {withKnobs} from '@storybook/addon-knobs';
 import {addDecorator, configure} from '@storybook/react';
 
-import {withKnobs} from '@storybook/addon-knobs';
-import {withA11y} from '@storybook/addon-a11y';
-
 function loadStories() {
-	require(process.env.STORYBOOK_CWD + '/stories');
+	// Don't use path.join here or webpack will complain with:
+	// "Critical dependency: the request of a dependency is an expression"
+	require(process.env.STORYBOOK_CWD + '/test/stories/index.es.js');
 
 	addDecorator(withA11y);
 	addDecorator(withKnobs);

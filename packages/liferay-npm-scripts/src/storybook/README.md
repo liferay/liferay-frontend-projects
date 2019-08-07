@@ -22,22 +22,24 @@ liferay-npm-scripts storybook
 
 ## Setup
 
-Create a `stories` directory in the root of the module. This is where all your story files will live.
+Create a `test/stories` directory in the root of the module. This is where all your story files will live.
 
 ```
 sample-web
-└── stories
+└── test
+    └── stories
 ```
 
-Create a file `index.js` which will be the entry point for the stories.
+Create a file `index.es.js` which will be the entry point for the stories.
 
 ```
 sample-web
-└── stories
-    └── index.js
+└── test
+    └── stories
+        └── index.es.js
 ```
 
-Inside `index.js`, import `StorybookReact`
+Inside `index.es.js`, import `StorybookReact`
 
 ```javascript
 import {StorybookReact} from 'liferay-npm-scripts/src/storybook';
@@ -123,18 +125,16 @@ import React from 'react';
 import {
 	STORYBOOK_CONSTANTS,
 	StorybookAddonActions,
-	StorybookAddonKnobs,
 	StorybookReact
 } from 'liferay-npm-scripts/src/storybook';
 
-import '../src/main/resources/META-INF/resources/css/main.scss';
+import '../../src/main/resources/META-INF/resources/css/main.scss';
 
-import Conjunction from '../src/main/resources/META-INF/resources/js/components/criteria_builder/Conjunction.es';
-import ThemeContext from '../src/main/resources/META-INF/resources/js/ThemeContext.es';
+import Conjunction from '../../src/main/resources/META-INF/resources/js/components/criteria_builder/Conjunction.es';
+import ThemeContext from '../../src/main/resources/META-INF/resources/js/ThemeContext.es';
 
 const {addDecorator, storiesOf} = StorybookReact;
 const {action} = StorybookAddonActions;
-const {array, boolean, select, text} = StorybookAddonKnobs;
 
 addDecorator(storyFn => {
 	const context = {
