@@ -340,16 +340,3 @@ function processPackage(phase, srcPkg, pkg) {
 	});
 }
 
-function processLoaders(pkg, srcPkg) {
-	return new Promise((resolve, reject) => {
-		try {
-			const rules = config.bundler.getLoaderRules(pkg);
-
-			runLoaderRules(rules, pkg, srcPkg)
-				.then(resolve)
-				.catch(reject);
-		} catch (err) {
-			reject(err);
-		}
-	});
-}

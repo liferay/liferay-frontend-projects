@@ -11,15 +11,14 @@ import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
-import manifest from './manifest';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
 import * as config from './config';
 import * as log from './log';
+import manifest from './manifest';
 import report from './report';
 import {loadSourceMap} from './util';
-import {processFile} from './loader-runner';
 
 /**
  * Run a liferay-npm-bundler plugin
@@ -93,30 +92,14 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	return processBabelFiles(filePaths, 0, pkg, babelConfig);
 }
 
-export function runLoaderRules(rules, pkg, srcPkg) {
-	return new Promise((resolve, reject) => {
-		const rulePromises = rules.map(rule => {
-			return new Promise((resolve, reject) => {
-				const globs = [`${srcPkg.dir}/${rule.test}`].concat(
-					gl.negate(gl.prefix(`${srcPkg.dir}/`, rule.exclude))
-				);
+/**
+ * Run configured rules for a certain package.
+ * @param {PkgDesc} pkg the package descriptor
+ */
+export function runRules(pkg) {
+	const rules = config.bundler.getRules(pkg);
 
-				const filePaths = globby.sync(globs);
-
-				const filePromises = filePaths.map(filePath => {
-					return processFile(filePath, srcPkg, pkg, rule);
-				});
-
-				Promise.all(filePromises)
-					.then(resolve)
-					.catch(reject);
-			});
-		});
-
-		Promise.all(rulePromises)
-			.then(resolve)
-			.catch(reject);
-	});
+	return Promise.all(rules.map(rule => runRule(rule, pkg)));
 }
 
 /**
@@ -241,6 +224,49 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 			return processBabelFiles(filePaths, chunkIndex, pkg, babelConfig);
 		}
 	});
+}
+
+function runLoadersFrom(index, rule, context) {
+	if (index >= rule.use.length) {
+		return Promise.resolve(context.content);
+	}
+
+	const use = rule.use[index];
+
+	const result = use.exec(context, use.options);
+
+	return Promise.resolve(result).then(content =>
+		runLoadersFrom(index + 1, rule, Object.assign(context, {content}))
+	);
+}
+
+function runRule(rule, pkg) {
+	const globs = gl.prefix(`${pkg.dir}/`, rule.files);
+
+	const filePromises = globby.sync(globs).map(filePath => {
+		const content = fs.readFileSync(filePath, 'utf-8').toString();
+		const artifacts = {};
+
+		artifacts[filePath] = content;
+
+		const context = {
+			content,
+			filePath,
+			artifacts,
+		};
+
+		runLoadersFrom(0, rule, context).then(content => {
+			if (content !== undefined) {
+				context.artifacts[filePath] = content;
+			}
+
+			Object.entries(context.artifacts).forEach(([filePath, content]) => {
+				fs.writeFileSync(filePath, content);
+			});
+		});
+	});
+
+	return Promise.all(filePromises);
 }
 
 /**
