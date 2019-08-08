@@ -8,7 +8,7 @@
 
 import prop from 'dot-prop';
 
-import {configRequire, getPackageConfig} from './util';
+import {configRequire, configResolve, getPackageConfig} from './util';
 
 let config;
 
@@ -81,10 +81,45 @@ export function getPlugins(phase, pkg) {
 	return instantiatePlugins(pluginNames);
 }
 
-export function getLoaderRules(pkg) {
-	const rulesConfigs = getPackageConfig(pkg, 'rules', []);
+/**
+ * Get configured rules for a certain package.
+ * @param {PkgDesc} pkg
+ */
+export function getRules(pkg) {
+	const rules = getPackageConfig(pkg, 'rules', []);
 
-	return instantiateLoaderRules(rulesConfigs);
+	// Normalize rules
+	rules.forEach(rule => {
+		// `rule.files` must be array
+		if (typeof rule.files === 'string') {
+			rule.files = [rule.files];
+		}
+
+		// `rule.use` must be an array
+		if (!Array.isArray(rule.use)) {
+			rule.use = [rule.use];
+		}
+
+		// Normalize each `rule.use` instance
+		rule.use = rule.use.map(use => {
+			// Each `rule.use` instance must be an object
+			if (typeof use === 'string') {
+				use = {
+					loader: use,
+					options: {},
+				};
+			}
+
+			// Each `rule.use` instance must have `options`
+			if (use.options === undefined) {
+				use.options = {};
+			}
+
+			return use;
+		});
+	});
+
+	return instantiateLoaders(rules);
 }
 
 /**
@@ -129,44 +164,36 @@ function instantiatePlugins(pluginNames) {
 	});
 }
 
-function instantiateLoaderRules(rulesConfigs) {
-	return rulesConfigs.map(ruleConfig => {
-		let useArray = ruleConfig.use;
+function instantiateLoaders(rules) {
+	return rules.map(rule => {
+		rule.use = rule.use.map(({loader, options}) => {
+			let exec, resolvedLoader;
 
-		if (typeof ruleConfig.use === 'string') {
-			useArray = [{loader: ruleConfig.use}];
-		}
+			try {
+				resolvedLoader = `liferay-npm-bundler-loader-${loader}`;
+				exec = configRequire(resolvedLoader);
+			} catch (err) {
+				resolvedLoader = loader;
+				exec = configResolve(resolvedLoader);
+			}
 
-		const loaders = useArray
-			.map(use => {
-				let loaderName;
-				let options;
+			exec = exec.default || exec;
 
-				if (typeof use === 'string') {
-					loaderName = use;
-					options = {};
-				} else {
-					loaderName = use.loader;
-					options = use.options || {};
-				}
-
-				const loaderModule = configRequire(
-					`liferay-npm-bundler-loader-${loaderName}`
+			if (typeof exec !== 'function') {
+				throw new Error(
+					`Loader '${resolvedLoader}' is incorrect: ` +
+						`it does not export a function`
 				);
+			}
 
-				return {
-					name: loaderName,
-					exec: loaderModule.default,
-					options,
-				};
-			})
-			.reverse();
+			return {
+				loader,
+				options,
+				resolvedLoader,
+				exec,
+			};
+		});
 
-		return {
-			test: ruleConfig.test,
-			exclude: ruleConfig.exclude || [],
-			extension: ruleConfig.extension,
-			loaders,
-		};
+		return rule;
 	});
 }

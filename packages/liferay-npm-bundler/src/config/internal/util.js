@@ -25,11 +25,28 @@ export function init(state) {
  * @return {Object} the required module object
  */
 export function configRequire(module) {
-	const pluginFile = resolveModule.sync(module, {
-		basedir: config.pluginsBaseDir,
-	});
+	return require(configResolve(module));
+}
 
-	return require(pluginFile);
+/**
+ * Resolve a module using the configured plugins directory.
+ * @param {String} module a module name
+ * @return {Object} the required module object
+ */
+export function configResolve(module) {
+	let pluginFile;
+
+	try {
+		pluginFile = resolveModule.sync(module, {
+			basedir: config.pluginsBaseDir,
+		});
+	} catch (err) {
+		pluginFile = resolveModule.sync(module, {
+			basedir: '.',
+		});
+	}
+
+	return pluginFile;
 }
 
 /**
