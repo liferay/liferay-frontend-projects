@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler-loader-css-loader",
-	"version": "1.0.0",
+	"version": "2.11.0",
 	"description": "A liferay-npm-bundler loader that loads css files via AMD.",
 	"main": "lib/index.js",
 	"scripts": {
