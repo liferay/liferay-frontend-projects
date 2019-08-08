@@ -1,3 +1,9 @@
+## [v5.0.0](https://github.com/liferay/eslint-config-liferay/tree/v5.0.0) (2019-08-08)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.6.0...v5.0.0)
+
+- feat!: enforce use of React fragment shorthand syntax ([\#58](https://github.com/liferay/eslint-config-liferay/pull/58))
+
 ## [v4.6.0](https://github.com/liferay/eslint-config-liferay/tree/v4.6.0) (2019-08-06)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.5.0...v4.6.0)
