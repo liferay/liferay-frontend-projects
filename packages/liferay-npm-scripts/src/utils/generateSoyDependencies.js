@@ -33,10 +33,14 @@ function generateSoyDependencies(dependencies) {
 			return resolvedDependency;
 		})
 		.filter(Boolean)
-		.filter(dependencyPath => dependencyPath !== cwd)
-		.join(',');
+		.filter(dependencyPath => dependencyPath !== cwd);
 
-	return `{${stringDependencies}}/src/**/*.soy`;
+	const joinedDependencies =
+		stringDependencies.length === 1
+			? stringDependencies
+			: `{${stringDependencies.join(',')}}`;
+
+	return `${joinedDependencies}/src/**/*.soy`;
 }
 
 module.exports = generateSoyDependencies;
