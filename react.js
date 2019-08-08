@@ -24,6 +24,7 @@ const config = {
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react
 		 */
+		'react/jsx-fragments': 'error',
 		'react/jsx-key': 'error',
 		'react/jsx-no-comment-textnodes': 'error',
 		'react/jsx-no-duplicate-props': 'error',
