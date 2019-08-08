@@ -138,7 +138,7 @@
 				"@clayui/sticker": ">=3.0.0-milestone.2",
 				"@clayui/table": ">=3.0.0-milestone.2",
 				"@clayui/time-picker": ">=3.0.0-milestone.2",
-				"clay": ">=2.16.2",
+				"clay": ">=2.9.0",
 				"clay-alert": ">=2.9.0",
 				"clay-autocomplete": ">=2.9.0",
 				"clay-badge": ">=2.9.0",
