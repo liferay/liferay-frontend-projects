@@ -73,7 +73,7 @@ export default class extends JsonModifier {
 	 */
 	setPreset(presetName) {
 		this.modifyJson(json => {
-			prop.set(json, `preset`, presetName);
+			prop.set(json, 'preset', presetName);
 		});
 	}
 }

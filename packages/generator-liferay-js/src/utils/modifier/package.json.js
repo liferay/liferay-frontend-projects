@@ -17,7 +17,7 @@ export default class extends JsonModifier {
 	 * @param {string|number} space the space string/number of spaces to use
 	 * 			when stringifying
 	 */
-	constructor(generator, space = '	') {
+	constructor(generator, space = '\t') {
 		super(generator, 'package.json', space);
 	}
 

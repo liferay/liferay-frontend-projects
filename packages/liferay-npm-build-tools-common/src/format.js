@@ -81,7 +81,7 @@ export function success(literals, ...values) {
 }
 
 export function question(literals, ...values) {
-	return fmt.question(format('🙋', literals, values));
+	return fmt.question(format('❓', literals, values));
 }
 
 export function title(literals, ...values) {

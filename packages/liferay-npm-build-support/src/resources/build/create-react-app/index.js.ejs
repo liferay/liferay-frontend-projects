@@ -20,26 +20,25 @@ module.exports = function(args) {
     window["<%= pkgJson.name %>@<%= pkgJson.version %>"] = 
       (function() {
         var entryPoint = undefined;
-        var pendingLaunchs = [];
+        var pendingLaunches = [];
 
         return {
           launch: function(args) {
             if (entryPoint) {
               entryPoint(args);
-            }
-            else {
-              pendingLaunchs.push(args);
+            } else {
+              pendingLaunches.push(args);
             }
           },
 
           register: function(main) {
             entryPoint = main;
 
-            for (var i=0; i<pendingLaunchs.length; i++) {
-              entryPoint(pendingLaunchs[i]);
+            for (var i=0; i<pendingLaunches.length; i++) {
+              entryPoint(pendingLaunches[i]);
             }
 
-            pendingLaunchs = [];
+            pendingLaunches = [];
           }
         };
       })();

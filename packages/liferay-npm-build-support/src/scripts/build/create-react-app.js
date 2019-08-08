@@ -409,18 +409,21 @@ function babelPlugin({types: t}) {
 						'portletElementId'
 					);
 
-					if (state.renderFound) {
+					if (state.renderCount > 0) {
 						throw Object.assign(new Error(), {
 							humanMessage: msg.noValidEntryPoint,
 						});
 					} else {
-						state.renderFound = true;
+						state.renderCount++;
 					}
 				},
 			},
 			Program: {
+				enter(path, state) {
+					state.renderCount = 0;
+				},
 				exit(path, state) {
-					if (!state.renderFound) {
+					if (state.renderCount != 1) {
 						throw Object.assign(new Error(), {
 							humanMessage: msg.noValidEntryPoint,
 						});

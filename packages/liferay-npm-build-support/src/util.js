@@ -5,6 +5,7 @@
  */
 
 import child_process from 'child_process';
+import spawn from 'cross-spawn';
 import ejs from 'ejs';
 import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
@@ -54,11 +55,9 @@ export class Renderer {
  * @param {Array<*>} args
  */
 export function runNpmBin(script, args = []) {
-	child_process.spawnSync(
-		path.join(project.dir, 'node_modules', '.bin', script),
-		args,
-		{stdio: 'inherit'}
-	);
+	spawn.sync(path.join(project.dir, 'node_modules', '.bin', script), args, {
+		stdio: 'inherit',
+	});
 }
 
 /**

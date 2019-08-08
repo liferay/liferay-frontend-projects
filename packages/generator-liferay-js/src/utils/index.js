@@ -224,7 +224,7 @@ export function toHumanReadable(string) {
 /**
  * Check if a given directory path contains a valid Liferay installation.
  * @param  {String} input directory path
- * @return {boolean}
+ * @return {boolean|string}
  */
 export function validateLiferayDir(input) {
 	if (!fs.existsSync(input)) {

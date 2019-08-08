@@ -11,7 +11,7 @@ import path from 'path';
  * @return {void}
  */
 export default function({pkg}, {pkgJson}) {
-	// NOTE: The name of the "main" file must be in synch with the one generated
+	// NOTE: The name of the "main" file must be in sync with the one generated
 	// by the liferay-npm-build-support build script for create-react-app
 	// projects.
 	pkgJson.main = 'index.js';
