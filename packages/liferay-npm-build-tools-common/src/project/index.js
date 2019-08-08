@@ -34,11 +34,47 @@ export class Project {
 			? readJsonSync(pkgJsonPath)
 			: {};
 
+		this._sources = undefined;
 		this._buildDir = undefined;
 
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.probe = new Probe(this);
+	}
+
+	/**
+	 * Get source files to be copied to `buildDir` before processing takes
+	 * place.
+	 * @return {Array<object>} each object has a `dir`, and a `files` (
+	 * containing a glob) field
+	 */
+	get sources() {
+		if (this._sources === undefined) {
+			let sources = prop.get(this._npmbundlerrc, 'sources', []);
+
+			if (typeof sources === 'string') {
+				sources = [sources];
+			}
+
+			this._sources = sources.map(source => {
+				let dir, files;
+
+				if (typeof source === 'string') {
+					dir = source;
+					files = '**/*';
+				} else {
+					dir = source.dir || '.';
+					files = source.files || '**/*';
+				}
+
+				return {
+					dir: path.normalize(dir),
+					files,
+				};
+			});
+		}
+
+		return this._sources;
 	}
 
 	/**

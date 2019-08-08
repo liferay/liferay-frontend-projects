@@ -21,7 +21,7 @@ import * as log from './log';
 import manifest from './manifest';
 import report from './report';
 
-import {runPlugins, runBabel, runLoaderRules} from './runners';
+import {runPlugins, runBabel, runRules} from './runners';
 import {
 	iterateSerially,
 	renamePkgDirIfPkgJsonChanged,
@@ -176,13 +176,43 @@ function bundleRootPackage(outputDir) {
 	);
 
 	// Process package
-	return processLoaders(pkg, srcPkg)
+	return copyRootPackage(srcPkg, pkg)
+		.then(() => runRules(pkg))
 		.then(() => processPackage('pre', srcPkg, pkg))
 		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
 		.then(() => processPackage('post', srcPkg, pkg))
 		.then(() => manifest.addPackage(srcPkg, pkg))
 		.then(() => manifest.save())
 		.then(() => log.debug(`Bundled root package`));
+}
+
+/**
+ * Copy source files to output directory.
+ * @param {PkgDesc} srcPkg the source package descriptor
+ * @param {PkgDesc} pkg the output package descriptor
+ * @return {Promise}
+ */
+function copyRootPackage(srcPkg, pkg) {
+	const promises = project.sources.map(source => {
+		const glob = `${srcPkg.dir}/${source.dir}/${source.files}`;
+		const stripCount = srcPkg.dir.length + 1 + source.dir.length + 1;
+
+		return globby(glob).then(files =>
+			Promise.all(
+				files
+					.filter(file => fs.statSync(file).isFile())
+					.map(file => file.substr(stripCount))
+					.map(file =>
+						fs.copy(
+							path.join(srcPkg.dir, source.dir, file),
+							path.join(pkg.dir, file)
+						)
+					)
+			)
+		);
+	});
+
+	return Promise.all(promises);
 }
 
 /**
@@ -215,7 +245,8 @@ function bundlePackage(srcPkg, outputDir) {
 					return;
 				}
 
-				processPackage('pre', srcPkg, pkg)
+				runRules(pkg)
+					.then(() => processPackage('pre', srcPkg, pkg))
 					.then(() => runBabel(pkg))
 					.then(() => processPackage('post', srcPkg, pkg))
 					.then(() => renamePkgDirIfPkgJsonChanged(pkg))
@@ -339,4 +370,3 @@ function processPackage(phase, srcPkg, pkg) {
 		}
 	});
 }
-
