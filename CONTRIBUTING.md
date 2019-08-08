@@ -26,7 +26,6 @@
 
 5.  Tag the new release.
 
-
     Run `yarn version --minor` (or `--major`, or `--patch`, as appropriate).
 
     This will update the package.json and create a tagged commit, including the updates to the CHANGELOG that you previously made.
