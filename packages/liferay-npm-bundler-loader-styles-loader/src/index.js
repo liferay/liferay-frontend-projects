@@ -10,7 +10,7 @@ import {getModulesPlugins} from './utils';
 /**
  * @return Processed content
  */
-export default function(content) {
+export default function({content}) {
 	return new Promise((resolve, reject) => {
 		const plugins = getModulesPlugins();
 

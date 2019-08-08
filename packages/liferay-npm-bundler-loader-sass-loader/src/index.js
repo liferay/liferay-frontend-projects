@@ -5,9 +5,11 @@
  */
 
 /**
- * @return Processed content
+ * @param {object} context loader's context
+ * @return {string} the processed file content
  */
-export default function(content) {
+export default function(context) {
+	const {content, filePath} = context;
 	const self = this;
 
 	function getDefaultRenderer() {

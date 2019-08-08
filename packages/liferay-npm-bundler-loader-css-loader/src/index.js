@@ -5,14 +5,17 @@
  */
 
 /**
- * @return Processed content
+ * @param {object} context loader's context
+ * @return {string} the processed file content
  */
-export default function(content) {
-	return [
-		'var css = "' + content.replace(/\n/g, '') + '";',
-		'var style = document.createElement("style");',
-		'style.setAttribute("type", "text/css");',
-		'style.appendChild(document.createTextNode(css));',
-		'document.querySelector("head").appendChild(style);',
-	].join('\n');
+export default function(context) {
+	const {content, filePath} = context;
+
+	context.artifacts[`${filePath}.js`] = `
+var css = "${content.replace(/\n/g, '')}";
+var style = document.createElement("style");
+style.setAttribute("type", "text/css");
+style.appendChild(document.createTextNode(css));
+document.querySelector("head").appendChild(style);
+`;
 }
