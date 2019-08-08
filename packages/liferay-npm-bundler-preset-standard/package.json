@@ -10,9 +10,6 @@
     "liferay-npm-bundler-plugin-inject-peer-dependencies": "2.12.0",
     "liferay-npm-bundler-plugin-namespace-packages": "2.12.0",
     "liferay-npm-bundler-plugin-replace-browser-modules": "2.12.0",
-    "liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.12.0",
-    "liferay-npm-bundler-loader-css-loader": "1.0.0",
-    "liferay-npm-bundler-loader-sass-loader": "1.0.0",
-    "liferay-npm-bundler-loader-styles-loader": "1.0.0"
+    "liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.12.0"
   }
 }
