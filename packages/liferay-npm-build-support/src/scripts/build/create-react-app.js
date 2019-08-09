@@ -46,7 +46,7 @@ const msg = {
 	askWhetherToUseBackup: [
 		``,
 		question`
-		Do you want to use restore the backup to {'src/index.js'} (y/{N})? `,
+		Do you want to restore the backup to {'src/index.js'} (y/{N})? `,
 	],
 	indexJsBackupPresent: `
 		Fortunately, this build tool makes a backup of {'src/index.js'} to 
