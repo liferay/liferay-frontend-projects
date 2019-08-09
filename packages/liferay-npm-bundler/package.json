@@ -7,7 +7,7 @@
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
 	},
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
+		"build": "babel --source-maps -D -d lib src --ignore '**/__tests__/**'",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {

@@ -29,26 +29,6 @@ describe('deprecated config', () => {
 
 			expect(cfg.jar.getRequireJsExtender()).toBe(false);
 		});
-
-		it('create-jar/web-context-path', () => {
-			process.chdir(
-				path.join(__dirname, '__fixtures__', 'config', 'legacy-test-1')
-			);
-			cfg.reloadConfig();
-
-			expect(cfg.jar.getWebContextPath()).toBe('/my-portlet');
-		});
-	});
-
-	describe('package.json', () => {
-		it('osgi/web-context-path', () => {
-			process.chdir(
-				path.join(__dirname, '__fixtures__', 'config', 'legacy-test-2')
-			);
-			cfg.reloadConfig();
-
-			expect(cfg.jar.getWebContextPath()).toBe('/my-portlet');
-		});
 	});
 });
 
@@ -271,21 +251,6 @@ describe('bundler config', () => {
 });
 
 describe('jar config', () => {
-	describe('getWebContextPath()', () => {
-		it('works when specified in .npmbundlerrc', () => {
-			process.chdir(
-				path.join(__dirname, '__fixtures__', 'config', 'create-jar')
-			);
-			cfg.reloadConfig();
-
-			expect(cfg.jar.getWebContextPath()).toEqual('/my-portlet');
-		});
-
-		it('works when not set', () => {
-			expect(cfg.jar.getWebContextPath()).toEqual('/default-1.0.0');
-		});
-	});
-
 	describe('getRequireJsExtender()', () => {
 		it('returns true when create-jar config present and features/js-extender missing', () => {
 			process.chdir(

@@ -1,7 +1,5 @@
 {
-  "create-jar": {
-    "features": {
-      "web-context": "/other-portlet"
-    }
-  }
+	"create-jar": {
+		"features": {}
+	}
 }

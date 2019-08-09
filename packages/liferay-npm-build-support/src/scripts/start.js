@@ -5,19 +5,18 @@
  */
 
 import childProcess from 'child_process';
-import ejs from 'ejs';
-import fs from 'fs-extra';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import os from 'os';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import util from 'util';
 
 import * as cfg from '../config';
+import Renderer from '../util';
 
-const projectDir = cfg.getProjectDir();
 const templatesDir = path.join(__dirname, '..', 'resources', 'start');
-const webpackDir = path.join(projectDir, '.webpack');
-const pkgJson = readJsonSync(`${projectDir}/package.json`);
+const webpackDir = path.join(project.dir, '.webpack');
+const pkgJson = readJsonSync(path.join(project.dir, 'package.json'));
 
 /**
  *
@@ -31,17 +30,17 @@ export default function() {
  *
  */
 function copyWebpackResources() {
-	fs.mkdirpSync(webpackDir);
+	const renderer = new Renderer(templatesDir, webpackDir);
 
-	render('index.html', {
+	renderer.render('index.html', {
 		pkgName: pkgJson.name,
 		pkgVersion: pkgJson.version,
 		cssPath: getCssPath(pkgJson),
 	});
-	render('index.js', {
+	renderer.render('index.js', {
 		mainModule: `../src/${cfg.getWebpackMainModule()}`,
 	});
-	render('webpack.config.js', {
+	renderer.render('webpack.config.js', {
 		pkgName: pkgJson.name,
 		port: cfg.getWebpackPort(),
 		rules: util.inspect(
@@ -52,24 +51,6 @@ function copyWebpackResources() {
 		),
 		extensions: util.inspect(cfg.getWebpackExtensions()),
 	});
-}
-
-/**
- *
- * @param {string} template the template path
- * @param {Object} data the contextual data to render the template
- */
-function render(template, data = {}) {
-	ejs.renderFile(
-		path.join(templatesDir, `${template}.ejs`),
-		data,
-		{
-			escape: text => text,
-		},
-		(err, str) => {
-			fs.writeFileSync(path.join(webpackDir, template), str);
-		}
-	);
 }
 
 /**
@@ -102,7 +83,7 @@ function runWebpackDevServer() {
 	if (os.platform() === 'win32') {
 		const webpackDevServerPath = path.resolve(
 			path.join(
-				cfg.getProjectDir(),
+				project.dir,
 				'node_modules',
 				'.bin',
 				'webpack-dev-server.cmd'
@@ -115,12 +96,7 @@ function runWebpackDevServer() {
 		});
 	} else {
 		const webpackDevServerPath = path.resolve(
-			path.join(
-				cfg.getProjectDir(),
-				'node_modules',
-				'.bin',
-				'webpack-dev-server'
-			)
+			path.join(project.dir, 'node_modules', '.bin', 'webpack-dev-server')
 		);
 
 		proc = childProcess.spawn(process.execPath, [webpackDevServerPath], {

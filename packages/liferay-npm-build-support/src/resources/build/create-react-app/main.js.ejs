@@ -1,0 +1,13 @@
+if (window.webpackJsonp !== undefined) {
+	throw new Error(
+		"\n" +
+		"It looks like there's already some webpack code registered in this\n" +
+		"window, thus portlet '<%= portletId %>' cannot be loaded because\n" + 
+		"it would interfere with the existing one.\n" +
+		"\n" +
+		"This can be caused because you have placed more than one webpack\n" +
+		"based portlet in the same page or because some portlet directly\n" +
+		"exports webpack code (i.e.: it sets window.webpackJsonp variable).\n"
+	);
+}
+<%= originalContent %>

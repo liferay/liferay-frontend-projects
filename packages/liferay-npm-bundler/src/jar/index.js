@@ -112,7 +112,7 @@ function addManifest(zip) {
 		contents += `Bundle-Name: ${pkgJson.description}\n`;
 	}
 
-	contents += `Web-ContextPath: ${config.jar.getWebContextPath()}\n`;
+	contents += `Web-ContextPath: ${project.jar.webContextPath}\n`;
 
 	contents +=
 		`Provide-Capability: osgi.webresource;` +

@@ -23,6 +23,7 @@ export default class Jar {
 		this._customManifestHeaders = undefined;
 		this._outputDir = undefined;
 		this._outputFilename = undefined;
+		this._webContextPath = undefined;
 	}
 
 	/**
@@ -99,6 +100,30 @@ export default class Jar {
 	get supported() {
 		const {_npmbundlerrc} = this._project;
 
-		return prop.has(_npmbundlerrc, 'create-jar');
+		return !!prop.get(_npmbundlerrc, 'create-jar', false);
+	}
+
+	get webContextPath() {
+		const {_npmbundlerrc, _pkgJson} = this._project;
+
+		if (!this._webContextPath) {
+			this._webContextPath = prop.get(
+				_npmbundlerrc,
+				'create-jar.features.web-context',
+				// TODO: deprecated 'web-context-path', remove for the next major version
+				prop.get(
+					_npmbundlerrc,
+					'create-jar.web-context-path',
+					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
+					prop.get(
+						_pkgJson,
+						'osgi.Web-ContextPath',
+						`/${_pkgJson.name}-${_pkgJson.version}`
+					)
+				)
+			);
+		}
+
+		return this._webContextPath;
 	}
 }

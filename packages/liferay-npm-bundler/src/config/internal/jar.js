@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+// TODO: Move this whole file to liferay-npm-build-tools-common (see #328)
+
 import prop from 'dot-prop';
 import fs from 'fs';
 
@@ -12,7 +14,6 @@ const notifiedWarnings = {
 };
 
 let config;
-let pkgJson;
 
 /**
  * Initialize submodule
@@ -21,7 +22,6 @@ let pkgJson;
  */
 export function init(state) {
 	config = state.config;
-	pkgJson = state.pkgJson;
 }
 
 /**
@@ -58,33 +58,9 @@ export function getConfigurationFile() {
 }
 
 /**
- * Get the configured web context path value.
- * @return {string}
- */
-export function getWebContextPath() {
-	const jarConfig = getNormalizedJarConfig();
-
-	return prop.get(
-		jarConfig,
-		'features.web-context',
-		// TODO: deprecated 'web-context-path', remove for the next major version
-		prop.get(
-			jarConfig,
-			'web-context-path',
-			// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
-			prop.get(
-				pkgJson,
-				'osgi.Web-ContextPath',
-				`/${pkgJson.name}-${pkgJson.version}`
-			)
-		)
-	);
-}
-
-/**
  * Get normalized JAR config as an object. Note that if JAR config is false this
  * method returns an object too so it only makes sense in a context where
- * cfg.isCreateJar() has already been checked and returned true.
+ * project.jar.supported has already been checked and returned true.
  * @return {object}
  */
 function getNormalizedJarConfig() {

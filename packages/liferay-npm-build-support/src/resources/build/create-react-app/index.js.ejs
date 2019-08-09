@@ -1,0 +1,59 @@
+var scriptsInjected = false;
+
+module.exports = function(args) {
+  if (!scriptsInjected) {
+    if (window.webpackJsonp !== undefined) {
+      throw new Error(
+        "\n" +
+        "It looks like there's already some webpack code registered in this\n" +
+        "window, thus portlet '<%= pkgJson.name %>@<%= pkgJson.version %>' cannot be loaded because\n" + 
+        "it would interfere with the existing one.\n" +
+        "\n" +
+        "This can be caused because you have placed more than one webpack\n" +
+        "based portlet in the same page or because some portlet directly\n" +
+        "exports webpack code (i.e.: it sets window.webpackJsonp variable).\n"
+      );
+    }
+
+    window.webpackJsonp = [];
+
+    window["<%= pkgJson.name %>@<%= pkgJson.version %>"] = 
+      (function() {
+        var entryPoint = undefined;
+        var pendingLaunches = [];
+
+        return {
+          launch: function(args) {
+            if (entryPoint) {
+              entryPoint(args);
+            } else {
+              pendingLaunches.push(args);
+            }
+          },
+
+          register: function(main) {
+            entryPoint = main;
+
+            for (var i=0; i<pendingLaunches.length; i++) {
+              entryPoint(pendingLaunches[i]);
+            }
+
+            pendingLaunches = [];
+          }
+        };
+      })();
+    
+    var script;
+
+    <% jsFiles.forEach(jsFile => { %>
+    script = document.createElement("script");
+    script.src = "/o<%= webContextPath %>/react-app/static/js/<%= jsFile %>";
+    script.async = false;
+    document.head.appendChild(script);
+    <% }) %>
+  
+    scriptsInjected = true;
+  }
+
+  window["<%= pkgJson.name %>@<%= pkgJson.version %>"].launch(args);
+}

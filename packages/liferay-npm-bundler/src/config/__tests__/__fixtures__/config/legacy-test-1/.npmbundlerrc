@@ -1,6 +1,5 @@
 {
-  "create-jar": {
-    "auto-deploy-portlet": false,
-    "web-context-path": "/my-portlet"
-  }
+	"create-jar": {
+		"auto-deploy-portlet": false
+	}
 }

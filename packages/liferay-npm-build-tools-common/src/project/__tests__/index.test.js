@@ -17,6 +17,18 @@ describe('empty project', () => {
 		);
 	});
 
+	it('loads liferay-npm-bundler-preset-standard preset', () => {
+		expect(project._npmbundlerrc['*']['.babelrc']['presets']).toEqual([
+			'liferay-standard',
+		]);
+	});
+
+	it('returns dir', () => {
+		expect(project.dir).toBe(
+			path.join(__dirname, '__fixtures__', 'project', 'empty')
+		);
+	});
+
 	it('returns buildDir', () => {
 		expect(project.buildDir).toBe(
 			'build/resources/main/META-INF/resources'
@@ -38,6 +50,10 @@ describe('empty project', () => {
 
 		it('returns supported', () => {
 			expect(project.jar.supported).toBe(false);
+		});
+
+		it('returns webContextPath', () => {
+			expect(project.jar.webContextPath).toBe('/empty-1.0.0');
 		});
 	});
 
@@ -75,6 +91,12 @@ describe('standard project', () => {
 		);
 	});
 
+	it('returns dir', () => {
+		expect(project.dir).toBe(
+			path.join(__dirname, '__fixtures__', 'project', 'standard')
+		);
+	});
+
 	it('returns buildDir', () => {
 		expect(project.buildDir).toBe('build');
 	});
@@ -102,6 +124,10 @@ describe('standard project', () => {
 
 		it('returns supported', () => {
 			expect(project.jar.supported).toBe(true);
+		});
+
+		it('returns webContextPath', () => {
+			expect(project.jar.webContextPath).toBe('/standard');
 		});
 	});
 
@@ -179,5 +205,93 @@ describe('specific features', () => {
 		expect(project.jar.customManifestHeaders).toEqual({});
 		expect(project.jar.outputDir).toBe(project.buildDir);
 		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
+	});
+});
+
+describe('honors presets', () => {
+	beforeEach(() => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+		);
+	});
+
+	it('loads project.dir from preset', () => {
+		expect(project.dir).toBe(
+			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+		);
+	});
+
+	it('loads project.buildDir from preset', () => {
+		expect(project.buildDir).toBe('preset-build');
+	});
+
+	it('loads project.jar.outputDir from preset', () => {
+		expect(project.jar.outputDir).toBe('preset-dist');
+	});
+
+	it('detects JAR configuration even if only in preset', () => {
+		expect(project.jar.supported).toBe(true);
+	});
+});
+
+describe('project.jar.outputFilename', () => {
+	it('returns package name and version if not specified', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'bool-create-jar')
+		);
+
+		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
+	});
+});
+
+describe('project.jar.supported', () => {
+	it('works with true boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'bool-create-jar')
+		);
+
+		expect(project.jar.supported).toBe(true);
+	});
+
+	it('works with false boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'false-create-jar')
+		);
+
+		expect(project.jar.supported).toBe(false);
+	});
+});
+
+describe('default features are detected', () => {
+	it('project.l10n.languageFileBaseName', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'default-features')
+		);
+
+		expect(project.l10n.languageFileBaseName).toBe(
+			path.join(project.dir, 'features', 'localization', 'Language')
+		);
+	});
+});
+
+describe('deprecated config', () => {
+	describe('.npmbundlerrc', () => {
+		it('create-jar/web-context-path', () => {
+			project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-1')
+			);
+
+			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
+	});
+
+	describe('package.json', () => {
+		it('osgi/web-context-path', () => {
+			project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-2')
+			);
+
+			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
 	});
 });

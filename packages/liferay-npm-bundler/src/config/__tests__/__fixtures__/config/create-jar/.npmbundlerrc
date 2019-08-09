@@ -1,9 +1,7 @@
 {
-  "create-jar": {
-    "output-dir": "dist",
-    "features": {
-      "js-extender": false,
-      "web-context": "/my-portlet"
-    }
-  }
+	"create-jar": {
+		"features": {
+			"js-extender": false
+		}
+	}
 }

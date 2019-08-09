@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+// TODO: Move this to whole file to liferay-npm-build-tools-common (see #328)
+
 import prop from 'dot-prop';
 import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';

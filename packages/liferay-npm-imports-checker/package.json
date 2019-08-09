@@ -6,7 +6,7 @@
 		"liferay-npm-imports-checker": "bin/liferay-npm-imports-checker.js"
 	},
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
+		"build": "babel --source-maps -D -d lib src --ignore '**/__tests__/**'",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {
