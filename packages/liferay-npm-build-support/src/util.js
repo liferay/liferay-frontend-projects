@@ -54,10 +54,30 @@ export class Renderer {
  * @param {string} script
  * @param {Array<*>} args
  */
-export function runNpmBin(script, args = []) {
-	spawn.sync(path.join(project.dir, 'node_modules', '.bin', script), args, {
-		stdio: 'inherit',
-	});
+export function runNodeModulesBin(script, args = []) {
+	const proc = spawn.sync(
+		path.join(project.dir, 'node_modules', '.bin', script),
+		args,
+		{
+			stdio: 'inherit',
+		}
+	);
+
+	if (proc.error) {
+		throw proc.error;
+	} else if (proc.status != 0) {
+		throw new Error(
+			`Node modules binary '${script}' finished with status ${
+				proc.status
+			}`
+		);
+	} else if (proc.signal) {
+		throw new Error(
+			`Node modules binary '${script}' finished due to signal ${
+				proc.signal
+			}`
+		);
+	}
 }
 
 /**
@@ -65,22 +85,22 @@ export function runNpmBin(script, args = []) {
  * @param {string} script
  * @param {Array<*>} args
  */
-export function runNpmScript(script, args = []) {
-	const proc = child_process.spawnSync('npm', ['run', script].concat(args), {
+export function runYarnScript(script, args = []) {
+	const proc = child_process.spawnSync('yarn', ['run', script].concat(args), {
 		shell: true,
 		stdio: 'inherit',
 	});
 
-	if (proc.status != 0) {
+	if (proc.error) {
+		throw proc.error;
+	} else if (proc.status != 0) {
 		throw new Error(
-			`Npm script '${script}' finished with status ${proc.status}`
+			`Yarn script '${script}' finished with status ${proc.status}`
 		);
 	} else if (proc.signal) {
 		throw new Error(
-			`Npm script '${script}' finished due to signal ${proc.signal}`
+			`Yarn script '${script}' finished due to signal ${proc.signal}`
 		);
-	} else if (proc.error) {
-		throw proc.error;
 	}
 }
 

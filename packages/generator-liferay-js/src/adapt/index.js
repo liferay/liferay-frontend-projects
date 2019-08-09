@@ -181,6 +181,8 @@ export default class extends Generator {
 
 		this.installDependencies({
 			bower: false,
+			npm: false,
+			yarn: true,
 		});
 	}
 
@@ -220,7 +222,7 @@ export default class extends Generator {
 		pkgJson.addScript('build:liferay', 'lnbs-build');
 		pkgJson.addScript(
 			'deploy:liferay',
-			'npm run build:liferay && lnbs-deploy'
+			'yarn run build:liferay && lnbs-deploy'
 		);
 
 		// Add portlet section

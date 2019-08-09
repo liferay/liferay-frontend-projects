@@ -22,7 +22,7 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import readline from 'readline';
 
-import {Renderer, runNpmBin, runNpmScript} from '../../util';
+import {Renderer, runNodeModulesBin, runYarnScript} from '../../util';
 
 const indexJsNoticeHeader =
 	'/*\n' +
@@ -36,7 +36,7 @@ const indexJsNoticeHeader =
 	' IF IN CASE 2, THERE SHOULD BE A BACKUP OF THE ORIGINAL FILE NAMED\n' +
 	" '.index.js' IN THIS SAME DIRECTORY.\n" +
 	'\n' +
-	" IF YOU RUN 'npm run build:liferay' AGAIN IT WILL ASK YOU IF YOU WANT\n" +
+	" IF YOU RUN 'yarn run build:liferay' AGAIN IT WILL ASK YOU IF YOU WANT\n" +
 	' TO RESTORE IT BUT IF YOU WANT TO DO IT MANUALLY YOU CAN, TOO.\n' +
 	'\n' +
 	' SORRY FOR ANY INCONVENIENCE :-(\n' +
@@ -146,13 +146,13 @@ export function run() {
 		.then(assertIndexJsIntegrity)
 		.then(backupIndexJs)
 		.then(tweakIndexJs)
-		.then(() => runNpmScript('build'))
+		.then(() => runYarnScript('build'))
 		.then(restoreIndexJs)
 		.then(copyCreateReactAppBuild)
 		.then(generateIndexJs)
 		.then(namespaceWepbackJsonp)
 		.then(tweakMediaURLs)
-		.then(() => runNpmBin('liferay-npm-bundler'))
+		.then(() => runNodeModulesBin('liferay-npm-bundler'))
 		.catch(err => {
 			if (err.humanMessage) {
 				console.log();
