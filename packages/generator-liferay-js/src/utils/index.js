@@ -115,9 +115,14 @@ export function getPortletName(projectAnalyzer) {
  * Get the semver constraints for a SDK package based on user's
  * .generator-liferay-js.json file and running SDK version.
  * @param {string} packageName
+ * @param {boolean} ignoreConfig return the true SDK version
  */
-export function getSDKVersion(packageName) {
+export function getSDKVersion(packageName, {ignoreConfig = false} = {}) {
 	let version = `^${pkgJson.version}`;
+
+	if (ignoreConfig) {
+		return version;
+	}
 
 	const sdkVersion = cfg.getSDKVersion();
 

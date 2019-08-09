@@ -211,11 +211,11 @@ export default class extends Generator {
 		// Add JS toolkit dependencies
 		pkgJson.addDevDependency(
 			'liferay-npm-build-support',
-			getSDKVersion('liferay-npm-build-support')
+			getSDKVersion('liferay-npm-build-support', {ignoreConfig: true})
 		);
 		pkgJson.addDevDependency(
 			'liferay-npm-bundler',
-			getSDKVersion('liferay-npm-bundler')
+			getSDKVersion('liferay-npm-bundler', {ignoreConfig: true})
 		);
 
 		// Add npm scripts
@@ -256,7 +256,9 @@ export default class extends Generator {
 
 		pkgJson.addDevDependency(
 			'liferay-npm-bundler-preset-create-react-app',
-			getSDKVersion('liferay-npm-bundler-preset-create-react-app')
+			getSDKVersion('liferay-npm-bundler-preset-create-react-app', {
+				ignoreConfig: true,
+			})
 		);
 	}
 }
