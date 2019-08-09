@@ -1,6 +1,6 @@
 If you clone this project to make some modifications to any of its sources you will then want to test what you did, probably.
 
-Sadly, what should be an easy task turns out to be a bit hard due to interoperation between `lerna`, `npm` and, if used `yarn` too.
+Sadly, what should be an easy task turns out to be a bit hard due to interoperation between `lerna`, `npm` and, if used, `yarn` too.
 
 To ease this task we propose two workflows depending on the package manager being used.
 
