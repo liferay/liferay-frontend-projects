@@ -8,6 +8,8 @@ We now recommend using the native [URL](https://developer.mozilla.org/en-US/docs
 
 Make sure you read the documentation referenced above to make sure you fully understand the URL API.
 
+Additionally, a polyfill is also served for Internet Explorer 11, to ensure the `URL` API can be used correcly.
+
 
 ### Use case: creating a relative URL
 
