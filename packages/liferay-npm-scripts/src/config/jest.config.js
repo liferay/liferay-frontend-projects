@@ -17,7 +17,7 @@ module.exports = {
 	testResultsProcessor: 'liferay-jest-junit-reporter',
 	testURL: 'http://localhost',
 	transform: {
-		'.+': path.join(__dirname, '..', 'jest', 'transformBabel.js'),
-		'\\.soy$': path.join(__dirname, '..', 'jest', 'transformSoy.js')
+		'\\.soy$': path.join(__dirname, '..', 'jest', 'transformSoy.js'),
+		'.+': path.join(__dirname, '..', 'jest', 'transformBabel.js') // eslint-disable-line sort-keys
 	}
 };
