@@ -40,7 +40,7 @@ export default function(context, config) {
 	const result = babel.transform(content, babelConfig);
 
 	context.sourceMap = result.map;
-	context.artifacts[`${filePath}.map`] = JSON.stringify(result.map);
+	context.extraArtifacts[`${filePath}.map`] = JSON.stringify(result.map);
 
 	return result.code;
 }

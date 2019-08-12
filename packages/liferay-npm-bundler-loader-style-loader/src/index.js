@@ -11,7 +11,7 @@
 export default function(context) {
 	const {content, filePath} = context;
 
-	context.artifacts[`${filePath}.js`] = `
+	context.extraArtifacts[`${filePath}.js`] = `
 var css = "${content.replace(/\n/g, '')}";
 var style = document.createElement("style");
 style.setAttribute("type", "text/css");

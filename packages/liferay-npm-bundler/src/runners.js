@@ -242,9 +242,13 @@ function runLoadersFrom(index, rule, context) {
 		throw err;
 	}
 
-	return Promise.resolve(result).then(content =>
-		runLoadersFrom(index + 1, rule, Object.assign(context, {content}))
-	);
+	return Promise.resolve(result).then(content => {
+		if (content !== undefined) {
+			context = Object.assign(context, {content});
+		}
+
+		return runLoadersFrom(index + 1, rule, context);
+	});
 }
 
 function runRule(rule, pkg) {
@@ -252,24 +256,21 @@ function runRule(rule, pkg) {
 
 	const filePromises = globby.sync(globs).map(filePath => {
 		const content = fs.readFileSync(filePath, 'utf-8').toString();
-		const artifacts = {};
-
-		artifacts[filePath] = content;
 
 		const context = {
 			content,
 			filePath,
-			artifacts,
+			extraArtifacts: {},
 		};
 
 		runLoadersFrom(0, rule, context).then(content => {
-			if (content !== undefined) {
-				context.artifacts[filePath] = content;
-			}
+			fs.writeFileSync(filePath, content);
 
-			Object.entries(context.artifacts).forEach(([filePath, content]) => {
-				fs.writeFileSync(filePath, content);
-			});
+			Object.entries(context.extraArtifacts).forEach(
+				([filePath, content]) => {
+					fs.writeFileSync(filePath, content);
+				}
+			);
 		});
 	});
 
