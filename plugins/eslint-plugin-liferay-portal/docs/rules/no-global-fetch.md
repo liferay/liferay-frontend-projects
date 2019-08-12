@@ -1,7 +1,6 @@
 # Disallow use of global fetch (no-global-fetch)
 
-This rule guards against the direct use of the `fetch` API. As a secured-environment, Liferay Portal requests often rely on specific security headers and tokens being set in the requests. The `frontend-js-web` module offers a thin wrapp around `fetch` that takes care
-of the most common configuration to avoid issues.
+This rule guards against the direct use of the `fetch` API. As a secured-environment, Liferay Portal requests often rely on specific security headers and tokens being set in the requests. The `frontend-js-web` module offers a thin wrapper around `fetch` that takes care of the most common configuration to avoid issues.
 
 ## Rule Details
 

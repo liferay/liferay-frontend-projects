@@ -6,8 +6,8 @@
 
 module.exports = {
 	rules: {
-		'no-global-fetch': require('./lib/rules/no-global-fetch'),
 		'no-explicit-extend': require('./lib/rules/no-explicit-extend'),
+		'no-global-fetch': require('./lib/rules/no-global-fetch'),
 		'no-metal-plugins': require('./lib/rules/no-metal-plugins'),
 		'no-side-navigation': require('./lib/rules/no-side-navigation'),
 	},
