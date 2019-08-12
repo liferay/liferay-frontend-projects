@@ -17,7 +17,6 @@ const parserOptions = {
 const ruleTester = new RuleTester(parserOptions);
 
 ruleTester.run('no-metal-plugins', rule, {
-	valid: [],
 	invalid: [
 		{
 			code: "import Ajax from 'metal-ajax';",
@@ -111,4 +110,6 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 	],
+
+	valid: [],
 });

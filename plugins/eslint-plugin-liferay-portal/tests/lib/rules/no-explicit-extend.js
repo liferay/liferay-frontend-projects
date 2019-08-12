@@ -12,42 +12,6 @@ const ruleTester = new RuleTester();
 const filename = '/data/liferay-portal/modules/apps/a/b/.eslintrc.js';
 
 ruleTester.run('no-explicit-extend', rule, {
-	valid: [
-		{
-			code: `
-				module.exports = {
-					extends: ['liferay/react']
-				};
-			`,
-			filename,
-		},
-		{
-			code: `
-				module.exports = {
-					extends: 'liferay/react'
-				};
-			`,
-			filename,
-		},
-		{
-			code: `
-				module.exports = {
-					extends: []
-				};
-			`,
-			filename,
-		},
-		{
-			// Would be invalid, but not in an .eslintrc.js file.
-			code: `
-				module.exports = {
-					extends: 'liferay/portal'
-				};
-			`,
-			filename: '/tmp/not-an-eslintrc.js',
-		},
-	],
-
 	invalid: [
 		{
 			// As a naked string.
@@ -247,6 +211,42 @@ ruleTester.run('no-explicit-extend', rule, {
 			output: `
 				module.exports = {};
 			`,
+		},
+	],
+
+	valid: [
+		{
+			code: `
+				module.exports = {
+					extends: ['liferay/react']
+				};
+			`,
+			filename,
+		},
+		{
+			code: `
+				module.exports = {
+					extends: 'liferay/react'
+				};
+			`,
+			filename,
+		},
+		{
+			code: `
+				module.exports = {
+					extends: []
+				};
+			`,
+			filename,
+		},
+		{
+			// Would be invalid, but not in an .eslintrc.js file.
+			code: `
+				module.exports = {
+					extends: 'liferay/portal'
+				};
+			`,
+			filename: '/tmp/not-an-eslintrc.js',
 		},
 	],
 });

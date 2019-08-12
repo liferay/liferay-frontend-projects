@@ -13,10 +13,10 @@ module.exports = {
 	extends: 'liferay',
 	globals: {
 		$: true,
+		_: true,
 		AUI: true,
 		CKEDITOR: true,
 		Liferay: true,
-		_: true,
 		alert: true,
 		confirm: true,
 		submitForm: true,

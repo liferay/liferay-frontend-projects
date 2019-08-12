@@ -18,11 +18,28 @@ const DEPRECATED_MODULES = [
 ];
 
 module.exports = {
+	create(context) {
+		return {
+			ImportDeclaration(node) {
+				if (
+					node.source &&
+					node.source.type === 'Literal' &&
+					DEPRECATED_MODULES.includes(node.source.value)
+				) {
+					context.report({
+						messageId: `no-${node.source.value}`,
+						node,
+					});
+				}
+			},
+		};
+	},
+
 	meta: {
 		docs: {
+			category: 'Deprecated APIs',
 			description:
 				'metal-plugins are deprecated; use local utilities instead',
-			category: 'Deprecated APIs',
 			recommended: false,
 			url: 'https://issues.liferay.com/browse/LPS-96715',
 		},
@@ -50,22 +67,5 @@ module.exports = {
 		},
 		schema: [],
 		type: 'problem',
-	},
-
-	create(context) {
-		return {
-			ImportDeclaration(node) {
-				if (
-					node.source &&
-					node.source.type === 'Literal' &&
-					DEPRECATED_MODULES.includes(node.source.value)
-				) {
-					context.report({
-						messageId: `no-${node.source.value}`,
-						node,
-					});
-				}
-			},
-		};
 	},
 };

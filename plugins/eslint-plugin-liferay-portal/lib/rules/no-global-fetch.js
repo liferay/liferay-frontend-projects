@@ -8,21 +8,6 @@ const DESCRIPTION =
 	'Direct usage of the `fetch` API is discouraged in favour of our wrapped version that takes care of the necessary security configuration; import fetch from frontend-js-web instead';
 
 module.exports = {
-	meta: {
-		docs: {
-			description: DESCRIPTION,
-			category: 'Best Practices',
-			recommended: false,
-			url: 'https://issues.liferay.com/browse/LPS-98283',
-		},
-		fixable: null,
-		messages: {
-			noGlobalFetch: DESCRIPTION,
-		},
-		schema: [],
-		type: 'problem',
-	},
-
 	create(context) {
 		let foundFetchImport = false;
 
@@ -53,5 +38,20 @@ module.exports = {
 				}
 			},
 		};
+	},
+
+	meta: {
+		docs: {
+			category: 'Best Practices',
+			description: DESCRIPTION,
+			recommended: false,
+			url: 'https://issues.liferay.com/browse/LPS-98283',
+		},
+		fixable: null,
+		messages: {
+			noGlobalFetch: DESCRIPTION,
+		},
+		schema: [],
+		type: 'problem',
 	},
 };
