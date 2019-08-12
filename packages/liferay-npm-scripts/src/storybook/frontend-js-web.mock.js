@@ -7,19 +7,19 @@
 /* eslint-disable no-console */
 
 module.exports = {
-	cancelDebounce: () => {},
 	CompatibilityEventProxy: () => {},
 	DefaultEventHandler: () => {},
-	debounce: fn => fn,
-	fetch,
 	ItemSelectorDialog: () => {},
 	Modal: () => {},
-	openSimpleInputModal: config => console.log(config),
-	openToast: config => console.log(config),
-	navigate: (url, listeners) => console.log({url, listeners}),
 	PortletBase: () => {},
 	Slider: () => {},
-	Treeview: () => {}
+	Treeview: () => {},
+	cancelDebounce: () => {},
+	debounce: fn => fn,
+	fetch,
+	navigate: (url, listeners) => console.log({listeners, url}),
+	openSimpleInputModal: config => console.log(config),
+	openToast: config => console.log(config)
 };
 
 /* eslint-enable no-console */

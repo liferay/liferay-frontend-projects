@@ -7,17 +7,17 @@
 const path = require('path');
 
 module.exports = {
+	coverageDirectory: 'build/coverage',
 	globals: {
 		Liferay: {}
 	},
-	coverageDirectory: 'build/coverage',
 	modulePathIgnorePatterns: ['/__fixtures__/', '/build/', '/classes/'],
 	testMatch: ['**/test/**/*.js'],
 	testPathIgnorePatterns: ['/node_modules/', '<rootDir>/test/stories/'],
 	testResultsProcessor: 'liferay-jest-junit-reporter',
 	testURL: 'http://localhost',
 	transform: {
-		'\\.soy$': path.join(__dirname, '..', 'jest', 'transformSoy.js'),
-		'.+': path.join(__dirname, '..', 'jest', 'transformBabel.js')
+		'.+': path.join(__dirname, '..', 'jest', 'transformBabel.js'),
+		'\\.soy$': path.join(__dirname, '..', 'jest', 'transformSoy.js')
 	}
 };

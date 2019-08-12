@@ -56,21 +56,21 @@ function getItemDescription(item) {
 function checkBabelName(name, kind) {
 	const NORMALIZERS = {
 		plugin: {
-			// @babel/plugin-foo -> @babel/foo
-			'^@babel/(?:plugin-)?([\\w-]+)': '@babel/$1',
-
 			// @org/babel-plugin-foo -> @org/foo
 			// babel-plugin-foo      -> foo
-			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2'
+			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2',
+
+			// @babel/plugin-foo -> @babel/foo
+			'^@babel/(?:plugin-)?([\\w-]+)': '@babel/$1'
 		},
 		preset: {
-			// @babel/preset-foo -> @babel/preset-foo
-			// @babel/foo        -> @babel/preset-foo
-			'^@babel/(?:preset-)?([\\w-]+)': '@babel/preset-$1',
-
 			// @org/babel-preset-foo -> @org/foo
 			// babel-preset-foo      -> foo
-			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2'
+			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2',
+
+			// @babel/preset-foo -> @babel/preset-foo
+			// @babel/foo        -> @babel/preset-foo
+			'^@babel/(?:preset-)?([\\w-]+)': '@babel/preset-$1'
 		}
 	};
 
@@ -175,9 +175,9 @@ function babelMerge(key) {
 }
 
 const MODE = Object.freeze({
+	BABEL: 2,
 	DEFAULT: 0,
-	OVERWRITE_ARRAYS: 1,
-	BABEL: 2
+	OVERWRITE_ARRAYS: 1
 });
 
 /**

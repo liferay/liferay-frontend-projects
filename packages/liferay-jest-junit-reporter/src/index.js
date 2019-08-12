@@ -24,10 +24,10 @@ function formatDirectoryPath(dirPath) {
 module.exports = report => {
 	const generalMetrics = {
 		_attr: {
-			hostname: '',
-			id: 0,
 			errors: 0,
 			failures: report.numFailedTests,
+			hostname: '',
+			id: 0,
 			name: 'Jest',
 			package: formatDirectoryPath(process.cwd()),
 			skipped: 0,

@@ -9,8 +9,8 @@ const path = require('path');
 const getRegExpForGlob = require('./getRegExpForGlob');
 
 const DEFAULT_OPTIONS = {
-	type: 'file',
-	maxDepth: Infinity
+	maxDepth: Infinity,
+	type: 'file'
 };
 
 /**
