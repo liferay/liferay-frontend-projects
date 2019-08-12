@@ -1,7 +1,7 @@
 {
-	"name": "liferay-npm-bundler-loader-css-loader",
+	"name": "liferay-npm-bundler-loader-style-loader",
 	"version": "2.11.0",
-	"description": "A liferay-npm-bundler loader that loads css files via AMD.",
+	"description": "A liferay-npm-bundler loader that loads CSS files via AMD.",
 	"main": "lib/index.js",
 	"scripts": {
 		"build": "babel --source-maps -D -d lib src",
