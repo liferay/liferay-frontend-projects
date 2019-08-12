@@ -56,21 +56,25 @@ function getItemDescription(item) {
 function checkBabelName(name, kind) {
 	const NORMALIZERS = {
 		plugin: {
+			/* eslint-disable sort-keys */
 			// @babel/plugin-foo -> @babel/foo
 			'^@babel/(?:plugin-)?([\\w-]+)': '@babel/$1',
 
 			// @org/babel-plugin-foo -> @org/foo
 			// babel-plugin-foo      -> foo
-			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2' // eslint-disable-line sort-keys
+			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2'
+			/* eslint-enable sort-keys */
 		},
 		preset: {
+			/* eslint-disable sort-keys */
 			// @babel/preset-foo -> @babel/preset-foo
 			// @babel/foo        -> @babel/preset-foo
 			'^@babel/(?:preset-)?([\\w-]+)': '@babel/preset-$1',
 
 			// @org/babel-preset-foo -> @org/foo
 			// babel-preset-foo      -> foo
-			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2' // eslint-disable-line sort-keys
+			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2'
+			/* eslint-enable sort-keys */
 		}
 	};
 
