@@ -1,0 +1,21 @@
+{
+	"name": "liferay-npm-bundler-loader-babel-loader",
+	"version": "2.11.0",
+	"description": "A liferay-npm-bundler loader that runs Babel on source files.",
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "babel --source-maps -D -d lib src",
+		"prepublish": "npm run build"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-preset-es2015": "^6.24.1"
+	},
+	"dependencies": {
+		"babel-core": "^6.26.3",
+		"data-urls": "^1.1.0",
+		"liferay-npm-build-tools-common": "2.10.0",
+		"read-json-sync": "^2.0.1",
+		"resolve": "^1.12.0"
+	}
+}
