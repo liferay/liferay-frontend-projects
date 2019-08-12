@@ -51,6 +51,12 @@ console.log(`${myUrl}`);
 
 ### Use case: appending a parameter in a URL
 
+You might need to set multiple values for the same parameter.
+
+While there is no definitive standard, most web frameworks allow multiple values to be associated with a single field (e.g. `field1=value1&field1=value2&field2=value3`).
+
+In order to acheive this behaviour, you can use the `append` method of the [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) interface.
+
 ```
 const myUrl = new URL('http://localhost:8080/?foo=baz');
 
