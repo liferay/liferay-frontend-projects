@@ -149,7 +149,12 @@ will arise during runtime.
  * @return {void}
  */
 function abort(err) {
-	log.error(err);
+	log.error(`
+
+${err.stack}
+
+`);
+
 	process.exit(1);
 }
 

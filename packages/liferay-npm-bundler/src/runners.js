@@ -233,7 +233,14 @@ function runLoadersFrom(index, rule, context) {
 
 	const use = rule.use[index];
 
-	const result = use.exec(context, use.options);
+	let result;
+
+	try {
+		result = use.exec(context, use.options);
+	} catch (err) {
+		err.message = `Loader '${use.loader}' failed: ${err.message}`;
+		throw err;
+	}
 
 	return Promise.resolve(result).then(content =>
 		runLoadersFrom(index + 1, rule, Object.assign(context, {content}))
