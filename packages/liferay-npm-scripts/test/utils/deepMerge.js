@@ -131,16 +131,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['a', ['b', {foo: true, bar: false}]]
+							plugins: ['a', ['b', {bar: false, foo: true}]]
 						},
 						{
-							plugins: [['b', {foo: false, baz: null}], 'c']
+							plugins: [['b', {baz: null, foo: false}], 'c']
 						}
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', ['b', {foo: false, bar: false, baz: null}], 'c']
+				plugins: ['a', ['b', {bar: false, baz: null, foo: false}], 'c']
 			});
 		});
 
@@ -167,19 +167,19 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['a', ['b', {option: 1}]],
-							ignore: ['./mocks/*.js']
+							ignore: ['./mocks/*.js'],
+							plugins: ['a', ['b', {option: 1}]]
 						},
 						{
-							plugins: ['c'],
-							ignore: ['./tests/*.disabled.js']
+							ignore: ['./tests/*.disabled.js'],
+							plugins: ['c']
 						}
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', ['b', {option: 1}], 'c'],
-				ignore: ['./mocks/*.js', './tests/*.disabled.js']
+				ignore: ['./mocks/*.js', './tests/*.disabled.js'],
+				plugins: ['a', ['b', {option: 1}], 'c']
 			});
 		});
 
@@ -190,6 +190,7 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
+							ignore: ['*.mjs'],
 							plugins: [
 								'a',
 								['b', {option: 1}],
@@ -201,81 +202,80 @@ describe('deepMerge()', () => {
 								'b',
 								'c',
 								['d', {foo: 1}]
-							],
-							ignore: ['*.mjs']
+							]
 						},
 						{
+							extends: 'other',
 							plugins: ['d'],
 							presets: [
 								'a',
-								['d', {foo: 2, bar: 3}],
+								['d', {bar: 3, foo: 2}],
 								['e', {true: false}],
 								'c'
-							],
-							extends: 'other'
+							]
 						}
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
+				extends: 'other',
+				ignore: ['*.mjs'],
 				plugins: ['a', ['b', {option: 1}], ['c', {option: 2}], 'd'],
 				presets: [
 					['a', {targets: [1, 2]}],
 					'b',
 					'c',
-					['d', {foo: 2, bar: 3}],
+					['d', {bar: 3, foo: 2}],
 					['e', {true: false}]
-				],
-				ignore: ['*.mjs'],
-				extends: 'other'
+				]
 			});
 		});
 
 		it("doesn't break the segments-web build (regression test)", () => {
 			const localConfig = {
-				presets: ['@babel/preset-react'],
 				plugins: [
 					[
 						'module-resolver',
 						{
-							root: [
-								'./src/main/resources/META-INF/resources/js/'
-							],
 							alias: {
 								test: './test/js/'
-							}
+							},
+							root: [
+								'./src/main/resources/META-INF/resources/js/'
+							]
 						}
 					]
-				]
+				],
+				presets: ['@babel/preset-react']
 			};
 
 			const defaultConfig = {
-				presets: ['@babel/preset-env'],
 				plugins: [
 					'@babel/proposal-class-properties',
 					'@babel/proposal-object-rest-spread'
-				]
+				],
+				presets: ['@babel/preset-env']
 			};
 
 			expect(
 				deepMerge([defaultConfig, localConfig], deepMerge.MODE.BABEL)
 			).toEqual({
-				presets: ['@babel/preset-env', '@babel/preset-react'],
 				plugins: [
 					'@babel/proposal-class-properties',
 					'@babel/proposal-object-rest-spread',
 					[
 						'module-resolver',
 						{
-							root: [
-								'./src/main/resources/META-INF/resources/js/'
-							],
 							alias: {
 								test: './test/js/'
-							}
+							},
+							root: [
+								'./src/main/resources/META-INF/resources/js/'
+							]
 						}
 					]
-				]
+				],
+				presets: ['@babel/preset-env', '@babel/preset-react']
 			});
 		});
 

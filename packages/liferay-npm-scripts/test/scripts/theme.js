@@ -131,12 +131,12 @@ describe('scripts/theme.js', () => {
 			expect(prepareAdditionalBuildArgs()).toEqual([
 				'--css-common-path',
 				normalize('build_gradle/frontend-css-common'),
+				'--sass-include-paths',
+				NODE_MODULES,
 				'--styled-path',
 				STYLED,
 				'--unstyled-path',
-				UNSTYLED,
-				'--sass-include-paths',
-				NODE_MODULES
+				UNSTYLED
 			]);
 		});
 
@@ -145,12 +145,12 @@ describe('scripts/theme.js', () => {
 			expect(prepareAdditionalBuildArgs()).toEqual([
 				'--css-common-path',
 				normalize('build_gradle/frontend-css-common'),
+				'--sass-include-paths',
+				NODE_MODULES,
 				'--styled-path',
 				STYLED,
 				'--unstyled-path',
-				UNSTYLED,
-				'--sass-include-paths',
-				NODE_MODULES
+				UNSTYLED
 			]);
 		});
 	});
@@ -170,12 +170,12 @@ describe('scripts/theme.js', () => {
 					'build',
 					'--css-common-path',
 					normalize('build_gradle/frontend-css-common'),
+					'--sass-include-paths',
+					NODE_MODULES,
 					'--styled-path',
 					STYLED,
 					'--unstyled-path',
-					UNSTYLED,
-					'--sass-include-paths',
-					NODE_MODULES
+					UNSTYLED
 				]);
 			});
 
@@ -186,12 +186,12 @@ describe('scripts/theme.js', () => {
 					'build',
 					'--css-common-path',
 					normalize('build_gradle/frontend-css-common'),
+					'--sass-include-paths',
+					NODE_MODULES,
 					'--styled-path',
 					STYLED,
 					'--unstyled-path',
-					UNSTYLED,
-					'--sass-include-paths',
-					NODE_MODULES
+					UNSTYLED
 				]);
 			});
 

@@ -13,13 +13,13 @@ const MODULES_DIR = '<RootDir>';
 
 const BUILD_ARGS = {
 	'--css-common-path': path.normalize('build_gradle/frontend-css-common'),
+	'--sass-include-paths': path.normalize(`${MODULES_DIR}/node_modules`),
 	'--styled-path': path.normalize(
 		`${MODULES_DIR}/apps/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled`
 	),
 	'--unstyled-path': path.normalize(
 		`${MODULES_DIR}/apps/frontend-theme/frontend-theme-unstyled/src/main/resources/META-INF/resources/_unstyled`
-	),
-	'--sass-include-paths': path.normalize(`${MODULES_DIR}/node_modules`)
+	)
 };
 
 /**

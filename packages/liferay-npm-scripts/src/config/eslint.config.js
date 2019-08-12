@@ -26,17 +26,17 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: CONFIG_FILES,
 			env: {
 				node: true
-			}
+			},
+			files: CONFIG_FILES
 		},
 		{
-			files: ['**/test/**/*.js'],
 			env: {
 				jest: true,
 				node: true
-			}
+			},
+			files: ['**/test/**/*.js']
 		}
 	],
 	parser: 'babel-eslint',
