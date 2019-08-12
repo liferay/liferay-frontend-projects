@@ -17,14 +17,6 @@ const DEPRECATED_MODULES = [
 	'metal-useragent',
 ];
 
-const toCamelCase = input => {
-	return input
-		.replace(/^[_.\- ]+/, '')
-		.toLowerCase()
-		.replace(/[_.\- ]+(\w|$)/g, (_, p1) => p1.toUpperCase())
-		.replace(/\d+(\w|$)/g, m => m.toUpperCase());
-};
-
 module.exports = {
 	meta: {
 		docs: {
@@ -36,24 +28,24 @@ module.exports = {
 		},
 		fixable: null,
 		messages: {
-			noMetalAjax:
+			'no-metal-ajax':
 				"metal-ajax is deprecated; use `import {fetch} from 'frontend-js-web';` instead",
-			noMetalAop:
+			'no-metal-aop':
 				"metal-aop is deprecated; use `import {AOP} from 'frontend-js-web';` instead",
-			noMetalClipboard:
+			'no-metal-clipboard':
 				'metal-clipboard is deprecated; use ClipboardJS instead',
-			noMetalDebounce:
+			'no-metal-debounce':
 				"metal-debounce is deprecated; use `import {debounce} from 'frontend-js-web';` instead",
-			noMetalKeyboardFocus:
+			'no-metal-keyboard-focus':
 				"metal-keyboard-focus is deprecated; use `import {debounce} from 'frontend-js-web';` instead",
-			noMetalPromise:
+			'no-metal-promise':
 				'metal-promise is deprecated; use native Promise instead',
-			noMetalStorage:
+			'no-metal-storage':
 				'metal-storage is deprecated; use a local implementation instead',
-			noMetalStructs:
+			'no-metal-structs':
 				'metal-structs is deprecated; use plain objects instead',
-			noMetalUri: 'metal-uri is deprecated; use native URL instead',
-			noMetalUseragent:
+			'no-metal-uri': 'metal-uri is deprecated; use native URL instead',
+			'no-metal-useragent':
 				'metal-useragent is deprecated; use `Liferay.Browser` instead',
 		},
 		schema: [],
@@ -69,7 +61,7 @@ module.exports = {
 					DEPRECATED_MODULES.includes(node.source.value)
 				) {
 					context.report({
-						messageId: toCamelCase(`no-${node.source.value}`),
+						messageId: `no-${node.source.value}`,
 						node,
 					});
 				}

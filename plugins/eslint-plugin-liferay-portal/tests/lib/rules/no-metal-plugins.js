@@ -23,7 +23,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import Ajax from 'metal-ajax';",
 			errors: [
 				{
-					messageId: 'noMetalAjax',
+					messageId: 'no-metal-ajax',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -32,7 +32,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import {AOP} from 'metal-aop';",
 			errors: [
 				{
-					messageId: 'noMetalAop',
+					messageId: 'no-metal-aop',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -41,7 +41,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import Clipboard from 'metal-clipboard';",
 			errors: [
 				{
-					messageId: 'noMetalClipboard',
+					messageId: 'no-metal-clipboard',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -50,7 +50,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import {debounce} from 'metal-debounce';",
 			errors: [
 				{
-					messageId: 'noMetalDebounce',
+					messageId: 'no-metal-debounce',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -59,7 +59,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import KeyboardFocusManager from 'metal-keyboard-focus';",
 			errors: [
 				{
-					messageId: 'noMetalKeyboardFocus',
+					messageId: 'no-metal-keyboard-focus',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -68,7 +68,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import {CancellablePromise} from 'metal-promise';",
 			errors: [
 				{
-					messageId: 'noMetalPromise',
+					messageId: 'no-metal-promise',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -78,7 +78,7 @@ ruleTester.run('no-metal-plugins', rule, {
 				"import {LocalStorageMechanism, Storage} from 'metal-storage';",
 			errors: [
 				{
-					messageId: 'noMetalStorage',
+					messageId: 'no-metal-storage',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -87,7 +87,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import {MultiMap} from 'metal-structs';",
 			errors: [
 				{
-					messageId: 'noMetalStructs',
+					messageId: 'no-metal-structs',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -96,7 +96,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import URI from 'metal-uri';",
 			errors: [
 				{
-					messageId: 'noMetalUri',
+					messageId: 'no-metal-uri',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -105,7 +105,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			code: "import UA from 'metal-useragent';",
 			errors: [
 				{
-					messageId: 'noMetalUseragent',
+					messageId: 'no-metal-useragent',
 					type: 'ImportDeclaration',
 				},
 			],
