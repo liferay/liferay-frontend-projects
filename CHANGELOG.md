@@ -1,3 +1,13 @@
+## [v6.0.0](https://github.com/liferay/eslint-config-liferay/tree/v6.0.0) (2019-08-12)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v5.0.0...v6.0.0)
+
+- chore: fixes sorting of keys ([\#64](https://github.com/liferay/eslint-config-liferay/pull/64))
+- feat!: enables sort-keys rule to make sure keys are sorted alphabetically in ascending order ([\#63](https://github.com/liferay/eslint-config-liferay/pull/63))
+- feat: adds no-global-fetch rule to avoid direct usage of fetch in favour of our thin wrapper ([\#62](https://github.com/liferay/eslint-config-liferay/pull/62))
+- feat: adds no-metal-plugins rule to avoid deprecated metal-* imports ([\#61](https://github.com/liferay/eslint-config-liferay/pull/61))
+- doc: remove unnecessary blank line from CONTRIBUTING.md ([\#60](https://github.com/liferay/eslint-config-liferay/pull/60))
+
 ## [v5.0.0](https://github.com/liferay/eslint-config-liferay/tree/v5.0.0) (2019-08-08)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v4.6.0...v5.0.0)
