@@ -16,12 +16,6 @@ const config = {
 	plugins: ['react', 'react-hooks'],
 	rules: {
 		/**
-		 * @see https://reactjs.org/docs/hooks-rules.html
-		 */
-		'react-hooks/exhaustive-deps': 'warn',
-		'react-hooks/rules-of-hooks': 'error',
-
-		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react
 		 */
 		'react/jsx-fragments': 'error',
@@ -41,6 +35,12 @@ const config = {
 		'react/no-unescaped-entities': 'error',
 		'react/no-unknown-property': 'error',
 		'react/require-render-return': 'error',
+
+		/**
+		 * @see https://reactjs.org/docs/hooks-rules.html
+		 */
+		'react-hooks/exhaustive-deps': 'warn',
+		'react-hooks/rules-of-hooks': 'error',
 	},
 	settings: {
 		react: {

@@ -10,15 +10,6 @@ const rule = require('../../../lib/rules/no-it-should');
 const ruleTester = new RuleTester();
 
 ruleTester.run('no-it-should', rule, {
-	valid: [
-		{
-			code: 'it("behaves")',
-		},
-		{
-			code: `it('has a checkbox with label "should notify"')`,
-		},
-	],
-
 	invalid: [
 		{
 			code: "it('should do the right thing')",
@@ -28,6 +19,15 @@ ruleTester.run('no-it-should', rule, {
 					type: 'Literal',
 				},
 			],
+		},
+	],
+
+	valid: [
+		{
+			code: 'it("behaves")',
+		},
+		{
+			code: `it('has a checkbox with label "should notify"')`,
 		},
 	],
 });

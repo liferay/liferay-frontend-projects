@@ -5,27 +5,22 @@
  */
 
 module.exports = {
-	meta: {
-		docs: {
-			description:
-				'jQuery `sideNavigation` plugin is deprecated; use Liferay.SideNavigation instead',
-			category: 'Deprecated APIs',
-			recommended: false,
-			url: 'https://issues.liferay.com/browse/LPS-96486',
-		},
-		fixable: null,
-		messages: {
-			noDataToggleSidenav:
-				'data-toggle="sidenav" is deprecated; use data-toggle="liferay-sidenav" instead',
-			noSideNavigation:
-				'sideNavigation() is deprecated; use Liferay.SideNavigation() instead',
-		},
-		schema: [],
-		type: 'problem',
-	},
-
 	create(context) {
 		return {
+			CallExpression(node) {
+				if (
+					node.callee.type === 'MemberExpression' &&
+					node.callee.property &&
+					node.callee.property.type === 'Identifier' &&
+					node.callee.property.name === 'sideNavigation'
+				) {
+					context.report({
+						messageId: 'noSideNavigation',
+						node,
+					});
+				}
+			},
+
 			JSXAttribute(node) {
 				if (
 					node.type === 'JSXAttribute' &&
@@ -42,20 +37,25 @@ module.exports = {
 					});
 				}
 			},
-
-			CallExpression(node) {
-				if (
-					node.callee.type === 'MemberExpression' &&
-					node.callee.property &&
-					node.callee.property.type === 'Identifier' &&
-					node.callee.property.name === 'sideNavigation'
-				) {
-					context.report({
-						messageId: 'noSideNavigation',
-						node,
-					});
-				}
-			},
 		};
+	},
+
+	meta: {
+		docs: {
+			category: 'Deprecated APIs',
+			description:
+				'jQuery `sideNavigation` plugin is deprecated; use Liferay.SideNavigation instead',
+			recommended: false,
+			url: 'https://issues.liferay.com/browse/LPS-96486',
+		},
+		fixable: null,
+		messages: {
+			noDataToggleSidenav:
+				'data-toggle="sidenav" is deprecated; use data-toggle="liferay-sidenav" instead',
+			noSideNavigation:
+				'sideNavigation() is deprecated; use Liferay.SideNavigation() instead',
+		},
+		schema: [],
+		type: 'problem',
 	},
 };

@@ -138,21 +138,6 @@ function fix(elementOrProperty, context, fixer) {
 }
 
 module.exports = {
-	meta: {
-		docs: {
-			description: DESCRIPTION,
-			category: 'Best Practices',
-			recommended: false,
-			url: 'https://github.com/liferay/eslint-config-liferay/pull/53',
-		},
-		fixable: 'code',
-		messages: {
-			noExplicitExtend: DESCRIPTION,
-		},
-		schema: [],
-		type: 'problem',
-	},
-
 	create(context) {
 		const filename = path.basename(context.getFilename());
 
@@ -184,5 +169,20 @@ module.exports = {
 				}
 			},
 		};
+	},
+
+	meta: {
+		docs: {
+			category: 'Best Practices',
+			description: DESCRIPTION,
+			recommended: false,
+			url: 'https://github.com/liferay/eslint-config-liferay/pull/53',
+		},
+		fixable: 'code',
+		messages: {
+			noExplicitExtend: DESCRIPTION,
+		},
+		schema: [],
+		type: 'problem',
 	},
 };

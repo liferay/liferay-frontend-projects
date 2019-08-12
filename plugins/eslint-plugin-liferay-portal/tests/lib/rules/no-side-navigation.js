@@ -16,18 +16,6 @@ const parserOptions = {
 const ruleTester = new RuleTester({parserOptions});
 
 ruleTester.run('no-side-navigation', rule, {
-	valid: [
-		{
-			code: 'Liferay.SideNavigation.intialize(toggler)',
-		},
-		{
-			code: 'Liferay.SideNavigation.hide(toggler)',
-		},
-		{
-			code: '<span data-toggle="liferay-sidenav"></span>',
-		},
-	],
-
 	invalid: [
 		{
 			code: '$(toggler).sideNavigation()',
@@ -64,6 +52,18 @@ ruleTester.run('no-side-navigation', rule, {
 					type: 'JSXAttribute',
 				},
 			],
+		},
+	],
+
+	valid: [
+		{
+			code: 'Liferay.SideNavigation.intialize(toggler)',
+		},
+		{
+			code: 'Liferay.SideNavigation.hide(toggler)',
+		},
+		{
+			code: '<span data-toggle="liferay-sidenav"></span>',
 		},
 	],
 });

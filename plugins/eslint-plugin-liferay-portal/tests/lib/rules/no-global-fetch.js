@@ -17,6 +17,23 @@ const parserOptions = {
 const ruleTester = new RuleTester(parserOptions);
 
 ruleTester.run('no-global-fetch', rule, {
+	invalid: [
+		{
+			// As a global fetch without an import.
+			code: `
+				function doSomething(url) {
+					return fetch(url);
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noGlobalFetch',
+					type: 'CallExpression',
+				},
+			],
+		},
+	],
+
 	valid: [
 		{
 			// Imported from frontend-js-web
@@ -35,22 +52,6 @@ ruleTester.run('no-global-fetch', rule, {
 					return Liferay.Util.fetch(url);
 				}
 			`,
-		},
-	],
-	invalid: [
-		{
-			// As a global fetch without an import.
-			code: `
-				function doSomething(url) {
-					return fetch(url);
-				};
-			`,
-			errors: [
-				{
-					messageId: 'noGlobalFetch',
-					type: 'CallExpression',
-				},
-			],
 		},
 	],
 });
