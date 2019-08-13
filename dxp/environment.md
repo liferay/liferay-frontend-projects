@@ -117,7 +117,7 @@ If you want `NODE_ENV=development` to apply persistently when developing inside 
 
 ### Making a development build of React
 
-Building a development version of React enhances the debugging experience. To do this, deploy a development build from inside [the frontend-js-react-web module](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-js/frontend-js-react-web):
+Building a development version of React enhances the debugging experience in [the React Dev Tools](https://github.com/facebook/react-devtools). To do this, deploy a development build from inside [the frontend-js-react-web module](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-js/frontend-js-react-web):
 
 ```sh
 env NODE_ENV=development gradlew clean deploy -a
