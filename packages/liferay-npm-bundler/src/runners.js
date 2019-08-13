@@ -255,7 +255,9 @@ function runLoadersFrom(index, rule, context) {
 }
 
 function runRule(rule, pkg) {
-	const globs = gl.prefix(`${pkg.dir}/`, rule.files);
+	let globs = gl.prefix(`${pkg.dir}/`, rule.files);
+
+	globs = [...globs, `!${pkg.dir}/node_modules/**/*`];
 
 	const filePromises = globby.sync(globs).map(filePath => {
 		const content = fs.readFileSync(filePath, 'utf-8').toString();

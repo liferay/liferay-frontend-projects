@@ -67,6 +67,10 @@ export class Project {
 					files = source.files || '**/*';
 				}
 
+				if (!Array.isArray(files)) {
+					files = [files];
+				}
+
 				return {
 					dir: path.normalize(dir),
 					files,
