@@ -9,7 +9,7 @@
  * @return {string} the processed file content
  */
 export default function(context) {
-	const {content, filePath} = context;
+	const {content, filePath, log} = context;
 
 	context.extraArtifacts[`${filePath}.js`] = `
 var css = "${content.replace(/\n/g, '')}";
@@ -18,4 +18,6 @@ style.setAttribute("type", "text/css");
 style.appendChild(document.createTextNode(css));
 document.querySelector("head").appendChild(style);
 `;
+
+	log.info('style-loader', `Generated JavaScript CSS module`);
 }

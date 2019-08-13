@@ -184,6 +184,18 @@ export class Report {
 		babel.files[filePath] = {logger};
 	}
 
+	packageProcessRulesConfig(pkg, config) {
+		const {rules} = this._getPackageProcess(pkg.id);
+
+		rules.config = config;
+	}
+
+	packageProcessRulesRun(pkg, filePath, logger) {
+		const {rules} = this._getPackageProcess(pkg.id);
+
+		rules.files[filePath] = {logger};
+	}
+
 	/**
 	 * Get a package slot and create it if missing.
 	 * @param  {String} pkgId the package id
@@ -214,6 +226,10 @@ export class Report {
 
 		rpkg.process = rpkg.process || {
 			copy: {},
+			rules: {
+				config: {},
+				files: {},
+			},
 			pre: {},
 			babel: {
 				config: {},

@@ -13,7 +13,7 @@ import resolveModule from 'resolve';
  * @return {string} the processed file content
  */
 export default function(context, config) {
-	const {content, filePath, sourceMap} = context;
+	const {content, filePath, log, sourceMap} = context;
 
 	const babelConfig = Object.assign(
 		{
@@ -41,6 +41,8 @@ export default function(context, config) {
 
 	context.sourceMap = result.map;
 	context.extraArtifacts[`${filePath}.map`] = JSON.stringify(result.map);
+
+	log.info('babel-loader', 'Transpiled file');
 
 	return result.code;
 }

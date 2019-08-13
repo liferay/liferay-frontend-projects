@@ -198,9 +198,18 @@ function bundleRootPackage(outputDir) {
  * @return {Promise}
  */
 function copyRootPackage(srcPkg, pkg) {
+	const copiedFiles = [];
+	const allFiles = [];
+
 	const promises = project.sources.map(source => {
-		const glob = `${srcPkg.dir}/${source.dir}/${source.files}`;
+		const glob = gl.prefix(`${srcPkg.dir}/${source.dir}/`, source.files);
 		const stripCount = srcPkg.dir.length + 1 + source.dir.length + 1;
+
+		allFiles.push(
+			...globby
+				.sync(`${srcPkg.dir}/${source.dir}/**/*`)
+				.filter(file => fs.statSync(file).isFile())
+		);
 
 		return globby(glob).then(files =>
 			Promise.all(
@@ -208,16 +217,20 @@ function copyRootPackage(srcPkg, pkg) {
 					.filter(file => fs.statSync(file).isFile())
 					.map(file => file.substr(stripCount))
 					.map(file =>
-						fs.copy(
-							path.join(srcPkg.dir, source.dir, file),
-							path.join(pkg.dir, file)
-						)
+						fs
+							.copy(
+								path.join(srcPkg.dir, source.dir, file),
+								path.join(pkg.dir, file)
+							)
+							.then(() => copiedFiles.push(file))
 					)
 			)
 		);
 	});
 
-	return Promise.all(promises);
+	return Promise.all(promises).then(() =>
+		report.packageCopy(pkg, allFiles, copiedFiles)
+	);
 }
 
 /**

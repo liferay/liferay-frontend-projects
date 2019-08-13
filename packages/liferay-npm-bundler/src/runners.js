@@ -99,6 +99,9 @@ export function runBabel(pkg, {ignore = []} = {}) {
 export function runRules(pkg) {
 	const rules = config.bundler.getRules(pkg);
 
+	// Report a copy of the package's rules configuration before loading plugins
+	report.packageProcessRulesConfig(pkg, cloneObject(rules));
+
 	return Promise.all(rules.map(rule => runRule(rule, pkg)));
 }
 
@@ -256,11 +259,13 @@ function runRule(rule, pkg) {
 
 	const filePromises = globby.sync(globs).map(filePath => {
 		const content = fs.readFileSync(filePath, 'utf-8').toString();
+		const log = new PluginLogger();
 
 		const context = {
 			content,
 			filePath,
 			extraArtifacts: {},
+			log,
 		};
 
 		runLoadersFrom(0, rule, context).then(content => {
@@ -270,6 +275,12 @@ function runRule(rule, pkg) {
 				([filePath, content]) => {
 					fs.writeFileSync(filePath, content);
 				}
+			);
+
+			report.packageProcessRulesRun(
+				pkg,
+				filePath.substr(pkg.dir.length + 1),
+				log
 			);
 		});
 	});
