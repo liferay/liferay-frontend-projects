@@ -13,40 +13,27 @@ Additionally, a polyfill is also served for Internet Explorer 11, to ensure the 
 
 ### Use case: creating a relative URL
 
-```
-
+```javascript
 // Note: To create relative URLs the second argument of the URL constructor is required.
-
 const baseUrl = 'http://localhost:8080';
-
 const guestUrl = new URL('/web/guest', baseUrl);
-
-console.log(`The guest URL is ${guestUrl}`);
-
-// Will print: The guest URL is http://localhost:8080/web/guest
+console.log(`The guest URL is ${guestUrl}`); // The guest URL is http://localhost:8080/web/guest
 ```
 
 ### Use case: creating an absolute URL
 
-```
+```javascript
 const portalUrl = new URL('http://localhost:8080');
-
-console.log(`The portal URL is ${portalUrl}`);
-
-// Will print: The portal URL is http://localhost:8080
+console.log(`The portal URL is ${portalUrl}`); // The portal URL is http://localhost:8080
 ```
 
 ### Use case: adding or setting parameters to a URL
 
-```
+```javascript
 const myUrl = new URL('http://localhost:8080');
-
 myUrl.searchParams.set('foo', 0);
 myUrl.searchParams.set('bar', 'baz');
-
-console.log(`${myUrl}`);
-
-// Will print: http://localhost:8080/?foo=0&bar=baz
+console.log(myUrl.toString()); // http://localhost:8080/?foo=0&bar=baz
 ```
 
 ### Use case: appending a parameter in a URL
@@ -57,61 +44,37 @@ While there is no definitive standard, most web frameworks allow multiple values
 
 In order to acheive this behaviour, you can use the `append` method of the [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) interface.
 
-```
+```javascript
 const myUrl = new URL('http://localhost:8080/?foo=baz');
-
 myUrl.searchParams.append('foo', 'another-baz');
-
-console.log(myUrl.toString());
-
-// Will print: http://localhost:8080/?foo=baz&foo=another-baz
+console.log(myUrl.toString()); // http://localhost:8080/?foo=baz&foo=another-baz
 ```
 
 ### Use case: checking for parameters in a URL
 
-```
+```javascript
 const myUrl = new URL('http://localhost:8080/?foo=baz&bar=qux');
 
-console.log(myUrl.searchParams.has('foo'));
-console.log(myUrl.searchParams.has('bar'));
-
-// Will print: true (twice)
-
-
-console.log(myUrl.searchParams.has('not-there'));
-
-// Will print: false
+myUrl.searchParams.has('foo')); // true
+myUrl.searchParams.has('bar')); // true
+myUrl.searchParams.has('not-there'); // false
 ```
 
 ### Use case: getting the value of a parameter in a URL
 
-```
+```javascript
 const myUrl = new URL('http://localhost:8080/?foo=baz&bar=qux');
-
-console.log(myUrl.searchParams.get('foo'));
-
-// Will print: 'baz'
-
-console.log(myUrl.searchParams.get('bar'));
-
-// Will print: 'qux'
-
-console.log(myUrl.searchParams.get('not-there'));
-
-// Will print: null
+myUrl.searchParams.get('foo'); // 'baz'
+myUrl.searchParams.get('bar'); // 'qux'
+myUrl.searchParams.get('not-there') // null;
 ```
 
 ### Use case: deleting a parameter in a URL
 
-```
+```javascript
 const myUrl = new URL('http://localhost:8080/?foo=baz&bar=qux');
-
 myUrl.searchParams.delete('foo');
-
-console.log(myUrl.toString());
-
-// Will print: http://localhost:8080/?bar=qux
-
+console.log(myUrl.toString()); // http://localhost:8080/?bar=qux
 ```
 
 ## More information.
