@@ -30,6 +30,7 @@ const config = {
 		'object-shorthand': 'error',
 		'prefer-const': 'error',
 		'quote-props': ['error', 'as-needed'],
+		radix: 'error',
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
 	},
 };
