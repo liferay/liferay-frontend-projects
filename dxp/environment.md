@@ -108,6 +108,8 @@ env NODE_ENV=development gradlew clean deploy -a
 env NODE_ENV=development yarn build
 ```
 
+> **Note:** We recommend installing the [gradle-launcher package](https://www.npmjs.com/package/gradle-launcher) which provides a global `gradlew` executable that automatically locates and runs the nearest local `gradlew` script.
+
 ### Setting `NODE_ENV` persistently
 
 If you want `NODE_ENV=development` to apply persistently when developing inside liferay-portal you have several options:
