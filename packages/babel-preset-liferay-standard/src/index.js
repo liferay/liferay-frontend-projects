@@ -22,11 +22,14 @@ export default function() {
 			babelPluginAddModuleMetadata,
 			babelPluginNormalizeRequires,
 			babelPluginTransformNodeEnvInline,
-			[babelPluginMinifyDeadCodeElimination, {
-				keepClassName: true,
-				keepFnArgs: true,
-				keepFnName: true,
-			}],
+			[
+				babelPluginMinifyDeadCodeElimination,
+				{
+					keepClassName: true,
+					keepFnArgs: true,
+					keepFnName: true,
+				},
+			],
 			babelPluginWrapModulesAmd,
 			babelPluginNameAmdModules,
 			babelPluginNamespaceModules,
