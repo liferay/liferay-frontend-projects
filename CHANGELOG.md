@@ -1,3 +1,9 @@
+## [v7.0.0](https://github.com/liferay/eslint-config-liferay/tree/v7.0.0) (2019-08-14)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v6.0.0...v7.0.0)
+
+- feat!: activate the "radix" rule ([\#66](https://github.com/liferay/eslint-config-liferay/pull/66))
+
 ## [v6.0.0](https://github.com/liferay/eslint-config-liferay/tree/v6.0.0) (2019-08-12)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v5.0.0...v6.0.0)
