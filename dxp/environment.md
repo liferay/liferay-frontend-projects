@@ -37,7 +37,9 @@ javascript.log.enabled=false
 minifier.enabled=false
 ```
 
-### Enabling telnet access to the [Gogo shell](https://portal.liferay.dev/docs/7-2/customization/-/knowledge_base/c/using-the-felix-gogo-shell)
+### Enabling telnet access to the Gogo shell
+
+You can access the [Gogo shell](https://portal.liferay.dev/docs/7-2/customization/-/knowledge_base/c/using-the-felix-gogo-shell) from the web interface (Control Panel &raquo; Configuration &raquo; Gogo Shell), even in production-like environments. In development contexts, it is useful to enable local access via telnet:
 
 ```
 module.framework.properties.osgi.console=localhost:11311
