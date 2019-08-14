@@ -9,10 +9,14 @@
  * @return {string} the processed file content
  */
 export default function(context) {
-	const {content, filePath, log} = context;
+	const {filePath, log} = context;
+	let {content} = context;
+
+	content = content.replace(/\n/g, '\\n');
+	content = content.replace(/"/g, '\\"');
 
 	context.extraArtifacts[`${filePath}.js`] = `
-var css = "${content.replace(/\n/g, '')}";
+var css = "${content}";
 var style = document.createElement("style");
 style.setAttribute("type", "text/css");
 style.appendChild(document.createTextNode(css));
