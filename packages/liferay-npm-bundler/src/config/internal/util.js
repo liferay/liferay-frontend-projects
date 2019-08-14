@@ -68,7 +68,11 @@ export function getPackageConfig(pkg, section, defaultValue = undefined) {
 		config.packages[pkg.name][section]
 	) {
 		pkgConfig = config.packages[pkg.name][section];
-	} else if (config[pkg.id] && config[pkg.id][section]) {
+	} else if (config.packages['*'] && config.packages['*'][section]) {
+		pkgConfig = config.packages['*'][section];
+	}
+	// Legacy configuration support
+	else if (config[pkg.id] && config[pkg.id][section]) {
 		pkgConfig = config[pkg.id][section];
 	} else if (config[pkg.name] && config[pkg.name][section]) {
 		pkgConfig = config[pkg.name][section];
