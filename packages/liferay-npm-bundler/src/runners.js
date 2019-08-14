@@ -139,13 +139,9 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 					globalConfig: cloneObject(config.getGlobalConfig()),
 				});
 
-				const packageFilePath = pkg.isRoot
-					? filePath.substring(
-							path.resolve(project.buildDir).length + 1
-					  )
-					: filePath.substring(
-							filePath.indexOf(pkg.id) + pkg.id.length + 1
-					  );
+				const packageFilePath = filePath.substring(
+					path.resolve(pkg.dir).length + 1
+				);
 
 				babel.transformFile(
 					filePath,
