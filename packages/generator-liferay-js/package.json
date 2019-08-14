@@ -12,7 +12,7 @@
 		"liferay-js"
 	],
 	"scripts": {
-		"build": "node ./scripts/copy-templates && babel --source-maps -D -d generators src --ignore 'src/*/templates/**/*'",
+		"build": "node ./scripts/copy-templates && babel --source-maps -D -d generators src --ignore 'src/*/templates/**/*' --ignore '**/__tests__/**'",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {
@@ -27,6 +27,7 @@
 	},
 	"dependencies": {
 		"dot-prop": "^5.0.0",
+		"liferay-npm-build-tools-common": "2.11.0",
 		"read-json-sync": "^2.0.0",
 		"yeoman-generator": "^3.1.1"
 	}

@@ -11,10 +11,13 @@ export default class JsonModifier {
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 * @param {String} path path to file
+	 * @param {string|number} space the space string/number of spaces to use
+	 * 			when stringifying
 	 */
-	constructor(generator, path) {
+	constructor(generator, path, space = '	') {
 		this._generator = generator;
 		this._path = path;
+		this._space = space;
 	}
 
 	/**
@@ -37,7 +40,7 @@ export default class JsonModifier {
 
 		modifier(json);
 
-		gen.fs.write(this._path, JSON.stringify(json, null, '	'));
+		gen.fs.write(this._path, JSON.stringify(json, null, this._space));
 	}
 
 	/**

@@ -19,6 +19,11 @@ export default class Jar {
 	 */
 	constructor(project) {
 		this._project = project;
+
+		this._customManifestHeaders = undefined;
+		this._outputDir = undefined;
+		this._outputFilename = undefined;
+		this._webContextPath = undefined;
 	}
 
 	/**
@@ -51,5 +56,74 @@ export default class Jar {
 		}
 
 		return this._customManifestHeaders;
+	}
+
+	/**
+	 * Get output directory for JAR file
+	 */
+	get outputDir() {
+		const {_npmbundlerrc} = this._project;
+
+		if (this._outputDir === undefined) {
+			this._outputDir = prop.get(
+				_npmbundlerrc,
+				'create-jar.output-dir',
+				this.supported ? this._project.buildDir : undefined
+			);
+		}
+
+		return this._outputDir;
+	}
+
+	/**
+	 * Get filename of output JAR file
+	 */
+	get outputFilename() {
+		const {_npmbundlerrc, _pkgJson} = this._project;
+
+		if (this._outputFilename === undefined) {
+			this._outputFilename = prop.get(
+				_npmbundlerrc,
+				'create-jar.output-filename',
+				this.supported
+					? _pkgJson.name + '-' + _pkgJson.version + '.jar'
+					: undefined
+			);
+		}
+
+		return this._outputFilename;
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	get supported() {
+		const {_npmbundlerrc} = this._project;
+
+		return !!prop.get(_npmbundlerrc, 'create-jar', false);
+	}
+
+	get webContextPath() {
+		const {_npmbundlerrc, _pkgJson} = this._project;
+
+		if (!this._webContextPath) {
+			this._webContextPath = prop.get(
+				_npmbundlerrc,
+				'create-jar.features.web-context',
+				// TODO: deprecated 'web-context-path', remove for the next major version
+				prop.get(
+					_npmbundlerrc,
+					'create-jar.web-context-path',
+					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
+					prop.get(
+						_pkgJson,
+						'osgi.Web-ContextPath',
+						`/${_pkgJson.name}-${_pkgJson.version}`
+					)
+				)
+			);
+		}
+
+		return this._webContextPath;
 	}
 }

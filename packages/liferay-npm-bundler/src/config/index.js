@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+// TODO: Move this to whole file to liferay-npm-build-tools-common (see #328)
+
 import prop from 'dot-prop';
 import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
@@ -45,20 +47,6 @@ export function getGlobalConfig() {
 }
 
 /**
- * Get the configured output directory
- * @return {String} the directory path (with native separators)
- */
-export function getOutputDir() {
-	const dir = prop.get(
-		config,
-		'output',
-		isCreateJar() ? 'build' : 'build/resources/main/META-INF/resources'
-	);
-
-	return path.normalize(dir);
-}
-
-/**
  * Get the path to the report file or null if no report is configured.
  * @return {String} a normalized path or null
  */
@@ -80,14 +68,6 @@ export function getVersionsInfo() {
 	info = Object.assign(info, getPluginVersions());
 
 	return info;
-}
-
-/**
- * Whether or not to create an OSGi bundle
- * @return {boolean}
- */
-export function isCreateJar() {
-	return prop.get(config, 'create-jar', false);
 }
 
 /**

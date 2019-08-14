@@ -10,6 +10,7 @@ import globby from 'globby';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import manifest from './manifest';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -127,7 +128,7 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 
 				const packageFilePath = pkg.isRoot
 					? filePath.substring(
-							path.resolve(config.getOutputDir()).length + 1
+							path.resolve(project.buildDir).length + 1
 					  )
 					: filePath.substring(
 							filePath.indexOf(pkg.id) + pkg.id.length + 1

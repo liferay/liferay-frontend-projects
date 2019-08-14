@@ -4,7 +4,7 @@
 	"description": "Babel preset for bundling standard Liferay projects.",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
+		"build": "babel --source-maps -D -d lib src --ignore '**/__tests__/**'",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {
@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"babel-plugin-add-module-metadata": "2.11.0",
+		"babel-plugin-minify-dead-code-elimination": "0.5.0",
 		"babel-plugin-name-amd-modules": "2.11.0",
 		"babel-plugin-namespace-amd-define": "2.11.0",
 		"babel-plugin-namespace-modules": "2.11.0",

@@ -31,13 +31,10 @@ export default function createJar() {
 	addPortletInstanceConfigurationFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
-		fs.mkdirpSync(config.jar.getOutputDir());
+		fs.mkdirpSync(project.jar.outputDir);
 
 		fs.writeFileSync(
-			path.join(
-				config.jar.getOutputDir(),
-				config.jar.getOutputFilename()
-			),
+			path.join(project.jar.outputDir, project.jar.outputFilename),
 			buffer
 		);
 	});
@@ -49,8 +46,8 @@ export default function createJar() {
  */
 function addBuildFiles(zip) {
 	addFiles(
-		config.getOutputDir(),
-		['**/*', `!${config.jar.getOutputFilename()}`],
+		project.buildDir,
+		['**/*', `!${project.jar.outputFilename}`],
 		zip.folder('META-INF').folder('resources')
 	);
 }
@@ -115,7 +112,7 @@ function addManifest(zip) {
 		contents += `Bundle-Name: ${pkgJson.description}\n`;
 	}
 
-	contents += `Web-ContextPath: ${config.jar.getWebContextPath()}\n`;
+	contents += `Web-ContextPath: ${project.jar.webContextPath}\n`;
 
 	contents +=
 		`Provide-Capability: osgi.webresource;` +

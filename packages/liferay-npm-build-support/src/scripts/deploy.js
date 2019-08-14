@@ -6,7 +6,7 @@
 
 import path from 'path';
 import fs from 'fs';
-import readJsonSync from 'read-json-sync';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 import * as cfg from '../config';
 
@@ -14,12 +14,10 @@ import * as cfg from '../config';
  *
  */
 export default function() {
-	const projectDir = cfg.getProjectDir();
-	const outputDir = cfg.getOutputDir();
 	const liferayDir = cfg.getLiferayDir();
 
-	const pkgJson = readJsonSync(path.join(projectDir, 'package.json'));
-	const jarName = pkgJson.name + '-' + pkgJson.version + '.jar';
+	const outputDir = project.jar.outputDir;
+	const jarName = project.jar.outputFilename;
 
 	fs.copyFileSync(
 		path.join(outputDir, jarName),

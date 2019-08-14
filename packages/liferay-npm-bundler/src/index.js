@@ -8,6 +8,7 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
@@ -71,7 +72,7 @@ function run() {
 		const start = process.hrtime();
 
 		// Create work directories
-		const outputDir = path.resolve(config.getOutputDir());
+		const outputDir = path.resolve(project.buildDir);
 		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
 		const promises = [];
@@ -103,7 +104,7 @@ function run() {
 
 		// Report results
 		Promise.all(promises)
-			.then(() => (config.isCreateJar() ? createJar() : undefined))
+			.then(() => (project.jar.supported ? createJar() : undefined))
 			.then(() => {
 				// Report and show execution time
 				const hrtime = process.hrtime(start);
@@ -235,6 +236,11 @@ function bundlePackage(srcPkg, outputDir) {
  */
 function copyPackage(pkg, dir) {
 	const exclusions = config.bundler.getExclusions(pkg);
+
+	// Optimize execution time when a "exclude everything" glob is found
+	if (exclusions.find(exclusion => exclusion === '**/*')) {
+		return Promise.resolve(false);
+	}
 
 	// Determine what to copy
 	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(

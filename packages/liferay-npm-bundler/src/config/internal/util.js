@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+// TODO: Move this whole file to liferay-npm-build-tools-common (see #328)
+
 import resolveModule from 'resolve';
 
 let config;

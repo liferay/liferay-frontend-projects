@@ -1,12 +1,15 @@
 {
 	"create-jar": {
+		"output-dir": "dist",
+		"output-filename": "output.jar",
 		"customManifestHeaders": {
 			"Project-Name": "Overriden in manifest.json",
 			"Responsible": "john.doe@somewhere.net"
 		},
 		"features": {
 			"localization": "features/localization/Language",
-			"manifest": "features/manifest.json"
+			"manifest": "features/manifest.json",
+			"web-context": "/standard"
 		}
 	}
 }

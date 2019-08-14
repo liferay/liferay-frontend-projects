@@ -7,7 +7,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
+import {getPortletName, promptWithConfig} from '../utils';
 import {Copier} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
@@ -92,13 +92,4 @@ export default class extends Generator {
 			);
 		}
 	}
-}
-
-/**
- * Get the portlet name.
- * @param {ProjectAnalyzer} projectAnalyzer
- * @return {string}
- */
-function getPortletName(projectAnalyzer) {
-	return projectAnalyzer.name.replace(/[^A-Za-z0-9]/g, '_');
 }
