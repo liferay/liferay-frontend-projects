@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-function log(message) {
+function log(...messages) {
 	// eslint-disable-next-line no-console
-	console.log(message);
+	messages.forEach(message => console.log(message));
 }
 
 module.exports = log;
