@@ -34,18 +34,16 @@ module.exports = function(arrArgs = []) {
 			NODE_ENV: 'test'
 		};
 
-		if (process.env.NODE_ENV !== 'test') {
-			log('Using NODE_ENV: "test"');
+		const {NODE_ENV} = process.env;
 
-			if (process.env.NODE_ENV) {
-				log(
-					'',
-					'Jest requires a NODE_ENV of "test", so the pre-existing',
-					`NODE_ENV of ${JSON.stringify(
-						process.env.NODE_ENV
-					)} was overridden`
-				);
-			}
+		if (!NODE_ENV || NODE_ENV === 'test') {
+			log('Using NODE_ENV: "test"');
+		} else {
+			log(
+				`Overriding pre-existing NODE_ENV: ${JSON.stringify(
+					NODE_ENV
+				)} → "test"`
+			);
 		}
 
 		withBabelConfig(() => {
