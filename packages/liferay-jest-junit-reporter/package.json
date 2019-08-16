@@ -10,14 +10,12 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jbalsas/liferay-jest-junit-reporter.git"
+		"url": "https://github.com/liferay/liferay-npm-tools",
+		"directory": "packages/liferay-jest-junit-reporter"
 	},
 	"author": "",
 	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/jbalsas/liferay-jest-junit-reporter/issues"
-	},
-	"homepage": "https://github.com/jbalsas/liferay-jest-junit-reporter#readme",
+	"homepage": "https://github.com/liferay/liferay-npm-tools/packages/liferay-jest-junit-reporter",
 	"dependencies": {
 		"strip-ansi": "^5.0.0",
 		"xml": "^1.0.1"
