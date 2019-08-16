@@ -12,6 +12,12 @@
 		"liferay-npm-bundler-plugin-replace-browser-modules": "2.12.0",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.12.0"
 	},
+	"homepage": "https://github.com/liferay/liferay-npm-tools/packages/liferay-npm-bundler-preset-liferay-dev",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-npm-tools",
+		"directory": "packages/liferay-npm-bundler-preset-liferay-dev"
+	},
 	"scripts": {
 		"postversion": "node ../../publish.js",
 		"preversion": "cd ../.. && yarn ci",
