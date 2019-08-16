@@ -10,7 +10,6 @@ Make sure you read the documentation referenced above to make sure you fully und
 
 Additionally, a polyfill is also served for Internet Explorer 11, to ensure the `URL` API can be used correcly.
 
-
 ### Use case: creating a relative URL
 
 ```javascript
@@ -66,7 +65,7 @@ myUrl.searchParams.has('not-there'); // false
 const myUrl = new URL('http://localhost:8080/?foo=baz&bar=qux');
 myUrl.searchParams.get('foo'); // 'baz'
 myUrl.searchParams.get('bar'); // 'qux'
-myUrl.searchParams.get('not-there') // null;
+myUrl.searchParams.get('not-there'); // null;
 ```
 
 ### Use case: deleting a parameter in a URL
