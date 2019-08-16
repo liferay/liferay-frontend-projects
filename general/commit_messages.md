@@ -4,6 +4,8 @@
 
 This repo follows the "[Conventional Commits](https://www.conventionalcommits.org/)" specification, and we should also apply it in our other GitHub repos (with the exception of [liferay-portal](https://github.com/liferay/liferay-portal)). The specification provides consistent structure and metadata for our commits. If we additionally follow the same patterns for our Pull Requests, we can accurately generate accurate and informative release notes as well.
 
+In this repo, we use the [Semantic Pull Request](https://github.com/probot/semantic-pull-requests) bot to check for deviations from the format (see the [bot configuration](https://github.com/liferay/liferay-frontend-guidelines/blob/master/.github/semantic.yml), and a [sample bad PR](https://github.com/liferay/liferay-frontend-guidelines/pull/71)).
+
 ## Message format
 
 Each message consists of a title and optional body and footer. The title has a special format that includes a type, an optional scope and a description of the change:
