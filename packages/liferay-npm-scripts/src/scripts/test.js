@@ -7,6 +7,7 @@
 const fs = require('fs');
 
 const getMergedConfig = require('../utils/getMergedConfig');
+const log = require('../utils/log');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const withBabelConfig = require('../utils/withBabelConfig');
@@ -28,8 +29,27 @@ module.exports = function(arrArgs = []) {
 			buildSoy();
 		}
 
+		const env = {
+			...process.env,
+			NODE_ENV: 'test'
+		};
+
+		const {NODE_ENV} = process.env;
+
+		if (!NODE_ENV || NODE_ENV === 'test') {
+			log('Using NODE_ENV: "test"');
+		} else {
+			log(
+				`Overriding pre-existing NODE_ENV: ${JSON.stringify(
+					NODE_ENV
+				)} → "test"`
+			);
+		}
+
 		withBabelConfig(() => {
-			spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)]);
+			spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
+				env
+			});
 		});
 
 		if (useSoy) {

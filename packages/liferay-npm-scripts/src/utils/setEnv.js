@@ -25,9 +25,13 @@ const log = require('./log');
  */
 function setEnv(env) {
 	if (process.env.NODE_ENV) {
-		log(`Using pre-existing NODE_ENV: ${process.env.NODE_ENV}`);
+		log(
+			`Using pre-existing NODE_ENV: ${JSON.stringify(
+				process.env.NODE_ENV
+			)}`
+		);
 	} else {
-		log(`Using NODE_ENV: ${env}`);
+		log(`Using NODE_ENV: ${JSON.stringify(env)}`);
 		process.env.NODE_ENV = env;
 	}
 }
