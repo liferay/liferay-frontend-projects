@@ -37,6 +37,8 @@ module.exports = report => {
 		}
 	};
 
+	const moduleName = generalMetrics._attr.package.substr(0,generalMetrics._attr.package.indexOf('.'))
+
 	const testResults = report.testResults
 		.reduce(
 			(results, suite) =>
@@ -56,7 +58,8 @@ module.exports = report => {
 					_attr: {
 						classname: formatDirectoryPath(
 							path.dirname(testCase.testFilePath)
-						),
+						)
+							.concat('.[',moduleName,']'),
 						name: testCase.fullName,
 						time: testCase.duration / 1000
 					}
