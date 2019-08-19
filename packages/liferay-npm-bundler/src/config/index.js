@@ -9,6 +9,7 @@
 import prop from 'dot-prop';
 import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
@@ -65,7 +66,11 @@ export function getVersionsInfo() {
 		'liferay-npm-bundler': pkgJson.version,
 	};
 
-	info = Object.assign(info, getPluginVersions());
+	info = Object.assign(
+		info,
+		getPluginVersions(),
+		project.rules.loaderVersionsInfo
+	);
 
 	return info;
 }
