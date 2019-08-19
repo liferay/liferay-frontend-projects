@@ -22,6 +22,9 @@ function formatDirectoryPath(dirPath) {
 }
 
 module.exports = report => {
+	const pkg = formatDirectoryPath(process.cwd());
+	const moduleName = pkg.split('.')[0];
+
 	const generalMetrics = {
 		_attr: {
 			errors: 0,
@@ -29,7 +32,7 @@ module.exports = report => {
 			hostname: '',
 			id: 0,
 			name: 'Jest',
-			package: formatDirectoryPath(process.cwd()),
+			package: pkg,
 			skipped: 0,
 			tests: report.numTotalTests,
 			time: 0,
@@ -54,9 +57,9 @@ module.exports = report => {
 			const results = [
 				{
 					_attr: {
-						classname: formatDirectoryPath(
+						classname: `${formatDirectoryPath(
 							path.dirname(testCase.testFilePath)
-						),
+						)}.[${moduleName}]`,
 						name: testCase.fullName,
 						time: testCase.duration / 1000
 					}
