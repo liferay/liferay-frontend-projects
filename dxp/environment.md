@@ -91,7 +91,7 @@ Similar to how our runtime settings have "production"-like defaults, in the abse
 
 Jest tests will _run_ in the "test" environment by default.
 
-Note, however, that our CI infrastructure performs a standard build before running any tests, and that build uses a `NODE_ENV` of "production".
+Note, however, that our CI infrastructure performs a standard build before running any tests, and that build effectively uses a `NODE_ENV` of "production".
 
 ### `NODE_ENV=development`
 
@@ -113,18 +113,26 @@ When invoking `yarn` directly, you can set the `NODE_ENV` in the traditional way
 env NODE_ENV=development yarn build
 ```
 
-When using `ant` or `gradlew`, the `nodejs.node.env` property defined in [the `build.properties` file](https://github.com/liferay/liferay-portal/blob/master/build.properties) at the top of the [liferay-portal repo](https://github.com/liferay/liferay-portal) controls the value of `NODE_ENV` passed to the tools. It defaults to "production".
+When using `ant` or `gradlew`, the `nodejs.node.env` property defined in [the `build.properties` file](https://github.com/liferay/liferay-portal/blob/master/build.properties) at the top of the [liferay-portal repo](https://github.com/liferay/liferay-portal) controls the value of `NODE_ENV` passed to the tools. It defaults to empty, which is equivalent to "production".
 
-You can use `-P` flag to override the `nodejs.node.env` setting when running `gradlew`:
+To override the value in a Gradle run:
 
 ```sh
+# Use `-P` to override `nodejs.node.env` from build.properties:
 gradlew clean deploy -a -Pnodejs.node.env=development
+
+# If `nodejs.node.env` is not set in build.properties, a simple `env NODE_ENV` will work too:
+env NODE_ENV=development gradlew clean deploy -a
 ```
 
-When running `ant`, you can apply the override with the `-D` flag:
+To override the value in an Ant run:
 
 ```sh
+# Use `-D` to override `nodejs.node.env` from build.properties:
 ant all -Dnodejs.node.env=development
+
+# If `nodejs.node.env` is not set in build.properties, a simple `env NODE_ENV` will work too:
+env NODE_ENV=development ant all
 ```
 
 > **Warning:** Using `-D` in this way will cause `ant` to cache a copy of the override in your `.gradle/gradle.properties` file, which means it _will_ take effect on following `gradlew` runs.
