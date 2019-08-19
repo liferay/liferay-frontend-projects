@@ -14,6 +14,7 @@ import resolveModule from 'resolve';
 import Jar from './jar';
 import Localization from './localization';
 import Probe from './probe';
+import Rules from './rules';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -40,6 +41,7 @@ export class Project {
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.probe = new Probe(this);
+		this.rules = new Rules(this);
 	}
 
 	/**
@@ -106,6 +108,27 @@ export class Project {
 	 */
 	get dir() {
 		return this._projectDir;
+	}
+
+	/**
+	 * Get project's parsed package.json file
+	 */
+	get pkgJson() {
+		return this._pkgJson;
+	}
+
+	/**
+	 * Requires a module in the context of the project (as opposed to the
+	 * context of the calling package which would just use a normal `require()`
+	 * call).
+	 * @param {string} moduleName
+	 */
+	require(moduleName) {
+		const modulePath = resolveModule.sync(moduleName, {
+			basedir: this._projectDir,
+		});
+
+		return require(modulePath);
 	}
 
 	_loadNpmbundlerrc() {

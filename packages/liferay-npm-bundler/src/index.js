@@ -11,7 +11,6 @@ import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import pretty from 'pretty-time';
-import readJsonSync from 'read-json-sync';
 
 import * as config from './config';
 import {addPackageDependencies, getRootPkg} from './dependencies';
@@ -21,7 +20,7 @@ import * as log from './log';
 import manifest from './manifest';
 import report from './report';
 
-import {runPlugins, runBabel, runRules} from './runners';
+import {runRules, runBundlerPlugins, runCopyPlugins, runBabel} from './runners';
 import {
 	iterateSerially,
 	renamePkgDirIfPkgJsonChanged,
@@ -71,39 +70,30 @@ function run() {
 	try {
 		const start = process.hrtime();
 
-		// Create work directories
-		const outputDir = path.resolve(project.buildDir);
-		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
+		// Get root package
+		const rootPkg = getRootPkg();
 
-		const promises = [];
+		report.rootPackage(rootPkg);
 
-		// Copy project's package.json
-		promises.push(bundleRootPackage(outputDir));
-		report.rootPackage(getRootPkg());
-
-		// Grab NPM dependencies
+		// Compute dependency packages
 		let pkgs = addPackageDependencies(
 			{},
 			'.',
 			config.bundler.getIncludeDependencies()
 		);
 
-		pkgs = Object.keys(pkgs)
-			.map(id => pkgs[id])
-			.filter(pkg => !pkg.isRoot);
+		pkgs = Object.values(pkgs).filter(pkg => !pkg.isRoot);
 
 		report.dependencies(pkgs);
-		reportLinkedDependencies(readJsonSync('package.json'));
+		reportLinkedDependencies(project.pkgJson);
 
-		// Process NPM dependencies
-		log.info(`Bundling ${pkgs.length} dependencies...`);
+		// Create work directories
+		const outputDir = path.resolve(project.buildDir);
+		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
-		promises.push(
-			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
-		);
-
-		// Report results
-		Promise.all(promises)
+		copyPackages(outputDir, rootPkg, pkgs)
+			.then(() => runRules(outputDir))
+			.then(() => transformPackages(outputDir, rootPkg, pkgs))
 			.then(() => (project.jar.supported ? createJar() : undefined))
 			.then(() => {
 				// Report and show execution time
@@ -112,7 +102,7 @@ function run() {
 				log.info(`Bundling took ${pretty(hrtime)}`);
 
 				// Send report analytics data
-				report.sendAnalytics();
+				// report.sendAnalytics();
 
 				// Write report if requested
 				if (config.isDumpReport()) {
@@ -144,6 +134,217 @@ will arise during runtime.
 }
 
 /**
+ * Copy root and dependency packages to output directory.
+ * @param {string} outputDir
+ * @param {PkgDesc} rootPkg the root package descriptor
+ * @param {Array<PkgDesc>} pkgs dependency package descriptors
+ * @return {Promise}
+ */
+function copyPackages(outputDir, rootPkg, pkgs) {
+	return Promise.all([
+		copyRootPackage(outputDir, rootPkg),
+		iterateSerially(pkgs, pkg => copyPackage(outputDir, pkg)),
+	]);
+}
+
+/**
+ * Copy project's package.json and configured sources to output directory.
+ * @param {string} outputDir
+ * @param {PkgDesc} rootPkg the root package descriptor
+ * @return {Promise}
+ */
+function copyRootPackage(outputDir, rootPkg) {
+	if (!manifest.isOutdated(rootPkg)) {
+		return Promise.resolve();
+	}
+
+	const pkg = rootPkg.clone({dir: outputDir});
+
+	const promises = [];
+
+	// Copy package.json
+	promises.push(
+		fs.copy(
+			path.join(rootPkg.dir, 'package.json'),
+			path.join(pkg.dir, 'package.json')
+		)
+	);
+
+	// Copy configured sources
+	const copiedFiles = [];
+	const allFiles = [];
+
+	promises.push(
+		...project.sources.map(source => {
+			const glob = gl.prefix(
+				`${rootPkg.dir}/${source.dir}/`,
+				source.files
+			);
+			const stripCount = rootPkg.dir.length + 1 + source.dir.length + 1;
+
+			allFiles.push(
+				...globby
+					.sync(`${rootPkg.dir}/${source.dir}/**/*`)
+					.filter(file => fs.statSync(file).isFile())
+			);
+
+			return globby(glob).then(files =>
+				Promise.all(
+					files
+						.filter(file => fs.statSync(file).isFile())
+						.map(file => file.substr(stripCount))
+						.map(file =>
+							fs
+								.copy(
+									path.join(rootPkg.dir, source.dir, file),
+									path.join(pkg.dir, file)
+								)
+								.then(() => copiedFiles.push(file))
+						)
+				)
+			);
+		})
+	);
+
+	return Promise.all(promises).then(() =>
+		report.packageCopy(pkg, allFiles, copiedFiles)
+	);
+}
+
+/**
+ * Copy an NPM package to output directory.
+ * @param {String} outputDir the output directory path
+ * @param {PkgDesc} srcPkg the package descriptor
+ * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
+ */
+function copyPackage(outputDir, srcPkg) {
+	if (!manifest.isOutdated(srcPkg)) {
+		log.debug(`Skipping ${srcPkg.id} (already transformed)`);
+		return Promise.resolve();
+	}
+
+	const outPkgDir = path.join(
+		outputDir,
+		'node_modules',
+		getPackageTargetDir(srcPkg.name, srcPkg.version)
+	);
+	const pkg = srcPkg.clone({dir: outPkgDir});
+
+	const exclusions = config.bundler.getExclusions(srcPkg);
+
+	// Optimize execution time when a "exclude everything" glob is found
+	if (exclusions.find(exclusion => exclusion === '**/*')) {
+		return Promise.resolve(false);
+	}
+
+	// Determine what to copy
+	const globs = [
+		`${srcPkg.dir}/**/*`,
+		`!${srcPkg.dir}/node_modules/**/*`,
+	].concat(gl.negate(gl.prefix(`${srcPkg.dir}/`, exclusions)));
+
+	return globby(globs).then(files => {
+		// Filter files with copy-plugins
+		files = runCopyPlugins(srcPkg, pkg, files);
+
+		// Copy files
+		const fileFilter = path => fs.statSync(path).isFile();
+		const relativePathMapper = path =>
+			path.substring(srcPkg.dir.length + 1);
+
+		files = files.filter(fileFilter).map(relativePathMapper);
+
+		const allFiles = globby
+			.sync([`${srcPkg.dir}/**/*`])
+			.filter(fileFilter)
+			.map(relativePathMapper);
+
+		report.packageCopy(srcPkg, allFiles, files);
+
+		if (files.length == 0) {
+			return Promise.resolve(false);
+		} else {
+			return Promise.all(
+				files.map(filePath =>
+					fs.copy(
+						path.join(srcPkg.dir, filePath),
+						path.join(pkg.dir, filePath)
+					)
+				)
+			).then(() => true);
+		}
+	});
+}
+
+/**
+ * Transform root and dependency packages.
+ * @param {string} outputDir
+ * @param {PkgDesc} rootPkg the root package descriptor
+ * @param {Array<PkgDesc>} pkgs dependency package descriptors
+ * @return {Promise}
+ */
+function transformPackages(outputDir, rootPkg, pkgs) {
+	return Promise.all([
+		transformRootPackage(outputDir, rootPkg),
+		iterateSerially(pkgs, pkg => transformPackage(outputDir, pkg)),
+	]);
+}
+
+/**
+ * Transform root package.
+ * @param {String} outputDir directory where bundled packages are placed
+ * @param {PkgDesc} rootPkg the root package descriptor
+ * @return {Promise}
+ */
+function transformRootPackage(outputDir, rootPkg) {
+	if (!manifest.isOutdated(rootPkg)) {
+		return Promise.resolve();
+	}
+
+	log.debug(`Transforming root package`);
+
+	const pkg = rootPkg.clone({dir: outputDir});
+
+	return runBundlerPlugins('pre', rootPkg, pkg)
+		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
+		.then(() => runBundlerPlugins('post', rootPkg, pkg))
+		.then(() => manifest.addPackage(rootPkg, pkg))
+		.then(() => manifest.save())
+		.then(() => log.debug(`Transformed root package`));
+}
+
+/**
+ * Transform a npm package
+ * @param {String} outputDir directory where bundled packages are placed
+ * @param {PkgDesc} srcPkg the source package descriptor
+ * @return {Promise} a promise that is fulfilled when the package is bundled
+ */
+function transformPackage(outputDir, srcPkg) {
+	if (!manifest.isOutdated(srcPkg)) {
+		log.debug(`Skipping ${srcPkg.id} (already transformed)`);
+		return Promise.resolve();
+	}
+
+	log.debug(`Transforming ${srcPkg.id}`);
+
+	const outPkgDir = path.join(
+		outputDir,
+		'node_modules',
+		getPackageTargetDir(srcPkg.name, srcPkg.version)
+	);
+
+	const pkg = srcPkg.clone({dir: outPkgDir});
+
+	return runBundlerPlugins('pre', srcPkg, pkg)
+		.then(() => runBabel(pkg))
+		.then(() => runBundlerPlugins('post', srcPkg, pkg))
+		.then(() => renamePkgDirIfPkgJsonChanged(pkg))
+		.then(pkg => manifest.addPackage(srcPkg, pkg))
+		.then(() => manifest.save())
+		.then(() => log.debug(`Transformed '${pkg.id}' package`));
+}
+
+/**
  * Abort execution showing error message
  * @param  {Object} err the error object
  * @return {void}
@@ -156,235 +357,4 @@ ${err.stack}
 `);
 
 	process.exit(1);
-}
-
-/**
- * Copy project root package.json file to output directory.
- * @param {String} outputDir the output directory path
- * @return {Promise} a Promise fulfilled when the copy has been finished
- */
-function bundleRootPackage(outputDir) {
-	const srcPkg = getRootPkg();
-	const pkg = srcPkg.clone({dir: outputDir});
-
-	if (!manifest.isOutdated(srcPkg)) {
-		log.debug(`Skipping root package (already bundled)`);
-		return Promise.resolve();
-	}
-
-	// Copy source package.json
-	const srcPkgJson = readJsonSync('package.json');
-
-	fs.writeFileSync(
-		path.join(pkg.dir, 'package.json'),
-		JSON.stringify(srcPkgJson, '', 2)
-	);
-
-	// Process package
-	return copyRootPackage(srcPkg, pkg)
-		.then(() => runRules(pkg))
-		.then(() => processPackage('pre', srcPkg, pkg))
-		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
-		.then(() => processPackage('post', srcPkg, pkg))
-		.then(() => manifest.addPackage(srcPkg, pkg))
-		.then(() => manifest.save())
-		.then(() => log.debug(`Bundled root package`));
-}
-
-/**
- * Copy source files to output directory.
- * @param {PkgDesc} srcPkg the source package descriptor
- * @param {PkgDesc} pkg the output package descriptor
- * @return {Promise}
- */
-function copyRootPackage(srcPkg, pkg) {
-	const copiedFiles = [];
-	const allFiles = [];
-
-	const promises = project.sources.map(source => {
-		const glob = gl.prefix(`${srcPkg.dir}/${source.dir}/`, source.files);
-		const stripCount = srcPkg.dir.length + 1 + source.dir.length + 1;
-
-		allFiles.push(
-			...globby
-				.sync(`${srcPkg.dir}/${source.dir}/**/*`)
-				.filter(file => fs.statSync(file).isFile())
-		);
-
-		return globby(glob).then(files =>
-			Promise.all(
-				files
-					.filter(file => fs.statSync(file).isFile())
-					.map(file => file.substr(stripCount))
-					.map(file =>
-						fs
-							.copy(
-								path.join(srcPkg.dir, source.dir, file),
-								path.join(pkg.dir, file)
-							)
-							.then(() => copiedFiles.push(file))
-					)
-			)
-		);
-	});
-
-	return Promise.all(promises).then(() =>
-		report.packageCopy(pkg, allFiles, copiedFiles)
-	);
-}
-
-/**
- * Bundle a npm package
- * @param {PkgDesc} srcPkg the source package descriptor
- * @param {String} outputDir directory where bundled packages are placed
- * @return {Promise} a promise that is fulfilled when the package is bundled
- */
-function bundlePackage(srcPkg, outputDir) {
-	if (!manifest.isOutdated(srcPkg)) {
-		log.debug(`Skipping ${srcPkg.id} (already bundled)`);
-		return Promise.resolve();
-	}
-
-	log.debug(`Bundling ${srcPkg.id}`);
-
-	const outPkgDir = path.join(
-		outputDir,
-		'node_modules',
-		getPackageTargetDir(srcPkg.name, srcPkg.version)
-	);
-
-	const pkg = srcPkg.clone({dir: outPkgDir});
-
-	return new Promise((resolve, reject) => {
-		copyPackage(srcPkg, outPkgDir)
-			.then(copied => {
-				if (!copied) {
-					resolve();
-					return;
-				}
-
-				runRules(pkg)
-					.then(() => processPackage('pre', srcPkg, pkg))
-					.then(() => runBabel(pkg))
-					.then(() => processPackage('post', srcPkg, pkg))
-					.then(() => renamePkgDirIfPkgJsonChanged(pkg))
-					.then(pkg => manifest.addPackage(srcPkg, pkg))
-					.then(() => manifest.save())
-					.then(() => log.debug(`Bundled ${pkg.id}`))
-					.then(resolve)
-					.catch(reject);
-			})
-			.catch(reject);
-	});
-}
-
-/**
- * Copy an NPM package to output directory.
- * @param {PkgDesc} pkg the package descriptor
- * @param {String} dir the output directory path
- * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
- */
-function copyPackage(pkg, dir) {
-	const exclusions = config.bundler.getExclusions(pkg);
-
-	// Optimize execution time when a "exclude everything" glob is found
-	if (exclusions.find(exclusion => exclusion === '**/*')) {
-		return Promise.resolve(false);
-	}
-
-	// Determine what to copy
-	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
-		gl.negate(gl.prefix(`${pkg.dir}/`, exclusions))
-	);
-
-	return globby(globs).then(files => {
-		// Filter files with copy-plugins
-		const state = runPlugins(
-			config.bundler.getPlugins('copy', pkg),
-			pkg,
-			pkg.clone({dir}),
-			{
-				files,
-			},
-			(plugin, log) => {
-				report.packageProcessBundlerPlugin('copy', pkg, plugin, log);
-			}
-		);
-		files = state.files;
-
-		// Copy files
-		const fileFilter = path => fs.statSync(path).isFile();
-		const relativePathMapper = path => path.substring(pkg.dir.length + 1);
-
-		files = files.filter(fileFilter).map(relativePathMapper);
-
-		const allFiles = globby
-			.sync([`${pkg.dir}/**/*`])
-			.filter(fileFilter)
-			.map(relativePathMapper);
-
-		report.packageCopy(pkg, allFiles, files);
-
-		if (files.length == 0) {
-			return Promise.resolve(false);
-		} else {
-			const promises = files.map(path =>
-				fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
-			);
-
-			return Promise.all(promises).then(() => true);
-		}
-	});
-}
-
-/**
- * Process an NPM package with the configured liferay-nmp-bundler plugins. This
- * function is called two times (known as phases) per package: one before Babel
- * runs and one after.
- * @param {String} phase 'pre' or 'post' depending on what phase we are in
- * @param {PkgDesc} srcPkg the source package descriptor
- * @param {PkgDesc} pkg the target package descriptor
- * @return {Promise} a Promise fulfilled when the process has been finished
- */
-function processPackage(phase, srcPkg, pkg) {
-	return new Promise((resolve, reject) => {
-		try {
-			const state = runPlugins(
-				config.bundler.getPlugins(phase, pkg),
-				srcPkg,
-				pkg,
-				{
-					pkgJson: readJsonSync(path.join(pkg.dir, 'package.json')),
-				},
-				(plugin, log) => {
-					report.packageProcessBundlerPlugin(phase, pkg, plugin, log);
-
-					if (log.errorsPresent) {
-						report.warn(
-							'There are errors for some of the ' +
-								'liferay-npm-bundler plugins: please check ' +
-								'details of bundler transformations.',
-							{unique: true}
-						);
-					} else if (log.warnsPresent) {
-						report.warn(
-							'There are warnings for some of the ' +
-								'liferay-npm-bundler plugins: please check ' +
-								'details of bundler transformations.',
-							{unique: true}
-						);
-					}
-				}
-			);
-
-			fs.writeFileSync(
-				path.join(pkg.dir, 'package.json'),
-				JSON.stringify(state.pkgJson, '', 2)
-			);
-
-			resolve();
-		} catch (err) {
-			reject(err);
-		}
-	});
 }

@@ -8,7 +8,7 @@
 
 import prop from 'dot-prop';
 
-import {configRequire, configResolve, getPackageConfig} from './util';
+import {configRequire, getPackageConfig} from './util';
 
 let config;
 
@@ -82,47 +82,6 @@ export function getPlugins(phase, pkg) {
 }
 
 /**
- * Get configured rules for a certain package.
- * @param {PkgDesc} pkg
- */
-export function getRules(pkg) {
-	const rules = getPackageConfig(pkg, 'rules', []);
-
-	// Normalize rules
-	rules.forEach(rule => {
-		// `rule.files` must be array
-		if (typeof rule.files === 'string') {
-			rule.files = [rule.files];
-		}
-
-		// `rule.use` must be an array
-		if (!Array.isArray(rule.use)) {
-			rule.use = [rule.use];
-		}
-
-		// Normalize each `rule.use` instance
-		rule.use = rule.use.map(use => {
-			// Each `rule.use` instance must be an object
-			if (typeof use === 'string') {
-				use = {
-					loader: use,
-					options: {},
-				};
-			}
-
-			// Each `rule.use` instance must have `options`
-			if (use.options === undefined) {
-				use.options = {};
-			}
-
-			return use;
-		});
-	});
-
-	return instantiateLoaders(rules);
-}
-
-/**
  * Get maximum number of files to process in parallel.
  * @return {number}
  */
@@ -161,39 +120,5 @@ function instantiatePlugins(pluginNames) {
 			config: pluginConfig,
 			run: pluginModule.default,
 		};
-	});
-}
-
-function instantiateLoaders(rules) {
-	return rules.map(rule => {
-		rule.use = rule.use.map(({loader, options}) => {
-			let exec, resolvedLoader;
-
-			try {
-				resolvedLoader = `liferay-npm-bundler-loader-${loader}`;
-				exec = configRequire(resolvedLoader);
-			} catch (err) {
-				resolvedLoader = loader;
-				exec = configResolve(resolvedLoader);
-			}
-
-			exec = exec.default || exec;
-
-			if (typeof exec !== 'function') {
-				throw new Error(
-					`Loader '${resolvedLoader}' is incorrect: ` +
-						`it does not export a function`
-				);
-			}
-
-			return {
-				loader,
-				options,
-				resolvedLoader,
-				exec,
-			};
-		});
-
-		return rule;
 	});
 }

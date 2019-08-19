@@ -10,7 +10,6 @@ import globby from 'globby';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
@@ -19,39 +18,66 @@ import * as log from './log';
 import manifest from './manifest';
 import report from './report';
 import {loadSourceMap} from './util';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 /**
- * Run a liferay-npm-bundler plugin
- * @param  {Array} plugins list of plugin descriptors (with name, config and run fields)
- * @param  {PkgDesc} srcPkg source package descriptor
- * @param  {PkgDesc} pkg processed package descriptor
- * @param  {Object} state state to pass to plugins
- * @param  {function} callback a callback function to invoke once per plugin with the used plugin and PluginLogger
- * @return {Object} the state object
+ * Run configured rules.
+ * @param {String} outputDir the output directory path
+ * @return {Promise}
  */
-export function runPlugins(plugins, srcPkg, pkg, state, callback) {
-	plugins.forEach(plugin => {
-		const params = {
-			config: plugin.config,
-			log: new PluginLogger(),
-			rootPkgJson: readJsonSync('package.json'),
-			globalConfig: config.getGlobalConfig(),
+export function runRules(outputDir) {
+	const filePaths = globby.sync(`${outputDir}/**/*`);
 
-			pkg: pkg.clone(),
+	return Promise.all(
+		filePaths
+			.filter(filePath => !fs.statSync(filePath).isDirectory())
+			.map(filePath => {
+				filePath = path.resolve(filePath);
 
-			source: {
-				pkg: srcPkg.clone(),
-			},
-		};
+				const context = {
+					content: fs.readFileSync(filePath, 'utf-8').toString(),
+					filePath,
+					extraArtifacts: {},
+					log: new PluginLogger(),
+				};
 
-		plugin.run(params, state);
+				const loaders = project.rules.loadersForFile(filePath);
 
-		if (callback) {
-			callback(plugin, params.log);
+				return runLoaders(loaders, 0, context).then(() => {
+					fs.writeFileSync(filePath, context.content);
+
+					Object.entries(context.extraArtifacts).forEach(
+						([filePath, content]) =>
+							fs.writeFileSync(filePath, content)
+					);
+				});
+			})
+	);
+}
+
+function runLoaders(loaders, firstLoaderIndex, context) {
+	if (firstLoaderIndex >= loaders.length) {
+		return Promise.resolve(context.content);
+	}
+
+	const loader = loaders[firstLoaderIndex];
+
+	let result;
+
+	try {
+		result = loader.exec(context, loader.options);
+	} catch (err) {
+		err.message = `Loader '${loader.use}' failed: ${err.message}`;
+		throw err;
+	}
+
+	return Promise.resolve(result).then(content => {
+		if (content !== undefined) {
+			context = Object.assign(context, {content});
 		}
-	});
 
-	return state;
+		return runLoaders(loaders, firstLoaderIndex + 1, context);
+	});
 }
 
 /**
@@ -90,19 +116,6 @@ export function runBabel(pkg, {ignore = []} = {}) {
 	const filePaths = globby.sync(globs);
 
 	return processBabelFiles(filePaths, 0, pkg, babelConfig);
-}
-
-/**
- * Run configured rules for a certain package.
- * @param {PkgDesc} pkg the package descriptor
- */
-export function runRules(pkg) {
-	const rules = config.bundler.getRules(pkg);
-
-	// Report a copy of the package's rules configuration before loading plugins
-	report.packageProcessRulesConfig(pkg, cloneObject(rules));
-
-	return Promise.all(rules.map(rule => runRule(rule, pkg)));
 }
 
 /**
@@ -225,65 +238,113 @@ function processBabelFiles(filePaths, chunkIndex, pkg, babelConfig) {
 	});
 }
 
-function runLoadersFrom(index, rule, context) {
-	if (index >= rule.use.length) {
-		return Promise.resolve(context.content);
-	}
-
-	const use = rule.use[index];
-
-	let result;
-
-	try {
-		result = use.exec(context, use.options);
-	} catch (err) {
-		err.message = `Loader '${use.loader}' failed: ${err.message}`;
-		throw err;
-	}
-
-	return Promise.resolve(result).then(content => {
-		if (content !== undefined) {
-			context = Object.assign(context, {content});
+/**
+ * Run liferay-nmp-bundler copy plugins on a specified package.
+ * @param {PkgDesc} srcPkg the source package descriptor
+ * @param {PkgDesc} pkg the target package descriptor
+ * @param {Array<string>} files the files to be processed
+ * @return {Array<string>} the filtered files
+ */
+export function runCopyPlugins(srcPkg, pkg, files) {
+	const state = runPlugins(
+		config.bundler.getPlugins('copy', pkg),
+		srcPkg,
+		pkg,
+		{
+			files,
+		},
+		(plugin, log) => {
+			report.packageProcessBundlerPlugin('copy', pkg, plugin, log);
 		}
+	);
 
-		return runLoadersFrom(index + 1, rule, context);
-	});
+	return state.files;
 }
 
-function runRule(rule, pkg) {
-	let globs = gl.prefix(`${pkg.dir}/`, rule.files);
+/**
+ * Process an NPM package with the configured liferay-nmp-bundler plugins. This
+ * function is called two times (known as phases) per package: one before Babel
+ * runs and one after.
+ * @param {String} phase 'pre' or 'post' depending on what phase we are in
+ * @param {PkgDesc} srcPkg the source package descriptor
+ * @param {PkgDesc} pkg the target package descriptor
+ * @return {Promise} a Promise fulfilled when the process has been finished
+ */
+export function runBundlerPlugins(phase, srcPkg, pkg) {
+	return new Promise((resolve, reject) => {
+		try {
+			const state = runPlugins(
+				config.bundler.getPlugins(phase, pkg),
+				srcPkg,
+				pkg,
+				{
+					pkgJson: readJsonSync(path.join(pkg.dir, 'package.json')),
+				},
+				(plugin, log) => {
+					report.packageProcessBundlerPlugin(phase, pkg, plugin, log);
 
-	globs = [...globs, `!${pkg.dir}/node_modules/**/*`];
-
-	const filePromises = globby.sync(globs).map(filePath => {
-		const content = fs.readFileSync(filePath, 'utf-8').toString();
-		const log = new PluginLogger();
-
-		const context = {
-			content,
-			filePath,
-			extraArtifacts: {},
-			log,
-		};
-
-		runLoadersFrom(0, rule, context).then(content => {
-			fs.writeFileSync(filePath, content);
-
-			Object.entries(context.extraArtifacts).forEach(
-				([filePath, content]) => {
-					fs.writeFileSync(filePath, content);
+					if (log.errorsPresent) {
+						report.warn(
+							'There are errors for some of the ' +
+								'liferay-npm-bundler plugins: please check ' +
+								'details of bundler transformations.',
+							{unique: true}
+						);
+					} else if (log.warnsPresent) {
+						report.warn(
+							'There are warnings for some of the ' +
+								'liferay-npm-bundler plugins: please check ' +
+								'details of bundler transformations.',
+							{unique: true}
+						);
+					}
 				}
 			);
 
-			report.packageProcessRulesRun(
-				pkg,
-				filePath.substr(pkg.dir.length + 1),
-				log
+			fs.writeFileSync(
+				path.join(pkg.dir, 'package.json'),
+				JSON.stringify(state.pkgJson, '', 2)
 			);
-		});
+
+			resolve();
+		} catch (err) {
+			reject(err);
+		}
+	});
+}
+
+/**
+ * Run a liferay-npm-bundler plugin
+ * @param  {Array} plugins list of plugin descriptors (with name, config and run fields)
+ * @param  {PkgDesc} srcPkg source package descriptor
+ * @param  {PkgDesc} pkg processed package descriptor
+ * @param  {Object} state state to pass to plugins
+ * @param  {function} callback a callback function to invoke once per plugin with the used plugin and PluginLogger
+ * @return {Object} the state object
+ */
+function runPlugins(plugins, srcPkg, pkg, state, callback) {
+	plugins.forEach(plugin => {
+		const params = {
+			config: plugin.config,
+			log: new PluginLogger(),
+			rootPkgJson: readJsonSync('package.json'),
+			globalConfig: config.getGlobalConfig(),
+
+			pkg: pkg.clone(),
+
+			source: {
+				pkg: srcPkg.clone(),
+			},
+		};
+
+		plugin.run(params, state);
+
+		if (callback) {
+			callback(plugin, params.log);
+		}
 	});
 
-	return Promise.all(filePromises);
+	return state;
 }
 
 /**
