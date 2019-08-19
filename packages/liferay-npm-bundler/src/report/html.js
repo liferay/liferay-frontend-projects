@@ -12,6 +12,7 @@ export function htmlDump(report) {
 		_executionDate,
 		_executionTime,
 		_packages,
+		_rules,
 		_versionsInfo,
 		_warnings,
 	} = report;
@@ -79,13 +80,31 @@ export function htmlDump(report) {
 		)
 	);
 
+	const rulesExecution = htmlSection(
+		'Details of rule executions',
+		`<p>
+			Configuration: 
+			<font size="1">
+			<pre>${JSON.stringify(_rules.config, null, 2)}</pre>
+			</font>
+		</p>`,
+		htmlLogOutput(
+			['File'],
+			Object.keys(_rules.files)
+				.sort()
+				.map(filePath => [filePath]),
+			Object.keys(_rules.files)
+				.sort()
+				.map(filePath => _rules.files[filePath].logger)
+		)
+	);
+
 	const packageProcesses = htmlSection(
 		'Summary of package transformations',
 		htmlTable(
 			'Package',
 			'Version',
 			'Copy phase',
-			'Rules phase',
 			'Pre-babel phase',
 			'Babel phase',
 			'Post-babel phase',
@@ -93,9 +112,8 @@ export function htmlDump(report) {
 				.sort()
 				.map(pkgId => {
 					const pkg = _packages[pkgId];
-					const {babel, copy, rules, post, pre} = pkg.process;
+					const {babel, copy, post, pre} = pkg.process;
 					const copyKeys = Object.keys(copy);
-					const rulesKeys = Object.keys(rules.files);
 					const preKeys = Object.keys(pre);
 					const postKeys = Object.keys(post);
 					const babelKeys = Object.keys(babel.files);
@@ -103,10 +121,6 @@ export function htmlDump(report) {
 					const copyNotice = htmlIf(
 						copyKeys.length > 0,
 						() => `${copyKeys.length} plugins applied`
-					);
-					const rulesNotice = htmlIf(
-						rulesKeys.length > 0,
-						() => `${rulesKeys.length} files processed`
 					);
 					const preNotice = htmlIf(
 						preKeys.length > 0,
@@ -127,11 +141,6 @@ export function htmlDump(report) {
 						<td>
 							<a href="#${pkgId}-bundler">
 								${copyNotice}
-							</a>
-						</td>
-						<td>
-							<a href="#${pkgId}-rules">
-								${rulesNotice}
 							</a>
 						</td>
 						<td>
@@ -237,40 +246,6 @@ export function htmlDump(report) {
 									)
 							)
 						)
-				);
-			})
-	);
-
-	const packageProcessesRulesDetails = htmlSection(
-		'Details of rules transformations',
-		...Object.keys(_packages)
-			.sort()
-			.map(pkgId => {
-				const pkg = _packages[pkgId];
-				const {rules} = pkg.process;
-				const rulesKeys = Object.keys(rules.files);
-
-				return htmlIf(rulesKeys.length > 0, () =>
-					htmlSubsection(
-						`
-							<a name="${pkgId}-rules">
-								${pkg.name}@${pkg.version}
-							</a>
-						`,
-						`<p>
-							Configuration: 
-							<font size="1">
-							<pre>${JSON.stringify(rules.config, null, 2)}</pre>
-							</font>
-						</p>`,
-						htmlLogOutput(
-							['File'],
-							rulesKeys.sort().map(filePath => [filePath]),
-							rulesKeys
-								.sort()
-								.map(filePath => rules.files[filePath].logger)
-						)
-					)
 				);
 			})
 	);
@@ -403,9 +378,9 @@ export function htmlDump(report) {
 				${warnings}
 				${versionsInfo}
 				${dependencies}
+				${rulesExecution}
 				${packageProcesses}
 				${packageProcessesBundlerDetails}
-				${packageProcessesRulesDetails}
 				${packageProcessesBabelDetails}
 			</body>
 		</html>

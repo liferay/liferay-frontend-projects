@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import clone from 'clone';
 import path from 'path';
 
 /**
@@ -41,7 +42,46 @@ export default class Rules {
 
 		const {_npmbundlerrc} = project;
 
-		this._rules = this._normalizeRules(_npmbundlerrc.rules || []);
+		this._config = _npmbundlerrc.rules || [];
+
+		this._rules = clone(this._config);
+		this._normalizeRules();
+
+		this._loaderVersionsInfo = undefined;
+	}
+
+	/**
+	 * Get raw rules config (useful for reports).
+	 */
+	get config() {
+		return this._config;
+	}
+
+	/**
+	 * Get an object with information about all plugin versions
+	 * @return {object}
+	 */
+	get loaderVersionsInfo() {
+		if (this._loaderVersionsInfo === undefined) {
+			let loaders = this._rules.map(rule => rule.use);
+
+			loaders = [].concat(...loaders);
+
+			const loaderPackages = loaders.map(loader => {
+				const {resolvedModule} = loader;
+				return resolvedModule.split('/')[0];
+			});
+
+			const project = this._project;
+
+			this._loaderVersionsInfo = loaderPackages.reduce((map, pkg) => {
+				const pkgJson = project.require(`${pkg}/package.json`);
+				map[pkg] = pkgJson.version;
+				return map;
+			}, {});
+		}
+
+		return this._loaderVersionsInfo;
 	}
 
 	/**
@@ -86,8 +126,8 @@ export default class Rules {
 		return use;
 	}
 
-	_normalizeRules(rules) {
-		rules.forEach(rule => {
+	_normalizeRules() {
+		this._rules.forEach(rule => {
 			this._normalizeArrayOfRegExp(rule, 'test', '.*');
 			this._normalizeArrayOfRegExp(rule, 'include', '.*');
 			this._normalizeArrayOfRegExp(rule, 'exclude', '(?!)');
@@ -112,8 +152,6 @@ export default class Rules {
 				return use;
 			});
 		});
-
-		return rules;
 	}
 
 	_normalizeArrayOfRegExp(rule, fieldName, defaultValue) {

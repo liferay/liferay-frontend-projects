@@ -17,6 +17,7 @@
 	},
 	"dependencies": {
 		"babel-core": "^6.25.0",
+		"clone": "^2.1.2",
 		"data-urls": "^1.0.0",
 		"dot-prop": "^5.0.0",
 		"fs-extra": "^4.0.2",

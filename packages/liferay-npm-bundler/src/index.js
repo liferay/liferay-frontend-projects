@@ -91,6 +91,10 @@ function run() {
 		const outputDir = path.resolve(project.buildDir);
 		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
 
+		// Report rules config
+		report.rulesConfig(project.rules.config);
+
+		// Do things
 		copyPackages(outputDir, rootPkg, pkgs)
 			.then(() => runRules(outputDir))
 			.then(() => transformPackages(outputDir, rootPkg, pkgs))

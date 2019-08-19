@@ -43,12 +43,22 @@ export function runRules(outputDir) {
 
 				const loaders = project.rules.loadersForFile(filePath);
 
+				if (loaders.length == 0) {
+					return Promise.resolve();
+				}
+
 				return runLoaders(loaders, 0, context).then(() => {
 					fs.writeFileSync(filePath, context.content);
 
 					Object.entries(context.extraArtifacts).forEach(
 						([filePath, content]) =>
 							fs.writeFileSync(filePath, content)
+					);
+
+					// Report result of rules
+					report.rulesRun(
+						filePath.substring(outputDir.length + 1),
+						context.log
 					);
 				});
 			})

@@ -81,7 +81,7 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 				</style>
 				<script id=\\"report\\" type=\\"application/json\\">
-					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":\\"1.4.2\\",\\"liferay-npm-bundler-plugin-inject-angular\\":\\"1.4.2\\"},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"rules\\":{\\"config\\":{},\\"files\\":{}},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"rules\\":{\\"config\\":{},\\"files\\":{}},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"rules\\":{\\"config\\":{},\\"files\\":{}},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":\\"1.4.2\\",\\"liferay-npm-bundler-plugin-inject-angular\\":\\"1.4.2\\"},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
 				</script>
 				<script>
 					window.report = JSON.parse(
@@ -162,13 +162,30 @@ exports[`correctly dumps HTML report 1`] = `
 		
 	
 				
+		<h2>Details of rule executions</h2>
+		<p>
+			Configuration: 
+			<font size=\\"1\\">
+			<pre>{}</pre>
+			</font>
+		</p>
+
+			<table>
+				<tr><th>File</th>
+<th>Log source</th>
+<th>Message</th>
+<th></th></tr>
+				
+			</table>
+		
+	
+				
 		<h2>Summary of package transformations</h2>
 		
 			<table>
 				<tr><th>Package</th>
 <th>Version</th>
 <th>Copy phase</th>
-<th>Rules phase</th>
 <th>Pre-babel phase</th>
 <th>Babel phase</th>
 <th>Post-babel phase</th></tr>
@@ -177,11 +194,6 @@ exports[`correctly dumps HTML report 1`] = `
 						<td>1.0.0</td>
 						<td>
 							<a href=\\"#package-1@1.0.0-bundler\\">
-								
-							</a>
-						</td>
-						<td>
-							<a href=\\"#package-1@1.0.0-rules\\">
 								
 							</a>
 						</td>
@@ -210,11 +222,6 @@ exports[`correctly dumps HTML report 1`] = `
 							</a>
 						</td>
 						<td>
-							<a href=\\"#package-2@2.0.0-rules\\">
-								
-							</a>
-						</td>
-						<td>
 							<a href=\\"#package-2@2.0.0-bundler\\">
 								
 							</a>
@@ -235,11 +242,6 @@ exports[`correctly dumps HTML report 1`] = `
 						<td>1.0.0</td>
 						<td>
 							<a href=\\"#root-package1@1.0.0-bundler\\">
-								
-							</a>
-						</td>
-						<td>
-							<a href=\\"#root-package1@1.0.0-rules\\">
 								
 							</a>
 						</td>
@@ -284,12 +286,6 @@ exports[`correctly dumps HTML report 1`] = `
 			</table>
 		
 	
-
-
-	
-				
-		<h2>Details of rules transformations</h2>
-		
 
 
 	
@@ -349,12 +345,12 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -381,12 +377,12 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -421,12 +417,12 @@ Report {
             },
           },
         },
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -448,10 +444,6 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
       "version": "1.0.0",
     },
@@ -466,13 +458,13 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
       "version": "2.0.0",
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -487,6 +479,10 @@ Report {
     2,
   ],
   "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
   "_versionsInfo": Object {},
   "_warnings": Array [],
 }
@@ -508,13 +504,13 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
       "version": "1.1.0",
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -544,12 +540,12 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -571,13 +567,13 @@ Report {
         "copy": Object {},
         "post": Object {},
         "pre": Object {},
-        "rules": Object {
-          "config": Object {},
-          "files": Object {},
-        },
       },
       "version": "1.0.0",
     },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
@@ -588,6 +584,10 @@ exports[`when describing the run correctly stores unique warnings 1`] = `
 Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
   "_versionsInfo": Object {},
   "_warnings": Array [
     "warn",
@@ -599,6 +599,10 @@ exports[`when describing the run correctly stores versions info 1`] = `
 Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
   "_versionsInfo": Object {
     "liferay-npm-bundler": "1.4.2",
     "liferay-npm-bundler-plugin-inject-angular": "1.4.2",
@@ -611,6 +615,10 @@ exports[`when describing the run correctly stores warnings 1`] = `
 Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
   "_versionsInfo": Object {},
   "_warnings": Array [
     "warn 1",
@@ -623,6 +631,10 @@ exports[`when describing the run ignores not previously registered linked depend
 Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
   "_versionsInfo": Object {},
   "_warnings": Array [],
 }
