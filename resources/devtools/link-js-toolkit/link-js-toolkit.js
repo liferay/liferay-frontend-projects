@@ -17,10 +17,10 @@ const pkgJson = readJsonSync(path.join('.', 'package.json'));
 let deps;
 
 // Grab dependencies from package.json
-deps = []
-	.concat(Object.keys(pkgJson.dependencies))
-	.concat(Object.keys(pkgJson.devDependencies))
-	.filter(dep => dep.startsWith('liferay-npm'));
+deps = [
+	...Object.keys(pkgJson.dependencies),
+	...Object.keys(pkgJson.devDependencies),
+].filter(dep => dep.startsWith('liferay-npm'));
 
 // Grab dependencies from node_modules
 const dirs = fs
@@ -30,12 +30,7 @@ const dirs = fs
 deps.push(...dirs);
 
 // Deduplicate dependencies
-deps = Object.keys(
-	deps.reduce((map, item) => {
-		map[item] = item;
-		return map;
-	}, {})
-);
+deps = Array.from(new Set(deps));
 
 // Link dependencies with yarn
 deps.forEach(dep => {

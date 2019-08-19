@@ -14,6 +14,7 @@ export default function(context) {
 
 	content = content.replace(/\n/g, '\\n');
 	content = content.replace(/"/g, '\\"');
+	content = content.replace(/\\/g, '\\\\');
 
 	context.extraArtifacts[`${filePath}.js`] = `
 var css = "${content}";

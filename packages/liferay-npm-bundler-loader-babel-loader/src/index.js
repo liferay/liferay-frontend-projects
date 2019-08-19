@@ -73,10 +73,9 @@ function loadBabelPlugins(presets, plugins) {
 					);
 				}
 
-				if (presetModule)
-					if (presetModule.default !== undefined) {
-						presetModule = presetModule.default;
-					}
+				if (presetModule.default !== undefined) {
+					presetModule = presetModule.default;
+				}
 
 				if (
 					presetModule.plugins === undefined &&
