@@ -55,7 +55,10 @@ const passedTestReport = {
 describe('liferay-jest-junit-reporter', () => {
 	beforeEach(() => {
 		// Prevent user-specific context from appearing in snapshots.
-		jest.spyOn(process, 'cwd').mockImplementation(() => 'reporter-tests');
+		jest.spyOn(process, 'cwd').mockImplementation(
+			() =>
+				'/User/liferay-user/code/portal/liferay-portal/modules/apps/reporter/reporter-example'
+		);
 	});
 
 	afterEach(() => {
