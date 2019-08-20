@@ -80,6 +80,7 @@
 				"vm-browserify": ">=0.0.4"
 			},
 			"frontend-js-react-web": {
+				"/": ">=1.0.0",
 				"classnames": ">=2.2.6",
 				"formik": ">=1.4.3",
 				"prop-types": ">=15.7.2",
