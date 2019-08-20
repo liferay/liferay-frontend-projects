@@ -37,7 +37,7 @@ module.exports = {
 			description: DESCRIPTION,
 			recommended: false,
 			url:
-				'https://github.com/liferay/liferay-frontend-guidelines/blob/master/guidelines/general/testing.md#start-it-descriptions-with-a-verb-not-with-should',
+				'https://github.com/liferay/liferay-frontend-guidelines/blob/master/general/testing/anatomy.md',
 		},
 		fixable: null, // or "code" or "whitespace"
 		schema: [],
