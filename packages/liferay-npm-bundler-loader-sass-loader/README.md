@@ -14,16 +14,13 @@ In order to use this loader you must declare a rule in your module's `.npmbundle
 
 ```json
 {
-	"packages": {
-		"/": {
-			"rules": [
-				{
-					"files": ["**/*.css"],
-					"use": ["sass-loader"]
-				}
-			]
+	"rules": [
+		{
+			"test": "\\.scss$",
+			"exclude": "node_modules",
+			"use": ["sass-loader"]
 		}
-	}
+	]
 }
 ```
 

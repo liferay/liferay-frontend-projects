@@ -14,23 +14,20 @@ In order to use this loader you must declare a rule in your module's `.npmbundle
 
 ```json
 {
-	"packages": {
-		"/": {
-			"rules": [
+	"rules": [
+		{
+			"test": "\\.js$",
+			"exclude": "node_modules",
+			"use": [
 				{
-					"files": ["**/*.js"],
-					"use": [
-						{
-							"loader": "babel-loader",
-							"options": {
-								"presets": ["env", "react"]
-							}
-						}
-					]
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["env", "react"]
+					}
 				}
 			]
 		}
-	}
+	]
 }
 ```
 

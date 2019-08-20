@@ -15,16 +15,12 @@ In order to use this loader you must declare a rule in your module's `.npmbundle
 
 ```json
 {
-	"packages": {
-		"/": {
-			"rules": [
-				{
-					"files": ["**/*.css"],
-					"use": ["style-loader"]
-				}
-			]
+	"rules": [
+		{
+			"test": "\\.css$",
+			"use": ["style-loader"]
 		}
-	}
+	]
 }
 ```
 
