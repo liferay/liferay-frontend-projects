@@ -56,10 +56,16 @@ $ yo liferay-js:adapt ↩
 6. Enjoy
 
 Once you've done that, your `package.json` will be tweaked with more new npm
-scripts. For example, you will be able to run:
+scripts. For example, you will be able to run (depending on what your framework of choice uses):
 
 ```sh
 $ npm run build:liferay
+```
+
+or 
+
+```sh
+$ yarn run build:liferay
 ```
 
 And that will put a deployable portlet JAR file in a `build.liferay` directory
@@ -69,6 +75,12 @@ Additionally, if you run:
 
 ```sh
 $ npm run deploy:liferay
+```
+
+or 
+
+```sh
+$ yarn run build:liferay
 ```
 
 The aforementioned JAR will be copied to your Liferay's instance and made
