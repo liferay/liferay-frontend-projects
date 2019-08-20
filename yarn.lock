@@ -9018,6 +9018,14 @@ liferay-frontend-common-css@^1.0.4:
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
 
+liferay-jest-junit-reporter@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/liferay-jest-junit-reporter/-/liferay-jest-junit-reporter-1.0.1.tgz#20e9c8a690017c6e3659a0bf15e7c6534d31c9e7"
+  integrity sha512-qR0mhDu7Qn5QfnTTlPWz1AtkSIHcPgN752anhARQY1olXEH+3/97W3SeCAzP3KPR1tLnhVezwxk6XHZiXk3q/w==
+  dependencies:
+    strip-ansi "^5.0.0"
+    xml "^1.0.1"
+
 liferay-lang-key-dev-loader@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/liferay-lang-key-dev-loader/-/liferay-lang-key-dev-loader-1.0.3.tgz#d4a1c96e5303e9c3039a475ed680b8df214024f1"
