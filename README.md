@@ -67,6 +67,7 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 | [liferay-portal/no-react-dom-render](./plugins/eslint-plugin-liferay-portal/docs/rules/no-react-dom-render.md)                      | liferay/portal               | ([\#71](https://github.com/liferay/eslint-config-liferay/pull/71))                                                                   |
 | [liferay-portal/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md)                        | liferay/portal               | ([\#44](https://github.com/liferay/eslint-config-liferay/pull/44))                                                                   |
 | [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md)                                                  | liferay                      | ([\#43](https://github.com/liferay/eslint-config-liferay/pull/43))                                                                   |
+| [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md)                                      | liferay                      | ([\#75](https://github.com/liferay/eslint-config-liferay/pull/75))                                                                   |
 | [no-for-of-loops/no-for-of-loops](https://www.npmjs.com/package/eslint-plugin-no-for-of-loops)                                      | liferay                      | ([\#30](https://github.com/liferay/eslint-config-liferay/pull/30))                                                                   |
 | [no-only-tests/no-only-tests](https://www.npmjs.com/package/eslint-plugin-no-only-tests)                                            | liferay                      | ([\#22](https://github.com/liferay/eslint-config-liferay/pull/22))                                                                   |
 | [no-return-assign](https://eslint.org/docs/rules/no-return-assign)                                                                  | liferay                      | ([\#30](https://github.com/liferay/eslint-config-liferay/pull/30))                                                                   |
@@ -105,6 +106,7 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plugins/eslint-plugin-liferay/docs/rules):
 
 -   [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md): Enforces that `it()` descriptions start with a verb, not with "should".
+-   [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md): Enforces blank lines between test blocks (`it()` etc).
 
 #### `eslint-plugin-liferay-portal`
 
