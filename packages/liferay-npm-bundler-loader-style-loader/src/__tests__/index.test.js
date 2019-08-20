@@ -7,9 +7,11 @@
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import loader from '../index';
 
+const TEST_CSS = '.Button { border: 1px solid red; }';
+
 it('logs results correctly', () => {
 	const context = {
-		content: '.Button { border: 1px solid red; }',
+		content: TEST_CSS,
 		filePath: 'file.css',
 		log: new PluginLogger(),
 		extraArtifacts: {},
@@ -17,12 +19,18 @@ it('logs results correctly', () => {
 
 	loader(context, {});
 
-	expect(context.log.messages).toMatchSnapshot();
+	expect(context.log.messages).toEqual([
+		{
+			level: 'info',
+			source: 'style-loader',
+			things: ['Generated JavaScript CSS module'],
+		},
+	]);
 });
 
 it('correctly generates JS module', () => {
 	const context = {
-		content: '.Button { border: 1px solid red; }',
+		content: TEST_CSS,
 		filePath: 'file.css',
 		log: new PluginLogger(),
 		extraArtifacts: {},
@@ -31,6 +39,9 @@ it('correctly generates JS module', () => {
 	const result = loader(context, {});
 
 	expect(result).toBeUndefined();
+
 	expect(Object.keys(context.extraArtifacts)).toEqual(['file.css.js']);
-	expect(context.extraArtifacts['file.css.js']).toMatchSnapshot();
+	expect(eval(context.extraArtifacts['file.css.js']).outerHTML).toEqual(
+		`<style type="text/css">${TEST_CSS}</style>`
+	);
 });

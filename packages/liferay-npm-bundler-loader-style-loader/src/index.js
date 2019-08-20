@@ -12,9 +12,9 @@ export default function(context) {
 	const {filePath, log} = context;
 	let {content} = context;
 
+	content = content.replace(/\\/g, '\\\\');
 	content = content.replace(/\n/g, '\\n');
 	content = content.replace(/"/g, '\\"');
-	content = content.replace(/\\/g, '\\\\');
 
 	context.extraArtifacts[`${filePath}.js`] = `
 var css = "${content}";

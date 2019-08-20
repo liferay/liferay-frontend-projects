@@ -17,7 +17,13 @@ it('logs results correctly', () => {
 
 	loader(context, {});
 
-	expect(context.log.messages).toMatchSnapshot();
+	expect(context.log.messages).toEqual([
+		{
+			level: 'info',
+			source: 'sass-loader',
+			things: ['Processed file with sass v1.22.2 (from loader)'],
+		},
+	]);
 });
 
 it('correctly generates CSS', () => {
@@ -30,6 +36,9 @@ it('correctly generates CSS', () => {
 
 	const result = loader(context, {});
 
-	expect(result).toMatchSnapshot();
-	expect(context.extraArtifacts).toEqual({});
+	expect(result).toEqual(`.Button {
+  border: 1px solid red;
+}`);
+
+	expect(Object.keys(context.extraArtifacts)).toEqual([]);
 });
