@@ -64,20 +64,25 @@ module.exports = {
 					node.callee.type === 'MemberExpression' &&
 					node.callee.object.type === 'Identifier'
 				) {
+					// eg. Foo.bar()
 					for (const namespace of foundNamespaces) {
 						if (
 							node.callee.object.name === namespace.name &&
 							node.callee.property.type === 'Identifier' &&
 							node.callee.property.name === 'render'
 						) {
+							// eg. Foo.render()
 							if (isSame(node.callee.object, namespace)) {
+								// "Foo" came from react-dom.
 								report(node);
 							}
 						}
 					}
 				} else if (node.callee.type === 'Identifier') {
+					// eg. something()
 					for (const binding of foundBindings) {
 						if (node.callee.name === binding.name) {
+							// "something" came from react-dom.
 							if (isSame(node, binding)) {
 								report(node);
 							}
