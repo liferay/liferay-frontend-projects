@@ -37,7 +37,9 @@ export class Renderer {
 		try {
 			fs.mkdirSync(path.dirname(outputPath), {recursive: true});
 		} catch (err) {
-			if (err.code !== 'EEXIST') throw err	
+			if (err.code !== 'EEXIST') {
+				throw err;
+			}
 		}
 
 		ejs.renderFile(
