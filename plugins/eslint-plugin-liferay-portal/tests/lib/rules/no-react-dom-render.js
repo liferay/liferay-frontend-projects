@@ -205,5 +205,11 @@ ruleTester.run('no-react-dom-render', rule, {
 				SneakyDOM.render(element, container);
 			`,
 		},
+		{
+			code: `
+				// Regression test.
+				let declaration;
+			`,
+		},
 	],
 });
