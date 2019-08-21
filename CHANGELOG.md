@@ -1,3 +1,12 @@
+## [v8.0.0](https://github.com/liferay/eslint-config-liferay/tree/v8.0.0) (2019-08-21)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v7.0.0...v8.0.0)
+
+- feat: add liferay-portal/no-react-dom-render rule ([\#71](https://github.com/liferay/eslint-config-liferay/pull/71))
+- feat: configure Semantic Pull Requests bot ([\#73](https://github.com/liferay/eslint-config-liferay/pull/73))
+- fix: repair broken link in no-it-should rule ([\#72](https://github.com/liferay/eslint-config-liferay/pull/72))
+- docs: provide links to justify rule choices ([\#68](https://github.com/liferay/eslint-config-liferay/pull/68))
+
 ## [v7.0.0](https://github.com/liferay/eslint-config-liferay/tree/v7.0.0) (2019-08-14)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v6.0.0...v7.0.0)
