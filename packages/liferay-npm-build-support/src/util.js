@@ -34,7 +34,11 @@ export class Renderer {
 
 		const outputPath = path.join(dir, name);
 
-		fs.mkdirSync(path.dirname(outputPath), {recursive: true});
+		try {
+			fs.mkdirSync(path.dirname(outputPath), {recursive: true});
+		} catch (err) {
+			if (err.code !== 'EEXIST') throw err	
+		}
 
 		ejs.renderFile(
 			path.join(this._templatesDir, `${template}.ejs`),
