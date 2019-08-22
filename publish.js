@@ -160,6 +160,8 @@ function printBanner(...lines) {
 	log(['', ...lines, ''].join('\n\n'));
 }
 
+let exitStatus = 0;
+
 main()
 	.catch(error => {
 		printBanner(
@@ -167,9 +169,13 @@ main()
 			error.message,
 			'Please try publishing manually as per CONTRIBUTING.md.'
 		);
+
+		exitStatus = 1;
 	})
 	.finally(() => {
 		if (readline) {
 			readline.close();
 		}
+
+		process.exit(exitStatus);
 	});
