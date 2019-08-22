@@ -165,7 +165,7 @@ let exitStatus = 0;
 main()
 	.catch(error => {
 		printBanner(
-			'Failed to automatically publish package due to:',
+			'Failed to automatically publish package! ❌',
 			error.message,
 			'Please try publishing manually as per CONTRIBUTING.md.'
 		);
