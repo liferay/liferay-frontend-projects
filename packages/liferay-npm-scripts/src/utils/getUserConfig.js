@@ -10,9 +10,10 @@ const findRoot = require('./findRoot');
 /**
  * Helper to get configuration via `cosmiconfig`
  * @param {string} moduleName Name of user config file
+ * @param {object} whether to walk up looking for config if needed
  */
-module.exports = function(moduleName) {
-	const stopDir = findRoot() || process.cwd();
+module.exports = function(moduleName, options = {}) {
+	const stopDir = (options.upwards && findRoot()) || process.cwd();
 
 	const explorer = cosmiconfig(moduleName, {stopDir});
 
