@@ -5,7 +5,7 @@ This rule guards against the direct use of the `ReactDOM.render` API, in favor o
 At the time of writing, the wrapper provides:
 
 -   Automatic unmounting in response to "destroyPortlet" events.
--   Transparent provision of the `ClayIconSpriteContext` needed by Clay.
+-   Transparent provisioning of the `ClayIconSpriteContext` needed by Clay.
 
 If you'd like to propose further useful additions, please [create an issue](https://github.com/liferay/liferay-frontend-guidelines/issues/new) in the [liferay-frontend-guidelines](https://github.com/liferay/liferay-frontend-guidelines) repo.
 
