@@ -24,7 +24,7 @@ export class Project {
 	 * @param {string} projectDir project's path
 	 */
 	constructor(projectDir) {
-		this._projectDir = projectDir;
+		this._projectDir = path.resolve(projectDir);
 
 		this._loadPkgJson();
 		this._loadNpmbundlerrc();
@@ -84,7 +84,8 @@ export class Project {
 	}
 
 	/**
-	 * Get directory where files to be transformed live.
+	 * Get directory where files to be transformed live relative to
+	 * `this.dir` and starting with `./`
 	 * @return {string} the directory path (with native separators)
 	 */
 	get buildDir() {
@@ -97,7 +98,10 @@ export class Project {
 					: 'build/resources/main/META-INF/resources'
 			);
 
-			this._buildDir = path.normalize(dir);
+			this._buildDir =
+				'.' +
+				path.sep +
+				path.relative(this.dir, path.join(this.dir, dir));
 		}
 
 		return this._buildDir;
@@ -105,6 +109,7 @@ export class Project {
 
 	/**
 	 * Get project's directory
+	 * @return {string} an absolute path to project's directory
 	 */
 	get dir() {
 		return this._projectDir;

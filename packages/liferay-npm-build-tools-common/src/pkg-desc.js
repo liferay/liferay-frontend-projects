@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import path from 'path';
+
+import project from './project';
+
 /**
  * A package descriptor class to identify directories containing packages.
  * @type {PkgDesc}
@@ -13,20 +17,30 @@ export default class PkgDesc {
 	 * Constructor
 	 * @param {String} name name of package
 	 * @param {String} version version number
-	 * @param {String} dir directory where package lives (or null if it is the root package)
+	 * @param {String} dir directory where package lives (or null if it is the
+	 * 						root package)
 	 * @param {Boolean} forceRoot create a root package even if dir is not null
 	 */
 	constructor(name, version, dir, forceRoot = false) {
 		this._name = name;
 		this._version = version;
 
-		if (!dir || forceRoot) {
-			this.dir = dir ? dir : '.';
+		if (!dir) {
+			dir = project.dir;
+			this._id = PkgDesc.ROOT_ID;
+		} else if (forceRoot) {
 			this._id = PkgDesc.ROOT_ID;
 		} else {
-			this.dir = dir;
 			this._id = `${name}@${version}`;
 		}
+
+		dir = path.resolve(dir);
+
+		const relDir = path.relative(project.dir, dir);
+
+		// Because path.join('.', 'x') returns 'x', not './x' we need to prepend
+		// './' by hand :-(
+		this._dir = relDir === '' ? '.' : `.${path.sep}${relDir}`;
 	}
 
 	/**
@@ -34,46 +48,47 @@ export default class PkgDesc {
 	 * @return {PkgDesc} a clone of this (perhaps modified) package descriptor
 	 */
 	clone({dir} = {}) {
-		const clone = new PkgDesc(
+		return new PkgDesc(
 			this.name,
 			this.version,
-			this.dir,
+			dir ? dir : this._dir,
 			this.isRoot
 		);
-
-		if (dir) {
-			clone.dir = dir;
-		}
-
-		return clone;
 	}
 
-	/** eslint require-js-doc off */
+	/**
+	 * Get directory where package lives referenced to `project.dir`. Note that
+	 * it always start with `./` so that it can be used in `path.join()` calls.
+	 * @return {string}
+	 */
+	get dir() {
+		return this._dir;
+	}
+
+	set dir(dir) {
+		throw new Error('Package dirs are read-only');
+	}
+
 	get id() {
 		return this._id;
 	}
 
-	// eslint-disable-next-line require-jsdoc
 	set id(id) {
 		throw new Error('Package ids are read-only');
 	}
 
-	// eslint-disable-next-line require-jsdoc
 	get name() {
 		return this._name;
 	}
 
-	// eslint-disable-next-line require-jsdoc
 	set name(name) {
 		throw new Error('Package names are read-only');
 	}
 
-	// eslint-disable-next-line require-jsdoc
 	get version() {
 		return this._version;
 	}
 
-	// eslint-disable-next-line require-jsdoc
 	set version(version) {
 		throw new Error('Package versions are read-only');
 	}

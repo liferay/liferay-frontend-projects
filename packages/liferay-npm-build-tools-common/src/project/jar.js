@@ -5,6 +5,7 @@
  */
 
 import prop from 'dot-prop';
+import path from 'path';
 import readJsonSync from 'read-json-sync';
 
 import {getFeaturesFilePath} from './util';
@@ -59,17 +60,29 @@ export default class Jar {
 	}
 
 	/**
-	 * Get output directory for JAR file
+	 * Get output directory for JAR file relative to `this._project.dir` and
+	 * starting with `./`
+	 * @return {string} the directory path (with native separators)
 	 */
 	get outputDir() {
 		const {_npmbundlerrc} = this._project;
 
 		if (this._outputDir === undefined) {
-			this._outputDir = prop.get(
+			const dir = prop.get(
 				_npmbundlerrc,
 				'create-jar.output-dir',
 				this.supported ? this._project.buildDir : undefined
 			);
+
+			if (dir !== undefined) {
+				this._outputDir =
+					'.' +
+					path.sep +
+					path.relative(
+						this._project.dir,
+						path.join(this._project.dir, dir)
+					);
+			}
 		}
 
 		return this._outputDir;

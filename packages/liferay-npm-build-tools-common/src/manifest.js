@@ -7,6 +7,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import project from './project';
+
 /**
  * A class to hold information about processed modules and optionally dump/read
  * it to/from disk.
@@ -43,19 +45,18 @@ export default class Manifest {
 	 */
 	addPackage(srcPkg, destPkg) {
 		const pkg = this._data.packages[srcPkg.id] || {};
-		const cwd = process.cwd();
 
 		pkg.src = {
 			id: srcPkg.id,
 			name: srcPkg.name,
 			version: srcPkg.version,
-			dir: `.${path.resolve(srcPkg.dir).substring(cwd.length)}`,
+			dir: srcPkg.dir,
 		};
 		pkg.dest = {
 			id: destPkg.id,
 			name: destPkg.name,
 			version: destPkg.version,
-			dir: `.${path.resolve(destPkg.dir).substring(cwd.length)}`,
+			dir: destPkg.dir,
 		};
 
 		this._data.packages[srcPkg.id] = pkg;
@@ -91,23 +92,23 @@ export default class Manifest {
 
 	/**
 	 * Tests whether a package must be regenerated
-	 * @param {PkgDesc} srcPkg the source package descriptor
+	 * @param {PkgDesc} destPkg destination package
 	 * @return {Boolean} true if package is outdated
 	 */
-	isOutdated(srcPkg) {
+	isOutdated(destPkg) {
 		// Unless we use real timestamps or digests, we cannot detect reliably
 		// if the root package is outdated or up-to-date.
-		if (srcPkg.isRoot) {
+		if (destPkg.isRoot) {
 			return true;
 		}
 
-		const entry = this._data.packages[srcPkg.id];
+		const entry = this._data.packages[destPkg.id];
 
 		if (entry === undefined) {
 			return true;
 		}
 
-		if (!fs.existsSync(entry.dest.dir)) {
+		if (!fs.existsSync(path.join(project.dir, entry.dest.dir))) {
 			return true;
 		}
 

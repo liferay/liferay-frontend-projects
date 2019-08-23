@@ -91,7 +91,7 @@ export default class Rules {
 	 * 				`{use, resolvedModule, exec, options}`
 	 */
 	loadersForFile(filePath) {
-		filePath = path.resolve(filePath);
+		filePath = path.relative(this._project.dir, path.resolve(filePath));
 
 		const rules = this._rules.filter(rule =>
 			this._ruleApplies(rule, filePath)

@@ -31,7 +31,7 @@ describe('empty project', () => {
 
 	it('returns buildDir', () => {
 		expect(project.buildDir).toBe(
-			'build/resources/main/META-INF/resources'
+			'./build/resources/main/META-INF/resources'
 		);
 	});
 
@@ -98,7 +98,7 @@ describe('standard project', () => {
 	});
 
 	it('returns buildDir', () => {
-		expect(project.buildDir).toBe('build');
+		expect(project.buildDir).toBe('./build');
 	});
 
 	describe('project.jar', () => {
@@ -115,7 +115,7 @@ describe('standard project', () => {
 		});
 
 		it('returns outputDir', () => {
-			expect(project.jar.outputDir).toBe('dist');
+			expect(project.jar.outputDir).toBe('./dist');
 		});
 
 		it('returns outputFilename', () => {
@@ -222,11 +222,11 @@ describe('honors presets', () => {
 	});
 
 	it('loads project.buildDir from preset', () => {
-		expect(project.buildDir).toBe('preset-build');
+		expect(project.buildDir).toBe('./preset-build');
 	});
 
 	it('loads project.jar.outputDir from preset', () => {
-		expect(project.jar.outputDir).toBe('preset-dist');
+		expect(project.jar.outputDir).toBe('./preset-dist');
 	});
 
 	it('detects JAR configuration even if only in preset', () => {
