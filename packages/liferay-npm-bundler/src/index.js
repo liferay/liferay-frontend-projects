@@ -94,6 +94,15 @@ function run() {
 		// Report rules config
 		report.rulesConfig(project.rules.config);
 
+		// Warn about incremental builds
+		if (manifest.loadedFromFile) {
+			report.warn(
+				'This report is from an incremental build: some steps may be ' +
+					'missing (you may remove the output directory to force a ' +
+					'full build).'
+			);
+		}
+
 		// Do things
 		copyPackages(outputDir, rootPkg, pkgs)
 			.then(() => runRules(outputDir))

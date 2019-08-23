@@ -20,11 +20,14 @@ export default class Manifest {
 	 * @param {String} filePath an optional path to a file to load initial status
 	 */
 	constructor(filePath = null) {
+		this._loadedFromFile = false;
+
 		if (filePath) {
 			this._filePath = filePath;
 
 			try {
 				this._data = JSON.parse(fs.readFileSync(filePath));
+				this._loadedFromFile = true;
 				return;
 			} catch (err) {
 				if (err.code !== 'ENOENT') {
@@ -36,6 +39,13 @@ export default class Manifest {
 		this._data = {
 			packages: {},
 		};
+	}
+
+	/**
+	 * Set to true when the manifest has been loaded from a file.
+	 */
+	get loadedFromFile() {
+		return this._loadedFromFile;
 	}
 
 	/**
