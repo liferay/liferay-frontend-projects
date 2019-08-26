@@ -52,6 +52,34 @@ const Language = {
 };
 
 /**
+ * Contains APIs that provide information about the running context of the portal. The JS ThemeDisplay object is a representation of its Java counterpart
+ * simplified for JS access.
+ *
+ * https://github.com/liferay/liferay-portal/blob/master/portal-web/docroot/html/common/themes/top_js.jspf#L147
+ */
+const ThemeDisplay = {
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/portal-web/docroot/html/common/themes/top_js.jspf#L217
+	 */
+	getDoAsUserIdEncoded: jest.fn(_ => 'default-mocked-do-as-user-id'),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/portal-web/docroot/html/common/themes/top_js.jspf#L235
+	 */
+	getPathMain: jest.fn(_ => '/c'),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/portal-web/docroot/html/common/themes/top_js.jspf#L238
+	 */
+	getPathThemeImages: jest.fn(_ => ''),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/portal-web/docroot/html/common/themes/top_js.jspf#L247
+	 */
+	getPortalURL: jest.fn(_ => 'http://localhost:8080')
+};
+
+/**
  * General utilities on the `Liferay`. Possible API sources are:
  *
  * - https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js
@@ -77,5 +105,6 @@ const Util = {
 module.exports = {
 	...events,
 	Language,
+	ThemeDisplay,
 	Util
 };
