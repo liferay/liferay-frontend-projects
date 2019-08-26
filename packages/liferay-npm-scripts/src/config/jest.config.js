@@ -8,9 +8,6 @@ const path = require('path');
 
 module.exports = {
 	coverageDirectory: 'build/coverage',
-	globals: {
-		Liferay: {}
-	},
 	modulePathIgnorePatterns: ['/__fixtures__/', '/build/', '/classes/'],
 	setupFiles: [require.resolve('../jest/setup.js')],
 	testMatch: ['**/test/**/*.js'],

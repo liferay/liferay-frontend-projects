@@ -5,3 +5,5 @@
  */
 
 global.Headers = require('./mocks/headers');
+
+global.Liferay = require('./mocks/liferay');
