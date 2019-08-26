@@ -12,6 +12,7 @@ module.exports = {
 		Liferay: {}
 	},
 	modulePathIgnorePatterns: ['/__fixtures__/', '/build/', '/classes/'],
+	setupFiles: [require.resolve('../jest/setup.js')],
 	testMatch: ['**/test/**/*.js'],
 	testPathIgnorePatterns: ['/node_modules/', '<rootDir>/test/stories/'],
 	testResultsProcessor: 'liferay-jest-junit-reporter',
