@@ -37,6 +37,30 @@ const events = {
 	once: jest.fn()
 };
 
+/**
+ * General utilities on the `Liferay`. Possible API sources are:
+ *
+ * - https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js
+ * - https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js
+ */
+const Util = {
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L442
+	 */
+	getGeolocation: jest.fn(),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/util/navigate.es.js
+	 */
+	navigate: jest.fn(),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/test/liferay/util/ns.es.js
+	 */
+	ns: jest.fn()
+};
+
 module.exports = {
-	...events
+	...events,
+	Util
 };
