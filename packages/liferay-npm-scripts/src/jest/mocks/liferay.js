@@ -38,6 +38,20 @@ const events = {
 };
 
 /**
+ * Contains a fallback/dummy implementation of `Liferay.Language.get`. In practice, this call is rewritten in a ServerFilter, so runtime calls to
+ * `Liferay.Language.get` should not be found in production code. A better match for the real behaviour would be a babel plugin to rewrite calls
+ * to the API with their "translated" value.
+ *
+ * https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/language.js
+ */
+const Language = {
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/language.js#L18
+	 */
+	get: jest.fn(key => key)
+};
+
+/**
  * General utilities on the `Liferay`. Possible API sources are:
  *
  * - https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js
@@ -62,5 +76,6 @@ const Util = {
 
 module.exports = {
 	...events,
+	Language,
 	Util
 };
