@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const authToken = 'default-mocked-auth-token';
+
 /**
  * Event support APIs on the `Liferay` object inherited from `A.Attributes`
  *
@@ -106,5 +108,6 @@ module.exports = {
 	...events,
 	Language,
 	ThemeDisplay,
-	Util
+	Util,
+	authToken
 };
