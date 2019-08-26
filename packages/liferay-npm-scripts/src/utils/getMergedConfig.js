@@ -90,7 +90,7 @@ function getMergedConfig(type, property) {
 		case 'prettier':
 			mergedConfig = deepMerge([
 				require('../config/prettier'),
-				getUserConfig('prettier')
+				getUserConfig('prettier', {upwards: true})
 			]);
 			break;
 
