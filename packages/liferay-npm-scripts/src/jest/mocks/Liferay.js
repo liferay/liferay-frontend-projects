@@ -96,7 +96,12 @@ const Util = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-web/test/liferay/util/ns.es.js
 	 */
-	ns: jest.fn()
+	ns: jest.fn(),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L999
+	 */
+	sub: jest.fn()
 };
 
 module.exports = {
