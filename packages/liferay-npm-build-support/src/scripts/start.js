@@ -12,7 +12,7 @@ import readJsonSync from 'read-json-sync';
 import util from 'util';
 
 import * as cfg from '../config';
-import Renderer from '../util';
+import { Renderer } from '../util';
 
 const templatesDir = path.join(__dirname, '..', 'resources', 'start');
 const webpackDir = path.join(project.dir, '.webpack');
@@ -21,7 +21,7 @@ const pkgJson = readJsonSync(path.join(project.dir, 'package.json'));
 /**
  *
  */
-export default function() {
+export default function () {
 	copyWebpackResources();
 	runWebpackDevServer();
 }
@@ -104,11 +104,11 @@ function runWebpackDevServer() {
 		});
 	}
 
-	proc.stdout.on('data', function(data) {
+	proc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
 
-	proc.stderr.on('data', function(data) {
+	proc.stderr.on('data', function (data) {
 		console.error(data.toString());
 	});
 }
