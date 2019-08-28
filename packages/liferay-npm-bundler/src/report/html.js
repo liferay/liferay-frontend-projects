@@ -70,9 +70,27 @@ export function htmlDump(report) {
 					return htmlRow(`
 						<td>${name}</td>
 						<td>${version}</td>
-						<td>${htmlIf(copiedFiles, () => copiedFiles.length)}</td>
+						<td>${htmlIf(
+							copiedFiles,
+							() =>
+								`<div title="${copiedFiles.sort().join(',')}">
+									${copiedFiles.length}
+								</div>`
+						)}</td>
 						<td>
-							${htmlIf(allFiles && copiedFiles, () => allFiles.length - copiedFiles.length)}
+							${htmlIf(
+								allFiles && copiedFiles,
+								() =>
+									`<div title="${allFiles
+										.filter(
+											file =>
+												copiedFiles.indexOf(file) == -1
+										)
+										.sort()
+										.join(',')}">
+										${allFiles.length - copiedFiles.length}
+									</div>`
+							)}
 						</td>
 						<td>${htmlIf(link, () => link)}</td>
 					`);
