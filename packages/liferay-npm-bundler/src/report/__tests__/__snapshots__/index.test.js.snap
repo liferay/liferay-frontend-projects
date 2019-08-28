@@ -134,9 +134,13 @@ exports[`correctly dumps HTML report 1`] = `
 				<tr>
 						<td>package-1</td>
 						<td>1.0.0</td>
-						<td>2</td>
+						<td><div title=\\"a.js,c.js\\">
+									2
+								</div></td>
 						<td>
-							1
+							<div title=\\"b.js\\">
+										1
+									</div>
 						</td>
 						<td>file:../package-1</td>
 					</tr>
