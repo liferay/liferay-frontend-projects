@@ -45,39 +45,12 @@ export class Project {
 	}
 
 	/**
-	 * Get source files to be copied to `buildDir` before processing takes
-	 * place.
-	 * @return {Array<object>} each object has a `dir`, and a `files` (
-	 * containing a glob) field
+	 * Get directories inside the project containing source files.
+	 * @return {Array<sring>} directory names relative to `project.dir`
 	 */
 	get sources() {
 		if (this._sources === undefined) {
-			let sources = prop.get(this._npmbundlerrc, 'sources', []);
-
-			if (typeof sources === 'string') {
-				sources = [sources];
-			}
-
-			this._sources = sources.map(source => {
-				let dir, files;
-
-				if (typeof source === 'string') {
-					dir = source;
-					files = '**/*';
-				} else {
-					dir = source.dir || '.';
-					files = source.files || '**/*';
-				}
-
-				if (!Array.isArray(files)) {
-					files = [files];
-				}
-
-				return {
-					dir: path.normalize(dir),
-					files,
-				};
-			});
+			this._sources = prop.get(this._npmbundlerrc, 'sources', []);
 		}
 
 		return this._sources;
