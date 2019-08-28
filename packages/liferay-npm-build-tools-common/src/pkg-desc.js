@@ -41,6 +41,8 @@ export default class PkgDesc {
 		// Because path.join('.', 'x') returns 'x', not './x' we need to prepend
 		// './' by hand :-(
 		this._dir = relDir === '' ? '.' : `.${path.sep}${relDir}`;
+
+		this._clean = true;
 	}
 
 	/**
@@ -67,6 +69,14 @@ export default class PkgDesc {
 
 	set dir(dir) {
 		throw new Error('Package dirs are read-only');
+	}
+
+	get clean() {
+		return this._clean;
+	}
+
+	set clean(clean) {
+		this._clean = clean;
 	}
 
 	get id() {
