@@ -106,14 +106,13 @@ export function isNoTracking() {
 			dir = path.resolve(dir, '..');
 		}
 
-		prop.set(
-			config,
-			'no-tracking',
-			fs.existsSync(path.join(dir, '.liferay-npm-bundler-no-tracking'))
-		);
+		if (fs.existsSync(path.join(dir, '.liferay-npm-bundler-no-tracking'))) {
+			prop.set(config, 'no-tracking', true);
+		}
 	}
 
-	return prop.get(config, 'no-tracking', false);
+	// Disable tracking by default
+	return prop.get(config, 'no-tracking', true);
 }
 
 /**

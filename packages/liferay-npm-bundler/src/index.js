@@ -58,6 +58,9 @@ export default function(args) {
 	if (config.isNoTracking()) {
 		run();
 	} else {
+		log.debug(
+			'The tool is sending usage statistics to our remote servers.'
+		);
 		insight.init().then(run);
 	}
 }
