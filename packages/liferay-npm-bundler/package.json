@@ -21,7 +21,7 @@
 		"data-urls": "^1.0.0",
 		"dot-prop": "^5.0.0",
 		"fs-extra": "^4.0.2",
-		"globby": "^6.1.0",
+		"globby": "^10.0.1",
 		"insight": "0.10.0",
 		"jszip": "^3.1.5",
 		"liferay-npm-build-tools-common": "2.12.0",
