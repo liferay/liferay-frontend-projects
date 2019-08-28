@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 
 import project from './project';
@@ -137,6 +137,7 @@ export default class Manifest {
 			throw new Error('No file path given and no default path set');
 		}
 
+		fs.ensureDirSync(path.dirname(filePath));
 		fs.writeFileSync(filePath, this.toJSON());
 	}
 
