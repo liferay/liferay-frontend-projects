@@ -18,6 +18,7 @@ describe('single rule', () => {
 					},
 				],
 			},
+			dir: '/home/me/my-project',
 			require: () => requireReturn,
 		});
 
@@ -43,6 +44,7 @@ describe('single rule', () => {
 					},
 				],
 			},
+			dir: '/home/me/my-project',
 			require: () => requireReturn,
 		});
 
@@ -72,6 +74,7 @@ describe('single rule', () => {
 					},
 				],
 			},
+			dir: '/home/me/my-project',
 			require: () => requireReturn,
 		});
 
@@ -104,6 +107,7 @@ describe('single rule', () => {
 					},
 				],
 			},
+			dir: '/home/me/my-project',
 			require: () => requireReturn,
 		});
 
@@ -128,6 +132,37 @@ describe('single rule', () => {
 	});
 });
 
+it('works with rules not based in file extension', () => {
+	const requireReturn = () => undefined;
+	const rules = new Rules({
+		_npmbundlerrc: {
+			rules: [
+				{
+					test: '^a-folder/',
+					use: 'a-loader',
+				},
+			],
+		},
+		dir: '/home/me/my-project',
+		require: () => requireReturn,
+	});
+
+	expect(
+		rules.loadersForFile('/home/me/my-project/a-folder/main.js')
+	).toEqual([
+		{
+			loader: 'a-loader',
+			options: {},
+			resolvedModule: 'liferay-npm-bundler-loader-a-loader',
+			exec: requireReturn,
+		},
+	]);
+
+	expect(
+		rules.loadersForFile('/home/me/my-project/b-folder/main.js')
+	).toEqual([]);
+});
+
 it('multiple rules', () => {
 	const requireReturn = () => undefined;
 	const rules = new Rules({
@@ -143,6 +178,7 @@ it('multiple rules', () => {
 				},
 			],
 		},
+		dir: '/home/me/my-project',
 		require: () => requireReturn,
 	});
 
@@ -181,6 +217,7 @@ it('rule with options', () => {
 				},
 			],
 		},
+		dir: '/home/me/my-project',
 		require: () => requireReturn,
 	});
 

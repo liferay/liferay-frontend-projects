@@ -86,7 +86,7 @@ export default class Rules {
 
 	/**
 	 * Returns the associated rules for a given absolute file path.
-	 * @param {string} filePath
+	 * @param {string} filePath an absolute file path (or relative to `cwd`)
 	 * @return {Array<object>} an Array of objects with structure
 	 * 				`{use, resolvedModule, exec, options}`
 	 */
