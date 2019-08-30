@@ -23,6 +23,7 @@ const config = {
 		'default-case': 'error',
 		'liferay/no-it-should': 'error',
 		'liferay/padded-test-blocks': 'error',
+		'no-console': ['error', {allow: ['warn', 'error']}],
 		'no-for-of-loops/no-for-of-loops': 'error',
 		'no-only-tests/no-only-tests': 'error',
 		'no-return-assign': ['error', 'always'],
