@@ -7,5 +7,6 @@
 module.exports = {
 	rules: {
 		'no-it-should': require('./lib/rules/no-it-should'),
+		'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
 	},
 };
