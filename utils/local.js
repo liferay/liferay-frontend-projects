@@ -39,7 +39,10 @@ function patch() {
 
 	if (majorVersion > 5) {
 		if (!originalResolve) {
-			const resolver = require('eslint/lib/shared/relative-module-resolver');
+			const resolver = require(require.resolve(
+				'eslint/lib/shared/relative-module-resolver',
+				{paths: [process.cwd()]}
+			));
 
 			originalResolve = resolver.resolve;
 
