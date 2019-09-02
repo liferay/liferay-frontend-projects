@@ -49,6 +49,13 @@ fs.writeFileSync('package.json', JSON.stringify(modPkgJson, null, 2));
 
 console.log('\n--- Installing dependencies not from JS Toolkit\n');
 try {
+	process.argv.slice(2).forEach(arg => {
+		yarn('add', arg);
+
+		const newPkgJson = readJsonSync(path.join('.', 'package.json'));
+
+		pkgJson.dependencies[arg] = newPkgJson.dependencies[arg];
+	});
 	yarn('install');
 } finally {
 	fs.writeFileSync('package.json', JSON.stringify(pkgJson, null, 2));
