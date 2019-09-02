@@ -13,6 +13,7 @@ export default function(context) {
 	let {content} = context;
 
 	content = content.replace(/\\/g, '\\\\');
+	content = content.replace(/\r/g, '\\n');
 	content = content.replace(/\n/g, '\\n');
 	content = content.replace(/"/g, '\\"');
 
