@@ -3,7 +3,7 @@ bundler supports [webpack like loaders](https://webpack.js.org/loaders/).
 
 Though the mechanism is inspired in `webpack`, the differences between
 `webpack`'s and Liferay bundler's models makes loaders' API incompatible so you
-cannot reuse `webpack` with our bundler or vice versa.
+cannot reuse `webpack` loaders with our bundler or vice versa.
 
 ## What is a loader
 
