@@ -14,6 +14,7 @@ import resolveModule from 'resolve';
 import Jar from './jar';
 import Localization from './localization';
 import Probe from './probe';
+import Rules from './rules';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -23,7 +24,7 @@ export class Project {
 	 * @param {string} projectDir project's path
 	 */
 	constructor(projectDir) {
-		this._projectDir = projectDir;
+		this._projectDir = path.resolve(projectDir);
 
 		this._loadPkgJson();
 		this._loadNpmbundlerrc();
@@ -34,15 +35,30 @@ export class Project {
 			? readJsonSync(pkgJsonPath)
 			: {};
 
+		this._sources = undefined;
 		this._buildDir = undefined;
 
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.probe = new Probe(this);
+		this.rules = new Rules(this);
 	}
 
 	/**
-	 * Get directory where files to be transformed live.
+	 * Get directories inside the project containing source files.
+	 * @return {Array<sring>} directory names relative to `project.dir`
+	 */
+	get sources() {
+		if (this._sources === undefined) {
+			this._sources = prop.get(this._npmbundlerrc, 'sources', []);
+		}
+
+		return this._sources;
+	}
+
+	/**
+	 * Get directory where files to be transformed live relative to
+	 * `this.dir` and starting with `./`
 	 * @return {string} the directory path (with native separators)
 	 */
 	get buildDir() {
@@ -55,7 +71,10 @@ export class Project {
 					: 'build/resources/main/META-INF/resources'
 			);
 
-			this._buildDir = path.normalize(dir);
+			this._buildDir =
+				'.' +
+				path.sep +
+				path.relative(this.dir, path.join(this.dir, dir));
 		}
 
 		return this._buildDir;
@@ -63,9 +82,31 @@ export class Project {
 
 	/**
 	 * Get project's directory
+	 * @return {string} an absolute path to project's directory
 	 */
 	get dir() {
 		return this._projectDir;
+	}
+
+	/**
+	 * Get project's parsed package.json file
+	 */
+	get pkgJson() {
+		return this._pkgJson;
+	}
+
+	/**
+	 * Requires a module in the context of the project (as opposed to the
+	 * context of the calling package which would just use a normal `require()`
+	 * call).
+	 * @param {string} moduleName
+	 */
+	require(moduleName) {
+		const modulePath = resolveModule.sync(moduleName, {
+			basedir: this._projectDir,
+		});
+
+		return require(modulePath);
 	}
 
 	_loadNpmbundlerrc() {

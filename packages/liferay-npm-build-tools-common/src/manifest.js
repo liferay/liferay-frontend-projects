@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
+
+import project from './project';
 
 /**
  * A class to hold information about processed modules and optionally dump/read
@@ -18,11 +20,14 @@ export default class Manifest {
 	 * @param {String} filePath an optional path to a file to load initial status
 	 */
 	constructor(filePath = null) {
+		this._loadedFromFile = false;
+
 		if (filePath) {
 			this._filePath = filePath;
 
 			try {
 				this._data = JSON.parse(fs.readFileSync(filePath));
+				this._loadedFromFile = true;
 				return;
 			} catch (err) {
 				if (err.code !== 'ENOENT') {
@@ -37,25 +42,31 @@ export default class Manifest {
 	}
 
 	/**
+	 * Set to true when the manifest has been loaded from a file.
+	 */
+	get loadedFromFile() {
+		return this._loadedFromFile;
+	}
+
+	/**
 	 * Add a processed package entry
 	 * @param {PkgDesc} srcPkg the source package descriptor
 	 * @param {PkgDesc} destPkg the destination package descriptor
 	 */
 	addPackage(srcPkg, destPkg) {
 		const pkg = this._data.packages[srcPkg.id] || {};
-		const cwd = process.cwd();
 
 		pkg.src = {
 			id: srcPkg.id,
 			name: srcPkg.name,
 			version: srcPkg.version,
-			dir: `.${path.resolve(srcPkg.dir).substring(cwd.length)}`,
+			dir: srcPkg.dir,
 		};
 		pkg.dest = {
 			id: destPkg.id,
 			name: destPkg.name,
 			version: destPkg.version,
-			dir: `.${path.resolve(destPkg.dir).substring(cwd.length)}`,
+			dir: destPkg.dir,
 		};
 
 		this._data.packages[srcPkg.id] = pkg;
@@ -91,23 +102,23 @@ export default class Manifest {
 
 	/**
 	 * Tests whether a package must be regenerated
-	 * @param {PkgDesc} srcPkg the source package descriptor
+	 * @param {PkgDesc} destPkg destination package
 	 * @return {Boolean} true if package is outdated
 	 */
-	isOutdated(srcPkg) {
+	isOutdated(destPkg) {
 		// Unless we use real timestamps or digests, we cannot detect reliably
 		// if the root package is outdated or up-to-date.
-		if (srcPkg.isRoot) {
+		if (destPkg.isRoot) {
 			return true;
 		}
 
-		const entry = this._data.packages[srcPkg.id];
+		const entry = this._data.packages[destPkg.id];
 
 		if (entry === undefined) {
 			return true;
 		}
 
-		if (!fs.existsSync(entry.dest.dir)) {
+		if (!fs.existsSync(path.join(project.dir, entry.dest.dir))) {
 			return true;
 		}
 
@@ -126,6 +137,7 @@ export default class Manifest {
 			throw new Error('No file path given and no default path set');
 		}
 
+		fs.ensureDirSync(path.dirname(filePath));
 		fs.writeFileSync(filePath, this.toJSON());
 	}
 

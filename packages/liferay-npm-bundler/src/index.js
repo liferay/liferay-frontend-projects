@@ -5,13 +5,11 @@
  */
 
 import fs from 'fs-extra';
-import globby from 'globby';
-import * as gl from 'liferay-npm-build-tools-common/lib/globs';
-import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
+import semver from 'semver';
 
 import * as config from './config';
 import {addPackageDependencies, getRootPkg} from './dependencies';
@@ -21,12 +19,9 @@ import * as log from './log';
 import manifest from './manifest';
 import report from './report';
 
-import {runPlugins, runBabel} from './runners';
-import {
-	iterateSerially,
-	renamePkgDirIfPkgJsonChanged,
-	reportLinkedDependencies,
-} from './util';
+import copyPackages from './steps/copy';
+import runRules from './steps/rules';
+import transformPackages from './steps/transform';
 
 /**
  * Default entry point for the liferay-npm-bundler.
@@ -59,6 +54,9 @@ export default function(args) {
 	if (config.isNoTracking()) {
 		run();
 	} else {
+		log.debug(
+			'The tool is sending usage statistics to our remote servers.'
+		);
 		insight.init().then(run);
 	}
 }
@@ -71,39 +69,40 @@ function run() {
 	try {
 		const start = process.hrtime();
 
-		// Create work directories
-		const outputDir = path.resolve(project.buildDir);
-		fs.mkdirsSync(path.join(outputDir, 'node_modules'));
+		// Get root package
+		const rootPkg = getRootPkg();
 
-		const promises = [];
+		report.rootPackage(rootPkg);
 
-		// Copy project's package.json
-		promises.push(bundleRootPackage(outputDir));
-		report.rootPackage(getRootPkg());
-
-		// Grab NPM dependencies
-		let pkgs = addPackageDependencies(
+		// Compute dependency packages
+		let depPkgs = addPackageDependencies(
 			{},
 			'.',
 			config.bundler.getIncludeDependencies()
 		);
 
-		pkgs = Object.keys(pkgs)
-			.map(id => pkgs[id])
-			.filter(pkg => !pkg.isRoot);
+		depPkgs = Object.values(depPkgs).filter(pkg => !pkg.isRoot);
 
-		report.dependencies(pkgs);
-		reportLinkedDependencies(readJsonSync('package.json'));
+		report.dependencies(depPkgs);
+		reportLinkedDependencies(project.pkgJson);
 
-		// Process NPM dependencies
-		log.info(`Bundling ${pkgs.length} dependencies...`);
+		// Report rules config
+		report.rulesConfig(project.rules.config);
 
-		promises.push(
-			iterateSerially(pkgs, pkg => bundlePackage(pkg, outputDir))
-		);
+		// Warn about incremental builds
+		if (manifest.loadedFromFile) {
+			report.warn(
+				'This report is from an incremental build: some steps may be ' +
+					'missing (you may remove the output directory to force a ' +
+					'full build).'
+			);
+		}
 
-		// Report results
-		Promise.all(promises)
+		// Do things
+		copyPackages(rootPkg, depPkgs)
+			.then(() => runRules(rootPkg, depPkgs))
+			.then(() => transformPackages(rootPkg, depPkgs))
+			.then(() => manifest.save())
 			.then(() => (project.jar.supported ? createJar() : undefined))
 			.then(() => {
 				// Report and show execution time
@@ -122,19 +121,7 @@ function run() {
 					);
 					log.info(`Report written to ${config.getReportFilePath()}`);
 				} else if (report.warningsPresent) {
-					log.debug(`
-*************************************************************
-
-             WARNING FROM liferay-npm-bundler
-
-The build has emitted some warning messages: we recommend
-cleaning the output, activating the 'dump-report' option
-in '.npmbundlerrc', and then reviewing the generated
-'liferay-npm-bundler-report.html' to make sure no problems
-will arise during runtime.
-
-*************************************************************
-`);
+					log.debug('The build has emitted some warning messages.');
 				}
 			})
 			.catch(abort);
@@ -144,197 +131,49 @@ will arise during runtime.
 }
 
 /**
+ * Report linked dependencies of a given package.json
+ * @param  {Object} pkgJson pacakge.json file contents
+ * @return {void}
+ */
+function reportLinkedDependencies(pkgJson) {
+	['dependencies', 'devDependencies'].forEach(scope => {
+		if (pkgJson[scope] != null) {
+			Object.keys(pkgJson[scope]).forEach(depName => {
+				const depVersion = pkgJson[scope][depName];
+
+				if (semver.validRange(depVersion) == null) {
+					const depPkgJsonPath = path.join(
+						'node_modules',
+						depName,
+						'package.json'
+					);
+
+					const depPkgJson = readJsonSync(depPkgJsonPath);
+
+					pkgJson[scope][depName] = depPkgJson.version;
+
+					report.linkedDependency(
+						depName,
+						depVersion,
+						depPkgJson.version
+					);
+				}
+			});
+		}
+	});
+}
+
+/**
  * Abort execution showing error message
  * @param  {Object} err the error object
  * @return {void}
  */
 function abort(err) {
-	log.error(err);
+	log.error(`
+
+${err.stack}
+
+`);
+
 	process.exit(1);
-}
-
-/**
- * Copy project root package.json file to output directory.
- * @param {String} outputDir the output directory path
- * @return {Promise} a Promise fulfilled when the copy has been finished
- */
-function bundleRootPackage(outputDir) {
-	const srcPkg = getRootPkg();
-	const pkg = srcPkg.clone({dir: outputDir});
-
-	if (!manifest.isOutdated(srcPkg)) {
-		log.debug(`Skipping root package (already bundled)`);
-		return Promise.resolve();
-	}
-
-	// Copy source package.json
-	const srcPkgJson = readJsonSync('package.json');
-
-	fs.writeFileSync(
-		path.join(pkg.dir, 'package.json'),
-		JSON.stringify(srcPkgJson, '', 2)
-	);
-
-	// Process package
-	return processPackage('pre', srcPkg, pkg)
-		.then(() => runBabel(pkg, {ignore: config.babel.getIgnore()}))
-		.then(() => processPackage('post', srcPkg, pkg))
-		.then(() => manifest.addPackage(srcPkg, pkg))
-		.then(() => manifest.save())
-		.then(() => log.debug(`Bundled root package`));
-}
-
-/**
- * Bundle a npm package
- * @param {PkgDesc} srcPkg the source package descriptor
- * @param {String} outputDir directory where bundled packages are placed
- * @return {Promise} a promise that is fulfilled when the package is bundled
- */
-function bundlePackage(srcPkg, outputDir) {
-	if (!manifest.isOutdated(srcPkg)) {
-		log.debug(`Skipping ${srcPkg.id} (already bundled)`);
-		return Promise.resolve();
-	}
-
-	log.debug(`Bundling ${srcPkg.id}`);
-
-	const outPkgDir = path.join(
-		outputDir,
-		'node_modules',
-		getPackageTargetDir(srcPkg.name, srcPkg.version)
-	);
-
-	const pkg = srcPkg.clone({dir: outPkgDir});
-
-	return new Promise((resolve, reject) => {
-		copyPackage(srcPkg, outPkgDir)
-			.then(copied => {
-				if (!copied) {
-					resolve();
-					return;
-				}
-
-				processPackage('pre', srcPkg, pkg)
-					.then(() => runBabel(pkg))
-					.then(() => processPackage('post', srcPkg, pkg))
-					.then(() => renamePkgDirIfPkgJsonChanged(pkg))
-					.then(pkg => manifest.addPackage(srcPkg, pkg))
-					.then(() => manifest.save())
-					.then(() => log.debug(`Bundled ${pkg.id}`))
-					.then(resolve)
-					.catch(reject);
-			})
-			.catch(reject);
-	});
-}
-
-/**
- * Copy an NPM package to output directory.
- * @param {PkgDesc} pkg the package descriptor
- * @param {String} dir the output directory path
- * @return {Promise} a Promise fulfilled with true|false stating that the copy has been finished|rejected
- */
-function copyPackage(pkg, dir) {
-	const exclusions = config.bundler.getExclusions(pkg);
-
-	// Optimize execution time when a "exclude everything" glob is found
-	if (exclusions.find(exclusion => exclusion === '**/*')) {
-		return Promise.resolve(false);
-	}
-
-	// Determine what to copy
-	const globs = [`${pkg.dir}/**/*`, `!${pkg.dir}/node_modules/**/*`].concat(
-		gl.negate(gl.prefix(`${pkg.dir}/`, exclusions))
-	);
-
-	return globby(globs).then(files => {
-		// Filter files with copy-plugins
-		const state = runPlugins(
-			config.bundler.getPlugins('copy', pkg),
-			pkg,
-			pkg.clone({dir}),
-			{
-				files,
-			},
-			(plugin, log) => {
-				report.packageProcessBundlerPlugin('copy', pkg, plugin, log);
-			}
-		);
-		files = state.files;
-
-		// Copy files
-		const fileFilter = path => fs.statSync(path).isFile();
-		const relativePathMapper = path => path.substring(pkg.dir.length + 1);
-
-		files = files.filter(fileFilter).map(relativePathMapper);
-
-		const allFiles = globby
-			.sync([`${pkg.dir}/**/*`])
-			.filter(fileFilter)
-			.map(relativePathMapper);
-
-		report.packageCopy(pkg, allFiles, files);
-
-		if (files.length == 0) {
-			return Promise.resolve(false);
-		} else {
-			const promises = files.map(path =>
-				fs.copy(`${pkg.dir}/${path}`, `${dir}/${path}`)
-			);
-
-			return Promise.all(promises).then(() => true);
-		}
-	});
-}
-
-/**
- * Process an NPM package with the configured liferay-nmp-bundler plugins. This
- * function is called two times (known as phases) per package: one before Babel
- * runs and one after.
- * @param {String} phase 'pre' or 'post' depending on what phase we are in
- * @param {PkgDesc} srcPkg the source package descriptor
- * @param {PkgDesc} pkg the target package descriptor
- * @return {Promise} a Promise fulfilled when the process has been finished
- */
-function processPackage(phase, srcPkg, pkg) {
-	return new Promise((resolve, reject) => {
-		try {
-			const state = runPlugins(
-				config.bundler.getPlugins(phase, pkg),
-				srcPkg,
-				pkg,
-				{
-					pkgJson: readJsonSync(path.join(pkg.dir, 'package.json')),
-				},
-				(plugin, log) => {
-					report.packageProcessBundlerPlugin(phase, pkg, plugin, log);
-
-					if (log.errorsPresent) {
-						report.warn(
-							'There are errors for some of the ' +
-								'liferay-npm-bundler plugins: please check ' +
-								'details of bundler transformations.',
-							{unique: true}
-						);
-					} else if (log.warnsPresent) {
-						report.warn(
-							'There are warnings for some of the ' +
-								'liferay-npm-bundler plugins: please check ' +
-								'details of bundler transformations.',
-							{unique: true}
-						);
-					}
-				}
-			);
-
-			fs.writeFileSync(
-				path.join(pkg.dir, 'package.json'),
-				JSON.stringify(state.pkgJson, '', 2)
-			);
-
-			resolve();
-		} catch (err) {
-			reject(err);
-		}
-	});
 }

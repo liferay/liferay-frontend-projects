@@ -20,6 +20,11 @@ export class Report {
 		this._executionDate = new Date();
 		this._versionsInfo = {};
 		this._packages = {};
+		this._rules = {
+			config: {},
+			files: {},
+		};
+
 		this._warnings = [];
 	}
 
@@ -182,6 +187,14 @@ export class Report {
 		const {babel} = this._getPackageProcess(pkg.id);
 
 		babel.files[filePath] = {logger};
+	}
+
+	rulesConfig(config) {
+		this._rules.config = config;
+	}
+
+	rulesRun(filePath, logger) {
+		this._rules.files[filePath] = {logger};
 	}
 
 	/**

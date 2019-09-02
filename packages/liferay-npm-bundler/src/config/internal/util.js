@@ -25,11 +25,28 @@ export function init(state) {
  * @return {Object} the required module object
  */
 export function configRequire(module) {
-	const pluginFile = resolveModule.sync(module, {
-		basedir: config.pluginsBaseDir,
-	});
+	return require(configResolve(module));
+}
 
-	return require(pluginFile);
+/**
+ * Resolve a module using the configured plugins directory.
+ * @param {String} module a module name
+ * @return {Object} the required module object
+ */
+export function configResolve(module) {
+	let pluginFile;
+
+	try {
+		pluginFile = resolveModule.sync(module, {
+			basedir: config.pluginsBaseDir,
+		});
+	} catch (err) {
+		pluginFile = resolveModule.sync(module, {
+			basedir: '.',
+		});
+	}
+
+	return pluginFile;
 }
 
 /**
@@ -51,7 +68,11 @@ export function getPackageConfig(pkg, section, defaultValue = undefined) {
 		config.packages[pkg.name][section]
 	) {
 		pkgConfig = config.packages[pkg.name][section];
-	} else if (config[pkg.id] && config[pkg.id][section]) {
+	} else if (config.packages['*'] && config.packages['*'][section]) {
+		pkgConfig = config.packages['*'][section];
+	}
+	// Legacy configuration support
+	else if (config[pkg.id] && config[pkg.id][section]) {
 		pkgConfig = config[pkg.id][section];
 	} else if (config[pkg.name] && config[pkg.name][section]) {
 		pkgConfig = config[pkg.name][section];

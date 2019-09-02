@@ -49,8 +49,8 @@ expect.extend({
 
 				const expectedDepDir =
 					pkgId === PkgDesc.ROOT_ID
-						? path.normalize('.')
-						: path.normalize(`/node_modules/${pkgName}`);
+						? ''
+						: path.normalize(`node_modules/${pkgName}`);
 
 				if (dep.dir !== '.' && !dep.dir.endsWith(expectedDepDir)) {
 					invalidFields.dir =
