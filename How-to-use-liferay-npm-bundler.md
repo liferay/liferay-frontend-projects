@@ -19,63 +19,174 @@ And that's where `liferay-npm-bundler` comes in handy.
 npm install --save-dev liferay-npm-bundler
 ```
 
-## Usage
+## The two modes of operation
 
-Usually `liferay-npm-bundler` is called in your `package.json` build script
-after all transpilation and processing has taken place.
+Since [#303](https://github.com/liferay/liferay-js-toolkit/issues/303) two modes
+of operation coexist in the bundler.
 
-To do so, you must have something similar to this in your `package.json` file:
+The **old mode** assumed that, before the bundler, the build did some
+preprocessing of sources so that after that, the bundler modified the output of
+that preprocessing in place. For example: projects usually configured the
+following:
 
 ```json
-"scripts": {
-    "build": "… && liferay-npm-bundler"
+{
+  "scripts": {
+    "build": "babel --source-maps -d build src && liferay-npm-bundler"
+  }
 }
 ```
 
-Where the `…` refers to any previous step you need to perform like, for example,
-transpiling your sources with Babel.
+So that `babel` transpiled `.js` files from `src` to `build` and then the
+bundler processed the produced `.js` files (inside `build`) again to prepare
+them for deployment to Liferay Portal.
 
-The output of `liferay-npm-bundler` is a directory that is suitable for
-deploying npm packages to Liferay as explained in [[How to deploy npm packages
-to Liferay]].
+The **new mode** puts the bundler in charge of the whole build, much in the same
+way as `webpack` expects to do everything needed when bundling a project. So,
+the previous scenario is configured like:
 
-This tool is configured by means of a `.npmbundlerrc` file that must live inside
-the project's root folder. Continue reading to know how to write such file.
+```json
+{
+  "scripts": {
+    "build": "liferay-npm-bundler"
+  }
+}
+```
+
+And now, because we don't run `babel`, we need to tell the bundler to transpile
+`.js` files, which we do in its configuration file (`.npmbundlerrc`) like this:
+
+```json
+{
+  "sources": ["src"],
+  "rules": [
+    {
+      "test": "\\.js$",
+      "exclude": "node_modules",
+      "use": [
+        {
+          "loader": "babel-loader",
+          "options": {
+            "presets": ["env"]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+This makes the bundler process the `.js` files in `src` with `babel` and write
+the result in `build` (because the default output directory is `build`).
+
+> 👀 Note that in this case the bundler works like a typical build tool, reading
+> from `src` and writing to `build`, as opposed to just modifying `build` when
+> the old mode is used.
+
+## The input
+
+The expected input varies for the old and new modes of operation though nothing
+prevents you from mixing the two modes, migrating from the old to the new mode,
+or providing a different format of project as input (as long as you know how to
+configure the bundler properly).
+
+The **old mode** was intended to get Liferay portlet projects as input right
+after every static resource and transpiled `.js` files had been placed in the
+`build` directory. In then modified that `build` directory so that the build
+could carry on to produce an OSGi bundle that could be deployed to Liferay
+Portal (as explained in [[How to deploy npm packages to Liferay]]).
+
+That OSGi bundle could be created by the standard Gradle build for portlets or,
+alternatively, by the bundler itself (this was made possible when the
+[pure Javascript portlet](How-to-use-generator-liferay-js) feature was
+introduced).
+
+The **new mode** aims at controlling the whole build and not doing (or not
+needing to do) anything outside of the bundler. It is inspired in `webpack` and
+thus, the expected input is any type of project with source files that are then
+transformed by rules into output artifacts that are then bundled into an OSGi
+`.jar` file that can be deployed to Liferay Portal.
+
+However, there's nothing that prevents you from running pre-bundler steps in
+your build and then make it run rules over your source files to combine both
+outputs. It's just that you must take care of what you are doing because the
+bundler may overwrite or delete some files if you don't configure it correctly.
+
+## The output
+
+As explained in the previous section, the output of `liferay-npm-bundler` is a
+directory that is suitable for deploying npm packages to Liferay Portal or a
+deployable OSGi bundle containing the files in that directory.
 
 ## How it works internally
 
-This tool assumes a Liferay portlet project as input and outputs its files to a
-`build` directory so that the standard Gradle build for portlets can carry on
-and produce an OSGi bundle that can be deployed to Liferay Portal.
-
-To do so, it runs the project source files through the following workflow:
+The bundler runs the project source files through the following workflow:
 
 1. Copy project's `package.json` file to the output directory.
 
 2. Traverse project's dependency tree to determine which packages are needed to
    run it.
 
-3. For each dependency package:
+3. For the project:
+
+   1. Run source files inside the source directories configured in
+      [.npmbundlerrc](.npmbundlerrc-file-reference#sources) through the
+      [rules](.npmbundlerrc-file-reference#rules).
+   2. Pre-process project's package with configured plugins.
+   3. Run Babel through each `.js` file in the project with configured plugins
+      (this is intended to convert ES5 files into AMD modules, not to transpile
+      ES6+ sources).
+   4. Post-process project's package with configured plugins.
+
+4. For each dependency package:
 
    1. Copy package to output dir (in plain _package_@_version_ format, as
       opposed to the standard `node_modules` tree format). To determine what is
-      copied, the bundler invokes a special type of plugins intended to filter
+      copied, the bundler invokes a special type of plugin intended to filter
       the package file list.
-   2. Pre-process package with configured plugins.
-   3. Run Babel through each `.js` file in the package with configured plugins.
-   4. Post-process package with configured plugins.
-
-4. For the project:
-
-   1. Pre-process project's package with configured plugins.
-   2. Run Babel through each `.js` file in the project with configured plugins.
-   3. Post-process project's package with configured plugins.
+   2. Run rules on the package files.
+   3. Pre-process package with configured plugins.
+   4. Run Babel through each `.js` file in the package with configured plugins
+      (this is intended to convert ES5 files into AMD modules, not to do any
+      other type of processing).
+   5. Post-process package with configured plugins.
 
 The pre and post process steps are the same, they only differ in the moment when
 they are run (before or after Babel is run, respectively). In these steps,
 `liferay-npm-bundler` calls all the configured plugins so that they can perform
 transformations on the npm packages like, for instance, modifying its
 `package.json` file, or deleting or moving files.
+
+> 👀 Note that the pre, post and Babel phases were designed for the **old mode**
+> of operation (see [The two modes of operation](#The-two-modes-of-operation))
+> so they will be gradually replaced by rules in the future as the preferred
+> way of building projects.
+
+### How rules run
+
+Rules are inspired in
+[webpack's loaders feature](https://webpack.js.org/loaders/). Loaders are
+npm packages that export a function in their main module which receives source
+file contents and returns them modified according to how the loader is
+configured.
+
+So, for example, imagine that you want to transpile your ES6+ `.js` files into
+ES5 code. You may use `babel-loader` for that, which runs `babel` through each
+`.js` file and returns the resulting code in addition to the generated source
+map.
+
+In addition to your own project files, you may want to run loaders on third
+party dependencies (i.e. packages in your `node_modules` folder). That's
+possible too.
+
+To configure all this you must use the `sources` and `rules` section of the
+`.npmbundlerrc` file.
+
+The `sources` section simply specifies an array of folders inside the project
+that contain source files to be processed by rules. Any file outside those
+folders will be completely ignored
+
+## An example
 
 Let's see an example with the following `.npmbundlerrc` file (which is also the
 default used when no `.npmbundlerrc` file is present):
@@ -92,19 +203,21 @@ found in `liferay-npm-bundler-preset-standard`:
 
 ```json
 {
-  "/": {
-    "plugins": ["resolve-linked-dependencies"],
-    ".babelrc": {
-      "presets": ["liferay-standard"]
+  "packages": {
+    "/": {
+      "plugins": ["resolve-linked-dependencies"],
+      ".babelrc": {
+        "presets": ["liferay-standard"]
+      },
+      "post-plugins": ["namespace-packages", "inject-imports-dependencies"]
     },
-    "post-plugins": ["namespace-packages", "inject-imports-dependencies"]
-  },
-  "*": {
-    "plugins": ["replace-browser-modules"],
-    ".babelrc": {
-      "presets": ["liferay-standard"]
-    },
-    "post-plugins": ["namespace-packages", "inject-peer-dependencies"]
+    "*": {
+      "plugins": ["replace-browser-modules"],
+      ".babelrc": {
+        "presets": ["liferay-standard"]
+      },
+      "post-plugins": ["namespace-packages", "inject-peer-dependencies"]
+    }
   }
 }
 ```
@@ -116,7 +229,7 @@ during the post phase, it should say `post-plugins` instead of `plugins`).
 Looking at the
 [documentation](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md)
 of `replace-browser-modules` plugin we can see that this plugin replaces
-JavaScript modules as defined under the `browser` section of `package.json`
+Javascript modules as defined under the `browser` section of `package.json`
 files. This means that, for each npm package that our project has as dependency,
 `liferay-npm-bundler` will make sure that each one having a `browser` section in
 its `package.json` files will have its server side files replaced by their
@@ -125,9 +238,10 @@ counterpart browser versions.
 The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to
 use when running Babel through the packages'`.js` files. Please keep in mind
 that, in this phase, Babel is used to transform package files (for example to
-convert them to AMD format if necessary) not to transpile them (though, in
-theory, you could transpile them too if you wanted by configuring the proper
-plugins).
+convert them to AMD format if necessary) not to transpile them. If you need to
+transpile your files you need to call Babel before the bundler or configure the
+[babel-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-babel-loader)
+to do so.
 
 In this example, we use the `liferay-standard` preset, that applies the
 following plugins according to
@@ -161,9 +275,167 @@ A similar section for the project's root package (denoted by `/`) is also listed
 in the `.npmbundlerrc` which defines similar steps for the project's
 `package.json` and `.js` files.
 
-## Controlling what files are transformed
+## Loader rules
 
-You can control what gets transformed and what doesn't at three levels:
+As of [#303](https://github.com/liferay/liferay-js-toolkit/issues/164), you can
+use webpack-like loaders in the bundling process. The loaders are intended to
+transform source files before the processing takes place. Keep in mind that the
+frontier between loaders transformation and processing is a bit blurry, because
+it's all done sequentially so there are things that can be done either in the
+loaders phase or in the Babel's processing phase, for instance.
+
+To add more complexity, you can also choose to run something before the bundler
+so you may end up with (to show an example) three places where you can transpile
+your JavaScript files:
+
+1. Before the bundler is run
+2. In the loaders phase of the bundler
+3. Inside the Babel transformation phase of the bundler
+
+Historically, before the loaders appeared, option 1 was used. Using option 3 is
+possible and could theoretically lead to faster build times, but is complex to
+configure and may lead to unexpected side effects. Luckily, now that we have
+loaders, we may use their phase for all transpiling and reduce the build to a
+single do-it-all run of the `liferay-npm-bundler`.
+
+So, how do loaders work? Loaders have been designed to resemble
+[webpack loaders](https://webpack.js.org/loaders/) but because `webpack` creates
+a single JS bundle file while `liferay-npm-bundler` targets an AMD loader, they
+are not compatible. So, keep in mind that, though we try to make everything
+similar to `webpack`, it hasn't got to be the very same and subtle (or even
+huge) differences may appear.
+
+Each loader is a npm package that exports a function with a well defined API
+(see [[How to write your own loader]] for more info on that). That function
+receives the content of a file, modifies it, and returns the new content.
+Optionally, loaders may create new files next to the files they are processing.
+For instance,
+[babel-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-babel-loader)
+writes a `.map` file next to each `.js` file after it finishes the process.
+
+With this simple schema you may write any loader you may think of. For example:
+
+1. You can create a loader to pass `.js` files throuh Babel or tsc.
+2. You may convert `.css` files into JavaScript modules that dynamically inject
+   the CSS into the HTML page.
+3. You can process `.css` files with SASS.
+4. You can create tools that generate code based on
+   [IDL](https://en.wikipedia.org/wiki/Interface_description_language) files.
+5. ...
+
+You can even chain several loaders to act upon each file. That way you can, for
+example, convert a `.scss` file into real CSS (by running the
+[sass-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-sass-loader)
+on it) and then make it a JavaScript module with the
+[style-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-babel-loader)
+loader.
+
+Please see [[List of loaders]] for more information on all known loaders.
+
+### How to configure rules and loaders
+
+To define the sources to be transformed by loaders you just need to use the
+[.npmbundlerrc sources option](.npmbundlerrc-file-reference#sources), which is
+an array of folders right below the project's directory which contain files to
+be transformed.
+
+Only project files inside those folders will be taken into account when applying
+rules. All others will be ignored by the rules engine.
+
+In addition to source files, all files in dependency packages will be
+transformed too.
+
+After that's defined, you need to configure which rules will be applied to which
+files. To achieve that, you may use a limited subset of the syntax `webpack`
+uses to define rule selectors inside the
+[.npmbundlerrc rules section](.npmbundlerrc-file-reference#rules).
+
+Let's see an example in action.
+
+```json
+{
+  "sources": ["src"],
+  "rules": [
+    {
+      "test": "\\.js$",
+      "exclude": "node_modules",
+      "use": [
+        {
+          "loader": "babel-loader",
+          "options": {
+            "presets": ["env", "react"]
+          }
+        }
+      ]
+    },
+    {
+      "test": "\\.scss$",
+      "exclude": "node_modules",
+      "use": ["sass-loader", "style-loader"]
+    },
+    {
+      "test": "\\.css$",
+      "include": "node_modules",
+      "use": ["style-loader"]
+    }
+  ]
+}
+```
+
+As you can see, we have defined rules to be applied to the `src` folder of the
+project. In addition to that, all files inside packages which are dependencies
+of the project will get rules applied too.
+
+Rules are specified as an array of objects which have a `use` array property and
+one or more of the `test`, `include` and `exclude` properties.
+
+The `test` property defines a regular expression that must be matched against
+each file to elect it for rules appliance.
+
+The project-relative path of each eligible file is compared against the regular
+expression and those files matching are transformed by the defined loaders.
+
+So, for example, a file `index.js` inside the `src` folder of your project will
+have as path `src/index.js` whereas a `index.js` file inside the `is-array`
+package will have `node_modules/is-array/index.js` as path.
+
+You can refine your `test` expression with the `include` and `exclude`
+properties which also contain regular expressions that are applied in that order
+to filter the files that matched the `test`. So the algorithm is:
+
+```javascript
+let files = source_files + dependency_package_files
+
+files = files.filter(file => test.matches(file))
+
+if (include is present) {
+  files = files.filter(file => include.matches(file))
+}
+
+if (exclude is present) {
+  files = files.filter(file => !exclude.matches(file))
+}
+```
+
+When the list of files to apply rules to is determined, the chain of loaders
+specified in the `use` property is applied in order, passing the file contents
+to the first loader, the output of the first loader to the second and so on,
+until the final result is written to the output file, which path is determined
+by the location of the input file.
+
+So, for example, the `src/index.js` will be placed at `build/index.js` (note
+that the `src` subfolder is stripped automatically) and the dependency package
+files are output to the corresponding folder inside `build`.
+
+Loaders configured in the `use` property may be specified by just a package name
+or an object with `loader` and `options` property if they are configurable.
+
+Once rules have been applied, the bundler keeps on with the traditional steps
+related to pre, post and babel phase of bundler plugins.
+
+## Controlling what files are processed by plugins
+
+You can control what gets processed and what doesn't at three levels:
 
 1. You can force inclusion of npm packages in the output artifact even if they
    are not used anywhere in the code. This can be useful to bundle badly
@@ -188,84 +460,12 @@ As of [#164](https://github.com/liferay/liferay-js-toolkit/issues/164),
 creation is activated when the
 [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
 
-See [[Creating OSGi bundles]] for a detailed explanation of this feature.
+See [How to create pure Javascript projects](How-to-use-generator-liferay-js)
+and [[Configuring pure JavaScript projects]] for a detailed explanation of this
+feature.
 
 ## Configuring the bundler
 
 As said before, `liferay-npm-bundler` is configured placing a `.npmbundlerrc`
 file in your project's folder. The available options for that file are described
-in the following sections.
-
-In addition, some of the options in `.npmbundlerrc` can be passed using command
-line arguments and/or environment variables. See the detailed explanations of
-`.npmbundlerrc` options to know more about them.
-
-### Miscellaneous options
-
-- [`output`](.npmbundlerrc-file-reference#output): specifies output directory of
-  the project
-- [`preset`](.npmbundlerrc-file-reference#preset): specifies the name of the
-  `liferay-npm-bundler` preset to use as base configuration
-- [`config`](.npmbundlerrc-file-reference#config): specifies plugin specific
-  configuration
-
-#### Logging
-
-- [`verbose`](.npmbundlerrc-file-reference#verbose): controls verbose logging of
-  what the tool is doing
-- [`dump-report`](.npmbundlerrc-file-reference#dump-report): controls generation
-  of a detailed report file
-
-#### Privacy
-
-- [`no-tracking`](.npmbundlerrc-file-reference#no-tracking): controls sending of
-  usage analytics to our servers doing
-
-### Package processing options
-
-#### Miscellaneous options
-
-- [`process-serially`](.npmbundlerrc-file-reference#process-serially): tells the
-  tool wether to process each npm package sequentially or all in parallel
-
-#### Plugin configuration options
-
-- [`*`](.npmbundlerrc-file-reference#-asterisk): defines default plugin
-  configuration for all npm packages
-- [`/`](.npmbundlerrc-file-reference#-forward-slash): defines plugin
-  configuration for project files
-- [`packages`](.npmbundlerrc-file-reference#packages): defines per-package
-  plugin configuration for npm packages
-
-#### Exclusion, ignores, and inclusions
-
-- [`exclude`](.npmbundlerrc-file-reference#exclude): excludes any subset of
-  files in npm packages (or whole packages)
-- [`ignore`](.npmbundlerrc-file-reference#ignore): skips processing of project's
-  Javascript files with Babel
-- [`include-dependencies`](.npmbundlerrc-file-reference#include-dependencies):
-  force inclusion of dependency packages even if they are not used by the
-  project
-
-### OSGi bundle creation options
-
-#### Miscellaneous options
-
-- [`create-jar.output-dir`](.npmbundlerrc-file-reference#create-jaroutput-dir):
-  specifies where to place the final JAR
-- [`create-jar.features.js-extender`](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender):
-  controls whether to process the OSGi bundle with the
-  [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115542926)
-- [`create-jar.features.web-context`](.npmbundlerrc-file-reference#create-jarfeaturesweb-context):
-  specifies the context path to use for publishing bundle's static resources
-
-#### Features
-
-- [`create-jar.features.localization`](.npmbundlerrc-file-reference#create-jarfeatureslocalization):
-  specifies the L10N file to be used by the bundle (see
-  [Localization](Configuring-pure-javascript-projects#localization) for more
-  information)
-- [`create-jar.features.configuration`](.npmbundlerrc-file-reference#create-jarfeaturesconfiguration):
-  specifies the JSON file describing the configuration structure (see
-  [Configuration](Configuring-pure-javascript-projects#configuration) for more
-  information)
+in the [[.npmbundlerrc file reference]] page.
