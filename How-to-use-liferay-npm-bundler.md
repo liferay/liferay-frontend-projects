@@ -92,7 +92,7 @@ files. This means that, for each npm package that our project has as dependency,
 The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to use when running Babel through the packages'`.js` files. Please keep in mind that, in this phase, Babel is used to transform package files (for example to convert them to AMD format if necessary) not to transpile them (though, in theory, you could transpile them too if you wanted by configuring the proper plugins).
 
 In this example, we use the `liferay-standard` preset, that applies the following plugins according to
-[its documentation](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/babel-preset-liferay-amd):
+[its documentation](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/babel-preset-liferay-standard/README.md):
 
 1. [babel-plugin-normalize-requires](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-normalize-requires)
 2. [babel-plugin-transform-node-env-inline](https://www.npmjs.com/package/babel-plugin-transform-node-env-inline)
