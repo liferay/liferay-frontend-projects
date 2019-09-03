@@ -8,7 +8,7 @@ const AUI_SCRIPT = /<(aui:)?script(.*?)>([\s\S]*?)[ \t]*<\/\1script>/;
 
 const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'g');
 
-const JSP_PORTLET_NAMESPACE = /<portlet:namespace ?\/>/g;
+const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
 const JSP_SCRIPT_BLOCK = /<%.*?%>/gim;
 
@@ -26,7 +26,10 @@ function extractJS(source) {
 		source
 			.replace(JSP_SCRIPT_BLOCK, '_SCRIPTLET_')
 			.replace(JSP_SCRIPTLET_BLOCK, '_ECHO_SCRIPTLET_')
-			.replace(JSP_PORTLET_NAMESPACE, '_PN_')
+			.replace(JSP_PORTLET_NAMESPACE, match => {
+				// Make substitution length the same as the original text.
+				return '_PORTLET_NAMESPACE_________'.slice(0, match.length);
+			})
 			.replace(
 				AUI_SCRIPT_G,
 				(
