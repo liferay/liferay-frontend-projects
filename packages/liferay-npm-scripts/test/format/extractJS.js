@@ -4,25 +4,99 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
 const extractJS = require('../../src/format/extractJS');
-
-const readFile = util.promisify(fs.readFile);
+const dedent = require('../../support/dedent');
+const getFixture = require('../../support/getFixture');
 
 describe('extractJS()', () => {
-	let source;
+	it('extracts "<aui:script>" tags', () => {
+		const blocks = extractJS(dedent(3)`
+			<aui:script use="other">
+				alert(A.other.thing);
+			</aui:script>
+		`);
 
-	beforeEach(async () => {
-		const contents = await readFile(
-			path.join(__dirname, '../../__fixtures__/format/page.jsp')
-		);
-
-		source = contents.toString();
+		expect(blocks).toEqual([
+			{
+				contents: dedent(4)`
+					alert(A.other.thing);
+				`,
+				match: dedent(4)`<aui:script use="other">
+					alert(A.other.thing);
+				</aui:script>`,
+				scriptAttributes: ' use="other"',
+				startLine: 2,
+				tagNamespace: 'aui:'
+			}
+		]);
 	});
 
-	it('extracts blocks', () => {
+	it('extracts bare "<script>" tags', () => {
+		const blocks = extractJS(dedent(3)`
+			<script>
+				alert('Hello');
+			</script>
+		`);
+
+		expect(blocks).toEqual([
+			{
+				contents: dedent(4)`
+					alert('Hello');
+				`,
+				match: dedent(4)`<script>
+					alert('Hello');
+				</script>`,
+				scriptAttributes: '',
+				startLine: 2,
+				tagNamespace: undefined
+			}
+		]);
+	});
+
+	it('turns JSP expressions (<%= ... %>) into identifier placeholders', () => {
+		const blocks = extractJS(dedent(3)`
+			<script>
+				function create() {
+					A.Node.create(
+						'<div class="alert"><%= SomeUtil("abc") %></div>'
+					);
+				}
+			</script>
+		`);
+
+		expect(blocks).toEqual([
+			{
+				contents: dedent(4)`
+					function create() {
+						A.Node.create(
+							'<div class="alert">_SCRIPTLET_</div>'
+						);
+					}
+				`,
+				match: dedent(4)`<script>
+					function create() {
+						A.Node.create(
+							'<div class="alert">_SCRIPTLET_</div>'
+						);
+					}
+				</script>`,
+				scriptAttributes: '',
+				startLine: 2,
+				tagNamespace: undefined
+			}
+		]);
+	});
+
+	it('turns JSP directives (<%@ ... %>) into identifier placeholders', () => {});
+
+	it('turns JSP scriplets (<% ... %>) into comments', () => {
+		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
+	});
+
+	it('extracts blocks from test fixture', async () => {
+		// This is the test fixture from the check-source-formatting package.
+		const source = await getFixture('format/page.jsp');
+
 		const blocks = extractJS(source);
 
 		expect(blocks).toEqual([
@@ -151,21 +225,3 @@ describe('extractJS()', () => {
 		]);
 	});
 });
-
-/**
- * Helper function to make these tests (a bit) more readable.
- *
- * Removes `tabs` of indent from each line.
- */
-function dedent(tabs) {
-	const indent = '\t'.repeat(tabs);
-	const regExp = new RegExp(`^${indent}`, 'gm');
-
-	return (strings, ...interpolations) => {
-		if (interpolations.length) {
-			throw new Error('Unsupported interpolation in template literal');
-		}
-
-		return strings[0].replace(regExp, '');
-	};
-}
