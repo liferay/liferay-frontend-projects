@@ -6,11 +6,11 @@
 
 const getPaddedReplacement = require('../../src/format/getPaddedReplacement');
 
-describe('getPaddedRelpacement()', () => {
+describe('getPaddedReplacement()', () => {
 	it('pads out the template to obtain an equal-length replacement', () => {
-		const template = '_TEMPLATE_';
+		const template = 'TEMPLATE';
 		const original = '<portlet:namespace   />';
-		const expected = '_TEMPLATE______________';
+		const expected = 'ʾTEMPLATE_____________ʿ';
 
 		const replacement = getPaddedReplacement(original, template);
 
@@ -18,9 +18,9 @@ describe('getPaddedRelpacement()', () => {
 	});
 
 	it('returns the full template if it is longer than the input', () => {
-		const template = '_LONG_TEMPLATE_';
+		const template = 'LONG_TEMPLATE';
 		const original = '<my:tag />';
-		const expected = '_LONG_TEMPLATE_';
+		const expected = 'ʾLONG_TEMPLATEʿ';
 
 		const replacement = getPaddedReplacement(original, template);
 

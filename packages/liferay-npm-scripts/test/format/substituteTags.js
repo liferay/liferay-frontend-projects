@@ -28,7 +28,7 @@ async function getScript(fixture) {
 describe('substituteTags()', () => {
 	it('turns EL syntax (${}) into identifier placeholders', () => {
 		const transformed = substituteTags('alert(${expr1}, ${expr2})');
-		expect(transformed).toEqual('alert(_EL_0___, _EL_1___)');
+		expect(transformed).toEqual('alert(ʾEL_0__ʿ, ʾEL_1__ʿ)');
 	});
 
 	it('leaves escaped EL syntax (${}) untouched', () => {
@@ -38,7 +38,7 @@ describe('substituteTags()', () => {
 
 	it('turns EL syntax (#{}) into identifier placeholders', () => {
 		const transformed = substituteTags('alert(#{expr1}, #{expr2})');
-		expect(transformed).toEqual('alert(_EL_0___, _EL_1___)');
+		expect(transformed).toEqual('alert(ʾEL_0__ʿ, ʾEL_1__ʿ)');
 	});
 
 	it('leaves escaped EL syntax (#{}) untouched', () => {
@@ -58,7 +58,7 @@ describe('substituteTags()', () => {
 		expect(transformed).toEqual(dedent(3)`
 			function create() {
 				A.Node.create(
-					'<div class="alert">_JSP_EXPR_____________</div>'
+					'<div class="alert">ʾJSP_EXPR____________ʿ</div>'
 				);
 			}
 		`);
@@ -72,26 +72,54 @@ describe('substituteTags()', () => {
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
-			_JSP_DIR_
+			ʾJSP_DIR_______________________ʿ
 
 			var count = 0;
 		`);
 	});
 
-	it('turns JSP scriplets (<% ... %>) into comments', () => {
+	it('turns single-line JSP scriplets (<% ... %>) into comments', () => {
 		const transformed = substituteTags(dedent(3)`
 			<% FooThing myFoo = new FooThing(); %>
 
 			var description = "<%= myFoo.body() %>";
 		`);
 
+		expect(transformed).toEqual(dedent(3)`
+			/*                                  */
+
+			var description = "ʾJSP_EXPR_________ʿ";
+		`);
+
+		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
+	});
+
+	it('turns multi-line JSP scriplets (<% ... %>) into comments', () => {
+		const transformed = substituteTags(dedent(3)`
+			<%
+			if (Liferay.isThing()) {
+			%>
+
+			var description = "<%= myFoo.body() %>";
+
+			<%
+			}
+			%>
+		`);
+
 		// TODO: beware inserting multiline comments in places where they can't
 		// legitimately go (for example, inside a string); although that might
 		// be edge-casey enough that it doesn't matter in practice.
 		expect(transformed).toEqual(dedent(3)`
-			/*                                  */
+			/*
+			                        
+			*/
 
-			var description = "_JSP_EXPR__________";
+			var description = "ʾJSP_EXPR_________ʿ";
+
+			/*
+			 
+			*/
 		`);
 
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc

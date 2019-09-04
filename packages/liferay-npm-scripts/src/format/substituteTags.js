@@ -14,6 +14,7 @@ const JSP_EXPRESSION = /<%=.+?%>/g;
 const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
 const JSP_SCRIPTLET = /<%(.*?)%>/gs;
+
 /**
  * Recognize EL (Expression Language) expression syntax.
  *
@@ -43,17 +44,19 @@ function substituteTags(source) {
 
 	return source
 		.replace(EL_EXPRESSION, match => {
-			return getPaddedReplacement(match, `_EL_${expressionCount++}_`);
+			return getPaddedReplacement(match, `EL_${expressionCount++}`);
 		})
-		.replace(JSP_DIRECTIVE, '_JSP_DIR_')
+		.replace(JSP_DIRECTIVE, match => {
+			return getPaddedReplacement(match, 'JSP_DIR');
+		})
 		.replace(JSP_EXPRESSION, match => {
-			return getPaddedReplacement(match, '_JSP_EXPR_');
+			return getPaddedReplacement(match, 'JSP_EXPR');
 		})
 		.replace(JSP_SCRIPTLET, (_match, inner) => {
 			return `/*${toWhitespace(inner)}*/`;
 		})
 		.replace(JSP_PORTLET_NAMESPACE, match => {
-			return getPaddedReplacement(match, '_PORTLET_NAMESPACE_');
+			return getPaddedReplacement(match, 'PORTLET_NAMESPACE');
 		});
 }
 
