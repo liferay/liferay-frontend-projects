@@ -95,6 +95,12 @@ describe('extractJS()', () => {
 		]);
 	});
 
+	it('skips empty tags', () => {
+		const blocks = extractJS("<script></script>");
+
+		expect(blocks).toEqual([]);
+	});
+
 	it('extracts blocks from test fixture', async () => {
 		// This is the test fixture from the check-source-formatting package.
 		const source = await getFixture('format/page.jsp');
