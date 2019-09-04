@@ -103,17 +103,18 @@ describe('extractJS()', () => {
 			{
 				contents: dedent(4)`
 						var testVar = true;
-				`,
+					`,
 				match: dedent(4)`<script type="text">
 						var testVar = true;
 					</script>`,
 				scriptAttributes: ' type="text"',
-				startLine: 26
+				startLine: 26,
+				tagNamespace: undefined
 			},
 			{
 				contents: dedent(4)`
 						var testVar = true;
-				`,
+					`,
 				match: dedent(4)`<aui:script>
 						var testVar = true;
 					</aui:script>`,
@@ -134,7 +135,7 @@ describe('extractJS()', () => {
 								var foo = false;
 							}
 						);
-				`,
+					`,
 				match: dedent(4)`<aui:script use="aui-base,event,node">
 						var Liferay = true
 
@@ -159,7 +160,7 @@ describe('extractJS()', () => {
 						%>
 
 						foo();
-				`,
+					`,
 				match: dedent(4)`<aui:script>
 						<%
 						List<String> foo = null;
@@ -186,7 +187,7 @@ describe('extractJS()', () => {
 							'\${foo}': 'bar',
 							'\${bar}': 'baz'
 						};
-				`,
+					`,
 				match: dedent(4)`<aui:script>
 						var SOME_OBJ = {
 							'\${foo}': 'bar',
@@ -202,7 +203,7 @@ describe('extractJS()', () => {
 						alert(fooBarBaz);
 						alert(bazFoo_bar);
 						alert(FooBar);
-				`,
+					`,
 				match: dedent(
 					4
 				)`<aui:script require="foo/bar/baz, baz/foo_bar, bar/baz/foo as FooBar">
@@ -216,7 +217,7 @@ describe('extractJS()', () => {
 				tagNamespace: 'aui:'
 			},
 			{
-				contents: '\n',
+				contents: '\n\t',
 				match: '<aui:script require="">\n\t</aui:script>',
 				scriptAttributes: ' require=""',
 				startLine: 96,

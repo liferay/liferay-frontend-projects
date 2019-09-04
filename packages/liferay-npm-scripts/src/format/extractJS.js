@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const AUI_SCRIPT = /<(aui:)?script(.*?)>([\s\S]*?)[ \t]*<\/\1script>/;
+const AUI_SCRIPT = /<(aui:)?script(.*?)>(.*?)<\/\1script>/s;
 
-const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'g');
+const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'gs');
 
 const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
-const JSP_SCRIPT_BLOCK = /<%.*?%>/gim;
+const JSP_SCRIPT_BLOCK = /<%.*?%>/g;
 
-const JSP_SCRIPTLET_BLOCK = /<%=[^>]+>/g;
+const JSP_SCRIPTLET_BLOCK = /<%=.*?%>/g;
 
 const NEWLINE = /\r?\n/;
 
