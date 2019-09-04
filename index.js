@@ -24,6 +24,7 @@ const config = {
 		'liferay/no-it-should': 'error',
 		'liferay/padded-test-blocks': 'error',
 		'no-console': ['error', {allow: ['warn', 'error']}],
+		'no-constant-condition': ['error', {checkLoops: false}],
 		'no-control-regex': 'off',
 		'no-for-of-loops/no-for-of-loops': 'error',
 		'no-only-tests/no-only-tests': 'error',
