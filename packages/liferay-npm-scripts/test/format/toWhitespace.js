@@ -20,4 +20,11 @@ describe('toWhitespace()', () => {
 
 		expect(toWhitespace(original)).toBe(expected);
 	});
+
+	it('leaves Windows-style CRLF as-is', () => {
+		const original = 'one\r\ntwo';
+		const expected = '   \r\n   ';
+
+		expect(toWhitespace(original)).toBe(expected);
+	});
 });
