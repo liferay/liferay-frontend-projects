@@ -28,7 +28,9 @@ async function getScript(fixture) {
 describe('substituteTags()', () => {
 	it('turns EL syntax (${}) into identifier placeholders', () => {
 		const transformed = substituteTags('alert(${expr1}, ${expr2})');
-		expect(transformed).toEqual('alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)');
+		expect(transformed).toEqual(
+			'alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)'
+		);
 	});
 
 	it('leaves escaped EL syntax (${}) untouched', () => {
@@ -38,7 +40,9 @@ describe('substituteTags()', () => {
 
 	it('turns EL syntax (#{}) into identifier placeholders', () => {
 		const transformed = substituteTags('alert(#{expr1}, #{expr2})');
-		expect(transformed).toEqual('alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)');
+		expect(transformed).toEqual(
+			'alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)'
+		);
 	});
 
 	it('leaves escaped EL syntax (#{}) untouched', () => {

@@ -96,7 +96,7 @@ describe('extractJS()', () => {
 	});
 
 	it('skips empty tags', () => {
-		const blocks = extractJS("<script></script>");
+		const blocks = extractJS('<script></script>');
 
 		expect(blocks).toEqual([]);
 	});
