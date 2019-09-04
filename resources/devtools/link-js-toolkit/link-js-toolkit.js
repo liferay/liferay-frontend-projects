@@ -12,8 +12,20 @@ const readJsonSync = require('read-json-sync');
 
 const {safeRunFs, yarn} = require('./util');
 
+function isToolkitDep(pkgName) {
+	return (
+		pkgName.startsWith('liferay-npm-') &&
+		[
+			'liferay-npm-bundler-preset-liferay-dev',
+			'liferay-npm-scripts',
+		].indexOf(pkgName) == -1
+	);
+}
+
 // Read package.json
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
+pkgJson.dependencies = pkgJson.dependencies || {};
+pkgJson.devDependencies = pkgJson.devDependencies || {};
 
 let deps;
 
@@ -21,16 +33,14 @@ let deps;
 deps = [
 	...Object.keys(pkgJson.dependencies),
 	...Object.keys(pkgJson.devDependencies),
-].filter(dep => dep.startsWith('liferay-npm'));
+].filter(isToolkitDep);
 
 // Grab dependencies from node_modules
 try {
 	fs.mkdirSync('node_modules');
 } catch (err) {}
 
-const dirs = fs
-	.readdirSync('node_modules')
-	.filter(dir => dir.startsWith('liferay-npm'));
+const dirs = fs.readdirSync('node_modules').filter(isToolkitDep);
 
 deps.push(...dirs);
 
