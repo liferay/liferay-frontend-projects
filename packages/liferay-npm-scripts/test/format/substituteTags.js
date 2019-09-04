@@ -29,7 +29,7 @@ describe('substituteTags()', () => {
 	it('turns EL syntax (${}) into identifier placeholders', () => {
 		const transformed = substituteTags('alert(${expr1}, ${expr2})');
 		expect(transformed).toEqual(
-			'alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)'
+			'alert(_EL_EXPRESSION_0, _EL_EXPRESSION_1)'
 		);
 	});
 
@@ -41,7 +41,7 @@ describe('substituteTags()', () => {
 	it('turns EL syntax (#{}) into identifier placeholders', () => {
 		const transformed = substituteTags('alert(#{expr1}, #{expr2})');
 		expect(transformed).toEqual(
-			'alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)'
+			'alert(_EL_EXPRESSION_0, _EL_EXPRESSION_1)'
 		);
 	});
 

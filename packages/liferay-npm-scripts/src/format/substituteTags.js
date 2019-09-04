@@ -35,9 +35,11 @@ const EL_EXPRESSION = /(?<!\\)(?:[$#])\{[^}]+\}/g;
  * open strings but don't close them etc).
  */
 function substituteTags(source) {
+	let expressionCount = 0;
+
 	return source
-		.replace(EL_EXPRESSION, (match, offset) => {
-			return `_EL_EXPRESSION_${offset}`;
+		.replace(EL_EXPRESSION, match => {
+			return `_EL_EXPRESSION_${expressionCount++}`;
 		})
 		.replace(JSP_SCRIPTLET_BLOCK, '_ECHO_SCRIPTLET_')
 		.replace(JSP_SCRIPT_BLOCK, '_SCRIPTLET_')
