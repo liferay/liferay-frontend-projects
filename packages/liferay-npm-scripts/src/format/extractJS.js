@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const AUI_SCRIPT = /<(aui:)?script(.*?)>(.*?)<\/\1script>/s;
+const AUI_SCRIPT = /(<(aui:)?script(.*?)>)(.*?)<\/\2script>/s;
 
 const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'gs');
 
@@ -19,16 +19,48 @@ function extractJS(source) {
 	if (AUI_SCRIPT.test(source)) {
 		source.replace(
 			AUI_SCRIPT_G,
-			(match, tagNamespace, scriptAttributes, body, offset, string) => {
+			(
+				match,
+				openTag,
+				tagNamespace,
+				scriptAttributes,
+				body,
+				offset,
+				string
+			) => {
 				if (body) {
-					const startLine = string.slice(0, offset).split(NEWLINE)
-						.length;
+					const prefix = string.slice(0, offset + openTag.length);
+
+					const prefixLines = prefix.split(NEWLINE);
+
+					const lastPrefixLine = getLast(prefixLines);
+
+					const contentLines = body.split(NEWLINE);
+
+					const lastContentLine = getLast(contentLines);
+
+					// Handle edge case where the openTag and the content all
+					// fit on one line (eg. <script>code();</script>).
+					const lastLine =
+						contentLines.length === 1
+							? lastPrefixLine + lastContentLine
+							: lastContentLine;
 
 					blocks.push({
 						contents: body,
 						match,
 						scriptAttributes,
-						startLine,
+						range: {
+							end: {
+								column: lastLine.length + 1,
+								line:
+									prefixLines.length + contentLines.length - 1
+							},
+							start: {
+								column: lastPrefixLine.length + 1,
+								line: prefixLines.length
+							}
+						},
 						tagNamespace
 					});
 				}
@@ -37,6 +69,13 @@ function extractJS(source) {
 	}
 
 	return blocks;
+}
+
+/**
+ * Returns the last element in `array`.
+ */
+function getLast(array) {
+	return array[array.length - 1];
 }
 
 module.exports = extractJS;

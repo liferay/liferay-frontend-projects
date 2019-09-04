@@ -24,8 +24,17 @@ describe('extractJS()', () => {
 				match: dedent(4)`<aui:script use="other">
 					alert(A.other.thing);
 				</aui:script>`,
+				range: {
+					end: {
+						column: 1,
+						line: 4
+					},
+					start: {
+						column: 25,
+						line: 2
+					}
+				},
 				scriptAttributes: ' use="other"',
-				startLine: 2,
 				tagNamespace: 'aui:'
 			}
 		]);
@@ -46,8 +55,41 @@ describe('extractJS()', () => {
 				match: dedent(4)`<script>
 					alert('Hello');
 				</script>`,
+				range: {
+					end: {
+						column: 1,
+						line: 4
+					},
+					start: {
+						column: 9,
+						line: 2
+					}
+				},
 				scriptAttributes: '',
-				startLine: 2,
+				tagNamespace: undefined
+			}
+		]);
+	});
+
+	it('extracts one-line "<script>" tags', () => {
+		// Testing an edge-case in the `range` arithemetic.
+		const blocks = extractJS("<script>alert('Hello');</script>");
+
+		expect(blocks).toEqual([
+			{
+				contents: "alert('Hello');",
+				match: "<script>alert('Hello');</script>",
+				range: {
+					end: {
+						column: 24,
+						line: 1
+					},
+					start: {
+						column: 9,
+						line: 1
+					}
+				},
+				scriptAttributes: '',
 				tagNamespace: undefined
 			}
 		]);
@@ -67,8 +109,17 @@ describe('extractJS()', () => {
 				match: dedent(4)`<script type="text">
 						var testVar = true;
 					</script>`,
+				range: {
+					end: {
+						column: 2,
+						line: 28
+					},
+					start: {
+						column: 22,
+						line: 26
+					}
+				},
 				scriptAttributes: ' type="text"',
-				startLine: 26,
 				tagNamespace: undefined
 			},
 			{
@@ -78,8 +129,17 @@ describe('extractJS()', () => {
 				match: dedent(4)`<aui:script>
 						var testVar = true;
 					</aui:script>`,
+				range: {
+					end: {
+						column: 2,
+						line: 32
+					},
+					start: {
+						column: 14,
+						line: 30
+					}
+				},
 				scriptAttributes: '',
-				startLine: 30,
 				tagNamespace: 'aui:'
 			},
 			{
@@ -109,8 +169,17 @@ describe('extractJS()', () => {
 							}
 						);
 					</aui:script>`,
+				range: {
+					end: {
+						column: 2,
+						line: 46
+					},
+					start: {
+						column: 40,
+						line: 34
+					}
+				},
 				scriptAttributes: ' use="aui-base,event,node"',
-				startLine: 34,
 				tagNamespace: 'aui:'
 			},
 			{
@@ -128,8 +197,17 @@ describe('extractJS()', () => {
 
 						foo();
 					</aui:script>`,
+				range: {
+					end: {
+						column: 2,
+						line: 54
+					},
+					start: {
+						column: 14,
+						line: 48
+					}
+				},
 				scriptAttributes: '',
-				startLine: 48,
 				tagNamespace: 'aui:'
 			},
 			{
@@ -137,8 +215,17 @@ describe('extractJS()', () => {
 						window.foo = 'foo';`,
 				match: dedent(4)`<aui:script>
 						window.foo = 'foo';</aui:script>`,
+				range: {
+					end: {
+						column: 22,
+						line: 81
+					},
+					start: {
+						column: 14,
+						line: 80
+					}
+				},
 				scriptAttributes: '',
-				startLine: 80,
 				tagNamespace: 'aui:'
 			},
 			{
@@ -154,8 +241,17 @@ describe('extractJS()', () => {
 							'\${bar}': 'baz'
 						};
 					</aui:script>`,
+				range: {
+					end: {
+						column: 2,
+						line: 88
+					},
+					start: {
+						column: 14,
+						line: 83
+					}
+				},
 				scriptAttributes: '',
-				startLine: 83,
 				tagNamespace: 'aui:'
 			},
 			{
@@ -171,16 +267,34 @@ describe('extractJS()', () => {
 						alert(bazFoo_bar);
 						alert(FooBar);
 					</aui:script>`,
+				range: {
+					end: {
+						column: 2,
+						line: 94
+					},
+					start: {
+						column: 72,
+						line: 90
+					}
+				},
 				scriptAttributes:
 					' require="foo/bar/baz, baz/foo_bar, bar/baz/foo as FooBar"',
-				startLine: 90,
 				tagNamespace: 'aui:'
 			},
 			{
 				contents: '\n\t',
 				match: '<aui:script require="">\n\t</aui:script>',
+				range: {
+					end: {
+						column: 2,
+						line: 97
+					},
+					start: {
+						column: 25,
+						line: 96
+					}
+				},
 				scriptAttributes: ' require=""',
-				startLine: 96,
 				tagNamespace: 'aui:'
 			}
 		]);
