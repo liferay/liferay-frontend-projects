@@ -69,14 +69,14 @@ describe('extractJS()', () => {
 				contents: dedent(4)`
 					function create() {
 						A.Node.create(
-							'<div class="alert">_SCRIPTLET_</div>'
+							'<div class="alert">_ECHO_SCRIPTLET_</div>'
 						);
 					}
 				`,
 				match: dedent(4)`<script>
 					function create() {
 						A.Node.create(
-							'<div class="alert">_SCRIPTLET_</div>'
+							'<div class="alert">_ECHO_SCRIPTLET_</div>'
 						);
 					}
 				</script>`,

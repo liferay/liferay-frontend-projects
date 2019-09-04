@@ -24,8 +24,8 @@ function extractJS(source) {
 
 	if (AUI_SCRIPT.test(source)) {
 		source
-			.replace(JSP_SCRIPT_BLOCK, '_SCRIPTLET_')
 			.replace(JSP_SCRIPTLET_BLOCK, '_ECHO_SCRIPTLET_')
+			.replace(JSP_SCRIPT_BLOCK, '_SCRIPTLET_')
 			.replace(JSP_PORTLET_NAMESPACE, match => {
 				// Make substitution length the same as the original text.
 				return '_PORTLET_NAMESPACE_________'.slice(0, match.length);
