@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const getPaddedReplacement = require('./getPaddedReplacement');
+
 const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
 const JSP_SCRIPT_BLOCK = /<%.*?%>/g;
@@ -39,13 +41,12 @@ function substituteTags(source) {
 
 	return source
 		.replace(EL_EXPRESSION, match => {
-			return `_EL_EXPRESSION_${expressionCount++}`;
+			return getPaddedReplacement(match, `_EL_${expressionCount++}_`);
 		})
 		.replace(JSP_SCRIPTLET_BLOCK, '_ECHO_SCRIPTLET_')
 		.replace(JSP_SCRIPT_BLOCK, '_SCRIPTLET_')
 		.replace(JSP_PORTLET_NAMESPACE, match => {
-			// Make substitution length the same as the original text.
-			return '_PORTLET_NAMESPACE_________'.slice(0, match.length);
+			return getPaddedReplacement(match, '_PORTLET_NAMESPACE_');
 		});
 }
 
