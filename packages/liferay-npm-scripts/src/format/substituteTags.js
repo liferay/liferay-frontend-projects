@@ -5,12 +5,15 @@
  */
 
 const getPaddedReplacement = require('./getPaddedReplacement');
+const toWhitespace = require('./toWhitespace');
 
-const JSP_EXPRESSION = /<%=.*?%>/g;
+const JSP_DIRECTIVE = /<%@.+?%>/g;
+
+const JSP_EXPRESSION = /<%=.+?%>/g;
 
 const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
-const JSP_SCRIPTLET = /<%.*?%>/g;
+const JSP_SCRIPTLET = /<%(.*?)%>/gs;
 /**
  * Recognize EL (Expression Language) expression syntax.
  *
@@ -42,8 +45,13 @@ function substituteTags(source) {
 		.replace(EL_EXPRESSION, match => {
 			return getPaddedReplacement(match, `_EL_${expressionCount++}_`);
 		})
-		.replace(JSP_EXPRESSION, '_JSP_EXPR_')
-		.replace(JSP_SCRIPTLET, '_SCRIPTLET_')
+		.replace(JSP_DIRECTIVE, '_JSP_DIR_')
+		.replace(JSP_EXPRESSION, match => {
+			return getPaddedReplacement(match, '_JSP_EXPR_');
+		})
+		.replace(JSP_SCRIPTLET, (_match, inner) => {
+			return `/*${toWhitespace(inner)}*/`;
+		})
 		.replace(JSP_PORTLET_NAMESPACE, match => {
 			return getPaddedReplacement(match, '_PORTLET_NAMESPACE_');
 		});

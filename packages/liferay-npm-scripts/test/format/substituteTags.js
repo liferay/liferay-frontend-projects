@@ -58,15 +58,42 @@ describe('substituteTags()', () => {
 		expect(transformed).toEqual(dedent(3)`
 			function create() {
 				A.Node.create(
-					'<div class="alert">_JSP_EXPR_</div>'
+					'<div class="alert">_JSP_EXPR_____________</div>'
 				);
 			}
 		`);
 	});
 
-	it('turns JSP directives (<%@ ... %>) into identifier placeholders', () => {});
+	it('turns JSP directives (<%@ ... %>) into identifier placeholders', () => {
+		const transformed = substituteTags(dedent(3)`
+			<%@ include file="/other.jsp" %>
+
+			var count = 0;
+		`);
+
+		expect(transformed).toEqual(dedent(3)`
+			_JSP_DIR_
+
+			var count = 0;
+		`);
+	});
 
 	it('turns JSP scriplets (<% ... %>) into comments', () => {
+		const transformed = substituteTags(dedent(3)`
+			<% FooThing myFoo = new FooThing(); %>
+
+			var description = "<%= myFoo.body() %>";
+		`);
+
+		// TODO: beware inserting multiline comments in places where they can't
+		// legitimately go (for example, inside a string); although that might
+		// be edge-casey enough that it doesn't matter in practice.
+		expect(transformed).toEqual(dedent(3)`
+			/*                                  */
+
+			var description = "_JSP_EXPR__________";
+		`);
+
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
