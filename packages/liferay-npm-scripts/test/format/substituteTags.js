@@ -26,7 +26,25 @@ async function getScript(fixture) {
 }
 
 describe('substituteTags()', () => {
-	it('turns Expression Language syntax (${}) into identifier placeholders', () => {});
+	it('turns EL syntax (${}) into identifier placeholders', () => {
+		const transformed = substituteTags('alert(${expr1}, ${expr2})');
+		expect(transformed).toEqual('alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)');
+	});
+
+	it('leaves escaped EL syntax (${}) untouched', () => {
+		const transformed = substituteTags('alert("\\${expr1}, \\${expr2}")');
+		expect(transformed).toEqual('alert("\\${expr1}, \\${expr2}")');
+	});
+
+	it('turns EL syntax (#{}) into identifier placeholders', () => {
+		const transformed = substituteTags('alert(#{expr1}, #{expr2})');
+		expect(transformed).toEqual('alert(_EL_EXPRESSION_6, _EL_EXPRESSION_16)');
+	});
+
+	it('leaves escaped EL syntax (#{}) untouched', () => {
+		const transformed = substituteTags('alert("\\#{expr1}, \\#{expr2}")');
+		expect(transformed).toEqual('alert("\\#{expr1}, \\#{expr2}")');
+	});
 
 	it('turns JSP expressions (<%= ... %>) into identifier placeholders', () => {
 		const transformed = substituteTags(dedent(3)`
