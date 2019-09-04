@@ -34,3 +34,20 @@ export function getFeaturesFilePath(project, featuresKeyPath, defaultValue) {
 
 	return undefined;
 }
+
+/**
+ * Inject an `asPlatform` read only property in the given array which returns
+ * its items as platform path (i.e.: substituting each appearance of `/` by the
+ * platform's `path.sep`).
+ * @param {Array<string>} posixPathsArray
+ */
+export function mixinAsPlatform(posixPathsArray) {
+	Object.defineProperty(posixPathsArray, 'asPlatform', {
+		configurable: false,
+		enumerable: true,
+		get: () =>
+			posixPathsArray.map(posixPath =>
+				posixPath.replace(/\//g, path.sep)
+			),
+	});
+}

@@ -167,18 +167,27 @@ function writeLoadersResult(srcPkg, destPkg, prjSrcFile, context) {
  */
 function writeRuleFile(destPkg, pkgFile, content) {
 	if (destPkg.isRoot) {
-		for (const source of project.sources) {
-			const prefix = `${source}${path.sep}`;
-
-			if (pkgFile.startsWith(prefix)) {
-				pkgFile = pkgFile.substring(prefix.length);
-				break;
-			}
-		}
+		pkgFile = stripSourceDir(pkgFile);
 	}
 
 	const absFile = path.join(project.dir, destPkg.dir, pkgFile);
 
 	fs.ensureDirSync(path.dirname(absFile));
 	fs.writeFileSync(absFile, content);
+}
+
+/**
+ * String configured source prefixes from package file path.
+ * @param {string} pkgFile
+ */
+export function stripSourceDir(pkgFile) {
+	for (const source of project.sources) {
+		const prefix = `${source}/`.replace(/\//g, path.sep);
+
+		if (pkgFile.startsWith(prefix)) {
+			return pkgFile.substring(prefix.length);
+		}
+	}
+
+	return pkgFile;
 }
