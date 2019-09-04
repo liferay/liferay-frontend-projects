@@ -53,46 +53,6 @@ describe('extractJS()', () => {
 		]);
 	});
 
-	it('turns JSP expressions (<%= ... %>) into identifier placeholders', () => {
-		const blocks = extractJS(dedent(3)`
-			<script>
-				function create() {
-					A.Node.create(
-						'<div class="alert"><%= SomeUtil("abc") %></div>'
-					);
-				}
-			</script>
-		`);
-
-		expect(blocks).toEqual([
-			{
-				contents: dedent(4)`
-					function create() {
-						A.Node.create(
-							'<div class="alert">_ECHO_SCRIPTLET_</div>'
-						);
-					}
-				`,
-				match: dedent(4)`<script>
-					function create() {
-						A.Node.create(
-							'<div class="alert">_ECHO_SCRIPTLET_</div>'
-						);
-					}
-				</script>`,
-				scriptAttributes: '',
-				startLine: 2,
-				tagNamespace: undefined
-			}
-		]);
-	});
-
-	it('turns JSP directives (<%@ ... %>) into identifier placeholders', () => {});
-
-	it('turns JSP scriplets (<% ... %>) into comments', () => {
-		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
-	});
-
 	it('extracts blocks from test fixture', async () => {
 		// This is the test fixture from the check-source-formatting package.
 		const source = await getFixture('format/page.jsp');
