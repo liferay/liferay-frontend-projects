@@ -12,8 +12,6 @@ module.exports = {
 	},
 	extends: 'liferay',
 	globals: {
-		$: true,
-		_: true,
 		AUI: true,
 		CKEDITOR: true,
 		Liferay: true,
