@@ -1,3 +1,14 @@
+## [v8.1.0](https://github.com/liferay/eslint-config-liferay/tree/v8.1.0) (2019-09-04)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v8.0.0...v8.1.0)
+
+- feat: turn off checkLoops in no-constant-condition rule ([\#83](https://github.com/liferay/eslint-config-liferay/pull/83))
+- feat: turn off no-control-regex rule (#80) ([\#82](https://github.com/liferay/eslint-config-liferay/pull/82))
+- feat!: activate "no-console" rule ([\#79](https://github.com/liferay/eslint-config-liferay/pull/79))
+- fix: always resolve "eslint" relative to $PWD ([\#78](https://github.com/liferay/eslint-config-liferay/pull/78))
+- feat: add padded-test-blocks ([\#75](https://github.com/liferay/eslint-config-liferay/pull/75))
+- docs: flesh out the no-react-dom-render docs ([\#76](https://github.com/liferay/eslint-config-liferay/pull/76))
+
 ## [v8.0.0](https://github.com/liferay/eslint-config-liferay/tree/v8.0.0) (2019-08-21)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v7.0.0...v8.0.0)
