@@ -58,7 +58,7 @@ describe('substituteTags()', () => {
 		expect(transformed).toEqual(dedent(3)`
 			function create() {
 				A.Node.create(
-					'<div class="alert">_ECHO_SCRIPTLET_</div>'
+					'<div class="alert">_JSP_EXPR_</div>'
 				);
 			}
 		`);

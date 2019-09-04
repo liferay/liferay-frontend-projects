@@ -6,12 +6,11 @@
 
 const getPaddedReplacement = require('./getPaddedReplacement');
 
+const JSP_EXPRESSION = /<%=.*?%>/g;
+
 const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
-const JSP_SCRIPT_BLOCK = /<%.*?%>/g;
-
-const JSP_SCRIPTLET_BLOCK = /<%=.*?%>/g;
-
+const JSP_SCRIPTLET = /<%.*?%>/g;
 /**
  * Recognize EL (Expression Language) expression syntax.
  *
@@ -43,8 +42,8 @@ function substituteTags(source) {
 		.replace(EL_EXPRESSION, match => {
 			return getPaddedReplacement(match, `_EL_${expressionCount++}_`);
 		})
-		.replace(JSP_SCRIPTLET_BLOCK, '_ECHO_SCRIPTLET_')
-		.replace(JSP_SCRIPT_BLOCK, '_SCRIPTLET_')
+		.replace(JSP_EXPRESSION, '_JSP_EXPR_')
+		.replace(JSP_SCRIPTLET, '_SCRIPTLET_')
 		.replace(JSP_PORTLET_NAMESPACE, match => {
 			return getPaddedReplacement(match, '_PORTLET_NAMESPACE_');
 		});
