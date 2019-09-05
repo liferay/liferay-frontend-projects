@@ -49,7 +49,6 @@ function extractJS(source) {
 					blocks.push({
 						contents: body,
 						match,
-						scriptAttributes,
 						range: {
 							end: {
 								column: lastLine.length + 1,
@@ -61,6 +60,7 @@ function extractJS(source) {
 								line: prefixLines.length
 							}
 						},
+						scriptAttributes,
 						tagNamespace
 					});
 				}
