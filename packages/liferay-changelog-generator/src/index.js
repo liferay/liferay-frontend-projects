@@ -264,10 +264,10 @@ function printUsage() {
 		`${relative(__filename)} [option...]`,
 		'',
 		'Options:',
-		'  --force                      [optional: disable safety checks]',
+		'  --force|-f                   [optional: disable safety checks]',
 		'  --from=FROM                  [default: previous tag]',
 		'  --to=TO                      [default: HEAD]',
-		'  --help',
+		'  --help|-h',
 		'  --no-update-tags             [optional: disable tag prefetching]',
 		'  --outfile=FILE               [default: ./CHANGELOG.md]',
 		'  --remote-url=REPOSITORY_URL  [default: inferred]',
@@ -280,7 +280,7 @@ function option(name) {
 	if (name.endsWith('=')) {
 		return new RegExp(`^(?:--{1,2})${name}(.+)`);
 	} else {
-		return new RegExp(`^(?:--{0,2})${name}$`);
+		return new RegExp(`^(?:--{0,2})(?:${name})$`);
 	}
 }
 
@@ -338,13 +338,13 @@ function parseArgs(args) {
 
 	let match;
 	args.forEach(arg => {
-		match = arg.match(option('force'));
+		match = arg.match(option('force|f'));
 		if (match) {
 			options.force = true;
 			return;
 		}
 
-		match = arg.match(option('help'));
+		match = arg.match(option('help|h'));
 		if (match) {
 			printUsage();
 			process.exit();
