@@ -92,7 +92,7 @@ export function runYarnScript(script, args = []) {
 		stdio: 'inherit'
 	});
 
-	var packageManager = (checkForYarn.status === 0 ? 'yarn' : 'npm');
+	const packageManager = checkForYarn.status === 0 ? 'yarn' : 'npm';
 	
 	const proc = child_process.spawnSync(packageManager, ['run', script].concat(args), {
 		shell: true,
