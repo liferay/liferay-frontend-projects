@@ -122,6 +122,8 @@ By creating small, targeted `it()` blocks:
         ✓ generates the right config (103ms)
     ```
 
+> **Note:** Aiming for one assertion per block is a guideline, not a hard-and-fast rule. As argued in "[Write fewer, longer tests](https://kentcdodds.com/blog/write-fewer-longer-tests)", going too far with this approach can be counter-productive. Writing good tests requires judgement. If it helps, think of this guideline not as "one assertion per block" but rather as **get as close as you can to one assertion per block _without actually making things worse_**.
+
 #### Don't dynamically create `describe()` and `it()` blocks
 
 Instead of:
