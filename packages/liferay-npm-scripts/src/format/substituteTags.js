@@ -42,22 +42,65 @@ const EL_EXPRESSION = /(?<!\\)(?:[$#])\{[^}]+\}/g;
 function substituteTags(source) {
 	let expressionCount = 0;
 
-	return source
-		.replace(EL_EXPRESSION, match => {
-			return getPaddedReplacement(match, `EL_${expressionCount++}`);
-		})
-		.replace(JSP_DIRECTIVE, match => {
-			return getPaddedReplacement(match, 'JSP_DIR');
-		})
-		.replace(JSP_EXPRESSION, match => {
-			return getPaddedReplacement(match, 'JSP_EXPR');
-		})
-		.replace(JSP_SCRIPTLET, (_match, inner) => {
-			return `/*${toWhitespace(inner)}*/`;
-		})
-		.replace(JSP_PORTLET_NAMESPACE, match => {
-			return getPaddedReplacement(match, 'PORTLET_NAMESPACE');
-		});
+	const transforms = new Map([
+		[
+			EL_EXPRESSION,
+			match => {
+				return getPaddedReplacement(match, `EL_${expressionCount++}`);
+			}
+		],
+		[
+			JSP_DIRECTIVE,
+			match => {
+				return getPaddedReplacement(match, 'JSP_DIR');
+			}
+		],
+		[
+			JSP_EXPRESSION,
+			match => {
+				return getPaddedReplacement(match, 'JSP_EXPR');
+			}
+		],
+		[
+			JSP_SCRIPTLET,
+			(_match, inner) => {
+				return `/*${toWhitespace(inner)}*/`;
+			}
+		],
+		[
+			JSP_PORTLET_NAMESPACE,
+			match => {
+				return getPaddedReplacement(match, 'PORTLET_NAMESPACE');
+			}
+		]
+	]);
+
+	const tags = [];
+
+	const text = [...transforms.entries()].reduce(
+		(output, [pattern, replacer]) => {
+			return output.replace(pattern, (match, ...rest) => {
+				rest.pop(); // Ignore whole string.
+
+				const offset = rest.pop();
+				const groups = rest;
+
+				// Remember position where we saw each tag, because we see them
+				// in pattern-application order, not document order.
+				tags.push([match, offset]);
+
+				return replacer(match, ...groups, offset);
+			});
+		},
+		source
+	);
+
+	// Sort tags into document-order.
+	tags.sort(([, a], [, b]) => {
+		return a < b ? -1 : a > b ? 1 : 0;
+	});
+
+	return [text, tags.map(([tag]) => tag)];
 }
 
 module.exports = substituteTags;

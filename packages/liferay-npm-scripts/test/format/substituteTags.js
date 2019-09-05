@@ -27,27 +27,43 @@ async function getScript(fixture) {
 
 describe('substituteTags()', () => {
 	it('turns EL syntax (${}) into identifier placeholders', () => {
-		const transformed = substituteTags('alert(${expr1}, ${expr2})');
+		const [transformed, tags] = substituteTags('alert(${expr1}, ${expr2})');
+
 		expect(transformed).toEqual('alert(ʾEL_0__ʿ, ʾEL_1__ʿ)');
+
+		expect(tags).toEqual(['${expr1}', '${expr2}']);
 	});
 
 	it('leaves escaped EL syntax (${}) untouched', () => {
-		const transformed = substituteTags('alert("\\${expr1}, \\${expr2}")');
+		const [transformed, tags] = substituteTags(
+			'alert("\\${expr1}, \\${expr2}")'
+		);
+
 		expect(transformed).toEqual('alert("\\${expr1}, \\${expr2}")');
+
+		expect(tags).toEqual([]);
 	});
 
 	it('turns EL syntax (#{}) into identifier placeholders', () => {
-		const transformed = substituteTags('alert(#{expr1}, #{expr2})');
+		const [transformed, tags] = substituteTags('alert(#{expr1}, #{expr2})');
+
 		expect(transformed).toEqual('alert(ʾEL_0__ʿ, ʾEL_1__ʿ)');
+
+		expect(tags).toEqual(['#{expr1}', '#{expr2}']);
 	});
 
 	it('leaves escaped EL syntax (#{}) untouched', () => {
-		const transformed = substituteTags('alert("\\#{expr1}, \\#{expr2}")');
+		const [transformed, tags] = substituteTags(
+			'alert("\\#{expr1}, \\#{expr2}")'
+		);
+
 		expect(transformed).toEqual('alert("\\#{expr1}, \\#{expr2}")');
+
+		expect(tags).toEqual([]);
 	});
 
 	it('turns JSP expressions (<%= ... %>) into identifier placeholders', () => {
-		const transformed = substituteTags(dedent(3)`
+		const [transformed, tags] = substituteTags(dedent(3)`
 			function create() {
 				A.Node.create(
 					'<div class="alert"><%= SomeUtil("abc") %></div>'
@@ -62,10 +78,12 @@ describe('substituteTags()', () => {
 				);
 			}
 		`);
+
+		expect(tags).toEqual(['<%= SomeUtil("abc") %>']);
 	});
 
 	it('turns JSP directives (<%@ ... %>) into identifier placeholders', () => {
-		const transformed = substituteTags(dedent(3)`
+		const [transformed, tags] = substituteTags(dedent(3)`
 			<%@ include file="/other.jsp" %>
 
 			var count = 0;
@@ -76,10 +94,12 @@ describe('substituteTags()', () => {
 
 			var count = 0;
 		`);
+
+		expect(tags).toEqual(['<%@ include file="/other.jsp" %>']);
 	});
 
 	it('turns single-line JSP scriplets (<% ... %>) into comments', () => {
-		const transformed = substituteTags(dedent(3)`
+		const [transformed, tags] = substituteTags(dedent(3)`
 			<% FooThing myFoo = new FooThing(); %>
 
 			var description = "<%= myFoo.body() %>";
@@ -91,11 +111,15 @@ describe('substituteTags()', () => {
 			var description = "ʾJSP_EXPR_________ʿ";
 		`);
 
+		expect(tags).toEqual([
+			'<% FooThing myFoo = new FooThing(); %>',
+			'<%= myFoo.body() %>'
+		]);
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
 	it('turns multi-line JSP scriplets (<% ... %>) into comments', () => {
-		const transformed = substituteTags(dedent(3)`
+		const [transformed, tags] = substituteTags(dedent(3)`
 			<%
 			if (Liferay.isThing()) {
 			%>
@@ -122,6 +146,15 @@ describe('substituteTags()', () => {
 			*/
 		`);
 
+		expect(tags).toEqual([
+			dedent(3)`<%
+			if (Liferay.isThing()) {
+			%>`,
+			'<%= myFoo.body() %>',
+			dedent(3)`<%
+			}
+			%>`
+		]);
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
@@ -130,7 +163,7 @@ describe('substituteTags()', () => {
 		// the middle of an object literal and produces no output.
 		const source = await getScript('format/configuration.jsp');
 
-		const transformed = substituteTags(source);
+		const [transformed, tags] = substituteTags(source);
 
 		expect(transformed).toBe(transformed);
 	});
