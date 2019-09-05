@@ -1,6 +1,7 @@
 ---
 name: 💍 Proposal
 about: Issues for proposing a change to our frontend practices
+labels: rfc
 ---
 
 <!--
