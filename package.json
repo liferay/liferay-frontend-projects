@@ -11,8 +11,8 @@
 	"scripts": {
 		"build": "lerna run build",
 		"ci": "npm run format:check && npm run lint && npm run test",
-		"format": "prettier --write '.*.js' 'packages/*/src/**/*.js'",
-		"format:check": "prettier --list-different '.*.js' 'packages/*/src/**/*.js'",
+		"format": "prettier --write \".*.js\" \"packages/*/src/**/*.js\"",
+		"format:check": "prettier --list-different \".*.js\" \"packages/*/src/**/*.js\"",
 		"lerna": "npm install && lerna bootstrap",
 		"lint": "eslint 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
 		"lint:fix": "eslint --fix 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
