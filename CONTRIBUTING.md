@@ -46,7 +46,7 @@ Here are the steps that the "postversion" script is actually trying to perform:
 git rev-parse --abbrev-ref HEAD
 
 # Check worktree is clean
-git diff --quite
+git diff --quiet
 
 # Update upstream "master"
 git push upstream master
