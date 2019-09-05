@@ -6,7 +6,7 @@
 	"author": {
 		"name": "Bryce Osterhaus"
 	},
-	"license": "MIT",
+	"license": "BSD-3-Clause",
 	"files": [
 		"bin",
 		"src"
