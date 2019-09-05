@@ -10,6 +10,8 @@ const PADDING = '_'.repeat(100);
  * Valid character to start an identifier (has property "ID Start") which we can
  * assume is very likely unused in liferay-portal.
  *
+ * Unicode name is "MODIFIER LETTER RIGHT HALF RING" and glyph is: "ʾ"
+ *
  * @see https://codepoints.net/U+02BE
  * @see https://mathiasbynens.be/notes/javascript-identifiers-es6
  */
@@ -18,6 +20,8 @@ const ID_START = '\u02be';
 /**
  * Valid character to end an identifier (has property "ID Continue")
  * which we can assume is very likely unused in liferay-portal.
+ *
+ * Unicode name is "MODIFIER LETTER LEFT HALF RING" and glyph is: "ʿ"
  *
  * @see: https://codepoints.net/U+02BF
  * @see https://mathiasbynens.be/notes/javascript-identifiers-es6
