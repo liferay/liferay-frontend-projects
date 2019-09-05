@@ -12,11 +12,9 @@
 
 3.  Update [CHANGELOG.md](./CHANGELOG.md).
 
-    For now, we're using [the `changelog.js` script](https://github.com/liferay/liferay-js-themes-toolkit/blob/fa4ca2e54821e50aed813903073769bf248f4072/scripts/changelog.js) from [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit). We'll need to move the script to somewhere it can easily be consumed.
+    Run [liferay-changelog-generator](https://www.npmjs.com/package/liferay-changelog-generator):
 
-    Assuming you have a liferay-js-themes-toolkit checkout nearby, you would run the script like this:
-
-        ../liferay-js-themes-toolkit/scripts/changelog.js --version=v4.1.0
+        npx liferay-changelog-generator --version=v4.1.0
 
 4.  Review the changes.
 
