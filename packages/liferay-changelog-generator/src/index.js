@@ -159,6 +159,7 @@ function escape(string) {
 	// At the moment, not escaping some special Markdown characters (such as *,
 	// backticks etc) as they may prove useful.
 	return string
+		.replace(/_/g, '\\_')
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;');
@@ -196,9 +197,9 @@ async function formatChanges(changes, remote) {
 		.map(({description, number}) => {
 			const link = linkToPullRequest(number, remote);
 			if (link) {
-				return `- ${escape(description)} (${link})`;
+				return `-   ${escape(description)} (${link})`;
 			} else {
-				return `- ${escape(description)}`;
+				return `-   ${escape(description)}`;
 			}
 		})
 		.join('\n');
