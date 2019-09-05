@@ -158,6 +158,30 @@ describe('substituteTags()', () => {
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
+	it('turns JSP tags into comments', () => {
+		const [transformed, tags] = substituteTags(dedent(3)`
+			<some:tag attr="1" />
+
+			<this:tag>
+				alert('done');
+			</this:tag>
+		`);
+
+		expect(transformed).toEqual(dedent(3)`
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+			/*╳╳╳╳╳╳*/
+				alert('done');
+			/*╳╳╳╳╳╳╳*/
+		`);
+
+		expect(tags).toEqual([
+			'<some:tag attr="1" />',
+			'<this:tag>',
+			'</this:tag>'
+		]);
+	});
+
 	it('turns childless JSP tags into comments', async () => {
 		// See the </liferay-portlet:renderURL> tag in this fixture, which is in
 		// the middle of an object literal and produces no output.
@@ -169,4 +193,6 @@ describe('substituteTags()', () => {
 	});
 
 	test.todo('turn the above into an actual test');
+
+	test.todo('handle overall indent/dedent');
 });

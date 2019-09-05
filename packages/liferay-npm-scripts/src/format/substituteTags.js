@@ -7,14 +7,6 @@
 const getPaddedReplacement = require('./getPaddedReplacement');
 const toFiller = require('./toFiller');
 
-const JSP_DIRECTIVE = /<%@.+?%>/g;
-
-const JSP_EXPRESSION = /<%=.+?%>/g;
-
-const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
-
-const JSP_SCRIPTLET = /<%(.*?)%>/gs;
-
 /**
  * Recognize EL (Expression Language) expression syntax.
  *
@@ -32,6 +24,16 @@ const JSP_SCRIPTLET = /<%(.*?)%>/gs;
  */
 const EL_EXPRESSION = /(?<!\\)(?:[$#])\{[^}]+\}/g;
 
+const JSP_DIRECTIVE = /<%@.+?%>/g;
+
+const JSP_EXPRESSION = /<%=.+?%>/g;
+
+const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
+
+const JSP_SCRIPTLET = /<%(.*?)%>/gs;
+
+const JSP_TAG = /<\/?[A-Za-z0-9-_]+:[^>]+>/g;
+
 /**
  * Takes a source string and substitutes valid placeholder JavaScript for any
  * JSP tags.
@@ -45,33 +47,19 @@ function substituteTags(source) {
 	const transforms = new Map([
 		[
 			EL_EXPRESSION,
-			match => {
-				return getPaddedReplacement(match, `EL_${expressionCount++}`);
-			}
+			match => getPaddedReplacement(match, `EL_${expressionCount++}`)
 		],
-		[
-			JSP_DIRECTIVE,
-			match => {
-				return getPaddedReplacement(match, 'JSP_DIR');
-			}
-		],
-		[
-			JSP_EXPRESSION,
-			match => {
-				return getPaddedReplacement(match, 'JSP_EXPR');
-			}
-		],
-		[
-			JSP_SCRIPTLET,
-			(_match, inner) => {
-				return `/*${toFiller(inner)}*/`;
-			}
-		],
+		[JSP_DIRECTIVE, match => getPaddedReplacement(match, 'JSP_DIR')],
+		[JSP_EXPRESSION, match => getPaddedReplacement(match, 'JSP_EXPR')],
+		[JSP_SCRIPTLET, (_match, inner) => `/*${toFiller(inner)}*/`],
 		[
 			JSP_PORTLET_NAMESPACE,
-			match => {
-				return getPaddedReplacement(match, 'PORTLET_NAMESPACE');
-			}
+			match => getPaddedReplacement(match, 'PORTLET_NAMESPACE')
+		],
+		[
+			// TODO: distinguish open, closing, and self-closing tags
+			JSP_TAG,
+			match => `/*${toFiller(match.slice(4))}*/`
 		]
 	]);
 
