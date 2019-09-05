@@ -5,7 +5,7 @@
  */
 
 const getPaddedReplacement = require('./getPaddedReplacement');
-const toWhitespace = require('./toWhitespace');
+const toFiller = require('./toFiller');
 
 const JSP_DIRECTIVE = /<%@.+?%>/g;
 
@@ -64,7 +64,7 @@ function substituteTags(source) {
 		[
 			JSP_SCRIPTLET,
 			(_match, inner) => {
-				return `/*${toWhitespace(inner)}*/`;
+				return `/*${toFiller(inner)}*/`;
 			}
 		],
 		[

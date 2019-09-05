@@ -4,28 +4,47 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const extractJS = require('../../src/format/extractJS');
 const dedent = require('../../support/dedent');
-const substituteTags = require('../../src/format/substituteTags');
+const extractJS = require('../../src/format/extractJS');
 const getFixture = require('../../support/getFixture');
+const restoreTags = require('../../src/format/restoreTags');
+const substituteTags = require('../../src/format/substituteTags');
 
-async function getScript(fixture) {
-	const contents = await getFixture(fixture);
+describe('restoreTags()', () => {
+	fit('puts previously extracted tags back in their place (round-trip)', () => {
+		const source = `
+			text
+			#{expr}
+			more <%= getStuff() %> here
 
-	const blocks = extractJS(contents.toString());
+			<%
+				/* comment */
+			%>
+		`;
 
-	const length = blocks.length;
+		const [text, tags] = substituteTags(source);
 
-	if (length !== 1) {
-		throw new Error(
-			`Expected exactly one code block in ${fixture} but got ${length}`
-		);
-	}
+		// Some fake formatting that moves and changes text.
+		const formattedText = '\n\t\t\t// Prefix' + text.toUpperCase();
 
-	return blocks[0].contents;
-}
+		const result = restoreTags(formattedText, tags);
 
-describe('substituteTags()', () => {
+		const expected = `
+			// Prefix
+			TEXT
+			#{expr}
+			MORE <%= getStuff() %> HERE
+
+			<%
+				/* comment */
+			%>
+		`;
+
+		expect(result).toEqual(expected);
+	});
+
+	// TODO: throws error if tag count is wrong
+
 	it('turns EL syntax (${}) into identifier placeholders', () => {
 		const [transformed, tags] = substituteTags('alert(${expr1}, ${expr2})');
 
@@ -106,7 +125,7 @@ describe('substituteTags()', () => {
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
-			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+			/*                                  */
 
 			var description = "ʾJSP_EXPR_________ʿ";
 		`);
@@ -136,13 +155,13 @@ describe('substituteTags()', () => {
 		// be edge-casey enough that it doesn't matter in practice.
 		expect(transformed).toEqual(dedent(3)`
 			/*
-			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			                        
 			*/
 
 			var description = "ʾJSP_EXPR_________ʿ";
 
 			/*
-			╳
+			 
 			*/
 		`);
 
@@ -157,16 +176,4 @@ describe('substituteTags()', () => {
 		]);
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
-
-	it('turns childless JSP tags into comments', async () => {
-		// See the </liferay-portlet:renderURL> tag in this fixture, which is in
-		// the middle of an object literal and produces no output.
-		const source = await getScript('format/configuration.jsp');
-
-		const [transformed, tags] = substituteTags(source);
-
-		expect(transformed).toBe(transformed);
-	});
-
-	test.todo('turn the above into an actual test');
 });
