@@ -15,19 +15,19 @@ module.exports = {
 			return node.type === 'Identifier' && node.name === 'fetch';
 		};
 
-		const isValidDefaultImport = (source, specifiers) => {
+		const isValidDefaultImport = node => {
 			return (
-				source.value.endsWith('fetch.es') &&
-				specifiers.find(
+				node.source.value.endsWith('/fetch.es') &&
+				node.specifiers.find(
 					specifier => specifier.type === 'ImportDefaultSpecifier'
 				)
 			);
 		};
 
-		const isValidNamedImport = (source, specifiers) => {
+		const isValidNamedImport = node => {
 			return (
-				source.value === 'frontend-js-web' &&
-				specifiers.find(specifier => {
+				node.source.value === 'frontend-js-web' &&
+				node.specifiers.find(specifier => {
 					return (
 						specifier.imported &&
 						specifier.imported.name === 'fetch'
@@ -50,8 +50,7 @@ module.exports = {
 				if (
 					node.source &&
 					node.source.type === 'Literal' &&
-					(isValidDefaultImport(node.source, node.specifiers) ||
-						isValidNamedImport(node.source, node.specifiers))
+					(isValidDefaultImport(node) || isValidNamedImport(node))
 				) {
 					foundFetchImport = true;
 				}

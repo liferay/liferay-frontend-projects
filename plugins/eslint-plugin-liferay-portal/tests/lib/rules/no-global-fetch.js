@@ -32,6 +32,20 @@ ruleTester.run('no-global-fetch', rule, {
 				},
 			],
 		},
+		{
+			// As a global fetch without an import.
+			code: `
+				import fetch from 'whatwg-fetch';
+
+				fetch(url);
+			`,
+			errors: [
+				{
+					messageId: 'noGlobalFetch',
+					type: 'CallExpression',
+				},
+			],
+		},
 	],
 
 	valid: [
