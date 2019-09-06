@@ -80,6 +80,12 @@ function substituteTags(source) {
 
 	const text = [...transforms.entries()].reduce(
 		(output, [pattern, replacer]) => {
+			// As we build the replacement string, possibly inserting additional
+			// characters, the offsets we receive reference positions in the
+			// original string, so may be invalid. Track the error and correct
+			// for it.
+			let adjustment = 0;
+
 			return output.replace(pattern, (match, ...rest) => {
 				rest.pop(); // Ignore last param (whole string).
 
@@ -92,9 +98,13 @@ function substituteTags(source) {
 
 				// Remember position where we saw each tag, because we see them
 				// in pattern-application order, not document order.
-				tags.push([match, offset, length]);
+				tags.push([match, offset + adjustment, length]);
 
-				return replacer(match, ...groups, offset);
+				const replacement = replacer(match, ...groups);
+
+				adjustment += (replacement.length - match.length);
+
+				return replacement;
 			});
 		},
 		source
