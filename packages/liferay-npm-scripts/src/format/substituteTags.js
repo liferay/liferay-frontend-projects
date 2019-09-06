@@ -81,18 +81,18 @@ function substituteTags(source) {
 	const text = [...transforms.entries()].reduce(
 		(output, [pattern, replacer]) => {
 			return output.replace(pattern, (match, ...rest) => {
-				rest.pop(); // Ignore whole string.
+				rest.pop(); // Ignore last param (whole string).
 
 				// BUG: indices can be invalidate by subsequent
 				// substitutions albeit unlikely (in any case, to deal
 				// with nesting, need to start dealing with RANGES and
 				// checking for overlap)
-				const offset = rest.pop();
+				const [offset, length] = [rest.pop(), match.length];
 				const groups = rest;
 
 				// Remember position where we saw each tag, because we see them
 				// in pattern-application order, not document order.
-				tags.push([match, offset]);
+				tags.push([match, offset, length]);
 
 				return replacer(match, ...groups, offset);
 			});
