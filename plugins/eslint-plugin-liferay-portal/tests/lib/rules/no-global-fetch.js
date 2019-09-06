@@ -36,9 +36,29 @@ ruleTester.run('no-global-fetch', rule, {
 
 	valid: [
 		{
-			// Imported from frontend-js-web
+			// Named import from frontend-js-web
 			code: `
 				import {fetch} from 'frontend-js-web';
+
+				function doSomething(url) {
+					return fetch(url);
+				}
+			`,
+		},
+		{
+			// Unnamed import from '../fetch.es'
+			code: `
+				import fetch from '../fetch.es';
+
+				function doSomething(url) {
+					return fetch(url);
+				}
+			`,
+		},
+		{
+			// Unnamed import from '../util/fetch.es'
+			code: `
+				import fetch from '../util/fetch.es';
 
 				function doSomething(url) {
 					return fetch(url);
@@ -50,6 +70,16 @@ ruleTester.run('no-global-fetch', rule, {
 			code: `
 				function doSomething(url) {
 					return Liferay.Util.fetch(url);
+				}
+			`,
+		},
+		{
+			// Accessed via prototype
+			code: `
+				class CreateContentForm extends PortletBase {
+					doSomething() {
+						this.fetch(url);
+					}
 				}
 			`,
 		},

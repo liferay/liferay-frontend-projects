@@ -11,13 +11,34 @@ module.exports = {
 	create(context) {
 		let foundFetchImport = false;
 
+		const isFetchIdentifier = node => {
+			return node.type === 'Identifier' && node.name === 'fetch';
+		};
+
+		const isValidDefaultImport = (source, specifiers) => {
+			return (
+				source.value.endsWith('fetch.es') &&
+				specifiers.find(
+					specifier => specifier.type === 'ImportDefaultSpecifier'
+				)
+			);
+		};
+
+		const isValidNamedImport = (source, specifiers) => {
+			return (
+				source.value === 'frontend-js-web' &&
+				specifiers.find(specifier => {
+					return (
+						specifier.imported &&
+						specifier.imported.name === 'fetch'
+					);
+				})
+			);
+		};
+
 		return {
 			CallExpression(node) {
-				if (
-					node.callee.type === 'Identifier' &&
-					node.callee.name === 'fetch' &&
-					!foundFetchImport
-				) {
+				if (isFetchIdentifier(node.callee) && !foundFetchImport) {
 					context.report({
 						messageId: 'noGlobalFetch',
 						node,
@@ -29,10 +50,8 @@ module.exports = {
 				if (
 					node.source &&
 					node.source.type === 'Literal' &&
-					node.source.value === 'frontend-js-web' &&
-					node.specifiers.find(
-						specifier => specifier.imported.name === 'fetch'
-					)
+					(isValidDefaultImport(node.source, node.specifiers) ||
+						isValidNamedImport(node.source, node.specifiers))
 				) {
 					foundFetchImport = true;
 				}
