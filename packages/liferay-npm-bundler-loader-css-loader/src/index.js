@@ -18,12 +18,28 @@ export default function(context, {extension, pathModule = '/o'}) {
 
 	// Note that Liferay.ThemeDisplay.getPathContext() when called at runtime
 	// returns both pathProxy and the context path of the portal's webapp.
-	context.extraArtifacts[`${filePath}.js`] = `
+	context.extraArtifacts[`${filePath}.js.wrap-modules-amd.template`] = `
 var link = document.createElement("link");
 link.setAttribute("rel", "stylesheet");
 link.setAttribute("type", "text/css");
 link.setAttribute("href", Liferay.ThemeDisplay.getPathContext() + "${href}");
+
+function defineModule() {
+	__WRAPPED_MODULE__	
+}
+
+link.onload = defineModule;
+
+link.onerror = function() {
+	console.warn('Unable to load ${href}. However, its .js module will still be defined to avoid breaking execution flow (expect some visual degradation).');
+
+	defineModule();
+}
+
 document.querySelector("head").appendChild(link);
+`;
+	context.extraArtifacts[`${filePath}.js`] = `
+module.exports = link;
 `;
 
 	log.info('css-loader', `Generated .js module to inject '${href}'`);

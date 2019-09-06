@@ -54,14 +54,15 @@ describe('standard projects', () => {
 
 		expect(result).toBeUndefined();
 
-		expect(Object.keys(context.extraArtifacts)).toEqual(['file.css.js']);
-		expect(context.extraArtifacts['file.css.js']).toEqual(`
-var link = document.createElement("link");
-link.setAttribute("rel", "stylesheet");
-link.setAttribute("type", "text/css");
-link.setAttribute("href", Liferay.ThemeDisplay.getPathContext() + "/o/a-project/file.css");
-document.querySelector("head").appendChild(link);
-`);
+		expect(Object.keys(context.extraArtifacts)).toEqual([
+			'file.css.js.wrap-modules-amd.template',
+			'file.css.js',
+		]);
+
+		expect(
+			context.extraArtifacts['file.css.js.wrap-modules-amd.template']
+		).toMatchSnapshot();
+		expect(context.extraArtifacts['file.css.js']).toMatchSnapshot();
 	});
 
 	it('honors pathModule in options', () => {
@@ -76,13 +77,11 @@ document.querySelector("head").appendChild(link);
 			pathModule: '/p',
 		});
 
-		expect(context.extraArtifacts['file.css.js']).toEqual(`
-var link = document.createElement("link");
-link.setAttribute("rel", "stylesheet");
-link.setAttribute("type", "text/css");
-link.setAttribute("href", Liferay.ThemeDisplay.getPathContext() + "/p/a-project/file.css");
-document.querySelector("head").appendChild(link);
-`);
+		expect(
+			context.extraArtifacts['file.css.js.wrap-modules-amd.template']
+		).toMatch(
+			'Liferay.ThemeDisplay.getPathContext() + "/p/a-project/file.css"'
+		);
 	});
 
 	it('honors extension in options', () => {
@@ -97,13 +96,11 @@ document.querySelector("head").appendChild(link);
 			extension: '.not-css',
 		});
 
-		expect(context.extraArtifacts['file.css.js']).toEqual(`
-var link = document.createElement("link");
-link.setAttribute("rel", "stylesheet");
-link.setAttribute("type", "text/css");
-link.setAttribute("href", Liferay.ThemeDisplay.getPathContext() + "/o/a-project/file.not-css");
-document.querySelector("head").appendChild(link);
-`);
+		expect(
+			context.extraArtifacts['file.css.js.wrap-modules-amd.template']
+		).toMatch(
+			'.ThemeDisplay.getPathContext() + "/o/a-project/file.not-css"'
+		);
 	});
 
 	it('dumps correct URL in windows', () => {});
@@ -130,13 +127,14 @@ describe('java projects', () => {
 
 		expect(result).toBeUndefined();
 
-		expect(Object.keys(context.extraArtifacts)).toEqual(['file.css.js']);
-		expect(context.extraArtifacts['file.css.js']).toEqual(`
-var link = document.createElement("link");
-link.setAttribute("rel", "stylesheet");
-link.setAttribute("type", "text/css");
-link.setAttribute("href", Liferay.ThemeDisplay.getPathContext() + "/o/java-project/file.css");
-document.querySelector("head").appendChild(link);
-`);
+		expect(Object.keys(context.extraArtifacts)).toEqual([
+			'file.css.js.wrap-modules-amd.template',
+			'file.css.js',
+		]);
+
+		expect(
+			context.extraArtifacts['file.css.js.wrap-modules-amd.template']
+		).toMatchSnapshot();
+		expect(context.extraArtifacts['file.css.js']).toMatchSnapshot();
 	});
 });
