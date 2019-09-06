@@ -1,3 +1,11 @@
+## [v9.0.0](https://github.com/liferay/eslint-config-liferay/tree/v9.0.0) (2019-09-06)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v8.1.0...v9.0.0)
+
+-   feat: allows '../fetch.es' local default imports for the no-global-fetch rule ([\#86](https://github.com/liferay/eslint-config-liferay/pull/86))
+-   docs: advise to use liferay-changelog-generator in CONTRIBUTING.md ([\#85](https://github.com/liferay/eslint-config-liferay/pull/85))
+-   feat!: removes $ and \_ from globals to flag unwanted usage ([\#84](https://github.com/liferay/eslint-config-liferay/pull/84))
+
 ## [v8.1.0](https://github.com/liferay/eslint-config-liferay/tree/v8.1.0) (2019-09-04)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v8.0.0...v8.1.0)
