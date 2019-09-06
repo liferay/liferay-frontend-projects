@@ -10,17 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const readJsonSync = require('read-json-sync');
 
-const {safeRunFs, yarn} = require('./util');
-
-function isToolkitDep(pkgName) {
-	return (
-		pkgName.startsWith('liferay-npm-') &&
-		[
-			'liferay-npm-bundler-preset-liferay-dev',
-			'liferay-npm-scripts',
-		].indexOf(pkgName) == -1
-	);
-}
+const {isToolkitDep, safeRunFs, yarn} = require('./util');
 
 // Read package.json
 const pkgJson = readJsonSync(path.join('.', 'package.json'));
