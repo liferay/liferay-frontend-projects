@@ -21,27 +21,63 @@ function dedent(input, tabWidth = 4) {
 	// Find minimum indent (ignoring empty lines).
 	const minimum = lines.reduce((acc, line) => {
 		const indent = line.match(/^\s+/);
+
 		if (indent) {
-			const length = indent[0].length;
+			const length = Array.from(indent[0]).reduce((count, char) => {
+				if (char === '\t') {
+					return count + tabWidth;
+				} else {
+					return count + 1;
+				}
+			}, 0);
 			return Math.min(acc, length);
 		}
+
 		return acc;
 	}, Infinity);
 
 	// Strip out minimum indent from every line.
 	const dedented = isFinite(minimum)
-		? lines.map(line =>
-				line.replace(new RegExp(`^${' '.repeat(minimum)}`, 'g'), '')
-		  )
+		? lines.map(line => {
+				const [, whitespace, rest] = line.match(/^(\s*)(.*)/);
+
+				if (whitespace.length) {
+					// Remove leftmost character until hitting desired length;
+					// if you overshoot (due to a tab), pad with spaces.
+					const chars = Array.from(whitespace);
+
+					let trimmedLength = 0;
+
+					while (chars.length) {
+						const char = chars.shift();
+
+						trimmedLength += char === '\t' ? tabWidth : 1;
+
+						if (trimmedLength > minimum) {
+							return (
+								chars.join('') +
+								' '.repeat(trimmedLength - minimum) +
+								rest
+							);
+						} else if (trimmedLength === minimum) {
+							return chars.join('') + rest;
+						}
+					}
+				} else {
+					return line;
+				}
+		  })
 		: lines;
 
 	// Trim first and last line if empty.
 	if (dedented[0] === '') {
 		dedented.shift();
 	}
+
 	if (dedented[dedented.length - 1] === '') {
 		dedented.pop();
 	}
+
 	return dedented.join('\n');
 }
 

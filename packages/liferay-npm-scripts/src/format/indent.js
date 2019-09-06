@@ -5,9 +5,10 @@
  */
 
 /**
- * Indent every line (except for empty lines) by `count` units of `whitespace`..
+ * Indent every line of `text` (except for empty lines) by `count` units
+ * of `whitespace`.
  */
-function indent(text, count = 2, whitespace = ' ') {
+function indent(text, count = 1, whitespace = '\t') {
 	return text
 		.split('\n')
 		.map(line => {
