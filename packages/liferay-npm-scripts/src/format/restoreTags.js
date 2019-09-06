@@ -30,7 +30,7 @@ function restoreTags(text, tags) {
 
 	if (count !== tags.length) {
 		throw new Error(
-			`Expected replacement count: got ${count}, expected ${tags.length}`
+			`Expected replacement count ${count}, but got ${tags.length}`
 		);
 	}
 
