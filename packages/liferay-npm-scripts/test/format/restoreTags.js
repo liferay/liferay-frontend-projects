@@ -17,24 +17,59 @@ describe('restoreTags()', () => {
 			<%
 				/* comment */
 			%>
+
+			<c:if test="<%= someValue() %>">
+				children
+			</c:if>
 		`;
 
 		const [text, tags] = substituteTags(source);
 
 		// Some fake formatting that moves and changes text.
-		const formattedText = '\n\t\t\t// Prefix' + text.toUpperCase();
+		const formattedText =
+			'\n\t\t\t// Prefix' + text.replace('children', 'CHILDREN');
 
 		const result = restoreTags(formattedText, tags);
 
 		const expected = `
 			// Prefix
-			TEXT
+			text
 			#{expr}
-			MORE <%= getStuff() %> HERE
+			more <%= getStuff() %> here
 
 			<%
 				/* comment */
 			%>
+
+			<c:if test="<%= someValue() %>">
+				CHILDREN
+			</c:if>
+		`;
+
+		expect(result).toEqual(expected);
+	});
+
+	it('restores blocks even if Prettier splits them across lines', () => {
+		// Prettier could conceiveably break an "if" across lines.
+		const text = `
+			if (
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			) {
+				alert('done');
+			}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+		`;
+
+		const tags = [
+			'<my-long-namespace:this-tag>',
+			'</my-long-namespace:this-tag>'
+		];
+
+		const result = restoreTags(text, tags);
+
+		const expected = `
+			<my-long-namespace:this-tag>
+				alert('done');
+			</my-long-namespace:this-tag>
 		`;
 
 		expect(result).toEqual(expected);

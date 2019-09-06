@@ -5,11 +5,23 @@
  */
 
 const {ID_END, ID_START} = require('./getPaddedReplacement');
+const {BLOCK_CLOSE, BLOCK_OPEN} = require('./tagReplacements');
 const {FILLER} = require('./toFiller');
 
 const COMMENT = `/\\*[${FILLER}\\s]+\\*/`;
+
+const OPEN_TAG_REPLACEMENT = `if \\(\\s*${BLOCK_OPEN}+\\s*\\) \\{`;
+
+const CLOSE_TAG_REPLACEMENT = `\\}/\\*${BLOCK_CLOSE}+\\*/`;
+
 const IDENTIFIER = `${ID_START}[^${ID_END}]+${ID_END}`;
-const SUBSTITUTIONS = new RegExp(`${COMMENT}|${IDENTIFIER}`, 'g');
+
+const SUBSTITUTIONS = new RegExp(
+	[COMMENT, CLOSE_TAG_REPLACEMENT, OPEN_TAG_REPLACEMENT, IDENTIFIER].join(
+		'|'
+	),
+	'g'
+);
 
 /**
  * Takes a source string and reinserts tags that were previously extracted with
