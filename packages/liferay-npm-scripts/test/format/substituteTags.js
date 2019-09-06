@@ -8,6 +8,27 @@ const dedent = require('../../support/dedent');
 const substituteTags = require('../../src/format/substituteTags');
 
 describe('substituteTags()', () => {
+	it('TODO', async () => {
+		const getFixture = require('../../support/getFixture');
+		const source = await getFixture('format/edit_template_display.jspf');
+
+		const [transformed, tags] = substituteTags(source);
+
+		// TODO: fully handle input like this:
+		/*
+			<liferay-ui:panel
+				collapsible="<%= true %>"
+				cssClass="palette-section"
+				extended="<%= false %>"
+				id="<%= HtmlUtil.getAUICompatibleId(templateVariableGroup.getLabel()) %>"
+				title="<%= LanguageUtil.get(request, templateHandlerResourceBundle, HtmlUtil.escape(templateVariableGroup.getLabel())) %>"
+			>
+				<ul class="palette-item-content">
+		*/
+
+		// console.log(transformed);
+	});
+
 	it('turns EL syntax (${}) into identifier placeholders', () => {
 		const [transformed, tags] = substituteTags('alert(${expr1}, ${expr2})');
 

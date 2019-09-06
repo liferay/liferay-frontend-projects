@@ -41,7 +41,8 @@ const MINIMUM_SELF_CLOSING_TAG_LENGTH = '<a:b/>'.length;
 //
 // If the tag is too short to fit in the substitution, a best effort is made:
 //
-//     <a:b>     ...becomes:
+//     <a:b>
+//               ...becomes:
 //     if (ʃ) {
 //
 // If the tag spans multiple lines a best effort is made:
@@ -77,13 +78,6 @@ function getOpenTagReplacement(tag) {
 	if (rest.length) {
 		const [, indent, remainder] = rest.join('\n').match(/(\s*)(.*)/s);
 
-		console.log(
-			'rest/indent/remainder',
-			rest,
-			JSON.stringify(indent),
-			JSON.stringify(remainder)
-		);
-
 		// Rough-but-probably-harmless approximation: the filler will be
 		// 4 characters too long, but safely trimming it is hard because
 		// it may contain newlines.
@@ -100,13 +94,15 @@ function getOpenTagReplacement(tag) {
 //
 // For example:
 //
-//     </foo:tag>  ...becomes:
+//     </foo:tag>
+//                 ...becomes:
 //     }/*ʅʅʅʅʅ*/
 //
 // Unlike getOpenTagReplacement(), even the shortest possible closing tag has a
 // same-length substitution:
 //
-//     </a:b>     ...becomes:
+//     </a:b>
+//                ...becomes:
 //     }/*ʅ*/
 //
 function getCloseTagReplacement(tag) {
@@ -128,7 +124,8 @@ function getCloseTagReplacement(tag) {
 //
 // For example:
 //
-//     <foo:bar/>  ...becomes:
+//     <foo:bar/>
+//                 ...becomes:
 //     /*╳╳╳╳╳╳*/
 //
 function getSelfClosingTagReplacement(tag) {

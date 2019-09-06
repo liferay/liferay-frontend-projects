@@ -62,6 +62,13 @@ describe('getSelfClosingTagReplacement()', () => {
 		expect(getSelfClosingTagReplacement(original)).toBe(expected);
 	});
 
+	it('replaces a multi-line tag with a same-shaped placeholder', () => {
+		const original = '<foo:bar\n' + '\tattr="1"\n' + '/>';
+		const expected = '/*╳╳╳╳╳╳\n' + '\t╳╳╳╳╳╳╳╳\n' + '*/';
+
+		expect(getSelfClosingTagReplacement(original)).toBe(expected);
+	});
+
 	it('replaces a short tag with the shortest possible placeholder', () => {
 		const original = '<a:b/>';
 		const expected = '/*╳╳*/';

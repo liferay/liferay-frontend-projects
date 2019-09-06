@@ -83,6 +83,10 @@ function substituteTags(source) {
 			return output.replace(pattern, (match, ...rest) => {
 				rest.pop(); // Ignore whole string.
 
+				// BUG: indices can be invalidate by subsequent
+				// substitutions albeit unlikely (in any case, to deal
+				// with nesting, need to start dealing with RANGES and
+				// checking for overlap)
 				const offset = rest.pop();
 				const groups = rest;
 
