@@ -30,34 +30,68 @@ const MINIMUM_OPENING_TAG_LENGTH = '<a:b>'.length;
 
 const MINIMUM_SELF_CLOSING_TAG_LENGTH = '<a:b/>'.length;
 
-/**
- * Create a same-length substitution for the text of the opening tag, `tag`.
- *
- * For example:
- *
- *     <foo:tag attr="this">  ...becomes:
- *     if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
- *
- * If the tag is too short to fit in the substitution, a best effort is made:
- *
- *     <a:b>     ...becomes:
- *     if (ʃ) {
- */
+///
+// Create a same-length substitution for the text of the opening tag, `tag`.
+//
+// For example:
+//
+//     <foo:tag attr="this">
+//                            ...becomes:
+//     if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+//
+// If the tag is too short to fit in the substitution, a best effort is made:
+//
+//     <a:b>     ...becomes:
+//     if (ʃ) {
+//
+// If the tag spans multiple lines a best effort is made:
+//
+//     <foo-bar:tag
+//         attr="word"
+//     >
+//                            ...becomes:
+//     if (ʃʃʃʃʃ) {
+//         /*ʃʃʃʃʃʃʃʃʃʃʃ
+//     ʃ*/
+//
 function getOpenTagReplacement(tag) {
-	const fill = contents => `if (${contents}) {`;
-
-	const templateLength = fill('').length;
-
 	if (tag.length < MINIMUM_OPENING_TAG_LENGTH) {
 		throw new Error(`Invalid (underlength) tag: ${tag}`);
 	}
 
+	const [first, ...rest] = tag.split('\n');
+
+	const fill = contents => `if (${contents}) {`;
+
+	const templateLength = fill('').length;
+
 	const trimAmount = Math.min(
-		tag.length - Math.max(0, tag.length - templateLength),
-		tag.length - 1 /* Never trim a short tag away to nothing */
+		first.length - Math.max(0, first.length - templateLength),
+		first.length - 1 /* Never trim a short tag away to nothing */
 	);
 
-	return fill(toFiller(tag, BLOCK_OPEN).slice(trimAmount));
+	const conditional = fill(toFiller(first, BLOCK_OPEN).slice(trimAmount));
+
+	let comment = null;
+
+	if (rest.length) {
+		const [, indent, remainder] = rest.join('\n').match(/(\s*)(.*)/s);
+
+		console.log(
+			'rest/indent/remainder',
+			rest,
+			JSON.stringify(indent),
+			JSON.stringify(remainder)
+		);
+
+		// Rough-but-probably-harmless approximation: the filler will be
+		// 4 characters too long, but safely trimming it is hard because
+		// it may contain newlines.
+		// TODO: make this smarter.
+		comment = indent + `/*${toFiller(remainder, BLOCK_OPEN)}*/`;
+	}
+
+	return [conditional, comment].filter(Boolean).join('\n');
 }
 
 ///
@@ -102,7 +136,7 @@ function getSelfClosingTagReplacement(tag) {
 		throw new Error(`Invalid (underlength) tag: ${tag}`);
 	}
 
-	return `/*${toFiller(tag.slice(4))}*/`;
+	return `/*${toFiller(tag.slice(2, -2))}*/`;
 }
 
 module.exports = {

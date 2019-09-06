@@ -97,7 +97,6 @@ describe('substituteTags()', () => {
 			'<% FooThing myFoo = new FooThing(); %>',
 			'<%= myFoo.body() %>'
 		]);
-		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
 	it('turns multi-line JSP scriplets (<% ... %>) into comments', () => {
@@ -140,27 +139,55 @@ describe('substituteTags()', () => {
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
-	it('turns JSP tags into comments', () => {
+	it('turns JSP tags into comments and conditionals', () => {
 		const [transformed, tags] = substituteTags(dedent(3)`
 			<some:tag attr="1" />
+
+			<other:tag
+				multiline="true"
+				self-closing="true"
+			/>
 
 			<this:tag>
 				alert('done');
 			</this:tag>
+
+			<multi:line
+				opening="1"
+			>
+				var x = 1;
+			</multi:line>
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
 			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
+			/*╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+
 			if (ʃʃʃ) {
 				alert('done');
 			}/*ʅʅʅʅʅʅ*/
+
+			if (ʃʃʃʃ) {
+				/*ʃʃʃʃʃʃʃʃʃʃʃ
+			ʃ*/
+				var x = 1;
+			}/*ʅʅʅʅʅʅʅʅ*/
 		`);
 
 		expect(tags).toEqual([
 			'<some:tag attr="1" />',
+			'<other:tag\n' +
+				'\tmultiline="true"\n' +
+				'\tself-closing="true"\n' +
+				'/>',
 			'<this:tag>',
-			'</this:tag>'
+			'</this:tag>',
+			'<multi:line\n' + '\topening="1"\n' + '>',
+			'</multi:line>'
 		]);
 	});
 });

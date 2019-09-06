@@ -54,6 +54,9 @@ function substituteTags(source) {
 	let expressionCount = 0;
 
 	const transforms = new Map([
+		[JSP_DIRECTIVE, match => getPaddedReplacement(match, 'JSP_DIR')],
+		[JSP_EXPRESSION, match => getPaddedReplacement(match, 'JSP_EXPR')],
+		[JSP_SCRIPTLET, (_match, inner) => `/*${toFiller(inner)}*/`],
 		[
 			JSP_PORTLET_NAMESPACE,
 			match => getPaddedReplacement(match, 'PORTLET_NAMESPACE')
@@ -70,10 +73,7 @@ function substituteTags(source) {
 		[
 			EL_EXPRESSION,
 			match => getPaddedReplacement(match, `EL_${expressionCount++}`)
-		],
-		[JSP_DIRECTIVE, match => getPaddedReplacement(match, 'JSP_DIR')],
-		[JSP_EXPRESSION, match => getPaddedReplacement(match, 'JSP_EXPR')],
-		[JSP_SCRIPTLET, (_match, inner) => `/*${toFiller(inner)}*/`]
+		]
 	]);
 
 	const tags = [];
