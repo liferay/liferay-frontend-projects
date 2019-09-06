@@ -190,6 +190,8 @@ describe('substituteTags()', () => {
 		const [transformed, tags] = substituteTags(source);
 
 		expect(transformed).toBe(transformed);
+
+		expect(tags).toEqual(expect.any(Array));
 	});
 
 	test.todo('turn the above into an actual test');
