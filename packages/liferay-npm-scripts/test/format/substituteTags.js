@@ -4,26 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const extractJS = require('../../src/format/extractJS');
 const dedent = require('../../support/dedent');
 const substituteTags = require('../../src/format/substituteTags');
-const getFixture = require('../../support/getFixture');
-
-async function getScript(fixture) {
-	const contents = await getFixture(fixture);
-
-	const blocks = extractJS(contents.toString());
-
-	const length = blocks.length;
-
-	if (length !== 1) {
-		throw new Error(
-			`Expected exactly one code block in ${fixture} but got ${length}`
-		);
-	}
-
-	return blocks[0].contents;
-}
 
 describe('substituteTags()', () => {
 	it('turns EL syntax (${}) into identifier placeholders', () => {
@@ -170,9 +152,9 @@ describe('substituteTags()', () => {
 		expect(transformed).toEqual(dedent(3)`
 			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
-			/*╳╳╳╳╳╳*/
+			if (ʃʃʃ) {
 				alert('done');
-			/*╳╳╳╳╳╳╳*/
+			}/*ʅʅʅʅʅʅ*/
 		`);
 
 		expect(tags).toEqual([
@@ -181,20 +163,4 @@ describe('substituteTags()', () => {
 			'</this:tag>'
 		]);
 	});
-
-	it('turns childless JSP tags into comments', async () => {
-		// See the </liferay-portlet:renderURL> tag in this fixture, which is in
-		// the middle of an object literal and produces no output.
-		const source = await getScript('format/configuration.jsp');
-
-		const [transformed, tags] = substituteTags(source);
-
-		expect(transformed).toBe(transformed);
-
-		expect(tags).toEqual(expect.any(Array));
-	});
-
-	test.todo('turn the above into an actual test');
-
-	test.todo('handle overall indent/dedent');
 });

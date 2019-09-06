@@ -32,7 +32,83 @@ const JSP_PORTLET_NAMESPACE = /<portlet:namespace\s*\/>/g;
 
 const JSP_SCRIPTLET = /<%(.*?)%>/gs;
 
-const JSP_TAG = /<\/?[A-Za-z0-9-_]+:[^>]+>/g;
+const JSP_OPEN_TAG = /<[A-Za-z0-9-_]+:[^>]+>/g;
+
+const JSP_CLOSE_TAG = /<\/[A-Za-z0-9-_]+:[^>]+>/g;
+
+const JSP_SELF_CLOSING_TAG = /<[A-Za-z0-9-_]+:[^>]+\/>/g;
+
+/**
+ * Valid identifier character (has property "ID Start") which we can assume is
+ * very likely unused in liferay-portal.
+ *
+ * Unicode name is "LATIN SMALL LETTER ESH" and glyph is: "ʃ"
+ *
+ * Used to create substitutions for JSP opening tags.
+ */
+const BLOCK_OPEN = '\u0283';
+
+/**
+ * Valid identifier character (has property "ID Start") which we can assume is
+ * very likely unused in liferay-portal.
+ *
+ * Unicode name is "LATIN SMALL LETTER SQUAT REVERSED ESH" and glyph is: "ʅ"
+ *
+ * Used to create substitutions for JSP opening tags.
+ */
+const BLOCK_CLOSE = '\u0285';
+
+
+/**
+ * Create a same-length substitution for the text of the opening tag, `tag`.
+ *
+ * For example:
+ *
+ *     <foo:tag attr="this">  ...becomes:
+ *     if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+ *     21
+ *     14
+ *     7
+ *
+ * If the tag is too short to fit in the substitution, a best effort is made:
+ *
+ *     <a:b>     ...becomes:
+ *     if (ʃ) {
+ */
+function getOpenTagSubstitution(tag) {
+	const fill = contents => `if (${contents}) {`;
+
+	const templateLength = fill('').length;
+
+	const trimAmount = tag.length - Math.max(0, tag.length - templateLength);
+
+	return fill(toFiller(tag, BLOCK_OPEN).slice(trimAmount));
+}
+
+///
+//
+// Create a same-length substitution for the text of the closing tag, `tag`.
+//
+// For example:
+//
+//     </foo:tag>  ...becomes:
+//     }/*ʅʅʅʅʅ*/
+//
+// Unlike getOpenTagSubstitution(), even the shortest possible closing tag has a
+// same-length substitution:
+//
+//     </a:b>     ...becomes:
+//     }/*ʅ*/
+//
+function getCloseTagSubstitution(tag) {
+	const fill = contents => `}/*${contents}*/`;
+
+	const templateLength = fill('').length;
+
+	const trimAmount = tag.length - Math.max(0, tag.length - templateLength);
+
+	return fill(toFiller(tag, BLOCK_CLOSE).slice(trimAmount));
+}
 
 /**
  * Takes a source string and substitutes valid placeholder JavaScript for any
@@ -57,9 +133,17 @@ function substituteTags(source) {
 			match => getPaddedReplacement(match, 'PORTLET_NAMESPACE')
 		],
 		[
-			// TODO: distinguish open, closing, and self-closing tags
-			JSP_TAG,
+			JSP_SELF_CLOSING_TAG,
 			match => `/*${toFiller(match.slice(4))}*/`
+		],
+		[
+			// TODO: may want to consider a fallback here
+			// try parsing with this substitution, and if it doesn't work, do
+			// the dumber comment-based one
+			JSP_OPEN_TAG, getOpenTagSubstitution,
+		],
+		[
+			JSP_CLOSE_TAG, getCloseTagSubstitution,
 		]
 	]);
 

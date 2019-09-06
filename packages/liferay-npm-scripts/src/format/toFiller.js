@@ -15,13 +15,13 @@ const FILLER = '\u2573';
 
 /**
  * Returns a copy of `string` with the same "shape", but containing only
- * filler.
+ * `filler`.
  *
  * Used so that we can substitute source code with a same-shaped comment without
  * changing the relative position of anything else in the file.
  *
  */
-function toFiller(string) {
+function toFiller(string, filler = FILLER) {
 	let output = '';
 	let lastIndex = 0;
 
@@ -34,12 +34,12 @@ function toFiller(string) {
 
 		if (match) {
 			output +=
-				string.slice(lastIndex, match.index).replace(NON_TAB, FILLER) +
+				string.slice(lastIndex, match.index).replace(NON_TAB, filler) +
 				match[0];
 
 			lastIndex = match.index + match[0].length;
 		} else {
-			output += string.slice(lastIndex).replace(NON_TAB, FILLER);
+			output += string.slice(lastIndex).replace(NON_TAB, filler);
 			break;
 		}
 	}

@@ -27,4 +27,11 @@ describe('toFiller()', () => {
 
 		expect(toFiller(original)).toBe(expected);
 	});
+
+	it('accepts a custom filler chararcter', () => {
+		const original = 'abc\nefg';
+		const expected = '___\n___';
+
+		expect(toFiller(original, '_')).toBe(expected);
+	});
 });
