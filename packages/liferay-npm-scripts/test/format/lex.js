@@ -125,4 +125,18 @@ describe('lex()', () => {
 			}
 		]);
 	});
+
+	it('lexes scriptlets', () => {
+		const contents = `<%
+			String backURL = PortalUtil.getCurrentURL(request);
+		%>`;
+
+		expect(lex(contents)).toEqual([
+			{
+				contents,
+				index: 0,
+				name: 'JSP_SCRIPTLET'
+			}
+		]);
+	});
 });
