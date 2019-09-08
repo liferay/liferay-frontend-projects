@@ -161,4 +161,24 @@ describe('lex()', () => {
 			}
 		]);
 	});
+
+	it('lexes the <portlet:namespace /> action', () => {
+		// With whitespace.
+		expect(lex('<portlet:namespace />')).toEqual([
+			{
+				contents: '<portlet:namespace />',
+				index: 0,
+				name: 'PORTLET_NAMESPACE'
+			}
+		]);
+
+		// Without whitespace.
+		expect(lex('<portlet:namespace/>')).toEqual([
+			{
+				contents: '<portlet:namespace/>',
+				index: 0,
+				name: 'PORTLET_NAMESPACE'
+			}
+		]);
+	});
 });

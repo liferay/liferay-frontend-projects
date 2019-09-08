@@ -548,7 +548,11 @@ function lex(source) {
 			text += consume(CHAR).until(EL_EXPRESSION_END);
 
 			token('EL_EXPRESSION', text);
-			// } else if (peek(PORTLET_NAMESPACE)) {
+		} else if (peek(PORTLET_NAMESPACE)) {
+			// This one is a special case of "CustomAction" for liferay-portal.
+			const text = consume(PORTLET_NAMESPACE).once();
+
+			token('PORTLET_NAMESPACE', text);
 		} else {
 			// TODO: self closing tag
 			// TODO: open tag
