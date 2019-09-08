@@ -56,13 +56,14 @@ const CHAR = match(
 const EQ = sequence(maybe('SPACE'), match('='), maybe('SPACE')).name('EQ');
 
 const JSP_COMMENT_END = match('--%>').name('JSP_COMMENT_END');
-
 const JSP_COMMENT_START = match('<%--').name('JSP_COMMENT_START');
 
 const JSP_DIRECTIVE_END = match('%>').name('JSP_DIRECTIVE_END');
 const JSP_DIRECTIVE_START = match('<%@').name('JSP_DIRECTIVE_START');
 
+const JSP_DECLARATION_END = match('%>').name('JSP_DECLARATION_END');
 const JSP_DECLARATION_START = match('<%!').name('JSP_DECLARATION_START');
+
 const JSP_EXPRESSION_START = match('<%=').name('JSP_EXPRESSION_START');
 const JSP_SCRIPTLET_START = match('<%').name('JSP_SCRIPTLET_START');
 const EL_EXPRESSION_START = match('${').name('EL_EXPRESSION_START');
@@ -521,7 +522,11 @@ function lex(source) {
 			text += consume(JSP_DIRECTIVE_END).once();
 
 			token('JSP_DIRECTIVE', text);
-			// } else if (peek(JSP_DECLARATION_START)) {
+		} else if (peek(JSP_DECLARATION_START)) {
+			let text = consume(JSP_DECLARATION_START).once();
+			text += consume(CHAR).until(JSP_DECLARATION_END);
+
+			token('JSP_DECLARATION', text);
 			// } else if (peek(JSP_EXPRESSION_START)) {
 			// } else if (peek(JSP_SCRIPTLET_START)) {
 			// } else if (peek(EL_EXPRESSION_START)) {

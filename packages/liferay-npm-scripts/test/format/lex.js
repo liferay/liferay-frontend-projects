@@ -101,4 +101,18 @@ describe('lex()', () => {
 			'Failed to match "taglib" allOf:(SPACE "prefix" EQ ATTRIBUTE_VALUE, SPACE "tagdir" EQ ATTRIBUTE_VALUE | SPACE "uri" EQ ATTRIBUTE_VALUE) at: "taglib prefix=\\"foo\\">"'
 		);
 	});
+
+	it('lexes declarations', () => {
+		const contents = `<%!
+			private static Log _log = LogFactoryUtil.getLog("foo");
+		%>`;
+
+		expect(lex(contents)).toEqual([
+			{
+				contents,
+				index: 0,
+				name: 'JSP_DECLARATION'
+			}
+		]);
+	});
 });
