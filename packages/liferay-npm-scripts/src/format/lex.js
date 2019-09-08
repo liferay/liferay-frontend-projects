@@ -29,6 +29,17 @@ function name(string) {
 }
 
 /**
+ * Creates a fake "match" object that mimics what you would get from a call to
+ * RegExp.prototype.exec().
+ */
+function getMatchObject(string) {
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
+	// TODO: needs index and input properties
+	// might also want to set lastIndex on regexp
+	return [string];
+}
+
+/**
  * XML 1.0 Section 2.2.
  *
  * Any Unicode character, excluding the surrogate blocks, FFFE, and FFFF
@@ -146,7 +157,7 @@ function maybe(matcher) {
 				return match;
 			} else {
 				// Fake a zero-width match.
-				return [''];
+				return getMatchObject('');
 			}
 		},
 
@@ -202,8 +213,7 @@ function oneOf(...matchers) {
 						if (match) {
 							remaining = remaining.slice(match[0].length);
 
-							// TODO better fake object here
-							return [consumed + match[0]];
+							return getMatchObject(consumed + match[0]);
 						}
 
 						match = parent.exec(remaining);
@@ -255,7 +265,7 @@ function repeat(matcher) {
 			}
 
 			if (consumed) {
-				return [consumed];
+				return getMatchObject(consumed);
 			} else {
 				return null;
 			}
@@ -294,9 +304,7 @@ function sequence(...matchers) {
 				}
 			}
 
-			// TODO: make this a better fake `exec()` return value
-			// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
-			return [matched];
+			return getMatchObject(matched);
 		},
 
 		name
