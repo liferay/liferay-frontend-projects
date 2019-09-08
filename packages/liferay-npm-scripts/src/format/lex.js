@@ -64,7 +64,9 @@ const JSP_DIRECTIVE_START = match('<%@').name('JSP_DIRECTIVE_START');
 const JSP_DECLARATION_END = match('%>').name('JSP_DECLARATION_END');
 const JSP_DECLARATION_START = match('<%!').name('JSP_DECLARATION_START');
 
+const JSP_EXPRESSION_END = match('%>').name('JSP_EXPRESSION_END');
 const JSP_EXPRESSION_START = match('<%=').name('JSP_EXPRESSION_START');
+
 const JSP_SCRIPTLET_START = match('<%').name('JSP_SCRIPTLET_START');
 const EL_EXPRESSION_START = match('${').name('EL_EXPRESSION_START');
 // const EL_EXPRESSION_START = match('$#').name('EL_EXPRESSION_START');
@@ -527,7 +529,12 @@ function lex(source) {
 			text += consume(CHAR).until(JSP_DECLARATION_END);
 
 			token('JSP_DECLARATION', text);
-			// } else if (peek(JSP_EXPRESSION_START)) {
+		} else if (peek(JSP_EXPRESSION_START)) {
+			let text = consume(JSP_EXPRESSION_START).once();
+			text += consume(CHAR).until(JSP_EXPRESSION_END);
+
+			token('JSP_EXPRESSION', text);
+
 			// } else if (peek(JSP_SCRIPTLET_START)) {
 			// } else if (peek(EL_EXPRESSION_START)) {
 			// } else if (peek(PORTLET_NAMESPACE)) {

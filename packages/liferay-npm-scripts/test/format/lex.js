@@ -115,4 +115,14 @@ describe('lex()', () => {
 			}
 		]);
 	});
+
+	it('lexes expressions', () => {
+		expect(lex('<%= Target.method("foo") %>')).toEqual([
+			{
+				contents: '<%= Target.method("foo") %>',
+				index: 0,
+				name: 'JSP_EXPRESSION'
+			}
+		]);
+	});
 });
