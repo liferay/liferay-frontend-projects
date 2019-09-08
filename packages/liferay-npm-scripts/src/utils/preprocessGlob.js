@@ -65,10 +65,10 @@ function preprocessGlob(glob) {
 		throw new Error(`Unbalanced "{" found in glob \`${glob}\``);
 	}
 
-	return permute(template, substitutions);
+	return fill(template, substitutions);
 }
 
-function permute(template, substitutions) {
+function fill(template, substitutions) {
 	const [first, ...rest] = template;
 
 	if (!rest.length && !substitutions.length) {
@@ -80,7 +80,7 @@ function permute(template, substitutions) {
 
 	(substitutions[0] || []).forEach(substitution => {
 		permutations.push(
-			...permute(rest, substitutions.slice(1)).map(
+			...fill(rest, substitutions.slice(1)).map(
 				result => first + substitution + result
 			)
 		);
