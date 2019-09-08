@@ -139,4 +139,26 @@ describe('lex()', () => {
 			}
 		]);
 	});
+
+	it('lexes EL Expression Language expressions', () => {
+		// TODO: provide more challenging examples here.
+
+		// Immediate evaluation.
+		expect(lex('${Foo.Bar}')).toEqual([
+			{
+				contents: '${Foo.Bar}',
+				index: 0,
+				name: 'EL_EXPRESSION'
+			}
+		]);
+
+		// Deferred evaluation.
+		expect(lex('#{Foo.Bar}')).toEqual([
+			{
+				contents: '#{Foo.Bar}',
+				index: 0,
+				name: 'EL_EXPRESSION'
+			}
+		]);
+	});
 });

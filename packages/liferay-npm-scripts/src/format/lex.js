@@ -70,8 +70,9 @@ const JSP_EXPRESSION_START = match('<%=').name('JSP_EXPRESSION_START');
 const JSP_SCRIPTLET_END = match('%>').name('JSP_SCRIPTLET_END');
 const JSP_SCRIPTLET_START = match('<%').name('JSP_SCRIPTLET_START');
 
-const EL_EXPRESSION_START = match('${').name('EL_EXPRESSION_START');
-// const EL_EXPRESSION_START = match('$#').name('EL_EXPRESSION_START');
+const EL_EXPRESSION_END = match('}').name('EL_EXPRESSION_END');
+const EL_EXPRESSION_START = match(/[#$]\{/).name('EL_EXPRESSION_START');
+
 const PORTLET_NAMESPACE = match(/<portlet:namespace\s*\/>/).name(
 	'PORTLET_NAMESPACE'
 );
@@ -541,7 +542,12 @@ function lex(source) {
 			text += consume(CHAR).until(JSP_SCRIPTLET_END);
 
 			token('JSP_SCRIPTLET', text);
-			// } else if (peek(EL_EXPRESSION_START)) {
+		} else if (peek(EL_EXPRESSION_START)) {
+			// TODO: Implement full "Expression Language Specification" spec
+			let text = consume(EL_EXPRESSION_START).once();
+			text += consume(CHAR).until(EL_EXPRESSION_END);
+
+			token('EL_EXPRESSION', text);
 			// } else if (peek(PORTLET_NAMESPACE)) {
 		} else {
 			// TODO: self closing tag
