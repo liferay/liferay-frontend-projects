@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const permute = require('../utils/permute');
+
 /**
  * Map of all matchers keyed by name.
  */
@@ -107,6 +109,41 @@ const SPACE = match(/[ \n\r\t]+/).name('SPACE');
 function escape(literal) {
 	// https://github.com/benjamingr/RegExp.escape/blob/master/EscapedChars.md
 	return literal.replace(/[\^\$\\\.\*\+\?\(\)\[\]\{\}\|]/g, '\\$&');
+}
+
+/**
+ * Returns a composite matcher that matches if all the passed `matchers` match,
+ * irrespective of order.
+ *
+ * This is an order-insensitive analog of `sequence()`.
+ *
+ * Note that permutating has O(!N) runtime, so should be used sparingly.
+ */
+function allOf(...matchers) {
+	// Given matchers [a, b], permute them (eg. [[a, b], [b, a]])...
+	const permutations = permute(matchers);
+
+	// ...and transform into: oneOf(sequence(a, b), sequence(b, a)):
+	const matcher = oneOf(...permutations.map(m => sequence(...m)));
+
+	return {
+		get description() {
+			return (
+				this._description ||
+				'allOf:(' +
+					matchers
+						.map(matcher => lookup(matcher).description)
+						.join(', ') +
+					')'
+			);
+		},
+
+		exec(string) {
+			return matcher.exec(string);
+		},
+
+		name
+	};
 }
 
 /**
@@ -373,18 +410,19 @@ function lex(source) {
 	};
 
 	const fail = reasonOrMatcher => {
-		// TODO: report index, maybe.
 		let reason;
 
-		if (reasonOrMatcher instanceof RegExp) {
+		if (reasonOrMatcher.description) {
 			reason = `Failed to match ${reasonOrMatcher.description}`;
 		} else {
 			reason = reasonOrMatcher;
 		}
 
-		throw new Error(
-			`${reason} at: ${JSON.stringify(remaining.slice(0, 20))}`
-		);
+		// TODO: report index, maybe.
+		const context =
+			remaining.length > 20 ? `${remaining.slice(0, 20)}...` : remaining;
+
+		throw new Error(`${reason} at: ${JSON.stringify(context)}`);
 	};
 
 	const peek = matcher => {
@@ -420,8 +458,6 @@ function lex(source) {
 				text += consume(EQ).once();
 				text += consume(ATTRIBUTE_VALUE).once();
 			} else if (peek('page')) {
-				// text += consume('page').once();
-				// text += consume(SPACE).maybe();
 				text += consume(
 					sequence(
 						match('page'),
@@ -450,8 +486,33 @@ function lex(source) {
 					)
 				).once();
 			} else if (peek('taglib')) {
-				text += consume('taglib').once();
-				text += consume(SPACE).maybe();
+				text += consume(
+					sequence(
+						match('taglib'),
+						allOf(
+							sequence(
+								SPACE,
+								match('prefix'),
+								EQ,
+								ATTRIBUTE_VALUE
+							),
+							oneOf(
+								sequence(
+									SPACE,
+									match('tagdir'),
+									EQ,
+									ATTRIBUTE_VALUE
+								),
+								sequence(
+									SPACE,
+									match('uri'),
+									EQ,
+									ATTRIBUTE_VALUE
+								)
+							)
+						)
+					)
+				).once();
 			} else {
 				fail('Failed to find valid JSP directive attribute');
 			}
@@ -460,15 +521,15 @@ function lex(source) {
 			text += consume(JSP_DIRECTIVE_END).once();
 
 			token('JSP_DIRECTIVE', text);
-		} else if (peek(JSP_DECLARATION_START)) {
-		} else if (peek(JSP_EXPRESSION_START)) {
-		} else if (peek(JSP_SCRIPTLET_START)) {
-		} else if (peek(EL_EXPRESSION_START)) {
-		} else if (peek(PORTLET_NAMESPACE)) {
+			// } else if (peek(JSP_DECLARATION_START)) {
+			// } else if (peek(JSP_EXPRESSION_START)) {
+			// } else if (peek(JSP_SCRIPTLET_START)) {
+			// } else if (peek(EL_EXPRESSION_START)) {
+			// } else if (peek(PORTLET_NAMESPACE)) {
 		} else {
-			// self closing tag
-			// open tag
-			// close tag
+			// TODO: self closing tag
+			// TODO: open tag
+			// TODO: close tag
 			fail('Failed to consume all input');
 		}
 	}

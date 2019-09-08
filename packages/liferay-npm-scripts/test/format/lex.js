@@ -70,5 +70,35 @@ describe('lex()', () => {
 				name: 'JSP_DIRECTIVE'
 			}
 		]);
+
+		expect(lex('<%@ taglib prefix="foo" tagdir="bar" %>')).toEqual([
+			{
+				contents: '<%@ taglib prefix="foo" tagdir="bar" %>',
+				index: 0,
+				name: 'JSP_DIRECTIVE'
+			}
+		]);
+
+		expect(lex('<%@ taglib prefix="foo" uri="bar" %>')).toEqual([
+			{
+				contents: '<%@ taglib prefix="foo" uri="bar" %>',
+				index: 0,
+				name: 'JSP_DIRECTIVE'
+			}
+		]);
+
+		// Note it agnostic about attribute order.
+		expect(lex('<%@ taglib uri="bar" prefix="foo" %>')).toEqual([
+			{
+				contents: '<%@ taglib uri="bar" prefix="foo" %>',
+				index: 0,
+				name: 'JSP_DIRECTIVE'
+			}
+		]);
+
+		// But it requires all attributes to be present.
+		expect(() => lex('<%@ taglib prefix="foo">')).toThrow(
+			'Failed to match "taglib" allOf:(SPACE "prefix" EQ ATTRIBUTE_VALUE, SPACE "tagdir" EQ ATTRIBUTE_VALUE | SPACE "uri" EQ ATTRIBUTE_VALUE) at: "taglib prefix=\\"foo\\">"'
+		);
 	});
 });
