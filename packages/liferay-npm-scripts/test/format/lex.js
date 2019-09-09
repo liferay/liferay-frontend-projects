@@ -203,7 +203,8 @@ describe('lex()', () => {
 		]);
 
 		// Note that the spec starts a new token whenever it sees a delimiting
-		// sequence like "<" or "${" etc.
+		// sequence like "<" or "${" etc, and "<" always ends up being a token
+		// of its own.
 		expect(lex('one < two')).toEqual([
 			{
 				contents: 'one ',
