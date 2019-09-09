@@ -101,6 +101,10 @@ class Lexer {
 			};
 		}
 
+		/**
+		 * Returns a matcher that modifies the parent matcher by having it
+		 * return `null` whenever the `predicate` matcher identifies a match.
+		 */
 		function except(predicate) {
 			const parent = this;
 
@@ -385,6 +389,11 @@ class Lexer {
 			return this.exec(string) !== null;
 		}
 
+		/**
+		 * Returns a matcher that modifies the parent matcher by having it
+		 * repeat 0 or more times until the `predicate` matcher identifies a
+		 * match.
+		 */
 		function until(predicate) {
 			const parent = this;
 
@@ -431,6 +440,10 @@ class Lexer {
 
 		const atEnd = () => remaining.length === 0;
 
+		/**
+		 * Run a matcher at the current location and consume the input. If the
+		 * matcher does not match, throws an error.
+		 */
 		const consume = matcher => {
 			let result;
 
@@ -465,6 +478,9 @@ class Lexer {
 			return result[0];
 		};
 
+		/**
+		 * Reports a failure to match.
+		 */
 		const fail = reasonOrMatcher => {
 			let reason;
 
@@ -483,6 +499,14 @@ class Lexer {
 			throw new Error(`${reason} at: ${JSON.stringify(context)}`);
 		};
 
+		/**
+		 * Performs lookahead by testing `matcher` at the current location in
+		 * the input. Returns `true` to indicate whether there was a match.
+		 *
+		 * The peeked match if memoized, such that an immediately
+		 * subsequent call to `consume()` without arguments will just access the
+		 * memoized match instead of repeating the scan.
+		 */
 		const peek = matcher => {
 			if (typeof matcher === 'string') {
 				matcher = match(matcher);
@@ -494,6 +518,10 @@ class Lexer {
 			return peek.peeked !== null;
 		};
 
+		/**
+		 * Produce an object reperesenting a token, given a token `name`
+		 * and textual `contents`.
+		 */
 		const token = (name, contents) => {
 			return {
 				contents,
