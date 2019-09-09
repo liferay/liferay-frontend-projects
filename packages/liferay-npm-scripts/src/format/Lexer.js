@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const ReversibleMap = require('./ReversibleMap');
 const permute = require('../utils/permute');
 
 class Lexer {
@@ -24,7 +25,7 @@ class Lexer {
 		/**
 		 * Arbitrary metadata passed to matchers' `onMatch()` callbacks.
 		 */
-		const meta = new Map();
+		const meta = new ReversibleMap();
 
 		/**
 		 * Returns a matcher that looks up another matcher by name and uses it.
@@ -123,7 +124,8 @@ class Lexer {
 		}
 
 		/**
-		 * Turns `stringOrRegExp` into a RegExp with a `description` property.
+		 * Turns `stringOrRegExp` into a RegExp with additional properties
+		 * (`description`, `onMatch`, `until` etc).
 		 */
 		function match(stringOrRegExp) {
 			const pattern =
@@ -144,7 +146,21 @@ class Lexer {
 				}
 			});
 
+			matcher.exec = string => {
+				const match = RegExp.prototype.exec.call(matcher, string);
+
+				if (match !== null) {
+					if (matcher._onMatch) {
+						matcher._onMatch(match, meta);
+					}
+				}
+
+				return match;
+			};
+
 			matcher.name = name.bind(matcher);
+
+			matcher.onMatch = onMatch.bind(matcher);
 
 			matcher.until = until.bind(matcher);
 
@@ -219,6 +235,8 @@ class Lexer {
 
 				exec(string) {
 					for (let i = 0; i < matchers.length; i++) {
+						meta.checkpoint();
+
 						const matcher = lookup(matchers[i]);
 
 						const match = matcher.exec(string);
@@ -226,6 +244,8 @@ class Lexer {
 						if (match !== null) {
 							return match;
 						}
+
+						meta.rollback();
 					}
 
 					return null;
@@ -296,6 +316,8 @@ class Lexer {
 				},
 
 				exec(string) {
+					meta.checkpoint();
+
 					let remaining = string;
 					let matched = '';
 
@@ -308,6 +330,8 @@ class Lexer {
 
 							matched += match[0];
 						} else {
+							meta.rollback();
+
 							return null;
 						}
 					}
@@ -477,7 +501,9 @@ class Lexer {
 		const advance = this._callback(API);
 
 		if (typeof advance !== 'function') {
-			throw new Error('Expected lex() callback to return a function');
+			throw new Error(
+				'Expected `new Lexer()` callback to return a function'
+			);
 		}
 
 		while (!atEnd()) {
