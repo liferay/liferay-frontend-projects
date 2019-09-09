@@ -22,6 +22,11 @@ class Lexer {
 		const setMatcher = (name, matcher) => this._matchers.set(name, matcher);
 
 		/**
+		 * Arbitrary metadata passed to matchers' `onMatch()` callbacks.
+		 */
+		const meta = new Map();
+
+		/**
 		 * Returns a matcher that looks up another matcher by name and uses it.
 		 */
 		function a(matcherName) {
@@ -176,12 +181,21 @@ class Lexer {
 		}
 
 		/**
-		 * Assign a name to a matcher.
+		 * Assigns a name to a matcher.
 		 */
 		function name(string) {
 			this._description = string;
 
 			setMatcher(string, this);
+
+			return this;
+		}
+
+		/**
+		 * Registers a callback to be invoked when a matcher matches.
+		 */
+		function onMatch(callback) {
+			this._onMatch = callback;
 
 			return this;
 		}
@@ -298,8 +312,16 @@ class Lexer {
 						}
 					}
 
-					return getMatchObject(matched);
+					const match = getMatchObject(matched);
+
+					if (this._onMatch) {
+						this._onMatch(match, meta);
+					}
+
+					return match;
 				},
+
+				onMatch,
 
 				name,
 
@@ -385,6 +407,7 @@ class Lexer {
 				fail(matcher);
 			}
 
+			// TODO: Commit pending actions.
 			remaining = remaining.slice(result[0].length);
 
 			return result[0];
@@ -443,6 +466,7 @@ class Lexer {
 			lookup,
 			match,
 			maybe,
+			meta,
 			oneOf,
 			peek,
 			repeat,

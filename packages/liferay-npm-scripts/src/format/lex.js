@@ -15,6 +15,7 @@ function lex(source) {
 			fail,
 			match,
 			maybe,
+			meta,
 			oneOf,
 			peek,
 			repeat,
@@ -49,7 +50,11 @@ function lex(source) {
 			'TAG_PREFIX',
 			match(':'),
 			'CUSTOM_ACTION_NAME'
-		).name('CUSTOM_ACTION');
+		)
+			.name('CUSTOM_ACTION')
+			.onMatch((match, meta) => {
+				meta.set('CUSTOM_ACTION:NAME', match[0]);
+			});
 
 		/**
 		 * XML 1.0 Section 2.3.
@@ -665,7 +670,21 @@ function lex(source) {
 			) {
 				let text = consume();
 
-				text += consume(match(/\s*\/>/));
+				const name = meta.get('CUSTOM_ACTION:NAME');
+
+				const E_TAG = sequence(
+					match('</'),
+					match(name),
+					maybe(SPACE),
+					match('>')
+				);
+
+				const EMPTY_BODY = oneOf(
+					match('/>'),
+					sequence(match('>'), E_TAG)
+				);
+
+				text += consume(EMPTY_BODY);
 
 				return token('CUSTOM_ACTION', text);
 			} else if (peek(TEMPLATE_TEXT)) {

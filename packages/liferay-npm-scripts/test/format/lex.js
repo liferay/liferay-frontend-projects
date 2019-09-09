@@ -183,7 +183,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes a custom action', () => {
-		// TODO: distinguish opening and closing tags
+		// Self-closing.
 		expect(lex('<custom:tag with="stuff" />')).toEqual([
 			{
 				contents: '<custom:tag with="stuff" />',
@@ -191,6 +191,31 @@ describe('lex()', () => {
 				name: 'CUSTOM_ACTION'
 			}
 		]);
+
+		// Same without whitspace at end.
+		expect(lex('<custom:tag with="stuff"/>')).toEqual([
+			{
+				contents: '<custom:tag with="stuff"/>',
+				index: 0,
+				name: 'CUSTOM_ACTION'
+			}
+		]);
+
+		// Empty body.
+		expect(lex('<custom:tag with="stuff"></custom:tag>')).toEqual([
+			{
+				contents: '<custom:tag with="stuff"></custom:tag>',
+				index: 0,
+				name: 'CUSTOM_ACTION'
+			}
+		]);
+
+		// Invalid tag.
+		expect(() => lex('<custom:tag with="stuff"></bad:tag>')).toThrow(
+			/Failed to match .+ at: "><\/bad:tag>"/
+		);
+
+		// TODO: non-empty body
 	});
 
 	it('lexes template text', () => {
