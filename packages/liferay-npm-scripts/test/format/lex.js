@@ -181,4 +181,15 @@ describe('lex()', () => {
 			}
 		]);
 	});
+
+	it('lexes a custom action', () => {
+		// TODO: distinguish opening and closing tags
+		expect(lex('<custom:tag with="stuff" />')).toEqual([
+			{
+				contents: '<custom:tag with="stuff" />',
+				index: 0,
+				name: 'CUSTOM_ACTION'
+			}
+		]);
+	});
 });
