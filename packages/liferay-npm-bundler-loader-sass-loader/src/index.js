@@ -6,6 +6,7 @@
 
 import fs from 'fs';
 import resolveModule from 'resolve';
+import path from 'path';
 
 /**
  * @param {object} context loader's context
@@ -17,18 +18,11 @@ export default function(context, options) {
 
 	const {renderer, rendererDescription} = getRenderer();
 
-	const result = renderer.renderSync(
-		Object.assign(
-			{
-				data: content,
-			},
-			options
-		)
-	);
-
 	log.info('sass-loader', `Processed file with ${rendererDescription}`);
 
-	return result.css.toString();
+	changeFilePathExtension(context);
+
+	return renderCSS(renderer, content, options);
 }
 
 /**
@@ -62,6 +56,38 @@ function getRenderer() {
 		renderer: require(rendererFilePath),
 		rendererDescription,
 	};
+}
+
+/**
+ * Change `filePath` extension to `.css` so that Portal may serve the resulting
+ * CSS content.
+ * @param {object} context
+ */
+function changeFilePathExtension(context) {
+	let {filePath} = context;
+
+	const extname = path.extname(filePath);
+
+	if (extname == '') {
+		filePath = `${filePath}.css`;
+	} else {
+		filePath = filePath.replace(new RegExp(`\\${extname}$`), '.css');
+	}
+
+	context.filePath = filePath;
+}
+
+function renderCSS(renderer, content, options) {
+	const result = renderer.renderSync(
+		Object.assign(
+			{
+				data: content,
+			},
+			options
+		)
+	);
+
+	return result.css.toString();
 }
 
 /**

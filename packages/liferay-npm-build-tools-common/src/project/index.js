@@ -15,6 +15,7 @@ import Jar from './jar';
 import Localization from './localization';
 import Probe from './probe';
 import Rules from './rules';
+import {mixinAsPlatform} from './util';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -24,24 +25,7 @@ export class Project {
 	 * @param {string} projectDir project's path
 	 */
 	constructor(projectDir) {
-		this._projectDir = path.resolve(projectDir);
-
-		this._loadPkgJson();
-		this._loadNpmbundlerrc();
-
-		const pkgJsonPath = path.join(projectDir, 'package.json');
-
-		this._pkgJson = fs.existsSync(pkgJsonPath)
-			? readJsonSync(pkgJsonPath)
-			: {};
-
-		this._sources = undefined;
-		this._buildDir = undefined;
-
-		this.jar = new Jar(this);
-		this.l10n = new Localization(this);
-		this.probe = new Probe(this);
-		this.rules = new Rules(this);
+		this.loadFrom(projectDir);
 	}
 
 	/**
@@ -51,6 +35,8 @@ export class Project {
 	get sources() {
 		if (this._sources === undefined) {
 			this._sources = prop.get(this._npmbundlerrc, 'sources', []);
+
+			mixinAsPlatform(this._sources);
 		}
 
 		return this._sources;
@@ -93,6 +79,32 @@ export class Project {
 	 */
 	get pkgJson() {
 		return this._pkgJson;
+	}
+
+	/**
+	 * Reload the whole project from given directory. Especially useful for
+	 * test.
+	 * @param {string} projectDir
+	 */
+	loadFrom(projectDir) {
+		this._projectDir = path.resolve(projectDir);
+
+		this._loadPkgJson();
+		this._loadNpmbundlerrc();
+
+		const pkgJsonPath = path.join(projectDir, 'package.json');
+
+		this._pkgJson = fs.existsSync(pkgJsonPath)
+			? readJsonSync(pkgJsonPath)
+			: {};
+
+		this._sources = undefined;
+		this._buildDir = undefined;
+
+		this.jar = new Jar(this);
+		this.l10n = new Localization(this);
+		this.probe = new Probe(this);
+		this.rules = new Rules(this);
 	}
 
 	/**

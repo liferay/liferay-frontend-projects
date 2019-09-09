@@ -87,7 +87,7 @@ function processFile(srcPkg, destPkg, prjSrcFile) {
 	};
 
 	return runLoaders(loaders, 0, context)
-		.then(() => writeLoadersResult(srcPkg, destPkg, prjSrcFile, context))
+		.then(() => writeLoadersResult(srcPkg, destPkg, context))
 		.then(() => report.rulesRun(prjSrcFile, context.log));
 }
 
@@ -127,14 +127,13 @@ function runLoaders(loaders, firstLoaderIndex, context) {
  *
  * @param {PkgDesc} srcPkg
  * @param {PkgDesc} destPkg
- * @param {string} prjSrcFile
  * @param {object} context
  */
-function writeLoadersResult(srcPkg, destPkg, prjSrcFile, context) {
+function writeLoadersResult(srcPkg, destPkg, context) {
 	if (context.content != undefined) {
 		writeRuleFile(
 			destPkg,
-			path.relative(srcPkg.dir, path.join(project.dir, prjSrcFile)),
+			path.relative(srcPkg.dir, path.join(project.dir, context.filePath)),
 			context.content
 		);
 	}
@@ -167,18 +166,27 @@ function writeLoadersResult(srcPkg, destPkg, prjSrcFile, context) {
  */
 function writeRuleFile(destPkg, pkgFile, content) {
 	if (destPkg.isRoot) {
-		for (const source of project.sources) {
-			const prefix = `${source}${path.sep}`;
-
-			if (pkgFile.startsWith(prefix)) {
-				pkgFile = pkgFile.substring(prefix.length);
-				break;
-			}
-		}
+		pkgFile = stripSourceDir(pkgFile);
 	}
 
 	const absFile = path.join(project.dir, destPkg.dir, pkgFile);
 
 	fs.ensureDirSync(path.dirname(absFile));
 	fs.writeFileSync(absFile, content);
+}
+
+/**
+ * String configured source prefixes from package file path.
+ * @param {string} pkgFile
+ */
+export function stripSourceDir(pkgFile) {
+	for (const source of project.sources.asPlatform) {
+		const prefix = `${source}${path.sep}`;
+
+		if (pkgFile.startsWith(prefix)) {
+			return pkgFile.substring(prefix.length);
+		}
+	}
+
+	return pkgFile;
 }

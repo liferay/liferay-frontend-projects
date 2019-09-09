@@ -18,8 +18,7 @@ Array [
     "level": "info",
     "source": "wrap-modules-amd",
     "things": Array [
-      "Detected dependencies:",
-      "'a-module', 'b-module'",
+      "Detected dependencies: 'a-module', 'b-module'",
     ],
   },
 ]

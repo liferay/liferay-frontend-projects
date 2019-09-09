@@ -5,6 +5,7 @@
  */
 
 import template from 'babel-template';
+import fs from 'fs';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
@@ -51,8 +52,11 @@ export default function({types: t}) {
 					state.dependencies = {};
 				},
 				exit(path, state) {
-					const {opts} = state;
+					const {opts, file} = state;
 					let {dependencies} = state;
+					const {log} = babelIpc.get(state, () => ({
+						log: new PluginLogger(),
+					}));
 
 					// We must traverse the AST again because some plugins emit
 					// their require() calls after exiting Program node :-(
@@ -69,27 +73,58 @@ export default function({types: t}) {
                          'module', 'exports', 'require' 
                          ${dependencies.length > 0 ? ',' : ''} 
                          ${dependencies.join()}
-                     ]`);
+					 ]`);
 
-					node.body = [
-						buildDefine({
-							SOURCE: body,
-							DEPS: buildDeps(),
-						}),
-					];
+					let defineNode = buildDefine({
+						SOURCE: body,
+						DEPS: buildDeps(),
+					});
 
-					// Log results
-					const {log} = babelIpc.get(state, () => ({
-						log: new PluginLogger(),
-					}));
-
-					log.info(
-						'wrap-modules-amd',
-						'Detected dependencies:',
-						dependencies.join(', ')
+					defineNode = applyUserDefinedTemplateIfPresent(
+						file.opts.filenameRelative,
+						defineNode,
+						log
 					);
+
+					if (!Array.isArray(defineNode)) {
+						defineNode = [defineNode];
+					}
+
+					node.body = defineNode;
+
+					if (dependencies.length == 0) {
+						log.info(
+							'wrap-modules-amd',
+							'No dependencies detected'
+						);
+					} else {
+						log.info(
+							'wrap-modules-amd',
+							`Detected dependencies: ${dependencies.join(', ')}`
+						);
+					}
 				},
 			},
 		},
 	};
+}
+
+function applyUserDefinedTemplateIfPresent(filenameRelative, defineNode, log) {
+	const templateFile = `${filenameRelative}.wrap-modules-amd.template`;
+
+	if (!fs.existsSync(templateFile)) {
+		return defineNode;
+	}
+
+	log.info('wrap-modules-amd', 'Applied user template to wrap file');
+
+	const buildUserTemplate = template(
+		fs.readFileSync(templateFile).toString()
+	);
+
+	fs.unlinkSync(templateFile);
+
+	return buildUserTemplate({
+		__WRAPPED_MODULE__: defineNode,
+	});
 }

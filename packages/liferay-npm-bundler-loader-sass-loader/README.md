@@ -1,6 +1,9 @@
 # liferay-npm-bundler-loader-sass-loader
 
 > A liferay-npm-bundler loader that runs `sass` or `node-sass` on source files.
+> This loader changes the file extension from anything used in source (for
+> example `.scss` or `.sass`) to `.css` in the output folder, so that it can be
+> served correctly to browsers.
 
 ## Installation
 
