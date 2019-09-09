@@ -34,7 +34,7 @@ describe('lex()', () => {
 
 	it('complains about unclosed comments', () => {
 		expect(() => lex('<%-- unterminated')).toThrow(
-			'Unexpected end-of-input trying to match JSP_COMMENT_END at: ""'
+			'Failed to match JSP_COMMENT_START -> JSP_COMMENT_END at: "<%-- unterminated"'
 		);
 	});
 

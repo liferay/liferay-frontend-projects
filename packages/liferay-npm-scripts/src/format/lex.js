@@ -631,7 +631,7 @@ function match(stringOrRegExp) {
 
 	matcher.name = name.bind(matcher);
 
-	// TODO: until()
+	matcher.until = until.bind(matcher);
 
 	return matcher;
 }
@@ -668,8 +668,7 @@ function until(predicate) {
 
 	return {
 		get description() {
-			// TODO: figure out what to return here
-			return '<no description>';
+			return this._description || `-> ${lookup(predicate).description}`;
 		},
 
 		exec(string) {
@@ -697,7 +696,9 @@ function until(predicate) {
 			}
 
 			return null;
-		}
+		},
+
+		name
 	};
 }
 
@@ -855,57 +856,15 @@ function lex(source) {
 			matcher = match(matcher);
 		}
 
-		return {
-			maybe() {
-				const match = matcher.exec(remaining);
+		const result = matcher.exec(remaining);
 
-				if (match !== null) {
-					remaining = remaining.slice(match[0].length);
+		if (result === null) {
+			fail(matcher);
+		}
 
-					return match[0];
-				}
-			},
+		remaining = remaining.slice(result[0].length);
 
-			once() {
-				const match = matcher.exec(remaining);
-
-				if (match === null) {
-					fail(matcher);
-				}
-
-				remaining = remaining.slice(match[0].length);
-
-				return match[0];
-			},
-
-			until(predicate) {
-				let consumed = '';
-
-				while (!atEnd()) {
-					let match = predicate.exec(remaining);
-
-					if (match !== null) {
-						remaining = remaining.slice(match[0].length);
-
-						return consumed + match[0];
-					}
-
-					match = matcher.exec(remaining);
-
-					if (match !== null) {
-						remaining = remaining.slice(match[0].length);
-
-						consumed += match[0];
-					} else {
-						break;
-					}
-				}
-
-				fail(
-					`Unexpected end-of-input trying to match ${predicate.description}`
-				);
-			}
-		};
+		return result[0];
 	};
 
 	const fail = reasonOrMatcher => {
@@ -942,20 +901,24 @@ function lex(source) {
 
 	while (!atEnd()) {
 		if (peek(JSP_COMMENT_START)) {
-			let text = consume(JSP_COMMENT_START).once();
-			text += consume(CHAR).until(JSP_COMMENT_END);
+			const text = consume(
+				sequence(JSP_COMMENT_START, CHAR.until(JSP_COMMENT_END))
+			);
 
 			token('JSP_COMMENT', text);
 		} else if (peek(JSP_DIRECTIVE_START)) {
-			let text = consume(JSP_DIRECTIVE_START).once();
-			text += consume(SPACE).maybe();
+			let text = consume(sequence(JSP_DIRECTIVE_START, maybe(SPACE)));
 
 			if (peek('include')) {
-				text += consume('include').once();
-				text += consume(SPACE).once();
-				text += consume('file').once();
-				text += consume(EQ).once();
-				text += consume(ATTRIBUTE_VALUE).once();
+				text += consume(
+					sequence(
+						match('include'),
+						SPACE,
+						match('file'),
+						EQ,
+						ATTRIBUTE_VALUE
+					)
+				);
 			} else if (peek('page')) {
 				text += consume(
 					sequence(
@@ -983,7 +946,7 @@ function lex(source) {
 							)
 						)
 					)
-				).once();
+				);
 			} else if (peek('taglib')) {
 				text += consume(
 					sequence(
@@ -1011,48 +974,51 @@ function lex(source) {
 							)
 						)
 					)
-				).once();
+				);
 			} else {
 				fail('Failed to find valid JSP directive attribute');
 			}
 
-			text += consume(SPACE).maybe();
-			text += consume(JSP_DIRECTIVE_END).once();
+			text += consume(sequence(maybe(SPACE), JSP_DIRECTIVE_END));
 
 			token('JSP_DIRECTIVE', text);
 		} else if (peek(JSP_DECLARATION_START)) {
-			let text = consume(JSP_DECLARATION_START).once();
-			text += consume(CHAR).until(JSP_DECLARATION_END);
+			const text = consume(
+				sequence(JSP_DECLARATION_START, CHAR.until(JSP_DECLARATION_END))
+			);
 
 			token('JSP_DECLARATION', text);
 		} else if (peek(JSP_EXPRESSION_START)) {
-			let text = consume(JSP_EXPRESSION_START).once();
-			text += consume(CHAR).until(JSP_EXPRESSION_END);
+			const text = consume(
+				sequence(JSP_EXPRESSION_START, CHAR.until(JSP_EXPRESSION_END))
+			);
 
 			token('JSP_EXPRESSION', text);
 		} else if (peek(JSP_SCRIPTLET_START)) {
-			let text = consume(JSP_SCRIPTLET_START).once();
-			text += consume(CHAR).until(JSP_SCRIPTLET_END);
+			const text = consume(
+				sequence(JSP_SCRIPTLET_START, CHAR.until(JSP_SCRIPTLET_END))
+			);
 
 			token('JSP_SCRIPTLET', text);
 		} else if (peek(EL_EXPRESSION_START)) {
 			// TODO: Implement full "Expression Language Specification" spec
-			let text = consume(EL_EXPRESSION_START).once();
-			text += consume(CHAR).until(EL_EXPRESSION_END);
+			const text = consume(
+				sequence(EL_EXPRESSION_START, CHAR.until(EL_EXPRESSION_END))
+			);
 
 			token('EL_EXPRESSION', text);
 		} else if (peek(PORTLET_NAMESPACE)) {
 			// This one is a special case of "CustomAction" for liferay-portal.
-			const text = consume(PORTLET_NAMESPACE).once();
+			const text = consume(PORTLET_NAMESPACE);
 
 			token('PORTLET_NAMESPACE', text);
 		} else if (peek(CUSTOM_ACTION_START)) {
-			let text = consume(CUSTOM_ACTION_START).once();
-			text += consume(CUSTOM_ACTION).once();
-			text += consume(ATTRIBUTES).once();
+			let text = consume(
+				sequence(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES)
+			);
 
 			// TODO: actually follow grammar here
-			text += consume(match(/\s*\/>/)).once();
+			text += consume(match(/\s*\/>/));
 
 			token('CUSTOM_ACTION', text);
 		} else {
