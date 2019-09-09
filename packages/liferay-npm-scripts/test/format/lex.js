@@ -192,4 +192,34 @@ describe('lex()', () => {
 			}
 		]);
 	});
+
+	it('lexes template text', () => {
+		expect(lex('Random text')).toEqual([
+			{
+				contents: 'Random text',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+
+		// Note that the spec starts a new token whenever it sees a delimiting
+		// sequence like "<" or "${" etc.
+		expect(lex('one < two')).toEqual([
+			{
+				contents: 'one ',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: '<',
+				index: 4,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: ' two',
+				index: 5,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+	});
 });

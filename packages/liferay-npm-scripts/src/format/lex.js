@@ -539,12 +539,30 @@ const ATTRIBUTE_VALUE = oneOf(
  */
 const SPACE = match(/[ \n\r\t]+/).name('SPACE');
 
+const TEMPLATE_TEXT = oneOf(
+	match(/<|\$\{|#\{/),
+	repeat(a('TEMPLATE_CHAR').except(match(/<|\$\{|#\{/)))
+).name('TEMPLATE_TEXT');
+
+const TEMPLATE_CHAR = oneOf(
+	match('\\$'),
+	match('\\#'),
+	match('<\\%'),
+	'CHAR'
+).name('TEMPLATE_CHAR');
+// TODO(maybe): validate: only match quoted-dollar matched if EL is enabled...
+// it might not be in portal; might want to provide config option to turn off.
+
 /**
  * Escapes `literal` for use in a RegExp.
  */
 function escape(literal) {
 	// https://github.com/benjamingr/RegExp.escape/blob/master/EscapedChars.md
 	return literal.replace(/[\^\$\\\.\*\+\?\(\)\[\]\{\}\|]/g, '\\$&');
+}
+
+function test(string) {
+	return this.exec(string) !== null;
 }
 
 /**
@@ -568,7 +586,9 @@ function a(matcherName) {
 			return matcher.exec(string);
 		},
 
-		name
+		name,
+
+		until
 	};
 }
 
@@ -763,6 +783,8 @@ function oneOf(...matchers) {
 			return null;
 		},
 
+		test,
+
 		until
 	};
 }
@@ -839,7 +861,9 @@ function sequence(...matchers) {
 			return getMatchObject(matched);
 		},
 
-		name
+		name,
+
+		test
 	};
 }
 
@@ -852,11 +876,28 @@ function lex(source) {
 	const atEnd = () => remaining.length === 0;
 
 	const consume = matcher => {
-		if (typeof matcher === 'string') {
-			matcher = match(matcher);
-		}
+		let result;
 
-		const result = matcher.exec(remaining);
+		// Potentially re-use result of preceeding `peek()`.
+		const peeked = peek.peeked;
+		delete peek.peeked;
+
+		if (matcher === undefined) {
+			// Return result of previous `peek()`.
+			if (peeked != undefined) {
+				result = peeked;
+			} else {
+				throw new Error(
+					'Cannot consume() non-existent previous peek() result'
+				);
+			}
+		} else {
+			if (typeof matcher === 'string') {
+				matcher = match(matcher);
+			}
+
+			result = matcher.exec(remaining);
+		}
 
 		if (result === null) {
 			fail(matcher);
@@ -888,7 +929,10 @@ function lex(source) {
 			matcher = match(matcher);
 		}
 
-		return matcher.test(remaining);
+		// Memoize the result so that we can `consume()` it if desired.
+		peek.peeked = matcher.exec(remaining);
+
+		return peek.peeked !== null;
 	};
 
 	const token = (name, contents) => {
@@ -1012,15 +1056,19 @@ function lex(source) {
 			const text = consume(PORTLET_NAMESPACE);
 
 			token('PORTLET_NAMESPACE', text);
-		} else if (peek(CUSTOM_ACTION_START)) {
-			let text = consume(
-				sequence(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES)
-			);
+		} else if (
+			peek(sequence(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES))
+		) {
+			let text = consume();
 
 			// TODO: actually follow grammar here
 			text += consume(match(/\s*\/>/));
 
 			token('CUSTOM_ACTION', text);
+		} else if (peek(TEMPLATE_TEXT)) {
+			const text = consume(TEMPLATE_TEXT);
+
+			token('TEMPLATE_TEXT', text);
 		} else {
 			// TODO: self closing tag
 			// TODO: open tag
