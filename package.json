@@ -14,8 +14,8 @@
 		"format": "prettier --write \".*.js\" \"packages/*/src/**/*.js\"",
 		"format:check": "prettier --list-different \".*.js\" \"packages/*/src/**/*.js\"",
 		"lerna": "npm install && lerna bootstrap",
-		"lint": "eslint 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
-		"lint:fix": "eslint --fix 'packages/*/src/*.js' 'packages/*/src/**/*.js'",
+		"lint": "eslint \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
+		"lint:fix": "eslint --fix \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"release": "lerna publish --force-publish='*' --exact",
 		"release-canary": "lerna publish --force-publish='*' --exact -c",
 		"test": "jest --runInBand"
