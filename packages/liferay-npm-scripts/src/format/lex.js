@@ -491,6 +491,14 @@ const ATTRIBUTES = sequence(
 // .validate(); // TODO: validate unique
 
 const ATTRIBUTE = sequence(
+	// a('NAME').onMatch((name, meta) => {
+	//     // sequence() calls this and makes it available on match result
+	//     // ATTRIBUTES can do a similar thing; validate() then checks it
+	//     // might also want onEnter() or onExit() callbacks;
+	//     // Then I could clear the meta data on start of sequence,
+	//     // record it as I go, then check it at the end.
+	//     meta.names = [...(meta.names || []), name];
+	// })
 	'NAME',
 	'EQ',
 	oneOf(
