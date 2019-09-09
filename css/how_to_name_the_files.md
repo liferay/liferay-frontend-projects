@@ -6,7 +6,7 @@ To understand which is the best name for the css/scss files
 
 The first difference that we have to highlight is about the `_` underscore character. It is used at the beginning of the name of those files that don't need to be compiled.
 
-Most of the scss files must have the `_` underscore character, the only exception should be that particular stylesheet that needs to be imported into a different module or part of the application, without the rest of the main css.
+Most of the scss files must have the `_` underscore character, the only exceptions should be that particular stylesheet that needs to be imported into a different module or part of the application and the main.scss.
 
 ---
 
@@ -14,37 +14,38 @@ Most of the scss files must have the `_` underscore character, the only exceptio
 
 -   src
     -   text-editor
-        -   text-editor.scss
+        -   text_editor.scss
     -   blog
         -   \_blog.scss
-        -   main.scss
-            ```scss
-            @import blog/_blog.scss @import text-editor/text-editor.scss;
-            ```
+    -   main.scss
+        ```scss
+        @import blog/_blog.scss;
+        @import text-editor/text_editor.scss;
+        ```
 
 **CSS Output**
 
 -   build
-    -   text-editor.scss
+    -   text_editor.css
         ```scss
-        // this file contains the text-editor.scss style
+        // this file contains the text_editor.scss style
         ```
-    -   main.scss
+    -   main.css
         ```scss
-        // this file contains the _blog.scss + text-editor.scss style
+        // this file contains the _blog.scss + text_editor.scss style
         ```
 
 In this example the code is generating 2 different css and it would be perfect if we had 2 different modules
 
 **HTML Use**
 
--   module-main.html
+-   module_main.html
     ```html
     <link rel="stylesheet" href="main.css" />
     ```
--   module-text-editor.html
+-   module_text_editor.html
     ```html
-    <link rel="stylesheet" href="text-editor.css" />
+    <link rel="stylesheet" href="text_editor.css" />
     ```
 
 ---
@@ -55,12 +56,13 @@ But, If you don't need the second generated css, please use the `_` underscore c
 
 -   src
     -   text-editor
-        -   `_`text-editor.scss
+        -   `_`text_editor.scss
     -   blog
         -   \_blog.scss
         -   main.scss
             ```scss
-            @import blog/_blog.scss @import text-editor/text-editor.scss;
+            @import blog/_blog.scss;
+            @import text-editor/_text_editor.scss;
             ```
 
 **CSS Output**
@@ -68,40 +70,41 @@ But, If you don't need the second generated css, please use the `_` underscore c
 -   build
     -   main.scss
         ```scss
-        // this file contains the _blog.scss + text-editor.scss styles
+        // this file contains the _blog.scss + _text_editor.scss styles
         ```
 
 **HTML Use**
 
--   module-main.html
+-   module_main.html
     ```html
     <link rel="stylesheet" href="main.css" />
     ```
 
 ## 2. User friendly names
 
-Sometimes we need a composed name for our files, example: \_text-editor.scss, \_button-style.scss, \_card-image.scss
+Sometimes we need a composed name for our files but it can be a little confusing to decide for the best one, so we defined a few simple rules:
 
-The convention defined by Clay and Bootstrap is to use a single `-` hyphen character to create a separation between the words, lowercase Unicode characters to write the names, and the `_` underscore character mentioned in the previous section
-
-To simplify the syncronization process between the frameworks we decided to extend the same pattern to all our projects
+-   the name must use lowercase Unicode characters
+-   use the `_` underscore character at the beginning of the name as mentioned in the previous section
+-   if the file goes in `Portal` use the `_` underscore character between the words
+-   if the file goes in `Clay` use a single `-` hyphen character between the words
 
 So, don't use:
 
--   \_text_editor.scss
 -   \_textEditor.scss
 -   \_text.editor.scss
 -   \_Text-Editor.scss
 
 But, use:
 
--   \_text-editor.scss
+-   \_text`_`editor.scss in `Portal`
+-   \_text`-`editor.scss in `Clay`
 
 Sometimes the name could be more complex:
 
 > We need a css file for the button of the card component of the sidebar template of the theme Fjord
 
-Generally we have the directories that help us to create the right separation
+Generally we have directories that create the right separation and we don't need to worry about it
 
 > theme>template>component>part
 
@@ -110,6 +113,6 @@ Generally we have the directories that help us to create the right separation
         -   card
             -   \_button.scss
 
-In the case we don't have access to them, the right name is:
+In the case we don't have access to them and since we are working in `Portal`, the right name is:
 
--   \_fjord-sidebar-card-button.scss
+-   \_fjord_sidebar_card_button.scss
