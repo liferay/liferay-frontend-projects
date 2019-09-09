@@ -7,7 +7,7 @@
 import child_process from 'child_process';
 import spawn from 'cross-spawn';
 import ejs from 'ejs';
-import fs from 'fs';
+import fs from 'fs-extra';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import resolveModule from 'resolve';
@@ -34,7 +34,7 @@ export class Renderer {
 
 		const outputPath = path.join(dir, name);
 
-		fs.mkdirSync(path.dirname(outputPath), {recursive: true});
+		fs.ensureDirSync(path.dirname(outputPath));
 
 		ejs.renderFile(
 			path.join(this._templatesDir, `${template}.ejs`),
