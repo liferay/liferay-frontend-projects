@@ -47,10 +47,20 @@ class Lexer {
 						);
 					}
 
-					return matcher.exec(string);
+					const match = matcher.exec(string);
+
+					if (match !== null) {
+						if (this._onMatch) {
+							this._onMatch(match, meta);
+						}
+					}
+
+					return match;
 				},
 
 				name,
+
+				onMatch,
 
 				until
 			};
@@ -160,6 +170,8 @@ class Lexer {
 
 			matcher.name = name.bind(matcher);
 
+			matcher.onEnter = onEnter.bind(matcher);
+
 			matcher.onMatch = onMatch.bind(matcher);
 
 			matcher.until = until.bind(matcher);
@@ -203,6 +215,16 @@ class Lexer {
 			this._description = string;
 
 			setMatcher(string, this);
+
+			return this;
+		}
+
+		/**
+		 * Registers a callback to be invoked when a matcher is entered
+		 * (immediately prior to attempting to detect a match).
+		 */
+		function onEnter(callback) {
+			this._onEnter = callback;
 
 			return this;
 		}
@@ -318,6 +340,10 @@ class Lexer {
 				exec(string) {
 					meta.checkpoint();
 
+					if (this._onEnter) {
+						this._onEnter(meta);
+					}
+
 					let remaining = string;
 					let matched = '';
 
@@ -345,9 +371,11 @@ class Lexer {
 					return match;
 				},
 
-				onMatch,
-
 				name,
+
+				onEnter,
+
+				onMatch,
 
 				test
 			};

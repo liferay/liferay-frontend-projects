@@ -480,19 +480,30 @@ function lex(source) {
 		const ATTRIBUTES = sequence(
 			repeat(sequence('SPACE', 'ATTRIBUTE')),
 			maybe('SPACE')
-		).name('ATTRIBUTES');
-		// .validate(); // TODO: validate unique
+		)
+			.name('ATTRIBUTES')
+			.onEnter(meta => {
+				meta.set('ATTRIBUTE:NAMES', []);
+			})
+			.onMatch((_match, meta) => {
+				const attributes = meta.get('ATTRIBUTE:NAMES');
+
+				if (attributes.length > new Set(attributes).size) {
+					const names = attributes
+						.map(name => JSON.stringify(name))
+						.join(', ');
+
+					fail(`Attribute names must be unique (got: ${names})`);
+				}
+			});
 
 		const ATTRIBUTE = sequence(
-			// a('NAME').onMatch((name, meta) => {
-			//     // sequence() calls this and makes it available on match result
-			//     // ATTRIBUTES can do a similar thing; validate() then checks it
-			//     // might also want onEnter() or onExit() callbacks;
-			//     // Then I could clear the meta data on start of sequence,
-			//     // record it as I go, then check it at the end.
-			//     meta.names = [...(meta.names || []), name];
-			// })
-			'NAME',
+			a('NAME').onMatch((match, meta) => {
+				meta.set('ATTRIBUTE:NAMES', [
+					...meta.get('ATTRIBUTE:NAMES'),
+					match[0]
+				]);
+			}),
 			'EQ',
 			oneOf(
 				'RT_ATTRIBUTE_VALUE_DOUBLE',

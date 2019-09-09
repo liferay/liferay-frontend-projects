@@ -210,6 +210,12 @@ describe('lex()', () => {
 			}
 		]);
 
+		// Tag with duplicate attributes.
+		expect(() => lex('<custom:tag foo="a" bar="b" foo="c" />')).toThrow(
+			'Attribute names must be unique (got: "foo", "bar", "foo") at: ' +
+				'"<custom:tag foo=\\"a\\" ..."'
+		);
+
 		// Invalid tag.
 		expect(() => lex('<custom:tag with="stuff"></bad:tag>')).toThrow(
 			/Failed to match .+ at: "><\/bad:tag>"/
