@@ -17,6 +17,10 @@ maintained by us (they are marked with `*`).
   copies source files to output folder. It is useful to copy static assets to
   the output folder.
 
+- [css-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-css-loader):
+  converts a CSS file into a `.js` module that inserts a <link rel="stylesheet">
+  in the DOM when loaded. It is useful to be able to `require()` CSS files.
+
 - [json-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-json-loader):
   generates `.js` modules that export the contents of an static `.json` file as
   an object. It is useful to be able to `require()` JSON files.
