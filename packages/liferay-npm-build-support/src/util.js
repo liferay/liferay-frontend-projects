@@ -85,21 +85,11 @@ export function runNodeModulesBin(script, args = []) {
  * @param {string} script
  * @param {Array<*>} args
  */
-export function runYarnScript(script, args = []) {
-	//check if yarn is installed
-	const checkForYarn = child_process.spawnSync(
-		'yarnpkg',
-		['--version'].concat(args),
-		{
-			shell: true,
-			stdio: 'inherit',
-		}
-	);
-
-	const packageManager = checkForYarn.status === 0 ? 'yarn' : 'npm';
+export function runPkgJsonScript(script, args = []) {
+	const pkgManager = project.pkgManager || 'npm';
 
 	const proc = child_process.spawnSync(
-		packageManager,
+		pkgManager,
 		['run', script].concat(args),
 		{
 			shell: true,
@@ -111,13 +101,11 @@ export function runYarnScript(script, args = []) {
 		throw proc.error;
 	} else if (proc.status != 0) {
 		throw new Error(
-			packageManager +
-				` script '${script}' finished with status ${proc.status}`
+			`Package script '${script}' finished with status ${proc.status}`
 		);
 	} else if (proc.signal) {
 		throw new Error(
-			packageManager +
-				` script '${script}' finished due to signal ${proc.signal}`
+			`Package script '${script}' finished due to signal ${proc.signal}`
 		);
 	}
 }

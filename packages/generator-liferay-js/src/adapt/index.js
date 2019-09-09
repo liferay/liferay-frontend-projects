@@ -31,11 +31,6 @@ import PkgJsonModifier from '../utils/modifier/package.json';
 import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 
 const msg = {
-	checkForYarn: [
-		info`
-		Checking for Yarn... 
-		`,
-	],
 	createReactAppDetected: [
 		success`
 		We have detected a project of type {create-react-app}
@@ -70,16 +65,6 @@ const msg = {
 		supported project types and how they are detected.
 		`,
 	],
-	useNpm: [
-		info`
-		NPM will be used.
-		`,
-	],
-	useYarn: [
-		info`
-		Yarn will be used.
-		`,
-	],
 	warnAboutOverwrite: [
 		'',
 		warn`
@@ -101,11 +86,6 @@ const msg = {
 		|👋 |Welcome to Liferay JS Toolkit project adapter 
 		`,
 	],
-	yarnNotFound: [
-		warn`
-		Yarn was not found on this machine. 
-		`,
-	],
 };
 
 /**
@@ -118,12 +98,9 @@ export default class extends Generator {
 	constructor(args, opts) {
 		super(args, opts);
 
-		// This method adds support for a `--use-npm` flag (to override yarn usage where both exist)
-		this.option('use-npm');
-
-		// Make it available to access later
-		this.useYarn = this.options['use-npm'] ? false : true;
+		this._pkgManager = project.pkgManager;
 	}
+
 	/**
 	 * Standard Yeoman initialization function
 	 */
@@ -151,6 +128,24 @@ export default class extends Generator {
 		print(msg.questions);
 
 		this.answers = {};
+
+		if (this._pkgManager === null) {
+			const answers = await promptWithConfig(this, 'adapt', [
+				{
+					type: 'list',
+					name: 'pkgManager',
+					message:
+						'Which package manager are you using for the project?',
+					default: 'npm',
+					choices: [
+						{name: 'npm', value: 'npm'},
+						{name: 'yarn', value: 'yarn'},
+					],
+				},
+			]);
+
+			this._pkgManager = answers.pkgManager;
+		}
 
 		Object.assign(
 			this.answers,
@@ -211,31 +206,15 @@ export default class extends Generator {
 	install() {
 		print(msg.projectAdapted);
 
-		if (this.useYarn) {
-			print(msg.checkForYarn);
-			const yarnVersionResult = this.spawnCommandSync(
-				'yarnpkg',
-				['--version'],
-				{stdio: [process.stderr]}
-			);
-
-			// If version check had any error, assume that we can't actually use Yarn
-			if (yarnVersionResult.error !== null) {
-				this.useYarn = false;
-				print(msg.yarnNotFound);
-				print(msg.useNpm);
-			} else {
-				print(msg.useYarn);
-			}
-		} else {
-			print(msg.useNpm);
-		}
-
-		this.installDependencies({
+		const opts = {
 			bower: false,
-			npm: !this.useYarn,
-			yarn: this.useYarn,
-		});
+			npm: false,
+			yarn: false,
+		};
+
+		opts[this._pkgManager] = true;
+
+		this.installDependencies(opts);
 	}
 
 	_copyTemplates() {
@@ -274,8 +253,7 @@ export default class extends Generator {
 		pkgJson.addScript('build:liferay', 'lnbs-build');
 		pkgJson.addScript(
 			'deploy:liferay',
-			(this.useYarn ? 'yarn' : 'npm') +
-				' run build:liferay && lnbs-deploy'
+			`${this._pkgManager} run build:liferay && lnbs-deploy`
 		);
 
 		// Add portlet section

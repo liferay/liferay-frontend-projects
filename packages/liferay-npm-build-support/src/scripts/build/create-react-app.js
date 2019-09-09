@@ -22,7 +22,7 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import readline from 'readline';
 
-import {Renderer, runNodeModulesBin, runYarnScript} from '../../util';
+import {Renderer, runNodeModulesBin, runPkgJsonScript} from '../../util';
 
 const indexJsNoticeHeader =
 	'/*\n' +
@@ -146,7 +146,7 @@ export function run() {
 		.then(assertIndexJsIntegrity)
 		.then(backupIndexJs)
 		.then(tweakIndexJs)
-		.then(() => runYarnScript('build'))
+		.then(() => runPkgJsonScript('build'))
 		.then(restoreIndexJs)
 		.then(copyCreateReactAppBuild)
 		.then(generateIndexJs)
