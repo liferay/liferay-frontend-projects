@@ -102,7 +102,7 @@ function substituteTags(source) {
 
 				const replacement = replacer(match, ...groups);
 
-				adjustment += (replacement.length - match.length);
+				adjustment += replacement.length - match.length;
 
 				return replacement;
 			});
