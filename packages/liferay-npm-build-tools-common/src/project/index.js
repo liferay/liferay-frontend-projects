@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import child_process from 'child_process';
 import prop from 'dot-prop';
 import fs from 'fs';
 import merge from 'merge';
@@ -100,11 +101,66 @@ export class Project {
 
 		this._sources = undefined;
 		this._buildDir = undefined;
+		this._pkgManager = undefined;
 
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.probe = new Probe(this);
 		this.rules = new Rules(this);
+	}
+
+	/**
+	 * Return the package manager that the project is using.
+	 * @return {string} one of 'npm', 'yarn' or null if it cannot be determined
+	 */
+	get pkgManager() {
+		if (this._pkgManager === undefined) {
+			let yarnLockPresent = fs.existsSync(
+				path.join(this._projectDir, 'yarn.lock')
+			);
+			let pkgLockPresent = fs.existsSync(
+				path.join(this._projectDir, 'package-lock.json')
+			);
+
+			// If both present act as if none was present
+			if (yarnLockPresent && pkgLockPresent) {
+				yarnLockPresent = pkgLockPresent = false;
+			}
+
+			if (yarnLockPresent) {
+				this._pkgManager = 'yarn';
+			} else if (pkgLockPresent) {
+				this._pkgManager = 'npm';
+			} else {
+				// If no file is found autodetect command availability
+				let yarnPresent =
+					child_process.spawnSync('yarn', ['--version'], {
+						shell: true,
+					}).error === undefined;
+				let npmPresent =
+					child_process.spawnSync('npm', ['--version'], {
+						shell: true,
+					}).error === undefined;
+
+				// If both present act as if none was present
+				if (yarnPresent && npmPresent) {
+					yarnPresent = npmPresent = false;
+				}
+
+				if (yarnPresent) {
+					this._pkgManager = 'yarn';
+				} else if (npmPresent) {
+					this._pkgManager = 'npm';
+				}
+			}
+
+			// If nothing detected store null
+			if (this._pkgManager === undefined) {
+				this._pkgManager = null;
+			}
+		}
+
+		return this._pkgManager;
 	}
 
 	/**
