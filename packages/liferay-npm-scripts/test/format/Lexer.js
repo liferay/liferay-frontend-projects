@@ -15,6 +15,96 @@ describe('Lexer()', () => {
 		);
 	});
 
+	it('fails if a zero-width token is produced', () => {
+		// The idea is to bail out of infinite loops that would be produced by
+		// use of combinators like repeat() combined with a matcher that matches
+		// a zero-width string.
+		const lexer = new Lexer(api => {
+			const {consume, match, oneOf, token} = api;
+
+			return () => {
+				const text = consume(
+					oneOf(
+						match('x'), // Won't match.
+						match('a').until(match('z')) // Zero-width match.
+					)
+				);
+
+				return token('BAD', text);
+			};
+		});
+
+		expect(() => [...lexer.lex('fffff')]).toThrow(
+			'Zero-width token BAD produced at: "fffff"'
+		);
+	});
+
+	describe('a()/an()', () => {
+		it('can reference a named matcher that gets defined elsewhere', () => {
+			const lexer = new Lexer(api => {
+				const {a, consume, match, name, token} = api;
+
+				const THING = match('thing').name('THING');
+
+				return () => {
+					const text = consume(a('THING'));
+
+					return token('THING', text);
+				};
+			});
+
+			expect([...lexer.lex('thing')]).toEqual([
+				{
+					contents: 'thing',
+					index: 0,
+					name: 'THING'
+				}
+			]);
+		});
+
+		it('wraps a matcher so it can be augmented without mutation', () => {
+			const calls = [];
+
+			const lexer = new Lexer(api => {
+				const {an, consume, match, name, sequence, token} = api;
+
+				const ORIGINAL = match('foo')
+					.name('ORIGINAL')
+					.onMatch(() => calls.push('ORIGINAL'));
+				const COPY = an(ORIGINAL)
+					.name('COPY')
+					.onMatch(() => calls.push('COPY'));
+				const SEPARATOR = match(':').onMatch(() =>
+					calls.push('SEPARATOR')
+				);
+
+				return () => {
+					const text = consume(sequence(COPY, SEPARATOR, ORIGINAL));
+
+					return token('TOKEN', text);
+				};
+			});
+
+			expect([...lexer.lex('foo:foo')]).toEqual([
+				{
+					contents: 'foo:foo',
+					index: 0,
+					name: 'TOKEN'
+				}
+			]);
+
+			// Note how ORIGINAL is used to match COPY, but after SEPARATOR we
+			// match ORGINAL alone and see that it wasn't mutated (ie. it didn't
+			// trigger COPY's onMatch() action as well).
+			expect(calls).toEqual([
+				'ORIGINAL',
+				'COPY',
+				'SEPARATOR',
+				'ORIGINAL'
+			]);
+		});
+	});
+
 	describe('allOf()', () => {
 		let lexer;
 
@@ -203,6 +293,72 @@ describe('Lexer()', () => {
 		});
 	});
 
+	describe('never', () => {
+		it('never matches anything', () => {
+			const lexer = new Lexer(api => {
+				const {consume, never} = api;
+
+				return () => {
+					consume(never);
+
+					return null;
+				};
+			});
+
+			expect(() => lexer.lex('stuff').next()).toThrow(
+				'Failed to match «never» at: "stuff"'
+			);
+		});
+
+		it('is useful as the alternate in a `when()` matcher', () => {
+			let active = false;
+
+			const lexer = new Lexer(api => {
+				const {consume, match, never, repeat, when, oneOf, token} = api;
+
+				return () => {
+					// Reason we have to use "never" here is because "pass"
+					// would have us infinitely matching zero-width strings;
+					// in contrast, "never" forces "oneOf" to try the next
+					// alternative(s).
+					const text = consume(
+						repeat(
+							oneOf(
+								match('a'),
+								when(() => active, match(/./), never),
+								match('b')
+							)
+						)
+					);
+
+					return token('WORD', text);
+				};
+			});
+
+			// When active is "false", we can only match a/b.
+			expect([...lexer.lex('ababaabb')]).toEqual([
+				{
+					contents: 'ababaabb',
+					index: 0,
+					name: 'WORD'
+				}
+			]);
+
+			expect(() => [...lexer.lex('axb')]).toThrow(/Failed to match/);
+
+			// When active is "true", we can match anything.
+			active = true;
+
+			expect([...lexer.lex('ababzzzaabb')]).toEqual([
+				{
+					contents: 'ababzzzaabb',
+					index: 0,
+					name: 'WORD'
+				}
+			]);
+		});
+	});
+
 	describe('onMatch()', () => {
 		it('is called when a token matches', () => {
 			const onMatch = jest.fn();
@@ -373,6 +529,28 @@ describe('Lexer()', () => {
 		});
 	});
 
+	describe('pass', () => {
+		it('matches an empty string', () => {
+			const lexer = new Lexer(api => {
+				const {consume, match, pass, sequence, token} = api;
+
+				return () => {
+					const text = consume(sequence(pass, match('foo'), pass));
+
+					return token('PASS', text);
+				};
+			});
+
+			expect([...lexer.lex('foo')]).toEqual([
+				{
+					contents: 'foo',
+					index: 0,
+					name: 'PASS'
+				}
+			]);
+		});
+	});
+
 	describe('repeat()', () => {
 		it('matches a matcher one or more times', () => {
 			const lexer = new Lexer(api => {
@@ -424,6 +602,138 @@ describe('Lexer()', () => {
 					name: 'SEQUENCE'
 				}
 			]);
+		});
+	});
+
+	describe('to()', () => {
+		let lexer;
+
+		beforeEach(() => {
+			lexer = new Lexer(api => {
+				const {consume, match, token} = api;
+
+				return () => {
+					const text = consume(match(/./).to(match('x')));
+
+					return token('TO', text);
+				};
+			});
+		});
+
+		it('matches 0 or more times up-to-and-including a predicate', () => {
+			expect([...lexer.lex('x')]).toEqual([
+				{
+					contents: 'x',
+					index: 0,
+					name: 'TO'
+				}
+			]);
+
+			expect([...lexer.lex('aaxaaaax')]).toEqual([
+				{
+					contents: 'aax',
+					index: 0,
+					name: 'TO'
+				},
+				{
+					contents: 'aaaax',
+					index: 3,
+					name: 'TO'
+				}
+			]);
+		});
+
+		it('fails at the end of the input for unseen predicates', () => {
+			expect(() => lexer.lex('aaaa').next()).toThrow(
+				'Failed to match ->> "x" at: "aaaa"'
+			);
+		});
+	});
+
+	describe('until()', () => {
+		let lexer;
+
+		beforeEach(() => {
+			lexer = new Lexer(api => {
+				const {consume, match, peek, token} = api;
+
+				return () => {
+					if (peek(match('a'))) {
+						const text = consume(match(/./).until(match('x')));
+
+						return token('A', text);
+					} else {
+						const text = consume(match('x'));
+
+						return token('X', text);
+					}
+				};
+			});
+		});
+
+		it('matches 0 or more times up-to-and-not-including a predicate', () => {
+			// 0-times.
+			expect([...lexer.lex('x')]).toEqual([
+				{
+					contents: 'x',
+					index: 0,
+					name: 'X'
+				}
+			]);
+
+			// n-times.
+			expect([...lexer.lex('aaax')]).toEqual([
+				{
+					contents: 'aaa',
+					index: 0,
+					name: 'A'
+				},
+				{
+					contents: 'x',
+					index: 3,
+					name: 'X'
+				}
+			]);
+		});
+
+		it('succeeds at the end of the input even without seeing predicate', () => {
+			expect([...lexer.lex('aaaa')]).toEqual([
+				{
+					contents: 'aaaa',
+					index: 0,
+					name: 'A'
+				}
+			]);
+		});
+	});
+
+	describe('when()', () => {
+		it('chooses a matcher based on a predicate', () => {
+			const lexer = new Lexer(api => {
+				const {consume, match, repeat, token, when} = api;
+
+				let count = 0;
+
+				return () => {
+					const text = consume(
+						repeat(when(() => count++ < 1, match('a'), match('b')))
+					);
+
+					return token('WHEN', text);
+				};
+			});
+
+			expect([...lexer.lex('abbbbb')]).toEqual([
+				{
+					contents: 'abbbbb',
+					index: 0,
+					name: 'WHEN'
+				}
+			]);
+
+			expect(() => [...lexer.lex('foo')]).toThrow(
+				'Failed to match predicate("a", "b")+ at: "foo"'
+			);
 		});
 	});
 });

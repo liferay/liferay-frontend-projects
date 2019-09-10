@@ -6,22 +6,39 @@
 
 const Lexer = require('./Lexer');
 
-function lex(source) {
+const DEFAULT_OPTIONS = {
+	ELEnabled: true
+};
+
+function lex(source, options = {}) {
+	const {ELEnabled} = {
+		...DEFAULT_OPTIONS,
+		...options
+	};
+
 	const lexer = new Lexer(api => {
 		const {
+			__DEBUG__,
 			a,
+			an,
 			allOf,
 			consume,
 			fail,
 			match,
 			maybe,
 			meta,
+			never,
 			oneOf,
+			pass,
 			peek,
 			repeat,
 			sequence,
-			token
+			token,
+			when
 		} = api;
+
+		meta.set('ELEnabled', !!ELEnabled);
+		meta.commit();
 
 		/**
 		 * XML 1.0 Section 2.2.
@@ -53,7 +70,7 @@ function lex(source) {
 		)
 			.name('CUSTOM_ACTION')
 			.onMatch((match, meta) => {
-				meta.set('CUSTOM_ACTION:NAME', match[0]);
+				meta.set('customAction:name', match[0]);
 			});
 
 		/**
@@ -461,6 +478,13 @@ function lex(source) {
 		const EL_EXPRESSION_END = match('}').name('EL_EXPRESSION_END');
 		const EL_EXPRESSION_START = match(/[#$]\{/).name('EL_EXPRESSION_START');
 
+		const EL_EXPRESSION = when(
+			() => meta.get('ELEnabled'),
+			// TODO: Implement full "Expression Language Specification" spec
+			sequence(EL_EXPRESSION_START, CHAR.to(EL_EXPRESSION_END)),
+			never
+		);
+
 		const PORTLET_NAMESPACE = match(/<portlet:namespace\s*\/>/).name(
 			'PORTLET_NAMESPACE'
 		);
@@ -473,7 +497,7 @@ function lex(source) {
 			match("\\'"),
 			match('\\$'),
 			match('\\#'),
-			// TODO: ELExpressionBody production
+			EL_EXPRESSION,
 			CHAR
 		).name('QUOTED_CHAR');
 
@@ -483,10 +507,10 @@ function lex(source) {
 		)
 			.name('ATTRIBUTES')
 			.onEnter(meta => {
-				meta.set('ATTRIBUTE:NAMES', []);
+				meta.set('attribute:names', []);
 			})
 			.onMatch((_match, meta) => {
-				const attributes = meta.get('ATTRIBUTE:NAMES');
+				const attributes = meta.get('attribute:names');
 
 				if (attributes.length > new Set(attributes).size) {
 					const names = attributes
@@ -499,8 +523,8 @@ function lex(source) {
 
 		const ATTRIBUTE = sequence(
 			a('NAME').onMatch((match, meta) => {
-				meta.set('ATTRIBUTE:NAMES', [
-					...meta.get('ATTRIBUTE:NAMES'),
+				meta.set('attribute:names', [
+					...meta.get('attribute:names'),
 					match[0]
 				]);
 			}),
@@ -515,22 +539,22 @@ function lex(source) {
 
 		const RT_ATTRIBUTE_VALUE_DOUBLE = sequence(
 			match('"<%='),
-			QUOTED_CHAR.except(match('"')).until(match('%>"'))
+			QUOTED_CHAR.except(match('"')).to(match('%>"'))
 		).name('RT_ATTRIBUTE_VALUE_DOUBLE');
 
 		const RT_ATTRIBUTE_VALUE_SINGLE = sequence(
 			match("'<%="),
-			QUOTED_CHAR.except(match("'")).until(match("%>'"))
+			QUOTED_CHAR.except(match("'")).to(match("%>'"))
 		).name('RT_ATTRIBUTE_VALUE_SINGLE');
 
 		const ATTRIBUTE_VALUE_DOUBLE = sequence(
 			match('"'),
-			QUOTED_CHAR.until(match('"'))
+			QUOTED_CHAR.to(match('"'))
 		).name('ATTRIBUTE_VALUE_DOUBLE');
 
 		const ATTRIBUTE_VALUE_SINGLE = sequence(
 			match("'"),
-			QUOTED_CHAR.until(match("'"))
+			QUOTED_CHAR.to(match("'"))
 		).name('ATTRIBUTE_VALUE_SINGLE');
 
 		const ATTRIBUTE_VALUE = oneOf(
@@ -544,23 +568,23 @@ function lex(source) {
 		const SPACE = match(/[ \n\r\t]+/).name('SPACE');
 
 		const TEMPLATE_TEXT = oneOf(
-			match(/<|\$\{|#\{/),
-			repeat(a('TEMPLATE_CHAR').except(match(/<|\$\{|#\{/)))
+			match(/<|\$|\{|#\{/),
+			a('TEMPLATE_CHAR').until(match(/<|\$\{|#\{/))
 		).name('TEMPLATE_TEXT');
 
 		const TEMPLATE_CHAR = oneOf(
+			// TODO: these two should also only be when(ELEnabled)
 			match('\\$'),
 			match('\\#'),
+
 			match('<\\%'),
 			'CHAR'
 		).name('TEMPLATE_CHAR');
-		// TODO(maybe): validate: only match quoted-dollar matched if EL is enabled...
-		// it might not be in portal; might want to provide config option to turn off.
 
 		return () => {
 			if (peek(JSP_COMMENT_START)) {
 				const text = consume(
-					sequence(JSP_COMMENT_START, CHAR.until(JSP_COMMENT_END))
+					sequence(JSP_COMMENT_START, CHAR.to(JSP_COMMENT_END))
 				);
 
 				return token('JSP_COMMENT', text);
@@ -598,9 +622,24 @@ function lex(source) {
 										match('contentType'),
 										match('pageEncoding'),
 										match('isELIgnored')
-									),
+									).onMatch((match, meta) => {
+										meta.set('attribute:last', match[0]);
+									}),
 									EQ,
-									ATTRIBUTE_VALUE
+									an(ATTRIBUTE_VALUE).onMatch(
+										(match, meta) => {
+											if (
+												meta.get('attribute:last') ===
+												'isELIgnored'
+											) {
+												meta.set(
+													'ELEnabled',
+													match[0] === "'false'" ||
+														match[0] === '"false"'
+												);
+											}
+										}
+									)
 								)
 							)
 						)
@@ -644,31 +683,25 @@ function lex(source) {
 				const text = consume(
 					sequence(
 						JSP_DECLARATION_START,
-						CHAR.until(JSP_DECLARATION_END)
+						CHAR.to(JSP_DECLARATION_END)
 					)
 				);
 
 				return token('JSP_DECLARATION', text);
 			} else if (peek(JSP_EXPRESSION_START)) {
 				const text = consume(
-					sequence(
-						JSP_EXPRESSION_START,
-						CHAR.until(JSP_EXPRESSION_END)
-					)
+					sequence(JSP_EXPRESSION_START, CHAR.to(JSP_EXPRESSION_END))
 				);
 
 				return token('JSP_EXPRESSION', text);
 			} else if (peek(JSP_SCRIPTLET_START)) {
 				const text = consume(
-					sequence(JSP_SCRIPTLET_START, CHAR.until(JSP_SCRIPTLET_END))
+					sequence(JSP_SCRIPTLET_START, CHAR.to(JSP_SCRIPTLET_END))
 				);
 
 				return token('JSP_SCRIPTLET', text);
-			} else if (peek(EL_EXPRESSION_START)) {
-				// TODO: Implement full "Expression Language Specification" spec
-				const text = consume(
-					sequence(EL_EXPRESSION_START, CHAR.until(EL_EXPRESSION_END))
-				);
+			} else if (peek(EL_EXPRESSION_START) && meta.get('ELEnabled')) {
+				const text = consume(EL_EXPRESSION);
 
 				return token('EL_EXPRESSION', text);
 			} else if (peek(PORTLET_NAMESPACE)) {
@@ -681,7 +714,7 @@ function lex(source) {
 			) {
 				let text = consume();
 
-				const name = meta.get('CUSTOM_ACTION:NAME');
+				const name = meta.get('customAction:name');
 
 				const E_TAG = sequence(
 					match('</'),

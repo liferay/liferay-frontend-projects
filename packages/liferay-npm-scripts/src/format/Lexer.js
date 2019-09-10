@@ -7,6 +7,27 @@
 const ReversibleMap = require('./ReversibleMap');
 const permute = require('../utils/permute');
 
+/**
+ * Class for creating lexer instances.
+ *
+ * Tokens are recognized by "matchers" created with `match('string')` or
+ * `match(/regex/)`, and matchers can be combined through the use of various
+ * combinators (`oneOf()`, `repeat()`, `sequence()` etc).
+ *
+ * Given a set of matchers, the principal operations are then:
+ *
+ * - peek(): Performs lookahead to see whether a particular matcher would match
+ *   at the current location in the input.
+ * - consume(): Recognizes a token and moves forward in the input. The
+ *   `consume()` call must succeed or an error will be thrown (there is
+ *   no rewind functionality for failed recognition; use `peek()` to
+ *   perform lookahead instead).
+ *
+ * It is possible to do some context-sensitive lexing using a supplied `meta`
+ * object. Arbitrary data can be written to the `meta` object (often this will
+ * happen in an `onMatch()` callback once a matcher has succeeded) and read at
+ * any time.
+ */
 class Lexer {
 	constructor(callback) {
 		/**
@@ -26,6 +47,28 @@ class Lexer {
 		 * Arbitrary metadata passed to matchers' `onMatch()` callbacks.
 		 */
 		const meta = new ReversibleMap();
+
+		/**
+		 * A matcher that always matches and consumes nothing.
+		 */
+		const pass = {
+			description: '«pass»',
+
+			exec(_string) {
+				return getMatchObject('');
+			}
+		};
+
+		/**
+		 * A matcher that never matchers anything.
+		 */
+		const never = {
+			description: '«never»',
+
+			exec(_string) {
+				return null;
+			}
+		};
 
 		/**
 		 * Returns a matcher that looks up another matcher by name and uses it.
@@ -62,9 +105,17 @@ class Lexer {
 
 				onMatch,
 
+				to,
+
 				until
 			};
 		}
+
+		/**
+		 * Alias for `an()` so that you can write matchers that read like
+		 * `an('ATTTRIBUTE')` instead of `a('ATTRIBUTE')`.
+		 */
+		const an = a;
 
 		/**
 		 * Returns a composite matcher that matches if all the passed `matchers` match,
@@ -133,13 +184,15 @@ class Lexer {
 
 				name,
 
+				to,
+
 				until
 			};
 		}
 
 		/**
 		 * Turns `stringOrRegExp` into a RegExp with additional properties
-		 * (`description`, `onMatch`, `until` etc).
+		 * (`description`, `onMatch`, `to` etc).
 		 */
 		function match(stringOrRegExp) {
 			const pattern =
@@ -147,7 +200,7 @@ class Lexer {
 					? escape(stringOrRegExp)
 					: stringOrRegExp.source;
 
-			const matcher = new RegExp(`^${pattern}`, 'u');
+			const matcher = new RegExp(`^(?:${pattern})`, 'u');
 
 			Object.defineProperty(matcher, 'description', {
 				get: () => {
@@ -177,6 +230,8 @@ class Lexer {
 			matcher.onEnter = onEnter.bind(matcher);
 
 			matcher.onMatch = onMatch.bind(matcher);
+
+			matcher.to = to.bind(matcher);
 
 			matcher.until = until.bind(matcher);
 
@@ -268,6 +323,10 @@ class Lexer {
 						const match = matcher.exec(string);
 
 						if (match !== null) {
+							if (this._onMatch) {
+								this._onMatch(match, meta);
+							}
+
 							return match;
 						}
 
@@ -279,7 +338,11 @@ class Lexer {
 
 				name,
 
+				onMatch,
+
 				test,
+
+				to,
 
 				until
 			};
@@ -391,17 +454,23 @@ class Lexer {
 
 		/**
 		 * Returns a matcher that modifies the parent matcher by having it
-		 * repeat 0 or more times until the `predicate` matcher identifies a
-		 * match.
+		 * repeat 0 or more times up-to-and-including where the
+		 * `predicate` matcher identifies a match.
+		 *
+		 * If the matcher reaches the end of the input without matching the
+		 * predicate, that is not considered a match.
+		 *
+		 * See `until()` for a matcher that matches up-to-but-not-including its
+		 * predicate.
 		 */
-		function until(predicate) {
+		function to(predicate) {
 			const parent = this;
 
 			return {
 				get description() {
 					return (
 						this._description ||
-						`-> ${lookup(predicate).description}`
+						`->> ${lookup(predicate).description}`
 					);
 				},
 
@@ -436,6 +505,87 @@ class Lexer {
 			};
 		}
 
+		/**
+		 * Returns a matcher that modifies the parent matcher by having it
+		 * repeat 0 or more times up-to-but-not-including where the
+		 * `predicate` matcher identifies a match.
+		 *
+		 * If the matcher reaches the end of the input without matching the
+		 * predicate, that is considered a match.
+		 *
+		 * See `to()` for a matcher that matches up-to-and-including its
+		 * predicate.
+		 */
+		function until(predicate) {
+			const parent = this;
+
+			return {
+				get description() {
+					return (
+						this._description ||
+						`-> ${lookup(predicate).description}`
+					);
+				},
+
+				exec(string) {
+					let remaining = string;
+					let consumed = '';
+
+					while (remaining !== '') {
+						let match = predicate.exec(remaining);
+
+						if (match !== null) {
+							break;
+						}
+
+						match = parent.exec(remaining);
+
+						if (match === null) {
+							break;
+						} else {
+							remaining = remaining.slice(match[0].length);
+
+							consumed += match[0];
+						}
+					}
+
+					return getMatchObject(consumed);
+				},
+
+				name
+			};
+		}
+
+		/**
+		 * Returns a matcher that evaluates the `predicate` and, if true,
+		 * applies `matcher`, and otherwise applies the `alternate` matcher.
+		 *
+		 * If no explicit `alternate` is provided, uses the `pass` matcher which
+		 * always matches with a 0-length match.
+		 */
+		function when(predicate, matcher, alternate = pass) {
+			return {
+				get description() {
+					return (
+						this._description ||
+						`predicate(${lookup(matcher).description}, ${
+							lookup(alternate).description
+						})`
+					);
+				},
+
+				exec(string) {
+					if (predicate(string)) {
+						return matcher.exec(string);
+					} else {
+						return alternate.exec(string);
+					}
+				},
+
+				name
+			};
+		}
+
 		let remaining = input;
 
 		const atEnd = () => remaining.length === 0;
@@ -461,6 +611,12 @@ class Lexer {
 					);
 				}
 			} else {
+				if (peeked !== null) {
+					// We previously peeked but aren't consuming the memoized
+					// result, so we need to rollback the peek's side-effects.
+					meta.rollback();
+				}
+
 				if (typeof matcher === 'string') {
 					matcher = match(matcher);
 				}
@@ -472,8 +628,9 @@ class Lexer {
 				fail(matcher);
 			}
 
-			// TODO: Commit pending actions.
 			remaining = remaining.slice(result[0].length);
+
+			meta.commit();
 
 			return result[0];
 		};
@@ -508,12 +665,18 @@ class Lexer {
 		 * memoized match instead of repeating the scan.
 		 */
 		const peek = matcher => {
+			meta.checkpoint();
+
 			if (typeof matcher === 'string') {
 				matcher = match(matcher);
 			}
 
 			// Memoize the result so that we can `consume()` it if desired.
 			peek.peeked = matcher.exec(remaining);
+
+			if (peek.peeked === null) {
+				meta.rollback();
+			}
 
 			return peek.peeked !== null;
 		};
@@ -531,15 +694,30 @@ class Lexer {
 		};
 
 		/**
+		 * @internal
+		 *
+		 * Allows for inspection of the internal state of the lexer instance.
+		 */
+		const __DEBUG__ = {
+			get meta() {
+				return [...meta.entries()];
+			},
+
+			remaining
+		};
+
+		/**
 		 * API to be passed to the callback.
 		 *
 		 * Note that there are some internal functions that we don't pass
-		 * (eg. except, name, until, test), but which are returned by other
-		 * calls to the API. (eg. `match(...).until(...)`).
+		 * (eg. except, name, to, test), but which are returned by other
+		 * calls to the API. (eg. `match(...).to(...)`).
 		 */
 		const API = {
+			__DEBUG__,
 			a,
 			allOf,
+			an,
 			atEnd,
 			consume,
 			fail,
@@ -547,11 +725,14 @@ class Lexer {
 			match,
 			maybe,
 			meta,
+			never,
 			oneOf,
+			pass,
 			peek,
 			repeat,
 			sequence,
-			token
+			token,
+			when
 		};
 
 		const advance = this._callback(API);
@@ -565,6 +746,8 @@ class Lexer {
 		while (!atEnd()) {
 			const index = input.length - remaining.length;
 
+			__DEBUG__.index = index;
+
 			const token = advance();
 
 			if (token) {
@@ -573,6 +756,10 @@ class Lexer {
 					typeof token.contents === 'string' &&
 					Number.isInteger(token.index)
 				) {
+					if (!token.contents.length) {
+						fail(`Zero-width token ${token.name} produced`);
+					}
+
 					yield token;
 				} else {
 					fail(`Invalid token received at index ${index}`);

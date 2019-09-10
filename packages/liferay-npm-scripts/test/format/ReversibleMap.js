@@ -71,9 +71,10 @@ describe('ReversibleMap()', () => {
 				['f', 6]
 			]);
 
+			// Goes as far back as previous checkpoint (the 2nd) and removes it.
 			map.rollback();
 
-			expect(map.pending.length).toBe(4);
+			expect(map.pending.length).toBe(3);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -83,9 +84,42 @@ describe('ReversibleMap()', () => {
 				['e', 5]
 			]);
 
+			// Goes to previous checkpoint (the 1st) and removes it.
 			map.rollback();
 
+			expect(map.pending.length).toBe(1);
+
+			expect([...map.entries()]).toEqual([
+				['a', 1],
+				['b', 2],
+				['c', 3],
+				['d', 4]
+			]);
+
+			// Completely flushes the queue (no more checkpoints).
+			map.rollback();
+
+			expect(map.pending.length).toBe(0);
+
+			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+		});
+
+		it('removes the checkpoint if already at one', () => {
+			map.set('d', 4);
+			map.checkpoint();
+
 			expect(map.pending.length).toBe(2);
+
+			expect([...map.entries()]).toEqual([
+				['a', 1],
+				['b', 2],
+				['c', 3],
+				['d', 4]
+			]);
+
+			map.rollback();
+
+			expect(map.pending.length).toBe(1);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],

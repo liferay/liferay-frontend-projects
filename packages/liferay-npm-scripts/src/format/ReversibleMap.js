@@ -70,18 +70,12 @@ class ReversibleMap extends Map {
 	 * Rolls back to the last checkpoint.
 	 */
 	rollback() {
-		if (this.pending[this.pending.length - 1] === CHECKPOINT) {
-			this.pending.pop();
-		}
-
 		while (this.pending.length) {
-			if (this.pending[this.pending.length - 1] === CHECKPOINT) {
-				break;
-			}
-
 			const operation = this.pending.pop();
 
-			if (operation !== CHECKPOINT) {
+			if (operation === CHECKPOINT) {
+				break;
+			} else {
 				operation();
 			}
 		}

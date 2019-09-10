@@ -34,7 +34,7 @@ describe('lex()', () => {
 
 	it('complains about unclosed comments', () => {
 		expect(() => lex('<%-- unterminated')).toThrow(
-			'Failed to match JSP_COMMENT_START -> JSP_COMMENT_END at: "<%-- unterminated"'
+			'Failed to match JSP_COMMENT_START ->> JSP_COMMENT_END at: "<%-- unterminated"'
 		);
 	});
 
@@ -140,7 +140,7 @@ describe('lex()', () => {
 		]);
 	});
 
-	it('lexes EL Expression Language expressions', () => {
+	it('lexes EL (Expression Language) expressions', () => {
 		// TODO: provide more challenging examples here.
 
 		// Immediate evaluation.
@@ -158,6 +158,91 @@ describe('lex()', () => {
 				contents: '#{Foo.Bar}',
 				index: 0,
 				name: 'EL_EXPRESSION'
+			}
+		]);
+	});
+
+	it('ignores EL expressions when ELEnabled is false', () => {
+		expect(lex('#{Foo.Bar}', {ELEnabled: false})).toEqual([
+			{
+				contents: '#{',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: 'Foo.Bar}',
+				index: 2,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+	});
+
+	it('ignores EL expressions when configured with a directive', () => {
+		expect(
+			lex(`
+			<%@ page isELIgnored="true" %>
+			#{Foo}
+		`)
+		).toEqual([
+			{
+				contents: '\n\t\t\t',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: '<%@ page isELIgnored="true" %>',
+				index: 4,
+				name: 'JSP_DIRECTIVE'
+			},
+			{
+				contents: '\n\t\t\t',
+				index: 34,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: '#{',
+				index: 38,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: 'Foo}\n\t\t',
+				index: 40,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+	});
+
+	it('processes EL expressions when configured with a directive', () => {
+		expect(
+			lex(`
+			<%@ page isELIgnored="false" %>
+			#{Foo}
+		`)
+		).toEqual([
+			{
+				contents: '\n\t\t\t',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: '<%@ page isELIgnored="false" %>',
+				index: 4,
+				name: 'JSP_DIRECTIVE'
+			},
+			{
+				contents: '\n\t\t\t',
+				index: 35,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: '#{Foo}',
+				index: 39,
+				name: 'EL_EXPRESSION'
+			},
+			{
+				contents: '\n\t\t',
+				index: 45,
+				name: 'TEMPLATE_TEXT'
 			}
 		]);
 	});
@@ -221,7 +306,7 @@ describe('lex()', () => {
 			/Failed to match .+ at: "><\/bad:tag>"/
 		);
 
-		// TODO: non-empty body
+		// non-empty body
 	});
 
 	it('lexes template text', () => {
