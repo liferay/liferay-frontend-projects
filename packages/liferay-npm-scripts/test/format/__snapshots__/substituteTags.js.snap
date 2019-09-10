@@ -1,0 +1,1857 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`substituteTags() substitutes in a the "edit_template_display.jspf" fixture 1`] = `
+Array [
+  "
+
+/*
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳
+*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+	/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+ʃ*/
+	if (ʃʃʃʃʃʃʃʃʃʃ) {
+		/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	ʃ*/
+		<div class=\\"form-group lfr-template-editor-container\\">
+			<c:if test=\\"ʾJSP_EXPR______________________________________________ʿ\\">
+				<div class=\\"lfr-template-palette-container pull-left\\" id=\\"ʾPORTLET_NAMESPACE__ʿtemplatePaletteContainer\\">
+					<div class=\\"search\\" id=\\"ʾPORTLET_NAMESPACE__ʿpaletteSearchContainer\\">
+						<input class=\\"col-md-12 field form-control search-query\\" id=\\"ʾPORTLET_NAMESPACE__ʿpaletteSearch\\" placeholder=\\"/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/\\" type=\\"text\\" />
+					</div>
+
+					<div class=\\"lfr-template-palette\\" id=\\"ʾPORTLET_NAMESPACE__ʿpaletteDataContainer\\">
+						<div id=\\"ʾPORTLET_NAMESPACE__ʿpaletteData\\">
+
+							/*
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+									╳╳╳╳╳╳╳╳╳
+								╳
+							*/
+
+								if (ʃʃʃʃʃʃʃʃʃʃ) {
+									/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+									ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+									ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+									ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+									ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+								ʃ*/
+									<ul class=\\"palette-item-content\\">
+
+										/*
+										╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+										*/
+
+											<li class=\\"palette-item-container\\">
+												<span class=\\"palette-item\\" data-content=\\"ʾJSP_EXPR____________________________________________________________________________ʿ\\" data-title=\\"ʾJSP_EXPR____________________________________________________________________________________________________ʿ\\">
+													ʾJSP_EXPR____________________________________________________________________________________________________ʿ
+
+													<c:if test=\\"ʾJSP_EXPR___________________________________________________________________________________ʿ\\">*</c:if>
+												</span>
+											</li>
+
+										/*
+										╳
+										*/
+
+									</ul>
+								}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+							/*
+							╳
+							*/
+
+						</div>
+					</div>
+				</div>
+			</c:if>
+
+			/*
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳
+			*/
+
+			<div class=\\"ʾJSP_EXPR_________________ʿ\\" id=\\"ʾPORTLET_NAMESPACE__ʿeditorContainer\\">
+				<div class=\\"lfr-rich-editor\\" id=\\"ʾPORTLET_NAMESPACE__ʿrichEditor\\"></div>
+			</div>
+		</div>
+
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+	var ACPlugin = A.Plugin.AceAutoComplete;
+	var AObject = A.Object;
+	var Util = Liferay.Util;
+
+	var STR_EMPTY = '';
+
+	var STR_HEIGHT = 'height';
+
+	var selectLanguageNode = A.one('#ʾPORTLET_NAMESPACE__ʿlanguage');
+
+	var panelScriptContainer = A.one('#templateScriptContainer');
+
+	if (Util.getTop() !== A.config.win) {
+		var dialog = Util.getWindow();
+
+		if (dialog && A.Lang.isFunction(dialog._detachUIHandlesAutohide)) {
+			dialog._detachUIHandlesAutohide();
+
+			if (dialog.iframe) {
+				dialog.iframe.set('closeOnEscape', false);
+			}
+		}
+	}
+
+	var prevEditorContent;
+	var richEditor;
+
+	<c:if test=\\"ʾJSP_EXPR______________________________________________ʿ\\">
+		var paletteContainer = panelScriptContainer.one('#ʾPORTLET_NAMESPACE__ʿtemplatePaletteContainer');
+		var paletteDataContainer = panelScriptContainer.one('#ʾPORTLET_NAMESPACE__ʿpaletteDataContainer');
+
+		function createLiveSearch() {
+			var PaletteSearch = A.Component.create(
+				{
+					AUGMENTS: [A.AutoCompleteBase],
+
+					EXTENDS: A.Base,
+
+					NAME: 'searchpalette',
+
+					prototype: {
+						initializer: function() {
+							var instance = this;
+
+							instance._bindUIACBase();
+							instance._syncUIACBase();
+						}
+					}
+				}
+			);
+
+			var getItems = function() {
+				var results = [];
+
+				paletteItems.each(
+					function(item, index) {
+						results.push(
+							{
+								data: item.text().trim(),
+								node: item.ancestor()
+							}
+						);
+					}
+				);
+
+				return results;
+			};
+
+			var getNoResultsNode = function() {
+				if (!noResultsNode) {
+					noResultsNode = A.Node.create('<div class=\\"alert\\">ʾJSP_EXPR_____________________________________________________ʿ</div>');
+				}
+
+				return noResultsNode;
+			};
+
+			var paletteItems = paletteDataContainer.all('.palette-item');
+			var paletteSectionsNode = paletteDataContainer.all('.palette-section');
+
+			var noResultsNode;
+
+			var paletteSearch = new PaletteSearch(
+				{
+					inputNode: '#ʾPORTLET_NAMESPACE__ʿpaletteSearch',
+					minQueryLength: 0,
+					nodes: '.palette-item-container',
+					resultFilters: 'phraseMatch',
+					resultTextLocator: 'data',
+					source: getItems()
+				}
+			);
+
+			paletteSearch.on(
+				'results',
+				function(event) {
+					paletteItems.each(
+						function(item, index) {
+							item.ancestor().addClass('hide');
+						}
+					);
+
+					event.results.forEach(
+						function(item, index) {
+							item.raw.node.removeClass('hide');
+						}
+					);
+
+					var foundVisibleSection;
+
+					paletteSectionsNode.each(
+						function(item, index) {
+							var visibleItem = item.one('.palette-item-container:not(.hide)');
+
+							if (visibleItem) {
+								foundVisibleSection = true;
+							}
+
+							item.toggleClass('hide', !visibleItem);
+						}
+					);
+
+					var noResultsNode = getNoResultsNode();
+
+					if (foundVisibleSection) {
+						noResultsNode.remove();
+					}
+					else {
+						paletteDataContainer.appendChild(noResultsNode);
+					}
+				}
+			);
+		}
+
+		function onPaletteItemChosen(event) {
+			var editor = richEditor.getEditor();
+
+			var item = event.currentTarget;
+
+			var aceAutocomplete = richEditor['ace-autocomplete-plugin'];
+
+			aceAutocomplete._lockEditor = true;
+
+			var content = item.attr('data-content');
+
+			var fragments = content.split('[$CURSOR$]');
+
+			var cursorPos;
+			var processed;
+
+			AObject.each(
+				fragments,
+				function(item, index) {
+					if (processed) {
+						cursorPos = editor.getCursorPosition();
+					}
+
+					processed = true;
+
+					editor.insert(item);
+				}
+			);
+
+			if (cursorPos) {
+				editor.moveCursorToPosition(cursorPos);
+			}
+
+			editor.focus();
+
+			aceAutocomplete._lockEditor = false;
+		}
+	</c:if>
+
+	function getEditorContent() {
+		var content = richEditor.getSession().getValue();
+
+		return content;
+	}
+
+	var paletteSearchContainer = panelScriptContainer.one('#ʾPORTLET_NAMESPACE__ʿpaletteSearchContainer');
+
+	function resizeEditor(event) {
+		var info = event.info;
+
+		richEditor.set(STR_HEIGHT, info.offsetHeight);
+		richEditor.set('width', info.offsetWidth);
+
+		if (!Util.isPhone()) {
+			paletteDataContainer.setStyle(STR_HEIGHT, info.offsetHeight - paletteSearchContainer.height());
+		}
+	}
+
+	function setEditorContent(content) {
+		richEditor.getSession().setValue(content);
+
+		prevEditorContent = content;
+	}
+
+	function setEditorPlugins(event) {
+		var AutoComplete;
+
+		<c:choose>
+			<c:when test=\\"ʾJSP_EXPR_____________________________________________ʿ\\">
+				AutoComplete = A.AceEditor.AutoCompleteFreemarker;
+			</c:when>
+			<c:when test=\\"ʾJSP_EXPR____________________________________________ʿ\\">
+				AutoComplete = A.AceEditor.AutoCompleteVelocity;
+			</c:when>
+		</c:choose>
+
+		if (AutoComplete) {
+			var processor = new AutoComplete(
+				{
+					variables: ʾJSP_EXPR_____________________________________________________ʿ
+				}
+			);
+
+			if (processor) {
+				richEditor.unplug(ACPlugin);
+
+				richEditor.plug(
+					ACPlugin,
+					{
+						processor: processor,
+						render: true,
+						visible: false,
+						zIndex: 10000
+					}
+				);
+			}
+			else {
+				richEditor.unplug(ACPlugin);
+			}
+		}
+	}
+
+	/*
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	*/
+
+	var editorContentElement = A.one('#ʾPORTLET_NAMESPACE__ʿscriptContent');
+
+	var editorNode = A.one('#ʾPORTLET_NAMESPACE__ʿrichEditor');
+
+	A.on(
+		'domready',
+		function(event) {
+			richEditor = new A.AceEditor(
+				{
+					boundingBox: editorNode,
+					height: 400,
+					mode: 'ʾJSP_EXPR___________________________________ʿ',
+					width: '100%'
+				}
+			).render();
+
+			new A.Resize(
+				{
+					handles: ['br'],
+					node: editorNode,
+					on: {
+						resize: resizeEditor
+					}
+				}
+			);
+
+			if (editorContentElement) {
+				setEditorContent(editorContentElement.val());
+			}
+
+			Liferay.on(
+				'ʾPORTLET_NAMESPACE__ʿsaveTemplate',
+				function(event) {
+					editorContentElement.val(getEditorContent());
+				}
+			);
+
+			selectLanguageNode.on(
+				'change',
+				function(event) {
+					Liferay.fire('ʾPORTLET_NAMESPACE__ʿrefreshEditor');
+				}
+			);
+
+			setEditorPlugins();
+
+			<c:if test=\\"ʾJSP_EXPR______________________________________________ʿ\\">
+				paletteContainer.delegate('click', onPaletteItemChosen, '.palette-item');
+
+				new A.TogglerDelegate(
+					{
+						animated: true,
+						container: paletteDataContainer,
+						content: '.palette-item-content',
+						header: '.palette-item-header'
+					}
+				);
+
+				new A.TooltipDelegate(
+					{
+						align: {
+							points: [A.WidgetPositionAlign.LC, A.WidgetPositionAlign.RC]
+						},
+						duration: 0.5,
+						html: true,
+						position: 'right',
+						trigger: '#ʾPORTLET_NAMESPACE__ʿtemplatePaletteContainer .palette-item',
+						visible: false,
+						zIndex: 6
+					}
+				);
+
+				createLiveSearch();
+			</c:if>
+		},
+		'#ʾPORTLET_NAMESPACE__ʿrichEditor'
+	);
+
+	Liferay.on(
+		'ʾPORTLET_NAMESPACE__ʿrefreshEditor',
+		function(event) {
+			var form = A.one('#ʾPORTLET_NAMESPACE__ʿfm');
+
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+			}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+			form.attr('action', 'ʾJSP_EXPR_______________ʿ');
+
+			if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
+				Liferay.fire('ʾPORTLET_NAMESPACE__ʿsaveTemplate');
+			}
+			<c:if test=\\"ʾJSP_EXPR_____________ʿ\\">
+				else {
+					editorContentElement.val(STR_EMPTY);
+				}
+			</c:if>
+
+			submitForm(form, null, null, false);
+		}
+	);
+}/*ʅʅʅʅʅʅʅʅ*/
+
+
+
+
+",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%
+String scriptContent = ParamUtil.getString(request, \\"scriptContent\\");
+
+if (Validator.isNotNull(scriptContent)) {
+	script = scriptContent;
+}
+%>",
+    "<aui:input cssClass=\\"hide\\" label=\\"\\" name=\\"scriptContent\\" type=\\"textarea\\" value=\\"<%= script %>\\" />",
+    "<liferay-ui:panel-container
+	extended=\\"<%= true %>\\"
+	id=\\"templateScriptContainer\\"
+	markupView=\\"lexicon\\"
+	persistState=\\"<%= true %>\\"
+>",
+    "<liferay-ui:panel
+		collapsible=\\"<%= true %>\\"
+		extended=\\"<%= true %>\\"
+		id=\\"templateScriptSectionPanel\\"
+		markupView=\\"lexicon\\"
+		persistState=\\"<%= true %>\\"
+		title=\\"script\\"
+	>",
+    "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"search\\" />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%
+							long templateHandlerClassNameId = ddmDisplay.getTemplateHandlerClassNameId(template, classNameId);
+
+							Map<String, TemplateVariableGroup> templateVariableGroups = TemplateContextHelper.getTemplateVariableGroups(templateHandlerClassNameId, classPK, language, locale);
+
+							TemplateHandler templateHandler = TemplateHandlerRegistryUtil.getTemplateHandler(templateHandlerClassNameId);
+
+							Class<?> clazz = ddmDisplay.getClass();
+
+							if (templateHandler != null) {
+								clazz = templateHandler.getClass();
+							}
+
+							Bundle bundle = FrameworkUtil.getBundle(clazz);
+
+							ResourceBundleLoader resourceBundleLoader = ResourceBundleLoaderUtil.getResourceBundleLoaderByBundleSymbolicName(bundle.getSymbolicName());
+
+							if (resourceBundleLoader == null) {
+								resourceBundleLoader = new AggregateResourceBundleLoader(ResourceBundleUtil.getResourceBundleLoader(\\"content.Language\\", clazz.getClassLoader()), LanguageResources.RESOURCE_BUNDLE_LOADER);
+							}
+
+							ResourceBundle templateHandlerResourceBundle = resourceBundleLoader.loadResourceBundle(locale);
+
+							for (TemplateVariableGroup templateVariableGroup : templateVariableGroups.values()) {
+								if (templateVariableGroup.isEmpty()) {
+									continue;
+								}
+							%>",
+    "<liferay-ui:panel
+									collapsible=\\"<%= true %>\\"
+									cssClass=\\"palette-section\\"
+									extended=\\"<%= false %>\\"
+									id=\\"<%= HtmlUtil.getAUICompatibleId(templateVariableGroup.getLabel()) %>\\"
+									title=\\"<%= LanguageUtil.get(request, templateHandlerResourceBundle, HtmlUtil.escape(templateVariableGroup.getLabel())) %>\\"
+								>",
+    "<%
+										for (TemplateVariableDefinition templateVariableDefinition : templateVariableGroup.getTemplateVariableDefinitions()) {
+										%>",
+    "<%= HtmlUtil.escapeAttribute(_getDataContent(templateVariableDefinition, language)) %>",
+    "<%= HtmlUtil.escapeAttribute(_getPaletteItemTitle(request, templateHandlerResourceBundle, templateVariableDefinition)) %>",
+    "<%= HtmlUtil.escape(LanguageUtil.get(request, templateHandlerResourceBundle, templateVariableDefinition.getLabel())) %>",
+    "<%= templateVariableDefinition.isCollection() || templateVariableDefinition.isRepeatable() %>",
+    "<%
+										}
+										%>",
+    "</liferay-ui:panel>",
+    "<%
+							}
+							%>",
+    "<%
+			String editorContainerClass = \\"lfr-editor-container\\";
+
+			if (!ddmDisplayContext.isAutocompleteEnabled(language)) {
+				editorContainerClass += \\" lfr-editor-container-full\\";
+			}
+			%>",
+    "<%= editorContainerClass %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<aui:input inlineLabel=\\"left\\" label=\\"script-file\\" name=\\"script\\" type=\\"file\\" />",
+    "</liferay-ui:panel>",
+    "</liferay-ui:panel-container>",
+    "<aui:script use=\\"aui-ace-autocomplete-freemarker,aui-ace-autocomplete-plugin,aui-ace-autocomplete-velocity,aui-toggler,aui-tooltip,autocomplete-base,autocomplete-filters,event-mouseenter,event-outside,liferay-util-window,resize,transition\\">",
+    "<portlet:namespace />",
+    "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= UnicodeLanguageUtil.get(request, \\"there-are-no-results\\") %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= language.equals(TemplateConstants.LANG_TYPE_FTL) %>",
+    "<%= language.equals(TemplateConstants.LANG_TYPE_VM) %>",
+    "<%= ddmDisplayContext.getAutocompleteJSON(request, language) %>",
+    "<%
+	String langType = ParamUtil.getString(request, \\"langType\\");
+	%>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= EditorModeUtil.getEditorMode(langType) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:renderURL var=\\"refreshTemplateURL\\">",
+    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />",
+    "</portlet:renderURL>",
+    "<%= refreshTemplateURL %>",
+    "<portlet:namespace />",
+    "<%= template == null %>",
+    "</aui:script>",
+    "<%!
+private String _getAccessor(String accessor, String language) {
+	if (StringUtil.equalsIgnoreCase(language, \\"vm\\")) {
+		if (!accessor.contains(StringPool.OPEN_PARENTHESIS)) {
+			return accessor;
+		}
+
+		StringTokenizer st = new StringTokenizer(accessor, \\"(,\\");
+
+		StringBundler sb = new StringBundler(st.countTokens() * 2);
+
+		sb.append(st.nextToken());
+		sb.append(StringPool.OPEN_PARENTHESIS);
+
+		while (st.hasMoreTokens()) {
+			sb.append(StringPool.DOLLAR);
+			sb.append(st.nextToken());
+		}
+
+		accessor = sb.toString();
+	}
+
+	return accessor;
+}
+
+private String _getDataContent(TemplateVariableDefinition templateVariableDefinition, String language) {
+	String dataContent = StringPool.BLANK;
+
+	String dataType = templateVariableDefinition.getDataType();
+
+	if (templateVariableDefinition.isCollection()) {
+		TemplateVariableDefinition itemTemplateVariableDefinition = templateVariableDefinition.getItemTemplateVariableDefinition();
+
+		dataContent = _getListCode(templateVariableDefinition.getName(), itemTemplateVariableDefinition.getName(), itemTemplateVariableDefinition.getAccessor(), language);
+	}
+	else if (Validator.isNull(dataType)) {
+		dataContent = _getVariableReferenceCode(templateVariableDefinition.getName(), templateVariableDefinition.getAccessor(), language);
+	}
+	else if (dataType.equals(\\"service-locator\\")) {
+		Class<?> templateVariableDefinitionClass = templateVariableDefinition.getClazz();
+
+		String variableName = templateVariableDefinitionClass.getSimpleName();
+
+		StringBundler sb = new StringBundler(3);
+
+		sb.append(_getVariableAssignmentCode(variableName, \\"serviceLocator.findService(\\\\\\"\\" + templateVariableDefinition.getName() + \\"\\\\\\")\\", language));
+		sb.append(\\"[$CURSOR$]\\");
+		sb.append(_getVariableReferenceCode(variableName, null, language));
+
+		dataContent = sb.toString();
+	}
+	else {
+		try {
+			String[] generateCode = templateVariableDefinition.generateCode(language);
+
+			dataContent = generateCode[0];
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+	}
+
+	return dataContent;
+}
+
+private String _getListCode(String variableName, String itemName, String accessor, String language) {
+	if (StringUtil.equalsIgnoreCase(language, \\"ftl\\")) {
+		StringBundler sb = new StringBundler(10);
+
+		sb.append(\\"<#if \\");
+		sb.append(variableName);
+		sb.append(\\"?has_content>\\\\n\\\\t<#list \\");
+		sb.append(variableName);
+		sb.append(\\" as \\");
+		sb.append(itemName);
+		sb.append(\\">\\\\n\\\\t\\\\t\\");
+		sb.append(_getVariableReferenceCode(itemName, accessor, language));
+		sb.append(\\"[$CURSOR$]\\");
+		sb.append(\\"\\\\n\\\\t</#list>\\\\n</#if>\\");
+
+		return sb.toString();
+	}
+	else if (StringUtil.equalsIgnoreCase(language, \\"vm\\")) {
+		StringBundler sb = new StringBundler(10);
+
+		sb.append(\\"#if (!$\\");
+		sb.append(variableName);
+		sb.append(\\".isEmpty())\\\\n\\\\t#foreach ($\\");
+		sb.append(itemName);
+		sb.append(\\" in $\\");
+		sb.append(variableName);
+		sb.append(\\")\\\\n\\\\t\\\\t\\");
+		sb.append(_getVariableReferenceCode(itemName, accessor, language));
+		sb.append(\\"[$CURSOR$]\\");
+		sb.append(\\"#end\\\\n#end\\");
+
+		return sb.toString();
+	}
+
+	return StringPool.BLANK;
+}
+
+private String _getPaletteItemTitle(HttpServletRequest request, String label, Class<?> clazz) {
+	StringBundler sb = new StringBundler(10);
+
+	if (clazz == null) {
+		return StringPool.BLANK;
+	}
+
+	String className = clazz.getName();
+
+	sb.append(\\"<br />\\");
+	sb.append(LanguageUtil.get(request, label));
+	sb.append(StringPool.COLON);
+	sb.append(\\"&nbsp;\\");
+
+	String javadocURL = null;
+
+	if (className.startsWith(\\"com.liferay.portal.kernel\\")) {
+		javadocURL = \\"http://docs.liferay.com/portal/7.0/javadocs/portal-kernel/\\";
+	}
+
+	if (Validator.isNotNull(javadocURL)) {
+		sb.append(\\"<a href=\\\\\\"\\");
+		sb.append(javadocURL);
+		sb.append(StringUtil.replace(className, CharPool.PERIOD, CharPool.SLASH));
+		sb.append(\\".html\\\\\\" target=\\\\\\"_blank\\\\\\">\\");
+	}
+
+	sb.append(clazz.getSimpleName());
+
+	if (Validator.isNull(javadocURL)) {
+		sb.append(\\"</a>\\");
+	}
+
+	return sb.toString();
+}
+
+private String _getPaletteItemTitle(HttpServletRequest request, ResourceBundle resourceBundle, TemplateVariableDefinition templateVariableDefinition) {
+	StringBundler sb = new StringBundler(12);
+
+	String help = templateVariableDefinition.getHelp();
+
+	if (Validator.isNotNull(help)) {
+		sb.append(\\"<p>\\");
+		sb.append(HtmlUtil.escape(LanguageUtil.get(request, resourceBundle, help)));
+		sb.append(\\"</p>\\");
+	}
+
+	if (templateVariableDefinition.isCollection()) {
+		sb.append(\\"<p><i>*\\");
+		sb.append(LanguageUtil.get(request, \\"this-is-a-collection-of-fields\\"));
+		sb.append(\\"</i></p>\\");
+	}
+	else if (templateVariableDefinition.isRepeatable()) {
+		sb.append(\\"<p><i>*\\");
+		sb.append(LanguageUtil.get(request, \\"this-is-a-repeatable-field\\"));
+		sb.append(\\"</i></p>\\");
+	}
+
+	if (!Objects.equals(templateVariableDefinition.getDataType(), \\"service-locator\\")) {
+		sb.append(LanguageUtil.get(request, \\"variable\\"));
+		sb.append(StringPool.COLON);
+		sb.append(\\"&nbsp;\\");
+		sb.append(HtmlUtil.escape(templateVariableDefinition.getName()));
+	}
+
+	sb.append(_getPaletteItemTitle(request, \\"class\\", templateVariableDefinition.getClazz()));
+
+	if (templateVariableDefinition.isCollection()) {
+		TemplateVariableDefinition itemTemplateVariableDefinition = templateVariableDefinition.getItemTemplateVariableDefinition();
+
+		sb.append(_getPaletteItemTitle(request, \\"items-class\\", itemTemplateVariableDefinition.getClazz()));
+	}
+
+	return sb.toString();
+}
+
+private String _getVariableAssignmentCode(String variableName, String variableValue, String language) {
+	if (StringUtil.equalsIgnoreCase(language, \\"ftl\\")) {
+		return \\"<#assign \\" + variableName + \\" = \\" + variableValue + \\">\\";
+	}
+	else if (StringUtil.equalsIgnoreCase(language, \\"vm\\")) {
+		if (!variableValue.startsWith(StringPool.DOUBLE_QUOTE) && !variableValue.startsWith(StringPool.OPEN_BRACKET) && !variableValue.startsWith(StringPool.OPEN_CURLY_BRACE) && !variableValue.startsWith(StringPool.QUOTE) && !Validator.isNumber(variableValue)) {
+			variableValue = StringPool.DOLLAR + variableValue;
+		}
+
+		return \\"#set ($\\" + variableName + \\" = \\" + variableValue + \\")\\";
+	}
+
+	return variableName;
+}
+
+private String _getVariableReferenceCode(String variableName, String accessor, String language) {
+	String methodInvocation = StringPool.BLANK;
+
+	if (Validator.isNotNull(accessor)) {
+		methodInvocation = StringPool.PERIOD + _getAccessor(accessor, language);
+	}
+
+	if (StringUtil.equalsIgnoreCase(language, \\"ftl\\")) {
+		return \\"\${\\" + variableName + methodInvocation + \\"}\\";
+	}
+	else if (StringUtil.equalsIgnoreCase(language, \\"vm\\")) {
+		return \\"$\\" + variableName + methodInvocation;
+	}
+
+	return variableName;
+}
+%>",
+    "<%!
+private static Log _log = LogFactoryUtil.getLog(\\"com_liferay_dynamic_data_mapping_web.edit_template_display_jspf\\");
+%>",
+  ],
+]
+`;
+
+exports[`substituteTags() substitutes in a the "view_calendar_menus.jspf" fixture 1`] = `
+Array [
+  "
+
+/*
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+	var calendarContainer = Liferay.component('ʾPORTLET_NAMESPACE__ʿcalendarContainer');
+
+	var remoteServices = Liferay.component('ʾPORTLET_NAMESPACE__ʿremoteServices');
+
+	window.ʾPORTLET_NAMESPACE__ʿcalendarListsMenu = new Liferay.SimpleMenu(
+		{
+			align: {
+				points: [A.WidgetPositionAlign.TL, A.WidgetPositionAlign.BL]
+			},
+			constrain: true,
+			items: [
+				{
+					caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+					fn: function(event) {
+						var instance = this;
+
+						var calendarResourceId = instance.calendarResourceId;
+
+						if (calendarResourceId) {
+							Liferay.Util.openWindow(
+								{
+									dialog: {
+										after: {
+											destroy: function(event) {
+												remoteServices.getResourceCalendars(
+													calendarResourceId,
+													function(calendars) {
+														var calendarList = window.ʾPORTLET_NAMESPACE__ʿcalendarLists[calendarResourceId];
+
+														calendarList.set('calendars', calendars);
+
+														ʾPORTLET_NAMESPACE__ʿsyncCalendarsMap();
+
+														ʾPORTLET_NAMESPACE__ʿscheduler.load();
+													}
+												);
+											}
+										},
+										destroyOnHide: true,
+										modal: true
+									},
+									refreshWindow: window,
+									title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+									if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+										/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+										/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+									}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+									uri: Liferay.CalendarUtil.fillURLParameters(
+										decodeURIComponent('ʾJSP_EXPR____________ʿ'),
+										{
+											calendarResourceId: calendarResourceId
+										}
+									)
+								}
+							);
+						}
+					},
+					id: 'add'
+				},
+				{
+					caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+					fn: function(event) {
+						var instance = this;
+
+						var calendarResourceId = instance.calendarResourceId;
+
+						if (calendarResourceId) {
+							if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+							}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+							window.location.href = Liferay.CalendarUtil.fillURLParameters(
+								decodeURIComponent('ʾJSP_EXPR_________ʿ'),
+								{
+									calendarResourceId: calendarResourceId
+								}
+							);
+						}
+					},
+					id: 'manage'
+				},
+				{
+					caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+					fn: function(event) {
+						var instance = this;
+
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						*/
+
+						Liferay.Util.openWindow(
+							{
+								dialog: {
+									destroyOnHide: true,
+									modal: true
+								},
+								dialogIframe: {
+									bodyCssClass: 'dialog-with-footer'
+								},
+								refreshWindow: window,
+								title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+								uri: decodeURIComponent('ʾJSP_EXPR___________ʿ')
+							}
+						);
+					},
+					id: 'permissions'
+				}
+			],
+			on: {
+				visibleChange: function(event) {
+					var instance = this;
+
+					var hiddenItems = [];
+
+					if (!(instance.calendarResourceId === 'ʾJSP_EXPR__________________________________________ʿ') || !ʾJSP_EXPR________________________________________________________________________________________ʿ) {
+						hiddenItems.push('permissions');
+					}
+
+					instance.set('hiddenItems', hiddenItems);
+				}
+			},
+			visible: false,
+			width: 290,
+			zIndex: 500
+		}
+	).render();
+
+	window.ʾPORTLET_NAMESPACE__ʿcalendarsMenu = {
+		items: [
+			{
+				caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+				fn: function(event) {
+					var instance = this;
+
+					var calendarList = instance.get('host');
+
+					var activeCalendar = calendarList.activeItem;
+
+					if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+					}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+					Liferay.Util.openWindow(
+						{
+							dialog: {
+								after: {
+									destroy: function(event) {
+										ʾPORTLET_NAMESPACE__ʿscheduler.load();
+									}
+								},
+								destroyOnHide: true,
+								modal: true
+							},
+							refreshWindow: window,
+							title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+							uri: Liferay.CalendarUtil.fillURLParameters(
+								decodeURIComponent('ʾJSP_EXPR__________________ʿ'),
+								{
+									calendarId: activeCalendar.get('calendarId')
+								}
+							)
+						}
+					);
+				},
+				id: 'addEvent'
+			},
+			{
+				caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+				fn: function(event) {
+					var instance = this;
+
+					var calendarList = instance.get('host');
+
+					calendarList.remove(calendarList.activeItem);
+
+					ʾPORTLET_NAMESPACE__ʿrefreshVisibleCalendarRenderingRules();
+
+					instance.set('visible', false);
+				},
+				id: 'hide'
+			},
+			{
+				caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+				fn: function(event) {
+					var instance = this;
+
+					var calendarList = instance.get('host');
+
+					var activeCalendar = calendarList.activeItem;
+
+					Liferay.Util.openWindow(
+						{
+							dialog: {
+								after: {
+									destroy: function(event) {
+										remoteServices.getCalendar(
+											activeCalendar.get('calendarId'),
+											function(calendar) {
+												var activeCalendarId = activeCalendar.get('calendarId');
+
+												var calendars = calendarList.get('calendars').map(
+													function(item) {
+														if (activeCalendarId === item.get('calendarId')) {
+															item = calendar;
+														}
+
+														return item;
+													}
+												);
+
+												calendarList.set('calendars', calendars);
+
+												ʾPORTLET_NAMESPACE__ʿsyncCalendarsMap();
+
+												ʾPORTLET_NAMESPACE__ʿscheduler.load();
+											}
+										);
+									}
+								},
+								destroyOnHide: true,
+								modal: true
+							},
+							refreshWindow: window,
+							title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+							if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+							}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+							uri: Liferay.CalendarUtil.fillURLParameters(
+								decodeURIComponent('ʾJSP_EXPR____________ʿ'),
+								{
+									calendarId: activeCalendar.get('calendarId'),
+									calendarResourceId: activeCalendar.get('calendarResourceId')
+								}
+							)
+						}
+					);
+				},
+				id: 'settings'
+			},
+			{
+				caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+				fn: function(event) {
+					var instance = this;
+
+					var calendarList = instance.get('host');
+
+					var activeCalendar = calendarList.activeItem;
+
+					Liferay.Util.openWindow(
+						{
+							dialog: {
+								after: {
+									destroy: function(event) {
+										ʾPORTLET_NAMESPACE__ʿscheduler.load();
+									}
+								},
+								destroyOnHide: true,
+								modal: true
+							},
+							dialogIframe: {
+								bodyCssClass: 'dialog-with-footer'
+							},
+							refreshWindow: window,
+							title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							*/
+
+							uri: Liferay.CalendarUtil.fillURLParameters(
+								decodeURIComponent('ʾJSP_EXPR___________ʿ'),
+								{
+									modelResourceDescription: activeCalendar.get('name'),
+									resourceGroupId: activeCalendar.get('groupId'),
+									resourcePrimKey: activeCalendar.get('calendarId')
+								}
+							)
+						}
+					);
+				},
+				id: 'permissions'
+			},
+			{
+				caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+				fn: function(event) {
+					var instance = this;
+
+					var calendarList = instance.get('host');
+
+					var activeCalendar = calendarList.activeItem;
+
+					if (confirm('/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/')) {
+						var remoteServices = Liferay.component('ʾPORTLET_NAMESPACE__ʿremoteServices');
+
+						remoteServices.deleteCalendar(
+							activeCalendar.get('calendarId'),
+							function() {
+								remoteServices.getResourceCalendars(
+									activeCalendar.get('calendarResourceId'),
+									function(calendars) {
+										calendarList.set('calendars', calendars);
+
+										ʾPORTLET_NAMESPACE__ʿsyncCalendarsMap();
+
+										ʾPORTLET_NAMESPACE__ʿscheduler.load();
+
+										Liferay.CalendarMessageUtil.showAlert('#ʾPORTLET_NAMESPACE__ʿalert', '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/');
+									}
+								);
+							}
+						);
+					}
+				},
+				id: 'delete'
+			},
+
+			<c:if test=\\"ʾJSP_EXPR______ʿ\\">
+				{
+					caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+					fn: function(event) {
+						var instance = this;
+
+						var calendarList = instance.get('host');
+
+						var activeCalendar = calendarList.activeItem;
+
+						if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+						}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+						var url = Liferay.CalendarUtil.fillURLParameters(
+							decodeURIComponent('ʾJSP_EXPR___________ʿ'),
+							{
+								calendarId: activeCalendar.get('calendarId')
+							}
+						);
+
+						window.open(url, '_blank');
+
+						instance.set('visible', false);
+					},
+					id: 'subscribe'
+				},
+			</c:if>
+
+			{
+				caption: '-',
+				id: 'separator1'
+			},
+			{
+				caption: '<div class=\\"calendar-portlet-color-picker\\"></div>',
+				id: 'colorPicker'
+			}
+		],
+		on: {
+			visibleChange: function(event) {
+				var instance = this;
+
+				var calendarList = instance.get('host');
+
+				var calendar = calendarList.activeItem;
+
+				if (calendar && event.newVal) {
+					var permissions = calendar.get('permissions');
+
+					var hiddenItems = [];
+
+					if (calendarList !== window.ʾPORTLET_NAMESPACE__ʿotherCalendarList) {
+						hiddenItems.push('hide');
+					}
+
+					var defaultCalendar = calendar.get('defaultCalendar');
+
+					if ((permissions.DELETE === false) || (defaultCalendar === true)) {
+						hiddenItems.push('delete');
+					}
+
+					if (permissions.MANAGE_BOOKINGS === false) {
+						hiddenItems.push('addEvent');
+					}
+
+					if (permissions.PERMISSIONS === false) {
+						hiddenItems.push('permissions');
+					}
+
+					if (permissions.UPDATE === false) {
+						hiddenItems.push('settings');
+						hiddenItems.push('separator1');
+						hiddenItems.push('colorPicker');
+					}
+
+					instance.set('hiddenItems', hiddenItems);
+
+					ʾPORTLET_NAMESPACE__ʿcolorPicker.set('host', instance);
+
+					ʾPORTLET_NAMESPACE__ʿcolorPicker.setAttrs(
+						{
+							color: calendar.get('color'),
+							visible: true
+						}
+					);
+
+					var colorPickerContainer = instance.get('boundingBox').one('.calendar-portlet-color-picker');
+
+					colorPickerContainer.append(window.ʾPORTLET_NAMESPACE__ʿcolorPicker.get('boundingBox'));
+				}
+			}
+		},
+		width: 225
+	};
+
+	ʾPORTLET_NAMESPACE__ʿcolorPicker = new Liferay.SimpleColorPicker(
+		{
+			on: {
+				colorChange: function(event) {
+					var instance = this;
+
+					var simpleMenu = instance.get('host');
+
+					if (simpleMenu) {
+						var calendarList = simpleMenu.get('host');
+
+						calendarList.activeItem.set(
+							'color',
+							event.newVal,
+							{
+								silent: true
+							}
+						);
+
+						simpleMenu.set('visible', false);
+					}
+				}
+			},
+			visible: false
+		}
+	).render();
+
+	A.one('#ʾPORTLET_NAMESPACE__ʿcalendarListContainer').delegate(
+		'click',
+		function(event) {
+			var currentTarget = event.currentTarget;
+
+			window.ʾPORTLET_NAMESPACE__ʿcalendarListsMenu.calendarResourceId = currentTarget.getAttribute('data-calendarResourceId');
+
+			window.ʾPORTLET_NAMESPACE__ʿcalendarListsMenu.setAttrs(
+				{
+					alignNode: currentTarget,
+					toggler: currentTarget,
+					visible: !window.ʾPORTLET_NAMESPACE__ʿcalendarListsMenu.get('visible')
+				}
+			);
+		},
+		'.calendar-resource-arrow'
+	);
+
+	window.ʾPORTLET_NAMESPACE__ʿtoggler = new A.TogglerDelegate(
+		{
+			animated: true,
+			container: '#ʾPORTLET_NAMESPACE__ʿcalendarListContainer',
+			content: '.calendar-portlet-calendar-list',
+			header: '.calendar-portlet-list-header'
+		}
+	);
+
+	<c:if test=\\"ʾJSP_EXPR______________________ʿ\\">
+		var addOtherCalendarInput = A.one('#ʾPORTLET_NAMESPACE__ʿaddOtherCalendar');
+
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+		calendarContainer.createCalendarsAutoComplete(
+			'ʾJSP_EXPR_________________ʿ',
+			addOtherCalendarInput,
+			function(event) {
+				window.ʾPORTLET_NAMESPACE__ʿotherCalendarList.add(event.result.raw);
+
+				ʾPORTLET_NAMESPACE__ʿrefreshVisibleCalendarRenderingRules();
+
+				addOtherCalendarInput.val('');
+			}
+		);
+	</c:if>
+
+	A.one('#ʾPORTLET_NAMESPACE__ʿcolumnToggler').on(
+		'click',
+		function(event) {
+			var columnTogglerIconId = 'ʾPORTLET_NAMESPACE__ʿcolumnTogglerIcon';
+			var columnGrid = A.one('#ʾPORTLET_NAMESPACE__ʿcolumnGrid');
+			var columnOptions = A.one('#ʾPORTLET_NAMESPACE__ʿcolumnOptions');
+			var columnTogglerIcon = A.one('#' + columnTogglerIconId);
+
+			Liferay.Util.Session.set('com.liferay.calendar.web_columnOptionsVisible', columnOptions.hasClass('hide'));
+
+			columnGrid.toggleClass('col-md-9').toggleClass('col-md-12');
+
+			columnOptions.toggleClass('hide');
+
+			var newIcon = A.Node.create(
+				Liferay.Util.getLexiconIconTpl(
+					columnTogglerIcon._node.classList.contains('lexicon-icon-caret-left') ?
+					'caret-right' :
+					'caret-left'
+				)
+			);
+
+			newIcon.attr('id', columnTogglerIconId);
+
+			columnTogglerIcon.replace(newIcon);
+		}
+	);
+
+	window.ʾPORTLET_NAMESPACE__ʿrefreshMiniCalendarSelectedDates = function() {
+		ʾPORTLET_NAMESPACE__ʿminiCalendar._clearSelection();
+
+		var activeView = ʾPORTLET_NAMESPACE__ʿscheduler.get('activeView');
+		var viewDate = ʾPORTLET_NAMESPACE__ʿscheduler.get('viewDate');
+
+		var viewName = activeView.get('name');
+
+		var total = 1;
+
+		if (viewName == 'month') {
+			total = A.Date.daysInMonth(viewDate);
+		}
+		else if (viewName == 'week') {
+			total = 7;
+		}
+
+		var selectedDates = Liferay.CalendarUtil.getDatesList(viewDate, total);
+
+		ʾPORTLET_NAMESPACE__ʿminiCalendar.selectDates(selectedDates);
+
+		var todayDate = ʾPORTLET_NAMESPACE__ʿscheduler.get('todayDate');
+
+		if ((selectedDates.length > 0) && DateMath.between(todayDate, selectedDates[0], selectedDates[total - 1])) {
+			viewDate = todayDate;
+		}
+
+		ʾPORTLET_NAMESPACE__ʿminiCalendar.set('date', viewDate);
+	};
+
+	var DateMath = A.DataType.DateMath;
+
+	window.ʾPORTLET_NAMESPACE__ʿrefreshVisibleCalendarRenderingRules = function() {
+		var miniCalendarStartDate = DateMath.subtract(DateMath.toMidnight(window.ʾPORTLET_NAMESPACE__ʿminiCalendar.get('date')), DateMath.WEEK, 1);
+
+		var miniCalendarEndDate = DateMath.add(DateMath.add(window.ʾPORTLET_NAMESPACE__ʿminiCalendar.get('date'), DateMath.MONTH, 1), DateMath.WEEK, 1);
+
+		miniCalendarEndDate.setHours(23, 59, 59, 999);
+
+		remoteServices.getCalendarRenderingRules(
+			A.Object.keys(calendarContainer.get('visibleCalendars')),
+			Liferay.CalendarUtil.toUTC(miniCalendarStartDate),
+			Liferay.CalendarUtil.toUTC(miniCalendarEndDate),
+			'busy',
+			function(rulesDefinition) {
+				var selectedDates = ʾPORTLET_NAMESPACE__ʿminiCalendar._getSelectedDatesList();
+
+				window.ʾPORTLET_NAMESPACE__ʿminiCalendar.set(
+					'customRenderer',
+					{
+						filterFunction: function(date, node, rules) {
+							node.addClass('lfr-busy-day');
+
+							DateMath.toMidnight(date);
+
+							var selected = (selectedDates.length > 0) && A.Date.isInRange(date, selectedDates[0], selectedDates[selectedDates.length - 1]);
+
+							if (A.DataType.DateMath.isToday(date)) {
+								node.addClass('lfr-current-day');
+							}
+
+							node.toggleClass('yui3-calendar-day-selected', selected);
+						},
+						rules: rulesDefinition
+					}
+				);
+
+				ʾPORTLET_NAMESPACE__ʿminiCalendar.selectDates(selectedDates);
+			}
+		);
+	};
+
+	window.ʾPORTLET_NAMESPACE__ʿminiCalendar = new A.Calendar(
+		{
+			after: {
+				dateChange: ʾPORTLET_NAMESPACE__ʿrefreshVisibleCalendarRenderingRules,
+				dateClick: function(event) {
+					ʾPORTLET_NAMESPACE__ʿscheduler.setAttrs(
+						{
+							date: event.date
+						}
+					);
+				}
+			},
+			date: new Date(ʾJSP_EXPR_________________ʿ),
+			headerRenderer: 'ʾJSP_EXPR________________________________________________ʿ',
+			locale: 'ʾJSP_EXPR_____________________ʿ',
+			'strings.first_weekday': ʾJSP_EXPR_________ʿ
+		}
+	).render('#ʾPORTLET_NAMESPACE__ʿminiCalendarContainer');
+
+	ʾPORTLET_NAMESPACE__ʿscheduler.after(
+		['*:add', '*:change', '*:load', '*:remove', '*:reset'],
+		A.debounce(ʾPORTLET_NAMESPACE__ʿrefreshVisibleCalendarRenderingRules, 100)
+	);
+
+	ʾPORTLET_NAMESPACE__ʿscheduler.after(
+		['activeViewChange', 'dateChange'],
+		ʾPORTLET_NAMESPACE__ʿrefreshMiniCalendarSelectedDates
+	);
+
+	ʾPORTLET_NAMESPACE__ʿrefreshVisibleCalendarRenderingRules();
+	ʾPORTLET_NAMESPACE__ʿrefreshMiniCalendarSelectedDates();
+}/*ʅʅʅʅʅʅʅʅ*/
+",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%
+String backURL = PortalUtil.getCurrentURL(request);
+%>",
+    "<aui:script use=\\"aui-toggler,calendar,liferay-calendar-simple-color-picker,liferay-calendar-simple-menu,liferay-calendar-util\\">",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"add-calendar\\" />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"add-calendar\\" />",
+    "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
+    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />",
+    "<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />",
+    "</portlet:renderURL>",
+    "<%= editCalendarURL %>",
+    "<liferay-ui:message key=\\"manage-calendars\\" />",
+    "<portlet:renderURL var=\\"calendarsURL\\">",
+    "<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />",
+    "<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />",
+    "<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />",
+    "</portlet:renderURL>",
+    "<%= calendarsURL %>",
+    "<liferay-ui:message key=\\"permissions\\" />",
+    "<liferay-security:permissionsURL
+							modelResource=\\"<%= CalendarConstants.RESOURCE_NAME %>\\"
+							modelResourceDescription=\\"\\"
+							resourcePrimKey=\\"<%= String.valueOf(scopeGroupId) %>\\"
+							var=\\"permissionsURL\\"
+							windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
+						/>",
+    "<liferay-ui:message key=\\"permissions\\" />",
+    "<%= permissionsURL %>",
+    "<%= groupCalendarResource.getCalendarResourceId() %>",
+    "<%= CalendarPortletPermission.contains(permissionChecker, scopeGroupId, ActionKeys.PERMISSIONS) %>",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"add-calendar-booking\\" />",
+    "<portlet:renderURL var=\\"addCalendarBookingURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
+    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar_booking.jsp\\" />",
+    "<portlet:param name=\\"backURL\\" value=\\"<%= backURL %>\\" />",
+    "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
+    "</portlet:renderURL>",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"new-calendar-booking\\" />",
+    "<%= addCalendarBookingURL %>",
+    "<liferay-ui:message key=\\"hide-calendar\\" />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"calendar-settings\\" />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"calendar-settings\\" />",
+    "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
+    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />",
+    "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
+    "</portlet:renderURL>",
+    "<%= editCalendarURL %>",
+    "<liferay-ui:message key=\\"permissions\\" />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"permissions\\" />",
+    "<liferay-security:permissionsURL
+								modelResource=\\"<%= Calendar.class.getName() %>\\"
+								modelResourceDescription=\\"{modelResourceDescription}\\"
+								resourceGroupId=\\"{resourceGroupId}\\"
+								resourcePrimKey=\\"{resourcePrimKey}\\"
+								var=\\"permissionsURL\\"
+								windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
+							/>",
+    "<%= permissionsURL %>",
+    "<liferay-ui:message key=\\"delete\\" />",
+    "<liferay-ui:message key=\\"are-you-sure-you-want-to-delete-this\\" />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"the-calendar-was-deleted-successfully\\" />",
+    "<%= enableRSS %>",
+    "<liferay-ui:message key=\\"rss\\" />",
+    "<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">",
+    "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
+    "</liferay-portlet:resourceURL>",
+    "<%= calendarRSSURL %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= themeDisplay.isSignedIn() %>",
+    "<portlet:namespace />",
+    "<liferay-portlet:resourceURL copyCurrentRenderParameters=\\"<%= false %>\\" id=\\"calendarResources\\" var=\\"calendarResourcesURL\\" />",
+    "<%= calendarResourcesURL %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= String.valueOf(date) %>",
+    "<%= HtmlUtil.escapeJS(LanguageUtil.get(request, \\"b-y\\")) %>",
+    "<%= themeDisplay.getLocale() %>",
+    "<%= weekStartsOn %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "</aui:script>",
+  ],
+]
+`;
+
+exports[`substituteTags() substitutes in the "configuration.jsp" fixture 1`] = `
+Array [
+  "
+
+ʾJSP_DIR____________________________________________ʿ
+
+/*
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+	/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	ʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	ʃʃʃʃʃʃʃʃʃ
+	ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+ʃ*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+	if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+		if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+				/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃ*/
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+				}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+				<div class=\\"display-template\\">
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+				</div>
+			}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+				/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃ*/
+				if (ʃʃʃʃʃʃʃʃʃʃʃʃ) {
+					<div class=\\"form-group\\">
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+						/*
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						*/
+
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+					</div>
+				}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+			}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+		}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+	}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+	if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+<script>
+	var openFolderSelectorButton = document.getElementById('ʾPORTLET_NAMESPACE__ʿopenFolderSelectorButton');
+
+	if (openFolderSelectorButton) {
+		openFolderSelectorButton.addEventListener(
+			'click',
+			function(event) {
+				Liferay.Util.selectEntity(
+					{
+						dialog: {
+							constrain: true,
+							destroyOnHide: true,
+							modal: true,
+							width: 680
+						},
+						id: '_ʾJSP_EXPR_______________________________ʿ_selectFolder',
+						title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+						if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+						}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+						uri: 'ʾJSP_EXPR__________________________________________ʿ'
+					},
+					function(event) {
+						var folderData = {
+							idString: 'rootFolderId',
+							idValue: event.folderid,
+							nameString: 'rootFolderName',
+							nameValue: event.foldername
+						};
+
+						Liferay.Util.selectFolder(folderData, 'ʾPORTLET_NAMESPACE__ʿ');
+					}
+				);
+			}
+		);
+	}
+
+	function ʾPORTLET_NAMESPACE__ʿsaveConfiguration() {
+		var form = document.ʾPORTLET_NAMESPACE__ʿfm;
+
+		Liferay.Util.postForm(
+			form,
+			{
+				data: {
+					mimeTypes: Liferay.Util.listSelect(Liferay.Util.getFormElement(form, 'currentMimeTypes'))
+				}
+			}
+		);
+	}
+</script>",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%@ include file=\\"/image_gallery_display/init.jsp\\" %>",
+    "<%
+DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletInstanceSettingsHelper(igRequestHelper);
+%>",
+    "<liferay-portlet:actionURL portletConfiguration=\\"<%= true %>\\" var=\\"configurationActionURL\\" />",
+    "<liferay-portlet:renderURL portletConfiguration=\\"<%= true %>\\" var=\\"configurationRenderURL\\" />",
+    "<liferay-frontend:edit-form
+	action=\\"<%= configurationActionURL %>\\"
+	method=\\"post\\"
+	name=\\"fm\\"
+	onSubmit='<%= \\"event.preventDefault(); \\" + renderResponse.getNamespace() + \\"saveConfiguration();\\" %>'
+>",
+    "<aui:input name=\\"<%= Constants.CMD %>\\" type=\\"hidden\\" value=\\"<%= Constants.UPDATE %>\\" />",
+    "<aui:input name=\\"redirect\\" type=\\"hidden\\" value=\\"<%= configurationRenderURL %>\\" />",
+    "<aui:input name=\\"preferences--mimeTypes--\\" type=\\"hidden\\" />",
+    "<aui:input name=\\"preferences--rootFolderId--\\" type=\\"hidden\\" value=\\"<%= rootFolderId %>\\" />",
+    "<liferay-frontend:edit-form-body>",
+    "<liferay-ui:error key=\\"rootFolderIdInvalid\\" message=\\"please-enter-a-valid-root-folder\\" />",
+    "<liferay-frontend:fieldset-group>",
+    "<liferay-frontend:fieldset
+				collapsible=\\"<%= true %>\\"
+				id=\\"imageGalleryDisplayDisplay\\"
+				label=\\"display-settings\\"
+			>",
+    "<aui:input label=\\"show-actions\\" name=\\"preferences--showActions--\\" type=\\"checkbox\\" value=\\"<%= dlPortletInstanceSettings.isShowActions() %>\\" />",
+    "<aui:field-wrapper label=\\"show-media-type\\">",
+    "<liferay-ui:input-move-boxes
+						leftBoxName=\\"currentMimeTypes\\"
+						leftList=\\"<%= dlPortletInstanceSettingsHelper.getCurrentMimeTypes() %>\\"
+						leftReorder=\\"<%= Boolean.TRUE.toString() %>\\"
+						leftTitle=\\"current\\"
+						rightBoxName=\\"availableMimeTypes\\"
+						rightList=\\"<%= dlPortletInstanceSettingsHelper.getAvailableMimeTypes() %>\\"
+						rightTitle=\\"available\\"
+					/>",
+    "</aui:field-wrapper>",
+    "<liferay-ddm:template-selector
+						className=\\"<%= FileEntry.class.getName() %>\\"
+						displayStyle=\\"<%= displayStyle %>\\"
+						displayStyleGroupId=\\"<%= displayStyleGroupId %>\\"
+						refreshURL=\\"<%= configurationRenderURL %>\\"
+						showEmptyOption=\\"<%= true %>\\"
+					/>",
+    "</liferay-frontend:fieldset>",
+    "<liferay-frontend:fieldset
+				collapsible=\\"<%= true %>\\"
+				id=\\"imageGalleryDisplayFoldersListingPanel\\"
+				label=\\"folders-listing\\"
+			>",
+    "<aui:field-wrapper>",
+    "<aui:input label=\\"root-folder\\" name=\\"rootFolderName\\" type=\\"resource\\" value=\\"<%= rootFolderName %>\\" />",
+    "<aui:button name=\\"openFolderSelectorButton\\" value=\\"select\\" />",
+    "<%
+						String taglibRemoveFolder = \\"Liferay.Util.removeEntitySelection('rootFolderId', 'rootFolderName', this, '\\" + renderResponse.getNamespace() + \\"');\\";
+						%>",
+    "<aui:button disabled=\\"<%= rootFolderId <= 0 %>\\" name=\\"removeFolderButton\\" onClick=\\"<%= taglibRemoveFolder %>\\" value=\\"remove\\" />",
+    "</aui:field-wrapper>",
+    "</liferay-frontend:fieldset>",
+    "</liferay-frontend:fieldset-group>",
+    "</liferay-frontend:edit-form-body>",
+    "<liferay-frontend:edit-form-footer>",
+    "<aui:button type=\\"submit\\" />",
+    "<aui:button type=\\"cancel\\" />",
+    "</liferay-frontend:edit-form-footer>",
+    "</liferay-frontend:edit-form>",
+    "<portlet:namespace />",
+    "<%= HtmlUtil.escapeJS(portletResource) %>",
+    "<liferay-ui:message arguments=\\"folder\\" key=\\"select-x\\" />",
+    "<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
+    "<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />",
+    "<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />",
+    "<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />",
+    "</liferay-portlet:renderURL>",
+    "<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+  ],
+]
+`;

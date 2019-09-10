@@ -4,31 +4,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const dedent = require('../../support/dedent');
 const substituteTags = require('../../src/format/substituteTags');
+const dedent = require('../../support/dedent');
+const getFixture = require('../../support/getFixture');
 
 describe('substituteTags()', () => {
-	it('TODO', async () => {
-		const getFixture = require('../../support/getFixture');
-		const source = await getFixture('format/edit_template_display.jspf');
-
-		const [transformed, tags] = substituteTags(source);
-
-		// TODO: fully handle input like this:
-		/*
-			<liferay-ui:panel
-				collapsible="<%= true %>"
-				cssClass="palette-section"
-				extended="<%= false %>"
-				id="<%= HtmlUtil.getAUICompatibleId(templateVariableGroup.getLabel()) %>"
-				title="<%= LanguageUtil.get(request, templateHandlerResourceBundle, HtmlUtil.escape(templateVariableGroup.getLabel())) %>"
-			>
-				<ul class="palette-item-content">
-		*/
-
-		// console.log(transformed);
-	});
-
 	it('turns EL syntax (${}) into identifier placeholders', () => {
 		const [transformed, tags] = substituteTags('alert(${expr1}, ${expr2})');
 
@@ -160,6 +140,18 @@ describe('substituteTags()', () => {
 		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
+	it('turns <portlet:namespace /> tags into identifiers', () => {
+		const [transformed, tags] = substituteTags(dedent(3)`
+			var calendarList = window.<portlet:namespace />calendarLists[calendarResourceId];
+		`);
+
+		expect(transformed).toEqual(dedent(3)`
+			var calendarList = window.ʾPORTLET_NAMESPACE__ʿcalendarLists[calendarResourceId];
+		`);
+
+		expect(tags).toEqual(['<portlet:namespace />']);
+	});
+
 	it('turns JSP tags into comments and conditionals', () => {
 		const [transformed, tags] = substituteTags(dedent(3)`
 			<some:tag attr="1" />
@@ -210,5 +202,31 @@ describe('substituteTags()', () => {
 			'<multi:line\n' + '\topening="1"\n' + '>',
 			'</multi:line>'
 		]);
+	});
+
+	it('substitutes in the "configuration.jsp" fixture', async () => {
+		const source = await getFixture('format/configuration.jsp');
+
+		expect(substituteTags(source)).toMatchSnapshot();
+	});
+
+	it('substitutes in a the "edit_template_display.jspf" fixture', async () => {
+		const source = await getFixture('format/edit_template_display.jspf');
+
+		expect(substituteTags(source)).toMatchSnapshot();
+	});
+
+	// Disabled because currently choking on JSP expression inside a custom tag
+	// attribute.
+	it.skip('substitutes in a the "page.jsp" fixture', async () => {
+		const source = await getFixture('format/page.jsp');
+
+		expect(substituteTags(source)).toMatchSnapshot();
+	});
+
+	it('substitutes in a the "view_calendar_menus.jspf" fixture', async () => {
+		const source = await getFixture('format/view_calendar_menus.jspf');
+
+		expect(substituteTags(source)).toMatchSnapshot();
 	});
 });

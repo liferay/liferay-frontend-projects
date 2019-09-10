@@ -699,11 +699,17 @@ class Lexer {
 		 * Allows for inspection of the internal state of the lexer instance.
 		 */
 		const __DEBUG__ = {
+			get index() {
+				return input.length - remaining.length;
+			},
+
 			get meta() {
 				return [...meta.entries()];
 			},
 
-			remaining
+			get remaining() {
+				return remaining;
+			}
 		};
 
 		/**
@@ -745,8 +751,6 @@ class Lexer {
 
 		while (!atEnd()) {
 			const index = input.length - remaining.length;
-
-			__DEBUG__.index = index;
 
 			const token = advance();
 

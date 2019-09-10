@@ -5,6 +5,7 @@
  */
 
 const lex = require('../../src/format/lex');
+const getFixture = require('../../support/getFixture');
 
 describe('lex()', () => {
 	it('lexes a comment', () => {
@@ -369,31 +370,31 @@ describe('lex()', () => {
 
 	// TODO: EL Expression in attribute?
 
-	it('lexes a the "configuration.jsp" fixture', async () => {
-		const getFixture = require('../../support/getFixture');
-		const source = await getFixture('format/configuration.jsp');
+	describe('lexing entire fixtures', () => {
+		it('lexes the "configuration.jsp" fixture', async () => {
+			const source = await getFixture('format/configuration.jsp');
 
-		expect(lex(source)).toMatchSnapshot();
-	});
+			expect(lex(source)).toMatchSnapshot();
+		});
 
-	it('lexes a the "edit_template_display.jspf" fixture', async () => {
-		const getFixture = require('../../support/getFixture');
-		const source = await getFixture('format/edit_template_display.jspf');
+		it('lexes the "edit_template_display.jspf" fixture', async () => {
+			const source = await getFixture(
+				'format/edit_template_display.jspf'
+			);
 
-		expect(lex(source)).toMatchSnapshot();
-	});
+			expect(lex(source)).toMatchSnapshot();
+		});
 
-	it('lexes a the "page.jsp" fixture', async () => {
-		const getFixture = require('../../support/getFixture');
-		const source = await getFixture('format/page.jsp');
+		it('lexes the "page.jsp" fixture', async () => {
+			const source = await getFixture('format/page.jsp');
 
-		expect(lex(source)).toMatchSnapshot();
-	});
+			expect(lex(source)).toMatchSnapshot();
+		});
 
-	it('lexes a the "view_calendar_menus.jspf" fixture', async () => {
-		const getFixture = require('../../support/getFixture');
-		const source = await getFixture('format/view_calendar_menus.jspf');
+		it('lexes the "view_calendar_menus.jspf" fixture', async () => {
+			const source = await getFixture('format/view_calendar_menus.jspf');
 
-		expect(lex(source)).toMatchSnapshot();
+			expect(lex(source)).toMatchSnapshot();
+		});
 	});
 });

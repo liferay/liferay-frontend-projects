@@ -57,6 +57,7 @@ function lex(source, options = {}) {
 			'EQ'
 		);
 
+		const CUSTOM_ACTION_END = match('</').name('CUSTOM_ACTION_END');
 		const CUSTOM_ACTION_START = match('<').name('CUSTOM_ACTION_START');
 
 		const TAG_PREFIX = a('NAME').name('TAG_PREFIX');
@@ -475,6 +476,21 @@ function lex(source, options = {}) {
 		const JSP_SCRIPTLET_END = match('%>').name('JSP_SCRIPTLET_END');
 		const JSP_SCRIPTLET_START = match('<%').name('JSP_SCRIPTLET_START');
 
+		/**
+		 * EL (Expression Language) expression syntax.
+		 *
+		 * In a nutshell:
+		 *
+		 * - ${expr}: immediate evaluation.
+		 * - #{expr}: deferred evaluation.
+		 * - \${expr}: escaped; no special meaning.
+		 * - \#{expr}: escaped; no special meaning.
+		 *
+		 * Conveniently, EL expressions cannot be nested.
+		 *
+		 * @see https://en.wikipedia.org/wiki/Unified_Expression_Language
+		 * @see https://download.oracle.com/otndocs/jcp/el-3_0-fr-eval-spec/index.html
+		 */
 		const EL_EXPRESSION_END = match('}').name('EL_EXPRESSION_END');
 		const EL_EXPRESSION_START = match(/[#$]\{/).name('EL_EXPRESSION_START');
 
@@ -502,7 +518,7 @@ function lex(source, options = {}) {
 		).name('QUOTED_CHAR');
 
 		const ATTRIBUTES = sequence(
-			repeat(sequence('SPACE', 'ATTRIBUTE')),
+			maybe(repeat(sequence('SPACE', 'ATTRIBUTE'))),
 			maybe('SPACE')
 		)
 			.name('ATTRIBUTES')
@@ -709,11 +725,20 @@ function lex(source, options = {}) {
 				const text = consume(PORTLET_NAMESPACE);
 
 				return token('PORTLET_NAMESPACE', text);
+			} else if (peek(sequence(CUSTOM_ACTION_END, CUSTOM_ACTION))) {
+				// TODO: make peek() use sequence() automatically?
+				// could do similar with consume()...
+				let text = consume();
+
+				text += consume(sequence(maybe(SPACE), match('>')));
+
+				return token('CUSTOM_ACTION_END', text);
 			} else if (
 				peek(sequence(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES))
 			) {
 				let text = consume();
 
+				// TODO: consider making this a stack
 				const name = meta.get('customAction:name');
 
 				const E_TAG = sequence(
@@ -730,19 +755,17 @@ function lex(source, options = {}) {
 
 				if (peek(EMPTY_BODY)) {
 					text += consume();
+					return token('CUSTOM_ACTION', text);
 				} else {
 					// Will continue tokenizing next time around.
+					text += consume(match('>'));
+					return token('CUSTOM_ACTION_START', text);
 				}
-
-				return token('CUSTOM_ACTION', text);
 			} else if (peek(TEMPLATE_TEXT)) {
 				const text = consume(TEMPLATE_TEXT);
 
 				return token('TEMPLATE_TEXT', text);
 			} else {
-				// TODO: self closing tag
-				// TODO: open tag
-				// TODO: close tag
 				fail('Failed to consume all input');
 			}
 		};

@@ -84,14 +84,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 	method=\\"post\\"
 	name=\\"fm\\"
 	onSubmit='<%= \\"event.preventDefault(); \\" + renderResponse.getNamespace() + \\"saveConfiguration();\\" %>'
-",
+>",
     "index": 975,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 	",
-    "index": 1172,
+    "index": 1173,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -178,14 +178,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 				collapsible=\\"<%= true %>\\"
 				id=\\"imageGalleryDisplayDisplay\\"
 				label=\\"display-settings\\"
-			",
+			>",
     "index": 1667,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 				",
-    "index": 1792,
+    "index": 1793,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -201,14 +201,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<aui:field-wrapper label=\\"show-media-type\\"",
+    "contents": "<aui:field-wrapper label=\\"show-media-type\\">",
     "index": 1945,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 					",
-    "index": 1987,
+    "index": 1988,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -298,14 +298,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 				collapsible=\\"<%= true %>\\"
 				id=\\"imageGalleryDisplayFoldersListingPanel\\"
 				label=\\"folders-listing\\"
-			",
+			>",
     "index": 2757,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 				",
-    "index": 2893,
+    "index": 2894,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -551,14 +551,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"",
+    "contents": "<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
     "index": 4275,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 							",
-    "index": 4418,
+    "index": 4419,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -752,14 +752,14 @@ if (Validator.isNotNull(scriptContent)) {
 	id=\\"templateScriptContainer\\"
 	markupView=\\"lexicon\\"
 	persistState=\\"<%= true %>\\"
-",
+>",
     "index": 849,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 	",
-    "index": 981,
+    "index": 982,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -770,14 +770,14 @@ if (Validator.isNotNull(scriptContent)) {
 		markupView=\\"lexicon\\"
 		persistState=\\"<%= true %>\\"
 		title=\\"script\\"
-	",
+	>",
     "index": 984,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 		",
-    "index": 1159,
+    "index": 1160,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -986,14 +986,14 @@ if (Validator.isNotNull(scriptContent)) {
 									extended=\\"<%= false %>\\"
 									id=\\"<%= HtmlUtil.getAUICompatibleId(templateVariableGroup.getLabel()) %>\\"
 									title=\\"<%= LanguageUtil.get(request, templateHandlerResourceBundle, HtmlUtil.escape(templateVariableGroup.getLabel())) %>\\"
-								",
+								>",
     "index": 3088,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 									",
-    "index": 3433,
+    "index": 3434,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1364,12 +1364,12 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<aui:script use=\\"aui-ace-autocomplete-freemarker,aui-ace-autocomplete-plugin,aui-ace-autocomplete-velocity,aui-toggler,aui-tooltip,autocomplete-base,autocomplete-filters,event-mouseenter,event-outside,liferay-util-window,resize,transition\\"",
+    "contents": "<aui:script use=\\"aui-ace-autocomplete-freemarker,aui-ace-autocomplete-plugin,aui-ace-autocomplete-velocity,aui-toggler,aui-tooltip,autocomplete-base,autocomplete-filters,event-mouseenter,event-outside,liferay-util-window,resize,transition\\">",
     "index": 4933,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 	var ACPlugin = A.Plugin.AceAutoComplete;
 	var AObject = A.Object;
 	var Util = Liferay.Util;
@@ -1379,7 +1379,7 @@ if (Validator.isNotNull(scriptContent)) {
 	var STR_HEIGHT = 'height';
 
 	var selectLanguageNode = A.one('#",
-    "index": 5172,
+    "index": 5173,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -2022,14 +2022,14 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<portlet:renderURL var=\\"refreshTemplateURL\\"",
+    "contents": "<portlet:renderURL var=\\"refreshTemplateURL\\">",
     "index": 12015,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 				",
-    "index": 12058,
+    "index": 12059,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3210,14 +3210,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<aui:script use=\\"aui-toggler,calendar,liferay-calendar-simple-color-picker,liferay-calendar-simple-menu,liferay-calendar-util\\"",
+    "contents": "<aui:script use=\\"aui-toggler,calendar,liferay-calendar-simple-color-picker,liferay-calendar-simple-menu,liferay-calendar-util\\">",
     "index": 662,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 	var calendarContainer = Liferay.component('",
-    "index": 788,
+    "index": 789,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3345,14 +3345,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"",
+    "contents": "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
     "index": 2085,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 										",
-    "index": 2183,
+    "index": 2184,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3430,14 +3430,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<portlet:renderURL var=\\"calendarsURL\\"",
+    "contents": "<portlet:renderURL var=\\"calendarsURL\\">",
     "index": 2846,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 								",
-    "index": 2883,
+    "index": 2884,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3647,14 +3647,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<portlet:renderURL var=\\"addCalendarBookingURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"",
+    "contents": "<portlet:renderURL var=\\"addCalendarBookingURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
     "index": 4963,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 						",
-    "index": 5067,
+    "index": 5068,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3876,14 +3876,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"",
+    "contents": "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
     "index": 7368,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 								",
-    "index": 7466,
+    "index": 7467,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -4185,14 +4185,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\"",
+    "contents": "<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">",
     "index": 10515,
-    "name": "CUSTOM_ACTION",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": ">
+    "contents": "
 							",
-    "index": 10593,
+    "index": 10594,
     "name": "TEMPLATE_TEXT",
   },
   Object {
