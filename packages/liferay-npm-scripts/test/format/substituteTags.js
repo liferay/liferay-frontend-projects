@@ -65,7 +65,7 @@ describe('substituteTags()', () => {
 		expect(tags).toEqual(['<%= SomeUtil("abc") %>']);
 	});
 
-	it('turns JSP directives (<%@ ... %>) into identifier placeholders', () => {
+	it('turns JSP directives (<%@ ... %>) into comments', () => {
 		const [transformed, tags] = substituteTags(dedent(3)`
 			<%@ include file="/other.jsp" %>
 
@@ -73,7 +73,7 @@ describe('substituteTags()', () => {
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
-			ʾJSP_DIR_______________________ʿ
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 			var count = 0;
 		`);

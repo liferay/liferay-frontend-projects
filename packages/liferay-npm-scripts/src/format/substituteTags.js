@@ -28,7 +28,7 @@ function substituteTags(source) {
 	const tokens = lex(source);
 
 	const substituted = tokens
-		.map(({contents, index, name}) => {
+		.map(({contents, name}) => {
 			// Provisionally assume that "contents" corresponds to a tag that we're
 			// going to substitute.
 			tags.push(contents);
@@ -49,8 +49,14 @@ function substituteTags(source) {
 						`EL_${expressionCount++}`
 					);
 
+				case 'JSP_COMMENT':
+					return `/*${toFiller(contents.slice(2, -2))}*/`;
+
+				case 'JSP_DECLARATION':
+					return `/*${toFiller(contents.slice(2, -2))}*/`;
+
 				case 'JSP_DIRECTIVE':
-					return getPaddedReplacement(contents, 'JSP_DIR');
+					return `/*${toFiller(contents.slice(2, -2))}*/`;
 
 				case 'JSP_EXPRESSION':
 					return getPaddedReplacement(contents, 'JSP_EXPR');
@@ -64,6 +70,9 @@ function substituteTags(source) {
 				case 'TEMPLATE_TEXT':
 					tags.pop();
 					return contents;
+
+				default:
+					throw new Error(`Unexpected token: ${name}`);
 			}
 		})
 		.join('');
