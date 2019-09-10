@@ -594,8 +594,15 @@ class Lexer {
 		 * Run a matcher at the current location and consume the input. If the
 		 * matcher does not match, throws an error.
 		 */
-		const consume = matcher => {
+		const consume = (...matchers) => {
+			let matcher;
 			let result;
+
+			if (matchers.length === 1) {
+				matcher = matchers[0];
+			} else if (matchers.length > 1) {
+				matcher = sequence(...matchers);
+			}
 
 			// Potentially re-use result of preceeding `peek()`.
 			const peeked = peek.peeked;
@@ -664,8 +671,16 @@ class Lexer {
 		 * subsequent call to `consume()` without arguments will just access the
 		 * memoized match instead of repeating the scan.
 		 */
-		const peek = matcher => {
+		const peek = (...matchers) => {
 			meta.checkpoint();
+
+			let matcher;
+
+			if (matchers.length === 1) {
+				matcher = matchers[0];
+			} else if (matchers.length > 1) {
+				matcher = sequence(...matchers);
+			}
 
 			if (typeof matcher === 'string') {
 				matcher = match(matcher);

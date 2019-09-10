@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`lex() lexes a the "configuration.jsp" fixture 1`] = `
+exports[`lex() lexing entire fixtures lexes the "configuration.jsp" fixture 1`] = `
 Array [
   Object {
     "contents": "<%--
@@ -140,14 +140,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<liferay-frontend:edit-form-body>",
     "index": 1501,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "liferay-frontend:edit-form-body>
+    "contents": "
 		",
-    "index": 1502,
+    "index": 1534,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -163,14 +163,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<liferay-frontend:fieldset-group>",
     "index": 1630,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "liferay-frontend:fieldset-group>
+    "contents": "
 			",
-    "index": 1631,
+    "index": 1663,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -231,15 +231,15 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</aui:field-wrapper>",
     "index": 2377,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/aui:field-wrapper>
+    "contents": "
 
 				",
-    "index": 2378,
+    "index": 2397,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -282,15 +282,15 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-frontend:fieldset>",
     "index": 2724,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-frontend:fieldset>
+    "contents": "
 
 			",
-    "index": 2725,
+    "index": 2752,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -309,14 +309,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<aui:field-wrapper>",
     "index": 2899,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "aui:field-wrapper>
+    "contents": "
 					",
-    "index": 2900,
+    "index": 2918,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -391,59 +391,59 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</aui:field-wrapper>",
     "index": 3450,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/aui:field-wrapper>
+    "contents": "
 			",
-    "index": 3451,
+    "index": 3470,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-frontend:fieldset>",
     "index": 3474,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-frontend:fieldset>
+    "contents": "
 		",
-    "index": 3475,
+    "index": 3502,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-frontend:fieldset-group>",
     "index": 3505,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-frontend:fieldset-group>
+    "contents": "
 	",
-    "index": 3506,
+    "index": 3539,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-frontend:edit-form-body>",
     "index": 3541,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-frontend:edit-form-body>
+    "contents": "
 
 	",
-    "index": 3542,
+    "index": 3575,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<liferay-frontend:edit-form-footer>",
     "index": 3578,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "liferay-frontend:edit-form-footer>
+    "contents": "
 		",
-    "index": 3579,
+    "index": 3613,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -470,26 +470,26 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-frontend:edit-form-footer>",
     "index": 3678,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-frontend:edit-form-footer>
+    "contents": "
 ",
-    "index": 3679,
+    "index": 3714,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-frontend:edit-form>",
     "index": 3715,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-frontend:edit-form>
+    "contents": "
 
 ",
-    "index": 3716,
+    "index": 3744,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -595,15 +595,15 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-portlet:renderURL>",
     "index": 4701,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-portlet:renderURL>
+    "contents": "
 
 						uri: '",
-    "index": 4702,
+    "index": 4729,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -688,7 +688,7 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 ]
 `;
 
-exports[`lex() lexes a the "edit_template_display.jspf" fixture 1`] = `
+exports[`lex() lexing entire fixtures lexes the "edit_template_display.jspf" fixture 1`] = `
 Array [
   Object {
     "contents": "<%--
@@ -1156,15 +1156,15 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-ui:panel>",
     "index": 4322,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-ui:panel>
+    "contents": "
 
 							",
-    "index": 4323,
+    "index": 4341,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1341,26 +1341,26 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-ui:panel>",
     "index": 4882,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-ui:panel>
+    "contents": "
 ",
-    "index": 4883,
+    "index": 4901,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-ui:panel-container>",
     "index": 4902,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-ui:panel-container>
+    "contents": "
 
 ",
-    "index": 4903,
+    "index": 4931,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -2044,15 +2044,15 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</portlet:renderURL>",
     "index": 12127,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/portlet:renderURL>
+    "contents": "
 
 			form.attr('action', '",
-    "index": 12128,
+    "index": 12147,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -2120,15 +2120,15 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</aui:script>",
     "index": 12496,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/aui:script>
+    "contents": "
 
 ",
-    "index": 12497,
+    "index": 12509,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -2368,806 +2368,7 @@ private static Log _log = LogFactoryUtil.getLog(\\"com_liferay_dynamic_data_mapp
 ]
 `;
 
-exports[`lex() lexes a the "page.jsp" fixture 1`] = `
-Array [
-  Object {
-    "contents": "<",
-    "index": 0,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!DOCTYPE html>
-",
-    "index": 1,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 16,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "html>
-",
-    "index": 17,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 23,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "head>
-	",
-    "index": 24,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 31,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "title>Test Check Source Formatting",
-    "index": 32,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 66,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/title>
-",
-    "index": 67,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 75,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/head>
-",
-    "index": 76,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 83,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "body>
-	",
-    "index": 84,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 91,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Sort attribute values -->
-	",
-    "index": 92,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 123,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "div class=\\"foo bar\\">",
-    "index": 124,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 144,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/div>
-	",
-    "index": 145,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:nav cssClass=\\"bar abc\\"></aui:nav>",
-    "index": 152,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "
-
-	",
-    "index": 190,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 193,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Sort attributes -->
-	",
-    "index": 194,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 219,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "div id=\\"foo\\" class=\\"foo\\">",
-    "index": 220,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 245,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/div>
-	",
-    "index": 246,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 253,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "div id=\\"foo\\" class=\\"foo ",
-    "index": 254,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= bar ? \\"bar\\" : \\"abc\\" %>",
-    "index": 278,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">",
-    "index": 304,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 306,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/div>
-	",
-    "index": 307,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 314,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "img id=\\"foo\\" class=\\"foo ",
-    "index": 315,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= bar ? \\"bar\\" : \\"abc\\" %>",
-    "index": 339,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\" />
-	",
-    "index": 365,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:nav id=\\"nav\\" cssClass=\\"bar abc\\"></aui:nav>",
-    "index": 371,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "
-	",
-    "index": 418,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:nav id='<%= \\"nav\\" %>' cssClass='<%= \\"bar abc\\" %>'></aui:nav>",
-    "index": 420,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "
-	",
-    "index": 485,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 487,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "span>",
-    "index": 488,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<liferay-ui:message key=\\"count\\" />",
-    "index": 493,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": " ",
-    "index": 527,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<liferay-ui:message key=\\"used-in-x-assets\\" arguments=\\"<%= tag.getAssetCount() %>\\" />",
-    "index": 528,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "<",
-    "index": 612,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/span>
-
-	",
-    "index": 613,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 622,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Common -->
-	",
-    "index": 623,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 639,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Invalid space -->
-	",
-    "index": 640,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 663,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "img src=\\"foo\\" />
-	",
-    "index": 664,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 682,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Mixed spaces and tabs -->
-	 ",
-    "index": 683,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 715,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "div class=\\"foo\\">",
-    "index": 716,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 732,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/div>
-
-	",
-    "index": 733,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 741,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Script tags -->
-	",
-    "index": 742,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 763,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "script type=\\"text\\">
-		var testVar = true;
-	",
-    "index": 764,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 807,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/script>
-
-	",
-    "index": 808,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 819,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "aui:script>
-		var testVar = true;
-	",
-    "index": 820,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 855,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-
-	",
-    "index": 856,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:script use=\\"aui-base,event,node\\"",
-    "index": 871,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": ">
-		var Liferay = true
-
-		Liferay.Language.get('foo');
-
-		Liferay.provide(
-			window,
-			'testFn',
-			function() {
-				var foo = false;
-			}
-		);
-	",
-    "index": 908,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1055,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-
-	",
-    "index": 1056,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1071,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "aui:script>
-		",
-    "index": 1072,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%
-		List<String> foo = null;
-		%>",
-    "index": 1086,
-    "name": "JSP_SCRIPTLET",
-  },
-  Object {
-    "contents": "
-
-		foo();
-	",
-    "index": 1120,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1132,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-
-	",
-    "index": 1133,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:script use=\\"event\\"></aui:script>",
-    "index": 1148,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "
-
-	",
-    "index": 1185,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1188,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- attributes with JS -->
-	",
-    "index": 1189,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:nav href=\\"javascript:alert(1);\\" onClick=\\"alert(2);\\"></aui:nav>",
-    "index": 1217,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "
-
-	",
-    "index": 1284,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1287,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Style Blocks -->
-	",
-    "index": 1288,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1310,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "style>
-		.foo {
-			border: none;
-		}
-	",
-    "index": 1311,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1349,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/style>
-
-	",
-    "index": 1350,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1360,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "style>",
-    "index": 1361,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1367,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/style>
-
-	",
-    "index": 1368,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1378,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "!-- Sort attribute values JSTL -->
-	",
-    "index": 1379,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1415,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "div class=\\"tab tab-title ",
-    "index": 1416,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "\${currentTab == tab ? 'active' : ''}",
-    "index": 1441,
-    "name": "EL_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">",
-    "index": 1477,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1479,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/div>
-	",
-    "index": 1480,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:nav cssClass=\\"\${currentTab == tab ? 'active' : ''} abc foo\\"></aui:nav>",
-    "index": 1487,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "
-	",
-    "index": 1562,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:nav cssClass=\\"\${currentTab == tab ? 'active' : ''} foo abc <%= \\"",
-    "index": 1564,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": "scriptletblock\\" %>\\">",
-    "index": 1633,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1653,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:nav>
-
-	",
-    "index": 1654,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1666,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "style>
-		.foo {
-			border: none;
-		}",
-    "index": 1667,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1703,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/style>
-
-	",
-    "index": 1704,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1714,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "aui:script>
-		window.foo = 'foo';",
-    "index": 1715,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1748,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-
-	",
-    "index": 1749,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1764,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "aui:script>
-		var SOME_OBJ = {
-			'",
-    "index": 1765,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "\${foo}",
-    "index": 1800,
-    "name": "EL_EXPRESSION",
-  },
-  Object {
-    "contents": "': 'bar',
-			'",
-    "index": 1806,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "\${bar}",
-    "index": 1820,
-    "name": "EL_EXPRESSION",
-  },
-  Object {
-    "contents": "': 'baz'
-		};
-	",
-    "index": 1826,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1841,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-
-	",
-    "index": 1842,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:script require=\\"foo/bar/baz, baz/foo_bar, bar/baz/foo as FooBar\\"",
-    "index": 1857,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": ">
-		alert(fooBarBaz);
-		alert(bazFoo_bar);
-		alert(FooBar);
-	",
-    "index": 1926,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 1987,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-
-	",
-    "index": 1988,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<aui:script require=\\"\\"",
-    "index": 2003,
-    "name": "CUSTOM_ACTION",
-  },
-  Object {
-    "contents": ">
-	",
-    "index": 2025,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 2028,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/aui:script>
-",
-    "index": 2029,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 2042,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/body>
-",
-    "index": 2043,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
-    "index": 2050,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "/html>
-",
-    "index": 2051,
-    "name": "TEMPLATE_TEXT",
-  },
-]
-`;
-
-exports[`lex() lexes a the "view_calendar_menus.jspf" fixture 1`] = `
+exports[`lex() lexing entire fixtures lexes the "view_calendar_menus.jspf" fixture 1`] = `
 Array [
   Object {
     "contents": "<%--
@@ -3378,16 +2579,16 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</portlet:renderURL>",
     "index": 2347,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/portlet:renderURL>
+    "contents": "
 
 									uri: Liferay.CalendarUtil.fillURLParameters(
 										decodeURIComponent('",
-    "index": 2348,
+    "index": 2367,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3474,16 +2675,16 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</portlet:renderURL>",
     "index": 3110,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/portlet:renderURL>
+    "contents": "
 
 							window.location.href = Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('",
-    "index": 3111,
+    "index": 3130,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3691,12 +2892,12 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</portlet:renderURL>",
     "index": 5273,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/portlet:renderURL>
+    "contents": "
 
 					Liferay.Util.openWindow(
 						{
@@ -3704,7 +2905,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 								after: {
 									destroy: function(event) {
 										",
-    "index": 5274,
+    "index": 5293,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3909,16 +3110,16 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</portlet:renderURL>",
     "index": 7608,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/portlet:renderURL>
+    "contents": "
 
 							uri: Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('",
-    "index": 7609,
+    "index": 7628,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -4207,16 +3408,16 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</liferay-portlet:resourceURL>",
     "index": 10665,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/liferay-portlet:resourceURL>
+    "contents": "
 
 						var url = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('",
-    "index": 10666,
+    "index": 10695,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -5043,14 +4244,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</aui:script>",
     "index": 18536,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/aui:script>
+    "contents": "
 ",
-    "index": 18537,
+    "index": 18549,
     "name": "TEMPLATE_TEXT",
   },
 ]

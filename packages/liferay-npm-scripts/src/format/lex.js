@@ -600,90 +600,83 @@ function lex(source, options = {}) {
 		return () => {
 			if (peek(JSP_COMMENT_START)) {
 				const text = consume(
-					sequence(JSP_COMMENT_START, CHAR.to(JSP_COMMENT_END))
+					JSP_COMMENT_START,
+					CHAR.to(JSP_COMMENT_END)
 				);
 
 				return token('JSP_COMMENT', text);
 			} else if (peek(JSP_DIRECTIVE_START)) {
-				let text = consume(sequence(JSP_DIRECTIVE_START, maybe(SPACE)));
+				let text = consume(JSP_DIRECTIVE_START, maybe(SPACE));
 
 				if (peek('include')) {
 					text += consume(
-						sequence(
-							match('include'),
-							SPACE,
-							match('file'),
-							EQ,
-							ATTRIBUTE_VALUE
-						)
+						match('include'),
+						SPACE,
+						match('file'),
+						EQ,
+						ATTRIBUTE_VALUE
 					);
 				} else if (peek('page')) {
 					text += consume(
-						sequence(
-							match('page'),
-							repeat(
-								sequence(
-									SPACE,
-									oneOf(
-										match('language'),
-										match('extends'),
-										match('import'),
-										match('session'),
-										match('buffer'),
-										match('autoFlush'),
-										match('isThreadSafe,'),
-										match('info'),
-										match('errorPage'),
-										match('isErrorPage'),
-										match('contentType'),
-										match('pageEncoding'),
-										match('isELIgnored')
-									).onMatch((match, meta) => {
-										meta.set('attribute:last', match[0]);
-									}),
-									EQ,
-									an(ATTRIBUTE_VALUE).onMatch(
-										(match, meta) => {
-											if (
-												meta.get('attribute:last') ===
-												'isELIgnored'
-											) {
-												meta.set(
-													'ELEnabled',
-													match[0] === "'false'" ||
-														match[0] === '"false"'
-												);
-											}
-										}
-									)
-								)
+						match('page'),
+						repeat(
+							sequence(
+								SPACE,
+								oneOf(
+									match('language'),
+									match('extends'),
+									match('import'),
+									match('session'),
+									match('buffer'),
+									match('autoFlush'),
+									match('isThreadSafe,'),
+									match('info'),
+									match('errorPage'),
+									match('isErrorPage'),
+									match('contentType'),
+									match('pageEncoding'),
+									match('isELIgnored')
+								).onMatch((match, meta) => {
+									meta.set('attribute:last', match[0]);
+								}),
+								EQ,
+								an(ATTRIBUTE_VALUE).onMatch((match, meta) => {
+									if (
+										meta.get('attribute:last') ===
+										'isELIgnored'
+									) {
+										meta.set(
+											'ELEnabled',
+											match[0] === "'false'" ||
+												match[0] === '"false"'
+										);
+									}
+								})
 							)
 						)
 					);
 				} else if (peek('taglib')) {
 					text += consume(
-						sequence(
-							match('taglib'),
-							allOf(
+						match('taglib'),
+						allOf(
+							sequence(
+								SPACE,
+								match('prefix'),
+								EQ,
+								ATTRIBUTE_VALUE
+							),
+							oneOf(
 								sequence(
 									SPACE,
-									match('prefix'),
+									match('tagdir'),
 									EQ,
 									ATTRIBUTE_VALUE
 								),
-								oneOf(
-									sequence(
-										SPACE,
-										match('tagdir'),
-										EQ,
-										ATTRIBUTE_VALUE
-									),
-									sequence(
-										SPACE,
-										match('uri'),
-										EQ,
-										ATTRIBUTE_VALUE
-									)
+								sequence(
+									SPACE,
+									match('uri'),
+									EQ,
+									ATTRIBUTE_VALUE
 								)
 							)
 						)
@@ -692,27 +685,27 @@ function lex(source, options = {}) {
 					fail('Failed to find valid JSP directive attribute');
 				}
 
-				text += consume(sequence(maybe(SPACE), JSP_DIRECTIVE_END));
+				text += consume(maybe(SPACE), JSP_DIRECTIVE_END);
 
 				return token('JSP_DIRECTIVE', text);
 			} else if (peek(JSP_DECLARATION_START)) {
 				const text = consume(
-					sequence(
-						JSP_DECLARATION_START,
-						CHAR.to(JSP_DECLARATION_END)
-					)
+					JSP_DECLARATION_START,
+					CHAR.to(JSP_DECLARATION_END)
 				);
 
 				return token('JSP_DECLARATION', text);
 			} else if (peek(JSP_EXPRESSION_START)) {
 				const text = consume(
-					sequence(JSP_EXPRESSION_START, CHAR.to(JSP_EXPRESSION_END))
+					JSP_EXPRESSION_START,
+					CHAR.to(JSP_EXPRESSION_END)
 				);
 
 				return token('JSP_EXPRESSION', text);
 			} else if (peek(JSP_SCRIPTLET_START)) {
 				const text = consume(
-					sequence(JSP_SCRIPTLET_START, CHAR.to(JSP_SCRIPTLET_END))
+					JSP_SCRIPTLET_START,
+					CHAR.to(JSP_SCRIPTLET_END)
 				);
 
 				return token('JSP_SCRIPTLET', text);
@@ -725,17 +718,13 @@ function lex(source, options = {}) {
 				const text = consume(PORTLET_NAMESPACE);
 
 				return token('PORTLET_NAMESPACE', text);
-			} else if (peek(sequence(CUSTOM_ACTION_END, CUSTOM_ACTION))) {
-				// TODO: make peek() use sequence() automatically?
-				// could do similar with consume()...
+			} else if (peek(CUSTOM_ACTION_END, CUSTOM_ACTION)) {
 				let text = consume();
 
-				text += consume(sequence(maybe(SPACE), match('>')));
+				text += consume(maybe(SPACE), match('>'));
 
 				return token('CUSTOM_ACTION_END', text);
-			} else if (
-				peek(sequence(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES))
-			) {
+			} else if (peek(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES)) {
 				let text = consume();
 
 				// TODO: consider making this a stack

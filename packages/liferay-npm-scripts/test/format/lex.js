@@ -385,7 +385,10 @@ describe('lex()', () => {
 			expect(lex(source)).toMatchSnapshot();
 		});
 
-		it('lexes the "page.jsp" fixture', async () => {
+		// Disabled because I want to be able to lex document subsets, in
+		// which case, we might not have enough contextual information to determine
+		// tag validity.
+		it.skip('lexes the "page.jsp" fixture', async () => {
 			const source = await getFixture('format/page.jsp');
 
 			expect(lex(source)).toMatchSnapshot();

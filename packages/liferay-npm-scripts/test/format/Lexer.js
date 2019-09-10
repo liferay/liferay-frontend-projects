@@ -177,6 +177,28 @@ describe('Lexer()', () => {
 		});
 	});
 
+	describe('consume()', () => {
+		it('automatically uses sequence() if given multiple argumetns', () => {
+			const lexer = new Lexer(api => {
+				const {consume, match, token} = api;
+
+				return () => {
+					const text = consume(match('one'), match('two'));
+
+					return token('PAIR', text);
+				};
+			});
+
+			expect([...lexer.lex('onetwo')]).toEqual([
+				{
+					contents: 'onetwo',
+					index: 0,
+					name: 'PAIR'
+				}
+			]);
+		});
+	});
+
 	describe('match()', () => {
 		let lexer;
 
@@ -288,6 +310,30 @@ describe('Lexer()', () => {
 					contents: 'foobarbaz',
 					index: 0,
 					name: 'MAYBE'
+				}
+			]);
+		});
+	});
+
+	describe('peek()', () => {
+		it('automatically uses sequence() if given multiple argumetns', () => {
+			const lexer = new Lexer(api => {
+				const {consume, match, peek, token} = api;
+
+				return () => {
+					if (peek(match('one'), match('two'), match('three'))) {
+						const text = consume();
+
+						return token('SERIES', text);
+					}
+				};
+			});
+
+			expect([...lexer.lex('onetwothree')]).toEqual([
+				{
+					contents: 'onetwothree',
+					index: 0,
+					name: 'SERIES'
 				}
 			]);
 		});
