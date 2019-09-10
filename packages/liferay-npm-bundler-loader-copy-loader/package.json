@@ -12,6 +12,6 @@
 		"babel-preset-es2015": "^6.24.1"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.10.0"
+		"liferay-npm-build-tools-common": "2.12.0"
 	}
 }
