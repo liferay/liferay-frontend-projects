@@ -33,6 +33,7 @@ const config = {
 		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
 		'object-shorthand': 'error',
 		'prefer-const': 'error',
+		'prefer-object-spread': 'error',
 		'quote-props': ['error', 'as-needed'],
 		radix: 'error',
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
