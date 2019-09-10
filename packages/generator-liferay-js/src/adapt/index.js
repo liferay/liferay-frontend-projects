@@ -93,6 +93,15 @@ const msg = {
  */
 export default class extends Generator {
 	/**
+	 * Standard Yeoman constructor
+	 */
+	constructor(args, opts) {
+		super(args, opts);
+
+		this._pkgManager = project.pkgManager;
+	}
+
+	/**
 	 * Standard Yeoman initialization function
 	 */
 	initializing() {
@@ -119,6 +128,24 @@ export default class extends Generator {
 		print(msg.questions);
 
 		this.answers = {};
+
+		if (this._pkgManager === null) {
+			const answers = await promptWithConfig(this, 'adapt', [
+				{
+					type: 'list',
+					name: 'pkgManager',
+					message:
+						'Which package manager are you using for the project?',
+					default: 'npm',
+					choices: [
+						{name: 'npm', value: 'npm'},
+						{name: 'yarn', value: 'yarn'},
+					],
+				},
+			]);
+
+			this._pkgManager = answers.pkgManager;
+		}
 
 		Object.assign(
 			this.answers,
@@ -179,11 +206,15 @@ export default class extends Generator {
 	install() {
 		print(msg.projectAdapted);
 
-		this.installDependencies({
+		const opts = {
 			bower: false,
 			npm: false,
-			yarn: true,
-		});
+			yarn: false,
+		};
+
+		opts[this._pkgManager] = true;
+
+		this.installDependencies(opts);
 	}
 
 	_copyTemplates() {
@@ -222,7 +253,7 @@ export default class extends Generator {
 		pkgJson.addScript('build:liferay', 'lnbs-build');
 		pkgJson.addScript(
 			'deploy:liferay',
-			'yarn run build:liferay && lnbs-deploy'
+			`${this._pkgManager} run build:liferay && lnbs-deploy`
 		);
 
 		// Add portlet section

@@ -85,21 +85,27 @@ export function runNodeModulesBin(script, args = []) {
  * @param {string} script
  * @param {Array<*>} args
  */
-export function runYarnScript(script, args = []) {
-	const proc = child_process.spawnSync('yarn', ['run', script].concat(args), {
-		shell: true,
-		stdio: 'inherit',
-	});
+export function runPkgJsonScript(script, args = []) {
+	const pkgManager = project.pkgManager || 'npm';
+
+	const proc = child_process.spawnSync(
+		pkgManager,
+		['run', script].concat(args),
+		{
+			shell: true,
+			stdio: 'inherit',
+		}
+	);
 
 	if (proc.error) {
 		throw proc.error;
 	} else if (proc.status != 0) {
 		throw new Error(
-			`Yarn script '${script}' finished with status ${proc.status}`
+			`Package script '${script}' finished with status ${proc.status}`
 		);
 	} else if (proc.signal) {
 		throw new Error(
-			`Yarn script '${script}' finished due to signal ${proc.signal}`
+			`Package script '${script}' finished due to signal ${proc.signal}`
 		);
 	}
 }
