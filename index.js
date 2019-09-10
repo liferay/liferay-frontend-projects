@@ -34,6 +34,7 @@ const config = {
 		'object-shorthand': 'error',
 		'prefer-arrow-callback': ['error', {allowNamedFunctions: true}],
 		'prefer-const': 'error',
+		'prefer-object-spread': 'error',
 		'quote-props': ['error', 'as-needed'],
 		radix: 'error',
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
