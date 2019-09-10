@@ -12,7 +12,7 @@ import readJsonSync from 'read-json-sync';
 import util from 'util';
 
 import * as cfg from '../config';
-import Renderer from '../util';
+import {Renderer} from '../util';
 
 const templatesDir = path.join(__dirname, '..', 'resources', 'start');
 const webpackDir = path.join(project.dir, '.webpack');

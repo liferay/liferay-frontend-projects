@@ -35,7 +35,7 @@ export function getConfig(pkg) {
  * @return {Array} array of output-relative file paths to avoid when processing with Babel
  */
 export function getIgnore() {
-	return prop.get(config, 'ignore');
+	return prop.get(config, 'ignore', []);
 }
 
 /**

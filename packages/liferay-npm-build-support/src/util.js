@@ -7,7 +7,7 @@
 import child_process from 'child_process';
 import spawn from 'cross-spawn';
 import ejs from 'ejs';
-import fs from 'fs';
+import fs from 'fs-extra';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import resolveModule from 'resolve';
@@ -34,7 +34,7 @@ export class Renderer {
 
 		const outputPath = path.join(dir, name);
 
-		fs.mkdirSync(path.dirname(outputPath), {recursive: true});
+		fs.ensureDirSync(path.dirname(outputPath));
 
 		ejs.renderFile(
 			path.join(this._templatesDir, `${template}.ejs`),
@@ -85,21 +85,27 @@ export function runNodeModulesBin(script, args = []) {
  * @param {string} script
  * @param {Array<*>} args
  */
-export function runYarnScript(script, args = []) {
-	const proc = child_process.spawnSync('yarn', ['run', script].concat(args), {
-		shell: true,
-		stdio: 'inherit',
-	});
+export function runPkgJsonScript(script, args = []) {
+	const pkgManager = project.pkgManager || 'npm';
+
+	const proc = child_process.spawnSync(
+		pkgManager,
+		['run', script].concat(args),
+		{
+			shell: true,
+			stdio: 'inherit',
+		}
+	);
 
 	if (proc.error) {
 		throw proc.error;
 	} else if (proc.status != 0) {
 		throw new Error(
-			`Yarn script '${script}' finished with status ${proc.status}`
+			`Package script '${script}' finished with status ${proc.status}`
 		);
 	} else if (proc.signal) {
 		throw new Error(
-			`Yarn script '${script}' finished due to signal ${proc.signal}`
+			`Package script '${script}' finished due to signal ${proc.signal}`
 		);
 	}
 }

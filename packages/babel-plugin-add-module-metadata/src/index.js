@@ -106,6 +106,8 @@ function maybeAddEsModuleFlagCase2(t, path, state) {
 	}
 
 	addEsModuleFlag(state);
+
+	return true;
 }
 
 /**
@@ -113,6 +115,10 @@ function maybeAddEsModuleFlagCase2(t, path, state) {
  * @param {object} state
  */
 function addEsModuleFlag(state) {
+	if (state.esModuleFlagAdded) {
+		return;
+	}
+
 	const {filenameRelative} = state.file.opts;
 	const filenameAbsolute = npath.resolve(filenameRelative);
 	const pkgDir = pkgs.getPackageDir(filenameRelative);
@@ -130,6 +136,8 @@ function addEsModuleFlag(state) {
 	manifest.addModuleFlags(pkgId, npath.relative(pkgDir, filenameAbsolute), {
 		esModule: true,
 	});
+
+	state.esModuleFlagAdded = true;
 
 	const {log} = babelIpc.get(state, () => ({
 		log: new PluginLogger(),

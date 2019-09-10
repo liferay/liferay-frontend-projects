@@ -5,6 +5,16 @@
  */
 
 const spawn = require('cross-spawn');
+const fs = require('fs');
+const path = require('path');
+
+const toolkitProjectNames = fs.readdirSync(
+	path.join(__dirname, '..', '..', '..', 'packages')
+);
+
+function isToolkitDep(pkgName) {
+	return toolkitProjectNames.indexOf(pkgName) != -1;
+}
 
 function safeRunFs(fn) {
 	try {
@@ -36,6 +46,7 @@ function yarn(...args) {
 }
 
 module.exports = {
+	isToolkitDep,
 	safeRunFs,
 	yarn,
 };

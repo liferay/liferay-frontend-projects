@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import child_process from 'child_process';
 import prop from 'dot-prop';
 import fs from 'fs';
 import merge from 'merge';
@@ -14,6 +15,8 @@ import resolveModule from 'resolve';
 import Jar from './jar';
 import Localization from './localization';
 import Probe from './probe';
+import Rules from './rules';
+import {mixinAsPlatform} from './util';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -23,26 +26,26 @@ export class Project {
 	 * @param {string} projectDir project's path
 	 */
 	constructor(projectDir) {
-		this._projectDir = projectDir;
-
-		this._loadPkgJson();
-		this._loadNpmbundlerrc();
-
-		const pkgJsonPath = path.join(projectDir, 'package.json');
-
-		this._pkgJson = fs.existsSync(pkgJsonPath)
-			? readJsonSync(pkgJsonPath)
-			: {};
-
-		this._buildDir = undefined;
-
-		this.jar = new Jar(this);
-		this.l10n = new Localization(this);
-		this.probe = new Probe(this);
+		this.loadFrom(projectDir);
 	}
 
 	/**
-	 * Get directory where files to be transformed live.
+	 * Get directories inside the project containing source files.
+	 * @return {Array<sring>} directory names relative to `project.dir`
+	 */
+	get sources() {
+		if (this._sources === undefined) {
+			this._sources = prop.get(this._npmbundlerrc, 'sources', []);
+
+			mixinAsPlatform(this._sources);
+		}
+
+		return this._sources;
+	}
+
+	/**
+	 * Get directory where files to be transformed live relative to
+	 * `this.dir` and starting with `./`
 	 * @return {string} the directory path (with native separators)
 	 */
 	get buildDir() {
@@ -55,7 +58,10 @@ export class Project {
 					: 'build/resources/main/META-INF/resources'
 			);
 
-			this._buildDir = path.normalize(dir);
+			this._buildDir =
+				'.' +
+				path.sep +
+				path.relative(this.dir, path.join(this.dir, dir));
 		}
 
 		return this._buildDir;
@@ -63,9 +69,112 @@ export class Project {
 
 	/**
 	 * Get project's directory
+	 * @return {string} an absolute path to project's directory
 	 */
 	get dir() {
 		return this._projectDir;
+	}
+
+	/**
+	 * Get project's parsed package.json file
+	 */
+	get pkgJson() {
+		return this._pkgJson;
+	}
+
+	/**
+	 * Reload the whole project from given directory. Especially useful for
+	 * test.
+	 * @param {string} projectDir
+	 */
+	loadFrom(projectDir) {
+		this._projectDir = path.resolve(projectDir);
+
+		this._loadPkgJson();
+		this._loadNpmbundlerrc();
+
+		const pkgJsonPath = path.join(projectDir, 'package.json');
+
+		this._pkgJson = fs.existsSync(pkgJsonPath)
+			? readJsonSync(pkgJsonPath)
+			: {};
+
+		this._sources = undefined;
+		this._buildDir = undefined;
+		this._pkgManager = undefined;
+
+		this.jar = new Jar(this);
+		this.l10n = new Localization(this);
+		this.probe = new Probe(this);
+		this.rules = new Rules(this);
+	}
+
+	/**
+	 * Return the package manager that the project is using.
+	 * @return {string} one of 'npm', 'yarn' or null if it cannot be determined
+	 */
+	get pkgManager() {
+		if (this._pkgManager === undefined) {
+			let yarnLockPresent = fs.existsSync(
+				path.join(this._projectDir, 'yarn.lock')
+			);
+			let pkgLockPresent = fs.existsSync(
+				path.join(this._projectDir, 'package-lock.json')
+			);
+
+			// If both present act as if none was present
+			if (yarnLockPresent && pkgLockPresent) {
+				yarnLockPresent = pkgLockPresent = false;
+			}
+
+			if (yarnLockPresent) {
+				this._pkgManager = 'yarn';
+			} else if (pkgLockPresent) {
+				this._pkgManager = 'npm';
+			} else {
+				// If no file is found autodetect command availability
+				let yarnPresent =
+					child_process.spawnSync('yarn', ['--version'], {
+						shell: true,
+					}).error === undefined;
+				let npmPresent =
+					child_process.spawnSync('npm', ['--version'], {
+						shell: true,
+					}).error === undefined;
+
+				// If both present act as if none was present
+				if (yarnPresent && npmPresent) {
+					yarnPresent = npmPresent = false;
+				}
+
+				if (yarnPresent) {
+					this._pkgManager = 'yarn';
+				} else if (npmPresent) {
+					this._pkgManager = 'npm';
+				}
+			}
+
+			// If nothing detected store null
+			if (this._pkgManager === undefined) {
+				this._pkgManager = null;
+			}
+		}
+
+		return this._pkgManager;
+	}
+
+	/**
+	 * Requires a module in the context of the project (as opposed to the
+	 * context of the calling package which would just use a normal `require()`
+	 * call).
+	 * @param {string} moduleName
+	 */
+	require(moduleName) {
+		const modulePath = resolveModule.sync(moduleName, {
+			basedir: this._projectDir,
+		});
+
+		return require(modulePath);
 	}
 
 	_loadNpmbundlerrc() {

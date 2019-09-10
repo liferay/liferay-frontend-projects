@@ -12,6 +12,7 @@ export function htmlDump(report) {
 		_executionDate,
 		_executionTime,
 		_packages,
+		_rules,
 		_versionsInfo,
 		_warnings,
 	} = report;
@@ -69,13 +70,50 @@ export function htmlDump(report) {
 					return htmlRow(`
 						<td>${name}</td>
 						<td>${version}</td>
-						<td>${htmlIf(copiedFiles, () => copiedFiles.length)}</td>
+						<td>${htmlIf(
+							copiedFiles,
+							() =>
+								`<div title="${copiedFiles.sort().join(',')}">
+									${copiedFiles.length}
+								</div>`
+						)}</td>
 						<td>
-							${htmlIf(allFiles && copiedFiles, () => allFiles.length - copiedFiles.length)}
+							${htmlIf(
+								allFiles && copiedFiles,
+								() =>
+									`<div title="${allFiles
+										.filter(
+											file =>
+												copiedFiles.indexOf(file) == -1
+										)
+										.sort()
+										.join(',')}">
+										${allFiles.length - copiedFiles.length}
+									</div>`
+							)}
 						</td>
 						<td>${htmlIf(link, () => link)}</td>
 					`);
 				})
+		)
+	);
+
+	const rulesExecution = htmlSection(
+		'Details of rule executions',
+		`<p>
+			Configuration: 
+			<font size="1">
+			<pre>${JSON.stringify(_rules.config, null, 2)}</pre>
+			</font>
+		</p>`,
+		htmlLogOutput(
+			['File'],
+			Object.keys(_rules.files)
+				.sort()
+				.map(filePath => [filePath]),
+			Object.keys(_rules.files)
+				.sort()
+				.map(filePath => _rules.files[filePath].logger)
 		)
 	);
 
@@ -248,7 +286,9 @@ export function htmlDump(report) {
 						`,
 						`<p>
 							Configuration: 
-							${JSON.stringify(babel.config)}
+							<font size="1">
+							<pre>${JSON.stringify(babel.config, null, 2)}</pre>
+							</font>
 						</p>`,
 						htmlLogOutput(
 							['File'],
@@ -356,6 +396,7 @@ export function htmlDump(report) {
 				${warnings}
 				${versionsInfo}
 				${dependencies}
+				${rulesExecution}
 				${packageProcesses}
 				${packageProcessesBundlerDetails}
 				${packageProcessesBabelDetails}

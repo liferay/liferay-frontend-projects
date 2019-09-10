@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as util from '../util';
+import {loadSourceMap} from '../transform';
 
 import path from 'path';
 
 describe('loadSourceMap()', () => {
 	it('works with //# annotation', () => {
-		const sourceMap = util.loadSourceMap(
+		const sourceMap = loadSourceMap(
 			path.join(
 				__dirname,
 				'__fixtures__',
@@ -23,7 +23,7 @@ describe('loadSourceMap()', () => {
 	});
 
 	it('works with /*# annotation', () => {
-		const sourceMap = util.loadSourceMap(
+		const sourceMap = loadSourceMap(
 			path.join(
 				__dirname,
 				'__fixtures__',

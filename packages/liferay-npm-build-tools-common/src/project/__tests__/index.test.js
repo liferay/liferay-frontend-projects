@@ -7,6 +7,7 @@
 import path from 'path';
 
 import {Project} from '../index';
+import child_process from 'child_process';
 
 let project;
 
@@ -31,7 +32,7 @@ describe('empty project', () => {
 
 	it('returns buildDir', () => {
 		expect(project.buildDir).toBe(
-			'build/resources/main/META-INF/resources'
+			'./build/resources/main/META-INF/resources'
 		);
 	});
 
@@ -98,7 +99,7 @@ describe('standard project', () => {
 	});
 
 	it('returns buildDir', () => {
-		expect(project.buildDir).toBe('build');
+		expect(project.buildDir).toBe('./build');
 	});
 
 	describe('project.jar', () => {
@@ -115,7 +116,7 @@ describe('standard project', () => {
 		});
 
 		it('returns outputDir', () => {
-			expect(project.jar.outputDir).toBe('dist');
+			expect(project.jar.outputDir).toBe('./dist');
 		});
 
 		it('returns outputFilename', () => {
@@ -222,11 +223,11 @@ describe('honors presets', () => {
 	});
 
 	it('loads project.buildDir from preset', () => {
-		expect(project.buildDir).toBe('preset-build');
+		expect(project.buildDir).toBe('./preset-build');
 	});
 
 	it('loads project.jar.outputDir from preset', () => {
-		expect(project.jar.outputDir).toBe('preset-dist');
+		expect(project.jar.outputDir).toBe('./preset-dist');
 	});
 
 	it('detects JAR configuration even if only in preset', () => {
@@ -259,6 +260,90 @@ describe('project.jar.supported', () => {
 		);
 
 		expect(project.jar.supported).toBe(false);
+	});
+});
+
+describe('project.pkgManager', () => {
+	const savedSpawnSync = child_process.spawnSync;
+
+	afterEach(() => {
+		child_process.spawnSync = savedSpawnSync;
+	});
+
+	it('returns npm if only package-lock.json exists', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'npm')
+		);
+
+		expect(project.pkgManager).toBe('npm');
+	});
+
+	it('returns yarn if only yarn.lock exists', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'yarn')
+		);
+
+		expect(project.pkgManager).toBe('yarn');
+	});
+
+	it('returns npm if no file exists and only npm is found', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'none')
+		);
+
+		child_process.spawnSync = cmd => ({
+			error: cmd === 'npm' ? undefined : {},
+		});
+
+		expect(project.pkgManager).toBe('npm');
+	});
+
+	it('returns yarn if no file exists and only yarn is found', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'none')
+		);
+
+		child_process.spawnSync = cmd => ({
+			error: cmd === 'yarn' ? undefined : {},
+		});
+
+		expect(project.pkgManager).toBe('yarn');
+	});
+
+	it('returns npm if both files exists and only npm is found', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
+		);
+
+		child_process.spawnSync = cmd => ({
+			error: cmd === 'npm' ? undefined : {},
+		});
+
+		expect(project.pkgManager).toBe('npm');
+	});
+
+	it('returns yarn if both files exist and only yarn is found', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
+		);
+
+		child_process.spawnSync = cmd => ({
+			error: cmd === 'yarn' ? undefined : {},
+		});
+
+		expect(project.pkgManager).toBe('yarn');
+	});
+
+	it('returns null if both files exist and npm and yarn is found', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
+		);
+
+		child_process.spawnSync = () => ({
+			error: undefined,
+		});
+
+		expect(project.pkgManager).toBeNull();
 	});
 });
 
