@@ -32,6 +32,7 @@ const config = {
 		'no-unused-expressions': 'error',
 		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
 		'object-shorthand': 'error',
+		'prefer-arrow-callback': ['error', {allowNamedFunctions: true}],
 		'prefer-const': 'error',
 		'quote-props': ['error', 'as-needed'],
 		radix: 'error',
