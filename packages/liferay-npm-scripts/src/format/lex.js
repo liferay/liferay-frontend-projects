@@ -728,7 +728,11 @@ function lex(source, options = {}) {
 					sequence(match('>'), E_TAG)
 				);
 
-				text += consume(EMPTY_BODY);
+				if (peek(EMPTY_BODY)) {
+					text += consume();
+				} else {
+					// Will continue tokenizing next time around.
+				}
 
 				return token('CUSTOM_ACTION', text);
 			} else if (peek(TEMPLATE_TEXT)) {

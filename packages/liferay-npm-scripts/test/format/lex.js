@@ -300,13 +300,40 @@ describe('lex()', () => {
 			'Attribute names must be unique (got: "foo", "bar", "foo") at: ' +
 				'"<custom:tag foo=\\"a\\" ..."'
 		);
+	});
 
+	// Disabled because I want to be able to lex document subsets, in
+	// which case, we might not have enough contextual information to determine
+	// tag validity.
+	it.skip('rejects invalid tags', () => {
 		// Invalid tag.
 		expect(() => lex('<custom:tag with="stuff"></bad:tag>')).toThrow(
 			/Failed to match .+ at: "><\/bad:tag>"/
 		);
+	});
 
-		// non-empty body
+	it('lexes non-JSP tags as template text', () => {
+		expect(
+			lex(`
+			<ul class="abc">
+				<li>xyz</li>
+			</ul>
+		`)
+		).toEqual([
+			{contents: '\n\t\t\t', index: 0, name: 'TEMPLATE_TEXT'},
+			{contents: '<', index: 4, name: 'TEMPLATE_TEXT'},
+			{
+				contents: 'ul class="abc">\n\t\t\t\t',
+				index: 5,
+				name: 'TEMPLATE_TEXT'
+			},
+			{contents: '<', index: 25, name: 'TEMPLATE_TEXT'},
+			{contents: 'li>xyz', index: 26, name: 'TEMPLATE_TEXT'},
+			{contents: '<', index: 32, name: 'TEMPLATE_TEXT'},
+			{contents: '/li>\n\t\t\t', index: 33, name: 'TEMPLATE_TEXT'},
+			{contents: '<', index: 41, name: 'TEMPLATE_TEXT'},
+			{contents: '/ul>\n\t\t', index: 42, name: 'TEMPLATE_TEXT'}
+		]);
 	});
 
 	it('lexes template text', () => {
@@ -338,5 +365,35 @@ describe('lex()', () => {
 				name: 'TEMPLATE_TEXT'
 			}
 		]);
+	});
+
+	// TODO: EL Expression in attribute?
+
+	it('lexes a the "configuration.jsp" fixture', async () => {
+		const getFixture = require('../../support/getFixture');
+		const source = await getFixture('format/configuration.jsp');
+
+		expect(lex(source)).toMatchSnapshot();
+	});
+
+	it('lexes a the "edit_template_display.jspf" fixture', async () => {
+		const getFixture = require('../../support/getFixture');
+		const source = await getFixture('format/edit_template_display.jspf');
+
+		expect(lex(source)).toMatchSnapshot();
+	});
+
+	it('lexes a the "page.jsp" fixture', async () => {
+		const getFixture = require('../../support/getFixture');
+		const source = await getFixture('format/page.jsp');
+
+		expect(lex(source)).toMatchSnapshot();
+	});
+
+	it('lexes a the "view_calendar_menus.jspf" fixture', async () => {
+		const getFixture = require('../../support/getFixture');
+		const source = await getFixture('format/view_calendar_menus.jspf');
+
+		expect(lex(source)).toMatchSnapshot();
 	});
 });
