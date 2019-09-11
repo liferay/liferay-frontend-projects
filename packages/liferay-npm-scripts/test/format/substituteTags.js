@@ -137,7 +137,6 @@ describe('substituteTags()', () => {
 			}
 			%>`
 		]);
-		// TODO deal with c:if etc, which would ideally produce `if` blocks etc
 	});
 
 	it('turns <portlet:namespace /> tags into identifiers', () => {

@@ -8,7 +8,7 @@ const CHECKPOINT = Symbol.for('CHECKPOINT');
 
 /**
  * Map subclass that shallowly records all mutations and provides
- * `rollback()`, `commit()` and `snapshot()` methods for reversing those
+ * `rollback()`, `commit()` and `checkpoint()` methods for reversing those
  * mutations.
  */
 class ReversibleMap extends Map {

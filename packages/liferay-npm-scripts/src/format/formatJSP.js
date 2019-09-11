@@ -13,6 +13,7 @@ const restoreTags = require('./restoreTags');
 const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
 
+// TODO: catch errors and report them with mostly accurate line numbers via padLines...
 function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const blocks = extractJS(source);
 
@@ -21,7 +22,7 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		const {contents} = block;
 
 		// Prettier will trim empty first and last lines, but we need to keep
-		// them around (neded to preserve typical linebreak after opening tag,
+		// them around (need to preserve typical linebreak after opening tag,
 		// and the indent before closing tag, which is also typically
 		// on a line of its own).
 		let prefix = '';
