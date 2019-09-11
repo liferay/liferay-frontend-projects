@@ -154,49 +154,71 @@ describe('substituteTags()', () => {
 
 	it('turns JSP tags into comments and conditionals', () => {
 		const [transformed, tags] = substituteTags(dedent(3)`
+			// A self-closing tag.
 			<some:tag attr="1" />
 
+			// A multiline self-closing tag.
 			<other:tag
 				multiline="true"
 				self-closing="true"
 			/>
 
+			// A tag with children.
 			<this:tag>
 				alert('done');
 			</this:tag>
 
+			// A tag with children that has a JSP expression in an attribute.
 			<c:if test="<%= enableRSS %>">
 				var a = true;
 			</c:if>
 
+			// A multiline tag with children.
 			<multi:line
 				opening="1"
 			>
 				var x = 1;
 			</multi:line>
+
+			// A multiline tag that has no non-whitespace template text.
+			<a:tag>
+				<a:param thing="1" />
+				<a:other thing="2" />
+			</a:tag>
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
+			// A self-closing tag.
 			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
+			// A multiline self-closing tag.
 			/*╳╳╳╳╳╳╳╳
 				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 			*/
 
+			// A tag with children.
 			if (ʃʃʃ) {
 				alert('done');
 			}/*ʅʅʅʅʅʅ*/
 
+			// A tag with children that has a JSP expression in an attribute.
 			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				var a = true;
 			}/*ʅʅ*/
 
+			// A multiline tag with children.
 			if (ʃʃʃʃ) {
 				/*ʃʃʃʃʃʃʃʃʃʃʃ
 			ʃ*/
 				var x = 1;
 			}/*ʅʅʅʅʅʅʅʅ*/
+
+			// A multiline tag that has no non-whitespace template text.
+			/*╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳╳╳╳╳╳*/
 		`);
 
 		expect(tags).toEqual([
@@ -210,7 +232,11 @@ describe('substituteTags()', () => {
 			'<c:if test="<%= enableRSS %>">',
 			'</c:if>',
 			'<multi:line\n' + '\topening="1"\n' + '>',
-			'</multi:line>'
+			'</multi:line>',
+			'<a:tag>\n' +
+				'\t<a:param thing="1" />\n' +
+				'\t<a:other thing="2" />\n' +
+				'</a:tag>'
 		]);
 	});
 

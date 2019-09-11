@@ -8,16 +8,14 @@ const formatJSP = require('../../src/format/formatJSP');
 const getFixture = require('../../support/getFixture');
 
 describe('formatJSP()', () => {
-	// Disabled because I need to special-case <liferay-portlet:renderURL>...
-	// It has no non-whitespace TEMPLATE_TEXT, so it shouldn't insert `if()`
-	// blocks.
-	it.skip('passes the blinking light test (configuration.jsp)', async () => {
+	it('passes the blinking light test (configuration.jsp)', async () => {
 		const source = await getFixture('format/configuration.jsp');
 
 		expect(formatJSP(source)).toMatchSnapshot();
 	});
 
-	// Skipping this one due to what looks like invalid syntax.
+	// Skipping this one due to what looks like (but isn't) invalid syntax.
+	// Need to do a fallback for this kind of thing, I think.
 	it.skip('passes the blinking light test (edit_template_display.jspf)', async () => {
 		const source = await getFixture('format/edit_template_display.jspf');
 

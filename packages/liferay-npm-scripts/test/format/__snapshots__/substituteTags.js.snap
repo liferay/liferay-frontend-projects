@@ -458,9 +458,9 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 		function(event) {
 			var form = A.one('#ʾPORTLET_NAMESPACE__ʿfm');
 
-			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-			}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 			form.attr('action', 'ʾJSP_EXPR_______________ʿ');
 
@@ -832,9 +832,9 @@ if (Validator.isNotNull(scriptContent)) {
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
-    "<portlet:renderURL var=\\"refreshTemplateURL\\">",
-    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />",
-    "</portlet:renderURL>",
+    "<portlet:renderURL var=\\"refreshTemplateURL\\">
+				<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />
+			</portlet:renderURL>",
     "<%= refreshTemplateURL %>",
     "<portlet:namespace />",
     "<c:if test=\\"<%= template == null %>\\">",
@@ -1124,10 +1124,10 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 									refreshWindow: window,
 									title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
 
-									if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-										/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-										/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-									}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+									/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+										╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+										╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+									╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 									uri: Liferay.CalendarUtil.fillURLParameters(
 										decodeURIComponent('ʾJSP_EXPR____________ʿ'),
@@ -1149,11 +1149,11 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 						var calendarResourceId = instance.calendarResourceId;
 
 						if (calendarResourceId) {
-							if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-							}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 							window.location.href = Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('ʾJSP_EXPR_________ʿ'),
@@ -1226,11 +1226,11 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 
 					var activeCalendar = calendarList.activeItem;
 
-					if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-					}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 					Liferay.Util.openWindow(
 						{
@@ -1315,10 +1315,10 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 							refreshWindow: window,
 							title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
 
-							if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-							}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 							uri: Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('ʾJSP_EXPR____________ʿ'),
@@ -1424,9 +1424,9 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 
 						var activeCalendar = calendarList.activeItem;
 
-						if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-						}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 						var url = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('ʾJSP_EXPR___________ʿ'),
@@ -1742,17 +1742,17 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<liferay-ui:message key=\\"add-calendar\\" />",
-    "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
-    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />",
-    "<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />",
-    "</portlet:renderURL>",
+    "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
+										<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
+										<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
+									</portlet:renderURL>",
     "<%= editCalendarURL %>",
     "<liferay-ui:message key=\\"manage-calendars\\" />",
-    "<portlet:renderURL var=\\"calendarsURL\\">",
-    "<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />",
-    "<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />",
-    "<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />",
-    "</portlet:renderURL>",
+    "<portlet:renderURL var=\\"calendarsURL\\">
+								<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />
+								<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />
+								<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
+							</portlet:renderURL>",
     "<%= calendarsURL %>",
     "<liferay-ui:message key=\\"permissions\\" />",
     "<liferay-security:permissionsURL
@@ -1768,11 +1768,11 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<%= CalendarPortletPermission.contains(permissionChecker, scopeGroupId, ActionKeys.PERMISSIONS) %>",
     "<portlet:namespace />",
     "<liferay-ui:message key=\\"add-calendar-booking\\" />",
-    "<portlet:renderURL var=\\"addCalendarBookingURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
-    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar_booking.jsp\\" />",
-    "<portlet:param name=\\"backURL\\" value=\\"<%= backURL %>\\" />",
-    "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
-    "</portlet:renderURL>",
+    "<portlet:renderURL var=\\"addCalendarBookingURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
+						<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar_booking.jsp\\" />
+						<portlet:param name=\\"backURL\\" value=\\"<%= backURL %>\\" />
+						<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+					</portlet:renderURL>",
     "<portlet:namespace />",
     "<liferay-ui:message key=\\"new-calendar-booking\\" />",
     "<%= addCalendarBookingURL %>",
@@ -1782,10 +1782,10 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<liferay-ui:message key=\\"calendar-settings\\" />",
-    "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
-    "<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />",
-    "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
-    "</portlet:renderURL>",
+    "<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
+								<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
+								<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+							</portlet:renderURL>",
     "<%= editCalendarURL %>",
     "<liferay-ui:message key=\\"permissions\\" />",
     "<portlet:namespace />",
@@ -1808,9 +1808,9 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<liferay-ui:message key=\\"the-calendar-was-deleted-successfully\\" />",
     "<c:if test=\\"<%= enableRSS %>\\">",
     "<liferay-ui:message key=\\"rss\\" />",
-    "<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">",
-    "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
-    "</liferay-portlet:resourceURL>",
+    "<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">
+							<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+						</liferay-portlet:resourceURL>",
     "<%= calendarRSSURL %>",
     "</c:if>",
     "<portlet:namespace />",
@@ -1917,8 +1917,8 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 			ʃ*/
 				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
-				if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
@@ -1926,8 +1926,8 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
-					*/
-				}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 				<div class=\\"display-template\\">
 					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
@@ -1962,11 +1962,11 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 		}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
 	}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
 
-	if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 
-		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-	}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 }/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
 
 <script>
@@ -1987,11 +1987,11 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 						id: '_ʾJSP_EXPR_______________________________ʿ_selectFolder',
 						title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
 
-						if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
-							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
-						}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+						/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+							╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
 
 						uri: 'ʾJSP_EXPR__________________________________________ʿ'
 					},
@@ -2064,8 +2064,8 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 				label=\\"display-settings\\"
 			>",
     "<aui:input label=\\"show-actions\\" name=\\"preferences--showActions--\\" type=\\"checkbox\\" value=\\"<%= dlPortletInstanceSettings.isShowActions() %>\\" />",
-    "<aui:field-wrapper label=\\"show-media-type\\">",
-    "<liferay-ui:input-move-boxes
+    "<aui:field-wrapper label=\\"show-media-type\\">
+					<liferay-ui:input-move-boxes
 						leftBoxName=\\"currentMimeTypes\\"
 						leftList=\\"<%= dlPortletInstanceSettingsHelper.getCurrentMimeTypes() %>\\"
 						leftReorder=\\"<%= Boolean.TRUE.toString() %>\\"
@@ -2073,8 +2073,8 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 						rightBoxName=\\"availableMimeTypes\\"
 						rightList=\\"<%= dlPortletInstanceSettingsHelper.getAvailableMimeTypes() %>\\"
 						rightTitle=\\"available\\"
-					/>",
-    "</aui:field-wrapper>",
+					/>
+				</aui:field-wrapper>",
     "<liferay-ddm:template-selector
 						className=\\"<%= FileEntry.class.getName() %>\\"
 						displayStyle=\\"<%= displayStyle %>\\"
@@ -2099,19 +2099,20 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
     "</liferay-frontend:fieldset>",
     "</liferay-frontend:fieldset-group>",
     "</liferay-frontend:edit-form-body>",
-    "<liferay-frontend:edit-form-footer>",
-    "<aui:button type=\\"submit\\" />",
-    "<aui:button type=\\"cancel\\" />",
-    "</liferay-frontend:edit-form-footer>",
+    "<liferay-frontend:edit-form-footer>
+		<aui:button type=\\"submit\\" />
+
+		<aui:button type=\\"cancel\\" />
+	</liferay-frontend:edit-form-footer>",
     "</liferay-frontend:edit-form>",
     "<portlet:namespace />",
     "<%= HtmlUtil.escapeJS(portletResource) %>",
     "<liferay-ui:message arguments=\\"folder\\" key=\\"select-x\\" />",
-    "<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
-    "<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />",
-    "<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />",
-    "<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />",
-    "</liferay-portlet:renderURL>",
+    "<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
+							<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />
+							<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />
+							<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
+						</liferay-portlet:renderURL>",
     "<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>",
     "<portlet:namespace />",
     "<portlet:namespace />",

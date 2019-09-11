@@ -23,61 +23,84 @@ const toFiller = require('./toFiller');
 function substituteTags(source) {
 	let expressionCount = 0;
 
+	let output = '';
+
 	const tags = [];
 
 	const tokens = lex(source);
 
-	const substituted = tokens
-		.map(({contents, name}) => {
-			// Provisionally assume that "contents" corresponds to a tag that we're
-			// going to substitute.
-			tags.push(contents);
+	for (let i = 0; i < tokens.length; i++) {
+		const {contents, name} = tokens[i];
 
-			switch (name) {
-				case 'CUSTOM_ACTION':
-					return getSelfClosingTagReplacement(contents);
+		// Provisionally assume that "contents" corresponds to a tag that we're
+		// going to substitute.
+		tags.push(contents);
 
-				case 'CUSTOM_ACTION_END':
-					return getCloseTagReplacement(contents);
+		if (name === 'CUSTOM_ACTION') {
+			output += getSelfClosingTagReplacement(contents);
+		} else if (name === 'CUSTOM_ACTION_END') {
+			output += getCloseTagReplacement(contents);
+		} else if (name === 'CUSTOM_ACTION_START') {
+			// Special case: scan ahead to detect actions that have no
+			// non-whitespace children.
+			let j = i + 1;
+			let outer = contents;
+			let text = '';
+			let comment = false;
 
-				case 'CUSTOM_ACTION_START':
-					return getOpenTagReplacement(contents);
+			while (j < tokens.length) {
+				const token = tokens[j];
 
-				case 'EL_EXPRESSION':
-					return getPaddedReplacement(
-						contents,
-						`EL_${expressionCount++}`
-					);
+				if (token.name === 'TEMPLATE_TEXT') {
+					outer += token.contents;
+					text += token.contents;
+				} else if (token.name === 'CUSTOM_ACTION') {
+					outer += token.contents;
+				} else if (
+					token.name === 'CUSTOM_ACTION_END' &&
+					text.match(/^\s+$/)
+				) {
+					outer += token.contents;
+					comment = true;
+					break;
+				} else {
+					break;
+				}
 
-				case 'JSP_COMMENT':
-					return `/*${toFiller(contents.slice(2, -2))}*/`;
-
-				case 'JSP_DECLARATION':
-					return `/*${toFiller(contents.slice(2, -2))}*/`;
-
-				case 'JSP_DIRECTIVE':
-					return `/*${toFiller(contents.slice(2, -2))}*/`;
-
-				case 'JSP_EXPRESSION':
-					return getPaddedReplacement(contents, 'JSP_EXPR');
-
-				case 'JSP_SCRIPTLET':
-					return `/*${toFiller(contents.slice(2, -2))}*/`;
-
-				case 'PORTLET_NAMESPACE':
-					return getPaddedReplacement(contents, 'PORTLET_NAMESPACE');
-
-				case 'TEMPLATE_TEXT':
-					tags.pop();
-					return contents;
-
-				default:
-					throw new Error(`Unexpected token: ${name}`);
+				j++;
 			}
-		})
-		.join('');
 
-	return [substituted, tags];
+			if (comment) {
+				tags[tags.length - 1] = outer;
+				output += `/*${toFiller(outer.slice(2, -2))}*/`;
+				i = j;
+			} else {
+				// Replace with an `if ()` construct.
+				output += getOpenTagReplacement(contents);
+			}
+		} else if (name === 'EL_EXPRESSION') {
+			output += getPaddedReplacement(contents, `EL_${expressionCount++}`);
+		} else if (name === 'JSP_COMMENT') {
+			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+		} else if (name === 'JSP_DECLARATION') {
+			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+		} else if (name === 'JSP_DIRECTIVE') {
+			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+		} else if (name === 'JSP_EXPRESSION') {
+			output += getPaddedReplacement(contents, 'JSP_EXPR');
+		} else if (name === 'JSP_SCRIPTLET') {
+			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+		} else if (name === 'PORTLET_NAMESPACE') {
+			output += getPaddedReplacement(contents, 'PORTLET_NAMESPACE');
+		} else if (name === 'TEMPLATE_TEXT') {
+			tags.pop();
+			output += contents;
+		} else {
+			throw new Error(`Unexpected token: ${name}`);
+		}
+	}
+
+	return [output, tags];
 }
 
 module.exports = substituteTags;
