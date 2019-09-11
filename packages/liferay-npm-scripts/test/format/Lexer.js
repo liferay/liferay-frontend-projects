@@ -42,20 +42,23 @@ describe('Lexer()', () => {
 	describe('a()/an()', () => {
 		it('can reference a named matcher that gets defined elsewhere', () => {
 			const lexer = new Lexer(api => {
-				const {a, consume, match, name, token} = api;
+				const {a, consume, match, token} = api;
 
 				const THING = match('thing').name('THING');
 
 				return () => {
-					const text = consume(a('THING'));
+					const text = consume(
+						a('THING'), // Indirect reference (by name).
+						a(THING) // Direct reference.
+					);
 
 					return token('THING', text);
 				};
 			});
 
-			expect([...lexer.lex('thing')]).toEqual([
+			expect([...lexer.lex('thingthing')]).toEqual([
 				{
-					contents: 'thing',
+					contents: 'thingthing',
 					index: 0,
 					name: 'THING'
 				}
@@ -66,7 +69,7 @@ describe('Lexer()', () => {
 			const calls = [];
 
 			const lexer = new Lexer(api => {
-				const {an, consume, match, name, sequence, token} = api;
+				const {an, consume, match, sequence, token} = api;
 
 				const ORIGINAL = match('foo')
 					.name('ORIGINAL')

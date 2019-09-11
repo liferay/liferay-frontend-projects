@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+// Allow variables (BASE_CHAR, DIGIT etc) which are for readability only.
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "^[A-Z_]+$" }] */
+
 const Lexer = require('./Lexer');
 
 const DEFAULT_OPTIONS = {
@@ -18,7 +21,6 @@ function lex(source, options = {}) {
 
 	const lexer = new Lexer(api => {
 		const {
-			__DEBUG__,
 			a,
 			an,
 			allOf,
@@ -29,7 +31,6 @@ function lex(source, options = {}) {
 			meta,
 			never,
 			oneOf,
-			pass,
 			peek,
 			repeat,
 			sequence,

@@ -18,7 +18,7 @@ function formatJSP(source) {
 	const blocks = extractJS(source);
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none)
-	blocks.forEach(({contents, range}) => {
+	blocks.forEach(({contents}) => {
 		// Strip base indent
 		const dedented = dedent(contents);
 		const tabCount = dedent.lastMinimum;
