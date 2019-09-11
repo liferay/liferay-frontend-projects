@@ -25,14 +25,20 @@ describe('formatJSP()', () => {
 			</script>
 		`;
 
+		// BUG: Prettier moves the tag after the `else`
 		expect(formatJSP(source)).toBe(`
 			<p>Hi!</p>
 			<script>
-				if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
+				if (
+					richEditor
+						.getEditor()
+						.getSession()
+						.getUndoManager()
+						.hasUndo()
+				) {
 					Liferay.fire('<portlet:namespace />saveTemplate');
-				}
+				} else {
 				<c:if test="<%= template == null %>">
-					else {
 						editorContentElement.val(STR_EMPTY);
 					}
 				</c:if>

@@ -13,14 +13,35 @@ const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
 
 function formatJSP(source) {
-	const result = source;
-
 	const blocks = extractJS(source);
 
-	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none)
-	blocks.forEach(({contents}) => {
-		// Strip base indent
-		const dedented = dedent(contents);
+	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
+	const transformed = blocks.map(block => {
+		const {contents} = block;
+
+		// Prettier will trim empty first and last lines, but we need to keep
+		// them around (neded to preserve typical linebreak after opening tag,
+		// and the indent before closing tag, which is also typically
+		// on a line of its own).
+		let prefix = '';
+
+		let suffix = '';
+
+		const trimmed = contents.replace(
+			/^\s*(\r\n|\n)|(?:\r?\n)([ \t]*$)/g,
+			(match, leadingWhitespace, trailingWhitespace) => {
+				if (leadingWhitespace) {
+					prefix = leadingWhitespace;
+				} else if (trailingWhitespace) {
+					suffix = trailingWhitespace;
+				}
+				return match;
+			}
+		);
+
+		// Strip base indent.
+		const dedented = dedent(trimmed);
+
 		const tabCount = dedent.lastMinimum;
 
 		const [substituted, tags] = substituteTags(dedented);
@@ -53,8 +74,25 @@ function formatJSP(source) {
 
 		const indented = indent(restored, tabCount);
 
-		return indented;
+		return {
+			...block,
+			contents: prefix + indented + suffix
+		};
 	});
+
+	let result = source;
+
+	for (let i = transformed.length - 1; i >= 0; i--) {
+		const {closeTag, contents, openTag, range} = transformed[i];
+		const {index, length} = range;
+
+		result =
+			result.slice(0, index) +
+			openTag +
+			contents +
+			closeTag +
+			result.slice(index + length);
+	}
 
 	return result;
 }

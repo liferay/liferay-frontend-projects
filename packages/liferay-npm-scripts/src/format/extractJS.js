@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const AUI_SCRIPT = /(<(aui:)?script(.*?)>)(.*?)<\/\2script>/s;
+const AUI_SCRIPT = /(<(aui:)?script(.*?)>)(.*?)(<\/\2script>)/s;
 
 const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'gs');
 
@@ -25,6 +25,7 @@ function extractJS(source) {
 				tagNamespace,
 				scriptAttributes,
 				body,
+				closeTag,
 				offset,
 				string
 			) => {
@@ -47,14 +48,19 @@ function extractJS(source) {
 							: lastContentLine;
 
 					blocks.push({
+						closeTag,
 						contents: body,
 						match,
+						openTag,
+						// TODO: consider getting rid of end/start
 						range: {
 							end: {
 								column: lastLine.length + 1,
 								line:
 									prefixLines.length + contentLines.length - 1
 							},
+							index: offset,
+							length: match.length,
 							start: {
 								column: lastPrefixLine.length + 1,
 								line: prefixLines.length
