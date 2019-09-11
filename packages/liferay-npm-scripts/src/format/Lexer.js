@@ -90,6 +90,10 @@ class Lexer {
 						);
 					}
 
+					if (this._onEnter) {
+						this._onEnter(meta);
+					}
+
 					const match = matcher.exec(string);
 
 					if (match !== null) {
@@ -102,6 +106,8 @@ class Lexer {
 				},
 
 				name,
+
+				onEnter,
 
 				onMatch,
 
@@ -315,6 +321,10 @@ class Lexer {
 				except,
 
 				exec(string) {
+					if (this._onEnter) {
+						this._onEnter(meta);
+					}
+
 					for (let i = 0; i < matchers.length; i++) {
 						meta.checkpoint();
 
@@ -337,6 +347,8 @@ class Lexer {
 				},
 
 				name,
+
+				onEnter,
 
 				onMatch,
 

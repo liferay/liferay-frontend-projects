@@ -792,24 +792,14 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= ddmDisplayContext.isAutocompleteEnabled(language) %>\\">",
     "index": 1221,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 1222,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
-    "index": 1233,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 				",
-    "index": 1289,
+    "index": 1291,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1077,34 +1067,24 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= templateVariableDefinition.isCollection() || templateVariableDefinition.isRepeatable() %>\\">",
     "index": 4106,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "*",
+    "index": 4213,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 4107,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= templateVariableDefinition.isCollection() || templateVariableDefinition.isRepeatable() %>",
-    "index": 4118,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">*",
-    "index": 4211,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 4214,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 												",
-    "index": 4215,
+    "index": 4221,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1215,15 +1195,15 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 4412,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 
 			",
-    "index": 4413,
+    "index": 4419,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1412,24 +1392,14 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= ddmDisplayContext.isAutocompleteEnabled(language) %>\\">",
     "index": 5760,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 5761,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
-    "index": 5772,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 		var paletteContainer = panelScriptContainer.one('#",
-    "index": 5828,
+    "index": 5830,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1630,12 +1600,12 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 8786,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 
 	function getEditorContent() {
 		var content = richEditor.getSession().getValue();
@@ -1644,7 +1614,7 @@ if (Validator.isNotNull(scriptContent)) {
 	}
 
 	var paletteSearchContainer = panelScriptContainer.one('#",
-    "index": 8787,
+    "index": 8793,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1680,95 +1650,75 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:choose>",
     "index": 9469,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:choose>
+    "contents": "
 			",
-    "index": 9470,
+    "index": 9479,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:when test=\\"<%= language.equals(TemplateConstants.LANG_TYPE_FTL) %>\\">",
     "index": 9483,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:when test=\\"",
-    "index": 9484,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= language.equals(TemplateConstants.LANG_TYPE_FTL) %>",
-    "index": 9497,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 				AutoComplete = A.AceEditor.AutoCompleteFreemarker;
 			",
-    "index": 9552,
+    "index": 9554,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:when>",
     "index": 9613,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:when>
+    "contents": "
 			",
-    "index": 9614,
+    "index": 9622,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:when test=\\"<%= language.equals(TemplateConstants.LANG_TYPE_VM) %>\\">",
     "index": 9626,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:when test=\\"",
-    "index": 9627,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= language.equals(TemplateConstants.LANG_TYPE_VM) %>",
-    "index": 9640,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 				AutoComplete = A.AceEditor.AutoCompleteVelocity;
 			",
-    "index": 9694,
+    "index": 9696,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:when>",
     "index": 9753,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:when>
+    "contents": "
 		",
-    "index": 9754,
+    "index": 9762,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:choose>",
     "index": 9765,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:choose>
+    "contents": "
 
 		if (AutoComplete) {
 			var processor = new AutoComplete(
 				{
 					variables: ",
-    "index": 9766,
+    "index": 9776,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1915,22 +1865,12 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= ddmDisplayContext.isAutocompleteEnabled(language) %>\\">",
     "index": 11148,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 11149,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
-    "index": 11160,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 				paletteContainer.delegate('click', onPaletteItemChosen, '.palette-item');
 
 				new A.TogglerDelegate(
@@ -1951,7 +1891,7 @@ if (Validator.isNotNull(scriptContent)) {
 						html: true,
 						position: 'right',
 						trigger: '#",
-    "index": 11216,
+    "index": 11218,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -1972,15 +1912,15 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 11834,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 		},
 		'#",
-    "index": 11835,
+    "index": 11841,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -2081,42 +2021,32 @@ if (Validator.isNotNull(scriptContent)) {
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= template == null %>\\">",
     "index": 12339,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 12340,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= template == null %>",
-    "index": 12351,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 				else {
 					editorContentElement.val(STR_EMPTY);
 				}
 			",
-    "index": 12374,
+    "index": 12376,
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 12439,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 
 			submitForm(form, null, null, false);
 		}
 	);
 ",
-    "index": 12440,
+    "index": 12446,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3346,25 +3276,15 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= enableRSS %>\\">",
     "index": 10266,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 10267,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= enableRSS %>",
-    "index": 10278,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 				{
 					caption: '",
-    "index": 10294,
+    "index": 10296,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3443,12 +3363,12 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 10998,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 
 			{
 				caption: '-',
@@ -3456,7 +3376,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '",
-    "index": 10999,
+    "index": 11005,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3705,24 +3625,14 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "<c:if test=\\"<%= themeDisplay.isSignedIn() %>\\">",
     "index": 13787,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_START",
   },
   Object {
-    "contents": "c:if test=\\"",
-    "index": 13788,
-    "name": "TEMPLATE_TEXT",
-  },
-  Object {
-    "contents": "<%= themeDisplay.isSignedIn() %>",
-    "index": 13799,
-    "name": "JSP_EXPRESSION",
-  },
-  Object {
-    "contents": "\\">
+    "contents": "
 		var addOtherCalendarInput = A.one('#",
-    "index": 13831,
+    "index": 13833,
     "name": "TEMPLATE_TEXT",
   },
   Object {
@@ -3791,15 +3701,15 @@ String backURL = PortalUtil.getCurrentURL(request);
     "name": "TEMPLATE_TEXT",
   },
   Object {
-    "contents": "<",
+    "contents": "</c:if>",
     "index": 14358,
-    "name": "TEMPLATE_TEXT",
+    "name": "CUSTOM_ACTION_END",
   },
   Object {
-    "contents": "/c:if>
+    "contents": "
 
 	A.one('#",
-    "index": 14359,
+    "index": 14365,
     "name": "TEMPLATE_TEXT",
   },
   Object {

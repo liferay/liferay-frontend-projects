@@ -79,7 +79,7 @@ function lex(source, options = {}) {
 		 */
 		const NAME = sequence(
 			oneOf('LETTER', match('_'), match(':')),
-			repeat('NAME_CHAR')
+			maybe(repeat('NAME_CHAR'))
 		).name('NAME');
 
 		const NAME_CHAR = oneOf(

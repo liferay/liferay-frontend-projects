@@ -287,6 +287,24 @@ describe('lex()', () => {
 			}
 		]);
 
+		// A self-closing tag with an attribute that contains a JSP expression.
+		expect(lex('<custom:tag with="<%= SomeVariable %>" />')).toEqual([
+			{
+				contents: '<custom:tag with="<%= SomeVariable %>" />',
+				index: 0,
+				name: 'CUSTOM_ACTION'
+			}
+		]);
+
+		// An opening tag with an attribuhte that contains a JSP expression.
+		expect(lex('<c:if test="<%= enableRSS %>">')).toEqual([
+			{
+				contents: '<c:if test="<%= enableRSS %>">',
+				index: 0,
+				name: 'CUSTOM_ACTION_START'
+			}
+		]);
+
 		// Empty body.
 		expect(lex('<custom:tag with="stuff"></custom:tag>')).toEqual([
 			{

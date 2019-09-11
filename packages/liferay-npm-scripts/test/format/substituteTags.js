@@ -165,6 +165,10 @@ describe('substituteTags()', () => {
 				alert('done');
 			</this:tag>
 
+			<c:if test="<%= enableRSS %>">
+				var a = true;
+			</c:if>
+
 			<multi:line
 				opening="1"
 			>
@@ -184,6 +188,10 @@ describe('substituteTags()', () => {
 				alert('done');
 			}/*ʅʅʅʅʅʅ*/
 
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+				var a = true;
+			}/*ʅʅ*/
+
 			if (ʃʃʃʃ) {
 				/*ʃʃʃʃʃʃʃʃʃʃʃ
 			ʃ*/
@@ -199,6 +207,8 @@ describe('substituteTags()', () => {
 				'/>',
 			'<this:tag>',
 			'</this:tag>',
+			'<c:if test="<%= enableRSS %>">',
+			'</c:if>',
 			'<multi:line\n' + '\topening="1"\n' + '>',
 			'</multi:line>'
 		]);

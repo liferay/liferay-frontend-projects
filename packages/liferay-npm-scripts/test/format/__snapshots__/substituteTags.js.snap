@@ -43,7 +43,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 	ʃ*/
 		<div class=\\"form-group lfr-template-editor-container\\">
-			<c:if test=\\"ʾJSP_EXPR______________________________________________ʿ\\">
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				<div class=\\"lfr-template-palette-container pull-left\\" id=\\"ʾPORTLET_NAMESPACE__ʿtemplatePaletteContainer\\">
 					<div class=\\"search\\" id=\\"ʾPORTLET_NAMESPACE__ʿpaletteSearchContainer\\">
 						<input class=\\"col-md-12 field form-control search-query\\" id=\\"ʾPORTLET_NAMESPACE__ʿpaletteSearch\\" placeholder=\\"/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/\\" type=\\"text\\" />
@@ -98,7 +98,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 												<span class=\\"palette-item\\" data-content=\\"ʾJSP_EXPR____________________________________________________________________________ʿ\\" data-title=\\"ʾJSP_EXPR____________________________________________________________________________________________________ʿ\\">
 													ʾJSP_EXPR____________________________________________________________________________________________________ʿ
 
-													<c:if test=\\"ʾJSP_EXPR___________________________________________________________________________________ʿ\\">*</c:if>
+													if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {*}/*ʅʅ*/
 												</span>
 											</li>
 
@@ -116,7 +116,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 						</div>
 					</div>
 				</div>
-			</c:if>
+			}/*ʅʅ*/
 
 			/*
 			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
@@ -163,7 +163,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 	var prevEditorContent;
 	var richEditor;
 
-	<c:if test=\\"ʾJSP_EXPR______________________________________________ʿ\\">
+	if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 		var paletteContainer = panelScriptContainer.one('#ʾPORTLET_NAMESPACE__ʿtemplatePaletteContainer');
 		var paletteDataContainer = panelScriptContainer.one('#ʾPORTLET_NAMESPACE__ʿpaletteDataContainer');
 
@@ -306,7 +306,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 
 			aceAutocomplete._lockEditor = false;
 		}
-	</c:if>
+	}/*ʅʅ*/
 
 	function getEditorContent() {
 		var content = richEditor.getSession().getValue();
@@ -336,14 +336,14 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 	function setEditorPlugins(event) {
 		var AutoComplete;
 
-		<c:choose>
-			<c:when test=\\"ʾJSP_EXPR_____________________________________________ʿ\\">
+		if (ʃʃʃ) {
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				AutoComplete = A.AceEditor.AutoCompleteFreemarker;
-			</c:when>
-			<c:when test=\\"ʾJSP_EXPR____________________________________________ʿ\\">
+			}/*ʅʅʅʅ*/
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				AutoComplete = A.AceEditor.AutoCompleteVelocity;
-			</c:when>
-		</c:choose>
+			}/*ʅʅʅʅ*/
+		}/*ʅʅʅʅʅʅ*/
 
 		if (AutoComplete) {
 			var processor = new AutoComplete(
@@ -421,7 +421,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 
 			setEditorPlugins();
 
-			<c:if test=\\"ʾJSP_EXPR______________________________________________ʿ\\">
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				paletteContainer.delegate('click', onPaletteItemChosen, '.palette-item');
 
 				new A.TogglerDelegate(
@@ -448,7 +448,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 				);
 
 				createLiveSearch();
-			</c:if>
+			}/*ʅʅ*/
 		},
 		'#ʾPORTLET_NAMESPACE__ʿrichEditor'
 	);
@@ -467,11 +467,11 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 			if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
 				Liferay.fire('ʾPORTLET_NAMESPACE__ʿsaveTemplate');
 			}
-			<c:if test=\\"ʾJSP_EXPR_____________ʿ\\">
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				else {
 					editorContentElement.val(STR_EMPTY);
 				}
-			</c:if>
+			}/*ʅʅ*/
 
 			submitForm(form, null, null, false);
 		}
@@ -731,7 +731,7 @@ if (Validator.isNotNull(scriptContent)) {
 		persistState=\\"<%= true %>\\"
 		title=\\"script\\"
 	>",
-    "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
+    "<c:if test=\\"<%= ddmDisplayContext.isAutocompleteEnabled(language) %>\\">",
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
@@ -779,7 +779,8 @@ if (Validator.isNotNull(scriptContent)) {
     "<%= HtmlUtil.escapeAttribute(_getDataContent(templateVariableDefinition, language)) %>",
     "<%= HtmlUtil.escapeAttribute(_getPaletteItemTitle(request, templateHandlerResourceBundle, templateVariableDefinition)) %>",
     "<%= HtmlUtil.escape(LanguageUtil.get(request, templateHandlerResourceBundle, templateVariableDefinition.getLabel())) %>",
-    "<%= templateVariableDefinition.isCollection() || templateVariableDefinition.isRepeatable() %>",
+    "<c:if test=\\"<%= templateVariableDefinition.isCollection() || templateVariableDefinition.isRepeatable() %>\\">",
+    "</c:if>",
     "<%
 										}
 										%>",
@@ -787,6 +788,7 @@ if (Validator.isNotNull(scriptContent)) {
     "<%
 							}
 							%>",
+    "</c:if>",
     "<%
 			String editorContainerClass = \\"lfr-editor-container\\";
 
@@ -802,14 +804,19 @@ if (Validator.isNotNull(scriptContent)) {
     "</liferay-ui:panel-container>",
     "<aui:script use=\\"aui-ace-autocomplete-freemarker,aui-ace-autocomplete-plugin,aui-ace-autocomplete-velocity,aui-toggler,aui-tooltip,autocomplete-base,autocomplete-filters,event-mouseenter,event-outside,liferay-util-window,resize,transition\\">",
     "<portlet:namespace />",
-    "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
+    "<c:if test=\\"<%= ddmDisplayContext.isAutocompleteEnabled(language) %>\\">",
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<%= UnicodeLanguageUtil.get(request, \\"there-are-no-results\\") %>",
     "<portlet:namespace />",
+    "</c:if>",
     "<portlet:namespace />",
-    "<%= language.equals(TemplateConstants.LANG_TYPE_FTL) %>",
-    "<%= language.equals(TemplateConstants.LANG_TYPE_VM) %>",
+    "<c:choose>",
+    "<c:when test=\\"<%= language.equals(TemplateConstants.LANG_TYPE_FTL) %>\\">",
+    "</c:when>",
+    "<c:when test=\\"<%= language.equals(TemplateConstants.LANG_TYPE_VM) %>\\">",
+    "</c:when>",
+    "</c:choose>",
     "<%= ddmDisplayContext.getAutocompleteJSON(request, language) %>",
     "<%
 	String langType = ParamUtil.getString(request, \\"langType\\");
@@ -819,8 +826,9 @@ if (Validator.isNotNull(scriptContent)) {
     "<%= EditorModeUtil.getEditorMode(langType) %>",
     "<portlet:namespace />",
     "<portlet:namespace />",
-    "<%= ddmDisplayContext.isAutocompleteEnabled(language) %>",
+    "<c:if test=\\"<%= ddmDisplayContext.isAutocompleteEnabled(language) %>\\">",
     "<portlet:namespace />",
+    "</c:if>",
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
@@ -829,7 +837,8 @@ if (Validator.isNotNull(scriptContent)) {
     "</portlet:renderURL>",
     "<%= refreshTemplateURL %>",
     "<portlet:namespace />",
-    "<%= template == null %>",
+    "<c:if test=\\"<%= template == null %>\\">",
+    "</c:if>",
     "</aui:script>",
     "<%!
 private String _getAccessor(String accessor, String language) {
@@ -1405,7 +1414,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 				id: 'delete'
 			},
 
-			<c:if test=\\"ʾJSP_EXPR______ʿ\\">
+			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 				{
 					caption: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
 					fn: function(event) {
@@ -1432,7 +1441,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 					},
 					id: 'subscribe'
 				},
-			</c:if>
+			}/*ʅʅ*/
 
 			{
 				caption: '-',
@@ -1554,7 +1563,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 		}
 	);
 
-	<c:if test=\\"ʾJSP_EXPR______________________ʿ\\">
+	if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
 		var addOtherCalendarInput = A.one('#ʾPORTLET_NAMESPACE__ʿaddOtherCalendar');
 
 		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
@@ -1570,7 +1579,7 @@ if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 				addOtherCalendarInput.val('');
 			}
 		);
-	</c:if>
+	}/*ʅʅ*/
 
 	A.one('#ʾPORTLET_NAMESPACE__ʿcolumnToggler').on(
 		'click',
@@ -1797,12 +1806,13 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<liferay-ui:message key=\\"the-calendar-was-deleted-successfully\\" />",
-    "<%= enableRSS %>",
+    "<c:if test=\\"<%= enableRSS %>\\">",
     "<liferay-ui:message key=\\"rss\\" />",
     "<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">",
     "<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />",
     "</liferay-portlet:resourceURL>",
     "<%= calendarRSSURL %>",
+    "</c:if>",
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
@@ -1814,12 +1824,13 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
-    "<%= themeDisplay.isSignedIn() %>",
+    "<c:if test=\\"<%= themeDisplay.isSignedIn() %>\\">",
     "<portlet:namespace />",
     "<liferay-portlet:resourceURL copyCurrentRenderParameters=\\"<%= false %>\\" id=\\"calendarResources\\" var=\\"calendarResourcesURL\\" />",
     "<%= calendarResourcesURL %>",
     "<portlet:namespace />",
     "<portlet:namespace />",
+    "</c:if>",
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
