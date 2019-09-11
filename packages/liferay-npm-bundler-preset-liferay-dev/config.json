@@ -259,5 +259,20 @@
 		"semver": true,
 		"source-map": true
 	},
-	"output": "classes/META-INF/resources/"
+	"output": "classes/META-INF/resources/",
+	"rules": [
+		{
+			"test": "\\.scss$",
+			"exclude": "node_modules",
+			"use": [
+				{
+					"loader": "css-loader",
+					"options": {
+						"extension": ".css"
+					}
+				}
+			]
+		}
+	],
+	"sources": ["src/main/resources/META-INF/resources"]
 }
