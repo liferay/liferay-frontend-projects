@@ -56,4 +56,26 @@ describe('dedent()', () => {
 			'} // tab, 8 spaces, tab'
 		);
 	});
+
+	it('exposes the minimum indent (tab count) from the last call', () => {
+		dedent('no indent');
+
+		expect(dedent.lastMinimum).toBe(0);
+
+		dedent('  less than one tab indent');
+
+		expect(dedent.lastMinimum).toBe(0);
+
+		dedent('\tone tab indent');
+
+		expect(dedent.lastMinimum).toBe(1);
+
+		dedent('\t  "1.5" tabs indent');
+
+		expect(dedent.lastMinimum).toBe(1);
+
+		dedent('\t\ttwo tabs indent');
+
+		expect(dedent.lastMinimum).toBe(2);
+	});
 });

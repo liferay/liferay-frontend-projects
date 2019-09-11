@@ -10,9 +10,6 @@ const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'gs');
 
 const NEWLINE = /\r?\n/;
 
-// TODO: deal with overall indent so that we don't fight with Prettier
-// (related: stripIndents.js)
-
 /**
  * Extracts a series of script blocks from a JSP source string.
  */
