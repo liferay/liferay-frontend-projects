@@ -5,6 +5,7 @@
  */
 
 const prettier = require('prettier');
+const getMergedConfig = require('../utils/getMergedConfig');
 const extractJS = require('./extractJS');
 const dedent = require('./dedent');
 const indent = require('./indent');
@@ -12,7 +13,7 @@ const restoreTags = require('./restoreTags');
 const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
 
-function formatJSP(source) {
+function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const blocks = extractJS(source);
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
@@ -48,16 +49,9 @@ function formatJSP(source) {
 
 		const stripped = stripIndents(substituted);
 
-		// TODO: read these dynamically; only "parser" is different
 		const prettierOptions = {
-			bracketSpacing: false,
-			endOfLine: 'lf',
-			jsxSingleQuote: false,
-			parser: 'babel',
-			singleQuote: true,
-			tabWidth: 4,
-			trailingComma: 'none',
-			useTabs: true
+			...prettierConfig,
+			parser: 'babel'
 		};
 
 		// TODO: deal with Prettier moving comments; eg.
