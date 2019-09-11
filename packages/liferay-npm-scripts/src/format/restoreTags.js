@@ -4,54 +4,128 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const {ID_END, ID_START} = require('./getPaddedReplacement');
-const {BLOCK_CLOSE, BLOCK_OPEN} = require('./tagReplacements');
-const {FILLER} = require('./toFiller');
-
-const COMMENT = `/\\*[${FILLER}\\s]+\\*/`;
-
-// TODO handle multi-line opening tags, which have a comment after the
-// conditional
-const OPEN_TAG_REPLACEMENT = `if \\(\\s*${BLOCK_OPEN}+\\s*\\) \\{`;
-
-const CLOSE_TAG_REPLACEMENT = `\\}/\\*${BLOCK_CLOSE}+\\*/`;
-
-const IDENTIFIER = `${ID_START}[^${ID_END}]+${ID_END}`;
-
-const SUBSTITUTIONS = new RegExp(
-	[COMMENT, CLOSE_TAG_REPLACEMENT, OPEN_TAG_REPLACEMENT, IDENTIFIER].join(
-		'|'
-	),
-	'g'
-);
+const Lexer = require('./Lexer');
+const {IDENTIFIER} = require('./getPaddedReplacement');
+const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
+const {COMMENT, FILLER} = require('./toFiller');
 
 /**
  * Takes a source string and reinserts tags that were previously extracted with
  * substituteTags().
  */
-function restoreTags(text, tags) {
-	let count = 0;
+function restoreTags(source, tags) {
+	let restoreCount = 0;
 
-	// BUG: nested JSP exp gets subbed and added to tags
-	// then the JSP tag containing it gets subbed and added to tags...
+	const lexer = new Lexer(api => {
+		const {consume, match, peek, token} = api;
 
-	const result = text.replace(SUBSTITUTIONS, match => {
-		// Edge case: skip over comments that contain only whitespace;
-		// all legit substituted comments will have at least one FILLER char.
-		if (match.startsWith('/*') && !match.includes(FILLER)) {
-			return match;
-		}
+		const ANYTHING = match(/[\s\S]/);
+		const COMMENT_REPLACEMENT = match(COMMENT);
+		const CLOSE_TAG_REPLACEMENT = match(CLOSE_TAG);
+		const IDENTIFIER_REPLACEMENT = match(IDENTIFIER);
+		const OPEN_TAG_REPLACEMENT = match(OPEN_TAG);
+		const NEWLINE = match(/\r?\n/);
+		const WHITESPACE = match(/[ \t]+/);
 
-		return tags[count++];
+		return () => {
+			if (peek(COMMENT_REPLACEMENT)) {
+				const text = consume();
+
+				if (text.includes(FILLER)) {
+					return token('TAG', text);
+				} else {
+					// Edge case: comments that contain only whitespace; all
+					// legit substituted comments will have at least one
+					// FILLER char.
+					return token('COMMENT', text);
+				}
+			} else if (peek(OPEN_TAG_REPLACEMENT)) {
+				return token('OPEN_TAG', consume(OPEN_TAG_REPLACEMENT));
+			} else if (peek(CLOSE_TAG_REPLACEMENT)) {
+				return token('CLOSE_TAG', consume(CLOSE_TAG_REPLACEMENT));
+			} else if (peek(IDENTIFIER_REPLACEMENT)) {
+				return token('IDENTIFIER', consume(IDENTIFIER_REPLACEMENT));
+			} else if (peek(NEWLINE)) {
+				return token('NEWLINE', consume(NEWLINE));
+			} else if (peek(WHITESPACE)) {
+				return token('WHITESPACE', consume(WHITESPACE));
+			} else {
+				return token('ANYTHING', consume(ANYTHING));
+			}
+		};
 	});
 
-	if (count !== tags.length) {
+	let output = '';
+	let indent = '';
+	let indentLevel = 0;
+
+	const tokens = [...lexer.lex(source)];
+
+	for (let i = 0; i < tokens.length; i++) {
+		const {contents, name} = tokens[i];
+
+		switch (name) {
+			case 'OPEN_TAG':
+				output += indent + tags[restoreCount++];
+				indentLevel++;
+				break;
+
+			case 'CLOSE_TAG':
+				indent = indent.slice(1);
+				output += indent + tags[restoreCount++];
+				indentLevel--;
+				break;
+
+			case 'IDENTIFIER':
+			case 'TAG':
+				output += indent + tags[restoreCount++];
+				indent = '';
+				break;
+
+			case 'ANYTHING':
+			case 'COMMENT':
+			case 'WHITESPACE':
+				output += indent + contents;
+				indent = '';
+				break;
+
+			case 'NEWLINE':
+				{
+					output += contents;
+
+					// Peek ahead to see if the next non-whitespace token is a
+					// closing tag, so that we can adjust the indentLevel
+					// accordingly.
+					const [maybeWhitespace, maybeCloseTag] = tokens.slice(
+						i + 1,
+						i + 3
+					);
+
+					if (
+						maybeWhitespace &&
+						maybeWhitespace.name === 'WHITESPACE' &&
+						maybeCloseTag &&
+						maybeCloseTag.name === 'CLOSE_TAG'
+					) {
+						indent = '\t'.repeat(indentLevel - 1);
+					} else {
+						indent = '\t'.repeat(indentLevel);
+					}
+				}
+				break;
+
+			default:
+				throw new Error(`Unexpected token type: ${name}`);
+		}
+	}
+
+	if (restoreCount !== tags.length) {
 		throw new Error(
-			`Expected replacement count ${count}, but got ${tags.length}`
+			`Expected replacement count ${restoreCount}, but got ${tags.length}`
 		);
 	}
 
-	return result;
+	return output;
 }
 
 module.exports = restoreTags;

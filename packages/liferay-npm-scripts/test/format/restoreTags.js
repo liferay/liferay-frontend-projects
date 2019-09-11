@@ -5,10 +5,11 @@
  */
 
 const restoreTags = require('../../src/format/restoreTags');
+const stripIndents = require('../../src/format/stripIndents');
 const substituteTags = require('../../src/format/substituteTags');
 
 describe('restoreTags()', () => {
-	xit('puts previously extracted tags back in their place (round-trip)', () => {
+	it('puts previously extracted tags back in their place (round-trip)', () => {
 		const source = `
 			text
 			#{expr}
@@ -23,13 +24,14 @@ describe('restoreTags()', () => {
 			</c:if>
 		`;
 
-		const [text, tags] = substituteTags(source);
+		const [substituted, tags] = substituteTags(source);
+
+		const stripped = stripIndents(substituted);
 
 		// Some fake formatting that moves and changes text.
 		const formattedText =
-			'\n\t\t\t// Prefix' + text.replace('children', 'CHILDREN');
+			'\n\t\t\t// Prefix' + stripped.replace('children', 'CHILDREN');
 
-		// TODO: reactivate this test which dies here:
 		const result = restoreTags(formattedText, tags);
 
 		const expected = `
@@ -50,15 +52,14 @@ describe('restoreTags()', () => {
 		expect(result).toEqual(expected);
 	});
 
-	it('restores blocks even if Prettier splits them across lines', () => {
-		// Prettier could conceiveably break an "if" across lines.
-		const text = `
-			if (
-				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
-			) {
+	it('restores blocks indentation to counteract Prettier', () => {
+		// Original `alert()` was indented, but Prettier will dedent it, and we
+		// do a preemptive `stripIndents()` to match that.
+		const text = stripIndents(`
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
 				alert('done');
-			}/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
-		`;
+			/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+		`);
 
 		const tags = [
 			'<my-long-namespace:this-tag>',

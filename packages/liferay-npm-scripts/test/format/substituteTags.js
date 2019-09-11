@@ -198,21 +198,21 @@ describe('substituteTags()', () => {
 			*/
 
 			// A tag with children.
-			if (ʃʃʃ) {
+			/*ʃʃʃʃʃʃ*/
 				alert('done');
-			}/*ʅʅʅʅʅʅ*/
+			/*ʅʅʅʅʅʅʅ*/
 
 			// A tag with children that has a JSP expression in an attribute.
-			if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
 				var a = true;
-			}/*ʅʅ*/
+			/*ʅʅʅ*/
 
 			// A multiline tag with children.
-			if (ʃʃʃʃ) {
-				/*ʃʃʃʃʃʃʃʃʃʃʃ
-			ʃ*/
+			/*ʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃ
+			*/
 				var x = 1;
-			}/*ʅʅʅʅʅʅʅʅ*/
+			/*ʅʅʅʅʅʅʅʅʅ*/
 
 			// A multiline tag that has no non-whitespace template text.
 			/*╳╳╳╳╳

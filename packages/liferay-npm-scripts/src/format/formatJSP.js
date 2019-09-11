@@ -7,6 +7,7 @@
 const prettier = require('prettier');
 const extractJS = require('./extractJS');
 const restoreTags = require('./restoreTags');
+const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
 
 function formatJSP(source) {
@@ -15,14 +16,17 @@ function formatJSP(source) {
 	const blocks = extractJS(source);
 
 	blocks.forEach(({contents, range}) => {
-		const [transformed, tags] = substituteTags(contents);
+		const [substituted, tags] = substituteTags(contents);
 
-		console.log(transformed);
+		const stripped = stripIndents(substituted);
+
+		// TODO delete
+		// console.log(substituted);
 
 		const prettierOptions = {
 			parser: 'babel'
 		};
-		const check = prettier.check(transformed, prettierOptions);
+		const check = prettier.check(stripped, prettierOptions);
 	});
 
 	return result;

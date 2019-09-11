@@ -13,21 +13,23 @@ const {
 describe('getCloseTagReplacement()', () => {
 	it('replaces a long tag with an equal-length placeholder', () => {
 		const original = '</foo:bar>';
-		const expected = '}/*ʅʅʅʅʅ*/';
+		const expected = '/*ʅʅʅʅʅʅ*/';
 
 		expect(getCloseTagReplacement(original)).toBe(expected);
 	});
 
 	it('replaces a short tag with the shortest possible placeholder', () => {
 		const original = '</a:b>';
-		const expected = '}/*ʅ*/';
+		const expected = '/*ʅʅ*/';
 
 		expect(getCloseTagReplacement(original)).toBe(expected);
 	});
 
 	it('throws if passed an impossibly short tag', () => {
-		expect(() => getCloseTagReplacement('.....')).toThrow(
-			'Invalid (underlength) tag: .....'
+		// Not long enough to produce a reversible replacement,
+		// and not a valid JSP tag anyway.
+		expect(() => getCloseTagReplacement('</a>')).toThrow(
+			'Invalid (underlength) tag: </a>'
 		);
 	});
 });
@@ -35,21 +37,30 @@ describe('getCloseTagReplacement()', () => {
 describe('getOpenTagReplacement()', () => {
 	it('replaces a long tag with an equal-length placeholder', () => {
 		const original = '<foo:bar>';
-		const expected = 'if (ʃʃ) {';
+		const expected = '/*ʃʃʃʃʃ*/';
 
 		expect(getOpenTagReplacement(original)).toBe(expected);
 	});
 
 	it('replaces a short tag with the shortest possible placeholder', () => {
 		const original = '<a:b>';
-		const expected = 'if (ʃ) {';
+		const expected = '/*ʃ*/';
+
+		expect(getOpenTagReplacement(original)).toBe(expected);
+	});
+
+	it('replaces a multi-line tag', () => {
+		const original = '<foo-bar:tag\n' + '\tattr="word"\n' + '>';
+		const expected = '/*ʃʃʃʃʃʃʃʃʃ\n' + '\tʃʃʃʃʃʃʃʃʃʃʃ\n' + '*/';
 
 		expect(getOpenTagReplacement(original)).toBe(expected);
 	});
 
 	it('throws if passed an impossibly short tag', () => {
-		expect(() => getOpenTagReplacement('....')).toThrow(
-			'Invalid (underlength) tag: ....'
+		// Not long enough to produce a reversible replacement,
+		// and not a valid JSP tag anyway.
+		expect(() => getOpenTagReplacement('<ab>')).toThrow(
+			'Invalid (underlength) tag: <ab>'
 		);
 	});
 });
@@ -77,8 +88,10 @@ describe('getSelfClosingTagReplacement()', () => {
 	});
 
 	it('throws if passed an impossibly short tag', () => {
-		expect(() => getSelfClosingTagReplacement('.....')).toThrow(
-			'Invalid (underlength) tag: .....'
+		// Not long enough to produce a reversible replacement,
+		// and not a valid JSP tag anyway.
+		expect(() => getSelfClosingTagReplacement('<a/>')).toThrow(
+			'Invalid (underlength) tag: <a/>'
 		);
 	});
 });

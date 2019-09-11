@@ -10,25 +10,35 @@ const toFiller = require('./toFiller');
  * Valid identifier character (has property "ID Start") which we can assume is
  * very likely unused in liferay-portal.
  *
- * Unicode name is "LATIN SMALL LETTER ESH" and glyph is: "ʃ"
- *
- * Used to create substitutions for JSP opening tags.
- */
-const BLOCK_OPEN = '\u0283';
-
-/**
- * Valid identifier character (has property "ID Start") which we can assume is
- * very likely unused in liferay-portal.
- *
  * Unicode name is "LATIN SMALL LETTER SQUAT REVERSED ESH" and glyph is: "ʅ"
  *
  * Used to create substitutions for JSP opening tags.
  */
 const BLOCK_CLOSE = '\u0285';
 
-const MINIMUM_OPENING_TAG_LENGTH = '<a:b>'.length;
+/**
+ * Valid identifier character (has property "ID Start") which we can assume is
+ * very likely unused in liferay-portal.
+ *
+ * Unicode name is "LATIN SMALL LETTER ESH" and glyph is: "ʃ"
+ *
+ * Used to create substitutions for JSP opening tags.
+ */
+const BLOCK_OPEN = '\u0283';
 
-const MINIMUM_SELF_CLOSING_TAG_LENGTH = '<a:b/>'.length;
+const CLOSE_TAG = new RegExp(`/\\*\\s*[${BLOCK_CLOSE}\\s]+\\*/`);
+
+const OPEN_TAG = new RegExp(`/\\*\\s*[${BLOCK_OPEN}\\s]+\\*/`);
+
+const fill = contents => `/*${contents}*/`;
+
+const templateLength = fill('').length;
+
+const validate = tag => {
+	if (tag.length <= templateLength) {
+		throw new Error(`Invalid (underlength) tag: ${tag}`);
+	}
+};
 
 ///
 // Create a same-length substitution for the text of the opening tag, `tag`.
@@ -37,13 +47,13 @@ const MINIMUM_SELF_CLOSING_TAG_LENGTH = '<a:b/>'.length;
 //
 //     <foo:tag attr="this">
 //                            ...becomes:
-//     if (ʃʃʃʃʃʃʃʃʃʃʃʃʃʃ) {
+//     /*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*>
 //
-// If the tag is too short to fit in the substitution, a best effort is made:
+// Even the shortest possible tag has a same-length substitution:
 //
 //     <a:b>
 //               ...becomes:
-//     if (ʃ) {
+//     /*ʃ*/
 //
 // If the tag spans multiple lines a best effort is made:
 //
@@ -51,41 +61,16 @@ const MINIMUM_SELF_CLOSING_TAG_LENGTH = '<a:b/>'.length;
 //         attr="word"
 //     >
 //                            ...becomes:
-//     if (ʃʃʃʃʃ) {
-//         /*ʃʃʃʃʃʃʃʃʃʃʃ
-//     ʃ*/
+//     /*ʃʃʃʃʃʃʃʃʃ
+//         ʃʃʃʃʃʃʃʃʃʃʃ
+//     */
 //
 function getOpenTagReplacement(tag) {
-	if (tag.length < MINIMUM_OPENING_TAG_LENGTH) {
-		throw new Error(`Invalid (underlength) tag: ${tag}`);
-	}
+	validate(tag);
 
-	const [first, ...rest] = tag.split('\n');
-
-	const fill = contents => `if (${contents}) {`;
-
-	const templateLength = fill('').length;
-
-	const trimAmount = Math.min(
-		first.length - Math.max(0, first.length - templateLength),
-		first.length - 1 /* Never trim a short tag away to nothing */
-	);
-
-	const conditional = fill(toFiller(first, BLOCK_OPEN).slice(trimAmount));
-
-	let comment = null;
-
-	if (rest.length) {
-		const [, indent, remainder] = rest.join('\n').match(/(\s*)(.*)/s);
-
-		// Rough-but-probably-harmless approximation: the filler will be
-		// 4 characters too long, but safely trimming it is hard because
-		// it may contain newlines.
-		// TODO: make this smarter.
-		comment = indent + `/*${toFiller(remainder, BLOCK_OPEN)}*/`;
-	}
-
-	return [conditional, comment].filter(Boolean).join('\n');
+	// Trim more from beginning than end because first line will generally be
+	// longer, and we don't want to cut off any newline before the final ">".
+	return fill(toFiller(tag, BLOCK_OPEN).slice(3, -1));
 }
 
 ///
@@ -96,25 +81,19 @@ function getOpenTagReplacement(tag) {
 //
 //     </foo:tag>
 //                 ...becomes:
-//     }/*ʅʅʅʅʅ*/
+//     /*ʅʅʅʅʅʅ*/
 //
-// Unlike getOpenTagReplacement(), even the shortest possible closing tag has a
-// same-length substitution:
+// The shortest possible closing tag has a same-length substitution:
 //
 //     </a:b>
 //                ...becomes:
-//     }/*ʅ*/
+//     /*ʅʅ*/
 //
 function getCloseTagReplacement(tag) {
-	const fill = contents => `}/*${contents}*/`;
+	validate(tag);
 
-	const templateLength = fill('').length;
-
-	if (tag.length < templateLength + 1) {
-		throw new Error(`Invalid (underlength) tag: ${tag}`);
-	}
-
-	return fill(toFiller(tag, BLOCK_CLOSE).slice(templateLength));
+	// Trim equally from beginning and end.
+	return fill(toFiller(tag, BLOCK_CLOSE).slice(2, -2));
 }
 
 ///
@@ -129,16 +108,15 @@ function getCloseTagReplacement(tag) {
 //     /*╳╳╳╳╳╳*/
 //
 function getSelfClosingTagReplacement(tag) {
-	if (tag.length < MINIMUM_SELF_CLOSING_TAG_LENGTH) {
-		throw new Error(`Invalid (underlength) tag: ${tag}`);
-	}
+	validate(tag);
 
-	return `/*${toFiller(tag.slice(2, -2))}*/`;
+	// Trim equally from beginning and end.
+	return fill(toFiller(tag.slice(2, -2)));
 }
 
 module.exports = {
-	BLOCK_CLOSE,
-	BLOCK_OPEN,
+	CLOSE_TAG,
+	OPEN_TAG,
 
 	getCloseTagReplacement,
 	getOpenTagReplacement,

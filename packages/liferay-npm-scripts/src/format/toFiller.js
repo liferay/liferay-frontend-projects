@@ -14,6 +14,12 @@
 const FILLER = '\u2573';
 
 /**
+ * RegExp that can be used to identify comments created with `toFiller()` and
+ * the default `FILLER` character.
+ */
+const COMMENT = new RegExp(`/\\*\\s*[${FILLER}\\s]+\\*/`);
+
+/**
  * Returns a copy of `string` with the same "shape", but containing only
  * `filler`.
  *
@@ -47,6 +53,7 @@ function toFiller(string, filler = FILLER) {
 	return output;
 }
 
+toFiller.COMMENT = COMMENT;
 toFiller.FILLER = FILLER;
 
 module.exports = toFiller;
