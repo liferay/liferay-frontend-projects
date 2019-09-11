@@ -386,7 +386,75 @@ describe('lex()', () => {
 		]);
 	});
 
-	// TODO: EL Expression in attribute?
+	it('lexes a complex attributes', () => {
+		// A non-JSP tag.
+		expect(
+			lex(`
+				<div class="browse-image-controls <%= (fileEntryId != 0) ? "hide" : StringPool.BLANK %>">
+		`)
+		).toEqual([
+			{
+				contents: '\n\t\t\t\t',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: '<',
+				index: 5,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents: 'div class="browse-image-controls ',
+				index: 6,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents:
+					'<%= (fileEntryId != 0) ? "hide" : StringPool.BLANK %>',
+				index: 39,
+				name: 'JSP_EXPRESSION'
+			},
+			{
+				contents: '">\n\t\t',
+				index: 92,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+
+		// Contrast that with this invalid example that was in the
+		// page.jsp fixture. Quotes in JSP-tags must be escaped as
+		// per Section 1.6 of the JSP 2.3 spec, "Quoting and Escape
+		// Conventions".
+		expect(() => {
+			lex(`
+				<aui:nav cssClass="\${currentTab == tab ? 'active' : ''} foo abc <%= "scriptletblock" %>"></aui:nav>
+		`);
+		}).toThrow(/Failed to match .+ at: "scriptletblock/);
+
+		// Escaping the quotes leads to a successful tokenization.
+		expect(
+			lex(`
+				<aui:nav cssClass="\${currentTab == tab ? 'active' : ''} foo abc <%= \\"scriptletblock\\" %>"></aui:nav>
+			`)
+		).toEqual([
+			{
+				contents: '\n\t\t\t\t',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			},
+			{
+				contents:
+					'<aui:nav cssClass="${currentTab == tab ? \'active\' : \'\'} foo abc <%= \\"scriptletblock\\" %>"></aui:nav>',
+				index: 5,
+				name: 'CUSTOM_ACTION'
+			},
+			{
+				contents: '\n\t\t\t',
+				index: 106,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+	});
 
 	describe('lexing entire fixtures', () => {
 		it('lexes the "configuration.jsp" fixture', async () => {
@@ -403,9 +471,7 @@ describe('lex()', () => {
 			expect(lex(source)).toMatchSnapshot();
 		});
 
-		// Disabled because currently choking on JSP expression inside a
-		// custom tag attribute.
-		it.skip('lexes the "page.jsp" fixture', async () => {
+		it('lexes the "page.jsp" fixture', async () => {
 			const source = await getFixture('format/page.jsp');
 
 			expect(lex(source)).toMatchSnapshot();

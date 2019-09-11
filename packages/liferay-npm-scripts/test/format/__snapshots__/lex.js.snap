@@ -2298,6 +2298,795 @@ private static Log _log = LogFactoryUtil.getLog(\\"com_liferay_dynamic_data_mapp
 ]
 `;
 
+exports[`lex() lexing entire fixtures lexes the "page.jsp" fixture 1`] = `
+Array [
+  Object {
+    "contents": "<",
+    "index": 0,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!DOCTYPE html>
+",
+    "index": 1,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 16,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "html>
+",
+    "index": 17,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 23,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "head>
+	",
+    "index": 24,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 31,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "title>Test Check Source Formatting",
+    "index": 32,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 66,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/title>
+",
+    "index": 67,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 75,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/head>
+",
+    "index": 76,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 83,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "body>
+	",
+    "index": 84,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 91,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Sort attribute values -->
+	",
+    "index": 92,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 123,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"foo bar\\">",
+    "index": 124,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 144,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+	",
+    "index": 145,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:nav cssClass=\\"bar abc\\"></aui:nav>",
+    "index": 152,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 190,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 193,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Sort attributes -->
+	",
+    "index": 194,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 219,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div id=\\"foo\\" class=\\"foo\\">",
+    "index": 220,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 245,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+	",
+    "index": 246,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 253,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div id=\\"foo\\" class=\\"foo ",
+    "index": 254,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= bar ? \\"bar\\" : \\"abc\\" %>",
+    "index": 278,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">",
+    "index": 304,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 306,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+	",
+    "index": 307,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 314,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "img id=\\"foo\\" class=\\"foo ",
+    "index": 315,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= bar ? \\"bar\\" : \\"abc\\" %>",
+    "index": 339,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\" />
+	",
+    "index": 365,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:nav id=\\"nav\\" cssClass=\\"bar abc\\"></aui:nav>",
+    "index": 371,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 418,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:nav id='<%= \\"nav\\" %>' cssClass='<%= \\"bar abc\\" %>'></aui:nav>",
+    "index": 420,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 485,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 487,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "span>",
+    "index": 488,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:message key=\\"count\\" />",
+    "index": 493,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": " ",
+    "index": 527,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:message key=\\"used-in-x-assets\\" arguments=\\"<%= tag.getAssetCount() %>\\" />",
+    "index": 528,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "<",
+    "index": 612,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/span>
+
+	",
+    "index": 613,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 622,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Common -->
+	",
+    "index": 623,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 639,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Invalid space -->
+	",
+    "index": 640,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 663,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "img src=\\"foo\\" />
+	",
+    "index": 664,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 682,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Mixed spaces and tabs -->
+	 ",
+    "index": 683,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 715,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"foo\\">",
+    "index": 716,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 732,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+	",
+    "index": 733,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 741,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Script tags -->
+	",
+    "index": 742,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 763,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "script type=\\"text\\">
+		var testVar = true;
+	",
+    "index": 764,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 807,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/script>
+
+	",
+    "index": 808,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script>",
+    "index": 819,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		var testVar = true;
+	",
+    "index": 831,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 855,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 868,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script use=\\"aui-base,event,node\\">",
+    "index": 871,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		var Liferay = true
+
+		Liferay.Language.get('foo');
+
+		Liferay.provide(
+			window,
+			'testFn',
+			function() {
+				var foo = false;
+			}
+		);
+	",
+    "index": 909,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 1055,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1068,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script>",
+    "index": 1071,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 1083,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		List<String> foo = null;
+		%>",
+    "index": 1086,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		foo();
+	",
+    "index": 1120,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 1132,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1145,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script use=\\"event\\"></aui:script>",
+    "index": 1148,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1185,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1188,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- attributes with JS -->
+	",
+    "index": 1189,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:nav href=\\"javascript:alert(1);\\" onClick=\\"alert(2);\\"></aui:nav>",
+    "index": 1217,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1284,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1287,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Style Blocks -->
+	",
+    "index": 1288,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1310,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "style>
+		.foo {
+			border: none;
+		}
+	",
+    "index": 1311,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1349,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/style>
+
+	",
+    "index": 1350,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1360,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "style>",
+    "index": 1361,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1367,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/style>
+
+	",
+    "index": 1368,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1378,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "!-- Sort attribute values JSTL -->
+	",
+    "index": 1379,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1415,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"tab tab-title ",
+    "index": 1416,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "\${currentTab == tab ? 'active' : ''}",
+    "index": 1441,
+    "name": "EL_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">",
+    "index": 1477,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1479,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+	",
+    "index": 1480,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:nav cssClass=\\"\${currentTab == tab ? 'active' : ''} abc foo\\"></aui:nav>",
+    "index": 1487,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 1562,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:nav cssClass=\\"\${currentTab == tab ? 'active' : ''} foo abc <%= \\\\\\"scriptletblock\\\\\\" %>\\"></aui:nav>",
+    "index": 1564,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1665,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1668,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "style>
+		.foo {
+			border: none;
+		}",
+    "index": 1669,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1705,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/style>
+
+	",
+    "index": 1706,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script>",
+    "index": 1716,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		window.foo = 'foo';",
+    "index": 1728,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 1750,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1763,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script>",
+    "index": 1766,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		var SOME_OBJ = {
+			'",
+    "index": 1778,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "\${foo}",
+    "index": 1802,
+    "name": "EL_EXPRESSION",
+  },
+  Object {
+    "contents": "': 'bar',
+			'",
+    "index": 1808,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "\${bar}",
+    "index": 1822,
+    "name": "EL_EXPRESSION",
+  },
+  Object {
+    "contents": "': 'baz'
+		};
+	",
+    "index": 1828,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 1843,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 1856,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script require=\\"foo/bar/baz, baz/foo_bar, bar/baz/foo as FooBar\\">",
+    "index": 1859,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		alert(fooBarBaz);
+		alert(bazFoo_bar);
+		alert(FooBar);
+	",
+    "index": 1929,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 1989,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 2002,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script require=\\"\\">",
+    "index": 2005,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 2028,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 2030,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+",
+    "index": 2043,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 2044,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/body>
+",
+    "index": 2045,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 2052,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/html>
+",
+    "index": 2053,
+    "name": "TEMPLATE_TEXT",
+  },
+]
+`;
+
 exports[`lex() lexing entire fixtures lexes the "view_calendar_menus.jspf" fixture 1`] = `
 Array [
   Object {

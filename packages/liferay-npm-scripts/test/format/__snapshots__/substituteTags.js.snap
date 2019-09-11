@@ -1057,6 +1057,144 @@ private static Log _log = LogFactoryUtil.getLog(\\"com_liferay_dynamic_data_mapp
 ]
 `;
 
+exports[`substituteTags() substitutes in a the "page.jsp" fixture 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Check Source Formatting</title>
+</head>
+<body>
+	<!-- Sort attribute values -->
+	<div class=\\"foo bar\\"></div>
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+	<!-- Sort attributes -->
+	<div id=\\"foo\\" class=\\"foo\\"></div>
+	<div id=\\"foo\\" class=\\"foo ʾJSP_EXPR________________ʿ\\"></div>
+	<img id=\\"foo\\" class=\\"foo ʾJSP_EXPR________________ʿ\\" />
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	<span>/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/ /*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</span>
+
+	<!-- Common -->
+	<!-- Invalid space -->
+	<img src=\\"foo\\" />
+	<!-- Mixed spaces and tabs -->
+	 <div class=\\"foo\\"></div>
+
+	<!-- Script tags -->
+	<script type=\\"text\\">
+		var testVar = true;
+	</script>
+
+	/*ʃʃʃʃʃʃʃʃ*/
+		var testVar = true;
+	/*ʅʅʅʅʅʅʅʅʅ*/
+
+	/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
+		var Liferay = true
+
+		Liferay.Language.get('foo');
+
+		Liferay.provide(
+			window,
+			'testFn',
+			function() {
+				var foo = false;
+			}
+		);
+	/*ʅʅʅʅʅʅʅʅʅ*/
+
+	/*ʃʃʃʃʃʃʃʃ*/
+		/*
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		*/
+
+		foo();
+	/*ʅʅʅʅʅʅʅʅʅ*/
+
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+	<!-- attributes with JS -->
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+	<!-- Style Blocks -->
+	<style>
+		.foo {
+			border: none;
+		}
+	</style>
+
+	<style></style>
+
+	<!-- Sort attribute values JSTL -->
+	<div class=\\"tab tab-title ʾEL_0______________________________ʿ\\"></div>
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+	<style>
+		.foo {
+			border: none;
+		}</style>
+
+	/*ʃʃʃʃʃʃʃʃ*/
+		window.foo = 'foo';/*ʅʅʅʅʅʅʅʅʅ*/
+
+	/*ʃʃʃʃʃʃʃʃ*/
+		var SOME_OBJ = {
+			'ʾEL_1ʿ': 'bar',
+			'ʾEL_2ʿ': 'baz'
+		};
+	/*ʅʅʅʅʅʅʅʅʅ*/
+
+	/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
+		alert(fooBarBaz);
+		alert(bazFoo_bar);
+		alert(FooBar);
+	/*ʅʅʅʅʅʅʅʅʅ*/
+
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳*/
+</body>
+</html>
+",
+  Array [
+    "<aui:nav cssClass=\\"bar abc\\"></aui:nav>",
+    "<%= bar ? \\"bar\\" : \\"abc\\" %>",
+    "<%= bar ? \\"bar\\" : \\"abc\\" %>",
+    "<aui:nav id=\\"nav\\" cssClass=\\"bar abc\\"></aui:nav>",
+    "<aui:nav id='<%= \\"nav\\" %>' cssClass='<%= \\"bar abc\\" %>'></aui:nav>",
+    "<liferay-ui:message key=\\"count\\" />",
+    "<liferay-ui:message key=\\"used-in-x-assets\\" arguments=\\"<%= tag.getAssetCount() %>\\" />",
+    "<aui:script>",
+    "</aui:script>",
+    "<aui:script use=\\"aui-base,event,node\\">",
+    "</aui:script>",
+    "<aui:script>",
+    "<%
+		List<String> foo = null;
+		%>",
+    "</aui:script>",
+    "<aui:script use=\\"event\\"></aui:script>",
+    "<aui:nav href=\\"javascript:alert(1);\\" onClick=\\"alert(2);\\"></aui:nav>",
+    "\${currentTab == tab ? 'active' : ''}",
+    "<aui:nav cssClass=\\"\${currentTab == tab ? 'active' : ''} abc foo\\"></aui:nav>",
+    "<aui:nav cssClass=\\"\${currentTab == tab ? 'active' : ''} foo abc <%= \\\\\\"scriptletblock\\\\\\" %>\\"></aui:nav>",
+    "<aui:script>",
+    "</aui:script>",
+    "<aui:script>",
+    "\${foo}",
+    "\${bar}",
+    "</aui:script>",
+    "<aui:script require=\\"foo/bar/baz, baz/foo_bar, bar/baz/foo as FooBar\\">",
+    "</aui:script>",
+    "<aui:script require=\\"\\">
+	</aui:script>",
+  ],
+]
+`;
+
 exports[`substituteTags() substitutes in a the "view_calendar_menus.jspf" fixture 1`] = `
 Array [
   "/*╳╳

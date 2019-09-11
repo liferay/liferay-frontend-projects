@@ -252,9 +252,7 @@ describe('substituteTags()', () => {
 		expect(substituteTags(source)).toMatchSnapshot();
 	});
 
-	// Disabled because currently choking on JSP expression inside a custom tag
-	// attribute.
-	it.skip('substitutes in a the "page.jsp" fixture', async () => {
+	it('substitutes in a the "page.jsp" fixture', async () => {
 		const source = await getFixture('format/page.jsp');
 
 		expect(substituteTags(source)).toMatchSnapshot();
