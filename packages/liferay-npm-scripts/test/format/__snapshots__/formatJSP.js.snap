@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`formatJSP() passes the blinking light test (configuration.jsp) 1`] = `
+exports[`formatJSP() formatting entire fixtures configuration.jsp matches snapshot 1`] = `
 "<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -156,7 +156,7 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 </script>"
 `;
 
-exports[`formatJSP() passes the blinking light test (edit_template_display.jspf) 1`] = `
+exports[`formatJSP() formatting entire fixtures edit_template_display.jspf matches snapshot 1`] = `
 "<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -828,7 +828,7 @@ private static Log _log = LogFactoryUtil.getLog(\\"com_liferay_dynamic_data_mapp
 "
 `;
 
-exports[`formatJSP() passes the blinking light test (page.jsp) 1`] = `
+exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = `
 "<!DOCTYPE html>
 <html>
 <head>
@@ -928,7 +928,7 @@ exports[`formatJSP() passes the blinking light test (page.jsp) 1`] = `
 "
 `;
 
-exports[`formatJSP() passes the blinking light test (view_calendar_menus.jspf) 1`] = `
+exports[`formatJSP() formatting entire fixtures view_calendar_menus.jspf matches snapshot 1`] = `
 "<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.

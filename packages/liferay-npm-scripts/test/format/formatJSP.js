@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
 const formatJSP = require('../../src/format/formatJSP');
 const getFixture = require('../../support/getFixture');
 
@@ -73,27 +74,16 @@ describe('formatJSP()', () => {
 		expect(() => formatJSP(source)).toThrow(/Unexpected token \(17:1\)/);
 	});
 
-	it('passes the blinking light test (configuration.jsp)', async () => {
-		const source = await getFixture('format/configuration.jsp');
+	describe('formatting entire fixtures', () => {
+		test.each([
+			'configuration.jsp',
+			'edit_template_display.jspf',
+			'page.jsp',
+			'view_calendar_menus.jspf'
+		])('%s matches snapshot', async fixture => {
+			const source = await getFixture(path.join('format', fixture));
 
-		expect(formatJSP(source)).toMatchSnapshot();
-	});
-
-	it('passes the blinking light test (edit_template_display.jspf)', async () => {
-		const source = await getFixture('format/edit_template_display.jspf');
-
-		expect(formatJSP(source)).toMatchSnapshot();
-	});
-
-	it('passes the blinking light test (page.jsp)', async () => {
-		const source = await getFixture('format/page.jsp');
-
-		expect(formatJSP(source)).toMatchSnapshot();
-	});
-
-	it('passes the blinking light test (view_calendar_menus.jspf)', async () => {
-		const source = await getFixture('format/view_calendar_menus.jspf');
-
-		expect(formatJSP(source)).toMatchSnapshot();
+			expect(formatJSP(source)).toMatchSnapshot();
+		});
 	});
 });

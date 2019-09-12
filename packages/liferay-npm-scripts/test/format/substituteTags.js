@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
 const substituteTags = require('../../src/format/substituteTags');
 const dedent = require('../../support/dedent');
 const getFixture = require('../../support/getFixture');
@@ -274,27 +275,16 @@ describe('substituteTags()', () => {
 		]);
 	});
 
-	it('substitutes in the "configuration.jsp" fixture', async () => {
-		const source = await getFixture('format/configuration.jsp');
+	describe('substituting tags in entire fixtures', () => {
+		test.each([
+			'configuration.jsp',
+			'edit_template_display.jspf',
+			'page.jsp',
+			'view_calendar_menus.jspf'
+		])('%s matches snapshot', async fixture => {
+			const source = await getFixture(path.join('format', fixture));
 
-		expect(substituteTags(source)).toMatchSnapshot();
-	});
-
-	it('substitutes in a the "edit_template_display.jspf" fixture', async () => {
-		const source = await getFixture('format/edit_template_display.jspf');
-
-		expect(substituteTags(source)).toMatchSnapshot();
-	});
-
-	it('substitutes in a the "page.jsp" fixture', async () => {
-		const source = await getFixture('format/page.jsp');
-
-		expect(substituteTags(source)).toMatchSnapshot();
-	});
-
-	it('substitutes in a the "view_calendar_menus.jspf" fixture', async () => {
-		const source = await getFixture('format/view_calendar_menus.jspf');
-
-		expect(substituteTags(source)).toMatchSnapshot();
+			expect(substituteTags(source)).toMatchSnapshot();
+		});
 	});
 });

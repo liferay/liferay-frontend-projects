@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`lex() lexing entire fixtures lexes the "configuration.jsp" fixture 1`] = `
+exports[`lex() lexing entire fixtures configuration.jsp matches snapshot 1`] = `
 Array [
   Object {
     "contents": "<%--
@@ -688,7 +688,7 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 ]
 `;
 
-exports[`lex() lexing entire fixtures lexes the "edit_template_display.jspf" fixture 1`] = `
+exports[`lex() lexing entire fixtures edit_template_display.jspf matches snapshot 1`] = `
 Array [
   Object {
     "contents": "<%--
@@ -2298,7 +2298,7 @@ private static Log _log = LogFactoryUtil.getLog(\\"com_liferay_dynamic_data_mapp
 ]
 `;
 
-exports[`lex() lexing entire fixtures lexes the "page.jsp" fixture 1`] = `
+exports[`lex() lexing entire fixtures page.jsp matches snapshot 1`] = `
 Array [
   Object {
     "contents": "<",
@@ -3087,7 +3087,7 @@ Array [
 ]
 `;
 
-exports[`lex() lexing entire fixtures lexes the "view_calendar_menus.jspf" fixture 1`] = `
+exports[`lex() lexing entire fixtures view_calendar_menus.jspf matches snapshot 1`] = `
 Array [
   Object {
     "contents": "<%--
