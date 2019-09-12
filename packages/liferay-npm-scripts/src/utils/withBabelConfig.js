@@ -7,6 +7,7 @@
 const fs = require('fs');
 
 const getMergedConfig = require('./getMergedConfig');
+const SignalHandler = require('../utils/SignalHandler');
 const moveToTemp = require('../utils/moveToTemp');
 const removeFromTemp = require('../utils/removeFromTemp');
 
@@ -30,12 +31,16 @@ function removeBabelConfig() {
  * state.
  */
 function withBabelConfig(callback) {
+	const {dispose} = SignalHandler.onExit(() => {
+		removeBabelConfig();
+	});
+
 	try {
 		setBabelConfig();
 
 		callback();
 	} finally {
-		removeBabelConfig();
+		dispose();
 	}
 }
 

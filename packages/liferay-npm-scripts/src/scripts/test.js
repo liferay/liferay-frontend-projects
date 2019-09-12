@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 
+const SignalHandler = require('../utils/SignalHandler');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
@@ -23,6 +24,10 @@ module.exports = function(arrArgs = []) {
 	const CONFIG_PATH = 'TEMP_jest.config.json';
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
+
+	const {dispose} = SignalHandler.onExit(() => {
+		fs.unlinkSync(CONFIG_PATH);
+	});
 
 	try {
 		if (useSoy) {
@@ -56,6 +61,6 @@ module.exports = function(arrArgs = []) {
 			cleanSoy();
 		}
 	} finally {
-		fs.unlinkSync(CONFIG_PATH);
+		dispose();
 	}
 };
