@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const AUI_SCRIPT = /(<(aui:)?script(.*?)>)(.*?)(<\/\2script>)/s;
+const AUI_SCRIPT = /(<(aui:)?script(.*?)(?<!%)>)(.*?)(<\/\2script>)/s;
 
 const AUI_SCRIPT_G = new RegExp(AUI_SCRIPT.source, 'gs');
 
