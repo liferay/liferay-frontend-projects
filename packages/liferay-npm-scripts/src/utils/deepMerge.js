@@ -174,7 +174,22 @@ function babelMerge(key) {
 			);
 		};
 	} else {
-		return combineMerge;
+		return function(target, source, options) {
+			if (Array.isArray(target) && Array.isArray(source)) {
+				return combineMerge(target, source, options);
+			} else if (
+				options.isMergeableObject(target) &&
+				options.isMergeableObject(source)
+			) {
+				return merge(target, source, options);
+			} else {
+				throw new Error(
+					'babelMerge(): ' +
+						'Cannot merge without two mergeable objects: ' +
+						'please check for a stale .babelrc files'
+				);
+			}
+		};
 	}
 }
 

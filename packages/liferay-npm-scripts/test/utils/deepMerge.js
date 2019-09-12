@@ -279,6 +279,77 @@ describe('deepMerge()', () => {
 			});
 		});
 
+		it("doesn't break when a stale .babelrc file is left on disk", () => {
+			// This is the original project-local .babelrc config.
+			const project = {
+				presets: ['@babel/preset-react']
+			};
+
+			// This is the config provided by liferay-npm-scripts.
+			const defaults = {
+				overrides: [
+					{
+						presets: [
+							[
+								'@babel/preset-env',
+								{
+									targets: {
+										node: '10.15'
+									}
+								}
+							]
+						],
+						test: '**/test/**/*.js'
+					}
+				],
+				plugins: [
+					'@babel/proposal-class-properties',
+					'@babel/proposal-object-rest-spread'
+				],
+				presets: ['@babel/preset-env']
+			};
+
+			// This should be the result of merging "defaults" and "project"; imagine that
+			// it could be left on disk if the build gets interrupted.
+			const stale = {
+				overrides: [
+					{
+						presets: [
+							[
+								'@babel/preset-env',
+								{
+									targets: {
+										node: '10.15'
+									}
+								}
+							]
+						],
+						test: '**/test/**/*.js'
+					}
+				],
+				plugins: [
+					'@babel/proposal-class-properties',
+					'@babel/proposal-object-rest-spread'
+				],
+				presets: ['@babel/preset-env', '@babel/preset-react']
+			};
+
+			expect(
+				deepMerge([defaults, project], deepMerge.MODE.BABEL)
+			).toEqual(stale);
+
+			let duplicate;
+
+			expect(() => {
+				duplicate = deepMerge(
+					[defaults, project],
+					deepMerge.MODE.BABEL
+				);
+			}).not.toThrow();
+
+			expect(duplicate).toEqual(stale);
+		});
+
 		it('complains about malformed plugin names', () => {
 			expect(() => {
 				deepMerge(
