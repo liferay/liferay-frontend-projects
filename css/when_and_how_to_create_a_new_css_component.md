@@ -2,13 +2,13 @@
 
 ## What is a component:
 
-Following Atomic design principles; a component can be molecules or organism which can work alone or as a part of a page in combination with other components.
+Following [Atomic design principles](http://bradfrost.com/blog/post/atomic-web-design/); a component can be molecules or organism which can work alone or as a part of a page in combination with other components.
 
 To create our CSS components we mostly follow the Bootstrap approach with some particularities.
 
 ## HTML / CSS
 
-Whenever possible, we should write a component in HTML/CSS over JS. HTML/CSS are more accessible to more people. They are also faster in your browser than JavaScript, and they can be provided experience in a more standard and faster way for you.
+Whenever possible, we should write a component in HTML/CSS over JS. HTML/CSS are more accessible to more people. They are also faster in your browser than JavaScript, and they can provide an experience in a more standard and faster way for you.
 
 How a component should be from a CSS point of view:
 
