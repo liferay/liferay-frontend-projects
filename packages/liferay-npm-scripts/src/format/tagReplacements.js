@@ -28,7 +28,7 @@ const BLOCK_OPEN = '\u0283';
 
 const CLOSE_TAG = new RegExp(`/\\*\\s*[${BLOCK_CLOSE}\\s]+\\*/`);
 
-const OPEN_TAG = new RegExp(`/\\*\\s*[${BLOCK_OPEN}\\s]+\\*/`);
+const OPEN_TAG = new RegExp(`/\\*\\s*[${BLOCK_OPEN}\\s]+\\*/|//${BLOCK_OPEN}+`);
 
 const fill = contents => `/*${contents}*/`;
 
@@ -65,12 +65,52 @@ const validate = tag => {
 //         ʃʃʃʃʃʃʃʃʃʃʃ
 //     */
 //
-function getOpenTagReplacement(tag) {
-	validate(tag);
+// If the tag doesn't span multiple lines, and the `last` parameter is passed to
+// indicate that the tag is the last thing on its line, we instead transform it
+// as follows:
+//
+//     <c:if test="<%= value %>">
+//                                 ...becomes:
+//     //ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+//
+// This is to work around a peculiarity in Prettier, where it will move
+// C-style (/*...*/) comments before `else` blocks inside the blocks; eg. this:
+//
+//     if (a) {                        |           if (a) {
+//         stuff();                    |               stuff();
+//     }                               |           }
+//     <c:if test="<%= value %>">      |           /*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
+//         else {                      |               else {
+//             other();                |                   other();
+//         }                           |               }
+//     </c:if>                         |           /*ʅʅʅ*/
+//
+// gets turned into this, which is obviously broken:
+//
+//     if (a) {                        |           if (a) {
+//         stuff();                    |               stuff();
+//     } else {                        |           } else {
+//     <c:if test="<%= value %>">      |           /*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
+//             other();                |                   other();
+//         }                           |               }
+//     </c:if>                         |           /*ʅʅʅ*/
+//
+function getOpenTagReplacement(tag, last = false) {
+	if (last && !tag.match(/[\n\r]/)) {
+		// Replace with a one-line (//) comment.
+		if (tag.length < 2) {
+			throw new Error(`Invalid (underlength) tag: ${tag}`);
+		}
 
-	// Trim more from beginning than end because first line will generally be
-	// longer, and we don't want to cut off any newline before the final ">".
-	return fill(toFiller(tag, BLOCK_OPEN).slice(3, -1));
+		return `//${BLOCK_OPEN.repeat(tag.length - 2)}`;
+	} else {
+		// Replace with a C-style (/*...*/) comment.
+		validate(tag);
+
+		// Trim more from beginning than end because first line will generally be
+		// longer, and we don't want to cut off any newline before the final ">".
+		return fill(toFiller(tag, BLOCK_OPEN).slice(3, -1));
+	}
 }
 
 ///

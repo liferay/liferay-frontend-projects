@@ -197,12 +197,12 @@ describe('substituteTags()', () => {
 			*/
 
 			// A tag with children.
-			/*ʃʃʃʃʃʃ*/
+			//ʃʃʃʃʃʃʃʃ
 				alert('done');
 			/*ʅʅʅʅʅʅʅ*/
 
 			// A tag with children that has a JSP expression in an attribute.
-			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 				var a = true;
 			/*ʅʅʅ*/
 
@@ -236,6 +236,41 @@ describe('substituteTags()', () => {
 				'\t<a:param thing="1" />\n' +
 				'\t<a:other thing="2" />\n' +
 				'</a:tag>'
+		]);
+	});
+
+	it('turns JSP tags into multiline comments if followed on same line ', () => {
+		// Possibly rare(?) example from liferay-portal, and can be seen in our
+		// fixtures too:
+		let [transformed, tags] = substituteTags(dedent(3)`
+			<c:if test="<%= a %>">*</c:if>
+		`);
+
+		expect(transformed).toEqual(dedent(3)`
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/*/*ʅʅʅ*/
+		`);
+
+		expect(tags).toEqual(['<c:if test="<%= a %>">', '</c:if>']);
+
+		// We shouldn't have anything like this in liferay-portal, but
+		// just in case...
+		[transformed, tags] = substituteTags(dedent(3)`
+			<c:if test="<%= a %>"><c:if test="<%= b %>">
+				alert('hi');
+			</c:if></c:if>
+		`);
+
+		expect(transformed).toEqual(dedent(3)`
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*///ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				alert('hi');
+			/*ʅʅʅ*//*ʅʅʅ*/
+		`);
+
+		expect(tags).toEqual([
+			'<c:if test="<%= a %>">',
+			'<c:if test="<%= b %>">',
+			'</c:if>',
+			'</c:if>'
 		]);
 	});
 

@@ -26,10 +26,10 @@ describe('stripIndents()', () => {
 		`);
 
 		const expected = `
-			/*ʃʃʃʃ*/
+			//ʃʃʃʃʃʃ
 			var x = 1;
 
-			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 			if (condition) {
 				if (other) {
 					foo();

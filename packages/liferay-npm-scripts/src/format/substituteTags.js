@@ -41,12 +41,16 @@ function substituteTags(source) {
 		} else if (name === 'CUSTOM_ACTION_END') {
 			output += getCloseTagReplacement(contents);
 		} else if (name === 'CUSTOM_ACTION_START') {
-			// Special case: scan ahead to detect actions that have no
+			// Special case 1: scan ahead to detect actions that have no
 			// non-whitespace children.
 			let j = i + 1;
 			let outer = contents;
 			let text = '';
 			let comment = false;
+
+			// Special case 2: scan ahead to detect single-line open
+			// tags that have nothing after them on the same line.
+			let last;
 
 			while (j < tokens.length) {
 				const token = tokens[j];
@@ -54,6 +58,13 @@ function substituteTags(source) {
 				if (token.name === 'TEMPLATE_TEXT') {
 					outer += token.contents;
 					text += token.contents;
+
+					if (
+						last === undefined &&
+						token.contents.match(/^\s*[\r\n]/)
+					) {
+						last = true;
+					}
 				} else if (token.name === 'CUSTOM_ACTION') {
 					outer += token.contents;
 				} else if (
@@ -75,8 +86,7 @@ function substituteTags(source) {
 				output += `/*${toFiller(outer.slice(2, -2))}*/`;
 				i = j;
 			} else {
-				// Replace with an `if ()` construct.
-				output += getOpenTagReplacement(contents);
+				output += getOpenTagReplacement(contents, !!last);
 			}
 		} else if (name === 'EL_EXPRESSION') {
 			output += getPaddedReplacement(contents, `EL_${expressionCount++}`);

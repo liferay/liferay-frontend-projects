@@ -600,8 +600,9 @@ if (Validator.isNotNull(scriptContent)) {
 				.hasUndo()
 		) {
 			Liferay.fire('<portlet:namespace />saveTemplate');
-		} else {
+		}
 		<c:if test=\\"<%= template == null %>\\">
+			else {
 				editorContentElement.val(STR_EMPTY);
 			}
 		</c:if>
