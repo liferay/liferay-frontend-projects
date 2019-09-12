@@ -5,13 +5,16 @@
  */
 
 const fs = require('fs');
+const path = require('path');
 const formatJSP = require('../format/formatJSP');
 const expandGlobs = require('../utils/expandGlobs');
 const filterChangedFiles = require('../utils/filterChangedFiles');
 const filterGlobs = require('../utils/filterGlobs');
+const findRoot = require('../utils/findRoot');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const preprocessGlob = require('../utils/preprocessGlob');
+const readIgnoreFile = require('../utils/readIgnoreFile');
 
 /**
  * File extensions that we want to process.
@@ -44,7 +47,11 @@ module.exports = function(args) {
 		return;
 	}
 
-	const ignores = [];
+	// TODO: consider ESLint's ignorefile too.
+	const root = findRoot();
+	const ignoreFile = path.join(root || '.', '.prettierignore');
+
+	const ignores = fs.existsSync(ignoreFile) ? readIgnoreFile(ignoreFile) : [];
 
 	// Match Prettier behavior and ignore node_modules by default.
 	if (ignores.indexOf('node_modules/**') === -1) {
