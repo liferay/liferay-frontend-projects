@@ -484,9 +484,14 @@ describe('lex()', () => {
 	describe('lexing entire fixtures', () => {
 		test.each([
 			'configuration.jsp',
+			'edit_content_redirect.jsp',
 			'edit_template_display.jspf',
 			'page.jsp',
-			'view_calendar_menus.jspf'
+			'recaptcha.jsp',
+			'roles.jsp',
+			'view.jsp',
+			'view_calendar_menus.jspf',
+			'view_meeting.jsp'
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('format', fixture));
 

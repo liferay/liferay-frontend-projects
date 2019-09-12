@@ -254,6 +254,105 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 ]
 `;
 
+exports[`substituteTags() substituting tags in entire fixtures edit_content_redirect.jsp matches snapshot 1`] = `
+Array [
+  "/*╳╳
+╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳
+╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*//*╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*//*╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+//ʃʃʃʃʃʃʃʃʃʃ
+	Liferay.fire(
+		'closeWindow',
+		{
+			id: 'ʾPORTLET_NAMESPACE__ʿeditAsset',
+			portletAjaxable: true,
+
+			//ʃʃʃʃʃʃʃʃ
+				//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					redirect: 'ʾJSP_EXPR________________________ʿ'
+				/*ʅʅʅʅʅ*/
+				//ʃʃʃʃʃʃʃʃʃʃʃ
+					refresh: 'ʾJSP_EXPR___________________ʿ'
+				/*ʅʅʅʅʅʅʅʅʅʅ*/
+			/*ʅʅʅʅʅʅʅ*/
+		}
+	);
+/*ʅʅʅʅʅʅʅʅʅ*/",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%@ taglib uri=\\"http://java.sun.com/jsp/jstl/core\\" prefix=\\"c\\" %>",
+    "<%@ taglib uri=\\"http://java.sun.com/portlet_2_0\\" prefix=\\"portlet\\" %>",
+    "<%@ taglib uri=\\"http://liferay.com/tld/aui\\" prefix=\\"aui\\" %>",
+    "<%@
+taglib uri=\\"http://liferay.com/tld/theme\\" prefix=\\"liferay-theme\\" %>",
+    "<%@ page import=\\"com.liferay.portal.kernel.util.HtmlUtil\\" %>",
+    "<%@
+page import=\\"com.liferay.portal.kernel.util.PortalUtil\\" %>",
+    "<liferay-theme:defineObjects />",
+    "<%
+String redirect = request.getParameter(\\"redirect\\");
+
+redirect = PortalUtil.escapeRedirect(redirect);
+%>",
+    "<aui:script>",
+    "<portlet:namespace />",
+    "<c:choose>",
+    "<c:when test=\\"<%= redirect != null %>\\">",
+    "<%= HtmlUtil.escapeJS(redirect) %>",
+    "</c:when>",
+    "<c:otherwise>",
+    "<%= portletDisplay.getId() %>",
+    "</c:otherwise>",
+    "</c:choose>",
+    "</aui:script>",
+  ],
+]
+`;
+
 exports[`substituteTags() substituting tags in entire fixtures edit_template_display.jspf matches snapshot 1`] = `
 Array [
   "/*╳╳
@@ -1449,6 +1548,1729 @@ Array [
 ]
 `;
 
+exports[`substituteTags() substituting tags in entire fixtures recaptcha.jsp matches snapshot 1`] = `
+Array [
+  "/*╳╳
+╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳
+╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	<script src=\\"ʾJSP_EXPR________________________________________________________________ʿ?hl=ʾJSP_EXPR___________________________________________ʿ\\" type=\\"text/javascript\\"></script>
+
+	<div class=\\"g-recaptcha\\" data-sitekey=\\"ʾJSP_EXPR________________________________________________________________ʿ\\"></div>
+
+	<noscript>
+		<div style=\\"height: 525px; width: 302px;\\">
+			<div style=\\"height: 525px; position: relative; width: 302px;\\">
+				<div style=\\"height: 525px; position: absolute; width: 302px;\\">
+					<iframe frameborder=\\"0\\" scrolling=\\"no\\" src=\\"ʾJSP_EXPR__________________________________________________________________ʿʾJSP_EXPR________________________________________________________________ʿ\\" style=\\"border-style: none; height: 525px; width: 302px;\\"></iframe>
+				</div>
+
+				<div style=\\"background: #F9F9F9; border-radius: 3px; border: 1px solid #C1C1C1; bottom: 25px; height: 60px; left: 0; margin: 0; padding: 0; position: absolute; right: 25px; width: 300px;\\">
+					<textarea class=\\"g-recaptcha-response\\" id=\\"g-recaptcha-response\\" name=\\"g-recaptcha-response\\" style=\\"border: 1px solid #C1C1C1; height: 40px; margin: 10px 25px; padding: 0; resize: none; width: 250px;\\"></textarea>
+				</div>
+			</div>
+		</div>
+	</noscript>
+/*ʅʅʅ*/",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%@ include file=\\"/captcha/init.jsp\\" %>",
+    "<c:if test=\\"<%= captchaEnabled %>\\">",
+    "<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaScriptURL()) %>",
+    "<%= HtmlUtil.escapeAttribute(locale.getLanguage()) %>",
+    "<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaPublicKey()) %>",
+    "<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaNoScriptURL()) %>",
+    "<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaPublicKey()) %>",
+    "</c:if>",
+  ],
+]
+`;
+
+exports[`substituteTags() substituting tags in entire fixtures roles.jsp matches snapshot 1`] = `
+Array [
+  "/*╳╳
+╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳
+╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+<div class=\\"sheet-section\\">
+	<h3 class=\\"autofit-row sheet-subtitle\\">
+		<span class=\\"autofit-col autofit-col-expand\\">
+			<span class=\\"heading-text\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</span>
+		</span>
+
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			<span class=\\"autofit-col\\">
+				<span class=\\"heading-end\\">
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+				</span>
+			</span>
+		/*ʅʅʅ*/
+	</h3>
+
+	/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	*/
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		*/
+
+		/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		*/
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳
+			╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					<a class=\\"modify-link\\" data-rowId=\\"ʾJSP_EXPR_____________ʿ\\" href=\\"javascript:;\\">ʾJSP_EXPR___________ʿ</a>
+				/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+			/*ʅʅʅ*/
+		/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+		/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		*/
+	/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			var selectRegularRoleLink = document.getElementById('ʾPORTLET_NAMESPACE__ʿselectRegularRoleLink');
+
+			if (selectRegularRoleLink) {
+				selectRegularRoleLink.addEventListener(
+					'click',
+					function(event) {
+						var searchContainerName = 'ʾPORTLET_NAMESPACE__ʿrolesSearchContainer';
+
+						var searchContainer = Liferay.SearchContainer.get(searchContainerName);
+
+						var searchContainerData = searchContainer.getData();
+
+						if (!searchContainerData.length) {
+							searchContainerData = [];
+						}
+						else {
+							searchContainerData = searchContainerData.split(',');
+						}
+
+						Liferay.Util.selectEntity(
+							{
+								dialog: {
+									constrain: true,
+									modal: true
+								},
+
+								/*
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								*/
+
+								id: 'ʾJSP_EXPR_________________ʿ',
+								selectedData: searchContainerData,
+								title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+								/*
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								*/
+
+								uri: 'ʾJSP_EXPR____________________________ʿ'
+							},
+							function(event) {
+								ʾPORTLET_NAMESPACE__ʿselectRole(event.entityid, event.entityname, event.searchcontainername, event.groupdescriptivename, event.groupid, event.iconcssclass);
+							}
+						);
+					}
+				);
+			}
+		/*ʅʅʅʅʅʅʅʅʅ*/
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<h4 class=\\"sheet-tertiary-title\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</h4>
+
+		/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		*/
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			*/
+
+				/*
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				*/
+			/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+		/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+	/*ʅʅʅ*/
+</div>
+
+<div class=\\"sheet-section\\">
+	<h3 class=\\"autofit-row sheet-subtitle\\">
+		<span class=\\"autofit-col autofit-col-expand\\">
+			<span class=\\"heading-text\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</span>
+		</span>
+
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			<span class=\\"autofit-col\\">
+				<span class=\\"heading-end\\">
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+				</span>
+			</span>
+		/*ʅʅʅ*/
+	</h3>
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<div class=\\"text-muted\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</div>
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		*/
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			*/
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				*/
+
+				/*
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+				╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+				*/
+
+				//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+						<a class=\\"modify-link\\" data-groupId=\\"ʾJSP_EXPR_______________________ʿ\\" data-rowId=\\"ʾJSP_EXPR______________________ʿ\\" href=\\"javascript:;\\">ʾJSP_EXPR___________ʿ</a>
+					/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+				/*ʅʅʅ*/
+			/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+		/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				var Util = Liferay.Util;
+
+				var searchContainer = Liferay.SearchContainer.get('ʾPORTLET_NAMESPACE__ʿorganizationRolesSearchContainer');
+
+				var searchContainerContentBox = searchContainer.get('contentBox');
+
+				searchContainerContentBox.delegate(
+					'click',
+					function(event) {
+						var link = event.currentTarget;
+						var tr = link.ancestor('tr');
+
+						var groupId = link.getAttribute('data-groupId');
+						var rowId = link.getAttribute('data-rowId');
+
+						var selectOrganizationRole = Util.getWindow('ʾPORTLET_NAMESPACE__ʿselectOrganizationRole');
+
+						if (selectOrganizationRole) {
+							var selectButton = selectOrganizationRole.iframe.node.get('contentWindow.document').one('.selector-button[data-groupid=\\"' + groupId + '\\"][data-entityid=\\"' + rowId + '\\"]');
+
+							Util.toggleDisabled(selectButton, false);
+						}
+
+						searchContainer.deleteRow(tr, rowId);
+
+						ʾPORTLET_NAMESPACE__ʿdeleteGroupRole(rowId, groupId);
+					},
+					'.modify-link'
+				);
+
+				Liferay.on(
+					'ʾJSP_EXPR__________________________________ʿ',
+					function(event) {
+						event.selectors.each(
+							function(item, index, collection) {
+								var groupId = item.attr('data-groupid');
+								var roleId = item.attr('data-entityid');
+
+								for (var i = 0; i < ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.length; i++) {
+									if ((ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds[i] == groupId) && (ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds[i] == roleId)) {
+										Util.toggleDisabled(item, true);
+
+										break;
+									}
+								}
+
+								for (var j = 0; j < ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.length; j++) {
+									if ((ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds[j] == groupId) && (ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds[j] == roleId)) {
+										Util.toggleDisabled(item, false);
+
+										break;
+									}
+								}
+							}
+						);
+					}
+				);
+			/*ʅʅʅʅʅʅʅʅʅ*/
+		/*ʅʅʅ*/
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			var selectOrganizationRoleLink = document.getElementById('ʾPORTLET_NAMESPACE__ʿselectOrganizationRoleLink');
+
+			if (selectOrganizationRoleLink) {
+				selectOrganizationRoleLink.addEventListener(
+					'click',
+					function(event) {
+						Liferay.Util.selectEntity(
+							{
+								dialog: {
+									constrain: true,
+									modal: true
+								},
+
+								/*
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								*/
+
+								id: 'ʾJSP_EXPR______________________ʿ',
+								selectedData: [],
+								title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+								/*
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								*/
+
+								uri: 'ʾJSP_EXPR_________________________________ʿ'
+							},
+							function(event) {
+								ʾPORTLET_NAMESPACE__ʿselectRole(event.entityid, event.entityname, event.searchcontainername, event.groupdescriptivename, event.groupid, event.iconcssclass);
+							}
+						);
+					}
+				);
+			}
+		/*ʅʅʅʅʅʅʅʅʅ*/
+	/*ʅʅʅ*/
+</div>
+
+<div class=\\"sheet-section\\">
+	<h3 class=\\"autofit-row sheet-subtitle\\">
+		<span class=\\"autofit-col autofit-col-expand\\">
+			<span class=\\"heading-text\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</span>
+		</span>
+
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			<span class=\\"autofit-col\\">
+				<span class=\\"heading-end\\">
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+				</span>
+			</span>
+		/*ʅʅʅ*/
+	</h3>
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<div class=\\"text-muted\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</div>
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		*/
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			*/
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳
+				╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				/*
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+				╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+				*/
+
+				//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+						<a class=\\"modify-link\\" data-groupId=\\"ʾJSP_EXPR_______________________ʿ\\" data-rowId=\\"ʾJSP_EXPR______________________ʿ\\" href=\\"javascript:;\\">ʾJSP_EXPR___________ʿ</a>
+					/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+				/*ʅʅʅ*/
+			/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+		/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				var Util = Liferay.Util;
+
+				var searchContainer = Liferay.SearchContainer.get('ʾPORTLET_NAMESPACE__ʿsiteRolesSearchContainer');
+
+				var searchContainerContentBox = searchContainer.get('contentBox');
+
+				searchContainerContentBox.delegate(
+					'click',
+					function(event) {
+						var link = event.currentTarget;
+						var tr = link.ancestor('tr');
+
+						var groupId = link.getAttribute('data-groupId');
+						var rowId = link.getAttribute('data-rowId');
+
+						var selectSiteRole = Util.getWindow('ʾPORTLET_NAMESPACE__ʿselectSiteRole');
+
+						if (selectSiteRole) {
+							var selectButton = selectSiteRole.iframe.node.get('contentWindow.document').one('.selector-button[data-groupid=\\"' + groupId + '\\"][data-entityid=\\"' + rowId + '\\"]');
+
+							Util.toggleDisabled(selectButton, false);
+						}
+
+						searchContainer.deleteRow(tr, rowId);
+
+						ʾPORTLET_NAMESPACE__ʿdeleteGroupRole(rowId, groupId);
+					},
+					'.modify-link'
+				);
+
+				Liferay.on(
+					'ʾJSP_EXPR__________________________ʿ',
+					function(event) {
+						event.selectors.each(
+							function(item, index, collection) {
+								var groupId = item.attr('data-groupid');
+								var roleId = item.attr('data-entityid');
+
+								for (var k = 0; k < ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.length; k++) {
+									if ((ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds[k] == groupId) && (ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds[k] == roleId)) {
+										Util.toggleDisabled(item, true);
+
+										break;
+									}
+								}
+
+								for (var n = 0; n < ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.length; n++) {
+									if ((ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds[n] == groupId) && (ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds[n] == roleId)) {
+										Util.toggleDisabled(item, false);
+
+										break;
+									}
+								}
+							}
+						);
+					}
+				);
+
+				A.one('#ʾPORTLET_NAMESPACE__ʿselectSiteRoleLink').on(
+					'click',
+					function(event) {
+						Util.selectEntity(
+							{
+								dialog: {
+									constrain: true,
+									modal: true
+								},
+
+								/*
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								*/
+
+								id: 'ʾJSP_EXPR______________ʿ',
+								selectedData: [],
+								title: '/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/',
+
+								/*
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+								*/
+
+								uri: 'ʾJSP_EXPR_________________________ʿ'
+							},
+							function(event) {
+								ʾPORTLET_NAMESPACE__ʿselectRole(event.entityid, event.entityname, event.searchcontainername, event.groupdescriptivename, event.groupid, event.iconcssclass);
+							}
+						);
+					}
+				);
+			/*ʅʅʅʅʅʅʅʅʅ*/
+		/*ʅʅʅ*/
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<h4 class=\\"sheet-tertiary-title\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</h4>
+
+		/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		*/
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			*/
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳
+				╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳
+				╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				*/
+			/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+		/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		//ʃʃʃʃʃʃʃʃʃʃ
+			var ʾPORTLET_NAMESPACE__ʿaddRoleIds = [];
+			var ʾPORTLET_NAMESPACE__ʿdeleteRoleIds = [];
+
+			var ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds = [];
+			var ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds = [];
+			var ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds = [];
+			var ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds = [];
+
+			function ʾPORTLET_NAMESPACE__ʿdeleteRegularRole(roleId) {
+				var A = AUI();
+
+				A.Array.removeItem(ʾPORTLET_NAMESPACE__ʿaddRoleIds, roleId);
+
+				ʾPORTLET_NAMESPACE__ʿdeleteRoleIds.push(roleId);
+
+				document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿaddRoleIds.value = ʾPORTLET_NAMESPACE__ʿaddRoleIds.join(',');
+				document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿdeleteRoleIds.value = ʾPORTLET_NAMESPACE__ʿdeleteRoleIds.join(',');
+			}
+
+			function ʾPORTLET_NAMESPACE__ʿdeleteGroupRole(roleId, groupId) {
+				for (var i = 0; i < ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.length; i++) {
+					if ((ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds[i] == groupId) && (ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds[i] == roleId)) {
+						ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.splice(i, 1);
+						ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.splice(i, 1);
+
+						break;
+					}
+				}
+
+				ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.push(groupId);
+				ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.push(roleId);
+
+				document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.value = ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.join(',');
+				document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.value = ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.join(',');
+				document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.value = ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.join(',');
+				document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.value = ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.join(',');
+			}
+
+			Liferay.provide(
+				window,
+				'ʾPORTLET_NAMESPACE__ʿselectRole',
+				function(roleId, name, searchContainer, groupName, groupId, iconCssClass) {
+					var A = AUI();
+					var LString = A.Lang.String;
+
+					var searchContainerName = 'ʾPORTLET_NAMESPACE__ʿ' + searchContainer + 'SearchContainer';
+
+					searchContainer = Liferay.SearchContainer.get(searchContainerName);
+
+					var rowColumns = [];
+
+					rowColumns.push('<i class=\\"' + iconCssClass + '\\"></i> ' + LString.escapeHTML(name));
+
+					if (groupName) {
+						rowColumns.push(groupName);
+					}
+
+					if (groupId) {
+						rowColumns.push('<a class=\\"modify-link\\" data-groupId=\\"' + groupId + '\\" data-rowId=\\"' + roleId + '\\" href=\\"javascript:;\\">ʾJSP_EXPR______________________________________ʿ</a>');
+
+						for (var i = 0; i < ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.length; i++) {
+							if ((ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds[i] == groupId) && (ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds[i] == roleId)) {
+								ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.splice(i, 1);
+								ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.splice(i, 1);
+
+								break;
+							}
+						}
+
+						ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.push(groupId);
+						ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.push(roleId);
+
+						document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.value = ʾPORTLET_NAMESPACE__ʿaddGroupRolesGroupIds.join(',');
+						document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.value = ʾPORTLET_NAMESPACE__ʿaddGroupRolesRoleIds.join(',');
+						document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.value = ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesGroupIds.join(',');
+						document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.value = ʾPORTLET_NAMESPACE__ʿdeleteGroupRolesRoleIds.join(',');
+					}
+					else {
+						rowColumns.push('<a class=\\"modify-link\\" data-rowId=\\"' + roleId + '\\" href=\\"javascript:;\\">ʾJSP_EXPR______________________________________ʿ</a>');
+
+						A.Array.removeItem(ʾPORTLET_NAMESPACE__ʿdeleteRoleIds, roleId);
+
+						ʾPORTLET_NAMESPACE__ʿaddRoleIds.push(roleId);
+
+						document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿaddRoleIds.value = ʾPORTLET_NAMESPACE__ʿaddRoleIds.join(',');
+						document.ʾPORTLET_NAMESPACE__ʿfm.ʾPORTLET_NAMESPACE__ʿdeleteRoleIds.value = ʾPORTLET_NAMESPACE__ʿdeleteRoleIds.join(',');
+					}
+
+					searchContainer.addRow(rowColumns, roleId);
+
+					searchContainer.updateDataStore();
+				},
+				['liferay-search-container']
+			);
+		/*ʅʅʅʅʅʅʅʅʅ*/
+
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			var Util = Liferay.Util;
+
+			var searchContainer = Liferay.SearchContainer.get('ʾPORTLET_NAMESPACE__ʿrolesSearchContainer');
+
+			var searchContainerContentBox = searchContainer.get('contentBox');
+
+			searchContainerContentBox.delegate(
+				'click',
+				function(event) {
+					var link = event.currentTarget;
+
+					var rowId = link.attr('data-rowId');
+
+					var tr = link.ancestor('tr');
+
+					var selectRegularRole = Util.getWindow('ʾPORTLET_NAMESPACE__ʿselectRegularRole');
+
+					if (selectRegularRole) {
+						var selectButton = selectRegularRole.iframe.node.get('contentWindow.document').one('.selector-button[data-entityid=\\"' + rowId + '\\"]');
+
+						Util.toggleDisabled(selectButton, false);
+					}
+
+					searchContainer.deleteRow(tr, link.getAttribute('data-rowId'));
+
+					ʾPORTLET_NAMESPACE__ʿdeleteRegularRole(rowId);
+				},
+				'.modify-link'
+			);
+
+			Liferay.on(
+				'ʾJSP_EXPR_____________________________ʿ',
+				function(event) {
+					event.selectors.each(
+						function(item, index, collection) {
+							var roleId = item.attr('data-entityid');
+
+							if (ʾPORTLET_NAMESPACE__ʿdeleteRoleIds.indexOf(roleId) != -1) {
+								Util.toggleDisabled(item, false);
+							}
+						}
+					);
+				}
+			);
+		/*ʅʅʅʅʅʅʅʅʅ*/
+	/*ʅʅʅ*/
+</div>",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%@ include file=\\"/init.jsp\\" %>",
+    "<%
+User selUser = userDisplayContext.getSelectedUser();
+
+List<Group> groups = new ArrayList<>();
+
+groups.addAll(userDisplayContext.getGroups());
+groups.addAll(userDisplayContext.getInheritedSites());
+
+List<Organization> organizations = userDisplayContext.getOrganizations();
+Long[] organizationIds = UsersAdminUtil.getOrganizationIds(organizations);
+List<Role> roles = userDisplayContext.getRoles();
+List<UserGroupRole> organizationRoles = userDisplayContext.getOrganizationRoles();
+List<UserGroupRole> siteRoles = userDisplayContext.getSiteRoles();
+List<UserGroupGroupRole> inheritedSiteRoles = userDisplayContext.getInheritedSiteRoles();
+List<Group> roleGroups = userDisplayContext.getRoleGroups();
+
+currentURLObj.setParameter(\\"historyKey\\", renderResponse.getNamespace() + \\"roles\\");
+
+String regularRoleSyncEntitiesEventName = liferayPortletResponse.getNamespace() + \\"syncRegularRoles\\";
+String siteRoleSyncEntitiesEventName = liferayPortletResponse.getNamespace() + \\"syncSiteRoles\\";
+String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespace() + \\"syncOrganizationRoles\\";
+%>",
+    "<liferay-ui:error-marker
+	key=\\"<%= WebKeys.ERROR_SECTION %>\\"
+	value=\\"roles\\"
+/>",
+    "<liferay-ui:membership-policy-error />",
+    "<liferay-util:buffer
+	var=\\"removeRoleIcon\\"
+>
+	<liferay-ui:icon
+		icon=\\"times-circle\\"
+		markupView=\\"lexicon\\"
+		message=\\"remove\\"
+	/>
+</liferay-util:buffer>",
+    "<aui:input name=\\"addGroupRolesGroupIds\\" type=\\"hidden\\" />",
+    "<aui:input name=\\"addGroupRolesRoleIds\\" type=\\"hidden\\" />",
+    "<aui:input name=\\"addRoleIds\\" type=\\"hidden\\" />",
+    "<aui:input name=\\"deleteGroupRolesGroupIds\\" type=\\"hidden\\" />",
+    "<aui:input name=\\"deleteGroupRolesRoleIds\\" type=\\"hidden\\" />",
+    "<aui:input name=\\"deleteRoleIds\\" type=\\"hidden\\" />",
+    "<liferay-ui:message key=\\"regular-roles\\" />",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) %>\\">",
+    "<liferay-ui:icon
+						cssClass=\\"modify-link\\"
+						id=\\"selectRegularRoleLink\\"
+						label=\\"<%= true %>\\"
+						linkCssClass=\\"btn btn-secondary btn-sm\\"
+						message=\\"select\\"
+						method=\\"get\\"
+						url=\\"javascript:;\\"
+					/>",
+    "</c:if>",
+    "<liferay-ui:search-container
+		compactEmptyResultsMessage=\\"<%= true %>\\"
+		cssClass=\\"lfr-search-container-roles\\"
+		curParam=\\"regularRolesCur\\"
+		emptyResultsMessage=\\"this-user-is-not-assigned-any-regular-roles\\"
+		headerNames=\\"title,null\\"
+		id=\\"rolesSearchContainer\\"
+		iteratorURL=\\"<%= currentURLObj %>\\"
+		total=\\"<%= roles.size() %>\\"
+	>",
+    "<liferay-ui:search-container-results
+			results=\\"<%= roles.subList(searchContainer.getStart(), searchContainer.getResultEnd()) %>\\"
+		/>",
+    "<liferay-ui:search-container-row
+			className=\\"com.liferay.portal.kernel.model.Role\\"
+			keyProperty=\\"roleId\\"
+			modelVar=\\"role\\"
+		>",
+    "<liferay-ui:search-container-column-text
+				cssClass=\\"table-cell-content\\"
+				name=\\"title\\"
+			>
+				<liferay-ui:icon
+					iconCssClass=\\"<%= RolesAdminUtil.getIconCssClass(role) %>\\"
+					label=\\"<%= true %>\\"
+					message=\\"<%= HtmlUtil.escape(role.getTitle(locale)) %>\\"
+				/>
+			</liferay-ui:search-container-column-text>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) && !RoleMembershipPolicyUtil.isRoleRequired(selUser.getUserId(), role.getRoleId()) %>\\">",
+    "<liferay-ui:search-container-column-text>",
+    "<%= role.getRoleId() %>",
+    "<%= removeRoleIcon %>",
+    "</liferay-ui:search-container-column-text>",
+    "</c:if>",
+    "</liferay-ui:search-container-row>",
+    "<liferay-ui:search-iterator
+			markupView=\\"lexicon\\"
+		/>",
+    "</liferay-ui:search-container>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) %>\\">",
+    "<aui:script sandbox=\\"<%= true %>\\">",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%
+								String regularRoleEventName = liferayPortletResponse.getNamespace() + \\"selectRegularRole\\";
+								%>",
+    "<%= regularRoleEventName %>",
+    "<liferay-ui:message arguments=\\"regular-role\\" key=\\"select-x\\" />",
+    "<%
+								PortletURL selectRegularRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+
+								selectRegularRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+								selectRegularRoleURL.setParameter(\\"eventName\\", regularRoleEventName);
+								selectRegularRoleURL.setParameter(\\"syncEntitiesEventName\\", regularRoleSyncEntitiesEventName);
+								selectRegularRoleURL.setWindowState(LiferayWindowState.POP_UP);
+								%>",
+    "<%= selectRegularRoleURL.toString() %>",
+    "<portlet:namespace />",
+    "</aui:script>",
+    "</c:if>",
+    "<c:if test=\\"<%= !roleGroups.isEmpty() %>\\">",
+    "<liferay-ui:message key=\\"inherited-regular-roles\\" />",
+    "<liferay-ui:search-container
+			cssClass=\\"lfr-search-container-inherited-regular-roles\\"
+			curParam=\\"inheritedRegularRolesCur\\"
+			headerNames=\\"title,group\\"
+			id=\\"inheritedRolesSearchContainer\\"
+			iteratorURL=\\"<%= currentURLObj %>\\"
+			total=\\"<%= roleGroups.size() %>\\"
+		>",
+    "<liferay-ui:search-container-results
+				results=\\"<%= roleGroups.subList(searchContainer.getStart(), searchContainer.getResultEnd()) %>\\"
+			/>",
+    "<liferay-ui:search-container-row
+				className=\\"com.liferay.portal.kernel.model.Group\\"
+				keyProperty=\\"groupId\\"
+				modelVar=\\"group\\"
+				rowIdProperty=\\"friendlyURL\\"
+			>",
+    "<%
+				List<Role> groupRoles = RoleLocalServiceUtil.getGroupRoles(group.getGroupId());
+				%>",
+    "<liferay-ui:search-container-column-text
+					name=\\"title\\"
+					value=\\"<%= HtmlUtil.escape(ListUtil.toString(groupRoles, Role.NAME_ACCESSOR)) %>\\"
+				>
+					<liferay-ui:icon
+						iconCssClass=\\"<%= RolesAdminUtil.getIconCssClass(groupRoles.get(0)) %>\\"
+						label=\\"<%= true %>\\"
+						message=\\"<%= HtmlUtil.escape(ListUtil.toString(groupRoles, Role.NAME_ACCESSOR)) %>\\"
+					/>
+				</liferay-ui:search-container-column-text>",
+    "<liferay-ui:search-container-column-text
+					name=\\"group\\"
+					value=\\"<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>\\"
+				/>",
+    "</liferay-ui:search-container-row>",
+    "<liferay-ui:search-iterator
+				markupView=\\"lexicon\\"
+			/>",
+    "</liferay-ui:search-container>",
+    "</c:if>",
+    "<liferay-ui:message key=\\"organization-roles\\" />",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) && (!organizations.isEmpty() || !organizationRoles.isEmpty()) %>\\">",
+    "<liferay-ui:icon
+						cssClass=\\"modify-link\\"
+						id=\\"selectOrganizationRoleLink\\"
+						label=\\"<%= true %>\\"
+						linkCssClass=\\"btn btn-secondary btn-sm\\"
+						message=\\"select\\"
+						method=\\"get\\"
+						url=\\"javascript:;\\"
+					/>",
+    "</c:if>",
+    "<c:if test=\\"<%= organizations.isEmpty() && organizationRoles.isEmpty() %>\\">",
+    "<liferay-ui:message key=\\"this-user-does-not-belong-to-an-organization-to-which-an-organization-role-can-be-assigned\\" />",
+    "</c:if>",
+    "<c:if test=\\"<%= !organizations.isEmpty() %>\\">",
+    "<liferay-ui:search-container
+			compactEmptyResultsMessage=\\"<%= true %>\\"
+			cssClass=\\"lfr-search-container-organization-roles\\"
+			curParam=\\"organizationRolesCur\\"
+			emptyResultsMessage=\\"this-user-is-not-assigned-any-organization-roles\\"
+			headerNames=\\"title,organization,null\\"
+			id=\\"organizationRolesSearchContainer\\"
+			iteratorURL=\\"<%= currentURLObj %>\\"
+			total=\\"<%= organizationRoles.size() %>\\"
+		>",
+    "<liferay-ui:search-container-results
+				results=\\"<%= organizationRoles.subList(searchContainer.getStart(), searchContainer.getResultEnd()) %>\\"
+			/>",
+    "<liferay-ui:search-container-row
+				className=\\"com.liferay.portal.kernel.model.UserGroupRole\\"
+				keyProperty=\\"roleId\\"
+				modelVar=\\"userGroupRole\\"
+			>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"title\\"
+				>
+					<liferay-ui:icon
+						iconCssClass=\\"<%= RolesAdminUtil.getIconCssClass(userGroupRole.getRole()) %>\\"
+						label=\\"<%= true %>\\"
+						message=\\"<%= HtmlUtil.escape(userGroupRole.getRole().getTitle(locale)) %>\\"
+					/>
+				</liferay-ui:search-container-column-text>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"organization\\"
+					value=\\"<%= HtmlUtil.escape(userGroupRole.getGroup().getDescriptiveName(locale)) %>\\"
+				/>",
+    "<%
+				boolean membershipProtected = false;
+
+				Group group = userGroupRole.getGroup();
+
+				Role role = userGroupRole.getRole();
+
+				if (role.getType() == RoleConstants.TYPE_ORGANIZATION) {
+					membershipProtected = OrganizationMembershipPolicyUtil.isMembershipProtected(permissionChecker, userGroupRole.getUserId(), group.getOrganizationId());
+				}
+				else {
+					membershipProtected = SiteMembershipPolicyUtil.isMembershipProtected(permissionChecker, userGroupRole.getUserId(), group.getGroupId());
+				}
+				%>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) && !membershipProtected %>\\">",
+    "<liferay-ui:search-container-column-text>",
+    "<%= userGroupRole.getGroupId() %>",
+    "<%= userGroupRole.getRoleId() %>",
+    "<%= removeRoleIcon %>",
+    "</liferay-ui:search-container-column-text>",
+    "</c:if>",
+    "</liferay-ui:search-container-row>",
+    "<liferay-ui:search-iterator
+				markupView=\\"lexicon\\"
+			/>",
+    "</liferay-ui:search-container>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) %>\\">",
+    "<aui:script use=\\"liferay-search-container\\">",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= organizationRoleSyncEntitiesEventName %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "</aui:script>",
+    "</c:if>",
+    "</c:if>",
+    "<c:if test=\\"<%= !organizations.isEmpty() && !portletName.equals(myAccountPortletId) %>\\">",
+    "<aui:script sandbox=\\"<%= true %>\\">",
+    "<portlet:namespace />",
+    "<%
+								String organizationRoleEventName = liferayPortletResponse.getNamespace() + \\"selectOrganizationRole\\";
+								%>",
+    "<%= organizationRoleEventName %>",
+    "<liferay-ui:message arguments=\\"organization-role\\" key=\\"select-x\\" />",
+    "<%
+								PortletURL selectOrganizationRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+
+								selectOrganizationRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+								selectOrganizationRoleURL.setParameter(\\"step\\", \\"1\\");
+								selectOrganizationRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_ORGANIZATION));
+								selectOrganizationRoleURL.setParameter(\\"organizationIds\\", StringUtil.merge(organizationIds));
+								selectOrganizationRoleURL.setParameter(\\"eventName\\", organizationRoleEventName);
+								selectOrganizationRoleURL.setParameter(\\"syncEntitiesEventName\\", organizationRoleSyncEntitiesEventName);
+								selectOrganizationRoleURL.setWindowState(LiferayWindowState.POP_UP);
+								%>",
+    "<%= selectOrganizationRoleURL.toString() %>",
+    "<portlet:namespace />",
+    "</aui:script>",
+    "</c:if>",
+    "<liferay-ui:message key=\\"site-roles\\" />",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) && (!groups.isEmpty() || !siteRoles.isEmpty()) %>\\">",
+    "<liferay-ui:icon
+						cssClass=\\"modify-link\\"
+						id=\\"selectSiteRoleLink\\"
+						label=\\"<%= true %>\\"
+						linkCssClass=\\"btn btn-secondary btn-sm\\"
+						message=\\"select\\"
+						method=\\"get\\"
+						url=\\"javascript:;\\"
+					/>",
+    "</c:if>",
+    "<c:if test=\\"<%= groups.isEmpty() && siteRoles.isEmpty() %>\\">",
+    "<liferay-ui:message key=\\"this-user-does-not-belong-to-a-site-to-which-a-site-role-can-be-assigned\\" />",
+    "</c:if>",
+    "<c:if test=\\"<%= !groups.isEmpty() %>\\">",
+    "<liferay-ui:search-container
+			compactEmptyResultsMessage=\\"<%= true %>\\"
+			cssClass=\\"lfr-search-container-site-roles\\"
+			curParam=\\"siteRolesCur\\"
+			emptyResultsMessage=\\"this-user-is-not-assigned-any-site-roles\\"
+			headerNames=\\"title,site,null\\"
+			id=\\"siteRolesSearchContainer\\"
+			iteratorURL=\\"<%= currentURLObj %>\\"
+			total=\\"<%= siteRoles.size() %>\\"
+		>",
+    "<liferay-ui:search-container-results
+				results=\\"<%= siteRoles.subList(searchContainer.getStart(), searchContainer.getResultEnd()) %>\\"
+			/>",
+    "<liferay-ui:search-container-row
+				className=\\"com.liferay.portal.kernel.model.UserGroupRole\\"
+				keyProperty=\\"roleId\\"
+				modelVar=\\"userGroupRole\\"
+			>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"title\\"
+				>
+					<liferay-ui:icon
+						iconCssClass=\\"<%= RolesAdminUtil.getIconCssClass(userGroupRole.getRole()) %>\\"
+						label=\\"<%= true %>\\"
+						message=\\"<%= HtmlUtil.escape(userGroupRole.getRole().getTitle(locale)) %>\\"
+					/>
+				</liferay-ui:search-container-column-text>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"site\\"
+				>
+					<liferay-staging:descriptive-name
+						group=\\"<%= userGroupRole.getGroup() %>\\"
+					/>
+				</liferay-ui:search-container-column-text>",
+    "<%
+				boolean membershipProtected = false;
+
+				Group group = userGroupRole.getGroup();
+
+				Role role = userGroupRole.getRole();
+
+				if (role.getType() == RoleConstants.TYPE_ORGANIZATION) {
+					membershipProtected = OrganizationMembershipPolicyUtil.isMembershipProtected(permissionChecker, userGroupRole.getUserId(), group.getOrganizationId());
+				}
+				else {
+					membershipProtected = SiteMembershipPolicyUtil.isMembershipProtected(permissionChecker, userGroupRole.getUserId(), group.getGroupId());
+				}
+				%>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) && !membershipProtected %>\\">",
+    "<liferay-ui:search-container-column-text>",
+    "<%= userGroupRole.getGroupId() %>",
+    "<%= userGroupRole.getRoleId() %>",
+    "<%= removeRoleIcon %>",
+    "</liferay-ui:search-container-column-text>",
+    "</c:if>",
+    "</liferay-ui:search-container-row>",
+    "<liferay-ui:search-iterator
+				markupView=\\"lexicon\\"
+			/>",
+    "</liferay-ui:search-container>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) %>\\">",
+    "<aui:script use=\\"liferay-search-container\\">",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= siteRoleSyncEntitiesEventName %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%
+								String siteRoleEventName = liferayPortletResponse.getNamespace() + \\"selectSiteRole\\";
+								%>",
+    "<%= siteRoleEventName %>",
+    "<liferay-ui:message arguments=\\"site-role\\" key=\\"select-x\\" />",
+    "<%
+								PortletURL selectSiteRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+
+								selectSiteRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+								selectSiteRoleURL.setParameter(\\"step\\", \\"1\\");
+								selectSiteRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_SITE));
+								selectSiteRoleURL.setParameter(\\"eventName\\", siteRoleEventName);
+								selectSiteRoleURL.setParameter(\\"syncEntitiesEventName\\", siteRoleSyncEntitiesEventName);
+								selectSiteRoleURL.setWindowState(LiferayWindowState.POP_UP);
+								%>",
+    "<%= selectSiteRoleURL.toString() %>",
+    "<portlet:namespace />",
+    "</aui:script>",
+    "</c:if>",
+    "</c:if>",
+    "<c:if test=\\"<%= !inheritedSiteRoles.isEmpty() %>\\">",
+    "<liferay-ui:message key=\\"inherited-site-roles\\" />",
+    "<liferay-ui:search-container
+			cssClass=\\"lfr-search-container-inherited-site-roles\\"
+			curParam=\\"inheritedSiteRolesCur\\"
+			headerNames=\\"title,site,user-group\\"
+			id=\\"inheritedSiteRolesSearchContainer\\"
+			iteratorURL=\\"<%= currentURLObj %>\\"
+			total=\\"<%= inheritedSiteRoles.size() %>\\"
+		>",
+    "<liferay-ui:search-container-results
+				results=\\"<%= inheritedSiteRoles.subList(searchContainer.getStart(), searchContainer.getResultEnd()) %>\\"
+			/>",
+    "<liferay-ui:search-container-row
+				className=\\"com.liferay.portal.kernel.model.UserGroupGroupRole\\"
+				keyProperty=\\"roleId\\"
+				modelVar=\\"userGroupGroupRole\\"
+			>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"title\\"
+				>
+					<liferay-ui:icon
+						iconCssClass=\\"<%= RolesAdminUtil.getIconCssClass(userGroupGroupRole.getRole()) %>\\"
+						label=\\"<%= true %>\\"
+						message=\\"<%= HtmlUtil.escape(userGroupGroupRole.getRole().getTitle(locale)) %>\\"
+					/>
+				</liferay-ui:search-container-column-text>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"site\\"
+				>
+					<liferay-staging:descriptive-name
+						group=\\"<%= userGroupGroupRole.getGroup() %>\\"
+					/>
+				</liferay-ui:search-container-column-text>",
+    "<liferay-ui:search-container-column-text
+					cssClass=\\"table-cell-content\\"
+					name=\\"user-group\\"
+					value=\\"<%= HtmlUtil.escape(userGroupGroupRole.getUserGroup().getName()) %>\\"
+				/>",
+    "</liferay-ui:search-container-row>",
+    "<liferay-ui:search-iterator
+				markupView=\\"lexicon\\"
+			/>",
+    "</liferay-ui:search-container>",
+    "</c:if>",
+    "<c:if test=\\"<%= !portletName.equals(myAccountPortletId) %>\\">",
+    "<aui:script>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= UnicodeFormatter.toString(removeRoleIcon) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= UnicodeFormatter.toString(removeRoleIcon) %>",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "</aui:script>",
+    "<aui:script use=\\"liferay-search-container\\">",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<%= regularRoleSyncEntitiesEventName %>",
+    "<portlet:namespace />",
+    "</aui:script>",
+    "</c:if>",
+  ],
+]
+`;
+
+exports[`substituteTags() substituting tags in entire fixtures view.jsp matches snapshot 1`] = `
+Array [
+  "/*╳╳
+╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳
+╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+
+	/*
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<link href=\\"ʾJSP_EXPR_______________________________________________________________________________________________________________________________________________ʿ\\" rel=\\"stylesheet\\" type=\\"text/css\\" />
+	/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<script data-senna-track=\\"temporary\\" defer=\\"defer\\" src=\\"ʾJSP_EXPR_____________________________________________________________________________________________________________________________________________ʿ\\" type=\\"text/javascript\\"></script>
+	/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+	/*
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	*/
+
+	<div class=\\"portlet-chat\\" id=\\"chatBar\\">
+		<div class=\\"chat-bar\\">
+			<div class=\\"chat-sound\\"></div>
+
+			<div class=\\"chat-status\\">
+				<div class=\\"status-message\\">
+					//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+						ʾJSP_EXPR_______________________________________________________________________________________ʿ
+					/*ʅʅʅ*/
+				</div>
+			</div>
+
+			<div class=\\"chat-tabs-container\\">
+				<ul class=\\"chat-tabs\\">
+					<li class=\\"buddy-list loading ʾJSP_EXPR______________________________________________ʿ\\">
+						<div class=\\"chat-panel-trigger\\" panelId=\\"buddylist\\" tabindex=\\"0\\">
+							<span class=\\"trigger-name\\">ʾJSP_EXPR______________________________________________________________________________ʿ</span>
+						</div>
+
+						<div class=\\"chat-panel\\">
+							<div class=\\"chat-panel-window\\">
+								<div class=\\"chat-panel-button minimize\\"></div>
+
+								<div class=\\"chat-panel-title\\">
+									ʾJSP_EXPR______________________________________________________________________________ʿ
+								</div>
+
+								/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+								<div class=\\"chat-panel-content\\">
+									<ul class=\\"lfr-component online-users\\">
+
+										/*
+										╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+											╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+										*/
+
+											<li class=\\"active user\\" data-displayURL=\\"ʾJSP_EXPR_____________________________________ʿ\\" data-groupId=\\"ʾJSP_EXPR____ʿ\\" data-userId=\\"ʾJSP_EXPR___ʿ\\" tabindex=\\"0\\">
+												<img alt=\\"ʾJSP_EXPR___________________________________________________________________________ʿ\\" src=\\"ʾJSP_EXPR__________________________________________________________________________________ʿ\\" />
+
+												<div class=\\"name\\">
+													ʾJSP_EXPR___________________________________________________________________________ʿ
+												</div>
+											</li>
+
+										/*
+										╳
+										*/
+
+									</ul>
+								</div>
+
+								<div style=\\"clear: both;\\"></div>
+							</div>
+						</div>
+					</li>
+					<li class=\\"chat-settings ʾJSP_EXPR_____________________________________________ʿ\\">
+						<div class=\\"chat-panel-trigger\\" panelId=\\"settings\\" tabindex=\\"0\\">
+							<span class=\\"trigger-name\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</span>
+						</div>
+
+						<div class=\\"chat-panel\\">
+							<div class=\\"chat-panel-window\\">
+								<div class=\\"chat-panel-button minimize\\"></div>
+
+								<div class=\\"chat-panel-title\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</div>
+
+								<ul class=\\"clearfix lfr-component settings\\">
+									<li>
+										<label for=\\"statusMessage\\">ʾJSP_EXPR_____________________________________________________________________________ʿ</label>
+
+										<input id=\\"statusMessage\\" type=\\"text\\" value=\\"ʾJSP_EXPR__________ʿ\\" />
+									</li>
+									<li>
+										<label for=\\"onlineStatus\\"><input ʾJSP_EXPR________________________________ʿ id=\\"onlineStatus\\" type=\\"checkbox\\" /> /*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/</label>
+									</li>
+									<li>
+										<label for=\\"playSound\\"><input ʾJSP_EXPR___________________________________ʿ id=\\"playSound\\" type=\\"checkbox\\" /> /*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/ </label>
+									</li>
+									<li class=\\"show-notifications-setting\\">
+										<label for=\\"showNotifications\\"><input disabled=\\"disabled\\" id=\\"showNotifications\\" type=\\"checkbox\\" /> /*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/ </label>
+									</li>
+								</ul>
+
+								<div class=\\"ctrl-holder\\">
+									<input id=\\"saveSettings\\" type=\\"submit\\" value=\\"/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/\\" />
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<input id=\\"activePanelIds\\" type=\\"hidden\\" value=\\"ʾJSP_EXPR_________________________________________________ʿ\\" />
+		<input id=\\"chatPortletId\\" type=\\"hidden\\" value=\\"ʾJSP_EXPR___________________ʿ\\" />
+
+		<div class=\\"chat-extensions hide\\">
+
+			/*
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+			/*
+			╳
+			*/
+
+		</div>
+	</div>
+
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+/*ʅʅʅ*/",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%@ include file=\\"/init.jsp\\" %>",
+    "<c:if test=\\"<%= themeDisplay.isSignedIn() && !(BrowserSnifferUtil.isIe(request) && (BrowserSnifferUtil.getMajorVersion(request) < 7)) && !BrowserSnifferUtil.isMobile(request) %>\\">",
+    "<%
+	Portlet portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletDisplay.getId());
+	%>",
+    "<liferay-util:html-top>",
+    "<%= PortalUtil.getStaticResourceURL(request, themeDisplay.getCDNHost() + PortalUtil.getPathContext(request) + \\"/css/main.css\\", portlet.getTimestamp()) %>",
+    "</liferay-util:html-top>",
+    "<liferay-util:html-bottom>",
+    "<%= PortalUtil.getStaticResourceURL(request, themeDisplay.getCDNHost() + PortalUtil.getPathContext(request) + \\"/js/main.js\\", portlet.getTimestamp()) %>",
+    "</liferay-util:html-bottom>",
+    "<%
+	Status status = StatusLocalServiceUtil.getUserStatus(themeDisplay.getUserId());
+
+	boolean online = status.getOnline();
+
+	JSONObject activePanelIdsJSONObject = null;
+
+	String openPanelId = StringPool.BLANK;
+
+	if (Validator.isNotNull(status.getActivePanelIds())) {
+		activePanelIdsJSONObject = JSONFactoryUtil.createJSONObject(status.getActivePanelIds());
+
+		openPanelId = activePanelIdsJSONObject.getString(\\"open\\");
+	}
+
+	String statusMessage = HtmlUtil.escape(status.getMessage());
+	boolean playSound = status.getPlaySound();
+
+	List<Object[]> buddies = BuddyFinderUtil.getBuddies(themeDisplay.getCompanyId(), themeDisplay.getUserId());
+
+	int buddiesCount = buddies.size();
+	%>",
+    "<c:if test=\\"<%= Validator.isNotNull(statusMessage) %>\\">",
+    "<%= LanguageUtil.format(request, \\"you-are-x\\", \\"<strong>\\" + statusMessage + \\"</strong>\\", false) %>",
+    "</c:if>",
+    "<%= openPanelId.equals(\\"buddylist\\") ? \\"selected\\" : \\"\\" %>",
+    "<%= LanguageUtil.format(request, \\"online-friends-x\\", \\"(\\" + buddiesCount + \\")\\", false) %>",
+    "<%= LanguageUtil.format(request, \\"online-friends-x\\", \\"(\\" + buddiesCount + \\")\\", false) %>",
+    "<aui:input cssClass=\\"search-buddies\\" label=\\"\\" name=\\"searchBuddies\\" placeholder=\\"search\\" />",
+    "<%
+										for (Object[] buddy : buddies) {
+											String firstName = (String)buddy[1];
+											long groupId = (Long)buddy[2];
+											String lastName = (String)buddy[3];
+											boolean male = (Boolean)buddy[4];
+											String middleName = (String)buddy[5];
+											long portraitId = (Long)buddy[6];
+											long userId = (Long)buddy[8];
+											String userUuid = (String)buddy[9];
+
+											Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+										%>",
+    "<%= group.getDisplayURL(themeDisplay, false) %>",
+    "<%= groupId %>",
+    "<%= userId %>",
+    "<%= HtmlUtil.escape(ContactConstants.getFullName(firstName, middleName, lastName)) %>",
+    "<%= UserConstants.getPortraitURL(themeDisplay.getPathImage(), male, portraitId, userUuid) %>",
+    "<%= HtmlUtil.escape(ContactConstants.getFullName(firstName, middleName, lastName)) %>",
+    "<%
+										}
+										%>",
+    "<%= openPanelId.equals(\\"settings\\") ? \\"selected\\" : \\"\\" %>",
+    "<liferay-ui:message key=\\"settings\\" />",
+    "<liferay-ui:message key=\\"settings\\" />",
+    "<%= LanguageUtil.format(request, \\"x-is\\", HtmlUtil.escape(user.getFullName()), false) %>",
+    "<%= statusMessage %>",
+    "<%= online ? \\"checked=\\\\\\"checked\\\\\\"\\" : \\"\\" %>",
+    "<liferay-ui:message key=\\"show-me-as-online\\" />",
+    "<%= playSound ? \\"checked=\\\\\\"checked\\\\\\"\\" : \\"\\" %>",
+    "<liferay-ui:message key=\\"play-a-sound-when-i-receive-a-new-message-in-a-hidden-window\\" />",
+    "<liferay-ui:message key=\\"enable-desktop-notifications-for-new-messages\\" />",
+    "<liferay-ui:message key=\\"save\\" />",
+    "<%= HtmlUtil.escapeAttribute(status.getActivePanelIds()) %>",
+    "<%= portletDisplay.getId() %>",
+    "<%
+			Map<String, String> extensions = ChatExtensionsUtil.getExtensions();
+
+			Set<String> servletContextNames = extensions.keySet();
+
+			for (String servletContextName : servletContextNames) {
+				String extensionPath = extensions.get(servletContextName);
+				ServletContext extensionServletContext = ServletContextPool.get(servletContextName);
+			%>",
+    "<liferay-util:include page=\\"<%= extensionPath %>\\" servletContext=\\"<%= extensionServletContext %>\\" />",
+    "<%
+			}
+			%>",
+    "<aui:input name=\\"currentChatServerTime\\" type=\\"hidden\\" useNamespace=\\"<%= false %>\\" value=\\"<%= System.currentTimeMillis() %>\\" />",
+    "</c:if>",
+  ],
+]
+`;
+
 exports[`substituteTags() substituting tags in entire fixtures view_calendar_menus.jspf matches snapshot 1`] = `
 Array [
   "/*╳╳
@@ -2254,6 +4076,441 @@ String backURL = PortalUtil.getCurrentURL(request);
     "<portlet:namespace />",
     "<portlet:namespace />",
     "<portlet:namespace />",
+    "</aui:script>",
+  ],
+]
+`;
+
+exports[`substituteTags() substituting tags in entire fixtures view_meeting.jsp matches snapshot 1`] = `
+Array [
+  "/*╳╳
+╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳╳╳╳╳╳╳╳╳
+╳╳╳
+╳╳*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+/*
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	<script src=\\"ʾJSP_EXPR__________________________ʿ://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.js\\" type=\\"text/javascript\\"></script>
+/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+*/
+
+<div class=\\"meeting-container\\">
+	<div id=\\"ʾPORTLET_NAMESPACE__ʿerrorMessage\\"></div>
+
+	/*
+	╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+	*/
+
+	/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+
+	<div class=\\"meeting-url\\">
+		<dt>
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+		</dt>
+		<dd>
+			<input id=\\"ʾPORTLET_NAMESPACE__ʿmeetingURL\\" readonly=\\"readonly\\" type=\\"text\\" value=\\"ʾJSP_EXPR________________________________________________________ʿ\\" />
+
+			<button class=\\"zeroclipboard-button\\" data-clipboard-text=\\"ʾJSP_EXPR________________________________________________________ʿ\\" data-copied=\\"/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/\\" data-hover=\\"/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/\\" id=\\"ʾPORTLET_NAMESPACE__ʿcopyButton\\">
+				<i class=\\"icon-copy\\"></i>
+			</button>
+		</dd>
+	</div>
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			<div class=\\"meeting-password\\">
+				<dt>
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+				</dt>
+				<dd>
+					ʾJSP_EXPR____________________________________________________________________________ʿ
+				</dd>
+			</div>
+		/*ʅʅʅ*/
+	/*ʅʅʅ*/
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		<div class=\\"join-by-phone\\">
+			<dt>
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+			</dt>
+
+			/*
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳
+			*/
+
+			<dd>
+				<div class=\\"join-by-phone-content\\">
+					<div class=\\"default-number\\">
+						<i class=\\"icon-phone\\"></i><span class=\\"title\\">/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/:</span> ʾJSP_EXPR____________________________ʿ
+					</div>
+
+					<div class=\\"access-code\\">
+						<span class=\\"title\\">ʾJSP_EXPR________________________________________________________________________________________________________________ʿ:</span> ʾJSP_EXPR________________________________________________________________ʿ
+					</div>
+
+					<div class=\\"international-numbers-toggler\\" id=\\"ʾPORTLET_NAMESPACE__ʿinternationalNumbersToggler\\">
+						<div class=\\"international-numbers-header toggler-header-collapsed\\">
+							/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+						</div>
+
+						<div class=\\"international-numbers-content toggler-content-collapsed\\">
+							<div id=\\"ʾPORTLET_NAMESPACE__ʿinternationalNumbersTable\\"></div>
+						</div>
+					</div>
+				</div>
+			</dd>
+		</div>
+	/*ʅʅʅ*/
+
+	<div class=\\"provider\\">
+		<dt>
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+		</dt>
+		<dd>
+			ʾJSP_EXPR___________________________________________________________________________________________________ʿ
+		</dd>
+	</div>
+
+	<div class=\\"participants\\">
+		<dt>
+			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+		</dt>
+		<dd>
+			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+			*/
+				//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+
+					/*
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+
+				/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+				/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+					ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+				*/
+
+					/*
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+					╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					╳
+					*/
+
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+
+					/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+						╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+					*/
+				/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+
+				/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+			/*ʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅʅ*/
+		</dd>
+	</div>
+</div>
+
+//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+	var copyButton = A.one('#ʾPORTLET_NAMESPACE__ʿcopyButton');
+
+	if (A.SWFDetect.isFlashVersionAtLeast(11, 0, 0) && copyButton) {
+		var client = new ZeroClipboard(document.getElementById('ʾPORTLET_NAMESPACE__ʿcopyButton'));
+
+		client.on(
+			'error',
+			function(event) {
+				ZeroClipboard.destroy();
+			}
+		);
+
+		client.on(
+			'ready',
+			function(readyEvent) {
+				client.on(
+					'aftercopy',
+					function(event) {
+						copyButton.addClass('copied');
+					}
+				);
+			}
+		);
+
+		copyButton.on(
+			'mouseout',
+			function() {
+				copyButton.removeClass('copied');
+			}
+		);
+	}
+	else {
+		if (copyButton) {
+			copyButton.hide();
+		}
+
+		var meetingURLInput = A.one('#ʾPORTLET_NAMESPACE__ʿmeetingURL');
+
+		if (meetingURLInput) {
+			meetingURLInput.removeAttribute('readonly');
+
+			meetingURLInput.addClass('only');
+		}
+	}
+
+	//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+		new A.Toggler(
+			{
+				animated: true,
+				container: '#ʾPORTLET_NAMESPACE__ʿinternationalNumbersToggler',
+				content: '.international-numbers-content',
+				expanded: false,
+				header: '.international-numbers-header'
+			}
+		);
+
+		//Load global phone numbers
+
+		var columns = [
+			{
+				key: 'lcountry',
+				label: 'country'
+			},
+			{
+				key: 'lphone',
+				label: 'phone'
+			},
+			{
+				key: 'rcountry',
+				label: 'country'
+			},
+			{
+				key: 'rphone',
+				label: 'phone'
+			}
+		];
+
+		var interationalNumbersDisplay = [];
+
+		/*
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+
+		╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+		*/
+
+					interationalNumbersDisplay.push(
+						{
+							country: 'ʾJSP_EXPR____ʿ',
+							number: 'ʾJSP_EXPR___ʿ'
+						}
+					);
+
+		/*
+				╳
+			╳
+		╳
+		*/
+
+		var halfInterationalNumbersDisplay = Math.round(interationalNumbersDisplay.length / 2);
+
+		var dataLeft = interationalNumbersDisplay.slice(0, halfInterationalNumbersDisplay);
+		var dataRight = interationalNumbersDisplay.slice(halfInterationalNumbersDisplay);
+
+		var data = [];
+
+		for (var i = 0; i < dataLeft.length; i++) {
+			var rcountry = '';
+			var rphone = '';
+
+			if (dataRight[i] != undefined) {
+				rcountry = dataRight[i].country;
+				rphone = dataRight[i].number;
+			}
+
+			data.push(
+				{
+					lcountry: dataLeft[i].country,
+					lphone: dataLeft[i].number,
+					rcountry: rcountry,
+					rphone: rphone
+				}
+			);
+		}
+
+		new A.DataTable(
+			{
+				className: 'table table-bordered',
+				columns: columns,
+				data: data
+			}
+		).render('#ʾPORTLET_NAMESPACE__ʿinternationalNumbersTable');
+	/*ʅʅʅ*/
+/*ʅʅʅʅʅʅʅʅʅ*/",
+  Array [
+    "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "<%@ include file=\\"/init.jsp\\" %>",
+    "<%
+String backURL = ParamUtil.getString(request, \\"backURL\\");
+
+long powwowMeetingId = ParamUtil.getLong(request, \\"powwowMeetingId\\");
+
+PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(powwowMeetingId);
+%>",
+    "<liferay-util:html-bottom>",
+    "<%= HttpUtil.getProtocol(request) %>",
+    "</liferay-util:html-bottom>",
+    "<liferay-ui:header
+	backURL=\\"<%= backURL %>\\"
+	title=\\"meeting-info\\"
+/>",
+    "<portlet:namespace />",
+    "<%
+	boolean displayMeetingActions = true;
+	%>",
+    "<%@ include file=\\"/meetings/meeting_body.jspf\\" %>",
+    "<liferay-ui:message key=\\"meeting-url\\" />",
+    "<portlet:namespace />",
+    "<%= PowwowUtil.getInvitationURL(powwowMeetingId, null, request) %>",
+    "<%= PowwowUtil.getInvitationURL(powwowMeetingId, null, request) %>",
+    "<liferay-ui:message key=\\"copied\\" />",
+    "<liferay-ui:message key=\\"copy-to-clipboard\\" />",
+    "<portlet:namespace />",
+    "<c:if test=\\"<%= PowwowServiceProviderUtil.isSupportsOptionPassword(powwowMeeting.getProviderType()) %>\\">",
+    "<c:if test=\\"<%= Validator.isNotNull(PowwowServiceProviderUtil.getOptionPassword(powwowMeeting.getPowwowMeetingId())) %>\\">",
+    "<liferay-ui:message key=\\"meeting-password\\" />",
+    "<%= PowwowServiceProviderUtil.getOptionPassword(powwowMeeting.getPowwowMeetingId()) %>",
+    "</c:if>",
+    "</c:if>",
+    "<c:if test=\\"<%= PowwowServiceProviderUtil.isSupportsJoinByPhone(powwowMeeting.getProviderType()) %>\\">",
+    "<liferay-ui:message key=\\"join-by-phone\\" />",
+    "<%
+			String joinByPhoneDefaultNumbersString = StringPool.BLANK;
+
+			List<String> joinByPhoneDefaultNumbers = PowwowServiceProviderUtil.getJoinByPhoneDefaultNumbers(powwowMeeting.getProviderType());
+
+			if ((joinByPhoneDefaultNumbers != null) && !joinByPhoneDefaultNumbers.isEmpty()) {
+				joinByPhoneDefaultNumbersString = StringUtil.merge(joinByPhoneDefaultNumbers, StringPool.SPACE + LanguageUtil.get(request, \\"or\\") + StringPool.SPACE);
+			}
+			%>",
+    "<liferay-ui:message key=\\"dial\\" />",
+    "<%= joinByPhoneDefaultNumbersString %>",
+    "<%= LanguageUtil.get(request, PowwowServiceProviderUtil.getJoinByPhoneAccessCodeLabel(powwowMeeting.getProviderType())) %>",
+    "<%= PowwowServiceProviderUtil.getJoinByPhoneAccessCode(powwowMeetingId) %>",
+    "<portlet:namespace />",
+    "<liferay-ui:message key=\\"international-numbers\\" />",
+    "<portlet:namespace />",
+    "</c:if>",
+    "<liferay-ui:message key=\\"provider\\" />",
+    "<%= LanguageUtil.get(request, PowwowServiceProviderUtil.getBrandingLabel(powwowMeeting.getProviderType())) %>",
+    "<liferay-ui:message key=\\"participants\\" />",
+    "<liferay-ui:search-container
+				total=\\"<%= PowwowParticipantLocalServiceUtil.getPowwowParticipantsCount(powwowMeetingId) %>\\"
+			>",
+    "<liferay-ui:search-container-results>",
+    "<%
+					searchContainer.setResults(PowwowParticipantLocalServiceUtil.getPowwowParticipants(powwowMeetingId));
+					%>",
+    "</liferay-ui:search-container-results>",
+    "<liferay-ui:search-container-row
+					className=\\"com.liferay.powwow.model.PowwowParticipant\\"
+					escapedModel=\\"<%= true %>\\"
+					keyProperty=\\"powwowParticipantId\\"
+					modelVar=\\"powwowParticipant\\"
+				>",
+    "<%
+					String displayName = powwowParticipant.getName();
+
+					if (powwowParticipant.getType() == PowwowParticipantConstants.TYPE_HOST) {
+						displayName = LanguageUtil.format(request, \\"x-host\\", displayName);
+					}
+					%>",
+    "<liferay-ui:search-container-column-text
+						name=\\"name\\"
+						value=\\"<%= displayName %>\\"
+					/>",
+    "<liferay-ui:search-container-column-text
+						name=\\"email-address\\"
+						property=\\"emailAddress\\"
+					/>",
+    "</liferay-ui:search-container-row>",
+    "<liferay-ui:search-iterator />",
+    "</liferay-ui:search-container>",
+    "<aui:script use=\\"aui-base,aui-datatable,aui-toggler,swfdetect\\">",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<portlet:namespace />",
+    "<c:if test=\\"<%= PowwowServiceProviderUtil.isSupportsJoinByPhone(powwowMeeting.getProviderType()) %>\\">",
+    "<portlet:namespace />",
+    "<%
+		Map<String, List<String>> internationalNumbers = PowwowServiceProviderUtil.getJoinByPhoneInternationalNumbers(powwowMeeting.getProviderType());
+
+		if ((internationalNumbers != null) && !internationalNumbers.isEmpty()) {
+			for (String country : internationalNumbers.keySet()) {
+				for (String number : internationalNumbers.get(country)) {
+		%>",
+    "<%= country %>",
+    "<%= number %>",
+    "<%
+				}
+			}
+		}
+		%>",
+    "<portlet:namespace />",
+    "</c:if>",
     "</aui:script>",
   ],
 ]

@@ -79,11 +79,47 @@ describe('formatJSP()', () => {
 			'configuration.jsp',
 			'edit_template_display.jspf',
 			'page.jsp',
-			'view_calendar_menus.jspf'
+			'view_calendar_menus.jspf',
+
+			// Rejected by Prettier:
+			// 'edit_content_redirect.jsp',
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('format', fixture));
 
 			expect(formatJSP(source)).toMatchSnapshot();
+		});
+	});
+
+	describe('known limitations', () => {
+		it('cannot deal with conditionals at the end of object literals', () => {
+			// This one from "edit_content_redirect.jsp": note that without
+			// trailing commas after the "redirect" and "refresh" properties,
+			// Prettier will report a syntax error. We can't add commas to
+			// either because that would break IE 11.
+			const source = `
+				<aui:script>
+					Liferay.fire(
+						'closeWindow',
+						{
+							id: '<portlet:namespace />editAsset',
+							portletAjaxable: true,
+
+							<c:choose>
+								<c:when test="<%= redirect != null %>">
+									redirect: '<%= HtmlUtil.escapeJS(redirect) %>'
+								</c:when>
+								<c:otherwise>
+									refresh: '<%= portletDisplay.getId() %>'
+								</c:otherwise>
+							</c:choose>
+						}
+					);
+				</aui:script>
+			`;
+
+			expect(() => formatJSP(source)).toThrow(
+				/Unexpected token, expected ","/
+			);
 		});
 	});
 });
