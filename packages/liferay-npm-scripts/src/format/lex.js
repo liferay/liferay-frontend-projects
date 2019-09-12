@@ -767,13 +767,13 @@ function lex(source, options = {}) {
 		[Symbol.iterator]: {
 			value() {
 				return lexer.lex(source);
-			},
+			}
 		},
 
 		tokens: {
 			get() {
 				return [...lexer.lex(source)];
-			},
+			}
 		}
 	});
 

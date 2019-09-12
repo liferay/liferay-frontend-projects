@@ -81,7 +81,9 @@ describe('lex()', () => {
 			}
 		]);
 
-		expect(lex('<%@ include file="\\"stuff\\\\¿here?&quot;" %>').tokens).toEqual([
+		expect(
+			lex('<%@ include file="\\"stuff\\\\¿here?&quot;" %>').tokens
+		).toEqual([
 			{
 				contents: '<%@ include file="\\"stuff\\\\¿here?&quot;" %>',
 				index: 0,
@@ -313,13 +315,15 @@ describe('lex()', () => {
 		]);
 
 		// A self-closing tag with an attribute that contains a JSP expression.
-		expect(lex('<custom:tag with="<%= SomeVariable %>" />').tokens).toEqual([
-			{
-				contents: '<custom:tag with="<%= SomeVariable %>" />',
-				index: 0,
-				name: 'CUSTOM_ACTION'
-			}
-		]);
+		expect(lex('<custom:tag with="<%= SomeVariable %>" />').tokens).toEqual(
+			[
+				{
+					contents: '<custom:tag with="<%= SomeVariable %>" />',
+					index: 0,
+					name: 'CUSTOM_ACTION'
+				}
+			]
+		);
 
 		// An opening tag with an attribuhte that contains a JSP expression.
 		expect(lex('<c:if test="<%= enableRSS %>">').tokens).toEqual([
@@ -340,7 +344,9 @@ describe('lex()', () => {
 		]);
 
 		// Tag with duplicate attributes.
-		expect(() => lex('<custom:tag foo="a" bar="b" foo="c" />').tokens).toThrow(
+		expect(
+			() => lex('<custom:tag foo="a" bar="b" foo="c" />').tokens
+		).toThrow(
 			'Attribute names must be unique (got: "foo", "bar", "foo") at: ' +
 				'"<custom:tag foo=\\"a\\" ..."'
 		);
@@ -450,11 +456,12 @@ describe('lex()', () => {
 		// page.jsp fixture. Quotes in JSP-tags must be escaped as
 		// per Section 1.6 of the JSP 2.3 spec, "Quoting and Escape
 		// Conventions".
-		expect(() => {
-			lex(`
+		expect(
+			() =>
+				lex(`
 				<aui:nav cssClass="\${currentTab == tab ? 'active' : ''} foo abc <%= "scriptletblock" %>"></aui:nav>
-		`).tokens;
-		}).toThrow(/Failed to match .+ at: "scriptletblock/);
+		`).tokens
+		).toThrow(/Failed to match .+ at: "scriptletblock/);
 
 		// Escaping the quotes leads to a successful tokenization.
 		expect(
