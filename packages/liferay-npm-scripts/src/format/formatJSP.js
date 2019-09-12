@@ -16,8 +16,19 @@ const substituteTags = require('./substituteTags');
 
 const {PADDING_LINE} = padLines;
 
+/**
+ * Formats the JSP `source` string.
+ *
+ * Returns `null` if the string doesn't contain any formattable elements
+ * (currently, the only formattable elements are script tags).
+ */
 function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const blocks = extractJS(source);
+
+	// TODO: may want to pass filename here too, but I am not sure.
+	if (!blocks.length) {
+		return null;
+	}
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
 	const transformed = blocks.map(block => {
