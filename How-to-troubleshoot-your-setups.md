@@ -12,4 +12,6 @@ Once you are sure that a clean build from scratch fails, try the following steps
 
 2. Turn combo servlet off adding `javascript.fast.load=false` to your `portal.properties`: this makes the Loader request each JS module in a single HTTP request, so that it is easier to know what's going on.
 
-This should ease debugging your code. We will keep adding tips and tricks to this page in the future so visit it once in a while.
+This should ease debugging your code. 
+
+> We will keep adding tips and tricks to this page in the future so visit it once in a while.
