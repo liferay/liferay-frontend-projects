@@ -761,14 +761,23 @@ function lex(source, options = {}) {
 		};
 	});
 
-	const tokens = [];
+	const iterable = {};
 
-	// eslint-disable-next-line no-for-of-loops/no-for-of-loops
-	for (const token of lexer.lex(source)) {
-		tokens.push(token);
-	}
+	Object.defineProperties(iterable, {
+		[Symbol.iterator]: {
+			value() {
+				return lexer.lex(source);
+			},
+		},
 
-	return tokens;
+		tokens: {
+			get() {
+				return [...lexer.lex(source)];
+			},
+		}
+	});
+
+	return iterable;
 }
 
 module.exports = lex;

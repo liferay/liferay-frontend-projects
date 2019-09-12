@@ -9,8 +9,32 @@ const lex = require('../../src/format/lex');
 const getFixture = require('../../support/getFixture');
 
 describe('lex()', () => {
+	it('returns an iterable', () => {
+		const iterable = lex('contents');
+
+		expect([...iterable]).toEqual([
+			{
+				contents: 'contents',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+	});
+
+	it('provides a `tokens` property as a convenience', () => {
+		const {tokens} = lex('contents');
+
+		expect(tokens).toEqual([
+			{
+				contents: 'contents',
+				index: 0,
+				name: 'TEMPLATE_TEXT'
+			}
+		]);
+	});
+
 	it('lexes a comment', () => {
-		expect(lex('<%-- my comment --%>')).toEqual([
+		expect(lex('<%-- my comment --%>').tokens).toEqual([
 			{
 				contents: '<%-- my comment --%>',
 				index: 0,
@@ -20,7 +44,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes multiple comments', () => {
-		expect(lex('<%-- one --%><%-- two --%>')).toEqual([
+		expect(lex('<%-- one --%><%-- two --%>').tokens).toEqual([
 			{
 				contents: '<%-- one --%>',
 				index: 0,
@@ -35,13 +59,13 @@ describe('lex()', () => {
 	});
 
 	it('complains about unclosed comments', () => {
-		expect(() => lex('<%-- unterminated')).toThrow(
+		expect(() => lex('<%-- unterminated').tokens).toThrow(
 			'Failed to match JSP_COMMENT_START ->> JSP_COMMENT_END at: "<%-- unterminated"'
 		);
 	});
 
 	it('lexes directives', () => {
-		expect(lex('<%@ include file="double/quoted/file" %>')).toEqual([
+		expect(lex('<%@ include file="double/quoted/file" %>').tokens).toEqual([
 			{
 				contents: '<%@ include file="double/quoted/file" %>',
 				index: 0,
@@ -49,7 +73,7 @@ describe('lex()', () => {
 			}
 		]);
 
-		expect(lex("<%@ include file='single/quoted/file' %>")).toEqual([
+		expect(lex("<%@ include file='single/quoted/file' %>").tokens).toEqual([
 			{
 				contents: "<%@ include file='single/quoted/file' %>",
 				index: 0,
@@ -57,7 +81,7 @@ describe('lex()', () => {
 			}
 		]);
 
-		expect(lex('<%@ include file="\\"stuff\\\\¿here?&quot;" %>')).toEqual([
+		expect(lex('<%@ include file="\\"stuff\\\\¿here?&quot;" %>').tokens).toEqual([
 			{
 				contents: '<%@ include file="\\"stuff\\\\¿here?&quot;" %>',
 				index: 0,
@@ -65,7 +89,7 @@ describe('lex()', () => {
 			}
 		]);
 
-		expect(lex('<%@ page language="en" %>')).toEqual([
+		expect(lex('<%@ page language="en" %>').tokens).toEqual([
 			{
 				contents: '<%@ page language="en" %>',
 				index: 0,
@@ -73,7 +97,7 @@ describe('lex()', () => {
 			}
 		]);
 
-		expect(lex('<%@ taglib prefix="foo" tagdir="bar" %>')).toEqual([
+		expect(lex('<%@ taglib prefix="foo" tagdir="bar" %>').tokens).toEqual([
 			{
 				contents: '<%@ taglib prefix="foo" tagdir="bar" %>',
 				index: 0,
@@ -81,7 +105,7 @@ describe('lex()', () => {
 			}
 		]);
 
-		expect(lex('<%@ taglib prefix="foo" uri="bar" %>')).toEqual([
+		expect(lex('<%@ taglib prefix="foo" uri="bar" %>').tokens).toEqual([
 			{
 				contents: '<%@ taglib prefix="foo" uri="bar" %>',
 				index: 0,
@@ -90,7 +114,7 @@ describe('lex()', () => {
 		]);
 
 		// Note it agnostic about attribute order.
-		expect(lex('<%@ taglib uri="bar" prefix="foo" %>')).toEqual([
+		expect(lex('<%@ taglib uri="bar" prefix="foo" %>').tokens).toEqual([
 			{
 				contents: '<%@ taglib uri="bar" prefix="foo" %>',
 				index: 0,
@@ -99,7 +123,7 @@ describe('lex()', () => {
 		]);
 
 		// But it requires all attributes to be present.
-		expect(() => lex('<%@ taglib prefix="foo">')).toThrow(
+		expect(() => lex('<%@ taglib prefix="foo">').tokens).toThrow(
 			'Failed to match "taglib" allOf:(SPACE "prefix" EQ ATTRIBUTE_VALUE, SPACE "tagdir" EQ ATTRIBUTE_VALUE | SPACE "uri" EQ ATTRIBUTE_VALUE) at: "taglib prefix=\\"foo\\">"'
 		);
 	});
@@ -109,7 +133,7 @@ describe('lex()', () => {
 			private static Log _log = LogFactoryUtil.getLog("foo");
 		%>`;
 
-		expect(lex(contents)).toEqual([
+		expect(lex(contents).tokens).toEqual([
 			{
 				contents,
 				index: 0,
@@ -119,7 +143,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes expressions', () => {
-		expect(lex('<%= Target.method("foo") %>')).toEqual([
+		expect(lex('<%= Target.method("foo") %>').tokens).toEqual([
 			{
 				contents: '<%= Target.method("foo") %>',
 				index: 0,
@@ -133,7 +157,7 @@ describe('lex()', () => {
 			String backURL = PortalUtil.getCurrentURL(request);
 		%>`;
 
-		expect(lex(contents)).toEqual([
+		expect(lex(contents).tokens).toEqual([
 			{
 				contents,
 				index: 0,
@@ -146,7 +170,7 @@ describe('lex()', () => {
 		// TODO: provide more challenging examples here.
 
 		// Immediate evaluation.
-		expect(lex('${Foo.Bar}')).toEqual([
+		expect(lex('${Foo.Bar}').tokens).toEqual([
 			{
 				contents: '${Foo.Bar}',
 				index: 0,
@@ -155,7 +179,7 @@ describe('lex()', () => {
 		]);
 
 		// Deferred evaluation.
-		expect(lex('#{Foo.Bar}')).toEqual([
+		expect(lex('#{Foo.Bar}').tokens).toEqual([
 			{
 				contents: '#{Foo.Bar}',
 				index: 0,
@@ -165,7 +189,7 @@ describe('lex()', () => {
 	});
 
 	it('ignores EL expressions when ELEnabled is false', () => {
-		expect(lex('#{Foo.Bar}', {ELEnabled: false})).toEqual([
+		expect(lex('#{Foo.Bar}', {ELEnabled: false}).tokens).toEqual([
 			{
 				contents: '#{',
 				index: 0,
@@ -184,7 +208,7 @@ describe('lex()', () => {
 			lex(`
 			<%@ page isELIgnored="true" %>
 			#{Foo}
-		`)
+		`).tokens
 		).toEqual([
 			{
 				contents: '\n\t\t\t',
@@ -219,7 +243,7 @@ describe('lex()', () => {
 			lex(`
 			<%@ page isELIgnored="false" %>
 			#{Foo}
-		`)
+		`).tokens
 		).toEqual([
 			{
 				contents: '\n\t\t\t',
@@ -251,7 +275,7 @@ describe('lex()', () => {
 
 	it('lexes the <portlet:namespace /> action', () => {
 		// With whitespace.
-		expect(lex('<portlet:namespace />')).toEqual([
+		expect(lex('<portlet:namespace />').tokens).toEqual([
 			{
 				contents: '<portlet:namespace />',
 				index: 0,
@@ -260,7 +284,7 @@ describe('lex()', () => {
 		]);
 
 		// Without whitespace.
-		expect(lex('<portlet:namespace/>')).toEqual([
+		expect(lex('<portlet:namespace/>').tokens).toEqual([
 			{
 				contents: '<portlet:namespace/>',
 				index: 0,
@@ -271,7 +295,7 @@ describe('lex()', () => {
 
 	it('lexes a custom action', () => {
 		// Self-closing.
-		expect(lex('<custom:tag with="stuff" />')).toEqual([
+		expect(lex('<custom:tag with="stuff" />').tokens).toEqual([
 			{
 				contents: '<custom:tag with="stuff" />',
 				index: 0,
@@ -280,7 +304,7 @@ describe('lex()', () => {
 		]);
 
 		// Same without whitspace at end.
-		expect(lex('<custom:tag with="stuff"/>')).toEqual([
+		expect(lex('<custom:tag with="stuff"/>').tokens).toEqual([
 			{
 				contents: '<custom:tag with="stuff"/>',
 				index: 0,
@@ -289,7 +313,7 @@ describe('lex()', () => {
 		]);
 
 		// A self-closing tag with an attribute that contains a JSP expression.
-		expect(lex('<custom:tag with="<%= SomeVariable %>" />')).toEqual([
+		expect(lex('<custom:tag with="<%= SomeVariable %>" />').tokens).toEqual([
 			{
 				contents: '<custom:tag with="<%= SomeVariable %>" />',
 				index: 0,
@@ -298,7 +322,7 @@ describe('lex()', () => {
 		]);
 
 		// An opening tag with an attribuhte that contains a JSP expression.
-		expect(lex('<c:if test="<%= enableRSS %>">')).toEqual([
+		expect(lex('<c:if test="<%= enableRSS %>">').tokens).toEqual([
 			{
 				contents: '<c:if test="<%= enableRSS %>">',
 				index: 0,
@@ -307,7 +331,7 @@ describe('lex()', () => {
 		]);
 
 		// Empty body.
-		expect(lex('<custom:tag with="stuff"></custom:tag>')).toEqual([
+		expect(lex('<custom:tag with="stuff"></custom:tag>').tokens).toEqual([
 			{
 				contents: '<custom:tag with="stuff"></custom:tag>',
 				index: 0,
@@ -316,7 +340,7 @@ describe('lex()', () => {
 		]);
 
 		// Tag with duplicate attributes.
-		expect(() => lex('<custom:tag foo="a" bar="b" foo="c" />')).toThrow(
+		expect(() => lex('<custom:tag foo="a" bar="b" foo="c" />').tokens).toThrow(
 			'Attribute names must be unique (got: "foo", "bar", "foo") at: ' +
 				'"<custom:tag foo=\\"a\\" ..."'
 		);
@@ -327,7 +351,7 @@ describe('lex()', () => {
 	// tag validity.
 	it.skip('rejects invalid tags', () => {
 		// Invalid tag.
-		expect(() => lex('<custom:tag with="stuff"></bad:tag>')).toThrow(
+		expect(() => lex('<custom:tag with="stuff"></bad:tag>').tokens).toThrow(
 			/Failed to match .+ at: "><\/bad:tag>"/
 		);
 	});
@@ -338,7 +362,7 @@ describe('lex()', () => {
 			<ul class="abc">
 				<li>xyz</li>
 			</ul>
-		`)
+		`).tokens
 		).toEqual([
 			{contents: '\n\t\t\t', index: 0, name: 'TEMPLATE_TEXT'},
 			{contents: '<', index: 4, name: 'TEMPLATE_TEXT'},
@@ -357,7 +381,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes template text', () => {
-		expect(lex('Random text')).toEqual([
+		expect(lex('Random text').tokens).toEqual([
 			{
 				contents: 'Random text',
 				index: 0,
@@ -368,7 +392,7 @@ describe('lex()', () => {
 		// Note that the spec starts a new token whenever it sees a delimiting
 		// sequence like "<" or "${" etc, and "<" always ends up being a token
 		// of its own.
-		expect(lex('one < two')).toEqual([
+		expect(lex('one < two').tokens).toEqual([
 			{
 				contents: 'one ',
 				index: 0,
@@ -392,7 +416,7 @@ describe('lex()', () => {
 		expect(
 			lex(`
 				<div class="browse-image-controls <%= (fileEntryId != 0) ? "hide" : StringPool.BLANK %>">
-		`)
+		`).tokens
 		).toEqual([
 			{
 				contents: '\n\t\t\t\t',
@@ -429,14 +453,14 @@ describe('lex()', () => {
 		expect(() => {
 			lex(`
 				<aui:nav cssClass="\${currentTab == tab ? 'active' : ''} foo abc <%= "scriptletblock" %>"></aui:nav>
-		`);
+		`).tokens;
 		}).toThrow(/Failed to match .+ at: "scriptletblock/);
 
 		// Escaping the quotes leads to a successful tokenization.
 		expect(
 			lex(`
 				<aui:nav cssClass="\${currentTab == tab ? 'active' : ''} foo abc <%= \\"scriptletblock\\" %>"></aui:nav>
-			`)
+			`).tokens
 		).toEqual([
 			{
 				contents: '\n\t\t\t\t',
@@ -466,7 +490,7 @@ describe('lex()', () => {
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('format', fixture));
 
-			expect(lex(source)).toMatchSnapshot();
+			expect(lex(source).tokens).toMatchSnapshot();
 		});
 	});
 });

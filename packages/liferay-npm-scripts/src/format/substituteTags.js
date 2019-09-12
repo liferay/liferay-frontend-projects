@@ -27,7 +27,7 @@ function substituteTags(source) {
 
 	const tags = [];
 
-	const tokens = lex(source);
+	const tokens = lex(source).tokens;
 
 	for (let i = 0; i < tokens.length; i++) {
 		const {contents, name} = tokens[i];
