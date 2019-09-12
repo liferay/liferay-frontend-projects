@@ -1,12 +1,12 @@
-# How to name the files?
+# How to name the CSS files?
 
-To understand which is the best name for the css/scss files
+To understand which is the best name for the CSS/SCSS files.
 
 ## 1. The underscore character
 
 The first difference that we have to highlight is about the `_` underscore character. It is used at the beginning of the name of those files that don't need to be compiled.
 
-Most of the scss files must have the `_` underscore character, the only exceptions should be that particular stylesheet that needs to be imported into a different module or part of the application and the main.scss.
+Most of the SCSS files must have the `_` underscore character, the only exceptions should be that particular stylesheet that needs to be imported into a different module or part of the application and the main.SCSS.
 
 ---
 
@@ -35,7 +35,7 @@ Most of the scss files must have the `_` underscore character, the only exceptio
         // this file contains the _blog.scss + text_editor.scss style
         ```
 
-In this example the code is generating 2 different css and it would be perfect if we had 2 different modules
+In this example the code is generating 2 different CSS and it would be perfect if we had 2 different modules.
 
 **HTML Use**
 
@@ -50,7 +50,7 @@ In this example the code is generating 2 different css and it would be perfect i
 
 ---
 
-But, If you don't need the second generated css, please use the `_` underscore character to avoid the creation of an extra compiled files
+But, If you don't need the second generated CSS, please use the `_` underscore character to avoid the creation of an extra compiled files.
 
 **SCSS Input**
 
@@ -102,9 +102,9 @@ But, use:
 
 Sometimes the name could be more complex:
 
-> We need a css file for the button of the card component of the sidebar template of the theme Fjord
+> We need a CSS file for the button of the card component of the sidebar template of the theme Fjord
 
-Generally we have directories that create the right separation and we don't need to worry about it
+Generally we have directories that create the right separation and we don't need to worry about it.
 
 > theme>template>component>part
 
