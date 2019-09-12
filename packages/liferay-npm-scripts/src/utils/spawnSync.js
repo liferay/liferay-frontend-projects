@@ -34,7 +34,7 @@ function spawnSync(command, args = [], options = {}) {
 	);
 	const executable = fs.existsSync(localCommand) ? localCommand : command;
 
-	const {error, status} = spawn.sync(executable, args, {
+	const {error, signal, status} = spawn.sync(executable, args, {
 		stdio: 'inherit',
 		...options
 	});
@@ -53,6 +53,13 @@ function spawnSync(command, args = [], options = {}) {
 				executable,
 				args
 			)} failed with error ${error}`
+		);
+	} else if (signal) {
+		throw new Error(
+			`Command ${getDescription(
+				executable,
+				args
+			)} killed by signal ${signal}`
 		);
 	}
 }
