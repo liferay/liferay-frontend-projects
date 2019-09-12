@@ -4,6 +4,10 @@ In this document we will be explaining what's the best algorithm to the date to 
 
 Right now, the minimal steps to follow when something fails are:
 
+1. First of all, try cleaning the output folders of your project and rebuilding everything again. We use some caching mechanisms to speed up incremental builds but they can fail if you update versions, add or remove dependencies, and in general, change project configuration.
+
+Once you are sure that a clean build from scratch fails, try the following steps to diagnose the problem:
+
 1. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration > System Settings > Infrastructue > JavaScript Loader`: this makes the Loader dump diagnostic traces to the JavaScript console and/or any error it is finding. You may use the log level filters in your browser's console to decide what you want to see whether it is just errors or the whole debugging info.
 
 2. Turn combo servlet off adding `javascript.fast.load=false` to your `portal.properties`: this makes the Loader request each JS module in a single HTTP request, so that it is easier to know what's going on.
