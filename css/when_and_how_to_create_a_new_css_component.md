@@ -43,7 +43,7 @@ When we need a slight design difference from the original component, for example
 
 ### Steps to create the modifier
 
-1. We recommend using a meaning name, representing what the modifier change or add
+1. We recommend using a meaning name, representing what the modifier changes or adds
 2. Simple modifier class name will not be minified
 3. Whenever possible complex modifier class name will not be minified
 4. Try to follow the rule one modification per modifier (there are exceptions), example:
@@ -70,6 +70,6 @@ When we need a slight design difference from the original component, for example
     - `.btn-state: btn-warning`
   - Modifiers names compound can be minified, for example:
     - `btn-background-danger` to `btn-bg-danger`
-3. Use the [structure suggested in this documentation](http://)
+3. Use the [structure suggested in this documentation](https://github.com/liferay/liferay-frontend-guidelines/tree/master/css)
 4. Order
     - If your component or part of it floats in position: absolute, fixed or sticky, please, obey the common z-index scale
