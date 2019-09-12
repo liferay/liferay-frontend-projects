@@ -9,17 +9,19 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const extractJS = require('./extractJS');
 const dedent = require('./dedent');
 const indent = require('./indent');
+const padLines = require('./padLines');
 const restoreTags = require('./restoreTags');
 const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
 
-// TODO: catch errors and report them with mostly accurate line numbers via padLines...
+const {PADDING_LINE} = padLines;
+
 function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const blocks = extractJS(source);
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
 	const transformed = blocks.map(block => {
-		const {contents} = block;
+		const {contents, range} = block;
 
 		// Prettier will trim empty first and last lines, but we need to keep
 		// them around (need to preserve typical linebreak after opening tag,
@@ -43,12 +45,16 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 
 		// Strip base indent.
 		const dedented = dedent(trimmed);
-
 		const tabCount = dedent.lastMinimum;
 
+		// Turn JSP tags, expressions (etc) into (valid JS) placeholders.
 		const [substituted, tags] = substituteTags(dedented);
 
+		// Strip internal JSP-related indents.
 		const stripped = stripIndents(substituted);
+
+		// Adjust line numbers for better error reporting.
+		const padded = padLines(stripped, range.start.line - 1);
 
 		const prettierOptions = {
 			...prettierConfig,
@@ -63,10 +69,15 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		//
 		// (<c:if> comment gets moved inside the else,
 		// unless comment is on same line as "}"
-		const formatted = prettier.format(stripped, prettierOptions);
+		const formatted = prettier.format(padded, prettierOptions);
 
-		const restored = restoreTags(formatted, tags);
+		// Remove previously inserted padding lines.
+		const unpadded = formatted.replace(PADDING_LINE, '');
 
+		// Replace placeholders with their corresponding original JSP tokens.
+		const restored = restoreTags(unpadded, tags);
+
+		// Restore base indent.
 		const indented = indent(restored, tabCount);
 
 		return {

@@ -8,7 +8,12 @@ const padLines = require('../../src/format/padLines');
 
 describe('padLines()', () => {
 	it('adds padding lines to make contents start at startLine', () => {
-		expect(padLines('{}', 3)).toBe('\n\n\n{}');
+		expect(padLines('{}', 3)).toBe(
+			'void 0; /* «pad» */\n' +
+				'void 0; /* «pad» */\n' +
+				'void 0; /* «pad» */\n' +
+				'{}'
+		);
 	});
 
 	it('uses the supplied padding string', () => {

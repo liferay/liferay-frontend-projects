@@ -46,6 +46,31 @@ describe('formatJSP()', () => {
 		`);
 	});
 
+	it('pads input so that Prettier syntax errors have accurate line numbers', () => {
+		const source = `
+			<p>Hi!</p>
+
+			<p>Some content.</p>
+
+			<p>Some more content.</p>
+
+			<p>Even more content.</p>
+
+			<script>
+				if (success()) {
+					Liferay.fire('success');
+				} else
+					alert('Error!');
+
+					// Without padding, Prettier would report an error on the
+					// following line as having happened at (8:1).
+				}
+			</script>
+		`;
+
+		expect(() => formatJSP(source)).toThrow(/Unexpected token \(17:1\)/);
+	});
+
 	it('passes the blinking light test (configuration.jsp)', async () => {
 		const source = await getFixture('format/configuration.jsp');
 
