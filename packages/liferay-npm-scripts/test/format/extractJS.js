@@ -113,6 +113,45 @@ describe('extractJS()', () => {
 		expect(blocks).toEqual([]);
 	});
 
+	it('does not extract non-JavaScript scripts', () => {
+		// (Abbreviated) example taken from:
+		// https://github.com/liferay/liferay-portal/blob/44c1be7f1725ca00e9/modules/apps/calendar/calendar-web/src/main/resources/META-INF/resources/event_recorder.jspf
+		let blocks = extractJS(`
+			<script id="<portlet:namespace />eventRecorderHeaderTpl" type="text/x-alloy-template">
+				alert('Hello');
+			</script>
+		`);
+
+		expect(blocks).toEqual([]);
+
+		// Counter-example:
+		blocks = extractJS(`
+			<script id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript">
+				alert('Hello');
+			</script>
+		`);
+
+		expect(blocks).toEqual([
+			{
+				closeTag: '</script>',
+				contents: "\n\t\t\t\talert('Hello');\n\t\t\t",
+				match: `<script id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript">
+				alert('Hello');
+			</script>`,
+				openTag:
+					'<script id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript">',
+				range: {
+					end: {column: 4, line: 4},
+					index: 4,
+					length: 113,
+					start: {column: 84, line: 2}
+				},
+				scriptAttributes:
+					' id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript"'
+			}
+		]);
+	});
+
 	it('extracts blocks from test fixture', async () => {
 		// This is the test fixture from the check-source-formatting package.
 		const source = await getFixture('format/page.jsp');
@@ -120,30 +159,6 @@ describe('extractJS()', () => {
 		const blocks = extractJS(source);
 
 		expect(blocks).toEqual([
-			{
-				closeTag: '</script>',
-				contents: dedent(4)`
-						var testVar = true;
-					`,
-				match: dedent(4)`<script type="text">
-						var testVar = true;
-					</script>`,
-				openTag: '<script type="text">',
-				range: {
-					end: {
-						column: 2,
-						line: 28
-					},
-					index: 763,
-					length: 53,
-					start: {
-						column: 22,
-						line: 26
-					}
-				},
-				scriptAttributes: ' type="text"',
-				tagNamespace: undefined
-			},
 			{
 				closeTag: '</aui:script>',
 				contents: dedent(4)`
