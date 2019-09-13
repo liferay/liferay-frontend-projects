@@ -180,6 +180,76 @@ describe('Lexer()', () => {
 		});
 	});
 
+	describe('choose()', () => {
+		it('produces tokens using matchers defined in an object', () => {
+			const lexer = new Lexer(api => {
+				const {choose, match} = api;
+
+				const BAR = match('bar');
+				const BAZ = match(/.../);
+				const FOO = match('foo');
+
+				return choose({
+					/* eslint-disable sort-keys */
+					FOO,
+					BAR,
+					BAZ
+					/* eslint-enable sort-keys */
+				});
+			});
+
+			expect([...lexer.lex('foobarbaz')]).toEqual([
+				{
+					contents: 'foo',
+					index: 0,
+					name: 'FOO'
+				},
+				{
+					contents: 'bar',
+					index: 3,
+					name: 'BAR'
+				},
+				{
+					contents: 'baz',
+					index: 6,
+					name: 'BAZ'
+				}
+			]);
+		});
+
+		it('produces tokens using matchers defined in a Map', () => {
+			const lexer = new Lexer(api => {
+				const {choose, match} = api;
+
+				const BAR = match('bar');
+				const BAZ = match(/.../);
+				const FOO = match('foo');
+
+				return choose(
+					new Map([['FOO', FOO], ['BAR', BAR], ['BAZ', BAZ]])
+				);
+			});
+
+			expect([...lexer.lex('foobarbaz')]).toEqual([
+				{
+					contents: 'foo',
+					index: 0,
+					name: 'FOO'
+				},
+				{
+					contents: 'bar',
+					index: 3,
+					name: 'BAR'
+				},
+				{
+					contents: 'baz',
+					index: 6,
+					name: 'BAZ'
+				}
+			]);
+		});
+	});
+
 	describe('consume()', () => {
 		it('automatically uses sequence() if given multiple argumetns', () => {
 			const lexer = new Lexer(api => {

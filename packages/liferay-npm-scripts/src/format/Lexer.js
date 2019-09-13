@@ -603,6 +603,26 @@ class Lexer {
 		const atEnd = () => remaining.length === 0;
 
 		/**
+		 * Convenience function for building simple lexers from a map of token
+		 * names to matchers.
+		 */
+		const choose = map => {
+			return () => {
+				if (typeof map[Symbol.iterator] !== 'function') {
+					map = new Map(Object.entries(map));
+				}
+
+				// eslint-disable-next-line no-for-of-loops/no-for-of-loops
+				for (const [name, matcher] of map) {
+					if (peek(matcher)) {
+						const text = consume();
+						return token(name, text);
+					}
+				}
+			};
+		};
+
+		/**
 		 * Run a matcher at the current location and consume the input. If the
 		 * matcher does not match, throws an error.
 		 */
@@ -752,6 +772,7 @@ class Lexer {
 			allOf,
 			an,
 			atEnd,
+			choose,
 			consume,
 			fail,
 			lookup,

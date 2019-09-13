@@ -41,7 +41,7 @@ const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 // So, this function does the same.
 function stripIndents(source) {
 	const lexer = new Lexer(api => {
-		const {consume, match, peek, token} = api;
+		const {choose, match} = api;
 
 		const ANYTHING = match(/[\s\S]/);
 		const CLOSE_TAG_REPLACEMENT = match(CLOSE_TAG);
@@ -49,19 +49,15 @@ function stripIndents(source) {
 		const OPEN_TAG_REPLACEMENT = match(OPEN_TAG);
 		const WHITESPACE = match(/[ \t]+/);
 
-		return () => {
-			if (peek(OPEN_TAG_REPLACEMENT)) {
-				return token('OPEN_TAG', consume());
-			} else if (peek(CLOSE_TAG_REPLACEMENT)) {
-				return token('CLOSE_TAG', consume());
-			} else if (peek(NEWLINE)) {
-				return token('NEWLINE', consume());
-			} else if (peek(WHITESPACE)) {
-				return token('WHITESPACE', consume());
-			} else {
-				return token('ANYTHING', consume(ANYTHING));
-			}
-		};
+		return choose({
+			/* eslint-disable sort-keys */
+			OPEN_TAG_REPLACEMENT,
+			CLOSE_TAG_REPLACEMENT,
+			NEWLINE,
+			WHITESPACE,
+			ANYTHING
+			/* eslint-enable sort-keys */
+		});
 	});
 
 	let output = '';
@@ -73,12 +69,12 @@ function stripIndents(source) {
 		const {name, contents} = tokens[i];
 
 		switch (name) {
-			case 'OPEN_TAG':
+			case 'OPEN_TAG_REPLACEMENT':
 				output += contents;
 				indentLevel++;
 				break;
 
-			case 'CLOSE_TAG':
+			case 'CLOSE_TAG_REPLACEMENT':
 				indentLevel--;
 				output += contents;
 				break;
@@ -102,7 +98,7 @@ function stripIndents(source) {
 
 						if (
 							maybeCloseTag &&
-							maybeCloseTag.name === 'CLOSE_TAG'
+							maybeCloseTag.name === 'CLOSE_TAG_REPLACEMENT'
 						) {
 							trimCount = indentLevel - 1;
 						}

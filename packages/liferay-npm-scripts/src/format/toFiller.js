@@ -11,13 +11,13 @@
  *
  * Unicode name is "BOX DRAWINGS LIGHT DIAGONAL CROSS" and glyph is: "╳"
  */
-const FILLER = '\u2573';
+const FILLER_CHAR = '\u2573';
 
 /**
  * RegExp that can be used to identify comments created with `toFiller()` and
- * the default `FILLER` character.
+ * the default `FILLER_CHAR` character.
  */
-const COMMENT = new RegExp(`/\\*\\s*[${FILLER}\\s]+\\*/`);
+const FILLER = new RegExp(`/\\*(?:\\s*${FILLER_CHAR}\\s*)+\\*/`);
 
 /**
  * Returns a copy of `string` with the same "shape", but containing only
@@ -27,7 +27,7 @@ const COMMENT = new RegExp(`/\\*\\s*[${FILLER}\\s]+\\*/`);
  * changing the relative position of anything else in the file.
  *
  */
-function toFiller(string, filler = FILLER) {
+function toFiller(string, filler = FILLER_CHAR) {
 	let output = '';
 	let lastIndex = 0;
 
@@ -53,7 +53,6 @@ function toFiller(string, filler = FILLER) {
 	return output;
 }
 
-toFiller.COMMENT = COMMENT;
 toFiller.FILLER = FILLER;
 
 module.exports = toFiller;

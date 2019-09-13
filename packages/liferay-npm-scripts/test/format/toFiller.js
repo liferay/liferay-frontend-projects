@@ -34,4 +34,21 @@ describe('toFiller()', () => {
 
 		expect(toFiller(original, '_')).toBe(expected);
 	});
+
+	describe('toFiller.FILLER', () => {
+		it('can be used to match comments made with toFiller()', () => {
+			expect(toFiller.FILLER.test('/*╳╳╳*/')).toBe(true);
+		});
+
+		it('does not match ordinary comments', () => {
+			// Empty comment.
+			expect(toFiller.FILLER.test('/**/')).toBe(false);
+
+			// Whitespace-only comment.
+			expect(toFiller.FILLER.test('/* */')).toBe(false);
+
+			// Comment with text.
+			expect(toFiller.FILLER.test('/* foo */')).toBe(false);
+		});
+	});
 });
