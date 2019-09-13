@@ -9,6 +9,7 @@ const CWD = process.cwd();
 const fs = require('fs');
 const path = require('path');
 
+const SignalHandler = require('../utils/SignalHandler');
 const getMergedConfig = require('../utils/getMergedConfig');
 const moveToTemp = require('../utils/moveToTemp');
 const removeFromTemp = require('../utils/removeFromTemp');
@@ -42,6 +43,10 @@ function compileBabel() {
  * `liferay-npm-bundler` executable.
  */
 function runBundler() {
+	const {dispose} = SignalHandler.onExit(() => {
+		removeFromTemp('.npmbundlerrc');
+	});
+
 	try {
 		moveToTemp('.npmbundlerrc');
 
@@ -53,7 +58,7 @@ function runBundler() {
 
 		fs.unlinkSync(RC_PATH);
 	} finally {
-		removeFromTemp('.npmbundlerrc');
+		dispose();
 	}
 }
 
