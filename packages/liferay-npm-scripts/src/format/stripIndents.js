@@ -51,13 +51,13 @@ function stripIndents(source) {
 
 		return () => {
 			if (peek(OPEN_TAG_REPLACEMENT)) {
-				return token('OPEN_TAG', consume(OPEN_TAG_REPLACEMENT));
+				return token('OPEN_TAG', consume());
 			} else if (peek(CLOSE_TAG_REPLACEMENT)) {
-				return token('CLOSE_TAG', consume(CLOSE_TAG_REPLACEMENT));
+				return token('CLOSE_TAG', consume());
 			} else if (peek(NEWLINE)) {
-				return token('NEWLINE', consume(NEWLINE));
+				return token('NEWLINE', consume());
 			} else if (peek(WHITESPACE)) {
-				return token('WHITESPACE', consume(WHITESPACE));
+				return token('WHITESPACE', consume());
 			} else {
 				return token('ANYTHING', consume(ANYTHING));
 			}
