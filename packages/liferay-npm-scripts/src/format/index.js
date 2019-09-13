@@ -60,9 +60,7 @@ module.exports = function(args) {
 
 	globs = expandGlobs(globs, ignores);
 
-	// TODO: after testing phase is over, will filterChangedFiles
-	// unconditionally
-	const paths = process.env.ONLY_CHANGED ? filterChangedFiles(globs) : globs;
+	const paths = filterChangedFiles(globs);
 
 	const prettierConfig = getMergedConfig('prettier');
 
@@ -93,7 +91,7 @@ module.exports = function(args) {
 			}
 		} catch (error) {
 			// TODO: proper error handling
-			// TODO: deal with errors that steam from unterminated string literals
+			// TODO: deal with errors that stem from unterminated string literals
 			log(`Error in ${filepath}: ${error}`);
 			errorCount++;
 		}

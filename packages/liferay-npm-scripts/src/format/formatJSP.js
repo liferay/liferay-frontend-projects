@@ -72,14 +72,6 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 			parser: 'babel'
 		};
 
-		// TODO: deal with Prettier moving comments; eg.
-		//
-		//      }
-		//      <c:if>
-		//          else {
-		//
-		// (<c:if> comment gets moved inside the else,
-		// unless comment is on same line as "}"
 		const formatted = prettier.format(padded, prettierOptions);
 
 		// Remove previously inserted padding lines.

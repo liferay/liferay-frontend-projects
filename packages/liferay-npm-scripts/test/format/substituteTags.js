@@ -114,9 +114,6 @@ describe('substituteTags()', () => {
 			%>
 		`);
 
-		// TODO: beware inserting multiline comments in places where they can't
-		// legitimately go (for example, inside a string); although that might
-		// be edge-casey enough that it doesn't matter in practice.
 		expect(transformed).toEqual(dedent(3)`
 			/*
 			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
