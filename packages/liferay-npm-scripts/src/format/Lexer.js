@@ -60,7 +60,7 @@ class Lexer {
 		};
 
 		/**
-		 * A matcher that never matchers anything.
+		 * A matcher that never matches anything.
 		 */
 		const never = {
 			description: '«never»',
