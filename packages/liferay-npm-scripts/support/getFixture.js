@@ -11,11 +11,10 @@ const util = require('util');
 const readFile = util.promisify(fs.readFile);
 
 async function getFixture(fixture) {
-	const contents = await readFile(
-		path.join(__dirname, '../__fixtures__', fixture)
+	return await readFile(
+		path.join(__dirname, '../__fixtures__', fixture),
+		'utf8'
 	);
-
-	return contents.toString();
 }
 
 module.exports = getFixture;

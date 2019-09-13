@@ -21,8 +21,7 @@ const LINE_SEPARATORS = /[\n\r]+/;
  */
 function readIgnoreFile(file) {
 	return fs
-		.readFileSync(file)
-		.toString()
+		.readFileSync(file, 'utf8')
 		.split(LINE_SEPARATORS)
 		.filter(line => {
 			return !COMMENTS.test(line) && !BLANK_LINES.test(line);

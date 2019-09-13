@@ -71,7 +71,7 @@ module.exports = function(args) {
 
 	paths.forEach(filepath => {
 		try {
-			const source = fs.readFileSync(filepath).toString();
+			const source = fs.readFileSync(filepath, 'utf8');
 
 			const result = formatJSP(source, prettierConfig);
 

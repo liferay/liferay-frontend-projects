@@ -58,7 +58,9 @@ function getJestModuleNameMapper() {
 		try {
 			process.chdir(root);
 
-			const {workspaces} = JSON.parse(fs.readFileSync('package.json'));
+			const {workspaces} = JSON.parse(
+				fs.readFileSync('package.json', 'utf8')
+			);
 
 			const mappings = {};
 			const projects = expandGlobs(workspaces.packages, IGNORE_GLOBS, {
@@ -70,7 +72,9 @@ function getJestModuleNameMapper() {
 				const packageJson = path.join(project, 'package.json');
 
 				if (fs.existsSync(packageJson)) {
-					const {main} = JSON.parse(fs.readFileSync(packageJson));
+					const {main} = JSON.parse(
+						fs.readFileSync(packageJson, 'utf8')
+					);
 					if (main) {
 						const file = path.join(project, ...SRC_PATH, main);
 

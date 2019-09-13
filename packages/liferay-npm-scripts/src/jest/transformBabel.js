@@ -6,6 +6,6 @@
 
 const fs = require('fs');
 
-const config = JSON.parse(fs.readFileSync('.babelrc').toString());
+const config = JSON.parse(fs.readFileSync('.babelrc', 'utf8'));
 
 module.exports = require('babel-jest').createTransformer(config);
