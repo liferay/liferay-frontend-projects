@@ -5,16 +5,10 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const prettier = require('prettier');
-const expandGlobs = require('../utils/expandGlobs');
-const filterChangedFiles = require('../utils/filterChangedFiles');
-const filterGlobs = require('../utils/filterGlobs');
-const findRoot = require('../utils/findRoot');
 const getMergedConfig = require('../utils/getMergedConfig');
+const getPaths = require('../utils/getPaths');
 const log = require('../utils/log');
-const preprocessGlob = require('../utils/preprocessGlob');
-const readIgnoreFile = require('../utils/readIgnoreFile');
 const {SpawnError} = require('../utils/spawnSync');
 
 const DEFAULT_OPTIONS = {
@@ -26,6 +20,8 @@ const DEFAULT_OPTIONS = {
  */
 const EXTENSIONS = ['.js', '.scss'];
 
+const IGNORE_FILE = '.prettierignore';
+
 /**
  * Prettier wrapper.
  */
@@ -35,40 +31,15 @@ function format(options = {}) {
 		...options
 	};
 
-	const unfilteredGlobs = check
+	const globs = check
 		? getMergedConfig('npmscripts', 'check')
 		: getMergedConfig('npmscripts', 'fix');
 
-	const globs = filterGlobs(unfilteredGlobs, ...EXTENSIONS);
+	const paths = getPaths(globs, EXTENSIONS, IGNORE_FILE);
 
-	if (!globs.length) {
-		const extensions = EXTENSIONS.join(', ');
-
-		log(
-			`No globs applicable to ${extensions} files specified: globs can be configured via npmscripts.config.js`
-		);
-
+	if (!paths.length) {
 		return;
 	}
-
-	const root = findRoot();
-	const ignoreFile = path.join(root || '.', '.prettierignore');
-
-	const ignores = fs.existsSync(ignoreFile) ? readIgnoreFile(ignoreFile) : [];
-
-	// Match Prettier behavior and ignore node_modules by default.
-	if (ignores.indexOf('node_modules/**') === -1) {
-		ignores.unshift('node_modules/**');
-	}
-
-	// Turn "{src,test}/*" into ["src/*", "test/*"]:
-	const preprocessedGlobs = [];
-
-	globs.forEach(glob => preprocessedGlobs.push(...preprocessGlob(glob)));
-
-	const expandedGlobs = expandGlobs(preprocessedGlobs, ignores);
-
-	const paths = filterChangedFiles(expandedGlobs);
 
 	const config = getMergedConfig('prettier');
 
