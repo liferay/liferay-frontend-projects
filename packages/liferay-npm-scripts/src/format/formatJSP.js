@@ -55,8 +55,7 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		);
 
 		// Strip base indent.
-		const dedented = dedent(trimmed);
-		const tabCount = dedent.lastMinimum;
+		const [dedented, tabCount] = dedent(trimmed);
 
 		// Turn JSP tags, expressions (etc) into (valid JS) placeholders.
 		const [substituted, tags] = substituteTags(dedented);

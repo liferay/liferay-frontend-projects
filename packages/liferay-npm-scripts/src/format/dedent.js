@@ -78,10 +78,9 @@ function dedent(input, tabWidth = 4) {
 		dedented.pop();
 	}
 
-	// Allow caller to check for last-found minimum.
-	dedent.lastMinimum = isFinite(minimum) ? Math.floor(minimum / tabWidth) : 0;
+	const lastMinimum = isFinite(minimum) ? Math.floor(minimum / tabWidth) : 0;
 
-	return dedented.join('\n');
+	return [dedented.join('\n'), lastMinimum];
 }
 
 module.exports = dedent;
