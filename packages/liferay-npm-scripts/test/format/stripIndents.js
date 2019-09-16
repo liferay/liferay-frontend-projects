@@ -25,6 +25,8 @@ describe('stripIndents()', () => {
 			</my:tag>
 		`);
 
+		const stripped = stripIndents(source);
+
 		const expected = `
 			//ʃʃʃʃʃʃ
 			var x = 1;
@@ -40,8 +42,6 @@ describe('stripIndents()', () => {
 			var y = 1;
 			/*ʅʅʅʅʅ*/
 		`;
-
-		const stripped = stripIndents(source);
 
 		expect(stripped).toBe(expected);
 	});
