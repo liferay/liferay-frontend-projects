@@ -47,7 +47,7 @@ const validate = tag => {
 //
 //     <foo:tag attr="this">
 //                            ...becomes:
-//     /*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*>
+//     /*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
 //
 // Even the shortest possible tag has a same-length substitution:
 //
