@@ -22,7 +22,7 @@ function removeFromTemp(fileName, packageKey) {
 	}
 
 	if (packageKey && fs.existsSync('package.json')) {
-		const configFile = fs.readFileSync('package.json');
+		const configFile = fs.readFileSync('package.json', 'utf8');
 		const config = JSON.parse(configFile);
 
 		if (config && config[TEMP_STRING + packageKey]) {

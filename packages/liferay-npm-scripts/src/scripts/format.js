@@ -81,7 +81,7 @@ function format(options = {}) {
 
 		try {
 			// TODO: don't re-read file, run eslint on it too
-			const source = fs.readFileSync(filepath).toString();
+			const source = fs.readFileSync(filepath, 'utf8');
 
 			const prettierOptions = {
 				...config,

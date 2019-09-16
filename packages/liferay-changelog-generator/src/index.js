@@ -495,7 +495,7 @@ async function main(_node, _script, ...args) {
 	} else {
 		let previousContents = '';
 		try {
-			previousContents = (await readFileAsync(outfile)).toString();
+			previousContents = await readFileAsync(outfile, 'utf8');
 		} catch (error) {
 			warn(`Cannot read previous file ${outfile}; will create anew.`);
 		}

@@ -74,7 +74,7 @@ function compileLanguageProperties(buildPath, paths) {
 
 	LANG_PATHS.filter(fs.existsSync).forEach(langPath => {
 		try {
-			output.push(fs.readFileSync(langPath).toString());
+			output.push(fs.readFileSync(langPath, 'utf8'));
 		} catch (error) {
 			log(
 				`Failed to read lang key file "${langPath}" due to error: ${error}`
