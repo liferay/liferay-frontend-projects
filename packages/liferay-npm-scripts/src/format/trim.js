@@ -23,7 +23,7 @@ function trim(string) {
 				suffix = trailingHorizontalWhitespace;
 			}
 
-			return match;
+			return '';
 		}
 	);
 

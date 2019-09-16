@@ -74,6 +74,23 @@ describe('formatJSP()', () => {
 		expect(() => formatJSP(source)).toThrow(/Unexpected token \(17:1\)/);
 	});
 
+	it('trims unwanted leading blank lines', () => {
+		const source = `
+			<aui:script require="metal-dom/src/dom">
+
+				var dom = metalDomSrcDom.default;
+			</aui:script>
+		`;
+
+		const expected = `
+			<aui:script require="metal-dom/src/dom">
+				var dom = metalDomSrcDom.default;
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(expected);
+	});
+
 	describe('formatting entire fixtures', () => {
 		test.each([
 			'configuration.jsp',

@@ -14,7 +14,7 @@ describe('trim()', () => {
 		expect(trim(input)).toEqual({
 			prefix: '\n',
 			suffix: '',
-			trimmed: '\n\t\t\talert();'
+			trimmed: '\t\t\talert();'
 		});
 	});
 
@@ -25,7 +25,7 @@ describe('trim()', () => {
 		expect(trim(input)).toEqual({
 			prefix: '',
 			suffix: '\t\t',
-			trimmed: 'alert();\n\t\t'
+			trimmed: 'alert();'
 		});
 	});
 
@@ -37,7 +37,7 @@ describe('trim()', () => {
 		expect(trim(input)).toEqual({
 			prefix: '\n',
 			suffix: '\t\t',
-			trimmed: '\n\t\t\talert();\n\t\t'
+			trimmed: '\t\t\talert();'
 		});
 	});
 
