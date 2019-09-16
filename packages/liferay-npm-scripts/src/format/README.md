@@ -4,7 +4,7 @@
 
 This document provides a brief table of contents for the main items in [the liferay-npm-scripts/src/format directory](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts/src/format), which is responsible for formatting JS inside JSP files.
 
-The main workhorse is [the `formatJSP()` function](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/format/formatJSP.js), which takes a JSP source string and returns a string with that preserves the original contents of the JSP but with all the JS content formatted via Prettier. The operations are:
+The main workhorse is [the `formatJSP()` function](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/format/formatJSP.js), which takes a JSP source string and returns a string that preserves the original contents of the JSP but with all the JS content formatted via Prettier. The operations are:
 
 1. Extract blocks of JS (ie. code inside `<script>` and `<aui:script>` tags) using [the `extractJS()` function](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/format/extractJS.js).
 2. For each block of JS:
