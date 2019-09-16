@@ -31,6 +31,11 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		return null;
 	}
 
+	const prettierOptions = {
+		...prettierConfig,
+		parser: 'babel'
+	};
+
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
 	const transformed = blocks.map(block => {
 		const {contents, range} = block;
@@ -50,11 +55,7 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		// Adjust line numbers for better error reporting.
 		const padded = padLines(stripped, range.start.line - 1);
 
-		const prettierOptions = {
-			...prettierConfig,
-			parser: 'babel'
-		};
-
+		// Actually format.
 		const formatted = prettier.format(padded, prettierOptions);
 
 		// Remove previously inserted padding lines.
