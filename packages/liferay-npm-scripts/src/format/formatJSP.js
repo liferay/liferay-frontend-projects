@@ -72,21 +72,20 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		};
 	});
 
-	let result = source;
+	let result = '';
+	let lastIndex = 0;
 
-	for (let i = transformed.length - 1; i >= 0; i--) {
+	for (let i = 0; i < transformed.length; i++) {
 		const {closeTag, contents, openTag, range} = transformed[i];
 		const {index, length} = range;
 
-		result =
-			result.slice(0, index) +
-			openTag +
-			contents +
-			closeTag +
-			result.slice(index + length);
+		result +=
+			source.slice(lastIndex, index) + openTag + contents + closeTag;
+
+		lastIndex = index + length;
 	}
 
-	return result;
+	return result + source.slice(lastIndex);
 }
 
 module.exports = formatJSP;
