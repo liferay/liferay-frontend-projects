@@ -5,21 +5,18 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const formatJSP = require('../format/formatJSP');
-const expandGlobs = require('../utils/expandGlobs');
-const filterChangedFiles = require('../utils/filterChangedFiles');
-const filterGlobs = require('../utils/filterGlobs');
-const findRoot = require('../utils/findRoot');
+const getPaths = require('../utils/getPaths');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
-const preprocessGlob = require('../utils/preprocessGlob');
-const readIgnoreFile = require('../utils/readIgnoreFile');
 
 /**
  * File extensions that we want to process.
  */
 const EXTENSIONS = ['.jsp', '.jspf'];
+
+// TODO: consider ESLint's ignorefile too.
+const IGNORE_FILE = '.prettierignore';
 
 /**
  * Test with:
@@ -27,40 +24,13 @@ const EXTENSIONS = ['.jsp', '.jspf'];
  *      yarn run liferay-npm-scripts csf '**''/*.{jsp,jspf}'
  */
 module.exports = function(args) {
-	let globs = args;
+	const globs = args;
 
-	// Turn "{a,b}/*" into ["a/*", "b/*"]:
-	const preprocessedGlobs = [];
+	const paths = getPaths(globs, EXTENSIONS, IGNORE_FILE);
 
-	globs.forEach(glob => preprocessedGlobs.push(...preprocessGlob(glob)));
-
-	globs = filterGlobs(preprocessedGlobs, ...EXTENSIONS);
-
-	if (!globs.length) {
-		const extensions = EXTENSIONS.join(', ');
-
-		log(
-			// TODO: make "globs can be configured" actually true
-			`No globs applicable to ${extensions} files specified: globs can be configured via npmscripts.config.js`
-		);
-
+	if (!paths.length) {
 		return;
 	}
-
-	// TODO: consider ESLint's ignorefile too.
-	const root = findRoot();
-	const ignoreFile = path.join(root || '.', '.prettierignore');
-
-	const ignores = fs.existsSync(ignoreFile) ? readIgnoreFile(ignoreFile) : [];
-
-	// Match Prettier behavior and ignore node_modules by default.
-	if (ignores.indexOf('node_modules/**') === -1) {
-		ignores.unshift('node_modules/**');
-	}
-
-	globs = expandGlobs(globs, ignores);
-
-	const paths = filterChangedFiles(globs);
 
 	const prettierConfig = getMergedConfig('prettier');
 
