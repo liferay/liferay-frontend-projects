@@ -13,6 +13,7 @@ const padLines = require('./padLines');
 const restoreTags = require('./restoreTags');
 const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
+const trim = require('./trim');
 
 const {PADDING_LINE} = padLines;
 
@@ -34,25 +35,8 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const transformed = blocks.map(block => {
 		const {contents, range} = block;
 
-		// Prettier will trim empty first and last lines, but we need to keep
-		// them around (need to preserve typical linebreak after opening tag,
-		// and the indent before closing tag, which is also typically
-		// on a line of its own).
-		let prefix = '';
-
-		let suffix = '';
-
-		const trimmed = contents.replace(
-			/^\s*(\r\n|\n)|(?:\r?\n)([ \t]*$)/g,
-			(match, leadingWhitespace, trailingWhitespace) => {
-				if (leadingWhitespace) {
-					prefix = leadingWhitespace;
-				} else if (trailingWhitespace) {
-					suffix = trailingWhitespace;
-				}
-				return match;
-			}
-		);
+		// Trim leading and trailing whitespace before Prettier eats it.
+		const {prefix, suffix, trimmed} = trim(contents);
 
 		// Strip base indent.
 		const [dedented, tabCount] = dedent(trimmed);
