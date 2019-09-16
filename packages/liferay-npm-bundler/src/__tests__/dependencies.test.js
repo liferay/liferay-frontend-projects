@@ -52,7 +52,10 @@ expect.extend({
 						? ''
 						: path.normalize(`node_modules/${pkgName}`);
 
-				if (dep.dir !== '.' && !dep.dir.endsWith(expectedDepDir)) {
+				if (
+					dep.dir.asNative !== '.' &&
+					!dep.dir.asNative.endsWith(expectedDepDir)
+				) {
 					invalidFields.dir =
 						`${dep.dir} ` + `(expected: ${expectedDepDir})`;
 				}

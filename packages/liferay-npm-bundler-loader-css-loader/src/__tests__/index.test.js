@@ -10,7 +10,7 @@ import path from 'path';
 
 import loader from '../index';
 
-const savedProjectDir = project.dir;
+const savedProjectPath = project.dir.asNative;
 
 describe('standard projects', () => {
 	beforeEach(() => {
@@ -18,7 +18,7 @@ describe('standard projects', () => {
 	});
 
 	afterEach(() => {
-		project.loadFrom(savedProjectDir);
+		project.loadFrom(savedProjectPath);
 	});
 
 	it('logs results correctly', () => {
@@ -103,7 +103,22 @@ describe('standard projects', () => {
 		);
 	});
 
-	it('dumps correct URL in windows', () => {});
+	it('strips source dirs from URL', () => {
+		const context = {
+			content: '',
+			filePath: `src${path.sep}file.css`,
+			log: new PluginLogger(),
+			extraArtifacts: {},
+		};
+
+		loader(context, {});
+
+		expect(
+			context.extraArtifacts[
+				`${context.filePath}.js.wrap-modules-amd.template`
+			]
+		).toMatch('.ThemeDisplay.getPathContext() + "/o/a-project/file.css"');
+	});
 });
 
 describe('java projects', () => {
@@ -112,7 +127,7 @@ describe('java projects', () => {
 	});
 
 	afterEach(() => {
-		project.loadFrom(savedProjectDir);
+		project.loadFrom(savedProjectPath);
 	});
 
 	it('correctly generates JS module', () => {
