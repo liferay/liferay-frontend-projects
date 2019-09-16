@@ -66,10 +66,11 @@ When we need a slight design difference from the original component, for example
   - Directory component name
   - SCSS file names
   - Variables names
-  - Whenever possible, modifiers names should not be minified, for example:
-    - `.btn-state: btn-warning`
-  - Modifiers names compound can be minified, for example:
-    - `btn-background-danger` to `btn-bg-danger`
+  - When modifiers names are single words (eg. state, warning), they should not be minified; for example:
+      - `.btn-state: btn-warning`
+  - When a modifier consists of multiple words (eg. background-color, small-color), you should abbreviate it if possible; for example:
+      - Prefer `.component-bg-color over .component-background-color.`
+      - Prefer `.component-sm-color over .component-small-color.`
 3. Use the [structure suggested in this documentation](https://github.com/liferay/liferay-frontend-guidelines/tree/master/css)
 4. Order
     - If your component or part of it floats in position: absolute, fixed or sticky, please, obey the common z-index scale
