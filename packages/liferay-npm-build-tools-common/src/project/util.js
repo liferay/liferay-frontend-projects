@@ -6,48 +6,37 @@
 
 import prop from 'dot-prop';
 import fs from 'fs';
-import path from 'path';
+
+import FilePath from '../file-path';
 
 /**
  *
  * @param {Project} project
  * @param {string} featuresKey
- * @param {string} defaultValue a path (relative to project root) using /
- * 					separator (it will be translated to the correct platform
- * 					separator by the function itself)
- * @return {string|undefined}
+ * @param {string} defaultPrjRelPosixPath a posix path relative to project root
+ * @return {string|undefined} absolute path to features file
  */
-export function getFeaturesFilePath(project, featuresKeyPath, defaultValue) {
+export function getFeaturesFilePath(
+	project,
+	featuresKeyPath,
+	defaultPrjRelPosixPath
+) {
 	const {_npmbundlerrc, _projectDir} = project;
 
-	const filePath = prop.get(_npmbundlerrc, featuresKeyPath);
+	const prjRelPosixPath = prop.get(_npmbundlerrc, featuresKeyPath);
 
-	if (filePath !== undefined) {
-		return path.resolve(_projectDir, filePath);
+	if (prjRelPosixPath !== undefined) {
+		return _projectDir.join(new FilePath(prjRelPosixPath, {posix: true}))
+			.asNative;
 	}
 
-	const defaultFilePath = path.join(_projectDir, ...defaultValue.split('/'));
+	const defaultAbsPath = _projectDir.join(
+		new FilePath(defaultPrjRelPosixPath, {posix: true})
+	).asNative;
 
-	if (fs.existsSync(defaultFilePath)) {
-		return defaultFilePath;
+	if (fs.existsSync(defaultAbsPath)) {
+		return defaultAbsPath;
 	}
 
 	return undefined;
-}
-
-/**
- * Inject an `asPlatform` read only property in the given array which returns
- * its items as platform path (i.e.: substituting each appearance of `/` by the
- * platform's `path.sep`).
- * @param {Array<string>} posixPathsArray
- */
-export function mixinAsPlatform(posixPathsArray) {
-	Object.defineProperty(posixPathsArray, 'asPlatform', {
-		configurable: false,
-		enumerable: true,
-		get: () =>
-			posixPathsArray.map(posixPath =>
-				posixPath.replace(/\//g, path.sep)
-			),
-	});
 }

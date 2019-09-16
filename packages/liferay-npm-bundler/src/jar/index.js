@@ -7,15 +7,15 @@
 import fs from 'fs-extra';
 import globby from 'globby';
 import JSZip from 'jszip';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
-import readJsonSync from 'read-json-sync';
 
 import * as config from '../config';
 import * as xml from './xml';
 import * as ddm from './ddm';
 
-const pkgJson = readJsonSync(path.join('.', 'package.json'));
+const pkgJson = project.pkgJson;
 
 /**
  * Create an OSGi bundle with build's output
@@ -31,10 +31,10 @@ export default function createJar() {
 	addPortletInstanceConfigurationFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
-		fs.mkdirpSync(project.jar.outputDir);
+		fs.mkdirpSync(project.jar.outputDir.asNative);
 
 		fs.writeFileSync(
-			path.join(project.jar.outputDir, project.jar.outputFilename),
+			project.jar.outputDir.join(project.jar.outputFilename).asNative,
 			buffer
 		);
 	});
@@ -46,7 +46,7 @@ export default function createJar() {
  */
 function addBuildFiles(zip) {
 	addFiles(
-		project.buildDir,
+		project.buildDir.asNative,
 		['**/*', `!${project.jar.outputFilename}`],
 		zip.folder('META-INF').folder('resources')
 	);
@@ -54,15 +54,19 @@ function addBuildFiles(zip) {
 
 /**
  * Add several files to a ZIP folder.
- * @param {string} srcDir source folder
- * @param {array} srcGlobs array of globs describing files to include
+ * @param {string} srcDirPath source folder
+ * @param {array} srcGlobs array of globs describing files to include (in
+ * 						globby, i.e. POSIX, format)
  * @param {JSZip} destFolder the destination folder in the ZIP file
  */
-function addFiles(srcDir, srcGlobs, destFolder) {
-	const filePaths = globby.sync(srcGlobs, {
-		cwd: srcDir,
-		nodir: true,
-	});
+function addFiles(srcDirPath, srcGlobs, destFolder) {
+	const filePaths = globby
+		.sync(srcGlobs, {
+			cwd: srcDirPath,
+			nodir: true,
+		})
+		.map(posixPath => new FilePath(posixPath, {posix: true}))
+		.map(file => file.asNative);
 
 	filePaths.forEach(filePath => {
 		const parts = filePath.split(path.sep);
@@ -74,7 +78,7 @@ function addFiles(srcDir, srcGlobs, destFolder) {
 			destFolder
 		);
 
-		folder.file(name, fs.readFileSync(path.join(srcDir, filePath)));
+		folder.file(name, fs.readFileSync(path.join(srcDirPath, filePath)));
 	});
 }
 
@@ -86,9 +90,9 @@ function addLocalizationFiles(zip) {
 	const languageFileBaseName = project.l10n.languageFileBaseName;
 
 	if (languageFileBaseName) {
-		const localizationDir = path.dirname(languageFileBaseName);
+		const localizationDirPath = path.dirname(languageFileBaseName.asNative);
 
-		addFiles(localizationDir, ['**/*'], zip.folder('content'));
+		addFiles(localizationDirPath, ['**/*'], zip.folder('content'));
 	}
 }
 
@@ -120,7 +124,9 @@ function addManifest(zip) {
 		`version:Version="${pkgJson.version}"\n`;
 
 	if (project.l10n.supported) {
-		const bundleName = path.basename(project.l10n.languageFileBaseName);
+		const bundleName = path.basename(
+			project.l10n.languageFileBaseName.asNative
+		);
 
 		contents += `Provide-Capability: liferay.resource.bundle;`;
 		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
@@ -166,7 +172,7 @@ function addSystemConfigurationFiles(zip) {
 
 	// Add OSGI-INF/metatype/metatype.xml file
 	const localization = project.l10n.supported
-		? `content/${path.basename(project.l10n.languageFileBaseName)}`
+		? `content/${path.basename(project.l10n.languageFileBaseName.asNative)}`
 		: undefined;
 
 	const name =

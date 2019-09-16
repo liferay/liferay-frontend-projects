@@ -89,13 +89,13 @@ export function getPackageTargetDir(name, version = null) {
  * For example, if you pass './lib' as moduleName and there's an 'index.js' file
  * inside the 'lib' dir, the method returns './lib/index.js'.
  * It also honors any 'package.json' with a 'main' entry in package subfolders.
- * @param  {String} pkgDir path to package directory
+ * @param  {String} pkgPath path to package directory
  * @param  {String} moduleName the module name
- * @return {String} a relative path
+ * @return {String} a path relative to pkgDir
  */
-export function resolveModuleFile(pkgDir, moduleName) {
+export function resolveModuleFile(pkgPath, moduleName) {
 	let fullModulePath = path.resolve(
-		path.join(pkgDir, ...moduleName.split('/'))
+		path.join(pkgPath, ...moduleName.split('/'))
 	);
 	let moduleStats = safeStat(fullModulePath);
 
@@ -113,8 +113,8 @@ export function resolveModuleFile(pkgDir, moduleName) {
 				// Module directory has package.json file with main entry:
 				// recursively resolve the main entry's file path
 				fullModulePath = path.join(
-					pkgDir,
-					resolveModuleFile(pkgDir, path.join(moduleName, main))
+					pkgPath,
+					resolveModuleFile(pkgPath, path.join(moduleName, main))
 				);
 			} else {
 				// Module directory has package.json file without main entry:
@@ -147,7 +147,7 @@ export function resolveModuleFile(pkgDir, moduleName) {
 		fullModulePath += '.js';
 	}
 
-	return path.relative(pkgDir, fullModulePath);
+	return path.relative(pkgPath, fullModulePath);
 }
 
 /**

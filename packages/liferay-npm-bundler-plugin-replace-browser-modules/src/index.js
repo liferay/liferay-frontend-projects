@@ -25,7 +25,7 @@ export default function({log, pkg}, {pkgJson}) {
 
 /**
  * Copy "browser"/"module" module file on top of "main" module file.
- * @param {String} pkgDir directory where package is placed
+ * @param {FilePath} pkgDir directory where package is placed
  * @param {String} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
  * @param {PluginLogger} log a logger
@@ -35,15 +35,19 @@ function replaceMainModule(pkgDir, browser, pkgJson, log) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 	const main = pkgJson.main || 'index.js';
 
-	const src = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, browser));
-	const dest = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, main));
+	const srcPath = pkgDir.join(
+		pkgs.resolveModuleFile(pkgDir.asNative, browser)
+	).asNative;
 
-	replaceFile(pkgId, src, browser, dest, main, log);
+	const destPath = pkgDir.join(pkgs.resolveModuleFile(pkgDir.asNative, main))
+		.asNative;
+
+	replaceFile(pkgId, srcPath, browser, destPath, main, log);
 }
 
 /**
  * Copy "browser"/"module" module files on top of their server versions.
- * @param {String} pkgDir directory where package is placed
+ * @param {FilePath} pkgDir directory where package is placed
  * @param {Object} browser the value of the "browser"/"module" field
  * @param {Object} pkgJson package.json contents
  * @param {PluginLogger} log a logger
@@ -52,16 +56,28 @@ function replaceMainModule(pkgDir, browser, pkgJson, log) {
 function replaceModules(pkgDir, browser, pkgJson, log) {
 	const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
-	Object.keys(browser).forEach(from => {
-		const to = browser[from];
-		const dest = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, from));
+	Object.keys(browser).forEach(fromModuleName => {
+		const toModuleName = browser[fromModuleName];
 
-		if (to == false) {
-			ignoreFile(dest, from, log);
+		const destPath = pkgDir.join(
+			pkgs.resolveModuleFile(pkgDir.asNative, fromModuleName)
+		).asNative;
+
+		if (toModuleName == false) {
+			ignoreFile(destPath, fromModuleName, log);
 		} else {
-			const src = path.join(pkgDir, pkgs.resolveModuleFile(pkgDir, to));
+			const srcPath = pkgDir.join(
+				pkgs.resolveModuleFile(pkgDir.asNative, toModuleName)
+			).asNative;
 
-			replaceFile(pkgId, src, to, dest, from, log);
+			replaceFile(
+				pkgId,
+				srcPath,
+				toModuleName,
+				destPath,
+				fromModuleName,
+				log
+			);
 		}
 	});
 }
@@ -69,14 +85,14 @@ function replaceModules(pkgDir, browser, pkgJson, log) {
 /**
  * Replace one package file with another.
  * @param {String} pkgId package id (name@version)
- * @param {String} src path to source file
+ * @param {String} srcPath path to source file
  * @param {String} srcName the name of the source file
- * @param {String} dest path to destination file
+ * @param {String} destPath path to destination file
  * @param {String} destName the name of the destination file
  * @param {PluginLogger} log a logger
  * @return {void}
  */
-function replaceFile(pkgId, src, srcName, dest, destName, log) {
+function replaceFile(pkgId, srcPath, srcName, destPath, destName, log) {
 	const srcModuleName = srcName.replace('.js', '');
 	const destModuleName = destName.replace('.js', '');
 
@@ -89,7 +105,7 @@ function replaceFile(pkgId, src, srcName, dest, destName, log) {
 		let contents = '';
 
 		try {
-			contents = fs.readFileSync(src).toString();
+			contents = fs.readFileSync(srcPath).toString();
 		} catch (err) {
 			if (err.code !== 'ENOENT') {
 				throw err;
@@ -101,10 +117,10 @@ function replaceFile(pkgId, src, srcName, dest, destName, log) {
 			`'${pkgId}/${destModuleName}'`
 		);
 
-		fs.mkdirsSync(path.dirname(dest));
+		fs.mkdirsSync(path.dirname(destPath));
 
 		fs.writeFileSync(
-			dest,
+			destPath,
 			'/* Module replaced with ' +
 				srcName +
 				' by liferay-npm-bundler-plugin-replace-browser-modules */\n' +
@@ -119,21 +135,21 @@ function replaceFile(pkgId, src, srcName, dest, destName, log) {
 
 /**
  * Ignores one package
- * @param {String} file path to file to be ignored
- * @param {String} fileName the name of the file
+ * @param {String} filePath path to file to be ignored
+ * @param {String} moduleName the name of the file
  * @param {PluginLogger} log a logger
  * @return {void}
  */
-function ignoreFile(file, fileName, log) {
+function ignoreFile(filePath, moduleName, log) {
 	log.info(
 		'replace-browser-modules',
-		`Emptying module ${fileName} because it is server-only`
+		`Emptying module ${moduleName} because it is server-only`
 	);
 
-	fs.mkdirsSync(path.dirname(file));
+	fs.mkdirsSync(path.dirname(filePath));
 
 	fs.writeFileSync(
-		file,
+		filePath,
 		'/* Module ignored by ' +
 			'liferay-npm-bundler-plugin-replace-browser-modules */\n'
 	);

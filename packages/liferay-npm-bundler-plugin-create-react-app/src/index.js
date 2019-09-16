@@ -20,11 +20,11 @@ export default function({pkg}, {pkgJson}) {
 	pkgJson.portlet = pkgJson.portlet || {};
 
 	// Add CSS files to portlet headers
-	const cssDir = path.join(pkg.dir, 'react-app', 'static', 'css');
+	const cssDir = pkg.dir.join('react-app', 'static', 'css');
 
 	const cssFiles = fs
-		.readdirSync(cssDir)
-		.filter(jsFile => jsFile.endsWith('.css'));
+		.readdirSync(cssDir.asNative)
+		.filter(cssFile => cssFile.endsWith('.css'));
 
 	pkgJson.portlet['com.liferay.portlet.header-portlet-css'] = cssFiles.map(
 		cssFile => `react-app/static/css/${path.basename(cssFile)}`

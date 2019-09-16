@@ -79,7 +79,7 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
 				destPkg,
 				{
 					pkgJson: readJsonSync(
-						path.join(destPkg.dir, 'package.json')
+						destPkg.dir.join('package.json').asNative
 					),
 				},
 				(plugin, log) => {
@@ -109,7 +109,7 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
 			);
 
 			fs.writeFileSync(
-				path.join(destPkg.dir, 'package.json'),
+				destPkg.dir.join('package.json').asNative,
 				JSON.stringify(state.pkgJson, '', 2)
 			);
 
@@ -155,53 +155,52 @@ function babelifyPackage(destPkg) {
 	}
 
 	// Run babel through files
-	const prjFiles = findFiles(
-		project.dir,
-		gl.prefix(`${project.dir}/${destPkg.dir}/`, globs)
+	const prjRelPaths = findFiles(
+		project.dir.asNative,
+		gl.prefix(`${project.dir.asPosix}/${destPkg.dir.asPosix}/`, globs)
 	);
 
 	log.debug(
-		`Babelifying ${prjFiles.length} files in package '${destPkg.id}'...`
+		`Babelifying ${prjRelPaths.length} files in package '${destPkg.id}'...`
 	);
 
 	return runInChunks(
-		prjFiles,
+		prjRelPaths,
 		config.bundler.getMaxParallelFiles(),
 		0,
-		prjFile => babelifyFile(destPkg, prjFile, babelConfig)
+		prjRelPath => babelifyFile(destPkg, prjRelPath, babelConfig)
 	);
 }
 
 /**
  *
  * @param {PkgDesc} destPkg
- * @param {string} prjFile
+ * @param {string} prjRelPath
  * @param {object} babelConfig
  * @return {Promise}
  */
-function babelifyFile(destPkg, prjFile, babelConfig) {
+function babelifyFile(destPkg, prjRelPath, babelConfig) {
 	return new Promise(resolve => {
 		const logger = new PluginLogger();
 
-		babelIpc.set(prjFile, {
+		babelIpc.set(prjRelPath, {
 			log: logger,
 			manifest,
 			rootPkgJson: clone(project.pkgJson),
 			globalConfig: clone(config.getGlobalConfig()),
 		});
 
-		const absFile = path.join(project.dir, prjFile);
-		const pkgFile = path.relative(
-			path.join(project.dir, destPkg.dir),
-			absFile
-		);
+		const fileAbsPath = project.dir.join(prjRelPath).asNative;
+		const filePkgRelPath = project.dir
+			.join(destPkg.dir)
+			.relative(fileAbsPath).asNative;
 
 		babel.transformFile(
-			absFile,
+			fileAbsPath,
 			Object.assign(
 				{
-					filenameRelative: absFile,
-					inputSourceMap: loadSourceMap(absFile),
+					filenameRelative: fileAbsPath,
+					inputSourceMap: loadSourceMap(fileAbsPath),
 				},
 				babelConfig
 			),
@@ -210,7 +209,7 @@ function babelifyFile(destPkg, prjFile, babelConfig) {
 				if (err) {
 					log.error(
 						'Babel failed processing',
-						`${destPkg.id}/${pkgFile}:`,
+						`${destPkg.id}/${filePkgRelPath}:`,
 						'it will be copied verbatim (see report file for more info)'
 					);
 
@@ -222,22 +221,22 @@ function babelifyFile(destPkg, prjFile, babelConfig) {
 						{unique: true}
 					);
 				} else {
-					const fileName = path.basename(absFile);
+					const fileName = path.basename(fileAbsPath);
 
 					fs.writeFileSync(
-						absFile,
+						fileAbsPath,
 						`${result.code}\n` +
 							`//# sourceMappingURL=${fileName}.map`
 					);
 
 					fs.writeFileSync(
-						`${absFile}.map`,
+						`${fileAbsPath}.map`,
 						JSON.stringify(result.map)
 					);
 				}
 
 				// Report result of babel run
-				report.packageProcessBabelRun(destPkg, pkgFile, logger);
+				report.packageProcessBabelRun(destPkg, filePkgRelPath, logger);
 
 				if (logger.errorsPresent) {
 					report.warn(
@@ -256,7 +255,7 @@ function babelifyFile(destPkg, prjFile, babelConfig) {
 				}
 
 				// Get rid of Babel IPC values
-				babelIpc.clear(prjFile);
+				babelIpc.clear(prjRelPath);
 
 				// Resolve promise
 				resolve();
@@ -327,20 +326,20 @@ function renamePkgDirIfNecessary(destPkg) {
 		return Promise.resolve(destPkg);
 	}
 
-	const pkgJson = readJsonSync(path.join(destPkg.dir, 'package.json'));
-	const outputDir = path.dirname(destPkg.dir);
+	const pkgJson = readJsonSync(destPkg.dir.join('package.json').asNative);
+	const outputDirPath = path.dirname(destPkg.dir.asNative);
 
 	if (pkgJson.name !== destPkg.name || pkgJson.version !== destPkg.version) {
-		const newDir = path.join(
-			outputDir,
+		const newDirPath = path.join(
+			outputDirPath,
 			getPackageTargetDir(pkgJson.name, pkgJson.version)
 		);
 
-		rimraf.sync(newDir);
+		rimraf.sync(newDirPath);
 
 		return fs
-			.move(destPkg.dir, newDir)
-			.then(() => destPkg.clone({dir: newDir}));
+			.move(destPkg.dir.asNative, newDirPath)
+			.then(() => destPkg.clone({dir: newDirPath}));
 	}
 
 	return Promise.resolve(destPkg);

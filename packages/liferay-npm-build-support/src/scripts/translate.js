@@ -39,9 +39,9 @@ export default function() {
 
 	createMissingSupportedLocalesFiles();
 
-	const localizationFiles = project.l10n.localizationFileMap;
+	const localizationFileMap = project.l10n.localizationFileMap;
 
-	const locales = Object.keys(localizationFiles).filter(
+	const locales = Object.keys(localizationFileMap).filter(
 		locale => locale != 'default'
 	);
 
@@ -59,8 +59,14 @@ export default function() {
 	console.log('Adding missing translations:');
 
 	Promise.all([
-		translateFile(subscriptionKey, locales, localizationFiles.default),
-		...locales.map(locale => parseFile(localizationFiles[locale])),
+		translateFile(
+			subscriptionKey,
+			locales,
+			localizationFileMap.default.asNative
+		),
+		...locales.map(locale =>
+			parseFile(localizationFileMap[locale].asNative)
+		),
 	])
 		.then(([translation, ...labels]) =>
 			addMissingTranslations(translation, arrayToMap(labels, locales))
@@ -70,10 +76,12 @@ export default function() {
 
 			Object.entries(labels).forEach(([locale, labels]) => {
 				fs.writeFileSync(
-					localizationFiles[locale],
+					localizationFileMap[locale].asNative,
 					properties.stringify(labels)
 				);
-				console.log(`  · Wrote ${localizationFiles[locale]}`);
+				console.log(
+					`  · Wrote ${localizationFileMap[locale].asNative}`
+				);
 			});
 
 			console.log('\nFinished\n');
@@ -239,7 +247,10 @@ function createMissingSupportedLocalesFiles() {
 		const languageFileBaseName = project.l10n.languageFileBaseName;
 
 		missingLocales.forEach(locale =>
-			fs.writeFileSync(`${languageFileBaseName}_${locale}.properties`, '')
+			fs.writeFileSync(
+				`${languageFileBaseName.asNative}_${locale}.properties`,
+				''
+			)
 		);
 	}
 }
