@@ -7,7 +7,7 @@
 		"bin",
 		"src"
 	],
-	"homepage": "https://github.com/liferay/liferay-npm-tools/packages/liferay-changelog-generator",
+	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator",
 	"license": "BSD-3-Clause",
 	"main": "index.js",
 	"name": "liferay-changelog-generator",

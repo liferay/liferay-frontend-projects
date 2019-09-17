@@ -58,7 +58,7 @@
 		"webpack-cli": "^3.3.6",
 		"webpack-dev-server": "^3.7.2"
 	},
-	"homepage": "https://github.com/liferay/liferay-npm-tools/packages/liferay-npm-scripts",
+	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-npm-tools",
