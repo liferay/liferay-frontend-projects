@@ -13,22 +13,22 @@ describe('ReversibleMap()', () => {
 		map = new ReversibleMap([['a', 1], ['b', 2], ['c', 3]]);
 	});
 
-	describe('pending', () => {
+	describe('undo', () => {
 		it('is a list of operations that reverse previous mutations', () => {
 			map.set('d', 4);
 			map.set('a', 0);
 			map.delete('b');
 			map.clear();
 
-			expect(map.pending.length).toBe(4);
+			expect(map.undo.length).toBe(4);
 
 			expect([...map.entries()]).toEqual([]);
 
-			map.pending[3]();
+			map.undo[3]();
 
 			expect([...map.entries()]).toEqual([['a', 0], ['c', 3], ['d', 4]]);
 
-			map.pending[2]();
+			map.undo[2]();
 
 			expect([...map.entries()]).toEqual([
 				['a', 0],
@@ -37,7 +37,7 @@ describe('ReversibleMap()', () => {
 				['d', 4]
 			]);
 
-			map.pending[1]();
+			map.undo[1]();
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -46,7 +46,7 @@ describe('ReversibleMap()', () => {
 				['d', 4]
 			]);
 
-			map.pending[0]();
+			map.undo[0]();
 
 			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
 		});
@@ -60,7 +60,7 @@ describe('ReversibleMap()', () => {
 			map.checkpoint();
 			map.set('f', 6);
 
-			expect(map.pending.length).toBe(5);
+			expect(map.undo.length).toBe(5);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -74,7 +74,7 @@ describe('ReversibleMap()', () => {
 			// Goes as far back as previous checkpoint (the 2nd) and removes it.
 			map.rollback();
 
-			expect(map.pending.length).toBe(3);
+			expect(map.undo.length).toBe(3);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -87,7 +87,7 @@ describe('ReversibleMap()', () => {
 			// Goes to previous checkpoint (the 1st) and removes it.
 			map.rollback();
 
-			expect(map.pending.length).toBe(1);
+			expect(map.undo.length).toBe(1);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -99,7 +99,7 @@ describe('ReversibleMap()', () => {
 			// Completely flushes the queue (no more checkpoints).
 			map.rollback();
 
-			expect(map.pending.length).toBe(0);
+			expect(map.undo.length).toBe(0);
 
 			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
 		});
@@ -108,7 +108,7 @@ describe('ReversibleMap()', () => {
 			map.set('d', 4);
 			map.checkpoint();
 
-			expect(map.pending.length).toBe(2);
+			expect(map.undo.length).toBe(2);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -119,7 +119,7 @@ describe('ReversibleMap()', () => {
 
 			map.rollback();
 
-			expect(map.pending.length).toBe(1);
+			expect(map.undo.length).toBe(1);
 
 			expect([...map.entries()]).toEqual([
 				['a', 1],
@@ -130,7 +130,7 @@ describe('ReversibleMap()', () => {
 
 			map.rollback();
 
-			expect(map.pending.length).toBe(0);
+			expect(map.undo.length).toBe(0);
 
 			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
 		});

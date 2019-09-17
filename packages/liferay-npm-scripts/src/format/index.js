@@ -5,10 +5,10 @@
  */
 
 const fs = require('fs');
-const formatJSP = require('../format/formatJSP');
 const getPaths = require('../utils/getPaths');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
+const formatJSP = require('./formatJSP');
 
 /**
  * File extensions that we want to process.

@@ -15,20 +15,24 @@ class ReversibleMap extends Map {
 	constructor(iterable) {
 		super(iterable);
 
-		this.pending = [];
+		// A stack of operations that can be applied to reverse mutations.
+		this.undo = [];
 	}
 
 	/**
-	 * Creates a snapshot of the internal storage and adds it to the `pending`
-	 * array. We always recreate all entries in order to preserve entry
-	 * ordering.
+	 * Creates a snapshot of the internal storage and adds an operation to the
+	 * internal `undo` array that can be used to reverse the effects of a
+	 * mutation.
+	 *
+	 * When making snapshots, we always recreate all entries in order to
+	 * preserve entry ordering.
 	 */
 	_snapshot() {
-		// If called from constructor, this.pending won't be set yet.
-		if (this.pending) {
+		// If called from constructor, this.undo won't be set yet.
+		if (this.undo) {
 			const entries = [...this.entries()];
 
-			this.pending.push(() => {
+			this.undo.push(() => {
 				Map.prototype.clear.call(this);
 
 				entries.forEach(([key, value]) => {
@@ -49,7 +53,7 @@ class ReversibleMap extends Map {
 	 * operation.
 	 */
 	checkpoint() {
-		this.pending.push(CHECKPOINT);
+		this.undo.push(CHECKPOINT);
 	}
 
 	/**
@@ -57,7 +61,7 @@ class ReversibleMap extends Map {
 	 * possible.
 	 */
 	commit() {
-		this.pending = [];
+		this.undo = [];
 	}
 
 	delete(key) {
@@ -70,8 +74,8 @@ class ReversibleMap extends Map {
 	 * Rolls back to the last checkpoint.
 	 */
 	rollback() {
-		while (this.pending.length) {
-			const operation = this.pending.pop();
+		while (this.undo.length) {
+			const operation = this.undo.pop();
 
 			if (operation === CHECKPOINT) {
 				break;

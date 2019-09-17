@@ -13,6 +13,7 @@ const padLines = require('./padLines');
 const restoreTags = require('./restoreTags');
 const stripIndents = require('./stripIndents');
 const substituteTags = require('./substituteTags');
+const trim = require('./trim');
 
 const {PADDING_LINE} = padLines;
 
@@ -30,33 +31,20 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		return null;
 	}
 
+	const prettierOptions = {
+		...prettierConfig,
+		parser: 'babel'
+	};
+
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
 	const transformed = blocks.map(block => {
 		const {contents, range} = block;
 
-		// Prettier will trim empty first and last lines, but we need to keep
-		// them around (need to preserve typical linebreak after opening tag,
-		// and the indent before closing tag, which is also typically
-		// on a line of its own).
-		let prefix = '';
-
-		let suffix = '';
-
-		const trimmed = contents.replace(
-			/^\s*(\r\n|\n)|(?:\r?\n)([ \t]*$)/g,
-			(match, leadingWhitespace, trailingWhitespace) => {
-				if (leadingWhitespace) {
-					prefix = leadingWhitespace;
-				} else if (trailingWhitespace) {
-					suffix = trailingWhitespace;
-				}
-				return match;
-			}
-		);
+		// Trim leading and trailing whitespace before Prettier eats it.
+		const {prefix, suffix, trimmed} = trim(contents);
 
 		// Strip base indent.
-		const dedented = dedent(trimmed);
-		const tabCount = dedent.lastMinimum;
+		const [dedented, tabCount] = dedent(trimmed);
 
 		// Turn JSP tags, expressions (etc) into (valid JS) placeholders.
 		const [substituted, tags] = substituteTags(dedented);
@@ -67,11 +55,7 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		// Adjust line numbers for better error reporting.
 		const padded = padLines(stripped, range.start.line - 1);
 
-		const prettierOptions = {
-			...prettierConfig,
-			parser: 'babel'
-		};
-
+		// Actually format.
 		const formatted = prettier.format(padded, prettierOptions);
 
 		// Remove previously inserted padding lines.
@@ -89,21 +73,20 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 		};
 	});
 
-	let result = source;
+	let result = '';
+	let lastIndex = 0;
 
-	for (let i = transformed.length - 1; i >= 0; i--) {
+	for (let i = 0; i < transformed.length; i++) {
 		const {closeTag, contents, openTag, range} = transformed[i];
 		const {index, length} = range;
 
-		result =
-			result.slice(0, index) +
-			openTag +
-			contents +
-			closeTag +
-			result.slice(index + length);
+		result +=
+			source.slice(lastIndex, index) + openTag + contents + closeTag;
+
+		lastIndex = index + length;
 	}
 
-	return result;
+	return result + source.slice(lastIndex);
 }
 
 module.exports = formatJSP;

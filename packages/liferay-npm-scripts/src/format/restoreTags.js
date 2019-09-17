@@ -21,7 +21,7 @@ function restoreTags(source, tags) {
 
 		const ANYTHING = match(/[\s\S]/);
 		const COMMENT = match(/\/\*.*?\*\//);
-		const TAG_REPLACEMENT = match(FILLER);
+		const SELF_CLOSING_TAG_REPLACEMENT = match(FILLER);
 		const CLOSE_TAG_REPLACEMENT = match(CLOSE_TAG);
 		const IDENTIFIER_REPLACEMENT = match(IDENTIFIER);
 		const OPEN_TAG_REPLACEMENT = match(OPEN_TAG);
@@ -30,7 +30,7 @@ function restoreTags(source, tags) {
 
 		return choose({
 			/* eslint-disable sort-keys */
-			TAG_REPLACEMENT,
+			SELF_CLOSING_TAG_REPLACEMENT,
 			OPEN_TAG_REPLACEMENT,
 			CLOSE_TAG_REPLACEMENT,
 			COMMENT,
@@ -64,7 +64,7 @@ function restoreTags(source, tags) {
 				break;
 
 			case 'IDENTIFIER_REPLACEMENT':
-			case 'TAG_REPLACEMENT':
+			case 'SELF_CLOSING_TAG_REPLACEMENT':
 				output += indent + tags[restoreCount++];
 				indent = '';
 				break;

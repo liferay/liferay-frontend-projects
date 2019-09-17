@@ -275,6 +275,9 @@ class Lexer {
 
 		/**
 		 * Assigns a name to a matcher.
+		 *
+		 * Once a matcher has a name, other matchers can reference it by name
+		 * using the `a()` or `an()` functions.
 		 */
 		function name(string) {
 			this._description = string;
@@ -306,6 +309,8 @@ class Lexer {
 		/**
 		 * Returns a composite matcher that matches if one of the supplied matchers
 		 * matches.
+		 *
+		 * Conceptually equivalent to the "|" regex special character.
 		 */
 		function oneOf(...matchers) {
 			return {
