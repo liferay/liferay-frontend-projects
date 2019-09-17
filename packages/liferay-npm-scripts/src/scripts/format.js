@@ -6,8 +6,10 @@
 
 const fs = require('fs');
 const prettier = require('prettier');
+const formatJSP = require('../format/formatJSP');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
+const isJSP = require('../format/isJSP');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
 
@@ -18,7 +20,7 @@ const DEFAULT_OPTIONS = {
 /**
  * File extensions that we want Prettier to process.
  */
-const EXTENSIONS = ['.js', '.scss'];
+const EXTENSIONS = ['.js', '.jsp', '.jspf', '.scss'];
 
 const IGNORE_FILE = '.prettierignore';
 
@@ -59,15 +61,25 @@ function format(options = {}) {
 				filepath
 			};
 
-			if (!prettier.check(source, prettierOptions)) {
+			let checkFormat;
+			let format;
+
+			if (isJSP(filepath)) {
+				checkFormat = (source, prettierOptions) => {
+					return source === formatJSP(source, prettierOptions);
+				};
+				format = formatJSP;
+			} else {
+				checkFormat = prettier.check;
+				format = prettier.format;
+			}
+
+			if (!checkFormat(source, prettierOptions)) {
 				if (check) {
 					log(`${filepath}: BAD`);
 					bad++;
 				} else {
-					fs.writeFileSync(
-						filepath,
-						prettier.format(source, prettierOptions)
-					);
+					fs.writeFileSync(filepath, format(source, prettierOptions));
 					fixed++;
 				}
 			}
