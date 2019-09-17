@@ -5,7 +5,9 @@
  */
 
 const Lexer = require('./Lexer');
+const dedent = require('./dedent');
 const {IDENTIFIER} = require('./getPaddedReplacement');
+const indent = require('./indent');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 const {FILLER} = require('./toFiller');
 
@@ -49,23 +51,24 @@ function restoreTags(source, tags) {
 	const tokens = [...lexer.lex(source)];
 
 	for (let i = 0; i < tokens.length; i++) {
-		const {contents, name} = tokens[i];
+		const token = tokens[i];
+		const {contents, name} = token;
 
 		switch (name) {
 			case 'OPEN_TAG_REPLACEMENT':
-				output += indent + tags[restoreCount++];
+				output += getIndentedTag(indent, tags[restoreCount++], token);
 				indentLevel++;
 				break;
 
 			case 'CLOSE_TAG_REPLACEMENT':
 				indent = indent.slice(1);
-				output += indent + tags[restoreCount++];
+				output += getIndentedTag(indent, tags[restoreCount++], token);
 				indentLevel--;
 				break;
 
 			case 'IDENTIFIER_REPLACEMENT':
 			case 'SELF_CLOSING_TAG_REPLACEMENT':
-				output += indent + tags[restoreCount++];
+				output += getIndentedTag(indent, tags[restoreCount++], token);
 				indent = '';
 				break;
 
@@ -113,6 +116,39 @@ function restoreTags(source, tags) {
 	}
 
 	return output;
+}
+
+/**
+ * Based on preceding indent, adjust the internal indent of a tag before
+ * substituting it.
+ *
+ * For example:
+ *
+ *      \t\t<%
+ *      \t\t\t\t// Contents
+ *      \t\t\t\t%>
+ *
+ * becomes:
+ *
+ *      \t\t<%
+ *      \t\t// Contents
+ *      \t\t%>
+ */
+function getIndentedTag(whitespace, tag, token) {
+	const [dedented] = dedent(tag);
+
+	const previous =
+		token.previous &&
+		token.previous.name === 'WHITESPACE' &&
+		token.previous.contents;
+
+	if (previous) {
+		// Indent the tag, except for the first line (because we already
+		// emitted that indent).
+		return indent(dedented, 1, previous).replace(previous, '');
+	}
+
+	return dedented;
 }
 
 module.exports = restoreTags;

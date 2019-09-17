@@ -77,6 +77,48 @@ describe('restoreTags()', () => {
 		expect(result).toEqual(expected);
 	});
 
+	it('adjusts internal indentation when Prettier changes the indent', () => {
+		const source = `
+			if (condition) {
+						<%
+						// This is indented too far.
+						%>
+			}
+		`;
+
+		const [substituted, tags] = substituteTags(source);
+
+		// Sanity-check that `substituteTags()` does what we think it does.
+		expect(substituted).toBe(`
+			if (condition) {
+						/*
+ƬƬƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬƬƬ*/
+			}
+		`);
+
+		// Now imagine Prettier "fixes" the indent like this:
+		const formattedText = `
+			if (condition) {
+				/*
+ƬƬƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬƬƬ*/
+			}
+		`;
+
+		const result = restoreTags(formattedText, tags);
+
+		const expected = `
+			if (condition) {
+				<%
+				// This is indented too far.
+				%>
+			}
+		`;
+
+		expect(result).toEqual(expected);
+	});
+
 	it('throws when passed the wrong number of tags', () => {
 		expect(() => {
 			restoreTags('some text', ['<%= "a tag" %>']);

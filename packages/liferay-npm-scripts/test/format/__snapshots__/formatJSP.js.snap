@@ -121,10 +121,10 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 						'<liferay-ui:message arguments=\\"folder\\" key=\\"select-x\\" />',
 
 					<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
-							<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />
-							<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />
-							<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
-						</liferay-portlet:renderURL>
+						<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />
+						<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />
+						<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
+					</liferay-portlet:renderURL>
 
 					uri: '<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>'
 				},
@@ -310,8 +310,8 @@ if (organization != null) {
 
 				if (countryDiv) {
 					<%
-						for (String curType : organizationsTypes) {
-						%>
+					for (String curType : organizationsTypes) {
+					%>
 
 					if (event.currentTarget.value === '<%= curType %>') {
 						if (
@@ -324,8 +324,8 @@ if (organization != null) {
 					}
 
 					<%
-						}
-						%>
+					}
+					%>
 				}
 			});
 		}
@@ -764,8 +764,8 @@ if (Validator.isNotNull(scriptContent)) {
 		var form = A.one('#<portlet:namespace />fm');
 
 		<portlet:renderURL var=\\"refreshTemplateURL\\">
-				<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />
-			</portlet:renderURL>
+			<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />
+		</portlet:renderURL>
 
 		form.attr('action', '<%= refreshTemplateURL %>');
 
@@ -1304,8 +1304,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							},
 
 							<%
-								String regularRoleEventName = liferayPortletResponse.getNamespace() + \\"selectRegularRole\\";
-								%>
+							String regularRoleEventName = liferayPortletResponse.getNamespace() + \\"selectRegularRole\\";
+							%>
 
 							id: '<%= regularRoleEventName %>',
 							selectedData: searchContainerData,
@@ -1313,13 +1313,13 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 								'<liferay-ui:message arguments=\\"regular-role\\" key=\\"select-x\\" />',
 
 							<%
-								PortletURL selectRegularRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+							PortletURL selectRegularRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
 
-								selectRegularRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
-								selectRegularRoleURL.setParameter(\\"eventName\\", regularRoleEventName);
-								selectRegularRoleURL.setParameter(\\"syncEntitiesEventName\\", regularRoleSyncEntitiesEventName);
-								selectRegularRoleURL.setWindowState(LiferayWindowState.POP_UP);
-								%>
+							selectRegularRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+							selectRegularRoleURL.setParameter(\\"eventName\\", regularRoleEventName);
+							selectRegularRoleURL.setParameter(\\"syncEntitiesEventName\\", regularRoleSyncEntitiesEventName);
+							selectRegularRoleURL.setWindowState(LiferayWindowState.POP_UP);
+							%>
 
 							uri: '<%= selectRegularRoleURL.toString() %>'
 						},
@@ -1580,8 +1580,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							},
 
 							<%
-								String organizationRoleEventName = liferayPortletResponse.getNamespace() + \\"selectOrganizationRole\\";
-								%>
+							String organizationRoleEventName = liferayPortletResponse.getNamespace() + \\"selectOrganizationRole\\";
+							%>
 
 							id: '<%= organizationRoleEventName %>',
 							selectedData: [],
@@ -1589,16 +1589,16 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 								'<liferay-ui:message arguments=\\"organization-role\\" key=\\"select-x\\" />',
 
 							<%
-								PortletURL selectOrganizationRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+							PortletURL selectOrganizationRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
 
-								selectOrganizationRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
-								selectOrganizationRoleURL.setParameter(\\"step\\", \\"1\\");
-								selectOrganizationRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_ORGANIZATION));
-								selectOrganizationRoleURL.setParameter(\\"organizationIds\\", StringUtil.merge(organizationIds));
-								selectOrganizationRoleURL.setParameter(\\"eventName\\", organizationRoleEventName);
-								selectOrganizationRoleURL.setParameter(\\"syncEntitiesEventName\\", organizationRoleSyncEntitiesEventName);
-								selectOrganizationRoleURL.setWindowState(LiferayWindowState.POP_UP);
-								%>
+							selectOrganizationRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+							selectOrganizationRoleURL.setParameter(\\"step\\", \\"1\\");
+							selectOrganizationRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_ORGANIZATION));
+							selectOrganizationRoleURL.setParameter(\\"organizationIds\\", StringUtil.merge(organizationIds));
+							selectOrganizationRoleURL.setParameter(\\"eventName\\", organizationRoleEventName);
+							selectOrganizationRoleURL.setParameter(\\"syncEntitiesEventName\\", organizationRoleSyncEntitiesEventName);
+							selectOrganizationRoleURL.setWindowState(LiferayWindowState.POP_UP);
+							%>
 
 							uri: '<%= selectOrganizationRoleURL.toString() %>'
 						},
@@ -1803,8 +1803,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							},
 
 							<%
-								String siteRoleEventName = liferayPortletResponse.getNamespace() + \\"selectSiteRole\\";
-								%>
+							String siteRoleEventName = liferayPortletResponse.getNamespace() + \\"selectSiteRole\\";
+							%>
 
 							id: '<%= siteRoleEventName %>',
 							selectedData: [],
@@ -1812,15 +1812,15 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 								'<liferay-ui:message arguments=\\"site-role\\" key=\\"select-x\\" />',
 
 							<%
-								PortletURL selectSiteRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+							PortletURL selectSiteRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
 
-								selectSiteRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
-								selectSiteRoleURL.setParameter(\\"step\\", \\"1\\");
-								selectSiteRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_SITE));
-								selectSiteRoleURL.setParameter(\\"eventName\\", siteRoleEventName);
-								selectSiteRoleURL.setParameter(\\"syncEntitiesEventName\\", siteRoleSyncEntitiesEventName);
-								selectSiteRoleURL.setWindowState(LiferayWindowState.POP_UP);
-								%>
+							selectSiteRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+							selectSiteRoleURL.setParameter(\\"step\\", \\"1\\");
+							selectSiteRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_SITE));
+							selectSiteRoleURL.setParameter(\\"eventName\\", siteRoleEventName);
+							selectSiteRoleURL.setParameter(\\"syncEntitiesEventName\\", siteRoleSyncEntitiesEventName);
+							selectSiteRoleURL.setWindowState(LiferayWindowState.POP_UP);
+							%>
 
 							uri: '<%= selectSiteRoleURL.toString() %>'
 						},
@@ -2350,9 +2350,9 @@ String backURL = PortalUtil.getCurrentURL(request);
 							title: '<liferay-ui:message key=\\"add-calendar\\" />',
 
 							<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
-										<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
-										<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
-									</portlet:renderURL>
+								<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
+								<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
+							</portlet:renderURL>
 
 							uri: Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('<%= editCalendarURL %>'),
@@ -2374,10 +2374,10 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 					if (calendarResourceId) {
 						<portlet:renderURL var=\\"calendarsURL\\">
-								<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />
-								<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />
-								<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
-							</portlet:renderURL>
+							<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />
+							<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />
+							<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
+						</portlet:renderURL>
 
 						window.location.href = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= calendarsURL %>'),
@@ -2395,12 +2395,12 @@ String backURL = PortalUtil.getCurrentURL(request);
 					var instance = this;
 
 					<liferay-security:permissionsURL
-							modelResource=\\"<%= CalendarConstants.RESOURCE_NAME %>\\"
-							modelResourceDescription=\\"\\"
-							resourcePrimKey=\\"<%= String.valueOf(scopeGroupId) %>\\"
-							var=\\"permissionsURL\\"
-							windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
-						/>
+						modelResource=\\"<%= CalendarConstants.RESOURCE_NAME %>\\"
+						modelResourceDescription=\\"\\"
+						resourcePrimKey=\\"<%= String.valueOf(scopeGroupId) %>\\"
+						var=\\"permissionsURL\\"
+						windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
+					/>
 
 					Liferay.Util.openWindow({
 						dialog: {
@@ -2548,9 +2548,9 @@ String backURL = PortalUtil.getCurrentURL(request);
 						title: '<liferay-ui:message key=\\"calendar-settings\\" />',
 
 						<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
-								<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
-								<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
-							</portlet:renderURL>
+							<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
+							<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+						</portlet:renderURL>
 
 						uri: Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= editCalendarURL %>'),
@@ -2591,13 +2591,13 @@ String backURL = PortalUtil.getCurrentURL(request);
 						title: '<liferay-ui:message key=\\"permissions\\" />',
 
 						<liferay-security:permissionsURL
-								modelResource=\\"<%= Calendar.class.getName() %>\\"
-								modelResourceDescription=\\"{modelResourceDescription}\\"
-								resourceGroupId=\\"{resourceGroupId}\\"
-								resourcePrimKey=\\"{resourcePrimKey}\\"
-								var=\\"permissionsURL\\"
-								windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
-							/>
+							modelResource=\\"<%= Calendar.class.getName() %>\\"
+							modelResourceDescription=\\"{modelResourceDescription}\\"
+							resourceGroupId=\\"{resourceGroupId}\\"
+							resourcePrimKey=\\"{resourcePrimKey}\\"
+							var=\\"permissionsURL\\"
+							windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
+						/>
 
 						uri: Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= permissionsURL %>'),
@@ -2667,8 +2667,8 @@ String backURL = PortalUtil.getCurrentURL(request);
 						var activeCalendar = calendarList.activeItem;
 
 						<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">
-							<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
-						</liferay-portlet:resourceURL>
+						<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+					</liferay-portlet:resourceURL>
 
 						var url = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= calendarRSSURL %>'),
@@ -2807,7 +2807,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 	<c:if test=\\"<%= themeDisplay.isSignedIn() %>\\">
 		var addOtherCalendarInput = A.one('#<portlet:namespace />addOtherCalendar');
 
-		<liferay-portlet:resourceURL copyCurrentRenderParameters=\\"<%= false %>\\" id=\\"calendarResources\\" var=\\"calendarResourcesURL\\" />
+	<liferay-portlet:resourceURL copyCurrentRenderParameters=\\"<%= false %>\\" id=\\"calendarResources\\" var=\\"calendarResourcesURL\\" />
 
 		calendarContainer.createCalendarsAutoComplete(
 			'<%= calendarResourcesURL %>',
@@ -3210,24 +3210,24 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 
 		var interationalNumbersDisplay = [];
 
-		<%
-		Map<String, List<String>> internationalNumbers = PowwowServiceProviderUtil.getJoinByPhoneInternationalNumbers(powwowMeeting.getProviderType());
+	<%
+	Map<String, List<String>> internationalNumbers = PowwowServiceProviderUtil.getJoinByPhoneInternationalNumbers(powwowMeeting.getProviderType());
 
-		if ((internationalNumbers != null) && !internationalNumbers.isEmpty()) {
-			for (String country : internationalNumbers.keySet()) {
-				for (String number : internationalNumbers.get(country)) {
-		%>
+	if ((internationalNumbers != null) && !internationalNumbers.isEmpty()) {
+		for (String country : internationalNumbers.keySet()) {
+			for (String number : internationalNumbers.get(country)) {
+	%>
 
 		interationalNumbersDisplay.push({
 			country: '<%= country %>',
 			number: '<%= number %>'
 		});
 
-		<%
-				}
+	<%
 			}
 		}
-		%>
+	}
+	%>
 
 		var halfInterationalNumbersDisplay = Math.round(
 			interationalNumbersDisplay.length / 2
