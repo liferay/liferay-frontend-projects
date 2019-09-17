@@ -279,6 +279,7 @@ describe('substituteTags()', () => {
 			'edit_template_display.jspf',
 			'details.jsp',
 			'page.jsp',
+			'page_iterator.jsp',
 			'recaptcha.jsp',
 			'roles.jsp',
 			'view.jsp',
