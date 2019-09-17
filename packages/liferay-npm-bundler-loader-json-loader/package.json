@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler-loader-json-loader",
-	"version": "2.13.0",
+	"version": "2.13.1",
 	"description": "A liferay-npm-bundler loader that turns JSON files into JavaScript modules that export the parsed JSON object.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -12,6 +12,6 @@
 		"babel-preset-es2015": "^6.24.1"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.13.0"
+		"liferay-npm-build-tools-common": "2.13.1"
 	}
 }
