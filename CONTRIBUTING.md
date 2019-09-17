@@ -2,9 +2,9 @@
 
 ## Contents
 
--   [Normal releases](https://github.com/liferay/liferay-npm-tools/blob/master/CONTRIBUTING.md#normal-releases)
--   [Publishing manually](https://github.com/liferay/liferay-npm-tools/blob/master/CONTRIBUTING.md#publishing-manually)
--   [Publishing a preview release](https://github.com/liferay/liferay-npm-tools/blob/master/CONTRIBUTING.md#publishing-a-preview-release)
+-   [Normal releases](#normal-releases)
+-   [Publishing manually](#publishing-manually)
+-   [Publishing a preview release](#publishing-a-preview-release)
 
 ## Normal releases
 
