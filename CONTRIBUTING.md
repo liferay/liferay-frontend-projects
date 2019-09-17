@@ -114,6 +114,6 @@ git push upstream --tags
 yarn publish --tag beta
 ```
 
-For bonus points, create a draft PR like [this one](https://github.com/liferay/liferay-npm-tools/pull/201) so that others have visibility into what you are doing. After the release is done you should feel to close the PR and delete the temporary branch that you pushed (but keep the tag in case anybody ever wants to look up the source that was published to NPM).
+For bonus points, create a draft PR like [this one](https://github.com/liferay/liferay-npm-tools/pull/201) so that others have visibility into what you are doing. After the release is done you should feel free to close the PR and delete the temporary branch that you pushed (but keep the tag in case anybody ever wants to look up the source that was published to NPM).
 
 Finally, visit the versions tab on [the NPM registry page](https://www.npmjs.com/package/liferay-npm-scripts) to confirm that your release is visible and is appropriately tagged as "beta" (not "latest").
