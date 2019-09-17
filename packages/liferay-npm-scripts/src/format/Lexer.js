@@ -734,7 +734,7 @@ class Lexer {
 		};
 
 		/**
-		 * Produce an object reperesenting a token, given a token `name`
+		 * Produce an object representing a token, given a token `name`
 		 * and textual `contents`.
 		 */
 		const token = (name, contents) => {
@@ -802,6 +802,8 @@ class Lexer {
 			);
 		}
 
+		let previous;
+
 		while (!atEnd()) {
 			const index = input.length - remaining.length;
 
@@ -817,7 +819,15 @@ class Lexer {
 						fail(`Zero-width token ${token.name} produced`);
 					}
 
+					// Make the "previous" link non-enumerable so that tokens
+					// can be introspected without the clutter.
+					Object.defineProperty(token, 'previous', {
+						value: previous
+					});
+
 					yield token;
+
+					previous = token;
 				} else {
 					fail(`Invalid token received at index ${index}`);
 				}

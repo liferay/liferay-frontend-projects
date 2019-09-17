@@ -39,6 +39,28 @@ describe('Lexer()', () => {
 		);
 	});
 
+	it('produces tokens with a non-enumerable "previous" property', () => {
+		const lexer = new Lexer(api => {
+			const {choose, match} = api;
+
+			return choose({
+				A: match('a'),
+				B: match('b')
+			});
+		});
+
+		const tokens = [...lexer.lex('abab')];
+
+		expect(tokens.length).toBe(4);
+
+		expect(tokens[3].previous).toBe(tokens[2]);
+		expect(tokens[2].previous).toBe(tokens[1]);
+		expect(tokens[1].previous).toBe(tokens[0]);
+		expect(tokens[0].previous).toBe(undefined);
+
+		expect(Object.keys(tokens[3]).includes('previous')).toBe(false);
+	});
+
 	describe('a()/an()', () => {
 		it('can reference a named matcher that gets defined elsewhere', () => {
 			const lexer = new Lexer(api => {
