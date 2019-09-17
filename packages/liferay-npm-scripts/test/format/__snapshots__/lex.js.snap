@@ -4225,6 +4225,780 @@ Array [
 ]
 `;
 
+exports[`lex() lexing entire fixtures page_iterator.jsp matches snapshot 1`] = `
+Array [
+  Object {
+    "contents": "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "index": 0,
+    "name": "JSP_COMMENT",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 601,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%@ include file=\\"/wiki/init.jsp\\" %>",
+    "index": 603,
+    "name": "JSP_DIRECTIVE",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 639,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+WikiNode node = (WikiNode)request.getAttribute(WikiWebKeys.WIKI_NODE);
+WikiPage wikiPage = (WikiPage)request.getAttribute(WikiWebKeys.WIKI_PAGE);
+
+String navigation = ParamUtil.getString(request, \\"navigation\\", \\"all-pages\\");
+
+long categoryId = ParamUtil.getLong(request, \\"categoryId\\");
+String tagName = ParamUtil.getString(request, \\"tag\\");
+
+PortletURL portletURL = renderResponse.createRenderURL();
+
+portletURL.setParameter(\\"nodeName\\", node.getName());
+
+if (wikiPage != null) {
+	portletURL.setParameter(\\"title\\", wikiPage.getTitle());
+}
+
+if (navigation.equals(\\"all-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_pages\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"all-pages\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"categorized-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_categorized_pages\\");
+	portletURL.setParameter(\\"categoryId\\", String.valueOf(categoryId));
+}
+else if (navigation.equals(\\"draft-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_draft_pages\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"draft-pages\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"history\\")) {
+	PortletURL viewPageHistoryURL = PortletURLUtil.clone(portletURL, renderResponse);
+
+	if (wikiPage != null) {
+		portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+
+		PortalUtil.addPortletBreadcrumbEntry(request, wikiPage.getTitle(), portletURL.toString());
+	}
+
+	viewPageHistoryURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page_activities\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"history\\"), viewPageHistoryURL.toString());
+}
+else if (navigation.equals(\\"incoming-links\\")) {
+	if (wikiPage != null) {
+		portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+
+		PortalUtil.addPortletBreadcrumbEntry(request, wikiPage.getTitle(), portletURL.toString());
+	}
+
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page_incoming_links\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"incoming-links\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"orphan-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_orphan_pages\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"orphan-pages\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"outgoing-links\\")) {
+	if (wikiPage != null) {
+		portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+
+		PortalUtil.addPortletBreadcrumbEntry(request, wikiPage.getTitle(), portletURL.toString());
+	}
+
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page_outgoing_links\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"outgoing-links\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"recent-changes\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_recent_changes\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"recent-changes\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"tagged-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_tagged_pages\\");
+	portletURL.setParameter(\\"tag\\", tagName);
+}
+
+List<String> headerNames = new ArrayList<String>();
+
+headerNames.add(\\"page\\");
+headerNames.add(\\"status\\");
+headerNames.add(\\"revision\\");
+headerNames.add(\\"user\\");
+headerNames.add(\\"date\\");
+
+if (navigation.equals(\\"history\\") || navigation.equals(\\"recent-changes\\")) {
+	headerNames.add(\\"summary\\");
+}
+
+if (navigation.equals(\\"all-pages\\") || navigation.equals(\\"categorized-pages\\") || navigation.equals(\\"draft-pages\\") || navigation.equals(\\"history\\") || navigation.equals(\\"orphan-pages\\") || navigation.equals(\\"recent-changes\\") || navigation.equals(\\"tagged-pages\\")) {
+	headerNames.add(StringPool.BLANK);
+}
+
+WikiListPagesDisplayContext wikiListPagesDisplayContext = wikiDisplayContextProvider.getWikiListPagesDisplayContext(request, response, node);
+
+String orderByCol = ParamUtil.getString(request, \\"orderByCol\\");
+String orderByType = ParamUtil.getString(request, \\"orderByType\\");
+
+SearchContainer searchContainer = new SearchContainer(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, currentURLObj, headerNames, wikiListPagesDisplayContext.getEmptyResultsMessage());
+
+Map orderableHeaders = new HashMap();
+
+if (navigation.equals(\\"all-pages\\") || navigation.equals(\\"categorized-pages\\") || navigation.equals(\\"tagged-pages\\")) {
+	orderableHeaders.put(\\"date\\", \\"modifiedDate\\");
+	orderableHeaders.put(\\"page\\", \\"title\\");
+}
+
+searchContainer.setOrderableHeaders(orderableHeaders);
+searchContainer.setOrderByCol(orderByCol);
+searchContainer.setOrderByType(orderByType);
+
+if (navigation.equals(\\"history\\")) {
+	RowChecker rowChecker = new RowChecker(renderResponse);
+
+	rowChecker.setAllRowIds(null);
+
+	searchContainer.setRowChecker(rowChecker);
+}
+
+wikiListPagesDisplayContext.populateResultsAndTotal(searchContainer);
+
+List<WikiPage> pages = searchContainer.getResults();
+
+List resultRows = searchContainer.getResultRows();
+
+for (int i = 0; i < pages.size(); i++) {
+	WikiPage curWikiPage = pages.get(i);
+
+	ResultRow row = new ResultRow(curWikiPage, String.valueOf(curWikiPage.getVersion()), i);
+
+	PortletURL rowURL = renderResponse.createRenderURL();
+
+	if (!curWikiPage.isNew() && !navigation.equals(\\"draft-pages\\") && !navigation.equals(\\"pending-pages\\")) {
+		if (portletName.equals(WikiPortletKeys.WIKI_DISPLAY)) {
+			rowURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page\\");
+		}
+		else {
+			rowURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+		}
+
+		rowURL.setParameter(\\"redirect\\", currentURL);
+		rowURL.setParameter(\\"nodeName\\", curWikiPage.getNode().getName());
+	}
+	else {
+		rowURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/edit_page\\");
+		rowURL.setParameter(\\"redirect\\", currentURL);
+		rowURL.setParameter(\\"nodeId\\", String.valueOf(curWikiPage.getNodeId()));
+	}
+
+	rowURL.setParameter(\\"title\\", curWikiPage.getTitle());
+
+	if (navigation.equals(\\"history\\")) {
+		rowURL.setParameter(\\"version\\", String.valueOf(curWikiPage.getVersion()));
+	}
+
+	// Title
+
+	row.addText(HtmlUtil.escape(curWikiPage.getTitle()), rowURL);
+
+	// Status
+
+	row.addStatus(curWikiPage.getStatus(), curWikiPage.getStatusByUserId(), curWikiPage.getStatusDate(), rowURL);
+
+	// Revision
+
+	if (!curWikiPage.isNew()) {
+		String revision = String.valueOf(curWikiPage.getVersion());
+
+		if (curWikiPage.isMinorEdit()) {
+			revision += \\" (\\" + LanguageUtil.get(request, \\"minor-edit\\") + \\")\\";
+		}
+
+		row.addText(revision, rowURL);
+	}
+	else {
+		row.addText(StringPool.BLANK);
+	}
+
+	// User
+
+	if (!curWikiPage.isNew()) {
+		row.addText(HtmlUtil.escape(PortalUtil.getUserName(curWikiPage)), rowURL);
+	}
+	else {
+		row.addText(StringPool.BLANK);
+	}
+
+	// Date
+
+	if (!curWikiPage.isNew()) {
+		row.addDate(curWikiPage.getStatusDate(), rowURL);
+	}
+	else {
+		row.addText(StringPool.BLANK);
+	}
+
+	// Summary
+
+	if (navigation.equals(\\"history\\") || navigation.equals(\\"recent-changes\\")) {
+		if (Validator.isNotNull(curWikiPage.getSummary())) {
+			row.addText(HtmlUtil.escape(curWikiPage.getSummary()));
+		}
+		else {
+			row.addText(StringPool.BLANK);
+		}
+	}
+
+	// Action
+
+	if (navigation.equals(\\"history\\")) {
+		if (curWikiPage.isHead()) {
+			row.addText(StringPool.BLANK);
+		}
+		else {
+			row.addJSP(\\"/wiki/page_history_action.jsp\\", \\"entry-action\\", application, request, response);
+		}
+	}
+
+	if (navigation.equals(\\"all-pages\\") || navigation.equals(\\"categorized-pages\\") || navigation.equals(\\"draft-pages\\") || navigation.equals(\\"orphan-pages\\") || navigation.equals(\\"recent-changes\\") || navigation.equals(\\"tagged-pages\\")) {
+		row.addJSP(\\"/wiki/page_action.jsp\\", \\"entry-action\\", application, request, response);
+	}
+
+	// Add result row
+
+	resultRows.add(row);
+}
+%>",
+    "index": 641,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 8413,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test='<%= navigation.equals(\\"history\\") && (pages.size() > 1) %>'>",
+    "index": 8415,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 8486,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:button-row>",
+    "index": 8488,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 8504,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:button name=\\"compare\\" primary=\\"<%= true %>\\" value=\\"compare-versions\\" />",
+    "index": 8507,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 8583,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:button-row>",
+    "index": 8585,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+",
+    "index": 8602,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 8603,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 8610,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-asset:categorization-filter
+	assetType=\\"pages\\"
+	portletURL=\\"<%= portletURL %>\\"
+/>",
+    "index": 8612,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 8702,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-iterator
+	paginate='<%= navigation.equals(\\"history\\") ? false : true %>'
+	searchContainer=\\"<%= searchContainer %>\\"
+/>",
+    "index": 8704,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 8839,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test='<%= navigation.equals(\\"history\\") %>'>",
+    "index": 8841,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 8890,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script require=\\"metal-dom/src/dom as dom\\">",
+    "index": 8892,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		function ",
+    "index": 8939,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 8951,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "initRowsChecked() {
+			var rowIdsNodes = document.querySelectorAll('input[name=",
+    "index": 8972,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 9051,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "rowIds]');
+
+			Array.prototype.forEach.call(
+				rowIdsNodes,
+				function(rowIdsNode, index) {
+					if (index > 1) {
+						rowIdsNode.checked = false;
+					}
+				}
+			);
+		}
+
+		function ",
+    "index": 9072,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 9259,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "updateRowsChecked(element) {
+			var rowsChecked = document.querySelectorAll('input[name=",
+    "index": 9280,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 9368,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "rowIds]:checked');
+
+			if (rowsChecked.length > 2) {
+				var index = 2;
+
+				if (rowsChecked[2] === element) {
+					index = 1;
+				}
+
+				rowsChecked[index].checked = false;
+			}
+		}
+
+		",
+    "index": 9389,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= pages.size() > 1 %>\\">",
+    "index": 9575,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 9612,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+			WikiPage latestWikiPage = (WikiPage)pages.get(1);
+			%>",
+    "index": 9617,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+			var compareButton = document.getElementById('",
+    "index": 9678,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 9728,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "compare');
+
+			compareButton.addEventListener(
+				'click',
+				function(event) {
+					",
+    "index": 9749,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:renderURL var=\\"compareVersionURL\\">",
+    "index": 9836,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 9879,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"mvcRenderCommandName\\" value=\\"/wiki/compare_versions\\" />",
+    "index": 9886,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 9962,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"backURL\\" value=\\"<%= currentURL %>\\" />",
+    "index": 9969,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 10027,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"tabs3\\" value=\\"versions\\" />",
+    "index": 10034,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 10081,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"nodeId\\" value=\\"<%= String.valueOf(node.getNodeId()) %>\\" />",
+    "index": 10088,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 10167,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"title\\" value=\\"<%= wikiPage.getTitle() %>\\" />",
+    "index": 10174,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 10239,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"type\\" value=\\"html\\" />",
+    "index": 10246,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 10288,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</portlet:renderURL>",
+    "index": 10294,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+					var uri = '",
+    "index": 10314,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= compareVersionURL %>",
+    "index": 10332,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "';
+
+					var rowIds = document.querySelectorAll('input[name=",
+    "index": 10356,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10416,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "rowIds]:checked');
+
+					if (rowIds.length > 0) {
+						var rowIdsSize = rowIds.length;
+
+						if (rowIdsSize === 0 || rowIdsSize === 2) {
+							if (rowIdsSize === 0) {
+								uri = Liferay.Util.addParams('",
+    "index": 10437,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10645,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "sourceVersion=",
+    "index": 10666,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= latestWikiPage.getVersion() %>",
+    "index": 10680,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "', uri);
+								uri = Liferay.Util.addParams('",
+    "index": 10714,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10761,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "targetVersion=",
+    "index": 10782,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= wikiPage.getVersion() %>",
+    "index": 10796,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "', uri);
+							}
+							else if (rowIdsSize === 2) {
+								uri = Liferay.Util.addParams('",
+    "index": 10824,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10916,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "sourceVersion=' + rowIds[1].value, uri);
+								uri = Liferay.Util.addParams('",
+    "index": 10937,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11016,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "targetVersion=' + rowIds[0].value, uri);
+							}
+
+							location.href = uri;
+						}
+					}
+				}
+			);
+		",
+    "index": 11037,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 11145,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 11152,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11156,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "initRowsChecked();
+
+		var searchContainer = document.getElementById('",
+    "index": 11177,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11246,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ocerSearchContainer');
+
+		if (searchContainer) {
+			dom.delegate(
+				searchContainer,
+				'click',
+				'input[name=",
+    "index": 11267,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11383,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "rowIds]',
+				function(event) {
+					",
+    "index": 11404,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11441,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "updateRowsChecked(event.delegateTarget);
+				}
+			);
+		}
+	",
+    "index": 11462,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 11520,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+",
+    "index": 11533,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 11534,
+    "name": "CUSTOM_ACTION_END",
+  },
+]
+`;
+
 exports[`lex() lexing entire fixtures recaptcha.jsp matches snapshot 1`] = `
 Array [
   Object {
