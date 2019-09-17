@@ -28,7 +28,7 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 
 	// TODO: may want to pass filename here too, but I am not sure.
 	if (!blocks.length) {
-		return null;
+		return source;
 	}
 
 	const prettierOptions = {
