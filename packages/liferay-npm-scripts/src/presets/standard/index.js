@@ -9,6 +9,8 @@ const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
 
 const JS_GLOBS = ['{src,test}/**/*.js'];
+const JSP_GLOBS = ['src/**/*.{jsp,jspf}'];
+const SCSS_GLOBS = ['{src,test}/**/*.scss'];
 
 module.exports = {
 	build: {
@@ -16,8 +18,8 @@ module.exports = {
 		input: 'src/main/resources/META-INF/resources',
 		output: 'classes/META-INF/resources'
 	},
-	check: [...JS_GLOBS, '{src,test}/**/*.scss'],
-	fix: [...JS_GLOBS, '{src,test}/**/*.scss'],
+	check: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
+	fix: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
 	storybook: {
 		languagePaths: ['src/main/resources/content/Language.properties'],
 		port: '9000',
