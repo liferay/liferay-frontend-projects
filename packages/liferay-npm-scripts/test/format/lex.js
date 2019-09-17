@@ -493,6 +493,7 @@ describe('lex()', () => {
 			'configuration.jsp',
 			'edit_content_redirect.jsp',
 			'edit_template_display.jspf',
+			'details.jsp',
 			'page.jsp',
 			'recaptcha.jsp',
 			'roles.jsp',

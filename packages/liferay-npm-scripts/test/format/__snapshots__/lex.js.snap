@@ -688,6 +688,903 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 ]
 `;
 
+exports[`lex() lexing entire fixtures details.jsp matches snapshot 1`] = `
+Array [
+  Object {
+    "contents": "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "index": 0,
+    "name": "JSP_COMMENT",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 601,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%@ include file=\\"/init.jsp\\" %>",
+    "index": 603,
+    "name": "JSP_DIRECTIVE",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 634,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+long organizationId = ParamUtil.getLong(request, \\"organizationId\\");
+
+Organization organization = OrganizationServiceUtil.fetchOrganization(organizationId);
+
+String[] organizationsTypes = OrganizationLocalServiceUtil.getTypes();
+
+String type = BeanParamUtil.getString(organization, request, \\"type\\", organizationsTypes[0]);
+
+long regionId = BeanParamUtil.getLong(organization, request, \\"regionId\\");
+long countryId = BeanParamUtil.getLong(organization, request, \\"countryId\\");
+
+long groupId = 0;
+
+if (organization != null) {
+	groupId = organization.getGroupId();
+}
+%>",
+    "index": 636,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 1202,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:model-context bean=\\"<%= organization %>\\" model=\\"<%= Organization.class %>\\" />",
+    "index": 1204,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 1286,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1288,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"row\\">
+	",
+    "index": 1289,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1307,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"col-md-7\\">
+		",
+    "index": 1308,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:error exception=\\"<%= DuplicateOrganizationException.class %>\\" message=\\"the-organization-name-is-already-taken\\" />",
+    "index": 1332,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 1457,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:error exception=\\"<%= OrganizationNameException.class %>\\">",
+    "index": 1461,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 1530,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:message arguments=\\"<%= new String[] {OrganizationConstants.NAME_LABEL, OrganizationConstants.NAME_GENERAL_RESTRICTIONS, OrganizationConstants.NAME_RESERVED_WORDS} %>\\" key=\\"the-x-cannot-be-x-or-a-reserved-word-such-as-x\\" />",
+    "index": 1534,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 1768,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-ui:error>",
+    "index": 1771,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 1790,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input autoFocus=\\"<%= windowState.equals(WindowState.MAXIMIZED) %>\\" name=\\"name\\" />",
+    "index": 1794,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 1880,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:choose>",
+    "index": 1884,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 1894,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:when test=\\"<%= PropsValues.FIELD_ENABLE_COM_LIFERAY_PORTAL_KERNEL_MODEL_ORGANIZATION_STATUS %>\\">",
+    "index": 1898,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 1997,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:error key=\\"<%= NoSuchListTypeException.class.getName() + Organization.class.getName() + ListTypeConstants.ORGANIZATION_STATUS %>\\" message=\\"please-select-a-type\\" />",
+    "index": 2002,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 2177,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select label=\\"status\\" listType=\\"<%= ListTypeConstants.ORGANIZATION_STATUS %>\\" listTypeFieldName=\\"statusId\\" name=\\"statusId\\" showEmptyOption=\\"<%= true %>\\" />",
+    "index": 2183,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2343,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:when>",
+    "index": 2347,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2356,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:otherwise>",
+    "index": 2360,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 2373,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"statusId\\" type=\\"hidden\\" value=\\"<%= (organization != null) ? organization.getStatusId() : ListTypeConstants.ORGANIZATION_STATUS_DEFAULT %>\\" />",
+    "index": 2378,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2536,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:otherwise>",
+    "index": 2540,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 2554,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:choose>",
+    "index": 2557,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 2568,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:choose>",
+    "index": 2572,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2582,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:when test=\\"<%= (organization == null) && (organizationsTypes.length > 1) %>\\">",
+    "index": 2586,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 2666,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select name=\\"type\\">",
+    "index": 2671,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 2695,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+					for (String curType : organizationsTypes) {
+					%>",
+    "index": 2702,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+						",
+    "index": 2761,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"<%= curType %>\\" selected=\\"<%= type.equals(curType) %>\\" />",
+    "index": 2769,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 2845,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+					}
+					%>",
+    "index": 2852,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 2869,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:select>",
+    "index": 2875,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2888,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:when>",
+    "index": 2892,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2901,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:when test=\\"<%= organization == null %>\\">",
+    "index": 2905,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 2948,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"type\\" type=\\"hidden\\" value=\\"<%= organizationsTypes[0] %>\\" />",
+    "index": 2953,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 3029,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:when>",
+    "index": 3033,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 3042,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:otherwise>",
+    "index": 3046,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 3059,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"typeLabel\\" type=\\"resource\\" value=\\"<%= LanguageUtil.get(request, organization.getType()) %>\\" />",
+    "index": 3064,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 3175,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"type\\" type=\\"hidden\\" value=\\"<%= organization.getType() %>\\" />",
+    "index": 3181,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 3258,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:otherwise>",
+    "index": 3262,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 3276,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:choose>",
+    "index": 3279,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 3290,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:error exception=\\"<%= NoSuchCountryException.class %>\\" message=\\"please-select-a-country\\" />",
+    "index": 3294,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 3396,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3400,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"",
+    "index": 3401,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= OrganizationLocalServiceUtil.isCountryEnabled(type) ? StringPool.BLANK : \\"hide\\" %>",
+    "index": 3412,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\" id=\\"",
+    "index": 3498,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 3504,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "countryDiv\\">
+			",
+    "index": 3525,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select label=\\"country\\" name=\\"countryId\\" />",
+    "index": 3541,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 3588,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select label=\\"region\\" name=\\"regionId\\" />",
+    "index": 3593,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 3638,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3641,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+	",
+    "index": 3642,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3649,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+	",
+    "index": 3650,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3658,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"col-md-5\\">
+		",
+    "index": 3659,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3683,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div align=\\"middle\\">
+			",
+    "index": 3684,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= organization != null %>\\">",
+    "index": 3707,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 3748,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+				long logoId = organization.getLogoId();
+
+				UserFileUploadsConfiguration userFileUploadsConfiguration = (UserFileUploadsConfiguration)request.getAttribute(UserFileUploadsConfiguration.class.getName());
+				%>",
+    "index": 3754,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 3970,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3976,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "label class=\\"control-label\\">",
+    "index": 3977,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 4005,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/label>
+
+				",
+    "index": 4006,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:logo-selector
+					currentLogoURL='<%= themeDisplay.getPathImage() + \\"/organization_logo?img_id=\\" + logoId + \\"&t=\\" + WebServerServletTokenUtil.getToken(logoId) %>'
+					defaultLogo=\\"<%= logoId == 0 %>\\"
+					defaultLogoURL='<%= themeDisplay.getPathImage() + \\"/organization_logo?img_id=0\\" %>'
+					logoDisplaySelector=\\".organization-logo\\"
+					maxFileSize=\\"<%= userFileUploadsConfiguration.imageMaxSize() %>\\"
+					tempImageFileName=\\"<%= String.valueOf(groupId) %>\\"
+				/>",
+    "index": 4019,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 4500,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 4504,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 4511,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 4514,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+	",
+    "index": 4515,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 4522,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+",
+    "index": 4523,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 4529,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+",
+    "index": 4530,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script use=\\"liferay-dynamic-select\\">",
+    "index": 4537,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	new Liferay.DynamicSelect(
+		[
+			{
+				select: '",
+    "index": 4578,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 4629,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "countryId',
+				selectData: Liferay.Address.getCountries,
+				selectDesc: 'nameCurrentValue',
+				selectId: 'countryId',
+				selectSort: '",
+    "index": 4650,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= true %>",
+    "index": 4788,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "',
+				selectVal: '",
+    "index": 4799,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= countryId %>",
+    "index": 4818,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "'
+			},
+			{
+				select: '",
+    "index": 4834,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 4860,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "regionId',
+				selectData: Liferay.Address.getRegions,
+				selectDesc: 'name',
+				selectDisableOnEmpty: true,
+				selectId: 'regionId',
+				selectVal: '",
+    "index": 4881,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= regionId %>",
+    "index": 5034,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "'
+			}
+		]
+	);
+",
+    "index": 5049,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 5064,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 5077,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= organization == null %>\\">",
+    "index": 5079,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 5120,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script sandbox=\\"<%= true %>\\">",
+    "index": 5122,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		var typeSelect = document.getElementById('",
+    "index": 5156,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 5201,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "type');
+
+		if (typeSelect) {
+			typeSelect.addEventListener(
+				'change',
+				function(event) {
+					var countryDiv = document.getElementById('",
+    "index": 5222,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 5366,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "countryDiv');
+
+					if (countryDiv) {
+
+						",
+    "index": 5387,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+						for (String curType : organizationsTypes) {
+						%>",
+    "index": 5432,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+							if (event.currentTarget.value === '",
+    "index": 5493,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= curType %>",
+    "index": 5537,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "') {
+								if (!",
+    "index": 5551,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= OrganizationLocalServiceUtil.isCountryEnabled(curType) %>",
+    "index": 5569,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": ") {
+									countryDiv.classList.add('hide');
+								}
+								else {
+									countryDiv.classList.remove('hide');
+								}
+							}
+
+						",
+    "index": 5630,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+						}
+						%>",
+    "index": 5774,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+					}
+				}
+			);
+		}
+	",
+    "index": 5793,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 5819,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+",
+    "index": 5832,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 5833,
+    "name": "CUSTOM_ACTION_END",
+  },
+]
+`;
+
 exports[`lex() lexing entire fixtures edit_content_redirect.jsp matches snapshot 1`] = `
 Array [
   Object {

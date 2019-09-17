@@ -83,7 +83,7 @@ function substituteTags(source) {
 
 			if (comment) {
 				tags[tags.length - 1] = outer;
-				output += `/*${toFiller(outer.slice(2, -2))}*/`;
+				output += toFiller(outer);
 				i = j;
 			} else {
 				output += getOpenTagReplacement(contents, !!last);
@@ -91,15 +91,15 @@ function substituteTags(source) {
 		} else if (name === 'EL_EXPRESSION') {
 			output += getPaddedReplacement(contents, `EL_${expressionCount++}`);
 		} else if (name === 'JSP_COMMENT') {
-			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+			output += toFiller(contents);
 		} else if (name === 'JSP_DECLARATION') {
-			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+			output += toFiller(contents);
 		} else if (name === 'JSP_DIRECTIVE') {
-			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+			output += toFiller(contents);
 		} else if (name === 'JSP_EXPRESSION') {
 			output += getPaddedReplacement(contents, 'JSP_EXPR');
 		} else if (name === 'JSP_SCRIPTLET') {
-			output += `/*${toFiller(contents.slice(2, -2))}*/`;
+			output += toFiller(contents);
 		} else if (name === 'PORTLET_NAMESPACE') {
 			output += getPaddedReplacement(contents, 'PORTLET_NAMESPACE');
 		} else if (name === 'TEMPLATE_TEXT') {
