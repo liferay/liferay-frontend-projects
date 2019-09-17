@@ -118,7 +118,7 @@ function loadProjects() {
 				if (project) {
 					msg(0, fmt.warn('Duplicate projects found in:'));
 					msg(1, `- ${pkgJsonDir}`);
-					msg(1, `- ${project.dir}`);
+					msg(1, `- ${project.dir.asNative}`);
 
 					return;
 				}
@@ -172,7 +172,7 @@ function checkProjects(projects) {
 	msg(0, 'Checking projects:');
 
 	Object.values(projects).forEach(project => {
-		if (!project.dir.startsWith(cfg.getRunPath())) {
+		if (!project.dir.asPosix.startsWith(cfg.getRunPath())) {
 			return;
 		}
 
@@ -289,7 +289,7 @@ function checkProjects(projects) {
 							const pkgJsonPath = resolve.sync(
 								`${pkgName}/package.json`,
 								{
-									basedir: project.dir,
+									basedir: project.dir.asNative,
 								}
 							);
 
@@ -459,7 +459,7 @@ function getDependencyVersion(project, pkgName) {
 
 	try {
 		const pkgJsonPath = resolve.sync(`${pkgName}/package.json`, {
-			basedir: project.dir,
+			basedir: project.dir.asNative,
 		});
 
 		const pkgJson = readJsonSync(pkgJsonPath);

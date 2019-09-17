@@ -6,16 +6,16 @@
 
 import * as fs from 'fs';
 import * as globby from 'globby';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
 import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
-import * as path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolve from 'resolve';
 
 /**
  * @return {void}
  */
-export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
+export default function({config, log, pkg, source}, {pkgJson}) {
 	const defineCall = (config.defineCall || 'Liferay.Loader.define') + '(';
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
@@ -24,9 +24,10 @@ export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
 	const failedDeps = {};
 
 	globby
-		.sync([path.join(path.resolve(pkg.dir), '**/*.js')])
-		.forEach(filePath => {
-			const code = fs.readFileSync(filePath);
+		.sync([`${pkg.dir.asPosix}/**/*.js`])
+		.map(posixPath => new FilePath(posixPath, {posix: true}))
+		.forEach(file => {
+			const code = fs.readFileSync(file.asNative);
 			const defineCallOffset = code.indexOf(defineCall);
 
 			if (defineCallOffset != -1) {
@@ -54,9 +55,7 @@ export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
 				const deps = extractDependencies(defineCallLine);
 
 				processModuleDependencies(
-					rootPkgJson,
 					pkgJson,
-					filePath,
 					deps,
 					source.pkg.dir,
 					injectedDeps,
@@ -86,19 +85,15 @@ export default function({config, log, pkg, rootPkgJson, source}, {pkgJson}) {
 
 /**
  * Process dependencies of a file.
- * @param {Object} rootPkgJson root project's package.json
  * @param {Object} pkgJson processed module's package.json
- * @param {String} filePath path to module file
  * @param {Array} deps array of dependencies as passed to define() call
- * @param {String} resolveDir path from where to resolve dependencies
+ * @param {FilePath} resolveDir path from where to resolve dependencies
  * @param {Object} injectedDeps a hash to fill with resolved dependencies
  * @param {Object} failedDeps a hash to fill with failed dependencies
  * @return {void}
  */
 function processModuleDependencies(
-	rootPkgJson,
 	pkgJson,
-	filePath,
 	deps,
 	resolveDir,
 	injectedDeps,
@@ -119,7 +114,7 @@ function processModuleDependencies(
 				const resolvedPkgJsonPath = resolve.sync(
 					`${srcPkgName}/package.json`,
 					{
-						basedir: resolveDir,
+						basedir: resolveDir.asNative,
 					}
 				);
 

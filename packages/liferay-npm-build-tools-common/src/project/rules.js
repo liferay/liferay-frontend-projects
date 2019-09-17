@@ -5,7 +5,8 @@
  */
 
 import clone from 'clone';
-import path from 'path';
+
+import FilePath from '../file-path';
 
 /**
  * Implements a restricted subset of  webpack rules specification. The rules are
@@ -86,15 +87,16 @@ export default class Rules {
 
 	/**
 	 * Returns the associated rules for a given absolute file path.
-	 * @param {string} filePath an absolute file path (or relative to `cwd`)
+	 * @param {string} prjRelPath a native file path relative to
+	 * 						`project.dir`
 	 * @return {Array<object>} an Array of objects with structure
 	 * 				`{use, resolvedModule, exec, options}`
 	 */
-	loadersForFile(filePath) {
-		filePath = path.relative(this._project.dir, path.resolve(filePath));
+	loadersForFile(prjRelPath) {
+		const {_rules} = this;
 
-		const rules = this._rules.filter(rule =>
-			this._ruleApplies(rule, filePath)
+		const rules = _rules.filter(rule =>
+			this._ruleApplies(rule, new FilePath(prjRelPath))
 		);
 
 		const loaders = rules.map(rule => rule.use);
@@ -166,20 +168,31 @@ export default class Rules {
 		rule[fieldName] = rule[fieldName].map(test => new RegExp(test));
 	}
 
-	_ruleApplies(rule, absFilePath) {
-		const matched = rule.test.find(regexp => regexp.test(absFilePath));
+	/**
+	 *
+	 * @param {object} rule
+	 * @param {FilePath} prjRelFile
+	 */
+	_ruleApplies(rule, prjRelFile) {
+		const matched = rule.test.find(regexp =>
+			regexp.test(prjRelFile.asPosix)
+		);
 
 		if (!matched) {
 			return false;
 		}
 
-		const included = rule.include.find(regexp => regexp.test(absFilePath));
+		const included = rule.include.find(regexp =>
+			regexp.test(prjRelFile.asPosix)
+		);
 
 		if (!included) {
 			return false;
 		}
 
-		const excluded = rule.exclude.find(regexp => regexp.test(absFilePath));
+		const excluded = rule.exclude.find(regexp =>
+			regexp.test(prjRelFile.asPosix)
+		);
 
 		if (excluded) {
 			return false;

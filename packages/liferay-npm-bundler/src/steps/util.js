@@ -5,6 +5,7 @@
  */
 
 import globby from 'globby';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
@@ -20,34 +21,39 @@ import * as config from '../config';
  * Note that the globs are not altered in any way and may even point to files
  * outside of the project directory.
  *
- * @param {string} baseDir
- * @param {Array<string>} globs
- * @return {Array<string>} an array containing file paths relative to `baseDir`
+ * @param {string} baseDirPath a native directory path
+ * @param {Array<string>} globs globs in `globby` format (may include `.` and
+ * 				`..` but must be in POSIX format, i.e.: use `/` path separator)
+ * @return {Array<string>} an array containing native file paths relative to
+ * 				`baseDirPath`
  */
-export function findFiles(baseDir, globs) {
-	globs = globs.map(glob => path.posix.normalize(glob));
-
-	return globby
+export function findFiles(baseDirPath, globs) {
+	let files = globby
 		.sync(globs, {
 			absolute: true,
 			onlyFiles: true,
 			followSymbolicLinks: false,
 		})
-		.map(file => path.relative(baseDir, file));
+		.map(absPath => path.relative(baseDirPath, absPath))
+		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}));
+
+	files = files.map(file => file.asNative);
+
+	return files;
 }
 
 /**
  * Get the project relative path to the destination directory of a package.
  * @param {PkgDesc} pkg
+ * @return {string} native path to destination directory of package
  */
 export function getDestDir(pkg) {
 	return pkg.isRoot
-		? project.buildDir
-		: path.join(
-				project.buildDir,
+		? project.dir.join(project.buildDir).asNative
+		: project.buildDir.join(
 				'node_modules',
 				getPackageTargetDir(pkg.name, pkg.version)
-		  );
+		  ).asNative;
 }
 
 /**

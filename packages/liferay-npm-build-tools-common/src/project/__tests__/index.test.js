@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import child_process from 'child_process';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import path from 'path';
 
 import {Project} from '../index';
-import child_process from 'child_process';
 
 let project;
 
@@ -25,13 +26,13 @@ describe('empty project', () => {
 	});
 
 	it('returns dir', () => {
-		expect(project.dir).toBe(
+		expect(project.dir.toString()).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'empty')
 		);
 	});
 
 	it('returns buildDir', () => {
-		expect(project.buildDir).toBe(
+		expect(project.buildDir.asPosix).toBe(
 			'./build/resources/main/META-INF/resources'
 		);
 	});
@@ -93,13 +94,13 @@ describe('standard project', () => {
 	});
 
 	it('returns dir', () => {
-		expect(project.dir).toBe(
+		expect(project.dir.toString()).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'standard')
 		);
 	});
 
 	it('returns buildDir', () => {
-		expect(project.buildDir).toBe('./build');
+		expect(project.buildDir.asPosix).toBe('./build');
 	});
 
 	describe('project.jar', () => {
@@ -116,7 +117,7 @@ describe('standard project', () => {
 		});
 
 		it('returns outputDir', () => {
-			expect(project.jar.outputDir).toBe('./dist');
+			expect(project.jar.outputDir.asPosix).toBe('./dist');
 		});
 
 		it('returns outputFilename', () => {
@@ -154,7 +155,7 @@ describe('standard project', () => {
 		});
 
 		it('returns languageFileBaseName', () => {
-			expect(project.l10n.languageFileBaseName).toEqual(
+			expect(project.l10n.languageFileBaseName.asNative).toEqual(
 				path.join(
 					__dirname,
 					'__fixtures__',
@@ -169,23 +170,27 @@ describe('standard project', () => {
 
 		it('returns localizationFileMap', () => {
 			expect(project.l10n.localizationFileMap).toEqual({
-				default: path.join(
-					__dirname,
-					'__fixtures__',
-					'project',
-					'standard',
-					'features',
-					'localization',
-					'Language.properties'
+				default: new FilePath(
+					path.join(
+						__dirname,
+						'__fixtures__',
+						'project',
+						'standard',
+						'features',
+						'localization',
+						'Language.properties'
+					)
 				),
-				es_ES: path.join(
-					__dirname,
-					'__fixtures__',
-					'project',
-					'standard',
-					'features',
-					'localization',
-					'Language_es_ES.properties'
+				es_ES: new FilePath(
+					path.join(
+						__dirname,
+						'__fixtures__',
+						'project',
+						'standard',
+						'features',
+						'localization',
+						'Language_es_ES.properties'
+					)
 				),
 			});
 		});
@@ -204,7 +209,7 @@ describe('specific features', () => {
 
 		expect(project.jar.supported).toBe(true);
 		expect(project.jar.customManifestHeaders).toEqual({});
-		expect(project.jar.outputDir).toBe(project.buildDir);
+		expect(project.jar.outputDir.asNative).toBe(project.buildDir.asNative);
 		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
 	});
 });
@@ -217,17 +222,17 @@ describe('honors presets', () => {
 	});
 
 	it('loads project.dir from preset', () => {
-		expect(project.dir).toBe(
+		expect(project.dir.asNative).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
 		);
 	});
 
 	it('loads project.buildDir from preset', () => {
-		expect(project.buildDir).toBe('./preset-build');
+		expect(project.buildDir.asPosix).toBe('./preset-build');
 	});
 
 	it('loads project.jar.outputDir from preset', () => {
-		expect(project.jar.outputDir).toBe('./preset-dist');
+		expect(project.jar.outputDir.asPosix).toBe('./preset-dist');
 	});
 
 	it('detects JAR configuration even if only in preset', () => {
@@ -353,8 +358,13 @@ describe('default features are detected', () => {
 			path.join(__dirname, '__fixtures__', 'default-features')
 		);
 
-		expect(project.l10n.languageFileBaseName).toBe(
-			path.join(project.dir, 'features', 'localization', 'Language')
+		expect(project.l10n.languageFileBaseName.asNative).toBe(
+			path.join(
+				project.dir.asNative,
+				'features',
+				'localization',
+				'Language'
+			)
 		);
 	});
 });

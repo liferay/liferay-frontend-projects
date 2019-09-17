@@ -12,13 +12,19 @@ export default function(context) {
 	const {filePath, log} = context;
 	let {content} = context;
 
-	content = content.replace(/\\/g, '\\\\');
-	content = content.replace(/\n/g, '\\n');
-	content = content.replace(/"/g, '\\"');
+	try {
+		content = JSON.stringify(JSON.parse(content));
 
-	context.extraArtifacts[`${filePath}.js`] = `
-module.exports = JSON.parse("${content}");
+		// content = content.replace(//g, '\n');
+
+		context.extraArtifacts[`${filePath}.js`] = `
+module.exports = JSON.parse(${JSON.stringify(content)});
 `;
+	} catch (err) {
+		context.extraArtifacts[`${filePath}.js`] = `
+throw new Error('${err.toString()}')
+`;
+	}
 
 	log.info('json-loader', `Generated JavaScript JSON module`);
 }

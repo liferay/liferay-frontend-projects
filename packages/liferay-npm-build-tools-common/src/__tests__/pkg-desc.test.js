@@ -14,7 +14,7 @@ it('constructs root package descriptors correctly', () => {
 	expect(pkg.id).toBe(PkgDesc.ROOT_ID);
 	expect(pkg.name).toBe('a-package');
 	expect(pkg.version).toBe('1.0.0');
-	expect(pkg.dir).toBe('.');
+	expect(pkg.dir.toString()).toBe('.');
 	expect(pkg.isRoot).toBe(true);
 });
 
@@ -24,7 +24,9 @@ it('constructs forced root package descriptors correctly', () => {
 	expect(pkg.id).toBe(PkgDesc.ROOT_ID);
 	expect(pkg.name).toBe('a-package');
 	expect(pkg.version).toBe('1.0.0');
-	expect(pkg.dir).toBe(`.${path.sep}${path.relative('.', __dirname)}`);
+	expect(pkg.dir.toString()).toBe(
+		`.${path.sep}${path.relative('.', __dirname)}`
+	);
 	expect(pkg.isRoot).toBe(true);
 });
 
@@ -34,7 +36,9 @@ it('constructs non-root package descriptors correctly', () => {
 	expect(pkg.id).toBe('a-package@1.0.0');
 	expect(pkg.name).toBe('a-package');
 	expect(pkg.version).toBe('1.0.0');
-	expect(pkg.dir).toBe(`.${path.sep}${path.relative('.', __dirname)}`);
+	expect(pkg.dir.toString()).toBe(
+		`.${path.sep}${path.relative('.', __dirname)}`
+	);
 	expect(pkg.isRoot).toBe(false);
 });
 
@@ -48,7 +52,9 @@ it('clone works', () => {
 	expect(pkg.id).toBe('a-package@1.0.0');
 	expect(pkg.name).toBe('a-package');
 	expect(pkg.version).toBe('1.0.0');
-	expect(pkg.dir).toBe(`.${path.sep}${path.relative('.', cloneDir)}`);
+	expect(pkg.dir.toString()).toBe(
+		`.${path.sep}${path.relative('.', cloneDir)}`
+	);
 	expect(pkg.isRoot).toBe(false);
 });
 

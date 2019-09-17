@@ -19,7 +19,6 @@ import {
 } from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
-import readJsonSync from 'read-json-sync';
 import readline from 'readline';
 
 import {Renderer, runNodeModulesBin, runPkgJsonScript} from '../../util';
@@ -116,10 +115,10 @@ const msg = {
 	],
 };
 
-const createReactAppBuildDir = path.join(project.dir, 'build');
-const explodedJarDir = path.join(project.dir, 'build.liferay', 'jar');
-const pkgJson = readJsonSync(`${project.dir}/package.json`);
-const templatesDir = path.join(
+const createReactAppBuildDir = project.dir.join('build');
+const explodedJarDir = project.dir.join('build.liferay', 'jar');
+const pkgJson = project.pkgJson;
+const templatesPath = path.join(
 	__dirname,
 	'..',
 	'..',
@@ -128,7 +127,7 @@ const templatesDir = path.join(
 	'create-react-app'
 );
 
-const renderer = new Renderer(templatesDir, explodedJarDir);
+const renderer = new Renderer(templatesPath, explodedJarDir.asNative);
 
 /**
  * Test if the current project is a create-react-app project
@@ -171,14 +170,14 @@ export function run() {
 }
 
 function assertIndexJsIntegrity() {
-	const indexJsPath = path.join(project.dir, 'src', 'index.js');
+	const indexJsPath = project.dir.join('src', 'index.js').asNative;
 
 	const indexJsContent = fs.readFileSync(indexJsPath).toString();
 
 	if (indexJsContent.indexOf(indexJsNoticeHeader) != -1) {
 		print(msg.indexJsModified);
 
-		const dotIndexJsPath = path.join(project.dir, 'src', '.index.js');
+		const dotIndexJsPath = project.dir.join('src', '.index.js').asNative;
 
 		if (fs.existsSync(dotIndexJsPath)) {
 			print(msg.indexJsBackupPresent);
@@ -223,32 +222,29 @@ function assertIndexJsIntegrity() {
 }
 
 function backupIndexJs() {
-	const indexJsPath = path.join(project.dir, 'src', 'index.js');
-	const dotIndexJsPath = path.join(project.dir, 'src', '.index.js');
+	const indexJsPath = project.dir.join('src', 'index.js').asNative;
+	const dotIndexJsPath = project.dir.join('src', '.index.js').asNative;
 
 	print(msg.makingBackup);
 	fs.copyFileSync(indexJsPath, dotIndexJsPath);
 }
 
 function tweakIndexJs() {
-	const indexJsPath = path.join(project.dir, 'src', 'index.js');
+	const indexJsPath = project.dir.join('src', 'index.js').asNative;
 
-	const result = babel.transformFileSync(
-		path.join(project.dir, 'src', 'index.js'),
-		{
-			parserOpts: {
-				plugins: ['jsx'],
-			},
-			plugins: [babelPlugin],
-		}
-	);
+	const result = babel.transformFileSync(indexJsPath, {
+		parserOpts: {
+			plugins: ['jsx'],
+		},
+		plugins: [babelPlugin],
+	});
 
 	fs.writeFileSync(indexJsPath, indexJsNoticeHeader + result.code);
 }
 
 function restoreIndexJs() {
-	const indexJsPath = path.join(project.dir, 'src', 'index.js');
-	const dotIndexJsPath = path.join(project.dir, 'src', '.index.js');
+	const indexJsPath = project.dir.join('src', 'index.js').asNative;
+	const dotIndexJsPath = project.dir.join('src', '.index.js').asNative;
 
 	if (fs.existsSync(dotIndexJsPath)) {
 		print(msg.restoringBackup);
@@ -259,13 +255,13 @@ function restoreIndexJs() {
 
 function copyCreateReactAppBuild() {
 	return new Promise((resolve, reject) => {
-		const reactAppDir = path.join(explodedJarDir, 'react-app');
+		const reactAppDirPath = explodedJarDir.join('react-app').asNative;
 
-		fs.emptyDir(reactAppDir);
+		fs.emptyDir(reactAppDirPath);
 
 		cpr(
-			createReactAppBuildDir,
-			reactAppDir,
+			createReactAppBuildDir.asNative,
+			reactAppDirPath,
 			{confirm: true, overwrite: true},
 			err => (err ? reject(err) : resolve())
 		);
@@ -285,16 +281,17 @@ function namespaceWepbackJsonp() {
 			.replace(/\//g, '_')
 			.replace(/=/g, '');
 
-		const jsDir = path.join(explodedJarDir, 'react-app', 'static', 'js');
+		const jsDirPath = explodedJarDir.join('react-app', 'static', 'js')
+			.asNative;
 
-		const jsFiles = fs
-			.readdirSync(jsDir)
+		const jsFilePaths = fs
+			.readdirSync(jsDirPath)
 			.filter(jsFile => jsFile.endsWith('.js'))
-			.map(jsFile => path.join(jsDir, jsFile));
+			.map(jsFile => path.join(jsDirPath, jsFile));
 
-		jsFiles.push(path.join(explodedJarDir, 'index.js'));
+		jsFilePaths.push(explodedJarDir.join('index.js').asNative);
 
-		jsFiles.forEach(filePath => {
+		jsFilePaths.forEach(filePath => {
 			let content = fs.readFileSync(filePath).toString();
 
 			content = content.replace(/webpackJsonp/g, `webpackJsonp_${uuid}`);
@@ -307,18 +304,20 @@ function namespaceWepbackJsonp() {
 }
 
 function generateIndexJs() {
-	const jsDir = path.join(createReactAppBuildDir, 'static', 'js');
+	const jsDirPath = createReactAppBuildDir.join('static', 'js').asNative;
 
-	const jsFiles = fs
-		.readdirSync(jsDir)
-		.filter(jsFile => jsFile.endsWith('.js'));
+	const jsFilePaths = fs
+		.readdirSync(jsDirPath)
+		.filter(jsFilePath => jsFilePath.endsWith('.js'));
 
-	const jsRuntimeFile = jsFiles.find(jsFile => jsFile.startsWith('runtime~'));
+	const jsRuntimeFilePath = jsFilePaths.find(jsFilePath =>
+		jsFilePath.startsWith('runtime~')
+	);
 
 	renderer.render('index.js', {
 		jsFiles: [
-			...jsFiles.filter(jsFile => jsFile !== jsRuntimeFile),
-			jsRuntimeFile,
+			...jsFilePaths.filter(jsFile => jsFile !== jsRuntimeFilePath),
+			jsRuntimeFilePath,
 		],
 		pkgJson,
 		webContextPath: project.jar.webContextPath,
@@ -326,14 +325,14 @@ function generateIndexJs() {
 }
 
 function tweakMediaURLs() {
-	const jsDir = path.join(explodedJarDir, 'react-app', 'static', 'js');
+	const jsDirPath = explodedJarDir.join('react-app', 'static', 'js').asNative;
 
-	const jsFiles = fs
-		.readdirSync(jsDir)
-		.filter(jsFile => jsFile.endsWith('.js'));
+	const jsFileNames = fs
+		.readdirSync(jsDirPath)
+		.filter(jsFileName => jsFileName.endsWith('.js'));
 
-	jsFiles.forEach(jsFile => {
-		const jsFilePath = path.join(jsDir, jsFile);
+	jsFileNames.forEach(jsFileName => {
+		const jsFilePath = path.join(jsDirPath, jsFileName);
 
 		let js = fs.readFileSync(jsFilePath).toString();
 

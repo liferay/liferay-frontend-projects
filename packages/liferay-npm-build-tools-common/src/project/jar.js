@@ -5,9 +5,9 @@
  */
 
 import prop from 'dot-prop';
-import path from 'path';
 import readJsonSync from 'read-json-sync';
 
+import FilePath from '../file-path';
 import {getFeaturesFilePath} from './util';
 
 /**
@@ -60,28 +60,29 @@ export default class Jar {
 	}
 
 	/**
-	 * Get output directory for JAR file relative to `this._project.dir` and
+	 * Get output directory for JAR file relative to `project.dir` and
 	 * starting with `./`
-	 * @return {string} the directory path (with native separators)
+	 * @return {FilePath}
 	 */
 	get outputDir() {
-		const {_npmbundlerrc} = this._project;
+		const {_project} = this;
+		const {_npmbundlerrc} = _project;
 
 		if (this._outputDir === undefined) {
-			const dir = prop.get(
+			let outputDirPosixPath = prop.get(
 				_npmbundlerrc,
 				'create-jar.output-dir',
-				this.supported ? this._project.buildDir : undefined
+				this.supported ? _project.buildDir.asPosix : undefined
 			);
 
-			if (dir !== undefined) {
-				this._outputDir =
-					'.' +
-					path.sep +
-					path.relative(
-						this._project.dir,
-						path.join(this._project.dir, dir)
-					);
+			if (outputDirPosixPath !== undefined) {
+				if (!outputDirPosixPath.startsWith('./')) {
+					outputDirPosixPath = `./${outputDirPosixPath}`;
+				}
+
+				this._outputDir = new FilePath(outputDirPosixPath, {
+					posix: true,
+				});
 			}
 		}
 

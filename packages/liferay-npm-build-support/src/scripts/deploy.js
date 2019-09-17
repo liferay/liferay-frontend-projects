@@ -14,15 +14,15 @@ import * as cfg from '../config';
  *
  */
 export default function() {
-	const liferayDir = cfg.getLiferayDir();
+	const liferayDirPath = cfg.getLiferayDir();
 
 	const outputDir = project.jar.outputDir;
 	const jarName = project.jar.outputFilename;
 
 	fs.copyFileSync(
-		path.join(outputDir, jarName),
-		path.join(liferayDir, 'osgi', 'modules', jarName)
+		outputDir.join(jarName).asNative,
+		path.join(liferayDirPath, 'osgi', 'modules', jarName)
 	);
 
-	console.log(`Deployed ${jarName} to ${liferayDir}`);
+	console.log(`Deployed ${jarName} to ${liferayDirPath}`);
 }

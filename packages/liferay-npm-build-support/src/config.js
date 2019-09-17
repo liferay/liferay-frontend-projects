@@ -6,7 +6,6 @@
 
 // TODO: Move this whole file to liferay-npm-build-tools-common (see #328)
 
-import path from 'path';
 import prop from 'dot-prop';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import readJsonSync from 'read-json-sync';
@@ -20,7 +19,7 @@ loadConfig();
  * Load project configuration
  */
 function loadConfig() {
-	npmbuildrc = safeReadJsonSync(path.join(project.dir, '.npmbuildrc'));
+	npmbuildrc = safeReadJsonSync(project.dir.join('.npmbuildrc').asNative);
 	npmbundlerrc = project._npmbundlerrc;
 
 	// Normalize configurations

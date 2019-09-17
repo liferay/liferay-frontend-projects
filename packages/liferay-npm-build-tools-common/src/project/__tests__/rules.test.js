@@ -5,6 +5,7 @@
  */
 
 import Rules from '../rules';
+import FilePath from '../../file-path';
 
 describe('single rule', () => {
 	it('test alone', () => {
@@ -18,11 +19,11 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: '/home/me/my-project',
+			dir: new FilePath('/home/me/my-project'),
 			require: () => requireReturn,
 		});
 
-		expect(rules.loadersForFile('/home/me/my-project/main.css')).toEqual([
+		expect(rules.loadersForFile('main.css')).toEqual([
 			{
 				loader: 'a-loader',
 				options: {},
@@ -44,11 +45,11 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: '/home/me/my-project',
+			dir: new FilePath('/home/me/my-project'),
 			require: () => requireReturn,
 		});
 
-		expect(rules.loadersForFile('/home/me/my-project/main.css')).toEqual([
+		expect(rules.loadersForFile('main.css')).toEqual([
 			{
 				loader: 'a-loader',
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
@@ -57,9 +58,7 @@ describe('single rule', () => {
 			},
 		]);
 
-		expect(rules.loadersForFile('/home/me/my-project/other.css')).toEqual(
-			[]
-		);
+		expect(rules.loadersForFile('other.css')).toEqual([]);
 	});
 
 	it('test and exclude', () => {
@@ -74,11 +73,11 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: '/home/me/my-project',
+			dir: new FilePath('/home/me/my-project'),
 			require: () => requireReturn,
 		});
 
-		expect(rules.loadersForFile('/home/me/my-project/main.css')).toEqual([
+		expect(rules.loadersForFile('main.css')).toEqual([
 			{
 				loader: 'a-loader',
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
@@ -107,11 +106,11 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: '/home/me/my-project',
+			dir: new FilePath('/home/me/my-project'),
 			require: () => requireReturn,
 		});
 
-		expect(rules.loadersForFile('/home/me/my-project/main.css')).toEqual([
+		expect(rules.loadersForFile('main.css')).toEqual([
 			{
 				loader: 'a-loader',
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
@@ -120,9 +119,7 @@ describe('single rule', () => {
 			},
 		]);
 
-		expect(rules.loadersForFile('/home/me/my-project/other.css')).toEqual(
-			[]
-		);
+		expect(rules.loadersForFile('other.css')).toEqual([]);
 
 		expect(
 			rules.loadersForFile(
@@ -143,13 +140,11 @@ it('works with rules not based in file extension', () => {
 				},
 			],
 		},
-		dir: '/home/me/my-project',
+		dir: new FilePath('/home/me/my-project'),
 		require: () => requireReturn,
 	});
 
-	expect(
-		rules.loadersForFile('/home/me/my-project/a-folder/main.js')
-	).toEqual([
+	expect(rules.loadersForFile('a-folder/main.js')).toEqual([
 		{
 			loader: 'a-loader',
 			options: {},
@@ -158,9 +153,7 @@ it('works with rules not based in file extension', () => {
 		},
 	]);
 
-	expect(
-		rules.loadersForFile('/home/me/my-project/b-folder/main.js')
-	).toEqual([]);
+	expect(rules.loadersForFile('b-folder/main.js')).toEqual([]);
 });
 
 it('multiple rules', () => {
@@ -178,11 +171,11 @@ it('multiple rules', () => {
 				},
 			],
 		},
-		dir: '/home/me/my-project',
+		dir: new FilePath('/home/me/my-project'),
 		require: () => requireReturn,
 	});
 
-	expect(rules.loadersForFile('/home/me/my-project/main.css')).toEqual([
+	expect(rules.loadersForFile('main.css')).toEqual([
 		{
 			loader: 'a-loader',
 			resolvedModule: 'liferay-npm-bundler-loader-a-loader',
@@ -217,11 +210,11 @@ it('rule with options', () => {
 				},
 			],
 		},
-		dir: '/home/me/my-project',
+		dir: new FilePath('/home/me/my-project'),
 		require: () => requireReturn,
 	});
 
-	expect(rules.loadersForFile('/home/me/my-project/main.js')).toEqual([
+	expect(rules.loadersForFile('main.js')).toEqual([
 		{
 			loader: 'a-loader',
 			options: {},

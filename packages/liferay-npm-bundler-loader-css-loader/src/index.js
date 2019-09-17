@@ -5,6 +5,7 @@
  */
 
 import fs from 'fs';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
@@ -52,7 +53,7 @@ function getHref(filePath, extension, pathModule) {
 		webContextPath = project.jar.webContextPath;
 	} else {
 		const bnd = fs
-			.readFileSync(path.join(project.dir, 'bnd.bnd'))
+			.readFileSync(project.dir.join('bnd.bnd').asNative)
 			.toString();
 
 		const lines = bnd.split('\n');
@@ -64,9 +65,12 @@ function getHref(filePath, extension, pathModule) {
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
-	project.sources.asPlatform.forEach(source => {
-		if (filePath.startsWith(source)) {
-			filePath = filePath.substring(source.length + 1);
+	project.sources.asNative.forEach(sourcePath => {
+		// Remove `./` from sourcePath so that it matches the filePath correctly
+		sourcePath = sourcePath.substring(2);
+
+		if (filePath.startsWith(sourcePath)) {
+			filePath = filePath.substring(sourcePath.length + 1);
 		}
 	});
 
@@ -83,9 +87,7 @@ function getHref(filePath, extension, pathModule) {
 		}
 	}
 
-	if (path.sep !== '/') {
-		filePath = filePath.replace(new RegExp(path.sep, 'g'), '/');
-	}
+	filePath = new FilePath(filePath).asPosix;
 
 	return `${pathModule}${webContextPath}/${filePath}`;
 }

@@ -7,18 +7,17 @@
 import path from 'path';
 
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import loader from '../index';
 
-let savedDir;
+const savedProjectPath = project.dir.asNative;
 
 beforeEach(() => {
-	savedDir = process.cwd();
-
-	process.chdir(path.join(__dirname, '..', '..'));
+	project.loadFrom(path.join(__dirname, '..', '..'));
 });
 
 afterEach(() => {
-	process.chdir(savedDir);
+	project.loadFrom(savedProjectPath);
 });
 
 const TEST_JS = 'const x = 1;';

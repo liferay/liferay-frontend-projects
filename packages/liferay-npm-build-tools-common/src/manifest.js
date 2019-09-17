@@ -7,6 +7,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 
+import FilePath from './file-path';
 import project from './project';
 
 /**
@@ -60,13 +61,13 @@ export default class Manifest {
 			id: srcPkg.id,
 			name: srcPkg.name,
 			version: srcPkg.version,
-			dir: srcPkg.dir,
+			dir: srcPkg.dir.asPosix,
 		};
 		pkg.dest = {
 			id: destPkg.id,
 			name: destPkg.name,
 			version: destPkg.version,
-			dir: destPkg.dir,
+			dir: destPkg.dir.asPosix,
 		};
 
 		this._data.packages[srcPkg.id] = pkg;
@@ -118,7 +119,12 @@ export default class Manifest {
 			return true;
 		}
 
-		if (!fs.existsSync(path.join(project.dir, entry.dest.dir))) {
+		if (
+			!fs.existsSync(
+				project.dir.join(new FilePath(entry.dest.dir, {posix: true}))
+					.asNative
+			)
+		) {
 			return true;
 		}
 

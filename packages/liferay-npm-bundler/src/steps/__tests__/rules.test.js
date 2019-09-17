@@ -4,32 +4,30 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
 import {stripSourceDir} from '../rules';
 
+const savedNativeIsPosix = FilePath.nativeIsPosix;
+const savedPathSep = path.sep;
+const savedProjectPath = project.dir.asNative;
+
 describe('stripSourceDir', () => {
-	let savedPathSep;
-
 	beforeEach(() => {
-		// Force project.sources to be loaded
-		// eslint-disable-next-line no-unused-vars
-		const foo = project.sources;
-
-		project._sources.push(...['assets', 'src/main/resources']);
-
-		savedPathSep = path.sep;
+		project.loadFrom(path.join(__dirname, '__fixtures__', 'rules-project'));
 	});
 
 	afterEach(() => {
-		project._sources.length = 0;
-
+		FilePath.nativeIsPosix = savedNativeIsPosix;
 		path.sep = savedPathSep;
+		project.loadFrom(savedProjectPath);
 	});
 
 	it('works with posix paths', () => {
 		path.sep = path.posix.sep;
+		FilePath.nativeIsPosix = true;
 
 		expect(stripSourceDir('assets/path/to/file.js')).toEqual(
 			'path/to/file.js'
@@ -42,6 +40,7 @@ describe('stripSourceDir', () => {
 
 	it('works with win32 paths', () => {
 		path.sep = path.win32.sep;
+		FilePath.nativeIsPosix = false;
 
 		expect(stripSourceDir('assets\\path\\to\\file.js')).toEqual(
 			'path\\to\\file.js'
