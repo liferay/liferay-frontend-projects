@@ -6,6 +6,7 @@
 
 import path from 'path';
 
+import FilePath from './file-path';
 import project from './project';
 
 /**
@@ -17,16 +18,16 @@ export default class PkgDesc {
 	 * Constructor
 	 * @param {String} name name of package
 	 * @param {String} version version number
-	 * @param {String} dir directory where package lives (or null if it is the
-	 * 						root package)
+	 * @param {String} pkgPath directory where package lives (or null if it is
+	 * 						the root package)
 	 * @param {Boolean} forceRoot create a root package even if dir is not null
 	 */
-	constructor(name, version, dir, forceRoot = false) {
+	constructor(name, version, pkgPath, forceRoot = false) {
 		this._name = name;
 		this._version = version;
 
-		if (!dir) {
-			dir = project.dir;
+		if (!pkgPath) {
+			pkgPath = project.dir.asNative;
 			this._id = PkgDesc.ROOT_ID;
 		} else if (forceRoot) {
 			this._id = PkgDesc.ROOT_ID;
@@ -34,26 +35,28 @@ export default class PkgDesc {
 			this._id = `${name}@${version}`;
 		}
 
-		dir = path.resolve(dir);
-
-		const relDir = path.relative(project.dir, dir);
+		let pkgPrjRelPath = project.dir.relative(pkgPath).asNative;
 
 		// Because path.join('.', 'x') returns 'x', not './x' we need to prepend
 		// './' by hand :-(
-		this._dir = relDir === '' ? '.' : `.${path.sep}${relDir}`;
+		pkgPrjRelPath =
+			pkgPrjRelPath === '' ? '.' : `.${path.sep}${pkgPrjRelPath}`;
+
+		this._dir = new FilePath(pkgPrjRelPath);
 
 		this._clean = true;
 	}
 
 	/**
 	 * Clone this object and optionally modify some of its fields.
+	 * @param {FilePath|string} dir override package directory path or FilePath
 	 * @return {PkgDesc} a clone of this (perhaps modified) package descriptor
 	 */
 	clone({dir} = {}) {
 		return new PkgDesc(
 			this.name,
 			this.version,
-			dir ? dir : this._dir,
+			dir ? dir.toString() : this._dir.toString(),
 			this.isRoot
 		);
 	}
@@ -61,7 +64,7 @@ export default class PkgDesc {
 	/**
 	 * Get directory where package lives referenced to `project.dir`. Note that
 	 * it always start with `./` so that it can be used in `path.join()` calls.
-	 * @return {string}
+	 * @return {FilePath}
 	 */
 	get dir() {
 		return this._dir;

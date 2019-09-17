@@ -5,6 +5,7 @@
  */
 
 import * as fs from 'fs-extra';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import rcopy from 'recursive-copy';
 import plugin from '../index';
@@ -14,7 +15,7 @@ const pkg = {
 	id: 'package@1.0.0',
 	name: 'package',
 	version: '1.0.0',
-	dir: `${__dirname}/pkg`,
+	dir: new FilePath(`${__dirname}/pkg`),
 };
 
 let log;
@@ -23,13 +24,15 @@ let log;
 beforeEach(done => {
 	log = new PluginLogger();
 
-	rcopy(`${__dirname}/__fixtures__`, pkg.dir, {overwrite: true}).then(done);
+	rcopy(`${__dirname}/__fixtures__`, pkg.dir.asNative, {
+		overwrite: true,
+	}).then(done);
 });
 
 // Delete result files after running each test
 afterEach(() => {
-	fs.emptyDirSync(pkg.dir);
-	fs.rmdirSync(pkg.dir);
+	fs.emptyDirSync(pkg.dir.asNative);
+	fs.rmdirSync(pkg.dir.asNative);
 });
 
 it('logs results correctly', () => {

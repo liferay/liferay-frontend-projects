@@ -47,24 +47,24 @@ function copyPackage(srcPkg) {
 
 	srcPkg.clean = false;
 
-	const baseAllFiles = srcPkg.isRoot
+	const srcPkgRelPaths = srcPkg.isRoot
 		? ['package.json']
 		: findFiles(
-				path.join(project.dir, srcPkg.dir),
-				gl.prefix(`${project.dir}/${srcPkg.dir}/`, [
+				project.dir.join(srcPkg.dir).asNative,
+				gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, [
 					`**/*`,
 					`!node_modules/**/*`,
 				])
 		  );
 
-	const baseFilesToCopy = srcPkg.isRoot
-		? baseAllFiles
+	const srcPkgRelPathsToCopy = srcPkg.isRoot
+		? srcPkgRelPaths
 		: runCopyPlugins(
 				srcPkg,
 				destPkg,
 				findFiles(
-					path.join(project.dir, srcPkg.dir),
-					gl.prefix(`${project.dir}/${srcPkg.dir}/`, [
+					project.dir.join(srcPkg.dir).asNative,
+					gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, [
 						`**/*`,
 						`!node_modules/**/*`,
 						...gl.negate(config.bundler.getExclusions(srcPkg)),
@@ -72,14 +72,16 @@ function copyPackage(srcPkg) {
 				)
 		  );
 
-	report.packageCopy(srcPkg, baseAllFiles, baseFilesToCopy);
+	report.packageCopy(srcPkg, srcPkgRelPaths, srcPkgRelPathsToCopy);
 
-	if (baseFilesToCopy.length === 0) {
+	if (srcPkgRelPathsToCopy.length === 0) {
 		srcPkg.clean = true;
 	}
 
 	return Promise.all(
-		baseFilesToCopy.map(baseFile => copyFile(srcPkg, destPkg, baseFile))
+		srcPkgRelPathsToCopy.map(srcPkgRelPath =>
+			copyFile(srcPkg, destPkg, srcPkgRelPath)
+		)
 	);
 }
 
@@ -87,17 +89,17 @@ function copyPackage(srcPkg) {
  * Run liferay-nmp-bundler copy plugins on a specified package.
  * @param {PkgDesc} srcPkg the source package descriptor
  * @param {PkgDesc} destPkg the target package descriptor
- * @param {Array<string>} prjFiles the files to be processed (relative to
- * 							`project.dir`)
+ * @param {Array<string>} srcPkgRelPaths the files to be processed (relative to
+ * 							`srcPkg.dir`)
  * @return {Array<string>} the filtered files
  */
-function runCopyPlugins(srcPkg, destPkg, prjFiles) {
+function runCopyPlugins(srcPkg, destPkg, srcPkgRelPaths) {
 	const state = runPlugins(
 		config.bundler.getPlugins('copy', destPkg),
 		srcPkg,
 		destPkg,
 		{
-			files: prjFiles,
+			files: srcPkgRelPaths,
 		},
 		(plugin, log) => {
 			report.packageProcessBundlerPlugin('copy', destPkg, plugin, log);
@@ -111,12 +113,13 @@ function runCopyPlugins(srcPkg, destPkg, prjFiles) {
  *
  * @param {PkgDesc} srcPkg
  * @param {PkgDesc} destPkg
- * @param {string} baseFile
+ * @param {string} srcPkgRelPath
  * @return {Promise}
  */
-function copyFile(srcPkg, destPkg, baseFile) {
-	const absSrcFilePath = path.join(project.dir, srcPkg.dir, baseFile);
-	const absDestFilePath = path.join(project.dir, destPkg.dir, baseFile);
+function copyFile(srcPkg, destPkg, srcPkgRelPath) {
+	const absSrcFilePath = project.dir.join(srcPkg.dir, srcPkgRelPath).asNative;
+	const absDestFilePath = project.dir.join(destPkg.dir, srcPkgRelPath)
+		.asNative;
 
 	return fs
 		.mkdirp(path.dirname(absDestFilePath))

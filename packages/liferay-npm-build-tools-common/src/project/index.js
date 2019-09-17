@@ -12,32 +12,38 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
+import FilePath from '../file-path';
 import Jar from './jar';
 import Localization from './localization';
 import Probe from './probe';
 import Rules from './rules';
-import {mixinAsPlatform} from './util';
 
 /**
  * Describes a standard JS Toolkit project.
  */
 export class Project {
 	/**
-	 * @param {string} projectDir project's path
+	 * @param {string} projectDirPath project's path in native format
 	 */
-	constructor(projectDir) {
-		this.loadFrom(projectDir);
+	constructor(projectDirPath) {
+		this.loadFrom(projectDirPath);
 	}
 
 	/**
-	 * Get directories inside the project containing source files.
-	 * @return {Array<sring>} directory names relative to `project.dir`
+	 * Get directories inside the project containing source files starting with
+	 * `./` (so that they can be safely path.joined)
+	 * @return {Array<FilePath>}
 	 */
 	get sources() {
 		if (this._sources === undefined) {
-			this._sources = prop.get(this._npmbundlerrc, 'sources', []);
-
-			mixinAsPlatform(this._sources);
+			this._sources = FilePath.convertArray(
+				prop
+					.get(this._npmbundlerrc, 'sources', [])
+					.map(source =>
+						source.startsWith('./') ? source : `./${source}`
+					),
+				{posix: true}
+			);
 		}
 
 		return this._sources;
@@ -45,31 +51,32 @@ export class Project {
 
 	/**
 	 * Get directory where files to be transformed live relative to
-	 * `this.dir` and starting with `./`
-	 * @return {string} the directory path (with native separators)
+	 * `this.dir` and starting with `./` (so that it can be safely path.joined)
+	 * @return {FilePath}
 	 */
 	get buildDir() {
 		if (this._buildDir === undefined) {
-			const dir = prop.get(
+			let dir = prop.get(
 				this._npmbundlerrc,
 				'output',
 				this.jar.supported
-					? 'build'
-					: 'build/resources/main/META-INF/resources'
+					? './build'
+					: './build/resources/main/META-INF/resources'
 			);
 
-			this._buildDir =
-				'.' +
-				path.sep +
-				path.relative(this.dir, path.join(this.dir, dir));
+			if (!dir.startsWith('./')) {
+				dir = `./${dir}`;
+			}
+
+			this._buildDir = new FilePath(dir, {posix: true});
 		}
 
 		return this._buildDir;
 	}
 
 	/**
-	 * Get project's directory
-	 * @return {string} an absolute path to project's directory
+	 * Get absolute path to project's directory.
+	 * @return {FilePath}
 	 */
 	get dir() {
 		return this._projectDir;
@@ -84,20 +91,15 @@ export class Project {
 
 	/**
 	 * Reload the whole project from given directory. Especially useful for
-	 * test.
-	 * @param {string} projectDir
+	 * tests.
+	 * @param {string} projectDir project's path in native format (whether
+	 * 						absolute or relative to cwd)
 	 */
 	loadFrom(projectDir) {
-		this._projectDir = path.resolve(projectDir);
+		this._projectDir = new FilePath(path.resolve(projectDir));
 
 		this._loadPkgJson();
 		this._loadNpmbundlerrc();
-
-		const pkgJsonPath = path.join(projectDir, 'package.json');
-
-		this._pkgJson = fs.existsSync(pkgJsonPath)
-			? readJsonSync(pkgJsonPath)
-			: {};
 
 		this._sources = undefined;
 		this._buildDir = undefined;
@@ -116,10 +118,10 @@ export class Project {
 	get pkgManager() {
 		if (this._pkgManager === undefined) {
 			let yarnLockPresent = fs.existsSync(
-				path.join(this._projectDir, 'yarn.lock')
+				this._projectDir.join('yarn.lock').asNative
 			);
 			let pkgLockPresent = fs.existsSync(
-				path.join(this._projectDir, 'package-lock.json')
+				this._projectDir.join('package-lock.json').asNative
 			);
 
 			// If both present act as if none was present
@@ -171,38 +173,41 @@ export class Project {
 	 */
 	require(moduleName) {
 		const modulePath = resolveModule.sync(moduleName, {
-			basedir: this._projectDir,
+			basedir: this.dir.asNative,
 		});
 
 		return require(modulePath);
 	}
 
 	_loadNpmbundlerrc() {
-		const npmbundlerrcPath = path.join(this._projectDir, '.npmbundlerrc');
+		const npmbundlerrcPath = this._projectDir.join('.npmbundlerrc')
+			.asNative;
 
 		const config = fs.existsSync(npmbundlerrcPath)
 			? readJsonSync(npmbundlerrcPath)
 			: {};
 
 		// Apply preset if necessary
-		let presetFile;
+		let presetFilePath;
 
 		if (config.preset === undefined) {
-			presetFile = require.resolve('liferay-npm-bundler-preset-standard');
+			presetFilePath = require.resolve(
+				'liferay-npm-bundler-preset-standard'
+			);
 		} else if (config.preset === '' || config.preset === false) {
 			// don't load preset
 		} else {
-			presetFile = resolveModule.sync(config.preset, {
-				basedir: this._projectDir,
+			presetFilePath = resolveModule.sync(config.preset, {
+				basedir: this.dir.asNative,
 			});
 		}
 
-		if (presetFile) {
+		if (presetFilePath) {
 			const originalConfig = Object.assign({}, config);
 
 			Object.assign(
 				config,
-				merge.recursive(readJsonSync(presetFile), originalConfig)
+				merge.recursive(readJsonSync(presetFilePath), originalConfig)
 			);
 		}
 
@@ -210,9 +215,11 @@ export class Project {
 	}
 
 	_loadPkgJson() {
-		this._pkgJson = readJsonSync(
-			path.join(this._projectDir, 'package.json')
-		);
+		const pkgJsonPath = this.dir.join('package.json').asNative;
+
+		this._pkgJson = fs.existsSync(pkgJsonPath)
+			? readJsonSync(pkgJsonPath)
+			: {};
 	}
 }
 

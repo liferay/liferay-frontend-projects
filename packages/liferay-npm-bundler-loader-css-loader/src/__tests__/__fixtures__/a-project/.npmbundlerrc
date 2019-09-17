@@ -1,4 +1,5 @@
 {
+	"sources": ["src"],
 	"create-jar": {
 		"output-dir": "dist",
 		"features": {

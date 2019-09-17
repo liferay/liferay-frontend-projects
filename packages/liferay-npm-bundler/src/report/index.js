@@ -193,8 +193,8 @@ export class Report {
 		this._rules.config = config;
 	}
 
-	rulesRun(filePath, logger) {
-		this._rules.files[filePath] = {logger};
+	rulesRun(prjRelPath, logger) {
+		this._rules.files[prjRelPath] = {logger};
 	}
 
 	/**

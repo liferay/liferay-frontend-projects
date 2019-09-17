@@ -89,7 +89,7 @@ if "%1" == "generate-samples" (
     call:task generate-samples
 
     echo Generating sample projects
-    node generate-samples.js
+    node generate-samples.js -p all
     goto:eof
 )
 

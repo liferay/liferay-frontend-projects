@@ -10,34 +10,38 @@ import ejs from 'ejs';
 import fs from 'fs-extra';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
-import resolveModule from 'resolve';
 
 /**
  * Template renderer class
  */
 export class Renderer {
-	constructor(templatesDir, outputDir) {
-		this._templatesDir = templatesDir;
-		this._outputDir = outputDir;
+	/**
+	 *
+	 * @param {string} templatesPath
+	 * @param {string} outputPath
+	 */
+	constructor(templatesPath, outputPath) {
+		this._templatesPath = templatesPath;
+		this._outputPath = outputPath;
 	}
 
 	/**
 	 *
-	 * @param {string} template the template path
+	 * @param {string} templatePath the template path
 	 * @param {Object} data the contextual data to render the template
 	 * @param {string} dir optional relative directory in output path
 	 * @param {string} name optional output file name
 	 */
-	render(template, data = {}, {dir = '', name} = {}) {
-		dir = path.join(this._outputDir, dir);
-		name = name || template;
+	render(templatePath, data = {}, {dir = '', name} = {}) {
+		dir = path.join(this._outputPath, dir);
+		name = name || templatePath;
 
 		const outputPath = path.join(dir, name);
 
 		fs.ensureDirSync(path.dirname(outputPath));
 
 		ejs.renderFile(
-			path.join(this._templatesDir, `${template}.ejs`),
+			path.join(this._templatesPath, `${templatePath}.ejs`),
 			data,
 			{
 				escape: text => text,
@@ -56,7 +60,7 @@ export class Renderer {
  */
 export function runNodeModulesBin(script, args = []) {
 	const proc = spawn.sync(
-		path.join(project.dir, 'node_modules', '.bin', script),
+		project.dir.join('node_modules', '.bin', script).asNative,
 		args,
 		{
 			stdio: 'inherit',
@@ -88,14 +92,10 @@ export function runNodeModulesBin(script, args = []) {
 export function runPkgJsonScript(script, args = []) {
 	const pkgManager = project.pkgManager || 'npm';
 
-	const proc = child_process.spawnSync(
-		pkgManager,
-		['run', script].concat(args),
-		{
-			shell: true,
-			stdio: 'inherit',
-		}
-	);
+	const proc = child_process.spawnSync(pkgManager, ['run', script, ...args], {
+		shell: true,
+		stdio: 'inherit',
+	});
 
 	if (proc.error) {
 		throw proc.error;
@@ -108,16 +108,4 @@ export function runPkgJsonScript(script, args = []) {
 			`Package script '${script}' finished due to signal ${proc.signal}`
 		);
 	}
-}
-
-/**
- * Do a require() call in the context of the project
- * @param {string} pkgName
- */
-export function projectRequire(pkgName) {
-	const babelPresetPath = resolveModule.sync(pkgName, {
-		basedir: project.dir,
-	});
-
-	return require(babelPresetPath);
 }

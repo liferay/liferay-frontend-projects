@@ -5,7 +5,7 @@
  */
 
 import * as babel from 'babel-core';
-import resolveModule from 'resolve';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 /**
  * @param {object} context loader's context
@@ -61,10 +61,10 @@ function loadBabelPlugins(presets, plugins) {
 
 				try {
 					presetName = `babel-preset-${preset}`;
-					presetModule = projectRequire(presetName);
+					presetModule = project.require(presetName);
 				} catch (err) {
 					presetName = preset;
-					presetModule = projectRequire(presetName);
+					presetModule = project.require(presetName);
 				}
 
 				if (presetModule === undefined) {
@@ -91,15 +91,4 @@ function loadBabelPlugins(presets, plugins) {
 			})
 		)
 		.concat(plugins);
-}
-
-/**
- * Require a module using the configured plugins directory.
- * @param {String} module a module name
- * @return {Object} the required module object
- */
-export function projectRequire(module) {
-	return require(resolveModule.sync(module, {
-		basedir: '.',
-	}));
 }

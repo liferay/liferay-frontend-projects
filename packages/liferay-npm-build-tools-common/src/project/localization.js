@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import properties from 'properties';
 
+import FilePath from '../file-path';
 import {getFeaturesFilePath} from './util';
 
 const DEFAULT_LOCALE = 'default';
@@ -52,11 +53,11 @@ export default class Localization {
 	 */
 	getLabels(locale = DEFAULT_LOCALE) {
 		if (this._cachedLabels[locale] === undefined) {
-			const filePath = this.localizationFileMap[locale];
+			const file = this.localizationFileMap[locale];
 
-			if (filePath) {
+			if (file) {
 				this._cachedLabels[locale] = properties.parse(
-					fs.readFileSync(filePath).toString()
+					fs.readFileSync(file.asNative).toString()
 				);
 			} else {
 				this._cachedLabels[locale] = {};
@@ -68,26 +69,24 @@ export default class Localization {
 
 	/**
 	 * Get the language file base name (absolute path plus name, without
-	 * .properties extension)
-	 * @return {object|undefined}
+	 * .properties extension in POSIX format)
+	 * @return {FilePath|undefined}
 	 */
 	get languageFileBaseName() {
 		if (this._cachedLanguageFileBaseName === undefined) {
-			this._cachedLanguageFileBaseName = getFeaturesFilePath(
+			let absPath = getFeaturesFilePath(
 				this._project,
 				'create-jar.features.localization',
 				'features/localization/Language.properties'
 			);
 
-			// Be lenient: remove trailing .properties if present
-			if (
-				this._cachedLanguageFileBaseName !== undefined &&
-				this._cachedLanguageFileBaseName.endsWith('.properties')
-			) {
-				this._cachedLanguageFileBaseName = this._cachedLanguageFileBaseName.substring(
-					0,
-					this._cachedLanguageFileBaseName.length - 11
-				);
+			if (absPath !== undefined) {
+				// Be lenient: remove trailing .properties if present
+				if (absPath.endsWith('.properties')) {
+					absPath = absPath.substring(0, absPath.length - 11);
+				}
+
+				this._cachedLanguageFileBaseName = new FilePath(absPath);
 			}
 		}
 
@@ -95,8 +94,7 @@ export default class Localization {
 	}
 
 	/**
-	 * Get the map of localization files' absolute path for the project indexed
-	 * by locale abbreviation.
+	 * Get the map of localization FilePaths indexed by locale abbreviation.
 	 * @param {string} localization base localization file name
 	 * @return {object}
 	 */
@@ -107,15 +105,16 @@ export default class Localization {
 			if (languageFileBaseName === undefined) {
 				this._cachedLocalizationFileMap = {};
 			} else {
-				const localizationDir = path.dirname(languageFileBaseName);
+				const localizationDirPath = path.dirname(
+					languageFileBaseName.asNative
+				);
 
-				const files = fs.readdirSync(localizationDir);
+				const fileNames = fs.readdirSync(localizationDirPath);
 
-				this._cachedLocalizationFileMap = files.reduce(
-					(map, file) => (
-						(map[this._getFileNameLocale(file)] = path.join(
-							localizationDir,
-							file
+				this._cachedLocalizationFileMap = fileNames.reduce(
+					(map, fileName) => (
+						(map[this._getFileNameLocale(fileName)] = new FilePath(
+							path.join(localizationDirPath, fileName)
 						)),
 						map
 					),

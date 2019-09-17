@@ -12,10 +12,15 @@ const path = require('path');
 const rimraf = require('rimraf');
 const yargs = require('yargs');
 
-const argv = yargs.option('projects', {
-	alias: 'p',
-	default: 'all',
-}).argv;
+const argv = yargs
+	.option('projects', {
+		alias: 'p',
+		default: 'essential',
+	})
+	.option('sdk', {
+		alias: 's',
+		default: '../../../../../..',
+	}).argv;
 
 const outDir = path.resolve('samples');
 const pkgsDir = path.join(outDir, 'packages');
@@ -31,7 +36,7 @@ function writeConfig(options) {
 		JSON.stringify(
 			{
 				batchMode: true,
-				sdkVersion: '../../../../../..',
+				sdkVersion: argv.sdk,
 				answers: {
 					'*': Object.assign(
 						{

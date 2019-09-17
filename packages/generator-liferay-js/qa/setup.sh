@@ -99,7 +99,7 @@ elif [ "$1" = "generate-samples" ] ; then
     task generate-samples
 
     echo Generating sample projects
-    node generate-samples.js
+    node generate-samples.js -p all
 
 elif [ "$1" = "deploy-portlets" ] ; then
     task deploy-portlets
