@@ -9,7 +9,7 @@
 ## Normal releases
 
 > **Note:** liferay-npm-scripts can be published independently, but if you update the preset, or the reporter, you need to update liferay-npm-scripts as well, because it depends on the others. When doing this, it is important to publish the packages in order; with liferay-npm-scripts always going last.
-To publish a new version of a package:
+> To publish a new version of a package:
 
 ```sh
 # Make sure the local "master" branch is up-to-date:
