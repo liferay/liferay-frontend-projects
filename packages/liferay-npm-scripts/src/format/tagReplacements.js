@@ -30,16 +30,6 @@ const CLOSE_TAG = new RegExp(`/\\*\\s*[${BLOCK_CLOSE}\\s]+\\*/`);
 
 const OPEN_TAG = new RegExp(`/\\*\\s*[${BLOCK_OPEN}\\s]+\\*/|//${BLOCK_OPEN}+`);
 
-const fill = contents => `/*${contents}*/`;
-
-const templateLength = fill('').length;
-
-const validate = tag => {
-	if (tag.length <= templateLength) {
-		throw new Error(`Invalid (underlength) tag: ${tag}`);
-	}
-};
-
 ///
 // Create a same-length substitution for the text of the opening tag, `tag`.
 //
@@ -105,11 +95,7 @@ function getOpenTagReplacement(tag, last = false) {
 		return `//${BLOCK_OPEN.repeat(tag.length - 2)}`;
 	} else {
 		// Replace with a C-style (/*...*/) comment.
-		validate(tag);
-
-		// Trim more from beginning than end because first line will generally be
-		// longer, and we don't want to cut off any newline before the final ">".
-		return fill(toFiller(tag, BLOCK_OPEN).slice(3, -1));
+		return toFiller(tag, BLOCK_OPEN);
 	}
 }
 
@@ -130,10 +116,7 @@ function getOpenTagReplacement(tag, last = false) {
 //     /*ʅʅ*/
 //
 function getCloseTagReplacement(tag) {
-	validate(tag);
-
-	// Trim equally from beginning and end.
-	return fill(toFiller(tag, BLOCK_CLOSE).slice(2, -2));
+	return toFiller(tag, BLOCK_CLOSE);
 }
 
 ///
@@ -148,10 +131,7 @@ function getCloseTagReplacement(tag) {
 //     /*╳╳╳╳╳╳*/
 //
 function getSelfClosingTagReplacement(tag) {
-	validate(tag);
-
-	// Trim equally from beginning and end.
-	return fill(toFiller(tag.slice(2, -2)));
+	return toFiller(tag);
 }
 
 module.exports = {

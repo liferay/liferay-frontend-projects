@@ -25,12 +25,10 @@ describe('getCloseTagReplacement()', () => {
 		expect(getCloseTagReplacement(original)).toBe(expected);
 	});
 
-	it('throws if passed an impossibly short tag', () => {
-		// Not long enough to produce a reversible replacement,
-		// and not a valid JSP tag anyway.
-		expect(() => getCloseTagReplacement('</a>')).toThrow(
-			'Invalid (underlength) tag: </a>'
-		);
+	it('degrades gracefully if passed an impossibly short tag', () => {
+		// Not a valid JSP tag anyway, but no matter what, we always produce a
+		// reversible replacement.
+		expect(getCloseTagReplacement('</a>')).toBe('/*ʅ*/');
 	});
 });
 
@@ -51,17 +49,15 @@ describe('getOpenTagReplacement()', () => {
 
 	it('replaces a multi-line tag', () => {
 		const original = '<foo-bar:tag\n' + '\tattr="word"\n' + '>';
-		const expected = '/*ʃʃʃʃʃʃʃʃʃ\n' + '\tʃʃʃʃʃʃʃʃʃʃʃ\n' + '*/';
+		const expected = '/*ʃʃʃʃʃʃʃʃʃʃ\n' + 'Ƭʃʃʃʃʃʃʃʃʃʃʃ\n' + '*/';
 
 		expect(getOpenTagReplacement(original)).toBe(expected);
 	});
 
-	it('throws if passed an impossibly short tag', () => {
-		// Not long enough to produce a reversible replacement,
-		// and not a valid JSP tag anyway.
-		expect(() => getOpenTagReplacement('<ab>')).toThrow(
-			'Invalid (underlength) tag: <ab>'
-		);
+	it('degrades gracefully if passed an impossibly short tag', () => {
+		// Not a valid JSP tag anyway, but no matter what, we always produce a
+		// reversible replacement.
+		expect(getOpenTagReplacement('<ab>')).toBe('/*ʃ*/');
 	});
 });
 
@@ -75,7 +71,7 @@ describe('getSelfClosingTagReplacement()', () => {
 
 	it('replaces a multi-line tag with a same-shaped placeholder', () => {
 		const original = '<foo:bar\n' + '\tattr="1"\n' + '/>';
-		const expected = '/*╳╳╳╳╳╳\n' + '\t╳╳╳╳╳╳╳╳\n' + '*/';
+		const expected = '/*╳╳╳╳╳╳\n' + 'Ƭ╳╳╳╳╳╳╳╳\n' + '*/';
 
 		expect(getSelfClosingTagReplacement(original)).toBe(expected);
 	});
@@ -87,11 +83,9 @@ describe('getSelfClosingTagReplacement()', () => {
 		expect(getSelfClosingTagReplacement(original)).toBe(expected);
 	});
 
-	it('throws if passed an impossibly short tag', () => {
-		// Not long enough to produce a reversible replacement,
-		// and not a valid JSP tag anyway.
-		expect(() => getSelfClosingTagReplacement('<a/>')).toThrow(
-			'Invalid (underlength) tag: <a/>'
-		);
+	it('degrades gracefully if passed an impossibly short tag', () => {
+		// Not a valid JSP tag anyway, but no matter what, we always produce a
+		// reversible replacement.
+		expect(getSelfClosingTagReplacement('<a/>')).toBe('/*╳*/');
 	});
 });

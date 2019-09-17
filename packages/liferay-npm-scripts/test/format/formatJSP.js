@@ -112,6 +112,7 @@ describe('formatJSP()', () => {
 	describe('formatting entire fixtures', () => {
 		test.each([
 			'configuration.jsp',
+			'details.jsp',
 			'edit_template_display.jspf',
 			'page.jsp',
 			'recaptcha.jsp',
