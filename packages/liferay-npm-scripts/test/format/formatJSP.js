@@ -91,6 +91,24 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(expected);
 	});
 
+	it('returns the source unmodified if there are no JSP tags', () => {
+		const source = `
+			<%--
+			/**
+			 * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+			 */
+			--%>
+
+			<%
+			String heading = "Amazing Page";
+			%>
+
+			<h1><%= heading %></h1>
+		`;
+
+		expect(formatJSP(source)).toBe(source);
+	});
+
 	describe('formatting entire fixtures', () => {
 		test.each([
 			'configuration.jsp',
