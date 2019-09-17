@@ -115,6 +115,7 @@ describe('formatJSP()', () => {
 			'details.jsp',
 			'edit_template_display.jspf',
 			'page.jsp',
+			'page_iterator.jsp',
 			'recaptcha.jsp',
 			'roles.jsp',
 			'view.jsp',
