@@ -6,8 +6,6 @@
 
 import URLBuilder from './url-builder';
 
-/* eslint-disable no-console */
-
 /**
  * A class responsible for loading the script resources that contain modules
  * from the server.
@@ -16,10 +14,12 @@ export default class ScriptLoader {
 	/**
 	 * @param {object} document DOM document object to use
 	 * @param {Config} config
+	 * @param {Logger} log
 	 */
-	constructor(document, config) {
+	constructor(document, config, log) {
 		this._document = document;
 		this._config = config;
+		this._log = log;
 
 		this._urlBuilder = new URLBuilder(config);
 
@@ -82,16 +82,14 @@ export default class ScriptLoader {
 
 				modules.forEach(module => {
 					if (module.fetch.fulfilled) {
-						if (config.showWarnings) {
-							console.warn(
-								`Liferay AMD Loader: Module '${module.name}' ` +
-									`is being fetched from\n${script.src}\n` +
-									`but was already fetched from\n` +
-									(module.fetch.resolved
-										? module.fetch.resolution.src
-										: module.fetch.rejection.script.src)
-							);
-						}
+						this._log.warn(
+							`Module '${module.name}' is being fetched from\n`,
+							script.src,
+							'but was already fetched from\n',
+							module.fetch.resolved
+								? module.fetch.resolution.src
+								: module.fetch.rejection.script.src
+						);
 
 						return;
 					}

@@ -30,6 +30,7 @@ export default class Config {
 		this._parse(cfg, 'combine', false);
 		this._parse(cfg, 'url', '');
 		this._parse(cfg, 'urlMaxLength', 2000);
+		this._parse(cfg, 'logLevel', 'error');
 	}
 
 	/**
@@ -87,6 +88,10 @@ export default class Config {
 	 */
 	get urlMaxLength() {
 		return this._config.urlMaxLength;
+	}
+
+	get logLevel() {
+		return this._config.logLevel;
 	}
 
 	/**

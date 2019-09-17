@@ -8,9 +8,8 @@ import Config from './config';
 import DependencyResolver from './dependency-resolver';
 import ScriptLoader from './script-loader';
 import URLBuilder from './url-builder';
+import Logger from './logger';
 import packageJson from '../../package.json';
-
-/* eslint-disable no-console */
 
 /**
  *
@@ -28,11 +27,14 @@ export default class Loader {
 	constructor(config = null, document = null) {
 		this._config = new Config(config || window.__CONFIG__);
 
+		this._log = new Logger(this._config);
+
 		this._dependencyResolver = new DependencyResolver(this._config);
 		this._urlBuilder = new URLBuilder(this._config);
 		this._scriptLoader = new ScriptLoader(
 			document || window.document,
-			this._config
+			this._config,
+			this._log
 		);
 
 		this._requireCallId = 0;
@@ -60,12 +62,10 @@ export default class Loader {
 		let module = config.getModule(name);
 
 		if (module && module.defined) {
-			if (config.showWarnings) {
-				console.warn(
-					`Liferay AMD Loader: Module '${name}' is being ` +
-						'redefined; only the first definition will be used'
-				);
-			}
+			this._log.warn(
+				`Module '${name}' is being redefined. Only the first`,
+				'definition will be used'
+			);
 
 			return;
 		}
@@ -106,9 +106,7 @@ export default class Loader {
 			);
 		}
 
-		if (config.explainResolutions) {
-			console.log('Liferay AMD Loader:', 'Defining', module.name);
-		}
+		this._log.resolution('Defining', module.name);
 
 		module.factory = factory;
 		module.dependencies = dependencies;
@@ -209,36 +207,50 @@ export default class Loader {
 
 		// Provide default value for failure
 		if (failure === undefined) {
-			const stack = new Error(
-				'This is not a real error, but a fake one created to capture ' +
-					"require()'s caller stack trace"
-			);
+			const captureStackError = new Error('');
 
 			failure = error => {
-				if (!config.explainResolutions) {
-					return;
+				let stack = '(n/a)';
+
+				if (captureStackError.stack) {
+					stack = captureStackError.stack
+						.split('\n')
+						.map(line => `        ${line}`)
+						.join('\n');
+
+					stack = `\n${stack}`;
 				}
 
-				console.log('---------------------------------------');
-				console.log('Liferay AMD Loader: Unhandled require failure:');
-				console.log(
-					'\nNOTE: You are seeing this message because you have\n' +
-						'invoked require() without a failure handler. It\n' +
-						'does not necessarily mean that the Loader is\n' +
-						'broken and may be caused by errors in your code or\n' +
-						'third party modules.\n\n' +
-						'If you want to avoid it make sure to provide a\n' +
-						'failure handler when calling require().\n\n'
+				this._log.error(
+					'\n',
+					'A require() call has failed but no failure handler was',
+					'provided.\n',
+					'Note that even if the call stack of this error trace',
+					'looks like coming from the Liferay AMD Loader, it is not',
+					'an error in the Loader what has caused it, but an error',
+					'caused by the require() call.\n',
+					'The reason why the Loader is in the stack trace is',
+					"because it is printing the error so that it doesn't get",
+					'lost.\n',
+					'However, we recommend providing a failure handler in all',
+					'require() calls to be able to recover from errors better',
+					'and to avoid the appearance of this message.\n',
+					'\n',
+					'Some information about the require() call follows:\n',
+					'  · Require call id:',
+					requireCallId,
+					'\n',
+					'  · Required modules:',
+					moduleNames,
+					'\n',
+					'  · Missing modules:',
+					error.missingModules ? error.missingModules : '(n/a)',
+					'\n',
+					'  · Stack trace of the require() call:',
+					`${stack}`,
+					'\n',
+					error
 				);
-				console.log('A detailed report of what happened follows:');
-				console.log('  · Require call id:', requireCallId);
-				console.log('  · Required modules:', moduleNames);
-				console.log('  · Error cause:', error);
-				if (error.missingModules) {
-					console.log('  · Missing modules:', error.missingModules);
-				}
-				console.log("  · Caller's stack trace:", stack);
-				console.log('---------------------------------------');
 			};
 		}
 
@@ -259,7 +271,14 @@ export default class Loader {
 			.resolve(moduleNames)
 			.then(resolution => {
 				// Show extra information when explainResolutions is active
-				this._explainResolution(requireCallId, moduleNames, resolution);
+				this._log.resolution(
+					'Require call',
+					requireCallId,
+					'resolved modules',
+					moduleNames,
+					'to',
+					resolution
+				);
 
 				// Fail if resolution errors present
 				this._throwOnResolutionErrors(resolution);
@@ -310,15 +329,12 @@ export default class Loader {
 				);
 
 				// Load the modules we are responsible for
-				if (config.explainResolutions) {
-					console.log(
-						'Liferay AMD Loader:',
-						'Fetching',
-						unregisteredModuleNames,
-						'from require call',
-						requireCallId
-					);
-				}
+				this._log.resolution(
+					'Fetching',
+					unregisteredModuleNames,
+					'from require call',
+					requireCallId
+				);
 
 				return moduleLoader.loadModules(unregisteredModuleNames);
 			})
@@ -374,47 +390,38 @@ export default class Loader {
 	 * @param {number} requireCallId
 	 */
 	_interceptHandler(handler, type, requireCallId) {
-		const config = this._config;
-
 		return (...args) => {
-			if (config.explainResolutions) {
-				console.log(
-					'Liferay AMD Loader: Invoking',
-					type,
-					'handler for',
-					'require call',
-					requireCallId
-				);
-			}
+			this._log.resolution(
+				'Invoking',
+				type,
+				'handler for',
+				'require call',
+				requireCallId
+			);
 
 			try {
 				handler(...args);
 			} catch (err) {
-				console.error(err);
+				this._log.error(
+					'\n',
+					'A require() call',
+					type,
+					'handler has thrown an error.\n',
+					'Note that even if the call stack of this error trace',
+					'looks like coming from the Liferay AMD Loader, it is not',
+					'an error in the Loader what has caused it, but an error',
+					"in the handler's code.\n",
+					'The reason why the Loader is in the stack trace is',
+					'because it is printing the error on behalf of the handler',
+					"so that it doesn't get lost.\n",
+					'However, we recommend wrapping all handler code inside a',
+					'try/catch to be able to recover from errors better and to',
+					'avoid the appearance of this message.\n',
+					'\n',
+					err
+				);
 			}
 		};
-	}
-
-	/**
-	 * Explain resolution if flag is active
-	 * @param {number} requireCallId
-	 * @param {Array<string>} moduleNames
-	 * @param {object} resolution
-	 */
-	_explainResolution(requireCallId, moduleNames, resolution) {
-		const config = this._config;
-
-		if (config.explainResolutions) {
-			console.log(
-				'Liferay AMD Loader:',
-				'Require call',
-				requireCallId,
-				'resolved modules',
-				moduleNames,
-				'to',
-				resolution
-			);
-		}
 	}
 
 	/**
@@ -537,15 +544,12 @@ export default class Loader {
 			}
 
 			// Show info about resolution
-			if (config.explainResolutions) {
-				console.log(
-					'Liferay AMD Loader:',
-					'Implementing',
-					module.name,
-					'from require call',
-					requireCallId
-				);
-			}
+			this._log.resolution(
+				'Implementing',
+				module.name,
+				'from require call',
+				requireCallId
+			);
 
 			try {
 				// Prepare CommonJS module implementation object
