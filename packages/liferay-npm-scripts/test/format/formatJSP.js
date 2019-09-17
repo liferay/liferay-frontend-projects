@@ -121,7 +121,7 @@ describe('formatJSP()', () => {
 			'view_meeting.jsp'
 
 			// Not including these (rejected by Prettier, see "known
-			// limiations" below):
+			// limitations" below):
 			// 'edit_content_redirect.jsp',
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('format', fixture));
