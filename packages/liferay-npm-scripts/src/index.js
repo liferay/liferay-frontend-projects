@@ -44,12 +44,6 @@ module.exports = function() {
 	};
 
 	const PRIVATE_COMMANDS = {
-		// Temporary command to test our `csf` replacement; will be folded into
-		// "format" etc.
-		csf() {
-			require('./format')(ARGS_ARRAY.slice(1));
-		},
-
 		format() {
 			require('./scripts/format')();
 		},
