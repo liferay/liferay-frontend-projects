@@ -81,4 +81,26 @@ describe('dedent()', () => {
 
 		expect(lastMinimum).toBe(2);
 	});
+
+	it('handles partial "for" control structures', () => {
+		// It's common in JSP to have an incomplete control structure
+		// that starts in one scriptlet and ends in another.
+		const [dedented] = dedent(
+			// prettier-ignore
+			'<%\n' +
+			'// This one was getting mangled.\n' +
+			'for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {\n' +
+			'\tString className = editAssetListDisplayContext.getClassName(curRendererFactory);\n' +
+			'%>'
+		);
+
+		expect(dedented).toBe(
+			// prettier-ignore
+			'<%\n' +
+			'// This one was getting mangled.\n' +
+			'for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {\n' +
+			'\tString className = editAssetListDisplayContext.getClassName(curRendererFactory);\n' +
+			'%>'
+		);
+	});
 });
