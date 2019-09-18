@@ -276,6 +276,7 @@ describe('substituteTags()', () => {
 		test.each([
 			'configuration.jsp',
 			'edit_content_redirect.jsp',
+			'edit_public_render_parameters.jsp',
 			'edit_template_display.jspf',
 			'details.jsp',
 			'page.jsp',
