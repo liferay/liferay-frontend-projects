@@ -11,6 +11,7 @@ import fs from 'fs-extra';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
@@ -339,7 +340,7 @@ function renamePkgDirIfNecessary(destPkg) {
 
 		return fs
 			.move(destPkg.dir.asNative, newDirPath)
-			.then(() => destPkg.clone({dir: newDirPath}));
+			.then(() => new PkgDesc(pkgJson.name, pkgJson.version, newDirPath));
 	}
 
 	return Promise.resolve(destPkg);
