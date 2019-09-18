@@ -14,6 +14,13 @@ const {
 const toFiller = require('./toFiller');
 
 /**
+ * Filler character used in scriptlet placeholders.
+ *
+ * Unicode name is "LATIN SMALL LETTER PHI" and glyph is: "ɸ"
+ */
+const SCRIPTLET_CONTENT = '\u0278';
+
+/**
  * Takes a source string and substitutes valid placeholder JavaScript for any
  * JSP tags.
  *
@@ -99,7 +106,7 @@ function substituteTags(source) {
 		} else if (name === 'JSP_EXPRESSION') {
 			output += getPaddedReplacement(contents, 'JSP_EXPR');
 		} else if (name === 'JSP_SCRIPTLET') {
-			output += toFiller(contents);
+			output += toFiller(contents, SCRIPTLET_CONTENT);
 		} else if (name === 'PORTLET_NAMESPACE') {
 			output += getPaddedReplacement(contents, 'PORTLET_NAMESPACE');
 		} else if (name === 'TEMPLATE_TEXT') {
@@ -112,5 +119,7 @@ function substituteTags(source) {
 
 	return [output, tags];
 }
+
+substituteTags.SCRIPTLET_CONTENT = SCRIPTLET_CONTENT;
 
 module.exports = substituteTags;

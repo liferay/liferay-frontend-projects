@@ -90,7 +90,7 @@ describe('substituteTags()', () => {
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
-			/*Ɯ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+			/*Ɯɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ*/
 
 			var description = "ʾJSP_EXPR_________ʿ";
 		`);
@@ -116,13 +116,13 @@ describe('substituteTags()', () => {
 
 		expect(transformed).toEqual(dedent(3)`
 			/*
-			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			ɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
 			*/
 
 			var description = "ʾJSP_EXPR_________ʿ";
 
 			/*
-			╳
+			ɸ
 			*/
 		`);
 
