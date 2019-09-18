@@ -91,6 +91,71 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(expected);
 	});
 
+	it('correctly handles internal indentation inside control structures', () => {
+		// This is a reduced example of what's in the source.jsp fixture.
+		const source = `
+			<aui:script require="metal-dom/src/dom as dom">
+				var sourcePanel = document.querySelector('.source-container');
+
+				<%
+				// This one was getting mangled.
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+				%>
+
+				Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+					<%
+					// But not this one.
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+					%>
+
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+					<%
+					}
+					%>
+
+				}
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(`
+			<aui:script require="metal-dom/src/dom as dom">
+				var sourcePanel = document.querySelector('.source-container');
+
+				<%
+				// This one was getting mangled.
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+				%>
+
+				Util.toggleSelectBox(
+					'<portlet:namespace />anyClassType<%= className %>',
+					'false',
+					'<portlet:namespace /><%= className %>Boxes'
+				);
+
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+					<%
+					// But not this one.
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+					%>
+
+					<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+					<%
+					}
+					%>
+				}
+			</aui:script>
+		`);
+	});
+
 	it('returns the source unmodified if there are no JSP tags', () => {
 		const source = `
 			<%--

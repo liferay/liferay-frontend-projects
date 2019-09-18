@@ -16,7 +16,7 @@ describe('restoreTags()', () => {
 			more <%= getStuff() %> here
 
 			<%
-				/* comment */
+			/* comment */
 			%>
 
 			<c:if test="<%= someValue() %>">
@@ -41,7 +41,7 @@ describe('restoreTags()', () => {
 			more <%= getStuff() %> here
 
 			<%
-				/* comment */
+			/* comment */
 			%>
 
 			<c:if test="<%= someValue() %>">
@@ -174,6 +174,130 @@ describe('restoreTags()', () => {
 
 				var compareButton = document.getElementById('<portlet:namespace />compare');
 			</c:if>
+		`;
+
+		expect(result).toEqual(expected);
+	});
+
+	it('correctly handles internal indentation inside control structures', () => {
+		// This is a reduced example of what's in the source.jsp fixture.
+		const source = `
+			var sourcePanel = document.querySelector('.source-container');
+
+			<%
+			// This one was getting mangled.
+			for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+				String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+			%>
+
+			Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+
+			function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+				<%
+				// But not this one.
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+				%>
+
+					<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+				<%
+				}
+				%>
+
+			}
+		`;
+
+		const [substituted, tags] = substituteTags(source);
+
+		// Sanity-check that `substituteTags()` does what we think it does.
+		expect(substituted).toBe(`
+			var sourcePanel = document.querySelector('.source-container');
+
+			/*
+ƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬ*/
+
+			Util.toggleSelectBox('ʾPORTLET_NAMESPACE__ʿanyClassTypeʾJSP_EXPR______ʿ', 'false', 'ʾPORTLET_NAMESPACE__ʿʾJSP_EXPR______ʿBoxes');
+
+			function ʾPORTLET_NAMESPACE__ʿtoggleSubclasses(removeOrderBySubtype) {
+
+				/*
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ*/
+
+					ʾPORTLET_NAMESPACE__ʿtoggleʾJSP_EXPR______ʿ(removeOrderBySubtype);
+
+				/*
+ƬƬƬƬ╳
+ƬƬƬƬ*/
+
+			}
+		`);
+
+		// Now imagine Prettier "fixes" the indents like this:
+		const formattedText = `
+			var sourcePanel = document.querySelector('.source-container');
+
+			/*
+ƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬ*/
+
+			Util.toggleSelectBox('ʾPORTLET_NAMESPACE__ʿanyClassTypeʾJSP_EXPR______ʿ', 'false', 'ʾPORTLET_NAMESPACE__ʿʾJSP_EXPR______ʿBoxes');
+
+			function ʾPORTLET_NAMESPACE__ʿtoggleSubclasses(removeOrderBySubtype) {
+
+				/*
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ*/
+
+				ʾPORTLET_NAMESPACE__ʿtoggleʾJSP_EXPR______ʿ(removeOrderBySubtype);
+
+				/*
+ƬƬƬƬ╳
+ƬƬƬƬ*/
+
+			}
+		`;
+
+		const result = restoreTags(formattedText, tags);
+
+		// Note the line after both `for` keywords is still indented:
+		const expected = `
+			var sourcePanel = document.querySelector('.source-container');
+
+			<%
+			// This one was getting mangled.
+			for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+				String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+			%>
+
+			Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+
+			function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+				<%
+				// But not this one.
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+				%>
+
+				<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+				<%
+				}
+				%>
+
+			}
 		`;
 
 		expect(result).toEqual(expected);
