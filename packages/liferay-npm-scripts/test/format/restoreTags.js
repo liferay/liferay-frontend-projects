@@ -110,9 +110,11 @@ describe('restoreTags()', () => {
 
 		const expected = `
 			if (condition) {
+
 				<%
 				// This is indented too far.
 				%>
+
 			}
 		`;
 
@@ -168,6 +170,7 @@ describe('restoreTags()', () => {
 			<c:if test="<%= pages.size() > 1 %>">
 
 				// Regression: this was getting mangled:
+
 				<%
 				WikiPage latestWikiPage = (WikiPage)pages.get(1);
 				%>

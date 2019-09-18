@@ -140,6 +140,7 @@ describe('formatJSP()', () => {
 				);
 
 				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
 					<%
 					// But not this one.
 					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
@@ -151,6 +152,7 @@ describe('formatJSP()', () => {
 					<%
 					}
 					%>
+
 				}
 			</aui:script>
 		`);
