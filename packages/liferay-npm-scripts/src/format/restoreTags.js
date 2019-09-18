@@ -281,10 +281,14 @@ function appendScriptlet(scriptlet, token, output) {
 		tokens[-3].name !== 'NEWLINE'
 	) {
 		// Trim off WHITESPACE.
-		output = output.slice(0, tokens[-1].index);
+		//
+		// Note: cannot use `tokens[-1].index` here because it may have been
+		// invalidated by previous edits.
+		const whitespace = tokens[-1].contents;
+		output = output.slice(0, -whitespace.length);
 
 		// Add newline to force blank line, then re-add trimmed whitespace.
-		prefix = '\n' + tokens[-1].contents;
+		prefix = '\n' + whitespace;
 	}
 
 	if (

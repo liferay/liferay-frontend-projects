@@ -3073,7 +3073,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 	%>
 
 	function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
-		
+
 		<%
 		for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
 			String className = editAssetListDisplayContext.getClassName(curRendererFactory);

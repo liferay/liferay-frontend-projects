@@ -240,6 +240,72 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(source);
 	});
 
+	it('handles an edge case (#258)', () => {
+		// Reduced example of what's in
+		// modules/apps/asset/asset-publisher-web/src/main/resources/META-INF/resources/configuration/source.jsp
+		const source = `
+			<aui:script>
+
+				<%
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+				%>
+
+					Util.toggleSelectBox();
+
+				<%
+				}
+				%>
+
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+					<%
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+					%>
+
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+					<%
+					}
+					%>
+
+				}
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(`
+			<aui:script>
+
+				<%
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+				%>
+
+				Util.toggleSelectBox();
+
+				<%
+				}
+				%>
+
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+					<%
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+					%>
+
+					<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+					<%
+					}
+					%>
+
+				}
+			</aui:script>
+		`);
+	});
+
 	describe('formatting entire fixtures', () => {
 		test.each([
 			'configuration.jsp',
