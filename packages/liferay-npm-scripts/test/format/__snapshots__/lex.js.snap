@@ -9237,6 +9237,2311 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 ]
 `;
 
+exports[`lex() lexing entire fixtures source.jsp matches snapshot 1`] = `
+Array [
+  Object {
+    "contents": "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "index": 0,
+    "name": "JSP_COMMENT",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 601,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%@ include file=\\"/init.jsp\\" %>",
+    "index": 603,
+    "name": "JSP_DIRECTIVE",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 634,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList();
+%>",
+    "index": 636,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 723,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:fieldset-group>",
+    "index": 725,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 758,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:fieldset
+		cssClass=\\"source-container\\"
+	>",
+    "index": 760,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 819,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		Set<Long> availableClassNameIdsSet = SetUtil.fromArray(editAssetListDisplayContext.getAvailableClassNameIds());
+
+		// Left list
+
+		List<KeyValuePair> typesLeftList = new ArrayList<KeyValuePair>();
+
+		long[] classNameIds = editAssetListDisplayContext.getClassNameIds();
+
+		for (long classNameId : classNameIds) {
+			String className = PortalUtil.getClassName(classNameId);
+
+			typesLeftList.add(new KeyValuePair(String.valueOf(classNameId), ResourceActionsUtil.getModelResource(locale, className)));
+		}
+
+		// Right list
+
+		List<KeyValuePair> typesRightList = new ArrayList<KeyValuePair>();
+
+		Arrays.sort(classNameIds);
+		%>",
+    "index": 823,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 1452,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select label=\\"asset-entry-type\\" name=\\"TypeSettingsProperties--anyAssetType--\\" title=\\"asset-type\\">",
+    "index": 1456,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 1558,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"any\\" selected=\\"<%= editAssetListDisplayContext.isAnyAssetType() %>\\" value=\\"<%= true %>\\" />",
+    "index": 1562,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 1671,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label='<%= LanguageUtil.get(request, \\"select-more-than-one\\") + StringPool.TRIPLE_PERIOD %>' selected=\\"<%= !editAssetListDisplayContext.isAnyAssetType() && (classNameIds.length > 1) %>\\" value=\\"<%= false %>\\" />",
+    "index": 1675,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 1895,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1900,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "optgroup label=\\"",
+    "index": 1901,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:message key=\\"asset-type\\" />",
+    "index": 1917,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "\\">
+
+				",
+    "index": 1956,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+				for (long classNameId : availableClassNameIdsSet) {
+					ClassName className = ClassNameLocalServiceUtil.getClassName(classNameId);
+
+					if (Arrays.binarySearch(classNameIds, classNameId) < 0) {
+						typesRightList.add(new KeyValuePair(String.valueOf(classNameId), ResourceActionsUtil.getModelResource(locale, className.getValue())));
+					}
+				%>",
+    "index": 1964,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 2321,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"<%= ResourceActionsUtil.getModelResource(locale, className.getValue()) %>\\" selected=\\"<%= (classNameIds.length == 1) && (classNameId == classNameIds[0]) %>\\" value=\\"<%= classNameId %>\\" />",
+    "index": 2328,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 2532,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+				}
+				%>",
+    "index": 2538,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 2553,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 2558,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/optgroup>
+		",
+    "index": 2559,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:select>",
+    "index": 2572,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 2585,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"TypeSettingsProperties--classNameIds--\\" type=\\"hidden\\" />",
+    "index": 2589,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 2662,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		typesRightList = ListUtil.sort(typesRightList, new KeyValuePairComparator(false, true));
+		%>",
+    "index": 2666,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 2764,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 2768,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"",
+    "index": 2769,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= editAssetListDisplayContext.isAnyAssetType() ? \\"hide\\" : \\"\\" %>",
+    "index": 2780,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\" id=\\"",
+    "index": 2845,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 2851,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "classNamesBoxes\\">
+			",
+    "index": 2872,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:input-move-boxes
+				leftBoxName=\\"currentClassNameIds\\"
+				leftList=\\"<%= typesLeftList %>\\"
+				leftReorder=\\"<%= Boolean.TRUE.toString() %>\\"
+				leftTitle=\\"selected\\"
+				rightBoxName=\\"availableClassNameIds\\"
+				rightList=\\"<%= typesRightList %>\\"
+				rightTitle=\\"available\\"
+			/>",
+    "index": 2893,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 3181,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 3184,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+		",
+    "index": 3185,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		List<AssetRendererFactory<?>> assetRendererFactories = ListUtil.sort(AssetRendererFactoryRegistryUtil.getAssetRendererFactories(company.getCompanyId()), new AssetRendererFactoryTypeNameComparator(locale));
+
+		for (AssetRendererFactory<?> assetRendererFactory : assetRendererFactories) {
+			ClassTypeReader classTypeReader = assetRendererFactory.getClassTypeReader();
+
+			List<ClassType> classTypes = classTypeReader.getAvailableClassTypes(editAssetListDisplayContext.getReferencedModelsGroupIds(), locale);
+
+			if (classTypes.isEmpty()) {
+				continue;
+			}
+
+			classTypesAssetRendererFactories.add(assetRendererFactory);
+
+			String className = editAssetListDisplayContext.getClassName(assetRendererFactory);
+
+			Long[] assetSelectedClassTypeIds = editAssetListDisplayContext.getClassTypeIds(properties, className, classTypes);
+
+			// Left list
+
+			List<KeyValuePair> subtypesLeftList = new ArrayList<KeyValuePair>();
+
+			for (long subtypeId : assetSelectedClassTypeIds) {
+				try {
+					ClassType classType = classTypeReader.getClassType(subtypeId, locale);
+
+					subtypesLeftList.add(new KeyValuePair(String.valueOf(subtypeId), HtmlUtil.escape(classType.getName())));
+				}
+				catch (NoSuchModelException nsme) {
+				}
+			}
+
+			Arrays.sort(assetSelectedClassTypeIds);
+
+			// Right list
+
+			List<KeyValuePair> subtypesRightList = new ArrayList<KeyValuePair>();
+
+			boolean anyAssetSubtype = GetterUtil.getBoolean(properties.getProperty(\\"anyClassType\\" + className, Boolean.TRUE.toString()));
+		%>",
+    "index": 3194,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 4696,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 4701,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class='asset-subtype ",
+    "index": 4702,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= (assetSelectedClassTypeIds.length < 1) ? StringPool.BLANK : \\"hide\\" %>",
+    "index": 4727,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "' id=\\"",
+    "index": 4800,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 4806,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 4827,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options\\">
+
+				",
+    "index": 4843,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+				String label = ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) + StringPool.SPACE + assetRendererFactory.getSubtypeTitle(themeDisplay.getLocale());
+				%>",
+    "index": 4858,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 5053,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select label=\\"<%= label %>\\" name='<%= \\"TypeSettingsProperties--anyClassType\\" + className + \\"--\\" %>'>",
+    "index": 5059,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 5164,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"any\\" selected=\\"<%= anyAssetSubtype %>\\" value=\\"<%= true %>\\" />",
+    "index": 5170,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 5250,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label='<%= LanguageUtil.get(request, \\"select-more-than-one\\") + StringPool.TRIPLE_PERIOD %>' selected=\\"<%= !anyAssetSubtype && (assetSelectedClassTypeIds.length > 1) %>\\" value=\\"<%= false %>\\" />",
+    "index": 5256,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 5460,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 5467,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "optgroup label=\\"",
+    "index": 5468,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= assetRendererFactory.getSubtypeTitle(themeDisplay.getLocale()) %>",
+    "index": 5484,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">
+
+						",
+    "index": 5553,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+						for (ClassType classType : classTypes) {
+							if (Arrays.binarySearch(assetSelectedClassTypeIds, classType.getClassTypeId()) < 0) {
+								subtypesRightList.add(new KeyValuePair(String.valueOf(classType.getClassTypeId()), HtmlUtil.escape(classType.getName())));
+							}
+						%>",
+    "index": 5563,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+							",
+    "index": 5854,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"<%= HtmlUtil.escapeAttribute(classType.getName()) %>\\" selected=\\"<%= !anyAssetSubtype && (assetSelectedClassTypeIds.length == 1) && (assetSelectedClassTypeIds[0]).equals(classType.getClassTypeId()) %>\\" value=\\"<%= classType.getClassTypeId() %>\\" />",
+    "index": 5863,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+						",
+    "index": 6127,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+						}
+						%>",
+    "index": 6135,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 6154,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 6161,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/optgroup>
+				",
+    "index": 6162,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:select>",
+    "index": 6177,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 6190,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name='<%= \\"TypeSettingsProperties--classTypeIds\\" + className + \\"--\\" %>' type=\\"hidden\\" />",
+    "index": 6196,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 6295,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">",
+    "index": 6301,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 6377,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 6383,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"asset-subtypefields-wrapper-enable hide\\" id=\\"",
+    "index": 6384,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 6440,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 6461,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "subtypeFieldsFilterEnableWrapper\\">
+						",
+    "index": 6477,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input label=\\"filter-by-field\\" name='<%= \\"TypeSettingsProperties--subtypeFieldsFilterEnabled\\" + className + \\"--\\" %>' type=\\"toggle-switch\\" value=\\"<%= editAssetListDisplayContext.isSubtypeFieldsFilterEnabled() %>\\" />",
+    "index": 6518,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 6736,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 6742,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+					",
+    "index": 6743,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 6755,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "span class=\\"asset-subtypefields-message\\" id=\\"",
+    "index": 6756,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 6801,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 6822,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "ddmStructureFieldMessage\\">
+						",
+    "index": 6838,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= Validator.isNotNull(editAssetListDisplayContext.getDDMStructureFieldLabel()) && (classNameIds[0] == PortalUtil.getClassNameId(assetRendererFactory.getClassName())) %>\\">",
+    "index": 6871,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+							",
+    "index": 7055,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= HtmlUtil.escape(editAssetListDisplayContext.getDDMStructureFieldLabel()) + \\": \\" + HtmlUtil.escape(editAssetListDisplayContext.getDDMStructureDisplayFieldValue()) %>",
+    "index": 7063,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 7231,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 7238,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 7245,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 7251,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/span>
+
+					",
+    "index": 7252,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 7265,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"asset-subtypefields-wrapper hide\\" id=\\"",
+    "index": 7266,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 7315,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 7336,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "subtypeFieldsWrapper\\">
+
+						",
+    "index": 7352,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+						for (ClassType classType : classTypes) {
+							if (classType.getClassTypeFieldsCount() == 0) {
+								continue;
+							}
+						%>",
+    "index": 7382,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+							",
+    "index": 7522,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 7531,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "span class=\\"asset-subtypefields hide\\" id=\\"",
+    "index": 7532,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 7574,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= classType.getClassTypeId() %>",
+    "index": 7595,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_",
+    "index": 7628,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 7629,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options\\">
+								",
+    "index": 7645,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:renderURL var=\\"selectStructureFieldURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">",
+    "index": 7663,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+									",
+    "index": 7770,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"mvcPath\\" value=\\"/asset_list/select_structure_field.jsp\\" />",
+    "index": 7780,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+									",
+    "index": 7859,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"className\\" value=\\"<%= assetRendererFactory.getClassName() %>\\" />",
+    "index": 7869,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+									",
+    "index": 7954,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"classTypeId\\" value=\\"<%= String.valueOf(classType.getClassTypeId()) %>\\" />",
+    "index": 7964,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+									",
+    "index": 8058,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"eventName\\" value='<%= renderResponse.getNamespace() + \\"selectDDMStructureField\\" %>' />",
+    "index": 8068,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+								",
+    "index": 8175,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</portlet:renderURL>",
+    "index": 8184,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+								",
+    "index": 8204,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 8214,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "span class=\\"asset-subtypefields-popup\\" id=\\"",
+    "index": 8215,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 8258,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= classType.getClassTypeId() %>",
+    "index": 8279,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_",
+    "index": 8312,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 8313,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "PopUpButton\\">
+									",
+    "index": 8329,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:button data-href=\\"<%= selectStructureFieldURL.toString() %>\\" disabled=\\"<%= !editAssetListDisplayContext.isSubtypeFieldsFilterEnabled() %>\\" value=\\"select\\" />",
+    "index": 8352,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+								",
+    "index": 8513,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 8522,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/span>
+							",
+    "index": 8523,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 8537,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/span>
+
+						",
+    "index": 8538,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+						}
+
+						typesRightList = ListUtil.sort(typesRightList, new KeyValuePairComparator(false, true));
+						%>",
+    "index": 8552,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 8667,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 8674,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+				",
+    "index": 8675,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 8685,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 8692,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 8698,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"",
+    "index": 8699,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= (assetSelectedClassTypeIds.length > 1) ? StringPool.BLANK : \\"hide\\" %>",
+    "index": 8710,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\" id=\\"",
+    "index": 8783,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 8789,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 8810,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Boxes\\">
+					",
+    "index": 8826,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:input-move-boxes
+						leftBoxName='<%= className + \\"currentClassTypeIds\\" %>'
+						leftList=\\"<%= subtypesLeftList %>\\"
+						leftReorder=\\"<%= Boolean.TRUE.toString() %>\\"
+						leftTitle=\\"selected\\"
+						rightBoxName='<%= className + \\"availableClassTypeIds\\" %>'
+						rightList=\\"<%= subtypesRightList %>\\"
+						rightTitle=\\"available\\"
+					/>",
+    "index": 8839,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 9191,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 9196,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+			",
+    "index": 9197,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 9206,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+		",
+    "index": 9207,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		}
+		%>",
+    "index": 9216,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 9227,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">",
+    "index": 9231,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 9307,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 9311,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"asset-subtypefield-selected ",
+    "index": 9312,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= Validator.isNull(editAssetListDisplayContext.getDDMStructureFieldName()) ? \\"hide\\" : StringPool.BLANK %>",
+    "index": 9351,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">
+				",
+    "index": 9458,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"TypeSettingsProperties--ddmStructureFieldName--\\" type=\\"hidden\\" value=\\"<%= editAssetListDisplayContext.getDDMStructureFieldName() %>\\" />",
+    "index": 9465,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 9617,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"TypeSettingsProperties--ddmStructureFieldValue--\\" type=\\"hidden\\" value=\\"<%= editAssetListDisplayContext.getDDMStructureFieldValue() %>\\" />",
+    "index": 9623,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+				",
+    "index": 9777,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"TypeSettingsProperties--ddmStructureDisplayFieldValue--\\" type=\\"hidden\\" value=\\"<%= editAssetListDisplayContext.getDDMStructureDisplayFieldValue() %>\\" />",
+    "index": 9783,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 9951,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 9955,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+		",
+    "index": 9956,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 9964,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 9971,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:fieldset>",
+    "index": 9973,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+",
+    "index": 10001,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:fieldset-group>",
+    "index": 10002,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 10036,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script require=\\"metal-dom/src/dom as dom\\">",
+    "index": 10038,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	var Util = Liferay.Util;
+
+	var MAP_DDM_STRUCTURES = {};
+
+	var assetMultipleSelector = document.getElementById('",
+    "index": 10085,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10198,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "currentClassNameIds');
+	var assetSelector = document.getElementById('",
+    "index": 10219,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10288,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "anyAssetType');
+	var orderByColumn1 = document.getElementById('",
+    "index": 10309,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10372,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "orderByColumn1');
+	var orderByColumn2 = document.getElementById('",
+    "index": 10393,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10458,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "orderByColumn2');
+	var orderingPanel = document.getElementById('",
+    "index": 10479,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10543,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ordering');
+	var sourcePanel = document.querySelector('.source-container');
+
+	",
+    "index": 10564,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+	for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+		String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+	%>",
+    "index": 10642,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		Util.toggleSelectBox('",
+    "index": 10818,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10844,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "anyClassType",
+    "index": 10865,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 10877,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "', 'false', '",
+    "index": 10893,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 10906,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 10927,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Boxes');
+
+		var ",
+    "index": 10943,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 10959,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options = document.getElementById('",
+    "index": 10975,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11010,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 11031,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options');
+
+		function ",
+    "index": 11047,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 11070,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "toggle",
+    "index": 11091,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 11097,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "(removeOrderBySubtype) {
+			var assetOptions = assetMultipleSelector.options;
+
+			var showOptions = ((assetSelector.value == '",
+    "index": 11113,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= curRendererFactory.getClassNameId() %>",
+    "index": 11239,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "') ||
+				((assetSelector.value == 'false') && (assetOptions.length == 1) && (assetOptions[0].value == '",
+    "index": 11281,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= curRendererFactory.getClassNameId() %>",
+    "index": 11385,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "')));
+
+			if (showOptions) {
+				",
+    "index": 11427,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 11460,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options.classList.remove('hide');
+			}
+			else {
+				",
+    "index": 11476,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 11529,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options.classList.add('hide');
+			}
+
+			if (removeOrderBySubtype) {
+				Array.prototype.forEach.call(
+					orderingPanel.querySelectorAll('.order-by-subtype'),
+					function(option) {
+						dom.exitDocument(option);
+					}
+				);
+			}
+
+			",
+    "index": 11545,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">",
+    "index": 11784,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 11860,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 11865,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "toggleSubclassesFields(true);
+			",
+    "index": 11881,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 11914,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+		}
+
+		",
+    "index": 11921,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		ClassTypeReader classTypeReader = curRendererFactory.getClassTypeReader();
+
+		List<ClassType> assetAvailableClassTypes = classTypeReader.getAvailableClassTypes(editAssetListDisplayContext.getReferencedModelsGroupIds(), locale);
+
+		if (assetAvailableClassTypes.isEmpty()) {
+			continue;
+		}
+
+		for (ClassType classType : assetAvailableClassTypes) {
+			List<ClassTypeField> classTypeFields = classType.getClassTypeFields();
+
+			if (classTypeFields.isEmpty()) {
+				continue;
+			}
+		%>",
+    "index": 11929,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+			var optgroupClose = '",
+    "index": 12416,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 12442,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/optgroup>';
+			var optgroupOpen = '",
+    "index": 12443,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 12479,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "optgroup class=\\"order-by-subtype\\" label=\\"",
+    "index": 12480,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= HtmlUtil.escape(classType.getName()) %>",
+    "index": 12521,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">';
+
+			var columnBuffer1 = [optgroupOpen];
+			var columnBuffer2 = [optgroupOpen];
+
+			",
+    "index": 12564,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+			String orderByColumn1 = editAssetListDisplayContext.getOrderByColumn1();
+			String orderByColumn2 = editAssetListDisplayContext.getOrderByColumn2();
+
+			for (ClassTypeField classTypeField : classTypeFields) {
+				String value = editAssetListDisplayContext.encodeName(classTypeField.getClassTypeId(), classTypeField.getName(), null);
+				String selectedOrderByColumn1 = StringPool.BLANK;
+				String selectedOrderByColumn2 = StringPool.BLANK;
+
+				if (orderByColumn1.equals(value)) {
+					selectedOrderByColumn1 = \\"selected\\";
+				}
+
+				if (orderByColumn2.equals(value)) {
+					selectedOrderByColumn2 = \\"selected\\";
+				}
+			%>",
+    "index": 12652,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+				columnBuffer1.push('",
+    "index": 13282,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 13308,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "option ",
+    "index": 13309,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= selectedOrderByColumn1 %>",
+    "index": 13316,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": " value=\\"",
+    "index": 13345,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= value %>",
+    "index": 13353,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">",
+    "index": 13365,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= HtmlUtil.escapeJS(classTypeField.getLabel()) %>",
+    "index": 13367,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "<",
+    "index": 13418,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/option>');
+				columnBuffer2.push('",
+    "index": 13419,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 13455,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "option ",
+    "index": 13456,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= selectedOrderByColumn2 %>",
+    "index": 13463,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": " value=\\"",
+    "index": 13492,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= value %>",
+    "index": 13500,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "\\">",
+    "index": 13512,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= HtmlUtil.escapeJS(classTypeField.getLabel()) %>",
+    "index": 13514,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "<",
+    "index": 13565,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/option>');
+
+			",
+    "index": 13566,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+			}
+			%>",
+    "index": 13582,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+			columnBuffer1.push(optgroupClose);
+			columnBuffer2.push(optgroupClose);
+
+			MAP_DDM_STRUCTURES['",
+    "index": 13595,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 13697,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_",
+    "index": 13713,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= classType.getClassTypeId() %>",
+    "index": 13714,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_optTextOrderByColumn1'] = columnBuffer1.join('');
+			MAP_DDM_STRUCTURES['",
+    "index": 13747,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 13821,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_",
+    "index": 13837,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= classType.getClassTypeId() %>",
+    "index": 13838,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_optTextOrderByColumn2'] = columnBuffer2.join('');
+
+		",
+    "index": 13871,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		}
+		%>",
+    "index": 13925,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		var ",
+    "index": 13936,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 13944,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "SubtypeSelector = document.getElementById('",
+    "index": 13960,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 14003,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "anyClassType",
+    "index": 14024,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 14036,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "');
+
+		",
+    "index": 14052,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">",
+    "index": 14059,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			function ",
+    "index": 14135,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 14148,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "toggleSubclassesFields(hideSubtypeFilterEnableWrapper) {
+				var selectedSubtype = ",
+    "index": 14164,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 14247,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "SubtypeSelector.value;
+
+				var structureOptions = document.getElementById('",
+    "index": 14263,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 14339,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "' + selectedSubtype + '_",
+    "index": 14360,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 14384,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "Options');
+
+				if (structureOptions) {
+					structureOptions.classList.remove('hide');
+				}
+
+				var subtypeFieldsWrappers = document.querySelectorAll('#",
+    "index": 14400,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 14555,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 14576,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "subtypeFieldsWrapper, #",
+    "index": 14592,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 14615,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 14636,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "subtypeFieldsFilterEnableWrapper');
+
+				Array.prototype.forEach.call(
+					subtypeFieldsWrappers,
+					function(subtypeFieldsWrapper) {
+						if ((selectedSubtype != 'false') && (selectedSubtype != 'true')) {
+							Array.prototype.forEach.call(
+								orderingPanel.querySelectorAll('.order-by-subtype'),
+								function(option) {
+									dom.exitDocument(option);
+								}
+							);
+
+							var optTextOrderByColumn1 = MAP_DDM_STRUCTURES['",
+    "index": 14652,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 15098,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_' + selectedSubtype + '_optTextOrderByColumn1'];
+
+							if (optTextOrderByColumn1) {
+								dom.append(orderByColumn1, optTextOrderByColumn1);
+							}
+
+							var optTextOrderByColumn2 = MAP_DDM_STRUCTURES['",
+    "index": 15114,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 15325,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "_' + selectedSubtype + '_optTextOrderByColumn2'];
+
+							if (optTextOrderByColumn2) {
+								dom.append(orderByColumn2, optTextOrderByColumn2);
+							}
+
+							if (structureOptions) {
+								subtypeFieldsWrapper.classList.remove('hide');
+							}
+							else if (hideSubtypeFilterEnableWrapper) {
+								subtypeFieldsWrapper.classList.add('hide');
+							}
+						}
+						else if (hideSubtypeFilterEnableWrapper) {
+							subtypeFieldsWrapper.classList.add('hide');
+						}
+					}
+				);
+			}
+
+			",
+    "index": 15341,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 15842,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "toggleSubclassesFields(false);
+
+			",
+    "index": 15858,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 15893,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "SubtypeSelector.addEventListener(
+				'change',
+				function(event) {
+					setDDMFields('",
+    "index": 15909,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 15998,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "', '', '', '', '');
+
+					var subtypeFieldsFilterEnabledCheckbox = document.getElementById('",
+    "index": 16014,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 16106,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "subtypeFieldsFilterEnabled",
+    "index": 16127,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 16153,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "');
+
+					if (subtypeFieldsFilterEnabledCheckbox) {
+						subtypeFieldsFilterEnabledCheckbox.checked = false;
+					}
+
+					var assetSubtypeFields = sourcePanel.querySelectorAll('.asset-subtypefields');
+
+					Array.prototype.forEach.call(
+						assetSubtypeFields,
+						function(assetSubtypeField) {
+							assetSubtypeField.classList.add('hide');
+						}
+					);
+
+					",
+    "index": 16169,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 16539,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "toggleSubclassesFields(true);
+				}
+			);
+		",
+    "index": 16555,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</c:if>",
+    "index": 16599,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 16606,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+	}
+	%>",
+    "index": 16609,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+	function ",
+    "index": 16618,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 16630,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "toggleSubclasses(removeOrderBySubtype) {
+
+		",
+    "index": 16651,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+			String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+		%>",
+    "index": 16695,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 16874,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 16879,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "toggle",
+    "index": 16900,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%= className %>",
+    "index": 16906,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "(removeOrderBySubtype);
+
+		",
+    "index": 16922,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+		}
+		%>",
+    "index": 16949,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+	}
+
+	",
+    "index": 16960,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 16967,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "toggleSubclasses(false);
+
+	var ddmStructureFieldNameInput = document.getElementById('",
+    "index": 16988,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 17073,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ddmStructureFieldName');
+	var ddmStructureFieldValueInput = document.getElementById('",
+    "index": 17094,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 17179,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ddmStructureFieldValue');
+
+	if (assetSelector && ddmStructureFieldNameInput && ddmStructureFieldValueInput) {
+		assetSelector.addEventListener(
+			'change',
+			function(event) {
+				ddmStructureFieldNameInput.value = '';
+				ddmStructureFieldValueInput.value = '';
+
+				",
+    "index": 17200,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 17470,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "toggleSubclasses(true);
+			}
+		);
+	}
+
+	dom.delegate(
+		sourcePanel,
+		'click',
+		'.asset-subtypefields-wrapper-enable label',
+		function(event) {
+			var subtypeFieldsFilterEnabledInput = event.delegateTarget.querySelector('input');
+
+			var assetSubtypefieldsPopupButtons = document.querySelectorAll('.asset-subtypefields-popup .btn');
+
+			if (subtypeFieldsFilterEnabledInput) {
+				Array.prototype.forEach.call(
+					assetSubtypefieldsPopupButtons,
+					function(assetSubtypefieldsPopupButton) {
+						Util.toggleDisabled(assetSubtypefieldsPopupButton, !subtypeFieldsFilterEnabledInput.checked);
+					}
+				);
+			}
+		}
+	);
+
+	Liferay.after(
+		'inputmoveboxes:moveItem',
+		function(event) {
+			if ((event.fromBox.attr('id') == '",
+    "index": 17491,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 18217,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "currentClassNameIds') || (event.toBox.attr('id') == '",
+    "index": 18238,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 18291,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "currentClassNameIds')) {
+				",
+    "index": 18312,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 18341,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "toggleSubclasses();
+			}
+		}
+	);
+
+	var ddmStructureDisplayFieldValueInput = document.getElementById('",
+    "index": 18362,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 18463,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ddmStructureDisplayFieldValue');
+
+	dom.delegate(
+		sourcePanel,
+		'click',
+		'.asset-subtypefields-popup',
+		function(event) {
+			var delegateTarget = event.delegateTarget;
+
+			var btn = delegateTarget.querySelector('.btn');
+
+			var uri = btn.dataset.href;
+
+			uri = Util.addParams('",
+    "index": 18484,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 18767,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ddmStructureDisplayFieldValue=' + encodeURIComponent(ddmStructureDisplayFieldValueInput.value), uri);
+			uri = Util.addParams('",
+    "index": 18788,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 18915,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ddmStructureFieldName=' + encodeURIComponent(ddmStructureFieldNameInput.value), uri);
+			uri = Util.addParams('",
+    "index": 18936,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 19047,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "ddmStructureFieldValue=' + encodeURIComponent(ddmStructureFieldValueInput.value), uri);
+
+			Util.selectEntity(
+				{
+					dialog: {
+						constrain: true,
+						modal: true
+					},
+					eventName: '",
+    "index": 19068,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 19266,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "selectDDMStructureField',
+					id: '",
+    "index": 19287,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 19323,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "selectDDMStructure' + delegateTarget.id,
+					title: '",
+    "index": 19344,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:message arguments=\\"structure-field\\" key=\\"select-x\\" />",
+    "index": 19398,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "',
+					uri: uri
+				},
+				function(event) {
+					setDDMFields(event.className, event.name, event.value, event.displayValue, event.label + ': ' + event.displayValue);
+				}
+			);
+		}
+	);
+
+	function setDDMFields(className, name, value, displayValue, message) {
+		ddmStructureFieldNameInput.value = name;
+		ddmStructureFieldValueInput.value = value;
+		ddmStructureDisplayFieldValueInput.value = displayValue;
+
+		var ddmStructureFieldMessageContainer = document.getElementById('",
+    "index": 19463,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 19939,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "' + className + 'ddmStructureFieldMessage');
+
+		if (ddmStructureFieldMessageContainer) {
+			ddmStructureFieldMessageContainer.innerHTML = Liferay.Util.escape(message);
+		}
+	}
+
+	Util.toggleSelectBox('",
+    "index": 19960,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 20159,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "anyAssetType', 'false', '",
+    "index": 20180,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 20205,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "classNamesBoxes');
+",
+    "index": 20226,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 20245,
+    "name": "CUSTOM_ACTION_END",
+  },
+]
+`;
+
 exports[`lex() lexing entire fixtures view.jsp matches snapshot 1`] = `
 Array [
   Object {
