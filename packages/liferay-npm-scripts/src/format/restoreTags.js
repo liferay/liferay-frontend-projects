@@ -9,7 +9,7 @@ const dedent = require('./dedent');
 const {IDENTIFIER} = require('./getPaddedReplacement');
 const indent = require('./indent');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
-const {FILLER, TAB_CHAR} = require('./toFiller');
+const {isFiller, TAB_CHAR} = require('./toFiller');
 
 /**
  * Takes a source string and reinserts tags that were previously extracted with
@@ -23,7 +23,7 @@ function restoreTags(source, tags) {
 
 		const ANYTHING = match(/[\s\S]/);
 		const COMMENT = match(/\/\*.*?\*\//);
-		const SELF_CLOSING_TAG_REPLACEMENT = match(FILLER);
+		const SELF_CLOSING_TAG_REPLACEMENT = match(isFiller());
 		const CLOSE_TAG_REPLACEMENT = match(CLOSE_TAG);
 		const IDENTIFIER_REPLACEMENT = match(IDENTIFIER);
 		const OPEN_TAG_REPLACEMENT = match(OPEN_TAG);

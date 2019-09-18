@@ -26,14 +26,6 @@ const SPACE_CHAR = '\u019c';
 const TAB_CHAR = '\u01ac';
 
 /**
- * RegExp that can be used to identify comments created with `toFiller()` and
- * the default `FILLER_CHAR` character.
- */
-const FILLER = new RegExp(
-	`/\\*(?:\\s*[${FILLER_CHAR}${SPACE_CHAR}${TAB_CHAR}]\\s*)+\\*/`
-);
-
-/**
  * Returns a copy of `string` with the same "shape", but containing only
  * `filler`.
  *
@@ -81,7 +73,15 @@ function toFiller(string, filler = FILLER_CHAR) {
 	return `/*${output}*/`;
 }
 
-toFiller.FILLER = FILLER;
+/**
+ * Returns a RegExp that can be used to identify comments created with
+ * `toFiller()` and the specified filler character.
+ */
+function isFiller(char = FILLER_CHAR) {
+	return new RegExp(`/\\*(?:\\s*[${char}${SPACE_CHAR}${TAB_CHAR}]\\s*)+\\*/`);
+}
+
 toFiller.TAB_CHAR = TAB_CHAR;
+toFiller.isFiller = isFiller;
 
 module.exports = toFiller;
