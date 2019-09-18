@@ -463,6 +463,7 @@ editPublicRenderParameterURL.setParameter(\\"portletResource\\", portletResource
 </div>
 
 <aui:script>
+
 	<%
 	for (PublicRenderParameterConfiguration publicRenderParameterConfiguration : publicRenderParameterConfigurations) {
 	%>
@@ -476,6 +477,7 @@ editPublicRenderParameterURL.setParameter(\\"portletResource\\", portletResource
 	<%
 	}
 	%>
+
 </aui:script>"
 `;
 
@@ -1196,6 +1198,7 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 	</aui:script>
 
 	<aui:script>
+
 		<%
 		List<String> foo = null;
 		%>

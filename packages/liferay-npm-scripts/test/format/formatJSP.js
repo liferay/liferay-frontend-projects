@@ -191,9 +191,9 @@ describe('formatJSP()', () => {
 		// Note: this still isn't exactly what we want, but we'll change that
 		// when we deal with:
 		// - https://github.com/liferay/liferay-npm-tools/issues/259
-		// - https://github.com/liferay/liferay-npm-tools/issues/258
 		const expected = `
 			<aui:script>
+
 				<%
 				for (A<?> a : b) {
 				%>
@@ -215,6 +215,7 @@ describe('formatJSP()', () => {
 				<%
 				}
 				%>
+
 			</aui:script>
 		`;
 
