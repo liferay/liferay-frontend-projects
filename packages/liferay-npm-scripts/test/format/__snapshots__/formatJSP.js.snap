@@ -1404,21 +1404,21 @@ for (int i = 0; i < pages.size(); i++) {
 
 		<c:if test=\\"<%= pages.size() > 1 %>\\">
 
-		<%
-		WikiPage latestWikiPage = (WikiPage)pages.get(1);
-		%>
+			<%
+			WikiPage latestWikiPage = (WikiPage)pages.get(1);
+			%>
 
 			var compareButton = document.getElementById('<portlet:namespace />compare');
 
 			compareButton.addEventListener('click', function(event) {
 				<portlet:renderURL var=\\"compareVersionURL\\">
-				<portlet:param name=\\"mvcRenderCommandName\\" value=\\"/wiki/compare_versions\\" />
-				<portlet:param name=\\"backURL\\" value=\\"<%= currentURL %>\\" />
-				<portlet:param name=\\"tabs3\\" value=\\"versions\\" />
-				<portlet:param name=\\"nodeId\\" value=\\"<%= String.valueOf(node.getNodeId()) %>\\" />
-				<portlet:param name=\\"title\\" value=\\"<%= wikiPage.getTitle() %>\\" />
-				<portlet:param name=\\"type\\" value=\\"html\\" />
-			</portlet:renderURL>
+					<portlet:param name=\\"mvcRenderCommandName\\" value=\\"/wiki/compare_versions\\" />
+					<portlet:param name=\\"backURL\\" value=\\"<%= currentURL %>\\" />
+					<portlet:param name=\\"tabs3\\" value=\\"versions\\" />
+					<portlet:param name=\\"nodeId\\" value=\\"<%= String.valueOf(node.getNodeId()) %>\\" />
+					<portlet:param name=\\"title\\" value=\\"<%= wikiPage.getTitle() %>\\" />
+					<portlet:param name=\\"type\\" value=\\"html\\" />
+				</portlet:renderURL>
 
 				var uri = '<%= compareVersionURL %>';
 
@@ -3038,8 +3038,8 @@ String backURL = PortalUtil.getCurrentURL(request);
 						var activeCalendar = calendarList.activeItem;
 
 						<liferay-portlet:resourceURL id=\\"calendarBookingsRSS\\" varImpl=\\"calendarRSSURL\\">
-						<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
-					</liferay-portlet:resourceURL>
+							<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+						</liferay-portlet:resourceURL>
 
 						var url = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= calendarRSSURL %>'),
@@ -3178,7 +3178,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 	<c:if test=\\"<%= themeDisplay.isSignedIn() %>\\">
 		var addOtherCalendarInput = A.one('#<portlet:namespace />addOtherCalendar');
 
-	<liferay-portlet:resourceURL copyCurrentRenderParameters=\\"<%= false %>\\" id=\\"calendarResources\\" var=\\"calendarResourcesURL\\" />
+		<liferay-portlet:resourceURL copyCurrentRenderParameters=\\"<%= false %>\\" id=\\"calendarResources\\" var=\\"calendarResourcesURL\\" />
 
 		calendarContainer.createCalendarsAutoComplete(
 			'<%= calendarResourcesURL %>',
@@ -3581,24 +3581,24 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 
 		var interationalNumbersDisplay = [];
 
-	<%
-	Map<String, List<String>> internationalNumbers = PowwowServiceProviderUtil.getJoinByPhoneInternationalNumbers(powwowMeeting.getProviderType());
+		<%
+		Map<String, List<String>> internationalNumbers = PowwowServiceProviderUtil.getJoinByPhoneInternationalNumbers(powwowMeeting.getProviderType());
 
-	if ((internationalNumbers != null) && !internationalNumbers.isEmpty()) {
-		for (String country : internationalNumbers.keySet()) {
-			for (String number : internationalNumbers.get(country)) {
-	%>
+		if ((internationalNumbers != null) && !internationalNumbers.isEmpty()) {
+			for (String country : internationalNumbers.keySet()) {
+				for (String number : internationalNumbers.get(country)) {
+		%>
 
 		interationalNumbersDisplay.push({
 			country: '<%= country %>',
 			number: '<%= number %>'
 		});
 
-	<%
+		<%
+				}
 			}
 		}
-	}
-	%>
+		%>
 
 		var halfInterationalNumbersDisplay = Math.round(
 			interationalNumbersDisplay.length / 2

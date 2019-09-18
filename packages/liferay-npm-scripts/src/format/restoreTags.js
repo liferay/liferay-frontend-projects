@@ -48,27 +48,28 @@ function restoreTags(source, tags) {
 	let indent = '';
 	let indentLevel = 0;
 
-	const tokens = [...lexer.lex(source)];
+	let tokens = [...lexer.lex(source)];
 
+	// First pass: restore internal indents related to JSP entities
+	// (ie. undo the effects of `stripIndents()`.
 	for (let i = 0; i < tokens.length; i++) {
-		const token = tokens[i];
-		const {contents, name} = token;
+		const {contents, name} = tokens[i];
 
 		switch (name) {
 			case 'OPEN_TAG_REPLACEMENT':
-				output += getIndentedTag(indent, tags[restoreCount++], token);
+				output += indent + contents;
 				indentLevel++;
 				break;
 
 			case 'CLOSE_TAG_REPLACEMENT':
 				indent = indent.slice(1);
-				output += getIndentedTag(indent, tags[restoreCount++], token);
+				output += indent + contents;
 				indentLevel--;
 				break;
 
 			case 'IDENTIFIER_REPLACEMENT':
 			case 'SELF_CLOSING_TAG_REPLACEMENT':
-				output += getIndentedTag(indent, tags[restoreCount++], token);
+				output += indent + contents;
 				indent = '';
 				break;
 
@@ -109,6 +110,34 @@ function restoreTags(source, tags) {
 		}
 	}
 
+	// Second pass: re-insert JSP tags into source.
+	tokens = [...lexer.lex(output)];
+	output = '';
+
+	for (let i = 0; i < tokens.length; i++) {
+		const token = tokens[i];
+		const {contents, name} = token;
+
+		switch (name) {
+			case 'OPEN_TAG_REPLACEMENT':
+			case 'CLOSE_TAG_REPLACEMENT':
+			case 'IDENTIFIER_REPLACEMENT':
+			case 'SELF_CLOSING_TAG_REPLACEMENT':
+				output += getIndentedTag(tags[restoreCount++], token);
+				break;
+
+			case 'ANYTHING':
+			case 'COMMENT':
+			case 'NEWLINE':
+			case 'WHITESPACE':
+				output += contents;
+				break;
+
+			default:
+				throw new Error(`Unexpected token type: ${name}`);
+		}
+	}
+
 	if (restoreCount !== tags.length) {
 		throw new Error(
 			`Expected replacement count ${restoreCount}, but got ${tags.length}`
@@ -133,8 +162,11 @@ function restoreTags(source, tags) {
  *      \t\t<%
  *      \t\t// Contents
  *      \t\t%>
+ *
+ * Necessary because Prettier will often change the first line of multi-line
+ * placeholder comment, but it never changes the subsequent lines.
  */
-function getIndentedTag(whitespace, tag, token) {
+function getIndentedTag(tag, token) {
 	const [dedented] = dedent(tag);
 
 	const previous =
