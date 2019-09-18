@@ -8,9 +8,9 @@ const Lexer = require('./Lexer');
 const dedent = require('./dedent');
 const {IDENTIFIER} = require('./getPaddedReplacement');
 const indent = require('./indent');
+const {SCRIPTLET_CONTENT} = require('./substituteTags');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 const {isFiller, TAB_CHAR} = require('./toFiller');
-
 /**
  * Takes a source string and reinserts tags that were previously extracted with
  * substituteTags().
@@ -27,11 +27,13 @@ function restoreTags(source, tags) {
 		const CLOSE_TAG_REPLACEMENT = match(CLOSE_TAG);
 		const IDENTIFIER_REPLACEMENT = match(IDENTIFIER);
 		const OPEN_TAG_REPLACEMENT = match(OPEN_TAG);
+		const SCRIPTLET = match(isFiller(SCRIPTLET_CONTENT));
 		const NEWLINE = match(/\r?\n/);
 		const WHITESPACE = match(/[ \t]+/);
 
 		return choose({
 			/* eslint-disable sort-keys */
+			SCRIPTLET,
 			SELF_CLOSING_TAG_REPLACEMENT,
 			OPEN_TAG_REPLACEMENT,
 			CLOSE_TAG_REPLACEMENT,
@@ -68,6 +70,7 @@ function restoreTags(source, tags) {
 				break;
 
 			case 'IDENTIFIER_REPLACEMENT':
+			case 'SCRIPTLET':
 			case 'SELF_CLOSING_TAG_REPLACEMENT':
 				output += indent + contents;
 				indent = '';
@@ -119,6 +122,9 @@ function restoreTags(source, tags) {
 		const {contents, name} = token;
 
 		switch (name) {
+			case 'SCRIPTLET':
+			// TODO make this special
+
 			case 'OPEN_TAG_REPLACEMENT':
 			case 'CLOSE_TAG_REPLACEMENT':
 			case 'IDENTIFIER_REPLACEMENT':
