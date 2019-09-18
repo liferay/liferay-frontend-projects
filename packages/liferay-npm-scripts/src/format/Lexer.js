@@ -805,6 +805,8 @@ class Lexer {
 		let index = 0;
 
 		const produceToken = () => {
+			index = input.length - remaining.length;
+
 			const token = advance();
 
 			if (!token) {
@@ -862,8 +864,6 @@ class Lexer {
 		};
 
 		while (!atEnd()) {
-			index = input.length - remaining.length;
-
 			if (tokens.has(counter + 1)) {
 				yield tokens.get(++counter);
 			} else {
