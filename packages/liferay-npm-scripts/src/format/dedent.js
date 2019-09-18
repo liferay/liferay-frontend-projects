@@ -39,19 +39,14 @@ function dedent(input, tabWidth = 4) {
 		? lines.map(line => {
 				const [, indent, rest] = line.match(/^(\s*)(.*)/);
 
-				if (
-					minimum &&
-					indent.length
-				) {
+				if (minimum && indent.length) {
 					// Remove leftmost character until hitting desired length;
 					// if you overshoot (due to a tab), pad with spaces.
 					const chars = Array.from(indent);
 
-
 					let currentLength = chars.reduce((count, char) => {
 						return count + (char === '\t' ? tabWidth : 1);
 					}, 0);
-
 
 					const desiredLength = currentLength - minimum;
 

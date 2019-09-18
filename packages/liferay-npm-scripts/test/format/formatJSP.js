@@ -156,6 +156,69 @@ describe('formatJSP()', () => {
 		`);
 	});
 
+	it('respects indentation within a nested control structures', () => {
+		// This is a reduced example of what's in the source.jsp fixture.
+		const source = `
+			<aui:script>
+
+				<%
+				for (A<?> a : b) {
+				%>
+
+					Util.toggleSelectBox();
+
+					<%
+					for (C c : d) {
+					%>
+
+						var optgroupClose = '</optgroup>';
+
+					<%
+					}
+					%>
+
+					columnBuffer1.push(optgroupClose);
+
+				<%
+				}
+				%>
+
+			</aui:script>
+		`;
+
+		// Note: this still isn't exactly what we want, but we'll change that
+		// when we deal with:
+		// - https://github.com/liferay/liferay-npm-tools/issues/259
+		// - https://github.com/liferay/liferay-npm-tools/issues/258
+		const expected = `
+			<aui:script>
+				<%
+				for (A<?> a : b) {
+				%>
+
+				Util.toggleSelectBox();
+
+				<%
+				for (C c : d) {
+				%>
+
+				var optgroupClose = '</optgroup>';
+
+				<%
+				}
+				%>
+
+				columnBuffer1.push(optgroupClose);
+
+				<%
+				}
+				%>
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(expected);
+	});
+
 	it('returns the source unmodified if there are no JSP tags', () => {
 		const source = `
 			<%--
