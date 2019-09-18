@@ -119,6 +119,66 @@ describe('restoreTags()', () => {
 		expect(result).toEqual(expected);
 	});
 
+	it('correctly handles internal indentation when nested', () => {
+		// This is a reduced example of what's in the page_iterator.jsp
+		// fixture.
+		const source = `
+			<c:if test="<%= pages.size() > 1 %>">
+
+				// Regression: this was getting mangled:
+				<%
+				WikiPage latestWikiPage = (WikiPage)pages.get(1);
+				%>
+
+				var compareButton = document.getElementById('<portlet:namespace />compare');
+			</c:if>
+		`;
+
+		const [substituted, tags] = substituteTags(source);
+
+		// Sanity-check that `substituteTags()` does what we think it does.
+		expect(substituted).toBe(`
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+
+				// Regression: this was getting mangled:
+				/*
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ*/
+
+				var compareButton = document.getElementById('ʾPORTLET_NAMESPACE__ʿcompare');
+			/*ʅʅʅ*/
+		`);
+
+		// Now imagine Prettier "fixes" the indents like this:
+		const formattedText = `
+			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
+
+			// Regression: this was getting mangled:
+			/*
+ƬƬƬƬ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+ƬƬƬƬ*/
+
+			var compareButton = document.getElementById('ʾPORTLET_NAMESPACE__ʿcompare');
+			/*ʅʅʅ*/
+		`;
+
+		const result = restoreTags(formattedText, tags);
+
+		const expected = `
+			<c:if test="<%= pages.size() > 1 %>">
+
+				// Regression: this was getting mangled:
+				<%
+				WikiPage latestWikiPage = (WikiPage)pages.get(1);
+				%>
+
+				var compareButton = document.getElementById('<portlet:namespace />compare');
+			</c:if>
+		`;
+
+		expect(result).toEqual(expected);
+	});
+
 	it('throws when passed the wrong number of tags', () => {
 		expect(() => {
 			restoreTags('some text', ['<%= "a tag" %>']);
