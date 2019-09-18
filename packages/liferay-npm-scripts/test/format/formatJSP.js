@@ -243,6 +243,7 @@ describe('formatJSP()', () => {
 		test.each([
 			'configuration.jsp',
 			'details.jsp',
+			'edit_public_render_parameters.jsp',
 			'edit_template_display.jspf',
 			'page.jsp',
 			'page_iterator.jsp',

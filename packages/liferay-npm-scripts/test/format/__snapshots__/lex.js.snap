@@ -1826,6 +1826,704 @@ redirect = PortalUtil.escapeRedirect(redirect);
 ]
 `;
 
+exports[`lex() lexing entire fixtures edit_public_render_parameters.jsp matches snapshot 1`] = `
+Array [
+  Object {
+    "contents": "<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>",
+    "index": 0,
+    "name": "JSP_COMMENT",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 601,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%@ include file=\\"/init.jsp\\" %>",
+    "index": 603,
+    "name": "JSP_DIRECTIVE",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 634,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+String redirect = ParamUtil.getString(request, \\"redirect\\");
+String returnToFullPageURL = ParamUtil.getString(request, \\"returnToFullPageURL\\");
+
+List<PublicRenderParameterConfiguration> publicRenderParameterConfigurations = (List<PublicRenderParameterConfiguration>)request.getAttribute(WebKeys.PUBLIC_RENDER_PARAMETER_CONFIGURATIONS);
+Set<PublicRenderParameter> publicRenderParameters = (Set<PublicRenderParameter>)request.getAttribute(WebKeys.PUBLIC_RENDER_PARAMETERS);
+
+PortletURL editPublicRenderParameterURL = renderResponse.createRenderURL();
+
+editPublicRenderParameterURL.setParameter(\\"mvcPath\\", \\"/edit_public_render_parameters.jsp\\");
+editPublicRenderParameterURL.setParameter(\\"redirect\\", redirect);
+editPublicRenderParameterURL.setParameter(\\"returnToFullPageURL\\", returnToFullPageURL);
+editPublicRenderParameterURL.setParameter(\\"portletResource\\", portletResource);
+%>",
+    "index": 636,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 1512,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:actionURL name=\\"editPublicRenderParameters\\" var=\\"editPublicRenderParametersURL\\">",
+    "index": 1514,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 1603,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"mvcPath\\" value=\\"/edit_public_render_parameters.jsp\\" />",
+    "index": 1605,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 1680,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:param name=\\"portletConfiguration\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />",
+    "index": 1682,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+",
+    "index": 1766,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</portlet:actionURL>",
+    "index": 1767,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 1787,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-util:include page=\\"/tabs1.jsp\\" servletContext=\\"<%= application %>\\">",
+    "index": 1789,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 1865,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-util:param name=\\"tabs1\\" value=\\"communication\\" />",
+    "index": 1867,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+",
+    "index": 1924,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-util:include>",
+    "index": 1925,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 1948,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 1950,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"portlet-configuration-edit-communications\\">
+	",
+    "index": 1951,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:edit-form
+		action=\\"<%= editPublicRenderParametersURL %>\\"
+		cssClass=\\"form\\"
+		method=\\"post\\"
+		name=\\"fm\\"
+	>",
+    "index": 2007,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 2131,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"redirect\\" type=\\"hidden\\" value=\\"<%= editPublicRenderParameterURL.toString() %>\\" />",
+    "index": 2134,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 2232,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"returnToFullPageURL\\" type=\\"hidden\\" value=\\"<%= returnToFullPageURL %>\\" />",
+    "index": 2235,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 2324,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input name=\\"portletResource\\" type=\\"hidden\\" value=\\"<%= portletResource %>\\" />",
+    "index": 2327,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 2408,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:edit-form-body>",
+    "index": 2412,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 2445,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:fieldset-group>",
+    "index": 2449,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 2482,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:fieldset>",
+    "index": 2487,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 2514,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:error key=\\"duplicateMapping\\" message=\\"several-shared-parameters-are-mapped-to-the-same-parameter\\" />",
+    "index": 2520,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+					",
+    "index": 2632,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 2639,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "div class=\\"alert alert-info\\">
+						",
+    "index": 2640,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:message arguments='<%= \\"https://dev.liferay.com/en/discover/portal/-/knowledge_base/7-0/communication-between-apps\\" %>' key=\\"set-up-the-communication-among-the-portlets-that-use-public-render-parameters\\" translateArguments=\\"<%= false %>\\" />",
+    "index": 2676,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 2928,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 2934,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+					",
+    "index": 2935,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-container
+						total=\\"<%= publicRenderParameterConfigurations.size() %>\\"
+					>",
+    "index": 2947,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 3046,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-container-results
+							results=\\"<%= ListUtil.subList(publicRenderParameterConfigurations, searchContainer.getStart(), searchContainer.getEnd()) %>\\"
+						/>",
+    "index": 3053,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+						",
+    "index": 3230,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-container-row
+							className=\\"PublicRenderParameterConfiguration\\"
+							modelVar=\\"publicRenderParameterConfiguration\\"
+						>",
+    "index": 3238,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+							",
+    "index": 3385,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-container-column-text
+								name=\\"shared-parameter\\"
+								value=\\"<%= HtmlUtil.escape(publicRenderParameterConfiguration.getPublicRenderParameter().getIdentifier()) %>\\"
+							/>",
+    "index": 3393,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+							",
+    "index": 3593,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-container-column-text
+								name=\\"ignore\\"
+							>",
+    "index": 3602,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+								",
+    "index": 3673,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:input label=\\"\\" name=\\"<%= publicRenderParameterConfiguration.getIgnoreKey() %>\\" type=\\"checkbox\\" value=\\"<%= publicRenderParameterConfiguration.getIgnoreValue() %>\\" />",
+    "index": 3682,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+							",
+    "index": 3851,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-ui:search-container-column-text>",
+    "index": 3859,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+							",
+    "index": 3901,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-container-column-text
+								name=\\"read-value-from-parameter\\"
+							>",
+    "index": 3910,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+								",
+    "index": 4000,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:select label=\\"\\" name=\\"<%= publicRenderParameterConfiguration.getMappingKey() %>\\">",
+    "index": 4009,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+									",
+    "index": 4095,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"<%= HtmlUtil.escape(publicRenderParameterConfiguration.getPublicRenderParameter().getIdentifier()) %>\\" value=\\"\\" />",
+    "index": 4105,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+									",
+    "index": 4238,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+									for (PublicRenderParameter publicRenderParameter : publicRenderParameters) {
+										String publicRenderParameterName = PortletQNameUtil.getPublicRenderParameterName(publicRenderParameter.getQName());
+
+										if (publicRenderParameterName.equals(publicRenderParameterConfiguration.getPublicRenderParameterName())) {
+											continue;
+										}
+									%>",
+    "index": 4249,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+										",
+    "index": 4626,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:option label=\\"<%= HtmlUtil.escape(publicRenderParameter.getIdentifier()) %>\\" selected=\\"<%= publicRenderParameterName.equals(publicRenderParameterConfiguration.getMappingValue()) %>\\" value=\\"<%= publicRenderParameterName %>\\" />",
+    "index": 4638,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+									",
+    "index": 4868,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+									}
+									%>",
+    "index": 4879,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+								",
+    "index": 4904,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:select>",
+    "index": 4914,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+							",
+    "index": 4927,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-ui:search-container-column-text>",
+    "index": 4935,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+						",
+    "index": 4977,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-ui:search-container-row>",
+    "index": 4984,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+						",
+    "index": 5018,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-ui:search-iterator
+							markupView=\\"lexicon\\"
+							paginate=\\"<%= false %>\\"
+						/>",
+    "index": 5026,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+					",
+    "index": 5121,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-ui:search-container>",
+    "index": 5127,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+				",
+    "index": 5157,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:fieldset>",
+    "index": 5162,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 5190,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:fieldset-group>",
+    "index": 5194,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 5228,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:edit-form-body>",
+    "index": 5231,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+
+		",
+    "index": 5265,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<liferay-frontend:edit-form-footer>",
+    "index": 5269,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+			",
+    "index": 5304,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:button type=\\"submit\\" />",
+    "index": 5308,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+
+			",
+    "index": 5336,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:button type=\\"cancel\\" />",
+    "index": 5341,
+    "name": "CUSTOM_ACTION",
+  },
+  Object {
+    "contents": "
+		",
+    "index": 5369,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:edit-form-footer>",
+    "index": 5372,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+	",
+    "index": 5408,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</liferay-frontend:edit-form>",
+    "index": 5410,
+    "name": "CUSTOM_ACTION_END",
+  },
+  Object {
+    "contents": "
+",
+    "index": 5439,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<",
+    "index": 5440,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "/div>
+
+",
+    "index": 5441,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<aui:script>",
+    "index": 5448,
+    "name": "CUSTOM_ACTION_START",
+  },
+  Object {
+    "contents": "
+
+	",
+    "index": 5460,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+	for (PublicRenderParameterConfiguration publicRenderParameterConfiguration : publicRenderParameterConfigurations) {
+	%>",
+    "index": 5463,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+		Liferay.Util.disableToggleBoxes('",
+    "index": 5586,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 5623,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= PublicRenderParameterConfiguration.IGNORE_PREFIX + HtmlUtil.escapeJS(publicRenderParameterConfiguration.getPublicRenderParameterName()) %>",
+    "index": 5644,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "', '",
+    "index": 5786,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<portlet:namespace />",
+    "index": 5790,
+    "name": "PORTLET_NAMESPACE",
+  },
+  Object {
+    "contents": "<%= PublicRenderParameterConfiguration.MAPPING_PREFIX + HtmlUtil.escapeJS(publicRenderParameterConfiguration.getPublicRenderParameterName()) %>",
+    "index": 5811,
+    "name": "JSP_EXPRESSION",
+  },
+  Object {
+    "contents": "', true);
+
+	",
+    "index": 5954,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "<%
+	}
+	%>",
+    "index": 5966,
+    "name": "JSP_SCRIPTLET",
+  },
+  Object {
+    "contents": "
+
+",
+    "index": 5975,
+    "name": "TEMPLATE_TEXT",
+  },
+  Object {
+    "contents": "</aui:script>",
+    "index": 5977,
+    "name": "CUSTOM_ACTION_END",
+  },
+]
+`;
+
 exports[`lex() lexing entire fixtures edit_template_display.jspf matches snapshot 1`] = `
 Array [
   Object {
