@@ -6,6 +6,8 @@
 
 const toFiller = require('./toFiller');
 
+const {isFiller} = toFiller;
+
 /**
  * Valid identifier character (has property "ID Start") which we can assume is
  * very likely unused in liferay-portal.
@@ -26,9 +28,9 @@ const BLOCK_CLOSE = '\u0285';
  */
 const BLOCK_OPEN = '\u0283';
 
-const CLOSE_TAG = new RegExp(`/\\*\\s*[${BLOCK_CLOSE}\\s]+\\*/`);
+const CLOSE_TAG = isFiller(BLOCK_CLOSE);
 
-const OPEN_TAG = new RegExp(`/\\*\\s*[${BLOCK_OPEN}\\s]+\\*/|//${BLOCK_OPEN}+`);
+const OPEN_TAG = new RegExp(`${isFiller(BLOCK_OPEN).source}|//${BLOCK_OPEN}+`);
 
 ///
 // Create a same-length substitution for the text of the opening tag, `tag`.
