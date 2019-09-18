@@ -123,7 +123,8 @@ function restoreTags(source, tags) {
 
 		switch (name) {
 			case 'SCRIPTLET':
-			// TODO make this special
+				output = appendScriptlet(tags[restoreCount++], token, output);
+				break;
 
 			case 'OPEN_TAG_REPLACEMENT':
 			case 'CLOSE_TAG_REPLACEMENT':
@@ -231,6 +232,66 @@ function getIndentedTag(tag, token) {
 	}
 
 	return tag;
+}
+
+/**
+ * Special handling for scriptlets, which are expected to be preceded and trailed
+ * by a single blank line each.
+ */
+function appendScriptlet(scriptlet, token, output) {
+	let prefix = '';
+	let suffix = '';
+
+	// Look up neighboring tokens.
+	const tokens = {
+		/* eslint-disable sort-keys */
+		'-3':
+			token.previous &&
+			token.previous.previous &&
+			token.previous.previous.previous,
+		'-2': token.previous && token.previous.previous,
+		'-1': token.previous,
+		0: token,
+		1: token.next,
+		2: token.next && token.next.next
+		/* eslint-enable sort-keys */
+	};
+
+	if (
+		tokens[-1] &&
+		tokens[-1].name === 'NEWLINE' &&
+		tokens[-2] &&
+		tokens[-2].name !== 'NEWLINE'
+	) {
+		// Need to add another newline to force a blank line.
+		prefix = '\n';
+	}
+
+	if (
+		tokens[-1] &&
+		tokens[-1].name === 'WHITESPACE' &&
+		tokens[-2] &&
+		tokens[-2].name === 'NEWLINE' &&
+		tokens[-3] &&
+		tokens[-3].name !== 'NEWLINE'
+	) {
+		// Trim off WHITESPACE.
+		output = output.slice(0, tokens[-1].index);
+
+		// Add newline to force blank line, then re-add trimmed whitespace.
+		prefix = '\n' + tokens[-1].contents;
+	}
+
+	if (
+		tokens[1] &&
+		tokens[1].name === 'NEWLINE' &&
+		tokens[2] &&
+		tokens[2].name !== 'NEWLINE'
+	) {
+		suffix = '\n';
+	}
+
+	return output + prefix + getIndentedTag(scriptlet, token) + suffix;
 }
 
 module.exports = restoreTags;
