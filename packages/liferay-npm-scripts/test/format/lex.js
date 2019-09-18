@@ -498,6 +498,7 @@ describe('lex()', () => {
 			'page_iterator.jsp',
 			'recaptcha.jsp',
 			'roles.jsp',
+			'source.jsp',
 			'view.jsp',
 			'view_calendar_menus.jspf',
 			'view_meeting.jsp'
