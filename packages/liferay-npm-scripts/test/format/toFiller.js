@@ -35,9 +35,16 @@ describe('toFiller()', () => {
 		expect(toFiller(original)).toBe(expected);
 	});
 
-	it('accepts a custom filler chararcter', () => {
+	it('accepts a custom filler chararcter (no indent)', () => {
 		const original = 'abc\nefg';
 		const expected = '/*_\n_*/';
+
+		expect(toFiller(original, '_')).toBe(expected);
+	});
+
+	it('accepts a custom filler chararcter (with indent)', () => {
+		const original = 'abc\n\tefg';
+		const expected = '/*_\nƬ_*/';
 
 		expect(toFiller(original, '_')).toBe(expected);
 	});
@@ -56,20 +63,27 @@ describe('toFiller()', () => {
 		expect(toFiller('a\nb')).toBe('/*╳\n*/');
 	});
 
-	describe('toFiller.FILLER', () => {
+	describe('toFiller.isFiller()', () => {
 		it('can be used to match comments made with toFiller()', () => {
-			expect(toFiller.FILLER.test('/*╳╳╳*/')).toBe(true);
+			expect(toFiller.isFiller().test('/*╳╳╳*/')).toBe(true);
 		});
 
 		it('does not match ordinary comments', () => {
 			// Empty comment.
-			expect(toFiller.FILLER.test('/**/')).toBe(false);
+			expect(toFiller.isFiller().test('/**/')).toBe(false);
 
 			// Whitespace-only comment.
-			expect(toFiller.FILLER.test('/* */')).toBe(false);
+			expect(toFiller.isFiller().test('/* */')).toBe(false);
 
 			// Comment with text.
-			expect(toFiller.FILLER.test('/* foo */')).toBe(false);
+			expect(toFiller.isFiller().test('/* foo */')).toBe(false);
+		});
+
+		it('can match comments made using custom filler characters', () => {
+			expect(toFiller.isFiller('_').test('/*_\nƬ_*/')).toBe(true);
+
+			expect(toFiller.isFiller('+').test('/*_\nƬ_*/')).toBe(false);
+			expect(toFiller.isFiller().test('/*_\nƬ_*/')).toBe(false);
 		});
 	});
 });
