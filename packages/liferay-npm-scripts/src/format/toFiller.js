@@ -82,5 +82,6 @@ function toFiller(string, filler = FILLER_CHAR) {
 }
 
 toFiller.FILLER = FILLER;
+toFiller.TAB_CHAR = TAB_CHAR;
 
 module.exports = toFiller;

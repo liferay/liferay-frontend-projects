@@ -9,7 +9,7 @@ const dedent = require('./dedent');
 const {IDENTIFIER} = require('./getPaddedReplacement');
 const indent = require('./indent');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
-const {FILLER} = require('./toFiller');
+const {FILLER, TAB_CHAR} = require('./toFiller');
 
 /**
  * Takes a source string and reinserts tags that were previously extracted with
@@ -151,13 +151,19 @@ function restoreTags(source, tags) {
  * Based on preceding indent, adjust the internal indent of a tag before
  * substituting it.
  *
- * For example:
+ * For example, this source:
+ *
+ *      \t\t\t\t\t\t<%
+ *      \t\t\t\t\t\t// Contents
+ *      \t\t\t\t\t\t%>
+ *
+ * May be changed by Prettier to:
  *
  *      \t\t<%
- *      \t\t\t\t// Contents
- *      \t\t\t\t%>
+ *      \t\t\t\t\t\t// Contents
+ *      \t\t\t\t\t\t%>
  *
- * becomes:
+ * So this function must correct that to:
  *
  *      \t\t<%
  *      \t\t// Contents
@@ -167,20 +173,49 @@ function restoreTags(source, tags) {
  * placeholder comment, but it never changes the subsequent lines.
  */
 function getIndentedTag(tag, token) {
-	const [dedented] = dedent(tag);
-
 	const previous =
 		token.previous &&
 		token.previous.name === 'WHITESPACE' &&
 		token.previous.contents;
 
-	if (previous) {
-		// Indent the tag, except for the first line (because we already
-		// emitted that indent).
-		return indent(dedented, 1, previous).replace(previous, '');
+	if (typeof previous === 'string') {
+		// This is incredibly hacky, so strap yourself in:
+		//
+		// We know the size of the indent (the "previous" token)
+		// after formatting, but we don't know the size it was before
+		// formatting. Let's call that unknown size "X": what we want to
+		// calculate is "X - previous", because that is the amount that
+		// Prettier changed the indent, and which we'll need to change
+		// the other lines by as well.
+		//
+		// We don't know "X" but we can make a best guess based on the
+		// following assumptions (which we can expect to be valid only
+		// because the Java Source Formatter enforces them):
+		//
+		// - "X" will always be a sequence of tabs.
+		// - The indent of the last line (call that "Y") should be the same as
+		//   "X".
+		//
+		// Seeing as we can figure out "Y", we can use that as our guess for
+		// "X".
+
+		const lines = token.contents.split(/\r?\n/g);
+
+		if (lines.length > 1) {
+			// Look at last line to figure out original indent.
+			const last = lines.pop();
+			const {0: original} = last.match(new RegExp(`^${TAB_CHAR}*`));
+
+			// Restore original indent to first line, then dedent the whole tag.
+			const [dedented] = dedent('\t'.repeat(original.length) + tag);
+
+			// And indent it to the correct level, but trim off the indent on
+			// the first line because we already emitted that.
+			return indent(dedented, 1, previous).replace(previous, '');
+		}
 	}
 
-	return dedented;
+	return tag;
 }
 
 module.exports = restoreTags;
