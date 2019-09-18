@@ -802,37 +802,78 @@ class Lexer {
 			);
 		}
 
-		let previous;
+		let index = 0;
 
-		while (!atEnd()) {
-			const index = input.length - remaining.length;
-
+		const produceToken = () => {
 			const token = advance();
 
-			if (token) {
-				if (
-					typeof token.name === 'string' &&
-					typeof token.contents === 'string' &&
-					Number.isInteger(token.index)
-				) {
-					if (!token.contents.length) {
-						fail(`Zero-width token ${token.name} produced`);
-					}
-
-					// Make the "previous" link non-enumerable so that tokens
-					// can be introspected without the clutter.
-					Object.defineProperty(token, 'previous', {
-						value: previous
-					});
-
-					yield token;
-
-					previous = token;
-				} else {
-					fail(`Invalid token received at index ${index}`);
-				}
-			} else {
+			if (!token) {
 				fail('Failed to consume all input');
+			}
+
+			if (
+				typeof token.name !== 'string' ||
+				typeof token.contents !== 'string' ||
+				!Number.isInteger(token.index)
+			) {
+				fail(`Invalid token received at index ${index}`);
+			}
+
+			if (!token.contents.length) {
+				fail(`Zero-width token ${token.name} produced`);
+			}
+
+			return token;
+		};
+
+		/**
+		 * Count of tokens produced by the iterator so far.
+		 */
+		let counter = 0;
+
+		const tokens = new Map();
+
+		/**
+		 * Defines "next" and "previous" properties on `token`.
+		 */
+		const defineProperties = (token, counter) => {
+			Object.defineProperties(token, {
+				next: {
+					// Lazy because token N+1 doesn't exist yet when
+					// token N is produced.
+					get() {
+						if (!atEnd() && !tokens.has(counter + 1)) {
+							const nextToken = produceToken();
+
+							defineProperties(nextToken, counter + 1);
+
+							tokens.set(counter + 1, nextToken);
+						}
+
+						return tokens.get(counter + 1);
+					}
+				},
+				previous: {
+					// Non-enumerable so that tokens can be
+					// introspected without the clutter.
+					value: tokens.get(counter - 1)
+				}
+			});
+		};
+
+		while (!atEnd()) {
+			index = input.length - remaining.length;
+
+			if (tokens.has(counter + 1)) {
+				yield tokens.get(++counter);
+			} else {
+				const token = produceToken();
+
+				tokens.set(++counter, token);
+
+				defineProperties(token, counter);
+
+				yield token;
 			}
 		}
 	}
