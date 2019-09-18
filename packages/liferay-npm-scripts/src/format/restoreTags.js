@@ -257,6 +257,11 @@ function appendScriptlet(scriptlet, token, output) {
 		/* eslint-enable sort-keys */
 	};
 
+	if (!tokens[-1]) {
+		// SCRIPTLET is the very first thing in the script block.
+		prefix = '\n';
+	}
+
 	if (
 		tokens[-1] &&
 		tokens[-1].name === 'NEWLINE' &&
@@ -288,6 +293,11 @@ function appendScriptlet(scriptlet, token, output) {
 		tokens[2] &&
 		tokens[2].name !== 'NEWLINE'
 	) {
+		suffix = '\n';
+	}
+
+	if (tokens[1] && tokens[1].name === 'NEWLINE' && !tokens[2]) {
+		// Scriptlet is (basically) the last thing in the script block.
 		suffix = '\n';
 	}
 
