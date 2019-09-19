@@ -16,7 +16,7 @@ const {isFiller, TAB_CHAR} = require('./toFiller');
  * substituteTags().
  */
 function restoreTags(source, tags) {
-	let restoreCount = 0;
+	let tagCount = 0;
 
 	const lexer = new Lexer(api => {
 		const {choose, match} = api;
@@ -55,25 +55,47 @@ function restoreTags(source, tags) {
 	// First pass: restore internal indents related to JSP entities
 	// (ie. undo the effects of `stripIndents()`.
 	for (let i = 0; i < tokens.length; i++) {
-		const {contents, name} = tokens[i];
+		const token = tokens[i];
+		const {contents, name} = token;
 
 		switch (name) {
 			case 'OPEN_TAG_REPLACEMENT':
 				output += indent + contents;
+				indent = '';
 				indentLevel++;
+				tagCount++;
 				break;
 
 			case 'CLOSE_TAG_REPLACEMENT':
-				indent = indent.slice(1);
-				output += indent + contents;
+				output = removeIndent(output, token);
+				output += indent.slice(1) + contents;
+				indent = '';
 				indentLevel--;
+				tagCount++;
+				break;
+
+			case 'SCRIPTLET':
+				{
+					const delta = getImpliedIndentFromScriptlet(tags[tagCount]);
+
+					if (delta < 0) {
+						output = removeIndent(output, token, -delta);
+						output += indent.slice(-delta) + contents;
+					} else {
+						output += indent + contents;
+					}
+
+					indentLevel += delta;
+					indent = '';
+					tagCount++;
+				}
 				break;
 
 			case 'IDENTIFIER_REPLACEMENT':
-			case 'SCRIPTLET':
 			case 'SELF_CLOSING_TAG_REPLACEMENT':
 				output += indent + contents;
 				indent = '';
+				tagCount++;
 				break;
 
 			case 'ANYTHING':
@@ -84,28 +106,8 @@ function restoreTags(source, tags) {
 				break;
 
 			case 'NEWLINE':
-				{
-					output += contents;
-
-					// Peek ahead to see if the next non-whitespace token is a
-					// closing tag, so that we can adjust the indentLevel
-					// accordingly.
-					const [maybeWhitespace, maybeCloseTag] = tokens.slice(
-						i + 1,
-						i + 3
-					);
-
-					if (
-						maybeWhitespace &&
-						maybeWhitespace.name === 'WHITESPACE' &&
-						maybeCloseTag &&
-						maybeCloseTag.name === 'CLOSE_TAG_REPLACEMENT'
-					) {
-						indent = '\t'.repeat(indentLevel - 1);
-					} else {
-						indent = '\t'.repeat(indentLevel);
-					}
-				}
+				output += contents;
+				indent = '\t'.repeat(indentLevel);
 				break;
 
 			default:
@@ -114,6 +116,7 @@ function restoreTags(source, tags) {
 	}
 
 	// Second pass: re-insert JSP tags into source.
+	tagCount = 0;
 	tokens = [...lexer.lex(output)];
 	output = '';
 
@@ -123,14 +126,14 @@ function restoreTags(source, tags) {
 
 		switch (name) {
 			case 'SCRIPTLET':
-				output = appendScriptlet(tags[restoreCount++], token, output);
+				output = appendScriptlet(tags[tagCount++], token, output);
 				break;
 
 			case 'OPEN_TAG_REPLACEMENT':
 			case 'CLOSE_TAG_REPLACEMENT':
 			case 'IDENTIFIER_REPLACEMENT':
 			case 'SELF_CLOSING_TAG_REPLACEMENT':
-				output += getIndentedTag(tags[restoreCount++], token);
+				output += getIndentedTag(tags[tagCount++], token);
 				break;
 
 			case 'ANYTHING':
@@ -145,13 +148,87 @@ function restoreTags(source, tags) {
 		}
 	}
 
-	if (restoreCount !== tags.length) {
+	if (tagCount !== tags.length) {
 		throw new Error(
-			`Expected replacement count ${restoreCount}, but got ${tags.length}`
+			`Expected replacement count ${tagCount}, but got ${tags.length}`
 		);
 	}
 
 	return output;
+}
+
+/**
+ * Special handling for scriptlets, which are expected to be preceded and trailed
+ * by a single blank line each.
+ */
+function appendScriptlet(scriptlet, token, output) {
+	let prefix = '';
+	let suffix = '';
+
+	// Look up neighboring tokens.
+	const tokens = {
+		/* eslint-disable sort-keys */
+		'-3':
+			token.previous &&
+			token.previous.previous &&
+			token.previous.previous.previous,
+		'-2': token.previous && token.previous.previous,
+		'-1': token.previous,
+		0: token,
+		1: token.next,
+		2: token.next && token.next.next
+		/* eslint-enable sort-keys */
+	};
+
+	if (!tokens[-1]) {
+		// SCRIPTLET is the very first thing in the script block.
+		prefix = '\n';
+	}
+
+	if (
+		tokens[-1] &&
+		tokens[-1].name === 'NEWLINE' &&
+		tokens[-2] &&
+		tokens[-2].name !== 'NEWLINE'
+	) {
+		// Need to add another newline to force a blank line.
+		prefix = '\n';
+	}
+
+	if (
+		tokens[-1] &&
+		tokens[-1].name === 'WHITESPACE' &&
+		tokens[-2] &&
+		tokens[-2].name === 'NEWLINE' &&
+		tokens[-3] &&
+		tokens[-3].name !== 'NEWLINE'
+	) {
+		// Trim off WHITESPACE.
+		//
+		// Note: cannot use `tokens[-1].index` here because it may have been
+		// invalidated by previous edits.
+		const whitespace = tokens[-1].contents;
+		output = output.slice(0, -whitespace.length);
+
+		// Add newline to force blank line, then re-add trimmed whitespace.
+		prefix = '\n' + whitespace;
+	}
+
+	if (
+		tokens[1] &&
+		tokens[1].name === 'NEWLINE' &&
+		tokens[2] &&
+		tokens[2].name !== 'NEWLINE'
+	) {
+		suffix = '\n';
+	}
+
+	if (tokens[1] && tokens[1].name === 'NEWLINE' && !tokens[2]) {
+		// Scriptlet is (basically) the last thing in the script block.
+		suffix = '\n';
+	}
+
+	return output + prefix + getIndentedTag(scriptlet, token) + suffix;
 }
 
 /**
@@ -235,77 +312,40 @@ function getIndentedTag(tag, token) {
 }
 
 /**
- * Special handling for scriptlets, which are expected to be preceded and trailed
- * by a single blank line each.
+ * Scan tag contents for braces that would imply an increased or decreased
+ * indent level.
  */
-function appendScriptlet(scriptlet, token, output) {
-	let prefix = '';
-	let suffix = '';
+function getImpliedIndentFromScriptlet(tag) {
+	let delta = 0;
 
-	// Look up neighboring tokens.
-	const tokens = {
-		/* eslint-disable sort-keys */
-		'-3':
-			token.previous &&
-			token.previous.previous &&
-			token.previous.previous.previous,
-		'-2': token.previous && token.previous.previous,
-		'-1': token.previous,
-		0: token,
-		1: token.next,
-		2: token.next && token.next.next
-		/* eslint-enable sort-keys */
-	};
+	// Keeping this simple for now; can always extend to lex more rigorously if
+	// we find that it's needed.
+	tag.replace(/[{}]/g, ([brace]) => {
+		if (brace === '}') {
+			delta--;
+		} else {
+			delta++;
+		}
+	});
 
-	if (!tokens[-1]) {
-		// SCRIPTLET is the very first thing in the script block.
-		prefix = '\n';
-	}
+	return delta;
+}
 
+function removeIndent(output, token, count = 1) {
 	if (
-		tokens[-1] &&
-		tokens[-1].name === 'NEWLINE' &&
-		tokens[-2] &&
-		tokens[-2].name !== 'NEWLINE'
+		token.previous &&
+		token.previous.name === 'WHITESPACE' &&
+		token.previous.previous &&
+		token.previous.previous.name === 'NEWLINE'
 	) {
-		// Need to add another newline to force a blank line.
-		prefix = '\n';
+		// We already emitted too much indent; roll it back.
+		return output.replace(
+			new RegExp(`\t{0,${count}}${token.previous.contents}$`),
+			token.previous.contents
+		);
 	}
 
-	if (
-		tokens[-1] &&
-		tokens[-1].name === 'WHITESPACE' &&
-		tokens[-2] &&
-		tokens[-2].name === 'NEWLINE' &&
-		tokens[-3] &&
-		tokens[-3].name !== 'NEWLINE'
-	) {
-		// Trim off WHITESPACE.
-		//
-		// Note: cannot use `tokens[-1].index` here because it may have been
-		// invalidated by previous edits.
-		const whitespace = tokens[-1].contents;
-		output = output.slice(0, -whitespace.length);
-
-		// Add newline to force blank line, then re-add trimmed whitespace.
-		prefix = '\n' + whitespace;
-	}
-
-	if (
-		tokens[1] &&
-		tokens[1].name === 'NEWLINE' &&
-		tokens[2] &&
-		tokens[2].name !== 'NEWLINE'
-	) {
-		suffix = '\n';
-	}
-
-	if (tokens[1] && tokens[1].name === 'NEWLINE' && !tokens[2]) {
-		// Scriptlet is (basically) the last thing in the script block.
-		suffix = '\n';
-	}
-
-	return output + prefix + getIndentedTag(scriptlet, token) + suffix;
+	return output;
 }
 
 module.exports = restoreTags;

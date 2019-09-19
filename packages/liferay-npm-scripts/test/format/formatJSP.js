@@ -103,23 +103,28 @@ describe('formatJSP()', () => {
 					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
 				%>
 
-				Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+					Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
 
-				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+					function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
 
-					<%
-					// But not this one.
-					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
-						String className = editAssetListDisplayContext.getClassName(curRendererFactory);
-					%>
+						<%
+						// But not this one.
+						for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+							String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+						%>
 
-						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+							<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
 
-					<%
+						<%
+						}
+						%>
+
 					}
-					%>
 
+				<%
 				}
+				%>
+
 			</aui:script>
 		`;
 
@@ -133,27 +138,32 @@ describe('formatJSP()', () => {
 					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
 				%>
 
-				Util.toggleSelectBox(
-					'<portlet:namespace />anyClassType<%= className %>',
-					'false',
-					'<portlet:namespace /><%= className %>Boxes'
-				);
+					Util.toggleSelectBox(
+						'<portlet:namespace />anyClassType<%= className %>',
+						'false',
+						'<portlet:namespace /><%= className %>Boxes'
+					);
 
-				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+					function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
 
-					<%
-					// But not this one.
-					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
-						String className = editAssetListDisplayContext.getClassName(curRendererFactory);
-					%>
+						<%
+						// But not this one.
+						for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+							String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+						%>
 
-					<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+							<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
 
-					<%
+						<%
+						}
+						%>
+
 					}
-					%>
 
+				<%
 				}
+				%>
+
 			</aui:script>
 		`);
 	});
@@ -188,9 +198,6 @@ describe('formatJSP()', () => {
 			</aui:script>
 		`;
 
-		// Note: this still isn't exactly what we want, but we'll change that
-		// when we deal with:
-		// - https://github.com/liferay/liferay-npm-tools/issues/259
 		const expected = `
 			<aui:script>
 
@@ -198,19 +205,19 @@ describe('formatJSP()', () => {
 				for (A<?> a : b) {
 				%>
 
-				Util.toggleSelectBox();
+					Util.toggleSelectBox();
 
-				<%
-				for (C c : d) {
-				%>
+					<%
+					for (C c : d) {
+					%>
 
-				var optgroupClose = '</optgroup>';
+						var optgroupClose = '</optgroup>';
 
-				<%
-				}
-				%>
+					<%
+					}
+					%>
 
-				columnBuffer1.push(optgroupClose);
+					columnBuffer1.push(optgroupClose);
 
 				<%
 				}
@@ -282,7 +289,7 @@ describe('formatJSP()', () => {
 					String className = assetPublisherWebUtil.getClassName(curRendererFactory);
 				%>
 
-				Util.toggleSelectBox();
+					Util.toggleSelectBox();
 
 				<%
 				}
@@ -295,7 +302,7 @@ describe('formatJSP()', () => {
 						String className = assetPublisherWebUtil.getClassName(curRendererFactory);
 					%>
 
-					<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
 
 					<%
 					}

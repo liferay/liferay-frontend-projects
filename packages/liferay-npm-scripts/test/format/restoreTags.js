@@ -193,23 +193,27 @@ describe('restoreTags()', () => {
 				String className = editAssetListDisplayContext.getClassName(curRendererFactory);
 			%>
 
-			Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+				Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
 
-			function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
 
-				<%
-				// But not this one.
-				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
-					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
-				%>
+					<%
+					// But not this one.
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+					%>
 
-					<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
 
-				<%
+					<%
+					}
+					%>
+
 				}
-				%>
 
+			<%
 			}
+			%>
 		`;
 
 		const [substituted, tags] = substituteTags(source);
@@ -224,23 +228,27 @@ describe('restoreTags()', () => {
 ƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
 ƬƬƬ*/
 
-			Util.toggleSelectBox('ʾPORTLET_NAMESPACE__ʿanyClassTypeʾJSP_EXPR______ʿ', 'false', 'ʾPORTLET_NAMESPACE__ʿʾJSP_EXPR______ʿBoxes');
+				Util.toggleSelectBox('ʾPORTLET_NAMESPACE__ʿanyClassTypeʾJSP_EXPR______ʿ', 'false', 'ʾPORTLET_NAMESPACE__ʿʾJSP_EXPR______ʿBoxes');
 
-			function ʾPORTLET_NAMESPACE__ʿtoggleSubclasses(removeOrderBySubtype) {
+				function ʾPORTLET_NAMESPACE__ʿtoggleSubclasses(removeOrderBySubtype) {
 
-				/*
-ƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
-ƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
-ƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
-ƬƬƬƬ*/
+					/*
+ƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
+ƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
+ƬƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
+ƬƬƬƬƬ*/
 
-					ʾPORTLET_NAMESPACE__ʿtoggleʾJSP_EXPR______ʿ(removeOrderBySubtype);
+						ʾPORTLET_NAMESPACE__ʿtoggleʾJSP_EXPR______ʿ(removeOrderBySubtype);
 
-				/*
-ƬƬƬƬɸ
-ƬƬƬƬ*/
+					/*
+ƬƬƬƬƬɸ
+ƬƬƬƬƬ*/
 
-			}
+				}
+
+			/*
+ƬƬƬɸ
+ƬƬƬ*/
 		`);
 
 		// Now imagine Prettier "fixes" the indents like this:
@@ -258,18 +266,22 @@ describe('restoreTags()', () => {
 			function ʾPORTLET_NAMESPACE__ʿtoggleSubclasses(removeOrderBySubtype) {
 
 				/*
-ƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
-ƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
-ƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
-ƬƬƬƬ*/
+ƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
+ƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
+ƬƬƬƬƬƬɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
+ƬƬƬƬƬ*/
 
 				ʾPORTLET_NAMESPACE__ʿtoggleʾJSP_EXPR______ʿ(removeOrderBySubtype);
 
 				/*
-ƬƬƬƬɸ
-ƬƬƬƬ*/
+ƬƬƬƬƬɸ
+ƬƬƬƬƬ*/
 
 			}
+
+			/*
+ƬƬƬɸ
+ƬƬƬ*/
 		`;
 
 		const result = restoreTags(formattedText, tags);
@@ -284,23 +296,28 @@ describe('restoreTags()', () => {
 				String className = editAssetListDisplayContext.getClassName(curRendererFactory);
 			%>
 
-			Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+				Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
 
-			function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
 
-				<%
-				// But not this one.
-				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
-					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
-				%>
+					<%
+					// But not this one.
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+					%>
 
-				<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
 
-				<%
+					<%
+					}
+					%>
+
 				}
-				%>
 
+			<%
 			}
+			%>
+
 		`;
 
 		expect(result).toEqual(expected);
