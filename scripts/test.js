@@ -18,6 +18,7 @@ fs.readdirSync(plugins).forEach(plugin => {
 		const file = path.join(rules, rule);
 
 		try {
+			// eslint-disable-next-line liferay/no-dynamic-require
 			require(file);
 		} catch (error) {
 			status = 1;

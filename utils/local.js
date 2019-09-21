@@ -39,6 +39,7 @@ function patch() {
 
 	if (majorVersion > 5) {
 		if (!originalResolve) {
+			// eslint-disable-next-line liferay/no-dynamic-require
 			const resolver = require(require.resolve(
 				'eslint/lib/shared/relative-module-resolver',
 				{paths: [process.cwd()]}

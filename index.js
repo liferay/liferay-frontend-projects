@@ -7,6 +7,7 @@
 'use strict';
 
 const fs = require('fs');
+
 const local = require('./utils/local');
 
 const config = {
@@ -21,8 +22,11 @@ const config = {
 	plugins: [local('liferay'), 'no-for-of-loops', 'no-only-tests', 'notice'],
 	rules: {
 		'default-case': 'error',
+		'liferay/group-imports': 'error',
+		'liferay/no-dynamic-require': 'error',
 		'liferay/no-it-should': 'error',
 		'liferay/padded-test-blocks': 'error',
+		'liferay/sort-imports': 'error',
 		'no-console': ['error', {allow: ['warn', 'error']}],
 		'no-constant-condition': ['error', {checkLoops: false}],
 		'no-control-regex': 'off',
