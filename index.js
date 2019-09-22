@@ -24,6 +24,7 @@ const config = {
 		'default-case': 'error',
 		'liferay/group-imports': 'error',
 		'liferay/no-absolute-import': 'error',
+		'liferay/no-duplicate-imports': 'error',
 		'liferay/no-dynamic-require': 'error',
 		'liferay/no-it-should': 'error',
 		'liferay/padded-test-blocks': 'error',
