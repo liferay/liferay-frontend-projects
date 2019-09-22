@@ -178,6 +178,34 @@ ruleTester.run('sort-imports', rule, {
 				const x = require('./x');
 			`,
 		},
+		{
+			// Regression test: two imports from the same module were causing
+			// duplication.
+			code: `
+				 import {Config} from 'metal-state';
+				 import {debounce} from 'frontend-js-web';
+				 import {PortletBase} from 'frontend-js-web';
+				 import Soy from 'metal-soy';
+
+				 import templates from './FragmentPreview.soy';
+			`,
+			errors: [
+				{
+					message:
+						'imports must be sorted by module name ' +
+						'(expected: "frontend-js-web" << "frontend-js-web" << "metal-soy" << "metal-state")',
+					type: 'ImportDeclaration',
+				},
+			],
+			output: `
+				 import {PortletBase} from 'frontend-js-web';
+				 import {debounce} from 'frontend-js-web';
+				 import Soy from 'metal-soy';
+				 import {Config} from 'metal-state';
+
+				 import templates from './FragmentPreview.soy';
+			`,
+		},
 	],
 
 	valid: [

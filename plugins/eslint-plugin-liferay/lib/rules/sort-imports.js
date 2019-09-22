@@ -37,6 +37,62 @@ function compare(a, b) {
 }
 
 /**
+ * Ideally we'd just sort by source, but in case there is a pathological case
+ * where we import from the same module twice, we need to include information
+ * about the import specifiers in the sort key.
+ */
+function getSortKey(node) {
+	const source = getSource(node);
+	let tieBreaker;
+
+	if (node.type === 'ImportDeclaration') {
+		const specifiers = node.specifiers.map(specifier => {
+			// Note tie breaking order here:
+			//
+			//      * as name
+			//      name
+			//      {name}
+			//      {name:alias}
+			//
+			if (specifier.type === 'ImportNamespaceSpecifier') {
+				return `*${specifier.local.name}`;
+			} else if (specifier.type === 'ImportDefaultSpecifier') {
+				return specifier.local.name;
+			} else {
+				return `{${specifier.imported.name}:${specifier.local.name}}`;
+			}
+		});
+
+		tieBreaker = specifiers.sort().join(':');
+	} else if (node.type === 'VariableDeclaration') {
+		// ie. `const ... = require('...');`
+		const declarations = node.declarations.map(declaration => {
+			if (declaration.id.type === 'Identifier') {
+				return declaration.id.name;
+			} else if (declaration.id.type === 'ObjectPattern') {
+				const properties = declaration.id.properties.map(property => {
+					if (property.type === 'Property') {
+						return `${property.key.name}:${property.value.name}`;
+					} else if (property.type === 'ExperimentalRestProperty') {
+						return `...${property.argument.name}`;
+					}
+				});
+
+				return `{${properties.sort().join()}}`;
+			}
+		});
+
+		tieBreaker = declarations.sort().join(':');
+	} else if (node.type === 'ExpressionStatement') {
+		// ie. `require('...');`
+		// Always alone in group so tieBreaker not needed.
+		tieBreaker = '';
+	}
+
+	return `${source}:${tieBreaker}`;
+}
+
+/**
  * Returns a ranking for `source`. Lower-numbered ranks are considered more
  * important and will be sorted first in the file.
  *
@@ -139,7 +195,7 @@ module.exports = {
 			['Program:exit'](_node) {
 				const problems = imports.map(group => {
 					const desired = [...group].sort((a, b) =>
-						compare(getSource(a), getSource(b))
+						compare(getSortKey(a), getSortKey(b))
 					);
 
 					// Try to make error messages (somewhat) minimal
@@ -147,7 +203,7 @@ module.exports = {
 					// mismatch (ie. not a full Myers diff algorithm).
 					const [firstMismatch, lastMismatch] = group.reduce(
 						([first, last], node, i) => {
-							if (getSource(node) !== getSource(desired[i])) {
+							if (getSortKey(node) !== getSortKey(desired[i])) {
 								if (first === -1) {
 									first = i;
 								}
@@ -208,7 +264,7 @@ module.exports = {
 								const range = getRangeForNode(node);
 								const text = code.getText().slice(...range);
 
-								sources.set(getSource(group[i]), {text});
+								sources.set(getSortKey(group[i]), {text});
 							}
 
 							for (
@@ -219,7 +275,7 @@ module.exports = {
 								fixings.push(
 									fixer.replaceTextRange(
 										getRangeForNode(group[i]),
-										sources.get(getSource(desired[i])).text
+										sources.get(getSortKey(desired[i])).text
 									)
 								);
 							}
