@@ -23,6 +23,7 @@ const config = {
 	rules: {
 		'default-case': 'error',
 		'liferay/group-imports': 'error',
+		'liferay/no-absolute-import': 'error',
 		'liferay/no-dynamic-require': 'error',
 		'liferay/no-it-should': 'error',
 		'liferay/padded-test-blocks': 'error',
