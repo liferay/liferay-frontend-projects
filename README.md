@@ -115,7 +115,7 @@ The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plug
 -   [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md): Enforces (and autofixes) `import` and `require` grouping.
 -   [liferay/imports-first](./plugins/eslint-plugin-liferay/docs/rules/imports-first.md): Enforces that imports come first in the file.
 -   [liferay/no-absolute-import](./plugins/eslint-plugin-liferay/docs/rules/no-absolute-import.md): Enforces that imports do not use absolute paths.
--   [liferay/no-duplicate-imports](./plugins/eslint-plugin-liferay/docs/rules/no-duplicate-imports.md): Enforces at most one `import` per module.
+-   [liferay/no-duplicate-imports](./plugins/eslint-plugin-liferay/docs/rules/no-duplicate-imports.md): Enforces at most one `import` of any given module per file.
 -   [liferay/no-dynamic-require](./plugins/eslint-plugin-liferay/docs/rules/no-dynamic-require.md): Enforces that `require()` calls use static arguments.
 -   [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md): Enforces that `it()` descriptions start with a verb, not with "should".
 -   [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md): Enforces blank lines between test blocks (`it()` etc).
