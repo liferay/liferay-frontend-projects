@@ -8,7 +8,7 @@
 		"prepublish": "npm run build"
 	},
 	"dependencies": {
-		"resolve": "^1.12.0",
+		"resolve": "^1.8.1",
 		"sass": "^1.22.2"
 	},
 	"devDependencies": {
