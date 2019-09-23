@@ -6,7 +6,7 @@
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
-		"prepublish": "npm run build"
+		"prepublish": "yarn build"
 	},
 	"dependencies": {
 		"babel-template": "^6.26.0",

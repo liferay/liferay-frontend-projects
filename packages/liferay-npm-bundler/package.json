@@ -9,7 +9,7 @@
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
-		"prepublish": "npm run build"
+		"prepublish": "yarn build"
 	},
 	"devDependencies": {
 		"liferay-npm-bundler-preset-liferay-dev": "1.12.0"
