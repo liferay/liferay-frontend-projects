@@ -8,10 +8,18 @@
 
 const {RuleTester} = require('eslint');
 
-RuleTester.describe = describe;
+let counter;
+
+RuleTester.describe = function(description, method) {
+	counter = 1;
+
+	describe(description, method);
+};
+
+const MAX_DESCRIPTION_LENGTH = 40;
 
 RuleTester.it = function(description, method) {
-	const prettifiedDescription = description.replace(
+	let prettifiedDescription = description.replace(
 		/\\u0009|\\u000a/g,
 		match => {
 			if (match === '\\u0009') {
@@ -22,5 +30,10 @@ RuleTester.it = function(description, method) {
 		}
 	);
 
-	it(prettifiedDescription, method);
+	if (prettifiedDescription.length > MAX_DESCRIPTION_LENGTH) {
+		prettifiedDescription =
+			prettifiedDescription.slice(0, MAX_DESCRIPTION_LENGTH) + '...';
+	}
+
+	it(`example ${counter++}: ${prettifiedDescription}`, method);
 };
