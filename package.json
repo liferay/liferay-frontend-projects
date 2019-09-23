@@ -49,6 +49,8 @@
 		"lint": "node scripts/lint.js",
 		"lint:fix": "node scripts/lint.js --fix",
 		"postinstall": "node scripts/postinstall.js",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci",
 		"test": "node scripts/test.js"
 	}
 }
