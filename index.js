@@ -19,7 +19,13 @@ const config = {
 		ecmaVersion: 2017,
 		sourceType: 'module',
 	},
-	plugins: [local('liferay'), 'no-for-of-loops', 'no-only-tests', 'notice'],
+	plugins: [
+		local('liferay'),
+		'no-for-of-loops',
+		'no-only-tests',
+		'notice',
+		'sort-destructure-keys',
+	],
 	rules: {
 		'default-case': 'error',
 		'liferay/group-imports': 'error',
@@ -43,6 +49,10 @@ const config = {
 		'prefer-object-spread': 'error',
 		'quote-props': ['error', 'as-needed'],
 		radix: 'error',
+		'sort-destructure-keys/sort-destructure-keys': [
+			'error',
+			{caseSensitive: true},
+		],
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
 	},
 };
