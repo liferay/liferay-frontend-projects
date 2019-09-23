@@ -19,7 +19,7 @@
 		"babel-core": "^6.25.0",
 		"clone": "^2.1.2",
 		"data-urls": "^1.0.0",
-		"dot-prop": "^5.0.0",
+		"dot-prop": "^5.0.1",
 		"fs-extra": "^4.0.2",
 		"globby": "^10.0.1",
 		"insight": "0.10.0",
