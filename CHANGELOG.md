@@ -1,3 +1,15 @@
+## [v10.0.0](https://github.com/liferay/eslint-config-liferay/tree/v10.0.0) (2019-09-23)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v9.0.0...v10.0.0)
+
+-   feat: streamline release process ([\#93](https://github.com/liferay/eslint-config-liferay/pull/93))
+-   feat!: add sort-destructure-keys ([\#92](https://github.com/liferay/eslint-config-liferay/pull/92))
+-   feat!: sort imports ([\#90](https://github.com/liferay/eslint-config-liferay/pull/90))
+-   fix: make local `patch()` work in edge-case scenario ([\#91](https://github.com/liferay/eslint-config-liferay/pull/91))
+-   docs: add missing docs for padded-test-blocks rule ([\#89](https://github.com/liferay/eslint-config-liferay/pull/89))
+-   feat!: Enables prefer-object-spread ([\#88](https://github.com/liferay/eslint-config-liferay/pull/88))
+-   feat!: Enables prefer-arrow-callback allowing named functions ([\#87](https://github.com/liferay/eslint-config-liferay/pull/87))
+
 ## [v9.0.0](https://github.com/liferay/eslint-config-liferay/tree/v9.0.0) (2019-09-06)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v8.1.0...v9.0.0)
