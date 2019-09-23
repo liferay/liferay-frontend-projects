@@ -257,13 +257,13 @@ function getPluginVersions() {
 	let plugins = [];
 
 	for (const key in config) {
-		if (config.hasOwnProperty(key)) {
+		if (Object.prototype.hasOwnProperty.call(config, key)) {
 			plugins = concatAllPlugins(plugins, config[key]);
 		}
 	}
 
 	for (const key in config.packages) {
-		if (config.packages.hasOwnProperty(key)) {
+		if (Object.prototype.hasOwnProperty.call(config.packages, key)) {
 			plugins = concatAllPlugins(plugins, config.packages[key]);
 		}
 	}
@@ -286,7 +286,7 @@ function getPluginVersions() {
 function loadConfig() {
 	// Clean configuration
 	for (const key in config) {
-		if (config.hasOwnProperty(key)) {
+		if (Object.prototype.hasOwnProperty.call(config, key)) {
 			delete config[key];
 		}
 	}
@@ -338,7 +338,7 @@ function loadConfig() {
 function loadPkgJson() {
 	// Clean pkgJson
 	for (const key in pkgJson) {
-		if (pkgJson.hasOwnProperty(key)) {
+		if (Object.prototype.hasOwnProperty.call(pkgJson, key)) {
 			delete pkgJson[key];
 		}
 	}

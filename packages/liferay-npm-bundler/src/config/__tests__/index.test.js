@@ -278,7 +278,7 @@ describe('jar config', () => {
 });
 
 describe('presets', () => {
-	it('should work with existing presets', () => {
+	it('works with existing presets', () => {
 		process.chdir(
 			path.join(__dirname, '__fixtures__', 'config', 'presets')
 		);
