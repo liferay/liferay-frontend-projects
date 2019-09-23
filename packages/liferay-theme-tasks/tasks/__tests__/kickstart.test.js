@@ -46,7 +46,7 @@ describe('globally installed theme', () => {
 			'init'
 		);
 
-		runSequence('kickstart', function() {
+		runSequence('kickstart', () => {
 			const srcDir = path.join(tempPath, 'src');
 
 			expect(

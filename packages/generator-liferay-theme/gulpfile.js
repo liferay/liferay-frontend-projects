@@ -9,6 +9,6 @@
 var coveralls = require('gulp-coveralls');
 var gulp = require('gulp');
 
-gulp.task('coveralls', function() {
+gulp.task('coveralls', () => {
 	gulp.src('coverage/**/lcov.info').pipe(coveralls());
 });

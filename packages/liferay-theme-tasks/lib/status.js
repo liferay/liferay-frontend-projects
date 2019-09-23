@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
+const _ = require('lodash');
 
 function status(themeConfig) {
 	const statusBuffer = [];
@@ -35,7 +35,7 @@ function status(themeConfig) {
 	if (themeletDependencies) {
 		statusBuffer.push(colors.cyan('Themelets:'));
 
-		_.forEach(themeletDependencies, function(item) {
+		_.forEach(themeletDependencies, (item) => {
 			statusBuffer.push(
 				' - ' + colors.green(item.name + ' v' + item.version)
 			);

@@ -6,9 +6,9 @@
 
 'use strict';
 
-var _ = require('lodash');
 var fs = require('fs');
 var inquirer = require('inquirer');
+var _ = require('lodash');
 var path = require('path');
 var util = require('util');
 
@@ -76,7 +76,7 @@ InitPrompt.prototype = {
 
 			var done = this.async();
 
-			fs.stat(deployPath, function(err, stats) {
+			fs.stat(deployPath, (err, stats) => {
 				var ask = err || !stats.isDirectory();
 
 				if (!ask) {

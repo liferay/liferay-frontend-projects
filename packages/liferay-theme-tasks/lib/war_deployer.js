@@ -5,11 +5,12 @@
  */
 
 const EventEmitter = require('events').EventEmitter;
-const _ = require('lodash');
+
 const colors = require('ansi-colors');
+const log = require('fancy-log');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const log = require('fancy-log');
+const _ = require('lodash');
 const path = require('path');
 const url = require('url');
 

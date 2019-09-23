@@ -23,21 +23,21 @@ function getDefaultAnswers() {
 	};
 }
 
-beforeAll(function() {
+beforeAll(() => {
 	process.chdir(path.join(__dirname, '../..'));
 
 	InitPrompt = require('../../lib/init_prompt');
 });
 
-afterAll(function() {
+afterAll(() => {
 	process.chdir(initCwd);
 });
 
-beforeEach(function() {
+beforeEach(() => {
 	prototype = _.create(InitPrompt.prototype);
 });
 
-test('_afterPrompt should store normalized answers', function() {
+test('_afterPrompt should store normalized answers', () => {
 	prototype.store = {
 		store: sinon.spy(),
 	};
@@ -65,7 +65,7 @@ test('_afterPrompt should store normalized answers', function() {
 	prototype._afterPrompt(defaultAnswers);
 });
 
-test('_deployPathWhen should return false and add deployPath to answers', function(done) {
+test('_deployPathWhen should return false and add deployPath to answers', (done) => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var answers = {
@@ -84,7 +84,7 @@ test('_deployPathWhen should return false and add deployPath to answers', functi
 	prototype._deployPathWhen(answers);
 });
 
-test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', function(done) {
+test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', (done) => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var answers = {
@@ -103,7 +103,7 @@ test('_deployPathWhen should return true when deploy path is not a sibling with 
 	prototype._deployPathWhen(answers);
 });
 
-test('_getDefaultDeployPath should return defualy deploy path value based on answers', function() {
+test('_getDefaultDeployPath should return defualy deploy path value based on answers', () => {
 	var defaultPath = prototype._getDefaultDeployPath({
 		appServerPath: '/path-to/appserver/tomcat',
 	});
@@ -111,7 +111,7 @@ test('_getDefaultDeployPath should return defualy deploy path value based on ans
 	expect(path.join('/path-to', 'appserver', 'deploy')).toBe(defaultPath);
 });
 
-test('_normalizeAnswers should normalize prompt answers', function() {
+test('_normalizeAnswers should normalize prompt answers', () => {
 	var defaultAnswers = getDefaultAnswers();
 	var answers = getDefaultAnswers();
 
@@ -138,7 +138,7 @@ test('_normalizeAnswers should normalize prompt answers', function() {
 	);
 });
 
-test('_prompt should invoke inquirer.prompt with correct args', function() {
+test('_prompt should invoke inquirer.prompt with correct args', () => {
 	var inquirer = require('inquirer');
 
 	var prompt = inquirer.prompt;
@@ -149,7 +149,7 @@ test('_prompt should invoke inquirer.prompt with correct args', function() {
 
 	var args = inquirer.prompt.args[0];
 
-	_.forEach(args[0], function(item) {
+	_.forEach(args[0], (item) => {
 		expect(_.isObject(item)).toBe(true);
 	});
 
@@ -158,7 +158,7 @@ test('_prompt should invoke inquirer.prompt with correct args', function() {
 	inquirer.prompt = prompt;
 });
 
-test('_validateAppServerPath should properly validate path and return appropriate messages if invalid', function() {
+test('_validateAppServerPath should properly validate path and return appropriate messages if invalid', () => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var retVal = prototype._validateAppServerPath();

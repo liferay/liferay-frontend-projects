@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const inquirer = require('inquirer');
+const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 

@@ -14,8 +14,8 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
 
-const {getVersionSupportMessage} = require('../common/messages');
 const isString = require('../common/isString');
+const {getVersionSupportMessage} = require('../common/messages');
 const normalizeName = require('../common/normalizeName');
 
 module.exports = class extends Generator {

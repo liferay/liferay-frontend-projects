@@ -10,6 +10,7 @@ var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
+
 var os = require('os');
 var path = require('path');
 
@@ -30,11 +31,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(function(done) {
+beforeAll((done) => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		function(err) {
+		(err) => {
 			if (err) {
 				throw err;
 			}
@@ -54,25 +55,25 @@ beforeAll(function(done) {
 	);
 });
 
-afterAll(function(done) {
+afterAll((done) => {
 	del([path.join(tempPath, '**')], {
 		force: true,
-	}).then(function() {
+	}).then(() => {
 		process.chdir(initCwd);
 
 		done();
 	});
 });
 
-test('plugin:war should build war file', function(done) {
-	runSequence('plugin:war', function() {
+test('plugin:war should build war file', (done) => {
+	runSequence('plugin:war', () => {
 		assert.isFile(path.join(tempPath, 'dist', 'test-plugin-layouttpl.war'));
 
 		done();
 	});
 });
 
-test('plugin:war should use name for war file and pathDist for alternative dist location', function(done) {
+test('plugin:war should use name for war file and pathDist for alternative dist location', (done) => {
 	gulp = new Gulp();
 
 	registerTasks({
@@ -83,7 +84,7 @@ test('plugin:war should use name for war file and pathDist for alternative dist 
 
 	runSequence = require('run-sequence').use(gulp);
 
-	runSequence('plugin:war', function() {
+	runSequence('plugin:war', () => {
 		assert.isFile(
 			path.join(tempPath, 'dist_alternative', 'my-plugin-name.war')
 		);

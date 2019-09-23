@@ -10,6 +10,7 @@ var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
+
 var os = require('os');
 var path = require('path');
 
@@ -32,11 +33,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(function(done) {
+beforeAll((done) => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		function(err) {
+		(err) => {
 			if (err) {
 				throw err;
 			}
@@ -62,24 +63,24 @@ beforeAll(function(done) {
 	);
 });
 
-afterAll(function(done) {
+afterAll((done) => {
 	del([path.join(tempPath, '**')], {
 		force: true,
-	}).then(function() {
+	}).then(() => {
 		process.chdir(initCwd);
 
 		done();
 	});
 });
 
-afterEach(function() {
+afterEach(() => {
 	del.sync(path.join(deployPath, '**'), {
 		force: true,
 	});
 });
 
-test('deploy task should deploy war file to specified appserver', function(done) {
-	runSequence('deploy', function() {
+test('deploy task should deploy war file to specified appserver', (done) => {
+	runSequence('deploy', () => {
 		assert.isFile(path.join(deployPath, 'test-plugin-layouttpl.war'));
 
 		expect(gulp.storage.get('deployed')).toBe(true);

@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const del = require('del');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const Gulp = require('gulp').Gulp;
+
 const os = require('os');
 const path = require('path');
 const sinon = require('sinon');
@@ -192,7 +193,7 @@ class PrototypeMethodSpy {
 	}
 
 	flush() {
-		_.forEach(this.methods, function(item) {
+		_.forEach(this.methods, (item) => {
 			item.parent[item.methodName] = item.method;
 		});
 
@@ -293,7 +294,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 function deleteDirJsFromCache(relativePath) {
 	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
-	_.forEach(files, function(item) {
+	_.forEach(files, (item) => {
 		if (_.endsWith(item, '.js')) {
 			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}

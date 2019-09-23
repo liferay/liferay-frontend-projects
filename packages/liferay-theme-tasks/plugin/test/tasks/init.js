@@ -6,10 +6,11 @@
 
 'use strict';
 
-var _ = require('lodash');
 var del = require('del');
 var fs = require('fs-extra');
+var _ = require('lodash');
 var Gulp = require('gulp').Gulp;
+
 var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
@@ -27,11 +28,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(function(done) {
+beforeAll((done) => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		function(err) {
+		(err) => {
 			if (err) {
 				throw err;
 			}
@@ -51,17 +52,17 @@ beforeAll(function(done) {
 	);
 });
 
-afterAll(function(done) {
+afterAll((done) => {
 	del([path.join(tempPath, '**')], {
 		force: true,
-	}).then(function() {
+	}).then(() => {
 		process.chdir(initCwd);
 
 		done();
 	});
 });
 
-test('plugin:init should prompt user for appserver information', function() {
+test('plugin:init should prompt user for appserver information', () => {
 	var InitPrompt = require('../../lib/init_prompt');
 
 	var _prompt = InitPrompt.prototype._prompt;

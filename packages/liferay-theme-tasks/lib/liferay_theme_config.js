@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
 
 function getConfig(all) {
@@ -74,7 +74,7 @@ module.exports = {
 };
 
 function deleteDependencies(sourceDependencies, deletedDependencies) {
-	_.forEach(sourceDependencies, function(item, index) {
+	_.forEach(sourceDependencies, (item, index) => {
 		if (deletedDependencies.indexOf(index) > -1) {
 			delete sourceDependencies[index];
 		}

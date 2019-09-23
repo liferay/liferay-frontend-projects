@@ -12,10 +12,10 @@ const liferayThemeThemelet = require('../index');
 chai.use(require('chai-fs'));
 const assert = chai.assert;
 
-describe('liferay-theme:themelet unit tests', function() {
-	describe('_isLiferayVersion', function() {
-		it('checks for valid Liferay versions', function() {
-			_.forEach(['Any', '7.2'], function(version) {
+describe('liferay-theme:themelet unit tests', () => {
+	describe('_isLiferayVersion', () => {
+		it('checks for valid Liferay versions', () => {
+			_.forEach(['Any', '7.2'], (version) => {
 				assert.isTrue(
 					liferayThemeThemelet.prototype._isLiferayVersion(version),
 					0,

@@ -17,7 +17,7 @@ var REGEX_MODULE_VERSION = /module-version=([0-9.]+)/;
 module.exports = function(options) {
 	var gulp = options.gulp;
 
-	gulp.task('plugin:version', function(done) {
+	gulp.task('plugin:version', (done) => {
 		var npmPackageVersion = require(path.join(
 			process.cwd(),
 			'package.json'
@@ -34,7 +34,7 @@ module.exports = function(options) {
 			{
 				encoding: 'utf8',
 			},
-			function(err, result) {
+			(err, result) => {
 				if (err) {
 					throw err;
 				}
@@ -42,10 +42,10 @@ module.exports = function(options) {
 				var moduleVersion = result.match(REGEX_MODULE_VERSION);
 
 				if (moduleVersion && moduleVersion[1] != npmPackageVersion) {
-					result = result.replace(REGEX_MODULE_VERSION, function(
+					result = result.replace(REGEX_MODULE_VERSION, (
 						_match,
 						_g1
-					) {
+					) => {
 						return 'module-version=' + npmPackageVersion;
 					});
 

@@ -11,15 +11,15 @@ const liferayThemeApp = require('../index');
 chai.use(require('chai-fs'));
 const chaiAssert = chai.assert;
 
-describe('liferay-theme:app unit tests', function() {
+describe('liferay-theme:app unit tests', () => {
 	var prototype;
 
-	beforeEach(function() {
+	beforeEach(() => {
 		prototype = Object.create(liferayThemeApp.prototype);
 	});
 
-	describe('_getArgs', function() {
-		it('creates new args object only once', function() {
+	describe('_getArgs', () => {
+		it('creates new args object only once', () => {
 			var args = prototype._getArgs();
 
 			chaiAssert.isObject(args);
@@ -34,8 +34,8 @@ describe('liferay-theme:app unit tests', function() {
 		});
 	});
 
-	describe('_getWhenFn', function() {
-		it('returns false when property has been set on argv and sets property on args object', function() {
+	describe('_getWhenFn', () => {
+		it('returns false when property has been set on argv and sets property on args object', () => {
 			prototype.args = {};
 			prototype.argv = {};
 
@@ -60,16 +60,16 @@ describe('liferay-theme:app unit tests', function() {
 			whenFn = prototype._getWhenFn(propertyName, flagName);
 		});
 
-		it('implements a validator fn', function() {
+		it('implements a validator fn', () => {
 			prototype.args = {};
 			prototype.argv = {};
 
 			const flagName = 'name';
 			const propertyName = 'themeName';
 
-			let whenFn = prototype._getWhenFn(propertyName, flagName, function(
+			let whenFn = prototype._getWhenFn(propertyName, flagName, (
 				_value
-			) {
+			) => {
 				chaiAssert.fail(
 					'Invoked validator with null value',
 					'Should have not invoked'
@@ -86,9 +86,9 @@ describe('liferay-theme:app unit tests', function() {
 
 			prototype.log = function() {};
 
-			whenFn = prototype._getWhenFn(propertyName, flagName, function(
+			whenFn = prototype._getWhenFn(propertyName, flagName, (
 				value
-			) {
+			) => {
 				chaiAssert(value);
 
 				return true;
@@ -100,9 +100,9 @@ describe('liferay-theme:app unit tests', function() {
 
 			prototype.args = {};
 
-			whenFn = prototype._getWhenFn(propertyName, flagName, function(
+			whenFn = prototype._getWhenFn(propertyName, flagName, (
 				_value
-			) {
+			) => {
 				return false;
 			});
 
@@ -112,8 +112,8 @@ describe('liferay-theme:app unit tests', function() {
 		});
 	});
 
-	describe('_isLiferayVersion', function() {
-		it('should check for valid Liferay versions', function() {
+	describe('_isLiferayVersion', () => {
+		it('should check for valid Liferay versions', () => {
 			chaiAssert.isTrue(
 				prototype._isLiferayVersion('7.2'),
 				0,
@@ -128,8 +128,8 @@ describe('liferay-theme:app unit tests', function() {
 		});
 	});
 
-	describe('_mixArgs', function() {
-		it('mixes props and args', function() {
+	describe('_mixArgs', () => {
+		it('mixes props and args', () => {
 			var props = prototype._mixArgs(
 				{
 					liferayVersion: '7.0',
@@ -149,8 +149,8 @@ describe('liferay-theme:app unit tests', function() {
 		});
 	});
 
-	describe('_setArgv', function() {
-		it('should set correct argv properties based on shorthand values', function() {
+	describe('_setArgv', () => {
+		it('should set correct argv properties based on shorthand values', () => {
 			var originalArgv = process.argv;
 
 			var mockArgv = [

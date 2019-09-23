@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
 const util = require('util');
 const xml2js = require('xml2js');
@@ -49,7 +49,7 @@ function buildXML(lookAndFeelJSON, doctypeElement) {
 
 	themeElement = _.reduce(
 		THEME_CHILD_ORDER,
-		function(result, item) {
+		(result, item) => {
 			if (themeElement[item]) {
 				result[item] = themeElement[item];
 			}
@@ -119,7 +119,7 @@ function getLookAndFeelJSON(themePath, cb) {
 		return cb();
 	}
 
-	xml2js.parseString(xmlString, function(err, result) {
+	xml2js.parseString(xmlString, (err, result) => {
 		if (err) {
 			throw err;
 		}
@@ -147,7 +147,7 @@ function getNameFromPluginPackageProperties(themePath) {
 }
 
 function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
-	getLookAndFeelJSON(themePath, function(json) {
+	getLookAndFeelJSON(themePath, (json) => {
 		if (_.isEmpty(lookAndFeelJSON)) {
 			lookAndFeelJSON = json;
 		} else if (json) {
@@ -221,7 +221,7 @@ function extractThemeElement(obj, key) {
 }
 
 function mergeJSON(themeObj, baseThemeObj) {
-	_.forEach(QUERY_ELEMENTS, function(item, index) {
+	_.forEach(QUERY_ELEMENTS, (item, index) => {
 		let mergedElement;
 		const queryString = 'look-and-feel.theme.0.' + index;
 
@@ -263,7 +263,7 @@ function mergeThemeElementById(themeElements, baseThemeElements, identifier) {
 
 	return _.reduce(
 		allElements,
-		function(result, item) {
+		(result, item) => {
 			const id = item.$[identifier];
 
 			if (elementIds.indexOf(id) < 0) {
