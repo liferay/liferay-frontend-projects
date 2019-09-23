@@ -26,12 +26,14 @@
 		"test": "jest --runInBand"
 	},
 	"devDependencies": {
+		"copyfiles": "^2.1.1",
 		"eslint": "^6.4.0",
 		"eslint-config-liferay": "^9.0.0",
 		"globby": "^10.0.1",
 		"jest": "^24.9.0",
 		"lerna": "^3.16.4",
-		"prettier": "1.18.2"
+		"prettier": "1.18.2",
+		"typescript": "^3.6.3"
 	},
 	"dependencies": {
 		"xml-js": "^1.6.8"
