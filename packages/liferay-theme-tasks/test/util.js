@@ -193,7 +193,7 @@ class PrototypeMethodSpy {
 	}
 
 	flush() {
-		_.forEach(this.methods, (item) => {
+		_.forEach(this.methods, item => {
 			item.parent[item.methodName] = item.method;
 		});
 
@@ -294,7 +294,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 function deleteDirJsFromCache(relativePath) {
 	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
-	_.forEach(files, (item) => {
+	_.forEach(files, item => {
 		if (_.endsWith(item, '.js')) {
 			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}

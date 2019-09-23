@@ -147,7 +147,7 @@ function getNameFromPluginPackageProperties(themePath) {
 }
 
 function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
-	getLookAndFeelJSON(themePath, (json) => {
+	getLookAndFeelJSON(themePath, json => {
 		if (_.isEmpty(lookAndFeelJSON)) {
 			lookAndFeelJSON = json;
 		} else if (json) {

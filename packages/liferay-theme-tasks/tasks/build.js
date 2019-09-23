@@ -71,7 +71,7 @@ module.exports = function(options) {
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build', (cb) => {
+	gulp.task('build', cb => {
 		runSequence(
 			'build:clean',
 			'build:base',
@@ -93,7 +93,7 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('build:clean', (cb) => {
+	gulp.task('build:clean', cb => {
 		del([pathBuild]).then(() => cb());
 	});
 
@@ -122,12 +122,10 @@ module.exports = function(options) {
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
 
-	gulp.task('build:liferay-look-and-feel', (cb) => {
+	gulp.task('build:liferay-look-and-feel', cb => {
 		const themePath = process.cwd();
 
-		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, (
-			lookAndFeelJSON
-		) => {
+		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, lookAndFeelJSON => {
 			if (!lookAndFeelJSON) {
 				return cb();
 			}
@@ -160,7 +158,7 @@ module.exports = function(options) {
 					'WEB-INF/liferay-look-and-feel.xml'
 				),
 				xml,
-				(err) => {
+				err => {
 					if (err) {
 						throw err;
 					}
@@ -198,12 +196,12 @@ module.exports = function(options) {
 			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
-	gulp.task('build:rename-css-dir', (cb) => {
+	gulp.task('build:rename-css-dir', cb => {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
-	gulp.task('build:fix-url-functions', (cb) => {
+	gulp.task('build:fix-url-functions', cb => {
 		gulp.src(pathBuild + '/_css/**/*.css')
 			.pipe(
 				replace({
@@ -229,7 +227,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
-	gulp.task('build:remove-old-css-dir', (cb) => {
+	gulp.task('build:remove-old-css-dir', cb => {
 		del([pathBuild + '/_css']).then(() => cb());
 	});
 
@@ -287,7 +285,7 @@ module.exports = function(options) {
 function getFixAtDirectivesPatterns() {
 	const keyframeRulesReplace = function(match, m1, m2) {
 		return (
-			_.map(m1.split(','), (item) => {
+			_.map(m1.split(','), item => {
 				return item.replace(/.*?(from|to|[0-9.]+%)/g, '$1');
 			}).join(',') + m2
 		);

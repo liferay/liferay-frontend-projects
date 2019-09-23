@@ -193,7 +193,7 @@ LayoutCreator.prototype = {
 		var takenWidth = 0;
 		var totalWidth = 12;
 
-		_.forEach(answers, (item) => {
+		_.forEach(answers, item => {
 			item = _.parseInt(item);
 
 			takenWidth = takenWidth + item;
@@ -226,7 +226,7 @@ LayoutCreator.prototype = {
 
 			availableWidth = availableWidth - remainingColumns;
 
-			var choices = _.times(availableWidth, (index) => {
+			var choices = _.times(availableWidth, index => {
 				var spanValue = index + 1;
 
 				var selectedName = instance._formatPercentageValue(
@@ -393,7 +393,7 @@ LayoutCreator.prototype = {
 
 		var totalColumnCount = 0;
 
-		var rowData = _.map(rows, (row) => {
+		var rowData = _.map(rows, row => {
 			var columnCount = _.size(row);
 
 			return _.map(row, (size, index) => {
@@ -436,7 +436,7 @@ LayoutCreator.prototype = {
 
 		var preview =
 			rowSeperator +
-			_.map(this.rows, (item) => {
+			_.map(this.rows, item => {
 				return (
 					instance._renderPreviewLine(item, {
 						label: true,
@@ -479,7 +479,7 @@ LayoutCreator.prototype = {
 
 		var rowNumber = instance._getRowNumber();
 
-		var questions = _.times(columnCount, (index) => {
+		var questions = _.times(columnCount, index => {
 			var columnNumber = index + 1;
 
 			return {
@@ -581,7 +581,7 @@ LayoutCreator.prototype = {
 
 		var width = 0;
 
-		_.forEach(column, (columnWidth) => {
+		_.forEach(column, columnWidth => {
 			var prevWidth = width;
 
 			width = width + columnWidth * 3;
@@ -620,7 +620,7 @@ LayoutCreator.prototype = {
 
 	_stylePreviewLine(line, label) {
 		if (label) {
-			line = line.replace(/\d/g, (match) => {
+			line = line.replace(/\d/g, match => {
 				return chalk.cyan(match);
 			});
 		}

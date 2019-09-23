@@ -21,7 +21,7 @@ module.exports = function(options) {
 	const pathBuild = options.pathBuild;
 	const pathSrc = options.pathSrc;
 
-	gulp.task('overwrite', (cb) => {
+	gulp.task('overwrite', cb => {
 		promptFiles('.', cb);
 	});
 
@@ -120,7 +120,7 @@ module.exports = function(options) {
 				name: 'file',
 				type: 'list',
 			},
-			(answers) => {
+			answers => {
 				if (answers.file.dir) {
 					promptFiles(answers.file.path, cb);
 				} else {

@@ -10,7 +10,7 @@ const status = require('../lib/status');
 function getStatus(options) {
 	const gulp = options.gulp;
 
-	gulp.task('status', (cb) => {
+	gulp.task('status', cb => {
 		process.stdout.write(status(lfrThemeConfig.getConfig()));
 
 		cb();

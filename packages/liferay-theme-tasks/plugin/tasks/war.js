@@ -23,7 +23,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest(options.pathDist));
 	});
 
-	gulp.task('build', (done) => {
+	gulp.task('build', done => {
 		runSequence('plugin:version', TASK_PLUGIN_WAR, done);
 	});
 };

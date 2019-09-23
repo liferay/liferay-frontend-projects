@@ -33,7 +33,7 @@ function registerTasks(options) {
 		runSequence.apply(this, sequence);
 	});
 
-	gulp.task('deploy:docker', (cb) => {
+	gulp.task('deploy:docker', cb => {
 		const deployPath = storage.get('deployPath');
 		const themeName = themeConfig.name;
 
@@ -64,7 +64,7 @@ function registerTasks(options) {
 		runSequence.apply(this, sequence);
 	});
 
-	gulp.task('deploy-live:war', (cb) => {
+	gulp.task('deploy-live:war', cb => {
 		const password = argv.p || argv.password;
 		const url = argv.url || storage.get('url');
 		const username = argv.u || argv.username;

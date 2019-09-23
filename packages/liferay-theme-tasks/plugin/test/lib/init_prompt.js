@@ -65,7 +65,7 @@ test('_afterPrompt should store normalized answers', () => {
 	prototype._afterPrompt(defaultAnswers);
 });
 
-test('_deployPathWhen should return false and add deployPath to answers', (done) => {
+test('_deployPathWhen should return false and add deployPath to answers', done => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var answers = {
@@ -84,7 +84,7 @@ test('_deployPathWhen should return false and add deployPath to answers', (done)
 	prototype._deployPathWhen(answers);
 });
 
-test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', (done) => {
+test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', done => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var answers = {
@@ -149,7 +149,7 @@ test('_prompt should invoke inquirer.prompt with correct args', () => {
 
 	var args = inquirer.prompt.args[0];
 
-	_.forEach(args[0], (item) => {
+	_.forEach(args[0], item => {
 		expect(_.isObject(item)).toBe(true);
 	});
 

@@ -31,13 +31,13 @@ module.exports = function(options) {
 	};
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build:compile-css', (cb) => {
+	gulp.task('build:compile-css', cb => {
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
 		runSequence('build:compile-lib-sass', cb);
 	});
 
-	gulp.task('build:compile-lib-sass', (cb) => {
+	gulp.task('build:compile-lib-sass', cb => {
 		const gulpIf = require('gulp-if');
 		const gulpSass = require('gulp-sass');
 		const gulpSourceMaps = require('gulp-sourcemaps');

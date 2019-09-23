@@ -18,7 +18,7 @@ module.exports = function(options) {
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('upgrade:dependencies', (cb) => {
+	gulp.task('upgrade:dependencies', cb => {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.1']);
 		lfrThemeConfig.setDependencies(devDependencies.default, true);
 

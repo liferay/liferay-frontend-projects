@@ -28,11 +28,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll((done) => {
+beforeAll(done => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		(err) => {
+		err => {
 			if (err) {
 				throw err;
 			}
@@ -52,7 +52,7 @@ beforeAll((done) => {
 	);
 });
 
-afterAll((done) => {
+afterAll(done => {
 	del([path.join(tempPath, '**')], {
 		force: true,
 	}).then(() => {

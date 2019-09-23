@@ -19,7 +19,7 @@ function registerTasks(options) {
 	const gulp = options.gulp;
 	const pathSrc = options.pathSrc;
 
-	gulp.task('kickstart', (cb) => {
+	gulp.task('kickstart', cb => {
 		log(
 			colors.yellow('Warning:'),
 			'the',
@@ -31,7 +31,7 @@ function registerTasks(options) {
 			{
 				themeConfig: lfrThemeConfig.getConfig(),
 			},
-			(answers) => {
+			answers => {
 				let tempNodeModulesPath;
 				let themeSrcPath;
 
@@ -54,7 +54,7 @@ function registerTasks(options) {
 				if (themeSrcPath) {
 					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
-						(folder) => {
+						folder => {
 							return path.join(themeSrcPath, folder, '**/*');
 						}
 					);

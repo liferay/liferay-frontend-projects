@@ -17,7 +17,7 @@ module.exports = function(options) {
 
 	var store = gulp.storage;
 
-	gulp.task(TASK_PLUGIN_INIT, (cb) => {
+	gulp.task(TASK_PLUGIN_INIT, cb => {
 		new InitPrompt(
 			{
 				appServerPathDefault:

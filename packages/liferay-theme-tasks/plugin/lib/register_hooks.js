@@ -29,7 +29,7 @@ RegisterHooks.hook = function(gulp, config) {
 RegisterHooks.prototype = {
 	_addToSequence(sequence, fn) {
 		if (_.isFunction(fn)) {
-			sequence.push((cb) => {
+			sequence.push(cb => {
 				if (fn.length) {
 					fn(cb);
 				} else {
@@ -63,7 +63,7 @@ RegisterHooks.prototype = {
 
 			var sequence = instance._createTaskSequence(task.fn, hooks);
 
-			gulp.task(taskName, task.dep, (cb) => {
+			gulp.task(taskName, task.dep, cb => {
 				async.series(sequence, cb);
 			});
 		});
@@ -74,13 +74,13 @@ RegisterHooks.prototype = {
 
 		var sequence = [];
 
-		_.forEach(hooks.before, (hookFn) => {
+		_.forEach(hooks.before, hookFn => {
 			instance._addToSequence(sequence, hookFn);
 		});
 
 		this._addToSequence(sequence, fn);
 
-		_.forEach(hooks.after, (hookFn) => {
+		_.forEach(hooks.after, hookFn => {
 			instance._addToSequence(sequence, hookFn);
 		});
 

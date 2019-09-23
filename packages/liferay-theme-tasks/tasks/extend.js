@@ -12,7 +12,7 @@ const ExtendPrompt = require('../lib/prompts/extend_prompt');
 module.exports = function(options) {
 	const gulp = options.gulp;
 
-	gulp.task('extend', (cb) => {
+	gulp.task('extend', cb => {
 		ExtendPrompt.prompt(
 			{
 				themeConfig: lfrThemeConfig.getConfig(),

@@ -36,7 +36,7 @@ module.exports = function(options) {
 		return stream;
 	});
 
-	gulp.task('deploy', (cb) => {
+	gulp.task('deploy', cb => {
 		runSequence(TASK_BUILD, TASK_PLUGIN_DEPLOY, cb);
 	});
 };

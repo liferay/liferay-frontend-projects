@@ -39,7 +39,7 @@ module.exports = function(options) {
 		versionUpgradeTask = require(modulePath)(options);
 	}
 
-	gulp.task('upgrade', (cb) => {
+	gulp.task('upgrade', cb => {
 		if (_.isFunction(versionUpgradeTask)) {
 			inquirer.prompt(
 				[
@@ -59,11 +59,11 @@ module.exports = function(options) {
 						type: 'confirm',
 					},
 				],
-				(answers) => {
+				answers => {
 					if (answers.sure) {
 						options.includeFontAwesome = answers.includeFontAwesome;
 
-						versionUpgradeTask((err) => {
+						versionUpgradeTask(err => {
 							if (err) {
 								log(
 									colors.red('Error:'),

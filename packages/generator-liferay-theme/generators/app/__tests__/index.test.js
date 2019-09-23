@@ -67,14 +67,16 @@ describe('liferay-theme:app unit tests', () => {
 			const flagName = 'name';
 			const propertyName = 'themeName';
 
-			let whenFn = prototype._getWhenFn(propertyName, flagName, (
-				_value
-			) => {
-				chaiAssert.fail(
-					'Invoked validator with null value',
-					'Should have not invoked'
-				);
-			});
+			let whenFn = prototype._getWhenFn(
+				propertyName,
+				flagName,
+				_value => {
+					chaiAssert.fail(
+						'Invoked validator with null value',
+						'Should have not invoked'
+					);
+				}
+			);
 
 			chaiAssert.isFunction(whenFn);
 			chaiAssert(whenFn({}));
@@ -86,9 +88,7 @@ describe('liferay-theme:app unit tests', () => {
 
 			prototype.log = function() {};
 
-			whenFn = prototype._getWhenFn(propertyName, flagName, (
-				value
-			) => {
+			whenFn = prototype._getWhenFn(propertyName, flagName, value => {
 				chaiAssert(value);
 
 				return true;
@@ -100,9 +100,7 @@ describe('liferay-theme:app unit tests', () => {
 
 			prototype.args = {};
 
-			whenFn = prototype._getWhenFn(propertyName, flagName, (
-				_value
-			) => {
+			whenFn = prototype._getWhenFn(propertyName, flagName, _value => {
 				return false;
 			});
 

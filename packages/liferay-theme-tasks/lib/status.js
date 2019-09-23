@@ -35,7 +35,7 @@ function status(themeConfig) {
 	if (themeletDependencies) {
 		statusBuffer.push(colors.cyan('Themelets:'));
 
-		_.forEach(themeletDependencies, (item) => {
+		_.forEach(themeletDependencies, item => {
 			statusBuffer.push(
 				' - ' + colors.green(item.name + ' v' + item.version)
 			);

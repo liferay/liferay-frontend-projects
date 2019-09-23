@@ -115,14 +115,14 @@ module.exports = function(options) {
 	/**
 	 * Clean the exploded build dir
 	 */
-	gulp.task('watch:clean', (cb) => {
+	gulp.task('watch:clean', cb => {
 		del([explodedBuildDir]).then(() => cb());
 	});
 
 	/**
 	 * Clean the remote exploded build dir in docker
 	 */
-	gulp.task('watch:docker:clean', (cb) => {
+	gulp.task('watch:docker:clean', cb => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'rm -rf ' + dockerBundleDirPath
@@ -134,7 +134,7 @@ module.exports = function(options) {
 	/**
 	 * Copy the exploded build dir to docker
 	 */
-	gulp.task('watch:docker:copy', (cb) => {
+	gulp.task('watch:docker:copy', cb => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'mkdir -p ' + dockerBundleDirPath
@@ -172,7 +172,7 @@ module.exports = function(options) {
 
 	let livereload;
 
-	gulp.task('watch:reload', (cb) => {
+	gulp.task('watch:reload', cb => {
 		const changedFile = storage.get('changedFile');
 		const srcPath = path.relative(process.cwd(), changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');

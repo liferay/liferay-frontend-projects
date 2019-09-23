@@ -31,7 +31,7 @@ module.exports = function(options) {
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build:themelets', (cb) => {
+	gulp.task('build:themelets', cb => {
 		runSequence(
 			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
@@ -39,7 +39,7 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('build:themelet-css-inject', (cb) => {
+	gulp.task('build:themelet-css-inject', cb => {
 		const themeSrcPaths = path.join(
 			pathBuild,
 			'themelets',
@@ -104,7 +104,7 @@ module.exports = function(options) {
 			});
 	});
 
-	gulp.task('build:themelet-js-inject', (cb) => {
+	gulp.task('build:themelet-js-inject', cb => {
 		const themeSrcPaths = path.join(
 			pathBuild,
 			'themelets',
@@ -181,7 +181,7 @@ module.exports = function(options) {
 			});
 	});
 
-	gulp.task('build:themelet-src', (cb) => {
+	gulp.task('build:themelet-src', cb => {
 		runThemeletDependenciesSeries((item, index, done) => {
 			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
 				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))

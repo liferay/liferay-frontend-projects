@@ -45,11 +45,9 @@ function register(options) {
 
 	store.set('changedFile');
 
-	globby
-		.sync([path.resolve(__dirname, 'tasks/**/*')])
-		.forEach((item) => {
-			if (item.indexOf('__tests__') == -1) {
-				require(item)(options);
-			}
-		});
+	globby.sync([path.resolve(__dirname, 'tasks/**/*')]).forEach(item => {
+		if (item.indexOf('__tests__') == -1) {
+			require(item)(options);
+		}
+	});
 }
