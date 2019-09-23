@@ -6,7 +6,7 @@
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
-		"prepublish": "npm run build"
+		"prepublish": "yarn build"
 	},
 	"dependencies": {
 		"liferay-npm-build-tools-common": "2.13.2",

@@ -5,7 +5,7 @@
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
-		"prepublish": "npm run build"
+		"prepublish": "yarn build"
 	},
 	"dependencies": {
 		"chalk": "^2.4.2",
