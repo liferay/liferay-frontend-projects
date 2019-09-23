@@ -14,10 +14,12 @@
 	],
 	"scripts": {
 		"build": "lerna run build",
-		"ci": "npm run format:check && npm run lint && npm run test",
+		"check-deps": "node scripts/check-deps.js",
+		"ci": "npm run check-deps && npm run format:check && npm run lint && npm run test",
 		"format": "prettier --write \".*.js\" \"packages/*/src/**/*.js\"",
 		"format:check": "prettier --list-different \".*.js\" \"packages/*/src/**/*.js\"",
 		"lerna": "npm install && lerna bootstrap",
+		"level-deps": "node scripts/level-deps.js",
 		"lint": "eslint \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"lint:fix": "eslint --fix \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"release": "lerna publish --force-publish='*' --exact",
@@ -27,6 +29,7 @@
 	"devDependencies": {
 		"eslint": "^5.15.1",
 		"eslint-config-liferay": "^3.0.0",
+		"globby": "^10.0.1",
 		"jest": "^20.0.4",
 		"lerna": "^2.0.0-rc.5",
 		"prettier": "1.16.4"
