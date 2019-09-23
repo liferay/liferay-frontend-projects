@@ -36,8 +36,20 @@ function getSource(node) {
 	if (node.type === 'ImportDeclaration') {
 		return node.source.value;
 	} else if (node.type === 'VariableDeclaration') {
-		// ie. `const ... = require('...');`
-		return node.declarations[0].init.arguments[0].value;
+		const init = node.declarations[0].init;
+
+		if (init.type === 'CallExpression') {
+			if (init.callee.type === 'CallExpression') {
+				// ie. `const ... = require('...')(...);
+				return init.callee.arguments[0].value;
+			} else {
+				// ie. `const ... = require('...');`
+				return init.arguments[0].value;
+			}
+		} else if (init.type === 'MemberExpression') {
+			// ie. `const ... = require('...').thing;
+			return init.object.arguments[0].value;
+		}
 	} else if (node.type === 'ExpressionStatement') {
 		// ie. `require('...');`
 		return node.expression.arguments[0].value;

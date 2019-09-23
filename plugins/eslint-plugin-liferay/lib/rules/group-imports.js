@@ -108,8 +108,22 @@ module.exports = {
 						argument.type === 'Literal' &&
 						typeof argument.value === 'string'
 					) {
-						if (node.parent.type === 'ExpressionStatement') {
+						if (
+							node.parent.type === 'CallExpression' &&
+							node.parent.parent.type === 'VariableDeclarator' &&
+							node.parent.parent.parent.type ===
+								'VariableDeclaration'
+						) {
+							register(node.parent.parent.parent);
+						} else if (node.parent.type === 'ExpressionStatement') {
 							register(node.parent);
+						} else if (
+							node.parent.type === 'MemberExpression' &&
+							node.parent.parent.type === 'VariableDeclarator' &&
+							node.parent.parent.parent.type ===
+								'VariableDeclaration'
+						) {
+							register(node.parent.parent.parent);
 						} else if (
 							node.parent.type === 'VariableDeclarator' &&
 							node.parent.parent.type === 'VariableDeclaration'
