@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"liferay-npm-build-tools-common": "2.13.2",
-		"read-json-sync": "^2.0.0",
+		"read-json-sync": "^2.0.1",
 		"semver": "^5.5.0"
 	}
 }

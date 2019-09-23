@@ -28,7 +28,7 @@
 		"fs-extra": "^7.0.0",
 		"liferay-npm-build-tools-common": "2.13.2",
 		"properties": "^1.2.1",
-		"read-json-sync": "^2.0.0",
+		"read-json-sync": "^2.0.1",
 		"request": "^2.88.0",
 		"resolve": "^1.11.0",
 		"uuid": "^3.3.2"
