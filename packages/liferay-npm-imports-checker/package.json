@@ -18,7 +18,7 @@
 		"fs-extra": "^5.0.0",
 		"globby": "^8.0.1",
 		"liferay-npm-build-tools-common": "2.13.2",
-		"read-json-sync": "^2.0.0",
+		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1",
 		"semver": "^5.5.0"
 	}
