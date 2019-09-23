@@ -27,7 +27,7 @@ export default class extends GogoShell {
 				throw new Error(response);
 			}
 
-			return Number.parseInt(matches[1]);
+			return Number.parseInt(matches[1], 10);
 		});
 	}
 
@@ -113,7 +113,7 @@ export default class extends GogoShell {
 
 			const fields = bundleLine.split('|');
 
-			return Number.parseInt(fields[0]);
+			return Number.parseInt(fields[0], 10);
 		});
 	}
 }

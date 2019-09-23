@@ -32,7 +32,7 @@ export function get(state, defaultValue) {
 
 	const key = resolve(state.file.opts.filenameRelative);
 
-	if (!global._babel_ipc_.hasOwnProperty(key)) {
+	if (!Object.prototype.hasOwnProperty.call(global._babel_ipc_, key)) {
 		return defaultValueFactory();
 	}
 
