@@ -142,7 +142,7 @@ function confirm(prompt, answer = 'y', matcher = YES_REGEX) {
 	return promise;
 }
 
-const UPSTREAM_REPO_REGEX = /\bgithub\.com[/:]liferay\/liferay-npm-tools(?:\.git)?/i;
+const UPSTREAM_REPO_REGEX = /\bgithub\.com[/:]liferay\/[a-z-]+(?:\.git)?/i;
 
 function getRemote() {
 	const remotes = git('remote', '-v').split('\n');
