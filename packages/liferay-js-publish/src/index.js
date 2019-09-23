@@ -39,6 +39,12 @@ async function main() {
 
 	checkCleanWorktree();
 
+	await checkYarnRc();
+
+	const pkg = JSON.parse(fs.readFileSync('package.json').toString());
+
+	await checkPackage(pkg);
+
 	const remote = getRemote();
 
 	await confirm(`Push to ${remote}/master?`);
@@ -67,10 +73,7 @@ async function main() {
 		run('yarn', 'publish', '--non-interactive');
 	}
 
-	const packageName = JSON.parse(fs.readFileSync('package.json').toString())
-		.name;
-
-	const url = `https://www.npmjs.com/package/${packageName}`;
+	const url = `https://www.npmjs.com/package/${pkg.name}`;
 
 	printBanner(
 		'Done! ✅',
@@ -88,6 +91,26 @@ function checkCleanWorktree() {
 		git('diff', '--quiet');
 	} catch (_error) {
 		panic('Worktree is not clean');
+	}
+}
+
+async function checkPackage(pkg) {
+	if (!pkg.scripts || !pkg.scripts.preversion) {
+		await confirm('No "preversion" script was found; proceed anyway?');
+	}
+
+	if (
+		!pkg.scripts ||
+		!pkg.scripts.postversion ||
+		!pkg.scripts.postversion.includes('liferay-js-publish')
+	) {
+		await confirm('No "postversion" script was found; proceed anyway?');
+	}
+}
+
+async function checkYarnRc() {
+	if (!fs.existsSync('.yarnrc')) {
+		await confirm('No .yarnrc file was found; proceed anyway?');
 	}
 }
 
@@ -165,7 +188,15 @@ main()
 		printBanner(
 			'Failed to automatically publish package! ❌',
 			error.message,
-			'Please try publishing manually as per CONTRIBUTING.md.'
+			'Please try publishing manually.',
+			'For reference, these are the publishing steps:',
+			'git rev-parse --abbrev-ref HEAD # expect "master"\n' +
+				'git diff --quiet # expect no output\n' +
+				'git push $REMOTE master # you will need to supply $REMOTE\n' +
+				'git checkout stable\n' +
+				'git merge --ff-only master\n' +
+				'git push $REMOTE stable --follow-tags\n' +
+				'yarn publish'
 		);
 
 		exitStatus = 1;

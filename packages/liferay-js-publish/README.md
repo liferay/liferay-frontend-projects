@@ -11,11 +11,16 @@ Simplifying assumptions:
 
 ## Installation
 
+### 1. Install the package
+
 Either:
 
 -   Install globally: `yarn global add liferay-js-publish`; or:
 -   Add to a project: `yarn add --dev liferay-js-publish`; or:
--   Use the latest without installing: `npx liferay-js-publish`.
+
+Note that you can also just use the latest without installing (ie. via `npx liferay-js-publish`). It is safe to use liferay-js-publish as an implicit dependency because we control the package, we maintain all the projects that use the package, and we won't make any breaking changes (or at least, we won't make any undetected breaking changes).
+
+### 2. Create a ".yarnrc" file
 
 Ensure you have a ".yarnrc" file in your package root declaring the desired commit message and tag format. For example, in a monorepo, you probably want to include the package name:
 
@@ -31,9 +36,9 @@ version-tag-prefix "v"
 version-git-message "chore: prepape v%s release"
 ```
 
-## Usage
+If you don't have a ".yarnrc" file, liferay-js-publish will warn you during publishing and require you to type "y" in order to continue.
 
-### 1. Add liferay-js-publish from a "postversion" script in your "package.json".
+### 3. Add liferay-js-publish from a "postversion" script in your "package.json".
 
 Assuming you have a "ci" script that runs tests, you should call that in your "preversion" script as well:
 
@@ -47,7 +52,11 @@ Assuming you have a "ci" script that runs tests, you should call that in your "p
 }
 ```
 
-### 2. Prepare and release a new version with `yarn version`
+If you don't have "preversion" and "postversion" scripts, liferay-js-publish will warn you during publishing and require you to type "y" in order to continue.
+
+## Usage
+
+Prepare and release a new version with `yarn version`
 
 ```
 # Either:
