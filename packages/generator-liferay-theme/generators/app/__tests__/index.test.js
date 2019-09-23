@@ -113,7 +113,7 @@ describe('liferay-theme:app unit tests', () => {
 	});
 
 	describe('_isLiferayVersion', () => {
-		it('should check for valid Liferay versions', () => {
+		it('checks for valid Liferay versions', () => {
 			chaiAssert.isTrue(
 				prototype._isLiferayVersion('7.2'),
 				0,
@@ -150,7 +150,7 @@ describe('liferay-theme:app unit tests', () => {
 	});
 
 	describe('_setArgv', () => {
-		it('should set correct argv properties based on shorthand values', () => {
+		it('sets correct argv properties based on shorthand values', () => {
 			var originalArgv = process.argv;
 
 			var mockArgv = [

@@ -40,7 +40,7 @@ describe('globally installed theme', () => {
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});
 
-	it('should kickstart', done => {
+	it('kickstarts', done => {
 		const promptInitSpy = prototypeMethodSpy.add(
 			KickstartPrompt.prototype,
 			'init'
@@ -112,7 +112,7 @@ describe('npm theme', () => {
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});
 
-	it('should kickstart', done => {
+	it('kickstarts', done => {
 		const promptInitSpy = prototypeMethodSpy.add(
 			KickstartPrompt.prototype,
 			'init'

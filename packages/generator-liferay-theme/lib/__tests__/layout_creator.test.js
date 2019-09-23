@@ -25,7 +25,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('constructor', () => {
-		it('should set options as instance properties and throw error if after function is not set', () => {
+		it('sets options as instance properties and throw error if after function is not set', () => {
 			var init = LayoutCreator.prototype.init;
 
 			LayoutCreator.prototype.init = sinon.spy();
@@ -50,7 +50,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('init', () => {
-		it('should set rows to empty array and init prompting if rowData is undefined', () => {
+		it('sets rows to empty array and init prompting if rowData is undefined', () => {
 			prototype.after = sinon.spy();
 			prototype._promptRow = sinon.spy();
 
@@ -63,7 +63,7 @@ describe('LayoutCreator', () => {
 			sinonAssert.notCalled(prototype.after);
 		});
 
-		it('should use rowData if defined and skip prompting', () => {
+		it('uses rowData if defined and skip prompting', () => {
 			prototype._promptRow = sinon.spy();
 			prototype._renderLayoutTemplate = sinon.stub().returns('template');
 			prototype.after = sinon.spy();
@@ -85,7 +85,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('prompt', () => {
-		it('should pass arguments to inquirer.prompt', () => {
+		it('passes arguments to inquirer.prompt', () => {
 			var prompt = inquirer.prompt;
 
 			inquirer.prompt = sinon.spy();
@@ -105,7 +105,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_addRow', () => {
-		it('should add new row and print layout', () => {
+		it('adds new row and print layout', () => {
 			prototype._printLayoutPreview = sinon.spy();
 			prototype.rows = [];
 
@@ -130,7 +130,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_addWhiteSpace', () => {
-		it('should add whitespace', () => {
+		it('adds whitespace', () => {
 			var choices = [];
 
 			prototype._addWhiteSpace(choices);
@@ -144,7 +144,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_afterPrompt', () => {
-		it('should process data returned from prompts and render template passing content to after property', () => {
+		it('processes data returned from prompts and render template passing content to after property', () => {
 			prototype.after = sinon.spy();
 			prototype.className = 'class-name';
 			prototype.rows = [
@@ -167,7 +167,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_afterPromptColumnCount', () => {
-		it('should should pass columnCount to cb function', () => {
+		it('passes columnCount to cb function', () => {
 			var answers = {
 				columnCount: 3,
 			};
@@ -182,7 +182,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_afterPromptColumnWidths', () => {
-		it('should should pass columnCount to cb function', () => {
+		it('pass columnCount to cb function', () => {
 			prototype._addRow = sinon.spy();
 			prototype.rows = [1];
 
@@ -201,7 +201,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_afterPromptFinishRow', () => {
-		it('should follow correct workflow based on selection', () => {
+		it('follows correct workflow based on selection', () => {
 			var cbSpy = sinon.spy();
 			prototype.rows = [1];
 
@@ -253,7 +253,7 @@ describe('LayoutCreator', () => {
 			sinonAssert.calledOnce(prototype._promptRow);
 		});
 
-		it('should not call anything if invalid value', () => {
+		it('does not call anything if invalid value', () => {
 			var cbSpy = sinon.spy();
 			prototype.rows = [1];
 
@@ -276,7 +276,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_afterPromptInsertRow', () => {
-		it('should set rowInserIndex based on answers and pass cb to _promptRow', () => {
+		it('sets rowInserIndex based on answers and pass cb to _promptRow', () => {
 			var cb = _.noop;
 
 			prototype._promptRow = sinon.spy();
@@ -294,7 +294,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_afterPromptRemoveRow', () => {
-		it('should pass rowIndex answer to _removeRow and re-prompt finish row', () => {
+		it('passes rowIndex answer to _removeRow and re-prompt finish row', () => {
 			prototype._promptFinishRow = sinon.spy();
 			prototype._removeRow = sinon.spy();
 			prototype.rows = [2];
@@ -314,7 +314,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_formatInlineChoicePreview', () => {
-		it('should return formatted preview', () => {
+		it('returns formatted preview', () => {
 			var preview = prototype._formatInlineChoicePreview(2, 2);
 
 			assert.match(preview, /\S+\s{2}\S+\s{2}\S+\s{8}/);
@@ -330,7 +330,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_formatPercentageValue', () => {
-		it('should return formatted label with column width percentage', () => {
+		it('returns formatted label with column width percentage', () => {
 			prototype._formatInlineChoicePreview = sinon
 				.stub()
 				.returns('preview');
@@ -383,7 +383,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_getColumnClassNames', () => {
-		it('should return appropriate column classes', () => {
+		it('returns appropriate column classes', () => {
 			var classNames = prototype._getColumnClassNames(1, 1);
 
 			assert.equal(classNames[0], 'portlet-column-only');
@@ -406,7 +406,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_getColumnWidthChoices', () => {
-		it('should return limited width choices based on columnIndex, columnCount, and available row width', () => {
+		it('returns limited width choices based on columnIndex, columnCount, and available row width', () => {
 			var choices = prototype._getColumnWidthChoices(0, 1, {});
 
 			assert.equal(choices.length, 1);
@@ -434,7 +434,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_getFinishRowChoices', () => {
-		it('should only return add option if rows property is empty', () => {
+		it('only returns add option if rows property is empty', () => {
 			var rows = [];
 
 			var choices = prototype._getFinishRowChoices(rows);
@@ -454,7 +454,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_getInsertRowChoices', () => {
-		it('should return compact layout preview where row borders are choices', () => {
+		it('returns compact layout preview where row borders are choices', () => {
 			prototype.rows = [
 				{
 					0: 3,
@@ -513,7 +513,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_getRemoveRowChoices', () => {
-		it('should return compact layout preview where row bodies are choices', () => {
+		it('returns compact layout preview where row bodies are choices', () => {
 			prototype.rows = [
 				{
 					0: 3,
@@ -568,7 +568,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_getRowNumber', () => {
-		it('should return next row number for labels and messages', () => {
+		it('returns next row number for labels and messages', () => {
 			prototype.rows = [1, 2];
 
 			var rowNumber = prototype._getRowNumber();
@@ -584,7 +584,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_preprocessLayoutTemplateData', () => {
-		it('should convert prompt data to data that template can easily process', () => {
+		it('converts prompt data to data that template can easily process', () => {
 			var rows = [
 				{
 					0: 2,
@@ -649,7 +649,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_printLayoutPreview', () => {
-		it('should print layout preview', () => {
+		it('prints layout preview', () => {
 			prototype.rows = [[6, 6], [3, 3, 6]];
 
 			prototype._stdoutWrite = sinon.spy();
@@ -675,7 +675,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptColumnCount', () => {
-		it('should prompt user for column count using correct row number in prompt message', () => {
+		it('prompts user for column count using correct row number in prompt message', () => {
 			prototype.prompt = sinon.spy();
 
 			prototype.rows = [];
@@ -711,7 +711,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptColumnWidths', () => {
-		it('should prompt user for column widths', () => {
+		it('prompts user for column widths', () => {
 			prototype.prompt = sinon.spy();
 			prototype.rows = [];
 
@@ -746,7 +746,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptFinishRow', () => {
-		it('should prompt user for next action (add, insert, remove, finish)', () => {
+		it('prompts user for next action (add, insert, remove, finish)', () => {
 			assertPromptFn(prototype, '_promptFinishRow', [[], _.noop], {
 				message: 'What now?',
 				name: 'finish',
@@ -755,7 +755,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptInsertRow', () => {
-		it('should prompt user for where they want to insert row', () => {
+		it('prompts user for where they want to insert row', () => {
 			assertPromptFn(prototype, '_promptInsertRow', [_.noop], {
 				message: 'Where would you like to insert a new row?',
 				name: 'rowIndex',
@@ -764,7 +764,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptRemoveRow', () => {
-		it('should prompt user for what row they want to remove', () => {
+		it('prompts user for what row they want to remove', () => {
 			assertPromptFn(prototype, '_promptRemoveRow', [_.noop], {
 				message: 'What row would you like to remove?',
 				name: 'rowIndex',
@@ -773,7 +773,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptRow', () => {
-		it('should remove last row and print layout', (done) => {
+		it('removes last row and print layout', (done) => {
 			var waterfallSpy = sinon.spy();
 
 			var getWaterfallFunction = function(name) {
@@ -820,7 +820,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_removeRow', () => {
-		it('should remove row by index and print layout', () => {
+		it('removes row by index and print layout', () => {
 			prototype._printLayoutPreview = sinon.spy();
 			prototype.rows = [1, 2, 3];
 
@@ -837,7 +837,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_renderPreviewLine', () => {
-		it('should render preview line', () => {
+		it('renders preview line', () => {
 			var line = prototype._renderPreviewLine({
 				0: 4,
 				1: 8,
@@ -866,7 +866,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_renderLayoutTemplate', () => {
-		it('should compile data into valid template', () => {
+		it('compiles data into valid template', () => {
 			var fileOptions = {
 				encoding: 'utf8',
 			};
@@ -902,7 +902,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_replaceAt', () => {
-		it('should replace string character at index', () => {
+		it('replaces string character at index', () => {
 			assert.equal(prototype._replaceAt('string', 0, 'x'), 'xtring');
 			assert.equal(prototype._replaceAt('string', 2, 'x'), 'stxing');
 			assert.equal(prototype._replaceAt('string', 6, 'x'), 'stringx');
@@ -916,7 +916,7 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_validateColumnCount', () => {
-		it('should validate column count', () => {
+		it('validates column count', () => {
 			var errMessage = 'Please enter a number between 1 and 12!';
 
 			var retVal = prototype._validateColumnCount(1);
