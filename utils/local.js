@@ -34,7 +34,11 @@ let originalResolve;
  * https://github.com/eslint/eslint/commit/6ae21a4bfe5a
  */
 function patch() {
-	const match = require('eslint/package.json').version.match(/^(\d+)/);
+	const eslint = require.resolve('eslint/package.json', {
+		paths: [process.cwd()],
+	});
+	const version = JSON.parse(fs.readFileSync(eslint, 'utf8')).version;
+	const match = version.match(/^(\d+)/);
 	const majorVersion = match ? parseInt(match[1], 10) : 0;
 
 	if (majorVersion > 5) {
