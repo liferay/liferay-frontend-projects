@@ -257,9 +257,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:copy:fontAwesome', done => {
-		const themePath = process.cwd();
-
-		const packageJSON = require(path.join(themePath, 'package.json'))
+		const packageJSON = JSON.parse(fs.readFileSync('package.json', 'utf8'))
 			.liferayTheme;
 
 		if (!packageJSON.fontAwesome) {

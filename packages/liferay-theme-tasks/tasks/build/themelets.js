@@ -9,6 +9,7 @@
 const colors = require('ansi-colors');
 const async = require('async');
 const log = require('fancy-log');
+const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
 const plugins = require('gulp-load-plugins')();
@@ -213,7 +214,7 @@ function getThemeletFilePathArray(filePath) {
 }
 
 function getThemeletDependencies() {
-	const packageJSON = require(path.join(CWD, 'package.json'));
+	const packageJSON = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 	let themeletDependencies;
 

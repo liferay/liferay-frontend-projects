@@ -18,10 +18,9 @@ module.exports = function(options) {
 	var gulp = options.gulp;
 
 	gulp.task('plugin:version', done => {
-		var npmPackageVersion = require(path.join(
-			process.cwd(),
-			'package.json'
-		)).version;
+		var npmPackageVersion = JSON.parse(
+			fs.readFileSync('package.json', 'utf8')
+		).version;
 
 		var pluginPackgePropertiesPath = path.join(
 			options.rootDir,

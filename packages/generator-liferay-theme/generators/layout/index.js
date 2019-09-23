@@ -60,7 +60,9 @@ module.exports = class extends Base {
 
 			fs.stat(themePackagePath, (err, stat) => {
 				if (!err && stat.isFile()) {
-					const themePackage = require(themePackagePath);
+					const themePackage = JSON.parse(
+						fs.readfileSync(themePackagePath, 'utf8')
+					);
 
 					if (themePackage.liferayTheme) {
 						layoutDirName = path.join(

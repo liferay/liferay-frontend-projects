@@ -154,6 +154,7 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 			lookAndFeelJSON = mergeJSON(lookAndFeelJSON, json);
 		}
 
+		// eslint-disable-next-line liferay/no-dynamic-require
 		const themeInfo = require(path.join(themePath, 'package.json'))
 			.liferayTheme;
 

@@ -120,6 +120,7 @@ function getPostCSSOptions(config) {
 		postCSSOptions.enabled = true;
 
 		postCSSOptions.plugins = config.map(pluginDependency =>
+			// eslint-disable-next-line liferay/no-dynamic-require
 			require(pluginDependency)
 		);
 	} else if (rc) {

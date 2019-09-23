@@ -365,6 +365,7 @@ function searchGlobalModules(config, cb) {
 		modules,
 		(result, item) => {
 			try {
+				// eslint-disable-next-line liferay/no-dynamic-require
 				const json = require(path.join(item, 'package.json'));
 
 				json.__realPath__ = item;

@@ -6,7 +6,6 @@
 
 const fs = require('fs-extra');
 const _ = require('lodash');
-const path = require('path');
 
 function getConfig(all) {
 	const packageJSON = getPackageJSON();
@@ -82,7 +81,7 @@ function deleteDependencies(sourceDependencies, deletedDependencies) {
 }
 
 function getPackageJSON() {
-	return require(path.resolve('package.json'));
+	return JSON.parse(fs.readFileSync('package.json', 'utf8'));
 }
 
 function writePackageJSON(json) {
