@@ -11,7 +11,7 @@
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {
-		"babel-cli": "^6.24.1",
+		"babel-cli": "^6.26.0",
 		"babel-preset-es2015": "^6.24.1",
 		"liferay-npm-bundler-preset-liferay-dev": "1.1.3"
 	},
