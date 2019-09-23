@@ -15,7 +15,7 @@
 	"dependencies": {
 		"babel-preset-env": "^1.7.0",
 		"fs-extra": "^7.0.1",
-		"globby": "^8.0.1",
+		"globby": "^10.0.1",
 		"read-json-sync": "^2.0.1",
 		"yargs": "^13.2.0"
 	}
