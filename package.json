@@ -34,18 +34,6 @@
 		"lerna": "^3.16.4",
 		"prettier": "1.18.2"
 	},
-	"jest": {
-		"modulePathIgnorePatterns": [
-			"lib/.*",
-			"generators/.*",
-			"qa/.*",
-			"__fixtures__/.*"
-		],
-		"testPathIgnorePatterns": [
-			"/node_modules/",
-			"/__fixtures__/"
-		]
-	},
 	"dependencies": {
 		"xml-js": "^1.6.8"
 	}
