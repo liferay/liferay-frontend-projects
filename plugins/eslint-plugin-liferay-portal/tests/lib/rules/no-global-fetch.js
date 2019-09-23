@@ -5,6 +5,7 @@
  */
 
 const {RuleTester} = require('eslint');
+
 const rule = require('../../../lib/rules/no-global-fetch');
 
 const parserOptions = {

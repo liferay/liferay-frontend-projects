@@ -66,8 +66,14 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 | [liferay-portal/no-metal-plugins](./plugins/eslint-plugin-liferay-portal/docs/rules/no-metal-plugins.md)                            | liferay/portal               | ([\#61](https://github.com/liferay/eslint-config-liferay/pull/61))                                                                   |
 | [liferay-portal/no-react-dom-render](./plugins/eslint-plugin-liferay-portal/docs/rules/no-react-dom-render.md)                      | liferay/portal               | ([\#71](https://github.com/liferay/eslint-config-liferay/pull/71))                                                                   |
 | [liferay-portal/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md)                        | liferay/portal               | ([\#44](https://github.com/liferay/eslint-config-liferay/pull/44))                                                                   |
+| [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md)                                                | liferay                      | ([\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60))                                                           |
+| [liferay/imports-first](./plugins/eslint-plugin-liferay/docs/rules/imports-first.md)                                                | liferay                      | ([\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60))                                                           |
+| [liferay/no-absolute-import](./plugins/eslint-plugin-liferay/docs/rules/no-absolute-import.md)                                      | liferay                      | ([\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60))                                                           |
+| [liferay/no-duplicate-imports](./plugins/eslint-plugin-liferay/docs/rules/no-duplicate-imports.md)                                  | liferay                      | ([\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60))                                                           |
+| [liferay/no-dynamic-require](./plugins/eslint-plugin-liferay/docs/rules/no-dynamic-require.md)                                      | liferay                      | ([\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60))                                                           |
 | [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md)                                                  | liferay                      | ([\#43](https://github.com/liferay/eslint-config-liferay/pull/43))                                                                   |
 | [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md)                                      | liferay                      | ([\#75](https://github.com/liferay/eslint-config-liferay/pull/75))                                                                   |
+| [liferay/sort-imports](./plugins/eslint-plugin-liferay/docs/rules/sort-imports.md)                                                  | liferay                      | ([\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60))                                                           |
 | [no-console](https://eslint.org/docs/rules/no-console)                                                                              | liferay                      | ([\#79](https://github.com/liferay/eslint-config-liferay/pull/79))                                                                   |
 | [no-for-of-loops/no-for-of-loops](https://www.npmjs.com/package/eslint-plugin-no-for-of-loops)                                      | liferay                      | ([\#30](https://github.com/liferay/eslint-config-liferay/pull/30))                                                                   |
 | [no-only-tests/no-only-tests](https://www.npmjs.com/package/eslint-plugin-no-only-tests)                                            | liferay                      | ([\#22](https://github.com/liferay/eslint-config-liferay/pull/22))                                                                   |
@@ -106,8 +112,14 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 
 The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plugins/eslint-plugin-liferay/docs/rules):
 
+-   [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md): Enforces (and autofixes) `import` and `require` grouping.
+-   [liferay/imports-first](./plugins/eslint-plugin-liferay/docs/rules/imports-first.md): Enforces that imports come first in the file.
+-   [liferay/no-absolute-import](./plugins/eslint-plugin-liferay/docs/rules/no-absolute-import.md): Enforces that imports do not use absolute paths.
+-   [liferay/no-duplicate-imports](./plugins/eslint-plugin-liferay/docs/rules/no-duplicate-imports.md): Enforces at most one `import` of any given module per file.
+-   [liferay/no-dynamic-require](./plugins/eslint-plugin-liferay/docs/rules/no-dynamic-require.md): Enforces that `require()` calls use static arguments.
 -   [liferay/no-it-should](./plugins/eslint-plugin-liferay/docs/rules/no-it-should.md): Enforces that `it()` descriptions start with a verb, not with "should".
 -   [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md): Enforces blank lines between test blocks (`it()` etc).
+-   [liferay/sort-imports](./plugins/eslint-plugin-liferay/docs/rules/sort-imports.md): Enforces (and autofixes) `import` and `require` ordering.
 
 #### `eslint-plugin-liferay-portal`
 
