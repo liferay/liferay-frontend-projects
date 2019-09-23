@@ -27,12 +27,12 @@
 		"test": "jest --runInBand"
 	},
 	"devDependencies": {
-		"eslint": "^5.15.1",
-		"eslint-config-liferay": "^3.0.0",
+		"eslint": "^6.4.0",
+		"eslint-config-liferay": "^9.0.0",
 		"globby": "^10.0.1",
-		"jest": "^20.0.4",
-		"lerna": "^2.0.0-rc.5",
-		"prettier": "1.16.4"
+		"jest": "^24.9.0",
+		"lerna": "^3.16.4",
+		"prettier": "1.18.2"
 	},
 	"jest": {
 		"modulePathIgnorePatterns": [
