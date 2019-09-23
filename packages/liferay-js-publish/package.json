@@ -22,7 +22,7 @@
 		"preversion": "cd ../.. && yarn ci",
 		"test": "echo 'No tests currently defined for liferay-js-publish'"
 	},
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"dependencies": {
 		"cross-spawn": "^6.0.5"
 	}
