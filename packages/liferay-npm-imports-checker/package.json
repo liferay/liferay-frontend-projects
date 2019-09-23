@@ -6,14 +6,11 @@
 		"liferay-npm-imports-checker": "bin/liferay-npm-imports-checker.js"
 	},
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src --ignore '**/__tests__/**'",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
 		"prepublish": "npm run build"
 	},
-	"devDependencies": {
-		"babel-cli": "^6.26.0"
-	},
 	"dependencies": {
-		"babel-preset-env": "^1.7.0",
 		"chalk": "^2.4.2",
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",

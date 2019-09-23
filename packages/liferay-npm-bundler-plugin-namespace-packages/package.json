@@ -4,12 +4,11 @@
 	"description": "A liferay-npm-bundler plugin to namespace package names based on root project's name.",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src --ignore '**/__tests__/**'",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
 		"prepublish": "npm run build"
 	},
 	"devDependencies": {
-		"babel-cli": "^6.26.0",
-		"babel-preset-es2015": "^6.24.1",
 		"read-json-sync": "^2.0.1"
 	},
 	"dependencies": {
