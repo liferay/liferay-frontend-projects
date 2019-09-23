@@ -20,7 +20,7 @@
 		"directory": "packages/liferay-npm-bundler-preset-liferay-dev"
 	},
 	"scripts": {
-		"postversion": "node ../../publish.js",
+		"postversion": "node ../liferay-js-publish/bin/liferay-js-publish.js",
 		"preversion": "cd ../.. && yarn ci",
 		"test": "echo 'No tests currently defined for liferay-npm-bundler-preset-liferay-dev'"
 	}

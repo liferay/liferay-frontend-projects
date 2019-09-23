@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * © 2019 Liferay, Inc. <https://liferay.com>
  *
@@ -9,9 +7,8 @@
 const fs = require('fs');
 const {createInterface} = require('readline');
 
-const git = require('./packages/liferay-npm-scripts/src/utils/git');
-const log = require('./packages/liferay-npm-scripts/src/utils/log');
-const run = require('./packages/liferay-npm-scripts/src/utils/run');
+const git = require('./git');
+const run = require('./run');
 
 /**
  * Intended to be run as a "postversion" script to publish the new version
@@ -157,7 +154,8 @@ function getRemote() {
 }
 
 function printBanner(...lines) {
-	log(['', ...lines, ''].join('\n\n'));
+	// eslint-disable-next-line no-console
+	console.log(['', ...lines, ''].join('\n\n'));
 }
 
 let exitStatus = 0;
