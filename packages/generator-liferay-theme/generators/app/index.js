@@ -25,8 +25,8 @@ module.exports = class extends Generator {
 		this.pkg = pkg;
 
 		this._insight = new Insight({
-			trackingCode: 'UA-69122110-1',
 			pkg,
+			trackingCode: 'UA-69122110-1',
 		});
 	}
 
@@ -187,9 +187,9 @@ module.exports = class extends Generator {
 				when: instance._getWhenFn('themeId', 'id', isString),
 			},
 			{
+				choices: ['7.2'],
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',

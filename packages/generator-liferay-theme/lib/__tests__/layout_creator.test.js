@@ -150,12 +150,12 @@ describe('LayoutCreator', () => {
 			prototype.rows = [
 				[
 					{
-						size: 6,
 						columnNumber: 1,
+						size: 6,
 					},
 					{
-						size: 6,
 						columnNumber: 2,
+						size: 6,
 					},
 				],
 			];

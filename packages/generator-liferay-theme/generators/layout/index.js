@@ -207,10 +207,10 @@ module.exports = class extends Base {
 				when: instance._getWhenFn('layoutId', 'id', isString),
 			},
 			{
+				choices: ['7.2'],
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
-				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',

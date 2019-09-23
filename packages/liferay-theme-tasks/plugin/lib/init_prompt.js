@@ -58,10 +58,6 @@ InitPrompt.prototype = {
 		);
 	},
 
-	_dockerContainerNameWhen(answers) {
-		return isDocker(answers);
-	},
-
 	_deployPathWhen(answers) {
 		if (isDocker(answers)) {
 			return true;
@@ -86,6 +82,10 @@ InitPrompt.prototype = {
 				done(ask);
 			});
 		}
+	},
+
+	_dockerContainerNameWhen(answers) {
+		return isDocker(answers);
 	},
 
 	_getDefaultDeployPath(answers) {
@@ -125,7 +125,6 @@ InitPrompt.prototype = {
 		inquirer.prompt(
 			[
 				{
-					default: DEFAULT_DEPLOYMENT_STRATEGY,
 					choices: [
 						{
 							name: 'Local App Server',
@@ -140,8 +139,9 @@ InitPrompt.prototype = {
 							value: DEPLOYMENT_STRATEGY_OTHER,
 						},
 					],
-					name: 'deploymentStrategy',
+					default: DEFAULT_DEPLOYMENT_STRATEGY,
 					message: 'Select your deployment strategy',
+					name: 'deploymentStrategy',
 					type: 'list',
 				},
 				{

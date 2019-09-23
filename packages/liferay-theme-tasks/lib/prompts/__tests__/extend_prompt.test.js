@@ -21,21 +21,21 @@ const liferayThemeThemletMetaData = {
 };
 const themeletDependencies = {
 	'themelet-1': {
+		__realPath__: 'path/to/themelet-1',
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-1',
-		__realPath__: 'path/to/themelet-1',
 		version: liferayVersion,
 	},
 	'themelet-2': {
+		__realPath__: 'path/to/themelet-2',
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-2',
-		__realPath__: 'path/to/themelet-2',
 		version: liferayVersion,
 	},
 	'themelet-3': {
+		__realPath__: 'path/to/themelet-3',
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-3',
-		__realPath__: 'path/to/themelet-3',
 		version: liferayVersion,
 	},
 };
@@ -99,8 +99,8 @@ it('_afterPromptTheme should save and install new dependencies', () => {
 					baseTheme: 'styled',
 					screenshot: '',
 					templateLanguage: 'ftl',
-					version: '7.0',
 					themeletDependencies: {},
+					version: '7.0',
 				},
 				name: 'some-theme',
 				publishConfig: {
@@ -297,12 +297,12 @@ it('_getDependencyInstallationArray should return paths, URLs or names', () => {
 			version: '1.0',
 		},
 		'themelet-2': {
+			__realPath__: 'path/to/themelet-2',
 			liferayTheme: {
 				themelet: true,
 				version: '*',
 			},
 			name: 'themelet-2',
-			__realPath__: 'path/to/themelet-2',
 			version: '1.0',
 		},
 		'themelet-3': {
@@ -317,12 +317,12 @@ it('_getDependencyInstallationArray should return paths, URLs or names', () => {
 			version: '1.0',
 		},
 		'themelet-4': {
+			__packageURL__: 'https://registry.example.org/themelet-4-1.0.0.tgz',
 			liferayTheme: {
 				themelet: true,
 				version: '7.0',
 			},
 			name: 'themelet-4',
-			__packageURL__: 'https://registry.example.org/themelet-4-1.0.0.tgz',
 			version: '1.0',
 		},
 	});
@@ -454,11 +454,11 @@ it('_reducePkgData should reduce package data to specified set of properties', (
 	const originalData = {
 		liferayTheme: '7.0',
 		name: 'name',
-		version: '1.1.1',
 		publishConfig: {
 			tag: 'tag',
 		},
 		someProp: 'some-value',
+		version: '1.1.1',
 	};
 
 	let pkgData = prototype._reducePkgData(originalData);

@@ -26,8 +26,8 @@ const CUSTOM_DEP_PATH_FLAG_MAP = {
 };
 
 const DEPLOYMENT_STRATEGIES = {
-	LOCAL_APP_SERVER: 'LocalAppServer',
 	DOCKER_CONTAINER: 'DockerContainer',
+	LOCAL_APP_SERVER: 'LocalAppServer',
 	OTHER: 'Other',
 };
 

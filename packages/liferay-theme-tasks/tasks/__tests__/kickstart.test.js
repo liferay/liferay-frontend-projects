@@ -29,9 +29,9 @@ describe('globally installed theme', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'kickstart_task_global',
+			registerTasks: true,
 			themeName: 'base-theme',
 			version: '7.1',
-			registerTasks: true,
 		});
 
 		runSequence = config.runSequence;

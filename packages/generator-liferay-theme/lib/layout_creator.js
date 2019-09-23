@@ -68,27 +68,6 @@ var LayoutCreator = function(options) {
 };
 
 LayoutCreator.prototype = {
-	init() {
-		if (this.rowData) {
-			this.after(
-				this._renderLayoutTemplate({
-					className: this.className,
-					rowData: this.rowData,
-				})
-			);
-		} else {
-			this.rows = [];
-
-			this._printHelpMessage();
-
-			this._promptRow(this._afterPrompt.bind(this));
-		}
-	},
-
-	prompt(questions, cb) {
-		inquirer.prompt(questions, cb);
-	},
-
 	_addRow(data) {
 		var rowInsertIndex = this.rowInsertIndex;
 
@@ -582,6 +561,15 @@ LayoutCreator.prototype = {
 		this._printLayoutPreview();
 	},
 
+	_renderLayoutTemplate(options) {
+		return layoutTemplateTpl(
+			_.defaults(options, {
+				columnPrefix: 'col-md-',
+				rowClassName: 'row',
+			})
+		);
+	},
+
 	_renderPreviewLine(column, config) {
 		var instance = this;
 
@@ -618,15 +606,6 @@ LayoutCreator.prototype = {
 			: this._stylePreviewLine(line, label);
 	},
 
-	_renderLayoutTemplate(options) {
-		return layoutTemplateTpl(
-			_.defaults(options, {
-				columnPrefix: 'col-md-',
-				rowClassName: 'row',
-			})
-		);
-	},
-
 	_replaceAt(string, index, character) {
 		return (
 			string.substr(0, index) +
@@ -659,6 +638,27 @@ LayoutCreator.prototype = {
 		}
 
 		return retVal;
+	},
+
+	init() {
+		if (this.rowData) {
+			this.after(
+				this._renderLayoutTemplate({
+					className: this.className,
+					rowData: this.rowData,
+				})
+			);
+		} else {
+			this.rows = [];
+
+			this._printHelpMessage();
+
+			this._promptRow(this._afterPrompt.bind(this));
+		}
+	},
+
+	prompt(questions, cb) {
+		inquirer.prompt(questions, cb);
 	},
 };
 

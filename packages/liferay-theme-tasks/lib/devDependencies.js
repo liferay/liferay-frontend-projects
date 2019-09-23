@@ -18,12 +18,12 @@ function strict(version) {
 
 module.exports = {
 	default: {
-		gulp: '3.9.1',
-		'liferay-theme-tasks': '^9.4.0',
 		'compass-mixins': strict('0.12.10'),
+		gulp: '3.9.1',
 		'liferay-frontend-common-css': strict('1.0.4'),
 		'liferay-frontend-theme-styled': strict('4.0.7'),
 		'liferay-frontend-theme-unstyled': strict('4.0.4'),
+		'liferay-theme-tasks': '^9.4.0',
 	},
 	optional: {
 		'liferay-font-awesome': strict('3.4.0'),
