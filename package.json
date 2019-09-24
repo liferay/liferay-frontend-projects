@@ -24,7 +24,8 @@
 		"qa": "node scripts/qa.js",
 		"release": "lerna publish --force-publish='*' --exact",
 		"release-canary": "lerna publish --force-publish='*' --exact -c",
-		"test": "jest --runInBand"
+		"test": "jest --runInBand",
+		"watch": "node scripts/watch"
 	},
 	"devDependencies": {
 		"copyfiles": "^2.1.1",
