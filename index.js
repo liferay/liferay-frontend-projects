@@ -34,6 +34,7 @@ const config = {
 		'liferay/no-duplicate-imports': 'error',
 		'liferay/no-dynamic-require': 'error',
 		'liferay/no-it-should': 'error',
+		'liferay/no-require-and-call': 'error',
 		'liferay/padded-test-blocks': 'error',
 		'liferay/sort-imports': 'error',
 		'no-console': ['error', {allow: ['warn', 'error']}],
