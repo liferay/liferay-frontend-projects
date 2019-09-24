@@ -10,7 +10,9 @@ const path = require('path');
 const util = require('util');
 const xml2js = require('xml2js');
 
-const {pathSrc} = require('./options')();
+const options = require('./options');
+
+const {pathSrc} = options();
 
 const QUERY_ELEMENTS = {
 	'color-scheme': 'id',

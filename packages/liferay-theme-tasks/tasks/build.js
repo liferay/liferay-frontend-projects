@@ -8,7 +8,7 @@
 
 const del = require('del');
 const fs = require('fs-extra');
-const plugins = require('gulp-load-plugins')();
+const gulpLoadPlugins = require('gulp-load-plugins');
 const replace = require('gulp-replace-task');
 const _ = require('lodash');
 const path = require('path');
@@ -20,6 +20,8 @@ const lfrThemeConfig = require('../lib/liferay_theme_config');
 const lookAndFeelUtil = require('../lib/look_and_feel_util');
 const normalize = require('../lib/normalize');
 const themeUtil = require('../lib/util');
+
+const plugins = gulpLoadPlugins();
 
 const themeConfig = lfrThemeConfig.getConfig();
 
