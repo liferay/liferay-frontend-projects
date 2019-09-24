@@ -28,6 +28,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"eslint": "6.1.0",
+		"jest": "24.9.0",
 		"prettier": "*"
 	},
 	"peerDependencies": {
@@ -51,6 +52,6 @@
 		"postinstall": "node scripts/postinstall.js",
 		"postversion": "npx liferay-js-publish",
 		"preversion": "yarn ci",
-		"test": "node scripts/test.js"
+		"test": "jest"
 	}
 }
