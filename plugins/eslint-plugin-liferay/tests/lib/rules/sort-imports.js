@@ -206,6 +206,54 @@ ruleTester.run('sort-imports', rule, {
 				 import templates from './FragmentPreview.soy';
 			`,
 		},
+		{
+			// Regression test: `MemberExpression` here was preventing "gulp"
+			// import from being properly recognized.
+			//
+			// https://github.com/liferay/eslint-config-liferay/issues/94
+			code: `
+				var fs = require('fs-extra');
+				var os = require('os');
+				var Gulp = require('gulp').Gulp;
+			`,
+			errors: [
+				{
+					message:
+						'imports must be sorted by module name ' +
+						'(expected: "gulp" << "os")',
+					type: 'VariableDeclaration',
+				},
+			],
+			output: `
+				var fs = require('fs-extra');
+				var Gulp = require('gulp').Gulp;
+				var os = require('os');
+			`,
+		},
+		{
+			// Regression test: Immediate `CallExpression` here was preventing
+			// "gulp-load-plugins" import from being properly recognized.
+			//
+			// https://github.com/liferay/eslint-config-liferay/issues/94
+			code: `
+				const replace = require('gulp-replace-task');
+				const plugins = require('gulp-load-plugins')();
+				const path = require('path');
+			`,
+			errors: [
+				{
+					message:
+						'imports must be sorted by module name ' +
+						'(expected: "gulp-load-plugins" << "gulp-replace-task")',
+					type: 'VariableDeclaration',
+				},
+			],
+			output: `
+				const plugins = require('gulp-load-plugins')();
+				const replace = require('gulp-replace-task');
+				const path = require('path');
+			`,
+		},
 	],
 
 	valid: [
