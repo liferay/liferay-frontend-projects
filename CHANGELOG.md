@@ -1,3 +1,13 @@
+## [v11.0.0](https://github.com/liferay/eslint-config-liferay/tree/v11.0.0) (2019-09-24)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v10.0.0...v11.0.0)
+
+-   feat!: add no-require-and-call rule (#94) ([\#99](https://github.com/liferay/eslint-config-liferay/pull/99))
+-   feat: add 'destructure-requires' rule (#94) ([\#98](https://github.com/liferay/eslint-config-liferay/pull/98))
+-   fix: avoid forcing unwanted blank lines ([\#97](https://github.com/liferay/eslint-config-liferay/pull/97))
+-   fix: avoid deprecation warning ([\#96](https://github.com/liferay/eslint-config-liferay/pull/96))
+-   feat: use Jest to run tests ([\#95](https://github.com/liferay/eslint-config-liferay/pull/95))
+
 ## [v10.0.0](https://github.com/liferay/eslint-config-liferay/tree/v10.0.0) (2019-09-23)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v9.0.0...v10.0.0)
