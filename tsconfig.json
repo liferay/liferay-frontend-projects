@@ -10,6 +10,6 @@
 		"checkJs": false,
 		"lib": ["es2015"],
 
-		"sourceMap": true
+		"sourceMap": false
 	}
 }
