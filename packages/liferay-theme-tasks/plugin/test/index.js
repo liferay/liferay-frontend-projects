@@ -15,9 +15,9 @@ var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
 
-var gulp = new Gulp();
-
 var {getArgv} = require('../../lib/util');
+
+var gulp = new Gulp();
 
 chai.use(chaiFs);
 

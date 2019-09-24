@@ -12,10 +12,10 @@ var del = require('del');
 var fs = require('fs-extra');
 var {Gulp} = require('gulp');
 var os = require('os');
+var path = require('path');
 
 var gulp = new Gulp();
 
-var path = require('path');
 
 chai.use(chaiFs);
 

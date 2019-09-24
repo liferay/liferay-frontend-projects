@@ -12,10 +12,10 @@ const path = require('path');
 const sinon = require('sinon');
 const stripAnsi = require('strip-ansi');
 
+const LayoutCreator = require('../../lib/layout_creator');
+
 const assert = chai.assert;
 const sinonAssert = sinon.assert;
-
-const LayoutCreator = require('../../lib/layout_creator');
 
 describe('LayoutCreator', () => {
 	var prototype;
