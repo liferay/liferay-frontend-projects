@@ -21,5 +21,8 @@ module.exports = {
 		themeDisplay: true,
 		tinyMCE: true,
 	},
+	parserOptions: {
+		ecmaVersion: 2018,
+	},
 	rules: {},
 };

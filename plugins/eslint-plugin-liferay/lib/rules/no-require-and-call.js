@@ -4,22 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 
+const {withScope} = require('../common/imports');
+
 const DESCRIPTION =
 	'functions returned by require() should be assigned to a variable before calling';
 
 module.exports = {
 	create(context) {
-		const scope = [];
-
-		const enterScope = node => scope.push(node);
-		const exitScope = () => scope.pop();
+		const {scope, visitors} = withScope();
 
 		return {
-			ArrowFunctionExpression: enterScope,
-			'ArrowFunctionExpression:exit': exitScope,
-
-			BlockStatement: enterScope,
-			'BlockStatement:exit': exitScope,
+			...visitors,
 
 			CallExpression(node) {
 				if (scope.length) {
@@ -38,15 +33,6 @@ module.exports = {
 					});
 				}
 			},
-
-			FunctionDeclaration: enterScope,
-			'FunctionDeclaration:exit': exitScope,
-
-			FunctionExpression: enterScope,
-			'FunctionExpression:exit': exitScope,
-
-			ObjectExpression: enterScope,
-			'ObjectExpression:exit': exitScope,
 		};
 	},
 
