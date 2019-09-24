@@ -33,15 +33,18 @@ ruleTester.run('imports-first', rule, {
 			`,
 			errors: [
 				{
-					message: 'imports must come before other statements',
+					message:
+						'import of "./x" must come before other statements',
 					type: 'ImportDeclaration',
 				},
 				{
-					message: 'imports must come before other statements',
+					message:
+						'import of "thing" must come before other statements',
 					type: 'ExpressionStatement',
 				},
 				{
-					message: 'imports must come before other statements',
+					message:
+						'import of "./final" must come before other statements',
 					type: 'VariableDeclaration',
 				},
 			],

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const DESCRIPTION = 'imports must come before other statements';
+const {getSource} = require('../common/imports');
 
 module.exports = {
 	create(context) {
@@ -83,7 +83,9 @@ module.exports = {
 				}
 
 				context.report({
-					message: DESCRIPTION,
+					message: `import of ${JSON.stringify(
+						getSource(node)
+					)} must come before other statements`,
 					node,
 				});
 
@@ -158,7 +160,7 @@ module.exports = {
 	meta: {
 		docs: {
 			category: 'Best Practices',
-			description: DESCRIPTION,
+			description: 'imports must come before other statements',
 			recommended: false,
 			url:
 				'https://github.com/liferay/liferay-frontend-guidelines/issues/60',
