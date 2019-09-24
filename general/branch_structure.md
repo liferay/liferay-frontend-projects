@@ -18,7 +18,6 @@ Pull requests target master and are merged in after review. We periodically cut 
 
 ### Examples
 
--   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay/)
 -   [liferay-frontend-guidelines](https://github.com/liferay/liferay-frontend-guidelines) (this repo)
 
 ## 2. "master" + "stable" branch projects
@@ -34,8 +33,11 @@ Pull requests target master and are merged in after review. When we cut a releas
 
 Ideally, "master" is always in a releasable state, but if it isn't, we can apply "hotfixes" by sending a PR that targets the "stable" branch, and then cut a release from there. The same fix is also incorporated in the "master" branch via cherry-picking or merging. This is in some sense a hypothetical scenario: if we keep "master" in shape, you may never see this happen in practice.
 
+The [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) package can be used to perform publishes in repositories with the "master" + "stable" structure simply by running a `yarn version` command.
+
 ### Examples
 
+-   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay/)
 -   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools/)
 
 "liferay-npm-tools" is actually an interesting example of a repo that is probably simple enough to warrant being a "one-branch" project. It's only consumed inside [liferay-portal](https://github.com/liferay/eslint-config-liferay/), and typically advances only in service of what is needed on liferay-portal's "master" branch.
