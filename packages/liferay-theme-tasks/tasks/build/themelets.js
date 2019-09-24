@@ -10,10 +10,9 @@ const colors = require('ansi-colors');
 const async = require('async');
 const log = require('fancy-log');
 const fs = require('fs');
+const plugins = require('gulp-load-plugins')();
 const _ = require('lodash');
 const path = require('path');
-const plugins = require('gulp-load-plugins')();
-
 const vinylPaths = require('vinyl-paths');
 
 const lfrThemeConfig = require('../../lib/liferay_theme_config');

@@ -9,8 +9,7 @@
 var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
-var Gulp = require('gulp').Gulp;
-
+var {Gulp} = require('gulp');
 var os = require('os');
 var path = require('path');
 

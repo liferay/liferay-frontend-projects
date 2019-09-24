@@ -9,12 +9,11 @@
 require('./lib/checkNodeVersion')();
 
 const globby = require('globby');
+const plugins = require('gulp-load-plugins')();
 const _ = require('lodash');
 const path = require('path');
 
 const lfrThemeConfig = require('./lib/liferay_theme_config');
-const plugins = require('gulp-load-plugins')();
-
 const pluginTasks = require('./plugin');
 
 const themeConfig = lfrThemeConfig.getConfig();

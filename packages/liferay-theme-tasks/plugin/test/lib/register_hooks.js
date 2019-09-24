@@ -7,10 +7,9 @@
 'use strict';
 
 var async = require('async');
+var {EventEmitter} = require('events');
 var gutil = require('gulp-util');
-var EventEmitter = require('events').EventEmitter;
-var Gulp = require('gulp').Gulp;
-
+var {Gulp} = require('gulp');
 var _ = require('lodash');
 var path = require('path');
 var sinon = require('sinon');

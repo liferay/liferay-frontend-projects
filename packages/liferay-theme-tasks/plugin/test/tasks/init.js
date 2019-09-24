@@ -8,9 +8,8 @@
 
 var del = require('del');
 var fs = require('fs-extra');
+var {Gulp} = require('gulp');
 var _ = require('lodash');
-var Gulp = require('gulp').Gulp;
-
 var os = require('os');
 var path = require('path');
 var sinon = require('sinon');

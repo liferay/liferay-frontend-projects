@@ -8,10 +8,9 @@
 
 const del = require('del');
 const fs = require('fs-extra');
+const plugins = require('gulp-load-plugins')();
 const replace = require('gulp-replace-task');
 const _ = require('lodash');
-const plugins = require('gulp-load-plugins')();
-
 const path = require('path');
 const PluginError = require('plugin-error');
 const through = require('through2');
