@@ -6,9 +6,9 @@
 
 'use strict';
 
+const spawn = require('cross-spawn');
 const insert = require('gulp-insert');
 const replace = require('gulp-replace-task');
-const spawn = require('cross-spawn');
 
 const devDependencies = require('../../devDependencies');
 const lfrThemeConfig = require('../../liferay_theme_config');
@@ -18,7 +18,7 @@ module.exports = function(options) {
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('upgrade:dependencies', function(cb) {
+	gulp.task('upgrade:dependencies', cb => {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.1']);
 		lfrThemeConfig.setDependencies(devDependencies.default, true);
 
@@ -42,7 +42,7 @@ module.exports = function(options) {
 		npmInstall.on('close', cb);
 	});
 
-	gulp.task('upgrade:config', function() {
+	gulp.task('upgrade:config', () => {
 		const lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
@@ -79,7 +79,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	gulp.task('upgrade:fontAwesome', function() {
+	gulp.task('upgrade:fontAwesome', () => {
 		return gulp
 			.src('src/css/_custom.scss')
 			.pipe(

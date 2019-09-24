@@ -8,13 +8,14 @@
 
 require('./lib/checkNodeVersion')();
 
-const _ = require('lodash');
 const globby = require('globby');
-const pluginTasks = require('./plugin');
+const _ = require('lodash');
 const path = require('path');
-const plugins = require('gulp-load-plugins')();
 
 const lfrThemeConfig = require('./lib/liferay_theme_config');
+const plugins = require('gulp-load-plugins')();
+
+const pluginTasks = require('./plugin');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
@@ -44,11 +45,10 @@ function register(options) {
 
 	store.set('changedFile');
 
-	globby
-		.sync([path.resolve(__dirname, 'tasks/**/*')])
-		.forEach(function(item) {
-			if (item.indexOf('__tests__') == -1) {
-				require(item)(options);
-			}
-		});
+	globby.sync([path.resolve(__dirname, 'tasks/**/*')]).forEach(item => {
+		if (item.indexOf('__tests__') == -1) {
+			// eslint-disable-next-line liferay/no-dynamic-require
+			require(item)(options);
+		}
+	});
 }

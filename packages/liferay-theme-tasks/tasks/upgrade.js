@@ -6,11 +6,11 @@
 
 'use strict';
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
+const log = require('fancy-log');
 const fs = require('fs-extra');
 const inquirer = require('inquirer');
-const log = require('fancy-log');
+const _ = require('lodash');
 const path = require('path');
 const PluginError = require('plugin-error');
 
@@ -36,10 +36,11 @@ module.exports = function(options) {
 	let versionUpgradeTask;
 
 	if (fs.existsSync(modulePath)) {
+		// eslint-disable-next-line liferay/no-dynamic-require
 		versionUpgradeTask = require(modulePath)(options);
 	}
 
-	gulp.task('upgrade', function(cb) {
+	gulp.task('upgrade', cb => {
 		if (_.isFunction(versionUpgradeTask)) {
 			inquirer.prompt(
 				[
@@ -59,11 +60,11 @@ module.exports = function(options) {
 						type: 'confirm',
 					},
 				],
-				function(answers) {
+				answers => {
 					if (answers.sure) {
 						options.includeFontAwesome = answers.includeFontAwesome;
 
-						versionUpgradeTask(function(err) {
+						versionUpgradeTask(err => {
 							if (err) {
 								log(
 									colors.red('Error:'),

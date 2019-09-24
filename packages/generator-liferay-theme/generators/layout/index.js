@@ -7,11 +7,11 @@
 'use strict';
 
 const fs = require('fs');
-const LayoutCreator = require('../../lib/layout_creator');
-const minimist = require('minimist');
 const devDependencies = require('liferay-theme-tasks/lib/devDependencies');
+const minimist = require('minimist');
 const path = require('path');
 
+const LayoutCreator = require('../../lib/layout_creator');
 const Base = require('../app');
 const isString = require('../common/isString');
 const normalizeName = require('../common/normalizeName');
@@ -58,9 +58,11 @@ module.exports = class extends Base {
 
 			const themePackagePath = path.join(process.cwd(), 'package.json');
 
-			fs.stat(themePackagePath, function(err, stat) {
+			fs.stat(themePackagePath, (err, stat) => {
 				if (!err && stat.isFile()) {
-					const themePackage = require(themePackagePath);
+					const themePackage = JSON.parse(
+						fs.readfileSync(themePackagePath, 'utf8')
+					);
 
 					if (themePackage.liferayTheme) {
 						layoutDirName = path.join(
@@ -207,10 +209,10 @@ module.exports = class extends Base {
 				when: instance._getWhenFn('layoutId', 'id', isString),
 			},
 			{
+				choices: ['7.2'],
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
-				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',

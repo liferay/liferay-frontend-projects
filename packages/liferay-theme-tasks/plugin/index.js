@@ -6,10 +6,10 @@
 
 'use strict';
 
-var _ = require('lodash');
 var help = require('gulp-help');
-var path = require('path');
 var storage = require('gulp-storage');
+var _ = require('lodash');
+var path = require('path');
 
 var RegisterHooks = require('./lib/register_hooks');
 
@@ -33,7 +33,7 @@ module.exports.registerTasks = function(options) {
 
 	var tasks = require('./tasks/index');
 
-	_.forEach(tasks, function(task) {
+	_.forEach(tasks, task => {
 		task(options);
 	});
 
@@ -42,7 +42,7 @@ module.exports.registerTasks = function(options) {
 			options.extensions = [options.extensions];
 		}
 
-		_.forEach(options.extensions, function(extension) {
+		_.forEach(options.extensions, extension => {
 			extension(options);
 		});
 	}

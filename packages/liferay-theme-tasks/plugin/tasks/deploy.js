@@ -20,7 +20,7 @@ module.exports = function(options) {
 
 	var store = gulp.storage;
 
-	gulp.task(TASK_PLUGIN_DEPLOY, function() {
+	gulp.task(TASK_PLUGIN_DEPLOY, () => {
 		var deployPath = store.get('deployPath');
 
 		var stream = gulp
@@ -29,14 +29,14 @@ module.exports = function(options) {
 
 		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));
 
-		stream.on('end', function() {
+		stream.on('end', () => {
 			store.set('deployed', true);
 		});
 
 		return stream;
 	});
 
-	gulp.task('deploy', function(cb) {
+	gulp.task('deploy', cb => {
 		runSequence(TASK_BUILD, TASK_PLUGIN_DEPLOY, cb);
 	});
 };

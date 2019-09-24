@@ -6,8 +6,9 @@
 
 'use strict';
 
-var InitPrompt = require('../lib/init_prompt');
 var path = require('path');
+
+var InitPrompt = require('../lib/init_prompt');
 
 var TASK_PLUGIN_INIT = 'plugin:init';
 
@@ -16,7 +17,7 @@ module.exports = function(options) {
 
 	var store = gulp.storage;
 
-	gulp.task(TASK_PLUGIN_INIT, function(cb) {
+	gulp.task(TASK_PLUGIN_INIT, cb => {
 		new InitPrompt(
 			{
 				appServerPathDefault:

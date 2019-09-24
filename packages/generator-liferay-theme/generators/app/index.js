@@ -14,8 +14,8 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
 
-const {getVersionSupportMessage} = require('../common/messages');
 const isString = require('../common/isString');
+const {getVersionSupportMessage} = require('../common/messages');
 const normalizeName = require('../common/normalizeName');
 
 module.exports = class extends Generator {
@@ -25,8 +25,8 @@ module.exports = class extends Generator {
 		this.pkg = pkg;
 
 		this._insight = new Insight({
-			trackingCode: 'UA-69122110-1',
 			pkg,
+			trackingCode: 'UA-69122110-1',
 		});
 	}
 
@@ -187,9 +187,9 @@ module.exports = class extends Generator {
 				when: instance._getWhenFn('themeId', 'id', isString),
 			},
 			{
+				choices: ['7.2'],
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.2'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',

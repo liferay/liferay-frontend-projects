@@ -10,6 +10,7 @@ var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
+
 var os = require('os');
 var path = require('path');
 var sinon = require('sinon');
@@ -34,11 +35,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(function(done) {
+beforeAll(done => {
 	fs.copy(
 		path.join(__dirname, './fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		function(err) {
+		err => {
 			if (err) {
 				throw err;
 			}
@@ -64,23 +65,23 @@ beforeAll(function(done) {
 	);
 });
 
-afterAll(function(done) {
+afterAll(done => {
 	del([path.join(tempPath, '**')], {
 		force: true,
-	}).then(function() {
+	}).then(() => {
 		process.chdir(initCwd);
 
 		done();
 	});
 });
 
-afterEach(function() {
+afterEach(() => {
 	del.sync(path.join(deployPath, '**'), {
 		force: true,
 	});
 });
 
-test('registerTasks should invoke extension functions', function(done) {
+test('registerTasks should invoke extension functions', done => {
 	gulp = new Gulp();
 
 	var extFunction = function(options) {
@@ -106,7 +107,7 @@ test('registerTasks should invoke extension functions', function(done) {
 	});
 });
 
-test('registerTasks should accept array of extension function', function(done) {
+test('registerTasks should accept array of extension function', done => {
 	gulp = new Gulp();
 
 	var extFunction = function(options) {
@@ -121,25 +122,25 @@ test('registerTasks should accept array of extension function', function(done) {
 	});
 });
 
-test('registerTasks should register hooks', function(done) {
+test('registerTasks should register hooks', done => {
 	gulp = new Gulp();
 
 	var hookSpy = sinon.spy();
 
 	var hookFn = function(gulp) {
-		gulp.hook('before:plugin:war', function(cb) {
+		gulp.hook('before:plugin:war', cb => {
 			hookSpy('before:plugin:war');
 
 			cb();
 		});
 
-		gulp.hook('after:plugin:war', function(cb) {
+		gulp.hook('after:plugin:war', cb => {
 			hookSpy('after:plugin:war');
 
 			cb();
 		});
 
-		gulp.hook('after:plugin:deploy', function(cb) {
+		gulp.hook('after:plugin:deploy', cb => {
 			hookSpy('after:plugin:deploy');
 
 			cb();
@@ -155,7 +156,7 @@ test('registerTasks should register hooks', function(done) {
 
 	runSequence = require('run-sequence').use(gulp);
 
-	runSequence('plugin:war', 'plugin:deploy', function() {
+	runSequence('plugin:war', 'plugin:deploy', () => {
 		assert.isFile(path.join(deployPath, 'test-plugin-layouttpl.war'));
 
 		expect(gulp.storage.get('deployed')).toBe(true);
@@ -168,19 +169,19 @@ test('registerTasks should register hooks', function(done) {
 	});
 });
 
-test('registerTasks should register hooks for extension tasks', function(done) {
+test('registerTasks should register hooks for extension tasks', done => {
 	gulp = new Gulp();
 
 	var hookSpy = sinon.spy();
 
 	var hookFn = function(gulp) {
-		gulp.hook('before:plugin:war', function(cb) {
+		gulp.hook('before:plugin:war', cb => {
 			hookSpy('before:plugin:war');
 
 			cb();
 		});
 
-		gulp.hook('after:my-custom:task', function(cb) {
+		gulp.hook('after:my-custom:task', cb => {
 			hookSpy('after:my-custom:task');
 
 			cb();
@@ -189,7 +190,7 @@ test('registerTasks should register hooks for extension tasks', function(done) {
 
 	registerTasks({
 		extensions(options) {
-			options.gulp.task('my-custom:task', function(cb) {
+			options.gulp.task('my-custom:task', cb => {
 				hookSpy('my-custom:task');
 
 				cb();
@@ -201,7 +202,7 @@ test('registerTasks should register hooks for extension tasks', function(done) {
 
 	runSequence = require('run-sequence').use(gulp);
 
-	runSequence('plugin:war', 'my-custom:task', function() {
+	runSequence('plugin:war', 'my-custom:task', () => {
 		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
 		expect(hookSpy.getCall(1).calledWith('my-custom:task')).toBe(true);
 		expect(hookSpy.getCall(2).calledWith('after:my-custom:task')).toBe(
@@ -212,19 +213,19 @@ test('registerTasks should register hooks for extension tasks', function(done) {
 	});
 });
 
-test('registerTasks should overwrite task', function(done) {
+test('registerTasks should overwrite task', done => {
 	gulp = new Gulp();
 
 	var hookSpy = sinon.spy();
 
 	var hookFn = function(gulp) {
-		gulp.hook('before:plugin:war', function(cb) {
+		gulp.hook('before:plugin:war', cb => {
 			hookSpy('before:plugin:war');
 
 			cb();
 		});
 
-		gulp.task('plugin:war', function(cb) {
+		gulp.task('plugin:war', cb => {
 			hookSpy('plugin:war');
 
 			cb();
@@ -238,7 +239,7 @@ test('registerTasks should overwrite task', function(done) {
 
 	runSequence = require('run-sequence').use(gulp);
 
-	runSequence('plugin:war', function() {
+	runSequence('plugin:war', () => {
 		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
 		expect(hookSpy.getCall(1).calledWith('plugin:war')).toBe(true);
 
@@ -246,7 +247,7 @@ test('registerTasks should overwrite task', function(done) {
 	});
 });
 
-test('registerTasks should use distName as template if delimiters are present', function(done) {
+test('registerTasks should use distName as template if delimiters are present', done => {
 	gulp = new Gulp();
 
 	registerTasks({

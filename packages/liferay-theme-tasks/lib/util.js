@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
 const spawn = require('cross-spawn');
 const es = require('event-stream');
-const fs = require('fs-extra');
 const log = require('fancy-log');
+const fs = require('fs-extra');
+const _ = require('lodash');
 const minimist = require('minimist');
 const path = require('path');
 const tar = require('tar-fs');
@@ -26,8 +26,8 @@ const CUSTOM_DEP_PATH_FLAG_MAP = {
 };
 
 const DEPLOYMENT_STRATEGIES = {
-	LOCAL_APP_SERVER: 'LocalAppServer',
 	DOCKER_CONTAINER: 'DockerContainer',
+	LOCAL_APP_SERVER: 'LocalAppServer',
 	OTHER: 'Other',
 };
 
@@ -59,7 +59,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 	}
 
 	tar.pack(sourceFolder, packConfig).pipe(
-		es.wait(function(err, body) {
+		es.wait((err, body) => {
 			if (err) throw err;
 
 			const proc = spawn.sync(

@@ -6,9 +6,9 @@
 
 'use strict';
 
-var _ = require('lodash');
 var fs = require('fs');
 var inquirer = require('inquirer');
+var _ = require('lodash');
 var path = require('path');
 var util = require('util');
 
@@ -58,10 +58,6 @@ InitPrompt.prototype = {
 		);
 	},
 
-	_dockerContainerNameWhen(answers) {
-		return isDocker(answers);
-	},
-
 	_deployPathWhen(answers) {
 		if (isDocker(answers)) {
 			return true;
@@ -76,7 +72,7 @@ InitPrompt.prototype = {
 
 			var done = this.async();
 
-			fs.stat(deployPath, function(err, stats) {
+			fs.stat(deployPath, (err, stats) => {
 				var ask = err || !stats.isDirectory();
 
 				if (!ask) {
@@ -86,6 +82,10 @@ InitPrompt.prototype = {
 				done(ask);
 			});
 		}
+	},
+
+	_dockerContainerNameWhen(answers) {
+		return isDocker(answers);
 	},
 
 	_getDefaultDeployPath(answers) {
@@ -125,7 +125,6 @@ InitPrompt.prototype = {
 		inquirer.prompt(
 			[
 				{
-					default: DEFAULT_DEPLOYMENT_STRATEGY,
 					choices: [
 						{
 							name: 'Local App Server',
@@ -140,8 +139,9 @@ InitPrompt.prototype = {
 							value: DEPLOYMENT_STRATEGY_OTHER,
 						},
 					],
-					name: 'deploymentStrategy',
+					default: DEFAULT_DEPLOYMENT_STRATEGY,
 					message: 'Select your deployment strategy',
+					name: 'deploymentStrategy',
 					type: 'list',
 				},
 				{

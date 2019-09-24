@@ -26,6 +26,7 @@ function getBaseThemeGlob(themePath) {
 }
 
 function getLiferayThemeJSON(themePath) {
+	// eslint-disable-next-line liferay/no-dynamic-require
 	return require(path.join(themePath, 'package.json')).liferayTheme;
 }
 

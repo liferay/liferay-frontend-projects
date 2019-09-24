@@ -6,8 +6,10 @@
 
 'use strict';
 
+const fs = require('fs');
 var _ = require('lodash');
 var path = require('path');
+
 var {getArgv} = require('../../lib/util');
 
 module.exports = function(options) {
@@ -20,7 +22,9 @@ module.exports = function(options) {
 	var pkg;
 
 	try {
-		pkg = require(path.join(CWD, 'package.json'));
+		pkg = JSON.parse(
+			fs.readFileSync(path.join(CWD, 'package.json'), 'utf8')
+		);
 
 		distName = pkg.name;
 	} catch (e) {

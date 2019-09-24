@@ -27,8 +27,8 @@ describe('config', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_config',
-			themeName: 'base-theme',
 			registerTasksOptions: {},
+			themeName: 'base-theme',
 		});
 
 		runSequence = config.runSequence;

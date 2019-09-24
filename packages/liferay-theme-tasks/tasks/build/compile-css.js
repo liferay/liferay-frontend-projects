@@ -7,11 +7,11 @@
 'use strict';
 
 const colors = require('ansi-colors');
+const log = require('fancy-log');
 const fs = require('fs');
+const postcss = require('gulp-postcss');
 const _ = require('lodash');
 const path = require('path');
-const log = require('fancy-log');
-const postcss = require('gulp-postcss');
 
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
@@ -31,13 +31,13 @@ module.exports = function(options) {
 	};
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build:compile-css', function(cb) {
+	gulp.task('build:compile-css', cb => {
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
 		runSequence('build:compile-lib-sass', cb);
 	});
 
-	gulp.task('build:compile-lib-sass', function(cb) {
+	gulp.task('build:compile-lib-sass', cb => {
 		const gulpIf = require('gulp-if');
 		const gulpSass = require('gulp-sass');
 		const gulpSourceMaps = require('gulp-sourcemaps');
@@ -91,7 +91,8 @@ function exists(file) {
 function getPostCSSRC() {
 	const themeConfig = lfrThemeConfig.getConfig(true);
 	return (
-		(themeConfig.hasOwnProperty('postcss') && 'package.json "postcss"') ||
+		(Object.prototype.hasOwnProperty.call(themeConfig, 'postcss') &&
+			'package.json "postcss"') ||
 		exists('.postcssrc') ||
 		exists('.postcssrc.js') ||
 		exists('.postcssrc.json') ||
@@ -119,6 +120,7 @@ function getPostCSSOptions(config) {
 		postCSSOptions.enabled = true;
 
 		postCSSOptions.plugins = config.map(pluginDependency =>
+			// eslint-disable-next-line liferay/no-dynamic-require
 			require(pluginDependency)
 		);
 	} else if (rc) {

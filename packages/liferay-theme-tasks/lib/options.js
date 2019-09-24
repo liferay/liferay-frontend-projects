@@ -5,9 +5,9 @@
  */
 
 const _ = require('lodash');
-const {getArgv} = require('./util');
 
 const lfrThemeConfig = require('./liferay_theme_config');
+const {getArgv} = require('./util');
 
 let options;
 

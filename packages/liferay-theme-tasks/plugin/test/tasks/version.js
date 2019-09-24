@@ -10,6 +10,7 @@ var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
 var Gulp = require('gulp').Gulp;
+
 var os = require('os');
 var path = require('path');
 
@@ -30,11 +31,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(function(done) {
+beforeAll(done => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		function(err) {
+		err => {
 			if (err) {
 				throw err;
 			}
@@ -54,18 +55,18 @@ beforeAll(function(done) {
 	);
 });
 
-afterAll(function(done) {
+afterAll(done => {
 	del([path.join(tempPath, '**')], {
 		force: true,
-	}).then(function() {
+	}).then(() => {
 		process.chdir(initCwd);
 
 		done();
 	});
 });
 
-test('plugin:version should add package.json version to liferay-plugin-package.properties', function(done) {
-	runSequence('plugin:version', function() {
+test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
+	runSequence('plugin:version', () => {
 		assert.fileContentMatch(
 			path.join(
 				tempPath,
@@ -78,16 +79,17 @@ test('plugin:version should add package.json version to liferay-plugin-package.p
 	});
 });
 
-test('plugin:version should add package.json version to liferay-plugin-package.properties', function(done) {
+test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
 	var pkgPath = path.join(tempPath, 'package.json');
 
+	// eslint-disable-next-line liferay/no-dynamic-require
 	var pkg = require(pkgPath);
 
 	pkg.version = '1.2.4';
 
 	fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, '\t'));
 
-	runSequence('plugin:version', function() {
+	runSequence('plugin:version', () => {
 		assert.fileContentMatch(
 			path.join(
 				tempPath,

@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const del = require('del');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const Gulp = require('gulp').Gulp;
+
 const os = require('os');
 const path = require('path');
 const sinon = require('sinon');
@@ -17,54 +18,6 @@ const osTempDir = os.tmpdir();
 /* eslint-disable no-console */
 
 expect.extend({
-	toBeFile(path) {
-		let pass = true;
-		let message = '';
-
-		try {
-			if (!fs.statSync(path).isFile()) {
-				pass = false;
-				message = `Path '${path}' is not a file`;
-			}
-		} catch (err) {
-			pass = false;
-			message = err.toString();
-		}
-
-		if (this.isNot && pass) {
-			message = `File '${path}' exists`;
-		}
-
-		return {
-			message: () => message,
-			pass,
-		};
-	},
-
-	toBeFolder(path) {
-		let pass = true;
-		let message = '';
-
-		try {
-			if (!fs.statSync(path).isDirectory()) {
-				pass = false;
-				message = `Path '${path}' is not a folder`;
-			}
-		} catch (err) {
-			pass = false;
-			message = err.toString();
-		}
-
-		if (this.isNot && pass) {
-			message = `Folder '${path}' exists`;
-		}
-
-		return {
-			message: () => message,
-			pass,
-		};
-	},
-
 	toBeEmptyFolder(path) {
 		let pass = true;
 		let message = '';
@@ -107,6 +60,30 @@ expect.extend({
 					message = err.toString();
 				}
 			}
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+
+	toBeFile(path) {
+		let pass = true;
+		let message = '';
+
+		try {
+			if (!fs.statSync(path).isFile()) {
+				pass = false;
+				message = `Path '${path}' is not a file`;
+			}
+		} catch (err) {
+			pass = false;
+			message = err.toString();
+		}
+
+		if (this.isNot && pass) {
+			message = `File '${path}' exists`;
 		}
 
 		return {
@@ -164,6 +141,30 @@ expect.extend({
 			pass,
 		};
 	},
+
+	toBeFolder(path) {
+		let pass = true;
+		let message = '';
+
+		try {
+			if (!fs.statSync(path).isDirectory()) {
+				pass = false;
+				message = `Path '${path}' is not a folder`;
+			}
+		} catch (err) {
+			pass = false;
+			message = err.toString();
+		}
+
+		if (this.isNot && pass) {
+			message = `Folder '${path}' exists`;
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
 });
 
 class PrototypeMethodSpy {
@@ -192,7 +193,7 @@ class PrototypeMethodSpy {
 	}
 
 	flush() {
-		_.forEach(this.methods, function(item) {
+		_.forEach(this.methods, item => {
 			item.parent[item.methodName] = item.method;
 		});
 
@@ -254,9 +255,9 @@ function copyTempTheme(options) {
 		registerTasksOptions = _.assign(
 			{
 				distName: 'base-theme',
-				pathBuild: './custom_build_path',
 				gulp,
 				insideTests: true,
+				pathBuild: './custom_build_path',
 			},
 			options.registerTasksOptions
 		);
@@ -293,7 +294,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 function deleteDirJsFromCache(relativePath) {
 	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
-	_.forEach(files, function(item) {
+	_.forEach(files, item => {
 		if (_.endsWith(item, '.js')) {
 			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}
@@ -311,10 +312,10 @@ function stripNewlines(string) {
 }
 
 module.exports = {
-	copyTempTheme,
-	cleanTempTheme,
 	PrototypeMethodSpy,
 	assertBoundFunction,
+	cleanTempTheme,
+	copyTempTheme,
 	stripNewlines,
 };
 

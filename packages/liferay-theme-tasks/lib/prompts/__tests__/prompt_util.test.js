@@ -15,15 +15,15 @@ const liferayThemeThemletMetaData = {
 };
 const themeletDependencies = {
 	'themelet-1': {
+		__realPath__: 'path/to/themelet-1',
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-1',
-		__realPath__: 'path/to/themelet-1',
 		version: liferayVersion,
 	},
 	'themelet-2': {
+		__realPath__: 'path/to/themelet-2',
 		liferayTheme: liferayThemeThemletMetaData,
 		name: 'themelet-2',
-		__realPath__: 'path/to/themelet-2',
 		version: liferayVersion,
 	},
 	'themelet-3': {
@@ -77,7 +77,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		selectedModules: ['themelet-1'],
 	});
 
-	_.forEach(choices, function(item, index) {
+	_.forEach(choices, (item, index) => {
 		const number = index + 1;
 		const name = 'themelet-' + number;
 
@@ -92,7 +92,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		themelet: true,
 	});
 
-	_.forEach(choices, function(item, index) {
+	_.forEach(choices, (item, index) => {
 		const number = index + 1;
 		const name = 'themelet-' + number;
 
@@ -105,7 +105,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		themelet: true,
 	});
 
-	_.forEach(choices, function(item, index) {
+	_.forEach(choices, (item, index) => {
 		const number = index + 1;
 		const name = 'themelet-' + number;
 

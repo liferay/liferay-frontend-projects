@@ -6,11 +6,12 @@
 
 'use strict';
 
-var _ = require('lodash');
 var async = require('async');
+var gutil = require('gulp-util');
 var EventEmitter = require('events').EventEmitter;
 var Gulp = require('gulp').Gulp;
-var gutil = require('gulp-util');
+
+var _ = require('lodash');
 var path = require('path');
 var sinon = require('sinon');
 
@@ -20,25 +21,25 @@ var STR_NOT_A_FUNCTION = 'not a function';
 
 var prototype;
 
-beforeEach(function() {
+beforeEach(() => {
 	prototype = _.create(RegisterHooks.prototype);
 });
 
-test('_addToSequence should add function to sequence differently based on if cb is expected or stream is returned', function(done) {
+test('_addToSequence should add function to sequence differently based on if cb is expected or stream is returned', done => {
 	var sequence = [];
 
 	var spy = sinon.spy();
 
-	prototype._addToSequence(sequence, function(cb) {
+	prototype._addToSequence(sequence, cb => {
 		spy();
 
 		cb();
 	});
 
-	prototype._addToSequence(sequence, function() {
+	prototype._addToSequence(sequence, () => {
 		var eventEmitter = new EventEmitter();
 
-		setTimeout(function() {
+		setTimeout(() => {
 			spy();
 
 			eventEmitter.emit('end');
@@ -51,21 +52,21 @@ test('_addToSequence should add function to sequence differently based on if cb 
 
 	expect(sequence.length).toBe(2);
 
-	async.series(sequence, function() {
+	async.series(sequence, () => {
 		expect(spy.callCount).toBe(2);
 
 		done();
 	});
 });
 
-test('_applyHooks should pass', function() {
+test('_applyHooks should pass', () => {
 	prototype.gulp = new Gulp();
 
-	prototype.gulp.task('test', ['test2'], function(cb) {
+	prototype.gulp.task('test', ['test2'], cb => {
 		cb();
 	});
 
-	prototype.gulp.task('test2', function(cb) {
+	prototype.gulp.task('test2', cb => {
 		cb();
 	});
 
@@ -87,7 +88,7 @@ test('_applyHooks should pass', function() {
 	);
 });
 
-test('_createTaskSequence should create sequences that work with async methods', function(done) {
+test('_createTaskSequence should create sequences that work with async methods', done => {
 	var sequence = prototype._createTaskSequence(_.noop, {});
 
 	expect(sequence.length).toBe(1);
@@ -109,14 +110,14 @@ test('_createTaskSequence should create sequences that work with async methods',
 	expect(_.isFunction(sequence[0])).toBe(true);
 	expect(_.isFunction(sequence[1])).toBe(true);
 
-	async.series(sequence, function() {
+	async.series(sequence, () => {
 		expect(hookSpy.calledOnce).toBe(true);
 
 		done();
 	});
 });
 
-test('_getTaskHookMap should create valid taskHookMap', function() {
+test('_getTaskHookMap should create valid taskHookMap', () => {
 	prototype.hooks = {
 		'after:build': _.noop,
 		'before:deploy': _.noop,
@@ -135,7 +136,7 @@ test('_getTaskHookMap should create valid taskHookMap', function() {
 	});
 });
 
-test('_getTaskName should split hook name into correct sections', function() {
+test('_getTaskName should split hook name into correct sections', () => {
 	var array = prototype._getTaskName('after:build');
 
 	expect(array[0]).toBe('after');
@@ -152,7 +153,7 @@ test('_getTaskName should split hook name into correct sections', function() {
 	expect(array[1]).toBe('build:base');
 });
 
-test('_logHookRegister should log message only if fn is a function', function() {
+test('_logHookRegister should log message only if fn is a function', () => {
 	gutil.log = sinon.spy();
 
 	prototype._logHookRegister('test', _.noop);
@@ -161,7 +162,7 @@ test('_logHookRegister should log message only if fn is a function', function() 
 	expect(gutil.log.callCount).toBe(1);
 });
 
-test('_registerHookFn should register hookFn if it is a function and log message if defined as anything else', function() {
+test('_registerHookFn should register hookFn if it is a function and log message if defined as anything else', () => {
 	gutil.log = sinon.spy();
 
 	prototype._registerHookFn();
@@ -184,7 +185,7 @@ test('_registerHookFn should register hookFn if it is a function and log message
 	expect(prototype.hookFn.calledWithExactly('gulp', 'options')).toBe(true);
 });
 
-test('_registerHookModule should register hook or log appropriate log messages', function() {
+test('_registerHookModule should register hook or log appropriate log messages', () => {
 	gutil.log = sinon.spy();
 
 	prototype._registerHookModule('non-existent-module');
@@ -194,6 +195,7 @@ test('_registerHookModule should register hook or log appropriate log messages',
 	);
 	expect(gutil.log.callCount).toBe(1);
 
+	// eslint-disable-next-line liferay/no-dynamic-require
 	require(path.join(__dirname, '../fixtures/hook_modules/hook-module-1'));
 
 	prototype.gulp = {
@@ -221,12 +223,13 @@ test('_registerHookModule should register hook or log appropriate log messages',
 	expect(gutil.log.callCount).toBe(1);
 });
 
-test('_registerHookModule should pass correct arguments to hook modules', function() {
+test('_registerHookModule should pass correct arguments to hook modules', () => {
 	var hookModulePath = path.join(
 		__dirname,
 		'../fixtures/hook_modules/hook-module-4'
 	);
 
+	// eslint-disable-next-line liferay/no-dynamic-require
 	var moduleHook = require(hookModulePath)().reset();
 
 	prototype.gulp = 'gulp';
@@ -238,7 +241,7 @@ test('_registerHookModule should pass correct arguments to hook modules', functi
 	expect(moduleHook.callCount).toBe(1);
 });
 
-test('_registerHookModules should accept single or multiple hook modules and register them', function() {
+test('_registerHookModules should accept single or multiple hook modules and register them', () => {
 	var hookModule1Path = path.join(
 		__dirname,
 		'../fixtures/hook_modules/hook-module-1'
@@ -279,7 +282,7 @@ test('_registerHookModules should accept single or multiple hook modules and reg
 	expect(prototype._registerHookModule.callCount).toBe(3);
 });
 
-test('_registerHooks should create gulp.hook function that adds hook to hooks object', function() {
+test('_registerHooks should create gulp.hook function that adds hook to hooks object', () => {
 	prototype.gulp = {};
 	prototype._registerHooks();
 

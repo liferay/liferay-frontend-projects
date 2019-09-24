@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const lfrThemeConfig = require('../liferay_theme_config.js');
 const testUtil = require('../../test/util');
+const lfrThemeConfig = require('../liferay_theme_config.js');
 
 const initCwd = process.cwd();
 

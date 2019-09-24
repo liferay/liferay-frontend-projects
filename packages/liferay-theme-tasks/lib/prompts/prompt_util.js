@@ -40,7 +40,7 @@ function formatThemeletSelection(modules, selectedModules) {
 
 	formattedSelection.addedThemelets = _.reduce(
 		modules,
-		function(result, selected, name) {
+		(result, selected, name) => {
 			if (selected && selectedModules.indexOf(name) < 0) {
 				result.push(name);
 			}

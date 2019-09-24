@@ -17,7 +17,7 @@ function normalize(template) {
 	const replacementContent = '<!-- inject:js -->\n<!-- endinject -->\n\n';
 
 	if (template.indexOf(replacementContent) === -1) {
-		template = template.replace(beforeRegex, function(match) {
+		template = template.replace(beforeRegex, match => {
 			return replacementContent + match;
 		});
 	}

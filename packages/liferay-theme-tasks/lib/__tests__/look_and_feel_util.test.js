@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 
 const testUtil = require('../../test/util');
-
 const baseLookAndFeelJSON = require('./fixtures/look_and_feel_util/base-look-and-feel.json');
 const mixedLookAndFeelJSON = require('./fixtures/look_and_feel_util/mixed-look-and-feel.json');
 const parentLookAndFeelJSON = require('./fixtures/look_and_feel_util/parent-look-and-feel.json');

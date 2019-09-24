@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {getArgv} = require('../util');
 const path = require('path');
+
+const {getArgv} = require('../util');
 
 const argv = getArgv();
 const initCwd = process.cwd();

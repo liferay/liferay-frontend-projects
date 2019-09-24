@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const async = require('async');
+const spawn = require('cross-spawn');
 const fs = require('fs');
 const globby = require('globby');
+const _ = require('lodash');
 const npmKeyword = require('npm-keyword');
 const os = require('os');
 const packageJson = require('package-json');
 const path = require('path');
-const spawn = require('cross-spawn');
 const {URL} = require('url');
 
 const lfrThemeConfig = require('./liferay_theme_config');
@@ -283,11 +283,11 @@ function getPackageJSON(theme, cb) {
 }
 
 const LiferayThemeModuleStatus = {
-	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
 	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
+	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
+	OK: 'OK',
 	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
 	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
-	OK: 'OK',
 };
 
 function getLiferayThemeModuleStatus(pkg, themelet) {
@@ -365,6 +365,7 @@ function searchGlobalModules(config, cb) {
 		modules,
 		(result, item) => {
 			try {
+				// eslint-disable-next-line liferay/no-dynamic-require
 				const json = require(path.join(item, 'package.json'));
 
 				json.__realPath__ = item;

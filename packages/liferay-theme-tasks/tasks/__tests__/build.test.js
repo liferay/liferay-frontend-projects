@@ -6,6 +6,7 @@
 
 const fs = require('fs-extra');
 const parseString = require('xml2js').parseString;
+
 const path = require('path');
 const sinon = require('sinon');
 
@@ -56,6 +57,7 @@ describe('using lib_sass', () => {
 		const config = testUtil.copyTempTheme({
 			namespace,
 			registerTasksOptions: {
+				hookFn: buildHookFn,
 				sassOptions: defaults => {
 					sassOptionsSpy();
 
@@ -63,7 +65,6 @@ describe('using lib_sass', () => {
 
 					return defaults;
 				},
-				hookFn: buildHookFn,
 			},
 			themeConfig: {},
 			themeName,

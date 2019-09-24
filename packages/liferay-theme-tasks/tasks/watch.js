@@ -9,16 +9,17 @@
 const chalk = require('chalk');
 const del = require('del');
 const fs = require('fs');
-const http = require('http');
-const httpProxy = require('http-proxy');
 const passes = require('http-proxy/lib/http-proxy/passes/web-outgoing');
+const httpProxy = require('http-proxy');
+const http = require('http');
 const opn = require('opn');
 const path = require('path');
-const themeUtil = require('../lib/util');
-const tinylr = require('tiny-lr');
 const portfinder = require('portfinder');
+const tinylr = require('tiny-lr');
 const url = require('url');
 const util = require('util');
+
+const themeUtil = require('../lib/util');
 
 const PASSES = Object.values(passes);
 
@@ -114,14 +115,14 @@ module.exports = function(options) {
 	/**
 	 * Clean the exploded build dir
 	 */
-	gulp.task('watch:clean', function(cb) {
+	gulp.task('watch:clean', cb => {
 		del([explodedBuildDir]).then(() => cb());
 	});
 
 	/**
 	 * Clean the remote exploded build dir in docker
 	 */
-	gulp.task('watch:docker:clean', function(cb) {
+	gulp.task('watch:docker:clean', cb => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'rm -rf ' + dockerBundleDirPath
@@ -133,7 +134,7 @@ module.exports = function(options) {
 	/**
 	 * Copy the exploded build dir to docker
 	 */
-	gulp.task('watch:docker:copy', function(cb) {
+	gulp.task('watch:docker:copy', cb => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'mkdir -p ' + dockerBundleDirPath
@@ -150,7 +151,7 @@ module.exports = function(options) {
 	/**
 	 * Copy output files to exploded build dir
 	 */
-	gulp.task('watch:setup', function() {
+	gulp.task('watch:setup', () => {
 		return gulp
 			.src(path.join(pathBuild, '**/*'))
 			.pipe(gulp.dest(explodedBuildDir));
@@ -171,7 +172,7 @@ module.exports = function(options) {
 
 	let livereload;
 
-	gulp.task('watch:reload', function(cb) {
+	gulp.task('watch:reload', cb => {
 		const changedFile = storage.get('changedFile');
 		const srcPath = path.relative(process.cwd(), changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
@@ -208,7 +209,7 @@ module.exports = function(options) {
 
 		const proxy = httpProxy.createServer();
 
-		proxy.on('proxyReq', function(proxyReq, _req, _res, _options) {
+		proxy.on('proxyReq', (proxyReq, _req, _res, _options) => {
 			// Disable compression because it complicates the task of appending
 			// our livereload tag.
 			proxyReq.setHeader('Accept-Encoding', 'identity');
@@ -282,7 +283,7 @@ module.exports = function(options) {
 			} else {
 				dispatchToProxy();
 			}
-		}).listen(httpPort, function() {
+		}).listen(httpPort, () => {
 			const url = `http://localhost:${httpPort}/`;
 			const messages = [
 				`Watch mode is now active at: ${url}`,

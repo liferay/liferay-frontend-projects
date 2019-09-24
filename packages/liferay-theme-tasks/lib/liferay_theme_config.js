@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const fs = require('fs-extra');
-const path = require('path');
+const _ = require('lodash');
 
 function getConfig(all) {
 	const packageJSON = getPackageJSON();
@@ -74,7 +73,7 @@ module.exports = {
 };
 
 function deleteDependencies(sourceDependencies, deletedDependencies) {
-	_.forEach(sourceDependencies, function(item, index) {
+	_.forEach(sourceDependencies, (item, index) => {
 		if (deletedDependencies.indexOf(index) > -1) {
 			delete sourceDependencies[index];
 		}
@@ -82,7 +81,7 @@ function deleteDependencies(sourceDependencies, deletedDependencies) {
 }
 
 function getPackageJSON() {
-	return require(path.resolve('package.json'));
+	return JSON.parse(fs.readFileSync('package.json', 'utf8'));
 }
 
 function writePackageJSON(json) {

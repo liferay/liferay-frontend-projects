@@ -6,11 +6,11 @@
 
 'use strict';
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
+const log = require('fancy-log');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const log = require('fancy-log');
+const _ = require('lodash');
 const path = require('path');
 
 const CWD = process.cwd();
@@ -21,7 +21,7 @@ module.exports = function(options) {
 	const pathBuild = options.pathBuild;
 	const pathSrc = options.pathSrc;
 
-	gulp.task('overwrite', function(cb) {
+	gulp.task('overwrite', cb => {
 		promptFiles('.', cb);
 	});
 
@@ -40,7 +40,7 @@ module.exports = function(options) {
 
 		const choices = _.reduce(
 			buildFiles,
-			function(result, item) {
+			(result, item) => {
 				const filePath = path.join(dirPath, item);
 
 				const dir = isDir(filePath);
@@ -120,7 +120,7 @@ module.exports = function(options) {
 				name: 'file',
 				type: 'list',
 			},
-			function(answers) {
+			answers => {
 				if (answers.file.dir) {
 					promptFiles(answers.file.path, cb);
 				} else {

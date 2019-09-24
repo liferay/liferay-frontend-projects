@@ -62,7 +62,7 @@ afterEach(() => {
 	});
 });
 
-it('should deploy to deploy server', done => {
+it('deploys to deploy server', done => {
 	runSequence('deploy', err => {
 		if (err) throw err;
 

@@ -6,20 +6,20 @@
 
 'use strict';
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
 const del = require('del');
 const log = require('fancy-log');
+const _ = require('lodash');
 const path = require('path');
 
-const KickstartPrompt = require('../lib/prompts/kickstart_prompt');
 const lfrThemeConfig = require('../lib/liferay_theme_config');
+const KickstartPrompt = require('../lib/prompts/kickstart_prompt');
 
 function registerTasks(options) {
 	const gulp = options.gulp;
 	const pathSrc = options.pathSrc;
 
-	gulp.task('kickstart', function(cb) {
+	gulp.task('kickstart', cb => {
 		log(
 			colors.yellow('Warning:'),
 			'the',
@@ -31,7 +31,7 @@ function registerTasks(options) {
 			{
 				themeConfig: lfrThemeConfig.getConfig(),
 			},
-			function(answers) {
+			answers => {
 				let tempNodeModulesPath;
 				let themeSrcPath;
 
@@ -54,7 +54,7 @@ function registerTasks(options) {
 				if (themeSrcPath) {
 					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
-						function(folder) {
+						folder => {
 							return path.join(themeSrcPath, folder, '**/*');
 						}
 					);
@@ -63,7 +63,7 @@ function registerTasks(options) {
 						base: themeSrcPath,
 					})
 						.pipe(gulp.dest(pathSrc))
-						.on('end', function() {
+						.on('end', () => {
 							if (tempNodeModulesPath) {
 								del([tempNodeModulesPath]).then(() => cb());
 							} else {
