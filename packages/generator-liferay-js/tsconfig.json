@@ -1,13 +1,7 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"outDir": "./generators",
-
-		"plugins": [
-			{
-				"name": "ts-add-module-exports"
-			}
-		]
+		"outDir": "./generators"
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "src/*/templates/**/*", "**/__tests__/**"]

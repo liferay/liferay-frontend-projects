@@ -28,3 +28,5 @@ export default class extends Generator {
 		standardTarget.install(this);
 	}
 }
+
+module.exports = exports['default'];
