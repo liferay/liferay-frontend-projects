@@ -31,10 +31,23 @@ module.exports = {
 
 		function isRequireStatement(node) {
 			return (
-				node &&
-				node.type === 'VariableDeclaration' &&
-				node.declarations[0].init.type === 'CallExpression' &&
-				node.declarations[0].init.callee.name === 'require'
+				(node &&
+					node.type === 'VariableDeclaration' &&
+					node.declarations[0].init.type === 'CallExpression' &&
+					node.declarations[0].init.callee.name === 'require') ||
+				(node &&
+					node.type === 'VariableDeclaration' &&
+					node.declarations[0].init.type === 'MemberExpression' &&
+					node.declarations[0].init.object.type ===
+						'CallExpression' &&
+					node.declarations[0].init.object.callee.name ===
+						'require') ||
+				(node &&
+					node.type === 'VariableDeclaration' &&
+					node.declarations[0].init.type === 'CallExpression' &&
+					node.declarations[0].init.callee.type ===
+						'CallExpression' &&
+					node.declarations[0].init.callee.callee.name === 'require')
 			);
 		}
 
@@ -101,8 +114,22 @@ module.exports = {
 						argument.type === 'Literal' &&
 						typeof argument.value === 'string'
 					) {
-						if (node.parent.type === 'ExpressionStatement') {
+						if (
+							node.parent.type === 'CallExpression' &&
+							node.parent.parent.type === 'VariableDeclarator' &&
+							node.parent.parent.parent.type ===
+								'VariableDeclaration'
+						) {
+							check(node.parent.parent.parent);
+						} else if (node.parent.type === 'ExpressionStatement') {
 							check(node.parent);
+						} else if (
+							node.parent.type === 'MemberExpression' &&
+							node.parent.parent.type === 'VariableDeclarator' &&
+							node.parent.parent.parent.type ===
+								'VariableDeclaration'
+						) {
+							check(node.parent.parent.parent);
 						} else if (
 							node.parent.type === 'VariableDeclarator' &&
 							node.parent.parent.type === 'VariableDeclaration'
