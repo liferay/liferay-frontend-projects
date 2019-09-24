@@ -154,24 +154,23 @@ function isRelative(source) {
  * See also `getRequireStatement()` in this module.
  */
 function isRequireStatement(node) {
+	if (!node && node.type !== 'VariableDeclaration') {
+		return false;
+	}
+
+	const {init} = node.declarations[0];
+
 	return (
 		// ie. `const a = require('a');`
-		(node &&
-			node.type === 'VariableDeclaration' &&
-			node.declarations[0].init.type === 'CallExpression' &&
-			node.declarations[0].init.callee.name === 'require') ||
+		(init.type === 'CallExpression' && init.callee.name === 'require') ||
 		// ie. `const a = require('a').item;`
-		(node &&
-			node.type === 'VariableDeclaration' &&
-			node.declarations[0].init.type === 'MemberExpression' &&
-			node.declarations[0].init.object.type === 'CallExpression' &&
-			node.declarations[0].init.object.callee.name === 'require') ||
+		(init.type === 'MemberExpression' &&
+			init.object.type === 'CallExpression' &&
+			init.object.callee.name === 'require') ||
 		// ie. `const a = require('a')();`
-		(node &&
-			node.type === 'VariableDeclaration' &&
-			node.declarations[0].init.type === 'CallExpression' &&
-			node.declarations[0].init.callee.type === 'CallExpression' &&
-			node.declarations[0].init.callee.callee.name === 'require')
+		(init.type === 'CallExpression' &&
+			init.callee.type === 'CallExpression' &&
+			init.callee.callee.name === 'require')
 	);
 }
 
