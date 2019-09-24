@@ -28,6 +28,7 @@ const config = {
 	],
 	rules: {
 		'default-case': 'error',
+		'liferay/destructure-requires': 'error',
 		'liferay/group-imports': 'error',
 		'liferay/no-absolute-import': 'error',
 		'liferay/no-duplicate-imports': 'error',

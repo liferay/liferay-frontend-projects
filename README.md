@@ -66,6 +66,7 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 | [liferay-portal/no-metal-plugins](./plugins/eslint-plugin-liferay-portal/docs/rules/no-metal-plugins.md)                            | liferay/portal               | [\#61](https://github.com/liferay/eslint-config-liferay/pull/61)                                                                   |
 | [liferay-portal/no-react-dom-render](./plugins/eslint-plugin-liferay-portal/docs/rules/no-react-dom-render.md)                      | liferay/portal               | [\#71](https://github.com/liferay/eslint-config-liferay/pull/71)                                                                   |
 | [liferay-portal/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md)                        | liferay/portal               | [\#44](https://github.com/liferay/eslint-config-liferay/pull/44)                                                                   |
+| [liferay/destructure-requires](./plugins/eslint-plugin-liferay/docs/rules/destructure-requires.md)                                  | liferay                      | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
 | [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md)                                                | liferay                      | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [liferay/imports-first](./plugins/eslint-plugin-liferay/docs/rules/imports-first.md)                                                | liferay                      | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [liferay/no-absolute-import](./plugins/eslint-plugin-liferay/docs/rules/no-absolute-import.md)                                      | liferay                      | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
@@ -113,6 +114,7 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 
 The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plugins/eslint-plugin-liferay/docs/rules):
 
+-   [liferay/destructure-requires](./plugins/eslint-plugin-liferay/docs/rules/destructure-requires.md): Enforces (and autofixes) that `require` statements use destructuring.
 -   [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md): Enforces (and autofixes) `import` and `require` grouping.
 -   [liferay/imports-first](./plugins/eslint-plugin-liferay/docs/rules/imports-first.md): Enforces that imports come first in the file.
 -   [liferay/no-absolute-import](./plugins/eslint-plugin-liferay/docs/rules/no-absolute-import.md): Enforces that imports do not use absolute paths.
