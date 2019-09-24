@@ -16,7 +16,6 @@ var path = require('path');
 
 var gulp = new Gulp();
 
-
 chai.use(chaiFs);
 
 var assert = chai.assert;
