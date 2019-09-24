@@ -7,7 +7,8 @@
  */
 
 const childProcess = require('child_process');
-const fs = require('fs');
+const fs = require('fs-extra');
+const os = require('os');
 const path = require('path');
 const rimraf = require('rimraf');
 const yargs = require('yargs');
@@ -22,8 +23,22 @@ const argv = yargs
 		default: '../../../../../..',
 	}).argv;
 
-const outDir = path.resolve('samples');
+// Configure directories
+const cfgDir = path.join(__dirname, 'config');
+const outDir = path.join(__dirname, 'samples');
 const pkgsDir = path.join(outDir, 'packages');
+const generatorFile = path.join(__dirname, '..', 'packages', 'generator-liferay-js', 'generators', 'app', 'index.js');
+const yoFile = path.join(__dirname, '..', 'node_modules', '.bin', 'yo');
+
+// Find Liferay installation directory
+let liferayDir = path.join(__dirname, '..', 'liferay');
+
+try {
+	const json = JSON.parse(fs.readFileSync(path.join(os.homedir(), '.generator-liferay-js.json')))
+	liferayDir = json.answers['*'].liferayDir;
+} catch(err) {
+	// swallow
+}
 
 /**
  * @param {object} options
@@ -32,18 +47,18 @@ function writeConfig(options) {
 	const name = options.folder;
 
 	fs.writeFileSync(
-		path.join('config', `${name}.json`),
+		path.join(cfgDir, `${name}.json`),
 		JSON.stringify(
 			{
 				batchMode: true,
-				sdkVersion: argv.sdk,
+				// sdkVersion: argv.sdk,
 				answers: {
 					'*': Object.assign(
 						{
 							description: options.folder,
 							category: 'category.sample',
 							liferayPresent: true,
-							liferayDir: '../../../liferay-portal-master',
+							liferayDir,
 						},
 						options
 					),
@@ -57,11 +72,24 @@ function writeConfig(options) {
 
 // Prepare a clean out directory
 console.log('Cleaning work directories');
+rimraf.sync(cfgDir);
 rimraf.sync(outDir);
-fs.mkdirSync(outDir);
-fs.mkdirSync(pkgsDir);
+fs.ensureDirSync(cfgDir);
+fs.ensureDirSync(outDir);
+fs.ensureDirSync(pkgsDir);
 
 const start = new Date();
+
+// Generate shared bundle configuration
+[true, false].forEach(createInitializer => {
+	writeConfig({
+		target: `shared-bundle`,
+		folder:
+			`shared-bundle` +
+			`${createInitializer ? '-initializer' : ''}`,
+		createInitializer
+	});
+});
 
 // Generate vanilla samples configuration
 [true, false].forEach(useBabel => {
@@ -145,8 +173,8 @@ configs.forEach(config => {
 	`);
 
 	const proc = childProcess.spawnSync(
-		'yo',
-		['liferay-js', '--config', path.resolve('config', config)],
+		'node',
+		[yoFile, generatorFile, '--config', path.join(cfgDir, config)],
 		{stdio: 'inherit', cwd: pkgsDir, shell: true}
 	);
 
