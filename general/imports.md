@@ -93,12 +93,12 @@ Grouping is enforced by the [group-imports](https://github.com/liferay/eslint-co
 
 We have a number of other import-related lints:
 
--   [destructure-requires](./plugins/eslint-plugin-liferay/docs/rules/destructure-requires.md): enforces (and autofixes) that `require` statements use destructuring.
+-   [destructure-requires](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/destructure-requires.md): enforces (and autofixes) that `require` statements use destructuring.
 -   [imports-first](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/imports-first.md): ensures that imports appear at the top of the module, before non-import statements.
 -   [no-absolute-import](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/no-absolute-import.md): ensures that we don't import modules using absolute paths.
 -   [no-duplicate-imports](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/no-duplicate-imports.md): ensures that we import a given module at most once per file.
 -   [no-dynamic-require](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/no-dynamic-require.md): disallows the use of non-literal import sources.
--   [liferay/no-require-and-call](./plugins/eslint-plugin-liferay/docs/rules/no-require-and-call.md): enforces that the result of a `require()` call at the top level is not immediately called.
+-   [liferay/no-require-and-call](https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay/docs/rules/no-require-and-call.md): enforces that the result of a `require()` call at the top level is not immediately called.
 
 ## `require()` vs `import`
 
