@@ -1,3 +1,10 @@
+## [v11.0.1](https://github.com/liferay/eslint-config-liferay/tree/v11.0.1) (2019-09-24)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v11.0.0...v11.0.1)
+
+-   fix(imports-first): turn on imports-first by default ([\#101](https://github.com/liferay/eslint-config-liferay/pull/101))
+-   fix(imports-first): solve problems with directives ([\#100](https://github.com/liferay/eslint-config-liferay/pull/100))
+
 ## [v11.0.0](https://github.com/liferay/eslint-config-liferay/tree/v11.0.0) (2019-09-24)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v10.0.0...v11.0.0)
