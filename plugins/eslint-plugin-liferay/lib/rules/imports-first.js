@@ -18,6 +18,15 @@ module.exports = {
 		let lastImportIndex = -1;
 		let lastNonImportIndex = -1;
 
+		function isDirective(node) {
+			return (
+				node &&
+				node.type === 'ExpressionStatement' &&
+				node.expression.type === 'Literal' &&
+				typeof node.expression.value === 'string'
+			);
+		}
+
 		function isImportDeclaration(node) {
 			return node && node.type === 'ImportDeclaration';
 		}
@@ -34,6 +43,8 @@ module.exports = {
 		function check(node) {
 			let current = node;
 
+			const directives = [];
+
 			while (current) {
 				if (lastNonImportIndex === -1) {
 					// Haven't seen a non-import yet, so must search.
@@ -45,6 +56,13 @@ module.exports = {
 
 					current = context.getNodeByRangeIndex(token.range[0]);
 
+					if (isDirective(current)) {
+						// Remember this, for now (actual check occurs below).
+						directives.push(current);
+
+						continue;
+					}
+
 					if (
 						isRequireExpression(current) ||
 						isRequireStatement(current) ||
@@ -55,7 +73,21 @@ module.exports = {
 							break;
 						} else {
 							lastImportIndex = current.range[1];
-							continue;
+
+							if (!directives.length) {
+								// Haven't seen a directive yet, so keep going.
+								//
+								// If we saw a directive on a previous
+								// iteration but we got here (by not
+								// reaching a known-good import), that
+								// means the directive wasn't the at
+								// the start of the file, so `node` is
+								// below a non-top-of-file, non-import
+								// statement, and should be reported;
+								// which we'll do by falling through
+								// below.
+								continue;
+							}
 						}
 					}
 
