@@ -21,6 +21,7 @@
 		"level-deps": "node scripts/level-deps.js",
 		"lint": "eslint \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"lint:fix": "eslint --fix \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
+		"qa": "node scripts/qa.js",
 		"release": "lerna publish --force-publish='*' --exact",
 		"release-canary": "lerna publish --force-publish='*' --exact -c",
 		"test": "jest --runInBand"
@@ -29,12 +30,14 @@
 		"copyfiles": "^2.1.1",
 		"eslint": "^6.4.0",
 		"eslint-config-liferay": "^9.0.0",
+		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
 		"jest": "^24.9.0",
 		"lerna": "^3.16.4",
 		"prettier": "1.18.2",
 		"ts-jest": "^24.1.0",
-		"typescript": "^3.6.3"
+		"typescript": "^3.6.3",
+		"yo": "^3.1.0"
 	},
 	"dependencies": {
 		"xml-js": "^1.6.8"
