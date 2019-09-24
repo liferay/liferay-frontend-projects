@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 
+const chaiFs = require('chai-fs');
 const chai = require('chai');
 
 const liferayThemeApp = require('../index');
 
-chai.use(require('chai-fs'));
+chai.use(chaiFs);
+
 const chaiAssert = chai.assert;
 
 describe('liferay-theme:app unit tests', () => {

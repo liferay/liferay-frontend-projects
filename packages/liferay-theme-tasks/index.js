@@ -6,16 +6,18 @@
 
 'use strict';
 
-require('./lib/checkNodeVersion')();
-
 const globby = require('globby');
+const gulpLoadPlugins = require('gulp-load-plugins');
 const _ = require('lodash');
 const path = require('path');
 
+const checkNodeVersion = require('./lib/checkNodeVersion');
 const lfrThemeConfig = require('./lib/liferay_theme_config');
-const plugins = require('gulp-load-plugins')();
-
 const pluginTasks = require('./plugin');
+
+checkNodeVersion();
+
+const plugins = gulpLoadPlugins();
 
 const themeConfig = lfrThemeConfig.getConfig();
 

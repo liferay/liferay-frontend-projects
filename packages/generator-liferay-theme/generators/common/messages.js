@@ -5,7 +5,8 @@
  */
 
 const chalk = require('chalk');
-const version = require('../../package.json').version;
+
+const {version} = require('../../package.json');
 
 function getVersionSupportMessage(generatorNamespace) {
 	const supportedVersion = chalk.red('Liferay DXP and Portal CE v7.2');

@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const EventEmitter = require('events').EventEmitter;
-
 const colors = require('ansi-colors');
+const {EventEmitter} = require('events');
 const log = require('fancy-log');
 const fs = require('fs');
 const inquirer = require('inquirer');

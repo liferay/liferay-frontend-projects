@@ -6,17 +6,17 @@
 
 'use strict';
 
+var chaiFs = require('chai-fs');
 var chai = require('chai');
 var del = require('del');
 var fs = require('fs-extra');
-var Gulp = require('gulp').Gulp;
-
+var {Gulp} = require('gulp');
 var os = require('os');
 var path = require('path');
 
 var gulp = new Gulp();
 
-chai.use(require('chai-fs'));
+chai.use(chaiFs);
 
 var assert = chai.assert;
 

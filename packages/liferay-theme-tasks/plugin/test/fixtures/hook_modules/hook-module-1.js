@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-var EventEmitter = require('events').EventEmitter;
+var {EventEmitter} = require('events');
 
 module.exports = function(gulp) {
 	gulp.hook('before:build', () => {

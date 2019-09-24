@@ -6,9 +6,8 @@
 
 const del = require('del');
 const fs = require('fs-extra');
+const {Gulp} = require('gulp');
 const _ = require('lodash');
-const Gulp = require('gulp').Gulp;
-
 const os = require('os');
 const path = require('path');
 const sinon = require('sinon');
@@ -248,7 +247,7 @@ function copyTempTheme(options) {
 	if (options.registerTasksOptions || options.registerTasks) {
 		deleteJsFromCache();
 
-		const registerTasks = require('../index.js').registerTasks;
+		const {registerTasks} = require('../index.js');
 
 		gulp = new Gulp();
 

@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+var chaiFs = require('chai-fs');
 var chai = require('chai');
 
-chai.use(require('chai-fs'));
+chai.use(chaiFs);
 
 // TODO: fix functional tests and remove from ignores list
 // var _ = require('lodash');
