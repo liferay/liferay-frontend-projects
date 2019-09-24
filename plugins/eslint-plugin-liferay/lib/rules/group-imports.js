@@ -6,6 +6,7 @@
 
 const {
 	getLeadingComments,
+	getRequireStatement,
 	getSource,
 	hasSideEffects,
 	isLocal,
@@ -82,7 +83,9 @@ module.exports = {
 		}
 
 		function register(node) {
-			imports.push(node);
+			if (node) {
+				imports.push(node);
+			}
 		}
 
 		return {
@@ -98,26 +101,7 @@ module.exports = {
 					return;
 				}
 
-				if (
-					node.callee.type === 'Identifier' &&
-					node.callee.name === 'require'
-				) {
-					const argument = node.arguments && node.arguments[0];
-					if (
-						argument &&
-						argument.type === 'Literal' &&
-						typeof argument.value === 'string'
-					) {
-						if (node.parent.type === 'ExpressionStatement') {
-							register(node.parent);
-						} else if (
-							node.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.type === 'VariableDeclaration'
-						) {
-							register(node.parent.parent);
-						}
-					}
-				}
+				register(getRequireStatement(node));
 			},
 
 			FunctionDeclaration: enterScope,

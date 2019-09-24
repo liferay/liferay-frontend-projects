@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-const DESCRIPTION = 'imports must come before other statements';
+const {
+	getRequireStatement,
+	getSource,
+	isRequireStatement,
+} = require('../common/imports');
 
 module.exports = {
 	create(context) {
@@ -26,15 +30,6 @@ module.exports = {
 				node.type === 'ExpressionStatement' &&
 				node.expression.type === 'CallExpression' &&
 				node.expression.callee.name === 'require'
-			);
-		}
-
-		function isRequireStatement(node) {
-			return (
-				node &&
-				node.type === 'VariableDeclaration' &&
-				node.declarations[0].init.type === 'CallExpression' &&
-				node.declarations[0].init.callee.name === 'require'
 			);
 		}
 
@@ -70,7 +65,9 @@ module.exports = {
 				}
 
 				context.report({
-					message: DESCRIPTION,
+					message: `import of ${JSON.stringify(
+						getSource(node)
+					)} must come before other statements`,
 					node,
 				});
 
@@ -91,26 +88,7 @@ module.exports = {
 					return;
 				}
 
-				if (
-					node.callee.type === 'Identifier' &&
-					node.callee.name === 'require'
-				) {
-					const argument = node.arguments && node.arguments[0];
-					if (
-						argument &&
-						argument.type === 'Literal' &&
-						typeof argument.value === 'string'
-					) {
-						if (node.parent.type === 'ExpressionStatement') {
-							check(node.parent);
-						} else if (
-							node.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.type === 'VariableDeclaration'
-						) {
-							check(node.parent.parent);
-						}
-					}
-				}
+				check(getRequireStatement(node));
 			},
 
 			FunctionDeclaration: enterScope,
@@ -131,7 +109,7 @@ module.exports = {
 	meta: {
 		docs: {
 			category: 'Best Practices',
-			description: DESCRIPTION,
+			description: 'imports must come before other statements',
 			recommended: false,
 			url:
 				'https://github.com/liferay/liferay-frontend-guidelines/issues/60',

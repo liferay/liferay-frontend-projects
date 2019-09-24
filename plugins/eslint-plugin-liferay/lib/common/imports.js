@@ -32,12 +32,60 @@ function getLeadingComments(node, context) {
 	return [];
 }
 
+/**
+ * See also `isRequireStatement()` in this module.
+ */
+function getRequireStatement(node) {
+	if (node.callee.type === 'Identifier' && node.callee.name === 'require') {
+		const argument = node.arguments && node.arguments[0];
+
+		if (
+			argument &&
+			argument.type === 'Literal' &&
+			typeof argument.value === 'string'
+		) {
+			if (
+				node.parent.type === 'CallExpression' &&
+				node.parent.parent.type === 'VariableDeclarator' &&
+				node.parent.parent.parent.type === 'VariableDeclaration'
+			) {
+				return node.parent.parent.parent;
+			} else if (node.parent.type === 'ExpressionStatement') {
+				return node.parent;
+			} else if (
+				node.parent.type === 'MemberExpression' &&
+				node.parent.parent.type === 'VariableDeclarator' &&
+				node.parent.parent.parent.type === 'VariableDeclaration'
+			) {
+				return node.parent.parent.parent;
+			} else if (
+				node.parent.type === 'VariableDeclarator' &&
+				node.parent.parent.type === 'VariableDeclaration'
+			) {
+				return node.parent.parent;
+			}
+		}
+	}
+}
+
 function getSource(node) {
 	if (node.type === 'ImportDeclaration') {
 		return node.source.value;
 	} else if (node.type === 'VariableDeclaration') {
-		// ie. `const ... = require('...');`
-		return node.declarations[0].init.arguments[0].value;
+		const init = node.declarations[0].init;
+
+		if (init.type === 'CallExpression') {
+			if (init.callee.type === 'CallExpression') {
+				// ie. `const ... = require('...')(...);
+				return init.callee.arguments[0].value;
+			} else {
+				// ie. `const ... = require('...');`
+				return init.arguments[0].value;
+			}
+		} else if (init.type === 'MemberExpression') {
+			// ie. `const ... = require('...').thing;
+			return init.object.arguments[0].value;
+		}
 	} else if (node.type === 'ExpressionStatement') {
 		// ie. `require('...');`
 		return node.expression.arguments[0].value;
@@ -102,12 +150,38 @@ function isRelative(source) {
 	return /^\.\.?\//.test(source);
 }
 
+/**
+ * See also `getRequireStatement()` in this module.
+ */
+function isRequireStatement(node) {
+	if (!node && node.type !== 'VariableDeclaration') {
+		return false;
+	}
+
+	const {init} = node.declarations[0];
+
+	return (
+		// ie. `const a = require('a');`
+		(init.type === 'CallExpression' && init.callee.name === 'require') ||
+		// ie. `const a = require('a').item;`
+		(init.type === 'MemberExpression' &&
+			init.object.type === 'CallExpression' &&
+			init.object.callee.name === 'require') ||
+		// ie. `const a = require('a')();`
+		(init.type === 'CallExpression' &&
+			init.callee.type === 'CallExpression' &&
+			init.callee.callee.name === 'require')
+	);
+}
+
 module.exports = {
 	getLeadingComments,
+	getRequireStatement,
 	getSource,
 	getTrailingComments,
 	hasSideEffects,
 	isAbsolute,
 	isLocal,
 	isRelative,
+	isRequireStatement,
 };

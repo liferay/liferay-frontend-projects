@@ -95,5 +95,35 @@ ruleTester.run('group-imports', rule, {
 				import x from './x';
 			`,
 		},
+		{
+			// Regression test: `MemberExpression` here was forcing a blank
+			// line between "gulp" and "os" imports.
+			//
+			// https://github.com/liferay/eslint-config-liferay/issues/94
+			code: `
+				var del = require('del');
+				var fs = require('fs-extra');
+				var Gulp = require('gulp').Gulp;
+				var os = require('os');
+				var path = require('path');
+			`,
+		},
+		{
+			// Regression test: Immediate `CallExpression` here was
+			// forcing a blank line between "gulp-load-plugins" and
+			// the following import.
+			//
+			// https://github.com/liferay/eslint-config-liferay/issues/94
+			code: `
+				const del = require('del');
+				const fs = require('fs-extra');
+				const _ = require('lodash');
+				const path = require('path');
+				const plugins = require('gulp-load-plugins')();
+				const replace = require('gulp-replace-task');
+				const through = require('through2');
+				const PluginError = require('plugin-error');
+			`,
+		},
 	],
 });
