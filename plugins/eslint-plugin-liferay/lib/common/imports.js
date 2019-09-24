@@ -32,6 +32,39 @@ function getLeadingComments(node, context) {
 	return [];
 }
 
+function getRequireStatement(node) {
+	if (node.callee.type === 'Identifier' && node.callee.name === 'require') {
+		const argument = node.arguments && node.arguments[0];
+
+		if (
+			argument &&
+			argument.type === 'Literal' &&
+			typeof argument.value === 'string'
+		) {
+			if (
+				node.parent.type === 'CallExpression' &&
+				node.parent.parent.type === 'VariableDeclarator' &&
+				node.parent.parent.parent.type === 'VariableDeclaration'
+			) {
+				return node.parent.parent.parent;
+			} else if (node.parent.type === 'ExpressionStatement') {
+				return node.parent;
+			} else if (
+				node.parent.type === 'MemberExpression' &&
+				node.parent.parent.type === 'VariableDeclarator' &&
+				node.parent.parent.parent.type === 'VariableDeclaration'
+			) {
+				return node.parent.parent.parent;
+			} else if (
+				node.parent.type === 'VariableDeclarator' &&
+				node.parent.parent.type === 'VariableDeclaration'
+			) {
+				return node.parent.parent;
+			}
+		}
+	}
+}
+
 function getSource(node) {
 	if (node.type === 'ImportDeclaration') {
 		return node.source.value;
@@ -116,6 +149,7 @@ function isRelative(source) {
 
 module.exports = {
 	getLeadingComments,
+	getRequireStatement,
 	getSource,
 	getTrailingComments,
 	hasSideEffects,

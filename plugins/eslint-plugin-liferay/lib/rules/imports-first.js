@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {getSource} = require('../common/imports');
+const {getRequireStatement, getSource} = require('../common/imports');
 
 module.exports = {
 	create(context) {
@@ -106,40 +106,7 @@ module.exports = {
 					return;
 				}
 
-				if (
-					node.callee.type === 'Identifier' &&
-					node.callee.name === 'require'
-				) {
-					const argument = node.arguments && node.arguments[0];
-					if (
-						argument &&
-						argument.type === 'Literal' &&
-						typeof argument.value === 'string'
-					) {
-						if (
-							node.parent.type === 'CallExpression' &&
-							node.parent.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.parent.type ===
-								'VariableDeclaration'
-						) {
-							check(node.parent.parent.parent);
-						} else if (node.parent.type === 'ExpressionStatement') {
-							check(node.parent);
-						} else if (
-							node.parent.type === 'MemberExpression' &&
-							node.parent.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.parent.type ===
-								'VariableDeclaration'
-						) {
-							check(node.parent.parent.parent);
-						} else if (
-							node.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.type === 'VariableDeclaration'
-						) {
-							check(node.parent.parent);
-						}
-					}
-				}
+				check(getRequireStatement(node));
 			},
 
 			FunctionDeclaration: enterScope,

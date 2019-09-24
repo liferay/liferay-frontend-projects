@@ -6,6 +6,7 @@
 
 const {
 	getLeadingComments,
+	getRequireStatement,
 	getSource,
 	getTrailingComments,
 	hasSideEffects,
@@ -135,12 +136,14 @@ module.exports = {
 		}
 
 		function register(node) {
-			if (hasSideEffects(node)) {
-				// Create a boundary group across which we cannot reorder.
-				group = [];
-				imports.push([node], group);
-			} else {
-				group.push(node);
+			if (node) {
+				if (hasSideEffects(node)) {
+					// Create a boundary group across which we cannot reorder.
+					group = [];
+					imports.push([node], group);
+				} else {
+					group.push(node);
+				}
 			}
 		}
 
@@ -157,40 +160,7 @@ module.exports = {
 					return;
 				}
 
-				if (
-					node.callee.type === 'Identifier' &&
-					node.callee.name === 'require'
-				) {
-					const argument = node.arguments && node.arguments[0];
-					if (
-						argument &&
-						argument.type === 'Literal' &&
-						typeof argument.value === 'string'
-					) {
-						if (
-							node.parent.type === 'CallExpression' &&
-							node.parent.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.parent.type ===
-								'VariableDeclaration'
-						) {
-							register(node.parent.parent.parent);
-						} else if (node.parent.type === 'ExpressionStatement') {
-							register(node.parent);
-						} else if (
-							node.parent.type === 'MemberExpression' &&
-							node.parent.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.parent.type ===
-								'VariableDeclaration'
-						) {
-							register(node.parent.parent.parent);
-						} else if (
-							node.parent.type === 'VariableDeclarator' &&
-							node.parent.parent.type === 'VariableDeclaration'
-						) {
-							register(node.parent.parent);
-						}
-					}
-				}
+				register(getRequireStatement(node));
 			},
 
 			FunctionDeclaration: enterScope,
