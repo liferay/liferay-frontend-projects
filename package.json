@@ -28,7 +28,7 @@
 	},
 	"devDependencies": {
 		"copyfiles": "^2.1.1",
-		"eslint": "^6.4.0",
+		"eslint": "^5.16.0",
 		"eslint-config-liferay": "^9.0.0",
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
