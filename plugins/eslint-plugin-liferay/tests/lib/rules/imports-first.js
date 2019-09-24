@@ -49,6 +49,42 @@ ruleTester.run('imports-first', rule, {
 				},
 			],
 		},
+		{
+			// Regression test: the second require here wasn't being flagged
+			// because we were choking (silently) on the directive:
+			code: `
+				'use strict';
+
+				var {Gulp} = require('gulp');
+
+				var gulp = new Gulp();
+
+				var {getArgv} = require('../../lib/util');
+			`,
+			errors: [
+				{
+					message:
+						'import of "../../lib/util" must come before other statements',
+					type: 'VariableDeclaration',
+				},
+			],
+		},
+		{
+			// Note that directives are only ignored when they are at the top.
+			code: `
+				const a = require('a');
+
+				'use strict';
+
+				const x = require('x');
+			`,
+			errors: [
+				{
+					message: 'import of "x" must come before other statements',
+					type: 'VariableDeclaration',
+				},
+			],
+		},
 	],
 
 	valid: [
@@ -94,6 +130,14 @@ ruleTester.run('imports-first', rule, {
 				const replace = require('gulp-replace-task');
 				const through = require('through2');
 				const PluginError = require('plugin-error');
+			`,
+		},
+		{
+			code: `
+				'use strict';
+
+				const a = require('a');
+				const b = require('b');
 			`,
 		},
 	],

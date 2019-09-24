@@ -154,7 +154,7 @@ function isRelative(source) {
  * See also `getRequireStatement()` in this module.
  */
 function isRequireStatement(node) {
-	if (!node && node.type !== 'VariableDeclaration') {
+	if (!node || node.type !== 'VariableDeclaration') {
 		return false;
 	}
 
