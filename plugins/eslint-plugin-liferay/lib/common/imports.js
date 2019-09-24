@@ -32,6 +32,9 @@ function getLeadingComments(node, context) {
 	return [];
 }
 
+/**
+ * See also `isRequireStatement()` in this module.
+ */
 function getRequireStatement(node) {
 	if (node.callee.type === 'Identifier' && node.callee.name === 'require') {
 		const argument = node.arguments && node.arguments[0];
@@ -147,6 +150,31 @@ function isRelative(source) {
 	return /^\.\.?\//.test(source);
 }
 
+/**
+ * See also `getRequireStatement()` in this module.
+ */
+function isRequireStatement(node) {
+	return (
+		// ie. `const a = require('a');`
+		(node &&
+			node.type === 'VariableDeclaration' &&
+			node.declarations[0].init.type === 'CallExpression' &&
+			node.declarations[0].init.callee.name === 'require') ||
+		// ie. `const a = require('a').item;`
+		(node &&
+			node.type === 'VariableDeclaration' &&
+			node.declarations[0].init.type === 'MemberExpression' &&
+			node.declarations[0].init.object.type === 'CallExpression' &&
+			node.declarations[0].init.object.callee.name === 'require') ||
+		// ie. `const a = require('a')();`
+		(node &&
+			node.type === 'VariableDeclaration' &&
+			node.declarations[0].init.type === 'CallExpression' &&
+			node.declarations[0].init.callee.type === 'CallExpression' &&
+			node.declarations[0].init.callee.callee.name === 'require')
+	);
+}
+
 module.exports = {
 	getLeadingComments,
 	getRequireStatement,
@@ -156,4 +184,5 @@ module.exports = {
 	isAbsolute,
 	isLocal,
 	isRelative,
+	isRequireStatement,
 };

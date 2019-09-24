@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {getRequireStatement, getSource} = require('../common/imports');
+const {
+	getRequireStatement,
+	getSource,
+	isRequireStatement,
+} = require('../common/imports');
 
 module.exports = {
 	create(context) {
@@ -26,28 +30,6 @@ module.exports = {
 				node.type === 'ExpressionStatement' &&
 				node.expression.type === 'CallExpression' &&
 				node.expression.callee.name === 'require'
-			);
-		}
-
-		function isRequireStatement(node) {
-			return (
-				(node &&
-					node.type === 'VariableDeclaration' &&
-					node.declarations[0].init.type === 'CallExpression' &&
-					node.declarations[0].init.callee.name === 'require') ||
-				(node &&
-					node.type === 'VariableDeclaration' &&
-					node.declarations[0].init.type === 'MemberExpression' &&
-					node.declarations[0].init.object.type ===
-						'CallExpression' &&
-					node.declarations[0].init.object.callee.name ===
-						'require') ||
-				(node &&
-					node.type === 'VariableDeclaration' &&
-					node.declarations[0].init.type === 'CallExpression' &&
-					node.declarations[0].init.callee.type ===
-						'CallExpression' &&
-					node.declarations[0].init.callee.callee.name === 'require')
 			);
 		}
 
