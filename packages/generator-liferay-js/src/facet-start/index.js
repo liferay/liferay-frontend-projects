@@ -44,3 +44,5 @@ export default class extends Generator {
 		pkgJson.addScript('start', 'lnbs-start');
 	}
 }
+
+module.exports = exports['default'];

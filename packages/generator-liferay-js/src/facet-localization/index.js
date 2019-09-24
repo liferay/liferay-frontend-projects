@@ -62,3 +62,5 @@ export default class extends Generator {
 		pkgJson.addScript('translate', 'lnbs-translate');
 	}
 }
+
+module.exports = exports['default'];
