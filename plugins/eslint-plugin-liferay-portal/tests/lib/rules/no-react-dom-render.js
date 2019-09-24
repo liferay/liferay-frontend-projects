@@ -12,13 +12,11 @@ const parserOptions = {
 	ecmaFeatures: {
 		jsx: true,
 	},
-	parserOptions: {
-		ecmaVersion: 6,
-		sourceType: 'module',
-	},
+	ecmaVersion: 6,
+	sourceType: 'module',
 };
 
-const ruleTester = new RuleTester(parserOptions);
+const ruleTester = new RuleTester({parserOptions});
 
 const errors = [
 	{
