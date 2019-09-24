@@ -8,14 +8,12 @@ const {
 	getRequireStatement,
 	getSource,
 	isRequireStatement,
+	withScope,
 } = require('../common/imports');
 
 module.exports = {
 	create(context) {
-		const scope = [];
-
-		const enterScope = node => scope.push(node);
-		const exitScope = () => scope.pop();
+		const {scope, visitors} = withScope();
 
 		let lastImportIndex = -1;
 		let lastNonImportIndex = -1;
@@ -76,11 +74,7 @@ module.exports = {
 		}
 
 		return {
-			ArrowFunctionExpression: enterScope,
-			'ArrowFunctionExpression:exit': exitScope,
-
-			BlockStatement: enterScope,
-			'BlockStatement:exit': exitScope,
+			...visitors,
 
 			CallExpression(node) {
 				if (scope.length) {
@@ -91,18 +85,9 @@ module.exports = {
 				check(getRequireStatement(node));
 			},
 
-			FunctionDeclaration: enterScope,
-			'FunctionDeclaration:exit': exitScope,
-
-			FunctionExpression: enterScope,
-			'FunctionExpression:exit': exitScope,
-
 			ImportDeclaration(node) {
 				check(node);
 			},
-
-			ObjectExpression: enterScope,
-			'ObjectExpression:exit': exitScope,
 		};
 	},
 

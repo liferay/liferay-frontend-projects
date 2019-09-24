@@ -13,6 +13,7 @@ module.exports = {
 		'no-duplicate-imports': require('./lib/rules/no-duplicate-imports'),
 		'no-dynamic-require': require('./lib/rules/no-dynamic-require'),
 		'no-it-should': require('./lib/rules/no-it-should'),
+		'no-require-and-call': require('./lib/rules/no-require-and-call'),
 		'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
 		'sort-imports': require('./lib/rules/sort-imports'),
 	},

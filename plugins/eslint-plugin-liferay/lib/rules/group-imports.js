@@ -10,6 +10,7 @@ const {
 	getSource,
 	hasSideEffects,
 	isLocal,
+	withScope,
 } = require('../common/imports');
 
 const DESCRIPTION = 'imports must be grouped';
@@ -18,10 +19,7 @@ module.exports = {
 	create(context) {
 		const imports = [];
 
-		const scope = [];
-
-		const enterScope = node => scope.push(node);
-		const exitScope = () => scope.pop();
+		const {scope, visitors} = withScope();
 
 		function expectBlankLines(node, count = 1) {
 			const comments = getLeadingComments(node, context);
@@ -89,11 +87,7 @@ module.exports = {
 		}
 
 		return {
-			ArrowFunctionExpression: enterScope,
-			'ArrowFunctionExpression:exit': exitScope,
-
-			BlockStatement: enterScope,
-			'BlockStatement:exit': exitScope,
+			...visitors,
 
 			CallExpression(node) {
 				if (scope.length) {
@@ -104,18 +98,9 @@ module.exports = {
 				register(getRequireStatement(node));
 			},
 
-			FunctionDeclaration: enterScope,
-			'FunctionDeclaration:exit': exitScope,
-
-			FunctionExpression: enterScope,
-			'FunctionExpression:exit': exitScope,
-
 			ImportDeclaration(node) {
 				register(node);
 			},
-
-			ObjectExpression: enterScope,
-			'ObjectExpression:exit': exitScope,
 
 			['Program:exit'](_node) {
 				/**

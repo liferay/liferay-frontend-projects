@@ -12,6 +12,7 @@ const {
 	hasSideEffects,
 	isAbsolute,
 	isRelative,
+	withScope,
 } = require('../common/imports');
 
 const DESCRIPTION = 'imports must be sorted';
@@ -119,10 +120,7 @@ module.exports = {
 		 */
 		const imports = [group];
 
-		const scope = [];
-
-		const enterScope = node => scope.push(node);
-		const exitScope = () => scope.pop();
+		const {scope, visitors} = withScope();
 
 		function getRangeForNode(node) {
 			const commentsBefore = getLeadingComments(node, context);
@@ -148,11 +146,7 @@ module.exports = {
 		}
 
 		return {
-			ArrowFunctionExpression: enterScope,
-			'ArrowFunctionExpression:exit': exitScope,
-
-			BlockStatement: enterScope,
-			'BlockStatement:exit': exitScope,
+			...visitors,
 
 			CallExpression(node) {
 				if (scope.length) {
@@ -163,18 +157,9 @@ module.exports = {
 				register(getRequireStatement(node));
 			},
 
-			FunctionDeclaration: enterScope,
-			'FunctionDeclaration:exit': exitScope,
-
-			FunctionExpression: enterScope,
-			'FunctionExpression:exit': exitScope,
-
 			ImportDeclaration(node) {
 				register(node);
 			},
-
-			ObjectExpression: enterScope,
-			'ObjectExpression:exit': exitScope,
 
 			['Program:exit'](_node) {
 				const problems = imports.map(group => {

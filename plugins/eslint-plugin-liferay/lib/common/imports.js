@@ -174,6 +174,34 @@ function isRequireStatement(node) {
 	);
 }
 
+function withScope() {
+	const scope = [];
+
+	const enterScope = node => scope.push(node);
+	const exitScope = () => scope.pop();
+
+	return {
+		scope,
+
+		visitors: {
+			ArrowFunctionExpression: enterScope,
+			'ArrowFunctionExpression:exit': exitScope,
+
+			BlockStatement: enterScope,
+			'BlockStatement:exit': exitScope,
+
+			FunctionDeclaration: enterScope,
+			'FunctionDeclaration:exit': exitScope,
+
+			FunctionExpression: enterScope,
+			'FunctionExpression:exit': exitScope,
+
+			ObjectExpression: enterScope,
+			'ObjectExpression:exit': exitScope,
+		},
+	};
+}
+
 module.exports = {
 	getLeadingComments,
 	getRequireStatement,
@@ -184,4 +212,5 @@ module.exports = {
 	isLocal,
 	isRelative,
 	isRequireStatement,
+	withScope,
 };
