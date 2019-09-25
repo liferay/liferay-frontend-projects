@@ -29,4 +29,4 @@ The best way to get a developer dependency approved for Liferay DXP is to prove 
 
 ## Related resources
 
-[1][liferay dxp build process]()
+1. [Liferay DXP build process](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts)
