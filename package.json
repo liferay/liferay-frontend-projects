@@ -7,9 +7,11 @@
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-frontend-guidelines.git",
 	"scripts": {
+		"ci": "yarn format:check && yarn test",
 		"format": "prettier --write '**/{.,}*.js{,on}' '**/*.md'",
 		"format:changed": "git ls-files -mz -- '*.js' '*.json' '*.md' | xargs -0 prettier --write --",
-		"format:check": "prettier --list-different '**/{.,}*.js{,on}' '**/*.md'"
+		"format:check": "prettier --list-different '**/{.,}*.js{,on}' '**/*.md'",
+		"test": "node support/checkLinks.js"
 	},
 	"version": "0.0.1"
 }
