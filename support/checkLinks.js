@@ -15,7 +15,7 @@ const FILTER_PATTERN = /\.md$/;
 const IGNORE_PATTERN = /^(?:.git|node_modules)$/;
 
 // Adapted from: https://stackoverflow.com/a/163684/2103996
-const URL_PATTERN = /\bhttps?:\/\/[\-A-Za-z0-9+&@#\/%?=~_|!:,.;]*[\-A-Za-z0-9+&@#\/%=~_|]/;
+const URL_PATTERN = /\bhttps?:\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]/;
 
 let errorCount = 0;
 
@@ -77,8 +77,8 @@ function checkRemote(link, files) {
 		const request = http.get(
 			{
 				host: hostname,
-				port,
-				path: pathname
+				path: pathname,
+				port
 			},
 			({statusCode}) => {
 				if (statusCode >= 200 && statusCode < 400) {
@@ -136,7 +136,7 @@ function extractLinks(contents, file) {
 			return ' ';
 		})
 		// [link text](https://example.com)
-		.replace(/\[[^\]\n]+\]\(([^\s\)]+)\)/g, (_, link) => {
+		.replace(/\[[^\]\n]+\]\(([^\s)]+)\)/g, (_, link) => {
 			links.add(link);
 			return ' ';
 		})
@@ -189,7 +189,7 @@ async function run(pending) {
 
 	while (active.size > 0 || pending.size > 0) {
 		for (let i = active.size; i < MAX_CONCURRENT_CHECKS; i++) {
-			for (let [link, files] of pending.entries()) {
+			for (const [link, files] of pending.entries()) {
 				const promise = new Promise((resolve, reject) => {
 					check(link, files)
 						.then(resolve)
