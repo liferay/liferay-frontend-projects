@@ -5,8 +5,11 @@
  */
 
 import prop from 'dot-prop';
+import fs from 'fs';
+import path from 'path';
 
 import {Project} from '.';
+import FilePath from '../file-path';
 
 /**
  * Reflects miscellaneous project configuration values.
@@ -39,6 +42,67 @@ export default class Misc {
 		// doesn't impact performance and should be low enough to make it work
 		// in all OSes.
 		return prop.get(_npmbundlerrc, 'max-parallel-files', 128);
+	}
+
+	/**
+	 * Whether or not to track usage
+	 */
+	get noTracking(): boolean {
+		const {_project} = this;
+		const {_npmbundlerrc} = _project;
+
+		if (!prop.has(_npmbundlerrc, 'no-tracking')) {
+			if (prop.has(process, 'env.LIFERAY_NPM_BUNDLER_NO_TRACKING')) {
+				prop.set(_npmbundlerrc, 'no-tracking', true);
+			}
+		}
+
+		if (!prop.has(_npmbundlerrc, 'no-tracking')) {
+			let dir = _project.dir.asNative;
+
+			while (
+				!fs.existsSync(
+					path.join(dir, '.liferay-npm-bundler-no-tracking')
+				) &&
+				path.resolve(dir, '..') !== dir
+			) {
+				dir = path.resolve(dir, '..');
+			}
+
+			if (
+				fs.existsSync(
+					path.join(dir, '.liferay-npm-bundler-no-tracking')
+				)
+			) {
+				prop.set(_npmbundlerrc, 'no-tracking', true);
+			}
+		}
+
+		// Disable tracking by default
+		return prop.get(_npmbundlerrc, 'no-tracking', true);
+	}
+
+	/**
+	 * Get the path to the report file or undefined if no report is configured.
+	 */
+	get reportFile(): FilePath | undefined {
+		const {_project} = this;
+		const {_npmbundlerrc} = _project;
+
+		const dumpReport = prop.get(_npmbundlerrc, 'dump-report', false);
+
+		return dumpReport
+			? _project.dir.join('liferay-npm-bundler-report.html')
+			: undefined;
+	}
+
+	/**
+	 * Whether or not to dump detailed information about what the tool is doing
+	 */
+	get verbose(): boolean {
+		const {_npmbundlerrc} = this._project;
+
+		return prop.get(_npmbundlerrc, 'verbose', false);
 	}
 
 	_project: Project;
