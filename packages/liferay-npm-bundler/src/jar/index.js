@@ -132,7 +132,7 @@ function addManifest(zip) {
 		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
 	}
 
-	if (config.jar.getRequireJsExtender()) {
+	if (project.jar.requireJsExtender) {
 		let filter;
 
 		const minimumExtenderVersion = getMinimumExtenderVersion();
@@ -236,7 +236,7 @@ function addPortletInstanceConfigurationFile(zip) {
  * @return {string|undefined} a version number or undefined if none is required
  */
 function getMinimumExtenderVersion() {
-	const requireJsExtender = config.jar.getRequireJsExtender();
+	const requireJsExtender = project.jar.requireJsExtender;
 
 	if (typeof requireJsExtender === 'string') {
 		if (requireJsExtender === 'any') {
@@ -265,7 +265,7 @@ function getMinimumExtenderVersion() {
  * @return {object}
  */
 function getPortletInstanceConfigurationJson() {
-	const filePath = config.jar.getConfigurationFile();
+	const filePath = project.jar.configurationFile.asNative;
 
 	if (!filePath) {
 		return undefined;
@@ -289,7 +289,7 @@ function getPortletInstanceConfigurationJson() {
  * @return {object}
  */
 function getSystemConfigurationJson() {
-	const filePath = config.jar.getConfigurationFile();
+	const filePath = project.jar.configurationFile.asNative;
 
 	if (!filePath) {
 		return undefined;

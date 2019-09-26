@@ -51,7 +51,7 @@ export default function(args) {
 
 	report.versionsInfo(versionsInfo);
 
-	if (config.isNoTracking()) {
+	if (project.misc.noTracking) {
 		run();
 	} else {
 		log.debug(
@@ -114,12 +114,11 @@ function run() {
 				report.sendAnalytics();
 
 				// Write report if requested
-				if (config.isDumpReport()) {
-					fs.writeFileSync(
-						config.getReportFilePath(),
-						report.toHtml()
+				if (project.misc.reportFile) {
+					fs.writeFileSync(project.misc.reportFile, report.toHtml());
+					log.info(
+						`Report written to ${project.misc.reportFile.asNative}`
 					);
-					log.info(`Report written to ${config.getReportFilePath()}`);
 				} else if (report.warningsPresent) {
 					log.debug('The build has emitted some warning messages.');
 				}
