@@ -12,8 +12,6 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
-import * as config from '../config';
-
 /**
  * Perform a glob search of files and return their paths referenced to
  * `baseDir` without leading `./`.
