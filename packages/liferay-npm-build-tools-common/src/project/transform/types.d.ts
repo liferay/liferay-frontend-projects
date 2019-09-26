@@ -24,3 +24,7 @@ interface BundlerTransformPluginEntryPoint extends BundlerPluginEntryPoint {
 interface BundlerTransformPluginDescriptor extends BundlerPluginDescriptor {
 	run: BundlerTransformPluginEntryPoint;
 }
+
+interface BabelPlugin {
+	();
+}
