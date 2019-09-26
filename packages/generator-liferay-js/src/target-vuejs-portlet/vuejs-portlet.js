@@ -68,3 +68,5 @@ export default class extends Generator {
 		standardTarget.generateSamples(this, labels);
 	}
 }
+
+module.exports = exports['default'];

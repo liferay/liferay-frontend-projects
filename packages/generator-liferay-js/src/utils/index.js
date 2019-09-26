@@ -127,7 +127,7 @@ export function getSDKVersion(packageName, {ignoreConfig = false} = {}) {
 	const sdkVersion = cfg.getSDKVersion();
 
 	if (sdkVersion) {
-		if (Number.isNaN(parseInt(sdkVersion.charAt(0)))) {
+		if (Number.isNaN(parseInt(sdkVersion.charAt(0), 10))) {
 			version = `${sdkVersion}/packages/${packageName}`;
 		} else {
 			version = sdkVersion;

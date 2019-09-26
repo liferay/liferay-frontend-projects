@@ -109,3 +109,5 @@ function compareTargetDescriptionPriorities(ltd, rtd) {
 function getTargetDescription(target) {
 	return require(`../target-${target}/target-description.json`);
 }
+
+module.exports = exports['default'];

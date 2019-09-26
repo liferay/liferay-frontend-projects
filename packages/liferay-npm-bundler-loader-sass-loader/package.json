@@ -4,15 +4,12 @@
 	"description": "A liferay-npm-bundler loader that runs `sass` or `node-sass` on source files.",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
-		"prepublish": "npm run build"
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
+		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"resolve": "^1.12.0",
+		"resolve": "^1.8.1",
 		"sass": "^1.22.2"
-	},
-	"devDependencies": {
-		"babel-cli": "^6.24.1",
-		"babel-preset-es2015": "^6.24.1"
 	}
 }

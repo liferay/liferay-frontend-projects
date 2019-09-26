@@ -68,3 +68,5 @@ export default class extends Generator {
 		pkgJson.addScript('deploy', 'npm run build && lnbs-deploy');
 	}
 }
+
+module.exports = exports['default'];

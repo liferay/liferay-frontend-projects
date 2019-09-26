@@ -26,7 +26,7 @@ beforeEach(done => {
 
 	rcopy(`${__dirname}/__fixtures__`, pkg.dir.asNative, {
 		overwrite: true,
-	}).then(done);
+	}).then(() => done());
 });
 
 // Delete result files after running each test

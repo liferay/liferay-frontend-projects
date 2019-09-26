@@ -9,5 +9,6 @@ module.exports = {
 		'no-console': 'off',
 		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-return-assign': ['error', 'except-parens'],
+		'sort-keys': 'off',
 	},
 };

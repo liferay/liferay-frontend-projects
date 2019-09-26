@@ -71,15 +71,11 @@ export function runNodeModulesBin(script, args = []) {
 		throw proc.error;
 	} else if (proc.status != 0) {
 		throw new Error(
-			`Node modules binary '${script}' finished with status ${
-				proc.status
-			}`
+			`Node modules binary '${script}' finished with status ${proc.status}`
 		);
 	} else if (proc.signal) {
 		throw new Error(
-			`Node modules binary '${script}' finished due to signal ${
-				proc.signal
-			}`
+			`Node modules binary '${script}' finished due to signal ${proc.signal}`
 		);
 	}
 }

@@ -4,12 +4,9 @@
 	"description": "A liferay-npm-bundler loader that copies files.",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
-		"prepublish": "npm run build"
-	},
-	"devDependencies": {
-		"babel-cli": "^6.24.1",
-		"babel-preset-es2015": "^6.24.1"
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
+		"prepublish": "yarn build"
 	},
 	"dependencies": {
 		"liferay-npm-build-tools-common": "2.13.2"

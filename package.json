@@ -8,36 +8,37 @@
 	"bugs": {
 		"url": "https://github.com/liferay/liferay-js-toolkit/issues"
 	},
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
 	"scripts": {
 		"build": "lerna run build",
-		"ci": "npm run format:check && npm run lint && npm run test",
+		"check-deps": "node scripts/check-deps.js",
+		"ci": "yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
 		"format": "prettier --write \".*.js\" \"packages/*/src/**/*.js\"",
 		"format:check": "prettier --list-different \".*.js\" \"packages/*/src/**/*.js\"",
-		"lerna": "npm install && lerna bootstrap",
+		"level-deps": "node scripts/level-deps.js",
 		"lint": "eslint \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"lint:fix": "eslint --fix \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
+		"qa": "node scripts/qa.js",
 		"release": "lerna publish --force-publish='*' --exact",
 		"release-canary": "lerna publish --force-publish='*' --exact -c",
-		"test": "jest --runInBand"
+		"test": "jest --runInBand",
+		"watch": "node scripts/watch"
 	},
 	"devDependencies": {
-		"eslint": "^5.15.1",
-		"eslint-config-liferay": "^3.0.0",
-		"jest": "^20.0.4",
-		"lerna": "^2.0.0-rc.5",
-		"prettier": "1.16.4"
-	},
-	"jest": {
-		"modulePathIgnorePatterns": [
-			"lib/.*",
-			"generators/.*",
-			"qa/.*",
-			"__fixtures__/.*"
-		],
-		"testPathIgnorePatterns": [
-			"/node_modules/",
-			"/__fixtures__/"
-		]
+		"copyfiles": "^2.1.1",
+		"eslint": "^5.16.0",
+		"eslint-config-liferay": "^9.0.0",
+		"fs-extra": "^8.1.0",
+		"globby": "^10.0.1",
+		"jest": "^24.9.0",
+		"lerna": "^3.16.4",
+		"prettier": "1.18.2",
+		"ts-jest": "^24.1.0",
+		"typescript": "^3.6.3",
+		"yo": "^3.1.0"
 	},
 	"dependencies": {
 		"xml-js": "^1.6.8"
