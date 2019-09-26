@@ -17,6 +17,7 @@ import {getPackageDir} from '../packages';
 import Copy from './copy';
 import Jar from './jar';
 import Localization from './localization';
+import Misc from './misc';
 import Probe from './probe';
 import Rules from './rules';
 
@@ -27,6 +28,7 @@ export class Project {
 	copy: Copy;
 	jar: Jar;
 	l10n: Localization;
+	misc: Misc;
 	probe: Probe;
 	rules: Rules;
 
@@ -122,6 +124,7 @@ export class Project {
 		this.copy = new Copy(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
+		this.misc = new Misc(this);
 		this.probe = new Probe(this);
 		this.rules = new Rules(this);
 	}

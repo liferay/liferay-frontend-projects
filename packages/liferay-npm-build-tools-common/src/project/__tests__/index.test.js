@@ -217,6 +217,20 @@ describe('project.l10n', () => {
 	});
 });
 
+describe('project.misc', () => {
+	let project;
+
+	beforeAll(() => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'standard')
+		);
+	});
+
+	it('return maxParallelFiles', () => {
+		expect(project.misc.maxParallelFiles).toBe(32);
+	});
+});
+
 describe('project.pkgManager', () => {
 	const savedSpawnSync = child_process.spawnSync;
 
@@ -369,6 +383,10 @@ describe('empty project defaults', () => {
 		expect(project.buildDir.asPosix).toBe(
 			'./build/resources/main/META-INF/resources'
 		);
+	});
+
+	it('return maxParallelFiles', () => {
+		expect(project.misc.maxParallelFiles).toBe(128);
 	});
 
 	describe('project.jar', () => {

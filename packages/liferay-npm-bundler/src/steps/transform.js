@@ -167,7 +167,7 @@ function babelifyPackage(destPkg) {
 
 	return runInChunks(
 		prjRelPaths,
-		config.bundler.getMaxParallelFiles(),
+		project.misc.maxParallelFiles,
 		0,
 		prjRelPath => babelifyFile(destPkg, prjRelPath, babelConfig)
 	);

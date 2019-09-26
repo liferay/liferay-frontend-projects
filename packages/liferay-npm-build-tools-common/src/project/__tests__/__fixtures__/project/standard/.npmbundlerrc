@@ -18,5 +18,6 @@
 		"is-array@1.0.1": ["test/**/*", "Makefile"],
 		"is-false": false,
 		"is-true": true
-	}
+	},
+	"max-parallel-files": 32
 }
