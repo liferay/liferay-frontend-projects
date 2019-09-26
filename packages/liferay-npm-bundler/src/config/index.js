@@ -6,8 +6,6 @@
 
 // TODO: Move this to whole file to liferay-npm-build-tools-common (see #328)
 
-import prop from 'dot-prop';
-import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
@@ -15,33 +13,15 @@ import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 import merge from 'merge';
 
-import * as jar from './internal/jar';
-import * as util from './internal/util';
-
 // These state objects are consts so that they can be injected into private
 // submodules just once.
 const config = {};
 const pkgJson = {};
 const savedProgramArgs = [];
 
-// Inject configuration in private submodules
-jar.init({config, pkgJson});
-util.init({config, pkgJson});
-
 // Load things for the first time
 loadConfig();
 loadPkgJson();
-
-// Reexport private modules as namespaced configuration
-export {jar};
-
-/**
- * Get the path to the report file or null if no report is configured.
- * @return {String} a normalized path or null
- */
-export function getReportFilePath() {
-	return path.join('.', 'liferay-npm-bundler-report.html');
-}
 
 /**
  * Get versions information
@@ -61,54 +41,6 @@ export function getVersionsInfo() {
 	);
 
 	return info;
-}
-
-/**
- * Whether or not to dump report
- * @return {boolean}
- */
-export function isDumpReport() {
-	return prop.get(config, 'dump-report', false);
-}
-
-/**
- * Whether or not to track usage
- * @return {boolean}
- */
-export function isNoTracking() {
-	if (!prop.has(config, 'no-tracking')) {
-		if (prop.has(process, 'env.LIFERAY_NPM_BUNDLER_NO_TRACKING')) {
-			prop.set(config, 'no-tracking', true);
-		}
-	}
-
-	if (!prop.has(config, 'no-tracking')) {
-		let dir = process.cwd();
-
-		while (
-			!fs.existsSync(
-				path.join(dir, '.liferay-npm-bundler-no-tracking')
-			) &&
-			path.resolve(dir, '..') !== dir
-		) {
-			dir = path.resolve(dir, '..');
-		}
-
-		if (fs.existsSync(path.join(dir, '.liferay-npm-bundler-no-tracking'))) {
-			prop.set(config, 'no-tracking', true);
-		}
-	}
-
-	// Disable tracking by default
-	return prop.get(config, 'no-tracking', true);
-}
-
-/**
- * Whether or not to dump detailed information about what the tool is doing
- * @return {boolean}
- */
-export function isVerbose() {
-	return prop.get(config, 'verbose', false);
 }
 
 /**
@@ -176,7 +108,7 @@ function concatBabelPlugins(plugins, cfg) {
 		plugins = plugins.concat(
 			babelPresets.map(name => {
 				try {
-					util.configRequire(name);
+					configRequire(name);
 					return name;
 				} catch (err) {
 					return `babel-preset-${name}`;
@@ -193,7 +125,7 @@ function concatBabelPlugins(plugins, cfg) {
 				}
 
 				try {
-					util.configRequire(name);
+					configRequire(name);
 					return name;
 				} catch (err) {
 					return `babel-plugin-${name}`;
@@ -228,6 +160,36 @@ function concatBundlerPlugins(plugins, cfg) {
 }
 
 /**
+ * Require a module using the configured plugins directory.
+ * @param {String} module a module name
+ * @return {Object} the required module object
+ */
+function configRequire(module) {
+	return require(configResolve(module));
+}
+
+/**
+ * Resolve a module using the configured plugins directory.
+ * @param {String} module a module name
+ * @return {Object} the required module object
+ */
+function configResolve(module) {
+	let pluginFile;
+
+	try {
+		pluginFile = resolveModule.sync(module, {
+			basedir: config.pluginsBaseDir,
+		});
+	} catch (err) {
+		pluginFile = resolveModule.sync(module, {
+			basedir: '.',
+		});
+	}
+
+	return pluginFile;
+}
+
+/**
  * Get version numbers of all plugins used in the build.
  * @return {Object} a map of {plugin-name: version} values
  */
@@ -236,7 +198,7 @@ function getPluginVersions() {
 
 	// Get preset plugin version
 	if (config.preset) {
-		const pkgJson = util.configRequire(`${config.preset}/package.json`);
+		const pkgJson = configRequire(`${config.preset}/package.json`);
 
 		pluginVersions[config.preset] = pkgJson.version;
 	}
@@ -258,7 +220,7 @@ function getPluginVersions() {
 
 	for (const plugin of plugins) {
 		if (!pluginVersions[plugin]) {
-			const pkgJson = util.configRequire(`${plugin}/package.json`);
+			const pkgJson = configRequire(`${plugin}/package.json`);
 
 			pluginVersions[plugin] = pkgJson.version;
 		}
