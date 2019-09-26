@@ -118,7 +118,7 @@ export function runPlugins(plugins, srcPkg, destPkg, state, callback) {
 			config: plugin.config,
 			log: new PluginLogger(),
 			rootPkgJson: readJsonSync('package.json'),
-			globalConfig: config.getGlobalConfig(),
+			globalConfig: project.globalConfig,
 
 			pkg: destPkg.clone(),
 

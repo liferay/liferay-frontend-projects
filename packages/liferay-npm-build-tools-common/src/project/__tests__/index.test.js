@@ -33,6 +33,37 @@ describe('project', () => {
 	it('returns buildDir', () => {
 		expect(project.buildDir.asPosix).toBe('./build');
 	});
+
+	it('returns globalConfig', () => {
+		const {globalConfig} = project;
+
+		expect(globalConfig.imports).toBeDefined();
+
+		const expectedImports = [
+			'an-osgi-module',
+			'frontend-js-web',
+			'frontend-js-node-shims',
+		];
+
+		expectedImports.map(v => {
+			expect(globalConfig.imports[v]).toBeDefined();
+		});
+
+		expect(globalConfig.imports['an-osgi-module']).toMatchObject({
+			d3: '>=3.0.0',
+			react: '>=16.8.5',
+		});
+
+		expect(globalConfig.imports['frontend-js-web']).toMatchObject({
+			'/': '>=8.0.0',
+		});
+
+		expect(globalConfig.imports['frontend-js-node-shims']).toMatchObject({
+			assert: '>=1.2.0',
+			punycode: '>=1.3.1',
+			setimmediate: '>=1.0.0',
+		});
+	});
 });
 
 describe('project.copy', () => {

@@ -38,14 +38,6 @@ loadPkgJson();
 export {babel, jar};
 
 /**
- * Get global plugins configuration.
- * @return {Object} the global config hash
- */
-export function getGlobalConfig() {
-	return prop.get(config, 'config');
-}
-
-/**
  * Get the path to the report file or null if no report is configured.
  * @return {String} a normalized path or null
  */
