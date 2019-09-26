@@ -13,6 +13,8 @@ import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
 import FilePath from '../file-path';
+import {getPackageDir} from '../packages';
+import Copy from './copy';
 import Jar from './jar';
 import Localization from './localization';
 import Probe from './probe';
@@ -22,19 +24,24 @@ import Rules from './rules';
  * Describes a standard JS Toolkit project.
  */
 export class Project {
+	copy: Copy;
+	jar: Jar;
+	l10n: Localization;
+	probe: Probe;
+	rules: Rules;
+
 	/**
-	 * @param {string} projectDirPath project's path in native format
+	 * @param projectDirPath project's path in native format
 	 */
-	constructor(projectDirPath) {
+	constructor(projectDirPath: string) {
 		this.loadFrom(projectDirPath);
 	}
 
 	/**
 	 * Get directories inside the project containing source files starting with
 	 * `./` (so that they can be safely path.joined)
-	 * @return {Array<FilePath>}
 	 */
-	get sources() {
+	get sources(): FilePath[] {
 		if (this._sources === undefined) {
 			this._sources = FilePath.convertArray(
 				prop
@@ -52,9 +59,8 @@ export class Project {
 	/**
 	 * Get directory where files to be transformed live relative to
 	 * `this.dir` and starting with `./` (so that it can be safely path.joined)
-	 * @return {FilePath}
 	 */
-	get buildDir() {
+	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
 			let dir = prop.get(
 				this._npmbundlerrc,
@@ -76,35 +82,44 @@ export class Project {
 
 	/**
 	 * Get absolute path to project's directory.
-	 * @return {FilePath}
 	 */
-	get dir() {
+	get dir(): FilePath {
 		return this._projectDir;
 	}
 
 	/**
 	 * Get project's parsed package.json file
 	 */
-	get pkgJson() {
+	get pkgJson(): object {
 		return this._pkgJson;
 	}
 
 	/**
 	 * Reload the whole project from given directory. Especially useful for
 	 * tests.
-	 * @param {string} projectDir project's path in native format (whether
-	 * 						absolute or relative to cwd)
+	 * @param projectPath project's path in native format (whether absolute or
+	 * 			relative to cwd)
 	 */
-	loadFrom(projectDir) {
-		this._projectDir = new FilePath(path.resolve(projectDir));
+	loadFrom(projectPath: string): void {
+		// First reset everything
+		this._buildDir = undefined;
+		this._npmbundlerrc = undefined;
+		this._pkgJson = undefined;
+		this._pkgManager = undefined;
+		this._projectDir = undefined;
+		this._sources = undefined;
+		this._toolsDir = undefined;
 
+		// Set significant directories
+		this._projectDir = new FilePath(path.resolve(projectPath));
+		this._toolsDir = this._projectDir;
+
+		// Load configuration files
 		this._loadPkgJson();
 		this._loadNpmbundlerrc();
 
-		this._sources = undefined;
-		this._buildDir = undefined;
-		this._pkgManager = undefined;
-
+		// Initialize subdomains
+		this.copy = new Copy(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.probe = new Probe(this);
@@ -115,7 +130,7 @@ export class Project {
 	 * Return the package manager that the project is using.
 	 * @return {string} one of 'npm', 'yarn' or null if it cannot be determined
 	 */
-	get pkgManager() {
+	get pkgManager(): string {
 		if (this._pkgManager === undefined) {
 			let yarnLockPresent = fs.existsSync(
 				this._projectDir.join('yarn.lock').asNative
@@ -169,9 +184,9 @@ export class Project {
 	 * Requires a module in the context of the project (as opposed to the
 	 * context of the calling package which would just use a normal `require()`
 	 * call).
-	 * @param {string} moduleName
+	 * @param moduleName
 	 */
-	require(moduleName) {
+	require(moduleName: string): any {
 		const modulePath = resolveModule.sync(moduleName, {
 			basedir: this.dir.asNative,
 		});
@@ -179,7 +194,30 @@ export class Project {
 		return require(modulePath);
 	}
 
-	_loadNpmbundlerrc() {
+	/**
+	 * Requires a tool module in the context of the project (as opposed to the
+	 * context of the calling package which would just use a normal `require()`
+	 * call).
+	 *
+	 * @remarks
+	 * This looks in the `.npmbundlerrc` preset before calling the standard
+	 * {@link require} method.
+	 *
+	 * @param moduleName
+	 */
+	toolRequire(moduleName: string): any {
+		const modulePath = resolveModule.sync(moduleName, {
+			basedir: this._toolsDir.asNative,
+		});
+
+		if (modulePath != null) {
+			return require(modulePath);
+		}
+
+		return this.require(moduleName);
+	}
+
+	_loadNpmbundlerrc(): void {
 		const npmbundlerrcPath = this._projectDir.join('.npmbundlerrc')
 			.asNative;
 
@@ -209,18 +247,28 @@ export class Project {
 				config,
 				merge.recursive(readJsonSync(presetFilePath), originalConfig)
 			);
+
+			this._toolsDir = new FilePath(getPackageDir(presetFilePath));
 		}
 
 		this._npmbundlerrc = config;
 	}
 
-	_loadPkgJson() {
+	_loadPkgJson(): void {
 		const pkgJsonPath = this.dir.join('package.json').asNative;
 
 		this._pkgJson = fs.existsSync(pkgJsonPath)
 			? readJsonSync(pkgJsonPath)
 			: {};
 	}
+
+	_buildDir: FilePath;
+	_npmbundlerrc: object;
+	_pkgJson: object;
+	_pkgManager: string;
+	_projectDir: FilePath;
+	_sources: FilePath[];
+	_toolsDir: FilePath;
 }
 
 export default new Project('.');
