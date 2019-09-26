@@ -5,9 +5,9 @@
  */
 
 const fs = require('fs');
-const glob = require('glob');
 const path = require('path');
 
+const expandGlobs = require('./expandGlobs');
 const getMergedConfig = require('./getMergedConfig');
 const generateSoyDependencies = require('./generateSoyDependencies');
 const log = require('./log');
@@ -45,7 +45,7 @@ const EXTERNAL_MSG_REGEX = /var (MSG_EXTERNAL_\d+(?:\$\$\d+)?) = goog\.getMsg\(\
  * `--externalMsgFormat` option above.
  */
 function translateSoy(directory) {
-	const files = glob.sync(path.join(directory, '**/*.soy.js'));
+	const files = expandGlobs([path.join(directory, '**/*.soy.js')]);
 
 	if (!files.length) {
 		return;
@@ -88,7 +88,7 @@ function translateSoy(directory) {
  * Checks to see if there are any soy files
  */
 function soyExists() {
-	return !!glob.sync(path.join(BUILD_CONFIG.input, '**/*.soy')).length;
+	return !!expandGlobs([path.join(BUILD_CONFIG.input, '**/*.soy')]).length;
 };
 
 module.exports = {
