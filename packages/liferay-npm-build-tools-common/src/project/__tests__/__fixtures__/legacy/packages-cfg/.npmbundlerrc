@@ -1,0 +1,20 @@
+{
+	"preset": false,
+	"*" : {
+		"plugins": ["test-0"]
+	},
+	"package@1.0.0" : {
+		"plugins": ["test-1"]
+	},
+	"package2" : {
+		"plugins": ["test-2"]
+	},
+	"package3" : {
+		"plugins": ["test-3"]
+	},
+	"packages": {
+		"package3" : {
+			"plugins": ["test-4"]
+		}
+	}
+}

@@ -315,6 +315,64 @@ describe('project.pkgManager', () => {
 	});
 });
 
+describe('project.transform', () => {
+	let project;
+
+	beforeAll(() => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'transform')
+		);
+	});
+
+	it('loads default "pre" plugins correctly', () => {
+		const pkg = new PkgDesc('package-star', '1.0.0', __dirname);
+
+		const plugins = project.transform.getPrePluginDescriptors(pkg);
+
+		expect(plugins[0].run({}, {})).toEqual(0);
+		expect(plugins[0].config).toEqual({});
+
+		expect(plugins[1].run({}, {})).toEqual(1);
+		expect(plugins[1].config).toEqual('config-1');
+	});
+
+	it('loads default "post" plugins correctly', () => {
+		const pkg = new PkgDesc('package-star', '1.0.0', __dirname);
+
+		const plugins = project.transform.getPostPluginDescriptors(pkg);
+
+		expect(plugins[0].run({}, {})).toEqual(2);
+		expect(plugins[0].config).toEqual({});
+
+		expect(plugins[1].run({}, {})).toEqual(3);
+		expect(plugins[1].config).toEqual('config-3');
+	});
+
+	it('loads per-package "pre" plugins correctly', () => {
+		const pkg = new PkgDesc('package', '1.0.0', __dirname);
+
+		const plugins = project.transform.getPrePluginDescriptors(pkg);
+
+		expect(plugins[0].run({}, {})).toEqual(4);
+		expect(plugins[0].config).toEqual({});
+
+		expect(plugins[1].run({}, {})).toEqual(5);
+		expect(plugins[1].config).toEqual('config-5');
+	});
+
+	it('loads per-package "post" plugins correctly', () => {
+		const pkg = new PkgDesc('package', '1.0.0', __dirname);
+
+		const plugins = project.transform.getPostPluginDescriptors(pkg);
+
+		expect(plugins[0].run({}, {})).toEqual(6);
+		expect(plugins[0].config).toEqual({});
+
+		expect(plugins[1].run({}, {})).toEqual(7);
+		expect(plugins[1].config).toEqual('config-7');
+	});
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 // Tests by orthogonal features
 ////////////////////////////////////////////////////////////////////////////////
@@ -344,6 +402,29 @@ describe('deprecated config', () => {
 			);
 
 			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
+
+		it('supports legacy package configurations correctly', () => {
+			const project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'packages-cfg')
+			);
+
+			const pkg1 = new PkgDesc('package', '1.0.0', __dirname);
+			const pkg2 = new PkgDesc('package2', '1.0.0', __dirname);
+			const pkg3 = new PkgDesc('package3', '1.0.0', __dirname);
+			const pkgOther = new PkgDesc('other-package', '1.0.0', __dirname);
+
+			let plugins = project.transform.getPrePluginDescriptors(pkg1);
+			expect(plugins[0].run({}, {})).toEqual(1);
+
+			plugins = project.transform.getPrePluginDescriptors(pkg2);
+			expect(plugins[0].run({}, {})).toEqual(2);
+
+			plugins = project.transform.getPrePluginDescriptors(pkg3);
+			expect(plugins[0].run({}, {})).toEqual(4);
+
+			plugins = project.transform.getPrePluginDescriptors(pkgOther);
+			expect(plugins[0].run({}, {})).toEqual(0);
 		});
 	});
 
@@ -515,9 +596,51 @@ describe('loads plugins as modules (as opposed to packages)', () => {
 		expect(pluginDescriptor.run()).toBe('Hi from plugin!');
 	});
 
-	it('loads pre plugins from module in package', () => {});
+	it('loads pre plugins from module in package', () => {
+		const pkg = new PkgDesc(
+			'a-package',
+			'1.0.0',
+			project.dir.join('node_modules', 'a-package').asNative
+		);
 
-	it('loads post plugins from module in package', () => {});
+		const pluginDescriptors = project.transform.getPrePluginDescriptors(
+			pkg
+		);
+
+		expect(pluginDescriptors).toHaveLength(1);
+
+		const pluginDescriptor = pluginDescriptors[0];
+
+		expect(pluginDescriptor).toMatchObject({
+			name: 'a-config/my-pre-plugin',
+			config: {},
+		});
+
+		expect(pluginDescriptor.run()).toBe('Hi from pre plugin!');
+	});
+
+	it('loads post plugins from module in package', () => {
+		const pkg = new PkgDesc(
+			'a-package',
+			'1.0.0',
+			project.dir.join('node_modules', 'a-package').asNative
+		);
+
+		const pluginDescriptors = project.transform.getPostPluginDescriptors(
+			pkg
+		);
+
+		expect(pluginDescriptors).toHaveLength(1);
+
+		const pluginDescriptor = pluginDescriptors[0];
+
+		expect(pluginDescriptor).toMatchObject({
+			name: 'a-config/my-post-plugin',
+			config: {},
+		});
+
+		expect(pluginDescriptor.run()).toBe('Hi from post plugin!');
+	});
 
 	it('loads babel plugins from module in package', () => {});
 });
