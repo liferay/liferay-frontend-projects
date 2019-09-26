@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PkgDesc from '../../pkg-desc';
-import PluginLogger from '../../plugin-logger';
 import {
 	BundlerPluginDescriptor,
 	BundlerPluginEntryPoint,
@@ -14,7 +12,7 @@ import {
 
 interface BundlerCopyPluginState {
 	/**
-	 * File pats relative to package
+	 * File paths relative to package
 	 */
 	files: string[];
 }

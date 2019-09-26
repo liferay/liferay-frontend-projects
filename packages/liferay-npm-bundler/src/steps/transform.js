@@ -75,7 +75,9 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
 	return new Promise((resolve, reject) => {
 		try {
 			const state = runPlugins(
-				config.bundler.getPlugins(phase, destPkg),
+				phase === 'pre'
+					? project.transform.getPrePluginDescriptors(destPkg)
+					: project.transform.getPostPluginDescriptors(destPkg),
 				srcPkg,
 				destPkg,
 				{
