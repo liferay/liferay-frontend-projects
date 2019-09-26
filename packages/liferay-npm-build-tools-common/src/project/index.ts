@@ -92,6 +92,15 @@ export class Project {
 	}
 
 	/**
+	 * Get global plugins configuration.
+	 */
+	get globalConfig(): object {
+		const {_npmbundlerrc} = this;
+
+		return prop.get(_npmbundlerrc, 'config');
+	}
+
+	/**
 	 * Get project's parsed package.json file
 	 */
 	get pkgJson(): object {

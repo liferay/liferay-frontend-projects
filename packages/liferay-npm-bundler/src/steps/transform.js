@@ -190,7 +190,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 			log: logger,
 			manifest,
 			rootPkgJson: clone(project.pkgJson),
-			globalConfig: clone(config.getGlobalConfig()),
+			globalConfig: clone(project.globalConfig),
 		});
 
 		const fileAbsPath = project.dir.join(prjRelPath).asNative;

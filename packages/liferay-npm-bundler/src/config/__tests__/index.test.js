@@ -121,64 +121,6 @@ describe('presets', () => {
 		);
 		cfg.reloadConfig();
 
-		const globalCfg = cfg.getGlobalConfig();
-
-		expect(globalCfg.imports).toBeDefined();
-
-		const expectedImports = [
-			'an-osgi-module',
-			'frontend-js-metal-web',
-			'frontend-js-node-shims',
-			'frontend-js-spa-web',
-			'frontend-taglib',
-			'frontend-taglib-clay',
-		];
-
-		expectedImports.map(v => {
-			expect(globalCfg.imports[v]).toBeDefined();
-		});
-
-		const anOsgiModuleImports = {
-			d3: '>=3.0.0',
-			react: '>=16.8.5',
-		};
-
-		expect(globalCfg.imports['an-osgi-module']).toMatchObject(
-			anOsgiModuleImports
-		);
-
-		const frontendJsWebImports = {
-			'/': '>=8.0.0',
-		};
-
-		expect(globalCfg.imports['frontend-js-web']).toMatchObject(
-			frontendJsWebImports
-		);
-
-		const frontendJsNodeShimsImports = {
-			assert: '>=1.2.0',
-			buffer: '>=5.0.7',
-			'console-browserify': '>=1.1.0',
-			'domain-browser': '>=1.1.7',
-			events: '>=1.1.1',
-			'os-browserify': '>=0.3.0',
-			'path-browserify': '>=0.0.0',
-			process: '>=0.11.10',
-			punycode: '>=1.3.1',
-			'querystring-es3': '>=0.2.1',
-			setimmediate: '>=1.0.0',
-			string_decoder: '>=1.0.3',
-			'timers-browserify': '>=2.0.4',
-			'tty-browserify': '>=0.0.0',
-			url: '>=0.11.0',
-			util: '>=0.10.3',
-			'vm-browserify': '>=0.0.4',
-		};
-
-		expect(globalCfg.imports['frontend-js-node-shims']).toMatchObject(
-			frontendJsNodeShimsImports
-		);
-
 		expect(cfg.isDumpReport()).toBeTruthy();
 	});
 });
