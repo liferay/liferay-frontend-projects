@@ -56,7 +56,9 @@ function translateSoy(directory) {
 	files.forEach(file => {
 		const contents = fs.readFileSync(file, 'utf8');
 
-		const updated = contents.replace(EXTERNAL_MSG_REGEX, (match, p1, p2, p3) => {
+		const updated = contents.replace(
+			EXTERNAL_MSG_REGEX,
+			(match, p1, p2, p3) => {
 				let externalMsg = match.replace(
 					EXTERNAL_MSG_REGEX,
 					`var $1 = Liferay.Language.get('$2');`
@@ -69,7 +71,8 @@ function translateSoy(directory) {
 				}
 
 				return externalMsg;
-			})
+			}
+		);
 
 		if (contents !== updated) {
 			changedFiles++;
@@ -80,7 +83,9 @@ function translateSoy(directory) {
 	if (changedFiles) {
 		const objects = changedFiles === 1 ? 'file' : 'files';
 
-		log(`Updated goog.getMsg() -> Liferay.Language.get() in ${changedFiles} ${objects}`);
+		log(
+			`Updated goog.getMsg() -> Liferay.Language.get() in ${changedFiles} ${objects}`
+		);
 	}
 }
 
@@ -89,11 +94,11 @@ function translateSoy(directory) {
  */
 function soyExists() {
 	return !!expandGlobs([path.join(BUILD_CONFIG.input, '**/*.soy')]).length;
-};
+}
 
 module.exports = {
 	buildSoy,
 	cleanSoy,
 	soyExists,
-	translateSoy,
+	translateSoy
 };
