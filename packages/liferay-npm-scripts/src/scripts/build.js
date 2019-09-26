@@ -14,7 +14,7 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const moveToTemp = require('../utils/moveToTemp');
 const removeFromTemp = require('../utils/removeFromTemp');
 const setEnv = require('../utils/setEnv');
-const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
+const {buildSoy, cleanSoy, translateSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 const withBabelConfig = require('../utils/withBabelConfig');
@@ -99,6 +99,8 @@ module.exports = function() {
 	}
 
 	runBundler();
+
+	translateSoy(BUILD_CONFIG.output);
 
 	if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
 		runBridge();
