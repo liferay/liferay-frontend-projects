@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import prop from 'dot-prop';
+
 import PkgDesc from '../../pkg-desc';
 import * as util from '../util';
 import {Project} from '..';
@@ -15,6 +17,16 @@ import {BundlerCopyPluginDescriptor} from './types';
 export default class Copy {
 	constructor(project: Project) {
 		this._project = project;
+	}
+
+	/**
+	 * Extra dependencies to add to the final bundle (in addition to those
+	 * listed under the dependencies section of package.json).
+	 */
+	get includedDependencies(): string[] {
+		const {_npmbundlerrc} = this._project;
+
+		return prop.get(_npmbundlerrc, 'include-dependencies', []);
 	}
 
 	/**

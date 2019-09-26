@@ -16,7 +16,6 @@ import resolveModule from 'resolve';
 import merge from 'merge';
 
 import * as babel from './internal/babel';
-import * as bundler from './internal/bundler';
 import * as jar from './internal/jar';
 import * as util from './internal/util';
 
@@ -28,7 +27,6 @@ const savedProgramArgs = [];
 
 // Inject configuration in private submodules
 babel.init({config, pkgJson});
-bundler.init({config, pkgJson});
 jar.init({config, pkgJson});
 util.init({config, pkgJson});
 
@@ -37,7 +35,7 @@ loadConfig();
 loadPkgJson();
 
 // Reexport private modules as namespaced configuration
-export {babel, bundler, jar};
+export {babel, jar};
 
 /**
  * Get global plugins configuration.
