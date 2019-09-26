@@ -22,39 +22,6 @@ export function init(state) {
 }
 
 /**
- * Get the configured file exclusions for a given package.
- * @param {PkgDesc} pkg the package descriptor
- * @return {Array} an array of glob expressions
- */
-export function getExclusions(pkg) {
-	let exclusions = config.exclude || {};
-
-	// If it is explicitly false, return an empty exclusions array
-	if (
-		exclusions[pkg.id] === false ||
-		exclusions[pkg.name] === false ||
-		exclusions['*'] === false
-	) {
-		return [];
-	}
-
-	// If it is explicitly true, return an array with '**/*'
-	if (
-		exclusions[pkg.id] === true ||
-		exclusions[pkg.name] === true ||
-		exclusions['*'] === true
-	) {
-		return ['**/*'];
-	}
-
-	// In any other case, return what's in the config
-	exclusions =
-		exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
-
-	return exclusions;
-}
-
-/**
  * Extra dependencies to add to the final bundle (in addition to those listed
  * under the dependencies section of package.json).
  * @return {Array} an array of package names

@@ -88,61 +88,6 @@ describe('babel config', () => {
 });
 
 describe('bundler config', () => {
-	describe('getExclusions()', () => {
-		it('works for unversioned packages', () => {
-			const pkg = {
-				id: 'package-a@2.0.0',
-				name: 'package-a',
-				version: '2.0.0',
-				dir: '',
-			};
-
-			expect(cfg.bundler.getExclusions(pkg)).toEqual(['*']);
-		});
-
-		it('works for versioned packages', () => {
-			const pkg = {
-				id: 'package-b@1.0.0',
-				name: 'package-b',
-				version: '1.0.0',
-				dir: '',
-			};
-
-			expect(cfg.bundler.getExclusions(pkg)).toEqual([
-				'**/*.js',
-				'**/*.css',
-			]);
-		});
-
-		it('returns the default exclusions for unconfigured packages', () => {
-			const pkg = {
-				id: 'not-existent-package@1.0.0',
-				name: 'not-existent-package',
-				version: '1.0.0',
-				dir: '',
-			};
-
-			expect(cfg.bundler.getExclusions(pkg)).toEqual(['test/**/*']);
-		});
-
-		// Impossible to test once we test for default exclusions
-		it('returns an empty array for unconfigured packages', () => {
-			process.chdir(
-				path.join(__dirname, '__fixtures__', 'config', 'empty')
-			);
-			cfg.reloadConfig();
-
-			const pkg = {
-				id: 'not-existent-package@1.0.0',
-				name: 'not-existent-package',
-				version: '1.0.0',
-				dir: '',
-			};
-
-			expect(cfg.bundler.getExclusions(pkg)).toEqual([]);
-		});
-	});
-
 	describe('getPlugins()', () => {
 		it('loads default "pre" plugins correctly', () => {
 			const plugins = cfg.bundler.getPlugins('pre', {
