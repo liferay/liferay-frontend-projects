@@ -402,6 +402,30 @@ describe('project.transform', () => {
 		expect(plugins[1].run({}, {})).toEqual(7);
 		expect(plugins[1].config).toEqual('config-7');
 	});
+
+	it('loads default babel config correctly', () => {
+		const pkg = new PkgDesc('package-star', '1.0.0', __dirname);
+
+		const config = project.transform.getBabelConfig(pkg);
+
+		expect(config).toEqual({config: 'config-*'});
+	});
+
+	it('loads per-package-by-id babel config correctly', () => {
+		const pkg = new PkgDesc('package', '1.0.0', __dirname);
+
+		const config = project.transform.getBabelConfig(pkg);
+
+		expect(config).toEqual({config: 'config-package@1.0.0'});
+	});
+
+	it('loads per-package-by-name babel config correctly', () => {
+		const pkg = new PkgDesc('package2', '1.0.0', __dirname);
+
+		const config = project.transform.getBabelConfig(pkg);
+
+		expect(config).toEqual({config: 'config-package2'});
+	});
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -673,7 +697,20 @@ describe('loads plugins as modules (as opposed to packages)', () => {
 		expect(pluginDescriptor.run()).toBe('Hi from post plugin!');
 	});
 
-	it('loads babel plugins from module in package', () => {});
+	it('loads babel plugins from module in package', () => {
+		const pkg = new PkgDesc(
+			'a-package',
+			'1.0.0',
+			project.dir.join('node_modules', 'a-package').asNative
+		);
+
+		const babelPlugins = project.transform.getBabelPlugins(pkg);
+		console.log('babelPlugins', babelPlugins);
+		expect(babelPlugins).toHaveLength(2);
+
+		expect(babelPlugins[0]()).toBe("Hi from preset's babel plugin!");
+		expect(babelPlugins[1]()).toBe('Hi from babel plugin!');
+	});
 });
 
 describe('specific features', () => {
