@@ -15,7 +15,6 @@ import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 import merge from 'merge';
 
-import * as babel from './internal/babel';
 import * as jar from './internal/jar';
 import * as util from './internal/util';
 
@@ -26,7 +25,6 @@ const pkgJson = {};
 const savedProgramArgs = [];
 
 // Inject configuration in private submodules
-babel.init({config, pkgJson});
 jar.init({config, pkgJson});
 util.init({config, pkgJson});
 
@@ -35,7 +33,7 @@ loadConfig();
 loadPkgJson();
 
 // Reexport private modules as namespaced configuration
-export {babel, jar};
+export {jar};
 
 /**
  * Get the path to the report file or null if no report is configured.

@@ -50,43 +50,6 @@ describe('global config', () => {
 	});
 });
 
-describe('babel config', () => {
-	describe('getConfig()', () => {
-		it('loads default config correctly', () => {
-			const config = cfg.babel.getConfig({
-				id: 'package-star@1.0.0',
-				name: 'package-star',
-				version: '1.0.0',
-				dir: '',
-			});
-
-			expect(config).toEqual({config: 'config-*'});
-		});
-
-		it('loads per-package config correctly when configured by id', () => {
-			const config = cfg.babel.getConfig({
-				id: 'package@1.0.0',
-				name: 'package',
-				version: '1.0.0',
-				dir: '',
-			});
-
-			expect(config).toEqual({config: 'config-package@1.0.0'});
-		});
-
-		it('loads per-package config correctly when configured by name', () => {
-			const config = cfg.babel.getConfig({
-				id: 'package2@1.0.0',
-				name: 'package2',
-				version: '1.0.0',
-				dir: '',
-			});
-
-			expect(config).toEqual({config: 'config-package2'});
-		});
-	});
-});
-
 describe('jar config', () => {
 	describe('getRequireJsExtender()', () => {
 		it('returns true when create-jar config present and features/js-extender missing', () => {
