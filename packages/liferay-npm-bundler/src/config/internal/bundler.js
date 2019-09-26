@@ -8,8 +8,6 @@
 
 import prop from 'dot-prop';
 
-import {configRequire, getPackageConfig} from './util';
-
 let config;
 
 /**
@@ -28,48 +26,4 @@ export function init(state) {
  */
 export function getIncludeDependencies() {
 	return prop.get(config, 'include-dependencies', []);
-}
-
-/**
- * Get the liferay-nmp-bundler plugins for a given package.
- * @param {String} phase 'pre', 'post' or 'copy'
- * @param {PkgDesc} pkg the package descriptor
- * @return {Array} the instantiated Babel plugins
- */
-export function getPlugins(phase, pkg) {
-	const pluginsKey = {
-		copy: 'copy-plugins',
-		pre: 'plugins',
-		post: 'post-plugins',
-	}[phase];
-
-	const pluginNames = getPackageConfig(pkg, pluginsKey, []);
-
-	return instantiatePlugins(pluginNames);
-}
-
-/**
- * Instantiate bundler plugins described by their names.
- * @param  {Array} pluginNames list of plugin names to instantiate
- * @return {Array} list of plugin descriptors with name, config and run fields
- */
-function instantiatePlugins(pluginNames) {
-	return pluginNames.map(pluginName => {
-		let pluginConfig = {};
-
-		if (Array.isArray(pluginName)) {
-			pluginConfig = pluginName[1];
-			pluginName = pluginName[0];
-		}
-
-		const pluginModule = configRequire(
-			`liferay-npm-bundler-plugin-${pluginName}`
-		);
-
-		return {
-			name: pluginName,
-			config: pluginConfig,
-			run: pluginModule.default,
-		};
-	});
 }
