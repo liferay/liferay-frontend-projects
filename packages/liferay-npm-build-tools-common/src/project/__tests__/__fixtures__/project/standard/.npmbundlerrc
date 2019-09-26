@@ -11,5 +11,12 @@
 			"manifest": "features/manifest.json",
 			"web-context": "/standard"
 		}
+	},
+	"exclude": {
+		"*": ["__tests__/**/*"],
+		"is-object": ["test/**/*"],
+		"is-array@1.0.1": ["test/**/*", "Makefile"],
+		"is-false": false,
+		"is-true": true
 	}
 }
