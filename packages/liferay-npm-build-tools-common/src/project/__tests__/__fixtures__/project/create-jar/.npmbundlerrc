@@ -1,0 +1,7 @@
+{
+	"create-jar": {
+		"features": {
+			"js-extender": false
+		}
+	}
+}

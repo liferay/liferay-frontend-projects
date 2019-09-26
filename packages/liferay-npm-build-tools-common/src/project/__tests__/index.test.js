@@ -155,6 +155,24 @@ describe('project.jar.outputFilename', () => {
 	});
 });
 
+describe('project.jar.requireJsExtender', () => {
+	it('returns true when create-jar config present and features/js-extender missing', () => {
+		const project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'create-jar-empty')
+		);
+
+		expect(project.jar.requireJsExtender).toBe(true);
+	});
+
+	it('returns false when create-jar config present and features/js-extender false', () => {
+		const project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'create-jar')
+		);
+
+		expect(project.jar.requireJsExtender).toBe(false);
+	});
+});
+
 describe('project.jar.supported', () => {
 	it('works with true boolean config', () => {
 		const project = new Project(
@@ -451,6 +469,19 @@ describe('default features are detected', () => {
 
 describe('deprecated config', () => {
 	describe('.npmbundlerrc', () => {
+		it('create-jar/auto-deploy-portlet', () => {
+			const project = new Project(
+				path.join(
+					__dirname,
+					'__fixtures__',
+					'legacy',
+					'auto-deploy-portlet'
+				)
+			);
+
+			expect(project.jar.requireJsExtender).toBe(false);
+		});
+
 		it('create-jar/web-context-path', () => {
 			const project = new Project(
 				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-1')
@@ -705,7 +736,7 @@ describe('loads plugins as modules (as opposed to packages)', () => {
 		);
 
 		const babelPlugins = project.transform.getBabelPlugins(pkg);
-		console.log('babelPlugins', babelPlugins);
+
 		expect(babelPlugins).toHaveLength(2);
 
 		expect(babelPlugins[0]()).toBe("Hi from preset's babel plugin!");
