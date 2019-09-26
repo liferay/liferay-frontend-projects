@@ -20,6 +20,7 @@ import Localization from './localization';
 import Misc from './misc';
 import Probe from './probe';
 import Rules from './rules';
+import Transform from './transform';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -31,6 +32,7 @@ export class Project {
 	misc: Misc;
 	probe: Probe;
 	rules: Rules;
+	transform: Transform;
 
 	/**
 	 * @param projectDirPath project's path in native format
@@ -127,6 +129,7 @@ export class Project {
 		this.misc = new Misc(this);
 		this.probe = new Probe(this);
 		this.rules = new Rules(this);
+		this.transform = new Transform(this);
 	}
 
 	/**
