@@ -78,7 +78,7 @@ function run() {
 		let depPkgs = addPackageDependencies(
 			{},
 			'.',
-			config.bundler.getIncludeDependencies()
+			project.copy.includedDependencies
 		);
 
 		depPkgs = Object.values(depPkgs).filter(pkg => !pkg.isRoot);
