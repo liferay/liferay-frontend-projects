@@ -10,20 +10,9 @@ const childProcess = require('child_process');
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
-const rimraf = require('rimraf');
 const yargs = require('yargs');
 
-const argv = yargs
-	.option('projects', {
-		alias: 'p',
-		default: 'essential',
-	})
-	.option('sdk', {
-		alias: 's',
-		default: '../../../../../..',
-	}).argv;
-
-// Configure directories
+// Configure directories and files
 const cfgDir = path.join(__dirname, 'config');
 const outDir = path.join(__dirname, 'samples');
 const pkgsDir = path.join(outDir, 'packages');
@@ -36,18 +25,138 @@ const generatorFile = path.join(
 	'app',
 	'index.js'
 );
+const generatorAdaptFile = path.join(
+	__dirname,
+	'..',
+	'packages',
+	'generator-liferay-js',
+	'generators',
+	'adapt',
+	'index.js'
+);
 const yoFile = path.join(__dirname, '..', 'node_modules', '.bin', 'yo');
+const liferayDir = findLiferayDir();
 
-// Find Liferay installation directory
-let liferayDir = path.join(__dirname, '..', 'liferay');
+// Retrieve arguments
+const argv = yargs
+	.option('projects', {
+		alias: 'p',
+		default: 'essential',
+	})
+	.option('sdk', {
+		alias: 's',
+		default: '../../../../../..',
+	}).argv;
 
-try {
-	const json = JSON.parse(
-		fs.readFileSync(path.join(os.homedir(), '.generator-liferay-js.json'))
-	);
-	liferayDir = json.answers['*'].liferayDir;
-} catch (err) {
-	// swallow
+// Do the job
+const start = new Date();
+
+ensureDirectories();
+writeConfigurations();
+const configs = getUsedConfigurations();
+generateSamples(configs);
+generateCreateReactAppSample();
+
+console.log(
+	'Full generation of samples took',
+	((new Date().getTime() - start.getTime()) / 1000).toFixed(0),
+	'seconds'
+);
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ *
+ */
+function findLiferayDir() {
+	// Find Liferay installation directory
+	let liferayDir = path.join(__dirname, '..', 'liferay');
+
+	try {
+		const json = JSON.parse(
+			fs.readFileSync(
+				path.join(os.homedir(), '.generator-liferay-js.json')
+			)
+		);
+		liferayDir = json.answers['*'].liferayDir;
+	} catch (err) {
+		// swallow
+	}
+
+	return liferayDir;
+}
+
+/**
+ *
+ */
+function ensureDirectories() {
+	fs.ensureDirSync(cfgDir);
+	fs.ensureDirSync(outDir);
+	fs.ensureDirSync(pkgsDir);
+}
+
+/**
+ *
+ */
+function writeConfigurations() {
+	// Generate shared bundle configuration
+	[true, false].forEach(createInitializer => {
+		writeConfig({
+			target: `shared-bundle`,
+			folder:
+				`shared-bundle` + `${createInitializer ? '-initializer' : ''}`,
+			createInitializer,
+		});
+	});
+
+	// Generate vanilla samples configuration
+	[true, false].forEach(useBabel => {
+		[true, false].forEach(useLocalization => {
+			[true, false].forEach(useConfiguration => {
+				[true, false].forEach(sampleWanted => {
+					writeConfig({
+						target: `vanilla-portlet`,
+						folder:
+							`vanilla-portlet` +
+							`-${useBabel ? 'es6' : 'es5'}` +
+							`-${useLocalization ? 'l10n' : 'nol10n'}` +
+							`-${useConfiguration ? 'cfg' : 'nocfg'}` +
+							`-${sampleWanted ? 'sample' : 'nosample'}`,
+						useLocalization,
+						useConfiguration,
+						sampleWanted,
+					});
+				});
+			});
+		});
+	});
+
+	// Generate framework samples configuration
+	['angular', 'metaljs', 'react', 'vuejs'].forEach(fw => {
+		[true, false].forEach(useLocalization => {
+			[true, false].forEach(useConfiguration => {
+				[true, false].forEach(sampleWanted => {
+					writeConfig({
+						target: `${fw}-portlet`,
+						folder:
+							`${fw}-portlet` +
+							`-${useLocalization ? 'l10n' : 'nol10n'}` +
+							`-${useConfiguration ? 'cfg' : 'nocfg'}` +
+							`-${sampleWanted ? 'sample' : 'nosample'}`,
+						useLocalization,
+						useConfiguration,
+						sampleWanted,
+					});
+				});
+			});
+		});
+	});
+
+	// Generate create-react-app configuration
+	writeConfig({
+		folder: `create-react-app`,
+	});
 }
 
 /**
@@ -80,120 +189,110 @@ function writeConfig(options) {
 	);
 }
 
-// Prepare a clean out directory
-console.log('Cleaning work directories');
-rimraf.sync(cfgDir);
-fs.ensureDirSync(cfgDir);
-fs.ensureDirSync(outDir);
-fs.ensureDirSync(pkgsDir);
+/**
+ *
+ */
+function getUsedConfigurations() {
+	let configs;
 
-const start = new Date();
+	switch (argv.projects) {
+		case 'all':
+			configs = fs.readdirSync('config');
+			break;
 
-// Generate shared bundle configuration
-[true, false].forEach(createInitializer => {
-	writeConfig({
-		target: `shared-bundle`,
-		folder: `shared-bundle` + `${createInitializer ? '-initializer' : ''}`,
-		createInitializer,
-	});
-});
+		case 'essential':
+			configs = [
+				'angular-portlet-l10n-cfg-sample.json',
+				'shared-bundle.json',
+				'metaljs-portlet-l10n-cfg-sample.json',
+				'react-portlet-l10n-cfg-sample.json',
+				'vanilla-portlet-es5-l10n-cfg-sample.json',
+				'vanilla-portlet-es6-l10n-cfg-sample.json',
+				'vuejs-portlet-l10n-cfg-sample.json',
+			];
+			break;
 
-// Generate vanilla samples configuration
-[true, false].forEach(useBabel => {
-	[true, false].forEach(useLocalization => {
-		[true, false].forEach(useConfiguration => {
-			[true, false].forEach(sampleWanted => {
-				writeConfig({
-					target: `vanilla-portlet`,
-					folder:
-						`vanilla-portlet` +
-						`-${useBabel ? 'es6' : 'es5'}` +
-						`-${useLocalization ? 'l10n' : 'nol10n'}` +
-						`-${useConfiguration ? 'cfg' : 'nocfg'}` +
-						`-${sampleWanted ? 'sample' : 'nosample'}`,
-					useLocalization,
-					useConfiguration,
-					sampleWanted,
-				});
-			});
-		});
-	});
-});
+		case 'none':
+			configs = [];
+			break;
 
-// Generate framework samples configuration
-['angular', 'metaljs', 'react', 'vuejs'].forEach(fw => {
-	[true, false].forEach(useLocalization => {
-		[true, false].forEach(useConfiguration => {
-			[true, false].forEach(sampleWanted => {
-				writeConfig({
-					target: `${fw}-portlet`,
-					folder:
-						`${fw}-portlet` +
-						`-${useLocalization ? 'l10n' : 'nol10n'}` +
-						`-${useConfiguration ? 'cfg' : 'nocfg'}` +
-						`-${sampleWanted ? 'sample' : 'nosample'}`,
-					useLocalization,
-					useConfiguration,
-					sampleWanted,
-				});
-			});
-		});
-	});
-});
+		default:
+			console.error(`Invalid --projects value: ${argv.projects}`);
+			process.exit(1);
+			break;
+	}
 
-// Decide which projects should be generated
-let configs;
-
-switch (argv.projects) {
-	case 'all':
-		configs = fs.readdirSync('config');
-		break;
-
-	case 'essential':
-		configs = [
-			'angular-portlet-l10n-cfg-sample.json',
-			'shared-bundle.json',
-			'metaljs-portlet-l10n-cfg-sample.json',
-			'react-portlet-l10n-cfg-sample.json',
-			'vanilla-portlet-es5-l10n-cfg-sample.json',
-			'vanilla-portlet-es6-l10n-cfg-sample.json',
-			'vuejs-portlet-l10n-cfg-sample.json',
-		];
-		break;
-
-	case 'none':
-		configs = [];
-		break;
-
-	default:
-		console.error(`Invalid --projects value: ${argv.projects}`);
-		process.exit(1);
-		break;
+	return configs;
 }
 
-// Generate samples
-configs.forEach(config => {
-	console.log(`
+/**
+ *
+ * @param {string[]} configs
+ */
+function generateSamples(configs) {
+	// Generate samples
+	configs.forEach(config => {
+		console.log(`
 ********************************************************************************
 * Generate ${config}
 ********************************************************************************
 	`);
 
-	fs.emptyDirSync(path.join(pkgsDir, config.replace('.json', '')));
+		fs.emptyDirSync(path.join(pkgsDir, config.replace('.json', '')));
 
-	const proc = childProcess.spawnSync(
+		spawn('node', [
+			yoFile,
+			generatorFile,
+			'--config',
+			path.join(cfgDir, config),
+		]);
+	});
+}
+
+/**
+ *
+ */
+function generateCreateReactAppSample() {
+	console.log(`
+********************************************************************************
+* Generate create-react-app.json
+********************************************************************************
+`);
+
+	fs.emptyDirSync(path.join(pkgsDir, 'create-react-app'));
+
+	spawn('npx', ['create-react-app', 'create-react-app']);
+
+	spawn(
 		'node',
-		[yoFile, generatorFile, '--config', path.join(cfgDir, config)],
-		{stdio: 'inherit', cwd: pkgsDir, shell: true}
+		[
+			yoFile,
+			generatorAdaptFile,
+			'liferay-js:adapt',
+			'--force',
+			'--config',
+			path.join(cfgDir, 'create-react-app.json'),
+		],
+		{
+			cwd: path.join(pkgsDir, 'create-react-app'),
+		}
+	);
+}
+
+/**
+ *
+ * @param {string} cmd
+ * @param {array} args
+ * @param {object} options
+ */
+function spawn(cmd, args, options = {}) {
+	const proc = childProcess.spawnSync(
+		cmd,
+		args,
+		Object.assign({stdio: 'inherit', cwd: pkgsDir, shell: true}, options)
 	);
 
 	if (proc.error || proc.status != 0) {
 		process.exit(1);
 	}
-});
-
-console.log(
-	'Full generation of samples took',
-	((new Date().getTime() - start.getTime()) / 1000).toFixed(0),
-	'seconds'
-);
+}
