@@ -5,8 +5,12 @@
  */
 
 import clone from 'clone';
+import path from 'path';
 
 import FilePath from '../file-path';
+import {Project} from '.';
+import {BundlerLoaderDescriptor, VersionInfo} from './types';
+import {splitModuleName} from '../modules';
 
 /**
  * Implements a restricted subset of  webpack rules specification. The rules are
@@ -38,85 +42,101 @@ export default class Rules {
 	 *
 	 * @param {Project} project
 	 */
-	constructor(project) {
+	constructor(project: Project) {
 		this._project = project;
 
 		const {_npmbundlerrc} = project;
 
-		this._config = _npmbundlerrc.rules || [];
+		this._config = _npmbundlerrc['rules'] || [];
 
 		this._rules = clone(this._config);
 		this._normalizeRules();
 
-		this._loaderVersionsInfo = undefined;
+		this._versionsInfo = undefined;
 	}
 
 	/**
 	 * Get raw rules config (useful for reports).
 	 */
-	get config() {
+	get config(): object[] {
 		return this._config;
 	}
 
 	/**
-	 * Get an object with information about all plugin versions
-	 * @return {object}
+	 * Get all available information about versions of loaders used for the
+	 * build.
+	 * @return a Map where keys are package names
 	 */
-	get loaderVersionsInfo() {
-		if (this._loaderVersionsInfo === undefined) {
-			let loaders = this._rules.map(rule => rule.use);
+	get versionsInfo(): Map<string, VersionInfo> {
+		if (this._versionsInfo === undefined) {
+			let uses = this._rules.map(rule => rule['use']);
 
-			loaders = [].concat(...loaders);
+			uses = [].concat(...uses);
 
-			const loaderPackages = loaders.map(loader => {
-				const {resolvedModule} = loader;
-				return resolvedModule.split('/')[0];
-			});
+			const resolvedModules = uses.map(
+				({resolvedModule}) => resolvedModule
+			);
 
-			const project = this._project;
+			const {_project} = this;
 
-			this._loaderVersionsInfo = loaderPackages.reduce((map, pkg) => {
-				const pkgJson = project.require(`${pkg}/package.json`);
-				map[pkg] = pkgJson.version;
-				return map;
-			}, {});
+			this._versionsInfo = resolvedModules.reduce(
+				(map: Map<string, VersionInfo>, resolvedModule) => {
+					const {pkgName, modulePath} = splitModuleName(
+						resolvedModule
+					);
+					const pkgJsonPath = _project.toolResolve(
+						`${pkgName}/package.json`
+					);
+					const pkgJson = require(pkgJsonPath);
+
+					map.set(resolvedModule, {
+						version: pkgJson.version,
+						path: path.relative(
+							_project.dir.asNative,
+							modulePath
+								? _project.toolResolve(resolvedModule)
+								: path.dirname(pkgJsonPath)
+						),
+					});
+
+					return map;
+				},
+				new Map()
+			);
 		}
 
-		return this._loaderVersionsInfo;
+		return this._versionsInfo;
 	}
 
 	/**
 	 * Returns the associated rules for a given absolute file path.
-	 * @param {string} prjRelPath a native file path relative to
-	 * 						`project.dir`
-	 * @return {Array<object>} an Array of objects with structure
-	 * 				`{use, resolvedModule, exec, options}`
+	 * @param prjRelPath a native file path relative to `project.dir`
 	 */
-	loadersForFile(prjRelPath) {
+	loadersForFile(prjRelPath): BundlerLoaderDescriptor[] {
 		const {_rules} = this;
 
 		const rules = _rules.filter(rule =>
 			this._ruleApplies(rule, new FilePath(prjRelPath))
 		);
 
-		const loaders = rules.map(rule => rule.use);
+		const loaders = rules.map(rule => rule['use']);
 
 		// Flatten array
 		return [].concat(...loaders);
 	}
 
-	_instantiateLoader(use) {
-		const project = this._project;
+	_instantiateLoader(use: BundlerLoaderDescriptor): BundlerLoaderDescriptor {
+		const {_project} = this;
 
 		try {
 			use.resolvedModule = `liferay-npm-bundler-loader-${use.loader}`;
-			use.exec = project.require(use.resolvedModule);
+			use.exec = _project.toolRequire(use.resolvedModule);
 		} catch (err) {
 			use.resolvedModule = use.loader;
-			use.exec = project.require(use.resolvedModule);
+			use.exec = _project.toolRequire(use.resolvedModule);
 		}
 
-		use.exec = use.exec.default || use.exec;
+		use.exec = use.exec['default'] || use.exec;
 
 		if (typeof use.exec !== 'function') {
 			throw new Error(
@@ -128,17 +148,17 @@ export default class Rules {
 		return use;
 	}
 
-	_normalizeRules() {
+	_normalizeRules(): void {
 		this._rules.forEach(rule => {
 			this._normalizeArrayOfRegExp(rule, 'test', '.*');
 			this._normalizeArrayOfRegExp(rule, 'include', '.*');
 			this._normalizeArrayOfRegExp(rule, 'exclude', '(?!)');
 
-			if (!Array.isArray(rule.use)) {
-				rule.use = [rule.use];
+			if (!Array.isArray(rule['use'])) {
+				rule['use'] = [rule['use']];
 			}
 
-			rule.use = rule.use.map(use => {
+			rule['use'] = rule['use'].map((use: any) => {
 				if (typeof use === 'string') {
 					use = {
 						loader: use,
@@ -156,7 +176,11 @@ export default class Rules {
 		});
 	}
 
-	_normalizeArrayOfRegExp(rule, fieldName, defaultValue) {
+	_normalizeArrayOfRegExp(
+		rule: object,
+		fieldName: string,
+		defaultValue: any
+	): void {
 		if (rule[fieldName] === undefined) {
 			rule[fieldName] = [defaultValue];
 		} else if (typeof rule[fieldName] === 'string') {
@@ -168,12 +192,7 @@ export default class Rules {
 		rule[fieldName] = rule[fieldName].map(test => new RegExp(test));
 	}
 
-	/**
-	 *
-	 * @param {object} rule
-	 * @param {FilePath} prjRelFile
-	 */
-	_ruleApplies(rule, prjRelFile) {
+	_ruleApplies(rule, prjRelFile: FilePath): boolean {
 		const matched = rule.test.find(regexp =>
 			regexp.test(prjRelFile.asPosix)
 		);
@@ -200,4 +219,9 @@ export default class Rules {
 
 		return true;
 	}
+
+	_config: object[];
+	_project: Project;
+	_rules: object[];
+	_versionsInfo: Map<string, VersionInfo>;
 }

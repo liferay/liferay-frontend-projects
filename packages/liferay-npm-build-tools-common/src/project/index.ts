@@ -13,6 +13,7 @@ import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
 import FilePath from '../file-path';
+import {splitModuleName} from '../modules';
 import {getPackageDir} from '../packages';
 import Copy from './copy';
 import Jar from './jar';
@@ -21,6 +22,7 @@ import Misc from './misc';
 import Probe from './probe';
 import Rules from './rules';
 import Transform from './transform';
+import {VersionInfo} from './types';
 
 /**
  * Describes a standard JS Toolkit project.
@@ -105,6 +107,51 @@ export class Project {
 	 */
 	get pkgJson(): object {
 		return this._pkgJson;
+	}
+
+	/**
+	 * Get all available information about versions of plugins and presets used
+	 * for the build.
+	 * @return a Map where keys are package names
+	 */
+	get versionsInfo(): Map<string, VersionInfo> {
+		if (this._versionsInfo === undefined) {
+			let map = new Map<string, VersionInfo>();
+
+			const putInMap = packageName => {
+				const pkgJsonPath = this.toolResolve(
+					`${packageName}/package.json`
+				);
+				const pkgJson = require(pkgJsonPath);
+
+				map.set(pkgJson.name, {
+					version: pkgJson.version,
+					path: path.relative(
+						this.dir.asNative,
+						path.dirname(pkgJsonPath)
+					),
+				});
+			};
+
+			// Get bundler and me versions
+			putInMap('liferay-npm-bundler');
+			putInMap(path.join(__dirname, '../..'));
+
+			// Get preset version
+			const {_npmbundlerrc} = this;
+			const preset = _npmbundlerrc['preset'];
+
+			if (preset) {
+				putInMap(splitModuleName(preset).pkgName);
+			}
+
+			map = new Map([...map, ...this.transform.versionsInfo]);
+			map = new Map([...map, ...this.rules.versionsInfo]);
+
+			this._versionsInfo = map;
+		}
+
+		return this._versionsInfo;
 	}
 
 	/**
@@ -202,11 +249,39 @@ export class Project {
 	 * @param moduleName
 	 */
 	require(moduleName: string): any {
-		const modulePath = resolveModule.sync(moduleName, {
+		return require(this.resolve(moduleName));
+	}
+
+	/**
+	 * Resolves a module in the context of the project (as opposed to the
+	 * context of the calling package which would just use a normal
+	 * `require.resolve()` call).
+	 * @param moduleName
+	 */
+	resolve(moduleName: string): any {
+		return resolveModule.sync(moduleName, {
 			basedir: this.dir.asNative,
 		});
+	}
 
-		return require(modulePath);
+	/**
+	 * Set program arguments so that some of them can be parsed as if they were
+	 * `.npmbundlerrc` options.
+	 */
+	set argv(argv: string[]) {
+		const {_npmbundlerrc} = this;
+
+		if (argv.includes('-j') || argv.includes('--create-jar')) {
+			_npmbundlerrc['create-jar'] = true;
+		}
+
+		if (argv.includes('-r') || argv.includes('--dump-report')) {
+			_npmbundlerrc['dump-report'] = true;
+		}
+
+		if (argv.includes('--no-tracking')) {
+			_npmbundlerrc['no-tracking'] = true;
+		}
 	}
 
 	/**
@@ -221,15 +296,30 @@ export class Project {
 	 * @param moduleName
 	 */
 	toolRequire(moduleName: string): any {
+		return require(this.toolResolve(moduleName));
+	}
+
+	/**
+	 * Resolves a tool module in the context of the project (as opposed to the
+	 * context of the calling package which would just use a normal
+	 * `require.resolve()` call).
+	 *
+	 * @remarks
+	 * This looks in the `.npmbundlerrc` preset before calling the standard
+	 * {@link require} method.
+	 *
+	 * @param moduleName
+	 */
+	toolResolve(moduleName: string): any {
 		const modulePath = resolveModule.sync(moduleName, {
 			basedir: this._toolsDir.asNative,
 		});
 
 		if (modulePath != null) {
-			return require(modulePath);
+			return modulePath;
 		}
 
-		return this.require(moduleName);
+		return this.resolve(moduleName);
 	}
 
 	_loadNpmbundlerrc(): void {
@@ -284,6 +374,7 @@ export class Project {
 	_projectDir: FilePath;
 	_sources: FilePath[];
 	_toolsDir: FilePath;
+	_versionsInfo: Map<string, VersionInfo>;
 }
 
 export default new Project('.');

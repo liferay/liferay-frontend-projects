@@ -5,11 +5,14 @@
  */
 
 import prop from 'dot-prop';
+import path from 'path';
 
 import PkgDesc from '../../pkg-desc';
 import {Project} from '..';
+import {VersionInfo} from '../types';
 import * as util from '../util';
 import {BabelPlugin, BundlerTransformPluginDescriptor} from './types';
+import {splitModuleName} from '../../modules';
 
 /**
  * Defines configuration for the transform step.
@@ -28,6 +31,60 @@ export default class Transform {
 		const {_npmbundlerrc} = this._project;
 
 		return prop.get(_npmbundlerrc, 'ignore', []);
+	}
+
+	/**
+	 * Get all available information about versions of loaders used for the
+	 * build.
+	 * @return a Map where keys are package names
+	 */
+	get versionsInfo(): Map<string, VersionInfo> {
+		if (this._versionsInfo === undefined) {
+			const {_project} = this;
+			const {_npmbundlerrc} = _project;
+
+			const map = new Map<string, VersionInfo>();
+
+			let pluginNames: string[] = [];
+
+			for (const key in _npmbundlerrc) {
+				pluginNames = this._concatAllPluginNames(
+					pluginNames,
+					_npmbundlerrc[key]
+				);
+			}
+
+			for (const key in _npmbundlerrc['packages']) {
+				pluginNames = this._concatAllPluginNames(
+					pluginNames,
+					_npmbundlerrc['packages'][key]
+				);
+			}
+
+			for (const pluginName of pluginNames) {
+				if (!map.has(pluginName)) {
+					const {pkgName, modulePath} = splitModuleName(pluginName);
+					const pkgJsonPath = _project.toolResolve(
+						`${pkgName}/package.json`
+					);
+					const pkgJson = _project.toolRequire(pkgJsonPath);
+
+					map.set(pluginName, {
+						version: pkgJson.version,
+						path: path.relative(
+							_project.dir.asNative,
+							modulePath
+								? _project.toolResolve(pluginName)
+								: path.dirname(pkgJsonPath)
+						),
+					});
+				}
+			}
+
+			this._versionsInfo = map;
+		}
+
+		return this._versionsInfo;
 	}
 
 	/**
@@ -126,5 +183,90 @@ export default class Transform {
 		return util.createBundlerPluginDescriptors(_project, pkgConfig);
 	}
 
+	_concatAllPluginNames(pluginNames: string[], cfg: object) {
+		if (cfg) {
+			pluginNames = this._concatBundlerPluginNames(
+				pluginNames,
+				cfg['plugins']
+			);
+
+			pluginNames = this._concatBundlerPluginNames(
+				pluginNames,
+				cfg['post-plugins']
+			);
+
+			pluginNames = this._concatBabelPluginNames(
+				pluginNames,
+				cfg['.babelrc']
+			);
+		}
+
+		return pluginNames;
+	}
+
+	_concatBabelPluginNames(pluginNames: string[], cfg: object[]) {
+		if (!cfg) {
+			return pluginNames;
+		}
+
+		const {_project} = this;
+
+		const babelPresets = cfg['presets'];
+		const babelPlugins = cfg['plugins'];
+
+		if (babelPresets) {
+			pluginNames = pluginNames.concat(
+				babelPresets.map(name => {
+					try {
+						_project.toolRequire(name);
+						return name;
+					} catch (err) {
+						return `babel-preset-${name}`;
+					}
+				})
+			);
+		}
+
+		if (babelPlugins) {
+			pluginNames = pluginNames.concat(
+				babelPlugins.map(name => {
+					if (Array.isArray(name)) {
+						name = name[0];
+					}
+
+					try {
+						_project.toolRequire(name);
+						return name;
+					} catch (err) {
+						return `babel-plugin-${name}`;
+					}
+				})
+			);
+		}
+
+		return pluginNames;
+	}
+
+	_concatBundlerPluginNames(pluginNames: string[], cfg: (string | [])[]) {
+		if (!cfg) {
+			return pluginNames;
+		}
+
+		return pluginNames.concat(
+			cfg.map((name: any) => {
+				if (Array.isArray(name)) {
+					name = name[0];
+				}
+
+				if (splitModuleName(name)['modulePath']) {
+					return name;
+				} else {
+					return `liferay-npm-bundler-plugin-${name}`;
+				}
+			})
+		);
+	}
+
 	_project: Project;
+	_versionsInfo: Map<string, VersionInfo>;
 }

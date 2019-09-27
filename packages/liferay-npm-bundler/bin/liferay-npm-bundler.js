@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-let config = require('../lib/config');
-let args = process.argv.slice(2);
-config.setProgramArgs(args);
-require('../lib/index').default(args);
+const project = require('liferay-npm-build-tools-common/lib/project');
+const argv = process.argv.slice(2);
+project.argv = argv;
+require('../lib/index').default(argv);

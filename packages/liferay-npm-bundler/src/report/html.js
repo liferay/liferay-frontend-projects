@@ -42,7 +42,7 @@ export function htmlDump(report) {
 			Object.keys(_versionsInfo).map(pkgName =>
 				htmlRow(`
 					<td>${pkgName}</td>
-					<td>${_versionsInfo[pkgName]}</td>
+					<td>${_versionsInfo[pkgName].version}</td>
 				`)
 			)
 		)
