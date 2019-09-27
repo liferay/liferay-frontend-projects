@@ -99,7 +99,7 @@ export class Project {
 	get globalConfig(): object {
 		const {_npmbundlerrc} = this;
 
-		return prop.get(_npmbundlerrc, 'config');
+		return prop.get(_npmbundlerrc, 'config', {});
 	}
 
 	/**

@@ -69,16 +69,19 @@ export function getPackageConfig(
 	const {_npmbundlerrc} = project;
 
 	if (
+		_npmbundlerrc['packages'] &&
 		_npmbundlerrc['packages'][pkg.id] &&
 		_npmbundlerrc['packages'][pkg.id][section]
 	) {
 		pkgConfig = _npmbundlerrc['packages'][pkg.id][section];
 	} else if (
+		_npmbundlerrc['packages'] &&
 		_npmbundlerrc['packages'][pkg.name] &&
 		_npmbundlerrc['packages'][pkg.name][section]
 	) {
 		pkgConfig = _npmbundlerrc['packages'][pkg.name][section];
 	} else if (
+		_npmbundlerrc['packages'] &&
 		_npmbundlerrc['packages']['*'] &&
 		_npmbundlerrc['packages']['*'][section]
 	) {

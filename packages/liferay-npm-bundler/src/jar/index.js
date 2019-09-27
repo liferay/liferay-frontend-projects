@@ -265,12 +265,11 @@ function getMinimumExtenderVersion() {
  * @return {object}
  */
 function getPortletInstanceConfigurationJson() {
-	const filePath = project.jar.configurationFile.asNative;
-
-	if (!filePath) {
+	if (!project.jar.configurationFile) {
 		return undefined;
 	}
 
+	const filePath = project.jar.configurationFile.asNative;
 	const configurationJson = fs.readJSONSync(filePath);
 
 	if (
@@ -289,12 +288,11 @@ function getPortletInstanceConfigurationJson() {
  * @return {object}
  */
 function getSystemConfigurationJson() {
-	const filePath = project.jar.configurationFile.asNative;
-
-	if (!filePath) {
+	if (!project.jar.configurationFile) {
 		return undefined;
 	}
 
+	const filePath = project.jar.configurationFile.asNative;
 	const configurationJson = fs.readJSONSync(filePath);
 
 	if (
