@@ -11,7 +11,6 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as config from '../config';
 import * as xml from './xml';
 import * as ddm from './ddm';
 
@@ -103,7 +102,8 @@ function addLocalizationFiles(zip) {
 function addManifest(zip) {
 	let contents = '';
 
-	const bundlerVersion = config.getVersionsInfo()['liferay-npm-bundler'];
+	const bundlerVersion = project.versionsInfo.get('liferay-npm-bundler')
+		.version;
 
 	contents += `Manifest-Version: 1.0\n`;
 	contents += `Bundle-ManifestVersion: 2\n`;

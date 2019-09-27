@@ -11,7 +11,6 @@ import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 import semver from 'semver';
 
-import * as config from './config';
 import {addPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
 import createJar from './jar';
@@ -42,10 +41,12 @@ export default function(args) {
 		return;
 	}
 
-	const versionsInfo = config.getVersionsInfo();
+	const versionsInfo = project.versionsInfo;
 
 	if (args[0] === '-v' || args[0] === '--version') {
-		console.log(JSON.stringify(versionsInfo, null, 2));
+		versionsInfo.forEach((value, key) => {
+			console.log(`"${key}":`, JSON.stringify(value, null, 2));
+		});
 		return;
 	}
 

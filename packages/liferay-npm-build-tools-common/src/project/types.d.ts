@@ -8,6 +8,55 @@ import PkgDesc from '../pkg-desc';
 import PluginLogger from '../plugin-logger';
 
 /**
+ * A normalized bundler rule (as opposed to its looser structure when found in
+ * `.npmbundlerrc`).
+ */
+interface BundlerNormalizedRule {
+	test: RegExp[];
+	include: RegExp[];
+	exclude: RegExp[];
+	use: BundlerLoaderDescriptor[];
+}
+
+/**
+ * A bundler loader plugin entry point
+ */
+interface BundlerLoaderEntryPoint {
+	(
+		context: {
+			/** Content of main transformed object */
+			content: string;
+
+			/** Path to main transformed object (relative to project dir) */
+			filePath: string;
+
+			/**
+			 * List of extra objects to write (each item of the array is an
+			 * object where the key is the path relative to output dir and the
+			 * value is the content of that file)
+			 */
+			extraArtifacts: object[];
+
+			/** A standard plugin logger to write things to the report */
+			log: PluginLogger;
+		},
+
+		/** Configured options for the loader */
+		options: object
+	): string | undefined;
+}
+
+/**
+ * A bundler loader plugin descriptor
+ */
+interface BundlerLoaderDescriptor {
+	loader: string;
+	resolvedModule: string;
+	exec: BundlerLoaderEntryPoint;
+	options: object;
+}
+
+/**
  * Parameters passed as first argument to bundler plugins.
  */
 interface BundlerPluginParams {
@@ -45,4 +94,12 @@ interface BundlerPluginDescriptor {
 	name: string;
 	config: object;
 	run: BundlerPluginEntryPoint;
+}
+
+/**
+ * Plugin version information.
+ */
+interface VersionInfo {
+	version: string;
+	path: string;
 }
