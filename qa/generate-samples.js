@@ -27,16 +27,26 @@ const argv = yargs
 const cfgDir = path.join(__dirname, 'config');
 const outDir = path.join(__dirname, 'samples');
 const pkgsDir = path.join(outDir, 'packages');
-const generatorFile = path.join(__dirname, '..', 'packages', 'generator-liferay-js', 'generators', 'app', 'index.js');
+const generatorFile = path.join(
+	__dirname,
+	'..',
+	'packages',
+	'generator-liferay-js',
+	'generators',
+	'app',
+	'index.js'
+);
 const yoFile = path.join(__dirname, '..', 'node_modules', '.bin', 'yo');
 
 // Find Liferay installation directory
 let liferayDir = path.join(__dirname, '..', 'liferay');
 
 try {
-	const json = JSON.parse(fs.readFileSync(path.join(os.homedir(), '.generator-liferay-js.json')))
+	const json = JSON.parse(
+		fs.readFileSync(path.join(os.homedir(), '.generator-liferay-js.json'))
+	);
 	liferayDir = json.answers['*'].liferayDir;
-} catch(err) {
+} catch (err) {
 	// swallow
 }
 
@@ -73,7 +83,6 @@ function writeConfig(options) {
 // Prepare a clean out directory
 console.log('Cleaning work directories');
 rimraf.sync(cfgDir);
-rimraf.sync(outDir);
 fs.ensureDirSync(cfgDir);
 fs.ensureDirSync(outDir);
 fs.ensureDirSync(pkgsDir);
@@ -84,10 +93,8 @@ const start = new Date();
 [true, false].forEach(createInitializer => {
 	writeConfig({
 		target: `shared-bundle`,
-		folder:
-			`shared-bundle` +
-			`${createInitializer ? '-initializer' : ''}`,
-		createInitializer
+		folder: `shared-bundle` + `${createInitializer ? '-initializer' : ''}`,
+		createInitializer,
 	});
 });
 
@@ -172,6 +179,8 @@ configs.forEach(config => {
 ********************************************************************************
 	`);
 
+	fs.emptyDirSync(path.join(pkgsDir, config.replace('.json', '')));
+
 	const proc = childProcess.spawnSync(
 		'node',
 		[yoFile, generatorFile, '--config', path.join(cfgDir, config)],
@@ -181,21 +190,6 @@ configs.forEach(config => {
 	if (proc.error || proc.status != 0) {
 		process.exit(1);
 	}
-});
-
-// Setup lerna
-console.log(`
-********************************************************************************
-* Setup lerna
-********************************************************************************
-`);
-
-fs.writeFileSync(path.join(outDir, 'lerna.json'), '{}');
-
-childProcess.spawnSync('lerna', ['init'], {
-	stdio: 'inherit',
-	cwd: outDir,
-	shell: true,
 });
 
 console.log(
