@@ -20,6 +20,7 @@ Options:
   --airtableBaseKey   [optional: airtable base]
   --help
   --json              [optional: dumps the analysis as a json file]
+  --output            [optional: output name for the reporter]
 ```
 
 ### Default Report
@@ -58,7 +59,7 @@ The setup in advance requires:
   - `clay2`:`{[string]}` - List of dependencies with Clay2 packages (clay-*).
   - `others`:`{[string]}` - List of other dependencies.
 
-- The Table name should be provided as `--name`. If none is passed, it defaults to `master`.
+- The Table name should be provided as `--output`. If none is passed, it defaults to `master`.
 
 `npx liferay-js-insights --airtable src/**/*.es.js`
 

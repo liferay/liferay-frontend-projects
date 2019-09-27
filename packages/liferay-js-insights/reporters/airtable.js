@@ -11,7 +11,7 @@ const progress = new cliProgress.MultiBar(
 	{
 		clearOnComplete: false,
 		format:
-			'{table} | [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}',
+			'{output} | [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}',
 		hideCursor: true
 	},
 	cliProgress.Presets.shades_grey
@@ -36,19 +36,19 @@ const progress = new cliProgress.MultiBar(
  * 		- {[string]} clay2 - List of dependencies with Clay2 packages (clay-*).
  * 		- {[string]} others - List of other dependencies.
  *
- * 		- The Table name should be provided as `--name`. If none is passed, it defaults to `master`.
+ * 		- The Table name should be provided as `--output`. If none is passed, it defaults to `master`.
  */
 module.exports = async function(modulesInfo, config) {
-	const {airtableApiKey, airtableBaseKey, table} = {
+	const {airtableApiKey, airtableBaseKey, output} = {
 		airtableApiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
 		airtableBaseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
-		table: 'master',
+		output: 'master',
 		...config
 	};
 
 	const base = new Airtable({apiKey: airtableApiKey}).base(airtableBaseKey);
 
-	const progressBar = progress.create(modulesInfo.length, 0, {table});
+	const progressBar = progress.create(modulesInfo.length, 0, {output});
 	let synced = 0;
 
 	while (synced < modulesInfo.length) {
@@ -65,7 +65,7 @@ module.exports = async function(modulesInfo, config) {
 		});
 
 		try {
-			await base(table).create(chunk, {
+			await base(output).create(chunk, {
 				typecast: true
 			});
 		} catch (err) {
