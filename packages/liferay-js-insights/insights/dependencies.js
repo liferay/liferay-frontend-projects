@@ -4,6 +4,38 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const traverse = require('@babel/traverse').default;
+
+const SOURCE_GROUPS = [
+	{
+		name: 'clay3',
+		test: source => source.startsWith('@clayui')
+	},
+	{
+		name: 'react',
+		test: source =>
+			source.startsWith('react') ||
+			source.startsWith('prop-types') ||
+			source.startsWith('classnames')
+	},
+	{
+		name: 'js',
+		test: source => source.startsWith('frontend-js-web')
+	},
+	{
+		name: 'metal',
+		test: source => source.startsWith('metal-') || source === 'metal'
+	},
+	{
+		name: 'clay2',
+		test: source => source.startsWith('clay-') || source === 'clay'
+	},
+	{
+		name: 'others',
+		test: source => true // eslint-disable-line
+	}
+];
+
 /**
  * Extracts import declarations from a given AST applying the following transforms:
  * - Relative imports are discarded
@@ -16,68 +48,37 @@
  *  - react
  */
 function extractImports(ast) {
-	const SOURCE_GROUPS = [
-		{
-			name: 'clay3',
-			test: source => source.startsWith('@clayui')
-		},
-		{
-			name: 'react',
-			test: source =>
-				source.startsWith('react') ||
-				source.startsWith('prop-types') ||
-				source.startsWith('classnames')
-		},
-		{
-			name: 'js',
-			test: source => source.startsWith('frontend-js-web')
-		},
-		{
-			name: 'metal',
-			test: source => source.startsWith('metal-') || source === 'metal'
-		},
-		{
-			name: 'clay2',
-			test: source => source.startsWith('clay-') || source === 'clay'
-		},
-		{
-			name: 'others',
-			test: source => true // eslint-disable-line
-		}
-	];
+	let count = 0;
 
-	function getGroup(source) {
-		return SOURCE_GROUPS[
-			SOURCE_GROUPS.findIndex(group => group.test(source))
-		];
-	}
+	const dependencies = SOURCE_GROUPS.reduce((deps, group) => {
+		deps[group.name] = [];
 
-	const externalImports = ast.program.body.filter(
-		node =>
-			node.type === 'ImportDeclaration' &&
-			/^[a-z@]/i.test(node.source.value)
-	);
+		return deps;
+	}, {});
 
-	const data = {};
+	traverse(ast, {
+		ImportDeclaration({node}) {
+			const groupName =
+				SOURCE_GROUPS[
+					SOURCE_GROUPS.findIndex(group =>
+						group.test(node.source.value)
+					)
+				].name;
 
-	SOURCE_GROUPS.forEach(group => {
-		data[group.name] = [];
-	});
-
-	return {
-		count: externalImports.length,
-		dependencies: externalImports.reduce((imports, node) => {
-			const groupName = getGroup(node.source.value).name;
-
-			imports[groupName] = [
-				...imports[groupName],
+			dependencies[groupName] = [
+				...dependencies[groupName],
 				node.specifiers
 					.filter(specifier => specifier.local.name)
 					.map(specifier => specifier.local.name)
 			].reduce((memo, it) => memo.concat(it), []); // Not using flatMap to support Node.js 10;;;
 
-			return imports;
-		}, data)
+			count++;
+		}
+	});
+
+	return {
+		count,
+		dependencies
 	};
 }
 
