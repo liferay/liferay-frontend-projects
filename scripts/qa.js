@@ -5,6 +5,7 @@
  */
 
 const childProcess = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
 const qaDir = path.join(__dirname, '..', 'qa');
@@ -31,6 +32,12 @@ if (argv['generate']) {
 }
 
 if (argv['install']) {
+	try {
+		fs.unlinkSync(path.join(samplesDir, 'yarn.lock'));
+	} catch (err) {
+		// swallow
+	}
+
 	childProcess.spawnSync('yarn', ['install'], {
 		stdio: 'inherit',
 		cwd: samplesDir,
@@ -49,9 +56,24 @@ if (argv['install']) {
 }
 
 if (argv['deploy']) {
+	const env = {
+		// This is necessary to avoid create-react-app failures because it
+		// detects duplicated dependencies in the node_modules folder of the
+		// toolkit project (which is up in FS of the `samples` folder)
+		SKIP_PREFLIGHT_CHECK: 'true',
+	};
+
 	childProcess.spawnSync('lerna', ['run', 'deploy'], {
 		stdio: 'inherit',
 		cwd: samplesDir,
 		shell: true,
+		env,
+	});
+
+	childProcess.spawnSync('lerna', ['run', 'deploy:liferay'], {
+		stdio: 'inherit',
+		cwd: samplesDir,
+		shell: true,
+		env,
 	});
 }
