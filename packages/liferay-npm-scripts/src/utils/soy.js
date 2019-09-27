@@ -91,6 +91,8 @@ function translateSoy(directory) {
 				 *          /{(\d+)}/g,
 				 *          '\x01$1\x01'
 				 *      );
+				 *
+				 * @see https://github.com/google/closure-templates/blob/514a6381287d732e41fcab660305ebf33920a42f/java/src/com/google/template/soy/incrementaldomsrc/AssistantForHtmlMsgs.java#L105-L139
 				 */
 				if (params) {
 					externalMsg = externalMsg.replace(/\{\$[^}]+}/g, 'x');
