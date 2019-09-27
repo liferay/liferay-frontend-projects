@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const globby = require('globby');
+const parser = require('@babel/parser');
 const findUp = require('find-up');
 const fs = require('fs');
-const util = require('util');
+const globby = require('globby');
 const argv = require('minimist')(process.argv.slice(2));
-const parser = require('@babel/parser');
 const path = require('path');
+const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
 
@@ -33,7 +33,7 @@ async function parse(path) {
 	const content = await readFile(path, 'utf8');
 
 	return parser.parse(content, {
-		plugins: ['jsx', 'classProperties'],
+		plugins: ['classProperties', 'jsx'],
 		sourceType: 'module'
 	});
 }
