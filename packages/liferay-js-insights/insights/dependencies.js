@@ -9,28 +9,47 @@
  * - Relative imports are discarded
  * - Imports are grouped per origin into:
  * 	- clay3
- *  - react
+ *  - clay2
  *  - js
  *  - metal
- *  - clay2
  *  - others
+ *  - react
  */
 function extractImports(ast) {
-	const EMPTY = [[], [], [], [], [], []];
 	const SOURCE_GROUPS = [
-		source => source.startsWith('@clayui'),
-		source =>
-			source.startsWith('react') ||
-			source.startsWith('prop-types') ||
-			source.startsWith('classnames'),
-		source => source.startsWith('frontend-js-web'),
-		source => source.startsWith('metal-') || source === 'metal',
-		source => source.startsWith('clay-') || source === 'clay',
-		_ => true // eslint-disable-line
+		{
+			name: 'clay3',
+			test: source => source.startsWith('@clayui')
+		},
+		{
+			name: 'react',
+			test: source =>
+				source.startsWith('react') ||
+				source.startsWith('prop-types') ||
+				source.startsWith('classnames')
+		},
+		{
+			name: 'js',
+			test: source => source.startsWith('frontend-js-web')
+		},
+		{
+			name: 'metal',
+			test: source => source.startsWith('metal-') || source === 'metal'
+		},
+		{
+			name: 'clay2',
+			test: source => source.startsWith('clay-') || source === 'clay'
+		},
+		{
+			name: 'others',
+			test: source => true // eslint-disable-line
+		}
 	];
 
 	function getGroup(source) {
-		return SOURCE_GROUPS.findIndex(group => group(source));
+		return SOURCE_GROUPS[
+			SOURCE_GROUPS.findIndex(group => group.test(source))
+		];
 	}
 
 	const externalImports = ast.program.body.filter(
@@ -39,40 +58,40 @@ function extractImports(ast) {
 			/^[a-z@]/i.test(node.source.value)
 	);
 
-	return [
-		externalImports.length,
-		...(externalImports.reduce((imports, node) => {
-			const group = getGroup(node.source.value);
+	const data = {};
 
-			imports[group] = [
-				...imports[group],
+	SOURCE_GROUPS.forEach(group => {
+		data[group.name] = [];
+	});
+
+	return {
+		count: externalImports.length,
+		dependencies: externalImports.reduce((imports, node) => {
+			const groupName = getGroup(node.source.value).name;
+
+			imports[groupName] = [
+				...imports[groupName],
 				node.specifiers
 					.filter(specifier => specifier.local.name)
 					.map(specifier => specifier.local.name)
 			].reduce((memo, it) => memo.concat(it), []); // Not using flatMap to support Node.js 10;;;
 
 			return imports;
-		}, EMPTY) || EMPTY)
-	];
+		}, data)
+	};
 }
 
 /**
- *
+ * Augments a provided insights report with information about the dependencies
+ * of the given module ast.
  */
 module.exports = async function(ast, insights) {
-	const [count, clay3, react, js, metal, clay2, others] = extractImports(ast);
+	const {count, dependencies} = extractImports(ast);
 
 	if (count) {
 		return {
 			...insights,
-			dependencies: {
-				clay2,
-				clay3,
-				js,
-				metal,
-				others,
-				react
-			}
+			dependencies
 		};
 	}
 
