@@ -116,7 +116,11 @@ function run() {
 
 				// Write report if requested
 				if (project.misc.reportFile) {
-					fs.writeFileSync(project.misc.reportFile, report.toHtml());
+					fs.writeFileSync(
+						project.misc.reportFile.asNative,
+						report.toHtml()
+					);
+
 					log.info(
 						`Report written to ${project.misc.reportFile.asNative}`
 					);
