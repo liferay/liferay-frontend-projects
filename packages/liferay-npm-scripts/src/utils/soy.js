@@ -58,16 +58,44 @@ function translateSoy(directory) {
 
 		const updated = contents.replace(
 			EXTERNAL_MSG_REGEX,
-			(match, p1, p2, p3) => {
+			(match, binding, _template, params) => {
+				/*
+				 * Turn: var MSG_EXTERNAL_3292565618977302987 = goog.getMsg('all-selected');
+				 * into: var MSG_EXTERNAL_3292565618977302987 = Liferay.Language.get('all-selected');
+				 */
 				let externalMsg = match.replace(
 					EXTERNAL_MSG_REGEX,
 					`var $1 = Liferay.Language.get('$2');`
 				);
 
-				if (p3) {
+				/*
+				 * Turn this (split across lines for readability; normally this
+				 * would all be on one line):
+				 *
+				 *      var MSG_EXTERNAL_65349286544398424 = goog.getMsg(
+				 *          '{$selectedItems}-of-{$totalItems}', {
+				 *              'selectedItems': '\u00010\u0001',
+				 *              'totalItems': '\u00011\u0001'
+				 *          }
+				 *      );
+				 *
+				 * into:
+				 *
+				 *      var MSG_EXTERNAL_65349286544398424 = Liferay.Language.get(
+				 *          'x-of-x', {
+				 *              'selectedItems': '\u00010\u0001',
+				 *              'totalItems': '\u00011\u0001'
+				 *          }
+				 *      );
+				 *      MSG_EXTERNAL_65349286544398424.replace(
+				 *          /{(\d+)}/g,
+				 *          '\x01$1\x01'
+				 *      );
+				 */
+				if (params) {
 					externalMsg = externalMsg.replace(/\{\$[^}]+}/g, 'x');
 
-					externalMsg = externalMsg += `\n\t${p1} = ${p1}.replace(/{(\\d+)}/g, '\\x01$1\\x01');\n`;
+					externalMsg = externalMsg += `\n\t${binding} = ${binding}.replace(/{(\\d+)}/g, '\\x01$1\\x01');\n`;
 				}
 
 				return externalMsg;
