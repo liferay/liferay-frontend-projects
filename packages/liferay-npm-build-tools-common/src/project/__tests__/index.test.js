@@ -446,6 +446,104 @@ describe('project.transform', () => {
 	});
 });
 
+describe('project.versionsInfo', () => {
+	it('works', () => {
+		const project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'versions-info')
+		);
+
+		const versions = project.versionsInfo;
+
+		expect(versions.size).toEqual(12);
+
+		expect(versions.get('liferay-npm-bundler')).toMatchObject({
+			version: require('../../../package.json').version,
+			path: path.join(
+				'..',
+				'..',
+				'..',
+				'..',
+				'..',
+				'..',
+				'..',
+				'..',
+				'node_modules',
+				'liferay-npm-bundler'
+			),
+		});
+
+		expect(versions.get('liferay-npm-build-tools-common')).toMatchObject({
+			version: require('../../../package.json').version,
+			path: path.join('..', '..', '..', '..', '..', '..'),
+		});
+
+		expect(versions.get('loader-0')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'loader-0'),
+		});
+
+		expect(versions.get('liferay-npm-bundler-plugin-test-0')).toMatchObject(
+			{
+				version: '1.0.0',
+				path: path.join(
+					'node_modules',
+					'liferay-npm-bundler-plugin-test-0'
+				),
+			}
+		);
+
+		expect(versions.get('bundler-plugins/dir/plugin-0')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'bundler-plugins/dir/plugin-0.js'),
+		});
+
+		expect(versions.get('liferay-npm-bundler-plugin-test-1')).toMatchObject(
+			{
+				version: '1.0.0',
+				path: path.join(
+					'node_modules',
+					'liferay-npm-bundler-plugin-test-1'
+				),
+			}
+		);
+
+		expect(versions.get('bundler-plugins/dir/plugin-1')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'bundler-plugins/dir/plugin-1.js'),
+		});
+
+		expect(versions.get('babel-plugin-test-0')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'babel-plugin-test-0'),
+		});
+
+		expect(versions.get('babel-plugins/dir/plugin-0')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'babel-plugins/dir/plugin-0.js'),
+		});
+
+		expect(versions.get('babel-plugins/dir/plugin-1')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'babel-plugins/dir/plugin-1.js'),
+		});
+
+		expect(versions.get('loader-0')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'loader-0'),
+		});
+
+		expect(versions.get('bundler-plugins/dir/loader-0')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'bundler-plugins/dir/loader-0.js'),
+		});
+
+		expect(versions.get('bundler-plugins/dir/loader-1')).toMatchObject({
+			version: '1.0.0',
+			path: path.join('node_modules', 'bundler-plugins/dir/loader-1.js'),
+		});
+	});
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 // Tests by orthogonal features
 ////////////////////////////////////////////////////////////////////////////////

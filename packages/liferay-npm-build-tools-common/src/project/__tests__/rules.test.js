@@ -20,7 +20,7 @@ describe('single rule', () => {
 				],
 			},
 			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -46,7 +46,7 @@ describe('single rule', () => {
 				],
 			},
 			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -74,7 +74,7 @@ describe('single rule', () => {
 				],
 			},
 			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -107,7 +107,7 @@ describe('single rule', () => {
 				],
 			},
 			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -141,7 +141,7 @@ it('works with rules not based in file extension', () => {
 			],
 		},
 		dir: new FilePath('/home/me/my-project'),
-		require: () => requireReturn,
+		toolRequire: () => requireReturn,
 	});
 
 	expect(rules.loadersForFile('a-folder/main.js')).toEqual([
@@ -172,7 +172,7 @@ it('multiple rules', () => {
 			],
 		},
 		dir: new FilePath('/home/me/my-project'),
-		require: () => requireReturn,
+		toolRequire: () => requireReturn,
 	});
 
 	expect(rules.loadersForFile('main.css')).toEqual([
@@ -211,7 +211,7 @@ it('rule with options', () => {
 			],
 		},
 		dir: new FilePath('/home/me/my-project'),
-		require: () => requireReturn,
+		toolRequire: () => requireReturn,
 	});
 
 	expect(rules.loadersForFile('main.js')).toEqual([
