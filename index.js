@@ -16,7 +16,7 @@ const config = {
 	},
 	extends: ['eslint:recommended', require.resolve('eslint-config-prettier')],
 	parserOptions: {
-		ecmaVersion: 2017,
+		ecmaVersion: 2018,
 		sourceType: 'module',
 	},
 	plugins: [
