@@ -48,7 +48,7 @@ async function getModuleMeta(modulePath) {
 	// Take app from the `name` field in package.json
 	const app = JSON.parse(await readFile(pkg, 'utf8')).name;
 
-	const name = modulePath.substring(modulePath.lastIndexOf('/') + 1);
+	const name = path.basename(modulePath);
 
 	// Finds the root git folder
 	const gitRoot = await findUp('.git', {
