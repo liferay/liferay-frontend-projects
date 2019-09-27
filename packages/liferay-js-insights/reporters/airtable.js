@@ -22,9 +22,9 @@ const progress = new cliProgress.MultiBar(
  *
  * The setup in advance requires:
  * - An existing Airtable Base
- * 		- Key for the Base can be provided as `--baseKey` or as an `LFR_DEPS_AIRTABLE_BASE_KEY` environment variable.
+ * 		- Key for the Base can be provided as `--airtableBaseKey` or as an `LFR_DEPS_AIRTABLE_BASE_KEY` environment variable.
  * - A valid API_KEY for the Airtable Base
- * 		- The API_KEY can be provided as `--apiKey` or as an `LFR_DEPS_AIRTABLE_API_KEY` environment variable.
+ * 		- The API_KEY can be provided as `--airtableApiKey` or as an `LFR_DEPS_AIRTABLE_API_KEY` environment variable.
  * - An existing Airtable Table with the following structure:
  * 		- {string} module - Name of the module with the dependencies. Acts as the primary key of the table.
  * 		- {string} app - Parent application of the module.
@@ -32,21 +32,21 @@ const progress = new cliProgress.MultiBar(
  * 		- {[string]} clay3 - List of dependencies with Clay3 packages (@clayui/*).
  * 		- {[string]} react - List of dependencies with React packages (frontend-js-react-web).
  * 		- {[string]} js - List of dependencies with the common package (frontend-js-web).
- * 		- {[string]} metal - List of dependencies with Metl.js packages (metal-*).
+ * 		- {[string]} metal - List of dependencies with Metal.js packages (metal-*).
  * 		- {[string]} clay2 - List of dependencies with Clay2 packages (clay-*).
  * 		- {[string]} others - List of other dependencies.
  *
  * 		- The Table name should be provided as `--name`. If none is passed, it defaults to `master`.
  */
 module.exports = async function(modulesInfo, config) {
-	const {apiKey, baseKey, table} = {
-		apiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
-		baseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
+	const {airtableApiKey, airtableBaseKey, table} = {
+		airtableApiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
+		airtableBaseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
 		table: 'master',
 		...config
 	};
 
-	const base = new Airtable({apiKey}).base(baseKey);
+	const base = new Airtable({apiKey: airtableApiKey}).base(airtableBaseKey);
 
 	const progressBar = progress.create(modulesInfo.length, 0, {table});
 	let synced = 0;

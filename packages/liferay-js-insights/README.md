@@ -15,11 +15,11 @@ Either:
 liferay-js-insights [option...]
 
 Options:
-  --airtable    [optional: dumps the analysis to a remote airtable installation]
-  --apiKey      [optional: airtable API KEY]
-  --baseKey     [optional: airtable base]
+  --airtable          [optional: dumps the analysis to a remote airtable installation]
+  --airtableApiKey    [optional: airtable API KEY]
+  --airtableBaseKey   [optional: airtable base]
   --help
-  --json        [optional: dumps the analysis as a json file]
+  --json              [optional: dumps the analysis as a json file]
 ```
 
 ### Default Report
