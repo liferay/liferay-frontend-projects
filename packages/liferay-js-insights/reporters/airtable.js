@@ -40,11 +40,9 @@ const progress = new cliProgress.MultiBar(
  */
 module.exports = async function(modulesInfo, config) {
 	const {apiKey, baseKey, table} = {
-		...{
-			apiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
-			baseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
-			table: 'master'
-		},
+		apiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
+		baseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
+		table: 'master',
 		...config
 	};
 
