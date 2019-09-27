@@ -18,14 +18,14 @@
 function extractImports(ast) {
 	const EMPTY = [[], [], [], [], [], []];
 	const SOURCE_GROUPS = [
-		source => source.includes('@clayui'),
+		source => source.startsWith('@clayui'),
 		source =>
-			source.includes('react') ||
-			source.includes('prop-types') ||
-			source.includes('classnames'),
-		source => source.includes('frontend-js-web'),
-		source => source.includes('metal-') || source === 'metal',
-		source => source.includes('clay-') || source === 'clay',
+			source.startsWith('react') ||
+			source.startsWith('prop-types') ||
+			source.startsWith('classnames'),
+		source => source.startsWith('frontend-js-web'),
+		source => source.startsWith('metal-') || source === 'metal',
+		source => source.startsWith('clay-') || source === 'clay',
 		_ => true // eslint-disable-line
 	];
 
@@ -36,7 +36,7 @@ function extractImports(ast) {
 	const externalImports = ast.program.body.filter(
 		node =>
 			node.type === 'ImportDeclaration' &&
-			!node.source.value.includes('./')
+			/^[a-z@]/i.test(node.source.value)
 	);
 
 	return [
