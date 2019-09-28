@@ -58,15 +58,12 @@ function extractImports(ast) {
 
 	traverse(ast, {
 		ImportDeclaration({node}) {
-			const groupName =
-				SOURCE_GROUPS[
-					SOURCE_GROUPS.findIndex(group =>
-						group.test(node.source.value)
-					)
-				].name;
+			const {name} = SOURCE_GROUPS.find(group =>
+				group.test(node.source.value)
+			);
 
-			dependencies[groupName] = [
-				...dependencies[groupName],
+			dependencies[name] = [
+				...dependencies[name],
 				node.specifiers
 					.filter(specifier => specifier.local.name)
 					.map(specifier => specifier.local.name)
