@@ -27,7 +27,9 @@ Options:
 
 By default, a table-based report will be displayed on screen unless a different reporter is selected.
 
-`npx liferay-js-insights src/**/*.es.js`
+You can choose which insight fields to show by passing them as comma-separated-values in the `--output` argument. By default, the table will show the `app`, `name`, `dependencies.clay3` and `dependencies.react` fields.
+
+`npx liferay-js-insights --output app,name,dependencies.react src/**/*.es.js`
 
 ![Default Table Report](/docs/img/report_table.png)
 

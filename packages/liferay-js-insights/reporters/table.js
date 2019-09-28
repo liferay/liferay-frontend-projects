@@ -6,23 +6,36 @@
 
 const Table = require('cli-table');
 
+const DEFAULT_CONFIG = {
+	output: 'app,name,dependencies.clay3,dependencies.react'
+};
+
 /**
- * Prints the modules's insights report as a table in the terminal. By default, it only includes the `app`, `module`, `clay3` and `react` fields for brevity.
+ * Traverses an object provided a path to a property and returns its value if found or null if the path can't be reached.
  */
-module.exports = async function(modulesInfo) {
-	const table = new Table({
-		colWidths: [35, 35, 50, 70],
-		head: ['app', 'module', 'clay3', 'react']
-	});
+const idx = (p, o) => p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o);
+
+/**
+ * Prints the modules's insights report as a table in the terminal.
+ */
+module.exports = async function(modulesInfo, config) {
+	const {output} = {
+		...DEFAULT_CONFIG,
+		...config
+	};
+
+	const head = output.split(',');
+
+	const colWidths = new Array(head.length).fill(
+		Math.floor(190 / head.length)
+	);
+
+	const table = new Table({colWidths, head});
 
 	modulesInfo
-		.filter(moduleInfo => moduleInfo.dependencies)
-		.map(({app, name, dependencies}) => [
-			app,
-			name,
-			dependencies.clay3,
-			dependencies.react
-		])
+		.map(moduleInfo =>
+			head.map(field => idx(field.split('.'), moduleInfo) || '')
+		)
 		.forEach(moduleInfo => table.push(moduleInfo));
 
 	// eslint-disable-next-line no-console
