@@ -47,22 +47,22 @@ When the `--json` flag is passed, collected insights will be dumped in a `${name
 It's possible to persist the collected insights in an [Airtable](https://airtable.com) table by passing the `--airtable` flag.
 
 The setup in advance requires:
-- An existing Airtable Base
-		- Key for the Base can be provided as `--baseKey` or as an `LFR_DEPS_AIRTABLE_BASE_KEY` environment variable.
-- A valid API_KEY for the Airtable Base
-		- The API_KEY can be provided as `--apiKey` or as an `LFR_DEPS_AIRTABLE_API_KEY` environment variable.
-- An existing Airtable Table with the following structure:
-  - `module`:`{string}` - Name of the module with the dependencies. Acts as the primary key of the table.
-  - `app`:`{string}` - Parent application of the module.
-  - `url`:`{URL}` - GitHub URL of the module.
-  - `clay3`:`{[string]}` - List of dependencies with Clay3 packages (@clayui/*).
-  - `react`:`{[string]}` - List of dependencies with React packages (frontend-js-react-web).
-  - `js`:`{[string]}` - List of dependencies with the common package (frontend-js-web).
-  - `metal`:`{[string]}` - List of dependencies with Metl.js packages (metal-*).
-  - `clay2`:`{[string]}` - List of dependencies with Clay2 packages (clay-*).
-  - `others`:`{[string]}` - List of other dependencies.
 
-- The Table name should be provided as `--output`. If none is passed, it defaults to `master`.
+-   An existing Airtable Base - Key for the Base can be provided as `--baseKey` or as an `LFR_DEPS_AIRTABLE_BASE_KEY` environment variable.
+-   A valid API_KEY for the Airtable Base - The API_KEY can be provided as `--apiKey` or as an `LFR_DEPS_AIRTABLE_API_KEY` environment variable.
+-   An existing Airtable Table with the following structure:
+
+    -   `module`:`{string}` - Name of the module with the dependencies. Acts as the primary key of the table.
+    -   `app`:`{string}` - Parent application of the module.
+    -   `url`:`{URL}` - GitHub URL of the module.
+    -   `clay3`:`{[string]}` - List of dependencies with Clay3 packages (@clayui/\*).
+    -   `react`:`{[string]}` - List of dependencies with React packages (frontend-js-react-web).
+    -   `js`:`{[string]}` - List of dependencies with the common package (frontend-js-web).
+    -   `metal`:`{[string]}` - List of dependencies with Metl.js packages (metal-\*).
+    -   `clay2`:`{[string]}` - List of dependencies with Clay2 packages (clay-\*).
+    -   `others`:`{[string]}` - List of other dependencies.
+
+-   The Table name should be provided as `--output`. If none is passed, it defaults to `master`.
 
 `npx liferay-js-insights --airtable src/**/*.es.js`
 
@@ -70,4 +70,4 @@ The setup in advance requires:
 
 ## Known limitations
 
-- Too many to list them here for now :D
+-   Too many to list them here for now :D
