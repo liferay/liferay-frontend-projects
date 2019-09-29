@@ -80,18 +80,18 @@ function extractImports(ast) {
 }
 
 /**
- * Augments a provided insights report with information about the dependencies
+ * Augments a provided moduleInfo report with information about the dependencies
  * of the given module ast.
  */
-module.exports = async function(ast, insights) {
+module.exports = async function({ast, moduleInfo}) {
 	const {count, dependencies} = extractImports(ast);
 
 	if (count) {
 		return {
-			...insights,
+			...moduleInfo,
 			dependencies
 		};
 	}
 
-	return insights;
+	return moduleInfo;
 };

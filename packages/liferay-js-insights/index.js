@@ -14,7 +14,10 @@ const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
 
-const INSIGHTS = [require('./insights/dependencies')];
+const INSIGHTS = {
+	dependencies: require('./insights/dependencies'),
+	loc: require('./insights/loc')
+};
 
 let report;
 
@@ -29,9 +32,7 @@ if (argv.json) {
 /**
  * Parses the contents of a file and returns the corresponding AST
  */
-async function parse(path) {
-	const content = await readFile(path, 'utf8');
-
+async function parse(content) {
 	return parser.parse(content, {
 		plugins: ['classProperties', 'jsx'],
 		sourceType: 'module'
@@ -79,10 +80,14 @@ async function getModuleMeta(modulePath) {
 
 	// eslint-disable-next-line no-for-of-loops/no-for-of-loops
 	for await (const modulePath of globby.stream(argv._[0])) {
-		const ast = await parse(modulePath);
+		const content = await readFile(modulePath, 'utf8');
 
-		const moduleMeta = await getModuleMeta(modulePath);
-		const moduleInfo = await INSIGHTS[0](ast, moduleMeta);
+		const ast = await parse(content);
+
+		let moduleInfo = await getModuleMeta(modulePath);
+
+		moduleInfo = await INSIGHTS.dependencies({ast, content, moduleInfo});
+		moduleInfo = await INSIGHTS.loc({ast, content, moduleInfo});
 
 		data.push(moduleInfo);
 	}
