@@ -35,14 +35,14 @@ function prepareModule(dependencies) {
 module.exports = async function(modulesInfo, {output}) {
 	const modulesJSON = modulesInfo
 		.filter(moduleInfo => moduleInfo.dependencies)
-		.reduce((acc, {app, dependencies, name}) => {
+		.reduce((acc, {dependencies, meta}) => {
 			const moduleData = {
-				name,
+				name: meta.name,
 				...prepareModule(dependencies)
 			};
 
-			acc[app] = acc[app] || {modules: []};
-			acc[app].modules = [...acc[app].modules, moduleData];
+			acc[meta.app] = acc[meta.app] || {modules: []};
+			acc[meta.app].modules = [...acc[meta.app].modules, moduleData];
 
 			return acc;
 		}, {});

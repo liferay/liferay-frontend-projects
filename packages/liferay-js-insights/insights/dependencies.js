@@ -47,9 +47,7 @@ const SOURCE_GROUPS = [
  *  - others
  *  - react
  */
-function extractImports(ast) {
-	let count = 0;
-
+module.exports = async function({ast}) {
 	const dependencies = SOURCE_GROUPS.reduce((deps, group) => {
 		deps[group.name] = [];
 
@@ -68,30 +66,8 @@ function extractImports(ast) {
 					.filter(specifier => specifier.local.name)
 					.map(specifier => specifier.local.name)
 			].reduce((memo, it) => memo.concat(it), []); // Not using flatMap to support Node.js 10;;;
-
-			count++;
 		}
 	});
 
-	return {
-		count,
-		dependencies
-	};
-}
-
-/**
- * Augments a provided moduleInfo report with information about the dependencies
- * of the given module ast.
- */
-module.exports = async function({ast, moduleInfo}) {
-	const {count, dependencies} = extractImports(ast);
-
-	if (count) {
-		return {
-			...moduleInfo,
-			dependencies
-		};
-	}
-
-	return moduleInfo;
+	return dependencies;
 };

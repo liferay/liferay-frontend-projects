@@ -19,6 +19,7 @@ Options:
   --airtableApiKey    [optional: airtable API KEY]
   --airtableBaseKey   [optional: airtable base]
   --help
+  --insights          [optional: comma-separated list of insights to run]
   --json              [optional: dumps the analysis as a json file]
   --output            [optional: output name for the reporter]
 ```
@@ -27,9 +28,9 @@ Options:
 
 By default, a table-based report will be displayed on screen unless a different reporter is selected.
 
-You can choose which insight fields to show by passing them as comma-separated-values in the `--output` argument. By default, the table will show the `app`, `name`, `dependencies.clay3` and `dependencies.react` fields.
+You can choose which insight fields to show by passing them as comma-separated-values in the `--output` argument. By default, the table will show the `meta.app`, `meta.name`, `dependencies.clay3` and `dependencies.react` fields.
 
-`npx liferay-js-insights --output app,name,dependencies.react src/**/*.es.js`
+`npx liferay-js-insights --output meta.app,meta.name,dependencies.react src/**/*.es.js`
 
 ![Default Table Report](/docs/img/report_table.png)
 

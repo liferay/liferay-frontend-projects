@@ -56,9 +56,9 @@ module.exports = async function(modulesInfo, config) {
 		const chunk = modulesInfo.slice(synced, synced + 10).map(moduleInfo => {
 			return {
 				fields: {
-					app: moduleInfo.app,
-					module: moduleInfo.name,
-					url: moduleInfo.url,
+					app: moduleInfo.meta.app,
+					module: moduleInfo.meta.name,
+					url: moduleInfo.meta.url,
 					...moduleInfo.dependencies
 				}
 			};

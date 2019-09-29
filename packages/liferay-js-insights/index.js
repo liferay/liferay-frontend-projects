@@ -77,19 +77,29 @@ async function getModuleMeta(modulePath) {
  */
 (async () => {
 	const data = [];
+	const requestedInsights =
+		argv.insights && typeof argv.insights === 'string'
+			? argv.insights.split(',')
+			: Object.keys(INSIGHTS);
 
 	// eslint-disable-next-line no-for-of-loops/no-for-of-loops
 	for await (const modulePath of globby.stream(argv._[0])) {
 		const content = await readFile(modulePath, 'utf8');
 
 		const ast = await parse(content);
+		const meta = await getModuleMeta(modulePath);
 
-		let moduleInfo = await getModuleMeta(modulePath);
+		await Promise.all(
+			requestedInsights.map(insight => INSIGHTS[insight]({ast, content}))
+		).then(values => {
+			const moduleInfo = {meta};
 
-		moduleInfo = await INSIGHTS.dependencies({ast, content, moduleInfo});
-		moduleInfo = await INSIGHTS.loc({ast, content, moduleInfo});
+			requestedInsights.forEach((insight, index) => {
+				moduleInfo[insight] = values[index];
+			});
 
-		data.push(moduleInfo);
+			data.push(moduleInfo);
+		});
 	}
 
 	report(data, argv);

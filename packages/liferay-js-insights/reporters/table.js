@@ -7,7 +7,7 @@
 const Table = require('cli-table');
 
 const DEFAULT_CONFIG = {
-	output: 'app,name,dependencies.clay3,dependencies.react'
+	output: 'meta.app,meta.name,dependencies.clay3,dependencies.react'
 };
 
 /**
