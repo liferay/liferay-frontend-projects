@@ -3,12 +3,6 @@
 	"version": "1.0.0",
 	"description": "Loaders",
 	"devDependencies": {
-		"liferay-npm-bundler": "$CURRENT$",
-		"liferay-npm-build-support": "$CURRENT$",
-		"liferay-npm-bundler-loader-json-loader": "$CURRENT$",
-		"liferay-npm-bundler-loader-style-loader": "$CURRENT$",
-		"liferay-npm-bundler-loader-css-loader": "$CURRENT$",
-		"liferay-npm-bundler-loader-sass-loader": "$CURRENT$",
 		"copy-webpack-plugin": "4.6.0",
 		"webpack": "4.29.6",
 		"webpack-cli": "3.3.0",
