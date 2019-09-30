@@ -11,7 +11,6 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as config from '../config';
 import * as xml from './xml';
 import * as ddm from './ddm';
 
@@ -103,7 +102,8 @@ function addLocalizationFiles(zip) {
 function addManifest(zip) {
 	let contents = '';
 
-	const bundlerVersion = config.getVersionsInfo()['liferay-npm-bundler'];
+	const bundlerVersion = project.versionsInfo.get('liferay-npm-bundler')
+		.version;
 
 	contents += `Manifest-Version: 1.0\n`;
 	contents += `Bundle-ManifestVersion: 2\n`;
@@ -132,7 +132,7 @@ function addManifest(zip) {
 		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
 	}
 
-	if (config.jar.getRequireJsExtender()) {
+	if (project.jar.requireJsExtender) {
 		let filter;
 
 		const minimumExtenderVersion = getMinimumExtenderVersion();
@@ -236,7 +236,7 @@ function addPortletInstanceConfigurationFile(zip) {
  * @return {string|undefined} a version number or undefined if none is required
  */
 function getMinimumExtenderVersion() {
-	const requireJsExtender = config.jar.getRequireJsExtender();
+	const requireJsExtender = project.jar.requireJsExtender;
 
 	if (typeof requireJsExtender === 'string') {
 		if (requireJsExtender === 'any') {
@@ -265,12 +265,11 @@ function getMinimumExtenderVersion() {
  * @return {object}
  */
 function getPortletInstanceConfigurationJson() {
-	const filePath = config.jar.getConfigurationFile();
-
-	if (!filePath) {
+	if (!project.jar.configurationFile) {
 		return undefined;
 	}
 
+	const filePath = project.jar.configurationFile.asNative;
 	const configurationJson = fs.readJSONSync(filePath);
 
 	if (
@@ -289,12 +288,11 @@ function getPortletInstanceConfigurationJson() {
  * @return {object}
  */
 function getSystemConfigurationJson() {
-	const filePath = config.jar.getConfigurationFile();
-
-	if (!filePath) {
+	if (!project.jar.configurationFile) {
 		return undefined;
 	}
 
+	const filePath = project.jar.configurationFile.asNative;
 	const configurationJson = fs.readJSONSync(filePath);
 
 	if (

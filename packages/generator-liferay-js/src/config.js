@@ -15,14 +15,11 @@ Object.assign(
 	safeReadJsonSync(path.join(os.homedir(), '.generator-liferay-js.json'))
 );
 
-if (process.argv.length >= 5 && process.argv[3] === '--config') {
-	cfg = Object.assign(
-		{
-			sdkVersion: cfg.sdkVersion,
-		},
-		readJsonSync(process.argv[4])
-	);
-}
+process.argv.forEach((arg, index) => {
+	if (arg === '--config') {
+		cfg = readJsonSync(process.argv[index + 1]);
+	}
+});
 
 /**
  * Set configuration to a given value (to be used from tests)

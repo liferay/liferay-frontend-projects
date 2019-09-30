@@ -11,7 +11,6 @@ import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 import semver from 'semver';
 
-import * as config from './config';
 import {addPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
 import createJar from './jar';
@@ -42,16 +41,18 @@ export default function(args) {
 		return;
 	}
 
-	const versionsInfo = config.getVersionsInfo();
+	const versionsInfo = project.versionsInfo;
 
 	if (args[0] === '-v' || args[0] === '--version') {
-		console.log(JSON.stringify(versionsInfo, null, 2));
+		versionsInfo.forEach((value, key) => {
+			console.log(`"${key}":`, JSON.stringify(value, null, 2));
+		});
 		return;
 	}
 
 	report.versionsInfo(versionsInfo);
 
-	if (config.isNoTracking()) {
+	if (project.misc.noTracking) {
 		run();
 	} else {
 		log.debug(
@@ -78,7 +79,7 @@ function run() {
 		let depPkgs = addPackageDependencies(
 			{},
 			'.',
-			config.bundler.getIncludeDependencies()
+			project.copy.includedDependencies
 		);
 
 		depPkgs = Object.values(depPkgs).filter(pkg => !pkg.isRoot);
@@ -114,12 +115,15 @@ function run() {
 				report.sendAnalytics();
 
 				// Write report if requested
-				if (config.isDumpReport()) {
+				if (project.misc.reportFile) {
 					fs.writeFileSync(
-						config.getReportFilePath(),
+						project.misc.reportFile.asNative,
 						report.toHtml()
 					);
-					log.info(`Report written to ${config.getReportFilePath()}`);
+
+					log.info(
+						`Report written to ${project.misc.reportFile.asNative}`
+					);
 				} else if (report.warningsPresent) {
 					log.debug('The build has emitted some warning messages.');
 				}

@@ -10,7 +10,6 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as config from '../config';
 import * as log from '../log';
 import report from '../report';
 import {findFiles, getDestDir, runInChunks} from './util';
@@ -55,7 +54,7 @@ function processPackage(srcPkg) {
 
 	return runInChunks(
 		sourcePrjRelPaths,
-		config.bundler.getMaxParallelFiles(),
+		project.misc.maxParallelFiles,
 		0,
 		prjRelPath => processFile(srcPkg, destPkg, prjRelPath)
 	);

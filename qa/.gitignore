@@ -3,7 +3,6 @@ build/
 liferay-portal-master/
 logs/
 test-results/
-samples/
 config/
 poshi/dependencies/
 poshi/standalone/

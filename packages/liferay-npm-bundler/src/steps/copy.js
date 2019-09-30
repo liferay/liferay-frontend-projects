@@ -9,7 +9,6 @@ import * as gl from 'liferay-npm-build-tools-common/lib/globs';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as config from '../config';
 import * as log from '../log';
 import manifest from '../manifest';
 import report from '../report';
@@ -67,7 +66,7 @@ function copyPackage(srcPkg) {
 					gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, [
 						`**/*`,
 						`!node_modules/**/*`,
-						...gl.negate(config.bundler.getExclusions(srcPkg)),
+						...gl.negate(project.copy.getExclusions(srcPkg)),
 					])
 				)
 		  );
@@ -95,7 +94,7 @@ function copyPackage(srcPkg) {
  */
 function runCopyPlugins(srcPkg, destPkg, srcPkgRelPaths) {
 	const state = runPlugins(
-		config.bundler.getPlugins('copy', destPkg),
+		project.copy.getPluginDescriptors(destPkg),
 		srcPkg,
 		destPkg,
 		{

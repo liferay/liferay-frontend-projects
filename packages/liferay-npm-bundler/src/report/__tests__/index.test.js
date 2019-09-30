@@ -36,10 +36,19 @@ describe('when describing the run', () => {
 	});
 
 	it('correctly stores versions info', () => {
-		report.versionsInfo({
-			'liferay-npm-bundler': '1.4.2',
-			'liferay-npm-bundler-plugin-inject-angular': '1.4.2',
+		const versionsInfo = new Map();
+
+		versionsInfo.set('liferay-npm-bundler', {
+			version: '1.4.2',
+			path: 'path/to/bundler',
 		});
+
+		versionsInfo.set('liferay-npm-bundler-plugin-inject-angular', {
+			version: '1.4.2',
+			path: 'path/to/plugin',
+		});
+
+		report.versionsInfo(versionsInfo);
 	});
 
 	it('correctly stores root package description', () => {
@@ -119,10 +128,21 @@ it('correctly dumps HTML report', () => {
 	report.warn('warn 2');
 	report.warn('warn', {unique: true});
 	report.warn('warn', {unique: true});
-	report.versionsInfo({
-		'liferay-npm-bundler': '1.4.2',
-		'liferay-npm-bundler-plugin-inject-angular': '1.4.2',
+
+	const versionsInfo = new Map();
+
+	versionsInfo.set('liferay-npm-bundler', {
+		version: '1.4.2',
+		path: 'path/to/bundler',
 	});
+
+	versionsInfo.set('liferay-npm-bundler-plugin-inject-angular', {
+		version: '1.4.2',
+		path: 'path/to/plugin',
+	});
+
+	report.versionsInfo(versionsInfo);
+
 	report.rootPackage({
 		id: 'root-package1@1.0.0',
 		name: 'root-package',

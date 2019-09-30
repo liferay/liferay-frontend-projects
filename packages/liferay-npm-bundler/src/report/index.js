@@ -83,7 +83,11 @@ export class Report {
 	 * @return {void}
 	 */
 	versionsInfo(info) {
-		this._versionsInfo = info;
+		this._versionsInfo = {};
+
+		info.forEach((value, key) => {
+			this._versionsInfo[key] = value;
+		});
 	}
 
 	/**

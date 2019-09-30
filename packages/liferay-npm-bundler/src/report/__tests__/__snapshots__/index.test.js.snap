@@ -81,7 +81,7 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 				</style>
 				<script id=\\"report\\" type=\\"application/json\\">
-					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":\\"1.4.2\\",\\"liferay-npm-bundler-plugin-inject-angular\\":\\"1.4.2\\"},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
 				</script>
 				<script>
 					window.report = JSON.parse(
@@ -608,8 +608,14 @@ Report {
     "files": Object {},
   },
   "_versionsInfo": Object {
-    "liferay-npm-bundler": "1.4.2",
-    "liferay-npm-bundler-plugin-inject-angular": "1.4.2",
+    "liferay-npm-bundler": Object {
+      "path": "path/to/bundler",
+      "version": "1.4.2",
+    },
+    "liferay-npm-bundler-plugin-inject-angular": Object {
+      "path": "path/to/plugin",
+      "version": "1.4.2",
+    },
   },
   "_warnings": Array [],
 }

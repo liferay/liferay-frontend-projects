@@ -18,7 +18,6 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 import rimraf from 'rimraf';
 
-import * as config from '../config';
 import * as log from '../log';
 import manifest from '../manifest';
 import report from '../report';
@@ -75,7 +74,9 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
 	return new Promise((resolve, reject) => {
 		try {
 			const state = runPlugins(
-				config.bundler.getPlugins(phase, destPkg),
+				phase === 'pre'
+					? project.transform.getPrePluginDescriptors(destPkg)
+					: project.transform.getPostPluginDescriptors(destPkg),
 				srcPkg,
 				destPkg,
 				{
@@ -128,7 +129,7 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
  */
 function babelifyPackage(destPkg) {
 	// Make a copy of the package's Babel configuration
-	const babelConfig = clone(config.babel.getConfig(destPkg));
+	const babelConfig = clone(project.transform.getBabelConfig(destPkg));
 
 	// Tune babel config
 	babelConfig.babelrc = false;
@@ -142,17 +143,14 @@ function babelifyPackage(destPkg) {
 	report.packageProcessBabelConfig(destPkg, clone(babelConfig));
 
 	// Intercept presets and plugins to load them from here
-	babelConfig.plugins = config.babel.loadBabelPlugins(
-		babelConfig.presets || [],
-		babelConfig.plugins || []
-	);
+	babelConfig.plugins = project.transform.getBabelPlugins(destPkg);
 	babelConfig.presets = [];
 
 	// Determine file globs
 	const globs = ['**/*.js', '!node_modules/**/*'];
 
 	if (destPkg.isRoot) {
-		globs.push(...gl.negate(config.babel.getIgnore()));
+		globs.push(...gl.negate(project.transform.babelIgnores));
 	}
 
 	// Run babel through files
@@ -167,7 +165,7 @@ function babelifyPackage(destPkg) {
 
 	return runInChunks(
 		prjRelPaths,
-		config.bundler.getMaxParallelFiles(),
+		project.misc.maxParallelFiles,
 		0,
 		prjRelPath => babelifyFile(destPkg, prjRelPath, babelConfig)
 	);
@@ -188,7 +186,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 			log: logger,
 			manifest,
 			rootPkgJson: clone(project.pkgJson),
-			globalConfig: clone(config.getGlobalConfig()),
+			globalConfig: clone(project.globalConfig),
 		});
 
 		const fileAbsPath = project.dir.join(prjRelPath).asNative;
