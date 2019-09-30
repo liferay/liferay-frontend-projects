@@ -25,7 +25,10 @@ export default function({types: t}) {
 		Identifier(path, {dependencies}) {
 			const node = path.node;
 
-			if (node.name === 'require') {
+			if (
+				node.name === 'require' &&
+				path.scope.block.type === 'Program'
+			) {
 				const parent = path.parent;
 
 				if (
