@@ -36,6 +36,12 @@ const generatorAdaptFile = path.join(
 );
 const yoFile = path.join(__dirname, '..', 'node_modules', '.bin', 'yo');
 const liferayDir = findLiferayDir();
+const currentVersion = require(path.join(
+	'..',
+	'packages',
+	'liferay-npm-bundler',
+	'package.json'
+)).version;
 
 // Retrieve arguments
 const argv = yargs
@@ -55,6 +61,7 @@ ensureDirectories();
 writeConfigurations();
 const configs = getUsedConfigurations();
 generateSamples(configs);
+tweakManualSamples();
 generateCreateReactAppSample();
 
 console.log(
@@ -170,7 +177,7 @@ function writeConfig(options) {
 		JSON.stringify(
 			{
 				batchMode: true,
-				// sdkVersion: argv.sdk,
+				sdkVersion: currentVersion,
 				answers: {
 					'*': Object.assign(
 						{
@@ -277,6 +284,30 @@ function generateCreateReactAppSample() {
 			cwd: path.join(pkgsDir, 'create-react-app'),
 		}
 	);
+}
+
+function tweakManualSamples() {
+	['loaders'].forEach(prj => {
+		// Change package.json versions
+		const pkgJsonPath = path.join(pkgsDir, prj, 'package.json');
+		const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath));
+
+		Object.entries(pkgJson.devDependencies).forEach(([dep, version]) => {
+			if (version === '$CURRENT$') {
+				pkgJson.devDependencies[dep] = currentVersion;
+			}
+		});
+
+		fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, '	'));
+
+		// Change deploy directory
+		const npmbuildrcPath = path.join(pkgsDir, prj, '.npmbuildrc');
+		const npmbuildrc = JSON.parse(fs.readFileSync(npmbuildrcPath));
+
+		npmbuildrc.liferayDir = liferayDir;
+
+		fs.writeFileSync(npmbuildrcPath, JSON.stringify(npmbuildrc, null, '	'));
+	});
 }
 
 /**
