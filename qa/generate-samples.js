@@ -250,6 +250,7 @@ function generateSamples(configs) {
 		spawn('node', [
 			yoFile,
 			generatorFile,
+			'--skip-install',
 			'--config',
 			path.join(cfgDir, config),
 		]);
@@ -276,6 +277,7 @@ function generateCreateReactAppSample() {
 			yoFile,
 			generatorAdaptFile,
 			'liferay-js:adapt',
+			'--skip-install',
 			'--force',
 			'--config',
 			path.join(cfgDir, 'create-react-app.json'),
