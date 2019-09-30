@@ -210,6 +210,8 @@ export default class extends Generator {
 			bower: false,
 			npm: false,
 			yarn: false,
+			skipMessage: this.options['skip-install-message'],
+			skipInstall: this.options['skip-install'],
 		};
 
 		opts[this._pkgManager] = true;
