@@ -51,6 +51,8 @@ export async function prompting(generator) {
 export function install(generator) {
 	generator.installDependencies({
 		bower: false,
+		skipMessage: generator.options['skip-install-message'],
+		skipInstall: generator.options['skip-install'],
 	});
 }
 
