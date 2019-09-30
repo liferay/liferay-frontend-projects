@@ -1,3 +1,10 @@
+## [v11.1.1](https://github.com/liferay/eslint-config-liferay/tree/v11.1.1) (2019-09-30)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v11.1.0...v11.1.1)
+
+-   feat: update the no-react-dom-render error message ([\#105](https://github.com/liferay/eslint-config-liferay/pull/105))
+-   fix: make no-it-should rule case-insensitive ([\#104](https://github.com/liferay/eslint-config-liferay/pull/104))
+
 ## [v11.0.1](https://github.com/liferay/eslint-config-liferay/tree/v11.0.1) (2019-09-24)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v11.0.0...v11.0.1)
