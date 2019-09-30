@@ -21,6 +21,15 @@ ruleTester.run('no-it-should', rule, {
 				},
 			],
 		},
+		{
+			code: "it('Should do the right thing')",
+			errors: [
+				{
+					message: 'it() strings should not start with "should"',
+					type: 'Literal',
+				},
+			],
+		},
 	],
 
 	valid: [
