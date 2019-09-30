@@ -7,7 +7,8 @@
 /* eslint-disable no-for-of-loops/no-for-of-loops */
 
 const DESCRIPTION =
-	'Direct use of ReactDOM.render is discouraged; instead: ' +
+	'Direct use of ReactDOM.render is discouraged; instead, use ' +
+	'the <react:component /> JSP taglib, or do: ' +
 	`import {render} from 'frontend-js-react-web';`;
 
 module.exports = {
