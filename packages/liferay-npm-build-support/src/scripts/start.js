@@ -82,6 +82,7 @@ function runWebpackDevServer() {
 	if (os.platform() === 'win32') {
 		const webpackDevServerPath = path.resolve(
 			project.dir.join('node_modules', '.bin', 'webpack-dev-server.cmd')
+				.asNative
 		);
 
 		proc = childProcess.spawn(webpackDevServerPath, [], {
@@ -91,6 +92,7 @@ function runWebpackDevServer() {
 	} else {
 		const webpackDevServerPath = path.resolve(
 			project.dir.join('node_modules', '.bin', 'webpack-dev-server')
+				.asNative
 		);
 
 		proc = childProcess.spawn(process.execPath, [webpackDevServerPath], {
