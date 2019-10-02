@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
-import {
-	BundleLoaderReturn,
-	BundleLoaderContext,
-} from 'liferay-npm-build-tools-common/lib/project/types.d';
 import readJsonSync from 'read-json-sync';
 
 export default function(
-	{content, filePath, log}: BundleLoaderContext,
+	{content, filePath, log}: BundlerLoaderContext,
 	{removePrefix}: {removePrefix: string}
-): BundleLoaderReturn {
+): BundlerLoaderReturn {
 	const moduleName = getModuleName(filePath, removePrefix);
 
 	log.info(

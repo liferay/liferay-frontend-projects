@@ -11,18 +11,24 @@ import project from './project';
 
 /**
  * A package descriptor class to identify directories containing packages.
- * @type {PkgDesc}
  */
 export default class PkgDesc {
+	/** Well known id for the root package */
+	static readonly ROOT_ID = '/';
+
 	/**
-	 * Constructor
-	 * @param {String} name name of package
-	 * @param {String} version version number
-	 * @param {String} pkgPath directory where package lives (or null if it is
-	 * 						the root package)
-	 * @param {Boolean} forceRoot create a root package even if dir is not null
+	 * @param name name of package
+	 * @param version version number
+	 * @param pkgPath directory where package lives (or null if it is the root
+	 * 					package)
+	 * @param forceRoot create a root package even if dir is not null
 	 */
-	constructor(name, version, pkgPath, forceRoot = false) {
+	constructor(
+		name: string,
+		version: string,
+		pkgPath: string,
+		forceRoot: boolean = false
+	) {
 		this._name = name;
 		this._version = version;
 
@@ -49,10 +55,10 @@ export default class PkgDesc {
 
 	/**
 	 * Clone this object and optionally modify some of its fields.
-	 * @param {FilePath|string} dir override package directory path or FilePath
-	 * @return {PkgDesc} a clone of this (perhaps modified) package descriptor
+	 * @param dir override package directory path or FilePath
+	 * @return a clone of this (perhaps modified) package descriptor
 	 */
-	clone({dir} = {}) {
+	clone({dir}: {dir?: FilePath | string} = {}): PkgDesc {
 		return new PkgDesc(
 			this.name,
 			this.version,
@@ -64,55 +70,38 @@ export default class PkgDesc {
 	/**
 	 * Get directory where package lives referenced to `project.dir`. Note that
 	 * it always start with `./` so that it can be used in `path.join()` calls.
-	 * @return {FilePath}
 	 */
-	get dir() {
+	get dir(): FilePath {
 		return this._dir;
 	}
 
-	set dir(dir) {
-		throw new Error('Package dirs are read-only');
-	}
-
-	get clean() {
+	get clean(): boolean {
 		return this._clean;
 	}
 
-	set clean(clean) {
+	set clean(clean: boolean) {
 		this._clean = clean;
 	}
 
-	get id() {
+	get id(): string {
 		return this._id;
 	}
 
-	set id(id) {
-		throw new Error('Package ids are read-only');
-	}
-
-	get name() {
+	get name(): string {
 		return this._name;
 	}
 
-	set name(name) {
-		throw new Error('Package names are read-only');
-	}
-
-	get version() {
+	get version(): string {
 		return this._version;
 	}
 
-	set version(version) {
-		throw new Error('Package versions are read-only');
-	}
-
-	/**
-	 * Test if package is the root package.
-	 * @return {Boolean} true if this is the root package
-	 */
-	get isRoot() {
+	get isRoot(): boolean {
 		return this.id == PkgDesc.ROOT_ID;
 	}
-}
 
-PkgDesc.ROOT_ID = '/';
+	private _clean: boolean;
+	private readonly _dir: FilePath;
+	private readonly _id: string;
+	private readonly _name: string;
+	private readonly _version: string;
+}

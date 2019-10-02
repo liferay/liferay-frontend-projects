@@ -11,7 +11,7 @@ import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
 import PkgDesc from '../pkg-desc';
 import {Project} from '.';
-import {BundlerPluginDescriptor} from './types.d';
+import {BundlerPluginDescriptor} from './types';
 
 /**
  *
@@ -25,16 +25,16 @@ export function getFeaturesFilePath(
 	featuresKeyPath: string,
 	defaultPrjRelPosixPath: string
 ): string | undefined {
-	const {_npmbundlerrc, _projectDir} = project;
+	const {npmbundlerrc, dir: projectDir} = project;
 
-	const prjRelPosixPath = prop.get(_npmbundlerrc, featuresKeyPath);
+	const prjRelPosixPath: string = prop.get(npmbundlerrc, featuresKeyPath);
 
 	if (prjRelPosixPath !== undefined) {
-		return _projectDir.join(new FilePath(prjRelPosixPath, {posix: true}))
+		return projectDir.join(new FilePath(prjRelPosixPath, {posix: true}))
 			.asNative;
 	}
 
-	const defaultAbsPath = _projectDir.join(
+	const defaultAbsPath = projectDir.join(
 		new FilePath(defaultPrjRelPosixPath, {posix: true})
 	).asNative;
 
@@ -66,35 +66,35 @@ export function getPackageConfig(
 ): object {
 	let pkgConfig: object;
 
-	const {_npmbundlerrc} = project;
+	const {npmbundlerrc} = project;
 
 	if (
-		_npmbundlerrc['packages'] &&
-		_npmbundlerrc['packages'][pkg.id] &&
-		_npmbundlerrc['packages'][pkg.id][section]
+		npmbundlerrc['packages'] &&
+		npmbundlerrc['packages'][pkg.id] &&
+		npmbundlerrc['packages'][pkg.id][section]
 	) {
-		pkgConfig = _npmbundlerrc['packages'][pkg.id][section];
+		pkgConfig = npmbundlerrc['packages'][pkg.id][section];
 	} else if (
-		_npmbundlerrc['packages'] &&
-		_npmbundlerrc['packages'][pkg.name] &&
-		_npmbundlerrc['packages'][pkg.name][section]
+		npmbundlerrc['packages'] &&
+		npmbundlerrc['packages'][pkg.name] &&
+		npmbundlerrc['packages'][pkg.name][section]
 	) {
-		pkgConfig = _npmbundlerrc['packages'][pkg.name][section];
+		pkgConfig = npmbundlerrc['packages'][pkg.name][section];
 	} else if (
-		_npmbundlerrc['packages'] &&
-		_npmbundlerrc['packages']['*'] &&
-		_npmbundlerrc['packages']['*'][section]
+		npmbundlerrc['packages'] &&
+		npmbundlerrc['packages']['*'] &&
+		npmbundlerrc['packages']['*'][section]
 	) {
-		pkgConfig = _npmbundlerrc['packages']['*'][section];
+		pkgConfig = npmbundlerrc['packages']['*'][section];
 	}
 
 	// Legacy configuration support
-	else if (_npmbundlerrc[pkg.id] && _npmbundlerrc[pkg.id][section]) {
-		pkgConfig = _npmbundlerrc[pkg.id][section];
-	} else if (_npmbundlerrc[pkg.name] && _npmbundlerrc[pkg.name][section]) {
-		pkgConfig = _npmbundlerrc[pkg.name][section];
-	} else if (_npmbundlerrc['*'] && _npmbundlerrc['*'][section]) {
-		pkgConfig = _npmbundlerrc['*'][section];
+	else if (npmbundlerrc[pkg.id] && npmbundlerrc[pkg.id][section]) {
+		pkgConfig = npmbundlerrc[pkg.id][section];
+	} else if (npmbundlerrc[pkg.name] && npmbundlerrc[pkg.name][section]) {
+		pkgConfig = npmbundlerrc[pkg.name][section];
+	} else if (npmbundlerrc['*'] && npmbundlerrc['*'][section]) {
+		pkgConfig = npmbundlerrc['*'][section];
 	} else {
 		pkgConfig = defaultValue;
 	}
@@ -107,10 +107,10 @@ export function getPackageConfig(
  * @param project
  * @param pkgConfig plugins configuration as extracted from .npmbundlerrc
  */
-export function createBundlerPluginDescriptors(
+export function createBundlerPluginDescriptors<T>(
 	project: Project,
 	pkgConfig: (object | string)[]
-): BundlerPluginDescriptor[] {
+): BundlerPluginDescriptor<T>[] {
 	return pkgConfig.map(pkgConfigItem => {
 		let pluginName: string;
 		let pluginConfig: object;
@@ -141,6 +141,6 @@ export function createBundlerPluginDescriptors(
 			name: pluginName,
 			config: pluginConfig,
 			run: pluginModule,
-		} as BundlerPluginDescriptor;
+		} as BundlerPluginDescriptor<T>;
 	});
 }

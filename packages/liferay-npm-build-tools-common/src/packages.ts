@@ -8,25 +8,33 @@ import fs from 'fs';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
-const packageDirCache = {};
+/** A null object pattern for {@link fs.Stats} object */
+interface NullFsStats {
+	isDirectory: () => boolean;
+	isFile: () => boolean;
+}
+
+const packageDirCache: {
+	[index: string]: string;
+} = {};
 
 /**
  * Get the full path of the package.json file for a given JS module file.
- * @param {String} modulePath the relative or absolute path to a JS module file
- * @return {String} the full path to the package.json file (with native path
+ * @param modulePath the relative or absolute path to a JS module file
+ * @return the full path to the package.json file (with native path
  *         separators)
  */
-export function getPackageJsonPath(modulePath) {
+export function getPackageJsonPath(modulePath: string): string {
 	return path.join(getPackageDir(modulePath), 'package.json');
 }
 
 /**
  * Get the full path of the package directory for a given JS module file.
- * @param {String} modulePath the relative or absolute path to a JS module file
- * @return {String} the full path to the package directory (with native path
+ * @param modulePath the relative or absolute path to a JS module file
+ * @return the full path to the package directory (with native path
  *         separators)
  */
-export function getPackageDir(modulePath) {
+export function getPackageDir(modulePath: string): string {
 	const absModulePath = path.resolve(modulePath);
 	let dir = packageDirCache[absModulePath];
 
@@ -69,11 +77,14 @@ export function getPackageDir(modulePath) {
 /**
  * Converts a package name (optionally versioned) to its target folder name
  * inside bundled node_modules.
- * @param  {String} name a package name
- * @param  {String} [version=null] an optional package version
- * @return {String} the target folder
+ * @param name a package name
+ * @param version an optional package version
+ * @return the target folder
  */
-export function getPackageTargetDir(name, version = null) {
+export function getPackageTargetDir(
+	name: string,
+	version: string = null
+): string {
 	let targetFolder = name.replace('/', '%2F');
 
 	if (version) {
@@ -89,11 +100,11 @@ export function getPackageTargetDir(name, version = null) {
  * For example, if you pass './lib' as moduleName and there's an 'index.js' file
  * inside the 'lib' dir, the method returns './lib/index.js'.
  * It also honors any 'package.json' with a 'main' entry in package subfolders.
- * @param  {String} pkgPath path to package directory
- * @param  {String} moduleName the module name
- * @return {String} a path relative to pkgDir
+ * @param pkgPath path to package directory
+ * @param moduleName the module name
+ * @return a path relative to pkgDir
  */
-export function resolveModuleFile(pkgPath, moduleName) {
+export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 	let fullModulePath = path.resolve(
 		path.join(pkgPath, ...moduleName.split('/'))
 	);
@@ -152,10 +163,10 @@ export function resolveModuleFile(pkgPath, moduleName) {
 
 /**
  * Do as fs.statSync without throwing errors.
- * @param  {String} path path to check
+ * @param path path to check
  * @return {fs.Stats} a real fs.Stats object or a null object
  */
-function safeStat(path) {
+function safeStat(path: string): fs.Stats | NullFsStats {
 	try {
 		return fs.statSync(path);
 	} catch (err) {

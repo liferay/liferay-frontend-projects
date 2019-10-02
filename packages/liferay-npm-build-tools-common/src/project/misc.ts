@@ -28,7 +28,7 @@ export default class Misc {
 	 * operation.
 	 */
 	get maxParallelFiles(): number {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
 		// Default values for "ulimit -n" vary across different OSes. Some
 		//
@@ -41,7 +41,7 @@ export default class Misc {
 		// Node, I'm giving this a default value of 128 because it looks like it
 		// doesn't impact performance and should be low enough to make it work
 		// in all OSes.
-		return prop.get(_npmbundlerrc, 'max-parallel-files', 128);
+		return prop.get(npmbundlerrc, 'max-parallel-files', 128);
 	}
 
 	/**
@@ -49,15 +49,15 @@ export default class Misc {
 	 */
 	get noTracking(): boolean {
 		const {_project} = this;
-		const {_npmbundlerrc} = _project;
+		const {npmbundlerrc} = _project;
 
-		if (!prop.has(_npmbundlerrc, 'no-tracking')) {
+		if (!prop.has(npmbundlerrc, 'no-tracking')) {
 			if (prop.has(process, 'env.LIFERAY_NPM_BUNDLER_NO_TRACKING')) {
-				prop.set(_npmbundlerrc, 'no-tracking', true);
+				prop.set(npmbundlerrc, 'no-tracking', true);
 			}
 		}
 
-		if (!prop.has(_npmbundlerrc, 'no-tracking')) {
+		if (!prop.has(npmbundlerrc, 'no-tracking')) {
 			let dir = _project.dir.asNative;
 
 			while (
@@ -74,12 +74,12 @@ export default class Misc {
 					path.join(dir, '.liferay-npm-bundler-no-tracking')
 				)
 			) {
-				prop.set(_npmbundlerrc, 'no-tracking', true);
+				prop.set(npmbundlerrc, 'no-tracking', true);
 			}
 		}
 
 		// Disable tracking by default
-		return prop.get(_npmbundlerrc, 'no-tracking', true);
+		return prop.get(npmbundlerrc, 'no-tracking', true);
 	}
 
 	/**
@@ -87,9 +87,9 @@ export default class Misc {
 	 */
 	get reportFile(): FilePath | undefined {
 		const {_project} = this;
-		const {_npmbundlerrc} = _project;
+		const {npmbundlerrc} = _project;
 
-		const dumpReport = prop.get(_npmbundlerrc, 'dump-report', false);
+		const dumpReport = prop.get(npmbundlerrc, 'dump-report', false);
 
 		return dumpReport
 			? _project.dir.join('liferay-npm-bundler-report.html')
@@ -100,10 +100,10 @@ export default class Misc {
 	 * Whether or not to dump detailed information about what the tool is doing
 	 */
 	get verbose(): boolean {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
-		return prop.get(_npmbundlerrc, 'verbose', false);
+		return prop.get(npmbundlerrc, 'verbose', false);
 	}
 
-	_project: Project;
+	private readonly _project: Project;
 }

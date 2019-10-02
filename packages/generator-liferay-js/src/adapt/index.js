@@ -13,6 +13,7 @@ import {
 	warn,
 } from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 import path from 'path';
 import Generator from 'yeoman-generator';
 
@@ -113,7 +114,7 @@ export default class extends Generator {
 		print(msg.welcome);
 
 		switch (project.probe.type) {
-			case project.probe.TYPE_ANGULAR_CLI:
+			case ProjectType.ANGULAR_CLI:
 				this._options = {
 					preset: 'angular-cli',
 					tuneProject: () => this._tuneAngularCliProject(),
@@ -122,7 +123,7 @@ export default class extends Generator {
 				print(msg.angularCliDetected);
 				break;
 
-			case project.probe.TYPE_CREATE_REACT_APP:
+			case ProjectType.CREATE_REACT_APP:
 				this._options = {
 					preset: 'create-react-app',
 					tuneProject: () => this._tuneCreateReactAppProject(),
@@ -160,7 +161,8 @@ export default class extends Generator {
 				},
 			]);
 
-			project.pkgManager = answers.pkgManager;
+			// Set project's package manager internally using a hack
+			project._pkgManager = answers.pkgManager;
 		}
 
 		Object.assign(

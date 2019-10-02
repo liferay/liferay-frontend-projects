@@ -7,12 +7,12 @@
 import prop from 'dot-prop';
 import path from 'path';
 
-import PkgDesc from '../../pkg-desc';
-import {Project} from '..';
-import {VersionInfo} from '../types';
-import * as util from '../util';
-import {BabelPlugin, BundlerTransformPluginDescriptor} from './types';
-import {splitModuleName} from '../../modules';
+import {BundlerTransformPluginState} from '../api/plugins';
+import {splitModuleName} from '../modules';
+import PkgDesc from '../pkg-desc';
+import {Project} from '.';
+import {BundlerPluginDescriptor, VersionInfo} from './types';
+import * as util from './util';
 
 /**
  * Defines configuration for the transform step.
@@ -28,9 +28,9 @@ export default class Transform {
 	 * 			when processing with Babel
 	 */
 	get babelIgnores(): string[] {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
-		return prop.get(_npmbundlerrc, 'ignore', []);
+		return prop.get(npmbundlerrc, 'ignore', []);
 	}
 
 	/**
@@ -39,25 +39,26 @@ export default class Transform {
 	 * @return a Map where keys are package names
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
+		// TODO: move copy plugin version info to its proper module
 		if (this._versionsInfo === undefined) {
 			const {_project} = this;
-			const {_npmbundlerrc} = _project;
+			const {npmbundlerrc} = _project;
 
 			const map = new Map<string, VersionInfo>();
 
 			let pluginNames: string[] = [];
 
-			for (const key in _npmbundlerrc) {
+			for (const key in npmbundlerrc) {
 				pluginNames = this._concatAllPluginNames(
 					pluginNames,
-					_npmbundlerrc[key]
+					npmbundlerrc[key]
 				);
 			}
 
-			for (const key in _npmbundlerrc['packages']) {
+			for (const key in npmbundlerrc['packages']) {
 				pluginNames = this._concatAllPluginNames(
 					pluginNames,
-					_npmbundlerrc['packages'][key]
+					npmbundlerrc['packages'][key]
 				);
 			}
 
@@ -108,7 +109,7 @@ export default class Transform {
 	/**
 	 * Load Babel plugins from a given package's configuration
 	 */
-	getBabelPlugins(pkg: PkgDesc): BabelPlugin[] {
+	getBabelPlugins(pkg: PkgDesc): (() => any)[] {
 		const {_project} = this;
 
 		const babelConfig = this.getBabelConfig(pkg);
@@ -157,7 +158,9 @@ export default class Transform {
 			);
 	}
 
-	getPostPluginDescriptors(pkg: PkgDesc): BundlerTransformPluginDescriptor[] {
+	getPostPluginDescriptors(
+		pkg: PkgDesc
+	): BundlerPluginDescriptor<BundlerTransformPluginState>[] {
 		const {_project} = this;
 
 		const pkgConfig = util.getPackageConfig(
@@ -170,7 +173,9 @@ export default class Transform {
 		return util.createBundlerPluginDescriptors(_project, pkgConfig);
 	}
 
-	getPrePluginDescriptors(pkg: PkgDesc): BundlerTransformPluginDescriptor[] {
+	getPrePluginDescriptors(
+		pkg: PkgDesc
+	): BundlerPluginDescriptor<BundlerTransformPluginState>[] {
 		const {_project} = this;
 
 		const pkgConfig = util.getPackageConfig(
@@ -267,6 +272,6 @@ export default class Transform {
 		);
 	}
 
-	_project: Project;
-	_versionsInfo: Map<string, VersionInfo>;
+	private readonly _project: Project;
+	private _versionsInfo: Map<string, VersionInfo>;
 }

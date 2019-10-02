@@ -5,24 +5,28 @@
  */
 
 /**
- * An object to hold babel or liferay-npm-bundler plugin messages.
- * @type {PluginLogger}
+ * A message descriptor
+ */
+export interface Message {
+	source: string;
+	level: 'info' | 'warn' | 'error';
+	things: any[];
+}
+
+/**
+ * An object to hold plugin messages.
  */
 export default class PluginLogger {
-	/**
-	 * Construct empty logger with no messages
-	 */
 	constructor() {
 		this._msgs = [];
 	}
 
 	/**
 	 * Log an informational message
-	 * @param {String} source the identifier for the source of the message
-	 * @param {Array} things the objects or strings to print
-	 * @return {void}
+	 * @param source the identifier for the source of the message
+	 * @param things the objects or strings to print
 	 */
-	info(source, ...things) {
+	info(source: string, ...things: any[]): void {
 		this._msgs.push({
 			source,
 			level: 'info',
@@ -32,11 +36,10 @@ export default class PluginLogger {
 
 	/**
 	 * Log a warn message
-	 * @param {String} source the identifier for the source of the message
-	 * @param {Array} things the objects or strings to print
-	 * @return {void}
+	 * @param source the identifier for the source of the message
+	 * @param things the objects or strings to print
 	 */
-	warn(source, ...things) {
+	warn(source: string, ...things: any[]): void {
 		this._msgs.push({
 			source,
 			level: 'warn',
@@ -46,11 +49,10 @@ export default class PluginLogger {
 
 	/**
 	 * Log an error message
-	 * @param {String} source the identifier for the source of the message
-	 * @param {Array} things the objects or strings to print
-	 * @return {void}
+	 * @param source the identifier for the source of the message
+	 * @param things the objects or strings to print
 	 */
-	error(source, ...things) {
+	error(source: string, ...things: any[]): void {
 		this._msgs.push({
 			source,
 			level: 'error',
@@ -60,33 +62,31 @@ export default class PluginLogger {
 
 	/**
 	 * Get the list of messages
-	 * @return {Array} an array containing one object per messages (with fields: source, level and things)
 	 */
-	get messages() {
+	get messages(): Message[] {
 		return this._msgs;
 	}
 
 	/**
 	 * Test if there are warn messages.
-	 * @return {boolean} if at least one warn message is registered in the logger
+	 * @return true if at least one warn message is registered in the logger
 	 */
-	get warnsPresent() {
+	get warnsPresent(): boolean {
 		return this._msgs.filter(msg => msg.level === 'warn').length > 0;
 	}
 
 	/**
 	 * Test if there are error messages.
-	 * @return {boolean} if at least one error message is registered in the logger
+	 * @return true if at least one error message is registered in the logger
 	 */
-	get errorsPresent() {
+	get errorsPresent(): boolean {
 		return this._msgs.filter(msg => msg.level === 'error').length > 0;
 	}
 
 	/**
 	 * Return a printable string representation of the messages logged till now
-	 * @return {String} a string containing one line per message
 	 */
-	toString() {
+	toString(): string {
 		return this._msgs.reduce(
 			(str, {level, source, things}) =>
 				`${str}${source}:${level}: ${things.join(' ')}\n`,
@@ -96,13 +96,15 @@ export default class PluginLogger {
 
 	/**
 	 * Return an HTML string representation of the messages logged till now
-	 * @return {String} HTML containing one line (<br> separated) per message
+	 * containing one line (<br> separated) per message
 	 */
-	toHtml() {
+	toHtml(): string {
 		return this._msgs.reduce(
 			(str, {level, source, things}) =>
 				`${str}${source}:${level}: ${things.join(' ')}<br>`,
 			''
 		);
 	}
+
+	private _msgs: Message[];
 }

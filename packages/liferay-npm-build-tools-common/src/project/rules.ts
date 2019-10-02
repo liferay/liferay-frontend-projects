@@ -7,10 +7,32 @@
 import clone from 'clone';
 import path from 'path';
 
+import {BundlerLoaderEntryPoint} from '../api/loaders';
 import FilePath from '../file-path';
-import {Project} from '.';
-import {BundlerLoaderDescriptor, VersionInfo} from './types';
 import {splitModuleName} from '../modules';
+import {Project} from '.';
+import {VersionInfo} from './types';
+
+/**
+ * A bundler loader plugin descriptor
+ */
+export interface BundlerLoaderDescriptor {
+	loader: string;
+	resolvedModule: string;
+	exec: BundlerLoaderEntryPoint;
+	options: object;
+}
+
+/**
+ * A normalized bundler rule (as opposed to its looser structure when found in
+ * `.npmbundlerrc`).
+ */
+interface BundlerNormalizedRule {
+	test: RegExp[];
+	include: RegExp[];
+	exclude: RegExp[];
+	use: BundlerLoaderDescriptor[];
+}
 
 /**
  * Implements a restricted subset of  webpack rules specification. The rules are
@@ -45,9 +67,9 @@ export default class Rules {
 	constructor(project: Project) {
 		this._project = project;
 
-		const {_npmbundlerrc} = project;
+		const {npmbundlerrc} = project;
 
-		this._config = _npmbundlerrc['rules'] || [];
+		this._config = npmbundlerrc['rules'] || [];
 
 		this._rules = clone(this._config);
 		this._normalizeRules();
@@ -69,11 +91,14 @@ export default class Rules {
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
 		if (this._versionsInfo === undefined) {
-			let uses = this._rules.map(rule => rule['use']);
+			const uses = this._rules.map(rule => rule.use);
 
-			uses = [].concat(...uses);
+			const descriptors = uses.reduce(
+				(array, use) => array.concat(use),
+				[]
+			);
 
-			const resolvedModules = uses.map(
+			const resolvedModules = descriptors.map(
 				({resolvedModule}) => resolvedModule
 			);
 
@@ -220,8 +245,8 @@ export default class Rules {
 		return true;
 	}
 
-	_config: object[];
-	_project: Project;
-	_rules: object[];
-	_versionsInfo: Map<string, VersionInfo>;
+	private _config: object[];
+	private readonly _project: Project;
+	private _rules: BundlerNormalizedRule[];
+	private _versionsInfo: Map<string, VersionInfo>;
 }

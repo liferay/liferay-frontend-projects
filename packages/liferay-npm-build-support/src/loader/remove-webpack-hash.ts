@@ -5,11 +5,11 @@
  */
 
 import {
-	BundleLoaderReturn,
-	BundleLoaderContext,
-} from 'liferay-npm-build-tools-common/lib/project/types.d';
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
 
-export default function(context: BundleLoaderContext): BundleLoaderReturn {
+export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
 	const {content, filePath, extraArtifacts, log} = context;
 
 	const filePathParts = filePath.split('.');
