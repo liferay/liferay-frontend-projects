@@ -31,6 +31,11 @@ import PkgJsonModifier from '../utils/modifier/package.json';
 import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 
 const msg = {
+	angularCliDetected: [
+		success`
+		We have detected a project of type {angular-cli}
+		`,
+	],
 	createReactAppDetected: [
 		success`
 		We have detected a project of type {create-react-app}
@@ -42,7 +47,7 @@ const msg = {
 		Your project has been successfully adapted to {Liferay JS Toolkit}.
 		`,
 		info`
-		See http://bit.ly/js-toolkit-wiki for the full list of {npm} scripts 
+		See http://bit.ly/js-toolkit-adapt for the full list of {npm} scripts 
 		that may be used in your newly adapted project.
 		
 		Nevertheless, you can start with {'npm run deploy:liferay'} to deploy it
@@ -61,7 +66,7 @@ const msg = {
 		cannot be autodetected.
 		`,
 		info`
-		Please visit http://bit.ly/js-toolkit-wiki for the full list of 
+		Please visit http://bit.ly/js-toolkit-adapt for the full list of 
 		supported project types and how they are detected.
 		`,
 	],
@@ -97,8 +102,6 @@ export default class extends Generator {
 	 */
 	constructor(args, opts) {
 		super(args, opts);
-
-		this._pkgManager = project.pkgManager;
 	}
 
 	/**
@@ -110,9 +113,22 @@ export default class extends Generator {
 		print(msg.welcome);
 
 		switch (project.probe.type) {
+			case project.probe.TYPE_ANGULAR_CLI:
+				this._options = {
+					preset: 'angular-cli',
+					tuneProject: () => this._tuneAngularCliProject(),
+				};
+
+				print(msg.angularCliDetected);
+				break;
+
 			case project.probe.TYPE_CREATE_REACT_APP:
+				this._options = {
+					preset: 'create-react-app',
+					tuneProject: () => this._tuneCreateReactAppProject(),
+				};
+
 				print(msg.createReactAppDetected);
-				this._tuneProject = () => this._tuneCreateReactAppProject();
 				break;
 
 			default:
@@ -129,7 +145,7 @@ export default class extends Generator {
 
 		this.answers = {};
 
-		if (this._pkgManager === null) {
+		if (project.pkgManager === null) {
 			const answers = await promptWithConfig(this, 'adapt', [
 				{
 					type: 'list',
@@ -144,7 +160,7 @@ export default class extends Generator {
 				},
 			]);
 
-			this._pkgManager = answers.pkgManager;
+			project.pkgManager = answers.pkgManager;
 		}
 
 		Object.assign(
@@ -197,7 +213,7 @@ export default class extends Generator {
 
 		this._copyTemplates();
 		this._modifyTemplates();
-		this._tuneProject();
+		this._options.tuneProject();
 	}
 
 	/**
@@ -214,7 +230,7 @@ export default class extends Generator {
 			skipInstall: this.options['skip-install'],
 		};
 
-		opts[this._pkgManager] = true;
+		opts[project.pkgManager] = true;
 
 		this.installDependencies(opts);
 	}
@@ -229,9 +245,12 @@ export default class extends Generator {
 		const gitignore = new GitignoreModifier(this);
 		const languagePropertiesModifier = new LanguagePropertiesModifier(this);
 		const npmbuildrc = new NpmbuildrcModifier(this);
+		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this, 2);
 		const projectAnalyzer = new ProjectAnalyzer(this);
 		const portletName = getPortletName(projectAnalyzer);
+
+		const {preset} = this._options;
 
 		// Git ignore build.liferay directory
 		gitignore.add('build.liferay');
@@ -250,12 +269,21 @@ export default class extends Generator {
 			'liferay-npm-bundler',
 			getSDKVersion('liferay-npm-bundler', {ignoreConfig: true})
 		);
+		pkgJson.addDevDependency(
+			`liferay-npm-bundler-preset-${preset}`,
+			getSDKVersion(`liferay-npm-bundler-preset-${preset}`, {
+				ignoreConfig: true,
+			})
+		);
+
+		// Configure preset
+		npmbundlerrc.setPreset(`liferay-npm-bundler-preset-${preset}`);
 
 		// Add npm scripts
 		pkgJson.addScript('build:liferay', 'lnbs-build');
 		pkgJson.addScript(
 			'deploy:liferay',
-			`${this._pkgManager} run build:liferay && lnbs-deploy`
+			`${project.pkgManager} run build:liferay && lnbs-deploy`
 		);
 
 		// Add portlet section
@@ -263,7 +291,6 @@ export default class extends Generator {
 			'com.liferay.portlet.display-category',
 			this.answers.category
 		);
-		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
 		pkgJson.addPortletProperty('javax.portlet.name', portletName);
 		pkgJson.addPortletProperty(
 			'javax.portlet.security-role-ref',
@@ -281,18 +308,21 @@ export default class extends Generator {
 		);
 	}
 
+	_tuneAngularCliProject() {
+		const pkgJson = new PkgJsonModifier(this, 2);
+		const projectAnalyzer = new ProjectAnalyzer(this);
+
+		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', false);
+		pkgJson.addPortletProperty(
+			'com.liferay.portlet.header-portlet-css',
+			`/${projectAnalyzer.name}/styles.css`
+		);
+	}
+
 	_tuneCreateReactAppProject() {
-		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this, 2);
 
-		npmbundlerrc.setPreset('liferay-npm-bundler-preset-create-react-app');
-
-		pkgJson.addDevDependency(
-			'liferay-npm-bundler-preset-create-react-app',
-			getSDKVersion('liferay-npm-bundler-preset-create-react-app', {
-				ignoreConfig: true,
-			})
-		);
+		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
 	}
 }
 
