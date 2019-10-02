@@ -8,10 +8,10 @@ import * as mod from './modules';
 
 /**
  * Test if a module name is namespaced according to any root package.
- * @param {String} moduleName a module name
- * @return {Boolean} true if the module is namespaced
+ * @param moduleName a module name
+ * @return true if the module is namespaced
  */
-export function isNamespaced(moduleName) {
+export function isNamespaced(moduleName: string): boolean {
 	return getNamespace(moduleName) != null;
 }
 
@@ -19,12 +19,16 @@ export function isNamespaced(moduleName) {
  * Namespace a module name according to some root package name. If the module
  * name is already namespaced with a different root package, an Error is thrown.
  * If the module is local it is left untouched.
- * @param {String} moduleName a module name
- * @param {String} name name of root package
- * @param {Boolean} allowOverride don't fail when trying to change the namespace
- * @return {String} the namespaced module name
+ * @param moduleName a module name
+ * @param name name of root package
+ * @param allowOverride don't fail when trying to change the namespace
+ * @return the namespaced module name
  */
-export function addNamespace(moduleName, {name}, {allowOverride = false} = {}) {
+export function addNamespace(
+	moduleName: string,
+	{name}: {name: string},
+	{allowOverride = false}: {allowOverride?: boolean} = {}
+): string {
 	const moduleNamespace = getNamespace(moduleName);
 	const namespace = makeNamespace({name});
 
@@ -56,10 +60,10 @@ export function addNamespace(moduleName, {name}, {allowOverride = false} = {}) {
 
 /**
  * Remove namespace from a module name if present, otherwise leave it untouched.
- * @param {String} moduleName a module name
- * @return {String} the un-namespaced module name
+ * @param moduleName a module name
+ * @return the un-namespaced module name
  */
-export function removeNamespace(moduleName) {
+export function removeNamespace(moduleName: string): string {
 	const namespace = getNamespace(moduleName);
 
 	if (namespace != null) {
@@ -76,10 +80,10 @@ export function removeNamespace(moduleName) {
 /**
  * Returns the namespace of a given moduleName or null if module name is not
  * namespaced.
- * @param {String} moduleName a module name
- * @return {String} the namespace of the module name or null
+ * @param moduleName a module name
+ * @return the namespace of the module name or null
  */
-export function getNamespace(moduleName) {
+export function getNamespace(moduleName: string): string {
 	const parts = moduleName.split('$');
 
 	if (parts.length >= 2 && !parts[0].includes('/')) {
@@ -95,9 +99,9 @@ export function getNamespace(moduleName) {
 
 /**
  * Compose the namespace of a module according to some root package name.
- * @param {String} name name of root package
- * @return {String} the namespace for modules
+ * @param name name of root package
+ * @return the namespace for modules
  */
-export function makeNamespace({name}) {
+export function makeNamespace({name}: {name: string}): string {
 	return name + '$';
 }

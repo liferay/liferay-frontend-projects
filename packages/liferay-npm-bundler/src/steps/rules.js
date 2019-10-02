@@ -179,7 +179,7 @@ function writeRuleFile(destPkg, pkgRelPath, content) {
 export function stripSourceDir(pkgRelPath) {
 	pkgRelPath = `.${path.sep}${pkgRelPath}`;
 
-	for (const sourcePath of project.sources.asNative) {
+	for (const sourcePath of project.sources.map(source => source.asNative)) {
 		const prefixPath = `${sourcePath}${path.sep}`;
 
 		if (pkgRelPath.startsWith(prefixPath)) {

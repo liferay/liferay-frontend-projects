@@ -12,30 +12,27 @@ let output = 'lib/';
 let options = {
 	all: true,
 	exclude: ['**/*.js', '**/*.ts', '**/__tests__/**/*'],
-	up: 1
+	up: 1,
 };
 
 if (fs.existsSync('copyfiles.json')) {
 	const cfg = JSON.parse(fs.readFileSync('copyfiles.json').toString());
 
-	if(cfg.inputs) {
+	if (cfg.inputs) {
 		inputs = cfg.inputs;
 	}
 
-	if(cfg.output) {
+	if (cfg.output) {
 		output = cfg.output;
 	}
 
-	if(cfg.options) {
-		options = Object.assign(
-			options,
-			cfg.options
-		);
+	if (cfg.options) {
+		options = Object.assign(options, cfg.options);
 	}
 }
 
-copyfiles([...inputs, output], options, (err) => {
-	if(err) {
+copyfiles([...inputs, output], options, err => {
+	if (err) {
 		console.error(err);
 		process.exit(1);
 	}

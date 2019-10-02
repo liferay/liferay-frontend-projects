@@ -24,6 +24,9 @@ import Rules from './rules';
 import Transform from './transform';
 import {VersionInfo} from './types';
 
+/** A package manager */
+export type PkgManager = 'npm' | 'yarn' | null;
+
 /**
  * Describes a standard JS Toolkit project.
  */
@@ -49,14 +52,12 @@ export class Project {
 	 */
 	get sources(): FilePath[] {
 		if (this._sources === undefined) {
-			this._sources = FilePath.convertArray(
-				prop
-					.get(this._npmbundlerrc, 'sources', [])
-					.map(source =>
-						source.startsWith('./') ? source : `./${source}`
-					),
-				{posix: true}
-			);
+			this._sources = prop
+				.get(this._npmbundlerrc, 'sources', [])
+				.map(source =>
+					source.startsWith('./') ? source : `./${source}`
+				)
+				.map(source => new FilePath(source, {posix: true}));
 		}
 
 		return this._sources;
@@ -103,10 +104,71 @@ export class Project {
 	}
 
 	/**
+	 * Get project's parsed .npmbundlerrc file
+	 */
+	get npmbundlerrc(): object {
+		return this._npmbundlerrc;
+	}
+
+	/**
 	 * Get project's parsed package.json file
 	 */
 	get pkgJson(): object {
 		return this._pkgJson;
+	}
+
+	/**
+	 * Return the package manager that the project is using or null if it cannot
+	 * be inferred.
+	 */
+	get pkgManager(): PkgManager {
+		if (this._pkgManager === undefined) {
+			let yarnLockPresent = fs.existsSync(
+				this._projectDir.join('yarn.lock').asNative
+			);
+			let pkgLockPresent = fs.existsSync(
+				this._projectDir.join('package-lock.json').asNative
+			);
+
+			// If both present act as if none was present
+			if (yarnLockPresent && pkgLockPresent) {
+				yarnLockPresent = pkgLockPresent = false;
+			}
+
+			if (yarnLockPresent) {
+				this._pkgManager = 'yarn';
+			} else if (pkgLockPresent) {
+				this._pkgManager = 'npm';
+			} else {
+				// If no file is found autodetect command availability
+				let yarnPresent =
+					child_process.spawnSync('yarn', ['--version'], {
+						shell: true,
+					}).error === undefined;
+				let npmPresent =
+					child_process.spawnSync('npm', ['--version'], {
+						shell: true,
+					}).error === undefined;
+
+				// If both present act as if none was present
+				if (yarnPresent && npmPresent) {
+					yarnPresent = npmPresent = false;
+				}
+
+				if (yarnPresent) {
+					this._pkgManager = 'yarn';
+				} else if (npmPresent) {
+					this._pkgManager = 'npm';
+				}
+			}
+
+			// If nothing detected store null
+			if (this._pkgManager === undefined) {
+				this._pkgManager = null;
+			}
+		}
+
+		return this._pkgManager;
 	}
 
 	/**
@@ -186,60 +248,6 @@ export class Project {
 		this.probe = new Probe(this);
 		this.rules = new Rules(this);
 		this.transform = new Transform(this);
-	}
-
-	/**
-	 * Return the package manager that the project is using.
-	 * @return {string} one of 'npm', 'yarn' or null if it cannot be determined
-	 */
-	get pkgManager(): string {
-		if (this._pkgManager === undefined) {
-			let yarnLockPresent = fs.existsSync(
-				this._projectDir.join('yarn.lock').asNative
-			);
-			let pkgLockPresent = fs.existsSync(
-				this._projectDir.join('package-lock.json').asNative
-			);
-
-			// If both present act as if none was present
-			if (yarnLockPresent && pkgLockPresent) {
-				yarnLockPresent = pkgLockPresent = false;
-			}
-
-			if (yarnLockPresent) {
-				this._pkgManager = 'yarn';
-			} else if (pkgLockPresent) {
-				this._pkgManager = 'npm';
-			} else {
-				// If no file is found autodetect command availability
-				let yarnPresent =
-					child_process.spawnSync('yarn', ['--version'], {
-						shell: true,
-					}).error === undefined;
-				let npmPresent =
-					child_process.spawnSync('npm', ['--version'], {
-						shell: true,
-					}).error === undefined;
-
-				// If both present act as if none was present
-				if (yarnPresent && npmPresent) {
-					yarnPresent = npmPresent = false;
-				}
-
-				if (yarnPresent) {
-					this._pkgManager = 'yarn';
-				} else if (npmPresent) {
-					this._pkgManager = 'npm';
-				}
-			}
-
-			// If nothing detected store null
-			if (this._pkgManager === undefined) {
-				this._pkgManager = null;
-			}
-		}
-
-		return this._pkgManager;
 	}
 
 	/**
@@ -367,14 +375,14 @@ export class Project {
 			: {};
 	}
 
-	_buildDir: FilePath;
-	_npmbundlerrc: object;
-	_pkgJson: object;
-	_pkgManager: string;
-	_projectDir: FilePath;
-	_sources: FilePath[];
-	_toolsDir: FilePath;
-	_versionsInfo: Map<string, VersionInfo>;
+	private _buildDir: FilePath;
+	private _npmbundlerrc: object;
+	private _pkgJson: object;
+	private _pkgManager: PkgManager;
+	private _projectDir: FilePath;
+	private _sources: FilePath[];
+	private _toolsDir: FilePath;
+	private _versionsInfo: Map<string, VersionInfo>;
 }
 
 export default new Project('.');

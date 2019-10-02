@@ -5,18 +5,18 @@
  */
 
 import {
-	BundleLoaderReturn,
-	BundleLoaderContext,
-} from 'liferay-npm-build-tools-common/lib/project/types.d';
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
 
 export default function(
-	{content, log}: BundleLoaderContext,
+	{content, log}: BundlerLoaderContext,
 	{
 		pattern,
 		flags = 'g',
 		replacement,
 	}: {pattern: string; flags: string; replacement: string}
-): BundleLoaderReturn {
+): BundlerLoaderReturn {
 	const regexp = new RegExp(pattern, flags);
 
 	const matches = regexp.exec(content);

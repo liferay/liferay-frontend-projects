@@ -16,6 +16,14 @@ import * as cfg from '../config';
  * Default entry point
  */
 export default function() {
+	if (!project.l10n.supported) {
+		console.log(
+			'Project does not support localization: nothing to translate.\n\n'
+		);
+
+		process.exit(3);
+	}
+
 	let subscriptionKey = process.env.TRANSLATOR_TEXT_KEY;
 
 	if (!subscriptionKey) {

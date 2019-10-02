@@ -6,10 +6,11 @@
 
 import prop from 'dot-prop';
 
-import PkgDesc from '../../pkg-desc';
-import * as util from '../util';
-import {Project} from '..';
-import {BundlerCopyPluginDescriptor} from './types';
+import {BundlerCopyPluginState} from '../api/plugins';
+import PkgDesc from '../pkg-desc';
+import {Project} from '.';
+import {BundlerPluginDescriptor} from './types';
+import * as util from './util';
 
 /**
  * Defines configuration for the copy step.
@@ -24,9 +25,9 @@ export default class Copy {
 	 * listed under the dependencies section of package.json).
 	 */
 	get includedDependencies(): string[] {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
-		return prop.get(_npmbundlerrc, 'include-dependencies', []);
+		return prop.get(npmbundlerrc, 'include-dependencies', []);
 	}
 
 	/**
@@ -35,9 +36,9 @@ export default class Copy {
 	 * @return an array of glob expressions (as defined by `globby`)
 	 */
 	getExclusions(pkg: PkgDesc): string[] {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
-		let exclusions = _npmbundlerrc['exclude'] || {};
+		let exclusions = npmbundlerrc['exclude'] || {};
 
 		// If it is explicitly false, return an empty exclusions array
 		if (
@@ -64,7 +65,9 @@ export default class Copy {
 		return exclusions;
 	}
 
-	getPluginDescriptors(pkg: PkgDesc): BundlerCopyPluginDescriptor[] {
+	getPluginDescriptors(
+		pkg: PkgDesc
+	): BundlerPluginDescriptor<BundlerCopyPluginState>[] {
 		const {_project} = this;
 
 		const pkgConfig = util.getPackageConfig(
@@ -77,5 +80,5 @@ export default class Copy {
 		return util.createBundlerPluginDescriptors(_project, pkgConfig);
 	}
 
-	_project: Project;
+	private readonly _project: Project;
 }

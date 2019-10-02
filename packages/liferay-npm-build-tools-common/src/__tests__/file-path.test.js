@@ -73,74 +73,6 @@ describe('in windows systems', () => {
 	});
 });
 
-describe('convertArray in posix systems', () => {
-	beforeEach(() => {
-		FilePath.nativeIsPosix = true;
-	});
-
-	afterEach(() => {
-		FilePath.nativeIsPosix = savedNativeIsPosix;
-	});
-
-	it('toString works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2']).toString()
-		).toEqual('/tmp/tt1,/tmp/tt2');
-	});
-
-	it('asNative works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2']).asNative
-		).toEqual(['/tmp/tt1', '/tmp/tt2']);
-	});
-
-	it('asPosix works', () => {
-		expect(FilePath.convertArray(['/tmp/tt1', '/tmp/tt2']).asPosix).toEqual(
-			['/tmp/tt1', '/tmp/tt2']
-		);
-	});
-
-	it('asWindows works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2']).asWindows
-		).toEqual(['\\tmp\\tt1', '\\tmp\\tt2']);
-	});
-});
-
-describe('convertArray in windows systems', () => {
-	beforeEach(() => {
-		FilePath.nativeIsPosix = false;
-	});
-
-	afterEach(() => {
-		FilePath.nativeIsPosix = savedNativeIsPosix;
-	});
-
-	it('toString works', () => {
-		expect(
-			FilePath.convertArray(['c:\\tmp\\tt1', 'c:\\tmp\\tt2']).toString()
-		).toEqual('c:\\tmp\\tt1,c:\\tmp\\tt2');
-	});
-
-	it('asNative works', () => {
-		expect(
-			FilePath.convertArray(['c:\\tmp\\tt1', 'c:\\tmp\\tt2']).asNative
-		).toEqual(['c:\\tmp\\tt1', 'c:\\tmp\\tt2']);
-	});
-
-	it('asPosix works', () => {
-		expect(
-			FilePath.convertArray(['c:\\tmp\\tt1', 'c:\\tmp\\tt2']).asPosix
-		).toEqual(['c:/tmp/tt1', 'c:/tmp/tt2']);
-	});
-
-	it('asWindows works', () => {
-		expect(
-			FilePath.convertArray(['c:\\tmp\\tt1', 'c:\\tmp\\tt2']).asWindows
-		).toEqual(['c:\\tmp\\tt1', 'c:\\tmp\\tt2']);
-	});
-});
-
 describe('posix constructor', () => {
 	it('works in posix systems', () => {
 		FilePath.nativeIsPosix = true;
@@ -156,44 +88,5 @@ describe('posix constructor', () => {
 		FilePath.nativeIsPosix = savedNativeIsPosix;
 
 		expect(filePath.asNative).toEqual('\\tmp\\tt');
-	});
-});
-
-describe('convertArray in windows systems with posix:true', () => {
-	beforeEach(() => {
-		FilePath.nativeIsPosix = false;
-	});
-
-	afterEach(() => {
-		FilePath.nativeIsPosix = savedNativeIsPosix;
-	});
-
-	it('toString works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2'], {
-				posix: true,
-			}).toString()
-		).toEqual('\\tmp\\tt1,\\tmp\\tt2');
-	});
-
-	it('asNative works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2'], {posix: true})
-				.asNative
-		).toEqual(['\\tmp\\tt1', '\\tmp\\tt2']);
-	});
-
-	it('asPosix works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2'], {posix: true})
-				.asPosix
-		).toEqual(['/tmp/tt1', '/tmp/tt2']);
-	});
-
-	it('asWindows works', () => {
-		expect(
-			FilePath.convertArray(['/tmp/tt1', '/tmp/tt2'], {posix: true})
-				.asWindows
-		).toEqual(['\\tmp\\tt1', '\\tmp\\tt2']);
 	});
 });

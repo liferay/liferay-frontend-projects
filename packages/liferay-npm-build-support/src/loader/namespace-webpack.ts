@@ -6,16 +6,16 @@
 
 import crypto from 'crypto';
 
-import project from 'liferay-npm-build-tools-common/lib/project';
 import {
-	BundleLoaderReturn,
-	BundleLoaderContext,
-} from 'liferay-npm-build-tools-common/lib/project/types.d';
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 export default function({
 	content,
 	log,
-}: BundleLoaderContext): BundleLoaderReturn {
+}: BundlerLoaderContext): BundlerLoaderReturn {
 	const regexp = /webpackJsonp/g;
 
 	const matches = regexp.exec(content);
@@ -36,8 +36,8 @@ export default function({
 
 	const hash = crypto.createHash('MD5');
 
-	hash.update(project.pkgJson.name);
-	hash.update(project.pkgJson.version);
+	hash.update(project.pkgJson['name']);
+	hash.update(project.pkgJson['version']);
 
 	const uuid = hash
 		.digest('base64')

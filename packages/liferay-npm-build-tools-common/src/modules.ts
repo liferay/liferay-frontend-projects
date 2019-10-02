@@ -4,72 +4,115 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-// List of built-in Node.js v7.10.0 modules.
-// Get the full list from https://nodejs.org/docs/latest/api/index.html
-// Or alternatively: https://github.com/sindresorhus/builtin-modules
-// A good place to look for shims is:
-// https://github.com/substack/node-browserify/blob/master/lib/builtins.js
-const nodeCoreModules = new Set([
+/**
+ * An object to describe the parts composing a module name.
+ * @see splitModuleName
+ */
+export interface ModuleNameParts {
+	scope?: string;
+	pkgName: string;
+	modulePath?: string;
+}
+
+/**
+ * List of built-in Node.js v10.16.3 modules as returned by
+ * require('module').builtinModules
+ */
+const nodeCoreModules = new Set<string>([
+	'async_hooks',
 	'assert',
 	'buffer',
 	'child_process',
-	'cluster',
 	'console',
 	'constants',
 	'crypto',
+	'cluster',
 	'dgram',
 	'dns',
 	'domain',
 	'events',
 	'fs',
 	'http',
+	'http2',
+	'_http_agent',
+	'_http_client',
+	'_http_common',
+	'_http_incoming',
+	'_http_outgoing',
+	'_http_server',
 	'https',
+	'inspector',
 	'module',
 	'net',
 	'os',
 	'path',
+	'perf_hooks',
 	'process',
 	'punycode',
 	'querystring',
 	'readline',
 	'repl',
 	'stream',
+	'_stream_readable',
+	'_stream_writable',
+	'_stream_duplex',
+	'_stream_transform',
+	'_stream_passthrough',
+	'_stream_wrap',
 	'string_decoder',
+	'sys',
 	'timers',
 	'tls',
+	'_tls_common',
+	'_tls_wrap',
+	'trace_events',
 	'tty',
 	'url',
 	'util',
 	'v8',
 	'vm',
 	'zlib',
+	'v8/tools/splaytree',
+	'v8/tools/codemap',
+	'v8/tools/consarray',
+	'v8/tools/csvparser',
+	'v8/tools/profile',
+	'v8/tools/profile_view',
+	'v8/tools/logreader',
+	'v8/tools/arguments',
+	'v8/tools/tickprocessor',
+	'v8/tools/SourceMap',
+	'v8/tools/tickprocessor-driver',
+	'node-inspect/lib/_inspect',
+	'node-inspect/lib/internal/inspect_client',
+	'node-inspect/lib/internal/inspect_repl',
 ]);
 
 /**
  * Test if a module name is local to current package.
- * @param  {String} modulePath the module path
- * @return {Boolean} true if module is local to current package
+ * @param modulePath the module path
+ * @return true if module is local to current package
  */
-export function isLocalModule(modulePath) {
+export function isLocalModule(modulePath: string): boolean {
 	// See https://nodejs.org/api/modules.html#modules_all_together
 	return modulePath.startsWith('.') || modulePath.startsWith('/');
 }
 
 /**
  * Test whether a module name is a Node.js core module
- * @param  {String} modulePath the module path
- * @return {Boolean} true if module is a Node.js core module
+ * @param modulePath the module path
+ * @return true if module is a Node.js core module
  */
-export function isNodeCoreModule(modulePath) {
+export function isNodeCoreModule(modulePath: string): boolean {
 	return nodeCoreModules.has(modulePath);
 }
 
 /**
  * Test whether a module name is a reserved AMD dependency
- * @param  {String} modulePath the module path
- * @return {Boolean} true if module is a reserved AMD dependency
+ * @param modulePath the module path
+ * @return true if module is a reserved AMD dependency
  */
-export function isReservedDependency(modulePath) {
+export function isReservedDependency(modulePath: string): boolean {
 	return (
 		modulePath === 'module' ||
 		modulePath === 'exports' ||
@@ -79,21 +122,25 @@ export function isReservedDependency(modulePath) {
 
 /**
  * Test whether a module name is an external dependency
- * @param  {String} modulePath the module path
- * @return {Boolean} true if module is an external dependency
+ * @param modulePath the module path
+ * @return true if module is an external dependency
  */
-export function isExternalDependency(modulePath) {
+export function isExternalDependency(modulePath: string): boolean {
 	return !isLocalModule(modulePath) && !isReservedDependency(modulePath);
 }
 
 /**
  * Splits a module name into scope, package and module path parts.
- * @param  {String} scope
- * @param  {String} pkgName
- * @param  {String} modulePath
- * @return {String} a full module name
+ * @param scope
+ * @param pkgName
+ * @param modulePath
+ * @retur a full module name
  */
-export function joinModuleName(scope, pkgName, modulePath) {
+export function joinModuleName(
+	scope: string,
+	pkgName: string,
+	modulePath: string
+): string {
 	if (!pkgName || pkgName === '') {
 		throw new Error('Argument pkgName is mandatory');
 	}
@@ -123,12 +170,13 @@ export function joinModuleName(scope, pkgName, modulePath) {
 
 /**
  * Splits a module name into scope, package and module path parts.
- * @param  {String} moduleName a full module name
+ * @param moduleName a full module name
  * @return {Object} a hash with scope, pkgName and modulePath fields
  */
-export function splitModuleName(moduleName) {
+export function splitModuleName(moduleName: string): ModuleNameParts {
+	let ret: ModuleNameParts;
+
 	let parts = moduleName.split('/');
-	let ret = {};
 
 	if (moduleName.startsWith('@')) {
 		if (parts.length < 2) {

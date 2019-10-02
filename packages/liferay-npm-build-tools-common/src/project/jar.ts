@@ -16,10 +16,6 @@ import {getFeaturesFilePath} from './util';
  * Reflects JAR file configuration of JS Toolkit projects.
  */
 export default class Jar {
-	/**
-	 *
-	 * @param {Project} project
-	 */
 	constructor(project: Project) {
 		this._project = project;
 	}
@@ -48,7 +44,7 @@ export default class Jar {
 	 * Get user configured manifest headers
 	 */
 	get customManifestHeaders(): object {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
 		if (this._customManifestHeaders === undefined) {
 			const manifestFilePath = getFeaturesFilePath(
@@ -62,7 +58,7 @@ export default class Jar {
 				: {};
 
 			const npmbundlerrcHeaders = prop.get(
-				_npmbundlerrc,
+				npmbundlerrc,
 				'create-jar.customManifestHeaders',
 				{}
 			);
@@ -82,11 +78,11 @@ export default class Jar {
 	 */
 	get outputDir(): FilePath {
 		const {_project} = this;
-		const {_npmbundlerrc} = _project;
+		const {npmbundlerrc} = _project;
 
 		if (this._outputDir === undefined) {
 			let outputDirPosixPath = prop.get(
-				_npmbundlerrc,
+				npmbundlerrc,
 				'create-jar.output-dir',
 				this.supported ? _project.buildDir.asPosix : undefined
 			);
@@ -109,14 +105,14 @@ export default class Jar {
 	 * Get filename of output JAR file
 	 */
 	get outputFilename(): string {
-		const {_npmbundlerrc, _pkgJson} = this._project;
+		const {npmbundlerrc, pkgJson} = this._project;
 
 		if (this._outputFilename === undefined) {
 			this._outputFilename = prop.get(
-				_npmbundlerrc,
+				npmbundlerrc,
 				'create-jar.output-filename',
 				this.supported
-					? _pkgJson['name'] + '-' + _pkgJson['version'] + '.jar'
+					? pkgJson['name'] + '-' + pkgJson['version'] + '.jar'
 					: undefined
 			);
 		}
@@ -131,38 +127,38 @@ export default class Jar {
 	 * 			'any' to leave version unbounded
 	 */
 	get requireJsExtender(): boolean | string | 'any' {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
 		return prop.get(
-			_npmbundlerrc,
+			npmbundlerrc,
 			'create-jar.features.js-extender',
 			// TODO: deprecated 'auto-deploy-portlet', remove for the next major version
-			prop.get(_npmbundlerrc, 'create-jar.auto-deploy-portlet', true)
+			prop.get(npmbundlerrc, 'create-jar.auto-deploy-portlet', true)
 		);
 	}
 
 	get supported(): boolean {
-		const {_npmbundlerrc} = this._project;
+		const {npmbundlerrc} = this._project;
 
-		return !!prop.get(_npmbundlerrc, 'create-jar', false);
+		return !!prop.get(npmbundlerrc, 'create-jar', false);
 	}
 
 	get webContextPath(): string {
-		const {_npmbundlerrc, _pkgJson} = this._project;
+		const {npmbundlerrc, pkgJson} = this._project;
 
 		if (!this._webContextPath) {
 			this._webContextPath = prop.get(
-				_npmbundlerrc,
+				npmbundlerrc,
 				'create-jar.features.web-context',
 				// TODO: deprecated 'web-context-path', remove for the next major version
 				prop.get(
-					_npmbundlerrc,
+					npmbundlerrc,
 					'create-jar.web-context-path',
 					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
 					prop.get(
-						_pkgJson,
+						pkgJson,
 						'osgi.Web-ContextPath',
-						`/${_pkgJson['name']}-${_pkgJson['version']}`
+						`/${pkgJson['name']}-${pkgJson['version']}`
 					)
 				)
 			);
@@ -171,9 +167,9 @@ export default class Jar {
 		return this._webContextPath;
 	}
 
-	_customManifestHeaders: object;
-	_outputDir: FilePath;
-	_outputFilename: string;
-	_project: Project;
-	_webContextPath: string;
+	private _customManifestHeaders: object;
+	private _outputDir: FilePath;
+	private _outputFilename: string;
+	private readonly _project: Project;
+	private _webContextPath: string;
 }

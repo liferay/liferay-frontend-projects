@@ -6,6 +6,7 @@
 
 import {error, info, print} from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 
 import angularCli from './angular-cli';
 import createReactApp from './create-react-app';
@@ -25,11 +26,11 @@ const msg = {
 
 export default function() {
 	switch (project.probe.type) {
-		case project.probe.TYPE_ANGULAR_CLI:
+		case ProjectType.ANGULAR_CLI:
 			angularCli();
 			break;
 
-		case project.probe.TYPE_CREATE_REACT_APP:
+		case ProjectType.CREATE_REACT_APP:
 			createReactApp();
 			break;
 
