@@ -45,7 +45,7 @@ const EXTERNAL_MSG_REGEX = /var (MSG_EXTERNAL_\d+(?:\$\$\d+)?) = goog\.getMsg\(\
  * `--externalMsgFormat` option above.
  */
 function translateSoy(directory) {
-	const files = expandGlobs([path.join(directory, '**/*.soy.js')]);
+	const files = expandGlobs([path.posix.join(directory, '**/*.soy.js')]);
 
 	if (!files.length) {
 		return;
@@ -123,7 +123,8 @@ function translateSoy(directory) {
  * Checks to see if there are any soy files
  */
 function soyExists() {
-	return !!expandGlobs([path.join(BUILD_CONFIG.input, '**/*.soy')]).length;
+	return !!expandGlobs([path.posix.join(BUILD_CONFIG.input, '**/*.soy')])
+		.length;
 }
 
 module.exports = {
