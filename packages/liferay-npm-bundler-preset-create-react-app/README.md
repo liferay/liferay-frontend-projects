@@ -1,7 +1,7 @@
 # liferay-npm-bundler-preset-create-react-app
 
 > Liferay NPM Bundler preset for
-> [create-react-app](https://github.com/facebook/create-react-app) adopted
+> [create-react-app](https://github.com/facebook/create-react-app) adapted
 > projects.
 
 ## Install
