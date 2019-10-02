@@ -5,15 +5,18 @@
  */
 
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 
 /**
  * Valid babel plugin options are:
  *	  packageName: '<package.json>'
- *    srcPrefixes: ['src/main/resources/META-INF/resources']
+ *    srcPrefixes: ['src/main/resources/META-INF/resources'] plus any other
+ * 						`sources` defined in the `.npmbundlerrc`file
  * @return {object} a babel visitor
  */
 export default function({types: t}) {
@@ -127,13 +130,20 @@ export default function({types: t}) {
  *         separators)
  */
 function normalizeSrcPrefixes(srcPrefixes) {
-	srcPrefixes = srcPrefixes || ['src/main/resources/META-INF/resources'];
+	if (!srcPrefixes) {
+		srcPrefixes = [
+			'src/main/resources/META-INF/resources',
+			...project.sources
+				.map(source => source.asPosix)
+				.map(source => source.substring(2)),
+		];
+	}
 
-	return srcPrefixes
-		.map(srcPrefix => path.normalize(srcPrefix))
-		.map(srcPrefix =>
-			srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep
-		);
+	srcPrefixes = srcPrefixes.map(srcPrefix =>
+		srcPrefix.endsWith(path.sep) ? srcPrefix : srcPrefix + path.sep
+	);
+
+	return srcPrefixes;
 }
 
 /**
