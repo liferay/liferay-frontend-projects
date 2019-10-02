@@ -14,9 +14,9 @@ export default class Probe {
 	 */
 	constructor(project) {
 		this._project = project;
-		this._pkgJson = project._pkgJson;
 
 		this.TYPE_CREATE_REACT_APP = 'create-react-app';
+		this.TYPE_ANGULAR_CLI = 'angular-cli';
 	}
 
 	/**
@@ -25,16 +25,23 @@ export default class Probe {
 	 * 			detected
 	 */
 	get type() {
-		const pkgJson = this._pkgJson;
-
-		if (
-			pkgJson.dependencies &&
-			(pkgJson.dependencies['react-scripts'] ||
-				pkgJson.devDependencies['react-scripts'])
-		) {
+		if (this._hasDependency('react-scripts')) {
 			return this.TYPE_CREATE_REACT_APP;
 		}
 
+		if (this._hasDependency('@angular/cli')) {
+			return this.TYPE_ANGULAR_CLI;
+		}
+
 		return undefined;
+	}
+
+	_hasDependency(pkgName) {
+		const {pkgJson} = this._project;
+
+		return (
+			(pkgJson.dependencies && pkgJson.dependencies[pkgName]) ||
+			(pkgJson.devDependencies && pkgJson.devDependencies[pkgName])
+		);
 	}
 }

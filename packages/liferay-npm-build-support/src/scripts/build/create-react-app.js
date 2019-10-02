@@ -130,17 +130,9 @@ const templatesPath = path.join(
 const renderer = new Renderer(templatesPath, explodedJarDir.asNative);
 
 /**
- * Test if the current project is a create-react-app project
- * @return {boolean}
- */
-export function probe() {
-	return project.probe.type === project.probe.TYPE_CREATE_REACT_APP;
-}
-
-/**
  * Run the specialized build
  */
-export function run() {
+export default function run() {
 	return Promise.resolve()
 		.then(assertIndexJsIntegrity)
 		.then(backupIndexJs)
