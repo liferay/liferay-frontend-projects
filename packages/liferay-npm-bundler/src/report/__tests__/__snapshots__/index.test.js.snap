@@ -184,6 +184,7 @@ exports[`correctly dumps HTML report 1`] = `
 		
 	
 				
+						
 		<h2>Summary of package transformations</h2>
 		
 			<table>
@@ -268,7 +269,7 @@ exports[`correctly dumps HTML report 1`] = `
 			</table>
 		
 	
-				
+						
 		<h2>Details of bundler transformations</h2>
 		
 		<h3>
@@ -293,7 +294,7 @@ exports[`correctly dumps HTML report 1`] = `
 
 
 	
-				
+						
 		<h2>Details of Babel transformations</h2>
 		
 		<h3>
@@ -327,6 +328,7 @@ exports[`correctly dumps HTML report 1`] = `
 
 
 	
+					
 			</body>
 		</html>
 	"
