@@ -37,6 +37,21 @@ javascript.log.enabled=false
 minifier.enabled=false
 ```
 
+### Enabling the "deployFast" task
+
+```
+work.dir.override.enabled=true
+```
+
+With this setting, you can make changes to JS, JSP, and CSS files and see the results without doing a full deploy:
+
+```
+gradlew deploy # do the initial deploy
+gradlew deployFast -at # start the deployFast task
+```
+
+If you make changes to other (non-JS/JSP/CSS) files, you'll need to CTRL-C the `deployFast` task and `deploy`/`deployFast -at` again, as described in [the announcement post in Loop](https://loop.liferay.com/home/-/loop/feed/19825955).
+
 ### Enabling telnet access to the Gogo shell
 
 You can access the [Gogo shell](https://portal.liferay.dev/docs/7-2/customization/-/knowledge_base/c/using-the-felix-gogo-shell) from the web interface (Control Panel &raquo; Configuration &raquo; Gogo Shell), even in production-like environments. In development contexts, however, it is useful to enable local access via telnet:
