@@ -5,7 +5,6 @@
  */
 
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
