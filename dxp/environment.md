@@ -166,7 +166,26 @@ gradlew clean deploy -a
 
 ### Other useful `build.properties`
 
+#### JSP precompilation
+
+This setting may speed up builds by skipping ahead-of-time JSP precompilation:
+
 ```
-# Speed up builds by skipping JSP precompilation.
 jsp.precompile=off
 ```
+
+#### Gradle binaries cache
+
+This setting specifies a local clone of [the liferay/liferay-binaries-cache-2020 repo](https://github.com/liferay/liferay-binaries-cache-2020) to use as a cache of Gradle artifacts:
+
+```
+# This is the default; you can set it to an empty value to ignore the cache:
+build.binaries.cache.dir=../${build.binaries.cache.repository.name}
+```
+
+For example, if you cloned [liferay-portal](https://github.com/liferay/liferay-portal) in a directory called `portal/liferay-portal`, the above setting says the cache clone should exist at `portal/liferay-binaries-cache-2020`.
+
+Does the cache actually make the build faster?
+
+-   On a fast network, you probably won't notice any difference; if anything, if the cache is not already up-to-date when you start the build, you may actually notice a slowdown.
+-   On a slow network, having an up-to-date copy of the cache before you start is critical: it can make the difference between being able to finish the build at all, and it not finishing ever.
