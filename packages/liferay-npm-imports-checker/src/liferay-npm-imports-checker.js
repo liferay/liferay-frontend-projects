@@ -7,8 +7,10 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {normalizeImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
+import {Project} from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolve from 'resolve';
@@ -123,21 +125,20 @@ function loadProjects() {
 					return;
 				}
 
-				const npmBundlerRcPath = path.join(pkgJsonDir, '.npmbundlerrc');
-				const npmBundlerRc = safeReadJsonSync(npmBundlerRcPath);
+				const {npmbundlerrc} = new Project(pkgJsonDir);
 
-				if (npmBundlerRc.config && npmBundlerRc.config.imports) {
-					npmBundlerRc.config.imports = normalizeImportsConfig(
-						npmBundlerRc.config.imports,
+				if (npmbundlerrc.config && npmbundlerrc.config.imports) {
+					npmbundlerrc.config.imports = normalizeImportsConfig(
+						npmbundlerrc.config.imports,
 						true
 					);
 				}
 
 				projects[pkgJson.name] = {
 					name: pkgJson.name,
-					dir: path.resolve(pkgJsonDir),
+					dir: new FilePath(pkgJsonDir),
 					pkgJson,
-					npmBundlerRc,
+					npmbundlerrc,
 				};
 
 				_msg(1, pkgJsonDir);
@@ -172,17 +173,17 @@ function checkProjects(projects) {
 	msg(0, 'Checking projects:');
 
 	Object.values(projects).forEach(project => {
-		if (!project.dir.asPosix.startsWith(cfg.getRunPath())) {
+		if (project.dir.asPosix.indexOf(cfg.getRunPath()) != 0) {
 			return;
 		}
 
-		const {npmBundlerRc} = project;
+		const {npmbundlerrc} = project;
 
-		if (!npmBundlerRc) {
+		if (!npmbundlerrc) {
 			return;
 		}
 
-		const {config} = npmBundlerRc;
+		const {config} = npmbundlerrc;
 
 		if (!config) {
 			return;
@@ -275,7 +276,7 @@ function checkProjects(projects) {
 								'error',
 								`Package ${fmt.package.bold(
 									pkgName
-								)} version constraints don't match ${srcVersion} in imported project`
+								)} version constraints (${version}) don't match ${srcVersion} in imported project`
 							);
 						}
 					}
@@ -304,7 +305,9 @@ function checkProjects(projects) {
 									'error',
 									`Package ${fmt.package.bold(
 										pkgName
-									)} version in project doesn't match .npmbundlerrc version constraints`
+									)} version in project (${
+										pkgJson.version
+									}) doesn't match .npmbundlerrc version constraints (${version})`
 								);
 							}
 						} catch (err) {
@@ -467,19 +470,6 @@ function getDependencyVersion(project, pkgName) {
 		const {version} = pkgJson;
 
 		return version;
-	} catch (err) {
-		return undefined;
-	}
-}
-
-/**
- * Read a JSON file but don't fail on error
- * @param  {String} path path to JSON file
- * @return {Object|undefined} the parsed JSON object or undefined if it couldn't be read
- */
-function safeReadJsonSync(path) {
-	try {
-		return readJsonSync(path);
 	} catch (err) {
 		return undefined;
 	}
