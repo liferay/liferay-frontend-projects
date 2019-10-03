@@ -188,4 +188,6 @@ For example, if you cloned [liferay-portal](https://github.com/liferay/liferay-p
 Does the cache actually make the build faster?
 
 -   On a fast network, you probably won't notice any difference; if anything, if the cache is not already up-to-date when you start the build, you may actually notice a slowdown.
--   On a slow network, having an up-to-date copy of the cache before you start is critical: it can make the difference between being able to finish the build at all, and it not finishing ever.
+-   On a slow network, it definitely makes a difference (although having an up-to-date copy of the cache before you start is critical). On bad connections, having the cache can make the difference between being able to finish the build at all, and it not finishing ever.
+
+For more details see "[How to Improve Build Time](https://grow.liferay.com/people?p_p_id=com_liferay_wiki_web_portlet_WikiPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_wiki_web_portlet_WikiPortlet_struts_action=%2Fwiki%2Fview&_com_liferay_wiki_web_portlet_WikiPortlet_redirect=%2Fpeople%3Fq%3Dbuild%2520&_com_liferay_wiki_web_portlet_WikiPortlet_pageResourcePrimKey=751906&p_r_p_http%3A%2F%2Fwww.liferay.com%2Fpublic-render-parameters%2Fwiki_nodeName=Grow&p_r_p_http%3A%2F%2Fwww.liferay.com%2Fpublic-render-parameters%2Fwiki_title=How+to+Improve+Build+Time#Clone-liferay-binaries-cache-2020)".
