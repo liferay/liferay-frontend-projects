@@ -117,6 +117,25 @@ export function htmlDump(report) {
 		)
 	);
 
+	const packageProcessesPresent = Object.keys(_packages).reduce(
+		(found, pkgId) => {
+			const pkg = _packages[pkgId];
+			const {babel, copy, post, pre} = pkg.process;
+			const copyKeys = Object.keys(copy);
+			const preKeys = Object.keys(pre);
+			const postKeys = Object.keys(post);
+			const babelKeys = Object.keys(babel.files);
+
+			found |= copyKeys.length > 0;
+			found |= preKeys.length > 0;
+			found |= postKeys.length > 0;
+			found |= babelKeys.length > 0;
+
+			return found;
+		},
+		false
+	);
+
 	const packageProcesses = htmlSection(
 		'Summary of package transformations',
 		htmlTable(
@@ -397,9 +416,14 @@ export function htmlDump(report) {
 				${versionsInfo}
 				${dependencies}
 				${rulesExecution}
-				${packageProcesses}
-				${packageProcessesBundlerDetails}
-				${packageProcessesBabelDetails}
+				${htmlIf(
+					packageProcessesPresent,
+					() => `
+						${packageProcesses}
+						${packageProcessesBundlerDetails}
+						${packageProcessesBabelDetails}
+					`
+				)}
 			</body>
 		</html>
 	`;

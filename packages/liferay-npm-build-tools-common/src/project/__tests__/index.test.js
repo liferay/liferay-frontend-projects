@@ -678,15 +678,15 @@ describe('empty project defaults', () => {
 
 	describe('project.l10n', () => {
 		it('returns availableLocales', () => {
-			expect(project.l10n.availableLocales).toEqual([]);
+			expect(project.l10n.availableLocales).toBeUndefined();
 		});
 
 		it('returns labels for default locale', () => {
-			expect(project.l10n.getLabels()).toEqual({});
+			expect(project.l10n.getLabels()).toBeUndefined();
 		});
 
 		it('returns labels for missing locale', () => {
-			expect(project.l10n.getLabels('fr_FR')).toEqual({});
+			expect(project.l10n.getLabels('fr_FR')).toBeUndefined();
 		});
 
 		it('returns languageFileBaseName', () => {
@@ -694,7 +694,7 @@ describe('empty project defaults', () => {
 		});
 
 		it('returns localizationFileMap', () => {
-			expect(project.l10n.localizationFileMap).toEqual({});
+			expect(project.l10n.localizationFileMap).toBeUndefined();
 		});
 
 		it('returns supported', () => {

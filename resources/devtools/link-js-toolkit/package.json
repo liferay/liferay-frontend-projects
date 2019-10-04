@@ -10,5 +10,8 @@
 		"cross-spawn": "^6.0.5",
 		"read-json-sync": "^2.0.1"
 	},
-	"private": true
+	"private": true,
+	"devDependencies": {
+		"yargs": "^14.0.0"
+	}
 }

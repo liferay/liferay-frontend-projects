@@ -7,20 +7,22 @@
 import fs from 'fs-extra';
 import path from 'path';
 
+import {Manifest as Data, ModuleFlags, Package} from './api/manifest';
 import FilePath from './file-path';
 import project from './project';
+import PkgDesc from './pkg-desc';
+
+export {ModuleFlags, Package};
 
 /**
  * A class to hold information about processed modules and optionally dump/read
  * it to/from disk.
- * @type {Manifest}
  */
 export default class Manifest {
 	/**
-	 * Constructor
-	 * @param {String} filePath an optional path to a file to load initial status
+	 * @param filePath an optional path to a file to load initial status
 	 */
-	constructor(filePath = null) {
+	constructor(filePath: string = null) {
 		this._loadedFromFile = false;
 
 		if (filePath) {
@@ -45,17 +47,21 @@ export default class Manifest {
 	/**
 	 * Set to true when the manifest has been loaded from a file.
 	 */
-	get loadedFromFile() {
+	get loadedFromFile(): boolean {
 		return this._loadedFromFile;
 	}
 
 	/**
 	 * Add a processed package entry
-	 * @param {PkgDesc} srcPkg the source package descriptor
-	 * @param {PkgDesc} destPkg the destination package descriptor
+	 * @param srcPkg the source package descriptor
+	 * @param destPkg the destination package descriptor
 	 */
-	addPackage(srcPkg, destPkg) {
-		const pkg = this._data.packages[srcPkg.id] || {};
+	addPackage(srcPkg: PkgDesc, destPkg: PkgDesc): void {
+		if (this._data.packages[srcPkg.id] === undefined) {
+			this._data.packages[srcPkg.id] = {} as Package;
+		}
+
+		const pkg = this._data.packages[srcPkg.id];
 
 		pkg.src = {
 			id: srcPkg.id,
@@ -63,50 +69,56 @@ export default class Manifest {
 			version: srcPkg.version,
 			dir: srcPkg.dir.asPosix,
 		};
+
 		pkg.dest = {
 			id: destPkg.id,
 			name: destPkg.name,
 			version: destPkg.version,
 			dir: destPkg.dir.asPosix,
 		};
-
-		this._data.packages[srcPkg.id] = pkg;
 	}
 
-	/**
-	 *
-	 * @param {string} pkgId
-	 * @param {string} moduleName
-	 * @param {object} flags
-	 */
-	addModuleFlags(pkgId, moduleName, flags) {
-		const pkg = this._data.packages[pkgId] || {};
+	addModuleFlags(
+		pkgId: string,
+		moduleName: string,
+		flags: ModuleFlags
+	): void {
+		if (this._data.packages[pkgId] === undefined) {
+			this._data.packages[pkgId] = {} as Package;
+		}
 
-		pkg.modules = pkg.modules || {};
-		pkg.modules[moduleName] = pkg.modules[moduleName] || {};
-		pkg.modules[moduleName]['flags'] = Object.assign(
-			pkg.modules[moduleName]['flags'] || {},
-			flags
-		);
+		const pkg = this._data.packages[pkgId];
 
-		this._data.packages[pkgId] = pkg;
+		if (pkg.modules === undefined) {
+			pkg.modules = {};
+		}
+
+		if (pkg.modules[moduleName] === undefined) {
+			pkg.modules[moduleName] = {};
+		}
+
+		if (pkg.modules[moduleName].flags === undefined) {
+			pkg.modules[moduleName].flags = {};
+		}
+
+		Object.assign(pkg.modules[moduleName].flags, flags);
 	}
 
 	/**
 	 * Get a processed package entry
-	 * @param {PkgDesc} srcPkg the source package descriptor
-	 * @return {Object} the processed package entry (see addPackage for format description)
+	 * @param srcPkg the source package descriptor
+	 * @return the processed package entry (see addPackage for format description)
 	 */
-	getPackage(srcPkg) {
+	getPackage(srcPkg: PkgDesc): Package {
 		return this._data.packages[srcPkg.id];
 	}
 
 	/**
 	 * Tests whether a package must be regenerated
-	 * @param {PkgDesc} destPkg destination package
-	 * @return {Boolean} true if package is outdated
+	 * @param destPkg destination package
+	 * @return true if package is outdated
 	 */
-	isOutdated(destPkg) {
+	isOutdated(destPkg: PkgDesc): boolean {
 		// Unless we use real timestamps or digests, we cannot detect reliably
 		// if the root package is outdated or up-to-date.
 		if (destPkg.isRoot) {
@@ -133,10 +145,9 @@ export default class Manifest {
 
 	/**
 	 * Save current manifest to a file
-	 * @param  {String} filePath path to file or null to use default path
-	 * @return {void}
+	 * @param filePath path to file or null to use default path
 	 */
-	save(filePath = null) {
+	save(filePath: string = null): void {
 		filePath = filePath || this._filePath;
 
 		if (filePath === undefined) {
@@ -149,9 +160,12 @@ export default class Manifest {
 
 	/**
 	 * Return the JSON serialization of this manifest
-	 * @return {String}
 	 */
-	toJSON() {
+	toJSON(): string {
 		return JSON.stringify(this._data, null, 2);
 	}
+
+	private _loadedFromFile: boolean;
+	private _filePath: string;
+	private _data: Data;
 }
