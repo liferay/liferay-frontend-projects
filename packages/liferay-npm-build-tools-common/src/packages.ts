@@ -14,66 +14,6 @@ interface NullFsStats {
 	isFile: () => boolean;
 }
 
-const packageDirCache: {
-	[index: string]: string;
-} = {};
-
-/**
- * Get the full path of the package.json file for a given JS module file.
- * @param modulePath the relative or absolute path to a JS module file
- * @return the full path to the package.json file (with native path
- *         separators)
- */
-export function getPackageJsonPath(modulePath: string): string {
-	return path.join(getPackageDir(modulePath), 'package.json');
-}
-
-/**
- * Get the full path of the package directory for a given JS module file.
- * @param modulePath the relative or absolute path to a JS module file
- * @return the full path to the package directory (with native path
- *         separators)
- */
-export function getPackageDir(modulePath: string): string {
-	const absModulePath = path.resolve(modulePath);
-	let dir = packageDirCache[absModulePath];
-
-	if (!dir) {
-		dir = absModulePath;
-		let found = false;
-
-		while (!found) {
-			try {
-				const pkgJsonPath = path.join(dir, 'package.json');
-
-				fs.statSync(pkgJsonPath);
-
-				const {version} = readJsonSync(pkgJsonPath);
-
-				if (version === undefined) {
-					throw new Error('No valid version field found');
-				}
-
-				found = true;
-			} catch (err) {
-				const dirname = path.dirname(dir);
-
-				if (dirname == dir) {
-					throw new Error(
-						'Cannot find package.json for file: ' + modulePath
-					);
-				}
-
-				dir = dirname;
-			}
-		}
-
-		packageDirCache[absModulePath] = dir;
-	}
-
-	return dir;
-}
-
 /**
  * Converts a package name (optionally versioned) to its target folder name
  * inside bundled node_modules.
