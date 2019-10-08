@@ -9,59 +9,67 @@ import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import Manifest from 'liferay-npm-build-tools-common/lib/manifest';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
 import plugin from '../index';
 
-const pkgJson = require(path.join(__dirname, '../../package.json'));
-const pkgDesc = new PkgDesc(pkgJson.name, pkgJson.version, null);
+const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
+const filenameRelative = path.join('path', 'to', 'module.js');
+const filename = path.join(prjDirPath, filenameRelative);
+const prjPkgDesc = new PkgDesc('a-project', '1.0.0', null);
 
-let logger, manifest;
+const case1Source = `
+Object.defineProperty(exports, "__esModule", {
+	value: true
+  });
 
-beforeEach(() => {
-	babelIpc.set(__filename, {
-		log: (logger = new PluginLogger()),
-		manifest: (manifest = new Manifest()),
-		rootPkgJson: pkgJson,
-	});
+var x = require('./x');
+console.log('x is', x);
+module.exports = 'Here is x: ' + x;
+`;
+const case2Source = `
+Object.defineProperty(exports, "__esModule", {
+	value: true
+  });
+
+var x = require('./x');
+console.log('x is', x);
+module.exports = 'Here is x: ' + x;
+`;
+
+beforeAll(() => {
+	project.loadFrom(prjDirPath);
 });
 
-describe('esModule flag', () => {
-	const case1Source = `
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	  });
+describe('plugin feature tests', () => {
+	let logger, manifest;
 
-	var x = require('./x');
-	console.log('x is', x);
-	module.exports = 'Here is x: ' + x;
-	`;
-	const case2Source = `
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	  });
+	beforeEach(() => {
+		babelIpc.set(filenameRelative, {
+			log: (logger = new PluginLogger()),
+			manifest: (manifest = new Manifest()),
+			rootPkgJson: project.pkgJson,
+		});
+	});
 
-	var x = require('./x');
-	console.log('x is', x);
-	module.exports = 'Here is x: ' + x;
-	`;
-
-	it('is added in case 1', () => {
+	it('esModule flag is added in case 1', () => {
 		const source = case1Source;
 
 		babel.transform(source, {
-			filenameRelative: __filename,
+			filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
-		const pkg = manifest.getPackage(pkgDesc);
+		const pkg = manifest.getPackage(prjPkgDesc);
 
-		const {flags} = pkg.modules['src/__tests__/index.test.js'];
+		const {flags} = pkg.modules[filenameRelative];
 
 		expect(flags.esModule).toBe(true);
 	});
 
-	it('is added in case 2', () => {
+	it('esModule flag is added in case 2', () => {
 		const source = `
 		module.exports.__esModule = true;
 
@@ -71,13 +79,14 @@ describe('esModule flag', () => {
 		`;
 
 		babel.transform(source, {
-			filenameRelative: __filename,
+			filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
-		const pkg = manifest.getPackage(pkgDesc);
+		const pkg = manifest.getPackage(prjPkgDesc);
 
-		const {flags} = pkg.modules['src/__tests__/index.test.js'];
+		const {flags} = pkg.modules[filenameRelative];
 
 		expect(flags.esModule).toBe(true);
 	});
@@ -86,21 +95,35 @@ describe('esModule flag', () => {
 		const source = case1Source;
 
 		babel.transform(source, {
-			filenameRelative: __filename,
+			filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
-		expect(logger.messages).toMatchSnapshot();
+		expect(logger.messages).toEqual([
+			{
+				level: 'info',
+				source: 'add-module-metadata',
+				things: ["Added 'esModule' flag"],
+			},
+		]);
 	});
 
 	it('logs results correctly in case 2', () => {
 		const source = case2Source;
 
 		babel.transform(source, {
-			filenameRelative: __filename,
+			filename,
+			filenameRelative,
 			plugins: [plugin],
 		});
 
-		expect(logger.messages).toMatchSnapshot();
+		expect(logger.messages).toEqual([
+			{
+				level: 'info',
+				source: 'add-module-metadata',
+				things: ["Added 'esModule' flag"],
+			},
+		]);
 	});
 });
