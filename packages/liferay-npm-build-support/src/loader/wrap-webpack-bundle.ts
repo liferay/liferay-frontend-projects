@@ -8,8 +8,8 @@ import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
+import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import readJsonSync from 'read-json-sync';
 
 export default function(
@@ -37,7 +37,7 @@ Liferay.Loader.define(
 
 function getModuleName(prjRelfilePath: string, removePrefix: string): string {
 	const absFile = new FilePath(prjRelfilePath);
-	const pkgDir = new FilePath(pkgs.getPackageDir(prjRelfilePath));
+	const pkgDir = new FilePath(babelUtil.getPackageDir(prjRelfilePath));
 
 	let moduleName: string = pkgDir.relative(absFile).asPosix;
 
