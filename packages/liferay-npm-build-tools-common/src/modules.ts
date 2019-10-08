@@ -9,8 +9,11 @@
  * @see splitModuleName
  */
 export interface ModuleNameParts {
+	/** Scope of module (starts with at sign) */
 	scope?: string;
+	/** Package name of module */
 	pkgName: string;
+	/** Module file path relative to package root (starts with /) */
 	modulePath?: string;
 }
 
@@ -171,7 +174,8 @@ export function joinModuleName(
 /**
  * Splits a module name into scope, package and module path parts.
  * @param moduleName a full module name
- * @return {Object} a hash with scope, pkgName and modulePath fields
+ * @return {Object} a hash with scope (starts with at sign), pkgName and
+ *         modulePath (starts with /)
  */
 export function splitModuleName(moduleName: string): ModuleNameParts {
 	let ret: ModuleNameParts;
