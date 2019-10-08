@@ -26,14 +26,14 @@ Ensure you have a ".yarnrc" file in your package root declaring the desired comm
 
 ```
 version-tag-prefix "liferay-fancy-package/v"
-version-git-message "chore: prepape liferay-fancy-package/v%s"
+version-git-message "chore: prepare liferay-fancy-package/v%s"
 ```
 
 In a single-package repo, something like this might be more appropriate:
 
 ```
 version-tag-prefix "v"
-version-git-message "chore: prepape v%s release"
+version-git-message "chore: prepare v%s release"
 ```
 
 If you don't have a ".yarnrc" file, liferay-js-publish will warn you during publishing and require you to type "y" in order to continue.
