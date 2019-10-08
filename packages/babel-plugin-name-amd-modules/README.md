@@ -55,26 +55,22 @@ Add the following to your `.babelrc` file:
 
 ## Technical Details and Options
 
-This plugins scans modules for AMD `define()` calls and rewrites the module name
+This plugin scans modules for AMD `define()` calls and rewrites the module name
 argument with one based on the name of the package that contains the module and
-the module's relative path inside that package (removing the extension from the
-file name too).
+the module's relative path inside that package (removing the .js extension from
+the file name too).
 
 By default (if no custom value is given for the `packageName` option) this
-plugin scans the parent folders of the module file until it finds a
-`package.json` file and reads the package name from it. Otherwise, the package
-name can be forced to any fixed value by providing a value other than
-`<package.json>` to the `packageName` option.
+plugin looks for the `package.json` of the module assuming it is located in a
+JS Toolkit project. Otherwise, the package name can be forced to any fixed value
+by providing a value other than `<package.json>` to the `packageName` option.
 
 To determine the relative path of the modules the `srcPrefixes` option is
 examined and any folder found on it is removed from the path of the modules
 being processed, giving the relative package name.
 
-For example, given a `srcPrefixes` of
-`["src/main/resources/META-INF/resources"]` if the module under
-`src/main/resources/META-INF/resources/lib/index.js` is processed, its relative
-path is computed to `lib/index.js`.
+For example, given a `srcPrefixes` of `["src"]` if the module under
+`src/index.js` is processed, its relative path is transformed to `index.js`.
 
-The default value of the `srcPrefixes` option is
-`["src/main/resources/META-INF/resources"]` plus any other `sources` defined in
-the `.npmbundlerrc` file.
+However, note that the plugin automatically removes `sources` configured inside
+`.npmbundlerrc` when it transforms a file inside any of those folders.
