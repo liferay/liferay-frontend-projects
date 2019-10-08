@@ -14,7 +14,6 @@ import resolveModule from 'resolve';
 
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
-import {getPackageDir} from '../packages';
 import Copy from './copy';
 import Jar from './jar';
 import Localization from './localization';
@@ -345,12 +344,31 @@ export class Project {
 			presetFilePath = require.resolve(
 				'liferay-npm-bundler-preset-standard'
 			);
+
+			this._toolsDir = new FilePath(
+				path.dirname(
+					require.resolve(
+						'liferay-npm-bundler-preset-standard/package.json'
+					)
+				)
+			);
 		} else if (config.preset === '' || config.preset === false) {
 			// don't load preset
 		} else {
 			presetFilePath = resolveModule.sync(config.preset, {
 				basedir: this.dir.asNative,
 			});
+
+			const {pkgName} = splitModuleName(config.preset);
+
+			const presetPkgJsonFilePath = resolveModule.sync(
+				`${pkgName}/package.json`,
+				{
+					basedir: this.dir.asNative,
+				}
+			);
+
+			this._toolsDir = new FilePath(path.dirname(presetPkgJsonFilePath));
 		}
 
 		if (presetFilePath) {
@@ -360,8 +378,6 @@ export class Project {
 				config,
 				merge.recursive(readJsonSync(presetFilePath), originalConfig)
 			);
-
-			this._toolsDir = new FilePath(getPackageDir(presetFilePath));
 		}
 
 		this._npmbundlerrc = config;

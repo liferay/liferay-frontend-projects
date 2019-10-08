@@ -5,13 +5,14 @@
  */
 
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 
 import report from './report';
 
-const pkgJson = readJsonSync(path.join('.', 'package.json'));
+const pkgJson = project.pkgJson;
 const rootPkg = new PkgDesc(pkgJson.name, pkgJson.version);
 
 /**
@@ -27,21 +28,23 @@ export function getRootPkg() {
  * objects.
  * @param {object} collectedDependencies a hash of objects where key is the
  * 					package id and values are PkgDesc objects
- * @param {string} basedir directory where package lives in
+ * @param {string} basedirPath directory where package lives in
  * @param {Array} extraDependencies an array of package names to add to
  *					dependencies collected from package.json
  * @return {object} the given collectedDependencies object
  */
 export function addPackageDependencies(
 	collectedDependencies,
-	basedir,
+	basedirPath,
 	extraDependencies = []
 ) {
-	const packageJson = readJsonSync(path.join(basedir, '/package.json'));
+	const packageJson = readJsonSync(path.join(basedirPath, '/package.json'));
 	const pkg = new PkgDesc(
 		packageJson.name,
 		packageJson.version,
-		basedir == '.' ? null : basedir
+		path.resolve(basedirPath) == path.resolve(project.dir.asNative)
+			? null
+			: basedirPath
 	);
 
 	if (collectedDependencies[pkg.id]) {
@@ -56,7 +59,7 @@ export function addPackageDependencies(
 
 	const dependencyDirs = dependencies
 		.map(dependency => {
-			return resolveDependencyDir(basedir, packageJson, dependency);
+			return resolveDependencyDir(basedirPath, packageJson, dependency);
 		})
 		.filter(dependencyDir => {
 			return dependencyDir != null;

@@ -28,6 +28,7 @@
 		"watch": "node scripts/watch"
 	},
 	"devDependencies": {
+		"@types/jest": "^24.0.18",
 		"copyfiles": "^2.1.1",
 		"eslint": "^5.16.0",
 		"eslint-config-liferay": "^9.0.0",

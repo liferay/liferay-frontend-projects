@@ -44,6 +44,10 @@ export default class FilePath {
 		return this._windowsPath;
 	}
 
+	dirname(): FilePath {
+		return new FilePath(path.dirname(this.asNative));
+	}
+
 	join(...anyPathFragments: AnyPath[]): FilePath {
 		const join = FilePath.nativeIsPosix ? path.posix.join : path.win32.join;
 
@@ -57,8 +61,18 @@ export default class FilePath {
 		);
 	}
 
-	relative(anyPath: AnyPath) {
+	relative(anyPath: AnyPath): FilePath {
 		return new FilePath(path.relative(this.asNative, anyPath.toString()));
+	}
+
+	resolve(): FilePath {
+		const resolvedPath = path.resolve(this.asNative);
+
+		if (resolvedPath === this.asNative) {
+			return this;
+		}
+
+		return new FilePath(resolvedPath);
 	}
 
 	private readonly _nativePath: string;

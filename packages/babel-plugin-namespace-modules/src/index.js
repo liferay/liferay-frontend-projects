@@ -5,12 +5,11 @@
  */
 
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
+import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
 import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
 import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
-import {getPackageJsonPath} from 'liferay-npm-build-tools-common/lib/packages';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import readJsonSync from 'read-json-sync';
 
 /**
  * @return {object} a babel visitor
@@ -275,11 +274,14 @@ function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
 function getOwnPkgJson(state) {
 	const {
 		file: {
-			opts: {filenameRelative},
+			opts: {filename},
 		},
 	} = state;
 
-	return readJsonSync(getPackageJsonPath(filenameRelative));
+	const pkgJsonPath = babelUtil.getPackageJsonPath(filename);
+
+	// Use require so that package.json files are cached for more performance
+	return require(pkgJsonPath);
 }
 
 /**
