@@ -7,131 +7,72 @@
 import * as babel from 'babel-core';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import plugin from '../index';
 
-const filenameRelative = path.join(__dirname, '__fixtures__', 'source.js');
+const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
+const filenameRelative = path.join('path', 'to', 'module.js');
+const filename = path.join(prjDirPath, filenameRelative);
+
 const imports = {
 	provider: {
-		'imp-module': '^1.0.0',
+		'imp-package': '^1.0.0',
 	},
 	shims: {
 		fs: '^1.0.0',
 	},
 	'': {
-		'no-namespace-module': '^1.0.0',
+		'no-namespace-package': '^1.0.0',
 	},
 };
 
-describe('when called from Babel', () => {
-	it('correctly namespaces require modules', () => {
-		const source = `
-			define(function(){
-				require('a-module');
-				require('imp-module');
-				require('no-namespace-module');
-				require('./a-local-module');
-				require('fs');
-			})
-		`;
-
-		const {code} = babel.transform(source, {
-			filenameRelative,
-			plugins: [[plugin, {imports}]],
-		});
-
-		expect(code).toMatchSnapshot();
-	});
-
-	it('correctly namespaces define() dependencies', () => {
-		const source = `
-			define(
-				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
-				function(){
-				}
-			)
-		`;
-
-		const {code} = babel.transform(source, {
-			filenameRelative,
-			plugins: [[plugin, {imports}]],
-		});
-
-		expect(code).toMatchSnapshot();
-	});
-
-	it('does not namespace define() module name', () => {
-		const source = `
-			define('a-module', function(){
-			})
-		`;
-
-		const {code} = babel.transform(source, {
-			filenameRelative,
-			plugins: [[plugin, {imports}]],
-		});
-
-		expect(code).toMatchSnapshot();
-	});
-
-	it('correctly namespaces all together', () => {
-		const source = `
-			define(
-				'a-module', 
-				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
-				function(){
-					require('a-module');
-					require('imp-module');
-					require('no-namespace-module');
-					require('./a-local-module');
-					require('fs');
-				}
-			)
-		`;
-
-		const {code} = babel.transform(source, {
-			filenameRelative,
-			plugins: [[plugin, {imports}]],
-		});
-
-		expect(code).toMatchSnapshot();
-	});
+beforeAll(() => {
+	project.loadFrom(prjDirPath);
 });
 
-describe('when called from liferay-npm-bundler', () => {
+describe('plugin feature tests', () => {
 	let logger;
 
 	beforeEach(() => {
 		babelIpc.set(filenameRelative, {
 			log: (logger = new PluginLogger()),
-			rootPkgJson: require('./__fixtures__/root-package.json'),
+			rootPkgJson: project.pkgJson,
 			globalConfig: {imports},
 		});
 	});
 
-	it('correctly namespaces require modules', () => {
+	it('namespaces require() modules', () => {
 		const source = `
 			define(function(){
-				require('a-module');
-				require('imp-module');
-				require('no-namespace-module');
+				require('a-package');
+				require('imp-package');
+				require('no-namespace-package');
 				require('./a-local-module');
 				require('fs');
 			})
 		`;
 
 		const {code} = babel.transform(source, {
+			filename,
 			filenameRelative,
 			plugins: [plugin],
 		});
 
-		expect(code).toMatchSnapshot();
+		expect(code).toEqual(`
+define(function () {
+	require('a-project$a-package');
+	require('provider$imp-package');
+	require('no-namespace-package');
+	require('./a-local-module');
+	require('shims$fs');
+});`);
 	});
 
-	it('correctly namespaces define() dependencies', () => {
+	it('namespaces define() dependencies', () => {
 		const source = `
 			define(
-				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
+				['a-package', 'imp-package', 'no-namespace-package', './a-local-module', 'fs'], 
 				function(){
 				}
 			)
@@ -142,52 +83,35 @@ describe('when called from liferay-npm-bundler', () => {
 			plugins: [plugin],
 		});
 
-		expect(code).toMatchSnapshot();
-	});
-
-	it('correctly namespaces define() module name', () => {
-		const source = `
-			define('a-module', function(){
-			})
-		`;
-
-		const {code} = babel.transform(source, {
-			filenameRelative,
-			plugins: [plugin],
-		});
-
-		expect(code).toMatchSnapshot();
+		expect(code).toEqual(`
+define(['a-project$a-package', 'provider$imp-package', 'no-namespace-package', './a-local-module', 'shims$fs'], function () {});`);
 	});
 
 	it('does not namespace define() module name in the root package', () => {
 		const source = `
-			define('a-module', function(){
+			define('a-project/module', function(){
 			})
 		`;
 
-		// Make the plugin think that it is processing the root package
-		babelIpc.set(filenameRelative, {
-			rootPkgJson: require('./__fixtures__/package.json'),
-			globalConfig: {imports},
-		});
-
 		const {code} = babel.transform(source, {
+			filename,
 			filenameRelative,
 			plugins: [plugin],
 		});
 
-		expect(code).toMatchSnapshot();
+		expect(code).toEqual(`
+define('a-project/module', function () {});`);
 	});
 
-	it('correctly namespaces all together', () => {
+	it('namespaces all together', () => {
 		const source = `
 			define(
-				'a-module', 
-				['a-module', 'imp-module', 'no-namespace-module', './a-local-module', 'fs'], 
+				'a-project/module', 
+				['a-package', 'imp-package', 'no-namespace-package', './a-local-module', 'fs'], 
 				function(){
-					require('a-module');
-					require('imp-module');
-					require('no-namespace-module');
+					require('a-package');
+					require('imp-package');
+					require('no-namespace-package');
 					require('./a-local-module');
 					require('fs');
 				}
@@ -195,21 +119,29 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		const {code} = babel.transform(source, {
+			filename,
 			filenameRelative,
 			plugins: [plugin],
 		});
 
-		expect(code).toMatchSnapshot();
+		expect(code).toEqual(`
+define('a-project/module', ['a-project$a-package', 'provider$imp-package', 'no-namespace-package', './a-local-module', 'shims$fs'], function () {
+	require('a-project$a-package');
+	require('provider$imp-package');
+	require('no-namespace-package');
+	require('./a-local-module');
+	require('shims$fs');
+});`);
 	});
 
 	it('logs results correctly', () => {
 		const source = `
 			define(
-				'a-module', 
-				['a-module', 'imp-module', './a-local-module', 'fs'], 
+				'a-project/module', 
+				['a-package', 'imp-package', './a-local-module', 'fs'], 
 				function(){
-					require('a-module');
-					require('imp-module');
+					require('a-package');
+					require('imp-package');
 					require('./a-local-module');
 					require('fs');
 				}
@@ -217,10 +149,91 @@ describe('when called from liferay-npm-bundler', () => {
 		`;
 
 		babel.transform(source, {
+			filename,
 			filenameRelative,
 			plugins: [plugin],
 		});
 
-		expect(logger.messages).toMatchSnapshot();
+		expect(logger.messages).toEqual([
+			{
+				level: 'info',
+				source: 'namespace-modules',
+				things: [
+					'Namespaced',
+					0,
+					'define() names,',
+					3,
+					'define() dependencies,',
+					'and',
+					3,
+					'require() names',
+				],
+			},
+		]);
+	});
+});
+
+describe('when module is', () => {
+	it('in a dependency, namespaces define() module name', () => {
+		const filenameRelative = path.join(
+			'node_modules',
+			'a-package',
+			'path',
+			'to',
+			'module.js'
+		);
+		const filename = path.join(prjDirPath, filenameRelative);
+
+		const source = `
+			define('a-package/module', function(){
+			})
+		`;
+
+		babelIpc.set(filenameRelative, {
+			log: new PluginLogger(),
+			rootPkgJson: project.pkgJson,
+			globalConfig: {imports},
+		});
+
+		const {code} = babel.transform(source, {
+			filename,
+			filenameRelative,
+			plugins: [plugin],
+		});
+
+		expect(code).toEqual(`
+define('a-project$a-package/module', function () {});`);
+	});
+
+	it('in a scoped dependency, namespaces define() module name', () => {
+		const filenameRelative = path.join(
+			'node_modules',
+			'@a-scoped',
+			'package',
+			'path',
+			'to',
+			'module.js'
+		);
+		const filename = path.join(prjDirPath, filenameRelative);
+
+		const source = `
+				define('@a-scoped/package/module', function(){
+				})
+			`;
+
+		babelIpc.set(filenameRelative, {
+			log: new PluginLogger(),
+			rootPkgJson: project.pkgJson,
+			globalConfig: {imports},
+		});
+
+		const {code} = babel.transform(source, {
+			filename,
+			filenameRelative,
+			plugins: [plugin],
+		});
+
+		expect(code).toEqual(`
+define('@a-project$a-scoped/package/module', function () {});`);
 	});
 });
