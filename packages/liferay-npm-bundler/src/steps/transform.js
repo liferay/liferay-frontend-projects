@@ -198,7 +198,8 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 			fileAbsPath,
 			Object.assign(
 				{
-					filenameRelative: fileAbsPath,
+					filename: fileAbsPath,
+					filenameRelative: prjRelPath,
 					inputSourceMap: loadSourceMap(fileAbsPath),
 				},
 				babelConfig
