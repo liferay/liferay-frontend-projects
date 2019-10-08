@@ -5,7 +5,7 @@
  */
 
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
-import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
+import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import npath from 'path';
 import readJsonSync from 'read-json-sync';
@@ -119,9 +119,8 @@ function addEsModuleFlag(state) {
 		return;
 	}
 
-	const {filenameRelative} = state.file.opts;
-	const filenameAbsolute = npath.resolve(filenameRelative);
-	const pkgDir = pkgs.getPackageDir(filenameRelative);
+	const {filename} = state.file.opts;
+	const pkgDir = babelUtil.getPackageDir(filename);
 	const pkgJson = readJsonSync(npath.join(pkgDir, 'package.json'));
 
 	const {rootPkgJson} = babelIpc.get(state);
@@ -133,7 +132,7 @@ function addEsModuleFlag(state) {
 
 	const {manifest} = babelIpc.get(state);
 
-	manifest.addModuleFlags(pkgId, npath.relative(pkgDir, filenameAbsolute), {
+	manifest.addModuleFlags(pkgId, npath.relative(pkgDir, filename), {
 		esModule: true,
 	});
 
