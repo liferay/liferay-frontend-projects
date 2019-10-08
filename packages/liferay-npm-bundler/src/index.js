@@ -78,7 +78,7 @@ function run() {
 		// Compute dependency packages
 		let depPkgs = addPackageDependencies(
 			{},
-			'.',
+			project.dir.asNative,
 			project.copy.includedDependencies
 		);
 
