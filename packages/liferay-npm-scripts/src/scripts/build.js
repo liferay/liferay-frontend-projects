@@ -8,6 +8,7 @@ const CWD = process.cwd();
 
 const fs = require('fs');
 const path = require('path');
+const rimraf = require('rimraf');
 
 const SignalHandler = require('../utils/SignalHandler');
 const getMergedConfig = require('../utils/getMergedConfig');
@@ -99,7 +100,7 @@ function runBridge() {
 		const output = bridgeConfig[moduleKey].output;
 
 		if (output) {
-			spawnSync('rimraf', [`${output}/**/*.map`]);
+			rimraf.sync(`${output}/**/*.map`);
 		}
 	});
 }
