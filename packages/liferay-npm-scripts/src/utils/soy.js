@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const rimraf = require('rimraf');
 
 const expandGlobs = require('./expandGlobs');
 const getMergedConfig = require('./getMergedConfig');
@@ -31,7 +32,7 @@ function buildSoy() {
  * Removes any generated soy.js files
  */
 function cleanSoy() {
-	spawnSync('rimraf', ['src/**/*.soy.js']);
+	rimraf.sync('src/**/*.soy.js');
 }
 
 const EXTERNAL_MSG_REGEX = /var (MSG_EXTERNAL_\d+(?:\$\$\d+)?) = goog\.getMsg\(\s*'([\w,-{}$]+)'\s*(?:,\s*\{([\s\S]+?)\})?\);/g;
