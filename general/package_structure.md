@@ -10,6 +10,12 @@ We prefer [Yarn](https://yarnpkg.com/lang/en/) for package management and commit
 
 We recommend the use of [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage packages in our monorepos. In many projects, we've found that doing this obviates much of the need for tools like [Lerna](https://lerna.js.org).
 
+When working in this way, any `devDependencies` you add should go in the workspace root and not in the individual packages. We will probably implement uniform enforcement of this across all of our projects in the future (we already do it in [liferay-portal](https://github.com/liferay/liferay-portal)).
+
+## `devDependencies`
+
+Please think carefully before adding a new dev dependency to your project. We like to keep our dependency footprints small in our independent packages for many of the same reasons that we do in Liferay DXP itself (see [our policy](../dxp/dev_dependencies.md)). Any dependency we add isn't ever going to be purely beneficial; there will always be a cost as well (auditing, tracking API changes, and so on). It is all too easy to add a dependency on a project that itself has a huge transitive dependency graph, which means that the overall cost of maintaining dependencies tends to grow faster than you might expect.
+
 ## Scripts
 
 ### Linting and formatting
