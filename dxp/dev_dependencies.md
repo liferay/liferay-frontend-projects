@@ -17,7 +17,7 @@ Some of the reasons to "veto" arbitrary developer dependencies are:
 -   Keep a centralized control over the build process and what tools get brought in
 -   Maintain performance of the build process through a minimal dependency footprint
 -   Ensure a secure build process. Not all packages are properly vetted or updated when security vulnerabilities are found. When this happens, we need ways to easily react and adapt.
--   Enforce consistency and reliability. Building modules in a cross-platform fashion is often complicated. Making sure that the build works well across different node versions and operating systems (linux, windows, OSX...) is complicated and requires a lot of resources. By controlling the dependencies needed for this, we can make sure builds are consistent and reliable.
+-   Enforce consistency and reliability. Building modules in a cross-platform fashion is often complicated. Making sure that the build works well across different node versions and operating systems (Linux, Windows, macOS...) is complicated and requires a lot of resources. By controlling the dependencies needed for this, we can make sure builds are consistent and reliable.
 
 ## How to get a new dependency approved?
 
