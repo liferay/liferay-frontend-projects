@@ -162,10 +162,26 @@ export default class Manifest {
 	 * Return the JSON serialization of this manifest
 	 */
 	toJSON(): string {
-		return JSON.stringify(this._data, null, 2);
+		return JSON.stringify(this._data, sortObjectKeysReplacer, 2);
 	}
 
 	private _loadedFromFile: boolean;
 	private _filePath: string;
 	private _data: Data;
+}
+
+/**
+ * Replacer function for sorting object keys when stringifying
+ */
+function sortObjectKeysReplacer(key, value) {
+	if (value instanceof Object && !Array.isArray(value)) {
+		return Object.keys(value)
+			.sort()
+			.reduce((sorted, key) => {
+				sorted[key] = value[key];
+				return sorted;
+			}, {});
+	} else {
+		return value;
+	}
 }
