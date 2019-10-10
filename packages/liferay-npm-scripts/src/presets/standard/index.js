@@ -14,7 +14,7 @@ module.exports = {
 	build: {
 		dependencies: [...clay, ...liferay, ...metal],
 		input: 'src/main/resources/META-INF/resources',
-		output: 'build/node/packageRunBuild/resources'
+		output: 'classes/META-INF/resources'
 	},
 	check: [...JS_GLOBS, '{src,test}/**/*.scss'],
 	fix: [...JS_GLOBS, '{src,test}/**/*.scss'],

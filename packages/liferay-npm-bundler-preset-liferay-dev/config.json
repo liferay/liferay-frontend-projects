@@ -263,7 +263,7 @@
 		"semver": true,
 		"source-map": true
 	},
-	"output": "build/node/packageRunBuild/resources",
+	"output": "classes/META-INF/resources/",
 	"rules": [
 		{
 			"test": "\\.scss$",
