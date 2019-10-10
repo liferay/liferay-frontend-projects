@@ -24,7 +24,7 @@ To do that follow these steps:
 1. Install Yeoman::
 
 ```sh
-$ npm install -g yeoman ↩
+$ npm install -g yo ↩
 ```
 
 2. Install the `liferay-js` generator:
