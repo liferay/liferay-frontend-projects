@@ -1,7 +1,8 @@
 # liferay-npm-bundler-plugin-replace-browser-modules
 
-> Replace modules listed under `browser`/`unpkg`/`jsdelivr` section of
-> `package.json` files.
+> Rewrite aliased modules (those under `browser` section or any other
+> configured alias field of `package.json` files) to that they reexport their
+> targets.
 
 ## Installation
 
@@ -53,8 +54,19 @@ for more information).
 ## Technical Details
 
 This plugin scans `package.json` for fields defined in `resolve.aliasFields`
-and copies browser modules on top of server modules or deletes them when set to
-`false`.
+and redirects aliased modules to their configured target or empties them when
+set to `false`.
+
+This plugin only does one part of the whole implementation of the aliases.
+Aliases implementation have two parts:
+
+1.  They redirect existing modules or provide virtual ones when seen from
+    the outside, from another package.
+
+2.  They make local requires divert to a different target.
+
+This plugin does only the 1st part. The second one is performed by
+[babel-plugin-alias-modules](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/babel-plugin-alias-modules).
 
 Please read the
 [`browser` field specification](https://github.com/defunctzombie/package-browser-field-spec)
