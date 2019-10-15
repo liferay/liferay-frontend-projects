@@ -1,0 +1,5 @@
+{
+	"browser": {
+		"is-object": "./browser/is-object.js"
+	}
+}
