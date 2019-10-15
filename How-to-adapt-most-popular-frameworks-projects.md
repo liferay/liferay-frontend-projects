@@ -80,7 +80,7 @@ $ npm run deploy:liferay
 or 
 
 ```sh
-$ yarn run build:liferay
+$ yarn run deploy:liferay
 ```
 
 The aforementioned JAR will be copied to your Liferay's instance and made
