@@ -1,6 +1,6 @@
-# When to use utility classes?
+# When to use CSS utility classes?
 
-A utility (or helper) class is defined in the framework (Bootstrap or Clay) and it's available to create fast and not-extendable applications
+A utility (or helper) class is defined in the framework (Bootstrap or Clay) and it's available to create fast and not-extendable applications.
 
 ```scss
 // the following classes are simplified versions of the real ones
@@ -18,7 +18,7 @@ A utility (or helper) class is defined in the framework (Bootstrap or Clay) and 
 }
 ```
 
-These classes are really useful and using them correctly means you don't have to write css, there are 2 important recommendation we need to consider in the process
+These classes are really useful and using them correctly means you don't have to write CSS, there are 2 important recommendation we need to consider in the process.
 
 ## 1. Extendable component
 
@@ -33,7 +33,7 @@ Example with utility classes:
 **SCSS**
 
 ```scss
-// no css/scss required
+// no CSS/SCSS required
 ```
 
 Example with custom classes:
@@ -61,7 +61,7 @@ Both examples will print the same visual output, but the second one can be easil
 
 Imagine we need to create variations of this component with the same properties but in different color versions.
 
-While with the first example we need to recreate the component and changing its classes
+While with the first example we need to recreate the component and changing its classes.
 
 **HTML**
 
@@ -76,10 +76,10 @@ While with the first example we need to recreate the component and changing its 
 **SCSS**
 
 ```scss
-// no css/scss required
+// no CSS/SCSS required
 ```
 
-Using the custom class means we don't need to change the main code but just a SCSS variable for each component's variation
+Using the custom class means we don't need to change the main code but just a SCSS variable for each component's variation.
 
 **HTML**
 
@@ -97,9 +97,9 @@ $text-color: #ffffff; //white
 $text-color: #000000; //black
 ```
 
-This is a simple example where we are only taking into consideration a single variable but usually the components are far more complex than this
+This is a simple example where we are only taking into consideration a single variable but usually the components are far more complex than this.
 
-> Example of the main button class used in Clay to generate all its variants https://github.com/liferay/clay/blob/master/packages/clay-css/src/scss/components/_buttons.scss
+> Example of the main button class used in Clay to generate all its variants. https://github.com/liferay/clay/blob/master/packages/clay-css/src/scss/components/_buttons.scss
 
 **SCSS**
 
@@ -141,7 +141,7 @@ Due to their nature, most of the utility classes uses the `! important` attribut
 
 This kind of code overwrites any previously defined style and although it's great because we don't need to worry about the class hierarchy, on the other hand it will be more difficult to overrule it.
 
-To obtain the desired result using `! important` attributes, we need to specify a lot of css rules, generating a heavy and unreadable code.
+To obtain the desired result using `! important` attributes, we need to specify a lot of CSS rules, generating a heavy and unreadable code.
 
 ## 3. The answer
 
