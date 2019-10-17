@@ -1,0 +1,7 @@
+{
+	"browser": {
+		"external": false,
+		"./module": false,
+		"./file.js": false
+	}
+}
