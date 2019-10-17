@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+
 const lex = require('../../src/format/lex');
 const getFixture = require('../../support/getFixture');
 

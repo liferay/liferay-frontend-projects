@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const ReversibleMap = require('./ReversibleMap');
 const permute = require('../utils/permute');
+const ReversibleMap = require('./ReversibleMap');
 
 /**
  * Class for creating lexer instances.

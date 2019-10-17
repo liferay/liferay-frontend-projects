@@ -5,6 +5,7 @@
  */
 
 const cosmiconfig = require('cosmiconfig');
+
 const findRoot = require('./findRoot');
 
 /**

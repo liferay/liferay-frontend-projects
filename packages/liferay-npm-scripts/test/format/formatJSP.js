@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+
 const formatJSP = require('../../src/format/formatJSP');
 const getFixture = require('../../support/getFixture');
 

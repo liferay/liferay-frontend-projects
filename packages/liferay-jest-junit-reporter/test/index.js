@@ -4,11 +4,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-jest.mock('fs');
-
-const reporter = require('../src');
-const fs = require('fs');
-
 const failedTestReport = {
 	numFailedTests: 1,
 	numTotalTests: 1,
@@ -53,7 +48,18 @@ const passedTestReport = {
 };
 
 describe('liferay-jest-junit-reporter', () => {
+	let fs;
+	let reporter;
+
 	beforeEach(() => {
+		jest.resetModules();
+
+		jest.mock('fs');
+
+		fs = require('fs');
+
+		reporter = require('../src');
+
 		// Prevent user-specific context from appearing in snapshots.
 		jest.spyOn(process, 'cwd').mockImplementation(
 			() =>
@@ -76,7 +82,7 @@ describe('liferay-jest-junit-reporter', () => {
 	it('writes a file for a failing test', () => {
 		reporter(failedTestReport);
 
-		const xmlWritten = fs.writeFileSync.mock.calls[1][1];
+		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
 
 		expect(xmlWritten).toMatchSnapshot();
 	});

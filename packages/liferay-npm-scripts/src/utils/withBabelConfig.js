@@ -6,10 +6,10 @@
 
 const fs = require('fs');
 
-const getMergedConfig = require('./getMergedConfig');
 const SignalHandler = require('../utils/SignalHandler');
 const moveToTemp = require('../utils/moveToTemp');
 const removeFromTemp = require('../utils/removeFromTemp');
+const getMergedConfig = require('./getMergedConfig');
 
 const BABEL_CONFIG = getMergedConfig('babel');
 

@@ -15,7 +15,7 @@ const clone = (value, options) => merge(emptyTarget(value), value, options);
 function combineMerge(target, source, options) {
 	const destination = target.slice();
 
-	source.forEach(function(e, i) {
+	source.forEach((e, i) => {
 		if (typeof destination[i] === 'undefined') {
 			const cloneRequested = options.clone !== false;
 			const shouldClone = cloneRequested && options.isMergeableObject(e);

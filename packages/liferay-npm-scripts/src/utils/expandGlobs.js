@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const getRegExpForGlob = require('./getRegExpForGlob');
 
 const DEFAULT_OPTIONS = {
@@ -18,7 +19,7 @@ const DEFAULT_OPTIONS = {
  * of matching files, searching in the current dirctory.
  */
 function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
-	const {type, maxDepth} = {
+	const {maxDepth, type} = {
 		...DEFAULT_OPTIONS,
 		...options
 	};

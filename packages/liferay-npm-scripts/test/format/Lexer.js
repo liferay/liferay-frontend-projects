@@ -540,7 +540,7 @@ describe('Lexer()', () => {
 			let active = false;
 
 			const lexer = new Lexer(api => {
-				const {consume, match, never, repeat, when, oneOf, token} = api;
+				const {consume, match, never, oneOf, repeat, token, when} = api;
 
 				return () => {
 					// Reason we have to use "never" here is because "pass"

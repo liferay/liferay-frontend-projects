@@ -5,6 +5,7 @@
  */
 
 const fs = require('fs');
+
 const spawnSync = require('../utils/spawnSync');
 const withBabelConfig = require('../utils/withBabelConfig');
 

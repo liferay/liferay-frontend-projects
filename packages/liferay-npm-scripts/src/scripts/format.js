@@ -6,10 +6,11 @@
 
 const fs = require('fs');
 const prettier = require('prettier');
+
 const formatJSP = require('../format/formatJSP');
+const isJSP = require('../format/isJSP');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
-const isJSP = require('../format/isJSP');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
 

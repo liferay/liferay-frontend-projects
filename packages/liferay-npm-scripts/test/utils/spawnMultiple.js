@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-jest.mock('../../src/utils/log');
-
-const spawnMultiple = require('../../src/utils/spawnMultiple');
-const {SpawnError} = require('../../src/utils/spawnSync');
-
 describe('spawnMultiple()', () => {
 	let log;
+	let spawnMultiple;
+	let SpawnError;
 
 	beforeEach(() => {
+		jest.mock('../../src/utils/log');
+
 		log = require('../../src/utils/log');
+		spawnMultiple = require('../../src/utils/spawnMultiple');
+		({SpawnError} = require('../../src/utils/spawnSync'));
 	});
 
 	it('succeeds when all jobs succeed', () => {

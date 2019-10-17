@@ -87,6 +87,7 @@ function getMergedConfig(type, property) {
 
 			// Check for preset before creating config
 			if (userConfig.preset) {
+				// eslint-disable-next-line liferay/no-dynamic-require
 				presetConfig = require(userConfig.preset);
 			}
 

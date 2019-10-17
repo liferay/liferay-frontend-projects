@@ -1,7 +1,7 @@
 {
 	"devDependencies": {
 		"eslint": "6.1.0",
-		"eslint-config-liferay": "9.0.0",
+		"eslint-config-liferay": "11.1.1",
 		"prettier": "1.18.2"
 	},
 	"jest": {

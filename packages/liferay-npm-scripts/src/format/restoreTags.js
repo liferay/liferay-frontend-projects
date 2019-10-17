@@ -10,7 +10,7 @@ const {IDENTIFIER} = require('./getPaddedReplacement');
 const indent = require('./indent');
 const {SCRIPTLET_CONTENT} = require('./substituteTags');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
-const {isFiller, TAB_CHAR} = require('./toFiller');
+const {TAB_CHAR, isFiller} = require('./toFiller');
 /**
  * Takes a source string and reinserts tags that were previously extracted with
  * substituteTags().

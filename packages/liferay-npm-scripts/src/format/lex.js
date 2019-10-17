@@ -22,8 +22,8 @@ function lex(source, options = {}) {
 	const lexer = new Lexer(api => {
 		const {
 			a,
-			an,
 			allOf,
+			an,
 			consume,
 			fail,
 			match,
