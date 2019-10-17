@@ -44,8 +44,20 @@ export default class FilePath {
 		return this._windowsPath;
 	}
 
+	basename(): FilePath {
+		return new FilePath(path.basename(this.asNative));
+	}
+
 	dirname(): FilePath {
 		return new FilePath(path.dirname(this.asNative));
+	}
+
+	is(anyPath: AnyPath): boolean {
+		if (typeof anyPath === 'string') {
+			anyPath = new FilePath(anyPath);
+		}
+
+		return anyPath.resolve().asNative === this.resolve().asNative;
 	}
 
 	join(...anyPathFragments: AnyPath[]): FilePath {
@@ -59,6 +71,10 @@ export default class FilePath {
 				)
 			)
 		);
+	}
+
+	normalize(): FilePath {
+		return new FilePath(path.normalize(this.asNative));
 	}
 
 	relative(anyPath: AnyPath): FilePath {
