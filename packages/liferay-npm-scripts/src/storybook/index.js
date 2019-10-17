@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import * as StorybookReact from '@storybook/react';
-import * as StorybookAddonKnobs from '@storybook/addon-knobs';
 import * as StorybookAddonActions from '@storybook/addon-actions';
+import * as StorybookAddonKnobs from '@storybook/addon-knobs';
+import * as StorybookReact from '@storybook/react';
 
 const STORYBOOK_CONSTANTS = {
 	SPRITEMAP_PATH:

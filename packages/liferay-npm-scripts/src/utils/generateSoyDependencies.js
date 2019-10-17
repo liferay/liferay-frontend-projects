@@ -16,7 +16,7 @@ function generateSoyDependencies(dependencies) {
 	const cwd = process.cwd();
 
 	const stringDependencies = dependencies
-		.map(function(dependency) {
+		.map(dependency => {
 			let resolvedDependency = null;
 
 			try {

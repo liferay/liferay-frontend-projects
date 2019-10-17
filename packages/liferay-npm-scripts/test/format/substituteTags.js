@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+
 const substituteTags = require('../../src/format/substituteTags');
 const dedent = require('../../support/dedent');
 const getFixture = require('../../support/getFixture');

@@ -48,7 +48,7 @@ function buildNodePath() {
  * @param {Array} files The list of files to copy.
  */
 function copyStorybookConfigFiles(buildPath, files) {
-	files.forEach(function(file) {
+	files.forEach(file => {
 		fs.copyFileSync(
 			path.join(STORYBOOK_CONFIG_DIR_PATH, file),
 			path.join(buildPath, file)

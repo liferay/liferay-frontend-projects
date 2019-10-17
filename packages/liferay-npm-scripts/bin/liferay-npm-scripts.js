@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const {SpawnError} = require('../src/utils/spawnSync');
 const log = require('../src/utils/log');
+const {SpawnError} = require('../src/utils/spawnSync');
 
 try {
 	require('../src/index')();

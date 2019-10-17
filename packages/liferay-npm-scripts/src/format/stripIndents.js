@@ -66,7 +66,7 @@ function stripIndents(source) {
 	const tokens = [...lexer.lex(source)];
 
 	for (let i = 0; i < tokens.length; i++) {
-		const {name, contents} = tokens[i];
+		const {contents, name} = tokens[i];
 
 		switch (name) {
 			case 'OPEN_TAG_REPLACEMENT':

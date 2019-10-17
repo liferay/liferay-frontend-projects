@@ -5,9 +5,10 @@
  */
 
 const prettier = require('prettier');
+
 const getMergedConfig = require('../utils/getMergedConfig');
-const extractJS = require('./extractJS');
 const dedent = require('./dedent');
+const extractJS = require('./extractJS');
 const indent = require('./indent');
 const padLines = require('./padLines');
 const restoreTags = require('./restoreTags');

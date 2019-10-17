@@ -7,6 +7,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+
 const expandGlobs = require('../../src/utils/expandGlobs');
 const preprocessGlob = require('../../src/utils/preprocessGlob');
 

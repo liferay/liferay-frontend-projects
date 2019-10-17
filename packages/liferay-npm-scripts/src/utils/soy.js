@@ -9,8 +9,8 @@ const path = require('path');
 const rimraf = require('rimraf');
 
 const expandGlobs = require('./expandGlobs');
-const getMergedConfig = require('./getMergedConfig');
 const generateSoyDependencies = require('./generateSoyDependencies');
+const getMergedConfig = require('./getMergedConfig');
 const log = require('./log');
 const spawnSync = require('./spawnSync');
 

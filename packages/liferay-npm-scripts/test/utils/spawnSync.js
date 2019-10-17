@@ -5,6 +5,7 @@
  */
 
 const os = require('os');
+
 const spawnSync = require('../../src/utils/spawnSync');
 
 const {SpawnError} = spawnSync;

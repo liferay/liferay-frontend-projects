@@ -5,8 +5,8 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const proxy = require('http-proxy-middleware');
+const path = require('path');
 
 const STORYBOOK_CONFIG = JSON.parse(
 	fs.readFileSync(path.join(__dirname, 'storybook-config.json'), 'utf8')

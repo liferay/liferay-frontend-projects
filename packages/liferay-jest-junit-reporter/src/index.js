@@ -6,10 +6,10 @@
 
 'use strict';
 
-const xml = require('xml');
 const fs = require('fs');
 const path = require('path');
 const stripAnsi = require('strip-ansi');
+const xml = require('xml');
 
 const NEW_LINE = '\n';
 

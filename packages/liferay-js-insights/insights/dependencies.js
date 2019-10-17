@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const traverse = require('@babel/traverse').default;
+const {default: traverse} = require('@babel/traverse');
 
 const SOURCE_GROUPS = [
 	{

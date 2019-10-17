@@ -415,7 +415,7 @@ function formatDate(date) {
 	return `${year}-${month}-${day}`;
 }
 
-async function generate({from, to, date, remote, version}) {
+async function generate({date, from, remote, to, version}) {
 	const changes = await getChanges(from, to);
 
 	const header = `## ${linkToVersion(version, remote)} (${formatDate(date)})`;

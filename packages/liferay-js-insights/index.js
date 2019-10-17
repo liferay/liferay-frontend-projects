@@ -8,10 +8,11 @@ const parser = require('@babel/parser');
 const findUp = require('find-up');
 const fs = require('fs');
 const globby = require('globby');
-const argv = require('minimist')(process.argv.slice(2));
+const minimist = require('minimist');
 const path = require('path');
 const util = require('util');
 
+const argv = minimist(process.argv.slice(2));
 const readFile = util.promisify(fs.readFile);
 
 const INSIGHTS = {

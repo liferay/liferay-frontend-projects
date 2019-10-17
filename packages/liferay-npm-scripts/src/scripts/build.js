@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const CWD = process.cwd();
-
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
@@ -15,7 +13,7 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const moveToTemp = require('../utils/moveToTemp');
 const removeFromTemp = require('../utils/removeFromTemp');
 const setEnv = require('../utils/setEnv');
-const {buildSoy, cleanSoy, translateSoy, soyExists} = require('../utils/soy');
+const {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 const withBabelConfig = require('../utils/withBabelConfig');
@@ -23,6 +21,7 @@ const webpack = require('./webpack');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
 const BUNDLER_CONFIG = getMergedConfig('bundler');
+const CWD = process.cwd();
 
 /**
  * Compiles JavaScript files by running `babel` with merged config(user +
