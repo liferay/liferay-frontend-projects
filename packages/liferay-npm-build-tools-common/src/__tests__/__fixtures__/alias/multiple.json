@@ -1,0 +1,10 @@
+{
+	"unpkg": {
+		"fs": "./fs-shim2.js",
+		"./log": "./log-shim.js"
+	},
+	"browser": {
+		"fs": "./fs-shim.js",
+		"./random.js": "./random-shim.js"
+	}
+}
