@@ -1,0 +1,14 @@
+{
+	"name": "babel-plugin-alias-modules",
+	"version": "2.13.2",
+	"description": "A Babel plugin to rewrite aliased require() calls.",
+	"main": "lib/index.js",
+	"scripts": {
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
+		"prepublish": "yarn build"
+	},
+	"dependencies": {
+		"liferay-npm-build-tools-common": "2.13.2"
+	}
+}
