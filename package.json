@@ -1,6 +1,6 @@
 {
 	"devDependencies": {
-		"eslint": "6.1.0",
+		"eslint": "6.5.1",
 		"eslint-config-liferay": "11.1.1",
 		"prettier": "1.18.2"
 	},
