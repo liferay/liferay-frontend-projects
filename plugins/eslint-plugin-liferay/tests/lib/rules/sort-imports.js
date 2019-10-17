@@ -254,6 +254,25 @@ ruleTester.run('sort-imports', rule, {
 				const path = require('path');
 			`,
 		},
+		{
+			// Regression test: "metal-dom" was sorting before "metal".
+			code: `
+				import dom from 'metal-dom';
+				import core from 'metal';
+			`,
+			errors: [
+				{
+					message:
+						'imports must be sorted by module name ' +
+						'(expected: "metal" << "metal-dom")',
+					type: 'ImportDeclaration',
+				},
+			],
+			output: `
+				import core from 'metal';
+				import dom from 'metal-dom';
+			`,
+		},
 	],
 
 	valid: [
