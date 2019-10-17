@@ -18,24 +18,23 @@ const {
 const DESCRIPTION = 'imports must be sorted';
 
 /**
- * Given two source strings `a` and `b`, return -1, 0 or 1 to indicate
+ * Given two sort keys `a` and `b`, return -1, 0 or 1 to indicate
  * their relative ordering.
  */
-function compare(a, b) {
-	const compareBy = fn => {
-		const [rankA, rankB] = [fn(a), fn(b)];
+function compare(aKey, bKey) {
+	const [aName, aTieBreaker] = aKey.split(':');
+	const [bName, bTieBreaker] = bKey.split(':');
 
-		return rankA < rankB ? -1 : rankA > rankB ? 1 : 0;
+	const cmp = (a, b) => {
+		return a < b ? -1 : a > b ? 1 : 0;
 	};
 
-	const result = compareBy(ranking);
-
-	if (result) {
-		return result;
-	}
-
-	// Break ties with a standard lexicographical (case-sensitive) sort.
-	return compareBy(name => name);
+	//
+	return (
+		cmp(ranking(aName), ranking(bName)) ||
+		cmp(aName, bName) ||
+		cmp(aTieBreaker, bTieBreaker)
+	);
 }
 
 /**
