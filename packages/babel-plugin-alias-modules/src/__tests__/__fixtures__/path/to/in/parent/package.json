@@ -1,0 +1,7 @@
+{
+	"browser": {
+		"external/module": "a-shim-package",
+		"./aliased/module": "./module-shim.js",
+		"./aliased/file.js": "./file-shim.js"
+	}
+}

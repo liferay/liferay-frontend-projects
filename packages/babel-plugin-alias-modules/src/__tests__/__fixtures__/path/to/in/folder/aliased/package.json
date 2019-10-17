@@ -1,0 +1,7 @@
+{
+	"browser": {
+		"external/module": "a-shim-package",
+		"./module": "./module-shim.js",
+		"./file.js": "./file-shim.js"
+	}
+}
