@@ -5,19 +5,25 @@
  */
 
 /**
- * Filler character that uses a very-likely-to-be-unique Unicode code
- * point so that the when we generate placeholder comments they don't get
- * confused with real comments in the source.
+ * Used to stand for non-whitespace characters.
  *
  * Unicode name is "BOX DRAWINGS LIGHT DIAGONAL CROSS" and glyph is: "╳"
  */
 const FILLER_CHAR = '\u2573';
 
 /**
- * RegExp that can be used to identify comments created with `toFiller()` and
- * the default `FILLER_CHAR` character.
+ * Used to stand for space characters in leading indent.
+ *
+ * Unicode name is "LATIN CAPITAL LETTER TURNED M" and glyph is: "Ɯ"
  */
-const FILLER = new RegExp(`/\\*(?:\\s*${FILLER_CHAR}\\s*)+\\*/`);
+const SPACE_CHAR = '\u019c';
+
+/**
+ * Used to stand in for tab characters in leading indent.
+ *
+ * Unicode name is "LATIN CAPITAL LETTER T WITH HOOK" and glyph is: "Ƭ"
+ */
+const TAB_CHAR = '\u01ac';
 
 /**
  * Returns a copy of `string` with the same "shape", but containing only
@@ -26,33 +32,56 @@ const FILLER = new RegExp(`/\\*(?:\\s*${FILLER_CHAR}\\s*)+\\*/`);
  * Used so that we can substitute source code with a same-shaped comment without
  * changing the relative position of anything else in the file.
  *
+ * As filler inside the comments, we use Unicode code points that are
+ * very unlikely to be used organically in the code base, and that we can
+ * reliably identify afterwards and reverse the substitution.
  */
 function toFiller(string, filler = FILLER_CHAR) {
-	let output = '';
-	let lastIndex = 0;
+	const VALID_STRING = /^[^\n\r]{0,2}(.+?)[^\n\r]{0,2}$/s;
 
-	const NEW_LINES = /\r?\n/g;
-	const NON_TAB = /[^\t]/g;
+	const {0: match, 1: body} = string.match(VALID_STRING) || {};
 
-	// TODO: once we're on Node v12, switch this to `String.prototype.matchAll`.
+	if (!match) {
+		throw new Error(
+			`toFiller(): invalid string: ${JSON.stringify(string)}`
+		);
+	}
+
+	// Special case: if `body` is just whitespace; must insert at least
+	// one filler.
+	let output = body.match(/^\s+$/) ? FILLER_CHAR : '';
+
+	const LINE = /([ \t]*)([^\r\n]*)(\r?\n)?/g;
+
 	while (true) {
-		const match = NEW_LINES.exec(string);
+		const {0: match, 1: indent, 2: contents, 3: linebreak} =
+			LINE.exec(body) || {};
 
 		if (match) {
-			output +=
-				string.slice(lastIndex, match.index).replace(NON_TAB, filler) +
-				match[0];
+			output += indent.replace(/./g, char => {
+				return char[0] === '\t' ? TAB_CHAR : SPACE_CHAR;
+			});
 
-			lastIndex = match.index + match[0].length;
+			output += contents.replace(/./g, filler);
+
+			output += linebreak || '';
 		} else {
-			output += string.slice(lastIndex).replace(NON_TAB, filler);
 			break;
 		}
 	}
 
-	return output;
+	return `/*${output}*/`;
 }
 
-toFiller.FILLER = FILLER;
+/**
+ * Returns a RegExp that can be used to identify comments created with
+ * `toFiller()` and the specified filler character.
+ */
+function isFiller(char = FILLER_CHAR) {
+	return new RegExp(`/\\*(?:\\s*[${char}${SPACE_CHAR}${TAB_CHAR}]\\s*)+\\*/`);
+}
+
+toFiller.TAB_CHAR = TAB_CHAR;
+toFiller.isFiller = isFiller;
 
 module.exports = toFiller;

@@ -121,10 +121,10 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 						'<liferay-ui:message arguments=\\"folder\\" key=\\"select-x\\" />',
 
 					<liferay-portlet:renderURL portletName=\\"<%= portletResource %>\\" var=\\"selectFolderURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
-							<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />
-							<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />
-							<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
-						</liferay-portlet:renderURL>
+						<portlet:param name=\\"mvcRenderCommandName\\" value='<%= \\"/document_library/select_folder\\" %>' />
+						<portlet:param name=\\"folderId\\" value=\\"<%= String.valueOf(rootFolderId) %>\\" />
+						<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
+					</liferay-portlet:renderURL>
 
 					uri: '<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>'
 				},
@@ -154,6 +154,331 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 		});
 	}
 </script>"
+`;
+
+exports[`formatJSP() formatting entire fixtures details.jsp matches snapshot 1`] = `
+"<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file=\\"/init.jsp\\" %>
+
+<%
+long organizationId = ParamUtil.getLong(request, \\"organizationId\\");
+
+Organization organization = OrganizationServiceUtil.fetchOrganization(organizationId);
+
+String[] organizationsTypes = OrganizationLocalServiceUtil.getTypes();
+
+String type = BeanParamUtil.getString(organization, request, \\"type\\", organizationsTypes[0]);
+
+long regionId = BeanParamUtil.getLong(organization, request, \\"regionId\\");
+long countryId = BeanParamUtil.getLong(organization, request, \\"countryId\\");
+
+long groupId = 0;
+
+if (organization != null) {
+	groupId = organization.getGroupId();
+}
+%>
+
+<aui:model-context bean=\\"<%= organization %>\\" model=\\"<%= Organization.class %>\\" />
+
+<div class=\\"row\\">
+	<div class=\\"col-md-7\\">
+		<liferay-ui:error exception=\\"<%= DuplicateOrganizationException.class %>\\" message=\\"the-organization-name-is-already-taken\\" />
+
+		<liferay-ui:error exception=\\"<%= OrganizationNameException.class %>\\">
+			<liferay-ui:message arguments=\\"<%= new String[] {OrganizationConstants.NAME_LABEL, OrganizationConstants.NAME_GENERAL_RESTRICTIONS, OrganizationConstants.NAME_RESERVED_WORDS} %>\\" key=\\"the-x-cannot-be-x-or-a-reserved-word-such-as-x\\" />
+		</liferay-ui:error>
+
+		<aui:input autoFocus=\\"<%= windowState.equals(WindowState.MAXIMIZED) %>\\" name=\\"name\\" />
+
+		<c:choose>
+			<c:when test=\\"<%= PropsValues.FIELD_ENABLE_COM_LIFERAY_PORTAL_KERNEL_MODEL_ORGANIZATION_STATUS %>\\">
+				<liferay-ui:error key=\\"<%= NoSuchListTypeException.class.getName() + Organization.class.getName() + ListTypeConstants.ORGANIZATION_STATUS %>\\" message=\\"please-select-a-type\\" />
+
+				<aui:select label=\\"status\\" listType=\\"<%= ListTypeConstants.ORGANIZATION_STATUS %>\\" listTypeFieldName=\\"statusId\\" name=\\"statusId\\" showEmptyOption=\\"<%= true %>\\" />
+			</c:when>
+			<c:otherwise>
+				<aui:input name=\\"statusId\\" type=\\"hidden\\" value=\\"<%= (organization != null) ? organization.getStatusId() : ListTypeConstants.ORGANIZATION_STATUS_DEFAULT %>\\" />
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test=\\"<%= (organization == null) && (organizationsTypes.length > 1) %>\\">
+				<aui:select name=\\"type\\">
+
+					<%
+					for (String curType : organizationsTypes) {
+					%>
+
+						<aui:option label=\\"<%= curType %>\\" selected=\\"<%= type.equals(curType) %>\\" />
+
+					<%
+					}
+					%>
+
+				</aui:select>
+			</c:when>
+			<c:when test=\\"<%= organization == null %>\\">
+				<aui:input name=\\"type\\" type=\\"hidden\\" value=\\"<%= organizationsTypes[0] %>\\" />
+			</c:when>
+			<c:otherwise>
+				<aui:input name=\\"typeLabel\\" type=\\"resource\\" value=\\"<%= LanguageUtil.get(request, organization.getType()) %>\\" />
+
+				<aui:input name=\\"type\\" type=\\"hidden\\" value=\\"<%= organization.getType() %>\\" />
+			</c:otherwise>
+		</c:choose>
+
+		<liferay-ui:error exception=\\"<%= NoSuchCountryException.class %>\\" message=\\"please-select-a-country\\" />
+
+		<div class=\\"<%= OrganizationLocalServiceUtil.isCountryEnabled(type) ? StringPool.BLANK : \\"hide\\" %>\\" id=\\"<portlet:namespace />countryDiv\\">
+			<aui:select label=\\"country\\" name=\\"countryId\\" />
+
+			<aui:select label=\\"region\\" name=\\"regionId\\" />
+		</div>
+	</div>
+
+	<div class=\\"col-md-5\\">
+		<div align=\\"middle\\">
+			<c:if test=\\"<%= organization != null %>\\">
+
+				<%
+				long logoId = organization.getLogoId();
+
+				UserFileUploadsConfiguration userFileUploadsConfiguration = (UserFileUploadsConfiguration)request.getAttribute(UserFileUploadsConfiguration.class.getName());
+				%>
+
+				<label class=\\"control-label\\"></label>
+
+				<liferay-ui:logo-selector
+					currentLogoURL='<%= themeDisplay.getPathImage() + \\"/organization_logo?img_id=\\" + logoId + \\"&t=\\" + WebServerServletTokenUtil.getToken(logoId) %>'
+					defaultLogo=\\"<%= logoId == 0 %>\\"
+					defaultLogoURL='<%= themeDisplay.getPathImage() + \\"/organization_logo?img_id=0\\" %>'
+					logoDisplaySelector=\\".organization-logo\\"
+					maxFileSize=\\"<%= userFileUploadsConfiguration.imageMaxSize() %>\\"
+					tempImageFileName=\\"<%= String.valueOf(groupId) %>\\"
+				/>
+			</c:if>
+		</div>
+	</div>
+</div>
+
+<aui:script use=\\"liferay-dynamic-select\\">
+	new Liferay.DynamicSelect([
+		{
+			select: '<portlet:namespace />countryId',
+			selectData: Liferay.Address.getCountries,
+			selectDesc: 'nameCurrentValue',
+			selectId: 'countryId',
+			selectSort: '<%= true %>',
+			selectVal: '<%= countryId %>'
+		},
+		{
+			select: '<portlet:namespace />regionId',
+			selectData: Liferay.Address.getRegions,
+			selectDesc: 'name',
+			selectDisableOnEmpty: true,
+			selectId: 'regionId',
+			selectVal: '<%= regionId %>'
+		}
+	]);
+</aui:script>
+
+<c:if test=\\"<%= organization == null %>\\">
+	<aui:script sandbox=\\"<%= true %>\\">
+		var typeSelect = document.getElementById('<portlet:namespace />type');
+
+		if (typeSelect) {
+			typeSelect.addEventListener('change', function(event) {
+				var countryDiv = document.getElementById(
+					'<portlet:namespace />countryDiv'
+				);
+
+				if (countryDiv) {
+
+					<%
+					for (String curType : organizationsTypes) {
+					%>
+
+						if (event.currentTarget.value === '<%= curType %>') {
+							if (
+								!<%= OrganizationLocalServiceUtil.isCountryEnabled(curType) %>
+							) {
+								countryDiv.classList.add('hide');
+							} else {
+								countryDiv.classList.remove('hide');
+							}
+						}
+
+					<%
+					}
+					%>
+
+				}
+			});
+		}
+	</aui:script>
+</c:if>"
+`;
+
+exports[`formatJSP() formatting entire fixtures edit_public_render_parameters.jsp matches snapshot 1`] = `
+"<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file=\\"/init.jsp\\" %>
+
+<%
+String redirect = ParamUtil.getString(request, \\"redirect\\");
+String returnToFullPageURL = ParamUtil.getString(request, \\"returnToFullPageURL\\");
+
+List<PublicRenderParameterConfiguration> publicRenderParameterConfigurations = (List<PublicRenderParameterConfiguration>)request.getAttribute(WebKeys.PUBLIC_RENDER_PARAMETER_CONFIGURATIONS);
+Set<PublicRenderParameter> publicRenderParameters = (Set<PublicRenderParameter>)request.getAttribute(WebKeys.PUBLIC_RENDER_PARAMETERS);
+
+PortletURL editPublicRenderParameterURL = renderResponse.createRenderURL();
+
+editPublicRenderParameterURL.setParameter(\\"mvcPath\\", \\"/edit_public_render_parameters.jsp\\");
+editPublicRenderParameterURL.setParameter(\\"redirect\\", redirect);
+editPublicRenderParameterURL.setParameter(\\"returnToFullPageURL\\", returnToFullPageURL);
+editPublicRenderParameterURL.setParameter(\\"portletResource\\", portletResource);
+%>
+
+<portlet:actionURL name=\\"editPublicRenderParameters\\" var=\\"editPublicRenderParametersURL\\">
+	<portlet:param name=\\"mvcPath\\" value=\\"/edit_public_render_parameters.jsp\\" />
+	<portlet:param name=\\"portletConfiguration\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
+</portlet:actionURL>
+
+<liferay-util:include page=\\"/tabs1.jsp\\" servletContext=\\"<%= application %>\\">
+	<liferay-util:param name=\\"tabs1\\" value=\\"communication\\" />
+</liferay-util:include>
+
+<div class=\\"portlet-configuration-edit-communications\\">
+	<liferay-frontend:edit-form
+		action=\\"<%= editPublicRenderParametersURL %>\\"
+		cssClass=\\"form\\"
+		method=\\"post\\"
+		name=\\"fm\\"
+	>
+		<aui:input name=\\"redirect\\" type=\\"hidden\\" value=\\"<%= editPublicRenderParameterURL.toString() %>\\" />
+		<aui:input name=\\"returnToFullPageURL\\" type=\\"hidden\\" value=\\"<%= returnToFullPageURL %>\\" />
+		<aui:input name=\\"portletResource\\" type=\\"hidden\\" value=\\"<%= portletResource %>\\" />
+
+		<liferay-frontend:edit-form-body>
+			<liferay-frontend:fieldset-group>
+				<liferay-frontend:fieldset>
+					<liferay-ui:error key=\\"duplicateMapping\\" message=\\"several-shared-parameters-are-mapped-to-the-same-parameter\\" />
+
+					<div class=\\"alert alert-info\\">
+						<liferay-ui:message arguments='<%= \\"https://dev.liferay.com/en/discover/portal/-/knowledge_base/7-0/communication-between-apps\\" %>' key=\\"set-up-the-communication-among-the-portlets-that-use-public-render-parameters\\" translateArguments=\\"<%= false %>\\" />
+					</div>
+
+					<liferay-ui:search-container
+						total=\\"<%= publicRenderParameterConfigurations.size() %>\\"
+					>
+						<liferay-ui:search-container-results
+							results=\\"<%= ListUtil.subList(publicRenderParameterConfigurations, searchContainer.getStart(), searchContainer.getEnd()) %>\\"
+						/>
+
+						<liferay-ui:search-container-row
+							className=\\"PublicRenderParameterConfiguration\\"
+							modelVar=\\"publicRenderParameterConfiguration\\"
+						>
+							<liferay-ui:search-container-column-text
+								name=\\"shared-parameter\\"
+								value=\\"<%= HtmlUtil.escape(publicRenderParameterConfiguration.getPublicRenderParameter().getIdentifier()) %>\\"
+							/>
+
+							<liferay-ui:search-container-column-text
+								name=\\"ignore\\"
+							>
+								<aui:input label=\\"\\" name=\\"<%= publicRenderParameterConfiguration.getIgnoreKey() %>\\" type=\\"checkbox\\" value=\\"<%= publicRenderParameterConfiguration.getIgnoreValue() %>\\" />
+							</liferay-ui:search-container-column-text>
+
+							<liferay-ui:search-container-column-text
+								name=\\"read-value-from-parameter\\"
+							>
+								<aui:select label=\\"\\" name=\\"<%= publicRenderParameterConfiguration.getMappingKey() %>\\">
+									<aui:option label=\\"<%= HtmlUtil.escape(publicRenderParameterConfiguration.getPublicRenderParameter().getIdentifier()) %>\\" value=\\"\\" />
+
+									<%
+									for (PublicRenderParameter publicRenderParameter : publicRenderParameters) {
+										String publicRenderParameterName = PortletQNameUtil.getPublicRenderParameterName(publicRenderParameter.getQName());
+
+										if (publicRenderParameterName.equals(publicRenderParameterConfiguration.getPublicRenderParameterName())) {
+											continue;
+										}
+									%>
+
+										<aui:option label=\\"<%= HtmlUtil.escape(publicRenderParameter.getIdentifier()) %>\\" selected=\\"<%= publicRenderParameterName.equals(publicRenderParameterConfiguration.getMappingValue()) %>\\" value=\\"<%= publicRenderParameterName %>\\" />
+
+									<%
+									}
+									%>
+
+								</aui:select>
+							</liferay-ui:search-container-column-text>
+						</liferay-ui:search-container-row>
+
+						<liferay-ui:search-iterator
+							markupView=\\"lexicon\\"
+							paginate=\\"<%= false %>\\"
+						/>
+					</liferay-ui:search-container>
+				</liferay-frontend:fieldset>
+			</liferay-frontend:fieldset-group>
+		</liferay-frontend:edit-form-body>
+
+		<liferay-frontend:edit-form-footer>
+			<aui:button type=\\"submit\\" />
+
+			<aui:button type=\\"cancel\\" />
+		</liferay-frontend:edit-form-footer>
+	</liferay-frontend:edit-form>
+</div>
+
+<aui:script>
+
+	<%
+	for (PublicRenderParameterConfiguration publicRenderParameterConfiguration : publicRenderParameterConfigurations) {
+	%>
+
+		Liferay.Util.disableToggleBoxes(
+			'<portlet:namespace /><%= PublicRenderParameterConfiguration.IGNORE_PREFIX + HtmlUtil.escapeJS(publicRenderParameterConfiguration.getPublicRenderParameterName()) %>',
+			'<portlet:namespace /><%= PublicRenderParameterConfiguration.MAPPING_PREFIX + HtmlUtil.escapeJS(publicRenderParameterConfiguration.getPublicRenderParameterName()) %>',
+			true
+		);
+
+	<%
+	}
+	%>
+
+</aui:script>"
 `;
 
 exports[`formatJSP() formatting entire fixtures edit_template_display.jspf matches snapshot 1`] = `
@@ -587,8 +912,8 @@ if (Validator.isNotNull(scriptContent)) {
 		var form = A.one('#<portlet:namespace />fm');
 
 		<portlet:renderURL var=\\"refreshTemplateURL\\">
-				<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />
-			</portlet:renderURL>
+			<portlet:param name=\\"mvcPath\\" value=\\"/edit_template.jsp\\" />
+		</portlet:renderURL>
 
 		form.attr('action', '<%= refreshTemplateURL %>');
 
@@ -873,6 +1198,7 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 	</aui:script>
 
 	<aui:script>
+
 		<%
 		List<String> foo = null;
 		%>
@@ -928,7 +1254,416 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 "
 `;
 
-exports[`formatJSP() formatting entire fixtures recaptcha.jsp matches snapshot 1`] = `null`;
+exports[`formatJSP() formatting entire fixtures page_iterator.jsp matches snapshot 1`] = `
+"<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file=\\"/wiki/init.jsp\\" %>
+
+<%
+WikiNode node = (WikiNode)request.getAttribute(WikiWebKeys.WIKI_NODE);
+WikiPage wikiPage = (WikiPage)request.getAttribute(WikiWebKeys.WIKI_PAGE);
+
+String navigation = ParamUtil.getString(request, \\"navigation\\", \\"all-pages\\");
+
+long categoryId = ParamUtil.getLong(request, \\"categoryId\\");
+String tagName = ParamUtil.getString(request, \\"tag\\");
+
+PortletURL portletURL = renderResponse.createRenderURL();
+
+portletURL.setParameter(\\"nodeName\\", node.getName());
+
+if (wikiPage != null) {
+	portletURL.setParameter(\\"title\\", wikiPage.getTitle());
+}
+
+if (navigation.equals(\\"all-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_pages\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"all-pages\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"categorized-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_categorized_pages\\");
+	portletURL.setParameter(\\"categoryId\\", String.valueOf(categoryId));
+}
+else if (navigation.equals(\\"draft-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_draft_pages\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"draft-pages\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"history\\")) {
+	PortletURL viewPageHistoryURL = PortletURLUtil.clone(portletURL, renderResponse);
+
+	if (wikiPage != null) {
+		portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+
+		PortalUtil.addPortletBreadcrumbEntry(request, wikiPage.getTitle(), portletURL.toString());
+	}
+
+	viewPageHistoryURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page_activities\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"history\\"), viewPageHistoryURL.toString());
+}
+else if (navigation.equals(\\"incoming-links\\")) {
+	if (wikiPage != null) {
+		portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+
+		PortalUtil.addPortletBreadcrumbEntry(request, wikiPage.getTitle(), portletURL.toString());
+	}
+
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page_incoming_links\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"incoming-links\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"orphan-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_orphan_pages\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"orphan-pages\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"outgoing-links\\")) {
+	if (wikiPage != null) {
+		portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+
+		PortalUtil.addPortletBreadcrumbEntry(request, wikiPage.getTitle(), portletURL.toString());
+	}
+
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page_outgoing_links\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"outgoing-links\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"recent-changes\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_recent_changes\\");
+
+	PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, \\"recent-changes\\"), portletURL.toString());
+}
+else if (navigation.equals(\\"tagged-pages\\")) {
+	portletURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_tagged_pages\\");
+	portletURL.setParameter(\\"tag\\", tagName);
+}
+
+List<String> headerNames = new ArrayList<String>();
+
+headerNames.add(\\"page\\");
+headerNames.add(\\"status\\");
+headerNames.add(\\"revision\\");
+headerNames.add(\\"user\\");
+headerNames.add(\\"date\\");
+
+if (navigation.equals(\\"history\\") || navigation.equals(\\"recent-changes\\")) {
+	headerNames.add(\\"summary\\");
+}
+
+if (navigation.equals(\\"all-pages\\") || navigation.equals(\\"categorized-pages\\") || navigation.equals(\\"draft-pages\\") || navigation.equals(\\"history\\") || navigation.equals(\\"orphan-pages\\") || navigation.equals(\\"recent-changes\\") || navigation.equals(\\"tagged-pages\\")) {
+	headerNames.add(StringPool.BLANK);
+}
+
+WikiListPagesDisplayContext wikiListPagesDisplayContext = wikiDisplayContextProvider.getWikiListPagesDisplayContext(request, response, node);
+
+String orderByCol = ParamUtil.getString(request, \\"orderByCol\\");
+String orderByType = ParamUtil.getString(request, \\"orderByType\\");
+
+SearchContainer searchContainer = new SearchContainer(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, currentURLObj, headerNames, wikiListPagesDisplayContext.getEmptyResultsMessage());
+
+Map orderableHeaders = new HashMap();
+
+if (navigation.equals(\\"all-pages\\") || navigation.equals(\\"categorized-pages\\") || navigation.equals(\\"tagged-pages\\")) {
+	orderableHeaders.put(\\"date\\", \\"modifiedDate\\");
+	orderableHeaders.put(\\"page\\", \\"title\\");
+}
+
+searchContainer.setOrderableHeaders(orderableHeaders);
+searchContainer.setOrderByCol(orderByCol);
+searchContainer.setOrderByType(orderByType);
+
+if (navigation.equals(\\"history\\")) {
+	RowChecker rowChecker = new RowChecker(renderResponse);
+
+	rowChecker.setAllRowIds(null);
+
+	searchContainer.setRowChecker(rowChecker);
+}
+
+wikiListPagesDisplayContext.populateResultsAndTotal(searchContainer);
+
+List<WikiPage> pages = searchContainer.getResults();
+
+List resultRows = searchContainer.getResultRows();
+
+for (int i = 0; i < pages.size(); i++) {
+	WikiPage curWikiPage = pages.get(i);
+
+	ResultRow row = new ResultRow(curWikiPage, String.valueOf(curWikiPage.getVersion()), i);
+
+	PortletURL rowURL = renderResponse.createRenderURL();
+
+	if (!curWikiPage.isNew() && !navigation.equals(\\"draft-pages\\") && !navigation.equals(\\"pending-pages\\")) {
+		if (portletName.equals(WikiPortletKeys.WIKI_DISPLAY)) {
+			rowURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view_page\\");
+		}
+		else {
+			rowURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/view\\");
+		}
+
+		rowURL.setParameter(\\"redirect\\", currentURL);
+		rowURL.setParameter(\\"nodeName\\", curWikiPage.getNode().getName());
+	}
+	else {
+		rowURL.setParameter(\\"mvcRenderCommandName\\", \\"/wiki/edit_page\\");
+		rowURL.setParameter(\\"redirect\\", currentURL);
+		rowURL.setParameter(\\"nodeId\\", String.valueOf(curWikiPage.getNodeId()));
+	}
+
+	rowURL.setParameter(\\"title\\", curWikiPage.getTitle());
+
+	if (navigation.equals(\\"history\\")) {
+		rowURL.setParameter(\\"version\\", String.valueOf(curWikiPage.getVersion()));
+	}
+
+	// Title
+
+	row.addText(HtmlUtil.escape(curWikiPage.getTitle()), rowURL);
+
+	// Status
+
+	row.addStatus(curWikiPage.getStatus(), curWikiPage.getStatusByUserId(), curWikiPage.getStatusDate(), rowURL);
+
+	// Revision
+
+	if (!curWikiPage.isNew()) {
+		String revision = String.valueOf(curWikiPage.getVersion());
+
+		if (curWikiPage.isMinorEdit()) {
+			revision += \\" (\\" + LanguageUtil.get(request, \\"minor-edit\\") + \\")\\";
+		}
+
+		row.addText(revision, rowURL);
+	}
+	else {
+		row.addText(StringPool.BLANK);
+	}
+
+	// User
+
+	if (!curWikiPage.isNew()) {
+		row.addText(HtmlUtil.escape(PortalUtil.getUserName(curWikiPage)), rowURL);
+	}
+	else {
+		row.addText(StringPool.BLANK);
+	}
+
+	// Date
+
+	if (!curWikiPage.isNew()) {
+		row.addDate(curWikiPage.getStatusDate(), rowURL);
+	}
+	else {
+		row.addText(StringPool.BLANK);
+	}
+
+	// Summary
+
+	if (navigation.equals(\\"history\\") || navigation.equals(\\"recent-changes\\")) {
+		if (Validator.isNotNull(curWikiPage.getSummary())) {
+			row.addText(HtmlUtil.escape(curWikiPage.getSummary()));
+		}
+		else {
+			row.addText(StringPool.BLANK);
+		}
+	}
+
+	// Action
+
+	if (navigation.equals(\\"history\\")) {
+		if (curWikiPage.isHead()) {
+			row.addText(StringPool.BLANK);
+		}
+		else {
+			row.addJSP(\\"/wiki/page_history_action.jsp\\", \\"entry-action\\", application, request, response);
+		}
+	}
+
+	if (navigation.equals(\\"all-pages\\") || navigation.equals(\\"categorized-pages\\") || navigation.equals(\\"draft-pages\\") || navigation.equals(\\"orphan-pages\\") || navigation.equals(\\"recent-changes\\") || navigation.equals(\\"tagged-pages\\")) {
+		row.addJSP(\\"/wiki/page_action.jsp\\", \\"entry-action\\", application, request, response);
+	}
+
+	// Add result row
+
+	resultRows.add(row);
+}
+%>
+
+<c:if test='<%= navigation.equals(\\"history\\") && (pages.size() > 1) %>'>
+	<aui:button-row>
+		<aui:button name=\\"compare\\" primary=\\"<%= true %>\\" value=\\"compare-versions\\" />
+	</aui:button-row>
+</c:if>
+
+<liferay-asset:categorization-filter
+	assetType=\\"pages\\"
+	portletURL=\\"<%= portletURL %>\\"
+/>
+
+<liferay-ui:search-iterator
+	paginate='<%= navigation.equals(\\"history\\") ? false : true %>'
+	searchContainer=\\"<%= searchContainer %>\\"
+/>
+
+<c:if test='<%= navigation.equals(\\"history\\") %>'>
+	<aui:script require=\\"metal-dom/src/dom as dom\\">
+		function <portlet:namespace />initRowsChecked() {
+			var rowIdsNodes = document.querySelectorAll(
+				'input[name=<portlet:namespace />rowIds]'
+			);
+
+			Array.prototype.forEach.call(rowIdsNodes, function(rowIdsNode, index) {
+				if (index > 1) {
+					rowIdsNode.checked = false;
+				}
+			});
+		}
+
+		function <portlet:namespace />updateRowsChecked(element) {
+			var rowsChecked = document.querySelectorAll(
+				'input[name=<portlet:namespace />rowIds]:checked'
+			);
+
+			if (rowsChecked.length > 2) {
+				var index = 2;
+
+				if (rowsChecked[2] === element) {
+					index = 1;
+				}
+
+				rowsChecked[index].checked = false;
+			}
+		}
+
+		<c:if test=\\"<%= pages.size() > 1 %>\\">
+
+			<%
+			WikiPage latestWikiPage = (WikiPage)pages.get(1);
+			%>
+
+			var compareButton = document.getElementById('<portlet:namespace />compare');
+
+			compareButton.addEventListener('click', function(event) {
+				<portlet:renderURL var=\\"compareVersionURL\\">
+					<portlet:param name=\\"mvcRenderCommandName\\" value=\\"/wiki/compare_versions\\" />
+					<portlet:param name=\\"backURL\\" value=\\"<%= currentURL %>\\" />
+					<portlet:param name=\\"tabs3\\" value=\\"versions\\" />
+					<portlet:param name=\\"nodeId\\" value=\\"<%= String.valueOf(node.getNodeId()) %>\\" />
+					<portlet:param name=\\"title\\" value=\\"<%= wikiPage.getTitle() %>\\" />
+					<portlet:param name=\\"type\\" value=\\"html\\" />
+				</portlet:renderURL>
+
+				var uri = '<%= compareVersionURL %>';
+
+				var rowIds = document.querySelectorAll(
+					'input[name=<portlet:namespace />rowIds]:checked'
+				);
+
+				if (rowIds.length > 0) {
+					var rowIdsSize = rowIds.length;
+
+					if (rowIdsSize === 0 || rowIdsSize === 2) {
+						if (rowIdsSize === 0) {
+							uri = Liferay.Util.addParams(
+								'<portlet:namespace />sourceVersion=<%= latestWikiPage.getVersion() %>',
+								uri
+							);
+							uri = Liferay.Util.addParams(
+								'<portlet:namespace />targetVersion=<%= wikiPage.getVersion() %>',
+								uri
+							);
+						} else if (rowIdsSize === 2) {
+							uri = Liferay.Util.addParams(
+								'<portlet:namespace />sourceVersion=' + rowIds[1].value,
+								uri
+							);
+							uri = Liferay.Util.addParams(
+								'<portlet:namespace />targetVersion=' + rowIds[0].value,
+								uri
+							);
+						}
+
+						location.href = uri;
+					}
+				}
+			});
+		</c:if>
+
+		<portlet:namespace />initRowsChecked();
+
+		var searchContainer = document.getElementById(
+			'<portlet:namespace />ocerSearchContainer'
+		);
+
+		if (searchContainer) {
+			dom.delegate(
+				searchContainer,
+				'click',
+				'input[name=<portlet:namespace />rowIds]',
+				function(event) {
+					<portlet:namespace />updateRowsChecked(event.delegateTarget);
+				}
+			);
+		}
+	</aui:script>
+</c:if>"
+`;
+
+exports[`formatJSP() formatting entire fixtures recaptcha.jsp matches snapshot 1`] = `
+"<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file=\\"/captcha/init.jsp\\" %>
+
+<c:if test=\\"<%= captchaEnabled %>\\">
+	<script src=\\"<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaScriptURL()) %>?hl=<%= HtmlUtil.escapeAttribute(locale.getLanguage()) %>\\" type=\\"text/javascript\\"></script>
+
+	<div class=\\"g-recaptcha\\" data-sitekey=\\"<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaPublicKey()) %>\\"></div>
+
+	<noscript>
+		<div style=\\"height: 525px; width: 302px;\\">
+			<div style=\\"height: 525px; position: relative; width: 302px;\\">
+				<div style=\\"height: 525px; position: absolute; width: 302px;\\">
+					<iframe frameborder=\\"0\\" scrolling=\\"no\\" src=\\"<%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaNoScriptURL()) %><%= HtmlUtil.escapeAttribute(captchaConfiguration.reCaptchaPublicKey()) %>\\" style=\\"border-style: none; height: 525px; width: 302px;\\"></iframe>
+				</div>
+
+				<div style=\\"background: #F9F9F9; border-radius: 3px; border: 1px solid #C1C1C1; bottom: 25px; height: 60px; left: 0; margin: 0; padding: 0; position: absolute; right: 25px; width: 300px;\\">
+					<textarea class=\\"g-recaptcha-response\\" id=\\"g-recaptcha-response\\" name=\\"g-recaptcha-response\\" style=\\"border: 1px solid #C1C1C1; height: 40px; margin: 10px 25px; padding: 0; resize: none; width: 250px;\\"></textarea>
+				</div>
+			</div>
+		</div>
+	</noscript>
+</c:if>"
+`;
 
 exports[`formatJSP() formatting entire fixtures roles.jsp matches snapshot 1`] = `
 "<%--
@@ -1089,8 +1824,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							},
 
 							<%
-								String regularRoleEventName = liferayPortletResponse.getNamespace() + \\"selectRegularRole\\";
-								%>
+							String regularRoleEventName = liferayPortletResponse.getNamespace() + \\"selectRegularRole\\";
+							%>
 
 							id: '<%= regularRoleEventName %>',
 							selectedData: searchContainerData,
@@ -1098,13 +1833,13 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 								'<liferay-ui:message arguments=\\"regular-role\\" key=\\"select-x\\" />',
 
 							<%
-								PortletURL selectRegularRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+							PortletURL selectRegularRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
 
-								selectRegularRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
-								selectRegularRoleURL.setParameter(\\"eventName\\", regularRoleEventName);
-								selectRegularRoleURL.setParameter(\\"syncEntitiesEventName\\", regularRoleSyncEntitiesEventName);
-								selectRegularRoleURL.setWindowState(LiferayWindowState.POP_UP);
-								%>
+							selectRegularRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+							selectRegularRoleURL.setParameter(\\"eventName\\", regularRoleEventName);
+							selectRegularRoleURL.setParameter(\\"syncEntitiesEventName\\", regularRoleSyncEntitiesEventName);
+							selectRegularRoleURL.setWindowState(LiferayWindowState.POP_UP);
+							%>
 
 							uri: '<%= selectRegularRoleURL.toString() %>'
 						},
@@ -1365,8 +2100,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							},
 
 							<%
-								String organizationRoleEventName = liferayPortletResponse.getNamespace() + \\"selectOrganizationRole\\";
-								%>
+							String organizationRoleEventName = liferayPortletResponse.getNamespace() + \\"selectOrganizationRole\\";
+							%>
 
 							id: '<%= organizationRoleEventName %>',
 							selectedData: [],
@@ -1374,16 +2109,16 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 								'<liferay-ui:message arguments=\\"organization-role\\" key=\\"select-x\\" />',
 
 							<%
-								PortletURL selectOrganizationRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+							PortletURL selectOrganizationRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
 
-								selectOrganizationRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
-								selectOrganizationRoleURL.setParameter(\\"step\\", \\"1\\");
-								selectOrganizationRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_ORGANIZATION));
-								selectOrganizationRoleURL.setParameter(\\"organizationIds\\", StringUtil.merge(organizationIds));
-								selectOrganizationRoleURL.setParameter(\\"eventName\\", organizationRoleEventName);
-								selectOrganizationRoleURL.setParameter(\\"syncEntitiesEventName\\", organizationRoleSyncEntitiesEventName);
-								selectOrganizationRoleURL.setWindowState(LiferayWindowState.POP_UP);
-								%>
+							selectOrganizationRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+							selectOrganizationRoleURL.setParameter(\\"step\\", \\"1\\");
+							selectOrganizationRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_ORGANIZATION));
+							selectOrganizationRoleURL.setParameter(\\"organizationIds\\", StringUtil.merge(organizationIds));
+							selectOrganizationRoleURL.setParameter(\\"eventName\\", organizationRoleEventName);
+							selectOrganizationRoleURL.setParameter(\\"syncEntitiesEventName\\", organizationRoleSyncEntitiesEventName);
+							selectOrganizationRoleURL.setWindowState(LiferayWindowState.POP_UP);
+							%>
 
 							uri: '<%= selectOrganizationRoleURL.toString() %>'
 						},
@@ -1588,8 +2323,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							},
 
 							<%
-								String siteRoleEventName = liferayPortletResponse.getNamespace() + \\"selectSiteRole\\";
-								%>
+							String siteRoleEventName = liferayPortletResponse.getNamespace() + \\"selectSiteRole\\";
+							%>
 
 							id: '<%= siteRoleEventName %>',
 							selectedData: [],
@@ -1597,15 +2332,15 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 								'<liferay-ui:message arguments=\\"site-role\\" key=\\"select-x\\" />',
 
 							<%
-								PortletURL selectSiteRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
+							PortletURL selectSiteRoleURL = PortletProviderUtil.getPortletURL(request, Role.class.getName(), PortletProvider.Action.BROWSE);
 
-								selectSiteRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
-								selectSiteRoleURL.setParameter(\\"step\\", \\"1\\");
-								selectSiteRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_SITE));
-								selectSiteRoleURL.setParameter(\\"eventName\\", siteRoleEventName);
-								selectSiteRoleURL.setParameter(\\"syncEntitiesEventName\\", siteRoleSyncEntitiesEventName);
-								selectSiteRoleURL.setWindowState(LiferayWindowState.POP_UP);
-								%>
+							selectSiteRoleURL.setParameter(\\"p_u_i_d\\", (selUser == null) ? \\"0\\" : String.valueOf(selUser.getUserId()));
+							selectSiteRoleURL.setParameter(\\"step\\", \\"1\\");
+							selectSiteRoleURL.setParameter(\\"type\\", String.valueOf(RoleConstants.TYPE_SITE));
+							selectSiteRoleURL.setParameter(\\"eventName\\", siteRoleEventName);
+							selectSiteRoleURL.setParameter(\\"syncEntitiesEventName\\", siteRoleSyncEntitiesEventName);
+							selectSiteRoleURL.setWindowState(LiferayWindowState.POP_UP);
+							%>
 
 							uri: '<%= selectSiteRoleURL.toString() %>'
 						},
@@ -1874,7 +2609,806 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 </div>"
 `;
 
-exports[`formatJSP() formatting entire fixtures view.jsp matches snapshot 1`] = `null`;
+exports[`formatJSP() formatting entire fixtures source.jsp matches snapshot 1`] = `
+"<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file=\\"/init.jsp\\" %>
+
+<%
+List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList();
+%>
+
+<liferay-frontend:fieldset-group>
+	<liferay-frontend:fieldset
+		cssClass=\\"source-container\\"
+	>
+
+		<%
+		Set<Long> availableClassNameIdsSet = SetUtil.fromArray(editAssetListDisplayContext.getAvailableClassNameIds());
+
+		// Left list
+
+		List<KeyValuePair> typesLeftList = new ArrayList<KeyValuePair>();
+
+		long[] classNameIds = editAssetListDisplayContext.getClassNameIds();
+
+		for (long classNameId : classNameIds) {
+			String className = PortalUtil.getClassName(classNameId);
+
+			typesLeftList.add(new KeyValuePair(String.valueOf(classNameId), ResourceActionsUtil.getModelResource(locale, className)));
+		}
+
+		// Right list
+
+		List<KeyValuePair> typesRightList = new ArrayList<KeyValuePair>();
+
+		Arrays.sort(classNameIds);
+		%>
+
+		<aui:select label=\\"asset-entry-type\\" name=\\"TypeSettingsProperties--anyAssetType--\\" title=\\"asset-type\\">
+			<aui:option label=\\"any\\" selected=\\"<%= editAssetListDisplayContext.isAnyAssetType() %>\\" value=\\"<%= true %>\\" />
+			<aui:option label='<%= LanguageUtil.get(request, \\"select-more-than-one\\") + StringPool.TRIPLE_PERIOD %>' selected=\\"<%= !editAssetListDisplayContext.isAnyAssetType() && (classNameIds.length > 1) %>\\" value=\\"<%= false %>\\" />
+
+			<optgroup label=\\"<liferay-ui:message key=\\"asset-type\\" />\\">
+
+				<%
+				for (long classNameId : availableClassNameIdsSet) {
+					ClassName className = ClassNameLocalServiceUtil.getClassName(classNameId);
+
+					if (Arrays.binarySearch(classNameIds, classNameId) < 0) {
+						typesRightList.add(new KeyValuePair(String.valueOf(classNameId), ResourceActionsUtil.getModelResource(locale, className.getValue())));
+					}
+				%>
+
+					<aui:option label=\\"<%= ResourceActionsUtil.getModelResource(locale, className.getValue()) %>\\" selected=\\"<%= (classNameIds.length == 1) && (classNameId == classNameIds[0]) %>\\" value=\\"<%= classNameId %>\\" />
+
+				<%
+				}
+				%>
+
+			</optgroup>
+		</aui:select>
+
+		<aui:input name=\\"TypeSettingsProperties--classNameIds--\\" type=\\"hidden\\" />
+
+		<%
+		typesRightList = ListUtil.sort(typesRightList, new KeyValuePairComparator(false, true));
+		%>
+
+		<div class=\\"<%= editAssetListDisplayContext.isAnyAssetType() ? \\"hide\\" : \\"\\" %>\\" id=\\"<portlet:namespace />classNamesBoxes\\">
+			<liferay-ui:input-move-boxes
+				leftBoxName=\\"currentClassNameIds\\"
+				leftList=\\"<%= typesLeftList %>\\"
+				leftReorder=\\"<%= Boolean.TRUE.toString() %>\\"
+				leftTitle=\\"selected\\"
+				rightBoxName=\\"availableClassNameIds\\"
+				rightList=\\"<%= typesRightList %>\\"
+				rightTitle=\\"available\\"
+			/>
+		</div>
+
+		<%
+		List<AssetRendererFactory<?>> assetRendererFactories = ListUtil.sort(AssetRendererFactoryRegistryUtil.getAssetRendererFactories(company.getCompanyId()), new AssetRendererFactoryTypeNameComparator(locale));
+
+		for (AssetRendererFactory<?> assetRendererFactory : assetRendererFactories) {
+			ClassTypeReader classTypeReader = assetRendererFactory.getClassTypeReader();
+
+			List<ClassType> classTypes = classTypeReader.getAvailableClassTypes(editAssetListDisplayContext.getReferencedModelsGroupIds(), locale);
+
+			if (classTypes.isEmpty()) {
+				continue;
+			}
+
+			classTypesAssetRendererFactories.add(assetRendererFactory);
+
+			String className = editAssetListDisplayContext.getClassName(assetRendererFactory);
+
+			Long[] assetSelectedClassTypeIds = editAssetListDisplayContext.getClassTypeIds(properties, className, classTypes);
+
+			// Left list
+
+			List<KeyValuePair> subtypesLeftList = new ArrayList<KeyValuePair>();
+
+			for (long subtypeId : assetSelectedClassTypeIds) {
+				try {
+					ClassType classType = classTypeReader.getClassType(subtypeId, locale);
+
+					subtypesLeftList.add(new KeyValuePair(String.valueOf(subtypeId), HtmlUtil.escape(classType.getName())));
+				}
+				catch (NoSuchModelException nsme) {
+				}
+			}
+
+			Arrays.sort(assetSelectedClassTypeIds);
+
+			// Right list
+
+			List<KeyValuePair> subtypesRightList = new ArrayList<KeyValuePair>();
+
+			boolean anyAssetSubtype = GetterUtil.getBoolean(properties.getProperty(\\"anyClassType\\" + className, Boolean.TRUE.toString()));
+		%>
+
+			<div class='asset-subtype <%= (assetSelectedClassTypeIds.length < 1) ? StringPool.BLANK : \\"hide\\" %>' id=\\"<portlet:namespace /><%= className %>Options\\">
+
+				<%
+				String label = ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) + StringPool.SPACE + assetRendererFactory.getSubtypeTitle(themeDisplay.getLocale());
+				%>
+
+				<aui:select label=\\"<%= label %>\\" name='<%= \\"TypeSettingsProperties--anyClassType\\" + className + \\"--\\" %>'>
+					<aui:option label=\\"any\\" selected=\\"<%= anyAssetSubtype %>\\" value=\\"<%= true %>\\" />
+					<aui:option label='<%= LanguageUtil.get(request, \\"select-more-than-one\\") + StringPool.TRIPLE_PERIOD %>' selected=\\"<%= !anyAssetSubtype && (assetSelectedClassTypeIds.length > 1) %>\\" value=\\"<%= false %>\\" />
+
+					<optgroup label=\\"<%= assetRendererFactory.getSubtypeTitle(themeDisplay.getLocale()) %>\\">
+
+						<%
+						for (ClassType classType : classTypes) {
+							if (Arrays.binarySearch(assetSelectedClassTypeIds, classType.getClassTypeId()) < 0) {
+								subtypesRightList.add(new KeyValuePair(String.valueOf(classType.getClassTypeId()), HtmlUtil.escape(classType.getName())));
+							}
+						%>
+
+							<aui:option label=\\"<%= HtmlUtil.escapeAttribute(classType.getName()) %>\\" selected=\\"<%= !anyAssetSubtype && (assetSelectedClassTypeIds.length == 1) && (assetSelectedClassTypeIds[0]).equals(classType.getClassTypeId()) %>\\" value=\\"<%= classType.getClassTypeId() %>\\" />
+
+						<%
+						}
+						%>
+
+					</optgroup>
+				</aui:select>
+
+				<aui:input name='<%= \\"TypeSettingsProperties--classTypeIds\\" + className + \\"--\\" %>' type=\\"hidden\\" />
+
+				<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">
+					<div class=\\"asset-subtypefields-wrapper-enable hide\\" id=\\"<portlet:namespace /><%= className %>subtypeFieldsFilterEnableWrapper\\">
+						<aui:input label=\\"filter-by-field\\" name='<%= \\"TypeSettingsProperties--subtypeFieldsFilterEnabled\\" + className + \\"--\\" %>' type=\\"toggle-switch\\" value=\\"<%= editAssetListDisplayContext.isSubtypeFieldsFilterEnabled() %>\\" />
+					</div>
+
+					<span class=\\"asset-subtypefields-message\\" id=\\"<portlet:namespace /><%= className %>ddmStructureFieldMessage\\">
+						<c:if test=\\"<%= Validator.isNotNull(editAssetListDisplayContext.getDDMStructureFieldLabel()) && (classNameIds[0] == PortalUtil.getClassNameId(assetRendererFactory.getClassName())) %>\\">
+							<%= HtmlUtil.escape(editAssetListDisplayContext.getDDMStructureFieldLabel()) + \\": \\" + HtmlUtil.escape(editAssetListDisplayContext.getDDMStructureDisplayFieldValue()) %>
+						</c:if>
+					</span>
+
+					<div class=\\"asset-subtypefields-wrapper hide\\" id=\\"<portlet:namespace /><%= className %>subtypeFieldsWrapper\\">
+
+						<%
+						for (ClassType classType : classTypes) {
+							if (classType.getClassTypeFieldsCount() == 0) {
+								continue;
+							}
+						%>
+
+							<span class=\\"asset-subtypefields hide\\" id=\\"<portlet:namespace /><%= classType.getClassTypeId() %>_<%= className %>Options\\">
+								<portlet:renderURL var=\\"selectStructureFieldURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
+									<portlet:param name=\\"mvcPath\\" value=\\"/asset_list/select_structure_field.jsp\\" />
+									<portlet:param name=\\"className\\" value=\\"<%= assetRendererFactory.getClassName() %>\\" />
+									<portlet:param name=\\"classTypeId\\" value=\\"<%= String.valueOf(classType.getClassTypeId()) %>\\" />
+									<portlet:param name=\\"eventName\\" value='<%= renderResponse.getNamespace() + \\"selectDDMStructureField\\" %>' />
+								</portlet:renderURL>
+
+								<span class=\\"asset-subtypefields-popup\\" id=\\"<portlet:namespace /><%= classType.getClassTypeId() %>_<%= className %>PopUpButton\\">
+									<aui:button data-href=\\"<%= selectStructureFieldURL.toString() %>\\" disabled=\\"<%= !editAssetListDisplayContext.isSubtypeFieldsFilterEnabled() %>\\" value=\\"select\\" />
+								</span>
+							</span>
+
+						<%
+						}
+
+						typesRightList = ListUtil.sort(typesRightList, new KeyValuePairComparator(false, true));
+						%>
+
+					</div>
+				</c:if>
+
+				<div class=\\"<%= (assetSelectedClassTypeIds.length > 1) ? StringPool.BLANK : \\"hide\\" %>\\" id=\\"<portlet:namespace /><%= className %>Boxes\\">
+					<liferay-ui:input-move-boxes
+						leftBoxName='<%= className + \\"currentClassTypeIds\\" %>'
+						leftList=\\"<%= subtypesLeftList %>\\"
+						leftReorder=\\"<%= Boolean.TRUE.toString() %>\\"
+						leftTitle=\\"selected\\"
+						rightBoxName='<%= className + \\"availableClassTypeIds\\" %>'
+						rightList=\\"<%= subtypesRightList %>\\"
+						rightTitle=\\"available\\"
+					/>
+				</div>
+			</div>
+
+		<%
+		}
+		%>
+
+		<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">
+			<div class=\\"asset-subtypefield-selected <%= Validator.isNull(editAssetListDisplayContext.getDDMStructureFieldName()) ? \\"hide\\" : StringPool.BLANK %>\\">
+				<aui:input name=\\"TypeSettingsProperties--ddmStructureFieldName--\\" type=\\"hidden\\" value=\\"<%= editAssetListDisplayContext.getDDMStructureFieldName() %>\\" />
+
+				<aui:input name=\\"TypeSettingsProperties--ddmStructureFieldValue--\\" type=\\"hidden\\" value=\\"<%= editAssetListDisplayContext.getDDMStructureFieldValue() %>\\" />
+
+				<aui:input name=\\"TypeSettingsProperties--ddmStructureDisplayFieldValue--\\" type=\\"hidden\\" value=\\"<%= editAssetListDisplayContext.getDDMStructureDisplayFieldValue() %>\\" />
+			</div>
+		</c:if>
+	</liferay-frontend:fieldset>
+</liferay-frontend:fieldset-group>
+
+<aui:script require=\\"metal-dom/src/dom as dom\\">
+	var Util = Liferay.Util;
+
+	var MAP_DDM_STRUCTURES = {};
+
+	var assetMultipleSelector = document.getElementById(
+		'<portlet:namespace />currentClassNameIds'
+	);
+	var assetSelector = document.getElementById(
+		'<portlet:namespace />anyAssetType'
+	);
+	var orderByColumn1 = document.getElementById(
+		'<portlet:namespace />orderByColumn1'
+	);
+	var orderByColumn2 = document.getElementById(
+		'<portlet:namespace />orderByColumn2'
+	);
+	var orderingPanel = document.getElementById('<portlet:namespace />ordering');
+	var sourcePanel = document.querySelector('.source-container');
+
+	<%
+	for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+		String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+	%>
+
+		Util.toggleSelectBox(
+			'<portlet:namespace />anyClassType<%= className %>',
+			'false',
+			'<portlet:namespace /><%= className %>Boxes'
+		);
+
+		var <%= className %>Options = document.getElementById(
+			'<portlet:namespace /><%= className %>Options'
+		);
+
+		function <portlet:namespace />toggle<%= className %>(removeOrderBySubtype) {
+			var assetOptions = assetMultipleSelector.options;
+
+			var showOptions =
+				assetSelector.value == '<%= curRendererFactory.getClassNameId() %>' ||
+				(assetSelector.value == 'false' &&
+					assetOptions.length == 1 &&
+					assetOptions[0].value ==
+						'<%= curRendererFactory.getClassNameId() %>');
+
+			if (showOptions) {
+				<%= className %>Options.classList.remove('hide');
+			} else {
+				<%= className %>Options.classList.add('hide');
+			}
+
+			if (removeOrderBySubtype) {
+				Array.prototype.forEach.call(
+					orderingPanel.querySelectorAll('.order-by-subtype'),
+					function(option) {
+						dom.exitDocument(option);
+					}
+				);
+			}
+
+			<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">
+				<%= className %>toggleSubclassesFields(true);
+			</c:if>
+		}
+
+		<%
+		ClassTypeReader classTypeReader = curRendererFactory.getClassTypeReader();
+
+		List<ClassType> assetAvailableClassTypes = classTypeReader.getAvailableClassTypes(editAssetListDisplayContext.getReferencedModelsGroupIds(), locale);
+
+		if (assetAvailableClassTypes.isEmpty()) {
+			continue;
+		}
+
+		for (ClassType classType : assetAvailableClassTypes) {
+			List<ClassTypeField> classTypeFields = classType.getClassTypeFields();
+
+			if (classTypeFields.isEmpty()) {
+				continue;
+			}
+		%>
+
+			var optgroupClose = '</optgroup>';
+			var optgroupOpen =
+				'<optgroup class=\\"order-by-subtype\\" label=\\"<%= HtmlUtil.escape(classType.getName()) %>\\">';
+
+			var columnBuffer1 = [optgroupOpen];
+			var columnBuffer2 = [optgroupOpen];
+
+			<%
+			String orderByColumn1 = editAssetListDisplayContext.getOrderByColumn1();
+			String orderByColumn2 = editAssetListDisplayContext.getOrderByColumn2();
+
+			for (ClassTypeField classTypeField : classTypeFields) {
+				String value = editAssetListDisplayContext.encodeName(classTypeField.getClassTypeId(), classTypeField.getName(), null);
+				String selectedOrderByColumn1 = StringPool.BLANK;
+				String selectedOrderByColumn2 = StringPool.BLANK;
+
+				if (orderByColumn1.equals(value)) {
+					selectedOrderByColumn1 = \\"selected\\";
+				}
+
+				if (orderByColumn2.equals(value)) {
+					selectedOrderByColumn2 = \\"selected\\";
+				}
+			%>
+
+				columnBuffer1.push(
+					'<option <%= selectedOrderByColumn1 %> value=\\"<%= value %>\\"><%= HtmlUtil.escapeJS(classTypeField.getLabel()) %></option>'
+				);
+				columnBuffer2.push(
+					'<option <%= selectedOrderByColumn2 %> value=\\"<%= value %>\\"><%= HtmlUtil.escapeJS(classTypeField.getLabel()) %></option>'
+				);
+
+			<%
+			}
+			%>
+
+			columnBuffer1.push(optgroupClose);
+			columnBuffer2.push(optgroupClose);
+
+			MAP_DDM_STRUCTURES[
+				'<%= className %>_<%= classType.getClassTypeId() %>_optTextOrderByColumn1'
+			] = columnBuffer1.join('');
+			MAP_DDM_STRUCTURES[
+				'<%= className %>_<%= classType.getClassTypeId() %>_optTextOrderByColumn2'
+			] = columnBuffer2.join('');
+
+		<%
+		}
+		%>
+
+		var <%= className %>SubtypeSelector = document.getElementById(
+			'<portlet:namespace />anyClassType<%= className %>'
+		);
+
+		<c:if test=\\"<%= editAssetListDisplayContext.isShowSubtypeFieldsFilter() %>\\">
+			function <%= className %>toggleSubclassesFields(
+				hideSubtypeFilterEnableWrapper
+			) {
+				var selectedSubtype = <%= className %>SubtypeSelector.value;
+
+				var structureOptions = document.getElementById(
+					'<portlet:namespace />' + selectedSubtype + '_<%= className %>Options'
+				);
+
+				if (structureOptions) {
+					structureOptions.classList.remove('hide');
+				}
+
+				var subtypeFieldsWrappers = document.querySelectorAll(
+					'#<portlet:namespace /><%= className %>subtypeFieldsWrapper, #<portlet:namespace /><%= className %>subtypeFieldsFilterEnableWrapper'
+				);
+
+				Array.prototype.forEach.call(subtypeFieldsWrappers, function(
+					subtypeFieldsWrapper
+				) {
+					if (selectedSubtype != 'false' && selectedSubtype != 'true') {
+						Array.prototype.forEach.call(
+							orderingPanel.querySelectorAll('.order-by-subtype'),
+							function(option) {
+								dom.exitDocument(option);
+							}
+						);
+
+						var optTextOrderByColumn1 =
+							MAP_DDM_STRUCTURES[
+								'<%= className %>_' +
+									selectedSubtype +
+									'_optTextOrderByColumn1'
+							];
+
+						if (optTextOrderByColumn1) {
+							dom.append(orderByColumn1, optTextOrderByColumn1);
+						}
+
+						var optTextOrderByColumn2 =
+							MAP_DDM_STRUCTURES[
+								'<%= className %>_' +
+									selectedSubtype +
+									'_optTextOrderByColumn2'
+							];
+
+						if (optTextOrderByColumn2) {
+							dom.append(orderByColumn2, optTextOrderByColumn2);
+						}
+
+						if (structureOptions) {
+							subtypeFieldsWrapper.classList.remove('hide');
+						} else if (hideSubtypeFilterEnableWrapper) {
+							subtypeFieldsWrapper.classList.add('hide');
+						}
+					} else if (hideSubtypeFilterEnableWrapper) {
+						subtypeFieldsWrapper.classList.add('hide');
+					}
+				});
+			}
+
+			<%= className %>toggleSubclassesFields(false);
+
+			<%= className %>SubtypeSelector.addEventListener('change', function(event) {
+				setDDMFields('<%= className %>', '', '', '', '');
+
+				var subtypeFieldsFilterEnabledCheckbox = document.getElementById(
+					'<portlet:namespace />subtypeFieldsFilterEnabled<%= className %>'
+				);
+
+				if (subtypeFieldsFilterEnabledCheckbox) {
+					subtypeFieldsFilterEnabledCheckbox.checked = false;
+				}
+
+				var assetSubtypeFields = sourcePanel.querySelectorAll(
+					'.asset-subtypefields'
+				);
+
+				Array.prototype.forEach.call(assetSubtypeFields, function(
+					assetSubtypeField
+				) {
+					assetSubtypeField.classList.add('hide');
+				});
+
+				<%= className %>toggleSubclassesFields(true);
+			});
+		</c:if>
+
+	<%
+	}
+	%>
+
+	function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+		<%
+		for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+			String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+		%>
+
+			<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+		<%
+		}
+		%>
+
+	}
+
+	<portlet:namespace />toggleSubclasses(false);
+
+	var ddmStructureFieldNameInput = document.getElementById(
+		'<portlet:namespace />ddmStructureFieldName'
+	);
+	var ddmStructureFieldValueInput = document.getElementById(
+		'<portlet:namespace />ddmStructureFieldValue'
+	);
+
+	if (
+		assetSelector &&
+		ddmStructureFieldNameInput &&
+		ddmStructureFieldValueInput
+	) {
+		assetSelector.addEventListener('change', function(event) {
+			ddmStructureFieldNameInput.value = '';
+			ddmStructureFieldValueInput.value = '';
+
+			<portlet:namespace />toggleSubclasses(true);
+		});
+	}
+
+	dom.delegate(
+		sourcePanel,
+		'click',
+		'.asset-subtypefields-wrapper-enable label',
+		function(event) {
+			var subtypeFieldsFilterEnabledInput = event.delegateTarget.querySelector(
+				'input'
+			);
+
+			var assetSubtypefieldsPopupButtons = document.querySelectorAll(
+				'.asset-subtypefields-popup .btn'
+			);
+
+			if (subtypeFieldsFilterEnabledInput) {
+				Array.prototype.forEach.call(
+					assetSubtypefieldsPopupButtons,
+					function(assetSubtypefieldsPopupButton) {
+						Util.toggleDisabled(
+							assetSubtypefieldsPopupButton,
+							!subtypeFieldsFilterEnabledInput.checked
+						);
+					}
+				);
+			}
+		}
+	);
+
+	Liferay.after('inputmoveboxes:moveItem', function(event) {
+		if (
+			event.fromBox.attr('id') ==
+				'<portlet:namespace />currentClassNameIds' ||
+			event.toBox.attr('id') == '<portlet:namespace />currentClassNameIds'
+		) {
+			<portlet:namespace />toggleSubclasses();
+		}
+	});
+
+	var ddmStructureDisplayFieldValueInput = document.getElementById(
+		'<portlet:namespace />ddmStructureDisplayFieldValue'
+	);
+
+	dom.delegate(sourcePanel, 'click', '.asset-subtypefields-popup', function(
+		event
+	) {
+		var delegateTarget = event.delegateTarget;
+
+		var btn = delegateTarget.querySelector('.btn');
+
+		var uri = btn.dataset.href;
+
+		uri = Util.addParams(
+			'<portlet:namespace />ddmStructureDisplayFieldValue=' +
+				encodeURIComponent(ddmStructureDisplayFieldValueInput.value),
+			uri
+		);
+		uri = Util.addParams(
+			'<portlet:namespace />ddmStructureFieldName=' +
+				encodeURIComponent(ddmStructureFieldNameInput.value),
+			uri
+		);
+		uri = Util.addParams(
+			'<portlet:namespace />ddmStructureFieldValue=' +
+				encodeURIComponent(ddmStructureFieldValueInput.value),
+			uri
+		);
+
+		Util.selectEntity(
+			{
+				dialog: {
+					constrain: true,
+					modal: true
+				},
+				eventName: '<portlet:namespace />selectDDMStructureField',
+				id: '<portlet:namespace />selectDDMStructure' + delegateTarget.id,
+				title:
+					'<liferay-ui:message arguments=\\"structure-field\\" key=\\"select-x\\" />',
+				uri: uri
+			},
+			function(event) {
+				setDDMFields(
+					event.className,
+					event.name,
+					event.value,
+					event.displayValue,
+					event.label + ': ' + event.displayValue
+				);
+			}
+		);
+	});
+
+	function setDDMFields(className, name, value, displayValue, message) {
+		ddmStructureFieldNameInput.value = name;
+		ddmStructureFieldValueInput.value = value;
+		ddmStructureDisplayFieldValueInput.value = displayValue;
+
+		var ddmStructureFieldMessageContainer = document.getElementById(
+			'<portlet:namespace />' + className + 'ddmStructureFieldMessage'
+		);
+
+		if (ddmStructureFieldMessageContainer) {
+			ddmStructureFieldMessageContainer.innerHTML = Liferay.Util.escape(
+				message
+			);
+		}
+	}
+
+	Util.toggleSelectBox(
+		'<portlet:namespace />anyAssetType',
+		'false',
+		'<portlet:namespace />classNamesBoxes'
+	);
+</aui:script>"
+`;
+
+exports[`formatJSP() formatting entire fixtures view.jsp matches snapshot 1`] = `
+"<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file=\\"/init.jsp\\" %>
+
+<c:if test=\\"<%= themeDisplay.isSignedIn() && !(BrowserSnifferUtil.isIe(request) && (BrowserSnifferUtil.getMajorVersion(request) < 7)) && !BrowserSnifferUtil.isMobile(request) %>\\">
+
+	<%
+	Portlet portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletDisplay.getId());
+	%>
+
+	<liferay-util:html-top>
+		<link href=\\"<%= PortalUtil.getStaticResourceURL(request, themeDisplay.getCDNHost() + PortalUtil.getPathContext(request) + \\"/css/main.css\\", portlet.getTimestamp()) %>\\" rel=\\"stylesheet\\" type=\\"text/css\\" />
+	</liferay-util:html-top>
+
+	<liferay-util:html-bottom>
+		<script data-senna-track=\\"temporary\\" defer=\\"defer\\" src=\\"<%= PortalUtil.getStaticResourceURL(request, themeDisplay.getCDNHost() + PortalUtil.getPathContext(request) + \\"/js/main.js\\", portlet.getTimestamp()) %>\\" type=\\"text/javascript\\"></script>
+	</liferay-util:html-bottom>
+
+	<%
+	Status status = StatusLocalServiceUtil.getUserStatus(themeDisplay.getUserId());
+
+	boolean online = status.getOnline();
+
+	JSONObject activePanelIdsJSONObject = null;
+
+	String openPanelId = StringPool.BLANK;
+
+	if (Validator.isNotNull(status.getActivePanelIds())) {
+		activePanelIdsJSONObject = JSONFactoryUtil.createJSONObject(status.getActivePanelIds());
+
+		openPanelId = activePanelIdsJSONObject.getString(\\"open\\");
+	}
+
+	String statusMessage = HtmlUtil.escape(status.getMessage());
+	boolean playSound = status.getPlaySound();
+
+	List<Object[]> buddies = BuddyFinderUtil.getBuddies(themeDisplay.getCompanyId(), themeDisplay.getUserId());
+
+	int buddiesCount = buddies.size();
+	%>
+
+	<div class=\\"portlet-chat\\" id=\\"chatBar\\">
+		<div class=\\"chat-bar\\">
+			<div class=\\"chat-sound\\"></div>
+
+			<div class=\\"chat-status\\">
+				<div class=\\"status-message\\">
+					<c:if test=\\"<%= Validator.isNotNull(statusMessage) %>\\">
+						<%= LanguageUtil.format(request, \\"you-are-x\\", \\"<strong>\\" + statusMessage + \\"</strong>\\", false) %>
+					</c:if>
+				</div>
+			</div>
+
+			<div class=\\"chat-tabs-container\\">
+				<ul class=\\"chat-tabs\\">
+					<li class=\\"buddy-list loading <%= openPanelId.equals(\\"buddylist\\") ? \\"selected\\" : \\"\\" %>\\">
+						<div class=\\"chat-panel-trigger\\" panelId=\\"buddylist\\" tabindex=\\"0\\">
+							<span class=\\"trigger-name\\"><%= LanguageUtil.format(request, \\"online-friends-x\\", \\"(\\" + buddiesCount + \\")\\", false) %></span>
+						</div>
+
+						<div class=\\"chat-panel\\">
+							<div class=\\"chat-panel-window\\">
+								<div class=\\"chat-panel-button minimize\\"></div>
+
+								<div class=\\"chat-panel-title\\">
+									<%= LanguageUtil.format(request, \\"online-friends-x\\", \\"(\\" + buddiesCount + \\")\\", false) %>
+								</div>
+
+								<aui:input cssClass=\\"search-buddies\\" label=\\"\\" name=\\"searchBuddies\\" placeholder=\\"search\\" />
+
+								<div class=\\"chat-panel-content\\">
+									<ul class=\\"lfr-component online-users\\">
+
+										<%
+										for (Object[] buddy : buddies) {
+											String firstName = (String)buddy[1];
+											long groupId = (Long)buddy[2];
+											String lastName = (String)buddy[3];
+											boolean male = (Boolean)buddy[4];
+											String middleName = (String)buddy[5];
+											long portraitId = (Long)buddy[6];
+											long userId = (Long)buddy[8];
+											String userUuid = (String)buddy[9];
+
+											Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+										%>
+
+											<li class=\\"active user\\" data-displayURL=\\"<%= group.getDisplayURL(themeDisplay, false) %>\\" data-groupId=\\"<%= groupId %>\\" data-userId=\\"<%= userId %>\\" tabindex=\\"0\\">
+												<img alt=\\"<%= HtmlUtil.escape(ContactConstants.getFullName(firstName, middleName, lastName)) %>\\" src=\\"<%= UserConstants.getPortraitURL(themeDisplay.getPathImage(), male, portraitId, userUuid) %>\\" />
+
+												<div class=\\"name\\">
+													<%= HtmlUtil.escape(ContactConstants.getFullName(firstName, middleName, lastName)) %>
+												</div>
+											</li>
+
+										<%
+										}
+										%>
+
+									</ul>
+								</div>
+
+								<div style=\\"clear: both;\\"></div>
+							</div>
+						</div>
+					</li>
+					<li class=\\"chat-settings <%= openPanelId.equals(\\"settings\\") ? \\"selected\\" : \\"\\" %>\\">
+						<div class=\\"chat-panel-trigger\\" panelId=\\"settings\\" tabindex=\\"0\\">
+							<span class=\\"trigger-name\\"><liferay-ui:message key=\\"settings\\" /></span>
+						</div>
+
+						<div class=\\"chat-panel\\">
+							<div class=\\"chat-panel-window\\">
+								<div class=\\"chat-panel-button minimize\\"></div>
+
+								<div class=\\"chat-panel-title\\"><liferay-ui:message key=\\"settings\\" /></div>
+
+								<ul class=\\"clearfix lfr-component settings\\">
+									<li>
+										<label for=\\"statusMessage\\"><%= LanguageUtil.format(request, \\"x-is\\", HtmlUtil.escape(user.getFullName()), false) %></label>
+
+										<input id=\\"statusMessage\\" type=\\"text\\" value=\\"<%= statusMessage %>\\" />
+									</li>
+									<li>
+										<label for=\\"onlineStatus\\"><input <%= online ? \\"checked=\\\\\\"checked\\\\\\"\\" : \\"\\" %> id=\\"onlineStatus\\" type=\\"checkbox\\" /> <liferay-ui:message key=\\"show-me-as-online\\" /></label>
+									</li>
+									<li>
+										<label for=\\"playSound\\"><input <%= playSound ? \\"checked=\\\\\\"checked\\\\\\"\\" : \\"\\" %> id=\\"playSound\\" type=\\"checkbox\\" /> <liferay-ui:message key=\\"play-a-sound-when-i-receive-a-new-message-in-a-hidden-window\\" /> </label>
+									</li>
+									<li class=\\"show-notifications-setting\\">
+										<label for=\\"showNotifications\\"><input disabled=\\"disabled\\" id=\\"showNotifications\\" type=\\"checkbox\\" /> <liferay-ui:message key=\\"enable-desktop-notifications-for-new-messages\\" /> </label>
+									</li>
+								</ul>
+
+								<div class=\\"ctrl-holder\\">
+									<input id=\\"saveSettings\\" type=\\"submit\\" value=\\"<liferay-ui:message key=\\"save\\" />\\" />
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<input id=\\"activePanelIds\\" type=\\"hidden\\" value=\\"<%= HtmlUtil.escapeAttribute(status.getActivePanelIds()) %>\\" />
+		<input id=\\"chatPortletId\\" type=\\"hidden\\" value=\\"<%= portletDisplay.getId() %>\\" />
+
+		<div class=\\"chat-extensions hide\\">
+
+			<%
+			Map<String, String> extensions = ChatExtensionsUtil.getExtensions();
+
+			Set<String> servletContextNames = extensions.keySet();
+
+			for (String servletContextName : servletContextNames) {
+				String extensionPath = extensions.get(servletContextName);
+				ServletContext extensionServletContext = ServletContextPool.get(servletContextName);
+			%>
+
+				<liferay-util:include page=\\"<%= extensionPath %>\\" servletContext=\\"<%= extensionServletContext %>\\" />
+
+			<%
+			}
+			%>
+
+		</div>
+	</div>
+
+	<aui:input name=\\"currentChatServerTime\\" type=\\"hidden\\" useNamespace=\\"<%= false %>\\" value=\\"<%= System.currentTimeMillis() %>\\" />
+</c:if>"
+`;
 
 exports[`formatJSP() formatting entire fixtures view_calendar_menus.jspf matches snapshot 1`] = `
 "<%--
@@ -1950,9 +3484,9 @@ String backURL = PortalUtil.getCurrentURL(request);
 							title: '<liferay-ui:message key=\\"add-calendar\\" />',
 
 							<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
-										<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
-										<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
-									</portlet:renderURL>
+								<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
+								<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
+							</portlet:renderURL>
 
 							uri: Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('<%= editCalendarURL %>'),
@@ -1974,10 +3508,10 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 					if (calendarResourceId) {
 						<portlet:renderURL var=\\"calendarsURL\\">
-								<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />
-								<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />
-								<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
-							</portlet:renderURL>
+							<portlet:param name=\\"mvcPath\\" value=\\"/view_calendars.jsp\\" />
+							<portlet:param name=\\"redirect\\" value=\\"<%= currentURL %>\\" />
+							<portlet:param name=\\"calendarResourceId\\" value=\\"{calendarResourceId}\\" />
+						</portlet:renderURL>
 
 						window.location.href = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= calendarsURL %>'),
@@ -1995,12 +3529,12 @@ String backURL = PortalUtil.getCurrentURL(request);
 					var instance = this;
 
 					<liferay-security:permissionsURL
-							modelResource=\\"<%= CalendarConstants.RESOURCE_NAME %>\\"
-							modelResourceDescription=\\"\\"
-							resourcePrimKey=\\"<%= String.valueOf(scopeGroupId) %>\\"
-							var=\\"permissionsURL\\"
-							windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
-						/>
+						modelResource=\\"<%= CalendarConstants.RESOURCE_NAME %>\\"
+						modelResourceDescription=\\"\\"
+						resourcePrimKey=\\"<%= String.valueOf(scopeGroupId) %>\\"
+						var=\\"permissionsURL\\"
+						windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
+					/>
 
 					Liferay.Util.openWindow({
 						dialog: {
@@ -2148,9 +3682,9 @@ String backURL = PortalUtil.getCurrentURL(request);
 						title: '<liferay-ui:message key=\\"calendar-settings\\" />',
 
 						<portlet:renderURL var=\\"editCalendarURL\\" windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\">
-								<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
-								<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
-							</portlet:renderURL>
+							<portlet:param name=\\"mvcPath\\" value=\\"/edit_calendar.jsp\\" />
+							<portlet:param name=\\"calendarId\\" value=\\"{calendarId}\\" />
+						</portlet:renderURL>
 
 						uri: Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= editCalendarURL %>'),
@@ -2191,13 +3725,13 @@ String backURL = PortalUtil.getCurrentURL(request);
 						title: '<liferay-ui:message key=\\"permissions\\" />',
 
 						<liferay-security:permissionsURL
-								modelResource=\\"<%= Calendar.class.getName() %>\\"
-								modelResourceDescription=\\"{modelResourceDescription}\\"
-								resourceGroupId=\\"{resourceGroupId}\\"
-								resourcePrimKey=\\"{resourcePrimKey}\\"
-								var=\\"permissionsURL\\"
-								windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
-							/>
+							modelResource=\\"<%= Calendar.class.getName() %>\\"
+							modelResourceDescription=\\"{modelResourceDescription}\\"
+							resourceGroupId=\\"{resourceGroupId}\\"
+							resourcePrimKey=\\"{resourcePrimKey}\\"
+							var=\\"permissionsURL\\"
+							windowState=\\"<%= LiferayWindowState.POP_UP.toString() %>\\"
+						/>
 
 						uri: Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= permissionsURL %>'),
@@ -2818,10 +4352,10 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 				for (String number : internationalNumbers.get(country)) {
 		%>
 
-		interationalNumbersDisplay.push({
-			country: '<%= country %>',
-			number: '<%= number %>'
-		});
+					interationalNumbersDisplay.push({
+						country: '<%= country %>',
+						number: '<%= number %>'
+					});
 
 		<%
 				}

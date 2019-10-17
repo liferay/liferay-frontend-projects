@@ -20,17 +20,15 @@ function dedent(input, tabWidth = 4) {
 
 	// Find minimum indent (ignoring empty lines).
 	const minimum = lines.reduce((acc, line) => {
-		const indent = line.match(/^\s+/);
+		const [, indent, rest] = line.match(/^(\s*)(.*)/);
 
 		if (indent) {
-			const length = Array.from(indent[0]).reduce((count, char) => {
-				if (char === '\t') {
-					return count + tabWidth;
-				} else {
-					return count + 1;
-				}
+			const length = Array.from(indent).reduce((count, char) => {
+				return count + (char === '\t' ? tabWidth : 1);
 			}, 0);
 			return Math.min(acc, length);
+		} else if (rest) {
+			return Math.min(acc, 0);
 		}
 
 		return acc;
@@ -39,30 +37,34 @@ function dedent(input, tabWidth = 4) {
 	// Strip out minimum indent from every line.
 	const dedented = isFinite(minimum)
 		? lines.map(line => {
-				const [, whitespace, rest] = line.match(/^(\s*)(.*)/);
+				const [, indent, rest] = line.match(/^(\s*)(.*)/);
 
-				if (whitespace.length) {
+				if (minimum && indent.length) {
 					// Remove leftmost character until hitting desired length;
 					// if you overshoot (due to a tab), pad with spaces.
-					const chars = Array.from(whitespace);
+					const chars = Array.from(indent);
 
-					let trimmedLength = 0;
+					let currentLength = chars.reduce((count, char) => {
+						return count + (char === '\t' ? tabWidth : 1);
+					}, 0);
 
-					while (chars.length) {
+					const desiredLength = currentLength - minimum;
+
+					while (currentLength > desiredLength) {
 						const char = chars.shift();
 
-						trimmedLength += char === '\t' ? tabWidth : 1;
-
-						if (trimmedLength > minimum) {
-							return (
-								chars.join('') +
-								' '.repeat(trimmedLength - minimum) +
-								rest
-							);
-						} else if (trimmedLength === minimum) {
-							return chars.join('') + rest;
-						}
+						currentLength -= char === '\t' ? tabWidth : 1;
 					}
+
+					if (currentLength < desiredLength) {
+						return (
+							chars.join('') +
+							' '.repeat(desiredLength - currentLength) +
+							rest
+						);
+					}
+
+					return chars.join('') + rest;
 				} else {
 					return line;
 				}

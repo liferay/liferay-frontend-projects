@@ -91,19 +91,245 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(expected);
 	});
 
+	it('correctly handles internal indentation inside control structures', () => {
+		// This is a reduced example of what's in the source.jsp fixture.
+		const source = `
+			<aui:script require="metal-dom/src/dom as dom">
+				var sourcePanel = document.querySelector('.source-container');
+
+				<%
+				// This one was getting mangled.
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+				%>
+
+					Util.toggleSelectBox('<portlet:namespace />anyClassType<%= className %>', 'false', '<portlet:namespace /><%= className %>Boxes');
+
+					function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+						<%
+						// But not this one.
+						for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+							String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+						%>
+
+							<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+						<%
+						}
+						%>
+
+					}
+
+				<%
+				}
+				%>
+
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(`
+			<aui:script require="metal-dom/src/dom as dom">
+				var sourcePanel = document.querySelector('.source-container');
+
+				<%
+				// This one was getting mangled.
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+				%>
+
+					Util.toggleSelectBox(
+						'<portlet:namespace />anyClassType<%= className %>',
+						'false',
+						'<portlet:namespace /><%= className %>Boxes'
+					);
+
+					function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+						<%
+						// But not this one.
+						for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+							String className = editAssetListDisplayContext.getClassName(curRendererFactory);
+						%>
+
+							<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+						<%
+						}
+						%>
+
+					}
+
+				<%
+				}
+				%>
+
+			</aui:script>
+		`);
+	});
+
+	it('respects indentation within a nested control structures', () => {
+		// This is a reduced example of what's in the source.jsp fixture.
+		const source = `
+			<aui:script>
+
+				<%
+				for (A<?> a : b) {
+				%>
+
+					Util.toggleSelectBox();
+
+					<%
+					for (C c : d) {
+					%>
+
+						var optgroupClose = '</optgroup>';
+
+					<%
+					}
+					%>
+
+					columnBuffer1.push(optgroupClose);
+
+				<%
+				}
+				%>
+
+			</aui:script>
+		`;
+
+		const expected = `
+			<aui:script>
+
+				<%
+				for (A<?> a : b) {
+				%>
+
+					Util.toggleSelectBox();
+
+					<%
+					for (C c : d) {
+					%>
+
+						var optgroupClose = '</optgroup>';
+
+					<%
+					}
+					%>
+
+					columnBuffer1.push(optgroupClose);
+
+				<%
+				}
+				%>
+
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(expected);
+	});
+
+	it('returns the source unmodified if there are no JSP tags', () => {
+		const source = `
+			<%--
+			/**
+			 * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+			 */
+			--%>
+
+			<%
+			String heading = "Amazing Page";
+			%>
+
+			<h1><%= heading %></h1>
+		`;
+
+		expect(formatJSP(source)).toBe(source);
+	});
+
+	it('handles an edge case (#258)', () => {
+		// Reduced example of what's in
+		// modules/apps/asset/asset-publisher-web/src/main/resources/META-INF/resources/configuration/source.jsp
+		const source = `
+			<aui:script>
+
+				<%
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+				%>
+
+					Util.toggleSelectBox();
+
+				<%
+				}
+				%>
+
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+					<%
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+					%>
+
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+					<%
+					}
+					%>
+
+				}
+			</aui:script>
+		`;
+
+		expect(formatJSP(source)).toBe(`
+			<aui:script>
+
+				<%
+				for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+					String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+				%>
+
+					Util.toggleSelectBox();
+
+				<%
+				}
+				%>
+
+				function <portlet:namespace />toggleSubclasses(removeOrderBySubtype) {
+
+					<%
+					for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {
+						String className = assetPublisherWebUtil.getClassName(curRendererFactory);
+					%>
+
+						<portlet:namespace />toggle<%= className %>(removeOrderBySubtype);
+
+					<%
+					}
+					%>
+
+				}
+			</aui:script>
+		`);
+	});
+
 	describe('formatting entire fixtures', () => {
 		test.each([
 			'configuration.jsp',
+			'details.jsp',
+			'edit_public_render_parameters.jsp',
 			'edit_template_display.jspf',
 			'page.jsp',
+			'page_iterator.jsp',
 			'recaptcha.jsp',
 			'roles.jsp',
+			'source.jsp',
 			'view.jsp',
 			'view_calendar_menus.jspf',
 			'view_meeting.jsp'
 
 			// Not including these (rejected by Prettier, see "known
-			// limiations" below):
+			// limitations" below):
 			// 'edit_content_redirect.jsp',
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('format', fixture));

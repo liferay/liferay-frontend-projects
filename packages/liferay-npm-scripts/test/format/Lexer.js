@@ -39,6 +39,113 @@ describe('Lexer()', () => {
 		);
 	});
 
+	it('produces tokens with a non-enumerable "previous" property', () => {
+		const lexer = new Lexer(api => {
+			const {choose, match} = api;
+
+			return choose({
+				A: match('a'),
+				B: match('b')
+			});
+		});
+
+		const tokens = [...lexer.lex('abab')];
+
+		expect(tokens.length).toBe(4);
+
+		expect(tokens[3].previous).toBe(tokens[2]);
+		expect(tokens[2].previous).toBe(tokens[1]);
+		expect(tokens[1].previous).toBe(tokens[0]);
+		expect(tokens[0].previous).toBe(undefined);
+
+		expect(Object.keys(tokens[3]).includes('previous')).toBe(false);
+	});
+
+	it('produces tokens with a lazy "next" property', () => {
+		const lexer = new Lexer(api => {
+			const {choose, match} = api;
+
+			return choose({
+				A: match('a'),
+				B: match('b')
+			});
+		});
+
+		const iterator = lexer.lex('ababab');
+
+		const tokens = [iterator.next().value];
+
+		expect(tokens[0]).toEqual({
+			contents: 'a',
+			index: 0,
+			name: 'A'
+		});
+
+		// Peek ahead using `next` before the iterator gets that far.
+		tokens.push(tokens[0].next);
+
+		expect(tokens[1]).toEqual({
+			contents: 'b',
+			index: 1,
+			name: 'B'
+		});
+
+		// Tokens are doubly linked:
+		expect(tokens[1].previous).toBe(tokens[0]);
+		expect(tokens[0].next).toBe(tokens[1]);
+
+		tokens.push(tokens[1].next);
+
+		expect(tokens[2]).toEqual({
+			contents: 'a',
+			index: 2,
+			name: 'A'
+		});
+
+		expect(tokens[2].previous).toBe(tokens[1]);
+		expect(tokens[1].next).toBe(tokens[2]);
+
+		// Note that that was just lookahead; iterator did not advance:
+		expect(iterator.next().value).toBe(tokens[1]);
+		expect(iterator.next().value).toBe(tokens[2]);
+
+		// Now scan ahead with iterator, then verify `next` links.
+		tokens.push(iterator.next().value);
+		tokens.push(iterator.next().value);
+		tokens.push(iterator.next().value);
+
+		expect(tokens[3]).toEqual({
+			contents: 'b',
+			index: 3,
+			name: 'B'
+		});
+
+		expect(tokens[4]).toEqual({
+			contents: 'a',
+			index: 4,
+			name: 'A'
+		});
+
+		expect(tokens[5]).toEqual({
+			contents: 'b',
+			index: 5,
+			name: 'B'
+		});
+
+		expect(iterator.next().done).toBe(true);
+
+		// Note: can ask for "next" links in any order.
+		expect(tokens[2].next).toBe(tokens[3]);
+		expect(tokens[4].next).toBe(tokens[5]);
+		expect(tokens[3].next).toBe(tokens[4]);
+		expect(tokens[5].next).toBe(undefined);
+
+		// And same for "previous" links.
+		expect(tokens[3].previous).toBe(tokens[2]);
+		expect(tokens[5].previous).toBe(tokens[4]);
+		expect(tokens[4].previous).toBe(tokens[3]);
+	});
+
 	describe('a()/an()', () => {
 		it('can reference a named matcher that gets defined elsewhere', () => {
 			const lexer = new Lexer(api => {

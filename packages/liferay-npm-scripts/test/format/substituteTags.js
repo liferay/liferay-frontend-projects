@@ -90,7 +90,7 @@ describe('substituteTags()', () => {
 		`);
 
 		expect(transformed).toEqual(dedent(3)`
-			/*╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳*/
+			/*Ɯɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ*/
 
 			var description = "ʾJSP_EXPR_________ʿ";
 		`);
@@ -116,13 +116,13 @@ describe('substituteTags()', () => {
 
 		expect(transformed).toEqual(dedent(3)`
 			/*
-			╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			ɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸɸ
 			*/
 
 			var description = "ʾJSP_EXPR_________ʿ";
 
 			/*
-			╳
+			ɸ
 			*/
 		`);
 
@@ -190,8 +190,8 @@ describe('substituteTags()', () => {
 
 			// A multiline self-closing tag.
 			/*╳╳╳╳╳╳╳╳
-				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
-				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			Ƭ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			Ƭ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 			*/
 
 			// A tag with children.
@@ -205,16 +205,16 @@ describe('substituteTags()', () => {
 			/*ʅʅʅ*/
 
 			// A multiline tag with children.
-			/*ʃʃʃʃʃʃʃʃ
-				ʃʃʃʃʃʃʃʃʃʃʃ
+			/*ʃʃʃʃʃʃʃʃʃ
+			Ƭʃʃʃʃʃʃʃʃʃʃʃ
 			*/
 				var x = 1;
 			/*ʅʅʅʅʅʅʅʅʅ*/
 
 			// A multiline tag that has no non-whitespace template text.
 			/*╳╳╳╳╳
-				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
-				╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			Ƭ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
+			Ƭ╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳
 			╳╳╳╳╳╳*/
 		`);
 
@@ -276,10 +276,14 @@ describe('substituteTags()', () => {
 		test.each([
 			'configuration.jsp',
 			'edit_content_redirect.jsp',
+			'edit_public_render_parameters.jsp',
 			'edit_template_display.jspf',
+			'details.jsp',
 			'page.jsp',
+			'page_iterator.jsp',
 			'recaptcha.jsp',
 			'roles.jsp',
+			'source.jsp',
 			'view.jsp',
 			'view_calendar_menus.jspf',
 			'view_meeting.jsp'
