@@ -207,12 +207,6 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 			(err, result) => {
 				// Generate and/or log results
 				if (err) {
-					log.error(
-						'Babel failed processing',
-						`${destPkg.id}/${filePkgRelPath}:`,
-						'it will be copied verbatim (see report file for more info)'
-					);
-
 					logger.error('babel', err);
 
 					report.warn(
@@ -248,7 +242,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 				} else if (logger.warnsPresent) {
 					report.warn(
 						'There are warnings for some of the ' +
-							'Babel plugins: please check details' +
+							'Babel plugins: please check details ' +
 							'of Babel transformations.',
 						{unique: true}
 					);

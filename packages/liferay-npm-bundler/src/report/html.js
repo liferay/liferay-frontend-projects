@@ -7,6 +7,12 @@
 /* eslint require-jsdoc: off */
 import pretty from 'pretty-time';
 
+const LOG_LEVEL_SORT = {
+	error: 0,
+	warn: 1,
+	info: 2,
+};
+
 export function htmlDump(report) {
 	const {
 		_executionDate,
@@ -100,12 +106,12 @@ export function htmlDump(report) {
 
 	const rulesExecution = htmlSection(
 		'Details of rule executions',
-		`<p>
-			Configuration: 
-			<font size="1">
+		`
+		<div class="configuration">
+			<div>Configuration</div>
 			<pre>${JSON.stringify(_rules.config, null, 2)}</pre>
-			</font>
-		</p>`,
+		</div>
+		`,
 		htmlLogOutput(
 			['File'],
 			Object.keys(_rules.files)
@@ -299,16 +305,16 @@ export function htmlDump(report) {
 				return htmlIf(babelKeys.length > 0, () =>
 					htmlSubsection(
 						`
-							<a name="${pkgId}-babel">
-								${pkg.name}@${pkg.version}
-							</a>
+						<a name="${pkgId}-babel">
+							${pkg.name}@${pkg.version}
+						</a>
 						`,
-						`<p>
-							Configuration: 
-							<font size="1">
+						`
+						<div class="configuration">
+							<div>Configuration</div>
 							<pre>${JSON.stringify(babel.config, null, 2)}</pre>
-							</font>
-						</p>`,
+						</div>
+						`,
 						htmlLogOutput(
 							['File'],
 							babelKeys.sort().map(filePath => [filePath]),
@@ -399,6 +405,53 @@ export function htmlDump(report) {
 					p {
 						margin: 0 0 .5em 0;
 					}
+
+					a {
+						text-decoration: none;
+						color: #055;
+					}
+
+					#log-level-selector {
+						position: fixed;
+						top: 1em;
+						right: 1em;
+						background-color: #eee;
+						padding: .3em;
+						border-radius: 4px;
+						font-size: 8pt;
+						border: 1px solid #ccc;
+					}
+
+					#log-level-selector select {
+						font-size: 8pt;
+					}
+
+					.configuration {
+						display: inline-block;
+						margin-bottom: .5em;
+					}
+
+					.configuration > div {
+						background-color: #f0f0f0;
+						cursor: pointer;
+						border-radius: 4px;
+						padding: 2px;
+						display: inline;
+					}
+
+					.configuration > div:after {
+						content: "👀";
+						padding: 0 .5em;
+					}
+
+					.configuration > pre {
+						font-size: 8pt;
+						display: none;
+					}
+
+					.configuration:hover > pre {
+						display: block;
+					}
 				</style>
 				<script id="report" type="application/json">
 					${JSON.stringify(report)}
@@ -408,8 +461,49 @@ export function htmlDump(report) {
 						document.getElementById("report").innerHTML
 					);
 				</script>
+				<script>
+					window.onload = function() {
+						var style = document.createElement('style');
+
+						style.innerHTML = '';
+
+						document.head.appendChild(style);
+
+						var select = document.getElementById('log-level-select');
+
+						select.value = 'info';
+
+						select.onchange = function() {
+							switch(select.value) {
+								case 'info':
+									style.innerHTML = '';
+									break;
+
+								case 'warn':
+									style.innerHTML = 
+										'tr.info {display: none;}';
+									break;
+
+								case 'error':
+									style.innerHTML = 
+										'tr.info {display: none;} ' +
+										'tr.warn {display: none;}';
+									break;
+							}
+						};
+					}
+				</script>
 			</head>
 			<body>
+				<div id='log-level-selector'>
+					Log level filter: 
+					<select id='log-level-select'>
+						<option>info</option>
+						<option>warn</option>
+						<option>error</option>
+					</select>
+				</div>
+				
 				<h1>${title}</h1>
 				${summary}
 				${warnings}
@@ -479,12 +573,12 @@ function htmlTable(...args) {
 	}
 }
 
-function htmlRow(content) {
+function htmlRow(content, className = '') {
 	if (Array.isArray(content)) {
 		content = content.join('\n');
 	}
 
-	return `<tr>${content}</tr>`;
+	return `<tr class="${className}">${content}</tr>`;
 }
 
 /**
@@ -507,7 +601,7 @@ function htmlLogOutput(
 		);
 	}
 
-	const logColums = ['Message', ''];
+	const logColums = ['Message', '', ''];
 
 	if (source) {
 		logColums.splice(0, 0, 'Log source');
@@ -538,6 +632,12 @@ function htmlLogOutput(
 				`)
 			);
 		} else {
+			msgs.sort(
+				(a, b) =>
+					(LOG_LEVEL_SORT[a.level] || 999) -
+					(LOG_LEVEL_SORT[b.level] || 999)
+			);
+
 			const msg0 = msgs[0];
 
 			let sourceCell = htmlIf(
@@ -545,13 +645,22 @@ function htmlLogOutput(
 				() => `<td class="source">${msg0.source}</td>`
 			);
 
+			let infoLink = htmlIf(
+				msg0['link'],
+				() => `<a href='${msg0['link']}'>🛈</a>`
+			);
+
 			rows.push(
-				htmlRow(`
+				htmlRow(
+					`
 					${cells.map(cell => `<td>${cell}</td>`).join(' ')}
 					${sourceCell}
 					<td class="${msg0.level}">${msg0.level.toUpperCase()}</td>
+					<td>${infoLink}</td>
 					<td>${msg0.things.join(' ')}</td>
-				`)
+				`,
+					msg0.level
+				)
 			);
 
 			for (let i = 1; i < msgs.length; i++) {
@@ -560,15 +669,24 @@ function htmlLogOutput(
 					() => `<td class="source">${msgs[i].source}</td>`
 				);
 
+				infoLink = htmlIf(
+					msgs[i]['link'],
+					() => `<a href='${msgs[i]['link']}'>🛈</a>`
+				);
+
 				rows.push(
-					htmlRow(`
+					htmlRow(
+						`
 						${cells.map(() => `<td></td>`).join(' ')}
 						${sourceCell}
 						<td class="${msgs[i].level}">
 							${msgs[i].level.toUpperCase()}
 						</td>
+						<td>${infoLink}</td>
 						<td>${msgs[i].things.join(' ')}</td>
-					`)
+					`,
+						msgs[i].level
+					)
 				);
 			}
 		}
