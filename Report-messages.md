@@ -1,7 +1,7 @@
 This page explains the messages that may appear in the report file in detail.
 
 ### 0001
-> Emptied file {file} as configured in {directory}
+** Emptied file {file} as configured in {directory} **
 
 This message is shown whenever the bundler encounters a `browser` declaration in a `package.json` file that aliases a module to `false` (see [the `browser` spec](https://github.com/defunctzombie/package-browser-field-spec/blob/master/README.md) for more information).
 
