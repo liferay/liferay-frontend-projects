@@ -74,6 +74,6 @@ And then, in the `util` folder of your project, you may have another `package.js
 }
 ```
 
-Though the situation would be quite strange, this is aliasing `my-project/util/random.js` twice and, because the bundler is targeting an AMD environment, it can only return one of the two alternatives (`my-project/my-random-shim.js` or `my-project/util/my-other-random-shim.js`).
+Though the situation would be quite strange, this is aliasing `my-project/util/random.js` twice and, because the bundler is targeting an AMD environment, it can only return one of the two alternatives (`my-project/my-random-shim.js` or `my-project/util/my-other-random-shim.js`) when `require('my-project/util/random`)` is issued.
 
 So, what the message tells you is which one will be used.
