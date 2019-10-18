@@ -1,14 +1,14 @@
 This page explains the messages that may appear in the report file in detail.
 
 ### 0001
-** Emptied file {file} as configured in {directory} **
+> **Emptied file {file} as configured in {directory}**
 
 This message is shown whenever the bundler encounters a `browser` declaration in a `package.json` file that aliases a module to `false` (see [the `browser` spec](https://github.com/defunctzombie/package-browser-field-spec/blob/master/README.md) for more information).
 
 The mentioned file will be left empty which will cause the module to export an empty object `{}` if it is required.
 
 ### 0002
-> Redirected file {file} to {alias} as configured in {directory}
+> **Redirected file {file} to {alias} as configured in {directory}**
 
 This message is shown whenever the bundler encounters a `browser` declaration in a `package.json` file that aliases a module to another module (see [the `browser` spec](https://github.com/defunctzombie/package-browser-field-spec/blob/master/README.md) for more information).
 
@@ -19,7 +19,7 @@ module.exports = require('{alias}');
 ```
 
 ### 0003
-> Alias '${alias.from}' configured in ${where} will not be visible from outside because a local module with the same name exists
+> **Alias '${alias.from}' configured in ${where} will not be visible from outside because a local module with the same name exists**
 
 This warning message is shown whenever the bundler encounters a `browser` declaration in a `package.json` file that aliases an external module to another module (see [the `browser` spec](https://github.com/defunctzombie/package-browser-field-spec/blob/master/README.md) for more information) but there is already a local module with the same name as the external one.
 
