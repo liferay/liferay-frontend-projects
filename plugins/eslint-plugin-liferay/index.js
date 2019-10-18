@@ -15,6 +15,7 @@ module.exports = {
 		'no-it-should': require('./lib/rules/no-it-should'),
 		'no-require-and-call': require('./lib/rules/no-require-and-call'),
 		'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
+		'sort-class-names': require('./lib/rules/sort-class-names'),
 		'sort-imports': require('./lib/rules/sort-imports'),
 	},
 };
