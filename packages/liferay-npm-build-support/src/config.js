@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-// TODO: Move this whole file to liferay-npm-build-tools-common (see #328)
-
 import prop from 'dot-prop';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import readJsonSync from 'read-json-sync';
