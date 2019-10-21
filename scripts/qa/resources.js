@@ -63,7 +63,10 @@ const linkJsToolkitPath = path.join(
 	'link-js-toolkit.js'
 );
 
-const yoPath = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'yo');
+const yoPath =
+	process.platform === 'win32'
+		? path.join(__dirname, '..', '..', 'node_modules', '.bin', 'yo.cmd')
+		: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'yo');
 
 module.exports = {
 	currentSDKVersion,
