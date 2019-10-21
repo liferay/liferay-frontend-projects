@@ -15,6 +15,7 @@ const config = {
 	},
 	plugins: ['react', 'react-hooks'],
 	rules: {
+		'liferay/no-duplicate-class-names': 'error',
 		'liferay/sort-class-names': 'error',
 		'liferay/trim-class-names': 'error',
 

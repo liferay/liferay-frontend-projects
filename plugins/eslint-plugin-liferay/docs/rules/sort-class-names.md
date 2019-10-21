@@ -30,15 +30,9 @@ It does not currently check calls to the popular [classnames](https://www.npmjs.
 <div className={classNames('a', 'b')}></div>
 ```
 
-Likewise, it does not currently check for duplicate classnames:
-
-```js
-// Duplicates are not checked for:
-<div className="a a a"></div>
-```
-
 ## Related
 
+-   [no-duplicate-class-names](./no-duplicate-class-names.md)
 -   [trim-class-names](./trim-class-names.md)
 
 ## Further Reading
