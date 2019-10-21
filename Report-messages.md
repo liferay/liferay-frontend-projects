@@ -127,11 +127,11 @@ For example, you may have this in your project's root folder `package.json` file
 In that case, any call like:
 
 ```javascript 
-var files = `require('./util/files')`;
+var files = `require('./util/random')`;
 ```
 
 will be replaced by:
 
 ```javascript 
-var files = `require('./browser/random.js')`;
+var files = `require('./browser/random')`;
 ```
