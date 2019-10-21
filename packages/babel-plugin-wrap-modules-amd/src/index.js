@@ -68,7 +68,7 @@ export default function({types: t}) {
 		visitor: {
 			Program: {
 				exit(path, state) {
-					const {filenameRelative} = state.file.opts;
+					const {filename} = state.file.opts;
 					const {log} = babelIpc.get(state, () => ({
 						log: new PluginLogger(),
 					}));
@@ -99,7 +99,7 @@ export default function({types: t}) {
 					});
 
 					defineNode = applyUserDefinedTemplateIfPresent(
-						filenameRelative,
+						filename,
 						defineNode,
 						log
 					);
@@ -127,8 +127,8 @@ export default function({types: t}) {
 	};
 }
 
-function applyUserDefinedTemplateIfPresent(filenameRelative, defineNode, log) {
-	const templateFile = `${filenameRelative}.wrap-modules-amd.template`;
+function applyUserDefinedTemplateIfPresent(filename, defineNode, log) {
+	const templateFile = `${filename}.wrap-modules-amd.template`;
 
 	if (!fs.existsSync(templateFile)) {
 		return defineNode;

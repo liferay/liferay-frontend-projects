@@ -25,7 +25,7 @@ it('logs results correctly', () => {
 	`;
 
 	babel.transform(source, {
-		filenameRelative: __filename,
+		filename: __filename,
 		plugins: [plugin],
 	});
 
@@ -42,7 +42,7 @@ it('correctly wraps modules', () => {
 	`;
 
 	const {code} = babel.transform(source, {
-		filenameRelative: __filename,
+		filename: __filename,
 		plugins: [plugin],
 	});
 

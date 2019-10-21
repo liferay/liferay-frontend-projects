@@ -16,7 +16,7 @@ global._babel_ipc_ = global._babel_ipc_ || {};
 interface BabelState {
 	file: {
 		opts: {
-			filenameRelative: string;
+			filename: string;
 		};
 	};
 }
@@ -46,12 +46,12 @@ export function get(
 		!state ||
 		!state.file ||
 		!state.file.opts ||
-		!state.file.opts.filenameRelative
+		!state.file.opts.filename
 	) {
 		return defaultValueFactory();
 	}
 
-	const key = path.resolve(state.file.opts.filenameRelative);
+	const key = state.file.opts.filename;
 
 	if (global._babel_ipc_[key] === undefined) {
 		return defaultValueFactory();
