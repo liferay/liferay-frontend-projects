@@ -6,6 +6,8 @@
 
 import path from 'path';
 
+import FilePath from './file-path';
+
 // Put the `_babel_ipc_` map in the global context
 declare const global: {
 	_babel_ipc_: object;
@@ -51,7 +53,7 @@ export function get(
 		return defaultValueFactory();
 	}
 
-	const key = state.file.opts.filename;
+	const key = new FilePath(state.file.opts.filename, {posix: true}).asNative;
 
 	if (global._babel_ipc_[key] === undefined) {
 		return defaultValueFactory();

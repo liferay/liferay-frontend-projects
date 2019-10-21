@@ -196,7 +196,8 @@ export function reportAndResolveCollisions(
 			unrolledAliases.splice(0, unrolledAliases.length - 1);
 
 			const alias = unrolledAliases[0];
-			const rootRelFromPath = absRootDir.relative(absFromPath).asNative;
+			const rootRelFromPosixPath = absRootDir.relative(absFromPath)
+				.asPosix;
 
 			const rootRelDir = absRootDir.relative(alias.absDir);
 			const where =
@@ -206,9 +207,9 @@ export function reportAndResolveCollisions(
 
 			log.warn(
 				'replace-browser-modules',
-				`File '${rootRelFromPath}' is aliased more than once, only ` +
-					`the alias configured in ${where} will be visible when ` +
-					`required from outside`
+				`File '${rootRelFromPosixPath}' is aliased more than once, ` +
+					`only the alias configured in ${where} will be visible ` +
+					`when required from outside`
 			).linkToCode(4);
 		});
 }

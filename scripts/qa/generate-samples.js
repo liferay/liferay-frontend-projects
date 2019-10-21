@@ -128,9 +128,8 @@ function generateLiferaySamples(configs) {
 		fs.emptyDirSync(path.join(packagesDir, config.replace('.json', '')));
 
 		spawn(
-			'node',
+			yoPath,
 			[
-				yoPath,
 				liferayJsGeneratorPath,
 				'--skip-install',
 				'--config',
@@ -179,9 +178,8 @@ function generateCreateReactAppSample() {
 	fs.removeSync(tmpDir);
 
 	spawn(
-		'node',
+		yoPath,
 		[
-			yoPath,
 			liferayJsAdaptGeneratorPath,
 			'--skip-install',
 			'--force',
@@ -208,9 +206,8 @@ function generateAngularCliSample() {
 	);
 
 	spawn(
-		'node',
+		yoPath,
 		[
-			yoPath,
 			liferayJsAdaptGeneratorPath,
 			'--skip-install',
 			'--force',
