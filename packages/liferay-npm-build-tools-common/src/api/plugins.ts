@@ -4,11 +4,23 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import Manifest from '../manifest';
 import PkgDesc from '../pkg-desc';
 import PluginLogger from '../plugin-logger';
 
 /**
- * An bundler plugin entry point.
+ * The IPC object passed to all babel plugins through the `babelIpc` mechanism
+ * (see `liferay-npm-build-tools-common/lib/babel-ipc` module).
+ */
+export interface BabelIpcObject {
+	log: PluginLogger;
+	manifest: Manifest;
+	rootPkgJson: object;
+	globalConfig: object;
+}
+
+/**
+ * A bundler plugin entry point.
  *
  * @remarks
  * Note that the signature for every type of plugin is the same, but the second
