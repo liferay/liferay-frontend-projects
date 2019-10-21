@@ -1,3 +1,12 @@
+## [v12.0.0](https://github.com/liferay/eslint-config-liferay/tree/v12.0.0) (2019-10-21)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v11.1.1...v12.0.0)
+
+-   feat!: add no-duplicate-class-names, sort-class-names, trim-class-names rules (#108) ([\#114](https://github.com/liferay/eslint-config-liferay/pull/114))
+-   fix(sort-imports): make sure "metal" sorts before "metal-dom" ([\#110](https://github.com/liferay/eslint-config-liferay/pull/110))
+-   feat!: add no-restricted-globals rule ([\#113](https://github.com/liferay/eslint-config-liferay/pull/113))
+-   docs: regenerate CHANGELOG.md ([\#106](https://github.com/liferay/eslint-config-liferay/pull/106))
+
 ## [v11.1.1](https://github.com/liferay/eslint-config-liferay/tree/v11.1.1) (2019-09-30)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v11.1.0...v11.1.1)
