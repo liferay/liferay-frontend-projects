@@ -1,0 +1,7 @@
+{
+	"browser": {
+		"module": "package-shim",
+		"./module": "./module-shim.js",
+		"./module.js": "./file-shim.js"
+	}
+}

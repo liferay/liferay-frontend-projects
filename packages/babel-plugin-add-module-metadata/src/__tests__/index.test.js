@@ -15,8 +15,8 @@ import path from 'path';
 import plugin from '../index';
 
 const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
-const filenameRelative = path.join('path', 'to', 'module.js');
-const filename = path.join(prjDirPath, filenameRelative);
+const prjRelModulePath = path.join('path', 'to', 'module.js');
+const filename = path.join(prjDirPath, prjRelModulePath);
 const prjPkgDesc = new PkgDesc('a-project', '1.0.0', null);
 
 const case1Source = `
@@ -46,7 +46,7 @@ describe('plugin feature tests', () => {
 	let logger, manifest;
 
 	beforeEach(() => {
-		babelIpc.set(filenameRelative, {
+		babelIpc.set(filename, {
 			log: (logger = new PluginLogger()),
 			manifest: (manifest = new Manifest()),
 			rootPkgJson: project.pkgJson,
@@ -58,13 +58,12 @@ describe('plugin feature tests', () => {
 
 		babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
 		const pkg = manifest.getPackage(prjPkgDesc);
 
-		const {flags} = pkg.modules[filenameRelative];
+		const {flags} = pkg.modules[prjRelModulePath];
 
 		expect(flags.esModule).toBe(true);
 	});
@@ -80,13 +79,12 @@ describe('plugin feature tests', () => {
 
 		babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
 		const pkg = manifest.getPackage(prjPkgDesc);
 
-		const {flags} = pkg.modules[filenameRelative];
+		const {flags} = pkg.modules[prjRelModulePath];
 
 		expect(flags.esModule).toBe(true);
 	});
@@ -96,7 +94,6 @@ describe('plugin feature tests', () => {
 
 		babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -114,7 +111,6 @@ describe('plugin feature tests', () => {
 
 		babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 

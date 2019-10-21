@@ -22,14 +22,30 @@ const buildDefine = template(`
  */
 export default function({types: t}) {
 	const wrapVisitor = {
-		Identifier(path, {dependencies}) {
-			const node = path.node;
+		Identifier(path, state) {
+			const {node} = path;
+			const {dependencies} = state;
+			const {log} = babelIpc.get(state, () => ({
+				log: new PluginLogger(),
+			}));
 
-			if (
-				node.name === 'require' &&
-				path.scope.block.type === 'Program'
-			) {
+			if (node.name === 'require') {
 				const parent = path.parent;
+
+				if (
+					path.scope.hasBinding('require') &&
+					!state['webpackWarnIssued']
+				) {
+					state['webpackWarnIssued'] = true;
+
+					log.warn(
+						'wrap-modules-amd',
+						`Module looks like a webpack bundle, local require() ` +
+							`calls will be ignored`
+					).linkToIssue(389);
+
+					return;
+				}
 
 				if (
 					t.isCallExpression(parent) &&
@@ -51,19 +67,18 @@ export default function({types: t}) {
 	return {
 		visitor: {
 			Program: {
-				enter(path, state) {
-					state.dependencies = {};
-				},
 				exit(path, state) {
-					const {opts, file} = state;
-					let {dependencies} = state;
+					const {filename} = state.file.opts;
 					const {log} = babelIpc.get(state, () => ({
 						log: new PluginLogger(),
 					}));
 
+					let dependencies = {};
+
 					// We must traverse the AST again because some plugins emit
 					// their require() calls after exiting Program node :-(
-					path.traverse(wrapVisitor, {opts, dependencies});
+					state.dependencies = dependencies;
+					path.traverse(wrapVisitor, state);
 
 					const {node} = path;
 					const {body} = node;
@@ -84,7 +99,7 @@ export default function({types: t}) {
 					});
 
 					defineNode = applyUserDefinedTemplateIfPresent(
-						file.opts.filenameRelative,
+						filename,
 						defineNode,
 						log
 					);
@@ -112,8 +127,8 @@ export default function({types: t}) {
 	};
 }
 
-function applyUserDefinedTemplateIfPresent(filenameRelative, defineNode, log) {
-	const templateFile = `${filenameRelative}.wrap-modules-amd.template`;
+function applyUserDefinedTemplateIfPresent(filename, defineNode, log) {
+	const templateFile = `${filename}.wrap-modules-amd.template`;
 
 	if (!fs.existsSync(templateFile)) {
 		return defineNode;

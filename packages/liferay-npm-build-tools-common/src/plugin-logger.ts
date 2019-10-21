@@ -11,6 +11,38 @@ export interface Message {
 	source: string;
 	level: 'info' | 'warn' | 'error';
 	things: any[];
+	link?: string;
+}
+
+class MessageTweaker {
+	constructor(msg: Message) {
+		this._msg = msg;
+	}
+
+	linkTo(link: string): MessageTweaker {
+		this._msg.link = link;
+		return this;
+	}
+
+	linkToCode(code: number): MessageTweaker {
+		let strCode: string = code.toString();
+
+		while (strCode.length < 4) {
+			strCode = `0${strCode}`;
+		}
+
+		this._msg.link = `https://github.com/liferay/liferay-js-toolkit/wiki/Report-messages#${strCode}`;
+
+		return this;
+	}
+
+	linkToIssue(issueNumber: number): MessageTweaker {
+		this._msg.link = `https://github.com/liferay/liferay-js-toolkit/issues/${issueNumber}`;
+
+		return this;
+	}
+
+	private _msg: Message;
 }
 
 /**
@@ -26,12 +58,16 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	info(source: string, ...things: any[]): void {
-		this._msgs.push({
+	info(source: string, ...things: any[]): MessageTweaker {
+		const msg: Message = {
 			source,
 			level: 'info',
 			things,
-		});
+		};
+
+		this._msgs.push(msg);
+
+		return new MessageTweaker(msg);
 	}
 
 	/**
@@ -39,12 +75,16 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	warn(source: string, ...things: any[]): void {
-		this._msgs.push({
+	warn(source: string, ...things: any[]): MessageTweaker {
+		const msg: Message = {
 			source,
 			level: 'warn',
 			things,
-		});
+		};
+
+		this._msgs.push(msg);
+
+		return new MessageTweaker(msg);
 	}
 
 	/**
@@ -52,12 +92,16 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	error(source: string, ...things: any[]): void {
-		this._msgs.push({
+	error(source: string, ...things: any[]): MessageTweaker {
+		const msg: Message = {
 			source,
 			level: 'error',
 			things,
-		});
+		};
+
+		this._msgs.push(msg);
+
+		return new MessageTweaker(msg);
 	}
 
 	/**
@@ -99,11 +143,15 @@ export default class PluginLogger {
 	 * containing one line (<br> separated) per message
 	 */
 	toHtml(): string {
-		return this._msgs.reduce(
-			(str, {level, source, things}) =>
-				`${str}${source}:${level}: ${things.join(' ')}<br>`,
-			''
-		);
+		return this._msgs.reduce((str, {level, source, things, link}) => {
+			let html = `${str}${source}:${level}: ${things.join(' ')}<br>`;
+
+			if (link) {
+				html += ` <a href='${link}' title='Detailed information'>🛈🔗</a>`;
+			}
+
+			return html;
+		}, '');
 	}
 
 	private _msgs: Message[];

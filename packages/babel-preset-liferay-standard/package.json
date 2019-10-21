@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"babel-plugin-add-module-metadata": "2.13.2",
+		"babel-plugin-alias-modules": "2.13.2",
 		"babel-plugin-minify-dead-code-elimination": "0.5.1",
 		"babel-plugin-name-amd-modules": "2.13.2",
 		"babel-plugin-namespace-amd-define": "2.13.2",

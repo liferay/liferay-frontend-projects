@@ -24,7 +24,7 @@ it('logs results correctly', () => {
 	`;
 
 	babel.transform(source, {
-		filenameRelative: __filename,
+		filename: __filename,
 		plugins: [plugin],
 	});
 
@@ -38,7 +38,7 @@ describe('when requiring package default modules', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -51,7 +51,7 @@ describe('when requiring package default modules', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -66,7 +66,7 @@ describe('when requiring local modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -79,7 +79,7 @@ describe('when requiring local modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -92,7 +92,7 @@ describe('when requiring local modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -107,7 +107,7 @@ describe('when requiring external modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -120,7 +120,7 @@ describe('when requiring external modules', () => {
 	    `;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -133,7 +133,7 @@ describe('when requiring external modules', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 

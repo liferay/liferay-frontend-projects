@@ -79,6 +79,53 @@ exports[`correctly dumps HTML report 1`] = `
 					p {
 						margin: 0 0 .5em 0;
 					}
+
+					a {
+						text-decoration: none;
+						color: #055;
+					}
+
+					#log-level-selector {
+						position: fixed;
+						top: 1em;
+						right: 1em;
+						background-color: #eee;
+						padding: .3em;
+						border-radius: 4px;
+						font-size: 8pt;
+						border: 1px solid #ccc;
+					}
+
+					#log-level-selector select {
+						font-size: 8pt;
+					}
+
+					.configuration {
+						display: inline-block;
+						margin-bottom: .5em;
+					}
+
+					.configuration > div {
+						background-color: #f0f0f0;
+						cursor: pointer;
+						border-radius: 4px;
+						padding: 2px;
+						display: inline;
+					}
+
+					.configuration > div:after {
+						content: \\"👀\\";
+						padding: 0 .5em;
+					}
+
+					.configuration > pre {
+						font-size: 8pt;
+						display: none;
+					}
+
+					.configuration:hover > pre {
+						display: block;
+					}
 				</style>
 				<script id=\\"report\\" type=\\"application/json\\">
 					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
@@ -88,13 +135,54 @@ exports[`correctly dumps HTML report 1`] = `
 						document.getElementById(\\"report\\").innerHTML
 					);
 				</script>
+				<script>
+					window.onload = function() {
+						var style = document.createElement('style');
+
+						style.innerHTML = '';
+
+						document.head.appendChild(style);
+
+						var select = document.getElementById('log-level-select');
+
+						select.value = 'info';
+
+						select.onchange = function() {
+							switch(select.value) {
+								case 'info':
+									style.innerHTML = '';
+									break;
+
+								case 'warn':
+									style.innerHTML = 
+										'tr.info {display: none;}';
+									break;
+
+								case 'error':
+									style.innerHTML = 
+										'tr.info {display: none;} ' +
+										'tr.warn {display: none;}';
+									break;
+							}
+						};
+					}
+				</script>
 			</head>
 			<body>
+				<div id='log-level-selector'>
+					Log level filter: 
+					<select id='log-level-select'>
+						<option>info</option>
+						<option>warn</option>
+						<option>error</option>
+					</select>
+				</div>
+				
 				<h1>Report of liferay-npm-bundler execution</h1>
 				
 			<table>
-				<tr><td>Executed at:</td><td>Thu, 01 Jan 1970 00:00:00 GMT</td></tr>
-<tr><td>Execution took:</td><td>1s</td></tr>
+				<tr class=\\"\\"><td>Executed at:</td><td>Thu, 01 Jan 1970 00:00:00 GMT</td></tr>
+<tr class=\\"\\"><td>Execution took:</td><td>1s</td></tr>
 			</table>
 		
 				
@@ -109,13 +197,13 @@ exports[`correctly dumps HTML report 1`] = `
 		<h2>Bundler environment versions</h2>
 		
 			<table>
-				<tr><th>Package</th>
+				<tr class=\\"\\"><th>Package</th>
 <th>Version</th></tr>
-				<tr>
+				<tr class=\\"\\">
 					<td>liferay-npm-bundler</td>
 					<td>1.4.2</td>
 				</tr>
-<tr>
+<tr class=\\"\\">
 					<td>liferay-npm-bundler-plugin-inject-angular</td>
 					<td>1.4.2</td>
 				</tr>
@@ -126,12 +214,12 @@ exports[`correctly dumps HTML report 1`] = `
 		<h2>Bundled packages</h2>
 		
 			<table>
-				<tr><th>Package</th>
+				<tr class=\\"\\"><th>Package</th>
 <th>Version</th>
 <th>Copied files</th>
 <th>Excluded files</th>
 <th>Linked to</th></tr>
-				<tr>
+				<tr class=\\"\\">
 						<td>package-1</td>
 						<td>1.0.0</td>
 						<td><div title=\\"a.js,c.js\\">
@@ -144,7 +232,7 @@ exports[`correctly dumps HTML report 1`] = `
 						</td>
 						<td>file:../package-1</td>
 					</tr>
-<tr>
+<tr class=\\"\\">
 						<td>package-2</td>
 						<td>2.0.0</td>
 						<td></td>
@@ -153,7 +241,7 @@ exports[`correctly dumps HTML report 1`] = `
 						</td>
 						<td></td>
 					</tr>
-<tr>
+<tr class=\\"\\">
 						<td>root-package</td>
 						<td>1.0.0</td>
 						<td></td>
@@ -167,17 +255,18 @@ exports[`correctly dumps HTML report 1`] = `
 	
 				
 		<h2>Details of rule executions</h2>
-		<p>
-			Configuration: 
-			<font size=\\"1\\">
+		
+		<div class=\\"configuration\\">
+			<div>Configuration</div>
 			<pre>{}</pre>
-			</font>
-		</p>
+		</div>
+		
 
 			<table>
-				<tr><th>File</th>
+				<tr class=\\"\\"><th>File</th>
 <th>Log source</th>
 <th>Message</th>
+<th></th>
 <th></th></tr>
 				
 			</table>
@@ -188,13 +277,13 @@ exports[`correctly dumps HTML report 1`] = `
 		<h2>Summary of package transformations</h2>
 		
 			<table>
-				<tr><th>Package</th>
+				<tr class=\\"\\"><th>Package</th>
 <th>Version</th>
 <th>Copy phase</th>
 <th>Pre-babel phase</th>
 <th>Babel phase</th>
 <th>Post-babel phase</th></tr>
-				<tr>
+				<tr class=\\"\\">
 						<td>package-1</td>
 						<td>1.0.0</td>
 						<td>
@@ -218,7 +307,7 @@ exports[`correctly dumps HTML report 1`] = `
 							</a>
 						</td>
 					</tr>
-<tr>
+<tr class=\\"\\">
 						<td>package-2</td>
 						<td>2.0.0</td>
 						<td>
@@ -242,7 +331,7 @@ exports[`correctly dumps HTML report 1`] = `
 							</a>
 						</td>
 					</tr>
-<tr>
+<tr class=\\"\\">
 						<td>root-package</td>
 						<td>1.0.0</td>
 						<td>
@@ -279,14 +368,15 @@ exports[`correctly dumps HTML report 1`] = `
 						</h3>
 		
 			<table>
-				<tr><th>Pre-phase plugin</th>
+				<tr class=\\"\\"><th>Pre-phase plugin</th>
 <th>Config</th>
 <th>Message</th>
+<th></th>
 <th></th></tr>
-				<tr>
+				<tr class=\\"\\">
 					<td>a-plugin</td> <td>{\\"cfgval1\\":1,\\"cfgval2\\":2}</td>
 					
-					<td></td>
+					<td></td> <td></td>
 				</tr>
 			</table>
 		
@@ -298,29 +388,30 @@ exports[`correctly dumps HTML report 1`] = `
 		<h2>Details of Babel transformations</h2>
 		
 		<h3>
-							<a name=\\"package-1@1.0.0-babel\\">
-								package-1@1.0.0
-							</a>
+						<a name=\\"package-1@1.0.0-babel\\">
+							package-1@1.0.0
+						</a>
 						</h3>
-		<p>
-							Configuration: 
-							<font size=\\"1\\">
+		
+						<div class=\\"configuration\\">
+							<div>Configuration</div>
 							<pre>{
   \\"cfgval1\\": 1,
   \\"cfgval2\\": 2
 }</pre>
-							</font>
-						</p>
+						</div>
+						
 
 			<table>
-				<tr><th>File</th>
+				<tr class=\\"\\"><th>File</th>
 <th>Log source</th>
 <th>Message</th>
+<th></th>
 <th></th></tr>
-				<tr>
+				<tr class=\\"\\">
 					<td>a.js</td>
 					<td></td>
-					<td></td> <td></td>
+					<td></td> <td></td> <td></td>
 				</tr>
 			</table>
 		
