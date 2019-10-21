@@ -106,3 +106,32 @@ will be replaced by:
 ```javascript 
 var files = {};
 ```
+
+# 0006
+
+> **Redirected '{module}' to '${other module}'**
+
+This message is shown whenever the bundler encounters a `browser` declarations in a `package.json` file that aliases a module to another module (see [the `browser` spec](https://github.com/defunctzombie/package-browser-field-spec/blob/master/README.md) for more information).
+
+For example, you may have this in your project's root folder `package.json` file:
+
+```json
+{
+  "name": "my-project",
+  "browser": {
+    "./util/random.js": "./browser/random.js"
+  }
+}
+```
+
+In that case, any call like:
+
+```javascript 
+var files = `require('./util/files')`;
+```
+
+will be replaced by:
+
+```javascript 
+var files = `require('./browser/random.js')`;
+```
