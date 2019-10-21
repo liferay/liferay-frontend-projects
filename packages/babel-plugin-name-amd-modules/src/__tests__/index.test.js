@@ -12,8 +12,7 @@ import path from 'path';
 import plugin from '../index';
 
 const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
-const filenameRelative = path.join('path', 'to', 'module.js');
-const filename = path.join(prjDirPath, filenameRelative);
+const filename = path.join(prjDirPath, 'path', 'to', 'module.js');
 
 beforeAll(() => {
 	project.loadFrom(prjDirPath);
@@ -23,7 +22,7 @@ describe('plugin feature tests', () => {
 	let logger;
 
 	beforeEach(() => {
-		babelIpc.set(filenameRelative, {
+		babelIpc.set(filename, {
 			log: (logger = new PluginLogger()),
 		});
 	});
@@ -35,7 +34,6 @@ describe('plugin feature tests', () => {
 
 		babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -55,7 +53,6 @@ describe('plugin feature tests', () => {
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -71,7 +68,6 @@ describe('plugin feature tests', () => {
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -87,7 +83,6 @@ describe('plugin feature tests', () => {
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [[plugin, {packageName: 'override-pkg-name'}]],
 		});
 
@@ -103,7 +98,6 @@ describe('plugin feature tests', () => {
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [[plugin, {srcPrefixes: ['path/to']}]],
 		});
 

@@ -12,8 +12,7 @@ import path from 'path';
 import plugin from '../index';
 
 const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
-const filenameRelative = path.join('path', 'to', 'module.js');
-const filename = path.join(prjDirPath, filenameRelative);
+const filename = path.join(prjDirPath, 'path', 'to', 'module.js');
 
 const imports = {
 	provider: {
@@ -35,7 +34,7 @@ describe('plugin feature tests', () => {
 	let logger;
 
 	beforeEach(() => {
-		babelIpc.set(filenameRelative, {
+		babelIpc.set(filename, {
 			log: (logger = new PluginLogger()),
 			rootPkgJson: project.pkgJson,
 			globalConfig: {imports},
@@ -55,7 +54,6 @@ describe('plugin feature tests', () => {
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -79,7 +77,7 @@ define(function () {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative,
+			filename,
 			plugins: [plugin],
 		});
 
@@ -95,7 +93,6 @@ define(['a-project$a-package', 'provider$imp-package', 'no-namespace-package', '
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -120,7 +117,6 @@ define('a-project/module', function () {});`);
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -150,7 +146,6 @@ define('a-project/module', ['a-project$a-package', 'provider$imp-package', 'no-n
 
 		babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -175,21 +170,21 @@ define('a-project/module', ['a-project$a-package', 'provider$imp-package', 'no-n
 
 describe('when module is', () => {
 	it('in a dependency, namespaces define() module name', () => {
-		const filenameRelative = path.join(
+		const filename = path.join(
+			prjDirPath,
 			'node_modules',
 			'a-package',
 			'path',
 			'to',
 			'module.js'
 		);
-		const filename = path.join(prjDirPath, filenameRelative);
 
 		const source = `
 			define('a-package/module', function(){
 			})
 		`;
 
-		babelIpc.set(filenameRelative, {
+		babelIpc.set(filename, {
 			log: new PluginLogger(),
 			rootPkgJson: project.pkgJson,
 			globalConfig: {imports},
@@ -197,7 +192,6 @@ describe('when module is', () => {
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 
@@ -206,7 +200,8 @@ define('a-project$a-package/module', function () {});`);
 	});
 
 	it('in a scoped dependency, namespaces define() module name', () => {
-		const filenameRelative = path.join(
+		const filename = path.join(
+			prjDirPath,
 			'node_modules',
 			'@a-scoped',
 			'package',
@@ -214,14 +209,13 @@ define('a-project$a-package/module', function () {});`);
 			'to',
 			'module.js'
 		);
-		const filename = path.join(prjDirPath, filenameRelative);
 
 		const source = `
 				define('@a-scoped/package/module', function(){
 				})
 			`;
 
-		babelIpc.set(filenameRelative, {
+		babelIpc.set(filename, {
 			log: new PluginLogger(),
 			rootPkgJson: project.pkgJson,
 			globalConfig: {imports},
@@ -229,7 +223,6 @@ define('a-project$a-package/module', function () {});`);
 
 		const {code} = babel.transform(source, {
 			filename,
-			filenameRelative,
 			plugins: [plugin],
 		});
 

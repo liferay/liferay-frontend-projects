@@ -10,7 +10,7 @@ const filePath = __filename;
 const state = {
 	file: {
 		opts: {
-			filenameRelative: filePath,
+			filename: filePath,
 		},
 	},
 };

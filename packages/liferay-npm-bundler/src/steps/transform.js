@@ -182,7 +182,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 	return new Promise(resolve => {
 		const logger = new PluginLogger();
 
-		babelIpc.set(prjRelPath, {
+		babelIpc.set(project.dir.join(prjRelPath).asNative, {
 			log: logger,
 			manifest,
 			rootPkgJson: clone(project.pkgJson),
