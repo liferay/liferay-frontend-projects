@@ -6,25 +6,12 @@
 
 const {checkJSXAttribute} = require('../common/className');
 
-const DESCRIPTION = 'classes in className attribute must be sorted';
+const DESCRIPTION = 'classes in className attribute must be trimmed';
 
 module.exports = {
 	create(context) {
 		const check = (node, value, delimiter) => {
-			const [
-				,
-				leadingWhitespace,
-				classes,
-				trailingWhitespace,
-			] = value.match(/^(\s*)(.*?)(\s*)$/);
-
-			const expected =
-				leadingWhitespace +
-				classes
-					.split(/\s+/)
-					.sort()
-					.join(' ') +
-				trailingWhitespace;
+			const expected = value.trim();
 
 			if (value !== expected) {
 				context.report({
@@ -42,7 +29,9 @@ module.exports = {
 
 		return {
 			JSXAttribute(node) {
-				checkJSXAttribute(node, check);
+				checkJSXAttribute(node, check, context, {
+					allowTemplateLiteralExpressions: true,
+				});
 			},
 		};
 	},

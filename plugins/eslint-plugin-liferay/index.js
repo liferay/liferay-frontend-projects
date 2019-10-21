@@ -17,5 +17,6 @@ module.exports = {
 		'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
 		'sort-class-names': require('./lib/rules/sort-class-names'),
 		'sort-imports': require('./lib/rules/sort-imports'),
+		'trim-class-names': require('./lib/rules/trim-class-names'),
 	},
 };

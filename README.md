@@ -77,6 +77,7 @@ The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugi
 | [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md)                                      | liferay                      | [\#75](https://github.com/liferay/eslint-config-liferay/pull/75)                                                                   |
 | [liferay/sort-imports](./plugins/eslint-plugin-liferay/docs/rules/sort-imports.md)                                                  | liferay                      | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [liferay/sort-class-names](./plugins/eslint-plugin-liferay/docs/rules/sort-class-names.md)                                          | liferay                      | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
+| [liferay/trim-class-names](./plugins/eslint-plugin-liferay/docs/rules/trim-class-names.md)                                          | liferay                      | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
 | [no-console](https://eslint.org/docs/rules/no-console)                                                                              | liferay                      | [\#79](https://github.com/liferay/eslint-config-liferay/pull/79)                                                                   |
 | [no-for-of-loops/no-for-of-loops](https://www.npmjs.com/package/eslint-plugin-no-for-of-loops)                                      | liferay                      | [\#30](https://github.com/liferay/eslint-config-liferay/pull/30)                                                                   |
 | [no-only-tests/no-only-tests](https://www.npmjs.com/package/eslint-plugin-no-only-tests)                                            | liferay                      | [\#22](https://github.com/liferay/eslint-config-liferay/pull/22)                                                                   |
@@ -128,6 +129,7 @@ The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plug
 -   [liferay/padded-test-blocks](./plugins/eslint-plugin-liferay/docs/rules/padded-test-blocks.md): Enforces blank lines between test blocks (`it()` etc).
 -   [liferay/sort-class-names](./plugins/eslint-plugin-liferay/docs/rules/sort-class-names.md): Enforces (and autofixes) ordering of class names inside JSX `className` attributes.
 -   [liferay/sort-imports](./plugins/eslint-plugin-liferay/docs/rules/sort-imports.md): Enforces (and autofixes) `import` and `require` ordering.
+-   [liferay/trim-class-names](./plugins/eslint-plugin-liferay/docs/rules/trim-class-names.md): Enforces (and autofixes) that class names inside JSX `className` attributes do not have leading or trailing whitespace.
 
 #### `eslint-plugin-liferay-portal`
 

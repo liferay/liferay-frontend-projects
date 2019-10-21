@@ -7,7 +7,9 @@
 /**
  * A visitor function that calls `callback` for any "className" `JSXAttribute`.
  */
-function checkJSXAttribute(node, callback) {
+function checkJSXAttribute(node, callback, context = null, options = {}) {
+	const {allowTemplateLiteralExpressions} = options;
+
 	if (node.name.name !== 'className' || !node.value) {
 		return;
 	}
@@ -20,13 +22,23 @@ function checkJSXAttribute(node, callback) {
 			const {raw, value} = node.value.expression;
 
 			callback(node.value.expression, value, raw.charAt(0));
-		} else if (
-			node.value.expression.type === 'TemplateLiteral' &&
-			node.value.expression.expressions.length === 0
-		) {
-			const {raw} = node.value.expression.quasis[0].value;
+		} else if (node.value.expression.type === 'TemplateLiteral') {
+			const {expression} = node.value;
 
-			callback(node.value.expression, raw, '`');
+			if (expression.expressions.length === 0) {
+				const {raw} = expression.quasis[0].value;
+
+				callback(expression, raw, '`');
+			} else if (allowTemplateLiteralExpressions) {
+				callback(
+					expression,
+					context
+						.getSourceCode()
+						.getText(expression)
+						.slice(1, -1),
+					'`'
+				);
+			}
 		}
 	} else if (
 		node.value.type === 'Literal' &&

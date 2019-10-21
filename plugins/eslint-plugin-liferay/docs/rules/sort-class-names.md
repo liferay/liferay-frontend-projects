@@ -1,6 +1,6 @@
 # Sort class names inside the "className" JSX attribute (sort-class-names)
 
-This rule enforces (and autofixes) that the class names inside the "className" attribute of a JSX element are sorted, and any excess whitespace trimmed.
+This rule enforces (and autofixes) that the class names inside the "className" attribute of a JSX element are sorted.
 
 ## Rule Details
 
@@ -8,7 +8,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 <div className="a c b d"></div>
-<div className="   a  b"></div>
 <div className={'bar foo'}></div>
 ```
 
@@ -37,6 +36,10 @@ Likewise, it does not currently check for duplicate classnames:
 // Duplicates are not checked for:
 <div className="a a a"></div>
 ```
+
+## Related
+
+-   [trim-class-names](./trim-class-names.md)
 
 ## Further Reading
 

@@ -16,6 +16,7 @@ const config = {
 	plugins: ['react', 'react-hooks'],
 	rules: {
 		'liferay/sort-class-names': 'error',
+		'liferay/trim-class-names': 'error',
 
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react

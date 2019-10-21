@@ -20,7 +20,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester(parserOptions);
 
-const message = 'classes in className attribute must be trimmed and sorted';
+const message = 'classes in className attribute must be sorted';
 
 ruleTester.run('sort-class-names', rule, {
 	invalid: [
@@ -80,15 +80,15 @@ ruleTester.run('sort-class-names', rule, {
 			output: '<div className={`a b c d`}></div>',
 		},
 		{
-			// Whitespace damage.
-			code: '<div className=" a\tb    c  "></div>',
+			// Internal whitespace damage.
+			code: '<div className=" a    b\tc  "></div>',
 			errors: [
 				{
 					message,
 					type: 'Literal',
 				},
 			],
-			output: '<div className="a b c"></div>',
+			output: '<div className=" a b c  "></div>',
 		},
 	],
 
