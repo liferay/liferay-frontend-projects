@@ -5,6 +5,7 @@
  */
 
 import babelPluginAddModuleMetadata from 'babel-plugin-add-module-metadata';
+import babelPluginAliasModules from 'babel-plugin-alias-modules';
 import babelPluginMinifyDeadCodeElimination from 'babel-plugin-minify-dead-code-elimination';
 import babelPluginNameAmdModules from 'babel-plugin-name-amd-modules';
 import babelPluginNamespaceAmdDefine from 'babel-plugin-namespace-amd-define';
@@ -19,6 +20,7 @@ import babelPluginWrapModulesAmd from 'babel-plugin-wrap-modules-amd';
 export default function() {
 	return {
 		plugins: [
+			babelPluginAliasModules,
 			babelPluginAddModuleMetadata,
 			babelPluginNormalizeRequires,
 			babelPluginTransformNodeEnvInline,
