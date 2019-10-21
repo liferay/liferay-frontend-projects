@@ -20,256 +20,267 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 
 const absPrjDirPath = project.dir.asNative;
 const absBuildDirPath = project.dir.join(project.buildDir).asNative;
+let t;
 
 /**
  * @return {object} a babel visitor
  */
-export default function({types: t}) {
+export default function({types}) {
+	t = types;
+
 	return {
 		visitor: {
 			CallExpression(bpath, state) {
-				const {node} = bpath;
-				const {aliasFields} = state;
-				const {filename}: {filename: string} = state.file.opts;
-				const {log}: BabelIpcObject = babelIpc.get(state, () => ({
-					log: new PluginLogger(),
-				}));
-
-				const {callee} = node;
-
-				if (!t.isIdentifier(callee)) {
-					return;
-				}
-
-				if (callee.name !== 'require') {
-					return;
-				}
-
-				const argument = node.arguments[0];
-
-				if (!t.isLiteral(argument) || !argument.value) {
-					return;
-				}
-
-				const moduleName = argument.value;
-
-				if (typeof moduleName !== 'string') {
-					return;
-				}
-
-				const absRootDirPath = filename.startsWith(absBuildDirPath)
-					? absBuildDirPath
-					: absPrjDirPath;
-
-				const aliasedModuleName = resolve(
-					new FilePath(absRootDirPath),
-					new FilePath(filename),
-					moduleName,
-					aliasFields,
-					log
-				);
-
-				if (aliasedModuleName === false) {
-					bpath.replaceWith(t.objectExpression([]));
-
-					log.info(
-						'alias-modules',
-						`Replaced require('${moduleName}') with {}`
-					).linkToCode(5);
-				} else if (aliasedModuleName !== argument.value) {
-					argument.value = aliasedModuleName;
-
-					log.info(
-						'alias-modules',
-						`Redirected '${moduleName}' to ` +
-							`'${aliasedModuleName}'`
-					).linkToCode(6);
-				}
+				state.visitor.CallExpression(bpath);
 			},
 			Program(bpath, state) {
-				const {opts} = state;
-				const {globalConfig}: BabelIpcObject = babelIpc.get(state, {});
-
-				state.aliasFields = getAliasFields(globalConfig, opts);
+				new Visitor(state);
 			},
 		},
 	};
 }
 
-/**
- * Get required module name as it should be required from `absFile` or `false`
- * if it should be ignored.
- *
- * @param absRootDir
- * @param absFile
- * @param requiredModuleName
- */
-export function resolve(
-	absRootDir: FilePath,
-	absFile: FilePath,
-	requiredModuleName: string,
-	aliasFields: string[],
-	log: PluginLogger
-): AliasToValue {
-	// Fail for absolute path modules
-	if (requiredModuleName.startsWith('/')) {
-		log.error(
-			'babel-plugin-alias-modules',
-			`Require to absolute path ${requiredModuleName} will not work in ` +
-				`AMD environments (like Liferay)`
+export class Visitor {
+	constructor(state) {
+		const babelIpcObject: BabelIpcObject = babelIpc.get(state, {});
+
+		this._aliasFields = getAliasFields(
+			babelIpcObject.globalConfig,
+			state.opts
+		);
+		this._absFile = new FilePath(state.file.opts.filename);
+		this._log = babelIpcObject.log;
+
+		this._absRootDir = new FilePath(
+			this._absFile.asNative.startsWith(absBuildDirPath)
+				? absBuildDirPath
+				: absPrjDirPath
 		);
 
-		return undefined;
+		state.visitor = this;
 	}
 
-	const absFileDir = absFile.dirname();
-	const requiredModule = new FilePath(requiredModuleName, {posix: true});
+	CallExpression(bpath) {
+		const {_log} = this;
+		const {node} = bpath;
+		const {callee} = node;
 
-	let alias;
+		if (!t.isIdentifier(callee)) {
+			return;
+		}
 
-	if (mod.isLocalModule(requiredModuleName)) {
-		// First look in file directory (without recursion)
-		alias = getAliasForLocal(
-			absFileDir,
-			absFileDir,
-			requiredModule,
-			aliasFields
-		);
+		if (callee.name !== 'require') {
+			return;
+		}
 
-		// Then, if not found, recursively from target module up
-		if (alias === undefined) {
-			const moduleDir = absFileDir.join(requiredModule.dirname());
-			const moduleBasename = requiredModule.basename();
+		const argument = node.arguments[0];
 
-			alias = getAliasForLocal(
-				absRootDir,
-				moduleDir,
-				moduleBasename,
-				aliasFields
+		if (!t.isLiteral(argument) || !argument.value) {
+			return;
+		}
+
+		const moduleName = argument.value;
+
+		if (typeof moduleName !== 'string') {
+			return;
+		}
+
+		const aliasedModuleName = this._resolve(moduleName);
+
+		if (aliasedModuleName === false) {
+			bpath.replaceWith(t.objectExpression([]));
+
+			_log.info(
+				'alias-modules',
+				`Replaced require('${moduleName}') with {}`
+			).linkToCode(5);
+		} else if (aliasedModuleName !== argument.value) {
+			argument.value = aliasedModuleName;
+
+			_log.info(
+				'alias-modules',
+				`Redirected '${moduleName}' to ` + `'${aliasedModuleName}'`
+			).linkToCode(6);
+		}
+	}
+
+	/**
+	 * Get required module name as it should be required from `absFile` or `false`
+	 * if it should be ignored.
+	 *
+	 * @param requiredModuleName
+	 */
+	_resolve(requiredModuleName: string): AliasToValue {
+		const {_absRootDir, _absFile, _aliasFields, _log} = this;
+
+		// Fail for absolute path modules
+		if (requiredModuleName.startsWith('/')) {
+			_log.error(
+				'babel-plugin-alias-modules',
+				`Require to absolute path ${requiredModuleName} will not work in ` +
+					`AMD environments (like Liferay)`
 			);
 
-			if (
-				alias !== undefined &&
-				getAliasToType(alias) === AliasToType.LOCAL
-			) {
-				alias = absFileDir
-					.relative(moduleDir)
-					.join(new FilePath(alias, {posix: true})).asPosix;
+			return undefined;
+		}
 
-				if (!alias.startsWith('.')) {
-					alias = `./${alias}`;
+		const absFileDir = _absFile.dirname();
+		const requiredModule = new FilePath(requiredModuleName, {posix: true});
+
+		let alias;
+
+		if (mod.isLocalModule(requiredModuleName)) {
+			// First look in file directory (without recursion)
+			alias = this._getAliasForLocal(
+				absFileDir,
+				absFileDir,
+				requiredModule
+			);
+
+			// Then, if not found, recursively from target module up
+			if (alias === undefined) {
+				const moduleDir = absFileDir.join(requiredModule.dirname());
+				const moduleBasename = requiredModule.basename();
+
+				alias = this._getAliasForLocal(
+					_absRootDir,
+					moduleDir,
+					moduleBasename
+				);
+
+				if (
+					alias !== undefined &&
+					getAliasToType(alias) === AliasToType.LOCAL
+				) {
+					alias = absFileDir
+						.relative(moduleDir)
+						.join(new FilePath(alias, {posix: true})).asPosix;
+
+					if (!alias.startsWith('.')) {
+						alias = `./${alias}`;
+					}
 				}
 			}
+		} else {
+			alias = this._getAliasForExternal(absFileDir, requiredModule);
 		}
-	} else {
-		alias = getAliasForExternal(
-			absRootDir,
-			absFileDir,
-			requiredModule,
-			aliasFields
+
+		return alias === undefined ? requiredModuleName : alias;
+	}
+
+	/**
+	 * Get resolved module name as it should be required from `absSearchDir` or
+	 * `undefined` if it is not aliased.
+	 *
+	 * @param searchRelModuleName (without leading `./`)
+	 */
+	private _getAliasForLocal(
+		absSearchTopDir: FilePath,
+		absSearchDir: FilePath,
+		searchRelModuleName: FilePath
+	): AliasToValue | undefined {
+		const {_aliasFields} = this;
+
+		const aliases = loadAliases(
+			absSearchDir.join('package.json'),
+			_aliasFields
 		);
-	}
+		const normalizedSearchRelModuleName = `./${searchRelModuleName.asPosix}`;
 
-	return alias === undefined ? requiredModuleName : alias;
-}
+		let alias = aliases[normalizedSearchRelModuleName];
 
-/**
- * Get resolved module name as it should be required from `absSearchDir` or
- * `undefined` if it is not aliased.
- *
- * @param absRootDir
- * @param absSearchDir
- * @param searchRelModuleName (without leading `./`)
- */
-function getAliasForLocal(
-	absRootDir: FilePath,
-	absSearchDir: FilePath,
-	searchRelModuleName: FilePath,
-	aliasFields: string[]
-): AliasToValue | undefined {
-	const aliases = loadAliases(absSearchDir.join('package.json'), aliasFields);
-	const normalizedSearchRelModuleName = `./${searchRelModuleName.asPosix}`;
+		// Try with file alias
+		if (
+			alias === undefined &&
+			!normalizedSearchRelModuleName.toLowerCase().endsWith('.js')
+		) {
+			alias = aliases[`${normalizedSearchRelModuleName}.js`];
+		}
 
-	let alias = aliases[normalizedSearchRelModuleName];
+		// Try with external module aliases
+		if (alias === undefined) {
+			alias = aliases[searchRelModuleName.asPosix];
+		}
 
-	// Try with file alias
-	if (
-		alias === undefined &&
-		!normalizedSearchRelModuleName.toLowerCase().endsWith('.js')
-	) {
-		alias = aliases[`${normalizedSearchRelModuleName}.js`];
-	}
+		// Found: return it
+		if (alias !== undefined) {
+			return alias;
+		}
 
-	// Try with external module aliases
-	if (alias === undefined) {
-		alias = aliases[searchRelModuleName.asPosix];
-	}
+		// Search finished
+		if (absSearchDir.is(absSearchTopDir)) {
+			return undefined;
+		}
 
-	// Found: return it
-	if (alias !== undefined) {
+		// Look up in hierachy
+		alias = this._getAliasForLocal(
+			absSearchTopDir,
+			absSearchDir.dirname(),
+			absSearchDir.basename().join(searchRelModuleName)
+		);
+
+		// Rebase to current folder
+		if (
+			alias !== undefined &&
+			getAliasToType(alias) === AliasToType.LOCAL
+		) {
+			alias = new FilePath(`../${alias}`, {posix: true}).normalize()
+				.asPosix;
+		}
+
 		return alias;
 	}
 
-	// Search finished
-	if (absSearchDir.is(absRootDir)) {
-		return undefined;
-	}
+	/**
+	 * Get resolved module name or `undefined` if it is not aliased.
+	 *
+	 * @param absRootDir
+	 * @param absSearchDir
+	 * @param searchRelModuleName
+	 */
+	private _getAliasForExternal(
+		absSearchDir: FilePath,
+		requiredModule: FilePath
+	): AliasToValue | undefined {
+		const {_absRootDir, _aliasFields} = this;
 
-	// Look up in hierachy
-	alias = getAliasForLocal(
-		absRootDir,
-		absSearchDir.dirname(),
-		absSearchDir.basename().join(searchRelModuleName),
-		aliasFields
-	);
+		const aliases = loadAliases(
+			absSearchDir.join('package.json'),
+			_aliasFields
+		);
 
-	// Rebase to current folder
-	if (alias !== undefined && getAliasToType(alias) === AliasToType.LOCAL) {
-		alias = new FilePath(`../${alias}`, {posix: true}).normalize().asPosix;
-	}
+		let alias = aliases[requiredModule.asPosix];
 
-	return alias;
-}
+		// Found: return it
+		if (alias !== undefined) {
+			return alias;
+		}
 
-/**
- * Get resolved module name or `undefined` if it is not aliased.
- *
- * @param absRootDir
- * @param absSearchDir
- * @param searchRelModuleName
- */
-function getAliasForExternal(
-	absRootDir: FilePath,
-	absSearchDir: FilePath,
-	requiredModule: FilePath,
-	aliasFields: string[]
-): AliasToValue | undefined {
-	const aliases = loadAliases(absSearchDir.join('package.json'), aliasFields);
+		// Search finished
+		if (absSearchDir.is(_absRootDir)) {
+			return undefined;
+		}
 
-	let alias = aliases[requiredModule.asPosix];
+		// Look up in hierachy
+		alias = this._getAliasForExternal(
+			absSearchDir.dirname(),
+			requiredModule
+		);
 
-	// Found: return it
-	if (alias !== undefined) {
+		// Rebase to current folder
+		if (
+			alias !== undefined &&
+			getAliasToType(alias) === AliasToType.LOCAL
+		) {
+			alias = new FilePath(`../${alias}`, {posix: true}).normalize()
+				.asPosix;
+		}
+
 		return alias;
 	}
 
-	// Search finished
-	if (absSearchDir.is(absRootDir)) {
-		return undefined;
-	}
-
-	// Look up in hierachy
-	alias = getAliasForExternal(
-		absRootDir,
-		absSearchDir.dirname(),
-		requiredModule,
-		aliasFields
-	);
-
-	// Rebase to current folder
-	if (alias !== undefined && getAliasToType(alias) === AliasToType.LOCAL) {
-		alias = new FilePath(`../${alias}`, {posix: true}).normalize().asPosix;
-	}
-
-	return alias;
+	private readonly _absRootDir: FilePath;
+	private readonly _aliasFields: string[];
+	private readonly _absFile: FilePath;
+	private readonly _log: PluginLogger;
 }

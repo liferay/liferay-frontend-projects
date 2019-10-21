@@ -5,40 +5,42 @@
  */
 
 import path from 'path';
+import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
-import {resolve} from '../index';
+import {Visitor} from '../index';
 
 const fixturesDir = new FilePath(path.join(__dirname, '__fixtures__'));
 
 let log: PluginLogger;
+let visitor: Visitor;
 
 beforeEach(() => {
-	log = new PluginLogger();
+	const state = {
+		file: {
+			opts: {
+				filename: fixturesDir.join('index.js').asNative,
+			},
+		},
+		opts: {},
+	};
+
+	babelIpc.set(state.file.opts.filename, {
+		globalConfig: {},
+		log: log = new PluginLogger(),
+	});
+
+	visitor = new Visitor(state);
 });
 
 describe('for absolute paths', () => {
 	it('returns undefined', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'/absolute/path/to/module',
-				['browser'],
-				log
-			)
-		).toBeUndefined();
+		expect(visitor._resolve('/absolute/path/to/module')).toBeUndefined();
 	});
 
 	it('logs an error', () => {
-		resolve(
-			fixturesDir,
-			fixturesDir.join('index.js'),
-			'/absolute/path/to/module',
-			['browser'],
-			log
-		);
+		visitor._resolve('/absolute/path/to/module');
 
 		expect(log.messages).toEqual([
 			{
@@ -55,300 +57,276 @@ describe('for absolute paths', () => {
 
 describe('when unaliased', () => {
 	it('resolves external module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'path/to/unaliased/external/module',
-				['browser'],
-				log
-			)
-		).toEqual('path/to/unaliased/external/module');
+		expect(visitor._resolve('path/to/unaliased/external/module')).toEqual(
+			'path/to/unaliased/external/module'
+		);
 	});
 
 	it('resolves local module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/unaliased/module',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/unaliased/module');
+		expect(visitor._resolve('./path/to/unaliased/module')).toEqual(
+			'./path/to/unaliased/module'
+		);
 	});
 
 	it('resolves local file', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/unaliased/module.js',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/unaliased/module.js');
+		expect(visitor._resolve('./path/to/unaliased/module.js')).toEqual(
+			'./path/to/unaliased/module.js'
+		);
 	});
 });
 
 describe('when aliased in the same folder', () => {
-	it('resolves external module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join(
-					'path',
-					'to',
-					'in',
-					'folder',
-					'aliased',
-					'index.js'
-				),
-				'external/module',
-				['browser'],
-				log
-			)
-		).toEqual('a-shim-package');
-	});
-
 	it('resolves local module required as module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/folder/aliased/module',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/in/folder/aliased/module-shim.js');
+		expect(visitor._resolve('./path/to/in/folder/aliased/module')).toEqual(
+			'./path/to/in/folder/aliased/module-shim.js'
+		);
 	});
 
 	it('does not resolve local module required as file', () => {
 		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/folder/aliased/module.js',
-				['browser'],
-				log
-			)
+			visitor._resolve('./path/to/in/folder/aliased/module.js')
 		).toEqual('./path/to/in/folder/aliased/module.js');
 	});
 
 	it('resolves local file required as module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/folder/aliased/file',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/in/folder/aliased/file-shim.js');
+		expect(visitor._resolve('./path/to/in/folder/aliased/file')).toEqual(
+			'./path/to/in/folder/aliased/file-shim.js'
+		);
 	});
 
 	it('resolves local file required as file', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/folder/aliased/file.js',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/in/folder/aliased/file-shim.js');
+		expect(visitor._resolve('./path/to/in/folder/aliased/file.js')).toEqual(
+			'./path/to/in/folder/aliased/file-shim.js'
+		);
+	});
+
+	it('resolves external module', () => {
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join(
+						'path',
+						'to',
+						'in',
+						'folder',
+						'aliased',
+						'index.js'
+					).asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		const visitor = new Visitor(state);
+
+		expect(visitor._resolve('external/module')).toEqual('a-shim-package');
 	});
 });
 
 describe('when aliased in a parent folder', () => {
-	it('resolves external module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join(
-					'path',
-					'to',
-					'in',
-					'parent',
-					'aliased',
-					'index.js'
-				),
-				'external/module',
-				['browser'],
-				log
-			)
-		).toEqual('a-shim-package');
-	});
-
 	it('resolves local module required as module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/parent/aliased/module',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/in/parent/module-shim.js');
+		expect(visitor._resolve('./path/to/in/parent/aliased/module')).toEqual(
+			'./path/to/in/parent/module-shim.js'
+		);
 	});
 
 	it('does not resolve local module required as file', () => {
 		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/parent/aliased/module.js',
-				['browser'],
-				log
-			)
+			visitor._resolve('./path/to/in/parent/aliased/module.js')
 		).toEqual('./path/to/in/parent/aliased/module.js');
 	});
 
 	it('resolves local file required as module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/parent/aliased/file',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/in/parent/file-shim.js');
+		expect(visitor._resolve('./path/to/in/parent/aliased/file')).toEqual(
+			'./path/to/in/parent/file-shim.js'
+		);
 	});
 
 	it('resolves local file required as file', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/in/parent/aliased/file.js',
-				['browser'],
-				log
-			)
-		).toEqual('./path/to/in/parent/file-shim.js');
+		expect(visitor._resolve('./path/to/in/parent/aliased/file.js')).toEqual(
+			'./path/to/in/parent/file-shim.js'
+		);
+	});
+
+	it('resolves external module', () => {
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join(
+						'path',
+						'to',
+						'in',
+						'parent',
+						'aliased',
+						'index.js'
+					).asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		const visitor = new Visitor(state);
+
+		expect(visitor._resolve('external/module')).toEqual('a-shim-package');
 	});
 });
 
 describe('when aliased as `false`', () => {
-	it('works for external module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('path', 'to', 'ignored', 'index.js'),
-				'external',
-				['browser'],
-				log
-			)
-		).toBe(false);
-	});
-
 	it('works for local module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/ignored/module',
-				['browser'],
-				log
-			)
-		).toBe(false);
+		expect(visitor._resolve('./path/to/ignored/module')).toBe(false);
 	});
 
 	it('works for local file', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('index.js'),
-				'./path/to/ignored/file.js',
-				['browser'],
-				log
-			)
-		).toBe(false);
+		expect(visitor._resolve('./path/to/ignored/file.js')).toBe(false);
+	});
+
+	it('works for external module', () => {
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join(
+						'path',
+						'to',
+						'ignored',
+						'index.js'
+					).asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		const visitor = new Visitor(state);
+
+		expect(visitor._resolve('external')).toBe(false);
 	});
 });
 
 describe('when collision for external, module and file exists', () => {
+	let visitor: Visitor;
+
+	beforeEach(() => {
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join(
+						'path',
+						'to',
+						'colliding',
+						'index.js'
+					).asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		visitor = new Visitor(state);
+	});
+
 	it('resolves external to external', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('path', 'to', 'colliding', 'index.js'),
-				'module',
-				['browser'],
-				log
-			)
-		).toBe('package-shim');
+		expect(visitor._resolve('module')).toBe('package-shim');
 	});
 
 	it('resolves module to module', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('path', 'to', 'colliding', 'index.js'),
-				'./module',
-				['browser'],
-				log
-			)
-		).toBe('./module-shim.js');
+		expect(visitor._resolve('./module')).toBe('./module-shim.js');
 	});
 
 	it('resolves file to file', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('path', 'to', 'colliding', 'index.js'),
-				'./module.js',
-				['browser'],
-				log
-			)
-		).toBe('./file-shim.js');
+		expect(visitor._resolve('./module.js')).toBe('./file-shim.js');
 	});
 });
 
 describe('when collision between parent and child exists', () => {
 	it('resolves to parent in parent', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('path', 'to', 'overriden', 'index.js'),
-				'./child/module',
-				['browser'],
-				log
-			)
-		).toBe('./parent-shim.js');
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join(
+						'path',
+						'to',
+						'overriden',
+						'index.js'
+					).asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		const visitor = new Visitor(state);
+
+		expect(visitor._resolve('./child/module')).toBe('./parent-shim.js');
 	});
 
 	it('resolves to child in child', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join(
-					'path',
-					'to',
-					'overriden',
-					'child',
-					'index.js'
-				),
-				'./module',
-				['browser'],
-				log
-			)
-		).toBe('./child-shim.js');
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join(
+						'path',
+						'to',
+						'overriden',
+						'child',
+						'index.js'
+					).asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		const visitor = new Visitor(state);
+
+		expect(visitor._resolve('./module')).toBe('./child-shim.js');
 	});
 
 	it('resolves to child in grandpa', () => {
-		expect(
-			resolve(
-				fixturesDir,
-				fixturesDir.join('path', 'to', 'index.js'),
-				'./overriden/child/module',
-				['browser'],
-				log
-			)
-		).toBe('./overriden/child/child-shim.js');
+		const state = {
+			file: {
+				opts: {
+					filename: fixturesDir.join('path', 'to', 'index.js')
+						.asNative,
+				},
+			},
+			opts: {},
+		};
+
+		babelIpc.set(state.file.opts.filename, {
+			globalConfig: {},
+			log: new PluginLogger(),
+		});
+
+		const visitor = new Visitor(state);
+
+		expect(visitor._resolve('./overriden/child/module')).toBe(
+			'./overriden/child/child-shim.js'
+		);
 	});
 });
-
-// TODO: collisions between module/external aliases and real files
-
-// TODO: que pasa si un padre del require define un ../algo del required que esta en otra rama
