@@ -52,7 +52,36 @@ This extension is applied automatically by [liferay-npm-scripts](https://github.
 
 ### Copyright headers
 
-The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugin-notice) plug-in can be used to enforce the use of uniform copyright headers across a project by placing a template named `copyright.js` in the project root (for example, see [the file defining the headers used in eslint-config-liferay itself](https://github.com/liferay/eslint-config-liferay/blob/master/copyright.js)).
+The included [`eslint-plugin-notice`](https://www.npmjs.com/package/eslint-plugin-notice) plug-in can be used to enforce the use of uniform copyright headers across a project by placing a template named `copyright.js` in the project root (for example, see [the file defining the headers used in eslint-config-liferay itself](https://github.com/liferay/eslint-config-liferay/blob/master/copyright.js)) and configuring the rule:
+
+```javascript
+const path = require('path');
+
+module.exports = {
+	extends: ['liferay'],
+	rules: {
+		'notice/notice': [
+			'error',
+			{
+				templateFile: path.join(__dirname, 'copyright.js'),
+			},
+		],
+	},
+};
+```
+
+Explicit configuration is required in order to make overrides possible; for example:
+
+-   `top-level/`
+    -   `.eslintrc.js`
+    -   `copyright.js`
+    -   `mid-level/`
+        -   `.eslintrc.js`
+        -   `copyright.js`
+        -   `bottom-level/`
+            -   `.eslintrc.js`
+
+If we were to provide configuration by default, then if `bottom-level/.eslintrc.js` does an `extends: ['liferay']`, then the default configuration would be considered more local than the one provided by `mid-level`, causing the wrong `copyright.js` to be used.
 
 ### Base rules
 

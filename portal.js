@@ -6,9 +6,6 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-
 const local = require('./utils/local');
 
 const config = {
@@ -28,24 +25,5 @@ const config = {
 		'no-restricted-globals': ['error', 'event'],
 	},
 };
-
-/**
- * The standard configuration (in "./index") only looks for a template
- * in the current working directory; here we make things work when run from a
- * project directory of the form "modules/apps/foo/bar" in the liferay-portal
- * repo.
- */
-if (
-	path.basename(process.cwd()) !== 'modules' &&
-	path.basename(path.resolve('../../..')) === 'modules' &&
-	fs.existsSync('../../../copyright.js')
-) {
-	config.rules['notice/notice'] = [
-		'error',
-		{
-			templateFile: '../../../copyright.js',
-		},
-	];
-}
 
 module.exports = config;

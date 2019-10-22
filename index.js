@@ -6,8 +6,6 @@
 
 'use strict';
 
-const fs = require('fs');
-
 const local = require('./utils/local');
 
 const config = {
@@ -59,14 +57,5 @@ const config = {
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
 	},
 };
-
-if (fs.existsSync('copyright.js')) {
-	config.rules['notice/notice'] = [
-		'error',
-		{
-			templateFile: 'copyright.js',
-		},
-	];
-}
 
 module.exports = config;
