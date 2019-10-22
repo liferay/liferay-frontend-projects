@@ -1,3 +1,9 @@
+## [v13.0.0](https://github.com/liferay/eslint-config-liferay/tree/v13.0.0) (2019-10-22)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v12.0.0...v13.0.0)
+
+-   fix!: make it possible to override copyright template file (#115) ([\#117](https://github.com/liferay/eslint-config-liferay/pull/117))
+
 ## [v12.0.0](https://github.com/liferay/eslint-config-liferay/tree/v12.0.0) (2019-10-21)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v11.1.1...v12.0.0)
