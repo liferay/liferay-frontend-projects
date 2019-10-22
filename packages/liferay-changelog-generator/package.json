@@ -18,8 +18,9 @@
 		"directory": "packages/liferay-changelog-generator"
 	},
 	"scripts": {
+		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../liferay-js-publish/bin/liferay-js-publish.js",
-		"preversion": "cd ../.. && yarn ci",
+		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for liferay-changelog-generator'"
 	},
 	"version": "1.2.0"
