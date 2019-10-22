@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+const path = require('path');
+
 module.exports = {
 	env: {
 		// Available environments: https://eslint.org/docs/user-guide/configuring#specifying-environments
@@ -24,5 +26,12 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 2018,
 	},
-	rules: {},
+	rules: {
+		'notice/notice': [
+			'error',
+			{
+				templateFile: path.join(__dirname, 'copyright.js'),
+			},
+		],
+	},
 };
