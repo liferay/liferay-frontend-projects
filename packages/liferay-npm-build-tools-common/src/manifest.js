@@ -152,22 +152,6 @@ export default class Manifest {
 	 * @return {String}
 	 */
 	toJSON() {
-		return JSON.stringify(this._data, sortObjectKeysReplacer, 2);
-	}
-}
-
-/**
- * Replacer function for sorting object keys when stringifying
- */
-function sortObjectKeysReplacer(key, value) {
-	if (value instanceof Object && !Array.isArray(value)) {
-		return Object.keys(value)
-			.sort()
-			.reduce((sorted, key) => {
-				sorted[key] = value[key];
-				return sorted;
-			}, {});
-	} else {
-		return value;
+		return JSON.stringify(this._data, null, 2);
 	}
 }
