@@ -20,5 +20,8 @@
 		"cli-table": "^0.3.1",
 		"find-up": "^4.1.0",
 		"globby": "^10.0.1"
+	},
+	"scripts": {
+		"ci": "cd ../.. && yarn ci"
 	}
 }

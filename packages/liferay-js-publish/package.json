@@ -18,8 +18,9 @@
 		"directory": "packages/liferay-js-publish"
 	},
 	"scripts": {
+		"ci": "cd ../.. && yarn ci",
 		"postversion": "node bin/liferay-js-publish.js",
-		"preversion": "cd ../.. && yarn ci",
+		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for liferay-js-publish'"
 	},
 	"version": "1.0.1",

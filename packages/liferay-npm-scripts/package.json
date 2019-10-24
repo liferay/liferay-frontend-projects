@@ -65,8 +65,9 @@
 		"directory": "packages/liferay-npm-scripts"
 	},
 	"scripts": {
+		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../liferay-js-publish/bin/liferay-js-publish.js",
-		"preversion": "cd ../.. && yarn ci",
+		"preversion": "yarn ci",
 		"test": "jest"
 	},
 	"jest": {
