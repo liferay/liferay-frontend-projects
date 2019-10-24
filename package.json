@@ -16,6 +16,7 @@
 		"format:check": "prettier --list-different '**/*.js' '**/*.json' '**/*.md'",
 		"lint": "eslint '.*.js' '**/*.js'",
 		"lint:fix": "eslint --fix '.*.js' '**/*.js'",
+		"preversion": "echo Cannot version top-level private package; false",
 		"test": "jest"
 	},
 	"workspaces": [
