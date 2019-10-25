@@ -16,9 +16,9 @@
 
 ## File extensions
 
-In projects that use TypeScript, the same patterns apply, but with a ".ts" extension rather than ".js".
+In files that contain JSX, avoid custom extensions such as ".jsx"; just use ".js" instead. Our tooling should operate indistinctly of whether a file contains JSX, and this simplifies the task of writing globs that target source code.
 
-In files that contain JSX, avoid custom extensions such as ".jsx" or ".tsx"; use ".js" or ".ts" instead. Our tooling should operate indistinctly of whether a file contains JSX, and this simplifies the task of writing globs that target source code.
+In projects that use TypeScript, the same patterns apply, but with a ".ts" extension rather than ".js". But note one distinction: TypeScript files containing JSX must use the ".tsx" extension [in order for the TypeScript compiler to process the JSX](https://github.com/liferay/liferay-frontend-guidelines/issues/24).
 
 Historically, we used an additional ".es.js" in [liferay-portal](https://github.com/liferay/liferay-portal) to distinguish files that would be transpiled (and in which it was therefore safe to use "modern ES"). However, the current recommendation is to just use ".js", because our aim is to make transpilation transparent and uniform across all frontend code — for example, by moving JS out of JSPs — and the exceptions should be rare.
 
