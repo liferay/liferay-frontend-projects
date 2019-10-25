@@ -12,8 +12,6 @@ describe('ScriptLoader', () => {
 
 	beforeEach(() => {
 		document = {
-			eventHandler: 'onload',
-			scripts: [],
 			createElement: () => {
 				const script = {};
 
@@ -25,13 +23,15 @@ describe('ScriptLoader', () => {
 
 				return script;
 			},
+			eventHandler: 'onload',
 			head: {
 				appendChild: () => {},
 			},
+			scripts: [],
 		};
 	});
 
-	it('should insert synchronous DOM script nodes', function(done) {
+	it('inserts synchronous DOM script nodes', done => {
 		const config = new Config({combine: false, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
@@ -48,7 +48,7 @@ describe('ScriptLoader', () => {
 		});
 	});
 
-	it('should work without combine flag', done => {
+	it('works without combine flag', done => {
 		const config = new Config({combine: false, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
@@ -60,19 +60,19 @@ describe('ScriptLoader', () => {
 			expect(document.scripts).toHaveLength(2);
 
 			expect(document.scripts[0]).toMatchObject({
-				src: 'http://localhost/a@1.0.0.js',
 				async: false,
+				src: 'http://localhost/a@1.0.0.js',
 			});
 			expect(document.scripts[1]).toMatchObject({
-				src: 'http://localhost/b@1.2.0.js',
 				async: false,
+				src: 'http://localhost/b@1.2.0.js',
 			});
 
 			done();
 		});
 	});
 
-	it('should work with combine flag', done => {
+	it('works with combine flag', done => {
 		const config = new Config({combine: true, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
@@ -84,15 +84,15 @@ describe('ScriptLoader', () => {
 			expect(document.scripts).toHaveLength(1);
 
 			expect(document.scripts[0]).toMatchObject({
-				src: 'http://localhost/a@1.0.0.js&/b@1.2.0.js',
 				async: false,
+				src: 'http://localhost/a@1.0.0.js&/b@1.2.0.js',
 			});
 
 			done();
 		});
 	});
 
-	it('should reject on error', done => {
+	it('rejects on error', done => {
 		const config = new Config({combine: true, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 

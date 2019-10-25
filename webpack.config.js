@@ -11,16 +11,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = ({flavor}) => {
 	const baseConfig = {
-		entry: path.resolve(__dirname, 'src/loader/bootstrap.js'),
-		output: {
-			path: path.resolve(__dirname, 'build/loader'),
-		},
 		devtool: 'source-map',
+		entry: path.resolve(__dirname, 'src/loader/bootstrap.js'),
 		module: {
 			rules: [
 				{
-					test: /\.js$/,
 					exclude: /node_modules/,
+					test: /\.js$/,
 					use: [
 						{
 							loader: 'babel-loader',
@@ -30,30 +27,27 @@ module.exports = ({flavor}) => {
 				},
 			],
 		},
+		output: {
+			path: path.resolve(__dirname, 'build/loader'),
+		},
 	};
 
 	const flavorConfig = {
 		debug: {
-			output: Object.assign({}, baseConfig.output, {
-				filename: 'loader-debug.js',
-			}),
-		},
-		prod: {
-			output: Object.assign({}, baseConfig.output, {
-				filename: 'loader.js',
-			}),
+			output: {...baseConfig.output, filename: 'loader-debug.js'},
 		},
 		min: {
-			output: Object.assign({}, baseConfig.output, {
-				filename: 'loader-min.js',
-			}),
+			output: {...baseConfig.output, filename: 'loader-min.js'},
 			plugins: [
 				new UglifyJsPlugin({
 					sourceMap: true,
 				}),
 			],
 		},
+		prod: {
+			output: {...baseConfig.output, filename: 'loader.js'},
+		},
 	};
 
-	return Object.assign({}, baseConfig, flavorConfig[flavor]);
+	return {...baseConfig, ...flavorConfig[flavor]};
 };

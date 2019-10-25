@@ -14,7 +14,7 @@ const savedInfo = console.info;
 const savedDebug = console.debug;
 const savedLog = console.log;
 
-describe('Logger', function() {
+describe('Logger', () => {
 	beforeEach(() => {
 		console.error = jest.fn();
 		console.warn = jest.fn();

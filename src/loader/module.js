@@ -22,8 +22,8 @@ export default class Module {
 		this._map = undefined;
 
 		this._state = {
-			_fetch: ResolvablePromise.new(),
 			_define: ResolvablePromise.new(),
+			_fetch: ResolvablePromise.new(),
 			_implement: ResolvablePromise.new(),
 		};
 	}

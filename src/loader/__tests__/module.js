@@ -13,7 +13,7 @@ describe('Module', () => {
 		module = new Module('a-module');
 	});
 
-	it('should return correct module name', () => {
+	it('returns the correct module name', () => {
 		expect(module.name).toBe('a-module');
 	});
 

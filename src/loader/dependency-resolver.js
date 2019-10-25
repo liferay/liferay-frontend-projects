@@ -48,8 +48,8 @@ export default class DependencyResolver {
 			if (url.length > config.urlMaxLength) {
 				url = config.resolvePath;
 				options = {
-					method: 'POST',
 					body: modulesParam,
+					method: 'POST',
 				};
 			}
 

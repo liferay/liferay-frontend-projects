@@ -7,15 +7,15 @@
 import fs from 'fs';
 import path from 'path';
 
-import Loader from '../loader';
 import Config from '../config.js';
+import Loader from '../loader';
 
-describe('Loader', function() {
+describe('Loader', () => {
 	let config;
 	let loader;
 	let fetchResponse;
 
-	beforeEach(function() {
+	beforeEach(() => {
 		jest.setTimeout(200);
 
 		config = new Config();
@@ -31,10 +31,10 @@ describe('Loader', function() {
 				const moduleNames = decodeURIComponent(modulesParam).split(',');
 
 				fetchResponse = {
-					resolvedModules: moduleNames,
-					moduleMap: {},
 					configMap: {},
+					moduleMap: {},
 					pathMap: {},
+					resolvedModules: moduleNames,
 				};
 			}
 
@@ -129,10 +129,10 @@ describe('Loader', function() {
 
 	it('implements local require', done => {
 		fetchResponse = {
-			resolvedModules: ['local-require/a', 'local-require/sync'],
-			moduleMap: {},
 			configMap: {},
+			moduleMap: {},
 			pathMap: {},
+			resolvedModules: ['local-require/a', 'local-require/sync'],
 		};
 
 		loader.require('local-require/sync', module => {
@@ -150,14 +150,14 @@ describe('Loader', function() {
 
 	it('supports relative paths in local require', done => {
 		fetchResponse = {
-			resolvedModules: ['local-require/a', 'local-require/rel-path'],
+			configMap: {},
 			moduleMap: {
 				'local-require/rel-path': {
 					'./a': 'local-require/a',
 				},
 			},
-			configMap: {},
 			pathMap: {},
+			resolvedModules: ['local-require/a', 'local-require/rel-path'],
 		};
 
 		loader.require(['local-require/rel-path'], module => {
@@ -196,15 +196,15 @@ describe('Loader', function() {
 
 	it('localRequire should not mix contexts (issue 140)', done => {
 		fetchResponse = {
-			resolvedModules: ['issue-140/a', 'issue-140/m1', 'issue-140/m2/m2'],
+			configMap: {},
 			moduleMap: {
 				'issue-140/m1': {
 					'./a': 'issue-140/a',
 					'mapped-issue-140/a': 'issue-140/a',
 				},
 			},
-			configMap: {},
 			pathMap: {},
+			resolvedModules: ['issue-140/a', 'issue-140/m1', 'issue-140/m2/m2'],
 		};
 
 		loader.require('issue-140/m2/m2', m2 => {

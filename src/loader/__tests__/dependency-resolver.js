@@ -35,17 +35,17 @@ describe('DependencyResolver', () => {
 		window.fetch = originalFetch;
 	});
 
-	it('should throw an exception if no modules are specified', () => {
+	it('throws an exception if no modules are specified', () => {
 		expect(() => dependencyResolver.resolve()).toThrow();
 	});
 
-	it('should resolve module', () => {
+	it('resolves a module', () => {
 		return dependencyResolver.resolve(['aui-core']).then(dependencies => {
 			expect(dependencies).toEqual(['aui-core']);
 		});
 	});
 
-	it('should resolve multiple modules', () => {
+	it('resolves multiple modules', () => {
 		return dependencyResolver
 			.resolve(['aui-base', 'aui-core', 'aui-node', 'aui-dom-node'])
 			.then(dependencies => {
@@ -58,7 +58,7 @@ describe('DependencyResolver', () => {
 			});
 	});
 
-	it('should resolve with cached resolution', async () => {
+	it('resolves with cached resolution', async () => {
 		expect(window.fetch.mock.calls.length).toBe(0);
 
 		let dependencies = await dependencyResolver.resolve(['isobject@2.1.0']);

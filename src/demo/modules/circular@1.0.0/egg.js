@@ -11,7 +11,7 @@ var eggNumber = 1;
 Liferay.Loader.define(
 	'circular@1.0.0/egg',
 	['exports', 'require', './chicken'],
-	function(exports, require, chicken) {
+	(exports, require, chicken) => {
 		var Chicken = require('./chicken');
 
 		console.log('Egg module implementing');

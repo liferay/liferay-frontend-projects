@@ -6,6 +6,7 @@
 
 const {spawn, spawnSync} = require('child_process');
 const fs = require('fs-extra');
+
 const {run} = require('./util');
 
 if (!fs.existsSync('build/demo/index.html')) {

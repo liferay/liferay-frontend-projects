@@ -5,6 +5,7 @@
  */
 
 const globby = require('globby');
+
 const {run} = require('./util');
 
 run('webpack', '--env.flavor=debug');

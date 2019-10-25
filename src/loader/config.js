@@ -206,7 +206,10 @@ export default class Config {
 	 * @param {*} defaultValue
 	 */
 	_parse(cfg, property, defaultValue) {
-		this._config[property] = cfg.hasOwnProperty(property)
+		this._config[property] = Object.prototype.hasOwnProperty.call(
+			cfg,
+			property
+		)
 			? cfg[property]
 			: defaultValue;
 	}

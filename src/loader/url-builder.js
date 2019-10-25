@@ -124,7 +124,7 @@ export default class URLBuilder {
 
 		let path = module.name;
 
-		Object.keys(paths).forEach(function(item) {
+		Object.keys(paths).forEach(item => {
 			if (path === item || path.indexOf(item + '/') === 0) {
 				path = paths[item] + path.substring(item.length);
 			}
@@ -156,7 +156,7 @@ export default class URLBuilder {
 		}
 
 		const queryString = keys
-			.map(function(key) {
+			.map(key => {
 				return key + '=' + defaultURLParams[key];
 			})
 			.join('&');
