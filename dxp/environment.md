@@ -110,7 +110,7 @@ Note, however, that our CI infrastructure performs a standard build before runni
 
 ### `NODE_ENV=development`
 
-`NODE_ENV=development` will force our build tooling to produce development-friendly versions of artifacts.
+`NODE_ENV=development` will force our build tooling to produce development-friendly versions of artifacts. See "[Debugging](./debugging.md)" for a discussion of how `NODE_ENV=development` can be used to aid in debugging inside Liferay DXP.
 
 ### Setting `NODE_ENV` temporarily
 
