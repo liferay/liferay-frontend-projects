@@ -45,7 +45,15 @@ async function checkInternal(link, files) {
 
 async function checkLocal(link, files) {
 	for (const file of files) {
-		const target = path.join(path.dirname(file), link);
+		let target;
+
+		if (path.isAbsolute(link)) {
+			// Resolve relative to repo root.
+			target = path.join(__dirname, '..', link);
+		} else {
+			// Resolve relative to current file's directory.
+			target = path.join(path.dirname(file), link);
+		}
 
 		try {
 			await accessAsync(target);
