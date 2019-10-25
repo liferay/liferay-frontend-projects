@@ -7,6 +7,10 @@
 const os = require('os');
 const path = require('path');
 
+const spawnSync = require('../../src/utils/spawnSync');
+
+jest.mock('../../src/utils/spawnSync');
+
 // Use path.normalize to make tests behave uniformly on Linux and Windows.
 const {normalize} = path;
 const join = (...segments) => normalize(path.join(...segments));
@@ -31,16 +35,13 @@ const UNSTYLED = join(
 
 describe('scripts/theme.js', () => {
 	let cwd;
-	let spawnSync;
 
 	beforeEach(() => {
 		cwd = process.cwd();
-		jest.mock('../../src/utils/spawnSync');
-		spawnSync = require('../../src/utils/spawnSync');
+		jest.resetAllMocks();
 	});
 
 	afterEach(() => {
-		jest.resetModules();
 		process.chdir(cwd);
 	});
 

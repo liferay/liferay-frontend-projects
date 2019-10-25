@@ -7,12 +7,18 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const prettier = require('prettier');
+
+const formatJSP = require('../../src/format/formatJSP');
+const format = require('../../src/scripts/format');
+const log = require('../../src/utils/log');
+
+jest.mock('../../src/format/formatJSP');
+jest.mock('../../src/utils/log');
+jest.mock('prettier');
 
 describe('scripts/format.js', () => {
 	let cwd;
-	let format;
-	let formatJSP;
-	let prettier;
 	let temp;
 
 	const source = {
@@ -23,6 +29,8 @@ describe('scripts/format.js', () => {
 	beforeEach(() => {
 		cwd = process.cwd();
 
+		jest.resetAllMocks();
+
 		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'format-'));
 
 		process.chdir(temp);
@@ -31,18 +39,9 @@ describe('scripts/format.js', () => {
 
 		fs.writeFileSync('src/example.js', source.js);
 		fs.writeFileSync('src/example.jsp', source.jsp);
-
-		jest.mock('prettier');
-		jest.mock('../../src/format/formatJSP');
-		jest.mock('../../src/utils/log');
-
-		format = require('../../src/scripts/format');
-		formatJSP = require('../../src/format/formatJSP');
-		prettier = require('prettier');
 	});
 
 	afterEach(() => {
-		jest.resetModules();
 		process.chdir(cwd);
 	});
 
@@ -63,8 +62,6 @@ describe('scripts/format.js', () => {
 	});
 
 	describe('when no globs are configured', () => {
-		let log;
-
 		beforeEach(() => {
 			const config = `module.exports = ${JSON.stringify(
 				{check: [], fix: []},
@@ -73,11 +70,6 @@ describe('scripts/format.js', () => {
 			)};`;
 
 			fs.writeFileSync('npmscripts.config.js', config);
-
-			jest.resetModules();
-			jest.mock('../../src/utils/log');
-			format = require('../../src/scripts/format');
-			log = require('../../src/utils/log');
 		});
 
 		it('logs a message indicating how to configure globs', () => {

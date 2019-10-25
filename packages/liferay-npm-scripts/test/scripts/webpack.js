@@ -6,6 +6,11 @@
 
 const path = require('path');
 
+const webpack = require('../../src/scripts/webpack');
+const spawnSync = require('../../src/utils/spawnSync');
+
+jest.mock('../../src/utils/spawnSync');
+
 const FIXTURES = path.resolve(
 	__dirname,
 	'../../__fixtures__/scripts/webpack/sample'
@@ -13,14 +18,10 @@ const FIXTURES = path.resolve(
 
 describe('scripts/webpack.js', () => {
 	let cwd;
-	let spawnSync;
-	let webpack;
 
 	beforeEach(() => {
 		cwd = process.cwd();
-		jest.mock('../../src/utils/spawnSync');
-		spawnSync = require('../../src/utils/spawnSync');
-		webpack = require('../../src/scripts/webpack');
+		jest.resetAllMocks();
 	});
 
 	afterEach(() => {
