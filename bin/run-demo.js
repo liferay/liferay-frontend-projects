@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 const {run} = require('./util');
 
 if (!fs.existsSync('build/demo/index.html')) {
-	run('npm', 'run', 'build-demo');
+	run('yarn', 'build-demo');
 }
 
 spawn('node', ['./bin/combo.js'], {

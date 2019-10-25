@@ -5,7 +5,7 @@
 	"scripts": {
 		"clean": "rm -rf build",
 		"build": "node bin/build-loader.js",
-		"ci": "npm run format:check && npm run lint && npm run build && npm run build-demo && npm test",
+		"ci": "yarn format:check && yarn lint && yarn build && yarn build-demo && yarn test",
 		"build-demo": "node bin/build-demo.js",
 		"demo": "node bin/run-demo.js",
 		"test": "jest --runInBand",
@@ -15,7 +15,7 @@
 		"lint:fix": "eslint --fix '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
 		"prepublish": "publish-please guard",
 		"publish-please": "publish-please",
-		"prepublishOnly": "npm run build && npm run build-demo && npm test",
+		"prepublishOnly": "yarn build && yarn build-demo && yarn test",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js"
 	},
 	"repository": {
