@@ -62,7 +62,7 @@ scripts. For example, you will be able to run (depending on what your framework 
 $ npm run build:liferay
 ```
 
-or 
+or
 
 ```sh
 $ yarn run build:liferay
@@ -77,7 +77,7 @@ Additionally, if you run:
 $ npm run deploy:liferay
 ```
 
-or 
+or
 
 ```sh
 $ yarn run deploy:liferay
@@ -96,6 +96,8 @@ Right now the list of supported projects categorized by framework and tool is:
    1. [create-react-app](https://facebook.github.io/create-react-app/) project generator
       1. JavaScript projects [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#JavaScript-create-react-app-projects)
       2. Typescript projects (coming soon!)
+2. [Angular](https://angular.io/) framework
+   1. [Angular CLI](https://cli.angular.io/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Angular-cli-projects)
 
 ## How project types are detected and what requirements they must fulfill
 
@@ -136,6 +138,48 @@ from Liferay's standard entry point (see [[JS extended portlets entry point]]).
 To achieve that, the `document.getElementById()` will be changed so that it
 returns the portlet's main `<div>` node (identified by the `portletElementId`
 parameter of the Liferay's entry point) and React attaches its UI to it.
+
+All this happens _automagically_ under the hood when the `build:liferay` script
+is run so that you don't need to do anything other than adapting to the expected
+code structure.
+
+### Angular CLI projects
+
+#### Detection
+
+Any project containing `@angular/cli` as a dependency or devDependency is
+recognized as an `Angular CLI` project.
+
+#### Expected structure
+
+These projects are expected to follow the standard `Angular CLI` structure but,
+in addition, they must use `app-root` as their application's DOM selector.
+
+This is necessary since the JS Toolkit needs to know what to attach to the
+portlet's DOM node so that your Angular application is rendered inside it.
+
+So, your application's component should look like this:
+
+```javascript
+@Component({
+  selector: 'app-root',
+  …
+})
+export class AppComponent {
+  …
+}
+```
+
+When `build:liferay` is run, the standard webpack based build of
+`Angular CLI` is invoked, which leaves processed `.js` and `.css` files
+inside the `dist` directory.
+
+These files are then tweaked by the adapter scripts so that they can be launched
+from Liferay's standard entry point (see [[JS extended portlets entry point]]).
+
+To achieve that, the `app-root` selector in the ouput bundles will be changed so
+that it points to the portlet's main `<div>` node (identified by the
+`portletElementId` parameter of the Liferay's entry point).
 
 All this happens _automagically_ under the hood when the `build:liferay` script
 is run so that you don't need to do anything other than adapting to the expected
