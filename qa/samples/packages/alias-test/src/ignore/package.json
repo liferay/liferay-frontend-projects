@@ -1,0 +1,7 @@
+{
+	"browser": {
+		"fs": false,
+		"./util": false,
+		"./model/index.js": false
+	}
+}

@@ -16,7 +16,7 @@ import * as standardTarget from '../utils/target/standard';
 /**
  * Implementation of generation of plain JavaScript portlets.
  */
-export default class VanillaPortletGenerator extends Generator {
+export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
@@ -97,3 +97,5 @@ export default class VanillaPortletGenerator extends Generator {
 		standardTarget.generateSamples(this, labels);
 	}
 }
+
+module.exports = exports['default'];

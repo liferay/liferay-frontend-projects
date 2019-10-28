@@ -5,6 +5,7 @@
  */
 
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+
 import loader from '../index';
 
 it('logs results correctly', () => {
@@ -17,11 +18,14 @@ it('logs results correctly', () => {
 
 	loader(context, {});
 
+	// This test returns '(from project)' because of yarn hoisting, which makes
+	// the loader think that it is retrieving sass from a project (as opposed to
+	// itself).
 	expect(context.log.messages).toEqual([
 		{
 			level: 'info',
 			source: 'sass-loader',
-			things: ['Processed file with sass v1.22.2 (from loader)'],
+			things: ['Processed file with sass v1.22.12 (from project)'],
 		},
 	]);
 });

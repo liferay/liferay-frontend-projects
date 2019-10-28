@@ -1,18 +1,15 @@
 {
 	"name": "babel-plugin-add-module-metadata",
-	"version": "2.13.3",
+	"version": "2.13.2",
 	"description": "A Babel plugin to add AMD modules' metadata to the manifest.json file.",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "babel --source-maps -D -d lib src",
-		"prepublish": "npm run build"
-	},
-	"devDependencies": {
-		"babel-cli": "^6.24.1",
-		"babel-preset-es2015": "^6.24.1"
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
+		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.13.3",
-		"read-json-sync": "^1.1.1"
+		"liferay-npm-build-tools-common": "2.13.2",
+		"read-json-sync": "^2.0.1"
 	}
 }

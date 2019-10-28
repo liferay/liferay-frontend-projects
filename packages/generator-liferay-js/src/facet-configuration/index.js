@@ -76,3 +76,5 @@ export default class extends Generator {
 		}
 	}
 }
+
+module.exports = exports['default'];

@@ -26,6 +26,10 @@ export default class extends Generator {
 	install() {
 		this.installDependencies({
 			bower: false,
+			skipMessage: this.options['skip-install-message'],
+			skipInstall: this.options['skip-install'],
 		});
 	}
 }
+
+module.exports = exports['default'];

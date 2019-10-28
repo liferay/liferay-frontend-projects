@@ -1,11 +1,11 @@
 {
 	"name": "liferay-npm-bundler-preset-create-react-app",
-	"version": "2.13.3",
+	"version": "2.13.2",
 	"description": "Configuration for liferay-npm-bundler to integrate with create-react-app projects",
 	"main": "config.json",
 	"dependencies": {
-		"babel-preset-liferay-standard": "2.13.3",
-		"liferay-npm-bundler-plugin-create-react-app": "2.13.3",
-		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.13.3"
+		"babel-preset-liferay-standard": "2.13.2",
+		"liferay-npm-bundler-plugin-create-react-app": "2.13.2",
+		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.13.2"
 	}
 }

@@ -5,8 +5,11 @@
  */
 
 import {error, info, print} from 'liferay-npm-build-tools-common/lib/format';
+import project from 'liferay-npm-build-tools-common/lib/project';
+import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 
-import * as createReactApp from './create-react-app';
+import angularCli from './angular-cli';
+import createReactApp from './create-react-app';
 
 const msg = {
 	unsupportedProjectType: [
@@ -22,10 +25,17 @@ const msg = {
 };
 
 export default function() {
-	if (createReactApp.probe()) {
-		createReactApp.run();
-	} else {
-		print(msg.unsupportedProjectType);
-		process.exit(1);
+	switch (project.probe.type) {
+		case ProjectType.ANGULAR_CLI:
+			angularCli();
+			break;
+
+		case ProjectType.CREATE_REACT_APP:
+			createReactApp();
+			break;
+
+		default:
+			print(msg.unsupportedProjectType);
+			process.exit(1);
 	}
 }

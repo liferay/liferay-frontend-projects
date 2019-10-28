@@ -63,3 +63,5 @@ export default class extends Generator {
 		cp.copyDir('assets');
 	}
 }
+
+module.exports = exports['default'];

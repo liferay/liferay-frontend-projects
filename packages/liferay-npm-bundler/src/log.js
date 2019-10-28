@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {isVerbose} from './config';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 /**
  * Log errors
@@ -27,7 +27,7 @@ export function info(...args) {
  * @return {void}
  */
 export function debug(...args) {
-	if (isVerbose()) {
+	if (project.misc.verbose) {
 		console.log(...args);
 	}
 }

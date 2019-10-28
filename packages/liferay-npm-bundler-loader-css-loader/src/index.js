@@ -65,14 +65,16 @@ function getHref(filePath, extension, pathModule) {
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
-	project.sources.asNative.forEach(sourcePath => {
-		// Remove `./` from sourcePath so that it matches the filePath correctly
-		sourcePath = sourcePath.substring(2);
+	project.sources
+		.map(source => source.asNative)
+		.forEach(sourcePath => {
+			// Remove `./` from sourcePath so that it matches the filePath correctly
+			sourcePath = sourcePath.substring(2);
 
-		if (filePath.startsWith(sourcePath)) {
-			filePath = filePath.substring(sourcePath.length + 1);
-		}
-	});
+			if (filePath.startsWith(sourcePath)) {
+				filePath = filePath.substring(sourcePath.length + 1);
+			}
+		});
 
 	if (extension !== undefined) {
 		const extname = path.extname(filePath);

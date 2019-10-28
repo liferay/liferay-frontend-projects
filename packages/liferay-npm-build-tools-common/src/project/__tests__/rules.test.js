@@ -11,7 +11,8 @@ describe('single rule', () => {
 	it('test alone', () => {
 		const requireReturn = () => undefined;
 		const rules = new Rules({
-			_npmbundlerrc: {
+			dir: new FilePath('/home/me/my-project'),
+			npmbundlerrc: {
 				rules: [
 					{
 						test: '\\.css$',
@@ -19,8 +20,7 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -36,7 +36,8 @@ describe('single rule', () => {
 	it('test and include', () => {
 		const requireReturn = () => undefined;
 		const rules = new Rules({
-			_npmbundlerrc: {
+			dir: new FilePath('/home/me/my-project'),
+			npmbundlerrc: {
 				rules: [
 					{
 						test: '\\.css$',
@@ -45,8 +46,7 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -64,7 +64,8 @@ describe('single rule', () => {
 	it('test and exclude', () => {
 		const requireReturn = () => undefined;
 		const rules = new Rules({
-			_npmbundlerrc: {
+			dir: new FilePath('/home/me/my-project'),
+			npmbundlerrc: {
 				rules: [
 					{
 						test: '\\.css$',
@@ -73,8 +74,7 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -96,7 +96,8 @@ describe('single rule', () => {
 	it('test, include and exclude', () => {
 		const requireReturn = () => undefined;
 		const rules = new Rules({
-			_npmbundlerrc: {
+			dir: new FilePath('/home/me/my-project'),
+			npmbundlerrc: {
 				rules: [
 					{
 						test: '\\.css$',
@@ -106,8 +107,7 @@ describe('single rule', () => {
 					},
 				],
 			},
-			dir: new FilePath('/home/me/my-project'),
-			require: () => requireReturn,
+			toolRequire: () => requireReturn,
 		});
 
 		expect(rules.loadersForFile('main.css')).toEqual([
@@ -132,7 +132,8 @@ describe('single rule', () => {
 it('works with rules not based in file extension', () => {
 	const requireReturn = () => undefined;
 	const rules = new Rules({
-		_npmbundlerrc: {
+		dir: new FilePath('/home/me/my-project'),
+		npmbundlerrc: {
 			rules: [
 				{
 					test: '^a-folder/',
@@ -140,8 +141,7 @@ it('works with rules not based in file extension', () => {
 				},
 			],
 		},
-		dir: new FilePath('/home/me/my-project'),
-		require: () => requireReturn,
+		toolRequire: () => requireReturn,
 	});
 
 	expect(rules.loadersForFile('a-folder/main.js')).toEqual([
@@ -159,7 +159,8 @@ it('works with rules not based in file extension', () => {
 it('multiple rules', () => {
 	const requireReturn = () => undefined;
 	const rules = new Rules({
-		_npmbundlerrc: {
+		dir: new FilePath('/home/me/my-project'),
+		npmbundlerrc: {
 			rules: [
 				{
 					test: '\\.css$',
@@ -171,8 +172,7 @@ it('multiple rules', () => {
 				},
 			],
 		},
-		dir: new FilePath('/home/me/my-project'),
-		require: () => requireReturn,
+		toolRequire: () => requireReturn,
 	});
 
 	expect(rules.loadersForFile('main.css')).toEqual([
@@ -194,7 +194,8 @@ it('multiple rules', () => {
 it('rule with options', () => {
 	const requireReturn = () => undefined;
 	const rules = new Rules({
-		_npmbundlerrc: {
+		dir: new FilePath('/home/me/my-project'),
+		npmbundlerrc: {
 			rules: [
 				{
 					test: '\\.js$',
@@ -210,8 +211,7 @@ it('rule with options', () => {
 				},
 			],
 		},
-		dir: new FilePath('/home/me/my-project'),
-		require: () => requireReturn,
+		toolRequire: () => requireReturn,
 	});
 
 	expect(rules.loadersForFile('main.js')).toEqual([

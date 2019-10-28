@@ -26,7 +26,7 @@ it('logs results correctly', () => {
 	`;
 
 	babel.transform(source, {
-		filenameRelative: __filename,
+		filename: __filename,
 		plugins: [plugin],
 	});
 
@@ -39,7 +39,7 @@ it('namespaces unqualified define calls', () => {
 	`;
 
 	const {code} = babel.transform(source, {
-		filenameRelative: __filename,
+		filename: __filename,
 		plugins: [plugin],
 	});
 
@@ -52,7 +52,7 @@ it('does not namespace already qualified define calls', () => {
 	`;
 
 	const {code} = babel.transform(source, {
-		filenameRelative: __filename,
+		filename: __filename,
 		plugins: [plugin],
 	});
 
@@ -72,7 +72,7 @@ describe('does not namespace references to local define identifier', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -87,7 +87,7 @@ describe('does not namespace references to local define identifier', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -102,7 +102,7 @@ describe('does not namespace references to local define identifier', () => {
 		`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 
@@ -119,7 +119,7 @@ describe('does not namespace references to local define identifier', () => {
 			`;
 
 		const {code} = babel.transform(source, {
-			filenameRelative: __filename,
+			filename: __filename,
 			plugins: [plugin],
 		});
 

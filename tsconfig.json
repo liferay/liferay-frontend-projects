@@ -1,0 +1,15 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+
+		"allowJs": true,
+		"checkJs": false,
+		"lib": ["es2015"],
+
+		"sourceMap": false
+	}
+}

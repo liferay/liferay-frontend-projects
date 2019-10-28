@@ -17,6 +17,7 @@ export default function(context, config) {
 
 	const babelConfig = Object.assign(
 		{
+			filename: project.dir.join(filePath).asNative,
 			filenameRelative: filePath,
 			inputSourceMap: sourceMap,
 		},

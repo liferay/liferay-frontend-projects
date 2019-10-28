@@ -5,8 +5,9 @@
  */
 
 const spawn = require('cross-spawn');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
+const readJsonSync = require('read-json-sync');
 
 const toolkitProjectNames = fs.readdirSync(
 	path.join(__dirname, '..', '..', '..', 'packages')
@@ -16,14 +17,15 @@ function isToolkitDep(pkgName) {
 	return toolkitProjectNames.indexOf(pkgName) != -1;
 }
 
-function safeRunFs(fn) {
-	try {
-		fn();
-	} catch (err) {
-		if (err.code !== 'EEXIST') {
-			throw err;
-		}
-	}
+function modifyPackageJson(pkgJsonPath, callback) {
+	const pkgJson = readJsonSync(pkgJsonPath);
+
+	pkgJson.dependencies = pkgJson.dependencies || {};
+	pkgJson.devDependencies = pkgJson.devDependencies || {};
+
+	callback(pkgJson);
+
+	fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, '	'));
 }
 
 function yarn(...args) {
@@ -45,8 +47,34 @@ function yarn(...args) {
 	}
 }
 
+function yarnLink(deps) {
+	// Link dependencies with yarn
+	deps.forEach(dep => {
+		yarn('link', dep);
+	});
+
+	// Link binaries by hand (yarn doesn't do it)
+	deps.forEach(dep => {
+		const depPkgJson = readJsonSync(
+			path.join('.', 'node_modules', dep, 'package.json')
+		);
+
+		const bins = depPkgJson.bin || {};
+
+		Object.entries(bins).forEach(([bin, script]) => {
+			const scriptPath = path.join('..', dep, script);
+			const binPath = path.join('.', 'node_modules', '.bin', bin);
+
+			console.log('symlink', scriptPath, '->', binPath);
+			fs.ensureSymlinkSync(scriptPath, binPath);
+		});
+	});
+}
+
 module.exports = {
 	isToolkitDep,
-	safeRunFs,
+	modifyPackageJson,
+	toolkitProjectNames,
 	yarn,
+	yarnLink,
 };

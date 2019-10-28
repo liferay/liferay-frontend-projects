@@ -1,0 +1,19 @@
+{
+	"name": "alias-test",
+	"version": "1.0.0",
+	"scripts": {
+		"clean": "node scripts/clean.js",
+		"build": "yarn clean && liferay-npm-bundler && node scripts/remove-aliases.js && webpack-cli -C webpack.bundler.config.js && echo 'Build completed.'",
+		"run-webpack": "node dist/webpack.js",
+		"run-bundler": "node dist/bundler.js",
+		"test": "yarn build && node scripts/test.js"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"colors": "^1.4.0",
+		"diff": "^4.0.1",
+		"rimraf": "^3.0.0",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.9"
+	}
+}
