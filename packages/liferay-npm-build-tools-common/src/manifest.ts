@@ -184,8 +184,4 @@ function sortObjectKeysReplacer(key, value) {
 	} else {
 		return value;
 	}
-
-	private _loadedFromFile: boolean;
-	private _filePath: string;
-	private _data: Data;
 }
