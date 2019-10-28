@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-const chaiFs = require('chai-fs');
 const chai = require('chai');
+const chaiFs = require('chai-fs');
 const _ = require('lodash');
 
 const liferayThemeThemelet = require('../index');

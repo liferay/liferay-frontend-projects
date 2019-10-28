@@ -8,8 +8,8 @@
 
 var async = require('async');
 var {EventEmitter} = require('events');
-var gutil = require('gulp-util');
 var {Gulp} = require('gulp');
+var gutil = require('gulp-util');
 var _ = require('lodash');
 var path = require('path');
 var sinon = require('sinon');

@@ -6,8 +6,8 @@
 
 'use strict';
 
-var chaiFs = require('chai-fs');
 var chai = require('chai');
+var chaiFs = require('chai-fs');
 var del = require('del');
 var fs = require('fs-extra');
 var {Gulp} = require('gulp');
