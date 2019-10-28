@@ -188,13 +188,11 @@ code structure.
 ## One final note
 
 The general idea of the adaptation is to be able to deploy _native_ framework
-projects to Liferay. However, because the adapted projects are also true Liferay
-JS Toolkit project they can be configured according to the article
-[[Configuring pure JavaScript projects]].
-
-Keep in mind that, the farther you drift from the framework's structure, the
+projects to Liferay. However, because you are deploying to Liferay, you may be able to use some of its APIs or features. But keep in mind that, the farther you drift from the framework's structure, the
 most tied you will be to Liferay's platform so it is worth considering migrating
 instead of adapting if you just want to deploy to Liferay platform.
+
+In addition, some of Liferay features may no be available because of how frameworks work or make assumptions about the underlying platform. For example: Angular assumes that it is in control a whole Single Page Application, as opposed to rendering things inside a small portion of a page (which is typical of portlet based platforms).
 
 Also, keep in mind that usually framework builds are based on webpack which
 bundles all JavaScript in a single file to be consumed by just the adapted
