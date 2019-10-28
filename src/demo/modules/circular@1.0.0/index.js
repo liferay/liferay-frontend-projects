@@ -7,7 +7,7 @@
 Liferay.Loader.define(
 	'circular@1.0.0/index',
 	['exports', 'require', './egg', './chicken'],
-	(exports, require) => {
+	function(exports, require) {
 		exports.default = function() {
 			var Chicken = require('./chicken');
 

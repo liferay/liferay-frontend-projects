@@ -7,7 +7,7 @@
 Loader.define(
 	'issue-140/m1',
 	['module', 'require', 'issue-140/a', './a', 'mapped-issue-140/a'],
-	(module, require) => {
+	function(module, require) {
 		module.exports = function() {
 			const result = {};
 
