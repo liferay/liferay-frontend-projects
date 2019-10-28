@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-name-amd-modules",
-	"version": "2.13.2",
+	"version": "2.14.0",
 	"description": "A Babel plugin to give name to AMD modules based on their path and package.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.13.2"
+		"liferay-npm-build-tools-common": "2.14.0"
 	}
 }
