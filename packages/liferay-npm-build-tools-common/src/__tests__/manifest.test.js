@@ -136,3 +136,28 @@ describe('isOutdated', () => {
 		expect(manifest.isOutdated(srcPkg)).toBe(true);
 	});
 });
+
+describe('toJSON', () => {
+	it('sorts keys alphabetically', () => {
+		const manifest = new Manifest();
+
+		const srcPkg1 = new PkgDesc('a-package', '1.0.0', './src-1');
+		const destPkg1 = new PkgDesc('a-package', '1.0.0', './dest-1');
+
+		const srcPkg2 = new PkgDesc('z-package', '2.0.0', './src-2');
+		const destPkg2 = new PkgDesc('z-package', '2.0.0', './dest-2');
+
+		manifest.addPackage(srcPkg2, destPkg2);
+		manifest.addPackage(srcPkg1, destPkg1);
+
+		manifest.addModuleFlags(srcPkg2, 'z-module', {flag: true});
+		manifest.addModuleFlags(srcPkg2, 'a-module', {flag: true});
+
+		const json = manifest.toJSON();
+
+		expect(json.indexOf('a-package')).toBeLessThan(
+			json.indexOf('z-package')
+		);
+		expect(json.indexOf('a-module')).toBeLessThan(json.indexOf('z-module'));
+	});
+});
