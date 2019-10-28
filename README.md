@@ -12,9 +12,9 @@ module resolution and load).
 
 1. Clone this repository
 2. Install NodeJS >= [v6.11.0](http://nodejs.org/dist/v6.11.0/), if you don't have it yet
-3. Run `npm install` to install dependencies
-4. Run `npm run build` to build it
-5. Run `npm test` to run tests
+3. Run `yarn` to install dependencies
+4. Run `yarn build` to build it
+5. Run `yarn test` to run tests
 
 This will build the loader in 'build/loader' directory. There will be three versions:
 
@@ -26,6 +26,6 @@ This will build the loader in 'build/loader' directory. There will be three vers
 
 The default configuration and the demo require a combo loader that is automatically started and listens to port 3000.
 
-1. Run demo script with `npm run demo`
+1. Run demo script with `yarn demo`
 2. Open a browser and load [http://localhost:8080](http://localhost:8080)
 3. Open the browser console and look for the messages

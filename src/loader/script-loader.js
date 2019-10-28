@@ -107,9 +107,9 @@ export default class ScriptLoader {
 						`Unable to load script from URL ${modulesURL.url}`
 					),
 					{
-						url: modulesURL.url,
 						modules: modulesURL.modules,
 						script,
+						url: modulesURL.url,
 					}
 				);
 

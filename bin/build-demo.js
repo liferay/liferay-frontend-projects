@@ -7,10 +7,11 @@
 const fs = require('fs-extra');
 const globby = require('globby');
 const path = require('path');
+
 const {copy, run} = require('./util');
 
 if (!fs.existsSync('build/loader/loader-debug.js')) {
-	run('npm', 'run', 'build');
+	run('yarn', 'build');
 }
 
 copy('build/loader/loader-debug.js', 'build/demo/loader-debug.js');

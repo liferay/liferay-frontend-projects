@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import packageJson from '../../package.json';
 import Config from './config';
 import DependencyResolver from './dependency-resolver';
+import Logger from './logger';
 import ScriptLoader from './script-loader';
 import URLBuilder from './url-builder';
-import Logger from './logger';
-import packageJson from '../../package.json';
 
 /**
  *
@@ -486,9 +486,9 @@ export default class Loader {
 			const error = Object.assign(
 				new Error('Load timeout for modules: ' + modules),
 				{
+					missingModules,
 					modules,
 					resolution,
-					missingModules,
 				}
 			);
 

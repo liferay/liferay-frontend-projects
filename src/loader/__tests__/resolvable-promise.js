@@ -14,14 +14,14 @@ describe('ResolvablePromise', () => {
 		resolvablePromise.catch(() => {});
 	});
 
-	it('should be allowed to fulfill with resolve just once', () => {
+	it('is allowed to fulfill with resolve just once', () => {
 		resolvablePromise.resolve();
 
 		expect(() => resolvablePromise.resolve()).toThrow();
 		expect(() => resolvablePromise.reject()).toThrow();
 	});
 
-	it('should be allowed to fulfill with reject just once', () => {
+	it('is allowed to fulfill with reject just once', () => {
 		resolvablePromise.reject();
 
 		expect(() => resolvablePromise.resolve()).toThrow();

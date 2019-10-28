@@ -5,11 +5,15 @@
  */
 
 const levelPriority = {
+	/* eslint-disable sort-keys */
+
 	off: 0, // shows nothing
 	error: 1, // shows user errors
 	warn: 2, // shows warnings about loader's internal state
 	info: 3, // shows info messages about loader's internal state
 	debug: 4, // shows debug messages about loader's internal state
+
+	/* eslint-enable sort-keys */
 };
 const prefix = 'liferay-amd-loader |';
 

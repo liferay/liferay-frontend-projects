@@ -34,10 +34,10 @@ ResolvablePromise.new = () => {
 
 	Object.assign(promise, capture, {
 		fulfilled: false,
-		resolved: false,
 		rejected: false,
-		resolution: undefined,
 		rejection: undefined,
+		resolution: undefined,
+		resolved: false,
 	});
 
 	promise.resolve = value => resolve(promise, value);

@@ -5,10 +5,10 @@
  */
 
 __CONFIG__ = {
-	url: 'http://localhost:8080',
 	basePath: '',
-	namespace: 'Liferay',
-	explainResolutions: true,
 	combine: false,
+	explainResolutions: true,
+	namespace: 'Liferay',
+	url: 'http://localhost:8080',
 	waitTimeout: 2000,
 };

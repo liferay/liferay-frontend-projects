@@ -9,18 +9,29 @@
 const path = require('path');
 
 module.exports = () => ({
-	mode: 'development',
-	entry: path.resolve(__dirname, 'src/loader/bootstrap.js'),
-	output: {
-		path: path.resolve(__dirname, 'build/proxyPortal'),
-		filename: 'loader.js',
+	devServer: {
+		contentBase: path.join(__dirname, 'build/proxyPortal'),
+		port: 9090,
+		proxy: {
+			'/o/frontend-js-web/loader/loader.js': {
+				pathRewrite: {'^/o/frontend-js-web/loader': ''},
+				target: 'http://localhost:9090',
+			},
+
+			// eslint-disable-next-line sort-keys
+			'**': {
+				target: 'http://0.0.0.0:8080',
+			},
+		},
 	},
 	devtool: 'inline-source-map',
+	entry: path.resolve(__dirname, 'src/loader/bootstrap.js'),
+	mode: 'development',
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
 				exclude: /node_modules/,
+				test: /\.js$/,
 				use: [
 					{
 						loader: 'babel-loader',
@@ -30,17 +41,8 @@ module.exports = () => ({
 			},
 		],
 	},
-	devServer: {
-		port: 9090,
-		contentBase: path.join(__dirname, 'build/proxyPortal'),
-		proxy: {
-			'/o/frontend-js-web/loader/loader.js': {
-				target: 'http://localhost:9090',
-				pathRewrite: {'^/o/frontend-js-web/loader': ''},
-			},
-			'**': {
-				target: 'http://0.0.0.0:8080',
-			},
-		},
+	output: {
+		filename: 'loader.js',
+		path: path.resolve(__dirname, 'build/proxyPortal'),
 	},
 });

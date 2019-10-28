@@ -7,16 +7,7 @@
 /* eslint-env node */
 
 module.exports = {
-	env: {
-		amd: true,
-		browser: true,
-	},
-	extends: '../../.eslintrc.js',
-	globals: {
-		__CONFIG__: true,
-		Liferay: true,
-	},
 	rules: {
-		'require-jsdoc': 'off',
+		'prefer-arrow-callback': 'off',
 	},
 };
