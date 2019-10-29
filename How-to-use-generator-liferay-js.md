@@ -15,7 +15,7 @@ Now, let's see the steps needed to generate a project from scratch.
 2. Then install [Yeoman](http://yeoman.io/learning/index.html) by running the following command:
 
 ```sh
-npm install -g yeoman ↩
+npm install -g yo ↩
 ```
 
 3. Install the liferay-js generator:
