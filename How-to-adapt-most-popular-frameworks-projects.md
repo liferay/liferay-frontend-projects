@@ -177,7 +177,7 @@ inside the `dist` directory.
 These files are then tweaked by the adapter scripts so that they can be launched
 from Liferay's standard entry point (see [[JS extended portlets entry point]]).
 
-To achieve that, the `app-root` selector in the ouput bundles will be changed so
+To achieve that, the `app-root` selector in the output bundles will be changed so
 that it points to the portlet's main `<div>` node (identified by the
 `portletElementId` parameter of the Liferay's entry point).
 
