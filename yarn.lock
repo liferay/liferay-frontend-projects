@@ -1073,9 +1073,9 @@ eslint-config-prettier@5.0.0:
     get-stdin "^6.0.0"
 
 eslint-plugin-no-for-of-loops@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-no-for-of-loops/-/eslint-plugin-no-for-of-loops-1.0.0.tgz#a13d91a8f1922f7fefedeab351dc0055994601f6"
-  integrity sha1-oT2RqPGSL3/v7eqzUdwAVZlGAfY=
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-no-for-of-loops/-/eslint-plugin-no-for-of-loops-1.0.1.tgz#2ee3732d50c642b8d1bfacedbfe3b28f86222369"
+  integrity sha512-uCotzBHt2W+HbLw2srRmqDJHOPbJGzeVLstKh8YyxS3ppduq2P50qdpJfHKoD+UGbnqA/zhy8NRgPH6p0y8bnA==
 
 eslint-plugin-no-only-tests@^2.1.0:
   version "2.3.1"
