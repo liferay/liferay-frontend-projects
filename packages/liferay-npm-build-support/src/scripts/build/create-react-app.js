@@ -303,7 +303,7 @@ function generateIndexJs() {
 		.filter(jsFilePath => jsFilePath.endsWith('.js'));
 
 	const jsRuntimeFilePath = jsFilePaths.find(jsFilePath =>
-		jsFilePath.startsWith('runtime~')
+		jsFilePath.startsWith('runtime')
 	);
 
 	renderer.render('index.js', {
