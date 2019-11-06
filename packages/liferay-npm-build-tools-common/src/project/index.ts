@@ -301,6 +301,7 @@ export class Project {
 	 * {@link require} method.
 	 *
 	 * @param moduleName
+	 * @throws if module is not found
 	 */
 	toolRequire(moduleName: string): any {
 		return require(this.toolResolve(moduleName));
@@ -313,20 +314,19 @@ export class Project {
 	 *
 	 * @remarks
 	 * This looks in the `.npmbundlerrc` preset before calling the standard
-	 * {@link require} method.
+	 * {@link require} method.x
 	 *
 	 * @param moduleName
+	 * @throws if module is not found
 	 */
 	toolResolve(moduleName: string): any {
-		const modulePath = resolveModule.sync(moduleName, {
-			basedir: this._toolsDir.asNative,
-		});
-
-		if (modulePath != null) {
-			return modulePath;
+		try {
+			return resolveModule.sync(moduleName, {
+				basedir: this._toolsDir.asNative,
+			});
+		} catch (err) {
+			return this.resolve(moduleName);
 		}
-
-		return this.resolve(moduleName);
 	}
 
 	_loadNpmbundlerrc(): void {

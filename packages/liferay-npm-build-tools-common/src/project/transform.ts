@@ -108,8 +108,11 @@ export default class Transform {
 
 	/**
 	 * Load Babel plugins from a given package's configuration
+	 *
+	 * @return an array of one item per plugin where the item is an array of a
+	 *         function and an object with the options
 	 */
-	getBabelPlugins(pkg: PkgDesc): (() => any)[] {
+	getBabelPlugins(pkg: PkgDesc): ([() => any, object])[] {
 		const {_project} = this;
 
 		const babelConfig = this.getBabelConfig(pkg);
@@ -138,14 +141,25 @@ export default class Transform {
 				})
 			)
 			.concat(
-				...plugins.map(plugin => {
+				plugins.map(pluginConfig => {
+					let pluginName;
+					let pluginOptions;
+
+					if (Array.isArray(pluginConfig)) {
+						pluginName = pluginConfig[0];
+						pluginOptions = pluginConfig[1];
+					} else {
+						pluginName = pluginConfig;
+						pluginOptions = undefined;
+					}
+
 					let pluginModule;
 
 					try {
-						pluginModule = _project.toolRequire(plugin);
+						pluginModule = _project.toolRequire(pluginName);
 					} catch (err) {
 						pluginModule = _project.toolRequire(
-							`babel-plugin-${plugin}`
+							`babel-plugin-${pluginName}`
 						);
 					}
 
@@ -153,7 +167,9 @@ export default class Transform {
 						pluginModule = pluginModule.default;
 					}
 
-					return pluginModule;
+					return pluginOptions === undefined
+						? pluginModule
+						: [pluginModule, pluginOptions];
 				})
 			);
 	}

@@ -444,6 +444,33 @@ describe('project.transform', () => {
 
 		expect(config).toEqual({config: 'config-package2'});
 	});
+
+	it('loads babel plugins correctly', () => {
+		const pkg = new PkgDesc('package3', '1.0.0', __dirname);
+
+		const pluginMocks = {
+			raw: () => false,
+			configured: () => false,
+		};
+
+		jest.spyOn(project, 'toolResolve').mockImplementation(
+			moduleName => moduleName
+		);
+		jest.spyOn(project, 'toolRequire').mockImplementation(
+			moduleName => pluginMocks[moduleName]
+		);
+
+		try {
+			const plugins = project.transform.getBabelPlugins(pkg);
+
+			expect(plugins).toEqual([
+				pluginMocks['raw'],
+				[pluginMocks['configured'], {the: 'config'}],
+			]);
+		} finally {
+			jest.restoreAllMocks();
+		}
+	});
 });
 
 describe('project.versionsInfo', () => {
