@@ -54,7 +54,7 @@ function writeConfig(dir, options) {
 					'*': Object.assign(
 						{
 							description: options.folder,
-							category: 'category.sample',
+							category: 'JS Toolkit QA',
 							liferayPresent: true,
 							liferayDir,
 							pkgManager: 'yarn',
