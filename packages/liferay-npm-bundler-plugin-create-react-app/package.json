@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler-plugin-create-react-app",
-	"version": "2.14.0",
+	"version": "2.14.1",
 	"description": "A liferay-npm-bundler plugin to handle the build for create-react-app projects",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.14.0"
+		"liferay-npm-build-tools-common": "2.14.1"
 	}
 }

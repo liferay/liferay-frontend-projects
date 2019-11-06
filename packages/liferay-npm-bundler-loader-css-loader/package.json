@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler-loader-css-loader",
-	"version": "2.14.0",
+	"version": "2.14.1",
 	"description": "A liferay-npm-bundler loader that turns CSS files into JavaScript modules that inject a <link> into the HTML when they are required.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.14.0"
+		"liferay-npm-build-tools-common": "2.14.1"
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-build-tools-common",
-	"version": "2.14.0",
+	"version": "2.14.1",
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
@@ -10,7 +10,7 @@
 	"dependencies": {
 		"chalk": "^2.4.2",
 		"dot-prop": "^5.0.1",
-		"liferay-npm-bundler-preset-standard": "2.14.0",
+		"liferay-npm-bundler-preset-standard": "2.14.1",
 		"merge": "^1.2.1",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
