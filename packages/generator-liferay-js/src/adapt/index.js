@@ -15,6 +15,7 @@ import {
 import project from 'liferay-npm-build-tools-common/lib/project';
 import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 import path from 'path';
+import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
 
 import {
@@ -93,6 +94,12 @@ const msg = {
 		`,
 	],
 };
+
+// If --which parameter is given show path to generator and exit
+if (argv.which) {
+	console.log(require.resolve('./index'));
+	process.exit(0);
+}
 
 /**
  * Generator to add deploy support to projects.
