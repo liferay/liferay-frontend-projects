@@ -43,6 +43,11 @@ const msg = {
 		We have detected a project of type {create-react-app}
 		`,
 	],
+	vueCliDetected: [
+		success`
+		We have detected a project of type {vue-cli}
+		`,
+	],
 	projectAdapted: [
 		``,
 		success`
@@ -137,6 +142,15 @@ export default class extends Generator {
 				};
 
 				print(msg.createReactAppDetected);
+				break;
+
+			case ProjectType.VUE_CLI:
+				this._options = {
+					preset: 'vue-cli',
+					tuneProject: () => this._tuneVueCliProject(),
+				};
+
+				print(msg.vueCliDetected);
 				break;
 
 			default:
@@ -329,6 +343,12 @@ export default class extends Generator {
 	}
 
 	_tuneCreateReactAppProject() {
+		const pkgJson = new PkgJsonModifier(this, 2);
+
+		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
+	}
+
+	_tuneVueCliProject() {
 		const pkgJson = new PkgJsonModifier(this, 2);
 
 		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
