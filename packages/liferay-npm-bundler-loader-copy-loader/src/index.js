@@ -5,6 +5,14 @@
  */
 
 /**
+ * Tell the bundler we want the file as a raw Buffer so that we can copy
+ * binaries too.
+ */
+export const metadata = {
+	encoding: null,
+};
+
+/**
  * @param {object} context loader's context
  */
 export default function(context) {
