@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as babel from 'babel-core';
+import * as babel from '@babel/core';
 import template from 'babel-template';
 import cpr from 'cpr';
 import crypto from 'crypto';

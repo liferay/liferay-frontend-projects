@@ -16,7 +16,7 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"babel-core": "^6.26.3",
+		"@babel/core": "^7.0.0",
 		"babel-template": "^6.26.0",
 		"cpr": "^3.0.1",
 		"cross-spawn": "^7.0.0",
