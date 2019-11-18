@@ -30,6 +30,7 @@ function generateSamples() {
 	prepareManualProjects();
 	generateCreateReactAppSample();
 	generateAngularCliSample();
+	generateVueCliSample();
 }
 
 module.exports = generateSamples;
@@ -53,6 +54,11 @@ function writeConfigurations() {
 	// Generate angular-cli configuration
 	writeConfig(configDir, {
 		folder: `angular-cli`,
+	});
+
+	// Generate vue-cli configuration
+	writeConfig(configDir, {
+		folder: `vue-cli`,
 	});
 
 	// Generate shared bundle configuration
@@ -216,6 +222,30 @@ function generateAngularCliSample() {
 		],
 		{
 			cwd: path.join(packagesDir, 'angular-cli'),
+		}
+	);
+}
+
+function generateVueCliSample() {
+	logStep(`Generating vue-cli sample project`);
+
+	fs.removeSync(path.join(packagesDir, 'vue-cli'));
+
+	spawn('npx', ['@vue/cli', 'create', 'vue-cli', '-d', '-m', 'yarn'], {
+		cwd: packagesDir,
+	});
+
+	spawn(
+		yoPath,
+		[
+			liferayJsAdaptGeneratorPath,
+			'--skip-install',
+			'--force',
+			'--config',
+			path.join(configDir, 'vue-cli.json'),
+		],
+		{
+			cwd: path.join(packagesDir, 'vue-cli'),
 		}
 	);
 }

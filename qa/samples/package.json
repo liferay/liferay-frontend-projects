@@ -1,21 +1,22 @@
 {
-  "name": "root",
-  "private": true,
-  "devDependencies": {
-    "lerna": "^3.16.4"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "nohoist": [
-      "**/babel-loader",
-      "**/babel-loader/**",
-      "**/webpack",
-      "**/webpack/**",
-      "**/eslint",
-      "**/eslint/**"
-    ]
-  },
-  "dependencies": {}
+	"name": "root",
+	"private": true,
+	"devDependencies": {
+		"lerna": "^3.16.4"
+	},
+	"workspaces": {
+		"packages": [
+			"packages/*"
+		],
+		"nohoist": [
+			"**/babel-loader",
+			"**/babel-loader/**",
+			"**/webpack",
+			"**/webpack/**",
+			"**/eslint",
+			"**/eslint/**",
+			"**/@vue/**"
+		]
+	},
+	"dependencies": {}
 }
