@@ -7,7 +7,7 @@
 import clone from 'clone';
 import path from 'path';
 
-import {BundlerLoaderEntryPoint} from '../api/loaders';
+import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
 import {Project} from '.';
@@ -21,6 +21,7 @@ export interface BundlerLoaderDescriptor {
 	resolvedModule: string;
 	exec: BundlerLoaderEntryPoint;
 	options: object;
+	metadata: BundlerLoaderMetadata;
 }
 
 /**
@@ -60,10 +61,6 @@ interface BundlerNormalizedRule {
  * specification.
  */
 export default class Rules {
-	/**
-	 *
-	 * @param {Project} project
-	 */
 	constructor(project: Project) {
 		this._project = project;
 
@@ -77,9 +74,7 @@ export default class Rules {
 		this._versionsInfo = undefined;
 	}
 
-	/**
-	 * Get raw rules config (useful for reports).
-	 */
+	/** Get raw rules config (useful for reports) */
 	get config(): object[] {
 		return this._config;
 	}
@@ -153,21 +148,29 @@ export default class Rules {
 	_instantiateLoader(use: BundlerLoaderDescriptor): BundlerLoaderDescriptor {
 		const {_project} = this;
 
+		let moduleExports;
+
 		try {
 			use.resolvedModule = `liferay-npm-bundler-loader-${use.loader}`;
-			use.exec = _project.toolRequire(use.resolvedModule);
+			moduleExports = _project.toolRequire(use.resolvedModule);
 		} catch (err) {
 			use.resolvedModule = use.loader;
-			use.exec = _project.toolRequire(use.resolvedModule);
+			moduleExports = _project.toolRequire(use.resolvedModule);
 		}
 
-		use.exec = use.exec['default'] || use.exec;
+		use.exec = moduleExports['default'] || moduleExports;
 
 		if (typeof use.exec !== 'function') {
 			throw new Error(
 				`Loader '${use.resolvedModule}' is incorrect: ` +
 					`it does not export a function`
 			);
+		}
+
+		use.metadata = moduleExports['metadata'] || {};
+
+		if (use.metadata.encoding === undefined) {
+			use.metadata.encoding = 'utf-8';
 		}
 
 		return use;

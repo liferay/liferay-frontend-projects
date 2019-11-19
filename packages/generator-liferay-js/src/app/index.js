@@ -8,7 +8,14 @@ import fs from 'fs';
 import path from 'path';
 
 import {promptWithConfig} from '../utils';
+import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
+
+// If --which parameter is given show path to generator and exit
+if (argv.which) {
+	console.log(require.resolve('./index'));
+	process.exit(0);
+}
 
 /**
  * Default main generator that makes the user choose between available targets.
