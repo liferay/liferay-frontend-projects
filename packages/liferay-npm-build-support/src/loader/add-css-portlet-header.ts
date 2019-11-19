@@ -9,6 +9,8 @@ import {
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
 
+import {replaceTokens} from './util';
+
 /** Configuration options for `add-css-portlet-header` loader */
 export interface Options {
 	/**
@@ -33,7 +35,7 @@ export default function(
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;
-	const {css} = options;
+	const {css} = replaceTokens(options);
 
 	const pkgJson: object = JSON.parse(content);
 

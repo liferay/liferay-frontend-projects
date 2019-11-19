@@ -13,6 +13,8 @@ import {
 import project from 'liferay-npm-build-tools-common/lib/project';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 
+import {replaceTokens} from './util';
+
 /** Configuration options for `adapt-static-urls` loader */
 export interface Options {
 	/** Project relative path of directory containing assets */
@@ -20,6 +22,12 @@ export interface Options {
 
 	/** List of regexps to match assets that need their URL to be processed */
 	include: string[] | string;
+
+	/** Prefix to add to file path (after 'o/${project.jar.webContextPath}/') */
+	prefix?: string;
+
+	/** Prepend a / to `o/${project.jar.webContextPath}/` */
+	prependSlash?: boolean;
 }
 
 /**
@@ -38,9 +46,13 @@ export default function(
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;
-	const {docroot, include} = options;
+	const {docroot, include, prefix = '', prependSlash = false} = replaceTokens(
+		options
+	);
 
-	const docrootDir: FilePath = project.dir.join(docroot);
+	const docrootDir: FilePath = project.dir.join(
+		new FilePath(docroot, {posix: true})
+	);
 
 	const filePosixPaths = globby
 		.sync(`${docrootDir.asPosix}/**`, {
@@ -76,7 +88,8 @@ export default function(
 
 		modifiedContent = modifiedContent.replace(
 			regexp,
-			`o${project.jar.webContextPath}/${filePosixPath}`
+			(prependSlash ? '/' : '') +
+				`o${project.jar.webContextPath}/${prefix}${filePosixPath}`
 		);
 	});
 
