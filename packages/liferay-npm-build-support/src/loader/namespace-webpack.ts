@@ -12,10 +12,19 @@ import {
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
-export default function({
-	content,
-	log,
-}: BundlerLoaderContext): BundlerLoaderReturn {
+/**
+ * A loader to namespace occurrences of the `webpackJsonp` variable.
+ *
+ * @remarks
+ * This loader is used to avoid collisions when several webpack bundles are
+ * deployed to the same page.
+ *
+ * It simply replaces all occurrences of `webpackJsonp` by
+ * `webpackJsonp_${uuid}` where the `uuid` is derived from the project's name
+ * and version.
+ */
+export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
+	const {content, log} = context;
 	const regexp = /webpackJsonp/g;
 
 	const matches = regexp.exec(content);

@@ -9,12 +9,21 @@ import {
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
 
+import {removeWebpackHash} from './util';
+
+/**
+ * A loader that removes webpack hashes from filenames.
+ *
+ * @remarks
+ * A webpack hash is defined as the rightmost hex number surrounded by dots in a
+ * file name.
+ */
 export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
 	const {content, filePath, extraArtifacts, log} = context;
 
-	const filePathParts = filePath.split('.');
+	const newFilePath = removeWebpackHash(filePath);
 
-	if (Number.isNaN(parseInt(filePathParts[filePathParts.length - 2], 16))) {
+	if (newFilePath === filePath) {
 		log.info(
 			'remove-webpack-hash',
 			`No webpack hash in filename; nothing to be done`
@@ -22,11 +31,6 @@ export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
 
 		return;
 	}
-
-	const newFilePath =
-		filePathParts.slice(0, filePathParts.length - 2).join('.') +
-		'.' +
-		filePathParts[filePathParts.length - 1];
 
 	extraArtifacts[newFilePath] = content;
 	context.content = undefined;

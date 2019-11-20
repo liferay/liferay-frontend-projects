@@ -9,14 +9,28 @@ import {
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
 
+/** Configuration options for `replace-regexp` loader */
+export interface Options {
+	/** RegExp pattern to look for */
+	pattern: string;
+
+	/** RegExp flags to use */
+	flags?: string;
+
+	/** Replacement string */
+	replacement: string;
+}
+
+/**
+ * A loader that replaces regular expressions inside a file.
+ */
 export default function(
-	{content, log}: BundlerLoaderContext,
-	{
-		pattern,
-		flags = 'g',
-		replacement,
-	}: {pattern: string; flags: string; replacement: string}
+	context: BundlerLoaderContext,
+	options: Options
 ): BundlerLoaderReturn {
+	const {content, log} = context;
+	const {pattern, flags = 'g', replacement} = options;
+
 	const regexp = new RegExp(pattern, flags);
 
 	const matches = regexp.exec(content);

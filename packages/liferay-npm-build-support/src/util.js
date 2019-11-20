@@ -88,6 +88,10 @@ export function runNodeModulesBin(script, args = []) {
 export function runPkgJsonScript(script, args = []) {
 	const pkgManager = project.pkgManager || 'npm';
 
+	if (pkgManager !== 'yarn') {
+		args = ['--'].concat(args);
+	}
+
 	const proc = child_process.spawnSync(pkgManager, ['run', script, ...args], {
 		shell: true,
 		stdio: 'inherit',

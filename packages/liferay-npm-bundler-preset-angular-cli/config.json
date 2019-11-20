@@ -6,10 +6,19 @@
 		"*": ["**/*"]
 	},
 
-	"sources": ["dist", "src.liferay"],
+	"sources": ["package.json", "dist", "src.liferay"],
 	"rules": [
 		{
-			"description": "Transpile Liferay bootstrap file",
+			"description": "Copy static assets",
+			"test": "^dist/[^/]+/assets/.*",
+			"use": [
+				{
+					"loader": "copy-loader"
+				}
+			]
+		},
+		{
+			"description": "Transpile Liferay's index.js file",
 			"test": "^src.liferay/index.js",
 			"use": [
 				{
@@ -21,7 +30,7 @@
 			]
 		},
 		{
-			"description": "Transform webpack bundles",
+			"description": "Transform webpack JavaScript bundles",
 			"test": "^dist/[^/]+/.*-es5.*\\.js$",
 			"use": [
 				{
@@ -37,17 +46,41 @@
 						"replacement": "\"#\"+_LIFERAY_PARAMS_.portletElementId"
 					}
 				},
-				"liferay-npm-build-support/lib/loader/namespace-webpack"
+				{
+					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls",
+					"options": {
+						"docroot": "dist/${project.name}",
+						"include": ["^assets/.*"],
+						"prefix": "${project.name}/",
+						"prependSlash": true
+					}
+				},
+				{
+					"loader": "liferay-npm-build-support/lib/loader/namespace-webpack",
+					"options": {}
+				}
 			]
 		},
 		{
-			"description": "Remove content hash from Angular filenames",
-			"test": "^dist/[^/]+/.*",
+			"description": "Remove content hash from webpack bundles and CSS",
+			"test": "",
 			"include": [
 				"^dist/[^/]+/.*-es5.*\\.js$",
 				"^dist/[^/]+/styles.*\\.css$"
 			],
 			"use": ["liferay-npm-build-support/lib/loader/remove-webpack-hash"]
+		},
+		{
+			"description": "Add CSS portlet header to package.json",
+			"test": "^package\\.json$",
+			"use": [
+				{
+					"loader": "liferay-npm-build-support/lib/loader/add-css-portlet-header",
+					"options": {
+						"css": "/${project.name}/styles.css"
+					}
+				}
+			]
 		}
 	],
 

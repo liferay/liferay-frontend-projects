@@ -12,11 +12,42 @@ import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import readJsonSync from 'read-json-sync';
 
+import {removeWebpackHash} from './util';
+
+/** Configuration options for `wrap-webpack-bundler` loader */
+export interface Options {
+	/** A prefix to remove from file paths when computing the module name */
+	removePrefix?: string;
+
+	/** Whether to use webpack hashes in file names to compute module names */
+	honorWebpackHash?: boolean;
+}
+
+/**
+ * A loader that wraps JavaScript files into a `Liferay.Loader.define()` call.
+ *
+ * @remarks
+ * The loader leaves the JavaScript content untouched, just wrapping it in a
+ * define call.
+ *
+ * The name of the module is inferred from the project relative file path
+ * optionally removing the configured `removePrefix`.
+ *
+ * If `honorWebpackHash` is set to `true` and the file name contains a webpack
+ * hash, it is used to compute the module name. The default value of
+ * `honorWebpackHash` is false.
+ */
 export default function(
-	{content, filePath, log}: BundlerLoaderContext,
-	{removePrefix}: {removePrefix: string}
+	context: BundlerLoaderContext,
+	options: Options
 ): BundlerLoaderReturn {
-	const moduleName = getModuleName(filePath, removePrefix);
+	const {content, filePath, log} = context;
+	const {removePrefix = '', honorWebpackHash = false} = options;
+
+	const moduleName = getModuleName(
+		honorWebpackHash ? filePath : removeWebpackHash(filePath),
+		removePrefix
+	);
 
 	log.info(
 		'wrap-webpack-bundle',
@@ -35,6 +66,10 @@ Liferay.Loader.define(
 );`;
 }
 
+/**
+ * Compute the module name associated to a project relative file path removing
+ * the `removePrefix` before.
+ */
 function getModuleName(prjRelfilePath: string, removePrefix: string): string {
 	const absFile = new FilePath(prjRelfilePath);
 	const pkgDir = new FilePath(babelUtil.getPackageDir(prjRelfilePath));
@@ -43,12 +78,6 @@ function getModuleName(prjRelfilePath: string, removePrefix: string): string {
 
 	if (moduleName.toLowerCase().endsWith('.js')) {
 		moduleName = moduleName.substring(0, moduleName.length - 3);
-	}
-
-	const chunkIndex = moduleName.lastIndexOf('.');
-
-	if (!Number.isNaN(parseInt(moduleName.substring(chunkIndex + 1), 16))) {
-		moduleName = moduleName.substring(0, chunkIndex);
 	}
 
 	if (moduleName.startsWith(removePrefix)) {
