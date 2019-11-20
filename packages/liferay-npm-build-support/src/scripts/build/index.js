@@ -11,7 +11,6 @@ import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 import path from 'path';
 
 import {Renderer, runNodeModulesBin, runPkgJsonScript} from '../../util';
-import createReactApp from './create-react-app';
 
 const msg = {
 	unsupportedProjectType: [
@@ -35,7 +34,7 @@ export default function() {
 			break;
 
 		case ProjectType.CREATE_REACT_APP:
-			createReactApp();
+			buildWith('build');
 			break;
 
 		case ProjectType.VUE_CLI:
