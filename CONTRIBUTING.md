@@ -67,7 +67,7 @@ git pull upstream 8.x
 
 ### 2. Update dependency versions
 
-Some of these can be updates can be performed automatically by running the `updatePackageVersions` task, and others with `yarn` and manual editing:
+Some of these can be performed automatically by running the `updatePackageVersions` task, and others with `yarn` and manual editing:
 
 ```sh
 yarn updatePackageVersions $VERSION
