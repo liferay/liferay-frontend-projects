@@ -10,6 +10,7 @@ const generateSamples = require('./generate-samples');
 const {
 	lernaPath,
 	linkJsToolkitPath,
+	linkJsToolkitProjectDir,
 	qaDir,
 	samplesDir,
 } = require('./resources');
@@ -36,6 +37,10 @@ if (argv['install']) {
 	logStep('Installing dependencies and linking local JS Toolkit');
 
 	safeUnlink(path.join(samplesDir, 'yarn.lock'));
+
+	spawn('npm', ['install'], {
+		cwd: linkJsToolkitProjectDir,
+	});
 
 	spawn('node', [linkJsToolkitPath, '-w'], {
 		cwd: samplesDir,
