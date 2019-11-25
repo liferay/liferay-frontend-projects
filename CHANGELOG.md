@@ -1,3 +1,15 @@
+## [v9.4.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.1) (2019-11-25)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.0...v9.4.1)
+
+-   chore: update dependencies ([\#401](https://github.com/liferay/liferay-js-themes-toolkit/pull/401))
+-   chore: upgrade dependencies ([\#397](https://github.com/liferay/liferay-js-themes-toolkit/pull/397))
+-   chore: update eslint-config-liferay to v11.0.1 ([\#394](https://github.com/liferay/liferay-js-themes-toolkit/pull/394))
+-   chore: update eslint, eslint-config-liferay, prettier ([\#393](https://github.com/liferay/liferay-js-themes-toolkit/pull/393))
+-   chore: update dependencies ([\#391](https://github.com/liferay/liferay-js-themes-toolkit/pull/391))
+-   chore: use liferay-changelog-generator instead of scripts/changelog.js ([\#389](https://github.com/liferay/liferay-js-themes-toolkit/pull/389))
+-   feat: configure Semantic Pull Requests bot ([\#385](https://github.com/liferay/liferay-js-themes-toolkit/pull/385))
+
 ## [v9.4.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.0) (2019-08-05)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.3.0...v9.4.0)
