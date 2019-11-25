@@ -149,5 +149,3 @@ In order to get a good responsive we should keep unchanged the natural order of 
 	}
 }
 ```
-
-Here, you can find more reasons and tips on How to write HTML(link)
