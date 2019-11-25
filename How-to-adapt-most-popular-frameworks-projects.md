@@ -98,8 +98,10 @@ Right now the list of supported projects categorized by framework and tool is:
       2. Typescript projects (coming soon!)
 2. [Angular](https://angular.io/) framework
    1. [Angular CLI](https://cli.angular.io/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Angular-cli-projects)
+3. [Vue.js](https://vuejs.org/) framework
+   1. [Vue CLI](https://cli.vuejs.org/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Vue-cli-projects)
 
-## How project types are detected and what requirements they must fulfill
+## How project types are detected and what requirements they must fulfil
 
 This section explains the details of each project type: how the adapter detects
 them and what the injected npm scripts expect to make their work.
@@ -178,6 +180,44 @@ These files are then tweaked by the adapter scripts so that they can be launched
 from Liferay's standard entry point (see [[JS extended portlets entry point]]).
 
 To achieve that, the `app-root` selector in the output bundles will be changed so
+that it points to the portlet's main `<div>` node (identified by the
+`portletElementId` parameter of the Liferay's entry point).
+
+All this happens _automagically_ under the hood when the `build:liferay` script
+is run so that you don't need to do anything other than adapting to the expected
+code structure.
+
+### Vue CLI projects
+
+#### Detection
+
+Any project containing `@vue/cli-service` as a dependency or devDependency is
+recognized as a `Vue CLI` project.
+
+#### Expected structure
+
+These projects are expected to follow the standard `Vue CLI` structure but,
+in addition, they must use `#app` as their application's DOM selector.
+
+This is necessary since the JS Toolkit needs to know what to attach to the
+portlet's DOM node so that your Vue application is rendered inside it.
+
+So, your application's mount code should look like this:
+
+```javascript
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+```
+
+When `build:liferay` is run, the standard webpack based build of
+`Vue CLI` is invoked, which leaves processed `.js` and `.css` files
+inside the `dist` directory.
+
+These files are then tweaked by the adapter scripts so that they can be launched
+from Liferay's standard entry point (see [[JS extended portlets entry point]]).
+
+To achieve that, the `#app` selector in the output bundles will be changed so
 that it points to the portlet's main `<div>` node (identified by the
 `portletElementId` parameter of the Liferay's entry point).
 
