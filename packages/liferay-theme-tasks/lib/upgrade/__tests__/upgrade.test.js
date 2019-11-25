@@ -14,9 +14,11 @@ const initCwd = process.cwd();
 afterAll(() => {
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
-	['upgrade_task_config', 'upgrade_task_upgrade_templates'].forEach(
-		namespace =>
-			testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
+	[
+		'upgrade_task_config',
+		'upgrade_task_upgrade_templates',
+	].forEach(namespace =>
+		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
 	);
 });
 

@@ -57,7 +57,10 @@ function getResourceDir(pathString, pathSrc) {
  * otherwise.
  */
 function isReadable(file) {
-	return accessAsync(file, fs.constants.R_OK).then(() => true, () => false);
+	return accessAsync(file, fs.constants.R_OK).then(
+		() => true,
+		() => false
+	);
 }
 
 module.exports = function(options) {

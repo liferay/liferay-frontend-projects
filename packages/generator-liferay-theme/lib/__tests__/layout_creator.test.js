@@ -650,7 +650,10 @@ describe('LayoutCreator', () => {
 
 	describe('_printLayoutPreview', () => {
 		it('prints layout preview', () => {
-			prototype.rows = [[6, 6], [3, 3, 6]];
+			prototype.rows = [
+				[6, 6],
+				[3, 3, 6],
+			];
 
 			prototype._stdoutWrite = sinon.spy();
 
