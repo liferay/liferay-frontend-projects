@@ -209,12 +209,9 @@ class WarDeployer extends EventEmitter {
 
 				this.emit('end');
 			})
-			.pipe(
-				req,
-				{
-					end: false,
-				}
-			);
+			.pipe(req, {
+				end: false,
+			});
 	}
 }
 
