@@ -1,3 +1,12 @@
+## [v8.1.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.1.2) (2019-11-25)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.1.1...v8.1.2)
+
+-   chore: update dependencies ([\#400](https://github.com/liferay/liferay-js-themes-toolkit/pull/400))
+-   docs: fix grammar in CONTRIBUTING.md ([\#399](https://github.com/liferay/liferay-js-themes-toolkit/pull/399))
+-   chore: use liferay-changelog-generator instead of scripts/changelog.js (8.x) ([\#390](https://github.com/liferay/liferay-js-themes-toolkit/pull/390))
+-   feat: configure Semantic Pull Requests bot (8.x) ([\#386](https://github.com/liferay/liferay-js-themes-toolkit/pull/386))
+
 ## [v8.1.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.1.1) (2019-07-02)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.1.0...v8.1.1)
