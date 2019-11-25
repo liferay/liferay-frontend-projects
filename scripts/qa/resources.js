@@ -53,13 +53,17 @@ const liferayJsGeneratorPath = path.join(
 	'index.js'
 );
 
-const linkJsToolkitPath = path.join(
+const linkJsToolkitProjectDir = path.join(
 	__dirname,
 	'..',
 	'..',
 	'resources',
 	'devtools',
-	'link-js-toolkit',
+	'link-js-toolkit'
+);
+
+const linkJsToolkitPath = path.join(
+	linkJsToolkitProjectDir,
 	'link-js-toolkit.js'
 );
 
@@ -75,6 +79,7 @@ module.exports = {
 	liferayJsAdaptGeneratorPath,
 	liferayJsGeneratorPath,
 	linkJsToolkitPath,
+	linkJsToolkitProjectDir,
 	packagesDir,
 	qaDir,
 	samplesDir,

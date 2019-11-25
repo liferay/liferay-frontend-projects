@@ -10,7 +10,8 @@
 	"rules": [
 		{
 			"description": "Copy static assets",
-			"test": "^dist/[^/]+/assets/.*",
+			"test": "",
+			"include": ["^dist/fonts/.*$", "^dist/img/.*$", "^dist/media/.*$"],
 			"use": [
 				{
 					"loader": "copy-loader"
@@ -31,7 +32,7 @@
 		},
 		{
 			"description": "Transform webpack JavaScript bundles",
-			"test": "^dist/[^/]+/.*-es5.*\\.js$",
+			"test": "^dist/js/.*\\.js$",
 			"use": [
 				{
 					"loader": "liferay-npm-build-support/lib/loader/wrap-webpack-bundle",
@@ -42,17 +43,15 @@
 				{
 					"loader": "liferay-npm-build-support/lib/loader/replace-regexp",
 					"options": {
-						"pattern": "\"app-root\"",
+						"pattern": "\"#app\"",
 						"replacement": "\"#\"+_LIFERAY_PARAMS_.portletElementId"
 					}
 				},
 				{
 					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls",
 					"options": {
-						"docroot": "dist/${project.name}",
-						"include": ["^assets/.*"],
-						"prefix": "${project.name}/",
-						"prependSlash": true
+						"docroot": "dist",
+						"include": ["^fonts/.*", "^img/.*", "^media/.*"]
 					}
 				},
 				{
@@ -64,11 +63,12 @@
 		{
 			"description": "Remove content hash from webpack bundles and CSS",
 			"test": "",
-			"include": [
-				"^dist/[^/]+/.*-es5.*\\.js$",
-				"^dist/[^/]+/styles.*\\.css$"
-			],
-			"use": ["liferay-npm-build-support/lib/loader/remove-webpack-hash"]
+			"include": ["^dist/css/app\\..*\\.css$", "^dist/js/.*\\.js$"],
+			"use": [
+				{
+					"loader": "liferay-npm-build-support/lib/loader/remove-webpack-hash"
+				}
+			]
 		},
 		{
 			"description": "Add CSS portlet header to package.json",
@@ -77,7 +77,7 @@
 				{
 					"loader": "liferay-npm-build-support/lib/loader/add-css-portlet-header",
 					"options": {
-						"css": "/${project.name}/styles.css"
+						"css": "/css/app.css"
 					}
 				}
 			]

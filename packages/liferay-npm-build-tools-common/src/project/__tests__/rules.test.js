@@ -29,6 +29,9 @@ describe('single rule', () => {
 				options: {},
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 				exec: requireReturn,
+				metadata: {
+					encoding: 'utf-8',
+				},
 			},
 		]);
 	});
@@ -55,6 +58,9 @@ describe('single rule', () => {
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 				options: {},
 				exec: requireReturn,
+				metadata: {
+					encoding: 'utf-8',
+				},
 			},
 		]);
 
@@ -83,6 +89,9 @@ describe('single rule', () => {
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 				options: {},
 				exec: requireReturn,
+				metadata: {
+					encoding: 'utf-8',
+				},
 			},
 		]);
 
@@ -116,6 +125,9 @@ describe('single rule', () => {
 				resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 				options: {},
 				exec: requireReturn,
+				metadata: {
+					encoding: 'utf-8',
+				},
 			},
 		]);
 
@@ -150,6 +162,9 @@ it('works with rules not based in file extension', () => {
 			options: {},
 			resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 			exec: requireReturn,
+			metadata: {
+				encoding: 'utf-8',
+			},
 		},
 	]);
 
@@ -181,12 +196,18 @@ it('multiple rules', () => {
 			resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 			options: {},
 			exec: requireReturn,
+			metadata: {
+				encoding: 'utf-8',
+			},
 		},
 		{
 			loader: 'another-loader',
 			resolvedModule: 'liferay-npm-bundler-loader-another-loader',
 			options: {},
 			exec: requireReturn,
+			metadata: {
+				encoding: 'utf-8',
+			},
 		},
 	]);
 });
@@ -220,6 +241,9 @@ it('rule with options', () => {
 			options: {},
 			resolvedModule: 'liferay-npm-bundler-loader-a-loader',
 			exec: requireReturn,
+			metadata: {
+				encoding: 'utf-8',
+			},
 		},
 		{
 			loader: 'babel-loader',
@@ -228,6 +252,39 @@ it('rule with options', () => {
 			},
 			resolvedModule: 'liferay-npm-bundler-loader-babel-loader',
 			exec: requireReturn,
+			metadata: {
+				encoding: 'utf-8',
+			},
+		},
+	]);
+});
+
+it('retrieves loader metadata', () => {
+	const requireReturn = {
+		default: () => undefined,
+		metadata: {encoding: 'utf-16'},
+	};
+
+	const rules = new Rules({
+		dir: new FilePath('/home/me/my-project'),
+		npmbundlerrc: {
+			rules: [
+				{
+					test: '\\.js$',
+					use: 'a-loader',
+				},
+			],
+		},
+		toolRequire: () => requireReturn,
+	});
+
+	expect(rules.loadersForFile('main.js')).toEqual([
+		{
+			loader: 'a-loader',
+			options: {},
+			resolvedModule: 'liferay-npm-bundler-loader-a-loader',
+			exec: requireReturn.default,
+			metadata: requireReturn.metadata,
 		},
 	]);
 });

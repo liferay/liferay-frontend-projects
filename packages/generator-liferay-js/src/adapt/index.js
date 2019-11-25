@@ -15,6 +15,7 @@ import {
 import project from 'liferay-npm-build-tools-common/lib/project';
 import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 import path from 'path';
+import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
 
 import {
@@ -40,6 +41,11 @@ const msg = {
 	createReactAppDetected: [
 		success`
 		We have detected a project of type {create-react-app}
+		`,
+	],
+	vueCliDetected: [
+		success`
+		We have detected a project of type {vue-cli}
 		`,
 	],
 	projectAdapted: [
@@ -94,6 +100,12 @@ const msg = {
 	],
 };
 
+// If --which parameter is given show path to generator and exit
+if (argv.which) {
+	console.log(require.resolve('./index'));
+	process.exit(0);
+}
+
 /**
  * Generator to add deploy support to projects.
  */
@@ -130,6 +142,15 @@ export default class extends Generator {
 				};
 
 				print(msg.createReactAppDetected);
+				break;
+
+			case ProjectType.VUE_CLI:
+				this._options = {
+					preset: 'vue-cli',
+					tuneProject: () => this._tuneVueCliProject(),
+				};
+
+				print(msg.vueCliDetected);
 				break;
 
 			default:
@@ -322,6 +343,12 @@ export default class extends Generator {
 	}
 
 	_tuneCreateReactAppProject() {
+		const pkgJson = new PkgJsonModifier(this, 2);
+
+		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
+	}
+
+	_tuneVueCliProject() {
 		const pkgJson = new PkgJsonModifier(this, 2);
 
 		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
