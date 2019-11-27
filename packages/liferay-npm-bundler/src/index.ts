@@ -22,12 +22,8 @@ import copyPackages from './steps/copy';
 import runRules from './steps/rules';
 import transformPackages from './steps/transform';
 
-/**
- * Default entry point for the liferay-npm-bundler.
- * @param {Array} args command line arguments
- * @return {void}
- */
-export default function(args) {
+/** Default entry point for the liferay-npm-bundler */
+export default function(args: string[]): void {
 	if (args[0] === '-h' || args[0] === '--help') {
 		console.log(
 			'Usage:',
@@ -62,11 +58,8 @@ export default function(args) {
 	}
 }
 
-/**
- * Real tool execution
- * @return {void}
- */
-function run() {
+/** Real tool execution */
+function run(): void {
 	try {
 		const start = process.hrtime();
 
@@ -76,13 +69,13 @@ function run() {
 		report.rootPackage(rootPkg);
 
 		// Compute dependency packages
-		let depPkgs = addPackageDependencies(
+		const depPkgsMap = addPackageDependencies(
 			{},
 			project.dir.asNative,
 			project.copy.includedDependencies
 		);
 
-		depPkgs = Object.values(depPkgs).filter(pkg => !pkg.isRoot);
+		const depPkgs = Object.values(depPkgsMap).filter(pkg => !pkg.isRoot);
 
 		report.dependencies(depPkgs);
 		reportLinkedDependencies(project.pkgJson);
@@ -134,12 +127,8 @@ function run() {
 	}
 }
 
-/**
- * Report linked dependencies of a given package.json
- * @param  {Object} pkgJson pacakge.json file contents
- * @return {void}
- */
-function reportLinkedDependencies(pkgJson) {
+/** Report linked dependencies of a given package.json */
+function reportLinkedDependencies(pkgJson: object): void {
 	['dependencies', 'devDependencies'].forEach(scope => {
 		if (pkgJson[scope] != null) {
 			Object.keys(pkgJson[scope]).forEach(depName => {
@@ -167,12 +156,8 @@ function reportLinkedDependencies(pkgJson) {
 	});
 }
 
-/**
- * Abort execution showing error message
- * @param  {Object} err the error object
- * @return {void}
- */
-function abort(err) {
+/** Abort execution after showing error message */
+function abort(err: any): void {
 	log.error(`
 
 ${err.stack}
