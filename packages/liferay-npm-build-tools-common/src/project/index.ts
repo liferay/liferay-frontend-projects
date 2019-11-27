@@ -218,12 +218,19 @@ export class Project {
 	/**
 	 * Reload the whole project from given directory. Especially useful for
 	 * tests.
-	 * @param projectPath project's path in native format (whether absolute or
-	 * 			relative to cwd)
+	 * @param projectPath
+	 * project's path in native format (whether absolute or relative to cwd)
+	 * @param configFilePath
+	 * optional path to configuration file (relative to `projectPath` if not
+	 * given as an absolute path)
 	 */
-	loadFrom(projectPath: string): void {
+	loadFrom(
+		projectPath: string,
+		configFilePath: string = '.npmbundlerrc'
+	): void {
 		// First reset everything
 		this._buildDir = undefined;
+		this._configFile = undefined;
 		this._npmbundlerrc = undefined;
 		this._pkgJson = undefined;
 		this._pkgManager = undefined;
@@ -233,6 +240,11 @@ export class Project {
 
 		// Set significant directories
 		this._projectDir = new FilePath(path.resolve(projectPath));
+		this._configFile = new FilePath(
+			path.isAbsolute(configFilePath)
+				? configFilePath
+				: path.resolve(path.join(projectPath, configFilePath))
+		);
 		this._toolsDir = this._projectDir;
 
 		// Load configuration files
@@ -275,19 +287,23 @@ export class Project {
 	 * Set program arguments so that some of them can be parsed as if they were
 	 * `.npmbundlerrc` options.
 	 */
-	set argv(argv: string[]) {
+	set argv(argv: {
+		config: string;
+		'create-jar': boolean;
+		'dump-report': boolean;
+	}) {
 		const {_npmbundlerrc} = this;
 
-		if (argv.includes('-j') || argv.includes('--create-jar')) {
+		if (argv.config) {
+			this.loadFrom('.', argv.config);
+		}
+
+		if (argv['create-jar']) {
 			_npmbundlerrc['create-jar'] = true;
 		}
 
-		if (argv.includes('-r') || argv.includes('--dump-report')) {
+		if (argv['dump-report']) {
 			_npmbundlerrc['dump-report'] = true;
-		}
-
-		if (argv.includes('--no-tracking')) {
-			_npmbundlerrc['no-tracking'] = true;
 		}
 	}
 
@@ -330,8 +346,7 @@ export class Project {
 	}
 
 	_loadNpmbundlerrc(): void {
-		const npmbundlerrcPath = this._projectDir.join('.npmbundlerrc')
-			.asNative;
+		const npmbundlerrcPath = this._configFile.asNative;
 
 		const config = fs.existsSync(npmbundlerrcPath)
 			? readJsonSync(npmbundlerrcPath)
@@ -391,13 +406,25 @@ export class Project {
 			: {};
 	}
 
+	/** Project relative path to build directory */
 	private _buildDir: FilePath;
+
+	/** Absolute path to config file */
+	private _configFile: FilePath;
+
 	private _npmbundlerrc: object;
 	private _pkgJson: object;
 	private _pkgManager: PkgManager;
+
+	/** Absolute path to project directory */
 	private _projectDir: FilePath;
+
+	/** Project relative paths to source directories */
 	private _sources: FilePath[];
+
+	/** Absolute path to tools directory (usually project or preset dir) */
 	private _toolsDir: FilePath;
+
 	private _versionsInfo: Map<string, VersionInfo>;
 }
 

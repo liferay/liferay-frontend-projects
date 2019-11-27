@@ -10,6 +10,7 @@ import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 import semver from 'semver';
+import yargs from 'yargs';
 
 import {addPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
@@ -23,23 +24,38 @@ import runRules from './steps/rules';
 import transformPackages from './steps/transform';
 
 /** Default entry point for the liferay-npm-bundler */
-export default function(args: string[]): void {
-	if (args[0] === '-h' || args[0] === '--help') {
-		console.log(
-			'Usage:',
-			'liferay-npm-bundler',
-			'[-h|--help]',
-			'[-v|--version]',
-			'[-r|--dump-report]',
-			'[-j|--create-jar]',
-			'[--no-tracking]'
-		);
-		return;
-	}
+export default function(): void {
+	const {argv} = yargs
+		.option('config', {
+			alias: 'c',
+			type: 'string',
+			description:
+				'Specify path to config file to use (instead of .npmbundlerrc)',
+		})
+		.option('create-jar', {
+			alias: 'j',
+			type: 'boolean',
+			description:
+				'Create a JAR file as output (as opposed to an exploded directory)',
+		})
+		.option('dump-report', {
+			alias: 'r',
+			type: 'boolean',
+			description:
+				'Dump report HTML file with detailed information about the bundling process',
+		})
+		.option('version', {
+			alias: 'v',
+			type: 'boolean',
+			description: 'Show version number and exit',
+		})
+		.help();
+
+	project.argv = argv;
 
 	const versionsInfo = project.versionsInfo;
 
-	if (args[0] === '-v' || args[0] === '--version') {
+	if (argv.version) {
 		versionsInfo.forEach((value, key) => {
 			console.log(`"${key}":`, JSON.stringify(value, null, 2));
 		});
