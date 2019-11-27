@@ -5,7 +5,8 @@
 	"main": "config.json",
 	"dependencies": {
 		"babel-preset-liferay-standard": "2.15.0",
-		"liferay-npm-bundler-plugin-create-react-app": "2.14.1",
+		"liferay-npm-bundler-loader-babel-loader": "2.15.0",
+		"liferay-npm-bundler-loader-copy-loader": "2.15.0",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.15.0"
 	}
 }

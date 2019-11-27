@@ -5940,13 +5940,6 @@ liferay-npm-bundler-loader-css-loader@2.13.2:
   dependencies:
     liferay-npm-build-tools-common "2.13.2"
 
-liferay-npm-bundler-plugin-create-react-app@2.14.1:
-  version "2.14.1"
-  resolved "https://registry.yarnpkg.com/liferay-npm-bundler-plugin-create-react-app/-/liferay-npm-bundler-plugin-create-react-app-2.14.1.tgz#8cbd987e6a94604b9ab7a8c87d4ad7d148b4ef45"
-  integrity sha512-mKFzu+XbyRq48ORSjAp+/Oj7ZGiwI+JQ6ie0WnH47TK82FrDnfTk6+2iVm2aXpm50NURxf1Hs6U8knY1mUBz8w==
-  dependencies:
-    liferay-npm-build-tools-common "2.14.1"
-
 liferay-npm-bundler-plugin-exclude-imports@2.13.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/liferay-npm-bundler-plugin-exclude-imports/-/liferay-npm-bundler-plugin-exclude-imports-2.13.2.tgz#3a98673e6ac503b66b846a8ec8680b9abb9556f9"
