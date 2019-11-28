@@ -10,6 +10,7 @@ import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 import semver from 'semver';
+import yargs from 'yargs';
 
 import {addPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
@@ -22,28 +23,39 @@ import copyPackages from './steps/copy';
 import runRules from './steps/rules';
 import transformPackages from './steps/transform';
 
-/**
- * Default entry point for the liferay-npm-bundler.
- * @param {Array} args command line arguments
- * @return {void}
- */
-export default function(args) {
-	if (args[0] === '-h' || args[0] === '--help') {
-		console.log(
-			'Usage:',
-			'liferay-npm-bundler',
-			'[-h|--help]',
-			'[-v|--version]',
-			'[-r|--dump-report]',
-			'[-j|--create-jar]',
-			'[--no-tracking]'
-		);
-		return;
-	}
+/** Default entry point for the liferay-npm-bundler */
+export default function(): void {
+	const {argv} = yargs
+		.option('config', {
+			alias: 'c',
+			type: 'string',
+			description:
+				'Specify path to config file to use (instead of .npmbundlerrc)',
+		})
+		.option('create-jar', {
+			alias: 'j',
+			type: 'boolean',
+			description:
+				'Create a JAR file as output (as opposed to an exploded directory)',
+		})
+		.option('dump-report', {
+			alias: 'r',
+			type: 'boolean',
+			description:
+				'Dump report HTML file with detailed information about the bundling process',
+		})
+		.option('version', {
+			alias: 'v',
+			type: 'boolean',
+			description: 'Show version number and exit',
+		})
+		.help();
+
+	project.argv = argv;
 
 	const versionsInfo = project.versionsInfo;
 
-	if (args[0] === '-v' || args[0] === '--version') {
+	if (argv.version) {
 		versionsInfo.forEach((value, key) => {
 			console.log(`"${key}":`, JSON.stringify(value, null, 2));
 		});
@@ -62,11 +74,8 @@ export default function(args) {
 	}
 }
 
-/**
- * Real tool execution
- * @return {void}
- */
-function run() {
+/** Real tool execution */
+function run(): void {
 	try {
 		const start = process.hrtime();
 
@@ -76,13 +85,13 @@ function run() {
 		report.rootPackage(rootPkg);
 
 		// Compute dependency packages
-		let depPkgs = addPackageDependencies(
+		const depPkgsMap = addPackageDependencies(
 			{},
 			project.dir.asNative,
 			project.copy.includedDependencies
 		);
 
-		depPkgs = Object.values(depPkgs).filter(pkg => !pkg.isRoot);
+		const depPkgs = Object.values(depPkgsMap).filter(pkg => !pkg.isRoot);
 
 		report.dependencies(depPkgs);
 		reportLinkedDependencies(project.pkgJson);
@@ -134,12 +143,8 @@ function run() {
 	}
 }
 
-/**
- * Report linked dependencies of a given package.json
- * @param  {Object} pkgJson pacakge.json file contents
- * @return {void}
- */
-function reportLinkedDependencies(pkgJson) {
+/** Report linked dependencies of a given package.json */
+function reportLinkedDependencies(pkgJson: object): void {
 	['dependencies', 'devDependencies'].forEach(scope => {
 		if (pkgJson[scope] != null) {
 			Object.keys(pkgJson[scope]).forEach(depName => {
@@ -167,12 +172,8 @@ function reportLinkedDependencies(pkgJson) {
 	});
 }
 
-/**
- * Abort execution showing error message
- * @param  {Object} err the error object
- * @return {void}
- */
-function abort(err) {
+/** Abort execution after showing error message */
+function abort(err: any): void {
 	log.error(`
 
 ${err.stack}
