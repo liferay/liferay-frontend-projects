@@ -15,14 +15,19 @@ const log = require('../../src/utils/log');
 
 jest.mock('../../src/jsp/formatJSP');
 jest.mock('../../src/utils/log');
-jest.mock('prettier');
 
 describe('scripts/format.js', () => {
 	let cwd;
 	let temp;
 
 	const source = {
-		js: 'alert("hello");',
+		js: `
+			if (happy) {
+				alert('hello');
+			} else {
+				console.log('sad');
+			}
+		`,
 		jsp: '<%= "hello" %>'
 	};
 
@@ -30,6 +35,9 @@ describe('scripts/format.js', () => {
 		cwd = process.cwd();
 
 		jest.resetAllMocks();
+
+		jest.spyOn(prettier, 'check');
+		jest.spyOn(prettier, 'format');
 
 		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'format-'));
 
@@ -48,6 +56,14 @@ describe('scripts/format.js', () => {
 	it('invokes prettier.check()', () => {
 		format();
 		expect(prettier.check).toHaveBeenCalledWith(
+			source.js,
+			expect.objectContaining({filepath: 'src/example.js'})
+		);
+	});
+
+	it('invokes prettier.format()', () => {
+		format();
+		expect(prettier.format).toHaveBeenCalledWith(
 			source.js,
 			expect.objectContaining({filepath: 'src/example.js'})
 		);
