@@ -31,7 +31,7 @@ export function getRootPkg() {
  * @param {string} basedirPath directory where package lives in
  * @param {Array} extraDependencies an array of package names to add to
  *					dependencies collected from package.json
- * @return {object} the given collectedDependencies object
+ * @return {{[pkgId:string]: PkgDesc}} the given collectedDependencies object
  */
 export function addPackageDependencies(
 	collectedDependencies,
