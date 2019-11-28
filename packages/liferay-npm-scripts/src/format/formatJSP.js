@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const prettier = require('prettier');
-
 const getMergedConfig = require('../utils/getMergedConfig');
+const prettier = require('../utils/prettier');
 const dedent = require('./dedent');
 const extractJS = require('./extractJS');
 const indent = require('./indent');
