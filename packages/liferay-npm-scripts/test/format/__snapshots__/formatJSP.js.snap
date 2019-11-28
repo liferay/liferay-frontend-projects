@@ -319,7 +319,8 @@ if (organization != null) {
 								!<%= OrganizationLocalServiceUtil.isCountryEnabled(curType) %>
 							) {
 								countryDiv.classList.add('hide');
-							} else {
+							}
+							else {
 								countryDiv.classList.remove('hide');
 							}
 						}
@@ -1588,7 +1589,8 @@ for (int i = 0; i < pages.size(); i++) {
 								'<portlet:namespace />targetVersion=<%= wikiPage.getVersion() %>',
 								uri
 							);
-						} else if (rowIdsSize === 2) {
+						}
+						else if (rowIdsSize === 2) {
 							uri = Liferay.Util.addParams(
 								'<portlet:namespace />sourceVersion=' + rowIds[1].value,
 								uri
@@ -1812,7 +1814,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 					if (!searchContainerData.length) {
 						searchContainerData = [];
-					} else {
+					}
+					else {
 						searchContainerData = searchContainerData.split(',');
 					}
 
@@ -2531,7 +2534,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 						document.<portlet:namespace />fm.<portlet:namespace />deleteGroupRolesRoleIds.value = <portlet:namespace />deleteGroupRolesRoleIds.join(
 							','
 						);
-					} else {
+					}
+					else {
 						rowColumns.push(
 							'<a class=\\"modify-link\\" data-rowId=\\"' +
 								roleId +
@@ -2890,7 +2894,8 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 
 			if (showOptions) {
 				<%= className %>Options.classList.remove('hide');
-			} else {
+			}
+			else {
 				<%= className %>Options.classList.add('hide');
 			}
 
@@ -3032,10 +3037,12 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 
 						if (structureOptions) {
 							subtypeFieldsWrapper.classList.remove('hide');
-						} else if (hideSubtypeFilterEnableWrapper) {
+						}
+						else if (hideSubtypeFilterEnableWrapper) {
 							subtypeFieldsWrapper.classList.add('hide');
 						}
-					} else if (hideSubtypeFilterEnableWrapper) {
+					}
+					else if (hideSubtypeFilterEnableWrapper) {
 						subtypeFieldsWrapper.classList.add('hide');
 					}
 				});
@@ -3998,7 +4005,8 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 		if (viewName == 'month') {
 			total = A.Date.daysInMonth(viewDate);
-		} else if (viewName == 'week') {
+		}
+		else if (viewName == 'week') {
 			total = 7;
 		}
 
@@ -4298,7 +4306,8 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 		copyButton.on('mouseout', function() {
 			copyButton.removeClass('copied');
 		});
-	} else {
+	}
+	else {
 		if (copyButton) {
 			copyButton.hide();
 		}

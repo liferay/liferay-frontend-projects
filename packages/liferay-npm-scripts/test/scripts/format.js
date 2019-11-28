@@ -7,11 +7,12 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const prettier = require('prettier');
 
 const formatJSP = require('../../src/format/formatJSP');
 const format = require('../../src/scripts/format');
 const log = require('../../src/utils/log');
+const prettier = require('../../src/utils/prettier');
+
 
 jest.mock('../../src/format/formatJSP');
 jest.mock('../../src/utils/log');
@@ -53,7 +54,7 @@ describe('scripts/format.js', () => {
 		process.chdir(cwd);
 	});
 
-	it('invokes prettier.check()', () => {
+	it('invokes check() on our prettier.check() wrapper', () => {
 		format();
 		expect(prettier.check).toHaveBeenCalledWith(
 			source.js,
@@ -61,7 +62,7 @@ describe('scripts/format.js', () => {
 		);
 	});
 
-	it('invokes prettier.format()', () => {
+	it('invokes format() on our prettier.format() wrapper', () => {
 		format();
 		expect(prettier.format).toHaveBeenCalledWith(
 			source.js,
