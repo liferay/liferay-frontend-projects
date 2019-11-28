@@ -1,6 +1,6 @@
 {
 	"name": "babel-preset-liferay-standard",
-	"version": "2.15.1",
+	"version": "2.16.0",
 	"description": "Babel preset for bundling standard Liferay projects.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,14 +9,14 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"babel-plugin-add-module-metadata": "2.15.1",
-		"babel-plugin-alias-modules": "2.15.1",
+		"babel-plugin-add-module-metadata": "2.16.0",
+		"babel-plugin-alias-modules": "2.16.0",
 		"babel-plugin-minify-dead-code-elimination": "0.5.1",
-		"babel-plugin-name-amd-modules": "2.15.1",
-		"babel-plugin-namespace-amd-define": "2.15.1",
-		"babel-plugin-namespace-modules": "2.15.1",
-		"babel-plugin-normalize-requires": "2.15.1",
+		"babel-plugin-name-amd-modules": "2.16.0",
+		"babel-plugin-namespace-amd-define": "2.16.0",
+		"babel-plugin-namespace-modules": "2.16.0",
+		"babel-plugin-normalize-requires": "2.16.0",
 		"babel-plugin-transform-node-env-inline": "0.4.3",
-		"babel-plugin-wrap-modules-amd": "2.15.1"
+		"babel-plugin-wrap-modules-amd": "2.16.0"
 	}
 }
