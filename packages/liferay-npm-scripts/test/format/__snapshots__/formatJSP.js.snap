@@ -732,7 +732,8 @@ if (Validator.isNotNull(scriptContent)) {
 
 				if (foundVisibleSection) {
 					noResultsNode.remove();
-				} else {
+				}
+				else {
 					paletteDataContainer.appendChild(noResultsNode);
 				}
 			});
@@ -830,7 +831,8 @@ if (Validator.isNotNull(scriptContent)) {
 					visible: false,
 					zIndex: 10000
 				});
-			} else {
+			}
+			else {
 				richEditor.unplug(ACPlugin);
 			}
 		}

@@ -27,8 +27,9 @@ describe('formatJSP()', () => {
 			</script>
 		`;
 
-		// Note that Prettier keeps the `else()` in the right place due to
-		// special casing in the notes in the tagReplacements() implementation.
+		// Note that Prettier keeps the `else` in the right place
+		// due to special casing explained in the notes in the
+		// `tagReplacements()` implementation.
 		expect(formatJSP(source)).toBe(`
 			<p>Hi!</p>
 			<script>
