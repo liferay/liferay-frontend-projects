@@ -9,16 +9,17 @@ const prettier = require('prettier');
 
 const linter = new Linter();
 
+/**
+ * Custom rule because ESLint's `'brace-style': ['error', 'stroustrup']` ignores
+ * indentation (ie. it puts the "else" on a new line in column 0).
+ */
 linter.defineRule(
 	'newline-before-block-statements',
 	require('./rules/newline-before-block-statements')
 );
 
 const rules = {
-	// BUG: you'd think that brace-style would give us exactly what we want,
-	// but, amazingly, it seems to ignore indentation...
-	// 'brace-style': ['error', 'stroustrup'],
-	'newline-before-block-statements': 'error',
+	'newline-before-block-statements': 'error'
 };
 
 /**
