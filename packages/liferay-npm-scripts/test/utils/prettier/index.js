@@ -431,6 +431,37 @@ describe('utils/prettier/index.js', () => {
 						}
 				`);
 			});
+
+			it('copes with static class properties', () => {
+				expect(
+					format(code`
+						class Thing extends React.Component {
+							static propTypes = {};
+
+							render() {
+								if (x()) {
+									return 'text';
+								} else {
+									return null;
+								}
+							}
+						}
+				`)
+				).toBe(code`
+						class Thing extends React.Component {
+							static propTypes = {};
+
+							render() {
+								if (x()) {
+									return 'text';
+								}
+								else {
+									return null;
+								}
+							}
+						}
+				`);
+			});
 		});
 	});
 });

@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const babelEslint = require('babel-eslint');
 const {CLIEngine, Linter} = require('eslint');
 const path = require('path');
 const prettier = require('prettier');
 
-const config = require('../../config/eslint.config');
+const eslintConfig = require('../../config/eslint.config');
 
 const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
 
@@ -27,13 +28,15 @@ linter.defineRule(
 
 /* eslint-enable liferay/no-require-and-call */
 
+linter.defineParser('babel-eslint', babelEslint);
+
 const cli = new CLIEngine({
-	...config,
+	...eslintConfig,
 	extends: [],
 	globals: [],
 	overrides: [],
 	parserOptions: {
-		...config.parserOptions,
+		...eslintConfig.parserOptions,
 		sourceType: 'module'
 	},
 	rules: {
@@ -74,13 +77,10 @@ function format(source, options) {
 		{
 			...cli.getConfigForFile(filename),
 
-			// Sadly, I can't explain why we need this (I got here
-			// by trial and error): This overwrites the parser
-			// ("babel-eslint") and allows us to process snippets
-			// containing ES6 features; without this, the linter
-			// silently errors and returns the original source
-			// unmodified.
-			parser: undefined
+			// Override "parser" value from `getConfigForFile()`, which
+			// is an absolute path; make it a name that matches the
+			// parser we defined with `defineParser()` above.
+			parser: 'babel-eslint'
 		},
 
 		{allowInlineConfig: false, filename}
