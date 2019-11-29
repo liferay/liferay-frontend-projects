@@ -1,3 +1,9 @@
+/**
+ * © 2019 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 module.exports = {
 	create(context) {
 		const source = context.getSourceCode();
@@ -46,7 +52,7 @@ module.exports = {
 				//                } else {
 				//     consequent ^      ^ alternate
 				//
-				const {consequent, alternate} = node;
+				const {alternate, consequent} = node;
 
 				if (alternate) {
 					check(consequent);
@@ -76,7 +82,7 @@ module.exports = {
 				// preceding node (whether that be a "block" or a "handler") and
 				// they both stop at their ending "}" punctuator.
 				//
-				const {block, handler, finalizer} = node;
+				const {block, finalizer, handler} = node;
 
 				if (handler) {
 					check(block);
