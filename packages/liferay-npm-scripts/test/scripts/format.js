@@ -13,7 +13,6 @@ const format = require('../../src/scripts/format');
 const log = require('../../src/utils/log');
 const prettier = require('../../src/utils/prettier');
 
-
 jest.mock('../../src/jsp/formatJSP');
 jest.mock('../../src/utils/log');
 
