@@ -2,8 +2,6 @@ module.exports = {
 	create(context) {
 		const source = context.getSourceCode();
 
-		const fixed = new Set();
-
 		return {
 			IfStatement(node) {
 				const {consequent, alternate} = node;
@@ -18,9 +16,7 @@ module.exports = {
 				//      } else {
 				//             ^ the start of an "else" block
 				//
-				if (alternate && !fixed.has(node)) {
-					fixed.add(node);
-
+				if (alternate) {
 					context.report({
 						fix: fixer => {
 							const last = source.getLastToken(consequent);
