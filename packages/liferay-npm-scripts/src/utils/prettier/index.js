@@ -5,8 +5,11 @@
  */
 
 const {CLIEngine, Linter} = require('eslint');
+const path = require('path');
 const prettier = require('prettier');
 const config = require('../../config/eslint.config');
+
+const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
 
 const linter = new Linter();
 
@@ -51,6 +54,12 @@ function format(source, options) {
 
 	const filename = options.filepath || '__fallback__.js';
 
+	const extension = path.extname(filename);
+
+	if (!EXTENSIONS.has(extension)) {
+		return formatted;
+	}
+
 	const {output} = linter.verifyAndFix(
 		formatted,
 		{
@@ -65,7 +74,7 @@ function format(source, options) {
 			parser: undefined
 		},
 
-		{filename: '__sample__.js', allowInlineConfig: false}
+		{filename, allowInlineConfig: false}
 	);
 
 	return output;

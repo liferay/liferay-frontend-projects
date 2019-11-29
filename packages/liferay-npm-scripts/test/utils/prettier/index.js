@@ -73,12 +73,65 @@ describe('utils/prettier/index.js', () => {
 		function format(source, options = {}) {
 			return prettier.format(source, {
 				...config,
-				filepath: `sample.js`,
+				filepath: 'some/directory/__sample__.js',
 				...options
 			});
 		}
 
-		// TODO: make sure this doesn't freak out when we pass in scss files
+		it('does not choke on SCSS files', () => {
+			expect(
+				format(
+					code`
+					@mixin button-base()
+					{
+						@include typography(button);
+						@include ripple-surface;
+						@include ripple-radius-bounded;
+
+						display: inline-flex;
+						position: relative;
+						height: $button-height;
+						border: none;
+						vertical-align: middle;
+
+						&:hover { cursor: pointer; }
+
+						&:disabled
+						{
+							color: $mdc-button-disabled-ink-color;
+							cursor: default;
+							pointer-events: none;
+						}
+					}
+			`,
+					{
+						filepath: 'some/directory/__sample__.scss'
+					}
+				)
+			).toBe(code`
+					@mixin button-base() {
+						@include typography(button);
+						@include ripple-surface;
+						@include ripple-radius-bounded;
+
+						display: inline-flex;
+						position: relative;
+						height: $button-height;
+						border: none;
+						vertical-align: middle;
+
+						&:hover {
+							cursor: pointer;
+						}
+
+						&:disabled {
+							color: $mdc-button-disabled-ink-color;
+							cursor: default;
+							pointer-events: none;
+						}
+					}
+			`);
+		});
 
 		it('does standard prettier formatting', () => {
 			expect(
