@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const {Linter} = require('eslint');
+const {CLIEngine, Linter} = require('eslint');
 const prettier = require('prettier');
+const config = require('../../config/eslint.config');
 
 const linter = new Linter();
 
@@ -18,9 +19,16 @@ linter.defineRule(
 	require('./rules/newline-before-block-statements')
 );
 
-const rules = {
-	'newline-before-block-statements': 'error'
-};
+const cli = new CLIEngine({
+	...config,
+	extends: [],
+	globals: [],
+	overrides: [],
+	rules: {
+		'newline-before-block-statements': 'error'
+	},
+	useEslintrc: false
+});
 
 /**
  * Custom Prettier wrapper that applies a Liferay-specific
@@ -41,7 +49,24 @@ function check(source, options) {
 function format(source, options) {
 	const formatted = prettier.format(source, options);
 
-	const {output} = linter.verifyAndFix(formatted, {rules});
+	const filename = options.filepath || '__fallback__.js';
+
+	const {output} = linter.verifyAndFix(
+		formatted,
+		{
+			...cli.getConfigForFile(filename),
+
+			// Sadly, I can't explain why we need this (I got here
+			// by trial and error): This overwrites the parser
+			// ("babel-eslint") and allows us to process snippets
+			// containing ES6 features; without this, the linter
+			// silently errors and returns the original source
+			// unmodified.
+			parser: undefined
+		},
+
+		{filename: '__sample__.js', allowInlineConfig: false}
+	);
 
 	return output;
 }

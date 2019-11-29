@@ -96,6 +96,10 @@ describe('utils/prettier/index.js', () => {
 			it('breaks before "else"', () => {
 				expect(
 					format(code`
+						// Random ES6 to prove that custom lint rule can handle
+						// it without choking.
+						const arrow = () => {};
+
 						function thing() {
 							if (test) {
 								return 1;
@@ -105,6 +109,10 @@ describe('utils/prettier/index.js', () => {
 						}
 				`)
 				).toBe(code`
+					// Random ES6 to prove that custom lint rule can handle
+					// it without choking.
+					const arrow = () => {};
+
 					function thing() {
 						if (test) {
 							return 1;
