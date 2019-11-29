@@ -7,11 +7,14 @@
 const {CLIEngine, Linter} = require('eslint');
 const path = require('path');
 const prettier = require('prettier');
+
 const config = require('../../config/eslint.config');
 
 const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
 
 const linter = new Linter();
+
+/* eslint-disable liferay/no-require-and-call */
 
 /**
  * Custom rule because ESLint's `'brace-style': ['error', 'stroustrup']` ignores
@@ -21,6 +24,8 @@ linter.defineRule(
 	'newline-before-block-statements',
 	require('./rules/newline-before-block-statements')
 );
+
+/* eslint-enable liferay/no-require-and-call */
 
 const cli = new CLIEngine({
 	...config,
@@ -74,7 +79,7 @@ function format(source, options) {
 			parser: undefined
 		},
 
-		{filename, allowInlineConfig: false}
+		{allowInlineConfig: false, filename}
 	);
 
 	return output;

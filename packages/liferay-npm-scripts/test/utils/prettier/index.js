@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const config = require('../../../src/config/prettier.json');
 const prettier = require('../../../src/utils/prettier');
 const dedent = require('../../../support/dedent');
-const config = require('../../../src/config/prettier.json');
 
 /**
  * Helper function to make code samples in this file a little more readable:
