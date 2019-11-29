@@ -139,9 +139,9 @@ describe('utils/prettier/index.js', () => {
 					if (test) { exit(); }
 			`)
 			).toBe(code`
-				if (test) {
-					exit();
-				}
+					if (test) {
+						exit();
+					}
 			`);
 		});
 
@@ -191,17 +191,113 @@ describe('utils/prettier/index.js', () => {
 						}
 				`)
 				).toBe(code`
-					function thing() {
-						if (test) {
-							return 1;
+						function thing() {
+							if (test) {
+								return 1;
+							}
+							else if (other) {
+								return 2;
+							}
+							else {
+								return 3;
+							}
 						}
-						else if (other) {
-							return 2;
+				`);
+			});
+
+			it('preserves inline comments before alternates', () => {
+				// Prettier does some "crazy" things with comments (moving them
+				// in and out of blocks) but this is one case where it leaves
+				// them alone.
+				expect(
+					format(code`
+						if (test) {
+							a();
+						} /* comment */ else {
+							b();
+						}
+				`)
+				).toBe(code`
+						if (test) {
+							a();
+						} /* comment */
+						else {
+							b();
+						}
+				`);
+			});
+
+			it('preserves alone-on-a-line comments before alternates', () => {
+				// This is a regression test.
+				//
+				// Given JSP source like this:
+				//
+				//      if (test) {
+				//          a();
+				//      }
+				//      <c:if test="<%= value %>">
+				//          else {
+				//              b();
+				//          }
+				//      </c:if>
+				//
+				// We will transform that to source (roughly) like this before
+				// formatting it:
+				//
+				//      if (test) {
+				//          a();
+				//      }
+				//      // opening JSP tag comment
+				//      else {
+				//          b();
+				//      }
+				//      // closing JSP tag comment
+				//
+				// We were incorrectly stripping the comment before the
+				// alternate (ie. the first one).
+				expect(
+					format(code`
+						if (test) {
+							a();
+						}
+						// opening JSP tag comment
+						else if (x) {
+							b();
+						}
+						// closing JSP tag comment
+				`)
+				).toBe(code`
+						if (test) {
+							a();
+						}
+						// opening JSP tag comment
+						else if (x) {
+							b();
+						}
+						// closing JSP tag comment
+				`);
+			});
+
+			it('does not re-fix alternates that are already correct', () => {
+				// Prettier will first move the "else" here back onto
+				// the preceding line, then our wrapper moves it back down
+				// again.
+				expect(
+					format(code`
+						if (test) {
+							a();
 						}
 						else {
-							return 3;
+							b();
 						}
-					}
+				`)
+				).toBe(code`
+						if (test) {
+							a();
+						}
+						else {
+							b();
+						}
 				`);
 			});
 		});
