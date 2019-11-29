@@ -32,6 +32,10 @@ const cli = new CLIEngine({
 	extends: [],
 	globals: [],
 	overrides: [],
+	parserOptions: {
+		...config.parserOptions,
+		sourceType: 'module'
+	},
 	rules: {
 		'newline-before-block-statements': 'error'
 	},

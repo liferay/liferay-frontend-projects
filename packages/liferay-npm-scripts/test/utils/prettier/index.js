@@ -408,6 +408,29 @@ describe('utils/prettier/index.js', () => {
 						}
 				`);
 			});
+
+			it('copes with import statements', () => {
+				expect(
+					format(code`
+						import {a, b} from './a';
+
+						if (test) {
+							a();
+						} else {
+							b();
+						}
+				`)
+				).toBe(code`
+						import {a, b} from './a';
+
+						if (test) {
+							a();
+						}
+						else {
+							b();
+						}
+				`);
+			});
 		});
 	});
 });
