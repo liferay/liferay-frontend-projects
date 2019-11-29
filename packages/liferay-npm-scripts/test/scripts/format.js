@@ -21,13 +21,7 @@ describe('scripts/format.js', () => {
 	let temp;
 
 	const source = {
-		js: `
-			if (happy) {
-				alert('hello');
-			} else {
-				console.log('sad');
-			}
-		`,
+		js: 'alert("hello");',
 		jsp: '<%= "hello" %>'
 	};
 
