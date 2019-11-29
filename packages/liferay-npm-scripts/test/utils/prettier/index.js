@@ -162,18 +162,18 @@ describe('utils/prettier/index.js', () => {
 						}
 				`)
 				).toBe(code`
-					// Random ES6 to prove that custom lint rule can handle
-					// it without choking.
-					const arrow = () => {};
+						// Random ES6 to prove that custom lint rule can handle
+						// it without choking.
+						const arrow = () => {};
 
-					function thing() {
-						if (test) {
-							return 1;
+						function thing() {
+							if (test) {
+								return 1;
+							}
+							else {
+								return 2;
+							}
 						}
-						else {
-							return 2;
-						}
-					}
 				`);
 			});
 
@@ -297,6 +297,114 @@ describe('utils/prettier/index.js', () => {
 						}
 						else {
 							b();
+						}
+				`);
+			});
+
+			it('breaks before "catch" (with catch binding)', () => {
+				expect(
+					format(code`
+						try {
+							a();
+						} catch (error) {
+							log(error);
+						}
+				`)
+				).toBe(code`
+						try {
+							a();
+						}
+						catch (error) {
+							log(error);
+						}
+				`);
+			});
+
+			// Disabled until we switch our ESLint ecmaVersion to '2019'.
+			it.skip('breaks before "catch" (without optional catch binding)', () => {
+				expect(
+					format(code`
+						try {
+							b();
+						} catch {
+							c();
+						}
+				`)
+				).toBe(code`
+						try {
+							b();
+						}
+						catch {
+							c();
+						}
+				`);
+			});
+
+			it('breaks before "finally" (after a "catch" handler)', () => {
+				expect(
+					format(code`
+						try {
+							a();
+						} catch (error) {
+							log(error);
+						} finally {
+							dispose();
+						}
+				`)
+				).toBe(code`
+						try {
+							a();
+						}
+						catch (error) {
+							log(error);
+						}
+						finally {
+							dispose();
+						}
+				`);
+			});
+
+			it('breaks before "finally" (when no "catch" handler)', () => {
+				expect(
+					format(code`
+						try {
+							a();
+						} finally {
+							dispose();
+						}
+				`)
+				).toBe(code`
+						try {
+							a();
+						}
+						finally {
+							dispose();
+						}
+				`);
+			});
+
+			it('copes with comments near "try"/"catch" constructs', () => {
+				// Note: the movement of "comment 2" below is Prettier
+				// craziness and not the fault of our post-processor.
+				expect(
+					format(code`
+						try {
+							a();
+						} /* comment 1 */ catch /* comment 2 */ (error) {
+							log(error);
+						} /* comment 3 */ finally /* comment 4 */ {
+							dispose();
+						}
+				`)
+				).toBe(code`
+						try {
+							a();
+						} /* comment 1 */
+						catch (/* comment 2 */ error) {
+							log(error);
+						} /* comment 3 */
+						finally /* comment 4 */ {
+							dispose();
 						}
 				`);
 			});
