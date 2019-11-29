@@ -48,5 +48,5 @@ function format(source, options) {
 
 module.exports = {
 	check,
-	format,
+	format
 };
