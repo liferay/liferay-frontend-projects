@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const toFiller = require('../../src/format/toFiller');
+const toFiller = require('../../src/jsp/toFiller');
 
 describe('toFiller()', () => {
 	it('replaces a simple string with same-shaped filler', () => {

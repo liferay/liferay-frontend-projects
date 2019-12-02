@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const restoreTags = require('../../src/format/restoreTags');
-const stripIndents = require('../../src/format/stripIndents');
-const substituteTags = require('../../src/format/substituteTags');
+const restoreTags = require('../../src/jsp/restoreTags');
+const stripIndents = require('../../src/jsp/stripIndents');
+const substituteTags = require('../../src/jsp/substituteTags');
 
 describe('restoreTags()', () => {
 	it('puts previously extracted tags back in their place (round-trip)', () => {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const dedent = require('../../src/format/dedent');
+const dedent = require('../../src/jsp/dedent');
 
 describe('dedent()', () => {
 	it('dedents based on the smallest existing indent (spaces)', () => {

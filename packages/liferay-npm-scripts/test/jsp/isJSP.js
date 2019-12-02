@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const isJSP = require('../../src/format/isJSP');
+const isJSP = require('../../src/jsp/isJSP');
 
 describe('isJSP()', () => {
 	it('recognizes ".jsp" files', () => {

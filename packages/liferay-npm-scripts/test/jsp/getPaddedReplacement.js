@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const getPaddedReplacement = require('../../src/format/getPaddedReplacement');
+const getPaddedReplacement = require('../../src/jsp/getPaddedReplacement');
 
 describe('getPaddedReplacement()', () => {
 	it('pads out the template to obtain an equal-length replacement', () => {

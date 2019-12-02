@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const stripIndents = require('../../src/format/stripIndents');
-const substituteTags = require('../../src/format/substituteTags');
+const stripIndents = require('../../src/jsp/stripIndents');
+const substituteTags = require('../../src/jsp/substituteTags');
 
 describe('stripIndents()', () => {
 	it('strips indents that are inside JSP placeholders', () => {

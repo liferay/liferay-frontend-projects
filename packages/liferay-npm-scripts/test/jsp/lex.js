@@ -6,7 +6,7 @@
 
 const path = require('path');
 
-const lex = require('../../src/format/lex');
+const lex = require('../../src/jsp/lex');
 const getFixture = require('../../support/getFixture');
 
 describe('lex()', () => {
@@ -505,7 +505,7 @@ describe('lex()', () => {
 			'view_calendar_menus.jspf',
 			'view_meeting.jsp'
 		])('%s matches snapshot', async fixture => {
-			const source = await getFixture(path.join('format', fixture));
+			const source = await getFixture(path.join('jsp', fixture));
 
 			expect(lex(source).tokens).toMatchSnapshot();
 		});

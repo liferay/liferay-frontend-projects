@@ -6,7 +6,7 @@
 
 const path = require('path');
 
-const formatJSP = require('../../src/format/formatJSP');
+const formatJSP = require('../../src/jsp/formatJSP');
 const getFixture = require('../../support/getFixture');
 
 describe('formatJSP()', () => {
@@ -333,7 +333,7 @@ describe('formatJSP()', () => {
 			// limitations" below):
 			// 'edit_content_redirect.jsp',
 		])('%s matches snapshot', async fixture => {
-			const source = await getFixture(path.join('format', fixture));
+			const source = await getFixture(path.join('jsp', fixture));
 
 			expect(formatJSP(source)).toMatchSnapshot();
 		});

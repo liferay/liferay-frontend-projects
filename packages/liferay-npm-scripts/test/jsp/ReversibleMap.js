@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const ReversibleMap = require('../../src/format/ReversibleMap');
+const ReversibleMap = require('../../src/jsp/ReversibleMap');
 
 describe('ReversibleMap()', () => {
 	let map;

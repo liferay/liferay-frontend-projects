@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const Lexer = require('../../src/format/Lexer');
+const Lexer = require('../../src/jsp/Lexer');
 
 describe('Lexer()', () => {
 	it('requires the constructor callback to return a function', () => {

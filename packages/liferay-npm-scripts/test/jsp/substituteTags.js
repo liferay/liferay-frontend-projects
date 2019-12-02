@@ -6,7 +6,7 @@
 
 const path = require('path');
 
-const substituteTags = require('../../src/format/substituteTags');
+const substituteTags = require('../../src/jsp/substituteTags');
 const dedent = require('../../support/dedent');
 const getFixture = require('../../support/getFixture');
 
@@ -289,7 +289,7 @@ describe('substituteTags()', () => {
 			'view_calendar_menus.jspf',
 			'view_meeting.jsp'
 		])('%s matches snapshot', async fixture => {
-			const source = await getFixture(path.join('format', fixture));
+			const source = await getFixture(path.join('jsp', fixture));
 
 			expect(substituteTags(source)).toMatchSnapshot();
 		});
