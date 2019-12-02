@@ -21,8 +21,7 @@ const {PADDING_LINE} = padLines;
 /**
  * Formats the JSP `source` string.
  *
- * Returns `null` if the string doesn't contain any formattable elements
- * (currently, the only formattable elements are script tags).
+ * Currently, the only formattable elements are script tags.
  */
 function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const blocks = extractJS(source);
