@@ -11,7 +11,6 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
-const withBabelConfig = require('../utils/withBabelConfig');
 
 const JEST_CONFIG = getMergedConfig('jest');
 
@@ -51,10 +50,8 @@ module.exports = function(arrArgs = []) {
 			);
 		}
 
-		withBabelConfig(() => {
-			spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
-				env
-			});
+		spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
+			env
 		});
 
 		if (useSoy) {
