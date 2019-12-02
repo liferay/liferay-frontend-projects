@@ -5,15 +5,13 @@
  */
 
 const fs = require('fs');
+const path = require('path');
 
 const spawnSync = require('../utils/spawnSync');
-const withBabelConfig = require('../utils/withBabelConfig');
+const withTempFile = require('../utils/withTempFile');
 
-const WATCH_CONFIG_FILE = 'webpack.config.dev.js';
-
-function spawn(command, args) {
-	withBabelConfig(() => spawnSync(command, args));
-}
+const WEBPACK_CONFIG_FILE = 'webpack.config.js';
+const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
 
 /**
  * Main function for running webpack within the liferay-portal repo.
@@ -21,9 +19,9 @@ function spawn(command, args) {
 module.exports = function(...args) {
 	const watch = args.indexOf('--watch');
 	if (watch !== -1) {
-		if (!fs.existsSync(WATCH_CONFIG_FILE)) {
+		if (!fs.existsSync(WEBPACK_DEV_CONFIG_FILE)) {
 			throw new Error(
-				`--watch supplied but "${WATCH_CONFIG_FILE}" not found`
+				`--watch supplied but "${WEBPACK_DEV_CONFIG_FILE}" not found`
 			);
 		} else {
 			// Cut out the "watch" argument; `splice()` would mutate, so create
@@ -33,13 +31,32 @@ module.exports = function(...args) {
 				...args.slice(watch + 1)
 			];
 
-			spawn('webpack-dev-server', [
-				'--config',
-				WATCH_CONFIG_FILE,
-				...otherArgs
-			]);
+			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, configFilePath => {
+				spawnSync('webpack-dev-server', [
+					'--config',
+					configFilePath,
+					...otherArgs
+				]);
+			});
 		}
 	} else {
-		spawn('webpack', args);
+		withWebpackConfig(WEBPACK_CONFIG_FILE, configFilePath => {
+			spawnSync('webpack', ['--config', configFilePath, ...args]);
+		});
 	}
 };
+
+function withWebpackConfig(filename, callback) {
+	const mergeBabelLoaderOptionsPath = require.resolve(
+		'../utils/mergeBabelLoaderOptions'
+	);
+	const webpackConfigPath = path.resolve(filename);
+
+	const webpackConfig = `
+		module.exports = require('${mergeBabelLoaderOptionsPath}')(
+			require('${webpackConfigPath}')
+		);
+	`;
+
+	withTempFile(filename, webpackConfig, callback);
+}
