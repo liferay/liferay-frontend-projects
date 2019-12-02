@@ -4,6 +4,19 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/**
+ * @file
+ *
+ * Custom Prettier wrapper that applies a Liferay-specific
+ * post-processing step.
+ *
+ * The post-processing is implemented using ESLint rules because they
+ * provide us with a way to do AST-aware transformations that produce
+ * small local edits without affecting the overall structure too much
+ * (unlike Babel, for instance, whose output varies greatly from version
+ * to version).
+ */
+
 const babelEslint = require('babel-eslint');
 const {CLIEngine, Linter} = require('eslint');
 const path = require('path');
@@ -46,21 +59,17 @@ const cli = new CLIEngine({
 });
 
 /**
- * Custom Prettier wrapper that applies a Liferay-specific
- * post-processing step.
- *
- * We use ESLint rules to apply AST-aware transformations because they make it
- * relatively easy to make local edits without affecting the overall structure
- * too much (unlike Babel, for instance, whose output varies greatly from
- * version to version).
+ * Wrapper that is a drop-in replacement equivalent to `prettier.check()`.
  */
-
 function check(source, options) {
 	const formatted = format(source, options);
 
 	return formatted === source;
 }
 
+/**
+ * Wrapper that is a drop-in replacement equivalent to `prettier.format()`.
+ */
 function format(source, options) {
 	const formatted = prettier.format(source, options);
 
