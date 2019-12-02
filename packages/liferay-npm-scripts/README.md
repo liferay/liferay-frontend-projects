@@ -119,8 +119,6 @@ If you just set dependencies to be `['my-new-dependency']`, it will override the
 
 If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel.json), [Default Bundler Config](./src/config/npm-bundler.json)
 
-For more control over `check` and `fix`, follow the configuration options [here](https://github.com/liferay/liferay-frontend-source-formatter#custom-configuration)
-
 Want to use a different `NODE_ENV`? Try doing something like
 
 ```sh
