@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const extractJS = require('../../src/format/extractJS');
+const extractJS = require('../../src/jsp/extractJS');
 const dedent = require('../../support/dedent');
 const getFixture = require('../../support/getFixture');
 
@@ -154,7 +154,7 @@ describe('extractJS()', () => {
 
 	it('extracts blocks from test fixture', async () => {
 		// This is the test fixture from the check-source-formatting package.
-		const source = await getFixture('format/page.jsp');
+		const source = await getFixture('jsp/page.jsp');
 
 		const blocks = extractJS(source);
 

@@ -8,7 +8,7 @@ const {
 	getCloseTagReplacement,
 	getOpenTagReplacement,
 	getSelfClosingTagReplacement
-} = require('../../src/format/tagReplacements');
+} = require('../../src/jsp/tagReplacements');
 
 describe('getCloseTagReplacement()', () => {
 	it('replaces a long tag with an equal-length placeholder', () => {

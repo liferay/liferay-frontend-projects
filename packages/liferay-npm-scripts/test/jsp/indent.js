@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const indent = require('../../src/format/indent');
+const indent = require('../../src/jsp/indent');
 
 describe('indent()', () => {
 	it('indents one tab by default', () => {

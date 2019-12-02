@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const padLines = require('../../src/format/padLines');
+const padLines = require('../../src/jsp/padLines');
 
 describe('padLines()', () => {
 	it('adds padding lines to make contents start at startLine', () => {

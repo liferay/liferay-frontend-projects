@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const trim = require('../../src/format/trim');
+const trim = require('../../src/jsp/trim');
 
 describe('trim()', () => {
 	it('trims leading whitespace', () => {

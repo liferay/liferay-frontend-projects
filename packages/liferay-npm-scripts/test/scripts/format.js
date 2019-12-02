@@ -9,11 +9,11 @@ const os = require('os');
 const path = require('path');
 const prettier = require('prettier');
 
-const formatJSP = require('../../src/format/formatJSP');
+const formatJSP = require('../../src/jsp/formatJSP');
 const format = require('../../src/scripts/format');
 const log = require('../../src/utils/log');
 
-jest.mock('../../src/format/formatJSP');
+jest.mock('../../src/jsp/formatJSP');
 jest.mock('../../src/utils/log');
 jest.mock('prettier');
 
