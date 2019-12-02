@@ -9,7 +9,7 @@ const {CLIEngine, Linter} = require('eslint');
 const path = require('path');
 const prettier = require('prettier');
 
-const eslintConfig = require('../../config/eslint.config');
+const eslintConfig = require('../config/eslint.config');
 
 const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
 

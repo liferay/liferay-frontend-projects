@@ -8,10 +8,10 @@ const fs = require('fs');
 
 const formatJSP = require('../jsp/formatJSP');
 const isJSP = require('../jsp/isJSP');
+const prettier = require('../prettier');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 const log = require('../utils/log');
-const prettier = require('../utils/prettier');
 const {SpawnError} = require('../utils/spawnSync');
 
 const DEFAULT_OPTIONS = {
