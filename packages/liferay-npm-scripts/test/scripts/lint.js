@@ -50,7 +50,7 @@ describe('scripts/lint.js', () => {
 
 	describe('when no appropriate globs are provided', () => {
 		beforeEach(() => {
-			globs = ['**/*.jsp'];
+			globs = ['**/*.java'];
 		});
 
 		it('logs a message', () => {
