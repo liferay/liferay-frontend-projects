@@ -5,7 +5,11 @@
  */
 
 const eslint = require('eslint');
+const fs = require('fs');
+const path = require('path');
 
+const isJSP = require('../jsp/isJSP');
+const lintJSP = require('../jsp/lintJSP');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 const log = require('../utils/log');
@@ -17,9 +21,10 @@ const DEFAULT_OPTIONS = {
 };
 
 /**
- * File extensions that ESLint can process.
+ * File extensions that ESLint can process, either natively, or via our
+ * `lintJSP()` wrapper.
  */
-const EXTENSIONS = ['.js', '.ts', '.tsx'];
+const EXTENSIONS = ['.js', '.jsp', '.jspf', '.ts', '.tsx'];
 
 const IGNORE_FILE = '.eslintignore';
 
@@ -65,58 +70,193 @@ function lint(options = {}) {
 		ignorePattern: '!*'
 	});
 
-	const report = cli.executeOnFiles(paths);
+	const [jspPaths, jsPaths] = partitionArray(paths, isJSP);
 
-	let fixed = 0;
+	let report;
 
-	if (fix) {
-		fixed = report.results.reduce((count, result) => {
-			return result.output ? count + 1 : count;
-		}, 0);
+	if (jsPaths.length) {
+		report = cli.executeOnFiles(jsPaths);
 
-		// This is what actually writes to the file-system.
-		CLIEngine.outputFixes(report);
-	}
-
-	// TODO: could pass "junit" in CI
-	const formatter = cli.getFormatter();
-
-	if (quiet) {
-		const errors = CLIEngine.getErrorResults(report.results);
-
-		log(formatter(errors));
+		if (fix && jsPaths.length) {
+			// This is what actually writes to the file-system.
+			CLIEngine.outputFixes(report);
+		}
 	} else {
-		log(formatter(report.results));
+		report = {results: []};
 	}
 
-	const plural = (word, count) => (count === 1 ? word : `${word}s`);
+	jspPaths.forEach(filePath => {
+		// TODO: non-sync version to make use of I/O concurrency
+		const contents = fs.readFileSync(filePath, 'utf8');
+
+		const updated = lintJSP(
+			contents,
+			result => {
+				report.results.push({
+					...result,
+					filePath: path.resolve(filePath)
+				});
+			},
+			{fix, quiet}
+		);
+
+		if (fix && updated !== contents) {
+			fs.writeFileSync(filePath, updated);
+		}
+	});
+
+	// In `quiet` mode, keep only errors.
+	// Otherwise keep both errors and warnings.
+	// Filter out everything else.
+	const results = (report.results || [])
+		.map(result => {
+			const messages = result.messages.filter(message => {
+				return quiet ? message.severity === 2 : true;
+			});
+
+			if (result.messages.length === 0) {
+				return null;
+			}
+
+			return {
+				...result,
+				messages
+			};
+		})
+		.filter(Boolean);
+
+	log(formatter(results));
+
+	if (results.length) {
+		throw new SpawnError();
+	}
+}
+
+function color(name) {
+	if (process.stdout.isTTY) {
+		return (
+			{
+				BOLD: '\x1b[1m',
+				RED: '\x1b[31m',
+				RESET: '\x1b[0m',
+				UNDERLINE: '\x1b[4m',
+				YELLOW: '\x1b[33m'
+			}[name] || ''
+		);
+	} else {
+		return '';
+	}
+}
+
+color.BOLD = color('BOLD');
+color.RED = color('RED');
+color.RESET = color('RESET');
+color.UNDERLINE = color('UNDERLINE');
+color.YELLOW = color('YELLOW');
+
+/**
+ * @see https://codepoints.net/U+2716?lang=en
+ */
+const HEAVY_MULTIPLICATION_X = '\u2716';
+
+/**
+ * Replacement for ESLint's `CLIEngine.getFormatter()`, because it doesn't know
+ * how to print results related to JS extracted from JSP.
+ */
+function formatter(results) {
+	let errors = 0;
+	let fixableErrorCount = 0;
+	let fixableWarningCount = 0;
+	let warnings = 0;
+
+	results.forEach(result => {
+		log(color.UNDERLINE + result.filePath + color.RESET);
+
+		result.messages.forEach(
+			({column, fix, line, message, ruleId, severity}) => {
+				if (severity === 2) {
+					errors++;
+
+					if (fix) {
+						fixableErrorCount++;
+					}
+				} else {
+					warnings++;
+
+					if (fix) {
+						fixableWarningCount++;
+					}
+				}
+
+				const type =
+					(severity === 2
+						? color.RED + 'error'
+						: color.YELLOW + 'warning') + color.RESET;
+
+				const label = ruleId || 'syntax-error';
+
+				log(`  ${line}:${column}  ${type}  ${message}  ${label}`);
+			}
+		);
+
+		log('');
+	});
+
+	const total = errors + warnings;
 
 	const summary = [
-		`ESLint checked ${paths.length} ${plural('file', paths.length)}`,
-		`found ${report.errorCount} ${plural('error', report.errorCount)}`,
-		`found ${report.warningCount} ${plural('warning', report.warningCount)}`
+		color.BOLD,
+		color.RED,
+		HEAVY_MULTIPLICATION_X,
+		' ',
+		pluralize('problem', total),
+		' ',
+		`(${pluralize('error', errors)}, `,
+		`${pluralize('warning', warnings)})`,
+		color.RESET
 	];
 
-	const autofixable = report.fixableWarningCount + report.fixableErrorCount;
-
-	if (autofixable) {
+	if (fixableErrorCount || fixableWarningCount) {
 		summary.push(
-			`${autofixable} ${plural(
-				'issue',
-				autofixable
-			)} potentially fixable with lint:fix`
+			'\n',
+			color.BOLD,
+			color.RED,
+			'  ',
+			pluralize('error', fixableErrorCount),
+			' and ',
+			pluralize('warning', fixableWarningCount),
+			' potentially fixable with the `--fix` option.',
+			color.RESET
 		);
 	}
 
-	if (fixed) {
-		summary.push(`fixed issues in ${fixed} ${plural('file', fixed)}`);
-	}
+	return summary.join('');
+}
 
-	if (report.errorCount) {
-		throw new SpawnError(summary.join(', '));
-	} else {
-		log(summary.join(', '));
-	}
+/**
+ * Partitions `array` by passing each element to the supplied `predicate`
+ * function.
+ *
+ * Returns a tuple of two arrays containing the elements which did and did not
+ * satisfy the predicate, respectively.
+ */
+function partitionArray(array, predicate) {
+	const a = [];
+	const b = [];
+
+	array.forEach(item => {
+		if (predicate(item)) {
+			a.push(item);
+		} else {
+			b.push(item);
+		}
+	});
+
+	return [a, b];
+}
+
+function pluralize(word, count) {
+	return `${count} ${word}${count === 1 ? '' : 's'}`;
 }
 
 module.exports = lint;

@@ -79,12 +79,8 @@ describe('scripts/lint.js', () => {
 			process.chdir(MODULES);
 		});
 
-		it('spawns "eslint" and prints a report', () => {
+		it("calls ESLint's `executeOnFiles()` function and reports results", () => {
 			run(({eslint, lint, log}) => {
-				eslint.CLIEngine.prototype.getFormatter.mockReturnValue(
-					() => 'report...'
-				);
-
 				const executeOnFiles = eslint.CLIEngine.prototype.executeOnFiles.mockReturnValue(
 					() => {
 						return {
@@ -99,12 +95,8 @@ describe('scripts/lint.js', () => {
 					'apps/segments/segments-web/src/index.es.js'
 				]);
 
-				// This is the report from ESLint's formatter.
-				expect(log).toBeCalledWith('report...');
-
-				// This is our summary line.
 				expect(log).toBeCalledWith(
-					expect.stringContaining('ESLint checked 1 file')
+					'✖ 0 problems (0 errors, 0 warnings)'
 				);
 			});
 		});
