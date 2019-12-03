@@ -45,7 +45,7 @@ function processJSP(source, {onFormat, onLint}) {
 		const stripped = stripIndents(substituted);
 
 		// Adjust line numbers for better error reporting.
-		const padded = padLines(stripped, range.start.line - 1);
+		const padded = padLines(stripped, range.start.line);
 
 		// (Optionally) actually lint.
 		const fixed = onLint ? onLint(padded) : padded;

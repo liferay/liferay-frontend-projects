@@ -52,7 +52,7 @@ describe('lintJSP()', () => {
 				expect.objectContaining({
 					column: 13,
 					fix: expect.any(Object),
-					line: 2,
+					line: 3,
 					message: 'Redundant double negation.',
 					ruleId: 'no-extra-boolean-cast',
 					severity: 2
@@ -86,7 +86,7 @@ describe('lintJSP()', () => {
 			messages: [
 				expect.objectContaining({
 					column: 1,
-					line: 2,
+					line: 3,
 					message: "Unexpected 'debugger' statement.",
 					ruleId: 'no-debugger',
 					severity: 2
@@ -121,7 +121,7 @@ describe('lintJSP()', () => {
 				expect.objectContaining({
 					column: 1,
 					fatal: true,
-					line: 2,
+					line: 3,
 					message: "Parsing error: The keyword 'const' is reserved",
 					ruleId: null,
 					severity: 2
@@ -156,7 +156,7 @@ describe('lintJSP()', () => {
 				expect.objectContaining({
 					column: 10,
 					fatal: true,
-					line: 2,
+					line: 3,
 					message: 'Parsing error: Unexpected token )',
 					ruleId: null,
 					severity: 2
@@ -194,14 +194,14 @@ describe('lintJSP()', () => {
 				expect.objectContaining({
 					column: 13,
 					fix: expect.any(Object),
-					line: 2,
+					line: 3,
 					message: 'Redundant double negation.',
 					ruleId: 'no-extra-boolean-cast',
 					severity: 2
 				}),
 				expect.objectContaining({
 					column: 1,
-					line: 3,
+					line: 4,
 					message: "Unexpected 'debugger' statement.",
 					ruleId: 'no-debugger',
 					severity: 2
@@ -265,7 +265,7 @@ describe('lintJSP()', () => {
 					expect.objectContaining({
 						column: 13,
 						fix: expect.any(Object),
-						line: 2,
+						line: 3,
 						message: 'Redundant double negation.',
 						ruleId: 'no-extra-boolean-cast',
 						severity: 2
@@ -295,7 +295,7 @@ describe('lintJSP()', () => {
 					expect.objectContaining({
 						column: 13,
 						fix: expect.any(Object),
-						line: 2,
+						line: 3,
 						message: 'Redundant double negation.',
 						ruleId: 'no-extra-boolean-cast',
 						severity: 2
@@ -331,7 +331,7 @@ describe('lintJSP()', () => {
 				messages: [
 					expect.objectContaining({
 						column: 1,
-						line: 3,
+						line: 4,
 						message: "Unexpected 'debugger' statement.",
 						ruleId: 'no-debugger',
 						severity: 2
@@ -372,7 +372,7 @@ describe('lintJSP()', () => {
 				messages: [
 					expect.objectContaining({
 						column: 1,
-						line: 3,
+						line: 4,
 						message: "Unexpected 'debugger' statement.",
 						ruleId: 'no-debugger',
 						severity: 2
