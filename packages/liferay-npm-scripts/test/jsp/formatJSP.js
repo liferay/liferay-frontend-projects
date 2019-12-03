@@ -72,7 +72,7 @@ describe('formatJSP()', () => {
 			</script>
 		`;
 
-		expect(() => formatJSP(source)).toThrow(/Unexpected token \(17:1\)/);
+		expect(() => formatJSP(source)).toThrow(/Unexpected token \(18:1\)/);
 	});
 
 	it('trims unwanted leading blank lines', () => {
