@@ -96,7 +96,7 @@ describe('scripts/lint.js', () => {
 				]);
 
 				expect(log).toBeCalledWith(
-					'✖ 0 problems (0 errors, 0 warnings)'
+					'\u2716 0 problems (0 errors, 0 warnings)'
 				);
 			});
 		});
