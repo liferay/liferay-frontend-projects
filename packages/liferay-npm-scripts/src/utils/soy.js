@@ -4,35 +4,42 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
-const rimraf = require('rimraf');
 
 const expandGlobs = require('./expandGlobs');
 const generateSoyDependencies = require('./generateSoyDependencies');
 const getMergedConfig = require('./getMergedConfig');
 const log = require('./log');
+const runBabel = require('./runBabel');
 const spawnSync = require('./spawnSync');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
+const SOY_TEMP_DIR = path.join(BUILD_CONFIG.temp, 'soy');
 
 /**
  * Compiles soy files by running `metalsoy` bin with specified soy dependencies
  */
 function buildSoy() {
 	spawnSync('metalsoy', [
+		'-s',
+		path.join(BUILD_CONFIG.input, '**', '*.soy'),
+		'-d',
+		SOY_TEMP_DIR,
 		'--soyDeps',
 		generateSoyDependencies(BUILD_CONFIG.dependencies),
 		'--externalMsgFormat',
 		"Liferay.Language.get('$2')"
 	]);
+
+	runBabel(SOY_TEMP_DIR, '--out-dir', BUILD_CONFIG.output, '--source-maps');
 }
 
 /**
  * Removes any generated soy.js files
  */
 function cleanSoy() {
-	rimraf.sync('src/**/*.soy.js');
+	fs.removeSync(SOY_TEMP_DIR);
 }
 
 const EXTERNAL_MSG_REGEX = /var (MSG_EXTERNAL_\d+(?:\$\$\d+)?) = goog\.getMsg\(\s*'([\w,-{}$]+)'\s*(?:,\s*\{([\s\S]+?)\})?\);/g;

@@ -31,29 +31,41 @@ describe('scripts/webpack.js', () => {
 
 	it('invokes webpack', () => {
 		webpack();
-		expect(spawnSync).toHaveBeenCalledWith('webpack', []);
+
+		expect(spawnSync).toHaveBeenCalledWith('webpack', [
+			'--config',
+			expect.stringMatching(/[/\\]webpack\.config\.js$/)
+		]);
 	});
 
 	it('passes arguments to webpack', () => {
 		webpack('--verbose');
-		expect(spawnSync).toHaveBeenCalledWith('webpack', ['--verbose']);
+
+		expect(spawnSync).toHaveBeenCalledWith('webpack', [
+			'--config',
+			expect.stringMatching(/[/\\]webpack\.config\.js$/),
+			'--verbose'
+		]);
 	});
 
 	it('executes wepback-dev-server when "--watch" is passed', () => {
 		process.chdir(FIXTURES);
+
 		webpack('--watch');
+
 		expect(spawnSync).toHaveBeenCalledWith('webpack-dev-server', [
 			'--config',
-			'webpack.config.dev.js'
+			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/)
 		]);
 	});
 
 	it('passes arguments to wepback-dev-server', () => {
 		process.chdir(FIXTURES);
 		webpack('--watch', '--lazy');
+
 		expect(spawnSync).toHaveBeenCalledWith('webpack-dev-server', [
 			'--config',
-			'webpack.config.dev.js',
+			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/),
 			'--lazy'
 		]);
 	});
