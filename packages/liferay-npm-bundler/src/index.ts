@@ -10,7 +10,6 @@ import path from 'path';
 import pretty from 'pretty-time';
 import readJsonSync from 'read-json-sync';
 import semver from 'semver';
-import yargs from 'yargs';
 
 import {addPackageDependencies, getRootPkg} from './dependencies';
 import * as insight from './insight';
@@ -24,35 +23,7 @@ import runRules from './steps/rules';
 import transformPackages from './steps/transform';
 
 /** Default entry point for the liferay-npm-bundler */
-export default function(): void {
-	const {argv} = yargs
-		.option('config', {
-			alias: 'c',
-			type: 'string',
-			description:
-				'Specify path to config file to use (instead of .npmbundlerrc)',
-		})
-		.option('create-jar', {
-			alias: 'j',
-			type: 'boolean',
-			description:
-				'Create a JAR file as output (as opposed to an exploded directory)',
-		})
-		.option('dump-report', {
-			alias: 'r',
-			type: 'boolean',
-			description:
-				'Dump report HTML file with detailed information about the bundling process',
-		})
-		.option('version', {
-			alias: 'v',
-			type: 'boolean',
-			description: 'Show version number and exit',
-		})
-		.help();
-
-	project.argv = argv;
-
+export default function(argv: {version: boolean}): void {
 	const versionsInfo = project.versionsInfo;
 
 	if (argv.version) {
