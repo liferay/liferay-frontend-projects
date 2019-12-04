@@ -79,13 +79,11 @@ describe('scripts/lint.js', () => {
 			process.chdir(MODULES);
 		});
 
-		it("calls ESLint's `executeOnFiles()` function and reports results", () => {
+		it("calls ESLint's `executeOnFiles()` function", () => {
 			run(({eslint, lint, log}) => {
 				const executeOnFiles = eslint.CLIEngine.prototype.executeOnFiles.mockReturnValue(
-					() => {
-						return {
-							results: []
-						};
+					{
+						results: []
 					}
 				);
 
@@ -95,10 +93,51 @@ describe('scripts/lint.js', () => {
 					'apps/segments/segments-web/src/index.es.js'
 				]);
 
-				expect(log).toBeCalledWith(
-					expect.stringContaining(
-						'\u2716 0 problems (0 errors, 0 warnings)'
-					)
+				// No errors or warnings, so no results.
+				expect(log).toBeCalledWith('');
+			});
+		});
+
+		it("calls ESLint's `executeOnFiles()` function and reports results", () => {
+			run(({eslint, lint, log}) => {
+				const executeOnFiles = eslint.CLIEngine.prototype.executeOnFiles.mockReturnValue(
+					{
+						results: [
+							{
+								filePath: '/fancy/test.js',
+								messages: [
+									{
+										column: 10,
+										line: 20,
+										message: 'Avoid explosions.',
+										ruleId: 'no-boom',
+										severity: 2
+									}
+								]
+							}
+						]
+					}
+				);
+
+				expect(lint).toThrow();
+
+				expect(executeOnFiles).toBeCalledWith([
+					'apps/segments/segments-web/src/index.es.js'
+				]);
+
+				expect(log.mock.calls.length).toBe(1);
+				expect(log.mock.calls[0].length).toBe(1);
+
+				const logged = log.mock.calls[0][0];
+
+				expect(logged).toContain('/fancy/test.js');
+
+				expect(logged).toContain(
+					'20:10  error  Avoid explosions.  no-boom'
+				);
+
+				expect(logged).toContain(
+					'\u2716 1 problem (1 error, 0 warnings)'
 				);
 			});
 		});
