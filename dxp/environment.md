@@ -152,6 +152,8 @@ env NODE_ENV=development ant all
 
 > **Warning:** Using `-D` in this way will cause `ant` to cache a copy of the override in your `.gradle/gradle.properties` file, which means it _will_ take effect on following `gradlew` runs.
 
+You can reset (regenerate) `.gradle/gradle.properties` at any time by running `ant setup-sdk` from the repository root.
+
 ### Setting `NODE_ENV` persistently
 
 If you want `NODE_ENV=development` to apply persistently when developing inside liferay-portal you have several options:
@@ -165,6 +167,8 @@ If you want `NODE_ENV=development` to apply persistently when developing inside 
 In practice, actually deploying changes requires the use of Gradle, so we recommend setting `nodejs.node.env` in your `build.$USER.properties` file.
 
 > **Note:** `build.*.properties` files are ignored by Git, which means that they won't survive a `git clean`. Either keep a copy of your customizations in a safe place, or pass the `-e build.$USER.properties` flag when you run `git clean`.
+
+As noted in the previous section, temporary actions may end up having unintended permanent effects because of the way `ant` caches a copy of Gradle properties under `.gradle/gradle.properties`. You can reset (regenerate) the `.gradle/gradle.properties` file by running `ant setup-sdk` from the repository root.
 
 #### Use case example: making a development build of React
 
