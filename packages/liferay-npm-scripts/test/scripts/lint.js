@@ -132,8 +132,10 @@ describe('scripts/lint.js', () => {
 
 				expect(logged).toContain('/fancy/test.js');
 
-				expect(logged).toContain(
-					'20:10  error  Avoid explosions.  no-boom'
+				// `isTTY` varies in different CI environments, so we use a
+				// regex here to match in a color-agnostic way.
+				expect(logged).toMatch(
+					/20:10 {2}.*error.* {2}Avoid explosions. {2}no-boom/
 				);
 
 				expect(logged).toContain(
