@@ -167,10 +167,11 @@ function formatter(results) {
 	let errors = 0;
 	let fixableErrorCount = 0;
 	let fixableWarningCount = 0;
+	let output = '';
 	let warnings = 0;
 
 	results.forEach(result => {
-		log(color.UNDERLINE + result.filePath + color.RESET);
+		output += color.UNDERLINE + result.filePath + color.RESET + '\n';
 
 		result.messages.forEach(
 			({column, fix, line, message, ruleId, severity}) => {
@@ -195,42 +196,46 @@ function formatter(results) {
 
 				const label = ruleId || 'syntax-error';
 
-				log(`  ${line}:${column}  ${type}  ${message}  ${label}`);
+				output += `  ${line}:${column}  ${type}  ${message}  ${label}\n`;
 			}
 		);
 
-		log('');
+		output += '\n';
 	});
 
 	const total = errors + warnings;
 
-	const summary = [
-		color.BOLD,
-		color.RED,
-		HEAVY_MULTIPLICATION_X,
-		' ',
-		pluralize('problem', total),
-		' ',
-		`(${pluralize('error', errors)}, `,
-		`${pluralize('warning', warnings)})`,
-		color.RESET
-	];
-
-	if (fixableErrorCount || fixableWarningCount) {
-		summary.push(
-			'\n',
+	if (total) {
+		const summary = [
 			color.BOLD,
-			color.RED,
-			'  ',
-			pluralize('error', fixableErrorCount),
-			' and ',
-			pluralize('warning', fixableWarningCount),
-			' potentially fixable with the `--fix` option.',
+			errors ? color.RED : color.YELLOW,
+			HEAVY_MULTIPLICATION_X,
+			' ',
+			pluralize('problem', total),
+			' ',
+			`(${pluralize('error', errors)}, `,
+			`${pluralize('warning', warnings)})`,
 			color.RESET
-		);
+		];
+
+		if (fixableErrorCount || fixableWarningCount) {
+			summary.push(
+				'\n',
+				color.BOLD,
+				errors ? color.RED : color.YELLOW,
+				'  ',
+				pluralize('error', fixableErrorCount),
+				' and ',
+				pluralize('warning', fixableWarningCount),
+				' potentially fixable with the `--fix` option.',
+				color.RESET
+			);
+		}
+
+		output += summary.join('');
 	}
 
-	return summary.join('');
+	return output;
 }
 
 /**
