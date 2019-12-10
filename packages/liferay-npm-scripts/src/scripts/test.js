@@ -11,10 +11,9 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
+const withBabelConfig = require('../utils/withBabelConfig');
 
-const BABEL_CONFIG = getMergedConfig('babel');
 const JEST_CONFIG = getMergedConfig('jest');
-const PREFIX_BACKUP = 'TEMP-';
 
 /**
  * Main script that runs `jest` with a merged config
@@ -25,11 +24,9 @@ module.exports = function(arrArgs = []) {
 	const CONFIG_PATH = 'TEMP_jest.config.json';
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
-	setBabelConfig();
 
 	const {dispose} = SignalHandler.onExit(() => {
 		fs.unlinkSync(CONFIG_PATH);
-		removeBabelConfig();
 	});
 
 	try {
@@ -54,8 +51,10 @@ module.exports = function(arrArgs = []) {
 			);
 		}
 
-		spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
-			env
+		withBabelConfig(() => {
+			spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
+				env
+			});
 		});
 
 		if (useSoy) {
@@ -65,52 +64,3 @@ module.exports = function(arrArgs = []) {
 		dispose();
 	}
 };
-
-function setBabelConfig() {
-	if (fs.existsSync('.babelrc')) {
-		fs.renameSync('.babelrc', PREFIX_BACKUP + '.babelrc');
-	}
-
-	if (fs.existsSync('package.json')) {
-		const config = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
-		if (config && config['babel']) {
-			config[PREFIX_BACKUP + 'babel'] = config['babel'];
-
-			delete config['babel'];
-
-			fs.writeFileSync(
-				'package.json',
-				JSON.stringify(config, null, '\t')
-			);
-		}
-	}
-
-	fs.writeFileSync('.babelrc', JSON.stringify(BABEL_CONFIG));
-}
-
-function removeBabelConfig() {
-	fs.unlinkSync('.babelrc');
-
-	const filePath = PREFIX_BACKUP + '.babelrc';
-
-	if (fs.existsSync(filePath)) {
-		fs.renameSync(filePath, '.babelrc');
-	}
-
-	if (fs.existsSync('package.json')) {
-		const configFile = fs.readFileSync('package.json', 'utf8');
-		const config = JSON.parse(configFile);
-
-		if (config && config[PREFIX_BACKUP + 'babel']) {
-			config['babel'] = config[PREFIX_BACKUP + 'babel'];
-
-			delete config[PREFIX_BACKUP + 'babel'];
-
-			fs.writeFileSync(
-				'package.json',
-				JSON.stringify(config, null, '\t')
-			);
-		}
-	}
-}
