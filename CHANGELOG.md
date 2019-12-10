@@ -1,3 +1,10 @@
+## [v14.0.0](https://github.com/liferay/eslint-config-liferay/tree/v14.0.0) (2019-12-10)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v13.0.0...v14.0.0)
+
+-   feat!: assume React by default in liferay-portal (#107) ([\#123](https://github.com/liferay/eslint-config-liferay/pull/123))
+-   chore: update dependencies ([\#120](https://github.com/liferay/eslint-config-liferay/pull/120))
+
 ## [v13.0.0](https://github.com/liferay/eslint-config-liferay/tree/v13.0.0) (2019-10-22)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v12.0.0...v13.0.0)
