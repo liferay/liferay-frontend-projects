@@ -9,7 +9,7 @@
 const local = require('./utils/local');
 
 const config = {
-	extends: [require.resolve('./index')],
+	extends: [require.resolve('./react')],
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,

@@ -1,6 +1,15 @@
 # eslint-config-liferay
 
-> ESLint [shareable config](http://eslint.org/docs/developer-guide/shareable-configs.html) for the Liferay JavaScript style guide.
+> An ESLint [shareable config](http://eslint.org/docs/developer-guide/shareable-configs.html) that helps enforce the [Liferay Frontend Guidelines](https://github.com/liferay/liferay-frontend-guidelines).
+
+## Overview
+
+| Preset    | Extends                                                                                                              | Description                                                                                                                                                                                           |
+| --------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `liferay` | [eslint:recommended](https://eslint.org/docs/rules/), [prettier](https://github.com/prettier/eslint-config-prettier) | Base configuration, suitable for general projects                                                                                                                                                     |
+| `react`   | `liferay`                                                                                                            | `liferay`, plus rules from [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) and [react-hooks](https://reactjs.org/docs/hooks-rules.html), suitable for projects that use React |
+| `metal`   | `react`                                                                                                              | Like `react`, but turns off rules that cause false positives in [Metal components](http://metaljs.com/)                                                                                               |
+| `portal`  | `react`                                                                                                              | Default for projects inside [liferay-portal](https://github.com/liferay/liferay-portal) itself                                                                                                        |
 
 ## Installation
 
@@ -18,9 +27,21 @@ module.exports = {
 };
 ```
 
+This preset provides a reasonable starting point for an independent open source project.
+
+### liferay-portal
+
+In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `liferay/portal` preset instead, which activates some rules specific to liferay-portal. This preset assumes the use of React, and also provides a set of custom rules that are described in detail in the `eslint-plugin-liferay-portal` section below.
+
+This extension is applied automatically by [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts), so you don't have to configure it explicitly.
+
+> **An important disclaimer about the use of ESLint in liferay-portal**
+>
+> JavaScript code that appears inline inside JSP files and other templates is only lightly checked by ESLint, because JSP is an impoverished environment where we have to work with context-free snippets of text as opposed to fully-formed, valid JS modules. Our long-term strategy is to move as much code as possible out of JSP and into React components, but in the interim, please be aware that the level of safety provided by the linter inside JSP is greatly reduced.
+
 ### React
 
-For React projects, you can extend `liferay/react` instead:
+For React projects outside of liferay-portal, you can extend `liferay/react` instead:
 
 ```js
 module.exports = {
@@ -39,16 +60,6 @@ module.exports = {
 ```
 
 Use this preset to stop ESLint from [spuriously warning that variables that are used as JSX components are unused](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-uses-vars.md).
-
-### liferay-portal
-
-In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `liferay/portal` preset instead, which activates some additional rules specific to liferay-portal. See the `eslint-plugin-liferay-portal` section below for more details.
-
-This extension is applied automatically by [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts), so you don't have to configure it explicitly.
-
-> **An important disclaimer about the use of ESLint in liferay-portal**
->
-> JavaScript code that appears inline inside JSP files and other templates is not currently checked by ESLint. Our long-term strategy is to move as much code as possible out of JSP and into React components, but in the interim, our only option is to rely on liferay-portal's existing source formatter for those files.
 
 ### Copyright headers
 
