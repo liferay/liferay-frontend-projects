@@ -38,7 +38,7 @@
 		"css-loader": "^3.0.0",
 		"deepmerge": "^4.0.0",
 		"eslint": "6.5.1",
-		"eslint-config-liferay": "13.0.0",
+		"eslint-config-liferay": "14.0.0",
 		"http-proxy-middleware": "^0.19.1",
 		"jest": "^24.5.0",
 		"jest-fetch-mock": "^2.1.2",
