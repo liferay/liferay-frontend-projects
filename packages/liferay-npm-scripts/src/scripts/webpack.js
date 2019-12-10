@@ -5,13 +5,15 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 
 const spawnSync = require('../utils/spawnSync');
-const withTempFile = require('../utils/withTempFile');
+const withBabelConfig = require('../utils/withBabelConfig');
 
-const WEBPACK_CONFIG_FILE = 'webpack.config.js';
-const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
+const WATCH_CONFIG_FILE = 'webpack.config.dev.js';
+
+function spawn(command, args) {
+	withBabelConfig(() => spawnSync(command, args));
+}
 
 /**
  * Main function for running webpack within the liferay-portal repo.
@@ -19,9 +21,9 @@ const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
 module.exports = function(...args) {
 	const watch = args.indexOf('--watch');
 	if (watch !== -1) {
-		if (!fs.existsSync(WEBPACK_DEV_CONFIG_FILE)) {
+		if (!fs.existsSync(WATCH_CONFIG_FILE)) {
 			throw new Error(
-				`--watch supplied but "${WEBPACK_DEV_CONFIG_FILE}" not found`
+				`--watch supplied but "${WATCH_CONFIG_FILE}" not found`
 			);
 		} else {
 			// Cut out the "watch" argument; `splice()` would mutate, so create
@@ -31,32 +33,13 @@ module.exports = function(...args) {
 				...args.slice(watch + 1)
 			];
 
-			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, configFilePath => {
-				spawnSync('webpack-dev-server', [
-					'--config',
-					configFilePath,
-					...otherArgs
-				]);
-			});
+			spawn('webpack-dev-server', [
+				'--config',
+				WATCH_CONFIG_FILE,
+				...otherArgs
+			]);
 		}
 	} else {
-		withWebpackConfig(WEBPACK_CONFIG_FILE, configFilePath => {
-			spawnSync('webpack', ['--config', configFilePath, ...args]);
-		});
+		spawn('webpack', args);
 	}
 };
-
-function withWebpackConfig(filename, callback) {
-	const mergeBabelLoaderOptionsPath = require.resolve(
-		'../utils/mergeBabelLoaderOptions'
-	);
-	const webpackConfigPath = path.resolve(filename);
-
-	const webpackConfig = `
-		module.exports = require('${mergeBabelLoaderOptionsPath}')(
-			require('${webpackConfigPath}')
-		);
-	`;
-
-	withTempFile(filename, webpackConfig, callback);
-}

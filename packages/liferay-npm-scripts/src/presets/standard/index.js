@@ -16,8 +16,7 @@ module.exports = {
 	build: {
 		dependencies: [...clay, ...liferay, ...metal],
 		input: 'src/main/resources/META-INF/resources',
-		output: 'build/node/packageRunBuild/resources',
-		temp: 'build/npmscripts'
+		output: 'build/node/packageRunBuild/resources'
 	},
 	check: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
 	fix: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
