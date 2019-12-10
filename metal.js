@@ -7,7 +7,7 @@
 'use strict';
 
 const config = {
-	extends: [require.resolve('./index')],
+	extends: [require.resolve('./react')],
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,
@@ -18,7 +18,7 @@ const config = {
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react
 		 */
-		'react/jsx-uses-vars': 'error',
+		'react/no-string-refs': 'off',
 	},
 	settings: {
 		react: {
