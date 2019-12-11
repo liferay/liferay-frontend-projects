@@ -68,5 +68,5 @@
 		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
 		"directory": "packages/liferay-theme-tasks"
 	},
-	"version": "9.4.1"
+	"version": "9.4.2"
 }

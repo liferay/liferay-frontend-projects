@@ -1,3 +1,9 @@
+## [v9.4.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.2) (2019-12-11)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.1...v9.4.2)
+
+-   fix: correct misspelled function in layout generator (#409) ([\#410](https://github.com/liferay/liferay-js-themes-toolkit/pull/410))
+
 ## [v9.4.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.1) (2019-11-25)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.0...v9.4.1)
