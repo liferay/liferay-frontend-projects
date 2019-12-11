@@ -61,7 +61,7 @@ module.exports = class extends Base {
 			fs.stat(themePackagePath, (err, stat) => {
 				if (!err && stat.isFile()) {
 					const themePackage = JSON.parse(
-						fs.readfileSync(themePackagePath, 'utf8')
+						fs.readFileSync(themePackagePath, 'utf8')
 					);
 
 					if (themePackage.liferayTheme) {
