@@ -1,3 +1,9 @@
+## [v9.4.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.3) (2019-12-12)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.2...v9.4.3)
+
+-   fix: make layout generator produce correct paths on Windows (#412) ([\#413](https://github.com/liferay/liferay-js-themes-toolkit/pull/413))
+
 ## [v9.4.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.2) (2019-12-11)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.1...v9.4.2)

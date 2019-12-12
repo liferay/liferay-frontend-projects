@@ -23,7 +23,7 @@ module.exports = {
 		'liferay-frontend-common-css': strict('1.0.4'),
 		'liferay-frontend-theme-styled': strict('4.0.7'),
 		'liferay-frontend-theme-unstyled': strict('4.0.4'),
-		'liferay-theme-tasks': '^9.4.2',
+		'liferay-theme-tasks': '^9.4.3',
 	},
 	optional: {
 		'liferay-font-awesome': strict('3.4.0'),
