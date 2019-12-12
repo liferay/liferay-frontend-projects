@@ -65,7 +65,7 @@ module.exports = class extends Base {
 					);
 
 					if (themePackage.liferayTheme) {
-						layoutDirName = path.join(
+						layoutDirName = path.posix.join(
 							'src/layouttpl/custom',
 							layoutDirName
 						);
