@@ -7,7 +7,6 @@
 import prop from 'dot-prop';
 import readJsonSync from 'read-json-sync';
 
-import {BundlerPluginParams} from './api/plugins';
 import FilePath from './file-path';
 
 /** Alias configuration as expressed in `package.json` files */
@@ -35,7 +34,7 @@ export interface AliasHash {
 	[index: string]: AliasToValue;
 }
 
-const aliasesCache: {[index: string]: AliasHash} = {};
+const aliasesCache: { [index: string]: AliasHash } = Object.create(null);
 
 /**
  * Get `resolve.aliasFields` configuration value.
@@ -140,7 +139,7 @@ export function loadAliases(
 	}
 
 	// Store in cache
-	aliasesCache[cacheKey] = aliases;
+	aliasesCache[cacheKey] = Object.assign(Object.create(null), aliases);
 
 	return aliases;
 }

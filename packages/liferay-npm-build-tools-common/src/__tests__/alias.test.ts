@@ -6,7 +6,7 @@
 
 import path from 'path';
 
-import {loadAliases} from '../alias';
+import { loadAliases } from '../alias';
 import FilePath from '../file-path';
 
 const fixturesDir = new FilePath(path.join(__dirname, '__fixtures__', 'alias'));
@@ -96,8 +96,16 @@ describe('loadAliases', () => {
 		expect(alias3).not.toBe(alias1);
 		expect(alias3).not.toBe(alias2);
 
-		expect(alias4).toBe(alias1);
+		expect(alias4).toEqual(alias1);
 
-		expect(alias5).toBe(alias2);
+		expect(alias5).toEqual(alias2);
 	});
+
+	it('does not contain spurious values for module "toString"', () => {
+		const aliases = loadAliases(fixturesDir.join('typical.json'), [
+			'browser',
+		]);
+
+		expect(aliases['toString']).toBeUndefined();
+	})
 });
