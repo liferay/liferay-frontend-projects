@@ -48,7 +48,7 @@
 					}
 				},
 				{
-					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls",
+					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls-at-runtime",
 					"options": {
 						"docroot": "dist",
 						"include": ["^fonts/.*", "^img/.*", "^media/.*"]
