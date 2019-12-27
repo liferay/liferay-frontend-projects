@@ -15,7 +15,11 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 
 import {replaceTokens} from './util';
 
-/** Configuration options for `adapt-static-urls` loader */
+/**
+ * Configuration options for `adapt-static-urls` loader
+ *
+ * @deprecated use `adapt-static-urls-at-runtime.ts` instead
+ */
 export interface Options {
 	/** Project relative path of directory containing assets */
 	docroot: string;
@@ -40,6 +44,8 @@ export interface Options {
  * The web context path is taken from property
  * [create-jar.features.web-context](https://github.com/liferay/liferay-js-toolkit/wiki/.npmbundlerrc-file-reference#create-jarfeaturesweb-context).
  * inside `.npmbundlerrc`.
+ *
+ * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
 export default function(
 	context: BundlerLoaderContext,
