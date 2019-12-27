@@ -18,8 +18,8 @@
 			]
 		},
 		{
-			"description": "Transpile Liferay's index.js file",
-			"test": "^src.liferay/index.js",
+			"description": "Transform Liferay's source files",
+			"test": "^src.liferay/.*\\.js$",
 			"use": [
 				{
 					"loader": "babel-loader",
