@@ -196,14 +196,12 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 
 		babel.transformFile(
 			fileAbsPath,
-			Object.assign(
-				{
-					filename: fileAbsPath,
-					filenameRelative: prjRelPath,
-					inputSourceMap: loadSourceMap(fileAbsPath),
-				},
-				babelConfig
-			),
+			{
+				filename: fileAbsPath,
+				filenameRelative: prjRelPath,
+				inputSourceMap: loadSourceMap(fileAbsPath),
+				...babelConfig,
+			},
 			(err, result) => {
 				// Generate and/or log results
 				if (err) {

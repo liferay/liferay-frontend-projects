@@ -68,6 +68,9 @@ function buildWith(script, args = []) {
 
 		const {pkgJson} = project;
 
+		renderer.render('adapt-rt.js', {
+			project,
+		});
 		renderer.render('index.js', {
 			pkgJson,
 		});

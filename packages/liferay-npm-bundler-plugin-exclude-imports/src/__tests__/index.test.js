@@ -5,6 +5,7 @@
  */
 
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+
 import plugin from '../index';
 
 it('empties files when package is listed in imports', () => {

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 import {normalizeImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
+import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 
 /**
  * @return {void}

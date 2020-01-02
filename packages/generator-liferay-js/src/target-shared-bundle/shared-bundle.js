@@ -7,8 +7,7 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
-import {Copier} from '../utils';
+import {Copier, promptWithConfig} from '../utils';
 import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**

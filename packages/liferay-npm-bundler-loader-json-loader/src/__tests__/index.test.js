@@ -5,6 +5,7 @@
  */
 
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+
 import loader from '../index';
 
 const TEST_JSON_OBJECT = {

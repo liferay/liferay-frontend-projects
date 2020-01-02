@@ -5,8 +5,8 @@
  */
 
 import fs from 'fs';
-import resolveModule from 'resolve';
 import path from 'path';
+import resolveModule from 'resolve';
 
 /**
  * @param {object} context loader's context
@@ -78,14 +78,10 @@ function changeFilePathExtension(context) {
 }
 
 function renderCSS(renderer, content, options) {
-	const result = renderer.renderSync(
-		Object.assign(
-			{
-				data: content,
-			},
-			options
-		)
-	);
+	const result = renderer.renderSync({
+		data: content,
+		...options,
+	});
 
 	return result.css.toString();
 }

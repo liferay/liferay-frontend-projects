@@ -6,10 +6,10 @@
 
 import fs from 'fs';
 import path from 'path';
-
-import {promptWithConfig} from '../utils';
 import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
+
+import {promptWithConfig} from '../utils';
 
 // If --which parameter is given show path to generator and exit
 if (argv.which) {
@@ -57,9 +57,10 @@ export default class extends Generator {
 			.readdirSync(path.join(__dirname, '..'))
 			.filter(file => file.indexOf('target-') == 0)
 			.map(target => target.replace('target-', ''))
-			.map(target =>
-				Object.assign({}, getTargetDescription(target), {value: target})
-			);
+			.map(target => ({
+				...getTargetDescription(target),
+				value: target,
+			}));
 
 		const categories = this._getTargetCategories(tds);
 

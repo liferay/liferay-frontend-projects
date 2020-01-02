@@ -11,8 +11,8 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as xml from './xml';
 import * as ddm from './ddm';
+import * as xml from './xml';
 
 const pkgJson = project.pkgJson;
 

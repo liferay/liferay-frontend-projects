@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {htmlDump} from './html';
 import {analyticsDump} from './analytics';
+import {htmlDump} from './html';
 
 /**
  * A Report holds data describing a execution of the liferay-npm-bundler so that

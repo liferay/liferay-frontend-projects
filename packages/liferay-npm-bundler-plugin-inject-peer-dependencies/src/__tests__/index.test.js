@@ -7,6 +7,7 @@
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import path from 'path';
+
 import plugin from '../index';
 
 const fixturesDir = path.join(__dirname, '__fixtures__');

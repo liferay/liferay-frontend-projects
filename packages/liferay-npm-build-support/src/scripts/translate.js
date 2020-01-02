@@ -323,9 +323,10 @@ function translate(subscriptionKey, locales, texts) {
 		chunk =>
 			new Promise((resolve, reject) => {
 				request(
-					Object.assign({}, options, {
+					{
+						...options,
 						body: chunk.map(item => ({text: item})),
-					}),
+					},
 					(err, response, body) => {
 						if (err) {
 							reject(err);

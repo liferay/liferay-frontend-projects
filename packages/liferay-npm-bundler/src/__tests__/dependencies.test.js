@@ -7,6 +7,7 @@
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
+
 import {addPackageDependencies} from '../dependencies';
 
 expect.extend({

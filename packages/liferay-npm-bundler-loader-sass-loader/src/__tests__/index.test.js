@@ -25,7 +25,7 @@ it('logs results correctly', () => {
 		{
 			level: 'info',
 			source: 'sass-loader',
-			things: ['Processed file with sass v1.22.12 (from project)'],
+			things: ['Processed file with sass v1.24.0 (from project)'],
 		},
 	]);
 });

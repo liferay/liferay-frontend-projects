@@ -15,11 +15,7 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 
 import {replaceTokens} from './util';
 
-/**
- * Configuration options for `adapt-static-urls` loader
- *
- * @deprecated use `adapt-static-urls-at-runtime.ts` instead
- */
+/** Configuration options for `adapt-static-urls` loader */
 export interface Options {
 	/** Project relative path of directory containing assets */
 	docroot: string;
@@ -27,11 +23,8 @@ export interface Options {
 	/** List of regexps to match assets that need their URL to be processed */
 	include: string[] | string;
 
-	/** Prefix to add to file path (after 'o/${project.jar.webContextPath}/') */
-	prefix?: string;
-
-	/** Prepend a / to `o/${project.jar.webContextPath}/` */
-	prependSlash?: boolean;
+	/** Whether to look for the whole URL inside the string or just a part */
+	matchSubstring: boolean;
 }
 
 /**
@@ -44,17 +37,13 @@ export interface Options {
  * The web context path is taken from property
  * [create-jar.features.web-context](https://github.com/liferay/liferay-js-toolkit/wiki/.npmbundlerrc-file-reference#create-jarfeaturesweb-context).
  * inside `.npmbundlerrc`.
- *
- * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
 export default function(
 	context: BundlerLoaderContext,
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;
-	const {docroot, include, prefix = '', prependSlash = false} = replaceTokens(
-		options
-	);
+	const {docroot, include, matchSubstring = false} = replaceTokens(options);
 
 	const docrootDir: FilePath = project.dir.join(
 		new FilePath(docroot, {posix: true})
@@ -74,12 +63,17 @@ export default function(
 
 	let modifiedContent = content;
 
+	const matchPrefix = matchSubstring ? '[^"]*' : '';
+
 	filePosixPaths.forEach(filePosixPath => {
 		if (!patterns.some(pattern => pattern.test(filePosixPath))) {
 			return;
 		}
 
-		const regexp = new RegExp(escapeStringRegexp(filePosixPath), 'g');
+		const regexp = new RegExp(
+			`"${matchPrefix}${escapeStringRegexp(filePosixPath)}"`,
+			'g'
+		);
 
 		const matches = regexp.exec(content);
 
@@ -94,8 +88,7 @@ export default function(
 
 		modifiedContent = modifiedContent.replace(
 			regexp,
-			(prependSlash ? '/' : '') +
-				`o${project.jar.webContextPath}/${prefix}${filePosixPath}`
+			`_ADAPT_RT_.adaptStaticURL("${filePosixPath}")`
 		);
 	});
 
