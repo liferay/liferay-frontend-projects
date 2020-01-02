@@ -7,6 +7,7 @@
 import * as babel from 'babel-core';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+
 import plugin from '../index';
 
 let logger;

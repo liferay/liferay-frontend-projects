@@ -7,8 +7,8 @@
 import * as babel from 'babel-core';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import Manifest from 'liferay-npm-build-tools-common/lib/manifest';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 

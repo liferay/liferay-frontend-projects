@@ -7,12 +7,11 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {getPortletName, promptWithConfig} from '../utils';
-import {Copier} from '../utils';
+import {Copier, getPortletName, promptWithConfig} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
+import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
-import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
 
 /**
  * Generator to add portlet support to projects.

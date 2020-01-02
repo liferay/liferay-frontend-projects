@@ -7,8 +7,8 @@
 import prop from 'dot-prop';
 import path from 'path';
 
-import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
 import {DEFAULT_CONFIGURATION} from '../facet-configuration/constants';
+import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
 
 /**
  * A class to be able to analyze what the project does and doesn't.

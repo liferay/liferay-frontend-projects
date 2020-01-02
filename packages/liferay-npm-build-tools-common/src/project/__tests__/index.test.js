@@ -8,8 +8,8 @@ import child_process from 'child_process';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import path from 'path';
 
-import {Project} from '../index';
 import PkgDesc from '../../pkg-desc';
+import {Project} from '../index';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Tests by property

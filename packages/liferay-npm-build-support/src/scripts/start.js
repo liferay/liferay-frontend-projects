@@ -100,11 +100,11 @@ function runWebpackDevServer() {
 		});
 	}
 
-	proc.stdout.on('data', function(data) {
+	proc.stdout.on('data', data => {
 		console.log(data.toString());
 	});
 
-	proc.stderr.on('data', function(data) {
+	proc.stderr.on('data', data => {
 		console.error(data.toString());
 	});
 }

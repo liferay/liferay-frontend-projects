@@ -15,14 +15,12 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 export default function(context, config) {
 	const {content, filePath, log, sourceMap} = context;
 
-	const babelConfig = Object.assign(
-		{
-			filename: project.dir.join(filePath).asNative,
-			filenameRelative: filePath,
-			inputSourceMap: sourceMap,
-		},
-		config
-	);
+	const babelConfig = {
+		filename: project.dir.join(filePath).asNative,
+		filenameRelative: filePath,
+		inputSourceMap: sourceMap,
+		...config,
+	};
 
 	// Tune babel config
 	babelConfig.babelrc = false;

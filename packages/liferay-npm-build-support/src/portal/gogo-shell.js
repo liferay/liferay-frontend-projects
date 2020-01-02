@@ -36,7 +36,10 @@ export default class extends Socket {
 		return new Promise((resolve, reject) => {
 			this.once('connect', () => this._onConnect());
 
-			super.connect(Object.assign({}, DEFAULT_CONNECT_OPTIONS, options));
+			super.connect({
+				...DEFAULT_CONNECT_OPTIONS,
+				...options,
+			});
 
 			this.once('error', reject);
 			this.once('ready', () => {

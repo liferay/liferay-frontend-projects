@@ -26,11 +26,11 @@ import {
 	validateLiferayDir,
 } from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
-import GitignoreModifier from '../utils/modifier/gitignore';
-import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
-import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
-import PkgJsonModifier from '../utils/modifier/package.json';
 import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
+import GitignoreModifier from '../utils/modifier/gitignore';
+import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 const msg = {
 	angularCliDetected: [

@@ -5,9 +5,10 @@
  */
 
 import {formatLabels, promptWithConfig} from '..';
-import ProjectAnalyzer from '../ProjectAnalyzer';
-import LocalizationSampleGenerator from '../../facet-localization/sample-generator';
+
 import ConfigurationSampleGenerator from '../../facet-configuration/sample-generator';
+import LocalizationSampleGenerator from '../../facet-localization/sample-generator';
+import ProjectAnalyzer from '../ProjectAnalyzer';
 import StylesCssModifier from '../modifier/assets/css/styles.css';
 
 /**
@@ -65,13 +66,11 @@ export function install(generator) {
 export function generateContext(generator, extra = {}) {
 	const projectAnalyzer = new ProjectAnalyzer(generator);
 
-	return Object.assign(
-		{
-			hasConfiguration: projectAnalyzer.hasConfiguration,
-			signature: generateSignature(generator),
-		},
-		extra
-	);
+	return {
+		hasConfiguration: projectAnalyzer.hasConfiguration,
+		signature: generateSignature(generator),
+		...extra,
+	};
 }
 
 /**

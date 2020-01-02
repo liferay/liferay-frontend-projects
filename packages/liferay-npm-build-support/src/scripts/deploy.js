@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import path from 'path';
 import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import path from 'path';
 
 import * as cfg from '../config';
 
