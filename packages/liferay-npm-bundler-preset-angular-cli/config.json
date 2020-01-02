@@ -18,8 +18,8 @@
 			]
 		},
 		{
-			"description": "Transpile Liferay's index.js file",
-			"test": "^src.liferay/index.js",
+			"description": "Transform Liferay's source files",
+			"test": "^src.liferay/.*\\.js$",
 			"use": [
 				{
 					"loader": "babel-loader",
@@ -47,12 +47,11 @@
 					}
 				},
 				{
-					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls",
+					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls-at-runtime",
 					"options": {
 						"docroot": "dist/${project.name}",
 						"include": ["^assets/.*"],
-						"prefix": "${project.name}/",
-						"prependSlash": true
+						"matchSubstring": true
 					}
 				},
 				{

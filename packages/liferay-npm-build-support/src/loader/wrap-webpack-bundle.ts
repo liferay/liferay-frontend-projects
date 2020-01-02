@@ -59,7 +59,7 @@ Liferay.Loader.define(
 	'${moduleName}',
 	['module'],
 	function(module) {
-		module.exports = function(_LIFERAY_PARAMS_) {
+		module.exports = function(_LIFERAY_PARAMS_, _ADAPT_RT_) {
 			${content}
 		}
 	}

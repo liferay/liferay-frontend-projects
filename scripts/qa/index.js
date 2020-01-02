@@ -14,7 +14,7 @@ const {
 	qaDir,
 	samplesDir,
 } = require('./resources');
-const {logStep, safeUnlink, spawn} = require('./util');
+const { logStep, safeUnlink, spawn } = require('./util');
 
 const argv = getTargets();
 
@@ -59,6 +59,7 @@ if (argv['deploy']) {
 	spawn('node', [lernaPath, 'run', 'deploy:liferay'], {
 		cwd: samplesDir,
 		env: {
+			...process.env,
 			// This is necessary to avoid create-react-app failures because it
 			// detects duplicated dependencies in the node_modules folder of the
 			// toolkit project (which is up in FS of the `samples` folder)

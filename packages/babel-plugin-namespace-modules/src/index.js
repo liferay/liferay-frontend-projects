@@ -195,21 +195,17 @@ export default function({types: t}) {
 						rootPkgJson.version !== ownPkgJson.version;
 
 					// Prepare opts for visitors
-					state.opts = Object.assign(
-						{
-							namespaces: {
-								module: namespaceModule
-									? rootPkgJson
-									: undefined,
-								dependencies: rootPkgJson,
-							},
-							unrolledImports: unrollImportsConfig(
-								globalConfig.imports
-							),
+					state.opts = {
+						namespaces: {
+							module: namespaceModule ? rootPkgJson : undefined,
+							dependencies: rootPkgJson,
 						},
-						globalConfig,
-						state.opts
-					);
+						unrolledImports: unrollImportsConfig(
+							globalConfig.imports
+						),
+						...globalConfig,
+						...state.opts,
+					};
 
 					// Initialize statistics for final report
 					state.namesCount = 0;

@@ -85,9 +85,7 @@ module.exports = function() {
 
 	// Now link dependencies in workspace
 	console.log('\n--- Linking all JS Toolkit packages\n');
-	yarnLink(
-		toolkitProjectNames.filter(prjName => !prjName.startsWith('generator'))
-	);
+	yarnLink(toolkitProjectNames);
 
 	// Now link binaries in subprojects
 	console.log('\n--- Linking all binaries in subprojects\n');

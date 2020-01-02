@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {loadSourceMap} from '../transform';
-
 import path from 'path';
+
+import {loadSourceMap} from '../transform';
 
 describe('loadSourceMap()', () => {
 	it('works with //# annotation', () => {

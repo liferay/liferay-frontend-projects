@@ -31,8 +31,10 @@ export class Copier {
 	copyFile(src, {context = {}, dest} = {}) {
 		const gen = this._generator;
 
-		const fullContext = Object.assign({}, gen.answers);
-		Object.assign(fullContext, context);
+		const fullContext = {
+			...gen.answers,
+			...context,
+		};
 
 		dest = dest || src;
 
