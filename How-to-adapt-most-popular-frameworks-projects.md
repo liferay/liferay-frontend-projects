@@ -71,6 +71,8 @@ $ yarn run build:liferay
 And that will put a deployable portlet JAR file in a `build.liferay` directory
 inside your project.
 
+> 👀 Note that usually the adapter will run the production build of your project's framework under the hood. Then, when it is finished, the adapter will transform the result of that build to convert it into a deployable portlet.
+
 Additionally, if you run:
 
 ```sh
