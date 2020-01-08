@@ -46,23 +46,19 @@ module.exports = function(...args) {
 	}
 };
 
+function escapeLiteralString(str) {
+	return str.replace(/\\/g, '\\\\');
+}
+
 function withWebpackConfig(filename, callback) {
-	let mergeBabelLoaderOptionsPath = require.resolve(
+	const mergeBabelLoaderOptionsPath = require.resolve(
 		'../utils/mergeBabelLoaderOptions'
 	);
-	let webpackConfigPath = path.resolve(filename);
-
-	if (path.sep === '\\') {
-		mergeBabelLoaderOptionsPath = mergeBabelLoaderOptionsPath.replace(
-			/\\/g,
-			'\\\\'
-		);
-		webpackConfigPath = webpackConfigPath.replace(/\\/g, '\\\\');
-	}
+	const webpackConfigPath = path.resolve(filename);
 
 	const webpackConfig = `
-		module.exports = require('${mergeBabelLoaderOptionsPath}')(
-			require('${webpackConfigPath}')
+		module.exports = require('${escapeLiteralString(mergeBabelLoaderOptionsPath)}')(
+			require('${escapeLiteralString(webpackConfigPath)}')
 		);
 	`;
 
