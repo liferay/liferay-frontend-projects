@@ -46,6 +46,10 @@ module.exports = function(...args) {
 	}
 };
 
+function escapeLiteralString(str) {
+	return str.replace(/\\/g, '\\\\');
+}
+
 function withWebpackConfig(filename, callback) {
 	const mergeBabelLoaderOptionsPath = require.resolve(
 		'../utils/mergeBabelLoaderOptions'
@@ -53,8 +57,8 @@ function withWebpackConfig(filename, callback) {
 	const webpackConfigPath = path.resolve(filename);
 
 	const webpackConfig = `
-		module.exports = require('${mergeBabelLoaderOptionsPath}')(
-			require('${webpackConfigPath}')
+		module.exports = require('${escapeLiteralString(mergeBabelLoaderOptionsPath)}')(
+			require('${escapeLiteralString(webpackConfigPath)}')
 		);
 	`;
 
