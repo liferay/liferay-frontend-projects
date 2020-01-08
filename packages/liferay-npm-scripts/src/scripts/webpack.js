@@ -47,10 +47,18 @@ module.exports = function(...args) {
 };
 
 function withWebpackConfig(filename, callback) {
-	const mergeBabelLoaderOptionsPath = require.resolve(
+	let mergeBabelLoaderOptionsPath = require.resolve(
 		'../utils/mergeBabelLoaderOptions'
 	);
-	const webpackConfigPath = path.resolve(filename);
+	let webpackConfigPath = path.resolve(filename);
+
+	if (path.sep === '\\') {
+		mergeBabelLoaderOptionsPath = mergeBabelLoaderOptionsPath.replace(
+			/\\/g,
+			'\\\\'
+		);
+		webpackConfigPath = webpackConfigPath.replace(/\\/g, '\\\\');
+	}
 
 	const webpackConfig = `
 		module.exports = require('${mergeBabelLoaderOptionsPath}')(
