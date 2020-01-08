@@ -62,6 +62,13 @@ function getHref(filePath, extension, pathModule) {
 			line.startsWith('Web-ContextPath:')
 		);
 
+		if (webContextPathLine === undefined) {
+			throw new Error(
+				'Cannot determine web context path for the project: ' +
+					'either specify it in .npmbundlerrc or bnd.bnd'
+			);
+		}
+
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
