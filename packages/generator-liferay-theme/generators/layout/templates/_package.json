@@ -9,5 +9,10 @@
 	"devDependencies": {
 		"gulp": "^3.9.1",
 		"liferay-theme-tasks": "<%= tasksVersion %>"
+	},
+	"scripts": {
+		"build": "gulp build",
+		"deploy": "gulp deploy",
+		"init": "gulp init"
 	}
 }
