@@ -9,6 +9,7 @@ const path = require('path');
 module.exports = {
 	coverageDirectory: 'build/coverage',
 	modulePathIgnorePatterns: ['/__fixtures__/', '/build/', '/classes/'],
+	resolver: require.resolve('../jest/resolver.js'),
 	setupFiles: [require.resolve('../jest/setup.js')],
 	setupFilesAfterEnv: [require.resolve('../jest/setupAfterEnv.js')],
 	testMatch: ['**/test/**/*.js'],
