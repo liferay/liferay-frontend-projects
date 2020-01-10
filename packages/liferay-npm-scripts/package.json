@@ -52,6 +52,7 @@
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
 		"prettier": "1.18.2",
+		"resolve": "^1.14.2",
 		"rimraf": "^2.6.2",
 		"sass-loader": "^7.1.0",
 		"style-loader": "^0.23.1",

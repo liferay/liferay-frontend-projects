@@ -6,6 +6,7 @@
 
 const path = require('path');
 const process = require('process');
+const resolve = require('resolve');
 
 /**
  * Helper to generate string glob of soy dependencies
@@ -24,7 +25,7 @@ function generateSoyDependencies(dependencies) {
 				// the main entry point of the package so we can safely
 				// infer the directory from the package root
 				resolvedDependency = path.dirname(
-					require.resolve(`${dependency}/package.json`)
+					resolve.sync(`${dependency}/package.json`, {basedir: cwd})
 				);
 			} catch (err) {
 				// Swallow.
