@@ -26,6 +26,7 @@ function loadConfig() {
 	normalize(npmbuildrc, 'webpack.rules', []);
 	normalize(npmbuildrc, 'webpack.extensions', ['.js']);
 	normalize(npmbuildrc, 'webpack.port', null);
+	normalize(npmbuildrc, 'webpack.proxy', {});
 
 	normalize(
 		npmbundlerrc,
@@ -80,6 +81,14 @@ export function getWebpackExtensions() {
  */
 export function getWebpackPort() {
 	return npmbuildrc.webpack.port;
+}
+
+/**
+ * Get the webpack proxy to use.
+ * @return {Object}
+ */
+export function getWebpackProxy() {
+	return npmbuildrc.webpack.proxy;
 }
 
 /**
