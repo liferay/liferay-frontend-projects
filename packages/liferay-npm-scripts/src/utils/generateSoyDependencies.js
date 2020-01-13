@@ -37,7 +37,9 @@ function generateSoyDependencies(dependencies) {
 			return resolvedDependency;
 		})
 		.filter(Boolean)
-		.filter(dependencyPath => !dependencyPath.endsWith(projectName));
+		.filter(
+			dependencyPath => path.basename(dependencyPath) !== projectName
+		);
 
 	const joinedDependencies =
 		stringDependencies.length === 1
