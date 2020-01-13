@@ -6,133 +6,83 @@
 
 const path = require('path');
 
-const DESCRIPTION = '`liferay/portal` applies automatically and can be omitted';
+const DESCRIPTION =
+	'`liferay/react` and `liferay/portal` apply automatically and can be omitted';
+
+const messageId = 'noExplicitExtend';
 
 /**
- * Returns the corresponding Property if `node` is found to be inside an
- * ObjectExpression like this:
+ * Expects either:
  *
- *     {
- *         extends: ['liferay/portal']
- *     }   ^        ^----------------^
- *         |                |
- *         |               node      ^
- *         |                         |
- *         ^-------------------------^
- *                      |
- *                  property
+ * - a Set of literals to prune from an ArrayExpression; or:
+ * - a Property to prune from an ObjectExpression.
  */
-function extractFromObjectExpression(node) {
-	const maybeProperty = node.parent;
-
-	if (
-		maybeProperty &&
-		maybeProperty.type === 'Property' &&
-		maybeProperty.key &&
-		maybeProperty.key.type === 'Identifier' &&
-		maybeProperty.key.name === 'extends'
-	) {
-		return maybeProperty;
-	}
-}
-
-/**
- * Returns the corresponding Literal if `node` is found to be inside an
- * ArrayExpression like this:
- *
- *     {
- *         extends: ['foo', 'liferay/portal', 'bar']
- *     }                    ^--------------^
- *                                 |
- *                                node
- *
- * If `node` is not in an ArrayExpression, falls back to trying to locate it in
- * an ObjectExpression like this:
- *
- *     {
- *         extends: 'liferay/portal'
- *     }            ^--------------^
- *                         |
- *                        node
- */
-function extractFromArrayExpression(node) {
-	const maybeArray = node.parent;
-
-	if (maybeArray && maybeArray.type === 'ArrayExpression') {
-		const extracted = extractFromObjectExpression(maybeArray);
-
-		if (extracted) {
-			if (maybeArray.elements.length === 1) {
-				// Removing the node from the array would leave an empty array,
-				// so remove the entire property instead.
-				return extracted;
-			} else {
-				// Just remove the node from the array.
-				return node;
-			}
-		}
-	} else {
-		return extractFromObjectExpression(node);
-	}
-}
-
-function fix(elementOrProperty, context, fixer) {
+function fix(elementsOrProperty, context, fixer) {
 	const source = context.getSourceCode();
 
 	let items;
-	let start;
 
-	if (elementOrProperty.type === 'Property') {
-		items = elementOrProperty.parent.properties;
+	if (elementsOrProperty instanceof Set) {
+		// Removing elements from an ArrayExpression.
+		let parent;
 
-		// Special case: when removing last property, kill all internal
-		// whitespace.
-		if (
-			items.length === 1 &&
-			elementOrProperty.parent &&
-			elementOrProperty.parent.type === 'ObjectExpression'
-		) {
-			return fixer.replaceText(elementOrProperty.parent, '{}');
+		for (const node of elementsOrProperty) {
+			parent = node.parent;
+
+			break;
 		}
 
-		start = elementOrProperty.parent.properties[0].range[0];
+		items = parent.elements.slice();
 	} else {
-		items = elementOrProperty.parent.elements;
-		start = elementOrProperty.parent.elements[0].range[0];
+		// Removing property from an ObjectExpression.
+		const parent = elementsOrProperty.parent;
+
+		// Special case: when removing last property, kill all
+		// internal whitespace.
+		if (parent.properties.length === 1) {
+			return fixer.replaceText(parent, '{}');
+		}
+
+		elementsOrProperty = new Set([elementsOrProperty]);
+		items = parent.properties.slice();
 	}
 
-	const removeIndex = items.indexOf(elementOrProperty);
 	const lastIndex = items.length - 1;
-	const removeLast = removeIndex === lastIndex;
-
+	const start = items[0].range[0];
 	const end = items[lastIndex].range[1];
 
-	// Remove array element or object property, preserving whitespace between
-	// items.
+	const lastVisible = items.reduce((last, item, index) => {
+		if (elementsOrProperty.has(item)) {
+			return last;
+		} else {
+			return index;
+		}
+	}, NaN);
+
+	// Remove array elements or an object property, preserving
+	// whitespace between items.
 	return fixer.replaceTextRange(
 		[start, end],
 		items.slice().reduce((text, item, index) => {
-			const atEnd = index === lastIndex;
+			const atEnd = index >= lastVisible;
 			const itemText = source.getText(item);
 
-			// When removing last item, we eat preceding
-			// whitespace. When removing other items we eat
-			// trailing whitespace.
 			const trailingWhitespace = atEnd
 				? ''
 				: source
 						.getText()
 						.slice(item.range[1], items[index + 1].range[0]);
 
-			if (index !== removeIndex) {
-				if (index + 1 === lastIndex && removeLast) {
-					text += itemText;
-				} else {
-					text += itemText + trailingWhitespace;
-				}
+			// When removing last item, we eat preceding
+			// whitespace. When removing other items we eat trailing
+			// whitespace.
+			if (elementsOrProperty.has(item)) {
+				return text;
+			} else if (index + 1 >= lastVisible) {
+				return text + itemText;
+			} else {
+				return text + itemText + trailingWhitespace;
 			}
-
-			return text;
 		}, '')
 	);
 }
@@ -145,25 +95,66 @@ module.exports = {
 			return {};
 		}
 
+		const pendingDeletions = new Map();
+
 		return {
+			'ArrayExpression:exit': function(node) {
+				if (pendingDeletions.has(node)) {
+					// Special case: when removing all array items, remove
+					// entire property instead.
+					if (
+						pendingDeletions.get(node).size === node.elements.length
+					) {
+						pendingDeletions.set(node.parent, node.parent);
+					} else {
+						context.report({
+							fix: fixer =>
+								fix(pendingDeletions.get(node), context, fixer),
+							messageId,
+							node,
+						});
+					}
+				}
+			},
+
 			Literal(node) {
-				if (node.value !== 'liferay/portal') {
+				if (
+					node.value !== 'liferay/portal' &&
+					node.value !== 'liferay/react'
+				) {
 					return;
 				}
 
-				/**
-				 * Extract a removable node, which will either be a
-				 * 'liferay/portal' string literal, or an object property
-				 * containing the same.
-				 */
-				const extracted =
-					extractFromArrayExpression(node) ||
-					extractFromObjectExpression(node);
+				if (
+					node.parent &&
+					node.parent.type === 'ArrayExpression' &&
+					node.parent.parent &&
+					node.parent.parent.type === 'Property' &&
+					node.parent.parent.key &&
+					node.parent.parent.key.type === 'Identifier' &&
+					node.parent.parent.key.name === 'extends'
+				) {
+					if (!pendingDeletions.has(node.parent)) {
+						pendingDeletions.set(node.parent, new Set());
+					}
 
-				if (extracted) {
+					pendingDeletions.get(node.parent).add(node);
+				} else if (
+					node.parent &&
+					node.parent.type === 'Property' &&
+					node.parent.key &&
+					node.parent.key.type === 'Identifier' &&
+					node.parent.key.name === 'extends'
+				) {
+					pendingDeletions.set(node.parent, node);
+				}
+			},
+
+			'Property:exit': function(node) {
+				if (pendingDeletions.has(node)) {
 					context.report({
-						fix: fixer => fix(extracted, context, fixer),
-						messageId: 'noExplicitExtend',
+						fix: fixer => fix(node, context, fixer),
+						messageId,
 						node,
 					});
 				}
