@@ -15,6 +15,7 @@ const resolve = require('resolve');
  */
 function generateSoyDependencies(dependencies) {
 	const cwd = process.cwd();
+	const projectName = path.basename(cwd);
 
 	const stringDependencies = dependencies
 		.map(dependency => {
@@ -25,7 +26,9 @@ function generateSoyDependencies(dependencies) {
 				// the main entry point of the package so we can safely
 				// infer the directory from the package root
 				resolvedDependency = path.dirname(
-					resolve.sync(`${dependency}/package.json`, {basedir: cwd})
+					resolve.sync(`${dependency}/package.json`, {
+						basedir: cwd
+					})
 				);
 			} catch (err) {
 				// Swallow.
@@ -34,7 +37,9 @@ function generateSoyDependencies(dependencies) {
 			return resolvedDependency;
 		})
 		.filter(Boolean)
-		.filter(dependencyPath => dependencyPath !== cwd);
+		.filter(
+			dependencyPath => path.basename(dependencyPath) !== projectName
+		);
 
 	const joinedDependencies =
 		stringDependencies.length === 1
