@@ -365,7 +365,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			filename: '/tmp/not-an-eslintrc.js',
 		},
 		{
-			// Nod invalid, but not under an "extends" property.
+			// Not invalid, but not under an "extends" property.
 			code: `
 				module.exports = {
 					extendz: 'liferay/portal'
