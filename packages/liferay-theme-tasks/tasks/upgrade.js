@@ -52,18 +52,9 @@ module.exports = function(options) {
 						name: 'sure',
 						type: 'confirm',
 					},
-					{
-						default: true,
-						message:
-							'Do you want to include Font Awesome in your theme?',
-						name: 'includeFontAwesome',
-						type: 'confirm',
-					},
 				],
 				answers => {
 					if (answers.sure) {
-						options.includeFontAwesome = answers.includeFontAwesome;
-
 						versionUpgradeTask(err => {
 							if (err) {
 								log(
