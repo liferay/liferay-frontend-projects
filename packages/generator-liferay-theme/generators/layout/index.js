@@ -7,7 +7,7 @@
 'use strict';
 
 const fs = require('fs');
-const devDependencies = require('liferay-theme-tasks/lib/devDependencies');
+const devDependenciesMap = require('liferay-theme-tasks/lib/devDependencies');
 const minimist = require('minimist');
 const path = require('path');
 
@@ -226,6 +226,7 @@ module.exports = class extends Base {
 	_promptCallback(props) {
 		const layoutId = props.layoutId;
 		const liferayVersion = props.liferayVersion;
+		const devDependencies = devDependenciesMap[liferayVersion];
 
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;

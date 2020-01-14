@@ -115,6 +115,12 @@ describe('liferay-theme:app unit tests', () => {
 	describe('_isLiferayVersion', () => {
 		it('checks for valid Liferay versions', () => {
 			chaiAssert.isTrue(
+				prototype._isLiferayVersion('7.3'),
+				0,
+				'Valid Liferay version'
+			);
+
+			chaiAssert.isTrue(
 				prototype._isLiferayVersion('7.2'),
 				0,
 				'Valid Liferay version'

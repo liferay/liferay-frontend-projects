@@ -10,7 +10,7 @@ const spawn = require('cross-spawn');
 const insert = require('gulp-insert');
 const replace = require('gulp-replace-task');
 
-const devDependencies = require('../../devDependencies');
+const devDependencies = require('../../devDependencies')['7.2'];
 const lfrThemeConfig = require('../../liferay_theme_config');
 
 module.exports = function(options) {
