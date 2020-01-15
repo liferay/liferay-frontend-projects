@@ -16,7 +16,10 @@ describe('permute()', () => {
 	});
 
 	it('permutes a array of two items', () => {
-		expect(permute(['a', 'b'])).toEqual([['a', 'b'], ['b', 'a']]);
+		expect(permute(['a', 'b'])).toEqual([
+			['a', 'b'],
+			['b', 'a']
+		]);
 	});
 
 	it('permutes a array of three items', () => {

@@ -1,4 +1,9 @@
 {
+	"env": {
+		"production": {
+			"plugins": ["transform-react-remove-prop-types"]
+		}
+	},
 	"presets": ["@babel/preset-env"],
 	"plugins": [
 		"@babel/proposal-class-properties",

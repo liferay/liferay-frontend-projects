@@ -19,7 +19,7 @@
 	"license": "ISC",
 	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-jest-junit-reporter",
 	"dependencies": {
-		"strip-ansi": "^5.0.0",
+		"strip-ansi": "6.0.0",
 		"xml": "^1.0.1"
 	},
 	"devDependencies": {

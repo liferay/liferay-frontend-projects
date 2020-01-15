@@ -16,7 +16,12 @@ describe('spawnMultiple()', () => {
 	});
 
 	it('succeeds when all jobs succeed', () => {
-		expect(() => spawnMultiple(() => {}, () => {})).not.toThrow();
+		expect(() =>
+			spawnMultiple(
+				() => {},
+				() => {}
+			)
+		).not.toThrow();
 	});
 
 	it('allows all jobs to run even if one fails', () => {
