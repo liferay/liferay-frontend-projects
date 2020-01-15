@@ -27,6 +27,7 @@ module.exports = {
 		ecmaVersion: 2018,
 	},
 	rules: {
+		'no-for-of-loops/no-for-of-loops': 'off',
 		'notice/notice': [
 			'error',
 			{

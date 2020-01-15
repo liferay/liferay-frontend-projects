@@ -98,7 +98,7 @@ module.exports = {
 		const pendingDeletions = new Map();
 
 		return {
-			'ArrayExpression:exit': function(node) {
+			'ArrayExpression:exit'(node) {
 				if (pendingDeletions.has(node)) {
 					// Special case: when removing all array items, remove
 					// entire property instead.
@@ -150,7 +150,7 @@ module.exports = {
 				}
 			},
 
-			'Property:exit': function(node) {
+			'Property:exit'(node) {
 				if (pendingDeletions.has(node)) {
 					context.report({
 						fix: fixer => fix(node, context, fixer),
