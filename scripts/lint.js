@@ -61,11 +61,15 @@ function parseArgs(args) {
 function lint(configPath) {
 	const args = parseArgs(process.argv);
 
-	child_process.spawnSync(
+	const {status} = child_process.spawnSync(
 		'eslint',
 		['--no-eslintrc', '--config', configPath, ...args, ...LINT_GLOBS],
 		{stdio: 'inherit'}
 	);
+
+	if (status !== 0) {
+		process.exit(status === null ? 1 : status);
+	}
 }
 
 const config = prepareConfig();
