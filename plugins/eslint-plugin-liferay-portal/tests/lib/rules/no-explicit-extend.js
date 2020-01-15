@@ -15,7 +15,7 @@ const filename = '/data/liferay-portal/modules/apps/a/b/.eslintrc.js';
 ruleTester.run('no-explicit-extend', rule, {
 	invalid: [
 		{
-			// As a naked string.
+			// As a naked string (liferay/portal).
 			code: `
 				module.exports = {
 					extends: 'liferay/portal'
@@ -24,7 +24,25 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
+				},
+			],
+			filename,
+			output: `
+				module.exports = {};
+			`,
+		},
+		{
+			// As a naked string (liferay/react).
+			code: `
+				module.exports = {
+					extends: 'liferay/react'
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitExtend',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -43,7 +61,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -65,7 +83,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -87,7 +105,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -101,19 +119,19 @@ ruleTester.run('no-explicit-extend', rule, {
 			// At the beginning, on one line.
 			code: `
 				module.exports = {
-					extends: ['liferay/portal', 'liferay/react']
+					extends: ['liferay/portal', 'other']
 				};
 			`,
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'ArrayExpression',
 				},
 			],
 			filename,
 			output: `
 				module.exports = {
-					extends: ['liferay/react']
+					extends: ['other']
 				};
 			`,
 		},
@@ -121,19 +139,19 @@ ruleTester.run('no-explicit-extend', rule, {
 			// In the middle, on one line.
 			code: `
 				module.exports = {
-					extends: ['special', 'liferay/portal', 'liferay/react']
+					extends: ['special', 'liferay/portal', 'other']
 				};
 			`,
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'ArrayExpression',
 				},
 			],
 			filename,
 			output: `
 				module.exports = {
-					extends: ['special', 'liferay/react']
+					extends: ['special', 'other']
 				};
 			`,
 		},
@@ -141,19 +159,116 @@ ruleTester.run('no-explicit-extend', rule, {
 			// At the end, on one line.
 			code: `
 				module.exports = {
-					extends: ['liferay/react', 'liferay/portal']
+					extends: ['something', 'liferay/portal']
 				};
 			`,
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'ArrayExpression',
 				},
 			],
 			filename,
 			output: `
 				module.exports = {
-					extends: ['liferay/react']
+					extends: ['something']
+				};
+			`,
+		},
+		{
+			// Both liferay/portal and liferay/react together (at start).
+			code: `
+				module.exports = {
+					extends: [
+						'liferay/portal',
+						'liferay/react',
+						'trailing'
+					]
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitExtend',
+					type: 'ArrayExpression',
+				},
+			],
+			filename,
+			output: `
+				module.exports = {
+					extends: [
+						'trailing'
+					]
+				};
+			`,
+		},
+		{
+			// Both liferay/portal and liferay/react together (at end).
+			code: `
+				module.exports = {
+					extends: ['foo', 'liferay/portal', 'liferay/react']
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitExtend',
+					type: 'ArrayExpression',
+				},
+			],
+			filename,
+			output: `
+				module.exports = {
+					extends: ['foo']
+				};
+			`,
+		},
+		{
+			// Both liferay/portal and liferay/react together (in the middle).
+			code: `
+				module.exports = {
+					extends: ['foo', 'liferay/portal', 'liferay/react', 'bar']
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitExtend',
+					type: 'ArrayExpression',
+				},
+			],
+			filename,
+			output: `
+				module.exports = {
+					extends: ['foo', 'bar']
+				};
+			`,
+		},
+		{
+			// Both liferay/portal and liferay/react together (with something in
+			// between).
+			code: `
+				module.exports = {
+					extends: [
+						'foo',
+						'liferay/portal',
+						'bar',
+						'liferay/react',
+						'baz'
+					]
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitExtend',
+					type: 'ArrayExpression',
+				},
+			],
+			filename,
+			output: `
+				module.exports = {
+					extends: [
+						'foo',
+						'bar',
+						'baz'
+					]
 				};
 			`,
 		},
@@ -167,7 +282,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -185,7 +300,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -205,7 +320,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			errors: [
 				{
 					messageId: 'noExplicitExtend',
-					type: 'Literal',
+					type: 'Property',
 				},
 			],
 			filename,
@@ -219,7 +334,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		{
 			code: `
 				module.exports = {
-					extends: ['liferay/react']
+					extends: ['liferay/metal']
 				};
 			`,
 			filename,
@@ -227,7 +342,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		{
 			code: `
 				module.exports = {
-					extends: 'liferay/react'
+					extends: 'liferay/metal'
 				};
 			`,
 			filename,
@@ -248,6 +363,22 @@ ruleTester.run('no-explicit-extend', rule, {
 				};
 			`,
 			filename: '/tmp/not-an-eslintrc.js',
+		},
+		{
+			// Not invalid, but not under an "extends" property.
+			code: `
+				module.exports = {
+					extendz: 'liferay/portal'
+				};
+			`,
+			filename,
+		},
+		{
+			// Not invalid, because not in an object.
+			code: `
+				var array = ['liferay/portal'];
+			`,
+			filename,
 		},
 	],
 });
