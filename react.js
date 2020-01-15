@@ -22,6 +22,7 @@ const config = {
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react
 		 */
+		'react/forbid-foreign-prop-types': 'error',
 		'react/jsx-fragments': 'error',
 		'react/jsx-key': 'error',
 		'react/jsx-no-comment-textnodes': 'error',
