@@ -1,3 +1,12 @@
+## [v15.0.0](https://github.com/liferay/eslint-config-liferay/tree/v15.0.0) (2020-01-15)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v14.0.0...v15.0.0)
+
+-   chore: update dependencies ([\#129](https://github.com/liferay/eslint-config-liferay/pull/129))
+-   fix: make `yarn lint` reflect success/failure status in exit code ([\#128](https://github.com/liferay/eslint-config-liferay/pull/128))
+-   feat!: add react/forbid-foreign-prop-types to react preset ([\#127](https://github.com/liferay/eslint-config-liferay/pull/127))
+-   feat!: teach no-explicit-extend to complain about liferay/react too ([\#126](https://github.com/liferay/eslint-config-liferay/pull/126))
+
 ## [v14.0.0](https://github.com/liferay/eslint-config-liferay/tree/v14.0.0) (2019-12-10)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v13.0.0...v14.0.0)
