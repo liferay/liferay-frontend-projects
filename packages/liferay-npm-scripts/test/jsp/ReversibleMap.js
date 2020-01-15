@@ -10,7 +10,11 @@ describe('ReversibleMap()', () => {
 	let map;
 
 	beforeEach(() => {
-		map = new ReversibleMap([['a', 1], ['b', 2], ['c', 3]]);
+		map = new ReversibleMap([
+			['a', 1],
+			['b', 2],
+			['c', 3]
+		]);
 	});
 
 	describe('undo', () => {
@@ -26,7 +30,11 @@ describe('ReversibleMap()', () => {
 
 			map.undo[3]();
 
-			expect([...map.entries()]).toEqual([['a', 0], ['c', 3], ['d', 4]]);
+			expect([...map.entries()]).toEqual([
+				['a', 0],
+				['c', 3],
+				['d', 4]
+			]);
 
 			map.undo[2]();
 
@@ -48,7 +56,11 @@ describe('ReversibleMap()', () => {
 
 			map.undo[0]();
 
-			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+			expect([...map.entries()]).toEqual([
+				['a', 1],
+				['b', 2],
+				['c', 3]
+			]);
 		});
 	});
 
@@ -101,7 +113,11 @@ describe('ReversibleMap()', () => {
 
 			expect(map.undo.length).toBe(0);
 
-			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+			expect([...map.entries()]).toEqual([
+				['a', 1],
+				['b', 2],
+				['c', 3]
+			]);
 		});
 
 		it('removes the checkpoint if already at one', () => {
@@ -132,7 +148,11 @@ describe('ReversibleMap()', () => {
 
 			expect(map.undo.length).toBe(0);
 
-			expect([...map.entries()]).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+			expect([...map.entries()]).toEqual([
+				['a', 1],
+				['b', 2],
+				['c', 3]
+			]);
 		});
 	});
 

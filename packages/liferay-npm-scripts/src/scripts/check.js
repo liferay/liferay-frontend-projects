@@ -9,7 +9,10 @@ const format = require('./format');
 const lint = require('./lint');
 
 function check() {
-	spawnMultiple(() => format({check: true}), () => lint());
+	spawnMultiple(
+		() => format({check: true}),
+		() => lint()
+	);
 }
 
 module.exports = check;

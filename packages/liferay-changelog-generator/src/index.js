@@ -78,12 +78,9 @@ function git(...args) {
  * Return the date corresponding to the supplied `commitish`.
  */
 async function getDate(commitish) {
-	const timestamp = (await git(
-		'log',
-		-'1',
-		commitish,
-		'--pretty=format:%at'
-	)).trim();
+	const timestamp = (
+		await git('log', -'1', commitish, '--pretty=format:%at')
+	).trim();
 
 	return new Date(+timestamp * 1000);
 }

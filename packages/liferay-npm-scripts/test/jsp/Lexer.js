@@ -333,7 +333,11 @@ describe('Lexer()', () => {
 				const FOO = match('foo');
 
 				return choose(
-					new Map([['FOO', FOO], ['BAR', BAR], ['BAZ', BAZ]])
+					new Map([
+						['FOO', FOO],
+						['BAR', BAR],
+						['BAZ', BAZ]
+					])
 				);
 			});
 
@@ -709,13 +713,38 @@ describe('Lexer()', () => {
 
 			expect(snapshots).toEqual([
 				['match: a', [['a', true]]],
-				['match: b', [['a', true], ['b', true]]],
+				[
+					'match: b',
+					[
+						['a', true],
+						['b', true]
+					]
+				],
 				['match: c', [['b', true]]],
-				['match: c', [['a', true], ['b', true], ['c:2', true]]],
-				['match: c', [['a', true], ['b', true], ['c:3', true]]],
+				[
+					'match: c',
+					[
+						['a', true],
+						['b', true],
+						['c:2', true]
+					]
+				],
+				[
+					'match: c',
+					[
+						['a', true],
+						['b', true],
+						['c:3', true]
+					]
+				],
 				[
 					'match: j',
-					[['a', true], ['b', true], ['c:3', true], ['j', true]]
+					[
+						['a', true],
+						['b', true],
+						['c:3', true],
+						['j', true]
+					]
 				],
 				[
 					'match: k',

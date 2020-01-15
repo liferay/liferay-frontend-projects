@@ -19,7 +19,13 @@ describe('deepMerge()', () => {
 	describe('MODE.DEFAULT', () => {
 		it('concatenates arrays', () => {
 			expect(
-				deepMerge([[1, 2], ['a', 'b']], deepMerge.MODE.DEFAULT)
+				deepMerge(
+					[
+						[1, 2],
+						['a', 'b']
+					],
+					deepMerge.MODE.DEFAULT
+				)
 			).toEqual([1, 2, 'a', 'b']);
 		});
 	});
@@ -28,7 +34,10 @@ describe('deepMerge()', () => {
 		it('overwrites arrays', () => {
 			expect(
 				deepMerge(
-					[[1, 2, 3], ['a', 'b', 'c']],
+					[
+						[1, 2, 3],
+						['a', 'b', 'c']
+					],
 					deepMerge.MODE.OVERWRITE_ARRAYS
 				)
 			).toEqual(['a', 'b', 'c']);
