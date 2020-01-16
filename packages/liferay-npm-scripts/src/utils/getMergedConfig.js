@@ -29,6 +29,13 @@ function pluck(config, property) {
 	return config[property];
 }
 
+function isObject(maybeObject) {
+	return (
+		maybeObject &&
+		Object.prototype.toString.call(maybeObject) === '[object Object]'
+	);
+}
+
 /**
  * Returns a deep copy of `object`, with any instance of `property`
  * transformed using the `callback` (which should accept the value of
@@ -37,13 +44,18 @@ function pluck(config, property) {
 function filter(object, property, callback) {
 	if (Array.isArray(object)) {
 		return object.map(item => filter(item, property, callback));
-	} else {
+	} else if (isObject(object)) {
 		return Object.entries(object).reduce((acc, [key, value]) => {
 			return {
 				...acc,
-				[key]: key === property ? callback(value) : value
+				[key]:
+					key === property
+						? callback(value)
+						: filter(value, property, callback)
 			};
 		}, {});
+	} else {
+		return object;
 	}
 }
 

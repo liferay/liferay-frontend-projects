@@ -52,6 +52,13 @@ describe('getMergedConfig()', () => {
 									runtime: 'iDOMHelpers'
 								}
 							]
+						],
+						// The following isn't real config, but it shows
+						// that we can filter down below the top level.
+						overrides: [
+							{
+								presets: ['fancy', '@babel/preset-react']
+							}
 						]
 					}));
 				});
@@ -59,6 +66,11 @@ describe('getMergedConfig()', () => {
 				const config = getMergedConfig('babel');
 
 				expect(config.presets).toEqual(['@babel/preset-env']);
+
+				expect(config.overrides[0].presets).toMatchObject([
+					['@babel/preset-env', expect.anything()],
+					'fancy'
+				]);
 			});
 		});
 	});
