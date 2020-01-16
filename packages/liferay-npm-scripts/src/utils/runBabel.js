@@ -15,7 +15,12 @@ const BABEL_CONFIG = getMergedConfig('babel');
  */
 function runBabel(...args) {
 	withTempFile('.babelrc', JSON.stringify(BABEL_CONFIG), babelRcPath => {
-		spawnSync('babel', ['--config-file', babelRcPath, ...args]);
+		spawnSync('babel', [
+			'--no-babelrc',
+			'--config-file',
+			babelRcPath,
+			...args
+		]);
 	});
 }
 

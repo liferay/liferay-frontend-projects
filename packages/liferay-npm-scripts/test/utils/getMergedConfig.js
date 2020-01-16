@@ -24,4 +24,42 @@ describe('getMergedConfig()', () => {
 			);
 		});
 	});
+
+	describe('"babel" config', () => {
+		it('strips blacklisted presets', () => {
+			jest.resetModules();
+
+			jest.isolateModules(() => {
+				const getMergedConfig = require('../../src/utils/getMergedConfig');
+
+				jest.mock('../../src/utils/getUserConfig', () => {
+					// Example use case from dynamic-data-mapping-form-builder:
+					// blacklist the "react" preset in order to use the
+					// "incremental-dom" plug-in.
+					return jest.fn(() => ({
+						liferay: {
+							excludes: {
+								presets: ['@babel/preset-react']
+							}
+						},
+						plugins: [
+							[
+								'incremental-dom',
+								{
+									components: true,
+									namespaceAttributes: true,
+									prefix: 'IncrementalDOM',
+									runtime: 'iDOMHelpers'
+								}
+							]
+						]
+					}));
+				});
+
+				const config = getMergedConfig('babel');
+
+				expect(config.presets).toEqual(['@babel/preset-env']);
+			});
+		});
+	});
 });
