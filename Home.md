@@ -50,4 +50,5 @@ Now, let's go with the documentation:
    2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
    3. [Liferay Community Slack](https://liferay-community.slack.com/)
    4. [Question issues](https://github.com/liferay/liferay-js-toolkit/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aquestion+)
-   5. [[Miscellaneous resources]]
+   5. [[Sample projects]]
+   6. [[Miscellaneous resources]]
