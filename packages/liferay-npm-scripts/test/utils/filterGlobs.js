@@ -25,6 +25,10 @@ describe('filterGlobs()', () => {
 		expect(filterGlobs(globs, '.doc')).toEqual([]);
 	});
 
+	it('returns everything when not given any extensions', () => {
+		expect(filterGlobs(globs)).toEqual(globs);
+	});
+
 	it('complains given an invalid extension', () => {
 		expect(() => filterGlobs(globs, 'js')).toThrow(
 			/expected extension "js"/
