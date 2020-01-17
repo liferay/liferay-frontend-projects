@@ -17,7 +17,7 @@ module.exports = {
 };
 
 // .babelrc.js
-modlue.exports = {
+module.exports = {
 	presets: ['@babel/preset-env', '@babel/preset-react', 'fancy-preset'],
 };
 ```
@@ -31,7 +31,7 @@ module.exports = {
 };
 
 // .babelrc.js
-modlue.exports = {
+module.exports = {
 	presets: ['fancy-preset'],
 };
 ```
