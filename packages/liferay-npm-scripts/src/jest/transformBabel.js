@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const fs = require('fs');
+const getUserConfig = require('../utils/getUserConfig');
 
-const config = JSON.parse(fs.readFileSync('.babelrc', 'utf8'));
+const config = getUserConfig('babel');
 
 module.exports = require('babel-jest').createTransformer(config);

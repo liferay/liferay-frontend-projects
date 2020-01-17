@@ -14,6 +14,8 @@ const spawnSync = require('../utils/spawnSync');
 
 const BABEL_CONFIG = getMergedConfig('babel');
 const JEST_CONFIG = getMergedConfig('jest');
+
+const CONFIG_FILE_NAME = '.babelrc.js';
 const PREFIX_BACKUP = 'TEMP-';
 
 /**
@@ -67,8 +69,8 @@ module.exports = function(arrArgs = []) {
 };
 
 function setBabelConfig() {
-	if (fs.existsSync('.babelrc')) {
-		fs.renameSync('.babelrc', PREFIX_BACKUP + '.babelrc');
+	if (fs.existsSync(CONFIG_FILE_NAME)) {
+		fs.renameSync(CONFIG_FILE_NAME, PREFIX_BACKUP + CONFIG_FILE_NAME);
 	}
 
 	if (fs.existsSync('package.json')) {
@@ -86,16 +88,19 @@ function setBabelConfig() {
 		}
 	}
 
-	fs.writeFileSync('.babelrc', JSON.stringify(BABEL_CONFIG));
+	fs.writeFileSync(
+		CONFIG_FILE_NAME,
+		`module.exports = ${JSON.stringify(BABEL_CONFIG, null, 2)};`
+	);
 }
 
 function removeBabelConfig() {
-	fs.unlinkSync('.babelrc');
+	fs.unlinkSync(CONFIG_FILE_NAME);
 
-	const filePath = PREFIX_BACKUP + '.babelrc';
+	const filePath = PREFIX_BACKUP + CONFIG_FILE_NAME;
 
 	if (fs.existsSync(filePath)) {
-		fs.renameSync(filePath, '.babelrc');
+		fs.renameSync(filePath, CONFIG_FILE_NAME);
 	}
 
 	if (fs.existsSync('package.json')) {
