@@ -55,6 +55,8 @@
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
 		"prettier": "1.19.1",
+		"react": "*",
+		"react-dom": "*",
 		"resolve": "^1.14.2",
 		"rimraf": "3.0.0",
 		"sass-loader": "^7.1.0",
