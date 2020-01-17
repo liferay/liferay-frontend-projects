@@ -5,6 +5,7 @@
  */
 
 const CONFIG_FILES = [
+	'**/.babelrc.js',
 	'**/.eslintrc.js',
 	'**/.prettierrc.js',
 	'**/npmscripts.config.js'
