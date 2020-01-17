@@ -6,10 +6,24 @@
 
 const path = require('path');
 
-const DESCRIPTION =
-	'`liferay/react` and `liferay/portal` apply automatically and can be omitted';
+const DISALLOWED_EXTENSIONS = {
+	'.babelrc.js': {
+		messageId: 'noExplicitPreset',
+		property: 'presets',
+		values: new Set(['@babel/preset-env', '@babel/preset-react']),
+	},
+	'.eslintrc.js': {
+		messageId: 'noExplicitExtend',
+		property: 'extends',
+		values: new Set(['liferay/portal', 'liferay/react']),
+	},
+};
 
-const messageId = 'noExplicitExtend';
+const noExplicitExtend =
+	'`liferay/portal` and `liferay/react` apply automatically and can be omitted';
+
+const noExplicitPreset =
+	'`@babel/preset-env` and `@babel/preset-react` apply automatically and can be omitted';
 
 /**
  * Expects either:
@@ -91,9 +105,13 @@ module.exports = {
 	create(context) {
 		const filename = path.basename(context.getFilename());
 
-		if (filename !== '.eslintrc.js') {
+		const disallowed = DISALLOWED_EXTENSIONS[filename];
+
+		if (!disallowed) {
 			return {};
 		}
+
+		const {messageId} = disallowed;
 
 		const pendingDeletions = new Map();
 
@@ -118,10 +136,7 @@ module.exports = {
 			},
 
 			Literal(node) {
-				if (
-					node.value !== 'liferay/portal' &&
-					node.value !== 'liferay/react'
-				) {
+				if (!disallowed.values.has(node.value)) {
 					return;
 				}
 
@@ -132,7 +147,7 @@ module.exports = {
 					node.parent.parent.type === 'Property' &&
 					node.parent.parent.key &&
 					node.parent.parent.key.type === 'Identifier' &&
-					node.parent.parent.key.name === 'extends'
+					node.parent.parent.key.name === disallowed.property
 				) {
 					if (!pendingDeletions.has(node.parent)) {
 						pendingDeletions.set(node.parent, new Set());
@@ -144,7 +159,7 @@ module.exports = {
 					node.parent.type === 'Property' &&
 					node.parent.key &&
 					node.parent.key.type === 'Identifier' &&
-					node.parent.key.name === 'extends'
+					node.parent.key.name === disallowed.property
 				) {
 					pendingDeletions.set(node.parent, node);
 				}
@@ -165,13 +180,14 @@ module.exports = {
 	meta: {
 		docs: {
 			category: 'Best Practices',
-			description: DESCRIPTION,
+			description: 'default configs and presets can be omitted',
 			recommended: false,
 			url: 'https://github.com/liferay/eslint-config-liferay/pull/53',
 		},
 		fixable: 'code',
 		messages: {
-			noExplicitExtend: DESCRIPTION,
+			noExplicitExtend,
+			noExplicitPreset,
 		},
 		schema: [],
 		type: 'problem',
