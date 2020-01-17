@@ -1,3 +1,10 @@
+## [v16.0.0](https://github.com/liferay/eslint-config-liferay/tree/v16.0.0) (2020-01-17)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v15.0.0...v16.0.0)
+
+-   chore: update eslint-plugin-react to v7.18.0 ([\#132](https://github.com/liferay/eslint-config-liferay/pull/132))
+-   feat!: lint against use of redundant presets in .babelrc.js files (#130) ([\#131](https://github.com/liferay/eslint-config-liferay/pull/131))
+
 ## [v15.0.0](https://github.com/liferay/eslint-config-liferay/tree/v15.0.0) (2020-01-15)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v14.0.0...v15.0.0)
