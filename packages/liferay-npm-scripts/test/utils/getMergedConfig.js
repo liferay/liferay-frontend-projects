@@ -24,4 +24,56 @@ describe('getMergedConfig()', () => {
 			);
 		});
 	});
+
+	describe('"babel" config', () => {
+		it('strips blacklisted presets', () => {
+			jest.resetModules();
+
+			jest.isolateModules(() => {
+				const getMergedConfig = require('../../src/utils/getMergedConfig');
+
+				jest.mock('../../src/utils/getUserConfig', () => {
+					// Example use case from dynamic-data-mapping-form-builder:
+					// blacklist the "react" preset in order to use the
+					// "incremental-dom" plug-in.
+					return jest.fn(() => ({
+						liferay: {
+							excludes: {
+								presets: ['@babel/preset-react']
+							}
+						},
+
+						// This bit isn't real config, but it shows that
+						// we can filter down below the top level:
+						overrides: [
+							{
+								presets: ['fancy', '@babel/preset-react']
+							}
+						],
+
+						plugins: [
+							[
+								'incremental-dom',
+								{
+									components: true,
+									namespaceAttributes: true,
+									prefix: 'IncrementalDOM',
+									runtime: 'iDOMHelpers'
+								}
+							]
+						]
+					}));
+				});
+
+				const config = getMergedConfig('babel');
+
+				expect(config.presets).toEqual(['@babel/preset-env']);
+
+				expect(config.overrides[0].presets).toMatchObject([
+					['@babel/preset-env', expect.anything()],
+					'fancy'
+				]);
+			});
+		});
+	});
 });
