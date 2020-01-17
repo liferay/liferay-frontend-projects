@@ -186,7 +186,7 @@ function babelMerge(key) {
 				throw new Error(
 					'babelMerge(): ' +
 						'Cannot merge without two mergeable objects: ' +
-						'please check that the .babelrc file is well-formed'
+						'please check that the .babelrc.js file is well-formed'
 				);
 			}
 		};

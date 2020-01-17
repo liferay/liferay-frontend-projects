@@ -117,7 +117,7 @@ If you just set dependencies to be `['my-new-dependency']`, it will override the
 
 ### Other Config
 
-If you need more flexibility over babel or the bundler. You can still add a `.babelrc` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel.json), [Default Bundler Config](./src/config/npm-bundler.json)
+If you need more flexibility over Babel or the bundler. You can still add a `.babelrc.js` or `.npmbundlerrc` which will be merged with the default settings this tool provides. [Default Babel Config](./src/config/babel.json), [Default Bundler Config](./src/config/npm-bundler.json)
 
 Want to use a different `NODE_ENV`? Try doing something like
 
