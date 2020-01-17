@@ -25,7 +25,7 @@ describe('filterGlobs()', () => {
 		expect(filterGlobs(globs, '.doc')).toEqual([]);
 	});
 
-	it('returns everything when not given an extensions', () => {
+	it('returns everything when not given any extensions', () => {
 		expect(filterGlobs(globs)).toEqual(globs);
 	});
 
