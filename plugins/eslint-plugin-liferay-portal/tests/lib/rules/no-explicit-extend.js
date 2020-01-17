@@ -328,6 +328,42 @@ ruleTester.run('no-explicit-extend', rule, {
 				module.exports = {};
 			`,
 		},
+		{
+			// In a .babelrc.js file.
+			code: `
+				module.exports = {
+					presets: [
+						'fancy-preset',
+						'@babel/preset-env',
+					],
+					overrides: [{
+						test: 'some/path',
+						presets: ['@babel/preset-react'],
+					}]
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitPreset',
+					type: 'ArrayExpression',
+				},
+				{
+					messageId: 'noExplicitPreset',
+					type: 'Property',
+				},
+			],
+			filename: '.babelrc.js',
+			output: `
+				module.exports = {
+					presets: [
+						'fancy-preset',
+					],
+					overrides: [{
+						test: 'some/path',
+					}]
+				};
+			`,
+		},
 	],
 
 	valid: [
@@ -379,6 +415,15 @@ ruleTester.run('no-explicit-extend', rule, {
 				var array = ['liferay/portal'];
 			`,
 			filename,
+		},
+		{
+			// Would be invalid, but not in a .babelrc.js file.
+			code: `
+				module.exports = {
+					presets: ['@babel/preset-react']
+				};
+			`,
+			filename: '/tmp/not-a-babelrc.js',
 		},
 	],
 });

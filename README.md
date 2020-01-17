@@ -179,7 +179,7 @@ The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plug
 The bundled `eslint-plugin-liferay-portal` plugin includes the following [rules](./plugins/eslint-plugin-liferay-portal/docs/rules):
 
 -   [liferay-portal/no-global-fetch](./plugins/eslint-plugin-liferay-portal/docs/rules/no-global-fetch.md): Prevents usage of unwrapped fetch to avoid possible issues related to security misconfiguration.
--   [liferay-portal/no-explicit-extend](./plugins/eslint-plugin-liferay-portal/docs/rules/no-explicit-extend.md): Prevents unnecessary `extends: ["liferay/portal"]` or `extends: ["liferay/react"]` configuration.
+-   [liferay-portal/no-explicit-extend](./plugins/eslint-plugin-liferay-portal/docs/rules/no-explicit-extend.md): Prevents unnecessary extensions in ESLint and Babel configuration files.
 -   [liferay-portal/no-metal-plugins](./plugins/eslint-plugin-liferay-portal/docs/rules/no-metal-plugins.md): Prevents usage of deprecated `metal-*` plugins and utilities.
 -   [liferay-portal/no-react-dom-render](./plugins/eslint-plugin-liferay-portal/docs/rules/no-react-dom-render.md): Prevents direct usage of `ReactDOM.render` in favor of our wrapper.
 -   [liferay-portal/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md): Guards against the use of the legacy jQuery `sideNavigation` plugin.
