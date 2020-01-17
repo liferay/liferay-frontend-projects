@@ -19,9 +19,11 @@ function filterGlobs(globs, ...extensions) {
 		}
 	});
 
-	return globs.filter(glob => {
-		return extensions.some(extension => glob.endsWith(extension));
-	});
+	return extensions.length
+		? globs.filter(glob => {
+				return extensions.some(extension => glob.endsWith(extension));
+		  })
+		: globs;
 }
 
 module.exports = filterGlobs;

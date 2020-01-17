@@ -24,7 +24,7 @@ const readIgnoreFile = require('../utils/readIgnoreFile');
 function getPaths(globs, extensions, ignoreFile) {
 	const root = findRoot();
 
-	ignoreFile = path.join(root || '.', ignoreFile);
+	ignoreFile = ignoreFile ? path.join(root || '.', ignoreFile) : '';
 
 	const ignores = fs.existsSync(ignoreFile) ? readIgnoreFile(ignoreFile) : [];
 
