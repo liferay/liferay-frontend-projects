@@ -6,8 +6,8 @@
  */
 
 var fs = require('fs'),
-	parser = require('liferay-css-parse'),
 	builder = require('css-stringify'),
+	parser = require('./css-parse'),
 	fa = require('./plugins/fontawesome'),
 	bg = require('./plugins/bg'),
 	yui3 = require('./plugins/yui3');

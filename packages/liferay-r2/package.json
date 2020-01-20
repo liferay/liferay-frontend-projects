@@ -25,8 +25,7 @@
 		"bin": "bin"
 	},
 	"dependencies": {
-		"css-stringify": "~1.4.0",
-		"liferay-css-parse": "~1.7.1"
+		"css-stringify": "~1.4.0"
 	},
 	"devDependencies": {
 		"browserify": "^12.0.1",
