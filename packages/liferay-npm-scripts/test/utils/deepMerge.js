@@ -288,8 +288,8 @@ describe('deepMerge()', () => {
 			});
 		});
 
-		it("doesn't break when a stale .babelrc file is left on disk", () => {
-			// This is the original project-local .babelrc config.
+		it("doesn't break when a stale .babelrc.js file is left on disk", () => {
+			// This is the original project-local .babelrc.js config.
 			const project = {
 				presets: ['@babel/preset-react']
 			};
