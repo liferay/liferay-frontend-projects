@@ -19,6 +19,7 @@ const config = {
 	rules: {
 		'liferay-portal/no-explicit-extend': 'error',
 		'liferay-portal/no-global-fetch': 'error',
+		'liferay-portal/no-loader-import-specifier': 'error',
 		'liferay-portal/no-metal-plugins': 'error',
 		'liferay-portal/no-react-dom-render': 'error',
 		'liferay-portal/no-side-navigation': 'error',
