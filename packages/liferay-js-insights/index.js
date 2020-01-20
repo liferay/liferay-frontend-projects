@@ -83,7 +83,6 @@ async function getModuleMeta(modulePath) {
 			? argv.insights.split(',')
 			: Object.keys(INSIGHTS);
 
-	// eslint-disable-next-line no-for-of-loops/no-for-of-loops
 	for await (const modulePath of globby.stream(argv._[0])) {
 		const content = await readFile(modulePath, 'utf8');
 

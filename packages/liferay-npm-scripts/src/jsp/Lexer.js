@@ -617,7 +617,6 @@ class Lexer {
 					map = new Map(Object.entries(map));
 				}
 
-				// eslint-disable-next-line no-for-of-loops/no-for-of-loops
 				for (const [name, matcher] of map) {
 					if (peek(matcher)) {
 						const text = consume();

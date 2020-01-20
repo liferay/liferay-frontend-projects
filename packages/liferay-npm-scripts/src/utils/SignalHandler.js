@@ -52,7 +52,6 @@ function getDisposable(callback, id) {
 function handleSignal(signal) {
 	log(`Received ${signal}`);
 
-	/* eslint-disable-next-line no-for-of-loops/no-for-of-loops */
 	for (const callback of callbacks.values()) {
 		try {
 			callback();
