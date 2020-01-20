@@ -1,17 +1,18 @@
 {
 	"name": "<%= themeDirName %>",
-	"version": "<%= packageVersion %>",
+	"version": "1.0.0",
 	"main": "package.json",
 	"keywords": ["liferay-theme"],
 	"liferayTheme": {
 		"baseTheme": "styled",
-		"fontAwesome": <%= fontAwesome %>,
+		"fontAwesome": false,
 		"screenshot": "",
 		"templateLanguage": "ftl",
 		"version": "<%= liferayVersion %>"
 	},
 	"devDependencies": <%- devDependencies %>,
 	"scripts": {
+		"init": "gulp init",
 		"build": "gulp build",
 		"deploy": "gulp deploy",
 		"extend": "gulp extend",
