@@ -8,7 +8,7 @@
 
 const chalk = require('chalk');
 const Insight = require('insight');
-const devDependencies = require('liferay-theme-tasks/lib/devDependencies');
+const devDependenciesMap = require('liferay-theme-tasks/lib/devDependencies');
 const minimist = require('minimist');
 const path = require('path');
 const Generator = require('yeoman-generator');
@@ -187,7 +187,7 @@ module.exports = class extends Generator {
 				when: instance._getWhenFn('themeId', 'id', isString),
 			},
 			{
-				choices: ['7.2'],
+				choices: ['7.2', '7.3'],
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
 				type: 'list',
@@ -254,7 +254,7 @@ module.exports = class extends Generator {
 	}
 
 	_isLiferayVersion(value) {
-		return ['7.2'].indexOf(value) > -1;
+		return ['7.2', '7.3'].indexOf(value) > -1;
 	}
 
 	_mixArgs(props, args) {
@@ -275,6 +275,7 @@ module.exports = class extends Generator {
 
 	_promptCallback(props) {
 		const liferayVersion = props.liferayVersion;
+		const devDependencies = devDependenciesMap[liferayVersion];
 
 		this.appname = props.themeId;
 		this.fontAwesome = props.fontAwesome;

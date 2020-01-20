@@ -7,7 +7,7 @@
 'use strict';
 
 const fs = require('fs');
-const devDependencies = require('liferay-theme-tasks/lib/devDependencies');
+const devDependenciesMap = require('liferay-theme-tasks/lib/devDependencies');
 const minimist = require('minimist');
 const path = require('path');
 
@@ -209,7 +209,7 @@ module.exports = class extends Base {
 				when: instance._getWhenFn('layoutId', 'id', isString),
 			},
 			{
-				choices: ['7.2'],
+				choices: ['7.2', '7.3'],
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
@@ -226,6 +226,7 @@ module.exports = class extends Base {
 	_promptCallback(props) {
 		const layoutId = props.layoutId;
 		const liferayVersion = props.liferayVersion;
+		const devDependencies = devDependenciesMap[liferayVersion];
 
 		this.layoutId = layoutId;
 		this.layoutName = props.layoutName;

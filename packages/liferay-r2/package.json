@@ -1,0 +1,24 @@
+{
+	"name": "liferay-r2",
+	"description": "A fork of the CSS LTR ∞ RTL converter R2 for Liferay",
+	"version": "0.4.4",
+	"license": "MIT",
+	"homepage": "https://github.com/liferay/liferay-js-themes-toolkit/packages/liferay-r2",
+	"author": "Dustin Diaz <dustin@dustindiaz.com>",
+	"maintainers": [
+		"Chema Balsas <jose.balsas@liferay.com>"
+	],
+	"main": "r2.js",
+	"preferGlobal": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
+		"directory": "packages/liferay-r2"
+	},
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"dependencies": {
+		"css-stringify": "~1.4.0"
+	}
+}

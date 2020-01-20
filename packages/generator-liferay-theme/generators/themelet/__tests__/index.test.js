@@ -17,7 +17,7 @@ const assert = chai.assert;
 describe('liferay-theme:themelet unit tests', () => {
 	describe('_isLiferayVersion', () => {
 		it('checks for valid Liferay versions', () => {
-			_.forEach(['Any', '7.2'], version => {
+			_.forEach(['Any', '7.2', '7.3'], version => {
 				assert.isTrue(
 					liferayThemeThemelet.prototype._isLiferayVersion(version),
 					0,

@@ -83,7 +83,7 @@ module.exports = class extends Base {
 			} else if (name == 'themeId') {
 				item.message = 'Would you like to use this as the themeletId?';
 			} else if (name == 'liferayVersion') {
-				item.choices = ['7.2', 'Any'];
+				item.choices = ['7.3', '7.2', 'Any'];
 				item.message = 'Which version of Liferay is this themelet for?';
 			}
 
@@ -94,7 +94,7 @@ module.exports = class extends Base {
 	}
 
 	_isLiferayVersion(value) {
-		return ['7.2', 'Any'].indexOf(value) > -1;
+		return ['7.3', '7.2', 'Any'].indexOf(value) > -1;
 	}
 
 	_promptCallback(props) {

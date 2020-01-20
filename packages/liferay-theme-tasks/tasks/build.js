@@ -6,6 +6,7 @@
 
 'use strict';
 
+const chalk = require('chalk');
 const del = require('del');
 const fs = require('fs-extra');
 const gulpLoadPlugins = require('gulp-load-plugins');
@@ -244,7 +245,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:r2', () => {
-		const r2 = require('gulp-liferay-r2-css');
+		const r2 = require('../lib/r2')();
 
 		return gulp
 			.src(pathBuild + '/css/*.css')
@@ -253,8 +254,22 @@ module.exports = function(options) {
 					suffix: '_rtl',
 				})
 			)
-			.pipe(r2())
-			.pipe(gulp.dest(pathBuild + '/css'));
+			.pipe(r2)
+			.pipe(gulp.dest(pathBuild + '/css'))
+			.on('end', () => {
+				if (r2.hasCssParseErrors) {
+					// eslint-disable-next-line no-console
+					console.log(
+						chalk.yellow.bold(
+							'\n' +
+								'Some CSS files had incorrect SASS or CSS code. The build will finish but\n' +
+								'the RTL CSS will not be generated correctly.\n' +
+								'\n' +
+								'Please address the issues in your source code to see this error go away.\n'
+						)
+					);
+				}
+			});
 	});
 
 	gulp.task('build:copy:fontAwesome', done => {
