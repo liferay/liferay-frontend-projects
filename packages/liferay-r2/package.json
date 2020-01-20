@@ -28,11 +28,9 @@
 		"css-stringify": "~1.4.0"
 	},
 	"devDependencies": {
-		"browserify": "^12.0.1",
-		"sink-test": ">= 1.0.1"
+		"browserify": "^12.0.1"
 	},
 	"scripts": {
-		"build": "node node_modules/browserify/bin/cmd.js liferay_wrapper.js -o bin/liferay_r2.js",
-		"test": "node tests/tests.js"
+		"build": "node node_modules/browserify/bin/cmd.js liferay_wrapper.js -o bin/liferay_r2.js"
 	}
 }

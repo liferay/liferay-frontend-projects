@@ -1,136 +1,114 @@
-var sinktest = require('sink-test'),
-	sink = sinktest.sink,
-	start = sinktest.start,
-	r2 = require('../r2'),
-	swap = r2.swap;
+const {swap} = require('../r2');
 
-sink('border', function(test, ok, before, after, assert) {
-	test('should swap long-hand properties', function(done) {
-		assert.equal(
-			swap('p{border-left:1px;}'),
+describe('border', () => {
+	it('should swap long-hand properties', done => {
+		expect(swap('p{border-left:1px;}')).toEqual(
 			'p{border-right:1px;}',
 			'border-left: 1px => border-right: 1px'
 		);
-		assert.equal(
-			swap('p{border-right:1px;}'),
+		expect(swap('p{border-right:1px;}')).toEqual(
 			'p{border-left:1px;}',
 			'border-right: 1px => border-left: 1px'
 		);
-		assert.equal(
-			swap('p{border-right:1px solid #000;}'),
+		expect(swap('p{border-right:1px solid #000;}')).toEqual(
 			'p{border-left:1px solid #000;}',
 			'border-right: 1px solid #000 => border-left: 1px solid #000'
 		);
 		done();
 	});
 
-	test('should swap style', function(done) {
-		assert.equal(
-			swap('p{border-style:solid;}'),
+	it('should swap style', done => {
+		expect(swap('p{border-style:solid;}')).toEqual(
 			'p{border-style:solid;}',
 			'border-style: solid => border-style: solid'
 		);
-		assert.equal(
-			swap('p{border-style:none solid;}'),
+		expect(swap('p{border-style:none solid;}')).toEqual(
 			'p{border-style:none solid;}',
 			'border-style: none solid => border-style: none solid'
 		);
-		assert.equal(
-			swap('p{border-style:none solid dashed;}'),
+		expect(swap('p{border-style:none solid dashed;}')).toEqual(
 			'p{border-style:none solid dashed;}',
 			'border-style: none solid dashed => border-style: none solid dashed'
 		);
-		assert.equal(
-			swap('p{border-style:none solid dashed double;}'),
+		expect(swap('p{border-style:none solid dashed double;}')).toEqual(
 			'p{border-style:none double dashed solid;}',
 			'border-style: none solid dashed double => border: style none double dashed solid'
 		);
 		done();
 	});
 
-	test('should swap color', function(done) {
-		assert.equal(
-			swap('p{border-color:#fff;}'),
+	it('should swap color', done => {
+		expect(swap('p{border-color:#fff;}')).toEqual(
 			'p{border-color:#fff;}',
 			'border-color: #fff => border-color: #fff'
 		);
-		assert.equal(
-			swap('p{border-color:#fff #000;}'),
+		expect(swap('p{border-color:#fff #000;}')).toEqual(
 			'p{border-color:#fff #000;}',
 			'border-color: #fff #000 => border-color: #fff #000'
 		);
-		assert.equal(
-			swap('p{border-color:#000 #111 #222;}'),
+		expect(swap('p{border-color:#000 #111 #222;}')).toEqual(
 			'p{border-color:#000 #111 #222;}',
 			'border-color: #000 #111 #222 => border-color: #000 #111 #222'
 		);
-		assert.equal(
-			swap('p{border-color:#000 #111 #222 #333;}'),
+		expect(swap('p{border-color:#000 #111 #222 #333;}')).toEqual(
 			'p{border-color:#000 #333 #222 #111;}',
 			'border-color: #000 #111 #222 #333 => border-color: #000 #333 #222 #111'
 		);
-		assert.equal(
-			swap('p{border-color:rgb(0, 0, 0);}'),
+		expect(swap('p{border-color:rgb(0, 0, 0);}')).toEqual(
 			'p{border-color:rgb(0, 0, 0);}',
 			'border-color:rgb(0, 0, 0) => border-color:rgb(0, 0, 0)'
 		);
-		assert.equal(
-			swap('p{border-color:rgba(0, 0, 0, 0.15);}'),
+		expect(swap('p{border-color:rgba(0, 0, 0, 0.15);}')).toEqual(
 			'p{border-color:rgba(0, 0, 0, 0.15);}',
 			'border-color:rgba(0, 0, 0, 0.15) => border-color:rgba(0, 0, 0, 0.15)'
 		);
-		assert.equal(
-			swap('p{border-color:rgb(0, 0, 0) rgb(1, 1, 1);}'),
+		expect(swap('p{border-color:rgb(0, 0, 0) rgb(1, 1, 1);}')).toEqual(
 			'p{border-color:rgb(0, 0, 0) rgb(1, 1, 1);}',
 			'border-color:rgb(0, 0, 0) rgb(1, 1, 1) => border-color:rgb(0, 0, 0) rgb(1, 1, 1)'
 		);
-		assert.equal(
-			swap('p{border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2);}'),
+		expect(
+			swap('p{border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2);}')
+		).toEqual(
 			'p{border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2);}',
 			'border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2) => border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2)'
 		);
-		assert.equal(
+		expect(
 			swap(
 				'p{border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2) rgb(3, 3, 3);}'
-			),
+			)
+		).toEqual(
 			'p{border-color:rgb(0, 0, 0) rgb(3, 3, 3) rgb(2, 2, 2) rgb(1, 1, 1);}',
 			'border-color:rgb(0, 0, 0) rgb(1, 1, 1) rgb(2, 2, 2) rgb(3, 3, 3) => border-color:rgb(0, 0, 0) rgb(3, 3, 3) rgb(2, 2, 2) rgb(1, 1, 1)'
 		);
 		done();
 	});
 
-	test('should swap border color', function(done) {
-		assert.equal(
-			swap('p{border-left-color:#fff;}'),
+	it('should swap border color', done => {
+		expect(swap('p{border-left-color:#fff;}')).toEqual(
 			'p{border-right-color:#fff;}',
 			'border-left-color: #fff => border-right-color: #fff'
 		);
-		assert.equal(
-			swap('p{border-right-color:#fff;}'),
+		expect(swap('p{border-right-color:#fff;}')).toEqual(
 			'p{border-left-color:#fff;}',
 			'border-right-color: #fff => border-left-color: #fff'
 		);
 		done();
 	});
 
-	test('should swap width', function(done) {
-		assert.equal(
-			swap('p{border-width:0;}'),
+	it('should swap width', done => {
+		expect(swap('p{border-width:0;}')).toEqual(
 			'p{border-width:0;}',
 			'border-width: 0 => border-width: 0'
 		);
-		assert.equal(
-			swap('p{border-width:0 1px;}'),
+		expect(swap('p{border-width:0 1px;}')).toEqual(
 			'p{border-width:0 1px;}',
 			'border-width: 0 1px => border-width: 0 1px'
 		);
-		assert.equal(
-			swap('p{border-width:0 1px 2px;}'),
+		expect(swap('p{border-width:0 1px 2px;}')).toEqual(
 			'p{border-width:0 1px 2px;}',
 			'border-width: 0 1px 2px => border-width: 0 1px 2px'
 		);
-		assert.equal(
-			swap('p{border-width:0 1px 2px 3px;}'),
+		expect(swap('p{border-width:0 1px 2px 3px;}')).toEqual(
 			'p{border-width:0 3px 2px 1px;}',
 			'border-width: 0 1px 2px 3px => border-width: 0 3px 2px 1px'
 		);
@@ -138,131 +116,110 @@ sink('border', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('border-radius', function(test, ok, before, after, assert) {
-	test('should swap border-radius', function(done) {
+describe('border-radius', () => {
+	it('should swap border-radius', done => {
 		// radius
-		assert.equal(
-			swap('p{border-radius:0;}'),
+		expect(swap('p{border-radius:0;}')).toEqual(
 			'p{border-radius:0;}',
 			'border-radius: 0 => border-radius: 0'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius:0;}'),
+		expect(swap('p{-moz-border-radius:0;}')).toEqual(
 			'p{-moz-border-radius:0;}',
 			'-moz-border-radius: 0 => -moz-border-radius: 0'
 		);
-		assert.equal(
-			swap('p{-webkit-border-radius:0;}'),
+		expect(swap('p{-webkit-border-radius:0;}')).toEqual(
 			'p{-webkit-border-radius:0;}',
 			'-webkit-border-radius: 0 => -webkit-border-radius: 0'
 		);
 
 		// top-left top-right-and-bottom-left bottom-right
-		assert.equal(
-			swap('p{border-radius:0 1px 2px;}'),
+		expect(swap('p{border-radius:0 1px 2px;}')).toEqual(
 			'p{border-radius:1px 0 1px 2px;}',
 			'border-radius: 0 1px 2px => border-radius: 1px 0 1px 2px'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius:0 1px 2px;}'),
+		expect(swap('p{-moz-border-radius:0 1px 2px;}')).toEqual(
 			'p{-moz-border-radius:1px 0 1px 2px;}',
 			'-moz-border-radius: 0 1px 2px => -moz-border-radius: 1px 0 1px 2px'
 		);
-		assert.equal(
-			swap('p{-webkit-border-radius:0 1px 2px;}'),
+		expect(swap('p{-webkit-border-radius:0 1px 2px;}')).toEqual(
 			'p{-webkit-border-radius:1px 0 1px 2px;}',
 			'-webkit-border-radius: 0 1px 2px => border-radius: 1px 0 1px 2px'
 		);
 
 		// top-left top-right bottom-right bottom-left
-		assert.equal(
-			swap('p{border-radius:0 1px 2px 3px;}'),
+		expect(swap('p{border-radius:0 1px 2px 3px;}')).toEqual(
 			'p{border-radius:1px 0 3px 2px;}',
 			'border-radius: 0 1px 2px 3px => border-radius: 1px 0 3px 2px'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius:0 1px 2px 3px;}'),
+		expect(swap('p{-moz-border-radius:0 1px 2px 3px;}')).toEqual(
 			'p{-moz-border-radius:1px 0 3px 2px;}',
 			'-moz-border-radius: 0 1px 2px 3px => -moz-border-radius: 1px 0 3px 2px'
 		);
-		assert.equal(
-			swap('p{-webkit-border-radius:0 1px 2px 3px;}'),
+		expect(swap('p{-webkit-border-radius:0 1px 2px 3px;}')).toEqual(
 			'p{-webkit-border-radius:1px 0 3px 2px;}',
 			'-webkit-border-radius: 0 1px 2px 3px => -webkit-border-radius: 1px 0 3px 2px'
 		);
 		done();
 	});
 
-	test('should swap top-left', function(done) {
-		assert.equal(
-			swap('p{border-top-left-radius:5px;}'),
+	it('should swap top-left', done => {
+		expect(swap('p{border-top-left-radius:5px;}')).toEqual(
 			'p{border-top-right-radius:5px;}',
 			'border-top-left-radius:5px => border-top-right-radius: 5px'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius-topleft:5px;}'),
+		expect(swap('p{-moz-border-radius-topleft:5px;}')).toEqual(
 			'p{-moz-border-radius-topright:5px;}',
 			'-moz-border-radius-topleft:5px => -moz-border-radius-topright: 5px'
 		);
-		assert.equal(
-			swap('p{-webkit-border-top-left-radius:5px;}'),
+		expect(swap('p{-webkit-border-top-left-radius:5px;}')).toEqual(
 			'p{-webkit-border-top-right-radius:5px;}',
 			'-webkit-border-top-left-radius:5px => -webkit-border-top-right-radius: 5px'
 		);
 		done();
 	});
 
-	test('should swap top-right', function(done) {
-		assert.equal(
-			swap('p{border-top-right-radius:5px;}'),
+	it('should swap top-right', done => {
+		expect(swap('p{border-top-right-radius:5px;}')).toEqual(
 			'p{border-top-left-radius:5px;}',
 			'border-top-right-radius:5px => border-top-left-radius: 5px'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius-topright:5px;}'),
+		expect(swap('p{-moz-border-radius-topright:5px;}')).toEqual(
 			'p{-moz-border-radius-topleft:5px;}',
 			'-moz-border-radius-topright:5px => -moz-border-radius-topleft: 5px'
 		);
-		assert.equal(
-			swap('p{-webkit-border-top-right-radius:5px;}'),
+		expect(swap('p{-webkit-border-top-right-radius:5px;}')).toEqual(
 			'p{-webkit-border-top-left-radius:5px;}',
 			'-webkit-border-top-right-radius:5px => -webkit-border-top-left-radius: 5px'
 		);
 		done();
 	});
 
-	test('should swap bottom-left', function(done) {
-		assert.equal(
-			swap('p{border-bottom-left-radius:5px;}'),
+	it('should swap bottom-left', done => {
+		expect(swap('p{border-bottom-left-radius:5px;}')).toEqual(
 			'p{border-bottom-right-radius:5px;}',
 			'border-bottom-left-radius:5px => border-bottom-right-radius: 5px'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius-bottomleft:5px;}'),
+		expect(swap('p{-moz-border-radius-bottomleft:5px;}')).toEqual(
 			'p{-moz-border-radius-bottomright:5px;}',
 			'-moz-border-radius-bottomleft:5px => -moz-border-radius-bottomright: 5px'
 		);
-		assert.equal(
-			swap('p{-webkit-border-bottom-left-radius:5px;}'),
+		expect(swap('p{-webkit-border-bottom-left-radius:5px;}')).toEqual(
 			'p{-webkit-border-bottom-right-radius:5px;}',
 			'-webkit-border-bottom-left-radius:5px => -webkit-border-bottom-right-radius: 5px'
 		);
 		done();
 	});
 
-	test('should swap bottom-right', function(done) {
-		assert.equal(
-			swap('p{border-bottom-right-radius:5px;}'),
+	it('should swap bottom-right', done => {
+		expect(swap('p{border-bottom-right-radius:5px;}')).toEqual(
 			'p{border-bottom-left-radius:5px;}',
 			'border-bottom-right-radius:5px => border-bottom-left-radius: 5px'
 		);
-		assert.equal(
-			swap('p{-moz-border-radius-bottomright:5px;}'),
+		expect(swap('p{-moz-border-radius-bottomright:5px;}')).toEqual(
 			'p{-moz-border-radius-bottomleft:5px;}',
 			'-moz-border-radius-bottomright:5px => -moz-border-radius-bottomleft: 5px'
 		);
-		assert.equal(
-			swap('p{-webkit-border-bottom-right-radius:5px;}'),
+		expect(swap('p{-webkit-border-bottom-right-radius:5px;}')).toEqual(
 			'p{-webkit-border-bottom-left-radius:5px;}',
 			'-webkit-border-bottom-right-radius:5px => -webkit-border-bottom-left-radius: 5px'
 		);
@@ -270,39 +227,33 @@ sink('border-radius', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('padding', function(test, ok, before, after, assert) {
-	test('should swap shorthand properties', function(done) {
-		assert.equal(
-			swap('p{padding:0;}'),
+describe('padding', () => {
+	it('should swap shorthand properties', done => {
+		expect(swap('p{padding:0;}')).toEqual(
 			'p{padding:0;}',
 			'padding: 0 => padding: 0'
 		);
-		assert.equal(
-			swap('p{padding:0 1px;}'),
+		expect(swap('p{padding:0 1px;}')).toEqual(
 			'p{padding:0 1px;}',
 			'padding: 0 1px => padding: 0 1px'
 		);
-		assert.equal(
-			swap('p{padding:0 1px 2px;}'),
+		expect(swap('p{padding:0 1px 2px;}')).toEqual(
 			'p{padding:0 1px 2px;}',
 			'padding: 0 1px 2px => padding: 0 1px 2px'
 		);
-		assert.equal(
-			swap('p{padding:0 1px 2px 3px;}'),
+		expect(swap('p{padding:0 1px 2px 3px;}')).toEqual(
 			'p{padding:0 3px 2px 1px;}',
 			'padding: 0 1px 2px 3px => padding: 0 3px 2px 1px'
 		);
 		done();
 	});
 
-	test('should swap longhand properties', function(done) {
-		assert.equal(
-			swap('p{padding-left:0;}'),
+	it('should swap longhand properties', done => {
+		expect(swap('p{padding-left:0;}')).toEqual(
 			'p{padding-right:0;}',
 			'padding-right: 0 => padding-left: 0'
 		);
-		assert.equal(
-			swap('p{padding-right:0;}'),
+		expect(swap('p{padding-right:0;}')).toEqual(
 			'p{padding-left:0;}',
 			'padding-elft: 0 => padding-right: 0'
 		);
@@ -310,39 +261,33 @@ sink('padding', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('margin', function(test, ok, before, after, assert) {
-	test('should swap shorthand properties', function(done) {
-		assert.equal(
-			swap('p{margin:0;}'),
+describe('margin', () => {
+	it('should swap shorthand properties', done => {
+		expect(swap('p{margin:0;}')).toEqual(
 			'p{margin:0;}',
 			'margin: 0 => margin: 0'
 		);
-		assert.equal(
-			swap('p{margin:0 1px;}'),
+		expect(swap('p{margin:0 1px;}')).toEqual(
 			'p{margin:0 1px;}',
 			'margin: 0 1px => margin: 0 1px'
 		);
-		assert.equal(
-			swap('p{margin:0 1px 2px;}'),
+		expect(swap('p{margin:0 1px 2px;}')).toEqual(
 			'p{margin:0 1px 2px;}',
 			'margin: 0 1px 2px => margin: 0 1px 2px'
 		);
-		assert.equal(
-			swap('p{margin:0 1px 2px 3px;}'),
+		expect(swap('p{margin:0 1px 2px 3px;}')).toEqual(
 			'p{margin:0 3px 2px 1px;}',
 			'margin: 0 1px 2px 3px => margin: 0 3px 2px 1px'
 		);
 		done();
 	});
 
-	test('should swap longhand properties', function(done) {
-		assert.equal(
-			swap('p{margin-left:0;}'),
+	it('should swap longhand properties', done => {
+		expect(swap('p{margin-left:0;}')).toEqual(
 			'p{margin-right:0;}',
 			'margin-right: 0 => margin-left: 0'
 		);
-		assert.equal(
-			swap('p{margin-right:0;}'),
+		expect(swap('p{margin-right:0;}')).toEqual(
 			'p{margin-left:0;}',
 			'margin-elft: 0 => margin-right: 0'
 		);
@@ -350,15 +295,13 @@ sink('margin', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('float', function(test, ok, before, after, assert) {
-	test('should swap float direction', function(done) {
-		assert.equal(
-			swap('p{float:right;}'),
+describe('float', () => {
+	it('should swap float direction', done => {
+		expect(swap('p{float:right;}')).toEqual(
 			'p{float:left;}',
 			'float: left => float: right'
 		);
-		assert.equal(
-			swap('p{float:left;}'),
+		expect(swap('p{float:left;}')).toEqual(
 			'p{float:right;}',
 			'float: right => float: left'
 		);
@@ -366,15 +309,13 @@ sink('float', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('clear', function(test, ok, before, after, assert) {
-	test('should swap clear direction', function(done) {
-		assert.equal(
-			swap('p{clear:right;}'),
+describe('clear', () => {
+	it('should swap clear direction', done => {
+		expect(swap('p{clear:right;}')).toEqual(
 			'p{clear:left;}',
 			'clear: left => clear: right'
 		);
-		assert.equal(
-			swap('p{clear:left;}'),
+		expect(swap('p{clear:left;}')).toEqual(
 			'p{clear:right;}',
 			'clear: right => clear: left'
 		);
@@ -382,15 +323,13 @@ sink('clear', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('text-align', function(test, ok, before, after, assert) {
-	test('should swap text alignment', function(done) {
-		assert.equal(
-			swap('p{text-align:right;}'),
+describe('text-align', () => {
+	it('should swap text alignment', done => {
+		expect(swap('p{text-align:right;}')).toEqual(
 			'p{text-align:left;}',
 			'text-align: left => text-align: right'
 		);
-		assert.equal(
-			swap('p{text-align:left;}'),
+		expect(swap('p{text-align:left;}')).toEqual(
 			'p{text-align:right;}',
 			'text-align: right => text-align: left'
 		);
@@ -398,15 +337,13 @@ sink('text-align', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('position', function(test, ok, before, after, assert) {
-	test('should swap right/left', function(done) {
-		assert.equal(
-			swap('p{left:50%;}'),
+describe('position', () => {
+	it('should swap right/left', done => {
+		expect(swap('p{left:50%;}')).toEqual(
 			'p{right:50%;}',
 			'left: 50% => right: 50%'
 		);
-		assert.equal(
-			swap('p{right:50%;}'),
+		expect(swap('p{right:50%;}')).toEqual(
 			'p{left:50%;}',
 			'right: 50% => left: 50%'
 		);
@@ -414,20 +351,17 @@ sink('position', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('direction', function(test, ok, before, after, assert) {
-	test('should swap direction', function(done) {
-		assert.equal(
-			swap('p{direction:rtl;}'),
+describe('direction', () => {
+	it('should swap direction', done => {
+		expect(swap('p{direction:rtl;}')).toEqual(
 			'p{direction:ltr;}',
 			'direction: rtl => direction: ltr'
 		);
-		assert.equal(
-			swap('p{direction:ltr;}'),
+		expect(swap('p{direction:ltr;}')).toEqual(
 			'p{direction:rtl;}',
 			'direction: ltr => direction: rtl'
 		);
-		assert.equal(
-			swap('p{direction:foo;}'),
+		expect(swap('p{direction:foo;}')).toEqual(
 			'p{direction:foo;}',
 			'direction: foo => direction: foo'
 		);
@@ -435,20 +369,17 @@ sink('direction', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('background-position', function(test, ok, before, after, assert) {
-	test('should swap background-position', function(done) {
-		assert.equal(
-			swap('p{background-position:left top;}'),
+describe('background-position', () => {
+	it('should swap background-position', done => {
+		expect(swap('p{background-position:left top;}')).toEqual(
 			'p{background-position:right top;}',
 			'background-position: left top => right top'
 		);
-		assert.equal(
-			swap('p{background-position:20px;}'),
+		expect(swap('p{background-position:20px;}')).toEqual(
 			'p{background-position:right 20px;}',
 			'background-position: 20px => right 20px'
 		);
-		assert.equal(
-			swap('p{background-position:20% top;}'),
+		expect(swap('p{background-position:20% top;}')).toEqual(
 			'p{background-position:80% top;}',
 			'background-position: 20% top => 80% top'
 		);
@@ -456,27 +387,31 @@ sink('background-position', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('background', function(test, ok, before, after, assert) {
-	test('should swap shorthand position values', function(done) {
-		assert.equal(
-			swap('p{background:url(../left/right/test_left.png) left 30%;}'),
+describe('background', () => {
+	it('should swap shorthand position values', done => {
+		expect(
+			swap('p{background:url(../left/right/test_left.png) left 30%;}')
+		).toEqual(
 			'p{background:url(../left/right/test_right.png) right 30%;}',
 			'background:value left 30% => value right 30%'
 		);
-		assert.equal(
-			swap('p{background:url(../left/right/test_left.png) 20% 10%;}'),
+		expect(
+			swap('p{background:url(../left/right/test_left.png) 20% 10%;}')
+		).toEqual(
 			'p{background:url(../left/right/test_right.png) 80% 10%;}',
 			'background:value 20% 10% => value 80% 10%'
 		);
-		assert.equal(
+		expect(
 			swap(
 				'p{background:color url(../left/right/test_left.png) repeat right 20%;}'
-			),
+			)
+		).toEqual(
 			'p{background:color url(../left/right/test_right.png) repeat left 20%;}',
 			'background:color url(../left/right/test_left.png) repeat right 20% => color url(../left/right/test_right.png) repeat left 20%'
 		);
-		assert.equal(
-			swap('p{background-image:url(../atleft/right/test_left.png);}'),
+		expect(
+			swap('p{background-image:url(../atleft/right/test_left.png);}')
+		).toEqual(
 			'p{background-image:url(../atleft/right/test_right.png);}',
 			'background-image:url(../atleft/right/test_left.png) => background-image:url(../atleft/right/test_right.png)'
 		);
@@ -484,10 +419,9 @@ sink('background', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('important', function(test, ok, b, a, assert) {
-	test('should retain important declaration', function(done) {
-		assert.equal(
-			swap('p{float:left!important;}'),
+describe('important', () => {
+	it('should retain important declaration', done => {
+		expect(swap('p{float:left!important;}')).toEqual(
 			'p{float:right!important;}',
 			'float:right!important => float:left!important'
 		);
@@ -495,17 +429,18 @@ sink('important', function(test, ok, b, a, assert) {
 	});
 });
 
-sink('empty input', function(test, ok, b, a, assert) {
-	test('should not fail on empty input', function(done) {
-		assert.equal(swap(''), '', 'Empty input => Empty output');
+describe('empty input', () => {
+	it('should not fail on empty input', done => {
+		expect(swap('')).toEqual('', 'Empty input => Empty output');
 		done();
 	});
 });
 
-sink('empty rule definitions', function(test, ok, b, a, assert) {
-	test('should not fail on empty empty definitions', function(done) {
-		assert.equal(
-			swap('a {}\nb:hover{ left: 10px; }\nh1{  }\nh2 { top: 2px; }'),
+describe('empty rule definitions', () => {
+	it('should not fail on empty empty definitions', done => {
+		expect(
+			swap('a {}\nb:hover{ left: 10px; }\nh1{  }\nh2 { top: 2px; }')
+		).toEqual(
 			'b:hover{right:10px;}h2{top:2px;}',
 			"Empty rules doesn't effect others"
 		);
@@ -513,12 +448,13 @@ sink('empty rule definitions', function(test, ok, b, a, assert) {
 	});
 });
 
-sink('media expressions', function(test, ok, b, a, assert) {
-	test('should handle media declarations', function(done) {
-		assert.equal(
+describe('media expressions', () => {
+	it('should handle media declarations', done => {
+		expect(
 			swap(
 				'@media (max-width: 320px) { #myid { margin-right: 1px; } .cls { padding-left: 3px; } } td { float: left; }'
-			),
+			)
+		).toEqual(
 			'@media (max-width: 320px){#myid{margin-left:1px;}.cls{padding-right:3px;}}td{float:right;}',
 			'Handled media expression properly'
 		);
@@ -526,15 +462,13 @@ sink('media expressions', function(test, ok, b, a, assert) {
 	});
 });
 
-sink('asterisk', function(test, ok, before, after, assert) {
-	test('should not ignore rules starting with asterisk', function(done) {
-		assert.equal(
-			swap('p{*left:50%;}'),
+describe('asterisk', () => {
+	it('should not ignore rules starting with asterisk', done => {
+		expect(swap('p{*left:50%;}')).toEqual(
 			'p{*right:50%;}',
 			'*left: 50% => *right: 50%'
 		);
-		assert.equal(
-			swap('p{*text-align:right;}'),
+		expect(swap('p{*text-align:right;}')).toEqual(
 			'p{*text-align:left;}',
 			'*text-align: right => *text-align: left'
 		);
@@ -542,10 +476,9 @@ sink('asterisk', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('semicolon in content', function(test, ok, before, after, assert) {
-	test('should not fail when there is a quoted semicolon in the declaration', function(done) {
-		assert.equal(
-			swap('b.broke:before { content:"&darr;";}'),
+describe('semicolon in content', () => {
+	it('should not fail when there is a quoted semicolon in the declaration', done => {
+		expect(swap('b.broke:before { content:"&darr;";}')).toEqual(
 			'b.broke:before{content:"&darr;";}',
 			"Semicolon didn't affect parsing"
 		);
@@ -553,28 +486,20 @@ sink('semicolon in content', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('comments in property names or values', function(
-	test,
-	ok,
-	before,
-	after,
-	assert
-) {
-	test('should ignore comments in property names and values', function(done) {
-		assert.equal(
-			swap('hello { padding/*hello*/: 1px 2px;}'),
+describe('comments in property names or values', () => {
+	it('should ignore comments in property names and values', done => {
+		expect(swap('hello { padding/*hello*/: 1px 2px;}')).toEqual(
 			'hello{padding:1px 2px;}',
 			'Ignored comment in property name'
 		);
-		assert.equal(
-			swap('hello { padding: 1px/* some comment*/ 2px/*another*/;}'),
-			'hello{padding:1px 2px;}',
-			'Ignored comments in value'
-		);
-		assert.equal(
+		expect(
+			swap('hello { padding: 1px/* some comment*/ 2px/*another*/;}')
+		).toEqual('hello{padding:1px 2px;}', 'Ignored comments in value');
+		expect(
 			swap(
 				'hello { padding/*I*//*comment*/: 1px/* every*/ /*single*/2px/*space*/;}'
-			),
+			)
+		).toEqual(
 			'hello{padding:1px 2px;}',
 			'Ignored comments in both property name and value'
 		);
@@ -582,15 +507,13 @@ sink('comments in property names or values', function(
 	});
 });
 
-sink('comments', function(test, ok, before, after, assert) {
-	test('should ignore comments', function(done) {
-		assert.equal(
-			swap('/*le comment*/ p { margin-left: 5px;}'),
+describe('comments', () => {
+	it('should ignore comments', done => {
+		expect(swap('/*le comment*/ p { margin-left: 5px;}')).toEqual(
 			'p{margin-right:5px;}',
 			'Ignored comment before rule'
 		);
-		assert.equal(
-			swap('p { /*le comment*/\nmargin-left: 5px;}'),
+		expect(swap('p { /*le comment*/\nmargin-left: 5px;}')).toEqual(
 			'p{margin-right:5px;}',
 			'Ignored comment before declaration'
 		);
@@ -598,12 +521,13 @@ sink('comments', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('no compress', function(test, ok, before, after, assert) {
-	test('should not compress if the option is false', function(done) {
-		assert.equal(
+describe('no compress', () => {
+	it('should not compress if the option is false', done => {
+		expect(
 			swap('/* some comment*/\n\np {\n  margin-left: 5px;\n}', {
 				compress: false,
-			}),
+			})
+		).toEqual(
 			'/* some comment*/\n\np {\n  margin-right: 5px;\n}',
 			'Did not compress'
 		);
@@ -611,30 +535,24 @@ sink('no compress', function(test, ok, before, after, assert) {
 	});
 });
 
-sink('noflip', function(test, ok, before, after, assert) {
-	test('should skip if a rule is preceded with /* @noflip */', function(done) {
-		assert.equal(
-			swap('/* @noflip */ p {margin-left: 5px;}'),
+describe('noflip', () => {
+	it('should skip if a rule is preceded with /* @noflip */', done => {
+		expect(swap('/* @noflip */ p {margin-left: 5px;}')).toEqual(
 			'p{margin-left:5px;}',
 			'Did not flip'
 		);
-		assert.equal(
-			swap('/*@noflip*/p {margin-left: 5px;}'),
+		expect(swap('/*@noflip*/p {margin-left: 5px;}')).toEqual(
 			'p{margin-left:5px;}',
 			'Did not flip'
 		);
-		assert.equal(
-			swap('p {margin-left: 5px;/*@noflip*/}'),
+		expect(swap('p {margin-left: 5px;/*@noflip*/}')).toEqual(
 			'p{margin-right:5px;}',
 			'Did flip'
 		);
-		assert.equal(
-			swap('p{margin-left: 5px;}\n/*@noflip*/'),
+		expect(swap('p{margin-left: 5px;}\n/*@noflip*/')).toEqual(
 			'p{margin-right:5px;}',
 			'Did flip'
 		);
 		done();
 	});
 });
-
-start();
