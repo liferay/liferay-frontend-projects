@@ -265,7 +265,7 @@ module.exports = function(options) {
 								'Some CSS files had incorrect SASS or CSS code. The build will finish but\n' +
 								'the RTL CSS will not be generated correctly.\n' +
 								'\n' +
-								'Please addresse the issues in your source code to see this error go away.\n'
+								'Please address the issues in your source code to see this error go away.\n'
 						)
 					);
 				}
