@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 var resizeHandleRegexp = /.yui3-resize-handle/,
 	resizeHandleInnerRegexp = /.yui3-resize-handle-inner-(tr|tl|br|bl)/,
 	cursorRegexp = /(.*)-resize/,

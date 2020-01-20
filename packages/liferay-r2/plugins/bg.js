@@ -1,3 +1,9 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 var urlLeft = /(?!left.*\/)(left)(?=.*\))/g,
 	urlRight = /(?!right.*\/)(right)(?=.*\))/g,
 	leftRe = /\s(left)\s/,
