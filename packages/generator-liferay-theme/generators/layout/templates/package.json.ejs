@@ -1,16 +1,14 @@
 {
 	"name": "<%= layoutDirName %>",
-	"version": "<%= packageVersion %>",
+	"version": "1.0.0",
 	"main": "package.json",
 	"keywords": ["liferay-theme"],
 	"liferayLayoutTemplate": {
 		"version": "<%= liferayVersion %>"
 	},
-	"devDependencies": {
-		"gulp": "^3.9.1",
-		"liferay-theme-tasks": "<%= tasksVersion %>"
-	},
+	"devDependencies": <%- devDependencies %>,
 	"scripts": {
+		"init": "gulp init",
 		"build": "gulp build",
 		"deploy": "gulp deploy",
 		"init": "gulp init"
