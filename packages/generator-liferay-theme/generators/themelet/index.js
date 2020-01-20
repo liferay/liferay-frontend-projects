@@ -4,107 +4,80 @@
  * SPDX-License-Identifier: MIT
  */
 
-'use strict';
-
 const path = require('path');
+const Generator = require('yeoman-generator');
 
-const Base = require('../app');
+const Copier = require('../../lib/Copier');
+const {normalizeName, sayHello} = require('../../lib/util');
+const versions = require('../../lib/versions');
 
-module.exports = class extends Base {
+/**
+ * Generator to create a themelet project.
+ */
+module.exports = class extends Generator {
 	initializing() {
-		super.initializing();
+		sayHello(this);
+
+		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
-	prompting() {
-		super.prompting();
-	}
+	async prompting() {
+		this.answers = await this.prompt([
+			{
+				default: 'My Liferay Themelet',
+				message: 'What would you like to call your themelet?',
+				name: 'themeletName',
+				type: 'input',
+			},
+			{
+				default(answers) {
+					return normalizeName(answers.themeletName || '');
+				},
+				message: 'What id would you like to give to your themelet?',
+				name: 'themeletId',
+				type: 'input',
+			},
+			{
+				choices: [...versions.supported, 'Any'],
+				message: 'Which version of Liferay is this themelet for?',
+				name: 'liferayVersion',
+				type: 'list',
+			},
+		]);
 
-	_setThemeDirName() {
-		let themeDirName = this.appname;
-
-		if (!/-themelet$/.test(themeDirName)) {
-			themeDirName += '-themelet';
-		}
-
-		this.themeDirName = themeDirName;
-	}
-
-	configuring() {
-		this._setThemeDirName();
-		this._enforceFolderName();
-	}
-
-	_writeApp() {
-		this.fs.copyTpl(
-			this.templatePath('_package.json'),
-			this.destinationPath('package.json'),
-			this
-		);
-
-		this.sourceRoot(path.join(this._sourceRoot, '../../app/templates'));
-
-		this.fs.copy(
-			this.templatePath('gitignore'),
-			this.destinationPath('.gitignore')
-		);
-	}
-
-	_writeProjectFiles() {
-		this.sourceRoot(
-			path.join(this._sourceRoot, '../../themelet/templates')
-		);
-
-		this.fs.copy(
-			this.templatePath('src/css/custom.css'),
-			this.destinationPath('src/css/_custom.scss')
-		);
+		this._setDestinationRoot();
 	}
 
 	writing() {
-		this._writeApp();
-		this._writeProjectFiles();
+		const cp = new Copier(this);
+
+		const context = {
+			themeletDirName: path.basename(this.destinationRoot()),
+		};
+
+		cp.copyFile('.gitignore');
+		cp.copyFile('package.json', {context});
+
+		cp.copyDir('src');
 	}
 
 	install() {
-		// No-op.
-	}
+		const skipInstall = this.options['skip-install'];
 
-	_getPrompts() {
-		const instance = this;
-
-		const prompts = super._getPrompts.call(instance);
-
-		return prompts.reduce((result, item) => {
-			const name = item.name;
-
-			if (name == 'themeName') {
-				item.default = 'My Liferay Themelet';
-				item.message = 'What would you like to call your themelet?';
-			} else if (name == 'themeId') {
-				item.message = 'Would you like to use this as the themeletId?';
-			} else if (name == 'liferayVersion') {
-				item.choices = ['7.3', '7.2', 'Any'];
-				item.message = 'Which version of Liferay is this themelet for?';
-			}
-
-			result.push(item);
-
-			return result;
-		}, []);
-	}
-
-	_isLiferayVersion(value) {
-		return ['7.3', '7.2', 'Any'].indexOf(value) > -1;
-	}
-
-	_promptCallback(props) {
-		if (props.liferayVersion == 'Any') {
-			props.liferayVersion = '*';
+		if (!skipInstall) {
+			this.installDependencies({bower: false});
 		}
-		super._promptCallback.call(this, props);
 	}
 
-	_track() {
-		this._insight.track('themelet', this.liferayVersion);
+	_setDestinationRoot() {
+		let destinationRoot = this.answers.themeletId;
+
+		if (!destinationRoot.endsWith('-themelet')) {
+			destinationRoot += '-themelet';
+		}
+
+		if (destinationRoot !== path.basename(this.destinationRoot())) {
+			this.destinationRoot(path.resolve(destinationRoot));
+		}
 	}
 };
