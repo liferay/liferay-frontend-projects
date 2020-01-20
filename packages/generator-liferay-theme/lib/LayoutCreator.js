@@ -55,16 +55,9 @@ inquirer.prompt.prompts.list.prototype.render = function() {
 };
 
 var LayoutCreator = function(options) {
-	this.after = options.after;
 	this.className = options.className;
 	this.liferayVersion = options.liferayVersion || '7.1';
 	this.rowData = options.rowData;
-
-	if (!this.after) {
-		throw new Error('Must define an after function!');
-	}
-
-	this.init();
 };
 
 LayoutCreator.prototype = {
@@ -659,6 +652,13 @@ LayoutCreator.prototype = {
 
 	prompt(questions, cb) {
 		inquirer.prompt(questions, cb);
+	},
+
+	run() {
+		return new Promise(resolve => {
+			this.after = resolve;
+			this.init();
+		});
 	},
 };
 

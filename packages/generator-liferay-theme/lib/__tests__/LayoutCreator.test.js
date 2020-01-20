@@ -12,7 +12,7 @@ const path = require('path');
 const sinon = require('sinon');
 const stripAnsi = require('strip-ansi');
 
-const LayoutCreator = require('../../lib/layout_creator');
+const LayoutCreator = require('../../lib/LayoutCreator');
 
 const assert = chai.assert;
 const sinonAssert = sinon.assert;
@@ -25,25 +25,16 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('constructor', () => {
-		it('sets options as instance properties and throw error if after function is not set', () => {
+		it('sets options as instance properties', () => {
 			var init = LayoutCreator.prototype.init;
 
 			LayoutCreator.prototype.init = sinon.spy();
 
 			var layoutCreator = new LayoutCreator({
-				after: _.noop,
 				className: 'class-name',
 			});
 
-			assert.equal(layoutCreator.after, _.noop);
 			assert.equal(layoutCreator.className, 'class-name');
-			sinonAssert.calledOnce(LayoutCreator.prototype.init);
-
-			assert.throws(() => {
-				new LayoutCreator({
-					className: 'class-name',
-				});
-			}, 'Must define an after function!');
 
 			LayoutCreator.prototype.init = init;
 		});
