@@ -72,19 +72,21 @@ function lintJSP(source, onReport, options = {}) {
 				return true;
 			});
 
+			// Ensure trailing newline, matching Prettier's convention.
+			source = output.endsWith('\n') ? output : `${output}\n`;
+
 			if (messages.length) {
 				onReport({
 					errorCount,
 					fixableErrorCount,
 					fixableWarningCount,
 					messages,
-					source: output,
+					source,
 					warningCount
 				});
 			}
 
-			// Ensure trailing newline, matching Prettier's convention.
-			return output.endsWith('\n') ? output : `${output}\n`;
+			return source;
 		}
 	});
 }

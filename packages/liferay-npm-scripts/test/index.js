@@ -21,13 +21,13 @@ describe('index.js', () => {
 		process.argv = argv;
 	});
 
-	it('complains if given an invalid command', () => {
+	it('complains if given an invalid command', async () => {
 		setArgv('foo');
-		expect(() => index()).toThrow('requires a valid command');
+		await expect(index()).rejects.toThrow('requires a valid command');
 	});
 
-	it('complains if not given an command', () => {
+	it('complains if not given an command', async () => {
 		setArgv();
-		expect(() => index()).toThrow('requires a valid command');
+		await expect(index()).rejects.toThrow('requires a valid command');
 	});
 });

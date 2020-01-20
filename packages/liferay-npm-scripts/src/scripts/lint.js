@@ -7,11 +7,13 @@
 const eslint = require('eslint');
 const fs = require('fs');
 const path = require('path');
+const stylelint = require('stylelint');
 
 const isJSP = require('../jsp/isJSP');
 const lintJSP = require('../jsp/lintJSP');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
+const hasExtension = require('../utils/hasExtension');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
 
@@ -21,17 +23,24 @@ const DEFAULT_OPTIONS = {
 };
 
 /**
- * File extensions that ESLint can process, either natively, or via our
- * `lintJSP()` wrapper.
+ * File extensions that we can process, either:
+ *
+ * - via ESLint (natively); or:
+ * - via our `lintJSP()` wrapper; or:
+ * - via stylelint (natively).
  */
-const EXTENSIONS = ['.js', '.jsp', '.jspf', '.ts', '.tsx'];
+const EXTENSIONS = {
+	js: new Set(['.js', '.ts', '.tsx']),
+	jsp: new Set(['.jsp', '.jspf']),
+	scss: new Set(['.scss'])
+};
 
 const IGNORE_FILE = '.eslintignore';
 
 /**
- * ESLint wrapper.
+ * ESLint (etc) wrapper.
  */
-function lint(options = {}) {
+async function lint(options = {}) {
 	const {fix, quiet} = {
 		...DEFAULT_OPTIONS,
 		...options
@@ -41,7 +50,11 @@ function lint(options = {}) {
 		? getMergedConfig('npmscripts', 'fix')
 		: getMergedConfig('npmscripts', 'check');
 
-	const paths = getPaths(globs, EXTENSIONS, IGNORE_FILE);
+	const extensions = [].concat(
+		...Object.values(EXTENSIONS).map(set => Array.from(set))
+	);
+
+	const paths = getPaths(globs, extensions, IGNORE_FILE);
 
 	if (!paths.length) {
 		return;
@@ -70,7 +83,10 @@ function lint(options = {}) {
 		ignorePattern: '!*'
 	});
 
-	const [jspPaths, jsPaths] = partitionArray(paths, isJSP);
+	const {default: jsPaths, jspPaths, scssPaths} = partitionArray(paths, {
+		jspPaths: isJSP,
+		scssPaths: isSCSS
+	});
 
 	let report;
 
@@ -85,25 +101,34 @@ function lint(options = {}) {
 		report = {results: []};
 	}
 
-	jspPaths.forEach(filePath => {
-		// TODO: non-sync version to make use of I/O concurrency
-		const contents = fs.readFileSync(filePath, 'utf8');
+	for (const [paths, linter] of [
+		[jspPaths, lintJSP],
+		[scssPaths, lintSCSS]
+	]) {
+		for (const filePath of paths) {
+			// TODO: non-sync version to make use of I/O concurrency
+			const contents = fs.readFileSync(filePath, 'utf8');
 
-		const updated = lintJSP(
-			contents,
-			result => {
-				report.results.push({
-					...result,
-					filePath: path.resolve(filePath)
-				});
-			},
-			{fix, quiet}
-		);
+			try {
+				const updated = await linter(
+					contents,
+					result => {
+						report.results.push({
+							...result,
+							filePath: path.resolve(filePath)
+						});
+					},
+					{filePath, fix, quiet}
+				);
 
-		if (fix && updated !== contents) {
-			fs.writeFileSync(filePath, updated);
+				if (fix && updated !== contents) {
+					fs.writeFileSync(filePath, updated);
+				}
+			} catch (error) {
+				log(error);
+			}
 		}
-	});
+	}
 
 	// In `quiet` mode, keep only errors.
 	// Otherwise keep both errors and warnings.
@@ -238,26 +263,131 @@ function formatter(results) {
 	return output;
 }
 
-/**
- * Partitions `array` by passing each element to the supplied `predicate`
- * function.
- *
- * Returns a tuple of two arrays containing the elements which did and did not
- * satisfy the predicate, respectively.
- */
-function partitionArray(array, predicate) {
-	const a = [];
-	const b = [];
+function isSCSS(filePath) {
+	return hasExtension(filePath, EXTENSIONS.scss);
+}
 
-	array.forEach(item => {
-		if (predicate(item)) {
-			a.push(item);
-		} else {
-			b.push(item);
+async function lintSCSS(source, onReport, options = {}) {
+	const {filePath, fix, quiet} = options;
+
+	const messages = [];
+
+	let errorCount = 0;
+	let warningCount = 0;
+
+	// These two are here for symmetry with ESLint; however, stylelint
+	// doesn't tell us which problems are autofixable and there is no
+	// totally reliable way to guess, so these counts will always be
+	// (possibly innaccurately) zero.
+	const fixableErrorCount = 0;
+	const fixableWarningCount = 0;
+
+	const {output, results} = await stylelint.lint({
+		code: source,
+		codeFilename: filePath,
+		config: {
+			rules: {
+				// TODO: actually decide which rules we want to run; see:
+				// https://github.com/liferay/liferay-npm-tools/issues/344#issuecomment-576196066
+
+				// To test autofix uncomment this:
+				// 'unit-case': 'upper',
+
+				// To test a non-autofixing rule, uncomment this:
+				'unit-whitelist': ['em', 'rem', '%', 's']
+			}
+		},
+
+		// Beware: if `fix` is true, stylelint will return the autofixed
+		// source as `output`; when false, it will return an object
+		// containing non-source metadata instead.
+		fix,
+
+		syntax: 'scss'
+	});
+
+	results.forEach(result => {
+		// - "warnings" array contains both errors and warnings.
+		// - "errored" is true if at least one problem of
+		//   severity "error" is present.
+		if (result.errored || (result.warnings.length && !quiet)) {
+			messages.push(
+				...result.warnings.map(
+					({column, line, rule, severity, text}) => {
+						if (severity === 'error') {
+							errorCount++;
+						} else if (quiet) {
+							// In quiet mode, we only report errors, not warnings.
+							return;
+						} else {
+							warningCount++;
+						}
+
+						return {
+							column,
+							// fix,
+							line,
+							message: text,
+							ruleId: rule,
+							severity: severity === 'error' ? 2 : 1
+						};
+					}
+				)
+			);
 		}
 	});
 
-	return [a, b];
+	// Ensure trailing newline, matching Prettier's convention.
+	source = fix ? (output.endsWith('\n') ? output : `${output}\n`) : source;
+
+	if (messages.length) {
+		onReport({
+			errorCount,
+			fixableErrorCount,
+			fixableWarningCount,
+			messages,
+			source,
+			warningCount
+		});
+	}
+
+	return source;
+}
+
+/**
+ * Partitions `array` by passing each element to the supplied
+ * `predicates` functions. For each path, the search stops as soon as a
+ * predicate match occurs; if no match is found the path is added to the
+ * "default".
+ */
+function partitionArray(array, predicates) {
+	const results = {
+		default: []
+	};
+
+	Object.keys(predicates).forEach(key => {
+		results[key] = [];
+	});
+
+	array.forEach(item => {
+		let matched = false;
+
+		for (const [key, predicate] of Object.entries(predicates)) {
+			if (predicate(item)) {
+				results[key].push(item);
+
+				matched = true;
+
+				break;
+			}
+		}
+
+		if (!matched) {
+			results.default.push(item);
+		}
+	});
+
+	return results;
 }
 
 function pluralize(word, count) {

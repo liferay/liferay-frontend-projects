@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
+const hasExtension = require('../utils/hasExtension');
 
 const JSP_EXTENSIONS = new Set(['.jsp', '.jspf']);
 
@@ -12,9 +12,7 @@ const JSP_EXTENSIONS = new Set(['.jsp', '.jspf']);
  * Returns true if `filepath` refers to a JSP file.
  */
 function isJSP(filepath) {
-	const extension = path.extname(filepath).toLowerCase();
-
-	return JSP_EXTENSIONS.has(extension);
+	return hasExtension(filepath, JSP_EXTENSIONS);
 }
 
 module.exports = isJSP;

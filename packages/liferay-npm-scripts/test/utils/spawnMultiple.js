@@ -24,7 +24,7 @@ describe('spawnMultiple()', () => {
 		).not.toThrow();
 	});
 
-	it('allows all jobs to run even if one fails', () => {
+	it('allows all jobs to run even if one fails', async () => {
 		const jobs = [
 			jest.fn(),
 			jest.fn(() => {
@@ -33,14 +33,14 @@ describe('spawnMultiple()', () => {
 			jest.fn()
 		];
 
-		expect(() => spawnMultiple(...jobs)).toThrow(SpawnError);
+		await expect(spawnMultiple(...jobs)).rejects.toThrow(SpawnError);
 
 		expect(jobs[0]).toBeCalled();
 		expect(jobs[1]).toBeCalled();
 		expect(jobs[2]).toBeCalled();
 	});
 
-	it('aborts immediately given a non-SpawnError error', () => {
+	it('aborts immediately given a non-SpawnError error', async () => {
 		const jobs = [
 			jest.fn(),
 			jest.fn(() => {
@@ -49,31 +49,31 @@ describe('spawnMultiple()', () => {
 			jest.fn()
 		];
 
-		expect(() => spawnMultiple(...jobs)).toThrow(Error);
+		await expect(spawnMultiple(...jobs)).rejects.toThrow(Error);
 
 		expect(jobs[0]).toBeCalled();
 		expect(jobs[1]).toBeCalled();
 		expect(jobs[2]).not.toBeCalled();
 	});
 
-	it('logs the text of a SpawnError', () => {
-		expect(() =>
+	it('logs the text of a SpawnError', async () => {
+		await expect(
 			spawnMultiple(() => {
 				throw new SpawnError('Foo');
 			})
-		).toThrow();
+		).rejects.toThrow();
 
 		expect(log).toBeCalledWith('Foo');
 	});
 
-	it('re-throws a SpawnError containing a summary', () => {
-		expect(() =>
+	it('re-throws a SpawnError containing a summary', async () => {
+		await expect(
 			spawnMultiple(
 				() => {},
 				() => {
 					throw new SpawnError('Boom');
 				}
 			)
-		).toThrow(/1 of 2 jobs failed/);
+		).rejects.toThrow(/1 of 2 jobs failed/);
 	});
 });

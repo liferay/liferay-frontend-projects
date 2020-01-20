@@ -15,12 +15,12 @@ const {SpawnError} = require('./spawnSync');
  * example, to run `prettier` and `eslint`, without errors in the former
  * preventing the latter from running.
  */
-function spawnMultiple(...callbacks) {
+async function spawnMultiple(...callbacks) {
 	let failedCount = 0;
 
-	callbacks.forEach(callback => {
+	for (const callback of callbacks) {
 		try {
-			callback();
+			await callback();
 		} catch (error) {
 			failedCount++;
 
@@ -30,11 +30,12 @@ function spawnMultiple(...callbacks) {
 				throw error;
 			}
 		}
-	});
+	}
 
 	if (failedCount) {
 		const jobCount = callbacks.length;
 		const jobs = jobCount === 1 ? 'job' : 'jobs';
+
 		throw new SpawnError(`${failedCount} of ${jobCount} ${jobs} failed`);
 	}
 }
