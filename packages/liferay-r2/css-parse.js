@@ -10,6 +10,7 @@ module.exports = function(css, options) {
 	 * Positional.
 	 */
 
+	var filename = options.filename || '(unknown)';
 	var lineno = 1;
 	var column = 1;
 
@@ -66,8 +67,10 @@ module.exports = function(css, options) {
 	 */
 
 	function error(msg, start) {
-		var err = new Error(msg + ' near line ' + lineno + ':' + column);
+		var err = new Error(`${filename} (${lineno}:${column}) ${msg}`);
 		err.position = new Position(start);
+		err.filename = filename;
+		err.description = msg;
 		throw err;
 	}
 
