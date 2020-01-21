@@ -16,6 +16,8 @@ const ESLINT_CONFIG_FILE_NAME = '.eslintrc.js';
 
 const PRETTIER_CONFIG_FILE_NAME = '.prettierrc.js';
 
+const STYLELINT_CONFIG_FILE_NAME = '.stylelintrc.js';
+
 /* eslint-disable sort-keys */
 
 const DISALLOWED_CONFIG_FILE_NAMES = {
@@ -42,7 +44,14 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 	'.prettierrc.toml': PRETTIER_CONFIG_FILE_NAME,
 	'.prettierrc.yaml': PRETTIER_CONFIG_FILE_NAME,
 	'.prettierrc.yml': PRETTIER_CONFIG_FILE_NAME,
-	'prettier.config.js': PRETTIER_CONFIG_FILE_NAME
+	'prettier.config.js': PRETTIER_CONFIG_FILE_NAME,
+
+	// https://stylelint.io/user-guide/configuration
+	'.stylelintrc': STYLELINT_CONFIG_FILE_NAME,
+	'.stylelintrc.json': STYLELINT_CONFIG_FILE_NAME,
+	'.stylelintrc.yml': STYLELINT_CONFIG_FILE_NAME,
+	'.stylelintrc.yaml': STYLELINT_CONFIG_FILE_NAME,
+	'stylelint.config.js': STYLELINT_CONFIG_FILE_NAME,
 };
 
 /* eslint-enable sort-keys */
