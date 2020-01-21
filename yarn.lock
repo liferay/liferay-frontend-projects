@@ -5110,6 +5110,11 @@ levn@~0.2.5:
     prelude-ls "~1.1.0"
     type-check "~0.3.1"
 
+liferay-css-parse@~1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/liferay-css-parse/-/liferay-css-parse-1.7.1.tgz#c0750cc0f0645d2190eeefee845b6fcb154f3e45"
+  integrity sha1-wHUMwPBkXSGQ7u/uhFtvyxVPPkU=
+
 liferay-frontend-common-css@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
@@ -5202,6 +5207,14 @@ liferay-npm-bundler-preset-standard@2.17.0:
     liferay-npm-bundler-plugin-namespace-packages "2.17.0"
     liferay-npm-bundler-plugin-replace-browser-modules "2.17.0"
     liferay-npm-bundler-plugin-resolve-linked-dependencies "2.17.0"
+
+liferay-r2@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/liferay-r2/-/liferay-r2-0.4.4.tgz#cc00059efdfb89ccb0224eb4ddc7f2739dc427fb"
+  integrity sha1-zAAFnv37icywIk603cfyc53EJ/s=
+  dependencies:
+    css-stringify "~1.4.0"
+    liferay-css-parse "~1.7.1"
 
 liftoff@^2.1.0:
   version "2.5.0"

@@ -1,20 +1,20 @@
-/*!
- * R2 - a CSS LTR ∞ RTL converter
- * Copyright Dustin Diaz 2012
- * https://github.com/ded/r2
- * License MIT
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
  */
 
-var fs = require('fs'),
-	builder = require('css-stringify'),
-	parser = require('./css-parse'),
-	fa = require('./plugins/fontawesome'),
-	bg = require('./plugins/bg'),
-	yui3 = require('./plugins/yui3');
+const builder = require('css-stringify');
+const fs = require('fs');
+
+const parser = require('./css-parse');
+const bg = require('./plugins/bg');
+const fa = require('./plugins/fontawesome');
+const yui3 = require('./plugins/yui3');
 
 function quad(v, m) {
 	// 1px 2px 3px 4px => 1px 4px 3px 2px
-	if ((m = v.trim().split(/\s+(?=[^\)]*(?:[\(]|$))/)) && m.length == 4) {
+	if ((m = v.trim().split(/\s+(?=[^)]*(?:[(]|$))/)) && m.length == 4) {
 		return [m[0], m[3], m[2], m[1]].join(' ');
 	}
 	return v;
@@ -64,57 +64,60 @@ function bgPosition(v) {
 }
 
 var propertyMap = {
+	'-moz-border-radius-bottomleft': '-moz-border-radius-bottomright',
+	'-moz-border-radius-bottomright': '-moz-border-radius-bottomleft',
+	'-moz-border-radius-topleft': '-moz-border-radius-topright',
+	'-moz-border-radius-topright': '-moz-border-radius-topleft',
+
+	'-webkit-border-bottom-left-radius': '-webkit-border-bottom-right-radius',
+	'-webkit-border-bottom-right-radius': '-webkit-border-bottom-left-radius',
+	'-webkit-border-top-left-radius': '-webkit-border-top-right-radius',
+	'-webkit-border-top-right-radius': '-webkit-border-top-left-radius',
+
+	'border-bottom-left-radius': 'border-bottom-right-radius',
+	'border-bottom-right-radius': 'border-bottom-left-radius',
+
+	'border-left': 'border-right',
+	'border-left-color': 'border-right-color',
+	'border-left-width': 'border-right-width',
+
+	'border-radius-bottomleft': 'border-radius-bottomright',
+	'border-radius-bottomright': 'border-radius-bottomleft',
+	'border-radius-topleft': 'border-radius-topright',
+	'border-radius-topright': 'border-radius-topleft',
+
+	'border-right': 'border-left',
+	'border-right-color': 'border-left-color',
+	'border-right-width': 'border-left-width',
+
+	'border-top-left-radius': 'border-top-right-radius',
+	'border-top-right-radius': 'border-top-left-radius',
+
+	left: 'right',
+
 	'margin-left': 'margin-right',
 	'margin-right': 'margin-left',
 
 	'padding-left': 'padding-right',
 	'padding-right': 'padding-left',
 
-	'border-left': 'border-right',
-	'border-right': 'border-left',
-
-	'border-left-color': 'border-right-color',
-	'border-right-color': 'border-left-color',
-
-	'border-left-width': 'border-right-width',
-	'border-right-width': 'border-left-width',
-
-	'border-radius-bottomleft': 'border-radius-bottomright',
-	'border-radius-bottomright': 'border-radius-bottomleft',
-	'border-bottom-right-radius': 'border-bottom-left-radius',
-	'border-bottom-left-radius': 'border-bottom-right-radius',
-	'-webkit-border-bottom-right-radius': '-webkit-border-bottom-left-radius',
-	'-webkit-border-bottom-left-radius': '-webkit-border-bottom-right-radius',
-	'-moz-border-radius-bottomright': '-moz-border-radius-bottomleft',
-	'-moz-border-radius-bottomleft': '-moz-border-radius-bottomright',
-
-	'border-radius-topleft': 'border-radius-topright',
-	'border-radius-topright': 'border-radius-topleft',
-	'border-top-right-radius': 'border-top-left-radius',
-	'border-top-left-radius': 'border-top-right-radius',
-	'-webkit-border-top-right-radius': '-webkit-border-top-left-radius',
-	'-webkit-border-top-left-radius': '-webkit-border-top-right-radius',
-	'-moz-border-radius-topright': '-moz-border-radius-topleft',
-	'-moz-border-radius-topleft': '-moz-border-radius-topright',
-
-	left: 'right',
 	right: 'left',
 };
 
 var valueMap = {
-	padding: quad,
-	margin: quad,
-	'text-align': rtltr,
-	float: rtltr,
-	clear: rtltr,
-	direction: direction,
-	'-webkit-border-radius': quad_radius,
 	'-moz-border-radius': quad_radius,
-	'border-radius': quad_radius,
-	'border-color': quad,
-	'border-width': quad,
-	'border-style': quad,
+	'-webkit-border-radius': quad_radius,
 	'background-position': bgPosition,
+	'border-color': quad,
+	'border-radius': quad_radius,
+	'border-style': quad,
+	'border-width': quad,
+	clear: rtltr,
+	direction,
+	float: rtltr,
+	margin: quad,
+	padding: quad,
+	'text-align': rtltr,
 };
 
 function processRule(rule, idx, list) {
@@ -123,7 +126,7 @@ function processRule(rule, idx, list) {
 		return;
 
 	if (rule.declarations)
-		rule.declarations.forEach(function(declaration) {
+		rule.declarations.forEach(declaration => {
 			processDeclaration(declaration, rule);
 		});
 	else if (rule.rules) rule.rules.forEach(processRule);
@@ -148,9 +151,7 @@ function processDeclaration(declaration, rule) {
 		asterisk = '';
 	}
 	prop = propertyMap[prop] || prop;
-	val = valueMap[prop]
-		? valueMap[prop](val, {rule: rule, decl: declaration})
-		: val;
+	val = valueMap[prop] ? valueMap[prop](val, {decl: declaration, rule}) : val;
 
 	if (!val.match(important) && isImportant) val += '!important';
 
@@ -169,43 +170,45 @@ function r2(css, options) {
 }
 
 module.exports.exec = function(args) {
-	var out,
-		read = args[0],
-		out = args[1],
-		options = {compress: args[2] !== '--no-compress'},
-		data;
+	const read = args[0];
+	const out = args[1];
+	const options = {compress: args[2] !== '--no-compress'};
+	let data;
 
 	/*
-  /  If no read arg then read from stdin
-  /  allows for standard piping and reading in
-  /  ex: lessc file.less | r2 > file-rtl.css
-  /  ex:  r2 < file.css
-  */
+	/  If no read arg then read from stdin
+	/  allows for standard piping and reading in
+	/  ex: lessc file.less | r2 > file-rtl.css
+	/  ex:  r2 < file.css
+	*/
 	if (!read) {
 		var buffer = '';
 		process.stdin.resume();
 		process.stdin.setEncoding('utf8');
 
-		process.stdin.on('data', function(chunk) {
+		process.stdin.on('data', chunk => {
 			buffer += chunk;
 		});
 
-		process.stdin.on('end', function() {
+		process.stdin.on('end', () => {
 			if (buffer) {
+				// eslint-disable-next-line no-console
 				console.log(r2(buffer, options));
 			}
 		});
 	} else {
 		/*
-    /  If reading from a file then print to stdout or out arg
-    /  To stdout: r2 styles.css
-    /  To file: r2 styles.cc styles-rtl.css
-    */
+    	/  If reading from a file then print to stdout or out arg
+    	/  To stdout: r2 styles.css
+    	/  To file: r2 styles.cc styles-rtl.css
+    	*/
 		data = fs.readFileSync(read, 'utf8');
 		if (out) {
+			// eslint-disable-next-line no-console
 			console.log('Swapping ' + read + ' to ' + out + '...');
 			fs.writeFileSync(out, r2(data, options), 'utf8');
 		} else {
+			// eslint-disable-next-line no-console
 			console.log(r2(data, options));
 		}
 	}

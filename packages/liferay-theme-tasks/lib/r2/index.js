@@ -8,10 +8,11 @@
 
 const chalk = require('chalk');
 const gutil = require('gulp-util');
-const liferayR2 = require('liferay-r2');
 const path = require('path');
 const {StringDecoder} = require('string_decoder');
 const through = require('through2');
+
+const liferayR2 = require('./liferay-r2');
 
 const decoder = new StringDecoder('utf8');
 const PluginError = gutil.PluginError;

@@ -38,7 +38,7 @@ module.exports = function(css, options) {
 	function position() {
 		if (!options.position) return positionNoop;
 
-		var start = {line: lineno, column: column};
+		var start = {column, line: lineno};
 
 		return function(node) {
 			node.position = new Position(start);
@@ -49,7 +49,7 @@ module.exports = function(css, options) {
 
 	function Position(start) {
 		this.start = start;
-		this.end = {line: lineno, column: column};
+		this.end = {column, line: lineno};
 		this.filename = options.filename;
 	}
 
@@ -86,10 +86,10 @@ module.exports = function(css, options) {
 
 	function stylesheet() {
 		return {
-			type: 'stylesheet',
 			stylesheet: {
 				rules: rules(),
 			},
+			type: 'stylesheet',
 		};
 	}
 
@@ -184,8 +184,8 @@ module.exports = function(css, options) {
 		column += 2;
 
 		return pos({
-			type: 'comment',
 			comment: str,
+			type: 'comment',
 		});
 	}
 
@@ -211,7 +211,7 @@ module.exports = function(css, options) {
 		var pos = position();
 
 		// prop
-		var prop = match(/^(\*?[-#\/\*\w]+(\[[0-9a-z_-]+\])?)\s*/);
+		var prop = match(/^(\*?[-#/*\w]+(\[[0-9a-z_-]+\])?)\s*/);
 		if (!prop) return;
 		prop = trim(prop[0]);
 
@@ -219,14 +219,12 @@ module.exports = function(css, options) {
 		if (!match(/^:\s*/)) return error("property missing ':'");
 
 		// val
-		var val = match(
-			/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^\)]*?\)|[^};])+)/
-		);
+		var val = match(/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/);
 		if (!val) return error('property missing value');
 
 		var ret = pos({
-			type: 'declaration',
 			property: prop.replace(commentre, ''),
+			type: 'declaration',
 			value: trim(val[0]).replace(commentre, ''),
 		});
 
@@ -281,9 +279,9 @@ module.exports = function(css, options) {
 		if (!vals.length) return;
 
 		return pos({
+			declarations: declarations(),
 			type: 'keyframe',
 			values: vals,
-			declarations: declarations(),
 		});
 	}
 
@@ -299,7 +297,7 @@ module.exports = function(css, options) {
 		var vendor = m[1];
 
 		// identifier
-		var m = match(/^([-\w]+)\s*/);
+		m = match(/^([-\w]+)\s*/);
 		if (!m) return error('@keyframes missing name');
 		var name = m[1];
 
@@ -315,10 +313,10 @@ module.exports = function(css, options) {
 		if (!close()) return error("@keyframes missing '}'");
 
 		return pos({
-			type: 'keyframes',
-			name: name,
-			vendor: vendor,
 			keyframes: frames,
+			name,
+			type: 'keyframes',
+			vendor,
 		});
 	}
 
@@ -340,9 +338,9 @@ module.exports = function(css, options) {
 		if (!close()) return error("@supports missing '}'");
 
 		return pos({
-			type: 'supports',
-			supports: supports,
 			rules: style,
+			supports,
+			type: 'supports',
 		});
 	}
 
@@ -363,8 +361,8 @@ module.exports = function(css, options) {
 		if (!close()) return error("@host missing '}'");
 
 		return pos({
-			type: 'host',
 			rules: style,
+			type: 'host',
 		});
 	}
 
@@ -386,9 +384,9 @@ module.exports = function(css, options) {
 		if (!close()) return error("@media missing '}'");
 
 		return pos({
-			type: 'media',
-			media: media,
+			media,
 			rules: style,
+			type: 'media',
 		});
 	}
 
@@ -416,9 +414,9 @@ module.exports = function(css, options) {
 		if (!close()) return error("@page missing '}'");
 
 		return pos({
-			type: 'page',
-			selectors: sel,
 			declarations: decls,
+			selectors: sel,
+			type: 'page',
 		});
 	}
 
@@ -441,10 +439,10 @@ module.exports = function(css, options) {
 		if (!close()) return error("@document missing '}'");
 
 		return pos({
-			type: 'document',
 			document: doc,
-			vendor: vendor,
 			rules: style,
+			type: 'document',
+			vendor,
 		});
 	}
 
@@ -456,9 +454,9 @@ module.exports = function(css, options) {
 		var vendor = m[1];
 
 		return pos({
-			type: 'viewport',
-			vendor: vendor,
 			declarations: declarations(),
+			type: 'viewport',
+			vendor,
 		});
 	}
 
@@ -467,11 +465,10 @@ module.exports = function(css, options) {
 		var m = match(/^@([-\w]+)?font-face */);
 
 		if (!m) return;
-		var vendor = m[1];
 
 		return pos({
-			type: 'fontface',
 			declarations: declarations(),
+			type: 'fontface',
 		});
 	}
 
@@ -548,9 +545,9 @@ module.exports = function(css, options) {
 		comments();
 
 		return pos({
-			type: 'rule',
-			selectors: sel,
 			declarations: declarations(),
+			selectors: sel,
+			type: 'rule',
 		});
 	}
 
