@@ -4,9 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
+const semver = require('semver');
+
 module.exports = {
-	// Supported portal versions
-	supported: ['7.3', '7.2'],
+	// Supported portal versions (must be sorted from most recent to oldest
+	// because that's the contract with outer modules using this array).
+	supported: ['7.3', '7.2'].sort(
+		(l, r) => -semver.compare(semver.coerce(l), semver.coerce(r))
+	),
 
 	// Supported theme versions indexed by portal version
 	theme: {
