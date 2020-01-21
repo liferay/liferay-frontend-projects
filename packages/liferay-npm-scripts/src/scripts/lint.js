@@ -284,6 +284,10 @@ async function lintSCSS(source, onReport, options = {}) {
 
 	const config = getMergedConfig('stylelint');
 
+	config.plugins.push(
+		path.resolve(__dirname, 'lint/stylelint/plugins/no-block-comments')
+	);
+
 	const {output, results} = await stylelint.lint({
 		code: source,
 		codeFilename: filePath,
