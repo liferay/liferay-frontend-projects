@@ -137,9 +137,13 @@ module.exports = class extends Generator {
 				mavenMetadata.metadata.versioning[0].versions[0].version;
 
 			if (themeVersions === undefined) {
-				throw new Error(
-					'Invalid XML returned from https://mvnrepository.com'
-				);
+				print(error`
+					Invalid XML returned from https://mvnrepository.com when 
+					querying for the list of available versions of Liferay 
+					Classic Theme.
+				`);
+
+				return undefined;
 			}
 
 			return themeVersions;
