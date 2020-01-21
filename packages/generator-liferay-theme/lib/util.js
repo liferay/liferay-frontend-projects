@@ -11,6 +11,7 @@ const {
 	success,
 	title,
 } = require('liferay-npm-build-tools-common/lib/format');
+const {argv} = require('yargs');
 
 const pkgJson = require('../package.json');
 const versions = require('./versions');
@@ -30,6 +31,35 @@ function normalizeName(name) {
 }
 
 /**
+ * Prompt user or assume defaults if --qa switch was given in command line.
+ * @param {Generator} generator
+ * @param {object[]} prompts
+ */
+async function promptWithQA(generator, prompts) {
+	if (argv.qa) {
+		const answers = prompts.reduce((answers, prompt) => {
+			let val = argv[prompt.name];
+
+			if (val === undefined) {
+				val = prompt.default;
+
+				if (typeof val === 'function') {
+					val = val(answers);
+				}
+			}
+
+			answers[prompt.name] = val;
+
+			return answers;
+		}, {});
+
+		return answers;
+	} else {
+		return await generator.prompt(prompts);
+	}
+}
+
+/**
  * Run `gulp init` after successful creation of a project.
  */
 function runGulpInit() {
@@ -37,7 +67,15 @@ function runGulpInit() {
 		'\n',
 		success`
 		The project has been created successfully.
-		`,
+		`
+	);
+
+	// Skip step if ran in QA mode
+	if (argv.qa) {
+		return;
+	}
+
+	print(
 		info`
 		Now we will invoke {gulp init} for you, to configure your deployment
 		strategy. 
@@ -53,6 +91,17 @@ function runGulpInit() {
 	liferayThemeTasks.registerTasks({gulp});
 
 	gulp.start('init');
+}
+
+/**
+ * Run `npm install` after successful creation of a project.
+ */
+function runInstall(generator) {
+	const skipInstall = generator.options['skip-install'] || argv.qa;
+
+	if (!skipInstall) {
+		generator.installDependencies({bower: false});
+	}
 }
 
 /**
@@ -105,7 +154,9 @@ function splitWords(input) {
 
 module.exports = {
 	normalizeName,
+	promptWithQA,
 	runGulpInit,
+	runInstall,
 	sayHello,
 	snakeCase,
 };

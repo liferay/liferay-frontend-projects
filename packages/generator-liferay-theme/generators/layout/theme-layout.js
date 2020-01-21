@@ -10,9 +10,8 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 
 const Copier = require('../../lib/Copier');
-const LayoutCreator = require('../../lib/LayoutCreator');
 const {snakeCase} = require('../../lib/util');
-const {prompting} = require('./common');
+const {prompting, runLayoutCreator} = require('./common');
 
 module.exports = class extends Generator {
 	initializing() {
@@ -54,12 +53,10 @@ module.exports = class extends Generator {
 			dest: `src/WEB-INF/liferay-layout-templates.xml`,
 		});
 
-		const layoutCreator = new LayoutCreator({
-			className: layoutId,
-			liferayVersion,
-		});
-
-		const templateContent = await layoutCreator.run();
+		const templateContent = await runLayoutCreator(
+			layoutId,
+			liferayVersion
+		);
 
 		this.fs.write(
 			`src/layouttpl/custom/${layoutFolder}/${templateFilename}`,

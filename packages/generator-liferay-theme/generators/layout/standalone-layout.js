@@ -13,9 +13,8 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 
 const Copier = require('../../lib/Copier');
-const LayoutCreator = require('../../lib/LayoutCreator');
-const {runGulpInit, snakeCase} = require('../../lib/util');
-const {prompting} = require('./common');
+const {runGulpInit, runInstall, snakeCase} = require('../../lib/util');
+const {prompting, runLayoutCreator} = require('./common');
 
 module.exports = class extends Generator {
 	initializing() {
@@ -55,22 +54,16 @@ module.exports = class extends Generator {
 
 		cp.copyDir('docroot/WEB-INF', {context});
 
-		const layoutCreator = new LayoutCreator({
-			className: layoutId,
-			liferayVersion,
-		});
-
-		const templateContent = await layoutCreator.run();
+		const templateContent = await runLayoutCreator(
+			layoutId,
+			liferayVersion
+		);
 
 		this.fs.write(`docroot/${templateFilename}`, templateContent);
 	}
 
 	install() {
-		const skipInstall = this.options['skip-install'];
-
-		if (!skipInstall) {
-			this.installDependencies({bower: false});
-		}
+		runInstall(this);
 	}
 
 	end() {

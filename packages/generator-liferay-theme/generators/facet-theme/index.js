@@ -11,7 +11,12 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 
 const Copier = require('../../lib/Copier');
-const {normalizeName, runGulpInit} = require('../../lib/util');
+const {
+	normalizeName,
+	promptWithQA,
+	runGulpInit,
+	runInstall,
+} = require('../../lib/util');
 const versions = require('../../lib/versions');
 
 /**
@@ -23,7 +28,7 @@ module.exports = class extends Generator {
 	}
 
 	async prompting() {
-		this.answers = await this.prompt([
+		this.answers = await promptWithQA(this, [
 			{
 				default: 'My Liferay Theme',
 				message: 'What would you like to call your theme?',
@@ -40,11 +45,13 @@ module.exports = class extends Generator {
 			},
 			{
 				choices: versions.supported,
+				default: versions.supported[0],
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
 				type: 'list',
 			},
 			{
+				default: true,
 				message: 'Would you like to add Font Awesome to your theme?',
 				name: 'fontAwesome',
 				type: 'confirm',
@@ -70,11 +77,7 @@ module.exports = class extends Generator {
 	}
 
 	install() {
-		const skipInstall = this.options['skip-install'];
-
-		if (!skipInstall) {
-			this.installDependencies({bower: false});
-		}
+		runInstall(this);
 	}
 
 	end() {

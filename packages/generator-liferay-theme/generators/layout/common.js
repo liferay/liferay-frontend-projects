@@ -4,11 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {normalizeName} = require('../../lib/util');
+const {argv} = require('yargs');
+
+const LayoutCreator = require('../../lib/LayoutCreator');
+const {normalizeName, promptWithQA} = require('../../lib/util');
 const versions = require('../../lib/versions');
 
 async function prompting(generator) {
-	return await generator.prompt([
+	return await promptWithQA(generator, [
 		{
 			default: 'My Liferay Layout',
 			message: 'What would you like to call your layout template?',
@@ -25,6 +28,7 @@ async function prompting(generator) {
 		},
 		{
 			choices: versions.supported,
+			default: versions.supported[0],
 			message: 'Which version of Liferay is this theme for?',
 			name: 'liferayVersion',
 			type: 'list',
@@ -32,6 +36,31 @@ async function prompting(generator) {
 	]);
 }
 
+async function runLayoutCreator(className, liferayVersion) {
+	const options = {
+		className,
+		liferayVersion,
+	};
+
+	if (argv.qa) {
+		options.rowData = [
+			[
+				{
+					className: 'portlet-column-only',
+					contentClassName: 'portlet-column-content-only',
+					number: 1,
+					size: 12,
+				},
+			],
+		];
+	}
+
+	const layoutCreator = new LayoutCreator(options);
+
+	return await layoutCreator.run();
+}
+
 module.exports = {
 	prompting,
+	runLayoutCreator,
 };
