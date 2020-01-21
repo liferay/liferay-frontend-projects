@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const fs = require('fs');
 const path = require('path');
 const stylelint = require('stylelint');
 
@@ -26,9 +27,15 @@ async function lintSCSS(source, onReport, options = {}) {
 
 	const config = getMergedConfig('stylelint');
 
-	config.plugins.push(
-		path.resolve(__dirname, 'plugins/no-block-comments')
-	);
+	const plugins = path.resolve(__dirname, 'plugins');
+
+	fs.readdirSync(plugins).forEach(plugin => {
+		if (/^([a-z]+-)*[a-z]+\.js$/.test(plugin)) {
+			const name = path.basename(plugin, path.extname(plugin));
+
+			config.plugins.push(path.join(plugins, name));
+		}
+	});
 
 	const {output, results} = await stylelint.lint({
 		code: source,
