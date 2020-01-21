@@ -1,0 +1,11 @@
+{
+	"rules": {
+		"color-hex-case": "lower",
+		"color-hex-length": "short",
+		"color-no-invalid-hex": true,
+		"no-duplicate-at-import-rules": true,
+		"number-leading-zero": "never",
+		"number-no-trailing-zeros": true,
+		"unit-case": "lower"
+	}
+}

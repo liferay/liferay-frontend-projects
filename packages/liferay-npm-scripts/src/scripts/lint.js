@@ -282,21 +282,12 @@ async function lintSCSS(source, onReport, options = {}) {
 	const fixableErrorCount = 0;
 	const fixableWarningCount = 0;
 
+	const config = getMergedConfig('stylelint');
+
 	const {output, results} = await stylelint.lint({
 		code: source,
 		codeFilename: filePath,
-		config: {
-			rules: {
-				// TODO: actually decide which rules we want to run; see:
-				// https://github.com/liferay/liferay-npm-tools/issues/344#issuecomment-576196066
-
-				// To test autofix uncomment this:
-				// 'unit-case': 'upper',
-
-				// To test a non-autofixing rule, uncomment this:
-				'unit-whitelist': ['em', 'rem', '%', 's']
-			}
-		},
+		config,
 
 		// Beware: if `fix` is true, stylelint will return the autofixed
 		// source as `output`; when false, it will return an object
