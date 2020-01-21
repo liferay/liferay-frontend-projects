@@ -110,18 +110,17 @@ module.exports = class extends Generator {
 	_getLatestThemeVersion(themeVersions, liferayVersion) {
 		const themeSemverExpr = versions.theme.classic[liferayVersion];
 
-		const themeVersion = themeVersions
+		const sortedCompatibleVersions = themeVersions
 			.filter(version => semver.satisfies(version, themeSemverExpr))
-			.sort((l, r) => -semver.compare(l, r))
-			.find(version => semver.satisfies(version, themeSemverExpr));
+			.sort((l, r) => -semver.compare(l, r));
 
-		if (themeVersions === undefined) {
+		if (sortedCompatibleVersions === undefined) {
 			print(error`
 				Cannot a version of Liferay Classic Theme compatible with ${liferayVersion}
 			`);
 		}
 
-		return themeVersion;
+		return sortedCompatibleVersions[0];
 	}
 
 	async _getThemeVersions() {
