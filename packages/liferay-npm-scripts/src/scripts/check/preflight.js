@@ -59,23 +59,43 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 const IGNORE_FILE = '.eslintignore';
 
 function preflight() {
+	const errors = [...checkConfigFileNames(), ...checkSourceFileNames()];
+
+	if (errors.length) {
+		log('Preflight check failed:');
+
+		log(...errors);
+
+		throw new SpawnError();
+	}
+}
+
+/**
+ * Checks that config files use standard names.
+ *
+ * Returns a (possibly empty) array of error messages.
+ */
+function checkConfigFileNames() {
 	const disallowedConfigs = getPaths(
 		Object.keys(DISALLOWED_CONFIG_FILE_NAMES),
 		[],
 		IGNORE_FILE
 	);
 
-	if (disallowedConfigs.length) {
-		log('Preflight check failed:');
+	return disallowedConfigs.map(file => {
+		const suggested = DISALLOWED_CONFIG_FILE_NAMES[path.basename(file)];
 
-		disallowedConfigs.forEach(file => {
-			const suggested = DISALLOWED_CONFIG_FILE_NAMES[path.basename(file)];
+		return `${file}: BAD - use ${suggested} instead`;
+	});
+}
 
-			log(`${file}: BAD - use ${suggested} instead`);
-		});
-
-		throw new SpawnError();
-	}
+/**
+ * Checks that source files followed standard naming patterns.
+ *
+ * Returns a (possibly empty) array of error messages.
+ */
+function checkSourceFileNames() {
+	return [];
 }
 
 module.exports = preflight;
