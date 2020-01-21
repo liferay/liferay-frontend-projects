@@ -10,12 +10,12 @@ const path = require('path');
 
 const isJSP = require('../jsp/isJSP');
 const lintJSP = require('../jsp/lintJSP');
-const isSCSS = require('./lint/stylelint/isSCSS');
-const lintSCSS = require('./lint/stylelint/lintSCSS');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
+const isSCSS = require('./lint/stylelint/isSCSS');
+const lintSCSS = require('./lint/stylelint/lintSCSS');
 
 const DEFAULT_OPTIONS = {
 	fix: false,

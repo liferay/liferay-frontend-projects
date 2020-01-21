@@ -13,7 +13,7 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
 		'No block-based comments (/* ... */); use line-based (//) comment syntax instead'
 });
 
-module.exports = stylelint.createPlugin(ruleName, function(actual) {
+module.exports = stylelint.createPlugin(ruleName, actual => {
 	return function(root, result) {
 		const validOptions = stylelint.utils.validateOptions(result, ruleName, {
 			actual
@@ -27,9 +27,9 @@ module.exports = stylelint.createPlugin(ruleName, function(actual) {
 			if (!comment.raws.inline) {
 				stylelint.utils.report({
 					message: messages.expected,
-					ruleName,
+					node: comment,
 					result,
-					node: comment
+					ruleName
 				});
 			}
 		});

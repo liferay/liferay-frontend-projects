@@ -1,3 +1,9 @@
+/**
+ * © 2020 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 const diff = require('jest-diff');
 const path = require('path');
 const stylelint = require('stylelint');
@@ -14,13 +20,14 @@ describe('liferay/no-block-comments', () => {
 					path.basename(plugin)
 				);
 
+				// eslint-disable-next-line liferay/no-dynamic-require
 				const instance = require(location);
 
 				const {code, errors: expected, options} = config;
 
 				const results = await stylelint.lint({
-					codeFilename: 'test.scss',
 					code,
+					codeFilename: 'test.scss',
 					config: {
 						plugins: [location],
 						rules: {
@@ -62,7 +69,7 @@ describe('liferay/no-block-comments', () => {
 								)}`
 							);
 						} else {
-							let diffString = diff(expected, received, {
+							const diffString = diff(expected, received, {
 								expand: this.expand
 							});
 
