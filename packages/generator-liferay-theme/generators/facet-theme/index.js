@@ -44,6 +44,11 @@ module.exports = class extends Generator {
 				name: 'liferayVersion',
 				type: 'list',
 			},
+			{
+				message: 'Would you like to add Font Awesome to your theme?',
+				name: 'fontAwesome',
+				type: 'confirm',
+			},
 		]);
 
 		this._setDestinationRoot();
@@ -77,8 +82,16 @@ module.exports = class extends Generator {
 	}
 
 	_getDevDependencies() {
-		const {liferayVersion} = this.answers;
-		const devDependencies = devDependenciesMap[liferayVersion].default;
+		const {fontAwesome, liferayVersion} = this.answers;
+
+		const devDependencies = {...devDependenciesMap[liferayVersion].default};
+
+		if (fontAwesome) {
+			devDependencies['liferay-font-awesome'] =
+				devDependenciesMap[liferayVersion].optional[
+					'liferay-font-awesome'
+				];
+		}
 
 		return JSON.stringify(devDependencies, null, 2)
 			.split(/\n\s*/)

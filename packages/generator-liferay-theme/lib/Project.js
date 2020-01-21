@@ -33,12 +33,16 @@ class Project {
 		return undefined;
 	}
 
+	get fontAwesome() {
+		const {_liferayTheme} = this;
+
+		return _liferayTheme.fontAwesome;
+	}
+
 	get liferayVersion() {
-		const {fs} = this._generator;
+		const {_liferayTheme} = this;
 
-		const {liferayTheme} = fs.readJSON('package.json');
-
-		return liferayTheme.version;
+		return _liferayTheme.version;
 	}
 
 	addDevDependency(pkgName, pkgVersion) {
@@ -67,6 +71,14 @@ class Project {
 		content = transformer(content);
 
 		fs.write(filePath, content);
+	}
+
+	get _liferayTheme() {
+		const {fs} = this._generator;
+
+		const {liferayTheme} = fs.readJSON('package.json');
+
+		return liferayTheme;
 	}
 }
 
