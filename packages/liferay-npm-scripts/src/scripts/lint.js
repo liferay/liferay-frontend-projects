@@ -7,13 +7,13 @@
 const eslint = require('eslint');
 const fs = require('fs');
 const path = require('path');
-const stylelint = require('stylelint');
 
 const isJSP = require('../jsp/isJSP');
 const lintJSP = require('../jsp/lintJSP');
+const isSCSS = require('./lint/stylelint/isSCSS');
+const lintSCSS = require('./lint/stylelint/lintSCSS');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
-const hasExtension = require('../utils/hasExtension');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
 
@@ -30,9 +30,9 @@ const DEFAULT_OPTIONS = {
  * - via stylelint (natively).
  */
 const EXTENSIONS = {
-	js: new Set(['.js', '.ts', '.tsx']),
-	jsp: new Set(['.jsp', '.jspf']),
-	scss: new Set(['.scss'])
+	js: ['.js', '.ts', '.tsx'],
+	jsp: ['.jsp', '.jspf'],
+	scss: ['.scss']
 };
 
 const IGNORE_FILE = '.eslintignore';
@@ -50,9 +50,7 @@ async function lint(options = {}) {
 		? getMergedConfig('npmscripts', 'fix')
 		: getMergedConfig('npmscripts', 'check');
 
-	const extensions = [].concat(
-		...Object.values(EXTENSIONS).map(set => Array.from(set))
-	);
+	const extensions = [].concat(...Object.values(EXTENSIONS));
 
 	const paths = getPaths(globs, extensions, IGNORE_FILE);
 
@@ -261,92 +259,6 @@ function formatter(results) {
 	}
 
 	return output;
-}
-
-function isSCSS(filePath) {
-	return hasExtension(filePath, EXTENSIONS.scss);
-}
-
-async function lintSCSS(source, onReport, options = {}) {
-	const {filePath, fix, quiet} = options;
-
-	const messages = [];
-
-	let errorCount = 0;
-	let warningCount = 0;
-
-	// These two are here for symmetry with ESLint; however, stylelint
-	// doesn't tell us which problems are autofixable and there is no
-	// totally reliable way to guess, so these counts will always be
-	// (possibly innaccurately) zero.
-	const fixableErrorCount = 0;
-	const fixableWarningCount = 0;
-
-	const config = getMergedConfig('stylelint');
-
-	config.plugins.push(
-		path.resolve(__dirname, 'lint/stylelint/plugins/no-block-comments')
-	);
-
-	const {output, results} = await stylelint.lint({
-		code: source,
-		codeFilename: filePath,
-		config,
-
-		// Beware: if `fix` is true, stylelint will return the autofixed
-		// source as `output`; when false, it will return an object
-		// containing non-source metadata instead.
-		fix,
-
-		syntax: 'scss'
-	});
-
-	results.forEach(result => {
-		// - "warnings" array contains both errors and warnings.
-		// - "errored" is true if at least one problem of
-		//   severity "error" is present.
-		if (result.errored || (result.warnings.length && !quiet)) {
-			messages.push(
-				...result.warnings.map(
-					({column, line, rule, severity, text}) => {
-						if (severity === 'error') {
-							errorCount++;
-						} else if (quiet) {
-							// In quiet mode, we only report errors, not warnings.
-							return;
-						} else {
-							warningCount++;
-						}
-
-						return {
-							column,
-							// fix,
-							line,
-							message: text,
-							ruleId: rule,
-							severity: severity === 'error' ? 2 : 1
-						};
-					}
-				)
-			);
-		}
-	});
-
-	// Ensure trailing newline, matching Prettier's convention.
-	source = fix ? (output.endsWith('\n') ? output : `${output}\n`) : source;
-
-	if (messages.length) {
-		onReport({
-			errorCount,
-			fixableErrorCount,
-			fixableWarningCount,
-			messages,
-			source,
-			warningCount
-		});
-	}
-
-	return source;
 }
 
 /**
