@@ -5,7 +5,7 @@
  */
 
 /**
- * A class to help copying Yeoman templates.
+ * A class to inspect and modify the current project files.
  */
 class Project {
 	constructor(generator) {
