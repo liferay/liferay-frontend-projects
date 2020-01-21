@@ -51,7 +51,7 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 	'.stylelintrc.json': STYLELINT_CONFIG_FILE_NAME,
 	'.stylelintrc.yml': STYLELINT_CONFIG_FILE_NAME,
 	'.stylelintrc.yaml': STYLELINT_CONFIG_FILE_NAME,
-	'stylelint.config.js': STYLELINT_CONFIG_FILE_NAME,
+	'stylelint.config.js': STYLELINT_CONFIG_FILE_NAME
 };
 
 /* eslint-enable sort-keys */
