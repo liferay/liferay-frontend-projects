@@ -1,3 +1,9 @@
+## [v17.0.0](https://github.com/liferay/eslint-config-liferay/tree/v17.0.0) (2020-01-20)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v16.0.0...v17.0.0)
+
+-   feat!: add no-loader-import-specifier rule (#122) ([\#133](https://github.com/liferay/eslint-config-liferay/pull/133))
+
 ## [v16.0.0](https://github.com/liferay/eslint-config-liferay/tree/v16.0.0) (2020-01-17)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v15.0.0...v16.0.0)
