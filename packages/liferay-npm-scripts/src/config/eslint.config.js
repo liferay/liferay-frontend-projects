@@ -8,6 +8,7 @@ const CONFIG_FILES = [
 	'**/.babelrc.js',
 	'**/.eslintrc.js',
 	'**/.prettierrc.js',
+	'**/.stylelintrc.js',
 	'**/npmscripts.config.js'
 ];
 
