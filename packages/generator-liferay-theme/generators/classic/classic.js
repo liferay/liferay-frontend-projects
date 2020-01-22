@@ -92,12 +92,10 @@ module.exports = class extends Generator {
 
 			fs.unlinkSync(warFile);
 
-			fs.unlinkSync(
-				path.resolve('src/WEB-INF/liferay-look-and-feel.xml')
-			);
-			fs.unlinkSync(
-				path.resolve('src/WEB-INF/liferay-plugin-package.properties')
-			);
+			// Merge files which are both in classic and in the project we are
+			// generating (because facet-theme writes them).
+			await this._mergeLiferayLookAndFeelXml();
+			await this._mergeLiferayPluginPackageProperties();
 		} catch (err) {
 			print(error`
 				Error downloading and extracting Liferay Classic Theme:
@@ -157,5 +155,44 @@ module.exports = class extends Generator {
 
 			return undefined;
 		}
+	}
+
+	async _mergeLiferayLookAndFeelXml() {
+		// The strategy for merging this file is: use the name and id written
+		// by facet-theme to substitute the ones comming from classic. The rest
+		// remains the same as in classic.
+		const {_project} = this;
+
+		// Read the XML from classic
+		const classicXml = await new xml2js.Parser().parseStringPromise(
+			fs.readFileSync(
+				path.resolve('src/WEB-INF/liferay-look-and-feel.xml')
+			)
+		);
+
+		fs.unlinkSync(path.resolve('src/WEB-INF/liferay-look-and-feel.xml'));
+
+		// Merge it into project's XML
+		_project.modifyXmlFile('src/WEB-INF/liferay-look-and-feel.xml', xml => {
+			const {id, name} = xml['look-and-feel']['theme'][0]['$'];
+
+			classicXml['look-and-feel']['compatibility'][0]['version'] =
+				xml['look-and-feel']['compatibility'][0]['version'];
+			classicXml['look-and-feel']['theme'][0]['$'] = {
+				...classicXml['look-and-feel']['theme'][0]['$'],
+				id,
+				name,
+			};
+
+			return classicXml;
+		});
+	}
+
+	_mergeLiferayPluginPackageProperties() {
+		// The strategy for merging this file is simple: use the new on that
+		// facet-theme creates and remove the one coming from classic
+		fs.unlinkSync(
+			path.resolve('src/WEB-INF/liferay-plugin-package.properties')
+		);
 	}
 };

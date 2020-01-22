@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+const xml2js = require('xml2js');
+
 /**
  * A class to inspect and modify the current project files.
  */
@@ -69,6 +71,20 @@ class Project {
 		let content = fs.read(filePath);
 
 		content = transformer(content);
+
+		fs.write(filePath, content);
+	}
+
+	async modifyXmlFile(filePath, transformer) {
+		const {fs} = this._generator;
+
+		let content = fs.read(filePath);
+
+		content = await new xml2js.Parser().parseStringPromise(content);
+
+		content = transformer(content);
+
+		content = new xml2js.Builder().buildObject(content);
 
 		fs.write(filePath, content);
 	}
