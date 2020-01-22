@@ -42,7 +42,6 @@
 		"selector-pseudo-element-no-unknown": true,
 		"selector-type-no-unknown": true,
 		"shorthand-property-no-redundant-values": true,
-		"string-quotes": "double",
 		"unit-case": "lower",
 		"unit-no-unknown": true,
 		"value-keyword-case": "lower",
