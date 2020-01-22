@@ -15,7 +15,6 @@
 				"warn"
 			]
 		}],
-		"at-rule-no-vendor-prefix": true,
 		"block-no-empty": true,
 		"color-hex-case": "lower",
 		"color-hex-length": "short",
@@ -30,21 +29,18 @@
 		"length-zero-no-unit": true,
 		"liferay/no-block-comments": true,
 		"media-feature-name-no-unknown": true,
-		"media-feature-name-no-vendor-prefix": true,
 		"no-duplicate-at-import-rules": true,
 		"no-extra-semicolons": true,
 		"number-leading-zero": "never",
 		"number-no-trailing-zeros": true,
 		"property-case": "lower",
 		"property-no-unknown": true,
-		"property-no-vendor-prefix": true,
 		"selector-pseudo-class-no-unknown": true,
 		"selector-pseudo-element-no-unknown": true,
 		"selector-type-no-unknown": true,
 		"shorthand-property-no-redundant-values": true,
 		"unit-case": "lower",
 		"unit-no-unknown": true,
-		"value-keyword-case": "lower",
-		"value-no-vendor-prefix": true
+		"value-keyword-case": "lower"
 	}
 }
