@@ -9,6 +9,7 @@
 const childProcess = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
+const {argv} = require('yargs');
 
 const workDir = path.resolve(__dirname, '..', 'qa');
 const pkgsDir = path.join(workDir, 'packages');
@@ -41,13 +42,21 @@ function checkPrerrequisites() {
 		process.exit(1);
 	}
 
+	if (argv.liferayVersion) {
+		console.log('Using version:', argv.liferayVersion);
+	}
+
+	fs.emptyDirSync(pkgsDir);
+	fs.emptyDirSync(path.join(workDir, 'node_modules'));
+
 	spawn('yarn', ['install'], {cwd: workDir});
 }
 
 function generateSamples() {
-	fs.emptyDirSync(pkgsDir);
-
-	spawn(yoPath, ['liferay-theme', '--qa'], {cwd: pkgsDir});
+	spawn(yoPath, ['liferay-theme', '--qa'], {
+		cwd: pkgsDir,
+		liferayVersion: true,
+	});
 
 	spawn(
 		yoPath,
@@ -57,17 +66,23 @@ function generateSamples() {
 			'--themeName',
 			'"Classic Based Theme"',
 		],
-		{cwd: pkgsDir}
+		{cwd: pkgsDir, liferayVersion: true}
 	);
 
-	spawn(yoPath, ['liferay-theme:themelet', '--qa'], {cwd: pkgsDir});
+	spawn(yoPath, ['liferay-theme:themelet', '--qa'], {
+		cwd: pkgsDir,
+		liferayVersion: true,
+	});
 
-	spawn(yoPath, ['liferay-theme:layout', '--qa'], {cwd: pkgsDir});
+	spawn(yoPath, ['liferay-theme:layout', '--qa'], {
+		cwd: pkgsDir,
+		liferayVersion: true,
+	});
 
 	spawn(
 		yoPath,
 		['liferay-theme', '--qa', '--themeName', '"Theme With Layout"'],
-		{cwd: pkgsDir}
+		{cwd: pkgsDir, liferayVersion: true}
 	);
 	spawn(
 		yoPath,
@@ -79,6 +94,7 @@ function generateSamples() {
 		],
 		{
 			cwd: path.join(pkgsDir, 'theme-with-layout-theme'),
+			liferayVersion: true,
 		}
 	);
 }
@@ -109,28 +125,31 @@ function configureProjects() {
 
 		const pkgJson = require(pkgJsonPath);
 
-		let fileName;
-		const json = {
-			PlaceHolder: {
-				appServerPath: '/opt/tomcat',
-				appServerPathPlugin: `/opt/tomcat/webapps/${prjDir}`,
-				deployPath: '/opt/deploy',
-				deployed: false,
-				deploymentStrategy: 'LocalAppServer',
-				pluginName: prjDir,
-				url: 'http://localhost:8080',
-			},
-		};
+		let fileName, jsonProperty;
 
-		if (pkgJson.liferayTheme) {
+		if (pkgJson.liferayTheme && !pkgJson.liferayTheme.themelet) {
 			fileName = 'liferay-theme.json';
-			json.LiferayTheme = json.PlaceHolder;
-		} else {
+			jsonProperty = 'LiferayTheme';
+		} else if (pkgJson.liferayLayoutTemplate) {
 			fileName = 'liferay-plugin.json';
-			json.LiferayPlugin = json.PlaceHolder;
+			jsonProperty = 'LiferayPlugin';
 		}
 
-		delete json.PlaceHolder;
+		if (!fileName) {
+			return;
+		}
+
+		const json = {};
+
+		json[jsonProperty] = {
+			appServerPath: '/opt/tomcat',
+			appServerPathPlugin: `/opt/tomcat/webapps/${prjDir}`,
+			deployPath: '/opt/deploy',
+			deployed: false,
+			deploymentStrategy: 'LocalAppServer',
+			pluginName: prjDir,
+			url: 'http://localhost:8080',
+		};
 
 		fs.writeFileSync(
 			path.join(pkgsDir, prjDir, fileName),
@@ -164,6 +183,10 @@ function deleteDevDependency(pkgJson, pkgName) {
 }
 
 function spawn(cmd, args, options = {}) {
+	if (options.liferayVersion && argv.liferayVersion) {
+		args.push('--liferayVersion', argv.liferayVersion);
+	}
+
 	const proc = childProcess.spawnSync(cmd, args, {
 		shell: true,
 		stdio: 'inherit',

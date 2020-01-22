@@ -48,7 +48,7 @@ async function promptWithQA(generator, prompts) {
 				}
 			}
 
-			answers[prompt.name] = val;
+			answers[prompt.name] = val ? val.toString() : val;
 
 			return answers;
 		}, {});
