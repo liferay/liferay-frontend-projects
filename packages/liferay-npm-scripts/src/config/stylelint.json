@@ -22,7 +22,6 @@
 		"color-no-invalid-hex": true,
 		"comment-no-empty": true,
 		"declaration-block-no-shorthand-property-overrides": true,
-		"declaration-no-important": true,
 		"font-family-no-duplicate-names": true,
 		"function-calc-no-invalid": true,
 		"function-name-case": "lower",
