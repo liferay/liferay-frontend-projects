@@ -5,11 +5,13 @@
  */
 
 const spawnMultiple = require('../utils/spawnMultiple');
+const preflight = require('./check/preflight');
 const format = require('./format');
 const lint = require('./lint');
 
 function fix() {
 	spawnMultiple(
+		() => preflight(),
 		() => lint({fix: true}),
 		() => format()
 	);
