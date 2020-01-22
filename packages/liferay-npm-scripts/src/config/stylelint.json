@@ -25,7 +25,7 @@
 		"function-calc-no-invalid": true,
 		"function-name-case": "lower",
 		"function-url-no-scheme-relative": true,
-		"function-url-quotes": "always",
+		"function-url-quotes": "never",
 		"length-zero-no-unit": true,
 		"liferay/no-block-comments": true,
 		"media-feature-name-no-unknown": true,
