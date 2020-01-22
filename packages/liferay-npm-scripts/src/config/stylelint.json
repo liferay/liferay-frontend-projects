@@ -1,13 +1,42 @@
 {
 	"plugins": [],
 	"rules": {
+		"at-rule-no-unknown": [
+			true, {
+			"ignoreAtRules": []
+		}],
+		"at-rule-no-vendor-prefix": true,
+		"block-no-empty": true,
 		"color-hex-case": "lower",
 		"color-hex-length": "short",
 		"color-no-invalid-hex": true,
+		"comment-no-empty": true,
+		"declaration-block-no-shorthand-property-overrides": true,
+		"declaration-no-important": true,
+		"font-family-no-duplicate-names": true,
+		"function-calc-no-invalid": true,
+		"function-name-case": "lower",
+		"function-url-no-scheme-relative": true,
+		"function-url-quotes": "always",
+		"length-zero-no-unit": true,
 		"liferay/no-block-comments": true,
+		"media-feature-name-no-unknown": true,
+		"media-feature-name-no-vendor-prefix": true,
 		"no-duplicate-at-import-rules": true,
+		"no-extra-semicolons": true,
 		"number-leading-zero": "never",
 		"number-no-trailing-zeros": true,
-		"unit-case": "lower"
+		"property-case": "lower",
+		"property-no-unknown": true,
+		"property-no-vendor-prefix": true,
+		"selector-pseudo-class-no-unknown": true,
+		"selector-pseudo-element-no-unknown": true,
+		"selector-type-no-unknown": true,
+		"shorthand-property-no-redundant-values": true,
+		"string-quotes": "double",
+		"unit-case": "lower",
+		"unit-no-unknown": true,
+		"value-keyword-case": "lower",
+		"value-no-vendor-prefix": true
 	}
 }
