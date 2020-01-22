@@ -17,6 +17,6 @@ module.exports = class extends Generator {
 		sayHello(this);
 
 		this.composeWith(require.resolve('../facet-theme'));
-		this.composeWith(require.resolve('./app'));
+		this.composeWith(require.resolve('./classic'));
 	}
 };

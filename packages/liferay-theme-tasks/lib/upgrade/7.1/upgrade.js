@@ -11,8 +11,8 @@ const insert = require('gulp-insert');
 const replace = require('gulp-replace-task');
 const inquirer = require('inquirer');
 
-const devDependencies = require('../../devDependencies')['7.2'];
 const lfrThemeConfig = require('../../liferay_theme_config');
+const devDependencies = require('../../devDependencies')['theme']['7.2'];
 
 module.exports = function(options) {
 	const gulp = options.gulp;

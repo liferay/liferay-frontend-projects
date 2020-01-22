@@ -9,8 +9,8 @@
 const spawn = require('cross-spawn');
 const replace = require('gulp-replace-task');
 
-const devDependencies = require('../../devDependencies')['7.3'];
 const lfrThemeConfig = require('../../liferay_theme_config');
+const devDependencies = require('../../devDependencies')['theme']['7.3'];
 
 module.exports = function(options) {
 	const gulp = options.gulp;

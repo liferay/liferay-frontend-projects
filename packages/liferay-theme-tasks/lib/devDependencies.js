@@ -18,32 +18,53 @@ function strict(version) {
 	return version;
 }
 
+// Define versions that are common to every Liferay DXP version and project type
+const gulpVersion = '3.9.1';
+const themeTasksVersion = `^${pkgJson.version}`;
+
+// Define dependencies for each Liferay DXP version and project type
 /* eslint-disable quote-props */
 module.exports = {
-	'7.2': {
-		default: {
-			'compass-mixins': strict('0.12.10'),
-			gulp: '3.9.1',
-			'liferay-frontend-common-css': strict('1.0.4'),
-			'liferay-frontend-theme-styled': strict('4.0.21'),
-			'liferay-frontend-theme-unstyled': strict('4.0.17'),
-			'liferay-theme-tasks': `^${pkgJson.version}`,
+	layout: {
+		'7.2': {
+			default: {
+				gulp: gulpVersion,
+				'liferay-theme-tasks': themeTasksVersion,
+			},
 		},
-		optional: {
-			'liferay-font-awesome': strict('3.4.0'),
+		'7.3': {
+			default: {
+				gulp: gulpVersion,
+				'liferay-theme-tasks': themeTasksVersion,
+			},
 		},
 	},
-	'7.3': {
-		default: {
-			'compass-mixins': strict('0.12.10'),
-			gulp: '3.9.1',
-			'liferay-frontend-common-css': strict('1.0.4'),
-			'liferay-frontend-theme-styled': strict('5.0.0'),
-			'liferay-frontend-theme-unstyled': strict('5.0.0'),
-			'liferay-theme-tasks': `^${pkgJson.version}`,
+	theme: {
+		'7.2': {
+			default: {
+				'compass-mixins': strict('0.12.10'),
+				gulp: gulpVersion,
+				'liferay-frontend-common-css': strict('1.0.4'),
+				'liferay-frontend-theme-styled': strict('4.0.21'),
+				'liferay-frontend-theme-unstyled': strict('4.0.17'),
+				'liferay-theme-tasks': themeTasksVersion,
+			},
+			optional: {
+				'liferay-font-awesome': strict('3.4.0'),
+			},
 		},
-		optional: {
-			'liferay-font-awesome': strict('3.4.0'),
+		'7.3': {
+			default: {
+				'compass-mixins': strict('0.12.10'),
+				gulp: gulpVersion,
+				'liferay-frontend-common-css': strict('1.0.4'),
+				'liferay-frontend-theme-styled': strict('5.0.0'),
+				'liferay-frontend-theme-unstyled': strict('5.0.0'),
+				'liferay-theme-tasks': themeTasksVersion,
+			},
+			optional: {
+				'liferay-font-awesome': strict('3.4.0'),
+			},
 		},
 	},
 };
