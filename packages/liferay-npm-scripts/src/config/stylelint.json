@@ -3,7 +3,17 @@
 	"rules": {
 		"at-rule-no-unknown": [
 			true, {
-			"ignoreAtRules": []
+			"ignoreAtRules": [
+				"at-root",
+				"each",
+				"else",
+				"extend",
+				"for",
+				"if",
+				"include",
+				"mixin",
+				"warn"
+			]
 		}],
 		"at-rule-no-vendor-prefix": true,
 		"block-no-empty": true,
