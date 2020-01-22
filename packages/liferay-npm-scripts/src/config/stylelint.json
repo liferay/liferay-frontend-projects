@@ -2,19 +2,21 @@
 	"plugins": [],
 	"rules": {
 		"at-rule-no-unknown": [
-			true, {
-			"ignoreAtRules": [
-				"at-root",
-				"each",
-				"else",
-				"extend",
-				"for",
-				"if",
-				"include",
-				"mixin",
-				"warn"
-			]
-		}],
+			true,
+			{
+				"ignoreAtRules": [
+					"at-root",
+					"each",
+					"else",
+					"extend",
+					"for",
+					"if",
+					"include",
+					"mixin",
+					"warn"
+				]
+			}
+		],
 		"block-no-empty": true,
 		"color-hex-case": "lower",
 		"color-hex-length": "short",
