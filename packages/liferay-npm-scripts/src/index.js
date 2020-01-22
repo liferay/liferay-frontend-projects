@@ -6,7 +6,7 @@
 
 const minimist = require('minimist');
 
-module.exports = function() {
+module.exports = async function() {
 	const ARGS_ARRAY = process.argv.slice(2);
 
 	const {
@@ -18,12 +18,12 @@ module.exports = function() {
 			require('./scripts/build')();
 		},
 
-		check() {
-			require('./scripts/check')();
+		async check() {
+			await require('./scripts/check')();
 		},
 
-		fix() {
-			require('./scripts/fix')();
+		async fix() {
+			await require('./scripts/fix')();
 		},
 
 		storybook() {
@@ -52,19 +52,19 @@ module.exports = function() {
 			require('./scripts/format')({check: true});
 		},
 
-		lint() {
-			require('./scripts/lint')();
+		async lint() {
+			await require('./scripts/lint')();
 		},
 
-		'lint:fix': function lintFix() {
-			require('./scripts/lint')({fix: true});
+		'lint:fix': async function lintFix() {
+			await require('./scripts/lint')({fix: true});
 		},
 
 		/**
 		 * Only errors are reported. Warnings are ignored.
 		 */
-		'lint:quiet': function lintQuiet() {
-			require('./scripts/lint')({quiet: true});
+		'lint:quiet': async function lintQuiet() {
+			await require('./scripts/lint')({quiet: true});
 		}
 	};
 
@@ -74,9 +74,10 @@ module.exports = function() {
 	};
 
 	if (COMMANDS[type]) {
-		COMMANDS[type]();
+		await COMMANDS[type]();
 	} else {
 		const commands = Object.keys(PUBLIC_COMMANDS).join(', ');
+
 		throw new Error(
 			`liferay-npm-scripts requires a valid command (${commands})`
 		);

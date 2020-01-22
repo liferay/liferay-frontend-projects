@@ -14,6 +14,8 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
+const isSCSS = require('./lint/stylelint/isSCSS');
+const lintSCSS = require('./lint/stylelint/lintSCSS');
 
 const DEFAULT_OPTIONS = {
 	fix: false,
@@ -21,17 +23,24 @@ const DEFAULT_OPTIONS = {
 };
 
 /**
- * File extensions that ESLint can process, either natively, or via our
- * `lintJSP()` wrapper.
+ * File extensions that we can process, either:
+ *
+ * - via ESLint (natively); or:
+ * - via our `lintJSP()` wrapper; or:
+ * - via stylelint (natively).
  */
-const EXTENSIONS = ['.js', '.jsp', '.jspf', '.ts', '.tsx'];
+const EXTENSIONS = {
+	js: ['.js', '.ts', '.tsx'],
+	jsp: ['.jsp', '.jspf'],
+	scss: ['.scss']
+};
 
 const IGNORE_FILE = '.eslintignore';
 
 /**
- * ESLint wrapper.
+ * ESLint (etc) wrapper.
  */
-function lint(options = {}) {
+async function lint(options = {}) {
 	const {fix, quiet} = {
 		...DEFAULT_OPTIONS,
 		...options
@@ -41,7 +50,9 @@ function lint(options = {}) {
 		? getMergedConfig('npmscripts', 'fix')
 		: getMergedConfig('npmscripts', 'check');
 
-	const paths = getPaths(globs, EXTENSIONS, IGNORE_FILE);
+	const extensions = [].concat(...Object.values(EXTENSIONS));
+
+	const paths = getPaths(globs, extensions, IGNORE_FILE);
 
 	if (!paths.length) {
 		return;
@@ -70,7 +81,10 @@ function lint(options = {}) {
 		ignorePattern: '!*'
 	});
 
-	const [jspPaths, jsPaths] = partitionArray(paths, isJSP);
+	const {default: jsPaths, jspPaths, scssPaths} = partitionArray(paths, {
+		jspPaths: isJSP,
+		scssPaths: isSCSS
+	});
 
 	let report;
 
@@ -85,25 +99,34 @@ function lint(options = {}) {
 		report = {results: []};
 	}
 
-	jspPaths.forEach(filePath => {
-		// TODO: non-sync version to make use of I/O concurrency
-		const contents = fs.readFileSync(filePath, 'utf8');
+	for (const [paths, linter] of [
+		[jspPaths, lintJSP],
+		[scssPaths, lintSCSS]
+	]) {
+		for (const filePath of paths) {
+			// TODO: non-sync version to make use of I/O concurrency
+			const contents = fs.readFileSync(filePath, 'utf8');
 
-		const updated = lintJSP(
-			contents,
-			result => {
-				report.results.push({
-					...result,
-					filePath: path.resolve(filePath)
-				});
-			},
-			{fix, quiet}
-		);
+			try {
+				const updated = await linter(
+					contents,
+					result => {
+						report.results.push({
+							...result,
+							filePath: path.resolve(filePath)
+						});
+					},
+					{filePath, fix, quiet}
+				);
 
-		if (fix && updated !== contents) {
-			fs.writeFileSync(filePath, updated);
+				if (fix && updated !== contents) {
+					fs.writeFileSync(filePath, updated);
+				}
+			} catch (error) {
+				log(error);
+			}
 		}
-	});
+	}
 
 	// In `quiet` mode, keep only errors.
 	// Otherwise keep both errors and warnings.
@@ -239,25 +262,39 @@ function formatter(results) {
 }
 
 /**
- * Partitions `array` by passing each element to the supplied `predicate`
- * function.
- *
- * Returns a tuple of two arrays containing the elements which did and did not
- * satisfy the predicate, respectively.
+ * Partitions `array` by passing each element to the supplied
+ * `predicates` functions. For each path, the search stops as soon as a
+ * predicate match occurs; if no match is found the path is added to the
+ * "default".
  */
-function partitionArray(array, predicate) {
-	const a = [];
-	const b = [];
+function partitionArray(array, predicates) {
+	const results = {
+		default: []
+	};
+
+	Object.keys(predicates).forEach(key => {
+		results[key] = [];
+	});
 
 	array.forEach(item => {
-		if (predicate(item)) {
-			a.push(item);
-		} else {
-			b.push(item);
+		let matched = false;
+
+		for (const [key, predicate] of Object.entries(predicates)) {
+			if (predicate(item)) {
+				results[key].push(item);
+
+				matched = true;
+
+				break;
+			}
+		}
+
+		if (!matched) {
+			results.default.push(item);
 		}
 	});
 
-	return [a, b];
+	return results;
 }
 
 function pluralize(word, count) {

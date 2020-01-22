@@ -25,7 +25,7 @@ describe('scripts/lint.js', () => {
 	/**
 	 * Helper to avoid some verbose repeated mock set-up.
 	 */
-	function run(callback) {
+	async function run(callback) {
 		jest.resetModules();
 
 		jest.isolateModules(() => {
@@ -53,9 +53,9 @@ describe('scripts/lint.js', () => {
 			globs = ['**/*.java'];
 		});
 
-		it('logs a message', () => {
-			run(({lint, log}) => {
-				lint();
+		it('logs a message', async () => {
+			await run(async ({lint, log}) => {
+				await lint();
 
 				expect(log).toBeCalledWith(
 					expect.stringContaining('No globs applicable')
@@ -63,9 +63,9 @@ describe('scripts/lint.js', () => {
 			});
 		});
 
-		it('does not spawn "eslint"', () => {
-			run(({eslint, lint}) => {
-				lint();
+		it('does not spawn "eslint"', async () => {
+			await run(async ({eslint, lint}) => {
+				await lint();
 
 				expect(
 					eslint.CLIEngine.prototype.executeOnFiles
@@ -79,15 +79,15 @@ describe('scripts/lint.js', () => {
 			process.chdir(MODULES);
 		});
 
-		it("calls ESLint's `executeOnFiles()` function", () => {
-			run(({eslint, lint, log}) => {
+		it("calls ESLint's `executeOnFiles()` function", async () => {
+			await run(async ({eslint, lint, log}) => {
 				const executeOnFiles = eslint.CLIEngine.prototype.executeOnFiles.mockReturnValue(
 					{
 						results: []
 					}
 				);
 
-				lint();
+				await lint();
 
 				expect(executeOnFiles).toBeCalledWith([
 					'apps/segments/segments-web/src/index.es.js'
@@ -98,8 +98,8 @@ describe('scripts/lint.js', () => {
 			});
 		});
 
-		it("calls ESLint's `executeOnFiles()` function and reports results", () => {
-			run(({eslint, lint, log}) => {
+		it("calls ESLint's `executeOnFiles()` function and reports results", async () => {
+			await run(async ({eslint, lint, log}) => {
 				const executeOnFiles = eslint.CLIEngine.prototype.executeOnFiles.mockReturnValue(
 					{
 						results: [
@@ -119,7 +119,7 @@ describe('scripts/lint.js', () => {
 					}
 				);
 
-				expect(lint).toThrow();
+				await expect(lint()).rejects.toThrow();
 
 				expect(executeOnFiles).toBeCalledWith([
 					'apps/segments/segments-web/src/index.es.js'

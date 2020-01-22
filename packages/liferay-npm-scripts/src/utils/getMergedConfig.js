@@ -116,6 +116,13 @@ function getMergedConfig(type, property) {
 			]);
 			break;
 
+		case 'stylelint':
+			mergedConfig = deepMerge([
+				require('../config/stylelint'),
+				getUserConfig('stylelint')
+			]);
+			break;
+
 		case 'eslint':
 			mergedConfig = deepMerge([
 				require('../config/eslint.config'),

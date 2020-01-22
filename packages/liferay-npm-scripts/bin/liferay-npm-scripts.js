@@ -9,15 +9,18 @@
 const log = require('../src/utils/log');
 const {SpawnError} = require('../src/utils/spawnSync');
 
-try {
-	require('../src/index')();
-} catch (error) {
+async function main() {
+	await require('../src/index')();
+}
+
+main().catch(error => {
 	if (error instanceof SpawnError) {
 		// For this common error case (spawned tools exiting with an error)
 		// we avoid printing a stack trace.
 		log(error.message);
-		process.exit(1);
 	} else {
-		throw error;
+		log(error);
 	}
-}
+
+	process.exit(1);
+});

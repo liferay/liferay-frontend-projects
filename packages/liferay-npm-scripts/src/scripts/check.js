@@ -9,8 +9,8 @@ const preflight = require('./check/preflight');
 const format = require('./format');
 const lint = require('./lint');
 
-function check() {
-	spawnMultiple(
+async function check() {
+	await spawnMultiple(
 		() => preflight(),
 		() => format({check: true}),
 		() => lint()
