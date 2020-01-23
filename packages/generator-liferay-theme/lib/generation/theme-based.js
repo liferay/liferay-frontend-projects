@@ -60,6 +60,7 @@ async function writing(generator, themeName) {
 	// generating (because facet-theme writes them).
 	await mergeLiferayLookAndFeelXml(project);
 	await mergeLiferayPluginPackageProperties();
+	await mergeThumbnailPng();
 
 	print(success`
 		Successfully extracted Liferay's ${themeName} theme ${themeVersion} to 
@@ -190,6 +191,12 @@ function mergeLiferayPluginPackageProperties() {
 	fs.unlinkSync(
 		path.resolve('src/WEB-INF/liferay-plugin-package.properties')
 	);
+}
+
+function mergeThumbnailPng() {
+	// The strategy for merging this file is simple: use the new on that
+	// facet-theme creates and remove the one coming from downloaded theme.
+	fs.unlinkSync(path.resolve('src/images/thumbnail.png'));
 }
 
 module.exports = {
