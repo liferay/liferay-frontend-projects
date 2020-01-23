@@ -19,7 +19,9 @@ expect.extend({
 		// eslint-disable-next-line liferay/no-dynamic-require
 		const instance = require(location);
 
-		const {code, errors: expected, options} = config;
+		const {code, errors, options, output} = config;
+
+		const fix = output !== undefined;
 
 		const results = await stylelint.lint({
 			code,
@@ -30,14 +32,24 @@ expect.extend({
 					[instance.ruleName]: options === undefined ? true : options
 				},
 				syntax: 'scss'
-			}
+			},
+			fix
 		});
 
-		const received = results.results[0].warnings;
+		const expected = {errors};
+
+		const received = {
+			errors: results.results[0].warnings
+		};
+
+		if (fix) {
+			expected.output = output;
+			received.output = results.output;
+		}
 
 		return {
 			message: pass => {
-				const count = expected.length;
+				const count = errors.length;
 
 				const settings = {
 					comment: `${count} error${count !== 1 ? 's' : ''}`,

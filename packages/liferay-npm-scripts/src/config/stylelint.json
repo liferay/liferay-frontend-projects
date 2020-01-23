@@ -30,6 +30,7 @@
 		"function-url-quotes": "never",
 		"length-zero-no-unit": true,
 		"liferay/no-block-comments": true,
+		"liferay/trim-comments": true,
 		"media-feature-name-no-unknown": true,
 		"no-duplicate-at-import-rules": true,
 		"no-extra-semicolons": true,
