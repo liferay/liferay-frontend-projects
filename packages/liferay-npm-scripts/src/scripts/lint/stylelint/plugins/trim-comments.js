@@ -70,10 +70,10 @@ module.exports = stylelint.createPlugin(
 				},
 				{
 					actual: secondaryOptions,
+					optional: true,
 					possible: {
 						disableFix: [true, false]
-					},
-					optional: true
+					}
 				}
 			);
 
