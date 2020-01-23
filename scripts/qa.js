@@ -69,6 +69,12 @@ function generateSamples() {
 		{cwd: pkgsDir, liferayVersion: true}
 	);
 
+	spawn(
+		yoPath,
+		['liferay-theme:admin', '--qa', '--themeName', '"Admin Based Theme"'],
+		{cwd: pkgsDir, liferayVersion: true}
+	);
+
 	spawn(yoPath, ['liferay-theme:themelet', '--qa'], {
 		cwd: pkgsDir,
 		liferayVersion: true,
