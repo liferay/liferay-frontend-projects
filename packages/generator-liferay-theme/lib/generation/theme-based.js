@@ -19,6 +19,7 @@ const stream = require('stream');
 const {promisify} = require('util');
 const xml2js = require('xml2js');
 
+const ProgressLine = require('../../lib/ProgressLine');
 const Project = require('../../lib/Project');
 const versions = require('../../lib/versions');
 
@@ -37,13 +38,13 @@ async function writing(generator, themeName) {
 		`
 	);
 
-	const themeVersions = await _getThemeVersions(themeName);
+	const themeVersions = await getThemeVersions(themeName);
 
 	if (themeVersions === undefined) {
 		process.exit(1);
 	}
 
-	const themeVersion = await _getLatestThemeVersion(
+	const themeVersion = await getLatestThemeVersion(
 		themeName,
 		themeVersions,
 		liferayVersion
@@ -53,12 +54,12 @@ async function writing(generator, themeName) {
 		process.exit(1);
 	}
 
-	await _downloadThemeFiles(project, themeName, themeVersion);
+	await downloadThemeFiles(project, themeName, themeVersion);
 
 	// Merge files which are both in downloaded theme and in the project we are
 	// generating (because facet-theme writes them).
-	await _mergeLiferayLookAndFeelXml(project);
-	await _mergeLiferayPluginPackageProperties();
+	await mergeLiferayLookAndFeelXml(project);
+	await mergeLiferayPluginPackageProperties();
 
 	print(success`
 		Successfully extracted Liferay's ${themeName} theme ${themeVersion} to 
@@ -66,40 +67,7 @@ async function writing(generator, themeName) {
 	`);
 }
 
-class ProgressLine {
-	constructor() {
-		this._lastLineLength = 0;
-	}
-
-	update({percent, total, transferred}) {
-		const out = process.stdout;
-
-		let line = '';
-
-		line += `${(transferred / 1000000).toFixed(2)}MB `;
-		line += total ? `of ${(total / 1000000).toFixed(2)}MB ` : '';
-		line += 'transferred';
-		line += total ? ` (${(percent * 100).toFixed(1)}%)` : '';
-
-		out.write(' '.repeat(this._lastLineLength));
-		out.write('\r');
-		out.write(line);
-		out.write('\r');
-
-		this._lastLineLength = line.length;
-	}
-
-	finish() {
-		const out = process.stdout;
-
-		out.write(' '.repeat(this._lastLineLength));
-		out.write('\r');
-
-		this._lastLineLength = 0;
-	}
-}
-
-async function _downloadThemeFiles(project, themeName, themeVersion) {
+async function downloadThemeFiles(project, themeName, themeVersion) {
 	const warFile = path.resolve(`${themeName}-theme-${themeVersion}.war`);
 
 	try {
@@ -136,7 +104,7 @@ async function _downloadThemeFiles(project, themeName, themeVersion) {
 	}
 }
 
-function _getLatestThemeVersion(themeName, themeVersions, liferayVersion) {
+function getLatestThemeVersion(themeName, themeVersions, liferayVersion) {
 	const themeSemverExpr = versions.theme[themeName][liferayVersion];
 
 	const sortedCompatibleVersions = themeVersions
@@ -152,7 +120,7 @@ function _getLatestThemeVersion(themeName, themeVersions, liferayVersion) {
 	return sortedCompatibleVersions[0];
 }
 
-async function _getThemeVersions(themeName) {
+async function getThemeVersions(themeName) {
 	try {
 		const {body} = await got(
 			`https://repo1.maven.org/maven2/com/liferay/plugins/${themeName}-theme/maven-metadata.xml`
@@ -188,7 +156,7 @@ async function _getThemeVersions(themeName) {
 	}
 }
 
-async function _mergeLiferayLookAndFeelXml(project) {
+async function mergeLiferayLookAndFeelXml(project) {
 	// The strategy for merging this file is: use the name and id written
 	// by facet-theme to substitute the ones comming from the downloaded theme.
 	// The rest remains the same as in the downloaded theme.
@@ -216,7 +184,7 @@ async function _mergeLiferayLookAndFeelXml(project) {
 	});
 }
 
-function _mergeLiferayPluginPackageProperties() {
+function mergeLiferayPluginPackageProperties() {
 	// The strategy for merging this file is simple: use the new on that
 	// facet-theme creates and remove the one coming from downloaded theme.
 	fs.unlinkSync(
