@@ -5,6 +5,9 @@
 		"prettier": "1.19.1"
 	},
 	"jest": {
+		"setupFilesAfterEnv": [
+			"<rootDir>/packages/liferay-npm-scripts/support/jest/matchers.js"
+		],
 		"testMatch": [
 			"**/test/**/*.js"
 		]
