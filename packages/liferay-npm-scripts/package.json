@@ -82,6 +82,9 @@
 		"test": "jest"
 	},
 	"jest": {
+		"setupFilesAfterEnv": [
+			"<rootDir>/support/jest/matchers.js"
+		],
 		"testMatch": [
 			"**/test/**/*.js"
 		]
