@@ -118,8 +118,8 @@ class URLPackagePrompt {
 			name: 'packageURL',
 			type: 'input',
 			validate: this.themelet
-				? this._validatePackageURLAllowEmpty
-				: this._validatePackageURL,
+				? this._validatePackageURLAllowEmpty.bind(this)
+				: this._validatePackageURL.bind(this),
 		});
 
 		inquirer.prompt(questions, this._afterPrompt.bind(this));
