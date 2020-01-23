@@ -185,15 +185,21 @@ it('_afterPromptThemelets should remove unchecked themelets from package.json an
 		),
 	};
 
+	const unreducedThemelets = {
+		'themelet-3': themeletDependencies['themelet-3'],
+	};
+
 	expect(
 		lfrThemeConfig.setConfig.calledWith({
 			themeletDependencies: reducedThemelets,
 		})
 	).toBe(true);
 
-	expect(prototype._saveDependencies.calledWith(reducedThemelets)).toBe(true);
+	expect(prototype._saveDependencies.calledWith(unreducedThemelets)).toBe(
+		true
+	);
 
-	expect(prototype._installDependencies.calledWith(reducedThemelets)).toBe(
+	expect(prototype._installDependencies.calledWith(unreducedThemelets)).toBe(
 		true
 	);
 

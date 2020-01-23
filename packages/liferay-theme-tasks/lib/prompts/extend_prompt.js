@@ -91,27 +91,18 @@ class ExtendPrompt {
 	}
 
 	_afterPromptThemelets(answers) {
-		const modulePackages = answers.modules;
 		const themeletDependencies =
 			this.themeConfig.themeletDependencies || {};
 
-		const reducedThemelets = _.reduce(
-			answers.addedThemelets,
-			(result, item) => {
-				result[item] = this._reducePkgData(modulePackages[item]);
-
-				return result;
-			},
-			themeletDependencies
+		const reducedThemelets = this._reduceThemelets(
+			answers,
+			themeletDependencies,
+			item => this._reducePkgData(item)
 		);
 
 		const removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
-			_.forEach(removedThemelets, item => {
-				delete reducedThemelets[item];
-			});
-
 			lfrThemeConfig.removeDependencies(removedThemelets);
 		}
 
@@ -119,10 +110,12 @@ class ExtendPrompt {
 			themeletDependencies: reducedThemelets,
 		});
 
-		this._saveDependencies(reducedThemelets);
+		const dependencies = this._reduceThemelets(answers);
+
+		this._saveDependencies(dependencies);
 
 		if (answers.addedThemelets.length) {
-			this._installDependencies(reducedThemelets, () => this.done());
+			this._installDependencies(dependencies, () => this.done());
 		} else {
 			this.done();
 		}
@@ -346,6 +339,32 @@ class ExtendPrompt {
 		}
 
 		return pkg;
+	}
+
+	_reduceThemelets(answers, accumulator, reduceFunction) {
+		const modulePackages = answers.modules;
+		const reduceAccumulator = accumulator || {};
+		const reduce = reduceFunction || (item => item);
+
+		const reducedThemelets = _.reduce(
+			answers.addedThemelets,
+			(result, item) => {
+				result[item] = reduce(modulePackages[item]);
+
+				return result;
+			},
+			reduceAccumulator
+		);
+
+		const removedThemelets = answers.removedThemelets;
+
+		if (removedThemelets) {
+			_.forEach(removedThemelets, item => {
+				delete reducedThemelets[item];
+			});
+		}
+
+		return reducedThemelets;
 	}
 
 	_saveDependencies(updatedData) {
