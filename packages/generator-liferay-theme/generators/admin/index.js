@@ -6,14 +6,17 @@
 
 const Generator = require('yeoman-generator');
 
-const themeBased = require('../../lib/generation/theme-based');
+const {sayHello} = require('../../lib/util');
 
 /**
  * Generator to create a theme project extending styled, kickstarted from
- * classic.
+ * admin.
  */
 module.exports = class extends Generator {
-	async writing() {
-		await themeBased.writing(this, 'classic');
+	initializing() {
+		sayHello(this);
+
+		this.composeWith(require.resolve('../facet-theme'));
+		this.composeWith(require.resolve('./admin'));
 	}
 };

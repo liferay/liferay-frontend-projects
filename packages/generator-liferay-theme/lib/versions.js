@@ -15,6 +15,11 @@ module.exports = {
 
 	// Supported theme versions indexed by portal version
 	theme: {
+		admin: {
+			7.2: '^2.0.0',
+			7.3: '^3.0.0',
+		},
+
 		classic: {
 			7.2: '^2.0.0',
 			7.3: '^3.0.0',
