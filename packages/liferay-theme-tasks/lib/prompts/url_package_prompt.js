@@ -5,11 +5,10 @@
  */
 
 const inquirer = require('inquirer');
+const _ = require('lodash');
 const {URL} = require('url');
 
 const themeFinder = require('../theme_finder');
-
-const _ = require('lodash');
 const promptUtil = require('./prompt_util');
 
 class URLPackagePrompt {
@@ -34,9 +33,10 @@ class URLPackagePrompt {
 			);
 
 			answers.modules = {
-				[config.name]: Object.assign({}, config, {
+				[config.name]: {
+					...config,
 					__packageURL__: answers.packageURL,
-				}),
+				},
 			};
 
 			if (this.themelet) {
@@ -59,18 +59,17 @@ class URLPackagePrompt {
 	}
 
 	_filterModule(input) {
-		return _.mapValues(this.config.selectedModules, function(name) {
-			return input.indexOf(name) > -1;
-		});
+		return _.mapValues(
+			this.config.selectedModules,
+			name => input.indexOf(name) > -1
+		);
 	}
 
 	_getModuleChoices() {
-		const choices = _.map(this.config.selectedModules, function(name) {
-			return {
-				checked: true,
-				name,
-			};
-		});
+		const choices = _.map(this.config.selectedModules, name => ({
+			checked: true,
+			name,
+		}));
 
 		return choices;
 	}

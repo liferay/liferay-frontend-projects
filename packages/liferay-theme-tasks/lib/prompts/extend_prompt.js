@@ -359,7 +359,7 @@ class ExtendPrompt {
 		const removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
-			_.forEach(removedThemelets, function(item) {
+			_.forEach(removedThemelets, item => {
 				delete reducedThemelets[item];
 			});
 		}
