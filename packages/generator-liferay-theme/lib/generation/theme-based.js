@@ -53,14 +53,12 @@ async function writing(generator, themeName) {
 		process.exit(1);
 	}
 
-	print(info`
-		Downloading Liferay's ${themeName} theme ${themeVersion} and copying it 
-		to your project's source folder. 
+	await _downloadThemeFiles(project, themeName, themeVersion);
 
-		This may take some time...
-	`);
-
-	await _extractThemeFiles(project, themeName, themeVersion);
+	// Merge files which are both in downloaded theme and in the project we are
+	// generating (because facet-theme writes them).
+	await _mergeLiferayLookAndFeelXml(project);
+	await _mergeLiferayPluginPackageProperties();
 
 	print(success`
 		Successfully extracted Liferay's ${themeName} theme ${themeVersion} to 
@@ -68,25 +66,67 @@ async function writing(generator, themeName) {
 	`);
 }
 
-async function _extractThemeFiles(project, themeName, themeVersion) {
+class ProgressLine {
+	constructor() {
+		this._lastLineLength = 0;
+	}
+
+	update({percent, total, transferred}) {
+		const out = process.stdout;
+
+		let line = '';
+
+		line += `${(transferred / 1000000).toFixed(2)}MB `;
+		line += total ? `of ${(total / 1000000).toFixed(2)}MB ` : '';
+		line += 'transferred';
+		line += total ? ` (${(percent * 100).toFixed(1)}%)` : '';
+
+		out.write(' '.repeat(this._lastLineLength));
+		out.write('\r');
+		out.write(line);
+		out.write('\r');
+
+		this._lastLineLength = line.length;
+	}
+
+	finish() {
+		const out = process.stdout;
+
+		out.write(' '.repeat(this._lastLineLength));
+		out.write('\r');
+
+		this._lastLineLength = 0;
+	}
+}
+
+async function _downloadThemeFiles(project, themeName, themeVersion) {
 	const warFile = path.resolve(`${themeName}-theme-${themeVersion}.war`);
 
 	try {
-		await pipeline(
-			got.stream(
-				`https://repo1.maven.org/maven2/com/liferay/plugins/${themeName}-theme/${themeVersion}/${themeName}-theme-${themeVersion}.war`
-			),
-			fs.createWriteStream(warFile)
+		print(info`
+			Downloading Liferay's ${themeName} theme ${themeVersion} and copying it 
+			to your project's source folder. 
+
+			This may take some time...
+		`);
+
+		const stream = got.stream(
+			`https://repo1.maven.org/maven2/com/liferay/plugins/${themeName}-theme/${themeVersion}/${themeName}-theme-${themeVersion}.war`
 		);
+
+		const progressLine = new ProgressLine();
+
+		stream.on('downloadProgress', progress =>
+			progressLine.update(progress)
+		);
+
+		await pipeline(stream, fs.createWriteStream(warFile));
+
+		progressLine.finish();
 
 		await extract(warFile, {dir: path.resolve('src')});
 
 		fs.unlinkSync(warFile);
-
-		// Merge files which are both in downloaded theme and in the project we
-		// are generating (because facet-theme writes them).
-		await _mergeLiferayLookAndFeelXml(project);
-		await _mergeLiferayPluginPackageProperties();
 	} catch (err) {
 		print(error`
 			Error downloading and extracting Liferay's ${themeName} theme:
