@@ -16,7 +16,7 @@
 		"directory": "packages/liferay-jest-junit-reporter"
 	},
 	"author": "",
-	"license": "ISC",
+	"license": "BSD-3-Clause",
 	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-jest-junit-reporter",
 	"dependencies": {
 		"strip-ansi": "6.0.0",
