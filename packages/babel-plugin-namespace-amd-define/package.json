@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-namespace-amd-define",
-	"version": "2.17.0",
+	"version": "2.17.1",
 	"description": "A Babel plugin to namespace (prefix) AMD define() calls.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.17.0"
+		"liferay-npm-build-tools-common": "2.17.1"
 	}
 }
