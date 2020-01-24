@@ -89,9 +89,13 @@ export function info(literals, ...values) {
  * Each passed line is processed by the {@link removeJsFormatWhitespace}
  * function.
  */
-export function print(lines: string | string[]): void {
+export function print(lines: string | string[], ...rest: string[]): void {
 	if (!Array.isArray(lines)) {
 		lines = [lines];
+	}
+
+	if (rest !== undefined) {
+		lines.push(...rest);
 	}
 
 	lines = lines.map(line => {
@@ -187,7 +191,7 @@ export function warn(literals, ...values) {
  *
  * @param emoji an emoji or empty string to prefix the text
  */
-function format(emoji: string, literals: string[], ...values: any[]): string {
+function format(emoji: string, literals: string[], values: any[]): string {
 	let ret: string = literals[0];
 
 	for (let i = 0; i < values.length; i++) {
@@ -218,7 +222,7 @@ function format(emoji: string, literals: string[], ...values: any[]): string {
  */
 function removeJsFormatWhitespace(line: string): string {
 	line = line.replace(/^\n/, '');
-	line = line.replace(/^\t\t/gm, '');
+	line = line.replace(/^\t*/gm, '');
 
 	return line;
 }
