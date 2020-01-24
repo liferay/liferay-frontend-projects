@@ -56,10 +56,13 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 
 /* eslint-enable sort-keys */
 
+const IGNORE_FILE = '.eslintignore';
+
 function preflight() {
 	const disallowedConfigs = getPaths(
 		Object.keys(DISALLOWED_CONFIG_FILE_NAMES),
-		[]
+		[],
+		IGNORE_FILE
 	);
 
 	if (disallowedConfigs.length) {
