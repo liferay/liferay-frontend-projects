@@ -25,7 +25,7 @@ The Conventional Commits spec defines the following types:
 -   **feat**: A new feature.
 -   **fix**: A bug fix.
 
-Frequently used types that are not in the specification include:
+Frequently used types that are not in the specification but which are widely used (for example, in [the `@commitlint/config-conventional`](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) and [the Angular conventions](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)) include:
 
 -   **chore**: Changes that deliver value despite not delivering features or fixing bugs (eg. dependency upgrades, preparing releases etc).
 -   **docs**: Documentation-only changes.
