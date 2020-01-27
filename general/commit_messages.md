@@ -27,10 +27,10 @@ The Conventional Commits spec defines the following types:
 
 Frequently used types that are not in the specification include:
 
--   **docs**: Documentation-only changes.
--   **refactor**: A code change that does not change behavior.
 -   **chore**: Changes that deliver value despite not delivering features or fixing bugs (eg. dependency upgrades, preparing releases etc).
+-   **docs**: Documentation-only changes.
 -   **perf**: Performance-related changes.
+-   **refactor**: A code change that does not change behavior.
 -   **test**: New or updated tests.
 
 ### Scope
