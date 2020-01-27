@@ -1,8 +1,6 @@
 # Contributing Guidelines
 
-If you wish to contribute to Liferay Themes Toolkit these guidelines will be
-important for you. They cover instructions for setup, information on how the
-repository is organized, as well as contribution requirements.
+If you wish to contribute to Liferay Themes Toolkit these guidelines will be important for you. They cover instructions for setup, information on how the repository is organized, as well as contribution requirements.
 
 ## Setup
 
@@ -14,21 +12,15 @@ TBD
 
 ## Pull requests & Github issues
 
--   All pull requests should be sent to the `develop` branch, as the `master`
-    branch should always reflect the most recent release.
--   Any merged changes will remain in the `develop` branch until the next
-    scheduled release.
--   The only exception to this rule is for emergency hot fixes, in which case the
-    pull request can be sent to the `master` branch.
--   A Github issue should also be created for any bug fix or feature, this helps
-    when generating the CHANGELOG.md file.
--   All commits in a given pull request should start with the `Fixes #xxx -`
-    message for traceability purposes.
+-   All pull requests should be sent to the `develop` branch, as the `master` branch should always reflect the most recent release.
+-   Any merged changes will remain in the `develop` branch until the next scheduled release.
+-   The only exception to this rule is for emergency hot fixes, in which case the pull request can be sent to the `master` branch.
+-   A Github issue should also be created for any bug fix or feature, this helps when generating the CHANGELOG.md file.
+-   All commits in a given pull request should start with the `Fixes #xxx -` message for traceability purposes.
 
 ## Tests
 
-Any change (be it an improvement, a new feature or a bug fix) needs to include
-a test, and all tests from the repo need to be passing. To run the tests:
+Any change (be it an improvement, a new feature or a bug fix) needs to include a test, and all tests from the repo need to be passing. To run the tests:
 
 ```
 yarn test
@@ -38,8 +30,7 @@ This will run the complete test suite using Jest.
 
 ## Formatting
 
-All changes need to follow the general formatting guidelines that are enforced
-in the CI. To format your code:
+All changes need to follow the general formatting guidelines that are enforced in the CI. To format your code:
 
 ```
 yarn format
@@ -53,8 +44,7 @@ All methods should be documented, following [google's format](https://github.com
 
 Collaborators with publish permissions should follow these steps.
 
-There are two different workflows for publishing this project, one for scheduled
-releases, and one for emergency hot fixes.
+There are two different workflows for publishing this project, one for scheduled releases, and one for emergency hot fixes.
 
 ## Scheduled release
 
