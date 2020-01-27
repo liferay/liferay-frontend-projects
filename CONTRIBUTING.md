@@ -15,8 +15,7 @@ TBD
 -   All pull requests should be sent to the `develop` branch, as the `master` branch should always reflect the most recent release.
 -   Any merged changes will remain in the `develop` branch until the next scheduled release.
 -   The only exception to this rule is for emergency hot fixes, in which case the pull request can be sent to the `master` branch.
--   A Github issue should also be created for any bug fix or feature, this helps when generating the CHANGELOG.md file.
--   All commits in a given pull request should start with the `Fixes #xxx -` message for traceability purposes.
+-   Aim to create one Pull Request per bug fix or feature, if possible, as this helps to generate a high-quality CHANGELOG.md file. We use [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator) to produce changelogs automatically; it will base the changelog on the titles of the PRs merged for each release, so bear that in mind when writing PR titles.
 
 ## Tests
 
