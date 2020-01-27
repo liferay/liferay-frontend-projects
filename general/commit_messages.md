@@ -31,6 +31,7 @@ Frequently used types that are not in the specification include:
 -   **docs**: Documentation-only changes.
 -   **perf**: Performance-related changes.
 -   **refactor**: A code change that does not change behavior.
+-   **style**: Formatting changes.
 -   **test**: New or updated tests.
 
 ### Scope
