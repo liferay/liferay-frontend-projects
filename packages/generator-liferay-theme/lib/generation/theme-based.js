@@ -14,6 +14,7 @@ const {
 	success,
 } = require('liferay-npm-build-tools-common/lib/format');
 const path = require('path');
+const rimraf = require('rimraf');
 const semver = require('semver');
 const stream = require('stream');
 const {promisify} = require('util');
@@ -55,6 +56,9 @@ async function writing(generator, themeName) {
 	}
 
 	await downloadThemeFiles(project, themeName, themeVersion);
+
+	// Remove downloaded output .css files which shouldn't go in `src`
+	removeCssFiles();
 
 	// Merge files which are both in downloaded theme and in the project we are
 	// generating (because facet-theme writes them).
@@ -197,6 +201,11 @@ function mergeThumbnailPng() {
 	// The strategy for merging this file is simple: use the new on that
 	// facet-theme creates and remove the one coming from downloaded theme.
 	fs.unlinkSync(path.resolve('src/images/thumbnail.png'));
+}
+
+function removeCssFiles() {
+	rimraf.sync('**/*.css');
+	rimraf.sync('**/*.css.map');
 }
 
 module.exports = {
