@@ -1,3 +1,13 @@
+## [v9.5.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.0-beta.0) (2020-01-24)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.3...v9.5.0-beta.0)
+
+-   feat: support Liferay DXP 7.3 (#415), enhance R2 error reporting (#417), and provide npm scripts for gulp tasks (#381) ([\#422](https://github.com/liferay/liferay-js-themes-toolkit/pull/422))
+-   feat: support themes based on Liferay's Classic Theme (#419) ([\#425](https://github.com/liferay/liferay-js-themes-toolkit/pull/425))
+-   feat: support themes based on Liferay's Admin Theme (#423) ([\#426](https://github.com/liferay/liferay-js-themes-toolkit/pull/426))
+-   fix: extend from themelets using package URLs (#375) ([\#427](https://github.com/liferay/liferay-js-themes-toolkit/pull/427))
+-   feat: generate placeholder thumbnail.png file (#103) ([\#428](https://github.com/liferay/liferay-js-themes-toolkit/pull/428))
+
 ## [v9.4.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.3) (2019-12-12)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.2...v9.4.3)
