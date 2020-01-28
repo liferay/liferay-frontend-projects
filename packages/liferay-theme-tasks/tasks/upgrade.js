@@ -22,6 +22,11 @@ module.exports = function(options) {
 	const gulp = options.gulp;
 	const argv = options.argv;
 
+	// If not inside a theme, don't register tasks
+	if (!themeConfig) {
+		return;
+	}
+
 	let version = argv.v || argv.version;
 
 	version = version ? version.toString() : themeConfig.version;
