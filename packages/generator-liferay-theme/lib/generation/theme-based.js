@@ -204,8 +204,8 @@ function mergeThumbnailPng() {
 }
 
 function removeCssFiles() {
-	rimraf.sync('**/*.css');
-	rimraf.sync('**/*.css.map');
+	rimraf.sync('./src/**/*.css');
+	rimraf.sync('./src/**/*.css.map');
 }
 
 module.exports = {
