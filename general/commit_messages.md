@@ -2,7 +2,7 @@
 
 > **NOTE:** Although this guidance is framed in terms of commit messages, it applies equally to Pull Request titles and messages.
 
-This repo follows the "[Conventional Commits](https://www.conventionalcommits.org/)" specification, and we should also apply it in our other GitHub repos (with the exception of [liferay-portal](https://github.com/liferay/liferay-portal)). The specification provides consistent structure and metadata for our commits. If we additionally follow the same patterns for our Pull Requests, we can accurately generate accurate and informative release notes as well, using a tool like [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator).
+This repo follows the "[Conventional Commits](https://www.conventionalcommits.org/)" specification, and we should also apply it in our other GitHub repos (with the exception of [liferay-portal](https://github.com/liferay/liferay-portal)). The specification provides consistent structure and metadata for our commits. If we additionally follow the same patterns for our Pull Requests, we can accurately generate accurate and informative release notes as well, using a tool like [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator), which bases changelog on GitHub Pull Request titles extracted from merge commits.
 
 In this repo (and others), we use the [Semantic Pull Request](https://github.com/probot/semantic-pull-requests) bot to check for deviations from the format (see the [bot configuration](https://github.com/liferay/liferay-frontend-guidelines/blob/master/.github/semantic.yml), and a [sample bad PR](https://github.com/liferay/liferay-frontend-guidelines/pull/71)).
 
@@ -25,12 +25,13 @@ The Conventional Commits spec defines the following types:
 -   **feat**: A new feature.
 -   **fix**: A bug fix.
 
-Frequently used types that are not in the specification include:
+Frequently used types that are not in the specification but which are widely used (for example, in [the `@commitlint/config-conventional`](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) and [the Angular conventions](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)) include:
 
--   **docs**: Documentation-only changes.
--   **refactor**: A code change that does not change behavior.
 -   **chore**: Changes that deliver value despite not delivering features or fixing bugs (eg. dependency upgrades, preparing releases etc).
+-   **docs**: Documentation-only changes.
 -   **perf**: Performance-related changes.
+-   **refactor**: A code change that does not change behavior.
+-   **style**: Formatting changes.
 -   **test**: New or updated tests.
 
 ### Scope
