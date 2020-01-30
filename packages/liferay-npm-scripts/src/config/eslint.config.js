@@ -9,7 +9,8 @@ const CONFIG_FILES = [
 	'**/.eslintrc.js',
 	'**/.prettierrc.js',
 	'**/.stylelintrc.js',
-	'**/npmscripts.config.js'
+	'**/npmscripts.config.js',
+	'**/webpack.config.js'
 ];
 
 module.exports = {
