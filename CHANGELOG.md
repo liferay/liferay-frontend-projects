@@ -1,5 +1,7 @@
 # Change Log
 
+> **NOTE:** For updates posterior to v1.6.1, please see the corresponding [GitHub milestones](https://github.com/liferay/liferay-js-toolkit/milestones?state=closed).
+
 ## [v1.6.1](https://github.com/liferay/liferay-npm-build-tools/tree/v1.6.1) (2018-03-16)
 [Full Changelog](https://github.com/liferay/liferay-npm-build-tools/compare/v1.6.0...v1.6.1)
 
