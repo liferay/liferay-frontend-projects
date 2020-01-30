@@ -83,22 +83,11 @@ function getJestModuleNameMapper() {
 							const dirname = path.dirname(relative);
 							const basename = path.basename(project);
 
-							if (fs.statSync(file).isDirectory()) {
-								// Special-case, for now, for projects like
-								// some under "dynamic-data-mapping/*", that
-								// have a "main" property of "./".
-								mappings[
-									`^${basename}/(.*)`
-								] = `<rootDir>${relative}/$1`;
-							} else {
-								mappings[
-									`^${basename}$`
-								] = `<rootDir>${relative}`;
+							mappings[`^${basename}$`] = `<rootDir>${relative}`;
 
-								mappings[
-									`^${basename}/(.*)`
-								] = `<rootDir>${dirname}/$1`;
-							}
+							mappings[
+								`^${basename}/(.*)`
+							] = `<rootDir>${dirname}/$1`;
 						}
 					}
 				}
