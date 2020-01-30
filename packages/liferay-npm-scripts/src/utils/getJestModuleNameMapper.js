@@ -26,11 +26,11 @@ const IGNORE_GLOBS = ['node_modules/**'];
  * For example, in order for "segments/segments-web" to `import
  * {something} from 'frontend-js-web'`, we need mappings like:
  *
- *    "frontend-js-web": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js"
+ *    "^frontend-js-web$": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/index.es.js"
  *
  * and:
  *
- *    "frontend-js-web/(.*)": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/$1"
+ *    "^frontend-js-web/(.*)": "<rootDir>../../frontend-js/frontend-js-web/src/main/resources/META-INF/resources/$1"
  *
  * We create such mappings by:
  *
@@ -88,13 +88,13 @@ function getJestModuleNameMapper() {
 								// some under "dynamic-data-mapping/*", that
 								// have a "main" property of "./".
 								mappings[
-									`${basename}/(.*)`
+									`^${basename}/(.*)`
 								] = `<rootDir>${relative}/$1`;
 							} else {
-								mappings[basename] = `<rootDir>${relative}`;
+								mappings[`^${basename}$`] = `<rootDir>${relative}`;
 
 								mappings[
-									`${basename}/(.*)`
+									`^${basename}/(.*)`
 								] = `<rootDir>${dirname}/$1`;
 							}
 						}
