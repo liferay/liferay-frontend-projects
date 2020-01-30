@@ -91,7 +91,9 @@ function getJestModuleNameMapper() {
 									`^${basename}/(.*)`
 								] = `<rootDir>${relative}/$1`;
 							} else {
-								mappings[`^${basename}$`] = `<rootDir>${relative}`;
+								mappings[
+									`^${basename}$`
+								] = `<rootDir>${relative}`;
 
 								mappings[
 									`^${basename}/(.*)`
