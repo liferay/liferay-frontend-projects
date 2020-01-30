@@ -18,10 +18,16 @@ module.exports = function(request, options) {
 	const {basedir, defaultResolver} = options;
 
 	// Redirect imports to .soy.js files from input to output directory
-	if (basedir.startsWith(CWD) && request.endsWith('.soy.js')) {
-		const dir = basedir.replace(INPUT, OUTPUT);
+	if (basedir.startsWith(CWD)) {
+		if (/\.soy(?:\.js)?$/.test(request)) {
+			const dir = basedir.replace(INPUT, OUTPUT);
 
-		return path.join(dir, request);
+			return path.join(
+				dir,
+				path.dirname(request),
+				path.basename(request, '.js') + '.js'
+			);
+		}
 	}
 
 	// Fallback to default resolver
