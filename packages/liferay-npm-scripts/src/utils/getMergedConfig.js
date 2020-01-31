@@ -152,7 +152,7 @@ function getMergedConfig(type, property) {
 
 			// Use default config if no user config exists
 			if (Object.keys(userConfig).length === 0) {
-				userConfig = require('../config/npmscripts.config.js');
+				userConfig = require('../config/npmscripts.config');
 			}
 
 			// Check for preset before creating config
