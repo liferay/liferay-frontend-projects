@@ -1,3 +1,10 @@
+## [v18.0.0](https://github.com/liferay/eslint-config-liferay/tree/v18.0.0) (2020-01-31)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v17.0.0...v18.0.0)
+
+-   feat!: add import-extensions rule ([\#138](https://github.com/liferay/eslint-config-liferay/pull/138))
+-   chore: update Jest to v25.1.0 ([\#136](https://github.com/liferay/eslint-config-liferay/pull/136))
+
 ## [v17.0.0](https://github.com/liferay/eslint-config-liferay/tree/v17.0.0) (2020-01-20)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v16.0.0...v17.0.0)
