@@ -8,6 +8,7 @@ module.exports = {
 	rules: {
 		'destructure-requires': require('./lib/rules/destructure-requires'),
 		'group-imports': require('./lib/rules/group-imports'),
+		'import-extensions': require('./lib/rules/import-extensions'),
 		'imports-first': require('./lib/rules/imports-first'),
 		'no-absolute-import': require('./lib/rules/no-absolute-import'),
 		'no-duplicate-class-names': require('./lib/rules/no-duplicate-class-names'),
