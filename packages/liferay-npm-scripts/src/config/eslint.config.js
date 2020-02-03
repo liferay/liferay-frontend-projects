@@ -9,7 +9,9 @@ const CONFIG_FILES = [
 	'**/.eslintrc.js',
 	'**/.prettierrc.js',
 	'**/.stylelintrc.js',
+	'**/gulpfile.js',
 	'**/npmscripts.config.js',
+	'**/webpack.config.dev.js',
 	'**/webpack.config.js'
 ];
 
