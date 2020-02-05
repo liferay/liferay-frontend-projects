@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const prettier = require('prettier');
-
+const prettier = require('../prettier');
 const getMergedConfig = require('../utils/getMergedConfig');
 const processJSP = require('./processJSP');
 
