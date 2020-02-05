@@ -5,10 +5,10 @@
  */
 
 const fs = require('fs');
-const prettier = require('prettier');
 
 const formatJSP = require('../jsp/formatJSP');
 const isJSP = require('../jsp/isJSP');
+const prettier = require('../prettier');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 const log = require('../utils/log');
