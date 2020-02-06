@@ -53,7 +53,7 @@ module.exports = function(...args) {
 		'--end-of-line=': ignore,
 		'--file-info=': ignore,
 		'--find-config-path=': ignore,
-		'--help': ignore,
+		'--help': help,
 		'--html-whitespace-sensitivity=': ignore,
 		'--ignore-path=': ignore,
 		'--insert-pragma': ignore,
@@ -93,7 +93,7 @@ module.exports = function(...args) {
 		'--with-node-modules': ignore,
 		'--write': set('write', true),
 		'-c': unsupported,
-		'-h': ignore,
+		'-h': help,
 		'-l': unsupported,
 		'-v': version
 	};
@@ -192,6 +192,18 @@ module.exports = function(...args) {
 
 function exit() {
 	process.exit(0);
+}
+
+function help() {
+	write(
+		'Usage: prettier [options] [file/glob ...]\n' +
+			'\n' +
+			'  --stdin                  Force reading input from stdin.\n' +
+			'  --stdin-filepath <path>  Path to the file to pretend that stdin comes from.\n' +
+			'  --write                  Edit files in-place. (Beware!)\n'
+	);
+
+	exit();
 }
 
 function isGlob(pattern) {
