@@ -96,7 +96,7 @@ Or, if the script is in your path:
 !prettier.sh --write %
 ```
 
-And you can of course always call directly into liferay-npm-scripts if you prefer:
+And you can always call directly into `liferay-npm-scripts` if you prefer:
 
 ```
 !path/to/liferay-npm-scripts prettier --write %
