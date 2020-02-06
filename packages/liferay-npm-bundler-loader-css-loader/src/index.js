@@ -8,14 +8,23 @@ import fs from 'fs';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
+import readJsonSync from 'read-json-sync';
 
 /**
  * @param {object} context loader's context
  */
-export default function(context, {extension, pathModule = '/o'}) {
+export default function(
+	context,
+	{extension, namespaceDependencies = true, pathModule = '/o'}
+) {
 	const {filePath, log} = context;
 
-	const href = getHref(filePath, extension, pathModule);
+	const href = getHref(
+		filePath,
+		extension,
+		pathModule,
+		namespaceDependencies
+	);
 
 	// Note that Liferay.ThemeDisplay.getPathContext() when called at runtime
 	// returns both pathProxy and the context path of the portal's webapp.
@@ -46,7 +55,7 @@ module.exports = link;
 	log.info('css-loader', `Generated .js module to inject '${href}'`);
 }
 
-function getHref(filePath, extension, pathModule) {
+function getHref(filePath, extension, pathModule, namespaceDependencies) {
 	let webContextPath;
 
 	if (project.jar.supported) {
@@ -72,16 +81,41 @@ function getHref(filePath, extension, pathModule) {
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
-	project.sources
-		.map(source => source.asNative)
-		.forEach(sourcePath => {
+	if (filePath.startsWith(`node_modules${path.sep}`)) {
+		const pathParts = filePath.split(path.sep);
+
+		const projectNameIndex = lastIndexOf(pathParts, 'node_modules') + 1;
+
+		const {version} = readJsonSync(
+			path.join(
+				'node_modules',
+				pathParts[projectNameIndex],
+				'package.json'
+			)
+		);
+
+		if (namespaceDependencies) {
+			pathParts[
+				projectNameIndex
+			] = `${project.pkgJson.name}$${pathParts[projectNameIndex]}`;
+		}
+
+		pathParts[projectNameIndex] += `@${version}`;
+
+		filePath = pathParts.join(path.sep);
+	} else {
+		// If file is inside a source folder, strip the folder name
+		for (let sourcePath of project.sources.map(source => source.asNative)) {
 			// Remove `./` from sourcePath so that it matches the filePath correctly
 			sourcePath = sourcePath.substring(2);
 
 			if (filePath.startsWith(sourcePath)) {
 				filePath = filePath.substring(sourcePath.length + 1);
+
+				break;
 			}
-		});
+		}
+	}
 
 	if (extension !== undefined) {
 		const extname = path.extname(filePath);
@@ -99,4 +133,14 @@ function getHref(filePath, extension, pathModule) {
 	filePath = new FilePath(filePath).asPosix;
 
 	return `${pathModule}${webContextPath}/${filePath}`;
+}
+
+function lastIndexOf(array, item) {
+	for (let i = array.length - 1; i >= 0; i--) {
+		if (array[i] === item) {
+			return i;
+		}
+	}
+
+	return -1;
 }
