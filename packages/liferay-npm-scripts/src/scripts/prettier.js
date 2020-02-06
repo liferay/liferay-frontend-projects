@@ -7,13 +7,11 @@
 const fs = require('fs');
 const prettier = require('prettier');
 
+const formatJSP = require('../jsp/formatJSP');
 const isJSP = require('../jsp/isJSP');
 const {format} = require('../prettier');
-const formatJSP = require('../jsp/formatJSP');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
-
-const EXTENSIONS = ['.js', '.jsp', '.jspf', '.scss'];
 
 const IGNORE_FILE = '.prettierignore';
 
@@ -47,46 +45,37 @@ module.exports = function(...args) {
 	};
 
 	const OPTS = {
-		'-c': unsupported,
-		'--check': unsupported,
-		'-l': unsupported,
-		'--list-different': unsupported,
-		'--write': set('write', true),
 		'--arrow-parens=': ignore,
-		'--no-bracket-spacing': ignore,
+		'--check': unsupported,
+		'--config=': ignore,
+		'--config-precedence=': ignore,
+		'--cursor-offset=': ignore,
 		'--end-of-line=': ignore,
+		'--file-info=': ignore,
+		'--find-config-path=': ignore,
+		'--help': ignore,
 		'--html-whitespace-sensitivity=': ignore,
+		'--ignore-path=': ignore,
+		'--insert-pragma': ignore,
 		'--jsx-bracket-same-line': ignore,
 		'--jsx-single-quote': ignore,
+		'--list-different': unsupported,
+		'--loglevel=': ignore,
+		'--no-bracket-spacing': ignore,
+		'--no-color': ignore,
+		'--no-config': ignore,
+		'--no-editorconfig': ignore,
+		'--no-semi': ignore,
 		'--parser=': ignore,
+		'--plugin=': ignore,
+		'--plugin-search-dir=': ignore,
 		'--print-width=': ignore,
 		'--prose-wrap=': ignore,
 		'--quote-props=': ignore,
-		'--no-semi': ignore,
-		'--single-quote': ignore,
-		'--tab-width=': ignore,
-		'--trailing-comma=': ignore,
-		'--use-tabs': ignore,
-		'--vue-indent-script-and-style': ignore,
-		'--config=': ignore,
-		'--no-config': ignore,
-		'--config-precedence=': ignore,
-		'--no-editorconfig': ignore,
-		'--find-config-path=': ignore,
-		'--ignore-path=': ignore,
-		'--plugin=': ignore,
-		'--plugin-search-dir=': ignore,
-		'--with-node-modules': ignore,
-		'--cursor-offset=': ignore,
 		'--range-end=': ignore,
 		'--range-start': ignore,
-		'--no-color': ignore,
-		'--file-info=': ignore,
-		'-h': ignore,
-		'--help': ignore,
-		'--insert-pragma': ignore,
-		'--loglevel=': ignore,
 		'--require-pragma': ignore,
+		'--single-quote': ignore,
 		'--stdin': set('stdin', true),
 		'--stdin-filepath=': set('stdinFilepath'),
 		'--support-info': () => {
@@ -96,8 +85,17 @@ module.exports = function(...args) {
 
 			exit();
 		},
+		'--tab-width=': ignore,
+		'--trailing-comma=': ignore,
+		'--use-tabs': ignore,
+		'--version': version,
+		'--vue-indent-script-and-style': ignore,
+		'--with-node-modules': ignore,
+		'--write': set('write', true),
+		'-c': unsupported,
+		'-h': ignore,
+		'-l': unsupported,
 		'-v': version,
-		'--version': version
 	};
 
 	for (i = 0; i < args.length; i++) {
@@ -109,12 +107,12 @@ module.exports = function(...args) {
 			if (option.endsWith('=')) {
 				if (arg === option.slice(0, -1)) {
 					// eg. "--some-opt value"
-					value = args[++i];
+					const value = args[++i];
 
 					handler = callback.bind(null, value);
 				} else if (arg.startsWith(option)) {
 					// eg. "--some-opt=value"
-					value = arg.slice(option.length);
+					const value = arg.slice(option.length);
 
 					handler = callback.bind(null, value);
 				}
@@ -207,7 +205,7 @@ function version() {
 }
 
 function write(message) {
-	const newline = message.endsWith('\n' ? '' : '\n');
+	const newline = message.endsWith('\n') ? '' : '\n';
 
 	process.stdout.write(message + newline);
 }
