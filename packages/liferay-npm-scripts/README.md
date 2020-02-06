@@ -61,7 +61,7 @@ When liferay-npm-scripts uses Prettier, it additionally applies some tweaks in a
 However, in order to facilitate integration with editors and editor plugins, this subcommand exposes the augmented version of `prettier`, providing this "Prettier plus post-processing" functionality, using an interface that is similar to that of the `prettier` executable. Example usage:
 
 ```sh
-liferay-npm-scripts prettier --write src/someFileToFormat.js
+liferay-npm-scripts prettier --write src/someFileToFormat.js 'test/**/*.js'
 ```
 
 Supported flags:
