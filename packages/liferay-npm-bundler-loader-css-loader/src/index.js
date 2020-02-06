@@ -15,7 +15,7 @@ import readJsonSync from 'read-json-sync';
  */
 export default function(
 	context,
-	{extension, pathModule = '/o', namespaceDependencies = true}
+	{extension, namespaceDependencies = true, pathModule = '/o'}
 ) {
 	const {filePath, log} = context;
 
