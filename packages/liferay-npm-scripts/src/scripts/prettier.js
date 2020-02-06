@@ -95,7 +95,7 @@ module.exports = function(...args) {
 		'-c': unsupported,
 		'-h': ignore,
 		'-l': unsupported,
-		'-v': version,
+		'-v': version
 	};
 
 	for (i = 0; i < args.length; i++) {
