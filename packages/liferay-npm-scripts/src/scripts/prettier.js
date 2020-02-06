@@ -19,7 +19,7 @@ const IGNORE_FILE = '.prettierignore';
  * Exposes a version of our augumented Prettier suitable for use within editors
  * and editor plugins.
  */
-module.exports = function(...args) {
+function main(...args) {
 	let i;
 
 	let files = [];
@@ -188,7 +188,28 @@ module.exports = function(...args) {
 			write(contents);
 		}
 	});
-};
+}
+
+/**
+ * Properties required by the prettier-vscode plugin.
+ *
+ * See: https://github.com/prettier/prettier-vscode/blob/cd1b3aa1f40f9fb5/src/ModuleResolver.ts#L122-L127
+ */
+Object.assign(main, {
+	format(source, options = {}) {
+		const config = getMergedConfig('prettier');
+
+		return format(source, {...config, filepath: options.filepath});
+	},
+
+	getFileInfo: prettier.getFileInfo,
+
+	getSupportInfo: prettier.getSupportInfo,
+
+	resolveConfig: () => Promise.resolve(null),
+
+	version: prettier.version
+});
 
 function exit() {
 	process.exit(0);
@@ -221,3 +242,5 @@ function write(message) {
 
 	process.stdout.write(message + newline);
 }
+
+module.exports = main;
