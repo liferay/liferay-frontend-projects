@@ -36,7 +36,9 @@ Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` fil
 liferay-npm-scripts check
 ```
 
-Check calls `prettier` with the `--check` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L25-L32).
+`check` runs ESLint to catch semantic problems (equivalent to running `eslint` without the `--fix` option) and Prettier to catch formatting issues (equivalent to running `prettier` with the `--check` flag) for the globs specified in your `npmscripts.config.js` configuration (or, in the absence of explicit configuration, in [the default preset](./src/presets/standard/index.js#L25-L32)).
+
+This is the task that runs in liferay-portal projects when you run `yarn checkFormat`.
 
 ### fix
 
@@ -44,7 +46,31 @@ Check calls `prettier` with the `--check` flag for the globs specified in your `
 liferay-npm-scripts fix
 ```
 
-Fix calls `prettier` with the `--write` flag for the globs specified in your `npmscripts.config.js` configuration. Or default preset seen [here](./src/presets/standard/index.js#L17-L24).
+`fix` runs ESLint and fixes autofixable issues (equivalent to passing the `--fix` option) and runs Prettier to enforce formatting (equivalent to calling `prettier` with the `--write` flag) for the globs specified in your `npmscripts.config.js` configuration (or, in the absence of explicit configuration, in [the default preset](./src/presets/standard/index.js#L17-L24)).
+
+This is the task that runs in liferay-portal projects when you run `yarn format` (or `gradlew formatSource -a`, or `ant format-source`).
+
+### prettier
+
+```sh
+liferay-npm-scripts prettier
+```
+
+When liferay-npm-scripts uses Prettier, it additionally applies some tweaks in a post-processing step to match liferay-portal coding conventions. Normally, you will want to run `liferay-npm-scripts check` or `liferay-npm-scripts fix` as described above rather than interacting with the `prettier` executable directly.
+
+However, in order to facilitate integration with editors and editor plugins, this subcommand exposes the augmented version of `prettier`, providing this "Prettier plus post-processing" functionality, using an interface that is similar to that of the `prettier` executable. Example usage:
+
+```sh
+liferay-npm-scripts prettier --write src/someFileToFormat.js
+```
+
+Supported flags:
+
+-   `--stdin-filepath=FILEPATH`
+-   `--stdin`
+-   `--write`
+
+All other `prettier` flags are ignored.
 
 ### test
 
