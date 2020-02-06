@@ -84,15 +84,23 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 	if (filePath.startsWith(`node_modules${path.sep}`)) {
 		const pathParts = filePath.split(path.sep);
 
+		const projectNameIndex = lastIndexOf(pathParts, 'node_modules') + 1;
+
 		const {version} = readJsonSync(
-			path.join('node_modules', pathParts[1], 'package.json')
+			path.join(
+				'node_modules',
+				pathParts[projectNameIndex],
+				'package.json'
+			)
 		);
 
 		if (namespaceDependencies) {
-			pathParts[1] = `${project.pkgJson.name}$${pathParts[1]}`;
+			pathParts[
+				projectNameIndex
+			] = `${project.pkgJson.name}$${pathParts[projectNameIndex]}`;
 		}
 
-		pathParts[1] += `@${version}`;
+		pathParts[projectNameIndex] += `@${version}`;
 
 		filePath = pathParts.join(path.sep);
 	} else {
@@ -125,4 +133,14 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 	filePath = new FilePath(filePath).asPosix;
 
 	return `${pathModule}${webContextPath}/${filePath}`;
+}
+
+function lastIndexOf(array, item) {
+	for (let i = array.length - 1; i >= 0; i--) {
+		if (array[i] === item) {
+			return i;
+		}
+	}
+
+	return -1;
 }
