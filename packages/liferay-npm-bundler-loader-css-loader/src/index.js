@@ -81,7 +81,7 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
-	if (filePath.startsWith('node_modules/')) {
+	if (filePath.startsWith(`node_modules${path.sep}`)) {
 		const pathParts = filePath.split(path.sep);
 
 		const {version} = readJsonSync(
