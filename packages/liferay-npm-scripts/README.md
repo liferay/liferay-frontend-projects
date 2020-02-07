@@ -82,7 +82,7 @@ One way to run prettier from Vim is with [the vim-prettier plugin](https://githu
 let g:prettier#exec_cmd_path = "~/bin/prettier.sh"
 ```
 
-Once you have configured the script to know where your liferay-portal checkout is by setting the `$PORTAL` variable, you can use the `:Prettier` command and others provided by the vim-prettier plugin in Vim, and it will use your script instead of the upstream version of Prettier. The script tries first to find the `liferay-npm-scripts` version, then `prettier`, and ultimately will fall back to `npx prettier` as a last resort. When working outside of the `$PORTAL` directory, it doesn't try to use the version provided by `liferay-npm-scripts`.
+Now you can use the `:Prettier` command and others provided by the vim-prettier plugin in Vim, and it will use your script instead of the upstream version of Prettier. The script tries first to find the `liferay-npm-scripts` version, then `prettier`, and ultimately will fall back to `npx prettier` as a last resort. When working outside of a liferay-portal clone, it doesn't try to use the version provided by `liferay-npm-scripts`.
 
 If you don't want to install vim-prettier, you can of course run the script directly using the `!` command:
 

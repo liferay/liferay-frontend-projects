@@ -5,9 +5,20 @@
 # "liferay-npm-scripts prettier" subcommand to plugins.
 #
 
-PORTAL=~/code/portal/liferay-portal
+# Auto-detect liferay-portal checkout.
+while [[ $PWD != '/' ]]; do
+	if [ -d portal-web ]; then
+		if [ -e portal-web/docroot/WEB-INF/liferay-web.xml ]; then
+			PORTAL="$PWD"
+		fi
 
-if [ "${PWD##$PORTAL}" != "${PWD}" ]; then
+		break
+	else
+		cd ..
+	fi
+done
+
+if [ -n "$PORTAL" ]; then
   LIFERAY_NPM_SCRIPTS="$PORTAL/modules/node_modules/liferay-npm-scripts/bin/liferay-npm-scripts.js"
   LIFERAY_PRETTIER="$PORTAL/modules/node_modules/prettier/bin-prettier.js"
 else
