@@ -982,8 +982,6 @@ module.exports = {
 	version: '1.19.1'
 };
 
-const PORTAL_WEB = 'portal-web';
-
 /**
  * Returns the root directory if `filepath` is inside a liferay-portal
  * checkout, otherwise return null.
@@ -995,7 +993,7 @@ function getPortalRoot(filepath) {
 	while (true) {
 		const parent = path.dirname(current);
 
-		const candidate = path.join(parent, PORTAL_WEB);
+		const candidate = path.join(parent, 'portal-web');
 
 		if (fs.existsSync(candidate)) {
 			current = candidate;
