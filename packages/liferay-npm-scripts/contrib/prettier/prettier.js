@@ -984,7 +984,7 @@ module.exports = {
 
 /**
  * Returns the root directory if `filepath` is inside a liferay-portal
- * checkout, otherwise return null.
+ * checkout, otherwise returns null.
  */
 function getPortalRoot(filepath) {
 	// Walk up until we find portal-web (in the root).
