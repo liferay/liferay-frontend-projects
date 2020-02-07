@@ -26,6 +26,10 @@ module.exports = async function() {
 			await require('./scripts/fix')();
 		},
 
+		prettier() {
+			require('./scripts/prettier')(...ARGS_ARRAY.slice(1));
+		},
+
 		storybook() {
 			require('./scripts/storybook')();
 		},
