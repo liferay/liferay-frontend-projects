@@ -25,6 +25,7 @@ module.exports = {
 		AUI: true,
 		CKEDITOR: true,
 		Liferay: true,
+		process: true,
 		submitForm: true,
 		svg4everybody: true,
 		themeDisplay: true
