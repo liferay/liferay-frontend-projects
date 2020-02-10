@@ -115,6 +115,7 @@ function getBabelOptions(item) {
 		return null;
 	} else if (Array.isArray(item)) {
 		const options = item[1];
+
 		return options &&
 			typeof options === 'object' &&
 			Object.keys(options).length
@@ -144,6 +145,7 @@ function babelMerge(key) {
 				const targetName = getBabelName(targetItem, kind);
 				const sourceIndex = pending.findIndex(sourceItem => {
 					const sourceName = getBabelName(sourceItem, kind);
+
 					return sourceName === targetName;
 				});
 				if (sourceIndex !== -1) {
@@ -161,6 +163,7 @@ function babelMerge(key) {
 						: targetName;
 				} else {
 					const targetOptions = getBabelOptions(targetItem);
+
 					return targetOptions ? targetItem : targetName;
 				}
 			});
@@ -169,6 +172,7 @@ function babelMerge(key) {
 				pending.map(item => {
 					const itemName = getBabelName(item, kind);
 					const itemOptions = getBabelOptions(item);
+
 					return itemOptions ? [itemName, itemOptions] : itemName;
 				})
 			);

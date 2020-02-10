@@ -92,6 +92,7 @@ async function getPreviousReleasedVersion(before) {
 		'--tags',
 		`${before}~`
 	);
+
 	return describe.trim();
 }
 
@@ -112,11 +113,13 @@ async function getChanges(from, to) {
 				const [subject, description] = message.split(/\n+/);
 				const metadata = subject.match(/Merge pull request #(\d+)/);
 				const number = metadata ? metadata[1] : NaN;
+
 				return description ? {description, number} : null;
 			})
 			.filter(Boolean);
 	} else {
 		warn(`No merges detected from ${from} to ${to}!`);
+
 		return [];
 	}
 }
@@ -146,6 +149,7 @@ async function getRemote(options) {
 		'Unable to determine remote repository URL!',
 		'Please specify one with --remote-url=REPOSITORY_URL'
 	);
+
 	return null;
 }
 
@@ -175,6 +179,7 @@ function linkToPullRequest(number, remote) {
 		return null;
 	} else if (remote) {
 		const url = `${remote}/pull/${number}`;
+
 		return `[\\#${number}](${url})`;
 	} else {
 		return `#${number}`;
@@ -310,6 +315,7 @@ async function normalizeVersion(version, {force}) {
 				`Adding expected "v" prefix to version "${version}"`,
 				'use --force to disable this coercion'
 			);
+
 			return `v${version}`;
 		}
 	} else if (coefficient < 0 && hasPrefix) {
@@ -320,6 +326,7 @@ async function normalizeVersion(version, {force}) {
 				`Removing unexpected "v" prefix from "${version}"`,
 				'use --force to disable this coercion'
 			);
+
 			return version.slice(1);
 		}
 	}
@@ -339,6 +346,7 @@ function parseArgs(args) {
 		match = arg.match(option('force|f'));
 		if (match) {
 			options.force = true;
+
 			return;
 		}
 
@@ -351,51 +359,60 @@ function parseArgs(args) {
 		match = arg.match(option('outfile='));
 		if (match) {
 			options.outfile = match[1];
+
 			return;
 		}
 
 		match = arg.match(option('from='));
 		if (match) {
 			options.from = match[1];
+
 			return;
 		}
 
 		match = arg.match(option('(no-)?update-tags'));
 		if (match) {
 			options.updateTags = !match[1];
+
 			return;
 		}
 
 		match = arg.match(option('remote-url='));
 		if (match) {
 			options.remote = match[1];
+
 			return;
 		}
 
 		match = arg.match(option('regenerate'));
 		if (match) {
 			options.regenerate = true;
+
 			return;
 		}
 
 		match = arg.match(option('to='));
 		if (match) {
 			options.to = match[1];
+
 			return;
 		}
 
 		match = arg.match(option('version='));
 		if (match) {
 			options.version = match[1];
+
 			return;
 		}
 
 		error(`Unrecognized argument ${arg}; see --help for available options`);
+
 		return null;
 	});
 
 	if (!options.version) {
 		error('Missing required option: --version; see --help for usage');
+
 		return null;
 	}
 
@@ -409,6 +426,7 @@ function formatDate(date) {
 		.getDate()
 		.toString()
 		.padStart(2, '0');
+
 	return `${year}-${month}-${day}`;
 }
 

@@ -15,6 +15,7 @@ function scan(prefix, state) {
 		if (state.input.startsWith(prefix)) {
 			state.input = state.input.slice(prefix.length);
 			state.lastMatch = prefix;
+
 			return true;
 		}
 
@@ -31,6 +32,7 @@ function scan(prefix, state) {
 		if (match) {
 			state.input = state.input.slice(match[0].length);
 			state.lastMatch = match[0];
+
 			return true;
 		}
 

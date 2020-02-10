@@ -76,6 +76,7 @@ function prepareAdditionalBuildArgs() {
 		const value = BUILD_ARGS[key];
 		args.push(key, value.replace(MODULES_DIR, modules));
 	});
+
 	return args;
 }
 

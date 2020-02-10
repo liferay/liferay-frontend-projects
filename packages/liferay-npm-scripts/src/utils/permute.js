@@ -32,6 +32,7 @@ function permute([...permutation]) {
 			++i;
 		}
 	}
+
 	return result;
 }
 
