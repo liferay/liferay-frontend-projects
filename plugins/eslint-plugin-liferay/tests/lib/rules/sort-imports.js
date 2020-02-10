@@ -17,11 +17,6 @@ const parserOptions = {
 
 const ruleTester = new RuleTester(parserOptions);
 
-// TODO: make sure destructuring is ordered too
-// eg. https://github.com/mthadley/eslint-plugin-sort-destructure-keys
-// eslint's sort-imports plug-in sorts destructuring patterns too
-// https://github.com/eslint/eslint/blob/master/lib/rules/sort-imports.js
-// i think these need to be separate rules
 ruleTester.run('sort-imports', rule, {
 	invalid: [
 		{
