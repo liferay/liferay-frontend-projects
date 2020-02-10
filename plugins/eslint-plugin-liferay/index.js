@@ -6,6 +6,7 @@
 
 module.exports = {
 	rules: {
+		'array-is-array': require('./lib/rules/array-is-array'),
 		'destructure-requires': require('./lib/rules/destructure-requires'),
 		'group-imports': require('./lib/rules/group-imports'),
 		'import-extensions': require('./lib/rules/import-extensions'),
