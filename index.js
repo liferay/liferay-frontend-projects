@@ -36,6 +36,7 @@ const config = {
 		'liferay/no-it-should': 'error',
 		'liferay/no-require-and-call': 'error',
 		'liferay/padded-test-blocks': 'error',
+		'liferay/sort-import-destructures': 'error',
 		'liferay/sort-imports': 'error',
 		'no-console': ['error', {allow: ['warn', 'error']}],
 		'no-constant-condition': ['error', {checkLoops: false}],
