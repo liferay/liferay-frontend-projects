@@ -40,6 +40,7 @@ module.exports = {
 
 				between.replace(/(?:\r\n|\n)[ \t]*/g, match => {
 					newlines.push(match);
+
 					return match;
 				});
 
