@@ -1,3 +1,12 @@
+## [v19.0.0](https://github.com/liferay/eslint-config-liferay/tree/v19.0.0) (2020-02-10)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v18.0.0...v19.0.0)
+
+-   feat!: add sort-import-destructures rule ([\#145](https://github.com/liferay/eslint-config-liferay/pull/145))
+-   feat!: add array-is-array rule ([\#144](https://github.com/liferay/eslint-config-liferay/pull/144))
+-   feat!: enforce blank line before return statements ([\#143](https://github.com/liferay/eslint-config-liferay/pull/143))
+-   feat!: activate "curly" rule ([\#142](https://github.com/liferay/eslint-config-liferay/pull/142))
+
 ## [v18.0.0](https://github.com/liferay/eslint-config-liferay/tree/v18.0.0) (2020-01-31)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v17.0.0...v18.0.0)
