@@ -25,6 +25,7 @@ const config = {
 		'sort-destructure-keys',
 	],
 	rules: {
+		curly: 'error',
 		'default-case': 'error',
 		'liferay/destructure-requires': 'error',
 		'liferay/group-imports': 'error',
