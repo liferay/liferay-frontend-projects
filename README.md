@@ -107,6 +107,7 @@ If we were to provide configuration by default, then if `bottom-level/.eslintrc.
 | [liferay-portal/no-metal-plugins](./plugins/eslint-plugin-liferay-portal/docs/rules/no-metal-plugins.md)                                | liferay/portal               | [\#61](https://github.com/liferay/eslint-config-liferay/pull/61)                                                                   |
 | [liferay-portal/no-react-dom-render](./plugins/eslint-plugin-liferay-portal/docs/rules/no-react-dom-render.md)                          | liferay/portal               | [\#71](https://github.com/liferay/eslint-config-liferay/pull/71)                                                                   |
 | [liferay-portal/no-side-navigation](./plugins/eslint-plugin-liferay-portal/docs/rules/no-side-navigation.md)                            | liferay/portal               | [\#44](https://github.com/liferay/eslint-config-liferay/pull/44)                                                                   |
+| [liferay/array-is-array](./plugins/eslint-plugin-liferay/docs/rules/array-is-array.md)                                                  | liferay                      | [\#139](https://github.com/liferay/eslint-config-liferay/issues/139)                                                               |
 | [liferay/destructure-requires](./plugins/eslint-plugin-liferay/docs/rules/destructure-requires.md)                                      | liferay                      | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
 | [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md)                                                    | liferay                      | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [liferay/import-extensions](./plugins/eslint-plugin-liferay/docs/rules/import-extensions.md)                                            | liferay                      | [\#137](https://github.com/liferay/eslint-config-liferay/issues/137)                                                               |
@@ -162,6 +163,7 @@ If we were to provide configuration by default, then if `bottom-level/.eslintrc.
 
 The bundled `eslint-plugin-liferay` plugin includes the following [rules](./plugins/eslint-plugin-liferay/docs/rules):
 
+-   [liferay/array-is-array](./plugins/eslint-plugin-liferay/docs/rules/array-is-array.md): Enforces (and autofixes) the use of `Array.isArray()` over `instanceof Array`.
 -   [liferay/destructure-requires](./plugins/eslint-plugin-liferay/docs/rules/destructure-requires.md): Enforces (and autofixes) that `require` statements use destructuring.
 -   [liferay/group-imports](./plugins/eslint-plugin-liferay/docs/rules/group-imports.md): Enforces (and autofixes) `import` and `require` grouping.
 -   [liferay/import-extensions](./plugins/eslint-plugin-liferay/docs/rules/import-extensions.md): Enforces consistent usage/omission of file extensions in imports.
