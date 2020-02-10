@@ -129,5 +129,23 @@ ruleTester.run('sort-import-destructures', rule, {
 				} from 'numbers';
 			`,
 		},
+		{
+			// Regression test. This was being incorrectly flagged as unsorted.
+			code: `
+				import {
+					addFragmentEntryLinkReducer,
+					deleteFragmentEntryLinkCommentReducer,
+					duplicateFragmentEntryLinkReducer,
+					moveFragmentEntryLinkReducer,
+					removeFragmentEntryLinkReducer,
+					toggleShowResolvedCommentsReducer,
+					updateEditableValueReducer,
+					updateFragmentEntryKeysReducer,
+					updateFragmentEntryLinkCommentReducer,
+					updateFragmentEntryLinkConfigReducer,
+					updateFragmentEntryLinkContentReducer
+				} from './fragments.es';
+			`,
+		},
 	],
 });
