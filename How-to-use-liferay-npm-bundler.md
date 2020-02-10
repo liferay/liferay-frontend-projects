@@ -327,7 +327,7 @@ You can even chain several loaders to act upon each file. That way you can, for
 example, convert a `.scss` file into real CSS (by running the
 [sass-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-sass-loader)
 on it) and then make it a JavaScript module with the
-[style-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-babel-loader)
+[style-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-style-loader)
 loader.
 
 Please see [[List of loaders]] for more information on all known loaders.
