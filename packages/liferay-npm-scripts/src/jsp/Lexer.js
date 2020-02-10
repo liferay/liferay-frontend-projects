@@ -620,6 +620,7 @@ class Lexer {
 				for (const [name, matcher] of map) {
 					if (peek(matcher)) {
 						const text = consume();
+
 						return token(name, text);
 					}
 				}

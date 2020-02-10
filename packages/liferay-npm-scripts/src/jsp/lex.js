@@ -745,10 +745,12 @@ function lex(source, options = {}) {
 
 				if (peek(EMPTY_BODY)) {
 					text += consume();
+
 					return token('CUSTOM_ACTION', text);
 				} else {
 					// Will continue tokenizing next time around.
 					text += consume(match('>'));
+
 					return token('CUSTOM_ACTION_START', text);
 				}
 			} else if (peek(TEMPLATE_TEXT)) {

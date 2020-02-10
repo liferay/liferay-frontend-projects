@@ -26,6 +26,7 @@ function dedent(input, tabWidth = 4) {
 			const length = Array.from(indent).reduce((count, char) => {
 				return count + (char === '\t' ? tabWidth : 1);
 			}, 0);
+
 			return Math.min(acc, length);
 		} else if (rest) {
 			return Math.min(acc, 0);

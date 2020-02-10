@@ -9,9 +9,11 @@ const getRegExpForGlob = require('../../src/utils/getRegExpForGlob');
 expect.extend({
 	toMatchGlob(file, glob) {
 		const pass = getRegExpForGlob(glob).test(file);
+
 		return {
 			message() {
 				const predicate = pass ? 'not to match' : 'to match';
+
 				return `expected path ${file} ${predicate} glob ${glob}`;
 			},
 			pass
