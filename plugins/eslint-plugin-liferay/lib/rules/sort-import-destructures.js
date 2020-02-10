@@ -29,8 +29,6 @@ module.exports = {
 						return;
 					}
 
-					let fix;
-
 					// Given:
 					//
 					//      import {a as b, c} from 'd';
@@ -42,15 +40,12 @@ module.exports = {
 					//
 					// We sort by `imported` always, ignoring `local`.
 					const sorted = specifiers.slice().sort((a, b) => {
-						const order =
-							a.imported.name > b.imported.name ? 1 : -1;
-
-						if (order === 1) {
-							fix = true;
-						}
-
-						return order;
+						return a.imported.name > b.imported.name ? 1 : -1;
 					});
+
+					const fix = sorted.some(
+						(sorted, i) => sorted !== specifiers[i]
+					);
 
 					if (fix) {
 						const text =
