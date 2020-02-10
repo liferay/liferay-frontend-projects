@@ -46,6 +46,10 @@ const config = {
 		'no-unused-expressions': 'error',
 		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
 		'object-shorthand': 'error',
+		'padding-line-between-statements': [
+			'error',
+			{blankLine: 'always', next: 'return', prev: '*'},
+		],
 		'prefer-arrow-callback': ['error', {allowNamedFunctions: true}],
 		'prefer-const': 'error',
 		'prefer-object-spread': 'error',

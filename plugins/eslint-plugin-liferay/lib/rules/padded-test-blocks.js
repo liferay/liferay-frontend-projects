@@ -88,6 +88,7 @@ const CALL_EXPRESSIONS = [
 				return match(node.tag, parts.slice(0, -1));
 			}
 		}
+
 		return false;
 	};
 
@@ -126,6 +127,7 @@ module.exports = {
 									/(\r\n|\n)([ \t]*)/g,
 									(_match, newline, indent) => {
 										newlines++;
+
 										return newline + newline + indent;
 									}
 								);

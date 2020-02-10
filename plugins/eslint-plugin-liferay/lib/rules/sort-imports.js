@@ -177,6 +177,7 @@ module.exports = {
 								}
 								last = i;
 							}
+
 							return [first, last];
 						},
 						[-1, -1]
