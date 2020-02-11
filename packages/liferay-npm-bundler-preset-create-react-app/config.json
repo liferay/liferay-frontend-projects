@@ -64,11 +64,31 @@
 			]
 		},
 		{
+			"description": "Rewrite CSS media URLs",
+			"test": "^build/static/css/.*\\.css$",
+			"use": [
+				{
+					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls",
+					"options": {
+						"docroot": "build",
+						"include": ["^static/media/.*"],
+						"matchQuotes": false
+					}
+				}
+			]
+		},
+		{
 			"description": "Remove content hash from webpack bundles and CSS",
 			"test": "",
 			"include": [
 				"^build/static/css/.*\\.css$",
-				"^build/static/js/.*\\.js$"
+				"^build/static/js/.*\\.js$",
+				"^build/static/media/.*\\.eot$",
+				"^build/static/media/.*\\.svg$",
+				"^build/static/media/.*\\.otf",
+				"^build/static/media/.*\\.ttf",
+				"^build/static/media/.*\\.woff$",
+				"^build/static/media/.*\\.woff2$"
 			],
 			"use": [
 				{
