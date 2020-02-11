@@ -76,7 +76,14 @@ All other `prettier` flags are ignored.
 
 ##### Vim
 
-One way to run prettier from Vim is with [the vim-prettier plugin](https://github.com/prettier/vim-prettier). It comes with a setting, `g:prettier#exec_cmd_path`, that you can use to configure a custom `prettier` executable. For example, you could take [this sample shell script](./contrib/prettier/prettier.sh) and copy it somewhere such as `~/bin/`, then add a line like this to your `~/.vim/vimrc`:
+One way to run prettier from Vim is with [the vim-prettier plugin](https://github.com/prettier/vim-prettier). It comes with a setting, `g:prettier#exec_cmd_path`, that you can use to configure a custom `prettier` executable. For example, you could take [this sample shell script](./contrib/prettier/prettier.sh) and copy it somewhere such as `~/bin/`:
+
+```sh
+curl https://raw.githubusercontent.com/liferay/liferay-npm-tools/master/packages/liferay-npm-scripts/contrib/prettier/prettier.sh > ~/bin/prettier.sh
+chmod +x !$
+```
+
+Then, add a line like this to your `~/.vim/vimrc`:
 
 ```
 let g:prettier#exec_cmd_path = "~/bin/prettier.sh"
@@ -106,7 +113,13 @@ And you can always call directly into `liferay-npm-scripts` if you prefer:
 
 A popular choice for running prettier from VSCode is the "[Prettier - Code Formatter](https://github.com/prettier/prettier-vscode)" extension.
 
-You can take [this sample wrapper module](./contrib/prettier/prettier.js) and configure the extension to use it instead of the standard `prettier` one. Just say you had the script at `~/bin/prettier.js`, in the UI you would go to `Preferences` → `Settings` → `User` → `Extensions` → `Prettier` → `Prettier Path` and set it to `~/bin/prettier.js`. Alternatively, if you prefer to manipulate the VSCode `settings.json` file directly, you would set `prettier.prettierPath` to `~/bin/prettier.js`.
+You can take [this sample wrapper module](./contrib/prettier/prettier.js) and configure the extension to use it instead of the standard `prettier` one. For example, to install a copy of the wrapper to `~/bin/prettier.js`, you could run the following:
+
+```sh
+curl https://raw.githubusercontent.com/liferay/liferay-npm-tools/master/packages/liferay-npm-scripts/contrib/prettier/prettier.js > ~/bin/prettier.js
+```
+
+If you have the script at `~/bin/prettier.js`, in the UI you would go to `Preferences` → `Settings` → `User` → `Extensions` → `Prettier` → `Prettier Path` and set it to `~/bin/prettier.js`. Alternatively, if you prefer to manipulate the VSCode `settings.json` file directly, you would set `prettier.prettierPath` to `~/bin/prettier.js`.
 
 The wrapper script attempts to detect when you are working in a liferay-portal checkout and uses the customized Prettier formatting in that case; otherwise, it falls back to the standard behavior.
 
