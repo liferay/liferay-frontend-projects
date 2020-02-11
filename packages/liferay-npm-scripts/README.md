@@ -121,6 +121,8 @@ curl https://raw.githubusercontent.com/liferay/liferay-npm-tools/master/packages
 
 If you have the script at `~/bin/prettier.js`, in the UI you would go to `Preferences` → `Settings` → `User` → `Extensions` → `Prettier` → `Prettier Path` and set it to `~/bin/prettier.js`. Alternatively, if you prefer to manipulate the VSCode `settings.json` file directly, you would set `prettier.prettierPath` to `~/bin/prettier.js`.
 
+**Note:** You will have to restart VSCode for this change to actually take effect.
+
 The wrapper script attempts to detect when you are working in a liferay-portal checkout and uses the customized Prettier formatting in that case; otherwise, it falls back to the standard behavior.
 
 ### test
