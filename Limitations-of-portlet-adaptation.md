@@ -6,7 +6,7 @@ This page lists the currently known limitations of the adaptation technique.
 
 > 👀 Keep in mind that some limitations not listed here may exist waiting to be discovered by someone. We only list limitations that we are aware of. Usually because they have been reported as an issue or because we have encountered them while developing the JS Toolkit.
 >
-> But, sadly, it's impossible to think about all limitations in advance, because that depends entirely on what the developers may do that works in SPA but not in a Portlet-based model.
+> But, sadly, it's impossible to think about all limitations in advance, because that depends entirely on what developers may do that works in SPA but not in a Portlet-based model.
 
 ## Static URLs inside CSS files may not work in adaptations
 
