@@ -23,7 +23,7 @@ const debug = line => {
 		if (!outputChannel) {
 			const {window} = require('vscode');
 
-			outputChannel = window.createOutputChannel('greg');
+			outputChannel = window.createOutputChannel('liferay-npm-scripts');
 		}
 
 		outputChannel.appendLine(line);
