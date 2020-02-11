@@ -8,14 +8,12 @@ This page lists the currently known limitations of the adaptation technique.
 >
 > But, sadly, it's impossible to think about all limitations in advance, because that depends entirely on what the developers may do that works in SPA but not in a Portlet-based model.
 
-## Static URLs inside CSS files won't work in adaptations
+## Static URLs inside CSS files may not work in adaptations
 
 This comes from [issue 477](https://github.com/liferay/liferay-js-toolkit/issues/477).
 
-The main problem is that URLs in Liferay are not known at build time (when you are building your project) because they may depend on the final deployment (whether there's a CDN or proxy enabled, the web context of the portlet, the page being visited and so on) so there's no way to build a project that will work for every Liferay configuration out there.
+The main problem is that URLs in Liferay are not known at build time (when you are building your project) because they depend on the final deployment: whether there's a CDN or proxy enabled, a web server rewriting URLs, or things like that.
 
-Also, any URL inside a CSS or JS file, for instance, should be absolute, because a portlet can be placed in several different pages which can change the URL.
+The adapter provides JavaScript code to transform URLs during runtime according to Liferay's configuration, but unfortunately URLs appearing inside CSS files cannot be processed by such code.
 
-You can however assume that URLs will have a certain structure if you are sure that it won't change, but that's not generalizable, so there's nothing the adapter can do there: you need to do it by hand.
-
-So, how to overcome this limitation? Just hard code the final absolute URL of your resource as it is supposed to be fetched from Liferay.
+So, in the case of CSS, the adapter will only convert static media URLs to absolute form and prefix them with the context path of the portlet. That will work in most of the scenarios, but if you configure a proxy path or a CDN, the URLs may fail. Keep that in mind.
