@@ -9,8 +9,16 @@ const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
 
 const JS_GLOBS = ['{src,test}/**/*.js'];
+const JSON_GLOBS = ['/*.json'];
 const JSP_GLOBS = ['src/**/*.{jsp,jspf}'];
 const SCSS_GLOBS = ['{src,test}/**/*.scss'];
+
+const CHECK_AND_FIX_GLOBS = [
+	...JS_GLOBS,
+	...JSON_GLOBS,
+	...JSP_GLOBS,
+	...SCSS_GLOBS
+];
 
 module.exports = {
 	build: {
@@ -19,8 +27,8 @@ module.exports = {
 		output: 'build/node/packageRunBuild/resources',
 		temp: 'build/npmscripts'
 	},
-	check: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
-	fix: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
+	check: CHECK_AND_FIX_GLOBS,
+	fix: CHECK_AND_FIX_GLOBS,
 	rules: {
 		'blacklisted-dependency-patterns': ['^liferay-npm-bundler-loader-.+']
 	},
