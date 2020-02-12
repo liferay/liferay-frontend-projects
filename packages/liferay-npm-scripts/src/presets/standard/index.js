@@ -21,6 +21,9 @@ module.exports = {
 	},
 	check: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
 	fix: [...JS_GLOBS, ...JSP_GLOBS, ...SCSS_GLOBS],
+	rules: {
+		'blacklisted-dependency-patterns': ['^liferay-npm-bundler-loader-.+']
+	},
 	storybook: {
 		languagePaths: ['src/main/resources/content/Language.properties'],
 		port: '9000',

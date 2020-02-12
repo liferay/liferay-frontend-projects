@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const fs = require('fs');
 const path = require('path');
 
+const getMergedConfig = require('../../utils/getMergedConfig');
 const getPaths = require('../../utils/getPaths');
 const log = require('../../utils/log');
 const {SpawnError} = require('../../utils/spawnSync');
@@ -59,7 +61,7 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 const IGNORE_FILE = '.eslintignore';
 
 function preflight() {
-	const errors = [...checkConfigFileNames(), ...checkSourceFileNames()];
+	const errors = [...checkConfigFileNames(), ...checkPackageJSONFiles()];
 
 	if (errors.length) {
 		log('Preflight check failed:');
@@ -89,13 +91,51 @@ function checkConfigFileNames() {
 	});
 }
 
+const BLACKLISTED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
+
 /**
- * Checks that source files followed standard naming patterns.
+ * Runs checks against package.json files.
  *
  * Returns a (possibly empty) array of error messages.
  */
-function checkSourceFileNames() {
-	return [];
+function checkPackageJSONFiles() {
+	const packages = getPaths(['package.json'], [], IGNORE_FILE);
+
+	const {rules} = getMergedConfig('npmscripts');
+
+	const errors = [];
+
+	if (rules && rules[BLACKLISTED_DEPENDENCY_PATTERNS]) {
+		const blacklist = rules[BLACKLISTED_DEPENDENCY_PATTERNS].map(
+			pattern => {
+				return new RegExp(pattern);
+			}
+		);
+
+		packages.forEach(pkg => {
+			try {
+				const {dependencies} = JSON.parse(fs.readFileSync(pkg), 'utf8');
+
+				const names = dependencies ? Object.keys(dependencies) : [];
+
+				names.forEach(name => {
+					blacklist.forEach(pattern => {
+						if (pattern.test(name)) {
+							errors.push(
+								`${pkg}: BAD - contains blacklisted dependency: ${name}`
+							);
+						}
+					});
+				});
+			} catch (error) {
+				errors.push(
+					`${pkg}: BAD - error thrown during checks: ${error}`
+				);
+			}
+		});
+	}
+
+	return errors;
 }
 
 module.exports = preflight;
