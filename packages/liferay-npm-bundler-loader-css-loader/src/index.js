@@ -81,14 +81,14 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
-	if (filePath.startsWith(`node_modules${path.sep}`)) {
+	if (filePath.indexOf(`node_modules${path.sep}`) != -1) {
 		const pathParts = filePath.split(path.sep);
 
 		const projectNameIndex = lastIndexOf(pathParts, 'node_modules') + 1;
 
 		const {version} = readJsonSync(
 			path.join(
-				'node_modules',
+				...pathParts.slice(0, projectNameIndex),
 				pathParts[projectNameIndex],
 				'package.json'
 			)
@@ -102,7 +102,10 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 
 		pathParts[projectNameIndex] += `@${version}`;
 
-		filePath = pathParts.join(path.sep);
+		filePath = path.join(
+			'node_modules',
+			...pathParts.slice(projectNameIndex)
+		);
 	} else {
 		// If file is inside a source folder, strip the folder name
 		for (let sourcePath of project.sources.map(source => source.asNative)) {
