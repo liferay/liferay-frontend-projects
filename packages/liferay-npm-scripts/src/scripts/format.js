@@ -21,7 +21,7 @@ const DEFAULT_OPTIONS = {
 /**
  * File extensions that we want Prettier to process.
  */
-const EXTENSIONS = ['.js', '.jsp', '.jspf', '.scss'];
+const EXTENSIONS = ['.js', '.json', '.jsp', '.jspf', '.scss'];
 
 const IGNORE_FILE = '.prettierignore';
 

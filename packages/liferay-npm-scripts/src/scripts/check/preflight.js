@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const fs = require('fs');
 const path = require('path');
 
+const getMergedConfig = require('../../utils/getMergedConfig');
 const getPaths = require('../../utils/getPaths');
 const log = require('../../utils/log');
 const {SpawnError} = require('../../utils/spawnSync');
@@ -59,23 +61,81 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 const IGNORE_FILE = '.eslintignore';
 
 function preflight() {
+	const errors = [...checkConfigFileNames(), ...checkPackageJSONFiles()];
+
+	if (errors.length) {
+		log('Preflight check failed:');
+
+		log(...errors);
+
+		throw new SpawnError();
+	}
+}
+
+/**
+ * Checks that config files use standard names.
+ *
+ * Returns a (possibly empty) array of error messages.
+ */
+function checkConfigFileNames() {
 	const disallowedConfigs = getPaths(
 		Object.keys(DISALLOWED_CONFIG_FILE_NAMES),
 		[],
 		IGNORE_FILE
 	);
 
-	if (disallowedConfigs.length) {
-		log('Preflight check failed:');
+	return disallowedConfigs.map(file => {
+		const suggested = DISALLOWED_CONFIG_FILE_NAMES[path.basename(file)];
 
-		disallowedConfigs.forEach(file => {
-			const suggested = DISALLOWED_CONFIG_FILE_NAMES[path.basename(file)];
+		return `${file}: BAD - use ${suggested} instead`;
+	});
+}
 
-			log(`${file}: BAD - use ${suggested} instead`);
+const BLACKLISTED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
+
+/**
+ * Runs checks against package.json files.
+ *
+ * Returns a (possibly empty) array of error messages.
+ */
+function checkPackageJSONFiles() {
+	const packages = getPaths(['package.json'], [], IGNORE_FILE);
+
+	const {rules} = getMergedConfig('npmscripts');
+
+	const errors = [];
+
+	if (rules && rules[BLACKLISTED_DEPENDENCY_PATTERNS]) {
+		const blacklist = rules[BLACKLISTED_DEPENDENCY_PATTERNS].map(
+			pattern => {
+				return new RegExp(pattern);
+			}
+		);
+
+		packages.forEach(pkg => {
+			try {
+				const {dependencies} = JSON.parse(fs.readFileSync(pkg), 'utf8');
+
+				const names = dependencies ? Object.keys(dependencies) : [];
+
+				names.forEach(name => {
+					blacklist.forEach(pattern => {
+						if (pattern.test(name)) {
+							errors.push(
+								`${pkg}: BAD - contains blacklisted dependency: ${name}`
+							);
+						}
+					});
+				});
+			} catch (error) {
+				errors.push(
+					`${pkg}: BAD - error thrown during checks: ${error}`
+				);
+			}
 		});
-
-		throw new SpawnError();
 	}
+
+	return errors;
 }
 
 module.exports = preflight;
