@@ -62,7 +62,7 @@ const Session = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L103
 	 */
-	set: jest.fn(() => Promise.resolve({}))
+	set: jest.fn(() => Promise.resolve({})),
 };
 
 /**

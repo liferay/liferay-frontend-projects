@@ -8,7 +8,7 @@ const stylelint = require('stylelint');
 const ruleName = 'liferay/single-imports';
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
-	single: 'one import rule per resource'
+	single: 'one import rule per resource',
 });
 
 const MATCHERS = Object.entries({
@@ -16,7 +16,7 @@ const MATCHERS = Object.entries({
 	SEPARATOR: /^,/,
 	SINGLE_QUOTED_STRING: /^'[^']*'/,
 	URL: /^url\s*\([^)]*\)/,
-	WHITESPACE: /^\s+/
+	WHITESPACE: /^\s+/,
 });
 
 function tokenize(params) {
@@ -36,7 +36,7 @@ function tokenize(params) {
 
 				tokens.push({
 					kind,
-					text: match[0]
+					text: match[0],
 				});
 
 				i += text.length;
@@ -64,14 +64,14 @@ module.exports = stylelint.createPlugin(
 				ruleName,
 				{
 					actual: options,
-					possible: [true, false]
+					possible: [true, false],
 				},
 				{
 					actual: secondaryOptions,
 					optional: true,
 					possible: {
-						disableFix: [true, false]
-					}
+						disableFix: [true, false],
+					},
 				}
 			);
 
@@ -128,7 +128,7 @@ module.exports = stylelint.createPlugin(
 							message: messages.single,
 							node: rule,
 							result,
-							ruleName
+							ruleName,
 						});
 					}
 				}
