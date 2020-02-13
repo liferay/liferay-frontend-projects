@@ -15,7 +15,7 @@ const SIGNALS = {
 	SIGHUP: 1,
 	SIGINT: 2,
 	SIGQUIT: 3,
-	SIGTERM: 15
+	SIGTERM: 15,
 };
 
 const SignalHandler = {
@@ -33,7 +33,7 @@ const SignalHandler = {
 		SignalHandler.install();
 
 		return getDisposable(callback, index++);
-	}
+	},
 };
 
 function getDisposable(callback, id) {
@@ -44,7 +44,7 @@ function getDisposable(callback, id) {
 			callback();
 
 			callbacks.delete(id);
-		}
+		},
 	};
 }
 

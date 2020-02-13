@@ -62,7 +62,7 @@ describe('restoreTags()', () => {
 
 		const tags = [
 			'<my-long-namespace:this-tag>',
-			'</my-long-namespace:this-tag>'
+			'</my-long-namespace:this-tag>',
 		];
 
 		const result = restoreTags(text, tags);

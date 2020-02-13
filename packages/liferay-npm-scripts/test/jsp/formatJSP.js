@@ -327,7 +327,7 @@ describe('formatJSP()', () => {
 			'source.jsp',
 			'view.jsp',
 			'view_calendar_menus.jspf',
-			'view_meeting.jsp'
+			'view_meeting.jsp',
 
 			// Not including these (rejected by Prettier, see "known
 			// limitations" below):

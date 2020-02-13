@@ -8,7 +8,7 @@ const lex = require('./lex');
 const {
 	getCloseTagReplacement,
 	getOpenTagReplacement,
-	getSelfClosingTagReplacement
+	getSelfClosingTagReplacement,
 } = require('./tagReplacements');
 const toFiller = require('./toFiller');
 

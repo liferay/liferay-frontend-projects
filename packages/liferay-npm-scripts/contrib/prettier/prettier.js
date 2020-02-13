@@ -59,7 +59,7 @@ module.exports = {
 		} else {
 			return Promise.resolve({
 				ignored: false,
-				inferredParser: 'babel'
+				inferredParser: 'babel',
 			});
 		}
 	},
@@ -103,7 +103,7 @@ module.exports = {
 							'.sjs',
 							'.ssjs',
 							'.xsjs',
-							'.xsjslib'
+							'.xsjslib',
 						],
 						filenames: ['Jakefile'],
 						interpreters: [
@@ -114,12 +114,12 @@ module.exports = {
 							'rhino',
 							'v8',
 							'v8-shell',
-							'nodejs'
+							'nodejs',
 						],
 						linguistLanguageId: 183,
 						since: '0.0.0',
 						parsers: ['babel', 'flow'],
-						vscodeLanguageIds: ['javascript', 'mongo']
+						vscodeLanguageIds: ['javascript', 'mongo'],
 					},
 					{
 						name: 'Flow',
@@ -139,12 +139,12 @@ module.exports = {
 							'node',
 							'rhino',
 							'v8',
-							'v8-shell'
+							'v8-shell',
 						],
 						linguistLanguageId: 183,
 						since: '0.0.0',
 						parsers: ['babel', 'flow'],
-						vscodeLanguageIds: ['javascript']
+						vscodeLanguageIds: ['javascript'],
 					},
 					{
 						name: 'JSX',
@@ -158,7 +158,7 @@ module.exports = {
 						linguistLanguageId: 178,
 						since: '0.0.0',
 						parsers: ['babel', 'flow'],
-						vscodeLanguageIds: ['javascriptreact']
+						vscodeLanguageIds: ['javascriptreact'],
 					},
 					{
 						name: 'TypeScript',
@@ -174,7 +174,7 @@ module.exports = {
 						linguistLanguageId: 378,
 						since: '1.4.0',
 						parsers: ['typescript'],
-						vscodeLanguageIds: ['typescript']
+						vscodeLanguageIds: ['typescript'],
 					},
 					{
 						name: 'TSX',
@@ -188,7 +188,7 @@ module.exports = {
 						linguistLanguageId: 94901924,
 						since: '1.4.0',
 						parsers: ['typescript'],
-						vscodeLanguageIds: ['typescriptreact']
+						vscodeLanguageIds: ['typescriptreact'],
 					},
 					{
 						name: 'JSON.stringify',
@@ -202,12 +202,12 @@ module.exports = {
 						filenames: [
 							'package.json',
 							'package-lock.json',
-							'composer.json'
+							'composer.json',
 						],
 						linguistLanguageId: 174,
 						since: '1.13.0',
 						parsers: ['json-stringify'],
-						vscodeLanguageIds: ['json']
+						vscodeLanguageIds: ['json'],
 					},
 					{
 						name: 'JSON',
@@ -233,7 +233,7 @@ module.exports = {
 							'.webapp',
 							'.webmanifest',
 							'.yy',
-							'.yyp'
+							'.yyp',
 						],
 						filenames: [
 							'.arcconfig',
@@ -243,12 +243,12 @@ module.exports = {
 							'.watchmanconfig',
 							'composer.lock',
 							'mcmod.info',
-							'.prettierrc'
+							'.prettierrc',
 						],
 						linguistLanguageId: 174,
 						since: '1.5.0',
 						parsers: ['json'],
-						vscodeLanguageIds: ['json']
+						vscodeLanguageIds: ['json'],
 					},
 					{
 						name: 'JSON with Comments',
@@ -272,7 +272,7 @@ module.exports = {
 							'.sublime-theme',
 							'.sublime-workspace',
 							'.sublime_metrics',
-							'.sublime_session'
+							'.sublime_session',
 						],
 						filenames: [
 							'.babelrc',
@@ -283,12 +283,12 @@ module.exports = {
 							'jsconfig.json',
 							'language-configuration.json',
 							'tsconfig.json',
-							'.eslintrc'
+							'.eslintrc',
 						],
 						linguistLanguageId: 423,
 						since: '1.5.0',
 						parsers: ['json'],
-						vscodeLanguageIds: ['jsonc']
+						vscodeLanguageIds: ['jsonc'],
 					},
 					{
 						name: 'JSON5',
@@ -301,7 +301,7 @@ module.exports = {
 						linguistLanguageId: 175,
 						since: '1.13.0',
 						parsers: ['json5'],
-						vscodeLanguageIds: ['json5']
+						vscodeLanguageIds: ['json5'],
 					},
 					{
 						name: 'CSS',
@@ -315,7 +315,7 @@ module.exports = {
 						linguistLanguageId: 50,
 						since: '1.4.0',
 						parsers: ['css'],
-						vscodeLanguageIds: ['css']
+						vscodeLanguageIds: ['css'],
 					},
 					{
 						name: 'PostCSS',
@@ -327,7 +327,7 @@ module.exports = {
 						linguistLanguageId: 262764437,
 						since: '1.4.0',
 						parsers: ['css'],
-						vscodeLanguageIds: ['postcss']
+						vscodeLanguageIds: ['postcss'],
 					},
 					{
 						name: 'Less',
@@ -341,7 +341,7 @@ module.exports = {
 						linguistLanguageId: 198,
 						since: '1.4.0',
 						parsers: ['less'],
-						vscodeLanguageIds: ['less']
+						vscodeLanguageIds: ['less'],
 					},
 					{
 						name: 'SCSS',
@@ -355,7 +355,7 @@ module.exports = {
 						linguistLanguageId: 329,
 						since: '1.4.0',
 						parsers: ['scss'],
-						vscodeLanguageIds: ['scss']
+						vscodeLanguageIds: ['scss'],
 					},
 					{
 						name: 'GraphQL',
@@ -366,7 +366,7 @@ module.exports = {
 						linguistLanguageId: 139,
 						since: '1.5.0',
 						parsers: ['graphql'],
-						vscodeLanguageIds: ['graphql']
+						vscodeLanguageIds: ['graphql'],
 					},
 					{
 						name: 'Markdown',
@@ -385,14 +385,14 @@ module.exports = {
 							'.mkdn',
 							'.mkdown',
 							'.ronn',
-							'.workbook'
+							'.workbook',
 						],
 						filenames: ['contents.lr', 'README'],
 						tmScope: 'source.gfm',
 						linguistLanguageId: 222,
 						since: '1.8.0',
 						parsers: ['markdown'],
-						vscodeLanguageIds: ['markdown']
+						vscodeLanguageIds: ['markdown'],
 					},
 					{
 						name: 'MDX',
@@ -408,7 +408,7 @@ module.exports = {
 						linguistLanguageId: 222,
 						since: '1.15.0',
 						parsers: ['mdx'],
-						vscodeLanguageIds: ['mdx']
+						vscodeLanguageIds: ['mdx'],
 					},
 					{
 						name: 'Angular',
@@ -424,7 +424,7 @@ module.exports = {
 						since: '1.15.0',
 						parsers: ['angular'],
 						vscodeLanguageIds: ['html'],
-						filenames: []
+						filenames: [],
 					},
 					{
 						name: 'HTML',
@@ -443,12 +443,12 @@ module.exports = {
 							'.st',
 							'.xht',
 							'.xhtml',
-							'.mjml'
+							'.mjml',
 						],
 						linguistLanguageId: 146,
 						since: '1.15.0',
 						parsers: ['html'],
-						vscodeLanguageIds: ['html']
+						vscodeLanguageIds: ['html'],
 					},
 					{
 						name: 'Lightning Web Components',
@@ -464,7 +464,7 @@ module.exports = {
 						since: '1.17.0',
 						parsers: ['lwc'],
 						vscodeLanguageIds: ['html'],
-						filenames: []
+						filenames: [],
 					},
 					{
 						name: 'Vue',
@@ -476,7 +476,7 @@ module.exports = {
 						linguistLanguageId: 391,
 						since: '1.10.0',
 						parsers: ['vue'],
-						vscodeLanguageIds: ['vue']
+						vscodeLanguageIds: ['vue'],
 					},
 					{
 						name: 'YAML',
@@ -492,13 +492,13 @@ module.exports = {
 							'.syntax',
 							'.yaml',
 							'.yaml-tmlanguage',
-							'.yml.mysql'
+							'.yml.mysql',
 						],
 						filenames: [
 							'.clang-format',
 							'.clang-tidy',
 							'.gemrc',
-							'glide.lock'
+							'glide.lock',
 						],
 						aceMode: 'yaml',
 						codemirrorMode: 'yaml',
@@ -506,8 +506,8 @@ module.exports = {
 						linguistLanguageId: 407,
 						since: '1.14.0',
 						parsers: ['yaml'],
-						vscodeLanguageIds: ['yaml']
-					}
+						vscodeLanguageIds: ['yaml'],
+					},
 				],
 				options: [
 					{
@@ -522,15 +522,15 @@ module.exports = {
 							{
 								value: 'avoid',
 								description:
-									'Omit parens when possible. Example: `x => x`'
+									'Omit parens when possible. Example: `x => x`',
 							},
 							{
 								value: 'always',
 								description:
-									'Always include parens. Example: `(x) => x`'
-							}
+									'Always include parens. Example: `(x) => x`',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'bracketSpacing',
@@ -541,7 +541,7 @@ module.exports = {
 						description: 'Print spaces between brackets.',
 						oppositeDescription:
 							'Do not print spaces between brackets.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'cursorOffset',
@@ -552,11 +552,11 @@ module.exports = {
 						range: {
 							start: -1,
 							end: null,
-							step: 1
+							step: 1,
 						},
 						description:
 							'Print (to stderr) where a cursor at the given position would move to after formatting.\nThis option cannot be used with --range-start and --range-end.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'endOfLine',
@@ -569,25 +569,25 @@ module.exports = {
 							{
 								value: 'auto',
 								description:
-									"Maintain existing\n(mixed values within one file are normalised by looking at what's used after the first line)"
+									"Maintain existing\n(mixed values within one file are normalised by looking at what's used after the first line)",
 							},
 							{
 								value: 'lf',
 								description:
-									'Line Feed only (\\n), common on Linux and macOS as well as inside git repos'
+									'Line Feed only (\\n), common on Linux and macOS as well as inside git repos',
 							},
 							{
 								value: 'crlf',
 								description:
-									'Carriage Return + Line Feed characters (\\r\\n), common on Windows'
+									'Carriage Return + Line Feed characters (\\r\\n), common on Windows',
 							},
 							{
 								value: 'cr',
 								description:
-									'Carriage Return character only (\\r), used very rarely'
-							}
+									'Carriage Return character only (\\r), used very rarely',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'filepath',
@@ -596,7 +596,7 @@ module.exports = {
 						type: 'path',
 						description:
 							'Specify the input filepath. This will be used to do parser inference.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'htmlWhitespaceSensitivity',
@@ -609,20 +609,20 @@ module.exports = {
 							{
 								value: 'css',
 								description:
-									'Respect the default value of CSS display property.'
+									'Respect the default value of CSS display property.',
 							},
 							{
 								value: 'strict',
 								description:
-									'Whitespaces are considered sensitive.'
+									'Whitespaces are considered sensitive.',
 							},
 							{
 								value: 'ignore',
 								description:
-									'Whitespaces are considered insensitive.'
-							}
+									'Whitespaces are considered insensitive.',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'insertPragma',
@@ -632,7 +632,7 @@ module.exports = {
 						default: false,
 						description:
 							"Insert @format pragma into file's first docblock comment.",
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'jsxBracketSameLine',
@@ -642,7 +642,7 @@ module.exports = {
 						default: false,
 						description:
 							'Put > on the last line instead of at a new line.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'jsxSingleQuote',
@@ -651,7 +651,7 @@ module.exports = {
 						type: 'boolean',
 						default: false,
 						description: 'Use single quotes in JSX.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'parser',
@@ -662,95 +662,95 @@ module.exports = {
 						choices: [
 							{
 								value: 'flow',
-								description: 'Flow'
+								description: 'Flow',
 							},
 							{
 								value: 'babel',
 								since: '1.16.0',
-								description: 'JavaScript'
+								description: 'JavaScript',
 							},
 							{
 								value: 'babel-flow',
 								since: '1.16.0',
-								description: 'Flow'
+								description: 'Flow',
 							},
 							{
 								value: 'typescript',
 								since: '1.4.0',
-								description: 'TypeScript'
+								description: 'TypeScript',
 							},
 							{
 								value: 'css',
 								since: '1.7.1',
-								description: 'CSS'
+								description: 'CSS',
 							},
 							{
 								value: 'less',
 								since: '1.7.1',
-								description: 'Less'
+								description: 'Less',
 							},
 							{
 								value: 'scss',
 								since: '1.7.1',
-								description: 'SCSS'
+								description: 'SCSS',
 							},
 							{
 								value: 'json',
 								since: '1.5.0',
-								description: 'JSON'
+								description: 'JSON',
 							},
 							{
 								value: 'json5',
 								since: '1.13.0',
-								description: 'JSON5'
+								description: 'JSON5',
 							},
 							{
 								value: 'json-stringify',
 								since: '1.13.0',
-								description: 'JSON.stringify'
+								description: 'JSON.stringify',
 							},
 							{
 								value: 'graphql',
 								since: '1.5.0',
-								description: 'GraphQL'
+								description: 'GraphQL',
 							},
 							{
 								value: 'markdown',
 								since: '1.8.0',
-								description: 'Markdown'
+								description: 'Markdown',
 							},
 							{
 								value: 'mdx',
 								since: '1.15.0',
-								description: 'MDX'
+								description: 'MDX',
 							},
 							{
 								value: 'vue',
 								since: '1.10.0',
-								description: 'Vue'
+								description: 'Vue',
 							},
 							{
 								value: 'yaml',
 								since: '1.14.0',
-								description: 'YAML'
+								description: 'YAML',
 							},
 							{
 								value: 'html',
 								since: '1.15.0',
-								description: 'HTML'
+								description: 'HTML',
 							},
 							{
 								value: 'angular',
 								since: '1.15.0',
-								description: 'Angular'
+								description: 'Angular',
 							},
 							{
 								value: 'lwc',
 								since: '1.17.0',
-								description: 'Lightning Web Components'
-							}
+								description: 'Lightning Web Components',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'pluginSearchDirs',
@@ -761,7 +761,7 @@ module.exports = {
 						category: 'Global',
 						description:
 							'Custom directory that contains prettier plugins in node_modules subdirectory.\nOverrides default behavior when plugins are searched relatively to the location of Prettier.\nMultiple values are accepted.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'plugins',
@@ -772,7 +772,7 @@ module.exports = {
 						category: 'Global',
 						description:
 							'Add a plugin. Multiple plugins can be passed as separate `--plugin`s.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'printWidth',
@@ -785,9 +785,9 @@ module.exports = {
 						range: {
 							start: 0,
 							end: null,
-							step: 1
+							step: 1,
 						},
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'proseWrap',
@@ -801,20 +801,20 @@ module.exports = {
 								since: '1.9.0',
 								value: 'always',
 								description:
-									'Wrap prose if it exceeds the print width.'
+									'Wrap prose if it exceeds the print width.',
 							},
 							{
 								since: '1.9.0',
 								value: 'never',
-								description: 'Do not wrap prose.'
+								description: 'Do not wrap prose.',
 							},
 							{
 								since: '1.9.0',
 								value: 'preserve',
-								description: 'Wrap prose as-is.'
-							}
+								description: 'Wrap prose as-is.',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'quoteProps',
@@ -828,20 +828,20 @@ module.exports = {
 							{
 								value: 'as-needed',
 								description:
-									'Only add quotes around object properties where required.'
+									'Only add quotes around object properties where required.',
 							},
 							{
 								value: 'consistent',
 								description:
-									'If at least one property in an object requires quotes, quote all properties.'
+									'If at least one property in an object requires quotes, quote all properties.',
 							},
 							{
 								value: 'preserve',
 								description:
-									'Respect the input use of quotes in object properties.'
-							}
+									'Respect the input use of quotes in object properties.',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'rangeEnd',
@@ -852,11 +852,11 @@ module.exports = {
 						range: {
 							start: 0,
 							end: null,
-							step: 1
+							step: 1,
 						},
 						description:
 							'Format code ending at a given character offset (exclusive).\nThe range will extend forwards to the end of the selected statement.\nThis option cannot be used with --cursor-offset.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'rangeStart',
@@ -867,11 +867,11 @@ module.exports = {
 						range: {
 							start: 0,
 							end: null,
-							step: 1
+							step: 1,
 						},
 						description:
 							'Format code starting at a given character offset.\nThe range will extend backwards to the start of the first line containing the selected statement.\nThis option cannot be used with --cursor-offset.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'requirePragma',
@@ -881,7 +881,7 @@ module.exports = {
 						default: false,
 						description:
 							"Require either '@prettier' or '@format' to be present in the file's first docblock comment\nin order for it to be formatted.",
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'semi',
@@ -892,7 +892,7 @@ module.exports = {
 						description: 'Print semicolons.',
 						oppositeDescription:
 							'Do not print semicolons, except at the beginning of lines which may need them.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'singleQuote',
@@ -902,7 +902,7 @@ module.exports = {
 						default: false,
 						description:
 							'Use single quotes instead of double quotes.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'tabWidth',
@@ -913,9 +913,9 @@ module.exports = {
 						range: {
 							start: 0,
 							end: null,
-							step: 1
+							step: 1,
 						},
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'trailingComma',
@@ -928,20 +928,20 @@ module.exports = {
 						choices: [
 							{
 								value: 'none',
-								description: 'No trailing commas.'
+								description: 'No trailing commas.',
 							},
 							{
 								value: 'es5',
 								description:
-									'Trailing commas where valid in ES5 (objects, arrays, etc.)'
+									'Trailing commas where valid in ES5 (objects, arrays, etc.)',
 							},
 							{
 								value: 'all',
 								description:
-									'Trailing commas wherever possible (including function arguments).'
-							}
+									'Trailing commas wherever possible (including function arguments).',
+							},
 						],
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'useTabs',
@@ -950,7 +950,7 @@ module.exports = {
 						type: 'boolean',
 						default: false,
 						description: 'Indent with tabs instead of spaces.',
-						pluginDefaults: {}
+						pluginDefaults: {},
 					},
 					{
 						name: 'vueIndentScriptAndStyle',
@@ -960,9 +960,9 @@ module.exports = {
 						default: false,
 						description:
 							'Indent script and style tags in Vue files.',
-						pluginDefaults: {}
-					}
-				]
+						pluginDefaults: {},
+					},
+				],
 			};
 			/* eslint-enable sort-keys */
 		}
@@ -978,7 +978,7 @@ module.exports = {
 		}
 	},
 
-	version: '1.19.1'
+	version: '1.19.1',
 };
 
 /**

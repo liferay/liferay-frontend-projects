@@ -13,7 +13,7 @@ describe('liferay/trim-comments', () => {
 				// More.
 				a { color: #000; }
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -35,7 +35,7 @@ describe('liferay/trim-comments', () => {
 					rule: 'liferay/trim-comments',
 					severity: 'error',
 					text:
-						'No blank leading lines in comments (liferay/trim-comments)'
+						'No blank leading lines in comments (liferay/trim-comments)',
 				},
 				{
 					column: 5,
@@ -43,9 +43,9 @@ describe('liferay/trim-comments', () => {
 					rule: 'liferay/trim-comments',
 					severity: 'error',
 					text:
-						'No blank leading lines in comments (liferay/trim-comments)'
-				}
-			]
+						'No blank leading lines in comments (liferay/trim-comments)',
+				},
+			],
 		});
 	});
 
@@ -67,7 +67,7 @@ describe('liferay/trim-comments', () => {
 					rule: 'liferay/trim-comments',
 					severity: 'error',
 					text:
-						'No blank trailing lines in comments (liferay/trim-comments)'
+						'No blank trailing lines in comments (liferay/trim-comments)',
 				},
 				{
 					column: 5,
@@ -75,9 +75,9 @@ describe('liferay/trim-comments', () => {
 					rule: 'liferay/trim-comments',
 					severity: 'error',
 					text:
-						'No blank trailing lines in comments (liferay/trim-comments)'
-				}
-			]
+						'No blank trailing lines in comments (liferay/trim-comments)',
+				},
+			],
 		});
 	});
 
@@ -96,7 +96,7 @@ describe('liferay/trim-comments', () => {
 					rule: 'liferay/trim-comments',
 					severity: 'error',
 					text:
-						'No blank leading lines in comments (liferay/trim-comments)'
+						'No blank leading lines in comments (liferay/trim-comments)',
 				},
 				{
 					column: 5,
@@ -104,9 +104,9 @@ describe('liferay/trim-comments', () => {
 					rule: 'liferay/trim-comments',
 					severity: 'error',
 					text:
-						'No blank trailing lines in comments (liferay/trim-comments)'
-				}
-			]
+						'No blank trailing lines in comments (liferay/trim-comments)',
+				},
+			],
 		});
 	});
 
@@ -142,7 +142,7 @@ describe('liferay/trim-comments', () => {
 				a { color: #111; }
 
 				// One last bad thing.
-			`
+			`,
 		});
 	});
 
@@ -155,7 +155,7 @@ describe('liferay/trim-comments', () => {
 				a { color: #000; }
 			`,
 			errors: [],
-			options: [false]
+			options: [false],
 		});
 	});
 });

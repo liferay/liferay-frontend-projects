@@ -40,7 +40,7 @@ module.exports = function(arrArgs = []) {
 
 		const env = {
 			...process.env,
-			NODE_ENV: 'test'
+			NODE_ENV: 'test',
 		};
 
 		const {NODE_ENV} = process.env;
@@ -56,7 +56,7 @@ module.exports = function(arrArgs = []) {
 		}
 
 		spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
-			env
+			env,
 		});
 
 		if (useSoy) {

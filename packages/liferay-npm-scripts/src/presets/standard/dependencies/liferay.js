@@ -8,5 +8,5 @@ module.exports = [
 	'frontend-js-web',
 	'frontend-taglib-clay',
 	'frontend-taglib',
-	'hello-soy-web'
+	'hello-soy-web',
 ];

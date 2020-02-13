@@ -12,7 +12,7 @@ describe('liferay/no-block-comments', () => {
 				// A good comment.
 				a { color: #000 };
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -29,9 +29,9 @@ describe('liferay/no-block-comments', () => {
 					rule: 'liferay/no-block-comments',
 					severity: 'error',
 					text:
-						'No block-based comments (/* ... */); use line-based (//) comment syntax instead (liferay/no-block-comments)'
-				}
-			]
+						'No block-based comments (/* ... */); use line-based (//) comment syntax instead (liferay/no-block-comments)',
+				},
+			],
 		});
 	});
 
@@ -42,7 +42,7 @@ describe('liferay/no-block-comments', () => {
 				a { color: #000 };
 			`,
 			errors: [],
-			options: false
+			options: false,
 		});
 	});
 });

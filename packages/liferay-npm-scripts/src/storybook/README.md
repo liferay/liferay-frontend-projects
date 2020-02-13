@@ -76,7 +76,7 @@ A11y and viewport addons are automatically included. To use the actions and knob
 ```javascript
 import {
 	StorybookAddonActions,
-	StorybookAddonKnobs
+	StorybookAddonKnobs,
 } from 'liferay-npm-scripts/src/storybook';
 
 const {action} = StorybookAddonActions;
@@ -111,8 +111,8 @@ module.exports = {
 		port: '9000',
 
 		// URL of a running portal instance to proxy `/o` resources.
-		portalURL: 'http://0.0.0.0:8080'
-	}
+		portalURL: 'http://0.0.0.0:8080',
+	},
 };
 ```
 
@@ -125,7 +125,7 @@ import React from 'react';
 import {
 	STORYBOOK_CONSTANTS,
 	StorybookAddonActions,
-	StorybookReact
+	StorybookReact,
 } from 'liferay-npm-scripts/src/storybook';
 
 import '../../src/main/resources/META-INF/resources/css/main.scss';
@@ -138,7 +138,7 @@ const {action} = StorybookAddonActions;
 
 addDecorator(storyFn => {
 	const context = {
-		spritemap: STORYBOOK_CONSTANTS.SPRITEMAP_PATH
+		spritemap: STORYBOOK_CONSTANTS.SPRITEMAP_PATH,
 	};
 
 	return (
@@ -155,12 +155,12 @@ storiesOf('Components|Conjunction', module).add('default', () => (
 		supportedConjunctions={[
 			{
 				label: Liferay.Language.get('and'),
-				name: 'AND'
+				name: 'AND',
 			},
 			{
 				label: Liferay.Language.get('or'),
-				name: 'OR'
-			}
+				name: 'OR',
+			},
 		]}
 	/>
 ));

@@ -49,12 +49,12 @@ const cli = new CLIEngine({
 	overrides: [],
 	parserOptions: {
 		...eslintConfig.parserOptions,
-		sourceType: 'module'
+		sourceType: 'module',
 	},
 	rules: {
-		'newline-before-block-statements': 'error'
+		'newline-before-block-statements': 'error',
 	},
-	useEslintrc: false
+	useEslintrc: false,
 });
 
 /**
@@ -88,7 +88,7 @@ function format(source, options) {
 			// Override "parser" value from `getConfigForFile()`, which
 			// is an absolute path; make it a name that matches the
 			// parser we defined with `defineParser()` above.
-			parser: 'babel-eslint'
+			parser: 'babel-eslint',
 		},
 
 		{allowInlineConfig: false, filename}
@@ -99,5 +99,5 @@ function format(source, options) {
 
 module.exports = {
 	check,
-	format
+	format,
 };

@@ -136,7 +136,7 @@ describe('scripts/theme.js', () => {
 				'--styled-path',
 				STYLED,
 				'--unstyled-path',
-				UNSTYLED
+				UNSTYLED,
 			]);
 		});
 
@@ -150,7 +150,7 @@ describe('scripts/theme.js', () => {
 				'--styled-path',
 				STYLED,
 				'--unstyled-path',
-				UNSTYLED
+				UNSTYLED,
 			]);
 		});
 	});
@@ -175,7 +175,7 @@ describe('scripts/theme.js', () => {
 					'--styled-path',
 					STYLED,
 					'--unstyled-path',
-					UNSTYLED
+					UNSTYLED,
 				]);
 			});
 
@@ -191,7 +191,7 @@ describe('scripts/theme.js', () => {
 					'--styled-path',
 					STYLED,
 					'--unstyled-path',
-					UNSTYLED
+					UNSTYLED,
 				]);
 			});
 

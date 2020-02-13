@@ -32,8 +32,8 @@ module.exports = report => {
 			skipped: 0,
 			tests: report.numTotalTests,
 			time: 0,
-			timestamp: report.startTime
-		}
+			timestamp: report.startTime,
+		},
 	};
 
 	const testResults = report.testResults
@@ -43,7 +43,7 @@ module.exports = report => {
 					? results.concat(
 							suite.testResults.map(test => ({
 								...test,
-								testFilePath: suite.testFilePath
+								testFilePath: suite.testFilePath,
 							}))
 					  )
 					: results,
@@ -57,9 +57,9 @@ module.exports = report => {
 							path.dirname(testCase.testFilePath)
 						),
 						name: testCase.fullName,
-						time: testCase.duration / 1000
-					}
-				}
+						time: testCase.duration / 1000,
+					},
+				},
 			];
 
 			if (testCase.failureMessages && testCase.failureMessages.length) {
@@ -76,20 +76,20 @@ module.exports = report => {
 					failure: [
 						{
 							_attr: {
-								message: failureMessageArr[0][0]
-							}
+								message: failureMessageArr[0][0],
+							},
 						},
 						failureMessageArr
 							.map(failureMessage =>
 								failureMessage.join(NEW_LINE)
 							)
-							.join(NEW_LINE)
-					]
+							.join(NEW_LINE),
+					],
 				});
 			}
 
 			return {
-				testcase: results
+				testcase: results,
 			};
 		});
 

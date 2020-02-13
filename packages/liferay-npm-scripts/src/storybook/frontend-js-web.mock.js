@@ -18,7 +18,7 @@ module.exports = {
 	fetch,
 	navigate: (url, listeners) => console.log({listeners, url}),
 	openSimpleInputModal: config => console.log(config),
-	openToast: config => console.log(config)
+	openToast: config => console.log(config),
 };
 
 /* eslint-enable no-console */

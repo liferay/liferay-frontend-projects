@@ -141,5 +141,5 @@ module.exports = {
 
 	getCloseTagReplacement,
 	getOpenTagReplacement,
-	getSelfClosingTagReplacement
+	getSelfClosingTagReplacement,
 };

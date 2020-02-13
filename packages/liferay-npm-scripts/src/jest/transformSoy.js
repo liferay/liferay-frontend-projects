@@ -27,5 +27,5 @@ module.exports = {
 
 			module.exports = templates;
 		`;
-	}
+	},
 };

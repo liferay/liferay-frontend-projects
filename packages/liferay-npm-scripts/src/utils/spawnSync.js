@@ -35,7 +35,7 @@ function spawnSync(command, args = [], options = {}) {
 
 	const {error, signal, status} = spawn.sync(executable, args, {
 		stdio: 'inherit',
-		...options
+		...options,
 	});
 
 	if (status) {

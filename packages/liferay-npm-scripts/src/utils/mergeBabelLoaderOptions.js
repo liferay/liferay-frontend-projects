@@ -37,7 +37,7 @@ function mergeBabelLoaderOptions(webpackConfig) {
 			if (typeof useEntry === 'string') {
 				use[i] = {
 					loader: useEntry,
-					options: {...BABEL_CONFIG}
+					options: {...BABEL_CONFIG},
 				};
 			} else {
 				use[i].options = {...BABEL_CONFIG, ...useEntry.options};

@@ -18,7 +18,7 @@ const BUILD_ARGS = {
 	),
 	'--unstyled-path': path.normalize(
 		`${MODULES_DIR}/apps/frontend-theme/frontend-theme-unstyled/src/main/resources/META-INF/resources/_unstyled`
-	)
+	),
 };
 
 /**
@@ -102,5 +102,5 @@ module.exports = {
 	checkExistingBuildArgs,
 	findModulesDirectory,
 	prepareAdditionalBuildArgs,
-	run
+	run,
 };

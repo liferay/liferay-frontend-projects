@@ -16,7 +16,7 @@ describe('filterGlobs()', () => {
 		expect(filterGlobs(globs, '.js', '.ts', '.tsx')).toEqual([
 			'**/*.js',
 			'**/*.ts',
-			'**/*.tsx'
+			'**/*.tsx',
 		]);
 	});
 

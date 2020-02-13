@@ -9,7 +9,7 @@ const ruleName = 'liferay/trim-comments';
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
 	noLeadingBlanks: 'No blank leading lines in comments',
-	noTrailingBlanks: 'No blank trailing lines in comments'
+	noTrailingBlanks: 'No blank trailing lines in comments',
 });
 
 // In practice, PostCSS represents whitespace-only comments with empty
@@ -65,14 +65,14 @@ module.exports = stylelint.createPlugin(
 				ruleName,
 				{
 					actual: options,
-					possible: [true, false]
+					possible: [true, false],
 				},
 				{
 					actual: secondaryOptions,
 					optional: true,
 					possible: {
-						disableFix: [true, false]
-					}
+						disableFix: [true, false],
+					},
 				}
 			);
 
@@ -92,7 +92,7 @@ module.exports = stylelint.createPlugin(
 								message,
 								node: comment,
 								result,
-								ruleName
+								ruleName,
 							});
 						};
 

@@ -13,7 +13,7 @@ const writeFile = util.promisify(fs.writeFile);
  */
 function prepareModule(dependencies) {
 	const simpleModule = {
-		dependencies: {}
+		dependencies: {},
 	};
 
 	Object.keys(dependencies)
@@ -37,7 +37,7 @@ module.exports = async function(modulesInfo, {output}) {
 		.reduce((acc, {dependencies, meta}) => {
 			const moduleData = {
 				name: meta.name,
-				...prepareModule(dependencies)
+				...prepareModule(dependencies),
 			};
 
 			acc[meta.app] = acc[meta.app] || {modules: []};

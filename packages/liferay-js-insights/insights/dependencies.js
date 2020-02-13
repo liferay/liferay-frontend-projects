@@ -8,31 +8,31 @@ const {default: traverse} = require('@babel/traverse');
 const SOURCE_GROUPS = [
 	{
 		name: 'clay3',
-		test: source => source.startsWith('@clayui')
+		test: source => source.startsWith('@clayui'),
 	},
 	{
 		name: 'react',
 		test: source =>
 			source.startsWith('react') ||
 			source.startsWith('prop-types') ||
-			source.startsWith('classnames')
+			source.startsWith('classnames'),
 	},
 	{
 		name: 'js',
-		test: source => source.startsWith('frontend-js-web')
+		test: source => source.startsWith('frontend-js-web'),
 	},
 	{
 		name: 'metal',
-		test: source => source.startsWith('metal-') || source === 'metal'
+		test: source => source.startsWith('metal-') || source === 'metal',
 	},
 	{
 		name: 'clay2',
-		test: source => source.startsWith('clay-') || source === 'clay'
+		test: source => source.startsWith('clay-') || source === 'clay',
 	},
 	{
 		name: 'others',
-		test: source => true // eslint-disable-line
-	}
+		test: source => true, // eslint-disable-line
+	},
 ];
 
 /**
@@ -63,9 +63,9 @@ module.exports = async function({ast}) {
 				...dependencies[name],
 				node.specifiers
 					.filter(specifier => specifier.local.name)
-					.map(specifier => specifier.local.name)
+					.map(specifier => specifier.local.name),
 			].reduce((memo, it) => memo.concat(it), []); // Not using flatMap to support Node.js 10;;;
-		}
+		},
 	});
 
 	return dependencies;

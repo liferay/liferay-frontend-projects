@@ -61,7 +61,7 @@ function checkBabelName(name, kind) {
 
 			// @org/babel-plugin-foo -> @org/foo
 			// babel-plugin-foo      -> foo
-			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2'
+			'^(@[\\w-]+/)?babel-plugin-([\\w-]+)': '$1$2',
 			/* eslint-enable sort-keys */
 		},
 		preset: {
@@ -72,9 +72,9 @@ function checkBabelName(name, kind) {
 
 			// @org/babel-preset-foo -> @org/foo
 			// babel-preset-foo      -> foo
-			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2'
+			'^(@[\\w-]+/)?babel-preset-([\\w-]+)': '$1$2',
 			/* eslint-enable sort-keys */
-		}
+		},
 	};
 
 	Object.entries(NORMALIZERS[kind]).reduce((done, [pattern, replacement]) => {
@@ -132,7 +132,7 @@ function getBabelOptions(item) {
 function babelMerge(key) {
 	const kind = {
 		plugins: 'plugin',
-		presets: 'preset'
+		presets: 'preset',
 	}[key];
 
 	if (kind === 'plugin' || kind === 'preset') {
@@ -152,7 +152,7 @@ function babelMerge(key) {
 					const mergedOptions = merge.all(
 						[
 							getBabelOptions(targetItem),
-							getBabelOptions(sourceItem)
+							getBabelOptions(sourceItem),
 						].filter(Boolean),
 						options
 					);
@@ -199,7 +199,7 @@ function babelMerge(key) {
 const MODE = Object.freeze({
 	BABEL: 2,
 	DEFAULT: 0,
-	OVERWRITE_ARRAYS: 1
+	OVERWRITE_ARRAYS: 1,
 });
 
 /**
@@ -212,17 +212,17 @@ function deepMerge(items, mode = MODE.DEFAULT) {
 	switch (mode) {
 		case MODE.DEFAULT:
 			return merge.all(items, {
-				arrayMerge: combineMerge
+				arrayMerge: combineMerge,
 			});
 
 		case MODE.OVERWRITE_ARRAYS:
 			return merge.all(items, {
-				arrayMerge: overwriteMerge
+				arrayMerge: overwriteMerge,
 			});
 
 		case MODE.BABEL:
 			return merge.all(items, {
-				customMerge: babelMerge
+				customMerge: babelMerge,
 			});
 
 		default:

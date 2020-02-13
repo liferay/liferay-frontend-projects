@@ -63,7 +63,7 @@ function processJSP(source, {onFormat, onLint}) {
 
 		return {
 			...block,
-			contents: prefix + indented + suffix
+			contents: prefix + indented + suffix,
 		};
 	});
 

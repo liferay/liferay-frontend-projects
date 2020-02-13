@@ -16,7 +16,7 @@ const CHECK_AND_FIX_GLOBS = [
 	...JS_GLOBS,
 	...JSON_GLOBS,
 	...JSP_GLOBS,
-	...SCSS_GLOBS
+	...SCSS_GLOBS,
 ];
 
 module.exports = {
@@ -24,16 +24,16 @@ module.exports = {
 		dependencies: [...clay, ...liferay, ...metal],
 		input: 'src/main/resources/META-INF/resources',
 		output: 'build/node/packageRunBuild/resources',
-		temp: 'build/npmscripts'
+		temp: 'build/npmscripts',
 	},
 	check: CHECK_AND_FIX_GLOBS,
 	fix: CHECK_AND_FIX_GLOBS,
 	rules: {
-		'blacklisted-dependency-patterns': ['^liferay-npm-bundler-loader-.+']
+		'blacklisted-dependency-patterns': ['^liferay-npm-bundler-loader-.+'],
 	},
 	storybook: {
 		languagePaths: ['src/main/resources/content/Language.properties'],
 		port: '9000',
-		portalURL: 'http://0.0.0.0:8080'
-	}
+		portalURL: 'http://0.0.0.0:8080',
+	},
 };

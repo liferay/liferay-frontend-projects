@@ -18,7 +18,7 @@ const lintSCSS = require('./lint/stylelint/lintSCSS');
 
 const DEFAULT_OPTIONS = {
 	fix: false,
-	quiet: false
+	quiet: false,
 };
 
 /**
@@ -31,7 +31,7 @@ const DEFAULT_OPTIONS = {
 const EXTENSIONS = {
 	js: ['.js', '.ts', '.tsx'],
 	jsp: ['.jsp', '.jspf'],
-	scss: ['.scss']
+	scss: ['.scss'],
 };
 
 const IGNORE_FILE = '.eslintignore';
@@ -42,7 +42,7 @@ const IGNORE_FILE = '.eslintignore';
 async function lint(options = {}) {
 	const {fix, quiet} = {
 		...DEFAULT_OPTIONS,
-		...options
+		...options,
 	};
 
 	const globs = fix
@@ -77,12 +77,12 @@ async function lint(options = {}) {
 
 		// Avoid spurious warnings of the form, "File ignored by
 		// default. Use a negated ignore pattern ... to override"
-		ignorePattern: '!*'
+		ignorePattern: '!*',
 	});
 
 	const {default: jsPaths, jspPaths, scssPaths} = partitionArray(paths, {
 		jspPaths: isJSP,
-		scssPaths: isSCSS
+		scssPaths: isSCSS,
 	});
 
 	let report;
@@ -100,7 +100,7 @@ async function lint(options = {}) {
 
 	for (const [paths, linter] of [
 		[jspPaths, lintJSP],
-		[scssPaths, lintSCSS]
+		[scssPaths, lintSCSS],
 	]) {
 		for (const filePath of paths) {
 			// TODO: non-sync version to make use of I/O concurrency
@@ -112,7 +112,7 @@ async function lint(options = {}) {
 					result => {
 						report.results.push({
 							...result,
-							filePath: path.resolve(filePath)
+							filePath: path.resolve(filePath),
 						});
 					},
 					{filePath, fix, quiet}
@@ -142,7 +142,7 @@ async function lint(options = {}) {
 
 			return {
 				...result,
-				messages
+				messages,
 			};
 		})
 		.filter(Boolean);
@@ -162,7 +162,7 @@ function color(name) {
 				RED: '\x1b[31m',
 				RESET: '\x1b[0m',
 				UNDERLINE: '\x1b[4m',
-				YELLOW: '\x1b[33m'
+				YELLOW: '\x1b[33m',
 			}[name] || ''
 		);
 	} else {
@@ -237,7 +237,7 @@ function formatter(results) {
 			' ',
 			`(${pluralize('error', errors)}, `,
 			`${pluralize('warning', warnings)})`,
-			color.RESET
+			color.RESET,
 		];
 
 		if (fixableErrorCount || fixableWarningCount) {
@@ -268,7 +268,7 @@ function formatter(results) {
  */
 function partitionArray(array, predicates) {
 	const results = {
-		default: []
+		default: [],
 	};
 
 	Object.keys(predicates).forEach(key => {

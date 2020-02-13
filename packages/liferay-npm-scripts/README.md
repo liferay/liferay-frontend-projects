@@ -169,13 +169,13 @@ If you need to add additional configuration you can do so by creating a `npmscri
 
 ```js
 module.exports = {
-	preset: 'path/to/some/dependency'
+	preset: 'path/to/some/dependency',
 };
 
 // or npm package (this needs to also be specified in your package.json)
 
 module.exports = {
-	preset: 'my-cool-preset'
+	preset: 'my-cool-preset',
 };
 ```
 
@@ -187,8 +187,8 @@ const standardPreset = require('liferay-npm-scripts/src/presets/standard/index')
 module.exports = {
 	preset: 'liferay-npm-scripts/src/presets/standard/index',
 	build: {
-		dependencies: [...standardPreset.build.dependencies, 'asset-taglib']
-	}
+		dependencies: [...standardPreset.build.dependencies, 'asset-taglib'],
+	},
 };
 ```
 

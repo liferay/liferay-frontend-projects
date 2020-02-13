@@ -9,7 +9,7 @@ module.exports = async function() {
 	const ARGS_ARRAY = process.argv.slice(2);
 
 	const {
-		_: [type]
+		_: [type],
 	} = minimist(ARGS_ARRAY);
 
 	const PUBLIC_COMMANDS = {
@@ -43,7 +43,7 @@ module.exports = async function() {
 
 		webpack() {
 			require('./scripts/webpack')(...ARGS_ARRAY.slice(1));
-		}
+		},
 	};
 
 	const PRIVATE_COMMANDS = {
@@ -68,12 +68,12 @@ module.exports = async function() {
 		 */
 		'lint:quiet': async function lintQuiet() {
 			await require('./scripts/lint')({quiet: true});
-		}
+		},
 	};
 
 	const COMMANDS = {
 		...PUBLIC_COMMANDS,
-		...PRIVATE_COMMANDS
+		...PRIVATE_COMMANDS,
 	};
 
 	if (COMMANDS[type]) {

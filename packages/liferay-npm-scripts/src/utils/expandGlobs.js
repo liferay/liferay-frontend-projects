@@ -10,7 +10,7 @@ const getRegExpForGlob = require('./getRegExpForGlob');
 
 const DEFAULT_OPTIONS = {
 	maxDepth: Infinity,
-	type: 'file'
+	type: 'file',
 };
 
 /**
@@ -20,7 +20,7 @@ const DEFAULT_OPTIONS = {
 function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 	const {maxDepth, type} = {
 		...DEFAULT_OPTIONS,
-		...options
+		...options,
 	};
 	const ignorers = [];
 	const matchers = matchGlobs.map(getRegExpForGlob);

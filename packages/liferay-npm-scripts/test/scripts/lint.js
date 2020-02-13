@@ -82,14 +82,14 @@ describe('scripts/lint.js', () => {
 			await run(async ({eslint, lint, log}) => {
 				const executeOnFiles = eslint.CLIEngine.prototype.executeOnFiles.mockReturnValue(
 					{
-						results: []
+						results: [],
 					}
 				);
 
 				await lint();
 
 				expect(executeOnFiles).toBeCalledWith([
-					'apps/segments/segments-web/src/index.es.js'
+					'apps/segments/segments-web/src/index.es.js',
 				]);
 
 				// No errors or warnings, so no results.
@@ -110,18 +110,18 @@ describe('scripts/lint.js', () => {
 										line: 20,
 										message: 'Avoid explosions.',
 										ruleId: 'no-boom',
-										severity: 2
-									}
-								]
-							}
-						]
+										severity: 2,
+									},
+								],
+							},
+						],
 					}
 				);
 
 				await expect(lint()).rejects.toThrow();
 
 				expect(executeOnFiles).toBeCalledWith([
-					'apps/segments/segments-web/src/index.es.js'
+					'apps/segments/segments-web/src/index.es.js',
 				]);
 
 				expect(log.mock.calls.length).toBe(1);

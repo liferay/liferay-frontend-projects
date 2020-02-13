@@ -40,7 +40,7 @@ function restoreTags(source, tags) {
 			IDENTIFIER_REPLACEMENT,
 			NEWLINE,
 			WHITESPACE,
-			ANYTHING
+			ANYTHING,
 			/* eslint-enable sort-keys */
 		});
 	});
@@ -175,7 +175,7 @@ function appendScriptlet(scriptlet, token, output) {
 		'-1': token.previous,
 		0: token,
 		1: token.next,
-		2: token.next && token.next.next
+		2: token.next && token.next.next,
 		/* eslint-enable sort-keys */
 	};
 

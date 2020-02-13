@@ -11,14 +11,14 @@ const linter = new Linter();
 
 const rules = {
 	'no-debugger': 'error',
-	'no-extra-boolean-cast': 'error'
+	'no-extra-boolean-cast': 'error',
 };
 
 const SEVERITY = {
 	/* eslint-disable sort-keys */
 	ERROR: 2,
 	WARNING: 1,
-	OFF: 0
+	OFF: 0,
 	/* eslint-enable sort-keys */
 };
 
@@ -81,12 +81,12 @@ function lintJSP(source, onReport, options = {}) {
 					fixableWarningCount,
 					messages,
 					source,
-					warningCount
+					warningCount,
 				});
 			}
 
 			return source;
-		}
+		},
 	});
 }
 

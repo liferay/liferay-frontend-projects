@@ -11,13 +11,13 @@ const CONFIG_FILES = [
 	'**/gulpfile.js',
 	'**/npmscripts.config.js',
 	'**/webpack.config.dev.js',
-	'**/webpack.config.js'
+	'**/webpack.config.js',
 ];
 
 module.exports = {
 	env: {
 		browser: true,
-		es6: true
+		es6: true,
 	},
 	extends: [require.resolve('eslint-config-liferay/portal')],
 	globals: {
@@ -27,29 +27,29 @@ module.exports = {
 		process: true,
 		submitForm: true,
 		svg4everybody: true,
-		themeDisplay: true
+		themeDisplay: true,
 	},
 	overrides: [
 		{
 			env: {
-				node: true
+				node: true,
 			},
-			files: CONFIG_FILES
+			files: CONFIG_FILES,
 		},
 		{
 			env: {
 				jest: true,
-				node: true
+				node: true,
 			},
-			files: ['**/test/**/*.js']
-		}
+			files: ['**/test/**/*.js'],
+		},
 	],
 	parser: 'babel-eslint',
 	parserOptions: {
 		ecmaFeatures: {
-			jsx: true
+			jsx: true,
 		},
-		ecmaVersion: 2018
+		ecmaVersion: 2018,
 	},
-	root: true
+	root: true,
 };

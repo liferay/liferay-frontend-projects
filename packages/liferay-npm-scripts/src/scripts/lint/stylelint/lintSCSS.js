@@ -46,7 +46,7 @@ async function lintSCSS(source, onReport, options = {}) {
 		// containing non-source metadata instead.
 		fix,
 
-		syntax: 'scss'
+		syntax: 'scss',
 	});
 
 	results.forEach(result => {
@@ -72,7 +72,7 @@ async function lintSCSS(source, onReport, options = {}) {
 							line,
 							message: text,
 							ruleId: rule,
-							severity: severity === 'error' ? 2 : 1
+							severity: severity === 'error' ? 2 : 1,
 						};
 					}
 				)
@@ -90,7 +90,7 @@ async function lintSCSS(source, onReport, options = {}) {
 			fixableWarningCount,
 			messages,
 			source,
-			warningCount
+			warningCount,
 		});
 	}
 

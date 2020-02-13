@@ -49,7 +49,7 @@ const PORTAL_GLOBS = [
 	'/apps/*/*/.*.js',
 	'/apps/*/*/{src,test}/**/*.es.js',
 	'/apps/*/*/{src,test}/**/*.js',
-	'/apps/*/*/{src,test}/**/*.scss'
+	'/apps/*/*/{src,test}/**/*.scss',
 ].reduce((acc, glob) => acc.concat(preprocessGlob(glob)), []);
 
 const PORTAL_IGNORE_GLOBS = [
@@ -69,7 +69,7 @@ const PORTAL_IGNORE_GLOBS = [
 	'apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl/src/test/resources/com/liferay/portal/portlet/bridge/soy/internal/dependencies/**/*.js',
 	'apps/fragment/fragment-demo-data-creator-impl/src/main/resources/com/liferay/fragment/demo/data/creator/internal/dependencies/**/*.js',
 	'apps/fragment/fragment-test/src/testIntegration/resources/com/liferay/fragment/dependencies/**/*.js',
-	'/yarn-*.js'
+	'/yarn-*.js',
 ];
 
 describe('expandGlobs()', () => {
@@ -113,7 +113,7 @@ describe('expandGlobs()', () => {
 		expect(matches).toEqual([
 			'.eslintrc.js',
 			'apps/app-builder/app-builder-web/.eslintrc.js',
-			'node_modules/domain-browser/.eslintrc.js'
+			'node_modules/domain-browser/.eslintrc.js',
 		]);
 	});
 
@@ -128,7 +128,7 @@ describe('expandGlobs()', () => {
 			'apps/frontend-css/frontend-css-web',
 			'apps/frontend-js/frontend-js-web',
 			'apps/journal/journal-web',
-			'apps/layout/layout-content-page-editor-web'
+			'apps/layout/layout-content-page-editor-web',
 		]);
 	});
 
@@ -139,7 +139,7 @@ describe('expandGlobs()', () => {
 			'.eslintrc.js',
 			'.prettierrc.js',
 			'node_modules/domain-browser/.eslintrc.js',
-			'npmscripts.config.js'
+			'npmscripts.config.js',
 		]);
 	});
 
@@ -153,7 +153,7 @@ describe('expandGlobs()', () => {
 			'apps/frontend-theme-porygon',
 			'apps/layout/layout-content-page-editor-web',
 			'apps/portal-portlet-bridge',
-			'sdk/gradle-plugins-theme-builder'
+			'sdk/gradle-plugins-theme-builder',
 		]);
 	});
 
@@ -194,7 +194,7 @@ describe('expandGlobs()', () => {
 			'apps/frontend-css/frontend-css-web/src/main/resources/META-INF/resources/main.scss',
 			'apps/journal/journal-web/src/main/resources/META-INF/resources/js/DDMStructuresManagementToolbarDefaultEventHandler.es.js',
 			'apps/layout/layout-content-page-editor-web/src/main/resources/META-INF/resources/js/actions/updateRowColumnsNumber.es.js',
-			'npmscripts.config.js'
+			'npmscripts.config.js',
 		]);
 	});
 

@@ -6,5 +6,5 @@
 var path = require('path');
 
 module.exports = {
-	preset: path.join(__dirname, '../presets/standard/index')
+	preset: path.join(__dirname, '../presets/standard/index'),
 };

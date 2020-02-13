@@ -36,5 +36,5 @@ module.exports = [
 	'metal-toggler',
 	'metal-uri',
 	'metal-useragent',
-	'metal-web-component'
+	'metal-web-component',
 ];

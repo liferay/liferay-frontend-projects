@@ -29,7 +29,7 @@ describe('spawnMultiple()', () => {
 			jest.fn(() => {
 				throw new SpawnError('Boom');
 			}),
-			jest.fn()
+			jest.fn(),
 		];
 
 		await expect(spawnMultiple(...jobs)).rejects.toThrow(SpawnError);
@@ -45,7 +45,7 @@ describe('spawnMultiple()', () => {
 			jest.fn(() => {
 				throw new Error('Boom');
 			}),
-			jest.fn()
+			jest.fn(),
 		];
 
 		await expect(spawnMultiple(...jobs)).rejects.toThrow(Error);

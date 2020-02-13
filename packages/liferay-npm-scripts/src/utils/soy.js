@@ -28,7 +28,7 @@ function buildSoy() {
 		'--soyDeps',
 		generateSoyDependencies(BUILD_CONFIG.dependencies),
 		'--externalMsgFormat',
-		"Liferay.Language.get('$2')"
+		"Liferay.Language.get('$2')",
 	]);
 
 	runBabel(SOY_TEMP_DIR, '--out-dir', BUILD_CONFIG.output, '--source-maps');
@@ -138,5 +138,5 @@ module.exports = {
 	buildSoy,
 	cleanSoy,
 	soyExists,
-	translateSoy
+	translateSoy,
 };

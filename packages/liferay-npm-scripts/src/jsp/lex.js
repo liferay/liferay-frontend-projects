@@ -9,13 +9,13 @@
 const Lexer = require('./Lexer');
 
 const DEFAULT_OPTIONS = {
-	ELEnabled: true
+	ELEnabled: true,
 };
 
 function lex(source, options = {}) {
 	const {ELEnabled} = {
 		...DEFAULT_OPTIONS,
-		...options
+		...options,
 	};
 
 	const lexer = new Lexer(api => {
@@ -34,7 +34,7 @@ function lex(source, options = {}) {
 			repeat,
 			sequence,
 			token,
-			when
+			when,
 		} = api;
 
 		meta.set('ELEnabled', !!ELEnabled);
@@ -306,7 +306,7 @@ function lex(source, options = {}) {
 					'\\u3041-\\u3094',
 					'\\u30a1-\\u30fa',
 					'\\u3105-\\u312c',
-					'\\uac00-\\ud7a3'
+					'\\uac00-\\ud7a3',
 				].join('')}]`
 			)
 		).name('BASE_CHAR');
@@ -409,7 +409,7 @@ function lex(source, options = {}) {
 					'\\u20e1',
 					'\\u302a-\\u302f',
 					'\\u3099',
-					'\\u309a'
+					'\\u309a',
 				].join('')}]`
 			)
 			/* eslint-enable no-misleading-character-class */
@@ -432,7 +432,7 @@ function lex(source, options = {}) {
 					'\\u0d66-\\u0d6f',
 					'\\u0e50-\\u0e59',
 					'\\u0ed0-\\u0ed9',
-					'\\u0f20-\\u0f29'
+					'\\u0f20-\\u0f29',
 				].join('')}]`
 			)
 		).name('DIGIT');
@@ -450,7 +450,7 @@ function lex(source, options = {}) {
 					'\\u3005',
 					'\\u3031-\\u3035',
 					'\\u309d-\\u309e',
-					'\\u30fc-\\u30fe'
+					'\\u30fc-\\u30fe',
 				].join('')}]`
 			)
 		).name('EXTENDER');
@@ -541,7 +541,7 @@ function lex(source, options = {}) {
 			a('NAME').onMatch((match, meta) => {
 				meta.set('attribute:names', [
 					...meta.get('attribute:names'),
-					match[0]
+					match[0],
 				]);
 			}),
 			'EQ',
@@ -768,14 +768,14 @@ function lex(source, options = {}) {
 		[Symbol.iterator]: {
 			value() {
 				return lexer.lex(source);
-			}
+			},
 		},
 
 		tokens: {
 			get() {
 				return [...lexer.lex(source)];
-			}
-		}
+			},
+		},
 	});
 
 	return iterable;

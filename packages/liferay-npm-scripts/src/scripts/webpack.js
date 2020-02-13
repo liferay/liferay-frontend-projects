@@ -27,14 +27,14 @@ module.exports = function(...args) {
 			// a new array instead.
 			const otherArgs = [
 				...args.slice(0, watch),
-				...args.slice(watch + 1)
+				...args.slice(watch + 1),
 			];
 
 			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, configFilePath => {
 				spawnSync('webpack-dev-server', [
 					'--config',
 					configFilePath,
-					...otherArgs
+					...otherArgs,
 				]);
 			});
 		}
