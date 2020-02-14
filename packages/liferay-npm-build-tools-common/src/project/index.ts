@@ -14,13 +14,11 @@ import resolveModule from 'resolve';
 
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
-import Copy from './copy';
 import Jar from './jar';
 import Localization from './localization';
 import Misc from './misc';
 import Probe from './probe';
 import Rules from './rules';
-import Transform from './transform';
 import {VersionInfo} from './types';
 
 /** A package manager */
@@ -30,13 +28,11 @@ export type PkgManager = 'npm' | 'yarn' | null;
  * Describes a standard JS Toolkit project.
  */
 export class Project {
-	copy: Copy;
 	jar: Jar;
 	l10n: Localization;
 	misc: Misc;
 	probe: Probe;
 	rules: Rules;
-	transform: Transform;
 
 	/**
 	 * @param projectDirPath project's path in native format
@@ -206,7 +202,6 @@ export class Project {
 				putInMap(splitModuleName(preset).pkgName);
 			}
 
-			map = new Map([...map, ...this.transform.versionsInfo]);
 			map = new Map([...map, ...this.rules.versionsInfo]);
 
 			this._versionsInfo = map;
@@ -252,13 +247,11 @@ export class Project {
 		this._loadNpmbundlerrc();
 
 		// Initialize subdomains
-		this.copy = new Copy(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.misc = new Misc(this);
 		this.probe = new Probe(this);
 		this.rules = new Rules(this);
-		this.transform = new Transform(this);
 	}
 
 	/**

@@ -5,8 +5,6 @@
  */
 
 import prop from 'dot-prop';
-import fs from 'fs';
-import path from 'path';
 
 import {Project} from '.';
 import FilePath from '../file-path';
@@ -42,44 +40,6 @@ export default class Misc {
 		// doesn't impact performance and should be low enough to make it work
 		// in all OSes.
 		return prop.get(npmbundlerrc, 'max-parallel-files', 128);
-	}
-
-	/**
-	 * Whether or not to track usage
-	 */
-	get noTracking(): boolean {
-		const {_project} = this;
-		const {npmbundlerrc} = _project;
-
-		if (!prop.has(npmbundlerrc, 'no-tracking')) {
-			if (prop.has(process, 'env.LIFERAY_NPM_BUNDLER_NO_TRACKING')) {
-				prop.set(npmbundlerrc, 'no-tracking', true);
-			}
-		}
-
-		if (!prop.has(npmbundlerrc, 'no-tracking')) {
-			let dir = _project.dir.asNative;
-
-			while (
-				!fs.existsSync(
-					path.join(dir, '.liferay-npm-bundler-no-tracking')
-				) &&
-				path.resolve(dir, '..') !== dir
-			) {
-				dir = path.resolve(dir, '..');
-			}
-
-			if (
-				fs.existsSync(
-					path.join(dir, '.liferay-npm-bundler-no-tracking')
-				)
-			) {
-				prop.set(npmbundlerrc, 'no-tracking', true);
-			}
-		}
-
-		// Disable tracking by default
-		return prop.get(npmbundlerrc, 'no-tracking', true);
 	}
 
 	/**

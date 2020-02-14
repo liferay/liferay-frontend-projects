@@ -5,7 +5,6 @@
  */
 
 import prop from 'dot-prop';
-import fs from 'fs';
 import readJsonSync from 'read-json-sync';
 
 import FilePath from '../file-path';
@@ -123,18 +122,15 @@ export default class Jar {
 	/**
 	 * Whether or not to add a manifest header in JAR file to make the JS
 	 * extender process this bundle.
-	 * @return can be a boolean, a string forcing an extender version number or
-	 * 			'any' to leave version unbounded
+	 *
+	 * @return
+	 * can be a boolean, a string forcing an extender version number or 'any' to
+	 * leave version unbounded
 	 */
 	get requireJsExtender(): boolean | string | 'any' {
 		const {npmbundlerrc} = this._project;
 
-		return prop.get(
-			npmbundlerrc,
-			'create-jar.features.js-extender',
-			// TODO: deprecated 'auto-deploy-portlet', remove for the next major version
-			prop.get(npmbundlerrc, 'create-jar.auto-deploy-portlet', true)
-		);
+		return prop.get(npmbundlerrc, 'create-jar.features.js-extender', true);
 	}
 
 	get supported(): boolean {
@@ -150,17 +146,7 @@ export default class Jar {
 			this._webContextPath = prop.get(
 				npmbundlerrc,
 				'create-jar.features.web-context',
-				// TODO: deprecated 'web-context-path', remove for the next major version
-				prop.get(
-					npmbundlerrc,
-					'create-jar.web-context-path',
-					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
-					prop.get(
-						pkgJson,
-						'osgi.Web-ContextPath',
-						`/${pkgJson['name']}-${pkgJson['version']}`
-					)
-				)
+				`/${pkgJson['name']}-${pkgJson['version']}`
 			);
 		}
 
