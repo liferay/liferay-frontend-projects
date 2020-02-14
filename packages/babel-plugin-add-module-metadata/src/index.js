@@ -6,6 +6,7 @@
 
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import npath from 'path';
 import readJsonSync from 'read-json-sync';
@@ -132,9 +133,13 @@ function addEsModuleFlag(state) {
 
 	const {manifest} = babelIpc.get(state);
 
-	manifest.addModuleFlags(pkgId, npath.relative(pkgDir, filename), {
-		esModule: true,
-	});
+	manifest.addModuleFlags(
+		pkgId,
+		new FilePath(npath.relative(pkgDir, filename)).asPosix,
+		{
+			esModule: true,
+		}
+	);
 
 	state.esModuleFlagAdded = true;
 
