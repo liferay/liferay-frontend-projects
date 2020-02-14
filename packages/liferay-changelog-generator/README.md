@@ -42,6 +42,7 @@ Options:
 
 -   [Alloy Editor](https://github.com/liferay/alloy-editor) ([CHANGELOG](https://github.com/liferay/alloy-editor/blob/master/CHANGELOG.md)).
 -   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay) ([CHANGELOG](https://github.com/liferay/eslint-config-liferay/blob/master/CHANGELOG.md)).
+-   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor) ([CHANGELOG](https://github.com/liferay/liferay-ckeditor/blob/master/CHANGELOG.md)).
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) ([CHANGELOG](https://github.com/liferay/liferay-js-themes-toolkit/blob/master/CHANGELOG.md)).
 
 ## Known limitations

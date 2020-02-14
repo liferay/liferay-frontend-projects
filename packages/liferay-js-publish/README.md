@@ -74,5 +74,7 @@ Similar to what we did with [liferay-changelog-generator](https://github.com/lif
 
 ## Example projects using liferay-js-publish
 
+-   [Alloy Editor](https://github.com/liferay/alloy-editor)
 -   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay)
+-   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor)
 -   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools)
