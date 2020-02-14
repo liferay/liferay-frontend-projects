@@ -9,3 +9,5 @@ global.Headers = require('./mocks/Headers');
 global.Liferay = require('./mocks/Liferay');
 
 global.fetch = require('jest-fetch-mock');
+
+global.themeDisplay = global.Liferay.ThemeDisplay;

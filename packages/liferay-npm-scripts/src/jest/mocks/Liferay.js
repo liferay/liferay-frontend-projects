@@ -35,9 +35,12 @@ const events = {
 };
 
 /**
- * Contains a fallback/dummy implementation of `Liferay.Language.get`. In practice, this call is rewritten in a ServerFilter, so runtime calls to
- * `Liferay.Language.get` should not be found in production code. A better match for the real behaviour would be a babel plugin to rewrite calls
- * to the API with their "translated" value.
+ * Contains a fallback/dummy implementation of
+ * `Liferay.Language.get`. In practice, this call is rewritten in a
+ * ServerFilter, so runtime calls to `Liferay.Language.get` should not
+ * be found in production code. A better match for the real behaviour
+ * would be a babel plugin to rewrite calls to the API with their
+ * "translated" value.
  *
  * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/language.js
  */
@@ -49,31 +52,62 @@ const Language = {
 };
 
 /**
- * Contains APIs that provide information about the running context of the portal. The JS ThemeDisplay object is a representation of its Java counterpart
- * simplified for JS access.
+ * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L101-L104
+ */
+const Session = {
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L102
+	 */
+	get: jest.fn(() => Promise.resolve({})),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L103
+	 */
+	set: jest.fn(() => Promise.resolve({}))
+};
+
+/**
+ * Contains APIs that provide information about the running context of
+ * the portal. The JS ThemeDisplay object is a representation of its
+ * Java counterpart simplified for JS access.
  *
  * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L147
  */
 const ThemeDisplay = {
 	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L188
+	 */
+	getBCP47LanguageId: jest.fn(() => 'en-US'),
+
+	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L217
 	 */
-	getDoAsUserIdEncoded: jest.fn(_ => 'default-mocked-do-as-user-id'),
+	getDoAsUserIdEncoded: jest.fn(() => 'default-mocked-do-as-user-id'),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L220
+	 */
+	getLanguageId: jest.fn(() => 'en-US'),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L226
+	 */
+	getPathContext: jest.fn(() => '/'),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L235
 	 */
-	getPathMain: jest.fn(_ => '/c'),
+	getPathMain: jest.fn(() => '/c'),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L238
 	 */
-	getPathThemeImages: jest.fn(_ => ''),
+	getPathThemeImages: jest.fn(() => ''),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L247
 	 */
-	getPortalURL: jest.fn(_ => 'http://localhost:8080')
+	getPortalURL: jest.fn(() => 'http://localhost:8080')
 };
 
 /**
@@ -89,6 +123,11 @@ const Util = {
 	getGeolocation: jest.fn(),
 
 	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L75
+	 */
+	isEqual: jest.fn((a, b) => a === b),
+
+	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/util/navigate.es.js
 	 */
 	navigate: jest.fn(),
@@ -96,7 +135,7 @@ const Util = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-web/test/liferay/util/ns.es.js
 	 */
-	ns: jest.fn(),
+	ns: jest.fn(() => ({})),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L999
@@ -107,6 +146,7 @@ const Util = {
 module.exports = {
 	...events,
 	Language,
+	Session,
 	ThemeDisplay,
 	Util,
 	authToken
