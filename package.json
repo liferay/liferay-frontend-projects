@@ -13,7 +13,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"build": "lerna run build",
+		"build": "node scripts/build.js",
 		"check-deps": "node scripts/check-deps.js",
 		"ci": "yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
 		"format": "prettier --write \".*.js\" \"packages/*/src/**/*.js\"",
@@ -22,8 +22,6 @@
 		"lint": "eslint \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"lint:fix": "eslint --fix \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"qa": "node scripts/qa/index.js",
-		"release": "lerna publish --force-publish='*' --exact",
-		"release-canary": "lerna publish --force-publish='*' --exact -c",
 		"test": "jest --runInBand",
 		"watch": "node scripts/watch"
 	},
@@ -32,10 +30,10 @@
 		"copyfiles": "^2.1.1",
 		"eslint": "^5.16.0",
 		"eslint-config-liferay": "^14.0.0",
+		"execa": "^4.0.0",
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
 		"jest": "^24.9.0",
-		"lerna": "^3.16.4",
 		"prettier": "1.18.2",
 		"ts-jest": "^24.1.0",
 		"typescript": "^3.6.3",
