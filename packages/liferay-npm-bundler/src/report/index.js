@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {analyticsDump} from './analytics';
 import {htmlDump} from './html';
 
 /**
@@ -33,15 +32,6 @@ export class Report {
 	 */
 	toHtml() {
 		return htmlDump(this);
-	}
-
-	/**
-	 * Dump report information to insight package so that it gets exported to
-	 * our Google Analytics account.
-	 * @return {void}
-	 */
-	sendAnalytics() {
-		return analyticsDump(this);
 	}
 
 	/**
