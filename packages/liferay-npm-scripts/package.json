@@ -48,7 +48,7 @@
 		"http-proxy-middleware": "0.21.0",
 		"jest": "^25.1.0",
 		"jest-fetch-mock": "3.0.1",
-		"liferay-jest-junit-reporter": "1.0.1",
+		"liferay-jest-junit-reporter": "1.2.0",
 		"liferay-lang-key-dev-loader": "^1.0.3",
 		"liferay-npm-bridge-generator": "2.18.2",
 		"liferay-npm-bundler": "2.18.2",
