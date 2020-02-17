@@ -2,8 +2,8 @@
 
 exports[`liferay-jest-junit-reporter writes a file for a failing test 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
-<testsuite errors=\\"0\\" failures=\\"1\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter.reporter-example\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
-  <testcase classname=\\"test-module.bar.[reporter]\\" name=\\"Field DocumentLibrary should not be readOnly\\" time=\\"0.046\\">
+<testsuite errors=\\"0\\" failures=\\"1\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter-tests\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
+  <testcase classname=\\"test-module.bar.[reporter-tests]\\" name=\\"Field DocumentLibrary should not be readOnly\\" time=\\"0.046\\">
     <failure message=\\"Error: expect(received).toBe(expected) // Object.is equality\\">Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: false
@@ -22,8 +22,8 @@ Received: true
 
 exports[`liferay-jest-junit-reporter writes a file for a passing test 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
-<testsuite errors=\\"0\\" failures=\\"0\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter.reporter-example\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
-  <testcase classname=\\"test-module.bar.[reporter]\\" name=\\"Field DocumentLibrary should not be readOnly\\" time=\\"0.046\\">
+<testsuite errors=\\"0\\" failures=\\"0\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter-tests\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
+  <testcase classname=\\"test-module.bar.[reporter-tests]\\" name=\\"Field DocumentLibrary should not be readOnly\\" time=\\"0.046\\">
   </testcase>
 </testsuite>"
 `;
