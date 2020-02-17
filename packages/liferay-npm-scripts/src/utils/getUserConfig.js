@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const cosmiconfig = require('cosmiconfig');
+const {cosmiconfigSync} = require('cosmiconfig');
 
 const findRoot = require('./findRoot');
 
@@ -16,9 +16,9 @@ const findRoot = require('./findRoot');
 module.exports = function(moduleName, options = {}) {
 	const stopDir = (options.upwards && findRoot()) || process.cwd();
 
-	const explorer = cosmiconfig(moduleName, {stopDir});
+	const explorer = cosmiconfigSync(moduleName, {stopDir});
 
-	const result = explorer.searchSync();
+	const result = explorer.search();
 
 	return result ? result.config : {};
 };
