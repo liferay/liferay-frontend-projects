@@ -58,10 +58,7 @@ describe('liferay-jest-junit-reporter', () => {
 		jest.resetAllMocks();
 
 		// Prevent user-specific context from appearing in snapshots.
-		jest.spyOn(process, 'cwd').mockImplementation(
-			() =>
-				'/User/liferay-user/code/portal/liferay-portal/modules/apps/reporter/reporter-example'
-		);
+		jest.spyOn(process, 'cwd').mockImplementation(() => 'reporter-tests');
 	});
 
 	afterEach(() => {
