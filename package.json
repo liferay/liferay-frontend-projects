@@ -45,8 +45,8 @@
 	},
 	"scripts": {
 		"ci": "yarn lint && yarn format:check && yarn test",
-		"format": "prettier --write -- '**/*.{js,json,md}' '.*.js'",
-		"format:check": "prettier --list-different -- '**/*.{js,json,md}' '.*.js'",
+		"format": "prettier --write -- \"**/*.{js,json,md}\" \".*.js\"",
+		"format:check": "prettier --list-different -- \"**/*.{js,json,md}\" \".*.js\"",
 		"lint": "node scripts/lint.js",
 		"lint:fix": "node scripts/lint.js --fix",
 		"postinstall": "node scripts/postinstall.js",
