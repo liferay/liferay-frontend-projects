@@ -5,25 +5,20 @@
  */
 
 import fs from 'fs-extra';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
-import path from 'path';
 import pretty from 'pretty-time';
-import readJsonSync from 'read-json-sync';
-import semver from 'semver';
 
-import {addPackageDependencies, getRootPkg} from './dependencies';
 import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
 
-import copyPackages from './steps/copy';
 import runRules from './steps/rules';
-import transformPackages from './steps/transform';
 
 /** Default entry point for the liferay-npm-bundler */
 export default function(argv: {version: boolean}): void {
-	const versionsInfo = project.versionsInfo;
+	const {pkgJson, versionsInfo} = project;
 
 	if (argv.version) {
 		versionsInfo.forEach((value, key) => {
@@ -32,27 +27,15 @@ export default function(argv: {version: boolean}): void {
 		return;
 	}
 
+	const rootPkg = new PkgDesc(pkgJson['name'], pkgJson['version']);
+
 	report.versionsInfo(versionsInfo);
 
 	try {
 		const start = process.hrtime();
 
-		// Get root package
-		const rootPkg = getRootPkg();
-
+		// Report root package
 		report.rootPackage(rootPkg);
-
-		// Compute dependency packages
-		const depPkgsMap = addPackageDependencies(
-			{},
-			project.dir.asNative,
-			project.copy.includedDependencies
-		);
-
-		const depPkgs = Object.values(depPkgsMap).filter(pkg => !pkg.isRoot);
-
-		report.dependencies(depPkgs);
-		reportLinkedDependencies(project.pkgJson);
 
 		// Report rules config
 		report.rulesConfig(project.rules.config);
@@ -67,9 +50,7 @@ export default function(argv: {version: boolean}): void {
 		}
 
 		// Do things
-		copyPackages(rootPkg, depPkgs)
-			.then(() => runRules(rootPkg, depPkgs))
-			.then(() => transformPackages(rootPkg, depPkgs))
+		runRules(rootPkg)
 			.then(() => manifest.save())
 			.then(() => (project.jar.supported ? createJar() : undefined))
 			.then(() => {
@@ -96,35 +77,6 @@ export default function(argv: {version: boolean}): void {
 	} catch (err) {
 		abort(err);
 	}
-}
-
-/** Report linked dependencies of a given package.json */
-function reportLinkedDependencies(pkgJson: object): void {
-	['dependencies', 'devDependencies'].forEach(scope => {
-		if (pkgJson[scope] != null) {
-			Object.keys(pkgJson[scope]).forEach(depName => {
-				const depVersion = pkgJson[scope][depName];
-
-				if (semver.validRange(depVersion) == null) {
-					const depPkgJsonPath = path.join(
-						'node_modules',
-						depName,
-						'package.json'
-					);
-
-					const depPkgJson = readJsonSync(depPkgJsonPath);
-
-					pkgJson[scope][depName] = depPkgJson.version;
-
-					report.linkedDependency(
-						depName,
-						depVersion,
-						depPkgJson.version
-					);
-				}
-			});
-		}
-	});
 }
 
 /** Abort execution after showing error message */

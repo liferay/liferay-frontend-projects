@@ -6,10 +6,8 @@
 import globby from 'globby';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
-import readJsonSync from 'read-json-sync';
 
 /**
  * Perform a glob search of files and return their paths referenced to
@@ -54,25 +52,6 @@ export function getDestDir(pkg) {
 }
 
 /**
- * Iterate through the elements of an array applying an async process serially
- * to each one of them.
- * @param {Array} values array of values to be iterated
- * @param {function} asyncProcess the async process (that returns a Promise) to
- *        be executed on each value
- * @return {Promise} a Promise that is resolved as soon as the iteration
- *         finishes
- */
-export function iterateSerially(values, asyncProcess) {
-	if (values.length == 0) {
-		return Promise.resolve();
-	}
-
-	return asyncProcess(values[0]).then(() =>
-		iterateSerially(values.slice(1), asyncProcess)
-	);
-}
-
-/**
  * Run an async process over a series of items, applying the process chunk by
  * chunk.
  * This is especially useful to maintain an upper bound on the maximum number of
@@ -98,38 +77,4 @@ export function runInChunks(items, chunkSize, chunkIndex, callback) {
 			return runInChunks(items, chunkSize, chunkIndex, callback);
 		}
 	});
-}
-
-/**
- * Run a liferay-npm-bundler plugin
- * @param  {Array} plugins list of plugin descriptors (with name, config and run fields)
- * @param  {PkgDesc} srcPkg source package descriptor
- * @param  {PkgDesc} destPkg processed package descriptor
- * @param  {Object} state state to pass to plugins
- * @param  {function} callback a callback function to invoke once per plugin with the used plugin and PluginLogger
- * @return {Object} the state object
- */
-export function runPlugins(plugins, srcPkg, destPkg, state, callback) {
-	plugins.forEach(plugin => {
-		const params = {
-			config: plugin.config,
-			log: new PluginLogger(),
-			rootPkgJson: readJsonSync('package.json'),
-			globalConfig: project.globalConfig,
-
-			pkg: destPkg.clone(),
-
-			source: {
-				pkg: srcPkg.clone(),
-			},
-		};
-
-		plugin.run(params, state);
-
-		if (callback) {
-			callback(plugin, params.log);
-		}
-	});
-
-	return state;
 }

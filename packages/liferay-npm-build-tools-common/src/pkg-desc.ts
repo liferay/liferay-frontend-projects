@@ -26,7 +26,7 @@ export default class PkgDesc {
 	constructor(
 		name: string,
 		version: string,
-		pkgPath: string,
+		pkgPath?: string,
 		forceRoot: boolean = false
 	) {
 		this._name = name;

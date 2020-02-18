@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-
 import {Report} from '../index';
 
 let report;
@@ -58,64 +56,6 @@ describe('when describing the run', () => {
 			version: '1.0.0',
 		});
 	});
-
-	it('correctly stores dependencies', () => {
-		report.dependencies([
-			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-			{id: 'package-2@2.0.0', name: 'package-2', version: '2.0.0'},
-		]);
-	});
-
-	it('correctly stores linked dependencies', () => {
-		const pkg = {
-			id: 'a-package@1.1.0',
-			name: 'a-package',
-			version: '1.1.0',
-		};
-		report.dependencies([pkg]);
-		report.linkedDependency(pkg.name, 'file:../a-package', pkg.version);
-	});
-
-	it('ignores not previously registered linked dependencies', () => {
-		report.linkedDependency('a-package', 'file:../a-package', '1.1.0');
-		report.linkedDependency('package-1', 'file:../package-1', '1.0.0');
-	});
-
-	it('correctly stores package copies', () => {
-		report.packageCopy(
-			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-			['a.js', 'b.js', 'c.js'],
-			['a.js', 'c.js']
-		);
-	});
-
-	it('correctly stores bundler plugin runs', () => {
-		report.packageProcessBundlerPlugin(
-			'pre',
-			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-			{
-				name: 'a-plugin',
-				config: {cfgval1: 1, cfgval2: 2},
-				run: () => '',
-			},
-			new PluginLogger()
-		);
-	});
-
-	it('correctly stores Babel config', () => {
-		report.packageProcessBabelConfig(
-			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-			{cfgval1: 1, cfgval2: 2}
-		);
-	});
-
-	it('correctly stores Babel file run', () => {
-		report.packageProcessBabelRun(
-			{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-			'a.js',
-			new PluginLogger()
-		);
-	});
 });
 
 it('correctly dumps HTML report', () => {
@@ -148,36 +88,6 @@ it('correctly dumps HTML report', () => {
 		name: 'root-package',
 		version: '1.0.0',
 	});
-	report.dependencies([
-		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-		{id: 'package-2@2.0.0', name: 'package-2', version: '2.0.0'},
-	]);
-	report.linkedDependency('a-package', 'file:../a-package', '1.1.0');
-	report.linkedDependency('package-1', 'file:../package-1', '1.0.0');
-	report.packageCopy(
-		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-		['a.js', 'b.js', 'c.js'],
-		['a.js', 'c.js']
-	);
-	report.packageProcessBundlerPlugin(
-		'pre',
-		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-		{
-			name: 'a-plugin',
-			config: {cfgval1: 1, cfgval2: 2},
-			run: () => '',
-		},
-		new PluginLogger()
-	);
-	report.packageProcessBabelConfig(
-		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-		{cfgval1: 1, cfgval2: 2}
-	);
-	report.packageProcessBabelRun(
-		{id: 'package-1@1.0.0', name: 'package-1', version: '1.0.0'},
-		'a.js',
-		new PluginLogger()
-	);
 
 	expect(report.toHtml()).toMatchSnapshot();
 });

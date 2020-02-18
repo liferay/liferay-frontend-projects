@@ -16,7 +16,7 @@ export function htmlDump(report) {
 	const {
 		_executionDate,
 		_executionTime,
-		_packages,
+		_rootPkg,
 		_rules,
 		_versionsInfo,
 		_warnings,
@@ -39,6 +39,18 @@ export function htmlDump(report) {
 		htmlSection('Warnings', htmlList(..._warnings))
 	);
 
+	const projectInfo = htmlSection(
+		'Project information',
+		htmlTable(
+			'Name',
+			'Version',
+			htmlRow(`
+				<td>${_rootPkg.name}</td>
+				<td>${_rootPkg.version}</td>
+			`)
+		)
+	);
+
 	const versionsInfo = htmlSection(
 		'Bundler environment versions',
 		htmlTable(
@@ -50,56 +62,6 @@ export function htmlDump(report) {
 					<td>${_versionsInfo[pkgName].version}</td>
 				`)
 			)
-		)
-	);
-
-	const dependencies = htmlSection(
-		'Bundled packages',
-		htmlTable(
-			'Package',
-			'Version',
-			'Copied files',
-			'Excluded files',
-			'Linked to',
-			Object.keys(_packages)
-				.sort()
-				.map(pkgId => {
-					const {
-						allFiles,
-						copiedFiles,
-						link,
-						name,
-						version,
-					} = _packages[pkgId];
-
-					return htmlRow(`
-						<td>${name}</td>
-						<td>${version}</td>
-						<td>${htmlIf(
-							copiedFiles,
-							() =>
-								`<div title="${copiedFiles.sort().join(',')}">
-									${copiedFiles.length}
-								</div>`
-						)}</td>
-						<td>
-							${htmlIf(
-								allFiles && copiedFiles,
-								() =>
-									`<div title="${allFiles
-										.filter(
-											file =>
-												copiedFiles.indexOf(file) == -1
-										)
-										.sort()
-										.join(',')}">
-										${allFiles.length - copiedFiles.length}
-									</div>`
-							)}
-						</td>
-						<td>${htmlIf(link, () => link)}</td>
-					`);
-				})
 		)
 	);
 
@@ -120,210 +82,6 @@ export function htmlDump(report) {
 				.sort()
 				.map(filePath => _rules.files[filePath].logger)
 		)
-	);
-
-	const packageProcessesPresent = Object.keys(_packages).reduce(
-		(found, pkgId) => {
-			const pkg = _packages[pkgId];
-			const {babel, copy, post, pre} = pkg.process;
-			const copyKeys = Object.keys(copy);
-			const preKeys = Object.keys(pre);
-			const postKeys = Object.keys(post);
-			const babelKeys = Object.keys(babel.files);
-
-			found |= copyKeys.length > 0;
-			found |= preKeys.length > 0;
-			found |= postKeys.length > 0;
-			found |= babelKeys.length > 0;
-
-			return found;
-		},
-		false
-	);
-
-	const packageProcesses = htmlSection(
-		'Summary of package transformations',
-		htmlTable(
-			'Package',
-			'Version',
-			'Copy phase',
-			'Pre-babel phase',
-			'Babel phase',
-			'Post-babel phase',
-			Object.keys(_packages)
-				.sort()
-				.map(pkgId => {
-					const pkg = _packages[pkgId];
-					const {babel, copy, post, pre} = pkg.process;
-					const copyKeys = Object.keys(copy);
-					const preKeys = Object.keys(pre);
-					const postKeys = Object.keys(post);
-					const babelKeys = Object.keys(babel.files);
-
-					const copyNotice = htmlIf(
-						copyKeys.length > 0,
-						() => `${copyKeys.length} plugins applied`
-					);
-					const preNotice = htmlIf(
-						preKeys.length > 0,
-						() => `${preKeys.length} plugins applied`
-					);
-					const babelNotice = htmlIf(
-						babelKeys.length > 0,
-						() => `${babelKeys.length} files processed`
-					);
-					const postNotice = htmlIf(
-						postKeys.length > 0,
-						() => `${postKeys.length} plugins applied`
-					);
-
-					return htmlRow(`
-						<td>${pkg.name}</td>
-						<td>${pkg.version}</td>
-						<td>
-							<a href="#${pkgId}-bundler">
-								${copyNotice}
-							</a>
-						</td>
-						<td>
-							<a href="#${pkgId}-bundler">
-								${preNotice}
-							</a>
-						</td>
-						<td>
-							<a href="#${pkgId}-babel">
-								${babelNotice}
-							</a>
-						</td>
-						<td>
-							<a href="#${pkgId}-bundler">
-								${postNotice}
-							</a>
-						</td>
-					`);
-				})
-		)
-	);
-
-	const packageProcessesBundlerDetails = htmlSection(
-		'Details of bundler transformations',
-		...Object.keys(_packages)
-			.sort()
-			.map(pkgId => {
-				const pkg = _packages[pkgId];
-				const {copy, post, pre} = pkg.process;
-				const copyKeys = Object.keys(copy);
-				const preKeys = Object.keys(pre);
-				const postKeys = Object.keys(post);
-
-				return htmlIf(
-					copyKeys.length > 0 ||
-						preKeys.length > 0 ||
-						postKeys.length > 0,
-					() =>
-						htmlSubsection(
-							`
-							<a name="${pkgId}-bundler">
-								${pkg.name}@${pkg.version}
-							</a>
-						`,
-							...htmlIf(copyKeys.length > 0, () =>
-								copyKeys
-									.sort()
-									.map(pluginName =>
-										htmlLogOutput(
-											['Copy phase plugin', 'Config'],
-											[
-												[
-													pluginName,
-													JSON.stringify(
-														copy[pluginName].plugin
-															.config
-													),
-												],
-											],
-											[copy[pluginName].logger],
-											{source: false}
-										)
-									)
-							),
-							...htmlIf(preKeys.length > 0, () =>
-								preKeys
-									.sort()
-									.map(pluginName =>
-										htmlLogOutput(
-											['Pre-phase plugin', 'Config'],
-											[
-												[
-													pluginName,
-													JSON.stringify(
-														pre[pluginName].plugin
-															.config
-													),
-												],
-											],
-											[pre[pluginName].logger],
-											{source: false}
-										)
-									)
-							),
-							...htmlIf(postKeys.length > 0, () =>
-								postKeys
-									.sort()
-									.map(pluginName =>
-										htmlLogOutput(
-											['Post-phase plugin', 'Config'],
-											[
-												[
-													pluginName,
-													JSON.stringify(
-														post[pluginName].plugin
-															.config
-													),
-												],
-											],
-											[post[pluginName].logger],
-											{source: false}
-										)
-									)
-							)
-						)
-				);
-			})
-	);
-
-	const packageProcessesBabelDetails = htmlSection(
-		'Details of Babel transformations',
-		...Object.keys(_packages)
-			.sort()
-			.map(pkgId => {
-				const pkg = _packages[pkgId];
-				const {babel} = pkg.process;
-				const babelKeys = Object.keys(babel.files);
-
-				return htmlIf(babelKeys.length > 0, () =>
-					htmlSubsection(
-						`
-						<a name="${pkgId}-babel">
-							${pkg.name}@${pkg.version}
-						</a>
-						`,
-						`
-						<div class="configuration">
-							<div>Configuration</div>
-							<pre>${JSON.stringify(babel.config, null, 2)}</pre>
-						</div>
-						`,
-						htmlLogOutput(
-							['File'],
-							babelKeys.sort().map(filePath => [filePath]),
-							babelKeys
-								.sort()
-								.map(filePath => babel.files[filePath].logger)
-						)
-					)
-				);
-			})
 	);
 
 	return `
@@ -506,17 +264,9 @@ export function htmlDump(report) {
 				<h1>${title}</h1>
 				${summary}
 				${warnings}
+				${projectInfo}
 				${versionsInfo}
-				${dependencies}
 				${rulesExecution}
-				${htmlIf(
-					packageProcessesPresent,
-					() => `
-						${packageProcesses}
-						${packageProcessesBundlerDetails}
-						${packageProcessesBabelDetails}
-					`
-				)}
 			</body>
 		</html>
 	`;
@@ -533,6 +283,7 @@ function htmlSection(title, ...contents) {
 	`;
 }
 
+// eslint-disable-next-line
 function htmlSubsection(title, ...contents) {
 	return `
 		<h3>${title}</h3>

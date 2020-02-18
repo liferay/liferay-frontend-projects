@@ -19,12 +19,8 @@ import {findFiles, getDestDir, runInChunks} from './util';
  * @param {Array<PkgDesc>} depPkgs dependency package descriptors
  * @return {Promise}
  */
-export default function runRules(rootPkg, depPkgs) {
-	const dirtyPkgs = [rootPkg, ...depPkgs].filter(srcPkg => !srcPkg.clean);
-
-	return Promise.all(dirtyPkgs.map(srcPkg => processPackage(srcPkg))).then(
-		() => log.debug(`Applied rules to ${dirtyPkgs.length} packages`)
-	);
+export default function runRules(rootPkg) {
+	return processPackage(rootPkg);
 }
 
 /**
