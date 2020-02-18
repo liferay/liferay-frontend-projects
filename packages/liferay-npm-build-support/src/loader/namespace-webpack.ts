@@ -23,7 +23,9 @@ import project from 'liferay-npm-build-tools-common/lib/project';
  * `webpackJsonp_${uuid}` where the `uuid` is derived from the project's name
  * and version.
  */
-export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
+export default function(
+	context: BundlerLoaderContext<string>
+): BundlerLoaderReturn {
 	const {content, log} = context;
 	const regexp = /webpackJsonp/g;
 

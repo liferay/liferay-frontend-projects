@@ -7,25 +7,22 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 
 /**
  * Log errors
- * @return {void}
  */
-export function error(...args) {
-	console.log(...args);
+export function error(...args: any[]): void {
+	console.error(...args);
 }
 
 /**
  * Log message as console.log does
- * @return {void}
  */
-export function info(...args) {
+export function info(...args: any[]): void {
 	console.log(...args);
 }
 
 /**
  * Log message as console.log does but only if verbose is on
- * @return {void}
  */
-export function debug(...args) {
+export function debug(...args: any[]): void {
 	if (project.misc.verbose) {
 		console.log(...args);
 	}

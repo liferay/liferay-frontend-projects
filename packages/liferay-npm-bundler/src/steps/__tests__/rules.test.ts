@@ -8,6 +8,8 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
 import {stripSourceDir, transformContents} from '../rules';
+import {BundlerLoaderContext} from 'liferay-npm-build-tools-common/lib/api/loaders';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
 const savedNativeIsPosix = FilePath.nativeIsPosix;
 const savedPathSep = path.sep;
@@ -19,14 +21,14 @@ describe('stripSourceDir', () => {
 	});
 
 	afterEach(() => {
-		FilePath.nativeIsPosix = savedNativeIsPosix;
-		path.sep = savedPathSep;
+		(FilePath as object)['nativeIsPosix'] = savedNativeIsPosix;
+		(path as object)['sep'] = savedPathSep;
 		project.loadFrom(savedProjectPath);
 	});
 
 	it('works with posix paths', () => {
-		path.sep = path.posix.sep;
-		FilePath.nativeIsPosix = true;
+		(path as object)['sep'] = path.posix.sep;
+		(FilePath as object)['nativeIsPosix'] = true;
 
 		expect(stripSourceDir('assets/path/to/file.js')).toEqual(
 			'path/to/file.js'
@@ -38,8 +40,8 @@ describe('stripSourceDir', () => {
 	});
 
 	it('works with win32 paths', () => {
-		path.sep = path.win32.sep;
-		FilePath.nativeIsPosix = false;
+		(path as object)['sep'] = path.win32.sep;
+		(FilePath as object)['nativeIsPosix'] = false;
 
 		expect(stripSourceDir('assets\\path\\to\\file.js')).toEqual(
 			'path\\to\\file.js'
@@ -118,13 +120,14 @@ describe('transformContents', () => {
 
 	describe('after invocation', () => {
 		it('converts strings to Buffers if encoding present', () => {
-			const context = {
+			const context: BundlerLoaderContext<string> = {
 				filePath: 'path/to/a/file',
 				content: 'sample content',
 				extraArtifacts: {
 					a: 'artifact content 1',
 					b: 'artifact content 2',
 				},
+				log: new PluginLogger(),
 			};
 
 			transformContents(false, context, 'utf-8');
@@ -135,13 +138,14 @@ describe('transformContents', () => {
 		});
 
 		it('leaves Buffers untouched if encoding is null', () => {
-			const context = {
+			const context: BundlerLoaderContext<Buffer> = {
 				filePath: 'path/to/a/file',
 				content: Buffer.from('sample content', 'utf-8'),
 				extraArtifacts: {
 					a: Buffer.from('artifact content 1', 'utf-8'),
 					b: Buffer.from('artifact content 2', 'utf-8'),
 				},
+				log: new PluginLogger(),
 			};
 
 			transformContents(false, context, null);
@@ -152,56 +156,61 @@ describe('transformContents', () => {
 		});
 
 		it('throws if content is a Buffer and encoding is present', () => {
-			const context = {
+			const context: BundlerLoaderContext<Buffer> = {
 				filePath: 'path/to/a/file',
 				content: Buffer.from('sample content', 'utf-8'),
 				extraArtifacts: {},
+				log: new PluginLogger(),
 			};
 
 			expect(() => transformContents(false, context, 'utf-8')).toThrow();
 		});
 
 		it('throws if any extra artifact is a Buffer and encoding is present', () => {
-			const context = {
+			const context: BundlerLoaderContext<string> = {
 				filePath: 'path/to/a/file',
 				content: 'sample content',
 				extraArtifacts: {
 					a: Buffer.from('artifact content 1', 'utf-8'),
 					b: Buffer.from('artifact content 2', 'utf-8'),
 				},
+				log: new PluginLogger(),
 			};
 
 			expect(() => transformContents(false, context, 'utf-8')).toThrow();
 		});
 
 		it('throws if content is a string and encoding is null', () => {
-			const context = {
+			const context: BundlerLoaderContext<string> = {
 				filePath: 'path/to/a/file',
 				content: 'sample content',
 				extraArtifacts: {},
+				log: new PluginLogger(),
 			};
 
 			expect(() => transformContents(false, context, null)).toThrow();
 		});
 
 		it('throws if any extra artifact is a string and encoding is null', () => {
-			const context = {
+			const context: BundlerLoaderContext<Buffer> = {
 				filePath: 'path/to/a/file',
 				content: Buffer.from('sample content', 'utf-8'),
 				extraArtifacts: {
 					a: 'artifact content 1',
 					b: 'artifact content 2',
 				},
+				log: new PluginLogger(),
 			};
 
 			expect(() => transformContents(false, context, null)).toThrow();
 		});
 
 		it('ignores undefined content', () => {
-			const context = {
+			const context: BundlerLoaderContext<string> = {
 				filePath: 'path/to/a/file',
 				content: undefined,
 				extraArtifacts: {},
+				log: new PluginLogger(),
 			};
 
 			expect(() => transformContents(false, context, null)).not.toThrow();
@@ -211,20 +220,21 @@ describe('transformContents', () => {
 		});
 
 		it('ignores undefined extra artifacts', () => {
-			const context = {
+			const context: BundlerLoaderContext<string | Buffer> = {
 				filePath: 'path/to/a/file',
 				content: 'sample content',
 				extraArtifacts: {
 					a: undefined,
 					b: undefined,
 				},
+				log: new PluginLogger(),
 			};
 
 			expect(() =>
 				transformContents(false, context, 'utf-8')
 			).not.toThrow();
 
-			context.content = Buffer.from(context.content, 'utf-8');
+			context.content = Buffer.from(context.content as string, 'utf-8');
 			expect(() => transformContents(false, context, null)).not.toThrow();
 		});
 	});

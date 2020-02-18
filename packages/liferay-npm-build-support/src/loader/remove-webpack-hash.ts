@@ -18,7 +18,9 @@ import {removeWebpackHash} from './util';
  * A webpack hash is defined as the rightmost hex number surrounded by dots in a
  * file name.
  */
-export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
+export default function(
+	context: BundlerLoaderContext<string>
+): BundlerLoaderReturn {
 	const {content, filePath, extraArtifacts, log} = context;
 
 	const newFilePath = removeWebpackHash(filePath);

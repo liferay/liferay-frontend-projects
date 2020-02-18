@@ -8,6 +8,7 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 
 /**
  * Perform a glob search of files and return their paths referenced to
@@ -16,33 +17,30 @@ import path from 'path';
  * Note that the globs are not altered in any way and may even point to files
  * outside of the project directory.
  *
- * @param {string} baseDirPath a native directory path
- * @param {Array<string>} globs globs in `globby` format (may include `.` and
- * 				`..` but must be in POSIX format, i.e.: use `/` path separator)
- * @return {Array<string>} an array containing native file paths relative to
- * 				`baseDirPath`
+ * @param baseDirPath a native directory path
+ * @param globs
+ * globs in `globby` format (may include `.` and `..` but must be in POSIX
+ * format, i.e.: use `/` path separator)
+ * @return an array containing native file paths relative to `baseDirPath`
  */
-export function findFiles(baseDirPath, globs) {
-	let files = globby
+export function findFiles(baseDirPath: string, globs: string[]): string[] {
+	return globby
 		.sync(globs, {
 			absolute: true,
 			onlyFiles: true,
 			followSymbolicLinks: false,
 		})
 		.map(absPath => path.relative(baseDirPath, absPath))
-		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}));
-
-	files = files.map(file => file.asNative);
-
-	return files;
+		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}))
+		.map(file => file.asNative);
 }
 
 /**
  * Get the project relative path to the destination directory of a package.
- * @param {PkgDesc} pkg
- * @return {string} native path to destination directory of package
+ *
+ * @return native path to destination directory of package
  */
-export function getDestDir(pkg) {
+export function getDestDir(pkg: PkgDesc): string {
 	return pkg.isRoot
 		? project.dir.join(project.buildDir).asNative
 		: project.buildDir.join(
@@ -52,17 +50,40 @@ export function getDestDir(pkg) {
 }
 
 /**
+ * Iterate through the elements of an array applying an async process serially
+ * to each one of them.
+ *
+ * @param values array of values to be iterated
+ * @param asyncProcess
+ * the async process (that returns a Promise) to be executed on each value
+ * @return a Promise that is resolved as soon as the iteration finishes
+ */
+export function iterateSerially<T>(
+	values: T[],
+	asyncProcess: {(value: T): Promise<void>}
+) {
+	if (values.length == 0) {
+		return Promise.resolve();
+	}
+
+	return asyncProcess(values[0]).then(() =>
+		iterateSerially(values.slice(1), asyncProcess)
+	);
+}
+
+/**
  * Run an async process over a series of items, applying the process chunk by
  * chunk.
+ *
  * This is especially useful to maintain an upper bound on the maximum number of
  * open files so as to avoid EMFILE errors.
- * @param {Array<*>} items
- * @param {number} chunkSize
- * @param {number} chunkIndex
- * @param {function} callback receives an item to process and returns a Promise
- * @return {Promise}
  */
-export function runInChunks(items, chunkSize, chunkIndex, callback) {
+export function runInChunks<T>(
+	items: T[],
+	chunkSize: number,
+	chunkIndex: number,
+	callback: {(item: T): Promise<void>}
+) {
 	const chunksCount = Math.floor((items.length + chunkSize - 1) / chunkSize);
 
 	const chunk = items.slice(

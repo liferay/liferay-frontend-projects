@@ -48,7 +48,7 @@ export interface Options {
  * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
 export default function(
-	context: BundlerLoaderContext,
+	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;

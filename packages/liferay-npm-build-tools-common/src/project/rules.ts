@@ -19,7 +19,7 @@ import {VersionInfo} from './types';
 export interface BundlerLoaderDescriptor {
 	loader: string;
 	resolvedModule: string;
-	exec: BundlerLoaderEntryPoint;
+	exec: BundlerLoaderEntryPoint<string | Buffer>;
 	options: object;
 	metadata: BundlerLoaderMetadata;
 }

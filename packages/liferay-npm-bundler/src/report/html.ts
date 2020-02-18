@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint require-jsdoc: off */
 import pretty from 'pretty-time';
+
+import {Report} from '.';
+import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 
 const LOG_LEVEL_SORT = {
 	error: 0,
@@ -12,7 +14,7 @@ const LOG_LEVEL_SORT = {
 	info: 2,
 };
 
-export function htmlDump(report) {
+export function htmlDump(report: Report): string {
 	const {
 		_executionDate,
 		_executionTime,
@@ -28,7 +30,7 @@ export function htmlDump(report) {
 		htmlRow(
 			`<td>Executed at:</td><td>${_executionDate.toUTCString()}</td>`
 		),
-		htmlIf(_executionTime, () =>
+		htmlIf(_executionTime !== undefined, () =>
 			htmlRow(
 				`<td>Execution took:</td><td>${pretty(_executionTime)}</td>`
 			)
@@ -272,26 +274,25 @@ export function htmlDump(report) {
 	`;
 }
 
-function htmlIf(condition, contentGenerator) {
+function htmlIf(condition: boolean, contentGenerator: {(): string}): string {
 	return condition ? contentGenerator() : '';
 }
 
-function htmlSection(title, ...contents) {
+function htmlSection(title: string, ...contents: string[]): string {
 	return `
 		<h2>${title}</h2>
 		${contents.join('\n')}
 	`;
 }
 
-// eslint-disable-next-line
-function htmlSubsection(title, ...contents) {
+function htmlSubsection(title: string, ...contents: string[]): string {
 	return `
 		<h3>${title}</h3>
 		${contents.join('\n')}
 	`;
 }
 
-function htmlList(...args) {
+function htmlList(...args: string[]): string {
 	return `
 		<ul>
 			${args.map(arg => `<li>${arg}</li>`).join(' ')}
@@ -299,7 +300,7 @@ function htmlList(...args) {
 	`;
 }
 
-function htmlTable(...args) {
+function htmlTable(...args: any[]): string {
 	const columns = args.slice(0, args.length - 1);
 	let content = args[args.length - 1];
 
@@ -323,7 +324,7 @@ function htmlTable(...args) {
 	}
 }
 
-function htmlRow(content, className = '') {
+function htmlRow(content: string | string[], className: string = ''): string {
 	if (Array.isArray(content)) {
 		content = content.join('\n');
 	}
@@ -333,18 +334,18 @@ function htmlRow(content, className = '') {
 
 /**
  * Dump a table with the output of a PluginLogger
- * @param  {Array} prefixColumns [description]
- * @param  {Array<Array>} prefixCells an array with one array per row containing the prefix cell content
- * @param  {Array} rowLoggers an array with one logger per row in prefixCells
- * @param  {boolean} source whether or not to show 'Log source' column
- * @return {String} an HTML table
+ * @param prefixCells
+ * an array with one array per row containing the prefix cell content
+ * @param rowLoggers an array with one logger per row in prefixCells
+ * @param source whether or not to show 'Log source' column
+ * @return an HTML table
  */
 function htmlLogOutput(
-	prefixColumns,
-	prefixCells,
-	rowLoggers,
-	{source} = {source: true}
-) {
+	prefixColumns: string[],
+	prefixCells: string[][],
+	rowLoggers: PluginLogger[],
+	{source}: {source: boolean} = {source: true}
+): string {
 	if (prefixCells.length != rowLoggers.length) {
 		throw new Error(
 			'The length of prefixCells and rowLoggers must be the same'
@@ -396,7 +397,7 @@ function htmlLogOutput(
 			);
 
 			let infoLink = htmlIf(
-				msg0['link'],
+				msg0['link'] !== undefined,
 				() => `<a href='${msg0['link']}'>🛈</a>`
 			);
 
@@ -420,7 +421,7 @@ function htmlLogOutput(
 				);
 
 				infoLink = htmlIf(
-					msgs[i]['link'],
+					msgs[i]['link'] !== undefined,
 					() => `<a href='${msgs[i]['link']}'>🛈</a>`
 				);
 

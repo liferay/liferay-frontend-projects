@@ -1,24 +1,53 @@
+import {
+	ConfigurationField,
+	PortletInstanceConfiguration,
+} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
+import {Project} from 'liferay-npm-build-tools-common/lib/project';
+
 /**
  * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+interface Field {
+	dataType: string;
+	label: LocalizedValue;
+	name: string;
+	options: FieldOption[];
+	predefinedValue: LocalizedValue;
+	repeatable: boolean;
+	required: boolean;
+	tip: LocalizedValue;
+	type: string;
+}
+
+interface FieldOption {
+	value: string;
+	label: LocalizedValue;
+}
+
+interface LocalizedValue {
+	[locale: string]: string;
+}
+
 /**
  * Transform a preferences.json file into a DDM form JSON definition
- * @param {Project} project the project descriptor
- * @param {object} preferencesJson a preferences JSON object
- * @return {object} a DDM form JSON object
+ * @param project the project descriptor
+ * @param preferencesJson a preferences JSON object
+ * @return a DDM form JSON object
  */
-export function transformPreferences(project, preferencesJson) {
+export function transformPreferences(
+	project: Project,
+	preferencesJson: PortletInstanceConfiguration
+): object {
 	return {
 		availableLanguageIds: project.l10n.availableLocales || [],
 		fields: Object.entries(preferencesJson.fields).map(([name, props]) => {
-			const field = {
+			const field: Field = {
 				name,
 				label: localized(project, props.name || name),
-			};
-
-			Object.assign(field, getTypeProps(props));
+				...getTypeProps(props),
+			} as Field;
 
 			if (props.description) {
 				field.tip = localized(project, props.description);
@@ -54,11 +83,14 @@ export function transformPreferences(project, preferencesJson) {
 
 /**
  * Get a predefinedValue DDM object for a given field
- * @param {Project} project the project descriptor
- * @param {object} props the field props (in preferences.json format)
- * @return {*} the predefinedValue DDM object
+ * @param project the project descriptor
+ * @param props the field props (in preferences.json format)
+ * @return the predefinedValue DDM object
  */
-function getPredefinedValue(project, props) {
+function getPredefinedValue(
+	project: Project,
+	props: ConfigurationField
+): LocalizedValue {
 	if (props.options) {
 		// DDM uses JSON inside a JSON, so we do this to make sure this code is
 		// maintenable and doesn't break anything
@@ -88,10 +120,12 @@ function getPredefinedValue(project, props) {
 
 /**
  * Get the dataType and type DDM properties of a given field
- * @param {object} props the field props (in preferences.json format)
- * @return {object} an object containing the dataType and type properties
+ * @param props the field props (in preferences.json format)
+ * @return an object containing the dataType and type properties
  */
-function getTypeProps(props) {
+function getTypeProps(
+	props: ConfigurationField
+): {dataType: string; type: string} {
 	if (props.options) {
 		return {
 			dataType: 'string',
@@ -135,11 +169,11 @@ function getTypeProps(props) {
 /**
  * Transform a string into a localized DDM value (the string is used as the
  * default locale value)
- * @param {Project} project the project descriptor
- * @param {string} string the string to localize
- * @return {object} the DDM localized value
+ * @param project the project descriptor
+ * @param string the string to localize
+ * @return the DDM localized value
  */
-function localized(project, string) {
+function localized(project: Project, string: string): LocalizedValue {
 	if (!project.l10n.supported) {
 		return {'': string};
 	}

@@ -12,24 +12,18 @@ import path from 'path';
 import * as log from '../log';
 import report from '../report';
 import {findFiles, getDestDir, runInChunks} from './util';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+import {BundlerLoaderDescriptor} from 'liferay-npm-build-tools-common/lib/project/rules';
+import {BundlerLoaderContext} from 'liferay-npm-build-tools-common/lib/api/loaders';
 
 /**
  * Run configured rules.
- * @param {PkgDesc} rootPkg the root package descriptor
- * @param {Array<PkgDesc>} depPkgs dependency package descriptors
- * @return {Promise}
  */
-export default function runRules(rootPkg) {
+export default function runRules(rootPkg: PkgDesc): Promise<void> {
 	return processPackage(rootPkg);
 }
 
-/**
- *
- * @param {PkgDesc} srcPkg
- * @param {number} chunkIndex
- * @return {Promise}
- */
-function processPackage(srcPkg) {
+function processPackage(srcPkg: PkgDesc): Promise<void> {
 	log.debug(`Applying rules to package '${srcPkg.id}'...`);
 
 	const sourceGlobs = srcPkg.isRoot
@@ -59,14 +53,11 @@ function processPackage(srcPkg) {
 	);
 }
 
-/**
- *
- * @param {PkgDesc} srcPkg
- * @param {PkgDesc} destPkg
- * @param {string} prjRelPath
- * @return {Promise}
- */
-function processFile(srcPkg, destPkg, prjRelPath) {
+function processFile(
+	srcPkg: PkgDesc,
+	destPkg: PkgDesc,
+	prjRelPath: string
+): Promise<void> {
 	const loaders = project.rules.loadersForFile(prjRelPath);
 
 	if (loaders.length == 0) {
@@ -75,7 +66,7 @@ function processFile(srcPkg, destPkg, prjRelPath) {
 
 	const fileAbsPath = project.dir.join(prjRelPath).asNative;
 
-	const context = {
+	const context: BundlerLoaderContext<string | Buffer> = {
 		content: fs.readFileSync(fileAbsPath),
 		filePath: prjRelPath,
 		extraArtifacts: {},
@@ -89,12 +80,14 @@ function processFile(srcPkg, destPkg, prjRelPath) {
 
 /**
  * Run rule loaders contained in an array starting at given index.
- * @param {Array<object>} loaders
- * @param {number} firstLoaderIndex
- * @param {object} context the context object to pass to loaders
- * @return {Promise}
+ * @param context the context object to pass to loaders
+ * @return the processed context content
  */
-function runLoaders(loaders, firstLoaderIndex, context) {
+function runLoaders(
+	loaders: BundlerLoaderDescriptor[],
+	firstLoaderIndex: number,
+	context: BundlerLoaderContext<string | Buffer>
+): Promise<string | Buffer> {
 	if (firstLoaderIndex >= loaders.length) {
 		return Promise.resolve(context.content);
 	}
@@ -109,7 +102,7 @@ function runLoaders(loaders, firstLoaderIndex, context) {
 
 		result = loader.exec(context, loader.options);
 	} catch (err) {
-		err.message = `Loader '${loader.use}' failed: ${err.message}`;
+		err.message = `Loader '${loader.loader}' failed: ${err.message}`;
 		throw err;
 	}
 
@@ -127,11 +120,14 @@ function runLoaders(loaders, firstLoaderIndex, context) {
 /**
  * Transform the contents (`content` and `extraArtifacts` value fields) from
  * Buffer to string with given `encoding` or the opposite way.
- * @param {boolean} beforeInvocation true if called before invoking the loader
- * @param {object} context
- * @param {string} encoding
+
+ * @param beforeInvocation true if called before invoking the loader
  */
-export function transformContents(beforeInvocation, context, encoding) {
+export function transformContents(
+	beforeInvocation: boolean,
+	context: BundlerLoaderContext<string | Buffer>,
+	encoding: BufferEncoding
+): void {
 	const {extraArtifacts, filePath} = context;
 
 	if (beforeInvocation) {
@@ -165,7 +161,7 @@ export function transformContents(beforeInvocation, context, encoding) {
 		});
 
 		if (context.content !== undefined) {
-			context.content = Buffer.from(context.content, encoding);
+			context.content = Buffer.from(context.content as string, encoding);
 		}
 
 		Object.keys(extraArtifacts).forEach(key => {
@@ -181,11 +177,8 @@ export function transformContents(beforeInvocation, context, encoding) {
 
 /**
  * Assert that a given artifact content is of type `Buffer` and throw otherwise.
- * @param {object} object
- * @param {string} field
- * @param {string} what
  */
-function assertBuffer(object, field, what) {
+function assertBuffer(object: object, field: string, what: string): void {
 	if (object[field] === undefined) {
 		return;
 	}
@@ -200,11 +193,8 @@ function assertBuffer(object, field, what) {
 
 /**
  * Assert that a given artifact content is of type `string` and throw otherwise.
- * @param {object} object
- * @param {string} field
- * @param {string} what
  */
-function assertString(object, field, what) {
+function assertString(object: object, field: string, what: string): void {
 	if (object[field] === undefined) {
 		return;
 	}
@@ -217,13 +207,11 @@ function assertString(object, field, what) {
 	}
 }
 
-/**
- *
- * @param {PkgDesc} srcPkg
- * @param {PkgDesc} destPkg
- * @param {object} context
- */
-function writeLoadersResult(srcPkg, destPkg, context) {
+function writeLoadersResult(
+	srcPkg: PkgDesc,
+	destPkg: PkgDesc,
+	context: BundlerLoaderContext<string | Buffer>
+): void {
 	if (context.content != undefined) {
 		writeRuleFile(
 			destPkg,
@@ -254,11 +242,12 @@ function writeLoadersResult(srcPkg, destPkg, context) {
 
 /**
  * Write a file generated by a rule for a given destination package.
- * @param {PkgDesc} destPkg
- * @param {string} pkgRelPath
- * @param {string} content
  */
-function writeRuleFile(destPkg, pkgRelPath, content) {
+function writeRuleFile(
+	destPkg: PkgDesc,
+	pkgRelPath: string,
+	content: string | Buffer
+): void {
 	if (destPkg.isRoot) {
 		pkgRelPath = stripSourceDir(pkgRelPath);
 	}
@@ -271,9 +260,8 @@ function writeRuleFile(destPkg, pkgRelPath, content) {
 
 /**
  * String configured source prefixes from package file path.
- * @param {string} pkgRelPath
  */
-export function stripSourceDir(pkgRelPath) {
+export function stripSourceDir(pkgRelPath: string): string {
 	pkgRelPath = `.${path.sep}${pkgRelPath}`;
 
 	for (const sourcePath of project.sources.map(source => source.asNative)) {

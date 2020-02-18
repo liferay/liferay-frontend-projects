@@ -25,7 +25,7 @@ export interface Options {
  * A loader that replaces regular expressions inside a file.
  */
 export default function(
-	context: BundlerLoaderContext,
+	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;

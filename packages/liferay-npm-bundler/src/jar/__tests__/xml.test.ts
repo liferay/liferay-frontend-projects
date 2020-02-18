@@ -9,13 +9,17 @@ import {
 	createMetatype,
 	format,
 } from '../xml';
+import {
+	SystemConfigurationField,
+	SystemConfiguration,
+} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 
 describe('addMetatypeAttr', () => {
 	it('works with just the type', () => {
 		const xml = createMetatype('id', 'name');
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
-		});
+		} as SystemConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -25,7 +29,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			description: 'a-description',
-		});
+		} as SystemConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -35,7 +39,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			required: true,
-		});
+		} as SystemConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -45,7 +49,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			default: 'default-value',
-		});
+		} as SystemConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -58,7 +62,7 @@ describe('addMetatypeAttr', () => {
 				A: 'option-a',
 				B: 'option-b',
 			},
-		});
+		} as any);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -80,10 +84,18 @@ it('createMetatype works', () => {
 it('all together works', () => {
 	const xml = createMetatype('id', 'name');
 	addMetatypeLocalization(xml, 'localization/file.properties');
-	addMetatypeAttr(xml, 'a-number', {type: 'number'});
-	addMetatypeAttr(xml, 'a-float', {type: 'float'});
-	addMetatypeAttr(xml, 'a-string', {type: 'string'});
-	addMetatypeAttr(xml, 'a-boolean', {type: 'boolean'});
+	addMetatypeAttr(xml, 'a-number', {
+		type: 'number',
+	} as SystemConfigurationField);
+	addMetatypeAttr(xml, 'a-float', {
+		type: 'float',
+	} as SystemConfigurationField);
+	addMetatypeAttr(xml, 'a-string', {
+		type: 'string',
+	} as SystemConfigurationField);
+	addMetatypeAttr(xml, 'a-boolean', {
+		type: 'boolean',
+	} as SystemConfigurationField);
 	addMetatypeAttr(xml, 'an-option', {
 		type: 'string',
 		default: 'A',
@@ -91,7 +103,7 @@ it('all together works', () => {
 			A: 'option-a',
 			B: 'option-b',
 		},
-	});
+	} as any);
 
 	expect(format(xml)).toMatchSnapshot();
 });

@@ -12,6 +12,8 @@
 		"prepublish": "yarn build"
 	},
 	"devDependencies": {
+		"@types/fs-extra": "^8.1.0",
+		"@types/webpack": "^4.41.6",
 		"liferay-npm-bundler-preset-liferay-dev": "1.12.0"
 	},
 	"dependencies": {

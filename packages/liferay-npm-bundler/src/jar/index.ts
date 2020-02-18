@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra';
-import globby from 'globby';
+import globby, {GlobbyOptions} from 'globby';
 import JSZip from 'jszip';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
@@ -12,15 +12,19 @@ import path from 'path';
 
 import * as ddm from './ddm';
 import * as xml from './xml';
+import {
+	PortletInstanceConfiguration,
+	ConfigurationJson,
+	SystemConfiguration,
+} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 
 const pkgJson = project.pkgJson;
 
 /**
  * Create an OSGi bundle with build's output
- * @return {Promise}
  */
-export default function createJar() {
-	const zip = new JSZip();
+export default function createJar(): Promise<void> {
+	const zip: JSZip = new JSZip();
 
 	addManifest(zip);
 	addBuildFiles(zip);
@@ -40,9 +44,8 @@ export default function createJar() {
 
 /**
  * Add build's output files to ZIP archive
- * @param {JSZip} zip the ZIP file
  */
-function addBuildFiles(zip) {
+function addBuildFiles(zip: JSZip): void {
 	addFiles(
 		project.buildDir.asNative,
 		['**/*', `!${project.jar.outputFilename}`],
@@ -52,17 +55,21 @@ function addBuildFiles(zip) {
 
 /**
  * Add several files to a ZIP folder.
- * @param {string} srcDirPath source folder
- * @param {array} srcGlobs array of globs describing files to include (in
- * 						globby, i.e. POSIX, format)
- * @param {JSZip} destFolder the destination folder in the ZIP file
+ * @param srcDirPath source folder
+ * @param srcGlobs
+ * array of globs describing files to include (in globby, i.e. POSIX, format)
+ * @param destFolder the destination folder in the ZIP file
  */
-function addFiles(srcDirPath, srcGlobs, destFolder) {
+function addFiles(
+	srcDirPath: string,
+	srcGlobs: string[],
+	destFolder: JSZip
+): void {
 	const filePaths = globby
 		.sync(srcGlobs, {
 			cwd: srcDirPath,
 			nodir: true,
-		})
+		} as GlobbyOptions)
 		.map(posixPath => new FilePath(posixPath, {posix: true}))
 		.map(file => file.asNative);
 
@@ -82,9 +89,8 @@ function addFiles(srcDirPath, srcGlobs, destFolder) {
 
 /**
  * Add the localization bundle files if configured.
- * @param {JSZip} zip the ZIP file
  */
-function addLocalizationFiles(zip) {
+function addLocalizationFiles(zip: JSZip): void {
 	const languageFileBaseName = project.l10n.languageFileBaseName;
 
 	if (languageFileBaseName) {
@@ -96,9 +102,8 @@ function addLocalizationFiles(zip) {
 
 /**
  * Add the manifest file to the ZIP archive
- * @param {JSZip} zip the ZIP file
  */
-function addManifest(zip) {
+function addManifest(zip: JSZip): void {
 	let contents = '';
 
 	const bundlerVersion = project.versionsInfo.get('liferay-npm-bundler')
@@ -109,18 +114,18 @@ function addManifest(zip) {
 
 	contents += `Tool: liferay-npm-bundler-${bundlerVersion}\n`;
 
-	contents += `Bundle-SymbolicName: ${pkgJson.name}\n`;
-	contents += `Bundle-Version: ${pkgJson.version}\n`;
-	if (pkgJson.description) {
-		contents += `Bundle-Name: ${pkgJson.description}\n`;
+	contents += `Bundle-SymbolicName: ${pkgJson['name']}\n`;
+	contents += `Bundle-Version: ${pkgJson['version']}\n`;
+	if (pkgJson['description']) {
+		contents += `Bundle-Name: ${pkgJson['description']}\n`;
 	}
 
 	contents += `Web-ContextPath: ${project.jar.webContextPath}\n`;
 
 	contents +=
 		`Provide-Capability: osgi.webresource;` +
-		`osgi.webresource=${pkgJson.name};` +
-		`version:Version="${pkgJson.version}"\n`;
+		`osgi.webresource=${pkgJson['name']};` +
+		`version:Version="${pkgJson['version']}"\n`;
 
 	if (project.l10n.supported) {
 		const bundleName = path.basename(
@@ -160,9 +165,8 @@ function addManifest(zip) {
 
 /**
  * Add the settings files if configured.
- * @param {JSZip} zip the ZIP file
  */
-function addSystemConfigurationFiles(zip) {
+function addSystemConfigurationFiles(zip: JSZip): void {
 	const systemConfigJson = getSystemConfigurationJson();
 
 	if (!systemConfigJson) {
@@ -176,9 +180,11 @@ function addSystemConfigurationFiles(zip) {
 
 	const name =
 		systemConfigJson.name ||
-		(localization ? pkgJson.name : pkgJson.description || pkgJson.name);
+		(localization
+			? pkgJson['name']
+			: pkgJson['description'] || pkgJson['name']);
 
-	const metatype = xml.createMetatype(pkgJson.name, name);
+	const metatype = xml.createMetatype(pkgJson['name'], name);
 
 	if (localization) {
 		xml.addMetatypeLocalization(metatype, localization);
@@ -192,13 +198,13 @@ function addSystemConfigurationFiles(zip) {
 
 	zip.folder('OSGI-INF')
 		.folder('metatype')
-		.file(`${pkgJson.name}.xml`, xml.format(metatype));
+		.file(`${pkgJson['name']}.xml`, xml.format(metatype));
 
 	// Add features/metatype.json file
 	const metatypeJson = {};
 
 	if (systemConfigJson.category) {
-		metatypeJson.category = systemConfigJson.category;
+		metatypeJson['category'] = systemConfigJson.category;
 	}
 
 	zip.folder('features').file(
@@ -209,9 +215,8 @@ function addSystemConfigurationFiles(zip) {
 
 /**
  * Add the portlet preferences file if configured.
- * @param {JSZip} zip the ZIP file
  */
-function addPortletInstanceConfigurationFile(zip) {
+function addPortletInstanceConfigurationFile(zip: JSZip): void {
 	const portletInstanceConfigJson = getPortletInstanceConfigurationJson();
 
 	if (!portletInstanceConfigJson) {
@@ -232,9 +237,10 @@ function addPortletInstanceConfigurationFile(zip) {
 /**
  * Get the minimum extender version needed for the capabilities of this bundle
  * to work
- * @return {string|undefined} a version number or undefined if none is required
+ *
+ * @return a version number or undefined if none is required
  */
-function getMinimumExtenderVersion() {
+function getMinimumExtenderVersion(): string | undefined {
 	const requireJsExtender = project.jar.requireJsExtender;
 
 	if (typeof requireJsExtender === 'string') {
@@ -261,15 +267,14 @@ function getMinimumExtenderVersion() {
 /**
  * Get portlet instance configuration JSON object from getConfigurationFile()
  * file.
- * @return {object}
  */
-function getPortletInstanceConfigurationJson() {
+function getPortletInstanceConfigurationJson(): PortletInstanceConfiguration {
 	if (!project.jar.configurationFile) {
 		return undefined;
 	}
 
 	const filePath = project.jar.configurationFile.asNative;
-	const configurationJson = fs.readJSONSync(filePath);
+	const configurationJson: ConfigurationJson = fs.readJSONSync(filePath);
 
 	if (
 		!configurationJson.portletInstance ||
@@ -286,13 +291,13 @@ function getPortletInstanceConfigurationJson() {
  * Get system configuration JSON object from getConfigurationFile() file.
  * @return {object}
  */
-function getSystemConfigurationJson() {
+function getSystemConfigurationJson(): SystemConfiguration {
 	if (!project.jar.configurationFile) {
 		return undefined;
 	}
 
 	const filePath = project.jar.configurationFile.asNative;
-	const configurationJson = fs.readJSONSync(filePath);
+	const configurationJson: ConfigurationJson = fs.readJSONSync(filePath);
 
 	if (
 		!configurationJson.system ||

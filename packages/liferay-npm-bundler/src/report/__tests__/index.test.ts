@@ -4,8 +4,9 @@
  */
 
 import {Report} from '../index';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 
-let report;
+let report: Report;
 
 beforeEach(() => {
 	report = new Report();
@@ -50,11 +51,7 @@ describe('when describing the run', () => {
 	});
 
 	it('correctly stores root package description', () => {
-		report.rootPackage({
-			id: 'root-package1@1.0.0',
-			name: 'root-package',
-			version: '1.0.0',
-		});
+		report.rootPackage(new PkgDesc('root-package', '1.0.0'));
 	});
 });
 
@@ -83,11 +80,7 @@ it('correctly dumps HTML report', () => {
 
 	report.versionsInfo(versionsInfo);
 
-	report.rootPackage({
-		id: 'root-package1@1.0.0',
-		name: 'root-package',
-		version: '1.0.0',
-	});
+	report.rootPackage(new PkgDesc('root-package', '1.0.0'));
 
 	expect(report.toHtml()).toMatchSnapshot();
 });

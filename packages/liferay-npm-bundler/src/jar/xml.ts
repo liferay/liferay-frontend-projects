@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {js2xml, xml2js} from 'xml-js';
+import {js2xml, xml2js, Element, ElementCompact} from 'xml-js';
+import {SystemConfigurationField} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
+
+type XmlObject = Element | ElementCompact;
 
 const TYPES = {
 	boolean: 'Boolean',
@@ -15,12 +18,12 @@ const TYPES = {
 
 /**
  * Add a metatype AD node to the XML
- * @param {object} metatype
- * @param {string} id id of field
- * @param {object} desc an object with type, name, description, required,
- * 			default, min, max and options fields
  */
-export function addMetatypeAttr(metatype, id, desc) {
+export function addMetatypeAttr(
+	metatype: XmlObject,
+	id: string,
+	desc: SystemConfigurationField
+): void {
 	const metadata = findChild(metatype, 'metatype:MetaData');
 	const ocd = findChild(metadata, 'OCD');
 	const ad = addChild(ocd, 'AD');
@@ -48,23 +51,20 @@ export function addMetatypeAttr(metatype, id, desc) {
 	}
 }
 
-/**
- *
- * @param {object} xml
- * @param {string} localization
- */
-export function addMetatypeLocalization(xml, localization) {
+export function addMetatypeLocalization(
+	xml: XmlObject,
+	localization: string
+): void {
 	const metadata = findChild(xml, 'metatype:MetaData');
 
 	addAttr(metadata, 'localization', localization);
 }
 
 /**
- * @param {string} id id of configuration
- * @param {string} name human readable name of configuration
- * @return {object}
+ * @param id id of configuration
+ * @param name human readable name of configuration
  */
-export function createMetatype(id, name) {
+export function createMetatype(id: string, name: string): XmlObject {
 	return xml2js(`<?xml version="1.0" encoding="UTF-8"?>
 <metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.1.0">
 	<OCD name="${name}" id="${id}"/>
@@ -76,31 +76,27 @@ export function createMetatype(id, name) {
 
 /**
  * Format an XML object and return it as a string.
- * @param {object} xml
- * @return {string}
  */
-export function format(xml) {
+export function format(xml: XmlObject): string {
 	return js2xml(xml, {spaces: 2});
 }
 
 /**
  * Add an attribute to an XML node.
- * @param {object} node
- * @param {string} name
- * @param {string} value
  */
-function addAttr(node, name, value) {
+function addAttr(
+	node: XmlObject,
+	name: string,
+	value: string | boolean | number
+): void {
 	node.attributes = node.attributes || {};
 	node.attributes[name] = value;
 }
 
 /**
  * Add a child node to an existing node.
- * @param {object} parentNode
- * @param {string} childName
- * @return {object} the child node
  */
-function addChild(parentNode, childName) {
+function addChild(parentNode: XmlObject, childName: string): XmlObject {
 	const childNode = {
 		type: 'element',
 		name: childName,
@@ -116,12 +112,12 @@ function addChild(parentNode, childName) {
 
 /**
  * Find an XML child node creating it if necessary.
- * @param {object} parentNode
- * @param {string} childName
- * @param {boolean} create
- * @return {object} the child node
  */
-function findChild(parentNode, childName, create = false) {
+function findChild(
+	parentNode: XmlObject,
+	childName: string,
+	create: boolean = false
+): XmlObject {
 	const elements = parentNode.elements || [];
 
 	let childNode = elements.find(node => node.name == childName);

@@ -38,7 +38,7 @@ export interface Options {
  * `honorWebpackHash` is false.
  */
 export default function(
-	context: BundlerLoaderContext,
+	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, filePath, log} = context;

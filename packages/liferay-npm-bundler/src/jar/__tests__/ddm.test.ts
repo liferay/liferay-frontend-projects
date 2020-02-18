@@ -7,6 +7,7 @@ import path from 'path';
 import readJsonSync from 'read-json-sync';
 
 import {transformPreferences} from '../ddm';
+import {Project} from 'liferay-npm-build-tools-common/lib/project';
 
 describe('transformPreferences', () => {
 	it('works without L10N', () => {
@@ -14,7 +15,7 @@ describe('transformPreferences', () => {
 			l10n: {
 				supported: false,
 			},
-		};
+		} as Project;
 
 		const preferencesJson = readJsonSync(
 			path.join(__dirname, '__fixtures__', 'preferences.json')
@@ -63,7 +64,7 @@ describe('transformPreferences', () => {
 				getLabels: (locale = 'default') => labels[locale],
 				supported: true,
 			},
-		};
+		} as Project;
 
 		const preferencesJson = readJsonSync(
 			path.join(__dirname, '__fixtures__', 'preferences.l10n.json')
