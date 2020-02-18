@@ -47,6 +47,7 @@
 		"globby": "11.0.0",
 		"http-proxy-middleware": "0.21.0",
 		"jest": "^25.1.0",
+		"jest-environment-jsdom-thirteen": "1.0.1",
 		"jest-fetch-mock": "3.0.1",
 		"liferay-jest-junit-reporter": "1.2.0",
 		"liferay-lang-key-dev-loader": "^1.0.3",
