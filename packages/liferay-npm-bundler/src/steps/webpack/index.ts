@@ -12,6 +12,7 @@ import {
 } from 'liferay-npm-build-tools-common/lib/format';
 import webpack from 'webpack';
 
+import adapt from './adapt';
 import configure from './configure';
 import run from './run';
 import {abort} from '../util';
@@ -35,7 +36,11 @@ export default async function runWebpack(): Promise<webpack.Stats> {
 
 	writeResults(stats);
 
-	print(success`Webpack finished successfully`);
+	print(info`Adapting webpack output to Liferay platform...`);
+
+	adapt();
+
+	print(success`Webpack phase finished successfully`);
 
 	return stats;
 }
