@@ -90,13 +90,7 @@ export class Project {
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(
-				this._npmbundlerrc,
-				'output',
-				this.jar.supported
-					? './build'
-					: './build/resources/main/META-INF/resources'
-			);
+			let dir = prop.get(this._npmbundlerrc, 'output', './build');
 
 			if (!dir.startsWith('./')) {
 				dir = `./${dir}`;
@@ -374,21 +368,7 @@ export class Project {
 		// Apply preset if necessary
 		let presetFilePath;
 
-		if (config.preset === undefined) {
-			presetFilePath = require.resolve(
-				'liferay-npm-bundler-preset-standard'
-			);
-
-			this._toolsDir = new FilePath(
-				path.dirname(
-					require.resolve(
-						'liferay-npm-bundler-preset-standard/package.json'
-					)
-				)
-			);
-		} else if (config.preset === '' || config.preset === false) {
-			// don't load preset
-		} else {
+		if (config.preset) {
 			presetFilePath = resolveModule.sync(config.preset, {
 				basedir: this.dir.asNative,
 			});

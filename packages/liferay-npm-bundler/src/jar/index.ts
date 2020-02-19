@@ -10,6 +10,7 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
+import {buildBundlerDir} from '../dirs';
 import * as ddm from './ddm';
 import * as xml from './xml';
 import {
@@ -47,7 +48,7 @@ export default function createJar(): Promise<void> {
  */
 function addBuildFiles(zip: JSZip): void {
 	addFiles(
-		project.buildDir.asNative,
+		buildBundlerDir.asNative,
 		['**/*', `!${project.jar.outputFilename}`],
 		zip.folder('META-INF').folder('resources')
 	);

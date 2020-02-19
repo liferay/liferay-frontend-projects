@@ -5,6 +5,7 @@
  */
 
 import fs from 'fs-extra';
+import {debug, print} from 'liferay-npm-build-tools-common/lib/format';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import pretty from 'pretty-time';
@@ -16,6 +17,7 @@ import report from './report';
 
 import runRules from './steps/rules';
 import runWebpack from './steps/webpack';
+import {buildBundlerDir} from './dirs';
 
 /** Default entry point for the liferay-npm-bundler */
 export default async function(argv: {version: boolean}): Promise<void> {
@@ -49,9 +51,10 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		}
 
 		// Do things
+		copyPackageJson();
 		await runWebpack();
 		await runRules(rootPkg);
-		await manifest.save();
+		await saveManifest();
 		if (project.jar.supported) {
 			await createJar();
 		}
@@ -74,4 +77,19 @@ export default async function(argv: {version: boolean}): Promise<void> {
 
 		process.exit(1);
 	}
+}
+
+function copyPackageJson() {
+	fs.copyFileSync(
+		project.dir.join('package.json').asNative,
+		buildBundlerDir.join('package.json').asNative
+	);
+
+	print(debug`Copied package.json to output directory`);
+}
+
+async function saveManifest() {
+	await manifest.save();
+
+	print(debug`Wrote manifest.json to output directory`);
 }

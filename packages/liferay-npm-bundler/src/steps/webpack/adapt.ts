@@ -9,11 +9,9 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {print, debug} from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
-import {buildBundlerDir, buildWebpackDir} from './dirs';
+import {buildBundlerDir, buildWebpackDir} from '../../dirs';
 
 export default function adapt() {
-	fs.emptyDirSync(buildBundlerDir.asNative);
-
 	writeManifestModule();
 	writeExportsModules();
 	copyWebpackBundles();

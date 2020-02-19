@@ -8,11 +8,9 @@ import fs from 'fs-extra';
 import {print, debug} from 'liferay-npm-build-tools-common/lib/format';
 import webpack from 'webpack';
 
-import {buildWebpackDir} from './dirs';
+import {buildWebpackDir} from '../../dirs';
 
 export default function writeResults(stats: webpack.Stats) {
-	fs.ensureDirSync(buildWebpackDir.asNative);
-
 	const {compilation} = stats;
 
 	writeAssets(compilation.assets);

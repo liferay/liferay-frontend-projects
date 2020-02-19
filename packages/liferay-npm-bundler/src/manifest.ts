@@ -4,8 +4,9 @@
  */
 
 import Manifest from 'liferay-npm-build-tools-common/lib/manifest';
-import project from 'liferay-npm-build-tools-common/lib/project';
 
-const manifest = new Manifest(project.buildDir.join('manifest.json').asNative);
+import {buildBundlerDir} from './dirs';
+
+const manifest = new Manifest(buildBundlerDir.join('manifest.json').asNative);
 
 export default manifest;

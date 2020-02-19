@@ -117,20 +117,38 @@ describe('project.jar.outputFilename', () => {
 });
 
 describe('project.jar.requireJsExtender', () => {
-	it('returns true when create-jar config present and features/js-extender missing', () => {
+	it('returns true when package.json has a portlet section', () => {
 		const project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'create-jar-empty')
+			path.join(
+				__dirname,
+				'__fixtures__',
+				'project',
+				'empty-with-portlet'
+			)
 		);
 
 		expect(project.jar.requireJsExtender).toBe(true);
 	});
 
-	it('returns false when create-jar config present and features/js-extender false', () => {
+	it('returns false when package.json has no portlet section', () => {
 		const project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'create-jar')
+			path.join(__dirname, '__fixtures__', 'project', 'empty')
 		);
 
 		expect(project.jar.requireJsExtender).toBe(false);
+	});
+
+	it('returns undefined when create-jar is false even if package.json has a portlet section', () => {
+		const project = new Project(
+			path.join(
+				__dirname,
+				'__fixtures__',
+				'project',
+				'create-jar-off-with-portlet'
+			)
+		);
+
+		expect(project.jar.requireJsExtender).toBeUndefined();
 	});
 });
 
@@ -422,12 +440,6 @@ describe('empty project defaults', () => {
 		);
 	});
 
-	it('loads liferay-npm-bundler-preset-standard preset', () => {
-		expect(project._npmbundlerrc['*']['.babelrc']['presets']).toEqual([
-			'liferay-standard',
-		]);
-	});
-
 	it('returns dir', () => {
 		expect(project.dir.toString()).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'empty')
@@ -435,9 +447,7 @@ describe('empty project defaults', () => {
 	});
 
 	it('returns buildDir', () => {
-		expect(project.buildDir.asPosix).toBe(
-			'./build/resources/main/META-INF/resources'
-		);
+		expect(project.buildDir.asPosix).toBe('./build');
 	});
 
 	it('return maxParallelFiles', () => {
@@ -450,15 +460,15 @@ describe('empty project defaults', () => {
 		});
 
 		it('returns outputDir', () => {
-			expect(project.jar.outputDir).toBeUndefined();
+			expect(project.jar.outputDir.asPosix).toBe('./build');
 		});
 
 		it('returns outputFilename', () => {
-			expect(project.jar.outputFilename).toBeUndefined();
+			expect(project.jar.outputFilename).toBe('empty-1.0.0.jar');
 		});
 
 		it('returns supported', () => {
-			expect(project.jar.supported).toBe(false);
+			expect(project.jar.supported).toBe(true);
 		});
 
 		it('returns webContextPath', () => {
