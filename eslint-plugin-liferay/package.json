@@ -1,0 +1,9 @@
+{
+  "name": "eslint-plugin-liferay",
+  "version": "0.0.1",
+  "description": "Liferay ESLint rules",
+  "main": "index.js",
+  "repository": "https://github.com/liferay/eslint-plugin-liferay.git",
+  "license": "MIT",
+  "private": false
+}
