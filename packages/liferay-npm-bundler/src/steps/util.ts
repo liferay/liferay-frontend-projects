@@ -5,10 +5,24 @@
 
 import globby from 'globby';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import {print, error} from 'liferay-npm-build-tools-common/lib/format';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+
+/**
+ * Abort build and exit with return code 1
+ *
+ * @param message optional message to show before aborting
+ */
+export function abort(message?: string): void {
+	if (message) {
+		print(error`${message}`);
+	}
+
+	process.exit(1);
+}
 
 /**
  * Perform a glob search of files and return their paths referenced to

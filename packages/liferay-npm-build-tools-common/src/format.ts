@@ -29,6 +29,7 @@ const verbatim = (...args) => args.join(' ');
 /** Chalk formats table */
 const fmt = {
 	bold: opts.noDecorations ? verbatim : chalk.bold,
+	debug: opts.noColors ? verbatim : chalk.hex('#666'),
 	error: opts.noColors ? verbatim : chalk.hex('#F44'),
 	info: opts.noColors ? verbatim : chalk.hex('#888'),
 	question: opts.noColors ? verbatim : chalk.hex('#55F'),
@@ -37,6 +38,24 @@ const fmt = {
 	underline: opts.noDecorations ? verbatim : chalk.underline,
 	warn: opts.noColors ? verbatim : chalk.hex('#CA0'),
 };
+
+/**
+ * Tagged template processor for information messages.
+ *
+ * Example of use:
+ *
+ * ```ts
+ * info`
+ *   This is an information message with some ${argument} to show
+ * `
+ * ```
+ *
+ * @remarks
+ * Error messages are prepended with a '⚙' emoji.
+ */
+export function debug(literals, ...values) {
+	return fmt.debug(format('⚙', literals, values));
+}
 
 /**
  * Tagged template processor for error messages.
