@@ -5,11 +5,12 @@
 
 import globby from 'globby';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {print, error} from 'liferay-npm-build-tools-common/lib/format';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+
+import * as log from '../log';
 
 /**
  * Abort build and exit with return code 1
@@ -18,7 +19,7 @@ import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
  */
 export function abort(message?: string): void {
 	if (message) {
-		print(error`${message}`);
+		log.error(message);
 	}
 
 	process.exit(1);

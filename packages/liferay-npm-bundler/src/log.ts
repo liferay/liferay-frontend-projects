@@ -3,27 +3,49 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import * as fmt from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
-/**
- * Log errors
- */
+let debugOn, infoOn, errorOn;
+
+switch (project.misc.logLevel) {
+	case 'debug':
+		debugOn = true;
+	case 'info':
+		infoOn = true;
+	case 'error':
+		errorOn = true;
+	case 'off':
+}
+
 export function error(...args: any[]): void {
-	console.error(...args);
-}
-
-/**
- * Log message as console.log does
- */
-export function info(...args: any[]): void {
-	console.log(...args);
-}
-
-/**
- * Log message as console.log does but only if verbose is on
- */
-export function debug(...args: any[]): void {
-	if (project.misc.verbose) {
-		console.log(...args);
+	if (!errorOn) {
+		return;
 	}
+
+	fmt.print(fmt.error`${args.join(' ')}`);
+}
+
+export function success(...args: any[]): void {
+	if (!errorOn) {
+		return;
+	}
+
+	fmt.print(fmt.success`${args.join(' ')}`);
+}
+
+export function info(...args: any[]): void {
+	if (!infoOn) {
+		return;
+	}
+
+	fmt.print(fmt.info`${args.join(' ')}`);
+}
+
+export function debug(...args: any[]): void {
+	if (!debugOn) {
+		return;
+	}
+
+	fmt.print(fmt.debug`${args.join(' ')}`);
 }

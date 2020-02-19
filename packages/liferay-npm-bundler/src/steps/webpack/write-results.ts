@@ -5,10 +5,10 @@
  */
 
 import fs from 'fs-extra';
-import {print, debug} from 'liferay-npm-build-tools-common/lib/format';
 import webpack from 'webpack';
 
 import {buildWebpackDir} from '../../dirs';
+import * as log from '../../log';
 
 export default function writeResults(stats: webpack.Stats) {
 	const {compilation} = stats;
@@ -22,6 +22,6 @@ function writeAssets(assets: object): void {
 
 		fs.writeFileSync(filePath, source.source());
 
-		print(debug`Emitted file ${filePath}`);
+		log.debug(`Emitted file ${filePath}`);
 	});
 }

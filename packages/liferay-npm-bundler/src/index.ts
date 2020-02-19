@@ -5,7 +5,6 @@
  */
 
 import fs from 'fs-extra';
-import {debug, print} from 'liferay-npm-build-tools-common/lib/format';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import pretty from 'pretty-time';
@@ -51,9 +50,9 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		}
 
 		// Do things
-		copyPackageJson();
 		await runWebpack();
 		await runRules(rootPkg);
+		copyPackageJson();
 		await saveManifest();
 		if (project.jar.supported) {
 			await createJar();
@@ -62,7 +61,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		// Report and show execution time
 		const hrtime = process.hrtime(start);
 		report.executionTime(hrtime);
-		log.info(`Bundling took ${pretty(hrtime)}`);
+		log.success(`Bundled {${pkgJson['name']}} in`, pretty(hrtime));
 
 		// Write report if requested
 		if (project.misc.reportFile) {
@@ -85,11 +84,11 @@ function copyPackageJson() {
 		buildBundlerDir.join('package.json').asNative
 	);
 
-	print(debug`Copied package.json to output directory`);
+	log.debug('Copied package.json to output directory');
 }
 
 async function saveManifest() {
 	await manifest.save();
 
-	print(debug`Wrote manifest.json to output directory`);
+	log.debug('Wrote manifest.json to output directory');
 }

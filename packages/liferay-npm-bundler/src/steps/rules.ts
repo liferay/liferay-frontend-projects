@@ -24,8 +24,6 @@ export default function runRules(rootPkg: PkgDesc): Promise<void> {
 }
 
 function processPackage(srcPkg: PkgDesc): Promise<void> {
-	log.debug(`Applying rules to package '${srcPkg.id}'...`);
-
 	const sourceGlobs = srcPkg.isRoot
 		? project.sources.map(source =>
 				fs.statSync(project.dir.join(source).asNative).isDirectory()
@@ -40,6 +38,12 @@ function processPackage(srcPkg: PkgDesc): Promise<void> {
 		project.dir.asNative,
 		gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
 	);
+
+	if (sourcePrjRelPaths.length == 0) {
+		return Promise.resolve();
+	}
+
+	log.debug(`Applying rules to package '${srcPkg.id}'...`);
 
 	const destPkg = srcPkg.clone({
 		dir: getDestDir(srcPkg),

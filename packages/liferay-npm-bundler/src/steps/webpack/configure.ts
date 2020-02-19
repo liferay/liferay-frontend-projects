@@ -5,11 +5,11 @@
  */
 
 import fs from 'fs-extra';
-import {print, debug} from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import webpack from 'webpack';
 
 import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
+import * as log from '../../log';
 
 export default function configure(): webpack.Configuration {
 	const webpackConfig: webpack.Configuration = {
@@ -47,7 +47,7 @@ export default function configure(): webpack.Configuration {
 
 				entry[id] = `./${generatedFile.asPosix}`;
 
-				print(debug`Generated entry point for ${id}`);
+				log.debug(`Generated entry point for ${id}`);
 
 				return entry;
 			},

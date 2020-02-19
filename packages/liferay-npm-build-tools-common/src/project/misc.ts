@@ -22,9 +22,19 @@ export default class Misc {
 	}
 
 	/**
+	 * Whether or not to dump detailed information about what the tool is doing
+	 */
+	get logLevel(): 'off' | 'error' | 'info' | 'debug' {
+		const {npmbundlerrc} = this._project;
+
+		return prop.get(npmbundlerrc, 'log-level', 'error');
+	}
+
+	/**
 	 * Get maximum number of files to process in parallel in any parallelizable
 	 * operation.
 	 */
+
 	get maxParallelFiles(): number {
 		const {npmbundlerrc} = this._project;
 
@@ -45,6 +55,7 @@ export default class Misc {
 	/**
 	 * Get the path to the report file or undefined if no report is configured.
 	 */
+
 	get reportFile(): FilePath | undefined {
 		const {_project} = this;
 		const {npmbundlerrc} = _project;
@@ -54,15 +65,6 @@ export default class Misc {
 		return dumpReport
 			? _project.dir.join('liferay-npm-bundler-report.html')
 			: undefined;
-	}
-
-	/**
-	 * Whether or not to dump detailed information about what the tool is doing
-	 */
-	get verbose(): boolean {
-		const {npmbundlerrc} = this._project;
-
-		return prop.get(npmbundlerrc, 'verbose', false);
 	}
 
 	private readonly _project: Project;

@@ -6,10 +6,10 @@
 
 import fs from 'fs-extra';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {print, debug} from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
 import {buildBundlerDir, buildWebpackDir} from '../../dirs';
+import * as log from '../../log';
 
 export default function adapt() {
 	writeManifestModule();
@@ -29,7 +29,7 @@ function copyWebpackBundles() {
 
 		fs.writeFileSync(buildBundlerDir.join(fileName).asNative, content);
 
-		print(debug`Copied ${id}.bundle.js to output directory`);
+		log.debug(`Copied ${id}.bundle.js to output directory`);
 	});
 }
 
@@ -47,7 +47,7 @@ ${content}
 	['runtime', 'vendor', ...Object.keys(project.exports)].forEach(id => {
 		transformFile(`${id}.bundle.js`, transform);
 
-		print(debug`Internalized webpack manifest of ${id}.bundle.js`);
+		log.debug(`Internalized webpack manifest of ${id}.bundle.js`);
 	});
 }
 
@@ -74,7 +74,7 @@ ${content}`;
 	Object.keys(project.exports).forEach(id => {
 		transformFile(`${id}.bundle.js`, transform);
 
-		print(debug`Converted ${id}.bundle.js to AMD module`);
+		log.debug(`Converted ${id}.bundle.js to AMD module`);
 	});
 }
 
@@ -100,7 +100,7 @@ module.exports = require('${relativeBuildBundleDirPosixPath}/${id}.bundle');
 `
 		);
 
-		print(debug`Generated AMD module ${moduleName}`);
+		log.debug(`Generated AMD module ${moduleName}`);
 	});
 }
 
@@ -114,5 +114,5 @@ function writeManifestModule(): void {
 		`module.exports = [];`
 	);
 
-	print(debug`Generated AMD module to hold webpack manifest`);
+	log.debug(`Generated AMD module to hold webpack manifest`);
 }

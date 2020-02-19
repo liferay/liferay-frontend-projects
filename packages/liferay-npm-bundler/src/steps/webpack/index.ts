@@ -4,29 +4,24 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {
-	print,
-	error,
-	info,
-	success,
-} from 'liferay-npm-build-tools-common/lib/format';
 import webpack from 'webpack';
 
+import * as log from '../../log';
+import {abort} from '../util';
 import adapt from './adapt';
 import configure from './configure';
 import run from './run';
-import {abort} from '../util';
 import writeResults from './write-results';
 
 /**
  * Run configured rules.
  */
 export default async function runWebpack(): Promise<webpack.Stats> {
-	print(info`Configuring webpack build...`);
+	log.info('Configuring webpack build...');
 
 	const options = configure();
 
-	print(info`Running webpack...`);
+	log.info('Running webpack...');
 
 	const stats = await run(options);
 
@@ -36,11 +31,11 @@ export default async function runWebpack(): Promise<webpack.Stats> {
 
 	writeResults(stats);
 
-	print(info`Adapting webpack output to Liferay platform...`);
+	log.info('Adapting webpack output to Liferay platform...');
 
 	adapt();
 
-	print(success`Webpack phase finished successfully`);
+	log.info('Webpack phase finished successfully');
 
 	return stats;
 }
@@ -48,14 +43,10 @@ export default async function runWebpack(): Promise<webpack.Stats> {
 function abortWithErrors(stats: webpack.Stats): void {
 	const {errors} = stats.compilation;
 
-	print(
-		error`
-webpack finished with errors:
+	abort(`
+Webpack build finished with errors:
 
 ${errors.map(err => `  · ${err.message}`).join('\n')}
 
-`
-	);
-
-	abort();
+`);
 }
