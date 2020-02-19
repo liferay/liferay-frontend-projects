@@ -24,6 +24,11 @@ import {VersionInfo} from './types';
 /** A package manager */
 export type PkgManager = 'npm' | 'yarn' | null;
 
+/** Exports configuration */
+export interface Exports {
+	[id: string]: string;
+}
+
 /**
  * Describes a standard JS Toolkit project.
  */
@@ -39,6 +44,27 @@ export class Project {
 	 */
 	constructor(projectDirPath: string) {
 		this.loadFrom(projectDirPath);
+	}
+
+	/**
+	 * Get module paths	to export to the outside world making them available
+	 * through the AMD loader.
+	 *
+	 * @remarks
+	 * Note that the usual CommonJS syntax is used to differentiate local
+	 * modules from dependency (node_modules) modules.
+	 *
+	 * For example:
+	 *
+	 * - Local module: './src/my-api'
+	 * - Dependency module: 'lodash/trimEnd'
+	 */
+	get exports(): Exports {
+		if (this._exports === undefined) {
+			this._exports = prop.get(this._npmbundlerrc, 'exports', {});
+		}
+
+		return this._exports;
 	}
 
 	/**
@@ -417,6 +443,9 @@ export class Project {
 
 	/** Absolute path to tools directory (usually project or preset dir) */
 	private _toolsDir: FilePath;
+
+	/** Modules to export to the outside world */
+	private _exports: Exports;
 
 	private _versionsInfo: Map<string, VersionInfo>;
 }
