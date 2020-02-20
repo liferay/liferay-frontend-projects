@@ -224,24 +224,6 @@ exports[`correctly dumps HTML report 1`] = `
 		
 	
 				
-		<h2>Details of rule executions</h2>
-		
-		<div class=\\"configuration\\">
-			<div>Configuration</div>
-			<pre>{}</pre>
-		</div>
-		
-
-			<table>
-				<tr class=\\"\\"><th>File</th>
-<th>Log source</th>
-<th>Message</th>
-<th></th>
-<th></th></tr>
-				
-			</table>
-		
-	
 			</body>
 		</html>
 	"

@@ -67,22 +67,24 @@ export function htmlDump(report: Report): string {
 		)
 	);
 
-	const rulesExecution = htmlSection(
-		'Details of rule executions',
-		`
+	const rulesExecution = htmlIf(Object.keys(_rules.files).length > 0, () =>
+		htmlSection(
+			'Details of rule executions',
+			`
 		<div class="configuration">
 			<div>Configuration</div>
 			<pre>${JSON.stringify(_rules.config, null, 2)}</pre>
 		</div>
 		`,
-		htmlLogOutput(
-			['File'],
-			Object.keys(_rules.files)
-				.sort()
-				.map(filePath => [filePath]),
-			Object.keys(_rules.files)
-				.sort()
-				.map(filePath => _rules.files[filePath].logger)
+			htmlLogOutput(
+				['File'],
+				Object.keys(_rules.files)
+					.sort()
+					.map(filePath => [filePath]),
+				Object.keys(_rules.files)
+					.sort()
+					.map(filePath => _rules.files[filePath].logger)
+			)
 		)
 	);
 
