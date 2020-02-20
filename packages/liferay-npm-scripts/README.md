@@ -36,7 +36,7 @@ Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` fil
 liferay-npm-scripts check
 ```
 
-`check` runs ESLint to catch semantic problems (equivalent to running `eslint` without the `--fix` option) and Prettier to catch formatting issues (equivalent to running `prettier` with the `--check` flag) for the globs specified in your `npmscripts.config.js` configuration (or, in the absence of explicit configuration, in [the default preset](./src/presets/standard/index.js#L25-L32)).
+`check` runs [ESLint](https://eslint.org/) to catch semantic problems in JS (equivalent to running `eslint` without the `--fix` option), [stylelint](https://stylelint.io/) to catch problems in SCSS files, and [Prettier](https://prettier.io/) to catch formatting issues (equivalent to running `prettier` with the `--check` flag), for the globs specified in your `npmscripts.config.js` configuration (or, in the absence of explicit configuration, in [the default preset](./src/presets/standard/index.js#L25-L32)).
 
 This is the task that runs in liferay-portal projects when you run `yarn checkFormat`.
 
@@ -46,7 +46,7 @@ This is the task that runs in liferay-portal projects when you run `yarn checkFo
 liferay-npm-scripts fix
 ```
 
-`fix` runs ESLint and fixes autofixable issues (equivalent to passing the `--fix` option) and runs Prettier to enforce formatting (equivalent to calling `prettier` with the `--write` flag) for the globs specified in your `npmscripts.config.js` configuration (or, in the absence of explicit configuration, in [the default preset](./src/presets/standard/index.js#L17-L24)).
+`fix` runs [ESLint](https://eslint.org/) and [stylelint](https://stylelint.io/) to identify and fix autofixable issues in JS and SCSS, and [Prettier](https://prettier.io/) to enforce formatting (equivalent to calling `prettier` with the `--write` flag) for the globs specified in your `npmscripts.config.js` configuration (or, in the absence of explicit configuration, in [the default preset](./src/presets/standard/index.js#L17-L24)).
 
 This is the task that runs in liferay-portal projects when you run `yarn format` (or `gradlew formatSource -a`, or `ant format-source`).
 
@@ -203,3 +203,11 @@ Want to use a different `NODE_ENV`? Try doing something like
 ```sh
 NODE_ENV=development liferay-npm-scripts build
 ```
+
+## Appendix: stylelint rules
+
+The [shared stylelint configuration](./src/config/stylelint.json) lists the rules that are activated from among [the bundled rules](https://stylelint.io/user-guide/rules/list) in addition to the following custom rules that we've developed:
+
+-   [`liferay/no-block-comments`](./test/scripts/lint/stylelint/plugins/no-block-comments.js): Disallows block-style comments (`/* ... */`).
+-   [`liferay/sort-imports`](./test/scripts/lint/stylelint/plugins/sort-imports.js): Requires `@import` statements to be alphabetically sorted (separate groups of imports with a blank line to force manual ordering).
+-   [`liferay/trim-comments`](./test/scripts/lint/stylelint/plugins/trim-comments.js): Trims leading and trailing blank lines from comments.
