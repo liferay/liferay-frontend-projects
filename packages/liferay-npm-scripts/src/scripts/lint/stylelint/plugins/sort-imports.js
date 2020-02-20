@@ -101,11 +101,6 @@ module.exports = stylelint.createPlugin(
 					);
 
 					if (firstMismatch !== -1) {
-						const order = desired
-							.slice(firstMismatch, lastMismatch + 1)
-							.map(node => node.params)
-							.join(' << ');
-
 						if (fix) {
 							for (
 								let k = firstMismatch;
@@ -117,6 +112,11 @@ module.exports = stylelint.createPlugin(
 								);
 							}
 						} else {
+							const order = desired
+								.slice(firstMismatch, lastMismatch + 1)
+								.map(node => node.params)
+								.join(' << ');
+
 							stylelint.utils.report({
 								message: `${messages.sort} (expected: ${order})`,
 								node: group[firstMismatch],
