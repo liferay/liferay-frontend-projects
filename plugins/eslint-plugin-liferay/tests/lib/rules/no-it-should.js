@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {RuleTester} = require('eslint');
-
+const MultiTester = require('../../../../../scripts/MultiTester');
 const rule = require('../../../lib/rules/no-it-should');
 
-const ruleTester = new RuleTester();
+const ruleTester = new MultiTester();
 
 ruleTester.run('no-it-should', rule, {
 	invalid: [

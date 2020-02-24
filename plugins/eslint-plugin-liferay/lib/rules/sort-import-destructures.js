@@ -48,10 +48,10 @@ module.exports = {
 
 					if (fix) {
 						const text =
-							' '.repeat(node.start) + source.getText(node);
+							' '.repeat(node.range[0]) + source.getText(node);
 
-						const start = specifiers[0].start;
-						const end = specifiers[specifiers.length - 1].end;
+						const start = specifiers[0].range[0];
+						const end = specifiers[specifiers.length - 1].range[1];
 
 						let fixed = '';
 
@@ -61,8 +61,8 @@ module.exports = {
 							if (i < specifiers.length - 1) {
 								// Grab all text between specifier and next.
 								const between = text.slice(
-									specifiers[i].end,
-									specifiers[i + 1].start
+									specifiers[i].range[1],
+									specifiers[i + 1].range[0]
 								);
 
 								fixed += between;
