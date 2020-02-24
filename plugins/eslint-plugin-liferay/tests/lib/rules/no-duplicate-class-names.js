@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {RuleTester} = require('eslint');
-
+const MultiTester = require('../../../../../scripts/MultiTester');
 const rule = require('../../../lib/rules/no-duplicate-class-names');
 
 const parserOptions = {
@@ -17,7 +16,7 @@ const parserOptions = {
 	},
 };
 
-const ruleTester = new RuleTester(parserOptions);
+const ruleTester = new MultiTester(parserOptions);
 
 const message = 'classes in className attribute must be unique';
 

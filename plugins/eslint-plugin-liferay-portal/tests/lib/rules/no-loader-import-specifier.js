@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {RuleTester} = require('eslint');
-
+const MultiTester = require('../../../../../scripts/MultiTester');
 const rule = require('../../../lib/rules/no-loader-import-specifier');
 
 const parserOptions = {
@@ -12,7 +11,7 @@ const parserOptions = {
 	sourceType: 'module',
 };
 
-const ruleTester = new RuleTester({parserOptions});
+const ruleTester = new MultiTester({parserOptions});
 
 const errors = [
 	{

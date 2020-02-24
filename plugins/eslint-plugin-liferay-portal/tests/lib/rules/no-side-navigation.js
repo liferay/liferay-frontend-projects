@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {RuleTester} = require('eslint');
-
+const MultiTester = require('../../../../../scripts/MultiTester');
 const rule = require('../../../lib/rules/no-side-navigation');
 
 const parserOptions = {
@@ -13,7 +12,7 @@ const parserOptions = {
 	},
 };
 
-const ruleTester = new RuleTester({parserOptions});
+const ruleTester = new MultiTester({parserOptions});
 
 ruleTester.run('no-side-navigation', rule, {
 	invalid: [

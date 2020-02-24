@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {RuleTester} = require('eslint');
-
+const MultiTester = require('../../../../../scripts/MultiTester');
 const rule = require('../../../lib/rules/no-explicit-extend');
 
-const ruleTester = new RuleTester();
+const ruleTester = new MultiTester();
 
 const filename = '/data/liferay-portal/modules/apps/a/b/.eslintrc.js';
 

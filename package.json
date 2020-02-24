@@ -27,9 +27,11 @@
 	"author": "Liferay",
 	"license": "MIT",
 	"devDependencies": {
+		"@typescript-eslint/parser": "^2.20.0",
 		"eslint": "6.8.0",
 		"jest": "25.1.0",
-		"prettier": "*"
+		"prettier": "*",
+		"typescript": "^3.8.2"
 	},
 	"peerDependencies": {
 		"eslint": ">=4.1.1"
