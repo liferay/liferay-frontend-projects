@@ -156,5 +156,10 @@ function localized(project, string) {
 		obj[locale] = labels[string];
 	});
 
-	return obj;
+	if(undefined !== obj['']){
+		return obj;
+	}
+	else{
+		return {'': string};
+	}
 }
