@@ -1,3 +1,11 @@
+## [v19.0.2](https://github.com/liferay/eslint-config-liferay/tree/v19.0.2) (2020-02-24)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v19.0.1...v19.0.2)
+
+-   fix: don't break when using @typescript-eslint/parser ([\#153](https://github.com/liferay/eslint-config-liferay/pull/153))
+-   chore: update for compliance with current Outbound Licensing Policy ([\#151](https://github.com/liferay/eslint-config-liferay/pull/151))
+-   fix(meta): make globs work on Windows ([\#147](https://github.com/liferay/eslint-config-liferay/pull/147))
+
 ## [v19.0.1](https://github.com/liferay/eslint-config-liferay/tree/v19.0.1) (2020-02-10)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v19.0.0...v19.0.1)
