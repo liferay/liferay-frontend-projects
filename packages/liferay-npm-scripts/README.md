@@ -210,5 +210,6 @@ The [shared stylelint configuration](./src/config/stylelint.json) lists the rule
 
 -   [`liferay/no-block-comments`](./test/scripts/lint/stylelint/plugins/no-block-comments.js): Disallows block-style comments (`/* ... */`).
 -   [`liferay/no-import-extension`](./test/scripts/lint/stylelint/plugins/no-import-extension.js): Disallows the use of an explicit ".scss" extension in Sass `@import` statements.
+-   [`liferay/single-imports`](./test/scripts/lint/stylelint/plugins/single-imports.js): Requires one `@import` statement per imported resource.
 -   [`liferay/sort-imports`](./test/scripts/lint/stylelint/plugins/sort-imports.js): Requires `@import` statements to be alphabetically sorted (separate groups of imports with a blank line to force manual ordering).
 -   [`liferay/trim-comments`](./test/scripts/lint/stylelint/plugins/trim-comments.js): Trims leading and trailing blank lines from comments.
