@@ -16,10 +16,6 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const prettierOptions = {
 		...prettierConfig,
 		parser: 'babel',
-
-		// Because JS in JSP does not pass through Babel, and because IE will
-		// choke on trailing commas.
-		trailingComma: 'none',
 	};
 
 	return processJSP(source, {
