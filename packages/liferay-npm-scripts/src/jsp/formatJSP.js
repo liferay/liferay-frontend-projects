@@ -15,13 +15,13 @@ const processJSP = require('./processJSP');
 function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const prettierOptions = {
 		...prettierConfig,
-		parser: 'babel'
+		parser: 'babel',
 	};
 
 	return processJSP(source, {
 		onFormat: input => {
 			return prettier.format(input, prettierOptions);
-		}
+		},
 	});
 }
 

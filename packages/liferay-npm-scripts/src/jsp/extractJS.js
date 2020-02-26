@@ -47,7 +47,7 @@ const JS_TYPES = new Set([
 	'text/jscript',
 	'text/livescript',
 	'text/x-ecmascript',
-	'text/x-javascript'
+	'text/x-javascript',
 ]);
 
 /**
@@ -103,17 +103,19 @@ function extractJS(source) {
 							end: {
 								column: lastLine.length + 1,
 								line:
-									prefixLines.length + contentLines.length - 1
+									prefixLines.length +
+									contentLines.length -
+									1,
 							},
 							index: offset,
 							length: match.length,
 							start: {
 								column: lastPrefixLine.length + 1,
-								line: prefixLines.length
-							}
+								line: prefixLines.length,
+							},
 						},
 						scriptAttributes,
-						tagNamespace
+						tagNamespace,
 					});
 				}
 			}

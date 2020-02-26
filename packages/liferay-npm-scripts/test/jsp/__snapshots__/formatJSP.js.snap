@@ -114,7 +114,7 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 						constrain: true,
 						destroyOnHide: true,
 						modal: true,
-						width: 680
+						width: 680,
 					},
 					id: '_<%= HtmlUtil.escapeJS(portletResource) %>_selectFolder',
 					title:
@@ -126,14 +126,14 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 						<portlet:param name=\\"ignoreRootFolder\\" value=\\"<%= Boolean.TRUE.toString() %>\\" />
 					</liferay-portlet:renderURL>
 
-					uri: '<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>'
+					uri: '<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>',
 				},
 				function(event) {
 					var folderData = {
 						idString: 'rootFolderId',
 						idValue: event.folderid,
 						nameString: 'rootFolderName',
-						nameValue: event.foldername
+						nameValue: event.foldername,
 					};
 
 					Liferay.Util.selectFolder(folderData, '<portlet:namespace />');
@@ -149,8 +149,8 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 			data: {
 				mimeTypes: Liferay.Util.listSelect(
 					Liferay.Util.getFormElement(form, 'currentMimeTypes')
-				)
-			}
+				),
+			},
 		});
 	}
 </script>"
@@ -285,7 +285,7 @@ if (organization != null) {
 			selectDesc: 'nameCurrentValue',
 			selectId: 'countryId',
 			selectSort: '<%= true %>',
-			selectVal: '<%= countryId %>'
+			selectVal: '<%= countryId %>',
 		},
 		{
 			select: '<portlet:namespace />regionId',
@@ -293,8 +293,8 @@ if (organization != null) {
 			selectDesc: 'name',
 			selectDisableOnEmpty: true,
 			selectId: 'regionId',
-			selectVal: '<%= regionId %>'
-		}
+			selectVal: '<%= regionId %>',
+		},
 	]);
 </aui:script>
 
@@ -666,8 +666,8 @@ if (Validator.isNotNull(scriptContent)) {
 
 						instance._bindUIACBase();
 						instance._syncUIACBase();
-					}
-				}
+					},
+				},
 			});
 
 			var getItems = function() {
@@ -676,7 +676,7 @@ if (Validator.isNotNull(scriptContent)) {
 				paletteItems.each(function(item, index) {
 					results.push({
 						data: item.text().trim(),
-						node: item.ancestor()
+						node: item.ancestor(),
 					});
 				});
 
@@ -704,7 +704,7 @@ if (Validator.isNotNull(scriptContent)) {
 				nodes: '.palette-item-container',
 				resultFilters: 'phraseMatch',
 				resultTextLocator: 'data',
-				source: getItems()
+				source: getItems(),
 			});
 
 			paletteSearch.on('results', function(event) {
@@ -819,7 +819,7 @@ if (Validator.isNotNull(scriptContent)) {
 
 		if (AutoComplete) {
 			var processor = new AutoComplete({
-				variables: <%= ddmDisplayContext.getAutocompleteJSON(request, language) %>
+				variables: <%= ddmDisplayContext.getAutocompleteJSON(request, language) %>,
 			});
 
 			if (processor) {
@@ -829,7 +829,7 @@ if (Validator.isNotNull(scriptContent)) {
 					processor: processor,
 					render: true,
 					visible: false,
-					zIndex: 10000
+					zIndex: 10000,
 				});
 			}
 			else {
@@ -853,15 +853,15 @@ if (Validator.isNotNull(scriptContent)) {
 				boundingBox: editorNode,
 				height: 400,
 				mode: '<%= EditorModeUtil.getEditorMode(langType) %>',
-				width: '100%'
+				width: '100%',
 			}).render();
 
 			new A.Resize({
 				handles: ['br'],
 				node: editorNode,
 				on: {
-					resize: resizeEditor
-				}
+					resize: resizeEditor,
+				},
 			});
 
 			if (editorContentElement) {
@@ -889,12 +889,12 @@ if (Validator.isNotNull(scriptContent)) {
 					animated: true,
 					container: paletteDataContainer,
 					content: '.palette-item-content',
-					header: '.palette-item-header'
+					header: '.palette-item-header',
 				});
 
 				new A.TooltipDelegate({
 					align: {
-						points: [A.WidgetPositionAlign.LC, A.WidgetPositionAlign.RC]
+						points: [A.WidgetPositionAlign.LC, A.WidgetPositionAlign.RC],
 					},
 					duration: 0.5,
 					html: true,
@@ -902,7 +902,7 @@ if (Validator.isNotNull(scriptContent)) {
 					trigger:
 						'#<portlet:namespace />templatePaletteContainer .palette-item',
 					visible: false,
-					zIndex: 6
+					zIndex: 6,
 				});
 
 				createLiveSearch();
@@ -1240,7 +1240,7 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 	<aui:script>
 		var SOME_OBJ = {
 			\${foo}: 'bar',
-			\${bar}: 'baz'
+			\${bar}: 'baz',
 		};
 	</aui:script>
 
@@ -1825,7 +1825,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 						{
 							dialog: {
 								constrain: true,
-								modal: true
+								modal: true,
 							},
 
 							<%
@@ -1846,7 +1846,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							selectRegularRoleURL.setWindowState(LiferayWindowState.POP_UP);
 							%>
 
-							uri: '<%= selectRegularRoleURL.toString() %>'
+							uri: '<%= selectRegularRoleURL.toString() %>',
 						},
 						function(event) {
 							<portlet:namespace />selectRole(
@@ -2101,7 +2101,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 						{
 							dialog: {
 								constrain: true,
-								modal: true
+								modal: true,
 							},
 
 							<%
@@ -2125,7 +2125,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							selectOrganizationRoleURL.setWindowState(LiferayWindowState.POP_UP);
 							%>
 
-							uri: '<%= selectOrganizationRoleURL.toString() %>'
+							uri: '<%= selectOrganizationRoleURL.toString() %>',
 						},
 						function(event) {
 							<portlet:namespace />selectRole(
@@ -2324,7 +2324,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 						{
 							dialog: {
 								constrain: true,
-								modal: true
+								modal: true,
 							},
 
 							<%
@@ -2347,7 +2347,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 							selectSiteRoleURL.setWindowState(LiferayWindowState.POP_UP);
 							%>
 
-							uri: '<%= selectSiteRoleURL.toString() %>'
+							uri: '<%= selectSiteRoleURL.toString() %>',
 						},
 						function(event) {
 							<portlet:namespace />selectRole(
@@ -3188,13 +3188,13 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 			{
 				dialog: {
 					constrain: true,
-					modal: true
+					modal: true,
 				},
 				eventName: '<portlet:namespace />selectDDMStructureField',
 				id: '<portlet:namespace />selectDDMStructure' + delegateTarget.id,
 				title:
 					'<liferay-ui:message arguments=\\"structure-field\\" key=\\"select-x\\" />',
-				uri: uri
+				uri: uri,
 			},
 			function(event) {
 				setDDMFields(
@@ -3449,7 +3449,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 	window.<portlet:namespace />calendarListsMenu = new Liferay.SimpleMenu({
 		align: {
-			points: [A.WidgetPositionAlign.TL, A.WidgetPositionAlign.BL]
+			points: [A.WidgetPositionAlign.TL, A.WidgetPositionAlign.BL],
 		},
 		constrain: true,
 		items: [
@@ -3484,10 +3484,10 @@ String backURL = PortalUtil.getCurrentURL(request);
 												<portlet:namespace />scheduler.load();
 											}
 										);
-									}
+									},
 								},
 								destroyOnHide: true,
-								modal: true
+								modal: true,
 							},
 							refreshWindow: window,
 							title: '<liferay-ui:message key=\\"add-calendar\\" />',
@@ -3500,13 +3500,13 @@ String backURL = PortalUtil.getCurrentURL(request);
 							uri: Liferay.CalendarUtil.fillURLParameters(
 								decodeURIComponent('<%= editCalendarURL %>'),
 								{
-									calendarResourceId: calendarResourceId
+									calendarResourceId: calendarResourceId,
 								}
-							)
+							),
 						});
 					}
 				},
-				id: 'add'
+				id: 'add',
 			},
 			{
 				caption: '<liferay-ui:message key=\\"manage-calendars\\" />',
@@ -3525,12 +3525,12 @@ String backURL = PortalUtil.getCurrentURL(request);
 						window.location.href = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= calendarsURL %>'),
 							{
-								calendarResourceId: calendarResourceId
+								calendarResourceId: calendarResourceId,
 							}
 						);
 					}
 				},
-				id: 'manage'
+				id: 'manage',
 			},
 			{
 				caption: '<liferay-ui:message key=\\"permissions\\" />',
@@ -3548,18 +3548,18 @@ String backURL = PortalUtil.getCurrentURL(request);
 					Liferay.Util.openWindow({
 						dialog: {
 							destroyOnHide: true,
-							modal: true
+							modal: true,
 						},
 						dialogIframe: {
-							bodyCssClass: 'dialog-with-footer'
+							bodyCssClass: 'dialog-with-footer',
 						},
 						refreshWindow: window,
 						title: '<liferay-ui:message key=\\"permissions\\" />',
-						uri: decodeURIComponent('<%= permissionsURL %>')
+						uri: decodeURIComponent('<%= permissionsURL %>'),
 					});
 				},
-				id: 'permissions'
-			}
+				id: 'permissions',
+			},
 		],
 		on: {
 			visibleChange: function(event) {
@@ -3578,11 +3578,11 @@ String backURL = PortalUtil.getCurrentURL(request);
 				}
 
 				instance.set('hiddenItems', hiddenItems);
-			}
+			},
 		},
 		visible: false,
 		width: 290,
-		zIndex: 500
+		zIndex: 500,
 	}).render();
 
 	window.<portlet:namespace />calendarsMenu = {
@@ -3607,22 +3607,22 @@ String backURL = PortalUtil.getCurrentURL(request);
 							after: {
 								destroy: function(event) {
 									<portlet:namespace />scheduler.load();
-								}
+								},
 							},
 							destroyOnHide: true,
-							modal: true
+							modal: true,
 						},
 						refreshWindow: window,
 						title: '<liferay-ui:message key=\\"new-calendar-booking\\" />',
 						uri: Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= addCalendarBookingURL %>'),
 							{
-								calendarId: activeCalendar.get('calendarId')
+								calendarId: activeCalendar.get('calendarId'),
 							}
-						)
+						),
 					});
 				},
-				id: 'addEvent'
+				id: 'addEvent',
 			},
 			{
 				caption: '<liferay-ui:message key=\\"hide-calendar\\" />',
@@ -3637,7 +3637,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 					instance.set('visible', false);
 				},
-				id: 'hide'
+				id: 'hide',
 			},
 			{
 				caption: '<liferay-ui:message key=\\"calendar-settings\\" />',
@@ -3682,10 +3682,10 @@ String backURL = PortalUtil.getCurrentURL(request);
 											<portlet:namespace />scheduler.load();
 										}
 									);
-								}
+								},
 							},
 							destroyOnHide: true,
-							modal: true
+							modal: true,
 						},
 						refreshWindow: window,
 						title: '<liferay-ui:message key=\\"calendar-settings\\" />',
@@ -3701,12 +3701,12 @@ String backURL = PortalUtil.getCurrentURL(request);
 								calendarId: activeCalendar.get('calendarId'),
 								calendarResourceId: activeCalendar.get(
 									'calendarResourceId'
-								)
+								),
 							}
-						)
+						),
 					});
 				},
-				id: 'settings'
+				id: 'settings',
 			},
 			{
 				caption: '<liferay-ui:message key=\\"permissions\\" />',
@@ -3722,13 +3722,13 @@ String backURL = PortalUtil.getCurrentURL(request);
 							after: {
 								destroy: function(event) {
 									<portlet:namespace />scheduler.load();
-								}
+								},
 							},
 							destroyOnHide: true,
-							modal: true
+							modal: true,
 						},
 						dialogIframe: {
-							bodyCssClass: 'dialog-with-footer'
+							bodyCssClass: 'dialog-with-footer',
 						},
 						refreshWindow: window,
 						title: '<liferay-ui:message key=\\"permissions\\" />',
@@ -3749,12 +3749,12 @@ String backURL = PortalUtil.getCurrentURL(request);
 									'name'
 								),
 								resourceGroupId: activeCalendar.get('groupId'),
-								resourcePrimKey: activeCalendar.get('calendarId')
+								resourcePrimKey: activeCalendar.get('calendarId'),
 							}
-						)
+						),
 					});
 				},
-				id: 'permissions'
+				id: 'permissions',
 			},
 			{
 				caption: '<liferay-ui:message key=\\"delete\\" />',
@@ -3796,7 +3796,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 						);
 					}
 				},
-				id: 'delete'
+				id: 'delete',
 			},
 
 			<c:if test=\\"<%= enableRSS %>\\">
@@ -3816,7 +3816,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 						var url = Liferay.CalendarUtil.fillURLParameters(
 							decodeURIComponent('<%= calendarRSSURL %>'),
 							{
-								calendarId: activeCalendar.get('calendarId')
+								calendarId: activeCalendar.get('calendarId'),
 							}
 						);
 
@@ -3824,18 +3824,18 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 						instance.set('visible', false);
 					},
-					id: 'subscribe'
+					id: 'subscribe',
 				},
 			</c:if>
 
 			{
 				caption: '-',
-				id: 'separator1'
+				id: 'separator1',
 			},
 			{
 				caption: '<div class=\\"calendar-portlet-color-picker\\"></div>',
-				id: 'colorPicker'
-			}
+				id: 'colorPicker',
+			},
 		],
 		on: {
 			visibleChange: function(event) {
@@ -3883,7 +3883,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 					<portlet:namespace />colorPicker.setAttrs({
 						color: calendar.get('color'),
-						visible: true
+						visible: true,
 					});
 
 					var colorPickerContainer = instance
@@ -3894,9 +3894,9 @@ String backURL = PortalUtil.getCurrentURL(request);
 						window.<portlet:namespace />colorPicker.get('boundingBox')
 					);
 				}
-			}
+			},
 		},
-		width: 225
+		width: 225,
 	};
 
 	<portlet:namespace />colorPicker = new Liferay.SimpleColorPicker({
@@ -3910,14 +3910,14 @@ String backURL = PortalUtil.getCurrentURL(request);
 					var calendarList = simpleMenu.get('host');
 
 					calendarList.activeItem.set('color', event.newVal, {
-						silent: true
+						silent: true,
 					});
 
 					simpleMenu.set('visible', false);
 				}
-			}
+			},
 		},
-		visible: false
+		visible: false,
 	}).render();
 
 	A.one('#<portlet:namespace />calendarListContainer').delegate(
@@ -3934,7 +3934,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 				toggler: currentTarget,
 				visible: !window.<portlet:namespace />calendarListsMenu.get(
 					'visible'
-				)
+				),
 			});
 		},
 		'.calendar-resource-arrow'
@@ -3944,7 +3944,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 		animated: true,
 		container: '#<portlet:namespace />calendarListContainer',
 		content: '.calendar-portlet-calendar-list',
-		header: '.calendar-portlet-list-header'
+		header: '.calendar-portlet-list-header',
 	});
 
 	<c:if test=\\"<%= themeDisplay.isSignedIn() %>\\">
@@ -4079,7 +4079,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 						node.toggleClass('yui3-calendar-day-selected', selected);
 					},
-					rules: rulesDefinition
+					rules: rulesDefinition,
 				});
 
 				<portlet:namespace />miniCalendar.selectDates(selectedDates);
@@ -4092,15 +4092,15 @@ String backURL = PortalUtil.getCurrentURL(request);
 			dateChange: <portlet:namespace />refreshVisibleCalendarRenderingRules,
 			dateClick: function(event) {
 				<portlet:namespace />scheduler.setAttrs({
-					date: event.date
+					date: event.date,
 				});
-			}
+			},
 		},
 		date: new Date(<%= String.valueOf(date) %>),
 		headerRenderer:
 			'<%= HtmlUtil.escapeJS(LanguageUtil.get(request, \\"b-y\\")) %>',
 		locale: '<%= themeDisplay.getLocale() %>',
-		'strings.first_weekday': <%= weekStartsOn %>
+		'strings.first_weekday': <%= weekStartsOn %>,
 	}).render('#<portlet:namespace />miniCalendarContainer');
 
 	<portlet:namespace />scheduler.after(
@@ -4329,7 +4329,7 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 			container: '#<portlet:namespace />internationalNumbersToggler',
 			content: '.international-numbers-content',
 			expanded: false,
-			header: '.international-numbers-header'
+			header: '.international-numbers-header',
 		});
 
 		//Load global phone numbers
@@ -4337,20 +4337,20 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 		var columns = [
 			{
 				key: 'lcountry',
-				label: 'country'
+				label: 'country',
 			},
 			{
 				key: 'lphone',
-				label: 'phone'
+				label: 'phone',
 			},
 			{
 				key: 'rcountry',
-				label: 'country'
+				label: 'country',
 			},
 			{
 				key: 'rphone',
-				label: 'phone'
-			}
+				label: 'phone',
+			},
 		];
 
 		var interationalNumbersDisplay = [];
@@ -4365,7 +4365,7 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 
 					interationalNumbersDisplay.push({
 						country: '<%= country %>',
-						number: '<%= number %>'
+						number: '<%= number %>',
 					});
 
 		<%
@@ -4401,14 +4401,14 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 				lcountry: dataLeft[i].country,
 				lphone: dataLeft[i].number,
 				rcountry: rcountry,
-				rphone: rphone
+				rphone: rphone,
 			});
 		}
 
 		new A.DataTable({
 			className: 'table table-bordered',
 			columns: columns,
-			data: data
+			data: data,
 		}).render('#<portlet:namespace />internationalNumbersTable');
 	</c:if>
 </aui:script>"

@@ -11,7 +11,7 @@ const progress = new cliProgress.MultiBar(
 		clearOnComplete: false,
 		format:
 			'{output} | [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}',
-		hideCursor: true
+		hideCursor: true,
 	},
 	cliProgress.Presets.shades_grey
 );
@@ -42,7 +42,7 @@ module.exports = async function(modulesInfo, config) {
 		airtableApiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
 		airtableBaseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
 		output: 'master',
-		...config
+		...config,
 	};
 
 	const base = new Airtable({apiKey: airtableApiKey}).base(airtableBaseKey);
@@ -58,14 +58,14 @@ module.exports = async function(modulesInfo, config) {
 					app: moduleInfo.meta.app,
 					module: moduleInfo.meta.name,
 					url: moduleInfo.meta.url,
-					...moduleInfo.dependencies
-				}
+					...moduleInfo.dependencies,
+				},
 			};
 		});
 
 		try {
 			await base(output).create(chunk, {
-				typecast: true
+				typecast: true,
 			});
 		} catch (err) {
 			console.error(err);

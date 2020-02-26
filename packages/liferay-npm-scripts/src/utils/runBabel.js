@@ -18,7 +18,7 @@ function runBabel(...args) {
 			'--no-babelrc',
 			'--config-file',
 			babelRcPath,
-			...args
+			...args,
 		]);
 	});
 }

@@ -28,18 +28,18 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 1,
-						line: 4
+						line: 4,
 					},
 					index: 1,
 					length: 61,
 					start: {
 						column: 25,
-						line: 2
-					}
+						line: 2,
+					},
 				},
 				scriptAttributes: ' use="other"',
-				tagNamespace: 'aui:'
-			}
+				tagNamespace: 'aui:',
+			},
 		]);
 	});
 
@@ -63,18 +63,18 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 1,
-						line: 4
+						line: 4,
 					},
 					index: 1,
 					length: 35,
 					start: {
 						column: 9,
-						line: 2
-					}
+						line: 2,
+					},
 				},
 				scriptAttributes: '',
-				tagNamespace: undefined
-			}
+				tagNamespace: undefined,
+			},
 		]);
 	});
 
@@ -91,18 +91,18 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 24,
-						line: 1
+						line: 1,
 					},
 					index: 0,
 					length: 32,
 					start: {
 						column: 9,
-						line: 1
-					}
+						line: 1,
+					},
 				},
 				scriptAttributes: '',
-				tagNamespace: undefined
-			}
+				tagNamespace: undefined,
+			},
 		]);
 	});
 
@@ -143,11 +143,11 @@ describe('extractJS()', () => {
 					end: {column: 4, line: 4},
 					index: 4,
 					length: 113,
-					start: {column: 84, line: 2}
+					start: {column: 84, line: 2},
 				},
 				scriptAttributes:
-					' id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript"'
-			}
+					' id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript"',
+			},
 		]);
 	});
 
@@ -170,17 +170,17 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 2,
-						line: 32
+						line: 32,
 					},
 					index: 819,
 					length: 49,
 					start: {
 						column: 14,
-						line: 30
-					}
+						line: 30,
+					},
 				},
 				scriptAttributes: '',
-				tagNamespace: 'aui:'
+				tagNamespace: 'aui:',
 			},
 			{
 				closeTag: '</aui:script>',
@@ -214,17 +214,17 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 2,
-						line: 46
+						line: 46,
 					},
 					index: 871,
 					length: 197,
 					start: {
 						column: 40,
-						line: 34
-					}
+						line: 34,
+					},
 				},
 				scriptAttributes: ' use="aui-base,event,node"',
-				tagNamespace: 'aui:'
+				tagNamespace: 'aui:',
 			},
 			{
 				closeTag: '</aui:script>',
@@ -246,17 +246,17 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 2,
-						line: 54
+						line: 54,
 					},
 					index: 1071,
 					length: 74,
 					start: {
 						column: 14,
-						line: 48
-					}
+						line: 48,
+					},
 				},
 				scriptAttributes: '',
-				tagNamespace: 'aui:'
+				tagNamespace: 'aui:',
 			},
 			{
 				closeTag: '</aui:script>',
@@ -268,17 +268,17 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 22,
-						line: 81
+						line: 81,
 					},
 					index: 1716,
 					length: 47,
 					start: {
 						column: 14,
-						line: 80
-					}
+						line: 80,
+					},
 				},
 				scriptAttributes: '',
-				tagNamespace: 'aui:'
+				tagNamespace: 'aui:',
 			},
 			{
 				closeTag: '</aui:script>',
@@ -298,17 +298,17 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 2,
-						line: 88
+						line: 88,
 					},
 					index: 1766,
 					length: 90,
 					start: {
 						column: 14,
-						line: 83
-					}
+						line: 83,
+					},
 				},
 				scriptAttributes: '',
-				tagNamespace: 'aui:'
+				tagNamespace: 'aui:',
 			},
 			{
 				closeTag: '</aui:script>',
@@ -329,18 +329,18 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 2,
-						line: 94
+						line: 94,
 					},
 					index: 1859,
 					length: 143,
 					start: {
 						column: 72,
-						line: 90
-					}
+						line: 90,
+					},
 				},
 				scriptAttributes:
 					' require="foo/bar/baz, baz/foo_bar, bar/baz/foo as FooBar"',
-				tagNamespace: 'aui:'
+				tagNamespace: 'aui:',
 			},
 			{
 				closeTag: '</aui:script>',
@@ -350,18 +350,18 @@ describe('extractJS()', () => {
 				range: {
 					end: {
 						column: 2,
-						line: 97
+						line: 97,
 					},
 					index: 2005,
 					length: 38,
 					start: {
 						column: 25,
-						line: 96
-					}
+						line: 96,
+					},
 				},
 				scriptAttributes: ' require=""',
-				tagNamespace: 'aui:'
-			}
+				tagNamespace: 'aui:',
+			},
 		]);
 	});
 });

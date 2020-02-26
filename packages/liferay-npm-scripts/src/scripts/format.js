@@ -14,7 +14,7 @@ const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
 
 const DEFAULT_OPTIONS = {
-	check: false
+	check: false,
 };
 
 /**
@@ -30,7 +30,7 @@ const IGNORE_FILE = '.prettierignore';
 function format(options = {}) {
 	const {check} = {
 		...DEFAULT_OPTIONS,
-		...options
+		...options,
 	};
 
 	const globs = check
@@ -58,7 +58,7 @@ function format(options = {}) {
 
 			const prettierOptions = {
 				...config,
-				filepath
+				filepath,
 			};
 
 			let checkFormat;

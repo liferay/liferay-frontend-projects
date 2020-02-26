@@ -34,7 +34,7 @@ module.exports = {
 						);
 					},
 					message: 'line break needed before node',
-					node
+					node,
 				});
 			}
 		}
@@ -90,7 +90,7 @@ module.exports = {
 				if (finalizer) {
 					check(handler || block);
 				}
-			}
+			},
 		};
-	}
+	},
 };

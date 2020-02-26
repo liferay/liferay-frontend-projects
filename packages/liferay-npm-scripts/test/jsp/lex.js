@@ -16,8 +16,8 @@ describe('lex()', () => {
 			{
 				contents: 'contents',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -28,8 +28,8 @@ describe('lex()', () => {
 			{
 				contents: 'contents',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -38,8 +38,8 @@ describe('lex()', () => {
 			{
 				contents: '<%-- my comment --%>',
 				index: 0,
-				name: 'JSP_COMMENT'
-			}
+				name: 'JSP_COMMENT',
+			},
 		]);
 	});
 
@@ -48,13 +48,13 @@ describe('lex()', () => {
 			{
 				contents: '<%-- one --%>',
 				index: 0,
-				name: 'JSP_COMMENT'
+				name: 'JSP_COMMENT',
 			},
 			{
 				contents: '<%-- two --%>',
 				index: 13,
-				name: 'JSP_COMMENT'
-			}
+				name: 'JSP_COMMENT',
+			},
 		]);
 	});
 
@@ -69,16 +69,16 @@ describe('lex()', () => {
 			{
 				contents: '<%@ include file="double/quoted/file" %>',
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		expect(lex("<%@ include file='single/quoted/file' %>").tokens).toEqual([
 			{
 				contents: "<%@ include file='single/quoted/file' %>",
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		expect(
@@ -87,32 +87,32 @@ describe('lex()', () => {
 			{
 				contents: '<%@ include file="\\"stuff\\\\¿here?&quot;" %>',
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		expect(lex('<%@ page language="en" %>').tokens).toEqual([
 			{
 				contents: '<%@ page language="en" %>',
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		expect(lex('<%@ taglib prefix="foo" tagdir="bar" %>').tokens).toEqual([
 			{
 				contents: '<%@ taglib prefix="foo" tagdir="bar" %>',
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		expect(lex('<%@ taglib prefix="foo" uri="bar" %>').tokens).toEqual([
 			{
 				contents: '<%@ taglib prefix="foo" uri="bar" %>',
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		// Note it agnostic about attribute order.
@@ -120,8 +120,8 @@ describe('lex()', () => {
 			{
 				contents: '<%@ taglib uri="bar" prefix="foo" %>',
 				index: 0,
-				name: 'JSP_DIRECTIVE'
-			}
+				name: 'JSP_DIRECTIVE',
+			},
 		]);
 
 		// But it requires all attributes to be present.
@@ -139,8 +139,8 @@ describe('lex()', () => {
 			{
 				contents,
 				index: 0,
-				name: 'JSP_DECLARATION'
-			}
+				name: 'JSP_DECLARATION',
+			},
 		]);
 	});
 
@@ -149,8 +149,8 @@ describe('lex()', () => {
 			{
 				contents: '<%= Target.method("foo") %>',
 				index: 0,
-				name: 'JSP_EXPRESSION'
-			}
+				name: 'JSP_EXPRESSION',
+			},
 		]);
 	});
 
@@ -163,8 +163,8 @@ describe('lex()', () => {
 			{
 				contents,
 				index: 0,
-				name: 'JSP_SCRIPTLET'
-			}
+				name: 'JSP_SCRIPTLET',
+			},
 		]);
 	});
 
@@ -176,8 +176,8 @@ describe('lex()', () => {
 			{
 				contents: '${Foo.Bar}',
 				index: 0,
-				name: 'EL_EXPRESSION'
-			}
+				name: 'EL_EXPRESSION',
+			},
 		]);
 
 		// Deferred evaluation.
@@ -185,8 +185,8 @@ describe('lex()', () => {
 			{
 				contents: '#{Foo.Bar}',
 				index: 0,
-				name: 'EL_EXPRESSION'
-			}
+				name: 'EL_EXPRESSION',
+			},
 		]);
 	});
 
@@ -195,13 +195,13 @@ describe('lex()', () => {
 			{
 				contents: '#{',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: 'Foo.Bar}',
 				index: 2,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -215,28 +215,28 @@ describe('lex()', () => {
 			{
 				contents: '\n\t\t\t',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: '<%@ page isELIgnored="true" %>',
 				index: 4,
-				name: 'JSP_DIRECTIVE'
+				name: 'JSP_DIRECTIVE',
 			},
 			{
 				contents: '\n\t\t\t',
 				index: 34,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: '#{',
 				index: 38,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: 'Foo}\n\t\t',
 				index: 40,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -250,28 +250,28 @@ describe('lex()', () => {
 			{
 				contents: '\n\t\t\t',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: '<%@ page isELIgnored="false" %>',
 				index: 4,
-				name: 'JSP_DIRECTIVE'
+				name: 'JSP_DIRECTIVE',
 			},
 			{
 				contents: '\n\t\t\t',
 				index: 35,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: '#{Foo}',
 				index: 39,
-				name: 'EL_EXPRESSION'
+				name: 'EL_EXPRESSION',
 			},
 			{
 				contents: '\n\t\t',
 				index: 45,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -281,8 +281,8 @@ describe('lex()', () => {
 			{
 				contents: '<portlet:namespace />',
 				index: 0,
-				name: 'PORTLET_NAMESPACE'
-			}
+				name: 'PORTLET_NAMESPACE',
+			},
 		]);
 
 		// Without whitespace.
@@ -290,8 +290,8 @@ describe('lex()', () => {
 			{
 				contents: '<portlet:namespace/>',
 				index: 0,
-				name: 'PORTLET_NAMESPACE'
-			}
+				name: 'PORTLET_NAMESPACE',
+			},
 		]);
 	});
 
@@ -301,8 +301,8 @@ describe('lex()', () => {
 			{
 				contents: '<custom:tag with="stuff" />',
 				index: 0,
-				name: 'CUSTOM_ACTION'
-			}
+				name: 'CUSTOM_ACTION',
+			},
 		]);
 
 		// Same without whitspace at end.
@@ -310,8 +310,8 @@ describe('lex()', () => {
 			{
 				contents: '<custom:tag with="stuff"/>',
 				index: 0,
-				name: 'CUSTOM_ACTION'
-			}
+				name: 'CUSTOM_ACTION',
+			},
 		]);
 
 		// A self-closing tag with an attribute that contains a JSP expression.
@@ -320,8 +320,8 @@ describe('lex()', () => {
 				{
 					contents: '<custom:tag with="<%= SomeVariable %>" />',
 					index: 0,
-					name: 'CUSTOM_ACTION'
-				}
+					name: 'CUSTOM_ACTION',
+				},
 			]
 		);
 
@@ -330,8 +330,8 @@ describe('lex()', () => {
 			{
 				contents: '<c:if test="<%= enableRSS %>">',
 				index: 0,
-				name: 'CUSTOM_ACTION_START'
-			}
+				name: 'CUSTOM_ACTION_START',
+			},
 		]);
 
 		// Empty body.
@@ -339,8 +339,8 @@ describe('lex()', () => {
 			{
 				contents: '<custom:tag with="stuff"></custom:tag>',
 				index: 0,
-				name: 'CUSTOM_ACTION'
-			}
+				name: 'CUSTOM_ACTION',
+			},
 		]);
 
 		// Tag with duplicate attributes.
@@ -375,14 +375,14 @@ describe('lex()', () => {
 			{
 				contents: 'ul class="abc">\n\t\t\t\t',
 				index: 5,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{contents: '<', index: 25, name: 'TEMPLATE_TEXT'},
 			{contents: 'li>xyz', index: 26, name: 'TEMPLATE_TEXT'},
 			{contents: '<', index: 32, name: 'TEMPLATE_TEXT'},
 			{contents: '/li>\n\t\t\t', index: 33, name: 'TEMPLATE_TEXT'},
 			{contents: '<', index: 41, name: 'TEMPLATE_TEXT'},
-			{contents: '/ul>\n\t\t', index: 42, name: 'TEMPLATE_TEXT'}
+			{contents: '/ul>\n\t\t', index: 42, name: 'TEMPLATE_TEXT'},
 		]);
 	});
 
@@ -391,8 +391,8 @@ describe('lex()', () => {
 			{
 				contents: 'Random text',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 
 		// Note that the spec starts a new token whenever it sees a delimiting
@@ -402,18 +402,18 @@ describe('lex()', () => {
 			{
 				contents: 'one ',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: '<',
 				index: 4,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: ' two',
 				index: 5,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -427,29 +427,29 @@ describe('lex()', () => {
 			{
 				contents: '\n\t\t\t\t',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: '<',
 				index: 5,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents: 'div class="browse-image-controls ',
 				index: 6,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents:
 					'<%= (fileEntryId != 0) ? "hide" : StringPool.BLANK %>',
 				index: 39,
-				name: 'JSP_EXPRESSION'
+				name: 'JSP_EXPRESSION',
 			},
 			{
 				contents: '">\n\t\t',
 				index: 92,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 
 		// Contrast that with this invalid example that was in the
@@ -472,19 +472,19 @@ describe('lex()', () => {
 			{
 				contents: '\n\t\t\t\t',
 				index: 0,
-				name: 'TEMPLATE_TEXT'
+				name: 'TEMPLATE_TEXT',
 			},
 			{
 				contents:
 					'<aui:nav cssClass="${currentTab == tab ? \'active\' : \'\'} foo abc <%= \\"scriptletblock\\" %>"></aui:nav>',
 				index: 5,
-				name: 'CUSTOM_ACTION'
+				name: 'CUSTOM_ACTION',
 			},
 			{
 				contents: '\n\t\t\t',
 				index: 106,
-				name: 'TEMPLATE_TEXT'
-			}
+				name: 'TEMPLATE_TEXT',
+			},
 		]);
 	});
 
@@ -502,7 +502,7 @@ describe('lex()', () => {
 			'source.jsp',
 			'view.jsp',
 			'view_calendar_menus.jspf',
-			'view_meeting.jsp'
+			'view_meeting.jsp',
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('jsp', fixture));
 

@@ -15,7 +15,7 @@ describe('liferay/single-imports', () => {
 				@import url('other.css');
 				@import url("that.css");
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -46,7 +46,7 @@ describe('liferay/single-imports', () => {
 				@import url('third.css');
 
 				a { color: #000 };
-			`
+			`,
 		});
 	});
 
@@ -77,7 +77,7 @@ describe('liferay/single-imports', () => {
 				"@import 'second';\n" +
 				"@import url('third.css');\n" +
 				'\n' +
-				'a { color: #000 };\n'
+				'a { color: #000 };\n',
 		});
 	});
 
@@ -89,7 +89,7 @@ describe('liferay/single-imports', () => {
 				a { color: #000 };
 			`,
 			errors: [],
-			options: false
+			options: false,
 		});
 	});
 });

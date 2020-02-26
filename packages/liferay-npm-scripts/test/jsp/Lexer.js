@@ -44,7 +44,7 @@ describe('Lexer()', () => {
 
 			return choose({
 				A: match('a'),
-				B: match('b')
+				B: match('b'),
 			});
 		});
 
@@ -66,7 +66,7 @@ describe('Lexer()', () => {
 
 			return choose({
 				A: match('a'),
-				B: match('b')
+				B: match('b'),
 			});
 		});
 
@@ -77,7 +77,7 @@ describe('Lexer()', () => {
 		expect(tokens[0]).toEqual({
 			contents: 'a',
 			index: 0,
-			name: 'A'
+			name: 'A',
 		});
 
 		// Peek ahead using `next` before the iterator gets that far.
@@ -86,7 +86,7 @@ describe('Lexer()', () => {
 		expect(tokens[1]).toEqual({
 			contents: 'b',
 			index: 1,
-			name: 'B'
+			name: 'B',
 		});
 
 		// Tokens are doubly linked:
@@ -98,7 +98,7 @@ describe('Lexer()', () => {
 		expect(tokens[2]).toEqual({
 			contents: 'a',
 			index: 2,
-			name: 'A'
+			name: 'A',
 		});
 
 		expect(tokens[2].previous).toBe(tokens[1]);
@@ -116,19 +116,19 @@ describe('Lexer()', () => {
 		expect(tokens[3]).toEqual({
 			contents: 'b',
 			index: 3,
-			name: 'B'
+			name: 'B',
 		});
 
 		expect(tokens[4]).toEqual({
 			contents: 'a',
 			index: 4,
-			name: 'A'
+			name: 'A',
 		});
 
 		expect(tokens[5]).toEqual({
 			contents: 'b',
 			index: 5,
-			name: 'B'
+			name: 'B',
 		});
 
 		expect(iterator.next().done).toBe(true);
@@ -166,8 +166,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'thingthing',
 					index: 0,
-					name: 'THING'
-				}
+					name: 'THING',
+				},
 			]);
 		});
 
@@ -198,8 +198,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'foo:foo',
 					index: 0,
-					name: 'TOKEN'
-				}
+					name: 'TOKEN',
+				},
 			]);
 
 			// Note how ORIGINAL is used to match COPY, but after SEPARATOR we
@@ -209,7 +209,7 @@ describe('Lexer()', () => {
 				'ORIGINAL',
 				'COPY',
 				'SEPARATOR',
-				'ORIGINAL'
+				'ORIGINAL',
 			]);
 		});
 	});
@@ -236,16 +236,16 @@ describe('Lexer()', () => {
 				{
 					contents: 'foobarbaz',
 					index: 0,
-					name: 'ALL'
-				}
+					name: 'ALL',
+				},
 			]);
 
 			expect([...lexer.lex('bazbarfoo')]).toEqual([
 				{
 					contents: 'bazbarfoo',
 					index: 0,
-					name: 'ALL'
-				}
+					name: 'ALL',
+				},
 			]);
 		});
 
@@ -299,7 +299,7 @@ describe('Lexer()', () => {
 					/* eslint-disable sort-keys */
 					FOO,
 					BAR,
-					BAZ
+					BAZ,
 					/* eslint-enable sort-keys */
 				});
 			});
@@ -308,18 +308,18 @@ describe('Lexer()', () => {
 				{
 					contents: 'foo',
 					index: 0,
-					name: 'FOO'
+					name: 'FOO',
 				},
 				{
 					contents: 'bar',
 					index: 3,
-					name: 'BAR'
+					name: 'BAR',
 				},
 				{
 					contents: 'baz',
 					index: 6,
-					name: 'BAZ'
-				}
+					name: 'BAZ',
+				},
 			]);
 		});
 
@@ -335,7 +335,7 @@ describe('Lexer()', () => {
 					new Map([
 						['FOO', FOO],
 						['BAR', BAR],
-						['BAZ', BAZ]
+						['BAZ', BAZ],
 					])
 				);
 			});
@@ -344,18 +344,18 @@ describe('Lexer()', () => {
 				{
 					contents: 'foo',
 					index: 0,
-					name: 'FOO'
+					name: 'FOO',
 				},
 				{
 					contents: 'bar',
 					index: 3,
-					name: 'BAR'
+					name: 'BAR',
 				},
 				{
 					contents: 'baz',
 					index: 6,
-					name: 'BAZ'
-				}
+					name: 'BAZ',
+				},
 			]);
 		});
 	});
@@ -376,8 +376,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'onetwo',
 					index: 0,
-					name: 'PAIR'
-				}
+					name: 'PAIR',
+				},
 			]);
 		});
 	});
@@ -403,8 +403,8 @@ describe('Lexer()', () => {
 					{
 						contents: 'thing',
 						index: 0,
-						name: 'THING'
-					}
+						name: 'THING',
+					},
 				]);
 			});
 
@@ -414,7 +414,7 @@ describe('Lexer()', () => {
 				expect(iterator.next().value).toEqual({
 					contents: 'thing',
 					index: 0,
-					name: 'THING'
+					name: 'THING',
 				});
 
 				expect(iterator.next().done).toBe(true);
@@ -447,8 +447,8 @@ describe('Lexer()', () => {
 					{
 						contents: 'foo10',
 						index: 0,
-						name: 'THING'
-					}
+						name: 'THING',
+					},
 				]);
 			});
 
@@ -484,16 +484,16 @@ describe('Lexer()', () => {
 				{
 					contents: 'foobaz',
 					index: 0,
-					name: 'MAYBE'
-				}
+					name: 'MAYBE',
+				},
 			]);
 
 			expect([...lexer.lex('foobarbaz')]).toEqual([
 				{
 					contents: 'foobarbaz',
 					index: 0,
-					name: 'MAYBE'
-				}
+					name: 'MAYBE',
+				},
 			]);
 		});
 	});
@@ -516,8 +516,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'onetwothree',
 					index: 0,
-					name: 'SERIES'
-				}
+					name: 'SERIES',
+				},
 			]);
 		});
 	});
@@ -569,8 +569,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'ababaabb',
 					index: 0,
-					name: 'WORD'
-				}
+					name: 'WORD',
+				},
 			]);
 
 			expect(() => [...lexer.lex('axb')]).toThrow(/Failed to match/);
@@ -582,8 +582,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'ababzzzaabb',
 					index: 0,
-					name: 'WORD'
-				}
+					name: 'WORD',
+				},
 			]);
 		});
 	});
@@ -706,8 +706,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'abcjk',
 					index: 0,
-					name: '...'
-				}
+					name: '...',
+				},
 			]);
 
 			expect(snapshots).toEqual([
@@ -716,8 +716,8 @@ describe('Lexer()', () => {
 					'match: b',
 					[
 						['a', true],
-						['b', true]
-					]
+						['b', true],
+					],
 				],
 				['match: c', [['b', true]]],
 				[
@@ -725,16 +725,16 @@ describe('Lexer()', () => {
 					[
 						['a', true],
 						['b', true],
-						['c:2', true]
-					]
+						['c:2', true],
+					],
 				],
 				[
 					'match: c',
 					[
 						['a', true],
 						['b', true],
-						['c:3', true]
-					]
+						['c:3', true],
+					],
 				],
 				[
 					'match: j',
@@ -742,8 +742,8 @@ describe('Lexer()', () => {
 						['a', true],
 						['b', true],
 						['c:3', true],
-						['j', true]
-					]
+						['j', true],
+					],
 				],
 				[
 					'match: k',
@@ -752,9 +752,9 @@ describe('Lexer()', () => {
 						['b', true],
 						['c:3', true],
 						['j', true],
-						['k', true]
-					]
-				]
+						['k', true],
+					],
+				],
 			]);
 		});
 	});
@@ -777,8 +777,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'bar',
 					index: 0,
-					name: 'ONE_OF'
-				}
+					name: 'ONE_OF',
+				},
 			]);
 		});
 	});
@@ -799,8 +799,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'foo',
 					index: 0,
-					name: 'PASS'
-				}
+					name: 'PASS',
+				},
 			]);
 		});
 	});
@@ -821,16 +821,16 @@ describe('Lexer()', () => {
 				{
 					contents: 'foo',
 					index: 0,
-					name: 'REPEAT'
-				}
+					name: 'REPEAT',
+				},
 			]);
 
 			expect([...lexer.lex('foofoofoo')]).toEqual([
 				{
 					contents: 'foofoofoo',
 					index: 0,
-					name: 'REPEAT'
-				}
+					name: 'REPEAT',
+				},
 			]);
 		});
 	});
@@ -853,8 +853,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'foobarbaz',
 					index: 0,
-					name: 'SEQUENCE'
-				}
+					name: 'SEQUENCE',
+				},
 			]);
 		});
 	});
@@ -879,21 +879,21 @@ describe('Lexer()', () => {
 				{
 					contents: 'x',
 					index: 0,
-					name: 'TO'
-				}
+					name: 'TO',
+				},
 			]);
 
 			expect([...lexer.lex('aaxaaaax')]).toEqual([
 				{
 					contents: 'aax',
 					index: 0,
-					name: 'TO'
+					name: 'TO',
 				},
 				{
 					contents: 'aaaax',
 					index: 3,
-					name: 'TO'
-				}
+					name: 'TO',
+				},
 			]);
 		});
 
@@ -931,8 +931,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'x',
 					index: 0,
-					name: 'X'
-				}
+					name: 'X',
+				},
 			]);
 
 			// n-times.
@@ -940,13 +940,13 @@ describe('Lexer()', () => {
 				{
 					contents: 'aaa',
 					index: 0,
-					name: 'A'
+					name: 'A',
 				},
 				{
 					contents: 'x',
 					index: 3,
-					name: 'X'
-				}
+					name: 'X',
+				},
 			]);
 		});
 
@@ -955,8 +955,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'aaaa',
 					index: 0,
-					name: 'A'
-				}
+					name: 'A',
+				},
 			]);
 		});
 	});
@@ -981,8 +981,8 @@ describe('Lexer()', () => {
 				{
 					contents: 'abbbbb',
 					index: 0,
-					name: 'WHEN'
-				}
+					name: 'WHEN',
+				},
 			]);
 
 			expect(() => [...lexer.lex('foo')]).toThrow(

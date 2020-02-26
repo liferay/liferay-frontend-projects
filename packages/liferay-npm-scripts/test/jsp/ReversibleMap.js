@@ -12,7 +12,7 @@ describe('ReversibleMap()', () => {
 		map = new ReversibleMap([
 			['a', 1],
 			['b', 2],
-			['c', 3]
+			['c', 3],
 		]);
 	});
 
@@ -32,7 +32,7 @@ describe('ReversibleMap()', () => {
 			expect([...map.entries()]).toEqual([
 				['a', 0],
 				['c', 3],
-				['d', 4]
+				['d', 4],
 			]);
 
 			map.undo[2]();
@@ -41,7 +41,7 @@ describe('ReversibleMap()', () => {
 				['a', 0],
 				['b', 2],
 				['c', 3],
-				['d', 4]
+				['d', 4],
 			]);
 
 			map.undo[1]();
@@ -50,7 +50,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['d', 4]
+				['d', 4],
 			]);
 
 			map.undo[0]();
@@ -58,7 +58,7 @@ describe('ReversibleMap()', () => {
 			expect([...map.entries()]).toEqual([
 				['a', 1],
 				['b', 2],
-				['c', 3]
+				['c', 3],
 			]);
 		});
 	});
@@ -79,7 +79,7 @@ describe('ReversibleMap()', () => {
 				['c', 3],
 				['d', 4],
 				['e', 5],
-				['f', 6]
+				['f', 6],
 			]);
 
 			// Goes as far back as previous checkpoint (the 2nd) and removes it.
@@ -92,7 +92,7 @@ describe('ReversibleMap()', () => {
 				['b', 2],
 				['c', 3],
 				['d', 4],
-				['e', 5]
+				['e', 5],
 			]);
 
 			// Goes to previous checkpoint (the 1st) and removes it.
@@ -104,7 +104,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['d', 4]
+				['d', 4],
 			]);
 
 			// Completely flushes the queue (no more checkpoints).
@@ -115,7 +115,7 @@ describe('ReversibleMap()', () => {
 			expect([...map.entries()]).toEqual([
 				['a', 1],
 				['b', 2],
-				['c', 3]
+				['c', 3],
 			]);
 		});
 
@@ -129,7 +129,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['d', 4]
+				['d', 4],
 			]);
 
 			map.rollback();
@@ -140,7 +140,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['d', 4]
+				['d', 4],
 			]);
 
 			map.rollback();
@@ -150,7 +150,7 @@ describe('ReversibleMap()', () => {
 			expect([...map.entries()]).toEqual([
 				['a', 1],
 				['b', 2],
-				['c', 3]
+				['c', 3],
 			]);
 		});
 	});
@@ -165,7 +165,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['done', true]
+				['done', true],
 			]);
 
 			map.rollback();
@@ -174,7 +174,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['done', true]
+				['done', true],
 			]);
 		});
 	});
@@ -191,7 +191,7 @@ describe('ReversibleMap()', () => {
 				['b', 2],
 				['c', 3],
 				['deep', ['stuff']],
-				['other', null]
+				['other', null],
 			]);
 
 			map.rollback();
@@ -201,7 +201,7 @@ describe('ReversibleMap()', () => {
 				['a', 1],
 				['b', 2],
 				['c', 3],
-				['deep', ['stuff']]
+				['deep', ['stuff']],
 			]);
 		});
 	});

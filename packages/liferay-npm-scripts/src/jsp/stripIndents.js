@@ -54,7 +54,7 @@ function stripIndents(source) {
 			CLOSE_TAG_REPLACEMENT,
 			NEWLINE,
 			WHITESPACE,
-			ANYTHING
+			ANYTHING,
 			/* eslint-enable sort-keys */
 		});
 	});

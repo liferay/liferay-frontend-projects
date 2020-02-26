@@ -233,7 +233,7 @@ function printBanner(message) {
 		['(_)   ', ' ', '   ` '],
 		['  |   ', '*', '   | '],
 		['  |___', '_', '___| '],
-		['  (_)_', '_', '____)']
+		['  (_)_', '_', '____)'],
 	];
 
 	let banner = '';
@@ -337,7 +337,7 @@ function parseArgs(args) {
 	const options = {
 		outfile: './CHANGELOG.md',
 		to: 'HEAD',
-		updateTags: true
+		updateTags: true,
 	};
 
 	let match;
@@ -477,7 +477,7 @@ async function main(_node, _script, ...args) {
 		from,
 		remote,
 		to,
-		version
+		version,
 	});
 
 	let written = 0;
@@ -497,7 +497,7 @@ async function main(_node, _script, ...args) {
 				from: previousVersion,
 				remote,
 				to: from,
-				version: from
+				version: from,
 			});
 			contents += '\n' + chunk;
 
@@ -517,7 +517,7 @@ async function main(_node, _script, ...args) {
 		if (previousContents.indexOf(`[${version}]`) !== -1) {
 			const message = [
 				`${outfile} already contains a reference to ${version}.`,
-				'Did you mean to regenerate using the --regenerate switch?'
+				'Did you mean to regenerate using the --regenerate switch?',
 			];
 			if (options.force) {
 				warn(...message);

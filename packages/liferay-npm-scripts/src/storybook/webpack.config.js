@@ -25,7 +25,7 @@ module.exports = async ({config}) => {
 		{
 			include: path.resolve(CWD),
 			loaders: ['style-loader', 'css-loader', 'sass-loader'],
-			test: /\.scss$/
+			test: /\.scss$/,
 		},
 		{
 			exclude: /node_modules/,
@@ -34,16 +34,16 @@ module.exports = async ({config}) => {
 				{
 					loader: 'liferay-lang-key-dev-loader',
 					options: {
-						path: path.join(__dirname, 'Language.properties')
-					}
-				}
-			]
-		}
+						path: path.join(__dirname, 'Language.properties'),
+					},
+				},
+			],
+		},
 	];
 
 	config.plugins.push(
 		new webpack.DefinePlugin({
-			'process.env.STORYBOOK_CWD': JSON.stringify(CWD)
+			'process.env.STORYBOOK_CWD': JSON.stringify(CWD),
 		})
 	);
 

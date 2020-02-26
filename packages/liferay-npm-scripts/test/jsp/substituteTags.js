@@ -97,7 +97,7 @@ describe('substituteTags()', () => {
 
 		expect(tags).toEqual([
 			'<% FooThing myFoo = new FooThing(); %>',
-			'<%= myFoo.body() %>'
+			'<%= myFoo.body() %>',
 		]);
 	});
 
@@ -133,7 +133,7 @@ describe('substituteTags()', () => {
 			'<%= myFoo.body() %>',
 			dedent(3)`<%
 			}
-			%>`
+			%>`,
 		]);
 	});
 
@@ -233,7 +233,7 @@ describe('substituteTags()', () => {
 			'<a:tag>\n' +
 				'\t<a:param thing="1" />\n' +
 				'\t<a:other thing="2" />\n' +
-				'</a:tag>'
+				'</a:tag>',
 		]);
 	});
 
@@ -268,7 +268,7 @@ describe('substituteTags()', () => {
 			'<c:if test="<%= a %>">',
 			'<c:if test="<%= b %>">',
 			'</c:if>',
-			'</c:if>'
+			'</c:if>',
 		]);
 	});
 
@@ -286,7 +286,7 @@ describe('substituteTags()', () => {
 			'source.jsp',
 			'view.jsp',
 			'view_calendar_menus.jspf',
-			'view_meeting.jsp'
+			'view_meeting.jsp',
 		])('%s matches snapshot', async fixture => {
 			const source = await getFixture(path.join('jsp', fixture));
 

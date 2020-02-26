@@ -16,7 +16,7 @@ const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 
 const NODE_PATHS = [
 	path.join(__dirname, '../../../../node_modules'),
-	path.join(__dirname, '../../node_modules')
+	path.join(__dirname, '../../node_modules'),
 ];
 
 const STORYBOOK_CONFIG_DIR_PATH = path.join(__dirname, '../storybook');
@@ -27,7 +27,7 @@ const STORYBOOK_CONFIG_FILES = [
 	'frontend-js-web.mock.js',
 	'middleware.js',
 	'preview-head.html',
-	'webpack.config.js'
+	'webpack.config.js',
 ];
 
 const PORTAL_ROOT = process.cwd().split('/modules')[0];
@@ -123,14 +123,14 @@ function storybook() {
 
 		// Set portal root directory to retrieve static resources from.
 		'--static-dir',
-		PORTAL_ROOT
+		PORTAL_ROOT,
 	];
 
 	spawnSync('start-storybook', args, {
 		env: {
 			...process.env,
-			NODE_PATH: buildNodePath()
-		}
+			NODE_PATH: buildNodePath(),
+		},
 	});
 }
 

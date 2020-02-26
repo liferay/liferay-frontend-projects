@@ -119,7 +119,7 @@ function confirm(prompt, answer = 'y', matcher = YES_REGEX) {
 	if (!readline) {
 		readline = createInterface({
 			input: process.stdin,
-			output: process.stdout
+			output: process.stdout,
 		});
 	}
 

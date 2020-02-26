@@ -6,7 +6,7 @@
 const Table = require('cli-table');
 
 const DEFAULT_CONFIG = {
-	output: 'meta.app,meta.name,dependencies.clay3,dependencies.react'
+	output: 'meta.app,meta.name,dependencies.clay3,dependencies.react',
 };
 
 /**
@@ -20,7 +20,7 @@ const idx = (p, o) => p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o);
 module.exports = async function(modulesInfo, config) {
 	const {output} = {
 		...DEFAULT_CONFIG,
-		...config
+		...config,
 	};
 
 	const head = output.split(',');

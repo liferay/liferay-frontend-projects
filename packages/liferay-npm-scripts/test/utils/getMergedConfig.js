@@ -38,16 +38,16 @@ describe('getMergedConfig()', () => {
 					return jest.fn(() => ({
 						liferay: {
 							excludes: {
-								presets: ['@babel/preset-react']
-							}
+								presets: ['@babel/preset-react'],
+							},
 						},
 
 						// This bit isn't real config, but it shows that
 						// we can filter down below the top level:
 						overrides: [
 							{
-								presets: ['fancy', '@babel/preset-react']
-							}
+								presets: ['fancy', '@babel/preset-react'],
+							},
 						],
 
 						plugins: [
@@ -57,10 +57,10 @@ describe('getMergedConfig()', () => {
 									components: true,
 									namespaceAttributes: true,
 									prefix: 'IncrementalDOM',
-									runtime: 'iDOMHelpers'
-								}
-							]
-						]
+									runtime: 'iDOMHelpers',
+								},
+							],
+						],
 					}));
 				});
 
@@ -70,7 +70,7 @@ describe('getMergedConfig()', () => {
 
 				expect(config.overrides[0].presets).toMatchObject([
 					['@babel/preset-env', expect.anything()],
-					'fancy'
+					'fancy',
 				]);
 			});
 		});

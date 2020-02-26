@@ -8,7 +8,7 @@ const stylelint = require('stylelint');
 const ruleName = 'liferay/no-import-extension';
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
-	extension: 'imports must omit the ".scss" extension'
+	extension: 'imports must omit the ".scss" extension',
 });
 
 const PARAMS_REGEXP = /^(['"]?)(.+?)(['"]?)$/;
@@ -24,14 +24,14 @@ module.exports = stylelint.createPlugin(
 				ruleName,
 				{
 					actual: options,
-					possible: [true, false]
+					possible: [true, false],
 				},
 				{
 					actual: secondaryOptions,
 					optional: true,
 					possible: {
-						disableFix: [true, false]
-					}
+						disableFix: [true, false],
+					},
 				}
 			);
 
@@ -63,7 +63,7 @@ module.exports = stylelint.createPlugin(
 							message: messages.extension,
 							node: rule,
 							result,
-							ruleName
+							ruleName,
 						});
 					}
 				}

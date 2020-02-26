@@ -17,7 +17,7 @@ describe('permute()', () => {
 	it('permutes a array of two items', () => {
 		expect(permute(['a', 'b'])).toEqual([
 			['a', 'b'],
-			['b', 'a']
+			['b', 'a'],
 		]);
 	});
 
@@ -28,7 +28,7 @@ describe('permute()', () => {
 			['c', 'a', 'b'],
 			['a', 'c', 'b'],
 			['b', 'c', 'a'],
-			['c', 'b', 'a']
+			['c', 'b', 'a'],
 		]);
 	});
 });

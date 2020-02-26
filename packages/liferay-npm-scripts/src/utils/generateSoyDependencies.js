@@ -26,7 +26,7 @@ function generateSoyDependencies(dependencies) {
 				// infer the directory from the package root
 				resolvedDependency = path.dirname(
 					resolve.sync(`${dependency}/package.json`, {
-						basedir: cwd
+						basedir: cwd,
 					})
 				);
 			} catch (err) {

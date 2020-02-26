@@ -36,6 +36,6 @@ module.exports = async function({ast, content}) {
 		code,
 		comment,
 		total,
-		whitespace
+		whitespace,
 	};
 };

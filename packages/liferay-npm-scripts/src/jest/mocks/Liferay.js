@@ -30,7 +30,7 @@ const events = {
 	/**
 	 * https://yuilibrary.com/yui/docs/api/files/event-custom_js_event-target.js.html#l136
 	 */
-	once: jest.fn()
+	once: jest.fn(),
 };
 
 /**
@@ -47,7 +47,7 @@ const Language = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/language.js#L18
 	 */
-	get: jest.fn(key => key)
+	get: jest.fn(key => key),
 };
 
 /**
@@ -62,7 +62,7 @@ const Session = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L103
 	 */
-	set: jest.fn(() => Promise.resolve({}))
+	set: jest.fn(() => Promise.resolve({})),
 };
 
 /**
@@ -106,7 +106,7 @@ const ThemeDisplay = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L247
 	 */
-	getPortalURL: jest.fn(() => 'http://localhost:8080')
+	getPortalURL: jest.fn(() => 'http://localhost:8080'),
 };
 
 /**
@@ -139,7 +139,7 @@ const Util = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L999
 	 */
-	sub: jest.fn()
+	sub: jest.fn(),
 };
 
 module.exports = {
@@ -148,5 +148,5 @@ module.exports = {
 	Session,
 	ThemeDisplay,
 	Util,
-	authToken
+	authToken,
 };

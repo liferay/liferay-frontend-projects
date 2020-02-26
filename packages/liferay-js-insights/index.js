@@ -16,7 +16,7 @@ const readFile = util.promisify(fs.readFile);
 
 const INSIGHTS = {
 	dependencies: require('./insights/dependencies'),
-	loc: require('./insights/loc')
+	loc: require('./insights/loc'),
 };
 
 let report;
@@ -35,7 +35,7 @@ if (argv.json) {
 async function parse(content) {
 	return parser.parse(content, {
 		plugins: ['classProperties', 'jsx'],
-		sourceType: 'module'
+		sourceType: 'module',
 	});
 }
 
@@ -54,7 +54,7 @@ async function getModuleMeta(modulePath) {
 	// Finds the root git folder
 	const gitRoot = await findUp('.git', {
 		cwd,
-		type: 'directory'
+		type: 'directory',
 	});
 
 	const url = `https://github.com/liferay/liferay-portal/blob/master/${path.relative(
@@ -65,7 +65,7 @@ async function getModuleMeta(modulePath) {
 	return {
 		app,
 		name,
-		url
+		url,
 	};
 }
 

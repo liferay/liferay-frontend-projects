@@ -54,7 +54,7 @@ function getRegExpForGlob(glob) {
 
 	const state = {
 		input: glob,
-		lastMatch: null
+		lastMatch: null,
 	};
 
 	const negated = scan('!', state);

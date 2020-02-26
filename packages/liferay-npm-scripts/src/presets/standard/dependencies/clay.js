@@ -33,5 +33,5 @@ module.exports = [
 	'clay-select',
 	'clay-sticker',
 	'clay-table',
-	'clay-tooltip'
+	'clay-tooltip',
 ];

@@ -6,7 +6,7 @@
 const {
 	getCloseTagReplacement,
 	getOpenTagReplacement,
-	getSelfClosingTagReplacement
+	getSelfClosingTagReplacement,
 } = require('../../src/jsp/tagReplacements');
 
 describe('getCloseTagReplacement()', () => {

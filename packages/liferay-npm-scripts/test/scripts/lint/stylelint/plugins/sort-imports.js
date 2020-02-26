@@ -14,7 +14,7 @@ describe('liferay/sort-imports', () => {
 
 				a { color: #000; }
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -30,7 +30,7 @@ describe('liferay/sort-imports', () => {
 
 				a { color: #000; }
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -41,7 +41,7 @@ describe('liferay/sort-imports', () => {
 				a { color: #000; }
 				@import 'aaa';
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -61,7 +61,7 @@ describe('liferay/sort-imports', () => {
 				@import 'c';
 
 				a { color: #000 };
-			`
+			`,
 		});
 	});
 
@@ -89,7 +89,7 @@ describe('liferay/sort-imports', () => {
 				@import 'c';
 
 				a { color: #000 };
-			`
+			`,
 		});
 	});
 
@@ -102,7 +102,7 @@ describe('liferay/sort-imports', () => {
 				a { color: #000 };
 			`,
 			errors: [],
-			options: false
+			options: false,
 		});
 	});
 });

@@ -20,7 +20,7 @@ function runBundler(...args) {
 			spawnSync('liferay-npm-bundler', [
 				'--config',
 				npmbundlerRcPath,
-				...args
+				...args,
 			]);
 		}
 	);

@@ -21,7 +21,7 @@ describe('scripts/format.js', () => {
 
 	const source = {
 		js: 'alert("hello");',
-		jsp: '<%= "hello" %>'
+		jsp: '<%= "hello" %>',
 	};
 
 	beforeEach(() => {

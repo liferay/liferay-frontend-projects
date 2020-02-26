@@ -21,7 +21,7 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						[1, 2],
-						['a', 'b']
+						['a', 'b'],
 					],
 					deepMerge.MODE.DEFAULT
 				)
@@ -35,7 +35,7 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						[1, 2, 3],
-						['a', 'b', 'c']
+						['a', 'b', 'c'],
 					],
 					deepMerge.MODE.OVERWRITE_ARRAYS
 				)
@@ -49,16 +49,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['a', 'b']
+							plugins: ['a', 'b'],
 						},
 						{
-							plugins: ['c', 'd']
-						}
+							plugins: ['c', 'd'],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', 'b', 'c', 'd']
+				plugins: ['a', 'b', 'c', 'd'],
 			});
 		});
 
@@ -67,16 +67,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['a', 'b']
+							plugins: ['a', 'b'],
 						},
 						{
-							plugins: ['a', 'b', 'c']
-						}
+							plugins: ['a', 'b', 'c'],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', 'b', 'c']
+				plugins: ['a', 'b', 'c'],
 			});
 		});
 
@@ -85,16 +85,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['b', 'a']
+							plugins: ['b', 'a'],
 						},
 						{
-							plugins: ['c', 'b', 'a']
-						}
+							plugins: ['c', 'b', 'a'],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['b', 'a', 'c']
+				plugins: ['b', 'a', 'c'],
 			});
 		});
 
@@ -103,16 +103,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: [['a', {option: 1}], 'b']
+							plugins: [['a', {option: 1}], 'b'],
 						},
 						{
-							plugins: ['a', 'c']
-						}
+							plugins: ['a', 'c'],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: [['a', {option: 1}], 'b', 'c']
+				plugins: [['a', {option: 1}], 'b', 'c'],
 			});
 		});
 
@@ -121,16 +121,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['a', 'b']
+							plugins: ['a', 'b'],
 						},
 						{
-							plugins: ['c', ['b', {option: 2}]]
-						}
+							plugins: ['c', ['b', {option: 2}]],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', ['b', {option: 2}], 'c']
+				plugins: ['a', ['b', {option: 2}], 'c'],
 			});
 		});
 
@@ -139,16 +139,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: ['a', ['b', {bar: false, foo: true}]]
+							plugins: ['a', ['b', {bar: false, foo: true}]],
 						},
 						{
-							plugins: [['b', {baz: null, foo: false}], 'c']
-						}
+							plugins: [['b', {baz: null, foo: false}], 'c'],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', ['b', {bar: false, baz: null, foo: false}], 'c']
+				plugins: ['a', ['b', {bar: false, baz: null, foo: false}], 'c'],
 			});
 		});
 
@@ -157,16 +157,16 @@ describe('deepMerge()', () => {
 				deepMerge(
 					[
 						{
-							plugins: [['a'], 'b', ['z', {}]]
+							plugins: [['a'], 'b', ['z', {}]],
 						},
 						{
-							plugins: [['a', {}], 'c', ['d', {}], ['e']]
-						}
+							plugins: [['a', {}], 'c', ['d', {}], ['e']],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
-				plugins: ['a', 'b', 'z', 'c', 'd', 'e']
+				plugins: ['a', 'b', 'z', 'c', 'd', 'e'],
 			});
 		});
 
@@ -176,18 +176,18 @@ describe('deepMerge()', () => {
 					[
 						{
 							ignore: ['./mocks/*.js'],
-							plugins: ['a', ['b', {option: 1}]]
+							plugins: ['a', ['b', {option: 1}]],
 						},
 						{
 							ignore: ['./tests/*.disabled.js'],
-							plugins: ['c']
-						}
+							plugins: ['c'],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
 			).toEqual({
 				ignore: ['./mocks/*.js', './tests/*.disabled.js'],
-				plugins: ['a', ['b', {option: 1}], 'c']
+				plugins: ['a', ['b', {option: 1}], 'c'],
 			});
 		});
 
@@ -203,14 +203,14 @@ describe('deepMerge()', () => {
 								'a',
 								['b', {option: 1}],
 								['c', {option: 2}],
-								'd'
+								'd',
 							],
 							presets: [
 								['a', {targets: [1, 2]}],
 								'b',
 								'c',
-								['d', {foo: 1}]
-							]
+								['d', {foo: 1}],
+							],
 						},
 						{
 							extends: 'other',
@@ -219,9 +219,9 @@ describe('deepMerge()', () => {
 								'a',
 								['d', {bar: 3, foo: 2}],
 								['e', {true: false}],
-								'c'
-							]
-						}
+								'c',
+							],
+						},
 					],
 					deepMerge.MODE.BABEL
 				)
@@ -234,8 +234,8 @@ describe('deepMerge()', () => {
 					'b',
 					'c',
 					['d', {bar: 3, foo: 2}],
-					['e', {true: false}]
-				]
+					['e', {true: false}],
+				],
 			});
 		});
 
@@ -246,23 +246,23 @@ describe('deepMerge()', () => {
 						'module-resolver',
 						{
 							alias: {
-								test: './test/js/'
+								test: './test/js/',
 							},
 							root: [
-								'./src/main/resources/META-INF/resources/js/'
-							]
-						}
-					]
+								'./src/main/resources/META-INF/resources/js/',
+							],
+						},
+					],
 				],
-				presets: ['@babel/preset-react']
+				presets: ['@babel/preset-react'],
 			};
 
 			const defaultConfig = {
 				plugins: [
 					'@babel/proposal-class-properties',
-					'@babel/proposal-object-rest-spread'
+					'@babel/proposal-object-rest-spread',
 				],
-				presets: ['@babel/preset-env']
+				presets: ['@babel/preset-env'],
 			};
 
 			expect(
@@ -275,22 +275,22 @@ describe('deepMerge()', () => {
 						'module-resolver',
 						{
 							alias: {
-								test: './test/js/'
+								test: './test/js/',
 							},
 							root: [
-								'./src/main/resources/META-INF/resources/js/'
-							]
-						}
-					]
+								'./src/main/resources/META-INF/resources/js/',
+							],
+						},
+					],
 				],
-				presets: ['@babel/preset-env', '@babel/preset-react']
+				presets: ['@babel/preset-env', '@babel/preset-react'],
 			});
 		});
 
 		it("doesn't break when a stale .babelrc.js file is left on disk", () => {
 			// This is the original project-local .babelrc.js config.
 			const project = {
-				presets: ['@babel/preset-react']
+				presets: ['@babel/preset-react'],
 			};
 
 			// This is the config provided by liferay-npm-scripts.
@@ -302,19 +302,19 @@ describe('deepMerge()', () => {
 								'@babel/preset-env',
 								{
 									targets: {
-										node: '10.15'
-									}
-								}
-							]
+										node: '10.15',
+									},
+								},
+							],
 						],
-						test: '**/test/**/*.js'
-					}
+						test: '**/test/**/*.js',
+					},
 				],
 				plugins: [
 					'@babel/proposal-class-properties',
-					'@babel/proposal-object-rest-spread'
+					'@babel/proposal-object-rest-spread',
 				],
-				presets: ['@babel/preset-env']
+				presets: ['@babel/preset-env'],
 			};
 
 			// This should be the result of merging "defaults" and "project"; imagine that
@@ -327,19 +327,19 @@ describe('deepMerge()', () => {
 								'@babel/preset-env',
 								{
 									targets: {
-										node: '10.15'
-									}
-								}
-							]
+										node: '10.15',
+									},
+								},
+							],
 						],
-						test: '**/test/**/*.js'
-					}
+						test: '**/test/**/*.js',
+					},
 				],
 				plugins: [
 					'@babel/proposal-class-properties',
-					'@babel/proposal-object-rest-spread'
+					'@babel/proposal-object-rest-spread',
 				],
-				presets: ['@babel/preset-env', '@babel/preset-react']
+				presets: ['@babel/preset-env', '@babel/preset-react'],
 			};
 
 			expect(

@@ -8,7 +8,7 @@ const stylelint = require('stylelint');
 const ruleName = 'liferay/sort-imports';
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
-	sort: 'imports must be sorted by target name'
+	sort: 'imports must be sorted by target name',
 });
 
 function precededByBlankLine(node) {
@@ -26,14 +26,14 @@ module.exports = stylelint.createPlugin(
 				ruleName,
 				{
 					actual: options,
-					possible: [true, false]
+					possible: [true, false],
 				},
 				{
 					actual: secondaryOptions,
 					optional: true,
 					possible: {
-						disableFix: [true, false]
-					}
+						disableFix: [true, false],
+					},
 				}
 			);
 
@@ -120,7 +120,7 @@ module.exports = stylelint.createPlugin(
 								message: `${messages.sort} (expected: ${order})`,
 								node: group[firstMismatch],
 								result,
-								ruleName
+								ruleName,
 							});
 						}
 					}

@@ -54,11 +54,11 @@ describe('lintJSP()', () => {
 					line: 3,
 					message: 'Redundant double negation.',
 					ruleId: 'no-extra-boolean-cast',
-					severity: 2
-				})
+					severity: 2,
+				}),
 			],
 			source: expect.stringContaining('var bool = !!!other;'),
-			warningCount: 0
+			warningCount: 0,
 		});
 	});
 
@@ -88,11 +88,11 @@ describe('lintJSP()', () => {
 					line: 3,
 					message: "Unexpected 'debugger' statement.",
 					ruleId: 'no-debugger',
-					severity: 2
-				})
+					severity: 2,
+				}),
 			],
 			source: expect.stringContaining('debugger;'),
-			warningCount: 0
+			warningCount: 0,
 		});
 	});
 
@@ -123,11 +123,11 @@ describe('lintJSP()', () => {
 					line: 3,
 					message: "Parsing error: The keyword 'const' is reserved",
 					ruleId: null,
-					severity: 2
-				})
+					severity: 2,
+				}),
 			],
 			source: expect.stringContaining('const x = 1;'),
-			warningCount: 0
+			warningCount: 0,
 		});
 	});
 
@@ -158,11 +158,11 @@ describe('lintJSP()', () => {
 					line: 3,
 					message: 'Parsing error: Unexpected token )',
 					ruleId: null,
-					severity: 2
-				})
+					severity: 2,
+				}),
 			],
 			source: expect.stringContaining('var x = () => 1;'),
-			warningCount: 0
+			warningCount: 0,
 		});
 	});
 
@@ -196,18 +196,18 @@ describe('lintJSP()', () => {
 					line: 3,
 					message: 'Redundant double negation.',
 					ruleId: 'no-extra-boolean-cast',
-					severity: 2
+					severity: 2,
 				}),
 				expect.objectContaining({
 					column: 1,
 					line: 4,
 					message: "Unexpected 'debugger' statement.",
 					ruleId: 'no-debugger',
-					severity: 2
-				})
+					severity: 2,
+				}),
 			],
 			source: expect.stringContaining('debugger;'),
-			warningCount: 0
+			warningCount: 0,
 		});
 	});
 
@@ -267,11 +267,11 @@ describe('lintJSP()', () => {
 						line: 3,
 						message: 'Redundant double negation.',
 						ruleId: 'no-extra-boolean-cast',
-						severity: 2
-					})
+						severity: 2,
+					}),
 				],
 				source: expect.stringContaining('var bool = !!!other;'),
-				warningCount: 0
+				warningCount: 0,
 			});
 		});
 
@@ -297,11 +297,11 @@ describe('lintJSP()', () => {
 						line: 3,
 						message: 'Redundant double negation.',
 						ruleId: 'no-extra-boolean-cast',
-						severity: 2
-					})
+						severity: 2,
+					}),
 				],
 				source: expect.stringContaining('var bool = !!!other;'),
-				warningCount: 0
+				warningCount: 0,
 			});
 		});
 
@@ -333,11 +333,11 @@ describe('lintJSP()', () => {
 						line: 4,
 						message: "Unexpected 'debugger' statement.",
 						ruleId: 'no-debugger',
-						severity: 2
-					})
+						severity: 2,
+					}),
 				],
 				source: expect.stringContaining('debugger;'),
-				warningCount: 0
+				warningCount: 0,
 			});
 		});
 	});
@@ -374,11 +374,11 @@ describe('lintJSP()', () => {
 						line: 4,
 						message: "Unexpected 'debugger' statement.",
 						ruleId: 'no-debugger',
-						severity: 2
-					})
+						severity: 2,
+					}),
 				],
 				source: expect.stringContaining('debugger;'),
-				warningCount: 0
+				warningCount: 0,
 			});
 		});
 	});

@@ -28,17 +28,17 @@ expect.extend({
 			config: {
 				plugins: [location],
 				rules: {
-					[instance.ruleName]: options === undefined ? true : options
+					[instance.ruleName]: options === undefined ? true : options,
 				},
-				syntax: 'scss'
+				syntax: 'scss',
 			},
-			fix
+			fix,
 		});
 
 		const expected = {errors};
 
 		const received = {
-			errors: results.results[0].warnings
+			errors: results.results[0].warnings,
 		};
 
 		if (fix) {
@@ -53,7 +53,7 @@ expect.extend({
 				const settings = {
 					comment: `${count} error${count !== 1 ? 's' : ''}`,
 					isNot: this.isNot,
-					promise: this.promise
+					promise: this.promise,
 				};
 
 				const hint =
@@ -74,7 +74,7 @@ expect.extend({
 					);
 				} else {
 					const diffString = diff(expected, received, {
-						expand: this.expand
+						expand: this.expand,
 					});
 
 					if (diffString && diffString.includes('- Expect')) {
@@ -90,7 +90,7 @@ expect.extend({
 					}
 				}
 			},
-			pass: this.equals(received, expected)
+			pass: this.equals(received, expected),
 		};
-	}
+	},
 });

@@ -15,9 +15,9 @@ expect.extend({
 
 				return `expected path ${file} ${predicate} glob ${glob}`;
 			},
-			pass
+			pass,
 		};
-	}
+	},
 });
 
 describe('getRegExpForGlob()', () => {

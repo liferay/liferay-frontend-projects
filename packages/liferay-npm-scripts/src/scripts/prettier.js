@@ -94,7 +94,7 @@ function main(...args) {
 		'-c': unsupported,
 		'-h': help,
 		'-l': unsupported,
-		'-v': version
+		'-v': version,
 	};
 
 	for (i = 0; i < args.length; i++) {
@@ -131,13 +131,13 @@ function main(...args) {
 			getPaths([arg], [], IGNORE_FILE).forEach(filepath => {
 				files.push({
 					contents: null,
-					filepath
+					filepath,
 				});
 			});
 		} else {
 			files.push({
 				contents: null,
-				filepath: arg
+				filepath: arg,
 			});
 		}
 	}
@@ -157,8 +157,8 @@ function main(...args) {
 		files = [
 			{
 				contents: fs.readFileSync(0, 'utf8'),
-				filepath: options.stdinFilepath
-			}
+				filepath: options.stdinFilepath,
+			},
 		];
 	}
 
@@ -172,7 +172,7 @@ function main(...args) {
 
 		const prettierOptions = {
 			...config,
-			filepath
+			filepath,
 		};
 
 		if (isJSP(filepath)) {
@@ -207,7 +207,7 @@ Object.assign(main, {
 
 	resolveConfig: () => Promise.resolve(null),
 
-	version: prettier.version
+	version: prettier.version,
 });
 
 function exit() {

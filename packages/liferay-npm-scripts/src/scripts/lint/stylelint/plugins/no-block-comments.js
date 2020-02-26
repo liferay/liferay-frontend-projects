@@ -9,13 +9,13 @@ const ruleName = 'liferay/no-block-comments';
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
 	expected:
-		'No block-based comments (/* ... */); use line-based (//) comment syntax instead'
+		'No block-based comments (/* ... */); use line-based (//) comment syntax instead',
 });
 
 module.exports = stylelint.createPlugin(ruleName, actual => {
 	return function(root, result) {
 		const validOptions = stylelint.utils.validateOptions(result, ruleName, {
-			actual
+			actual,
 		});
 
 		if (!validOptions) {
@@ -28,7 +28,7 @@ module.exports = stylelint.createPlugin(ruleName, actual => {
 					message: messages.expected,
 					node: comment,
 					result,
-					ruleName
+					ruleName,
 				});
 			}
 		});

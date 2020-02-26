@@ -64,7 +64,7 @@ function getJestModuleNameMapper() {
 			const mappings = {};
 			const projects = expandGlobs(workspaces.packages, IGNORE_GLOBS, {
 				maxDepth: 3,
-				type: 'directory'
+				type: 'directory',
 			});
 
 			projects.forEach(project => {
@@ -93,7 +93,7 @@ function getJestModuleNameMapper() {
 			});
 
 			return {
-				moduleNameMapper: mappings
+				moduleNameMapper: mappings,
 			};
 		} catch (error) {
 			log(`getJestModuleNameMapper(): error \`${error}\``);

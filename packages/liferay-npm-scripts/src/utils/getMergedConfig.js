@@ -50,7 +50,7 @@ function filter(object, property, callback) {
 				[key]:
 					key === property
 						? callback(value)
-						: filter(value, property, callback)
+						: filter(value, property, callback),
 			};
 		}, {});
 	} else {
@@ -111,21 +111,21 @@ function getMergedConfig(type, property) {
 		case 'bundler':
 			mergedConfig = deepMerge([
 				require('../config/npm-bundler'),
-				getUserConfig('npmbundler')
+				getUserConfig('npmbundler'),
 			]);
 			break;
 
 		case 'stylelint':
 			mergedConfig = deepMerge([
 				require('../config/stylelint'),
-				getUserConfig('stylelint')
+				getUserConfig('stylelint'),
 			]);
 			break;
 
 		case 'eslint':
 			mergedConfig = deepMerge([
 				require('../config/eslint.config'),
-				getUserConfig('eslint')
+				getUserConfig('eslint'),
 			]);
 			break;
 
@@ -133,14 +133,14 @@ function getMergedConfig(type, property) {
 			mergedConfig = deepMerge([
 				require('../config/jest.config'),
 				require('../utils/getJestModuleNameMapper')(),
-				getUserConfig('jest')
+				getUserConfig('jest'),
 			]);
 			break;
 
 		case 'prettier':
 			mergedConfig = deepMerge([
 				require('../config/prettier'),
-				getUserConfig('prettier', {upwards: true})
+				getUserConfig('prettier', {upwards: true}),
 			]);
 			break;
 

@@ -33,7 +33,7 @@ describe('scripts/webpack.js', () => {
 
 		expect(spawnSync).toHaveBeenCalledWith('webpack', [
 			'--config',
-			expect.stringMatching(/[/\\]webpack\.config\.js$/)
+			expect.stringMatching(/[/\\]webpack\.config\.js$/),
 		]);
 	});
 
@@ -43,7 +43,7 @@ describe('scripts/webpack.js', () => {
 		expect(spawnSync).toHaveBeenCalledWith('webpack', [
 			'--config',
 			expect.stringMatching(/[/\\]webpack\.config\.js$/),
-			'--verbose'
+			'--verbose',
 		]);
 	});
 
@@ -54,7 +54,7 @@ describe('scripts/webpack.js', () => {
 
 		expect(spawnSync).toHaveBeenCalledWith('webpack-dev-server', [
 			'--config',
-			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/)
+			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/),
 		]);
 	});
 
@@ -65,7 +65,7 @@ describe('scripts/webpack.js', () => {
 		expect(spawnSync).toHaveBeenCalledWith('webpack-dev-server', [
 			'--config',
 			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/),
-			'--lazy'
+			'--lazy',
 		]);
 	});
 

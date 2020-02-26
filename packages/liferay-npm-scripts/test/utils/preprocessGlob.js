@@ -27,7 +27,7 @@ describe('preprocessGlob()', () => {
 			'a/c/e/f',
 			'a/c/e/g',
 			'a/d/e/f',
-			'a/d/e/g'
+			'a/d/e/g',
 		]);
 	});
 

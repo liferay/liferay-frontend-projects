@@ -13,7 +13,7 @@ describe('trim()', () => {
 		expect(trim(input)).toEqual({
 			prefix: '\n',
 			suffix: '',
-			trimmed: '\t\t\talert();'
+			trimmed: '\t\t\talert();',
 		});
 	});
 
@@ -24,7 +24,7 @@ describe('trim()', () => {
 		expect(trim(input)).toEqual({
 			prefix: '',
 			suffix: '\t\t',
-			trimmed: 'alert();'
+			trimmed: 'alert();',
 		});
 	});
 
@@ -36,7 +36,7 @@ describe('trim()', () => {
 		expect(trim(input)).toEqual({
 			prefix: '\n',
 			suffix: '\t\t',
-			trimmed: '\t\t\talert();'
+			trimmed: '\t\t\talert();',
 		});
 	});
 
@@ -44,7 +44,7 @@ describe('trim()', () => {
 		expect(trim('alert();')).toEqual({
 			prefix: '',
 			suffix: '',
-			trimmed: 'alert();'
+			trimmed: 'alert();',
 		});
 	});
 });

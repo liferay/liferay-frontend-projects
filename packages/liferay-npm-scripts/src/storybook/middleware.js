@@ -19,7 +19,7 @@ module.exports = function expressMiddleware(router) {
 		'/o',
 		proxy({
 			changeOrigin: true,
-			target: STORYBOOK_CONFIG.portalURL
+			target: STORYBOOK_CONFIG.portalURL,
 		})
 	);
 };

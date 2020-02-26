@@ -55,7 +55,7 @@ class Lexer {
 
 			exec(_string) {
 				return getMatchObject('');
-			}
+			},
 		};
 
 		/**
@@ -66,7 +66,7 @@ class Lexer {
 
 			exec(_string) {
 				return null;
-			}
+			},
 		};
 
 		/**
@@ -112,7 +112,7 @@ class Lexer {
 
 				to,
 
-				until
+				until,
 			};
 		}
 
@@ -153,7 +153,7 @@ class Lexer {
 					return matcher.exec(string);
 				},
 
-				name
+				name,
 			};
 		}
 
@@ -191,7 +191,7 @@ class Lexer {
 
 				to,
 
-				until
+				until,
 			};
 		}
 
@@ -215,7 +215,7 @@ class Lexer {
 							? JSON.stringify(stringOrRegExp)
 							: stringOrRegExp.toString())
 					);
-				}
+				},
 			});
 
 			matcher.exec = string => {
@@ -268,7 +268,7 @@ class Lexer {
 					}
 				},
 
-				name
+				name,
 			};
 		}
 
@@ -360,7 +360,7 @@ class Lexer {
 
 				to,
 
-				until
+				until,
 			};
 		}
 
@@ -401,7 +401,7 @@ class Lexer {
 					}
 				},
 
-				name
+				name,
 			};
 		}
 
@@ -460,7 +460,7 @@ class Lexer {
 
 				onMatch,
 
-				test
+				test,
 			};
 		}
 
@@ -517,7 +517,7 @@ class Lexer {
 					return null;
 				},
 
-				name
+				name,
 			};
 		}
 
@@ -568,7 +568,7 @@ class Lexer {
 					return getMatchObject(consumed);
 				},
 
-				name
+				name,
 			};
 		}
 
@@ -598,7 +598,7 @@ class Lexer {
 					}
 				},
 
-				name
+				name,
 			};
 		}
 
@@ -740,7 +740,7 @@ class Lexer {
 			return {
 				contents,
 				index: input.length - remaining.length - contents.length,
-				name
+				name,
 			};
 		};
 
@@ -760,7 +760,7 @@ class Lexer {
 
 			get remaining() {
 				return remaining;
-			}
+			},
 		};
 
 		/**
@@ -790,7 +790,7 @@ class Lexer {
 			repeat,
 			sequence,
 			token,
-			when
+			when,
 		};
 
 		const advance = this._callback(API);
@@ -852,13 +852,13 @@ class Lexer {
 						}
 
 						return tokens.get(counter + 1);
-					}
+					},
 				},
 				previous: {
 					// Non-enumerable so that tokens can be
 					// introspected without the clutter.
-					value: tokens.get(counter - 1)
-				}
+					value: tokens.get(counter - 1),
+				},
 			});
 		};
 

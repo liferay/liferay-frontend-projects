@@ -73,7 +73,7 @@ describe('prettier/index.js', () => {
 			return prettier.format(source, {
 				...config,
 				filepath: 'some/directory/__sample__.js',
-				...options
+				...options,
 			});
 		}
 
@@ -104,7 +104,7 @@ describe('prettier/index.js', () => {
 					}
 			`,
 					{
-						filepath: 'some/directory/__sample__.scss'
+						filepath: 'some/directory/__sample__.scss',
 					}
 				)
 			).toBe(code`

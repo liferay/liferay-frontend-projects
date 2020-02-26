@@ -12,5 +12,5 @@
 module.exports = {
 	process(_src, _file) {
 		return '';
-	}
+	},
 };

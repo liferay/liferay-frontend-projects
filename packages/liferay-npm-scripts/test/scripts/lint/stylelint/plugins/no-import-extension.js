@@ -13,7 +13,7 @@ describe('liferay/no-import-extension', () => {
 				@import 'stuff';
 				@import 'thing.css';
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -30,7 +30,7 @@ describe('liferay/no-import-extension', () => {
 				// Rule ignores even this (bogus) url.
 				@import url('weird.scss');
 			`,
-			errors: []
+			errors: [],
 		});
 	});
 
@@ -44,7 +44,7 @@ describe('liferay/no-import-extension', () => {
 			output: `
 				@import 'a';
 				@import "b";
-			`
+			`,
 		});
 	});
 
@@ -55,7 +55,7 @@ describe('liferay/no-import-extension', () => {
 				@import "b.scss";
 			`,
 			errors: [],
-			options: false
+			options: false,
 		});
 	});
 });
