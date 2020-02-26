@@ -62,6 +62,22 @@ export class Project {
 	get exports(): Exports {
 		if (this._exports === undefined) {
 			this._exports = prop.get(this._npmbundlerrc, 'exports', {});
+
+			if (!this._exports['main']) {
+				let main = this._pkgJson['main'];
+
+				if (main) {
+					if (main.startsWith('/')) {
+						main = `.${main}`;
+					} else if (!main.startsWith('.')) {
+						main = `./${main}`;
+					}
+
+					this._exports['main'] = main;
+				} else if (fs.existsSync('./index.js')) {
+					this._exports['main'] = './index.js';
+				}
+			}
 		}
 
 		return this._exports;

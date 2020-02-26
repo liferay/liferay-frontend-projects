@@ -47,7 +47,9 @@ export default function configure(): webpack.Configuration {
 
 				entry[id] = `./${generatedFile.asPosix}`;
 
-				log.debug(`Generated entry point for ${id}`);
+				log.debug(
+					`Generated entry point with id ${id} for ${moduleName}`
+				);
 
 				return entry;
 			},
