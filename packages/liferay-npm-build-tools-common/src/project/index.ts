@@ -7,12 +7,13 @@
 import child_process from 'child_process';
 import prop from 'dot-prop';
 import fs from 'fs';
-import merge from 'merge';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
+import webpack from 'webpack';
 
 import FilePath from '../file-path';
+import {print, warn, info} from '../format';
 import {splitModuleName} from '../modules';
 import Jar from './jar';
 import Localization from './localization';
@@ -27,6 +28,11 @@ export type PkgManager = 'npm' | 'yarn' | null;
 /** Exports configuration */
 export interface Exports {
 	[id: string]: string;
+}
+
+/** The webpack config provider function signature */
+export interface WebpackConfigProvider {
+	(webpackConfig: webpack.Configuration): webpack.Configuration;
 }
 
 /**
@@ -61,7 +67,7 @@ export class Project {
 	 */
 	get exports(): Exports {
 		if (this._exports === undefined) {
-			this._exports = prop.get(this._npmbundlerrc, 'exports', {});
+			this._exports = prop.get(this._configuration, 'exports', {});
 
 			if (!this._exports['main']) {
 				let main = this._pkgJson['main'];
@@ -84,13 +90,34 @@ export class Project {
 	}
 
 	/**
+	 * Get user's webpack configuration provider function.
+	 */
+	get webpackConfigProvider(): WebpackConfigProvider {
+		if (this._webpack === undefined) {
+			const webpack = prop.get(this._configuration, 'webpack', {});
+
+			if (typeof webpack === 'function') {
+				this._webpack = webpack as WebpackConfigProvider;
+			} else {
+				// TODO: maybe smart merge this ?
+				this._webpack = webpackConfiguration => ({
+					...webpackConfiguration,
+					...webpack,
+				});
+			}
+		}
+
+		return this._webpack;
+	}
+
+	/**
 	 * Get directories inside the project containing source files starting with
 	 * `./` (so that they can be safely path.joined)
 	 */
 	get sources(): FilePath[] {
 		if (this._sources === undefined) {
 			this._sources = prop
-				.get(this._npmbundlerrc, 'sources', [])
+				.get(this._configuration, 'sources', [])
 				.map(source =>
 					source.startsWith('./') ? source : `./${source}`
 				)
@@ -106,7 +133,7 @@ export class Project {
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(this._npmbundlerrc, 'output', './build');
+			let dir = prop.get(this._configuration, 'output', './build');
 
 			if (!dir.startsWith('./')) {
 				dir = `./${dir}`;
@@ -129,16 +156,16 @@ export class Project {
 	 * Get global plugins configuration.
 	 */
 	get globalConfig(): object {
-		const {_npmbundlerrc} = this;
+		const {_configuration} = this;
 
-		return prop.get(_npmbundlerrc, 'config', {});
+		return prop.get(_configuration, 'config', {});
 	}
 
 	/**
 	 * Get project's parsed .npmbundlerrc file
 	 */
 	get npmbundlerrc(): object {
-		return this._npmbundlerrc;
+		return this._configuration;
 	}
 
 	/**
@@ -231,8 +258,8 @@ export class Project {
 			putInMap(path.join(__dirname, '../..'));
 
 			// Get preset version
-			const {_npmbundlerrc} = this;
-			const preset = _npmbundlerrc['preset'];
+			const {_configuration} = this;
+			const preset = _configuration['preset'];
 
 			if (preset) {
 				putInMap(splitModuleName(preset).pkgName);
@@ -257,12 +284,12 @@ export class Project {
 	 */
 	loadFrom(
 		projectPath: string,
-		configFilePath: string = '.npmbundlerrc'
+		configFilePath: string = 'liferay-npm-bundler.config.js'
 	): void {
 		// First reset everything
 		this._buildDir = undefined;
 		this._configFile = undefined;
-		this._npmbundlerrc = undefined;
+		this._configuration = undefined;
 		this._pkgJson = undefined;
 		this._pkgManager = undefined;
 		this._projectDir = undefined;
@@ -280,7 +307,7 @@ export class Project {
 
 		// Load configuration files
 		this._loadPkgJson();
-		this._loadNpmbundlerrc();
+		this._loadConfiguration();
 
 		// Initialize subdomains
 		this.jar = new Jar(this);
@@ -321,18 +348,18 @@ export class Project {
 		'create-jar': boolean;
 		'dump-report': boolean;
 	}) {
-		const {_npmbundlerrc} = this;
+		const {_configuration} = this;
 
 		if (argv.config) {
 			this.loadFrom('.', argv.config);
 		}
 
 		if (argv['create-jar']) {
-			_npmbundlerrc['create-jar'] = true;
+			_configuration['create-jar'] = true;
 		}
 
 		if (argv['dump-report']) {
-			_npmbundlerrc['dump-report'] = true;
+			_configuration['dump-report'] = true;
 		}
 	}
 
@@ -374,43 +401,22 @@ export class Project {
 		}
 	}
 
-	_loadNpmbundlerrc(): void {
-		const npmbundlerrcPath = this._configFile.asNative;
+	_loadConfiguration(): void {
+		const {_configFile} = this;
+		const configDir = _configFile.dirname();
 
-		const config = fs.existsSync(npmbundlerrcPath)
-			? readJsonSync(npmbundlerrcPath)
+		if (fs.existsSync(configDir.join('.npmbundlerrc').asNative)) {
+			print(
+				warn`There is a {.npmbundlerrc} file in {${configDir.basename()}}: it will be ignored`,
+				info`Consider migrating the project to bundler 3.x or removing it if is a leftover`
+			);
+		}
+
+		const configFilePath = _configFile.asNative;
+
+		this._configuration = fs.existsSync(configFilePath)
+			? require(configFilePath)
 			: {};
-
-		// Apply preset if necessary
-		let presetFilePath;
-
-		if (config.preset) {
-			presetFilePath = resolveModule.sync(config.preset, {
-				basedir: this.dir.asNative,
-			});
-
-			const {pkgName} = splitModuleName(config.preset);
-
-			const presetPkgJsonFilePath = resolveModule.sync(
-				`${pkgName}/package.json`,
-				{
-					basedir: this.dir.asNative,
-				}
-			);
-
-			this._toolsDir = new FilePath(path.dirname(presetPkgJsonFilePath));
-		}
-
-		if (presetFilePath) {
-			const originalConfig = Object.assign({}, config);
-
-			Object.assign(
-				config,
-				merge.recursive(readJsonSync(presetFilePath), originalConfig)
-			);
-		}
-
-		this._npmbundlerrc = config;
 	}
 
 	_loadPkgJson(): void {
@@ -427,7 +433,7 @@ export class Project {
 	/** Absolute path to config file */
 	private _configFile: FilePath;
 
-	private _npmbundlerrc: object;
+	private _configuration: object;
 	private _pkgJson: object;
 	private _pkgManager: PkgManager;
 
@@ -442,6 +448,9 @@ export class Project {
 
 	/** Modules to export to the outside world */
 	private _exports: Exports;
+
+	/** User's webpack configuration */
+	private _webpack: WebpackConfigProvider;
 
 	private _versionsInfo: Map<string, VersionInfo>;
 }

@@ -503,34 +503,6 @@ describe('empty project defaults', () => {
 	});
 });
 
-describe('honors presets', () => {
-	let project;
-
-	beforeAll(() => {
-		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
-		);
-	});
-
-	it('loads project.dir from preset', () => {
-		expect(project.dir.asNative).toBe(
-			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
-		);
-	});
-
-	it('loads project.buildDir from preset', () => {
-		expect(project.buildDir.asPosix).toBe('./preset-build');
-	});
-
-	it('loads project.jar.outputDir from preset', () => {
-		expect(project.jar.outputDir.asPosix).toBe('./preset-dist');
-	});
-
-	it('detects JAR configuration even if only in preset', () => {
-		expect(project.jar.supported).toBe(true);
-	});
-});
-
 describe('loads things as modules (as opposed to packages)', () => {
 	let project;
 
@@ -538,10 +510,6 @@ describe('loads things as modules (as opposed to packages)', () => {
 		project = new Project(
 			path.join(__dirname, '__fixtures__', 'project', 'with-module-cfg')
 		);
-	});
-
-	it('loads preset from file in package', () => {
-		expect(project.buildDir.asPosix).toBe('./preset-output');
 	});
 
 	it('loads loaders from module in package', () => {

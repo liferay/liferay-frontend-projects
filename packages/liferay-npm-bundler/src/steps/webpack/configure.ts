@@ -12,7 +12,7 @@ import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
 
 export default function configure(): webpack.Configuration {
-	const webpackConfig: webpack.Configuration = {
+	let webpackConfig: webpack.Configuration = {
 		devtool: 'source-map',
 		mode: 'development',
 		output: {
@@ -56,6 +56,9 @@ export default function configure(): webpack.Configuration {
 			{}
 		),
 	};
+
+	// Merge in user's config
+	webpackConfig = project.webpackConfigProvider(webpackConfig);
 
 	// Write webpack.config.js for debugging purposes
 	fs.writeFileSync(

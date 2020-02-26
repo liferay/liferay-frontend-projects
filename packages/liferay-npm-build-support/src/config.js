@@ -17,7 +17,7 @@ loadConfig();
  */
 function loadConfig() {
 	npmbuildrc = safeReadJsonSync(project.dir.join('.npmbuildrc').asNative);
-	npmbundlerrc = project._npmbundlerrc;
+	npmbundlerrc = project._configuration;
 
 	// Normalize configurations
 	normalize(npmbuildrc, 'supportedLocales', []);
