@@ -1156,16 +1156,6 @@ babel-plugin-minify-dead-code-elimination@0.5.0:
     babel-helper-remove-or-void "^0.4.3"
     lodash.some "^4.6.0"
 
-babel-plugin-minify-dead-code-elimination@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.1.tgz#1a0c68e44be30de4976ca69ffc535e08be13683f"
-  integrity sha512-x8OJOZIrRmQBcSqxBcLbMIK8uPmTvNWPXH2bh5MDCW1latEqYiRMuUkPImKcfpo59pTUB2FT7HfcgtG8ZlR5Qg==
-  dependencies:
-    babel-helper-evaluate-path "^0.5.0"
-    babel-helper-mark-eval-scopes "^0.4.3"
-    babel-helper-remove-or-void "^0.4.3"
-    lodash "^4.17.11"
-
 babel-plugin-name-amd-modules@2.13.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/babel-plugin-name-amd-modules/-/babel-plugin-name-amd-modules-2.13.2.tgz#e36d03a017453631feb4a1fb009e9fc0e91d1091"
@@ -1390,11 +1380,6 @@ babel-plugin-transform-node-env-inline@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-node-env-inline/-/babel-plugin-transform-node-env-inline-0.2.0.tgz#b13c2aafd4a7cbefeba07091a1134d402147d192"
   integrity sha512-I4m1TjVWhYstTEcZckM1DZR+3mwobPrMTtKn1ALVmXP346F52CETaZMSrsYJ2XNhZNa/A72SFyaC1xZam5sBVg==
-
-babel-plugin-transform-node-env-inline@0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-node-env-inline/-/babel-plugin-transform-node-env-inline-0.4.3.tgz#8c84cd74d58f17b0fdf76144a3589f610c3c2497"
-  integrity sha1-jITNdNWPF7D992FEo1ifYQw8JJc=
 
 babel-plugin-transform-regenerator@^6.24.1:
   version "6.26.0"

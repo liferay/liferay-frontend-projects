@@ -2,14 +2,5 @@
 	"name": "liferay-npm-bundler-preset-standard",
 	"version": "3.0.0",
 	"description": "Standard configuration for liferay-npm-bundler.",
-	"main": "config.json",
-	"dependencies": {
-		"babel-preset-liferay-standard": "3.0.0",
-		"liferay-npm-bundler-plugin-exclude-imports": "3.0.0",
-		"liferay-npm-bundler-plugin-inject-imports-dependencies": "3.0.0",
-		"liferay-npm-bundler-plugin-inject-peer-dependencies": "3.0.0",
-		"liferay-npm-bundler-plugin-namespace-packages": "3.0.0",
-		"liferay-npm-bundler-plugin-replace-browser-modules": "3.0.0",
-		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "3.0.0"
-	}
+	"main": "config.json"
 }
