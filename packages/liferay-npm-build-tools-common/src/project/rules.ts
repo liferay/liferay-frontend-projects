@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import clone from 'clone';
 import path from 'path';
 
 import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
-import {Project} from '.';
 import {VersionInfo} from './types';
 
 /**
@@ -101,7 +101,7 @@ export default class Rules {
 
 			this._versionsInfo = resolvedModules.reduce(
 				(map: Map<string, VersionInfo>, resolvedModule) => {
-					const {pkgName, modulePath} = splitModuleName(
+					const {modulePath, pkgName} = splitModuleName(
 						resolvedModule
 					);
 					const pkgJsonPath = _project.toolResolve(

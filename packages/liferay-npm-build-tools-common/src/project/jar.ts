@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 import fs from 'fs-extra';
 import readJsonSync from 'read-json-sync';
 
 import FilePath from '../file-path';
 import {print, warn} from '../format';
-import {Project} from '.';
 import {getFeaturesFilePath} from './util';
 
 /**

@@ -9,14 +9,13 @@ import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import pretty from 'pretty-time';
 
+import {buildBundlerDir} from './dirs';
 import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
-
 import runRules from './steps/rules';
 import runWebpack from './steps/webpack';
-import {buildBundlerDir} from './dirs';
 
 /** Default entry point for the liferay-npm-bundler */
 export default async function(argv: {version: boolean}): Promise<void> {

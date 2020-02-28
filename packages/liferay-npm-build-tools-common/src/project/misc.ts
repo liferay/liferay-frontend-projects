@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 
-import {Project} from '.';
 import FilePath from '../file-path';
 
 /**

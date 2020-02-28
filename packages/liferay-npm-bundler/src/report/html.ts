@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import pretty from 'pretty-time';
-
 import {Report} from '.';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import pretty from 'pretty-time';
 
 const LOG_LEVEL_SORT = {
 	error: 0,

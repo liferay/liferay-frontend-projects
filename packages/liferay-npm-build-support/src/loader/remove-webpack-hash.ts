@@ -21,7 +21,7 @@ import {removeWebpackHash} from './util';
 export default function(
 	context: BundlerLoaderContext<string>
 ): BundlerLoaderReturn {
-	const {content, filePath, extraArtifacts, log} = context;
+	const {content, extraArtifacts, filePath, log} = context;
 
 	const newFilePath = removeWebpackHash(filePath);
 

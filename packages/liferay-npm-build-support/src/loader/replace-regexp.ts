@@ -29,7 +29,7 @@ export default function(
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;
-	const {pattern, flags = 'g', replacement} = options;
+	const {flags = 'g', pattern, replacement} = options;
 
 	const regexp = new RegExp(pattern, flags);
 

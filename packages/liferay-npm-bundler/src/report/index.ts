@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {htmlDump} from './html';
-import {VersionInfo} from 'liferay-npm-build-tools-common/lib/project/types';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import {VersionInfo} from 'liferay-npm-build-tools-common/lib/project/types';
+
+import {htmlDump} from './html';
 
 /**
  * A Report holds data describing a execution of the liferay-npm-bundler so that

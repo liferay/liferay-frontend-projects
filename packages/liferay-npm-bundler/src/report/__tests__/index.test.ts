@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Report} from '../index';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
+
+import {Report} from '../index';
 
 let report: Report;
 

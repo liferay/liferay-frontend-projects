@@ -9,8 +9,8 @@ import path from 'path';
 
 import {Manifest as Data, ModuleFlags, Package} from './api/manifest';
 import FilePath from './file-path';
-import project from './project';
 import PkgDesc from './pkg-desc';
+import project from './project';
 
 export {ModuleFlags, Package};
 

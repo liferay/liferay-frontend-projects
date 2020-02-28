@@ -6,6 +6,11 @@
 import fs from 'fs-extra';
 import globby, {GlobbyOptions} from 'globby';
 import JSZip from 'jszip';
+import {
+	PortletInstanceConfiguration,
+	ConfigurationJson,
+	SystemConfiguration,
+} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
@@ -13,11 +18,6 @@ import path from 'path';
 import {buildBundlerDir} from '../dirs';
 import * as ddm from './ddm';
 import * as xml from './xml';
-import {
-	PortletInstanceConfiguration,
-	ConfigurationJson,
-	SystemConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 
 const pkgJson = project.pkgJson;
 

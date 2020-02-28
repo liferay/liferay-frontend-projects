@@ -4,15 +4,16 @@
  */
 
 import {
+	SystemConfigurationField,
+	SystemConfiguration,
+} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
+
+import {
 	addMetatypeAttr,
 	addMetatypeLocalization,
 	createMetatype,
 	format,
 } from '../xml';
-import {
-	SystemConfigurationField,
-	SystemConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 
 describe('addMetatypeAttr', () => {
 	it('works with just the type', () => {

@@ -6,9 +6,9 @@
 import globby from 'globby';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 
 import * as log from '../log';
 
