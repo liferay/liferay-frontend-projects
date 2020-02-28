@@ -148,7 +148,7 @@ function localized(project, string) {
 
 	let labels = project.l10n.getLabels();
 
-	obj[''] = labels[string];
+	obj[''] = labels[string] || string;
 
 	project.l10n.availableLocales.forEach(locale => {
 		labels = project.l10n.getLabels(locale);
@@ -156,10 +156,5 @@ function localized(project, string) {
 		obj[locale] = labels[string];
 	});
 
-	if(undefined !== obj['']){
-		return obj;
-	}
-	else{
-		return {'': string};
-	}
+	return obj;
 }
