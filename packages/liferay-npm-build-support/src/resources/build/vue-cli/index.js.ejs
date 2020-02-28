@@ -13,13 +13,14 @@
 var chunkVendors = require("./js/chunk-vendors.js");
 var app = require("./js/app.js");
 
-// Load one time resources
-chunkVendors();
-
 // Require our adapt runtime support module
 var _ADAPT_RT_ = require("./adapt-rt"); 
 
 // Invoke main module passing Liferay's standard entry point arguments
 module.exports = function(_LIFERAY_PARAMS_) {
+  // Load one time resources
+  chunkVendors();
+
+  // Call main
   app(_LIFERAY_PARAMS_, _ADAPT_RT_);
 };
