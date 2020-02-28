@@ -15,21 +15,16 @@ export interface PortletInstanceConfiguration {
 
 export interface SystemConfiguration {
 	category: string;
-	fields: {[name: string]: SystemConfigurationField};
+	fields: {[name: string]: ConfigurationField};
 	name: string;
 }
 
 export interface ConfigurationField {
-	default: string;
-	description: string;
+	default?: string;
+	description?: string;
 	name: string;
-	options: {[key: string]: string};
-	repeatable: boolean;
-	required: boolean;
+	options?: {[key: string]: string};
+	repeatable?: boolean;
+	required?: boolean;
 	type: 'string' | 'number' | 'float' | 'boolean' | 'password';
-}
-
-export interface SystemConfigurationField extends ConfigurationField {
-	repeatable: boolean;
-	required: boolean;
 }

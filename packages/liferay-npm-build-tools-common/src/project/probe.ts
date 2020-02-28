@@ -40,7 +40,7 @@ export default class Probe {
 		return undefined;
 	}
 
-	_hasDependency(pkgName) {
+	_hasDependency(pkgName): boolean {
 		const {pkgJson} = this._project;
 
 		return (

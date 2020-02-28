@@ -55,7 +55,7 @@ export interface UnrolledImport {
  */
 export function normalizeImportsConfig(
 	importsConfig: ImportsConfig,
-	useSlashFormat: boolean = false
+	useSlashFormat = false
 ): ImportsConfig {
 	const normalized: ImportsConfig = {};
 

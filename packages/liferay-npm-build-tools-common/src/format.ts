@@ -24,7 +24,7 @@ const opts = {
 	noDecorations: lrFormatOpts.indexOf('no-decorations') != -1,
 };
 
-const verbatim = (...args) => args.join(' ');
+const verbatim = (...args): string => args.join(' ');
 
 /** Chalk formats table */
 const fmt = {
@@ -53,7 +53,7 @@ const fmt = {
  * @remarks
  * Error messages are prepended with a '⚙' emoji.
  */
-export function debug(literals, ...values) {
+export function debug(literals, ...values): string {
 	return fmt.debug(format('⚙', literals, values));
 }
 
@@ -71,7 +71,7 @@ export function debug(literals, ...values) {
  * @remarks
  * Error messages are prepended with a '❌' emoji.
  */
-export function error(literals, ...values) {
+export function error(literals, ...values): string {
 	return fmt.error(format('❌', literals, values));
 }
 
@@ -89,7 +89,7 @@ export function error(literals, ...values) {
  * @remarks
  * Error messages are prepended with a 'ℹ️' emoji.
  */
-export function info(literals, ...values) {
+export function info(literals, ...values): string {
 	return fmt.info(format('ℹ️', literals, values));
 }
 
@@ -144,7 +144,7 @@ export function print(lines: string | string[], ...rest: string[]): void {
  * @remarks
  * Error messages are prepended with a '✔️' emoji.
  */
-export function success(literals, ...values) {
+export function success(literals, ...values): string {
 	return fmt.success(format('✔️', literals, values));
 }
 
@@ -162,7 +162,7 @@ export function success(literals, ...values) {
  * @remarks
  * Error messages are prepended with a '❓' emoji.
  */
-export function question(literals, ...values) {
+export function question(literals, ...values): string {
 	return fmt.question(format('❓', literals, values));
 }
 
@@ -177,7 +177,7 @@ export function question(literals, ...values) {
  * `
  * ```
  */
-export function title(literals, ...values) {
+export function title(literals, ...values): string {
 	return fmt.title(format('', literals, values));
 }
 
@@ -195,7 +195,7 @@ export function title(literals, ...values) {
  * @remarks
  * Error messages are prepended with a '⚠️' emoji.
  */
-export function warn(literals, ...values) {
+export function warn(literals, ...values): string {
 	return fmt.warn(format('⚠️', literals, values));
 }
 
@@ -210,7 +210,7 @@ export function warn(literals, ...values) {
  *
  * @param emoji an emoji or empty string to prefix the text
  */
-function format(emoji: string, literals: string[], values: any[]): string {
+function format(emoji: string, literals: string[], values: unknown[]): string {
 	let ret: string = literals[0];
 
 	for (let i = 0; i < values.length; i++) {

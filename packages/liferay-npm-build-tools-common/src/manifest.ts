@@ -173,7 +173,7 @@ export default class Manifest {
 /**
  * Replacer function for sorting object keys when stringifying
  */
-function sortObjectKeysReplacer(key, value) {
+function sortObjectKeysReplacer(key: string, value: unknown): unknown {
 	if (value instanceof Object && !Array.isArray(value)) {
 		return Object.keys(value)
 			.sort()

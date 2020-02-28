@@ -27,7 +27,7 @@ export default class PkgDesc {
 		name: string,
 		version: string,
 		pkgPath?: string,
-		forceRoot: boolean = false
+		forceRoot = false
 	) {
 		this._name = name;
 		this._version = version;

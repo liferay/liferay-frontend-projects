@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable @typescript-eslint/camelcase */
+
 import path from 'path';
 
 import FilePath from './file-path';
@@ -25,7 +27,7 @@ interface BabelState {
 
 /** A function that returns the default value for a key */
 interface DefaultValueFactory {
-	(): any;
+	(): unknown;
 }
 
 /**
@@ -36,12 +38,14 @@ interface DefaultValueFactory {
  */
 export function get(
 	state: BabelState,
-	defaultValue: any | DefaultValueFactory
-): any {
-	let defaultValueFactory: DefaultValueFactory = defaultValue;
+	defaultValue: unknown | DefaultValueFactory
+): unknown {
+	let defaultValueFactory: DefaultValueFactory;
 
 	if (typeof defaultValue !== 'function') {
-		defaultValueFactory = () => defaultValue;
+		defaultValueFactory = (() => defaultValue) as DefaultValueFactory;
+	} else {
+		defaultValueFactory = defaultValue as DefaultValueFactory;
 	}
 
 	if (
@@ -67,7 +71,7 @@ export function get(
  * @param filePath the path of the file being processed
  * @param value the IPC value to set
  */
-export function set(filePath: string, value: any): void {
+export function set(filePath: string, value: unknown): void {
 	global._babel_ipc_[path.resolve(filePath)] = value;
 }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import child_process from 'child_process';
+import childProcess from 'child_process';
 import prop from 'dot-prop';
 import fs from 'fs';
 import path from 'path';
@@ -100,7 +100,9 @@ export class Project {
 				this._webpack = webpack as WebpackConfigProvider;
 			} else {
 				// TODO: maybe smart merge this ?
-				this._webpack = webpackConfiguration => ({
+				this._webpack = (
+					webpackConfiguration
+				): webpack.Configuration => ({
 					...webpackConfiguration,
 					...webpack,
 				});
@@ -161,6 +163,7 @@ export class Project {
 		return prop.get(_configuration, 'config', {});
 	}
 
+	// TODO: rename to `configuration`
 	/**
 	 * Get project's parsed .npmbundlerrc file
 	 */
@@ -200,11 +203,11 @@ export class Project {
 			} else {
 				// If no file is found autodetect command availability
 				let yarnPresent =
-					child_process.spawnSync('yarn', ['--version'], {
+					childProcess.spawnSync('yarn', ['--version'], {
 						shell: true,
 					}).error === undefined;
 				let npmPresent =
-					child_process.spawnSync('npm', ['--version'], {
+					childProcess.spawnSync('npm', ['--version'], {
 						shell: true,
 					}).error === undefined;
 
@@ -238,10 +241,11 @@ export class Project {
 		if (this._versionsInfo === undefined) {
 			let map = new Map<string, VersionInfo>();
 
-			const putInMap = packageName => {
+			const putInMap = (packageName): void => {
 				const pkgJsonPath = this.toolResolve(
 					`${packageName}/package.json`
 				);
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				const pkgJson = require(pkgJsonPath);
 
 				map.set(pkgJson.name, {
@@ -284,7 +288,7 @@ export class Project {
 	 */
 	loadFrom(
 		projectPath: string,
-		configFilePath: string = 'liferay-npm-bundler.config.js'
+		configFilePath = 'liferay-npm-bundler.config.js'
 	): void {
 		// First reset everything
 		this._buildDir = undefined;
@@ -323,7 +327,7 @@ export class Project {
 	 * call).
 	 * @param moduleName
 	 */
-	require(moduleName: string): any {
+	require(moduleName: string): unknown {
 		return require(this.resolve(moduleName));
 	}
 
@@ -333,7 +337,7 @@ export class Project {
 	 * `require.resolve()` call).
 	 * @param moduleName
 	 */
-	resolve(moduleName: string): any {
+	resolve(moduleName: string): string {
 		return resolveModule.sync(moduleName, {
 			basedir: this.dir.asNative,
 		});
@@ -375,10 +379,11 @@ export class Project {
 	 * @param moduleName
 	 * @throws if module is not found
 	 */
-	toolRequire(moduleName: string): any {
+	toolRequire(moduleName: string): unknown {
 		return require(this.toolResolve(moduleName));
 	}
 
+	// TODO: this is not needed any more as presets have been removed
 	/**
 	 * Resolves a tool module in the context of the project (as opposed to the
 	 * context of the calling package which would just use a normal
@@ -391,7 +396,7 @@ export class Project {
 	 * @param moduleName
 	 * @throws if module is not found
 	 */
-	toolResolve(moduleName: string): any {
+	toolResolve(moduleName: string): string {
 		try {
 			return resolveModule.sync(moduleName, {
 				basedir: this._toolsDir.asNative,

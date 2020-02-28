@@ -195,7 +195,7 @@ the one in .npmbundlerrc
 		return this._webContextPath;
 	}
 
-	_getBndWebContextPath() {
+	_getBndWebContextPath(): string {
 		const {dir} = this._project;
 		const bndFile = dir.join('bnd.bnd');
 
@@ -216,7 +216,7 @@ the one in .npmbundlerrc
 		return undefined;
 	}
 
-	_getNpmbundlerrcContextPath() {
+	_getNpmbundlerrcContextPath(): string {
 		const {npmbundlerrc} = this._project;
 
 		return prop.get(

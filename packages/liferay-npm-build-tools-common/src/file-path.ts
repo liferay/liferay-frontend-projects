@@ -28,19 +28,19 @@ export default class FilePath {
 		}
 	}
 
-	toString() {
+	toString(): string {
 		return this.asNative;
 	}
 
-	get asNative() {
+	get asNative(): string {
 		return this._nativePath;
 	}
 
-	get asPosix() {
+	get asPosix(): string {
 		return this._posixPath;
 	}
 
-	get asWindows() {
+	get asWindows(): string {
 		return this._windowsPath;
 	}
 

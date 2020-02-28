@@ -76,7 +76,7 @@ export function getDestDir(pkg: PkgDesc): string {
 export function iterateSerially<T>(
 	values: T[],
 	asyncProcess: {(value: T): Promise<void>}
-) {
+): Promise<void> {
 	if (values.length == 0) {
 		return Promise.resolve();
 	}
@@ -98,7 +98,7 @@ export function runInChunks<T>(
 	chunkSize: number,
 	chunkIndex: number,
 	callback: {(item: T): Promise<void>}
-) {
+): Promise<void> {
 	const chunksCount = Math.floor((items.length + chunkSize - 1) / chunkSize);
 
 	const chunk = items.slice(

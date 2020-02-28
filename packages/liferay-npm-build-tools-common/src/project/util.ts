@@ -133,8 +133,8 @@ export function createBundlerPluginDescriptors<T>(
 				: `liferay-npm-bundler-plugin-${pluginName}`
 		);
 
-		if (pluginModule.default !== undefined) {
-			pluginModule = pluginModule.default;
+		if (pluginModule['default'] !== undefined) {
+			pluginModule = pluginModule['default'];
 		}
 
 		return {

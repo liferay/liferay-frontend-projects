@@ -10,7 +10,7 @@
 export interface Message {
 	source: string;
 	level: 'info' | 'warn' | 'error';
-	things: any[];
+	things: unknown[];
 	link?: string;
 }
 
@@ -58,7 +58,7 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	info(source: string, ...things: any[]): MessageTweaker {
+	info(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
 			source,
 			level: 'info',
@@ -75,7 +75,7 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	warn(source: string, ...things: any[]): MessageTweaker {
+	warn(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
 			source,
 			level: 'warn',
@@ -92,7 +92,7 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	error(source: string, ...things: any[]): MessageTweaker {
+	error(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
 			source,
 			level: 'error',

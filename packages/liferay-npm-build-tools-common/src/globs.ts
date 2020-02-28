@@ -10,7 +10,7 @@
  * @return negated list of globs or single glob expression
  */
 export function negate<T extends string | string[]>(globs: T): T {
-	const negate = (glob: string) =>
+	const negate = (glob: string): string =>
 		glob[0] === '!' ? glob.substring(1) : `!${glob}`;
 
 	if (Array.isArray(globs)) {

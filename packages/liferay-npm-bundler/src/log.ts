@@ -8,17 +8,20 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 
 let debugOn, infoOn, errorOn;
 
+/* eslint-disable no-fallthrough */
 switch (project.misc.logLevel) {
 	case 'debug':
 		debugOn = true;
 	case 'info':
 		infoOn = true;
 	case 'error':
+	default:
 		errorOn = true;
 	case 'off':
 }
+/* eslint-enable no-fallthrough */
 
-export function error(...args: any[]): void {
+export function error(...args: unknown[]): void {
 	if (!errorOn) {
 		return;
 	}
@@ -26,7 +29,7 @@ export function error(...args: any[]): void {
 	fmt.print(fmt.error`${args.join(' ')}`);
 }
 
-export function success(...args: any[]): void {
+export function success(...args: unknown[]): void {
 	if (!errorOn) {
 		return;
 	}
@@ -34,7 +37,7 @@ export function success(...args: any[]): void {
 	fmt.print(fmt.success`${args.join(' ')}`);
 }
 
-export function info(...args: any[]): void {
+export function info(...args: unknown[]): void {
 	if (!infoOn) {
 		return;
 	}
@@ -42,7 +45,7 @@ export function info(...args: any[]): void {
 	fmt.print(fmt.info`${args.join(' ')}`);
 }
 
-export function debug(...args: any[]): void {
+export function debug(...args: unknown[]): void {
 	if (!debugOn) {
 		return;
 	}

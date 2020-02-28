@@ -10,7 +10,7 @@ import webpack from 'webpack';
 import {buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
 
-export default function writeResults(stats: webpack.Stats) {
+export default function writeResults(stats: webpack.Stats): void {
 	const {compilation} = stats;
 
 	writeAssets(compilation.assets);

@@ -111,8 +111,8 @@ function safeStat(path: string): fs.Stats | NullFsStats {
 		return fs.statSync(path);
 	} catch (err) {
 		return {
-			isDirectory: () => false,
-			isFile: () => false,
+			isDirectory: (): boolean => false,
+			isFile: (): boolean => false,
 		};
 	}
 }

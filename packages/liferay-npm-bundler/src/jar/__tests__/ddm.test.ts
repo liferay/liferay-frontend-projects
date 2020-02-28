@@ -44,6 +44,7 @@ describe('transformPreferences', () => {
 				'a-pear': 'A pear',
 				'an-apple': 'An apple',
 			},
+			// eslint-disable-next-line @typescript-eslint/camelcase
 			es_ES: {
 				'a-number': 'Un número',
 				'a-number-help': 'Ayuda de un número',
@@ -61,7 +62,7 @@ describe('transformPreferences', () => {
 		const mockProject = {
 			l10n: {
 				availableLocales: ['es_ES'],
-				getLabels: (locale = 'default') => labels[locale],
+				getLabels: (locale = 'default'): object => labels[locale],
 				supported: true,
 			},
 		} as Project;

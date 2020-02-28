@@ -107,6 +107,7 @@ export default class Rules {
 					const pkgJsonPath = _project.toolResolve(
 						`${pkgName}/package.json`
 					);
+					// eslint-disable-next-line @typescript-eslint/no-var-requires
 					const pkgJson = require(pkgJsonPath);
 
 					map.set(resolvedModule, {
@@ -186,28 +187,32 @@ export default class Rules {
 				rule['use'] = [rule['use']];
 			}
 
-			rule['use'] = rule['use'].map((use: any) => {
-				if (typeof use === 'string') {
-					use = {
-						loader: use,
-					};
+			rule['use'] = rule['use'].map(
+				(
+					use: string | BundlerLoaderDescriptor
+				): BundlerLoaderDescriptor => {
+					if (typeof use === 'string') {
+						use = {
+							loader: use,
+						} as BundlerLoaderDescriptor;
+					}
+
+					if (use.options === undefined) {
+						use.options = {};
+					}
+
+					use = this._instantiateLoader(use);
+
+					return use;
 				}
-
-				if (use.options === undefined) {
-					use.options = {};
-				}
-
-				use = this._instantiateLoader(use);
-
-				return use;
-			});
+			);
 		});
 	}
 
 	_normalizeArrayOfRegExp(
 		rule: object,
 		fieldName: string,
-		defaultValue: any
+		defaultValue: unknown
 	): void {
 		if (rule[fieldName] === undefined) {
 			rule[fieldName] = [defaultValue];

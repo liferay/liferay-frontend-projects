@@ -3,10 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {
-	SystemConfigurationField,
-	SystemConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
+import {ConfigurationField} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 
 import {
 	addMetatypeAttr,
@@ -20,7 +17,7 @@ describe('addMetatypeAttr', () => {
 		const xml = createMetatype('id', 'name');
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
-		} as SystemConfigurationField);
+		} as ConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -30,7 +27,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			description: 'a-description',
-		} as SystemConfigurationField);
+		} as ConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -40,7 +37,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			required: true,
-		} as SystemConfigurationField);
+		} as ConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -50,7 +47,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			default: 'default-value',
-		} as SystemConfigurationField);
+		} as ConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -58,12 +55,13 @@ describe('addMetatypeAttr', () => {
 	it('adds options if present', () => {
 		const xml = createMetatype('id', 'name');
 		addMetatypeAttr(xml, 'an-attr', {
+			name: 'an-attr',
 			type: 'string',
 			options: {
 				A: 'option-a',
 				B: 'option-b',
 			},
-		} as any);
+		} as ConfigurationField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -87,24 +85,25 @@ it('all together works', () => {
 	addMetatypeLocalization(xml, 'localization/file.properties');
 	addMetatypeAttr(xml, 'a-number', {
 		type: 'number',
-	} as SystemConfigurationField);
+	} as ConfigurationField);
 	addMetatypeAttr(xml, 'a-float', {
 		type: 'float',
-	} as SystemConfigurationField);
+	} as ConfigurationField);
 	addMetatypeAttr(xml, 'a-string', {
 		type: 'string',
-	} as SystemConfigurationField);
+	} as ConfigurationField);
 	addMetatypeAttr(xml, 'a-boolean', {
 		type: 'boolean',
-	} as SystemConfigurationField);
+	} as ConfigurationField);
 	addMetatypeAttr(xml, 'an-option', {
+		name: 'an-option',
 		type: 'string',
 		default: 'A',
 		options: {
 			A: 'option-a',
 			B: 'option-b',
 		},
-	} as any);
+	} as ConfigurationField);
 
 	expect(format(xml)).toMatchSnapshot();
 });

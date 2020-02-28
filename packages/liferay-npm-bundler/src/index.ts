@@ -77,7 +77,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 	}
 }
 
-function copyPackageJson() {
+function copyPackageJson(): void {
 	fs.copyFileSync(
 		project.dir.join('package.json').asNative,
 		buildBundlerDir.join('package.json').asNative
@@ -86,7 +86,7 @@ function copyPackageJson() {
 	log.debug('Copied package.json to output directory');
 }
 
-async function saveManifest() {
+async function saveManifest(): Promise<void> {
 	await manifest.save();
 
 	log.debug('Wrote manifest.json to output directory');

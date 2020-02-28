@@ -286,6 +286,7 @@ function htmlSection(title: string, ...contents: string[]): string {
 	`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function htmlSubsection(title: string, ...contents: string[]): string {
 	return `
 		<h3>${title}</h3>
@@ -301,7 +302,7 @@ function htmlList(...args: string[]): string {
 	`;
 }
 
-function htmlTable(...args: any[]): string {
+function htmlTable(...args: unknown[]): string {
 	const columns = args.slice(0, args.length - 1);
 	let content = args[args.length - 1];
 
@@ -325,7 +326,7 @@ function htmlTable(...args: any[]): string {
 	}
 }
 
-function htmlRow(content: string | string[], className: string = ''): string {
+function htmlRow(content: string | string[], className = ''): string {
 	if (Array.isArray(content)) {
 		content = content.join('\n');
 	}

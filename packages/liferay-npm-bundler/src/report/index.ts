@@ -119,7 +119,7 @@ export class Report {
 		this._rules.config = config;
 	}
 
-	rulesRun(prjRelPath: string, logger: PluginLogger) {
+	rulesRun(prjRelPath: string, logger: PluginLogger): void {
 		this._rules.files[prjRelPath] = {logger};
 	}
 }
