@@ -6,10 +6,10 @@
 const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const util = require('util');
+const {promisify} = require('util');
 
-const readFileAsync = util.promisify(fs.readFile);
-const writeFileAsync = util.promisify(fs.writeFile);
+const readFileAsync = promisify(fs.readFile);
+const writeFileAsync = promisify(fs.writeFile);
 
 const GREEN = '\x1b[32m';
 const RED = '\x1b[31m';
@@ -84,11 +84,12 @@ async function getDate(commitish) {
 	return new Date(+timestamp * 1000);
 }
 
-async function getPreviousReleasedVersion(before) {
+async function getPreviousReleasedVersion(before, tagPattern) {
 	const describe = await git(
 		'describe',
 		'--abbrev=0',
 		'--tags',
+		`--match=${tagPattern}`,
 		`${before}~`
 	);
 
@@ -97,30 +98,53 @@ async function getPreviousReleasedVersion(before) {
 
 async function getChanges(from, to) {
 	const range = from ? `${from}..${to}` : to;
-	const changes = await git(
+
+	const log = await git(
 		'log',
 		'--merges',
 		range,
-		'--pretty=format:%B',
-		'-z'
+		'--numstat',
+		'-m',
+		'--relative',
+		'--pretty=format:%x00%B%x00'
 	);
 
-	if (changes.length) {
-		return changes
-			.split('\0')
-			.map(message => {
+	const changes = [];
+
+	const COMMIT = new RegExp(
+		'\0' + // Delimiter.
+		'([^\0]*)' + // Commit message.
+		'\0' + // Delimiter.
+		'(\\n(?:-|\\d+)\\s+(?:-|\\d+)\\s+[^\\n]+)*' + // Optional file stat info.
+			'\\n\\n?',
+		'g'
+	);
+
+	while (true) {
+		const match = COMMIT.exec(log);
+
+		if (match) {
+			const [, message, info] = match;
+
+			if (info) {
 				const [subject, description] = message.split(/\n+/);
 				const metadata = subject.match(/Merge pull request #(\d+)/);
 				const number = metadata ? metadata[1] : NaN;
 
-				return description ? {description, number} : null;
-			})
-			.filter(Boolean);
-	} else {
-		warn(`No merges detected from ${from} to ${to}!`);
-
-		return [];
+				if (description) {
+					changes.push({description, number});
+				}
+			}
+		} else {
+			break;
+		}
 	}
+
+	if (!changes.length) {
+		warn(`No merges detected in range ${range}`);
+	}
+
+	return changes;
 }
 
 /**
@@ -163,6 +187,66 @@ function escape(string) {
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;');
+}
+
+/**
+ * Returns a tag pattern that can be passed to `git describe` to select the
+ * appropriate tag.
+ *
+ * If we're being run from a "packages/$PACKAGE" subdirectory in a
+ * monorepo and a ".yarnrc" file exists, we use its "version-tag-prefix" to
+ * construct a suitable pattern (eg. "some-package/v*").
+ *
+ * If we can't get a "version-tag-prefix", or if we're being run from the repo
+ * root, we use a fallback pattern of "*", which will match any tag.
+ *
+ * It none of the above apply (eg. because we're not being run from the repo
+ * root), an error is thrown.
+ */
+async function getTagPattern() {
+	const root = (await git('rev-parse', '--show-toplevel')).trim();
+
+	const cwd = process.cwd();
+
+	const basename = path.basename(cwd);
+
+	const project = path.join(root, 'packages', basename);
+
+	if (cwd === project) {
+		try {
+			const contents = await readFileAsync(
+				path.join(cwd, '.yarnrc'),
+				'utf8'
+			);
+
+			let prefix;
+
+			contents.split(/\r\n|\r|\n/).find(line => {
+				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
+
+				if (match) {
+					prefix = match[1];
+
+					return true;
+				}
+			});
+
+			if (prefix) {
+				return `${prefix}*`;
+			}
+		} catch (_error) {
+			// No readable .yarnrc.
+		}
+	} else if (cwd !== root) {
+		throw new Error(
+			`Expected to run from repo root (${path.relative(
+				cwd,
+				root
+			)}) or "packages/*" but was run from ${cwd}`
+		);
+	}
+
+	return '*';
 }
 
 function linkToComparison(from, to, remote) {
@@ -532,10 +616,12 @@ async function main(_node, _script, ...args) {
 		}
 	}
 
+	const tagPattern = await getTagPattern();
+
 	const version = await normalizeVersion(options.version, options);
 
 	const remote = await getRemote(options);
-	let from = await getPreviousReleasedVersion(to);
+	let from = await getPreviousReleasedVersion(to, tagPattern);
 	const date = await getDate(to);
 	let contents = await generate({
 		date,
@@ -550,7 +636,10 @@ async function main(_node, _script, ...args) {
 		while (from && from !== options.from) {
 			let previousVersion = null;
 			try {
-				previousVersion = await getPreviousReleasedVersion(from);
+				previousVersion = await getPreviousReleasedVersion(
+					from,
+					tagPattern
+				);
 			} catch (err) {
 				// This will be the last chunk we generate.
 				info('No more tags found (this is not an error) 🦄');

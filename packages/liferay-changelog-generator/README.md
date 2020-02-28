@@ -13,6 +13,11 @@ Operates in two modes:
 
 The idea is that is you ever want to make edits by hand you can, and the way you preserve them over time is by running `git add --patch` to selectively apply newly generated changes while keeping previous manual edits intact.
 
+When run in a monorepo, it can work in two ways:
+
+-   Run from the root of the repo, it produces a single changelog for the entire repo. This is appropriate for projects like [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit), where the packages in the repo are always released together.
+-   Run from a `packages/*` subdirectory, it produces a changelog specific to that directory. It is assumed that you have a `.yarnrc` in each package containing a `version-tag-prefix`; this enables the generator to determine when each package was released and produce an accurate changelog. This is appropriate for projects like [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools), where the packages are versioned independently of one another and are not released together.
+
 ## Installation
 
 Either:
@@ -44,8 +49,8 @@ Options:
 -   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay) ([CHANGELOG](https://github.com/liferay/eslint-config-liferay/blob/master/CHANGELOG.md)).
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor) ([CHANGELOG](https://github.com/liferay/liferay-ckeditor/blob/master/CHANGELOG.md)).
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) ([CHANGELOG](https://github.com/liferay/liferay-js-themes-toolkit/blob/master/CHANGELOG.md)).
+-   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-npm-tools/tree/master/packages)).
 
 ## Known limitations
 
 -   Doesn't currently do anything special with Conventional Commit metadata (but it [easily could](https://github.com/liferay/liferay-js-themes-toolkit/issues/258)).
--   Doesn't currently separate changes by package when used in a monorepo.
