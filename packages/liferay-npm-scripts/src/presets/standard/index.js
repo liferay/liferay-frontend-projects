@@ -7,10 +7,10 @@ const clay = require('./dependencies/clay');
 const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
 
-const JS_GLOBS = ['{src,test}/**/*.js'];
+const JS_GLOBS = ['/{src,test}/**/*.js'];
 const JSON_GLOBS = ['/*.json'];
-const JSP_GLOBS = ['src/**/*.{jsp,jspf}'];
-const SCSS_GLOBS = ['{src,test}/**/*.scss'];
+const JSP_GLOBS = ['/src/**/*.{jsp,jspf}'];
+const SCSS_GLOBS = ['/{src,test}/**/*.scss'];
 
 const CHECK_AND_FIX_GLOBS = [
 	...JS_GLOBS,
