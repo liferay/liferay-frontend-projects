@@ -34,7 +34,7 @@ export interface AliasHash {
 	[index: string]: AliasToValue;
 }
 
-const aliasesCache: { [index: string]: AliasHash } = Object.create(null);
+const aliasesCache: {[index: string]: AliasHash} = Object.create(null);
 
 /**
  * Get `resolve.aliasFields` configuration value.
