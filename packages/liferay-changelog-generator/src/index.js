@@ -201,18 +201,18 @@ function linkToVersion(version, remote) {
  */
 const types = {
 	/* eslint-disable sort-keys */
-	feat: 'Features',
-	fix: 'Bug fixes',
-	perf: 'Peformance',
-	docs: 'Documentation',
-	chore: 'Chores',
-	refactor: 'Refactoring',
-	style: 'Style',
-	test: 'Tests',
-	revert: 'Reverts',
+	feat: ':new: Features',
+	fix: ':wrench: Bug fixes',
+	perf: ':racing_car: Peformance',
+	docs: ':book: Documentation',
+	chore: ':house: Chores',
+	refactor: ':woman_juggling: Refactoring',
+	style: ':nail_care: Style',
+	test: ':eyeglasses: Tests',
+	revert: ':leftwards_arrow_with_hook: Reverts',
 
 	// Not in the Conventional Commits spec; this is our catch-all:
-	misc: 'Miscellaneous',
+	misc: ':package: Miscellaneous',
 	/* eslint-enable sort-keys */
 };
 
