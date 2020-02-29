@@ -106,12 +106,14 @@ async function getChanges(from, to) {
 		'--numstat',
 		'-m',
 		'--relative',
-		'--pretty=format:%x00%B%x00'
+		'--pretty=format:%x00%H%x00%B%x00'
 	);
 
-	const changes = [];
+	const changes = new Map();
 
 	const COMMIT = new RegExp(
+		'\0' + // Delimiter.
+		'([^\0]*)' + // Commit hash.
 		'\0' + // Delimiter.
 		'([^\0]*)' + // Commit message.
 		'\0' + // Delimiter.
@@ -124,7 +126,7 @@ async function getChanges(from, to) {
 		const match = COMMIT.exec(log);
 
 		if (match) {
-			const [, message, info] = match;
+			const [, hash, message, info] = match;
 
 			if (info) {
 				const [subject, description] = message.split(/\n+/);
@@ -132,7 +134,7 @@ async function getChanges(from, to) {
 				const number = metadata ? metadata[1] : NaN;
 
 				if (description) {
-					changes.push({description, number});
+					changes.set(hash, {description, number});
 				}
 			}
 		} else {
@@ -140,11 +142,11 @@ async function getChanges(from, to) {
 		}
 	}
 
-	if (!changes.length) {
+	if (!changes.size) {
 		warn(`No merges detected in range ${range}`);
 	}
 
-	return changes;
+	return Array.from(changes.values());
 }
 
 /**

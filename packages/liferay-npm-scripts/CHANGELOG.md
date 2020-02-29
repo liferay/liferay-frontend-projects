@@ -12,7 +12,6 @@
 -   feat(scripts): enforce one SCSS import per line ([\#395](https://github.com/liferay/liferay-npm-tools/pull/395))
 -   chore: update for compliance with current Outbound Licensing Policy ([\#394](https://github.com/liferay/liferay-npm-tools/pull/394))
 -   fix(scripts): avoid false positives involving no-unused-vars ([\#392](https://github.com/liferay/liferay-npm-tools/pull/392))
--   fix(scripts): avoid false positives involving no-unused-vars ([\#392](https://github.com/liferay/liferay-npm-tools/pull/392))
 -   feat(scripts): disallow explicit .scss extension in imports ([\#393](https://github.com/liferay/liferay-npm-tools/pull/393))
 
 ## [liferay-npm-scripts/v27.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v27.0.0) (2020-02-20)
@@ -56,7 +55,6 @@
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v23.1.0...liferay-npm-scripts/v24.0.0)
 
--   chore(scripts)!: update to eslint-config-liferay v19.0.0 ([\#371](https://github.com/liferay/liferay-npm-tools/pull/371))
 -   chore(scripts)!: update to eslint-config-liferay v19.0.0 ([\#371](https://github.com/liferay/liferay-npm-tools/pull/371))
 -   feat(scripts): add "process" to the default list of globals ([\#370](https://github.com/liferay/liferay-npm-tools/pull/370))
 
@@ -107,7 +105,6 @@
 -   chore(scripts): update eslint-config-liferay to v17.0.0 ([\#350](https://github.com/liferay/liferay-npm-tools/pull/350))
 -   feat(scripts): add stylelint ([\#347](https://github.com/liferay/liferay-npm-tools/pull/347))
 -   feat(scripts): run preflight checks during "fix" runs too ([\#349](https://github.com/liferay/liferay-npm-tools/pull/349))
--   refactor(scripts): eliminate many yarn peer dependency warnings (#336) ([\#346](https://github.com/liferay/liferay-npm-tools/pull/346))
 -   refactor(scripts): eliminate many yarn peer dependency warnings (#336) ([\#346](https://github.com/liferay/liferay-npm-tools/pull/346))
 -   chore(scripts): clean up straggling (but inconsequential) .babelrc references ([\#345](https://github.com/liferay/liferay-npm-tools/pull/345))
 
@@ -162,7 +159,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v15.1.0...liferay-npm-scripts/v16.0.0)
 
 -   chore!: update eslint-config-liferay to v14.0.0 ([\#319](https://github.com/liferay/liferay-npm-tools/pull/319))
--   chore!: update eslint-config-liferay to v14.0.0 ([\#319](https://github.com/liferay/liferay-npm-tools/pull/319))
 -   fix(scripts): don't use color or report results if successful (#317) ([\#318](https://github.com/liferay/liferay-npm-tools/pull/318))
 
 ## [liferay-npm-scripts/v15.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v15.1.0) (2019-12-04)
@@ -174,7 +170,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v14.2.0...liferay-npm-scripts/v15.0.0)
 
 -   feat: lint JS inside JSP files ([\#314](https://github.com/liferay/liferay-npm-tools/pull/314))
--   refactor(scripts): rename src/format to src/jsp ([\#313](https://github.com/liferay/liferay-npm-tools/pull/313))
 -   refactor(scripts): rename src/format to src/jsp ([\#313](https://github.com/liferay/liferay-npm-tools/pull/313))
 -   docs(scripts): remove stale link from README ([\#312](https://github.com/liferay/liferay-npm-tools/pull/312))
 
@@ -224,8 +219,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v10.1.3...liferay-npm-scripts/v10.1.4)
 
 -   fix(scripts): disables useStrict in commonjs transform by default ([\#287](https://github.com/liferay/liferay-npm-tools/pull/287))
--   fix(scripts): disables useStrict in commonjs transform by default ([\#287](https://github.com/liferay/liferay-npm-tools/pull/287))
--   refactor(scripts): use rimraf API directly (#284) ([\#288](https://github.com/liferay/liferay-npm-tools/pull/288))
 -   refactor(scripts): use rimraf API directly (#284) ([\#288](https://github.com/liferay/liferay-npm-tools/pull/288))
 -   feat(scripts): check bundled Babel config file for validity ([\#286](https://github.com/liferay/liferay-npm-tools/pull/286))
 
@@ -239,7 +232,6 @@
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v10.1.1...liferay-npm-scripts/v10.1.2)
 
--   feat: cleans up rogue sourcemaps inside liferay-npm-bridge-generator output ([\#283](https://github.com/liferay/liferay-npm-tools/pull/283))
 -   feat: cleans up rogue sourcemaps inside liferay-npm-bridge-generator output ([\#283](https://github.com/liferay/liferay-npm-tools/pull/283))
 -   feat(scripts): support "export namespace from" in Babel ([\#281](https://github.com/liferay/liferay-npm-tools/pull/281))
 
@@ -292,11 +284,8 @@
 -   refactor: implement improvements from JSP formatting review ([\#250](https://github.com/liferay/liferay-npm-tools/pull/250))
 -   refactor: use getPaths() to eliminate repetition ([\#249](https://github.com/liferay/liferay-npm-tools/pull/249))
 -   feat: allow for compound patterns in extensions in globs ([\#247](https://github.com/liferay/liferay-npm-tools/pull/247))
--   feat: allow for compound patterns in extensions in globs ([\#247](https://github.com/liferay/liferay-npm-tools/pull/247))
 -   feat: format JS in JSP files using Prettier ([\#248](https://github.com/liferay/liferay-npm-tools/pull/248))
 -   feat: add SignalHandler for managing cleanup ([\#245](https://github.com/liferay/liferay-npm-tools/pull/245))
--   feat: add SignalHandler for managing cleanup ([\#245](https://github.com/liferay/liferay-npm-tools/pull/245))
--   fix: don't choke on stale .babelrc files (#242) ([\#243](https://github.com/liferay/liferay-npm-tools/pull/243))
 -   fix: don't choke on stale .babelrc files (#242) ([\#243](https://github.com/liferay/liferay-npm-tools/pull/243))
 -   fix: don't let signals leave stale files lying around (#242) ([\#246](https://github.com/liferay/liferay-npm-tools/pull/246))
 
@@ -316,7 +305,6 @@
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v8.3.0...liferay-npm-scripts/v9.0.0)
 
--   feat!: updates eslint-config-liferay to v9.0.0 ([\#236](https://github.com/liferay/liferay-npm-tools/pull/236))
 -   feat!: updates eslint-config-liferay to v9.0.0 ([\#236](https://github.com/liferay/liferay-npm-tools/pull/236))
 -   docs: fix typo in CONTRIBUTING.md ([\#224](https://github.com/liferay/liferay-npm-tools/pull/224))
 -   chore(scripts): correct license type in liferay-npm-scripts package.json ([\#225](https://github.com/liferay/liferay-npm-tools/pull/225))
@@ -424,7 +412,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v4.12.1...liferay-npm-scripts/v4.13.0)
 
 -   feat(scripts): improve Prettier summary output ([\#179](https://github.com/liferay/liferay-npm-tools/pull/179))
--   feat(scripts): improve Prettier summary output ([\#179](https://github.com/liferay/liferay-npm-tools/pull/179))
 -   test(scripts): suppress log output in formatting tests ([\#178](https://github.com/liferay/liferay-npm-tools/pull/178))
 
 ## [liferay-npm-scripts/v4.12.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v4.12.1) (2019-07-19)
@@ -449,8 +436,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v4.9.0...liferay-npm-scripts/v4.10.0)
 
 -   chore(scripts): update to eslint-config-liferay v4.4.0 ([\#168](https://github.com/liferay/liferay-npm-tools/pull/168))
--   chore(scripts): update to eslint-config-liferay v4.4.0 ([\#168](https://github.com/liferay/liferay-npm-tools/pull/168))
--   style: use double quotes for JSX attributes ([\#166](https://github.com/liferay/liferay-npm-tools/pull/166))
 -   style: use double quotes for JSX attributes ([\#166](https://github.com/liferay/liferay-npm-tools/pull/166))
 -   fix(scripts): make async work in tests again ([\#167](https://github.com/liferay/liferay-npm-tools/pull/167))
 
@@ -459,7 +444,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v4.8.0...liferay-npm-scripts/v4.9.0)
 
 -   feat(scripts): add ability to lint/format changed files only ([\#165](https://github.com/liferay/liferay-npm-tools/pull/165))
--   feat(scripts): add @testing-library dependencies ([\#164](https://github.com/liferay/liferay-npm-tools/pull/164))
 -   feat(scripts): add @testing-library dependencies ([\#164](https://github.com/liferay/liferay-npm-tools/pull/164))
 -   refactor(scripts): remove now-unnecessary ESLint workaround ([\#163](https://github.com/liferay/liferay-npm-tools/pull/163))
 
@@ -473,7 +457,6 @@
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v4.6.0...liferay-npm-scripts/v4.7.0)
 
--   chore(scripts): tweak "master-private" concept of "root" ([\#157](https://github.com/liferay/liferay-npm-tools/pull/157))
 -   chore(scripts): tweak "master-private" concept of "root" ([\#157](https://github.com/liferay/liferay-npm-tools/pull/157))
 -   refactor(scripts): simplify Jest config set-up ([\#156](https://github.com/liferay/liferay-npm-tools/pull/156))
 
@@ -490,12 +473,8 @@
 
 -   feat: run CI on Windows ([\#151](https://github.com/liferay/liferay-npm-tools/pull/151))
 -   fix(scripts): make file glob expansion work on Windows ([\#150](https://github.com/liferay/liferay-npm-tools/pull/150))
--   fix(scripts): make file glob expansion work on Windows ([\#150](https://github.com/liferay/liferay-npm-tools/pull/150))
--   feat: bundle babel/preset-react with liferay-npm-scripts (#139) ([\#149](https://github.com/liferay/liferay-npm-tools/pull/149))
 -   feat: bundle babel/preset-react with liferay-npm-scripts (#139) ([\#149](https://github.com/liferay/liferay-npm-tools/pull/149))
 -   chore: update eslint-config-liferay to v4.2.0 ([\#148](https://github.com/liferay/liferay-npm-tools/pull/148))
--   chore: update eslint-config-liferay to v4.2.0 ([\#148](https://github.com/liferay/liferay-npm-tools/pull/148))
--   fix(scripts): remove sometimes ungrammatical wording ([\#147](https://github.com/liferay/liferay-npm-tools/pull/147))
 -   fix(scripts): remove sometimes ungrammatical wording ([\#147](https://github.com/liferay/liferay-npm-tools/pull/147))
 -   fix(scripts): stop ESLint's spurious "ignored by default" warnings ([\#146](https://github.com/liferay/liferay-npm-tools/pull/146))
 
@@ -546,11 +525,8 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v3.1.0...liferay-npm-scripts/v3.2.0)
 
 -   feat(scripts): teach "lint" to use "node" env for config files ([\#125](https://github.com/liferay/liferay-npm-tools/pull/125))
--   feat(scripts): teach "lint" to use "node" env for config files ([\#125](https://github.com/liferay/liferay-npm-tools/pull/125))
 -   chore: update eslint-config-liferay to v4.0.0 ([\#126](https://github.com/liferay/liferay-npm-tools/pull/126))
 -   feat(scripts): add some globals to the default list ([\#123](https://github.com/liferay/liferay-npm-tools/pull/123))
--   feat(scripts): add some globals to the default list ([\#123](https://github.com/liferay/liferay-npm-tools/pull/123))
--   feat(scripts)!: drop `--no-eslintrc` from invocation ([\#124](https://github.com/liferay/liferay-npm-tools/pull/124))
 -   feat(scripts)!: drop `--no-eslintrc` from invocation ([\#124](https://github.com/liferay/liferay-npm-tools/pull/124))
 -   feat: drop "root: true" from eslint config ([\#122](https://github.com/liferay/liferay-npm-tools/pull/122))
 -   feat(scripts): make it possible to target "\*.es.js" alone ([\#121](https://github.com/liferay/liferay-npm-tools/pull/121))
@@ -588,13 +564,11 @@
 
 -   feat: replace check-source-formatting with prettier (#93) ([\#96](https://github.com/liferay/liferay-npm-tools/pull/96))
 -   refactor: teach getMergedConfig() and index to reject invalid types ([\#92](https://github.com/liferay/liferay-npm-tools/pull/92))
--   refactor: teach getMergedConfig() and index to reject invalid types ([\#92](https://github.com/liferay/liferay-npm-tools/pull/92))
 
 ## [liferay-npm-scripts/v1.8.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v1.8.0) (2019-05-24)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v1.7.2...liferay-npm-scripts/v1.8.0)
 
--   feat: set NODE_ENV only for builds (#88) ([\#91](https://github.com/liferay/liferay-npm-tools/pull/91))
 -   feat: set NODE_ENV only for builds (#88) ([\#91](https://github.com/liferay/liferay-npm-tools/pull/91))
 -   feat: enforce canonical preset and plugin names (#89) ([\#90](https://github.com/liferay/liferay-npm-tools/pull/90))
 
@@ -639,7 +613,6 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v1.4.13...liferay-npm-scripts/v1.5.0)
 
 -   feat: simplify release process (#50) ([\#74](https://github.com/liferay/liferay-npm-tools/pull/74))
--   feat: simplify release process (#50) ([\#74](https://github.com/liferay/liferay-npm-tools/pull/74))
 -   feat: look for Sass dependency in top-level node_modules (#72) ([\#73](https://github.com/liferay/liferay-npm-tools/pull/73))
 -   feat: add top-level shortcut to run all tests (#67) ([\#68](https://github.com/liferay/liferay-npm-tools/pull/68))
 
@@ -666,7 +639,6 @@
 
 -   chore: use bundler version 2.7.1 ([\#58](https://github.com/liferay/liferay-npm-tools/pull/58))
 -   fix: jest-haste-map warnings about module naming collisions (#53) ([\#54](https://github.com/liferay/liferay-npm-tools/pull/54))
--   fix: jest-haste-map warnings about module naming collisions (#53) ([\#54](https://github.com/liferay/liferay-npm-tools/pull/54))
 -   fix: don't silently swallow failures in spawnSync (#38) ([\#56](https://github.com/liferay/liferay-npm-tools/pull/56))
 -   feat: add CONTRIBUTING.md (#48) ([\#49](https://github.com/liferay/liferay-npm-tools/pull/49))
 -   chore: separate formatting and linting scripts ([\#41](https://github.com/liferay/liferay-npm-tools/pull/41))
@@ -682,7 +654,6 @@
 
 -   fix: broken "eject" in liferay-npm-scripts (#44) ([\#45](https://github.com/liferay/liferay-npm-tools/pull/45))
 -   Remove Lerna, add Yarn workspaces, update Jest and Babel ([\#43](https://github.com/liferay/liferay-npm-tools/pull/43))
--   Change merge order so that local overrides have precedence ([\#39](https://github.com/liferay/liferay-npm-tools/pull/39))
 -   Change merge order so that local overrides have precedence ([\#39](https://github.com/liferay/liferay-npm-tools/pull/39))
 -   Don't use relative path for jest testResultsProcessor ([\#37](https://github.com/liferay/liferay-npm-tools/pull/37))
 
@@ -725,15 +696,12 @@
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v1.3.0...liferay-npm-scripts/v1.4.0)
 
 -   Fixes #17 - Updates lock files ([\#20](https://github.com/liferay/liferay-npm-tools/pull/20))
--   Fixes #17 - Updates lock files ([\#20](https://github.com/liferay/liferay-npm-tools/pull/20))
--   Fixes #15 - Resolves dependencies paths to support hoisted packages in workspace settings ([\#16](https://github.com/liferay/liferay-npm-tools/pull/16))
 -   Fixes #15 - Resolves dependencies paths to support hoisted packages in workspace settings ([\#16](https://github.com/liferay/liferay-npm-tools/pull/16))
 
 ## [liferay-npm-scripts/v1.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v1.3.0) (2019-02-13)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v1.2.0...liferay-npm-scripts/v1.3.0)
 
--   Fixes #6 - Uses deepmerge.all to merge more than one object ([\#11](https://github.com/liferay/liferay-npm-tools/pull/11))
 -   Fixes #6 - Uses deepmerge.all to merge more than one object ([\#11](https://github.com/liferay/liferay-npm-tools/pull/11))
 -   Fixes #9 - Remove npm-which package ([\#10](https://github.com/liferay/liferay-npm-tools/pull/10))
 
