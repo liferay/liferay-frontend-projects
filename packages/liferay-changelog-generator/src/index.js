@@ -193,17 +193,59 @@ function linkToVersion(version, remote) {
 	}
 }
 
+/**
+ * Conventional commit types, and equivalent human-readable labels, in the order
+ * that we wish them to appear in the changelog.
+ *
+ * @see https://www.conventionalcommits.org/en/v1.0.0/
+ */
+const types = {
+	/* eslint-disable sort-keys */
+	feat: 'Features',
+	fix: 'Bug fixes',
+	perf: 'Peformance',
+	docs: 'Documentation',
+	chore: 'Chores',
+	refactor: 'Refactoring',
+	style: 'Style',
+	test: 'Tests',
+	revert: 'Reverts',
+
+	// Not in the Conventional Commits spec; this is our catch-all:
+	misc: 'Miscellaneous',
+	/* eslint-enable sort-keys */
+};
+
+const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?!?:\s+.+/;
+
 async function formatChanges(changes, remote) {
-	return changes
-		.map(({description, number}) => {
-			const link = linkToPullRequest(number, remote);
-			if (link) {
-				return `-   ${escape(description)} (${link})`;
-			} else {
-				return `-   ${escape(description)}`;
+	const sections = new Map(Object.keys(types).map(type => [type, []]));
+
+	changes.forEach(({description, number}) => {
+		const match = description.match(TYPE_REGEXP);
+
+		const section =
+			match && sections.has(match[1])
+				? sections.get(match[1])
+				: sections.get('misc');
+
+		const link = linkToPullRequest(number, remote);
+
+		if (link) {
+			section.push(`-   ${escape(description)} (${link})`);
+		} else {
+			section.push(`-   ${escape(description)}`);
+		}
+	});
+
+	return Array.from(sections.entries())
+		.map(([type, entries]) => {
+			if (entries.length) {
+				return `### ${types[type]}\n` + '\n' + entries.join('\n');
 			}
 		})
-		.join('\n');
+		.filter(Boolean)
+		.join('\n\n');
 }
 
 /**
