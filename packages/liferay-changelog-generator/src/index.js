@@ -222,6 +222,15 @@ const types = {
 	/* eslint-enable sort-keys */
 };
 
+/**
+ * Aliases mapping common mistakes to legit Conventional Commits types.
+ */
+const aliases = {
+	bug: 'fix',
+	doc: 'docs',
+	feature: 'feat',
+};
+
 const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
 
 const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
@@ -232,10 +241,9 @@ async function formatChanges(changes, remote) {
 	changes.forEach(({description, number}) => {
 		const match = description.match(TYPE_REGEXP);
 
-		const section =
-			match && sections.has(match[1])
-				? sections.get(match[1])
-				: sections.get('misc');
+		const type = aliases[match && match[1]] || (match && match[1]);
+
+		const section = sections.get(type) || sections.get('misc');
 
 		const link = linkToPullRequest(number, remote);
 
