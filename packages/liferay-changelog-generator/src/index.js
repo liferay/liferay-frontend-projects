@@ -201,6 +201,11 @@ function linkToVersion(version, remote) {
  */
 const types = {
 	/* eslint-disable sort-keys */
+
+	// Not a Conventional Commits type; we repeat breaking changes separately to
+	// maximize their visibility:
+	breaking: ':boom: Breaking changes',
+
 	feat: ':new: Features',
 	fix: ':wrench: Bug fixes',
 	perf: ':racing_car: Peformance',
@@ -211,12 +216,15 @@ const types = {
 	test: ':eyeglasses: Tests',
 	revert: ':leftwards_arrow_with_hook: Reverts',
 
-	// Not in the Conventional Commits spec; this is our catch-all:
+	// Not a Conventional Commits type; this is our catch-all:
 	misc: ':package: Miscellaneous',
+
 	/* eslint-enable sort-keys */
 };
 
-const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?!?:\s+.+/;
+const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
+
+const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
 
 async function formatChanges(changes, remote) {
 	const sections = new Map(Object.keys(types).map(type => [type, []]));
@@ -231,10 +239,17 @@ async function formatChanges(changes, remote) {
 
 		const link = linkToPullRequest(number, remote);
 
-		if (link) {
-			section.push(`-   ${escape(description)} (${link})`);
-		} else {
-			section.push(`-   ${escape(description)}`);
+		const entry = link
+			? `-   ${escape(description)} (${link})`
+			: `-   ${escape(description)}`;
+
+		section.push(entry);
+
+		const breaking =
+			(match && match[3]) || BREAKING_TRAILER_REGEXP.test(description);
+
+		if (breaking) {
+			sections.get('breaking').push(entry);
 		}
 	});
 
