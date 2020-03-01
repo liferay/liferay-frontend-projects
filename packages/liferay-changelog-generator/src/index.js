@@ -193,17 +193,82 @@ function linkToVersion(version, remote) {
 	}
 }
 
+/**
+ * Conventional commit types, and equivalent human-readable labels, in the order
+ * that we wish them to appear in the changelog.
+ *
+ * @see https://www.conventionalcommits.org/en/v1.0.0/
+ */
+const types = {
+	/* eslint-disable sort-keys */
+
+	// Not a Conventional Commits type; we repeat breaking changes separately to
+	// maximize their visibility:
+	breaking: ':boom: Breaking changes',
+
+	feat: ':new: Features',
+	fix: ':wrench: Bug fixes',
+	perf: ':racing_car: Peformance',
+	docs: ':book: Documentation',
+	chore: ':house: Chores',
+	refactor: ':woman_juggling: Refactoring',
+	style: ':nail_care: Style',
+	test: ':eyeglasses: Tests',
+	revert: ':leftwards_arrow_with_hook: Reverts',
+
+	// Not a Conventional Commits type; this is our catch-all:
+	misc: ':package: Miscellaneous',
+
+	/* eslint-enable sort-keys */
+};
+
+/**
+ * Aliases mapping common mistakes to legit Conventional Commits types.
+ */
+const aliases = {
+	bug: 'fix',
+	doc: 'docs',
+	feature: 'feat',
+};
+
+const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
+
+const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
+
 async function formatChanges(changes, remote) {
-	return changes
-		.map(({description, number}) => {
-			const link = linkToPullRequest(number, remote);
-			if (link) {
-				return `-   ${escape(description)} (${link})`;
-			} else {
-				return `-   ${escape(description)}`;
+	const sections = new Map(Object.keys(types).map(type => [type, []]));
+
+	changes.forEach(({description, number}) => {
+		const match = description.match(TYPE_REGEXP);
+
+		const type = aliases[match && match[1]] || (match && match[1]);
+
+		const section = sections.get(type) || sections.get('misc');
+
+		const link = linkToPullRequest(number, remote);
+
+		const entry = link
+			? `-   ${escape(description)} (${link})`
+			: `-   ${escape(description)}`;
+
+		section.push(entry);
+
+		const breaking =
+			(match && match[3]) || BREAKING_TRAILER_REGEXP.test(description);
+
+		if (breaking) {
+			sections.get('breaking').push(entry);
+		}
+	});
+
+	return Array.from(sections.entries())
+		.map(([type, entries]) => {
+			if (entries.length) {
+				return `### ${types[type]}\n` + '\n' + entries.join('\n');
 			}
 		})
-		.join('\n');
+		.filter(Boolean)
+		.join('\n\n');
 }
 
 /**
