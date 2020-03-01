@@ -22,8 +22,16 @@ yarn ci
 # If any checks fail, fix them, submit a PR, and when it is merged,
 # start again. Otherwise...
 
-# Update the version number:
+# Change to the directory of the package you wish to publish:
 cd packages/liferay-npm-scripts
+
+# Update the changelog:
+../liferay-changelog-generator --version=liferay-npm-scripts/v29.0.1
+
+# Review and stage the generated changes:
+git add -p
+
+# Update the version number:
 yarn version --minor # or --major, or --patch
 ```
 
@@ -31,8 +39,10 @@ Running `yarn version` has the following effects:
 
 -   The "preversion" script will run, which effectively runs `yarn ci` again.
 -   The "package.json" gets updated with the new version number.
--   A tagged commit is created.
+-   A tagged commit is created, including the changes to the changelog that you previously staged.
 -   The "postversion" script will run, which automatically does `git push` and performs a `yarn publish`, prompting for confirmation along the way.
+
+Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-npm-tools/releases).
 
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
@@ -94,7 +104,10 @@ yarn ci
 # Move into the package's directory
 cd packages/liferay-npm-scripts
 
-# Pick a prerelease version number
+# Update the changelog.
+../liferay-changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
+
+# Bump to the prerelease version number
 yarn version --new-version 9.5.0-beta.1
 
 # Because you are not on the "master" branch,
