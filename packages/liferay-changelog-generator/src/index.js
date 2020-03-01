@@ -105,6 +105,7 @@ async function getChanges(from, to) {
 		range,
 		'--numstat',
 		'-m',
+		'--first-parent',
 		'--relative',
 		'--pretty=format:%x00%H%x00%B%x00'
 	);

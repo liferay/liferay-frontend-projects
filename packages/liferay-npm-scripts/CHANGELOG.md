@@ -307,7 +307,6 @@
 ### :new: Features
 
 -   feat: add "ci" scripts to packages as a convenience ([\#298](https://github.com/liferay/liferay-npm-tools/pull/298))
--   feat: prevent accidental use of top-level `yarn version` ([\#297](https://github.com/liferay/liferay-npm-tools/pull/297))
 
 ### :house: Chores
 
@@ -502,11 +501,6 @@
 ### :new: Features
 
 -   feat!: updates eslint-config-liferay to v9.0.0 ([\#236](https://github.com/liferay/liferay-npm-tools/pull/236))
--   feat: add liferay-changelog-generator ([\#222](https://github.com/liferay/liferay-npm-tools/pull/222))
-
-### :book: Documentation
-
--   docs: fix typo in CONTRIBUTING.md ([\#224](https://github.com/liferay/liferay-npm-tools/pull/224))
 
 ### :house: Chores
 
@@ -564,10 +558,6 @@
 ## [liferay-npm-scripts/v7.2.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v7.2.0) (2019-08-20)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v7.1.0...liferay-npm-scripts/v7.2.0)
-
-### :new: Features
-
--   feat(reporter): include module name at end of classname (#136) ([\#200](https://github.com/liferay/liferay-npm-tools/pull/200))
 
 ### :house: Chores
 
@@ -979,7 +969,6 @@
 
 -   feat: simplify release process (#50) ([\#74](https://github.com/liferay/liferay-npm-tools/pull/74))
 -   feat: look for Sass dependency in top-level node_modules (#72) ([\#73](https://github.com/liferay/liferay-npm-tools/pull/73))
--   feat: add top-level shortcut to run all tests (#67) ([\#68](https://github.com/liferay/liferay-npm-tools/pull/68))
 
 ## [liferay-npm-scripts/v1.4.13](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v1.4.13) (2019-04-05)
 
@@ -1009,10 +998,6 @@
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v1.4.9...liferay-npm-scripts/v1.4.10)
 
-### :new: Features
-
--   feat: add CONTRIBUTING.md (#48) ([\#49](https://github.com/liferay/liferay-npm-tools/pull/49))
-
 ### :wrench: Bug fixes
 
 -   fix: jest-haste-map warnings about module naming collisions (#53) ([\#54](https://github.com/liferay/liferay-npm-tools/pull/54))
@@ -1022,10 +1007,6 @@
 
 -   chore: use bundler version 2.7.1 ([\#58](https://github.com/liferay/liferay-npm-tools/pull/58))
 -   chore: separate formatting and linting scripts ([\#41](https://github.com/liferay/liferay-npm-tools/pull/41))
-
-### :package: Miscellaneous
-
--   Just putting "develop" and "master" back into a fast-forwardable state
 
 ## [liferay-npm-scripts/v1.4.9](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v1.4.9) (2019-03-27)
 

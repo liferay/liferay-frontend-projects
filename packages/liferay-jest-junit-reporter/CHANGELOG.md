@@ -9,7 +9,6 @@
 
 ### :new: Features
 
--   feat(scripts): make preflight checks respect .eslintignore (#354) ([\#357](https://github.com/liferay/liferay-npm-tools/pull/357))
 -   feat!: remove propTypes in production builds ([\#333](https://github.com/liferay/liferay-npm-tools/pull/333))
 -   feat: add "ci" scripts to packages as a convenience ([\#298](https://github.com/liferay/liferay-npm-tools/pull/298))
 -   feat(scripts)!: update eslint-config-liferay v11.1.1 ([\#293](https://github.com/liferay/liferay-npm-tools/pull/293))
@@ -22,7 +21,6 @@
 
 ### :house: Chores
 
--   chore: remove unnecessary line from .prettierignore ([\#356](https://github.com/liferay/liferay-npm-tools/pull/356))
 -   chore: improve license consistency ([\#355](https://github.com/liferay/liferay-npm-tools/pull/355))
 
 ### :woman_juggling: Refactoring
@@ -47,7 +45,6 @@
 -   feat(reporter): include module name at end of classname (#136) ([\#200](https://github.com/liferay/liferay-npm-tools/pull/200))
 -   feat: add "postversion" scripts to automate publishing ([\#175](https://github.com/liferay/liferay-npm-tools/pull/175))
 -   feat: simplify release process (#50) ([\#74](https://github.com/liferay/liferay-npm-tools/pull/74))
--   feat: add CONTRIBUTING.md (#48) ([\#49](https://github.com/liferay/liferay-npm-tools/pull/49))
 
 ### :wrench: Bug fixes
 
@@ -72,7 +69,6 @@
 ### :package: Miscellaneous
 
 -   Remove Lerna, add Yarn workspaces, update Jest and Babel ([\#43](https://github.com/liferay/liferay-npm-tools/pull/43))
--   Fixes #17 - Updates lock files ([\#20](https://github.com/liferay/liferay-npm-tools/pull/20))
 
 ## [liferay-jest-junit-reporter/v1.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-jest-junit-reporter/v1.0.0) (2019-01-22)
 

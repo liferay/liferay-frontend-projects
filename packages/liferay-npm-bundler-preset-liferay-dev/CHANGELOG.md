@@ -107,10 +107,6 @@
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v1.10.0...liferay-npm-bundler-preset-liferay-dev/v1.11.0)
 
-### :new: Features
-
--   feat: allow for compound patterns in extensions in globs ([\#247](https://github.com/liferay/liferay-npm-tools/pull/247))
-
 ## [liferay-npm-bundler-preset-liferay-dev/v1.10.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v1.10.0) (2019-09-11)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v1.9.0...liferay-npm-bundler-preset-liferay-dev/v1.10.0)
@@ -221,10 +217,6 @@
 
 -   chore: use bundler version 2.7.1 ([\#58](https://github.com/liferay/liferay-npm-tools/pull/58))
 
-### :package: Miscellaneous
-
--   Just putting "develop" and "master" back into a fast-forwardable state
-
 ## [liferay-npm-bundler-preset-liferay-dev/v1.1.5](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v1.1.5) (2019-03-27)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v1.1.4...liferay-npm-bundler-preset-liferay-dev/v1.1.5)
@@ -240,12 +232,10 @@
 ### :package: Miscellaneous
 
 -   Remove Lerna, add Yarn workspaces, update Jest and Babel ([\#43](https://github.com/liferay/liferay-npm-tools/pull/43))
--   Fixes #25 | Update clay related dependencies to v2.9.0 ([\#26](https://github.com/liferay/liferay-npm-tools/pull/26))
 
 ## [liferay-npm-bundler-preset-liferay-dev/v1.1.3](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v1.1.3) (2019-02-28)
 
 ### :package: Miscellaneous
 
 -   Fixes #17 - Updates lock files ([\#20](https://github.com/liferay/liferay-npm-tools/pull/20))
--   Fixes #15 - Resolves dependencies paths to support hoisted packages in workspace settings ([\#16](https://github.com/liferay/liferay-npm-tools/pull/16))
 -   Fixes #12 | Add clay-chart to npmbundler preset ([\#13](https://github.com/liferay/liferay-npm-tools/pull/13))
