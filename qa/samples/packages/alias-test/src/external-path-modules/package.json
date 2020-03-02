@@ -1,6 +1,0 @@
-{
-	"browser": {
-		"react": "./browser/react.js",
-		"react/path/to/module": "./browser/react-module.js"
-	}
-}

@@ -1,42 +1,48 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import child_process from 'child_process';
+import childProcess from 'child_process';
 import prop from 'dot-prop';
 import fs from 'fs';
-import merge from 'merge';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
+import webpack from 'webpack';
 
 import FilePath from '../file-path';
+import {info, print, warn} from '../format';
 import {splitModuleName} from '../modules';
-import Copy from './copy';
 import Jar from './jar';
 import Localization from './localization';
 import Misc from './misc';
 import Probe from './probe';
 import Rules from './rules';
-import Transform from './transform';
 import {VersionInfo} from './types';
 
 /** A package manager */
 export type PkgManager = 'npm' | 'yarn' | null;
 
+/** Exports configuration */
+export interface Exports {
+	[id: string]: string;
+}
+
+/** The webpack config provider function signature */
+export interface WebpackConfigProvider {
+	(webpackConfig: webpack.Configuration): webpack.Configuration;
+}
+
 /**
  * Describes a standard JS Toolkit project.
  */
 export class Project {
-	copy: Copy;
 	jar: Jar;
 	l10n: Localization;
 	misc: Misc;
 	probe: Probe;
 	rules: Rules;
-	transform: Transform;
 
 	/**
 	 * @param projectDirPath project's path in native format
@@ -46,13 +52,73 @@ export class Project {
 	}
 
 	/**
+	 * Get module paths	to export to the outside world making them available
+	 * through the AMD loader.
+	 *
+	 * @remarks
+	 * Note that the usual CommonJS syntax is used to differentiate local
+	 * modules from dependency (node_modules) modules.
+	 *
+	 * For example:
+	 *
+	 * - Local module: './src/my-api'
+	 * - Dependency module: 'lodash/trimEnd'
+	 */
+	get exports(): Exports {
+		if (this._exports === undefined) {
+			this._exports = prop.get(this._configuration, 'exports', {});
+
+			if (!this._exports['main']) {
+				let main = this._pkgJson['main'];
+
+				if (main) {
+					if (main.startsWith('/')) {
+						main = `.${main}`;
+					} else if (!main.startsWith('.')) {
+						main = `./${main}`;
+					}
+
+					this._exports['main'] = main;
+				} else if (fs.existsSync('./index.js')) {
+					this._exports['main'] = './index.js';
+				}
+			}
+		}
+
+		return this._exports;
+	}
+
+	/**
+	 * Get user's webpack configuration provider function.
+	 */
+	get webpackConfigProvider(): WebpackConfigProvider {
+		if (this._webpack === undefined) {
+			const webpack = prop.get(this._configuration, 'webpack', {});
+
+			if (typeof webpack === 'function') {
+				this._webpack = webpack as WebpackConfigProvider;
+			} else {
+				// TODO: maybe smart merge this ?
+				this._webpack = (
+					webpackConfiguration
+				): webpack.Configuration => ({
+					...webpackConfiguration,
+					...webpack,
+				});
+			}
+		}
+
+		return this._webpack;
+	}
+
+	/**
 	 * Get directories inside the project containing source files starting with
 	 * `./` (so that they can be safely path.joined)
 	 */
 	get sources(): FilePath[] {
 		if (this._sources === undefined) {
 			this._sources = prop
-				.get(this._npmbundlerrc, 'sources', [])
+				.get(this._configuration, 'sources', [])
 				.map(source =>
 					source.startsWith('./') ? source : `./${source}`
 				)
@@ -68,13 +134,7 @@ export class Project {
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(
-				this._npmbundlerrc,
-				'output',
-				this.jar.supported
-					? './build'
-					: './build/resources/main/META-INF/resources'
-			);
+			let dir = prop.get(this._configuration, 'output', './build');
 
 			if (!dir.startsWith('./')) {
 				dir = `./${dir}`;
@@ -97,16 +157,17 @@ export class Project {
 	 * Get global plugins configuration.
 	 */
 	get globalConfig(): object {
-		const {_npmbundlerrc} = this;
+		const {_configuration} = this;
 
-		return prop.get(_npmbundlerrc, 'config', {});
+		return prop.get(_configuration, 'config', {});
 	}
 
+	// TODO: rename to `configuration`
 	/**
 	 * Get project's parsed .npmbundlerrc file
 	 */
 	get npmbundlerrc(): object {
-		return this._npmbundlerrc;
+		return this._configuration;
 	}
 
 	/**
@@ -141,11 +202,11 @@ export class Project {
 			} else {
 				// If no file is found autodetect command availability
 				let yarnPresent =
-					child_process.spawnSync('yarn', ['--version'], {
+					childProcess.spawnSync('yarn', ['--version'], {
 						shell: true,
 					}).error === undefined;
 				let npmPresent =
-					child_process.spawnSync('npm', ['--version'], {
+					childProcess.spawnSync('npm', ['--version'], {
 						shell: true,
 					}).error === undefined;
 
@@ -179,10 +240,11 @@ export class Project {
 		if (this._versionsInfo === undefined) {
 			let map = new Map<string, VersionInfo>();
 
-			const putInMap = packageName => {
+			const putInMap = (packageName): void => {
 				const pkgJsonPath = this.toolResolve(
 					`${packageName}/package.json`
 				);
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				const pkgJson = require(pkgJsonPath);
 
 				map.set(pkgJson.name, {
@@ -199,14 +261,13 @@ export class Project {
 			putInMap(path.join(__dirname, '../..'));
 
 			// Get preset version
-			const {_npmbundlerrc} = this;
-			const preset = _npmbundlerrc['preset'];
+			const {_configuration} = this;
+			const preset = _configuration['preset'];
 
 			if (preset) {
 				putInMap(splitModuleName(preset).pkgName);
 			}
 
-			map = new Map([...map, ...this.transform.versionsInfo]);
 			map = new Map([...map, ...this.rules.versionsInfo]);
 
 			this._versionsInfo = map;
@@ -226,12 +287,12 @@ export class Project {
 	 */
 	loadFrom(
 		projectPath: string,
-		configFilePath: string = '.npmbundlerrc'
+		configFilePath = 'liferay-npm-bundler.config.js'
 	): void {
 		// First reset everything
 		this._buildDir = undefined;
 		this._configFile = undefined;
-		this._npmbundlerrc = undefined;
+		this._configuration = undefined;
 		this._pkgJson = undefined;
 		this._pkgManager = undefined;
 		this._projectDir = undefined;
@@ -249,16 +310,14 @@ export class Project {
 
 		// Load configuration files
 		this._loadPkgJson();
-		this._loadNpmbundlerrc();
+		this._loadConfiguration();
 
 		// Initialize subdomains
-		this.copy = new Copy(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.misc = new Misc(this);
 		this.probe = new Probe(this);
 		this.rules = new Rules(this);
-		this.transform = new Transform(this);
 	}
 
 	/**
@@ -267,7 +326,7 @@ export class Project {
 	 * call).
 	 * @param moduleName
 	 */
-	require(moduleName: string): any {
+	require(moduleName: string): unknown {
 		return require(this.resolve(moduleName));
 	}
 
@@ -277,7 +336,7 @@ export class Project {
 	 * `require.resolve()` call).
 	 * @param moduleName
 	 */
-	resolve(moduleName: string): any {
+	resolve(moduleName: string): string {
 		return resolveModule.sync(moduleName, {
 			basedir: this.dir.asNative,
 		});
@@ -292,18 +351,18 @@ export class Project {
 		'create-jar': boolean;
 		'dump-report': boolean;
 	}) {
-		const {_npmbundlerrc} = this;
+		const {_configuration} = this;
 
 		if (argv.config) {
 			this.loadFrom('.', argv.config);
 		}
 
 		if (argv['create-jar']) {
-			_npmbundlerrc['create-jar'] = true;
+			_configuration['create-jar'] = true;
 		}
 
 		if (argv['dump-report']) {
-			_npmbundlerrc['dump-report'] = true;
+			_configuration['dump-report'] = true;
 		}
 	}
 
@@ -319,10 +378,11 @@ export class Project {
 	 * @param moduleName
 	 * @throws if module is not found
 	 */
-	toolRequire(moduleName: string): any {
+	toolRequire(moduleName: string): unknown {
 		return require(this.toolResolve(moduleName));
 	}
 
+	// TODO: this is not needed any more as presets have been removed
 	/**
 	 * Resolves a tool module in the context of the project (as opposed to the
 	 * context of the calling package which would just use a normal
@@ -335,7 +395,7 @@ export class Project {
 	 * @param moduleName
 	 * @throws if module is not found
 	 */
-	toolResolve(moduleName: string): any {
+	toolResolve(moduleName: string): string {
 		try {
 			return resolveModule.sync(moduleName, {
 				basedir: this._toolsDir.asNative,
@@ -345,57 +405,22 @@ export class Project {
 		}
 	}
 
-	_loadNpmbundlerrc(): void {
-		const npmbundlerrcPath = this._configFile.asNative;
+	_loadConfiguration(): void {
+		const {_configFile} = this;
+		const configDir = _configFile.dirname();
 
-		const config = fs.existsSync(npmbundlerrcPath)
-			? readJsonSync(npmbundlerrcPath)
+		if (fs.existsSync(configDir.join('.npmbundlerrc').asNative)) {
+			print(
+				warn`There is a {.npmbundlerrc} file in {${configDir.basename()}}: it will be ignored`,
+				info`Consider migrating the project to bundler 3.x or removing it if is a leftover`
+			);
+		}
+
+		const configFilePath = _configFile.asNative;
+
+		this._configuration = fs.existsSync(configFilePath)
+			? require(configFilePath)
 			: {};
-
-		// Apply preset if necessary
-		let presetFilePath;
-
-		if (config.preset === undefined) {
-			presetFilePath = require.resolve(
-				'liferay-npm-bundler-preset-standard'
-			);
-
-			this._toolsDir = new FilePath(
-				path.dirname(
-					require.resolve(
-						'liferay-npm-bundler-preset-standard/package.json'
-					)
-				)
-			);
-		} else if (config.preset === '' || config.preset === false) {
-			// don't load preset
-		} else {
-			presetFilePath = resolveModule.sync(config.preset, {
-				basedir: this.dir.asNative,
-			});
-
-			const {pkgName} = splitModuleName(config.preset);
-
-			const presetPkgJsonFilePath = resolveModule.sync(
-				`${pkgName}/package.json`,
-				{
-					basedir: this.dir.asNative,
-				}
-			);
-
-			this._toolsDir = new FilePath(path.dirname(presetPkgJsonFilePath));
-		}
-
-		if (presetFilePath) {
-			const originalConfig = Object.assign({}, config);
-
-			Object.assign(
-				config,
-				merge.recursive(readJsonSync(presetFilePath), originalConfig)
-			);
-		}
-
-		this._npmbundlerrc = config;
 	}
 
 	_loadPkgJson(): void {
@@ -412,7 +437,7 @@ export class Project {
 	/** Absolute path to config file */
 	private _configFile: FilePath;
 
-	private _npmbundlerrc: object;
+	private _configuration: object;
 	private _pkgJson: object;
 	private _pkgManager: PkgManager;
 
@@ -424,6 +449,12 @@ export class Project {
 
 	/** Absolute path to tools directory (usually project or preset dir) */
 	private _toolsDir: FilePath;
+
+	/** Modules to export to the outside world */
+	private _exports: Exports;
+
+	/** User's webpack configuration */
+	private _webpack: WebpackConfigProvider;
 
 	private _versionsInfo: Map<string, VersionInfo>;
 }

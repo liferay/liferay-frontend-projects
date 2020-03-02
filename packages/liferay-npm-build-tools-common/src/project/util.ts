@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 import fs from 'fs';
 
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
 import PkgDesc from '../pkg-desc';
-import {Project} from '.';
 import {BundlerPluginDescriptor} from './types';
 
 /**
@@ -25,7 +24,7 @@ export function getFeaturesFilePath(
 	featuresKeyPath: string,
 	defaultPrjRelPosixPath: string
 ): string | undefined {
-	const {npmbundlerrc, dir: projectDir} = project;
+	const {dir: projectDir, npmbundlerrc} = project;
 
 	const prjRelPosixPath: string = prop.get(npmbundlerrc, featuresKeyPath);
 
@@ -133,8 +132,8 @@ export function createBundlerPluginDescriptors<T>(
 				: `liferay-npm-bundler-plugin-${pluginName}`
 		);
 
-		if (pluginModule.default !== undefined) {
-			pluginModule = pluginModule.default;
+		if (pluginModule['default'] !== undefined) {
+			pluginModule = pluginModule['default'];
 		}
 
 		return {

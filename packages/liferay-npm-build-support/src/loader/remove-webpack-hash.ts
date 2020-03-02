@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -18,8 +17,10 @@ import {removeWebpackHash} from './util';
  * A webpack hash is defined as the rightmost hex number surrounded by dots in a
  * file name.
  */
-export default function(context: BundlerLoaderContext): BundlerLoaderReturn {
-	const {content, filePath, extraArtifacts, log} = context;
+export default function(
+	context: BundlerLoaderContext<string>
+): BundlerLoaderReturn {
+	const {content, extraArtifacts, filePath, log} = context;
 
 	const newFilePath = removeWebpackHash(filePath);
 

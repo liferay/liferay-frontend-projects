@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -10,7 +9,7 @@
 export interface Message {
 	source: string;
 	level: 'info' | 'warn' | 'error';
-	things: any[];
+	things: unknown[];
 	link?: string;
 }
 
@@ -21,6 +20,7 @@ class MessageTweaker {
 
 	linkTo(link: string): MessageTweaker {
 		this._msg.link = link;
+
 		return this;
 	}
 
@@ -58,7 +58,7 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	info(source: string, ...things: any[]): MessageTweaker {
+	info(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
 			source,
 			level: 'info',
@@ -75,7 +75,7 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	warn(source: string, ...things: any[]): MessageTweaker {
+	warn(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
 			source,
 			level: 'warn',
@@ -92,7 +92,7 @@ export default class PluginLogger {
 	 * @param source the identifier for the source of the message
 	 * @param things the objects or strings to print
 	 */
-	error(source: string, ...things: any[]): MessageTweaker {
+	error(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
 			source,
 			level: 'error',
@@ -143,7 +143,7 @@ export default class PluginLogger {
 	 * containing one line (<br> separated) per message
 	 */
 	toHtml(): string {
-		return this._msgs.reduce((str, {level, source, things, link}) => {
+		return this._msgs.reduce((str, {level, link, source, things}) => {
 			let html = `${str}${source}:${level}: ${things.join(' ')}<br>`;
 
 			if (link) {

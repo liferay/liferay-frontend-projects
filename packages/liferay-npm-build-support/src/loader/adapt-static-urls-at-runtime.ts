@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -10,8 +9,8 @@ import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 import {replaceTokens} from './util';
 
@@ -39,7 +38,7 @@ export interface Options {
  * inside `.npmbundlerrc`.
  */
 export default function(
-	context: BundlerLoaderContext,
+	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;

@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -26,8 +25,8 @@ export default class PkgDesc {
 	constructor(
 		name: string,
 		version: string,
-		pkgPath: string,
-		forceRoot: boolean = false
+		pkgPath?: string,
+		forceRoot = false
 	) {
 		this._name = name;
 		this._version = version;

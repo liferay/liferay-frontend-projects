@@ -1,74 +1,43 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import fs from 'fs-extra';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
-import path from 'path';
 import pretty from 'pretty-time';
-import readJsonSync from 'read-json-sync';
-import semver from 'semver';
 
-import {addPackageDependencies, getRootPkg} from './dependencies';
-import * as insight from './insight';
+import {buildBundlerDir} from './dirs';
 import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
-
-import copyPackages from './steps/copy';
 import runRules from './steps/rules';
-import transformPackages from './steps/transform';
+import runWebpack from './steps/webpack';
 
 /** Default entry point for the liferay-npm-bundler */
-export default function(argv: {version: boolean}): void {
-	const versionsInfo = project.versionsInfo;
-
+export default async function(argv: {version: boolean}): Promise<void> {
 	if (argv.version) {
+		const {versionsInfo} = project;
+
 		versionsInfo.forEach((value, key) => {
 			console.log(`"${key}":`, JSON.stringify(value, null, 2));
 		});
+
 		return;
 	}
 
-	report.versionsInfo(versionsInfo);
-
-	if (project.misc.noTracking) {
-		run();
-	} else {
-		log.debug(
-			'The tool is sending usage statistics to our remote servers.'
-		);
-		insight.init().then(run);
-	}
-}
-
-/** Real tool execution */
-function run(): void {
 	try {
+		const {pkgJson, versionsInfo} = project;
+		const rootPkg = new PkgDesc(pkgJson['name'], pkgJson['version']);
+
 		const start = process.hrtime();
 
-		// Get root package
-		const rootPkg = getRootPkg();
-
+		// Report configurations
 		report.rootPackage(rootPkg);
-
-		// Compute dependency packages
-		const depPkgsMap = addPackageDependencies(
-			{},
-			project.dir.asNative,
-			project.copy.includedDependencies
-		);
-
-		const depPkgs = Object.values(depPkgsMap).filter(pkg => !pkg.isRoot);
-
-		report.dependencies(depPkgs);
-		reportLinkedDependencies(project.pkgJson);
-
-		// Report rules config
 		report.rulesConfig(project.rules.config);
+		report.versionsInfo(versionsInfo);
 
 		// Warn about incremental builds
 		if (manifest.loadedFromFile) {
@@ -80,76 +49,45 @@ function run(): void {
 		}
 
 		// Do things
-		copyPackages(rootPkg, depPkgs)
-			.then(() => runRules(rootPkg, depPkgs))
-			.then(() => transformPackages(rootPkg, depPkgs))
-			.then(() => manifest.save())
-			.then(() => (project.jar.supported ? createJar() : undefined))
-			.then(() => {
-				// Report and show execution time
-				const hrtime = process.hrtime(start);
-				report.executionTime(hrtime);
-				log.info(`Bundling took ${pretty(hrtime)}`);
+		await runWebpack();
+		await runRules(rootPkg);
+		copyPackageJson();
+		await saveManifest();
+		if (project.jar.supported) {
+			await createJar();
+		}
 
-				// Send report analytics data
-				report.sendAnalytics();
+		// Report and show execution time
+		const hrtime = process.hrtime(start);
+		report.executionTime(hrtime);
+		log.success(`Bundled {${pkgJson['name']}} in`, pretty(hrtime));
 
-				// Write report if requested
-				if (project.misc.reportFile) {
-					fs.writeFileSync(
-						project.misc.reportFile.asNative,
-						report.toHtml()
-					);
+		// Write report if requested
+		if (project.misc.reportFile) {
+			fs.writeFileSync(project.misc.reportFile.asNative, report.toHtml());
 
-					log.info(
-						`Report written to ${project.misc.reportFile.asNative}`
-					);
-				} else if (report.warningsPresent) {
-					log.debug('The build has emitted some warning messages.');
-				}
-			})
-			.catch(abort);
+			log.info(`Report written to ${project.misc.reportFile.asNative}`);
+		} else if (report.warningsPresent) {
+			log.debug('The build has emitted some warning messages.');
+		}
 	} catch (err) {
-		abort(err);
+		log.error(`\n\n${err.stack}\n\n`);
+
+		process.exit(1);
 	}
 }
 
-/** Report linked dependencies of a given package.json */
-function reportLinkedDependencies(pkgJson: object): void {
-	['dependencies', 'devDependencies'].forEach(scope => {
-		if (pkgJson[scope] != null) {
-			Object.keys(pkgJson[scope]).forEach(depName => {
-				const depVersion = pkgJson[scope][depName];
+function copyPackageJson(): void {
+	fs.copyFileSync(
+		project.dir.join('package.json').asNative,
+		buildBundlerDir.join('package.json').asNative
+	);
 
-				if (semver.validRange(depVersion) == null) {
-					const depPkgJsonPath = path.join(
-						'node_modules',
-						depName,
-						'package.json'
-					);
-
-					const depPkgJson = readJsonSync(depPkgJsonPath);
-
-					pkgJson[scope][depName] = depPkgJson.version;
-
-					report.linkedDependency(
-						depName,
-						depVersion,
-						depPkgJson.version
-					);
-				}
-			});
-		}
-	});
+	log.debug('Copied package.json to output directory');
 }
 
-/** Abort execution after showing error message */
-function abort(err: any): void {
-	log.error(`
+async function saveManifest(): Promise<void> {
+	await manifest.save();
 
-${err.stack}
-
-`);
-
-	process.exit(1);
+	log.debug('Wrote manifest.json to output directory');
 }

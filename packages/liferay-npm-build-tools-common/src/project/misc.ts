@@ -1,14 +1,11 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import prop from 'dot-prop';
-import fs from 'fs';
-import path from 'path';
-
 import {Project} from '.';
+import prop from 'dot-prop';
+
 import FilePath from '../file-path';
 
 /**
@@ -24,9 +21,19 @@ export default class Misc {
 	}
 
 	/**
+	 * Whether or not to dump detailed information about what the tool is doing
+	 */
+	get logLevel(): 'off' | 'error' | 'info' | 'debug' {
+		const {npmbundlerrc} = this._project;
+
+		return prop.get(npmbundlerrc, 'log-level', 'error');
+	}
+
+	/**
 	 * Get maximum number of files to process in parallel in any parallelizable
 	 * operation.
 	 */
+
 	get maxParallelFiles(): number {
 		const {npmbundlerrc} = this._project;
 
@@ -45,46 +52,9 @@ export default class Misc {
 	}
 
 	/**
-	 * Whether or not to track usage
-	 */
-	get noTracking(): boolean {
-		const {_project} = this;
-		const {npmbundlerrc} = _project;
-
-		if (!prop.has(npmbundlerrc, 'no-tracking')) {
-			if (prop.has(process, 'env.LIFERAY_NPM_BUNDLER_NO_TRACKING')) {
-				prop.set(npmbundlerrc, 'no-tracking', true);
-			}
-		}
-
-		if (!prop.has(npmbundlerrc, 'no-tracking')) {
-			let dir = _project.dir.asNative;
-
-			while (
-				!fs.existsSync(
-					path.join(dir, '.liferay-npm-bundler-no-tracking')
-				) &&
-				path.resolve(dir, '..') !== dir
-			) {
-				dir = path.resolve(dir, '..');
-			}
-
-			if (
-				fs.existsSync(
-					path.join(dir, '.liferay-npm-bundler-no-tracking')
-				)
-			) {
-				prop.set(npmbundlerrc, 'no-tracking', true);
-			}
-		}
-
-		// Disable tracking by default
-		return prop.get(npmbundlerrc, 'no-tracking', true);
-	}
-
-	/**
 	 * Get the path to the report file or undefined if no report is configured.
 	 */
+
 	get reportFile(): FilePath | undefined {
 		const {_project} = this;
 		const {npmbundlerrc} = _project;
@@ -94,15 +64,6 @@ export default class Misc {
 		return dumpReport
 			? _project.dir.join('liferay-npm-bundler-report.html')
 			: undefined;
-	}
-
-	/**
-	 * Whether or not to dump detailed information about what the tool is doing
-	 */
-	get verbose(): boolean {
-		const {npmbundlerrc} = this._project;
-
-		return prop.get(npmbundlerrc, 'verbose', false);
 	}
 
 	private readonly _project: Project;

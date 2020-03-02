@@ -1,15 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
-import fs from 'fs';
+import fs from 'fs-extra';
 import readJsonSync from 'read-json-sync';
 
 import FilePath from '../file-path';
-import {Project} from '.';
+import {print, warn} from '../format';
 import {getFeaturesFilePath} from './util';
 
 /**
@@ -25,6 +25,10 @@ export default class Jar {
 	 * @return path of the file or undefined if not configured
 	 */
 	get configurationFile(): FilePath | undefined {
+		if (!this.supported) {
+			return undefined;
+		}
+
 		const {_project} = this;
 
 		const absPath = getFeaturesFilePath(
@@ -43,7 +47,11 @@ export default class Jar {
 	/**
 	 * Get user configured manifest headers
 	 */
-	get customManifestHeaders(): object {
+	get customManifestHeaders(): object | undefined {
+		if (!this.supported) {
+			return undefined;
+		}
+
 		const {npmbundlerrc} = this._project;
 
 		if (this._customManifestHeaders === undefined) {
@@ -76,7 +84,11 @@ export default class Jar {
 	 * Get output directory for JAR file relative to `project.dir` and starting
 	 * with `./`
 	 */
-	get outputDir(): FilePath {
+	get outputDir(): FilePath | undefined {
+		if (!this.supported) {
+			return undefined;
+		}
+
 		const {_project} = this;
 		const {npmbundlerrc} = _project;
 
@@ -84,7 +96,7 @@ export default class Jar {
 			let outputDirPosixPath = prop.get(
 				npmbundlerrc,
 				'create-jar.output-dir',
-				this.supported ? _project.buildDir.asPosix : undefined
+				_project.buildDir.asPosix
 			);
 
 			if (outputDirPosixPath !== undefined) {
@@ -104,16 +116,18 @@ export default class Jar {
 	/**
 	 * Get filename of output JAR file
 	 */
-	get outputFilename(): string {
+	get outputFilename(): string | undefined {
+		if (!this.supported) {
+			return undefined;
+		}
+
 		const {npmbundlerrc, pkgJson} = this._project;
 
 		if (this._outputFilename === undefined) {
 			this._outputFilename = prop.get(
 				npmbundlerrc,
 				'create-jar.output-filename',
-				this.supported
-					? pkgJson['name'] + '-' + pkgJson['version'] + '.jar'
-					: undefined
+				pkgJson['name'] + '-' + pkgJson['version'] + '.jar'
 			);
 		}
 
@@ -123,48 +137,92 @@ export default class Jar {
 	/**
 	 * Whether or not to add a manifest header in JAR file to make the JS
 	 * extender process this bundle.
-	 * @return can be a boolean, a string forcing an extender version number or
-	 * 			'any' to leave version unbounded
+	 *
+	 * @return
+	 * can be a boolean, a string forcing an extender version number or 'any' to
+	 * leave version unbounded
 	 */
-	get requireJsExtender(): boolean | string | 'any' {
-		const {npmbundlerrc} = this._project;
+	get requireJsExtender(): boolean | string | 'any' | undefined {
+		if (!this.supported) {
+			return undefined;
+		}
+
+		const {npmbundlerrc, pkgJson} = this._project;
 
 		return prop.get(
 			npmbundlerrc,
 			'create-jar.features.js-extender',
-			// TODO: deprecated 'auto-deploy-portlet', remove for the next major version
-			prop.get(npmbundlerrc, 'create-jar.auto-deploy-portlet', true)
+			pkgJson['portlet'] ? true : false
 		);
 	}
 
 	get supported(): boolean {
 		const {npmbundlerrc} = this._project;
 
-		return !!prop.get(npmbundlerrc, 'create-jar', false);
+		return !!prop.get(npmbundlerrc, 'create-jar', true);
 	}
 
-	get webContextPath(): string {
-		const {npmbundlerrc, pkgJson} = this._project;
+	get webContextPath(): string | undefined {
+		if (!this.supported) {
+			return undefined;
+		}
 
 		if (!this._webContextPath) {
-			this._webContextPath = prop.get(
-				npmbundlerrc,
-				'create-jar.features.web-context',
-				// TODO: deprecated 'web-context-path', remove for the next major version
-				prop.get(
-					npmbundlerrc,
-					'create-jar.web-context-path',
-					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
-					prop.get(
-						pkgJson,
-						'osgi.Web-ContextPath',
-						`/${pkgJson['name']}-${pkgJson['version']}`
-					)
-				)
-			);
+			const {pkgJson} = this._project;
+			const bndWebContextPath = this._getBndWebContextPath();
+			const npmbundlerrcContextPath = this._getNpmbundlerrcContextPath();
+
+			if (bndWebContextPath && npmbundlerrcContextPath) {
+				print(
+					warn`
+Configured web context paths in .npmbundlerrc and bnd.bnd are different: using
+the one in .npmbundlerrc
+
+`
+				);
+
+				this._webContextPath = npmbundlerrcContextPath;
+			} else if (bndWebContextPath) {
+				this._webContextPath = bndWebContextPath;
+			} else if (npmbundlerrcContextPath) {
+				this._webContextPath = npmbundlerrcContextPath;
+			} else {
+				this._webContextPath = `/${pkgJson['name']}-${pkgJson['version']}`;
+			}
 		}
 
 		return this._webContextPath;
+	}
+
+	_getBndWebContextPath(): string {
+		const {dir} = this._project;
+		const bndFile = dir.join('bnd.bnd');
+
+		if (fs.existsSync(bndFile.asNative)) {
+			const bnd = fs.readFileSync(bndFile.asNative).toString();
+
+			const lines = bnd.split('\n');
+
+			const webContextPathLine = lines.find(line =>
+				line.startsWith('Web-ContextPath:')
+			);
+
+			if (webContextPathLine !== undefined) {
+				return webContextPathLine.substring(16).trim();
+			}
+		}
+
+		return undefined;
+	}
+
+	_getNpmbundlerrcContextPath(): string {
+		const {npmbundlerrc} = this._project;
+
+		return prop.get(
+			npmbundlerrc,
+			'create-jar.features.web-context',
+			undefined
+		);
 	}
 
 	private _customManifestHeaders: object;

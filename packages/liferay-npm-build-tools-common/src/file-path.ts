@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -28,19 +27,19 @@ export default class FilePath {
 		}
 	}
 
-	toString() {
+	toString(): string {
 		return this.asNative;
 	}
 
-	get asNative() {
+	get asNative(): string {
 		return this._nativePath;
 	}
 
-	get asPosix() {
+	get asPosix(): string {
 		return this._posixPath;
 	}
 
-	get asWindows() {
+	get asWindows(): string {
 		return this._windowsPath;
 	}
 

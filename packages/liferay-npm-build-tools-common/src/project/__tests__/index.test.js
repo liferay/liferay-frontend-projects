@@ -7,7 +7,6 @@ import child_process from 'child_process';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import path from 'path';
 
-import PkgDesc from '../../pkg-desc';
 import {Project} from '../index';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,43 +64,6 @@ describe('project', () => {
 	});
 });
 
-describe('project.copy', () => {
-	let project;
-
-	beforeAll(() => {
-		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'standard')
-		);
-	});
-
-	it('returns exclusions for configured package@version', () => {
-		const pkg = new PkgDesc('is-array', '1.0.1', __dirname);
-
-		expect(project.copy.getExclusions(pkg)).toEqual([
-			'test/**/*',
-			'Makefile',
-		]);
-	});
-
-	it('returns exclusions for configured package', () => {
-		const pkg = new PkgDesc('is-object', '1.0.0', __dirname);
-
-		expect(project.copy.getExclusions(pkg)).toEqual(['test/**/*']);
-	});
-
-	it('returns exclusions for unknown package', () => {
-		const pkg = new PkgDesc('other-package', '1.0.0', __dirname);
-
-		expect(project.copy.getExclusions(pkg)).toEqual(['__tests__/**/*']);
-	});
-
-	it('returns ["**/*"] when configured as true', () => {
-		const pkg = new PkgDesc('is-true', '1.0.0', __dirname);
-
-		expect(project.copy.getExclusions(pkg)).toEqual(['**/*']);
-	});
-});
-
 describe('project.jar', () => {
 	let project;
 
@@ -155,20 +117,38 @@ describe('project.jar.outputFilename', () => {
 });
 
 describe('project.jar.requireJsExtender', () => {
-	it('returns true when create-jar config present and features/js-extender missing', () => {
+	it('returns true when package.json has a portlet section', () => {
 		const project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'create-jar-empty')
+			path.join(
+				__dirname,
+				'__fixtures__',
+				'project',
+				'empty-with-portlet'
+			)
 		);
 
 		expect(project.jar.requireJsExtender).toBe(true);
 	});
 
-	it('returns false when create-jar config present and features/js-extender false', () => {
+	it('returns false when package.json has no portlet section', () => {
 		const project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'create-jar')
+			path.join(__dirname, '__fixtures__', 'project', 'empty')
 		);
 
 		expect(project.jar.requireJsExtender).toBe(false);
+	});
+
+	it('returns undefined when create-jar is false even if package.json has a portlet section', () => {
+		const project = new Project(
+			path.join(
+				__dirname,
+				'__fixtures__',
+				'project',
+				'create-jar-off-with-portlet'
+			)
+		);
+
+		expect(project.jar.requireJsExtender).toBeUndefined();
 	});
 });
 
@@ -363,115 +343,6 @@ describe('project.pkgManager', () => {
 	});
 });
 
-describe('project.transform', () => {
-	let project;
-
-	beforeAll(() => {
-		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'transform')
-		);
-	});
-
-	it('loads default "pre" plugins correctly', () => {
-		const pkg = new PkgDesc('package-star', '1.0.0', __dirname);
-
-		const plugins = project.transform.getPrePluginDescriptors(pkg);
-
-		expect(plugins[0].run({}, {})).toEqual(0);
-		expect(plugins[0].config).toEqual({});
-
-		expect(plugins[1].run({}, {})).toEqual(1);
-		expect(plugins[1].config).toEqual('config-1');
-	});
-
-	it('loads default "post" plugins correctly', () => {
-		const pkg = new PkgDesc('package-star', '1.0.0', __dirname);
-
-		const plugins = project.transform.getPostPluginDescriptors(pkg);
-
-		expect(plugins[0].run({}, {})).toEqual(2);
-		expect(plugins[0].config).toEqual({});
-
-		expect(plugins[1].run({}, {})).toEqual(3);
-		expect(plugins[1].config).toEqual('config-3');
-	});
-
-	it('loads per-package "pre" plugins correctly', () => {
-		const pkg = new PkgDesc('package', '1.0.0', __dirname);
-
-		const plugins = project.transform.getPrePluginDescriptors(pkg);
-
-		expect(plugins[0].run({}, {})).toEqual(4);
-		expect(plugins[0].config).toEqual({});
-
-		expect(plugins[1].run({}, {})).toEqual(5);
-		expect(plugins[1].config).toEqual('config-5');
-	});
-
-	it('loads per-package "post" plugins correctly', () => {
-		const pkg = new PkgDesc('package', '1.0.0', __dirname);
-
-		const plugins = project.transform.getPostPluginDescriptors(pkg);
-
-		expect(plugins[0].run({}, {})).toEqual(6);
-		expect(plugins[0].config).toEqual({});
-
-		expect(plugins[1].run({}, {})).toEqual(7);
-		expect(plugins[1].config).toEqual('config-7');
-	});
-
-	it('loads default babel config correctly', () => {
-		const pkg = new PkgDesc('package-star', '1.0.0', __dirname);
-
-		const config = project.transform.getBabelConfig(pkg);
-
-		expect(config).toEqual({config: 'config-*'});
-	});
-
-	it('loads per-package-by-id babel config correctly', () => {
-		const pkg = new PkgDesc('package', '1.0.0', __dirname);
-
-		const config = project.transform.getBabelConfig(pkg);
-
-		expect(config).toEqual({config: 'config-package@1.0.0'});
-	});
-
-	it('loads per-package-by-name babel config correctly', () => {
-		const pkg = new PkgDesc('package2', '1.0.0', __dirname);
-
-		const config = project.transform.getBabelConfig(pkg);
-
-		expect(config).toEqual({config: 'config-package2'});
-	});
-
-	it('loads babel plugins correctly', () => {
-		const pkg = new PkgDesc('package3', '1.0.0', __dirname);
-
-		const pluginMocks = {
-			raw: () => false,
-			configured: () => false,
-		};
-
-		jest.spyOn(project, 'toolResolve').mockImplementation(
-			moduleName => moduleName
-		);
-		jest.spyOn(project, 'toolRequire').mockImplementation(
-			moduleName => pluginMocks[moduleName]
-		);
-
-		try {
-			const plugins = project.transform.getBabelPlugins(pkg);
-
-			expect(plugins).toEqual([
-				pluginMocks['raw'],
-				[pluginMocks['configured'], {the: 'config'}],
-			]);
-		} finally {
-			jest.restoreAllMocks();
-		}
-	});
-});
-
 describe('project.versionsInfo', () => {
 	it('works', () => {
 		const project = new Project(
@@ -480,93 +351,62 @@ describe('project.versionsInfo', () => {
 
 		const versions = project.versionsInfo;
 
-		expect(versions.size).toEqual(12);
-
-		expect(versions.get('liferay-npm-bundler')).toMatchObject({
-			version: require('../../../package.json').version,
-			path: path.join(
-				'..',
-				'..',
-				'..',
-				'..',
-				'..',
-				'..',
-				'..',
-				'..',
-				'node_modules',
-				'liferay-npm-bundler'
-			),
-		});
-
-		expect(versions.get('liferay-npm-build-tools-common')).toMatchObject({
-			version: require('../../../package.json').version,
-			path: path.join('..', '..', '..', '..', '..', '..'),
-		});
-
-		expect(versions.get('loader-0')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'loader-0'),
-		});
-
-		expect(versions.get('liferay-npm-bundler-plugin-test-0')).toMatchObject(
-			{
-				version: '1.0.0',
-				path: path.join(
-					'node_modules',
-					'liferay-npm-bundler-plugin-test-0'
-				),
-			}
+		expect(versions).toEqual(
+			new Map([
+				[
+					'bundler-plugins/dir/loader-0',
+					{
+						version: '1.0.0',
+						path: path.join(
+							'node_modules',
+							'bundler-plugins/dir/loader-0.js'
+						),
+					},
+				],
+				[
+					'bundler-plugins/dir/loader-1',
+					{
+						version: '1.0.0',
+						path: path.join(
+							'node_modules',
+							'bundler-plugins/dir/loader-1.js'
+						),
+					},
+				],
+				[
+					'liferay-npm-build-tools-common',
+					{
+						version: require('../../../package.json').version,
+						path: path.join('..', '..', '..', '..', '..', '..'),
+					},
+				],
+				[
+					'liferay-npm-bundler',
+					{
+						version: require('../../../package.json').version,
+						path: path.join(
+							'..',
+							'..',
+							'..',
+							'..',
+							'..',
+							'..',
+							'..',
+							'..',
+							'node_modules',
+							'liferay-npm-bundler'
+						),
+					},
+				],
+				[
+					'loader-0',
+					{
+						version: '1.0.0',
+						path: path.join('node_modules', 'loader-0'),
+					},
+				],
+			])
 		);
-
-		expect(versions.get('bundler-plugins/dir/plugin-0')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'bundler-plugins/dir/plugin-0.js'),
-		});
-
-		expect(versions.get('liferay-npm-bundler-plugin-test-1')).toMatchObject(
-			{
-				version: '1.0.0',
-				path: path.join(
-					'node_modules',
-					'liferay-npm-bundler-plugin-test-1'
-				),
-			}
-		);
-
-		expect(versions.get('bundler-plugins/dir/plugin-1')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'bundler-plugins/dir/plugin-1.js'),
-		});
-
-		expect(versions.get('babel-plugin-test-0')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'babel-plugin-test-0'),
-		});
-
-		expect(versions.get('babel-plugins/dir/plugin-0')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'babel-plugins/dir/plugin-0.js'),
-		});
-
-		expect(versions.get('babel-plugins/dir/plugin-1')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'babel-plugins/dir/plugin-1.js'),
-		});
-
-		expect(versions.get('loader-0')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'loader-0'),
-		});
-
-		expect(versions.get('bundler-plugins/dir/loader-0')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'bundler-plugins/dir/loader-0.js'),
-		});
-
-		expect(versions.get('bundler-plugins/dir/loader-1')).toMatchObject({
-			version: '1.0.0',
-			path: path.join('node_modules', 'bundler-plugins/dir/loader-1.js'),
-		});
 	});
 });
 
@@ -591,64 +431,6 @@ describe('default features are detected', () => {
 	});
 });
 
-describe('deprecated config', () => {
-	describe('.npmbundlerrc', () => {
-		it('create-jar/auto-deploy-portlet', () => {
-			const project = new Project(
-				path.join(
-					__dirname,
-					'__fixtures__',
-					'legacy',
-					'auto-deploy-portlet'
-				)
-			);
-
-			expect(project.jar.requireJsExtender).toBe(false);
-		});
-
-		it('create-jar/web-context-path', () => {
-			const project = new Project(
-				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-1')
-			);
-
-			expect(project.jar.webContextPath).toBe('/my-portlet');
-		});
-
-		it('supports legacy package configurations correctly', () => {
-			const project = new Project(
-				path.join(__dirname, '__fixtures__', 'legacy', 'packages-cfg')
-			);
-
-			const pkg1 = new PkgDesc('package', '1.0.0', __dirname);
-			const pkg2 = new PkgDesc('package2', '1.0.0', __dirname);
-			const pkg3 = new PkgDesc('package3', '1.0.0', __dirname);
-			const pkgOther = new PkgDesc('other-package', '1.0.0', __dirname);
-
-			let plugins = project.transform.getPrePluginDescriptors(pkg1);
-			expect(plugins[0].run({}, {})).toEqual(1);
-
-			plugins = project.transform.getPrePluginDescriptors(pkg2);
-			expect(plugins[0].run({}, {})).toEqual(2);
-
-			plugins = project.transform.getPrePluginDescriptors(pkg3);
-			expect(plugins[0].run({}, {})).toEqual(4);
-
-			plugins = project.transform.getPrePluginDescriptors(pkgOther);
-			expect(plugins[0].run({}, {})).toEqual(0);
-		});
-	});
-
-	describe('package.json', () => {
-		it('osgi/web-context-path', () => {
-			const project = new Project(
-				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-2')
-			);
-
-			expect(project.jar.webContextPath).toBe('/my-portlet');
-		});
-	});
-});
-
 describe('empty project defaults', () => {
 	let project;
 
@@ -658,12 +440,6 @@ describe('empty project defaults', () => {
 		);
 	});
 
-	it('loads liferay-npm-bundler-preset-standard preset', () => {
-		expect(project._npmbundlerrc['*']['.babelrc']['presets']).toEqual([
-			'liferay-standard',
-		]);
-	});
-
 	it('returns dir', () => {
 		expect(project.dir.toString()).toBe(
 			path.join(__dirname, '__fixtures__', 'project', 'empty')
@@ -671,9 +447,7 @@ describe('empty project defaults', () => {
 	});
 
 	it('returns buildDir', () => {
-		expect(project.buildDir.asPosix).toBe(
-			'./build/resources/main/META-INF/resources'
-		);
+		expect(project.buildDir.asPosix).toBe('./build');
 	});
 
 	it('return maxParallelFiles', () => {
@@ -686,15 +460,15 @@ describe('empty project defaults', () => {
 		});
 
 		it('returns outputDir', () => {
-			expect(project.jar.outputDir).toBeUndefined();
+			expect(project.jar.outputDir.asPosix).toBe('./build');
 		});
 
 		it('returns outputFilename', () => {
-			expect(project.jar.outputFilename).toBeUndefined();
+			expect(project.jar.outputFilename).toBe('empty-1.0.0.jar');
 		});
 
 		it('returns supported', () => {
-			expect(project.jar.supported).toBe(false);
+			expect(project.jar.supported).toBe(true);
 		});
 
 		it('returns webContextPath', () => {
@@ -729,45 +503,13 @@ describe('empty project defaults', () => {
 	});
 });
 
-describe('honors presets', () => {
-	let project;
-
-	beforeAll(() => {
-		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
-		);
-	});
-
-	it('loads project.dir from preset', () => {
-		expect(project.dir.asNative).toBe(
-			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
-		);
-	});
-
-	it('loads project.buildDir from preset', () => {
-		expect(project.buildDir.asPosix).toBe('./preset-build');
-	});
-
-	it('loads project.jar.outputDir from preset', () => {
-		expect(project.jar.outputDir.asPosix).toBe('./preset-dist');
-	});
-
-	it('detects JAR configuration even if only in preset', () => {
-		expect(project.jar.supported).toBe(true);
-	});
-});
-
-describe('loads plugins as modules (as opposed to packages)', () => {
+describe('loads things as modules (as opposed to packages)', () => {
 	let project;
 
 	beforeAll(() => {
 		project = new Project(
 			path.join(__dirname, '__fixtures__', 'project', 'with-module-cfg')
 		);
-	});
-
-	it('loads preset from file in package', () => {
-		expect(project.buildDir.asPosix).toBe('./preset-output');
 	});
 
 	it('loads loaders from module in package', () => {
@@ -783,88 +525,6 @@ describe('loads plugins as modules (as opposed to packages)', () => {
 			resolvedModule: 'a-config/my-js-loader',
 		});
 		expect(loader.exec()).toBe('Hi from loader!');
-	});
-
-	it('loads copy plugins from module in package', () => {
-		const pkg = new PkgDesc(
-			'a-package',
-			'1.0.0',
-			project.dir.join('node_modules', 'a-package').asNative
-		);
-
-		const pluginDescriptors = project.copy.getPluginDescriptors(pkg);
-
-		expect(pluginDescriptors).toHaveLength(1);
-
-		const pluginDescriptor = pluginDescriptors[0];
-
-		expect(pluginDescriptor).toMatchObject({
-			name: 'a-config/my-copy-plugin',
-			config: {},
-		});
-
-		expect(pluginDescriptor.run()).toBe('Hi from plugin!');
-	});
-
-	it('loads pre plugins from module in package', () => {
-		const pkg = new PkgDesc(
-			'a-package',
-			'1.0.0',
-			project.dir.join('node_modules', 'a-package').asNative
-		);
-
-		const pluginDescriptors = project.transform.getPrePluginDescriptors(
-			pkg
-		);
-
-		expect(pluginDescriptors).toHaveLength(1);
-
-		const pluginDescriptor = pluginDescriptors[0];
-
-		expect(pluginDescriptor).toMatchObject({
-			name: 'a-config/my-pre-plugin',
-			config: {},
-		});
-
-		expect(pluginDescriptor.run()).toBe('Hi from pre plugin!');
-	});
-
-	it('loads post plugins from module in package', () => {
-		const pkg = new PkgDesc(
-			'a-package',
-			'1.0.0',
-			project.dir.join('node_modules', 'a-package').asNative
-		);
-
-		const pluginDescriptors = project.transform.getPostPluginDescriptors(
-			pkg
-		);
-
-		expect(pluginDescriptors).toHaveLength(1);
-
-		const pluginDescriptor = pluginDescriptors[0];
-
-		expect(pluginDescriptor).toMatchObject({
-			name: 'a-config/my-post-plugin',
-			config: {},
-		});
-
-		expect(pluginDescriptor.run()).toBe('Hi from post plugin!');
-	});
-
-	it('loads babel plugins from module in package', () => {
-		const pkg = new PkgDesc(
-			'a-package',
-			'1.0.0',
-			project.dir.join('node_modules', 'a-package').asNative
-		);
-
-		const babelPlugins = project.transform.getBabelPlugins(pkg);
-
-		expect(babelPlugins).toHaveLength(2);
-
-		expect(babelPlugins[0]()).toBe("Hi from preset's babel plugin!");
-		expect(babelPlugins[1]()).toBe('Hi from babel plugin!');
 	});
 });
 

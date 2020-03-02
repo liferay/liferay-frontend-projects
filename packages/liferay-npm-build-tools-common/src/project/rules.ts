@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import clone from 'clone';
 import path from 'path';
 
 import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
-import {Project} from '.';
 import {VersionInfo} from './types';
 
 /**
@@ -19,7 +18,7 @@ import {VersionInfo} from './types';
 export interface BundlerLoaderDescriptor {
 	loader: string;
 	resolvedModule: string;
-	exec: BundlerLoaderEntryPoint;
+	exec: BundlerLoaderEntryPoint<string | Buffer>;
 	options: object;
 	metadata: BundlerLoaderMetadata;
 }
@@ -101,12 +100,13 @@ export default class Rules {
 
 			this._versionsInfo = resolvedModules.reduce(
 				(map: Map<string, VersionInfo>, resolvedModule) => {
-					const {pkgName, modulePath} = splitModuleName(
+					const {modulePath, pkgName} = splitModuleName(
 						resolvedModule
 					);
 					const pkgJsonPath = _project.toolResolve(
 						`${pkgName}/package.json`
 					);
+					// eslint-disable-next-line @typescript-eslint/no-var-requires
 					const pkgJson = require(pkgJsonPath);
 
 					map.set(resolvedModule, {
@@ -186,28 +186,32 @@ export default class Rules {
 				rule['use'] = [rule['use']];
 			}
 
-			rule['use'] = rule['use'].map((use: any) => {
-				if (typeof use === 'string') {
-					use = {
-						loader: use,
-					};
+			rule['use'] = rule['use'].map(
+				(
+					use: string | BundlerLoaderDescriptor
+				): BundlerLoaderDescriptor => {
+					if (typeof use === 'string') {
+						use = {
+							loader: use,
+						} as BundlerLoaderDescriptor;
+					}
+
+					if (use.options === undefined) {
+						use.options = {};
+					}
+
+					use = this._instantiateLoader(use);
+
+					return use;
 				}
-
-				if (use.options === undefined) {
-					use.options = {};
-				}
-
-				use = this._instantiateLoader(use);
-
-				return use;
-			});
+			);
 		});
 	}
 
 	_normalizeArrayOfRegExp(
 		rule: object,
 		fieldName: string,
-		defaultValue: any
+		defaultValue: unknown
 	): void {
 		if (rule[fieldName] === undefined) {
 			rule[fieldName] = [defaultValue];

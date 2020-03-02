@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -10,7 +9,7 @@
  * @return negated list of globs or single glob expression
  */
 export function negate<T extends string | string[]>(globs: T): T {
-	const negate = (glob: string) =>
+	const negate = (glob: string): string =>
 		glob[0] === '!' ? glob.substring(1) : `!${glob}`;
 
 	if (Array.isArray(globs)) {

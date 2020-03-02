@@ -1,0 +1,10 @@
+module.exports = {
+	sources: ['src'],
+	'create-jar': {
+		'output-dir': 'dist',
+		features: {
+			'js-extender': true,
+			'web-context': '/a-project',
+		},
+	},
+};

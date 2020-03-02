@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import path from 'path';
 
-import project from './project';
 import FilePath from './file-path';
+import project from './project';
 
 enum FileOrigin {
 	SOURCE_PROJECT,
@@ -55,7 +54,9 @@ export function getPackageDir(moduleFilePath: string): string {
 		return absPkgDir.asNative;
 	}
 
-	switch (getFileOrigin(moduleFilePath)) {
+	const fileOrigin = getFileOrigin(moduleFilePath);
+
+	switch (fileOrigin) {
 		case FileOrigin.SOURCE_DEPENDENCY: {
 			const absModuleFilePosixPath = new FilePath(
 				moduleFilePath
@@ -117,6 +118,9 @@ export function getPackageDir(moduleFilePath: string): string {
 
 			break;
 		}
+
+		default:
+			throw new Error(`Unkown FileOrigin: ${fileOrigin}`);
 	}
 
 	packageDirCache[absModuleFilePosixPath] = absPkgDir;
@@ -156,17 +160,10 @@ export function getModuleName(moduleFilePath: string): string {
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const pkgJson = require(getPackageJsonPath(moduleFilePath));
 
 	return `${pkgJson.name}@${pkgJson.version}/${moduleName}`;
-}
-
-function getPackageName(modulePath: string): string {
-	const modulePathParts = modulePath.split('/');
-
-	return modulePath.startsWith('@')
-		? `${modulePathParts[0]}/${modulePathParts[1]}`
-		: modulePathParts[0];
 }
 
 function getFileOrigin(filePath: string): FileOrigin {

@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -38,11 +37,11 @@ export interface Options {
  * `honorWebpackHash` is false.
  */
 export default function(
-	context: BundlerLoaderContext,
+	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, filePath, log} = context;
-	const {removePrefix = '', honorWebpackHash = false} = options;
+	const {honorWebpackHash = false, removePrefix = ''} = options;
 
 	const moduleName = getModuleName(
 		honorWebpackHash ? filePath : removeWebpackHash(filePath),

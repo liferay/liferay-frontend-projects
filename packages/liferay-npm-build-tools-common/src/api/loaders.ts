@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -35,16 +34,16 @@ export interface BundlerLoaderMetadata {
 	 * By default 'utf-8' is used if the loader doesn't export any metadata or
 	 * if metadata is exported but `encoding` is left `undefined`.
 	 */
-	encoding?: string | null;
+	encoding?: BufferEncoding | null;
 }
 
 /**
  * A bundler loader plugin entry point
  */
-export interface BundlerLoaderEntryPoint {
+export interface BundlerLoaderEntryPoint<T extends string | Buffer> {
 	(
 		/** Context of execution */
-		context: BundlerLoaderContext,
+		context: BundlerLoaderContext<T>,
 
 		/** Configured options for the loader */
 		options: object
@@ -54,9 +53,9 @@ export interface BundlerLoaderEntryPoint {
 /**
  * A bundler loader execution context
  */
-export interface BundlerLoaderContext {
+export interface BundlerLoaderContext<T extends string | Buffer> {
 	/** Content of main transformed object */
-	content: string;
+	content: T;
 
 	/** Path to main transformed object (relative to project dir) */
 	filePath: string;
