@@ -2,24 +2,31 @@
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0-beta.0...v9.5.0)
 
+### :new: Features
+
 -   feat: add final theme thumbnail placeholder (#103) ([\#434](https://github.com/liferay/liferay-js-themes-toolkit/pull/434))
--   fix: exclude .css files when extracting classic/admin theme (#432)
-    ([\#433](https://github.com/liferay/liferay-js-themes-toolkit/pull/433))
+
+### :wrench: Bug fixes
+
+-   fix: exclude .css files when extracting classic/admin theme (#432) ([\#433](https://github.com/liferay/liferay-js-themes-toolkit/pull/433))
+
+### :book: Documentation
+
 -   docs: explain the role of PR titles in changelog generation ([\#430](https://github.com/liferay/liferay-js-themes-toolkit/pull/430))
 
-## [v9.5.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.0-beta.0) (2020-01-24)
+## [v9.5.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.0-beta.0) (2020-01-27)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.3...v9.5.0-beta.0)
 
--   feat: support Liferay DXP 7.3 (#415), enhance R2 error reporting (#417), and provide npm scripts for gulp tasks (#381) ([\#422](https://github.com/liferay/liferay-js-themes-toolkit/pull/422))
--   feat: support themes based on Liferay's Classic Theme (#419) ([\#425](https://github.com/liferay/liferay-js-themes-toolkit/pull/425))
--   feat: support themes based on Liferay's Admin Theme (#423) ([\#426](https://github.com/liferay/liferay-js-themes-toolkit/pull/426))
--   fix: extend from themelets using package URLs (#375) ([\#427](https://github.com/liferay/liferay-js-themes-toolkit/pull/427))
--   feat: generate placeholder thumbnail.png file (#103) ([\#428](https://github.com/liferay/liferay-js-themes-toolkit/pull/428))
+### :package: Miscellaneous
+
+-   Merging to continue with (milestone)[https://github.com/liferay/liferay-js-themes-toolkit/milestone/11] development. ([\#422](https://github.com/liferay/liferay-js-themes-toolkit/pull/422))
 
 ## [v9.4.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.3) (2019-12-12)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.2...v9.4.3)
+
+### :wrench: Bug fixes
 
 -   fix: make layout generator produce correct paths on Windows (#412) ([\#413](https://github.com/liferay/liferay-js-themes-toolkit/pull/413))
 
@@ -27,11 +34,19 @@
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.1...v9.4.2)
 
+### :wrench: Bug fixes
+
 -   fix: correct misspelled function in layout generator (#409) ([\#410](https://github.com/liferay/liferay-js-themes-toolkit/pull/410))
 
 ## [v9.4.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.1) (2019-11-25)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.4.0...v9.4.1)
+
+### :new: Features
+
+-   feat: configure Semantic Pull Requests bot ([\#385](https://github.com/liferay/liferay-js-themes-toolkit/pull/385))
+
+### :house: Chores
 
 -   chore: update dependencies ([\#401](https://github.com/liferay/liferay-js-themes-toolkit/pull/401))
 -   chore: upgrade dependencies ([\#397](https://github.com/liferay/liferay-js-themes-toolkit/pull/397))
@@ -39,11 +54,12 @@
 -   chore: update eslint, eslint-config-liferay, prettier ([\#393](https://github.com/liferay/liferay-js-themes-toolkit/pull/393))
 -   chore: update dependencies ([\#391](https://github.com/liferay/liferay-js-themes-toolkit/pull/391))
 -   chore: use liferay-changelog-generator instead of scripts/changelog.js ([\#389](https://github.com/liferay/liferay-js-themes-toolkit/pull/389))
--   feat: configure Semantic Pull Requests bot ([\#385](https://github.com/liferay/liferay-js-themes-toolkit/pull/385))
 
 ## [v9.4.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.0) (2019-08-05)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.3.0...v9.4.0)
+
+### :new: Features
 
 -   feat: add font-awesome in upgrade process ([\#382](https://github.com/liferay/liferay-js-themes-toolkit/pull/382))
 
@@ -51,11 +67,15 @@
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.2.1...v9.3.0)
 
+### :new: Features
+
 -   feat: add support for font awesome on theme creation ([\#377](https://github.com/liferay/liferay-js-themes-toolkit/pull/377))
 
 ## [v9.2.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.2.1) (2019-07-02)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.2.0...v9.2.1)
+
+### :wrench: Bug fixes
 
 -   fix: silent `npm install` failures on Windows in extend and kickstart ([\#370](https://github.com/liferay/liferay-js-themes-toolkit/pull/370))
 -   fix: Windows compatibility extending themes via URL (#365) ([\#369](https://github.com/liferay/liferay-js-themes-toolkit/pull/369))
@@ -64,11 +84,15 @@
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.5...v9.2.0)
 
+### :new: Features
+
 -   feat: teach `gulp extend` to accept a package URL (9.x) (#266) ([\#333](https://github.com/liferay/liferay-js-themes-toolkit/pull/333))
 
 ## [v9.1.5](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.5) (2019-06-24)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.4...v9.1.5)
+
+### :wrench: Bug fixes
 
 -   fix: prevent proxy errors from killing the watcher ([\#358](https://github.com/liferay/liferay-js-themes-toolkit/pull/358))
 
@@ -76,84 +100,182 @@
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.3...v9.1.4)
 
--   chore: strictly peg dependency versions (#352) ([\#353](https://github.com/liferay/liferay-js-themes-toolkit/pull/353))
+### :wrench: Bug fixes
+
 -   fix: Fix typo in JS MIME type (9.x) (#349) ([\#351](https://github.com/liferay/liferay-js-themes-toolkit/pull/351))
+
+### :house: Chores
+
+-   chore: strictly peg dependency versions (#352) ([\#353](https://github.com/liferay/liferay-js-themes-toolkit/pull/353))
 
 ## [v9.1.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.3) (2019-06-06)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.2...v9.1.3)
 
--   fix(tasks): non-CSS/JS file changes break CSS when using "watch" (#340) ([\#345](https://github.com/liferay/liferay-js-themes-toolkit/pull/345))
+### :new: Features
+
 -   feat: add a runtime NodeJS version check (#339) ([\#343](https://github.com/liferay/liferay-js-themes-toolkit/pull/343))
+-   feat: handle lightweight tags in changelog script ([\#335](https://github.com/liferay/liferay-js-themes-toolkit/pull/335))
+
+### :wrench: Bug fixes
+
+-   fix(tasks): non-CSS/JS file changes break CSS when using "watch" (#340) ([\#345](https://github.com/liferay/liferay-js-themes-toolkit/pull/345))
+
+### :house: Chores
+
 -   chore: Update theme dependencies for Liferay 7.2 release (#341) ([\#342](https://github.com/liferay/liferay-js-themes-toolkit/pull/342))
 -   chore: remove backup/revert functionality (9.x) (#267) ([\#286](https://github.com/liferay/liferay-js-themes-toolkit/pull/286))
--   feat: handle lightweight tags in changelog script ([\#335](https://github.com/liferay/liferay-js-themes-toolkit/pull/335))
 
 ## [v9.1.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.2) (2019-04-17)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.1...v9.1.2)
 
--   perf: avoid unnecessary buffering of responses in watch mode (#324) ([\#325](https://github.com/liferay/liferay-js-themes-toolkit/pull/325))
+### :wrench: Bug fixes
+
 -   fix: invalid "this" in deploy-live:war task (9.x) ([\#322](https://github.com/liferay/liferay-js-themes-toolkit/pull/322))
+
+### :racing_car: Peformance
+
+-   perf: avoid unnecessary buffering of responses in watch mode (#324) ([\#325](https://github.com/liferay/liferay-js-themes-toolkit/pull/325))
 
 ## [v9.1.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.1) (2019-04-12)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.1.0...v9.1.1)
 
--   doc: add v7 to the compatibility table (9.x) (#313) ([\#317](https://github.com/liferay/liferay-js-themes-toolkit/pull/317))
+### :wrench: Bug fixes
+
 -   fix: make "watch" mode work with portal gzipped (#311) ([\#314](https://github.com/liferay/liferay-js-themes-toolkit/pull/314))
 -   fix: broken CSS and sign-in when using "watch" proxy (#309, #310) ([\#312](https://github.com/liferay/liferay-js-themes-toolkit/pull/312))
+
+### :book: Documentation
+
+-   doc: add v7 to the compatibility table (9.x) (#313) ([\#317](https://github.com/liferay/liferay-js-themes-toolkit/pull/317))
 
 ## [v9.1.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.1.0) (2019-04-10)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0...v9.1.0)
 
--   feat: teach theme tasks to accept `--sass-include-paths` option (#305) ([\#306](https://github.com/liferay/liferay-js-themes-toolkit/pull/306))
+### :new: Features
 
-## [v9.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0) (2019-04-09)
+-   feat: teach theme tasks to accept --sass-include-paths option (#305) ([\#306](https://github.com/liferay/liferay-js-themes-toolkit/pull/306))
+
+## [v9.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0) (2019-04-10)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-beta.1...v9.0.0)
 
+### :new: Features
+
 -   feat: auto-deploy when starting `gulp watch` (#291) ([\#299](https://github.com/liferay/liferay-js-themes-toolkit/pull/299))
+
+### :wrench: Bug fixes
+
 -   fix: failure to update after non-JS/CSS changes in watch mode (#291) ([\#297](https://github.com/liferay/liferay-js-themes-toolkit/pull/297))
 
 ## [v9.0.0-beta.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.1) (2019-04-09)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-beta.0...v9.0.0-beta.1)
 
--   doc: remove Gulp entry from version table (v9.x) ([\#294](https://github.com/liferay/liferay-js-themes-toolkit/pull/294))
+### :new: Features
+
 -   feat: add ability to config PostCSS plug-ins (9.x) (#126) ([\#289](https://github.com/liferay/liferay-js-themes-toolkit/pull/289))
+
+### :wrench: Bug fixes
+
 -   fix: silent failures when using autoprefixer (9.x) (#274) ([\#287](https://github.com/liferay/liferay-js-themes-toolkit/pull/287))
 
-## [v9.0.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.0) (2019-04-03)
+### :book: Documentation
+
+-   doc: remove Gulp entry from version table (v9.x) ([\#294](https://github.com/liferay/liferay-js-themes-toolkit/pull/294))
+
+## [v9.0.0-beta.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-beta.0) (2019-04-05)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-alpha.1...v9.0.0-beta.0)
 
+### :new: Features
+
 -   feat: print watch info when starting watch (#277) ([\#278](https://github.com/liferay/liferay-js-themes-toolkit/pull/278))
--   fix: make it harder to accidentally produce duplicate entries in changelog ([\#276](https://github.com/liferay/liferay-js-themes-toolkit/pull/276))
 -   feat: automatically prefetch tags before running changelog generator ([\#275](https://github.com/liferay/liferay-js-themes-toolkit/pull/275))
+
+### :wrench: Bug fixes
+
+-   fix: make it harder to accidentally produce duplicate entries in changelog ([\#276](https://github.com/liferay/liferay-js-themes-toolkit/pull/276))
+
+### :book: Documentation
+
 -   doc: remove stale references to Visual Studio (#271) ([\#272](https://github.com/liferay/liferay-js-themes-toolkit/pull/272))
--   feat: teach the changelog generator to correct errors with "v" prefix ([\#243](https://github.com/liferay/liferay-js-themes-toolkit/pull/243))
--   fix: broken links in generated changelog ([\#242](https://github.com/liferay/liferay-js-themes-toolkit/pull/242))
+
+### :house: Chores
+
+-   chore: Update references to "DXP" in user-facing messages (9.x) (#280) ([\#283](https://github.com/liferay/liferay-js-themes-toolkit/pull/283))
+
+### :package: Miscellaneous
+
+-   Teach the changelog generator to correct errors with "v" prefix ([\#243](https://github.com/liferay/liferay-js-themes-toolkit/pull/243))
+-   Fix broken links in generated changelog ([\#242](https://github.com/liferay/liferay-js-themes-toolkit/pull/242))
 
 ## [v9.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-alpha.1) (2019-03-21)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.0.0-alpha.0...v9.0.0-alpha.1)
+
+### :package: Miscellaneous
 
 -   Create new changelog generator and use it to create 9.0.0-alpha.1 changelog ([\#239](https://github.com/liferay/liferay-js-themes-toolkit/pull/239))
 -   Make `gulp watch` pick up changes in subdirectories (v8.x) ([\#237](https://github.com/liferay/liferay-js-themes-toolkit/pull/237))
 
 ## [v9.0.0-alpha.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.0.0-alpha.0) (2019-03-19)
 
-[Full Changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0...v9.0.0-alpha.0)
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.0.0-rc.3...v9.0.0-alpha.0)
 
-**Breaking changes:**
+### :package: Miscellaneous
 
--   Version 9 is a streamlined and modernized toolkit, focusing exclusively on generating themes, layouts and themelets for Liferay DXP and Portal CE 7.2. At the same time, we just released [version 8.0.0 of the toolkit](https://github.com/liferay/liferay-js-themes-toolkit/releases/tag/v8.0.0) that provides tools for working with Liferay DXP and Portal CE versions 7.0 and 7.1 (#184).
-
-**Other changes:**
-
--   Themes are now generated with their dependencies explicitly listed in the "package.json" as opposed to being included transitively via a "liferay-theme-deps" package as was the case in version 8 (#168).
+-   Update dependencies to point at new snapshots ([\#232](https://github.com/liferay/liferay-js-themes-toolkit/pull/232))
+-   Remove references to "classic" theme ([\#230](https://github.com/liferay/liferay-js-themes-toolkit/pull/230))
+-   Clean yarn check ([\#228](https://github.com/liferay/liferay-js-themes-toolkit/pull/228))
+-   Bump version numbers in preparation for first v9 release ([\#226](https://github.com/liferay/liferay-js-themes-toolkit/pull/226))
+-   Update CONTRIBUTING.md ([\#223](https://github.com/liferay/liferay-js-themes-toolkit/pull/223))
+-   Remove lodash from generator-liferay-theme ([\#219](https://github.com/liferay/liferay-js-themes-toolkit/pull/219))
+-   Clean out packages directory ([\#218](https://github.com/liferay/liferay-js-themes-toolkit/pull/218))
+-   Address some yarn audit issues (for toolkit v9) ([\#217](https://github.com/liferay/liferay-js-themes-toolkit/pull/217))
+-   Remove unused "doctor" fixtures ([\#215](https://github.com/liferay/liferay-js-themes-toolkit/pull/215))
+-   Fold liferay-plugin-node-tasks into liferay-theme-tasks ([\#213](https://github.com/liferay/liferay-js-themes-toolkit/pull/213))
+-   Kill dead watch_socket.js and gogo-shell code (v9) ([\#212](https://github.com/liferay/liferay-js-themes-toolkit/pull/212))
+-   Prepare for v8/v9 split ([\#187](https://github.com/liferay/liferay-js-themes-toolkit/pull/187))
+-   Update template paths ([\#210](https://github.com/liferay/liferay-js-themes-toolkit/pull/210))
+-   Send correct MIME type (Content-Type) header for local css files ([\#209](https://github.com/liferay/liferay-js-themes-toolkit/pull/209))
+-   Fix "packageVersion is not defined" generator an "All" themelet ([\#207](https://github.com/liferay/liferay-js-themes-toolkit/pull/207))
+-   Remove incomplete DXP 7.2 support from v8 of toolkit ([\#206](https://github.com/liferay/liferay-js-themes-toolkit/pull/206))
+-   Add license headers to files ([\#203](https://github.com/liferay/liferay-js-themes-toolkit/pull/203))
+-   Add LICENSE.md files ([\#202](https://github.com/liferay/liferay-js-themes-toolkit/pull/202))
+-   Apply clean-up to new "watch" implementation ([\#201](https://github.com/liferay/liferay-js-themes-toolkit/pull/201))
+-   Provide content for top-level README.md (v8) ([\#200](https://github.com/liferay/liferay-js-themes-toolkit/pull/200))
+-   Update references to old repository name (v8) ([\#197](https://github.com/liferay/liferay-js-themes-toolkit/pull/197))
+-   Make `watch` task more robust (2nd approach) ([\#190](https://github.com/liferay/liferay-js-themes-toolkit/pull/190))
+-   Update yeoman-generator v0.18.0 to 3.2.0 (for v8 of toolkit) ([\#195](https://github.com/liferay/liferay-js-themes-toolkit/pull/195))
+-   Fix post-install for layout generator ([\#194](https://github.com/liferay/liferay-js-themes-toolkit/pull/194))
+-   Remove nested .travis.yml file ([\#191](https://github.com/liferay/liferay-js-themes-toolkit/pull/191))
+-   Rename SDK reference to "toolkit" ([\#186](https://github.com/liferay/liferay-js-themes-toolkit/pull/186))
+-   Address security issues reported by "yarn audit" ([\#183](https://github.com/liferay/liferay-js-themes-toolkit/pull/183))
+-   Update eslint and eslint-config-liferay to latest ([\#181](https://github.com/liferay/liferay-js-themes-toolkit/pull/181))
+-   Don't use string-concatenation to build up devDependencies ([\#180](https://github.com/liferay/liferay-js-themes-toolkit/pull/180))
+-   Replace the "divert()" abstraction with something simpler ([\#179](https://github.com/liferay/liferay-js-themes-toolkit/pull/179))
+-   Overhaul normalize processing ([\#178](https://github.com/liferay/liferay-js-themes-toolkit/pull/178))
+-   Remove generator dependence on globally installed gulp instance (#172) ([\#173](https://github.com/liferay/liferay-js-themes-toolkit/pull/173))
+-   Remove unnecessary dynamism of getDependencyName ([\#176](https://github.com/liferay/liferay-js-themes-toolkit/pull/176))
+-   Freshen lockfile ([\#177](https://github.com/liferay/liferay-js-themes-toolkit/pull/177))
+-   Remove scary warnings from normalize process in the generator ([\#175](https://github.com/liferay/liferay-js-themes-toolkit/pull/175))
+-   Remove deprecated liferay-theme-finder package ([\#167](https://github.com/liferay/liferay-js-themes-toolkit/pull/167))
+-   Fold "divert" into liferay-theme-tasks ([\#165](https://github.com/liferay/liferay-js-themes-toolkit/pull/165))
+-   Remove \_.isPlainObject calls in divert.js (x2) ([\#163](https://github.com/liferay/liferay-js-themes-toolkit/pull/163))
+-   Format even more files with prettier ([\#162](https://github.com/liferay/liferay-js-themes-toolkit/pull/162))
+-   Update lerna, and let it know that we are using Yarn workspaces ([\#160](https://github.com/liferay/liferay-js-themes-toolkit/pull/160))
+-   Remove lodash from liferay-theme-finder ([\#159](https://github.com/liferay/liferay-js-themes-toolkit/pull/159))
+-   Remove update-notifier functionality ([\#156](https://github.com/liferay/liferay-js-themes-toolkit/pull/156))
+-   Fixes #147 | Add support for 7.2 themes ([\#158](https://github.com/liferay/liferay-js-themes-toolkit/pull/158))
+-   Remove rubySass ([\#155](https://github.com/liferay/liferay-js-themes-toolkit/pull/155))
+-   Use Prettier to format all eligible files ([\#153](https://github.com/liferay/liferay-js-themes-toolkit/pull/153))
+-   Migrate to Yarn ([\#150](https://github.com/liferay/liferay-js-themes-toolkit/pull/150))
+-   Fixes #128 - Imports compat/mixins to add missing BS3 mixins used in base files ([\#145](https://github.com/liferay/liferay-js-themes-toolkit/pull/145))
+-   Fixes #143 - Replaces lexicon- prefix from lexicon-base occurrences ([\#144](https://github.com/liferay/liferay-js-themes-toolkit/pull/144))
 
 ## [v8.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.0.0) (2019-03-18)
 
