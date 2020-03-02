@@ -135,7 +135,10 @@ async function getChanges(from, to) {
 				const number = metadata ? metadata[1] : NaN;
 
 				if (description) {
-					changes.set(hash, {description, number});
+					changes.set(hash, {
+						description: description.trim(),
+						number,
+					});
 				}
 			}
 		} else {
