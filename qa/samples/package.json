@@ -9,13 +9,10 @@
 			"packages/*"
 		],
 		"nohoist": [
-			"**/babel-loader",
-			"**/babel-loader/**",
-			"**/webpack",
-			"**/webpack/**",
-			"**/eslint",
-			"**/eslint/**",
-			"**/@vue/**"
+			"**/react",
+			"**/react/**",
+			"**/react-dom",
+			"**/react-dom/**"
 		]
 	},
 	"dependencies": {}

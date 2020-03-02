@@ -14,6 +14,9 @@
 		"build": "liferay-npm-bundler",
 		"deploy": "npm run build && lnbs-deploy"
 	},
+	"peerDependencies": {
+		"react-provider": "^1.0.0"
+	},
 	"dependencies": {
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6"
@@ -28,7 +31,6 @@
 	},
 	"link-js-toolkit": {
 		"deleted": {
-			"dependencies": {},
 			"devDependencies": {
 				"liferay-npm-build-support": "^2.16.2",
 				"liferay-npm-bundler": "^2.16.2"

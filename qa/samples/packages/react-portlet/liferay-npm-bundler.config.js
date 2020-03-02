@@ -1,4 +1,10 @@
 module.exports = {
+	imports: {
+		'react-provider': {
+			react: '^16.8.6',
+			'react-dom': '^16.8.6',
+		},
+	},
 	webpack: {
 		module: {
 			rules: [
