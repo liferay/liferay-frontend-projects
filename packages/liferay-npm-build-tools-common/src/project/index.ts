@@ -29,6 +29,16 @@ export interface Exports {
 	[id: string]: string;
 }
 
+/** Imports configuration */
+export interface Imports {
+	[pkgName: string]: ImportsConfig;
+}
+
+export interface ImportsConfig {
+	provider: string;
+	version: string;
+}
+
 /** The webpack config provider function signature */
 export interface WebpackConfigProvider {
 	(webpackConfig: webpack.Configuration): webpack.Configuration;
@@ -68,6 +78,7 @@ export class Project {
 		if (this._exports === undefined) {
 			this._exports = prop.get(this._configuration, 'exports', {});
 
+			// Export package.json's main entry (if present) automatically
 			if (!this._exports['main']) {
 				let main = this._pkgJson['main'];
 
@@ -86,6 +97,34 @@ export class Project {
 		}
 
 		return this._exports;
+	}
+
+	get imports(): Imports {
+		if (this._imports === undefined) {
+			this._imports = {};
+
+			const imports = prop.get(this._configuration, 'imports', {});
+
+			Object.entries(imports).forEach(
+				([provider, config]: [string, string]) => {
+					Object.entries(config).forEach(
+						([pkgName, version]: [string, string]) => {
+							if (pkgName === '/') {
+								pkgName = provider;
+							}
+
+							this._imports[pkgName] = {
+								provider,
+								version,
+							};
+						}
+					);
+				},
+				{} as Imports
+			);
+		}
+
+		return this._imports;
 	}
 
 	/**
@@ -452,6 +491,9 @@ export class Project {
 
 	/** Modules to export to the outside world */
 	private _exports: Exports;
+
+	/** Modules to import from the outside world */
+	private _imports: Imports;
 
 	/** User's webpack configuration */
 	private _webpack: WebpackConfigProvider;
