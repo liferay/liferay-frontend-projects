@@ -50,7 +50,3 @@ Options:
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor) ([CHANGELOG](https://github.com/liferay/liferay-ckeditor/blob/master/CHANGELOG.md)).
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) ([CHANGELOG](https://github.com/liferay/liferay-js-themes-toolkit/blob/master/CHANGELOG.md)).
 -   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-npm-tools/tree/master/packages)).
-
-## Known limitations
-
--   Doesn't currently do anything special with Conventional Commit metadata (but it [easily could](https://github.com/liferay/liferay-js-themes-toolkit/issues/258)).
