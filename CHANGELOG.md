@@ -20,7 +20,7 @@
 
 ### :package: Miscellaneous
 
--   Merging to continue with (milestone)[https://github.com/liferay/liferay-js-themes-toolkit/milestone/11] development. ([\#422](https://github.com/liferay/liferay-js-themes-toolkit/pull/422))
+-   Merging to continue with [milestone](https://github.com/liferay/liferay-js-themes-toolkit/milestone/11) development. ([\#422](https://github.com/liferay/liferay-js-themes-toolkit/pull/422))
 
 ## [v9.4.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.4.3) (2019-12-12)
 
