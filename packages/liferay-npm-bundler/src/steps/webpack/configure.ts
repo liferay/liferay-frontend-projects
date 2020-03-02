@@ -4,6 +4,8 @@
  */
 
 import fs from 'fs-extra';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import {isLocalModule} from 'liferay-npm-build-tools-common/lib/modules';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import webpack from 'webpack';
 
@@ -29,20 +31,13 @@ export default function configure(): webpack.Configuration {
 		},
 		entry: Object.entries(project.exports).reduce(
 			(entry, [id, moduleName]) => {
-				if (!moduleName.startsWith('./')) {
-					// TODO: implement dependency exports
-					throw new Error('Dependency exports not supported yet!');
+				let generatedFile: FilePath;
+
+				if (isLocalModule(moduleName)) {
+					generatedFile = exportLocalModule(id, moduleName);
+				} else {
+					generatedFile = exportDependencyModule(id, moduleName);
 				}
-
-				// TODO: check if file needs regeneration to avoid webpack rebuilds
-
-				const generatedFile = buildGeneratedDir.join(`${id}.js`);
-				const relativeModuleName = moduleName.replace('./', '');
-
-				fs.writeFileSync(
-					generatedFile.asNative,
-					`__MODULE__.exports = require('../../${relativeModuleName}');`
-				);
 
 				entry[id] = `./${generatedFile.asPosix}`;
 
@@ -66,4 +61,31 @@ export default function configure(): webpack.Configuration {
 	);
 
 	return webpackConfig;
+}
+
+function exportDependencyModule(id: string, moduleName: string): FilePath {
+	const generatedFile = buildGeneratedDir.join(`${id}.js`);
+
+	// TODO: check if file needs regeneration to avoid webpack rebuilds
+
+	fs.writeFileSync(
+		generatedFile.asNative,
+		`__MODULE__.exports = require('${moduleName}');`
+	);
+
+	return generatedFile;
+}
+
+function exportLocalModule(id: string, moduleName: string): FilePath {
+	const generatedFile = buildGeneratedDir.join(`${id}.js`);
+	const relativeModuleName = moduleName.replace('./', '');
+
+	// TODO: check if file needs regeneration to avoid webpack rebuilds
+
+	fs.writeFileSync(
+		generatedFile.asNative,
+		`__MODULE__.exports = require('../../${relativeModuleName}');`
+	);
+
+	return generatedFile;
 }

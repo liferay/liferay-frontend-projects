@@ -1,5 +1,7 @@
 /copyright.js
 node_modules/*
+packages/**/*.js
 packages/*/generators
 packages/*/lib
 packages/*/node_modules
+qa/samples/**

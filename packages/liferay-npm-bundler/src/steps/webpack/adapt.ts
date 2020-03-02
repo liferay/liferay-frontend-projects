@@ -5,17 +5,17 @@
 
 import fs from 'fs-extra';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import * as mod from 'liferay-npm-build-tools-common/lib/modules';
+import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
+import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
 import {buildBundlerDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
 
-const {pkgJson} = project;
-const pkgId = `${pkgJson['name']}@${pkgJson['version']}`;
-
 export default function adapt(): void {
 	writeManifestModule();
-	writeExportsModules();
+	writeExportModules();
 	copyWebpackBundles();
 	internalizeWebpackManifest();
 	wrapBundles();
@@ -26,7 +26,8 @@ export default function adapt(): void {
  * `window["webpackJsonp"]`
  */
 function writeManifestModule(): void {
-	const selfModuleName = `${pkgId}/webpack.manifest`;
+	const {name, version} = project.pkgJson as {name; version};
+	const selfModuleName = `${name}@${version}/webpack.manifest`;
 
 	fs.writeFileSync(
 		buildBundlerDir.join(`webpack.manifest.js`).asNative,
@@ -45,42 +46,140 @@ function writeManifestModule(): void {
  * Generates one AMD module per export. The generated module loads webpack's
  * runtime, the vendor bundle (common split) and the exported module itself.
  */
-function writeExportsModules(): void {
+function writeExportModules(): void {
 	Object.entries(project.exports).forEach(([id, moduleName]) => {
-		const moduleFile = buildBundlerDir.join(
-			new FilePath(moduleName, {posix: true})
-		);
-
-		fs.ensureDirSync(moduleFile.dirname().asNative);
-
-		const relativeBuildBundleDirPosixPath = moduleFile
-			.dirname()
-			.relative(buildBundlerDir).asPosix;
-
-		const selfModuleName = `${pkgId}/${moduleName
-			.replace('./', '')
-			.replace(/\.js$/, '')}`;
-		const runtimeBundleModuleName = `${relativeBuildBundleDirPosixPath}/runtime.bundle`;
-		const vendorBundleModuleName = `${relativeBuildBundleDirPosixPath}/vendor.bundle`;
-		const exportBundleModuleName = `${relativeBuildBundleDirPosixPath}/${id}.bundle`;
-
-		fs.writeFileSync(
-			moduleFile.asNative,
-			`Liferay.Loader.define(` +
-				`'${selfModuleName}',` +
-				`[` +
-				`'module',` +
-				`'${runtimeBundleModuleName}',` +
-				`'${vendorBundleModuleName}',` +
-				`'${exportBundleModuleName}'` +
-				`],` +
-				`function(module,r,v,e){\n` +
-				`module.exports=e;\n` +
-				`});`
-		);
+		if (mod.isLocalModule(moduleName)) {
+			writeLocalExportModule(id, moduleName);
+		} else {
+			writeDependencyExportModule(id, moduleName);
+		}
 
 		log.debug(`Generated AMD module ${moduleName}`);
 	});
+}
+
+function writeDependencyExportModule(id: string, moduleName: string): void {
+	const {modulePath, pkgName, scope} = mod.splitModuleName(moduleName);
+
+	const canonicalModulePath = modulePath || '/index.js';
+	const scopedPkgName = mod.joinModuleName(scope, pkgName, '');
+	const namespacedScopedPkgName = ns.addNamespace(
+		scopedPkgName,
+		project.pkgJson
+	);
+
+	const pkgJson: object = fs.readJsonSync(
+		project.resolve(`${scopedPkgName}/package.json`)
+	);
+	const pkgDir = buildBundlerDir.join(
+		'node_modules',
+		pkgs.getPackageTargetDir(namespacedScopedPkgName, pkgJson['version'])
+	);
+
+	writeDependencyExportPkgJson(pkgDir, pkgJson);
+
+	let selfModuleName =
+		namespacedScopedPkgName +
+		'@' +
+		pkgJson['version'] +
+		canonicalModulePath;
+
+	selfModuleName = selfModuleName.replace(/\.js$/, '');
+
+	writeExportModuleFile(
+		pkgDir.join(new FilePath(canonicalModulePath, {posix: true})),
+		id,
+		selfModuleName,
+		project.pkgJson['name']
+	);
+}
+
+function writeLocalExportModule(id: string, moduleName: string): void {
+	const moduleFile = buildBundlerDir.join(
+		new FilePath(moduleName, {posix: true})
+	);
+
+	const {name, version} = project.pkgJson as {name; version};
+
+	const selfModuleName = `${name}@${version}/${moduleName
+		.replace('./', '')
+		.replace(/\.js$/, '')}`;
+
+	const bundlesLocation = moduleFile.dirname().relative(buildBundlerDir)
+		.asPosix;
+
+	writeExportModuleFile(moduleFile, id, selfModuleName, bundlesLocation);
+}
+
+/**
+ * Writes the `package.json` file of an exported dependency package.
+ *
+ * @remarks
+ * Because we don't export everything by default any more (like in bundler 2),
+ * we must generate a very simple generated `package.json` just for Liferay to
+ * process it and be compatible with bundler 2 artifacts.
+ *
+ * @param dir
+ * @param pkgName
+ * @param pkgJson
+ */
+function writeDependencyExportPkgJson(dir: FilePath, pkgJson: object): void {
+	const generatedPkgJson = {
+		name: ns.addNamespace(pkgJson['name'], project.pkgJson),
+		version: pkgJson['version'],
+		dependencies: {
+			[project.pkgJson['name']]: project.pkgJson['version'],
+		},
+	};
+
+	if (pkgJson['main']) {
+		generatedPkgJson['main'] = pkgJson['main'];
+	}
+
+	const file = dir.join('package.json');
+
+	// TODO: check if file needs regeneration to avoid webpack rebuilds
+	fs.ensureDirSync(file.dirname().asNative);
+	fs.writeFileSync(
+		file.asNative,
+		JSON.stringify(generatedPkgJson, null, '\t')
+	);
+}
+
+/**
+ * Writes the contents of an exports module file.
+ *
+ * @remarks
+ * An export module file requires webpack's manifest, vendor and entry bundles
+ * and re-exports the entry's exported object.
+ *
+ * @param moduleFile path to module file
+ * @param id id of export entry
+ * @param selfModuleName the full AMD name of the module
+ * @param bundlesLocation location of webpack bundle files
+ */
+function writeExportModuleFile(
+	moduleFile: FilePath,
+	id: string,
+	selfModuleName: string,
+	bundlesLocation: string
+): void {
+	// TODO: check if file needs regeneration to avoid webpack rebuilds
+	fs.ensureDirSync(moduleFile.dirname().asNative);
+	fs.writeFileSync(
+		moduleFile.asNative,
+		`Liferay.Loader.define(` +
+			`'${selfModuleName}',` +
+			`[` +
+			`'module',` +
+			`'${bundlesLocation}/runtime.bundle',` +
+			`'${bundlesLocation}/vendor.bundle',` +
+			`'${bundlesLocation}/${id}.bundle'` +
+			`],` +
+			`function(module,r,v,e){\n` +
+			`module.exports=e;\n` +
+			`});`
+	);
 }
 
 /**
@@ -120,7 +219,8 @@ function internalizeWebpackManifest(): void {
  */
 function wrapBundles(): void {
 	['runtime', 'vendor', ...Object.keys(project.exports)].forEach(id => {
-		const selfModuleName = `${pkgId}/${id}.bundle`;
+		const {name, version} = project.pkgJson as {name; version};
+		const selfModuleName = `${name}@${version}/${id}.bundle`;
 		const webpackManifestModuleName = `./webpack.manifest`;
 
 		const transform = (content: string): string =>
