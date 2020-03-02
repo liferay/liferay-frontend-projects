@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -31,6 +30,7 @@ export default class Manifest {
 			try {
 				this._data = JSON.parse(fs.readFileSync(filePath).toString());
 				this._loadedFromFile = true;
+
 				return;
 			} catch (err) {
 				if (err.code !== 'ENOENT') {
@@ -179,6 +179,7 @@ function sortObjectKeysReplacer(key: string, value: unknown): unknown {
 			.sort()
 			.reduce((sorted, key) => {
 				sorted[key] = value[key];
+
 				return sorted;
 			}, {});
 	} else {

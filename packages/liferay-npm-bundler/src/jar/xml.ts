@@ -4,7 +4,7 @@
  */
 
 import {ConfigurationField} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
-import {js2xml, xml2js, Element, ElementCompact} from 'xml-js';
+import {Element, ElementCompact, js2xml, xml2js} from 'xml-js';
 
 type XmlObject = Element | ElementCompact;
 

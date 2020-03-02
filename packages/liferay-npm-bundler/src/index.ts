@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -25,6 +24,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		versionsInfo.forEach((value, key) => {
 			console.log(`"${key}":`, JSON.stringify(value, null, 2));
 		});
+
 		return;
 	}
 

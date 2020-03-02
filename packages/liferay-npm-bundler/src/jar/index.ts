@@ -7,8 +7,8 @@ import fs from 'fs-extra';
 import globby, {GlobbyOptions} from 'globby';
 import JSZip from 'jszip';
 import {
-	PortletInstanceConfiguration,
 	ConfigurationJson,
+	PortletInstanceConfiguration,
 	SystemConfiguration,
 } from 'liferay-npm-build-tools-common/lib/api/configuration-json';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';

@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -21,6 +20,7 @@ class MessageTweaker {
 
 	linkTo(link: string): MessageTweaker {
 		this._msg.link = link;
+
 		return this;
 	}
 

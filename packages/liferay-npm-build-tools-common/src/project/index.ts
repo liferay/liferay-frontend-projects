@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -13,7 +12,7 @@ import resolveModule from 'resolve';
 import webpack from 'webpack';
 
 import FilePath from '../file-path';
-import {print, warn, info} from '../format';
+import {info, print, warn} from '../format';
 import {splitModuleName} from '../modules';
 import Jar from './jar';
 import Localization from './localization';
