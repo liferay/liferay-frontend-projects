@@ -6,7 +6,7 @@
 import * as fmt from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
-let debugOn, infoOn, errorOn;
+let debugOn: boolean, infoOn: boolean, errorOn: boolean, warnOn: boolean;
 
 /* eslint-disable no-fallthrough */
 switch (project.misc.logLevel) {
@@ -14,6 +14,8 @@ switch (project.misc.logLevel) {
 		debugOn = true;
 	case 'info':
 		infoOn = true;
+	case 'warn':
+		warnOn = true;
 	case 'error':
 	default:
 		errorOn = true;
@@ -27,6 +29,14 @@ export function error(...args: unknown[]): void {
 	}
 
 	fmt.print(fmt.error`${args.join(' ')}`);
+}
+
+export function warn(...args: unknown[]): void {
+	if (!warnOn) {
+		return;
+	}
+
+	fmt.print(fmt.warn`${args.join(' ')}`);
 }
 
 export function success(...args: unknown[]): void {

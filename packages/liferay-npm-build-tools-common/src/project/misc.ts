@@ -23,10 +23,10 @@ export default class Misc {
 	/**
 	 * Whether or not to dump detailed information about what the tool is doing
 	 */
-	get logLevel(): 'off' | 'error' | 'info' | 'debug' {
+	get logLevel(): 'off' | 'error' | 'warn' | 'info' | 'debug' {
 		const {npmbundlerrc} = this._project;
 
-		return prop.get(npmbundlerrc, 'log-level', 'error');
+		return prop.get(npmbundlerrc, 'log-level', 'warn');
 	}
 
 	/**
