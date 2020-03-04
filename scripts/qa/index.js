@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -14,7 +13,7 @@ const {
 	qaDir,
 	samplesDir,
 } = require('./resources');
-const { logStep, safeUnlink, spawn } = require('./util');
+const {logStep, safeUnlink, spawn} = require('./util');
 
 const argv = getTargets();
 
@@ -77,6 +76,7 @@ function getTargets() {
 
 	argv = argv.reduce((hash, val) => {
 		hash[val] = true;
+
 		return hash;
 	}, {});
 

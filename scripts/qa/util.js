@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -27,14 +26,12 @@ function safeUnlink(path) {
 }
 
 function spawn(cmd, args, options = {}) {
-	const proc = childProcess.spawnSync(
-		cmd,
-		args,
-		Object.assign(
-			{stdio: 'inherit', cwd: path.join('..', '..'), shell: true},
-			options
-		)
-	);
+	const proc = childProcess.spawnSync(cmd, args, {
+		stdio: 'inherit',
+		cwd: path.join('..', '..'),
+		shell: true,
+		...options,
+	});
 
 	if (proc.error || proc.status != 0) {
 		process.exit(1);
@@ -51,16 +48,14 @@ function writeConfig(dir, options) {
 				batchMode: true,
 				sdkVersion: currentVersion,
 				answers: {
-					'*': Object.assign(
-						{
-							description: options.folder,
-							category: 'JS Toolkit QA',
-							liferayPresent: true,
-							liferayDir,
-							pkgManager: 'yarn',
-						},
-						options
-					),
+					'*': {
+						description: options.folder,
+						category: 'JS Toolkit QA',
+						liferayPresent: true,
+						liferayDir,
+						pkgManager: 'yarn',
+						...options,
+					},
 				},
 			},
 			null,
