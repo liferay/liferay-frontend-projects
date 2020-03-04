@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as fmt from 'liferay-npm-build-tools-common/lib/format';
+import * as format from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
 let debugOn: boolean, infoOn: boolean, errorOn: boolean, warnOn: boolean;
@@ -28,7 +28,7 @@ export function error(...args: unknown[]): void {
 		return;
 	}
 
-	fmt.print(fmt.error`${args.join(' ')}`);
+	format.print(format.error`${args.join(' ')}`);
 }
 
 export function warn(...args: unknown[]): void {
@@ -36,7 +36,7 @@ export function warn(...args: unknown[]): void {
 		return;
 	}
 
-	fmt.print(fmt.warn`${args.join(' ')}`);
+	format.print(format.warn`${args.join(' ')}`);
 }
 
 export function success(...args: unknown[]): void {
@@ -44,7 +44,7 @@ export function success(...args: unknown[]): void {
 		return;
 	}
 
-	fmt.print(fmt.success`${args.join(' ')}`);
+	format.print(format.success`${args.join(' ')}`);
 }
 
 export function info(...args: unknown[]): void {
@@ -52,7 +52,7 @@ export function info(...args: unknown[]): void {
 		return;
 	}
 
-	fmt.print(fmt.info`${args.join(' ')}`);
+	format.print(format.info`${args.join(' ')}`);
 }
 
 export function debug(...args: unknown[]): void {
@@ -60,5 +60,5 @@ export function debug(...args: unknown[]): void {
 		return;
 	}
 
-	fmt.print(fmt.debug`${args.join(' ')}`);
+	format.print(format.debug`${args.join(' ')}`);
 }
