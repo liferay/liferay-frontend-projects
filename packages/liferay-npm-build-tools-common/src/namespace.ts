@@ -25,10 +25,10 @@ export function isNamespaced(moduleName: string): boolean {
  */
 export function addNamespace(
 	moduleName: string,
-	pkgJson: {name: string} | object,
+	pkgJson: {name: string},
 	{allowOverride = false}: {allowOverride?: boolean} = {}
 ): string {
-	const name = pkgJson['name'];
+	const name = pkgJson.name;
 	const moduleNamespace = getNamespace(moduleName);
 	const namespace = makeNamespace(pkgJson);
 
@@ -102,6 +102,6 @@ export function getNamespace(moduleName: string): string {
  * @param pkgJson package.json object of root package
  * @return the namespace for modules
  */
-export function makeNamespace(pkgJson: {name: string} | object): string {
-	return pkgJson['name'] + '$';
+export function makeNamespace(pkgJson: {name: string}): string {
+	return pkgJson.name + '$';
 }

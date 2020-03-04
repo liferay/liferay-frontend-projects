@@ -39,6 +39,26 @@ export interface ImportsConfig {
 	version: string;
 }
 
+/** Minimal package.json structure description */
+export interface PkgJson {
+	name: string;
+	version: string;
+	description?: string;
+	main?: string;
+	portlet?: {
+		[property: string]: string | boolean;
+	};
+	dependencies?: {
+		[pkgName: string]: string;
+	};
+	devDependencies?: {
+		[pkgName: string]: string;
+	};
+	peerDependencies?: {
+		[pkgName: string]: string;
+	};
+}
+
 /** The webpack config provider function signature */
 export interface WebpackConfigProvider {
 	(webpackConfig: webpack.Configuration): webpack.Configuration;
@@ -80,7 +100,7 @@ export class Project {
 
 			// Export package.json's main entry (if present) automatically
 			if (!this._exports['main']) {
-				let main = this._pkgJson['main'];
+				let main = this._pkgJson.main;
 
 				if (main) {
 					if (main.startsWith('/')) {
@@ -212,7 +232,7 @@ export class Project {
 	/**
 	 * Get project's parsed package.json file
 	 */
-	get pkgJson(): object {
+	get pkgJson(): PkgJson {
 		return this._pkgJson;
 	}
 
@@ -477,7 +497,7 @@ export class Project {
 	private _configFile: FilePath;
 
 	private _configuration: object;
-	private _pkgJson: object;
+	private _pkgJson: PkgJson;
 	private _pkgManager: PkgManager;
 
 	/** Absolute path to project directory */

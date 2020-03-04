@@ -45,8 +45,8 @@ export default function(
 
 	const hash = crypto.createHash('MD5');
 
-	hash.update(project.pkgJson['name']);
-	hash.update(project.pkgJson['version']);
+	hash.update(project.pkgJson.name);
+	hash.update(project.pkgJson.version);
 
 	const uuid = hash
 		.digest('base64')
