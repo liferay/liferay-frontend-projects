@@ -152,7 +152,7 @@ export default class Jar {
 		return prop.get(
 			npmbundlerrc,
 			'create-jar.features.js-extender',
-			pkgJson.portlet ? true : false
+			!!pkgJson.portlet
 		);
 	}
 
