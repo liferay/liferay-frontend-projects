@@ -19,8 +19,8 @@
 		"format": "prettier --write \".*.ts\" \"packages/**/*.ts\"",
 		"format:check": "prettier --list-different \".*.ts\" \"packages/**/*.ts\"",
 		"level-deps": "node scripts/level-deps.js",
-		"lint": "eslint \"packages/**/*.ts\"",
-		"lint:fix": "eslint --fix \"packages/**/*.ts\"",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
 		"qa": "node scripts/qa/index.js",
 		"test": "jest --runInBand",
 		"watch": "node scripts/watch"
