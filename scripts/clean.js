@@ -16,3 +16,5 @@ try {
 		throw err;
 	}
 }
+
+fs.removeSync('tsconfig.tsbuildinfo');

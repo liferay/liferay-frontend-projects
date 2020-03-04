@@ -1,8 +1,9 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"outDir": "./lib"
+		"outDir": "./lib",
+		"rootDir": "./src"
 	},
 	"include": ["src/**/*"],
-	"exclude": ["node_modules", "**/__tests__/**"]
+	"references": [{"path": "../liferay-npm-build-tools-common"}]
 }

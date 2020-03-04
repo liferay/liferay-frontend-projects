@@ -13,9 +13,9 @@
 		"packages/*"
 	],
 	"scripts": {
-		"build": "node scripts/build.js",
+		"build": "tsc --build packages/*/tsconfig.json",
 		"check-deps": "node scripts/check-deps.js",
-		"ci": "yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
+		"ci": "yarn clean && yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
 		"clean": "yarn workspaces run clean",
 		"format": "prettier --write \".*.ts\" \"packages/**/*.ts\"",
 		"format:check": "prettier --list-different \".*.ts\" \"packages/**/*.ts\"",
@@ -24,7 +24,7 @@
 		"lint:fix": "eslint --fix .",
 		"qa": "node scripts/qa/index.js",
 		"test": "jest --runInBand",
-		"watch": "node scripts/watch"
+		"watch": "yarn build --watch"
 	},
 	"devDependencies": {
 		"@types/jest": "^24.0.18",

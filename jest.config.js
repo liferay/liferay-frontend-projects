@@ -12,7 +12,6 @@ module.exports = {
 	],
 	testPathIgnorePatterns: ['/node_modules/', '/__fixtures__/'],
 	transform: {
-		"\\.js$": "ts-jest",
-		"\\.ts$": "ts-jest"
-	}
+		'\\.ts$': 'ts-jest',
+	},
 };

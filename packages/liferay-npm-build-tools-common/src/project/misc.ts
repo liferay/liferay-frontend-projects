@@ -5,9 +5,9 @@
 
 import {Project} from '.';
 import prop from 'dot-prop';
-import {print, warn} from 'liferay-npm-build-tools-common/lib/format';
 
 import FilePath from '../file-path';
+import {print, warn} from '../format';
 
 /** Valid log levels for console and report */
 export type LogLevel = 'off' | 'error' | 'warn' | 'info' | 'debug';
