@@ -49,10 +49,10 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		}
 
 		// Do things
+		copyPackageJson();
 		await runWebpack();
 		await runRules(rootPkg);
-		copyPackageJson();
-		await saveManifest();
+		saveManifest();
 		if (project.jar.supported) {
 			await createJar();
 		}
@@ -86,8 +86,8 @@ function copyPackageJson(): void {
 	log.debug('Copied package.json to output directory');
 }
 
-async function saveManifest(): Promise<void> {
-	await manifest.save();
+function saveManifest(): void {
+	manifest.save();
 
 	log.debug('Wrote manifest.json to output directory');
 }
