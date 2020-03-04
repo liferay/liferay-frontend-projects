@@ -25,22 +25,22 @@ export default function configure(): webpack.Configuration {
 	// Override entry configuration
 	overrideWarn('entry', webpackConfig.entry);
 	webpackConfig.entry = Object.entries(project.exports).reduce(
-			(entry, [id, moduleName]) => {
-				let generatedFile: FilePath;
+		(entry, [id, moduleName]) => {
+			let generatedFile: FilePath;
 
-				if (isLocalModule(moduleName)) {
-					generatedFile = exportLocalModule(id, moduleName);
-				} else {
-					generatedFile = exportDependencyModule(id, moduleName);
-				}
+			if (isLocalModule(moduleName)) {
+				generatedFile = exportLocalModule(id, moduleName);
+			} else {
+				generatedFile = exportDependencyModule(id, moduleName);
+			}
 
-				entry[id] = `./${generatedFile.asPosix}`;
+			entry[id] = `./${generatedFile.asPosix}`;
 
 			log.debug(`Generated entry point with id ${id} for ${moduleName}`);
 
-				return entry;
-			},
-			{}
+			return entry;
+		},
+		{}
 	);
 
 	// Override output configuration
@@ -61,6 +61,14 @@ export default function configure(): webpack.Configuration {
 			name: 'runtime',
 		},
 	};
+
+	// Insert our imports loader in first position
+	webpackConfig.module = webpackConfig.module || {rules: []};
+	webpackConfig.module.rules.unshift({
+		test: /.*/,
+		enforce: 'post',
+		use: [require.resolve('./plugin/imports-loader')],
+	});
 
 	// Write webpack.config.js for debugging purposes
 	fs.writeFileSync(

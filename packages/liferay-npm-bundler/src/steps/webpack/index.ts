@@ -32,7 +32,7 @@ export default async function runWebpack(): Promise<webpack.Stats> {
 
 	log.info('Adapting webpack output to Liferay platform...');
 
-	adapt();
+	await adapt();
 
 	log.info('Webpack phase finished successfully');
 

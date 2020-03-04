@@ -1,0 +1,12 @@
+Liferay.Loader.define(
+	'<%= moduleName %>', 
+	[
+		'module', 
+		'<%= bundlesLocation %>/runtime.bundle', 
+		'<%= bundlesLocation %>/vendor.bundle', 
+		'<%= bundlesLocation %>/<%= id %>.bundle'
+	], 
+	function(module, runtime, vendor, entry) {
+		module.exports = entry;
+	}
+);
