@@ -13,23 +13,18 @@ import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
 
 export default function configure(): webpack.Configuration {
-	let webpackConfig: webpack.Configuration = {
-		devtool: 'source-map',
-		mode: 'development',
-		output: {
-			filename: '[name].bundle.js',
-			path: project.dir.join(buildWebpackDir).asNative,
-		},
-		optimization: {
-			splitChunks: {
-				name: 'vendor',
-				chunks: 'initial',
-			},
-			runtimeChunk: {
-				name: 'runtime',
-			},
-		},
-		entry: Object.entries(project.exports).reduce(
+	// Get user's config
+	const webpackConfig = project.webpackConfiguration;
+
+	// Provide defaults
+	webpackConfig.devtool = webpackConfig.devtool || 'source-map';
+	webpackConfig.mode = webpackConfig.mode || 'development';
+
+	// TODO: check if any overriden field should be smart-merged instead
+
+	// Override entry configuration
+	overrideWarn('entry', webpackConfig.entry);
+	webpackConfig.entry = Object.entries(project.exports).reduce(
 			(entry, [id, moduleName]) => {
 				let generatedFile: FilePath;
 
@@ -41,18 +36,31 @@ export default function configure(): webpack.Configuration {
 
 				entry[id] = `./${generatedFile.asPosix}`;
 
-				log.debug(
-					`Generated entry point with id ${id} for ${moduleName}`
-				);
+			log.debug(`Generated entry point with id ${id} for ${moduleName}`);
 
 				return entry;
 			},
 			{}
-		),
+	);
+
+	// Override output configuration
+	overrideWarn('output', webpackConfig.output);
+	webpackConfig.output = {
+		filename: '[name].bundle.js',
+		path: project.dir.join(buildWebpackDir).asNative,
 	};
 
-	// Merge in user's config
-	webpackConfig = project.webpackConfigProvider(webpackConfig);
+	// Override optimization configuration
+	overrideWarn('optimization', webpackConfig.optimization);
+	webpackConfig.optimization = {
+		splitChunks: {
+			name: 'vendor',
+			chunks: 'initial',
+		},
+		runtimeChunk: {
+			name: 'runtime',
+		},
+	};
 
 	// Write webpack.config.js for debugging purposes
 	fs.writeFileSync(
@@ -88,4 +96,13 @@ function exportLocalModule(id: string, moduleName: string): FilePath {
 	);
 
 	return generatedFile;
+}
+
+function overrideWarn(fieldName: string, value: unknown): void {
+	if (value !== undefined) {
+		log.warn(
+			'Your liferay-npm-bundler.config.js file is configuring webpack option\n' +
+				`'${fieldName}', but it will be ignored`
+		);
+	}
 }

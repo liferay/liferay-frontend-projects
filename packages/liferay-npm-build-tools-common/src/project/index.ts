@@ -59,11 +59,6 @@ export interface PkgJson {
 	};
 }
 
-/** The webpack config provider function signature */
-export interface WebpackConfigProvider {
-	(webpackConfig: webpack.Configuration): webpack.Configuration;
-}
-
 /**
  * Describes a standard JS Toolkit project.
  */
@@ -148,26 +143,18 @@ export class Project {
 	}
 
 	/**
-	 * Get user's webpack configuration provider function.
+	 * Get user's webpack configuration.
 	 */
-	get webpackConfigProvider(): WebpackConfigProvider {
-		if (this._webpack === undefined) {
-			const webpack = prop.get(this._configuration, 'webpack', {});
-
-			if (typeof webpack === 'function') {
-				this._webpack = webpack as WebpackConfigProvider;
-			} else {
-				// TODO: maybe smart merge this ?
-				this._webpack = (
-					webpackConfiguration
-				): webpack.Configuration => ({
-					...webpackConfiguration,
-					...webpack,
-				});
-			}
+	get webpackConfiguration(): webpack.Configuration {
+		if (this._webpackConfiguration === undefined) {
+			this._webpackConfiguration = prop.get(
+				this._configuration,
+				'webpack',
+				{}
+			);
 		}
 
-		return this._webpack;
+		return this._webpackConfiguration;
 	}
 
 	/**
@@ -516,7 +503,7 @@ export class Project {
 	private _imports: Imports;
 
 	/** User's webpack configuration */
-	private _webpack: WebpackConfigProvider;
+	private _webpackConfiguration: webpack.Configuration;
 
 	private _versionsInfo: Map<string, VersionInfo>;
 }
