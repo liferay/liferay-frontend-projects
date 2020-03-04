@@ -16,6 +16,7 @@
 		"build": "node scripts/build.js",
 		"check-deps": "node scripts/check-deps.js",
 		"ci": "yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
+		"clean": "yarn workspaces run clean",
 		"format": "prettier --write \".*.ts\" \"packages/**/*.ts\"",
 		"format:check": "prettier --list-different \".*.ts\" \"packages/**/*.ts\"",
 		"level-deps": "node scripts/level-deps.js",

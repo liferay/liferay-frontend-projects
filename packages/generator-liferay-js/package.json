@@ -2,6 +2,7 @@
 	"name": "generator-liferay-js",
 	"version": "3.0.0",
 	"description": "Yeoman generators for Liferay DXP and Portal CE JavaScript projects.",
+	"license": "LGPL-3.0",
 	"main": "generators/app/index.js",
 	"files": [
 		"generators"
@@ -12,8 +13,9 @@
 		"liferay-js"
 	],
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
 	"devDependencies": {

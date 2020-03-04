@@ -2,10 +2,12 @@
 	"name": "liferay-npm-bundler-loader-json-loader",
 	"version": "3.0.0",
 	"description": "A liferay-npm-bundler loader that turns JSON files into JavaScript modules that export the parsed JSON object.",
+	"license": "LGPL-3.0",
 	"main": "lib/index.js",
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
 	"dependencies": {

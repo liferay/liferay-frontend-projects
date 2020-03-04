@@ -2,10 +2,12 @@
 	"name": "liferay-npm-bundler-loader-css-loader",
 	"version": "3.0.0",
 	"description": "A liferay-npm-bundler loader that turns CSS files into JavaScript modules that inject a <link> into the HTML when they are required.",
+	"license": "LGPL-3.0",
 	"main": "lib/index.js",
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
 	"dependencies": {

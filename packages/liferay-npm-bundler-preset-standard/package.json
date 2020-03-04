@@ -2,5 +2,9 @@
 	"name": "liferay-npm-bundler-preset-standard",
 	"version": "3.0.0",
 	"description": "Standard configuration for liferay-npm-bundler.",
-	"main": "config.json"
+	"license": "LGPL-3.0",
+	"main": "config.json",
+	"scripts": {
+		"clean": "node ../../scripts/clean.js"
+	}
 }
