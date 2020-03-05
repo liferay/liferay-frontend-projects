@@ -19,17 +19,18 @@ export function isNamespaced(moduleName: string): boolean {
  * name is already namespaced with a different root package, an Error is thrown.
  * If the module is local it is left untouched.
  * @param moduleName a module name
- * @param name name of root package
+ * @param pkgJson package.json object of root package
  * @param allowOverride don't fail when trying to change the namespace
  * @return the namespaced module name
  */
 export function addNamespace(
 	moduleName: string,
-	{name}: {name: string},
+	pkgJson: {name: string},
 	{allowOverride = false}: {allowOverride?: boolean} = {}
 ): string {
+	const name = pkgJson.name;
 	const moduleNamespace = getNamespace(moduleName);
-	const namespace = makeNamespace({name});
+	const namespace = makeNamespace(pkgJson);
 
 	if (moduleNamespace != null) {
 		if (moduleNamespace !== namespace) {
@@ -98,9 +99,9 @@ export function getNamespace(moduleName: string): string {
 
 /**
  * Compose the namespace of a module according to some root package name.
- * @param name name of root package
+ * @param pkgJson package.json object of root package
  * @return the namespace for modules
  */
-export function makeNamespace({name}: {name: string}): string {
-	return name + '$';
+export function makeNamespace(pkgJson: {name: string}): string {
+	return pkgJson.name + '$';
 }

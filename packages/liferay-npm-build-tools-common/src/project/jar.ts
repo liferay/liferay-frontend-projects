@@ -127,7 +127,7 @@ export default class Jar {
 			this._outputFilename = prop.get(
 				npmbundlerrc,
 				'create-jar.output-filename',
-				pkgJson['name'] + '-' + pkgJson['version'] + '.jar'
+				pkgJson.name + '-' + pkgJson.version + '.jar'
 			);
 		}
 
@@ -152,7 +152,7 @@ export default class Jar {
 		return prop.get(
 			npmbundlerrc,
 			'create-jar.features.js-extender',
-			pkgJson['portlet'] ? true : false
+			!!pkgJson.portlet
 		);
 	}
 
@@ -187,7 +187,7 @@ the one in .npmbundlerrc
 			} else if (npmbundlerrcContextPath) {
 				this._webContextPath = npmbundlerrcContextPath;
 			} else {
-				this._webContextPath = `/${pkgJson['name']}-${pkgJson['version']}`;
+				this._webContextPath = `/${pkgJson.name}-${pkgJson.version}`;
 			}
 		}
 

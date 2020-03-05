@@ -11,9 +11,13 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 	],
 	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		project: './tsconfig.json',
+	},
 	plugins: ['@typescript-eslint'],
 	root: true,
 	rules: {
+		'@typescript-eslint/await-thenable': 'error',
 		'@typescript-eslint/no-explicit-any': [
 			'error',
 			{

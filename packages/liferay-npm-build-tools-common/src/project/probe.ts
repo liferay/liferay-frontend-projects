@@ -43,8 +43,10 @@ export default class Probe {
 		const {pkgJson} = this._project;
 
 		return (
-			(pkgJson['dependencies'] && pkgJson['dependencies'][pkgName]) ||
-			(pkgJson['devDependencies'] && pkgJson['devDependencies'][pkgName])
+			(pkgJson.dependencies &&
+				pkgJson.dependencies[pkgName] !== undefined) ||
+			(pkgJson.devDependencies &&
+				pkgJson.devDependencies[pkgName] !== undefined)
 		);
 	}
 

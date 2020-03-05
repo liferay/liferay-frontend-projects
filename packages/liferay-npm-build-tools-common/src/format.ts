@@ -52,7 +52,10 @@ const fmt = {
  * @remarks
  * Error messages are prepended with a '⚙' emoji.
  */
-export function debug(literals, ...values): string {
+export function debug(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.debug(format('⚙', literals, values));
 }
 
@@ -70,7 +73,10 @@ export function debug(literals, ...values): string {
  * @remarks
  * Error messages are prepended with a '❌' emoji.
  */
-export function error(literals, ...values): string {
+export function error(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.error(format('❌', literals, values));
 }
 
@@ -88,7 +94,10 @@ export function error(literals, ...values): string {
  * @remarks
  * Error messages are prepended with a 'ℹ️' emoji.
  */
-export function info(literals, ...values): string {
+export function info(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.info(format('ℹ️', literals, values));
 }
 
@@ -143,7 +152,10 @@ export function print(lines: string | string[], ...rest: string[]): void {
  * @remarks
  * Error messages are prepended with a '✔️' emoji.
  */
-export function success(literals, ...values): string {
+export function success(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.success(format('✔️', literals, values));
 }
 
@@ -161,7 +173,10 @@ export function success(literals, ...values): string {
  * @remarks
  * Error messages are prepended with a '❓' emoji.
  */
-export function question(literals, ...values): string {
+export function question(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.question(format('❓', literals, values));
 }
 
@@ -176,7 +191,10 @@ export function question(literals, ...values): string {
  * `
  * ```
  */
-export function title(literals, ...values): string {
+export function title(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.title(format('', literals, values));
 }
 
@@ -194,7 +212,10 @@ export function title(literals, ...values): string {
  * @remarks
  * Error messages are prepended with a '⚠️' emoji.
  */
-export function warn(literals, ...values): string {
+export function warn(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
 	return fmt.warn(format('⚠️', literals, values));
 }
 
@@ -209,7 +230,11 @@ export function warn(literals, ...values): string {
  *
  * @param emoji an emoji or empty string to prefix the text
  */
-function format(emoji: string, literals: string[], values: unknown[]): string {
+function format(
+	emoji: string,
+	literals: TemplateStringsArray,
+	values: unknown[]
+): string {
 	let ret: string = literals[0];
 
 	for (let i = 0; i < values.length; i++) {

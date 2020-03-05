@@ -29,9 +29,34 @@ export interface Exports {
 	[id: string]: string;
 }
 
-/** The webpack config provider function signature */
-export interface WebpackConfigProvider {
-	(webpackConfig: webpack.Configuration): webpack.Configuration;
+/** Imports configuration */
+export interface Imports {
+	[pkgName: string]: ImportsConfig;
+}
+
+export interface ImportsConfig {
+	provider: string;
+	version: string;
+}
+
+/** Minimal package.json structure description */
+export interface PkgJson {
+	name: string;
+	version: string;
+	description?: string;
+	main?: string;
+	portlet?: {
+		[property: string]: string | boolean;
+	};
+	dependencies?: {
+		[pkgName: string]: string;
+	};
+	devDependencies?: {
+		[pkgName: string]: string;
+	};
+	peerDependencies?: {
+		[pkgName: string]: string;
+	};
 }
 
 /**
@@ -68,8 +93,9 @@ export class Project {
 		if (this._exports === undefined) {
 			this._exports = prop.get(this._configuration, 'exports', {});
 
+			// Export package.json's main entry (if present) automatically
 			if (!this._exports['main']) {
-				let main = this._pkgJson['main'];
+				let main = this._pkgJson.main;
 
 				if (main) {
 					if (main.startsWith('/')) {
@@ -88,27 +114,47 @@ export class Project {
 		return this._exports;
 	}
 
-	/**
-	 * Get user's webpack configuration provider function.
-	 */
-	get webpackConfigProvider(): WebpackConfigProvider {
-		if (this._webpack === undefined) {
-			const webpack = prop.get(this._configuration, 'webpack', {});
+	get imports(): Imports {
+		if (this._imports === undefined) {
+			this._imports = {};
 
-			if (typeof webpack === 'function') {
-				this._webpack = webpack as WebpackConfigProvider;
-			} else {
-				// TODO: maybe smart merge this ?
-				this._webpack = (
-					webpackConfiguration
-				): webpack.Configuration => ({
-					...webpackConfiguration,
-					...webpack,
-				});
-			}
+			const imports = prop.get(this._configuration, 'imports', {});
+
+			Object.entries(imports).forEach(
+				([provider, config]: [string, string]) => {
+					Object.entries(config).forEach(
+						([pkgName, version]: [string, string]) => {
+							if (pkgName === '/') {
+								pkgName = provider;
+							}
+
+							this._imports[pkgName] = {
+								provider,
+								version,
+							};
+						}
+					);
+				},
+				{} as Imports
+			);
 		}
 
-		return this._webpack;
+		return this._imports;
+	}
+
+	/**
+	 * Get user's webpack configuration.
+	 */
+	get webpackConfiguration(): webpack.Configuration {
+		if (this._webpackConfiguration === undefined) {
+			this._webpackConfiguration = prop.get(
+				this._configuration,
+				'webpack',
+				{}
+			);
+		}
+
+		return this._webpackConfiguration;
 	}
 
 	/**
@@ -173,7 +219,7 @@ export class Project {
 	/**
 	 * Get project's parsed package.json file
 	 */
-	get pkgJson(): object {
+	get pkgJson(): PkgJson {
 		return this._pkgJson;
 	}
 
@@ -438,7 +484,7 @@ export class Project {
 	private _configFile: FilePath;
 
 	private _configuration: object;
-	private _pkgJson: object;
+	private _pkgJson: PkgJson;
 	private _pkgManager: PkgManager;
 
 	/** Absolute path to project directory */
@@ -453,8 +499,11 @@ export class Project {
 	/** Modules to export to the outside world */
 	private _exports: Exports;
 
+	/** Modules to import from the outside world */
+	private _imports: Imports;
+
 	/** User's webpack configuration */
-	private _webpack: WebpackConfigProvider;
+	private _webpackConfiguration: webpack.Configuration;
 
 	private _versionsInfo: Map<string, VersionInfo>;
 }

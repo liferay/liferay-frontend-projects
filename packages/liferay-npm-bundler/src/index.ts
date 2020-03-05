@@ -30,7 +30,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 
 	try {
 		const {pkgJson, versionsInfo} = project;
-		const rootPkg = new PkgDesc(pkgJson['name'], pkgJson['version']);
+		const rootPkg = new PkgDesc(pkgJson.name, pkgJson.version);
 
 		const start = process.hrtime();
 
@@ -49,10 +49,10 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		}
 
 		// Do things
+		copyPackageJson();
 		await runWebpack();
 		await runRules(rootPkg);
-		copyPackageJson();
-		await saveManifest();
+		saveManifest();
 		if (project.jar.supported) {
 			await createJar();
 		}
@@ -60,7 +60,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		// Report and show execution time
 		const hrtime = process.hrtime(start);
 		report.executionTime(hrtime);
-		log.success(`Bundled {${pkgJson['name']}} in`, pretty(hrtime));
+		log.success(`Bundled {${pkgJson.name}} in`, pretty(hrtime));
 
 		// Write report if requested
 		if (project.misc.reportFile) {
@@ -86,8 +86,8 @@ function copyPackageJson(): void {
 	log.debug('Copied package.json to output directory');
 }
 
-async function saveManifest(): Promise<void> {
-	await manifest.save();
+function saveManifest(): void {
+	manifest.save();
 
 	log.debug('Wrote manifest.json to output directory');
 }

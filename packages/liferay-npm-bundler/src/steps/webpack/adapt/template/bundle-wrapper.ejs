@@ -1,0 +1,11 @@
+Liferay.Loader.define(
+	'<%= moduleName %>',
+	[
+		'module',
+		'require',
+		'<%= webpackManifestModuleName %>'<%= importDependencies %>
+	],
+	function(__MODULE__, __REQUIRE__, __WEBPACK_MANIFEST__) {
+		<%= content %>
+	}
+);

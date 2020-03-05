@@ -4,6 +4,8 @@
  */
 
 import fs from 'fs-extra';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import {isLocalModule} from 'liferay-npm-build-tools-common/lib/modules';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import webpack from 'webpack';
 
@@ -11,53 +13,62 @@ import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
 
 export default function configure(): webpack.Configuration {
-	let webpackConfig: webpack.Configuration = {
-		devtool: 'source-map',
-		mode: 'development',
-		output: {
-			filename: '[name].bundle.js',
-			path: project.dir.join(buildWebpackDir).asNative,
+	// Get user's config
+	const webpackConfig = project.webpackConfiguration;
+
+	// Provide defaults
+	webpackConfig.devtool = webpackConfig.devtool || 'source-map';
+	webpackConfig.mode = webpackConfig.mode || 'development';
+
+	// TODO: check if any overriden field should be smart-merged instead
+
+	// Override entry configuration
+	overrideWarn('entry', webpackConfig.entry);
+	webpackConfig.entry = Object.entries(project.exports).reduce(
+		(entry, [id, moduleName]) => {
+			let generatedFile: FilePath;
+
+			if (isLocalModule(moduleName)) {
+				generatedFile = exportLocalModule(id, moduleName);
+			} else {
+				generatedFile = exportDependencyModule(id, moduleName);
+			}
+
+			entry[id] = `./${generatedFile.asPosix}`;
+
+			log.debug(`Generated entry point with id ${id} for ${moduleName}`);
+
+			return entry;
 		},
-		optimization: {
-			splitChunks: {
-				name: 'vendor',
-				chunks: 'initial',
-			},
-			runtimeChunk: {
-				name: 'runtime',
-			},
-		},
-		entry: Object.entries(project.exports).reduce(
-			(entry, [id, moduleName]) => {
-				if (!moduleName.startsWith('./')) {
-					// TODO: implement dependency exports
-					throw new Error('Dependency exports not supported yet!');
-				}
+		{}
+	);
 
-				// TODO: check if file needs regeneration to avoid webpack rebuilds
-
-				const generatedFile = buildGeneratedDir.join(`${id}.js`);
-				const relativeModuleName = moduleName.replace('./', '');
-
-				fs.writeFileSync(
-					generatedFile.asNative,
-					`__MODULE__.exports = require('../../${relativeModuleName}');`
-				);
-
-				entry[id] = `./${generatedFile.asPosix}`;
-
-				log.debug(
-					`Generated entry point with id ${id} for ${moduleName}`
-				);
-
-				return entry;
-			},
-			{}
-		),
+	// Override output configuration
+	overrideWarn('output', webpackConfig.output);
+	webpackConfig.output = {
+		filename: '[name].bundle.js',
+		path: project.dir.join(buildWebpackDir).asNative,
 	};
 
-	// Merge in user's config
-	webpackConfig = project.webpackConfigProvider(webpackConfig);
+	// Override optimization configuration
+	overrideWarn('optimization', webpackConfig.optimization);
+	webpackConfig.optimization = {
+		splitChunks: {
+			name: 'vendor',
+			chunks: 'initial',
+		},
+		runtimeChunk: {
+			name: 'runtime',
+		},
+	};
+
+	// Insert our imports loader in first position
+	webpackConfig.module = webpackConfig.module || {rules: []};
+	webpackConfig.module.rules.unshift({
+		test: /.*/,
+		enforce: 'post',
+		use: [require.resolve('./plugin/imports-loader')],
+	});
 
 	// Write webpack.config.js for debugging purposes
 	fs.writeFileSync(
@@ -66,4 +77,40 @@ export default function configure(): webpack.Configuration {
 	);
 
 	return webpackConfig;
+}
+
+function exportDependencyModule(id: string, moduleName: string): FilePath {
+	const generatedFile = buildGeneratedDir.join(`${id}.js`);
+
+	// TODO: check if file needs regeneration to avoid webpack rebuilds
+
+	fs.writeFileSync(
+		generatedFile.asNative,
+		`__MODULE__.exports = require('${moduleName}');`
+	);
+
+	return generatedFile;
+}
+
+function exportLocalModule(id: string, moduleName: string): FilePath {
+	const generatedFile = buildGeneratedDir.join(`${id}.js`);
+	const relativeModuleName = moduleName.replace('./', '');
+
+	// TODO: check if file needs regeneration to avoid webpack rebuilds
+
+	fs.writeFileSync(
+		generatedFile.asNative,
+		`__MODULE__.exports = require('../../${relativeModuleName}');`
+	);
+
+	return generatedFile;
+}
+
+function overrideWarn(fieldName: string, value: unknown): void {
+	if (value !== undefined) {
+		log.warn(
+			'Your liferay-npm-bundler.config.js file is configuring webpack option\n' +
+				`'${fieldName}', but it will be ignored`
+		);
+	}
 }

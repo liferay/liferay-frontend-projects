@@ -115,18 +115,18 @@ function addManifest(zip: JSZip): void {
 
 	contents += `Tool: liferay-npm-bundler-${bundlerVersion}\n`;
 
-	contents += `Bundle-SymbolicName: ${pkgJson['name']}\n`;
-	contents += `Bundle-Version: ${pkgJson['version']}\n`;
-	if (pkgJson['description']) {
-		contents += `Bundle-Name: ${pkgJson['description']}\n`;
+	contents += `Bundle-SymbolicName: ${pkgJson.name}\n`;
+	contents += `Bundle-Version: ${pkgJson.version}\n`;
+	if (pkgJson.description) {
+		contents += `Bundle-Name: ${pkgJson.description}\n`;
 	}
 
 	contents += `Web-ContextPath: ${project.jar.webContextPath}\n`;
 
 	contents +=
 		`Provide-Capability: osgi.webresource;` +
-		`osgi.webresource=${pkgJson['name']};` +
-		`version:Version="${pkgJson['version']}"\n`;
+		`osgi.webresource=${pkgJson.name};` +
+		`version:Version="${pkgJson.version}"\n`;
 
 	if (project.l10n.supported) {
 		const bundleName = path.basename(
@@ -181,11 +181,9 @@ function addSystemConfigurationFiles(zip: JSZip): void {
 
 	const name =
 		systemConfigJson.name ||
-		(localization
-			? pkgJson['name']
-			: pkgJson['description'] || pkgJson['name']);
+		(localization ? pkgJson.name : pkgJson.description || pkgJson.name);
 
-	const metatype = xml.createMetatype(pkgJson['name'], name);
+	const metatype = xml.createMetatype(pkgJson.name, name);
 
 	if (localization) {
 		xml.addMetatypeLocalization(metatype, localization);
@@ -199,7 +197,7 @@ function addSystemConfigurationFiles(zip: JSZip): void {
 
 	zip.folder('OSGI-INF')
 		.folder('metatype')
-		.file(`${pkgJson['name']}.xml`, xml.format(metatype));
+		.file(`${pkgJson.name}.xml`, xml.format(metatype));
 
 	// Add features/metatype.json file
 	const metatypeJson = {};

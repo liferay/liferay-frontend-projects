@@ -91,6 +91,9 @@ Once you have all this in place, you can go to any QA project and run `yarn depl
 
 ### Existing QA projects
 
-Currently there is one project in `qa/samples/packages`:
+Currently there are two projects in `qa/samples/packages`:
 
--   react-portlet: Implements a pure JS portlet using React that may be deployed to Liferay and renders the usual sample content
+-   react-portlet: Implements a pure JS portlet using React that may be deployed to Liferay and renders the usual sample content.
+-   react-provider: Implements a provider that exports React for `react-portlet` to consume.
+
+Both must be deployed to see them in action.
