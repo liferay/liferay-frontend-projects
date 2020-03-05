@@ -50,3 +50,15 @@ Options:
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor) ([CHANGELOG](https://github.com/liferay/liferay-ckeditor/blob/master/CHANGELOG.md)).
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) ([CHANGELOG](https://github.com/liferay/liferay-js-themes-toolkit/blob/master/CHANGELOG.md)).
 -   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-npm-tools/tree/master/packages)).
+
+## FAQ
+
+### Is this tool intended to replace Lerna or other tools in all Liferay projects?
+
+[This issue](https://github.com/liferay/liferay-npm-tools/issues/403) explains all this in depth, but the short version is: no, we've used the tool so far in places where we think it makes managing releases easier, but there are no plans to roll it out globally or force its use.
+
+We use it in the projects listed above because it is a simpler and more reliable replacement for alternatives that we used in those projects in the past (eg. [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)), or heavyweight tools like [conventional-changelog](https://github.com/conventional-changelog) which would provide similar functionality at the cost of involving an enormous dependency graph.
+
+At first glance, this may seem like a "reinvented wheel", but we haven't _invented_ anything; we've actually just _built_ a small, simple wheel (a single file with zero dependencies that in essence basically boils down to a wrapper around an invocation of `git log`) that's well adapted to our use case.
+
+[Clay](https://github.com/liferay/clay) is an example of a project that currently uses [Lerna](https://github.com/lerna/lerna). Lerna provides its own changelog functionality, among many other things, and `liferay-changelog-generator` is not intended to be a replacement for all of that.
