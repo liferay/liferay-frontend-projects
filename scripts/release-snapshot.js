@@ -38,7 +38,20 @@ async function main() {
 		throw `Cannot FF pull from upstream/${branch}: please check your local branch status`;
 	}
 
-	success(`Branch upstream/${branch} is in sync with local branch`);
+	success(`Branch upstream/${branch} pulled correctly`);
+
+	const commitHash = await git('rev-parse', '--short', 'HEAD');
+	const upstreamHash = await git(
+		'rev-parse',
+		'--short',
+		`upstream/${branch}`
+	);
+
+	if (upstreamHash !== commitHash) {
+		throw 'Local branch is ahead of upstream';
+	}
+
+	success('Upstream and local branches are in sync');
 
 	try {
 		await yarn.pipe(
@@ -51,8 +64,6 @@ async function main() {
 	}
 
 	success('CI tests passed');
-
-	const commitHash = await git('rev-parse', '--short', 'HEAD');
 
 	const pkgJson = {
 		...PKG_JSON,
@@ -86,7 +97,7 @@ main()
 			if (typeof err === 'string') {
 				abort(err);
 			} else {
-				console.err(err);
+				console.error(err);
 				process.exit(1);
 			}
 		})
