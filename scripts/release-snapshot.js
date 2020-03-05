@@ -5,19 +5,54 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const readlineSync = require('readline-sync');
 
 const {git, yarn} = require('./util/run');
-const {abort, success} = require('./util/report');
+const {abort, success, warn} = require('./util/report');
 
 const EXPECTED_PREPUBLISH = 'node ../../scripts/disable-publish.js';
-const PKG_JSON = fs.readJSONSync('package.json');
+const RAW_PKG_JSON = fs.readFileSync('package.json');
+const PKG_JSON = JSON.parse(RAW_PKG_JSON);
 const RELEASE_BRANCH = ['3.x-WIP'];
 const WORKSPACE_DIR = path.resolve(path.join(__dirname, '..'));
+
+async function isStatusClean(status) {
+	if (status === '') {
+		return true;
+	}
+
+	const lines = status.split('\n');
+
+	if (lines.length > 1) {
+		return false;
+	}
+
+	if (lines[0] !== ` M packages/${PKG_JSON.name}/package.json`) {
+		return false;
+	}
+
+	warn('\nFile package.json is modified');
+
+	console.log('');
+	await git.pipe(
+		'diff',
+		'package.json'
+	);
+	console.log('');
+
+	const answer = readlineSync.question('Do you want to continue (y/N)? ');
+
+	if (answer !== 'y') {
+		return false;
+	}
+
+	return true;
+}
 
 async function main() {
 	const status = await git('status', '--porcelain');
 
-	if (status !== '') {
+	if (!(await isStatusClean(status))) {
 		throw 'Working copy has local changes';
 	}
 
@@ -91,14 +126,14 @@ async function main() {
 }
 
 main()
-	.then(() => git('checkout', 'package.json'))
-	.catch(err =>
-		git('checkout', 'package.json').then(() => {
-			if (typeof err === 'string') {
-				abort(err);
-			} else {
-				console.error(err);
-				process.exit(1);
-			}
-		})
-	);
+	.then(() => fs.writeFileSync('package.json', RAW_PKG_JSON))
+	.catch(err => {
+		fs.writeFileSync('package.json', RAW_PKG_JSON);
+
+		if (typeof err === 'string') {
+			abort(err);
+		} else {
+			console.error(err);
+			process.exit(1);
+		}
+	});

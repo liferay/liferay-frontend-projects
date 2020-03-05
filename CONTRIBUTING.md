@@ -97,3 +97,20 @@ Currently there are two projects in `qa/samples/packages`:
 -   react-provider: Implements a provider that exports React for `react-portlet` to consume.
 
 Both must be deployed to see them in action.
+
+## Releasing new versions
+
+Although the project is a monorepo, the release policy is per package (each version number is independent of the others).
+
+There are two yarn scripts to release versions:
+
+-   release:snapshot
+-   release
+
+### release:snapshot
+
+The `release:snapshot` script lets you publish a snapshot version (tagged as `snapshot` in npmjs.com so that it is not downloaded unless specifically requested).
+
+The script performs the necessary checks before release and then publishes a new version. It doesn't leave any trace in git because the version number contains the commit hash.
+
+Even though the script checks for a clean working copy, sometimes it may be necessary to tweak the `package.json` of the released package to point it to another dependency snapshot. In such cases you just need to modify the `package.json` file locally and the script won't complain about that situation.

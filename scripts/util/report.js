@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {green, red} = require('chalk');
+const {green, red, yellow} = require('chalk');
 
 function abort(...msgs) {
 	console.error('');
@@ -17,7 +17,12 @@ function success(...msgs) {
 	console.log(green('✔️', msgs.join('\n')));
 }
 
+function warn(...msgs) {
+	console.error(yellow('⚠️', msgs.join('\n')));
+}
+
 module.exports = {
 	abort,
 	success,
+	warn,
 };
