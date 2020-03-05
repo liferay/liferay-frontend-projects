@@ -1,3 +1,15 @@
+## [liferay-npm-scripts/v28.0.2](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v28.0.2) (2020-03-05)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.0.1...liferay-npm-scripts/v28.0.2)
+
+### :new: Features
+
+-   feat(changelog): add support for per-package monorepo changelogs ([\#398](https://github.com/liferay/liferay-npm-tools/pull/398))
+
+### :wrench: Bug fixes
+
+-   fix(scripts): make check/fix globs apply consistently at project level ([\#406](https://github.com/liferay/liferay-npm-tools/pull/406))
+
 ## [liferay-npm-scripts/v28.0.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v28.0.1) (2020-02-28)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.0.0...liferay-npm-scripts/v28.0.1)
