@@ -41,7 +41,10 @@ async function main() {
 	success(`Branch upstream/${branch} is in sync with local branch`);
 
 	try {
-		await yarn('ci', {cwd: WORKSPACE_DIR});
+		await yarn.pipe(
+			'ci',
+			{cwd: WORKSPACE_DIR}
+		);
 	} catch (err) {
 		console.error(err.message);
 		throw `CI checks failed: please fix and try again`;
@@ -64,7 +67,12 @@ async function main() {
 
 	fs.writeFileSync('package.json', JSON.stringify(pkgJson, null, '\t'));
 
-	await yarn('publish', '--tag', 'snapshot');
+	await yarn.pipe(
+		'publish',
+		'--tag',
+		'snapshot',
+		'--non-interactive'
+	);
 
 	success(
 		`Published version ${pkgJson.version} to https://www.npmjs.com/package/${pkgJson.name}`
