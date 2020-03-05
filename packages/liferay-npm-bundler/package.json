@@ -9,7 +9,8 @@
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
-		"prepublish": "yarn build"
+		"prepublish": "node ../../scripts/disable-publish.js",
+		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},
 	"devDependencies": {
 		"@types/escodegen": "^0.0.6",

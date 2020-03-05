@@ -29,6 +29,7 @@
 		"@types/jest": "^24.0.18",
 		"@typescript-eslint/eslint-plugin": "^2.21.0",
 		"@typescript-eslint/parser": "^2.21.0",
+		"chalk": "^2.4.2",
 		"copyfiles": "^2.1.1",
 		"eslint": "^5.16.0",
 		"eslint-config-liferay": "^19.0.2",

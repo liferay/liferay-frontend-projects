@@ -5,8 +5,8 @@
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
-		"prepublish": "yarn build",
-		"release": "echo TODO; exit 1"
+		"prepublish": "node ../../scripts/disable-publish.js",
+		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},
 	"dependencies": {
 		"chalk": "^2.4.2",
