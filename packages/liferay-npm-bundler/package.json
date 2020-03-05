@@ -17,14 +17,10 @@
 		"@types/estraverse": "^0.0.6",
 		"@types/fs-extra": "^8.1.0",
 		"@types/webpack": "^4.41.6",
-		"liferay-npm-bundler-preset-liferay-dev": "1.12.0"
+		"estree": "^4.3.0"
 	},
 	"dependencies": {
 		"acorn": "^6.2.1",
-		"babel-core": "^6.26.3",
-		"clone": "^2.1.2",
-		"data-urls": "^1.1.0",
-		"dot-prop": "^5.0.1",
 		"ejs": "^2.6.1",
 		"escodegen": "^1.14.1",
 		"estraverse": "^4.3.0",
@@ -32,13 +28,8 @@
 		"globby": "^10.0.1",
 		"jszip": "^3.1.5",
 		"liferay-npm-build-tools-common": "3.0.0",
-		"liferay-npm-bundler-preset-standard": "3.0.0",
-		"merge": "^1.2.1",
 		"pretty-time": "^1.1.0",
 		"read-json-sync": "^2.0.1",
-		"resolve": "^1.8.1",
-		"rimraf": "^3.0.0",
-		"semver": "^6.3.0",
 		"webpack": "^4.41.6",
 		"xml-js": "^1.6.8",
 		"yargs": "^14.0.0"

@@ -4,10 +4,10 @@
  */
 
 import fs from 'fs';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import path from 'path';
 
 import Manifest from '../manifest';
+import PkgDesc from '../pkg-desc';
 
 it('addPackage/getPackage work', () => {
 	const manifest = new Manifest();

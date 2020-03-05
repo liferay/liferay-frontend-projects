@@ -4,9 +4,9 @@
  */
 
 import child_process from 'child_process';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import path from 'path';
 
+import FilePath from '../../file-path';
 import {Project} from '../index';
 
 ////////////////////////////////////////////////////////////////////////////////
