@@ -6,6 +6,26 @@
 const fs = require('fs');
 const globby = require('globby');
 
+function coalesceSnapshotVersions(versions) {
+	let coalescedVersions = {};
+
+	Object.keys(versions).forEach(version => {
+		const i = version.indexOf('-snapshot.');
+
+		if (i != -1) {
+			const refVersion = version.substring(0, i);
+
+			coalescedVersions[refVersion] = coalescedVersions[refVersion] || [];
+			coalescedVersions[refVersion].push(...versions[version]);
+		} else {
+			coalescedVersions[version] = coalescedVersions[version] || [];
+			coalescedVersions[version].push(...versions[version]);
+		}
+	});
+
+	return coalescedVersions;
+}
+
 function getDepVersions() {
 	const filePaths = globby.sync(['packages/*/package.json']);
 
@@ -32,4 +52,7 @@ function getDepVersions() {
 	return depVersions;
 }
 
-module.exports = getDepVersions;
+module.exports = {
+	coalesceSnapshotVersions,
+	getDepVersions,
+};

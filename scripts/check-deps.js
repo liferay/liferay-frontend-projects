@@ -3,12 +3,17 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const getDepVersions = require('./util/get-dep-versions');
+const {
+	coalesceSnapshotVersions,
+	getDepVersions,
+} = require('./util/get-dep-versions');
 
 const depVersions = getDepVersions();
 let mismatchsFound = false;
 
 Object.entries(depVersions).forEach(([pkg, versions]) => {
+	versions = coalesceSnapshotVersions(versions);
+
 	if (Object.keys(versions).length > 1) {
 		mismatchsFound = true;
 
