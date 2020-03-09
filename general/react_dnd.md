@@ -1,6 +1,6 @@
 # React Dnd
 
-react-dnd, wether is a good and very flexible drag and drop library for react, has one of the worst documentations ever. Anyway this is not intended to be a full replacement of reat-dnd docs but just some guides and tips to use it on a react application via hooks. For full API reference visit https://react-dnd.github.io/react-dnd/
+react-dnd is a powerful and flexible drag and drop library for React, but there are some gaps in its documentation. Anyway, this is not intended to be a full replacement of react-dnd docs but just some guides and tips to use it on a React application via hooks. For full API reference visit https://react-dnd.github.io/react-dnd/
 
 ## Backend Provider
 
@@ -21,7 +21,7 @@ export default function MyReactApp() {
 
 ## useDrag
 
-First thing you need to configure is your draggable elements using useDrag hook.
+First thing you need to configure is your draggable elements using the `useDrag` hook.
 
 ```
 const [{isDragging}, drag, preview] = useDrag({
@@ -49,11 +49,11 @@ const [{isDragging}, drag, preview] = useDrag({
 
     `item.type` is also required, only drop targets registered for the same type will react to this drag.
 
-- `collect`: Optional. This is a function that receives `monitor` and `props`, and must return a plain object that you'll receive as the fist array element of the hook return value.
+- `collect`: Optional. This is a function that receives `monitor` and `props`, and must return a plain object that you'll receive as the first array element of the hook return value.
 
 ### Connect drag with DOM element
 
-You can connect drag with an element in two differente ways:
+You can connect drag with an element in two different ways:
 
 - Setting `drag` returned parameter as your element's `ref`.
 
@@ -65,7 +65,7 @@ return (
 );
 ```
 
-- Creating your own `ref`, calling `drag` returned parameter passing it out this ref and setting your element's ref with it.
+- Creating your own ref.
 
 ```
 const ref = useRef();
@@ -115,7 +115,7 @@ const [{isOver}, drop] = useDrop({
 
 ### Hook config object (most important properties)
 
-- `accept`: Required. This must be set with the item type you want drop to react to.
+- `accept`: Required. This must be set with the item type you want drop to accept.
 
 - `canDrop`: Optional. Use it to specify whether the drop target is able to accept the item. If you want to always allow it, just omit this method.
 
@@ -127,7 +127,7 @@ const [{isOver}, drop] = useDrop({
 
 ### Connect drop with DOM element
 
-You can connect drop with an element in two differente ways:
+You can connect drop with an element in two different ways:
 
 - Setting `drop` returned parameter as your element's `ref`.
 
@@ -139,7 +139,7 @@ return (
 );
 ```
 
-- Creating your own `ref`, calling `drop` returned parameter passing it out this ref and setting your element's ref with it.
+- Creating your own `ref`.
 
 ```
 const ref = useRef();
