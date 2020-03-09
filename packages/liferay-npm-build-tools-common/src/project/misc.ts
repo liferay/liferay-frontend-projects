@@ -5,8 +5,12 @@
 
 import {Project} from '.';
 import prop from 'dot-prop';
+import {print, warn} from 'liferay-npm-build-tools-common/lib/format';
 
 import FilePath from '../file-path';
+
+/** Valid log levels for console and report */
+export type LogLevel = 'off' | 'error' | 'warn' | 'info' | 'debug';
 
 /**
  * Reflects miscellaneous project configuration values.
@@ -23,10 +27,28 @@ export default class Misc {
 	/**
 	 * Whether or not to dump detailed information about what the tool is doing
 	 */
-	get logLevel(): 'off' | 'error' | 'warn' | 'info' | 'debug' {
+	get logLevel(): LogLevel {
 		const {npmbundlerrc} = this._project;
 
-		return prop.get(npmbundlerrc, 'log-level', 'warn');
+		let logLevel = prop.get<string>(npmbundlerrc, 'log-level', 'warn');
+
+		switch (logLevel) {
+			case 'off':
+			case 'error':
+			case 'warn':
+			case 'info':
+			case 'debug':
+				break;
+
+			default:
+				logLevel = 'off';
+				print(
+					warn`Configuration value {log-level} has invalid value: it will be ignored`
+				);
+				break;
+		}
+
+		return logLevel as LogLevel;
 	}
 
 	/**
@@ -54,7 +76,6 @@ export default class Misc {
 	/**
 	 * Get the path to the report file or undefined if no report is configured.
 	 */
-
 	get reportFile(): FilePath | undefined {
 		const {_project} = this;
 		const {npmbundlerrc} = _project;
@@ -64,6 +85,46 @@ export default class Misc {
 		return dumpReport
 			? _project.dir.join('liferay-npm-bundler-report.html')
 			: undefined;
+	}
+
+	/**
+	 * Get report log level
+	 */
+	get reportLevel(): LogLevel {
+		const {_project} = this;
+		const {npmbundlerrc} = _project;
+
+		let dumpReport = prop.get<string | boolean>(
+			npmbundlerrc,
+			'dump-report',
+			false
+		);
+
+		switch (dumpReport) {
+			case 'off':
+			case 'error':
+			case 'warn':
+			case 'info':
+			case 'debug':
+				break;
+
+			case true:
+				dumpReport = 'info';
+				break;
+
+			case false:
+				dumpReport = 'off';
+				break;
+
+			default:
+				dumpReport = 'off';
+				print(
+					warn`Configuration value {dump-report} has invalid value: it will be ignored`
+				);
+				break;
+		}
+
+		return dumpReport as LogLevel;
 	}
 
 	private readonly _project: Project;

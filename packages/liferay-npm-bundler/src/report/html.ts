@@ -21,6 +21,7 @@ export function htmlDump(report: Report): string {
 		_rules,
 		_versionsInfo,
 		_warnings,
+		_webpack,
 	} = report;
 
 	const title = 'Report of liferay-npm-bundler execution';
@@ -63,6 +64,39 @@ export function htmlDump(report: Report): string {
 					<td>${_versionsInfo[pkgName].version}</td>
 				`)
 			)
+		)
+	);
+
+	const webpack = htmlSection(
+		'Details of webpack execution',
+		htmlTable(
+			'File',
+			'',
+			'Source',
+			'Messages',
+			Object.entries(_webpack.logs)
+				.sort((a, b) => a[0].localeCompare(b[0]))
+				.map(([prjRelPath, sources]) =>
+					Object.entries(sources).map(([source, logger]) =>
+						logger.messages
+							.map(({logLevel, things}, index) =>
+								htmlRow(
+									`
+									<td>${index == 0 ? prjRelPath : ''}</td>
+									<td class="${logLevel}">
+										${logLevel.toUpperCase()}
+									</td>
+									<td class="source">[${source}]</td>
+									<td>
+										${things.map(thing => `${thing}`).join(' ')}
+									</td>
+								`,
+									logLevel
+								)
+							)
+							.join('')
+					)
+				)
 		)
 	);
 
@@ -131,18 +165,26 @@ export function htmlDump(report: Report): string {
 					}
 					
 					th, td {
-						padding: .1em 0;
+						padding: .1em;
 						vertical-align: top;
 					}
 					
-					td.info, td.warn, td.error {
-						background: green;
+					td.debug, td.info, td.warn, td.error {
 						border-radius: 4px;
 						color: white;
+						padding: 0 2px;
 						text-align: center;
 						vertical-align: middle;
 						width: 1px;
 						white-space: nowrap;
+					}
+
+					td.debug {
+						background: gray;
+					}
+
+					td.info {
+						background: green;
 					}
 
 					td.warn {
@@ -154,6 +196,7 @@ export function htmlDump(report: Report): string {
 					}
 					
 					td.source {
+						color: grey;
 						white-space: nowrap;
 					}
 
@@ -231,21 +274,28 @@ export function htmlDump(report: Report): string {
 
 						var select = document.getElementById('log-level-select');
 
-						select.value = 'info';
+						select.value = 'debug';
 
 						select.onchange = function() {
 							switch(select.value) {
-								case 'info':
+								case 'debug':
 									style.innerHTML = '';
+									break;
+
+								case 'info':
+									style.innerHTML = 
+										'tr.debug {display: none;}';
 									break;
 
 								case 'warn':
 									style.innerHTML = 
+										'tr.debug {display: none;}' +
 										'tr.info {display: none;}';
 									break;
 
 								case 'error':
 									style.innerHTML = 
+										'tr.debug {display: none;}' +
 										'tr.info {display: none;} ' +
 										'tr.warn {display: none;}';
 									break;
@@ -258,6 +308,7 @@ export function htmlDump(report: Report): string {
 				<div id='log-level-selector'>
 					Log level filter: 
 					<select id='log-level-select'>
+						<option>debug</option>
 						<option>info</option>
 						<option>warn</option>
 						<option>error</option>
@@ -269,6 +320,7 @@ export function htmlDump(report: Report): string {
 				${warnings}
 				${projectInfo}
 				${versionsInfo}
+				${webpack}
 				${rulesExecution}
 			</body>
 		</html>
