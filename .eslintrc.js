@@ -18,6 +18,7 @@ module.exports = {
 	root: true,
 	rules: {
 		'@typescript-eslint/await-thenable': 'error',
+		'@typescript-eslint/switch-exhaustiveness-check': 'error',
 		'@typescript-eslint/no-explicit-any': [
 			'error',
 			{
