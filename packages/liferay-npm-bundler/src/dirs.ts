@@ -6,9 +6,15 @@
 import fs from 'fs-extra';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
-export const buildBundlerDir = project.buildDir.join('bundler');
-export const buildGeneratedDir = project.buildDir.join('generated');
-export const buildWebpackDir = project.buildDir.join('webpack');
+export const buildBundlerDir = project.workDir
+	? project.buildDir
+	: project.buildDir.join('output');
+export const buildGeneratedDir = project.workDir
+	? project.workDir.join('generated')
+	: project.buildDir.join('generated');
+export const buildWebpackDir = project.workDir
+	? project.workDir.join('webpack')
+	: project.buildDir.join('webpack');
 
 fs.ensureDirSync(buildBundlerDir.asNative);
 fs.ensureDirSync(buildGeneratedDir.asNative);
