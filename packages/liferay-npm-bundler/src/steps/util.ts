@@ -77,7 +77,7 @@ export function iterateSerially<T>(
 	values: T[],
 	asyncProcess: {(value: T): Promise<void>}
 ): Promise<void> {
-	if (values.length == 0) {
+	if (values.length === 0) {
 		return Promise.resolve();
 	}
 

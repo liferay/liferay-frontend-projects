@@ -9,9 +9,9 @@ const linkDependencies = require('./link-dependencies');
 const setupProject = require('./setup-project');
 const setupYarnWorkspace = require('./setup-yarn-workspace');
 
-if (process.argv[2] == '-w') {
+if (process.argv[2] === '-w') {
 	setupYarnWorkspace();
-} else if (process.argv[2] == '-p') {
+} else if (process.argv[2] === '-p') {
 	setupProject();
 } else {
 	linkDependencies(process.argv.slice(2));

@@ -83,7 +83,7 @@ export function htmlDump(report: Report): string {
 							.map(({logLevel, things}, index) =>
 								htmlRow(
 									`
-									<td>${index == 0 ? prjRelPath : ''}</td>
+									<td>${index === 0 ? prjRelPath : ''}</td>
 									<td class="${logLevel}">
 										${LogLevel[logLevel].toUpperCase()}
 									</td>
@@ -363,7 +363,7 @@ function htmlTable(...args: unknown[]): string {
 		content = content.join('\n');
 	}
 
-	if (columns.length == 0) {
+	if (columns.length === 0) {
 		return `
 			<table>
 				${content}
@@ -426,7 +426,7 @@ function htmlLogOutput(
 
 		const msgs = rowLoggers[i].messages;
 
-		if (msgs.length == 0) {
+		if (msgs.length === 0) {
 			rows.push(
 				htmlRow(`
 					${cells.map(cell => `<td>${cell}</td>`).join(' ')}

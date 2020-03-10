@@ -278,7 +278,7 @@ function getPortletInstanceConfigurationJson(): PortletInstanceConfiguration {
 	if (
 		!configurationJson.portletInstance ||
 		!configurationJson.portletInstance.fields ||
-		Object.keys(configurationJson.portletInstance.fields).length == 0
+		Object.keys(configurationJson.portletInstance.fields).length === 0
 	) {
 		return undefined;
 	}
@@ -301,7 +301,7 @@ function getSystemConfigurationJson(): SystemConfiguration {
 	if (
 		!configurationJson.system ||
 		!configurationJson.system.fields ||
-		Object.keys(configurationJson.system.fields).length == 0
+		Object.keys(configurationJson.system.fields).length === 0
 	) {
 		return undefined;
 	}

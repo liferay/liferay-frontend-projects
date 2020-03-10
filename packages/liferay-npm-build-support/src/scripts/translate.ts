@@ -30,7 +30,7 @@ export default function() {
 		subscriptionKey = cfg.getTranslatorTextKey();
 	}
 
-	if (!subscriptionKey || subscriptionKey == '') {
+	if (!subscriptionKey || subscriptionKey === '') {
 		console.error(
 			'-------------------------------------------------------------\n' +
 				'    🛑 Microsoft Translator credentials not set 🛑\n\n' +
@@ -53,7 +53,7 @@ export default function() {
 		locale => locale != 'default'
 	);
 
-	if (locales.length == 0) {
+	if (locales.length === 0) {
 		console.log(
 			'No locales found: nothing to translate.\n\n' +
 				'You can edit your .npmbuildrc file to add new supported ' +
@@ -127,7 +127,7 @@ export function addMissingTranslations(translation, labels) {
 		});
 
 		console.log(
-			count == 0
+			count === 0
 				? `  · No missing translations found for locale ${locale}`
 				: `  · Added ${count} missing translations for locale ${locale}`
 		);
@@ -224,7 +224,7 @@ function showMissingSupportedLocales() {
 	const supportedLocales = cfg.getSupportedLocales();
 
 	const missingLocales = availableLocales.filter(
-		locale => supportedLocales.indexOf(locale) == -1
+		locale => supportedLocales.indexOf(locale) === -1
 	);
 
 	if (missingLocales.length > 0) {
@@ -248,7 +248,7 @@ function createMissingSupportedLocalesFiles() {
 	const supportedLocales = cfg.getSupportedLocales();
 
 	const missingLocales = supportedLocales.filter(
-		locale => project.l10n.availableLocales.indexOf(locale) == -1
+		locale => project.l10n.availableLocales.indexOf(locale) === -1
 	);
 
 	if (missingLocales.length > 0) {

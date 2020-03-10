@@ -39,7 +39,7 @@ function processPackage(srcPkg: PkgDesc): Promise<void> {
 		gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
 	);
 
-	if (sourcePrjRelPaths.length == 0) {
+	if (sourcePrjRelPaths.length === 0) {
 		return Promise.resolve();
 	}
 
@@ -64,7 +64,7 @@ function processFile(
 ): Promise<void> {
 	const loaders = project.rules.loadersForFile(prjRelPath);
 
-	if (loaders.length == 0) {
+	if (loaders.length === 0) {
 		return Promise.resolve();
 	}
 
@@ -226,7 +226,7 @@ function writeLoadersResult(
 
 	Object.entries(context.extraArtifacts).forEach(
 		([extraPrjRelPath, content]) => {
-			if (content == undefined) {
+			if (content === undefined) {
 				return;
 			}
 

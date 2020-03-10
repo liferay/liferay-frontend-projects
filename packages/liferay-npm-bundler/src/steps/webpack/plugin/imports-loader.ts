@@ -21,7 +21,7 @@ export default function(content: string): string {
 	);
 
 	// Early fail for performance: look for require/import
-	if (content.indexOf('require') == -1 && content.indexOf('import') == -1) {
+	if (content.indexOf('require') === -1 && content.indexOf('import') === -1) {
 		log.debug(`File does not contain 'require' or 'import' statements`);
 
 		return content;
