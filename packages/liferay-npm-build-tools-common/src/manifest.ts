@@ -7,9 +7,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 import {Manifest as Data, ModuleFlags, Package} from './api/manifest';
-import FilePath from './file-path';
 import PkgDesc from './pkg-desc';
-import project from './project';
 
 export {ModuleFlags, Package};
 
@@ -18,37 +16,10 @@ export {ModuleFlags, Package};
  * it to/from disk.
  */
 export default class Manifest {
-	/**
-	 * @param filePath an optional path to a file to load initial status
-	 */
-	constructor(filePath: string = null) {
-		this._loadedFromFile = false;
-
-		if (filePath) {
-			this._filePath = filePath;
-
-			try {
-				this._data = JSON.parse(fs.readFileSync(filePath).toString());
-				this._loadedFromFile = true;
-
-				return;
-			} catch (err) {
-				if (err.code !== 'ENOENT') {
-					throw err;
-				}
-			}
-		}
-
+	constructor() {
 		this._data = {
 			packages: {},
 		};
-	}
-
-	/**
-	 * Set to true when the manifest has been loaded from a file.
-	 */
-	get loadedFromFile(): boolean {
-		return this._loadedFromFile;
 	}
 
 	/**
@@ -105,55 +76,10 @@ export default class Manifest {
 	}
 
 	/**
-	 * Get a processed package entry
-	 * @param srcPkg the source package descriptor
-	 * @return the processed package entry (see addPackage for format description)
-	 */
-	getPackage(srcPkg: PkgDesc): Package {
-		return this._data.packages[srcPkg.id];
-	}
-
-	/**
-	 * Tests whether a package must be regenerated
-	 * @param destPkg destination package
-	 * @return true if package is outdated
-	 */
-	isOutdated(destPkg: PkgDesc): boolean {
-		// Unless we use real timestamps or digests, we cannot detect reliably
-		// if the root package is outdated or up-to-date.
-		if (destPkg.isRoot) {
-			return true;
-		}
-
-		const entry = this._data.packages[destPkg.id];
-
-		if (entry === undefined) {
-			return true;
-		}
-
-		if (
-			!fs.existsSync(
-				project.dir.join(new FilePath(entry.dest.dir, {posix: true}))
-					.asNative
-			)
-		) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Save current manifest to a file
-	 * @param filePath path to file or null to use default path
+	 * @param filePath path to file
 	 */
-	save(filePath: string = null): void {
-		filePath = filePath || this._filePath;
-
-		if (filePath === undefined) {
-			throw new Error('No file path given and no default path set');
-		}
-
+	save(filePath: string): void {
 		fs.ensureDirSync(path.dirname(filePath));
 		fs.writeFileSync(filePath, this.toJSON());
 	}
@@ -165,8 +91,6 @@ export default class Manifest {
 		return JSON.stringify(this._data, sortObjectKeysReplacer, 2);
 	}
 
-	private _loadedFromFile: boolean;
-	private _filePath: string;
 	private _data: Data;
 }
 

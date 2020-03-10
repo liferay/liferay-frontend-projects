@@ -1,8 +1,11 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"outDir": "./generators"
+		"allowJs": true,
+		"composite": true,
+		"outDir": "./generators",
+		"rootDir": "./src"
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "src/*/templates/**/*", "**/__tests__/**"]
+	"include": ["src/**/*", "src/**/*.json"],
+	"references": [{"path": "../liferay-npm-build-tools-common"}]
 }

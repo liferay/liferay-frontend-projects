@@ -1,15 +1,13 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"target": "esnext",
+		"esModuleInterop": true,
+		"lib": ["es2015"],
 		"module": "CommonJS",
 		"moduleResolution": "node",
-		"esModuleInterop": true,
-
-		"allowJs": true,
-		"checkJs": false,
-		"lib": ["es2015"],
-
-		"sourceMap": false
-	}
+		"resolveJsonModule": true,
+		"sourceMap": false,
+		"target": "esnext"
+	},
+	"exclude": ["node_modules", "**/__tests__/**"]
 }

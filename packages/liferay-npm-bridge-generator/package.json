@@ -2,12 +2,14 @@
 	"name": "liferay-npm-bridge-generator",
 	"version": "3.0.0",
 	"description": "A CLI utility to generate module bridges (modules that re-export other modules).",
+	"license": "LGPL-3.0",
 	"bin": {
 		"liferay-npm-bridge-generator": "bin/liferay-npm-bridge-generator.js"
 	},
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
 	"dependencies": {

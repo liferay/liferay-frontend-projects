@@ -2,9 +2,11 @@
 	"name": "liferay-npm-build-tools-common",
 	"version": "3.0.0",
 	"description": "Utility library for Liferay NPM Build Tools.",
+	"license": "LGPL-3.0",
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "node ../../scripts/disable-publish.js",
 		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},

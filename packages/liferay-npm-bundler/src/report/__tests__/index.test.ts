@@ -13,7 +13,7 @@ beforeEach(() => {
 	report = new Report();
 
 	// Hack to make tests repeatable
-	report._executionDate = new Date(0);
+	(report as any)._executionDate = new Date(0);
 });
 
 describe('when describing the run', () => {

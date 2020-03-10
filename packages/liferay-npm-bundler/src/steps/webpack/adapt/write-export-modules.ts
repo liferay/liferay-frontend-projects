@@ -8,10 +8,12 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import * as mod from 'liferay-npm-build-tools-common/lib/modules';
 import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
+import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
 
 import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
+import manifest from '../../../manifest';
 import {render} from './util';
 
 /**
@@ -54,6 +56,7 @@ async function writeDependencyExportModule(
 	);
 
 	await writeDependencyExportPkgJson(pkgDir, pkgJson);
+	addPackageToManifest(pkgJson, pkgDir);
 
 	moduleName =
 		namespacedScopedPkgName + '@' + pkgJson.version + canonicalModulePath;
@@ -65,6 +68,23 @@ async function writeDependencyExportModule(
 		id,
 		moduleName,
 		project.pkgJson.name
+	);
+}
+
+function addPackageToManifest(pkgJson: PkgJson, destDir: FilePath): void {
+	const {name, version} = pkgJson;
+
+	const srcDirPath = project
+		.resolve(`${name}/package.json`)
+		.replace('/package.json', '');
+
+	manifest.addPackage(
+		new PkgDesc(name, version, project.dir.relative(srcDirPath).asPosix),
+		new PkgDesc(
+			ns.addNamespace(name, project.pkgJson),
+			version,
+			project.dir.relative(destDir).asPosix
+		)
 	);
 }
 

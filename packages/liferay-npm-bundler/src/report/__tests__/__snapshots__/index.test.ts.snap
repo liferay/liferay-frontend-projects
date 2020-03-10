@@ -45,18 +45,26 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 					
 					th, td {
-						padding: .1em 0;
+						padding: .1em;
 						vertical-align: top;
 					}
 					
-					td.info, td.warn, td.error {
-						background: green;
+					td.debug, td.info, td.warn, td.error {
 						border-radius: 4px;
 						color: white;
+						padding: 0 2px;
 						text-align: center;
 						vertical-align: middle;
 						width: 1px;
 						white-space: nowrap;
+					}
+
+					td.debug {
+						background: gray;
+					}
+
+					td.info {
+						background: green;
 					}
 
 					td.warn {
@@ -68,6 +76,7 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 					
 					td.source {
+						color: grey;
 						white-space: nowrap;
 					}
 
@@ -128,7 +137,7 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 				</style>
 				<script id=\\"report\\" type=\\"application/json\\">
-					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_executionTime\\":[1,2],\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_rootPkg\\":{\\"id\\":\\"/\\",\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"]}
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_executionTime\\":[1,2],\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_rootPkg\\":{\\"id\\":\\"/\\",\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_webpack\\":{\\"logs\\":{}}}
 				</script>
 				<script>
 					window.report = JSON.parse(
@@ -145,21 +154,28 @@ exports[`correctly dumps HTML report 1`] = `
 
 						var select = document.getElementById('log-level-select');
 
-						select.value = 'info';
+						select.value = 'debug';
 
 						select.onchange = function() {
 							switch(select.value) {
-								case 'info':
+								case 'debug':
 									style.innerHTML = '';
+									break;
+
+								case 'info':
+									style.innerHTML = 
+										'tr.debug {display: none;}';
 									break;
 
 								case 'warn':
 									style.innerHTML = 
+										'tr.debug {display: none;}' +
 										'tr.info {display: none;}';
 									break;
 
 								case 'error':
 									style.innerHTML = 
+										'tr.debug {display: none;}' +
 										'tr.info {display: none;} ' +
 										'tr.warn {display: none;}';
 									break;
@@ -172,6 +188,7 @@ exports[`correctly dumps HTML report 1`] = `
 				<div id='log-level-selector'>
 					Log level filter: 
 					<select id='log-level-select'>
+						<option>debug</option>
 						<option>info</option>
 						<option>warn</option>
 						<option>error</option>
@@ -224,6 +241,18 @@ exports[`correctly dumps HTML report 1`] = `
 		
 	
 				
+		<h2>Details of webpack execution</h2>
+		
+			<table>
+				<tr class=\\"\\"><th>File</th>
+<th></th>
+<th>Source</th>
+<th>Messages</th></tr>
+				
+			</table>
+		
+	
+				
 			</body>
 		</html>
 	"
@@ -243,6 +272,9 @@ Report {
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
+  "_webpack": Object {
+    "logs": Object {},
+  },
 }
 `;
 
@@ -261,6 +293,9 @@ Report {
   },
   "_versionsInfo": Object {},
   "_warnings": Array [],
+  "_webpack": Object {
+    "logs": Object {},
+  },
 }
 `;
 
@@ -277,6 +312,9 @@ Report {
   "_warnings": Array [
     "warn",
   ],
+  "_webpack": Object {
+    "logs": Object {},
+  },
 }
 `;
 
@@ -300,6 +338,9 @@ Report {
     },
   },
   "_warnings": Array [],
+  "_webpack": Object {
+    "logs": Object {},
+  },
 }
 `;
 
@@ -317,5 +358,8 @@ Report {
     "warn 1",
     "warn 2",
   ],
+  "_webpack": Object {
+    "logs": Object {},
+  },
 }
 `;

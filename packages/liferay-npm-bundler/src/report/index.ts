@@ -8,32 +8,13 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import {VersionInfo} from 'liferay-npm-build-tools-common/lib/project/types';
 
 import {htmlDump} from './html';
+import ReportLogger from './logger';
 
 /**
  * A Report holds data describing a execution of the liferay-npm-bundler so that
  * it can be dump as an HTML report.
  */
 export class Report {
-	_executionDate: Date;
-	_executionTime: number[];
-	_versionsInfo: {
-		[key: string]: VersionInfo;
-	};
-	_rootPkg: {
-		id: string;
-		name: string;
-		version: string;
-	};
-	_rules: {
-		config: object;
-		files: {
-			[prjRelPath: string]: {
-				logger: PluginLogger;
-			};
-		};
-	};
-	_warnings: string[];
-
 	constructor() {
 		this._executionDate = new Date();
 		this._executionTime = undefined;
@@ -45,6 +26,9 @@ export class Report {
 		};
 
 		this._warnings = [];
+		this._webpack = {
+			logs: {},
+		};
 	}
 
 	/**
@@ -122,6 +106,45 @@ export class Report {
 	rulesRun(prjRelPath: string, logger: PluginLogger): void {
 		this._rules.files[prjRelPath] = {logger};
 	}
+
+	getWebpackLogger(source: string, prjRelPath: string): ReportLogger {
+		if (this._webpack.logs[prjRelPath] === undefined) {
+			this._webpack.logs[prjRelPath] = {};
+		}
+
+		if (this._webpack.logs[prjRelPath][source] === undefined) {
+			this._webpack.logs[prjRelPath][source] = new ReportLogger();
+		}
+
+		return this._webpack.logs[prjRelPath][source];
+	}
+
+	readonly _executionDate: Date;
+	_executionTime: number[];
+	_versionsInfo: {
+		[key: string]: VersionInfo;
+	};
+	_rootPkg: {
+		id: string;
+		name: string;
+		version: string;
+	};
+	readonly _rules: {
+		config: object;
+		files: {
+			[prjRelPath: string]: {
+				logger: PluginLogger;
+			};
+		};
+	};
+	readonly _warnings: string[];
+	readonly _webpack: {
+		logs: {
+			[prjRelPath: string]: {
+				[source: string]: ReportLogger;
+			};
+		};
+	};
 }
 
 const report = new Report();

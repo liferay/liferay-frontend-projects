@@ -451,6 +451,31 @@ export class Project {
 		}
 	}
 
+	/**
+	 * Get directory where work files must be placed.
+	 *
+	 * @remarks
+	 * Work files are files that can be cached between different builds to speed
+	 * the process or simply because they can help in debugging a failed build.
+	 *
+	 * @return the work dir or undefined if not configured
+	 */
+	get workDir(): FilePath | undefined {
+		if (this._workDir === undefined) {
+			let dir = prop.get(this._configuration, 'work-dir', undefined);
+
+			if (dir) {
+				if (!dir.startsWith('./')) {
+					dir = `./${dir}`;
+				}
+
+				this._workDir = new FilePath(dir, {posix: true});
+			}
+		}
+
+		return this._workDir;
+	}
+
 	_loadConfiguration(): void {
 		const {_configFile} = this;
 		const configDir = _configFile.dirname();
@@ -506,6 +531,8 @@ export class Project {
 	private _webpackConfiguration: webpack.Configuration;
 
 	private _versionsInfo: Map<string, VersionInfo>;
+
+	private _workDir: FilePath;
 }
 
 export default new Project('.');

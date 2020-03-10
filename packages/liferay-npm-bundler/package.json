@@ -2,13 +2,15 @@
 	"name": "liferay-npm-bundler",
 	"version": "3.0.0",
 	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
+	"license": "LGPL-3.0",
 	"main": "lib/index.js",
 	"bin": {
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
 	},
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "node ../../scripts/disable-publish.js",
 		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},

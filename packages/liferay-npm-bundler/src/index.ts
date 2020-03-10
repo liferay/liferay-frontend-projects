@@ -39,17 +39,9 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		report.rulesConfig(project.rules.config);
 		report.versionsInfo(versionsInfo);
 
-		// Warn about incremental builds
-		if (manifest.loadedFromFile) {
-			report.warn(
-				'This report is from an incremental build: some steps may be ' +
-					'missing (you may remove the output directory to force a ' +
-					'full build).'
-			);
-		}
-
 		// Do things
 		copyPackageJson();
+		addRootPackageToManifest(rootPkg);
 		await runWebpack();
 		await runRules(rootPkg);
 		saveManifest();
@@ -77,6 +69,13 @@ export default async function(argv: {version: boolean}): Promise<void> {
 	}
 }
 
+function addRootPackageToManifest(rootPkg: PkgDesc): void {
+	manifest.addPackage(
+		rootPkg,
+		rootPkg.clone({dir: buildBundlerDir.asNative})
+	);
+}
+
 function copyPackageJson(): void {
 	fs.copyFileSync(
 		project.dir.join('package.json').asNative,
@@ -87,7 +86,7 @@ function copyPackageJson(): void {
 }
 
 function saveManifest(): void {
-	manifest.save();
+	manifest.save(buildBundlerDir.join('manifest.json').asNative);
 
 	log.debug('Wrote manifest.json to output directory');
 }
