@@ -13,7 +13,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"build": "tsc --build packages/*/tsconfig.json",
+		"build": "tsc --build packages/*/tsconfig.json && yarn workspaces run copyfiles",
 		"check-deps": "node scripts/check-deps.js",
 		"ci": "yarn clean && yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
 		"clean": "yarn workspaces run clean",
@@ -24,7 +24,7 @@
 		"lint:fix": "eslint --fix .",
 		"qa": "node scripts/qa/index.js",
 		"test": "jest --runInBand",
-		"watch": "yarn build --watch"
+		"watch": "node scripts/watch.js"
 	},
 	"devDependencies": {
 		"@types/jest": "^24.0.18",
