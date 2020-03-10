@@ -6,22 +6,7 @@
 import project from 'liferay-npm-build-tools-common/lib/project';
 import {LogLevel} from 'liferay-npm-build-tools-common/lib/project/misc';
 
-let debugOn: boolean, infoOn: boolean, errorOn: boolean, warnOn: boolean;
-
-/* eslint-disable no-fallthrough */
-switch (project.misc.reportLevel) {
-	case 'debug':
-		debugOn = true;
-	case 'info':
-		infoOn = true;
-	case 'warn':
-		warnOn = true;
-	case 'error':
-	default:
-		errorOn = true;
-	case 'off':
-}
-/* eslint-enable no-fallthrough */
+const {reportLevel} = project.misc;
 
 export default class ReportLogger {
 	get messages(): {
@@ -32,45 +17,45 @@ export default class ReportLogger {
 	}
 
 	debug(...things: unknown[]): void {
-		if (!debugOn) {
+		if (reportLevel < LogLevel.debug) {
 			return;
 		}
 
 		this._messages.push({
-			logLevel: 'debug',
+			logLevel: LogLevel.debug,
 			things,
 		});
 	}
 
 	info(...things: unknown[]): void {
-		if (!infoOn) {
+		if (reportLevel < LogLevel.info) {
 			return;
 		}
 
 		this._messages.push({
-			logLevel: 'info',
+			logLevel: LogLevel.info,
 			things,
 		});
 	}
 
 	warn(...things: unknown[]): void {
-		if (!warnOn) {
+		if (reportLevel < LogLevel.warn) {
 			return;
 		}
 
 		this._messages.push({
-			logLevel: 'warn',
+			logLevel: LogLevel.warn,
 			things,
 		});
 	}
 
 	error(...things: unknown[]): void {
-		if (!errorOn) {
+		if (reportLevel < LogLevel.error) {
 			return;
 		}
 
 		this._messages.push({
-			logLevel: 'error',
+			logLevel: LogLevel.error,
 			things,
 		});
 	}

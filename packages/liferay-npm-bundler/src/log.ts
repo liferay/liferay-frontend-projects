@@ -5,26 +5,12 @@
 
 import * as format from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import {LogLevel} from 'liferay-npm-build-tools-common/lib/project/misc';
 
-let debugOn: boolean, infoOn: boolean, errorOn: boolean, warnOn: boolean;
-
-/* eslint-disable no-fallthrough */
-switch (project.misc.logLevel) {
-	case 'debug':
-		debugOn = true;
-	case 'info':
-		infoOn = true;
-	case 'warn':
-		warnOn = true;
-	case 'error':
-	default:
-		errorOn = true;
-	case 'off':
-}
-/* eslint-enable no-fallthrough */
+const {logLevel} = project.misc;
 
 export function error(...args: unknown[]): void {
-	if (!errorOn) {
+	if (logLevel < LogLevel.error) {
 		return;
 	}
 
@@ -32,7 +18,7 @@ export function error(...args: unknown[]): void {
 }
 
 export function warn(...args: unknown[]): void {
-	if (!warnOn) {
+	if (logLevel < LogLevel.warn) {
 		return;
 	}
 
@@ -40,7 +26,7 @@ export function warn(...args: unknown[]): void {
 }
 
 export function success(...args: unknown[]): void {
-	if (!errorOn) {
+	if (logLevel < LogLevel.error) {
 		return;
 	}
 
@@ -48,7 +34,7 @@ export function success(...args: unknown[]): void {
 }
 
 export function info(...args: unknown[]): void {
-	if (!infoOn) {
+	if (logLevel < LogLevel.info) {
 		return;
 	}
 
@@ -56,7 +42,7 @@ export function info(...args: unknown[]): void {
 }
 
 export function debug(...args: unknown[]): void {
-	if (!debugOn) {
+	if (logLevel < LogLevel.debug) {
 		return;
 	}
 

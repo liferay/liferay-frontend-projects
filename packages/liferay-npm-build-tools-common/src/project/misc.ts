@@ -10,7 +10,13 @@ import FilePath from '../file-path';
 import {print, warn} from '../format';
 
 /** Valid log levels for console and report */
-export type LogLevel = 'off' | 'error' | 'warn' | 'info' | 'debug';
+export enum LogLevel {
+	off = 0,
+	error = 1,
+	warn = 2,
+	info = 3,
+	debug = 4,
+}
 
 /**
  * Reflects miscellaneous project configuration values.
@@ -18,9 +24,9 @@ export type LogLevel = 'off' | 'error' | 'warn' | 'info' | 'debug';
 export default class Misc {
 	/**
 	 *
-	 * @param {Project} project
+	 * @param project
 	 */
-	constructor(project) {
+	constructor(project: Project) {
 		this._project = project;
 	}
 
@@ -28,27 +34,27 @@ export default class Misc {
 	 * Whether or not to dump detailed information about what the tool is doing
 	 */
 	get logLevel(): LogLevel {
-		const {npmbundlerrc} = this._project;
+		if (this._logLevel === undefined) {
+			const {npmbundlerrc} = this._project;
 
-		let logLevel = prop.get<string>(npmbundlerrc, 'log-level', 'warn');
+			let logLevel = prop.get<string>(
+				npmbundlerrc,
+				'log-level',
+				LogLevel[LogLevel.warn]
+			);
 
-		switch (logLevel) {
-			case 'off':
-			case 'error':
-			case 'warn':
-			case 'info':
-			case 'debug':
-				break;
-
-			default:
-				logLevel = 'off';
+			if (LogLevel[logLevel] === undefined) {
 				print(
 					warn`Configuration value {log-level} has invalid value: it will be ignored`
 				);
-				break;
+
+				logLevel = LogLevel[LogLevel.warn];
+			}
+
+			this._logLevel = LogLevel[logLevel];
 		}
 
-		return logLevel as LogLevel;
+		return this._logLevel;
 	}
 
 	/**
@@ -57,75 +63,94 @@ export default class Misc {
 	 */
 
 	get maxParallelFiles(): number {
-		const {npmbundlerrc} = this._project;
+		if (this._maxParallelFiles === undefined) {
+			const {npmbundlerrc} = this._project;
 
-		// Default values for "ulimit -n" vary across different OSes. Some
-		//
-		// values I have found are:
-		//   - Apparently Mac OS X limit is 256 but usually people increase it
-		//   - Fedora: 1024
-		//   - Windows: there's no ulimit, but MSVCRT.DLL has a 2048 limit
-		//
-		// Given this mess and the impossibility of retrieving the limit from
-		// Node, I'm giving this a default value of 128 because it looks like it
-		// doesn't impact performance and should be low enough to make it work
-		// in all OSes.
-		return prop.get(npmbundlerrc, 'max-parallel-files', 128);
+			// Default values for "ulimit -n" vary across different OSes. Some
+			//
+			// values I have found are:
+			//   - Apparently Mac OS X limit is 256 but usually people increase it
+			//   - Fedora: 1024
+			//   - Windows: there's no ulimit, but MSVCRT.DLL has a 2048 limit
+			//
+			// Given this mess and the impossibility of retrieving the limit from
+			// Node, I'm giving this a default value of 128 because it looks like it
+			// doesn't impact performance and should be low enough to make it work
+			// in all OSes.
+			let maxParallelFiles: string = prop.get<string>(
+				npmbundlerrc,
+				'max-parallel-files',
+				'128'
+			);
+
+			if (parseInt(maxParallelFiles, 10) === Number.NaN) {
+				print(
+					warn`Configuration value {max-parallel-files} has invalid value: it will be ignored`
+				);
+
+				maxParallelFiles = '128';
+			}
+
+			this._maxParallelFiles = parseInt(maxParallelFiles, 10);
+		}
+
+		return this._maxParallelFiles;
 	}
 
 	/**
 	 * Get the path to the report file or undefined if no report is configured.
 	 */
 	get reportFile(): FilePath | undefined {
-		const {_project} = this;
-		const {npmbundlerrc} = _project;
+		if (this._reportFile === undefined) {
+			const {_project} = this;
+			const {npmbundlerrc} = _project;
 
-		const dumpReport = prop.get(npmbundlerrc, 'dump-report', false);
+			const dumpReport = prop.get(npmbundlerrc, 'dump-report', false);
 
-		return dumpReport
-			? _project.dir.join('liferay-npm-bundler-report.html')
-			: undefined;
+			this._reportFile = dumpReport
+				? _project.dir.join('liferay-npm-bundler-report.html')
+				: undefined;
+		}
+
+		return this._reportFile;
 	}
 
 	/**
 	 * Get report log level
 	 */
 	get reportLevel(): LogLevel {
-		const {_project} = this;
-		const {npmbundlerrc} = _project;
+		if (this._reportLevel === undefined) {
+			const {_project} = this;
+			const {npmbundlerrc} = _project;
 
-		let dumpReport = prop.get<string | boolean>(
-			npmbundlerrc,
-			'dump-report',
-			false
-		);
+			let dumpReport = prop.get<string | boolean>(
+				npmbundlerrc,
+				'dump-report',
+				false
+			);
 
-		switch (dumpReport) {
-			case 'off':
-			case 'error':
-			case 'warn':
-			case 'info':
-			case 'debug':
-				break;
-
-			case true:
-				dumpReport = 'info';
-				break;
-
-			case false:
-				dumpReport = 'off';
-				break;
-
-			default:
-				dumpReport = 'off';
+			if (typeof dumpReport === 'boolean') {
+				if (dumpReport) {
+					dumpReport = LogLevel[LogLevel.info];
+				} else {
+					dumpReport = LogLevel[LogLevel.off];
+				}
+			} else if (LogLevel[dumpReport] === undefined) {
 				print(
 					warn`Configuration value {dump-report} has invalid value: it will be ignored`
 				);
-				break;
+				dumpReport = LogLevel[LogLevel.off];
+			}
+
+			this._reportLevel = LogLevel[dumpReport];
 		}
 
-		return dumpReport as LogLevel;
+		return this._reportLevel;
 	}
 
 	private readonly _project: Project;
+	private _logLevel: LogLevel;
+	private _maxParallelFiles: number;
+	private _reportFile: FilePath;
+	private _reportLevel: LogLevel;
 }

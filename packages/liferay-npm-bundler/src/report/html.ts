@@ -5,6 +5,7 @@
 
 import {Report} from '.';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import {LogLevel} from 'liferay-npm-build-tools-common/lib/project/misc';
 import pretty from 'pretty-time';
 
 const LOG_LEVEL_SORT = {
@@ -84,14 +85,14 @@ export function htmlDump(report: Report): string {
 									`
 									<td>${index == 0 ? prjRelPath : ''}</td>
 									<td class="${logLevel}">
-										${logLevel.toUpperCase()}
+										${LogLevel[logLevel].toUpperCase()}
 									</td>
 									<td class="source">[${source}]</td>
 									<td>
 										${things.map(thing => `${thing}`).join(' ')}
 									</td>
-								`,
-									logLevel
+									`,
+									LogLevel[logLevel]
 								)
 							)
 							.join('')
@@ -104,11 +105,11 @@ export function htmlDump(report: Report): string {
 		htmlSection(
 			'Details of rule executions',
 			`
-		<div class="configuration">
-			<div>Configuration</div>
-			<pre>${JSON.stringify(_rules.config, null, 2)}</pre>
-		</div>
-		`,
+			<div class="configuration">
+				<div>Configuration</div>
+				<pre>${JSON.stringify(_rules.config, null, 2)}</pre>
+			</div>
+			`,
 			htmlLogOutput(
 				['File'],
 				Object.keys(_rules.files)
