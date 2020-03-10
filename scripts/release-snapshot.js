@@ -31,7 +31,8 @@ async function isStatusClean(status) {
 		return false;
 	}
 
-	warn('\nFile package.json is modified');
+	console.log('');
+	warn('File package.json is modified');
 
 	console.log('');
 	await git.pipe(
