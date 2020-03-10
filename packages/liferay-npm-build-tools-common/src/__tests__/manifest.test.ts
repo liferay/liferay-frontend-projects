@@ -9,7 +9,7 @@ import path from 'path';
 import Manifest from '../manifest';
 import PkgDesc from '../pkg-desc';
 
-it('addPackage/getPackage work', () => {
+it('addPackage works', () => {
 	const manifest = new Manifest();
 
 	const srcPkg = new PkgDesc('a-package', '1.0.0', './src');
@@ -17,7 +17,7 @@ it('addPackage/getPackage work', () => {
 
 	manifest.addPackage(srcPkg, destPkg);
 
-	expect(manifest.getPackage(srcPkg)).toMatchSnapshot();
+	expect((manifest as any)._data.packages[srcPkg.id]).toMatchSnapshot();
 });
 
 it('getPackage returns entries with relative paths', () => {
@@ -28,7 +28,7 @@ it('getPackage returns entries with relative paths', () => {
 
 	manifest.addPackage(srcPkg, destPkg);
 
-	const entry = manifest.getPackage(srcPkg);
+	const entry = (manifest as any)._data.packages[srcPkg.id];
 
 	expect(entry.src.dir).toBe('./src');
 	expect(entry.dest.dir).toBe('./dest');
@@ -56,83 +56,6 @@ describe('save', () => {
 
 		fs.unlinkSync(tmpFilePath);
 		fs.rmdirSync(tmpDir);
-	});
-
-	it('throws if called with no path and no default file path is set', () => {
-		const manifest = new Manifest();
-
-		expect(() => manifest.save()).toThrow();
-	});
-});
-
-it('constructor with file works', () => {
-	const tmpDir = fs.mkdtempSync('manifest');
-	const tmpFilePath = path.join(tmpDir, 'manifest.json');
-
-	const manifest = new Manifest(tmpFilePath);
-
-	const srcPkg1 = new PkgDesc('a-package', '1.0.0', './src-1');
-	const destPkg1 = new PkgDesc('a-package', '1.0.0', './dest-1');
-
-	const srcPkg2 = new PkgDesc('a-package', '2.0.0', './src-2');
-	const destPkg2 = new PkgDesc('a-package', '2.0.0', './dest-2');
-
-	manifest.addPackage(srcPkg1, destPkg1);
-	manifest.addPackage(srcPkg2, destPkg2);
-
-	manifest.save();
-
-	const manifest2 = new Manifest(tmpFilePath);
-
-	expect(manifest2.toJSON()).toMatchSnapshot();
-
-	fs.unlinkSync(tmpFilePath);
-	fs.rmdirSync(tmpDir);
-});
-
-describe('isOutdated', () => {
-	it('returns false for up-to-date packages', () => {
-		const manifest = new Manifest();
-
-		const srcPkg = new PkgDesc('a-package', '1.0.0', './src');
-		const destPkg = new PkgDesc('a-package', '1.0.0', '.');
-
-		manifest.addPackage(srcPkg, destPkg);
-
-		expect(manifest.isOutdated(srcPkg)).toBe(false);
-	});
-
-	// TODO: This test can be removed if we implement enhanced outdated detection by using timestamps/digests.
-	// However, we are not sure that it is the bundler's responsibility to detect such modifications as it is
-	// more a multi-tool build issue that may happen with other configurations.
-	it('returns true for root package no matter what', () => {
-		const manifest = new Manifest();
-
-		const srcPkg = new PkgDesc('a-package', '1.0.0', './src', true);
-		const destPkg = new PkgDesc('a-package', '1.0.0', '.', true);
-
-		manifest.addPackage(srcPkg, destPkg);
-
-		expect(manifest.isOutdated(srcPkg)).toBe(true);
-	});
-
-	it('returns true for unregistered packages', () => {
-		const manifest = new Manifest();
-
-		const srcPkg = new PkgDesc('a-package', '1.0.0', './src');
-
-		expect(manifest.isOutdated(srcPkg)).toBe(true);
-	});
-
-	it('returns true for packages with missing destination directory', () => {
-		const manifest = new Manifest();
-
-		const srcPkg = new PkgDesc('a-package', '1.0.0', './src');
-		const destPkg = new PkgDesc('a-package', '1.0.0', './non-existing-dir');
-
-		manifest.addPackage(srcPkg, destPkg);
-
-		expect(manifest.isOutdated(srcPkg)).toBe(true);
 	});
 });
 
