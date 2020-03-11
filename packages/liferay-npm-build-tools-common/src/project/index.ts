@@ -462,7 +462,7 @@ export class Project {
 	 */
 	get workDir(): FilePath | undefined {
 		if (this._workDir === undefined) {
-			let dir = prop.get(this._configuration, 'work-dir', undefined);
+			let dir = prop.get(this._configuration, 'workdir', undefined);
 
 			if (dir) {
 				if (!dir.startsWith('./')) {
