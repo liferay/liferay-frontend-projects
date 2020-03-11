@@ -239,7 +239,7 @@ Given that adaptation is a somewhat heuristic process in which the bundler does 
 
 This is the list of the limitations known up to the day:
 
-1. Adapted Angular apps won't render after a navigation with SPA active (see #498 for a detailed explanation)
+1. Adapted Angular apps won't render after a navigation with SPA active (see [issue #498](https://github.com/liferay/liferay-js-toolkit/issues/498) for a detailed explanation)
 
 ## One final note
 
