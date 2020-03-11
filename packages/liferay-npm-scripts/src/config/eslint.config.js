@@ -9,6 +9,7 @@ const CONFIG_FILES = [
 	'**/.prettierrc.js',
 	'**/.stylelintrc.js',
 	'**/gulpfile.js',
+	'**/liferay-npm-bundler.config.js',
 	'**/npmscripts.config.js',
 	'**/webpack.config.dev.js',
 	'**/webpack.config.js',
