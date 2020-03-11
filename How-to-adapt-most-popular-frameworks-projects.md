@@ -233,6 +233,14 @@ All this happens _automagically_ under the hood when the `build:liferay` script
 is run so that you don't need to do anything other than adapting to the expected
 code structure.
 
+## Limitations
+
+Given that adaptation is a somewhat heuristic process in which the bundler does its best effort to make everything work like in the project framework's native build, there are (and will be) some limitations. 
+
+This is the list of the limitations known up to the day:
+
+1. Adapted Angular apps won't render after a navigation with SPA active (see #498 for a detailed explanation)
+
 ## One final note
 
 The general idea of the adaptation is to be able to deploy _native_ framework
