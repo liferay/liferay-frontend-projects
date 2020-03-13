@@ -270,11 +270,7 @@
 	"rules": [
 		{
 			"test": "\\.css$",
-			"use": [
-				{
-					"loader": "css-loader"
-				}
-			]
+			"use": ["css-loader"]
 		},
 		{
 			"test": "\\.scss$",
