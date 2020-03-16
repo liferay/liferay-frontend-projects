@@ -29,7 +29,7 @@ const [{isDragging}, drag, preview] = useDrag({
 			isDragging: !!monitor.isDragging(),
 		}),
 		item: {
-            id, 
+            id,
             type: ACCEPTING_TYPES.ITEM
         },
 	});
@@ -39,23 +39,23 @@ const [{isDragging}, drag, preview] = useDrag({
 
 `useDrag` returns an array of three values:
 
-- `Index 0`: An object containing collected properties from the collect function. If no collect function is defined, an empty object is returned.
-- `Index 1`: A connector function for the drag source. This **must** be attached to the draggable portion of the DOM.
-- `Index 2`: A connector function for the drag preview. This may be attached to the preview portion of the DOM in case you want to overwrite the default drag preview behavior.
+-   `Index 0`: An object containing collected properties from the collect function. If no collect function is defined, an empty object is returned.
+-   `Index 1`: A connector function for the drag source. This **must** be attached to the draggable portion of the DOM.
+-   `Index 2`: A connector function for the drag preview. This may be attached to the preview portion of the DOM in case you want to overwrite the default drag preview behavior.
 
 ### Hook config object (most important properties)
 
-- `item`: Required. This is the only information about the draggable item that will be available for the drop or custom drag layer objects, so you need to place here any information you'll need on your drop logic.
+-   `item`: Required. This is the only information about the draggable item that will be available for the drop or custom drag layer objects, so you need to place here any information you'll need on your drop logic.
 
     `item.type` is also required, only drop targets registered for the same type will react to this drag.
 
-- `collect`: Optional. This is a function that receives `monitor` and `props`, and must return a plain object that you'll receive as the first array element of the hook return value.
+-   `collect`: Optional. This is a function that receives `monitor` and `props`, and must return a plain object that you'll receive as the first array element of the hook return value.
 
 ### Connect drag with DOM element
 
 You can connect drag with an element in two different ways:
 
-- Setting `drag` returned parameter as your element's `ref`.
+-   Setting `drag` returned parameter as your element's `ref`.
 
 ```
 return (
@@ -65,7 +65,7 @@ return (
 );
 ```
 
-- Creating your own ref.
+-   Creating your own ref.
 
 ```
 const ref = useRef();
@@ -109,27 +109,27 @@ const [{isOver}, drop] = useDrop({
 
 `useDrop` returns an array of two values:
 
-- `Index 0`: An object containing collected properties from the collect function. If no collect function is defined, an empty object is returned.
+-   `Index 0`: An object containing collected properties from the collect function. If no collect function is defined, an empty object is returned.
 
-- `Index 1`: A connector function for the drop target. This **must** be attached to the drop-target portion of the DOM.
+-   `Index 1`: A connector function for the drop target. This **must** be attached to the drop-target portion of the DOM.
 
 ### Hook config object (most important properties)
 
-- `accept`: Required. This must be set with the item type you want drop to accept.
+-   `accept`: Required. This must be set with the item type you want drop to accept.
 
-- `canDrop`: Optional. Use it to specify whether the drop target is able to accept the item. If you want to always allow it, just omit this method.
+-   `canDrop`: Optional. Use it to specify whether the drop target is able to accept the item. If you want to always allow it, just omit this method.
 
-- `collect`: Optional. This is a function that receives `monitor` and `props`, and must return a plain object that you'll receive as the fist array element of the hook return value.
+-   `collect`: Optional. This is a function that receives `monitor` and `props`, and must return a plain object that you'll receive as the fist array element of the hook return value.
 
-- `drop`: Called when a compatible item is dropped on the target.
+-   `drop`: Called when a compatible item is dropped on the target.
 
-- `hover`: Called when an item is hovered over the component. You can check `monitor.isOver({ shallow: true })` to test whether the hover happens over just the current target, or over a nested one. Unlike drop(), this method will be called even if `canDrop()` is defined and returns false. You can check `monitor.canDrop()` to test whether this is the case.
+-   `hover`: Called when an item is hovered over the component. You can check `monitor.isOver({ shallow: true })` to test whether the hover happens over just the current target, or over a nested one. Unlike drop(), this method will be called even if `canDrop()` is defined and returns false. You can check `monitor.canDrop()` to test whether this is the case.
 
 ### Connect drop with DOM element
 
 You can connect drop with an element in two different ways:
 
-- Setting `drop` returned parameter as your element's `ref`.
+-   Setting `drop` returned parameter as your element's `ref`.
 
 ```
 return (
@@ -139,7 +139,7 @@ return (
 );
 ```
 
-- Creating your own `ref`.
+-   Creating your own `ref`.
 
 ```
 const ref = useRef();
