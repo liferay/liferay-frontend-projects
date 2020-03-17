@@ -8,7 +8,7 @@
 const path = require('path');
 
 const project = require('../../lib/project');
-const InitPrompt = require('../lib/prompts/init_prompt');
+const InitPrompt = require('../prompts/init_prompt');
 
 module.exports = function() {
 	const {gulp, store} = project;

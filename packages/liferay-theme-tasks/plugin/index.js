@@ -5,10 +5,10 @@
 
 'use strict';
 
-const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
 
+const checkNodeVersion = require('../lib/checkNodeVersion');
 const project = require('../lib/project');
 const {getArgv} = require('../lib/util');
 const RegisterHooks = require('./lib/register_hooks');
@@ -17,31 +17,18 @@ const registerTaskInit = require('./tasks/init');
 const registerTaskVersion = require('./tasks/version');
 const registerTaskWar = require('./tasks/war');
 
-const CWD = process.cwd();
+checkNodeVersion();
 
 function processOptions(options) {
 	var argv = getArgv();
 
-	var distName = path.basename(CWD);
+	var distName =
+		options.distName || project.pkgJson.name || path.basename(project.dir);
 
-	var pkg;
-
-	try {
-		pkg = JSON.parse(
-			fs.readFileSync(path.join(CWD, 'package.json'), 'utf8')
-		);
-
-		distName = pkg.name;
-	} catch (e) {
-		// Swallow.
-	}
-
-	distName = options.distName || distName;
-
-	if (/\${/.test(distName) && pkg) {
+	if (/\${/.test(distName) && project.pkgJson) {
 		var distNameTemplate = _.template(distName);
 
-		distName = distNameTemplate(pkg);
+		distName = distNameTemplate(project.pkgJson);
 	}
 
 	options.argv = argv;
@@ -49,6 +36,7 @@ function processOptions(options) {
 	options.pathDist = options.pathDist || 'dist';
 	options.rootDir = options.rootDir || 'docroot';
 	options.storeConfig = {
+		name: 'LiferayPlugin',
 		path: 'liferay-plugin.json',
 		...options.storeConfig,
 	};
@@ -56,12 +44,10 @@ function processOptions(options) {
 	return options;
 }
 
-function registerTasks(options) {
+function registerTasks(options = {}) {
 	options = processOptions(options);
 
-	project.options.init(options);
-	project.gulp.init(options.gulp);
-	project.store.open(path.join(CWD, options.storeConfig.path));
+	project.init(options);
 
 	registerTaskInit();
 	registerTaskDeploy();

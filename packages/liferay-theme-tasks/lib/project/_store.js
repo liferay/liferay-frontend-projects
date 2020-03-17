@@ -7,20 +7,15 @@ const fs = require('fs-extra');
 const path = require('path');
 
 class Store {
-	constructor(project) {
+	constructor(project, fileName, section) {
 		this._project = project;
-	}
+		this._section = section;
 
-	open(filePath) {
-		if (this._json) {
-			throw new Error('Store is already open');
-		}
-
-		this._filePath = path.resolve(filePath);
+		this._filePath = path.join(project.dir, fileName);
 		this._json = {};
 
 		try {
-			this._json = fs.readJSONSync(filePath);
+			this._json = fs.readJSONSync(this._filePath);
 		} catch (err) {
 			if (err.code !== 'ENOENT') {
 				throw err;
@@ -29,13 +24,11 @@ class Store {
 	}
 
 	set(key, value) {
-		if (!this._json) {
-			throw new Error('You must open the store before using it');
-		}
+		const {_filePath, _json, _section} = this;
 
-		this._json[key] = value;
+		_json[_section][key] = value;
 
-		fs.writeJSONSync(this._filePath, this._json);
+		fs.writeJSONSync(_filePath, _json, {spaces: 2});
 	}
 
 	store(object) {
@@ -43,11 +36,9 @@ class Store {
 	}
 
 	get(key) {
-		if (!this._json) {
-			throw new Error('You must open the store before using it');
-		}
+		const {_json, _section} = this;
 
-		return this._json[key];
+		return _json[_section][key];
 	}
 }
 

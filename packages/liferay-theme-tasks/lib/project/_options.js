@@ -4,19 +4,10 @@
  */
 
 class Options {
-	constructor(project) {
+	constructor(project, options) {
 		this._project = project;
-		this._initialized = false;
-	}
 
-	init(config) {
-		if (this._initialized) {
-			throw new Error('Options can be initialized just once');
-		}
-
-		this._initialized = true;
-
-		Object.assign(this, config);
+		Object.assign(this, options);
 	}
 }
 
