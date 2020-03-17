@@ -11,12 +11,12 @@ const log = require('fancy-log');
 const _ = require('lodash');
 const path = require('path');
 
-const lfrThemeConfig = require('../lib/liferay_theme_config');
+const project = require('../lib/project');
 const KickstartPrompt = require('../lib/prompts/kickstart_prompt');
 
-function registerTasks(options) {
-	const gulp = options.gulp;
-	const pathSrc = options.pathSrc;
+function registerTasks() {
+	const {gulp} = project;
+	const {pathSrc} = project.options;
 
 	gulp.task('kickstart', cb => {
 		log(
@@ -28,7 +28,7 @@ function registerTasks(options) {
 
 		KickstartPrompt.prompt(
 			{
-				themeConfig: lfrThemeConfig.getConfig(),
+				themeConfig: project.themeConfig.config,
 			},
 			answers => {
 				let tempNodeModulesPath;

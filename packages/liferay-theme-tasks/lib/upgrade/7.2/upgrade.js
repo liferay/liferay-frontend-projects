@@ -8,21 +8,20 @@
 const spawn = require('cross-spawn');
 const replace = require('gulp-replace-task');
 
-const lfrThemeConfig = require('../../liferay_theme_config');
+const project = require('../../project');
 const devDependencies = require('../../devDependencies')['theme']['7.3'];
 
-module.exports = function(options) {
-	const gulp = options.gulp;
+module.exports = function() {
+	const {gulp} = project;
+	const {runSequence} = gulp;
 
-	const runSequence = require('run-sequence').use(gulp);
-
-	const pkgJson = lfrThemeConfig.getConfig(true);
+	const pkgJson = project.pkgJson;
 
 	gulp.task('upgrade:dependencies', cb => {
-		lfrThemeConfig.setDependencies(devDependencies.default, true);
+		this.themeConfig.setDependencies(devDependencies.default, true);
 
 		if (pkgJson.devDependencies['liferay-font-awesome']) {
-			lfrThemeConfig.setDependencies(
+			this.themeConfig.setDependencies(
 				{
 					'liferay-font-awesome':
 						devDependencies.optional['liferay-font-awesome'],
@@ -39,7 +38,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:config', () => {
-		lfrThemeConfig.setConfig({
+		this.themeConfig.setConfig({
 			version: '7.3',
 		});
 
@@ -77,6 +76,6 @@ module.exports = function(options) {
 
 		taskArray.push(cb);
 
-		runSequence.apply(this, taskArray);
+		runSequence(gulp, ...taskArray);
 	};
 };

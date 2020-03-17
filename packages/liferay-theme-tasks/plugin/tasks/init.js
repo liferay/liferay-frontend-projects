@@ -5,18 +5,15 @@
 
 'use strict';
 
-var path = require('path');
+const path = require('path');
 
-var InitPrompt = require('../lib/init_prompt');
+const project = require('../../lib/project');
+const InitPrompt = require('../lib/prompts/init_prompt');
 
-var TASK_PLUGIN_INIT = 'plugin:init';
+module.exports = function() {
+	const {gulp, store} = project;
 
-module.exports = function(options) {
-	var gulp = options.gulp;
-
-	var store = gulp.storage;
-
-	gulp.task(TASK_PLUGIN_INIT, cb => {
+	gulp.task('plugin:init', cb => {
 		new InitPrompt(
 			{
 				appServerPathDefault:
@@ -30,5 +27,5 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('init', [TASK_PLUGIN_INIT]);
+	gulp.task('init', gulp.series('plugin:init'));
 };

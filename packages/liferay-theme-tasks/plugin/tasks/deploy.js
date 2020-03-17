@@ -5,24 +5,20 @@
 
 'use strict';
 
-var gutil = require('gulp-util');
-var path = require('path');
+const gutil = require('gulp-util');
+const path = require('path');
 
-var TASK_BUILD = 'build';
+const project = require('../../lib/project');
 
-var TASK_PLUGIN_DEPLOY = 'plugin:deploy';
+module.exports = function() {
+	const {gulp, store} = project;
+	const {runSequence} = gulp;
 
-module.exports = function(options) {
-	var gulp = options.gulp;
+	gulp.task('plugin:deploy', () => {
+		const {options} = project;
+		const deployPath = store.get('deployPath');
 
-	var runSequence = require('run-sequence').use(gulp);
-
-	var store = gulp.storage;
-
-	gulp.task(TASK_PLUGIN_DEPLOY, () => {
-		var deployPath = store.get('deployPath');
-
-		var stream = gulp
+		const stream = gulp
 			.src(path.join(options.pathDist, options.distName + '.war'))
 			.pipe(gulp.dest(deployPath));
 
@@ -36,6 +32,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('deploy', cb => {
-		runSequence(TASK_BUILD, TASK_PLUGIN_DEPLOY, cb);
+		runSequence(gulp, 'build', 'plugin:deploy', cb);
 	});
 };

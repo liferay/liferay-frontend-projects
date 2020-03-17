@@ -14,9 +14,7 @@ const packageJson = require('package-json');
 const path = require('path');
 const {URL} = require('url');
 
-const lfrThemeConfig = require('./liferay_theme_config');
-
-const themeConfig = lfrThemeConfig.getConfig();
+const project = require('./project');
 
 function getLiferayThemeModule(name, cb) {
 	getPackageJSON(
@@ -148,6 +146,9 @@ function getLiferayThemeModules(config, cb) {
 			LiferayThemeModuleStatus.NO_LIFERAY_THEME,
 			'with no liferayTheme section in package.json'
 		);
+
+		const themeConfig = project.themeConfig.config;
+
 		reportDiscardedModules(
 			moduleResults,
 			LiferayThemeModuleStatus.TARGET_VERSION_DOES_NOT_MATCH,
@@ -298,6 +299,7 @@ function getLiferayThemeModuleStatus(pkg, themelet) {
 		}
 
 		const liferayThemeVersion = liferayTheme.version;
+		const themeConfig = project.themeConfig.config;
 
 		if (
 			_.isArray(liferayThemeVersion) &&

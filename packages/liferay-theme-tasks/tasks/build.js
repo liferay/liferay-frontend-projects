@@ -8,7 +8,7 @@
 const chalk = require('chalk');
 const del = require('del');
 const fs = require('fs-extra');
-const gulpLoadPlugins = require('gulp-load-plugins');
+const rename = require('gulp-rename');
 const replace = require('gulp-replace-task');
 const _ = require('lodash');
 const path = require('path');
@@ -16,14 +16,10 @@ const PluginError = require('plugin-error');
 const through = require('through2');
 
 const getBaseThemeDependencies = require('../lib/getBaseThemeDependencies');
-const lfrThemeConfig = require('../lib/liferay_theme_config');
 const lookAndFeelUtil = require('../lib/look_and_feel_util');
 const normalize = require('../lib/normalize');
+const project = require('../lib/project');
 const themeUtil = require('../lib/util');
-
-const plugins = gulpLoadPlugins();
-
-const themeConfig = lfrThemeConfig.getConfig();
 
 /**
  * Add JS-injection placeholders (HTML comments of the form
@@ -67,13 +63,14 @@ function injectJS() {
 	});
 }
 
-module.exports = function(options) {
-	const {gulp, pathBuild, pathSrc} = options;
-
-	const runSequence = require('run-sequence').use(gulp);
+module.exports = function() {
+	const {gulp, options} = project;
+	const {runSequence} = gulp;
+	const {pathBuild, pathSrc} = options;
 
 	gulp.task('build', cb => {
 		runSequence(
+			gulp,
 			'build:clean',
 			'build:base',
 			'build:src',
@@ -142,6 +139,8 @@ module.exports = function(options) {
 			);
 
 			if (!doctypeElement) {
+				const themeConfig = project.themeConfig.config;
+
 				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(
 					themeConfig.version
 				);
@@ -174,7 +173,9 @@ module.exports = function(options) {
 		const languageProperties = themeUtil.getLanguageProperties(pathSrc);
 
 		return gulp
-			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'))
+			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'), {
+				allowEmpty: true,
+			})
 			.pipe(
 				replace({
 					patterns: [
@@ -193,7 +194,7 @@ module.exports = function(options) {
 					],
 				})
 			)
-			.pipe(plugins.rename('liferay-hook.xml'))
+			.pipe(rename('liferay-hook.xml'))
 			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
@@ -249,7 +250,7 @@ module.exports = function(options) {
 		return gulp
 			.src(pathBuild + '/css/*.css')
 			.pipe(
-				plugins.rename({
+				rename({
 					suffix: '_rtl',
 				})
 			)
@@ -291,7 +292,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build:war', done => {
-		runSequence.apply(this, ['plugin:version', 'plugin:war', done]);
+		runSequence(gulp, 'plugin:version', 'plugin:war', done);
 	});
 };
 

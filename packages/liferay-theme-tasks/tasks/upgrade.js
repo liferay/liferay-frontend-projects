@@ -13,13 +13,13 @@ const _ = require('lodash');
 const path = require('path');
 const PluginError = require('plugin-error');
 
-const lfrThemeConfig = require('../lib/liferay_theme_config.js');
+const project = require('../lib/project');
 
-const themeConfig = lfrThemeConfig.getConfig();
+module.exports = function() {
+	const {gulp} = project;
+	const {argv} = project.options;
 
-module.exports = function(options) {
-	const gulp = options.gulp;
-	const argv = options.argv;
+	const themeConfig = project.themeConfig.config;
 
 	// If not inside a theme, don't register tasks
 	if (!themeConfig) {
@@ -41,7 +41,7 @@ module.exports = function(options) {
 
 	if (fs.existsSync(modulePath)) {
 		// eslint-disable-next-line liferay/no-dynamic-require
-		versionUpgradeTask = require(modulePath)(options);
+		versionUpgradeTask = require(modulePath)(project.options);
 	}
 
 	gulp.task('upgrade', cb => {

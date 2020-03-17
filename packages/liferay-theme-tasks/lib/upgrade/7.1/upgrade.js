@@ -10,20 +10,19 @@ const insert = require('gulp-insert');
 const replace = require('gulp-replace-task');
 const inquirer = require('inquirer');
 
-const lfrThemeConfig = require('../../liferay_theme_config');
+const project = require('../../project');
 const devDependencies = require('../../devDependencies')['theme']['7.2'];
 
 module.exports = function(options) {
-	const gulp = options.gulp;
-
-	const runSequence = require('run-sequence').use(gulp);
+	const {gulp} = project;
+	const {runSequence} = gulp;
 
 	gulp.task('upgrade:dependencies', cb => {
-		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.1']);
-		lfrThemeConfig.setDependencies(devDependencies.default, true);
+		this.themeConfig.removeDependencies(['liferay-theme-deps-7.1']);
+		this.themeConfig.setDependencies(devDependencies.default, true);
 
 		if (options.includeFontAwesome) {
-			lfrThemeConfig.setDependencies(
+			this.themeConfig.setDependencies(
 				{
 					'liferay-font-awesome':
 						devDependencies.optional['liferay-font-awesome'],
@@ -31,7 +30,7 @@ module.exports = function(options) {
 				true
 			);
 		} else {
-			lfrThemeConfig.removeDependencies(['liferay-font-awesome']);
+			this.themeConfig.removeDependencies(['liferay-font-awesome']);
 		}
 
 		const npmInstall = spawn('npm', ['install']);
@@ -43,9 +42,7 @@ module.exports = function(options) {
 	});
 
 	gulp.task('upgrade:config', () => {
-		const lfrThemeConfig = require('../../liferay_theme_config.js');
-
-		lfrThemeConfig.setConfig({
+		this.themeConfig.setConfig({
 			fontAwesome: options.includeFontAwesome,
 			version: '7.2',
 		});
@@ -113,7 +110,7 @@ module.exports = function(options) {
 
 				Object.assign(options, answers);
 
-				runSequence.apply(this, taskArray);
+				runSequence(gulp, ...taskArray);
 			}
 		);
 	};

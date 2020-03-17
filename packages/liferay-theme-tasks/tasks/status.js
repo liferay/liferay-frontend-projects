@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-const lfrThemeConfig = require('../lib/liferay_theme_config');
+const project = require('../lib/project');
 const status = require('../lib/status');
 
-function getStatus(options) {
-	const gulp = options.gulp;
+function getStatus() {
+	const {gulp} = project;
 
 	gulp.task('status', cb => {
-		process.stdout.write(status(lfrThemeConfig.getConfig()));
+		process.stdout.write(status(project.themeConfig.config));
 
 		cb();
 	});

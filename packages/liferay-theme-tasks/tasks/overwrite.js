@@ -12,13 +12,13 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const path = require('path');
 
+const project = require('../lib/project');
+
 const CWD = process.cwd();
 
-module.exports = function(options) {
-	const gulp = options.gulp;
-
-	const pathBuild = options.pathBuild;
-	const pathSrc = options.pathSrc;
+module.exports = function() {
+	const {gulp} = project;
+	const {pathBuild, pathSrc} = project.options;
 
 	gulp.task('overwrite', cb => {
 		promptFiles('.', cb);

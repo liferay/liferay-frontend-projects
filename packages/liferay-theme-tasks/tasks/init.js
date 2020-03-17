@@ -5,8 +5,10 @@
 
 'use strict';
 
-module.exports = function(options) {
-	const gulp = options.gulp;
+const project = require('../lib/project');
 
-	gulp.task('init', ['plugin:init']);
+module.exports = function() {
+	const {gulp} = project;
+
+	gulp.task('init', gulp.series('plugin:init'));
 };

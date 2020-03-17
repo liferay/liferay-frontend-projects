@@ -7,13 +7,13 @@ const spawn = require('cross-spawn');
 const inquirer = require('inquirer');
 const _ = require('lodash');
 
-const lfrThemeConfig = require('../liferay_theme_config');
+const project = require('../project');
 const themeFinder = require('../theme_finder');
 const {getArgv} = require('../util');
 const GlobalModulePrompt = require('./global_module_prompt');
 const NPMModulePrompt = require('./npm_module_prompt');
-const promptUtil = require('./prompt_util');
 const URLPackagePrompt = require('./url_package_prompt');
+const promptUtil = require('./util');
 
 const moduleName = getArgv().name;
 
@@ -23,7 +23,7 @@ class ExtendPrompt {
 	}
 
 	init(config, cb) {
-		this.themeConfig = config.themeConfig || lfrThemeConfig.getConfig();
+		this.themeConfig = config.themeConfig || project.themeConfig.config;
 
 		this.done = cb;
 
@@ -75,12 +75,12 @@ class ExtendPrompt {
 		}
 
 		if (_.isObject(baseTheme)) {
-			lfrThemeConfig.removeDependencies([baseTheme.name]);
+			this.themeConfig.removeDependencies([baseTheme.name]);
 		}
 
 		const reducedPkg = this._reducePkgData(pkg);
 
-		lfrThemeConfig.setConfig({
+		this.themeConfig.setConfig({
 			baseTheme: reducedPkg,
 		});
 
@@ -102,10 +102,10 @@ class ExtendPrompt {
 		const removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
-			lfrThemeConfig.removeDependencies(removedThemelets);
+			this.themeConfig.removeDependencies(removedThemelets);
 		}
 
-		lfrThemeConfig.setConfig({
+		this.themeConfig.setConfig({
 			themeletDependencies: reducedThemelets,
 		});
 
@@ -384,17 +384,17 @@ class ExtendPrompt {
 			{}
 		);
 
-		lfrThemeConfig.setDependencies(dependencies);
+		this.themeConfig.setDependencies(dependencies);
 	}
 
 	_setStaticBaseTheme(themeSource) {
 		const baseTheme = this.themeConfig.baseTheme;
 
 		if (_.isObject(baseTheme)) {
-			lfrThemeConfig.removeDependencies([baseTheme.name]);
+			this.themeConfig.removeDependencies([baseTheme.name]);
 		}
 
-		lfrThemeConfig.setConfig({
+		this.themeConfig.setConfig({
 			baseTheme: themeSource,
 		});
 

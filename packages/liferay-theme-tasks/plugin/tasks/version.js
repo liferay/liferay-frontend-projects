@@ -5,16 +5,18 @@
 
 'use strict';
 
-var fs = require('fs');
-var gutil = require('gulp-util');
-var path = require('path');
+const fs = require('fs');
+const gutil = require('gulp-util');
+const path = require('path');
+
+const project = require('../../lib/project');
 
 var chalk = gutil.colors;
 
 var REGEX_MODULE_VERSION = /module-version=([0-9.]+)/;
 
-module.exports = function(options) {
-	var gulp = options.gulp;
+module.exports = function() {
+	const {gulp} = project;
 
 	gulp.task('plugin:version', done => {
 		var npmPackageVersion = JSON.parse(
@@ -22,7 +24,7 @@ module.exports = function(options) {
 		).version;
 
 		var pluginPackgePropertiesPath = path.join(
-			options.rootDir,
+			project.options.rootDir,
 			'WEB-INF',
 			'liferay-plugin-package.properties'
 		);

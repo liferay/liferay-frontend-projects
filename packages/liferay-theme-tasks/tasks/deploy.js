@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: MIT
  */
 
-const lfrThemeConfig = require('../lib/liferay_theme_config');
+const project = require('../lib/project');
 const themeUtil = require('../lib/util');
 const WarDeployer = require('../lib/war_deployer');
 
-const themeConfig = lfrThemeConfig.getConfig(true);
+const pkgJson = project.pkgJson;
 const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
-function registerTasks(options) {
-	const {argv, gulp, pathDist} = options;
-	const {storage} = gulp;
+function registerTasks() {
+	const {gulp, options, store} = project;
+	const {runSequence} = gulp;
+	const {argv, pathDist} = options;
 
-	const runSequence = require('run-sequence').use(gulp);
-	const deploymentStrategy = storage.get('deploymentStrategy');
-	const dockerContainerName = storage.get('dockerContainerName');
+	const deploymentStrategy = store.get('deploymentStrategy');
+	const dockerContainerName = store.get('dockerContainerName');
 
-	gulp.task('deploy', function(cb) {
+	gulp.task('deploy', cb => {
 		const sequence = ['build', 'deploy:war', cb];
 
-		const webBundleDir = storage.get('webBundleDir');
+		const webBundleDir = store.get('webBundleDir');
 
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
@@ -29,12 +29,12 @@ function registerTasks(options) {
 			sequence.splice(2, 0, 'watch:teardown');
 		}
 
-		runSequence.apply(this, sequence);
+		runSequence(gulp, ...sequence);
 	});
 
 	gulp.task('deploy:docker', cb => {
-		const deployPath = storage.get('deployPath');
-		const themeName = themeConfig.name;
+		const deployPath = store.get('deployPath');
+		const themeName = pkgJson.name;
 
 		themeUtil.dockerCopy(
 			dockerContainerName,
@@ -44,13 +44,13 @@ function registerTasks(options) {
 			(err, _data) => {
 				if (err) throw err;
 
-				storage.set('deployed', true);
+				store.set('deployed', true);
 				cb();
 			}
 		);
 	});
 
-	gulp.task('deploy:war', function(cb) {
+	gulp.task('deploy:war', cb => {
 		const sequence = [];
 
 		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
@@ -60,15 +60,15 @@ function registerTasks(options) {
 		}
 
 		sequence.push(cb);
-		runSequence.apply(this, sequence);
+		runSequence(gulp, ...sequence);
 	});
 
 	gulp.task('deploy-live:war', cb => {
 		const password = argv.p || argv.password;
-		const url = argv.url || storage.get('url');
+		const url = argv.url || store.get('url');
 		const username = argv.u || argv.username;
 
-		const themeName = themeConfig.name;
+		const themeName = pkgJson.name;
 
 		const warDeployer = new WarDeployer({
 			fileName: themeName,

@@ -9,16 +9,12 @@ const colors = require('ansi-colors');
 const async = require('async');
 const log = require('fancy-log');
 const fs = require('fs');
-const gulpLoadPlugins = require('gulp-load-plugins');
+const inject = require('gulp-inject');
 const _ = require('lodash');
 const path = require('path');
 const vinylPaths = require('vinyl-paths');
 
-const lfrThemeConfig = require('../../lib/liferay_theme_config');
-
-const plugins = gulpLoadPlugins();
-
-const themeConfig = lfrThemeConfig.getConfig();
+const project = require('../../lib/project');
 
 const CWD = process.cwd();
 
@@ -26,14 +22,16 @@ const FORWARD_SLASH = '/';
 const customCssFileName = '_custom.scss';
 const defaultTemplateLanguage = 'ftl';
 
-module.exports = function(options) {
-	const {gulp} = options;
+module.exports = function() {
+	const {gulp, options} = project;
+	const {runSequence} = gulp;
 	const {pathBuild} = options;
 
-	const runSequence = require('run-sequence').use(gulp);
+	const themeConfig = project.themeConfig.config;
 
 	gulp.task('build:themelets', cb => {
 		runSequence(
+			gulp,
 			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
 			cb
@@ -68,7 +66,7 @@ module.exports = function(options) {
 
 		gulp.src(path.join(pathBuild, 'css', fileName))
 			.pipe(
-				plugins.inject(sources, {
+				inject(sources, {
 					endtag: '/* endinject */',
 					starttag: '/* inject:imports */',
 					transform(filePath) {
@@ -142,7 +140,7 @@ module.exports = function(options) {
 			path.join(pathBuild, 'templates/portal_normal.' + templateLanguage)
 		)
 			.pipe(
-				plugins.inject(sources, {
+				inject(sources, {
 					endtag: '<!-- endinject -->',
 					starttag: '<!-- inject:js -->',
 					transform(filePath) {

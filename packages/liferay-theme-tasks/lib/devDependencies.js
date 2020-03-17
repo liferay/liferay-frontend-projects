@@ -18,7 +18,7 @@ function strict(version) {
 }
 
 // Define versions that are common to every Liferay DXP version and project type
-const gulpVersion = '3.9.1';
+const gulpVersion = '4.0.2';
 const themeTasksVersion = `^${pkgJson.version}`;
 
 // Define dependencies for each Liferay DXP version and project type

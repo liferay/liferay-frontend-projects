@@ -9,6 +9,7 @@ const fs = require('fs-extra');
 const bourbon = require('node-bourbon');
 const path = require('path');
 
+const project = require('./project');
 const themeUtil = require('./util');
 
 const formatPath = function(filePath) {
@@ -16,24 +17,22 @@ const formatPath = function(filePath) {
 };
 
 exports.createBourbonFile = function() {
-	const options = require('./options')();
-
-	const pathSrc = options.pathSrc;
+	const {pathSrc} = project.options;
 
 	const bourbonPath = bourbon.includePaths[0];
 
-	const tmpDirPath = path.join(__dirname, '../tmp');
+	const tmpDirPath = path.join(project.dir, 'tmp');
 
 	if (!fs.existsSync(tmpDirPath)) {
 		fs.mkdirSync(tmpDirPath);
 	}
 
-	const bourbonFilePath = path.join(__dirname, '../tmp/_bourbon.scss');
+	const bourbonFilePath = path.join(tmpDirPath, '_bourbon.scss');
 
 	const bourbonFile = [];
 
 	const deprecatedMixinsFilePath = path.join(
-		process.cwd(),
+		project.dir,
 		pathSrc,
 		'css',
 		'_deprecated_mixins.scss'

@@ -8,14 +8,15 @@
 var zip = require('gulp-zip');
 var path = require('path');
 
-var TASK_PLUGIN_WAR = 'plugin:war';
+const project = require('../../lib/project');
 
-module.exports = function(options) {
-	var gulp = options.gulp;
+module.exports = function() {
+	const {gulp} = project;
+	const {runSequence} = gulp;
 
-	var runSequence = require('run-sequence').use(gulp);
+	gulp.task('plugin:war', () => {
+		const {options} = project;
 
-	gulp.task(TASK_PLUGIN_WAR, () => {
 		return gulp
 			.src(path.join(options.rootDir, '**/*'))
 			.pipe(zip(options.distName + '.war'))
@@ -23,6 +24,6 @@ module.exports = function(options) {
 	});
 
 	gulp.task('build', done => {
-		runSequence('plugin:version', TASK_PLUGIN_WAR, done);
+		runSequence(gulp, 'plugin:version', 'plugin:war', done);
 	});
 };

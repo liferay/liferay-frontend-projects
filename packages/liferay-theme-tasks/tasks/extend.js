@@ -5,16 +5,16 @@
 
 'use strict';
 
-const lfrThemeConfig = require('../lib/liferay_theme_config');
+const project = require('../lib/project');
 const ExtendPrompt = require('../lib/prompts/extend_prompt');
 
-module.exports = function(options) {
-	const gulp = options.gulp;
+module.exports = function() {
+	const {gulp} = project;
 
 	gulp.task('extend', cb => {
 		ExtendPrompt.prompt(
 			{
-				themeConfig: lfrThemeConfig.getConfig(),
+				themeConfig: project.themeConfig.config,
 			},
 			cb
 		);

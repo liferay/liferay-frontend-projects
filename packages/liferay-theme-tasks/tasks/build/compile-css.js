@@ -13,14 +13,16 @@ const _ = require('lodash');
 const path = require('path');
 
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
-const lfrThemeConfig = require('../../lib/liferay_theme_config');
+const project = require('../../lib/project');
 const themeUtil = require('../../lib/util');
 
-module.exports = function(options) {
-	const {gulp, pathBuild} = options;
+module.exports = function() {
+	const {gulp, options} = project;
+	const {runSequence} = gulp;
+	const {pathBuild} = options;
 
 	const handleScssError = err => {
-		if (options.watching) {
+		if (project.watching) {
 			log(err);
 
 			this.emit('end');
@@ -28,15 +30,16 @@ module.exports = function(options) {
 			throw err;
 		}
 	};
-	const runSequence = require('run-sequence').use(gulp);
 
 	gulp.task('build:compile-css', cb => {
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
-		runSequence('build:compile-lib-sass', cb);
+		runSequence(gulp, 'build:compile-lib-sass', cb);
 	});
 
 	gulp.task('build:compile-lib-sass', cb => {
+		const {options} = project;
+
 		const gulpIf = require('gulp-if');
 		const gulpSass = require('gulp-sass');
 		const gulpSourceMaps = require('gulp-sourcemaps');
@@ -88,9 +91,10 @@ function exists(file) {
  * returns `false`.
  */
 function getPostCSSRC() {
-	const themeConfig = lfrThemeConfig.getConfig(true);
+	const pkgJson = project.pkgJson;
+
 	return (
-		(Object.prototype.hasOwnProperty.call(themeConfig, 'postcss') &&
+		(Object.prototype.hasOwnProperty.call(pkgJson, 'postcss') &&
 			'package.json "postcss"') ||
 		exists('.postcssrc') ||
 		exists('.postcssrc.js') ||

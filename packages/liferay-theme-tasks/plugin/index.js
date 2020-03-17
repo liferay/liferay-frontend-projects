@@ -5,36 +5,68 @@
 
 'use strict';
 
-var help = require('gulp-help');
-var storage = require('gulp-storage');
-var _ = require('lodash');
-var path = require('path');
+const fs = require('fs');
+const _ = require('lodash');
+const path = require('path');
 
-var RegisterHooks = require('./lib/register_hooks');
+const project = require('../lib/project');
+const {getArgv} = require('../lib/util');
+const RegisterHooks = require('./lib/register_hooks');
+const registerTaskDeploy = require('./tasks/deploy');
+const registerTaskInit = require('./tasks/init');
+const registerTaskVersion = require('./tasks/version');
+const registerTaskWar = require('./tasks/war');
 
-var CWD = process.cwd();
+const CWD = process.cwd();
 
-module.exports.registerTasks = function(options) {
-	options = require('./lib/options')(options);
+function processOptions(options) {
+	var argv = getArgv();
 
-	var gulp = options.gulp;
+	var distName = path.basename(CWD);
 
-	gulp = help(options.gulp);
+	var pkg;
 
-	storage(gulp);
+	try {
+		pkg = JSON.parse(
+			fs.readFileSync(path.join(CWD, 'package.json'), 'utf8')
+		);
 
-	var store = gulp.storage;
+		distName = pkg.name;
+	} catch (e) {
+		// Swallow.
+	}
 
-	store.create(
-		options.storeConfig.name,
-		path.join(CWD, options.storeConfig.path)
-	);
+	distName = options.distName || distName;
 
-	var tasks = require('./tasks/index');
+	if (/\${/.test(distName) && pkg) {
+		var distNameTemplate = _.template(distName);
 
-	_.forEach(tasks, task => {
-		task(options);
-	});
+		distName = distNameTemplate(pkg);
+	}
+
+	options.argv = argv;
+	options.distName = distName;
+	options.pathDist = options.pathDist || 'dist';
+	options.rootDir = options.rootDir || 'docroot';
+	options.storeConfig = {
+		path: 'liferay-plugin.json',
+		...options.storeConfig,
+	};
+
+	return options;
+}
+
+function registerTasks(options) {
+	options = processOptions(options);
+
+	project.options.init(options);
+	project.gulp.init(options.gulp);
+	project.store.open(path.join(CWD, options.storeConfig.path));
+
+	registerTaskInit();
+	registerTaskDeploy();
+	registerTaskVersion();
+	registerTaskWar();
 
 	if (options.extensions) {
 		if (!_.isArray(options.extensions)) {
@@ -46,9 +78,13 @@ module.exports.registerTasks = function(options) {
 		});
 	}
 
-	RegisterHooks.hook(gulp, {
+	RegisterHooks.hook(project.gulp, {
 		hookFn: options.hookFn,
 		hookModules: options.hookModules,
 		options,
 	});
+}
+
+module.exports = {
+	registerTasks,
 };

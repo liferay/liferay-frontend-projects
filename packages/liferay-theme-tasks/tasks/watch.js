@@ -18,6 +18,7 @@ const tinylr = require('tiny-lr');
 const url = require('url');
 const util = require('util');
 
+const project = require('../lib/project');
 const themeUtil = require('../lib/util');
 
 const PASSES = Object.values(passes);
@@ -62,19 +63,16 @@ function isReadable(file) {
 	);
 }
 
-module.exports = function(options) {
-	// Get things from options
-	const {argv, distName, gulp, pathBuild, pathSrc, resourcePrefix} = options;
-
-	// Initialize global things
-	const {storage} = gulp;
-	const runSequence = require('run-sequence').use(gulp);
+module.exports = function() {
+	const {gulp, options, store} = project;
+	const {runSequence} = gulp;
+	const {argv, distName, pathBuild, pathSrc, resourcePrefix} = options;
 
 	// Get config from liferay-theme.json
-	const proxyUrl = argv.url || storage.get('url');
-	const deploymentStrategy = storage.get('deploymentStrategy');
-	const dockerContainerName = storage.get('dockerContainerName');
-	const pluginName = storage.get('pluginName') || '';
+	const proxyUrl = argv.url || store.get('url');
+	const deploymentStrategy = store.get('deploymentStrategy');
+	const dockerContainerName = store.get('dockerContainerName');
+	const pluginName = store.get('pluginName') || '';
 
 	// Calculate some values
 	const explodedBuildDir = path.join(process.cwd(), EXPLODED_BUILD_DIR_NAME);
@@ -87,10 +85,10 @@ module.exports = function(options) {
 	/**
 	 * Start watching project folder
 	 */
-	gulp.task('watch', function() {
-		options.watching = true;
+	gulp.task('watch', () => {
+		project.watching = true;
 
-		storage.set('appServerPathPlugin', explodedBuildDir);
+		store.set('appServerPathPlugin', explodedBuildDir);
 
 		// Get tasks array
 		const taskArray = getCleanTaskArray(deploymentStrategy);
@@ -105,13 +103,13 @@ module.exports = function(options) {
 				portfinder.getPortPromise({port: 9080}),
 				portfinder.getPortPromise({port: 35729}),
 			]).then(([httpPort, tinylrPort]) => {
-				storage.set('webBundleDir', 'watching');
+				store.set('webBundleDir', 'watching');
 				startWatch(httpPort, tinylrPort, proxyUrl);
 			});
 		});
 
 		// Run tasks in sequence
-		runSequence.apply(this, taskArray);
+		runSequence(gulp, ...taskArray);
 	});
 
 	/**
@@ -162,20 +160,20 @@ module.exports = function(options) {
 	/**
 	 * Cleanup watch machinery
 	 */
-	gulp.task('watch:teardown', function(cb) {
-		storage.set('webBundleDir');
+	gulp.task('watch:teardown', cb => {
+		store.set('webBundleDir');
 
 		const taskArray = getTeardownTaskArray();
 
 		taskArray.push(cb);
 
-		runSequence.apply(this, taskArray);
+		runSequence(gulp, ...taskArray);
 	});
 
 	let livereload;
 
 	gulp.task('watch:reload', cb => {
-		const changedFile = storage.get('changedFile');
+		const changedFile = store.get('changedFile');
 		const srcPath = path.relative(process.cwd(), changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
 		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
@@ -222,7 +220,7 @@ module.exports = function(options) {
 			// happen even though we are in "selfHandleResponse" mode.
 			// See: https://github.com/nodejitsu/node-http-proxy/issues/1263
 			for (let i = 0; i < PASSES.length; i++) {
-				if (PASSES[i](req, res, proxyRes, options)) {
+				if (PASSES[i](req, res, proxyRes, project.options)) {
 					break;
 				}
 			}
@@ -304,8 +302,8 @@ module.exports = function(options) {
 			opn(url);
 		});
 
-		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
-			storage.set('changedFile', vinyl);
+		gulp.watch(path.join(pathSrc, '**/*'), vinyl => {
+			store.set('changedFile', vinyl);
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);
 
@@ -313,12 +311,12 @@ module.exports = function(options) {
 
 			taskArray.push(clearChangedFile);
 
-			runSequence.apply(this, taskArray);
+			runSequence(gulp, ...taskArray);
 		});
 	}
 
 	function clearChangedFile() {
-		storage.set('changedFile');
+		store.set('changedFile');
 	}
 
 	function getTeardownTaskArray() {

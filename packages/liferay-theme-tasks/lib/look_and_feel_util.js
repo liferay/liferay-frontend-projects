@@ -9,9 +9,7 @@ const path = require('path');
 const util = require('util');
 const xml2js = require('xml2js');
 
-const options = require('./options');
-
-const {pathSrc} = options();
+const project = require('./project');
 
 const QUERY_ELEMENTS = {
 	'color-scheme': 'id',
@@ -130,6 +128,8 @@ function getLookAndFeelJSON(themePath, cb) {
 }
 
 function getNameFromPluginPackageProperties(themePath) {
+	const {pathSrc} = project.options;
+
 	const pluginPackageProperties = fs.readFileSync(
 		path.join(
 			themePath,
@@ -184,6 +184,9 @@ function readLookAndFeelXML(themePath) {
 		themePath,
 		'src/WEB-INF/liferay-look-and-feel.xml'
 	);
+
+	const {pathSrc} = project.options;
+
 	let lookAndFeelPath = path.join(
 		themePath,
 		pathSrc,

@@ -5,25 +5,48 @@
 
 'use strict';
 
-const globby = require('globby');
-const gulpLoadPlugins = require('gulp-load-plugins');
 const _ = require('lodash');
-const path = require('path');
 
 const checkNodeVersion = require('./lib/checkNodeVersion');
-const lfrThemeConfig = require('./lib/liferay_theme_config');
-const pluginTasks = require('./plugin');
+const project = require('./lib/project');
+const {getArgv} = require('./lib/util');
+const plugin = require('./plugin');
+const registerTaskBuild = require('./tasks/build');
+const registerTaskBuildCompileCss = require('./tasks/build/compile-css');
+const registerTaskBuildThemelets = require('./tasks/build/themelets');
+const registerTaskDeploy = require('./tasks/deploy');
+const registerTaskExtend = require('./tasks/extend');
+const registerTaskInit = require('./tasks/init');
+const registerTaskKickstart = require('./tasks/kickstart');
+const registerTaskOverwrite = require('./tasks/overwrite');
+const registerTaskStatus = require('./tasks/status');
+const registerTaskUpgrade = require('./tasks/upgrade');
+const registerTaskWatch = require('./tasks/watch');
 
 checkNodeVersion();
 
-const plugins = gulpLoadPlugins();
+function processOptions(options) {
+	options = options || {};
+	options.argv = getArgv();
+	options.pathBuild = options.pathBuild || './build';
+	options.pathDist = options.pathDist || './dist';
+	options.pathSrc = options.pathSrc || './src';
+	options.resourcePrefix = options.resourcePrefix || '/o';
+	options.sassOptions = options.sassOptions || {};
 
-const themeConfig = lfrThemeConfig.getConfig();
+	const themeConfig = project.themeConfig.config;
 
-module.exports.registerTasks = function(options) {
-	options = require('./lib/options')(options);
+	Object.assign(options, themeConfig);
 
-	pluginTasks.registerTasks(
+	return options;
+}
+
+function registerTasks(options) {
+	options = processOptions(options);
+
+	const themeConfig = project.themeConfig.config;
+
+	plugin.registerTasks(
 		_.defaults(
 			{
 				extensions: register,
@@ -31,25 +54,30 @@ module.exports.registerTasks = function(options) {
 				hookModules: themeConfig ? themeConfig.hookModules : null,
 				rootDir: options.pathBuild,
 				storeConfig: {
-					name: 'LiferayTheme',
 					path: 'liferay-theme.json',
 				},
 			},
 			options
 		)
 	);
-};
-
-function register(options) {
-	const gulp = (options.gulp = plugins.help(options.gulp));
-	const store = gulp.storage;
-
-	store.set('changedFile');
-
-	globby.sync([path.resolve(__dirname, 'tasks/**/*')]).forEach(item => {
-		if (item.indexOf('__tests__') == -1) {
-			// eslint-disable-next-line liferay/no-dynamic-require
-			require(item)(options);
-		}
-	});
 }
+
+function register() {
+	project.store.set('changedFile');
+
+	registerTaskBuildCompileCss();
+	registerTaskBuildThemelets();
+	registerTaskBuild();
+	registerTaskDeploy();
+	registerTaskExtend();
+	registerTaskInit();
+	registerTaskKickstart();
+	registerTaskOverwrite();
+	registerTaskStatus();
+	registerTaskUpgrade();
+	registerTaskWatch();
+}
+
+module.exports = {
+	registerTasks,
+};
