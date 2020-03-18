@@ -37,13 +37,7 @@ function fix(nodesToRemove, context, fixer) {
 
 	if (nodesToRemove instanceof Set) {
 		// Removing elements from an ArrayExpression.
-		let parent;
-
-		for (const node of nodesToRemove) {
-			parent = node.parent;
-
-			break;
-		}
+		const parent = [...nodesToRemove][0].parent;
 
 		items = parent.elements.slice();
 	} else {
