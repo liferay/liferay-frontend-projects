@@ -84,8 +84,6 @@ function fix(nodesToRemove, context, fixer) {
 
 			if (nodesToRemove.has(item)) {
 				return text;
-			} else if (atEnd) {
-				return text + itemText;
 			} else {
 				return text + itemText + trailingWhitespace;
 			}
