@@ -58,7 +58,9 @@ function fix(nodesToRemove, context, fixer) {
 	const start = items[0].range[0];
 	const end = items[lastIndex].range[1];
 
-	const lastVisible = items.reduce((last, item, index) => {
+	// Record index of last `item` in `items` that will remain after we've
+	// deleted `nodesToRemove`.
+	const lastRemaining = items.reduce((last, item, index) => {
 		if (nodesToRemove.has(item)) {
 			return last;
 		} else {
@@ -71,7 +73,7 @@ function fix(nodesToRemove, context, fixer) {
 	return fixer.replaceTextRange(
 		[start, end],
 		items.slice().reduce((text, item, index) => {
-			const atEnd = index >= lastVisible;
+			const atEnd = index >= lastRemaining;
 			const itemText = source.getText(item);
 
 			const trailingWhitespace = atEnd
@@ -85,7 +87,7 @@ function fix(nodesToRemove, context, fixer) {
 			// whitespace.
 			if (nodesToRemove.has(item)) {
 				return text;
-			} else if (index + 1 >= lastVisible) {
+			} else if (index + 1 >= lastRemaining) {
 				return text + itemText;
 			} else {
 				return text + itemText + trailingWhitespace;
