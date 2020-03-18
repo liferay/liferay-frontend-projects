@@ -25,21 +25,21 @@ const noExplicitPreset =
 	'`@babel/preset-env` and `@babel/preset-react` apply automatically and can be omitted';
 
 /**
- * Expects either:
+ * Expects `nodesToRemove` to be either:
  *
  * - a Set of literals to prune from an ArrayExpression; or:
  * - a Property to prune from an ObjectExpression.
  */
-function fix(elementsOrProperty, context, fixer) {
+function fix(nodesToRemove, context, fixer) {
 	const source = context.getSourceCode();
 
 	let items;
 
-	if (elementsOrProperty instanceof Set) {
+	if (nodesToRemove instanceof Set) {
 		// Removing elements from an ArrayExpression.
 		let parent;
 
-		for (const node of elementsOrProperty) {
+		for (const node of nodesToRemove) {
 			parent = node.parent;
 
 			break;
@@ -48,7 +48,7 @@ function fix(elementsOrProperty, context, fixer) {
 		items = parent.elements.slice();
 	} else {
 		// Removing property from an ObjectExpression.
-		const parent = elementsOrProperty.parent;
+		const parent = nodesToRemove.parent;
 
 		// Special case: when removing last property, kill all
 		// internal whitespace.
@@ -56,7 +56,7 @@ function fix(elementsOrProperty, context, fixer) {
 			return fixer.replaceText(parent, '{}');
 		}
 
-		elementsOrProperty = new Set([elementsOrProperty]);
+		nodesToRemove = new Set([nodesToRemove]);
 		items = parent.properties.slice();
 	}
 
@@ -65,7 +65,7 @@ function fix(elementsOrProperty, context, fixer) {
 	const end = items[lastIndex].range[1];
 
 	const lastVisible = items.reduce((last, item, index) => {
-		if (elementsOrProperty.has(item)) {
+		if (nodesToRemove.has(item)) {
 			return last;
 		} else {
 			return index;
@@ -89,7 +89,7 @@ function fix(elementsOrProperty, context, fixer) {
 			// When removing last item, we eat preceding
 			// whitespace. When removing other items we eat trailing
 			// whitespace.
-			if (elementsOrProperty.has(item)) {
+			if (nodesToRemove.has(item)) {
 				return text;
 			} else if (index + 1 >= lastVisible) {
 				return text + itemText;
