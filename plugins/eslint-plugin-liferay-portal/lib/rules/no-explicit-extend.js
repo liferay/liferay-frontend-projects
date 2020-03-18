@@ -74,7 +74,6 @@ function fix(nodesToRemove, context, fixer) {
 		[start, end],
 		items.slice().reduce((text, item, index) => {
 			const atEnd = index >= lastRemaining;
-			const itemText = source.getText(item);
 
 			const trailingWhitespace = atEnd
 				? ''
@@ -85,6 +84,8 @@ function fix(nodesToRemove, context, fixer) {
 			if (nodesToRemove.has(item)) {
 				return text;
 			} else {
+				const itemText = source.getText(item);
+
 				return text + itemText + trailingWhitespace;
 			}
 		}, '')
