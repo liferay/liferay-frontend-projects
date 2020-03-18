@@ -362,6 +362,40 @@ ruleTester.run('no-explicit-extend', rule, {
 				};
 			`,
 		},
+		{
+			// Regression.
+			// See: https://github.com/liferay/liferay-portal-ee/pull/18545#issuecomment-600614052
+			code: `
+				module.exports = {
+					extends: ['liferay/react'],
+					globals: {
+						AlloyEditor: true,
+						process: true
+					},
+					rules: {
+						'react/no-string-refs': 'off'
+					}
+				};
+			`,
+			errors: [
+				{
+					messageId: 'noExplicitExtend',
+					type: 'Property',
+				},
+			],
+			filename,
+			output: `
+				module.exports = {
+					globals: {
+						AlloyEditor: true,
+						process: true
+					},
+					rules: {
+						'react/no-string-refs': 'off'
+					}
+				};
+			`,
+		},
 	],
 
 	valid: [

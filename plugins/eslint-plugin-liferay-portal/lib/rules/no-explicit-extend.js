@@ -82,12 +82,9 @@ function fix(nodesToRemove, context, fixer) {
 						.getText()
 						.slice(item.range[1], items[index + 1].range[0]);
 
-			// When removing last item, we eat preceding
-			// whitespace. When removing other items we eat trailing
-			// whitespace.
 			if (nodesToRemove.has(item)) {
 				return text;
-			} else if (index + 1 >= lastRemaining) {
+			} else if (index === lastRemaining) {
 				return text + itemText;
 			} else {
 				return text + itemText + trailingWhitespace;
