@@ -64,3 +64,9 @@ When relevant, please add screenshots pointing the reviewer to the relevant chan
 ## When reviewing a PR
 
 TBD
+
+## Further reading
+
+-   https://medium.com/better-programming/pull-request-etiquettes-for-reviewer-and-author-f4e80360f92c
+-   https://www.atlassian.com/blog/git/written-unwritten-guide-pull-requests
+-   https://about.gitlab.com/handbook/communication/#everything-starts-with-a-merge-request
