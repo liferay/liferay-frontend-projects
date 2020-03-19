@@ -25,30 +25,24 @@ const noExplicitPreset =
 	'`@babel/preset-env` and `@babel/preset-react` apply automatically and can be omitted';
 
 /**
- * Expects either:
+ * Expects `nodesToRemove` to be either:
  *
  * - a Set of literals to prune from an ArrayExpression; or:
  * - a Property to prune from an ObjectExpression.
  */
-function fix(elementsOrProperty, context, fixer) {
+function fix(nodesToRemove, context, fixer) {
 	const source = context.getSourceCode();
 
 	let items;
 
-	if (elementsOrProperty instanceof Set) {
+	if (nodesToRemove instanceof Set) {
 		// Removing elements from an ArrayExpression.
-		let parent;
-
-		for (const node of elementsOrProperty) {
-			parent = node.parent;
-
-			break;
-		}
+		const parent = [...nodesToRemove][0].parent;
 
 		items = parent.elements.slice();
 	} else {
 		// Removing property from an ObjectExpression.
-		const parent = elementsOrProperty.parent;
+		const parent = nodesToRemove.parent;
 
 		// Special case: when removing last property, kill all
 		// internal whitespace.
@@ -56,7 +50,7 @@ function fix(elementsOrProperty, context, fixer) {
 			return fixer.replaceText(parent, '{}');
 		}
 
-		elementsOrProperty = new Set([elementsOrProperty]);
+		nodesToRemove = new Set([nodesToRemove]);
 		items = parent.properties.slice();
 	}
 
@@ -64,8 +58,10 @@ function fix(elementsOrProperty, context, fixer) {
 	const start = items[0].range[0];
 	const end = items[lastIndex].range[1];
 
-	const lastVisible = items.reduce((last, item, index) => {
-		if (elementsOrProperty.has(item)) {
+	// Record index of last `item` in `items` that will remain after we've
+	// deleted `nodesToRemove`.
+	const lastRemaining = items.reduce((last, item, index) => {
+		if (nodesToRemove.has(item)) {
 			return last;
 		} else {
 			return index;
@@ -77,8 +73,7 @@ function fix(elementsOrProperty, context, fixer) {
 	return fixer.replaceTextRange(
 		[start, end],
 		items.slice().reduce((text, item, index) => {
-			const atEnd = index >= lastVisible;
-			const itemText = source.getText(item);
+			const atEnd = index >= lastRemaining;
 
 			const trailingWhitespace = atEnd
 				? ''
@@ -86,14 +81,11 @@ function fix(elementsOrProperty, context, fixer) {
 						.getText()
 						.slice(item.range[1], items[index + 1].range[0]);
 
-			// When removing last item, we eat preceding
-			// whitespace. When removing other items we eat trailing
-			// whitespace.
-			if (elementsOrProperty.has(item)) {
+			if (nodesToRemove.has(item)) {
 				return text;
-			} else if (index + 1 >= lastVisible) {
-				return text + itemText;
 			} else {
+				const itemText = source.getText(item);
+
 				return text + itemText + trailingWhitespace;
 			}
 		}, '')
