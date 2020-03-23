@@ -14,8 +14,6 @@ const path = require('path');
 
 const project = require('../../lib/project');
 
-const CWD = process.cwd();
-
 module.exports = function() {
 	const {gulp} = project;
 	const {pathBuild, pathSrc} = project.options;
@@ -34,8 +32,8 @@ module.exports = function() {
 	};
 
 	function getFileChoices(dirPath) {
-		const buildFiles = readdir(path.join(CWD, pathBuild, dirPath));
-		const srcFiles = readdir(path.join(CWD, pathSrc, dirPath));
+		const buildFiles = readdir(path.join(project.dir, pathBuild, dirPath));
+		const srcFiles = readdir(path.join(project.dir, pathSrc, dirPath));
 
 		const choices = _.reduce(
 			buildFiles,
@@ -81,11 +79,13 @@ module.exports = function() {
 	}
 
 	function isDir(filePath) {
-		return fs.statSync(path.join(CWD, pathBuild, filePath)).isDirectory();
+		return fs
+			.statSync(path.join(project.dir, pathBuild, filePath))
+			.isDirectory();
 	}
 
 	function logChanges(filePath) {
-		const themeDirName = path.basename(CWD);
+		const themeDirName = path.basename(project.dir);
 
 		const destFile = colors.cyan(
 			path.join(themeDirName, pathSrc, filePath)

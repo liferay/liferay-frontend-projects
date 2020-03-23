@@ -75,7 +75,7 @@ module.exports = function() {
 	const pluginName = store.get('pluginName') || '';
 
 	// Calculate some values
-	const explodedBuildDir = path.join(process.cwd(), EXPLODED_BUILD_DIR_NAME);
+	const explodedBuildDir = path.join(project.dir, EXPLODED_BUILD_DIR_NAME);
 	const dockerThemePath = path.posix.join('/tmp', pluginName);
 	const dockerBundleDirPath = path.posix.join(
 		dockerThemePath,
@@ -174,7 +174,7 @@ module.exports = function() {
 
 	gulp.task('watch:reload', cb => {
 		const changedFile = store.get('changedFile');
-		const srcPath = path.relative(process.cwd(), changedFile.path);
+		const srcPath = path.relative(project.dir, changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
 		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
 

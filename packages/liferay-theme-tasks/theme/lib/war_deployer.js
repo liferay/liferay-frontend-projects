@@ -12,7 +12,7 @@ const _ = require('lodash');
 const path = require('path');
 const url = require('url');
 
-const CWD = process.cwd();
+const project = require('../../lib/project');
 
 class WarDeployer extends EventEmitter {
 	constructor(options) {
@@ -202,7 +202,9 @@ class WarDeployer extends EventEmitter {
 
 		req.write(this._getFileHeaders(this._fileName, boundaryKey));
 
-		fs.createReadStream(path.join(CWD, 'dist', this.fileName + '.war'))
+		fs.createReadStream(
+			path.join(project.dir, 'dist', this.fileName + '.war')
+		)
 			.on('end', () => {
 				req.end('\r\n--' + boundaryKey + '--');
 

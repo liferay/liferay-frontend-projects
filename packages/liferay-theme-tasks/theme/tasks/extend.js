@@ -12,11 +12,6 @@ module.exports = function() {
 	const {gulp} = project;
 
 	gulp.task('extend', cb => {
-		ExtendPrompt.prompt(
-			{
-				themeConfig: project.themeConfig.config,
-			},
-			cb
-		);
+		ExtendPrompt.prompt(cb);
 	});
 };

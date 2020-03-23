@@ -10,7 +10,8 @@ function getStatus() {
 	const {gulp} = project;
 
 	gulp.task('status', cb => {
-		process.stdout.write(status(project.themeConfig.config));
+		// eslint-disable-next-line
+		console.log(status(project.themeConfig.config));
 
 		cb();
 	});

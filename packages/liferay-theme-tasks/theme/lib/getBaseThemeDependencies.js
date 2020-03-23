@@ -8,11 +8,12 @@
 const _ = require('lodash');
 const path = require('path');
 
-const themeUtil = require('../../lib/util');
+const project = require('../../lib/project');
+const util = require('../../lib/util');
 const {getBaseThemeGlob, getLiferayThemeJSON} = require('./theme_inspector');
 
 function getBaseThemeDependencies(
-	baseThemePath = process.cwd(),
+	baseThemePath = project.dir,
 	dependencies = []
 ) {
 	const {baseTheme} = getLiferayThemeJSON(baseThemePath);
@@ -21,7 +22,7 @@ function getBaseThemeDependencies(
 	dependencies = _.uniq(
 		dependencies.concat([
 			path.join(
-				themeUtil.resolveDependency('liferay-frontend-theme-unstyled'),
+				util.resolveDependency('liferay-frontend-theme-unstyled'),
 				baseThemeGlob
 			),
 		])
@@ -42,7 +43,7 @@ function getBaseThemeDependencies(
 			1,
 			0,
 			path.join(
-				themeUtil.resolveDependency('liferay-frontend-theme-styled'),
+				util.resolveDependency('liferay-frontend-theme-styled'),
 				baseThemeGlob
 			)
 		);
@@ -52,9 +53,7 @@ function getBaseThemeDependencies(
 				2,
 				0,
 				path.join(
-					themeUtil.resolveDependency(
-						'liferay-frontend-theme-admin-web'
-					),
+					util.resolveDependency('liferay-frontend-theme-admin-web'),
 					baseThemeGlob
 				)
 			);

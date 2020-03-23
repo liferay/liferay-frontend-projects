@@ -236,7 +236,7 @@ function getNpmPaths() {
 	const win32 = process.platform === 'win32';
 
 	_.forEach(
-		path.join(process.cwd(), '..').split(path.sep),
+		path.join(project.dir, '..').split(path.sep),
 		(part, index, parts) => {
 			let lookup = path.join(
 				...parts.slice(0, index + 1).concat(['node_modules'])

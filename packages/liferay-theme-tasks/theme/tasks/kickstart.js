@@ -38,7 +38,7 @@ function registerTasks() {
 					themeSrcPath = answers.modulePath;
 				} else if (answers.module) {
 					tempNodeModulesPath = path.join(
-						process.cwd(),
+						project.dir,
 						'.temp_node_modules'
 					);
 

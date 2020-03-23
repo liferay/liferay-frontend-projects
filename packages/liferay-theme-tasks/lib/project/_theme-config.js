@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-// const fs = require('fs-extra');
 const _ = require('lodash');
 
 class ThemeConfig {
@@ -16,24 +15,16 @@ class ThemeConfig {
 	}
 
 	removeConfig(keys) {
-		const {_project} = this._project;
+		const {_project} = this;
 
-		_project.modifyPkgJson(pkgJson => _.omit(pkgJson.liferayTheme, keys));
+		_project.modifyPkgJson(pkgJson => ({
+			...pkgJson,
+			liferayTheme: _.omit(pkgJson.liferayTheme, keys),
+		}));
 	}
 
-	removeDependencies(dependencies) {
-		const {_project} = this._project;
-
-		_project.modifyPkgJson(pkgJson => {
-			this._deleteDependencies(pkgJson.dependencies, dependencies);
-			this._deleteDependencies(pkgJson.devDependencies, dependencies);
-
-			return pkgJson;
-		});
-	}
-
-	set config(config) {
-		const {_project} = this._project;
+	setConfig(config) {
+		const {_project} = this;
 
 		_project.modifyPkgJson(pkgJson => {
 			if (pkgJson.liferayTheme) {
@@ -51,32 +42,6 @@ class ThemeConfig {
 			});
 
 			return pkgJson;
-		});
-	}
-
-	setDependencies(dependencies, devDependencies) {
-		const {_project} = this._project;
-
-		_project.modifyPkgJson(pkgJson => {
-			const selector = devDependencies
-				? 'devDependencies'
-				: 'dependencies';
-
-			if (!pkgJson[selector]) {
-				pkgJson[selector] = {};
-			}
-
-			_.merge(pkgJson[selector], dependencies);
-
-			return pkgJson;
-		});
-	}
-
-	_deleteDependencies(sourceDependencies, deletedDependencies) {
-		_.forEach(sourceDependencies, (item, index) => {
-			if (deletedDependencies.indexOf(index) > -1) {
-				delete sourceDependencies[index];
-			}
 		});
 	}
 }

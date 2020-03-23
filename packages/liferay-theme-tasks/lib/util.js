@@ -13,6 +13,8 @@ const minimist = require('minimist');
 const path = require('path');
 const tar = require('tar-fs');
 
+const project = require('./project');
+
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {
 	'liferay-frontend-common-css': 'LIFERAY_COMMON_CSS_PATH',
 	'liferay-frontend-theme-styled': 'LIFERAY_THEME_STYLED_PATH',
@@ -139,7 +141,7 @@ function resolveDependency(dependency) {
 		return customPath;
 	}
 
-	return path.dirname(require.resolve(dependency, {paths: [process.cwd()]}));
+	return path.dirname(require.resolve(dependency, {paths: [project.dir]}));
 }
 
 function getCustomDependencyPath(dependency) {

@@ -46,6 +46,8 @@
 		"chai": "^1.10.0",
 		"chai-fs": "^0.1.0",
 		"gulp": "^4.0.0",
+		"liferay-frontend-theme-styled": "^4.0.23",
+		"liferay-frontend-theme-unstyled": "^4.0.19",
 		"sinon": "^4.4.6"
 	},
 	"peerDependencies": {

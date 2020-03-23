@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
 
 const Gulp = require('./_gulp');
@@ -38,7 +39,7 @@ class Project {
 	}
 
 	get gulp() {
-		return this._gulp.proxy;
+		return this._gulp.gulp;
 	}
 
 	get options() {
@@ -67,14 +68,41 @@ class Project {
 		fs.writeJSONSync(this._pkgJsonPath, this._pkgJson, {spaces: 2});
 	}
 
+	removeDependencies(dependencies) {
+		this.modifyPkgJson(pkgJson => {
+			this._deleteDependencies(pkgJson.dependencies, dependencies);
+			this._deleteDependencies(pkgJson.devDependencies, dependencies);
+
+			return pkgJson;
+		});
+	}
+
 	set watching(watching) {
 		this._watching = watching;
 	}
 
-	_reload() {
-		Object.keys(this).forEach(key => delete this[key]);
+	setDependencies(dependencies, devDependencies) {
+		this.modifyPkgJson(pkgJson => {
+			const selector = devDependencies
+				? 'devDependencies'
+				: 'dependencies';
 
-		this._construct('.');
+			if (!pkgJson[selector]) {
+				pkgJson[selector] = {};
+			}
+
+			_.merge(pkgJson[selector], dependencies);
+
+			return pkgJson;
+		});
+	}
+
+	_deleteDependencies(sourceDependencies, deletedDependencies) {
+		_.forEach(sourceDependencies, (item, index) => {
+			if (deletedDependencies.indexOf(index) > -1) {
+				delete sourceDependencies[index];
+			}
+		});
 	}
 
 	_construct(projectDir) {
@@ -83,6 +111,12 @@ class Project {
 		this._pkgJsonPath = path.join(this.dir, 'package.json');
 		this._pkgJson = fs.readJSONSync(this._pkgJsonPath);
 		this._themeConfig = new ThemeConfig(this);
+	}
+
+	_reload() {
+		Object.keys(this).forEach(key => delete this[key]);
+
+		this._construct('.');
 	}
 }
 

@@ -9,13 +9,6 @@ const resolve = require('resolve');
 class Gulp {
 	constructor(project, gulp) {
 		this._project = project;
-		this._proxy = new Proxy(
-			{},
-			{
-				get: (...args) => this._get(...args),
-			}
-		);
-		this._runSequence = runSequence.use(this._proxy);
 
 		if (gulp !== undefined) {
 			this._gulp = gulp;
@@ -25,24 +18,12 @@ class Gulp {
 				basedir: project.dir,
 			}));
 		}
+
+		this._gulp.runSequence = runSequence.use(this._gulp);
 	}
 
-	get proxy() {
-		return this._proxy;
-	}
-
-	_get(target, value) {
-		if (value === 'init') {
-			return gulp => this._init(gulp);
-		}
-
-		switch (value) {
-			case 'runSequence':
-				return (...args) => this._runSequence(...args);
-
-			default:
-				return this._gulp[value];
-		}
+	get gulp() {
+		return this._gulp;
 	}
 }
 

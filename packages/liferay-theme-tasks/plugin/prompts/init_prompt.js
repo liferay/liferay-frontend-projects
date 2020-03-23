@@ -228,4 +228,6 @@ InitPrompt.prototype = {
 	},
 };
 
+InitPrompt.prompt = (config, cb) => new InitPrompt(config, cb);
+
 module.exports = InitPrompt;

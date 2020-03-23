@@ -21,6 +21,8 @@ class Store {
 				throw err;
 			}
 		}
+
+		this._json[section] = this._json[section] || {};
 	}
 
 	set(key, value) {

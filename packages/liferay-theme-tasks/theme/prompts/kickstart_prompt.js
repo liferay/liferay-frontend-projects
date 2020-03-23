@@ -8,6 +8,7 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const path = require('path');
 
+const project = require('../../lib/project');
 const GlobalModulePrompt = require('./global_module_prompt');
 const NPMModulePrompt = require('./npm_module_prompt');
 const promptUtil = require('./util');
@@ -62,7 +63,7 @@ class KickstartPrompt {
 
 	_installTempModule(moduleName, cb) {
 		const tempNodeModulesPath = path.join(
-			process.cwd(),
+			project.dir,
 			'.temp_node_modules'
 		);
 

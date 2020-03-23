@@ -16,8 +16,6 @@ const vinylPaths = require('vinyl-paths');
 
 const project = require('../../../lib/project');
 
-const CWD = process.cwd();
-
 const FORWARD_SLASH = '/';
 const customCssFileName = '_custom.scss';
 const defaultTemplateLanguage = 'ftl';
@@ -182,7 +180,16 @@ module.exports = function() {
 
 	gulp.task('build:themelet-src', cb => {
 		runThemeletDependenciesSeries((item, index, done) => {
-			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
+			gulp.src(
+				path.resolve(
+					project.dir,
+					'node_modules',
+					index,
+					'src',
+					'**',
+					'*'
+				)
+			)
 				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))
 				.on('end', done);
 		}, cb);

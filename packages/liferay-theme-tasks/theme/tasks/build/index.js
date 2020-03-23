@@ -122,7 +122,7 @@ module.exports = function() {
 	});
 
 	gulp.task('build:liferay-look-and-feel', cb => {
-		const themePath = process.cwd();
+		const themePath = project.dir;
 
 		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, lookAndFeelJSON => {
 			if (!lookAndFeelJSON) {

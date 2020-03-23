@@ -14,11 +14,11 @@ module.exports = function() {
 	const {gulp, store} = project;
 
 	gulp.task('plugin:init', cb => {
-		new InitPrompt(
+		InitPrompt.prompt(
 			{
 				appServerPathDefault:
 					store.get('appServerPath') ||
-					path.join(path.dirname(process.cwd()), 'tomcat'),
+					path.join(path.dirname(project.dir), 'tomcat'),
 				dockerContainerNameDefault:
 					store.get('dockerContainerName') || 'liferay_portal_1',
 				store,

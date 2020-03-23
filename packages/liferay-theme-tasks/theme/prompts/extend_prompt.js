@@ -18,13 +18,7 @@ const promptUtil = require('./util');
 const moduleName = getArgv().name;
 
 class ExtendPrompt {
-	constructor(...args) {
-		this.init(...args);
-	}
-
-	init(config, cb) {
-		this.themeConfig = config.themeConfig || project.themeConfig.config;
-
+	constructor(cb) {
 		this.done = cb;
 
 		if (moduleName) {
@@ -63,7 +57,7 @@ class ExtendPrompt {
 	}
 
 	_afterPromptTheme(answers) {
-		const baseTheme = this.themeConfig.baseTheme;
+		const {baseTheme} = project.themeConfig.config;
 		const module = answers.module;
 		const modulePackages = answers.modules;
 		const pkg = modulePackages[module];
@@ -75,12 +69,12 @@ class ExtendPrompt {
 		}
 
 		if (_.isObject(baseTheme)) {
-			this.themeConfig.removeDependencies([baseTheme.name]);
+			project.removeDependencies([baseTheme.name]);
 		}
 
 		const reducedPkg = this._reducePkgData(pkg);
 
-		this.themeConfig.setConfig({
+		project.themeConfig.setConfig({
 			baseTheme: reducedPkg,
 		});
 
@@ -91,7 +85,7 @@ class ExtendPrompt {
 
 	_afterPromptThemelets(answers) {
 		const themeletDependencies =
-			this.themeConfig.themeletDependencies || {};
+			project.themeConfig.config.themeletDependencies || {};
 
 		const reducedThemelets = this._reduceThemelets(
 			answers,
@@ -102,10 +96,10 @@ class ExtendPrompt {
 		const removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
-			this.themeConfig.removeDependencies(removedThemelets);
+			project.removeDependencies(removedThemelets);
 		}
 
-		this.themeConfig.setConfig({
+		project.themeConfig.setConfig({
 			themeletDependencies: reducedThemelets,
 		});
 
@@ -158,7 +152,7 @@ class ExtendPrompt {
 	}
 
 	_getDependencyInstallationArray(dependencies) {
-		const themeVersion = this.themeConfig.version;
+		const themeVersion = project.themeConfig.config.version;
 
 		return _.map(dependencies, item => {
 			const pathOrURL = item.__realPath__ || item.__packageURL__;
@@ -188,13 +182,13 @@ class ExtendPrompt {
 	}
 
 	_getSelectedModules(themelet) {
-		const baseTheme = this.themeConfig.baseTheme;
+		const baseTheme = project.themeConfig.config.baseTheme;
 
 		let selectedModules;
 
 		if (themelet) {
 			selectedModules = _.map(
-				this.themeConfig.themeletDependencies,
+				project.themeConfig.config.themeletDependencies,
 				item => item.name
 			);
 		} else if (_.isObject(baseTheme)) {
@@ -367,7 +361,7 @@ class ExtendPrompt {
 	}
 
 	_saveDependencies(updatedData) {
-		const themeVersion = this.themeConfig.version;
+		const themeVersion = project.themeConfig.config.version;
 
 		const dependencies = _.reduce(
 			updatedData,
@@ -384,17 +378,17 @@ class ExtendPrompt {
 			{}
 		);
 
-		this.themeConfig.setDependencies(dependencies);
+		project.setDependencies(dependencies);
 	}
 
 	_setStaticBaseTheme(themeSource) {
-		const baseTheme = this.themeConfig.baseTheme;
+		const baseTheme = project.themeConfig.config.baseTheme;
 
 		if (_.isObject(baseTheme)) {
-			this.themeConfig.removeDependencies([baseTheme.name]);
+			project.removeDependencies([baseTheme.name]);
 		}
 
-		this.themeConfig.setConfig({
+		project.themeConfig.setConfig({
 			baseTheme: themeSource,
 		});
 
