@@ -5,7 +5,6 @@
 
 'use strict';
 
-var async = require('async');
 var gutil = require('gulp-util');
 var _ = require('lodash');
 

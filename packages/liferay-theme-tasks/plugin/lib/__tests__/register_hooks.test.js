@@ -5,8 +5,6 @@
 
 'use strict';
 
-var async = require('async');
-var {EventEmitter} = require('events');
 var {Gulp} = require('gulp');
 var gutil = require('gulp-util');
 var _ = require('lodash');
