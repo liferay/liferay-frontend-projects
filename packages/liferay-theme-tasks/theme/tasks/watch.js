@@ -7,6 +7,7 @@
 
 const chalk = require('chalk');
 const fs = require('fs-extra');
+const watch = require('gulp-watch');
 const http = require('http');
 const httpProxy = require('http-proxy');
 const passes = require('http-proxy/lib/http-proxy/passes/web-outgoing');
@@ -302,7 +303,7 @@ module.exports = function() {
 			opn(url);
 		});
 
-		gulp.watch(path.join(pathSrc, '**/*'), vinyl => {
+		watch(path.join(pathSrc, '**/*'), vinyl => {
 			store.set('changedFile', vinyl);
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);
