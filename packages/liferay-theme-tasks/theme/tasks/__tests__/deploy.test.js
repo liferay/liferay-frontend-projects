@@ -3,28 +3,23 @@
  * SPDX-License-Identifier: MIT
  */
 
-const del = require('del');
 const fs = require('fs-extra');
+const {Gulp} = require('gulp');
 const path = require('path');
 
-const testUtil = require('../../test/util');
-
-const initCwd = process.cwd();
+const project = require('../../../lib/project');
+const {cleanTempTheme, setupTempTheme} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
 
 let deployPath;
-let runSequence;
-let tempPath;
-
-function getDependency(name) {
-	return path.dirname(require.resolve(path.join(name, 'package.json')));
-}
+let tempTheme;
 
 beforeAll(() => {
-	process.env.LIFERAY_THEME_STYLED_PATH = getDependency(
-		'liferay-frontend-theme-styled'
+	process.env.LIFERAY_THEME_STYLED_PATH = path.dirname(
+		require.resolve('liferay-frontend-theme-styled/package.json')
 	);
-	process.env.LIFERAY_THEME_UNSTYLED_PATH = getDependency(
-		'liferay-frontend-theme-unstyled'
+	process.env.LIFERAY_THEME_UNSTYLED_PATH = path.dirname(
+		require.resolve('liferay-frontend-theme-unstyled/package.json')
 	);
 });
 
@@ -34,35 +29,34 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-	const config = testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
+		init: () =>
+			registerTasks({
+				distName: 'base-theme',
+				gulp: new Gulp(),
+			}),
 		namespace: 'deploy_task',
-		registerTasks: true,
 		themeName: 'base-theme-7-2',
 		version: '7.2',
 	});
 
-	runSequence = config.runSequence;
-	tempPath = config.tempPath;
+	deployPath = path.join(tempTheme.tempPath, '../appserver/deploy');
 
-	deployPath = path.join(tempPath, '../appserver/deploy');
-
-	const store = config.gulp.storage;
+	const {store} = project;
 
 	store.set('deployPath', deployPath);
 	store.set('webBundleDir');
 
-	fs.mkdirsSync(deployPath);
+	fs.emptyDirSync(deployPath);
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme-7-2', '7.2', 'deploy_task', initCwd);
-	del.sync(path.join(deployPath, '**'), {
-		force: true,
-	});
+	cleanTempTheme(tempTheme);
+	fs.removeSync(deployPath);
 });
 
 it('deploys to deploy server', done => {
-	runSequence('deploy', err => {
+	project.gulp.runSequence('deploy', err => {
 		if (err) throw err;
 
 		expect(fs.existsSync(path.join(deployPath, 'base-theme.war'))).toBe(

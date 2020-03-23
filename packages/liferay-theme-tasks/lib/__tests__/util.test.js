@@ -5,24 +5,20 @@
 
 const path = require('path');
 
-const testUtil = require('../../test/util');
+const {cleanTempTheme, setupTempTheme} = require('../test/util');
+const util = require('../util');
 
-const themeName = 'explicit-dependency-theme';
-const initCwd = process.cwd();
-
-let util;
+let tempTheme;
 
 beforeEach(() => {
-	testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
 		namespace: 'util',
-		themeName,
+		themeName: 'explicit-dependency-theme',
 	});
-
-	util = require('../../lib/util');
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme(themeName, '7.1', 'util', initCwd);
+	cleanTempTheme(tempTheme);
 });
 
 it('isCssFile should only return true if css file', () => {
@@ -38,9 +34,8 @@ it('isSassPartial should return true for partial scss file names', () => {
 describe('resolveDependency()', () => {
 	it('uses the custom dependency path when provided', () => {
 		try {
-			process.env.LIFERAY_THEME_STYLED_PATH = path.join(
-				__dirname,
-				'../../../../node_modules/liferay-frontend-theme-styled'
+			process.env.LIFERAY_THEME_STYLED_PATH = path.dirname(
+				require.resolve('liferay-frontend-theme-styled/package.json')
 			);
 			const styledPath = util.resolveDependency(
 				'liferay-frontend-theme-styled'

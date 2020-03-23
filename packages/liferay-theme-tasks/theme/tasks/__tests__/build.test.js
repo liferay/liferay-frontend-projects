@@ -4,88 +4,71 @@
  */
 
 const fs = require('fs-extra');
+const {Gulp} = require('gulp');
 const path = require('path');
-const sinon = require('sinon');
 const {parseString} = require('xml2js');
 
-const testUtil = require('../../test/util');
-
-const initCwd = process.cwd();
-
-function getDependency(name) {
-	return path.dirname(require.resolve(path.join(name, 'package.json')));
-}
+const project = require('../../../lib/project');
+const {
+	cleanTempTheme,
+	setupTempTheme,
+	stripNewlines,
+} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
 
 beforeAll(() => {
-	process.env.LIFERAY_THEME_STYLED_PATH = getDependency(
-		'liferay-frontend-theme-styled'
+	process.env.LIFERAY_THEME_STYLED_PATH = path.dirname(
+		require.resolve('liferay-frontend-theme-styled/package.json')
 	);
-	process.env.LIFERAY_THEME_UNSTYLED_PATH = getDependency(
-		'liferay-frontend-theme-unstyled'
+	process.env.LIFERAY_THEME_UNSTYLED_PATH = path.dirname(
+		require.resolve('liferay-frontend-theme-unstyled/package.json')
 	);
 });
 
 afterAll(() => {
-	// Clean things on exit to avoid GulpStorage.save() errors because of left
-	// over async operations when changing tests.
-	testUtil.cleanTempTheme(
-		'base-theme-7-2',
-		'7.2',
-		'lib_sass_build_task',
-		initCwd
-	);
-
 	delete process.env.LIFERAY_THEME_STYLED_PATH;
 	delete process.env.LIFERAY_THEME_UNSTYLED_PATH;
 });
 
 describe('using lib_sass', () => {
-	const namespace = 'lib_sass_build_task';
-	const themeName = 'base-theme-7-2';
-	const version = '7.2';
-	const sassOptionsSpy = sinon.spy();
-	let runSequence;
 	let buildPath;
-	let tempPath;
-	let themeConfig;
+	let sassOptionsCalled;
+	let tempTheme;
 
 	beforeEach(() => {
-		testUtil.cleanTempTheme(themeName, version, namespace, null);
+		sassOptionsCalled = false;
 
-		const config = testUtil.copyTempTheme({
-			namespace,
-			registerTasksOptions: {
-				hookFn: buildHookFn,
-				sassOptions: defaults => {
-					sassOptionsSpy();
+		tempTheme = setupTempTheme({
+			init: () =>
+				registerTasks({
+					distName: 'base-theme',
+					gulp: new Gulp(),
+					hookFn: buildHookFn,
+					sassOptions: defaults => {
+						sassOptionsCalled = true;
 
-					expect(defaults.includePaths).toBeTruthy();
+						expect(defaults.includePaths).toBeTruthy();
 
-					return defaults;
-				},
-			},
+						return defaults;
+					},
+				}),
+			namespace: 'lib_sass_build_task',
 			themeConfig: {},
-			themeName,
-			version,
+			themeName: 'base-theme-7-2',
+			version: '7.2',
 		});
 
-		tempPath = config.tempPath;
-
-		buildPath = path.join(tempPath, config.registerTasksOptions.pathBuild);
-
-		const lfrThemeConfig = require('../../lib/liferay_theme_config');
-
-		themeConfig = lfrThemeConfig.getConfig();
-
-		runSequence = config.runSequence;
+		buildPath = path.join(tempTheme.tempPath, project.options.pathBuild);
 	});
 
 	afterEach(() => {
-		expect(sassOptionsSpy.calledOnce).toBe(true);
+		expect(sassOptionsCalled).toBe(true);
+
+		cleanTempTheme(tempTheme);
 	});
 
 	it('build task should correctly compile theme', done => {
-		runSequence('build', done);
+		project.gulp.runSequence('build', done);
 	});
 
 	function buildHookFn(gulp) {
@@ -111,8 +94,8 @@ describe('using lib_sass', () => {
 	}
 
 	function _assertBeforeBuild(cb) {
-		const distPath = path.join(tempPath, 'dist');
-		const customSrcPath = path.join(tempPath, 'src');
+		const distPath = path.join(tempTheme.tempPath, 'dist');
+		const customSrcPath = path.join(tempTheme.tempPath, 'src');
 
 		expect(fs.existsSync(customSrcPath)).toBe(true);
 		expect(() => fs.statSync(buildPath)).toThrow();
@@ -204,7 +187,7 @@ describe('using lib_sass', () => {
 		const customCSSFileName = '_custom.scss';
 		const customCSSPath = path.join(cssPath, customCSSFileName);
 
-		const fileContent = testUtil.stripNewlines(
+		const fileContent = stripNewlines(
 			fs.readFileSync(customCSSPath, {
 				encoding: 'utf8',
 			})
@@ -228,7 +211,7 @@ describe('using lib_sass', () => {
 
 		expect(fs.existsSync(baseTextScssPath)).toBe(true);
 
-		const templateLanguage = themeConfig.templateLanguage;
+		const templateLanguage = project.themeConfig.config.templateLanguage;
 
 		const initPath = path.join(templatesPath, 'init.' + templateLanguage);
 		const initCustomPath = path.join(
@@ -316,7 +299,7 @@ describe('using lib_sass', () => {
 	}
 
 	function _assertWar(cb) {
-		const warPath = path.join(tempPath, 'dist/base-theme.war');
+		const warPath = path.join(tempTheme.tempPath, 'dist/base-theme.war');
 
 		expect(fs.existsSync(warPath)).toBe(true);
 

@@ -5,84 +5,43 @@
 
 'use strict';
 
-var chai = require('chai');
-var chaiFs = require('chai-fs');
-var del = require('del');
-var fs = require('fs-extra');
-var {Gulp} = require('gulp');
-var os = require('os');
-var path = require('path');
+const {Gulp} = require('gulp');
+const path = require('path');
 
-var gulp = new Gulp();
+const project = require('../../../lib/project');
+const {cleanTempPlugin, setupTempPlugin} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
 
-chai.use(chaiFs);
+let deployPath;
+let tempPlugin;
 
-var assert = chai.assert;
-
-var tempPath = path.join(
-	os.tmpdir(),
-	'liferay-plugin-tasks',
-	'deploy-task',
-	'test-plugin-layouttpl'
-);
-
-var deployPath = path.join(tempPath, '../appserver/deploy');
-
-var initCwd = process.cwd();
-var registerTasks;
-var runSequence;
-
-beforeAll(done => {
-	fs.copy(
-		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
-		tempPath,
-		err => {
-			if (err) {
-				throw err;
-			}
-
-			process.chdir(tempPath);
-
-			registerTasks = require('../../index').registerTasks;
-
+beforeEach(() => {
+	tempPlugin = setupTempPlugin({
+		init: () =>
 			registerTasks({
-				gulp,
-			});
-
-			runSequence = require('run-sequence').use(gulp);
-
-			var store = gulp.storage;
-
-			store.set('deployPath', deployPath);
-
-			fs.mkdirsSync(deployPath);
-
-			done();
-		}
-	);
-});
-
-afterAll(done => {
-	del([path.join(tempPath, '**')], {
-		force: true,
-	}).then(() => {
-		process.chdir(initCwd);
-
-		done();
+				gulp: new Gulp(),
+			}),
+		namespace: 'deploy-task',
+		pluginName: 'test-plugin-layouttpl',
+		version: '7.0',
 	});
+
+	deployPath = path.join(tempPlugin.tempPath, '../appserver/deploy');
+
+	const {store} = project;
+
+	store.set('deployPath', deployPath);
 });
 
 afterEach(() => {
-	del.sync(path.join(deployPath, '**'), {
-		force: true,
-	});
+	cleanTempPlugin(tempPlugin);
 });
 
 test('deploy task should deploy war file to specified appserver', done => {
-	runSequence('deploy', () => {
-		assert.isFile(path.join(deployPath, 'test-plugin-layouttpl.war'));
+	project.gulp.runSequence('deploy', () => {
+		expect(path.join(deployPath, 'test-plugin-layouttpl.war')).toBeFile();
 
-		expect(gulp.storage.get('deployed')).toBe(true);
+		expect(project.store.get('deployed')).toBe(true);
 
 		done();
 	});

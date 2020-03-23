@@ -23,96 +23,61 @@ beforeEach(() => {
 	prototype = _.create(RegisterHooks.prototype);
 });
 
-test('_addToSequence should add function to sequence differently based on if cb is expected or stream is returned', done => {
-	var sequence = [];
+test('_applyHooks should pass', done => {
+	const gulp = new Gulp();
 
-	var spy = sinon.spy();
+	prototype.gulp = gulp;
 
-	prototype._addToSequence(sequence, cb => {
-		spy();
-
+	// Prepare a function to trace task calls to the tasksTrace array
+	const tasksTrace = [];
+	const trace = (name, cb) => {
+		tasksTrace.push(name);
 		cb();
-	});
-
-	prototype._addToSequence(sequence, () => {
-		var eventEmitter = new EventEmitter();
-
-		setTimeout(() => {
-			spy();
-
-			eventEmitter.emit('end');
-		}, 200);
-
-		return eventEmitter;
-	});
-
-	prototype._addToSequence(sequence, STR_NOT_A_FUNCTION);
-
-	expect(sequence.length).toBe(2);
-
-	async.series(sequence, () => {
-		expect(spy.callCount).toBe(2);
-
-		done();
-	});
-});
-
-test('_applyHooks should pass', () => {
-	prototype.gulp = new Gulp();
-
-	prototype.gulp.task('test', ['test2'], cb => {
-		cb();
-	});
-
-	prototype.gulp.task('test2', cb => {
-		cb();
-	});
-
-	prototype.hooks = {
-		'after:test2': _.noop,
-		'after:test3': _.noop,
-		'before:test': _.noop,
-		'invalid:test': _.noop,
 	};
 
-	prototype.gulp.task = sinon.spy();
+	// Register tasks
+	gulp.task('test2', cb => trace('test2', cb));
+	gulp.task(
+		'test',
+		gulp.series(['test2'], cb => trace('test', cb))
+	);
+
+	// Register hooks
+	prototype.hooks = {
+		'after:test2': cb => trace('after:test2', cb),
+		'after:test3': cb => trace('after:test3', cb),
+		'before:test': cb => trace('before:test', cb),
+		'invalid:test': cb => trace('invalid:test', cb),
+	};
+
+	gulp.task = sinon.spy();
 
 	prototype._applyHooks();
 
-	expect(prototype.gulp.task.calledTwice).toBe(true);
-	expect(prototype.gulp.task.getCall(0).calledWith('test2', [])).toBe(true);
-	expect(prototype.gulp.task.getCall(1).calledWith('test', ['test2'])).toBe(
-		true
-	);
-});
+	expect(gulp.task.calledTwice).toBe(true);
 
-test('_createTaskSequence should create sequences that work with async methods', done => {
-	var sequence = prototype._createTaskSequence(_.noop, {});
+	const [taskName0, task0] = gulp.task.getCalls()[0].args;
 
-	expect(sequence.length).toBe(1);
-	expect(_.isFunction(sequence[0])).toBe(true);
+	expect(taskName0).toBe('test2');
 
-	var hookSpy = sinon.spy();
+	const [taskName1, task1] = gulp.task.getCalls()[1].args;
 
-	sequence = prototype._createTaskSequence(_.noop, {
-		after: [
-			function(cb) {
-				hookSpy();
+	expect(taskName1).toBe('test');
 
-				cb();
-			},
-		],
-	});
+	// Define a function to invoke gulp tasks
+	const callTask = task =>
+		new Promise(resolve => {
+			tasksTrace.length = 0;
 
-	expect(sequence.length).toBe(2);
-	expect(_.isFunction(sequence[0])).toBe(true);
-	expect(_.isFunction(sequence[1])).toBe(true);
+			task(() => resolve(tasksTrace));
+		});
 
-	async.series(sequence, () => {
-		expect(hookSpy.calledOnce).toBe(true);
-
-		done();
-	});
+	// Call tasks and check their trace
+	callTask(task0)
+		.then(trace => expect(trace).toEqual(['test2', 'after:test2']))
+		.then(() => callTask(task1))
+		.then(trace => expect(trace).toEqual(['before:test', 'test2', 'test']))
+		.then(() => done());
 });
 
 test('_getTaskHookMap should create valid taskHookMap', () => {
@@ -281,7 +246,8 @@ test('_registerHookModules should accept single or multiple hook modules and reg
 });
 
 test('_registerHooks should create gulp.hook function that adds hook to hooks object', () => {
-	prototype.gulp = {};
+	prototype.gulp = new Gulp();
+
 	prototype._registerHooks();
 
 	expect(_.isFunction(prototype.gulp.hook)).toBe(true);

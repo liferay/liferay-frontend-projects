@@ -4,49 +4,63 @@
  */
 
 const fs = require('fs');
+const {Gulp} = require('gulp');
 const path = require('path');
 
-const testUtil = require('../../test/util');
+const project = require('../../../lib/project');
+const {cleanTempTheme, setupTempTheme} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
+const KickstartPrompt = require('../../prompts/kickstart_prompt');
 
-const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
+const savedPrompt = KickstartPrompt.prompt;
 
-const initCwd = process.cwd();
-
-afterAll(() => {
-	// Clean things on exit to avoid GulpStorage.save() errors because of left
-	// over async operations when changing tests.
-	['kickstart_task_global', 'kickstart_task_npm'].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
-	);
-});
+const kickstartThemePath = path.join(
+	__dirname,
+	'..',
+	'..',
+	'..',
+	'lib',
+	'test',
+	'fixtures',
+	'themes',
+	'7.1',
+	'kickstart-theme',
+	'src'
+);
 
 describe('globally installed theme', () => {
-	let KickstartPrompt;
-	let runSequence;
-	let tempPath;
+	let tempTheme;
 
 	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
+		tempTheme = setupTempTheme({
+			init: () => registerTasks({gulp: new Gulp()}),
 			namespace: 'kickstart_task_global',
-			registerTasks: true,
 			themeName: 'base-theme',
 			version: '7.1',
 		});
 
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
+		KickstartPrompt.prompt = (config, cb) => {
+			const answers = {
+				module: 'kickstart-theme',
+				modulePath: kickstartThemePath,
+				modules: {
+					'some-theme': {},
+				},
+			};
 
-		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
+			cb(answers);
+		};
+	});
+
+	afterEach(() => {
+		KickstartPrompt.prompt = savedPrompt;
+
+		cleanTempTheme(tempTheme);
 	});
 
 	it('kickstarts', done => {
-		const promptInitSpy = prototypeMethodSpy.add(
-			KickstartPrompt.prototype,
-			'init'
-		);
-
-		runSequence('kickstart', () => {
-			const srcDir = path.join(tempPath, 'src');
+		project.gulp.runSequence('kickstart', () => {
+			const srcDir = path.join(tempTheme.tempPath, 'src');
 
 			expect(
 				fs
@@ -74,65 +88,37 @@ describe('globally installed theme', () => {
 
 			done();
 		});
-
-		const initArgs = promptInitSpy.getCall(0).args;
-
-		const promptCb = initArgs[1];
-
-		const kickstartThemePath = path.join(
-			__dirname,
-			'../../test/fixtures/themes/7.1/kickstart-theme/src'
-		);
-
-		const answers = {
-			module: 'kickstart-theme',
-			modulePath: kickstartThemePath,
-			modules: {
-				'some-theme': {},
-			},
-		};
-
-		promptCb(answers);
 	});
 });
 
 describe('npm theme', () => {
-	let KickstartPrompt;
-	let runSequence;
+	let tempTheme;
 
 	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
+		tempTheme = setupTempTheme({
+			init: () => registerTasks({gulp: new Gulp()}),
 			namespace: 'kickstart_task_npm',
-			registerTasks: true,
 		});
 
-		runSequence = config.runSequence;
+		KickstartPrompt.prompt = (config, cb) => {
+			const answers = {
+				module: 'some-theme',
+				modules: {
+					'some-theme': {},
+				},
+			};
 
-		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
+			cb(answers);
+		};
+	});
+
+	afterEach(() => {
+		KickstartPrompt.prompt = savedPrompt;
+
+		cleanTempTheme(tempTheme);
 	});
 
 	it('kickstarts', done => {
-		const promptInitSpy = prototypeMethodSpy.add(
-			KickstartPrompt.prototype,
-			'init'
-		);
-
-		runSequence('kickstart', done);
-
-		const initArgs = promptInitSpy.getCall(0).args;
-
-		const promptCb = initArgs[1];
-
-		expect(initArgs[0].themeConfig.baseTheme).toBeTruthy();
-		expect(initArgs[0].themeConfig.version).toBeTruthy();
-
-		const answers = {
-			module: 'some-theme',
-			modules: {
-				'some-theme': {},
-			},
-		};
-
-		promptCb(answers);
+		project.gulp.runSequence('kickstart', done);
 	});
 });

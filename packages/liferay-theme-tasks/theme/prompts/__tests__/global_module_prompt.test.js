@@ -6,26 +6,24 @@
 const _ = require('lodash');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const {
+	PrototypeMethodSpy,
+	cleanTempTheme,
+	setupTempTheme,
+} = require('../../../lib/test/util');
+const themeFinder = require('../../lib/theme_finder');
+const GlobalModulePrompt = require('../global_module_prompt.js');
+const ModulePrompt = require('../module_prompt.js');
 
-const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
-
-const initCwd = process.cwd();
-
-let GlobalModulePrompt;
-let ModulePrompt;
-let themeFinder;
+const prototypeMethodSpy = new PrototypeMethodSpy();
 
 let prototype;
+let tempTheme;
 
 beforeEach(() => {
-	testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
 		namespace: 'global_module_prompt',
 	});
-
-	GlobalModulePrompt = require('../global_module_prompt.js');
-	ModulePrompt = require('../module_prompt.js');
-	themeFinder = require('../../theme_finder');
 
 	prototype = _.create(GlobalModulePrompt.prototype);
 });
@@ -33,12 +31,7 @@ beforeEach(() => {
 afterEach(() => {
 	prototypeMethodSpy.flush();
 
-	testUtil.cleanTempTheme(
-		'base-theme',
-		'7.1',
-		'global_module_prompt',
-		initCwd
-	);
+	cleanTempTheme(tempTheme);
 });
 
 it('constructor should pass arguments to init', () => {

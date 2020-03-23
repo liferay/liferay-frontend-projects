@@ -5,7 +5,7 @@
 
 const _ = require('lodash');
 
-const promptUtil = require('../prompt_util');
+const promptUtil = require('../util');
 
 const liferayVersion = '7.0';
 const liferayThemeThemletMetaData = {

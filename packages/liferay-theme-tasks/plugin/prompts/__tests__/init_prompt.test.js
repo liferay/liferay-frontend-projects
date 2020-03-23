@@ -5,13 +5,16 @@
 
 'use strict';
 
-var _ = require('lodash');
-var path = require('path');
-var sinon = require('sinon');
+const _ = require('lodash');
+const path = require('path');
+const sinon = require('sinon');
 
-var initCwd = process.cwd();
-var InitPrompt;
-var prototype;
+const project = require('../../../lib/project');
+const InitPrompt = require('../init_prompt');
+
+const savedCwd = process.cwd();
+
+let prototype;
 
 function getDefaultAnswers() {
 	return {
@@ -23,13 +26,12 @@ function getDefaultAnswers() {
 }
 
 beforeAll(() => {
-	process.chdir(path.join(__dirname, './..'));
-
-	InitPrompt = require('././lib/init_prompt');
+	process.chdir(path.join(__dirname, 'fixtures', 'c-project'));
+	project._reload();
 });
 
 afterAll(() => {
-	process.chdir(initCwd);
+	process.chdir(savedCwd);
 });
 
 beforeEach(() => {
@@ -120,10 +122,10 @@ test('_normalizeAnswers should normalize prompt answers', () => {
 	expect(answers.deployPath).toBe(defaultAnswers.deployPath);
 	expect(answers.url).toBe(defaultAnswers.url);
 
-	expect(answers.pluginName).toBe('plugin');
+	expect(answers.pluginName).toBe('c-project');
 	expect(answers.deployed).toBe(false);
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps/plugin')
+		path.join(defaultAnswers.appServerPath, 'webapps/c-project')
 	);
 
 	answers = _.assign({}, defaultAnswers);
@@ -133,7 +135,7 @@ test('_normalizeAnswers should normalize prompt answers', () => {
 	prototype._normalizeAnswers(answers);
 
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps/plugin')
+		path.join(defaultAnswers.appServerPath, 'webapps/c-project')
 	);
 });
 
@@ -168,9 +170,7 @@ test('_validateAppServerPath should properly validate path and return appropriat
 
 	expect(retVal).toBe('"/fake/path" does not exist');
 
-	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, 'init_prompt.js')
-	);
+	retVal = prototype._validateAppServerPath(__filename);
 
 	expect(/is not a directory/.test(retVal)).toBe(true);
 

@@ -5,76 +5,48 @@
 
 'use strict';
 
-var del = require('del');
-var fs = require('fs-extra');
-var {Gulp} = require('gulp');
-var _ = require('lodash');
-var os = require('os');
-var path = require('path');
-var sinon = require('sinon');
+const {Gulp} = require('gulp');
+const _ = require('lodash');
 
-var gulp = new Gulp();
+const project = require('../../../lib/project');
+const {cleanTempPlugin, setupTempPlugin} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
+const InitPrompt = require('../../prompts/init_prompt');
 
-var tempPath = path.join(
-	os.tmpdir(),
-	'liferay-plugin-tasks',
-	'init-task',
-	'test-plugin-layouttpl'
-);
+let tempPlugin;
 
-var initCwd = process.cwd();
-var registerTasks;
-var runSequence;
-
-beforeAll(done => {
-	fs.copy(
-		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
-		tempPath,
-		err => {
-			if (err) {
-				throw err;
-			}
-
-			process.chdir(tempPath);
-
-			registerTasks = require('../../index').registerTasks;
-
-			registerTasks({
-				gulp,
-			});
-
-			runSequence = require('run-sequence').use(gulp);
-
-			done();
-		}
-	);
-});
-
-afterAll(done => {
-	del([path.join(tempPath, '**')], {
-		force: true,
-	}).then(() => {
-		process.chdir(initCwd);
-
-		done();
+beforeEach(() => {
+	tempPlugin = setupTempPlugin({
+		init: () => registerTasks({gulp: new Gulp()}),
+		namespace: 'init-task',
+		pluginName: 'test-plugin-layouttpl',
+		version: '7.0',
 	});
 });
 
-test('plugin:init should prompt user for appserver information', () => {
-	var InitPrompt = require('../../lib/init_prompt');
+afterEach(() => {
+	cleanTempPlugin(tempPlugin);
+});
 
-	var _prompt = InitPrompt.prototype._prompt;
+test('plugin:init should prompt user for appserver information', done => {
+	const savedPrompt = InitPrompt.prompt;
 
-	InitPrompt.prototype._prompt = sinon.spy();
+	let promptCalled = false;
 
-	runSequence('plugin:init', _.noop);
+	InitPrompt.prompt = (config, cb) => {
+		promptCalled = true;
 
-	expect(InitPrompt.prototype._prompt.calledOnce).toBe(true);
+		expect(config.store).toEqual(project.store);
+		expect(_.endsWith(config.appServerPathDefault, 'tomcat')).toBe(true);
 
-	var args = InitPrompt.prototype._prompt.getCall(0).args;
+		cb();
+	};
 
-	expect(args[0].store).toEqual(gulp.storage);
-	expect(_.endsWith(args[0].appServerPathDefault, 'tomcat')).toBe(true);
+	project.gulp.runSequence('plugin:init', () => {
+		expect(promptCalled).toBe(true);
 
-	InitPrompt.prototype._prompt = _prompt;
+		InitPrompt.prompt = savedPrompt;
+
+		done();
+	});
 });

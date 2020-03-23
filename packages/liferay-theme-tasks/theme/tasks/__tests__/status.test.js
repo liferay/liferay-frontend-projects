@@ -3,24 +3,41 @@
  * SPDX-License-Identifier: MIT
  */
 
-const testUtil = require('../../test/util');
+const {Gulp} = require('gulp');
+const sinon = require('sinon');
 
-const initCwd = process.cwd();
+const project = require('../../../lib/project');
+const {cleanTempTheme, setupTempTheme} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
 
-let runSequence;
+let tempTheme;
 
 beforeEach(() => {
-	const config = testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
+		init: () => registerTasks({gulp: new Gulp()}),
 		namespace: 'status_task',
-		registerTasks: true,
 	});
-	runSequence = config.runSequence;
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.1', 'status_task', initCwd);
+	cleanTempTheme(tempTheme);
 });
 
 it('status task should print base theme/themelet information', done => {
-	runSequence('status', done);
+	const savedConsole = global.console;
+
+	global.console = {
+		log: sinon.spy(),
+	};
+
+	project.gulp.runSequence('status', () => {
+		const calls = global.console.log.getCalls();
+
+		global.console = savedConsole;
+
+		expect(calls).toHaveLength(1);
+		expect(calls[0].args).toMatchSnapshot();
+
+		done();
+	});
 });

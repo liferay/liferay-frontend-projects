@@ -7,24 +7,24 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const {
+	PrototypeMethodSpy,
+	assertBoundFunction,
+	cleanTempTheme,
+	setupTempTheme,
+} = require('../../../lib/test/util');
+const ModulePrompt = require('../module_prompt');
+const util = require('../util');
 
-const assertBoundFunction = testUtil.assertBoundFunction;
-const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
+const prototypeMethodSpy = new PrototypeMethodSpy();
 
-const initCwd = process.cwd();
-
-let ModulePrompt;
-let promptUtil;
 let prototype;
+let tempTheme;
 
 beforeEach(() => {
-	testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
 		namespace: 'module_prompt',
 	});
-
-	ModulePrompt = require('../../../lib/prompts/module_prompt.js');
-	promptUtil = require('../../../lib/prompts/prompt_util.js');
 
 	prototype = _.create(ModulePrompt.prototype);
 });
@@ -32,7 +32,7 @@ beforeEach(() => {
 afterEach(() => {
 	prototypeMethodSpy.flush();
 
-	testUtil.cleanTempTheme('base-theme', '7.1', 'module_prompt', initCwd);
+	cleanTempTheme(tempTheme);
 });
 
 it('constructor should pass arguments to init', () => {
@@ -67,11 +67,9 @@ it('_afterPrompt should parse themelet data if themelet is true and pass answers
 	prototype.done = sinon.spy();
 	prototype.themelet = true;
 
-	prototypeMethodSpy
-		.add(promptUtil, 'formatThemeletSelection', true)
-		.returns({
-			addedModules: ['themelet-1'],
-		});
+	prototypeMethodSpy.add(util, 'formatThemeletSelection', true).returns({
+		addedModules: ['themelet-1'],
+	});
 
 	prototype._afterPrompt(
 		{
@@ -132,7 +130,7 @@ it('_getModuleWhen should return false if no modules are present', () => {
 
 it('_getModuleChoices should invoke proptUtil.getModulesChoices', () => {
 	const getModuleChoicesSpy = prototypeMethodSpy.add(
-		promptUtil,
+		util,
 		'getModuleChoices'
 	);
 

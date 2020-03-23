@@ -5,88 +5,57 @@
 
 'use strict';
 
-var chai = require('chai');
-var chaiFs = require('chai-fs');
-var del = require('del');
-var fs = require('fs-extra');
 var {Gulp} = require('gulp');
-var os = require('os');
 var path = require('path');
 
-var gulp = new Gulp();
+const project = require('../../../lib/project');
+const {cleanTempPlugin, setupTempPlugin} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
 
-chai.use(chaiFs);
+let tempPlugin;
 
-var assert = chai.assert;
-
-var tempPath = path.join(
-	os.tmpdir(),
-	'liferay-plugin-tasks',
-	'war-task',
-	'test-plugin-layouttpl'
-);
-
-var initCwd = process.cwd();
-var registerTasks;
-var runSequence;
-
-beforeAll(done => {
-	fs.copy(
-		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
-		tempPath,
-		err => {
-			if (err) {
-				throw err;
-			}
-
-			process.chdir(tempPath);
-
-			registerTasks = require('../../index').registerTasks;
-
-			registerTasks({
-				gulp,
-			});
-
-			runSequence = require('run-sequence').use(gulp);
-
-			done();
-		}
-	);
-});
-
-afterAll(done => {
-	del([path.join(tempPath, '**')], {
-		force: true,
-	}).then(() => {
-		process.chdir(initCwd);
-
-		done();
+beforeEach(() => {
+	tempPlugin = setupTempPlugin({
+		init: () => {},
+		namespace: 'war-task',
+		pluginName: 'test-plugin-layouttpl',
+		version: '7.0',
 	});
 });
 
+afterEach(() => {
+	cleanTempPlugin(tempPlugin);
+});
+
 test('plugin:war should build war file', done => {
-	runSequence('plugin:war', () => {
-		assert.isFile(path.join(tempPath, 'dist', 'test-plugin-layouttpl.war'));
+	registerTasks({
+		gulp: new Gulp(),
+	});
+
+	project.gulp.runSequence('plugin:war', () => {
+		expect(
+			path.join(tempPlugin.tempPath, 'dist', 'test-plugin-layouttpl.war')
+		).toBeFile();
 
 		done();
 	});
 });
 
 test('plugin:war should use name for war file and pathDist for alternative dist location', done => {
-	gulp = new Gulp();
-
 	registerTasks({
 		distName: 'my-plugin-name',
-		gulp,
+		gulp: new Gulp(),
 		pathDist: 'dist_alternative',
 	});
 
-	runSequence = require('run-sequence').use(gulp);
-
-	runSequence('plugin:war', () => {
-		assert.isFile(
-			path.join(tempPath, 'dist_alternative', 'my-plugin-name.war')
-		);
+	project.gulp.runSequence('plugin:war', () => {
+		expect(
+			path.join(
+				tempPlugin.tempPath,
+				'dist_alternative',
+				'my-plugin-name.war'
+			)
+		).toBeFile();
 
 		done();
 	});

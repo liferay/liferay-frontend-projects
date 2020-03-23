@@ -5,97 +5,62 @@
 
 'use strict';
 
-var chai = require('chai');
-var chaiFs = require('chai-fs');
-var del = require('del');
 var fs = require('fs-extra');
 var {Gulp} = require('gulp');
-var os = require('os');
 var path = require('path');
 
-var gulp = new Gulp();
+const project = require('../../../lib/project');
+const {cleanTempPlugin, setupTempPlugin} = require('../../../lib/test/util');
+const {registerTasks} = require('../../index');
 
-chai.use(chaiFs);
+let tempPlugin;
 
-var assert = chai.assert;
-
-var tempPath = path.join(
-	os.tmpdir(),
-	'liferay-plugin-tasks',
-	'version-task',
-	'test-plugin-layouttpl'
-);
-
-var initCwd = process.cwd();
-var registerTasks;
-var runSequence;
-
-beforeAll(done => {
-	fs.copy(
-		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
-		tempPath,
-		err => {
-			if (err) {
-				throw err;
-			}
-
-			process.chdir(tempPath);
-
-			registerTasks = require('../../index').registerTasks;
-
+beforeEach(() => {
+	tempPlugin = setupTempPlugin({
+		init: () =>
 			registerTasks({
-				gulp,
-			});
-
-			runSequence = require('run-sequence').use(gulp);
-
-			done();
-		}
-	);
-});
-
-afterAll(done => {
-	del([path.join(tempPath, '**')], {
-		force: true,
-	}).then(() => {
-		process.chdir(initCwd);
-
-		done();
+				gulp: new Gulp(),
+			}),
+		namespace: 'version-task',
+		pluginName: 'test-plugin-layouttpl',
+		version: '7.0',
 	});
 });
 
+afterEach(() => {
+	cleanTempPlugin(tempPlugin);
+});
+
 test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
-	runSequence('plugin:version', () => {
-		assert.fileContentMatch(
+	project.gulp.runSequence('plugin:version', () => {
+		expect(
 			path.join(
-				tempPath,
+				tempPlugin.tempPath,
 				'docroot/WEB-INF/liferay-plugin-package.properties'
-			),
-			/module-version=1\.2\.3/
-		);
+			)
+		).toBeFileMatching(/module-version=1\.2\.3/);
 
 		done();
 	});
 });
 
 test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
-	var pkgPath = path.join(tempPath, 'package.json');
+	const pkgPath = path.join(tempPlugin.tempPath, 'package.json');
 
 	// eslint-disable-next-line liferay/no-dynamic-require
-	var pkg = require(pkgPath);
+	const pkg = require(pkgPath);
 
 	pkg.version = '1.2.4';
 
-	fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, '\t'));
+	fs.writeJSONSync(pkgPath, pkg, {spaces: '\t'});
 
-	runSequence('plugin:version', () => {
-		assert.fileContentMatch(
+	project.gulp.runSequence('plugin:version', () => {
+		expect(
 			path.join(
-				tempPath,
+				tempPlugin.tempPath,
 				'docroot/WEB-INF/liferay-plugin-package.properties'
-			),
-			/module-version=1\.2\.4/
-		);
+			)
+		).toBeFileMatching(/module-version=1\.2\.4/);
 
 		done();
 	});

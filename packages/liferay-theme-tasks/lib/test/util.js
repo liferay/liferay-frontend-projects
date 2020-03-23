@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-const del = require('del');
 const fs = require('fs-extra');
 const {Gulp} = require('gulp');
 const _ = require('lodash');
 const os = require('os');
 const path = require('path');
 const sinon = require('sinon');
+
+const project = require('../project');
 
 const osTempDir = os.tmpdir();
 
@@ -210,11 +211,83 @@ function assertBoundFunction(prototype, methodName, _stub) {
 	};
 }
 
-function copyTempTheme(options) {
-	// TODO: rework all this
+/**
+ * Setups a temporary directory with a plugin project for testing.
+ *
+ * @param {*} options
+ * contains themeName, version, namespace, registerTaskOptions and/or
+ * themeConfig fields
+ *
+ * @return a temporaty theme descriptor to be given to cleanTempTheme
+ */
+function setupTempPlugin(options) {
+	const pluginName = options.pluginName;
+	const version = options.version || '7.0';
+	const namespace = options.namespace;
+
+	const savedCwd = process.cwd();
+
+	const tempPath = path.join(
+		osTempDir,
+		'liferay-theme-tasks',
+		namespace,
+		version,
+		pluginName
+	);
+
+	fs.emptyDirSync(tempPath);
+
+	fs.copySync(
+		path.join(__dirname, './fixtures/plugins', version, pluginName),
+		tempPath
+	);
+
+	process.chdir(tempPath);
+	project._reload();
+
+	if (options.init) {
+		if (options.options) {
+			throw new Error(
+				"Please don't use options with init: they would be ignored"
+			);
+		}
+
+		options.init();
+	} else {
+		project.init({
+			gulp: new Gulp(),
+			storeConfig: {
+				name: 'LiferayPlugin',
+				path: 'liferay-plugin.json',
+			},
+			...(options.options || {}),
+		});
+	}
+
+	return {
+		namespace,
+		pluginName,
+		savedCwd,
+		tempPath,
+		version,
+	};
+}
+
+/**
+ * Setups a temporary directory with a theme project for testing.
+ *
+ * @param {*} options
+ * contains themeName, version, namespace, registerTaskOptions and/or
+ * themeConfig fields
+ *
+ * @return a temporaty theme descriptor to be given to cleanTempTheme
+ */
+function setupTempTheme(options) {
 	const themeName = options.themeName || 'base-theme';
 	const version = options.version || '7.1';
 	const namespace = options.namespace;
+
+	const savedCwd = process.cwd();
 
 	const tempPath = path.join(
 		osTempDir,
@@ -224,11 +297,7 @@ function copyTempTheme(options) {
 		themeName
 	);
 
-	cleanDirectory(tempPath);
-
-	let gulp;
-	let registerTasksOptions;
-	let runSequence;
+	fs.emptyDirSync(tempPath);
 
 	fs.copySync(
 		path.join(__dirname, './fixtures/themes', version, themeName),
@@ -236,73 +305,86 @@ function copyTempTheme(options) {
 	);
 
 	process.chdir(tempPath);
+	project._reload();
 
-	if (options.themeConfig) {
-		const lfrThemeConfig = require('../lib/liferay_theme_config');
+	if (options.init) {
+		if (options.options) {
+			throw new Error(
+				"Please don't use options with init: they would be ignored"
+			);
+		}
 
-		lfrThemeConfig.setConfig(options.themeConfig);
+		options.init();
+	} else {
+		project.init({
+			// NOT NEEDED?, REMOVE: distName: 'base-theme',
+			gulp: new Gulp(),
+			// UNUSED, REMOVE: pathBuild: './custom_build_path',
+			storeConfig: {
+				name: 'LiferayTheme',
+				path: 'liferay-theme.json',
+			},
+			...(options.options || {}),
+		});
 	}
 
-	if (options.registerTasksOptions || options.registerTasks) {
-		deleteJsFromCache();
-
-		const {registerTasks} = require('../index.js');
-
-		gulp = new Gulp();
-
-		registerTasksOptions = _.assign(
-			{
-				distName: 'base-theme',
-				gulp,
-				insideTests: true,
-				pathBuild: './custom_build_path',
-			},
-			options.registerTasksOptions
-		);
-
-		registerTasks(registerTasksOptions);
-
-		runSequence = require('run-sequence').use(gulp);
+	if (options.themeConfig) {
+		project.themeConfig.setConfig(options.themeConfig);
 	}
 
 	return {
-		gulp,
-		registerTasksOptions,
-		runSequence,
+		namespace,
+		savedCwd,
 		tempPath,
+		themeName,
+		version,
 	};
 }
 
-function cleanTempTheme(themeName, version, component, initCwd) {
+/**
+ * Cleans up a temporary plugin project created with setupTempPlugin
+ *
+ * @param {*} tempPlugin the plugin descriptor returned by setupTempPlugin
+ */
+function cleanTempPlugin(tempPlugin) {
+	const {namespace, pluginName, savedCwd, version} = tempPlugin;
+
 	const tempPath = path.join(
 		osTempDir,
 		'liferay-theme-tasks',
-		component,
+		namespace,
+		version,
+		pluginName
+	);
+
+	fs.removeSync(tempPath);
+
+	if (savedCwd != null) {
+		process.chdir(savedCwd);
+	}
+}
+
+/**
+ * Cleans up a temporary theme project created with setupTempTheme
+ *
+ * @param {*} tempTheme the theme descriptor returned by setupTempTheme
+ */
+function cleanTempTheme(tempTheme) {
+	const {namespace, savedCwd, themeName, version} = tempTheme;
+
+	const tempPath = path.join(
+		osTempDir,
+		'liferay-theme-tasks',
+		namespace,
 		version,
 		themeName
 	);
 
-	cleanDirectory(tempPath);
+	fs.removeSync(tempPath);
 
-	if (initCwd != null) {
-		process.chdir(initCwd);
+	if (savedCwd != null) {
+		process.chdir(savedCwd);
 	}
-}
-
-function deleteDirJsFromCache(relativePath) {
-	const files = fs.readdirSync(path.join(__dirname, relativePath));
-
-	_.forEach(files, item => {
-		if (_.endsWith(item, '.js')) {
-			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
-		}
-	});
-}
-
-function deleteJsFileFromCache(filePath) {
-	const registerTasksPath = require.resolve(filePath);
-
-	delete require.cache[registerTasksPath];
 }
 
 function stripNewlines(string) {
@@ -312,20 +394,9 @@ function stripNewlines(string) {
 module.exports = {
 	PrototypeMethodSpy,
 	assertBoundFunction,
+	cleanTempPlugin,
 	cleanTempTheme,
-	copyTempTheme,
+	setupTempPlugin,
+	setupTempTheme,
 	stripNewlines,
 };
-
-function cleanDirectory(directory) {
-	del.sync(path.join(directory, '**'), {
-		force: true,
-	});
-}
-
-function deleteJsFromCache() {
-	deleteDirJsFromCache('../lib');
-	deleteDirJsFromCache('../lib/prompts');
-	deleteDirJsFromCache('../tasks');
-	deleteJsFileFromCache('../index.js');
-}

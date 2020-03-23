@@ -8,29 +8,24 @@ const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const {cleanTempTheme, setupTempTheme} = require('../../../lib/test/util');
+const GlobalModulePrompt = require('../global_module_prompt.js');
+const KickstartPrompt = require('../kickstart_prompt.js');
+const NPMModulePrompt = require('../npm_module_prompt.js');
 
-const initCwd = process.cwd();
-
-let GlobalModulePrompt;
-let KickstartPrompt;
-let NPMModulePrompt;
 let prototype;
+let tempTheme;
 
 beforeEach(() => {
-	testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
 		namespace: 'kickstart_prompt',
 	});
-
-	GlobalModulePrompt = require('../global_module_prompt.js');
-	KickstartPrompt = require('../kickstart_prompt.js');
-	NPMModulePrompt = require('../npm_module_prompt.js');
 
 	prototype = _.create(KickstartPrompt.prototype);
 });
 
 afterEach(() => {
-	testUtil.cleanTempTheme('base-theme', '7.1', 'kickstart_prompt', initCwd);
+	cleanTempTheme(tempTheme);
 });
 
 it('constructor should pass arguments to init', () => {

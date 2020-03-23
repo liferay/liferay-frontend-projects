@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`status task should print base theme/themelet information 1`] = `
+Array [
+  "[36mBase theme: [39m[32mparent-theme v1.0.0[39m
+[36mThemelets:[39m
+ - [32mtest-themelet v0.0.0[39m
+",
+]
+`;

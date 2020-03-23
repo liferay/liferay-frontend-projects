@@ -3,65 +3,55 @@
  * SPDX-License-Identifier: MIT
  */
 
+const {Gulp} = require('gulp');
 const path = require('path');
 
-const testUtil = require('../../../test/util');
-const lfrThemeConfig = require('../../liferay_theme_config.js');
+const {registerTasks} = require('../../../../index');
+const project = require('../../../../lib/project');
+const {cleanTempTheme, setupTempTheme} = require('../../../../lib/test/util');
 
-const initCwd = process.cwd();
+let tempTheme;
 
-afterAll(() => {
-	// Clean things on exit to avoid GulpStorage.save() errors because of left
-	// over async operations when changing tests.
-	[
-		'upgrade_task_config',
-		'upgrade_task_upgrade_templates',
-	].forEach(namespace =>
-		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
-	);
+beforeEach(() => {
+	tempTheme = setupTempTheme({
+		init: () =>
+			registerTasks({
+				gulp: new Gulp(),
+			}),
+		namespace: 'upgrade_task_config',
+		themeName: 'base-theme',
+	});
 });
 
-describe('config', () => {
-	let runSequence;
-	let tempPath;
+afterEach(() => {
+	cleanTempTheme(tempTheme);
+});
 
-	beforeEach(() => {
-		const config = testUtil.copyTempTheme({
-			namespace: 'upgrade_task_config',
-			registerTasksOptions: {},
-			themeName: 'base-theme',
-		});
+it('upgrade:config', done => {
+	project.gulp.runSequence('upgrade:config', err => {
+		if (err) throw err;
 
-		runSequence = config.runSequence;
-		tempPath = config.tempPath;
-	});
+		const themeConfig = project.themeConfig.config;
 
-	it('upgrade:config', done => {
-		runSequence('upgrade:config', err => {
-			if (err) throw err;
+		expect(themeConfig.version).toBe('7.2');
 
-			const themeConfig = lfrThemeConfig.getConfig();
+		const lookAndFeelPath = path.join(
+			tempTheme.tempPath,
+			'src/WEB-INF/liferay-look-and-feel.xml'
+		);
+		const pluginPackagePropertiesPath = path.join(
+			tempTheme.tempPath,
+			'src/WEB-INF/liferay-plugin-package.properties'
+		);
 
-			expect(themeConfig.version).toBe('7.2');
+		expect(lookAndFeelPath).toBeFileMatching(/7\.2\.0/);
+		expect(lookAndFeelPath).toBeFileMatching(/7_2_0/);
+		expect(pluginPackagePropertiesPath).toBeFileMatching(/7\.2\.0\+/);
 
-			const lookAndFeelPath = path.join(
-				tempPath,
-				'src/WEB-INF/liferay-look-and-feel.xml'
-			);
-			const pluginPackagePropertiesPath = path.join(
-				tempPath,
-				'src/WEB-INF/liferay-plugin-package.properties'
-			);
+		expect(lookAndFeelPath).not.toBeFileMatching(/7\.1\.0/);
+		expect(lookAndFeelPath).not.toBeFileMatching(/7_1_0/);
+		expect(pluginPackagePropertiesPath).not.toBeFileMatching(/7\.1\.0/);
 
-			expect(lookAndFeelPath).toBeFileMatching(/7\.2\.0/);
-			expect(lookAndFeelPath).toBeFileMatching(/7_2_0/);
-			expect(pluginPackagePropertiesPath).toBeFileMatching(/7\.2\.0\+/);
-
-			expect(lookAndFeelPath).not.toBeFileMatching(/7\.1\.0/);
-			expect(lookAndFeelPath).not.toBeFileMatching(/7_1_0/);
-			expect(pluginPackagePropertiesPath).not.toBeFileMatching(/7\.1\.0/);
-
-			done();
-		});
+		done();
 	});
 });

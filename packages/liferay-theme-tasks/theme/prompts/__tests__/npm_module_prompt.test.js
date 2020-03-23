@@ -7,26 +7,25 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const {
+	PrototypeMethodSpy,
+	assertBoundFunction,
+	cleanTempTheme,
+	setupTempTheme,
+} = require('../../../lib/test/util');
+const themeFinder = require('../../lib/theme_finder');
+const ModulePrompt = require('../module_prompt');
+const NPMModulePrompt = require('../npm_module_prompt');
 
-const assertBoundFunction = testUtil.assertBoundFunction;
-const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
+const prototypeMethodSpy = new PrototypeMethodSpy();
 
-const initCwd = process.cwd();
-
-let ModulePrompt;
-let NPMModulePrompt;
-let themeFinder;
 let prototype;
+let tempTheme;
 
 beforeEach(() => {
-	testUtil.copyTempTheme({
+	tempTheme = setupTempTheme({
 		namespace: 'npm_module_prompt',
 	});
-
-	NPMModulePrompt = require('../npm_module_prompt.js');
-	ModulePrompt = require('../module_prompt.js');
-	themeFinder = require('../../theme_finder');
 
 	prototype = _.create(NPMModulePrompt.prototype);
 });
@@ -34,7 +33,7 @@ beforeEach(() => {
 afterEach(() => {
 	prototypeMethodSpy.flush();
 
-	testUtil.cleanTempTheme('base-theme', '7.1', 'npm_module_prompt', initCwd);
+	cleanTempTheme(tempTheme);
 });
 
 it('constructor should pass arguments to init', () => {

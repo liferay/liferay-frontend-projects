@@ -5,83 +5,37 @@
 
 'use strict';
 
-var chai = require('chai');
-var chaiFs = require('chai-fs');
-var del = require('del');
-var fs = require('fs-extra');
-var {Gulp} = require('gulp');
-var os = require('os');
-var path = require('path');
-var sinon = require('sinon');
+const fs = require('fs-extra');
+const {Gulp} = require('gulp');
+const path = require('path');
+const sinon = require('sinon');
 
-var {getArgv} = require('../../lib/util');
+const project = require('../../lib/project');
+const {cleanTempPlugin, setupTempPlugin} = require('../../lib/test/util');
+const {getArgv} = require('../../lib/util');
+const {registerTasks} = require('../index');
 
-var gulp = new Gulp();
+let deployPath;
+let tempPlugin;
 
-chai.use(chaiFs);
-
-var assert = chai.assert;
-
-var tempPath = path.join(
-	os.tmpdir(),
-	'liferay-plugin-tasks',
-	'test-plugin-layouttpl'
-);
-
-var deployPath = path.join(tempPath, '../appserver/deploy');
-
-var initCwd = process.cwd();
-var registerTasks;
-var runSequence;
-
-beforeAll(done => {
-	fs.copy(
-		path.join(__dirname, './fixtures/plugins/test-plugin-layouttpl'),
-		tempPath,
-		err => {
-			if (err) {
-				throw err;
-			}
-
-			process.chdir(tempPath);
-
-			registerTasks = require('../index').registerTasks;
-
-			registerTasks({
-				gulp,
-			});
-
-			runSequence = require('run-sequence').use(gulp);
-
-			var store = gulp.storage;
-
-			store.set('deployPath', deployPath);
-
-			fs.mkdirsSync(deployPath);
-
-			done();
-		}
-	);
-});
-
-afterAll(done => {
-	del([path.join(tempPath, '**')], {
-		force: true,
-	}).then(() => {
-		process.chdir(initCwd);
-
-		done();
+beforeEach(() => {
+	tempPlugin = setupTempPlugin({
+		init: () => {},
+		namespace: 'plugin',
+		pluginName: 'test-plugin-layouttpl',
+		version: '7.0',
 	});
+
+	deployPath = path.join(tempPlugin.tempPath, '../appserver/deploy');
 });
 
 afterEach(() => {
-	del.sync(path.join(deployPath, '**'), {
-		force: true,
-	});
+	cleanTempPlugin(tempPlugin);
+	fs.removeSync(deployPath);
 });
 
 test('registerTasks should invoke extension functions', done => {
-	gulp = new Gulp();
+	const gulp = new Gulp();
 
 	var extFunction = function(options) {
 		expect(options).toEqual({
@@ -107,7 +61,7 @@ test('registerTasks should invoke extension functions', done => {
 });
 
 test('registerTasks should accept array of extension function', done => {
-	gulp = new Gulp();
+	const gulp = new Gulp();
 
 	var extFunction = function(options) {
 		expect(options.gulp).toBe(gulp);
@@ -122,7 +76,7 @@ test('registerTasks should accept array of extension function', done => {
 });
 
 test('registerTasks should register hooks', done => {
-	gulp = new Gulp();
+	const gulp = new Gulp();
 
 	var hookSpy = sinon.spy();
 
@@ -151,14 +105,12 @@ test('registerTasks should register hooks', done => {
 		hookFn,
 	});
 
-	gulp.storage.set('deployPath', deployPath);
+	project.store.set('deployPath', deployPath);
 
-	runSequence = require('run-sequence').use(gulp);
+	project.gulp.runSequence('plugin:war', 'plugin:deploy', () => {
+		expect(path.join(deployPath, 'test-plugin-layouttpl.war')).toBeFile();
 
-	runSequence('plugin:war', 'plugin:deploy', () => {
-		assert.isFile(path.join(deployPath, 'test-plugin-layouttpl.war'));
-
-		expect(gulp.storage.get('deployed')).toBe(true);
+		expect(project.store.get('deployed')).toBe(true);
 
 		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
 		expect(hookSpy.getCall(1).calledWith('after:plugin:war')).toBe(true);
@@ -169,7 +121,7 @@ test('registerTasks should register hooks', done => {
 });
 
 test('registerTasks should register hooks for extension tasks', done => {
-	gulp = new Gulp();
+	const gulp = new Gulp();
 
 	var hookSpy = sinon.spy();
 
@@ -199,9 +151,7 @@ test('registerTasks should register hooks for extension tasks', done => {
 		hookFn,
 	});
 
-	runSequence = require('run-sequence').use(gulp);
-
-	runSequence('plugin:war', 'my-custom:task', () => {
+	project.gulp.runSequence('plugin:war', 'my-custom:task', () => {
 		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
 		expect(hookSpy.getCall(1).calledWith('my-custom:task')).toBe(true);
 		expect(hookSpy.getCall(2).calledWith('after:my-custom:task')).toBe(
@@ -213,7 +163,7 @@ test('registerTasks should register hooks for extension tasks', done => {
 });
 
 test('registerTasks should overwrite task', done => {
-	gulp = new Gulp();
+	const gulp = new Gulp();
 
 	var hookSpy = sinon.spy();
 
@@ -236,9 +186,7 @@ test('registerTasks should overwrite task', done => {
 		hookFn,
 	});
 
-	runSequence = require('run-sequence').use(gulp);
-
-	runSequence('plugin:war', () => {
+	project.gulp.runSequence('plugin:war', () => {
 		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
 		expect(hookSpy.getCall(1).calledWith('plugin:war')).toBe(true);
 
@@ -247,7 +195,7 @@ test('registerTasks should overwrite task', done => {
 });
 
 test('registerTasks should use distName as template if delimiters are present', done => {
-	gulp = new Gulp();
+	const gulp = new Gulp();
 
 	registerTasks({
 		distName: '${name}-${version}-${liferayPlugin.version}',
