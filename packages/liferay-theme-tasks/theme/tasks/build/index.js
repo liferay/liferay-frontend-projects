@@ -6,7 +6,6 @@
 'use strict';
 
 const chalk = require('chalk');
-const del = require('del');
 const fs = require('fs-extra');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace-task');
@@ -93,7 +92,8 @@ module.exports = function() {
 	});
 
 	gulp.task('build:clean', cb => {
-		del([pathBuild]).then(() => cb());
+		fs.removeSync(path.resolve(pathBuild));
+		cb();
 	});
 
 	gulp.task('build:base', () => {
@@ -231,7 +231,8 @@ module.exports = function() {
 	});
 
 	gulp.task('build:remove-old-css-dir', cb => {
-		del([pathBuild + '/_css']).then(() => cb());
+		fs.removeSync(path.join(pathBuild, '_css'));
+		cb();
 	});
 
 	gulp.task('build:fix-at-directives', () => {

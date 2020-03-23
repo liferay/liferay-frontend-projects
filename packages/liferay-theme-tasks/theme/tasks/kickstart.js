@@ -6,8 +6,8 @@
 'use strict';
 
 const colors = require('ansi-colors');
-const del = require('del');
 const log = require('fancy-log');
+const fs = require('fs-extra');
 const _ = require('lodash');
 const path = require('path');
 
@@ -64,7 +64,8 @@ function registerTasks() {
 						.pipe(gulp.dest(pathSrc))
 						.on('end', () => {
 							if (tempNodeModulesPath) {
-								del([tempNodeModulesPath]).then(() => cb());
+								fs.removeSync(tempNodeModulesPath);
+								cb();
 							} else {
 								cb();
 							}

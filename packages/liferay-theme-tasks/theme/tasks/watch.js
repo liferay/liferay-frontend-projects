@@ -6,8 +6,7 @@
 'use strict';
 
 const chalk = require('chalk');
-const del = require('del');
-const fs = require('fs');
+const fs = require('fs-extra');
 const http = require('http');
 const httpProxy = require('http-proxy');
 const passes = require('http-proxy/lib/http-proxy/passes/web-outgoing');
@@ -116,7 +115,8 @@ module.exports = function() {
 	 * Clean the exploded build dir
 	 */
 	gulp.task('watch:clean', cb => {
-		del([explodedBuildDir]).then(() => cb());
+		fs.removeSync(explodedBuildDir);
+		cb();
 	});
 
 	/**
