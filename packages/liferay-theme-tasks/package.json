@@ -43,8 +43,6 @@
 	},
 	"description": "A set of tasks for building and deploying Liferay Portal themes.",
 	"devDependencies": {
-		"chai": "^1.10.0",
-		"chai-fs": "^0.1.0",
 		"gulp": "^4.0.0",
 		"liferay-frontend-theme-styled": "^4.0.23",
 		"liferay-frontend-theme-unstyled": "^4.0.19",
