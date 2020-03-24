@@ -81,4 +81,5 @@ Similar to what we did with [liferay-changelog-generator](https://github.com/lif
 -   [Alloy Editor](https://github.com/liferay/alloy-editor)
 -   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay)
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor)
+-   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit)
 -   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools)
