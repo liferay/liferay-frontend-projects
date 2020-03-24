@@ -15,37 +15,37 @@ We can use the same component and change the color by just declaring the variabl
 ```html
 <!-- Simple HTML -->
 <div class="component">
-    <button class="button">...</button>
+	<button class="button">...</button>
 </div>
 
 <div class="component-2">
-    <button class="button">...</button>
+	<button class="button">...</button>
 </div>
 
 <div class="component-3">
-    <button class="button">...</button>
+	<button class="button">...</button>
 </div>
 ```
 
 ```scss
 // General CSS
 :root {
-    --primary-color: red;
+	--primary-color: red;
 }
 
 .button {
-    color: var(--primary-color);
+	color: var(--primary-color);
 }
 ```
 
 ```scss
 // Instanced components
 .component-2 {
-    --primary-color: blue;
+	--primary-color: blue;
 }
 
 .component-3 {
-    --primary-color: green;
+	--primary-color: green;
 }
 ```
 
@@ -62,49 +62,49 @@ This method can be extended to the theme or section following the cascade rule o
 ```html
 <!-- Advanced HTML -->
 <body>
-    <section class="section-1">
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+	<section class="section-1">
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
-    </section>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
+	</section>
 
-    <section class="section-2">
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+	<section class="section-2">
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
-    </section>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
+	</section>
 </body>
 ```
 
 ```scss
 // General CSS
 :root {
-    --primary-color: red;
+	--primary-color: red;
 }
 
 .button {
-    color: var(--primary-color);
+	color: var(--primary-color);
 }
 
 // Instanced components
 body {
-    --primary-color: blue;
+	--primary-color: blue;
 
 	.section-2 {
 		--primary-color: green;
@@ -194,11 +194,11 @@ So these are the steps to follow:
 ```html
 <!-- Page HTML -->
 <body class="dxp">
-    <div class="page-builder-page" id="page-builder-1234">
-        <section class="section-1">...</section>
-        ...
-        <section class="section-n">...</section>
-    </div>
+	<div class="page-builder-page" id="page-builder-1234">
+		<section class="section-1">...</section>
+		...
+		<section class="section-n">...</section>
+	</div>
 </body>
 ```
 
@@ -207,7 +207,7 @@ So these are the steps to follow:
 ```scss
 // Page CSS
 #page-builder-1234 {
-    --primary: #414289;
+	--primary: #414289;
 }
 ```
 
@@ -229,13 +229,13 @@ Now, in the same page of the previous example, we need to create a section with 
 ```html
 <!-- Page HTML -->
 <body class="dxp">
-    <div class="page-builder-page">
-        <section class="section">
-            <div class="card">...</div>
-            <div class="card card-recommended" id>...</div>
-            <div class="card">...</div>
-        </section>
-    </div>
+	<div class="page-builder-page">
+		<section class="section">
+			<div class="card">...</div>
+			<div class="card card-recommended" id>...</div>
+			<div class="card">...</div>
+		</section>
+	</div>
 </body>
 ```
 
@@ -244,11 +244,11 @@ Now, in the same page of the previous example, we need to create a section with 
 ```scss
 // Page CSS
 .card-recommended {
-    --card-bg: #414289;
-    --card-border-radius: 30px;
-    --card-color: #FFFFFF;
-    --card-spacer-x: 15px;
-    --card-spacer-y: 15px;
+	--card-bg: #414289;
+	--card-border-radius: 30px;
+	--card-color: #ffffff;
+	--card-spacer-x: 15px;
+	--card-spacer-y: 15px;
 }
 ```
 
