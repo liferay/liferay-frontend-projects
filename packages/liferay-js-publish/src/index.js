@@ -174,20 +174,7 @@ function getRemote() {
 function isPrereleaseVersion(pkg) {
 	const {version} = pkg;
 
-	const parts = version.split('.');
-
-	// De facto standard for prerelease versions is; 10.0.0-alpha.1
-
-	if (parts.length > 3) {
-		return true;
-	}
-
-	// look for any non-number character
-	if (parts[2].indexOf('-') !== -1) {
-		return true;
-	}
-
-	return false;
+	return version.contains('-');
 }
 
 function print(...things) {
@@ -196,8 +183,7 @@ function print(...things) {
 }
 
 function printBanner(...lines) {
-	// eslint-disable-next-line no-console
-	console.log(['', ...lines, ''].join('\n\n'));
+	print(['', ...lines, ''].join('\n\n'));
 }
 
 async function runYarnPublish(pkg) {
