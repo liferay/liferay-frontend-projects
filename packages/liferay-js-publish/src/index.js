@@ -174,7 +174,7 @@ function getRemote() {
 function isPrereleaseVersion(pkg) {
 	const {version} = pkg;
 
-	return version.contains('-');
+	return version.includes('-');
 }
 
 function print(...things) {
