@@ -12,7 +12,6 @@ const readlineSync = require('readline-sync');
 const {abort, success, warn} = require('./util/report');
 const {git, yarn} = require('./util/run');
 
-const EXPECTED_PREPUBLISH = 'node ../../scripts/disable-publish.js';
 const RAW_PKG_JSON = fs.readFileSync('package.json');
 const PKG_JSON = JSON.parse(RAW_PKG_JSON);
 const RELEASE_BRANCH = ['master'];
@@ -101,14 +100,6 @@ async function main() {
 		...PKG_JSON,
 		version: `${PKG_JSON.version}-snapshot.${commitHash}`,
 	};
-
-	if (pkgJson.scripts.prepublish !== EXPECTED_PREPUBLISH) {
-		throw `Prepublish script incorrectly configured: please set it to '${EXPECTED_PREPUBLISH}'`;
-	}
-
-	delete pkgJson.scripts.prepublish;
-
-	fs.writeFileSync('package.json', JSON.stringify(pkgJson, null, '\t'));
 
 	await yarn.pipe('publish', '--tag', 'snapshot', '--non-interactive');
 
