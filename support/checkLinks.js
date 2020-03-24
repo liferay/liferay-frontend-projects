@@ -12,6 +12,22 @@ const statAsync = promisify(fs.stat);
 
 const FILTER_PATTERN = /\.md$/;
 
+/**
+ * Need not-robot-like headers to prevent Cloudflare from rejecting our
+ * external link checks with 403s.
+ *
+ * See: https://github.com/liferay/liferay-frontend-guidelines/issues/133
+ */
+const HEADERS = {
+	Accept:
+		'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+	'Accept-Encoding': 'gzip, deflate, br',
+	'Accept-Language': 'en-US,en;q=0.8,es-ES;q=0.5,es;q=0.3',
+	DNT: '1',
+	'User-Agent':
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:74.0) Gecko/20100101 Firefox/74.0'
+};
+
 const IGNORE_PATTERN = /^(?:.git|node_modules)$/;
 
 // Adapted from: https://stackoverflow.com/a/163684/2103996
@@ -84,6 +100,7 @@ function checkRemote(link, files) {
 
 		const request = http.get(
 			{
+				headers: HEADERS,
 				host: hostname,
 				path: pathname,
 				port
