@@ -15,37 +15,37 @@ We can use the same component and change the color by just declaring the variabl
 ```html
 <!-- Simple HTML -->
 <div class="component">
-    <button class="button">...</button>
+	<button class="button">...</button>
 </div>
 
 <div class="component-2">
-    <button class="button">...</button>
+	<button class="button">...</button>
 </div>
 
 <div class="component-3">
-    <button class="button">...</button>
+	<button class="button">...</button>
 </div>
 ```
 
 ```scss
 // General CSS
 :root {
-    --primary-color: red;
+	--primary-color: red;
 }
 
 .button {
-    color: var(--primary-color);
+	color: var(--primary-color);
 }
 ```
 
 ```scss
 // Instanced components
 .component-2 {
-    --primary-color: blue;
+	--primary-color: blue;
 }
 
 .component-3 {
-    --primary-color: green;
+	--primary-color: green;
 }
 ```
 
@@ -53,7 +53,7 @@ We can use the same component and change the color by just declaring the variabl
 
 ## How to use CCP?
 
-From the previous example we can see the main form manipulating the CCP is through CSS itself.
+From the previous example we can see the main way to manipulate CCP is through CSS itself.
 
 This method can be extended to the theme or section following the cascade rule of CSS.
 
@@ -62,49 +62,49 @@ This method can be extended to the theme or section following the cascade rule o
 ```html
 <!-- Advanced HTML -->
 <body>
-    <section class="section-1">
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+	<section class="section-1">
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
-    </section>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
+	</section>
 
-    <section class="section-2">
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+	<section class="section-2">
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
 
-        <div class="component-1">
-            <button class="button">...</button>
-        </div>
-    </section>
+		<div class="component-1">
+			<button class="button">...</button>
+		</div>
+	</section>
 </body>
 ```
 
 ```scss
 // General CSS
 :root {
-    --primary-color: red;
+	--primary-color: red;
 }
 
 .button {
-    color: var(--primary-color);
+	color: var(--primary-color);
 }
 
 // Instanced components
 body {
-    --primary-color: blue;
+	--primary-color: blue;
 
 	.section-2 {
 		--primary-color: green;
@@ -126,21 +126,21 @@ body {
 
 Another method to use CCP in your application is with JS.
 
-`element.style.getPropertyValue("--variable");` allow us to get the custom-property of the element, if the element doesn’t have a defined custom-property, the function will return an empty argument.
+`element.style.getPropertyValue("--variable");` allows us to get the custom-property of the element, if the element doesn't have a defined custom-property, the function will return an empty argument.
 
 ```js
 // get variable from inline style
 element.style.getPropertyValue('--my-var');
 ```
 
-`getComputedStyle(element).getPropertyValue("--variable");` allow us to get the custom-property of the element. If the element doesn’t have a defined custom-property, the function will look for it at the parent elements or at the root of our markup.
+`getComputedStyle(element).getPropertyValue("--variable");` allows us to get the custom-property of the element. If the element doesn't have a defined custom-property, the function will look for it in the parent elements or at the root of our markup.
 
 ```js
 // get variable from wherever
 getComputedStyle(element).getPropertyValue('--my-var');
 ```
 
-`element.style.setProperty("--variable", "new-value");` allow us to set a new value for the custom-property of the element.
+`element.style.setProperty("--variable", "new-value");` allows us to set a new value for the custom-property of the element.
 
 ```js
 // set variable on inline style
@@ -153,7 +153,7 @@ element.style.setProperty('--my-var', jsVar + 4);
 
 Once we understand how it works in general, we can easily apply these concepts into a DXP environment.
 
-During the [CCP Epic](https://issues.liferay.com/browse/IFI-848) we created a reduced framework that allow us to use CCP with the most basic components from Clay.
+During the [CCP Epic](https://issues.liferay.com/browse/IFI-848) we created a reduced framework that allows us to use CCP with the most basic components from Clay.
 
 -   Buttons
 -   Alerts
@@ -178,7 +178,7 @@ And the essential variables we need to create a theme.
 
 Let's start with a simple example.
 
-Imagine, we need to create a page with the page builder system, we know for sure that the brand color is purple, let's say `#414289`. We need to set this color as primary for this particular page.
+Imagine, we need to create a page with the page builder system. We know for sure that the brand color is purple, let's say `#414289`. We need to set this color as primary for this particular page.
 
 So these are the steps to follow:
 
@@ -194,11 +194,11 @@ So these are the steps to follow:
 ```html
 <!-- Page HTML -->
 <body class="dxp">
-    <div class="page-builder-page" id="page-builder-1234">
-        <section class="section-1">...</section>
-        ...
-        <section class="section-n">...</section>
-    </div>
+	<div class="page-builder-page" id="page-builder-1234">
+		<section class="section-1">...</section>
+		...
+		<section class="section-n">...</section>
+	</div>
 </body>
 ```
 
@@ -207,15 +207,15 @@ So these are the steps to follow:
 ```scss
 // Page CSS
 #page-builder-1234 {
-    --primary: #414289;
+	--primary: #414289;
 }
 ```
 
-That's it, pretty simple uh? :)
+That's it, pretty simple, huh? :)
 
 ### Example 2
 
-Now, in the same page of the previous example, we need to create a sections with pricing cards and one of them is recommended and it needs a different style.
+Now, in the same page of the previous example, we need to create a section with pricing cards and one of them is recommended and it needs a different style.
 
 1. Import the CCP module in your theme.
 
@@ -229,13 +229,13 @@ Now, in the same page of the previous example, we need to create a sections with
 ```html
 <!-- Page HTML -->
 <body class="dxp">
-    <div class="page-builder-page">
-        <section class="section">
-            <div class="card">...</div>
-            <div class="card card-recommended" id>...</div>
-            <div class="card">...</div>
-        </section>
-    </div>
+	<div class="page-builder-page">
+		<section class="section">
+			<div class="card">...</div>
+			<div class="card card-recommended" id>...</div>
+			<div class="card">...</div>
+		</section>
+	</div>
 </body>
 ```
 
@@ -244,11 +244,11 @@ Now, in the same page of the previous example, we need to create a sections with
 ```scss
 // Page CSS
 .card-recommended {
-    --card-bg: #414289;
-    --card-border-radius: 30px;
-    --card-color: #FFFFFF;
-    --card-spacer-x: 15px;
-    --card-spacer-y: 15px;
+	--card-bg: #414289;
+	--card-border-radius: 30px;
+	--card-color: #ffffff;
+	--card-spacer-x: 15px;
+	--card-spacer-y: 15px;
 }
 ```
 
