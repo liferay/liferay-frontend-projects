@@ -5,7 +5,6 @@
 
 'use strict';
 
-var async = require('async');
 var gutil = require('gulp-util');
 var _ = require('lodash');
 
@@ -26,24 +25,6 @@ RegisterHooks.hook = function(gulp, config) {
 };
 
 RegisterHooks.prototype = {
-	_addToSequence(sequence, fn) {
-		if (_.isFunction(fn)) {
-			sequence.push(cb => {
-				if (fn.length) {
-					fn(cb);
-				} else {
-					var stream = fn();
-
-					if (stream && stream.on) {
-						stream.on('end', cb);
-					} else {
-						cb();
-					}
-				}
-			});
-		}
-	},
-
 	_applyHooks() {
 		var instance = this;
 
@@ -51,7 +32,7 @@ RegisterHooks.prototype = {
 
 		var gulp = this.gulp;
 
-		var tasks = gulp.tasks;
+		var tasks = gulp.registry().tasks();
 
 		_.forEach(taskHookMap, (hooks, taskName) => {
 			if (!tasks[taskName]) {
@@ -60,30 +41,28 @@ RegisterHooks.prototype = {
 
 			var task = tasks[taskName];
 
-			var sequence = instance._createTaskSequence(task.fn, hooks);
+			var sequence = instance._createGulpSeries(task, hooks);
 
-			gulp.task(taskName, task.dep, cb => {
-				async.series(sequence, cb);
-			});
+			gulp.task(taskName, sequence);
 		});
 	},
 
-	_createTaskSequence(fn, hooks) {
-		var instance = this;
+	_createGulpSeries(fn, hooks) {
+		const {gulp} = this;
 
-		var sequence = [];
+		let before = hooks.before || [];
 
-		_.forEach(hooks.before, hookFn => {
-			instance._addToSequence(sequence, hookFn);
-		});
+		if (!Array.isArray(before)) {
+			before = [before];
+		}
 
-		this._addToSequence(sequence, fn);
+		let after = hooks.after || [];
 
-		_.forEach(hooks.after, hookFn => {
-			instance._addToSequence(sequence, hookFn);
-		});
+		if (!Array.isArray(after)) {
+			after = [after];
+		}
 
-		return sequence;
+		return gulp.series(...before, fn, ...after);
 	},
 
 	_getTaskHookMap() {

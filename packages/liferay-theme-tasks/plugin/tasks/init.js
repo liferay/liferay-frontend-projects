@@ -5,23 +5,20 @@
 
 'use strict';
 
-var path = require('path');
+const path = require('path');
 
-var InitPrompt = require('../lib/init_prompt');
+const project = require('../../lib/project');
+const InitPrompt = require('../prompts/init_prompt');
 
-var TASK_PLUGIN_INIT = 'plugin:init';
+module.exports = function() {
+	const {gulp, store} = project;
 
-module.exports = function(options) {
-	var gulp = options.gulp;
-
-	var store = gulp.storage;
-
-	gulp.task(TASK_PLUGIN_INIT, cb => {
-		new InitPrompt(
+	gulp.task('plugin:init', cb => {
+		InitPrompt.prompt(
 			{
 				appServerPathDefault:
 					store.get('appServerPath') ||
-					path.join(path.dirname(process.cwd()), 'tomcat'),
+					path.join(path.dirname(project.dir), 'tomcat'),
 				dockerContainerNameDefault:
 					store.get('dockerContainerName') || 'liferay_portal_1',
 				store,
@@ -30,5 +27,5 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('init', [TASK_PLUGIN_INIT]);
+	gulp.task('init', gulp.series('plugin:init'));
 };

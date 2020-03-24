@@ -2,9 +2,10 @@
 	"devDependencies": {
 		"eslint": "^6.5.1",
 		"eslint-config-liferay": "^13.0.0",
+		"fs-extra": "^8.1.0",
 		"jest": "^24.1.0",
 		"prettier": "^1.18.2",
-		"sinon": "^4.4.6"
+		"yargs": "^15.1.0"
 	},
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
@@ -24,7 +25,6 @@
 		"yeoman-generator"
 	],
 	"dependencies": {
-		"gulp": "^3.9.1",
 		"replace-in-file": "^3.4.2"
 	},
 	"jest": {
@@ -45,9 +45,6 @@
 			"/__tests__/.*\\.js",
 			"/plugin/test/.*\\.js"
 		]
-	},
-	"resolutions": {
-		"ansi-colors": "3.2.4"
 	},
 	"workspaces": [
 		"packages/*"
