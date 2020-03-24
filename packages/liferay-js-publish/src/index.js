@@ -48,29 +48,25 @@ async function main() {
 
 	await confirm(`Push to ${remote}/master?`);
 
-	git('push', remote, 'master');
+	git('push', remote, 'master', '--follow-tags');
 
-	await confirm('Merge "master" into "stable"?');
+	if (isPrereleaseVersion(pkg)) {
+		print('👉 Detected prerelease version: skipping merge/push to stable');
+	} else {
+		await confirm('Merge "master" into "stable"?');
 
-	git('checkout', 'stable');
+		git('checkout', 'stable');
 
-	git('merge', '--ff-only', 'master');
+		git('merge', '--ff-only', 'master');
 
-	await confirm(`Push to ${remote}/stable?`);
+		await confirm(`Push to ${remote}/stable?`);
 
-	git('push', remote, 'stable', '--follow-tags');
+		git('push', remote, 'stable');
+	}
 
 	git('checkout', 'master');
 
-	await confirm('Run `yarn publish`?');
-
-	const otp = await confirm('Please enter an OTP token or press ENTER:', '');
-
-	if (otp) {
-		run('yarn', 'publish', '--non-interactive', '--otp', otp);
-	} else {
-		run('yarn', 'publish', '--non-interactive');
-	}
+	await runYarnPublish(pkg);
 
 	const url = `https://www.npmjs.com/package/${pkg.name}`;
 
@@ -175,9 +171,37 @@ function getRemote() {
 	throw new Error('Unable to determine remote repository URL');
 }
 
-function printBanner(...lines) {
+function isPrereleaseVersion(pkg) {
+	const {version} = pkg;
+
+	return version.contains('-');
+}
+
+function print(...things) {
 	// eslint-disable-next-line no-console
-	console.log(['', ...lines, ''].join('\n\n'));
+	console.log(...things);
+}
+
+function printBanner(...lines) {
+	print(['', ...lines, ''].join('\n\n'));
+}
+
+async function runYarnPublish(pkg) {
+	await confirm('Run `yarn publish`?');
+
+	const args = ['--non-interactive'];
+
+	const otp = await confirm('Please enter an OTP token or press ENTER:', '');
+
+	if (otp) {
+		args.push('--otp', otp);
+	}
+
+	if (isPrereleaseVersion(pkg)) {
+		args.push('--tag', 'prerelease');
+	}
+
+	run('yarn', 'publish', ...args);
 }
 
 let exitStatus = 0;
