@@ -7,14 +7,13 @@ const fs = require('fs-extra');
 const _ = require('lodash');
 const path = require('path');
 
-const Gulp = require('./_gulp');
-const Options = require('./_options');
-const Store = require('./_store');
-const ThemeConfig = require('./_theme-config');
+const Gulp = require('./gulp');
+const Store = require('./store');
+const ThemeConfig = require('./theme-config');
 
 class Project {
 	constructor(projectDir) {
-		this._construct(projectDir);
+		this._loadFrom(projectDir);
 	}
 
 	init(options) {
@@ -25,7 +24,7 @@ class Project {
 		this._initialized = true;
 
 		this._gulp = new Gulp(this, options.gulp);
-		this._options = new Options(this, options);
+		this._options = {...options};
 		this._store = new Store(
 			this,
 			options.storeConfig.path,
@@ -105,7 +104,7 @@ class Project {
 		});
 	}
 
-	_construct(projectDir) {
+	_loadFrom(projectDir) {
 		this._dir = path.resolve(projectDir);
 		this._initialized = false;
 		this._pkgJsonPath = path.join(this.dir, 'package.json');
@@ -116,7 +115,7 @@ class Project {
 	_reload() {
 		Object.keys(this).forEach(key => delete this[key]);
 
-		this._construct('.');
+		this._loadFrom('.');
 	}
 }
 

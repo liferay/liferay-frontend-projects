@@ -59,7 +59,7 @@
 		"theme"
 	],
 	"license": "MIT",
-	"main": "index.js",
+	"main": "./theme",
 	"name": "liferay-theme-tasks",
 	"repository": {
 		"type": "git",

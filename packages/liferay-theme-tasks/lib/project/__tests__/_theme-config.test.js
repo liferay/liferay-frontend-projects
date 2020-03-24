@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const ThemeConfig = require('../_theme-config');
+const ThemeConfig = require('../theme-config');
 
 let themeConfig;
 

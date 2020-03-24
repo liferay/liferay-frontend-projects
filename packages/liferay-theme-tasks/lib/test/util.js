@@ -212,7 +212,7 @@ function assertBoundFunction(prototype, methodName, _stub) {
 }
 
 /**
- * Setups a temporary directory with a plugin project for testing.
+ * Sets up a temporary directory with a plugin project for testing.
  *
  * @param {*} options
  * contains themeName, version, namespace, registerTaskOptions and/or
@@ -274,7 +274,7 @@ function setupTempPlugin(options) {
 }
 
 /**
- * Setups a temporary directory with a theme project for testing.
+ * Sets up a temporary directory with a theme project for testing.
  *
  * @param {*} options
  * contains themeName, version, namespace, registerTaskOptions and/or

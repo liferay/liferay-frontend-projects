@@ -6,9 +6,9 @@
 const {Gulp} = require('gulp');
 const path = require('path');
 
-const {registerTasks} = require('../../../../index');
 const project = require('../../../../lib/project');
 const {cleanTempTheme, setupTempTheme} = require('../../../../lib/test/util');
+const {registerTasks} = require('../../../../theme');
 
 let tempTheme;
 

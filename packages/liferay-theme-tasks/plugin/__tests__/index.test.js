@@ -16,9 +16,12 @@ const {getArgv} = require('../../lib/util');
 const {registerTasks} = require('../index');
 
 let deployPath;
+let gulp;
 let tempPlugin;
 
 beforeEach(() => {
+	gulp = new Gulp();
+
 	tempPlugin = setupTempPlugin({
 		init: () => {},
 		namespace: 'plugin',
@@ -35,8 +38,6 @@ afterEach(() => {
 });
 
 test('registerTasks should invoke extension functions', done => {
-	const gulp = new Gulp();
-
 	var extFunction = function(options) {
 		expect(options).toEqual({
 			argv: getArgv(),
@@ -61,8 +62,6 @@ test('registerTasks should invoke extension functions', done => {
 });
 
 test('registerTasks should accept array of extension function', done => {
-	const gulp = new Gulp();
-
 	var extFunction = function(options) {
 		expect(options.gulp).toBe(gulp);
 
@@ -76,8 +75,6 @@ test('registerTasks should accept array of extension function', done => {
 });
 
 test('registerTasks should register hooks', done => {
-	const gulp = new Gulp();
-
 	var hookSpy = sinon.spy();
 
 	var hookFn = function(gulp) {
@@ -121,8 +118,6 @@ test('registerTasks should register hooks', done => {
 });
 
 test('registerTasks should register hooks for extension tasks', done => {
-	const gulp = new Gulp();
-
 	var hookSpy = sinon.spy();
 
 	var hookFn = function(gulp) {
@@ -163,8 +158,6 @@ test('registerTasks should register hooks for extension tasks', done => {
 });
 
 test('registerTasks should overwrite task', done => {
-	const gulp = new Gulp();
-
 	var hookSpy = sinon.spy();
 
 	var hookFn = function(gulp) {
@@ -195,8 +188,6 @@ test('registerTasks should overwrite task', done => {
 });
 
 test('registerTasks should use distName as template if delimiters are present', done => {
-	const gulp = new Gulp();
-
 	registerTasks({
 		distName: '${name}-${version}-${liferayPlugin.version}',
 		extensions(options) {
