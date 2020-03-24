@@ -48,10 +48,10 @@ async function main() {
 
 	await confirm(`Push to ${remote}/master?`);
 
-	git('push', remote, 'master');
+	git('push', remote, 'master', '--follow-tags');
 
 	if (isPrereleaseVersion(pkg)) {
-		print('🛈 Detected prerelease version: skipping merge/push to stable');
+		print('👉 Detected prerelease version: skipping merge/push to stable');
 	} else {
 		await confirm('Merge "master" into "stable"?');
 
@@ -61,7 +61,7 @@ async function main() {
 
 		await confirm(`Push to ${remote}/stable?`);
 
-		git('push', remote, 'stable', '--follow-tags');
+		git('push', remote, 'stable');
 	}
 
 	git('checkout', 'master');
