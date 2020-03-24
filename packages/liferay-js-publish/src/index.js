@@ -50,27 +50,23 @@ async function main() {
 
 	git('push', remote, 'master');
 
-	await confirm('Merge "master" into "stable"?');
+	if (isPrereleaseVersion(pkg)) {
+		print('🛈 Detected prerelease version: skipping merge/push to stable');
+	} else {
+		await confirm('Merge "master" into "stable"?');
 
-	git('checkout', 'stable');
+		git('checkout', 'stable');
 
-	git('merge', '--ff-only', 'master');
+		git('merge', '--ff-only', 'master');
 
-	await confirm(`Push to ${remote}/stable?`);
+		await confirm(`Push to ${remote}/stable?`);
 
-	git('push', remote, 'stable', '--follow-tags');
+		git('push', remote, 'stable', '--follow-tags');
+	}
 
 	git('checkout', 'master');
 
-	await confirm('Run `yarn publish`?');
-
-	const otp = await confirm('Please enter an OTP token or press ENTER:', '');
-
-	if (otp) {
-		run('yarn', 'publish', '--non-interactive', '--otp', otp);
-	} else {
-		run('yarn', 'publish', '--non-interactive');
-	}
+	await runYarnPublish(pkg);
 
 	const url = `https://www.npmjs.com/package/${pkg.name}`;
 
@@ -175,9 +171,51 @@ function getRemote() {
 	throw new Error('Unable to determine remote repository URL');
 }
 
+function isPrereleaseVersion(pkg) {
+	const {version} = pkg;
+
+	const parts = version.split('.');
+
+	// De facto standard for prerelease versions is; 10.0.0-alpha.1
+
+	if (parts.length > 3) {
+		return true;
+	}
+
+	// look for any non-number character
+	if (parts[2].indexOf('-') !== -1) {
+		return true;
+	}
+
+	return false;
+}
+
+function print(...things) {
+	// eslint-disable-next-line no-console
+	console.log(...things);
+}
+
 function printBanner(...lines) {
 	// eslint-disable-next-line no-console
 	console.log(['', ...lines, ''].join('\n\n'));
+}
+
+async function runYarnPublish(pkg) {
+	await confirm('Run `yarn publish`?');
+
+	const args = ['--non-interactive'];
+
+	const otp = await confirm('Please enter an OTP token or press ENTER:', '');
+
+	if (otp) {
+		args.push('--otp', otp);
+	}
+
+	if (isPrereleaseVersion(pkg)) {
+		args.push('--tag', 'prerelease');
+	}
+
+	run('yarn', 'publish', ...args);
 }
 
 let exitStatus = 0;
