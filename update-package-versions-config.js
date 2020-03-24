@@ -3,17 +3,21 @@
  * SPDX-License-Identifier: MIT
  */
 
+const {red} = require('chalk');
+
 const version = process.argv[3];
 
-let FIXTURE;
+if (version === undefined) {
+	console.error(
+		red(`
+❌ Please specify version number as an argument to the script
+`)
+	);
+	process.exit(1);
+}
 
 module.exports = {
-	files: [
-		'packages/*/package.json',
-		'packages/liferay-theme-tasks/lib/**/*',
-		(FIXTURE =
-			'packages/liferay-theme-tasks/test/fixtures/themes/7.2/base-theme-7-2/package.json'),
-	],
+	files: ['packages/*/package.json'],
 	from: [
 		/"liferay-theme-tasks": ".*"/g,
 		/'liferay-theme-tasks': '.*'/g,
@@ -22,16 +26,6 @@ module.exports = {
 	to: [
 		`"liferay-theme-tasks": "^${version}"`,
 		`'liferay-theme-tasks': '^${version}'`,
-		(match, ...rest) => {
-			const filename = rest[rest.length - 1];
-
-			// Some nasty special-casing for the FIXTURE, which has multiple
-			// "version" strings inside it that we don't want to mess with.
-			if (filename === FIXTURE) {
-				return match;
-			}
-
-			return `"version": "${version}"`;
-		},
+		() => `"version": "${version}"`,
 	],
 };

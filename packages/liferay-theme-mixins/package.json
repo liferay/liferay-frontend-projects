@@ -23,5 +23,8 @@
 		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
 		"directory": "packages/liferay-theme-mixins"
 	},
+	"scripts": {
+		"release:snapshot": "node ../../scripts/release-snapshot.js"
+	},
 	"version": "9.5.0"
 }
