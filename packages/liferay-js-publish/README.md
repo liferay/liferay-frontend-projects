@@ -9,16 +9,20 @@ Simplifying assumptions:
 -   You publish using `yarn version`
 -   You are millennial (or pretend to be) and expect your tools to use emoji 😎
 
-## Installation
+## Set-up
 
-### 1. Install the package
+### 1. Preliminaries
 
-Either:
+You can skip installing `liferay-js-publish` and just use the latest version (ie. via `npx liferay-js-publish`).
+
+> It is safe to use liferay-js-publish as an implicit dependency because we control the package, we maintain all the projects that use the package, and we won't make any breaking changes (or at least, we won't make any undetected breaking changes).
+
+If you _really_ want to install it, either:
 
 -   Install globally: `yarn global add liferay-js-publish`; or:
 -   Add to a project: `yarn add --dev liferay-js-publish`; or:
 
-Note that you can also just use the latest without installing (ie. via `npx liferay-js-publish`). It is safe to use liferay-js-publish as an implicit dependency because we control the package, we maintain all the projects that use the package, and we won't make any breaking changes (or at least, we won't make any undetected breaking changes).
+But note that this brings the cost of noise in the `package.json` and `yarn.lock`, and the need to update multiple projects every time we update `liferay-js-publish`.
 
 ### 2. Create a ".yarnrc" file
 
