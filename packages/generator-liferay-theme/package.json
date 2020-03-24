@@ -55,5 +55,8 @@
 		"gulp-coveralls": "^0.1.4",
 		"sinon": "^4.4.6",
 		"strip-ansi": "^3.0.1"
+	},
+	"scripts": {
+		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	}
 }
