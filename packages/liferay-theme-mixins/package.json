@@ -24,7 +24,8 @@
 		"directory": "packages/liferay-theme-mixins"
 	},
 	"scripts": {
-		"release:snapshot": "node ../../scripts/release-snapshot.js"
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
 	},
 	"version": "9.5.0"
 }
