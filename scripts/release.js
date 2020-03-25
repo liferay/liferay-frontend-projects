@@ -6,6 +6,7 @@
 const path = require('path');
 
 const abort = require('./lib/abort');
+const confirm = require('./lib/confirm');
 const run = require('./lib/run');
 
 const packagesDir = path.join(__dirname, '..', 'packages');
@@ -20,6 +21,20 @@ if (process.argv.length < 3) {
 }
 
 const version = process.argv[2];
+
+run('yarn', 'updatePackageVersions', version);
+
+run('yarn', 'changelog', `--version=v${version}`);
+
+confirm(`
+The changelog has been generated, please review it with your favourite editor.
+
+You may change anything you don't like and when you are finished confirm the
+following question to continue.
+
+Is the changelog correct? Shall we continue`);
+
+run('git', 'add', '.');
 
 topologicallyOrderedProjectNames.forEach(projectName => {
 	run('yarn', 'version', '--new-version', version, {

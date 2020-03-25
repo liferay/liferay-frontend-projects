@@ -49,41 +49,23 @@ git checkout master
 git pull upstream master
 ```
 
-### 2. Update dependency versions
-
-```sh
-yarn updatePackageVersions $VERSION
-
-# Sanity check the changed versions:
-git diff
-
-# And check for any straggling references to the old version;
-# for example, if the last release was 9.0.0-alpha.0, check
-# that there are no hits for that version:
-git grep 9.0.0-alpha.0
-```
-
-### 3. Update CHANGELOG.md
-
-Run `yarn changelog --version=v$VERSION`.
-
-### 4. Do the publish
+### 2. Do the publish
 
 We are using [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) to perform the publication to npm and manage git tags.
 
-To perform the release run (in the project's root folder):
+To perform the release, run (in the project's root folder):
 
 ```sh
 yarn release $VERSION
 ```
 
-If you want to do a pre-release you can do it only in the needed packages by running the same command.
+If you want to do a pre-release simply use something like `10.0.0-alpha.1` as the version argument and `liferay-js-publish` will take care of releasing the version with the `prerelease` [npm dist-tag](https://docs.npmjs.com/cli/dist-tag).
 
-### 5. Update the release notes
+### 3. Update the release notes
 
 Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
-### 6. Sanity check the package pages on the NPM website:
+### 4. Sanity check the package pages on the NPM website:
 
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme
