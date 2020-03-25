@@ -17,17 +17,20 @@ const topologicallyOrderedProjectNames = [
 	'generator-liferay-theme',
 ];
 
-if (process.argv.length < 3) {
-	abort('Version must be specified as the first argument of yarn release');
-}
+async function main() {
+	if (process.argv.length < 3) {
+		abort(
+			'Version must be specified as the first argument of yarn release'
+		);
+	}
 
-const version = process.argv[2];
+	const version = process.argv[2];
 
-run('yarn', 'updatePackageVersions', version);
+	run('yarn', 'updatePackageVersions', version);
 
-run('yarn', 'changelog', `--version=v${version}`);
+	run('yarn', 'changelog', `--version=v${version}`);
 
-confirm(`
+	await confirm(`
 The changelog has been generated, please review it with your favourite editor.
 
 You may change anything you don't like and when you are finished confirm the
@@ -35,10 +38,13 @@ following question to continue.
 
 Is the changelog correct? Shall we continue`);
 
-run('git', 'add', rootDir);
+	run('git', 'add', rootDir);
 
-topologicallyOrderedProjectNames.forEach(projectName => {
-	run('yarn', 'version', '--new-version', version, {
-		cwd: path.join(packagesDir, projectName),
+	topologicallyOrderedProjectNames.forEach(projectName => {
+		run('yarn', 'version', '--new-version', version, {
+			cwd: path.join(packagesDir, projectName),
+		});
 	});
-});
+}
+
+main();
