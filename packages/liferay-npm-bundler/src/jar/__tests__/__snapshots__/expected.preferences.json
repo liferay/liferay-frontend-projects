@@ -2,8 +2,8 @@
 	"availableLanguageIds": [],
 	"fields": [
 		{
-			"dataType": "number",
-			"type": "ddm-number",
+			"dataType": "integer",
+			"type": "numeric",
 			"name": "a-number",
 			"label": {
 				"": "A number"
@@ -17,7 +17,7 @@
 		},
 		{
 			"dataType": "double",
-			"type": "ddm-decimal",
+			"type": "numeric",
 			"name": "a-float",
 			"label": {
 				"": "A float"
