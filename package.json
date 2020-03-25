@@ -1,6 +1,7 @@
 {
 	"devDependencies": {
 		"chalk": "^3.0.0",
+		"cross-spawn": "^7.0.1",
 		"eslint": "^6.5.1",
 		"eslint-config-liferay": "^13.0.0",
 		"fs-extra": "^8.1.0",
@@ -19,7 +20,7 @@
 		"lint": "eslint \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
 		"lint:fix": "eslint --fix \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
 		"qa": "node scripts/qa.js",
-		"release": "yarn workspaces release",
+		"release": "node scripts/release.js",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
