@@ -12,9 +12,8 @@ TBD
 
 ## Pull requests & Github issues
 
--   All pull requests should be sent to the `develop` branch, as the `master` branch should always reflect the most recent release.
--   Any merged changes will remain in the `develop` branch until the next scheduled release.
--   The only exception to this rule is for emergency hot fixes, in which case the pull request can be sent to the `master` branch.
+-   All pull requests should be sent to the `master` branch.
+-   The `stable` branch always reflects the most recent release.
 -   Aim to create one Pull Request per bug fix or feature, if possible, as this helps to generate a high-quality CHANGELOG.md file. We use [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator) to produce changelogs automatically; it will base the changelog on the titles of the PRs merged for each release, so bear that in mind when writing PR titles.
 
 ## Tests
@@ -42,10 +41,6 @@ All methods should be documented, following [google's format](https://github.com
 # Releasing
 
 Collaborators with publish permissions should follow these steps.
-
-There are two different workflows for publishing this project, one for scheduled releases, and one for emergency hot fixes.
-
-## Scheduled release
 
 ### 1. Update the `master` branch
 
@@ -86,42 +81,25 @@ git push upstream master
 
 You can now create a draft PR (proposing a merge of "master" into "stable"); **we won't actually merge this PR; we just want to see the CI pass**.
 
-### 5. Perform the merge to `stable`
+Once we've seen the CI pass above, we can **close the PR without merging it** (it was already pushed to the "master" branch) and continue.
 
-Once we've seen the CI pass above, we can **close the PR without merging it** (it was already pushed to the "master" branch) and publish our tags.
+### 5. Do the publish
+
+We are using [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) to perform the publication to npm and manage git tags.
+
+To perform the release run (in the project's root folder):
 
 ```sh
-git checkout stable
-git pull upstream stable
-git merge --ff-only master
-git tag v$VERSION -m v$VERSION
-git push upstream stable --follow-tags
+yarn release $VERSION
 ```
+
+If you want to do a pre-release you can do it only in the needed packages by running the same command.
 
 ### 6. Update the release notes
 
 Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
-### 7. Do the NPM publish
-
-We used to use Lerna to manage this repo, but as the number of packages has reduced to (to just 3 on the current "master" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
-
--   First "liferay-theme-tasks".
--   Then "generator-liferay-theme".
--   "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
-
-To publish a normal release, use a `$TAG` of `latest` (or simply omit the `--tag` option). To publish an "alpha", "beta" or other prerelease, use a `$TAG` of `next`:
-
-```sh
-cd packages
-(cd liferay-theme-tasks && yarn publish --tag=$TAG)
-(cd generator-liferay-theme && yarn publish --tag=$TAG)
-(cd liferay-theme-mixins && yarn publish --tag=$TAG)
-```
-
-We may partially automate this in the future, but if we do, it will be in the form of a very simple shell script.
-
-### 8. Sanity check the package pages on the NPM website:
+### 7. Sanity check the package pages on the NPM website:
 
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme

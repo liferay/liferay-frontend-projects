@@ -18,14 +18,9 @@ if (version === undefined) {
 
 module.exports = {
 	files: ['packages/*/package.json'],
-	from: [
-		/"liferay-theme-tasks": ".*"/g,
-		/'liferay-theme-tasks': '.*'/g,
-		/"version": ".*"/,
-	],
+	from: [/"liferay-theme-tasks": ".*"/g, /'liferay-theme-tasks': '.*'/g],
 	to: [
 		`"liferay-theme-tasks": "^${version}"`,
 		`'liferay-theme-tasks': '^${version}'`,
-		() => `"version": "${version}"`,
 	],
 };

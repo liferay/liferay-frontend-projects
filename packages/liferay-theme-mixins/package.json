@@ -25,7 +25,8 @@
 	},
 	"scripts": {
 		"postversion": "npx liferay-js-publish",
-		"preversion": "yarn ci"
+		"preversion": "yarn ci",
+		"release": "yarn version"
 	},
 	"version": "9.5.0"
 }
