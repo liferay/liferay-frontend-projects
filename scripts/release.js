@@ -26,6 +26,12 @@ async function main() {
 
 	const version = process.argv[2];
 
+	try {
+		run('git', 'diff', '--quiet');
+	} catch (_error) {
+		abort('Worktree is not clean');
+	}
+
 	run('yarn', 'updatePackageVersions', version);
 
 	run('yarn', 'changelog', `--version=v${version}`);
@@ -38,7 +44,7 @@ following question to continue.
 
 Is the changelog correct? Shall we continue`);
 
-	run('git', 'add', rootDir);
+	run('git', 'add', rootDir, '-u');
 
 	topologicallyOrderedProjectNames.forEach(projectName => {
 		run('yarn', 'version', '--new-version', version, {
