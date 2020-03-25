@@ -9,7 +9,8 @@ const abort = require('./lib/abort');
 const confirm = require('./lib/confirm');
 const run = require('./lib/run');
 
-const packagesDir = path.join(__dirname, '..', 'packages');
+const rootDir = path.join(__dirname, '..');
+const packagesDir = path.join(rootDir, 'packages');
 const topologicallyOrderedProjectNames = [
 	'liferay-theme-mixins',
 	'liferay-theme-tasks',
@@ -34,7 +35,7 @@ following question to continue.
 
 Is the changelog correct? Shall we continue`);
 
-run('git', 'add', '.');
+run('git', 'add', rootDir);
 
 topologicallyOrderedProjectNames.forEach(projectName => {
 	run('yarn', 'version', '--new-version', version, {
