@@ -67,23 +67,7 @@ git grep 9.0.0-alpha.0
 
 Run `yarn changelog --version=v$VERSION`.
 
-### 4. Send a release PR
-
-```sh
-# See the tests pass locally:
-yarn ci
-
-# Prepare and push final commit:
-git add -A
-git commit -m "chore: prepare $VERSION release"
-git push upstream master
-```
-
-You can now create a draft PR (proposing a merge of "master" into "stable"); **we won't actually merge this PR; we just want to see the CI pass**.
-
-Once we've seen the CI pass above, we can **close the PR without merging it** (it was already pushed to the "master" branch) and continue.
-
-### 5. Do the publish
+### 4. Do the publish
 
 We are using [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) to perform the publication to npm and manage git tags.
 
@@ -95,11 +79,11 @@ yarn release $VERSION
 
 If you want to do a pre-release you can do it only in the needed packages by running the same command.
 
-### 6. Update the release notes
+### 5. Update the release notes
 
 Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
-### 7. Sanity check the package pages on the NPM website:
+### 6. Sanity check the package pages on the NPM website:
 
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme
