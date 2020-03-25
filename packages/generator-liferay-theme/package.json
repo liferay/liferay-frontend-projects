@@ -58,7 +58,6 @@
 	},
 	"scripts": {
 		"postversion": "npx liferay-js-publish",
-		"preversion": "yarn ci",
-		"release": "yarn version"
+		"preversion": "yarn ci"
 	}
 }
