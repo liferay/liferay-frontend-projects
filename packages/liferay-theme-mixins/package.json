@@ -24,8 +24,10 @@
 		"directory": "packages/liferay-theme-mixins"
 	},
 	"scripts": {
+		"changelog": "npx liferay-changelog-generator",
 		"ci": "cd ../.. && yarn ci",
-		"postversion": "npx liferay-js-publish"
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
 	},
 	"version": "9.5.0"
 }

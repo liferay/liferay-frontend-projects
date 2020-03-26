@@ -12,24 +12,17 @@
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
-		"changelog": "npx liferay-changelog-generator",
-		"changelog:regenerate": "npx liferay-changelog-generator --regenerate",
 		"ci": "yarn format:check && yarn lint && yarn test",
 		"format": "prettier --write \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
 		"format:check": "prettier --list-different \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
 		"lint": "eslint \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
 		"lint:fix": "eslint --fix \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
 		"qa": "node scripts/qa.js",
-		"release": "node scripts/release.js",
-		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
 	"keywords": [
 		"yeoman-generator"
 	],
-	"dependencies": {
-		"replace-in-file": "^3.4.2"
-	},
 	"jest": {
 		"setupFilesAfterEnv": [
 			"<rootDir>/jest.js"
