@@ -40,28 +40,68 @@ All methods should be documented, following [google's format](https://github.com
 
 # Releasing
 
+The release is made on a per-project basis. This means that version numbers will be independent for each project.
+
 Collaborators with publish permissions should follow these steps.
 
 ### 1. Update the `master` branch
+
+Run:
 
 ```sh
 git checkout master
 git pull upstream master
 ```
 
-### 2. Do the publish
+And make sure that your working copy is clean by running:
+
+```sh
+git status
+```
+
+### 2. Update version references between projects
+
+Version references between projects must be updated by hand, if needed, prior to release.
+
+For example, `generator-liferay-theme` points to `liferay-theme-tasks` so its `package.json` may need to be updated before the release takes place.
+
+Obviously, depending on how version constraints for `liferay-theme-tasks` are written in `generator-liferay-theme`, updating may or may not be needed.
+
+### 3. Update CHANGELOG.md
+
+Run this in the project's folder so that `CHANGELOG.md` is updated:
+
+```sh
+yarn changelog --version=project-name/v1.2.3
+```
+
+Changing `project-name` and `1.2.3` by the proper values.
+
+Then, review `CHANGELOG.md`, change anything that needs to be adjusted and save it.
+
+### 4. Stage modified files in git
+
+Run this in the project's folder to add the modified `package.json` and `CHANGELOG.md` files.
+
+```sh
+git add -u
+```
+
+There's no need to commit it because the next step will do it.
+
+### 3. Do the publish
 
 We are using [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) to perform the publication to npm and manage git tags.
 
-To perform the release, run (in the project's root folder):
+To perform the release, run (in the released project's folder):
 
 ```sh
-yarn release $VERSION
+yarn version
 ```
 
-If you want to do a pre-release simply use something like `10.0.0-alpha.1` as the version argument and `liferay-js-publish` will take care of releasing the version with the `prerelease` [npm dist-tag](https://docs.npmjs.com/cli/dist-tag).
+If you want to do a pre-release simply use the standard pre-release semver notation (something like `10.0.0-alpha.1`) as the version argument and `liferay-js-publish` will take care of releasing the version with the `prerelease` [npm dist-tag](https://docs.npmjs.com/cli/dist-tag).
 
-### 3. Update the release notes
+### 4. Update the release notes
 
 Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
