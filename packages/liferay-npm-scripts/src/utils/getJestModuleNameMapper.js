@@ -74,19 +74,24 @@ function getJestModuleNameMapper() {
 					const {main} = JSON.parse(
 						fs.readFileSync(packageJson, 'utf8')
 					);
-					if (main) {
-						const file = path.join(project, ...SRC_PATH, main);
 
-						if (fs.existsSync(file)) {
-							const relative = path.relative(cwd, file);
-							const dirname = path.dirname(relative);
+					if (main) {
+						const entry = path.join(project, ...SRC_PATH, main);
+						const resources = path.relative(
+							cwd,
+							path.join(project, ...SRC_PATH)
+						);
+
+						if (fs.existsSync(entry)) {
 							const basename = path.basename(project);
 
-							mappings[`^${basename}$`] = `<rootDir>${relative}`;
+							mappings[
+								`^${basename}$`
+							] = `<rootDir>${path.relative(cwd, entry)}`;
 
 							mappings[
 								`^${basename}/(.*)`
-							] = `<rootDir>${dirname}/$1`;
+							] = `<rootDir>${resources}/$1`;
 						}
 					}
 				}
