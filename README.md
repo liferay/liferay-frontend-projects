@@ -1,5 +1,7 @@
 # Liferay Frontend Guidelines
 
+![](https://github.com/liferay/liferay-frontend-guidelines/workflows/ci/badge.svg)
+
 This is a live (changing) repository containing [general](/general) and [Liferay DXP-specific](/dxp) guidelines for doing Frontend Development at Liferay Inc.
 
 ## Guideline development
