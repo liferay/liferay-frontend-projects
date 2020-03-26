@@ -32,6 +32,12 @@ async function main() {
 		abort('Worktree is not clean');
 	}
 
+	try {
+		run('yarn', 'ci');
+	} catch (_error) {
+		abort('CI tests did NOT pass 😔');
+	}
+
 	run('yarn', 'updatePackageVersions', version);
 
 	run('yarn', 'changelog', `--version=v${version}`);

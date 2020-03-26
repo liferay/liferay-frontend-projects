@@ -67,8 +67,8 @@
 		"directory": "packages/liferay-theme-tasks"
 	},
 	"scripts": {
-		"postversion": "npx liferay-js-publish",
-		"preversion": "yarn ci"
+		"ci": "cd ../.. && yarn ci",
+		"postversion": "npx liferay-js-publish"
 	},
 	"version": "9.5.0"
 }
