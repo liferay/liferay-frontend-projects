@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler-loader-copy-loader",
-	"version": "2.18.2",
+	"version": "2.18.3",
 	"description": "A liferay-npm-bundler loader that copies files.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.18.2"
+		"liferay-npm-build-tools-common": "2.18.3"
 	}
 }
