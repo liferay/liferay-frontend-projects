@@ -1,13 +1,12 @@
 {
 	"devDependencies": {
 		"chalk": "^3.0.0",
+		"cross-spawn": "^7.0.1",
 		"eslint": "^6.5.1",
 		"eslint-config-liferay": "^13.0.0",
-		"execa": "^4.0.0",
 		"fs-extra": "^8.1.0",
 		"jest": "^24.1.0",
 		"prettier": "^1.18.2",
-		"readline-sync": "^1.4.10",
 		"yargs": "^15.1.0"
 	},
 	"private": true,
@@ -21,6 +20,7 @@
 		"lint": "eslint \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
 		"lint:fix": "eslint --fix \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
 		"qa": "node scripts/qa.js",
+		"release": "node scripts/release.js",
 		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
 		"test": "jest"
 	},
