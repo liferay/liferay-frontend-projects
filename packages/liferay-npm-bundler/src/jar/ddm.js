@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -109,14 +108,14 @@ function getTypeProps(props) {
 
 		case 'number':
 			return {
-				dataType: 'number',
-				type: 'ddm-number',
+				dataType: 'integer',
+				type: 'numeric',
 			};
 
 		case 'float':
 			return {
 				dataType: 'double',
-				type: 'ddm-decimal',
+				type: 'numeric',
 			};
 
 		case 'boolean':
@@ -149,7 +148,7 @@ function localized(project, string) {
 
 	let labels = project.l10n.getLabels();
 
-	obj[''] = labels[string];
+	obj[''] = labels[string] || string;
 
 	project.l10n.availableLocales.forEach(locale => {
 		labels = project.l10n.getLabels(locale);
