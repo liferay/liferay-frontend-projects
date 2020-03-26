@@ -89,23 +89,23 @@ git add -u
 
 There's no need to commit it because the next step will do it.
 
-### 3. Do the publish
+### 5. Do the publish
 
 We are using [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) to perform the publication to npm and manage git tags.
 
 To perform the release, run (in the released project's folder):
 
 ```sh
-yarn version
+yarn version --patch # or --minor, or --major, or --new-version
 ```
 
 If you want to do a pre-release simply use the standard pre-release semver notation (something like `10.0.0-alpha.1`) as the version argument and `liferay-js-publish` will take care of releasing the version with the `prerelease` [npm dist-tag](https://docs.npmjs.com/cli/dist-tag).
 
-### 4. Update the release notes
+### 6. Update the release notes
 
 Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
-### 4. Sanity check the package pages on the NPM website:
+### 7. Sanity check the package pages on the NPM website:
 
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme
