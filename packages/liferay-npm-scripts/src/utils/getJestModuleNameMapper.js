@@ -77,13 +77,14 @@ function getJestModuleNameMapper() {
 
 					if (main) {
 						const entry = path.join(project, ...SRC_PATH, main);
-						const resources = path.relative(
-							cwd,
-							path.join(project, ...SRC_PATH)
-						);
 
 						if (fs.existsSync(entry)) {
 							const basename = path.basename(project);
+
+							const resources = path.relative(
+								cwd,
+								path.join(project, ...SRC_PATH)
+							);
 
 							mappings[
 								`^${basename}$`
