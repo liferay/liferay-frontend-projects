@@ -1,3 +1,11 @@
+## [liferay-js-publish/v1.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-js-publish/v1.1.0) (2020-03-25)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-js-publish/v1.1.0-alpha.1...liferay-js-publish/v1.1.0)
+
+### :book: Documentation
+
+-   docs(publish): make non-installation requirement clearer ([\#422](https://github.com/liferay/liferay-npm-tools/pull/422))
+
 ## [liferay-js-publish/v1.1.0-alpha.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-js-publish/v1.1.0-alpha.1) (2020-03-24)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-js-publish/v1.0.1...liferay-js-publish/v1.1.0-alpha.1)
