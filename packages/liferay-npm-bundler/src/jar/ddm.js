@@ -108,14 +108,14 @@ function getTypeProps(props) {
 
 		case 'number':
 			return {
-				dataType: 'number',
-				type: 'ddm-number',
+				dataType: 'integer',
+				type: 'numeric',
 			};
 
 		case 'float':
 			return {
 				dataType: 'double',
-				type: 'ddm-decimal',
+				type: 'numeric',
 			};
 
 		case 'boolean':

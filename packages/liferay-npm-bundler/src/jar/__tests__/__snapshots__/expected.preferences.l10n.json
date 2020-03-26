@@ -2,8 +2,8 @@
 	"availableLanguageIds": ["es_ES"],
 	"fields": [
 		{
-			"dataType": "number",
-			"type": "ddm-number",
+			"dataType": "integer",
+			"type": "numeric",
 			"name": "a-number",
 			"label": {
 				"": "A number",
