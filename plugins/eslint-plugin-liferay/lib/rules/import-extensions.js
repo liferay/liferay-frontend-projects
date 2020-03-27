@@ -21,11 +21,15 @@ function stripExtension(value) {
 	return value;
 }
 
-const message = 'unnecessary extension in import';
+const messages = {
+	badExport: 'unnecessary extension in export',
+	badImport: 'unnecessary extension in import',
+	badRequire: 'unnecessary extension in require',
+};
 
 module.exports = {
 	create(context) {
-		function fix(node) {
+		function fix(node, messageId) {
 			let delimiter;
 			let original;
 			let stripped;
@@ -51,7 +55,7 @@ module.exports = {
 							node,
 							`${delimiter}${stripped}${delimiter}`
 						),
-					message,
+					messageId,
 					node,
 				});
 			}
@@ -63,19 +67,26 @@ module.exports = {
 			}
 
 			if (
-				node.type === 'ImportDeclaration' &&
-				(node.source.type === 'Literal' ||
-					node.source.type === 'TemplateLiteral')
-			) {
-				fix(node.source);
-			} else if (
 				node.type === 'CallExpression' &&
 				node.arguments &&
 				node.arguments.length &&
 				(node.arguments[0].type === 'Literal' ||
 					node.arguments[0].type === 'TemplateLiteral')
 			) {
-				fix(node.arguments[0]);
+				fix(node.arguments[0], 'badRequire');
+			} else if (
+				(node.type === 'ExportNamedDeclaration' ||
+					node.type === 'ExportAllDeclaration') &&
+				(node.source.type === 'Literal' ||
+					node.source.type === 'TemplateLiteral')
+			) {
+				fix(node.source, 'badExport');
+			} else if (
+				node.type === 'ImportDeclaration' &&
+				(node.source.type === 'Literal' ||
+					node.source.type === 'TemplateLiteral')
+			) {
+				fix(node.source, 'badImport');
 			}
 		}
 
@@ -84,6 +95,14 @@ module.exports = {
 				if (node.callee.name === 'require') {
 					check(node);
 				}
+			},
+
+			ExportAllDeclaration(node) {
+				check(node);
+			},
+
+			ExportNamedDeclaration(node) {
+				check(node);
 			},
 
 			ImportDeclaration(node) {
@@ -95,11 +114,13 @@ module.exports = {
 	meta: {
 		docs: {
 			category: 'Best Practices',
-			description: 'imports should use/omit extensions consistently',
+			description:
+				'imports and exports should use/omit extensions consistently',
 			recommended: false,
 			url: 'https://github.com/liferay/eslint-config-liferay/issues/137',
 		},
 		fixable: 'code',
+		messages,
 		schema: [],
 		type: 'problem',
 	},

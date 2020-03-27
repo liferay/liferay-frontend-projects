@@ -1,6 +1,6 @@
-# Omit extensions consistently with `import` and `require` (import-extensions)
+# Omit extensions consistently with `import`, `export` and `require` (import-extensions)
 
-This rule enforces that `import` statements and `require` calls &mdash; henceforth referred to as just "imports" &mdash; use (or omit) file extensions consistently.
+This rule enforces that `import`/`export` statements and `require` calls &mdash; henceforth referred to as just "imports" &mdash; use (or omit) file extensions consistently.
 
 ## Rule Details
 
@@ -23,6 +23,8 @@ import templates from './Something.soy.js';
 import {Util} from './Util.es.js';
 
 import * as Billboard from './billboard.js';
+
+export {thing} from './other.js';
 ```
 
 Examples of **correct** code for this rule:
@@ -34,6 +36,8 @@ import {Util} from './Util.es';
 
 // OK because "billboard.js" is the name of an NPM package:
 import {Data} from 'billboard.js';
+
+export {thing} from './other';
 ```
 
 ## See also

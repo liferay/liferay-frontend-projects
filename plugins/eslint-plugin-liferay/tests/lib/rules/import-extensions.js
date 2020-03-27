@@ -8,60 +8,100 @@ const rule = require('../../../lib/rules/import-extensions');
 
 const parserOptions = {
 	parserOptions: {
-		ecmaVersion: 6,
+		ecmaVersion: 2018,
 		sourceType: 'module',
 	},
 };
 
 const ruleTester = new MultiTester(parserOptions);
 
-const message = 'unnecessary extension in import';
+const badExport = {
+	messageId: 'badExport',
+	type: 'Literal',
+};
 
-const type = 'Literal';
+const badImport = {
+	messageId: 'badImport',
+	type: 'Literal',
+};
 
-const errors = [
-	{
-		message,
-		type,
-	},
-];
+const badRequire = {
+	messageId: 'badRequire',
+	type: 'Literal',
+};
 
 ruleTester.run('import-extensions', rule, {
 	invalid: [
 		{
 			code: `import templates from './Something.soy.js';`,
-			errors,
+			errors: [badImport],
 			output: `import templates from './Something.soy';`,
 		},
 		{
 			code: `import {Util} from './Util.es.js';`,
-			errors,
+			errors: [badImport],
 			output: `import {Util} from './Util.es';`,
 		},
 		{
 			code: `import * as Billboard from './billboard.js';`,
-			errors,
+			errors: [badImport],
 			output: `import * as Billboard from './billboard';`,
 		},
 		{
+			code: `export * from './Other.es.js';`,
+			errors: [badExport],
+			output: `export * from './Other.es';`,
+		},
+		{
+			code: `export * from './Other.js';`,
+			errors: [badExport],
+			output: `export * from './Other';`,
+		},
+		{
+			code: `export * as UsefulStuff from './UsefulStuff.es.js';`,
+			errors: [badExport],
+			output: `export * as UsefulStuff from './UsefulStuff.es';`,
+
+			// "* as name" syntax is not currently supported by espree.
+			skip: ['espree'],
+		},
+		{
+			code: `export * as UsefulStuff from './UsefulStuff.js';`,
+			errors: [badExport],
+			output: `export * as UsefulStuff from './UsefulStuff';`,
+
+			// "* as name" syntax is not currently supported by espree.
+			skip: ['espree'],
+		},
+		{
+			code: `export {a as b, c, d} from './Letters.es.js';`,
+			errors: [badExport],
+			output: `export {a as b, c, d} from './Letters.es';`,
+		},
+		{
+			code: `export {a as b, c, d} from './Letters.js';`,
+			errors: [badExport],
+			output: `export {a as b, c, d} from './Letters';`,
+		},
+		{
 			code: `const templates = require('./Something.soy.js');`,
-			errors,
+			errors: [badRequire],
 			output: `const templates = require('./Something.soy');`,
 		},
 		{
 			code: `const {Util} = require('./Util.es.js');`,
-			errors,
+			errors: [badRequire],
 			output: `const {Util} = require('./Util.es');`,
 		},
 		{
 			code: `const Billboard = require('./billboard.js');`,
-			errors,
+			errors: [badRequire],
 			output: `const Billboard = require('./billboard');`,
 		},
 		{
 			// Double quote delimiters are preserved.
 			code: `const Billboard = require("./billboard.js");`,
-			errors,
+			errors: [badRequire],
 			output: `const Billboard = require("./billboard");`,
 		},
 		{
@@ -69,7 +109,7 @@ ruleTester.run('import-extensions', rule, {
 			code: `const Billboard = require(\`./billboard.js\`);`,
 			errors: [
 				{
-					message,
+					...badRequire,
 					type: 'TemplateLiteral',
 				},
 			],
@@ -87,6 +127,9 @@ ruleTester.run('import-extensions', rule, {
 		{
 			// OK because "billboard.js" is the name of an NPM package:
 			code: `import {Data} from 'billboard.js';`,
+		},
+		{
+			code: `export {default} from './Other';`,
 		},
 		{
 			code: `const templates = require('./Something.soy');`,
