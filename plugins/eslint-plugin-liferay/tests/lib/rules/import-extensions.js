@@ -57,24 +57,22 @@ ruleTester.run('import-extensions', rule, {
 			errors: [badExport],
 			output: `export * from './Other';`,
 		},
-
-		// TODO: enable these when a future espree update enables ESLint to
-		// parse "* as name" re-exports. (@typescript/eslint-parser already
-		// handles them fine).
-
-		/*
 		{
 			code: `export * as UsefulStuff from './UsefulStuff.es.js';`,
 			errors: [badExport],
 			output: `export * as UsefulStuff from './UsefulStuff.es';`,
+
+			// "* as name" syntax is not currently supported by espree.
+			skip: ['espree'],
 		},
 		{
 			code: `export * as UsefulStuff from './UsefulStuff.js';`,
 			errors: [badExport],
 			output: `export * as UsefulStuff from './UsefulStuff';`,
-		},
-		*/
 
+			// "* as name" syntax is not currently supported by espree.
+			skip: ['espree'],
+		},
 		{
 			code: `export {a as b, c, d} from './Letters.es.js';`,
 			errors: [badExport],
