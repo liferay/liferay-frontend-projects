@@ -45,6 +45,7 @@ class MultiTester extends RuleTester {
 				if (skip && skip.includes(key)) {
 					return false;
 				}
+
 				return config;
 			};
 
