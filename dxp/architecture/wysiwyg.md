@@ -151,6 +151,7 @@ These modules usually contain:
     These classes can either be used or extended to provide specific editor configuration.
     For example, you might want your editor to have BBCode or Creole support, or you might also need certain plugins to be added or removed.
 
+## Configuration
 
 The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
 The default WYSIWYG editor is CKEditor.
