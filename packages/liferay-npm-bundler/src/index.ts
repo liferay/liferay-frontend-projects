@@ -13,8 +13,8 @@ import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
+import bundle from './steps/bundle';
 import runRules from './steps/rules';
-import runWebpack from './steps/webpack';
 
 /** Default entry point for the liferay-npm-bundler */
 export default async function(argv: {version: boolean}): Promise<void> {
@@ -42,7 +42,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		// Do things
 		copyPackageJson();
 		addRootPackageToManifest(rootPkg);
-		await runWebpack();
+		await bundle();
 		await runRules(rootPkg);
 		saveManifest();
 		if (project.jar.supported) {

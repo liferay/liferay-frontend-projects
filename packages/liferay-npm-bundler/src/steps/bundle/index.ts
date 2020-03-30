@@ -15,7 +15,7 @@ import writeResults from './write-results';
 /**
  * Run configured rules.
  */
-export default async function runWebpack(): Promise<webpack.Stats> {
+export default async function bundle(): Promise<webpack.Stats> {
 	log.debug('Using webpack at', require.resolve('webpack'));
 
 	log.info('Configuring webpack build...');
