@@ -113,7 +113,7 @@ public class CKEditorEditor implements Editor, EditorRenderer {
 }
 ```
 
-You can read more about this API in the Rich Text Editor [Anatomy](#Anatomy) section.
+You can read more about this API in the [Rich Text Editor Anatomy](#Rich-Text-Editor-Anatomy) section.
 
 ### [`EditorConfigContributor`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/portal-kernel/src/com/liferay/portal/kernel/editor/configuration/EditorConfigContributor.java#L105-L130)
 
@@ -137,15 +137,9 @@ public class MyEditorConfigContributor extends BaseEditorConfigContributor {
 
 > **Warning:** Keep in mind that Editor Config Contributors stack one on top of each other following a specificity algorithm. All Config Contributors that apply to a given editor will run over the `jsonObject` object mutating it in place in order.
 
+## Rich Text Editor Anatomy
 
-The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
-The default WYSIWYG editor is CKEditor.
-
-# Editor locations in liferay-portal
-
-All 3 editors, are located in modules inside the [`frontend-editor`](https://github.com/liferay/liferay-portal/tree/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/modules/apps/frontend-editor) module.
-
-# Editor module structure
+This section disects the anatomy of a Rich Text Editor in DXP and describes its key components . Check out the [frontend-editor-ckeditor-web](https://github.com/liferay/liferay-portal/tree/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-ckeditor-web) module for a good and comprehensive example.
 
 These modules usually contain:
 
@@ -156,3 +150,7 @@ These modules usually contain:
 -   Java configuration classes:
     These classes can either be used or extended to provide specific editor configuration.
     For example, you might want your editor to have BBCode or Creole support, or you might also need certain plugins to be added or removed.
+
+
+The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
+The default WYSIWYG editor is CKEditor.
