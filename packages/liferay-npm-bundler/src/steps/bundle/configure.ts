@@ -11,7 +11,7 @@ import webpack from 'webpack';
 
 import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
-import {abort} from '../util';
+import {abort} from '../../util';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config

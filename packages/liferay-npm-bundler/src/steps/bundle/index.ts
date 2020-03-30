@@ -6,7 +6,7 @@
 import webpack from 'webpack';
 
 import * as log from '../../log';
-import {abort} from '../util';
+import {abort} from '../../util';
 import adapt from './adapt';
 import configure from './configure';
 import run from './run';

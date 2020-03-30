@@ -14,7 +14,7 @@ import path from 'path';
 
 import * as log from '../log';
 import report from '../report';
-import {findFiles, getDestDir, runInChunks} from './util';
+import {findFiles, getDestDir, runInChunks} from '../util';
 
 /**
  * Run configured rules.

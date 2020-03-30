@@ -10,7 +10,7 @@ import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as log from '../log';
+import * as log from './log';
 
 /**
  * Abort build and exit with return code 1
