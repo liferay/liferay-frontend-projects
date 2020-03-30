@@ -6,6 +6,7 @@
 import fs from 'fs-extra';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
 import pretty from 'pretty-time';
 
 import {buildBundlerDir} from './dirs';
@@ -13,8 +14,10 @@ import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
+import adaptCreateReactApp from './steps/adapt/create-react-app';
 import bundle from './steps/bundle';
 import runRules from './steps/rules';
+import {abort} from './util';
 
 /** Default entry point for the liferay-npm-bundler */
 export default async function(argv: {version: boolean}): Promise<void> {
@@ -39,12 +42,31 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		report.rulesConfig(project.rules.config);
 		report.versionsInfo(versionsInfo);
 
-		// Do things
+		// Initialize package.json and manifest.json files
 		copyPackageJson();
 		addRootPackageToManifest(rootPkg);
-		await bundle();
-		await runRules(rootPkg);
+
+		// Run main process
+		switch (project.probe.type) {
+			case ProjectType.BUNDLER:
+				await bundle();
+				await runRules(rootPkg);
+				break;
+
+			case ProjectType.CREATE_REACT_APP:
+				await adaptCreateReactApp();
+				break;
+
+			default:
+				abort(
+					`Unsupported project type '${project.probe.type}': cannot run liferay-npm-bundler`
+				);
+		}
+
+		// Write manifest
 		saveManifest();
+
+		// Create final JAR
 		if (project.jar.supported) {
 			await createJar();
 		}
