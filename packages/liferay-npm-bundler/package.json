@@ -15,6 +15,7 @@
 		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},
 	"devDependencies": {
+		"@types/ejs": "^3.0.1",
 		"@types/escodegen": "^0.0.6",
 		"@types/estraverse": "^0.0.6",
 		"@types/estree": "^0.0.42",
@@ -23,6 +24,7 @@
 	},
 	"dependencies": {
 		"acorn": "^6.2.1",
+		"cross-spawn": "^7.0.0",
 		"ejs": "^2.6.1",
 		"escodegen": "^1.14.1",
 		"estraverse": "^4.3.0",
