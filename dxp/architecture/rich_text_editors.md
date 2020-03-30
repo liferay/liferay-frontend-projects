@@ -1,6 +1,6 @@
 # Rich Text Editors
 
-## Supported Rich Text Editors
+## Supported Editors
 
 Currently, there are three different **Rich Text Editors** supported out of the box in [Liferay DXP](https://github.com/liferay/liferay-portal):
 
