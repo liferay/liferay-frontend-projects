@@ -18,5 +18,6 @@
 				"liferay-npm-bundler": "^2.16.2"
 			}
 		}
-	}
+	},
+	"devDependencies": {}
 }
