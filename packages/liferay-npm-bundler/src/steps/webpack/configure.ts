@@ -11,6 +11,7 @@ import webpack from 'webpack';
 
 import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
+import {abort} from '../util';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config
@@ -42,6 +43,14 @@ export default function configure(): webpack.Configuration {
 		},
 		{}
 	);
+
+	if (Object.keys(webpackConfig.entry).length === 0) {
+		abort(
+			'Please configure at least one export in the project ' +
+				`(or add a 'main' entry to your package.json, or create an ` +
+				`'index.js' file in the project's folder)`
+		);
+	}
 
 	// Override output configuration
 	overrideWarn('output', webpackConfig.output);
