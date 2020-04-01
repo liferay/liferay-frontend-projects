@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-scripts",
-	"version": "28.0.2",
+	"version": "28.1.0",
 	"description": "Collection of NPM scripts used for Liferay portlets",
 	"main": "index.js",
 	"author": {
@@ -53,7 +53,7 @@
 		"liferay-lang-key-dev-loader": "^1.0.3",
 		"liferay-npm-bridge-generator": "2.18.4",
 		"liferay-npm-bundler": "2.18.4",
-		"liferay-npm-bundler-preset-liferay-dev": "4.2.5",
+		"liferay-npm-bundler-preset-liferay-dev": "4.3.0",
 		"liferay-theme-tasks": "9.4.3",
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",

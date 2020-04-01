@@ -1,3 +1,19 @@
+## [liferay-npm-scripts/v28.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v28.1.0) (2020-04-01)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.0.2...liferay-npm-scripts/v28.1.0)
+
+### :new: Features
+
+-   feat(scripts): recognize liferay-npm-bundler.config.js ([\#410](https://github.com/liferay/liferay-npm-tools/pull/410))
+
+### :wrench: Bug fixes
+
+-   fix: Make moduleNameMapper work in presence of different module structures ([\#425](https://github.com/liferay/liferay-npm-tools/pull/425))
+
+### :house: Chores
+
+-   chore: update bundler dependencies to v2.18.4 ([\#426](https://github.com/liferay/liferay-npm-tools/pull/426))
+
 ## [liferay-npm-scripts/v28.0.2](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v28.0.2) (2020-03-05)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.0.1...liferay-npm-scripts/v28.0.2)
