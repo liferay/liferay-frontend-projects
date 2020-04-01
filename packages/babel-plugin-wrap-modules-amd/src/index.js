@@ -135,9 +135,11 @@ function applyUserDefinedTemplateIfPresent(filename, defineNode, log) {
 
 	log.info('wrap-modules-amd', 'Applied user template to wrap file');
 
-	const buildUserTemplate = template(
-		fs.readFileSync(templateFile).toString()
-	);
+	const buildUserTemplate = template(`
+		(function() {
+			${fs.readFileSync(templateFile).toString()}
+		})();
+	`);
 
 	fs.unlinkSync(templateFile);
 
