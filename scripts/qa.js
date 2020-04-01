@@ -10,9 +10,21 @@ const fs = require('fs-extra');
 const path = require('path');
 const {argv} = require('yargs');
 
-const workDir = path.resolve(__dirname, '..', 'qa');
+const projectDir = path.resolve(__dirname, '..');
+const workDir = path.join(projectDir, 'qa');
 const pkgsDir = path.join(workDir, 'packages');
 const yoPath = path.join(workDir, 'node_modules', '.bin', 'yo');
+const generatorsPath = path.join(
+	projectDir,
+	'packages',
+	'generator-liferay-theme',
+	'generators'
+);
+const generatorPath = path.join(generatorsPath, 'app', 'index.js');
+const classicGeneratorPath = path.join(generatorsPath, 'classic', 'index.js');
+const adminGeneratorPath = path.join(generatorsPath, 'admin', 'index.js');
+const themeletGeneratorPath = path.join(generatorsPath, 'themelet', 'index.js');
+const layoutGeneratorPath = path.join(generatorsPath, 'layout', 'index.js');
 
 checkPrerrequisites();
 generateSamples();
@@ -52,51 +64,41 @@ function checkPrerrequisites() {
 }
 
 function generateSamples() {
-	spawn(yoPath, ['liferay-theme', '--qa'], {
+	spawn(yoPath, [generatorPath, '--qa'], {
 		cwd: pkgsDir,
 		liferayVersion: true,
 	});
 
 	spawn(
 		yoPath,
-		[
-			'liferay-theme:classic',
-			'--qa',
-			'--themeName',
-			'"Classic Based Theme"',
-		],
+		[classicGeneratorPath, '--qa', '--themeName', '"Classic Based Theme"'],
 		{cwd: pkgsDir, liferayVersion: true}
 	);
 
 	spawn(
 		yoPath,
-		['liferay-theme:admin', '--qa', '--themeName', '"Admin Based Theme"'],
+		[adminGeneratorPath, '--qa', '--themeName', '"Admin Based Theme"'],
 		{cwd: pkgsDir, liferayVersion: true}
 	);
 
-	spawn(yoPath, ['liferay-theme:themelet', '--qa'], {
+	spawn(yoPath, [themeletGeneratorPath, '--qa'], {
 		cwd: pkgsDir,
 		liferayVersion: true,
 	});
 
-	spawn(yoPath, ['liferay-theme:layout', '--qa'], {
+	spawn(yoPath, [layoutGeneratorPath, '--qa'], {
 		cwd: pkgsDir,
 		liferayVersion: true,
 	});
 
 	spawn(
 		yoPath,
-		['liferay-theme', '--qa', '--themeName', '"Theme With Layout"'],
+		[generatorPath, '--qa', '--themeName', '"Theme With Layout"'],
 		{cwd: pkgsDir, liferayVersion: true}
 	);
 	spawn(
 		yoPath,
-		[
-			'liferay-theme:layout',
-			'--qa',
-			'--layoutName',
-			'"Layout Inside Theme"',
-		],
+		[layoutGeneratorPath, '--qa', '--layoutName', '"Layout Inside Theme"'],
 		{
 			cwd: path.join(pkgsDir, 'theme-with-layout-theme'),
 			liferayVersion: true,
