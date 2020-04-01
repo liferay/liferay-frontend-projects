@@ -1,3 +1,15 @@
+## [liferay-npm-bundler-preset-dev/v4.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-dev/v4.3.0) (2020-04-01)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.2.5...liferay-npm-bundler-preset-dev/v4.3.0)
+
+### :new: Features
+
+-   feat(preset): use css-loader for ".css" files ([\#412](https://github.com/liferay/liferay-npm-tools/pull/412))
+
+### :house: Chores
+
+-   chore: update bundler dependencies to v2.18.4 ([\#426](https://github.com/liferay/liferay-npm-tools/pull/426))
+
 ## [liferay-npm-bundler-preset-liferay-dev/v4.2.5](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.2.5) (2020-02-14)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.2.4...liferay-npm-bundler-preset-liferay-dev/v4.2.5)
