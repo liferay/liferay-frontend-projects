@@ -20,10 +20,10 @@ module.exports = function() {
 	const pkgJson = project.pkgJson;
 
 	gulp.task('upgrade:dependencies', cb => {
-		this.themeConfig.setDependencies(devDependencies.default, true);
+		project.setDependencies(devDependencies.default, true);
 
 		if (pkgJson.devDependencies['liferay-font-awesome']) {
-			this.themeConfig.setDependencies(
+			project.setDependencies(
 				{
 					'liferay-font-awesome':
 						devDependencies.optional['liferay-font-awesome'],
@@ -40,7 +40,7 @@ module.exports = function() {
 	});
 
 	gulp.task('upgrade:config', () => {
-		this.themeConfig.setConfig({
+		project.themeConfig.setConfig({
 			version: '7.3',
 		});
 
