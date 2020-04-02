@@ -193,6 +193,18 @@ In all cases, [ckeditor.jsp](https://github.com/liferay/liferay-portal/blob/a983
 - [scayt plugin](https://ckeditor.com/cke4/addon/scayt): A Spell Checker as You Type plugin
 - [wsc plugin](https://ckeditor.com/cke4/addon/wsc): A Spell Checker Dialog plugin
 
+## Configuration
 
-The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
-The default WYSIWYG editor is CKEditor.
+### Editor Type
+
+In some cases, the editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/portal-impl/src/portal.properties#L5399-L5430). This, however, depends on the apps using the `liferay-editor:editor` tag providing the proper support for it.
+
+The default WYSIWYG when no specific editor is passed is `ckeditor`.
+
+### Editor Configuration
+
+Depending on the content you’re editing, you may want to modify the editor to provide a better configuration for your needs. This is done by implementing the [`EditorConfigContributor`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/portal-kernel/src/com/liferay/portal/kernel/editor/configuration/EditorConfigContributor.java#L105-L130) interface.
+
+The configuration for a given editor instance is aggregated inside [`InputEditorTag`](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/util-taglib/src/com/liferay/taglib/ui/InputEditorTag.java#L388-L392) and sent through to the specific editor being instantiated.
+
+You can read more about this in the [Modifying an Editor’s Configuration](https://portal.liferay.dev/docs/7-2/frameworks/-/knowledge_base/f/modifying-an-editors-configuration) tutorial.
