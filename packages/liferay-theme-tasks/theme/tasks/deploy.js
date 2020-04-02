@@ -29,7 +29,7 @@ function registerTasks() {
 			sequence.splice(2, 0, 'watch:teardown');
 		}
 
-		runSequence(gulp, ...sequence);
+		runSequence(...sequence);
 	});
 
 	gulp.task('deploy:docker', cb => {
@@ -60,7 +60,7 @@ function registerTasks() {
 		}
 
 		sequence.push(cb);
-		runSequence(gulp, ...sequence);
+		runSequence(...sequence);
 	});
 
 	gulp.task('deploy-live:war', cb => {

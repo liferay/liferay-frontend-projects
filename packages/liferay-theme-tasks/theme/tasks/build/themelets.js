@@ -29,7 +29,6 @@ module.exports = function() {
 
 	gulp.task('build:themelets', cb => {
 		runSequence(
-			gulp,
 			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
 			cb

@@ -34,7 +34,7 @@ module.exports = function() {
 	gulp.task('build:compile-css', cb => {
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
-		runSequence(gulp, 'build:compile-lib-sass', cb);
+		runSequence('build:compile-lib-sass', cb);
 	});
 
 	gulp.task('build:compile-lib-sass', cb => {

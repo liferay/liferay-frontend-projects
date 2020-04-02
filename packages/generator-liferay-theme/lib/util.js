@@ -4,7 +4,6 @@
  */
 
 const gulp = require('gulp');
-const gulp4RunSequence = require('gulp4-run-sequence');
 const {
 	info,
 	print,
@@ -19,8 +18,6 @@ const versions = require('./versions');
 const FIRST_SUPPORTED_VERSION =
 	versions.supported[versions.supported.length - 1];
 const LAST_SUPPORTED_VERSION = versions.supported[0];
-
-const runSequence = gulp4RunSequence.use(gulp);
 
 /**
  * Returns a normalized "kebab case" version of the supplied string, suitable
@@ -92,7 +89,7 @@ function runGulpInit() {
 
 	liferayThemeTasks.registerTasks({gulp});
 
-	runSequence('init');
+	gulp.series('init')();
 }
 
 /**

@@ -78,6 +78,6 @@ module.exports = function() {
 
 		taskArray.push(cb);
 
-		runSequence(gulp, ...taskArray);
+		runSequence(...taskArray);
 	};
 };

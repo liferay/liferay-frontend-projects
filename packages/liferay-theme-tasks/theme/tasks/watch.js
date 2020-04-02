@@ -109,7 +109,7 @@ module.exports = function() {
 		});
 
 		// Run tasks in sequence
-		runSequence(gulp, ...taskArray);
+		runSequence(...taskArray);
 	});
 
 	/**
@@ -168,7 +168,7 @@ module.exports = function() {
 
 		taskArray.push(cb);
 
-		runSequence(gulp, ...taskArray);
+		runSequence(...taskArray);
 	});
 
 	let livereload;
@@ -312,7 +312,7 @@ module.exports = function() {
 
 			taskArray.push(clearChangedFile);
 
-			runSequence(gulp, ...taskArray);
+			runSequence(...taskArray);
 		});
 	}
 

@@ -70,7 +70,6 @@ module.exports = function() {
 
 	gulp.task('build', cb => {
 		runSequence(
-			gulp,
 			'build:clean',
 			'build:base',
 			'build:src',
@@ -294,7 +293,7 @@ module.exports = function() {
 	});
 
 	gulp.task('build:war', done => {
-		runSequence(gulp, 'plugin:version', 'plugin:war', done);
+		runSequence('plugin:version', 'plugin:war', done);
 	});
 };
 
