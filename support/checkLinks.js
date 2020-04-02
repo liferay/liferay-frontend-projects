@@ -52,8 +52,8 @@ async function checkInternal(link, files) {
 		const targets = new Set();
 
 		contents.replace(/^#+\s+(.+?)\s*$/gm, (match, heading) => {
-			// To make a title anchor, GitHub:
-			// - Extracts link targets from Markdown links.
+			// To make a target anchor, GitHub:
+			// - Extracts link text from Markdown links.
 			// - Turns spaces, hyphens, commas into hyphens.
 			// - Removes backticks, colons.
 			const target = heading
