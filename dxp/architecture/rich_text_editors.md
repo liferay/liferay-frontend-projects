@@ -2,7 +2,7 @@
 
 ## Supported Editors
 
-Currently, there are three different **Rich Text Editors** supported out of the box in [Liferay DXP](https://github.com/liferay/liferay-portal):
+Currently, there are three different **Rich Text Editors** supported out-of-the-box in [Liferay DXP](https://github.com/liferay/liferay-portal):
 
 -   [AlloyEditor](https://alloyeditor.com)
 -   [CKEditor 4](https://ckeditor.com/ckeditor-4/)
@@ -16,7 +16,7 @@ Depending on the use case, your application needs likely fall in one of these ca
 
 | Rich Text Needs | Solution |
 | --- | --- |
-| No need of rich text features (bold, links...) | Use simple input elements like **`<aui:input />`** or **`<input />`** |
+| No need for rich text features (bold, links...) | Use simple input elements like **`<aui:input />`** or **`<input />`** |
 | Basic Rich Text Features (text formatting, links, images...) | Use **`<liferay-ui:input-editor />`** or the **`<Editor />`** React component
 | Contextual Inline Editing Experience (page-editing, blogs...) | Use **`<liferay-ui:input-editor type="balloon" />`** or the **`<BallonEditor />`** React component |
 
@@ -42,7 +42,7 @@ Traditionally, the most common way to instantiate a Rich Text Editor is through 
 />
 ```
 
-The provided [`EditorTag`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java) tracks available instances of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java) and [defers the rendering](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java#L65) and initialization of the Rich Text Editors to an existing registered renderer which .
+The provided [`EditorTag`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java) tracks available instances of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java) and [defers the rendering](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java#L65) and initialization of the Rich Text Editors to an existing registered renderer which `name` attribute matches the provided `editorName` value.
 
 > **Warning:** The tag `liferay-ui:input-editor` was deprecated in `DXP 7.1`. However, many [occurrences](https://github.com/liferay/liferay-portal/search?l=Java+Server+Pages&q=input-editor) might still be found. When possible, **favour the usage of `liferay-editor:editor`** over the deprecated version of the tag
 
@@ -50,7 +50,7 @@ The provided [`EditorTag`](https://github.com/liferay/liferay-portal/blob/61601e
 
 > Loads the necessary scripts and styles of an editor
 
-This tag was initially created to [Provide a new tag to be able to include input-editors Javascript alone (without the HTML)](https://issues.liferay.com/browse/LPS-78451). It allows the developer of an app to include all the necessary scripts that power a Rich Text Editor (CKEditor, TinyMCE, AlloyEditor...) so that their global APIs are later present in the `global` object for a deferred usage.
+This tag was initially created to [provide a new tag to be able to include input-editors JavaScript alone (without the HTML)](https://issues.liferay.com/browse/LPS-78451). It allows the developer of an app to include all the necessary scripts that power a Rich Text Editor (CKEditor, TinyMCE, AlloyEditor...) so that their global APIs are later present in the `global` object for a deferred usage.
 
 ```jsp
 <%@ taglib uri="http://liferay.com/tld/editor" prefix="liferay-editor" %>
@@ -67,7 +67,7 @@ const newEditor = AlloyEditor.editable(wrapperRef.current, {
 });
 ```
 
-> **Warning:** Whenever possible, analyze and use one of the new [JavaScript APIs](#JavaScript) that offer out of the box React components to integrate in your React Applications
+> **Warning:** Whenever possible, analyze and use one of the new [JavaScript APIs](#JavaScript) that offer out-of-the-box React components to integrate in your React Applications
 
 ## JavaScript
 
@@ -96,7 +96,7 @@ Please, read through our [General Guidelines](#General-Guidelines) to pick the n
 
 ## Java
 
-The following are the main 2 Java interfaces to know when dealing with Rich Text Editor in DXP
+The following are the main 2 Java interfaces to know when dealing with Rich Text Editor in DXP:
 
 ### [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java#L20-L32)
 
@@ -135,7 +135,7 @@ public class MyEditorConfigContributor extends BaseEditorConfigContributor {
 }
 ```
 
-> **Warning:** Keep in mind that Editor Config Contributors stack one on top of each other following a specificity algorithm. All Config Contributors that apply to a given editor will run over the `jsonObject` object mutating it in place in order.
+> **Warning:** Keep in mind that Editor Config Contributors stack on top of each other following a specificity algorithm. All Config Contributors that apply to a given editor will run over the `jsonObject` object mutating it in place, in order.
 
 
 The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
