@@ -176,6 +176,11 @@ function extractLinks(contents, file) {
 			links.add(link);
 			return ' ';
 		})
+		// [link text](<https://example.com>)
+		.replace(/\[[^\]\n]+\]\(<([^\s>]+)>\)/g, (_, link) => {
+			links.add(link);
+			return ' ';
+		})
 		// [link text](https://example.com)
 		.replace(/\[[^\]\n]+\]\(([^\s)]+)\)/g, (_, link) => {
 			links.add(link);
