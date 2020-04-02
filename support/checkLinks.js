@@ -49,11 +49,27 @@ async function checkInternal(link, files) {
 	for (const file of files) {
 		const contents = await readFileAsync(file, 'utf8');
 
-		const headingPattern = link.slice(1).replace(/-/g, '[ -,]+');
+		const targets = new Set();
 
-		const regExp = new RegExp(`^#+\\s+${headingPattern}\\s*$`, 'im');
+		contents.replace(/^#+\s+(.+?)\s*$/gm, (match, heading) => {
+			// To make a title anchor, GitHub:
+			// - Extracts link targets from Markdown links.
+			// - Turns spaces, hyphens, commas into hyphens.
+			// - Removes backticks, colons.
+			const target = heading
+				.replace(/^\[([^\\]+)\].*$/, (_match, text) => {
+					return text;
+				})
+				.replace(/[ -,]+/g, '-')
+				.replace(/[`:]/g, '');
 
-		if (!contents.match(regExp)) {
+			// Lowercase because the browser matches case-insensitively.
+			targets.add(target.toLowerCase());
+
+			return match;
+		});
+
+		if (!targets.has(link.slice(1).toLowerCase())) {
 			report(file, `No heading found matching internal target: ${link}`);
 		}
 	}
