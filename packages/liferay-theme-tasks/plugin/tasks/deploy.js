@@ -32,6 +32,6 @@ module.exports = function() {
 	});
 
 	gulp.task('deploy', cb => {
-		runSequence(gulp, 'build', 'plugin:deploy', cb);
+		runSequence('build', 'plugin:deploy', cb);
 	});
 };

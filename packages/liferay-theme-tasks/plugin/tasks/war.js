@@ -24,6 +24,6 @@ module.exports = function() {
 	});
 
 	gulp.task('build', done => {
-		runSequence(gulp, 'plugin:version', 'plugin:war', done);
+		runSequence('plugin:version', 'plugin:war', done);
 	});
 };

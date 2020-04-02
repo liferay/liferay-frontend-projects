@@ -112,7 +112,7 @@ module.exports = function(options) {
 
 				Object.assign(options, answers);
 
-				runSequence(gulp, ...taskArray);
+				runSequence(...taskArray);
 			}
 		);
 	};

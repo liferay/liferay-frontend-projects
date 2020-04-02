@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-const runSequence = require('gulp4-run-sequence');
 const resolve = require('resolve');
 
 class Gulp {
@@ -19,7 +18,23 @@ class Gulp {
 			}));
 		}
 
-		this._gulp.runSequence = runSequence.use(this._gulp);
+		this._gulp.runSequence = (...args) => {
+			let cb;
+
+			if (typeof args[args.length - 1] === 'function') {
+				cb = args.pop();
+			}
+
+			this._gulp.series(
+				...args.map(task => {
+					if (Array.isArray(task)) {
+						return this._gulp.parallel(...task);
+					} else {
+						return task;
+					}
+				})
+			)(cb);
+		};
 	}
 
 	get gulp() {

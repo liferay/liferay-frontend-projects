@@ -89,7 +89,7 @@ function runGulpInit() {
 
 	liferayThemeTasks.registerTasks({gulp});
 
-	gulp.start('init');
+	gulp.series('init')();
 }
 
 /**
