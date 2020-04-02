@@ -137,23 +137,62 @@ public class MyEditorConfigContributor extends BaseEditorConfigContributor {
 
 > **Warning:** Keep in mind that Editor Config Contributors stack on top of each other following a specificity algorithm. All Config Contributors that apply to a given editor will run over the `jsonObject` object mutating it in place, in order.
 
+## Anatomy of the CKEditor Module
+
+Editor implementations, are usually implemented as independent modules inside the [`frontend-editor`](https://github.com/liferay/liferay-portal/tree/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/modules/apps/frontend-editor) folder.
+
+As we're moving towards a single editor module, here's a detailed explanation of the [frontend-editor-ckeditor-web](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-editor/frontend-editor-ckeditor-web) module.
+
+### Java Services
+
+As stated in the [Java](#Java) section, one of the most important Services in Rich Text Editor modules are the public implementations of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java#L20-L32.
+
+This module exposes the following `EditorRenderer` implementations:
+
+|File|Editor Name|Extra Plugins|Description|
+|---|---|---|---|
+| [CKEditorEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorEditor.java) | ckeditor | | Default editor for HTML |
+| [CKEditorBBCodeEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorBBCodeEditor.java) | ckeditor_bbcode | [bbcode](https://github.com/liferay/liferay-portal/tree/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/_diffs/plugins/bbcode) | Editor with added [BBCode](https://en.wikipedia.org/wiki/BBCode) support for Message Boards |
+| [CKEditorCreoleEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorCreoleEditor.java) | ckeditor_creole | [creole](https://github.com/liferay/liferay-portal/tree/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/_diffs/plugins/creole) | Editor with added [Creole](https://en.wikipedia.org/wiki/Creole_(markup)) support for Wiki |
+
+### React Components
+
+As an addition to `7.3`, this module also exports some useful React components to instantiate CKEditor directly from a React Application:
+
+|File|API|Description|
+|---|---|---|
+|[Editor.js](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/editor/Editor.js)|`import {Editor} from 'frontend-editor-ckeditor-web';`|Default boxed editor|
+|[InlineEditor.js](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/editor/InlineEditor.js)|`import {InlineEditor} from 'frontend-editor-ckeditor-web';`|Inline Editor with fixed toolbar|
+
+> **Note:** The provided React components are simple wrappers around our common patched CKEditor offering. That is, they will load all the scripts and resources provided by the OSGi module rather than fetching them from CKEditor's CDN
+
+### JSPs
+
+The [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java#L20-L32) interface defines 2 important methods:
+
+#### `public String getResourcesJspPath`
+
+Defines a path to a JSP that can be rendered to include all the necessary scripts, resources and styles of an editor.
+
+This is the JSP that gets rendered when [`liferay-editor:resources`](#liferay-editor:resources) is called with `editorName="ckeditor"`.
+
+In all cases, [resources.jsp](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/resources.jsp) is used which includes the CKEditor scripts plus necessary setup and teardown general logic.
+
+#### `public String getJspPath`
+
+Defines a path to a JSP that can be rendered to instantiate an editor.
+
+This is the JSP that gets rendered when [`liferay-editor:editor`](#liferay-editor:editor) is called with `editorName="ckeditor"`.
+
+In all cases, [ckeditor.jsp](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/ckeditor.jsp) is used which includes [resources.jsp](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/resources.jsp) plus the necessary instance configuration and initialization logic.
+
+### Dependencies
+
+- [ckeditor4-react](https://github.com/ckeditor/ckeditor4-releases): Powers the React-based components that wrap up CKEditor.
+- [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor): Fork of CKEditor where we push temporary patches until they are fixed upstream
+- [scayt plugin](https://ckeditor.com/cke4/addon/scayt): A Spell Checker as You Type plugin
+- [wsc plugin](https://ckeditor.com/cke4/addon/wsc): A Spell Checker Dialog plugin
 
 
 The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
 The default WYSIWYG editor is CKEditor.
-
-# Editor locations in liferay-portal
-
-All 3 editors, are located in modules inside the [`frontend-editor`](https://github.com/liferay/liferay-portal/tree/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/modules/apps/frontend-editor) module.
-
-# Editor module structure
-
-These modules usually contain:
-
--   The frontend dependencies (usually the editor itself, e.g. CKEditor) declared in `package.json`
-
--   Frontend specific build configuration files (.npmbundlerrc, .eslintrc.js)
-
--   Java configuration classes:
-    These classes can either be used or extended to provide specific editor configuration.
-    For example, you might want your editor to have BBCode or Creole support, or you might also need certain plugins to be added or removed.
