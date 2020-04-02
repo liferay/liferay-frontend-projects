@@ -20,11 +20,11 @@ Depending on the use case, your application needs likely fall in one of these ca
 | Basic Rich Text Features (text formatting, links, images...) | Use **`<liferay-ui:input-editor />`** or the **`<Editor />`** React component
 | Contextual Inline Editing Experience (page-editing, blogs...) | Use **`<liferay-ui:input-editor type="balloon" />`** or the **`<BallonEditor />`** React component |
 
-# APIs
+## APIs
 
 Rich Text Editors in DXP offer a variety of APIs that can be used depending on the context.
 
-## JSP
+### JSP
 
 Traditionally, the most common way to instantiate a Rich Text Editor is through a [JSP](https://github.com/liferay/liferay-portal/search?l=Java+Server+Pages&q=input-editor). There's 2 main JSP APIs you can use:
 
@@ -69,7 +69,7 @@ const newEditor = AlloyEditor.editable(wrapperRef.current, {
 
 > **Warning:** Whenever possible, analyze and use one of the new [JavaScript APIs](#JavaScript) that offer out-of-the-box React components to integrate in your React Applications
 
-## JavaScript
+### JavaScript
 
 From **Liferay DXP 7.3** forward, the module [`frontend-editor-ckeditor-web`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/index.js) exposes React versions of CKEditor adapted to different scenarios:
 
@@ -94,7 +94,7 @@ Please, read through our [General Guidelines](#General-Guidelines) to pick the n
 />
 ```
 
-## Java
+### Java
 
 The following are the main 2 Java interfaces to know when dealing with Rich Text Editor in DXP:
 
@@ -136,6 +136,7 @@ public class MyEditorConfigContributor extends BaseEditorConfigContributor {
 ```
 
 > **Warning:** Keep in mind that Editor Config Contributors stack on top of each other following a specificity algorithm. All Config Contributors that apply to a given editor will run over the `jsonObject` object mutating it in place, in order.
+
 
 
 The editor that will be used can also be configured in [`portal.properties`](https://github.com/liferay/liferay-portal/blob/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/portal-impl/src/portal.properties).
