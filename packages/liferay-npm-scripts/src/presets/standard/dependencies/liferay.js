@@ -5,6 +5,7 @@
 
 module.exports = [
 	'frontend-js-metal-web',
+	'frontend-js-react-web',
 	'frontend-js-web',
 	'frontend-taglib-clay',
 	'frontend-taglib',

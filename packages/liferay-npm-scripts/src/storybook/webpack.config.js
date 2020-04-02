@@ -49,6 +49,13 @@ module.exports = async ({config}) => {
 
 	config.plugins.push(
 		new webpack.NormalModuleReplacementPlugin(
+			/frontend-js-react-web/,
+			path.join(__dirname, 'frontend-js-react-web.mock.js')
+		)
+	);
+
+	config.plugins.push(
+		new webpack.NormalModuleReplacementPlugin(
 			/frontend-js-web/,
 			path.join(__dirname, 'frontend-js-web.mock.js')
 		)
