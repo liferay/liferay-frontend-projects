@@ -14,11 +14,11 @@ If you need to use a WYSIWYG editor in your application, please identify the dif
 
 Depending on the use case, your application needs likely fall in one of these categories
 
-| Rich Text Needs | Solution |
-| --- | --- |
-| No need for rich text features (bold, links...) | Use simple input elements like **`<aui:input />`** or **`<input />`** |
-| Basic Rich Text Features (text formatting, links, images...) | Use **`<liferay-ui:input-editor />`** or the **`<Editor />`** React component
-| Contextual Inline Editing Experience (page-editing, blogs...) | Use **`<liferay-ui:input-editor type="balloon" />`** or the **`<BallonEditor />`** React component |
+| Rich Text Needs                                               | Solution                                                                                           |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| No need for rich text features (bold, links...)               | Use simple input elements like **`<aui:input />`** or **`<input />`**                              |
+| Basic Rich Text Features (text formatting, links, images...)  | Use **`<liferay-ui:input-editor />`** or the **`<Editor />`** React component                      |
+| Contextual Inline Editing Experience (page-editing, blogs...) | Use **`<liferay-ui:input-editor type="balloon" />`** or the **`<BallonEditor />`** React component |
 
 ## APIs
 
@@ -73,24 +73,22 @@ const newEditor = AlloyEditor.editable(wrapperRef.current, {
 
 From **Liferay DXP 7.3** forward, the module [`frontend-editor-ckeditor-web`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/index.js) exposes React versions of CKEditor adapted to different scenarios:
 
-| Rich Text Needs | Solution |
-| --- | --- |
-| Basic Rich Text Features (text formatting, links, images...) | Use the **`<Editor />`** React component
-| Contextual Inline Editing Experience (page-editing, blogs...) | Use the **`<BallonEditor />`** React component |
-| Default Inline Editing Experience (single fixed toolbar) | Use the **`<InlineEditor />`** React component |
+| Rich Text Needs                                               | Solution                                       |
+| ------------------------------------------------------------- | ---------------------------------------------- |
+| Basic Rich Text Features (text formatting, links, images...)  | Use the **`<Editor />`** React component       |
+| Contextual Inline Editing Experience (page-editing, blogs...) | Use the **`<BallonEditor />`** React component |
+|  Default Inline Editing Experience (single fixed toolbar)     | Use the **`<InlineEditor />`** React component |
 
 Please, read through our [General Guidelines](#General-Guidelines) to pick the necessary component for your needs and then use it accordingly:
 
 ```javascript
 <Editor
 	autoFocus={autoFocus}
-	configurationName="comment"
+	configurationName='comment'
 	id={id}
 	initialValue={textareaContent}
 	onChange={onTextareaChange}
-	placeholder={Liferay.Language.get(
-		'type-your-comment-here'
-	)}
+	placeholder={Liferay.Language.get('type-your-comment-here')}
 />
 ```
 
@@ -149,20 +147,20 @@ As stated in the [Java](#Java) section, one of the most important Services in Ri
 
 This module exposes the following `EditorRenderer` implementations:
 
-|File|Editor Name|Extra Plugins|Description|
-|---|---|---|---|
-| [CKEditorEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorEditor.java) | ckeditor | | Default editor for HTML |
-| [CKEditorBBCodeEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorBBCodeEditor.java) | ckeditor_bbcode | [bbcode](https://github.com/liferay/liferay-portal/tree/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/_diffs/plugins/bbcode) | Editor with added [BBCode](https://en.wikipedia.org/wiki/BBCode) support for Message Boards |
-| [CKEditorCreoleEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorCreoleEditor.java) | ckeditor_creole | [creole](https://github.com/liferay/liferay-portal/tree/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/_diffs/plugins/creole) | Editor with added [Creole](https://en.wikipedia.org/wiki/Creole_(markup)) support for Wiki |
+| File                                                                                                                                                                                                                                                                     | Editor Name     | Extra Plugins                                                                                                                                                                                                           | Description                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [CKEditorEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorEditor.java)             | ckeditor        |                                                                                                                                                                                                                         | Default editor for HTML                                                                      |
+| [CKEditorBBCodeEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorBBCodeEditor.java) | ckeditor_bbcode | [bbcode](https://github.com/liferay/liferay-portal/tree/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/_diffs/plugins/bbcode) | Editor with added [BBCode](https://en.wikipedia.org/wiki/BBCode) support for Message Boards  |
+| [CKEditorCreoleEditor.java](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/java/com/liferay/frontend/editor/ckeditor/web/internal/CKEditorCreoleEditor.java) | ckeditor_creole | [creole](https://github.com/liferay/liferay-portal/tree/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/_diffs/plugins/creole) | Editor with added [Creole](<https://en.wikipedia.org/wiki/Creole_(markup)>) support for Wiki |
 
 ### React Components
 
 As an addition to `7.3`, this module also exports some useful React components to instantiate CKEditor directly from a React Application:
 
-|File|API|Description|
-|---|---|---|
-|[Editor.js](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/editor/Editor.js)|`import {Editor} from 'frontend-editor-ckeditor-web';`|Default boxed editor|
-|[InlineEditor.js](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/editor/InlineEditor.js)|`import {InlineEditor} from 'frontend-editor-ckeditor-web';`|Inline Editor with fixed toolbar|
+| File                                                                                                                                                                                                                              | API                                                          | Description                      |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------- |
+| [Editor.js](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/editor/Editor.js)             | `import {Editor} from 'frontend-editor-ckeditor-web';`       | Default boxed editor             |
+| [InlineEditor.js](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/editor/InlineEditor.js) | `import {InlineEditor} from 'frontend-editor-ckeditor-web';` | Inline Editor with fixed toolbar |
 
 > **Note:** The provided React components are simple wrappers around our common patched CKEditor offering. That is, they will load all the scripts and resources provided by the OSGi module rather than fetching them from CKEditor's CDN
 
@@ -188,10 +186,10 @@ In all cases, [ckeditor.jsp](https://github.com/liferay/liferay-portal/blob/a983
 
 ### Dependencies
 
-- [ckeditor4-react](https://github.com/ckeditor/ckeditor4-releases): Powers the React-based components that wrap up CKEditor.
-- [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor): Fork of CKEditor where we push temporary patches until they are fixed upstream
-- [scayt plugin](https://ckeditor.com/cke4/addon/scayt): A Spell Checker as You Type plugin
-- [wsc plugin](https://ckeditor.com/cke4/addon/wsc): A Spell Checker Dialog plugin
+-   [ckeditor4-react](https://github.com/ckeditor/ckeditor4-releases): Powers the React-based components that wrap up CKEditor.
+-   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor): Fork of CKEditor where we push temporary patches until they are fixed upstream
+-   [scayt plugin](https://ckeditor.com/cke4/addon/scayt): A Spell Checker as You Type plugin
+-   [wsc plugin](https://ckeditor.com/cke4/addon/wsc): A Spell Checker Dialog plugin
 
 ## Configuration
 
