@@ -383,39 +383,39 @@ function option(name) {
 
 const V_PREFIX_REGEX = /^v\d/;
 
-	//  Regex to take a version number and extract:
-	//
-	//  1. Package name prefix (if present).
-	//  2. "v" (if present).
-	//  3. Valid semver version.
-	//
-	//  Examples
-	//
-	//      package-name/v1.2.3-alpha.1+build.10
-	//      =>  name: "package-name/"
-	//          v: "v"
-	//          semver version: "1.2.3-alpha.1+build.10"
-	//
-	//      package-name/1.2.3-alpha.1+build.10
-	//      =>  name: "package-name/"
-	//          v: undefined
-	//          semver version: "1.2.3-alpha.1+build.10"
-	//
-	//      v1.2.3-alpha.1+build.10
-	//      =>  name: "",
-	//          v: "v"
-	//          semver version: "1.2.3-alpha.1+build.10"
-	//
-	//      1.2.3-alpha.1+build.10
-	//      =>  name: "",
-	//          v: undefined,
-	//          semver version: "1.2.3-alpha.1+build.10"
-	//
-	// If semver version is not valid, behavior is undefined. :troll:
-	//
-	// See: https://semver.org/
-	//
-	const VERSION_REGEX = /^(.*?)(\bv)?(\d+\.\d+\.\d+(?:-[0-9a-z-]+(?:\.[0-9a-z-]+)*)?(?:\+[0-9a-z-]+(?:\.[0-9a-z-]+)*)?)$/i;
+//  Regex to take a version number and extract:
+//
+//  1. Package name prefix (if present).
+//  2. "v" (if present).
+//  3. Valid semver version.
+//
+//  Examples
+//
+//      package-name/v1.2.3-alpha.1+build.10
+//      =>  name: "package-name/"
+//          v: "v"
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+//      package-name/1.2.3-alpha.1+build.10
+//      =>  name: "package-name/"
+//          v: undefined
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+//      v1.2.3-alpha.1+build.10
+//      =>  name: "",
+//          v: "v"
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+//      1.2.3-alpha.1+build.10
+//      =>  name: "",
+//          v: undefined,
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+// If semver version is not valid, behavior is undefined. :troll:
+//
+// See: https://semver.org/
+//
+const VERSION_REGEX = /^(.*?)(\bv)?(\d+\.\d+\.\d+(?:-[0-9a-z-]+(?:\.[0-9a-z-]+)*)?(?:\+[0-9a-z-]+(?:\.[0-9a-z-]+)*)?)$/i;
 
 /**
  * Make sure `version` starts with the appropriate prefix:
