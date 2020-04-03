@@ -96,8 +96,8 @@ async function checkLocal(link, files) {
 }
 
 function checkRemote(link, files) {
-	return new Promise(resolve => {
-		const bail = problem => {
+	return new Promise((resolve) => {
+		const bail = (problem) => {
 			report(files, problem);
 			resolve();
 		};
@@ -111,6 +111,7 @@ function checkRemote(link, files) {
 			hostname === '::1'
 		) {
 			resolve();
+
 			return;
 		}
 
@@ -130,7 +131,7 @@ function checkRemote(link, files) {
 			}
 		);
 
-		request.on('error', error => {
+		request.on('error', (error) => {
 			// Trim stack trace.
 			const text = error.toString().split(/\n/)[0];
 
@@ -144,7 +145,7 @@ async function enqueueFile(file, pending) {
 
 	const links = extractLinks(contents, file);
 
-	links.forEach(link => {
+	links.forEach((link) => {
 		if (!pending.has(link)) {
 			pending.set(link, new Set());
 		}
@@ -168,42 +169,50 @@ function extractLinks(contents, file) {
 			(_, reference, target) => {
 				definitions.add(reference);
 				links.add(target);
+
 				return ' ';
 			}
 		)
 		// [link text](https://example.com a title)
 		.replace(/\[[^\]\n]+\]\(([^\s)]+) [^)\n]+\)/g, (_, link) => {
 			links.add(link);
+
 			return ' ';
 		})
 		// [link text](<https://example.com>)
 		.replace(/\[[^\]\n]+\]\(<([^\s>]+)>\)/g, (_, link) => {
 			links.add(link);
+
 			return ' ';
 		})
 		// [link text](https://example.com)
 		.replace(/\[[^\]\n]+\]\(([^\s)]+)\)/g, (_, link) => {
 			links.add(link);
+
 			return ' ';
 		})
 		// [link text][reference]
 		.replace(/\[[^\]\n]+\]\[([^\]\n]+)\]/g, (_, reference) => {
 			references.add(reference);
+
 			return ' ';
 		})
 		// [link text]
 		.replace(/\[([^\]\n]+)\]g/, (_, reference) => {
 			references.add(reference);
+
 			return ' ';
 		})
 		// <http://www.example.com>
 		.replace(new RegExp(`<(${URL_PATTERN.source})>`, 'gi'), (_, url) => {
 			links.add(url);
+
 			return ' ';
 		})
 		// http://www.example.com
-		.replace(URL_PATTERN, url => {
+		.replace(URL_PATTERN, (url) => {
 			links.add(url);
+
 			return ' ';
 		});
 
@@ -257,7 +266,7 @@ async function run(pending) {
 function report(bad, message) {
 	const files = typeof bad === 'string' ? [bad] : [...bad];
 
-	files.forEach(file => {
+	files.forEach((file) => {
 		errorCount++;
 		console.error(`${file}: ${message}`);
 	});
@@ -286,7 +295,7 @@ async function* walk(directory) {
 }
 
 main()
-	.catch(error => {
+	.catch((error) => {
 		errorCount++;
 		console.error(error);
 	})
