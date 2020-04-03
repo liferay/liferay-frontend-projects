@@ -143,7 +143,7 @@ As we're moving towards a single editor module, here's a detailed explanation of
 
 ### Java Services
 
-As stated in the [Java](#Java) section, one of the most important Services in Rich Text Editor modules are the public implementations of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java#L20-L32.
+As stated in the [Java](#Java) section, one of the most important Services in Rich Text Editor modules are the public implementations of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java#L20-L32).
 
 This module exposes the following `EditorRenderer` implementations:
 
