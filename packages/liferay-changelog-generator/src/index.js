@@ -452,6 +452,7 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 	if (!match) {
 		if (force) {
 			warn(`Version "${version}" does not match expected pattern`);
+
 			return version;
 		} else {
 			warn(
