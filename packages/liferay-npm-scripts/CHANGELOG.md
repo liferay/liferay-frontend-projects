@@ -1,3 +1,23 @@
+## [liferay-npm-scripts/v29.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v29.0.0) (2020-04-03)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.1.0...liferay-npm-scripts/v29.0.0)
+
+### :boom: Breaking changes
+
+-   chore(scripts)!: update eslint-config-liferay to v20.0.1 ([\#429](https://github.com/liferay/liferay-npm-tools/pull/429))
+
+### :new: Features
+
+-   feat: add 'frontend-js-react-web' mock js to Storybook config files ([\#427](https://github.com/liferay/liferay-npm-tools/pull/427))
+
+### :book: Documentation
+
+-   docs(scripts): document how "build" preset values are used ([\#428](https://github.com/liferay/liferay-npm-tools/pull/428))
+
+### :house: Chores
+
+-   chore(scripts)!: update eslint-config-liferay to v20.0.1 ([\#429](https://github.com/liferay/liferay-npm-tools/pull/429))
+
 ## [liferay-npm-scripts/v28.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v28.1.0) (2020-04-01)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.0.2...liferay-npm-scripts/v28.1.0)
