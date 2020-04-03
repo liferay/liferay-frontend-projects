@@ -77,6 +77,7 @@ module.exports = {
 			} else if (
 				(node.type === 'ExportNamedDeclaration' ||
 					node.type === 'ExportAllDeclaration') &&
+				node.source &&
 				(node.source.type === 'Literal' ||
 					node.source.type === 'TemplateLiteral')
 			) {
