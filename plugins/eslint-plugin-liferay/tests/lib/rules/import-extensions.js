@@ -155,5 +155,17 @@ ruleTester.run('import-extensions', rule, {
 		{
 			code: `const billboard = not_a_require('billboard.js');`,
 		},
+		{
+			// Regression discovered here:
+			//
+			// https://github.com/liferay/liferay-npm-tools/pull/429#issuecomment-608451060
+			//
+			// Can't assume that all exports have a source.
+			code: `
+				const foo = 1;
+
+				export {foo};
+			`,
+		},
 	],
 });
