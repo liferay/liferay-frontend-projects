@@ -195,66 +195,6 @@ function escape(string) {
 		.replace(/>/g, '&gt;');
 }
 
-/**
- * Returns a tag pattern that can be passed to `git describe` to select the
- * appropriate tag.
- *
- * If we're being run from a "packages/$PACKAGE" subdirectory in a
- * monorepo and a ".yarnrc" file exists, we use its "version-tag-prefix" to
- * construct a suitable pattern (eg. "some-package/v*").
- *
- * If we can't get a "version-tag-prefix", or if we're being run from the repo
- * root, we use a fallback pattern of "*", which will match any tag.
- *
- * It none of the above apply (eg. because we're not being run from the repo
- * root), an error is thrown.
- */
-async function getTagPattern() {
-	const root = (await git('rev-parse', '--show-toplevel')).trim();
-
-	const cwd = process.cwd();
-
-	const basename = path.basename(cwd);
-
-	const project = path.join(root, 'packages', basename);
-
-	if (cwd === project) {
-		try {
-			const contents = await readFileAsync(
-				path.join(cwd, '.yarnrc'),
-				'utf8'
-			);
-
-			let prefix;
-
-			contents.split(/\r\n|\r|\n/).find(line => {
-				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
-
-				if (match) {
-					prefix = match[1];
-
-					return true;
-				}
-			});
-
-			if (prefix) {
-				return `${prefix}*`;
-			}
-		} catch (_error) {
-			// No readable .yarnrc.
-		}
-	} else if (cwd !== root) {
-		throw new Error(
-			`Expected to run from repo root (${path.relative(
-				cwd,
-				root
-			)}) or "packages/*" but was run from ${cwd}`
-		);
-	}
-
-	return '*';
-}
-
 function linkToComparison(from, to, remote) {
 	if (remote && from) {
 		return `[Full changelog](${remote}/compare/${from}...${to})`;
@@ -441,47 +381,122 @@ function option(name) {
 	}
 }
 
-const NUMBER_PREFIX_REGEX = /^\d/;
 const V_PREFIX_REGEX = /^v\d/;
 
+//  Regex to take a version number and extract:
+//
+//  1. Package name prefix (if present).
+//  2. "v" (if present).
+//  3. Valid semver version.
+//
+//  Examples
+//
+//      package-name/v1.2.3-alpha.1+build.10
+//      =>  name: "package-name/"
+//          v: "v"
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+//      package-name/1.2.3-alpha.1+build.10
+//      =>  name: "package-name/"
+//          v: undefined
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+//      v1.2.3-alpha.1+build.10
+//      =>  name: "",
+//          v: "v"
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+//      1.2.3-alpha.1+build.10
+//      =>  name: "",
+//          v: undefined,
+//          semver version: "1.2.3-alpha.1+build.10"
+//
+// If semver version is not valid, behavior is undefined. :troll:
+//
+// See: https://semver.org/
+//
+const VERSION_REGEX = /^(.*?)(\bv)?(\d+\.\d+\.\d+(?:-[0-9a-z-]+(?:\.[0-9a-z-]+)*)?(?:\+[0-9a-z-]+(?:\.[0-9a-z-]+)*)?)$/i;
+
 /**
- * Make sure `version` starts with "v", if that's the convention in this
- * project, and vice versa: remove an unwanted prefix, if that is not the
- * convention.
+ * Make sure `version` starts with the appropriate prefix:
+ *
+ * - "some-tag-prefix/v" read from a `.yarnrc` file (if present); or:
+ * - "v", if that's the convention in the current project; or vice versa:
+ * - not "v" (ie. remove an unwanted prefix), if that is not the
+ *   convention.
  */
-async function normalizeVersion(version, {force}) {
-	const tags = (await git('tag', '-l')).trim().split('\n');
+async function normalizeVersion(version, {force}, versionTagPrefix) {
+	let prefix = '';
 
-	// Calculate a "coefficient" that reflects the likelihood that this repo
-	// uses a "v" prefix by convention.
-	const coefficient = tags.reduce((current, tag) => {
-		return current + (V_PREFIX_REGEX.test(tag) ? 1 : -1);
-	}, 0);
+	if (versionTagPrefix) {
+		// We know the desired prefix (from the .yarnrc).
+		prefix = versionTagPrefix;
+	} else {
+		// Try to guess the right prefix ("v" or nothing) based on existing
+		// tags.
+		const tags = (await git('tag', '-l')).trim().split('\n');
 
-	const hasPrefix = V_PREFIX_REGEX.test(version);
-	const hasNumber = NUMBER_PREFIX_REGEX.test(version);
+		// Calculate a "coefficient" that reflects the likelihood that
+		// this repo uses a "v" prefix by convention.
+		const coefficient = tags.reduce((current, tag) => {
+			return current + (V_PREFIX_REGEX.test(tag) ? 1 : -1);
+		}, 0);
 
-	if (coefficient > 0 && !hasPrefix) {
-		if (force || !hasNumber) {
-			warn(`Version "${version}" is missing expected "v" prefix`);
+		if (coefficient > 0) {
+			prefix = 'v';
+		}
+	}
+
+	const match = version.match(VERSION_REGEX);
+
+	if (!match) {
+		if (force) {
+			warn(`Version "${version}" does not match expected pattern`);
+
+			return version;
 		} else {
 			warn(
-				`Adding expected "v" prefix to version "${version}"`,
-				'use --force to disable this coercion'
+				`Version "${version}" does not match expected pattern`,
+				'run again with --force to proceed anyway'
 			);
 
-			return `v${version}`;
+			throw new Error('Unexpected version format');
 		}
-	} else if (coefficient < 0 && hasPrefix) {
-		if (force) {
-			warn(`Version "${version}" has unexpected "v" prefix`);
-		} else if (version.length > 1) {
-			warn(
-				`Removing unexpected "v" prefix from "${version}"`,
-				'use --force to disable this coercion'
-			);
+	}
 
-			return version.slice(1);
+	const name = match[1];
+	const v = match[2] || '';
+	const semver = match[3];
+
+	if (prefix) {
+		if (prefix !== name + v) {
+			if (force) {
+				warn(
+					`Version "${version}" is missing expected "${prefix}" prefix`
+				);
+			} else {
+				warn(
+					`Replacing unexpected "${name}${v}" prefix with expected "${prefix}" prefix in version "${version}"`,
+					'use --force to disable this coercion'
+				);
+
+				return `${prefix}${semver}`;
+			}
+		}
+	} else {
+		if (name || v) {
+			if (force) {
+				warn(
+					`Version "${version}" has unexpected "${name}${v}" prefix`
+				);
+			} else {
+				warn(
+					`Removing unexpected "${name}${v}" prefix from "${version}"`,
+					'use --force to disable this coercion'
+				);
+
+				return semver;
+			}
 		}
 	}
 
@@ -598,6 +613,66 @@ async function generate({date, from, remote, to, version}) {
 	);
 }
 
+/**
+ * Returns a tag prefix that can be used to construct or find a version tag.
+ *
+ * -   If we're being run from a "packages/$PACKAGE" subdirectory in a
+ *     monorepo and a ".yarnrc" file exists, we return its "version-tag-prefix".
+ *
+ *     For example, given a prefix of "my-package/v", then we can find matching
+ *     tags using `git-describe`--match='my-package/v*'".
+ *
+ * -   If we can't get a "version-tag-prefix", or if we're being run from the repo
+ *     root, we use a fallback prefix of "".
+ *
+ *     With the fallback prefix of "", we can find matching tags using
+ *     `git-describe --match='*'`.
+ *
+ * It none of the above apply (eg. because we're not being run from the repo
+ * root), an error is thrown.
+ */
+async function getVersionTagPrefix() {
+	const root = (await git('rev-parse', '--show-toplevel')).trim();
+
+	const cwd = process.cwd();
+
+	const basename = path.basename(cwd);
+
+	const project = path.join(root, 'packages', basename);
+
+	let prefix;
+
+	if (cwd === project) {
+		try {
+			const contents = await readFileAsync(
+				path.join(cwd, '.yarnrc'),
+				'utf8'
+			);
+
+			contents.split(/\r\n|\r|\n/).find(line => {
+				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
+
+				if (match) {
+					prefix = match[1];
+
+					return true;
+				}
+			});
+		} catch (_error) {
+			// No readable .yarnrc.
+		}
+	} else if (cwd !== root) {
+		throw new Error(
+			`Expected to run from repo root (${path.relative(
+				cwd,
+				root
+			)}) or "packages/*" but was run from ${cwd}`
+		);
+	}
+
+	return prefix || '';
+}
+
 async function main(_node, _script, ...args) {
 	const options = parseArgs(args);
 	if (!options) {
@@ -622,9 +697,15 @@ async function main(_node, _script, ...args) {
 		}
 	}
 
-	const tagPattern = await getTagPattern();
+	const versionTagPrefix = await getVersionTagPrefix();
 
-	const version = await normalizeVersion(options.version, options);
+	const tagPattern = `${versionTagPrefix}*`;
+
+	const version = await normalizeVersion(
+		options.version,
+		options,
+		versionTagPrefix
+	);
 
 	const remote = await getRemote(options);
 	let from = await getPreviousReleasedVersion(to, tagPattern);
