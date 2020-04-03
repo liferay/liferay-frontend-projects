@@ -1,3 +1,23 @@
+## [v20.0.0](https://github.com/liferay/eslint-config-liferay/tree/v20.0.0) (2020-03-27)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v19.0.2...v20.0.0)
+
+### :new: Features
+
+-   feat: teach "liferay/import-extensions" to check re-exports as well ([\#165](https://github.com/liferay/eslint-config-liferay/pull/165))
+
+### :wrench: Bug fixes
+
+-   fix(no-explicit-extend): avoid whitespace damage ([\#162](https://github.com/liferay/eslint-config-liferay/pull/162))
+
+### :book: Documentation
+
+-   docs: update CHANGELOG with new version of liferay-changelog-generator ([\#156](https://github.com/liferay/eslint-config-liferay/pull/156))
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate from Travis CI to GitHub actions ([\#167](https://github.com/liferay/eslint-config-liferay/pull/167))
+
 ## [v19.0.2](https://github.com/liferay/eslint-config-liferay/tree/v19.0.2) (2020-02-24)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v19.0.1...v19.0.2)
