@@ -505,6 +505,7 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 
 function parseArgs(args) {
 	const options = {
+		dryRun: false,
 		outfile: './CHANGELOG.md',
 		to: 'HEAD',
 		updateTags: true,
@@ -512,6 +513,13 @@ function parseArgs(args) {
 
 	let match;
 	args.forEach(arg => {
+		match = arg.match(option('dry-run|d'));
+		if (match) {
+			options.dryRun = true;
+
+			return;
+		}
+
 		match = arg.match(option('force|f'));
 		if (match) {
 			options.force = true;
@@ -745,7 +753,11 @@ async function main(_node, _script, ...args) {
 			from = previousVersion;
 		}
 
-		await writeFileAsync(outfile, contents);
+		if (options.dryRun) {
+			process.stdout.write(contents + '\n');
+		} else {
+			await writeFileAsync(outfile, contents);
+		}
 		written = contents.length;
 	} else {
 		let previousContents = '';
@@ -774,11 +786,21 @@ async function main(_node, _script, ...args) {
 		const newContents = [contents, previousContents]
 			.filter(Boolean)
 			.join('\n');
-		await writeFileAsync(outfile, newContents);
+
+		if (options.dryRun) {
+			process.stdout.write(contents + '\n');
+		} else {
+			await writeFileAsync(outfile, newContents);
+		}
+
 		written = newContents.length;
 	}
 
-	info(`Wrote ${outfile} ${written} bytes ✨`);
+	if (options.dryRun) {
+		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
+	} else {
+		info(`Wrote ${outfile} ${written} bytes ✨`);
+	}
 }
 
 module.exports = main;
