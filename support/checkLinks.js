@@ -111,6 +111,7 @@ function checkRemote(link, files) {
 			hostname === '::1'
 		) {
 			resolve();
+
 			return;
 		}
 
@@ -168,42 +169,50 @@ function extractLinks(contents, file) {
 			(_, reference, target) => {
 				definitions.add(reference);
 				links.add(target);
+
 				return ' ';
 			}
 		)
 		// [link text](https://example.com a title)
 		.replace(/\[[^\]\n]+\]\(([^\s)]+) [^)\n]+\)/g, (_, link) => {
 			links.add(link);
+
 			return ' ';
 		})
 		// [link text](<https://example.com>)
 		.replace(/\[[^\]\n]+\]\(<([^\s>]+)>\)/g, (_, link) => {
 			links.add(link);
+
 			return ' ';
 		})
 		// [link text](https://example.com)
 		.replace(/\[[^\]\n]+\]\(([^\s)]+)\)/g, (_, link) => {
 			links.add(link);
+
 			return ' ';
 		})
 		// [link text][reference]
 		.replace(/\[[^\]\n]+\]\[([^\]\n]+)\]/g, (_, reference) => {
 			references.add(reference);
+
 			return ' ';
 		})
 		// [link text]
 		.replace(/\[([^\]\n]+)\]g/, (_, reference) => {
 			references.add(reference);
+
 			return ' ';
 		})
 		// <http://www.example.com>
 		.replace(new RegExp(`<(${URL_PATTERN.source})>`, 'gi'), (_, url) => {
 			links.add(url);
+
 			return ' ';
 		})
 		// http://www.example.com
 		.replace(URL_PATTERN, url => {
 			links.add(url);
+
 			return ' ';
 		});
 
