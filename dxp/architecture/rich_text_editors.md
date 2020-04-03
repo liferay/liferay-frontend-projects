@@ -111,7 +111,7 @@ public class CKEditorEditor implements Editor, EditorRenderer {
 }
 ```
 
-You can read more about this API in the Rich Text Editor [Anatomy](#Anatomy) section.
+You can read more about this API below.
 
 ### [`EditorConfigContributor`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/portal-kernel/src/com/liferay/portal/kernel/editor/configuration/EditorConfigContributor.java#L105-L130)
 
@@ -172,7 +172,7 @@ The [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b6
 
 Defines a path to a JSP that can be rendered to include all the necessary scripts, resources and styles of an editor.
 
-This is the JSP that gets rendered when [`liferay-editor:resources`](#liferay-editor:resources) is called with `editorName="ckeditor"`.
+This is the JSP that gets rendered when [`liferay-editor:resources`](#liferay-editorresources) is called with `editorName="ckeditor"`.
 
 In all cases, [resources.jsp](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/resources.jsp) is used which includes the CKEditor scripts plus necessary setup and teardown general logic.
 
@@ -180,7 +180,7 @@ In all cases, [resources.jsp](https://github.com/liferay/liferay-portal/blob/a98
 
 Defines a path to a JSP that can be rendered to instantiate an editor.
 
-This is the JSP that gets rendered when [`liferay-editor:editor`](#liferay-editor:editor) is called with `editorName="ckeditor"`.
+This is the JSP that gets rendered when [`liferay-editor:editor`](#liferay-editoreditor) is called with `editorName="ckeditor"`.
 
 In all cases, [ckeditor.jsp](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/ckeditor.jsp) is used which includes [resources.jsp](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/modules/apps/frontend-editor/frontend-editor-ckeditor-web/src/main/resources/META-INF/resources/resources.jsp) plus the necessary instance configuration and initialization logic.
 
