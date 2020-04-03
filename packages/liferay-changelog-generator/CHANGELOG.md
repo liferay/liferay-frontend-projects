@@ -1,3 +1,17 @@
+## [liferay-changelog-generator/v1.4.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-changelog-generator/v1.4.0) (2020-04-03)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-changelog-generator/v1.3.0...liferay-changelog-generator/v1.4.0)
+
+### :new: Features
+
+-   feat(changelog): add --dry-run switch ([\#431](https://github.com/liferay/liferay-npm-tools/pull/431))
+-   feat(changelog): use version-tag-prefix automatically ([\#430](https://github.com/liferay/liferay-npm-tools/pull/430))
+
+### :book: Documentation
+
+-   docs(changelog): add FAQ section to changelog generator README ([\#404](https://github.com/liferay/liferay-npm-tools/pull/404))
+-   docs(changelog): remove stale "Known limitations" section from README ([\#401](https://github.com/liferay/liferay-npm-tools/pull/401))
+
 ## [liferay-changelog-generator/v1.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-changelog-generator/v1.3.0) (2020-03-02)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-changelog-generator/v1.2.0...liferay-changelog-generator/v1.3.0)
