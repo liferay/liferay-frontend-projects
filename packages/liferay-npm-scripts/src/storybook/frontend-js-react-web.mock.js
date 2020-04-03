@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const react = require('react');
+const React = require('react');
 
 module.exports = {
 	usePrevious: value => {
-		const ref = react.useRef();
-		react.useEffect(() => {
+		const ref = React.useRef();
+
+		React.useEffect(() => {
 			ref.current = value;
 		});
 
