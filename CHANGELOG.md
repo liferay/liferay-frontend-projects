@@ -1,3 +1,11 @@
+## [v20.0.1](https://github.com/liferay/eslint-config-liferay/tree/v20.0.1) (2020-04-03)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v20.0.0...v20.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(import-extensions): handle exports without sources ([\#168](https://github.com/liferay/eslint-config-liferay/pull/168))
+
 ## [v20.0.0](https://github.com/liferay/eslint-config-liferay/tree/v20.0.0) (2020-03-27)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v19.0.2...v20.0.0)
