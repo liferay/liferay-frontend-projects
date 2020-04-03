@@ -14,11 +14,11 @@ If you need to use a WYSIWYG editor in your application, please identify the dif
 
 Depending on the use case, your application needs likely fall in one of these categories
 
-| Rich Text Needs                                               | Solution                                                                                           |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| No need for rich text features (bold, links...)               | Use simple input elements like **`<aui:input />`** or **`<input />`**                              |
-| Basic Rich Text Features (text formatting, links, images...)  | Use **`<liferay-ui:input-editor />`** or the **`<Editor />`** React component                      |
-| Contextual Inline Editing Experience (page-editing, blogs...) | Use **`<liferay-ui:input-editor type="balloon" />`** or the **`<BallonEditor />`** React component |
+| Rich Text Needs                                               | Solution                                                                                                        |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| No need for rich text features (bold, links...)               | Use simple input elements like **`<aui:input />`** or **`<input />`**                                           |
+| Basic Rich Text Features (text formatting, links, images...)  | Use **`<liferay-ui:input-editor />`** (deprecated) or the **`<Editor />`** React component                      |
+| Contextual Inline Editing Experience (page-editing, blogs...) | Use **`<liferay-ui:input-editor type="balloon" />`** (deprecated) or the **`<BallonEditor />`** React component |
 
 ## APIs
 
@@ -26,7 +26,7 @@ Rich Text Editors in DXP offer a variety of APIs that can be used depending on t
 
 ### JSP
 
-Traditionally, the most common way to instantiate a Rich Text Editor is through a [JSP](https://github.com/liferay/liferay-portal/search?l=Java+Server+Pages&q=input-editor). There's 2 main JSP APIs you can use:
+Traditionally, the most common way to instantiate a Rich Text Editor is through a [JSP](https://github.com/liferay/liferay-portal/search?l=Java+Server+Pages&q=input-editor). There are 2 main JSP APIs you can use:
 
 #### [`liferay-editor:editor`](https://github.com/liferay/liferay-portal/blob/5541574134ec571532683f18408ae3b68c484f3b/modules/apps/frontend-editor/frontend-editor-taglib/src/main/resources/META-INF/liferay-editor.tld#L12-L162)
 
@@ -42,7 +42,7 @@ Traditionally, the most common way to instantiate a Rich Text Editor is through 
 />
 ```
 
-The provided [`EditorTag`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java) tracks available instances of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java) and [defers the rendering](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java#L65) and initialization of the Rich Text Editors to an existing registered renderer which `name` attribute matches the provided `editorName` value.
+The provided [`EditorTag`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java) tracks available instances of [`EditorRenderer`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-api/src/main/java/com/liferay/frontend/editor/EditorRenderer.java) and [defers the rendering](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/modules/apps/frontend-editor/frontend-editor-taglib/src/main/java/com/liferay/frontend/editor/taglib/servlet/taglib/EditorTag.java#L65) and initialization of the Rich Text Editors to an existing registered renderer whose `name` attribute matches the provided `editorName` value.
 
 > **Warning:** The tag `liferay-ui:input-editor` was deprecated in `DXP 7.1`. However, many [occurrences](https://github.com/liferay/liferay-portal/search?l=Java+Server+Pages&q=input-editor) might still be found. When possible, **favour the usage of `liferay-editor:editor`** over the deprecated version of the tag
 
@@ -77,7 +77,7 @@ From **Liferay DXP 7.3** forward, the module [`frontend-editor-ckeditor-web`](ht
 | ------------------------------------------------------------- | ---------------------------------------------- |
 | Basic Rich Text Features (text formatting, links, images...)  | Use the **`<Editor />`** React component       |
 | Contextual Inline Editing Experience (page-editing, blogs...) | Use the **`<BallonEditor />`** React component |
-|  Default Inline Editing Experience (single fixed toolbar)     | Use the **`<InlineEditor />`** React component |
+| Default Inline Editing Experience (single fixed toolbar)      | Use the **`<InlineEditor />`** React component |
 
 Please, read through our [General Guidelines](#General-Guidelines) to pick the necessary component for your needs and then use it accordingly:
 
@@ -117,7 +117,7 @@ You can read more about this API below.
 
 > Provides an interface for setting the editor's configuration
 
-Currently, you can implement `EditorConfigContributor` to [Modify an Editor’s Configuration](https://portal.liferay.dev/docs/7-0/tutorials/-/knowledge_base/t/modifying-an-editors-configuration).
+Currently, you can implement `EditorConfigContributor` to [Modify an Editor's Configuration](https://portal.liferay.dev/docs/7-0/tutorials/-/knowledge_base/t/modifying-an-editors-configuration).
 
 ```java
 @Component(
@@ -137,7 +137,7 @@ public class MyEditorConfigContributor extends BaseEditorConfigContributor {
 
 ## Anatomy of the CKEditor Module
 
-Editor implementations, are usually implemented as independent modules inside the [`frontend-editor`](https://github.com/liferay/liferay-portal/tree/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/modules/apps/frontend-editor) folder.
+Editor implementations are usually implemented as independent modules inside the [`frontend-editor`](https://github.com/liferay/liferay-portal/tree/7a8b847a3f3e8bc649d94cb80248623ea2bde5a2/modules/apps/frontend-editor) folder.
 
 As we're moving towards a single editor module, here's a detailed explanation of the [frontend-editor-ckeditor-web](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-editor/frontend-editor-ckeditor-web) module.
 
@@ -187,9 +187,9 @@ In all cases, [ckeditor.jsp](https://github.com/liferay/liferay-portal/blob/a983
 ### Dependencies
 
 -   [ckeditor4-react](https://github.com/ckeditor/ckeditor4-releases): Powers the React-based components that wrap up CKEditor.
--   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor): Fork of CKEditor where we push temporary patches until they are fixed upstream
--   [scayt plugin](https://ckeditor.com/cke4/addon/scayt): A Spell Checker as You Type plugin
--   [wsc plugin](https://ckeditor.com/cke4/addon/wsc): A Spell Checker Dialog plugin
+-   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor): Fork of CKEditor where we push temporary patches until they are fixed upstream.
+-   [scayt plugin](https://ckeditor.com/cke4/addon/scayt): A Spell Checker as You Type plugin.
+-   [wsc plugin](https://ckeditor.com/cke4/addon/wsc): A Spell Checker Dialog plugin.
 
 ## Configuration
 
@@ -201,8 +201,8 @@ The default WYSIWYG when no specific editor is passed is `ckeditor`.
 
 ### Editor Configuration
 
-Depending on the content you’re editing, you may want to modify the editor to provide a better configuration for your needs. This is done by implementing the [`EditorConfigContributor`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/portal-kernel/src/com/liferay/portal/kernel/editor/configuration/EditorConfigContributor.java#L105-L130) interface.
+Depending on the content you're editing, you may want to modify the editor to provide a better configuration for your needs. This is done by implementing the [`EditorConfigContributor`](https://github.com/liferay/liferay-portal/blob/61601e89b64240db742eceaf82e86460620bcd97/portal-kernel/src/com/liferay/portal/kernel/editor/configuration/EditorConfigContributor.java#L105-L130) interface.
 
 The configuration for a given editor instance is aggregated inside [`InputEditorTag`](https://github.com/liferay/liferay-portal/blob/a98356e81c2b97c152ee28ab23fcbac8d55bb36d/util-taglib/src/com/liferay/taglib/ui/InputEditorTag.java#L388-L392) and sent through to the specific editor being instantiated.
 
-You can read more about this in the [Modifying an Editor’s Configuration](https://portal.liferay.dev/docs/7-2/frameworks/-/knowledge_base/f/modifying-an-editors-configuration) tutorial.
+You can read more about this in the [Modifying an Editor's Configuration](https://portal.liferay.dev/docs/7-2/frameworks/-/knowledge_base/f/modifying-an-editors-configuration) tutorial.
