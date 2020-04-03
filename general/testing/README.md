@@ -129,7 +129,7 @@ By creating small, targeted `it()` blocks:
 Instead of:
 
 ```javascript
-['left', 'right', 'center'].forEach(position => {
+['left', 'right', 'center'].forEach((position) => {
 	describe(`positioning controls at the ${position}`, () => {
 		it('has a matching position property', () => {
 			expect(getControl(position).position).toBe(position);

@@ -53,11 +53,11 @@ import {debounce, throttle} from 'frontend-js-web';
 
 const INTERVAL_MS = 100;
 
-const handleResize = throttle(event => {
+const handleResize = throttle((event) => {
 	/* handler logic */
 }, INTERVAL_MS);
 
-const handleChange = debounce(event => {
+const handleChange = debounce((event) => {
 	/* handler logic */
 }, INTERVAL_MS);
 ```
