@@ -15,7 +15,8 @@ const devDependencies = require('../../../../lib/devDependencies')['theme'][
 	'7.2'
 ];
 
-module.exports = function(options) {
+module.exports = function() {
+	const options = {...project.options};
 	const {gulp, themeConfig} = project;
 	const {runSequence} = gulp;
 

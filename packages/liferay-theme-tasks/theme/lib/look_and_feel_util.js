@@ -133,7 +133,7 @@ function getNameFromPluginPackageProperties(themePath) {
 	const pluginPackageProperties = fs.readFileSync(
 		path.join(
 			themePath,
-			pathSrc,
+			pathSrc.asNative,
 			'WEB-INF',
 			'liferay-plugin-package.properties'
 		),
@@ -189,8 +189,9 @@ function readLookAndFeelXML(themePath) {
 
 	let lookAndFeelPath = path.join(
 		themePath,
-		pathSrc,
-		'WEB-INF/liferay-look-and-feel.xml'
+		pathSrc.asNative,
+		'WEB-INF',
+		'liferay-look-and-feel.xml'
 	);
 
 	try {

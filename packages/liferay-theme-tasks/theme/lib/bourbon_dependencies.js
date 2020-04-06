@@ -34,7 +34,7 @@ exports.createBourbonFile = function() {
 
 	const deprecatedMixinsFilePath = path.join(
 		project.dir,
-		pathSrc,
+		pathSrc.asNative,
 		'css',
 		'_deprecated_mixins.scss'
 	);

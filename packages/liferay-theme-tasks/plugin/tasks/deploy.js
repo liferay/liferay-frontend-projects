@@ -6,7 +6,6 @@
 'use strict';
 
 const gutil = require('gulp-util');
-const path = require('path');
 
 const project = require('../../lib/project');
 
@@ -19,7 +18,7 @@ module.exports = function() {
 		const deployPath = store.get('deployPath');
 
 		const stream = gulp
-			.src(path.resolve(options.pathDist, options.distName + '.war'))
+			.src(options.pathDist.join(options.distName + '.war').asPosix)
 			.pipe(gulp.dest(deployPath));
 
 		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));

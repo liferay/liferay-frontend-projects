@@ -48,7 +48,7 @@ function getPathComponents(pathString) {
  * the resource (eg. "css").
  */
 function getResourceDir(pathString, pathSrc) {
-	const relativePath = path.relative(pathSrc, pathString);
+	const relativePath = path.relative(pathSrc.asNative, pathString);
 	return getPathComponents(relativePath)[0];
 }
 
@@ -154,7 +154,7 @@ module.exports = function() {
 	 */
 	gulp.task('watch:setup', () => {
 		return gulp
-			.src(path.join(pathBuild, '**/*'))
+			.src(pathBuild.join('**', '*').asPosix)
 			.pipe(gulp.dest(explodedBuildDir));
 	});
 
@@ -303,7 +303,7 @@ module.exports = function() {
 			opn(url);
 		});
 
-		watch(path.join(pathSrc, '**/*'), vinyl => {
+		watch(path.join(pathSrc.asPosix, '**', '*'), vinyl => {
 			store.set('changedFile', vinyl);
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);

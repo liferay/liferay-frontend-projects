@@ -41,7 +41,7 @@ module.exports = function() {
 
 	if (fs.existsSync(modulePath)) {
 		// eslint-disable-next-line liferay/no-dynamic-require
-		versionUpgradeTask = require(modulePath)(project.options);
+		versionUpgradeTask = require(modulePath)();
 	}
 
 	gulp.task('upgrade', cb => {

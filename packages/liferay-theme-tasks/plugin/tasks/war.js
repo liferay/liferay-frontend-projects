@@ -6,7 +6,6 @@
 'use strict';
 
 var zip = require('gulp-zip');
-var path = require('path');
 
 const project = require('../../lib/project');
 
@@ -18,9 +17,9 @@ module.exports = function() {
 		const {options} = project;
 
 		return gulp
-			.src(path.join(options.rootDir, '**/*'))
+			.src(options.rootDir.join('**/*').asPosix)
 			.pipe(zip(options.distName + '.war'))
-			.pipe(gulp.dest(options.pathDist));
+			.pipe(gulp.dest(options.pathDist.asNative));
 	});
 
 	gulp.task('build', done => {

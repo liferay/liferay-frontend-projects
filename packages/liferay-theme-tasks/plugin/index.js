@@ -33,8 +33,8 @@ function processOptions(options) {
 
 	options.argv = argv;
 	options.distName = distName;
-	options.pathDist = options.pathDist || 'dist';
-	options.rootDir = options.rootDir || 'docroot';
+	options.pathDist = options.pathDist || './dist';
+	options.rootDir = options.rootDir || './docroot';
 	options.storeConfig = {
 		name: 'LiferayPlugin',
 		path: 'liferay-plugin.json',

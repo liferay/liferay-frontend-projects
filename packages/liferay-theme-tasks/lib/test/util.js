@@ -317,9 +317,7 @@ function setupTempTheme(options) {
 		options.init();
 	} else {
 		project.init({
-			// NOT NEEDED?, REMOVE: distName: 'base-theme',
 			gulp: new Gulp(),
-			// UNUSED, REMOVE: pathBuild: './custom_build_path',
 			storeConfig: {
 				name: 'LiferayTheme',
 				path: 'liferay-theme.json',
