@@ -22,13 +22,13 @@ module.exports = function() {
 			fs.readFileSync('package.json', 'utf8')
 		).version;
 
-		var pluginPackgePropertiesPath = project.options.rootDir.join(
+		var pluginPackagePropertiesPath = project.options.rootDir.join(
 			'WEB-INF',
 			'liferay-plugin-package.properties'
 		).asNative;
 
 		fs.readFile(
-			pluginPackgePropertiesPath,
+			pluginPackagePropertiesPath,
 			{
 				encoding: 'utf8',
 			},
@@ -52,7 +52,7 @@ module.exports = function() {
 					result += '\nmodule-version=' + npmPackageVersion;
 				}
 
-				fs.writeFileSync(pluginPackgePropertiesPath, result);
+				fs.writeFileSync(pluginPackagePropertiesPath, result);
 
 				done();
 			}
