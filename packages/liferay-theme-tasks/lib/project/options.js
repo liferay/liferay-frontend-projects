@@ -18,8 +18,6 @@ class Options {
 		this._normalizeFilePath('pathDist');
 		this._normalizeFilePath('pathSrc');
 		this._normalizeFilePath('rootDir');
-
-		Object.freeze(this);
 	}
 
 	get argv() {
