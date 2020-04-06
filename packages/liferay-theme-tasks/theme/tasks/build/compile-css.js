@@ -51,11 +51,11 @@ module.exports = function() {
 
 		const postCSSOptions = getPostCSSOptions(options.postcss);
 
-		const cssBuild = pathBuild + '/_css';
+		const cssBuild = pathBuild.join('_css');
 
-		const srcPath = path.join(cssBuild, '!(_)*.scss');
+		const srcPath = cssBuild.join('!(_)*.scss');
 
-		gulp.src(srcPath)
+		gulp.src(srcPath.asPosix)
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.init()))
 			.pipe(gulpSass(sassOptions))
 			.pipe(
@@ -63,7 +63,7 @@ module.exports = function() {
 			)
 			.on('error', handleScssError)
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.write('.')))
-			.pipe(gulp.dest(cssBuild))
+			.pipe(gulp.dest(cssBuild.asNative))
 			.on('end', cb);
 	});
 };

@@ -91,7 +91,7 @@ module.exports = function() {
 	});
 
 	gulp.task('build:clean', cb => {
-		fs.removeSync(path.resolve(pathBuild));
+		fs.removeSync(pathBuild.resolve().asNative);
 		cb();
 	});
 
@@ -101,23 +101,23 @@ module.exports = function() {
 		return gulp
 			.src(sourceFiles)
 			.pipe(injectJS())
-			.pipe(gulp.dest(pathBuild));
+			.pipe(gulp.dest(pathBuild.asNative));
 	});
 
 	gulp.task('build:src', () => {
 		return gulp
-			.src(path.join(pathSrc, '**/*'), {
-				base: pathSrc,
+			.src(pathSrc.join('**', '*').asPosix, {
+				base: pathSrc.asNative,
 			})
-			.pipe(gulp.dest(pathBuild));
+			.pipe(gulp.dest(pathBuild.asNative));
 	});
 
 	gulp.task('build:web-inf', () => {
 		return gulp
-			.src(pathBuild + '/WEB-INF/src/**/*', {
-				base: pathBuild + '/WEB-INF/src',
+			.src(pathBuild.join('WEB-INF', 'src', '**', '*').asPosix, {
+				base: pathBuild.join('WEB-INF', 'src').asNative,
 			})
-			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
+			.pipe(gulp.dest(pathBuild.join('WEB-INF', 'classes').asNative));
 	});
 
 	gulp.task('build:liferay-look-and-feel', cb => {
@@ -154,7 +154,7 @@ module.exports = function() {
 			fs.writeFile(
 				path.join(
 					themePath,
-					pathBuild,
+					pathBuild.asNative,
 					'WEB-INF/liferay-look-and-feel.xml'
 				),
 				xml,
@@ -170,10 +170,12 @@ module.exports = function() {
 	});
 
 	gulp.task('build:hook', () => {
-		const languageProperties = themeUtil.getLanguageProperties(pathSrc);
+		const languageProperties = themeUtil.getLanguageProperties(
+			pathSrc.asNative
+		);
 
 		return gulp
-			.src(path.join(pathBuild, 'WEB-INF/liferay-hook.xml'), {
+			.src(pathBuild.join('WEB-INF', 'liferay-hook.xml').asPosix, {
 				allowEmpty: true,
 			})
 			.pipe(
@@ -195,16 +197,20 @@ module.exports = function() {
 				})
 			)
 			.pipe(rename('liferay-hook.xml'))
-			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
+			.pipe(gulp.dest(pathBuild.join('WEB-INF').asNative));
 	});
 
 	gulp.task('build:rename-css-dir', cb => {
-		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
+		fs.rename(
+			pathBuild.join('css').asNative,
+			pathBuild.join('_css').asNative,
+			cb
+		);
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
 	gulp.task('build:fix-url-functions', cb => {
-		gulp.src(pathBuild + '/_css/**/*.css')
+		gulp.src(pathBuild.join('_css', '**', '*.css').asPosix)
 			.pipe(
 				replace({
 					patterns: [
@@ -216,7 +222,7 @@ module.exports = function() {
 				})
 			)
 			.pipe(
-				gulp.dest(pathBuild + '/_css', {
+				gulp.dest(pathBuild.join('_css').asNative, {
 					overwrite: true,
 				})
 			)
@@ -225,38 +231,38 @@ module.exports = function() {
 
 	gulp.task('build:move-compiled-css', () => {
 		return gulp
-			.src(pathBuild + '/_css/**/*')
-			.pipe(gulp.dest(pathBuild + '/css'));
+			.src(pathBuild.join('_css', '**', '*').asPosix)
+			.pipe(gulp.dest(pathBuild.join('css').asNative));
 	});
 
 	gulp.task('build:remove-old-css-dir', cb => {
-		fs.removeSync(path.join(pathBuild, '_css'));
+		fs.removeSync(pathBuild.join('_css').asNative);
 		cb();
 	});
 
 	gulp.task('build:fix-at-directives', () => {
 		return gulp
-			.src(pathBuild + '/css/*.css')
+			.src(pathBuild.join('css', '*.css').asPosix)
 			.pipe(
 				replace({
 					patterns: getFixAtDirectivesPatterns(),
 				})
 			)
-			.pipe(gulp.dest(pathBuild + '/css'));
+			.pipe(gulp.dest(pathBuild.join('css').asNative));
 	});
 
 	gulp.task('build:r2', () => {
 		const r2 = gulpR2();
 
 		return gulp
-			.src(pathBuild + '/css/*.css')
+			.src(pathBuild.join('css', '*.css').asPosix)
 			.pipe(
 				rename({
 					suffix: '_rtl',
 				})
 			)
 			.pipe(r2)
-			.pipe(gulp.dest(pathBuild + '/css'))
+			.pipe(gulp.dest(pathBuild.join('css').asNative))
 			.on('end', () => {
 				if (r2.hasCssParseErrors) {
 					// eslint-disable-next-line no-console
@@ -287,7 +293,7 @@ module.exports = function() {
 
 		fs.copy(
 			path.join(liferayFontAwesome, 'font'),
-			path.join(pathBuild, 'font'),
+			pathBuild.join('font').asNative,
 			done
 		);
 	});

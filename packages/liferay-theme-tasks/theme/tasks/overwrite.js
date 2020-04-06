@@ -9,6 +9,9 @@ const colors = require('ansi-colors');
 const log = require('fancy-log');
 const fs = require('fs');
 const inquirer = require('inquirer');
+const {
+	default: FilePath,
+} = require('liferay-npm-build-tools-common/lib/file-path');
 const _ = require('lodash');
 const path = require('path');
 
@@ -32,8 +35,12 @@ module.exports = function() {
 	};
 
 	function getFileChoices(dirPath) {
-		const buildFiles = readdir(path.join(project.dir, pathBuild, dirPath));
-		const srcFiles = readdir(path.join(project.dir, pathSrc, dirPath));
+		const buildFiles = readdir(
+			path.join(project.dir, pathBuild.asNative, dirPath)
+		);
+		const srcFiles = readdir(
+			path.join(project.dir, pathSrc.asNative, dirPath)
+		);
 
 		const choices = _.reduce(
 			buildFiles,
@@ -69,7 +76,7 @@ module.exports = function() {
 
 		if (dirPath !== '.') {
 			goBackChoice.short =
-				parentPath === '.' ? path.basename(pathBuild) : parentPath;
+				parentPath === '.' ? pathBuild.basename().asNative : parentPath;
 			goBackChoice.value.path = parentPath;
 
 			choices.splice(0, 0, goBackChoice);
@@ -80,7 +87,7 @@ module.exports = function() {
 
 	function isDir(filePath) {
 		return fs
-			.statSync(path.join(project.dir, pathBuild, filePath))
+			.statSync(path.join(project.dir, pathBuild.asNative, filePath))
 			.isDirectory();
 	}
 
@@ -88,10 +95,10 @@ module.exports = function() {
 		const themeDirName = path.basename(project.dir);
 
 		const destFile = colors.cyan(
-			path.join(themeDirName, pathSrc, filePath)
+			path.join(themeDirName, pathSrc.asNative, filePath)
 		);
 		const srcFile = colors.cyan(
-			path.join(themeDirName, pathBuild, filePath)
+			path.join(themeDirName, pathBuild.asNative, filePath)
 		);
 
 		log(srcFile, 'copied to', destFile);
@@ -125,10 +132,13 @@ module.exports = function() {
 				} else {
 					logChanges(answers.file.path);
 
-					gulp.src(path.join(pathBuild, answers.file.path), {
-						base: pathBuild,
-					})
-						.pipe(gulp.dest(pathSrc))
+					gulp.src(
+						pathBuild.join(new FilePath(answers.file.path)).asPosix,
+						{
+							base: pathBuild.asNative,
+						}
+					)
+						.pipe(gulp.dest(pathSrc.asNative))
 						.on('end', cb);
 				}
 			}

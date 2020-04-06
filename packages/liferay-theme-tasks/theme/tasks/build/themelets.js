@@ -10,6 +10,9 @@ const async = require('async');
 const log = require('fancy-log');
 const fs = require('fs');
 const inject = require('gulp-inject');
+const {
+	default: FilePath,
+} = require('liferay-npm-build-tools-common/lib/file-path');
 const _ = require('lodash');
 const path = require('path');
 const vinylPaths = require('vinyl-paths');
@@ -36,8 +39,7 @@ module.exports = function() {
 	});
 
 	gulp.task('build:themelet-css-inject', cb => {
-		const themeSrcPaths = path.join(
-			pathBuild,
+		const themeSrcPaths = pathBuild.join(
 			'themelets',
 			'**',
 			'css',
@@ -48,7 +50,7 @@ module.exports = function() {
 		let themeletSources = false;
 
 		const sources = gulp
-			.src(themeSrcPaths, {
+			.src(themeSrcPaths.asPosix, {
 				read: false,
 			})
 			.pipe(
@@ -61,7 +63,7 @@ module.exports = function() {
 
 		const fileName = customCssFileName;
 
-		gulp.src(path.join(pathBuild, 'css', fileName))
+		gulp.src(pathBuild.join('css', fileName).asPosix)
 			.pipe(
 				inject(sources, {
 					endtag: '/* endinject */',
@@ -82,7 +84,7 @@ module.exports = function() {
 					},
 				})
 			)
-			.pipe(gulp.dest(path.join(pathBuild, 'css')))
+			.pipe(gulp.dest(pathBuild.join('css').asNative))
 			.on('end', () => {
 				if (
 					!injected &&
@@ -101,8 +103,7 @@ module.exports = function() {
 	});
 
 	gulp.task('build:themelet-js-inject', cb => {
-		const themeSrcPaths = path.join(
-			pathBuild,
+		const themeSrcPaths = pathBuild.join(
 			'themelets',
 			'**',
 			'js',
@@ -113,7 +114,7 @@ module.exports = function() {
 		let themeletSources = false;
 
 		const sources = gulp
-			.src(themeSrcPaths, {
+			.src(themeSrcPaths.asPosix, {
 				read: false,
 			})
 			.pipe(
@@ -134,7 +135,8 @@ module.exports = function() {
 		}
 
 		gulp.src(
-			path.join(pathBuild, 'templates/portal_normal.' + templateLanguage)
+			pathBuild.join('templates', 'portal_normal.' + templateLanguage)
+				.asPosix
 		)
 			.pipe(
 				inject(sources, {
@@ -159,7 +161,7 @@ module.exports = function() {
 					},
 				})
 			)
-			.pipe(gulp.dest(path.join(pathBuild, 'templates')))
+			.pipe(gulp.dest(pathBuild.join('templates').asNative))
 			.on('end', () => {
 				if (
 					!injected &&
@@ -180,16 +182,15 @@ module.exports = function() {
 	gulp.task('build:themelet-src', cb => {
 		runThemeletDependenciesSeries((item, index, done) => {
 			gulp.src(
-				path.resolve(
-					project.dir,
+				new FilePath(project.dir).join(
 					'node_modules',
 					index,
 					'src',
 					'**',
 					'*'
-				)
+				).asPosix
 			)
-				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))
+				.pipe(gulp.dest(pathBuild.join('themelets', index).asNative))
 				.on('end', done);
 		}, cb);
 	});

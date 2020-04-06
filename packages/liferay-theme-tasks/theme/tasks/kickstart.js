@@ -8,6 +8,9 @@
 const colors = require('ansi-colors');
 const log = require('fancy-log');
 const fs = require('fs-extra');
+const {
+	default: FilePath,
+} = require('liferay-npm-build-tools-common/lib/file-path');
 const _ = require('lodash');
 const path = require('path');
 
@@ -35,15 +38,13 @@ function registerTasks() {
 				let themeSrcPath;
 
 				if (answers.modulePath) {
-					themeSrcPath = answers.modulePath;
+					themeSrcPath = new FilePath(answers.modulePath);
 				} else if (answers.module) {
-					tempNodeModulesPath = path.join(
-						project.dir,
-						'.temp_node_modules'
+					tempNodeModulesPath = new FilePath(
+						path.join(project.dir, '.temp_node_modules')
 					);
 
-					themeSrcPath = path.join(
-						tempNodeModulesPath,
+					themeSrcPath = tempNodeModulesPath.join(
 						'node_modules',
 						answers.module,
 						'src'
@@ -53,18 +54,16 @@ function registerTasks() {
 				if (themeSrcPath) {
 					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
-						folder => {
-							return path.join(themeSrcPath, folder, '**/*');
-						}
+						folder => themeSrcPath.join(folder, '**/*').asPosix
 					);
 
 					gulp.src(globs, {
-						base: themeSrcPath,
+						base: themeSrcPath.asNative,
 					})
-						.pipe(gulp.dest(pathSrc))
+						.pipe(gulp.dest(pathSrc.asNative))
 						.on('end', () => {
 							if (tempNodeModulesPath) {
-								fs.removeSync(tempNodeModulesPath);
+								fs.removeSync(tempNodeModulesPath.asNative);
 								cb();
 							} else {
 								cb();

@@ -38,7 +38,7 @@ function registerTasks() {
 
 		themeUtil.dockerCopy(
 			dockerContainerName,
-			pathDist,
+			pathDist.asNative,
 			deployPath,
 			[themeName + '.war'],
 			(err, _data) => {

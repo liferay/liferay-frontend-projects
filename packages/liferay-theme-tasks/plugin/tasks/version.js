@@ -7,7 +7,6 @@
 
 const fs = require('fs');
 const gutil = require('gulp-util');
-const path = require('path');
 
 const project = require('../../lib/project');
 
@@ -23,11 +22,10 @@ module.exports = function() {
 			fs.readFileSync('package.json', 'utf8')
 		).version;
 
-		var pluginPackgePropertiesPath = path.join(
-			project.options.rootDir,
+		var pluginPackgePropertiesPath = project.options.rootDir.join(
 			'WEB-INF',
 			'liferay-plugin-package.properties'
-		);
+		).asNative;
 
 		fs.readFile(
 			pluginPackgePropertiesPath,
