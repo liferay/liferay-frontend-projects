@@ -58,7 +58,10 @@ describe('using lib_sass', () => {
 			version: '7.2',
 		});
 
-		buildPath = path.join(tempTheme.tempPath, project.options.pathBuild);
+		buildPath = path.join(
+			tempTheme.tempPath,
+			project.options.pathBuild.asNative
+		);
 	});
 
 	afterEach(() => {

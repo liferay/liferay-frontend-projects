@@ -7,6 +7,9 @@
 
 const fs = require('fs-extra');
 const {Gulp} = require('gulp');
+const {
+	default: FilePath,
+} = require('liferay-npm-build-tools-common/lib/file-path');
 const path = require('path');
 const sinon = require('sinon');
 
@@ -44,8 +47,8 @@ test('registerTasks should invoke extension functions', done => {
 			distName: 'test-plugin-layouttpl',
 			extensions: [extFunction],
 			gulp,
-			pathDist: 'dist',
-			rootDir: 'docroot',
+			pathDist: new FilePath('./dist'),
+			rootDir: new FilePath('./docroot'),
 			storeConfig: {
 				name: 'LiferayPlugin',
 				path: 'liferay-plugin.json',
