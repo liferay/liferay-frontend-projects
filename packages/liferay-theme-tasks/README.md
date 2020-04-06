@@ -177,6 +177,8 @@ default: `./build`
 
 Determines the destination of built files.
 
+Must be in POSIX format (i.e: use / instead of \\).
+
 ##### pathDist
 
 type: `string`<br>
@@ -184,12 +186,16 @@ default: `./dist`
 
 Determines the destination of the generated .war file.
 
+Must be in POSIX format (i.e: use / instead of \\).
+
 ##### pathSrc
 
 type: `string`<br>
 default: `./src`
 
 Determines where theme source files are located. If set to anything other than default value, you must manually relocate all files in src directory to new location.
+
+Must be in POSIX format (i.e: use / instead of \\).
 
 ##### postcss
 
