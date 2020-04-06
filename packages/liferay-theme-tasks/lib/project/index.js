@@ -8,6 +8,7 @@ const _ = require('lodash');
 const path = require('path');
 
 const Gulp = require('./gulp');
+const Options = require('./options');
 const Store = require('./store');
 const ThemeConfig = require('./theme-config');
 
@@ -24,7 +25,7 @@ class Project {
 		this._initialized = true;
 
 		this._gulp = new Gulp(this, options.gulp);
-		this._options = {...options};
+		this._options = new Options(this, options);
 		this._store = new Store(
 			this,
 			options.storeConfig.path,
