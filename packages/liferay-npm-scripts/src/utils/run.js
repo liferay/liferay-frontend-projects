@@ -9,7 +9,7 @@ const {spawn} = require('cross-spawn');
  * Convenience helper for running commands.
  */
 function run(executable, ...args) {
-	const command = `${executable} ${args.join(' ')}`;
+	const command = [executable, ...args].join(' ');
 
 	const {error, signal, status, stdout} = spawn.sync(executable, args);
 
@@ -19,13 +19,13 @@ function run(executable, ...args) {
 
 	if (signal) {
 		throw new Error(
-			`run(): command \`${command}\` exited due to signal ${signal}`
+			`run(): command \`${command}\` exited due to signal ${signal}.`
 		);
 	}
 
 	if (status) {
 		throw new Error(
-			`run(): command \`${command}\` exited with status ${status}`
+			`run(): command \`${command}\` exited with status ${status}.`
 		);
 	}
 
