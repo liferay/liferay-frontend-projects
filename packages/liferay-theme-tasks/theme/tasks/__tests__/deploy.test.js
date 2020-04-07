@@ -40,12 +40,12 @@ beforeEach(() => {
 		version: '7.2',
 	});
 
-	deployPath = path.join(tempTheme.tempPath, '../appserver/deploy');
+	deployPath = path.join(tempTheme.tempPath, '..', 'appserver', 'deploy');
 
 	const {store} = project;
 
-	store.set('deployPath', deployPath);
-	store.set('webBundleDir');
+	store.deployPath = deployPath;
+	store.webBundleDir = undefined;
 
 	fs.emptyDirSync(deployPath);
 });
