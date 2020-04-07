@@ -102,7 +102,7 @@ function checkRemote(link, files) {
 			resolve();
 		};
 
-		const {hostname, pathname, port} = new URL(link);
+		const {hostname, pathname, port, search} = new URL(link);
 
 		if (
 			hostname === 'localhost' ||
@@ -119,7 +119,7 @@ function checkRemote(link, files) {
 			{
 				headers: HEADERS,
 				host: hostname,
-				path: pathname,
+				path: `${pathname}${search}`,
 				port
 			},
 			({statusCode}) => {
