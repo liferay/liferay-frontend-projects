@@ -9,13 +9,13 @@ const {
 const path = require('path');
 const Generator = require('yeoman-generator');
 
-const Copier = require('../../lib/Copier');
 const {
 	normalizeName,
 	promptWithQA,
 	runGulpInit,
 	runInstall,
 } = require('../../lib/util');
+const Copier = require('../../lib/utils/Copier');
 const versions = require('../../lib/versions');
 
 /**
