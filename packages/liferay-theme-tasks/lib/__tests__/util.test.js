@@ -60,7 +60,8 @@ describe('resolveDependency()', () => {
 it('getCustomDependencyPath should return custom dependency paths set in node env variables', () => {
 	const CUSTOM_STYLED_PATH = path.join(
 		process.cwd(),
-		'node_modules/liferay-frontend-theme-styled'
+		'node_modules',
+		'liferay-frontend-theme-styled'
 	);
 	const STYLED = 'liferay-frontend-theme-styled';
 	const UNSTYLED = 'liferay-frontend-theme-unstyled';

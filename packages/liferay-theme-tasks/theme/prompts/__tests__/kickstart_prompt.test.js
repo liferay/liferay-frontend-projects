@@ -102,7 +102,9 @@ it('_afterPromptModule should set modulePath property of answers object if __rea
 
 	expect(prototype._installTempModule.notCalled).toBe(true);
 	expect(prototype.done.calledWith(answers)).toBe(true);
-	expect(answers.modulePath).toBe(path.join('/path/to/some-theme/src'));
+	expect(answers.modulePath).toBe(
+		path.join('/path', 'to', 'some-theme', 'src')
+	);
 });
 
 it('_afterPromptThemeSource should invoke correct prompt based on themeSource answer passing _afterPromptModule as callback', () => {

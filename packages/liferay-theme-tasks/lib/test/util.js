@@ -238,7 +238,7 @@ function setupTempPlugin(options) {
 	fs.emptyDirSync(tempPath);
 
 	fs.copySync(
-		path.join(__dirname, './fixtures/plugins', version, pluginName),
+		path.join(__dirname, 'fixtures', 'plugins', version, pluginName),
 		tempPath
 	);
 
@@ -300,7 +300,7 @@ function setupTempTheme(options) {
 	fs.emptyDirSync(tempPath);
 
 	fs.copySync(
-		path.join(__dirname, './fixtures/themes', version, themeName),
+		path.join(__dirname, 'fixtures', 'themes', version, themeName),
 		tempPath
 	);
 

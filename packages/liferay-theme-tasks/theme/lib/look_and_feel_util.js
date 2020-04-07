@@ -182,7 +182,9 @@ function readLookAndFeelXML(themePath) {
 
 	const lookAndFeelDefaultPath = path.join(
 		themePath,
-		'src/WEB-INF/liferay-look-and-feel.xml'
+		'src',
+		'WEB-INF',
+		'liferay-look-and-feel.xml'
 	);
 
 	const {pathSrc} = project.options;

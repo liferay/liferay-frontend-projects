@@ -54,7 +54,7 @@ exports.createBourbonFile = function() {
 	bourbonFile.push('";');
 	bourbonFile.push('@import "');
 	bourbonFile.push(
-		formatPath(path.join(mixinsPath, 'liferay/_bourbon_ext.scss'))
+		formatPath(path.join(mixinsPath, 'liferay', '_bourbon_ext.scss'))
 	);
 	bourbonFile.push('";');
 

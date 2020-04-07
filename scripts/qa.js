@@ -35,7 +35,7 @@ deployProjects();
 // TASKS ///////////////////////////////////////////////////////////////////////
 
 function checkPrerrequisites() {
-	if (!fs.existsSync(path.join('/', 'opt', 'tomcat'))) {
+	if (!fs.existsSync(path.join('/opt', 'tomcat'))) {
 		console.log(
 			'Please create a symbolic link /opt/tomcat pointing to your',
 			"Portal's Tomcat directory so that QA projects can be deployed."
@@ -44,7 +44,7 @@ function checkPrerrequisites() {
 		process.exit(1);
 	}
 
-	if (!fs.existsSync(path.join('/', 'opt', 'deploy'))) {
+	if (!fs.existsSync(path.join('/opt', 'deploy'))) {
 		console.log(
 			'Please create a symbolic link /opt/deploy pointing to your',
 			"Portal's deploy directory so that QA projects can be deployed."

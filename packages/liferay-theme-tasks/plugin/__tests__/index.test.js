@@ -32,7 +32,7 @@ beforeEach(() => {
 		version: '7.0',
 	});
 
-	deployPath = path.join(tempPlugin.tempPath, '../appserver/deploy');
+	deployPath = path.join(tempPlugin.tempPath, '..', 'appserver', 'deploy');
 });
 
 afterEach(() => {
@@ -105,12 +105,12 @@ test('registerTasks should register hooks', done => {
 		hookFn,
 	});
 
-	project.store.set('deployPath', deployPath);
+	project.store.deployPath = deployPath;
 
 	project.gulp.runSequence('plugin:war', 'plugin:deploy', () => {
 		expect(path.join(deployPath, 'test-plugin-layouttpl.war')).toBeFile();
 
-		expect(project.store.get('deployed')).toBe(true);
+		expect(project.store.deployed).toBe(true);
 
 		expect(hookSpy.getCall(0).calledWith('before:plugin:war')).toBe(true);
 		expect(hookSpy.getCall(1).calledWith('after:plugin:war')).toBe(true);

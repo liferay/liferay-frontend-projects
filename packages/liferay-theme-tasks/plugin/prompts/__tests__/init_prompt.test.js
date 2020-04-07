@@ -18,10 +18,16 @@ let prototype;
 
 function getDefaultAnswers() {
 	return {
-		appServerPath: path.join(__dirname, './fixtures/server/tomcat'),
-		deployPath: path.join(__dirname, './fixtures/server/deploy'),
+		appServerPath: path.join(__dirname, 'fixtures', 'server', 'tomcat'),
+		deployPath: path.join(__dirname, 'fixtures', 'server', 'deploy'),
 		url: 'http://localhost:8080',
-		webappsPath: path.join(__dirname, './fixtures/server/tomcat/webapps'),
+		webappsPath: path.join(
+			__dirname,
+			'fixtures',
+			'server',
+			'tomcat',
+			'webapps'
+		),
 	};
 }
 
@@ -39,9 +45,7 @@ beforeEach(() => {
 });
 
 test('_afterPrompt should store normalized answers', () => {
-	prototype.store = {
-		store: sinon.spy(),
-	};
+	const store = (prototype.store = {});
 
 	var defaultAnswers = getDefaultAnswers();
 
@@ -49,15 +53,13 @@ test('_afterPrompt should store normalized answers', () => {
 
 	prototype._afterPrompt(defaultAnswers);
 
-	var storeArgs = prototype.store.store.args[0][0];
+	expect(store.appServerPath).toBe(defaultAnswers.appServerPath);
+	expect(store.deployPath).toBe(defaultAnswers.deployPath);
+	expect(store.url).toBe(defaultAnswers.url);
 
-	expect(storeArgs.appServerPath).toBe(defaultAnswers.appServerPath);
-	expect(storeArgs.deployPath).toBe(defaultAnswers.deployPath);
-	expect(storeArgs.url).toBe(defaultAnswers.url);
-
-	expect(!_.isUndefined(storeArgs.appServerPathPlugin)).toBe(true);
-	expect(!_.isUndefined(storeArgs.deployed)).toBe(true);
-	expect(!_.isUndefined(storeArgs.pluginName)).toBe(true);
+	expect(!_.isUndefined(store.appServerPathPlugin)).toBe(true);
+	expect(!_.isUndefined(store.deployed)).toBe(true);
+	expect(!_.isUndefined(store.pluginName)).toBe(true);
 
 	expect(prototype.done.callCount).toBe(1);
 
@@ -125,7 +127,7 @@ test('_normalizeAnswers should normalize prompt answers', () => {
 	expect(answers.pluginName).toBe('c-project');
 	expect(answers.deployed).toBe(false);
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps/c-project')
+		path.join(defaultAnswers.appServerPath, 'webapps', 'c-project')
 	);
 
 	answers = _.assign({}, defaultAnswers);
@@ -135,7 +137,7 @@ test('_normalizeAnswers should normalize prompt answers', () => {
 	prototype._normalizeAnswers(answers);
 
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps/c-project')
+		path.join(defaultAnswers.appServerPath, 'webapps', 'c-project')
 	);
 });
 
@@ -183,25 +185,25 @@ test('_validateAppServerPath should properly validate path and return appropriat
 	);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/glassfish')
+		path.join(__dirname, 'fixtures', 'server', 'glassfish')
 	);
 
 	expect(retVal).toBe(true);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/jboss')
+		path.join(__dirname, 'fixtures', 'server', 'jboss')
 	);
 
 	expect(retVal).toBe(true);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/tomcat')
+		path.join(__dirname, 'fixtures', 'server', 'tomcat')
 	);
 
 	expect(retVal).toBe(true);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/wildfly')
+		path.join(__dirname, 'fixtures', 'server', 'wildfly')
 	);
 
 	expect(retVal).toBe(true);

@@ -26,11 +26,11 @@ beforeEach(() => {
 		version: '7.0',
 	});
 
-	deployPath = path.join(tempPlugin.tempPath, '../appserver/deploy');
+	deployPath = path.join(tempPlugin.tempPath, '..', 'appserver', 'deploy');
 
 	const {store} = project;
 
-	store.set('deployPath', deployPath);
+	store.deployPath = deployPath;
 });
 
 afterEach(() => {
@@ -41,7 +41,7 @@ test('deploy task should deploy war file to specified appserver', done => {
 	project.gulp.runSequence('deploy', () => {
 		expect(path.join(deployPath, 'test-plugin-layouttpl.war')).toBeFile();
 
-		expect(project.store.get('deployed')).toBe(true);
+		expect(project.store.deployed).toBe(true);
 
 		done();
 	});

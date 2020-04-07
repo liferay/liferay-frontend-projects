@@ -629,7 +629,8 @@ describe('LayoutCreator', () => {
 				fs.readFileSync(
 					path.join(
 						__dirname,
-						'./__fixtures__/processed_template_data.json'
+						'__fixtures__',
+						'processed_template_data.json'
 					)
 				)
 			);
@@ -868,7 +869,8 @@ describe('LayoutCreator', () => {
 				fs.readFileSync(
 					path.join(
 						__dirname,
-						'./__fixtures__/processed_template_data.json'
+						'__fixtures__',
+						'processed_template_data.json'
 					),
 					fileOptions
 				)
@@ -882,7 +884,7 @@ describe('LayoutCreator', () => {
 			});
 
 			var tplFileContent = fs.readFileSync(
-				path.join(__dirname, './__fixtures__/layout_template.tpl'),
+				path.join(__dirname, '__fixtures__', 'layout_template.tpl'),
 				fileOptions
 			);
 
