@@ -4,7 +4,7 @@ Clay CSS follows Bootstrap 4's base + modifier pattern, similar to [OOCSS](https
 
 The modifier, `.btn-primary`, provides the styles for the main variant of `.btn`, such as `background-color`, `border-color`, and `color`. The modifier, `.btn-secondary`, provides styles for the next `.btn` variant.
 
-This recipe will modify the button classes in Clay CSS to match Material Design's shown in [https://material.io/components/buttons/](https://material.io/components/buttons/). The ripple effect on click requires external javascript and is outside the scope of this framework.
+This recipe will modify the button classes in Clay CSS to match Material Design's shown in [https://material.io/components/buttons/](https://material.io/components/buttons/). The ripple effect on click requires external JavaScript and is outside the scope of this framework.
 
 ## Base Button
 
@@ -101,7 +101,7 @@ There is no variable to adjust letter-spacing or text-transform so we will need 
 
 ## Button Variants
 
-Material Design uses a white overlay and opacity with javascript to create the ripple effect on click. We will try to match the `:active` color as close as possible.
+Material Design uses a white overlay and opacity with JavaScript to create the ripple effect on click. We will try to match the `:active` color as close as possible.
 
 Contained Buttons in Material Design have box-shadows in the default and hover states. Since we removed them from the Base Button, we have to reimplement it in `_clay_custom.scss`. We also have to remove the hover box-shadow shown in the disabled state because of specificity.
 
