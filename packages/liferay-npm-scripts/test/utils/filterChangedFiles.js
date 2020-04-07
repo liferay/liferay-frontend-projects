@@ -53,6 +53,8 @@ describe('filterChangedFiles()', () => {
 		process.chdir(repo);
 
 		git('init');
+		git('config', 'user.email', 'ci@example.net');
+		git('config', 'user.name', 'Continuous Integration');
 
 		fs.mkdirSync(join('modules', 'private'), {recursive: true});
 
