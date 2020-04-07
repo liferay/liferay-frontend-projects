@@ -10,8 +10,8 @@ const {
 const path = require('path');
 
 /**
- * List of properties that must be persisted to the .json file. All others not
- * listed here are transient (in-memory only).
+ * Collection of properties that must be persisted to the .json file. All others
+ * not listed here are transient (in-memory only).
  *
  * They are indexed by type.
  */
