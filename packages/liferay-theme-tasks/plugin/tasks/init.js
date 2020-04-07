@@ -12,15 +12,16 @@ const InitPrompt = require('../prompts/init_prompt');
 
 module.exports = function() {
 	const {gulp, store} = project;
+	const {appServerPath, dockerContainerName} = store;
 
 	gulp.task('plugin:init', cb => {
 		InitPrompt.prompt(
 			{
-				appServerPathDefault:
-					store.get('appServerPath') ||
-					path.join(path.dirname(project.dir), 'tomcat'),
+				appServerPathDefault: appServerPath
+					? appServerPath.asNative
+					: path.join(path.dirname(project.dir), 'tomcat'),
 				dockerContainerNameDefault:
-					store.get('dockerContainerName') || 'liferay_portal_1',
+					dockerContainerName || 'liferay_portal_1',
 				store,
 			},
 			cb

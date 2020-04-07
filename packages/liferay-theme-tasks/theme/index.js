@@ -64,7 +64,7 @@ function registerTasks(options = {}) {
 }
 
 function register() {
-	project.store.set('changedFile');
+	project.store.changedFile = undefined;
 
 	registerTaskBuildCompileCss();
 	registerTaskBuildThemelets();

@@ -43,7 +43,9 @@ InitPrompt.prototype = {
 	_afterPrompt(answers) {
 		answers = this._normalizeAnswers(answers);
 
-		this.store.store(answers);
+		Object.entries(answers).forEach(([key, value]) => {
+			this.store[key] = value;
+		});
 
 		if (this.done) {
 			this.done();
@@ -66,7 +68,7 @@ InitPrompt.prototype = {
 
 		if (appServerPath) {
 			var deployPath = path.resolve(
-				path.join(appServerPath, '../deploy')
+				path.join(appServerPath, '..', 'deploy')
 			);
 
 			var done = this.async();
@@ -122,6 +124,8 @@ InitPrompt.prototype = {
 		var instance = this;
 
 		inquirer.prompt(
+			// The answers to these questions will be put into the `this.store`
+			// object, so make sure they really exist as properties in it.
 			[
 				{
 					choices: [

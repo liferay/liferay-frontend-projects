@@ -67,14 +67,11 @@ module.exports = function() {
 	const {gulp, options, store} = project;
 	const {runSequence} = gulp;
 	const {argv, distName, pathBuild, pathSrc, resourcePrefix} = options;
-
-	// Get config from liferay-theme.json
-	const proxyUrl = argv.url || store.get('url');
-	const deploymentStrategy = store.get('deploymentStrategy');
-	const dockerContainerName = store.get('dockerContainerName');
-	const pluginName = store.get('pluginName') || '';
+	const {deploymentStrategy, dockerContainerName} = store;
 
 	// Calculate some values
+	const proxyUrl = argv.url || store.url;
+	const pluginName = store.pluginName || '';
 	const explodedBuildDir = path.join(project.dir, EXPLODED_BUILD_DIR_NAME);
 	const dockerThemePath = path.posix.join('/tmp', pluginName);
 	const dockerBundleDirPath = path.posix.join(
@@ -88,7 +85,7 @@ module.exports = function() {
 	gulp.task('watch', () => {
 		project.watching = true;
 
-		store.set('appServerPathPlugin', explodedBuildDir);
+		store.appServerPathPlugin = explodedBuildDir;
 
 		// Get tasks array
 		const taskArray = getCleanTaskArray(deploymentStrategy);
@@ -103,7 +100,7 @@ module.exports = function() {
 				portfinder.getPortPromise({port: 9080}),
 				portfinder.getPortPromise({port: 35729}),
 			]).then(([httpPort, tinylrPort]) => {
-				store.set('webBundleDir', 'watching');
+				store.webBundleDir = 'watching';
 				startWatch(httpPort, tinylrPort, proxyUrl);
 			});
 		});
@@ -162,7 +159,7 @@ module.exports = function() {
 	 * Cleanup watch machinery
 	 */
 	gulp.task('watch:teardown', cb => {
-		store.set('webBundleDir');
+		store.webBundleDir = undefined;
 
 		const taskArray = getTeardownTaskArray();
 
@@ -174,7 +171,7 @@ module.exports = function() {
 	let livereload;
 
 	gulp.task('watch:reload', cb => {
-		const changedFile = store.get('changedFile');
+		const {changedFile} = store;
 		const srcPath = path.relative(project.dir, changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
 		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
@@ -304,7 +301,7 @@ module.exports = function() {
 		});
 
 		watch(path.join(pathSrc.asPosix, '**', '*'), vinyl => {
-			store.set('changedFile', vinyl);
+			store.changedFile = vinyl;
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);
 
@@ -317,7 +314,7 @@ module.exports = function() {
 	}
 
 	function clearChangedFile() {
-		store.set('changedFile');
+		store.changedFile = undefined;
 	}
 
 	function getTeardownTaskArray() {

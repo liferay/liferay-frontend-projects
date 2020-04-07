@@ -15,16 +15,16 @@ module.exports = function() {
 
 	gulp.task('plugin:deploy', () => {
 		const {options} = project;
-		const deployPath = store.get('deployPath');
+		const {deployPath} = store;
 
 		const stream = gulp
 			.src(options.pathDist.join(options.distName + '.war').asPosix)
-			.pipe(gulp.dest(deployPath));
+			.pipe(gulp.dest(deployPath.asNative));
 
-		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath));
+		gutil.log('Deploying to ' + gutil.colors.cyan(deployPath.asNative));
 
 		stream.on('end', () => {
-			store.set('deployed', true);
+			store.deployed = true;
 		});
 
 		return stream;
