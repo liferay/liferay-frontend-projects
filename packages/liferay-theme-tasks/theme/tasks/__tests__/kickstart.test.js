@@ -64,24 +64,24 @@ describe('globally installed theme', () => {
 
 			expect(
 				fs
-					.readFileSync(path.join(srcDir, 'css/_custom.scss'))
+					.readFileSync(path.join(srcDir, 'css', '_custom.scss'))
 					.toString()
 			).toEqual('/* kickstart-theme css */');
 
 			expect(
 				fs
-					.readFileSync(path.join(srcDir, 'images/image.png'))
+					.readFileSync(path.join(srcDir, 'images', 'image.png'))
 					.toString()
 			).toEqual('kickstart-theme png');
 
 			expect(
-				fs.readFileSync(path.join(srcDir, 'js/main.js')).toString()
+				fs.readFileSync(path.join(srcDir, 'js', 'main.js')).toString()
 			).toContain('// kickstart-theme js\n');
 
 			expect(
 				fs
 					.readFileSync(
-						path.join(srcDir, 'templates/portal_normal.ftl')
+						path.join(srcDir, 'templates', 'portal_normal.ftl')
 					)
 					.toString()
 			).toEqual('kickstart-theme ftl');

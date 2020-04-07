@@ -32,7 +32,9 @@ module.exports = function() {
 
 	const modulePath = path.join(
 		__dirname,
-		'../lib/upgrade',
+		'..',
+		'lib',
+		'upgrade',
 		version,
 		'upgrade.js'
 	);

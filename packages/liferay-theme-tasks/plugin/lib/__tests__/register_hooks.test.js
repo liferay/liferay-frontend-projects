@@ -157,14 +157,14 @@ test('_registerHookModule should register hook or log appropriate log messages',
 	expect(gutil.log.callCount).toBe(1);
 
 	// eslint-disable-next-line liferay/no-dynamic-require
-	require(path.join(__dirname, './fixtures/hook_modules/hook-module-1'));
+	require(path.join(__dirname, 'fixtures', 'hook_modules', 'hook-module-1'));
 
 	prototype.gulp = {
 		hook: sinon.spy(),
 	};
 
 	prototype._registerHookModule(
-		path.join(__dirname, './fixtures/hook_modules/hook-module-1')
+		path.join(__dirname, 'fixtures', 'hook_modules', 'hook-module-1')
 	);
 
 	expect(prototype.gulp.hook.calledWith('before:build')).toBe(true);
@@ -173,7 +173,7 @@ test('_registerHookModule should register hook or log appropriate log messages',
 	gutil.log.resetHistory();
 
 	prototype._registerHookModule(
-		path.join(__dirname, './fixtures/hook_modules/hook-module-3')
+		path.join(__dirname, 'fixtures', 'hook_modules', 'hook-module-3')
 	);
 
 	expect(
@@ -187,7 +187,9 @@ test('_registerHookModule should register hook or log appropriate log messages',
 test('_registerHookModule should pass correct arguments to hook modules', () => {
 	var hookModulePath = path.join(
 		__dirname,
-		'./fixtures/hook_modules/hook-module-4'
+		'fixtures',
+		'hook_modules',
+		'hook-module-4'
 	);
 
 	// eslint-disable-next-line liferay/no-dynamic-require
@@ -205,15 +207,21 @@ test('_registerHookModule should pass correct arguments to hook modules', () => 
 test('_registerHookModules should accept single or multiple hook modules and register them', () => {
 	var hookModule1Path = path.join(
 		__dirname,
-		'./fixtures/hook_modules/hook-module-1'
+		'fixtures',
+		'hook_modules',
+		'hook-module-1'
 	);
 	var hookModule2Path = path.join(
 		__dirname,
-		'./fixtures/hook_modules/hook-module-2'
+		'fixtures',
+		'hook_modules',
+		'hook-module-2'
 	);
 	var hookModule3Path = path.join(
 		__dirname,
-		'./fixtures/hook_modules/hook-module-3'
+		'fixtures',
+		'hook_modules',
+		'hook-module-3'
 	);
 
 	prototype._registerHookModule = sinon.spy();

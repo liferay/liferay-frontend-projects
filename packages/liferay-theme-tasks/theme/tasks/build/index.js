@@ -155,7 +155,8 @@ module.exports = function() {
 				path.join(
 					themePath,
 					pathBuild.asNative,
-					'WEB-INF/liferay-look-and-feel.xml'
+					'WEB-INF',
+					'liferay-look-and-feel.xml'
 				),
 				xml,
 				err => {

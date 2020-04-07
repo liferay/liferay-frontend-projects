@@ -36,7 +36,9 @@ test('plugin:version should add package.json version to liferay-plugin-package.p
 		expect(
 			path.join(
 				tempPlugin.tempPath,
-				'docroot/WEB-INF/liferay-plugin-package.properties'
+				'docroot',
+				'WEB-INF',
+				'liferay-plugin-package.properties'
 			)
 		).toBeFileMatching(/module-version=1\.2\.3/);
 
@@ -58,7 +60,9 @@ test('plugin:version should add package.json version to liferay-plugin-package.p
 		expect(
 			path.join(
 				tempPlugin.tempPath,
-				'docroot/WEB-INF/liferay-plugin-package.properties'
+				'docroot',
+				'WEB-INF',
+				'liferay-plugin-package.properties'
 			)
 		).toBeFileMatching(/module-version=1\.2\.4/);
 

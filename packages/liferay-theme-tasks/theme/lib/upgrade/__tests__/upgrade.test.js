@@ -37,11 +37,15 @@ it('upgrade:config', done => {
 
 		const lookAndFeelPath = path.join(
 			tempTheme.tempPath,
-			'src/WEB-INF/liferay-look-and-feel.xml'
+			'src',
+			'WEB-INF',
+			'liferay-look-and-feel.xml'
 		);
 		const pluginPackagePropertiesPath = path.join(
 			tempTheme.tempPath,
-			'src/WEB-INF/liferay-plugin-package.properties'
+			'src',
+			'WEB-INF',
+			'liferay-plugin-package.properties'
 		);
 
 		expect(lookAndFeelPath).toBeFileMatching(/7\.2\.0/);

@@ -35,7 +35,7 @@ function getBaseThemeDependencies(
 			baseTheme.name
 		);
 
-		dependencies.push(path.resolve(baseThemePath, 'src/**/*'));
+		dependencies.push(path.resolve(baseThemePath, 'src', '**', '*'));
 
 		return getBaseThemeDependencies(baseThemePath, dependencies);
 	} else if (baseTheme === 'styled' || baseTheme === 'admin') {

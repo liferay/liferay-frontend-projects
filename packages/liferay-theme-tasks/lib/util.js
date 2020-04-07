@@ -104,7 +104,7 @@ function getArgv() {
 }
 
 function getLanguageProperties(pathBuild) {
-	const pathContent = path.join(pathBuild, 'WEB-INF/src/content');
+	const pathContent = path.join(pathBuild, 'WEB-INF', 'src', 'content');
 
 	const languageKeys = [];
 

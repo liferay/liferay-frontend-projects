@@ -54,7 +54,7 @@ function registerTasks() {
 				if (themeSrcPath) {
 					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
-						folder => themeSrcPath.join(folder, '**/*').asPosix
+						folder => themeSrcPath.join(folder, '**', '*').asPosix
 					);
 
 					gulp.src(globs, {

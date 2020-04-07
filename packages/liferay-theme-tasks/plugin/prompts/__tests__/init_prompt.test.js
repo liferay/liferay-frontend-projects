@@ -127,7 +127,7 @@ test('_normalizeAnswers should normalize prompt answers', () => {
 	expect(answers.pluginName).toBe('c-project');
 	expect(answers.deployed).toBe(false);
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps/c-project')
+		path.join(defaultAnswers.appServerPath, 'webapps', 'c-project')
 	);
 
 	answers = _.assign({}, defaultAnswers);
@@ -137,7 +137,7 @@ test('_normalizeAnswers should normalize prompt answers', () => {
 	prototype._normalizeAnswers(answers);
 
 	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps/c-project')
+		path.join(defaultAnswers.appServerPath, 'webapps', 'c-project')
 	);
 });
 
@@ -185,25 +185,25 @@ test('_validateAppServerPath should properly validate path and return appropriat
 	);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/glassfish')
+		path.join(__dirname, 'fixtures', 'server', 'glassfish')
 	);
 
 	expect(retVal).toBe(true);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/jboss')
+		path.join(__dirname, 'fixtures', 'server', 'jboss')
 	);
 
 	expect(retVal).toBe(true);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/tomcat')
+		path.join(__dirname, 'fixtures', 'server', 'tomcat')
 	);
 
 	expect(retVal).toBe(true);
 
 	retVal = prototype._validateAppServerPath(
-		path.join(__dirname, './fixtures/server/wildfly')
+		path.join(__dirname, 'fixtures', 'server', 'wildfly')
 	);
 
 	expect(retVal).toBe(true);

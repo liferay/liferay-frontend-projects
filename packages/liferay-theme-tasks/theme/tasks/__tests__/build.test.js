@@ -210,7 +210,7 @@ describe('using lib_sass', () => {
 			/console\.log\('main\.js'\)/
 		);
 
-		const baseTextScssPath = path.join(cssPath, 'base/_text.scss');
+		const baseTextScssPath = path.join(cssPath, 'base', '_text.scss');
 
 		expect(fs.existsSync(baseTextScssPath)).toBe(true);
 
@@ -255,23 +255,38 @@ describe('using lib_sass', () => {
 	function _assertThemelets(cb) {
 		const customScssPath = path.join(
 			buildPath,
-			'themelets/test-themelet/css/_custom.scss'
+			'themelets',
+			'test-themelet',
+			'css',
+			'_custom.scss'
 		);
 		const iconPngPath = path.join(
 			buildPath,
-			'themelets/test-themelet/images/icon.png'
+			'themelets',
+			'test-themelet',
+			'images',
+			'icon.png'
 		);
 		const mainJsPath = path.join(
 			buildPath,
-			'themelets/test-themelet/js/main.js'
+			'themelets',
+			'test-themelet',
+			'js',
+			'main.js'
 		);
 		const freemarkerPath = path.join(
 			buildPath,
-			'themelets/test-themelet/templates/freemarker.ftl'
+			'themelets',
+			'test-themelet',
+			'templates',
+			'freemarker.ftl'
 		);
 		const velocityPath = path.join(
 			buildPath,
-			'themelets/test-themelet/templates/velocity.vm'
+			'themelets',
+			'test-themelet',
+			'templates',
+			'velocity.vm'
 		);
 
 		expect(fs.existsSync(customScssPath)).toBe(true);
@@ -291,7 +306,8 @@ describe('using lib_sass', () => {
 
 		const portalNormalPath = path.join(
 			buildPath,
-			'templates/portal_normal.ftl'
+			'templates',
+			'portal_normal.ftl'
 		);
 
 		expect(fs.readFileSync(portalNormalPath).toString()).toMatch(
@@ -302,7 +318,7 @@ describe('using lib_sass', () => {
 	}
 
 	function _assertWar(cb) {
-		const warPath = path.join(tempTheme.tempPath, 'dist/base-theme.war');
+		const warPath = path.join(tempTheme.tempPath, 'dist', 'base-theme.war');
 
 		expect(fs.existsSync(warPath)).toBe(true);
 

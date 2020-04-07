@@ -204,7 +204,8 @@ InitPrompt.prototype = {
 				var glassfishPath = path.join(appServerPath, 'domains');
 				var jbossPath = path.join(
 					appServerPath,
-					'standalone/deployments'
+					'standalone',
+					'deployments'
 				);
 				var tomcatPath = path.join(appServerPath, 'webapps');
 

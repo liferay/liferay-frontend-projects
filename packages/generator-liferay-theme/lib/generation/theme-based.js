@@ -167,39 +167,44 @@ async function mergeLiferayLookAndFeelXml(project) {
 
 	// Read the XML from downloaded theme
 	const downloadXml = await new xml2js.Parser().parseStringPromise(
-		fs.readFileSync(path.resolve('src/WEB-INF/liferay-look-and-feel.xml'))
+		fs.readFileSync(
+			path.resolve('src', 'WEB-INF', 'liferay-look-and-feel.xml')
+		)
 	);
 
-	fs.unlinkSync(path.resolve('src/WEB-INF/liferay-look-and-feel.xml'));
+	fs.unlinkSync(path.resolve('src', 'WEB-INF', 'liferay-look-and-feel.xml'));
 
 	// Merge it into project's XML
-	project.modifyXmlFile('src/WEB-INF/liferay-look-and-feel.xml', xml => {
-		const {id, name} = xml['look-and-feel']['theme'][0]['$'];
+	project.modifyXmlFile(
+		path.join('src', 'WEB-INF', 'liferay-look-and-feel.xml'),
+		xml => {
+			const {id, name} = xml['look-and-feel']['theme'][0]['$'];
 
-		downloadXml['look-and-feel']['compatibility'][0]['version'] =
-			xml['look-and-feel']['compatibility'][0]['version'];
-		downloadXml['look-and-feel']['theme'][0]['$'] = {
-			...downloadXml['look-and-feel']['theme'][0]['$'],
-			id,
-			name,
-		};
+			downloadXml['look-and-feel']['compatibility'][0]['version'] =
+				xml['look-and-feel']['compatibility'][0]['version'];
+			downloadXml['look-and-feel']['theme'][0]['$'] = {
+				...downloadXml['look-and-feel']['theme'][0]['$'],
+				id,
+				name,
+			};
 
-		return downloadXml;
-	});
+			return downloadXml;
+		}
+	);
 }
 
 function mergeLiferayPluginPackageProperties() {
 	// The strategy for merging this file is simple: use the new on that
 	// facet-theme creates and remove the one coming from downloaded theme.
 	fs.unlinkSync(
-		path.resolve('src/WEB-INF/liferay-plugin-package.properties')
+		path.resolve('src', 'WEB-INF', 'liferay-plugin-package.properties')
 	);
 }
 
 function mergeThumbnailPng() {
 	// The strategy for merging this file is simple: use the new on that
 	// facet-theme creates and remove the one coming from downloaded theme.
-	fs.unlinkSync(path.resolve('src/images/thumbnail.png'));
+	fs.unlinkSync(path.resolve('src', 'images', 'thumbnail.png'));
 }
 
 function removeCssFiles() {
