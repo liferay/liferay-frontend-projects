@@ -11,7 +11,18 @@ const {spawn} = require('cross-spawn');
 function run(executable, ...args) {
 	const command = [executable, ...args].join(' ');
 
-	const {error, signal, status, stdout} = spawn.sync(executable, args);
+	const {error, signal, status, stderr, stdout} = spawn.sync(
+		executable,
+		args
+	);
+
+	if (error || signal || status) {
+		if (process.env.CI && process.env.TRAVIS) {
+			process.stderr.write('command:\n\n' + command + '\n\n');
+			process.stderr.write('stdout:\n\n' + stdout + '\n\n');
+			process.stderr.write('stderr:\n\n' + stderr + '\n\n');
+		}
+	}
 
 	if (error) {
 		throw error;
