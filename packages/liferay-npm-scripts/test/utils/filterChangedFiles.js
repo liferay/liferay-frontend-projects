@@ -6,12 +6,14 @@
 const {randomBytes} = require('crypto');
 const fs = require('fs');
 const os = require('os');
-const {join} = require('path');
+const path = require('path');
 
 const filterChangedFiles = require('../../src/utils/filterChangedFiles');
 const git = require('../../src/utils/git');
 
 const TMP_DIR = os.tmpdir();
+
+const join = path.posix.join;
 
 describe('filterChangedFiles()', () => {
 	let branch;
