@@ -45,6 +45,10 @@ function filterChangedFiles(files) {
 			'modules/private/package.json'
 		);
 	} catch (error) {
+		// An exit status of 1 means we detected the change we were looking for:
+		//
+		// https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---quiet
+		// https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---exit-code
 		if (error.toString().includes('exited with status 1.')) {
 			return files;
 		}
