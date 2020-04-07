@@ -157,7 +157,7 @@ $danger-a100: #ff8a80;
 
 ## Fonts
 
-Material Design uses the font Roboto. Clay CSS provides a way to import one font family via a CSS `@import url($font-import-url)`. This is different from a Sass import. Just copy and paste the URL from the Google Font `@IMPORT` tab and don't forget to wrap the URL in single quotes (e.g., 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'). The code is below:
+Material Design uses the font Roboto. Clay CSS provides a way to import one font family via a CSS `@import url($font-import-url)`. This is different from a Sass import. Just copy and paste the URL from the Google Font `@IMPORT` tab and don't forget to wrap the URL in single quotes (e.g., `'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'`). The code is below:
 
 ```
 $font-import-url: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap';
