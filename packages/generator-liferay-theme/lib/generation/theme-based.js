@@ -20,7 +20,7 @@ const {promisify} = require('util');
 const xml2js = require('xml2js');
 
 const ProgressLine = require('../../lib/ProgressLine');
-const Project = require('../../lib/Project');
+const Project = require('../../lib/utils/Project');
 const versions = require('../../lib/versions');
 
 const extract = promisify(extractZip);
