@@ -11,9 +11,9 @@ const {
 const path = require('path');
 const Generator = require('yeoman-generator');
 
-const Copier = require('../../lib/Copier');
 const {prompting, runLayoutCreator} = require('../../lib/generation/layout');
 const {runGulpInit, runInstall, snakeCase} = require('../../lib/util');
+const Copier = require('../../lib/utils/Copier');
 
 module.exports = class extends Generator {
 	initializing() {
@@ -66,7 +66,7 @@ module.exports = class extends Generator {
 	}
 
 	end() {
-		runGulpInit();
+		runGulpInit('plugin');
 	}
 
 	_getDevDependencies() {

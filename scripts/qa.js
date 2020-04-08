@@ -7,6 +7,7 @@
 
 const childProcess = require('child_process');
 const fs = require('fs-extra');
+const os = require('os');
 const path = require('path');
 const {argv} = require('yargs');
 
@@ -29,7 +30,6 @@ const layoutGeneratorPath = path.join(generatorsPath, 'layout', 'index.js');
 checkPrerrequisites();
 generateSamples();
 runYarnInstall();
-configureProjects();
 deployProjects();
 
 // TASKS ///////////////////////////////////////////////////////////////////////
@@ -64,44 +64,36 @@ function checkPrerrequisites() {
 }
 
 function generateSamples() {
-	spawn(yoPath, [generatorPath, '--qa'], {
-		cwd: pkgsDir,
-		liferayVersion: true,
+	generateSample(pkgsDir, generatorPath, {});
+
+	generateSample(pkgsDir, classicGeneratorPath, {
+		theme: {
+			themeName: 'Classic Based Theme',
+		},
 	});
 
-	spawn(
-		yoPath,
-		[classicGeneratorPath, '--qa', '--themeName', '"Classic Based Theme"'],
-		{cwd: pkgsDir, liferayVersion: true}
-	);
-
-	spawn(
-		yoPath,
-		[adminGeneratorPath, '--qa', '--themeName', '"Admin Based Theme"'],
-		{cwd: pkgsDir, liferayVersion: true}
-	);
-
-	spawn(yoPath, [themeletGeneratorPath, '--qa'], {
-		cwd: pkgsDir,
-		liferayVersion: true,
+	generateSample(pkgsDir, adminGeneratorPath, {
+		theme: {
+			themeName: 'Admin Based Theme',
+		},
 	});
 
-	spawn(yoPath, [layoutGeneratorPath, '--qa'], {
-		cwd: pkgsDir,
-		liferayVersion: true,
-	});
+	generateSample(pkgsDir, themeletGeneratorPath, {});
 
-	spawn(
-		yoPath,
-		[generatorPath, '--qa', '--themeName', '"Theme With Layout"'],
-		{cwd: pkgsDir, liferayVersion: true}
-	);
-	spawn(
-		yoPath,
-		[layoutGeneratorPath, '--qa', '--layoutName', '"Layout Inside Theme"'],
+	generateSample(pkgsDir, layoutGeneratorPath, {});
+
+	generateSample(pkgsDir, generatorPath, {
+		theme: {
+			themeName: 'Theme With Layout',
+		},
+	});
+	generateSample(
+		path.join(pkgsDir, 'theme-with-layout-theme'),
+		layoutGeneratorPath,
 		{
-			cwd: path.join(pkgsDir, 'theme-with-layout-theme'),
-			liferayVersion: true,
+			layout: {
+				layoutName: 'Layout Inside Theme',
+			},
 		}
 	);
 }
@@ -122,47 +114,6 @@ function runYarnInstall() {
 	});
 
 	spawn('yarn', ['install'], {cwd: workDir});
-}
-
-function configureProjects() {
-	const prjDirs = fs.readdirSync(pkgsDir);
-
-	prjDirs.forEach(prjDir => {
-		const pkgJsonPath = path.join(pkgsDir, prjDir, 'package.json');
-
-		const pkgJson = require(pkgJsonPath);
-
-		let fileName, jsonProperty;
-
-		if (pkgJson.liferayTheme && !pkgJson.liferayTheme.themelet) {
-			fileName = 'liferay-theme.json';
-			jsonProperty = 'LiferayTheme';
-		} else if (pkgJson.liferayLayoutTemplate) {
-			fileName = 'liferay-plugin.json';
-			jsonProperty = 'LiferayPlugin';
-		}
-
-		if (!fileName) {
-			return;
-		}
-
-		const json = {};
-
-		json[jsonProperty] = {
-			appServerPath: '/opt/tomcat',
-			appServerPathPlugin: `/opt/tomcat/webapps/${prjDir}`,
-			deployPath: '/opt/deploy',
-			deployed: false,
-			deploymentStrategy: 'LocalAppServer',
-			pluginName: prjDir,
-			url: 'http://localhost:8080',
-		};
-
-		fs.writeFileSync(
-			path.join(pkgsDir, prjDir, fileName),
-			JSON.stringify(json, null, '\t')
-		);
-	});
 }
 
 function deployProjects() {
@@ -189,11 +140,35 @@ function deleteDevDependency(pkgJson, pkgName) {
 	return pkgJson;
 }
 
-function spawn(cmd, args, options = {}) {
-	if (options.liferayVersion && argv.liferayVersion) {
+function generateSample(cwd, generatorPath, answers) {
+	const configJsonPath = path.join(
+		os.tmpdir(),
+		'generator-liferay-theme.json'
+	);
+
+	const configJson = {
+		answers: {
+			init: {
+				appServerPath: '/opt/tomcat',
+				deploymentStrategy: 'LocalAppServer',
+			},
+			...answers,
+		},
+		batchMode: true,
+	};
+
+	fs.writeJsonSync(configJsonPath, configJson, {spaces: '\t'});
+
+	const args = [generatorPath, '--config', configJsonPath, '--skip-install'];
+
+	if (argv.liferayVersion) {
 		args.push('--liferayVersion', argv.liferayVersion);
 	}
 
+	spawn(yoPath, args, {cwd});
+}
+
+function spawn(cmd, args, options = {}) {
 	const proc = childProcess.spawnSync(cmd, args, {
 		shell: true,
 		stdio: 'inherit',

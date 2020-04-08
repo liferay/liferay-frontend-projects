@@ -11,8 +11,6 @@ const _ = require('lodash');
 const path = require('path');
 const util = require('util');
 
-const project = require('../../lib/project');
-
 const DEPLOYMENT_STRATEGY_LOCAL_APP_SERVER = 'LocalAppServer';
 const DEPLOYMENT_STRATEGY_DOCKER_CONTAINER = 'DockerContainer';
 const DEPLOYMENT_STRATEGY_OTHER = 'Other';
@@ -41,8 +39,6 @@ function InitPrompt(options, cb) {
 
 InitPrompt.prototype = {
 	_afterPrompt(answers) {
-		answers = this._normalizeAnswers(answers);
-
 		Object.entries(answers).forEach(([key, value]) => {
 			this.store[key] = value;
 		});
@@ -91,33 +87,6 @@ InitPrompt.prototype = {
 
 	_getDefaultDeployPath(answers) {
 		return getPath(answers).join(answers.appServerPath, '../deploy');
-	},
-
-	_normalizeAnswers(answers) {
-		var appServerPath = answers.appServerPath;
-
-		if (appServerPath) {
-			var baseName = path.basename(appServerPath);
-
-			if (baseName != 'webapps') {
-				appServerPath = getPath(answers).join(appServerPath, 'webapps');
-			}
-
-			var pluginName = path.basename(project.dir);
-
-			var appServerPathPlugin = getPath(answers).join(
-				appServerPath,
-				pluginName
-			);
-
-			answers = _.assign(answers, {
-				appServerPathPlugin,
-				deployed: false,
-				pluginName,
-			});
-		}
-
-		return answers;
 	},
 
 	_prompt(options) {

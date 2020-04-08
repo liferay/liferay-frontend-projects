@@ -6,8 +6,9 @@
 const path = require('path');
 const Generator = require('yeoman-generator');
 
-const Copier = require('../../lib/Copier');
-const {normalizeName, promptWithQA, sayHello} = require('../../lib/util');
+const {normalizeName, sayHello} = require('../../lib/util');
+const Copier = require('../../lib/utils/Copier');
+const promptWithConfig = require('../../lib/utils/promptWithConfig');
 const versions = require('../../lib/versions');
 
 /**
@@ -21,7 +22,7 @@ module.exports = class extends Generator {
 	}
 
 	async prompting() {
-		this.answers = await promptWithQA(this, [
+		this.answers = await promptWithConfig(this, 'themelet', [
 			{
 				default: 'My Liferay Themelet',
 				message: 'What would you like to call your themelet?',

@@ -10,8 +10,9 @@ const {
 	success,
 	title,
 } = require('liferay-npm-build-tools-common/lib/format');
-const {argv} = require('yargs');
+const path = require('path');
 
+const config = require('../lib/utils/config');
 const pkgJson = require('../package.json');
 const versions = require('./versions');
 
@@ -30,49 +31,17 @@ function normalizeName(name) {
 }
 
 /**
- * Prompt user or assume defaults if --qa switch was given in command line.
- * @param {Generator} generator
- * @param {object[]} prompts
- */
-async function promptWithQA(generator, prompts) {
-	if (argv.qa) {
-		const answers = prompts.reduce((answers, prompt) => {
-			let val = argv[prompt.name];
-
-			if (val === undefined) {
-				val = prompt.default;
-
-				if (typeof val === 'function') {
-					val = val(answers);
-				}
-			}
-
-			answers[prompt.name] = val ? val.toString() : val;
-
-			return answers;
-		}, {});
-
-		return answers;
-	} else {
-		return await generator.prompt(prompts);
-	}
-}
-
-/**
  * Run `gulp init` after successful creation of a project.
+ *
+ * @param {'plugin' | 'theme'} registerTasksModule
  */
-function runGulpInit() {
+function runGulpInit(registerTasksModule) {
 	print(
 		'\n',
 		success`
 		The project has been created successfully.
 		`
 	);
-
-	// Skip step if ran in QA mode
-	if (argv.qa) {
-		return;
-	}
 
 	print(
 		info`
@@ -85,18 +54,52 @@ function runGulpInit() {
 	);
 
 	// We cannot load this before the project is created because it crashes
-	const liferayThemeTasks = require('liferay-theme-tasks');
+	// eslint-disable-next-line liferay/no-dynamic-require
+	const liferayThemeTasks = require(`liferay-theme-tasks/${registerTasksModule}`);
 
 	liferayThemeTasks.registerTasks({gulp});
 
-	gulp.series('init')();
+	if (config.batchMode()) {
+		const project = require('liferay-theme-tasks/lib/project');
+
+		project.store.deploymentStrategy = config.getDefaultAnswer(
+			'init',
+			'deploymentStrategy',
+			'LocalAppServer'
+		);
+		project.store.appServerPath = config.getDefaultAnswer(
+			'init',
+			'appServerPath',
+			path.join(path.dirname(project.dir), 'tomcat')
+		);
+		project.store.deployPath = config.getDefaultAnswer(
+			'init',
+			'deployPath',
+			path.join(project.store.appServerPath.asNative, '..', 'deploy')
+		);
+		project.store.url = config.getDefaultAnswer(
+			'init',
+			'url',
+			'http://localhost:8080'
+		);
+
+		if (project.store.deploymentStrategy === 'DockerContainer') {
+			project.store.dockerContainerName = config.getDefaultAnswer(
+				'init',
+				'dockerContainerName',
+				'liferay_portal_1'
+			);
+		}
+	} else {
+		gulp.series('init')();
+	}
 }
 
 /**
  * Run `npm install` after successful creation of a project.
  */
 function runInstall(generator) {
-	const skipInstall = generator.options['skip-install'] || argv.qa;
+	const skipInstall = generator.options['skip-install'];
 
 	if (!skipInstall) {
 		generator.installDependencies({bower: false});
@@ -153,7 +156,6 @@ function splitWords(input) {
 
 module.exports = {
 	normalizeName,
-	promptWithQA,
 	runGulpInit,
 	runInstall,
 	sayHello,

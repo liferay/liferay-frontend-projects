@@ -57,10 +57,6 @@ test('_afterPrompt should store normalized answers', () => {
 	expect(store.deployPath).toBe(defaultAnswers.deployPath);
 	expect(store.url).toBe(defaultAnswers.url);
 
-	expect(!_.isUndefined(store.appServerPathPlugin)).toBe(true);
-	expect(!_.isUndefined(store.deployed)).toBe(true);
-	expect(!_.isUndefined(store.pluginName)).toBe(true);
-
 	expect(prototype.done.callCount).toBe(1);
 
 	prototype.done = null;
@@ -112,33 +108,6 @@ test('_getDefaultDeployPath should return defualy deploy path value based on ans
 	});
 
 	expect(path.join('/path-to', 'appserver', 'deploy')).toBe(defaultPath);
-});
-
-test('_normalizeAnswers should normalize prompt answers', () => {
-	var defaultAnswers = getDefaultAnswers();
-	var answers = getDefaultAnswers();
-
-	prototype._normalizeAnswers(answers);
-
-	expect(answers.appServerPath).toBe(defaultAnswers.appServerPath);
-	expect(answers.deployPath).toBe(defaultAnswers.deployPath);
-	expect(answers.url).toBe(defaultAnswers.url);
-
-	expect(answers.pluginName).toBe('c-project');
-	expect(answers.deployed).toBe(false);
-	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps', 'c-project')
-	);
-
-	answers = _.assign({}, defaultAnswers);
-
-	answers.appServerPath = defaultAnswers.webappsPath;
-
-	prototype._normalizeAnswers(answers);
-
-	expect(answers.appServerPathPlugin).toBe(
-		path.join(defaultAnswers.appServerPath, 'webapps', 'c-project')
-	);
 });
 
 test('_prompt should invoke inquirer.prompt with correct args', () => {

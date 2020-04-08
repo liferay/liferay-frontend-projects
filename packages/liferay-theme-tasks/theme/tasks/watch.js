@@ -85,8 +85,6 @@ module.exports = function() {
 	gulp.task('watch', () => {
 		project.watching = true;
 
-		store.appServerPathPlugin = explodedBuildDir;
-
 		// Get tasks array
 		const taskArray = getCleanTaskArray(deploymentStrategy);
 

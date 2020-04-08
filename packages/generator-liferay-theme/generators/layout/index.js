@@ -5,8 +5,8 @@
 
 const Generator = require('yeoman-generator');
 
-const Project = require('../../lib/Project');
 const {sayHello} = require('../../lib/util');
+const Project = require('../../lib/utils/Project');
 
 /**
  * Generator to create a layout project.

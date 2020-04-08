@@ -8,9 +8,9 @@
 const path = require('path');
 const Generator = require('yeoman-generator');
 
-const Copier = require('../../lib/Copier');
 const {prompting, runLayoutCreator} = require('../../lib/generation/layout');
 const {snakeCase} = require('../../lib/util');
+const Copier = require('../../lib/utils/Copier');
 
 module.exports = class extends Generator {
 	initializing() {

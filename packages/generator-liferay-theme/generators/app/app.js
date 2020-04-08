@@ -7,8 +7,8 @@ const path = require('path');
 const {argv} = require('yargs');
 const Generator = require('yeoman-generator');
 
-const Copier = require('../../lib/Copier');
-const Project = require('../../lib/Project');
+const Copier = require('../../lib/utils/Copier');
+const Project = require('../../lib/utils/Project');
 
 // If --which parameter is given show path to generator and exit
 if (argv.which) {

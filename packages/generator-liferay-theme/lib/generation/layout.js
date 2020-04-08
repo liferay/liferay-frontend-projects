@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {argv} = require('yargs');
-
 const LayoutCreator = require('../../lib/LayoutCreator');
-const {normalizeName, promptWithQA} = require('../../lib/util');
+const {normalizeName} = require('../../lib/util');
+const config = require('../../lib/utils/config');
+const promptWithConfig = require('../../lib/utils/promptWithConfig');
 const versions = require('../../lib/versions');
 
 async function prompting(generator) {
-	return await promptWithQA(generator, [
+	return await promptWithConfig(generator, 'layout', [
 		{
 			default: 'My Liferay Layout',
 			message: 'What would you like to call your layout template?',
@@ -41,7 +41,7 @@ async function runLayoutCreator(className, liferayVersion) {
 		liferayVersion,
 	};
 
-	if (argv.qa) {
+	if (config.batchMode()) {
 		options.rowData = [
 			[
 				{
