@@ -19,6 +19,7 @@ ruleTester.run('no-global-fetch', rule, {
 	invalid: [
 		{
 			// As a global fetch without an import.
+
 			code: `
 				function doSomething(url) {
 					return fetch(url);
@@ -33,6 +34,7 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 			// As a global fetch without an import.
+
 			code: `
 				import fetch from 'whatwg-fetch';
 
@@ -50,6 +52,7 @@ ruleTester.run('no-global-fetch', rule, {
 	valid: [
 		{
 			// Named import from frontend-js-web
+
 			code: `
 				import {fetch} from 'frontend-js-web';
 
@@ -60,6 +63,7 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 			// Unnamed import from '../fetch.es'
+
 			code: `
 				import fetch from '../fetch.es';
 
@@ -70,6 +74,7 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 			// Unnamed import from '../util/fetch.es'
+
 			code: `
 				import fetch from '../util/fetch.es';
 
@@ -80,6 +85,7 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 			// Namespaced from Liferay.Util
+
 			code: `
 				function doSomething(url) {
 					return Liferay.Util.fetch(url);
@@ -88,6 +94,7 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 			// Accessed via prototype
+
 			code: `
 				class CreateContentForm extends PortletBase {
 					doSomething() {

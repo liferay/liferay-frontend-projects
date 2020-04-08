@@ -46,6 +46,7 @@ ruleTester.run('sort-import-destructures', rule, {
 		},
 		{
 			// Same as previous, but with line breaks.
+
 			code: `
 				import thing, {
 					k,
@@ -68,6 +69,7 @@ ruleTester.run('sort-import-destructures', rule, {
 		},
 		{
 			// Note that trailing commas are preserved.
+
 			code: `
 				import {
 					z,
@@ -108,6 +110,7 @@ ruleTester.run('sort-import-destructures', rule, {
 		},
 		{
 			// We don't touch the sort order if there are comments anywhere.
+
 			code: `
 				import {
 					// Comment.
@@ -129,6 +132,7 @@ ruleTester.run('sort-import-destructures', rule, {
 		},
 		{
 			// Regression test. This was being incorrectly flagged as unsorted.
+
 			code: `
 				import {
 					addFragmentEntryLinkReducer,

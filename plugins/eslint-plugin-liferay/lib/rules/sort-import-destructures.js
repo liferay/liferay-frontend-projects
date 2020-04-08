@@ -11,6 +11,7 @@ module.exports = {
 			ImportDeclaration(node) {
 				const specifiers = node.specifiers.filter(specifier => {
 					// Just `ImportSpecifier` (ignore `ImportDefaultSpecifier`).
+
 					return specifier.type === 'ImportSpecifier';
 				});
 
@@ -25,6 +26,7 @@ module.exports = {
 					) {
 						// Don't touch if any of the specifiers have
 						// comments.
+
 						return;
 					}
 
@@ -38,6 +40,7 @@ module.exports = {
 					// - `imported.name === 'c'`.
 					//
 					// We sort by `imported` always, ignoring `local`.
+
 					const sorted = specifiers.slice().sort((a, b) => {
 						return a.imported.name > b.imported.name ? 1 : -1;
 					});
@@ -60,6 +63,7 @@ module.exports = {
 
 							if (i < specifiers.length - 1) {
 								// Grab all text between specifier and next.
+
 								const between = text.slice(
 									specifiers[i].range[1],
 									specifiers[i + 1].range[0]

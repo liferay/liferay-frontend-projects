@@ -70,11 +70,13 @@ const CALL_EXPRESSIONS = [
 	//   TaggedTemplateExpression whose tag is a MemberExpression whose
 	//   property is the Identifier with name "each" and whose object
 	//   is a MemberExpression corresponding to "it.skip" (via recursion).
+
 	const match = (node, parts) => {
 		if (parts.length === 1) {
 			return node.type === 'Identifier' && node.name === parts[0];
 		} else {
 			// Recurse.
+
 			if (node.type === 'MemberExpression') {
 				return (
 					match(node.object, parts.slice(0, -1)) &&

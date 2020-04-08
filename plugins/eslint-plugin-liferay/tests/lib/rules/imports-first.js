@@ -50,6 +50,7 @@ ruleTester.run('imports-first', rule, {
 		{
 			// Regression test: the second require here wasn't being flagged
 			// because we were choking (silently) on the directive:
+
 			code: `
 				'use strict';
 
@@ -69,6 +70,7 @@ ruleTester.run('imports-first', rule, {
 		},
 		{
 			// Note that directives are only ignored when they are at the top.
+
 			code: `
 				const a = require('a');
 
@@ -106,6 +108,7 @@ ruleTester.run('imports-first', rule, {
 			// recognize "gulp" as an import.
 			//
 			// https://github.com/liferay/eslint-config-liferay/issues/94
+
 			code: `
 				var del = require('del');
 				var fs = require('fs-extra');
@@ -119,6 +122,7 @@ ruleTester.run('imports-first', rule, {
 			// recognize "gulp-load-plugins" as an import.
 			//
 			// https://github.com/liferay/eslint-config-liferay/issues/94
+
 			code: `
 				const del = require('del');
 				const fs = require('fs-extra');

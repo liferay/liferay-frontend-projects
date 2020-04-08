@@ -92,6 +92,7 @@ module.exports = {
 			CallExpression(node) {
 				if (scope.length) {
 					// Only consider `require` calls at the top level.
+
 					return;
 				}
 

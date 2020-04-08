@@ -24,6 +24,7 @@ ruleTester.run('sort-class-names', rule, {
 	invalid: [
 		{
 			// Double quotes.
+
 			code: '<div className="a c b d"></div>',
 			errors: [
 				{
@@ -35,6 +36,7 @@ ruleTester.run('sort-class-names', rule, {
 		},
 		{
 			// Single quotes.
+
 			code: "<div className='a c b d'></div>",
 			errors: [
 				{
@@ -46,6 +48,7 @@ ruleTester.run('sort-class-names', rule, {
 		},
 		{
 			// Double quotes inside an expression container.
+
 			code: '<div className={"a c b d"}></div>',
 			errors: [
 				{
@@ -57,6 +60,7 @@ ruleTester.run('sort-class-names', rule, {
 		},
 		{
 			// Single quotes inside an expression container.
+
 			code: "<div className={'a c b d'}></div>",
 			errors: [
 				{
@@ -68,6 +72,7 @@ ruleTester.run('sort-class-names', rule, {
 		},
 		{
 			// Template literal inside an expression container.
+
 			code: '<div className={`a c b d`}></div>',
 			errors: [
 				{
@@ -79,6 +84,7 @@ ruleTester.run('sort-class-names', rule, {
 		},
 		{
 			// Internal whitespace damage.
+
 			code: '<div className=" a    b\tc  "></div>',
 			errors: [
 				{
@@ -98,6 +104,7 @@ ruleTester.run('sort-class-names', rule, {
 		{code: '<div className={`a b c d`}></div>'},
 
 		// Note that we don't check template literals containing expressions.
+
 		{code: '<div className={`a c ${b} d`}></div>'},
 	],
 });

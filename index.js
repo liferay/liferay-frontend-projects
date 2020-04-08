@@ -42,6 +42,7 @@ const config = {
 		'lines-around-comment': [
 			'error',
 			{
+				afterBlockComment: false,
 				afterLineComment: true,
 				allowArrayEnd: true,
 				allowArrayStart: true,

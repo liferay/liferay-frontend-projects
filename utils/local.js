@@ -90,6 +90,7 @@ function local(pluginName) {
 	localPlugins.set(basename, location);
 
 	// Make sure patches are applied.
+
 	patch();
 
 	return pluginName;

@@ -37,15 +37,18 @@ function fix(nodesToRemove, context, fixer) {
 
 	if (nodesToRemove instanceof Set) {
 		// Removing elements from an ArrayExpression.
+
 		const parent = [...nodesToRemove][0].parent;
 
 		items = parent.elements.slice();
 	} else {
 		// Removing property from an ObjectExpression.
+
 		const parent = nodesToRemove.parent;
 
 		// Special case: when removing last property, kill all
 		// internal whitespace.
+
 		if (parent.properties.length === 1) {
 			return fixer.replaceText(parent, '{}');
 		}
@@ -60,6 +63,7 @@ function fix(nodesToRemove, context, fixer) {
 
 	// Record index of last `item` in `items` that will remain after we've
 	// deleted `nodesToRemove`.
+
 	const lastRemaining = items.reduce((last, item, index) => {
 		if (nodesToRemove.has(item)) {
 			return last;
@@ -70,6 +74,7 @@ function fix(nodesToRemove, context, fixer) {
 
 	// Remove array elements or an object property, preserving
 	// whitespace between items.
+
 	return fixer.replaceTextRange(
 		[start, end],
 		items.slice().reduce((text, item, index) => {
@@ -111,6 +116,7 @@ module.exports = {
 				if (pendingDeletions.has(node)) {
 					// Special case: when removing all array items, remove
 					// entire property instead.
+
 					if (
 						pendingDeletions.get(node).size === node.elements.length
 					) {

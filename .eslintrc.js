@@ -8,6 +8,7 @@ const path = require('path');
 module.exports = {
 	env: {
 		// Available environments: https://eslint.org/docs/user-guide/configuring#specifying-environments
+
 		es6: true,
 		node: true,
 	},
