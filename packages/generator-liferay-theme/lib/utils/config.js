@@ -58,13 +58,7 @@ function getDefaultAnswer(namespace, question, defaultDefault = undefined) {
 		}
 	}
 
-	// If not found in any section return defaultDefault
-	if (value === undefined) {
-		return defaultDefault;
-	}
-
-	// If found, return the configured value
-	return value;
+	return value === undefined ? defaultDefault : value;
 }
 
 /**
