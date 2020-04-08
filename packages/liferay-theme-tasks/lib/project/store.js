@@ -16,7 +16,7 @@ const path = require('path');
  * They are indexed by type.
  */
 const PERSISTENT_PROPERTIES = {
-	FilePath: ['appServerPath', 'appServerPathPlugin', 'deployPath'],
+	FilePath: ['appServerPath', 'deployPath'],
 	primitive: [
 		'deployed',
 		'deploymentStrategy',
@@ -32,6 +32,10 @@ class Store {
 		this._section = section;
 		this._filePath = path.join(project.dir, fileName);
 
+		// Load default values
+		this._deployed = false;
+		this._pluginName = path.basename(project.dir);
+
 		this._readJSON();
 	}
 
@@ -42,16 +46,6 @@ class Store {
 	 */
 	get appServerPath() {
 		return this._appServerPath;
-	}
-
-	/**
-	 * Path to project's webapp dir in application server (f.e.:
-	 * /liferay/tomcat/webapps/my-liferay-theme)
-	 *
-	 * @return {FilePath}
-	 */
-	get appServerPathPlugin() {
-		return this._appServerPathPlugin;
 	}
 
 	/**
@@ -145,18 +139,6 @@ class Store {
 		}
 
 		this._appServerPath = appServerPath;
-		this._writeJSON();
-	}
-
-	/**
-	 * @param {FilePath | string} appServerPathPlugin
-	 */
-	set appServerPathPlugin(appServerPathPlugin) {
-		if (typeof appServerPathPlugin === 'string') {
-			appServerPathPlugin = new FilePath(appServerPathPlugin);
-		}
-
-		this._appServerPathPlugin = appServerPathPlugin;
 		this._writeJSON();
 	}
 
