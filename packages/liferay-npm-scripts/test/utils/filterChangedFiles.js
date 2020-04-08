@@ -60,10 +60,14 @@ describe('filterChangedFiles()', () => {
 		fs.mkdirSync(join('modules', 'private'), {recursive: true});
 
 		const code = join('modules', 'code');
+		const nested = join('modules', 'private', 'nested');
+		const other = join('modules', 'other');
 		const pkg = join('modules', 'package.json');
 		const privatePkg = join('modules', 'private', 'package.json');
 
 		fs.writeFileSync(code, 'stuff\n', 'utf8');
+		fs.writeFileSync(nested, 'nested\n', 'utf8');
+		fs.writeFileSync(other, 'other\n', 'utf8');
 		fs.writeFileSync(pkg, 'liferay-npm-scripts: 1\n', 'utf8');
 		fs.writeFileSync(privatePkg, 'liferay-npm-scripts: 1\n', 'utf8');
 
@@ -140,7 +144,13 @@ describe('filterChangedFiles()', () => {
 	});
 
 	it('has a test repo that it can use (sanity check)', () => {
-		expect(getFiles().length).toBe(3);
+		expect(getFiles()).toEqual([
+			'code',
+			'other',
+			'package.json',
+			'private/nested',
+			'private/package.json',
+		]);
 	});
 
 	describe('when LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME is not set', () => {
@@ -167,7 +177,13 @@ describe('filterChangedFiles()', () => {
 			expect(filterChangedFiles(files)).toEqual(['code', 'package.json']);
 
 			git('checkout', '--detach', 'e');
-			expect(filterChangedFiles(files)).toEqual(files);
+			expect(filterChangedFiles(files)).toEqual([
+				'code',
+				'other',
+				'package.json',
+				'private/nested',
+				'private/package.json',
+			]);
 
 			// Private.
 			process.chdir('private');
@@ -181,7 +197,10 @@ describe('filterChangedFiles()', () => {
 			expect(filterChangedFiles(files)).toEqual(['package.json']);
 
 			git('checkout', '--detach', 'j');
-			expect(filterChangedFiles(files)).toEqual(['package.json']);
+			expect(filterChangedFiles(files)).toEqual([
+				'nested',
+				'package.json',
+			]);
 		});
 	});
 });
