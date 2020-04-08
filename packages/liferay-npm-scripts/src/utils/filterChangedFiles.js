@@ -15,6 +15,13 @@ const git = require('./git');
  * to that branch (usually "master", but may also be "master-private").
  *
  * If the variable is not set, the `files` list is return unchanged.
+ *
+ * One important exception to the above: if the top-level `package.json`
+ * changes (which happens rarely), this may indicate a change of the
+ * liferay-npm-scripts version, and in that case we want to run against
+ * the entire unfiltered `files` list.
+ *
+ * @param {Array<string>} files List of files relative to the current directory.
  */
 function filterChangedFiles(files) {
 	const upstream = process.env.LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME;
@@ -26,6 +33,26 @@ function filterChangedFiles(files) {
 	const topLevel = git('rev-parse', '--show-toplevel');
 
 	const mergeBase = git('merge-base', 'HEAD', upstream);
+
+	// Check for changes in liferay-npm-scripts version.
+	try {
+		git(
+			'diff',
+			mergeBase,
+			'-Gliferay-npm-scripts',
+			'--quiet',
+			'--',
+			'package.json'
+		);
+	} catch (error) {
+		// An exit status of 1 means we detected the change we were looking for:
+		//
+		// https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---quiet
+		// https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---exit-code
+		if (error.toString().includes('exited with status 1.')) {
+			return files;
+		}
+	}
 
 	const changedFiles = git(
 		'diff',
@@ -41,20 +68,10 @@ function filterChangedFiles(files) {
 		})
 		.filter(Boolean);
 
-	const set = new Set();
-
-	changedFiles.forEach(changedFile => {
-		if (path.isAbsolute(changedFile)) {
-			set.add(changedFile);
-		} else {
-			const absolute = path.normalize(path.resolve(changedFile));
-
-			set.add(absolute);
-		}
-	});
+	const set = new Set(changedFiles);
 
 	return files.filter(file => {
-		const absolute = path.normalize(path.resolve(file));
+		const absolute = path.resolve(file);
 
 		return set.has(absolute);
 	});
