@@ -146,16 +146,11 @@ function generateSample(cwd, generatorPath, answers) {
 		'generator-liferay-theme.json'
 	);
 
-	// const prjDir = path.basename(cwd);
-
 	const configJson = {
 		answers: {
 			init: {
 				appServerPath: '/opt/tomcat',
-				// deployPath: '/opt/deploy',
 				deploymentStrategy: 'LocalAppServer',
-				// pluginName: prjDir,
-				// url: 'http://localhost:8080',
 			},
 			...answers,
 		},

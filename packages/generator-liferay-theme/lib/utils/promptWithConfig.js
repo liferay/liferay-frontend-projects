@@ -36,7 +36,7 @@ async function promptWithConfig(generator, namespace, prompts) {
 		return prompt;
 	});
 
-	// Decide wether to run in batch or interactive mode
+	// Decide whether to run in batch or interactive mode
 	if (config.batchMode()) {
 		return prompts.reduce((answers, prompt) => {
 			let val = prompt.default;
