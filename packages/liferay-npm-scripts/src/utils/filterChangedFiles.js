@@ -68,20 +68,10 @@ function filterChangedFiles(files) {
 		})
 		.filter(Boolean);
 
-	const set = new Set();
-
-	changedFiles.forEach(changedFile => {
-		if (path.isAbsolute(changedFile)) {
-			set.add(changedFile);
-		} else {
-			const absolute = path.normalize(path.resolve(changedFile));
-
-			set.add(absolute);
-		}
-	});
+	const set = new Set(changedFiles);
 
 	return files.filter(file => {
-		const absolute = path.normalize(path.resolve(file));
+		const absolute = path.resolve(file);
 
 		return set.has(absolute);
 	});
