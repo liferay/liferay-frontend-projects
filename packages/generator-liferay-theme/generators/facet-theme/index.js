@@ -9,13 +9,9 @@ const {
 const path = require('path');
 const Generator = require('yeoman-generator');
 
-const {
-	normalizeName,
-	promptWithQA,
-	runGulpInit,
-	runInstall,
-} = require('../../lib/util');
+const {normalizeName, runGulpInit, runInstall} = require('../../lib/util');
 const Copier = require('../../lib/utils/Copier');
+const promptWithConfig = require('../../lib/utils/promptWithConfig');
 const versions = require('../../lib/versions');
 
 /**
@@ -27,7 +23,7 @@ module.exports = class extends Generator {
 	}
 
 	async prompting() {
-		this.answers = await promptWithQA(this, [
+		this.answers = await promptWithConfig(this, 'theme', [
 			{
 				default: 'My Liferay Theme',
 				message: 'What would you like to call your theme?',
