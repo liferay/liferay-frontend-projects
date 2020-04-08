@@ -1,3 +1,21 @@
+## [liferay-theme-tasks/v10.0.0-alpha.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.0-alpha.2) (2020-04-08)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.0-alpha.1...liferay-theme-tasks/v10.0.0-alpha.2)
+
+### :new: Features
+
+-   feat: #455 support --config option ([\#467](https://github.com/liferay/liferay-js-themes-toolkit/pull/467))
+
+### :wrench: Bug fixes
+
+-   fix: #457 gulp deploy fails in Windows ([\#461](https://github.com/liferay/liferay-js-themes-toolkit/pull/461))
+-   fix: #456 gulp upgrade fails with TypeError ([\#460](https://github.com/liferay/liferay-js-themes-toolkit/pull/460))
+
+### :woman_juggling: Refactoring
+
+-   refactor: #462 normalize file path handling ([\#465](https://github.com/liferay/liferay-js-themes-toolkit/pull/465))
+-   refactor: #462 normalize paths ([\#464](https://github.com/liferay/liferay-js-themes-toolkit/pull/464))
+
 ## [liferay-theme-tasks/v10.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.0-alpha.1) (2020-03-26)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0...liferay-theme-tasks/v10.0.0-alpha.1)
