@@ -66,7 +66,7 @@ module.exports = class extends Generator {
 	}
 
 	end() {
-		runGulpInit();
+		runGulpInit('plugin');
 	}
 
 	_getDevDependencies() {

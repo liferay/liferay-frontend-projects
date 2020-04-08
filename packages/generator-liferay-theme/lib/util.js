@@ -10,7 +10,9 @@ const {
 	success,
 	title,
 } = require('liferay-npm-build-tools-common/lib/format');
+const path = require('path');
 
+const config = require('../lib/utils/config');
 const pkgJson = require('../package.json');
 const versions = require('./versions');
 
@@ -30,8 +32,10 @@ function normalizeName(name) {
 
 /**
  * Run `gulp init` after successful creation of a project.
+ *
+ * @param {'plugin' | 'theme'} registerTasksModule
  */
-function runGulpInit() {
+function runGulpInit(registerTasksModule) {
 	print(
 		'\n',
 		success`
@@ -50,11 +54,45 @@ function runGulpInit() {
 	);
 
 	// We cannot load this before the project is created because it crashes
-	const liferayThemeTasks = require('liferay-theme-tasks');
+	// eslint-disable-next-line liferay/no-dynamic-require
+	const liferayThemeTasks = require(`liferay-theme-tasks/${registerTasksModule}`);
 
 	liferayThemeTasks.registerTasks({gulp});
 
-	gulp.series('init')();
+	if (config.batchMode()) {
+		const project = require('liferay-theme-tasks/lib/project');
+
+		project.store.deploymentStrategy = config.getDefaultAnswer(
+			'init',
+			'deploymentStrategy',
+			'LocalAppServer'
+		);
+		project.store.appServerPath = config.getDefaultAnswer(
+			'init',
+			'appServerPath',
+			path.join(path.dirname(project.dir), 'tomcat')
+		);
+		project.store.deployPath = config.getDefaultAnswer(
+			'init',
+			'deployPath',
+			path.join(project.store.appServerPath.asNative, '..', 'deploy')
+		);
+		project.store.url = config.getDefaultAnswer(
+			'init',
+			'url',
+			'http://localhost:8080'
+		);
+
+		if (project.store.deploymentStrategy === 'DockerContainer') {
+			project.store.dockerContainerName = config.getDefaultAnswer(
+				'init',
+				'dockerContainerName',
+				'liferay_portal_1'
+			);
+		}
+	} else {
+		gulp.series('init')();
+	}
 }
 
 /**
