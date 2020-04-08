@@ -165,23 +165,28 @@ function isRequireStatement(node) {
 
 	const {init} = node.declarations[0];
 
+	// Check for `const a = require('a')`
+
+	if (init.type === 'CallExpression' && init.callee.name === 'require') {
+		return true;
+	}
+
+	// Check for `const a = require('a').item`
+
+	if (
+		init.type === 'MemberExpression' &&
+		init.object.type === 'CallExpression' &&
+		init.object.callee.name === 'require'
+	) {
+		return true;
+	}
+
+	// Check for `const a = require('a')()`
+
 	return (
-
-		// ie. `const a = require('a');`
-
-		(init.type === 'CallExpression' && init.callee.name === 'require') ||
-
-		// ie. `const a = require('a').item;`
-
-		(init.type === 'MemberExpression' &&
-			init.object.type === 'CallExpression' &&
-			init.object.callee.name === 'require') ||
-
-		// ie. `const a = require('a')();`
-
-		(init.type === 'CallExpression' &&
-			init.callee.type === 'CallExpression' &&
-			init.callee.callee.name === 'require')
+		init.type === 'CallExpression' &&
+		init.callee.type === 'CallExpression' &&
+		init.callee.callee.name === 'require'
 	);
 }
 
