@@ -18,9 +18,10 @@ const join = path.posix.join;
 describe('filterChangedFiles()', () => {
 	let branch;
 	let cwd;
-	let files;
-	let pkg;
-	let privatePkg;
+	let repo;
+
+	const getFiles = () =>
+		git('ls-tree', '--name-only', '-r', 'HEAD').split('\n');
 
 	beforeAll(() => {
 		cwd = process.cwd();
@@ -43,7 +44,7 @@ describe('filterChangedFiles()', () => {
 		//      * b (touches nothing)
 		//      * a (root commit)
 		//
-		const repo = join(
+		repo = join(
 			TMP_DIR,
 			`liferay-npm-scripts-${randomBytes(16).toString('hex')}`
 		);
@@ -58,26 +59,27 @@ describe('filterChangedFiles()', () => {
 
 		fs.mkdirSync(join('modules', 'private'), {recursive: true});
 
-		pkg = join('modules', 'package.json');
-		privatePkg = join('modules', 'private', 'package.json');
+		const code = join('modules', 'code');
+		const pkg = join('modules', 'package.json');
+		const privatePkg = join('modules', 'private', 'package.json');
 
-		fs.writeFileSync('a', 'stuff\n', 'utf8');
+		fs.writeFileSync(code, 'stuff\n', 'utf8');
 		fs.writeFileSync(pkg, 'liferay-npm-scripts: 1\n', 'utf8');
 		fs.writeFileSync(privatePkg, 'liferay-npm-scripts: 1\n', 'utf8');
 
-		git('add', 'a', 'modules');
-		git('commit', '-m', 'a', '--', 'a', 'modules');
+		git('add', 'modules');
+		git('commit', '-m', 'a', '--', 'modules');
 		git('tag', 'a');
 		git('commit', '-m', 'b', '--allow-empty');
 		git('tag', 'b');
 		git('checkout', '-b', 'topic-1');
 
-		fs.writeFileSync('a', 'different stuff\n', {
+		fs.writeFileSync(code, 'different stuff\n', {
 			encoding: 'utf8',
 			flag: 'a',
 		});
 
-		git('commit', '-m', 'c', '--', 'a');
+		git('commit', '-m', 'c', '--', code);
 		git('tag', 'c');
 
 		fs.writeFileSync(pkg, 'extra: 1\n', {encoding: 'utf8', flag: 'a'});
@@ -100,9 +102,9 @@ describe('filterChangedFiles()', () => {
 		git('tag', 'g');
 		git('checkout', '-b', 'topic-2');
 
-		fs.writeFileSync('a', 'more stuff\n', {encoding: 'utf8', flag: 'a'});
+		fs.writeFileSync(code, 'more stuff\n', {encoding: 'utf8', flag: 'a'});
 
-		git('commit', '-m', 'h', '--', 'a');
+		git('commit', '-m', 'h', '--', code);
 		git('tag', 'h');
 
 		fs.writeFileSync(privatePkg, 'extra: 1\n', {
@@ -126,8 +128,10 @@ describe('filterChangedFiles()', () => {
 		git('checkout', 'master');
 		git('commit', '-m', 'l', '--allow-empty');
 		git('tag', 'l');
+	});
 
-		files = git('ls-tree', '--name-only', '-r', 'HEAD').split('\n');
+	beforeEach(() => {
+		process.chdir(join(repo, 'modules'));
 	});
 
 	afterAll(() => {
@@ -136,11 +140,13 @@ describe('filterChangedFiles()', () => {
 	});
 
 	it('has a test repo that it can use (sanity check)', () => {
-		expect(files.length).toBe(3);
+		expect(getFiles().length).toBe(3);
 	});
 
 	describe('when LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME is not set', () => {
 		it('returns all files', () => {
+			const files = getFiles();
+
 			expect(filterChangedFiles(files)).toEqual(files);
 		});
 	});
@@ -152,24 +158,30 @@ describe('filterChangedFiles()', () => {
 
 		it('returns only changed files, unless it detects a liferay-npm-scripts update', () => {
 			// Top-level.
+			let files = getFiles();
+
 			git('checkout', '--detach', 'c');
-			expect(filterChangedFiles(files)).toEqual(['a']);
+			expect(filterChangedFiles(files)).toEqual(['code']);
 
 			git('checkout', '--detach', 'd');
-			expect(filterChangedFiles(files)).toEqual(['a', pkg]);
+			expect(filterChangedFiles(files)).toEqual(['code', 'package.json']);
 
 			git('checkout', '--detach', 'e');
 			expect(filterChangedFiles(files)).toEqual(files);
 
 			// Private.
+			process.chdir('private');
+
+			files = getFiles();
+
 			git('checkout', '--detach', 'h');
-			expect(filterChangedFiles(files)).toEqual(['a']);
+			expect(filterChangedFiles(files)).toEqual([]);
 
 			git('checkout', '--detach', 'i');
-			expect(filterChangedFiles(files)).toEqual(['a', privatePkg]);
+			expect(filterChangedFiles(files)).toEqual(['package.json']);
 
 			git('checkout', '--detach', 'j');
-			expect(filterChangedFiles(files)).toEqual(files);
+			expect(filterChangedFiles(files)).toEqual(['package.json']);
 		});
 	});
 });

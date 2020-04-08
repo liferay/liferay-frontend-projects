@@ -21,6 +21,7 @@ const git = require('./git');
  * liferay-npm-scripts version, and in that case we want to run against
  * the entire unfiltered `files` list.
  *
+ * @param {Array<string>} files List of files relative to the current directory.
  */
 function filterChangedFiles(files) {
 	const upstream = process.env.LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME;
@@ -41,8 +42,7 @@ function filterChangedFiles(files) {
 			'-Gliferay-npm-scripts',
 			'--quiet',
 			'--',
-			'modules/package.json',
-			'modules/private/package.json'
+			'package.json'
 		);
 	} catch (error) {
 		// An exit status of 1 means we detected the change we were looking for:
