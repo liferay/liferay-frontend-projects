@@ -307,7 +307,7 @@ $input-padding-x-sm: 1rem;
 
 ### Form Control Lg
 
-There is no large text field equivalent, lets use 80px.
+There is no large text field equivalent, let's use 80px.
 
 ```scss
 $input-border-radius-lg: 0.25rem 0.25rem 0 0;
