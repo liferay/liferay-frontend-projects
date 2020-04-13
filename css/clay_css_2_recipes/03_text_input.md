@@ -18,17 +18,17 @@ The simplified Material Design styles for the default state are listed below:
 	border-bottom: 1px solid;
 	font-size: 1rem;
 	font-weight: 400;
-	letter-spacing: .009375em;
+	letter-spacing: 0.009375em;
 	padding: 20px 16px 6px;
 	transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-	color: rgba(0,0,0,.87);
+	color: rgba(0, 0, 0, 0.87);
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-	border-bottom-color: rgba(0,0,0,.42);
+	border-bottom-color: rgba(0, 0, 0, 0.42);
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) {
@@ -42,7 +42,8 @@ The simplified Material Design styles for the default state are listed below:
 
 .mdc-line-ripple {
 	height: 2px;
-	transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1),opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms
+			cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdc-text-field .mdc-line-ripple {
@@ -50,7 +51,7 @@ The simplified Material Design styles for the default state are listed below:
 }
 
 .mdc-text-field::before {
-	transition: opacity 15ms linear,background-color 15ms linear;
+	transition: opacity 15ms linear, background-color 15ms linear;
 	z-index: 1;
 }
 ```
@@ -97,7 +98,10 @@ _/src/css/\_clay_custom.scss_
 Material Design applies several transitions when state changes on the input. We can set them using the `$input-transition` variable. We will use background CSS properties to apply the ripple effect later.
 
 ```scss
-$input-transition: background-color 15ms linear, background-position 180ms cubic-bezier(0.4, 0, 0.2, 1), background-size 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+$input-transition: background-color 15ms linear, background-position 180ms
+		cubic-bezier(0.4, 0, 0.2, 1),
+	background-size 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms
+		cubic-bezier(0.4, 0, 0.2, 1);
 ```
 
 ### Form Control Hover
@@ -106,15 +110,15 @@ Material Design's input hover styles are below:
 
 ```css
 .mdc-text-field:hover::before {
-	opacity: .04;
+	opacity: 0.04;
 }
 
 .mdc-text-field::before {
-	background-color: rgba(0,0,0,.87);
+	background-color: rgba(0, 0, 0, 0.87);
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input:hover {
-	border-bottom-color: rgba(0,0,0,.87);
+	border-bottom-color: rgba(0, 0, 0, 0.87);
 }
 ```
 
@@ -125,7 +129,7 @@ _/src/css/\_clay_variables.scss_
 ```scss
 $input: (
 	hover-bg: $gray-200,
-	hover-border-color: rgba($black, 0.87),
+	hover-border-color: rgba($black, 0.87)
 );
 ```
 
@@ -144,13 +148,15 @@ _/src/css/\_clay_custom.scss_
 Material Design's input focus styles are below:
 
 ```css
-.mdc-text-field.mdc-ripple-upgraded--background-focused::before, .mdc-text-field:not(.mdc-ripple-upgraded):focus::before {
-	opacity: .12;
+.mdc-text-field.mdc-ripple-upgraded--background-focused::before,
+.mdc-text-field:not(.mdc-ripple-upgraded):focus::before {
+	opacity: 0.12;
 	transition-duration: 75ms;
 }
 
-.mdc-text-field::before, .mdc-text-field::after {
-	background-color: rgba(0,0,0,.87);
+.mdc-text-field::before,
+.mdc-text-field::after {
+	background-color: rgba(0, 0, 0, 0.87);
 }
 ```
 
@@ -173,7 +179,7 @@ $input: (
 	hover-border-color: rgba($black, 0.87),
 	focus-bg: $input-focus-bg,
 	focus-bg-image: linear-gradient($primary-a700 100%, transparent 0%),
-	focus-border-color: $input-focus-border-color,
+	focus-border-color: $input-focus-border-color
 );
 ```
 
@@ -204,11 +210,11 @@ Material Design's input disabled styles are below:
 }
 
 .mdc-text-field--disabled .mdc-text-field__input {
-	color: rgba(0,0,0,.37);
+	color: rgba(0, 0, 0, 0.37);
 }
 
 .mdc-text-field--disabled .mdc-text-field__input {
-	border-bottom-color: rgba(0,0,0,.06);
+	border-bottom-color: rgba(0, 0, 0, 0.06);
 }
 ```
 
@@ -232,7 +238,7 @@ $input: (
 	focus-border-color: $input-focus-border-color,
 	disabled-bg: $input-disabled-bg,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color,
+	disabled-color: $input-disabled-color
 );
 ```
 
@@ -279,7 +285,7 @@ $input-readonly: (
 	border-color: $input-border-color,
 	hover-bg: $input-bg,
 	hover-border-color: $input-border-color,
-	focus-bg: $input-bg,
+	focus-bg: $input-bg
 );
 ```
 
@@ -326,16 +332,20 @@ One thing to note about the select is there is no ripple effect on focus, we wil
 _/src/css/\_clay_variables.scss_
 
 ```scss
-@import "clay/functions/_global-functions";
+@import 'clay/functions/_global-functions';
 
 $input-select-icon: clay-icon(caret-bottom, $gray-600), none;
-$input-select-bg-position: right $input-padding-x center, map-get($input, bg-position);
+$input-select-bg-position: right $input-padding-x center, map-get(
+		$input,
+		bg-position
+	);
 $input-select-bg-size: 1rem, map-get($input, bg-size);
 $input-select-padding-right: 2.5rem;
 
 $input-select-icon-focus: clay-icon(caret-bottom, $gray-600), map-get($input, focus-bg-image);
 
-$input-select-icon-disabled: clay-icon(caret-bottom, $input-disabled-color), none;
+$input-select-icon-disabled: clay-icon(caret-bottom, $input-disabled-color),
+	none;
 ```
 
 _/src/css/\_clay_custom.scss_
@@ -365,14 +375,21 @@ Material Design's Outline Input default styles simplified:
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-	color: rgba(0,0,0,.87);
+	color: rgba(0, 0, 0, 0.87);
 }
 
-.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-	border-color: rgba(0,0,0,.38);
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+	.mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+	.mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+	.mdc-notched-outline__trailing {
+	border-color: rgba(0, 0, 0, 0.38);
 }
 
-.mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+.mdc-notched-outline__leading,
+.mdc-notched-outline__notch,
+.mdc-notched-outline__trailing {
 	border-bottom: 1px solid;
 	border-top: 1px solid;
 }
@@ -409,7 +426,7 @@ $mdc-input-outline: (
 	focus-box-shadow: inset 0 0 0 1px $primary-a700,
 	disabled-bg: $white,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color,
+	disabled-color: $input-disabled-color
 );
 ```
 
@@ -520,7 +537,7 @@ _/src/css/\_clay_custom.scss_
 
 	&:focus,
 	&.focus {
-		background-size: 100% 2px,
+		background-size: 100% 2px;
 	}
 }
 
