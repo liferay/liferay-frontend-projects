@@ -1,6 +1,6 @@
 # Getting Started
 
-Clay CSS has thousands of Sass variables baked into the framework, which makes it super configurable through variables alone. This cookbook will take you through the steps required to transform Clay Base, used in Styled Theme, into a clone of Google's Baseline Material Design. The references used are listed below:
+This cookbook will be based on Liferay Portal 7.2.1 GA2 which uses [Clay CSS v2.18.1](https://github.com/liferay/clay/tree/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss). Clay CSS has thousands of Sass variables baked into the framework, which makes it super configurable through variables alone. We will take you through the steps required to transform Clay Base, used in Styled Theme, into a clone of Google's Baseline Material Design. The references used are listed below:
 
 -   [Material Design Color Palette](https://material.io/resources/color/)
 -   [Material Design Components Docs](https://material.io/components/)
