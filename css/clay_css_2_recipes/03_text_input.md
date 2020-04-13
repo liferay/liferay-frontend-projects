@@ -13,7 +13,7 @@ A list of references for this recipe:
 
 The simplified Material Design styles for the default state are listed below:
 
-```
+```css
 .mdc-text-field__input {
 	border-bottom: 1px solid;
 	font-size: 1rem;
@@ -61,7 +61,7 @@ In this case, Material Design sets a large value for padding-top to make space f
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-height: 3.5rem;
 
 $input-bg: $gray-100;
@@ -82,13 +82,13 @@ We don't need to worry about namespacing the variable here because it follows th
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-letter-spacing: 0.009375em;
 ```
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 .form-control {
 	letter-spacing: $input-letter-spacing;
 }
@@ -96,7 +96,7 @@ _/src/css/\_clay_custom.scss_
 
 Material Design applies several transitions when state changes on the input. We can set them using the `$input-transition` variable. We will use background CSS properties to apply the ripple effect later.
 
-```
+```scss
 $input-transition: background-color 15ms linear, background-position 180ms cubic-bezier(0.4, 0, 0.2, 1), background-size 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
 ```
 
@@ -104,7 +104,7 @@ $input-transition: background-color 15ms linear, background-position 180ms cubic
 
 Material Design's input hover styles are below:
 
-```
+```css
 .mdc-text-field:hover::before {
 	opacity: .04;
 }
@@ -122,7 +122,7 @@ Clay CSS doesn't provide any variables for setting the hover state. We can lever
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input: (
 	hover-bg: $gray-200,
 	hover-border-color: rgba($black, 0.87),
@@ -131,7 +131,7 @@ $input: (
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 .form-control {
 	letter-spacing: $input-letter-spacing;
 
@@ -143,7 +143,7 @@ _/src/css/\_clay_custom.scss_
 
 Material Design's input focus styles are below:
 
-```
+```css
 .mdc-text-field.mdc-ripple-upgraded--background-focused::before, .mdc-text-field:not(.mdc-ripple-upgraded):focus::before {
 	opacity: .12;
 	transition-duration: 75ms;
@@ -160,7 +160,7 @@ Unfortunately, `clay-form-control-variant` doesn't have the option of passing in
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-focus-bg: $gray-300;
 $input-focus-border-color: transparent;
 $input-focus-box-shadow: none;
@@ -179,7 +179,7 @@ $input: (
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 .form-control {
 	letter-spacing: $input-letter-spacing;
 
@@ -196,7 +196,7 @@ _/src/css/\_clay_custom.scss_
 
 Material Design's input disabled styles are below:
 
-```
+```css
 .mdc-text-field--disabled {
 	background-color: #fafafa;
 	border-bottom: none;
@@ -216,7 +216,7 @@ Our `.form-control:hover` styles will overwrite these when hovering over disable
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-disabled-bg: $gray-50;
 $input-disabled-border-color: rgba($black, 0.06);
 $input-disabled-color: rgba($black, 0.37);
@@ -238,7 +238,7 @@ $input: (
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 .form-control {
 	letter-spacing: $input-letter-spacing;
 
@@ -259,7 +259,7 @@ The Material Design site has no readonly styles, but there is some documentation
 
 Clay CSS updated `.form-control[readonly]` to use the `clay-form-control-variant` mixin in 2.18.2. In 2.18.1, we only have the variables below available:
 
-```
+```scss
 $input-readonly-bg: null !default;
 $input-readonly-focus-bg: null !default;
 $input-readonly-border-color: null !default;
@@ -273,7 +273,7 @@ We can copy what was done in [2.18.2](https://github.com/liferay/clay/blob/21006
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-readonly: (
 	bg: $input-bg,
 	border-color: $input-border-color,
@@ -285,7 +285,7 @@ $input-readonly: (
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 // This needs to be removed once upgraded to 2.18.2
 
 .form-control[readonly] {
@@ -299,7 +299,7 @@ _/src/css/\_clay_custom.scss_
 
 Material Design has dense text fields that should be 40dp tall. We will just use 40px here.
 
-```
+```scss
 $input-border-radius-sm: 0.25rem 0.25rem 0 0;
 $input-height-sm: 2.5rem;
 $input-padding-x-sm: 1rem;
@@ -309,7 +309,7 @@ $input-padding-x-sm: 1rem;
 
 There is no large text field equivalent, lets use 80px.
 
-```
+```scss
 $input-border-radius-lg: 0.25rem 0.25rem 0 0;
 $input-height-lg: 5rem;
 $input-padding-x-lg: 1.25rem;
@@ -325,7 +325,7 @@ One thing to note about the select is there is no ripple effect on focus, we wil
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 @import "clay/functions/_global-functions";
 
 $input-select-icon: clay-icon(caret-bottom, $gray-600), none;
@@ -340,7 +340,7 @@ $input-select-icon-disabled: clay-icon(caret-bottom, $input-disabled-color), non
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 select.form-control:not([multiple]):not([size]),
 .form-control-select {
 	&:focus,
@@ -358,7 +358,7 @@ We will go the modifier route since it might be easier to apply if you are using
 
 Material Design's Outline Input default styles simplified:
 
-```
+```css
 .mdc-text-field--outlined .mdc-text-field__input {
 	background-color: transparent;
 	padding: 12px 16px 14px;
@@ -397,7 +397,7 @@ We are namespacing the class with `mdc-` just to be safe. In the future, Bootstr
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $mdc-input-outline: (
 	bg: $white,
 	border-radius: 4px,
@@ -415,7 +415,7 @@ $mdc-input-outline: (
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 .mdc-form-control-outline {
 	@include clay-form-control-variant($mdc-input-outline);
 }
@@ -427,7 +427,7 @@ What the input section should look like:
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 @import "clay/functions/_global-functions";
 
 ...
@@ -512,7 +512,7 @@ $mdc-input-outline: (
 
 _/src/css/\_clay_custom.scss_
 
-```
+```scss
 .form-control {
 	letter-spacing: $input-letter-spacing;
 
