@@ -57,7 +57,7 @@ The simplified Material Design styles for the default state are listed below:
 
 We have the styles we need to update the default state of `form-control` in Clay CSS. HTML inputs are generally vertically centered by default with the exception of `textarea`, `select[multiple]`, and `select[size]`. Setting the height should cover most use cases and `$input-padding-y` should not need to be updated.
 
-In this case, Material Design sets a large value for padding-top to make space for floating labels. We will skip this for now. Setting `$input-padding-y` to 20px will cut off text on our `select` input we will update case by case as necessary.
+In this case, Material Design sets a large value for `padding-top` to make space for floating labels. We will skip this for now. Setting `$input-padding-y` to 20px will cut off text on our `select` input we will update case by case as necessary.
 
 _/src/css/\_clay_variables.scss_
 
@@ -76,7 +76,7 @@ $input-color: rgba($black, 0.87);
 $input-padding-x: 1rem;
 ```
 
-Clay CSS doesn't have a variable to modify letter-spacing in `form-control`. We will need to update `_clay_custom.scss`. We can go a step further and add a `$input-letter-spacing` variable.
+Clay CSS doesn't have a variable to modify `letter-spacing` in `form-control`. We will need to update `_clay_custom.scss`. We can go a step further and add a `$input-letter-spacing` variable.
 
 We don't need to worry about namespacing the variable here because it follows the Bootstrap and Clay CSS naming pattern. If this is added in the future, this is exactly what it will do.
 
@@ -154,7 +154,7 @@ Material Design's input focus styles are below:
 }
 ```
 
-Since we added the selector `.form-control:hover` in the previous example, we will need to redeclare background-color and border-color for focus and disabled styles. We will also add our ripple effect using background properties. We don't need to redeclare `focus-box-shadow` because we didn't overwrite the box-shadow property in our hover state.
+Since we added the selector `.form-control:hover` in the previous example, we will need to redeclare `background-color` and `border-color` for focus and disabled styles. We will also add our ripple effect using background properties. We don't need to redeclare `focus-box-shadow` because we didn't overwrite the `box-shadow` property in our hover state.
 
 Unfortunately, `clay-form-control-variant` doesn't have the option of passing in `focus-bg-size`. We will write that one manually.
 
@@ -317,7 +317,7 @@ $input-padding-x-lg: 1.25rem;
 
 ## Select
 
-We can copy text field with trailing icon here. The first thing we should do is change the icon to match. Clay CSS comes with several Sass functions that help with converting an SVG to a background-image. One function is [clay-icon](https://github.com/liferay/clay/blob/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss/functions/_global-functions.scss#L179). It takes a Lexicon Icon name and color as parameters, then it returns a data uri to be used in background-image.
+We can copy text field with trailing icon here. The first thing we should do is change the icon to match. Clay CSS comes with several Sass functions that help with converting an SVG to a `background-image`. One function is [clay-icon](https://github.com/liferay/clay/blob/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss/functions/_global-functions.scss#L179). It takes a Lexicon Icon name and color as parameters, then it returns a data uri to be used in `background-image`.
 
 The `_global-functions.scss` partial is imported right after `_clay_variables.scss` in DXP. We will have to import it at the top of `_clay_variables.scss` to have access to them.
 
