@@ -78,13 +78,18 @@ $custom-control-indicator-size: 1.125rem;
 Clay CSS `custom-control` have no `hover` styles and thus have no variables associated with it. We will tackle the `hover` styles later. Material Design focus styles for the unchecked checkbox and radio are the same as the default state. The styles are below:
 
 ```css
-.mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate)~.mdc-checkbox__background {
-    border-color: #757575;
-    background-color: transparent
+.mdc-checkbox
+	.mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate)
+	~ .mdc-checkbox__background {
+	border-color: #757575;
+	background-color: transparent;
 }
 
-.mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle {
-    border-color: #6200ee
+.mdc-radio
+	.mdc-radio__native-control:enabled:checked
+	+ .mdc-radio__background
+	.mdc-radio__outer-circle {
+	border-color: #6200ee;
 }
 ```
 
@@ -114,8 +119,9 @@ Material Design leaves the label `color` the same, while Clay CSS changes the `c
 Material Design:
 
 ```css
-.mdc-checkbox__native-control[disabled]:not(:checked):not(:indeterminate)~.mdc-checkbox__background {
-    border-color: rgba(0, 0, 0, .26)
+.mdc-checkbox__native-control[disabled]:not(:checked):not(:indeterminate)
+	~ .mdc-checkbox__background {
+	border-color: rgba(0, 0, 0, 0.26);
 }
 ```
 
@@ -134,14 +140,18 @@ We will style the shared `:checked` state to look like Material Design's checkbo
 Material Design:
 
 ```css
-.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
-.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background {
-    border-color: #6200ee;
-    background-color: #6200ee
+.mdc-checkbox
+	.mdc-checkbox__native-control:enabled:checked
+	~ .mdc-checkbox__background,
+.mdc-checkbox
+	.mdc-checkbox__native-control:enabled:indeterminate
+	~ .mdc-checkbox__background {
+	border-color: #6200ee;
+	background-color: #6200ee;
 }
 
 .mdc-checkbox__checkmark {
-    color: #fff
+	color: #fff;
 }
 ```
 
@@ -169,10 +179,11 @@ $custom-control-indicator-checked-active-border-color: $custom-control-indicator
 Material Design:
 
 ```css
-.mdc-checkbox__native-control[disabled]:checked~.mdc-checkbox__background,
-.mdc-checkbox__native-control[disabled]:indeterminate~.mdc-checkbox__background {
-    border-color: transparent;
-    background-color: rgba(0, 0, 0, .26)
+.mdc-checkbox__native-control[disabled]:checked ~ .mdc-checkbox__background,
+.mdc-checkbox__native-control[disabled]:indeterminate
+	~ .mdc-checkbox__background {
+	border-color: transparent;
+	background-color: rgba(0, 0, 0, 0.26);
 }
 ```
 
@@ -193,14 +204,15 @@ Material Design:
 
 ```css
 .mdc-checkbox__background {
-    width: 18px;
-    height: 18px;
-    border: 2px solid currentColor;
-    border-radius: 2px;
-    background-color: transparent;
-    pointer-events: none;
-    will-change: background-color, border-color;
-    transition: background-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1), border-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1)
+	width: 18px;
+	height: 18px;
+	border: 2px solid currentColor;
+	border-radius: 2px;
+	background-color: transparent;
+	pointer-events: none;
+	will-change: background-color, border-color;
+	transition: background-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1), border-color
+			90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
 }
 ```
 
@@ -219,7 +231,9 @@ We will also set `background-size` to make it larger. We set both `width` and `h
 _/src/css/\_clay_variables.scss_
 
 ```scss
-$custom-checkbox-indicator-icon-checked: clay-svg-url('<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M2,13 8,19 23,5" stroke="#{$custom-control-indicator-checked-color}" stroke-width="3"></path></svg>');
+$custom-checkbox-indicator-icon-checked: clay-svg-url(
+	'<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M2,13 8,19 23,5" stroke="#{$custom-control-indicator-checked-color}" stroke-width="3"></path></svg>'
+);
 $custom-checkbox-indicator-icon-checked-bg-size: 0.875rem 0.875rem;
 ```
 
@@ -230,10 +244,14 @@ The indeterminate visual state can only be set with JavaScript. There are a few 
 Material Design:
 
 ```css
-.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
-.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background {
-    border-color: #6200ee;
-    background-color: #6200ee
+.mdc-checkbox
+	.mdc-checkbox__native-control:enabled:checked
+	~ .mdc-checkbox__background,
+.mdc-checkbox
+	.mdc-checkbox__native-control:enabled:indeterminate
+	~ .mdc-checkbox__background {
+	border-color: #6200ee;
+	background-color: #6200ee;
 }
 ```
 
@@ -279,8 +297,11 @@ There is no variable to change the `background-color` of a Custom Radio input. W
 Material Design:
 
 ```css
-.mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle {
-    border-color: #6200ee
+.mdc-radio
+	.mdc-radio__native-control:enabled
+	+ .mdc-radio__background
+	.mdc-radio__inner-circle {
+	border-color: #6200ee;
 }
 ```
 
@@ -312,14 +333,24 @@ Our radio button icon, `background-color`, and `border-color` are the wrong colo
 Material Design:
 
 ```css
-.mdc-radio__native-control:disabled+.mdc-radio__background .mdc-radio__outer-circle,
-[aria-disabled=true] .mdc-radio__native-control+.mdc-radio__background .mdc-radio__outer-circle {
-    border-color: rgba(0, 0, 0, .26)
+.mdc-radio__native-control:disabled
+	+ .mdc-radio__background
+	.mdc-radio__outer-circle,
+[aria-disabled='true']
+	.mdc-radio__native-control
+	+ .mdc-radio__background
+	.mdc-radio__outer-circle {
+	border-color: rgba(0, 0, 0, 0.26);
 }
 
-.mdc-radio__native-control:disabled+.mdc-radio__background .mdc-radio__inner-circle,
-[aria-disabled=true] .mdc-radio__native-control+.mdc-radio__background .mdc-radio__inner-circle {
-    border-color: rgba(0, 0, 0, .26)
+.mdc-radio__native-control:disabled
+	+ .mdc-radio__background
+	.mdc-radio__inner-circle,
+[aria-disabled='true']
+	.mdc-radio__native-control
+	+ .mdc-radio__background
+	.mdc-radio__inner-circle {
+	border-color: rgba(0, 0, 0, 0.26);
 }
 ```
 
@@ -336,7 +367,10 @@ _/src/css/\_clay_custom.scss_
 	.custom-control-input {
 		&:checked:disabled ~ .custom-control-label {
 			&::after {
-				background-image: clay-icon(circle, $custom-radio-indicator-checked-disabled-border-color);
+				background-image: clay-icon(
+					circle,
+					$custom-radio-indicator-checked-disabled-border-color
+				);
 			}
 		}
 	}
@@ -398,7 +432,10 @@ _/src/css/\_clay_custom.scss_
 		&:checked:disabled ~ .custom-control-label {
 			&::before {
 				background-color: transparent;
-				background-image: clay-icon(circle, $custom-radio-indicator-checked-disabled-border-color);
+				background-image: clay-icon(
+					circle,
+					$custom-radio-indicator-checked-disabled-border-color
+				);
 			}
 		}
 	}
@@ -411,27 +448,27 @@ Material Design:
 
 ```css
 .mdc-checkbox .mdc-checkbox__background::before {
-    top: -13px;
-    left: -13px;
-    width: 40px;
-    height: 40px
+	top: -13px;
+	left: -13px;
+	width: 40px;
+	height: 40px;
 }
 
 .mdc-checkbox .mdc-checkbox__native-control {
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    width: 40px;
-    height: 40px
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	width: 40px;
+	height: 40px;
 }
 
 .mdc-checkbox .mdc-checkbox__ripple::before,
 .mdc-checkbox .mdc-checkbox__ripple::after {
-    background-color: #6200ee
+	background-color: #6200ee;
 }
 
 .mdc-checkbox:hover .mdc-checkbox__ripple::before {
-    opacity: .04
+	opacity: 0.04;
 }
 ```
 
