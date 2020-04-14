@@ -697,7 +697,9 @@ $custom-control-indicator-checked-disabled-bg: rgba($black, 0.26);
 $custom-control-indicator-checked-disabled-border-color: transparent;
 
 $custom-checkbox-indicator-border-radius: 0.125rem;
-$custom-checkbox-indicator-icon-checked: clay-svg-url('<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M2,13 8,19 23,5" stroke="#{$custom-control-indicator-checked-color}" stroke-width="3"></path></svg>');
+$custom-checkbox-indicator-icon-checked: clay-svg-url(
+	'<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M2,13 8,19 23,5" stroke="#{$custom-control-indicator-checked-color}" stroke-width="3"></path></svg>'
+);
 $custom-checkbox-indicator-icon-checked-bg-size: 0.875rem 0.875rem;
 $custom-checkbox-indicator-indeterminate-bg: $primary-a700;
 $custom-checkbox-indicator-icon-indeterminate-bg-size: 0.625rem 0.625rem;
