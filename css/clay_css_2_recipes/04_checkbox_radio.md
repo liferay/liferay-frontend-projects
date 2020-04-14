@@ -500,7 +500,7 @@ _/src/css/\_clay_custom.scss_
 
 ## Custom Control Focus
 
-We will add the ripple effect using CSS `animation`, `background-color`, `background-image`, and `background-size`. The animation is a bit jarring when using the keyboard to navigate through the inputs, unfortunately I'm unable to figure out a way to make it all work together strictly with CSS. If you know a nice hack, send a pr!
+We will add the ripple effect using CSS `animation`, `background-color`, `background-image`, and `background-size`. The animation is a bit jarring when using the keyboard to navigate through the inputs, unfortunately I'm unable to figure out a way to make it all work together strictly with CSS. If you know a nice hack, send a PR!
 
 _/src/css/\_clay_custom.scss_
 
