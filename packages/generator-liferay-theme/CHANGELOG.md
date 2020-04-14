@@ -1,3 +1,31 @@
+## [generator-liferay-theme/v10.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.0-alpha.1) (2020-04-14)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0......generator-liferay-theme/v10.0.0-alpha.1)
+
+### :new: Features
+
+-   feat: #455 support --config option ([\#467](https://github.com/liferay/liferay-js-themes-toolkit/pull/467))
+
+### :wrench: Bug fixes
+
+-   fix: #456 gulp upgrade fails with TypeError ([\#460](https://github.com/liferay/liferay-js-themes-toolkit/pull/460))
+
+### :woman_juggling: Refactoring
+
+-   refactor: #462 normalize file path handling ([\#465](https://github.com/liferay/liferay-js-themes-toolkit/pull/465))
+
+### :new: Features
+
+-   feat: #148 support for gulp 4 / node 12 ([\#448](https://github.com/liferay/liferay-js-themes-toolkit/pull/448))
+
+### :house: Chores
+
+-   chore: switch to independent releases ([\#454](https://github.com/liferay/liferay-js-themes-toolkit/pull/454))
+-   chore: fix release script ([\#453](https://github.com/liferay/liferay-js-themes-toolkit/pull/453))
+-   chore: update release process ([\#452](https://github.com/liferay/liferay-js-themes-toolkit/pull/452))
+-   chore: Add release-snapshot script ([\#450](https://github.com/liferay/liferay-js-themes-toolkit/pull/450))
+-   chore: update for compliance with current Outbound Licensing Policy ([\#441](https://github.com/liferay/liferay-js-themes-toolkit/pull/441))
+
 ## [v9.5.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.0) (2020-01-30)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0-beta.0...v9.5.0)
