@@ -55,7 +55,7 @@ We missed setting the `$input-label-color` in the Text Input Recipe due to Mater
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-label-color: rgba($black, 0.87);
 
 $custom-control-margin-bottom: 1.75rem;
@@ -270,7 +270,7 @@ As mentioned earlier, Material Design radio elements are 20px x 20px. Clay CSS d
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 .custom-radio {
 	.custom-control-input {
 		height: 1.25rem;
@@ -664,7 +664,7 @@ What the checkbox and radio section should look like:
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $input-label-color: rgba($black, 0.87);
 
 $custom-control-margin-bottom: 1.75rem;
