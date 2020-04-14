@@ -1,0 +1,14 @@
+{
+  "name": "liferay-link-checker",
+  "version": "0.0.1",
+  "description": "Checks Markdown documents for broken links",
+  "homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-link-checker",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liferay/liferay-npm-tools",
+    "directory": "packages/liferay-link-checker"
+  },
+  "license": "BSD-3-Clause",
+  "private": false
+}
