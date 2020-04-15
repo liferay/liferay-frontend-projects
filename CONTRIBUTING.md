@@ -36,7 +36,7 @@ yarn format
 
 ## JS Docs
 
-All methods should be documented, following [google's format](https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler).
+All methods should be documented, following [Google's format](https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler).
 
 # Releasing
 
@@ -69,13 +69,13 @@ Obviously, depending on how version constraints for `liferay-theme-tasks` are wr
 
 ### 3. Update CHANGELOG.md
 
-Run this in the project's folder so that `CHANGELOG.md` is updated:
+For any given package that you are going to release, run this in the package's folder:
 
 ```sh
-yarn changelog --version=project-name/v1.2.3
+yarn changelog --version=v1.2.3
 ```
 
-Changing `project-name` and `1.2.3` by the proper values.
+Changing `v1.2.3` to the proper value. The format for normal releases is `v1.2.3` and the format for prereleases is `v1.2.3-pre.0` (followed by `v1.2.3-pre.1`, `v1.2.3-pre.2` etc).
 
 Then, review `CHANGELOG.md`, change anything that needs to be adjusted and save it.
 
@@ -84,7 +84,7 @@ Then, review `CHANGELOG.md`, change anything that needs to be adjusted and save 
 Run this in the project's folder to add the modified `package.json` and `CHANGELOG.md` files.
 
 ```sh
-git add -u
+git add -p
 ```
 
 There's no need to commit it because the next step will do it.
@@ -99,7 +99,19 @@ To perform the release, run (in the released project's folder):
 yarn version --patch # or --minor, or --major, or --new-version
 ```
 
-If you want to do a pre-release simply use the standard pre-release semver notation (something like `10.0.0-alpha.1`) as the version argument and `liferay-js-publish` will take care of releasing the version with the `prerelease` [npm dist-tag](https://docs.npmjs.com/cli/dist-tag).
+If you want to do a pre-release:
+
+```sh
+yarn version --prepatch # or --preminor, or --premajor
+```
+
+This will cause Yarn to bump the patch, minor, or major versions, and append a `-pre.0` suffix. If you need to follow up with another prerelease, use:
+
+```sh
+yarn version --prerelease
+```
+
+As long as there is a hyphen in the version number, `liferay-js-publish` will take care of releasing the version with the `prerelease` [npm dist-tag](https://docs.npmjs.com/cli/dist-tag).
 
 ### 6. Update the release notes
 
