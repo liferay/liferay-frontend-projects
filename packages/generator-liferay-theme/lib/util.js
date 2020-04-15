@@ -112,29 +112,29 @@ function sayHello(generator) {
 
 	print(
 		title`
-		
+
 
 		Welcome to the splendid Themes SDK generator!
-		
+
 		`,
 		info`
 		This version of the Themes SDK (${pkgJson.version}) supports Liferay DXP 
 		and Portal CE from ${FIRST_SUPPORTED_VERSION} to ${LAST_SUPPORTED_VERSION}.
 
 		For older versions, please use v8 of the toolkit:
-	
+
 			> npm install -g generator-liferay-theme@^8.0.0 ↩
 			> yo ${generatorNamespace} ↩
 
 
-		However, this version is in maintenance mode as there is version 10.x 
+		However, this version is in maintenance mode as there is version 10.x
 		with the same functionality (based on gulp 4 instead of 3).
 
 		We recommend using version 10.x instead of 9.x whenever possible.
 
 		See https://github.com/liferay/liferay-js-themes-toolkit#compatibility
 		for more information.
-		
+
 		`
 	);
 }
