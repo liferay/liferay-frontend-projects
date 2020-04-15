@@ -1,3 +1,7 @@
+## [generator-liferay-theme/v10.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.0) (2020-04-15)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/generator-liferay-theme/v10.0.0-alpha.1...generator-liferay-theme/v10.0.0)
+
 ## [generator-liferay-theme/v10.0.0-alpha.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.0-alpha.1) (2020-04-14)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0......generator-liferay-theme/v10.0.0-alpha.1)
