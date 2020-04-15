@@ -37,4 +37,4 @@ Other differences between the major versions:
 Notes:
 
 -   The 7.x series of the toolkit is unlikely to receive any further development, so is effectively deprecated.
--   Most active development is taking place on the `master` branch, corresponding to the 10.x series of releases, but the 8.x and 9.x series are still valid for existing themes. You may wish to continue using v8 or v9 in order to avoid the breaking changes involved in moving to v10 (specifically, moving from Gulp v3 to Gulp v4, which may require custom theme tasks to be updated).
+-   Most active development is taking place on the `master` branch, corresponding to the 10.x series of releases, but the 8.x and 9.x series are still valid for existing themes. You may wish to continue using v8 (because you need to target DXP 7.0 or 7.1) or v9 (because you want to avoid the breaking changes involved in updating to v10; specifically, moving from Gulp v3 to Gulp v4, which may require custom theme tasks to be updated).
