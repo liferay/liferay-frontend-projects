@@ -66,22 +66,6 @@ it('getLiferayThemeModules should return an object when searching for global mod
 	});
 });
 
-it('getLiferayThemeModules should return an object when searching for npm modules', done => {
-	themeFinder.getLiferayThemeModules(
-		{
-			globalModules: false,
-			themelet: true,
-		},
-		themeResults => {
-			_.forEach(themeResults, item => {
-				expect(_.isObject(item)).toBe(true);
-				expect(_.isObject(item.liferayTheme)).toBe(true);
-				expect(item.keywords.indexOf('liferay-theme') > -1).toBe(true);
-			});
-
-			expect(_.isObject(themeResults)).toBe(true);
-
-			done();
-		}
-	);
-});
+it.todo(
+	'getLiferayThemeModules should return an object when searching for npm modules'
+);
