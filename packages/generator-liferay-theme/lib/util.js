@@ -126,6 +126,15 @@ function sayHello(generator) {
 			> npm install -g generator-liferay-theme@^8.0.0 ↩
 			> yo ${generatorNamespace} ↩
 
+
+		However, this version is in maintenance mode as there is version 10.x 
+		with the same functionality (based on gulp 4 instead of 3).
+
+		We recommend using version 10.x instead of 9.x whenever possible.
+
+		See https://github.com/liferay/liferay-js-themes-toolkit#compatibility
+		for more information.
+		
 		`
 	);
 }
