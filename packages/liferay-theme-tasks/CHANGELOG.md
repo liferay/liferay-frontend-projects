@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.0) (2020-04-15)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.0-alpha.2...liferay-theme-tasks/v10.0.0)
+
+### :eyeglasses: Tests
+
+-   test: remove flaky test ([\#471](https://github.com/liferay/liferay-js-themes-toolkit/pull/471))
+
 ## [liferay-theme-tasks/v10.0.0-alpha.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.0-alpha.2) (2020-04-08)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.0-alpha.1...liferay-theme-tasks/v10.0.0-alpha.2)
