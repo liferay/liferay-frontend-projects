@@ -80,8 +80,7 @@ yarn ci
 git add -A
 git commit -m "chore: prepare $VERSION release"
 git tag v$VERSION -m v$VERSION
-git push upstream v$VERSION
-git push upstream 9.x
+git push upstream 9.x --follow-tags
 ```
 
 ### 5. Update the release notes
