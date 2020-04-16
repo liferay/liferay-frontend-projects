@@ -10,43 +10,48 @@ Material Design:
 
 ```css
 .mdc-switch__thumb-underlay {
-    display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    transform: translateX(0);
-    transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), border-color 90ms cubic-bezier(0.4, 0, 0.2, 1)
+	display: flex;
+	position: absolute;
+	align-items: center;
+	justify-content: center;
+	transform: translateX(0);
+	transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color
+			90ms cubic-bezier(0.4, 0, 0.2, 1),
+		border-color 90ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdc-switch__thumb {
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, .12);
-    box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    border: 10px solid;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 20px;
+	height: 20px;
+	border: 10px solid;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 1;
 }
 
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__track {
-    background-color: #000;
-    border-color: #000
+	background-color: #000;
+	border-color: #000;
 }
 
 .mdc-switch__track {
-    box-sizing: border-box;
-    width: 32px;
-    height: 14px;
-    border: 1px solid;
-    border-radius: 7px;
-    opacity: .38;
-    transition: opacity 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), border-color 90ms cubic-bezier(0.4, 0, 0.2, 1)
+	box-sizing: border-box;
+	width: 32px;
+	height: 14px;
+	border: 1px solid;
+	border-radius: 7px;
+	opacity: 0.38;
+	transition: opacity 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms
+			cubic-bezier(0.4, 0, 0.2, 1),
+		border-color 90ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb {
-    background-color: #fff;
-    border-color: #fff
+	background-color: #fff;
+	border-color: #fff;
 }
 ```
 
@@ -61,7 +66,9 @@ We can also set the transitions we will use to animate the colors and Thumb.
 _/src/css/\_clay_variables.scss_
 
 ```scss
-$toggle-switch-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), left 160ms cubic-bezier(0.4, 0, 0.2, 1), right 160ms cubic-bezier(0.4, 0, 0.2, 1), transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+$toggle-switch-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), left
+		160ms cubic-bezier(0.4, 0, 0.2, 1),
+	right 160ms cubic-bezier(0.4, 0, 0.2, 1), transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
 
 $toggle-switch-button-width: 20px;
 
@@ -78,16 +85,16 @@ Material Design:
 
 ```css
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__track {
-    background-color: #000;
-    border-color: #000
+	background-color: #000;
+	border-color: #000;
 }
 
 .mdc-switch__track {
-    width: 32px;
-    height: 14px;
-    border: 1px solid;
-    border-radius: 7px;
-    opacity: .38;
+	width: 32px;
+	height: 14px;
+	border: 1px solid;
+	border-radius: 7px;
+	opacity: 0.38;
 }
 ```
 
@@ -110,19 +117,20 @@ Material Design:
 
 ```css
 .mdc-switch__thumb {
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, .12);
-    box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    border: 10px solid;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 20px;
+	height: 20px;
+	border: 10px solid;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 1;
 }
 
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb {
-    background-color: #fff;
-    border-color: #fff
+	background-color: #fff;
+	border-color: #fff;
 }
 ```
 
@@ -140,7 +148,8 @@ _/src/css/\_clay_custom.scss_
 
 ```scss
 .toggle-switch-check:empty ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12);
 }
 ```
 
@@ -152,12 +161,12 @@ Material Design:
 
 ```css
 .mdc-switch--checked .mdc-switch__track {
-    opacity: 0.54
+	opacity: 0.54;
 }
 
 .mdc-switch.mdc-switch--checked .mdc-switch__track {
-    background-color: #6200ee;
-    border-color: #6200ee
+	background-color: #6200ee;
+	border-color: #6200ee;
 }
 ```
 
@@ -176,8 +185,8 @@ Clay CSS Toggle Switch allows the buttons to be configured independently to acco
 
 ```css
 .mdc-switch.mdc-switch--checked .mdc-switch__thumb {
-    background-color: #6200ee;
-    border-color: #6200ee
+	background-color: #6200ee;
+	border-color: #6200ee;
 }
 ```
 
@@ -198,37 +207,38 @@ Material Design:
 ```css
 .mdc-switch__thumb-underlay::before,
 .mdc-switch__thumb-underlay::after {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
-    content: ""
+	position: absolute;
+	border-radius: 50%;
+	opacity: 0;
+	pointer-events: none;
+	content: '';
 }
 
 .mdc-switch__thumb-underlay::before {
-    transition: opacity 15ms linear, background-color 15ms linear;
-    z-index: 1
+	transition: opacity 15ms linear, background-color 15ms linear;
+	z-index: 1;
 }
 
 .mdc-switch__thumb-underlay::before,
 .mdc-switch__thumb-underlay::after {
-    top: calc(50% - 50%);
-    left: calc(50% - 50%);
-    width: 100%;
-    height: 100%
+	top: calc(50% - 50%);
+	left: calc(50% - 50%);
+	width: 100%;
+	height: 100%;
 }
 
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb-underlay::before,
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb-underlay::after {
-    background-color: #9e9e9e
+	background-color: #9e9e9e;
 }
 
-.mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb-underlay:hover::before {
-    opacity: 0.08
+.mdc-switch:not(.mdc-switch--checked)
+	.mdc-switch__thumb-underlay:hover::before {
+	opacity: 0.08;
 }
 
 .mdc-switch.mdc-switch--checked .mdc-switch__thumb-underlay:hover::before {
-    opacity: .04
+	opacity: 0.04;
 }
 ```
 
@@ -240,11 +250,13 @@ _/src/css/\_clay_custom.scss_
 
 ```scss
 .toggle-switch-check:hover ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.08);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.08);
 }
 
 .toggle-switch-check:checked:hover ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.04);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.04);
 }
 ```
 
@@ -257,19 +269,21 @@ Material Design:
 ```css
 .mdc-switch.mdc-ripple-upgraded--background-focused .mdc-switch__ripple::before,
 .mdc-switch:not(.mdc-ripple-upgraded):focus .mdc-switch__ripple::before {
-    transition-duration: 75ms;
-    opacity: .12
+	transition-duration: 75ms;
+	opacity: 0.12;
 }
 
 .mdc-switch.mdc-switch--checked .mdc-switch__thumb-underlay::before,
 .mdc-switch.mdc-switch--checked .mdc-switch__thumb-underlay::after {
-    background-color: #6200ee
+	background-color: #6200ee;
 }
 
-.mdc-switch.mdc-switch--checked .mdc-switch__thumb-underlay.mdc-ripple-upgraded--background-focused::before,
-.mdc-switch.mdc-switch--checked .mdc-switch__thumb-underlay:not(.mdc-ripple-upgraded):focus::before {
-    transition-duration: 75ms;
-    opacity: .12
+.mdc-switch.mdc-switch--checked
+	.mdc-switch__thumb-underlay.mdc-ripple-upgraded--background-focused::before,
+.mdc-switch.mdc-switch--checked
+	.mdc-switch__thumb-underlay:not(.mdc-ripple-upgraded):focus::before {
+	transition-duration: 75ms;
+	opacity: 0.12;
 }
 ```
 
@@ -279,11 +293,13 @@ _/src/css/\_clay_custom.scss_
 
 ```scss
 .toggle-switch-check:focus ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.12);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.12);
 }
 
 .toggle-switch-check:checked:focus ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.12);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.12);
 }
 ```
 
@@ -295,8 +311,8 @@ Material Design:
 
 ```css
 .mdc-switch__native-control {
-    width: 68px;
-    height: 48px
+	width: 68px;
+	height: 48px;
 }
 ```
 
@@ -320,7 +336,9 @@ What the toggle switch section should look like:
 _/src/css/\_clay_variables.scss_
 
 ```scss
-$toggle-switch-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), left 160ms cubic-bezier(0.4, 0, 0.2, 1), right 160ms cubic-bezier(0.4, 0, 0.2, 1), transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+$toggle-switch-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), left
+		160ms cubic-bezier(0.4, 0, 0.2, 1),
+	right 160ms cubic-bezier(0.4, 0, 0.2, 1), transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
 
 $toggle-switch-button-width: 20px;
 
@@ -349,23 +367,28 @@ _/src/css/\_clay_custom.scss_
 
 ```scss
 .toggle-switch-check ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12);
 }
 
 .toggle-switch-check:hover ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.08);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.08);
 }
 
 .toggle-switch-check:checked:hover ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.04);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.04);
 }
 
 .toggle-switch-check:focus ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.12);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($gray-500, 0.12);
 }
 
 .toggle-switch-check:checked:focus ~ .toggle-switch-bar:after {
-	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.12);
+	box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14),
+		0 1px 5px 0 rgba($black, 0.12), 0 0 0 14px rgba($primary-a700, 0.12);
 }
 
 .toggle-switch-check {
