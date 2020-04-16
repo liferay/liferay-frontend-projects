@@ -1,3 +1,32 @@
+## [v9.5.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.1) (2020-04-16)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0...v9.5.1)
+
+### :new: Features
+
+-   feat: automatically tag 9.x releases with "maintenance" tag ([\#475](https://github.com/liferay/liferay-js-themes-toolkit/pull/475))
+-   feat: warn about v10 availability ([\#472](https://github.com/liferay/liferay-js-themes-toolkit/pull/472))
+
+### :wrench: Bug fixes
+
+-   fix(meta): make globs work on Windows ([\#437](https://github.com/liferay/liferay-js-themes-toolkit/pull/437))
+
+### :book: Documentation
+
+-   docs: backport compatibility info changes to 9.x ([\#476](https://github.com/liferay/liferay-js-themes-toolkit/pull/476))
+-   docs: update release process after v10 release ([\#478](https://github.com/liferay/liferay-js-themes-toolkit/pull/478))
+-   docs: fix bad Markdown syntax ([\#443](https://github.com/liferay/liferay-js-themes-toolkit/pull/443))
+-   docs: update CHANGELOG with new version of liferay-changelog-generator ([\#442](https://github.com/liferay/liferay-js-themes-toolkit/pull/442))
+-   docs: update version ranges in README ([\#439](https://github.com/liferay/liferay-js-themes-toolkit/pull/439))
+
+### :house: Chores
+
+-   chore: update for compliance with current Outbound Licensing Policy ([\#441](https://github.com/liferay/liferay-js-themes-toolkit/pull/441))
+
+### :nail_care: Style
+
+-   style: fix mangled changelog ([\#438](https://github.com/liferay/liferay-js-themes-toolkit/pull/438))
+
 ## [v9.5.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.0) (2020-01-30)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0-beta.0...v9.5.0)
