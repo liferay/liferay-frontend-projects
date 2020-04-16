@@ -70,7 +70,7 @@ git grep 9.0.0-alpha.0
 
 Run `yarn changelog --version=v$VERSION`.
 
-### 4. Send a release PR
+### 4. Update release number and tag commit
 
 ```sh
 # See the tests pass locally:
@@ -79,6 +79,8 @@ yarn ci
 # Prepare and push final commit:
 git add -A
 git commit -m "chore: prepare $VERSION release"
+git tag v$VERSION -m v$VERSION
+git push upstream v$VERSION
 git push upstream 9.x
 ```
 
