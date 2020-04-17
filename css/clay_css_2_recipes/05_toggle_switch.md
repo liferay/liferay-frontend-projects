@@ -1,6 +1,6 @@
 # Toggle Switch
 
-This recipe will match Clay CSS Toggle Switch to [Material Design's Selection Control Switches](https://material.io/components/selection-controls). We won't be able to reliably create a ripple effect here without javascript to normalize the `focus` and `active` states on `input[type="checkbox"]` between browsers (e.g., Firefox and Safari don't apply the `:focus` pseudo class on click).
+This recipe will match Clay CSS Toggle Switch to [Material Design's Selection Control Switches](https://material.io/components/selection-controls). We won't be able to reliably create a ripple effect here without JavaScript to normalize the `focus` and `active` states on `input[type="checkbox"]` between browsers (e.g., Firefox and Safari don't apply the `:focus` pseudo class on click).
 
 ## Toggle Switch Size
 
