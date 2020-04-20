@@ -3,7 +3,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import * as log from '../../../log';
+import {runPkgJsonScript} from '../../../util/run';
+
 /**
  * Run configured rules.
  */
-export default async function adaptCreateReactApp(): Promise<void> {}
+export default async function adaptCreateReactApp(): Promise<void> {
+	log.info(`Running React's build...`);
+
+	runPkgJsonScript('build');
+}
