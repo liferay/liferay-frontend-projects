@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {renderTemplates} from '..';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
+import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
+import {copyFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
 
 /**
@@ -16,5 +18,17 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	runPkgJsonScript('build');
 
-	renderTemplates();
+	log.info('Copying static assets...');
+
+	copyStaticAssets();
+}
+
+function copyStaticAssets(): void {
+	const copiedFiles = copyFiles(
+		project.dir,
+		['build/static/css/*', 'build/static/media/*'],
+		buildBundlerDir
+	);
+
+	log.debug(`Copied ${copiedFiles.length} static assets`);
 }
