@@ -3,12 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import globby from 'globby';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
 import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
 import project from 'liferay-npm-build-tools-common/lib/project';
-import path from 'path';
 
 import * as log from './log';
 
@@ -23,31 +20,6 @@ export function abort(message?: string): void {
 	}
 
 	process.exit(1);
-}
-
-/**
- * Perform a glob search of files and return their paths referenced to
- * `baseDir` without leading `./`.
- *
- * Note that the globs are not altered in any way and may even point to files
- * outside of the project directory.
- *
- * @param baseDirPath a native directory path
- * @param globs
- * globs in `globby` format (may include `.` and `..` but must be in POSIX
- * format, i.e.: use `/` path separator)
- * @return an array containing native file paths relative to `baseDirPath`
- */
-export function findFiles(baseDirPath: string, globs: string[]): string[] {
-	return globby
-		.sync(globs, {
-			absolute: true,
-			onlyFiles: true,
-			followSymbolicLinks: false,
-		})
-		.map(absPath => path.relative(baseDirPath, absPath))
-		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}))
-		.map(file => file.asNative);
 }
 
 /**
