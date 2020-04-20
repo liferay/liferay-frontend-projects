@@ -1,3 +1,15 @@
+## [liferay-npm-scripts/v29.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v29.1.0) (2020-04-17)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v29.0.0...liferay-npm-scripts/v29.1.0)
+
+### :new: Features
+
+-   feat(scripts): don't filter files when liferay-npm-scripts updates ([\#437](https://github.com/liferay/liferay-npm-tools/pull/437))
+
+### :house: Chores
+
+-   chore(scripts): update liferay-theme-tasks to 10.0.0 ([\#439](https://github.com/liferay/liferay-npm-tools/pull/439))
+
 ## [liferay-npm-scripts/v29.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v29.0.0) (2020-04-03)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v28.1.0...liferay-npm-scripts/v29.0.0)
