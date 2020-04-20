@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.0.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.1) (2020-04-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.0...liferay-theme-tasks/v10.0.1)
+
+### :wrench: Bug fixes
+
+-   fix: #482 reverse themes inheritance order ([\#483](https://github.com/liferay/liferay-js-themes-toolkit/pull/483))
+
 ## [liferay-theme-tasks/v10.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.0) (2020-04-15)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.0-alpha.2...liferay-theme-tasks/v10.0.0)
