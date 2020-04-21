@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wrapModule wraps module with dependencies 1`] = `
+"Liferay.Loader.define(
+	'a/module/name',
+	[
+		'module',
+		'require',,
+		'a/dependency',
+		'another/dependency'
+	],
+	function(module, require) {
+
+
+		var a = require('a/dependency');
+		var another = require('another/dependency');
+
+		console.log('Hello world');
+		
+
+	}
+);
+"
+`;
+
+exports[`wrapModule wraps module without dependencies 1`] = `
+"Liferay.Loader.define(
+	'a/module/name',
+	[
+		'module',
+		'require',
+	],
+	function(module, require) {
+
+
+		console.log('Hello world');
+		
+
+	}
+);
+"
+`;

@@ -9,6 +9,7 @@ import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
 import {copyFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
+import {renderTemplates} from '../index';
 
 /**
  * Run configured rules.
@@ -17,6 +18,10 @@ export default async function adaptCreateReactApp(): Promise<void> {
 	log.info(`Running React's build...`);
 
 	runPkgJsonScript('build');
+
+	log.info('Rendering adapter modules...');
+
+	await renderTemplates();
 
 	log.info('Copying static assets...');
 

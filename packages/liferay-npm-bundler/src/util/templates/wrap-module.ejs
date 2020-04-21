@@ -1,0 +1,12 @@
+Liferay.Loader.define(
+	'<%= moduleName %>',
+	[
+		'module',
+		'require',<%= importDependencies %>
+	],
+	function(module, require) {
+
+<%= sourceCode %>
+
+	}
+);
