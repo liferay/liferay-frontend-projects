@@ -309,8 +309,6 @@ module.exports = class extends Base {
 	_runGulpInit() {
 		const gulp = require('gulp');
 
-		// TODO: remove in v9
-		// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
 		process.argv = process.argv.slice(0, 2).concat(['init']);
 
 		require('liferay-plugin-node-tasks').registerTasks({gulp});
