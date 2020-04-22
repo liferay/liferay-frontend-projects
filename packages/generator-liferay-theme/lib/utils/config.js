@@ -1,17 +1,19 @@
 /**
- * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
  * SPDX-License-Identifier: MIT
  */
+
+'use strict';
 
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
 
-let config = {
-	...safeReadJsonSync(
-		path.join(os.homedir(), '.generator-liferay-theme.json')
-	),
-};
+let config = Object.assign(
+	{},
+	safeReadJsonSync(path.join(os.homedir(), '.generator-liferay-theme.json'))
+);
 
 process.argv.forEach((arg, index) => {
 	if (arg === '--config') {

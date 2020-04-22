@@ -1,7 +1,10 @@
 /**
- * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
  * SPDX-License-Identifier: MIT
  */
+
+'use strict';
 
 const config = require('./config');
 
