@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.0.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.2) (2020-04-22)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.1...liferay-theme-tasks/v10.0.2)
+
+### :wrench: Bug fixes
+
+-   fix: #485 move temporary files out of /tmp ([\#486](https://github.com/liferay/liferay-js-themes-toolkit/pull/486))
+
 ## [liferay-theme-tasks/v10.0.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.1) (2020-04-17)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.0...liferay-theme-tasks/v10.0.1)
