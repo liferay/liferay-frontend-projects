@@ -12,6 +12,7 @@ const LayoutCreator = require('../../lib/layout_creator');
 const minimist = require('minimist');
 const path = require('path');
 
+const config = require('../../lib/utils/config');
 const Base = require('../app');
 
 module.exports = class extends Base {
@@ -146,15 +147,39 @@ module.exports = class extends Base {
 		if (!this.options['skip-creation']) {
 			const done = this.async();
 
-			new LayoutCreator({
-				after(templateContent) {
-					instance.fs.write(templateDestination, templateContent);
-
-					done();
-				},
+			const options = {
 				className: this.layoutId,
 				liferayVersion: this.liferayVersion,
-			});
+			};
+
+			if (config.batchMode()) {
+				options.rowData = [
+					[
+						{
+							className: 'portlet-column-only',
+							contentClassName: 'portlet-column-content-only',
+							number: 1,
+							size: 12,
+						},
+					],
+				];
+			}
+
+			new LayoutCreator(
+				Object.assign(
+					{
+						after(templateContent) {
+							instance.fs.write(
+								templateDestination,
+								templateContent
+							);
+
+							done();
+						},
+					},
+					options
+				)
+			);
 		}
 	}
 
@@ -163,18 +188,19 @@ module.exports = class extends Base {
 
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
-				const gulp = require('gulp');
-
-				// TODO: remove in v9
-				// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
-				process.argv = process.argv.slice(0, 2).concat(['init']);
-
-				require('liferay-plugin-node-tasks').registerTasks({gulp});
-				gulp.start('init');
+				if (config.batchMode()) {
+					this._runBatchGulpInit();
+				} else {
+					this._runGulpInit();
+				}
 			});
 
 			this.installDependencies({bower: false});
 		}
+	}
+
+	_getPromptNamespace() {
+		return 'layout';
 	}
 
 	_getPrompts() {
@@ -199,6 +225,7 @@ module.exports = class extends Base {
 				when: instance._getWhenFn('layoutId', 'id', _.isString),
 			},
 			{
+				default: '7.1',
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
@@ -224,6 +251,68 @@ module.exports = class extends Base {
 		this.thumbnailFilename = _.snakeCase(layoutId) + '.png';
 
 		this._setPackageVersion(this.liferayVersion);
+	}
+
+	_runBatchGulpInit() {
+		const answers = {
+			deployed: false,
+			pluginName: path.basename(process.cwd()),
+		};
+
+		answers.deploymentStrategy = config.getDefaultAnswer(
+			'init',
+			'deploymentStrategy',
+			'LocalAppServer'
+		);
+		answers.appServerPath = config.getDefaultAnswer(
+			'init',
+			'appServerPath',
+			path.join(path.dirname(process.cwd()), 'tomcat')
+		);
+		answers.deployPath = config.getDefaultAnswer(
+			'init',
+			'deployPath',
+			path.join(answers.appServerPath, '..', 'deploy')
+		);
+		answers.url = config.getDefaultAnswer(
+			'init',
+			'url',
+			'http://localhost:8080'
+		);
+
+		if (answers.deploymentStrategy === 'DockerContainer') {
+			answers.dockerContainerName = config.getDefaultAnswer(
+				'init',
+				'dockerContainerName',
+				'liferay_portal_1'
+			);
+
+			answers.appServerPathPlugin = path.posix.join(
+				answers.appServerPath,
+				'webapps',
+				answers.pluginName
+			);
+		} else {
+			answers.appServerPathPlugin = path.join(
+				answers.appServerPath,
+				'webapps',
+				answers.pluginName
+			);
+		}
+
+		fs.writeFileSync(
+			'liferay-plugin.json',
+			JSON.stringify({LiferayPlugin: answers}, null, 2)
+		);
+	}
+
+	_runGulpInit() {
+		const gulp = require('gulp');
+
+		process.argv = process.argv.slice(0, 2).concat(['init']);
+
+		require('liferay-plugin-node-tasks').registerTasks({gulp});
+		gulp.start('init');
 	}
 
 	_setArgv() {

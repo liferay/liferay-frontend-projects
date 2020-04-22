@@ -69,6 +69,10 @@ module.exports = class extends Base {
 		// No-op.
 	}
 
+	_getPromptNamespace() {
+		return 'themelet';
+	}
+
 	_getPrompts() {
 		const instance = this;
 
