@@ -7,7 +7,6 @@
 
 const fs = require('fs-extra');
 const bourbon = require('node-bourbon');
-const os = require('os');
 const path = require('path');
 
 const project = require('../../lib/project');
@@ -22,11 +21,7 @@ exports.createBourbonFile = function() {
 
 	const bourbonPath = bourbon.includePaths[0];
 
-	const tmpDirPath = path.join(os.tmpdir(), 'tmp');
-
-	if (!fs.existsSync(tmpDirPath)) {
-		fs.mkdirSync(tmpDirPath);
-	}
+	const tmpDirPath = project.tmpdir().asNative;
 
 	const bourbonFilePath = path.join(tmpDirPath, '_bourbon.scss');
 
