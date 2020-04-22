@@ -9400,10 +9400,10 @@ liferay-npm-bundler@2.18.4:
     xml-js "^1.6.8"
     yargs "^14.0.0"
 
-liferay-theme-tasks@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/liferay-theme-tasks/-/liferay-theme-tasks-10.0.0.tgz#5ea0ae584ebc09fab5af1d76b26a524498ef0b84"
-  integrity sha512-pxT2cLwjYvvaaaQ8qhUzbXA6YIlknKKwz9WdBnp1Puecfl6U4CD7xON8di74Bh+vhweN6ldIz3438bftrOWjBQ==
+liferay-theme-tasks@10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/liferay-theme-tasks/-/liferay-theme-tasks-10.0.2.tgz#6efcbbd3f402c626ef5b77de8fcd0575c79fdd0d"
+  integrity sha512-ES7Oe3sBpRBMTkX4rqfgvl1tsJvERfTd2b/UyT/x8LERuQeXu0v9fbuc3vbNpDTbXxnSJglTDt0GxbCCjpTImw==
   dependencies:
     ansi-colors "^4.1.1"
     async "^2.6.1"

@@ -55,7 +55,7 @@
 		"liferay-npm-bridge-generator": "2.18.4",
 		"liferay-npm-bundler": "2.18.4",
 		"liferay-npm-bundler-preset-liferay-dev": "4.3.0",
-		"liferay-theme-tasks": "10.0.0",
+		"liferay-theme-tasks": "10.0.2",
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
 		"prettier": "1.19.1",
