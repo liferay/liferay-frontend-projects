@@ -1,3 +1,16 @@
+## [v8.2.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.2.0) (2020-04-22)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.1.2...v8.2.0)
+
+### :new: Features
+
+-   feat: #466 backport batch mode (--config) to v8 ([\#484](https://github.com/liferay/liferay-js-themes-toolkit/pull/484))
+-   feat: automatically tag 8.x releases with "maintenance" tag ([\#474](https://github.com/liferay/liferay-js-themes-toolkit/pull/474))
+
+### :book: Documentation
+
+-   docs: backport compatibility info changes to 8.x ([\#477](https://github.com/liferay/liferay-js-themes-toolkit/pull/477))
+
 ## [v8.1.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.1.2) (2019-11-25)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.1.1...v8.1.2)
