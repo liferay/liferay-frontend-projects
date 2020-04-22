@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+const crypto = require('crypto');
 const fs = require('fs-extra');
 const _ = require('lodash');
 const path = require('path');
@@ -60,6 +61,28 @@ class Project {
 
 	get watching() {
 		return this._watching;
+	}
+
+	/**
+	 * Return a temporary directory inside the project's tree. The directory is
+	 * created and emptied if necessary.
+	 *
+	 * Each call to this method will return a new directory.
+	 *
+	 * The returned directory is guaranteed to exist during the execution of the
+	 * current build but no more than that. However, it is not deleted on exit.
+	 *
+	 * @return {FilePath}
+	 */
+	tmpdir() {
+		const tmpdir = this.options.pathBuild.join(
+			'.tmp',
+			crypto.randomBytes(4).toString('hex')
+		);
+
+		fs.emptyDirSync(tmpdir.asNative);
+
+		return tmpdir;
 	}
 
 	modifyPkgJson(modifier) {
