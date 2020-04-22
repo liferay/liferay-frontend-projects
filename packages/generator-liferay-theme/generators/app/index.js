@@ -6,6 +6,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const _ = require('lodash');
 const chalk = require('chalk');
 const Insight = require('insight');
@@ -15,6 +16,9 @@ const Generator = require('yeoman-generator');
 const yosay = require('yosay');
 
 const lookup = require('liferay-theme-tasks/lib/lookup');
+
+const config = require('../../lib/utils/config');
+const promptWithConfig = require('../../lib/utils/promptWithConfig');
 
 module.exports = class extends Generator {
 	initializing() {
@@ -49,7 +53,12 @@ module.exports = class extends Generator {
 		const insight = this._insight;
 
 		if (_.isUndefined(insight.optOut)) {
-			insight.askPermission(null, _.bind(this._prompt, this));
+			if (config.batchMode()) {
+				insight.optOut = true;
+				this._prompt();
+			} else {
+				insight.askPermission(null, _.bind(this._prompt, this));
+			}
 		} else {
 			this._prompt();
 		}
@@ -142,14 +151,11 @@ module.exports = class extends Generator {
 
 		if (!skipInstall) {
 			this.on('npmInstall:end', () => {
-				const gulp = require('gulp');
-
-				// TODO: remove in v9
-				// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
-				process.argv = process.argv.slice(0, 2).concat(['init']);
-
-				require('liferay-theme-tasks').registerTasks({gulp});
-				gulp.start('init');
+				if (config.batchMode()) {
+					this._runBatchGulpInit();
+				} else {
+					this._runGulpInit();
+				}
 			});
 
 			this.installDependencies({bower: false});
@@ -166,6 +172,10 @@ module.exports = class extends Generator {
 		}
 
 		return args;
+	}
+
+	_getPromptNamespace() {
+		return 'theme';
 	}
 
 	_getPrompts() {
@@ -189,6 +199,7 @@ module.exports = class extends Generator {
 				when: instance._getWhenFn('themeId', 'id', _.isString),
 			},
 			{
+				default: '7.1',
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
 				choices: ['7.1', '7.0'],
@@ -200,6 +211,10 @@ module.exports = class extends Generator {
 				),
 			},
 			{
+				default(answers) {
+					return instance._getTemplateLanguageChoices(answers)[0]
+						.value;
+				},
 				message:
 					'What template language would you like this theme to use?',
 				name: 'templateLanguage',
@@ -302,7 +317,11 @@ module.exports = class extends Generator {
 	}
 
 	_prompt() {
-		this.prompt(this._getPrompts()).then(props => {
+		promptWithConfig(
+			this,
+			this._getPromptNamespace(),
+			this._getPrompts()
+		).then(props => {
 			props = this._mixArgs(props, this._getArgs());
 
 			this._promptCallback(props);
@@ -336,6 +355,70 @@ module.exports = class extends Generator {
 		this._printWarnings(props);
 
 		this._setPackageVersion();
+	}
+
+	_runBatchGulpInit() {
+		const answers = {
+			deployed: false,
+			pluginName: path.basename(process.cwd()),
+		};
+
+		answers.deploymentStrategy = config.getDefaultAnswer(
+			'init',
+			'deploymentStrategy',
+			'LocalAppServer'
+		);
+		answers.appServerPath = config.getDefaultAnswer(
+			'init',
+			'appServerPath',
+			path.join(path.dirname(process.cwd()), 'tomcat')
+		);
+		answers.deployPath = config.getDefaultAnswer(
+			'init',
+			'deployPath',
+			path.join(answers.appServerPath, '..', 'deploy')
+		);
+		answers.url = config.getDefaultAnswer(
+			'init',
+			'url',
+			'http://localhost:8080'
+		);
+
+		if (answers.deploymentStrategy === 'DockerContainer') {
+			answers.dockerContainerName = config.getDefaultAnswer(
+				'init',
+				'dockerContainerName',
+				'liferay_portal_1'
+			);
+
+			answers.appServerPathPlugin = path.posix.join(
+				answers.appServerPath,
+				'webapps',
+				answers.pluginName
+			);
+		} else {
+			answers.appServerPathPlugin = path.join(
+				answers.appServerPath,
+				'webapps',
+				answers.pluginName
+			);
+		}
+
+		fs.writeFileSync(
+			'liferay-theme.json',
+			JSON.stringify({LiferayTheme: answers}, null, 2)
+		);
+	}
+
+	_runGulpInit() {
+		const gulp = require('gulp');
+
+		// TODO: remove in v9
+		// See: https://github.com/liferay/liferay-js-themes-toolkit/issues/196
+		process.argv = process.argv.slice(0, 2).concat(['init']);
+
+		require('liferay-theme-tasks').registerTasks({gulp});
+		gulp.start('init');
 	}
 
 	_setArgv() {

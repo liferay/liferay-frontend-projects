@@ -56,6 +56,10 @@ module.exports = class extends Base {
 		super.install();
 	}
 
+	_getPromptNamespace() {
+		return 'import';
+	}
+
 	_getPrompts() {
 		const instance = this;
 
