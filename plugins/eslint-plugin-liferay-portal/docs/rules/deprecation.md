@@ -45,13 +45,13 @@ And replacement information of the form:
 -   `replaced by REPLACEMENT`; or
 -   `with no direct replacement`
 
-As an exception to the above requirement, this lint rule does not complain about notices that do not specify replacement infos; this is because there are some existing old notices in liferay-portal that do not currently have it. Be aware that this exception may be removed in the future:
+As an exception to the above requirement, this lint rule does not complain about notices that do not specify replacement information; this is because there are some existing old notices in liferay-portal that do not currently have it. Be aware that this exception may be removed in the future:
 
 ```js
 // Don't do this, although it is allowed, for now...
 
 /**
- * @deprecated As of Wilberforce (7.2.x)
+ * @deprecated As of Wilberforce (7.0.x)
  */
 ```
 
