@@ -5,6 +5,7 @@
 
 module.exports = {
 	rules: {
+		deprecation: require('./lib/rules/deprecation'),
 		'no-explicit-extend': require('./lib/rules/no-explicit-extend'),
 		'no-global-fetch': require('./lib/rules/no-global-fetch'),
 		'no-loader-import-specifier': require('./lib/rules/no-loader-import-specifier'),

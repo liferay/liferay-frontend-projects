@@ -16,6 +16,7 @@ const config = {
 	},
 	plugins: [local('liferay-portal')],
 	rules: {
+		'liferay-portal/deprecation': 'error',
 		'liferay-portal/no-explicit-extend': 'error',
 		'liferay-portal/no-global-fetch': 'error',
 		'liferay-portal/no-loader-import-specifier': 'error',
