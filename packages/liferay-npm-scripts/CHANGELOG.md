@@ -1,3 +1,15 @@
+## [liferay-npm-scripts/v30.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v30.0.0) (2020-04-27)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v29.1.1...liferay-npm-scripts/v30.0.0)
+
+### :boom: Breaking changes
+
+-   chore!: update Prettier to v2.0.5 ([\#442](https://github.com/liferay/liferay-npm-tools/pull/442))
+
+### :house: Chores
+
+-   chore!: update Prettier to v2.0.5 ([\#442](https://github.com/liferay/liferay-npm-tools/pull/442))
+
 ## [liferay-npm-scripts/v29.1.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v29.1.1) (2020-04-22)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v29.1.0...liferay-npm-scripts/v29.1.1)
