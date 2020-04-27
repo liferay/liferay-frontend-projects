@@ -32,13 +32,7 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(`
 			<p>Hi!</p>
 			<script>
-				if (
-					richEditor
-						.getEditor()
-						.getSession()
-						.getUndoManager()
-						.hasUndo()
-				) {
+				if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
 					Liferay.fire('<portlet:namespace />saveTemplate');
 				}
 				<c:if test="<%= template == null %>">
