@@ -34,7 +34,7 @@ function lintJSP(source, onReport, options = {}) {
 	const {fix, quiet} = options;
 
 	return processJSP(source, {
-		onLint: input => {
+		onLint: (input) => {
 			let messages;
 			let output;
 
@@ -50,7 +50,7 @@ function lintJSP(source, onReport, options = {}) {
 			let fixableWarningCount = 0;
 			let warningCount = 0;
 
-			messages = messages.filter(message => {
+			messages = messages.filter((message) => {
 				if (message.severity === SEVERITY.ERROR) {
 					errorCount++;
 

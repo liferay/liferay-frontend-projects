@@ -17,7 +17,7 @@ const idx = (p, o) => p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o);
 /**
  * Prints the modules's insights report as a table in the terminal.
  */
-module.exports = async function(modulesInfo, config) {
+module.exports = async function (modulesInfo, config) {
 	const {output} = {
 		...DEFAULT_CONFIG,
 		...config,
@@ -32,10 +32,10 @@ module.exports = async function(modulesInfo, config) {
 	const table = new Table({colWidths, head});
 
 	modulesInfo
-		.map(moduleInfo =>
-			head.map(field => idx(field.split('.'), moduleInfo) || '')
+		.map((moduleInfo) =>
+			head.map((field) => idx(field.split('.'), moduleInfo) || '')
 		)
-		.forEach(moduleInfo => table.push(moduleInfo));
+		.forEach((moduleInfo) => table.push(moduleInfo));
 
 	// eslint-disable-next-line no-console
 	console.log(table.toString());

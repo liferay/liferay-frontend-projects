@@ -136,7 +136,7 @@ import ThemeContext from '../../src/main/resources/META-INF/resources/js/ThemeCo
 const {addDecorator, storiesOf} = StorybookReact;
 const {action} = StorybookAddonActions;
 
-addDecorator(storyFn => {
+addDecorator((storyFn) => {
 	const context = {
 		spritemap: STORYBOOK_CONSTANTS.SPRITEMAP_PATH,
 	};

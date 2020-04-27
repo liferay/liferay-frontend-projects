@@ -503,7 +503,7 @@ describe('lex()', () => {
 			'view.jsp',
 			'view_calendar_menus.jspf',
 			'view_meeting.jsp',
-		])('%s matches snapshot', async fixture => {
+		])('%s matches snapshot', async (fixture) => {
 			const source = await getFixture(path.join('jsp', fixture));
 
 			expect(lex(source).tokens).toMatchSnapshot();

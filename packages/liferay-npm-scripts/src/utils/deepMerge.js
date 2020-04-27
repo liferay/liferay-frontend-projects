@@ -5,7 +5,7 @@
 
 const merge = require('deepmerge');
 
-const emptyTarget = value => (Array.isArray(value) ? [] : {});
+const emptyTarget = (value) => (Array.isArray(value) ? [] : {});
 const clone = (value, options) => merge(emptyTarget(value), value, options);
 
 /**
@@ -136,13 +136,13 @@ function babelMerge(key) {
 	}[key];
 
 	if (kind === 'plugin' || kind === 'preset') {
-		return function(target, source, options) {
+		return function (target, source, options) {
 			// Create a mutable copy of `source`.
 			const pending = source.slice();
 
-			const result = target.map(targetItem => {
+			const result = target.map((targetItem) => {
 				const targetName = getBabelName(targetItem, kind);
-				const sourceIndex = pending.findIndex(sourceItem => {
+				const sourceIndex = pending.findIndex((sourceItem) => {
 					const sourceName = getBabelName(sourceItem, kind);
 
 					return sourceName === targetName;
@@ -168,7 +168,7 @@ function babelMerge(key) {
 			});
 
 			return result.concat(
-				pending.map(item => {
+				pending.map((item) => {
 					const itemName = getBabelName(item, kind);
 					const itemOptions = getBabelOptions(item);
 
@@ -177,7 +177,7 @@ function babelMerge(key) {
 			);
 		};
 	} else {
-		return function(target, source, options) {
+		return function (target, source, options) {
 			if (Array.isArray(target) && Array.isArray(source)) {
 				return combineMerge(target, source, options);
 			} else if (

@@ -21,7 +21,7 @@ module.exports = {
 				const indent = '\t'.repeat(last.loc.end.column - 1);
 
 				context.report({
-					fix: fixer => {
+					fix: (fixer) => {
 						if (source.commentsExistBetween(last, keyword)) {
 							const comments = source.getCommentsAfter(last);
 

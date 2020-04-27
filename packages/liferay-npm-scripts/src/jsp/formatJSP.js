@@ -19,7 +19,7 @@ function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	};
 
 	return processJSP(source, {
-		onFormat: input => {
+		onFormat: (input) => {
 			return prettier.format(input, prettierOptions);
 		},
 	});

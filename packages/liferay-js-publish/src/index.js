@@ -119,10 +119,10 @@ function confirm(prompt, answer = 'y', matcher = YES_REGEX) {
 		});
 	}
 
-	const promise = new Promise(resolve => {
+	const promise = new Promise((resolve) => {
 		const question = answer === 'y' ? `${prompt} [y/n] ` : `${prompt} `;
 		readline.question(question, resolve);
-	}).then(result => {
+	}).then((result) => {
 		if (answer === 'y') {
 			if (!result.match(matcher)) {
 				throw new Error('User aborted');
@@ -143,7 +143,7 @@ function getRemote() {
 	const remotes = git('remote', '-v').split('\n');
 
 	const upstreams = remotes
-		.map(remote => {
+		.map((remote) => {
 			const [name, url] = remote.split(/\s+/);
 
 			return [name, url];
@@ -207,7 +207,7 @@ async function runYarnPublish(pkg) {
 let exitStatus = 0;
 
 main()
-	.catch(error => {
+	.catch((error) => {
 		printBanner(
 			'Failed to automatically publish package! ❌',
 			error.message,

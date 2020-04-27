@@ -8,7 +8,7 @@
  * specified extension(s).
  */
 function filterGlobs(globs, ...extensions) {
-	extensions.forEach(extension => {
+	extensions.forEach((extension) => {
 		if (!extension.match(/^\.\w+$/)) {
 			throw new Error(
 				`filterGlobs(): expected extension ${JSON.stringify(
@@ -19,8 +19,8 @@ function filterGlobs(globs, ...extensions) {
 	});
 
 	return extensions.length
-		? globs.filter(glob => {
-				return extensions.some(extension => glob.endsWith(extension));
+		? globs.filter((glob) => {
+				return extensions.some((extension) => glob.endsWith(extension));
 		  })
 		: globs;
 }

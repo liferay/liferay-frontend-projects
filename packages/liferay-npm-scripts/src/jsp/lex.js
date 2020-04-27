@@ -18,7 +18,7 @@ function lex(source, options = {}) {
 		...options,
 	};
 
-	const lexer = new Lexer(api => {
+	const lexer = new Lexer((api) => {
 		const {
 			a,
 			allOf,
@@ -522,7 +522,7 @@ function lex(source, options = {}) {
 			maybe('SPACE')
 		)
 			.name('ATTRIBUTES')
-			.onEnter(meta => {
+			.onEnter((meta) => {
 				meta.set('attribute:names', []);
 			})
 			.onMatch((_match, meta) => {
@@ -530,7 +530,7 @@ function lex(source, options = {}) {
 
 				if (attributes.length > new Set(attributes).size) {
 					const names = attributes
-						.map(name => JSON.stringify(name))
+						.map((name) => JSON.stringify(name))
 						.join(', ');
 
 					fail(`Attribute names must be unique (got: ${names})`);

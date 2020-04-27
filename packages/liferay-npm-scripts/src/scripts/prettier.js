@@ -27,13 +27,13 @@ function main(...args) {
 
 	const options = {};
 
-	const set = function(key, value) {
+	const set = function (key, value) {
 		if (arguments.length === 2) {
 			return () => {
 				options[key] = value;
 			};
 		} else {
-			return value => {
+			return (value) => {
 				options[key] = value;
 			};
 		}
@@ -128,7 +128,7 @@ function main(...args) {
 		} else if (arg.startsWith('-')) {
 			// Unknown option, just ignore it.
 		} else if (isGlob(arg)) {
-			getPaths([arg], [], IGNORE_FILE).forEach(filepath => {
+			getPaths([arg], [], IGNORE_FILE).forEach((filepath) => {
 				files.push({
 					contents: null,
 					filepath,

@@ -47,7 +47,7 @@ function findModulesDirectory(from = process.cwd()) {
  */
 function checkExistingBuildArgs(args) {
 	const reservedArgs = new Set(Object.keys(BUILD_ARGS));
-	args.forEach(arg => {
+	args.forEach((arg) => {
 		if (reservedArgs.has(arg)) {
 			throw new Error(
 				`Must not supply ${arg} when invoking \`theme build\``
@@ -71,7 +71,7 @@ function prepareAdditionalBuildArgs() {
 	}
 
 	const args = [];
-	Object.keys(BUILD_ARGS).forEach(key => {
+	Object.keys(BUILD_ARGS).forEach((key) => {
 		const value = BUILD_ARGS[key];
 		args.push(key, value.replace(MODULES_DIR, modules));
 	});

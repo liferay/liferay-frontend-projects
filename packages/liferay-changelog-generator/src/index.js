@@ -266,7 +266,7 @@ const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
 const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
 
 async function formatChanges(changes, remote) {
-	const sections = new Map(Object.keys(types).map(type => [type, []]));
+	const sections = new Map(Object.keys(types).map((type) => [type, []]));
 
 	changes.forEach(({description, number}) => {
 		const match = description.match(TYPE_REGEXP);
@@ -317,7 +317,7 @@ async function formatChanges(changes, remote) {
  *
  */
 function printBanner(message) {
-	const lines = message.split('\n').map(line => line.trim());
+	const lines = message.split('\n').map((line) => line.trim());
 
 	const width = lines.reduce((max, line) => {
 		return Math.max(max, line.length);
@@ -335,7 +335,7 @@ function printBanner(message) {
 
 	TEMPLATE.forEach(([left, middle, right]) => {
 		if (middle === '*') {
-			lines.forEach(line => {
+			lines.forEach((line) => {
 				banner +=
 					left +
 					line +
@@ -512,7 +512,7 @@ function parseArgs(args) {
 	};
 
 	let match;
-	args.forEach(arg => {
+	args.forEach((arg) => {
 		match = arg.match(option('dry-run|d'));
 		if (match) {
 			options.dryRun = true;
@@ -599,10 +599,7 @@ function parseArgs(args) {
 function formatDate(date) {
 	const year = date.getFullYear();
 	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const day = date
-		.getDate()
-		.toString()
-		.padStart(2, '0');
+	const day = date.getDate().toString().padStart(2, '0');
 
 	return `${year}-${month}-${day}`;
 }
@@ -657,7 +654,7 @@ async function getVersionTagPrefix() {
 				'utf8'
 			);
 
-			contents.split(/\r\n|\r|\n/).find(line => {
+			contents.split(/\r\n|\r|\n/).find((line) => {
 				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
 
 				if (match) {

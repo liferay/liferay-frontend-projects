@@ -14,11 +14,11 @@ module.exports = {
 	Slider: () => {},
 	Treeview: () => {},
 	cancelDebounce: () => {},
-	debounce: fn => fn,
+	debounce: (fn) => fn,
 	fetch,
 	navigate: (url, listeners) => console.log({listeners, url}),
-	openSimpleInputModal: config => console.log(config),
-	openToast: config => console.log(config),
+	openSimpleInputModal: (config) => console.log(config),
+	openToast: (config) => console.log(config),
 };
 
 /* eslint-enable no-console */

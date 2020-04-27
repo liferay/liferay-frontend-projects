@@ -48,7 +48,7 @@ function buildNodePath() {
  * @param {Array} files The list of files to copy.
  */
 function copyStorybookConfigFiles(buildPath, files) {
-	files.forEach(file => {
+	files.forEach((file) => {
 		fs.copyFileSync(
 			path.join(STORYBOOK_CONFIG_DIR_PATH, file),
 			path.join(buildPath, file)
@@ -72,7 +72,7 @@ function compileLanguageProperties(buildPath, paths) {
 
 	const output = [];
 
-	LANG_PATHS.filter(fs.existsSync).forEach(langPath => {
+	LANG_PATHS.filter(fs.existsSync).forEach((langPath) => {
 		try {
 			output.push(fs.readFileSync(langPath, 'utf8'));
 		} catch (error) {

@@ -52,7 +52,7 @@ function runBridge() {
 	// Retrieves the `.npmbridgerc` configuration which we already know exists
 	const bridgeConfig = JSON.parse(fs.readFileSync('.npmbridgerc', 'utf8'));
 
-	Object.keys(bridgeConfig).forEach(moduleKey => {
+	Object.keys(bridgeConfig).forEach((moduleKey) => {
 		const output = bridgeConfig[moduleKey].output;
 
 		if (output) {
@@ -69,7 +69,7 @@ function runBridge() {
  * ".npmbridgerc" and "webpack.config.js" files, respectively, are
  * present, and soy is run when soy files are detected.
  */
-module.exports = function() {
+module.exports = function () {
 	setEnv('production');
 
 	validateConfig(

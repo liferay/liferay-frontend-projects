@@ -20,7 +20,7 @@ function formatDirectoryPath(dirPath) {
 	return dirPath.replace(APPS_DIR, '').replace(/\//g, '.');
 }
 
-module.exports = report => {
+module.exports = (report) => {
 	const generalMetrics = {
 		_attr: {
 			errors: 0,
@@ -41,7 +41,7 @@ module.exports = report => {
 			(results, suite) =>
 				suite.testResults.length
 					? results.concat(
-							suite.testResults.map(test => ({
+							suite.testResults.map((test) => ({
 								...test,
 								testFilePath: suite.testFilePath,
 							}))
@@ -49,7 +49,7 @@ module.exports = report => {
 					: results,
 			[]
 		)
-		.map(testCase => {
+		.map((testCase) => {
 			const results = [
 				{
 					_attr: {
@@ -64,10 +64,10 @@ module.exports = report => {
 
 			if (testCase.failureMessages && testCase.failureMessages.length) {
 				const failureMessageArr = testCase.failureMessages.map(
-					failureMessage =>
+					(failureMessage) =>
 						failureMessage
 							.split(NEW_LINE)
-							.map(message =>
+							.map((message) =>
 								stripAnsi(message).replace(APPS_DIR, '')
 							)
 				);
@@ -80,7 +80,7 @@ module.exports = report => {
 							},
 						},
 						failureMessageArr
-							.map(failureMessage =>
+							.map((failureMessage) =>
 								failureMessage.join(NEW_LINE)
 							)
 							.join(NEW_LINE),

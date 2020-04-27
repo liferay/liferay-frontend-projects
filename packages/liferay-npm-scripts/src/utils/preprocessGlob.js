@@ -77,10 +77,10 @@ function fill(template, substitutions) {
 
 	const permutations = [];
 
-	(substitutions[0] || []).forEach(substitution => {
+	(substitutions[0] || []).forEach((substitution) => {
 		permutations.push(
 			...fill(rest, substitutions.slice(1)).map(
-				result => first + substitution + result
+				(result) => first + substitution + result
 			)
 		);
 	});

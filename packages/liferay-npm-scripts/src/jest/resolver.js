@@ -13,7 +13,7 @@ const CWD = process.cwd();
 const INPUT = BUILD_CONFIG.input.replace('/', path.sep);
 const OUTPUT = BUILD_CONFIG.output;
 
-module.exports = function(request, options) {
+module.exports = function (request, options) {
 	const {basedir, defaultResolver} = options;
 
 	// Redirect imports to .soy.js files from input to output directory

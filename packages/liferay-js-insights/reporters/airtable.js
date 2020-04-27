@@ -37,7 +37,7 @@ const progress = new cliProgress.MultiBar(
  *
  * 		- The Table name should be provided as `--output`. If none is passed, it defaults to `master`.
  */
-module.exports = async function(modulesInfo, config) {
+module.exports = async function (modulesInfo, config) {
 	const {airtableApiKey, airtableBaseKey, output} = {
 		airtableApiKey: process.env.LFR_DEPS_AIRTABLE_API_KEY,
 		airtableBaseKey: process.env.LFR_DEPS_AIRTABLE_BASE_KEY,
@@ -52,16 +52,18 @@ module.exports = async function(modulesInfo, config) {
 
 	while (synced < modulesInfo.length) {
 		// Airtable API only allows creating up to 10 records per request. It also expects a flat Map<string, object> `fields` parameter
-		const chunk = modulesInfo.slice(synced, synced + 10).map(moduleInfo => {
-			return {
-				fields: {
-					app: moduleInfo.meta.app,
-					module: moduleInfo.meta.name,
-					url: moduleInfo.meta.url,
-					...moduleInfo.dependencies,
-				},
-			};
-		});
+		const chunk = modulesInfo
+			.slice(synced, synced + 10)
+			.map((moduleInfo) => {
+				return {
+					fields: {
+						app: moduleInfo.meta.app,
+						module: moduleInfo.meta.name,
+						url: moduleInfo.meta.url,
+						...moduleInfo.dependencies,
+					},
+				};
+			});
 
 		try {
 			await base(output).create(chunk, {

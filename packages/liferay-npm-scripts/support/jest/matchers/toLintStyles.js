@@ -47,7 +47,7 @@ expect.extend({
 		}
 
 		return {
-			message: pass => {
+			message: (pass) => {
 				const count = errors.length;
 
 				const settings = {

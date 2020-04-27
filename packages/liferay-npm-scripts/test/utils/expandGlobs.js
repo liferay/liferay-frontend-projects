@@ -88,7 +88,7 @@ describe('expandGlobs()', () => {
 		const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'scripts-'));
 		process.chdir(directory);
 
-		FIXTURES.forEach(fixture => {
+		FIXTURES.forEach((fixture) => {
 			const dirname = path.dirname(fixture);
 
 			fs.mkdirSync(dirname, {recursive: true});
@@ -160,7 +160,7 @@ describe('expandGlobs()', () => {
 	it('excludes ignored files', () => {
 		const matches = expand(['*'], ['sdk/**']);
 
-		const filtered = FIXTURES.filter(entry => !entry.startsWith('sdk'));
+		const filtered = FIXTURES.filter((entry) => !entry.startsWith('sdk'));
 
 		expect(matches).toEqual(filtered);
 	});
@@ -168,7 +168,7 @@ describe('expandGlobs()', () => {
 	it('respects negated ignore patterns', () => {
 		const matches = expand(['*.js'], ['*.js', '!*.es.js']);
 
-		const filtered = FIXTURES.filter(entry => entry.endsWith('.es.js'));
+		const filtered = FIXTURES.filter((entry) => entry.endsWith('.es.js'));
 
 		expect(matches).toEqual(filtered);
 	});
@@ -176,7 +176,7 @@ describe('expandGlobs()', () => {
 	it('treats negated match patterns as non-negated ignores', () => {
 		const matches = expand(['*.js', '!*.js'], ['!*.es.js']);
 
-		const filtered = FIXTURES.filter(entry => entry.endsWith('.es.js'));
+		const filtered = FIXTURES.filter((entry) => entry.endsWith('.es.js'));
 
 		expect(matches).toEqual(filtered);
 	});

@@ -16,7 +16,7 @@ function runBundler(...args) {
 	withTempFile(
 		'.npmbundlerrc',
 		JSON.stringify(BUNDLER_CONFIG),
-		npmbundlerRcPath => {
+		(npmbundlerRcPath) => {
 			spawnSync('liferay-npm-bundler', [
 				'--config',
 				npmbundlerRcPath,

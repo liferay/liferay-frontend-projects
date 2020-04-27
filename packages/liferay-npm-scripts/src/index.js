@@ -5,7 +5,7 @@
 
 const minimist = require('minimist');
 
-module.exports = async function() {
+module.exports = async function () {
 	const ARGS_ARRAY = process.argv.slice(2);
 
 	const {

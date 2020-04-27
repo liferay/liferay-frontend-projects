@@ -332,7 +332,7 @@ describe('formatJSP()', () => {
 			// Not including these (rejected by Prettier, see "known
 			// limitations" below):
 			// 'edit_content_redirect.jsp',
-		])('%s matches snapshot', async fixture => {
+		])('%s matches snapshot', async (fixture) => {
 			const source = await getFixture(path.join('jsp', fixture));
 
 			expect(formatJSP(source)).toMatchSnapshot();
