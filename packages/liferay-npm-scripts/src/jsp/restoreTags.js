@@ -17,7 +17,7 @@ const {TAB_CHAR, isFiller} = require('./toFiller');
 function restoreTags(source, tags) {
 	let tagCount = 0;
 
-	const lexer = new Lexer(api => {
+	const lexer = new Lexer((api) => {
 		const {choose, match} = api;
 
 		const ANYTHING = match(/[\s\S]/);

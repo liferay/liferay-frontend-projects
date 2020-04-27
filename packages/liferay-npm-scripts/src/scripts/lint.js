@@ -109,7 +109,7 @@ async function lint(options = {}) {
 			try {
 				const updated = await linter(
 					contents,
-					result => {
+					(result) => {
 						report.results.push({
 							...result,
 							filePath: path.resolve(filePath),
@@ -131,8 +131,8 @@ async function lint(options = {}) {
 	// Otherwise keep both errors and warnings.
 	// Filter out everything else.
 	const results = (report.results || [])
-		.map(result => {
-			const messages = result.messages.filter(message => {
+		.map((result) => {
+			const messages = result.messages.filter((message) => {
 				return quiet ? message.severity === 2 : true;
 			});
 
@@ -192,7 +192,7 @@ function formatter(results) {
 	let output = '';
 	let warnings = 0;
 
-	results.forEach(result => {
+	results.forEach((result) => {
 		output += color.UNDERLINE + result.filePath + color.RESET + '\n';
 
 		result.messages.forEach(
@@ -271,11 +271,11 @@ function partitionArray(array, predicates) {
 		default: [],
 	};
 
-	Object.keys(predicates).forEach(key => {
+	Object.keys(predicates).forEach((key) => {
 		results[key] = [];
 	});
 
-	array.forEach(item => {
+	array.forEach((item) => {
 		let matched = false;
 
 		for (const [key, predicate] of Object.entries(predicates)) {

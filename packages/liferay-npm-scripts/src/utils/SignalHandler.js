@@ -21,7 +21,7 @@ const SIGNALS = {
 const SignalHandler = {
 	install() {
 		if (!installed) {
-			Object.keys(SIGNALS).forEach(signal => {
+			Object.keys(SIGNALS).forEach((signal) => {
 				process.on(signal, handleSignal);
 			});
 

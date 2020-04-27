@@ -7,7 +7,7 @@
 
 const main = require('../src');
 
-main(...process.argv).catch(err => {
+main(...process.argv).catch((err) => {
 	process.stderr.write(`${err}\n`);
 	process.exit(1);
 });

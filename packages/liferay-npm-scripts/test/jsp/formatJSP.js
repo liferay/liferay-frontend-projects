@@ -32,13 +32,7 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(`
 			<p>Hi!</p>
 			<script>
-				if (
-					richEditor
-						.getEditor()
-						.getSession()
-						.getUndoManager()
-						.hasUndo()
-				) {
+				if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
 					Liferay.fire('<portlet:namespace />saveTemplate');
 				}
 				<c:if test="<%= template == null %>">
@@ -332,7 +326,7 @@ describe('formatJSP()', () => {
 			// Not including these (rejected by Prettier, see "known
 			// limitations" below):
 			// 'edit_content_redirect.jsp',
-		])('%s matches snapshot', async fixture => {
+		])('%s matches snapshot', async (fixture) => {
 			const source = await getFixture(path.join('jsp', fixture));
 
 			expect(formatJSP(source)).toMatchSnapshot();

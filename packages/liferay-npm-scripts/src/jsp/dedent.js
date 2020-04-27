@@ -9,7 +9,7 @@
  */
 function dedent(input, tabWidth = 4) {
 	// Collapse totally blank lines to empty strings.
-	const lines = input.split('\n').map(line => {
+	const lines = input.split('\n').map((line) => {
 		if (line.match(/^\s+$/)) {
 			return '';
 		} else {
@@ -36,7 +36,7 @@ function dedent(input, tabWidth = 4) {
 
 	// Strip out minimum indent from every line.
 	const dedented = isFinite(minimum)
-		? lines.map(line => {
+		? lines.map((line) => {
 				const [, indent, rest] = line.match(/^(\s*)(.*)/);
 
 				if (minimum && indent.length) {

@@ -12,7 +12,7 @@ async function main() {
 	await require('../src/index')();
 }
 
-main().catch(error => {
+main().catch((error) => {
 	if (error instanceof SpawnError) {
 		// For this common error case (spawned tools exiting with an error)
 		// we avoid printing a stack trace.

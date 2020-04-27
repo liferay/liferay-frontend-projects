@@ -66,7 +66,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 			// Warn about overlapping ignore patterns. This check is O(n^2) but
 			// n is expected to be tiny (approx. 10).
-			seen.forEach(previous => {
+			seen.forEach((previous) => {
 				if (
 					previous.startsWith(base) ||
 					base.startsWith(previous) ||
@@ -116,7 +116,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 		currentDepth++;
 
 		const entries = fs.readdirSync(directory);
-		entries.forEach(entry => {
+		entries.forEach((entry) => {
 			const file = path.posix.join(directory, entry);
 
 			// Check trie to see whether entire subtree can be pruned.
@@ -164,7 +164,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 			const stat = fs.statSync(file);
 
-			const match = () => matchers.some(matcher => matcher.test(file));
+			const match = () => matchers.some((matcher) => matcher.test(file));
 
 			if (stat.isDirectory()) {
 				if (type === 'directory' && match()) {

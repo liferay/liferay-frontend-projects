@@ -20,7 +20,7 @@ const PREFIX_BACKUP = 'TEMP-';
 /**
  * Main script that runs `jest` with a merged config
  */
-module.exports = function(arrArgs = []) {
+module.exports = function (arrArgs = []) {
 	const useSoy = soyExists();
 
 	const CONFIG_PATH = 'TEMP_jest.config.json';

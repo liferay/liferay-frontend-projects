@@ -59,7 +59,7 @@ function isTrailingComment(_comment, next) {
 module.exports = stylelint.createPlugin(
 	ruleName,
 	(options, secondaryOptions, context) => {
-		return function(root, result) {
+		return function (root, result) {
 			const validOptions = stylelint.utils.validateOptions(
 				result,
 				ruleName,
@@ -84,10 +84,10 @@ module.exports = stylelint.createPlugin(
 
 			const fix = context ? context.fix && !disableFix : false;
 
-			root.walkComments(comment => {
+			root.walkComments((comment) => {
 				if (comment.raws.inline) {
 					if (BLANK_REGEX.test(comment.text)) {
-						const report = message => {
+						const report = (message) => {
 							stylelint.utils.report({
 								message,
 								node: comment,

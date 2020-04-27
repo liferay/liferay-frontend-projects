@@ -12,7 +12,7 @@ const findRoot = require('./findRoot');
  * @param {string} moduleName Name of user config file
  * @param {object} whether to walk up looking for config if needed
  */
-module.exports = function(moduleName, options = {}) {
+module.exports = function (moduleName, options = {}) {
 	const stopDir = (options.upwards && findRoot()) || process.cwd();
 
 	const explorer = cosmiconfigSync(moduleName, {stopDir});

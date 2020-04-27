@@ -22,10 +22,10 @@ function readIgnoreFile(file) {
 	return fs
 		.readFileSync(file, 'utf8')
 		.split(LINE_SEPARATORS)
-		.filter(line => {
+		.filter((line) => {
 			return !COMMENTS.test(line) && !BLANK_LINES.test(line);
 		})
-		.map(line => line.trim());
+		.map((line) => line.trim());
 }
 
 module.exports = readIgnoreFile;

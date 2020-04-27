@@ -89,8 +89,10 @@ async function getModuleMeta(modulePath) {
 		const meta = await getModuleMeta(modulePath);
 
 		await Promise.all(
-			requestedInsights.map(insight => INSIGHTS[insight]({ast, content}))
-		).then(values => {
+			requestedInsights.map((insight) =>
+				INSIGHTS[insight]({ast, content})
+			)
+		).then((values) => {
 			const moduleInfo = {meta};
 
 			requestedInsights.forEach((insight, index) => {

@@ -63,14 +63,14 @@ function filterChangedFiles(files) {
 		'HEAD'
 	)
 		.split(/\0/)
-		.map(file => {
+		.map((file) => {
 			return file ? path.join(topLevel, file) : file;
 		})
 		.filter(Boolean);
 
 	const set = new Set(changedFiles);
 
-	return files.filter(file => {
+	return files.filter((file) => {
 		const absolute = path.resolve(file);
 
 		return set.has(absolute);

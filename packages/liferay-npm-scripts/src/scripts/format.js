@@ -49,7 +49,7 @@ function format(options = {}) {
 	let bad = 0;
 	let fixed = 0;
 
-	paths.forEach(filepath => {
+	paths.forEach((filepath) => {
 		checked++;
 
 		try {
@@ -90,8 +90,8 @@ function format(options = {}) {
 		}
 	});
 
-	const files = count => (count === 1 ? 'file' : 'files');
-	const have = count => (count === 1 ? 'has' : 'have');
+	const files = (count) => (count === 1 ? 'file' : 'files');
+	const have = (count) => (count === 1 ? 'has' : 'have');
 
 	const summary = [`Prettier checked ${checked} ${files(checked)}`];
 

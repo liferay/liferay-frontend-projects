@@ -67,7 +67,7 @@ function getJestModuleNameMapper() {
 				type: 'directory',
 			});
 
-			projects.forEach(project => {
+			projects.forEach((project) => {
 				const packageJson = path.join(project, 'package.json');
 
 				if (fs.existsSync(packageJson)) {

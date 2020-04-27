@@ -42,7 +42,7 @@ function isObject(maybeObject) {
  */
 function filter(object, property, callback) {
 	if (Array.isArray(object)) {
-		return object.map(item => filter(item, property, callback));
+		return object.map((item) => filter(item, property, callback));
 	} else if (isObject(object)) {
 		return Object.entries(object).reduce((acc, [key, value]) => {
 			return {
@@ -72,9 +72,9 @@ function hackilySupportIncrementalDOM(config) {
 	const excludes = (liferay && liferay.excludes) || {};
 
 	return Object.entries(excludes).reduce((acc, [property, values]) => {
-		return filter(acc, property, value => {
+		return filter(acc, property, (value) => {
 			if (Array.isArray(value)) {
-				return value.filter(v => !values.includes(v));
+				return value.filter((v) => !values.includes(v));
 			} else {
 				return value;
 			}

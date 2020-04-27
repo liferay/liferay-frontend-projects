@@ -10,7 +10,7 @@
 function indent(text, count = 1, whitespace = '\t') {
 	return text
 		.split('\n')
-		.map(line => {
+		.map((line) => {
 			if (line.length) {
 				return `${whitespace.repeat(count)}${line}`;
 			} else {

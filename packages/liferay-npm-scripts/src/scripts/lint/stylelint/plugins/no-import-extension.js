@@ -18,7 +18,7 @@ const SCSS_EXT = '.scss';
 module.exports = stylelint.createPlugin(
 	ruleName,
 	(options, secondaryOptions, context) => {
-		return function(root, result) {
+		return function (root, result) {
 			const validOptions = stylelint.utils.validateOptions(
 				result,
 				ruleName,
@@ -43,7 +43,7 @@ module.exports = stylelint.createPlugin(
 
 			const fix = context ? context.fix && !disableFix : false;
 
-			root.walkAtRules('import', rule => {
+			root.walkAtRules('import', (rule) => {
 				if (rule.params.startsWith('url(')) {
 					return;
 				}

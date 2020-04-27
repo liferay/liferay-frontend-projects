@@ -17,7 +17,7 @@ function generateSoyDependencies(dependencies) {
 	const projectName = path.basename(cwd);
 
 	const stringDependencies = dependencies
-		.map(dependency => {
+		.map((dependency) => {
 			let resolvedDependency = null;
 
 			try {
@@ -37,7 +37,7 @@ function generateSoyDependencies(dependencies) {
 		})
 		.filter(Boolean)
 		.filter(
-			dependencyPath => path.basename(dependencyPath) !== projectName
+			(dependencyPath) => path.basename(dependencyPath) !== projectName
 		);
 
 	const joinedDependencies =

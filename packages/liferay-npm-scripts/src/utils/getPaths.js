@@ -33,7 +33,7 @@ function getPaths(globs, extensions, ignoreFile) {
 	}
 
 	// Turn "{src,test}/*" into ["src/*", "test/*"]:
-	globs = [].concat(...globs.map(glob => preprocessGlob(glob)));
+	globs = [].concat(...globs.map((glob) => preprocessGlob(glob)));
 
 	// Filter out globs that don't apply to `extensions`.
 	globs = filterGlobs(globs, ...extensions);

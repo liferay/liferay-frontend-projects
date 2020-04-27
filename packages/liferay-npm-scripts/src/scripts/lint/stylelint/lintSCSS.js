@@ -28,7 +28,7 @@ async function lintSCSS(source, onReport, options = {}) {
 
 	const plugins = path.resolve(__dirname, 'plugins');
 
-	fs.readdirSync(plugins).forEach(plugin => {
+	fs.readdirSync(plugins).forEach((plugin) => {
 		if (/^([a-z]+-)*[a-z]+\.js$/.test(plugin)) {
 			const name = path.basename(plugin, path.extname(plugin));
 
@@ -49,7 +49,7 @@ async function lintSCSS(source, onReport, options = {}) {
 		syntax: 'scss',
 	});
 
-	results.forEach(result => {
+	results.forEach((result) => {
 		// - "warnings" array contains both errors and warnings.
 		// - "errored" is true if at least one problem of
 		//   severity "error" is present.

@@ -57,7 +57,7 @@ function toFiller(string, filler = FILLER_CHAR) {
 			LINE.exec(body) || {};
 
 		if (match) {
-			output += indent.replace(/./g, char => {
+			output += indent.replace(/./g, (char) => {
 				return char[0] === '\t' ? TAB_CHAR : SPACE_CHAR;
 			});
 

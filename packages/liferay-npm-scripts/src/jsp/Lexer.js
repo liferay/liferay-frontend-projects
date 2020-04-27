@@ -38,7 +38,7 @@ class Lexer {
 	}
 
 	*lex(input) {
-		const lookup = matcher => this.lookup(matcher);
+		const lookup = (matcher) => this.lookup(matcher);
 
 		const setMatcher = (name, matcher) => this._matchers.set(name, matcher);
 
@@ -135,7 +135,7 @@ class Lexer {
 			const permutations = permute(matchers);
 
 			// ...and transform into: oneOf(sequence(a, b), sequence(b, a)):
-			const matcher = oneOf(...permutations.map(m => sequence(...m)));
+			const matcher = oneOf(...permutations.map((m) => sequence(...m)));
 
 			return {
 				get description() {
@@ -143,7 +143,7 @@ class Lexer {
 						this._description ||
 						'allOf:(' +
 							matchers
-								.map(matcher => lookup(matcher).description)
+								.map((matcher) => lookup(matcher).description)
 								.join(', ') +
 							')'
 					);
@@ -218,7 +218,7 @@ class Lexer {
 				},
 			});
 
-			matcher.exec = string => {
+			matcher.exec = (string) => {
 				const match = RegExp.prototype.exec.call(matcher, string);
 
 				if (match !== null) {
@@ -317,7 +317,7 @@ class Lexer {
 					return (
 						this._description ||
 						matchers
-							.map(matcher => lookup(matcher).description)
+							.map((matcher) => lookup(matcher).description)
 							.join(' | ')
 					);
 				},
@@ -415,7 +415,7 @@ class Lexer {
 					return (
 						this._description ||
 						matchers
-							.map(matcher => lookup(matcher).description)
+							.map((matcher) => lookup(matcher).description)
 							.join(' ')
 					);
 				},
@@ -610,7 +610,7 @@ class Lexer {
 		 * Convenience function for building simple lexers from a map of token
 		 * names to matchers.
 		 */
-		const choose = map => {
+		const choose = (map) => {
 			return () => {
 				if (typeof map[Symbol.iterator] !== 'function') {
 					map = new Map(Object.entries(map));
@@ -681,7 +681,7 @@ class Lexer {
 		/**
 		 * Reports a failure to match.
 		 */
-		const fail = reasonOrMatcher => {
+		const fail = (reasonOrMatcher) => {
 			let reason;
 
 			if (reasonOrMatcher.description) {

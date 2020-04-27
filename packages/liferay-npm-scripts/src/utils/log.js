@@ -5,7 +5,7 @@
 
 function log(...messages) {
 	// eslint-disable-next-line no-console
-	messages.forEach(message => console.log(message));
+	messages.forEach((message) => console.log(message));
 }
 
 module.exports = log;

@@ -17,7 +17,7 @@ let outputChannel;
 // pain.
 //
 // eslint-disable-next-line no-unused-vars
-const debug = line => {
+const debug = (line) => {
 	try {
 		if (!outputChannel) {
 			const {window} = require('vscode');

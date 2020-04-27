@@ -17,8 +17,8 @@ function prepareModule(dependencies) {
 	};
 
 	Object.keys(dependencies)
-		.filter(key => dependencies[key] && dependencies[key].length)
-		.forEach(key => {
+		.filter((key) => dependencies[key] && dependencies[key].length)
+		.forEach((key) => {
 			simpleModule.dependencies[key] = dependencies[key];
 		});
 
@@ -31,9 +31,9 @@ function prepareModule(dependencies) {
  *
  * Modules will be grouped within their application and the report will only show the groups that are actually depended upon rather than all of them. For example, if a module does not have any dependency on Clay3, the `clay3` field won't show up in the report.
  */
-module.exports = async function(modulesInfo, {output}) {
+module.exports = async function (modulesInfo, {output}) {
 	const modulesJSON = modulesInfo
-		.filter(moduleInfo => moduleInfo.dependencies)
+		.filter((moduleInfo) => moduleInfo.dependencies)
 		.reduce((acc, {dependencies, meta}) => {
 			const moduleData = {
 				name: meta.name,

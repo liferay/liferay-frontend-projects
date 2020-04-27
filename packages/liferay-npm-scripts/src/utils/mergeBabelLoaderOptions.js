@@ -22,7 +22,7 @@ function mergeBabelLoaderOptions(webpackConfig) {
 		return webpackConfig;
 	}
 
-	webpackConfig.module.rules.forEach(rule => {
+	webpackConfig.module.rules.forEach((rule) => {
 		let {use} = rule;
 
 		if (!use) {

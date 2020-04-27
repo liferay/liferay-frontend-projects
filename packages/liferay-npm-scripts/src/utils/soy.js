@@ -60,7 +60,7 @@ function translateSoy(directory) {
 
 	let changedFiles = 0;
 
-	files.forEach(file => {
+	files.forEach((file) => {
 		const contents = fs.readFileSync(file, 'utf8');
 
 		const updated = contents.replace(

@@ -58,7 +58,7 @@
 		"liferay-theme-tasks": "10.0.2",
 		"metal-tools-soy": "4.3.2",
 		"minimist": "^1.2.0",
-		"prettier": "1.19.1",
+		"prettier": "2.0.5",
 		"react": "*",
 		"react-dom": "*",
 		"regenerator-runtime": "0.13.3",

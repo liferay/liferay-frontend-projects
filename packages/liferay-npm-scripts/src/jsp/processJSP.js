@@ -28,7 +28,7 @@ function processJSP(source, {onFormat, onLint}) {
 	}
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
-	const transformed = blocks.map(block => {
+	const transformed = blocks.map((block) => {
 		const {contents, range} = block;
 
 		// Trim leading and trailing whitespace before Prettier eats it.

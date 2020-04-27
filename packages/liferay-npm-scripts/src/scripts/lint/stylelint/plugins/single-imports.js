@@ -58,7 +58,7 @@ function tokenize(params) {
 module.exports = stylelint.createPlugin(
 	ruleName,
 	(options, secondaryOptions, context) => {
-		return function(root, result) {
+		return function (root, result) {
 			const validOptions = stylelint.utils.validateOptions(
 				result,
 				ruleName,
@@ -83,10 +83,10 @@ module.exports = stylelint.createPlugin(
 
 			const fix = context ? context.fix && !disableFix : false;
 
-			root.walkAtRules('import', rule => {
+			root.walkAtRules('import', (rule) => {
 				const tokens = tokenize(rule.params);
 
-				const resources = tokens.filter(token => {
+				const resources = tokens.filter((token) => {
 					return (
 						token.kind === 'DOUBLE_QUOTED_STRING' ||
 						token.kind === 'SINGLE_QUOTED_STRING' ||
@@ -96,7 +96,7 @@ module.exports = stylelint.createPlugin(
 
 				if (resources.length > 1) {
 					if (fix) {
-						const replacements = resources.map(resource =>
+						const replacements = resources.map((resource) =>
 							rule.clone({params: resource.text})
 						);
 

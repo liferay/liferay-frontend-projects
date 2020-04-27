@@ -39,7 +39,7 @@ const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 //
 // So, this function does the same.
 function stripIndents(source) {
-	const lexer = new Lexer(api => {
+	const lexer = new Lexer((api) => {
 		const {choose, match} = api;
 
 		const ANYTHING = match(/[\s\S]/);

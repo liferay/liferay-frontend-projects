@@ -107,7 +107,7 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 	);
 
 	if (openFolderSelectorButton) {
-		openFolderSelectorButton.addEventListener('click', function(event) {
+		openFolderSelectorButton.addEventListener('click', function (event) {
 			Liferay.Util.selectEntity(
 				{
 					dialog: {
@@ -128,7 +128,7 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 
 					uri: '<%= HtmlUtil.escapeJS(selectFolderURL.toString()) %>',
 				},
-				function(event) {
+				function (event) {
 					var folderData = {
 						idString: 'rootFolderId',
 						idValue: event.folderid,
@@ -303,7 +303,7 @@ if (organization != null) {
 		var typeSelect = document.getElementById('<portlet:namespace />type');
 
 		if (typeSelect) {
-			typeSelect.addEventListener('change', function(event) {
+			typeSelect.addEventListener('change', function (event) {
 				var countryDiv = document.getElementById(
 					'<portlet:namespace />countryDiv'
 				);
@@ -661,7 +661,7 @@ if (Validator.isNotNull(scriptContent)) {
 				NAME: 'searchpalette',
 
 				prototype: {
-					initializer: function() {
+					initializer: function () {
 						var instance = this;
 
 						instance._bindUIACBase();
@@ -670,10 +670,10 @@ if (Validator.isNotNull(scriptContent)) {
 				},
 			});
 
-			var getItems = function() {
+			var getItems = function () {
 				var results = [];
 
-				paletteItems.each(function(item, index) {
+				paletteItems.each(function (item, index) {
 					results.push({
 						data: item.text().trim(),
 						node: item.ancestor(),
@@ -683,7 +683,7 @@ if (Validator.isNotNull(scriptContent)) {
 				return results;
 			};
 
-			var getNoResultsNode = function() {
+			var getNoResultsNode = function () {
 				if (!noResultsNode) {
 					noResultsNode = A.Node.create(
 						'<div class=\\"alert\\"><%= UnicodeLanguageUtil.get(request, \\"there-are-no-results\\") %></div>'
@@ -707,18 +707,18 @@ if (Validator.isNotNull(scriptContent)) {
 				source: getItems(),
 			});
 
-			paletteSearch.on('results', function(event) {
-				paletteItems.each(function(item, index) {
+			paletteSearch.on('results', function (event) {
+				paletteItems.each(function (item, index) {
 					item.ancestor().addClass('hide');
 				});
 
-				event.results.forEach(function(item, index) {
+				event.results.forEach(function (item, index) {
 					item.raw.node.removeClass('hide');
 				});
 
 				var foundVisibleSection;
 
-				paletteSectionsNode.each(function(item, index) {
+				paletteSectionsNode.each(function (item, index) {
 					var visibleItem = item.one('.palette-item-container:not(.hide)');
 
 					if (visibleItem) {
@@ -755,7 +755,7 @@ if (Validator.isNotNull(scriptContent)) {
 			var cursorPos;
 			var processed;
 
-			AObject.each(fragments, function(item, index) {
+			AObject.each(fragments, function (item, index) {
 				if (processed) {
 					cursorPos = editor.getCursorPosition();
 				}
@@ -848,7 +848,7 @@ if (Validator.isNotNull(scriptContent)) {
 
 	A.on(
 		'domready',
-		function(event) {
+		function (event) {
 			richEditor = new A.AceEditor({
 				boundingBox: editorNode,
 				height: 400,
@@ -868,11 +868,11 @@ if (Validator.isNotNull(scriptContent)) {
 				setEditorContent(editorContentElement.val());
 			}
 
-			Liferay.on('<portlet:namespace />saveTemplate', function(event) {
+			Liferay.on('<portlet:namespace />saveTemplate', function (event) {
 				editorContentElement.val(getEditorContent());
 			});
 
-			selectLanguageNode.on('change', function(event) {
+			selectLanguageNode.on('change', function (event) {
 				Liferay.fire('<portlet:namespace />refreshEditor');
 			});
 
@@ -911,7 +911,7 @@ if (Validator.isNotNull(scriptContent)) {
 		'#<portlet:namespace />richEditor'
 	);
 
-	Liferay.on('<portlet:namespace />refreshEditor', function(event) {
+	Liferay.on('<portlet:namespace />refreshEditor', function (event) {
 		var form = A.one('#<portlet:namespace />fm');
 
 		<portlet:renderURL var=\\"refreshTemplateURL\\">
@@ -920,13 +920,7 @@ if (Validator.isNotNull(scriptContent)) {
 
 		form.attr('action', '<%= refreshTemplateURL %>');
 
-		if (
-			richEditor
-				.getEditor()
-				.getSession()
-				.getUndoManager()
-				.hasUndo()
-		) {
+		if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
 			Liferay.fire('<portlet:namespace />saveTemplate');
 		}
 		<c:if test=\\"<%= template == null %>\\">
@@ -1195,7 +1189,7 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 
 		Liferay.Language.get('foo');
 
-		Liferay.provide(window, 'testFn', function() {
+		Liferay.provide(window, 'testFn', function () {
 			var foo = false;
 		});
 	</aui:script>
@@ -1531,7 +1525,7 @@ for (int i = 0; i < pages.size(); i++) {
 				'input[name=<portlet:namespace />rowIds]'
 			);
 
-			Array.prototype.forEach.call(rowIdsNodes, function(rowIdsNode, index) {
+			Array.prototype.forEach.call(rowIdsNodes, function (rowIdsNode, index) {
 				if (index > 1) {
 					rowIdsNode.checked = false;
 				}
@@ -1562,7 +1556,7 @@ for (int i = 0; i < pages.size(); i++) {
 
 			var compareButton = document.getElementById('<portlet:namespace />compare');
 
-			compareButton.addEventListener('click', function(event) {
+			compareButton.addEventListener('click', function (event) {
 				<portlet:renderURL var=\\"compareVersionURL\\">
 					<portlet:param name=\\"mvcRenderCommandName\\" value=\\"/wiki/compare_versions\\" />
 					<portlet:param name=\\"backURL\\" value=\\"<%= currentURL %>\\" />
@@ -1620,7 +1614,7 @@ for (int i = 0; i < pages.size(); i++) {
 				searchContainer,
 				'click',
 				'input[name=<portlet:namespace />rowIds]',
-				function(event) {
+				function (event) {
 					<portlet:namespace />updateRowsChecked(event.delegateTarget);
 				}
 			);
@@ -1807,7 +1801,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 			);
 
 			if (selectRegularRoleLink) {
-				selectRegularRoleLink.addEventListener('click', function(event) {
+				selectRegularRoleLink.addEventListener('click', function (event) {
 					var searchContainerName = '<portlet:namespace />rolesSearchContainer';
 
 					var searchContainer = Liferay.SearchContainer.get(searchContainerName);
@@ -1848,7 +1842,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 							uri: '<%= selectRegularRoleURL.toString() %>',
 						},
-						function(event) {
+						function (event) {
 							<portlet:namespace />selectRole(
 								event.entityid,
 								event.entityname,
@@ -2017,7 +2011,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 				searchContainerContentBox.delegate(
 					'click',
-					function(event) {
+					function (event) {
 						var link = event.currentTarget;
 						var tr = link.ancestor('tr');
 
@@ -2049,8 +2043,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 					'.modify-link'
 				);
 
-				Liferay.on('<%= organizationRoleSyncEntitiesEventName %>', function(event) {
-					event.selectors.each(function(item, index, collection) {
+				Liferay.on('<%= organizationRoleSyncEntitiesEventName %>', function (event) {
+					event.selectors.each(function (item, index, collection) {
 						var groupId = item.attr('data-groupid');
 						var roleId = item.attr('data-entityid');
 
@@ -2096,7 +2090,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 			);
 
 			if (selectOrganizationRoleLink) {
-				selectOrganizationRoleLink.addEventListener('click', function(event) {
+				selectOrganizationRoleLink.addEventListener('click', function (event) {
 					Liferay.Util.selectEntity(
 						{
 							dialog: {
@@ -2127,7 +2121,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 							uri: '<%= selectOrganizationRoleURL.toString() %>',
 						},
-						function(event) {
+						function (event) {
 							<portlet:namespace />selectRole(
 								event.entityid,
 								event.entityname,
@@ -2250,7 +2244,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 				searchContainerContentBox.delegate(
 					'click',
-					function(event) {
+					function (event) {
 						var link = event.currentTarget;
 						var tr = link.ancestor('tr');
 
@@ -2282,8 +2276,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 					'.modify-link'
 				);
 
-				Liferay.on('<%= siteRoleSyncEntitiesEventName %>', function(event) {
-					event.selectors.each(function(item, index, collection) {
+				Liferay.on('<%= siteRoleSyncEntitiesEventName %>', function (event) {
+					event.selectors.each(function (item, index, collection) {
 						var groupId = item.attr('data-groupid');
 						var roleId = item.attr('data-entityid');
 
@@ -2319,7 +2313,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 					});
 				});
 
-				A.one('#<portlet:namespace />selectSiteRoleLink').on('click', function(event) {
+				A.one('#<portlet:namespace />selectSiteRoleLink').on('click', function (event) {
 					Util.selectEntity(
 						{
 							dialog: {
@@ -2349,7 +2343,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 							uri: '<%= selectSiteRoleURL.toString() %>',
 						},
-						function(event) {
+						function (event) {
 							<portlet:namespace />selectRole(
 								event.entityid,
 								event.entityname,
@@ -2476,7 +2470,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 			Liferay.provide(
 				window,
 				'<portlet:namespace />selectRole',
-				function(roleId, name, searchContainer, groupName, groupId, iconCssClass) {
+				function (roleId, name, searchContainer, groupName, groupId, iconCssClass) {
 					var A = AUI();
 					var LString = A.Lang.String;
 
@@ -2575,7 +2569,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 
 			searchContainerContentBox.delegate(
 				'click',
-				function(event) {
+				function (event) {
 					var link = event.currentTarget;
 
 					var rowId = link.attr('data-rowId');
@@ -2601,8 +2595,8 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 				'.modify-link'
 			);
 
-			Liferay.on('<%= regularRoleSyncEntitiesEventName %>', function(event) {
-				event.selectors.each(function(item, index, collection) {
+			Liferay.on('<%= regularRoleSyncEntitiesEventName %>', function (event) {
+				event.selectors.each(function (item, index, collection) {
 					var roleId = item.attr('data-entityid');
 
 					if (<portlet:namespace />deleteRoleIds.indexOf(roleId) != -1) {
@@ -2904,7 +2898,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 			if (removeOrderBySubtype) {
 				Array.prototype.forEach.call(
 					orderingPanel.querySelectorAll('.order-by-subtype'),
-					function(option) {
+					function (option) {
 						dom.exitDocument(option);
 					}
 				);
@@ -3004,13 +2998,13 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 					'#<portlet:namespace /><%= className %>subtypeFieldsWrapper, #<portlet:namespace /><%= className %>subtypeFieldsFilterEnableWrapper'
 				);
 
-				Array.prototype.forEach.call(subtypeFieldsWrappers, function(
+				Array.prototype.forEach.call(subtypeFieldsWrappers, function (
 					subtypeFieldsWrapper
 				) {
 					if (selectedSubtype != 'false' && selectedSubtype != 'true') {
 						Array.prototype.forEach.call(
 							orderingPanel.querySelectorAll('.order-by-subtype'),
-							function(option) {
+							function (option) {
 								dom.exitDocument(option);
 							}
 						);
@@ -3052,7 +3046,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 
 			<%= className %>toggleSubclassesFields(false);
 
-			<%= className %>SubtypeSelector.addEventListener('change', function(event) {
+			<%= className %>SubtypeSelector.addEventListener('change', function (event) {
 				setDDMFields('<%= className %>', '', '', '', '');
 
 				var subtypeFieldsFilterEnabledCheckbox = document.getElementById(
@@ -3067,7 +3061,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 					'.asset-subtypefields'
 				);
 
-				Array.prototype.forEach.call(assetSubtypeFields, function(
+				Array.prototype.forEach.call(assetSubtypeFields, function (
 					assetSubtypeField
 				) {
 					assetSubtypeField.classList.add('hide');
@@ -3110,7 +3104,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 		ddmStructureFieldNameInput &&
 		ddmStructureFieldValueInput
 	) {
-		assetSelector.addEventListener('change', function(event) {
+		assetSelector.addEventListener('change', function (event) {
 			ddmStructureFieldNameInput.value = '';
 			ddmStructureFieldValueInput.value = '';
 
@@ -3122,7 +3116,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 		sourcePanel,
 		'click',
 		'.asset-subtypefields-wrapper-enable label',
-		function(event) {
+		function (event) {
 			var subtypeFieldsFilterEnabledInput = event.delegateTarget.querySelector(
 				'input'
 			);
@@ -3134,7 +3128,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 			if (subtypeFieldsFilterEnabledInput) {
 				Array.prototype.forEach.call(
 					assetSubtypefieldsPopupButtons,
-					function(assetSubtypefieldsPopupButton) {
+					function (assetSubtypefieldsPopupButton) {
 						Util.toggleDisabled(
 							assetSubtypefieldsPopupButton,
 							!subtypeFieldsFilterEnabledInput.checked
@@ -3145,7 +3139,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 		}
 	);
 
-	Liferay.after('inputmoveboxes:moveItem', function(event) {
+	Liferay.after('inputmoveboxes:moveItem', function (event) {
 		if (
 			event.fromBox.attr('id') ==
 				'<portlet:namespace />currentClassNameIds' ||
@@ -3159,7 +3153,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 		'<portlet:namespace />ddmStructureDisplayFieldValue'
 	);
 
-	dom.delegate(sourcePanel, 'click', '.asset-subtypefields-popup', function(
+	dom.delegate(sourcePanel, 'click', '.asset-subtypefields-popup', function (
 		event
 	) {
 		var delegateTarget = event.delegateTarget;
@@ -3196,7 +3190,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = new ArrayList()
 					'<liferay-ui:message arguments=\\"structure-field\\" key=\\"select-x\\" />',
 				uri: uri,
 			},
-			function(event) {
+			function (event) {
 				setDDMFields(
 					event.className,
 					event.name,
@@ -3455,7 +3449,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 		items: [
 			{
 				caption: '<liferay-ui:message key=\\"add-calendar\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarResourceId = instance.calendarResourceId;
@@ -3464,10 +3458,10 @@ String backURL = PortalUtil.getCurrentURL(request);
 						Liferay.Util.openWindow({
 							dialog: {
 								after: {
-									destroy: function(event) {
+									destroy: function (event) {
 										remoteServices.getResourceCalendars(
 											calendarResourceId,
-											function(calendars) {
+											function (calendars) {
 												var calendarList =
 													window
 														.<portlet:namespace />calendarLists[
@@ -3510,7 +3504,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '<liferay-ui:message key=\\"manage-calendars\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarResourceId = instance.calendarResourceId;
@@ -3534,7 +3528,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '<liferay-ui:message key=\\"permissions\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					<liferay-security:permissionsURL
@@ -3562,7 +3556,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 		],
 		on: {
-			visibleChange: function(event) {
+			visibleChange: function (event) {
 				var instance = this;
 
 				var hiddenItems = [];
@@ -3589,7 +3583,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 		items: [
 			{
 				caption: '<liferay-ui:message key=\\"add-calendar-booking\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarList = instance.get('host');
@@ -3605,7 +3599,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 					Liferay.Util.openWindow({
 						dialog: {
 							after: {
-								destroy: function(event) {
+								destroy: function (event) {
 									<portlet:namespace />scheduler.load();
 								},
 							},
@@ -3626,7 +3620,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '<liferay-ui:message key=\\"hide-calendar\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarList = instance.get('host');
@@ -3641,7 +3635,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '<liferay-ui:message key=\\"calendar-settings\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarList = instance.get('host');
@@ -3651,17 +3645,17 @@ String backURL = PortalUtil.getCurrentURL(request);
 					Liferay.Util.openWindow({
 						dialog: {
 							after: {
-								destroy: function(event) {
+								destroy: function (event) {
 									remoteServices.getCalendar(
 										activeCalendar.get('calendarId'),
-										function(calendar) {
+										function (calendar) {
 											var activeCalendarId = activeCalendar.get(
 												'calendarId'
 											);
 
 											var calendars = calendarList
 												.get('calendars')
-												.map(function(item) {
+												.map(function (item) {
 													if (
 														activeCalendarId ===
 														item.get('calendarId')
@@ -3710,7 +3704,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '<liferay-ui:message key=\\"permissions\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarList = instance.get('host');
@@ -3720,7 +3714,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 					Liferay.Util.openWindow({
 						dialog: {
 							after: {
-								destroy: function(event) {
+								destroy: function (event) {
 									<portlet:namespace />scheduler.load();
 								},
 							},
@@ -3758,7 +3752,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 			{
 				caption: '<liferay-ui:message key=\\"delete\\" />',
-				fn: function(event) {
+				fn: function (event) {
 					var instance = this;
 
 					var calendarList = instance.get('host');
@@ -3776,10 +3770,10 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 						remoteServices.deleteCalendar(
 							activeCalendar.get('calendarId'),
-							function() {
+							function () {
 								remoteServices.getResourceCalendars(
 									activeCalendar.get('calendarResourceId'),
-									function(calendars) {
+									function (calendars) {
 										calendarList.set('calendars', calendars);
 
 										<portlet:namespace />syncCalendarsMap();
@@ -3802,7 +3796,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			<c:if test=\\"<%= enableRSS %>\\">
 				{
 					caption: '<liferay-ui:message key=\\"rss\\" />',
-					fn: function(event) {
+					fn: function (event) {
 						var instance = this;
 
 						var calendarList = instance.get('host');
@@ -3838,7 +3832,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 			},
 		],
 		on: {
-			visibleChange: function(event) {
+			visibleChange: function (event) {
 				var instance = this;
 
 				var calendarList = instance.get('host');
@@ -3901,7 +3895,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 	<portlet:namespace />colorPicker = new Liferay.SimpleColorPicker({
 		on: {
-			colorChange: function(event) {
+			colorChange: function (event) {
 				var instance = this;
 
 				var simpleMenu = instance.get('host');
@@ -3922,7 +3916,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 	A.one('#<portlet:namespace />calendarListContainer').delegate(
 		'click',
-		function(event) {
+		function (event) {
 			var currentTarget = event.currentTarget;
 
 			window.<portlet:namespace />calendarListsMenu.calendarResourceId = currentTarget.getAttribute(
@@ -3955,7 +3949,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 		calendarContainer.createCalendarsAutoComplete(
 			'<%= calendarResourcesURL %>',
 			addOtherCalendarInput,
-			function(event) {
+			function (event) {
 				window.<portlet:namespace />otherCalendarList.add(event.result.raw);
 
 				<portlet:namespace />refreshVisibleCalendarRenderingRules();
@@ -3965,7 +3959,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 		);
 	</c:if>
 
-	A.one('#<portlet:namespace />columnToggler').on('click', function(event) {
+	A.one('#<portlet:namespace />columnToggler').on('click', function (event) {
 		var columnTogglerIconId = '<portlet:namespace />columnTogglerIcon';
 		var columnGrid = A.one('#<portlet:namespace />columnGrid');
 		var columnOptions = A.one('#<portlet:namespace />columnOptions');
@@ -3995,7 +3989,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 		columnTogglerIcon.replace(newIcon);
 	});
 
-	window.<portlet:namespace />refreshMiniCalendarSelectedDates = function() {
+	window.<portlet:namespace />refreshMiniCalendarSelectedDates = function () {
 		<portlet:namespace />miniCalendar._clearSelection();
 
 		var activeView = <portlet:namespace />scheduler.get('activeView');
@@ -4030,7 +4024,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 
 	var DateMath = A.DataType.DateMath;
 
-	window.<portlet:namespace />refreshVisibleCalendarRenderingRules = function() {
+	window.<portlet:namespace />refreshVisibleCalendarRenderingRules = function () {
 		var miniCalendarStartDate = DateMath.subtract(
 			DateMath.toMidnight(
 				window.<portlet:namespace />miniCalendar.get('date')
@@ -4056,11 +4050,11 @@ String backURL = PortalUtil.getCurrentURL(request);
 			Liferay.CalendarUtil.toUTC(miniCalendarStartDate),
 			Liferay.CalendarUtil.toUTC(miniCalendarEndDate),
 			'busy',
-			function(rulesDefinition) {
+			function (rulesDefinition) {
 				var selectedDates = <portlet:namespace />miniCalendar._getSelectedDatesList();
 
 				window.<portlet:namespace />miniCalendar.set('customRenderer', {
-					filterFunction: function(date, node, rules) {
+					filterFunction: function (date, node, rules) {
 						node.addClass('lfr-busy-day');
 
 						DateMath.toMidnight(date);
@@ -4090,7 +4084,7 @@ String backURL = PortalUtil.getCurrentURL(request);
 	window.<portlet:namespace />miniCalendar = new A.Calendar({
 		after: {
 			dateChange: <portlet:namespace />refreshVisibleCalendarRenderingRules,
-			dateClick: function(event) {
+			dateClick: function (event) {
 				<portlet:namespace />scheduler.setAttrs({
 					date: event.date,
 				});
@@ -4295,17 +4289,17 @@ PowwowMeeting powwowMeeting = PowwowMeetingLocalServiceUtil.fetchPowwowMeeting(p
 			document.getElementById('<portlet:namespace />copyButton')
 		);
 
-		client.on('error', function(event) {
+		client.on('error', function (event) {
 			ZeroClipboard.destroy();
 		});
 
-		client.on('ready', function(readyEvent) {
-			client.on('aftercopy', function(event) {
+		client.on('ready', function (readyEvent) {
+			client.on('aftercopy', function (event) {
 				copyButton.addClass('copied');
 			});
 		});
 
-		copyButton.on('mouseout', function() {
+		copyButton.on('mouseout', function () {
 			copyButton.removeClass('copied');
 		});
 	}

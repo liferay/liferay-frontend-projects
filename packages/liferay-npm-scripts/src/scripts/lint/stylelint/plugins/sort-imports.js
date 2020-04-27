@@ -20,7 +20,7 @@ function precededByBlankLine(node) {
 module.exports = stylelint.createPlugin(
 	ruleName,
 	(options, secondaryOptions, context) => {
-		return function(root, result) {
+		return function (root, result) {
 			const validOptions = stylelint.utils.validateOptions(
 				result,
 				ruleName,
@@ -49,7 +49,7 @@ module.exports = stylelint.createPlugin(
 
 			let group;
 
-			root.walkAtRules('import', rule => {
+			root.walkAtRules('import', (rule) => {
 				const prev = rule.prev();
 
 				if (
@@ -113,7 +113,7 @@ module.exports = stylelint.createPlugin(
 						} else {
 							const order = desired
 								.slice(firstMismatch, lastMismatch + 1)
-								.map(node => node.params)
+								.map((node) => node.params)
 								.join(' << ');
 
 							stylelint.utils.report({

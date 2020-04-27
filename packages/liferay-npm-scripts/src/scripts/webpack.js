@@ -15,7 +15,7 @@ const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
 /**
  * Main function for running webpack within the liferay-portal repo.
  */
-module.exports = function(...args) {
+module.exports = function (...args) {
 	const watch = args.indexOf('--watch');
 	if (watch !== -1) {
 		if (!fs.existsSync(WEBPACK_DEV_CONFIG_FILE)) {
@@ -30,7 +30,7 @@ module.exports = function(...args) {
 				...args.slice(watch + 1),
 			];
 
-			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, configFilePath => {
+			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, (configFilePath) => {
 				spawnSync('webpack-dev-server', [
 					'--config',
 					configFilePath,
@@ -39,7 +39,7 @@ module.exports = function(...args) {
 			});
 		}
 	} else {
-		withWebpackConfig(WEBPACK_CONFIG_FILE, configFilePath => {
+		withWebpackConfig(WEBPACK_CONFIG_FILE, (configFilePath) => {
 			spawnSync('webpack', ['--config', configFilePath, ...args]);
 		});
 	}

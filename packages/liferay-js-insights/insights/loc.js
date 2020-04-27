@@ -25,7 +25,7 @@ function extractWhitespaceLOC(content) {
 /**
  * Returns information about the number of lines in the module and their nature: code, comment, total and whitespace
  */
-module.exports = async function({ast, content}) {
+module.exports = async function ({ast, content}) {
 	const comment = extractCommentLOC(ast);
 	const total = ast.loc.end.line;
 	const whitespace = extractWhitespaceLOC(content);

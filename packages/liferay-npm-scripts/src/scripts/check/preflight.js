@@ -83,7 +83,7 @@ function checkConfigFileNames() {
 		IGNORE_FILE
 	);
 
-	return disallowedConfigs.map(file => {
+	return disallowedConfigs.map((file) => {
 		const suggested = DISALLOWED_CONFIG_FILE_NAMES[path.basename(file)];
 
 		return `${file}: BAD - use ${suggested} instead`;
@@ -106,19 +106,19 @@ function checkPackageJSONFiles() {
 
 	if (rules && rules[BLACKLISTED_DEPENDENCY_PATTERNS]) {
 		const blacklist = rules[BLACKLISTED_DEPENDENCY_PATTERNS].map(
-			pattern => {
+			(pattern) => {
 				return new RegExp(pattern);
 			}
 		);
 
-		packages.forEach(pkg => {
+		packages.forEach((pkg) => {
 			try {
 				const {dependencies} = JSON.parse(fs.readFileSync(pkg), 'utf8');
 
 				const names = dependencies ? Object.keys(dependencies) : [];
 
-				names.forEach(name => {
-					blacklist.forEach(pattern => {
+				names.forEach((name) => {
+					blacklist.forEach((pattern) => {
 						if (pattern.test(name)) {
 							errors.push(
 								`${pkg}: BAD - contains blacklisted dependency: ${name}`
