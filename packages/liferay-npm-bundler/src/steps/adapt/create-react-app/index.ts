@@ -9,7 +9,7 @@ import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
 import {copyFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
-import {renderTemplates} from '../index';
+import {renderTemplates, wrapWebpackBundles} from '../index';
 
 /**
  * Run configured rules.
@@ -26,6 +26,10 @@ export default async function adaptCreateReactApp(): Promise<void> {
 	log.info('Copying static assets...');
 
 	copyStaticAssets();
+
+	log.info('Wrapping webpack bundles into AMD definitions...');
+
+	await wrapWebpackBundles();
 }
 
 function copyStaticAssets(): void {
