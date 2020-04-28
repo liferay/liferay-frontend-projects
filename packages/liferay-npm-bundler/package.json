@@ -34,6 +34,7 @@
 		"liferay-npm-build-tools-common": "3.0.0",
 		"pretty-time": "^1.1.0",
 		"read-json-sync": "^2.0.1",
+		"source-map": "^0.7.3",
 		"webpack": "^4.41.6",
 		"xml-js": "^1.6.8",
 		"yargs": "^14.0.0"
