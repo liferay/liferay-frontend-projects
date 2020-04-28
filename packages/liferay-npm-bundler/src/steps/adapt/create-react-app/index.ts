@@ -30,8 +30,8 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 function copyStaticAssets(): void {
 	const copiedFiles = copyFiles(
-		project.dir,
-		['build/static/css/*', 'build/static/media/*'],
+		project.dir.join(project.adapt.buildDir),
+		['static/css/*', 'static/media/*'],
 		buildBundlerDir
 	);
 

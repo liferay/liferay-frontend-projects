@@ -14,6 +14,7 @@ import webpack from 'webpack';
 import FilePath from '../file-path';
 import {info, print, warn} from '../format';
 import {splitModuleName} from '../modules';
+import Adapt from './adapt';
 import Jar from './jar';
 import Localization from './localization';
 import Misc from './misc';
@@ -63,6 +64,7 @@ export interface PkgJson {
  * Describes a standard JS Toolkit project.
  */
 export class Project {
+	adapt: Adapt;
 	jar: Jar;
 	l10n: Localization;
 	misc: Misc;
@@ -180,7 +182,11 @@ export class Project {
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(this._configuration, 'output', './build');
+			let dir = prop.get(
+				this._configuration,
+				'output',
+				this.adapt.supported ? './build.liferay' : './build'
+			);
 
 			if (!dir.startsWith('./')) {
 				dir = `./${dir}`;
@@ -359,6 +365,7 @@ export class Project {
 		this._loadConfiguration();
 
 		// Initialize subdomains
+		this.adapt = new Adapt(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.misc = new Misc(this);
