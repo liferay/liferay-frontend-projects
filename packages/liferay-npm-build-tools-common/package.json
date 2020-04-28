@@ -7,7 +7,7 @@
 		"build": "tsc && yarn copyfiles",
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
-		"prepublish": "node ../../scripts/disable-publish.js",
+		"prepublishOnly": "node ../../scripts/disable-publish.js",
 		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},
 	"dependencies": {

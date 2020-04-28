@@ -106,8 +106,8 @@ async function main() {
 		version: `${PKG_JSON.version}-snapshot.${commitHash}`,
 	};
 
-	if (pkgJson.scripts.prepublish !== EXPECTED_PREPUBLISH) {
-		throw `Prepublish script incorrectly configured: please set it to '${EXPECTED_PREPUBLISH}'`;
+	if (pkgJson.scripts.prepublishOnly !== EXPECTED_PREPUBLISH) {
+		throw `The prepublishOnly script is incorrectly configured: please set it to '${EXPECTED_PREPUBLISH}'`;
 	}
 
 	delete pkgJson.scripts.prepublish;
