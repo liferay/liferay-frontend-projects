@@ -14,6 +14,7 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
 
 // In practice, PostCSS represents whitespace-only comments with empty
 // strings, but just to be safe, we employ a looser check.
+
 const BLANK_REGEX = /^\s*$/;
 
 function isLeadingComment(comment, prev) {
@@ -30,6 +31,7 @@ function isLeadingComment(comment, prev) {
 	if (newlines && newlines.length > 1) {
 		// Special case: previous node is a comment, but we have at least one
 		// intervening blank line.
+
 		return true;
 	}
 
@@ -50,6 +52,7 @@ function isTrailingComment(_comment, next) {
 	if (newlines && newlines.length > 1) {
 		// Special case: next node is a comment, but we have at least one
 		// intervening blank line.
+
 		return true;
 	}
 
@@ -104,6 +107,7 @@ module.exports = stylelint.createPlugin(
 								// PostCSS will kill preceding blank lines,
 								// so we have to reattach them to the next
 								// node.
+
 								const blanks = comment.raws.before.match(
 									/^\n+/
 								);
@@ -121,6 +125,7 @@ module.exports = stylelint.createPlugin(
 						if (isTrailingComment(comment, next)) {
 							if (fix) {
 								// PostCSS doesn't touch following blank lines.
+
 								comment.remove();
 							} else {
 								report(messages.noTrailingBlanks);

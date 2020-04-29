@@ -27,9 +27,11 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 	const results = [];
 
 	// If any matchers are negated, move them into the "ignores" list.
+
 	for (let i = matchers.length - 1; i >= 0; i--) {
 		if (matchers[i].negated) {
 			// Make a copy of the regular expression without the "negated" flag.
+
 			ignorers.unshift(getRegExpForGlob(matchGlobs[i].slice(1)));
 		}
 	}
@@ -37,6 +39,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 	// Make note of index of the last negation. (If a file has been
 	// ignored, we can stop testing it as soon as we get past the last
 	// negation.)
+
 	let lastNegationIndex = 0;
 
 	ignorers.push(
@@ -53,6 +56,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 	// As a special case, if we see an ignore glob like "a/b/c/**" past the
 	// lastNegationIndex we can short-circuit.
+
 	const prunable = new Map();
 	const seen = [];
 
@@ -66,6 +70,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 			// Warn about overlapping ignore patterns. This check is O(n^2) but
 			// n is expected to be tiny (approx. 10).
+
 			seen.forEach((previous) => {
 				if (
 					previous.startsWith(base) ||
@@ -87,6 +92,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 			//
 			//     c -> b -> a -> true
 			//
+
 			let current = prunable;
 
 			for (let j = components.length - 1; j >= 0; j--) {
@@ -97,6 +103,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 						current.set(component, new Map());
 					} else {
 						// Mark the root with "true".
+
 						current.set(component, true);
 					}
 				}
@@ -120,6 +127,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 			const file = path.posix.join(directory, entry);
 
 			// Check trie to see whether entire subtree can be pruned.
+
 			let trie = prunable;
 			let current = file;
 
@@ -143,21 +151,25 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 				if (ignored ^ ignorer.negated) {
 					// File is ignored, but ignorer is not a negation;
 					// or file is not ignored, and ignorer is a negation.
+
 					continue;
 				}
 
 				if (ignorer.test(file)) {
 					if (ignorer.negated) {
 						// File got unignored.
+
 						ignored = false;
 					} else {
 						// File is provisionally ignored, for now.
+
 						ignored = true;
 					}
 				}
 
 				if (ignored && i >= lastNegationIndex) {
 					// File got definitively ignored.
+
 					return;
 				}
 			}

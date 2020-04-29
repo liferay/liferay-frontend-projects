@@ -46,10 +46,12 @@ const CWD = process.cwd();
 //
 // See https://github.com/petershin/liferay-portal/pull/724 for more details.
 //
+
 function runBridge() {
 	spawnSync('liferay-npm-bridge-generator');
 
 	// Retrieves the `.npmbridgerc` configuration which we already know exists
+
 	const bridgeConfig = JSON.parse(fs.readFileSync('.npmbridgerc', 'utf8'));
 
 	Object.keys(bridgeConfig).forEach((moduleKey) => {

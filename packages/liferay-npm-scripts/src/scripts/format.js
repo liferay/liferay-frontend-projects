@@ -54,6 +54,7 @@ function format(options = {}) {
 
 		try {
 			// TODO: don't re-read file, run eslint on it too
+
 			const source = fs.readFileSync(filepath, 'utf8');
 
 			const prettierOptions = {
@@ -85,6 +86,7 @@ function format(options = {}) {
 			}
 		} catch (error) {
 			// Generally this means a syntax error.
+
 			log(`${filepath}: ${error}`);
 			bad++;
 		}

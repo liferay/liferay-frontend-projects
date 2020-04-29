@@ -35,6 +35,7 @@ describe('getMergedConfig()', () => {
 					// Example use case from dynamic-data-mapping-form-builder:
 					// blacklist the "react" preset in order to use the
 					// "incremental-dom" plug-in.
+
 					return jest.fn(() => ({
 						liferay: {
 							excludes: {
@@ -44,6 +45,7 @@ describe('getMergedConfig()', () => {
 
 						// This bit isn't real config, but it shows that
 						// we can filter down below the top level:
+
 						overrides: [
 							{
 								presets: ['fancy', '@babel/preset-react'],

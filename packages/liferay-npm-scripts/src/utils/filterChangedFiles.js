@@ -35,6 +35,7 @@ function filterChangedFiles(files) {
 	const mergeBase = git('merge-base', 'HEAD', upstream);
 
 	// Check for changes in liferay-npm-scripts version.
+
 	try {
 		git(
 			'diff',
@@ -49,6 +50,7 @@ function filterChangedFiles(files) {
 		//
 		// https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---quiet
 		// https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---exit-code
+
 		if (error.toString().includes('exited with status 1.')) {
 			return files;
 		}

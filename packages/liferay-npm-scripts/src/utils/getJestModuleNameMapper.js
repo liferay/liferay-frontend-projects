@@ -49,6 +49,7 @@ function getJestModuleNameMapper() {
 	// means that, for now, tests in projects in "modules/private" can import
 	// from projects under "modules/apps" but not from those under
 	// "modules/private/apps".
+
 	const root = findRoot();
 
 	if (root) {

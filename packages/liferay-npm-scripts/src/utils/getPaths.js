@@ -28,14 +28,17 @@ function getPaths(globs, extensions, ignoreFile) {
 	const ignores = fs.existsSync(ignoreFile) ? readIgnoreFile(ignoreFile) : [];
 
 	// Match Prettier behavior and ignore node_modules by default.
+
 	if (ignores.indexOf('node_modules/**') === -1) {
 		ignores.unshift('node_modules/**');
 	}
 
 	// Turn "{src,test}/*" into ["src/*", "test/*"]:
+
 	globs = [].concat(...globs.map((glob) => preprocessGlob(glob)));
 
 	// Filter out globs that don't apply to `extensions`.
+
 	globs = filterGlobs(globs, ...extensions);
 
 	if (!globs.length) {
@@ -49,9 +52,11 @@ function getPaths(globs, extensions, ignoreFile) {
 	}
 
 	// Actually traverse the file system.
+
 	let paths = expandGlobs(globs, ignores);
 
 	// Potentially reduce file list to only files changed on the current branch.
+
 	paths = filterChangedFiles(paths);
 
 	return paths;

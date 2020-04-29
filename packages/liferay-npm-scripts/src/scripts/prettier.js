@@ -106,17 +106,20 @@ function main(...args) {
 			if (option.endsWith('=')) {
 				if (arg === option.slice(0, -1)) {
 					// eg. "--some-opt value"
+
 					const value = args[++i];
 
 					handler = callback.bind(null, value);
 				} else if (arg.startsWith(option)) {
 					// eg. "--some-opt=value"
+
 					const value = arg.slice(option.length);
 
 					handler = callback.bind(null, value);
 				}
 			} else if (arg === option) {
 				// eg. "--flag"
+
 				handler = callback;
 			}
 
@@ -148,6 +151,7 @@ function main(...args) {
 		// When `--stdin` is in effect, Prettier ignores file arguments
 		// and the `--write` option, requires --stdin-filepath, and
 		// prints the output to stdout.
+
 		if (!options.stdinFilepath) {
 			throw new Error(`No --stdin-filepath provided`);
 		}

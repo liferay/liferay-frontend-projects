@@ -11,6 +11,7 @@ const spawnSync = require('../../src/utils/spawnSync');
 jest.mock('../../src/utils/spawnSync');
 
 // Use path.normalize to make tests behave uniformly on Linux and Windows.
+
 const {normalize} = path;
 const join = (...segments) => normalize(path.join(...segments));
 const resolve = (...segments) => normalize(path.resolve(...segments));

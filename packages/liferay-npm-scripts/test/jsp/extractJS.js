@@ -80,6 +80,7 @@ describe('extractJS()', () => {
 
 	it('extracts one-line "<script>" tags', () => {
 		// Testing an edge-case in the `range` arithemetic.
+
 		const blocks = extractJS("<script>alert('Hello');</script>");
 
 		expect(blocks).toEqual([
@@ -115,6 +116,7 @@ describe('extractJS()', () => {
 	it('does not extract non-JavaScript scripts', () => {
 		// (Abbreviated) example taken from:
 		// https://github.com/liferay/liferay-portal/blob/44c1be7f1725ca00e9/modules/apps/calendar/calendar-web/src/main/resources/META-INF/resources/event_recorder.jspf
+
 		let blocks = extractJS(`
 			<script id="<portlet:namespace />eventRecorderHeaderTpl" type="text/x-alloy-template">
 				alert('Hello');
@@ -124,6 +126,7 @@ describe('extractJS()', () => {
 		expect(blocks).toEqual([]);
 
 		// Counter-example:
+
 		blocks = extractJS(`
 			<script id="<portlet:namespace />eventRecorderHeaderTpl" type="text/javascript">
 				alert('Hello');
@@ -153,6 +156,7 @@ describe('extractJS()', () => {
 
 	it('extracts blocks from test fixture', async () => {
 		// This is the test fixture from the check-source-formatting package.
+
 		const source = await getFixture('jsp/page.jsp');
 
 		const blocks = extractJS(source);

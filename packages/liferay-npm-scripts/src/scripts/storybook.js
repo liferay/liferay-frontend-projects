@@ -93,17 +93,20 @@ function compileLanguageProperties(buildPath, paths) {
  */
 function storybook() {
 	// Create directory to store built storybook configs.
+
 	const buildPath = fs.mkdtempSync(path.join(os.tmpdir(), 'storybook-'));
 
 	log(`Building storybook files to: ${buildPath}`);
 
 	// Generate custom babel config using current working directory's .babelrc.
+
 	fs.writeFileSync(
 		path.join(buildPath, '.babelrc'),
 		JSON.stringify(BABEL_CONFIG)
 	);
 
 	// Write storybook config to a file for storybook files to access.
+
 	fs.writeFileSync(
 		path.join(buildPath, 'storybook-config.json'),
 		JSON.stringify(STORYBOOK_CONFIG)
@@ -115,14 +118,17 @@ function storybook() {
 
 	const args = [
 		// Set port that storybook will use to run the server on.
+
 		'--port',
 		STORYBOOK_CONFIG.port,
 
 		// Set directory where the storybook config files are.
+
 		'--config-dir',
 		buildPath,
 
 		// Set portal root directory to retrieve static resources from.
+
 		'--static-dir',
 		PORTAL_ROOT,
 	];

@@ -88,6 +88,7 @@ function extractJS(source) {
 
 					// Handle edge case where the openTag and the content all
 					// fit on one line (eg. <script>code();</script>).
+
 					const lastLine =
 						contentLines.length === 1
 							? lastPrefixLine + lastContentLine
@@ -98,7 +99,9 @@ function extractJS(source) {
 						contents: body,
 						match,
 						openTag,
+
 						// TODO: consider getting rid of end/start
+
 						range: {
 							end: {
 								column: lastLine.length + 1,

@@ -17,22 +17,26 @@ module.exports = {
 	build: {
 		// Passed to:
 		// - `metalsoy` executable (via `generateSoyDependencies()`).
+
 		dependencies: [...clay, ...liferay, ...metal],
 
 		// Passed to:
 		// - `babel` executable (via `runBabel()`).
 		// - `jest` executable (via resolver.js).
 		// - `metalsoy` executable (via `buildSoy()`).
+
 		input: 'src/main/resources/META-INF/resources',
 
 		// Passed to:
 		// - `babel` executable (via `runBabel()`).
 		// - `jest` executable (via resolver.js).
 		// - `translateSoy()`.
+
 		output: 'build/node/packageRunBuild/resources',
 
 		// Used in various places to keep intermediate artefacts out of Gradle's
 		// way (see `buildSoy()`, `withTempFile()`, etc).
+
 		temp: 'build/npmscripts',
 	},
 	check: CHECK_AND_FIX_GLOBS,

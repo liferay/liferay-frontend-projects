@@ -83,6 +83,7 @@ describe('ReversibleMap()', () => {
 			]);
 
 			// Goes as far back as previous checkpoint (the 2nd) and removes it.
+
 			map.rollback();
 
 			expect(map.undo.length).toBe(3);
@@ -96,6 +97,7 @@ describe('ReversibleMap()', () => {
 			]);
 
 			// Goes to previous checkpoint (the 1st) and removes it.
+
 			map.rollback();
 
 			expect(map.undo.length).toBe(1);
@@ -108,6 +110,7 @@ describe('ReversibleMap()', () => {
 			]);
 
 			// Completely flushes the queue (no more checkpoints).
+
 			map.rollback();
 
 			expect(map.undo.length).toBe(0);
@@ -197,6 +200,7 @@ describe('ReversibleMap()', () => {
 			map.rollback();
 
 			// Doesn't rollback mutation inside `deep` value.
+
 			expect([...map.entries()]).toEqual([
 				['a', 1],
 				['b', 2],

@@ -28,6 +28,7 @@ describe('restoreTags()', () => {
 		const stripped = stripIndents(substituted);
 
 		// Some fake formatting that moves and changes text.
+
 		const formattedText =
 			'\n\t\t\t// Prefix' + stripped.replace('children', 'CHILDREN');
 
@@ -54,6 +55,7 @@ describe('restoreTags()', () => {
 	it('restores blocks indentation to counteract Prettier', () => {
 		// Original `alert()` was indented, but Prettier will dedent it, and we
 		// do a preemptive `stripIndents()` to match that.
+
 		const text = stripIndents(`
 			/*ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ*/
 				alert('done');
@@ -88,6 +90,7 @@ describe('restoreTags()', () => {
 		const [substituted, tags] = substituteTags(source);
 
 		// Sanity-check that `substituteTags()` does what we think it does.
+
 		expect(substituted).toBe(`
 			if (condition) {
 						/*
@@ -97,6 +100,7 @@ describe('restoreTags()', () => {
 		`);
 
 		// Now imagine Prettier "fixes" the indent like this:
+
 		const formattedText = `
 			if (condition) {
 				/*
@@ -123,6 +127,7 @@ describe('restoreTags()', () => {
 	it('correctly handles internal indentation when nested', () => {
 		// This is a reduced example of what's in the page_iterator.jsp
 		// fixture.
+
 		const source = `
 			<c:if test="<%= pages.size() > 1 %>">
 
@@ -138,6 +143,7 @@ describe('restoreTags()', () => {
 		const [substituted, tags] = substituteTags(source);
 
 		// Sanity-check that `substituteTags()` does what we think it does.
+
 		expect(substituted).toBe(`
 			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 
@@ -151,6 +157,7 @@ describe('restoreTags()', () => {
 		`);
 
 		// Now imagine Prettier "fixes" the indents like this:
+
 		const formattedText = `
 			//ʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃʃ
 
@@ -183,6 +190,7 @@ describe('restoreTags()', () => {
 
 	it('correctly handles internal indentation inside control structures', () => {
 		// This is a reduced example of what's in the source.jsp fixture.
+
 		const source = `
 			var sourcePanel = document.querySelector('.source-container');
 
@@ -218,6 +226,7 @@ describe('restoreTags()', () => {
 		const [substituted, tags] = substituteTags(source);
 
 		// Sanity-check that `substituteTags()` does what we think it does.
+
 		expect(substituted).toBe(`
 			var sourcePanel = document.querySelector('.source-container');
 
@@ -251,6 +260,7 @@ describe('restoreTags()', () => {
 		`);
 
 		// Now imagine Prettier "fixes" the indents like this:
+
 		const formattedText = `
 			var sourcePanel = document.querySelector('.source-container');
 
@@ -286,6 +296,7 @@ describe('restoreTags()', () => {
 		const result = restoreTags(formattedText, tags);
 
 		// Note the line after both `for` keywords is still indented:
+
 		const expected = `
 			var sourcePanel = document.querySelector('.source-container');
 

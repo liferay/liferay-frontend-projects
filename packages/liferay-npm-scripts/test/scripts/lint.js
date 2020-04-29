@@ -33,6 +33,7 @@ describe('scripts/lint.js', () => {
 
 			// Use [] here to avoid unwanted hoisting by
 			// babel-plugin-jest-hoist.
+
 			jest['mock']('../../src/utils/getMergedConfig', () => {
 				return () => {
 					return globs;
@@ -93,6 +94,7 @@ describe('scripts/lint.js', () => {
 				]);
 
 				// No errors or warnings, so no results.
+
 				expect(log).toBeCalledWith('');
 			});
 		});
@@ -133,6 +135,7 @@ describe('scripts/lint.js', () => {
 
 				// `isTTY` varies in different CI environments, so we use a
 				// regex here to match in a color-agnostic way.
+
 				expect(logged).toMatch(
 					/20:10 {2}.*error.* {2}Avoid explosions. {2}no-boom/
 				);

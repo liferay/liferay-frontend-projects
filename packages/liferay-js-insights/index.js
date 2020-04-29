@@ -41,17 +41,21 @@ async function parse(content) {
 
 async function getModuleMeta(modulePath) {
 	// Resolves current modulePath base directory
+
 	const cwd = path.dirname(path.resolve(modulePath));
 
 	// Finds the closer package.json file to the modulePath
+
 	const pkg = await findUp('package.json', {cwd});
 
 	// Take app from the `name` field in package.json
+
 	const app = JSON.parse(await readFile(pkg, 'utf8')).name;
 
 	const name = path.basename(modulePath);
 
 	// Finds the root git folder
+
 	const gitRoot = await findUp('.git', {
 		cwd,
 		type: 'directory',

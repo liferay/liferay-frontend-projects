@@ -153,6 +153,7 @@ function getRemote() {
 		})
 		.sort((a, b) => {
 			// Sort by URL, preferring `git` over `http` URLs.
+
 			if (a[1] > b[1]) {
 				return 1;
 			} else if (a[1] < b[1]) {

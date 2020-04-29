@@ -47,6 +47,7 @@ function spawnSync(command, args = [], options = {}) {
 		);
 	} else if (error) {
 		// We didn't successfully spawn, so this is a hard error.
+
 		throw new Error(
 			`Command ${getDescription(
 				executable,

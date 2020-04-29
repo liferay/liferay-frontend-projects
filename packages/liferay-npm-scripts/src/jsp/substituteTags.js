@@ -40,6 +40,7 @@ function substituteTags(source) {
 
 		// Provisionally assume that "contents" corresponds to a tag that we're
 		// going to substitute.
+
 		tags.push(contents);
 
 		if (name === 'CUSTOM_ACTION') {
@@ -49,6 +50,7 @@ function substituteTags(source) {
 		} else if (name === 'CUSTOM_ACTION_START') {
 			// Special case 1: scan ahead to detect actions that have no
 			// non-whitespace children.
+
 			let j = i + 1;
 			let outer = contents;
 			let text = '';
@@ -56,6 +58,7 @@ function substituteTags(source) {
 
 			// Special case 2: scan ahead to detect single-line open
 			// tags that have nothing after them on the same line.
+
 			let last;
 
 			while (j < tokens.length) {

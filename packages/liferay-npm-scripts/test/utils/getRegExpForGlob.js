@@ -158,8 +158,10 @@ describe('getRegExpForGlob()', () => {
 	});
 
 	// prettier-ignore
+
 	it('handles real glob patterns from liferay-portal', () => {
 		// These taken from liferay-portal as of ced3d6d93c8721ae09ea2c2c88.
+
 		expect('apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/liferay.js')
 			.toMatchGlob('**/*.js');
 		expect('apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/liferay.js')

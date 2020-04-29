@@ -496,7 +496,9 @@ function lex(source, options = {}) {
 
 		const EL_EXPRESSION = when(
 			() => meta.get('ELEnabled'),
+
 			// TODO: Implement full "Expression Language Specification" spec
+
 			sequence(EL_EXPRESSION_START, CHAR.to(EL_EXPRESSION_END)),
 			never
 		);
@@ -588,8 +590,9 @@ function lex(source, options = {}) {
 			a('TEMPLATE_CHAR').until(match(/<|\$\{|#\{/))
 		).name('TEMPLATE_TEXT');
 
+		// TODO: these first two should also only be when(ELEnabled)
+
 		const TEMPLATE_CHAR = oneOf(
-			// TODO: these two should also only be when(ELEnabled)
 			match('\\$'),
 			match('\\#'),
 
@@ -715,6 +718,7 @@ function lex(source, options = {}) {
 				return token('EL_EXPRESSION', text);
 			} else if (peek(PORTLET_NAMESPACE)) {
 				// This one is a special case of "CustomAction" for liferay-portal.
+
 				const text = consume(PORTLET_NAMESPACE);
 
 				return token('PORTLET_NAMESPACE', text);
@@ -728,6 +732,7 @@ function lex(source, options = {}) {
 				let text = consume();
 
 				// TODO: consider making this a stack
+
 				const name = meta.get('customAction:name');
 
 				const E_TAG = sequence(
@@ -748,6 +753,7 @@ function lex(source, options = {}) {
 					return token('CUSTOM_ACTION', text);
 				} else {
 					// Will continue tokenizing next time around.
+
 					text += consume(match('>'));
 
 					return token('CUSTOM_ACTION_START', text);

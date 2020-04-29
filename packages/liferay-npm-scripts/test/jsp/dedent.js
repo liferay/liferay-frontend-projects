@@ -21,6 +21,7 @@ describe('dedent()', () => {
 	it('handles mixed tabs and spaces', () => {
 		// Mixed tabs and spaces are common, for example, in source with
 		// multiline comments.
+
 		const [dedented] = dedent(`
 			/**
 			 * This is a comment.
@@ -30,8 +31,9 @@ describe('dedent()', () => {
 			}
 		`);
 
+		// prettier-ignore
+
 		expect(dedented).toBe(
-			// prettier-ignore
 			'/**\n' +
 			' * This is a comment.\n' +
 			' */\n' +
@@ -51,8 +53,9 @@ describe('dedent()', () => {
 			8
 		);
 
+		// prettier-ignore
+
 		expect(dedented).toBe(
-			// prettier-ignore
 			'function fn() {\n' +
 			'\treturn;\n' +
 			'} // tab, 8 spaces, tab, a brace'
@@ -84,8 +87,10 @@ describe('dedent()', () => {
 	it('handles partial "for" control structures', () => {
 		// It's common in JSP to have an incomplete control structure
 		// that starts in one scriptlet and ends in another.
+
+		// prettier-ignore
+
 		const [dedented] = dedent(
-			// prettier-ignore
 			'<%\n' +
 			'// This one was getting mangled.\n' +
 			'for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {\n' +
@@ -93,8 +98,9 @@ describe('dedent()', () => {
 			'%>'
 		);
 
+		// prettier-ignore
+
 		expect(dedented).toBe(
-			// prettier-ignore
 			'<%\n' +
 			'// This one was getting mangled.\n' +
 			'for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {\n' +

@@ -17,6 +17,7 @@ function preprocessGlob(glob) {
 	// This function considers each "{}" to be a "hole" in the template (the
 	// glob), to be filled in with permutations of the substitutions defined
 	// inside the braces.
+
 	const template = [''];
 	const substitutions = [];
 
@@ -43,6 +44,7 @@ function preprocessGlob(glob) {
 			const index = substitutions.length - 1;
 			if (substitutions[index] === '') {
 				// There were no substitutions at all; braces are literal.
+
 				substitutions.pop();
 				template[template.length - 1] += '{}';
 			} else {
@@ -51,10 +53,12 @@ function preprocessGlob(glob) {
 			}
 		} else if (bracketCount === 0) {
 			// We are capturing normal text.
+
 			const index = template.length - 1;
 			template[index] = template[index] + char;
 		} else {
 			// We are capturing substitution(s).
+
 			const index = substitutions.length - 1;
 			substitutions[index] += char;
 		}
@@ -72,6 +76,7 @@ function fill(template, substitutions) {
 
 	if (!rest.length && !substitutions.length) {
 		// Recursion base case (nothing left to substitute).
+
 		return [first];
 	}
 

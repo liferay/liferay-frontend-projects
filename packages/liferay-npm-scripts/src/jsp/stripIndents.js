@@ -38,6 +38,7 @@ const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 //      /* close placeholder */
 //
 // So, this function does the same.
+
 function stripIndents(source) {
 	const lexer = new Lexer((api) => {
 		const {choose, match} = api;
@@ -84,6 +85,7 @@ function stripIndents(source) {
 
 					// Peek ahead to see if the next token is whitespace,
 					// and trim it if necessary.
+
 					const [maybeWhitespace, maybeCloseTag] = tokens.slice(
 						i + 1,
 						i + 3

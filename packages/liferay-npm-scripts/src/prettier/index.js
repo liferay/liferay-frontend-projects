@@ -88,6 +88,7 @@ function format(source, options) {
 			// Override "parser" value from `getConfigForFile()`, which
 			// is an absolute path; make it a name that matches the
 			// parser we defined with `defineParser()` above.
+
 			parser: 'babel-eslint',
 		},
 

@@ -13,6 +13,7 @@ describe('run()', () => {
 	it('reports the exit status of failed commands', () => {
 		// NOTE: we want the error message format to be stable, because
 		// `filterChangedFiles()` depends on it.
+
 		expect(() => run('false')).toThrow(
 			'run(): command `false` exited with status 1.'
 		);

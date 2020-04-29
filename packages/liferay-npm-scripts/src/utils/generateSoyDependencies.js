@@ -24,6 +24,7 @@ function generateSoyDependencies(dependencies) {
 				// Requires the `package.json` file to avoid resolving
 				// the main entry point of the package so we can safely
 				// infer the directory from the package root
+
 				resolvedDependency = path.dirname(
 					resolve.sync(`${dependency}/package.json`, {
 						basedir: cwd,

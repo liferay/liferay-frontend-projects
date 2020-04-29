@@ -132,9 +132,11 @@ class Lexer {
 		 */
 		function allOf(...matchers) {
 			// Given matchers [a, b], permute them (eg. [[a, b], [b, a]])...
+
 			const permutations = permute(matchers);
 
 			// ...and transform into: oneOf(sequence(a, b), sequence(b, a)):
+
 			const matcher = oneOf(...permutations.map((m) => sequence(...m)));
 
 			return {
@@ -264,6 +266,7 @@ class Lexer {
 						return match;
 					} else {
 						// Fake a zero-width match.
+
 						return getMatchObject('');
 					}
 				},
@@ -641,11 +644,13 @@ class Lexer {
 			}
 
 			// Potentially re-use result of preceeding `peek()`.
+
 			const peeked = peek.peeked;
 			delete peek.peeked;
 
 			if (matcher === undefined) {
 				// Return result of previous `peek()`.
+
 				if (peeked != undefined) {
 					result = peeked;
 				} else {
@@ -657,6 +662,7 @@ class Lexer {
 				if (peeked !== null) {
 					// We previously peeked but aren't consuming the memoized
 					// result, so we need to rollback the peek's side-effects.
+
 					meta.rollback();
 				}
 
@@ -691,6 +697,7 @@ class Lexer {
 			}
 
 			// TODO: report index, maybe.
+
 			const context =
 				remaining.length > 20
 					? `${remaining.slice(0, 20)}...`
@@ -723,6 +730,7 @@ class Lexer {
 			}
 
 			// Memoize the result so that we can `consume()` it if desired.
+
 			peek.peeked = matcher.exec(remaining);
 
 			if (peek.peeked === null) {
@@ -842,6 +850,7 @@ class Lexer {
 				next: {
 					// Lazy because token N+1 doesn't exist yet when
 					// token N is produced.
+
 					get() {
 						if (!atEnd() && !tokens.has(counter + 1)) {
 							const nextToken = produceToken();
@@ -857,6 +866,7 @@ class Lexer {
 				previous: {
 					// Non-enumerable so that tokens can be
 					// introspected without the clutter.
+
 					value: tokens.get(counter - 1),
 				},
 			});
@@ -896,6 +906,7 @@ class Lexer {
  */
 function escape(literal) {
 	// https://github.com/benjamingr/RegExp.escape/blob/master/EscapedChars.md
+
 	return literal.replace(/[\^$\\.*+?()[\]{}|]/g, '\\$&');
 }
 
@@ -907,6 +918,7 @@ function getMatchObject(string) {
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 	// TODO: needs index and input properties
 	// might also want to set lastIndex on regexp
+
 	return [string];
 }
 

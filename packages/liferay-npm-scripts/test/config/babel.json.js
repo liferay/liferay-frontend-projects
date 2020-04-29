@@ -11,6 +11,7 @@ describe('babel.json', () => {
 		expect(() => {
 			// Merging the config with itself will force us to visit and
 			// check the entire thing.
+
 			deepMerge([config, config], deepMerge.MODE.BABEL);
 		}).not.toThrow();
 	});

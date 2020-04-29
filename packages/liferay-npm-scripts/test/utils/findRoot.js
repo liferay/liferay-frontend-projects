@@ -49,6 +49,7 @@ describe('findRoot()', () => {
 
 	it('returns undefined when there is no yarn.lock', () => {
 		// Will pass as long as nobody does a `yarn install` in $TMPDIR.
+
 		process.chdir(os.tmpdir());
 		expect(findRoot()).toBe(undefined);
 	});
@@ -56,6 +57,7 @@ describe('findRoot()', () => {
 	it('returns undefined when in the wrong repository', () => {
 		// For example, in this project, we have a yarn.lock, but this is not
 		// liferay-portal.
+
 		expect(findRoot()).toBe(undefined);
 	});
 });

@@ -73,10 +73,12 @@ async function lint(options = {}) {
 		//   fixes do not have an "output" property, but
 		//   `report.fixableErrorCount` and `report.fixableWarningCount` will be
 		//   set.
+
 		fix,
 
 		// Avoid spurious warnings of the form, "File ignored by
 		// default. Use a negated ignore pattern ... to override"
+
 		ignorePattern: '!*',
 	});
 
@@ -92,6 +94,7 @@ async function lint(options = {}) {
 
 		if (fix && jsPaths.length) {
 			// This is what actually writes to the file-system.
+
 			CLIEngine.outputFixes(report);
 		}
 	} else {
@@ -104,6 +107,7 @@ async function lint(options = {}) {
 	]) {
 		for (const filePath of paths) {
 			// TODO: non-sync version to make use of I/O concurrency
+
 			const contents = fs.readFileSync(filePath, 'utf8');
 
 			try {
@@ -130,6 +134,7 @@ async function lint(options = {}) {
 	// In `quiet` mode, keep only errors.
 	// Otherwise keep both errors and warnings.
 	// Filter out everything else.
+
 	const results = (report.results || [])
 		.map((result) => {
 			const messages = result.messages.filter((message) => {

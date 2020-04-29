@@ -8,6 +8,7 @@ const deepMerge = require('../../src/utils/deepMerge');
 describe('deepMerge()', () => {
 	it('uses the "DEFAULT" mode by default', () => {
 		// DEFAULT mode concatenates arrays.
+
 		expect(deepMerge([[1], [2]])).toEqual([1, 2]);
 	});
 
@@ -194,6 +195,7 @@ describe('deepMerge()', () => {
 		it('merges presets correctly as well', () => {
 			// Just a smoke test here, because it is powered by the exact same
 			// code that's exercised in all the "plugins" tests above.
+
 			expect(
 				deepMerge(
 					[
@@ -289,11 +291,13 @@ describe('deepMerge()', () => {
 
 		it("doesn't break when a stale .babelrc.js file is left on disk", () => {
 			// This is the original project-local .babelrc.js config.
+
 			const project = {
 				presets: ['@babel/preset-react'],
 			};
 
 			// This is the config provided by liferay-npm-scripts.
+
 			const defaults = {
 				overrides: [
 					{
@@ -319,6 +323,7 @@ describe('deepMerge()', () => {
 
 			// This should be the result of merging "defaults" and "project"; imagine that
 			// it could be left on disk if the build gets interrupted.
+
 			const stale = {
 				overrides: [
 					{
@@ -400,6 +405,7 @@ describe('deepMerge()', () => {
 			// "@babel/foo", but in the docs it recommends the long-hand
 			// form. This is unlike plugins, where it again understands
 			// both, but recommends the short-hand form.
+
 			expect(() => {
 				deepMerge(
 					[{presets: []}, {presets: ['@babel/foo']}],
