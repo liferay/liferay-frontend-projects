@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import crypto from 'crypto';
 import fs from 'fs-extra';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
@@ -12,7 +13,11 @@ import {buildBundlerDir, buildGeneratedDir} from '../../dirs';
 import * as log from '../../log';
 import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
-import {SourceWithMap, wrapModule} from '../../util/transform';
+import {
+	SourceCode,
+	replaceInStringLiterals,
+	wrapModule,
+} from '../../util/transform';
 import {removeWebpackHash} from '../../util/webpack';
 
 export async function renderTemplates(): Promise<void> {
@@ -41,26 +46,55 @@ export async function wrapWebpackBundles(): Promise<void> {
 		copiedBundles.map(async file => {
 			const unhashedFile = removeWebpackHash(file);
 
-			const sourceFilePath = adaptBuildDir.join(file).asNative;
-			const destFile = buildBundlerDir.join(unhashedFile);
+			let source: SourceCode = readSourceWithMap(
+				adaptBuildDir.join(file),
+				`${name}@${version}/${unhashedFile.asPosix}`
+			);
 
-			// TODO: read source map from file annotation instead of guessing
-			// the file name
+			source = await wrapModule(source);
 
-			const wrappedModule = await wrapModule({
-				fileName: `${name}@${version}/${unhashedFile.asPosix}`,
-				code: fs.readFileSync(sourceFilePath).toString(),
-				map: fs.readJsonSync(`${sourceFilePath}.map`),
-			});
+			source = await namespaceWepbackJsonp(source);
 
-			writeSourceWithMap(wrappedModule, destFile);
+			writeSourceWithMap(source, buildBundlerDir.join(unhashedFile));
 		})
 	).then(() => {
 		log.debug(`Wrapped ${copiedBundles.length} webpack bundles`);
 	});
 }
 
-function writeSourceWithMap(source: SourceWithMap, file: FilePath): void {
+async function namespaceWepbackJsonp(source: SourceCode): Promise<SourceCode> {
+	const hash = crypto.createHash('MD5');
+
+	const {name, version} = project.pkgJson;
+
+	hash.update(name);
+	hash.update(version);
+
+	const uuid = hash
+		.digest('base64')
+		.replace(/\+/g, '_')
+		.replace(/\//g, '_')
+		.replace(/=/g, '');
+
+	return await replaceInStringLiterals(
+		source,
+		'webpackJsonp',
+		`webpackJsonp_${uuid}_`
+	);
+}
+
+function readSourceWithMap(file: FilePath, fileName?: string): SourceCode {
+	// TODO: read source map from file annotation instead of guessing
+	// the file name
+
+	return {
+		fileName: fileName ? fileName : file.asNative,
+		code: fs.readFileSync(file.asNative).toString(),
+		map: fs.readJsonSync(`${file.asNative}.map`),
+	};
+}
+
+function writeSourceWithMap(source: SourceCode, file: FilePath): void {
 	fs.ensureDirSync(file.dirname().asNative);
 
 	const filePath = file.asNative;

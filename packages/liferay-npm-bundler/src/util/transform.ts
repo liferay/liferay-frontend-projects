@@ -4,6 +4,7 @@
  */
 
 import * as acorn from 'acorn';
+import escapeStringRegexp from 'escape-string-regexp';
 import * as escodegen from 'escodegen';
 import {Visitor, replace, traverse} from 'estraverse';
 import ESTree from 'estree';
@@ -14,6 +15,31 @@ export interface SourceCode {
 	code: string;
 	map?: RawSourceMap;
 	ast?: ESTree.Node;
+}
+
+export async function replaceInStringLiterals(
+	source: SourceCode,
+	from: string,
+	to: string
+): Promise<SourceCode> {
+	return await transform(source, source.fileName, {
+		enter(node) {
+			if (node.type !== 'Literal') {
+				return;
+			}
+
+			const {value} = node;
+
+			if (typeof value !== 'string') {
+				return;
+			}
+
+			node.value = value.replace(
+				new RegExp(escapeStringRegexp(from), 'g'),
+				to
+			);
+		},
+	});
 }
 
 export async function transform(
