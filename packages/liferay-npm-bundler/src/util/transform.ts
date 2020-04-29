@@ -3,74 +3,73 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {parse} from 'acorn';
-import {generate} from 'escodegen';
+import * as acorn from 'acorn';
+import * as escodegen from 'escodegen';
 import {Visitor, replace, traverse} from 'estraverse';
-import ESTree, {Statement} from 'estree';
+import ESTree from 'estree';
 import {RawSourceMap, SourceMapConsumer, SourceMapGenerator} from 'source-map';
 
-export interface SourceWithMap {
-	code: string;
+export interface SourceCode {
 	fileName: string;
+	code: string;
 	map?: RawSourceMap;
+	ast?: ESTree.Node;
 }
 
 export async function transform(
-	source: SourceWithMap,
+	source: SourceCode,
 	destFileName: string,
 	visitor: Visitor
-): Promise<SourceWithMap> {
-	const ast = parse(source.code, {
-		allowAwaitOutsideFunction: true,
-		allowHashBang: true,
-		allowImportExportEverywhere: true,
-		allowReserved: true,
-		allowReturnOutsideFunction: true,
-		ecmaVersion: 10,
-		locations: true,
-		sourceType: 'module',
-	});
+): Promise<SourceCode> {
+	const ast =
+		source.ast ||
+		parse(source.code, {
+			allowAwaitOutsideFunction: true,
+			allowHashBang: true,
+			allowImportExportEverywhere: true,
+			allowReserved: true,
+			allowReturnOutsideFunction: true,
+			ecmaVersion: 10,
+			locations: true,
+			sourceType: 'module',
+		});
 
 	replace(ast as ESTree.Node, visitor);
 
-	const transformed = (generate(ast, {
+	const transformed = generate(ast, {
 		sourceMap: source.fileName,
-		sourceMapWithCode: true,
 		sourceContent: source.code,
-	}) as unknown) as {code: string; map: SourceMapGenerator};
+	});
 
-	const transformedMap = JSON.parse(transformed.map.toString());
-
-	transformedMap.file = destFileName;
+	transformed.map.file = destFileName;
 
 	const map = source.map
-		? await mergeMaps(source.map, transformedMap)
-		: transformedMap;
+		? await mergeMaps(source.map, transformed.map)
+		: transformed.map;
 
 	return {
 		fileName: destFileName,
 		code: transformed.code,
 		map,
+		ast,
 	};
 }
 
-export async function wrapModule(
-	source: SourceWithMap
-): Promise<SourceWithMap> {
+export async function wrapModule(source: SourceCode): Promise<SourceCode> {
 	const moduleName = source.fileName.replace(/\.js$/i, '');
 
-	const wrapAst = (parse(`
+	const wrapAst = parse<ESTree.Program>(`
 	Liferay.Loader.define(
 		'${moduleName}',
 		[
 			'module',
 			'require'
-			${getDefineDependencies(source.code)}
+			${getDefineDependencies(source)}
 		],
 		function(module, require) {
 		}
 	);
-	`) as unknown) as ESTree.Program;
+	`);
 
 	const destFileName = source.fileName.replace(/\.js$/i, '.amd.js');
 
@@ -91,6 +90,21 @@ export async function wrapModule(
 			program.body = wrapBody;
 		},
 	});
+}
+
+function generate(
+	ast: ESTree.Node,
+	options?: escodegen.GenerateOptions
+): {code: string; map: RawSourceMap} {
+	const {code, map} = (escodegen.generate(ast, {
+		...options,
+		sourceMapWithCode: true,
+	}) as unknown) as {code: string; map: SourceMapGenerator};
+
+	return {
+		code,
+		map: JSON.parse(map.toString()),
+	};
 }
 
 function getBlockStatement(wrapAst: ESTree.Program): ESTree.BlockStatement {
@@ -135,21 +149,23 @@ function getBlockStatement(wrapAst: ESTree.Program): ESTree.BlockStatement {
 	return moduleBody;
 }
 
-function getDefineDependencies(source: string): string {
-	const ast = parse(source, {
-		allowAwaitOutsideFunction: true,
-		allowHashBang: true,
-		allowImportExportEverywhere: true,
-		allowReserved: true,
-		allowReturnOutsideFunction: true,
-		ecmaVersion: 10,
-		locations: true,
-		sourceType: 'module',
-	});
+function getDefineDependencies(source: SourceCode): string {
+	const ast =
+		source.ast ||
+		parse(source.code, {
+			allowAwaitOutsideFunction: true,
+			allowHashBang: true,
+			allowImportExportEverywhere: true,
+			allowReserved: true,
+			allowReturnOutsideFunction: true,
+			ecmaVersion: 10,
+			locations: true,
+			sourceType: 'module',
+		});
 
 	const requiredModules = {};
 
-	traverse(ast as ESTree.Node, {
+	traverse(ast, {
 		enter(node) {
 			if (node.type !== 'CallExpression') {
 				return;
@@ -200,7 +216,7 @@ function getDefineDependencies(source: string): string {
  *
  * @param program
  */
-function getProgramStatements(program: ESTree.Program): Statement[] {
+function getProgramStatements(program: ESTree.Program): ESTree.Statement[] {
 	const statementNodes = {
 		ExpressionStatement: true,
 		BlockStatement: true,
@@ -236,7 +252,7 @@ function getProgramStatements(program: ESTree.Program): Statement[] {
 		);
 	}
 
-	return (program.body as unknown[]) as Statement[];
+	return (program.body as unknown[]) as ESTree.Statement[];
 }
 
 /**
@@ -300,4 +316,11 @@ async function mergeMaps(
 	map.sourcesContent = [...oldMap.sourcesContent, ...newMap.sourcesContent];
 
 	return map;
+}
+
+function parse<T extends ESTree.Node>(
+	input: string,
+	options?: acorn.Options
+): T {
+	return (acorn.parse(input, options) as unknown) as T;
 }
