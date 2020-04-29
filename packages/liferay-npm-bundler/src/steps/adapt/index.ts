@@ -13,6 +13,7 @@ import * as log from '../../log';
 import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
 import {SourceWithMap, wrapModule} from '../../util/transform';
+import {removeWebpackHash} from '../../util/webpack';
 
 export async function renderTemplates(): Promise<void> {
 	const renderer = new Renderer(
@@ -38,18 +39,21 @@ export async function wrapWebpackBundles(): Promise<void> {
 
 	return Promise.all(
 		copiedBundles.map(async file => {
-			const filePath = adaptBuildDir.join(file).asNative;
+			const unhashedFile = removeWebpackHash(file);
+
+			const sourceFilePath = adaptBuildDir.join(file).asNative;
+			const destFile = buildBundlerDir.join(unhashedFile);
 
 			// TODO: read source map from file annotation instead of guessing
 			// the file name
 
 			const wrappedModule = await wrapModule({
-				fileName: `${name}@${version}/${file.asPosix}`,
-				code: fs.readFileSync(filePath).toString(),
-				map: fs.readJsonSync(`${filePath}.map`),
+				fileName: `${name}@${version}/${unhashedFile.asPosix}`,
+				code: fs.readFileSync(sourceFilePath).toString(),
+				map: fs.readJsonSync(`${sourceFilePath}.map`),
 			});
 
-			writeSourceWithMap(wrappedModule, buildBundlerDir.join(file));
+			writeSourceWithMap(wrappedModule, destFile);
 		})
 	).then(() => {
 		log.debug(`Wrapped ${copiedBundles.length} webpack bundles`);

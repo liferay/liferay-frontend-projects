@@ -9,6 +9,7 @@ import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
 import {copyFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
+import {removeWebpackHash} from '../../../util/webpack';
 import {renderTemplates, wrapWebpackBundles} from '../index';
 
 /**
@@ -36,7 +37,8 @@ function copyStaticAssets(): void {
 	const copiedFiles = copyFiles(
 		project.dir.join(project.adapt.buildDir),
 		['static/css/*', 'static/media/*'],
-		buildBundlerDir
+		buildBundlerDir,
+		file => removeWebpackHash(file)
 	);
 
 	log.debug(`Copied ${copiedFiles.length} static assets`);
