@@ -9,6 +9,13 @@ import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import path from 'path';
 
 /**
+ * A function to map a FilePath to another FilePath.
+ */
+export interface FilePathMapper {
+	(file: FilePath): FilePath;
+}
+
+/**
  * Copy files matching globs.
  *
  * Note that the globs are not altered in any way and may even point to files
@@ -23,14 +30,22 @@ import path from 'path';
 export function copyFiles(
 	baseDirPath: string | FilePath,
 	globs: string[],
-	destDirPath: string | FilePath
+	destDirPath: string | FilePath,
+	mapper?: FilePathMapper
 ): FilePath[] {
+	const baseDir = FilePath.coerce(baseDirPath);
+	const destDir = FilePath.coerce(destDirPath);
+
 	const files = findFiles(baseDirPath, globs);
+
+	if (!mapper) {
+		mapper = (file => file) as FilePathMapper;
+	}
 
 	files.forEach(file =>
 		fs.copySync(
-			path.join(baseDirPath.toString(), file.asNative),
-			path.join(destDirPath.toString(), file.asNative)
+			baseDir.join(file).asNative,
+			mapper(destDir.join(file)).asNative
 		)
 	);
 
