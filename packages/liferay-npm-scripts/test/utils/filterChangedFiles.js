@@ -44,6 +44,7 @@ describe('filterChangedFiles()', () => {
 		//      * b (touches nothing)
 		//      * a (root commit)
 		//
+
 		repo = join(
 			TMP_DIR,
 			`liferay-npm-scripts-${randomBytes(16).toString('hex')}`
@@ -168,6 +169,7 @@ describe('filterChangedFiles()', () => {
 
 		it('returns only changed files, unless it detects a liferay-npm-scripts update', () => {
 			// Top-level.
+
 			let files = getFiles();
 
 			git('checkout', '--detach', 'c');
@@ -186,6 +188,7 @@ describe('filterChangedFiles()', () => {
 			]);
 
 			// Private.
+
 			process.chdir('private');
 
 			files = getFiles();

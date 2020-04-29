@@ -59,6 +59,7 @@ function lintJSP(source, onReport, options = {}) {
 					}
 				} else if (quiet) {
 					// In quiet mode, we only report errors, not warnings.
+
 					return false;
 				} else {
 					warningCount++;
@@ -72,6 +73,7 @@ function lintJSP(source, onReport, options = {}) {
 			});
 
 			// Ensure trailing newline, matching Prettier's convention.
+
 			source = output.endsWith('\n') ? output : `${output}\n`;
 
 			if (messages.length) {

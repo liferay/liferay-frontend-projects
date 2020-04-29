@@ -23,6 +23,7 @@ const STYLELINT_CONFIG_FILE_NAME = '.stylelintrc.js';
 
 const DISALLOWED_CONFIG_FILE_NAMES = {
 	// https://babeljs.io/docs/en/config-files/
+
 	'.babelrc': BABEL_CONFIG_FILE_NAME,
 	'.babelrc.cjs': BABEL_CONFIG_FILE_NAME,
 	'.babelrc.json': BABEL_CONFIG_FILE_NAME,
@@ -33,6 +34,7 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 	'babel.config.mjs': BABEL_CONFIG_FILE_NAME,
 
 	// https://eslint.org/docs/user-guide/configuring
+
 	'.eslintrc': ESLINT_CONFIG_FILE_NAME,
 	'.eslintrc.cjs': ESLINT_CONFIG_FILE_NAME,
 	'.eslintrc.json': ESLINT_CONFIG_FILE_NAME,
@@ -40,6 +42,7 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 	'.eslintrc.yml': ESLINT_CONFIG_FILE_NAME,
 
 	// https://prettier.io/docs/en/configuration.html
+
 	'.prettierrc': PRETTIER_CONFIG_FILE_NAME,
 	'.prettierrc.json': PRETTIER_CONFIG_FILE_NAME,
 	'.prettierrc.toml': PRETTIER_CONFIG_FILE_NAME,
@@ -48,6 +51,7 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 	'prettier.config.js': PRETTIER_CONFIG_FILE_NAME,
 
 	// https://stylelint.io/user-guide/configuration
+
 	'.stylelintrc': STYLELINT_CONFIG_FILE_NAME,
 	'.stylelintrc.json': STYLELINT_CONFIG_FILE_NAME,
 	'.stylelintrc.yml': STYLELINT_CONFIG_FILE_NAME,

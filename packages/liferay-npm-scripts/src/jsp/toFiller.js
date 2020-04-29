@@ -48,6 +48,7 @@ function toFiller(string, filler = FILLER_CHAR) {
 
 	// Special case: if `body` is just whitespace; must insert at least
 	// one filler.
+
 	let output = body.match(/^\s+$/) ? FILLER_CHAR : '';
 
 	const LINE = /([ \t]*)([^\r\n]*)(\r?\n)?/g;

@@ -37,6 +37,7 @@ describe('lintJSP()', () => {
 		const result = lintJSP(source, onReport);
 
 		// Note: did not autofix because we didn't pass `{fix: true}`.
+
 		expect(result).toBe(dedent(3)`
 			<script>
 				var bool = !!!other;
@@ -72,6 +73,7 @@ describe('lintJSP()', () => {
 		const result = lintJSP(source, onReport);
 
 		// No autofix.
+
 		expect(result).toBe(dedent(3)`
 			<script>
 				debugger;
@@ -106,6 +108,7 @@ describe('lintJSP()', () => {
 		const result = lintJSP(source, onReport);
 
 		// No autofix.
+
 		expect(result).toBe(dedent(3)`
 			<script>
 				const x = 1;
@@ -141,6 +144,7 @@ describe('lintJSP()', () => {
 		const result = lintJSP(source, onReport);
 
 		// No autofix.
+
 		expect(result).toBe(dedent(3)`
 			<script>
 				var x = () => 1;
@@ -168,6 +172,7 @@ describe('lintJSP()', () => {
 
 	it('deals with a mixture of fixable and not-fixable errors', () => {
 		// eg: 1 autofix and 1 not-autofix
+
 		const source = dedent(3)`
 			<script>
 				var bool = !!!other;
@@ -178,6 +183,7 @@ describe('lintJSP()', () => {
 		const result = lintJSP(source, onReport);
 
 		// No autofix.
+
 		expect(result).toBe(dedent(3)`
 			<script>
 				var bool = !!!other;
@@ -242,6 +248,7 @@ describe('lintJSP()', () => {
 			`);
 
 			// Note: no report because there are no unfixed problems left.
+
 			expect(onReport).not.toBeCalled();
 		});
 
@@ -307,6 +314,7 @@ describe('lintJSP()', () => {
 
 		it('deals with a mixture of fixable and not-fixable errors', () => {
 			// eg: 1 autofix and 1 not-autofix
+
 			const source = dedent(3)`
 				<script>
 					var bool = !!!other;
@@ -346,8 +354,10 @@ describe('lintJSP()', () => {
 		// Nothing much to meaningfully test here because we almost don't use
 		// "warn"  at all in liferay-portal; so we just show that it basically
 		// works the same as above.
+
 		it('works', () => {
 			// eg: 1 autofix and 1 not-autofix
+
 			const source = dedent(3)`
 				<script>
 					var bool = !!!other;

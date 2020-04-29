@@ -188,6 +188,7 @@ async function getRemote(options) {
 function escape(string) {
 	// At the moment, not escaping some special Markdown characters (such as *,
 	// backticks etc) as they may prove useful.
+
 	return string
 		.replace(/_/g, '\\_')
 		.replace(/&/g, '&amp;')
@@ -234,6 +235,7 @@ const types = {
 
 	// Not a Conventional Commits type; we repeat breaking changes separately to
 	// maximize their visibility:
+
 	breaking: ':boom: Breaking changes',
 
 	feat: ':new: Features',
@@ -247,6 +249,7 @@ const types = {
 	revert: ':leftwards_arrow_with_hook: Reverts',
 
 	// Not a Conventional Commits type; this is our catch-all:
+
 	misc: ':package: Miscellaneous',
 
 	/* eslint-enable sort-keys */
@@ -415,6 +418,7 @@ const V_PREFIX_REGEX = /^v\d/;
 //
 // See: https://semver.org/
 //
+
 const VERSION_REGEX = /^(.*?)(\bv)?(\d+\.\d+\.\d+(?:-[0-9a-z-]+(?:\.[0-9a-z-]+)*)?(?:\+[0-9a-z-]+(?:\.[0-9a-z-]+)*)?)$/i;
 
 /**
@@ -430,14 +434,17 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 
 	if (versionTagPrefix) {
 		// We know the desired prefix (from the .yarnrc).
+
 		prefix = versionTagPrefix;
 	} else {
 		// Try to guess the right prefix ("v" or nothing) based on existing
 		// tags.
+
 		const tags = (await git('tag', '-l')).trim().split('\n');
 
 		// Calculate a "coefficient" that reflects the likelihood that
 		// this repo uses a "v" prefix by convention.
+
 		const coefficient = tags.reduce((current, tag) => {
 			return current + (V_PREFIX_REGEX.test(tag) ? 1 : -1);
 		}, 0);
@@ -734,6 +741,7 @@ async function main(_node, _script, ...args) {
 				);
 			} catch (err) {
 				// This will be the last chunk we generate.
+
 				info('No more tags found (this is not an error) 🦄');
 			}
 

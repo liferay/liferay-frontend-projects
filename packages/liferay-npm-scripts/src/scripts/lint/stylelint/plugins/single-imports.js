@@ -23,6 +23,7 @@ function tokenize(params) {
 	const tokens = [];
 
 	// Slow but simple iteration through string.
+
 	let i = 0;
 
 	for (; i < params.length; ) {
@@ -109,6 +110,7 @@ module.exports = stylelint.createPlugin(
 						// Note that changes to "raws" have to be made after
 						// the `replaceWith` call, or they won't have any
 						// effect.
+
 						const trailing = /(.*?)(\n+)([ \t]*)$/.exec(
 							rule.raws.before
 						);

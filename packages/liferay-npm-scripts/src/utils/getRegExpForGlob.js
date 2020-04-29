@@ -41,6 +41,7 @@ function scan(prefix, state) {
 
 function escape(pattern) {
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+
 	return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
@@ -64,6 +65,7 @@ function getRegExpForGlob(glob) {
 	if (!anchored && !state.input.startsWith('**/')) {
 		// Unless anchored, all patterns implicitly match anywhere in the
 		// hierarchy.
+
 		state.input = `**/${state.input}`;
 	}
 

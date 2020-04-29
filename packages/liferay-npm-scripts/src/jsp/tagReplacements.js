@@ -86,9 +86,11 @@ const OPEN_TAG = new RegExp(`${isFiller(BLOCK_OPEN).source}|//${BLOCK_OPEN}+`);
 //         }                           |               }
 //     </c:if>                         |           /*ʅʅʅ*/
 //
+
 function getOpenTagReplacement(tag, last = false) {
 	if (last && !tag.match(/[\n\r]/)) {
 		// Replace with a one-line (//) comment.
+
 		if (tag.length < 2) {
 			throw new Error(`Invalid (underlength) tag: ${tag}`);
 		}
@@ -96,6 +98,7 @@ function getOpenTagReplacement(tag, last = false) {
 		return `//${BLOCK_OPEN.repeat(tag.length - 2)}`;
 	} else {
 		// Replace with a C-style (/*...*/) comment.
+
 		return toFiller(tag, BLOCK_OPEN);
 	}
 }
@@ -116,6 +119,7 @@ function getOpenTagReplacement(tag, last = false) {
 //                ...becomes:
 //     /*ʅʅ*/
 //
+
 function getCloseTagReplacement(tag) {
 	return toFiller(tag, BLOCK_CLOSE);
 }
@@ -131,6 +135,7 @@ function getCloseTagReplacement(tag) {
 //                 ...becomes:
 //     /*╳╳╳╳╳╳*/
 //
+
 function getSelfClosingTagReplacement(tag) {
 	return toFiller(tag);
 }

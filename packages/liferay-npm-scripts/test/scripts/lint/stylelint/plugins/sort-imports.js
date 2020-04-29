@@ -20,6 +20,7 @@ describe('liferay/sort-imports', () => {
 
 	it('interprets blank lines as group separators', async () => {
 		// We don't care about order between groups, only within groups.
+
 		await expect(plugin).toLintStyles({
 			code: `
 				@import 'stuff';

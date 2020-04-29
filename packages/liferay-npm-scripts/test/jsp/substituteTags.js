@@ -240,6 +240,7 @@ describe('substituteTags()', () => {
 	it('turns JSP tags into multiline comments if followed on same line ', () => {
 		// Possibly rare(?) example from liferay-portal, and can be seen in our
 		// fixtures too:
+
 		let [transformed, tags] = substituteTags(dedent(3)`
 			<c:if test="<%= a %>">*</c:if>
 		`);
@@ -252,6 +253,7 @@ describe('substituteTags()', () => {
 
 		// We shouldn't have anything like this in liferay-portal, but
 		// just in case...
+
 		[transformed, tags] = substituteTags(dedent(3)`
 			<c:if test="<%= a %>"><c:if test="<%= b %>">
 				alert('hi');

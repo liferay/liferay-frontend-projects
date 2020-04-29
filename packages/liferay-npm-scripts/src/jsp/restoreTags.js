@@ -10,6 +10,7 @@ const indent = require('./indent');
 const {SCRIPTLET_CONTENT} = require('./substituteTags');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 const {TAB_CHAR, isFiller} = require('./toFiller');
+
 /**
  * Takes a source string and reinserts tags that were previously extracted with
  * substituteTags().
@@ -53,6 +54,7 @@ function restoreTags(source, tags) {
 
 	// First pass: restore internal indents related to JSP entities
 	// (ie. undo the effects of `stripIndents()`.
+
 	for (let i = 0; i < tokens.length; i++) {
 		const token = tokens[i];
 		const {contents, name} = token;
@@ -115,6 +117,7 @@ function restoreTags(source, tags) {
 	}
 
 	// Second pass: re-insert JSP tags into source.
+
 	tagCount = 0;
 	tokens = [...lexer.lex(output)];
 	output = '';
@@ -165,6 +168,7 @@ function appendScriptlet(scriptlet, token, output) {
 	let suffix = '';
 
 	// Look up neighboring tokens.
+
 	const tokens = {
 		/* eslint-disable sort-keys */
 		'-3':
@@ -181,6 +185,7 @@ function appendScriptlet(scriptlet, token, output) {
 
 	if (!tokens[-1]) {
 		// SCRIPTLET is the very first thing in the script block.
+
 		prefix = '\n';
 	}
 
@@ -191,6 +196,7 @@ function appendScriptlet(scriptlet, token, output) {
 		tokens[-2].name !== 'NEWLINE'
 	) {
 		// Need to add another newline to force a blank line.
+
 		prefix = '\n';
 	}
 
@@ -206,10 +212,12 @@ function appendScriptlet(scriptlet, token, output) {
 		//
 		// Note: cannot use `tokens[-1].index` here because it may have been
 		// invalidated by previous edits.
+
 		const whitespace = tokens[-1].contents;
 		output = output.slice(0, -whitespace.length);
 
 		// Add newline to force blank line, then re-add trimmed whitespace.
+
 		prefix = '\n' + whitespace;
 	}
 
@@ -224,6 +232,7 @@ function appendScriptlet(scriptlet, token, output) {
 
 	if (tokens[1] && tokens[1].name === 'NEWLINE' && !tokens[2]) {
 		// Scriptlet is (basically) the last thing in the script block.
+
 		suffix = '\n';
 	}
 
@@ -296,14 +305,17 @@ function getIndentedTag(tag, token) {
 
 	if (lines.length > 1) {
 		// Look at last line to figure out original indent.
+
 		const last = lines.pop();
 		const {0: original} = last.match(new RegExp(`^${TAB_CHAR}*`));
 
 		// Restore original indent to first line, then dedent the whole tag.
+
 		const [dedented] = dedent('\t'.repeat(original.length) + tag);
 
 		// And indent it to the correct level, but trim off the indent on
 		// the first line because we already emitted that.
+
 		return indent(dedented, 1, previous).replace(previous, '');
 	}
 
@@ -319,6 +331,7 @@ function getImpliedIndentFromScriptlet(tag) {
 
 	// Keeping this simple for now; can always extend to lex more rigorously if
 	// we find that it's needed.
+
 	tag.replace(/[{}]/g, ([brace]) => {
 		if (brace === '}') {
 			delta--;
@@ -338,6 +351,7 @@ function removeIndent(output, token, count = 1) {
 		token.previous.previous.name === 'NEWLINE'
 	) {
 		// We already emitted too much indent; roll it back.
+
 		return output.replace(
 			new RegExp(`\t{0,${count}}${token.previous.contents}$`),
 			token.previous.contents

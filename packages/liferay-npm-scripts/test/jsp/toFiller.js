@@ -55,6 +55,7 @@ describe('toFiller()', () => {
 	it('accepts even "invalid" non-zero-width strings', () => {
 		// Make a "best effort" to create a same-sized replacement even when we
 		// can't exactly.
+
 		expect(toFiller('a')).toBe('/*╳*/');
 		expect(toFiller('ab')).toBe('/*╳*/');
 		expect(toFiller('abc')).toBe('/*╳*/');
@@ -69,12 +70,15 @@ describe('toFiller()', () => {
 
 		it('does not match ordinary comments', () => {
 			// Empty comment.
+
 			expect(toFiller.isFiller().test('/**/')).toBe(false);
 
 			// Whitespace-only comment.
+
 			expect(toFiller.isFiller().test('/* */')).toBe(false);
 
 			// Comment with text.
+
 			expect(toFiller.isFiller().test('/* foo */')).toBe(false);
 		});
 

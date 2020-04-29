@@ -12,12 +12,14 @@ module.exports = {
 		 */
 		function check(node) {
 			// We only fix if on same line.
+
 			let last = source.getLastToken(node);
 			const keyword = source.getTokenAfter(last);
 
 			if (last.loc.end.line === keyword.loc.start.line) {
 				// Possibly fragile assumption here: source code is
 				// using tabs for indentation.
+
 				const indent = '\t'.repeat(last.loc.end.column - 1);
 
 				context.report({
@@ -51,6 +53,7 @@ module.exports = {
 				//                } else {
 				//     consequent ^      ^ alternate
 				//
+
 				const {alternate, consequent} = node;
 
 				if (alternate) {
@@ -81,6 +84,7 @@ module.exports = {
 				// preceding node (whether that be a "block" or a "handler") and
 				// they both stop at their ending "}" punctuator.
 				//
+
 				const {block, finalizer, handler} = node;
 
 				if (handler) {

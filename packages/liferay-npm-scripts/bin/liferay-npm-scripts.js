@@ -16,6 +16,7 @@ main().catch((error) => {
 	if (error instanceof SpawnError) {
 		// For this common error case (spawned tools exiting with an error)
 		// we avoid printing a stack trace.
+
 		log(error.message);
 	} else {
 		log(error);

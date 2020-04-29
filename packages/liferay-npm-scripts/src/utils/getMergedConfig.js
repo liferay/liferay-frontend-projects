@@ -104,6 +104,7 @@ function getMergedConfig(type, property) {
 			//
 			// TODO: Remove once incremental-dom is no longer used in
 			// liferay-portal.
+
 			mergedConfig = hackilySupportIncrementalDOM(mergedConfig);
 
 			break;
@@ -150,11 +151,13 @@ function getMergedConfig(type, property) {
 			let userConfig = getUserConfig('npmscripts');
 
 			// Use default config if no user config exists
+
 			if (Object.keys(userConfig).length === 0) {
 				userConfig = require('../config/npmscripts.config');
 			}
 
 			// Check for preset before creating config
+
 			if (userConfig.preset) {
 				// eslint-disable-next-line liferay/no-dynamic-require
 				presetConfig = require(userConfig.preset);

@@ -18,6 +18,7 @@ describe('Lexer()', () => {
 		// The idea is to bail out of infinite loops that would be produced by
 		// use of combinators like repeat() combined with a matcher that matches
 		// a zero-width string.
+
 		const lexer = new Lexer((api) => {
 			const {consume, match, oneOf, token} = api;
 
@@ -81,6 +82,7 @@ describe('Lexer()', () => {
 		});
 
 		// Peek ahead using `next` before the iterator gets that far.
+
 		tokens.push(tokens[0].next);
 
 		expect(tokens[1]).toEqual({
@@ -90,6 +92,7 @@ describe('Lexer()', () => {
 		});
 
 		// Tokens are doubly linked:
+
 		expect(tokens[1].previous).toBe(tokens[0]);
 		expect(tokens[0].next).toBe(tokens[1]);
 
@@ -105,10 +108,12 @@ describe('Lexer()', () => {
 		expect(tokens[1].next).toBe(tokens[2]);
 
 		// Note that that was just lookahead; iterator did not advance:
+
 		expect(iterator.next().value).toBe(tokens[1]);
 		expect(iterator.next().value).toBe(tokens[2]);
 
 		// Now scan ahead with iterator, then verify `next` links.
+
 		tokens.push(iterator.next().value);
 		tokens.push(iterator.next().value);
 		tokens.push(iterator.next().value);
@@ -134,12 +139,14 @@ describe('Lexer()', () => {
 		expect(iterator.next().done).toBe(true);
 
 		// Note: can ask for "next" links in any order.
+
 		expect(tokens[2].next).toBe(tokens[3]);
 		expect(tokens[4].next).toBe(tokens[5]);
 		expect(tokens[3].next).toBe(tokens[4]);
 		expect(tokens[5].next).toBe(undefined);
 
 		// And same for "previous" links.
+
 		expect(tokens[3].previous).toBe(tokens[2]);
 		expect(tokens[5].previous).toBe(tokens[4]);
 		expect(tokens[4].previous).toBe(tokens[3]);
@@ -205,6 +212,7 @@ describe('Lexer()', () => {
 			// Note how ORIGINAL is used to match COPY, but after SEPARATOR we
 			// match ORGINAL alone and see that it wasn't mutated (ie. it didn't
 			// trigger COPY's onMatch() action as well).
+
 			expect(calls).toEqual([
 				'ORIGINAL',
 				'COPY',
@@ -550,6 +558,7 @@ describe('Lexer()', () => {
 					// would have us infinitely matching zero-width strings;
 					// in contrast, "never" forces "oneOf" to try the next
 					// alternative(s).
+
 					const text = consume(
 						repeat(
 							oneOf(
@@ -565,6 +574,7 @@ describe('Lexer()', () => {
 			});
 
 			// When active is "false", we can only match a/b.
+
 			expect([...lexer.lex('ababaabb')]).toEqual([
 				{
 					contents: 'ababaabb',
@@ -576,6 +586,7 @@ describe('Lexer()', () => {
 			expect(() => [...lexer.lex('axb')]).toThrow(/Failed to match/);
 
 			// When active is "true", we can match anything.
+
 			active = true;
 
 			expect([...lexer.lex('ababzzzaabb')]).toEqual([
@@ -630,6 +641,7 @@ describe('Lexer()', () => {
 					// "undo-tree" in action. We pursue a branch that
 					// will fail and get rolled back before we pursue
 					// another that succeeds.
+
 					const text = consume(
 						sequence(
 							match('a').onMatch((match, meta) => {
@@ -644,6 +656,7 @@ describe('Lexer()', () => {
 								sequence(
 									match('c').onMatch((match, meta) => {
 										// Doing something destructive.
+
 										meta.delete('a');
 										record(match);
 									}),
@@ -927,6 +940,7 @@ describe('Lexer()', () => {
 
 		it('matches 0 or more times up-to-and-not-including a predicate', () => {
 			// 0-times.
+
 			expect([...lexer.lex('x')]).toEqual([
 				{
 					contents: 'x',
@@ -936,6 +950,7 @@ describe('Lexer()', () => {
 			]);
 
 			// n-times.
+
 			expect([...lexer.lex('aaax')]).toEqual([
 				{
 					contents: 'aaa',

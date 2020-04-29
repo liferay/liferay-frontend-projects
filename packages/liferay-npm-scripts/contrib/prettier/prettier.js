@@ -32,6 +32,7 @@ const debug = (line) => {
 };
 
 // Remember last-used prettier instance so that it can be used as a fallback.
+
 let prettier;
 
 /**
@@ -47,6 +48,7 @@ module.exports = {
 			return prettier.format(source, options);
 		} else {
 			// Last-resort fallback.
+
 			return source;
 		}
 	},
@@ -987,6 +989,7 @@ module.exports = {
  */
 function getPortalRoot(filepath) {
 	// Walk up until we find portal-web (in the root).
+
 	let current = filepath;
 
 	while (true) {
@@ -1001,6 +1004,7 @@ function getPortalRoot(filepath) {
 		} else {
 			if (parent === current) {
 				// Can't go any higher.
+
 				return null;
 			}
 
@@ -1009,6 +1013,7 @@ function getPortalRoot(filepath) {
 	}
 
 	// Confirm that this really is liferay-portal by looking down.
+
 	if (fs.existsSync(path.join(current, 'docroot/WEB-INF/liferay-web.xml'))) {
 		return path.dirname(current);
 	} else {

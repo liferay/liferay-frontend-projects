@@ -23,6 +23,7 @@ function code(strings, ...interpolations) {
 	}
 
 	// Remove leading and trailing blank lines.
+
 	const trimmed = strings[0].replace(/^\n/, '').trimEnd();
 
 	let minimumIndent = null;
@@ -208,6 +209,7 @@ describe('prettier/index.js', () => {
 				// Prettier does some "crazy" things with comments (moving them
 				// in and out of blocks) but this is one case where it leaves
 				// them alone.
+
 				expect(
 					format(code`
 						if (test) {
@@ -254,6 +256,7 @@ describe('prettier/index.js', () => {
 				//
 				// We were incorrectly stripping the comment before the
 				// alternate (ie. the first one).
+
 				expect(
 					format(code`
 						if (test) {
@@ -281,6 +284,7 @@ describe('prettier/index.js', () => {
 				// Prettier will first move the "else" here back onto
 				// the preceding line, then our wrapper moves it back down
 				// again.
+
 				expect(
 					format(code`
 						if (test) {
@@ -320,6 +324,7 @@ describe('prettier/index.js', () => {
 			});
 
 			// Disabled until we switch our ESLint ecmaVersion to '2019'.
+
 			it.skip('breaks before "catch" (without optional catch binding)', () => {
 				expect(
 					format(code`
@@ -385,6 +390,7 @@ describe('prettier/index.js', () => {
 			it('copes with comments near "try"/"catch" constructs', () => {
 				// Note: the movement of "comment 2" below is Prettier
 				// craziness and not the fault of our post-processor.
+
 				expect(
 					format(code`
 						try {

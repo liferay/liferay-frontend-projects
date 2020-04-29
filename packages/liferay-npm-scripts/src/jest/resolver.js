@@ -17,6 +17,7 @@ module.exports = function (request, options) {
 	const {basedir, defaultResolver} = options;
 
 	// Redirect imports to .soy.js files from input to output directory
+
 	if (basedir.startsWith(CWD)) {
 		if (/\.soy(?:\.js)?$/.test(request)) {
 			const dir = basedir.replace(INPUT, OUTPUT);
@@ -30,5 +31,6 @@ module.exports = function (request, options) {
 	}
 
 	// Fallback to default resolver
+
 	return defaultResolver(request, options);
 };

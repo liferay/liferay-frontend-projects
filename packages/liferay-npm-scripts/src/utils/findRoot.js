@@ -32,6 +32,7 @@ function findRoot() {
 
 		if (path.dirname(directory) === directory) {
 			// Can't go any higher.
+
 			directory = null;
 		} else {
 			directory = path.dirname(directory);

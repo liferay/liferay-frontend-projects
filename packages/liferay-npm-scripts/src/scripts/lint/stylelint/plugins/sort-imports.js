@@ -85,6 +85,7 @@ module.exports = stylelint.createPlugin(
 					// Try to make error messages (somewhat) minimal
 					// by only reporting from the first to the last
 					// mismatch (ie. not a full Myers diff algorithm).
+
 					const [firstMismatch, lastMismatch] = group.reduce(
 						([first, last], node, index) => {
 							if (node !== desired[index]) {

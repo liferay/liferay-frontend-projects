@@ -15,6 +15,7 @@ class ReversibleMap extends Map {
 		super(iterable);
 
 		// A stack of operations that can be applied to reverse mutations.
+
 		this.undo = [];
 	}
 
@@ -28,6 +29,7 @@ class ReversibleMap extends Map {
 	 */
 	_snapshot() {
 		// If called from constructor, this.undo won't be set yet.
+
 		if (this.undo) {
 			const entries = [...this.entries()];
 

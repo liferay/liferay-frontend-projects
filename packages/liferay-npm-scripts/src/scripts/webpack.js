@@ -25,6 +25,7 @@ module.exports = function (...args) {
 		} else {
 			// Cut out the "watch" argument; `splice()` would mutate, so create
 			// a new array instead.
+
 			const otherArgs = [
 				...args.slice(0, watch),
 				...args.slice(watch + 1),

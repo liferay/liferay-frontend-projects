@@ -23,42 +23,54 @@ function processJSP(source, {onFormat, onLint}) {
 	const blocks = extractJS(source);
 
 	// TODO: may want to pass filename here too, but I am not sure.
+
 	if (!blocks.length) {
 		return source;
 	}
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
+
 	const transformed = blocks.map((block) => {
 		const {contents, range} = block;
 
 		// Trim leading and trailing whitespace before Prettier eats it.
+
 		const {prefix, suffix, trimmed} = trim(contents);
 
 		// Strip base indent.
+
 		const [dedented, tabCount] = dedent(trimmed);
 
 		// Turn JSP tags, expressions (etc) into (valid JS) placeholders.
+
 		const [substituted, tags] = substituteTags(dedented);
 
 		// Strip internal JSP-related indents.
+
 		const stripped = stripIndents(substituted);
 
 		// Adjust line numbers for better error reporting.
+
 		const padded = padLines(stripped, range.start.line);
 
 		// (Optionally) actually lint.
+
 		const fixed = onLint ? onLint(padded) : padded;
 
 		// (Optionally) actually format.
+
 		const formatted = onFormat ? onFormat(fixed) : fixed;
 
 		// Remove previously inserted padding lines.
+
 		const unpadded = formatted.replace(PADDING_LINE, '');
 
 		// Replace placeholders with their corresponding original JSP tokens.
+
 		const restored = restoreTags(unpadded, tags);
 
 		// Restore base indent.
+
 		const indented = indent(restored, tabCount);
 
 		return {

@@ -21,6 +21,7 @@ async function lintSCSS(source, onReport, options = {}) {
 	// doesn't tell us which problems are autofixable and there is no
 	// totally reliable way to guess, so these counts will always be
 	// (possibly innaccurately) zero.
+
 	const fixableErrorCount = 0;
 	const fixableWarningCount = 0;
 
@@ -44,6 +45,7 @@ async function lintSCSS(source, onReport, options = {}) {
 		// Beware: if `fix` is true, stylelint will return the autofixed
 		// source as `output`; when false, it will return an object
 		// containing non-source metadata instead.
+
 		fix,
 
 		syntax: 'scss',
@@ -53,6 +55,7 @@ async function lintSCSS(source, onReport, options = {}) {
 		// - "warnings" array contains both errors and warnings.
 		// - "errored" is true if at least one problem of
 		//   severity "error" is present.
+
 		if (result.errored || (result.warnings.length && !quiet)) {
 			messages.push(
 				...result.warnings.map(
@@ -61,6 +64,7 @@ async function lintSCSS(source, onReport, options = {}) {
 							errorCount++;
 						} else if (quiet) {
 							// In quiet mode, we only report errors, not warnings.
+
 							return;
 						} else {
 							warningCount++;
@@ -68,7 +72,9 @@ async function lintSCSS(source, onReport, options = {}) {
 
 						return {
 							column,
+
 							// fix,
+
 							line,
 							message: text,
 							ruleId: rule,
@@ -81,6 +87,7 @@ async function lintSCSS(source, onReport, options = {}) {
 	});
 
 	// Ensure trailing newline, matching Prettier's convention.
+
 	source = fix ? (output.endsWith('\n') ? output : `${output}\n`) : source;
 
 	if (messages.length) {

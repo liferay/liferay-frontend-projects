@@ -12,6 +12,7 @@ describe('formatJSP()', () => {
 	it('deals with interleaved JS control structures and JSP tags', () => {
 		// eg. an `if()` that is conditionally added augmented with an `else()`
 		// based on a tag.
+
 		const source = `
 			<p>Hi!</p>
 			<script>
@@ -29,6 +30,7 @@ describe('formatJSP()', () => {
 		// Note that Prettier keeps the `else` in the right place
 		// due to special casing explained in the notes in the
 		// `tagReplacements()` implementation.
+
 		expect(formatJSP(source)).toBe(`
 			<p>Hi!</p>
 			<script>
@@ -88,6 +90,7 @@ describe('formatJSP()', () => {
 
 	it('correctly handles internal indentation inside control structures', () => {
 		// This is a reduced example of what's in the source.jsp fixture.
+
 		const source = `
 			<aui:script require="metal-dom/src/dom as dom">
 				var sourcePanel = document.querySelector('.source-container');
@@ -165,6 +168,7 @@ describe('formatJSP()', () => {
 
 	it('respects indentation within a nested control structures', () => {
 		// This is a reduced example of what's in the source.jsp fixture.
+
 		const source = `
 			<aui:script>
 
@@ -245,6 +249,7 @@ describe('formatJSP()', () => {
 	it('handles an edge case (#258)', () => {
 		// Reduced example of what's in
 		// modules/apps/asset/asset-publisher-web/src/main/resources/META-INF/resources/configuration/source.jsp
+
 		const source = `
 			<aui:script>
 
@@ -339,6 +344,7 @@ describe('formatJSP()', () => {
 			// trailing commas after the "redirect" and "refresh" properties,
 			// Prettier will report a syntax error. We can't add commas to
 			// either because that would break IE 11.
+
 			const source = `
 				<aui:script>
 					Liferay.fire(

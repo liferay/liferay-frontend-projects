@@ -116,6 +116,7 @@ describe('lex()', () => {
 		]);
 
 		// Note it agnostic about attribute order.
+
 		expect(lex('<%@ taglib uri="bar" prefix="foo" %>').tokens).toEqual([
 			{
 				contents: '<%@ taglib uri="bar" prefix="foo" %>',
@@ -125,6 +126,7 @@ describe('lex()', () => {
 		]);
 
 		// But it requires all attributes to be present.
+
 		expect(() => lex('<%@ taglib prefix="foo">').tokens).toThrow(
 			'Failed to match "taglib" allOf:(SPACE "prefix" EQ ATTRIBUTE_VALUE, SPACE "tagdir" EQ ATTRIBUTE_VALUE | SPACE "uri" EQ ATTRIBUTE_VALUE) at: "taglib prefix=\\"foo\\">"'
 		);
@@ -172,6 +174,7 @@ describe('lex()', () => {
 		// TODO: provide more challenging examples here.
 
 		// Immediate evaluation.
+
 		expect(lex('${Foo.Bar}').tokens).toEqual([
 			{
 				contents: '${Foo.Bar}',
@@ -181,6 +184,7 @@ describe('lex()', () => {
 		]);
 
 		// Deferred evaluation.
+
 		expect(lex('#{Foo.Bar}').tokens).toEqual([
 			{
 				contents: '#{Foo.Bar}',
@@ -277,6 +281,7 @@ describe('lex()', () => {
 
 	it('lexes the <portlet:namespace /> action', () => {
 		// With whitespace.
+
 		expect(lex('<portlet:namespace />').tokens).toEqual([
 			{
 				contents: '<portlet:namespace />',
@@ -286,6 +291,7 @@ describe('lex()', () => {
 		]);
 
 		// Without whitespace.
+
 		expect(lex('<portlet:namespace/>').tokens).toEqual([
 			{
 				contents: '<portlet:namespace/>',
@@ -297,6 +303,7 @@ describe('lex()', () => {
 
 	it('lexes a custom action', () => {
 		// Self-closing.
+
 		expect(lex('<custom:tag with="stuff" />').tokens).toEqual([
 			{
 				contents: '<custom:tag with="stuff" />',
@@ -306,6 +313,7 @@ describe('lex()', () => {
 		]);
 
 		// Same without whitspace at end.
+
 		expect(lex('<custom:tag with="stuff"/>').tokens).toEqual([
 			{
 				contents: '<custom:tag with="stuff"/>',
@@ -315,6 +323,7 @@ describe('lex()', () => {
 		]);
 
 		// A self-closing tag with an attribute that contains a JSP expression.
+
 		expect(lex('<custom:tag with="<%= SomeVariable %>" />').tokens).toEqual(
 			[
 				{
@@ -326,6 +335,7 @@ describe('lex()', () => {
 		);
 
 		// An opening tag with an attribuhte that contains a JSP expression.
+
 		expect(lex('<c:if test="<%= enableRSS %>">').tokens).toEqual([
 			{
 				contents: '<c:if test="<%= enableRSS %>">',
@@ -335,6 +345,7 @@ describe('lex()', () => {
 		]);
 
 		// Empty body.
+
 		expect(lex('<custom:tag with="stuff"></custom:tag>').tokens).toEqual([
 			{
 				contents: '<custom:tag with="stuff"></custom:tag>',
@@ -344,6 +355,7 @@ describe('lex()', () => {
 		]);
 
 		// Tag with duplicate attributes.
+
 		expect(
 			() => lex('<custom:tag foo="a" bar="b" foo="c" />').tokens
 		).toThrow(
@@ -355,8 +367,10 @@ describe('lex()', () => {
 	// Disabled because I want to be able to lex document subsets, in
 	// which case, we might not have enough contextual information to determine
 	// tag validity.
+
 	it.skip('rejects invalid tags', () => {
 		// Invalid tag.
+
 		expect(() => lex('<custom:tag with="stuff"></bad:tag>').tokens).toThrow(
 			/Failed to match .+ at: "><\/bad:tag>"/
 		);
@@ -398,6 +412,7 @@ describe('lex()', () => {
 		// Note that the spec starts a new token whenever it sees a delimiting
 		// sequence like "<" or "${" etc, and "<" always ends up being a token
 		// of its own.
+
 		expect(lex('one < two').tokens).toEqual([
 			{
 				contents: 'one ',
@@ -419,6 +434,7 @@ describe('lex()', () => {
 
 	it('lexes a complex attributes', () => {
 		// A non-JSP tag.
+
 		expect(
 			lex(`
 				<div class="browse-image-controls <%= (fileEntryId != 0) ? "hide" : StringPool.BLANK %>">
@@ -456,6 +472,7 @@ describe('lex()', () => {
 		// page.jsp fixture. Quotes in JSP-tags must be escaped as
 		// per Section 1.6 of the JSP 2.3 spec, "Quoting and Escape
 		// Conventions".
+
 		expect(
 			() =>
 				lex(`
@@ -464,6 +481,7 @@ describe('lex()', () => {
 		).toThrow(/Failed to match .+ at: "scriptletblock/);
 
 		// Escaping the quotes leads to a successful tokenization.
+
 		expect(
 			lex(`
 				<aui:nav cssClass="\${currentTab == tab ? 'active' : ''} foo abc <%= \\"scriptletblock\\" %>"></aui:nav>
