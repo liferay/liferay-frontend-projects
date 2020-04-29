@@ -75,6 +75,7 @@ function fix(line) {
 					.startsWith(versionName.toLowerCase())
 			) {
 				// Name doesn't match version number: bail.
+
 				return;
 			}
 		}
@@ -82,6 +83,7 @@ function fix(line) {
 
 	if (!expectedName) {
 		// Didn't find any known version number: bail.
+
 		return;
 	}
 
@@ -93,6 +95,7 @@ function fix(line) {
 				replacement = `, replaced by ${trailer.trim()}`;
 			} else {
 				// Empty trailer: bail.
+
 				return;
 			}
 			break;
@@ -101,6 +104,7 @@ function fix(line) {
 		case 'with no direct replacement':
 			if (trailer.trim()) {
 				// Unexpected trailer: bail.
+
 				return;
 			} else {
 				replacement = ', with no direct replacement';
@@ -110,6 +114,7 @@ function fix(line) {
 		case '':
 			if (trailer.trim()) {
 				// Unexpected trailer: bail.
+
 				return;
 			}
 			break;
@@ -202,6 +207,7 @@ module.exports = {
 								if (fixable) {
 									// Replace only the _inside_ of comment,
 									// which corresponds to `comment.value`.
+
 									const range = [
 										comment.range[0] + '/*'.length,
 										comment.range[1] - '*/'.length,
