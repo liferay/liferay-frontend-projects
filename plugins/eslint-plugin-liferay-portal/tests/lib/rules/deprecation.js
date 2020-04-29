@@ -56,6 +56,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Shorthand version: 7.2 should be 7.2.x.
+
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.2), replaced by XYZ
@@ -75,6 +76,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Missing comma.
+
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.2.x) replaced by XYZ
@@ -94,6 +96,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Missing "direct".
+
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.2.x), with no replacement
@@ -113,6 +116,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Missing parentheses.
+
 			code: `
 				/**
 				 * @deprecated As of Mueller 7.2.x, with no direct replacement
@@ -132,6 +136,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Bad capitalization.
+
 			code: `
 				/**
 				 * @deprecated as of MUELLER (7.2.x), With NO direct replacement
@@ -151,6 +156,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Wrong conjunction ("From" instead of "As of"):
+
 			code: `
 				/**
 				 * @deprecated From Mueller (7.2.x), with no direct replacement
@@ -170,6 +176,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Wrong conjunction ("Since" instead of "As of"):
+
 			code: `
 				/**
 				 * @deprecated Since Mueller (7.2.x), with no direct replacement
@@ -189,6 +196,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Bad whitespace.
+
 			code: `
 				/**
 				 *@deprecated As of Mueller(7.2.x),with no direct replacement
@@ -208,6 +216,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Various things wrong at once.
+
 			code: `
 				/**
 				 *@deprecated As OF JUDSON 7.1 Replaced by Liferay.Bar
@@ -227,6 +236,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Invalid because of unwanted trailer.
+
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.2.x), with no direct replacement AFAIK
@@ -241,6 +251,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Invalid because of missing trailer.
+
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.2.x), replaced by
@@ -255,6 +266,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Invalid because of non-standard conjunction:
+
 			code: `
 				/**
 				 * @deprecated Around Mueller (7.2.x), replaced by Liferay.Foo
@@ -269,6 +281,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Invalid because name and version mismatch:
+
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.0), replaced by XYZ
@@ -283,6 +296,7 @@ ruleTester.run('deprecation', rule, {
 		},
 		{
 			// Invalid because it is not multiline:
+
 			code: `
 				/* @deprecated As of Mueller (7.2.x), replaced by XYZ */
 			`,
