@@ -1,3 +1,21 @@
+## [v21.0.0](https://github.com/liferay/eslint-config-liferay/tree/v21.0.0) (2020-04-29)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v20.0.1...v21.0.0)
+
+### :boom: Breaking changes
+
+-   feat!: require blank lines before and after line comments ([\#170](https://github.com/liferay/eslint-config-liferay/pull/170))
+-   feat!: enforce standard formatting for deprecation annotations ([\#175](https://github.com/liferay/eslint-config-liferay/pull/175))
+
+### :new: Features
+
+-   feat!: require blank lines before and after line comments ([\#170](https://github.com/liferay/eslint-config-liferay/pull/170))
+-   feat!: enforce standard formatting for deprecation annotations ([\#175](https://github.com/liferay/eslint-config-liferay/pull/175))
+
+### :nail_care: Style
+
+-   style: apply autofixes ([\#177](https://github.com/liferay/eslint-config-liferay/pull/177))
+
 ## [v20.0.1](https://github.com/liferay/eslint-config-liferay/tree/v20.0.1) (2020-04-03)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v20.0.0...v20.0.1)
