@@ -590,10 +590,9 @@ function lex(source, options = {}) {
 			a('TEMPLATE_CHAR').until(match(/<|\$\{|#\{/))
 		).name('TEMPLATE_TEXT');
 
+		// TODO: these first two should also only be when(ELEnabled)
+
 		const TEMPLATE_CHAR = oneOf(
-
-			// TODO: these two should also only be when(ELEnabled)
-
 			match('\\$'),
 			match('\\#'),
 
