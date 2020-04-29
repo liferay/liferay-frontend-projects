@@ -1,3 +1,15 @@
+## [liferay-npm-scripts/v31.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v31.0.0) (2020-04-29)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v30.0.0...liferay-npm-scripts/v31.0.0)
+
+### :boom: Breaking changes
+
+-   feat!: update to eslint-config-liferay v21.0.0 ([\#443](https://github.com/liferay/liferay-npm-tools/pull/443))
+
+### :new: Features
+
+-   feat!: update to eslint-config-liferay v21.0.0 ([\#443](https://github.com/liferay/liferay-npm-tools/pull/443))
+
 ## [liferay-npm-scripts/v30.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v30.0.0) (2020-04-27)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v29.1.1...liferay-npm-scripts/v30.0.0)
