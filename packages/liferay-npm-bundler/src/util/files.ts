@@ -26,6 +26,7 @@ export interface FilePathMapper {
  * globs in `globby` format (may include `.` and `..` but must be in POSIX
  * format, i.e.: use `/` path separator)
  * @param destDirPath a native directory path
+ * @return the copied destination file paths
  */
 export function copyFiles(
 	baseDirPath: string | FilePath,
@@ -42,14 +43,13 @@ export function copyFiles(
 		mapper = (file => file) as FilePathMapper;
 	}
 
-	files.forEach(file =>
-		fs.copySync(
-			baseDir.join(file).asNative,
-			mapper(destDir.join(file)).asNative
-		)
-	);
+	return files.map(file => {
+		const destFile = mapper(destDir.join(file));
 
-	return files;
+		fs.copySync(baseDir.join(file).asNative, destFile.asNative);
+
+		return destFile;
+	});
 }
 
 /**
