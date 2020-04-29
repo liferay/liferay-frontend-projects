@@ -24,6 +24,7 @@ ruleTester.run('trim-class-names', rule, {
 	invalid: [
 		{
 			// Leading whitespace.
+
 			code: '<div className="   foo bar"></div>',
 			errors: [
 				{
@@ -35,6 +36,7 @@ ruleTester.run('trim-class-names', rule, {
 		},
 		{
 			// Trailing whitespace.
+
 			code: '<div className="foo bar    "></div>',
 			errors: [
 				{
@@ -46,6 +48,7 @@ ruleTester.run('trim-class-names', rule, {
 		},
 		{
 			// Leading and trailing whitespace.
+
 			code: '<div className="  foo bar  "></div>',
 			errors: [
 				{
@@ -57,6 +60,7 @@ ruleTester.run('trim-class-names', rule, {
 		},
 		{
 			// Template literal, with expressions.
+
 			code: `
 				<div className={\`
 					foo \${bar} baz

@@ -19,10 +19,12 @@ const config = {
 		 */
 
 		// In Metal, string refs are the only kind of refs.
+
 		'react/no-string-refs': 'off',
 
 		// In Metal, common property names like "class" will cause this rule to
 		// fire (because React expects "className").
+
 		'react/no-unknown-property': 'off',
 	},
 	settings: {

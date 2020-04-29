@@ -16,6 +16,7 @@ function getLeadingComments(node, context) {
 
 	// In order to be considered "leading", comments must not be
 	// "trailing" anything else.
+
 	if (comments.length) {
 		const {column, line} = comments[0].loc.start;
 		const prefix = code.text.slice(
@@ -76,17 +77,21 @@ function getSource(node) {
 		if (init.type === 'CallExpression') {
 			if (init.callee.type === 'CallExpression') {
 				// ie. `const ... = require('...')(...);
+
 				return init.callee.arguments[0].value;
 			} else {
 				// ie. `const ... = require('...');`
+
 				return init.arguments[0].value;
 			}
 		} else if (init.type === 'MemberExpression') {
 			// ie. `const ... = require('...').thing;
+
 			return init.object.arguments[0].value;
 		}
 	} else if (node.type === 'ExpressionStatement') {
 		// ie. `require('...');`
+
 		return node.expression.arguments[0].value;
 	}
 }
@@ -113,6 +118,7 @@ function hasSideEffects(node) {
 		return node.specifiers.length === 0;
 	} else {
 		// ie. a `require()` call.
+
 		return node.type === 'ExpressionStatement';
 	}
 }
@@ -159,17 +165,28 @@ function isRequireStatement(node) {
 
 	const {init} = node.declarations[0];
 
+	// Check for `const a = require('a')`
+
+	if (init.type === 'CallExpression' && init.callee.name === 'require') {
+		return true;
+	}
+
+	// Check for `const a = require('a').item`
+
+	if (
+		init.type === 'MemberExpression' &&
+		init.object.type === 'CallExpression' &&
+		init.object.callee.name === 'require'
+	) {
+		return true;
+	}
+
+	// Check for `const a = require('a')()`
+
 	return (
-		// ie. `const a = require('a');`
-		(init.type === 'CallExpression' && init.callee.name === 'require') ||
-		// ie. `const a = require('a').item;`
-		(init.type === 'MemberExpression' &&
-			init.object.type === 'CallExpression' &&
-			init.object.callee.name === 'require') ||
-		// ie. `const a = require('a')();`
-		(init.type === 'CallExpression' &&
-			init.callee.type === 'CallExpression' &&
-			init.callee.callee.name === 'require')
+		init.type === 'CallExpression' &&
+		init.callee.type === 'CallExpression' &&
+		init.callee.callee.name === 'require'
 	);
 }
 

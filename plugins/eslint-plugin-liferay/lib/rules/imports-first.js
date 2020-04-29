@@ -47,6 +47,7 @@ module.exports = {
 			while (current) {
 				if (lastNonImportIndex === -1) {
 					// Haven't seen a non-import yet, so must search.
+
 					const token = context.getTokenBefore(current);
 
 					if (!token) {
@@ -57,6 +58,7 @@ module.exports = {
 
 					if (isDirective(current)) {
 						// Remember this, for now (actual check occurs below).
+
 						directives.push(current);
 
 						continue;
@@ -69,6 +71,7 @@ module.exports = {
 					) {
 						if (token.range[1] <= lastImportIndex) {
 							// This is a known-good import, so we can stop.
+
 							break;
 						} else {
 							lastImportIndex = current.range[1];
@@ -85,6 +88,7 @@ module.exports = {
 								// statement, and should be reported;
 								// which we'll do by falling through
 								// below.
+
 								continue;
 							}
 						}
@@ -110,6 +114,7 @@ module.exports = {
 			CallExpression(node) {
 				if (scope.length) {
 					// Only consider `require` calls at the top level.
+
 					return;
 				}
 

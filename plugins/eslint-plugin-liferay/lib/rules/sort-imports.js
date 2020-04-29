@@ -29,6 +29,7 @@ function compare(aKey, bKey) {
 	};
 
 	//
+
 	return (
 		cmp(ranking(aName), ranking(bName)) ||
 		cmp(aName, bName) ||
@@ -54,6 +55,7 @@ function getSortKey(node) {
 			//      {name}
 			//      {name:alias}
 			//
+
 			if (specifier.type === 'ImportNamespaceSpecifier') {
 				return `*${specifier.local.name}`;
 			} else if (specifier.type === 'ImportDefaultSpecifier') {
@@ -66,6 +68,7 @@ function getSortKey(node) {
 		tieBreaker = specifiers.sort().join(':');
 	} else if (node.type === 'VariableDeclaration') {
 		// ie. `const ... = require('...');`
+
 		const declarations = node.declarations.map(declaration => {
 			if (declaration.id.type === 'Identifier') {
 				return declaration.id.name;
@@ -86,6 +89,7 @@ function getSortKey(node) {
 	} else if (node.type === 'ExpressionStatement') {
 		// ie. `require('...');`
 		// Always alone in group so tieBreaker not needed.
+
 		tieBreaker = '';
 	}
 
@@ -135,6 +139,7 @@ module.exports = {
 			if (node) {
 				if (hasSideEffects(node)) {
 					// Create a boundary group across which we cannot reorder.
+
 					group = [];
 					imports.push([node], group);
 				} else {
@@ -149,6 +154,7 @@ module.exports = {
 			CallExpression(node) {
 				if (scope.length) {
 					// Only consider `require` calls at the top level.
+
 					return;
 				}
 
@@ -168,6 +174,7 @@ module.exports = {
 					// Try to make error messages (somewhat) minimal
 					// by only reporting from the first to the last
 					// mismatch (ie. not a full Myers diff algorithm).
+
 					const [firstMismatch, lastMismatch] = group.reduce(
 						([first, last], node, i) => {
 							if (getSortKey(node) !== getSortKey(desired[i])) {

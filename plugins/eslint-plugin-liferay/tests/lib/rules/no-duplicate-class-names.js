@@ -48,6 +48,7 @@ ruleTester.run('no-duplicate-class-names', rule, {
 		{code: '<div className="one two"></div>'},
 
 		// Note that we don't check template literals containing expressions.
+
 		{code: '<div className={`one one ${two}`}></div>'},
 	],
 });

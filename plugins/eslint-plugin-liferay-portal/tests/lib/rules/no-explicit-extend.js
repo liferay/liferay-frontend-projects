@@ -14,6 +14,7 @@ ruleTester.run('no-explicit-extend', rule, {
 	invalid: [
 		{
 			// As a naked string (liferay/portal).
+
 			code: `
 				module.exports = {
 					extends: 'liferay/portal'
@@ -32,6 +33,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// As a naked string (liferay/react).
+
 			code: `
 				module.exports = {
 					extends: 'liferay/react'
@@ -50,6 +52,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// As a naked string before other configuration.
+
 			code: `
 				module.exports = {
 					extends: 'liferay/portal',
@@ -71,6 +74,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// As a naked string in the middle of other configuration.
+
 			code: `
 				module.exports = {
 					preset: 'fancy',
@@ -94,6 +98,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// As a naked string after other configuration.
+
 			code: `
 				module.exports = {
 					debug: true,
@@ -115,6 +120,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// At the beginning, on one line.
+
 			code: `
 				module.exports = {
 					extends: ['liferay/portal', 'other']
@@ -135,6 +141,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// In the middle, on one line.
+
 			code: `
 				module.exports = {
 					extends: ['special', 'liferay/portal', 'other']
@@ -155,6 +162,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// At the end, on one line.
+
 			code: `
 				module.exports = {
 					extends: ['something', 'liferay/portal']
@@ -175,6 +183,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Both liferay/portal and liferay/react together (at start).
+
 			code: `
 				module.exports = {
 					extends: [
@@ -201,6 +210,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Both liferay/portal and liferay/react together (at end).
+
 			code: `
 				module.exports = {
 					extends: ['foo', 'liferay/portal', 'liferay/react']
@@ -221,6 +231,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Both liferay/portal and liferay/react together (in the middle).
+
 			code: `
 				module.exports = {
 					extends: ['foo', 'liferay/portal', 'liferay/react', 'bar']
@@ -242,6 +253,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		{
 			// Both liferay/portal and liferay/react together (with something in
 			// between).
+
 			code: `
 				module.exports = {
 					extends: [
@@ -272,6 +284,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Alone.
+
 			code: `
 				module.exports = {
 					extends: ['liferay/portal']
@@ -290,6 +303,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Alone with a trailing comma.
+
 			code: `
 				module.exports = {
 					extends: ['liferay/portal'],
@@ -308,6 +322,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Alone with a trailing comma across multiple lines.
+
 			code: `
 				module.exports = {
 					extends: [
@@ -328,6 +343,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// In a .babelrc.js file.
+
 			code: `
 				module.exports = {
 					presets: [
@@ -365,6 +381,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		{
 			// Regression.
 			// See: https://github.com/liferay/liferay-portal-ee/pull/18545#issuecomment-600614052
+
 			code: `
 				module.exports = {
 					extends: ['liferay/react'],
@@ -425,6 +442,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Would be invalid, but not in an .eslintrc.js file.
+
 			code: `
 				module.exports = {
 					extends: 'liferay/portal'
@@ -434,6 +452,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Not invalid, but not under an "extends" property.
+
 			code: `
 				module.exports = {
 					extendz: 'liferay/portal'
@@ -443,6 +462,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Not invalid, because not in an object.
+
 			code: `
 				var array = ['liferay/portal'];
 			`,
@@ -450,6 +470,7 @@ ruleTester.run('no-explicit-extend', rule, {
 		},
 		{
 			// Would be invalid, but not in a .babelrc.js file.
+
 			code: `
 				module.exports = {
 					presets: ['@babel/preset-react']

@@ -37,6 +37,7 @@ module.exports = {
 			if (node.type === 'TemplateLiteral' && node.quasis.length === 1) {
 				// Only deal with template literals if they are static (ie. no
 				// interpolation).
+
 				delimiter = '`';
 				original = node.quasis[0].value.raw;
 				stripped = stripExtension(original);

@@ -63,6 +63,7 @@ ruleTester.run('import-extensions', rule, {
 			output: `export * as UsefulStuff from './UsefulStuff.es';`,
 
 			// "* as name" syntax is not currently supported by espree.
+
 			skip: ['espree'],
 		},
 		{
@@ -71,6 +72,7 @@ ruleTester.run('import-extensions', rule, {
 			output: `export * as UsefulStuff from './UsefulStuff';`,
 
 			// "* as name" syntax is not currently supported by espree.
+
 			skip: ['espree'],
 		},
 		{
@@ -100,12 +102,14 @@ ruleTester.run('import-extensions', rule, {
 		},
 		{
 			// Double quote delimiters are preserved.
+
 			code: `const Billboard = require("./billboard.js");`,
 			errors: [badRequire],
 			output: `const Billboard = require("./billboard");`,
 		},
 		{
 			// Backtick delimiters are preserved.
+
 			code: `const Billboard = require(\`./billboard.js\`);`,
 			errors: [
 				{
@@ -126,6 +130,7 @@ ruleTester.run('import-extensions', rule, {
 		},
 		{
 			// OK because "billboard.js" is the name of an NPM package:
+
 			code: `import {Data} from 'billboard.js';`,
 		},
 		{
@@ -142,14 +147,17 @@ ruleTester.run('import-extensions', rule, {
 		},
 		{
 			// Note double quotes.
+
 			code: `const {Data} = require("billboard.js");`,
 		},
 		{
 			// Note backticks...
+
 			code: `const {Data} = require(\`billboard.js\`);`,
 		},
 		{
 			// ...but we don't look at backticks if they contain interpolation.
+
 			code: `const {Data} = require(\`./\${something}.js\`);`,
 		},
 		{
@@ -161,6 +169,7 @@ ruleTester.run('import-extensions', rule, {
 			// https://github.com/liferay/liferay-npm-tools/pull/429#issuecomment-608451060
 			//
 			// Can't assume that all exports have a source.
+
 			code: `
 				const foo = 1;
 

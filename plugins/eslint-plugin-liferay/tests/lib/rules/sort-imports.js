@@ -19,6 +19,7 @@ ruleTester.run('sort-imports', rule, {
 	invalid: [
 		{
 			// Basic example.
+
 			code: `
 				import {g, z} from 'one';
 				import x from './x';
@@ -42,6 +43,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Example with trailing comments.
+
 			code: `
 				import {g, z} from 'one';
 				import x from './x';
@@ -65,6 +67,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Example with leading comments.
+
 			code: `
 				import {g, z} from 'one';
 				import x from './x';
@@ -90,6 +93,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Example showing that we don't move header comments.
+
 			code: `
 				/**
 				 * © 2017 Liferay, Inc. <https://liferay.com>
@@ -119,6 +123,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Example showing that we don't sort across boundaries.
+
 			code: `
 				import x from './x';
 				import {a} from 'other';
@@ -150,6 +155,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Basic example with `require` calls.
+
 			code: `
 				const {g, z} = require('one');
 				const x = require('./x');
@@ -174,6 +180,7 @@ ruleTester.run('sort-imports', rule, {
 		{
 			// Regression test: two imports from the same module were causing
 			// duplication.
+
 			code: `
 				 import {Config} from 'metal-state';
 				 import {debounce} from 'frontend-js-web';
@@ -204,6 +211,7 @@ ruleTester.run('sort-imports', rule, {
 			// import from being properly recognized.
 			//
 			// https://github.com/liferay/eslint-config-liferay/issues/94
+
 			code: `
 				var fs = require('fs-extra');
 				var os = require('os');
@@ -228,6 +236,7 @@ ruleTester.run('sort-imports', rule, {
 			// "gulp-load-plugins" import from being properly recognized.
 			//
 			// https://github.com/liferay/eslint-config-liferay/issues/94
+
 			code: `
 				const replace = require('gulp-replace-task');
 				const plugins = require('gulp-load-plugins')();
@@ -249,6 +258,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Regression test: "metal-dom" was sorting before "metal".
+
 			code: `
 				import dom from 'metal-dom';
 				import core from 'metal';
@@ -271,6 +281,7 @@ ruleTester.run('sort-imports', rule, {
 	valid: [
 		{
 			// Well-sorted imports.
+
 			code: `
 				import {g, z} from 'one';
 				import {a} from 'other';
@@ -280,6 +291,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Well-sorted requires.
+
 			code: `
 				const {g, z} = require('one');
 				const {a} = require('other');
@@ -289,6 +301,7 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 			// Proof that non-top-level requires are ignored.
+
 			code: `
 				const {g, z} = require('one');
 				const {a} = require('other');

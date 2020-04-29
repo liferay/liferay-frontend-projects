@@ -98,6 +98,7 @@ ruleTester.run('group-imports', rule, {
 			// line between "gulp" and "os" imports.
 			//
 			// https://github.com/liferay/eslint-config-liferay/issues/94
+
 			code: `
 				var del = require('del');
 				var fs = require('fs-extra');
@@ -112,6 +113,7 @@ ruleTester.run('group-imports', rule, {
 			// the following import.
 			//
 			// https://github.com/liferay/eslint-config-liferay/issues/94
+
 			code: `
 				const del = require('del');
 				const fs = require('fs-extra');
