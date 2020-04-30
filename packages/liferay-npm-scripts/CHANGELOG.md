@@ -1,3 +1,15 @@
+## [liferay-npm-scripts/v32.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.0.0) (2020-04-30)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v31.0.0...liferay-npm-scripts/v32.0.0)
+
+### :boom: Breaking changes
+
+-   feat(scripts)!: make "blank line before comments" follow Java convention ([\#445](https://github.com/liferay/liferay-npm-tools/pull/445))
+
+### :new: Features
+
+-   feat(scripts)!: make "blank line before comments" follow Java convention ([\#445](https://github.com/liferay/liferay-npm-tools/pull/445))
+
 ## [liferay-npm-scripts/v31.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v31.0.0) (2020-04-29)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v30.0.0...liferay-npm-scripts/v31.0.0)
