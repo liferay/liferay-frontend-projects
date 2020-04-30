@@ -14,6 +14,7 @@ import Renderer from '../../util/renderer';
 import {SourceTransform, transformSourceFile} from '../../util/transform/js';
 import wrapModule from '../../util/transform/js/operation/wrapModule';
 import {removeWebpackHash} from '../../util/webpack';
+import exportModuleAsFunction from './transform/js/operation/exportModuleAsFunction';
 import namespaceWepbackJsonp from './transform/js/operation/namespaceWepbackJsonp';
 
 /**
@@ -61,9 +62,10 @@ export async function processWebpackBundles(
 			await transformSourceFile(
 				fromFile,
 				toFile,
-				wrapModule(`${name}@${version}/${moduleName}`),
+				...frameworkSpecificTransforms,
 				namespaceWepbackJsonp(),
-				...frameworkSpecificTransforms
+				exportModuleAsFunction(),
+				wrapModule(`${name}@${version}/${moduleName}`)
 			);
 		})
 	);
