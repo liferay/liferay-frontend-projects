@@ -141,6 +141,8 @@ function getSelfClosingTagReplacement(tag) {
 }
 
 module.exports = {
+	BLOCK_CLOSE,
+	BLOCK_OPEN,
 	CLOSE_TAG,
 	OPEN_TAG,
 

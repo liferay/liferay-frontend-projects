@@ -47,5 +47,7 @@ function getPaddedReplacement(match, template) {
 }
 
 getPaddedReplacement.IDENTIFIER = IDENTIFIER;
+getPaddedReplacement.ID_END = ID_END;
+getPaddedReplacement.ID_START = ID_START;
 
 module.exports = getPaddedReplacement;

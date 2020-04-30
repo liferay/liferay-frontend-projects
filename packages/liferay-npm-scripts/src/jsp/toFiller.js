@@ -81,6 +81,8 @@ function isFiller(char = FILLER_CHAR) {
 	return new RegExp(`/\\*(?:\\s*[${char}${SPACE_CHAR}${TAB_CHAR}]\\s*)+\\*/`);
 }
 
+toFiller.FILLER_CHAR = FILLER_CHAR;
+toFiller.SPACE_CHAR = SPACE_CHAR;
 toFiller.TAB_CHAR = TAB_CHAR;
 toFiller.isFiller = isFiller;
 

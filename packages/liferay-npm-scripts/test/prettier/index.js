@@ -151,6 +151,7 @@ describe('prettier/index.js', () => {
 					format(code`
 						// Random ES6 to prove that custom lint rule can handle
 						// it without choking.
+
 						const arrow = () => {};
 
 						function thing() {
@@ -164,6 +165,7 @@ describe('prettier/index.js', () => {
 				).toBe(code`
 						// Random ES6 to prove that custom lint rule can handle
 						// it without choking.
+
 						const arrow = () => {};
 
 						function thing() {
@@ -262,20 +264,26 @@ describe('prettier/index.js', () => {
 						if (test) {
 							a();
 						}
+
 						// opening JSP tag comment
+
 						else if (x) {
 							b();
 						}
+
 						// closing JSP tag comment
 				`)
 				).toBe(code`
 						if (test) {
 							a();
 						}
+
 						// opening JSP tag comment
+
 						else if (x) {
 							b();
 						}
+
 						// closing JSP tag comment
 				`);
 			});

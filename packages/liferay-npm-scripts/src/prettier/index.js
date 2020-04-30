@@ -22,6 +22,10 @@ const path = require('path');
 const prettier = require('prettier');
 
 const eslintConfig = require('../config/eslint.config');
+const {ID_END, ID_START} = require('../jsp/getPaddedReplacement');
+const {SCRIPTLET_CONTENT} = require('../jsp/substituteTags');
+const {BLOCK_CLOSE, BLOCK_OPEN} = require('../jsp/tagReplacements');
+const {FILLER_CHAR, SPACE_CHAR, TAB_CHAR} = require('../jsp/toFiller');
 
 const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
 
@@ -52,6 +56,36 @@ const cli = new CLIEngine({
 		sourceType: 'module',
 	},
 	rules: {
+		'lines-around-comment': [
+			'error',
+			{
+				afterBlockComment: false,
+				afterLineComment: true,
+				allowArrayEnd: false,
+				allowArrayStart: false,
+				allowBlockEnd: false,
+				allowBlockStart: false,
+				allowClassStart: false,
+				allowObjectEnd: false,
+				allowObjectStart: false,
+				beforeBlockComment: true,
+				beforeLineComment: true,
+
+				// Don't mess with placeholder comments inserted by JSP
+				// formatter.
+
+				ignorePattern: [
+					BLOCK_CLOSE,
+					BLOCK_OPEN,
+					FILLER_CHAR,
+					ID_END,
+					ID_START,
+					SCRIPTLET_CONTENT,
+					SPACE_CHAR,
+					TAB_CHAR,
+				].join('|'),
+			},
+		],
 		'newline-before-block-statements': 'error',
 	},
 	useEslintrc: false,
