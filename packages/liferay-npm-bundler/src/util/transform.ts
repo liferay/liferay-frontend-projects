@@ -10,11 +10,17 @@ import {Visitor, replace, traverse} from 'estraverse';
 import ESTree from 'estree';
 import {RawSourceMap, SourceMapConsumer, SourceMapGenerator} from 'source-map';
 
+// AST explorer online: https://astexplorer.net/
+
 export interface SourceCode {
 	fileName: string;
 	code: string;
 	map?: RawSourceMap;
 	ast?: ESTree.Node;
+}
+
+export interface SourceTransform {
+	(source: SourceCode): Promise<SourceCode>;
 }
 
 export async function replaceInStringLiterals(
@@ -40,6 +46,16 @@ export async function replaceInStringLiterals(
 			);
 		},
 	});
+}
+
+export function parseAs<T extends ESTree.Node>(code: string): T {
+	const {body} = parse<ESTree.Program>(code);
+
+	if (body.length !== 1) {
+		throw new Error('Given code parses to more than one AST node');
+	}
+
+	return (body[0] as unknown) as T;
 }
 
 export async function transform(

@@ -15,6 +15,7 @@ import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
 import {
 	SourceCode,
+	SourceTransform,
 	replaceInStringLiterals,
 	wrapModule,
 } from '../../util/transform';
@@ -35,7 +36,9 @@ export async function renderTemplates(): Promise<void> {
 	});
 }
 
-export async function wrapWebpackBundles(): Promise<void> {
+export async function processWebpackBundles(
+	...transforms: SourceTransform[]
+): Promise<void> {
 	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
 	const copiedBundles = findFiles(adaptBuildDir, ['static/js/*.js']);
@@ -54,6 +57,12 @@ export async function wrapWebpackBundles(): Promise<void> {
 			source = await wrapModule(source);
 
 			source = await namespaceWepbackJsonp(source);
+
+			source = await transforms.reduce(
+				async (sourcePromise, transform) =>
+					transform(await sourcePromise),
+				Promise.resolve(source)
+			);
 
 			writeSourceWithMap(source, buildBundlerDir.join(unhashedFile));
 		})

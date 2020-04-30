@@ -4,14 +4,16 @@
  */
 
 import escapeStringRegexp from 'escape-string-regexp';
+import ESTree from 'estree';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
 import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
 import {copyFiles, findFiles, transformTextFile} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
+import {SourceCode, parseAs, transform} from '../../../util/transform';
 import {removeWebpackHash} from '../../../util/webpack';
-import {renderTemplates, wrapWebpackBundles} from '../index';
+import {processWebpackBundles, renderTemplates} from '../index';
 
 /**
  * Run configured rules.
@@ -33,9 +35,9 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	rewriteStaticAssetURLsInCSSFiles();
 
-	log.info('Wrapping webpack bundles into AMD definitions...');
+	log.info('Processing webpack bundles...');
 
-	await wrapWebpackBundles();
+	await processWebpackBundles(tweakAttachmentToDOM);
 }
 
 function copyStaticAssets(): void {
@@ -47,6 +49,56 @@ function copyStaticAssets(): void {
 	);
 
 	log.debug(`Copied ${copiedFiles.length} static assets`);
+}
+
+/**
+ * Changes `document.getElementById('root')` to
+ * `document.getElementById(_LIFERAY_PARAMS_.portletElementId)` so that React
+ * attaches to the portlet's DIV node.
+ *
+ * @param source
+ */
+async function tweakAttachmentToDOM(source: SourceCode): Promise<SourceCode> {
+	return await transform(source, source.fileName, {
+		enter(node) {
+			if (node.type !== 'CallExpression') {
+				return;
+			}
+
+			const {arguments: args, callee} = node;
+
+			if (callee.type !== 'MemberExpression') {
+				return;
+			}
+
+			const {object, property} = callee;
+
+			if (object.type !== 'Identifier' || object.name !== 'document') {
+				return;
+			}
+
+			if (
+				property.type !== 'Identifier' ||
+				property.name !== 'getElementById'
+			) {
+				return;
+			}
+
+			if (args.length !== 1) {
+				return;
+			}
+
+			if (args[0].type !== 'Literal' || args[0].value !== 'root') {
+				return;
+			}
+
+			const {expression} = parseAs<ESTree.ExpressionStatement>(
+				'_LIFERAY_PARAMS_.portletElementId'
+			);
+
+			args[0] = expression;
+		},
+	});
 }
 
 /**
