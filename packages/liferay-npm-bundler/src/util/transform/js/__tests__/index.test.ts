@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {replace} from '..';
 import {parse} from 'acorn';
-import ESTree from 'estree';
-
-import {transform, wrapModule} from '../transform';
+import estree from 'estree';
 
 // To write a .js file with source map for debugging purposes do:
 // require('fs').writeFileSync(
@@ -21,43 +20,11 @@ import {transform, wrapModule} from '../transform';
 // Note that generated source maps can be inspected (when necessary) with:
 // http://sokra.github.io/source-map-visualization/#custom
 
-describe('wrapModule', () => {
-	it('wraps module without dependencies', async () => {
-		const code = `
-		console.log('Hello world');
-		`;
-
-		const wrapped = await wrapModule({
-			fileName: 'a/module/name.js',
-			code,
-		});
-
-		expect(wrapped).toMatchSnapshot();
-	});
-
-	it('wraps module with dependencies', async () => {
-		const code = `
-		var a = require('a/dependency');
-		var another = require('another/dependency');
-
-		console.log('Hello world');
-		`;
-
-		const wrapped = await wrapModule({
-			fileName: 'a/module/name.js',
-			code,
-		});
-
-		expect(wrapped).toMatchSnapshot();
-	});
-});
-
-describe('transform', () => {
+describe('replace', () => {
 	it('works for single transformation', async () => {
 		// Change `variable = 1` to `a = 1`
-		const transformed = await transform(
-			{code: 'variable = 1', fileName: 'test.js'},
-			'test.t1.js',
+		const transformed = await replace(
+			{code: 'variable = 1'},
 			{
 				enter(node) {
 					if (node.type !== 'Identifier') {
@@ -74,9 +41,8 @@ describe('transform', () => {
 
 	it('works for double transformation', async () => {
 		// Change `variable = 1` to `a = 1`
-		const transformed1 = await transform(
-			{code: 'variable = 1', fileName: 'test.js'},
-			'test.t1.js',
+		const transformed1 = await replace(
+			{code: 'variable = 1'},
 			{
 				enter(node) {
 					if (node.type !== 'Identifier') {
@@ -89,7 +55,7 @@ describe('transform', () => {
 		);
 
 		// Wrap code into define() call
-		const transformed2 = await transform(transformed1, 'test.t2.js', {
+		const transformed2 = await replace(transformed1, {
 			enter(node) {
 				if (node.type !== 'Program') {
 					return;
@@ -97,7 +63,7 @@ describe('transform', () => {
 
 				const ast = parse(`define('a-module', function() {})`);
 
-				const {body} = (ast as unknown) as ESTree.Program;
+				const {body} = (ast as unknown) as estree.Program;
 
 				if (body[0].type !== 'ExpressionStatement') {
 					return;
@@ -134,5 +100,14 @@ describe('transform', () => {
 		});
 
 		expect(transformed2).toMatchSnapshot();
+
+		require('fs').writeFileSync(
+			'/tmp/file.js',
+			transformed2.code +
+				'\n' +
+				require('convert-source-map')
+					.fromObject(transformed2.map)
+					.toComment()
+		);
 	});
 });

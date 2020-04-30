@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import crypto from 'crypto';
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
@@ -13,31 +11,37 @@ import {buildBundlerDir, buildGeneratedDir} from '../../dirs';
 import * as log from '../../log';
 import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
-import {
-	SourceCode,
-	SourceTransform,
-	replaceInStringLiterals,
-	wrapModule,
-} from '../../util/transform';
+import {SourceTransform, transformSourceFile} from '../../util/transform/js';
+import wrapModule from '../../util/transform/js/operation/wrapModule';
 import {removeWebpackHash} from '../../util/webpack';
+import namespaceWepbackJsonp from './transform/js/operation/namespaceWepbackJsonp';
 
-export async function renderTemplates(): Promise<void> {
+/**
+ * Generate adapter modules based on templates.
+ */
+export async function processAdapterModules(): Promise<void> {
 	const renderer = new Renderer(
 		path.join(__dirname, project.probe.type, 'templates')
 	);
 
 	const {pkgJson} = project;
 
-	await renderAndWrapTemplate(renderer, 'adapt-rt.js', {
+	await processAdapterModule(renderer, 'adapt-rt.js', {
 		project,
 	});
-	await renderAndWrapTemplate(renderer, 'index.js', {
+	await processAdapterModule(renderer, 'index.js', {
 		pkgJson,
 	});
 }
 
+/**
+ * Process all webpack bundles to make them deployable.
+ *
+ * @param frameworkSpecificTransforms
+ * underlying framework specific transforms to apply
+ */
 export async function processWebpackBundles(
-	...transforms: SourceTransform[]
+	...frameworkSpecificTransforms: SourceTransform[]
 ): Promise<void> {
 	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
@@ -45,97 +49,50 @@ export async function processWebpackBundles(
 
 	const {name, version} = project.pkgJson;
 
-	return Promise.all(
+	await Promise.all(
 		copiedBundles.map(async file => {
 			const unhashedFile = removeWebpackHash(file);
 
-			let source: SourceCode = readSourceWithMap(
-				adaptBuildDir.join(file),
-				`${name}@${version}/${unhashedFile.asPosix}`
+			const fromFile = adaptBuildDir.join(file);
+			const toFile = buildBundlerDir.join(unhashedFile);
+
+			const moduleName = unhashedFile.asPosix.replace(/\.js$/g, '');
+
+			await transformSourceFile(
+				fromFile,
+				toFile,
+				wrapModule(`${name}@${version}/${moduleName}`),
+				namespaceWepbackJsonp(),
+				...frameworkSpecificTransforms
 			);
-
-			source = await wrapModule(source);
-
-			source = await namespaceWepbackJsonp(source);
-
-			source = await transforms.reduce(
-				async (sourcePromise, transform) =>
-					transform(await sourcePromise),
-				Promise.resolve(source)
-			);
-
-			writeSourceWithMap(source, buildBundlerDir.join(unhashedFile));
 		})
-	).then(() => {
-		log.debug(`Wrapped ${copiedBundles.length} webpack bundles`);
-	});
-}
-
-async function namespaceWepbackJsonp(source: SourceCode): Promise<SourceCode> {
-	const hash = crypto.createHash('MD5');
-
-	const {name, version} = project.pkgJson;
-
-	hash.update(name);
-	hash.update(version);
-
-	const uuid = hash
-		.digest('base64')
-		.replace(/\+/g, '_')
-		.replace(/\//g, '_')
-		.replace(/=/g, '');
-
-	return await replaceInStringLiterals(
-		source,
-		'webpackJsonp',
-		`webpackJsonp_${uuid}_`
-	);
-}
-
-function readSourceWithMap(file: FilePath, fileName?: string): SourceCode {
-	// TODO: read source map from file annotation instead of guessing
-	// the file name
-
-	return {
-		fileName: fileName ? fileName : file.asNative,
-		code: fs.readFileSync(file.asNative).toString(),
-		map: fs.readJsonSync(`${file.asNative}.map`),
-	};
-}
-
-function writeSourceWithMap(source: SourceCode, file: FilePath): void {
-	fs.ensureDirSync(file.dirname().asNative);
-
-	const filePath = file.asNative;
-
-	fs.writeFileSync(
-		filePath,
-		source.code + '\n' + `//# sourceMappingURL=${file.basename()}.map`
 	);
 
-	fs.writeFileSync(`${filePath}.map`, JSON.stringify(source.map));
+	log.debug(`Wrapped ${copiedBundles.length} webpack bundles`);
 }
 
-async function renderAndWrapTemplate(
+async function processAdapterModule(
 	renderer: Renderer,
 	templatePath: string,
 	data: object
 ): Promise<void> {
-	const renderedCode = await renderer.render(templatePath, data);
+	const fromFile = buildGeneratedDir.join(templatePath);
+	const toFile = buildBundlerDir.join(templatePath);
 
 	fs.writeFileSync(
-		buildGeneratedDir.join(templatePath).asNative,
-		renderedCode
+		fromFile.asNative,
+		await renderer.render(templatePath, data)
 	);
 
 	const {name, version} = project.pkgJson;
 
-	const wrapped = await wrapModule({
-		fileName: `${name}@${version}/${templatePath}`,
-		code: renderedCode,
-	});
+	const moduleName = templatePath.replace(/\.js$/i, '');
 
-	writeSourceWithMap(wrapped, buildBundlerDir.join(templatePath));
+	await transformSourceFile(
+		fromFile,
+		toFile,
+		wrapModule(`${name}@${version}/${moduleName}`)
+	);
 
 	log.debug(`Rendered ${templatePath} adapter module`);
 }

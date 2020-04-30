@@ -6,7 +6,7 @@
 import {parse} from 'acorn';
 import {generate} from 'escodegen';
 import {traverse} from 'estraverse';
-import ESTree from 'estree';
+import estree from 'estree';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {addNamespace} from 'liferay-npm-build-tools-common/lib/namespace';
 import project, {Project} from 'liferay-npm-build-tools-common/lib/project';
@@ -69,7 +69,7 @@ class Parser {
 		return this._modified;
 	}
 
-	transform(source: string, log: ReportLogger): ESTree.Node {
+	transform(source: string, log: ReportLogger): estree.Node {
 		const ast = parse(source, {
 			allowAwaitOutsideFunction: true,
 			allowHashBang: true,
@@ -84,15 +84,15 @@ class Parser {
 		this._log = log;
 		this._modified = false;
 
-		traverse(ast as ESTree.Node, {
-			enter: (node: ESTree.Node, parentNode: ESTree.Node) =>
+		traverse(ast as estree.Node, {
+			enter: (node: estree.Node, parentNode: estree.Node) =>
 				this._enter(node, parentNode),
 		});
 
-		return ast as ESTree.Node;
+		return ast as estree.Node;
 	}
 
-	_enter(node: ESTree.Node, parentNode: ESTree.Node): void {
+	_enter(node: estree.Node, parentNode: estree.Node): void {
 		let modified = false;
 
 		switch (node.type) {
@@ -111,7 +111,7 @@ class Parser {
 		this._modified = this._modified || modified;
 	}
 
-	private _enterCallExpression(node: ESTree.CallExpression): boolean {
+	private _enterCallExpression(node: estree.CallExpression): boolean {
 		const {_log: log} = this;
 		const {callee} = node;
 
@@ -154,8 +154,8 @@ class Parser {
 	}
 
 	private _enterImportDeclaration(
-		node: ESTree.ImportDeclaration,
-		parentNode: ESTree.Node
+		node: estree.ImportDeclaration,
+		parentNode: estree.Node
 	): boolean {
 		const {imports} = this._project;
 		const moduleName = node.source.value as string;
@@ -199,7 +199,7 @@ class Parser {
 			return false;
 		}
 
-		const ast = (parse(lines.join('\n')) as unknown) as ESTree.Program;
+		const ast = (parse(lines.join('\n')) as unknown) as estree.Program;
 
 		parentNode.body = [
 			...ast.body,

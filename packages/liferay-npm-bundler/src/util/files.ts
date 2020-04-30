@@ -79,20 +79,3 @@ export function findFiles(
 		.map(absPath => path.relative(baseDirPath.toString(), absPath))
 		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}));
 }
-
-/**
- * Transform a text file content
- *
- * @param file the file to transform
- * @param transform the transform function to apply
- */
-export function transformTextFile(
-	file: FilePath,
-	transform: {(content: string): string}
-): void {
-	let content = fs.readFileSync(file.asNative).toString();
-
-	content = transform(content);
-
-	fs.writeFileSync(file.asNative, content);
-}

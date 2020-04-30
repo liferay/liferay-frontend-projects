@@ -1,0 +1,1038 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wrapModule wraps module with dependencies 1`] = `
+Object {
+  "ast": Node {
+    "body": Array [
+      Node {
+        "end": 182,
+        "expression": Node {
+          "arguments": Array [
+            Node {
+              "end": 46,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 19,
+                  "line": 3,
+                },
+                "start": Position {
+                  "column": 4,
+                  "line": 3,
+                },
+              },
+              "raw": "'a/module/name'",
+              "start": 31,
+              "type": "Literal",
+              "value": "a/module/name",
+            },
+            Node {
+              "elements": Array [
+                Node {
+                  "end": 67,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 13,
+                      "line": 5,
+                    },
+                    "start": Position {
+                      "column": 5,
+                      "line": 5,
+                    },
+                  },
+                  "raw": "'module'",
+                  "start": 59,
+                  "type": "Literal",
+                  "value": "module",
+                },
+                Node {
+                  "end": 83,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "start": Position {
+                      "column": 5,
+                      "line": 6,
+                    },
+                  },
+                  "raw": "'require'",
+                  "start": 74,
+                  "type": "Literal",
+                  "value": "require",
+                },
+                Node {
+                  "end": 107,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 16,
+                      "line": 8,
+                    },
+                    "start": Position {
+                      "column": 2,
+                      "line": 8,
+                    },
+                  },
+                  "raw": "'a/dependency'",
+                  "start": 93,
+                  "type": "Literal",
+                  "value": "a/dependency",
+                },
+                Node {
+                  "end": 131,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 22,
+                      "line": 9,
+                    },
+                    "start": Position {
+                      "column": 2,
+                      "line": 9,
+                    },
+                  },
+                  "raw": "'another/dependency'",
+                  "start": 111,
+                  "type": "Literal",
+                  "value": "another/dependency",
+                },
+              ],
+              "end": 137,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 5,
+                  "line": 10,
+                },
+                "start": Position {
+                  "column": 4,
+                  "line": 4,
+                },
+              },
+              "start": 52,
+              "type": "ArrayExpression",
+            },
+            Node {
+              "async": false,
+              "body": Node {
+                "body": Array [
+                  Node {
+                    "declarations": Array [
+                      Node {
+                        "end": 34,
+                        "id": Node {
+                          "end": 8,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 7,
+                              "line": 2,
+                            },
+                            "start": Position {
+                              "column": 6,
+                              "line": 2,
+                            },
+                          },
+                          "name": "a",
+                          "start": 7,
+                          "type": "Identifier",
+                        },
+                        "init": Node {
+                          "arguments": Array [
+                            Node {
+                              "end": 33,
+                              "loc": SourceLocation {
+                                "end": Position {
+                                  "column": 32,
+                                  "line": 2,
+                                },
+                                "start": Position {
+                                  "column": 18,
+                                  "line": 2,
+                                },
+                              },
+                              "raw": "'a/dependency'",
+                              "start": 19,
+                              "type": "Literal",
+                              "value": "a/dependency",
+                            },
+                          ],
+                          "callee": Node {
+                            "end": 18,
+                            "loc": SourceLocation {
+                              "end": Position {
+                                "column": 17,
+                                "line": 2,
+                              },
+                              "start": Position {
+                                "column": 10,
+                                "line": 2,
+                              },
+                            },
+                            "name": "require",
+                            "start": 11,
+                            "type": "Identifier",
+                          },
+                          "end": 34,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 33,
+                              "line": 2,
+                            },
+                            "start": Position {
+                              "column": 10,
+                              "line": 2,
+                            },
+                          },
+                          "start": 11,
+                          "type": "CallExpression",
+                        },
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 33,
+                            "line": 2,
+                          },
+                          "start": Position {
+                            "column": 6,
+                            "line": 2,
+                          },
+                        },
+                        "start": 7,
+                        "type": "VariableDeclarator",
+                      },
+                    ],
+                    "end": 35,
+                    "kind": "var",
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 34,
+                        "line": 2,
+                      },
+                      "start": Position {
+                        "column": 2,
+                        "line": 2,
+                      },
+                    },
+                    "start": 3,
+                    "type": "VariableDeclaration",
+                  },
+                  Node {
+                    "declarations": Array [
+                      Node {
+                        "end": 81,
+                        "id": Node {
+                          "end": 49,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 13,
+                              "line": 3,
+                            },
+                            "start": Position {
+                              "column": 6,
+                              "line": 3,
+                            },
+                          },
+                          "name": "another",
+                          "start": 42,
+                          "type": "Identifier",
+                        },
+                        "init": Node {
+                          "arguments": Array [
+                            Node {
+                              "end": 80,
+                              "loc": SourceLocation {
+                                "end": Position {
+                                  "column": 44,
+                                  "line": 3,
+                                },
+                                "start": Position {
+                                  "column": 24,
+                                  "line": 3,
+                                },
+                              },
+                              "raw": "'another/dependency'",
+                              "start": 60,
+                              "type": "Literal",
+                              "value": "another/dependency",
+                            },
+                          ],
+                          "callee": Node {
+                            "end": 59,
+                            "loc": SourceLocation {
+                              "end": Position {
+                                "column": 23,
+                                "line": 3,
+                              },
+                              "start": Position {
+                                "column": 16,
+                                "line": 3,
+                              },
+                            },
+                            "name": "require",
+                            "start": 52,
+                            "type": "Identifier",
+                          },
+                          "end": 81,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 45,
+                              "line": 3,
+                            },
+                            "start": Position {
+                              "column": 16,
+                              "line": 3,
+                            },
+                          },
+                          "start": 52,
+                          "type": "CallExpression",
+                        },
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 45,
+                            "line": 3,
+                          },
+                          "start": Position {
+                            "column": 6,
+                            "line": 3,
+                          },
+                        },
+                        "start": 42,
+                        "type": "VariableDeclarator",
+                      },
+                    ],
+                    "end": 82,
+                    "kind": "var",
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 46,
+                        "line": 3,
+                      },
+                      "start": Position {
+                        "column": 2,
+                        "line": 3,
+                      },
+                    },
+                    "start": 38,
+                    "type": "VariableDeclaration",
+                  },
+                  Node {
+                    "end": 113,
+                    "expression": Node {
+                      "arguments": Array [
+                        Node {
+                          "end": 111,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 27,
+                              "line": 5,
+                            },
+                            "start": Position {
+                              "column": 14,
+                              "line": 5,
+                            },
+                          },
+                          "raw": "'Hello world'",
+                          "start": 98,
+                          "type": "Literal",
+                          "value": "Hello world",
+                        },
+                      ],
+                      "callee": Node {
+                        "computed": false,
+                        "end": 97,
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 13,
+                            "line": 5,
+                          },
+                          "start": Position {
+                            "column": 2,
+                            "line": 5,
+                          },
+                        },
+                        "object": Node {
+                          "end": 93,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 9,
+                              "line": 5,
+                            },
+                            "start": Position {
+                              "column": 2,
+                              "line": 5,
+                            },
+                          },
+                          "name": "console",
+                          "start": 86,
+                          "type": "Identifier",
+                        },
+                        "property": Node {
+                          "end": 97,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 13,
+                              "line": 5,
+                            },
+                            "start": Position {
+                              "column": 10,
+                              "line": 5,
+                            },
+                          },
+                          "name": "log",
+                          "start": 94,
+                          "type": "Identifier",
+                        },
+                        "start": 86,
+                        "type": "MemberExpression",
+                      },
+                      "end": 112,
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 28,
+                          "line": 5,
+                        },
+                        "start": Position {
+                          "column": 2,
+                          "line": 5,
+                        },
+                      },
+                      "start": 86,
+                      "type": "CallExpression",
+                    },
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 29,
+                        "line": 5,
+                      },
+                      "start": Position {
+                        "column": 2,
+                        "line": 5,
+                      },
+                    },
+                    "start": 86,
+                    "type": "ExpressionStatement",
+                  },
+                ],
+                "end": 176,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 5,
+                    "line": 12,
+                  },
+                  "start": Position {
+                    "column": 30,
+                    "line": 11,
+                  },
+                },
+                "start": 169,
+                "type": "BlockStatement",
+              },
+              "end": 176,
+              "expression": false,
+              "generator": false,
+              "id": null,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 5,
+                  "line": 12,
+                },
+                "start": Position {
+                  "column": 4,
+                  "line": 11,
+                },
+              },
+              "params": Array [
+                Node {
+                  "end": 158,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 19,
+                      "line": 11,
+                    },
+                    "start": Position {
+                      "column": 13,
+                      "line": 11,
+                    },
+                  },
+                  "name": "module",
+                  "start": 152,
+                  "type": "Identifier",
+                },
+                Node {
+                  "end": 167,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 28,
+                      "line": 11,
+                    },
+                    "start": Position {
+                      "column": 21,
+                      "line": 11,
+                    },
+                  },
+                  "name": "require",
+                  "start": 160,
+                  "type": "Identifier",
+                },
+              ],
+              "start": 143,
+              "type": "FunctionExpression",
+            },
+          ],
+          "callee": Node {
+            "computed": false,
+            "end": 25,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 24,
+                "line": 2,
+              },
+              "start": Position {
+                "column": 3,
+                "line": 2,
+              },
+            },
+            "object": Node {
+              "computed": false,
+              "end": 18,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 17,
+                  "line": 2,
+                },
+                "start": Position {
+                  "column": 3,
+                  "line": 2,
+                },
+              },
+              "object": Node {
+                "end": 11,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 10,
+                    "line": 2,
+                  },
+                  "start": Position {
+                    "column": 3,
+                    "line": 2,
+                  },
+                },
+                "name": "Liferay",
+                "start": 4,
+                "type": "Identifier",
+              },
+              "property": Node {
+                "end": 18,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 17,
+                    "line": 2,
+                  },
+                  "start": Position {
+                    "column": 11,
+                    "line": 2,
+                  },
+                },
+                "name": "Loader",
+                "start": 12,
+                "type": "Identifier",
+              },
+              "start": 4,
+              "type": "MemberExpression",
+            },
+            "property": Node {
+              "end": 25,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 24,
+                  "line": 2,
+                },
+                "start": Position {
+                  "column": 18,
+                  "line": 2,
+                },
+              },
+              "name": "define",
+              "start": 19,
+              "type": "Identifier",
+            },
+            "start": 4,
+            "type": "MemberExpression",
+          },
+          "end": 181,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 4,
+              "line": 13,
+            },
+            "start": Position {
+              "column": 3,
+              "line": 2,
+            },
+          },
+          "start": 4,
+          "type": "CallExpression",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 5,
+            "line": 13,
+          },
+          "start": Position {
+            "column": 3,
+            "line": 2,
+          },
+        },
+        "start": 4,
+        "type": "ExpressionStatement",
+      },
+    ],
+    "end": 116,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 2,
+        "line": 6,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "module",
+    "start": 0,
+    "type": "Program",
+  },
+  "code": "Liferay.Loader.define('a/module/name', [
+    'module',
+    'require',
+    'a/dependency',
+    'another/dependency'
+], function (module, require) {
+    var a = require('a/dependency');
+    var another = require('another/dependency');
+    console.log('Hello world');
+});",
+  "map": Object {
+    "file": "<unknown>",
+    "mappings": "AACGA,OAAA,CAAQC,MAAR,CAAeC,MAAf,CACC,eADD,EAEC;AAAA,IACC,QADD;AAAA,IAEC,SAFD;AAAA,IAIF,cAJE;AAAA,IAKF,oBALE;AAAA,CAFD,EASC,UAASC,MAAT,EAAiBC,OAAjB,EAA0B;AAAA,IAT5B,IAAIC,CAAA,GAAID,OAAA,CAAQ,cAAR,CAAR,CAS4B;AAAA,IAR5B,IAAIE,OAAA,GAAUF,OAAA,CAAQ,oBAAR,CAAd,CAQ4B;AAAA,IAN5BG,OAAA,CAAQC,GAAR,CAAY,aAAZ,EAM4B;AAAA,CAT3B",
+    "names": Array [
+      "Liferay",
+      "Loader",
+      "define",
+      "module",
+      "require",
+      "a",
+      "another",
+      "console",
+      "log",
+    ],
+    "sources": Array [
+      "<unknown>",
+    ],
+    "sourcesContent": Array [
+      "
+		var a = require('a/dependency');
+		var another = require('another/dependency');
+
+		console.log('Hello world');
+		",
+    ],
+    "version": 3,
+  },
+}
+`;
+
+exports[`wrapModule wraps module without dependencies 1`] = `
+Object {
+  "ast": Node {
+    "body": Array [
+      Node {
+        "end": 140,
+        "expression": Node {
+          "arguments": Array [
+            Node {
+              "end": 46,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 19,
+                  "line": 3,
+                },
+                "start": Position {
+                  "column": 4,
+                  "line": 3,
+                },
+              },
+              "raw": "'a/module/name'",
+              "start": 31,
+              "type": "Literal",
+              "value": "a/module/name",
+            },
+            Node {
+              "elements": Array [
+                Node {
+                  "end": 67,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 13,
+                      "line": 5,
+                    },
+                    "start": Position {
+                      "column": 5,
+                      "line": 5,
+                    },
+                  },
+                  "raw": "'module'",
+                  "start": 59,
+                  "type": "Literal",
+                  "value": "module",
+                },
+                Node {
+                  "end": 83,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "start": Position {
+                      "column": 5,
+                      "line": 6,
+                    },
+                  },
+                  "raw": "'require'",
+                  "start": 74,
+                  "type": "Literal",
+                  "value": "require",
+                },
+              ],
+              "end": 95,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 5,
+                  "line": 8,
+                },
+                "start": Position {
+                  "column": 4,
+                  "line": 4,
+                },
+              },
+              "start": 52,
+              "type": "ArrayExpression",
+            },
+            Node {
+              "async": false,
+              "body": Node {
+                "body": Array [
+                  Node {
+                    "end": 30,
+                    "expression": Node {
+                      "arguments": Array [
+                        Node {
+                          "end": 28,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 27,
+                              "line": 2,
+                            },
+                            "start": Position {
+                              "column": 14,
+                              "line": 2,
+                            },
+                          },
+                          "raw": "'Hello world'",
+                          "start": 15,
+                          "type": "Literal",
+                          "value": "Hello world",
+                        },
+                      ],
+                      "callee": Node {
+                        "computed": false,
+                        "end": 14,
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 13,
+                            "line": 2,
+                          },
+                          "start": Position {
+                            "column": 2,
+                            "line": 2,
+                          },
+                        },
+                        "object": Node {
+                          "end": 10,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 9,
+                              "line": 2,
+                            },
+                            "start": Position {
+                              "column": 2,
+                              "line": 2,
+                            },
+                          },
+                          "name": "console",
+                          "start": 3,
+                          "type": "Identifier",
+                        },
+                        "property": Node {
+                          "end": 14,
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 13,
+                              "line": 2,
+                            },
+                            "start": Position {
+                              "column": 10,
+                              "line": 2,
+                            },
+                          },
+                          "name": "log",
+                          "start": 11,
+                          "type": "Identifier",
+                        },
+                        "start": 3,
+                        "type": "MemberExpression",
+                      },
+                      "end": 29,
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 28,
+                          "line": 2,
+                        },
+                        "start": Position {
+                          "column": 2,
+                          "line": 2,
+                        },
+                      },
+                      "start": 3,
+                      "type": "CallExpression",
+                    },
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 29,
+                        "line": 2,
+                      },
+                      "start": Position {
+                        "column": 2,
+                        "line": 2,
+                      },
+                    },
+                    "start": 3,
+                    "type": "ExpressionStatement",
+                  },
+                ],
+                "end": 134,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 5,
+                    "line": 10,
+                  },
+                  "start": Position {
+                    "column": 30,
+                    "line": 9,
+                  },
+                },
+                "start": 127,
+                "type": "BlockStatement",
+              },
+              "end": 134,
+              "expression": false,
+              "generator": false,
+              "id": null,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 5,
+                  "line": 10,
+                },
+                "start": Position {
+                  "column": 4,
+                  "line": 9,
+                },
+              },
+              "params": Array [
+                Node {
+                  "end": 116,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 19,
+                      "line": 9,
+                    },
+                    "start": Position {
+                      "column": 13,
+                      "line": 9,
+                    },
+                  },
+                  "name": "module",
+                  "start": 110,
+                  "type": "Identifier",
+                },
+                Node {
+                  "end": 125,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 28,
+                      "line": 9,
+                    },
+                    "start": Position {
+                      "column": 21,
+                      "line": 9,
+                    },
+                  },
+                  "name": "require",
+                  "start": 118,
+                  "type": "Identifier",
+                },
+              ],
+              "start": 101,
+              "type": "FunctionExpression",
+            },
+          ],
+          "callee": Node {
+            "computed": false,
+            "end": 25,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 24,
+                "line": 2,
+              },
+              "start": Position {
+                "column": 3,
+                "line": 2,
+              },
+            },
+            "object": Node {
+              "computed": false,
+              "end": 18,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 17,
+                  "line": 2,
+                },
+                "start": Position {
+                  "column": 3,
+                  "line": 2,
+                },
+              },
+              "object": Node {
+                "end": 11,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 10,
+                    "line": 2,
+                  },
+                  "start": Position {
+                    "column": 3,
+                    "line": 2,
+                  },
+                },
+                "name": "Liferay",
+                "start": 4,
+                "type": "Identifier",
+              },
+              "property": Node {
+                "end": 18,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 17,
+                    "line": 2,
+                  },
+                  "start": Position {
+                    "column": 11,
+                    "line": 2,
+                  },
+                },
+                "name": "Loader",
+                "start": 12,
+                "type": "Identifier",
+              },
+              "start": 4,
+              "type": "MemberExpression",
+            },
+            "property": Node {
+              "end": 25,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 24,
+                  "line": 2,
+                },
+                "start": Position {
+                  "column": 18,
+                  "line": 2,
+                },
+              },
+              "name": "define",
+              "start": 19,
+              "type": "Identifier",
+            },
+            "start": 4,
+            "type": "MemberExpression",
+          },
+          "end": 139,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 4,
+              "line": 11,
+            },
+            "start": Position {
+              "column": 3,
+              "line": 2,
+            },
+          },
+          "start": 4,
+          "type": "CallExpression",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 5,
+            "line": 11,
+          },
+          "start": Position {
+            "column": 3,
+            "line": 2,
+          },
+        },
+        "start": 4,
+        "type": "ExpressionStatement",
+      },
+    ],
+    "end": 33,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 2,
+        "line": 3,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "module",
+    "start": 0,
+    "type": "Program",
+  },
+  "code": "Liferay.Loader.define('a/module/name', [
+    'module',
+    'require'
+], function (module, require) {
+    console.log('Hello world');
+});",
+  "map": Object {
+    "file": "<unknown>",
+    "mappings": "AACGA,OAAA,CAAQC,MAAR,CAAeC,MAAf,CACC,eADD,EAEC;AAAA,IACC,QADD;AAAA,IAEC,SAFD;AAAA,CAFD,EAOC,UAASC,MAAT,EAAiBC,OAAjB,EAA0B;AAAA,IAP5BC,OAAA,CAAQC,GAAR,CAAY,aAAZ,EAO4B;AAAA,CAP3B",
+    "names": Array [
+      "Liferay",
+      "Loader",
+      "define",
+      "module",
+      "require",
+      "console",
+      "log",
+    ],
+    "sources": Array [
+      "<unknown>",
+    ],
+    "sourcesContent": Array [
+      "
+		console.log('Hello world');
+		",
+    ],
+    "version": 3,
+  },
+}
+`;
