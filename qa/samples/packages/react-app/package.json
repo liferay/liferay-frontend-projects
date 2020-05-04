@@ -15,7 +15,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:liferay": "lnbs-build",
+    "build:liferay": "SKIP_PREFLIGHT_CHECK=true liferay-npm-bundler",
     "deploy:liferay": "yarn run build:liferay && lnbs-deploy"
   },
   "eslintConfig": {
