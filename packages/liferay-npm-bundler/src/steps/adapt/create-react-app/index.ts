@@ -16,6 +16,7 @@ import {
 	processPackageJson,
 	processWebpackBundles,
 } from '../index';
+import adaptStaticURLsAtRuntime from '../transform/js/operation/adaptStaticURLsAtRuntime';
 import tweakAttachmentToDOM from './transform/js/operation/tweakAttachmentToDOM';
 import rewriteStaticURLs from './transform/text/operation/rewriteStaticURLs';
 
@@ -41,7 +42,10 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	log.info('Processing webpack bundles...');
 
-	await processWebpackBundles(tweakAttachmentToDOM());
+	await processWebpackBundles(
+		tweakAttachmentToDOM(),
+		adaptStaticURLsAtRuntime('static/media/*')
+	);
 
 	log.info('Processing package.json file...');
 
