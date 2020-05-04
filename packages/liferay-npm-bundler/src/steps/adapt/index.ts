@@ -5,16 +5,19 @@
 
 import fs from 'fs-extra';
 import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
+import {
+	SourceTransform,
+	transformSourceFile,
+} from 'liferay-npm-build-tools-common/lib/transform/js';
+import wrapModule from 'liferay-npm-build-tools-common/lib/transform/js/operation/wrapModule';
+import {transformJsonFile} from 'liferay-npm-build-tools-common/lib/transform/json';
+import addPortletHeader from 'liferay-npm-build-tools-common/lib/transform/json/operation/addPortletHeader';
 import path from 'path';
 
 import {buildBundlerDir, buildGeneratedDir} from '../../dirs';
 import * as log from '../../log';
 import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
-import {SourceTransform, transformSourceFile} from '../../util/transform/js';
-import wrapModule from '../../util/transform/js/operation/wrapModule';
-import {transformJsonFile} from '../../util/transform/json';
-import addPortletHeader from '../../util/transform/json/operation/addPortletHeader';
 import {removeWebpackHash} from '../../util/webpack';
 import exportModuleAsFunction from './transform/js/operation/exportModuleAsFunction';
 import namespaceWepbackJsonp from './transform/js/operation/namespaceWepbackJsonp';

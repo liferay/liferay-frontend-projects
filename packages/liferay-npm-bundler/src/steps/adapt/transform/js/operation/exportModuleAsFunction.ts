@@ -4,14 +4,13 @@
  */
 
 import estree from 'estree';
-
 import {
 	SourceCode,
 	SourceTransform,
 	replace,
-} from '../../../../../util/transform/js';
-import {getProgramStatements} from '../../../../../util/transform/js/ast';
-import {parse} from '../../../../../util/transform/js/parse';
+} from 'liferay-npm-build-tools-common/lib/transform/js';
+import {getProgramStatements} from 'liferay-npm-build-tools-common/lib/transform/js/ast';
+import {parse} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
 
 export default function exportModuleAsFunction(): SourceTransform {
 	return (source => _exportModuleAsFunction(source)) as SourceTransform;

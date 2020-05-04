@@ -4,13 +4,12 @@
  */
 
 import estree from 'estree';
-
 import {
 	SourceCode,
 	SourceTransform,
 	replace,
-} from '../../../../../../util/transform/js';
-import {parseAs} from '../../../../../../util/transform/js/parse';
+} from 'liferay-npm-build-tools-common/lib/transform/js';
+import {parseAs} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
 
 export default function tweakAttachmentToDOM(): SourceTransform {
 	return (source => _tweakAttachmentToDOM(source)) as SourceTransform;

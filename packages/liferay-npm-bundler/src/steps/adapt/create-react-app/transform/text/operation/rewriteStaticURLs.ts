@@ -4,8 +4,7 @@
  */
 
 import escapeStringRegexp from 'escape-string-regexp';
-
-import {TextTransform} from '../../../../../../util/transform/text';
+import {TextTransform} from 'liferay-npm-build-tools-common/lib/transform/text';
 
 /**
  * Map of source to destination assets URLs to be processed

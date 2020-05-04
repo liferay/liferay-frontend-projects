@@ -7,9 +7,9 @@ import * as escodegen from 'escodegen';
 import * as estraverse from 'estraverse';
 import estree from 'estree';
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {RawSourceMap, SourceMapConsumer, SourceMapGenerator} from 'source-map';
 
+import FilePath from '../../file-path';
 import {parse} from './parse';
 
 // AST explorer online: https://astexplorer.net/

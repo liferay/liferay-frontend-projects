@@ -4,12 +4,12 @@
  */
 
 import project from 'liferay-npm-build-tools-common/lib/project';
+import {transformTextFile} from 'liferay-npm-build-tools-common/lib/transform/text';
 
 import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
 import {copyFiles, findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
-import {transformTextFile} from '../../../util/transform/text';
 import {removeWebpackHash} from '../../../util/webpack';
 import {
 	processAdapterModules,

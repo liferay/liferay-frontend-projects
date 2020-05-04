@@ -5,14 +5,14 @@
 
 import {ExpressionStatement} from 'estree';
 import project from 'liferay-npm-build-tools-common/lib/project';
-
-import {findFiles} from '../../../../../util/files';
 import {
 	SourceCode,
 	SourceTransform,
 	replace,
-} from '../../../../../util/transform/js';
-import {parseAs} from '../../../../../util/transform/js/parse';
+} from 'liferay-npm-build-tools-common/lib/transform/js';
+import {parseAs} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+
+import {findFiles} from '../../../../../util/files';
 import {removeWebpackHash} from '../../../../../util/webpack';
 
 export default function adaptStaticURLsAtRuntime(

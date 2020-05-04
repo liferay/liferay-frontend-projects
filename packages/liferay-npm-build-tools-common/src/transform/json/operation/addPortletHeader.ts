@@ -4,7 +4,8 @@
  */
 
 import {JsonTransform} from '..';
-import {PkgJson} from 'liferay-npm-build-tools-common/src/project';
+
+import {PkgJson} from '../../../project';
 
 export default function addPortletHeader(
 	header: string,

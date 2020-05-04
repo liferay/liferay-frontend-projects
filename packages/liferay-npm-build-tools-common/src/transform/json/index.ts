@@ -4,7 +4,8 @@
  */
 
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+
+import FilePath from '../../file-path';
 
 export interface JsonTransform<T extends object> {
 	(json: T): Promise<T>;
