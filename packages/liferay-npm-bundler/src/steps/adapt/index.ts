@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
 import {buildBundlerDir, buildGeneratedDir} from '../../dirs';
@@ -13,6 +13,8 @@ import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
 import {SourceTransform, transformSourceFile} from '../../util/transform/js';
 import wrapModule from '../../util/transform/js/operation/wrapModule';
+import {transformJsonFile} from '../../util/transform/json';
+import addPortletHeader from '../../util/transform/json/operation/addPortletHeader';
 import {removeWebpackHash} from '../../util/webpack';
 import exportModuleAsFunction from './transform/js/operation/exportModuleAsFunction';
 import namespaceWepbackJsonp from './transform/js/operation/namespaceWepbackJsonp';
@@ -97,4 +99,20 @@ async function processAdapterModule(
 	);
 
 	log.debug(`Rendered ${templatePath} adapter module`);
+}
+
+export async function processPackageJson(
+	cssPortletHeader: string
+): Promise<void> {
+	const fromFile = project.dir.join('package.json');
+	const toFile = buildBundlerDir.join('package.json');
+
+	await transformJsonFile<PkgJson>(
+		fromFile,
+		toFile,
+		addPortletHeader(
+			'com.liferay.portlet.header-portlet-css',
+			cssPortletHeader
+		)
+	);
 }

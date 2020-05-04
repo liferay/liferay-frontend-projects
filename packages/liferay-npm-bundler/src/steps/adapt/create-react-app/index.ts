@@ -11,7 +11,11 @@ import {copyFiles, findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
 import {transformTextFile} from '../../../util/transform/text';
 import {removeWebpackHash} from '../../../util/webpack';
-import {processAdapterModules, processWebpackBundles} from '../index';
+import {
+	processAdapterModules,
+	processPackageJson,
+	processWebpackBundles,
+} from '../index';
 import tweakAttachmentToDOM from './transform/js/operation/tweakAttachmentToDOM';
 import rewriteStaticURLs from './transform/text/operation/rewriteStaticURLs';
 
@@ -38,6 +42,10 @@ export default async function adaptCreateReactApp(): Promise<void> {
 	log.info('Processing webpack bundles...');
 
 	await processWebpackBundles(tweakAttachmentToDOM());
+
+	log.info('Processing package.json file...');
+
+	await processPackageJson('/static/css/main.chunk.css');
 }
 
 function copyStaticAssets(): void {
