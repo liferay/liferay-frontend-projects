@@ -53,8 +53,8 @@ export function copyFiles(
 }
 
 /**
- * Perform a glob search of files and return their paths referenced to
- * `baseDir` without leading `./`.
+ * Perform a glob search of files and return their paths relative to `baseDir`
+ * without leading `./`.
  *
  * Note that the globs are not altered in any way and may even point to files
  * outside of the project directory.

@@ -80,15 +80,13 @@ function getBlockStatement(wrapAst: estree.Program): estree.BlockStatement {
 		);
 	}
 
-	const arg2 = args[2];
-
-	if (arg2.type !== 'FunctionExpression') {
+	if (args[2].type !== 'FunctionExpression') {
 		throw new Error(
 			'Second argument of program call expression is not a function'
 		);
 	}
 
-	const {body: moduleBody} = arg2;
+	const {body: moduleBody} = args[2];
 
 	if (moduleBody.type !== 'BlockStatement') {
 		throw new Error('Argument function body is not a block statement');

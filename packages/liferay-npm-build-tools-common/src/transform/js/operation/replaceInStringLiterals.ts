@@ -4,7 +4,8 @@
  */
 
 import {SourceCode, SourceTransform, replace} from '..';
-import escapeStringRegexp from 'escape-string-regexp';
+
+import {escapeStringRegexp} from '../../../regexp';
 
 export default function replaceInStringLiterals(
 	from: string,

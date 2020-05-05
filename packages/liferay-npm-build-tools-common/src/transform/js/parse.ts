@@ -27,8 +27,8 @@ export function parse(code: string): estree.Program {
 }
 
 /**
- * Parses a snippet of JavaScript source code and extracts it to from the
- * Program AST node.
+ * Parses a snippet of JavaScript source code and extracts it from the Program
+ * AST node.
  *
  * This is useful to get AST representations of code snippets to be used during
  * AST transformations.

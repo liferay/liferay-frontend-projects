@@ -123,9 +123,9 @@ async function mergeMaps(
 	const newMapConsumer = await new SourceMapConsumer(newMap);
 
 	newMapConsumer.eachMapping(mapping => {
-		// Note that `originalLine` is null when the node does not come from the
-		// original code
-		if (mapping.originalLine == null) {
+		// Note that there is no `originalLine` when the node does not come from
+		// the original code
+		if (!mapping.originalLine) {
 			return;
 		}
 

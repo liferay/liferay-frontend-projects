@@ -17,7 +17,7 @@ export function runNodeModulesBin(script: string, args: string[] = []): void {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	} else if (proc.status !== 0) {
 		throw new Error(
 			`Node modules binary '${script}' finished with status ${proc.status}`
 		);
@@ -42,7 +42,7 @@ export function runPkgJsonScript(script: string, args: string[] = []): void {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	} else if (proc.status !== 0) {
 		throw new Error(
 			`Package script '${script}' finished with status ${proc.status}`
 		);

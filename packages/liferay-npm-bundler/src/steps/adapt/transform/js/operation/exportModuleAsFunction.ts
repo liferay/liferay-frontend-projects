@@ -46,31 +46,18 @@ async function _exportModuleAsFunction(
 function getBlockStatement(program: estree.Program): estree.BlockStatement {
 	const {body: programBody} = program;
 
-	if (programBody.length !== 1) {
-		throw new Error('Program body has more than one node');
+	if (
+		programBody.length === 1 &&
+		programBody[0].type === 'ExpressionStatement' &&
+		programBody[0].expression.type === 'AssignmentExpression' &&
+		programBody[0].expression.right &&
+		programBody[0].expression.right.type === 'FunctionExpression' &&
+		programBody[0].expression.right.body.type === 'BlockStatement'
+	) {
+		return programBody[0].expression.right.body;
+	} else {
+		throw new Error(
+			'Provided program does not match the expected structure'
+		);
 	}
-
-	if (programBody[0].type !== 'ExpressionStatement') {
-		throw new Error('Program is not an expression statement');
-	}
-
-	const {expression} = programBody[0];
-
-	if (expression.type !== 'AssignmentExpression') {
-		throw new Error('Program is not an assignment expression');
-	}
-
-	const {right} = expression;
-
-	if (right.type !== 'FunctionExpression') {
-		throw new Error('Right hand operator is not a function expression');
-	}
-
-	const {body: functionBody} = right;
-
-	if (functionBody.type !== 'BlockStatement') {
-		throw new Error('Right hand operator body is not a block statement');
-	}
-
-	return functionBody;
 }

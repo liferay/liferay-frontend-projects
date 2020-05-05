@@ -15,7 +15,6 @@
 		"chalk": "^2.4.2",
 		"clone": "^2.1.2",
 		"dot-prop": "^5.0.1",
-		"escape-string-regexp": "^4.0.0",
 		"escodegen": "^1.14.1",
 		"estraverse": "^4.3.0",
 		"fs-extra": "^8.1.0",

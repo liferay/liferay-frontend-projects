@@ -16,11 +16,7 @@ export default function namespaceWepbackJsonp(): SourceTransform {
 	hash.update(name);
 	hash.update(version);
 
-	const uuid = hash
-		.digest('base64')
-		.replace(/\+/g, '_')
-		.replace(/\//g, '_')
-		.replace(/=/g, '');
+	const uuid = hash.digest('base64').replace(/[/+=]/g, '_');
 
 	return replaceInStringLiterals('webpackJsonp', `webpackJsonp_${uuid}_`);
 }

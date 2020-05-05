@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import escapeStringRegexp from 'escape-string-regexp';
+import {escapeStringRegexp} from 'liferay-npm-build-tools-common/lib/regexp';
 import {TextTransform} from 'liferay-npm-build-tools-common/lib/transform/text';
 
 /**
@@ -36,9 +36,7 @@ function _rewriteStaticURLs(
 	Object.entries(assetURLsMap).forEach(([srcAssetURL, destAssetURL]) => {
 		const regexp = new RegExp(escapeStringRegexp(srcAssetURL), 'g');
 
-		const matches = regexp.exec(text);
-
-		if (!matches) {
+		if (!regexp.test(text)) {
 			return;
 		}
 

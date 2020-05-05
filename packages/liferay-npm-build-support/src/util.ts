@@ -14,11 +14,6 @@ import path from 'path';
  * Template renderer class
  */
 export class Renderer {
-	/**
-	 *
-	 * @param {string} templatesPath
-	 * @param {string} outputPath
-	 */
 	constructor(templatesPath, outputPath) {
 		this._templatesPath = templatesPath;
 		this._outputPath = outputPath;
@@ -26,12 +21,12 @@ export class Renderer {
 
 	/**
 	 *
-	 * @param {string} templatePath the template path
-	 * @param {Object} data the contextual data to render the template
-	 * @param {string} dir optional relative directory in output path
-	 * @param {string} name optional output file name
+	 * @param templatePath the template path
+	 * @param data the contextual data to render the template
+	 * @param dir optional relative directory in output path
+	 * @param name optional output file name
 	 */
-	render(templatePath, data = {}, {dir = '', name = undefined} = {}) {
+	render(templatePath, data = {}, {dir = '', name = undefined} = {}): void {
 		dir = path.join(this._outputPath, dir);
 		name = name || templatePath;
 
@@ -55,12 +50,7 @@ export class Renderer {
 	private readonly _outputPath: string;
 }
 
-/**
- *
- * @param {string} script
- * @param {Array<*>} args
- */
-export function runNodeModulesBin(script, args = []) {
+export function runNodeModulesBin(script, args = []): void {
 	const proc = spawn.sync(
 		project.dir.join('node_modules', '.bin', script).asNative,
 		args,
@@ -71,7 +61,7 @@ export function runNodeModulesBin(script, args = []) {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	} else if (proc.status !== 0) {
 		throw new Error(
 			`Node modules binary '${script}' finished with status ${proc.status}`
 		);
@@ -82,12 +72,7 @@ export function runNodeModulesBin(script, args = []) {
 	}
 }
 
-/**
- *
- * @param {string} script
- * @param {Array<*>} args
- */
-export function runPkgJsonScript(script, args = []) {
+export function runPkgJsonScript(script, args = []): void {
 	const pkgManager = project.pkgManager || 'npm';
 
 	if (pkgManager !== 'yarn') {
@@ -101,7 +86,7 @@ export function runPkgJsonScript(script, args = []) {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	} else if (proc.status !== 0) {
 		throw new Error(
 			`Package script '${script}' finished with status ${proc.status}`
 		);

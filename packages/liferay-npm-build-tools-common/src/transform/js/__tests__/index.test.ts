@@ -54,7 +54,7 @@ describe('replace', () => {
 			}
 		);
 
-		// Wrap code into define() call
+		// Wrap code in define() call
 		const transformed2 = await replace(transformed1, {
 			enter(node) {
 				if (node.type !== 'Program') {
@@ -100,14 +100,5 @@ describe('replace', () => {
 		});
 
 		expect(transformed2).toMatchSnapshot();
-
-		require('fs').writeFileSync(
-			'/tmp/file.js',
-			transformed2.code +
-				'\n' +
-				require('convert-source-map')
-					.fromObject(transformed2.map)
-					.toComment()
-		);
 	});
 });
