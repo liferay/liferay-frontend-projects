@@ -5,20 +5,9 @@
 
 import {replace} from '..';
 import {parse} from 'acorn';
+import {generate} from 'escodegen';
 import estree from 'estree';
-
-// To write a .js file with source map for debugging purposes do:
-// require('fs').writeFileSync(
-// 	'/tmp/file.js',
-// 	transformed.code +
-// 		'\n' +
-// 		require('convert-source-map')
-// 			.fromObject(transformed.map)
-// 			.toComment()
-// );
-
-// Note that generated source maps can be inspected (when necessary) with:
-// http://sokra.github.io/source-map-visualization/#custom
+import {SourceMapConsumer} from 'source-map';
 
 describe('replace', () => {
 	it('works for single transformation', async () => {
@@ -36,69 +25,142 @@ describe('replace', () => {
 			}
 		);
 
-		expect(transformed).toMatchSnapshot();
+		expect(transformed.code).toBe('a = 1;');
+
+		expect(generate(transformed.ast)).toBe('a = 1;');
+
+		expect(transformed.map).toMatchObject({
+			file: '<unknown>',
+			names: ['a'],
+			sources: ['<unknown>'],
+			sourcesContent: ['variable = 1'],
+			version: 3,
+		});
+
+		const mappings = [];
+
+		(await new SourceMapConsumer(transformed.map)).eachMapping(mapping =>
+			mappings.push(mapping)
+		);
+
+		// all mappings are from the same file
+		expect(
+			mappings
+				.map(mapping => mapping.source)
+				.find(source => source !== '<unknown>')
+		).toBeUndefined();
+
+		// check original mappings
+		expect(
+			mappings.map(mapping => [
+				mapping.originalLine,
+				mapping.originalColumn,
+			])
+		).toEqual([[1, 0], [1, 0], [1, 11], [1, 0]]);
+
+		// check generated mappings
+		expect(
+			mappings.map(mapping => [
+				mapping.generatedLine,
+				mapping.generatedColumn,
+			])
+		).toEqual([[1, 0], [1, 1], [1, 4], [1, 5]]);
+
+		// check names
+		expect(mappings.map(mapping => mapping.name)).toEqual([
+			'a',
+			null,
+			null,
+			null,
+		]);
 	});
 
 	it('works for double transformation', async () => {
-		// Change `variable = 1` to `a = 1`
-		const transformed1 = await replace(
-			{code: 'variable = 1'},
+		// Change `var x = 1` to `const x = 1`
+		const transformed0 = await replace(
+			{code: 'var x = 1'},
 			{
 				enter(node) {
-					if (node.type !== 'Identifier') {
+					if (node.type !== 'VariableDeclaration') {
 						return;
 					}
 
-					node.name = 'a';
+					node.kind = 'const';
 				},
 			}
 		);
 
-		// Wrap code in define() call
-		const transformed2 = await replace(transformed1, {
+		// Change `const x = 1` to `const x = 1; module.exports = x;`
+		const transformed = await replace(transformed0, {
 			enter(node) {
 				if (node.type !== 'Program') {
 					return;
 				}
 
-				const ast = parse(`define('a-module', function() {})`);
+				const program = parse(`module.exports = x`) as estree.Node;
 
-				const {body} = (ast as unknown) as estree.Program;
-
-				if (body[0].type !== 'ExpressionStatement') {
-					return;
+				if (program.type !== 'Program') {
+					throw new Error(
+						'Parsed code does not match expected structure'
+					);
 				}
 
-				const {expression} = body[0];
-
-				if (expression.type !== 'CallExpression') {
-					return;
-				}
-
-				const {arguments: args} = expression;
-
-				if (args.length < 2) {
-					return;
-				}
-
-				if (args[1].type !== 'FunctionExpression') {
-					return;
-				}
-
-				const functionExpression = args[1];
-
-				const {body: moduleBody} = functionExpression;
-
-				if (moduleBody.type !== 'BlockStatement') {
-					return;
-				}
-
-				moduleBody.body = (node.body as unknown) as [];
-
-				node.body = body;
+				node.body.push(program.body[0]);
 			},
 		});
 
-		expect(transformed2).toMatchSnapshot();
+		expect(transformed.code).toBe(
+			'const x = 1;' + '\n' + 'module.exports = x;'
+		);
+
+		expect(generate(transformed.ast)).toBe(
+			'const x = 1;' + '\n' + 'module.exports = x;'
+		);
+
+		expect(transformed.map).toMatchObject({
+			file: '<unknown>',
+			names: [],
+			sources: ['<unknown>'],
+			sourcesContent: ['var x = 1'],
+			version: 3,
+		});
+
+		const mappings = [];
+
+		(await new SourceMapConsumer(transformed.map)).eachMapping(mapping =>
+			mappings.push(mapping)
+		);
+
+		// all mappings are from the same file
+		expect(
+			mappings
+				.map(mapping => mapping.source)
+				.find(source => source !== '<unknown>')
+		).toBeUndefined();
+
+		// check original mappings
+		expect(
+			mappings.map(mapping => [
+				mapping.originalLine,
+				mapping.originalColumn,
+			])
+		).toEqual([[1, 0], [1, 0], [1, 0], [1, 4], [1, 0]]);
+
+		// check generated mappings
+		expect(
+			mappings.map(mapping => [
+				mapping.generatedLine,
+				mapping.generatedColumn,
+			])
+		).toEqual([[1, 0], [1, 6], [1, 7], [1, 10], [1, 11]]);
+
+		// check names
+		expect(mappings.map(mapping => mapping.name)).toEqual([
+			null,
+			null,
+			null,
+			null,
+			null,
+		]);
 	});
 });
