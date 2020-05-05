@@ -32,16 +32,16 @@ async function _wrapModule(
 			const program = node;
 
 			const wrapAst = parse(`
-			Liferay.Loader.define(
-				'${moduleName}',
-				[
-					'module',
-					'require'
-					${getDefineDependencies(program)}
-				],
-				function(module, require) {
-				}
-			);
+				Liferay.Loader.define(
+					'${moduleName}',
+					[
+						'module',
+						'require'
+						${getDefineDependencies(program)}
+					],
+					function(module, require) {
+					}
+				);
 			`);
 
 			const {body: wrapBody} = wrapAst;
