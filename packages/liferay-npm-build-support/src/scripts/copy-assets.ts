@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 import cpr from 'cpr';
 import fs from 'fs-extra';
 
 /**
  *
  */
-export default function() {
+export default function(): void {
 	fs.mkdirpSync('build');
 
 	cpr(

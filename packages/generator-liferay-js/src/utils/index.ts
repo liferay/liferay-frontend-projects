@@ -10,6 +10,14 @@ import path from 'path';
 const pkgJson = require('../../package.json');
 import * as cfg from '../config';
 
+export interface FormattedLabels {
+	js: object;
+	jsx: object;
+	quoted: object;
+	raw: object;
+	template: object;
+}
+
 /**
  * A class to help copying Yeoman templates.
  */
@@ -28,7 +36,7 @@ export class Copier {
 	 * 						instantiating the template (defaults to {})
 	 * @param  {String} dest optional destination name (defaults to src)
 	 */
-	copyFile(src, {context = {}, dest = undefined} = {}) {
+	copyFile(src, {context = {}, dest = undefined} = {}): void {
 		const gen = this._generator;
 
 		const fullContext = {
@@ -51,7 +59,7 @@ export class Copier {
 	 * @param  {Object} context optional context object to use when
 	 * 						instantiating the template (defaults to {})
 	 */
-	copyDir(src, {context = {}} = {}) {
+	copyDir(src, {context = {}} = {}): void {
 		const gen = this._generator;
 		const files = fs.readdirSync(gen.templatePath(src));
 
@@ -80,19 +88,8 @@ export class Copier {
  * @return {object} returns an object with labels transformed according to
  * 			different formats: 'raw', 'quoted', 'template', 'js'
  */
-export function formatLabels(labels) {
+export function formatLabels(labels): FormattedLabels {
 	return {
-		raw: labels,
-		quoted: Object.entries(labels).reduce((obj, [key, value]) => {
-			obj[key] = `'${value}'`;
-
-			return obj;
-		}, {}),
-		template: Object.keys(labels).reduce((obj, key) => {
-			obj[key] = `\${Liferay.Language.get('${hyphenate(key)}')}`;
-
-			return obj;
-		}, {}),
 		js: Object.keys(labels).reduce((obj, key) => {
 			obj[key] = `Liferay.Language.get('${hyphenate(key)}')`;
 
@@ -100,6 +97,17 @@ export function formatLabels(labels) {
 		}, {}),
 		jsx: Object.keys(labels).reduce((obj, key) => {
 			obj[key] = `{Liferay.Language.get('${hyphenate(key)}')}`;
+
+			return obj;
+		}, {}),
+		quoted: Object.entries(labels).reduce((obj, [key, value]) => {
+			obj[key] = `'${value}'`;
+
+			return obj;
+		}, {}),
+		raw: labels,
+		template: Object.keys(labels).reduce((obj, key) => {
+			obj[key] = `\${Liferay.Language.get('${hyphenate(key)}')}`;
 
 			return obj;
 		}, {}),
@@ -111,7 +119,7 @@ export function formatLabels(labels) {
  * @param {ProjectAnalyzer} projectAnalyzer
  * @return {string}
  */
-export function getPortletName(projectAnalyzer) {
+export function getPortletName(projectAnalyzer): string {
 	let portletName = projectAnalyzer.name;
 
 	portletName = portletName.replace(/-/g, '');
@@ -126,7 +134,10 @@ export function getPortletName(projectAnalyzer) {
  * @param {string} packageName
  * @param {boolean} ignoreConfig return the true SDK version
  */
-export function getSDKVersion(packageName, {ignoreConfig = false} = {}) {
+export function getSDKVersion(
+	packageName,
+	{ignoreConfig = false} = {}
+): string {
 	let version = `^${pkgJson.version}`;
 
 	if (ignoreConfig) {
@@ -151,7 +162,7 @@ export function getSDKVersion(packageName, {ignoreConfig = false} = {}) {
  * @param {string} key
  * @return {string}
  */
-export function hyphenate(key) {
+export function hyphenate(key): string {
 	let ret = '';
 
 	for (let i = 0; i < key.length; i++) {
@@ -175,7 +186,11 @@ export function hyphenate(key) {
  * @param  {Array} prompts a Yeoman prompts array
  * @return {object} the set of answers
  */
-export async function promptWithConfig(generator, namespace, prompts?) {
+export async function promptWithConfig(
+	generator,
+	namespace,
+	prompts?
+): Promise<object> {
 	if (Array.isArray(namespace)) {
 		prompts = namespace;
 		namespace = generator.namespace;
@@ -215,7 +230,7 @@ export async function promptWithConfig(generator, namespace, prompts?) {
  * @param {string} string string to capitalize
  * @return {string}
  */
-export function toHumanReadable(string) {
+export function toHumanReadable(string): string {
 	let capitalizeNext = true;
 	let humanizedString = '';
 
@@ -241,7 +256,7 @@ export function toHumanReadable(string) {
  * @param  {String} input directory path
  * @return {boolean|string}
  */
-export function validateLiferayDir(input) {
+export function validateLiferayDir(input): string | boolean {
 	if (!fs.existsSync(input)) {
 		return 'Directory does not exist';
 	}

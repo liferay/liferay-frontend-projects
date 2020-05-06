@@ -42,11 +42,6 @@ const msg = {
 		We have detected a project of type {create-react-app}
 		`,
 	],
-	vueCliDetected: [
-		success`
-		We have detected a project of type {vue-cli}
-		`,
-	],
 	projectAdapted: [
 		``,
 		success`
@@ -76,6 +71,11 @@ const msg = {
 		supported project types and how they are detected.
 		`,
 	],
+	vueCliDetected: [
+		success`
+		We have detected a project of type {vue-cli}
+		`,
+	],
 	warnAboutOverwrite: [
 		'',
 		warn`
@@ -101,6 +101,7 @@ const msg = {
 
 // If --which parameter is given show path to generator and exit
 if (argv.which) {
+	// eslint-disable-next-line no-console
 	console.log(require.resolve('./index'));
 	process.exit(0);
 }
@@ -122,7 +123,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 
 		print(msg.welcome);
@@ -131,7 +132,7 @@ export default class extends Generator {
 			case ProjectType.ANGULAR_CLI:
 				this._options = {
 					preset: 'angular-cli',
-					tuneProject: () => this._tuneAngularCliProject(),
+					tuneProject: (): void => this._tuneAngularCliProject(),
 				};
 
 				print(msg.angularCliDetected);
@@ -140,7 +141,7 @@ export default class extends Generator {
 			case ProjectType.CREATE_REACT_APP:
 				this._options = {
 					preset: 'create-react-app',
-					tuneProject: () => this._tuneCreateReactAppProject(),
+					tuneProject: (): void => this._tuneCreateReactAppProject(),
 				};
 
 				print(msg.createReactAppDetected);
@@ -149,7 +150,7 @@ export default class extends Generator {
 			case ProjectType.VUE_CLI:
 				this._options = {
 					preset: 'vue-cli',
-					tuneProject: () => this._tuneVueCliProject(),
+					tuneProject: (): void => this._tuneVueCliProject(),
 				};
 
 				print(msg.vueCliDetected);
@@ -164,7 +165,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		print(msg.questions);
 
 		this.answers = {};
@@ -172,47 +173,47 @@ export default class extends Generator {
 		if (project.pkgManager === null) {
 			const answers = await promptWithConfig(this, 'adapt', [
 				{
-					type: 'list',
-					name: 'pkgManager',
-					message:
-						'Which package manager are you using for the project?',
-					default: 'npm',
 					choices: [
 						{name: 'npm', value: 'npm'},
 						{name: 'yarn', value: 'yarn'},
 					],
+					default: 'npm',
+					message:
+						'Which package manager are you using for the project?',
+					name: 'pkgManager',
+					type: 'list',
 				},
 			]);
 
 			// Set project's package manager internally using a hack
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(project as any)._pkgManager = answers.pkgManager;
+			(project as any)._pkgManager = answers['pkgManager'];
 		}
 
 		Object.assign(
 			this.answers,
 			await promptWithConfig(this, 'adapt', [
 				{
-					type: 'input',
-					name: 'category',
+					default: 'category.sample',
 					message:
 						'Under which category should your widget be listed?',
-					default: 'category.sample',
+					name: 'category',
+					type: 'input',
 				},
 			])
 		);
 
 		const answers = await promptWithConfig(this, 'adapt', [
 			{
-				type: 'confirm',
-				name: 'liferayPresent',
+				default: true,
 				message:
 					'Do you have a local installation of Liferay for development?',
-				default: true,
+				name: 'liferayPresent',
+				type: 'confirm',
 			},
 		]);
 
-		if (!answers.liferayPresent) {
+		if (!answers['liferayPresent']) {
 			return;
 		}
 
@@ -220,11 +221,11 @@ export default class extends Generator {
 			this.answers,
 			await promptWithConfig(this, 'adapt', [
 				{
-					type: 'input',
-					name: 'liferayDir',
+					default: '/liferay',
 					message:
 						'Where is your local installation of Liferay placed?',
-					default: '/liferay',
+					name: 'liferayDir',
+					type: 'input',
 					validate: validateLiferayDir,
 				},
 			])
@@ -234,7 +235,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		print(msg.warnAboutOverwrite);
 
 		this._copyTemplates();
@@ -245,15 +246,15 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman install function
 	 */
-	install() {
+	install(): void {
 		print(msg.projectAdapted);
 
 		const opts = {
 			bower: false,
 			npm: false,
-			yarn: false,
-			skipMessage: this.options['skip-install-message'],
 			skipInstall: this.options['skip-install'],
+			skipMessage: this.options['skip-install-message'],
+			yarn: false,
 		};
 
 		opts[project.pkgManager] = true;
@@ -261,13 +262,13 @@ export default class extends Generator {
 		this.installDependencies(opts);
 	}
 
-	_copyTemplates() {
+	_copyTemplates(): void {
 		const cp = new Copier(this);
 
 		cp.copyDir('.');
 	}
 
-	_modifyTemplates() {
+	_modifyTemplates(): void {
 		const gitignore = new GitignoreModifier(this);
 		const languagePropertiesModifier = new LanguagePropertiesModifier(this);
 		const npmbuildrc = new NpmbuildrcModifier(this);
@@ -334,7 +335,7 @@ export default class extends Generator {
 		);
 	}
 
-	_tuneAngularCliProject() {
+	_tuneAngularCliProject(): void {
 		const pkgJson = new PkgJsonModifier(this, 2);
 		const projectAnalyzer = new ProjectAnalyzer(this);
 
@@ -345,13 +346,13 @@ export default class extends Generator {
 		);
 	}
 
-	_tuneCreateReactAppProject() {
+	_tuneCreateReactAppProject(): void {
 		const pkgJson = new PkgJsonModifier(this, 2);
 
 		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);
 	}
 
-	_tuneVueCliProject() {
+	_tuneVueCliProject(): void {
 		const pkgJson = new PkgJsonModifier(this, 2);
 
 		pkgJson.addPortletProperty('com.liferay.portlet.instanceable', true);

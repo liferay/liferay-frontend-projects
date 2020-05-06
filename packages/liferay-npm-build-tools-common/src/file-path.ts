@@ -11,6 +11,10 @@ export type AnyPath = string | FilePath;
 export default class FilePath {
 	static readonly nativeIsPosix: boolean = path.sep === '/';
 
+	static coerce(anyPath: AnyPath): FilePath {
+		return typeof anyPath === 'string' ? new FilePath(anyPath) : anyPath;
+	}
+
 	constructor(nativePath: string, {posix = false}: {posix?: boolean} = {}) {
 		if (posix && !FilePath.nativeIsPosix) {
 			nativePath = nativePath.replace(/\//g, '\\');

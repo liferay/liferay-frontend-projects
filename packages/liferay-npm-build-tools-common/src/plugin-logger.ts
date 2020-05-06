@@ -60,8 +60,8 @@ export default class PluginLogger {
 	 */
 	info(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
-			source,
 			level: 'info',
+			source,
 			things,
 		};
 
@@ -77,8 +77,8 @@ export default class PluginLogger {
 	 */
 	warn(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
-			source,
 			level: 'warn',
+			source,
 			things,
 		};
 
@@ -94,8 +94,8 @@ export default class PluginLogger {
 	 */
 	error(source: string, ...things: unknown[]): MessageTweaker {
 		const msg: Message = {
-			source,
 			level: 'error',
+			source,
 			things,
 		};
 

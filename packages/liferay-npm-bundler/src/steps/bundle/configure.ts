@@ -11,7 +11,7 @@ import webpack from 'webpack';
 
 import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
 import * as log from '../../log';
-import {abort} from '../util';
+import {abort} from '../../util';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config
@@ -62,20 +62,20 @@ export default function configure(): webpack.Configuration {
 	// Override optimization configuration
 	overrideWarn('optimization', webpackConfig.optimization);
 	webpackConfig.optimization = {
-		splitChunks: {
-			name: 'vendor',
-			chunks: 'initial',
-		},
 		runtimeChunk: {
 			name: 'runtime',
+		},
+		splitChunks: {
+			chunks: 'initial',
+			name: 'vendor',
 		},
 	};
 
 	// Insert our imports loader in first position
 	webpackConfig.module = webpackConfig.module || {rules: []};
 	webpackConfig.module.rules.unshift({
-		test: /.*/,
 		enforce: 'post',
+		test: /.*/,
 		use: [require.resolve('./plugin/imports-loader')],
 	});
 

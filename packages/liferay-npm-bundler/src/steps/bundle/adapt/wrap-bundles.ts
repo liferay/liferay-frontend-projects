@@ -5,7 +5,7 @@
 
 import {parse} from 'acorn';
 import {traverse} from 'estraverse';
-import ESTree from 'estree';
+import estree from 'estree';
 import fs from 'fs-extra';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
@@ -58,7 +58,7 @@ function getImportDependencies(id: string): string {
 
 	const requiredModules = {};
 
-	traverse(ast as ESTree.Node, {
+	traverse(ast as estree.Node, {
 		enter(node) {
 			if (node.type !== 'CallExpression') {
 				return;

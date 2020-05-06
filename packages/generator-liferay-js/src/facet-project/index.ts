@@ -23,21 +23,21 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		this.answers = await promptWithConfig(this, 'facet-project', [
 			{
-				type: 'input',
-				name: 'description',
+				default: toHumanReadable(path.basename(process.cwd())),
 				message:
 					'What is the human readable description of your project?',
-				default: toHumanReadable(path.basename(process.cwd())),
+				name: 'description',
+				type: 'input',
 			},
 		]);
 	}
@@ -45,15 +45,15 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		const cp = new Copier(this);
 
 		const context = {
-			name: path.basename(process.cwd()),
+			liferayNpmBuildSupportVersion: getSDKVersion('liferay-npm-bundler'),
 			liferayNpmBundlerVersion: getSDKVersion(
 				'liferay-npm-build-support'
 			),
-			liferayNpmBuildSupportVersion: getSDKVersion('liferay-npm-bundler'),
+			name: path.basename(process.cwd()),
 		};
 
 		cp.copyFile('README.md', {context});

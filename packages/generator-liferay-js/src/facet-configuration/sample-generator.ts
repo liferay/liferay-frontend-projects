@@ -21,7 +21,7 @@ export default class {
 	/**
 	 *
 	 */
-	generate() {
+	generate(): void {
 		const projectAnalyzer = new ProjectAnalyzer(this._generator);
 
 		if (projectAnalyzer.hasConfiguration) {
@@ -36,15 +36,15 @@ export default class {
 					'fruit',
 					'string',
 					{
-						name: 'fruit',
-						description: 'fruit-help',
-						required: false,
 						defaultValue: 'orange',
+						description: 'fruit-help',
+						name: 'fruit',
 						options: {
+							apple: 'an-apple',
 							orange: 'an-orange',
 							pear: 'a-pear',
-							apple: 'an-apple',
 						},
+						required: false,
 					}
 				);
 
@@ -54,30 +54,30 @@ export default class {
 					'drink',
 					'string',
 					{
-						name: 'drink',
-						description: 'drink-help',
-						required: false,
 						defaultValue: 'water',
+						description: 'drink-help',
+						name: 'drink',
 						options: {
+							beer: 'beer',
 							water: 'water',
 							wine: 'wine',
-							beer: 'beer',
 						},
+						required: false,
 					}
 				);
 
 				// Add configuration localization
 				new LanguagePropertiesModifier(this._generator).addProperties({
-					fruit: 'Favorite fruit',
-					'fruit-help': 'Choose the fruit you like the most',
-					'an-orange': 'An orange',
 					'a-pear': 'A pear',
 					'an-apple': 'An apple',
+					'an-orange': 'An orange',
+					beer: 'Beer',
 					drink: 'Favorite drink',
 					'drink-help': 'Choose the drink you like the most',
+					fruit: 'Favorite fruit',
+					'fruit-help': 'Choose the fruit you like the most',
 					water: 'Water',
 					wine: 'Wine',
-					beer: 'Beer',
 				});
 			} else {
 				// Add system configuration description
@@ -86,15 +86,15 @@ export default class {
 					'fruit',
 					'string',
 					{
-						name: 'Favorite fruit',
-						description: 'Choose the fruit you like the most',
-						required: false,
 						defaultValue: 'orange',
+						description: 'Choose the fruit you like the most',
+						name: 'Favorite fruit',
 						options: {
+							apple: 'An apple',
 							orange: 'An orange',
 							pear: 'A pear',
-							apple: 'An apple',
 						},
+						required: false,
 					}
 				);
 
@@ -104,15 +104,15 @@ export default class {
 					'drink',
 					'string',
 					{
-						name: 'Favorite drink',
-						description: 'Choose the drink you like the most',
-						required: false,
 						defaultValue: 'water',
+						description: 'Choose the drink you like the most',
+						name: 'Favorite drink',
 						options: {
+							beer: 'Beer',
 							water: 'Water',
 							wine: 'Wine',
-							beer: 'Beer',
 						},
+						required: false,
 					}
 				);
 			}

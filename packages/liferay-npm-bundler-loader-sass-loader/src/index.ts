@@ -12,7 +12,7 @@ import resolveModule from 'resolve';
  * @param {object} options loader's options
  * @return {string} the processed file content
  */
-export default function(context, options) {
+export default function(context, options): string {
 	const {content, log} = context;
 
 	const {renderer, rendererDescription} = getRenderer();
@@ -28,7 +28,7 @@ export default function(context, options) {
  * Get configured SASS renderer.
  * @return {*}
  */
-function getRenderer() {
+function getRenderer(): {renderer: unknown; rendererDescription: string} {
 	let rendererFilePath = tryResolve('node-sass', '.');
 	let rendererPkgJsonPath = tryResolve('node-sass/package.json', '.');
 	let rendererSource = 'from project';
@@ -52,6 +52,7 @@ function getRenderer() {
 	rendererDescription += ` (${rendererSource})`;
 
 	return {
+		// eslint-disable-next-line liferay/no-dynamic-require
 		renderer: require(rendererFilePath),
 		rendererDescription,
 	};
@@ -62,7 +63,7 @@ function getRenderer() {
  * CSS content.
  * @param {object} context
  */
-function changeFilePathExtension(context) {
+function changeFilePathExtension(context): void {
 	let {filePath} = context;
 
 	const extname = path.extname(filePath);
@@ -76,7 +77,7 @@ function changeFilePathExtension(context) {
 	context.filePath = filePath;
 }
 
-function renderCSS(renderer, content, options) {
+function renderCSS(renderer, content, options): string {
 	const result = renderer.renderSync({
 		data: content,
 		...options,
@@ -90,7 +91,7 @@ function renderCSS(renderer, content, options) {
  * @param {string} moduleName module name
  * @param {string} basedir optional base directory
  */
-function tryResolve(moduleName, basedir = undefined) {
+function tryResolve(moduleName, basedir = undefined): string | undefined {
 	try {
 		return resolveModule.sync(moduleName, {
 			basedir,

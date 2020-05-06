@@ -6,7 +6,7 @@
 import webpack from 'webpack';
 
 import * as log from '../../log';
-import {abort} from '../util';
+import {abort} from '../../util';
 import adapt from './adapt';
 import configure from './configure';
 import run from './run';
@@ -15,7 +15,7 @@ import writeResults from './write-results';
 /**
  * Run configured rules.
  */
-export default async function runWebpack(): Promise<webpack.Stats> {
+export default async function bundle(): Promise<webpack.Stats> {
 	log.debug('Using webpack at', require.resolve('webpack'));
 
 	log.info('Configuring webpack build...');

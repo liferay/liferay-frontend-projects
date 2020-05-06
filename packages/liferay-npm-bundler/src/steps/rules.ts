@@ -14,7 +14,8 @@ import path from 'path';
 
 import * as log from '../log';
 import report from '../report';
-import {findFiles, getDestDir, runInChunks} from './util';
+import {getDestDir, runInChunks} from '../util';
+import {findFiles} from '../util/files';
 
 /**
  * Run configured rules.
@@ -37,7 +38,7 @@ function processPackage(srcPkg: PkgDesc): Promise<void> {
 	const sourcePrjRelPaths = findFiles(
 		project.dir.asNative,
 		gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
-	);
+	).map(file => file.asNative);
 
 	if (sourcePrjRelPaths.length === 0) {
 		return Promise.resolve();
@@ -72,8 +73,8 @@ function processFile(
 
 	const context: BundlerLoaderContext<string | Buffer> = {
 		content: fs.readFileSync(fileAbsPath),
-		filePath: prjRelPath,
 		extraArtifacts: {},
+		filePath: prjRelPath,
 		log: new PluginLogger(),
 	};
 

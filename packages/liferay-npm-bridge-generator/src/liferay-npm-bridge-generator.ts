@@ -26,7 +26,7 @@ const defaultTemplate = `Liferay.Loader.define('{PKG_NAME}@{PKG_VERSION}/{DEST_M
  * Main entry point
  * @return {void}
  */
-export default function main() {
+export default function main(): void {
 	const pkgJson = readJsonSync('./package.json');
 	const config = readJsonSync('./.npmbridgerc');
 
@@ -106,8 +106,9 @@ export default function main() {
  * @param  {Array} args arguments given to the function
  * @return {void}
  */
-function log(...args) {
+function log(...args): void {
 	if (argv.verbose) {
+		// eslint-disable-next-line no-console
 		console.log(...args);
 	}
 }

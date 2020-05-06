@@ -23,7 +23,7 @@ export default class extends JsonModifier {
 	 * Set local Liferay installation directory
 	 * @param {string} liferayDir
 	 */
-	setLiferayDir(liferayDir) {
+	setLiferayDir(liferayDir): void {
 		this.modifyJson(json => {
 			prop.set(json, 'liferayDir', liferayDir);
 		});
@@ -33,7 +33,7 @@ export default class extends JsonModifier {
 	 * Set supported locales array
 	 * @param {Array<string>} supportedLocales
 	 */
-	setSupportedLocales(supportedLocales) {
+	setSupportedLocales(supportedLocales): void {
 		this.modifyJson(json => {
 			prop.set(json, 'supportedLocales', supportedLocales);
 		});
@@ -43,7 +43,7 @@ export default class extends JsonModifier {
 	 * Set Microsoft Translator credentials
 	 * @param {string} key
 	 */
-	setTranslatorTextKey(translatorTextKey) {
+	setTranslatorTextKey(translatorTextKey): void {
 		this.modifyJson(json => {
 			prop.set(json, 'translatorTextKey', translatorTextKey);
 		});
@@ -53,7 +53,7 @@ export default class extends JsonModifier {
 	 * Set webpack's main module.
 	 * @param {string} mainModule
 	 */
-	setWebpackMainModule(mainModule) {
+	setWebpackMainModule(mainModule): void {
 		this.modifyJson(json => {
 			prop.set(json, 'webpack.mainModule', mainModule);
 		});
@@ -66,7 +66,7 @@ export default class extends JsonModifier {
 	 * @param {boolean} fixPathSepsInWindows wether to replace / path separators
 	 * 						by \ when running on Windows
 	 */
-	addWebpackRule(regex, loader, fixPathSepsInWindows = true) {
+	addWebpackRule(regex, loader, fixPathSepsInWindows = true): void {
 		if (fixPathSepsInWindows && os.platform() === 'win32') {
 			regex = new RegExp(regex.source.replace('/', '\\'), regex.flags);
 		}
@@ -91,7 +91,7 @@ export default class extends JsonModifier {
 	 * Add webpack extensions to the .npmbuildrc file.
 	 * @param {Array<string>} extensions the file extensions to add
 	 */
-	addWebpackExtensions(...extensions) {
+	addWebpackExtensions(...extensions): void {
 		this.modifyJson(json => {
 			const currentExtensions = prop.get(json, 'webpack.extensions', []);
 

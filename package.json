@@ -20,8 +20,8 @@
 		"format": "prettier --write \".*.ts\" \"packages/**/*.ts\"",
 		"format:check": "prettier --list-different \".*.ts\" \"packages/**/*.ts\"",
 		"level-deps": "node scripts/level-deps.js",
-		"lint": "eslint .",
-		"lint:fix": "eslint --fix .",
+		"lint": "eslint **/*.ts",
+		"lint:fix": "eslint --fix **/*.ts",
 		"qa": "node scripts/qa/index.js",
 		"test": "jest --runInBand",
 		"watch": "node scripts/watch.js"

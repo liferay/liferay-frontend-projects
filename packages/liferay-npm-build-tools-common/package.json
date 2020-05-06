@@ -7,17 +7,24 @@
 		"build": "tsc && yarn copyfiles",
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
-		"prepublish": "node ../../scripts/disable-publish.js",
+		"prepublishOnly": "node ../../scripts/disable-publish.js",
 		"release:snapshot": "node ../../scripts/release-snapshot.js"
 	},
 	"dependencies": {
+		"acorn": "^6.2.1",
 		"chalk": "^2.4.2",
 		"clone": "^2.1.2",
 		"dot-prop": "^5.0.1",
+		"escodegen": "^1.14.1",
+		"estraverse": "^4.3.0",
 		"fs-extra": "^8.1.0",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1",
+		"source-map": "^0.7.3",
 		"webpack": "^4.41.6"
+	},
+	"devDependencies": {
+		"@types/estree": "^0.0.42"
 	}
 }

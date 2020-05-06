@@ -22,25 +22,25 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		this.answers = await promptWithConfig(this, 'facet-configuration', [
 			{
-				type: 'confirm',
-				name: 'useConfiguration',
+				default: true,
 				message:
 					'Do you want to add configuration support?\n' +
 					'\n' +
 					'  💡 Needs Liferay DXP/Portal CE 7.1 with JS Portlet Extender 1.1.0 or\n' +
 					'     Liferay DXP/Portal CE 7.2+.\n' +
 					'\n',
-				default: true,
+				name: 'useConfiguration',
+				type: 'confirm',
 			},
 		]);
 	}
@@ -48,7 +48,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		if (!this.answers.useConfiguration) {
 			return;
 		}
@@ -60,10 +60,10 @@ export default class extends Generator {
 		npmbundlerrc.setFeature('configuration', DEFAULT_CONFIGURATION);
 
 		const context = {
-			name: projectAnalyzer.name,
 			description: projectAnalyzer.hasLocalization
 				? projectAnalyzer.name
 				: projectAnalyzer.displayName,
+			name: projectAnalyzer.name,
 		};
 
 		cp.copyDir('features', {context});

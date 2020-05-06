@@ -21,7 +21,7 @@ export default class {
 	/**
 	 * @param {object} labels a hash of key-value labels
 	 */
-	generate(labels) {
+	generate(labels): void {
 		const projectAnalyzer = new ProjectAnalyzer(this._generator);
 
 		if (projectAnalyzer.hasLocalization) {
@@ -36,7 +36,7 @@ export default class {
 	 * @param {object} labels
 	 * @return {object}
 	 */
-	_toProperties(labels) {
+	_toProperties(labels): object {
 		return Object.keys(labels).reduce((obj, key) => {
 			obj[hyphenate(key)] = labels[key];
 

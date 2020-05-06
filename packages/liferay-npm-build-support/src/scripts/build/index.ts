@@ -26,7 +26,7 @@ const msg = {
 
 const scrLiferayDir = project.dir.join('src.liferay');
 
-export default function() {
+export default function(): void {
 	switch (project.probe.type) {
 		case ProjectType.ANGULAR_CLI:
 			buildWith('build', ['--prod=true']);
@@ -50,7 +50,7 @@ export default function() {
  * @param {string} script
  * @param {Array<*>} args
  */
-function buildWith(script, args = []) {
+function buildWith(script, args = []): void {
 	runPkgJsonScript(script, args);
 
 	try {

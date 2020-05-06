@@ -44,8 +44,8 @@ export function transformPreferences(
 		availableLanguageIds: project.l10n.availableLocales || [],
 		fields: Object.entries(preferencesJson.fields).map(([name, props]) => {
 			const field: Field = {
-				name,
 				label: localized(project, props.name || name),
+				name,
 				...getTypeProps(props),
 			} as Field;
 
@@ -70,8 +70,8 @@ export function transformPreferences(
 
 				Object.entries(props.options).forEach(([key, value]) => {
 					field.options.push({
-						value: key,
 						label: localized(project, value),
+						value: key,
 					});
 				});
 			}

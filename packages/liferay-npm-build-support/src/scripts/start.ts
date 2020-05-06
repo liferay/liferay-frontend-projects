@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 import childProcess from 'child_process';
 import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
 import os from 'os';
@@ -19,7 +21,7 @@ const pkgJson = project.pkgJson;
 /**
  *
  */
-export default function() {
+export default function(): void {
 	copyWebpackResources();
 	runWebpackDevServer();
 }
@@ -27,29 +29,29 @@ export default function() {
 /**
  *
  */
-function copyWebpackResources() {
+function copyWebpackResources(): void {
 	const renderer = new Renderer(templatesDir, webpackDir.asNative);
 
 	renderer.render('index.html', {
+		cssPath: getCssPath(pkgJson),
 		pkgName: pkgJson.name,
 		pkgVersion: pkgJson.version,
-		cssPath: getCssPath(pkgJson),
 	});
 	renderer.render('index.js', {
 		mainModule: `../src/${cfg.getWebpackMainModule()}`,
 	});
 	renderer.render('webpack.config.js', {
+		extensions: util.inspect(cfg.getWebpackExtensions()),
 		pkgName: pkgJson.name,
 		port: cfg.getWebpackPort(),
 		proxy: util.inspect(cfg.getWebpackProxy()),
 		rules: util.inspect(
 			cfg.getWebpackRules().map(rule => {
-				rule.test = new RegExp(rule.test);
+				rule['test'] = new RegExp(rule['test']);
 
 				return rule;
 			})
 		),
-		extensions: util.inspect(cfg.getWebpackExtensions()),
 	});
 }
 
@@ -57,7 +59,7 @@ function copyWebpackResources() {
  * Get the portlet's CSS path from package.json
  * @return {string}
  */
-function getCssPath(pkgJson: PkgJson) {
+function getCssPath(pkgJson: PkgJson): string {
 	if (
 		!pkgJson['portlet'] ||
 		!pkgJson['portlet']['com.liferay.portlet.header-portlet-css']
@@ -79,7 +81,7 @@ function getCssPath(pkgJson: PkgJson) {
 /**
  *
  */
-function runWebpackDevServer() {
+function runWebpackDevServer(): void {
 	let proc;
 
 	if (os.platform() === 'win32') {

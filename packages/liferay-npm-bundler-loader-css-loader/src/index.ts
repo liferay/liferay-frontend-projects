@@ -15,7 +15,7 @@ import readJsonSync from 'read-json-sync';
 export default function(
 	context,
 	{extension = undefined, namespaceDependencies = true, pathModule = '/o'}
-) {
+): void {
 	const {filePath, log} = context;
 
 	const href = getHref(
@@ -54,7 +54,12 @@ module.exports = link;
 	log.info('css-loader', `Generated .js module to inject '${href}'`);
 }
 
-function getHref(filePath, extension, pathModule, namespaceDependencies) {
+function getHref(
+	filePath,
+	extension,
+	pathModule,
+	namespaceDependencies
+): string {
 	let webContextPath;
 
 	if (project.jar.supported) {
@@ -137,7 +142,7 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 	return `${pathModule}${webContextPath}/${filePath}`;
 }
 
-function lastIndexOf(array, item) {
+function lastIndexOf(array, item): number {
 	for (let i = array.length - 1; i >= 0; i--) {
 		if (array[i] === item) {
 			return i;

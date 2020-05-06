@@ -104,11 +104,11 @@ async function writeDependencyExportPkgJson(
 	pkgJson: PkgJson
 ): Promise<void> {
 	const generatedPkgJson: PkgJson = {
-		name: ns.addNamespace(pkgJson.name, project.pkgJson),
-		version: pkgJson.version,
 		dependencies: {
 			[project.pkgJson.name]: project.pkgJson.version,
 		},
+		name: ns.addNamespace(pkgJson.name, project.pkgJson),
+		version: pkgJson.version,
 	};
 
 	if (pkgJson.main) {

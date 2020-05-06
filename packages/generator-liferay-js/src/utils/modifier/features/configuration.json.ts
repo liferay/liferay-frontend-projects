@@ -13,8 +13,8 @@ import ProjectAnalyzer from '../../ProjectAnalyzer';
  */
 export default class ConfigurationJsonModifier extends JsonModifier {
 	static readonly Section = {
-		SYSTEM: 'system',
 		PORTLET_INSTANCE: 'portletInstance',
+		SYSTEM: 'system',
 	};
 
 	/**
@@ -41,7 +41,7 @@ export default class ConfigurationJsonModifier extends JsonModifier {
 		id,
 		type,
 		{defaultValue, description, name, options, required}
-	) {
+	): void {
 		this.modifyJson(json => {
 			prop.set(json, `${section}.fields.${id}.type`, type);
 			if (name) {

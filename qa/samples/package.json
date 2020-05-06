@@ -15,5 +15,8 @@
 			"**/react-dom/**"
 		]
 	},
+	"scripts": {
+		"link-toolkit": "node ../../resources/devtools/link-js-toolkit/link-js-toolkit.js -w"
+	},
 	"dependencies": {}
 }

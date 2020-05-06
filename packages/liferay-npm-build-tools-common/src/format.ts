@@ -135,6 +135,7 @@ export function print(lines: string | string[], ...rest: string[]): void {
 		return line;
 	});
 
+	// eslint-disable-next-line no-console
 	console.log(lines.join('\n'));
 }
 

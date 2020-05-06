@@ -137,8 +137,8 @@ export function createBundlerPluginDescriptors<T>(
 		}
 
 		return {
-			name: pluginName,
 			config: pluginConfig,
+			name: pluginName,
 			run: pluginModule,
 		} as BundlerPluginDescriptor<T>;
 	});

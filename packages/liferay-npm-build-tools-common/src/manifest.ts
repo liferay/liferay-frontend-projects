@@ -35,17 +35,17 @@ export default class Manifest {
 		const pkg = this._data.packages[srcPkg.id];
 
 		pkg.src = {
+			dir: srcPkg.dir.asPosix,
 			id: srcPkg.id,
 			name: srcPkg.name,
 			version: srcPkg.version,
-			dir: srcPkg.dir.asPosix,
 		};
 
 		pkg.dest = {
+			dir: destPkg.dir.asPosix,
 			id: destPkg.id,
 			name: destPkg.name,
 			version: destPkg.version,
-			dir: destPkg.dir.asPosix,
 		};
 	}
 

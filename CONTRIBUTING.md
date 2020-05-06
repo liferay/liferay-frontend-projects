@@ -78,7 +78,7 @@ This will download the dependencies needed by the `link-js-toolkit` tool and ret
 
 ```shell
 $ cd qa/samples ⏎
-$ node ../../resources/devtools/link-js-toolkit/link-js-toolkit.js -w
+$ yarn link-toolkit
 ```
 
 This will download all the dependencies needed by the QA projects contained in the `qa/samples/packages` folder, and will point all JS Toolkit packages to the local project (as opposed to downloading them from npmjs.com). This is necessary since we want to use our local copy of the JS Toolkit and since we have not yet released any 3.x version, so it's impossible to download it from npmjs.com.
@@ -93,6 +93,7 @@ Once you have all this in place, you can go to any QA project and run `yarn depl
 
 Currently there are two projects in `qa/samples/packages`:
 
+-   react-app: A `create-react-app` project that is adapted to work when deployed to Liferay.
 -   react-portlet: Implements a pure JS portlet using React that may be deployed to Liferay and renders the usual sample content.
 -   react-provider: Implements a provider that exports React for `react-portlet` to consume.
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Generator, {InstallOptions} from 'yeoman-generator';
+import Generator from 'yeoman-generator';
 
 /**
  * Generator for shared bundles.
@@ -12,7 +12,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.composeWith(require.resolve('../facet-project'), undefined);
 		this.composeWith(require.resolve('../facet-localization'), undefined);
 		this.composeWith(require.resolve('../facet-deploy'), undefined);
@@ -22,11 +22,11 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman dependencies installation function
 	 */
-	install() {
+	install(): void {
 		this.installDependencies({
 			bower: false,
-			skipMessage: this.options['skip-install-message'],
 			skipInstall: this.options['skip-install'],
+			skipMessage: this.options['skip-install-message'],
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} as any);
 	}

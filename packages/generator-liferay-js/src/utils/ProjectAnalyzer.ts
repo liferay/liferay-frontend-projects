@@ -4,6 +4,7 @@
  */
 
 import prop from 'dot-prop';
+import {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
 import {DEFAULT_CONFIGURATION} from '../facet-configuration/constants';
@@ -24,7 +25,7 @@ export default class ProjectAnalyzer {
 	 * Get project name.
 	 * @return {string}
 	 */
-	get name() {
+	get name(): string {
 		return this._packageJson.name || '';
 	}
 
@@ -32,7 +33,7 @@ export default class ProjectAnalyzer {
 	 * Get project description.
 	 * @return {string}
 	 */
-	get description() {
+	get description(): string {
 		return this._packageJson.description || '';
 	}
 
@@ -40,7 +41,7 @@ export default class ProjectAnalyzer {
 	 * Get project display name (description if present, otherwise the name).
 	 * @return {string}
 	 */
-	get displayName() {
+	get displayName(): string {
 		let displayName = this.description;
 
 		if (displayName === '') {
@@ -54,7 +55,7 @@ export default class ProjectAnalyzer {
 	 * Test if the project has localization enabled.
 	 * @return {boolean}
 	 */
-	get hasLocalization() {
+	get hasLocalization(): boolean {
 		const fs = this._generator.fs;
 
 		return (
@@ -67,7 +68,7 @@ export default class ProjectAnalyzer {
 	 * Test if the project has configuration.
 	 * @return {boolean}
 	 */
-	get hasConfiguration() {
+	get hasConfiguration(): boolean {
 		const fs = this._generator.fs;
 
 		return (
@@ -81,7 +82,7 @@ export default class ProjectAnalyzer {
 	 * extension)
 	 * @return {string}
 	 */
-	get localizationBundleName() {
+	get localizationBundleName(): string {
 		const bundleName = path.basename(this.localizationFilePath);
 		const extname = path.extname(bundleName);
 
@@ -117,13 +118,13 @@ export default class ProjectAnalyzer {
 	 * Get the path to the configuration file.
 	 * @return {string}
 	 */
-	get configurationFilePath() {
+	get configurationFilePath(): string {
 		const fs = this._generator.fs;
 
 		const configuration = prop.get(
 			this._npmbundlerrc,
 			'create-jar.features.configuration'
-		);
+		) as string;
 
 		if (configuration) {
 			return configuration;
@@ -138,7 +139,7 @@ export default class ProjectAnalyzer {
 	 * Get the parsed '.npmbundlerrc' file
 	 * @return {object}
 	 */
-	get _npmbundlerrc() {
+	get _npmbundlerrc(): object {
 		return this._generator.fs.readJSON('.npmbundlerrc');
 	}
 
@@ -146,7 +147,7 @@ export default class ProjectAnalyzer {
 	 * Get the parsed 'package.json' file
 	 * @return {object}
 	 */
-	get _packageJson() {
+	get _packageJson(): PkgJson {
 		return this._generator.fs.readJSON('package.json');
 	}
 

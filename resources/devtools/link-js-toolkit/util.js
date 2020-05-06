@@ -35,7 +35,7 @@ function yarn(...args) {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	} else if (proc.status !== 0) {
 		throw new Error(
 			`'yarn ${args.join(' ')}' finished with status ${proc.status}`
 		);

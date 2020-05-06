@@ -14,6 +14,7 @@ import webpack from 'webpack';
 import FilePath from '../file-path';
 import {info, print, warn} from '../format';
 import {splitModuleName} from '../modules';
+import Adapt from './adapt';
 import Jar from './jar';
 import Localization from './localization';
 import Misc from './misc';
@@ -63,6 +64,7 @@ export interface PkgJson {
  * Describes a standard JS Toolkit project.
  */
 export class Project {
+	adapt: Adapt;
 	jar: Jar;
 	l10n: Localization;
 	misc: Misc;
@@ -180,7 +182,11 @@ export class Project {
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(this._configuration, 'output', './build');
+			let dir = prop.get(
+				this._configuration,
+				'output',
+				this.adapt.supported ? './build.liferay' : './build'
+			);
 
 			if (!dir.startsWith('./')) {
 				dir = `./${dir}`;
@@ -290,15 +296,15 @@ export class Project {
 				const pkgJsonPath = this.toolResolve(
 					`${packageName}/package.json`
 				);
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				// eslint-disable-next-line @typescript-eslint/no-var-requires, liferay/no-dynamic-require
 				const pkgJson = require(pkgJsonPath);
 
 				map.set(pkgJson.name, {
-					version: pkgJson.version,
 					path: path.relative(
 						this.dir.asNative,
 						path.dirname(pkgJsonPath)
 					),
+					version: pkgJson.version,
 				});
 			};
 
@@ -359,6 +365,7 @@ export class Project {
 		this._loadConfiguration();
 
 		// Initialize subdomains
+		this.adapt = new Adapt(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
 		this.misc = new Misc(this);
@@ -373,6 +380,7 @@ export class Project {
 	 * @param moduleName
 	 */
 	require(moduleName: string): unknown {
+		// eslint-disable-next-line liferay/no-dynamic-require
 		return require(this.resolve(moduleName));
 	}
 
@@ -425,6 +433,7 @@ export class Project {
 	 * @throws if module is not found
 	 */
 	toolRequire(moduleName: string): unknown {
+		// eslint-disable-next-line liferay/no-dynamic-require
 		return require(this.toolResolve(moduleName));
 	}
 
@@ -490,7 +499,8 @@ export class Project {
 		const configFilePath = _configFile.asNative;
 
 		this._configuration = fs.existsSync(configFilePath)
-			? require(configFilePath)
+			? // eslint-disable-next-line liferay/no-dynamic-require
+			  require(configFilePath)
 			: {};
 	}
 

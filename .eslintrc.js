@@ -26,8 +26,6 @@ module.exports = {
 			},
 		],
 		'@typescript-eslint/no-use-before-define': 'off',
-		'liferay/no-dynamic-require': 'off',
-		'no-console': 'off',
 		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-return-assign': ['error', 'except-parens'],
 		'notice/notice': [
@@ -36,6 +34,5 @@ module.exports = {
 				templateFile: path.join(__dirname, 'copyright.js'),
 			},
 		],
-		'sort-keys': 'off',
 	},
 };

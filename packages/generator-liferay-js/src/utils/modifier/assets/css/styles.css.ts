@@ -20,7 +20,7 @@ export default class {
 	 * @param {String} selector CSS selector
 	 * @param {Array} values string list of CSS attributes
 	 */
-	addRule(selector, ...values) {
+	addRule(selector, ...values): void {
 		const gen = this._generator;
 
 		let css = gen.fs.read(this._path);

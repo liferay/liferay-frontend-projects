@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import escapeStringRegexp from 'escape-string-regexp';
 import globby from 'globby';
 import {
 	BundlerLoaderContext,
@@ -11,6 +10,7 @@ import {
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import {escapeStringRegexp} from 'liferay-npm-build-tools-common/lib/regexp';
 
 import {replaceTokens} from './util';
 
@@ -51,8 +51,8 @@ export default function(
 	const filePosixPaths = globby
 		.sync(`${docrootDir.asPosix}/**`, {
 			absolute: true,
-			onlyFiles: true,
 			followSymbolicLinks: false,
+			onlyFiles: true,
 		})
 		.map(filePath => docrootDir.relative(filePath).asPosix);
 

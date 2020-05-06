@@ -17,7 +17,7 @@ loadConfig();
 /**
  * Load project configuration
  */
-function loadConfig() {
+function loadConfig(): void {
 	npmbuildrc = safeReadJsonSync(project.dir.join('.npmbuildrc').asNative);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	npmbundlerrc = (project as any)._configuration;
@@ -41,7 +41,7 @@ function loadConfig() {
  * Get the path to the local installation of Liferay (if any).
  * @return {string|undefined}
  */
-export function getLiferayDir() {
+export function getLiferayDir(): string | undefined {
 	return npmbuildrc.liferayDir;
 }
 
@@ -49,7 +49,7 @@ export function getLiferayDir() {
  * Get the Microsoft Translator credentials
  * @return {string|undefined}
  */
-export function getTranslatorTextKey() {
+export function getTranslatorTextKey(): string | undefined {
 	return npmbuildrc.translatorTextKey;
 }
 
@@ -57,7 +57,7 @@ export function getTranslatorTextKey() {
  * Get the main module path to be used when building with webpack.
  * @return {string}
  */
-export function getWebpackMainModule() {
+export function getWebpackMainModule(): string {
 	return npmbuildrc.webpack.mainModule;
 }
 
@@ -65,7 +65,7 @@ export function getWebpackMainModule() {
  * Get the webpack rules to use.
  * @return {Array}
  */
-export function getWebpackRules() {
+export function getWebpackRules(): object[] {
 	return npmbuildrc.webpack.rules;
 }
 
@@ -73,7 +73,7 @@ export function getWebpackRules() {
  * Get the webpack extensions to use.
  * @return {Object}
  */
-export function getWebpackExtensions() {
+export function getWebpackExtensions(): object {
 	return npmbuildrc.webpack.extensions;
 }
 
@@ -81,7 +81,7 @@ export function getWebpackExtensions() {
  * Get the webpack port to use.
  * @return {number}
  */
-export function getWebpackPort() {
+export function getWebpackPort(): number {
 	return npmbuildrc.webpack.port;
 }
 
@@ -89,7 +89,7 @@ export function getWebpackPort() {
  * Get the webpack proxy to use.
  * @return {Object}
  */
-export function getWebpackProxy() {
+export function getWebpackProxy(): object {
 	return npmbuildrc.webpack.proxy;
 }
 
@@ -97,7 +97,7 @@ export function getWebpackProxy() {
  * Get the list of supported locales
  * @return {Array<string>}
  */
-export function getSupportedLocales() {
+export function getSupportedLocales(): string[] {
 	return npmbuildrc.supportedLocales;
 }
 
@@ -107,7 +107,7 @@ export function getSupportedLocales() {
  * @param {string} propPath
  * @param {*} value
  */
-function normalize(cfg, propPath, value) {
+function normalize(cfg, propPath, value): void {
 	if (!prop.has(cfg, propPath)) {
 		prop.set(cfg, propPath, value);
 	}
@@ -118,7 +118,7 @@ function normalize(cfg, propPath, value) {
  * @param {string} path
  * @return {object}
  */
-function safeReadJsonSync(path) {
+function safeReadJsonSync(path): object {
 	try {
 		return readJsonSync(path);
 	} catch (err) {

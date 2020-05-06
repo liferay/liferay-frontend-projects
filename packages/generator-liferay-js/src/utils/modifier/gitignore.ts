@@ -19,7 +19,7 @@ export default class {
 	 * Add a line to .gitignore
 	 * @param {string} line
 	 */
-	add(line) {
+	add(line): void {
 		const gen = this._generator;
 
 		let content = gen.fs.read(this._path).toString();
