@@ -5,58 +5,49 @@
 
 import project from 'liferay-npm-build-tools-common/lib/project';
 import {
-	SourceCode,
 	SourceTransform,
 	replace,
 } from 'liferay-npm-build-tools-common/lib/transform/js';
 import {parseAsExpressionStatement} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
 
 import {findFiles} from '../../../../../util/files';
-import {removeWebpackHash} from '../../../../../util/webpack';
 
 export default function adaptStaticURLsAtRuntime(
 	...assetsGlobs: string[]
 ): SourceTransform {
-	return (source =>
-		_adaptStaticURLsAtRuntime(source, assetsGlobs)) as SourceTransform;
-}
+	return (async source => {
+		const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
-async function _adaptStaticURLsAtRuntime(
-	source: SourceCode,
-	assetsGlobs: string[]
-): Promise<SourceCode> {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+		const assetURLs = new Set(
+			findFiles(adaptBuildDir, assetsGlobs).map(file => file.asPosix)
+		);
 
-	const assetURLsMap = findFiles(adaptBuildDir, assetsGlobs).reduce(
-		(map, sourceAsset) => {
-			map[sourceAsset.asPosix] = removeWebpackHash(sourceAsset).asPosix;
+		return await replace(source, {
+			enter(node, parent) {
+				if (
+					node.type !== 'Literal' ||
+					typeof node.value !== 'string' ||
+					!assetURLs.has(node.value)
+				) {
+					return;
+				}
 
-			return map;
-		},
-		{}
-	);
+				// Don't process replacement nodes again
+				if (
+					parent.type === 'CallExpression' &&
+					parent.callee.type === 'MemberExpression' &&
+					parent.callee.object.type === 'Identifier' &&
+					parent.callee.object.name === '_ADAPT_RT_' &&
+					parent.callee.property.type === 'Identifier' &&
+					parent.callee.property.name === 'adaptStaticURL'
+				) {
+					return;
+				}
 
-	return await replace(source, {
-		enter(node) {
-			if (node.type !== 'Literal') {
-				return;
-			}
-
-			const {value} = node;
-
-			if (typeof value !== 'string') {
-				return;
-			}
-
-			if (!assetURLsMap[value]) {
-				return;
-			}
-
-			const replacementNode = parseAsExpressionStatement(`
-				_ADAPT_RT_.adaptStaticURL("${assetURLsMap[value]}")
-			`);
-
-			return replacementNode;
-		},
-	});
+				return parseAsExpressionStatement(`
+					_ADAPT_RT_.adaptStaticURL("${node.value}")
+				`);
+			},
+		});
+	}) as SourceTransform;
 }

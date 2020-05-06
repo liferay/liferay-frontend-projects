@@ -11,32 +11,33 @@ import {
 } from 'liferay-npm-build-tools-common/lib/transform/js';
 import wrapModule from 'liferay-npm-build-tools-common/lib/transform/js/operation/wrapModule';
 import {transformJsonFile} from 'liferay-npm-build-tools-common/lib/transform/json';
-import addPortletHeader from 'liferay-npm-build-tools-common/lib/transform/json/operation/addPortletHeader';
+import setPortletHeader from 'liferay-npm-build-tools-common/lib/transform/json/operation/setPortletHeader';
 import path from 'path';
 
 import {buildBundlerDir, buildGeneratedDir} from '../../dirs';
 import * as log from '../../log';
 import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
-import {removeWebpackHash} from '../../util/webpack';
 import exportModuleAsFunction from './transform/js/operation/exportModuleAsFunction';
 import namespaceWepbackJsonp from './transform/js/operation/namespaceWepbackJsonp';
 
 /**
  * Generate adapter modules based on templates.
+ *
+ * @param data extra values to pass to render engine in addition to `project`
  */
-export async function processAdapterModules(): Promise<void> {
+export async function processAdapterModules(data: object): Promise<void> {
 	const renderer = new Renderer(
 		path.join(__dirname, project.probe.type, 'templates')
 	);
 
-	const {pkgJson} = project;
-
 	await processAdapterModule(renderer, 'adapt-rt.js', {
 		project,
+		...data,
 	});
 	await processAdapterModule(renderer, 'index.js', {
-		pkgJson,
+		project,
+		...data,
 	});
 }
 
@@ -57,16 +58,11 @@ export async function processWebpackBundles(
 
 	await Promise.all(
 		copiedBundles.map(async file => {
-			const unhashedFile = removeWebpackHash(file);
-
-			const fromFile = adaptBuildDir.join(file);
-			const toFile = buildBundlerDir.join(unhashedFile);
-
-			const moduleName = unhashedFile.asPosix.replace(/\.js$/g, '');
+			const moduleName = file.asPosix.replace(/\.js$/g, '');
 
 			await transformSourceFile(
-				fromFile,
-				toFile,
+				adaptBuildDir.join(file),
+				buildBundlerDir.join(file),
 				...frameworkSpecificTransforms,
 				namespaceWepbackJsonp(),
 				exportModuleAsFunction(),
@@ -105,7 +101,7 @@ async function processAdapterModule(
 }
 
 export async function processPackageJson(
-	cssPortletHeader: string
+	cssPortletHeader: string | undefined
 ): Promise<void> {
 	const fromFile = project.dir.join('package.json');
 	const toFile = buildBundlerDir.join('package.json');
@@ -113,7 +109,7 @@ export async function processPackageJson(
 	await transformJsonFile<PkgJson>(
 		fromFile,
 		toFile,
-		addPortletHeader(
+		setPortletHeader(
 			'com.liferay.portlet.header-portlet-css',
 			cssPortletHeader
 		)

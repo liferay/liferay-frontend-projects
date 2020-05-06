@@ -10,7 +10,6 @@ import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';
 import {copyFiles, findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
-import {removeWebpackHash} from '../../../util/webpack';
 import {
 	processAdapterModules,
 	processPackageJson,
@@ -18,7 +17,7 @@ import {
 } from '../index';
 import adaptStaticURLsAtRuntime from '../transform/js/operation/adaptStaticURLsAtRuntime';
 import tweakAttachmentToDOM from './transform/js/operation/tweakAttachmentToDOM';
-import rewriteStaticURLs from './transform/text/operation/rewriteStaticURLs';
+import replace from './transform/text/operation/replace';
 
 /**
  * Run configured rules.
@@ -30,7 +29,11 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	log.info('Rendering adapter modules...');
 
-	await processAdapterModules();
+	await processAdapterModules({
+		mainModuleName: getWebpackBundleModuleName('main'),
+		runtimeMainModuleName: getWebpackBundleModuleName('runtime-main'),
+		twoModuleName: getWebpackBundleModuleName('2'),
+	});
 
 	log.info('Copying static assets...');
 
@@ -49,15 +52,14 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	log.info('Processing package.json file...');
 
-	await processPackageJson('/static/css/main.chunk.css');
+	await processPackageJson(getMainCssPosixPath());
 }
 
 function copyStaticAssets(): void {
 	const copiedFiles = copyFiles(
 		project.dir.join(project.adapt.buildDir),
 		['static/media/*'],
-		buildBundlerDir,
-		file => removeWebpackHash(file)
+		buildBundlerDir
 	);
 
 	log.debug(`Copied ${copiedFiles.length} static assets`);
@@ -82,30 +84,53 @@ async function processCssFiles(): Promise<void> {
 
 	const assetURLsMap = findFiles(adaptBuildDir, ['static/media/*']).reduce(
 		(map, sourceAsset) => {
-			map[sourceAsset.asPosix] = removeWebpackHash(sourceAsset).asPosix;
+			map.set(
+				sourceAsset.asPosix,
+				`o${project.jar.webContextPath}/${sourceAsset.asPosix}`
+			);
 
 			return map;
 		},
-		{}
+		new Map<string, string>()
 	);
 
 	await Promise.all(
 		cssFiles.map(async file => {
-			const unhashedFile = removeWebpackHash(file);
-
-			const fromFile = adaptBuildDir.join(file);
-			const toFile = buildBundlerDir.join(unhashedFile);
-
 			await transformTextFile(
-				fromFile,
-				toFile,
-				rewriteStaticURLs(
-					assetURLsMap,
-					`o${project.jar.webContextPath}/`
-				)
+				adaptBuildDir.join(file),
+				buildBundlerDir.join(file),
+				replace(assetURLsMap)
 			);
 		})
 	);
 
 	log.debug(`Processed ${cssFiles.length} CSS files`);
+}
+
+function getMainCssPosixPath(): string | undefined {
+	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+
+	const candidateFiles = findFiles(adaptBuildDir, ['static/css/main.*.css']);
+
+	if (candidateFiles.length === 0) {
+		return undefined;
+	}
+
+	if (candidateFiles.length > 1) {
+		// TODO: warn
+	}
+
+	return candidateFiles[0].asPosix;
+}
+
+function getWebpackBundleModuleName(name: string): string {
+	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+
+	const candidateFiles = findFiles(adaptBuildDir, [`static/js/${name}.*.js`]);
+
+	if (candidateFiles.length !== 1) {
+		throw new Error(`React build did not produce any ${name}.js artifact`);
+	}
+
+	return candidateFiles[0].basename().asPosix.replace(/\.js$/, '');
 }
