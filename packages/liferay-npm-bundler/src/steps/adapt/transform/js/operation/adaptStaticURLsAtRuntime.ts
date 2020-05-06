@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ExpressionStatement} from 'estree';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import {
 	SourceCode,
 	SourceTransform,
 	replace,
 } from 'liferay-npm-build-tools-common/lib/transform/js';
-import {parseAs} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+import {parseAsExpressionStatement} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
 
 import {findFiles} from '../../../../../util/files';
 import {removeWebpackHash} from '../../../../../util/webpack';
@@ -53,8 +52,8 @@ async function _adaptStaticURLsAtRuntime(
 				return;
 			}
 
-			const replacementNode = parseAs<ExpressionStatement>(`
-			_ADAPT_RT_.adaptStaticURL("${assetURLsMap[value]}")
+			const replacementNode = parseAsExpressionStatement(`
+				_ADAPT_RT_.adaptStaticURL("${assetURLsMap[value]}")
 			`);
 
 			return replacementNode;

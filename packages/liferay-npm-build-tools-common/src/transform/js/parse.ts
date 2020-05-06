@@ -31,7 +31,7 @@ export function parse(code: string): estree.Program {
 }
 
 /**
- * Parses a snippet of JavaScript source code and extracts it from the Program
+ * Parses a snippet of JavaScript source code, extracts it from the Program
  * AST node.
  *
  * This is useful to get AST representations of code snippets to be used during
@@ -43,12 +43,14 @@ export function parse(code: string): estree.Program {
  *
  * @param code
  */
-export function parseAs<T extends estree.Node>(code: string): T {
+export function parseAsExpressionStatement(
+	code: string
+): estree.ExpressionStatement {
 	const {body} = parse(code);
 
-	if (body.length !== 1) {
-		throw new Error('Given code parses to more than one AST node');
+	if (body.length !== 1 || body[0].type !== 'ExpressionStatement') {
+		throw new Error('Code cannot be parses as an ExpressionStatement node');
 	}
 
-	return (body[0] as unknown) as T;
+	return body[0] as estree.ExpressionStatement;
 }

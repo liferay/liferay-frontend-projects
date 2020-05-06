@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import estree from 'estree';
 import {
 	SourceCode,
 	SourceTransform,
 	replace,
 } from 'liferay-npm-build-tools-common/lib/transform/js';
-import {parseAs} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+import {parseAsExpressionStatement} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
 
 export default function tweakAttachmentToDOM(): SourceTransform {
 	return (source => _tweakAttachmentToDOM(source)) as SourceTransform;
@@ -56,7 +55,7 @@ async function _tweakAttachmentToDOM(source: SourceCode): Promise<SourceCode> {
 				return;
 			}
 
-			const {expression} = parseAs<estree.ExpressionStatement>(
+			const {expression} = parseAsExpressionStatement(
 				'_LIFERAY_PARAMS_.portletElementId'
 			);
 
