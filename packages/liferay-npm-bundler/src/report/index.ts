@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import {VersionInfo} from 'liferay-npm-build-tools-common/lib/project/types';
+import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
+import PluginLogger from 'liferay-js-toolkit-core/lib/plugin-logger';
+import {VersionInfo} from 'liferay-js-toolkit-core/lib/project/types';
 
 import {htmlDump} from './html';
 import ReportLogger from './logger';

@@ -4,12 +4,12 @@
  */
 
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import * as mod from 'liferay-npm-build-tools-common/lib/modules';
-import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
-import * as pkgs from 'liferay-npm-build-tools-common/lib/packages';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import * as mod from 'liferay-js-toolkit-core/lib/modules';
+import * as ns from 'liferay-js-toolkit-core/lib/namespace';
+import * as pkgs from 'liferay-js-toolkit-core/lib/packages';
+import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
+import project, {PkgJson} from 'liferay-js-toolkit-core/lib/project';
 
 import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';

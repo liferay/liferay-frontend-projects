@@ -4,9 +4,9 @@
  */
 
 import fs from 'fs-extra';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
+import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
+import project from 'liferay-js-toolkit-core/lib/project';
+import {ProjectType} from 'liferay-js-toolkit-core/lib/project/probe';
 import pretty from 'pretty-time';
 
 import {buildBundlerDir} from './dirs';

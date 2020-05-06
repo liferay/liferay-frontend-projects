@@ -4,7 +4,7 @@
  */
 
 import prop from 'dot-prop';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 import readJsonSync from 'read-json-sync';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

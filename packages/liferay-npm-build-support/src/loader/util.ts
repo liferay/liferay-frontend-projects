@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 
 // TODO: get rid of this function once we support loading config from .js files
 /**

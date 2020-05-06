@@ -8,10 +8,10 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {normalizeImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
-import * as mod from 'liferay-npm-build-tools-common/lib/modules';
-import {Project} from 'liferay-npm-build-tools-common/lib/project';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import {normalizeImportsConfig} from 'liferay-js-toolkit-core/lib/imports';
+import * as mod from 'liferay-js-toolkit-core/lib/modules';
+import {Project} from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolve from 'resolve';

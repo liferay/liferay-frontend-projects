@@ -7,10 +7,10 @@ import globby from 'globby';
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-npm-build-tools-common/lib/api/loaders';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {escapeStringRegexp} from 'liferay-npm-build-tools-common/lib/regexp';
+} from 'liferay-js-toolkit-core/lib/api/loaders';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import project from 'liferay-js-toolkit-core/lib/project';
+import {escapeStringRegexp} from 'liferay-js-toolkit-core/lib/regexp';
 
 import {replaceTokens} from './util';
 

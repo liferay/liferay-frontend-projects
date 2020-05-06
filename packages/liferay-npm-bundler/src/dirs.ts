@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 
 export const buildBundlerDir = project.workDir
 	? project.buildDir

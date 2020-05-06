@@ -10,7 +10,7 @@
  */
 
 import * as babel from 'babel-core';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 
 /**
  * @param {object} context loader's context

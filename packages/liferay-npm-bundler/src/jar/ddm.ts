@@ -6,8 +6,8 @@
 import {
 	ConfigurationField,
 	PortletInstanceConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
-import {Project} from 'liferay-npm-build-tools-common/lib/project';
+} from 'liferay-js-toolkit-core/lib/api/configuration-json';
+import {Project} from 'liferay-js-toolkit-core/lib/project';
 
 interface Field {
 	dataType: string;

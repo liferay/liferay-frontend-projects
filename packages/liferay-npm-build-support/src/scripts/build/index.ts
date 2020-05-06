@@ -4,9 +4,9 @@
  */
 
 import fs from 'fs-extra';
-import {error, info, print} from 'liferay-npm-build-tools-common/lib/format';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
+import {error, info, print} from 'liferay-js-toolkit-core/lib/format';
+import project from 'liferay-js-toolkit-core/lib/project';
+import {ProjectType} from 'liferay-js-toolkit-core/lib/project/probe';
 import path from 'path';
 
 import {Renderer, runNodeModulesBin, runPkgJsonScript} from '../../util';

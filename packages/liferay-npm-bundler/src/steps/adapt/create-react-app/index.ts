@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {transformTextFile} from 'liferay-npm-build-tools-common/lib/transform/text';
+import project from 'liferay-js-toolkit-core/lib/project';
+import {transformTextFile} from 'liferay-js-toolkit-core/lib/transform/text';
 
 import {buildBundlerDir} from '../../../dirs';
 import * as log from '../../../log';

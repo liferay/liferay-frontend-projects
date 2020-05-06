@@ -6,9 +6,9 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-npm-build-tools-common/lib/api/loaders';
-import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+} from 'liferay-js-toolkit-core/lib/api/loaders';
+import * as babelUtil from 'liferay-js-toolkit-core/lib/babel-util';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
 import readJsonSync from 'read-json-sync';
 
 import {removeWebpackHash} from './util';

@@ -4,7 +4,7 @@
  */
 
 import {spawn} from 'cross-spawn';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 
 export function runNodeModulesBin(script: string, args: string[] = []): void {
 	const proc = spawn.sync(

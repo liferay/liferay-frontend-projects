@@ -7,8 +7,8 @@ import {
 	SourceCode,
 	SourceTransform,
 	replace,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import {parseAsExpressionStatement} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+} from 'liferay-js-toolkit-core/lib/transform/js';
+import {parseAsExpressionStatement} from 'liferay-js-toolkit-core/lib/transform/js/parse';
 
 export default function tweakAttachmentToDOM(): SourceTransform {
 	return (source => _tweakAttachmentToDOM(source)) as SourceTransform;

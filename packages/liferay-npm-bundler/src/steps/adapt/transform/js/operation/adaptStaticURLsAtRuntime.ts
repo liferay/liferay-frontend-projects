@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 import {
 	SourceTransform,
 	replace,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import {parseAsExpressionStatement} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+} from 'liferay-js-toolkit-core/lib/transform/js';
+import {parseAsExpressionStatement} from 'liferay-js-toolkit-core/lib/transform/js/parse';
 
 import {findFiles} from '../../../../../util/files';
 

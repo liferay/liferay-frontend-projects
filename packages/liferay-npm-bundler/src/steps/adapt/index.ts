@@ -4,14 +4,14 @@
  */
 
 import fs from 'fs-extra';
-import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
+import project, {PkgJson} from 'liferay-js-toolkit-core/lib/project';
 import {
 	SourceTransform,
 	transformSourceFile,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import wrapModule from 'liferay-npm-build-tools-common/lib/transform/js/operation/wrapModule';
-import {transformJsonFile} from 'liferay-npm-build-tools-common/lib/transform/json';
-import setPortletHeader from 'liferay-npm-build-tools-common/lib/transform/json/operation/setPortletHeader';
+} from 'liferay-js-toolkit-core/lib/transform/js';
+import wrapModule from 'liferay-js-toolkit-core/lib/transform/js/operation/wrapModule';
+import {transformJsonFile} from 'liferay-js-toolkit-core/lib/transform/json';
+import setPortletHeader from 'liferay-js-toolkit-core/lib/transform/json/operation/setPortletHeader';
 import path from 'path';
 
 import {buildBundlerDir, buildGeneratedDir} from '../../dirs';

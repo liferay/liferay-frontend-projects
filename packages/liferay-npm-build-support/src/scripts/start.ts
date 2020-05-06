@@ -6,7 +6,7 @@
 /* eslint-disable no-console */
 
 import childProcess from 'child_process';
-import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
+import project, {PkgJson} from 'liferay-js-toolkit-core/lib/project';
 import os from 'os';
 import path from 'path';
 import util from 'util';

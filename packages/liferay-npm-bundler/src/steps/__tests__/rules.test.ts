@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {BundlerLoaderContext} from 'liferay-npm-build-tools-common/lib/api/loaders';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {BundlerLoaderContext} from 'liferay-js-toolkit-core/lib/api/loaders';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import PluginLogger from 'liferay-js-toolkit-core/lib/plugin-logger';
+import project from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
 
 import {stripSourceDir, transformContents} from '../rules';

@@ -379,7 +379,7 @@ describe('project.versionsInfo', () => {
 					},
 				],
 				[
-					'liferay-npm-build-tools-common',
+					'liferay-js-toolkit-core',
 					{
 						version: require('../../../package.json').version,
 						path: path.join('..', '..', '..', '..', '..', '..'),

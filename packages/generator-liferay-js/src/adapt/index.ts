@@ -10,9 +10,9 @@ import {
 	success,
 	title,
 	warn,
-} from 'liferay-npm-build-tools-common/lib/format';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
+} from 'liferay-js-toolkit-core/lib/format';
+import project from 'liferay-js-toolkit-core/lib/project';
+import {ProjectType} from 'liferay-js-toolkit-core/lib/project/probe';
 import path from 'path';
 import {argv} from 'yargs';
 import Generator from 'yeoman-generator';

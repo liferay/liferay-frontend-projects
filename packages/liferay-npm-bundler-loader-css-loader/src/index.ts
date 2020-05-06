@@ -4,8 +4,8 @@
  */
 
 import fs from 'fs';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import project from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 

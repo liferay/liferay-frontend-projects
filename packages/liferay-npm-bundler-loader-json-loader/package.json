@@ -11,6 +11,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "3.0.0"
+		"liferay-js-toolkit-core": "3.0.0"
 	}
 }

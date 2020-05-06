@@ -8,9 +8,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {getPackageTargetDir} from 'liferay-js-toolkit-core/lib/packages';
+import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
+import project from 'liferay-js-toolkit-core/lib/project';
 
 import * as log from './log';
 

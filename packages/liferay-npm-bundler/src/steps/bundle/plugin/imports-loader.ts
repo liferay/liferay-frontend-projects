@@ -7,9 +7,9 @@ import {parse} from 'acorn';
 import {generate} from 'escodegen';
 import {traverse} from 'estraverse';
 import estree from 'estree';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {addNamespace} from 'liferay-npm-build-tools-common/lib/namespace';
-import project, {Project} from 'liferay-npm-build-tools-common/lib/project';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import {addNamespace} from 'liferay-js-toolkit-core/lib/namespace';
+import project, {Project} from 'liferay-js-toolkit-core/lib/project';
 
 import report from '../../../report';
 import ReportLogger from '../../../report/logger';

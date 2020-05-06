@@ -8,9 +8,9 @@ import {
 	SourceCode,
 	SourceTransform,
 	replace,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import {getProgramStatements} from 'liferay-npm-build-tools-common/lib/transform/js/ast';
-import {parse} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+} from 'liferay-js-toolkit-core/lib/transform/js';
+import {getProgramStatements} from 'liferay-js-toolkit-core/lib/transform/js/ast';
+import {parse} from 'liferay-js-toolkit-core/lib/transform/js/parse';
 
 export default function exportModuleAsFunction(): SourceTransform {
 	return (source => _exportModuleAsFunction(source)) as SourceTransform;

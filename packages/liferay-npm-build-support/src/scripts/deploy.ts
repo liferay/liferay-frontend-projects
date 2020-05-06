@@ -6,7 +6,7 @@
 /* eslint-disable no-console */
 
 import fs from 'fs';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import project from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
 
 import * as cfg from '../config';

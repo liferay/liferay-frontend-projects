@@ -4,7 +4,7 @@
  */
 
 import prop from 'dot-prop';
-import {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
+import {PkgJson} from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
 
 import {DEFAULT_CONFIGURATION} from '../facet-configuration/constants';

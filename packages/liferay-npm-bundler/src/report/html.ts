@@ -4,8 +4,8 @@
  */
 
 import {Report} from '.';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import {LogLevel} from 'liferay-npm-build-tools-common/lib/project/misc';
+import PluginLogger from 'liferay-js-toolkit-core/lib/plugin-logger';
+import {LogLevel} from 'liferay-js-toolkit-core/lib/project/misc';
 import pretty from 'pretty-time';
 
 /* eslint-disable sort-keys */

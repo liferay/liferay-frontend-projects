@@ -16,7 +16,7 @@
 		"chalk": "^2.4.2",
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
-		"liferay-npm-build-tools-common": "3.0.0",
+		"liferay-js-toolkit-core": "3.0.0",
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1",
 		"semver": "^6.3.0"

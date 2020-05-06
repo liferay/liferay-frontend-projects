@@ -10,9 +10,9 @@ import {
 	ConfigurationJson,
 	PortletInstanceConfiguration,
 	SystemConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import project from 'liferay-npm-build-tools-common/lib/project';
+} from 'liferay-js-toolkit-core/lib/api/configuration-json';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import project from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
 
 import {buildBundlerDir} from '../dirs';

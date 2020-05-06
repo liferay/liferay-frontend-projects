@@ -9,7 +9,7 @@ import PluginLogger from '../plugin-logger';
 
 /**
  * The IPC object passed to all babel plugins through the `babelIpc` mechanism
- * (see `liferay-npm-build-tools-common/lib/babel-ipc` module).
+ * (see `liferay-js-toolkit-core/lib/babel-ipc` module).
  */
 export interface BabelIpcObject {
 	log: PluginLogger;

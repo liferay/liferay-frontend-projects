@@ -4,8 +4,8 @@
  */
 
 import fs from 'fs-extra';
-import {addNamespace} from 'liferay-npm-build-tools-common/lib/namespace';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {addNamespace} from 'liferay-js-toolkit-core/lib/namespace';
+import project from 'liferay-js-toolkit-core/lib/project';
 
 import {buildBundlerDir, buildWebpackDir} from '../../../dirs';
 import * as log from '../../../log';

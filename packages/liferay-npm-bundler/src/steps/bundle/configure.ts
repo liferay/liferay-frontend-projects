@@ -4,9 +4,9 @@
  */
 
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {isLocalModule} from 'liferay-npm-build-tools-common/lib/modules';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import {isLocalModule} from 'liferay-js-toolkit-core/lib/modules';
+import project from 'liferay-js-toolkit-core/lib/project';
 import webpack from 'webpack';
 
 import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
