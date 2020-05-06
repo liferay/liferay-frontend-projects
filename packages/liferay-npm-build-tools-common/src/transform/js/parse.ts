@@ -21,9 +21,13 @@ export function parse(code: string): estree.Program {
 		ecmaVersion: 10,
 		locations: true,
 		sourceType: 'module',
-	});
+	}) as estree.Node;
 
-	return (program as unknown) as estree.Program;
+	if (program.type !== 'Program') {
+		throw new Error('Code cannot be parsed as an AST Program node');
+	}
+
+	return program as estree.Program;
 }
 
 /**

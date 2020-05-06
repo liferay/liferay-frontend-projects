@@ -199,10 +199,14 @@ class Parser {
 			return false;
 		}
 
-		const ast = (parse(lines.join('\n')) as unknown) as estree.Program;
+		const program = parse(lines.join('\n')) as estree.Node;
+
+		if (program.type !== 'Program') {
+			throw new Error('Code cannot be parsed as an AST Program node');
+		}
 
 		parentNode.body = [
-			...ast.body,
+			...program.body,
 			...parentNode.body.filter(child => child !== node),
 		];
 
