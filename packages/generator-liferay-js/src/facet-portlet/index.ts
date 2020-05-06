@@ -22,20 +22,20 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		this.answers = await promptWithConfig(this, 'facet-portlet', [
 			{
-				type: 'input',
-				name: 'category',
-				message: 'Under which category should your widget be listed?',
 				default: 'category.sample',
+				message: 'Under which category should your widget be listed?',
+				name: 'category',
+				type: 'input',
 			},
 		]);
 	}
@@ -43,7 +43,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		const cp = new Copier(this);
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);

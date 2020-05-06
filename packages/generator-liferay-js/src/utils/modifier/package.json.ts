@@ -23,7 +23,7 @@ export default class extends JsonModifier {
 	 * Set the main entry of the package.json file
 	 * @param {string} module module name
 	 */
-	setMain(module) {
+	setMain(module): void {
 		this.modifyJson(json => {
 			prop.set(json, 'main', module);
 		});
@@ -34,7 +34,7 @@ export default class extends JsonModifier {
 	 * @param {String} name package name
 	 * @param {String} semver semver constraints
 	 */
-	addDevDependency(name, semver) {
+	addDevDependency(name, semver): void {
 		name = this._escapeProp(name);
 
 		this.modifyJson(json => {
@@ -47,7 +47,7 @@ export default class extends JsonModifier {
 	 * @param {String} name package name
 	 * @param {String} semver semver constraints
 	 */
-	addDependency(name, semver) {
+	addDependency(name, semver): void {
 		name = this._escapeProp(name);
 
 		this.modifyJson(json => {
@@ -61,7 +61,7 @@ export default class extends JsonModifier {
 	 * @param {Object} dependencies an object with dependencies and
 	 * 						devDependencies fields
 	 */
-	mergeDependencies(dependencies) {
+	mergeDependencies(dependencies): void {
 		Object.entries(dependencies.dependencies).forEach(([name, semver]) =>
 			this.addDependency(name, semver)
 		);
@@ -75,7 +75,7 @@ export default class extends JsonModifier {
 	 * Prepend a build command to the build npm script of package.json
 	 * @param {String} command the command to run
 	 */
-	addBuildStep(command) {
+	addBuildStep(command): void {
 		this.modifyJson(json => {
 			const currentBuild = prop.get(json, 'scripts.build');
 
@@ -92,7 +92,7 @@ export default class extends JsonModifier {
 	 * @param {String} name name of script
 	 * @param {String} command command to run
 	 */
-	addScript(name, command) {
+	addScript(name, command): void {
 		name = this._escapeProp(name);
 
 		this.modifyJson(json => {
@@ -105,7 +105,7 @@ export default class extends JsonModifier {
 	 * @param {string} name name of property
 	 * @param {any} value value of property
 	 */
-	addPortletProperty(name, value) {
+	addPortletProperty(name, value): void {
 		name = this._escapeProp(name);
 
 		this.modifyJson(json => {

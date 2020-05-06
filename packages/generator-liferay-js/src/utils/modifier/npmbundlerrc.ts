@@ -23,7 +23,7 @@ export default class extends JsonModifier {
 	 * @param {string} name name of package
 	 * @param {boolean} value true to exclude package
 	 */
-	addExclusion(name, value = true) {
+	addExclusion(name, value = true): void {
 		name = this._escapeProp(name);
 
 		this.modifyJson(json => {
@@ -35,7 +35,7 @@ export default class extends JsonModifier {
 	 * Merge all imports contained in a JSON object into the .npmbundlerrc file.
 	 * @param {Object} imports an object containing the config.imports section
 	 */
-	mergeImports(imports) {
+	mergeImports(imports): void {
 		this.modifyJson(json => {
 			Object.entries(imports).forEach(([provider, dependencies]) => {
 				provider = this._escapeProp(provider);
@@ -58,7 +58,7 @@ export default class extends JsonModifier {
 	 * @param {string} name name of feature
 	 * @param {any} value value of feature
 	 */
-	setFeature(name, value) {
+	setFeature(name, value): void {
 		name = this._escapeProp(name);
 
 		this.modifyJson(json => {
@@ -70,7 +70,7 @@ export default class extends JsonModifier {
 	 * Set preset package name.
 	 * @param {string} presetName
 	 */
-	setPreset(presetName) {
+	setPreset(presetName): void {
 		this.modifyJson(json => {
 			prop.set(json, 'preset', presetName);
 		});

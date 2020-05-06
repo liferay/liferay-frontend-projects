@@ -14,7 +14,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		standardTarget.initializing(this);
 
 		this.composeWith(require.resolve('./react-portlet'), undefined);
@@ -23,7 +23,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman install function
 	 */
-	install() {
+	install(): void {
 		standardTarget.install(this);
 	}
 }

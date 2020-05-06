@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * © 2017 Liferay, Inc. <https://liferay.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
@@ -12,7 +17,7 @@ import project from 'liferay-npm-build-tools-common/lib/project';
  * @param {object} config a .babelrc like configuration object
  * @return {string} the processed file content
  */
-export default function(context, config) {
+export default function(context, config): string {
 	const {content, filePath, log, sourceMap} = context;
 
 	const babelConfig = {
@@ -52,7 +57,7 @@ export default function(context, config) {
  * @param {Array} plugins an array of Babel plugins names as defined by .babelrc
  * @return {Array} the instantiated Babel plugins
  */
-function loadBabelPlugins(presets, plugins) {
+function loadBabelPlugins(presets, plugins): unknown[] {
 	return []
 		.concat(
 			...presets.map(preset => {

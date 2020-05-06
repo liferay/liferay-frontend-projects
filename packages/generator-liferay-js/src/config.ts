@@ -25,7 +25,7 @@ process.argv.forEach((arg, index) => {
  * Set configuration to a given value (to be used from tests)
  * @param {object} config the forced config
  */
-export function set(config) {
+export function set(config): void {
 	cfg = config;
 }
 
@@ -33,7 +33,7 @@ export function set(config) {
  * Whether to run in batch mode (with no interaction with the user)
  * @return {boolean} true if all prompts must be answered with default values
  */
-export function batchMode() {
+export function batchMode(): boolean {
 	if (cfg.batchMode === undefined) {
 		return false;
 	}
@@ -52,7 +52,7 @@ export function getDefaultAnswer(
 	namespace,
 	question,
 	defaultDefault = undefined
-) {
+): unknown {
 	// Return defaultDefault if no answers section
 	if (cfg.answers === undefined) {
 		return defaultDefault;
@@ -86,7 +86,7 @@ export function getDefaultAnswer(
  * it must point to the root folder of the SDK's lerna repo.
  * @return {string} the forced SDK version to use
  */
-export function getSDKVersion() {
+export function getSDKVersion(): string {
 	return cfg.sdkVersion;
 }
 
@@ -95,7 +95,7 @@ export function getSDKVersion() {
  * @param {string} path
  * @return {object}
  */
-function safeReadJsonSync(path) {
+function safeReadJsonSync(path): object {
 	try {
 		return readJsonSync(path);
 	} catch (err) {

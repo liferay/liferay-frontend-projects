@@ -21,7 +21,7 @@ export default class {
 	 * Add a bunch of properties at once
 	 * @param {object} properties
 	 */
-	addProperties(properties) {
+	addProperties(properties): void {
 		Object.entries(properties).forEach(([name, value]) => {
 			if (value !== undefined) {
 				this.addProperty(name, value);
@@ -33,7 +33,7 @@ export default class {
 	 * @param {string} name
 	 * @param {string} value
 	 */
-	addProperty(name, value) {
+	addProperty(name, value): void {
 		const fs = this._generator.fs;
 
 		let content = fs.read(this._path).toString();

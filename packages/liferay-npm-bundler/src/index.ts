@@ -25,6 +25,7 @@ export default async function(argv: {version: boolean}): Promise<void> {
 		const {versionsInfo} = project;
 
 		versionsInfo.forEach((value, key) => {
+			// eslint-disable-next-line no-console
 			console.log(`"${key}":`, JSON.stringify(value, null, 2));
 		});
 

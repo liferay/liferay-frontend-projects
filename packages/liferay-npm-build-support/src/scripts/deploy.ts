@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
@@ -12,7 +14,7 @@ import * as cfg from '../config';
 /**
  *
  */
-export default function() {
+export default function(): void {
 	const liferayDirPath = cfg.getLiferayDir();
 
 	const outputDir = project.jar.outputDir;

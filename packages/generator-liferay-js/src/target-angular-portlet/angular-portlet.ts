@@ -24,7 +24,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 		this.namespace = 'target-angular-portlet';
 	}
@@ -32,14 +32,14 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		await standardTarget.prompting(this);
 	}
 
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		const cp = new Copier(this);
 		const npmbuildrc = new NpmbuildrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);

@@ -296,15 +296,15 @@ export class Project {
 				const pkgJsonPath = this.toolResolve(
 					`${packageName}/package.json`
 				);
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				// eslint-disable-next-line @typescript-eslint/no-var-requires, liferay/no-dynamic-require
 				const pkgJson = require(pkgJsonPath);
 
 				map.set(pkgJson.name, {
-					version: pkgJson.version,
 					path: path.relative(
 						this.dir.asNative,
 						path.dirname(pkgJsonPath)
 					),
+					version: pkgJson.version,
 				});
 			};
 
@@ -380,6 +380,7 @@ export class Project {
 	 * @param moduleName
 	 */
 	require(moduleName: string): unknown {
+		// eslint-disable-next-line liferay/no-dynamic-require
 		return require(this.resolve(moduleName));
 	}
 
@@ -432,6 +433,7 @@ export class Project {
 	 * @throws if module is not found
 	 */
 	toolRequire(moduleName: string): unknown {
+		// eslint-disable-next-line liferay/no-dynamic-require
 		return require(this.toolResolve(moduleName));
 	}
 
@@ -497,7 +499,8 @@ export class Project {
 		const configFilePath = _configFile.asNative;
 
 		this._configuration = fs.existsSync(configFilePath)
-			? require(configFilePath)
+			? // eslint-disable-next-line liferay/no-dynamic-require
+			  require(configFilePath)
 			: {};
 	}
 

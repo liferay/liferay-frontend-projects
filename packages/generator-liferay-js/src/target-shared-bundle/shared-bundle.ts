@@ -19,18 +19,17 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		this.answers = await promptWithConfig(this, 'target-shared-bundle', [
 			{
-				type: 'confirm',
-				name: 'createInitializer',
+				default: false,
 				message:
 					'Does your shared bundle need an initializer?\n' +
 					'\n' +
@@ -39,7 +38,8 @@ export default class extends Generator {
 					'  💡 It may also be useful if you need to load any polyfill that must be\n' +
 					'     loaded just once.\n' +
 					'\n',
-				default: false,
+				name: 'createInitializer',
+				type: 'confirm',
 			},
 		]);
 	}
@@ -47,7 +47,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		if (!this.answers.createInitializer) {
 			return;
 		}

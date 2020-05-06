@@ -187,8 +187,8 @@ export function splitModuleName(moduleName: string): ModuleNameParts {
 		}
 
 		ret = {
-			scope: parts[0],
 			pkgName: parts[1],
+			scope: parts[0],
 		};
 
 		parts = parts.slice(2);

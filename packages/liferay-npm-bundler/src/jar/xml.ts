@@ -98,10 +98,10 @@ function addAttr(
  */
 function addChild(parentNode: XmlObject, childName: string): XmlObject {
 	const childNode = {
-		type: 'element',
-		name: childName,
 		attributes: {},
 		elements: [],
+		name: childName,
+		type: 'element',
 	};
 
 	parentNode.elements = parentNode.elements || [];
@@ -124,10 +124,10 @@ function findChild(
 
 	if (childNode === undefined && create) {
 		childNode = {
-			type: 'element',
-			name: childName,
 			attributes: {},
 			elements: [],
+			name: childName,
+			type: 'element',
 		};
 
 		parentNode.elements = elements;

@@ -22,20 +22,20 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		this.answers = await promptWithConfig(this, 'facet-location', [
 			{
-				type: 'confirm',
-				name: 'useLocalization',
-				message: 'Do you want to add localization support?',
 				default: true,
+				message: 'Do you want to add localization support?',
+				name: 'useLocalization',
+				type: 'confirm',
 			},
 		]);
 	}
@@ -43,7 +43,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		if (!this.answers.useLocalization) {
 			return;
 		}

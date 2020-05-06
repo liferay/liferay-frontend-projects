@@ -160,7 +160,7 @@ export function getModuleName(moduleFilePath: string): string {
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	// eslint-disable-next-line @typescript-eslint/no-var-requires, liferay/no-dynamic-require,
 	const pkgJson = require(getPackageJsonPath(moduleFilePath));
 
 	return `${pkgJson.name}@${pkgJson.version}/${moduleName}`;

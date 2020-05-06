@@ -1,8 +1,15 @@
 /**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * © 2017 Liferay, Inc. <https://liferay.com>
  *
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
+
+/* eslint-disable no-console */
 
 import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
@@ -15,7 +22,7 @@ import * as cfg from '../config';
 /**
  * Default entry point
  */
-export default function() {
+export default function(): void {
 	if (!project.l10n.supported) {
 		console.log(
 			'Project does not support localization: nothing to translate.\n\n'
@@ -59,6 +66,7 @@ export default function() {
 				'You can edit your .npmbuildrc file to add new supported ' +
 				"locales using the 'supportedLocales' array.\n"
 		);
+
 		return;
 	}
 
@@ -111,7 +119,7 @@ export default function() {
  * @param {object} labels map of label maps indexed by locale
  * @return {object} the modified labels parameter
  */
-export function addMissingTranslations(translation, labels) {
+export function addMissingTranslations(translation, labels): object {
 	const locales = Object.keys(translation);
 
 	locales.forEach(locale => {
@@ -142,7 +150,7 @@ export function addMissingTranslations(translation, labels) {
  * @param {Array<string>} keys array of key names
  * @return {object}
  */
-export function arrayToMap(array, keys) {
+export function arrayToMap(array, keys): object {
 	return array.reduce(
 		(map, item, index) => ((map[keys[index]] = item), map),
 		{}
@@ -154,7 +162,7 @@ export function arrayToMap(array, keys) {
  * @param {Array<string>} locales
  * @return {object} an object with empty arrays as properties, indexed by locale
  */
-export function createTranslationsObject(locales) {
+export function createTranslationsObject(locales: string[]): object {
 	return locales.reduce(
 		(translations, locale) => ((translations[locale] = []), translations),
 		{}
@@ -166,7 +174,7 @@ export function createTranslationsObject(locales) {
  * @param {Array<Array<object>>} responses
  * @return {Array<object>}
  */
-export function flattenResponses(responses) {
+export function flattenResponses(responses): object[] {
 	return responses.reduce(
 		(flatResponses, response) => (
 			flatResponses.push(...response), flatResponses
@@ -181,13 +189,13 @@ export function flattenResponses(responses) {
  * @param {Array<string>} texts
  * @return {Array<Array<string>>} split text arrays
  */
-export function makeChunks(texts) {
+export function makeChunks(texts): string[][] {
 	const chunks = [];
 	let currentChunk;
 	let chars;
 
 	// A helper to add a new chunk to the `chunks` array
-	function appendChunk() {
+	function appendChunk(): void {
 		chars = 0;
 		currentChunk = [];
 		chunks.push(currentChunk);
@@ -218,7 +226,7 @@ export function makeChunks(texts) {
  * Show missing supported locales: those for which there's a .properties file
  * but are not configured.
  */
-function showMissingSupportedLocales() {
+function showMissingSupportedLocales(): void {
 	const availableLocales = project.l10n.availableLocales;
 
 	const supportedLocales = cfg.getSupportedLocales();
@@ -244,7 +252,7 @@ function showMissingSupportedLocales() {
 /**
  * Creates missing locale files according to .npmbuildrc configuration
  */
-function createMissingSupportedLocalesFiles() {
+function createMissingSupportedLocalesFiles(): void {
 	const supportedLocales = cfg.getSupportedLocales();
 
 	const missingLocales = supportedLocales.filter(
@@ -268,7 +276,7 @@ function createMissingSupportedLocalesFiles() {
  * @param {string} filePath
  * @return {Promise<object>} the map of properties
  */
-function parseFile(filePath) {
+function parseFile(filePath): Promise<object> {
 	return new Promise((resolve, reject) => {
 		properties.parse(filePath, {path: true}, (err, labels) => {
 			if (err) {
@@ -287,7 +295,7 @@ function parseFile(filePath) {
  * @return {Promise<object>} a map of arrays with translated texts indexed by
  * 								locale
  */
-function translate(subscriptionKey, locales, texts) {
+function translate(subscriptionKey, locales, texts): Promise<object> {
 	// Map from ['es_ES', 'es_AR'] to {'es_ES': 'es', 'es_AR': 'es'}
 	const localesMap = locales.reduce((map, locale) => {
 		const targetLocale = locale.split('_')[0];
@@ -304,19 +312,19 @@ function translate(subscriptionKey, locales, texts) {
 	const targetLocales = [...new Set(Object.keys(localesMap))];
 
 	const options = {
-		method: 'POST',
 		baseUrl: 'https://api.cognitive.microsofttranslator.com/',
-		url: 'translate',
+		headers: {
+			'Content-type': 'application/json',
+			'Ocp-Apim-Subscription-Key': subscriptionKey,
+			'X-ClientTraceId': uuidv4().toString(),
+		},
+		json: true,
+		method: 'POST',
 		qs: {
 			'api-version': '3.0',
 			to: targetLocales,
 		},
-		headers: {
-			'Ocp-Apim-Subscription-Key': subscriptionKey,
-			'Content-type': 'application/json',
-			'X-ClientTraceId': uuidv4().toString(),
-		},
-		json: true,
+		url: 'translate',
 	};
 
 	const promises = makeChunks(texts).map(
@@ -349,7 +357,7 @@ function translate(subscriptionKey, locales, texts) {
 		const translations = createTranslationsObject(locales);
 
 		flattenResponses(responses).forEach(response => {
-			response.translations.forEach(translation => {
+			response['translations'].forEach(translation => {
 				localesMap[translation.to].forEach(locale =>
 					translations[locale].push(translation.text)
 				);
@@ -367,7 +375,7 @@ function translate(subscriptionKey, locales, texts) {
  * @param {string} filePath
  * @return {Promise<object>} map of label maps indexed by locale
  */
-function translateFile(subscriptionKey, locales, filePath) {
+function translateFile(subscriptionKey, locales, filePath): Promise<object> {
 	let keys;
 
 	return parseFile(filePath)

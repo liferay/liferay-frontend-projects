@@ -130,8 +130,8 @@ async function mergeMaps(
 		}
 
 		const origPosInOldMap = oldMapConsumer.originalPositionFor({
-			line: mapping.originalLine,
 			column: mapping.originalColumn,
+			line: mapping.originalLine,
 		});
 
 		if (origPosInOldMap.source == null) {
@@ -139,16 +139,16 @@ async function mergeMaps(
 		}
 
 		mergedMapGenerator.addMapping({
-			original: {
-				line: origPosInOldMap.line,
-				column: origPosInOldMap.column,
-			},
 			generated: {
-				line: mapping.generatedLine,
 				column: mapping.generatedColumn,
+				line: mapping.generatedLine,
+			},
+			name: origPosInOldMap.name,
+			original: {
+				column: origPosInOldMap.column,
+				line: origPosInOldMap.line,
 			},
 			source: origPosInOldMap.source,
-			name: origPosInOldMap.name,
 		});
 	});
 

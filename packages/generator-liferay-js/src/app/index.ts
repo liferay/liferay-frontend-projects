@@ -3,15 +3,22 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
 
 import {promptWithConfig} from '../utils';
 
+interface TargetDescription {
+	category: string;
+	name: string;
+	priority: number;
+}
+
 // If --which parameter is given show path to generator and exit
 if (argv.which) {
+	// eslint-disable-next-line no-console
 	console.log(require.resolve('./index'));
 	process.exit(0);
 }
@@ -23,28 +30,28 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	async initializing() {
+	async initializing(): Promise<void> {
 		const targets = this._findTargets();
 
 		const answers = await promptWithConfig(this, 'app', [
 			{
-				type: 'list',
-				name: 'target',
-				message: 'What type of project do you want to create?',
 				choices: targets,
+				message: 'What type of project do you want to create?',
+				name: 'target',
+				type: 'list',
 			},
 			{
-				type: 'input',
-				name: 'folder',
+				default: 'my-project',
 				message:
 					'What name shall I give to the folder hosting your project?',
-				default: 'my-project',
+				name: 'folder',
+				type: 'input',
 			},
 		]);
 
-		this.destinationRoot(path.resolve(answers.folder));
+		this.destinationRoot(path.resolve(answers['folder']));
 		this.composeWith(
-			require.resolve(`../target-${answers.target}`),
+			require.resolve(`../target-${answers['target']}`),
 			undefined
 		);
 	}
@@ -54,7 +61,7 @@ export default class extends Generator {
 	 * object.
 	 * @return {Array} a prompt choices object
 	 */
-	_findTargets() {
+	_findTargets(): {line: string; type: string}[] {
 		const tds = fs
 			.readdirSync(path.join(__dirname, '..'))
 			.filter(file => file.indexOf('target-') === 0)
@@ -70,10 +77,10 @@ export default class extends Generator {
 
 		categories.forEach((category, index) => {
 			if (index > 0) {
-				targets.push({type: 'separator', line: ' '});
+				targets.push({line: ' ', type: 'separator'});
 			}
 
-			targets.push({type: 'separator', line: `-- ${category} --`});
+			targets.push({line: `-- ${category} --`, type: 'separator'});
 			targets.push(
 				...tds
 					.filter(td => td.category === category)
@@ -81,7 +88,7 @@ export default class extends Generator {
 			);
 		});
 
-		targets.push({type: 'separator', line: ' '});
+		targets.push({line: ' ', type: 'separator'});
 
 		return targets;
 	}
@@ -90,7 +97,7 @@ export default class extends Generator {
 	 * Get target categories based on their descriptions.
 	 * @return {Array} an array containing the categories
 	 */
-	_getTargetCategories(tds) {
+	_getTargetCategories(tds: TargetDescription[]): string[] {
 		const map = tds.reduce((map, td) => {
 			map[td.category] = true;
 
@@ -107,7 +114,10 @@ export default class extends Generator {
  * @param  {string} rtd right target description to compare
  * @return {int} the priority difference
  */
-function compareTargetDescriptionPriorities(ltd, rtd) {
+function compareTargetDescriptionPriorities(
+	ltd: TargetDescription,
+	rtd: TargetDescription
+): number {
 	return ltd.priority - rtd.priority;
 }
 
@@ -117,8 +127,15 @@ function compareTargetDescriptionPriorities(ltd, rtd) {
  * @param  {string} target target's technical name
  * @return {object} parsed JSON file
  */
-function getTargetDescription(target) {
-	return require(`../target-${target}/target-description.json`);
+function getTargetDescription(target): TargetDescription {
+	return fs.readJsonSync(
+		path.join(
+			__dirname,
+			'..',
+			`target-${target}`,
+			'target-description.json'
+		)
+	) as TargetDescription;
 }
 
 module.exports = exports['default'];

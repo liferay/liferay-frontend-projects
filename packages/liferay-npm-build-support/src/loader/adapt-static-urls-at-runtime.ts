@@ -51,8 +51,8 @@ export default function(
 	const filePosixPaths = globby
 		.sync(`${docrootDir.asPosix}/**`, {
 			absolute: true,
-			onlyFiles: true,
 			followSymbolicLinks: false,
+			onlyFiles: true,
 		})
 		.map(filePath => docrootDir.relative(filePath).asPosix);
 

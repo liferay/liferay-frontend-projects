@@ -8,11 +8,13 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import {LogLevel} from 'liferay-npm-build-tools-common/lib/project/misc';
 import pretty from 'pretty-time';
 
+/* eslint-disable sort-keys */
 const LOG_LEVEL_SORT = {
 	error: 0,
 	warn: 1,
 	info: 2,
 };
+/* eslint-enable sort-keys */
 
 export function htmlDump(report: Report): string {
 	const {

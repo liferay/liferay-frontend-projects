@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
@@ -29,29 +31,30 @@ interface Results {
 }
 
 const fmt = {
-	project: chalk.hex('#505090').bgHex('#CCC'),
+	error: chalk.bold.red,
+	ignore: chalk.bold.hex('#008000'),
 	import: chalk.hex('#303090').bgHex('#CCC'),
 	package: chalk.hex('#000090').bgHex('#CCC'),
-
-	ignore: chalk.bold.hex('#008000'),
+	project: chalk.hex('#505090').bgHex('#CCC'),
 	success: chalk.bold.hex('#008000'),
 	warn: chalk.bold.hex('#DDDD00'),
-	error: chalk.bold.red,
 };
 
+/* eslint-disable sort-keys */
 const outcomeExitCode = {
 	ignore: 0,
 	success: 0,
 	warn: 1,
 	error: 2,
 };
+/* eslint-enable sort-keys */
 
 /**
  * Main entry point
  * @param {String} args command line arguments
  * @return {void}
  */
-export default function main(args) {
+export default function main(args): void {
 	processArguments(args);
 
 	const projects = loadProjects();
@@ -72,7 +75,7 @@ export default function main(args) {
  * @param  {Array} args command line arguments
  * @return {void}
  */
-function processArguments(args) {
+function processArguments(args): void {
 	if (args[0] === '-h' || args[0] === '--help') {
 		console.log(
 			'Usage:',
@@ -103,7 +106,7 @@ function processArguments(args) {
  * Load all projects with .npmbundlerrc file.
  * @return {Object} a hash with all valid projects
  */
-function loadProjects() {
+function loadProjects(): object {
 	const _msg = cfg.shouldShowProjectsLoad() ? msg : (): void => undefined;
 	const projects = {};
 
@@ -147,10 +150,10 @@ function loadProjects() {
 				}
 
 				projects[pkgJson.name] = {
-					name: pkgJson.name,
 					dir: new FilePath(pkgJsonDir),
-					pkgJson,
+					name: pkgJson.name,
 					npmbundlerrc,
+					pkgJson,
 				};
 
 				_msg(1, pkgJsonDir);
@@ -166,7 +169,7 @@ function loadProjects() {
  * Guess if a certain folder contains a project.
  * @param {string} projectPath
  */
-function looksLikeProjectDir(projectPath) {
+function looksLikeProjectDir(projectPath): boolean {
 	const fileNames = ['build.gradle', '.npmbundlerrc', '.npmbuildrc'];
 
 	return fileNames.some(fileName =>
@@ -378,8 +381,8 @@ function logOutcome(
 		results[projectName][importedProjectName][pkgName] =
 			results[projectName][importedProjectName][pkgName] || {};
 		results[projectName][importedProjectName][pkgName] = {
-			outcome,
 			message,
+			outcome,
 		};
 	}
 
@@ -391,7 +394,7 @@ function logOutcome(
  * @param  {Object} results the results hash
  * @return {int} the maximum exit code found in the results
  */
-function getMaxExitCode(results: Results) {
+function getMaxExitCode(results: Results): number {
 	return Object.entries(results).reduce(
 		(exitCode, project) =>
 			Math.max(
@@ -421,7 +424,7 @@ function getMaxExitCode(results: Results) {
  * @param  {Object} results hash with results of execution
  * @return {void}
  */
-function writeIgnores(results: Results) {
+function writeIgnores(results: Results): void {
 	const ignores = {};
 
 	Object.entries(results).forEach(project => {
@@ -456,7 +459,7 @@ function writeIgnores(results: Results) {
  * @param  {Array} args arguments to be logged
  * @return {void}
  */
-function msg(indent, ...args) {
+function msg(indent, ...args): void {
 	for (let i = 0; i < indent; i++) {
 		console.group();
 	}
@@ -472,7 +475,7 @@ function msg(indent, ...args) {
  * @param  {String} pkgName name of package or '/' to get the pkgJson version
  * @return {String} the version constraints for the given package
  */
-function getDependencyVersion(project, pkgName) {
+function getDependencyVersion(project, pkgName): string {
 	if (pkgName === '/') {
 		return project.pkgJson.version;
 	}

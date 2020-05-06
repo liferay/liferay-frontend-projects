@@ -22,7 +22,7 @@ export default class JsonModifier {
 	 * Get the JSON object associated to this modifier
 	 * @return {Object} a parsed JSON object
 	 */
-	get json() {
+	get json(): object {
 		return JSON.parse(this._generator.fs.read(this._path));
 	}
 
@@ -31,7 +31,7 @@ export default class JsonModifier {
 	 * @param {Function} modifier the code that modifies the JSON (it receives a
 	 * 						single parameter with the JSON object)
 	 */
-	modifyJson(modifier) {
+	modifyJson(modifier): void {
 		const gen = this._generator;
 
 		const json = this.json;
@@ -46,7 +46,7 @@ export default class JsonModifier {
 	 * @param {string} name name of property
 	 * @return {string} the escaped name
 	 */
-	_escapeProp(name) {
+	_escapeProp(name): string {
 		return name.replace(/\./g, '\\.');
 	}
 

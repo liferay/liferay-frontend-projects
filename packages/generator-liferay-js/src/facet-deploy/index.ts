@@ -20,25 +20,25 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman initialization function
 	 */
-	initializing() {
+	initializing(): void {
 		this.sourceRoot(path.join(__dirname, 'templates'));
 	}
 
 	/**
 	 * Standard Yeoman prompt function
 	 */
-	async prompting() {
+	async prompting(): Promise<void> {
 		const answers = await promptWithConfig(this, 'facet-deploy', [
 			{
-				type: 'confirm',
-				name: 'liferayPresent',
+				default: true,
 				message:
 					'Do you have a local installation of Liferay for development?',
-				default: true,
+				name: 'liferayPresent',
+				type: 'confirm',
 			},
 		]);
 
-		if (!answers.liferayPresent) {
+		if (!answers['liferayPresent']) {
 			this.answers = {};
 
 			return;
@@ -46,10 +46,10 @@ export default class extends Generator {
 
 		this.answers = await promptWithConfig(this, 'facet-deploy', [
 			{
-				type: 'input',
-				name: 'liferayDir',
-				message: 'Where is your local installation of Liferay placed?',
 				default: '/liferay',
+				message: 'Where is your local installation of Liferay placed?',
+				name: 'liferayDir',
+				type: 'input',
 				validate: validateLiferayDir,
 			},
 		]);
@@ -58,7 +58,7 @@ export default class extends Generator {
 	/**
 	 * Standard Yeoman generation function
 	 */
-	writing() {
+	writing(): void {
 		if (!this.answers.liferayDir) {
 			return;
 		}

@@ -73,8 +73,8 @@ function processFile(
 
 	const context: BundlerLoaderContext<string | Buffer> = {
 		content: fs.readFileSync(fileAbsPath),
-		filePath: prjRelPath,
 		extraArtifacts: {},
+		filePath: prjRelPath,
 		log: new PluginLogger(),
 	};
 

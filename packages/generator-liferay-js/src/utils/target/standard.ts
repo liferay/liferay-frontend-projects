@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {formatLabels, promptWithConfig} from '..';
+import {FormattedLabels, formatLabels, promptWithConfig} from '..';
 
 import ConfigurationSampleGenerator from '../../facet-configuration/sample-generator';
 import LocalizationSampleGenerator from '../../facet-localization/sample-generator';
@@ -14,7 +14,7 @@ import StylesCssModifier from '../modifier/assets/css/styles.css';
  *
  * @param {Generator} generator
  */
-export function initializing(generator) {
+export function initializing(generator): void {
 	generator.composeWith(require.resolve('../../facet-project'));
 	generator.composeWith(require.resolve('../../facet-localization'));
 	generator.composeWith(require.resolve('../../facet-configuration'));
@@ -28,17 +28,17 @@ export function initializing(generator) {
  * @param {Generator} generator
  * @param {string} namespace
  */
-export async function prompting(generator) {
+export async function prompting(generator): Promise<void> {
 	generator.answers = generator.answers || {};
 
 	Object.assign(
 		generator.answers,
 		await promptWithConfig(generator, [
 			{
-				type: 'confirm',
-				name: 'sampleWanted',
-				message: 'Do you want to generate sample code?',
 				default: false,
+				message: 'Do you want to generate sample code?',
+				name: 'sampleWanted',
+				type: 'confirm',
 			},
 		])
 	);
@@ -48,11 +48,11 @@ export async function prompting(generator) {
  *
  * @param {Generator} generator
  */
-export function install(generator) {
+export function install(generator): void {
 	generator.installDependencies({
 		bower: false,
-		skipMessage: generator.options['skip-install-message'],
 		skipInstall: generator.options['skip-install'],
+		skipMessage: generator.options['skip-install-message'],
 	});
 }
 
@@ -62,7 +62,7 @@ export function install(generator) {
  * @param {object} extra extra fields to add to the context
  * @return {object}
  */
-export function generateContext(generator, extra = {}) {
+export function generateContext(generator, extra = {}): object {
 	const projectAnalyzer = new ProjectAnalyzer(generator);
 
 	return {
@@ -77,7 +77,7 @@ export function generateContext(generator, extra = {}) {
  * @param {Generator} generator
  * @param {object} labels
  */
-export function generateSamples(generator, labels) {
+export function generateSamples(generator, labels): void {
 	const stylesCss = new StylesCssModifier(generator);
 	const {sampleWanted} = generator.answers;
 
@@ -100,7 +100,7 @@ export function generateSamples(generator, labels) {
  * @param {Generator} generator
  * @return {string}
  */
-export function generateSignature(generator) {
+export function generateSignature(generator): string {
 	const projectAnalyzer = new ProjectAnalyzer(generator);
 
 	return (
@@ -114,15 +114,15 @@ export function generateSignature(generator) {
  * @param {Generator} generator
  * @return {object}
  */
-export function generateLabels(generator) {
+export function generateLabels(generator): FormattedLabels {
 	const projectAnalyzer = new ProjectAnalyzer(generator);
 
 	return formatLabels({
-		portletNamespace: 'Portlet Namespace',
-		contextPath: 'Context Path',
-		portletElementId: 'Portlet Element Id',
 		configuration: projectAnalyzer.hasConfiguration
 			? 'Configuration'
 			: undefined,
+		contextPath: 'Context Path',
+		portletElementId: 'Portlet Element Id',
+		portletNamespace: 'Portlet Namespace',
 	});
 }

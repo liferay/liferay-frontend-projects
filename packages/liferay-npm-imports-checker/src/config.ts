@@ -18,7 +18,7 @@ reloadConfig();
  * Reload config from current directory
  * @return {void}
  */
-export function reloadConfig() {
+export function reloadConfig(): void {
 	// Find project root path: uppermost folder with a .npmimportscheckrc file
 	let projectRootPath = path.resolve(process.cwd());
 
@@ -71,7 +71,7 @@ export function reloadConfig() {
  * @param {Array} args command line arguments
  * @return {void}
  */
-export function setProgramArgs(args) {
+export function setProgramArgs(args): void {
 	savedProgramArgs = args;
 
 	if (args.includes('-i') || args.includes('--write-ignores')) {
@@ -91,7 +91,7 @@ export function setProgramArgs(args) {
  * Get the project's root path: uppermost folder with a .npmimportscheckrc file
  * @return {String} an absolute path
  */
-export function getProjectRootPath() {
+export function getProjectRootPath(): string {
 	return cfg['project-root-path'];
 }
 
@@ -99,7 +99,7 @@ export function getProjectRootPath() {
  * Get the tool's run path
  * @return {String} an absolute path
  */
-export function getRunPath() {
+export function getRunPath(): string {
 	return cfg['run-path'];
 }
 
@@ -107,7 +107,7 @@ export function getRunPath() {
  * Get the array of folder exclusions
  * @return {Array} an array of glob expressions to pass to globby
  */
-export function getFolderExclusions() {
+export function getFolderExclusions(): string[] {
 	return cfg['exclude-folders']
 		.map(folder => `!**/${folder}/**`)
 		.concat(['!**/node_modules/**']);
@@ -117,7 +117,7 @@ export function getFolderExclusions() {
  * Test whether the program should show what projects are being loaded.
  * @return {Boolean} true if projects being loaded are to be shown.
  */
-export function shouldShowProjectsLoad() {
+export function shouldShowProjectsLoad(): boolean {
 	return cfg['show-projects-load'];
 }
 
@@ -126,7 +126,7 @@ export function shouldShowProjectsLoad() {
  * match those specified in .npmbundlerrc files.
  * @return {Boolean} true if files should be checked
  */
-export function shouldCheckProjectVersions() {
+export function shouldCheckProjectVersions(): boolean {
 	return cfg['check-project-versions'];
 }
 
@@ -135,7 +135,7 @@ export function shouldCheckProjectVersions() {
  * file
  * @return {Boolean} true if ignores should be written
  */
-export function shouldWriteIgnores() {
+export function shouldWriteIgnores(): boolean {
 	return cfg['write-ignores'];
 }
 
@@ -146,7 +146,7 @@ export function shouldWriteIgnores() {
  * @param  {String}  pkgName imported package name
  * @return {Boolean} true if import should be ignored
  */
-export function isIgnored(projectName, importsName, pkgName) {
+export function isIgnored(projectName, importsName, pkgName): boolean {
 	if (!cfg.ignore) {
 		return false;
 	}
@@ -174,12 +174,12 @@ export function isIgnored(projectName, importsName, pkgName) {
  * @param  {String} dir path where config file is stored
  * @return {Object} the merged config (passed in cfg argument)
  */
-function mergeConfig(cfg, dir) {
+function mergeConfig(cfg, dir): object {
 	const rc = safeReadJsonSync(path.join(dir, '.npmimportscheckrc')) || {};
 
 	const pkgJson = readJsonSync(path.join(dir, 'package.json'));
 
-	const ignore = rc.ignore || {};
+	const ignore = rc['ignore'] || {};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	Object.entries(ignore).forEach(([key, value]: [string, any]) => {
@@ -201,7 +201,7 @@ function mergeConfig(cfg, dir) {
  * @param  {String} filePath path to file
  * @return {Object} the parsed JSON object or undefined if it could not be read
  */
-function safeReadJsonSync(filePath) {
+function safeReadJsonSync(filePath): object {
 	filePath = path.resolve(filePath);
 
 	let json;

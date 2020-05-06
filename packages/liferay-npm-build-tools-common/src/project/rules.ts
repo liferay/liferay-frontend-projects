@@ -106,17 +106,17 @@ export default class Rules {
 					const pkgJsonPath = _project.toolResolve(
 						`${pkgName}/package.json`
 					);
-					// eslint-disable-next-line @typescript-eslint/no-var-requires
+					// eslint-disable-next-line @typescript-eslint/no-var-requires, liferay/no-dynamic-require
 					const pkgJson = require(pkgJsonPath);
 
 					map.set(resolvedModule, {
-						version: pkgJson.version,
 						path: path.relative(
 							_project.dir.asNative,
 							modulePath
 								? _project.toolResolve(resolvedModule)
 								: path.dirname(pkgJsonPath)
 						),
+						version: pkgJson.version,
 					});
 
 					return map;
