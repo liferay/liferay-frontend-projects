@@ -27,6 +27,7 @@
 		"watch": "node scripts/watch.js"
 	},
 	"devDependencies": {
+		"@cnakazawa/watch": "^1.0.4",
 		"@types/jest": "^24.0.18",
 		"@typescript-eslint/eslint-plugin": "^2.21.0",
 		"@typescript-eslint/parser": "^2.21.0",
