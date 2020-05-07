@@ -24,7 +24,6 @@
 				"/": ">=1.0.0"
 			},
 			"frontend-js-metal-web": {
-				"core-js": ">=2.6.5",
 				"incremental-dom": ">=0.5.1",
 				"incremental-dom-string": ">=0.0.3",
 				"metal": ">=2.16.5",
@@ -255,8 +254,6 @@
 		"caniuse-lite": true,
 		"chalk": true,
 		"commander": true,
-		"core-js": true,
-		"core-js-pure": true,
 		"electron-to-chromium": true,
 		"lodash": true,
 		"regenerate-unicode-properties": true,
