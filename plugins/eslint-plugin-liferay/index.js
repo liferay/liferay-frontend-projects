@@ -11,6 +11,7 @@ module.exports = {
 		'import-extensions': require('./lib/rules/import-extensions'),
 		'imports-first': require('./lib/rules/imports-first'),
 		'no-absolute-import': require('./lib/rules/no-absolute-import'),
+		'no-arrow': require('./lib/rules/no-arrow'),
 		'no-duplicate-class-names': require('./lib/rules/no-duplicate-class-names'),
 		'no-duplicate-imports': require('./lib/rules/no-duplicate-imports'),
 		'no-dynamic-require': require('./lib/rules/no-dynamic-require'),
