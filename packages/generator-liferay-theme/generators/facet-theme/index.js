@@ -80,7 +80,7 @@ module.exports = class extends Generator {
 	}
 
 	end() {
-		runGulpInit();
+		runGulpInit('theme');
 	}
 
 	_getDevDependencies() {

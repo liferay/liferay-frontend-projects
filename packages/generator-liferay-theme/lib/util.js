@@ -60,8 +60,10 @@ async function promptWithQA(generator, prompts) {
 
 /**
  * Run `gulp init` after successful creation of a project.
+ *
+ * @param {'plugin' | 'theme'} registerTasksModule
  */
-function runGulpInit() {
+function runGulpInit(registerTasksModule) {
 	print(
 		'\n',
 		success`
@@ -85,7 +87,22 @@ function runGulpInit() {
 	);
 
 	// We cannot load this before the project is created because it crashes
-	const liferayThemeTasks = require('liferay-theme-tasks');
+	let liferayThemeTasks;
+
+	switch (registerTasksModule) {
+		case 'plugin':
+			liferayThemeTasks = require('liferay-theme-tasks/plugin');
+			break;
+
+		case 'theme':
+			liferayThemeTasks = require('liferay-theme-tasks');
+			break;
+
+		default:
+			throw new Error(
+				`Invalid registerTasksModule parameter: ${registerTasksModule}`
+			);
+	}
 
 	liferayThemeTasks.registerTasks({gulp});
 
