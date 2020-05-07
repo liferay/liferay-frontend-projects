@@ -101,8 +101,10 @@ When publishing a normal release, the `maintenance` _dist-tag_ is automatically 
 cd packages
 (cd liferay-theme-tasks && yarn publish)
 (cd generator-liferay-theme && yarn publish)
-(cd liferay-theme-mixins && yarn publish)
+(cd liferay-theme-mixins && yarn publish --tag=latest)
 ```
+
+👀 Note how we force the _dist-tag_ to be `latest` for `liferay-theme-mixins`. This is because there's no such project in the following versions (10.x, ...).
 
 To publish an "alpha", "beta" or other pre-release, you must provide the `prerelease` _dist-tag_:
 
