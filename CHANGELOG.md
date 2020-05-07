@@ -1,3 +1,11 @@
+## [v21.1.0](https://github.com/liferay/eslint-config-liferay/tree/v21.1.0) (2020-05-07)
+
+[Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v21.0.0...v21.1.0)
+
+### :new: Features
+
+-   feat: add no-arrow rule (#179) ([\#180](https://github.com/liferay/eslint-config-liferay/pull/180))
+
 ## [v21.0.0](https://github.com/liferay/eslint-config-liferay/tree/v21.0.0) (2020-04-29)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v20.0.1...v21.0.0)
