@@ -1,3 +1,15 @@
+## [v9.5.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.2) (2020-05-07)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.1...v9.5.2)
+
+### :wrench: Bug fixes
+
+-   fix: #445 gulp deploy failure caused by incorrect gulp init ([\#488](https://github.com/liferay/liferay-js-themes-toolkit/pull/488))
+
+### :book: Documentation
+
+-   docs: fix incomplete release process ([\#481](https://github.com/liferay/liferay-js-themes-toolkit/pull/481))
+
 ## [v9.5.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.1) (2020-04-16)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.0...v9.5.1)
