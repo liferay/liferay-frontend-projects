@@ -1,3 +1,12 @@
+## [liferay-npm-scripts/v32.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.1.0) (2020-05-07)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.0.0...liferay-npm-scripts/v32.1.0)
+
+### :house: Chores
+
+-   chore(scripts): update liferay-npm-bundler-preset-liferay-dev to v4.3.1 ([\#449](https://github.com/liferay/liferay-npm-tools/pull/449))
+-   chore: update to eslint-config-liferay v21.1.0 ([\#447](https://github.com/liferay/liferay-npm-tools/pull/447))
+
 ## [liferay-npm-scripts/v32.0.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.0.0) (2020-04-30)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v31.0.0...liferay-npm-scripts/v32.0.0)
