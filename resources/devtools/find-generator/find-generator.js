@@ -5,6 +5,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const fs = require('fs');
 const yeoman = require('yeoman-environment');
 

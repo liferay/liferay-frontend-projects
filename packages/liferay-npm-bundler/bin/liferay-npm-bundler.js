@@ -1,27 +1,33 @@
 #!/usr/bin/env node
+
+/**
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 const {argv} = require('yargs')
 	.option('config', {
 		alias: 'c',
-		type: 'string',
 		description:
 			'Specify path to config file to use (instead of .npmbundlerrc)',
+		type: 'string',
 	})
 	.option('create-jar', {
 		alias: 'j',
-		type: 'boolean',
 		description:
 			'Create a JAR file as output (as opposed to an exploded directory)',
+		type: 'boolean',
 	})
 	.option('dump-report', {
 		alias: 'r',
-		type: 'boolean',
 		description:
 			'Dump report HTML file with detailed information about the bundling process',
+		type: 'boolean',
 	})
 	.option('version', {
 		alias: 'v',
-		type: 'boolean',
 		description: 'Show version number and exit',
+		type: 'boolean',
 	})
 	.help();
 

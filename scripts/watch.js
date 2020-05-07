@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const watch = require('@cnakazawa/watch');
 const globby = require('globby');
 const path = require('path');

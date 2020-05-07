@@ -7,7 +7,7 @@ const fs = require('fs');
 const globby = require('globby');
 
 function coalesceSnapshotVersions(versions) {
-	let coalescedVersions = {};
+	const coalescedVersions = {};
 
 	Object.keys(versions).forEach(version => {
 		const i = version.indexOf('-snapshot.');

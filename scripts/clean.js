@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const path = require('path');
 const fs = require('fs-extra');
+const path = require('path');
 
 const {abort} = require('./util/report');
 

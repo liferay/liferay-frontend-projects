@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable liferay/no-dynamic-require */
+
 const fs = require('fs');
 const os = require('os');
 const path = require('path');

@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const clone = require('clone');
 const fs = require('fs');
 const path = require('path');
@@ -27,7 +29,9 @@ function linkDependencies(extraDependencies = []) {
 	// Grab dependencies from node_modules
 	try {
 		fs.mkdirSync('node_modules');
-	} catch (err) {}
+	} catch (err) {
+		// ignore
+	}
 
 	const dirs = fs.readdirSync('node_modules').filter(isToolkitDep);
 
