@@ -1,3 +1,11 @@
+## [liferay-npm-bundler-preset-liferay-dev/v4.3.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.3.1) (2020-05-07)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.3.0...liferay-npm-bundler-preset-liferay-dev/v4.3.1)
+
+### :wrench: Bug fixes
+
+-   fix(preset): remove misleading core-js config ([\#448](https://github.com/liferay/liferay-npm-tools/pull/448))
+
 ## [liferay-npm-bundler-preset-dev/v4.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-dev/v4.3.0) (2020-04-01)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.2.5...liferay-npm-bundler-preset-dev/v4.3.0)
