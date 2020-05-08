@@ -63,10 +63,10 @@ function writeConfigurations() {
 	// Generate shared bundle configuration
 	[true, false].forEach(createInitializer => {
 		writeConfig(configDir, {
-			target: `shared-bundle`,
+			createInitializer,
 			folder:
 				`shared-bundle` + `${createInitializer ? '-initializer' : ''}`,
-			createInitializer,
+			target: `shared-bundle`,
 		});
 	});
 
@@ -76,16 +76,16 @@ function writeConfigurations() {
 			[true, false].forEach(useConfiguration => {
 				[true, false].forEach(sampleWanted => {
 					writeConfig(configDir, {
-						target: `vanilla-portlet`,
 						folder:
 							`vanilla-portlet` +
 							`-${useBabel ? 'es6' : 'es5'}` +
 							`-${useLocalization ? 'l10n' : 'nol10n'}` +
 							`-${useConfiguration ? 'cfg' : 'nocfg'}` +
 							`-${sampleWanted ? 'sample' : 'nosample'}`,
-						useLocalization,
-						useConfiguration,
 						sampleWanted,
+						target: `vanilla-portlet`,
+						useConfiguration,
+						useLocalization,
 					});
 				});
 			});
@@ -98,15 +98,15 @@ function writeConfigurations() {
 			[true, false].forEach(useConfiguration => {
 				[true, false].forEach(sampleWanted => {
 					writeConfig(configDir, {
-						target: `${fw}-portlet`,
 						folder:
 							`${fw}-portlet` +
 							`-${useLocalization ? 'l10n' : 'nol10n'}` +
 							`-${useConfiguration ? 'cfg' : 'nocfg'}` +
 							`-${sampleWanted ? 'sample' : 'nosample'}`,
-						useLocalization,
-						useConfiguration,
 						sampleWanted,
+						target: `${fw}-portlet`,
+						useConfiguration,
+						useLocalization,
 					});
 				});
 			});

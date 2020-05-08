@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -27,9 +29,9 @@ function safeUnlink(path) {
 
 function spawn(cmd, args, options = {}) {
 	const proc = childProcess.spawnSync(cmd, args, {
-		stdio: 'inherit',
 		cwd: path.join('..', '..'),
 		shell: true,
+		stdio: 'inherit',
 		...options,
 	});
 
@@ -45,18 +47,18 @@ function writeConfig(dir, options) {
 		path.join(dir, `${name}.json`),
 		JSON.stringify(
 			{
-				batchMode: true,
-				sdkVersion: currentVersion,
 				answers: {
 					'*': {
-						description: options.folder,
 						category: 'JS Toolkit QA',
-						liferayPresent: true,
+						description: options.folder,
 						liferayDir,
+						liferayPresent: true,
 						pkgManager: 'yarn',
 						...options,
 					},
 				},
+				batchMode: true,
+				sdkVersion: currentVersion,
 			},
 			null,
 			2

@@ -1,3 +1,4 @@
+/copyright.js
 /node_modules/**
 /packages/*/**/__tests__/**
 /packages/*/generators/**

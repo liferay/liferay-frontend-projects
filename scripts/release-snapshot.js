@@ -3,12 +3,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const fs = require('fs-extra');
 const path = require('path');
 const readlineSync = require('readline-sync');
 
-const {git, yarn} = require('./util/run');
 const {abort, success, warn} = require('./util/report');
+const {git, yarn} = require('./util/run');
 
 const EXPECTED_PREPUBLISH = 'node ../../scripts/disable-publish.js';
 const RAW_PKG_JSON = fs.readFileSync('package.json');
