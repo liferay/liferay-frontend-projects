@@ -1,13 +1,15 @@
 # Getting Started
 
-This cookbook will be based on Liferay Portal 7.2.1 GA2 which uses [Clay CSS v2.18.1](https://github.com/liferay/clay/tree/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss). Clay CSS has thousands of Sass variables baked into the framework, which makes it super configurable through variables alone. We will take you through the steps required to transform Clay Base, used in Styled Theme, into a clone of Google's Baseline Material Design. The references used are listed below:
+This cookbook is based on Liferay Portal 7.2.1 GA2 which uses [Clay CSS v2.18.1](https://github.com/liferay/clay/tree/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss).
+
+Clay CSS has thousands of Sass variables baked into the framework, which makes it easily configurable just by updating variables. We will take you through the steps required to transform `Clay Base`, used in `Styled Theme`, into a clone of Google's Baseline Material Design. The references used are listed below:
 
 -   [Material Design Color Palette](https://material.io/resources/color/)
 -   [Material Design Components Docs](https://material.io/components/)
 -   [Figma Material Baseline Design Kit](https://storage.googleapis.com/mio-assets/resources/Material%20Baseline%20Design%20Kit.fig)
 -   [Other references I didn't find useful, but you might](https://medium.com/google-design/whats-next-for-material-design-s-theming-tools-f65014ffcce7)
 
-The Material Baseline Design kit is very limited and doesn't fully specify details such as font-sizes, hover, focus, and active states. This walkthrough reverse engineers a lot of the styles from the [https://material.io/components](https://material.io/components) site.
+The Material Baseline Design kit is very limited and does not fully specify details such as font size, hover, focus, and active states. This walk through reverse engineers a lot of the styles from the [https://material.io/components](https://material.io/components) site.
 
 ## Setup
 
@@ -16,42 +18,44 @@ Create a new DXP theme with:
 -   [generator-liferay-theme](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/generator-liferay-theme)
 -   [liferay-theme-tasks](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/liferay-theme-tasks)
 
-Once your theme is setup and deploying properly, the first step is to create the file `/src/css/_clay_variables.scss` in your theme. Your Clay CSS variable overwrites will live there.
+Once your theme is setup and deploying properly, the first step is to create the file `/src/css/_clay_variables.scss` in your theme. This will be where you place your Clay CSS variable overrides.
 
 ## Global Settings
 
 The default global settings for Clay CSS Base are listed below:
 
-```
-$enable-caret:                                false !default;
-$enable-rounded:                              true !default;
-$enable-shadows:                              false !default;
-$enable-gradients:                            false !default;
-$enable-transitions:                          true !default;
-$enable-prefers-reduced-motion-media-query:   true !default;
-$enable-hover-media-query:                    false !default; // Deprecated, no longer affects any compiled CSS
-$enable-grid-classes:                         true !default;
-$enable-pointer-cursor-for-buttons:           true !default;
-$enable-print-styles:                         true !default;
-$enable-responsive-font-sizes:                false !default;
-$enable-validation-icons:                     true !default;
-$enable-deprecation-messages:                 true !default;
+```scss
+$enable-caret: false !default;
+$enable-rounded: true !default;
+$enable-shadows:  false !default;
+$enable-gradients: false !default;
+$enable-transitions: true !default;
+$enable-prefers-reduced-motion-media-query: true !default;
+$enable-hover-media-query: false !default; // Deprecated, no longer affects any compiled CSS
+$enable-grid-classes: true !default;
+$enable-pointer-cursor-for-buttons true !default;
+$enable-print-styles: true !default;
+$enable-responsive-font-sizes: false !default;
+$enable-validation-icons: true !default;
+$enable-deprecation-messages: true !default;
 $enable-scaling-components: false !default;
 $scaling-breakpoint-down: sm !default;
 ```
 
-Material Design heavily incorporates box-shadows in their design, so we need to set in `/src/css/_clay_variables.scss`:
+Material Design heavily incorporates box-shadows in their design, so we need to set them to `true` in `/src/css/_clay_variables.scss`:
 
-```
+```scss
 $enable-shadows: true;
 ```
 
 ## Colors
 
-Clay CSS comes with a specific color palette, you can add to the color system or create your own that is easier to remember. One caveat is your custom colors won't propagate to the components and will have to be updated for each component. In the example below, we've added additional variables to primary, secondary, success, etc to match Material Design's large color palette from [https://material.io/resources/color](https://material.io/resources/color).
+Clay CSS comes with a specific color palette, you can add to the existing color system or create your own from scratch. One caveat to remember, is your custom colors will not propagate to the components and will have to be updated for each component.
 
-```
-$white: #FFF;
+In the example below, we have added additional variables to `primary`, `secondary`, `success`, etc to match Material Design's large color palette from [https://material.io/resources/color](https://material.io/resources/color).
+
+```scss
+$white: #fff;
 $gray-50: #fafafa;
 $gray-100: #f5f5f5;
 $gray-200: #eeeeee;
@@ -157,15 +161,17 @@ $danger-a100: #ff8a80;
 
 ## Fonts
 
-Material Design uses the font Roboto. Clay CSS provides a way to import one font family via a CSS `@import url($font-import-url)`. This is different from a Sass import. Just copy and paste the URL from the Google Font `@IMPORT` tab and don't forget to wrap the URL in single quotes (e.g., `'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'`). The code is below:
+Material Design uses the font [Roboto](https://storage.googleapis.com/spec-host/mio-staging%2Fmio-design%2F1581631970573%2Fassets%2F1__l5pBodK3nULajGCU3B_3N30wLskEkm%2Fmaterialdesigntypescale.sketch).
 
-```
+Clay CSS provides a way to import one font family via a CSS `@import url($font-import-url)`. This is different from a Sass import. Just copy and paste the URL from the Google Font `@IMPORT` tab and do not forget to wrap the URL in single quotes (e.g., `'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'`). The code is below:
+
+```scss
 $font-import-url: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap';
 ```
 
 We can now add Roboto to the sans-serif font stack.
 
-```
+```scss
 $font-family-sans-serif: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 ```
 
@@ -173,7 +179,7 @@ $font-family-sans-serif: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI"
 
 Material Design has font smoothing enabled for Firefox and Webkit browsers.
 
-```
+```scss
 $moz-osx-font-smoothing: grayscale;
 $webkit-font-smoothing: antialiased;
 ```
@@ -182,18 +188,18 @@ $webkit-font-smoothing: antialiased;
 
 Clay CSS provides the font-weight variables:
 
-```
-$font-weight-lighter:         lighter !default;
-$font-weight-light:           300 !default;
-$font-weight-normal:          400 !default;
-$font-weight-semi-bold:       500 !default;
-$font-weight-bold:            700 !default;
-$font-weight-bolder:          bolder !default;
+```scss
+$font-weight-lighter: lighter !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-semi-bold: 500 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: bolder !default;
 ```
 
-We don't need to change anything here. These match Material Design styles, but we will still need to declare them in `_clay_variables.scss`. Sass processes files from top down and `_clay_variables.scss` is imported at the top of `clay.scss`. We don't have access to these variables since they are defined later. We can add:
+We do not need to change anything here since they match Material Design's styles, but we still need to declare them in `_clay_variables.scss`. Sass processes files top down and `_clay_variables.scss` is imported at the top of `clay.scss`. We do not have access to these variables since they are defined later. We can add:
 
-```
+```scss
 $font-weight-lighter: lighter;
 $font-weight-light: 300;
 $font-weight-normal: 400;
@@ -204,16 +210,18 @@ $font-weight-bolder: bolder;
 
 ## Body Element
 
-The variables `$body-bg` and `$body-color` sets the background-color and color on the body element. Material Design uses `background-color: #FFF` and `color: #616161`. The default values for the Base Theme are listed below:
+The variables `$body-bg` and `$body-color` set the `background-color` and `color` on the body element, respectively. The default values for the `Base Theme` are:
 
-```
-$body-bg:                   $white !default;
-$body-color:                $gray-900 !default;
+```scss
+$body-bg: $white !default;
+$body-color: $gray-900 !default;
 ```
 
-Previously, we set the variable `$gray-700: #616161;`. We only need to change `$body-color` like so:
+Material Design uses `#fff` for its background color and `#616161` for its body text color. Since the background color matches what we have set as the default value in `Base Theme`, we only need to change the `$body-color` value.
 
-```
+Previously, we set the variable `$gray-700: #616161;` so we can leverage this variable when setting the `$body-color`, like so:
+
+```scss
 $body-color: $gray-700;
 ```
 
@@ -223,9 +231,9 @@ Clay CSS uses `rem` based values instead of `px` for accessibility. This ensures
 
 ## Headers (h1, h2, h3, h4, h5, h6)
 
-Material Design header styles:
+Material Design's header styles are:
 
-```
+```css
 h1, h2, h3, h4, h5 {
 	color: #212121;
 	font-family: Roboto,sans-serif;
@@ -235,41 +243,39 @@ h1, h2, h3, h4, h5 {
 }
 ```
 
-We can change these in Clay CSS with:
+To make the headers look the same in Clay CSS, we need to change:
 
-```
+```scss
 $headings-color: $gray-900;
 $headings-font-weight: 400;
 $headings-margin-bottom: 0.5rem;
 ```
 
-We don't need to change:
+We can keep the following variables set to their default values, since the `family-family` is already set on the body and `$headings-line-height` is already set to 1.2.
 
+```scss
+$headings-font-family: null !default;
+$headings-line-height: 1.2 !default;
 ```
-$headings-font-family:        null !default;
-$headings-line-height:        1.2 !default;
-```
-
-The font-family is already set on the body and `$headings-line-height` is already set to 1.2.
 
 ### H1 - H3
 
 Headings h1 - h3 have specific sizes at specific breakpoints. We can turn on scaling components with `$enable-scaling-components: true;`. The default breakpoint is `max-width: 767px`. The breakpoint can be changed based on Bootstrap's breakpoint sizes and `$scaling-breakpoint-down`.
 
-One thing to note, globally changing breakpoint sizes in DXP will have unintended consequences since they were designed to fit in specific screen widths. It's only recommended to change the default breakpoints if you know what you are getting yourself into.
+One thing to note, globally changing breakpoint sizes in DXP will have unintended consequences, since they were designed to fit in specific screen widths. __It is only recommended to change the default breakpoints if you know what you are doing.__
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $enable-shadows: true;
 $enable-scaling-components: true;
 ```
 
 ### H1
 
-Material Design h1 styles:
+Material Design:
 
-```
+```css
 h1 {
 	font-size: 40px;
 
@@ -281,16 +287,16 @@ h1 {
 
 Clay CSS:
 
-```
+```scss
 $h1-font-size: 3.75rem;
 $h1-font-size-mobile: 2.5rem;
 ```
 
 ### H2
 
-Material Design h2:
+Material Design:
 
-```
+```css
 h2 {
 	font-size: 24px;
 
@@ -302,16 +308,16 @@ h2 {
 
 Clay CSS:
 
-```
+```scss
 $h2-font-size: 2rem;
 $h2-font-size-mobile: 1.5rem;
 ```
 
 ### H3
 
-Material Design h3:
+Material Design:
 
-```
+```css
 h3 {
 	font-size: 22px;
 
@@ -323,16 +329,16 @@ h3 {
 
 Clay CSS:
 
-```
+```scss
 $h3-font-size: 1.5rem;
 $h3-font-size-mobile: 1.375rem;
 ```
 
 ### H4
 
-Material Design h4:
+Material Design:
 
-```
+```css
 h4 {
 	font-size: 20px;
 }
@@ -340,15 +346,15 @@ h4 {
 
 Clay CSS:
 
-```
+```scss
 $h4-font-size: 1.25rem;
 ```
 
 ### H5
 
-Material Design h5:
+Material Design:
 
-```
+```css
 h5 {
 	font-size: 18px;
 	margin: 0;
@@ -357,15 +363,13 @@ h5 {
 
 Clay CSS:
 
-```
+```scss
 $h5-font-size: 1.125rem;
 ```
 
 ### H6
 
-```
-h6 {} // No styles
-```
+There are no specific CSS styles for a h6.
 
 ## Typography
 
@@ -373,7 +377,7 @@ h6 {} // No styles
 
 Material Design:
 
-```
+```css
 a {
 	color: #212121;
 	text-decoration: none;
@@ -382,7 +386,7 @@ a {
 
 Clay CSS:
 
-```
+```scss
 $link-color: $gray-900;
 $link-decoration: none;
 $link-hover-color: $gray-900;
@@ -391,9 +395,9 @@ $link-hover-decoration: none;
 
 ### Mark
 
-Material Design mark:
+Material Design:
 
-```
+```css
 mark {
 	background-color: #ff0;
 	color: #000;
@@ -402,7 +406,7 @@ mark {
 
 Clay CSS:
 
-```
+```scss
 $mark-bg: #ff0;
 $mark-color: $black;
 $mark-padding: 0;
@@ -414,19 +418,20 @@ At the moment, we can only import one font through variables. We would have to i
 
 Material Design:
 
-```
+```css
 code {
 	color: #607d8b;
 	font-size: 12px;
-	font-family: "Roboto Mono",monospace;
+	font-family: "Roboto Mono", monospace;
 }
-```
+
+```scss
 
 Clay CSS:
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $font-family-monospace: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 $code-color: #607d8b;
@@ -435,7 +440,7 @@ $code-font-size: 0.75rem;
 
 _/src/css/\_clay_custom.scss_
 
-```
+```css
 code {
 	font-family: $font-family-monospace;
 }
@@ -445,12 +450,12 @@ code {
 
 Material Design:
 
-```
+```css
 pre {
 	background: #fff;
 	border: 1px solid #ddd;
 	font-size: 13px;
-	font-family: "Roboto Mono",monospace;
+	font-family: "Roboto Mono", monospace;
 	line-height: 20px;
 	padding: 10px 25px 10px 20px;
 }
@@ -460,13 +465,13 @@ Clay CSS:
 
 _/src/css/\_clay_variables.scss_
 
-```
+```scss
 $pre-color: inherit;
 ```
 
 _/src/css/\_clay_custom.scss_
 
-```
+```css
 pre {
 	background: $white;
 	border: 1px solid #ddd;
@@ -486,7 +491,7 @@ pre {
 
 What your `_clay_variables.scss` file should look like:
 
-```
+```scss
 $enable-shadows: true;
 $enable-scaling-components: true;
 
@@ -645,7 +650,7 @@ $pre-color: inherit;
 
 And `_clay_custom.scss` should have:
 
-```
+```css
 code {
 	font-family: $font-family-monospace;
 }
