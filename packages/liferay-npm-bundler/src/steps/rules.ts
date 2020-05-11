@@ -4,14 +4,16 @@
  */
 
 import fs from 'fs-extra';
-import {BundlerLoaderContext} from 'liferay-js-toolkit-core/lib/api/loaders';
-import * as gl from 'liferay-js-toolkit-core/lib/globs';
-import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
-import PluginLogger from 'liferay-js-toolkit-core/lib/plugin-logger';
-import project from 'liferay-js-toolkit-core/lib/project';
-import {BundlerLoaderDescriptor} from 'liferay-js-toolkit-core/lib/project/rules';
+import {
+	BundlerLoaderContext,
+	BundlerLoaderDescriptor,
+	PkgDesc,
+	PluginLogger,
+	prefixGlobs,
+} from 'liferay-js-toolkit-core';
 import path from 'path';
 
+import {project} from '../globals';
 import * as log from '../log';
 import report from '../report';
 import {getDestDir, runInChunks} from '../util';
@@ -37,7 +39,7 @@ function processPackage(srcPkg: PkgDesc): Promise<void> {
 
 	const sourcePrjRelPaths = findFiles(
 		project.dir.asNative,
-		gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
+		prefixGlobs(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
 	).map(file => file.asNative);
 
 	if (sourcePrjRelPaths.length === 0) {

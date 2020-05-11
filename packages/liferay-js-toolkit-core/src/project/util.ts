@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
 import prop from 'dot-prop';
 import fs from 'fs';
 
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
 import PkgDesc from '../pkg-desc';
-import {BundlerPluginDescriptor} from './types';
+import {BundlerPluginDescriptor, Project} from './index';
 
 /**
  *

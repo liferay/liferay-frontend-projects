@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
 import fs from 'fs';
 import path from 'path';
 import properties from 'properties';
 
 import FilePath from '../file-path';
+import {Project} from './index';
 import {getFeaturesFilePath} from './util';
 
 /** StringsMaps indexed by locale */

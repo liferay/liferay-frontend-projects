@@ -6,7 +6,7 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-js-toolkit-core/lib/api/loaders';
+} from 'liferay-js-toolkit-core';
 
 /** Configuration options for `replace-regexp` loader */
 export interface Options {

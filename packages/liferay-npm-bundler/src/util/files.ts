@@ -5,7 +5,7 @@
 
 import fs from 'fs-extra';
 import globby from 'globby';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import {FilePath} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 /**

@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
 import clone from 'clone';
 import path from 'path';
 
 import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
-import {VersionInfo} from './types';
+import {Project, VersionInfo} from './index';
 
 /**
  * A bundler loader plugin descriptor

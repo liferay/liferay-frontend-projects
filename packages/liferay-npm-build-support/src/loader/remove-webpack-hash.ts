@@ -6,7 +6,7 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-js-toolkit-core/lib/api/loaders';
+} from 'liferay-js-toolkit-core';
 
 import {removeWebpackHash} from './util';
 

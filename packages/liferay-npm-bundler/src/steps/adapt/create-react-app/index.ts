@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-js-toolkit-core/lib/project';
-import {transformTextFile} from 'liferay-js-toolkit-core/lib/transform/text';
+import {transformTextFile} from 'liferay-js-toolkit-core';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir, project} from '../../../globals';
 import * as log from '../../../log';
 import {copyFiles, findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';

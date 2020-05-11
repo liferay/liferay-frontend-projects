@@ -4,8 +4,10 @@
  */
 
 import prop from 'dot-prop';
-import project from 'liferay-js-toolkit-core/lib/project';
+import {Project} from 'liferay-js-toolkit-core';
 import readJsonSync from 'read-json-sync';
+
+export const project = new Project('.');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let npmbuildrc: any = {};

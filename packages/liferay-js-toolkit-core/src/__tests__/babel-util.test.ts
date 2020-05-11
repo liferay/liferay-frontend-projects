@@ -6,8 +6,8 @@
 import path from 'path';
 
 import * as babelUtil from '../babel-util';
-import project from '../project';
 
+const {project} = babelUtil;
 const absPrjDirPath = path.join(__dirname, '__fixtures__', 'babel-util');
 
 beforeAll(() => {

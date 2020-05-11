@@ -7,7 +7,7 @@ import ejs from 'ejs';
 import fs from 'fs-extra';
 import path from 'path';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir} from '../../../globals';
 
 /**
  * Helper function to transform a file inside `buildBundlerDir`.

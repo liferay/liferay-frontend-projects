@@ -6,9 +6,9 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-js-toolkit-core/lib/api/loaders';
-import * as babelUtil from 'liferay-js-toolkit-core/lib/babel-util';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+	FilePath,
+	getPackageDir,
+} from 'liferay-js-toolkit-core';
 import readJsonSync from 'read-json-sync';
 
 import {removeWebpackHash} from './util';
@@ -71,7 +71,7 @@ Liferay.Loader.define(
  */
 function getModuleName(prjRelfilePath: string, removePrefix: string): string {
 	const absFile = new FilePath(prjRelfilePath);
-	const pkgDir = new FilePath(babelUtil.getPackageDir(prjRelfilePath));
+	const pkgDir = new FilePath(getPackageDir(prjRelfilePath));
 
 	let moduleName: string = pkgDir.relative(absFile).asPosix;
 

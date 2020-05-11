@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PluginLogger from 'liferay-js-toolkit-core/lib/plugin-logger';
+import {PluginLogger} from 'liferay-js-toolkit-core';
 
 import loader from '../index';
 

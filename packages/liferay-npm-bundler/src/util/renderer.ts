@@ -5,7 +5,7 @@
 
 import ejs from 'ejs';
 import fs from 'fs-extra';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
+import {FilePath} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 export interface RenderOptions {

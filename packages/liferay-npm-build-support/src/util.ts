@@ -7,8 +7,9 @@ import childProcess from 'child_process';
 import spawn from 'cross-spawn';
 import ejs from 'ejs';
 import fs from 'fs-extra';
-import project from 'liferay-js-toolkit-core/lib/project';
 import path from 'path';
+
+import {project} from './config';
 
 /**
  * Template renderer class

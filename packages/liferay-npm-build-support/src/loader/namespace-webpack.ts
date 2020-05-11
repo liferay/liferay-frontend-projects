@@ -7,8 +7,9 @@ import crypto from 'crypto';
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-js-toolkit-core/lib/api/loaders';
-import project from 'liferay-js-toolkit-core/lib/project';
+} from 'liferay-js-toolkit-core';
+
+import {project} from '../config';
 
 /**
  * A loader to namespace occurrences of the `webpackJsonp` variable.

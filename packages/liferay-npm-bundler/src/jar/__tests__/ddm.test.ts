@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from 'liferay-js-toolkit-core/lib/project';
+import {Project} from 'liferay-js-toolkit-core';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 

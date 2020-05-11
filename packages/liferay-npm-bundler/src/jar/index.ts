@@ -8,14 +8,13 @@ import globby, {GlobbyOptions} from 'globby';
 import JSZip from 'jszip';
 import {
 	ConfigurationJson,
+	FilePath,
 	PortletInstanceConfiguration,
 	SystemConfiguration,
-} from 'liferay-js-toolkit-core/lib/api/configuration-json';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
-import project from 'liferay-js-toolkit-core/lib/project';
+} from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {buildBundlerDir} from '../dirs';
+import {buildBundlerDir, project} from '../globals';
 import * as ddm from './ddm';
 import * as xml from './xml';
 

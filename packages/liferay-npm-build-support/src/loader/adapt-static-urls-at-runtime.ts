@@ -7,11 +7,11 @@ import globby from 'globby';
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-js-toolkit-core/lib/api/loaders';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
-import project from 'liferay-js-toolkit-core/lib/project';
-import {escapeStringRegexp} from 'liferay-js-toolkit-core/lib/regexp';
+	FilePath,
+	escapeStringRegexp,
+} from 'liferay-js-toolkit-core';
 
+import {project} from '../config';
 import {replaceTokens} from './util';
 
 /** Configuration options for `adapt-static-urls` loader */

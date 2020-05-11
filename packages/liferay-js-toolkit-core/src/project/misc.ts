@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
 import prop from 'dot-prop';
 
 import FilePath from '../file-path';
 import {print, warn} from '../format';
+import {Project} from './index';
 
 /** Valid log levels for console and report */
 export enum LogLevel {

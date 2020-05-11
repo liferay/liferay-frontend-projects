@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {escapeStringRegexp} from 'liferay-js-toolkit-core/lib/regexp';
-import {TextTransform} from 'liferay-js-toolkit-core/lib/transform/text';
+import {TextTransform, escapeStringRegexp} from 'liferay-js-toolkit-core';
 
 /**
  * Replace strings or regular expressions in a text.

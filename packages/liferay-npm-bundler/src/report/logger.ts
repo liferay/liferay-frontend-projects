@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-js-toolkit-core/lib/project';
-import {LogLevel} from 'liferay-js-toolkit-core/lib/project/misc';
+import {LogLevel} from 'liferay-js-toolkit-core';
+
+import {project} from '../globals';
 
 const {reportLevel} = project.misc;
 

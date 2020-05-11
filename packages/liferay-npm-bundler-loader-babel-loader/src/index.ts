@@ -10,7 +10,9 @@
  */
 
 import * as babel from 'babel-core';
-import project from 'liferay-js-toolkit-core/lib/project';
+import {Project} from 'liferay-js-toolkit-core';
+
+const project = new Project('.');
 
 /**
  * @param {object} context loader's context

@@ -4,15 +4,12 @@
  */
 
 import fs from 'fs-extra';
-import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
-import project from 'liferay-js-toolkit-core/lib/project';
-import {ProjectType} from 'liferay-js-toolkit-core/lib/project/probe';
+import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
-import {buildBundlerDir} from './dirs';
+import {buildBundlerDir, manifest, project} from './globals';
 import createJar from './jar';
 import * as log from './log';
-import manifest from './manifest';
 import report from './report';
 import adaptCreateReactApp from './steps/adapt/create-react-app';
 import bundle from './steps/bundle';

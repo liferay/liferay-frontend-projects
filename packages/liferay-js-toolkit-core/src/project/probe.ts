@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
+import {Project} from './index';
 
 export enum ProjectType {
 	BUNDLER = 'liferay-npm-bundler',

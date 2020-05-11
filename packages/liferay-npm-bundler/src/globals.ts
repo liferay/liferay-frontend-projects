@@ -1,10 +1,14 @@
 /**
- * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import fs from 'fs-extra';
-import project from 'liferay-js-toolkit-core/lib/project';
+import {Manifest, Project} from 'liferay-js-toolkit-core';
+
+export const manifest = new Manifest();
+
+export const project = new Project('.');
 
 export const buildBundlerDir = project.workDir
 	? project.buildDir

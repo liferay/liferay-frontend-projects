@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-js-toolkit-core/lib/project';
 import {
-	SourceTransform,
-	replace,
-} from 'liferay-js-toolkit-core/lib/transform/js';
-import {parseAsExpressionStatement} from 'liferay-js-toolkit-core/lib/transform/js/parse';
+	JsSourceTransform,
+	parseAsAstExpressionStatement,
+	replaceJsSource,
+} from 'liferay-js-toolkit-core';
 
+import {project} from '../../../../../globals';
 import {findFiles} from '../../../../../util/files';
 
 export default function adaptStaticURLsAtRuntime(
 	...assetsGlobs: string[]
-): SourceTransform {
+): JsSourceTransform {
 	return (async source => {
 		const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
@@ -22,7 +22,7 @@ export default function adaptStaticURLsAtRuntime(
 			findFiles(adaptBuildDir, assetsGlobs).map(file => file.asPosix)
 		);
 
-		return await replace(source, {
+		return await replaceJsSource(source, {
 			enter(node, parent) {
 				if (
 					node.type !== 'Literal' ||
@@ -44,10 +44,10 @@ export default function adaptStaticURLsAtRuntime(
 					return;
 				}
 
-				return parseAsExpressionStatement(`
+				return parseAsAstExpressionStatement(`
 					_ADAPT_RT_.adaptStaticURL("${node.value}")
 				`);
 			},
 		});
-	}) as SourceTransform;
+	}) as JsSourceTransform;
 }

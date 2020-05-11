@@ -4,10 +4,11 @@
  */
 
 import fs from 'fs';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
-import project from 'liferay-js-toolkit-core/lib/project';
+import {FilePath, Project} from 'liferay-js-toolkit-core';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
+
+export const project = new Project('.');
 
 /**
  * @param {object} context loader's context

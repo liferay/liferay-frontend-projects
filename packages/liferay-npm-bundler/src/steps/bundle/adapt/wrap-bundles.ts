@@ -7,9 +7,8 @@ import {parse} from 'acorn';
 import {traverse} from 'estraverse';
 import estree from 'estree';
 import fs from 'fs-extra';
-import project from 'liferay-js-toolkit-core/lib/project';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir, project} from '../../../globals';
 import * as log from '../../../log';
 import {render, transformFile} from './util';
 

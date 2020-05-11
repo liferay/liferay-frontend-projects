@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ConfigurationField} from 'liferay-js-toolkit-core/lib/api/configuration-json';
+import {ConfigurationField} from 'liferay-js-toolkit-core';
 import {Element, ElementCompact, js2xml, xml2js} from 'xml-js';
 
 type XmlObject = Element | ElementCompact;

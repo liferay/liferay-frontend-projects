@@ -6,7 +6,10 @@
 import path from 'path';
 
 import FilePath from './file-path';
-import project from './project';
+import {Project} from './project';
+
+// TODO: this shouldn't be instantiated here
+export const project = new Project('.');
 
 enum FileOrigin {
 	SOURCE_PROJECT,

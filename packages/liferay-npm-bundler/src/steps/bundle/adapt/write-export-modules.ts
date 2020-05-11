@@ -4,16 +4,19 @@
  */
 
 import fs from 'fs-extra';
-import FilePath from 'liferay-js-toolkit-core/lib/file-path';
-import * as mod from 'liferay-js-toolkit-core/lib/modules';
-import * as ns from 'liferay-js-toolkit-core/lib/namespace';
-import * as pkgs from 'liferay-js-toolkit-core/lib/packages';
-import PkgDesc from 'liferay-js-toolkit-core/lib/pkg-desc';
-import project, {PkgJson} from 'liferay-js-toolkit-core/lib/project';
+import {
+	FilePath,
+	PkgDesc,
+	PkgJson,
+	addNamespace,
+	getPackageTargetDir,
+	isLocalModule,
+	joinModuleName,
+	splitModuleName,
+} from 'liferay-js-toolkit-core';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir, manifest, project} from '../../../globals';
 import * as log from '../../../log';
-import manifest from '../../../manifest';
 import {render} from './util';
 
 /**
@@ -23,7 +26,7 @@ import {render} from './util';
 export default async function writeExportModules(): Promise<void> {
 	await Promise.all(
 		Object.entries(project.exports).map(async ([id, moduleName]) => {
-			if (mod.isLocalModule(moduleName)) {
+			if (isLocalModule(moduleName)) {
 				await writeLocalExportModule(id, moduleName);
 			} else {
 				await writeDependencyExportModule(id, moduleName);
@@ -38,11 +41,11 @@ async function writeDependencyExportModule(
 	id: string,
 	moduleName: string
 ): Promise<void> {
-	const {modulePath, pkgName, scope} = mod.splitModuleName(moduleName);
+	const {modulePath, pkgName, scope} = splitModuleName(moduleName);
 
 	const canonicalModulePath = modulePath || '/index.js';
-	const scopedPkgName = mod.joinModuleName(scope, pkgName, '');
-	const namespacedScopedPkgName = ns.addNamespace(
+	const scopedPkgName = joinModuleName(scope, pkgName, '');
+	const namespacedScopedPkgName = addNamespace(
 		scopedPkgName,
 		project.pkgJson
 	);
@@ -52,7 +55,7 @@ async function writeDependencyExportModule(
 	);
 	const pkgDir = buildBundlerDir.join(
 		'node_modules',
-		pkgs.getPackageTargetDir(namespacedScopedPkgName, pkgJson.version)
+		getPackageTargetDir(namespacedScopedPkgName, pkgJson.version)
 	);
 
 	await writeDependencyExportPkgJson(pkgDir, pkgJson);
@@ -81,7 +84,7 @@ function addPackageToManifest(pkgJson: PkgJson, destDir: FilePath): void {
 	manifest.addPackage(
 		new PkgDesc(name, version, project.dir.relative(srcDirPath).asPosix),
 		new PkgDesc(
-			ns.addNamespace(name, project.pkgJson),
+			addNamespace(name, project.pkgJson),
 			version,
 			project.dir.relative(destDir).asPosix
 		)
@@ -107,7 +110,7 @@ async function writeDependencyExportPkgJson(
 		dependencies: {
 			[project.pkgJson.name]: project.pkgJson.version,
 		},
-		name: ns.addNamespace(pkgJson.name, project.pkgJson),
+		name: addNamespace(pkgJson.name, project.pkgJson),
 		version: pkgJson.version,
 	};
 

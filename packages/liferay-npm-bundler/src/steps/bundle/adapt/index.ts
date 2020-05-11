@@ -4,10 +4,9 @@
  */
 
 import fs from 'fs-extra';
-import {addNamespace} from 'liferay-js-toolkit-core/lib/namespace';
-import project from 'liferay-js-toolkit-core/lib/project';
+import {addNamespace} from 'liferay-js-toolkit-core';
 
-import {buildBundlerDir, buildWebpackDir} from '../../../dirs';
+import {buildBundlerDir, buildWebpackDir, project} from '../../../globals';
 import * as log from '../../../log';
 import {render, transformFile} from './util';
 import wrapBundles from './wrap-bundles';

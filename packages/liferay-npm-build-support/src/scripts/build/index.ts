@@ -4,12 +4,13 @@
  */
 
 import fs from 'fs-extra';
-import {error, info, print} from 'liferay-js-toolkit-core/lib/format';
-import project from 'liferay-js-toolkit-core/lib/project';
-import {ProjectType} from 'liferay-js-toolkit-core/lib/project/probe';
+import {ProjectType, format} from 'liferay-js-toolkit-core';
 import path from 'path';
 
+import {project} from '../../config';
 import {Renderer, runNodeModulesBin, runPkgJsonScript} from '../../util';
+
+const {error, info, print} = format;
 
 const msg = {
 	unsupportedProjectType: [

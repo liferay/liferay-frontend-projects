@@ -22,6 +22,11 @@ import Probe from './probe';
 import Rules from './rules';
 import {VersionInfo} from './types';
 
+export {LogLevel} from './misc';
+export {ProjectType} from './probe';
+export {BundlerLoaderDescriptor} from './rules';
+export {BundlerPluginDescriptor, VersionInfo} from './types';
+
 /** A package manager */
 export type PkgManager = 'npm' | 'yarn' | null;
 
@@ -544,5 +549,3 @@ export class Project {
 
 	private _workDir: FilePath;
 }
-
-export default new Project('.');

@@ -12,12 +12,11 @@
 /* eslint-disable no-console */
 
 import fs from 'fs';
-import project from 'liferay-js-toolkit-core/lib/project';
 import properties from 'properties';
 import request from 'request';
 import uuidv4 from 'uuid/v4';
 
-import * as cfg from '../config';
+import {getSupportedLocales, getTranslatorTextKey, project} from '../config';
 
 /**
  * Default entry point
@@ -34,7 +33,7 @@ export default function(): void {
 	let subscriptionKey = process.env.TRANSLATOR_TEXT_KEY;
 
 	if (!subscriptionKey) {
-		subscriptionKey = cfg.getTranslatorTextKey();
+		subscriptionKey = getTranslatorTextKey();
 	}
 
 	if (!subscriptionKey || subscriptionKey === '') {
@@ -229,7 +228,7 @@ export function makeChunks(texts): string[][] {
 function showMissingSupportedLocales(): void {
 	const availableLocales = project.l10n.availableLocales;
 
-	const supportedLocales = cfg.getSupportedLocales();
+	const supportedLocales = getSupportedLocales();
 
 	const missingLocales = availableLocales.filter(
 		locale => supportedLocales.indexOf(locale) === -1
@@ -253,7 +252,7 @@ function showMissingSupportedLocales(): void {
  * Creates missing locale files according to .npmbuildrc configuration
  */
 function createMissingSupportedLocalesFiles(): void {
-	const supportedLocales = cfg.getSupportedLocales();
+	const supportedLocales = getSupportedLocales();
 
 	const missingLocales = supportedLocales.filter(
 		locale => project.l10n.availableLocales.indexOf(locale) === -1

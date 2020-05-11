@@ -3,16 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {
-	error,
-	info,
-	print,
-	success,
-	title,
-	warn,
-} from 'liferay-js-toolkit-core/lib/format';
-import project from 'liferay-js-toolkit-core/lib/project';
-import {ProjectType} from 'liferay-js-toolkit-core/lib/project/probe';
+import {Project, ProjectType, format} from 'liferay-js-toolkit-core';
 import path from 'path';
 import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
@@ -30,6 +21,9 @@ import GitignoreModifier from '../utils/modifier/gitignore';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
 import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
 import PkgJsonModifier from '../utils/modifier/package.json';
+
+const {error, info, print, success, title, warn} = format;
+const project = new Project('.');
 
 const msg = {
 	angularCliDetected: [
