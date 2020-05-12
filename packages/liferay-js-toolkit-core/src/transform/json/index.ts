@@ -5,7 +5,7 @@
 
 import fs from 'fs-extra';
 
-import FilePath from '../../file-path';
+import FilePath from '../../file/FilePath';
 
 export interface JsonTransform<T extends object> {
 	(json: T): Promise<T>;

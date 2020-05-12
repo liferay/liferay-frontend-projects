@@ -6,7 +6,7 @@
 import path from 'path';
 
 /** Alias type to be able to handle both native and FilePath arguments */
-export type AnyPath = string | FilePath;
+type AnyPath = string | FilePath;
 
 export default class FilePath {
 	static readonly nativeIsPosix: boolean = path.sep === '/';

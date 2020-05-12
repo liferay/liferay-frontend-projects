@@ -7,7 +7,7 @@ import clone from 'clone';
 import path from 'path';
 
 import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
-import FilePath from '../file-path';
+import FilePath from '../file/FilePath';
 import {splitModuleName} from '../modules';
 import Project from './Project';
 import VersionInfo from './VersionInfo';

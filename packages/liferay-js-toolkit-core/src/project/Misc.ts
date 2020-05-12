@@ -5,7 +5,7 @@
 
 import prop from 'dot-prop';
 
-import FilePath from '../file-path';
+import FilePath from '../file/FilePath';
 import {print, warn} from '../format';
 import Project from './Project';
 

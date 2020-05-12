@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import FilePath from '../../file-path';
+import FilePath from '../../file/FilePath';
 import Rules from '../Rules';
 
 describe('single rule', () => {

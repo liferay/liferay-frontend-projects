@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import FilePath from '../file-path';
+import FilePath from '../FilePath';
 
 const savedNativeIsPosix = FilePath.nativeIsPosix;
 

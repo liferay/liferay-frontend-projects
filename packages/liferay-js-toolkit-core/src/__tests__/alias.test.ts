@@ -6,7 +6,7 @@
 import path from 'path';
 
 import {loadAliases} from '../alias';
-import FilePath from '../file-path';
+import FilePath from '../file/FilePath';
 
 const fixturesDir = new FilePath(path.join(__dirname, '__fixtures__', 'alias'));
 

@@ -5,7 +5,7 @@
 
 import path from 'path';
 
-import FilePath from './file-path';
+import FilePath from './file/FilePath';
 import Project from './project/Project';
 
 // TODO: this shouldn't be instantiated here

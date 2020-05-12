@@ -6,7 +6,7 @@
 import prop from 'dot-prop';
 import fs from 'fs';
 
-import FilePath from '../file-path';
+import FilePath from '../file/FilePath';
 import Project from './Project';
 
 /**

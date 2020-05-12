@@ -11,7 +11,7 @@ import readJsonSync from 'read-json-sync';
 import resolveModule from 'resolve';
 import webpack from 'webpack';
 
-import FilePath from '../file-path';
+import FilePath from '../file/FilePath';
 import {info, print, warn} from '../format';
 import {splitModuleName} from '../modules';
 import PkgJson from '../schema/PkgJson';

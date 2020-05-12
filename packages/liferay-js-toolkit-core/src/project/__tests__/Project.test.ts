@@ -6,7 +6,7 @@
 import child_process from 'child_process';
 import path from 'path';
 
-import FilePath from '../../file-path';
+import FilePath from '../../file/FilePath';
 import Project from '../Project';
 
 ////////////////////////////////////////////////////////////////////////////////

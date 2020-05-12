@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-// File paths handling
-export {default as FilePath} from './file-path';
-
-// Handler for manifest.json files
+// Operations on files
+export {default as FilePath} from './file/FilePath';
 export {default as Manifest} from './file/handler/Manifest';
 
 // TODO: maybe remove the next section before bundler 3?

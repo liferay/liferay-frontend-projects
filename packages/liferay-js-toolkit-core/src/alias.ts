@@ -6,7 +6,7 @@
 import prop from 'dot-prop';
 import readJsonSync from 'read-json-sync';
 
-import FilePath from './file-path';
+import FilePath from './file/FilePath';
 
 /** Alias configuration as expressed in `package.json` files */
 export type AliasConfig = false | string | AliasHash | undefined;

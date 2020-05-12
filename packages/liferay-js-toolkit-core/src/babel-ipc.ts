@@ -7,7 +7,7 @@
 
 import path from 'path';
 
-import FilePath from './file-path';
+import FilePath from './file/FilePath';
 
 // Put the `_babel_ipc_` map in the global context
 declare const global: {
