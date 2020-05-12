@@ -34,7 +34,7 @@ export * as format from './format';
 
 // Miscellaneous utilities
 export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
-export * from './regexp';
+export {default as escapeStringRegexp} from './escapeStringRegexp';
 
 // JSON file structure definitions (schemas)
 export * from './api/configuration-json';
