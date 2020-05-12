@@ -11,7 +11,7 @@ import fs from 'fs-extra';
 /**
  *
  */
-export default function(): void {
+export default function (): void {
 	fs.mkdirpSync('build');
 
 	cpr(
@@ -19,10 +19,10 @@ export default function(): void {
 		'build',
 		{
 			confirm: true,
-			filter: path => !/\/\.placeholder$/.test(path),
+			filter: (path) => !/\/\.placeholder$/.test(path),
 			overwrite: true,
 		},
-		err => {
+		(err) => {
 			if (err && err.message !== 'No files to copy') {
 				console.error(err);
 				process.exit(1);

@@ -15,11 +15,11 @@ import {findFiles} from '../../../../../util/files';
 export default function adaptStaticURLsAtRuntime(
 	...assetsGlobs: string[]
 ): JsSourceTransform {
-	return (async source => {
+	return (async (source) => {
 		const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
 		const assetURLs = new Set(
-			findFiles(adaptBuildDir, assetsGlobs).map(file => file.asPosix)
+			findFiles(adaptBuildDir, assetsGlobs).map((file) => file.asPosix)
 		);
 
 		return await replaceJsSource(source, {

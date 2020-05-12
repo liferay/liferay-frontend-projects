@@ -59,8 +59,8 @@ export function normalizeImportsConfig(
 	const normalized: ImportsConfig = {};
 
 	// Normalize to empty-string format
-	Object.keys(importsConfig).forEach(namespace => {
-		Object.keys(importsConfig[namespace]).forEach(pkgName => {
+	Object.keys(importsConfig).forEach((namespace) => {
+		Object.keys(importsConfig[namespace]).forEach((pkgName) => {
 			const version = importsConfig[namespace][pkgName];
 			let normalizedSpace = namespace;
 
@@ -76,8 +76,8 @@ export function normalizeImportsConfig(
 
 	// If necessary convert back to slash format
 	if (useSlashFormat) {
-		Object.keys(normalized).forEach(namespace => {
-			Object.keys(normalized[namespace]).forEach(pkgName => {
+		Object.keys(normalized).forEach((namespace) => {
+			Object.keys(normalized[namespace]).forEach((pkgName) => {
 				if (namespace === '') {
 					normalized[pkgName] = normalized[pkgName] || {};
 					normalized[pkgName]['/'] = normalized[namespace][pkgName];
@@ -107,8 +107,8 @@ export function unrollImportsConfig(
 
 	const imports: UnrolledImportsConfig = {};
 
-	Object.keys(importsConfig).forEach(namespace => {
-		Object.keys(importsConfig[namespace]).forEach(pkgName => {
+	Object.keys(importsConfig).forEach((namespace) => {
+		Object.keys(importsConfig[namespace]).forEach((pkgName) => {
 			if (imports[pkgName]) {
 				throw new Error(
 					`Package ${pkgName} is mapped to more than one import`

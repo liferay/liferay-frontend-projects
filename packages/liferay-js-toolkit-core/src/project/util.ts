@@ -109,7 +109,7 @@ export function createBundlerPluginDescriptors<T>(
 	project: Project,
 	pkgConfig: (object | string)[]
 ): BundlerPluginDescriptor<T>[] {
-	return pkgConfig.map(pkgConfigItem => {
+	return pkgConfig.map((pkgConfigItem) => {
 		let pluginName: string;
 		let pluginConfig: object;
 

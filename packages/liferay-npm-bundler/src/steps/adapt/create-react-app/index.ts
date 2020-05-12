@@ -94,7 +94,7 @@ async function processCssFiles(): Promise<void> {
 	);
 
 	await Promise.all(
-		cssFiles.map(async file => {
+		cssFiles.map(async (file) => {
 			await transformTextFile(
 				adaptBuildDir.join(file),
 				buildBundlerDir.join(file),

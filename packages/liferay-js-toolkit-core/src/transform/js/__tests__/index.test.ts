@@ -39,35 +39,45 @@ describe('replace', () => {
 
 		const mappings = [];
 
-		(await new SourceMapConsumer(transformed.map)).eachMapping(mapping =>
+		(await new SourceMapConsumer(transformed.map)).eachMapping((mapping) =>
 			mappings.push(mapping)
 		);
 
 		// all mappings are from the same file
 		expect(
 			mappings
-				.map(mapping => mapping.source)
-				.find(source => source !== '<unknown>')
+				.map((mapping) => mapping.source)
+				.find((source) => source !== '<unknown>')
 		).toBeUndefined();
 
 		// check original mappings
 		expect(
-			mappings.map(mapping => [
+			mappings.map((mapping) => [
 				mapping.originalLine,
 				mapping.originalColumn,
 			])
-		).toEqual([[1, 0], [1, 0], [1, 11], [1, 0]]);
+		).toEqual([
+			[1, 0],
+			[1, 0],
+			[1, 11],
+			[1, 0],
+		]);
 
 		// check generated mappings
 		expect(
-			mappings.map(mapping => [
+			mappings.map((mapping) => [
 				mapping.generatedLine,
 				mapping.generatedColumn,
 			])
-		).toEqual([[1, 0], [1, 1], [1, 4], [1, 5]]);
+		).toEqual([
+			[1, 0],
+			[1, 1],
+			[1, 4],
+			[1, 5],
+		]);
 
 		// check names
-		expect(mappings.map(mapping => mapping.name)).toEqual([
+		expect(mappings.map((mapping) => mapping.name)).toEqual([
 			'a',
 			null,
 			null,
@@ -127,35 +137,47 @@ describe('replace', () => {
 
 		const mappings = [];
 
-		(await new SourceMapConsumer(transformed.map)).eachMapping(mapping =>
+		(await new SourceMapConsumer(transformed.map)).eachMapping((mapping) =>
 			mappings.push(mapping)
 		);
 
 		// all mappings are from the same file
 		expect(
 			mappings
-				.map(mapping => mapping.source)
-				.find(source => source !== '<unknown>')
+				.map((mapping) => mapping.source)
+				.find((source) => source !== '<unknown>')
 		).toBeUndefined();
 
 		// check original mappings
 		expect(
-			mappings.map(mapping => [
+			mappings.map((mapping) => [
 				mapping.originalLine,
 				mapping.originalColumn,
 			])
-		).toEqual([[1, 0], [1, 0], [1, 0], [1, 4], [1, 0]]);
+		).toEqual([
+			[1, 0],
+			[1, 0],
+			[1, 0],
+			[1, 4],
+			[1, 0],
+		]);
 
 		// check generated mappings
 		expect(
-			mappings.map(mapping => [
+			mappings.map((mapping) => [
 				mapping.generatedLine,
 				mapping.generatedColumn,
 			])
-		).toEqual([[1, 0], [1, 6], [1, 7], [1, 10], [1, 11]]);
+		).toEqual([
+			[1, 0],
+			[1, 6],
+			[1, 7],
+			[1, 10],
+			[1, 11],
+		]);
 
 		// check names
-		expect(mappings.map(mapping => mapping.name)).toEqual([
+		expect(mappings.map((mapping) => mapping.name)).toEqual([
 			null,
 			null,
 			null,

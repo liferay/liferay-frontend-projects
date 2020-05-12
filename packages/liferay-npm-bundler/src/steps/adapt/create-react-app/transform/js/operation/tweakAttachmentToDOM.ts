@@ -11,7 +11,7 @@ import {
 } from 'liferay-js-toolkit-core';
 
 export default function tweakAttachmentToDOM(): JsSourceTransform {
-	return (source => _tweakAttachmentToDOM(source)) as JsSourceTransform;
+	return ((source) => _tweakAttachmentToDOM(source)) as JsSourceTransform;
 }
 
 /**

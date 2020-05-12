@@ -125,7 +125,7 @@ export function print(lines: string | string[], ...rest: string[]): void {
 		lines.push(...rest);
 	}
 
-	lines = lines.map(line => {
+	lines = lines.map((line) => {
 		line = removeJsFormatWhitespace(line);
 
 		line = line.replace(/(https?:\/\/[^\s]+)/gm, fmt.underline('$1'));

@@ -46,7 +46,7 @@ export interface Options {
  *
  * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
@@ -65,16 +65,16 @@ export default function(
 			followSymbolicLinks: false,
 			onlyFiles: true,
 		})
-		.map(filePath => docrootDir.relative(filePath).asPosix);
+		.map((filePath) => docrootDir.relative(filePath).asPosix);
 
 	const patterns: RegExp[] = Array.isArray(include)
-		? include.map(item => new RegExp(item))
+		? include.map((item) => new RegExp(item))
 		: [new RegExp(include)];
 
 	let modifiedContent = content;
 
-	filePosixPaths.forEach(filePosixPath => {
-		if (!patterns.some(pattern => pattern.test(filePosixPath))) {
+	filePosixPaths.forEach((filePosixPath) => {
+		if (!patterns.some((pattern) => pattern.test(filePosixPath))) {
 			return;
 		}
 

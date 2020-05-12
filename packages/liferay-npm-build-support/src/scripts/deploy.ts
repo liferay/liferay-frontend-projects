@@ -13,7 +13,7 @@ import {getLiferayDir, project} from '../config';
 /**
  *
  */
-export default function(): void {
+export default function (): void {
 	const liferayDirPath = getLiferayDir();
 
 	const outputDir = project.jar.outputDir;

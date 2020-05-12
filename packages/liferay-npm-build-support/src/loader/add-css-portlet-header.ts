@@ -29,7 +29,7 @@ export interface Options {
  * It is normally used from adapted projects to inject the framework's generated
  * CSS file into the portlet.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {

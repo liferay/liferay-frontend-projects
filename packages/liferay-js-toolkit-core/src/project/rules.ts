@@ -84,7 +84,7 @@ export default class Rules {
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
 		if (this._versionsInfo === undefined) {
-			const uses = this._rules.map(rule => rule.use);
+			const uses = this._rules.map((rule) => rule.use);
 
 			const descriptors = uses.reduce(
 				(array, use) => array.concat(use),
@@ -134,11 +134,11 @@ export default class Rules {
 	loadersForFile(prjRelPath): BundlerLoaderDescriptor[] {
 		const {_rules} = this;
 
-		const rules = _rules.filter(rule =>
+		const rules = _rules.filter((rule) =>
 			this._ruleApplies(rule, new FilePath(prjRelPath))
 		);
 
-		const loaders = rules.map(rule => rule['use']);
+		const loaders = rules.map((rule) => rule['use']);
 
 		// Flatten array
 		return [].concat(...loaders);
@@ -176,7 +176,7 @@ export default class Rules {
 	}
 
 	_normalizeRules(): void {
-		this._rules.forEach(rule => {
+		this._rules.forEach((rule) => {
 			this._normalizeArrayOfRegExp(rule, 'test', '.*');
 			this._normalizeArrayOfRegExp(rule, 'include', '.*');
 			this._normalizeArrayOfRegExp(rule, 'exclude', '(?!)');
@@ -220,11 +220,11 @@ export default class Rules {
 			throw new Error(`Invalid rule ${fieldName}: ` + rule[fieldName]);
 		}
 
-		rule[fieldName] = rule[fieldName].map(test => new RegExp(test));
+		rule[fieldName] = rule[fieldName].map((test) => new RegExp(test));
 	}
 
 	_ruleApplies(rule, prjRelFile: FilePath): boolean {
-		const matched = rule.test.find(regexp =>
+		const matched = rule.test.find((regexp) =>
 			regexp.test(prjRelFile.asPosix)
 		);
 
@@ -232,7 +232,7 @@ export default class Rules {
 			return false;
 		}
 
-		const included = rule.include.find(regexp =>
+		const included = rule.include.find((regexp) =>
 			regexp.test(prjRelFile.asPosix)
 		);
 
@@ -240,7 +240,7 @@ export default class Rules {
 			return false;
 		}
 
-		const excluded = rule.exclude.find(regexp =>
+		const excluded = rule.exclude.find((regexp) =>
 			regexp.test(prjRelFile.asPosix)
 		);
 

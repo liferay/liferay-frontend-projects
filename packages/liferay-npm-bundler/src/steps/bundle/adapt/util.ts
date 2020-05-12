@@ -44,7 +44,7 @@ export async function render(
 			path.join(__dirname, 'template', `${templateName}.ejs`),
 			data,
 			{
-				escape: text => text,
+				escape: (text) => text,
 			},
 			(err, str: string): void => {
 				if (err) {

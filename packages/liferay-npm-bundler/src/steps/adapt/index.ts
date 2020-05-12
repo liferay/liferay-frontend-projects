@@ -57,7 +57,7 @@ export async function processWebpackBundles(
 	const {name, version} = project.pkgJson;
 
 	await Promise.all(
-		copiedBundles.map(async file => {
+		copiedBundles.map(async (file) => {
 			const moduleName = file.asPosix.replace(/\.js$/g, '');
 
 			await transformJsSourceFile(

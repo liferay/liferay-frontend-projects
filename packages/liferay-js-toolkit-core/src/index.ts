@@ -53,9 +53,7 @@ export * from './api/manifest';
 export {PkgJson} from './project'; // TODO: move to its own file
 
 // JavaScript AST helpers
-export {
-	getProgramStatements as getAstProgramStatements,
-} from './transform/js/ast';
+export {getProgramStatements as getAstProgramStatements} from './transform/js/ast';
 export {
 	parse as parseAsAstProgram,
 	parseAsExpressionStatement as parseAsAstExpressionStatement,
@@ -69,16 +67,12 @@ export {
 	transformSource as transformJsSource,
 	transformSourceFile as transformJsSourceFile,
 } from './transform/js';
-export {
-	default as replaceInStringLiterals,
-} from './transform/js/operation/replaceInStringLiterals';
+export {default as replaceInStringLiterals} from './transform/js/operation/replaceInStringLiterals';
 export {default as wrapModule} from './transform/js/operation/wrapModule';
 
 // JSON source transformation
 export * from './transform/json';
-export {
-	default as setPortletHeader,
-} from './transform/json/operation/setPortletHeader';
+export {default as setPortletHeader} from './transform/json/operation/setPortletHeader';
 
 // Text source transformation
 export * from './transform/text';

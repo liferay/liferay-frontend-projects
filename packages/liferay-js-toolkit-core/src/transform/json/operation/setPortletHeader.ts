@@ -11,7 +11,7 @@ export default function setPortletHeader(
 	header: string,
 	value: string | boolean | undefined
 ): JsonTransform<PkgJson> {
-	return (async pkgJson => {
+	return (async (pkgJson) => {
 		if (value === undefined) {
 			if (pkgJson['portlet']) {
 				delete pkgJson['portlet'][header];

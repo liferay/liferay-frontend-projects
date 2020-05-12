@@ -129,7 +129,7 @@ export function loadAliases(
 		);
 
 		// Normalize `/` to `./`
-		Object.keys(aliases).forEach(key => {
+		Object.keys(aliases).forEach((key) => {
 			if (key.startsWith('/')) {
 				aliases[`.${key}`] = aliases[key];
 				delete aliases[key];

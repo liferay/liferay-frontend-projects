@@ -18,7 +18,7 @@ import {TextTransform, escapeStringRegexp} from 'liferay-js-toolkit-core';
 export default function replace(
 	replacements: Map<string | RegExp, string>
 ): TextTransform {
-	return (text => {
+	return ((text) => {
 		replacements.forEach((to, from) => {
 			if (typeof from === 'string') {
 				from = new RegExp(escapeStringRegexp(from), 'g');

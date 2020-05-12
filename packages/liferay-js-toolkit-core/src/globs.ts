@@ -26,7 +26,7 @@ export function negate<T extends string | string[]>(globs: T): T {
  * @return the list of prefixed globs
  */
 export function prefix(prefix: string, globs: string[]): string[] {
-	return globs.map(glob => {
+	return globs.map((glob) => {
 		if (glob[0] === '!') {
 			return `!${prefix}${glob.substring(1)}`;
 		} else {

@@ -82,7 +82,7 @@ export function runInChunks<T>(
 		Math.min(items.length, (chunkIndex + 1) * chunkSize)
 	);
 
-	return Promise.all(chunk.map(item => callback(item))).then(() => {
+	return Promise.all(chunk.map((item) => callback(item))).then(() => {
 		chunkIndex++;
 
 		if (chunkIndex < chunksCount) {

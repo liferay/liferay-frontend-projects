@@ -120,7 +120,7 @@ function findChild(
 ): XmlObject {
 	const elements = parentNode.elements || [];
 
-	let childNode = elements.find(node => node.name === childName);
+	let childNode = elements.find((node) => node.name === childName);
 
 	if (childNode === undefined && create) {
 		childNode = {

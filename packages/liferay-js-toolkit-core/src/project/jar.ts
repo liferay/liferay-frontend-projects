@@ -203,7 +203,7 @@ the one in .npmbundlerrc
 
 			const lines = bnd.split('\n');
 
-			const webContextPathLine = lines.find(line =>
+			const webContextPathLine = lines.find((line) =>
 				line.startsWith('Web-ContextPath:')
 			);
 

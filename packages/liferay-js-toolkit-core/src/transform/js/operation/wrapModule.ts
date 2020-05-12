@@ -11,7 +11,7 @@ import {getProgramStatements} from '../ast';
 import {parse} from '../parse';
 
 export default function wrapModule(moduleName: string): SourceTransform {
-	return (source => _wrapModule(source, moduleName)) as SourceTransform;
+	return ((source) => _wrapModule(source, moduleName)) as SourceTransform;
 }
 
 /**
@@ -133,6 +133,6 @@ function getDefineDependencies(program: estree.Program): string {
 	});
 
 	return Object.keys(requiredModules)
-		.map(module => `,\n\t\t'${module}'`)
+		.map((module) => `,\n\t\t'${module}'`)
 		.join('');
 }

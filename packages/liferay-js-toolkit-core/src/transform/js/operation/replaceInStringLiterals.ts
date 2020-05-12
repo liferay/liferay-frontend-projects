@@ -11,7 +11,7 @@ export default function replaceInStringLiterals(
 	from: string,
 	to: string
 ): SourceTransform {
-	return (source =>
+	return ((source) =>
 		_replaceInStringLiterals(source, from, to)) as SourceTransform;
 }
 

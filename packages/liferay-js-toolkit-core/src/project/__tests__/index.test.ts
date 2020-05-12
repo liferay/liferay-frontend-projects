@@ -43,7 +43,7 @@ describe('project', () => {
 			'frontend-js-node-shims',
 		];
 
-		expectedImports.map(v => {
+		expectedImports.map((v) => {
 			expect(globalConfig.imports[v]).toBeDefined();
 		});
 
@@ -287,7 +287,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'none')
 		);
 
-		child_process.spawnSync = cmd =>
+		child_process.spawnSync = (cmd) =>
 			({
 				error: cmd === 'npm' ? undefined : {},
 			} as any);
@@ -300,7 +300,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'none')
 		);
 
-		child_process.spawnSync = cmd =>
+		child_process.spawnSync = (cmd) =>
 			({
 				error: cmd === 'yarn' ? undefined : {},
 			} as any);
@@ -313,7 +313,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
 		);
 
-		child_process.spawnSync = cmd =>
+		child_process.spawnSync = (cmd) =>
 			({
 				error: cmd === 'npm' ? undefined : {},
 			} as any);
@@ -326,7 +326,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
 		);
 
-		child_process.spawnSync = cmd =>
+		child_process.spawnSync = (cmd) =>
 			({
 				error: cmd === 'yarn' ? undefined : {},
 			} as any);

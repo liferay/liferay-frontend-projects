@@ -13,7 +13,7 @@ import {
 } from 'liferay-js-toolkit-core';
 
 export default function exportModuleAsFunction(): JsSourceTransform {
-	return (source => _exportModuleAsFunction(source)) as JsSourceTransform;
+	return ((source) => _exportModuleAsFunction(source)) as JsSourceTransform;
 }
 
 async function _exportModuleAsFunction(source: JsSource): Promise<JsSource> {

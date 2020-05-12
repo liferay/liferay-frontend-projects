@@ -22,7 +22,7 @@ import {project} from '../config';
  * `webpackJsonp_${uuid}` where the `uuid` is derived from the project's name
  * and version.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>
 ): BundlerLoaderReturn {
 	const {content, log} = context;

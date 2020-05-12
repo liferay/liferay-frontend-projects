@@ -40,10 +40,10 @@ export function copyFiles(
 	const files = findFiles(baseDirPath, globs);
 
 	if (!mapper) {
-		mapper = (file => file) as FilePathMapper;
+		mapper = ((file) => file) as FilePathMapper;
 	}
 
-	return files.map(file => {
+	return files.map((file) => {
 		const destFile = mapper(destDir.join(file));
 
 		fs.copySync(baseDir.join(file).asNative, destFile.asNative);
@@ -76,6 +76,6 @@ export function findFiles(
 			followSymbolicLinks: false,
 			onlyFiles: true,
 		})
-		.map(absPath => path.relative(baseDirPath.toString(), absPath))
-		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}));
+		.map((absPath) => path.relative(baseDirPath.toString(), absPath))
+		.map((baseDirRelPath) => new FilePath(baseDirRelPath, {posix: true}));
 }

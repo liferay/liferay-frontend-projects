@@ -47,7 +47,7 @@ function abortWithErrors(stats: webpack.Stats): void {
 	abort(`
 Webpack build finished with errors:
 
-${errors.map(err => `  · ${err.message}`).join('\n')}
+${errors.map((err) => `  · ${err.message}`).join('\n')}
 
 `);
 }

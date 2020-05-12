@@ -32,7 +32,7 @@ export default function createJar(): Promise<void> {
 	addSystemConfigurationFiles(zip);
 	addPortletInstanceConfigurationFile(zip);
 
-	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
+	return zip.generateAsync({type: 'nodebuffer'}).then((buffer) => {
 		fs.mkdirpSync(project.jar.outputDir.asNative);
 
 		fs.writeFileSync(
@@ -70,10 +70,10 @@ function addFiles(
 			cwd: srcDirPath,
 			nodir: true,
 		} as GlobbyOptions)
-		.map(posixPath => new FilePath(posixPath, {posix: true}))
-		.map(file => file.asNative);
+		.map((posixPath) => new FilePath(posixPath, {posix: true}))
+		.map((file) => file.asNative);
 
-	filePaths.forEach(filePath => {
+	filePaths.forEach((filePath) => {
 		const parts = filePath.split(path.sep);
 		const dirs = parts.slice(0, parts.length - 1);
 		const name = parts[parts.length - 1];

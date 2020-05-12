@@ -62,7 +62,7 @@ export class Report {
 	 * @param  unique set to true if you want this warning to be deduped
 	 */
 	warn(message: string, {unique}: {unique: boolean} = {unique: false}): void {
-		if (unique && this._warnings.find(item => item === message)) {
+		if (unique && this._warnings.find((item) => item === message)) {
 			return;
 		}
 

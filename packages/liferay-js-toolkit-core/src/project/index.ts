@@ -172,10 +172,10 @@ export class Project {
 		if (this._sources === undefined) {
 			this._sources = prop
 				.get(this._configuration, 'sources', [])
-				.map(source =>
+				.map((source) =>
 					source.startsWith('./') ? source : `./${source}`
 				)
-				.map(source => new FilePath(source, {posix: true}));
+				.map((source) => new FilePath(source, {posix: true}));
 		}
 
 		return this._sources;

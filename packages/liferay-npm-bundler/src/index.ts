@@ -17,7 +17,7 @@ import runRules from './steps/rules';
 import {abort} from './util';
 
 /** Default entry point for the liferay-npm-bundler */
-export default async function(argv: {version: boolean}): Promise<void> {
+export default async function (argv: {version: boolean}): Promise<void> {
 	if (argv.version) {
 		const {versionsInfo} = project;
 
