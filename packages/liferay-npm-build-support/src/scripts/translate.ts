@@ -12,17 +12,16 @@
 /* eslint-disable no-console */
 
 import fs from 'fs';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import properties from 'properties';
 import request from 'request';
 import uuidv4 from 'uuid/v4';
 
-import * as cfg from '../config';
+import {getSupportedLocales, getTranslatorTextKey, project} from '../config';
 
 /**
  * Default entry point
  */
-export default function(): void {
+export default function (): void {
 	if (!project.l10n.supported) {
 		console.log(
 			'Project does not support localization: nothing to translate.\n\n'
@@ -34,7 +33,7 @@ export default function(): void {
 	let subscriptionKey = process.env.TRANSLATOR_TEXT_KEY;
 
 	if (!subscriptionKey) {
-		subscriptionKey = cfg.getTranslatorTextKey();
+		subscriptionKey = getTranslatorTextKey();
 	}
 
 	if (!subscriptionKey || subscriptionKey === '') {
@@ -57,7 +56,7 @@ export default function(): void {
 	const localizationFileMap = project.l10n.localizationFileMap;
 
 	const locales = Object.keys(localizationFileMap).filter(
-		locale => locale != 'default'
+		(locale) => locale != 'default'
 	);
 
 	if (locales.length === 0) {
@@ -80,14 +79,14 @@ export default function(): void {
 			locales,
 			localizationFileMap.default.asNative
 		),
-		...locales.map(locale =>
+		...locales.map((locale) =>
 			parseFile(localizationFileMap[locale].asNative)
 		),
 	])
 		.then(([translation, ...labels]) =>
 			addMissingTranslations(translation, arrayToMap(labels, locales))
 		)
-		.then(labels => {
+		.then((labels) => {
 			console.log('\nWriting localization files:');
 
 			Object.entries(labels).forEach(([locale, labels]) => {
@@ -102,7 +101,7 @@ export default function(): void {
 
 			console.log('\nFinished\n');
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.error(
 				'\nThere was an error translating files:\n\n' + ' ',
 				err,
@@ -122,7 +121,7 @@ export default function(): void {
 export function addMissingTranslations(translation, labels): object {
 	const locales = Object.keys(translation);
 
-	locales.forEach(locale => {
+	locales.forEach((locale) => {
 		const map = translation[locale];
 
 		let count = 0;
@@ -203,7 +202,7 @@ export function makeChunks(texts): string[][] {
 
 	appendChunk();
 
-	texts.forEach(text => {
+	texts.forEach((text) => {
 		// Limit total request to 5000 chars, but we need room for []
 		chars += text.length + 11; // 11 is for {"Text":},<CR>
 		if (chars > 4098) {
@@ -229,16 +228,16 @@ export function makeChunks(texts): string[][] {
 function showMissingSupportedLocales(): void {
 	const availableLocales = project.l10n.availableLocales;
 
-	const supportedLocales = cfg.getSupportedLocales();
+	const supportedLocales = getSupportedLocales();
 
 	const missingLocales = availableLocales.filter(
-		locale => supportedLocales.indexOf(locale) === -1
+		(locale) => supportedLocales.indexOf(locale) === -1
 	);
 
 	if (missingLocales.length > 0) {
 		console.log(`Found ${missingLocales.length} unsupported locale files:`);
 
-		missingLocales.forEach(locale =>
+		missingLocales.forEach((locale) =>
 			console.log(`  · Found file for unsupported locale ${locale}`)
 		);
 
@@ -253,16 +252,16 @@ function showMissingSupportedLocales(): void {
  * Creates missing locale files according to .npmbuildrc configuration
  */
 function createMissingSupportedLocalesFiles(): void {
-	const supportedLocales = cfg.getSupportedLocales();
+	const supportedLocales = getSupportedLocales();
 
 	const missingLocales = supportedLocales.filter(
-		locale => project.l10n.availableLocales.indexOf(locale) === -1
+		(locale) => project.l10n.availableLocales.indexOf(locale) === -1
 	);
 
 	if (missingLocales.length > 0) {
 		const languageFileBaseName = project.l10n.languageFileBaseName;
 
-		missingLocales.forEach(locale =>
+		missingLocales.forEach((locale) =>
 			fs.writeFileSync(
 				`${languageFileBaseName.asNative}_${locale}.properties`,
 				''
@@ -328,12 +327,12 @@ function translate(subscriptionKey, locales, texts): Promise<object> {
 	};
 
 	const promises = makeChunks(texts).map(
-		chunk =>
+		(chunk) =>
 			new Promise((resolve, reject) => {
 				request(
 					{
 						...options,
-						body: chunk.map(item => ({text: item})),
+						body: chunk.map((item) => ({text: item})),
 					},
 					(err, response, body) => {
 						if (err) {
@@ -353,12 +352,12 @@ function translate(subscriptionKey, locales, texts): Promise<object> {
 			})
 	);
 
-	return Promise.all(promises).then(responses => {
+	return Promise.all(promises).then((responses) => {
 		const translations = createTranslationsObject(locales);
 
-		flattenResponses(responses).forEach(response => {
-			response['translations'].forEach(translation => {
-				localesMap[translation.to].forEach(locale =>
+		flattenResponses(responses).forEach((response) => {
+			response['translations'].forEach((translation) => {
+				localesMap[translation.to].forEach((locale) =>
 					translations[locale].push(translation.text)
 				);
 			});
@@ -379,17 +378,17 @@ function translateFile(subscriptionKey, locales, filePath): Promise<object> {
 	let keys;
 
 	return parseFile(filePath)
-		.then(labels => {
+		.then((labels) => {
 			keys = Object.keys(labels);
 
 			return translate(
 				subscriptionKey,
 				locales,
-				keys.map(key => labels[key])
+				keys.map((key) => labels[key])
 			);
 		})
-		.then(translation => {
-			locales.forEach(locale => {
+		.then((translation) => {
+			locales.forEach((locale) => {
 				translation[locale] = arrayToMap(translation[locale], keys);
 			});
 

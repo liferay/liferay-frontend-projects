@@ -4,14 +4,16 @@
  */
 
 import fs from 'fs-extra';
-import {BundlerLoaderContext} from 'liferay-npm-build-tools-common/lib/api/loaders';
-import * as gl from 'liferay-npm-build-tools-common/lib/globs';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {BundlerLoaderDescriptor} from 'liferay-npm-build-tools-common/lib/project/rules';
+import {
+	BundlerLoaderContext,
+	BundlerLoaderDescriptor,
+	PkgDesc,
+	PluginLogger,
+	prefixGlobs,
+} from 'liferay-js-toolkit-core';
 import path from 'path';
 
+import {project} from '../globals';
 import * as log from '../log';
 import report from '../report';
 import {getDestDir, runInChunks} from '../util';
@@ -26,7 +28,7 @@ export default function runRules(rootPkg: PkgDesc): Promise<void> {
 
 function processPackage(srcPkg: PkgDesc): Promise<void> {
 	const sourceGlobs = srcPkg.isRoot
-		? project.sources.map(source =>
+		? project.sources.map((source) =>
 				fs.statSync(project.dir.join(source).asNative).isDirectory()
 					? `${source.asPosix}/**/*`
 					: source.asPosix
@@ -37,8 +39,8 @@ function processPackage(srcPkg: PkgDesc): Promise<void> {
 
 	const sourcePrjRelPaths = findFiles(
 		project.dir.asNative,
-		gl.prefix(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
-	).map(file => file.asNative);
+		prefixGlobs(`${project.dir.asPosix}/${srcPkg.dir.asPosix}/`, globs)
+	).map((file) => file.asNative);
 
 	if (sourcePrjRelPaths.length === 0) {
 		return Promise.resolve();
@@ -54,7 +56,7 @@ function processPackage(srcPkg: PkgDesc): Promise<void> {
 		sourcePrjRelPaths,
 		project.misc.maxParallelFiles,
 		0,
-		prjRelPath => processFile(srcPkg, destPkg, prjRelPath)
+		(prjRelPath) => processFile(srcPkg, destPkg, prjRelPath)
 	);
 }
 
@@ -111,7 +113,7 @@ function runLoaders(
 		throw err;
 	}
 
-	return Promise.resolve(result).then(content => {
+	return Promise.resolve(result).then((content) => {
 		if (content !== undefined) {
 			context = Object.assign(context, {content});
 		}
@@ -137,7 +139,7 @@ export function transformContents(
 
 	if (beforeInvocation) {
 		assertBuffer(context, 'content', filePath);
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			assertBuffer(extraArtifacts, key, `extra artifact ${key}`);
 		});
 
@@ -149,19 +151,19 @@ export function transformContents(
 			context.content = context.content.toString(encoding);
 		}
 
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			if (extraArtifacts[key] !== undefined) {
 				extraArtifacts[key] = extraArtifacts[key].toString(encoding);
 			}
 		});
 	} else if (encoding === null) {
 		assertBuffer(context, 'content', filePath);
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			assertBuffer(extraArtifacts, key, `extra artifact ${key}`);
 		});
 	} else {
 		assertString(context, 'content', filePath);
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			assertString(extraArtifacts, key, `extra artifact ${key}`);
 		});
 
@@ -169,7 +171,7 @@ export function transformContents(
 			context.content = Buffer.from(context.content as string, encoding);
 		}
 
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			if (extraArtifacts[key] !== undefined) {
 				extraArtifacts[key] = Buffer.from(
 					extraArtifacts[key],
@@ -269,7 +271,7 @@ function writeRuleFile(
 export function stripSourceDir(pkgRelPath: string): string {
 	pkgRelPath = `.${path.sep}${pkgRelPath}`;
 
-	for (const sourcePath of project.sources.map(source => source.asNative)) {
+	for (const sourcePath of project.sources.map((source) => source.asNative)) {
 		const prefixPath = `${sourcePath}${path.sep}`;
 
 		if (pkgRelPath.startsWith(prefixPath)) {

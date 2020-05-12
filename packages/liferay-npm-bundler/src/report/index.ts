@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import {VersionInfo} from 'liferay-npm-build-tools-common/lib/project/types';
+import {PkgDesc, PluginLogger, VersionInfo} from 'liferay-js-toolkit-core';
 
 import {htmlDump} from './html';
 import ReportLogger from './logger';
@@ -64,7 +62,7 @@ export class Report {
 	 * @param  unique set to true if you want this warning to be deduped
 	 */
 	warn(message: string, {unique}: {unique: boolean} = {unique: false}): void {
-		if (unique && this._warnings.find(item => item === message)) {
+		if (unique && this._warnings.find((item) => item === message)) {
 			return;
 		}
 

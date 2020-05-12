@@ -4,12 +4,13 @@
  */
 
 import fs from 'fs-extra';
-import {error, info, print} from 'liferay-npm-build-tools-common/lib/format';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
+import {ProjectType, format} from 'liferay-js-toolkit-core';
 import path from 'path';
 
+import {project} from '../../config';
 import {Renderer, runNodeModulesBin, runPkgJsonScript} from '../../util';
+
+const {error, info, print} = format;
 
 const msg = {
 	unsupportedProjectType: [
@@ -26,7 +27,7 @@ const msg = {
 
 const scrLiferayDir = project.dir.join('src.liferay');
 
-export default function(): void {
+export default function (): void {
 	switch (project.probe.type) {
 		case ProjectType.ANGULAR_CLI:
 			buildWith('build', ['--prod=true']);

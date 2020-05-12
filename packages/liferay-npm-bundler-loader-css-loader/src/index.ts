@@ -4,15 +4,16 @@
  */
 
 import fs from 'fs';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {FilePath, Project} from 'liferay-js-toolkit-core';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
+
+export const project = new Project('.');
 
 /**
  * @param {object} context loader's context
  */
-export default function(
+export default function (
 	context,
 	{extension = undefined, namespaceDependencies = true, pathModule = '/o'}
 ): void {
@@ -71,7 +72,7 @@ function getHref(
 
 		const lines = bnd.split('\n');
 
-		const webContextPathLine = lines.find(line =>
+		const webContextPathLine = lines.find((line) =>
 			line.startsWith('Web-ContextPath:')
 		);
 
@@ -112,7 +113,9 @@ function getHref(
 		);
 	} else {
 		// If file is inside a source folder, strip the folder name
-		for (let sourcePath of project.sources.map(source => source.asNative)) {
+		for (let sourcePath of project.sources.map(
+			(source) => source.asNative
+		)) {
 			// Remove `./` from sourcePath so that it matches the filePath correctly
 			sourcePath = sourcePath.substring(2);
 

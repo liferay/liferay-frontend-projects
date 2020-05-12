@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {PluginLogger, Project} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 import loader from '../index';
+
+const project = new Project('.');
 
 const savedProjectPath = project.dir.asNative;
 

@@ -6,7 +6,7 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-npm-build-tools-common/lib/api/loaders';
+} from 'liferay-js-toolkit-core';
 
 import {replaceTokens} from './util';
 
@@ -29,7 +29,7 @@ export interface Options {
  * It is normally used from adapted projects to inject the framework's generated
  * CSS file into the portlet.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {

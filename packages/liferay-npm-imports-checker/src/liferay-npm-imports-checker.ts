@@ -8,10 +8,12 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {normalizeImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
-import * as mod from 'liferay-npm-build-tools-common/lib/modules';
-import {Project} from 'liferay-npm-build-tools-common/lib/project';
+import {
+	FilePath,
+	Project,
+	isNodeCoreModule,
+	normalizeImportsConfig,
+} from 'liferay-js-toolkit-core';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolve from 'resolve';
@@ -116,7 +118,7 @@ function loadProjects(): object {
 		.sync(['**/package.json'].concat(cfg.getFolderExclusions()), {
 			cwd: cfg.getProjectRootPath(),
 		})
-		.forEach(pkgJsonPath => {
+		.forEach((pkgJsonPath) => {
 			pkgJsonPath = path.resolve(
 				path.join(cfg.getProjectRootPath(), pkgJsonPath)
 			);
@@ -172,7 +174,7 @@ function loadProjects(): object {
 function looksLikeProjectDir(projectPath): boolean {
 	const fileNames = ['build.gradle', '.npmbundlerrc', '.npmbuildrc'];
 
-	return fileNames.some(fileName =>
+	return fileNames.some((fileName) =>
 		fs.existsSync(path.join(projectPath, fileName))
 	);
 }
@@ -210,7 +212,7 @@ function checkProjects(projects): Results {
 		msg(1, `Project ${fmt.project(project.name)}:`);
 
 		// Iterate imported projects
-		Object.keys(imports).forEach(importedProjectName => {
+		Object.keys(imports).forEach((importedProjectName) => {
 			msg(2, `Import ${fmt.import(importedProjectName)}:`);
 
 			if (cfg.isIgnored(project.name, importedProjectName, '*')) {
@@ -232,7 +234,7 @@ function checkProjects(projects): Results {
 				const importedPackages = imports[importedProject.name];
 
 				// Iterate imported packages
-				Object.keys(importedPackages).forEach(pkgName => {
+				Object.keys(importedPackages).forEach((pkgName) => {
 					if (
 						cfg.isIgnored(
 							project.name,
@@ -298,7 +300,7 @@ function checkProjects(projects): Results {
 					}
 
 					if (cfg.shouldCheckProjectVersions()) {
-						if (pkgName === '/' || mod.isNodeCoreModule(pkgName)) {
+						if (pkgName === '/' || isNodeCoreModule(pkgName)) {
 							return;
 						}
 
@@ -427,9 +429,9 @@ function getMaxExitCode(results: Results): number {
 function writeIgnores(results: Results): void {
 	const ignores = {};
 
-	Object.entries(results).forEach(project => {
-		Object.entries(project[1]).forEach(importedProject => {
-			Object.entries(importedProject[1]).forEach(result => {
+	Object.entries(results).forEach((project) => {
+		Object.entries(project[1]).forEach((importedProject) => {
+			Object.entries(importedProject[1]).forEach((result) => {
 				if (result[1].outcome !== 'success') {
 					ignores[project[0]] = ignores[project[0]] || {};
 					ignores[project[0]][importedProject[0]] =

@@ -4,12 +4,10 @@
  */
 
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {isLocalModule} from 'liferay-npm-build-tools-common/lib/modules';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {FilePath, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
-import {buildGeneratedDir, buildWebpackDir} from '../../dirs';
+import {buildGeneratedDir, buildWebpackDir, project} from '../../globals';
 import * as log from '../../log';
 import {abort} from '../../util';
 

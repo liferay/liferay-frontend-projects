@@ -6,16 +6,15 @@
 /* eslint-disable no-console */
 
 import fs from 'fs';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
-import * as cfg from '../config';
+import {getLiferayDir, project} from '../config';
 
 /**
  *
  */
-export default function(): void {
-	const liferayDirPath = cfg.getLiferayDir();
+export default function (): void {
+	const liferayDirPath = getLiferayDir();
 
 	const outputDir = project.jar.outputDir;
 	const jarName = project.jar.outputFilename;

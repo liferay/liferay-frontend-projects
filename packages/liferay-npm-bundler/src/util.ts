@@ -8,10 +8,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {getPackageTargetDir} from 'liferay-npm-build-tools-common/lib/packages';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {PkgDesc, getPackageTargetDir} from 'liferay-js-toolkit-core';
 
+import {project} from './globals';
 import * as log from './log';
 
 /**
@@ -83,7 +82,7 @@ export function runInChunks<T>(
 		Math.min(items.length, (chunkIndex + 1) * chunkSize)
 	);
 
-	return Promise.all(chunk.map(item => callback(item))).then(() => {
+	return Promise.all(chunk.map((item) => callback(item))).then(() => {
 		chunkIndex++;
 
 		if (chunkIndex < chunksCount) {

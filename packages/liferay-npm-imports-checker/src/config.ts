@@ -51,7 +51,7 @@ export function reloadConfig(): void {
 			),
 			{cwd: projectRootPath}
 		)
-		.forEach(filePath => {
+		.forEach((filePath) => {
 			cfg = mergeConfig(
 				cfg,
 				path.join(projectRootPath, path.dirname(filePath))
@@ -109,7 +109,7 @@ export function getRunPath(): string {
  */
 export function getFolderExclusions(): string[] {
 	return cfg['exclude-folders']
-		.map(folder => `!**/${folder}/**`)
+		.map((folder) => `!**/${folder}/**`)
 		.concat(['!**/node_modules/**']);
 }
 

@@ -7,14 +7,13 @@ import {parse} from 'acorn';
 import {generate} from 'escodegen';
 import {traverse} from 'estraverse';
 import estree from 'estree';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import {addNamespace} from 'liferay-npm-build-tools-common/lib/namespace';
-import project, {Project} from 'liferay-npm-build-tools-common/lib/project';
+import {FilePath, Project, addNamespace} from 'liferay-js-toolkit-core';
 
+import {project} from '../../../globals';
 import report from '../../../report';
 import ReportLogger from '../../../report/logger';
 
-export default function(content: string): string {
+export default function (content: string): string {
 	const log = report.getWebpackLogger(
 		'imports-loader',
 		getPrjRelPath(this.request)
@@ -175,7 +174,7 @@ class Parser {
 			`Import '${moduleName}' diverted to '${namespacedModuleName}'`
 		);
 
-		const lines = node.specifiers.map(specifier => {
+		const lines = node.specifiers.map((specifier) => {
 			switch (specifier.type) {
 				case 'ImportSpecifier':
 					return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}')['${specifier.imported.name}'];`;
@@ -207,7 +206,7 @@ class Parser {
 
 		parentNode.body = [
 			...program.body,
-			...parentNode.body.filter(child => child !== node),
+			...parentNode.body.filter((child) => child !== node),
 		];
 
 		return true;

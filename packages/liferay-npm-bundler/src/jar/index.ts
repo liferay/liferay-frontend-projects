@@ -8,14 +8,13 @@ import globby, {GlobbyOptions} from 'globby';
 import JSZip from 'jszip';
 import {
 	ConfigurationJson,
+	FilePath,
 	PortletInstanceConfiguration,
 	SystemConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
-import project from 'liferay-npm-build-tools-common/lib/project';
+} from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {buildBundlerDir} from '../dirs';
+import {buildBundlerDir, project} from '../globals';
 import * as ddm from './ddm';
 import * as xml from './xml';
 
@@ -33,7 +32,7 @@ export default function createJar(): Promise<void> {
 	addSystemConfigurationFiles(zip);
 	addPortletInstanceConfigurationFile(zip);
 
-	return zip.generateAsync({type: 'nodebuffer'}).then(buffer => {
+	return zip.generateAsync({type: 'nodebuffer'}).then((buffer) => {
 		fs.mkdirpSync(project.jar.outputDir.asNative);
 
 		fs.writeFileSync(
@@ -71,10 +70,10 @@ function addFiles(
 			cwd: srcDirPath,
 			nodir: true,
 		} as GlobbyOptions)
-		.map(posixPath => new FilePath(posixPath, {posix: true}))
-		.map(file => file.asNative);
+		.map((posixPath) => new FilePath(posixPath, {posix: true}))
+		.map((file) => file.asNative);
 
-	filePaths.forEach(filePath => {
+	filePaths.forEach((filePath) => {
 		const parts = filePath.split(path.sep);
 		const dirs = parts.slice(0, parts.length - 1);
 		const name = parts[parts.length - 1];

@@ -4,17 +4,17 @@
  */
 
 import fs from 'fs-extra';
-import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
 import {
-	SourceTransform,
-	transformSourceFile,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import wrapModule from 'liferay-npm-build-tools-common/lib/transform/js/operation/wrapModule';
-import {transformJsonFile} from 'liferay-npm-build-tools-common/lib/transform/json';
-import setPortletHeader from 'liferay-npm-build-tools-common/lib/transform/json/operation/setPortletHeader';
+	JsSourceTransform,
+	PkgJson,
+	setPortletHeader,
+	transformJsSourceFile,
+	transformJsonFile,
+	wrapModule,
+} from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {buildBundlerDir, buildGeneratedDir} from '../../dirs';
+import {buildBundlerDir, buildGeneratedDir, project} from '../../globals';
 import * as log from '../../log';
 import {findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
@@ -48,7 +48,7 @@ export async function processAdapterModules(data: object): Promise<void> {
  * underlying framework specific transforms to apply
  */
 export async function processWebpackBundles(
-	...frameworkSpecificTransforms: SourceTransform[]
+	...frameworkSpecificTransforms: JsSourceTransform[]
 ): Promise<void> {
 	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
@@ -57,10 +57,10 @@ export async function processWebpackBundles(
 	const {name, version} = project.pkgJson;
 
 	await Promise.all(
-		copiedBundles.map(async file => {
+		copiedBundles.map(async (file) => {
 			const moduleName = file.asPosix.replace(/\.js$/g, '');
 
-			await transformSourceFile(
+			await transformJsSourceFile(
 				adaptBuildDir.join(file),
 				buildBundlerDir.join(file),
 				...frameworkSpecificTransforms,
@@ -91,7 +91,7 @@ async function processAdapterModule(
 
 	const moduleName = templatePath.replace(/\.js$/i, '');
 
-	await transformSourceFile(
+	await transformJsSourceFile(
 		fromFile,
 		toFile,
 		wrapModule(`${name}@${version}/${moduleName}`)

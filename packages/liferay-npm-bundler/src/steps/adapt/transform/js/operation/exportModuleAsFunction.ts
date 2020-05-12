@@ -5,21 +5,19 @@
 
 import estree from 'estree';
 import {
-	SourceCode,
-	SourceTransform,
-	replace,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import {getProgramStatements} from 'liferay-npm-build-tools-common/lib/transform/js/ast';
-import {parse} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+	JsSource,
+	JsSourceTransform,
+	getAstProgramStatements,
+	parseAsAstProgram,
+	replaceJsSource,
+} from 'liferay-js-toolkit-core';
 
-export default function exportModuleAsFunction(): SourceTransform {
-	return (source => _exportModuleAsFunction(source)) as SourceTransform;
+export default function exportModuleAsFunction(): JsSourceTransform {
+	return ((source) => _exportModuleAsFunction(source)) as JsSourceTransform;
 }
 
-async function _exportModuleAsFunction(
-	source: SourceCode
-): Promise<SourceCode> {
-	return replace(source, {
+async function _exportModuleAsFunction(source: JsSource): Promise<JsSource> {
+	return replaceJsSource(source, {
 		enter(node) {
 			if (node.type !== 'Program') {
 				return;
@@ -27,16 +25,16 @@ async function _exportModuleAsFunction(
 
 			const program = node;
 
-			const wrapAst = parse(`
-			module.exports = function(_LIFERAY_PARAMS_, _ADAPT_RT_) {
-			};
+			const wrapAst = parseAsAstProgram(`
+				module.exports = function(_LIFERAY_PARAMS_, _ADAPT_RT_) {
+				};
 			`);
 
 			const {body: wrapBody} = wrapAst;
 
 			const functionBody = getBlockStatement(wrapAst);
 
-			functionBody.body = getProgramStatements(program);
+			functionBody.body = getAstProgramStatements(program);
 
 			program.body = wrapBody;
 		},

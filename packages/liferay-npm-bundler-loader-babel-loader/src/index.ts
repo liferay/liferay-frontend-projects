@@ -10,14 +10,16 @@
  */
 
 import * as babel from 'babel-core';
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {Project} from 'liferay-js-toolkit-core';
+
+const project = new Project('.');
 
 /**
  * @param {object} context loader's context
  * @param {object} config a .babelrc like configuration object
  * @return {string} the processed file content
  */
-export default function(context, config): string {
+export default function (context, config): string {
 	const {content, filePath, log, sourceMap} = context;
 
 	const babelConfig = {
@@ -60,7 +62,7 @@ export default function(context, config): string {
 function loadBabelPlugins(presets, plugins): unknown[] {
 	return []
 		.concat(
-			...presets.map(preset => {
+			...presets.map((preset) => {
 				let presetModule, presetName;
 
 				try {

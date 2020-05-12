@@ -26,7 +26,7 @@ export default class extends JsonModifier {
 	addExclusion(name, value = true): void {
 		name = this._escapeProp(name);
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `exclude.${name}`, value);
 		});
 	}
@@ -36,7 +36,7 @@ export default class extends JsonModifier {
 	 * @param {Object} imports an object containing the config.imports section
 	 */
 	mergeImports(imports): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			Object.entries(imports).forEach(([provider, dependencies]) => {
 				provider = this._escapeProp(provider);
 
@@ -61,7 +61,7 @@ export default class extends JsonModifier {
 	setFeature(name, value): void {
 		name = this._escapeProp(name);
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `create-jar.features.${name}`, value);
 		});
 	}
@@ -71,7 +71,7 @@ export default class extends JsonModifier {
 	 * @param {string} presetName
 	 */
 	setPreset(presetName): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, 'preset', presetName);
 		});
 	}

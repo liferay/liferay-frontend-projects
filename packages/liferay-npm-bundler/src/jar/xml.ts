@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ConfigurationField} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
+import {ConfigurationField} from 'liferay-js-toolkit-core';
 import {Element, ElementCompact, js2xml, xml2js} from 'xml-js';
 
 type XmlObject = Element | ElementCompact;
@@ -120,7 +120,7 @@ function findChild(
 ): XmlObject {
 	const elements = parentNode.elements || [];
 
-	let childNode = elements.find(node => node.name === childName);
+	let childNode = elements.find((node) => node.name === childName);
 
 	if (childNode === undefined && create) {
 		childNode = {

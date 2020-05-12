@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {transformTextFile} from 'liferay-npm-build-tools-common/lib/transform/text';
+import {transformTextFile} from 'liferay-js-toolkit-core';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir, project} from '../../../globals';
 import * as log from '../../../log';
 import {copyFiles, findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
@@ -95,7 +94,7 @@ async function processCssFiles(): Promise<void> {
 	);
 
 	await Promise.all(
-		cssFiles.map(async file => {
+		cssFiles.map(async (file) => {
 			await transformTextFile(
 				adaptBuildDir.join(file),
 				buildBundlerDir.join(file),

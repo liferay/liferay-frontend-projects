@@ -6,8 +6,8 @@
 import {
 	ConfigurationField,
 	PortletInstanceConfiguration,
-} from 'liferay-npm-build-tools-common/lib/api/configuration-json';
-import {Project} from 'liferay-npm-build-tools-common/lib/project';
+	Project,
+} from 'liferay-js-toolkit-core';
 
 interface Field {
 	dataType: string;
@@ -184,7 +184,7 @@ function localized(project: Project, string: string): LocalizedValue {
 
 	obj[''] = labels[string];
 
-	project.l10n.availableLocales.forEach(locale => {
+	project.l10n.availableLocales.forEach((locale) => {
 		labels = project.l10n.getLabels(locale);
 
 		obj[locale] = labels[string];

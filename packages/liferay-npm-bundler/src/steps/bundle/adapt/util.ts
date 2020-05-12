@@ -7,7 +7,7 @@ import ejs from 'ejs';
 import fs from 'fs-extra';
 import path from 'path';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir} from '../../../globals';
 
 /**
  * Helper function to transform a file inside `buildBundlerDir`.
@@ -44,7 +44,7 @@ export async function render(
 			path.join(__dirname, 'template', `${templateName}.ejs`),
 			data,
 			{
-				escape: text => text,
+				escape: (text) => text,
 			},
 			(err, str: string): void => {
 				if (err) {

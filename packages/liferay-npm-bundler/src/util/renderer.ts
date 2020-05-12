@@ -5,7 +5,7 @@
 
 import ejs from 'ejs';
 import fs from 'fs-extra';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import {FilePath} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 export interface RenderOptions {
@@ -40,7 +40,7 @@ export default class Renderer {
 				path.join(this._templatesPath, `${templatePath}.ejs`),
 				data,
 				{
-					escape: text => text,
+					escape: (text) => text,
 				},
 				(err, str) => {
 					if (err) {

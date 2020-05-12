@@ -6,12 +6,19 @@
 /* eslint-disable no-console */
 
 import childProcess from 'child_process';
-import project, {PkgJson} from 'liferay-npm-build-tools-common/lib/project';
+import {PkgJson} from 'liferay-js-toolkit-core';
 import os from 'os';
 import path from 'path';
 import util from 'util';
 
-import * as cfg from '../config';
+import {
+	getWebpackExtensions,
+	getWebpackMainModule,
+	getWebpackPort,
+	getWebpackProxy,
+	getWebpackRules,
+	project,
+} from '../config';
 import {Renderer} from '../util';
 
 const templatesDir = path.join(__dirname, '..', 'resources', 'start');
@@ -21,7 +28,7 @@ const pkgJson = project.pkgJson;
 /**
  *
  */
-export default function(): void {
+export default function (): void {
 	copyWebpackResources();
 	runWebpackDevServer();
 }
@@ -38,15 +45,15 @@ function copyWebpackResources(): void {
 		pkgVersion: pkgJson.version,
 	});
 	renderer.render('index.js', {
-		mainModule: `../src/${cfg.getWebpackMainModule()}`,
+		mainModule: `../src/${getWebpackMainModule()}`,
 	});
 	renderer.render('webpack.config.js', {
-		extensions: util.inspect(cfg.getWebpackExtensions()),
+		extensions: util.inspect(getWebpackExtensions()),
 		pkgName: pkgJson.name,
-		port: cfg.getWebpackPort(),
-		proxy: util.inspect(cfg.getWebpackProxy()),
+		port: getWebpackPort(),
+		proxy: util.inspect(getWebpackProxy()),
 		rules: util.inspect(
-			cfg.getWebpackRules().map(rule => {
+			getWebpackRules().map((rule) => {
 				rule['test'] = new RegExp(rule['test']);
 
 				return rule;
@@ -105,11 +112,11 @@ function runWebpackDevServer(): void {
 		});
 	}
 
-	proc.stdout.on('data', data => {
+	proc.stdout.on('data', (data) => {
 		console.log(data.toString());
 	});
 
-	proc.stderr.on('data', data => {
+	proc.stderr.on('data', (data) => {
 		console.error(data.toString());
 	});
 }

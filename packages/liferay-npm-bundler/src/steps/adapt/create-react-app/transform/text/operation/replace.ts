@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {escapeStringRegexp} from 'liferay-npm-build-tools-common/lib/regexp';
-import {TextTransform} from 'liferay-npm-build-tools-common/lib/transform/text';
+import {TextTransform, escapeStringRegexp} from 'liferay-js-toolkit-core';
 
 /**
  * Replace strings or regular expressions in a text.
@@ -19,7 +18,7 @@ import {TextTransform} from 'liferay-npm-build-tools-common/lib/transform/text';
 export default function replace(
 	replacements: Map<string | RegExp, string>
 ): TextTransform {
-	return (text => {
+	return ((text) => {
 		replacements.forEach((to, from) => {
 			if (typeof from === 'string') {
 				from = new RegExp(escapeStringRegexp(from), 'g');

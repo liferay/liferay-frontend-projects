@@ -7,8 +7,9 @@ import childProcess from 'child_process';
 import spawn from 'cross-spawn';
 import ejs from 'ejs';
 import fs from 'fs-extra';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
+
+import {project} from './config';
 
 /**
  * Template renderer class
@@ -38,7 +39,7 @@ export class Renderer {
 			path.join(this._templatesPath, `${templatePath}.ejs`),
 			data,
 			{
-				escape: text => text,
+				escape: (text) => text,
 			},
 			(err, str) => {
 				fs.writeFileSync(outputPath, str);

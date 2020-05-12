@@ -7,9 +7,8 @@ import {parse} from 'acorn';
 import {traverse} from 'estraverse';
 import estree from 'estree';
 import fs from 'fs-extra';
-import project from 'liferay-npm-build-tools-common/lib/project';
 
-import {buildBundlerDir} from '../../../dirs';
+import {buildBundlerDir, project} from '../../../globals';
 import * as log from '../../../log';
 import {render, transformFile} from './util';
 
@@ -22,21 +21,23 @@ export default async function wrapBundles(): Promise<void> {
 	const {name, version} = project.pkgJson;
 
 	await Promise.all(
-		['runtime', 'vendor', ...Object.keys(project.exports)].map(async id => {
-			const transform = async (content: string): Promise<string> =>
-				await render('bundle-wrapper', {
-					content,
-					importDependencies: getImportDependencies(id),
-					moduleName: `${name}@${version}/${id}.bundle`,
-					webpackManifestModuleName: './webpack.manifest',
-				});
+		['runtime', 'vendor', ...Object.keys(project.exports)].map(
+			async (id) => {
+				const transform = async (content: string): Promise<string> =>
+					await render('bundle-wrapper', {
+						content,
+						importDependencies: getImportDependencies(id),
+						moduleName: `${name}@${version}/${id}.bundle`,
+						webpackManifestModuleName: './webpack.manifest',
+					});
 
-			const fileName = `${id}.bundle.js`;
+				const fileName = `${id}.bundle.js`;
 
-			await transformFile(fileName, transform);
+				await transformFile(fileName, transform);
 
-			log.debug(`Converted ${fileName} to AMD module`);
-		})
+				log.debug(`Converted ${fileName} to AMD module`);
+			}
+		)
 	);
 }
 
@@ -92,6 +93,6 @@ function getImportDependencies(id: string): string {
 	});
 
 	return Object.keys(requiredModules)
-		.map(module => `,\n\t\t'${module}'`)
+		.map((module) => `,\n\t\t'${module}'`)
 		.join('');
 }

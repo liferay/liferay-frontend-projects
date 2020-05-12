@@ -4,11 +4,14 @@
  */
 
 import crypto from 'crypto';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {SourceTransform} from 'liferay-npm-build-tools-common/lib/transform/js';
-import replaceInStringLiterals from 'liferay-npm-build-tools-common/lib/transform/js/operation/replaceInStringLiterals';
+import {
+	JsSourceTransform,
+	replaceInStringLiterals,
+} from 'liferay-js-toolkit-core';
 
-export default function namespaceWepbackJsonp(): SourceTransform {
+import {project} from '../../../../../globals';
+
+export default function namespaceWepbackJsonp(): JsSourceTransform {
 	const hash = crypto.createHash('MD5');
 
 	const {name, version} = project.pkgJson;

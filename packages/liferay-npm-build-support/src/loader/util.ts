@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import project from 'liferay-npm-build-tools-common/lib/project';
+import {project} from '../config';
 
 // TODO: get rid of this function once we support loading config from .js files
 /**
@@ -16,7 +16,7 @@ export function replaceTokens<T>(
 ): T {
 	const {pkgJson} = project;
 
-	Object.keys(options).forEach(key => {
+	Object.keys(options).forEach((key) => {
 		if (typeof options[key] === 'string') {
 			if (except.includes(key)) {
 				return;

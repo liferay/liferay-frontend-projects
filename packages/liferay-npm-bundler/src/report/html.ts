@@ -4,8 +4,7 @@
  */
 
 import {Report} from '.';
-import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
-import {LogLevel} from 'liferay-npm-build-tools-common/lib/project/misc';
+import {LogLevel, PluginLogger} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
 /* eslint-disable sort-keys */
@@ -61,7 +60,7 @@ export function htmlDump(report: Report): string {
 		htmlTable(
 			'Package',
 			'Version',
-			Object.keys(_versionsInfo).map(pkgName =>
+			Object.keys(_versionsInfo).map((pkgName) =>
 				htmlRow(`
 					<td>${pkgName}</td>
 					<td>${_versionsInfo[pkgName].version}</td>
@@ -91,7 +90,7 @@ export function htmlDump(report: Report): string {
 									</td>
 									<td class="source">[${source}]</td>
 									<td>
-										${things.map(thing => `${thing}`).join(' ')}
+										${things.map((thing) => `${thing}`).join(' ')}
 									</td>
 									`,
 									LogLevel[logLevel]
@@ -116,10 +115,10 @@ export function htmlDump(report: Report): string {
 				['File'],
 				Object.keys(_rules.files)
 					.sort()
-					.map(filePath => [filePath]),
+					.map((filePath) => [filePath]),
 				Object.keys(_rules.files)
 					.sort()
-					.map(filePath => _rules.files[filePath].logger)
+					.map((filePath) => _rules.files[filePath].logger)
 			)
 		)
 	);
@@ -352,7 +351,7 @@ function htmlSubsection(title: string, ...contents: string[]): string {
 function htmlList(...args: string[]): string {
 	return `
 		<ul>
-			${args.map(arg => `<li>${arg}</li>`).join(' ')}
+			${args.map((arg) => `<li>${arg}</li>`).join(' ')}
 		</ul>
 	`;
 }
@@ -374,7 +373,7 @@ function htmlTable(...args: unknown[]): string {
 	} else {
 		return `
 			<table>
-				${htmlRow(columns.map(column => `<th>${column}</th>`))}
+				${htmlRow(columns.map((column) => `<th>${column}</th>`))}
 				${content}
 			</table>
 		`;
@@ -431,7 +430,7 @@ function htmlLogOutput(
 		if (msgs.length === 0) {
 			rows.push(
 				htmlRow(`
-					${cells.map(cell => `<td>${cell}</td>`).join(' ')}
+					${cells.map((cell) => `<td>${cell}</td>`).join(' ')}
 					${htmlIf(source, () => `<td></td>`)}
 					${logColums
 						.splice(1)
@@ -461,7 +460,7 @@ function htmlLogOutput(
 			rows.push(
 				htmlRow(
 					`
-					${cells.map(cell => `<td>${cell}</td>`).join(' ')}
+					${cells.map((cell) => `<td>${cell}</td>`).join(' ')}
 					${sourceCell}
 					<td class="${msg0.level}">${msg0.level.toUpperCase()}</td>
 					<td>${infoLink}</td>

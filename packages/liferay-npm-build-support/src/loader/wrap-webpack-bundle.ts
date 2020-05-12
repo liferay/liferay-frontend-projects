@@ -6,9 +6,9 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-npm-build-tools-common/lib/api/loaders';
-import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
-import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+	FilePath,
+	getPackageDir,
+} from 'liferay-js-toolkit-core';
 import readJsonSync from 'read-json-sync';
 
 import {removeWebpackHash} from './util';
@@ -36,7 +36,7 @@ export interface Options {
  * hash, it is used to compute the module name. The default value of
  * `honorWebpackHash` is false.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>,
 	options: Options
 ): BundlerLoaderReturn {
@@ -71,7 +71,7 @@ Liferay.Loader.define(
  */
 function getModuleName(prjRelfilePath: string, removePrefix: string): string {
 	const absFile = new FilePath(prjRelfilePath);
-	const pkgDir = new FilePath(babelUtil.getPackageDir(prjRelfilePath));
+	const pkgDir = new FilePath(getPackageDir(prjRelfilePath));
 
 	let moduleName: string = pkgDir.relative(absFile).asPosix;
 

@@ -6,7 +6,7 @@
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-npm-build-tools-common/lib/api/loaders';
+} from 'liferay-js-toolkit-core';
 
 import {removeWebpackHash} from './util';
 
@@ -17,7 +17,7 @@ import {removeWebpackHash} from './util';
  * A webpack hash is defined as the rightmost hex number surrounded by dots in a
  * file name.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>
 ): BundlerLoaderReturn {
 	const {content, extraArtifacts, filePath, log} = context;

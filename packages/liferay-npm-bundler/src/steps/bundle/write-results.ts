@@ -6,7 +6,7 @@
 import fs from 'fs-extra';
 import webpack from 'webpack';
 
-import {buildWebpackDir} from '../../dirs';
+import {buildWebpackDir} from '../../globals';
 import * as log from '../../log';
 
 export default function writeResults(stats: webpack.Stats): void {

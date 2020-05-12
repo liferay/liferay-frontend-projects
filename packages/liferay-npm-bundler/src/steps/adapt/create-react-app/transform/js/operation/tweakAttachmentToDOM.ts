@@ -4,14 +4,14 @@
  */
 
 import {
-	SourceCode,
-	SourceTransform,
-	replace,
-} from 'liferay-npm-build-tools-common/lib/transform/js';
-import {parseAsExpressionStatement} from 'liferay-npm-build-tools-common/lib/transform/js/parse';
+	JsSource,
+	JsSourceTransform,
+	parseAsAstExpressionStatement,
+	replaceJsSource,
+} from 'liferay-js-toolkit-core';
 
-export default function tweakAttachmentToDOM(): SourceTransform {
-	return (source => _tweakAttachmentToDOM(source)) as SourceTransform;
+export default function tweakAttachmentToDOM(): JsSourceTransform {
+	return ((source) => _tweakAttachmentToDOM(source)) as JsSourceTransform;
 }
 
 /**
@@ -21,8 +21,8 @@ export default function tweakAttachmentToDOM(): SourceTransform {
  *
  * @param source
  */
-async function _tweakAttachmentToDOM(source: SourceCode): Promise<SourceCode> {
-	return await replace(source, {
+async function _tweakAttachmentToDOM(source: JsSource): Promise<JsSource> {
+	return await replaceJsSource(source, {
 		enter(node) {
 			if (node.type !== 'CallExpression') {
 				return;
@@ -55,7 +55,7 @@ async function _tweakAttachmentToDOM(source: SourceCode): Promise<SourceCode> {
 				return;
 			}
 
-			const {expression} = parseAsExpressionStatement(
+			const {expression} = parseAsAstExpressionStatement(
 				'_LIFERAY_PARAMS_.portletElementId'
 			);
 

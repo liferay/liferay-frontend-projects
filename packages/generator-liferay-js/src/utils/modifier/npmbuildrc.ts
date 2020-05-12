@@ -24,7 +24,7 @@ export default class extends JsonModifier {
 	 * @param {string} liferayDir
 	 */
 	setLiferayDir(liferayDir): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, 'liferayDir', liferayDir);
 		});
 	}
@@ -34,7 +34,7 @@ export default class extends JsonModifier {
 	 * @param {Array<string>} supportedLocales
 	 */
 	setSupportedLocales(supportedLocales): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, 'supportedLocales', supportedLocales);
 		});
 	}
@@ -44,7 +44,7 @@ export default class extends JsonModifier {
 	 * @param {string} key
 	 */
 	setTranslatorTextKey(translatorTextKey): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, 'translatorTextKey', translatorTextKey);
 		});
 	}
@@ -54,7 +54,7 @@ export default class extends JsonModifier {
 	 * @param {string} mainModule
 	 */
 	setWebpackMainModule(mainModule): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, 'webpack.mainModule', mainModule);
 		});
 	}
@@ -71,7 +71,7 @@ export default class extends JsonModifier {
 			regex = new RegExp(regex.source.replace('/', '\\'), regex.flags);
 		}
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			let test = regex.toString();
 
 			test = test.substring(1, test.length - 1);
@@ -92,7 +92,7 @@ export default class extends JsonModifier {
 	 * @param {Array<string>} extensions the file extensions to add
 	 */
 	addWebpackExtensions(...extensions): void {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			const currentExtensions = prop.get(json, 'webpack.extensions', []);
 
 			currentExtensions.push(...extensions);

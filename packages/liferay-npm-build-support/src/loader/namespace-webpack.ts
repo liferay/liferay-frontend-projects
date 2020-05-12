@@ -7,8 +7,9 @@ import crypto from 'crypto';
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from 'liferay-npm-build-tools-common/lib/api/loaders';
-import project from 'liferay-npm-build-tools-common/lib/project';
+} from 'liferay-js-toolkit-core';
+
+import {project} from '../config';
 
 /**
  * A loader to namespace occurrences of the `webpackJsonp` variable.
@@ -21,7 +22,7 @@ import project from 'liferay-npm-build-tools-common/lib/project';
  * `webpackJsonp_${uuid}` where the `uuid` is derived from the project's name
  * and version.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext<string>
 ): BundlerLoaderReturn {
 	const {content, log} = context;

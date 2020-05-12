@@ -4,15 +4,12 @@
  */
 
 import fs from 'fs-extra';
-import PkgDesc from 'liferay-npm-build-tools-common/lib/pkg-desc';
-import project from 'liferay-npm-build-tools-common/lib/project';
-import {ProjectType} from 'liferay-npm-build-tools-common/lib/project/probe';
+import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
-import {buildBundlerDir} from './dirs';
+import {buildBundlerDir, manifest, project} from './globals';
 import createJar from './jar';
 import * as log from './log';
-import manifest from './manifest';
 import report from './report';
 import adaptCreateReactApp from './steps/adapt/create-react-app';
 import bundle from './steps/bundle';
@@ -20,7 +17,7 @@ import runRules from './steps/rules';
 import {abort} from './util';
 
 /** Default entry point for the liferay-npm-bundler */
-export default async function(argv: {version: boolean}): Promise<void> {
+export default async function (argv: {version: boolean}): Promise<void> {
 	if (argv.version) {
 		const {versionsInfo} = project;
 
