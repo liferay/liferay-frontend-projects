@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as babelIpc from './babel-ipc';
-import * as format from './format';
-
 // File paths handling
 export {default as FilePath} from './file-path';
 
@@ -24,7 +21,7 @@ export * from './packages';
 // Bundler plugin utilities
 export * from './api/loaders';
 export * from './api/plugins';
-export {babelIpc};
+export * as babelIpc from './babel-ipc';
 export * from './babel-util'; // TODO: not sure if this is needed in bundler 3
 export {default as PkgDesc} from './pkg-desc';
 export {default as PluginLogger} from './plugin-logger';
@@ -33,7 +30,7 @@ export {default as PluginLogger} from './plugin-logger';
 export * from './project';
 
 // Format library
-export {format};
+export * as format from './format';
 
 // Miscellaneous utilities
 export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
