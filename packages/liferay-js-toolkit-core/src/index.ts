@@ -22,7 +22,6 @@ export type {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from './bundler/loader';
-export * from './babel-util'; // TODO: not sure if this is needed in bundler 3
 export {default as PkgDesc} from './pkg-desc';
 export {default as PluginLogger} from './plugin-logger';
 
