@@ -7,7 +7,7 @@ import child_process from 'child_process';
 import path from 'path';
 
 import FilePath from '../../file-path';
-import {Project} from '../index';
+import Project from '../Project';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Tests by property

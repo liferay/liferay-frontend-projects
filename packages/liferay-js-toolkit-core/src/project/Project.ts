@@ -14,21 +14,14 @@ import webpack from 'webpack';
 import FilePath from '../file-path';
 import {info, print, warn} from '../format';
 import {splitModuleName} from '../modules';
-import Adapt from './adapt';
-import Jar from './jar';
-import Localization from './localization';
-import Misc from './misc';
-import Probe from './probe';
-import Rules from './rules';
-import {VersionInfo} from './types';
-
-export {LogLevel} from './misc';
-export {ProjectType} from './probe';
-export {BundlerLoaderDescriptor} from './rules';
-export {BundlerPluginDescriptor, VersionInfo} from './types';
-
-/** A package manager */
-export type PkgManager = 'npm' | 'yarn' | null;
+import PkgJson from '../schema/PkgJson';
+import Adapt from './Adapt';
+import Jar from './Jar';
+import Localization from './Localization';
+import Misc from './Misc';
+import Probe from './Probe';
+import Rules from './Rules';
+import VersionInfo from './VersionInfo';
 
 /** Exports configuration */
 export interface Exports {
@@ -45,25 +38,8 @@ export interface ImportsConfig {
 	version: string;
 }
 
-/** Minimal package.json structure description */
-export interface PkgJson {
-	name: string;
-	version: string;
-	description?: string;
-	main?: string;
-	portlet?: {
-		[property: string]: string | boolean;
-	};
-	dependencies?: {
-		[pkgName: string]: string;
-	};
-	devDependencies?: {
-		[pkgName: string]: string;
-	};
-	peerDependencies?: {
-		[pkgName: string]: string;
-	};
-}
+/** A package manager */
+export type PkgManager = 'npm' | 'yarn' | null;
 
 /**
  * Describes a standard JS Toolkit project.
@@ -549,3 +525,5 @@ export class Project {
 
 	private _workDir: FilePath;
 }
+
+export default Project;

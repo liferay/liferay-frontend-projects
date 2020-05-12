@@ -38,7 +38,14 @@ export {default as PkgDesc} from './pkg-desc';
 export {default as PluginLogger} from './plugin-logger';
 
 // Project descriptor class and types
-export * from './project';
+export * from './project/Adapt';
+export * from './project/Jar';
+export * from './project/Localization';
+export * from './project/Misc';
+export * from './project/Probe';
+export * from './project/Project';
+export * from './project/Rules';
+export * from './project/VersionInfo';
 
 // Format library
 export * as format from './format';
@@ -63,7 +70,7 @@ export type {
 	ManifestJsonModule,
 	ManifestJsonModuleFlags,
 } from './schema/ManifestJson';
-export {PkgJson} from './project'; // TODO: move to its own file
+export type {PkgJson} from './schema/PkgJson';
 
 // JavaScript AST helpers
 export {getProgramStatements as getAstProgramStatements} from './transform/js/ast';

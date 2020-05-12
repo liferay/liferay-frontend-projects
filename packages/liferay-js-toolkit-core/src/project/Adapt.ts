@@ -4,12 +4,13 @@
  */
 
 import FilePath from '../file-path';
-import {Project, ProjectType} from './index';
+import {ProjectType} from './Probe';
+import Project from './Project';
 
 /**
  * Reflects adapted project configuration
  */
-export default class Adapt {
+export class Adapt {
 	constructor(project: Project) {
 		this._project = project;
 	}
@@ -58,3 +59,5 @@ export default class Adapt {
 	private readonly _project: Project;
 	private _supported: boolean;
 }
+
+export default Adapt;

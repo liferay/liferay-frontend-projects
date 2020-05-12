@@ -6,8 +6,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import Manifest from '../manifest';
-import PkgDesc from '../pkg-desc';
+import PkgDesc from '../../../pkg-desc';
+import Manifest from '../Manifest';
 
 it('addPackage works', () => {
 	const manifest = new Manifest();
@@ -17,7 +17,7 @@ it('addPackage works', () => {
 
 	manifest.addPackage(srcPkg, destPkg);
 
-	expect((manifest as any)._data.packages[srcPkg.id]).toMatchSnapshot();
+	expect((manifest as any)._json.packages[srcPkg.id]).toMatchSnapshot();
 });
 
 it('getPackage returns entries with relative paths', () => {
@@ -28,7 +28,7 @@ it('getPackage returns entries with relative paths', () => {
 
 	manifest.addPackage(srcPkg, destPkg);
 
-	const entry = (manifest as any)._data.packages[srcPkg.id];
+	const entry = (manifest as any)._json.packages[srcPkg.id];
 
 	expect(entry.src.dir).toBe('./src');
 	expect(entry.dest.dir).toBe('./dest');

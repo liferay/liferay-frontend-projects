@@ -9,7 +9,8 @@ import path from 'path';
 import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
-import {Project, VersionInfo} from './index';
+import Project from './Project';
+import VersionInfo from './VersionInfo';
 
 /**
  * A bundler loader plugin descriptor
@@ -58,7 +59,7 @@ interface BundlerNormalizedRule {
  * See https://webpack.js.org/configuration/module/#modulerules for webpack's
  * specification.
  */
-export default class Rules {
+export class Rules {
 	constructor(project: Project) {
 		this._project = project;
 
@@ -256,3 +257,5 @@ export default class Rules {
 	private _rules: BundlerNormalizedRule[];
 	private _versionsInfo: Map<string, VersionInfo>;
 }
+
+export default Rules;

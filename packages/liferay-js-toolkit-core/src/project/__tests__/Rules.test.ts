@@ -4,7 +4,7 @@
  */
 
 import FilePath from '../../file-path';
-import Rules from '../rules';
+import Rules from '../Rules';
 
 describe('single rule', () => {
 	it('test alone', () => {

@@ -6,7 +6,7 @@
 import path from 'path';
 
 import FilePath from './file-path';
-import {Project} from './project';
+import Project from './project/Project';
 
 // TODO: this shouldn't be instantiated here
 export const project = new Project('.');

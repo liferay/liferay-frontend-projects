@@ -7,7 +7,7 @@ import prop from 'dot-prop';
 
 import FilePath from '../file-path';
 import {print, warn} from '../format';
-import {Project} from './index';
+import Project from './Project';
 
 /** Valid log levels for console and report */
 export enum LogLevel {
@@ -21,7 +21,7 @@ export enum LogLevel {
 /**
  * Reflects miscellaneous project configuration values.
  */
-export default class Misc {
+export class Misc {
 	/**
 	 *
 	 * @param project
@@ -154,3 +154,5 @@ export default class Misc {
 	private _reportFile: FilePath;
 	private _reportLevel: LogLevel;
 }
+
+export default Misc;

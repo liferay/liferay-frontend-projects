@@ -9,13 +9,13 @@ import readJsonSync from 'read-json-sync';
 
 import FilePath from '../file-path';
 import {print, warn} from '../format';
-import {Project} from './index';
-import {getFeaturesFilePath} from './util';
+import Project from './Project';
+import {getFeaturesFilePath} from './getFeaturesFilePath';
 
 /**
  * Reflects JAR file configuration of JS Toolkit projects.
  */
-export default class Jar {
+export class Jar {
 	constructor(project: Project) {
 		this._project = project;
 	}
@@ -231,3 +231,5 @@ the one in .npmbundlerrc
 	private readonly _project: Project;
 	private _webContextPath: string;
 }
+
+export default Jar;

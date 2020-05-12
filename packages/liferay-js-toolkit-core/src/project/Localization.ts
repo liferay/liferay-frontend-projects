@@ -8,8 +8,8 @@ import path from 'path';
 import properties from 'properties';
 
 import FilePath from '../file-path';
-import {Project} from './index';
-import {getFeaturesFilePath} from './util';
+import Project from './Project';
+import {getFeaturesFilePath} from './getFeaturesFilePath';
 
 /** StringsMaps indexed by locale */
 export interface LocaleStringsMap {
@@ -29,7 +29,7 @@ export interface LocaleFilePathMap {
 /**
  * Reflects localization configuration of JS Toolkit projects.
  */
-export default class Localization {
+export class Localization {
 	static readonly DEFAULT_LOCALE = 'default';
 
 	constructor(project: Project) {
@@ -163,3 +163,5 @@ export default class Localization {
 	private _languageFileBaseName: FilePath;
 	private _localizationFileMap: LocaleFilePathMap;
 }
+
+export default Localization;

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from './index';
+import Project from './Project';
 
 export enum ProjectType {
 	BUNDLER = 'liferay-npm-bundler',
@@ -15,7 +15,7 @@ export enum ProjectType {
 /**
  * Reflects project type (React, Angular, ...)
  */
-export default class Probe {
+export class Probe {
 	constructor(project) {
 		this._project = project;
 	}
@@ -59,3 +59,5 @@ export default class Probe {
 
 	private readonly _project: Project;
 }
+
+export default Probe;
