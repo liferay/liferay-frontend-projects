@@ -19,8 +19,19 @@ export * from './packages';
 
 // TODO: remove the next section before babel 3 release
 // Bundler plugin utilities
-export * from './api/loaders';
-export * from './api/plugins';
+export type {
+	BundlerLoaderMetadata,
+	BundlerLoaderEntryPoint,
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from './api/loaders';
+export type {
+	BabelIpcObject,
+	BundlerPluginEntryPoint,
+	BundlerPluginParams,
+	BundlerCopyPluginState,
+	BundlerTransformPluginState,
+} from './api/plugins';
 export * as babelIpc from './babel-ipc';
 export * from './babel-util'; // TODO: not sure if this is needed in bundler 3
 export {default as PkgDesc} from './pkg-desc';
