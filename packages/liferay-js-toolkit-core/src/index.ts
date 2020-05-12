@@ -22,14 +22,6 @@ export type {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from './bundler/loader';
-export type {
-	BabelIpcObject,
-	BundlerPluginEntryPoint,
-	BundlerPluginParams,
-	BundlerCopyPluginState,
-	BundlerTransformPluginState,
-} from './bundler/plugin';
-export * as babelIpc from './babel-ipc';
 export * from './babel-util'; // TODO: not sure if this is needed in bundler 3
 export {default as PkgDesc} from './pkg-desc';
 export {default as PluginLogger} from './plugin-logger';
