@@ -5,7 +5,7 @@
 
 import path from 'path';
 
-import PkgDesc from '../pkg-desc';
+import PkgDesc from '../PkgDesc';
 
 it('constructs root package descriptors correctly', () => {
 	const pkg = new PkgDesc('a-package', '1.0.0');

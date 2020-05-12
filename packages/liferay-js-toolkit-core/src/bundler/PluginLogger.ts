@@ -48,7 +48,7 @@ class MessageTweaker {
 /**
  * An object to hold plugin messages.
  */
-export default class PluginLogger {
+export class PluginLogger {
 	constructor() {
 		this._msgs = [];
 	}
@@ -156,3 +156,5 @@ export default class PluginLogger {
 
 	private _msgs: Message[];
 }
+
+export default PluginLogger;

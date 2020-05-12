@@ -16,14 +16,14 @@ export * from './packages';
 
 // TODO: remove the next section before babel 3 release
 // Bundler plugin utilities
+export * from './bundler/PkgDesc';
+export * from './bundler/PluginLogger';
 export type {
 	BundlerLoaderMetadata,
 	BundlerLoaderEntryPoint,
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from './bundler/loader';
-export {default as PkgDesc} from './pkg-desc';
-export {default as PluginLogger} from './plugin-logger';
 
 // Project descriptor class and types
 export * from './project/Adapt';

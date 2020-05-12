@@ -5,8 +5,8 @@
 
 import path from 'path';
 
-import FilePath from './file/FilePath';
-import Project from './project/Project';
+import FilePath from '../file/FilePath';
+import Project from '../project/Project';
 
 // TODO: this shouldn't be instantiated here
 const project = new Project('.');
@@ -14,7 +14,7 @@ const project = new Project('.');
 /**
  * A package descriptor class to identify directories containing packages.
  */
-export default class PkgDesc {
+export class PkgDesc {
 	/** Well known id for the root package */
 	static readonly ROOT_ID = '/';
 
@@ -107,3 +107,5 @@ export default class PkgDesc {
 	private readonly _name: string;
 	private readonly _version: string;
 }
+
+export default PkgDesc;

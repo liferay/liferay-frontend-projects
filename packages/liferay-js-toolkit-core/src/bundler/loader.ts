@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import PluginLogger from '../plugin-logger';
+import PluginLogger from './PluginLogger';
 
 /**
  * Defines expectations and behaviour of the loader so that the bundler can
