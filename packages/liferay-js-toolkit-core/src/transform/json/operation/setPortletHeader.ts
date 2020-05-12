@@ -5,7 +5,7 @@
 
 import {JsonTransform} from '..';
 
-import {PkgJson} from '../../../project';
+import PkgJson from '../../../schema/PkgJson';
 
 export default function setPortletHeader(
 	header: string,

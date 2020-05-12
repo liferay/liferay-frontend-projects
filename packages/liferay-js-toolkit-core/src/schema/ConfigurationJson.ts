@@ -4,21 +4,21 @@
  */
 
 export interface ConfigurationJson {
-	portletInstance: PortletInstanceConfiguration;
-	system: SystemConfiguration;
+	portletInstance: ConfigurationJsonPortletInstance;
+	system: ConfigurationJsonSystem;
 }
 
-export interface PortletInstanceConfiguration {
-	fields: {[name: string]: ConfigurationField};
+export interface ConfigurationJsonPortletInstance {
+	fields: {[name: string]: ConfigurationJsonField};
 }
 
-export interface SystemConfiguration {
+export interface ConfigurationJsonSystem {
 	category: string;
-	fields: {[name: string]: ConfigurationField};
+	fields: {[name: string]: ConfigurationJsonField};
 	name: string;
 }
 
-export interface ConfigurationField {
+export interface ConfigurationJsonField {
 	default?: string;
 	description?: string;
 	name: string;
@@ -27,3 +27,5 @@ export interface ConfigurationField {
 	required?: boolean;
 	type: 'string' | 'number' | 'float' | 'boolean' | 'password';
 }
+
+export default ConfigurationJson;

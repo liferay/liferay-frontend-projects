@@ -48,8 +48,21 @@ export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
 export {default as escapeStringRegexp} from './escapeStringRegexp';
 
 // JSON file structure definitions (schemas)
-export * from './api/configuration-json';
-export * from './api/manifest';
+export type {
+	ConfigurationJson,
+	ConfigurationJsonPortletInstance,
+	ConfigurationJsonSystem,
+	ConfigurationJsonField,
+} from './schema/ConfigurationJson';
+export type {
+	ManifestJson,
+	ManifestJsonPackages,
+	ManifestJsonPackage,
+	ManifestJsonPackageDescriptor,
+	ManifestJsonModules,
+	ManifestJsonModule,
+	ManifestJsonModuleFlags,
+} from './schema/ManifestJson';
 export {PkgJson} from './project'; // TODO: move to its own file
 
 // JavaScript AST helpers

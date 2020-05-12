@@ -6,10 +6,14 @@
 import fs from 'fs-extra';
 import path from 'path';
 
-import {Manifest as Data, ModuleFlags, Package} from './api/manifest';
+import {
+	ManifestJson,
+	ManifestJsonModuleFlags,
+	ManifestJsonPackage,
+} from './schema/ManifestJson';
 import PkgDesc from './pkg-desc';
 
-export {ModuleFlags, Package};
+export {ManifestJsonModuleFlags as ModuleFlags, ManifestJsonPackage as Package};
 
 /**
  * A class to hold information about processed modules and optionally dump/read
@@ -17,7 +21,7 @@ export {ModuleFlags, Package};
  */
 export default class Manifest {
 	constructor() {
-		this._data = {
+		this._json = {
 			packages: {},
 		};
 	}
@@ -28,11 +32,11 @@ export default class Manifest {
 	 * @param destPkg the destination package descriptor
 	 */
 	addPackage(srcPkg: PkgDesc, destPkg: PkgDesc): void {
-		if (this._data.packages[srcPkg.id] === undefined) {
-			this._data.packages[srcPkg.id] = {} as Package;
+		if (this._json.packages[srcPkg.id] === undefined) {
+			this._json.packages[srcPkg.id] = {} as ManifestJsonPackage;
 		}
 
-		const pkg = this._data.packages[srcPkg.id];
+		const pkg = this._json.packages[srcPkg.id];
 
 		pkg.src = {
 			dir: srcPkg.dir.asPosix,
@@ -52,13 +56,13 @@ export default class Manifest {
 	addModuleFlags(
 		pkgId: string,
 		moduleName: string,
-		flags: ModuleFlags
+		flags: ManifestJsonModuleFlags
 	): void {
-		if (this._data.packages[pkgId] === undefined) {
-			this._data.packages[pkgId] = {} as Package;
+		if (this._json.packages[pkgId] === undefined) {
+			this._json.packages[pkgId] = {} as ManifestJsonPackage;
 		}
 
-		const pkg = this._data.packages[pkgId];
+		const pkg = this._json.packages[pkgId];
 
 		if (pkg.modules === undefined) {
 			pkg.modules = {};
@@ -88,10 +92,10 @@ export default class Manifest {
 	 * Return the JSON serialization of this manifest
 	 */
 	toJSON(): string {
-		return JSON.stringify(this._data, sortObjectKeysReplacer, 2);
+		return JSON.stringify(this._json, sortObjectKeysReplacer, 2);
 	}
 
-	private _data: Data;
+	private _json: ManifestJson;
 }
 
 /**

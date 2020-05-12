@@ -4,24 +4,24 @@
  */
 
 /** Structure of `manifest.json` files */
-export interface Manifest {
-	packages: Packages;
+export interface ManifestJson {
+	packages: ManifestJsonPackages;
 }
 
 /** Structure of `packages` section of `manifest.json` files */
-export interface Packages {
-	[index: string]: Package;
+export interface ManifestJsonPackages {
+	[index: string]: ManifestJsonPackage;
 }
 
 /** Structure of a package in `manifest.json` files */
-export interface Package {
-	src: PackageDescriptor;
-	dest: PackageDescriptor;
-	modules?: Modules;
+export interface ManifestJsonPackage {
+	src: ManifestJsonPackageDescriptor;
+	dest: ManifestJsonPackageDescriptor;
+	modules?: ManifestJsonModules;
 }
 
 /** Structure of a package descriptor in `manifest.json` files */
-export interface PackageDescriptor {
+export interface ManifestJsonPackageDescriptor {
 	id: string;
 	name: string;
 	version: string;
@@ -29,17 +29,19 @@ export interface PackageDescriptor {
 }
 
 /** Structure of a `modules` of package descriptor in `manifest.json` files */
-export interface Modules {
-	[index: string]: Module;
+export interface ManifestJsonModules {
+	[index: string]: ManifestJsonModule;
 }
 
 /** Structure of a module in a package descriptor in `manifest.json` files */
-export interface Module {
-	flags?: ModuleFlags;
+export interface ManifestJsonModule {
+	flags?: ManifestJsonModuleFlags;
 }
 
 /** Structure of module flags in package descriptor in `manifest.json` files */
-export interface ModuleFlags {
+export interface ManifestJsonModuleFlags {
 	/** Module exports `__esModule` flag (as defined by Babel) */
 	esModule?: boolean;
 }
+
+export default ManifestJson;

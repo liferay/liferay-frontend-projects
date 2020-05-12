@@ -4,8 +4,8 @@
  */
 
 import {
-	ConfigurationField,
-	PortletInstanceConfiguration,
+	ConfigurationJsonField,
+	ConfigurationJsonPortletInstance,
 	Project,
 } from 'liferay-js-toolkit-core';
 
@@ -38,7 +38,7 @@ interface LocalizedValue {
  */
 export function transformPreferences(
 	project: Project,
-	preferencesJson: PortletInstanceConfiguration
+	preferencesJson: ConfigurationJsonPortletInstance
 ): object {
 	return {
 		availableLanguageIds: project.l10n.availableLocales || [],
@@ -89,7 +89,7 @@ export function transformPreferences(
  */
 function getPredefinedValue(
 	project: Project,
-	props: ConfigurationField
+	props: ConfigurationJsonField
 ): LocalizedValue {
 	if (props.options) {
 		// DDM uses JSON inside a JSON, so we do this to make sure this code is
@@ -124,7 +124,7 @@ function getPredefinedValue(
  * @return an object containing the dataType and type properties
  */
 function getTypeProps(
-	props: ConfigurationField
+	props: ConfigurationJsonField
 ): {dataType: string; type: string} {
 	if (props.options) {
 		return {
