@@ -10,7 +10,6 @@ export {default as Manifest} from './file/handler/Manifest';
 // TODO: maybe remove the next section before bundler 3?
 // Utilities to deal with npm packages' information structures
 export * from './alias';
-export {normalizeImportsConfig, unrollImportsConfig} from './imports'; // TODO: remove imports for sure
 export * from './modules';
 export * from './namespace';
 export * from './packages';

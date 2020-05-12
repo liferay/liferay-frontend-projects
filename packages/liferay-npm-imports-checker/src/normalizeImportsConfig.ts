@@ -1,10 +1,10 @@
 /**
- * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 /** Structure of `config.imports` section of `.npmbundlerrc` */
-export interface ImportsConfig {
+interface ImportsConfig {
 	/** Version constraints for provider packages theirselves */
 	''?: PackageConstraints;
 
@@ -13,7 +13,7 @@ export interface ImportsConfig {
 }
 
 /** Version constraints indexed by package name */
-export interface PackageConstraints {
+interface PackageConstraints {
 	/** Version constraints for a package name */
 	[index: string]: string;
 }
@@ -22,27 +22,9 @@ export interface PackageConstraints {
  * Version constraints indexed by package name (may include the provider package
  * itself)
  */
-export interface ProviderImports extends PackageConstraints {
+interface ProviderImports extends PackageConstraints {
 	/** Version constraints for the provider package itself */
 	'/'?: string;
-}
-
-/**
- * Another format form {@link ImportsConfig} unrolled for easy indexing of
- * imported packages.
- */
-export interface UnrolledImportsConfig {
-	/** Import configuration for a given imported package name */
-	[index: string]: UnrolledImport;
-}
-
-/** Import configuration for an imported package */
-export interface UnrolledImport {
-	/** Provider package name */
-	name: string;
-
-	/** Provider package version constraints */
-	version: string;
 }
 
 /**
@@ -52,7 +34,7 @@ export interface UnrolledImport {
  * 			provider packages version constraints
  * @return the normalized configuration after resolving all syntactic sugar
  */
-export function normalizeImportsConfig(
+export default function normalizeImportsConfig(
 	importsConfig: ImportsConfig,
 	useSlashFormat = false
 ): ImportsConfig {
@@ -93,34 +75,4 @@ export function normalizeImportsConfig(
 	}
 
 	return normalized;
-}
-
-/**
- * Unrolls the imports configuration section of .npmbundlerrc file.
- * @param importsConfig the configuration in its original format
- * @return the unrolled configuration with one entry per module name
- */
-export function unrollImportsConfig(
-	importsConfig: ImportsConfig
-): UnrolledImportsConfig {
-	importsConfig = normalizeImportsConfig(importsConfig || {});
-
-	const imports: UnrolledImportsConfig = {};
-
-	Object.keys(importsConfig).forEach((namespace) => {
-		Object.keys(importsConfig[namespace]).forEach((pkgName) => {
-			if (imports[pkgName]) {
-				throw new Error(
-					`Package ${pkgName} is mapped to more than one import`
-				);
-			}
-
-			imports[pkgName] = {
-				name: namespace,
-				version: importsConfig[namespace][pkgName],
-			};
-		});
-	});
-
-	return imports;
 }
