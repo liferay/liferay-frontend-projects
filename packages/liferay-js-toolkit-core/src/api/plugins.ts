@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Manifest from '../manifest';
+import Manifest from '../file/handler/Manifest';
 import PkgDesc from '../pkg-desc';
 import PluginLogger from '../plugin-logger';
 

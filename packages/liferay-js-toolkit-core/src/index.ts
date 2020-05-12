@@ -7,7 +7,7 @@
 export {default as FilePath} from './file-path';
 
 // Handler for manifest.json files
-export {default as Manifest} from './manifest';
+export {default as Manifest} from './file/handler/Manifest';
 
 // TODO: maybe remove the next section before bundler 3?
 // Utilities to deal with npm packages' information structures

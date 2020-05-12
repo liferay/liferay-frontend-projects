@@ -6,12 +6,12 @@
 import fs from 'fs-extra';
 import path from 'path';
 
+import PkgDesc from '../../pkg-desc';
 import {
 	ManifestJson,
 	ManifestJsonModuleFlags,
 	ManifestJsonPackage,
-} from './schema/ManifestJson';
-import PkgDesc from './pkg-desc';
+} from '../../schema/ManifestJson';
 
 export {ManifestJsonModuleFlags as ModuleFlags, ManifestJsonPackage as Package};
 
