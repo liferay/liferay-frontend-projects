@@ -1,3 +1,11 @@
+## [liferay-npm-scripts/v32.2.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.2.0) (2020-05-12)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.1.0...liferay-npm-scripts/v32.2.0)
+
+### :new: Features
+
+-   feat(scripts): add support for optional chaining and nullish coalescing ([\#452](https://github.com/liferay/liferay-npm-tools/pull/452))
+
 ## [liferay-npm-scripts/v32.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.1.0) (2020-05-07)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.0.0...liferay-npm-scripts/v32.1.0)
