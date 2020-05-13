@@ -11,7 +11,7 @@ import {
 	BundlerLoaderMetadata,
 } from '../bundler/loader';
 import FilePath from '../file/FilePath';
-import {splitModuleName} from '../modules';
+import {splitModuleName} from '../node/modules';
 import Project from './Project';
 import VersionInfo from './VersionInfo';
 

@@ -6,7 +6,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import PkgDesc from '../../../pkg-desc';
+import PkgDesc from '../../../bundler/PkgDesc';
 import Manifest from '../Manifest';
 
 it('addPackage works', () => {

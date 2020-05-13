@@ -7,12 +7,9 @@
 export {default as FilePath} from './file/FilePath';
 export {default as Manifest} from './file/handler/Manifest';
 
-// TODO: maybe remove the next section before bundler 3?
-// Utilities to deal with npm packages' information structures
-export * from './alias';
-export * from './modules';
-export * from './namespace';
-export * from './packages';
+// Utilities to deal with node packages and modules
+export * from './node/modules';
+export * from './node/namespace';
 
 // TODO: remove the next section before babel 3 release
 // Bundler plugin utilities

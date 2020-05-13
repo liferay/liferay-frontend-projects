@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {PkgDesc, getPackageTargetDir} from 'liferay-js-toolkit-core';
+import {PkgDesc} from 'liferay-js-toolkit-core';
 
 import {project} from './globals';
 import * as log from './log';
@@ -32,12 +32,27 @@ export function abort(message?: string): void {
  * @return native path to destination directory of package
  */
 export function getDestDir(pkg: PkgDesc): string {
-	return pkg.isRoot
-		? project.dir.join(project.buildDir).asNative
-		: project.buildDir.join(
-				'node_modules',
-				getPackageTargetDir(pkg.name, pkg.version)
-		  ).asNative;
+	if (pkg.isRoot) {
+		return project.dir.join(project.buildDir).asNative;
+	} else {
+		return project.buildDir.join('node_modules', getPackageTargetDir(pkg))
+			.asNative;
+	}
+}
+
+export function getPackageTargetDir(pkgJson: {
+	name: string;
+	version: string;
+}): string {
+	const {name, version} = pkgJson;
+
+	let targetFolder = name.replace('/', '%2F');
+
+	if (version) {
+		targetFolder += `@${version}`;
+	}
+
+	return targetFolder;
 }
 
 /**

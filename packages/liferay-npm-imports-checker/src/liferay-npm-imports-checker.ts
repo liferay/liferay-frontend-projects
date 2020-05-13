@@ -8,13 +8,14 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import globby from 'globby';
-import {FilePath, Project, isNodeCoreModule} from 'liferay-js-toolkit-core';
+import {FilePath, Project} from 'liferay-js-toolkit-core';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
 import resolve from 'resolve';
 import semver from 'semver';
 
 import * as cfg from './config';
+import isNodeCoreModule from './isNodeCoreModule';
 import normalizeImportsConfig from './normalizeImportsConfig';
 
 interface Results {

@@ -13,7 +13,7 @@ import webpack from 'webpack';
 
 import FilePath from '../file/FilePath';
 import {info, print, warn} from '../format';
-import {splitModuleName} from '../modules';
+import {splitModuleName} from '../node/modules';
 import PkgJson from '../schema/PkgJson';
 import Adapt from './Adapt';
 import Jar from './Jar';
