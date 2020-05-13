@@ -33,6 +33,6 @@ const {argv} = require('yargs')
 
 // This assignment must be done before any other project module loads, otherwise
 // it may get an incorrect project object.
-require('liferay-js-toolkit-core/lib/project').default.argv = argv;
+require('../lib/globals').project.argv = argv;
 
 require('../lib/index').default(argv);
