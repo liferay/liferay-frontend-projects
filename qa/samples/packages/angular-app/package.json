@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:liferay": "lnbs-build",
+    "deploy:liferay": "npm run build:liferay && lnbs-deploy"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +43,17 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "liferay-npm-build-support": "^2.18.5",
+    "liferay-npm-bundler": "^2.18.5",
+    "liferay-npm-bundler-preset-angular-cli": "^2.18.5"
+  },
+  "portlet": {
+    "com.liferay.portlet.display-category": "QA",
+    "javax.portlet.name": "angularapp",
+    "javax.portlet.security-role-ref": "power-user,user",
+    "javax.portlet.resource-bundle": "content.Language",
+    "com.liferay.portlet.instanceable": false,
+    "com.liferay.portlet.header-portlet-css": "/angular-app/styles.css"
   }
 }
