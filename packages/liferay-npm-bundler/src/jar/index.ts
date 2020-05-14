@@ -8,9 +8,9 @@ import globby, {GlobbyOptions} from 'globby';
 import JSZip from 'jszip';
 import {
 	ConfigurationJson,
+	ConfigurationJsonPortletInstance,
+	ConfigurationJsonSystem,
 	FilePath,
-	PortletInstanceConfiguration,
-	SystemConfiguration,
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
@@ -29,8 +29,8 @@ export default function createJar(): Promise<void> {
 	addManifest(zip);
 	addBuildFiles(zip);
 	addLocalizationFiles(zip);
-	addSystemConfigurationFiles(zip);
-	addPortletInstanceConfigurationFile(zip);
+	addConfigurationJsonSystemFiles(zip);
+	addConfigurationJsonPortletInstanceFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then((buffer) => {
 		fs.mkdirpSync(project.jar.outputDir.asNative);
@@ -166,8 +166,8 @@ function addManifest(zip: JSZip): void {
 /**
  * Add the settings files if configured.
  */
-function addSystemConfigurationFiles(zip: JSZip): void {
-	const systemConfigJson = getSystemConfigurationJson();
+function addConfigurationJsonSystemFiles(zip: JSZip): void {
+	const systemConfigJson = getConfigurationJsonSystemJson();
 
 	if (!systemConfigJson) {
 		return;
@@ -214,8 +214,8 @@ function addSystemConfigurationFiles(zip: JSZip): void {
 /**
  * Add the portlet preferences file if configured.
  */
-function addPortletInstanceConfigurationFile(zip: JSZip): void {
-	const portletInstanceConfigJson = getPortletInstanceConfigurationJson();
+function addConfigurationJsonPortletInstanceFile(zip: JSZip): void {
+	const portletInstanceConfigJson = getConfigurationJsonPortletInstanceJson();
 
 	if (!portletInstanceConfigJson) {
 		return;
@@ -251,11 +251,11 @@ function getMinimumExtenderVersion(): string | undefined {
 
 	let minExtenderMinorVersion = 0;
 
-	if (getSystemConfigurationJson()) {
+	if (getConfigurationJsonSystemJson()) {
 		minExtenderMinorVersion = Math.max(minExtenderMinorVersion, 1);
 	}
 
-	if (getPortletInstanceConfigurationJson()) {
+	if (getConfigurationJsonPortletInstanceJson()) {
 		minExtenderMinorVersion = Math.max(minExtenderMinorVersion, 1);
 	}
 
@@ -266,7 +266,7 @@ function getMinimumExtenderVersion(): string | undefined {
  * Get portlet instance configuration JSON object from getConfigurationFile()
  * file.
  */
-function getPortletInstanceConfigurationJson(): PortletInstanceConfiguration {
+function getConfigurationJsonPortletInstanceJson(): ConfigurationJsonPortletInstance {
 	if (!project.jar.configurationFile) {
 		return undefined;
 	}
@@ -289,7 +289,7 @@ function getPortletInstanceConfigurationJson(): PortletInstanceConfiguration {
  * Get system configuration JSON object from getConfigurationFile() file.
  * @return {object}
  */
-function getSystemConfigurationJson(): SystemConfiguration {
+function getConfigurationJsonSystemJson(): ConfigurationJsonSystem {
 	if (!project.jar.configurationFile) {
 		return undefined;
 	}

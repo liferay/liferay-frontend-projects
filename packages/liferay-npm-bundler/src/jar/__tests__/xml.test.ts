@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ConfigurationField} from 'liferay-js-toolkit-core';
+import {ConfigurationJsonField} from 'liferay-js-toolkit-core';
 
 import {
 	addMetatypeAttr,
@@ -17,7 +17,7 @@ describe('addMetatypeAttr', () => {
 		const xml = createMetatype('id', 'name');
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
-		} as ConfigurationField);
+		} as ConfigurationJsonField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -27,7 +27,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			description: 'a-description',
-		} as ConfigurationField);
+		} as ConfigurationJsonField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -37,7 +37,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			required: true,
-		} as ConfigurationField);
+		} as ConfigurationJsonField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -47,7 +47,7 @@ describe('addMetatypeAttr', () => {
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			default: 'default-value',
-		} as ConfigurationField);
+		} as ConfigurationJsonField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -61,7 +61,7 @@ describe('addMetatypeAttr', () => {
 				A: 'option-a',
 				B: 'option-b',
 			},
-		} as ConfigurationField);
+		} as ConfigurationJsonField);
 
 		expect(xml).toMatchSnapshot();
 	});
@@ -85,16 +85,16 @@ it('all together works', () => {
 	addMetatypeLocalization(xml, 'localization/file.properties');
 	addMetatypeAttr(xml, 'a-number', {
 		type: 'number',
-	} as ConfigurationField);
+	} as ConfigurationJsonField);
 	addMetatypeAttr(xml, 'a-float', {
 		type: 'float',
-	} as ConfigurationField);
+	} as ConfigurationJsonField);
 	addMetatypeAttr(xml, 'a-string', {
 		type: 'string',
-	} as ConfigurationField);
+	} as ConfigurationJsonField);
 	addMetatypeAttr(xml, 'a-boolean', {
 		type: 'boolean',
-	} as ConfigurationField);
+	} as ConfigurationJsonField);
 	addMetatypeAttr(xml, 'an-option', {
 		name: 'an-option',
 		type: 'string',
@@ -103,7 +103,7 @@ it('all together works', () => {
 			A: 'option-a',
 			B: 'option-b',
 		},
-	} as ConfigurationField);
+	} as ConfigurationJsonField);
 
 	expect(format(xml)).toMatchSnapshot();
 });

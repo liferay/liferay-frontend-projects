@@ -3,42 +3,42 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-// File paths handling
-export {default as FilePath} from './file-path';
+// Operations on files
+export {default as FilePath} from './file/FilePath';
+export {default as Manifest} from './file/handler/Manifest';
 
-// Handler for manifest.json files
-export {default as Manifest} from './manifest';
-
-// TODO: maybe remove the next section before bundler 3?
-// Utilities to deal with npm packages' information structures
-export * from './alias';
-export {normalizeImportsConfig, unrollImportsConfig} from './imports'; // TODO: remove imports for sure
-export * from './modules';
-export * from './namespace';
-export * from './packages';
+// Utilities to deal with node packages and modules
+export * from './node/modules';
+export * from './node/namespace';
 
 // TODO: remove the next section before babel 3 release
 // Bundler plugin utilities
+export {default as PkgDesc} from './bundler/PkgDesc';
+export {default as PluginLogger} from './bundler/PluginLogger';
 export type {
 	BundlerLoaderMetadata,
 	BundlerLoaderEntryPoint,
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
-} from './api/loaders';
-export type {
-	BabelIpcObject,
-	BundlerPluginEntryPoint,
-	BundlerPluginParams,
-	BundlerCopyPluginState,
-	BundlerTransformPluginState,
-} from './api/plugins';
-export * as babelIpc from './babel-ipc';
-export * from './babel-util'; // TODO: not sure if this is needed in bundler 3
-export {default as PkgDesc} from './pkg-desc';
-export {default as PluginLogger} from './plugin-logger';
+} from './bundler/loader';
 
 // Project descriptor class and types
-export * from './project';
+export {default as Adapt} from './project/Adapt';
+export * from './project/Adapt';
+export {default as Jar} from './project/Jar';
+export * from './project/Jar';
+export {default as Localization} from './project/Localization';
+export * from './project/Localization';
+export {default as Misc} from './project/Misc';
+export * from './project/Misc';
+export {default as Probe} from './project/Probe';
+export * from './project/Probe';
+export {default as Project} from './project/Project';
+export * from './project/Project';
+export {default as Rules} from './project/Rules';
+export * from './project/Rules';
+export {default as VersionInfo} from './project/VersionInfo';
+export * from './project/VersionInfo';
 
 // Format library
 export * as format from './format';
@@ -48,9 +48,22 @@ export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
 export {default as escapeStringRegexp} from './escapeStringRegexp';
 
 // JSON file structure definitions (schemas)
-export * from './api/configuration-json';
-export * from './api/manifest';
-export {PkgJson} from './project'; // TODO: move to its own file
+export type {
+	default as ConfigurationJson,
+	ConfigurationJsonPortletInstance,
+	ConfigurationJsonSystem,
+	ConfigurationJsonField,
+} from './schema/ConfigurationJson';
+export type {
+	default as ManifestJson,
+	ManifestJsonPackages,
+	ManifestJsonPackage,
+	ManifestJsonPackageDescriptor,
+	ManifestJsonModules,
+	ManifestJsonModule,
+	ManifestJsonModuleFlags,
+} from './schema/ManifestJson';
+export type {default as PkgJson} from './schema/PkgJson';
 
 // JavaScript AST helpers
 export {getProgramStatements as getAstProgramStatements} from './transform/js/ast';

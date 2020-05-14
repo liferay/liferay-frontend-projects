@@ -9,7 +9,6 @@ import {
 	PkgDesc,
 	PkgJson,
 	addNamespace,
-	getPackageTargetDir,
 	isLocalModule,
 	joinModuleName,
 	splitModuleName,
@@ -17,6 +16,7 @@ import {
 
 import {buildBundlerDir, manifest, project} from '../../../globals';
 import * as log from '../../../log';
+import {getPackageTargetDir} from '../../../util';
 import {render} from './util';
 
 /**
@@ -55,7 +55,10 @@ async function writeDependencyExportModule(
 	);
 	const pkgDir = buildBundlerDir.join(
 		'node_modules',
-		getPackageTargetDir(namespacedScopedPkgName, pkgJson.version)
+		getPackageTargetDir({
+			name: namespacedScopedPkgName,
+			version: pkgJson.version,
+		})
 	);
 
 	await writeDependencyExportPkgJson(pkgDir, pkgJson);

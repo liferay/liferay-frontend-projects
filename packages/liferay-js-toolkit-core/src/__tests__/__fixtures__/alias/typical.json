@@ -1,8 +1,0 @@
-{
-	"browser": {
-		"fs": "./fs-shim.js",
-		"./random.js": "./random-shim.js",
-		"./log": "./log-shim.js",
-		"./utils/printer.js": "./printer-shim.js"
-	}
-}

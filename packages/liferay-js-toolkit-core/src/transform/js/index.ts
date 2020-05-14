@@ -9,7 +9,7 @@ import estree from 'estree';
 import fs from 'fs-extra';
 import {RawSourceMap, SourceMapConsumer, SourceMapGenerator} from 'source-map';
 
-import FilePath from '../../file-path';
+import FilePath from '../../file/FilePath';
 import {parse} from './parse';
 
 // AST explorer online: https://astexplorer.net/

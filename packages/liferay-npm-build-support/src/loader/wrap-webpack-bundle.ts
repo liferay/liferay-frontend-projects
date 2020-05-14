@@ -7,11 +7,10 @@ import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 	FilePath,
-	getPackageDir,
 } from 'liferay-js-toolkit-core';
 import readJsonSync from 'read-json-sync';
 
-import {removeWebpackHash} from './util';
+import {getPackageDir, removeWebpackHash} from './util';
 
 /** Configuration options for `wrap-webpack-bundler` loader */
 export interface Options {

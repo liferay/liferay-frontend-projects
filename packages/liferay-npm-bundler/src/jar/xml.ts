@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ConfigurationField} from 'liferay-js-toolkit-core';
+import {ConfigurationJsonField} from 'liferay-js-toolkit-core';
 import {Element, ElementCompact, js2xml, xml2js} from 'xml-js';
 
 type XmlObject = Element | ElementCompact;
@@ -22,7 +22,7 @@ const TYPES = {
 export function addMetatypeAttr(
 	metatype: XmlObject,
 	id: string,
-	desc: ConfigurationField
+	desc: ConfigurationJsonField
 ): void {
 	const metadata = findChild(metatype, 'metatype:MetaData');
 	const ocd = findChild(metadata, 'OCD');
