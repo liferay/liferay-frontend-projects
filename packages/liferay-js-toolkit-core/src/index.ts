@@ -13,8 +13,8 @@ export * from './node/namespace';
 
 // TODO: remove the next section before babel 3 release
 // Bundler plugin utilities
-export * from './bundler/PkgDesc';
-export * from './bundler/PluginLogger';
+export {default as PkgDesc} from './bundler/PkgDesc';
+export {default as PluginLogger} from './bundler/PluginLogger';
 export type {
 	BundlerLoaderMetadata,
 	BundlerLoaderEntryPoint,
@@ -23,13 +23,21 @@ export type {
 } from './bundler/loader';
 
 // Project descriptor class and types
+export {default as Adapt} from './project/Adapt';
 export * from './project/Adapt';
+export {default as Jar} from './project/Jar';
 export * from './project/Jar';
+export {default as Localization} from './project/Localization';
 export * from './project/Localization';
+export {default as Misc} from './project/Misc';
 export * from './project/Misc';
+export {default as Probe} from './project/Probe';
 export * from './project/Probe';
+export {default as Project} from './project/Project';
 export * from './project/Project';
+export {default as Rules} from './project/Rules';
 export * from './project/Rules';
+export {default as VersionInfo} from './project/VersionInfo';
 export * from './project/VersionInfo';
 
 // Format library
@@ -41,13 +49,13 @@ export {default as escapeStringRegexp} from './escapeStringRegexp';
 
 // JSON file structure definitions (schemas)
 export type {
-	ConfigurationJson,
+	default as ConfigurationJson,
 	ConfigurationJsonPortletInstance,
 	ConfigurationJsonSystem,
 	ConfigurationJsonField,
 } from './schema/ConfigurationJson';
 export type {
-	ManifestJson,
+	default as ManifestJson,
 	ManifestJsonPackages,
 	ManifestJsonPackage,
 	ManifestJsonPackageDescriptor,
@@ -55,7 +63,7 @@ export type {
 	ManifestJsonModule,
 	ManifestJsonModuleFlags,
 } from './schema/ManifestJson';
-export type {PkgJson} from './schema/PkgJson';
+export type {default as PkgJson} from './schema/PkgJson';
 
 // JavaScript AST helpers
 export {getProgramStatements as getAstProgramStatements} from './transform/js/ast';

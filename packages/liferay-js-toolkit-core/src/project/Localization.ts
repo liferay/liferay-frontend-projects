@@ -29,7 +29,7 @@ export interface LocaleFilePathMap {
 /**
  * Reflects localization configuration of JS Toolkit projects.
  */
-export class Localization {
+export default class Localization {
 	static readonly DEFAULT_LOCALE = 'default';
 
 	constructor(project: Project) {
@@ -163,5 +163,3 @@ export class Localization {
 	private _languageFileBaseName: FilePath;
 	private _localizationFileMap: LocaleFilePathMap;
 }
-
-export default Localization;

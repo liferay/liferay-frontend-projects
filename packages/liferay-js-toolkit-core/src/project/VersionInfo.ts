@@ -4,9 +4,7 @@
  */
 
 /** Plugin version information */
-export interface VersionInfo {
+export default interface VersionInfo {
 	version: string;
 	path: string;
 }
-
-export default VersionInfo;

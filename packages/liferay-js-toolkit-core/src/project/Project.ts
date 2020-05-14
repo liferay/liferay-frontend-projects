@@ -44,7 +44,7 @@ export type PkgManager = 'npm' | 'yarn' | null;
 /**
  * Describes a standard JS Toolkit project.
  */
-export class Project {
+export default class Project {
 	adapt: Adapt;
 	jar: Jar;
 	l10n: Localization;
@@ -525,5 +525,3 @@ export class Project {
 
 	private _workDir: FilePath;
 }
-
-export default Project;

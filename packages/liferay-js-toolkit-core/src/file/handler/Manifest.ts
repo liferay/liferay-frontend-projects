@@ -7,8 +7,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 import PkgDesc from '../../bundler/PkgDesc';
-import {
-	ManifestJson,
+import ManifestJson, {
 	ManifestJsonModuleFlags,
 	ManifestJsonPackage,
 } from '../../schema/ManifestJson';

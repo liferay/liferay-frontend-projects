@@ -21,7 +21,7 @@ export enum LogLevel {
 /**
  * Reflects miscellaneous project configuration values.
  */
-export class Misc {
+export default class Misc {
 	/**
 	 *
 	 * @param project
@@ -154,5 +154,3 @@ export class Misc {
 	private _reportFile: FilePath;
 	private _reportLevel: LogLevel;
 }
-
-export default Misc;

@@ -15,7 +15,7 @@ import {getFeaturesFilePath} from './getFeaturesFilePath';
 /**
  * Reflects JAR file configuration of JS Toolkit projects.
  */
-export class Jar {
+export default class Jar {
 	constructor(project: Project) {
 		this._project = project;
 	}
@@ -231,5 +231,3 @@ the one in .npmbundlerrc
 	private readonly _project: Project;
 	private _webContextPath: string;
 }
-
-export default Jar;

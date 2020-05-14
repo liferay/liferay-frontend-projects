@@ -4,7 +4,7 @@
  */
 
 /** Minimal package.json structure description */
-export interface PkgJson {
+export default interface PkgJson {
 	name: string;
 	version: string;
 	description?: string;
@@ -22,5 +22,3 @@ export interface PkgJson {
 		[pkgName: string]: string;
 	};
 }
-
-export default PkgJson;

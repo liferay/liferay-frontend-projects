@@ -4,7 +4,7 @@
  */
 
 /** Structure of `manifest.json` files */
-export interface ManifestJson {
+export default interface ManifestJson {
 	packages: ManifestJsonPackages;
 }
 
@@ -43,5 +43,3 @@ export interface ManifestJsonModuleFlags {
 	/** Module exports `__esModule` flag (as defined by Babel) */
 	esModule?: boolean;
 }
-
-export default ManifestJson;

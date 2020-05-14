@@ -62,7 +62,7 @@ interface BundlerNormalizedRule {
  * See https://webpack.js.org/configuration/module/#modulerules for webpack's
  * specification.
  */
-export class Rules {
+export default class Rules {
 	constructor(project: Project) {
 		this._project = project;
 
@@ -260,5 +260,3 @@ export class Rules {
 	private _rules: BundlerNormalizedRule[];
 	private _versionsInfo: Map<string, VersionInfo>;
 }
-
-export default Rules;

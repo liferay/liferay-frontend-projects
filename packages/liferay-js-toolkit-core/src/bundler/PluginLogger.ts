@@ -6,7 +6,7 @@
 /**
  * A message descriptor
  */
-export interface Message {
+interface Message {
 	source: string;
 	level: 'info' | 'warn' | 'error';
 	things: unknown[];
@@ -48,7 +48,7 @@ class MessageTweaker {
 /**
  * An object to hold plugin messages.
  */
-export class PluginLogger {
+export default class PluginLogger {
 	constructor() {
 		this._msgs = [];
 	}
@@ -156,5 +156,3 @@ export class PluginLogger {
 
 	private _msgs: Message[];
 }
-
-export default PluginLogger;

@@ -15,7 +15,7 @@ export enum ProjectType {
 /**
  * Reflects project type (React, Angular, ...)
  */
-export class Probe {
+export default class Probe {
 	constructor(project) {
 		this._project = project;
 	}
@@ -59,5 +59,3 @@ export class Probe {
 
 	private readonly _project: Project;
 }
-
-export default Probe;

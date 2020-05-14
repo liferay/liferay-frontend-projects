@@ -10,7 +10,7 @@ import Project from './Project';
 /**
  * Reflects adapted project configuration
  */
-export class Adapt {
+export default class Adapt {
 	constructor(project: Project) {
 		this._project = project;
 	}
@@ -59,5 +59,3 @@ export class Adapt {
 	private readonly _project: Project;
 	private _supported: boolean;
 }
-
-export default Adapt;

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-export interface ConfigurationJson {
+export default interface ConfigurationJson {
 	portletInstance: ConfigurationJsonPortletInstance;
 	system: ConfigurationJsonSystem;
 }
@@ -27,5 +27,3 @@ export interface ConfigurationJsonField {
 	required?: boolean;
 	type: 'string' | 'number' | 'float' | 'boolean' | 'password';
 }
-
-export default ConfigurationJson;

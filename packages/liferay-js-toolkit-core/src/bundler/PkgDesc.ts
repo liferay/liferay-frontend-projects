@@ -14,7 +14,7 @@ const project = new Project('.');
 /**
  * A package descriptor class to identify directories containing packages.
  */
-export class PkgDesc {
+export default class PkgDesc {
 	/** Well known id for the root package */
 	static readonly ROOT_ID = '/';
 
@@ -107,5 +107,3 @@ export class PkgDesc {
 	private readonly _name: string;
 	private readonly _version: string;
 }
-
-export default PkgDesc;
