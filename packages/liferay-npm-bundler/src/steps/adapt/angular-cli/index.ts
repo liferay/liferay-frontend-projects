@@ -9,6 +9,7 @@ import {project} from '../../../globals';
 import * as log from '../../../log';
 import {runPkgJsonScript} from '../../../util/run';
 import {
+	WebpackBundles,
 	copyStaticAssets,
 	processAdapterModules,
 	processCssFiles,
@@ -18,11 +19,6 @@ import {
 import adaptStaticURLsAtRuntime from '../transform/js/operation/adaptStaticURLsAtRuntime';
 import tweakAttachmentToDOM from './tweakAttachmentToDOM';
 
-interface WebpackBundles {
-	bundles: {id: string; module: string}[];
-	entryPointId: string;
-}
-
 const {pkgJson} = project;
 
 const assetGlobs = [`${pkgJson.name}/assets/*`];
@@ -31,11 +27,11 @@ const jsGlobs = [`${pkgJson.name}/*-es5.js`];
 const rootNodeId = 'app-root';
 const webpackBundles: WebpackBundles = {
 	bundles: [
-		{id: 'runtime', module: `./${pkgJson.name}/runtime-es5`},
-		{id: 'polyfills', module: `./${pkgJson.name}/polyfills-es5`},
-		{id: 'styles', module: `./${pkgJson.name}/styles-es5`},
-		{id: 'vendor', module: `./${pkgJson.name}/vendor-es5`},
-		{id: 'main', module: `./${pkgJson.name}/main-es5`},
+		{id: 'runtime', module: `${pkgJson.name}/runtime-es5`},
+		{id: 'polyfills', module: `${pkgJson.name}/polyfills-es5`},
+		{id: 'styles', module: `${pkgJson.name}/styles-es5`},
+		{id: 'vendor', module: `${pkgJson.name}/vendor-es5`},
+		{id: 'main', module: `${pkgJson.name}/main-es5`},
 	],
 	entryPointId: 'main',
 };
@@ -50,11 +46,7 @@ export default async function adaptAngularCli(): Promise<void> {
 
 	log.info('Rendering adapter modules...');
 
-	await processAdapterModules({
-		entryPointFunction: webpackBundles.entryPointId,
-		preloadBlock: getPreloadBlock(webpackBundles),
-		requireBlock: getRequireBlock(webpackBundles),
-	});
+	await processAdapterModules(webpackBundles);
 
 	log.info('Copying static assets...');
 
@@ -83,18 +75,4 @@ function getStylesCssPosixPath(): string | undefined {
 	const cssFile = adaptBuildDir.join(pkgJson.name, 'styles.css');
 
 	return fs.existsSync(cssFile.asNative) ? cssFile.asPosix : undefined;
-}
-
-function getPreloadBlock(webpackBundles: WebpackBundles): string {
-	return webpackBundles.bundles
-		.filter(({id}) => id !== webpackBundles.entryPointId)
-		.reduce((codeBlock, {id}) => `${codeBlock}${id}();\n`, '');
-}
-
-function getRequireBlock(webpackBundles: WebpackBundles): string {
-	return webpackBundles.bundles.reduce(
-		(codeBlock, {id, module}) =>
-			`${codeBlock}var ${id} = require('${module}');\n`,
-		''
-	);
 }

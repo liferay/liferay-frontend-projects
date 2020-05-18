@@ -8,6 +8,7 @@ import * as log from '../../../log';
 import {findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
 import {
+	WebpackBundles,
 	copyStaticAssets,
 	processAdapterModules,
 	processCssFiles,
@@ -20,6 +21,14 @@ import tweakAttachmentToDOM from './tweakAttachmentToDOM';
 const assetGlobs = ['static/media/*'];
 const cssGlobs = ['static/css/*.css'];
 const jsGlobs = ['static/js/*.js'];
+const webpackBundles: WebpackBundles = {
+	bundles: [
+		{id: 'runtime', module: `static/js/[runtime-main]`},
+		{id: 'two', module: `static/js/[2]`},
+		{id: 'main', module: `static/js/[main]`},
+	],
+	entryPointId: 'main',
+};
 
 /**
  * Adapt create-react-app project
@@ -31,11 +40,7 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	log.info('Rendering adapter modules...');
 
-	await processAdapterModules({
-		mainModuleName: getWebpackBundleModuleName('main'),
-		runtimeMainModuleName: getWebpackBundleModuleName('runtime-main'),
-		twoModuleName: getWebpackBundleModuleName('2'),
-	});
+	await processAdapterModules(webpackBundles);
 
 	log.info('Copying static assets...');
 
@@ -72,16 +77,4 @@ function getMainCssPosixPath(): string | undefined {
 	}
 
 	return candidateFiles[0].asPosix;
-}
-
-function getWebpackBundleModuleName(name: string): string {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
-
-	const candidateFiles = findFiles(adaptBuildDir, [`static/js/${name}.*.js`]);
-
-	if (candidateFiles.length !== 1) {
-		throw new Error(`React build did not produce any ${name}.js artifact`);
-	}
-
-	return candidateFiles[0].basename().asPosix.replace(/\.js$/, '');
 }
