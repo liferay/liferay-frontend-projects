@@ -7,6 +7,7 @@ import fs from 'fs-extra';
 import {
 	JsSourceTransform,
 	PkgJson,
+	escapeStringRegexp,
 	setPortletHeader,
 	transformJsSourceFile,
 	transformJsonFile,
@@ -194,6 +195,15 @@ export async function processCssFiles(
 	log.debug(`Processed ${cssFiles.length} CSS files`);
 }
 
+/**
+ *
+ * @param cssPortletHeader
+ * Path to CSS file to use as header portlet CSS file.
+ *
+ * Note that it may contain `[filename]` when the CSS is stored in a file with a
+ * webpack hash in its name. In that case, the `[filename]` will be replaced by
+ * `filename.hash`.
+ */
 export async function processPackageJson(
 	cssPortletHeader: string | undefined
 ): Promise<void> {
@@ -205,7 +215,7 @@ export async function processPackageJson(
 		toFile,
 		setPortletHeader(
 			'com.liferay.portlet.header-portlet-css',
-			cssPortletHeader
+			findRealFileName(cssPortletHeader, false)
 		)
 	);
 }
@@ -214,39 +224,60 @@ function compileWebpackBundles(webpackBundles: WebpackBundles): WebpackBundles {
 	return {
 		bundles: webpackBundles.bundles.map((bundle) => ({
 			id: bundle.id,
-			module: findRealModuleName(bundle.module),
+			module: findRealFileName(bundle.module),
 		})),
 		entryPointId: webpackBundles.entryPointId,
 	};
 }
 
-function findRealModuleName(module: string): string {
-	const begin = module.indexOf('[');
-	const end = module.indexOf(']');
-
-	if (begin === -1 || end === -1) {
-		return module;
-	}
-
-	const base = module.substring(begin + 1, end);
-
+function findRealFileName(
+	file: string,
+	failIfNotFound = true
+): string | undefined {
 	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
 
-	const candidateFiles = findFiles(adaptBuildDir, [
-		module.replace(`[${base}]`, `${base}.*.js`),
-	]);
+	const match = file.match(/.*\[(.*)\].*/);
 
-	if (candidateFiles.length !== 1) {
+	if (!match || match.length < 2) {
+		if (!fs.existsSync(adaptBuildDir.join(file).asNative)) {
+			if (failIfNotFound) {
+				throw new Error(
+					`Framework's build did not produce any ${file} artifact`
+				);
+			} else {
+				return undefined;
+			}
+		}
+
+		return file;
+	}
+
+	const baseFilename = match[1];
+
+	const glob = file.replace(`[${baseFilename}]`, `${baseFilename}.*`);
+
+	const candidateFiles = findFiles(adaptBuildDir, [glob]);
+
+	if (candidateFiles.length === 0) {
+		if (failIfNotFound) {
+			throw new Error(
+				`Framework's build did not produce any ${file} artifact`
+			);
+		} else {
+			return undefined;
+		}
+	} else if (candidateFiles.length > 1) {
 		throw new Error(
-			`Framework's build did not produce any ${module}.js artifact`
+			`Framework's build produced more than one ${file} artifact: ` +
+				`cannot determine which one to use`
 		);
 	}
 
-	const translatedBase = candidateFiles[0]
-		.basename()
-		.asPosix.replace(/\.js$/, '');
+	const filename = candidateFiles[0].basename().toString();
 
-	return module.replace(`[${base}]`, translatedBase);
+	const extRegexp = new RegExp(`${escapeStringRegexp(path.extname(file))}$`);
+
+	return file.replace(`[${baseFilename}]`, filename.replace(extRegexp, ''));
 }
 
 function getPreloadBlock(webpackBundles: WebpackBundles): string {
@@ -256,9 +287,9 @@ function getPreloadBlock(webpackBundles: WebpackBundles): string {
 }
 
 function getRequireBlock(webpackBundles: WebpackBundles): string {
-	return webpackBundles.bundles.reduce(
-		(codeBlock, {id, module}) =>
-			`${codeBlock}var ${id} = require('./${module}');\n`,
-		''
-	);
+	return webpackBundles.bundles.reduce((codeBlock, {id, module}) => {
+		const moduleName = module.replace(/\.js$/, '');
+
+		return `${codeBlock}var ${id} = require('./${moduleName}');\n`;
+	}, '');
 }

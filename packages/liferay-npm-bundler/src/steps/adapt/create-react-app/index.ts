@@ -23,9 +23,9 @@ const cssGlobs = ['static/css/*.css'];
 const jsGlobs = ['static/js/*.js'];
 const webpackBundles: WebpackBundles = {
 	bundles: [
-		{id: 'runtime', module: `static/js/[runtime-main]`},
-		{id: 'two', module: `static/js/[2]`},
-		{id: 'main', module: `static/js/[main]`},
+		{id: 'runtime', module: `static/js/[runtime-main].js`},
+		{id: 'two', module: `static/js/[2].js`},
+		{id: 'main', module: `static/js/[main].js`},
 	],
 	entryPointId: 'main',
 };
@@ -60,21 +60,5 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	log.info('Processing package.json file...');
 
-	await processPackageJson(getMainCssPosixPath());
-}
-
-function getMainCssPosixPath(): string | undefined {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
-
-	const candidateFiles = findFiles(adaptBuildDir, ['static/css/main.*.css']);
-
-	if (candidateFiles.length === 0) {
-		return undefined;
-	}
-
-	if (candidateFiles.length > 1) {
-		// TODO: warn
-	}
-
-	return candidateFiles[0].asPosix;
+	await processPackageJson('static/css/[main].css');
 }

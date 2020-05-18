@@ -27,11 +27,11 @@ const jsGlobs = [`${pkgJson.name}/*-es5.js`];
 const rootNodeId = 'app-root';
 const webpackBundles: WebpackBundles = {
 	bundles: [
-		{id: 'runtime', module: `${pkgJson.name}/runtime-es5`},
-		{id: 'polyfills', module: `${pkgJson.name}/polyfills-es5`},
-		{id: 'styles', module: `${pkgJson.name}/styles-es5`},
-		{id: 'vendor', module: `${pkgJson.name}/vendor-es5`},
-		{id: 'main', module: `${pkgJson.name}/main-es5`},
+		{id: 'runtime', module: `${pkgJson.name}/runtime-es5.js`},
+		{id: 'polyfills', module: `${pkgJson.name}/polyfills-es5.js`},
+		{id: 'styles', module: `${pkgJson.name}/styles-es5.js`},
+		{id: 'vendor', module: `${pkgJson.name}/vendor-es5.js`},
+		{id: 'main', module: `${pkgJson.name}/main-es5.js`},
 	],
 	entryPointId: 'main',
 };
@@ -66,13 +66,5 @@ export default async function adaptAngularCli(): Promise<void> {
 
 	log.info('Processing package.json file...');
 
-	await processPackageJson(getStylesCssPosixPath());
-}
-
-function getStylesCssPosixPath(): string | undefined {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
-
-	const cssFile = adaptBuildDir.join(pkgJson.name, 'styles.css');
-
-	return fs.existsSync(cssFile.asNative) ? cssFile.asPosix : undefined;
+	await processPackageJson(`${pkgJson.name}/styles.css`);
 }
