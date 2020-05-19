@@ -6,6 +6,7 @@
 	"main": "lib/index.js",
 	"scripts": {
 		"build": "tsc && yarn copyfiles",
+		"ci": "cd ../.. && yarn ci",
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"postversion": "npx liferay-js-publish",
