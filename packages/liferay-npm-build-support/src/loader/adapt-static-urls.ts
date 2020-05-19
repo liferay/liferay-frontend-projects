@@ -8,7 +8,7 @@ import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 	FilePath,
-	escapeStringRegexp,
+	escapeStringRegExp,
 } from 'liferay-js-toolkit-core';
 
 import {project} from '../config';
@@ -78,7 +78,7 @@ export default function (
 			return;
 		}
 
-		const regexp = new RegExp(escapeStringRegexp(filePosixPath), 'g');
+		const regexp = new RegExp(escapeStringRegExp(filePosixPath), 'g');
 
 		const matches = regexp.exec(content);
 

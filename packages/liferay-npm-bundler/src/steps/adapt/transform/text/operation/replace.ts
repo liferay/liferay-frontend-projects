@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {TextTransform, escapeStringRegexp} from 'liferay-js-toolkit-core';
+import {TextTransform, escapeStringRegExp} from 'liferay-js-toolkit-core';
 
 /**
  * Replace strings or regular expressions in a text.
@@ -21,7 +21,7 @@ export default function replace(
 	return ((text) => {
 		replacements.forEach((to, from) => {
 			if (typeof from === 'string') {
-				from = new RegExp(escapeStringRegexp(from), 'g');
+				from = new RegExp(escapeStringRegExp(from), 'g');
 			}
 
 			text = text.replace(from, to);

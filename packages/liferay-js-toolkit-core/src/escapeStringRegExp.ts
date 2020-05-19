@@ -3,6 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-export default function escapeStringRegexp(string: string): string {
+export default function escapeStringRegExp(string: string): string {
 	return string.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d');
 }

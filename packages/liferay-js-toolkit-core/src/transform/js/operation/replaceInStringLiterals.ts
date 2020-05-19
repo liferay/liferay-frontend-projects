@@ -5,7 +5,7 @@
 
 import {SourceCode, SourceTransform, replace} from '..';
 
-import escapeStringRegexp from '../../../escapeStringRegexp';
+import escapeStringRegExp from '../../../escapeStringRegExp';
 
 export default function replaceInStringLiterals(
 	from: string,
@@ -33,7 +33,7 @@ async function _replaceInStringLiterals(
 			}
 
 			node.value = value.replace(
-				new RegExp(escapeStringRegexp(from), 'g'),
+				new RegExp(escapeStringRegExp(from), 'g'),
 				to
 			);
 		},

@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 import {
 	JsSourceTransform,
 	PkgJson,
-	escapeStringRegexp,
+	escapeStringRegExp,
 	setPortletHeader,
 	transformJsSourceFile,
 	transformJsonFile,
@@ -25,7 +25,7 @@ import namespaceWepbackJsonp from './transform/js/operation/namespaceWepbackJson
 import replace from './transform/text/operation/replace';
 
 /**
- * Descripition of framework's webpack build output so that adapted modules can
+ * Description of framework's webpack build output so that adapted modules can
  * be generated.
  */
 export interface WebpackBundles {
@@ -56,7 +56,7 @@ export async function copyStaticAssets(globs: string[]): Promise<void> {
 		buildBundlerDir
 	);
 
-	log.debug(`Copied ${copiedFiles.length} static assets`);
+	log.debug(`Copied static assets: ${copiedFiles.length}`);
 }
 
 /**
@@ -118,7 +118,7 @@ export async function processWebpackBundles(
 		})
 	);
 
-	log.debug(`Wrapped ${copiedBundles.length} webpack bundles`);
+	log.debug(`Wrapped webpack bundles: ${copiedBundles.length}`);
 }
 
 async function processAdapterModule(
@@ -192,7 +192,7 @@ export async function processCssFiles(
 		})
 	);
 
-	log.debug(`Processed ${cssFiles.length} CSS files`);
+	log.debug(`Processed CSS files: ${cssFiles.length}`);
 }
 
 /**
@@ -275,9 +275,9 @@ function findRealFileName(
 
 	const filename = candidateFiles[0].basename().toString();
 
-	const extRegexp = new RegExp(`${escapeStringRegexp(path.extname(file))}$`);
+	const extRegExp = new RegExp(`${escapeStringRegExp(path.extname(file))}$`);
 
-	return file.replace(`[${baseFilename}]`, filename.replace(extRegexp, ''));
+	return file.replace(`[${baseFilename}]`, filename.replace(extRegExp, ''));
 }
 
 function getPreloadBlock(webpackBundles: WebpackBundles): string {

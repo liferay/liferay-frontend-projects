@@ -19,11 +19,7 @@ export default function tweakAttachmentToDOM(domId: string): JsSourceTransform {
 	return (async (source) =>
 		await replaceJsSource(source, {
 			enter(node) {
-				if (
-					node.type !== 'Literal' ||
-					typeof node.value !== 'string' ||
-					node.value !== domId
-				) {
+				if (node.type !== 'Literal' || node.value !== domId) {
 					return;
 				}
 
