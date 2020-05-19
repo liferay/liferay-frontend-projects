@@ -11,6 +11,7 @@ import {buildBundlerDir, manifest, project} from './globals';
 import createJar from './jar';
 import * as log from './log';
 import report from './report';
+import adaptAngularCli from './steps/adapt/angular-cli';
 import adaptCreateReactApp from './steps/adapt/create-react-app';
 import bundle from './steps/bundle';
 import runRules from './steps/rules';
@@ -46,6 +47,10 @@ export default async function (argv: {version: boolean}): Promise<void> {
 
 		// Run main process
 		switch (project.probe.type) {
+			case ProjectType.ANGULAR_CLI:
+				await adaptAngularCli();
+				break;
+
 			case ProjectType.BUNDLER:
 				await bundle();
 				await runRules(rootPkg);

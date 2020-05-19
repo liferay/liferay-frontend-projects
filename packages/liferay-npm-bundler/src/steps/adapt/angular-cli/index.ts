@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import fs from 'fs';
+
 import {project} from '../../../globals';
 import * as log from '../../../log';
-import {findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
 import {
 	WebpackBundles,
@@ -18,23 +19,28 @@ import {
 import adaptStaticURLsAtRuntime from '../transform/js/operation/adaptStaticURLsAtRuntime';
 import tweakAttachmentToDOM from './tweakAttachmentToDOM';
 
-const assetGlobs = ['static/media/*'];
-const cssGlobs = ['static/css/*.css'];
-const jsGlobs = ['static/js/*.js'];
+const {pkgJson} = project;
+
+const assetGlobs = [`${pkgJson.name}/assets/*`];
+const cssGlobs = [`${pkgJson.name}/styles.css`];
+const jsGlobs = [`${pkgJson.name}/*-es5.js`];
+const rootNodeId = 'app-root';
 const webpackBundles: WebpackBundles = {
 	bundles: [
-		{id: 'runtime', module: `static/js/[runtime-main].js`},
-		{id: 'two', module: `static/js/[2].js`},
-		{id: 'main', module: `static/js/[main].js`},
+		{id: 'runtime', module: `${pkgJson.name}/runtime-es5.js`},
+		{id: 'polyfills', module: `${pkgJson.name}/polyfills-es5.js`},
+		{id: 'styles', module: `${pkgJson.name}/styles-es5.js`},
+		{id: 'vendor', module: `${pkgJson.name}/vendor-es5.js`},
+		{id: 'main', module: `${pkgJson.name}/main-es5.js`},
 	],
 	entryPointId: 'main',
 };
 
 /**
- * Adapt create-react-app project
+ * Adapt angular-cli project
  */
-export default async function adaptCreateReactApp(): Promise<void> {
-	log.info(`Running React's build...`);
+export default async function adaptAngularCli(): Promise<void> {
+	log.info(`Running Angular's build...`);
 
 	runPkgJsonScript('build');
 
@@ -54,11 +60,11 @@ export default async function adaptCreateReactApp(): Promise<void> {
 
 	await processWebpackBundles(
 		jsGlobs,
-		tweakAttachmentToDOM(),
+		tweakAttachmentToDOM(rootNodeId),
 		adaptStaticURLsAtRuntime(...assetGlobs)
 	);
 
 	log.info('Processing package.json file...');
 
-	await processPackageJson('static/css/[main].css');
+	await processPackageJson(`${pkgJson.name}/styles.css`);
 }
