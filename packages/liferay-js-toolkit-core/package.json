@@ -8,8 +8,8 @@
 		"build": "tsc && yarn copyfiles",
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
-		"prepublishOnly": "node ../../scripts/disable-publish.js",
-		"release:snapshot": "node ../../scripts/release-snapshot.js"
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
 	},
 	"dependencies": {
 		"acorn": "^6.2.1",
