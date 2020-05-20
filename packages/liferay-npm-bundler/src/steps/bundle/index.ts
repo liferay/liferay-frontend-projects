@@ -7,6 +7,7 @@ import webpack from 'webpack';
 
 import * as log from '../../log';
 import {abort} from '../../util';
+import ExplainedError from './ExplainedError';
 import adapt from './adapt';
 import configure from './configure';
 import run from './run';
@@ -44,10 +45,9 @@ export default async function bundle(): Promise<webpack.Stats> {
 function abortWithErrors(stats: webpack.Stats): void {
 	const {errors} = stats.compilation;
 
-	abort(`
-Webpack build finished with errors:
+	errors.forEach((err) =>
+		log.error(`${new ExplainedError(err).toString()}\n`)
+	);
 
-${errors.map((err) => `  · ${err.message}`).join('\n')}
-
-`);
+	abort(`Build failed: webpack build finished with errors`);
 }
