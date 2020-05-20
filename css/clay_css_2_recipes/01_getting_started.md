@@ -172,7 +172,9 @@ $font-import-url: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;
 We can now add Roboto to the sans-serif font stack.
 
 ```scss
-$font-family-sans-serif: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-sans-serif: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+	Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+	'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 ```
 
 ### Font Smoothing
@@ -234,9 +236,13 @@ Clay CSS uses `rem` based values instead of `px` for accessibility. This ensures
 Material Design's header styles are:
 
 ```css
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
 	color: #212121;
-	font-family: Roboto,sans-serif;
+	font-family: Roboto, sans-serif;
 	font-weight: $font-weight-normal;
 	line-height: 1.2;
 	margin: 0 0 8px;
@@ -262,7 +268,7 @@ $headings-line-height: 1.2 !default;
 
 Headings h1 - h3 have specific sizes at specific breakpoints. We can turn on scaling components with `$enable-scaling-components: true;`. The default breakpoint is `max-width: 767px`. The breakpoint can be changed based on Bootstrap's breakpoint sizes and `$scaling-breakpoint-down`.
 
-One thing to note, globally changing breakpoint sizes in DXP will have unintended consequences, since they were designed to fit in specific screen widths. __It is only recommended to change the default breakpoints if you know what you are doing.__
+One thing to note, globally changing breakpoint sizes in DXP will have unintended consequences, since they were designed to fit in specific screen widths. **It is only recommended to change the default breakpoints if you know what you are doing.**
 
 _/src/css/\_clay_variables.scss_
 
@@ -418,7 +424,7 @@ At the moment, we can only import one font through variables. We would have to i
 
 Material Design:
 
-```css
+````css
 code {
 	color: #607d8b;
 	font-size: 12px;
@@ -436,7 +442,7 @@ $font-family-monospace: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, 
 
 $code-color: #607d8b;
 $code-font-size: 0.75rem;
-```
+````
 
 _/src/css/\_clay_custom.scss_
 
@@ -455,7 +461,7 @@ pre {
 	background: #fff;
 	border: 1px solid #ddd;
 	font-size: 13px;
-	font-family: "Roboto Mono", monospace;
+	font-family: 'Roboto Mono', monospace;
 	line-height: 20px;
 	padding: 10px 25px 10px 20px;
 }
@@ -495,7 +501,7 @@ What your `_clay_variables.scss` file should look like:
 $enable-shadows: true;
 $enable-scaling-components: true;
 
-$white: #FFF;
+$white: #fff;
 $gray-50: #fafafa;
 $gray-100: #f5f5f5;
 $gray-200: #eeeeee;
@@ -600,9 +606,12 @@ $danger-a100: #ff8a80;
 
 $font-import-url: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap';
 
-$font-family-sans-serif: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-sans-serif: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+	Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+	'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-$font-family-monospace: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-monospace: 'Roboto Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+	'Liberation Mono', 'Courier New', monospace;
 
 $moz-osx-font-smoothing: grayscale;
 $webkit-font-smoothing: antialiased;
