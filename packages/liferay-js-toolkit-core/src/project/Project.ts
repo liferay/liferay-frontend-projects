@@ -78,6 +78,7 @@ export default class Project {
 
 			// Export package.json's main entry (if present) automatically
 			if (!this._exports['main']) {
+				const {srcDir} = this;
 				let main = this._pkgJson.main;
 
 				if (main) {
@@ -88,7 +89,7 @@ export default class Project {
 					}
 
 					this._exports['main'] = main;
-				} else if (fs.existsSync('./index.js')) {
+				} else if (fs.existsSync(srcDir.join('index.js').asNative)) {
 					this._exports['main'] = './index.js';
 				}
 			}
@@ -155,6 +156,20 @@ export default class Project {
 		}
 
 		return this._sources;
+	}
+
+	get srcDir(): FilePath {
+		if (this._srcDir === undefined) {
+			let dir = prop.get(this._configuration, 'source', '.');
+
+			if (dir !== '.' && !dir.startsWith('./')) {
+				dir = `./${dir}`;
+			}
+
+			this._srcDir = new FilePath(dir, {posix: true});
+		}
+
+		return this._srcDir;
 	}
 
 	/**
@@ -330,6 +345,7 @@ export default class Project {
 		this._pkgManager = undefined;
 		this._projectDir = undefined;
 		this._sources = undefined;
+		this._srcDir = undefined;
 		this._toolsDir = undefined;
 
 		// Set significant directories
@@ -523,5 +539,6 @@ export default class Project {
 
 	private _versionsInfo: Map<string, VersionInfo>;
 
+	private _srcDir: FilePath;
 	private _workDir: FilePath;
 }
