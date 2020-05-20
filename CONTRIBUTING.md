@@ -103,15 +103,53 @@ Both must be deployed to see them in action.
 
 Although the project is a monorepo, the release policy is per package (each version number is independent of the others).
 
-There are two yarn scripts to release versions:
+To release a new version use `yarn version`
 
--   release:snapshot
--   release
+```sh
+# Make sure the local "master" branch is up-to-date:
+git checkout master
+git pull --ff-only upstream master
 
-### release:snapshot
+# See all checks pass locally:
+yarn ci
 
-The `release:snapshot` script lets you publish a snapshot version (tagged as `snapshot` in npmjs.com so that it is not downloaded unless specifically requested).
+# If any checks fail, fix them, submit a PR, and when it is merged,
+# start again. Otherwise...
 
-The script performs the necessary checks before release and then publishes a new version. It doesn't leave any trace in git because the version number contains the commit hash.
+# Change to the directory of the package you wish to publish:
+cd packages/liferay-npm-bundler
 
-Even though the script checks for a clean working copy, sometimes it may be necessary to tweak the `package.json` of the released package to point it to another dependency snapshot. In such cases you just need to modify the `package.json` file locally and the script won't complain about that situation.
+# Update the changelog:
+npx liferay-changelog-generator --version=liferay-npm-bundler/v3.0.0
+
+# Review and stage the generated changes:
+git add -p
+
+# Update the version number:
+yarn version --minor # or --major, or --patch
+```
+
+Running `yarn version` has the following effects:
+
+-   The "preversion" script will run, which effectively runs `yarn ci` again.
+-   The "package.json" gets updated with the new version number.
+-   A tagged commit is created, including the changes to the changelog that you previously staged.
+-   The "postversion" script will run, which automatically does `git push` and performs a `yarn publish`, prompting for confirmation along the way.
+
+Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-js-toolkit/releases).
+
+After the release, you can confirm that the packages are correctly listed in the NPM registry:
+
+-   https://www.npmjs.com/package/liferay-js-toolkit-core
+-   https://www.npmjs.com/package/liferay-npm-bundler
+
+## Releasing local-only versions
+
+If you need to test local versions of the packages, you can install [Verdaccio](https://verdaccio.org) (a local NPM repository). Verdaccio is usually located at `http://localhost:4873` and you can use these commands to work with it:
+
+1. To publish a local-only version set the desired `package.json` to the new version number and run `npm publish --registry http://localhost:4873`.
+2. To use the local repository from `npm` run `npm set registry http://localhost:4873`.
+3. To use the local repository from `yarn` run `yarn config set registry http://localhost:4873`.
+4. To stop using the local repository edit your `~/.npmrc` and `~/.yarnrc` files and remove the local repo.
+
+Publishing to the local Verdaccio repository won't update [https://npmjs.com](https://npmjs.com) so you can publish as much local versions as you want without worrying about polluting the public npm repository. Then, when you are finished testing, just remove the local versions from you local Verdaccio, point `npm` and `yarn` to the public npm repo, and publish the ultimate valid release.
