@@ -257,7 +257,7 @@ $headings-font-weight: 400;
 $headings-margin-bottom: 0.5rem;
 ```
 
-We can keep the following variables set to their default values, since the `family-family` is already set on the body and `$headings-line-height` is already set to 1.2.
+We can keep the following variables set to their default values, since the `font-family` is already set on the body and `$headings-line-height` is already set to 1.2.
 
 ```scss
 $headings-font-family: null !default;
