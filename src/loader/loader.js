@@ -279,8 +279,22 @@ export default class Loader {
 					resolution
 				);
 
-				// Fail if resolution errors present
-				this._throwOnResolutionErrors(resolution);
+				// In case we are calling an older server, act upon errors
+				this._throwOnLegacyProtocolResolutionErrors(resolution);
+
+				// Show server warnings/errors
+				this._logServerMessages(moduleNames, resolution);
+
+				// Fail resolution on server errors
+				if (resolution.errors && resolution.errors.length > 1) {
+					throw Object.assign(
+						new Error(
+							'The server generated some errors while ' +
+								'resolving modules'
+						),
+						{resolutionErrors: resolution.errors}
+					);
+				}
 
 				// Merge global maps from resolution into config
 				config.addMappings(resolution.configMap);
@@ -424,29 +438,6 @@ export default class Loader {
 	}
 
 	/**
-	 * Traverse a resolved dependencies array looking for server sent errors and
-	 * throw an Error if any is found.
-	 * @param {object} resolution the resolution object
-	 * @throws {Error} if a resolution error is found
-	 */
-	_throwOnResolutionErrors(resolution) {
-		const resolutionErrors = resolution.resolvedModules
-			.filter(dep => dep.indexOf(':ERROR:') === 0)
-			.map(dep => dep.substr(7));
-
-		if (resolutionErrors.length > 0) {
-			throw Object.assign(
-				new Error(
-					'The following problems where detected while ' +
-						'resolving modules:\n' +
-						resolutionErrors.map(line => `    · ${line}`).join('\n')
-				),
-				{resolutionErrors}
-			);
-		}
-	}
-
-	/**
 	 * Filters a list of modules and returns only those which are not yet
 	 * registered.
 	 * @param {array} moduleNames list of module names to be tested
@@ -456,6 +447,32 @@ export default class Loader {
 		const config = this._config;
 
 		return moduleNames.filter(moduleName => !config.getModule(moduleName));
+	}
+
+	/**
+	 * Traverse a resolved dependencies array looking for server sent errors and
+	 * throw an Error if any is found.
+	 * @param {array} moduleNames list of module names to be tested
+	 * @param {object} resolution the resolution object
+	 */
+	_logServerMessages(moduleNames, resolution) {
+		if (resolution.errors && resolution.errors.length > 0) {
+			this._log.error(
+				'Errors returned from server for require(',
+				moduleNames,
+				'):',
+				resolution.errors
+			);
+		}
+
+		if (resolution.warnings && resolution.warnings.length > 0) {
+			this._log.warn(
+				'Warnings returned from server for require(',
+				moduleNames,
+				'):',
+				resolution.warnings
+			);
+		}
 	}
 
 	/**
@@ -493,6 +510,35 @@ export default class Loader {
 
 			reject(error);
 		}, config.waitTimeout);
+	}
+
+	/**
+	 * Traverse a resolved dependencies array looking for server sent errors and
+	 * throw an Error if any is found.
+	 *
+	 * @deprecated
+	 * This method exists to account for old servers' responses in new loaders.
+	 * Old servers used to send resolution errors in the `resolvedModules` field
+	 * marking them with the ':ERROR:' prefix (because of historical reasons).
+	 *
+	 * @param {object} resolution the resolution object
+	 * @throws {Error} if a resolution error is found
+	 */
+	_throwOnLegacyProtocolResolutionErrors(resolution) {
+		const resolutionErrors = resolution.resolvedModules
+			.filter(dep => dep.indexOf(':ERROR:') === 0)
+			.map(dep => dep.substr(7));
+
+		if (resolutionErrors.length > 0) {
+			throw Object.assign(
+				new Error(
+					'The following problems where detected while ' +
+						'resolving modules:\n' +
+						resolutionErrors.map(line => `    · ${line}`).join('\n')
+				),
+				{resolutionErrors}
+			);
+		}
 	}
 
 	/**
