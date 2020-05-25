@@ -175,8 +175,14 @@ async function writeLocalExportModule(
 		.replace('./', '')
 		.replace(/\.js$/, '')}`;
 
-	const bundlesLocation = moduleFile.dirname().relative(buildBundlerDir)
+	let bundlesLocation = moduleFile.dirname().relative(buildBundlerDir)
 		.asPosix;
+
+	if (bundlesLocation === '') {
+		bundlesLocation = '.';
+	} else if (!bundlesLocation.startsWith('./')) {
+		bundlesLocation = `./${bundlesLocation}`;
+	}
 
 	await writeExportModule(moduleFile, id, moduleName, bundlesLocation);
 }
