@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
-
 import {project} from '../../../globals';
 import * as log from '../../../log';
 import {runPkgJsonScript} from '../../../util/run';
