@@ -6,6 +6,8 @@ Right now, the minimal steps to follow when something fails are:
 
 1. First of all, try cleaning the output folders of your project and rebuilding everything again. We use some caching mechanisms to speed up incremental builds but they can fail if you update versions, add or remove dependencies, and in general, change project configuration.
 
+2. After cleaning the output folder, activate the [dump-report](https://github.com/liferay/liferay-js-toolkit/wiki/.npmbundlerrc-file-reference#dump-report) option of `.npmbundlerrc` and build your project again. Then inspect the generated `liferay-npm-bundler-report.html` (in your project directoy) file to see if any issue is shown.
+
 Once you are sure that a clean build from scratch fails, try the following steps to diagnose the problem:
 
 1. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration > System Settings > Infrastructue > JavaScript Loader`: this makes the Loader dump diagnostic traces to the JavaScript console and/or any error it is finding. You may use the log level filters in your browser's console to decide what you want to see whether it is just errors or the whole debugging info.
