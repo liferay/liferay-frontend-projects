@@ -388,7 +388,8 @@ describe('project.versionsInfo', () => {
 				[
 					'liferay-npm-bundler',
 					{
-						version: require('../../../package.json').version,
+						version: require(`../../../../../node_modules/liferay-npm-bundler/package.json`)
+							.version,
 						path: path.join(
 							'..',
 							'..',
