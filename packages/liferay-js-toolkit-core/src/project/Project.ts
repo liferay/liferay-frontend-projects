@@ -158,37 +158,35 @@ export default class Project {
 		return this._sources;
 	}
 
+	/**
+	 * Get source directory relative to `this.dir` and starting with `./` (so
+	 * that it can be safely path.joined)
+	 */
 	get srcDir(): FilePath {
 		if (this._srcDir === undefined) {
-			let dir = prop.get(this._configuration, 'source', '.');
-
-			if (dir !== '.' && !dir.startsWith('./')) {
-				dir = `./${dir}`;
-			}
-
-			this._srcDir = new FilePath(dir, {posix: true});
+			this._srcDir = new FilePath(
+				prop.get(this._configuration, 'source', '.'),
+				{posix: true}
+			).toDotRelative();
 		}
 
 		return this._srcDir;
 	}
 
 	/**
-	 * Get directory where files to be transformed live relative to
-	 * `this.dir` and starting with `./` (so that it can be safely path.joined)
+	 * Get output directory relative to `this.dir` and starting with `./` (so
+	 * that it can be safely path.joined)
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(
-				this._configuration,
-				'output',
-				this.adapt.supported ? './build.liferay' : './build'
-			);
-
-			if (!dir.startsWith('./')) {
-				dir = `./${dir}`;
-			}
-
-			this._buildDir = new FilePath(dir, {posix: true});
+			this._buildDir = new FilePath(
+				prop.get(
+					this._configuration,
+					'output',
+					this.adapt.supported ? './build.liferay' : './build'
+				),
+				{posix: true}
+			).toDotRelative();
 		}
 
 		return this._buildDir;
