@@ -37,6 +37,21 @@ describe('in posix systems', () => {
 			new FilePath('/tmp/tt').join('nn', new FilePath('oo/pp')).asNative
 		).toEqual('/tmp/tt/nn/oo/pp');
 	});
+
+	it('toDotRelative works', () => {
+		expect(new FilePath('').toDotRelative().asNative).toEqual('.');
+		expect(new FilePath('a/path').toDotRelative().asNative).toEqual(
+			'./a/path'
+		);
+
+		expect(new FilePath('.').toDotRelative().asNative).toEqual('.');
+		expect(new FilePath('./a/path').toDotRelative().asNative).toEqual(
+			'./a/path'
+		);
+		expect(new FilePath('../a/path').toDotRelative().asNative).toEqual(
+			'../a/path'
+		);
+	});
 });
 
 describe('in windows systems', () => {
@@ -69,6 +84,21 @@ describe('in windows systems', () => {
 			new FilePath('c:\\tmp\\tt').join('nn', new FilePath('oo\\pp'))
 				.asNative
 		).toEqual('c:\\tmp\\tt\\nn\\oo\\pp');
+	});
+
+	it('toDotRelative works', () => {
+		expect(new FilePath('').toDotRelative().asNative).toEqual('.');
+		expect(new FilePath('a\\path').toDotRelative().asNative).toEqual(
+			'.\\a\\path'
+		);
+
+		expect(new FilePath('.').toDotRelative().asNative).toEqual('.');
+		expect(new FilePath('.\\a\\path').toDotRelative().asNative).toEqual(
+			'.\\a\\path'
+		);
+		expect(new FilePath('..\\a\\path').toDotRelative().asNative).toEqual(
+			'..\\a\\path'
+		);
 	});
 });
 

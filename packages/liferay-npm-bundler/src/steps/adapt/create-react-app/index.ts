@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {project} from '../../../globals';
 import * as log from '../../../log';
-import {findFiles} from '../../../util/files';
 import {runPkgJsonScript} from '../../../util/run';
 import {
 	WebpackBundles,

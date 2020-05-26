@@ -141,7 +141,7 @@ async function writeDependencyExportPkgJson(
  * @param moduleFile path to module file
  * @param id id of export entry
  * @param moduleName the full AMD name of the module
- * @param bundlesLocation location of webpack bundle files
+ * @param bundlesLocation location of webpack bundle files (f.e.: './path/to')
  */
 async function writeExportModule(
 	moduleFile: FilePath,
@@ -175,8 +175,15 @@ async function writeLocalExportModule(
 		.replace('./', '')
 		.replace(/\.js$/, '')}`;
 
-	const bundlesLocation = moduleFile.dirname().relative(buildBundlerDir)
-		.asPosix;
+	const bundlesLocation = moduleFile
+		.dirname()
+		.relative(buildBundlerDir)
+		.toDotRelative();
 
-	await writeExportModule(moduleFile, id, moduleName, bundlesLocation);
+	await writeExportModule(
+		moduleFile,
+		id,
+		moduleName,
+		bundlesLocation.asPosix
+	);
 }

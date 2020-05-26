@@ -78,6 +78,7 @@ export default class Project {
 
 			// Export package.json's main entry (if present) automatically
 			if (!this._exports['main']) {
+				const {srcDir} = this;
 				let main = this._pkgJson.main;
 
 				if (main) {
@@ -88,7 +89,7 @@ export default class Project {
 					}
 
 					this._exports['main'] = main;
-				} else if (fs.existsSync('./index.js')) {
+				} else if (fs.existsSync(srcDir.join('index.js').asNative)) {
 					this._exports['main'] = './index.js';
 				}
 			}
@@ -158,22 +159,34 @@ export default class Project {
 	}
 
 	/**
-	 * Get directory where files to be transformed live relative to
-	 * `this.dir` and starting with `./` (so that it can be safely path.joined)
+	 * Get source directory relative to `this.dir` and starting with `./` (so
+	 * that it can be safely path.joined)
+	 */
+	get srcDir(): FilePath {
+		if (this._srcDir === undefined) {
+			this._srcDir = new FilePath(
+				prop.get(this._configuration, 'source', '.'),
+				{posix: true}
+			).toDotRelative();
+		}
+
+		return this._srcDir;
+	}
+
+	/**
+	 * Get output directory relative to `this.dir` and starting with `./` (so
+	 * that it can be safely path.joined)
 	 */
 	get buildDir(): FilePath {
 		if (this._buildDir === undefined) {
-			let dir = prop.get(
-				this._configuration,
-				'output',
-				this.adapt.supported ? './build.liferay' : './build'
-			);
-
-			if (!dir.startsWith('./')) {
-				dir = `./${dir}`;
-			}
-
-			this._buildDir = new FilePath(dir, {posix: true});
+			this._buildDir = new FilePath(
+				prop.get(
+					this._configuration,
+					'output',
+					this.adapt.supported ? './build.liferay' : './build'
+				),
+				{posix: true}
+			).toDotRelative();
 		}
 
 		return this._buildDir;
@@ -330,6 +343,7 @@ export default class Project {
 		this._pkgManager = undefined;
 		this._projectDir = undefined;
 		this._sources = undefined;
+		this._srcDir = undefined;
 		this._toolsDir = undefined;
 
 		// Set significant directories
@@ -523,5 +537,6 @@ export default class Project {
 
 	private _versionsInfo: Map<string, VersionInfo>;
 
+	private _srcDir: FilePath;
 	private _workDir: FilePath;
 }

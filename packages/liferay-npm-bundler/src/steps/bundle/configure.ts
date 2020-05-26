@@ -7,7 +7,12 @@ import fs from 'fs-extra';
 import {FilePath, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
-import {buildGeneratedDir, buildWebpackDir, project} from '../../globals';
+import {
+	buildGeneratedDir,
+	buildWebpackDir,
+	project,
+	srcDir,
+} from '../../globals';
 import * as log from '../../log';
 import {abort} from '../../util';
 
@@ -86,6 +91,12 @@ export default function configure(): webpack.Configuration {
 	return webpackConfig;
 }
 
+/**
+ * Create a webpack entry point for a module living in node_modules.
+ *
+ * @param id webpack bundle id
+ * @param moduleName node module name to export
+ */
 function exportDependencyModule(id: string, moduleName: string): FilePath {
 	const generatedFile = buildGeneratedDir.join(`${id}.js`);
 
@@ -99,15 +110,25 @@ function exportDependencyModule(id: string, moduleName: string): FilePath {
 	return generatedFile;
 }
 
+/**
+ * Create a webpack entry point for a module living in the project source dir.
+ *
+ * @param id webpack bundle id
+ * @param moduleName node module name to export
+ */
 function exportLocalModule(id: string, moduleName: string): FilePath {
 	const generatedFile = buildGeneratedDir.join(`${id}.js`);
 	const relativeModuleName = moduleName.replace('./', '');
 
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
 
+	const buildGeneratedDirRelativeModuleFile = buildGeneratedDir.relative(
+		srcDir.join(new FilePath(relativeModuleName, {posix: true}))
+	);
+
 	fs.writeFileSync(
 		generatedFile.asNative,
-		`__MODULE__.exports = require('../../${relativeModuleName}');`
+		`__MODULE__.exports = require('${buildGeneratedDirRelativeModuleFile.asPosix}');`
 	);
 
 	return generatedFile;

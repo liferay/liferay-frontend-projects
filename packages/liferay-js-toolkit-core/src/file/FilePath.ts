@@ -15,6 +15,10 @@ export default class FilePath {
 		return typeof anyPath === 'string' ? new FilePath(anyPath) : anyPath;
 	}
 
+	static get sep(): string {
+		return FilePath.nativeIsPosix ? '/' : '\\';
+	}
+
 	constructor(nativePath: string, {posix = false}: {posix?: boolean} = {}) {
 		if (posix && !FilePath.nativeIsPosix) {
 			nativePath = nativePath.replace(/\//g, '\\');
@@ -63,6 +67,14 @@ export default class FilePath {
 		return anyPath.resolve().asNative === this.resolve().asNative;
 	}
 
+	isAbsolute(): boolean {
+		return path.isAbsolute(this.toString());
+	}
+
+	isRelative(): boolean {
+		return !this.isAbsolute();
+	}
+
 	join(...anyPathFragments: AnyPath[]): FilePath {
 		const join = FilePath.nativeIsPosix ? path.posix.join : path.win32.join;
 
@@ -92,6 +104,35 @@ export default class FilePath {
 		}
 
 		return new FilePath(resolvedPath);
+	}
+
+	/**
+	 * Convert a relative path to a dot relative file path, i.e., convert '' to
+	 * '.', or 'path/to/folder' to './path/to/folder' and leave
+	 * '../path/to/folder' untouched.
+	 *
+	 * This method is primarily intended to convert file paths to local Node
+	 * module names which, when required, must begin by './' or '../' to make
+	 * Node treat them like locals.
+	 *
+	 * Other than that it is quite possible that it doesn't have a real use when
+	 * dealing with the filesystem alone.
+	 */
+	toDotRelative(): FilePath {
+		if (this.isAbsolute()) {
+			throw new Error(
+				'Cannot convert absolute path to dot leading local path'
+			);
+		}
+
+		// Get a path like '.', '../path/to/something'  or 'path/to/something'
+		let normalizedThisPath = path.normalize(this.asNative);
+
+		if (!normalizedThisPath.startsWith('.')) {
+			normalizedThisPath = `.${FilePath.sep}${normalizedThisPath}`;
+		}
+
+		return new FilePath(normalizedThisPath);
 	}
 
 	private readonly _nativePath: string;

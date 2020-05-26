@@ -7,16 +7,18 @@ import {parse} from 'acorn';
 import {generate} from 'escodegen';
 import {traverse} from 'estraverse';
 import estree from 'estree';
-import {FilePath, Project, addNamespace} from 'liferay-js-toolkit-core';
+import {Project, addNamespace} from 'liferay-js-toolkit-core';
 
 import {project} from '../../../globals';
 import report from '../../../report';
 import ReportLogger from '../../../report/logger';
 
 export default function (content: string): string {
+	const prjDirRelResourceFile = project.dir.relative(this.resourcePath);
+
 	const log = report.getWebpackLogger(
 		'imports-loader',
-		getPrjRelPath(this.request)
+		prjDirRelResourceFile.asNative
 	);
 
 	// Early fail for performance: look for require/import
@@ -44,19 +46,27 @@ export default function (content: string): string {
 	}
 
 	// Parse source code to transform imports
-	const parser = new Parser(project);
+	try {
+		const parser = new Parser(project);
 
-	const ast = parser.transform(content, log);
+		const ast = parser.transform(content, log);
 
-	if (!parser.modified) {
-		log.debug(`File does not require any 'imports' module`);
+		if (!parser.modified) {
+			log.debug(`File does not require any 'imports' module`);
+
+			return content;
+		}
+
+		log.info(
+			`File contained 'imports' which were diverted to runtime loader`
+		);
+
+		return generate(ast, {});
+	} catch (err) {
+		log.error(`File could not be parsed`, err);
 
 		return content;
 	}
-
-	log.info(`File contained 'imports' which were diverted to runtime loader`);
-
-	return generate(ast, {});
 }
 
 class Parser {
@@ -215,10 +225,4 @@ class Parser {
 	private _log: ReportLogger;
 	private _modified = false;
 	private readonly _project: Project;
-}
-
-function getPrjRelPath(request: string): string {
-	const absFilePath = request.split('!')[1];
-
-	return project.dir.relative(new FilePath(absFilePath)).asNative;
 }
