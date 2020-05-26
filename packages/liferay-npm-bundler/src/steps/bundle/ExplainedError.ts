@@ -47,7 +47,7 @@ ${lines
 		i += beginLine;
 
 		const errorMarker = i == aroundLine ? '>' : ' ';
-		const lineNumber = pad(padMinChars, i);
+		const lineNumber = i.toString().padStart(padMinChars);
 
 		return `${errorMarker} ${lineNumber}: ${line}`;
 	})
@@ -80,14 +80,4 @@ function explainError(error: Error, options: ExplainedErrorOptions): string {
 		sourceCode && line ? getContextLines(sourceCode, line) : '';
 
 	return `${error.toString()}${contextLines}\n...at ${filePath}`;
-}
-
-function pad(minChars: number, value: number): string {
-	let paddedValue = value.toString();
-
-	while (paddedValue.length < minChars) {
-		paddedValue = ' ' + paddedValue;
-	}
-
-	return paddedValue;
 }
