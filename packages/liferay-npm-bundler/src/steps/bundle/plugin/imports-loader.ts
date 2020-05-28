@@ -190,8 +190,13 @@ class Parser {
 					return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}')['${specifier.imported.name}'];`;
 
 				case 'ImportDefaultSpecifier':
-					// TODO: decide if new need interop here
-					return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}');`;
+					return `
+						var ${specifier.local.name}_raw = __REQUIRE__('${namespacedModuleName}');
+						var ${specifier.local.name} = 
+							${specifier.local.name}_raw && ${specifier.local.name}_raw.__esModule 
+								? ${specifier.local.name}_raw['default'] 
+								: ${specifier.local.name}_raw;
+					`;
 
 				case 'ImportNamespaceSpecifier':
 					return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}');`;
