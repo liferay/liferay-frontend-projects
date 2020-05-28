@@ -1,3 +1,11 @@
+## [liferay-npm-bundler/v3.0.0-alpha.2](https://github.com/liferay/liferay-js-toolkit/tree/liferay-npm-bundler/v3.0.0-alpha.2) (2020-05-28)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-npm-bundler/v3.0.0-alpha.1...liferay-npm-bundler/v3.0.0-alpha.2)
+
+### :wrench: Bug fixes
+
+-   fix: #584 add interop code to default imports ([\#585](https://github.com/liferay/liferay-js-toolkit/pull/585))
+
 ## [v3.0.0-alpha.1](https://github.com/liferay/liferay-js-toolkit/tree/v3.0.0-alpha.1) (2020-05-26)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.2...liferay-npm-bundler/v3.0.0-alpha.1)
