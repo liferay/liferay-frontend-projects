@@ -13,8 +13,8 @@ const statAsync = promisify(fs.stat);
 const FILTER_PATTERN = /\.md$/;
 
 /**
- * Need not-robot-like headers to prevent Cloudflare from rejecting our
- * external link checks with 403s.
+ * Use not-robot-like headers to attempt to prevent Cloudflare from
+ * rejecting our external link checks with 403 or 503 status.
  *
  * See: https://github.com/liferay/liferay-frontend-guidelines/issues/133
  */
@@ -28,7 +28,19 @@ const HEADERS = {
 		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:74.0) Gecko/20100101 Firefox/74.0'
 };
 
-const IGNORE_PATTERN = /^(?:.git|node_modules)$/;
+const IGNORE_DIR = /^(?:.git|node_modules)$/;
+
+const IGNORE_HOSTS = new Set([
+	// localhost and variants:
+	'0.0.0.0',
+	'127.0.0.1',
+	'::1',
+	'localhost',
+
+	// As of https://github.com/liferay/liferay-frontend-guidelines/pull/161
+	// Cloudflare is 503-ing all "bot-like" codepen.io requests.
+	'codepen.io'
+]);
 
 // Adapted from: https://stackoverflow.com/a/163684/2103996
 const URL_PATTERN = /\bhttps?:\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]/;
@@ -104,12 +116,7 @@ function checkRemote(link, files) {
 
 		const {hostname, pathname, port, search} = new URL(link);
 
-		if (
-			hostname === 'localhost' ||
-			hostname === '127.0.0.1' ||
-			hostname === '0.0.0.0' ||
-			hostname === '::1'
-		) {
+		if (IGNORE_HOSTS.has(hostname)) {
 			resolve();
 
 			return;
@@ -278,7 +285,7 @@ async function* walk(directory) {
 	for (let i = 0; i < entries.length; i++) {
 		const entry = path.join(directory, entries[i]);
 
-		if (IGNORE_PATTERN.test(entry)) {
+		if (IGNORE_DIR.test(entry)) {
 			continue;
 		}
 
