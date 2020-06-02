@@ -1,3 +1,11 @@
+## [liferay-npm-scripts/v33.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v33.3.0) (2020-06-02)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.2.0...liferay-npm-scripts/v33.3.0)
+
+### :new: Features
+
+-   feat(scripts): add additional webpack plugins ([\#457](https://github.com/liferay/liferay-npm-tools/pull/457))
+
 ## [liferay-npm-scripts/v32.2.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.2.0) (2020-05-12)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.1.0...liferay-npm-scripts/v32.2.0)
