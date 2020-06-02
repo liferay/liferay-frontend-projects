@@ -10,9 +10,11 @@ Right now, the minimal steps to follow when something fails are:
 
 Once you are sure that a clean build from scratch fails, try the following steps to diagnose the problem:
 
-1. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration > System Settings > Infrastructue > JavaScript Loader`: this makes the Loader dump diagnostic traces to the JavaScript console and/or any error it is finding. You may use the log level filters in your browser's console to decide what you want to see whether it is just errors or the whole debugging info.
+1. First, see if the problem [is a known limitation](https://github.com/liferay/liferay-js-toolkit/wiki/Limitations-of-portlet-adaptation).
 
-2. Turn combo servlet off adding `javascript.fast.load=false` to your `portal.properties`: this makes the Loader request each JS module in a single HTTP request, so that it is easier to know what's going on.
+2. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration > System Settings > Infrastructue > JavaScript Loader`: this makes the Loader dump diagnostic traces to the JavaScript console and/or any error it is finding. You may use the log level filters in your browser's console to decide what you want to see whether it is just errors or the whole debugging info.
+
+3. Turn combo servlet off adding `javascript.fast.load=false` to your `portal.properties`: this makes the Loader request each JS module in a single HTTP request, so that it is easier to know what's going on.
 
 This should ease debugging your code. 
 
