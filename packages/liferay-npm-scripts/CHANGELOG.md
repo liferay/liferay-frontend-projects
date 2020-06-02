@@ -1,6 +1,6 @@
-## [liferay-npm-scripts/v33.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v33.3.0) (2020-06-02)
+## [liferay-npm-scripts/v32.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.3.0) (2020-06-02)
 
-[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.2.0...liferay-npm-scripts/v33.3.0)
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.2.0...liferay-npm-scripts/v32.3.0)
 
 ### :new: Features
 
