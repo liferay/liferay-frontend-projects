@@ -65,13 +65,11 @@ function buildWith(script, args = []) {
 
 		const renderer = new Renderer(templatesPath, scrLiferayDir.asNative);
 
-		const {pkgJson} = project;
-
 		renderer.render('adapt-rt.js', {
 			project,
 		});
 		renderer.render('index.js', {
-			pkgJson,
+			project,
 		});
 
 		runNodeModulesBin('liferay-npm-bundler');
