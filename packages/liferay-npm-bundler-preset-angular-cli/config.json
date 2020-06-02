@@ -76,7 +76,7 @@
 				{
 					"loader": "liferay-npm-build-support/lib/loader/add-css-portlet-header",
 					"options": {
-						"css": "/${project.name}/styles.css"
+						"css": "/${project.dir.basename}/styles.css"
 					}
 				}
 			]
