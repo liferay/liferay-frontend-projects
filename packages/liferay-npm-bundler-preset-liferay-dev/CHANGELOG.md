@@ -1,3 +1,11 @@
+## [liferay-npm-bundler-preset-liferay-dev/v4.4.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.4.0) (2020-06-03)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.3.1...liferay-npm-bundler-preset-liferay-dev/v4.4.0)
+
+### :house: Chores
+
+-   chore(preset): add @clayui/layout package to preset ([\#459](https://github.com/liferay/liferay-npm-tools/pull/459))
+
 ## [liferay-npm-bundler-preset-liferay-dev/v4.3.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.3.1) (2020-05-07)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.3.0...liferay-npm-bundler-preset-liferay-dev/v4.3.1)
