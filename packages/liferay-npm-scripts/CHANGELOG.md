@@ -1,3 +1,15 @@
+## [liferay-npm-scripts/v32.4.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.4.0) (2020-06-03)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.3.0...liferay-npm-scripts/v32.4.0)
+
+### :book: Documentation
+
+-   docs(scripts): fix version numbers in CHANGELOG.md ([\#458](https://github.com/liferay/liferay-npm-tools/pull/458))
+
+### :house: Chores
+
+-   chore(scripts): update preset dependency to v4.4.0 ([\#460](https://github.com/liferay/liferay-npm-tools/pull/460))
+
 ## [liferay-npm-scripts/v32.3.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.3.0) (2020-06-02)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.2.0...liferay-npm-scripts/v32.3.0)
