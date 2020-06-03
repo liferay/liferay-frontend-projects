@@ -53,11 +53,19 @@ export default function({types: t}) {
 				) {
 					const argument0 = parent.arguments[0];
 
-					if (t.isLiteral(argument0)) {
-						const moduleName = argument0.value;
+					if (argument0.type !== 'StringLiteral') {
+						log.error(
+							'wrap-modules-amd',
+							'Module has a non static require, which is not ' +
+								'supported: module may fail when executed'
+						).linkToIssue(588);
 
-						dependencies[moduleName] = moduleName;
+						return;
 					}
+
+					const moduleName = argument0.value;
+
+					dependencies[moduleName] = moduleName;
 				}
 			}
 		},
