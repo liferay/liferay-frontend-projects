@@ -1,3 +1,11 @@
+## [liferay-npm-bundler-preset-liferay-dev/v4.5.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.5.0) (2020-06-04)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.4.0...liferay-npm-bundler-preset-liferay-dev/v4.5.0)
+
+### :house: Chores
+
+-   chore(preset): add @clayui/empty-state, @clayui/upper-toolbar to preset ([\#462](https://github.com/liferay/liferay-npm-tools/pull/462))
+
 ## [liferay-npm-bundler-preset-liferay-dev/v4.4.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.4.0) (2020-06-03)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.3.1...liferay-npm-bundler-preset-liferay-dev/v4.4.0)
