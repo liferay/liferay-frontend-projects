@@ -150,6 +150,7 @@
 				"@clayui/tabs": ">=3.0.0",
 				"@clayui/time-picker": ">=3.0.0",
 				"@clayui/tooltip": ">=3.0.0",
+				"@clayui/upper-toolbar": ">=3.0.0",
 				"clay": ">=2.9.0",
 				"clay-alert": ">=2.9.0",
 				"clay-autocomplete": ">=2.9.0",
