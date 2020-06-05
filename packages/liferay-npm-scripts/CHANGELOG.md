@@ -1,3 +1,11 @@
+## [liferay-npm-scripts/v32.5.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.5.0) (2020-06-04)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.4.0...liferay-npm-scripts/v32.5.0)
+
+### :house: Chores
+
+-   chore(scripts): update preset dependency to v4.5.0 ([\#463](https://github.com/liferay/liferay-npm-tools/pull/463))
+
 ## [liferay-npm-scripts/v32.4.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.4.0) (2020-06-03)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.3.0...liferay-npm-scripts/v32.4.0)
