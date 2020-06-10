@@ -39,7 +39,7 @@ var a = {
 };"
 `;
 
-exports[`logs results correctly 1`] = `
+exports[`logs warnings when more than one global define appears 1`] = `
 Array [
   Object {
     "level": "info",
@@ -53,7 +53,7 @@ Array [
     "source": "namespace-amd-define",
     "things": Array [
       "Found",
-      2,
+      1,
       "define() calls inside the module definition",
       "which have been ignored as they should never",
       "be executed during runtime",
