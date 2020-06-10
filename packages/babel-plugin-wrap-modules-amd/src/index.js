@@ -47,18 +47,39 @@ export default function({types: t}) {
 				}
 
 				if (
-					t.isCallExpression(parent) &&
-					parent.callee === node &&
-					parent.arguments.length == 1
+					!t.isCallExpression(parent) ||
+					parent.callee !== node ||
+					parent.arguments.length != 1
 				) {
-					const argument0 = parent.arguments[0];
-
-					if (t.isLiteral(argument0)) {
-						const moduleName = argument0.value;
-
-						dependencies[moduleName] = moduleName;
-					}
+					return;
 				}
+
+				const argument0 = parent.arguments[0];
+
+				if (argument0.type === 'StringLiteral') {
+					const moduleName = argument0.value;
+
+					dependencies[moduleName] = moduleName;
+
+					return;
+				}
+
+				if (
+					argument0.type === 'TemplateLiteral' &&
+					argument0.quasis.length === 1
+				) {
+					const moduleName = argument0.quasis[0].value.raw;
+
+					dependencies[moduleName] = moduleName;
+
+					return;
+				}
+
+				log.error(
+					'wrap-modules-amd',
+					'Module has a non static require, which is not ' +
+						'supported: module may fail when executed'
+				).linkToIssue(588);
 			}
 		},
 	};
