@@ -27,9 +27,3 @@ The main problem is that the SPA architecture of Liferay relies on partial refre
 Thus, every time an adapted portlet has to be rendered, it has to be re-executed as if it had just been added to the page. Sadly most of the existing frameworks assume that they are inside a SPA and have control over the whole page, which is not true for Liferay, and because of that they may fail when re-executed.
 
 This is especially true for Angular, which tends to load quite a lot of polyfills, some of which are not re-entrant and lead to failures if reloaded. See [this comment](https://github.com/liferay/liferay-js-toolkit/issues/498#issuecomment-579696947) for a more detailed explanation.
-
-## Dynamic require/import are not supported
-
-This comes from [issue 588](https://github.com/liferay/liferay-js-toolkit/issues/588).
-
-The problem is that the current architecture cannot resolve dynamic modules because of limitations when the server analyzes the dependency graph and because of the use of the AMD specification which executes the `define()` call once and for all, making it it impossible to make a module depend on different dependencies depending on runtime values.
