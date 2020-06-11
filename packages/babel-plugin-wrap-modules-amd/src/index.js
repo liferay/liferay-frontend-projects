@@ -11,7 +11,8 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 const buildDefine = template(`
      define(DEPS, function(module, exports, require) {
         // Make module believe it is running under Node.js
-        var define = undefined;
+		var define = undefined;
+		var global = window;
  	    SOURCE
      })
  `);
