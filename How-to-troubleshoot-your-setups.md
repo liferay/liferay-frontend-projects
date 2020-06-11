@@ -10,7 +10,7 @@ Right now, the minimal steps to follow when something fails are:
 
 Once you are sure that a clean build from scratch fails, try the following steps to diagnose the problem:
 
-1. First, see if the problem [is a known limitation](https://github.com/liferay/liferay-js-toolkit/wiki/Limitations-of-portlet-adaptation).
+1. First, see if the problem [is a known limitation](https://github.com/liferay/liferay-js-toolkit/wiki/Limitations-of-portlet-bundling) or, if you are adapting a framework project, an [adaption limitation](https://github.com/liferay/liferay-js-toolkit/wiki/Limitations-of-portlet-adaptation).
 
 2. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration > System Settings > Infrastructue > JavaScript Loader`: this makes the Loader dump diagnostic traces to the JavaScript console and/or any error it is finding. You may use the log level filters in your browser's console to decide what you want to see whether it is just errors or the whole debugging info.
 
