@@ -17,12 +17,27 @@ beforeEach(() => {
 	});
 });
 
-it('logs results correctly', () => {
+it('logs nothing when only one define appears', () => {
 	const source = `
 	define([], function(){})
 	if (typeof define === "function" && define.amd) {
 		console.log('UMD!');
 	}
+	`;
+
+	babel.transform(source, {
+		filename: __filename,
+		plugins: [plugin],
+	});
+
+	expect(logger.messages).toEqual([]);
+});
+
+it('logs warnings when more than one global define appears', () => {
+	const source = `
+	define([], function(){
+		define("something");
+	})
 	`;
 
 	babel.transform(source, {
