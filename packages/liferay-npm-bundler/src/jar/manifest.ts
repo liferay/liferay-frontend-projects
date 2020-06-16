@@ -5,6 +5,18 @@
 
 import project from 'liferay-npm-build-tools-common/lib/project';
 
+const FORBIDDEN_CUSTOM_HEADERS = new Set([
+	'Bundle-ManifestVersion',
+	'Bundle-Name',
+	'Bundle-SymbolicName',
+	'Bundle-Version',
+	'Manifest-Version',
+	'Provide-Capability',
+	'Require-Capability',
+	'Tool',
+	'Web-ContextPath',
+]);
+
 export default class Manifest {
 	set bundleSymbolicName(bundleSymbolicName: string) {
 		if (this._bundleSymbolicName) {
@@ -55,7 +67,7 @@ export default class Manifest {
 	}
 
 	addCustomHeader(key: string, value: string): void {
-		if (Manifest._FORBIDDEN_CUSTOM_HEADERS.includes(key)) {
+		if (FORBIDDEN_CUSTOM_HEADERS.has(key)) {
 			throw new Error(`Key ${key} cannot be used as a custom header`);
 		}
 
@@ -79,18 +91,6 @@ ${header('Web-ContextPath', this._webContextPath)}
 ${capabilities('Provide-Capability', this._provideCapabilities)}
 ${capabilities('Require-Capability', this._requireCapabilities)}`;
 	}
-
-	private static _FORBIDDEN_CUSTOM_HEADERS = [
-		'Bundle-ManifestVersion',
-		'Bundle-Name',
-		'Bundle-SymbolicName',
-		'Bundle-Version',
-		'Manifest-Version',
-		'Provide-Capability',
-		'Require-Capability',
-		'Tool',
-		'Web-ContextPath',
-	];
 
 	private _bundleSymbolicName: string;
 	private _bundleVersion: string;
