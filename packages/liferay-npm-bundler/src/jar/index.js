@@ -11,6 +11,7 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 
 import * as ddm from './ddm';
+import Manifest from './manifest';
 import * as xml from './xml';
 
 const pkgJson = project.pkgJson;
@@ -99,36 +100,30 @@ function addLocalizationFiles(zip) {
  * @param {JSZip} zip the ZIP file
  */
 function addManifest(zip) {
-	let contents = '';
+	const manifest = new Manifest();
 
-	const bundlerVersion = project.versionsInfo.get('liferay-npm-bundler')
-		.version;
-
-	contents += `Manifest-Version: 1.0\n`;
-	contents += `Bundle-ManifestVersion: 2\n`;
-
-	contents += `Tool: liferay-npm-bundler-${bundlerVersion}\n`;
-
-	contents += `Bundle-SymbolicName: ${pkgJson.name}\n`;
-	contents += `Bundle-Version: ${pkgJson.version}\n`;
+	manifest.bundleSymbolicName = pkgJson.name;
+	manifest.bundleVersion = pkgJson.version;
 	if (pkgJson.description) {
-		contents += `Bundle-Name: ${pkgJson.description}\n`;
+		manifest.bundleName = pkgJson.description;
 	}
 
-	contents += `Web-ContextPath: ${project.jar.webContextPath}\n`;
+	manifest.webContextPath = project.jar.webContextPath;
 
-	contents +=
-		`Provide-Capability: osgi.webresource;` +
-		`osgi.webresource=${pkgJson.name};` +
-		`version:Version="${pkgJson.version}"\n`;
+	manifest.addProvideCapability(
+		'osgi.webresource',
+		`osgi.webresource=${pkgJson.name};version:Version="${pkgJson.version}"`
+	);
 
 	if (project.l10n.supported) {
 		const bundleName = path.basename(
 			project.l10n.languageFileBaseName.asNative
 		);
 
-		contents += `Provide-Capability: liferay.resource.bundle;`;
-		contents += `resource.bundle.base.name="content.${bundleName}"\n`;
+		manifest.addProvideCapability(
+			'liferay.resource.bundle',
+			`resource.bundle.base.name="content.${bundleName}"`
+		);
 	}
 
 	if (project.jar.requireJsExtender) {
@@ -146,16 +141,14 @@ function addManifest(zip) {
 			filter = `(osgi.extender=liferay.frontend.js.portlet)`;
 		}
 
-		contents += `Require-Capability: osgi.extender;filter:="${filter}"\n`;
+		manifest.addRequireCapability('osgi.extender', filter);
 	}
 
-	Object.entries(project.jar.customManifestHeaders).forEach(
-		([key, value]) => {
-			contents += `${key}: ${value}\n`;
-		}
+	Object.entries(project.jar.customManifestHeaders).forEach(([key, value]) =>
+		manifest.addCustomHeader(key, value)
 	);
 
-	zip.folder('META-INF').file('MANIFEST.MF', contents);
+	zip.folder('META-INF').file('MANIFEST.MF', manifest.content);
 }
 
 /**
