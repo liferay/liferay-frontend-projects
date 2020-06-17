@@ -82,13 +82,7 @@
 			"test": "",
 			"include": [
 				"^build/static/css/.*\\.css$",
-				"^build/static/js/.*\\.js$",
-				"^build/static/media/.*\\.eot$",
-				"^build/static/media/.*\\.svg$",
-				"^build/static/media/.*\\.otf",
-				"^build/static/media/.*\\.ttf",
-				"^build/static/media/.*\\.woff$",
-				"^build/static/media/.*\\.woff2$"
+				"^build/static/js/.*\\.js$"
 			],
 			"use": [
 				{

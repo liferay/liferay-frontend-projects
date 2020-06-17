@@ -3,6 +3,7 @@
 exports[`correctly wraps modules 1`] = `
 "define(['module', 'exports', 'require'], function (module, exports, require) {
 	var define = undefined;
+	var global = window;
 
 	console.log('Say something');
 	if (1 == 0) {

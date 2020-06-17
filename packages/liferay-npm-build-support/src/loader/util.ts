@@ -8,8 +8,8 @@ import project from 'liferay-npm-build-tools-common/lib/project';
 
 // TODO: get rid of this function once we support loading config from .js files
 /**
- * Replace `${project.name}` and `${project.version}` tokens inside strings of
- * loader options objects.
+ * Replace `${project.dir.basename}`, `${project.name}` and `${project.version}`
+ * tokens inside strings of loader options objects.
  */
 export function replaceTokens<T>(
 	options: T,
@@ -24,6 +24,10 @@ export function replaceTokens<T>(
 			}
 
 			options[key] = options[key]
+				.replace(
+					/\$\{project\.dir\.basename\}/g,
+					project.dir.basename().toString()
+				)
 				.replace(/\$\{project\.name\}/g, pkgJson['name'])
 				.replace(/\$\{project\.version\}/g, pkgJson['version']);
 		}

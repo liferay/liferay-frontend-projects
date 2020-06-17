@@ -40,6 +40,15 @@ export default function(
 	const pkgJson: object = JSON.parse(content);
 
 	pkgJson['portlet'] = pkgJson['portlet'] || {};
+
+	if (pkgJson['portlet']['com.liferay.portlet.header-portlet-css']) {
+		log.warn(
+			'add-css-portlet-header',
+			'The package.json has a configured header-portlet-css entry, ' +
+				'but it will be overwritten'
+		);
+	}
+
 	pkgJson['portlet']['com.liferay.portlet.header-portlet-css'] = css;
 
 	log.info('add-css-portlet-header', `Added ${css} as portlet CSS file`);

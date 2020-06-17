@@ -32,33 +32,21 @@ export default function() {
 					return;
 				}
 
-				let scope;
-
-				// Find if 'define' is defined in any scope
-				for (scope = path.scope; scope != null; scope = scope.parent) {
-					if (scope.bindings.define || scope.globals.define) {
-						break;
-					}
+				if (path.parent.type !== 'CallExpression') {
+					return;
 				}
 
-				if (
-					scope == null ||
-					(scope.parent == null && !scope.bindings.define)
-				) {
-					// If 'define' is not defined in any scope namespace or
-					// defined in the root scope as global...
-					if (!firstDefineNamespaced) {
-						// ...and it's its first appearance, namespace it
+				if (!firstDefineNamespaced) {
+					if (path.scope.parent === null) {
 						const namespace =
 							this.opts.namespace || 'Liferay.Loader';
 
 						path.node.name = `${namespace}.define`;
 
 						firstDefineNamespaced = true;
-					} else {
-						// ...and appeared before, record a new extra appearance
-						extraNamespaceCount++;
 					}
+				} else {
+					extraNamespaceCount++;
 				}
 			}
 		},
