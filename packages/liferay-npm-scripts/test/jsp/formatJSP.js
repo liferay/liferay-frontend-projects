@@ -88,6 +88,149 @@ describe('formatJSP()', () => {
 		expect(formatJSP(source)).toBe(expected);
 	});
 
+	describe('fixing problems with indentation relative to script tag (#437)', () => {
+		// ie. each line is correct with respect to its neighbors, but overall,
+		// the code is wrong relative to the script tag.
+
+		it('corrects script content that is insufficiently indented', () => {
+			const source = `
+				<aui:script>
+				function <portlet:namespace />deleteOrganization(
+					organizationId,
+					organizationsRedirect
+				) {
+					<portlet:namespace />doDeleteOrganization(
+						'<%= Organization.class.getName() %>',
+						organizationId,
+						organizationsRedirect
+					);
+				}
+				</aui:script>
+			`;
+
+			const expected = `
+				<aui:script>
+					function <portlet:namespace />deleteOrganization(
+						organizationId,
+						organizationsRedirect
+					) {
+						<portlet:namespace />doDeleteOrganization(
+							'<%= Organization.class.getName() %>',
+							organizationId,
+							organizationsRedirect
+						);
+					}
+				</aui:script>
+			`;
+
+			expect(formatJSP(source)).toBe(expected);
+		});
+
+		it('corrects script content that is excessively indented', () => {
+			// Note that it works for <script> as well.
+
+			const source = `
+				<script>
+						function <portlet:namespace />deleteOrganization(
+							organizationId,
+							organizationsRedirect
+						) {
+							<portlet:namespace />doDeleteOrganization(
+								'<%= Organization.class.getName() %>',
+								organizationId,
+								organizationsRedirect
+							);
+						}
+				</script>
+			`;
+
+			const expected = `
+				<script>
+					function <portlet:namespace />deleteOrganization(
+						organizationId,
+						organizationsRedirect
+					) {
+						<portlet:namespace />doDeleteOrganization(
+							'<%= Organization.class.getName() %>',
+							organizationId,
+							organizationsRedirect
+						);
+					}
+				</script>
+			`;
+
+			expect(formatJSP(source)).toBe(expected);
+		});
+
+		it('corrects script content that is "negatively" indented', () => {
+			const source = `
+				<aui:script>
+			function <portlet:namespace />deleteOrganization(
+				organizationId,
+				organizationsRedirect
+			) {
+				<portlet:namespace />doDeleteOrganization(
+					'<%= Organization.class.getName() %>',
+					organizationId,
+					organizationsRedirect
+				);
+			}
+				</aui:script>
+			`;
+
+			const expected = `
+				<aui:script>
+					function <portlet:namespace />deleteOrganization(
+						organizationId,
+						organizationsRedirect
+					) {
+						<portlet:namespace />doDeleteOrganization(
+							'<%= Organization.class.getName() %>',
+							organizationId,
+							organizationsRedirect
+						);
+					}
+				</aui:script>
+			`;
+
+			expect(formatJSP(source)).toBe(expected);
+		});
+
+		it('fixes content that is on the same line as the script tag', () => {
+			// source-formatter doesn't behave well with one-line scripts like
+			// this, so let's fix them for it.
+			//
+			// Specifically, first run will turn
+			//
+			//              <aui:script>alert('Hi!');</aui:script>
+			//
+			// into:
+			//
+			//              <aui:script>alert('Hi!');
+			//      </aui:script>
+			//
+			// (Presumably because Prettier always adds a trailing newline.)
+			//
+			// Then, second run turns it into:
+			//
+			//              <aui:script>alert('Hi!');
+			//              </aui:script>
+			//
+
+			const source = `
+				<aui:script>alert('Hi!');</aui:script>
+			`;
+
+			const expected = `
+				<aui:script>
+					alert('Hi!');
+				</aui:script>
+			`;
+
+			expect(formatJSP(source)).toBe(expected);
+		});
+	});
+
 	it('correctly handles internal indentation inside control structures', () => {
 		// This is a reduced example of what's in the source.jsp fixture.
 

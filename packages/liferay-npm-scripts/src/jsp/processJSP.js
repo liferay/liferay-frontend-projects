@@ -31,7 +31,11 @@ function processJSP(source, {onFormat, onLint}) {
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
 
 	const transformed = blocks.map((block) => {
-		const {contents, range} = block;
+		const {contents, openTag, range} = block;
+
+		// Script content should be indented one tab more than the opening tag.
+
+		const baseIndent = range.start.column - openTag.length;
 
 		// Trim leading and trailing whitespace before Prettier eats it.
 
@@ -39,7 +43,7 @@ function processJSP(source, {onFormat, onLint}) {
 
 		// Strip base indent.
 
-		const [dedented, tabCount] = dedent(trimmed);
+		const dedented = dedent(trimmed);
 
 		// Turn JSP tags, expressions (etc) into (valid JS) placeholders.
 
@@ -71,11 +75,14 @@ function processJSP(source, {onFormat, onLint}) {
 
 		// Restore base indent.
 
-		const indented = indent(restored, tabCount);
+		const indented = indent(restored, baseIndent);
 
 		return {
 			...block,
-			contents: prefix + indented + suffix,
+			contents:
+				(prefix || '\n') +
+				indented +
+				(suffix || '\t'.repeat(baseIndent - 1)),
 		};
 	});
 

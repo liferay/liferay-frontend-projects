@@ -1229,7 +1229,7 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 
 	<aui:script>
 		window.foo = 'foo';
-</aui:script>
+	</aui:script>
 
 	<aui:script>
 		var SOME_OBJ = {
@@ -1245,7 +1245,7 @@ exports[`formatJSP() formatting entire fixtures page.jsp matches snapshot 1`] = 
 	</aui:script>
 
 	<aui:script require=\\"\\">
-</aui:script>
+	</aui:script>
 </body>
 </html>
 "

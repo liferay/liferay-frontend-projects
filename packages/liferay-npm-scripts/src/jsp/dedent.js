@@ -85,9 +85,7 @@ function dedent(input, tabWidth = 4) {
 		dedented.pop();
 	}
 
-	const lastMinimum = isFinite(minimum) ? Math.floor(minimum / tabWidth) : 0;
-
-	return [dedented.join('\n'), lastMinimum];
+	return dedented.join('\n');
 }
 
 module.exports = dedent;
