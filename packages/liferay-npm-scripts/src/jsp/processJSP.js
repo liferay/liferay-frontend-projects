@@ -33,6 +33,8 @@ function processJSP(source, {onFormat, onLint}) {
 	const transformed = blocks.map((block) => {
 		const {contents, openTag, range} = block;
 
+		// Script content should be indented one tab more than the opening tag.
+
 		const baseIndent = range.start.column - openTag.length;
 
 		// Trim leading and trailing whitespace before Prettier eats it.
@@ -71,7 +73,7 @@ function processJSP(source, {onFormat, onLint}) {
 
 		const restored = restoreTags(unpadded, tags);
 
-		// Restore base indent: one tab to the right of the opening-tag's.
+		// Restore base indent.
 
 		const indented = indent(restored, baseIndent);
 
