@@ -7,13 +7,13 @@ const dedent = require('../../src/jsp/dedent');
 
 describe('dedent()', () => {
 	it('dedents based on the smallest existing indent (spaces)', () => {
-		const [dedented] = dedent('  def foo\n    1\n  end');
+		const dedented = dedent('  def foo\n    1\n  end');
 
 		expect(dedented).toBe('def foo\n  1\nend');
 	});
 
 	it('dedents based on the smallest existing indent (tabs)', () => {
-		const [dedented] = dedent('\t\tdef foo\n\t\t\t1\n\t\tend');
+		const dedented = dedent('\t\tdef foo\n\t\t\t1\n\t\tend');
 
 		expect(dedented).toBe('def foo\n\t1\nend');
 	});
@@ -22,7 +22,7 @@ describe('dedent()', () => {
 		// Mixed tabs and spaces are common, for example, in source with
 		// multiline comments.
 
-		const [dedented] = dedent(`
+		const dedented = dedent(`
 			/**
 			 * This is a comment.
 			 */
@@ -44,7 +44,7 @@ describe('dedent()', () => {
 	});
 
 	it('accepts a custom tabWidth argument', () => {
-		const [dedented] = dedent(
+		const dedented = dedent(
 			`
 			function fn() {
 				return;
@@ -62,35 +62,13 @@ describe('dedent()', () => {
 		);
 	});
 
-	it('exposes the minimum indent (tab count) from the last call', () => {
-		let [, lastMinimum] = dedent('no indent');
-
-		expect(lastMinimum).toBe(0);
-
-		[, lastMinimum] = dedent('  less than one tab indent');
-
-		expect(lastMinimum).toBe(0);
-
-		[, lastMinimum] = dedent('\tone tab indent');
-
-		expect(lastMinimum).toBe(1);
-
-		[, lastMinimum] = dedent('\t  "1.5" tabs indent');
-
-		expect(lastMinimum).toBe(1);
-
-		[, lastMinimum] = dedent('\t\ttwo tabs indent');
-
-		expect(lastMinimum).toBe(2);
-	});
-
 	it('handles partial "for" control structures', () => {
 		// It's common in JSP to have an incomplete control structure
 		// that starts in one scriptlet and ends in another.
 
 		// prettier-ignore
 
-		const [dedented] = dedent(
+		const dedented = dedent(
 			'<%\n' +
 			'// This one was getting mangled.\n' +
 			'for (AssetRendererFactory<?> curRendererFactory : classTypesAssetRendererFactories) {\n' +

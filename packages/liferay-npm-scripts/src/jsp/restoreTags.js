@@ -311,7 +311,7 @@ function getIndentedTag(tag, token) {
 
 		// Restore original indent to first line, then dedent the whole tag.
 
-		const [dedented] = dedent('\t'.repeat(original.length) + tag);
+		const dedented = dedent('\t'.repeat(original.length) + tag);
 
 		// And indent it to the correct level, but trim off the indent on
 		// the first line because we already emitted that.
