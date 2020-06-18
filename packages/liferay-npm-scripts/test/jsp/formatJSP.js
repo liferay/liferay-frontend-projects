@@ -162,6 +162,40 @@ describe('formatJSP()', () => {
 			expect(formatJSP(source)).toBe(expected);
 		});
 
+		it('corrects script content that is "negatively" indented', () => {
+			const source = `
+				<aui:script>
+			function <portlet:namespace />deleteOrganization(
+				organizationId,
+				organizationsRedirect
+			) {
+				<portlet:namespace />doDeleteOrganization(
+					'<%= Organization.class.getName() %>',
+					organizationId,
+					organizationsRedirect
+				);
+			}
+				</aui:script>
+			`;
+
+			const expected = `
+				<aui:script>
+					function <portlet:namespace />deleteOrganization(
+						organizationId,
+						organizationsRedirect
+					) {
+						<portlet:namespace />doDeleteOrganization(
+							'<%= Organization.class.getName() %>',
+							organizationId,
+							organizationsRedirect
+						);
+					}
+				</aui:script>
+			`;
+
+			expect(formatJSP(source)).toBe(expected);
+		});
+
 		it('fixes content that is on the same line as the script tag', () => {
 			// source-formatter doesn't behave well with one-line scripts like
 			// this, so let's fix them for it.
