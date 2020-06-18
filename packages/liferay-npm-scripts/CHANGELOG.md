@@ -1,3 +1,11 @@
+## [liferay-npm-scripts/v32.5.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.5.1) (2020-06-18)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.5.0...liferay-npm-scripts/v32.5.1)
+
+### :wrench: Bug fixes
+
+-   fix(scripts): catch whole-script indentation problems in JSP (#467) ([\#468](https://github.com/liferay/liferay-npm-tools/pull/468))
+
 ## [liferay-npm-scripts/v32.5.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.5.0) (2020-06-04)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.4.0...liferay-npm-scripts/v32.5.0)
