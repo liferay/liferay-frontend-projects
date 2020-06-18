@@ -13,7 +13,9 @@ const buildDefine = template(`
         // Make module believe it is running under Node.js
 		var define = undefined;
 		var global = window;
- 	    SOURCE
+		{
+		  SOURCE
+		}
      })
  `);
 
