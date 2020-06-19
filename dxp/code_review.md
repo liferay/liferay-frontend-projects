@@ -21,4 +21,63 @@ These are guidelines that the Frontend Infrastructure Team follows when developi
     - `is:pr is:open involves:USERNAME`: Open PRs involving USERNAME (ie. as author, commenter, mentionee, or assignee).
     - `is:pr is:open review-requested:USERNAME`: Open PRs to be reviewed by USERNAME.
     - `is:pr is:open no:assignee`: Open PRs with no assignee.
-10. **Watch the repo so that you can be notified when new PRs arrive.** Even when you are not an explicit reviewer or assignee of a change, you can learn useful knowledge and information by being aware of what is going on in the repo.
+11. **Watch the repo so that you can be notified when new PRs arrive.** Even when you are not an explicit reviewer or assignee of a change, you can learn useful knowledge and information by being aware of what is going on in the repo. See the following section for information about filtering notifications.
+
+## Filtering and notifications
+
+Given that watching the repo can produce a large number of notifications, you may wish to configure email filters to highlight the issues where you are requested as a reviewer or explicitly mentioned. As described in [the GitHub documentation on email notifications](https://help.github.com/en/github/managing-subscriptions-and-notifications-on-github/configuring-notifications#filtering-email-notifications), GitHub will CC an account of the form `something@noreply.github.com` to indicate why you are receiving a particular email (eg. `mention@noreply.github.com` would be CC'd to indicate that you were mentioned in a PR or issue). Additionally, some of this information is redundantly encoded in `X-GitHub-*` headers.
+
+A partial list of examples follows, but see the documentation for a complete list of the other notification types (eg. `assign`, `push` etc).
+
+### Example 1: Activity on a pull in which you were mentioned
+
+```
+To: "liferay-frontend/liferay-portal" <liferay-portal@noreply.github.com>
+Cc: Greg Hurrell <greg@hurrell.net>, Mention <mention@noreply.github.com>
+X-GitHub-Sender: julien
+X-GitHub-Recipient: wincent
+X-GitHub-Reason: mention
+```
+
+From this we can derive:
+
+-   The reason the email is being sent (a mention), thanks to `X-GitHub-Reason` and CC address of `mention@noreply.github.com`.
+-   The mentioned GitHub user (`wincent`) and corresponding email address (`greg@hurrell.net`).
+-   The GitHub user of the author of the comment (`julien`).
+
+**Note:** Once you have been mentioned on a pull, _every_ subsequent comment on that pull will trigger a notification, even if the new comment doesn't explicitly mention you again. As such, you might want to configure an additional filter criterion to look for text matching `@your-github-username` in the email body and give matching messages special emphasis.
+
+### Example 2: Review request
+
+```
+To: "liferay-frontend/liferay-portal" <liferay-portal@noreply.github.com>
+Cc: Greg Hurrell <greg@hurrell.net>, Review requested <review_requested@noreply.github.com>
+X-GitHub-Sender: jbalsas
+X-GitHub-Recipient: wincent
+X-GitHub-Reason: review_requested
+```
+
+Again, we can derive:
+
+-   Reason (review requested) from `X-GitHub-Reason` or the CC address of `review_requested@noreply.github.com`.
+-   Reviewer GitHub user account and email address.
+-   Requester GitHub account.
+
+Closely related to the `review_request` type is the `assign` notification.
+
+### Example 3: Your own activity
+
+It's possible to configure GitHub to send you notifications even of your own activity (eg. when you post a comment). This is useful so that your email archive can contain a complete record of your conversations around a pull request; however, you may want mark emails concerning your own activity as read.
+
+```
+To: "liferay-frontend/liferay-portal" <liferay-portal@noreply.github.com>
+Cc: Greg Hurrell <greg@hurrell.net>, Your activity <your_activity@noreply.github.com>
+X-GitHub-Sender: wincent
+X-GitHub-Recipient: wincent
+X-GitHub-Reason: your_activity
+```
+
+As before, we can see:
+
+-   Reason (own activity) from `X-GitHub-Reason` or the CC address of `your_activity@noreply.github.com`.
+-   GitHub user account and email address.
