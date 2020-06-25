@@ -1,3 +1,15 @@
+## [v8.2.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.2.1) (2020-06-25)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.2.0...v8.2.1)
+
+### :wrench: Bug fixes
+
+-   fix: #493 make extending from URL work ([\#494](https://github.com/liferay/liferay-js-themes-toolkit/pull/494))
+
+### :book: Documentation
+
+-   docs: fix release process docs ([\#487](https://github.com/liferay/liferay-js-themes-toolkit/pull/487))
+
 ## [v8.2.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.2.0) (2020-04-22)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.1.2...v8.2.0)
