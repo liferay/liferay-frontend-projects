@@ -16,18 +16,9 @@ class URLPackagePrompt {
 
 	init(config, cb) {
 		this.done = cb;
+		this.themelet = config.themelet;
 
-		inquirer.prompt(
-			[
-				{
-					message: 'Enter the URL for the package:',
-					name: 'packageURL',
-					type: 'input',
-					validate: this._validatePackageURL,
-				},
-			],
-			this._afterPrompt.bind(this)
-		);
+		this._prompt();
 	}
 
 	_validatePackageURL(packageURL, _answers) {
@@ -44,13 +35,43 @@ class URLPackagePrompt {
 		const config = themeFinder.getLiferayThemeModuleFromURL(
 			answers.packageURL
 		);
-		answers.module = config.name;
+
 		answers.modules = {
 			[config.name]: Object.assign({}, config, {
 				__packageURL__: answers.packageURL,
 			}),
 		};
+
+		if (this.themelet) {
+			answers.module = {[config.name]: true};
+			answers.addedThemelets = [config.name];
+
+			if (answers.removedThemelets) {
+				const index = answers.removedThemelets.indexOf(config.name);
+
+				if (index > -1) {
+					answers.removedThemelets.splice(index, 1);
+				}
+			}
+		} else {
+			answers.module = config.name;
+		}
+
 		this.done(answers);
+	}
+
+	_prompt() {
+		inquirer.prompt(
+			[
+				{
+					message: 'Enter the URL for the package:',
+					name: 'packageURL',
+					type: 'input',
+					validate: this._validatePackageURL,
+				},
+			],
+			this._afterPrompt.bind(this)
+		);
 	}
 }
 
