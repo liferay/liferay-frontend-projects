@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable no-console */
-
 import fs from 'fs';
+import {format} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 import {getLiferayDir, project} from '../config';
+
+const {print, success} = format;
 
 /**
  *
@@ -24,5 +25,5 @@ export default function (): void {
 		path.join(liferayDirPath, 'osgi', 'modules', jarName)
 	);
 
-	console.log(`Deployed ${jarName} to ${liferayDirPath}`);
+	print(success`Deployed ${jarName} to ${liferayDirPath}`);
 }

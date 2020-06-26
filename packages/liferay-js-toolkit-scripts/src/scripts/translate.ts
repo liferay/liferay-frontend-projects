@@ -9,23 +9,24 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable no-console */
-
 import fs from 'fs';
+import {format} from 'liferay-js-toolkit-core';
 import properties from 'properties';
 import request from 'request';
 import uuidv4 from 'uuid/v4';
 
 import {getSupportedLocales, getTranslatorTextKey, project} from '../config';
 
+const {debug, error, info, print, success, warn} = format;
+
 /**
  * Default entry point
  */
 export default function (): void {
 	if (!project.l10n.supported) {
-		console.log(
-			'Project does not support localization: nothing to translate.\n\n'
-		);
+		print(error`
+			Project does not support localization: nothing to translate.
+		`);
 
 		process.exit(3);
 	}
@@ -37,14 +38,15 @@ export default function (): void {
 	}
 
 	if (!subscriptionKey || subscriptionKey === '') {
-		console.error(
-			'-------------------------------------------------------------\n' +
-				'    🛑 Microsoft Translator credentials not set 🛑\n\n' +
-				'Please set the translatorTextKey variable in your .npmbuildrc\n' +
-				'file or provide them in the TRANSLATOR_TEXT_KEY environment\n' +
-				'variable.\n' +
-				'-------------------------------------------------------------\n'
-		);
+		print(error`
+			-------------------------------------------------------------
+			🛑 Microsoft Translator credentials not set 🛑
+
+			Please set the translatorTextKey variable in your .npmbuildrc
+			file or provide them in the TRANSLATOR_TEXT_KEY environment
+			variable.
+			-------------------------------------------------------------
+		`);
 
 		process.exit(2);
 	}
@@ -60,18 +62,17 @@ export default function (): void {
 	);
 
 	if (locales.length === 0) {
-		console.log(
-			'No locales found: nothing to translate.\n\n' +
-				'You can edit your .npmbuildrc file to add new supported ' +
-				"locales using the 'supportedLocales' array.\n"
-		);
+		print(error`No locales found: nothing to translate`);
+		print(info`
+			You can edit your .npmbuildrc file to add new supported locales
+			using the 'supportedLocales' array.
+		`);
 
 		return;
 	}
 
-	console.log(`\nFound ${locales.length} locales: ${locales.join(', ')}\n`);
-
-	console.log('Adding missing translations:');
+	print(debug`Found ${locales.length} locales: ${locales.join(', ')}`);
+	print(info`Adding missing translations:`);
 
 	Promise.all([
 		translateFile(
@@ -87,26 +88,25 @@ export default function (): void {
 			addMissingTranslations(translation, arrayToMap(labels, locales))
 		)
 		.then((labels) => {
-			console.log('\nWriting localization files:');
+			print(debug`Writing localization files:`);
 
 			Object.entries(labels).forEach(([locale, labels]) => {
 				fs.writeFileSync(
 					localizationFileMap[locale].asNative,
 					properties.stringify(labels)
 				);
-				console.log(
-					`  · Wrote ${localizationFileMap[locale].asNative}`
-				);
+				print(debug`  · Wrote ${localizationFileMap[locale].asNative}`);
 			});
 
-			console.log('\nFinished\n');
+			print(success`Finished`);
 		})
 		.catch((err) => {
-			console.error(
-				'\nThere was an error translating files:\n\n' + ' ',
-				err,
-				'\n'
-			);
+			print(error`
+				There was an error translating files:
+
+				  ${err}	
+				
+			`);
 			process.exit(1);
 		});
 }
@@ -133,10 +133,10 @@ export function addMissingTranslations(translation, labels): object {
 			}
 		});
 
-		console.log(
+		print(
 			count === 0
-				? `  · No missing translations found for locale ${locale}`
-				: `  · Added ${count} missing translations for locale ${locale}`
+				? info`  · No missing translations found for locale ${locale}`
+				: info`  · Added ${count} missing translations for locale ${locale}`
 		);
 	});
 
@@ -235,16 +235,16 @@ function showMissingSupportedLocales(): void {
 	);
 
 	if (missingLocales.length > 0) {
-		console.log(`Found ${missingLocales.length} unsupported locale files:`);
+		print(warn`Found ${missingLocales.length} unsupported locale files:`);
 
 		missingLocales.forEach((locale) =>
-			console.log(`  · Found file for unsupported locale ${locale}`)
+			print(warn`  · Found file for unsupported locale ${locale}`)
 		);
 
-		console.log(
-			'\n  You can edit your .npmbuildrc file to add these unsupported \n' +
-				'  locales or remove their .properties files to hide this warning.'
-		);
+		print(info`
+			You can edit your .npmbuildrc file to add these unsupported
+			locales or remove their .properties files to hide this warning.
+		`);
 	}
 }
 

@@ -3,20 +3,25 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable no-console */
-
 import cpr from 'cpr';
 import fs from 'fs-extra';
+import {format} from 'liferay-js-toolkit-core';
+
+import {project} from '../config';
+
+const {error, print, success} = format;
 
 /**
  *
  */
 export default function (): void {
-	fs.mkdirpSync('build');
+	const buildDir = project.dir.join(project.buildDir);
+
+	fs.mkdirpSync(buildDir.asNative);
 
 	cpr(
 		'assets',
-		'build',
+		buildDir.asNative,
 		{
 			confirm: true,
 			filter: (path) => !/\/\.placeholder$/.test(path),
@@ -24,10 +29,10 @@ export default function (): void {
 		},
 		(err) => {
 			if (err && err.message !== 'No files to copy') {
-				console.error(err);
+				print(error`${err}`);
 				process.exit(1);
 			} else {
-				console.log('Project assets copied.');
+				print(success`Project assets copied`);
 			}
 		}
 	);

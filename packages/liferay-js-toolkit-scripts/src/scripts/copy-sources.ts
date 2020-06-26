@@ -3,23 +3,33 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable no-console */
-
 import cpr from 'cpr';
 import fs from 'fs-extra';
+import {format} from 'liferay-js-toolkit-core';
+
+import {project} from '../config';
+
+const {error, print, success} = format;
 
 /**
  *
  */
 export default function (): void {
-	fs.mkdirpSync('build');
+	const buildDir = project.dir.join(project.buildDir);
 
-	cpr('src', 'build', {confirm: true, overwrite: true}, (err) => {
-		if (err) {
-			console.error(err);
-			process.exit(1);
-		} else {
-			console.log('JavaScript files copied.');
+	fs.mkdirpSync(buildDir.asNative);
+
+	cpr(
+		project.srcDir.asNative,
+		buildDir.asNative,
+		{confirm: true, overwrite: true},
+		(err) => {
+			if (err) {
+				print(error`${err}`);
+				process.exit(1);
+			} else {
+				print(success`JavaScript files copied`);
+			}
 		}
-	});
+	);
 }
