@@ -1,7 +1,0 @@
-Bundle-Name: Java Project
-Bundle-SymbolicName: com.java.project
-Bundle-Version: 1.0.0
-Export-Package:\
-	com.java.project,\
-	com.java.project.api
-Web-ContextPath: /java-project
