@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.0.3-pre.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.3-pre.0) (2020-06-29)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.2...liferay-theme-tasks/v10.0.3-pre.0)
+
+### :wrench: Bug fixes
+
+-   fix: #495 support yarn workspaces ([\#496](https://github.com/liferay/liferay-js-themes-toolkit/pull/496))
+
 ## [liferay-theme-tasks/v10.0.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.2) (2020-04-22)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.1...liferay-theme-tasks/v10.0.2)

@@ -72,5 +72,5 @@
 		"postversion": "npx liferay-js-publish",
 		"preversion": "yarn ci"
 	},
-	"version": "10.0.2"
+	"version": "10.0.3-pre.0"
 }
