@@ -159,6 +159,10 @@ function getSassIncludePaths() {
 		includePaths.push(themeNodeModules);
 	}
 
+	if (project.workspaceDir) {
+		includePaths.push(project.workspaceDir.join('node_modules').asNative);
+	}
+
 	return includePaths;
 }
 
