@@ -5,6 +5,9 @@
 
 const crypto = require('crypto');
 const fs = require('fs-extra');
+const {
+	default: FilePath,
+} = require('liferay-npm-build-tools-common/lib/file-path');
 const _ = require('lodash');
 const path = require('path');
 
@@ -61,6 +64,10 @@ class Project {
 
 	get watching() {
 		return this._watching;
+	}
+
+	get workspaceDir() {
+		return this._workspaceDir;
 	}
 
 	/**
@@ -134,6 +141,23 @@ class Project {
 		this._pkgJsonPath = path.join(this.dir, 'package.json');
 		this._pkgJson = fs.readJSONSync(this._pkgJsonPath);
 		this._themeConfig = new ThemeConfig(this);
+		this._workspaceDir = this._findWorkspaceDir(projectDir);
+	}
+
+	_findWorkspaceDir(dir) {
+		dir = path.resolve(dir);
+
+		if (fs.existsSync(path.join(dir, 'yarn.lock'))) {
+			return new FilePath(dir);
+		}
+
+		const parentDir = path.dirname(dir);
+
+		if (parentDir === dir) {
+			return undefined;
+		}
+
+		return this._findWorkspaceDir(parentDir);
 	}
 
 	_reload() {
