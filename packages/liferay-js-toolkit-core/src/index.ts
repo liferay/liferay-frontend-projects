@@ -46,6 +46,7 @@ export * as format from './format';
 // Miscellaneous utilities
 export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
 export {default as escapeStringRegExp} from './escapeStringRegExp';
+export {runNodeModulesBin, runPkgJsonScript} from './run';
 
 // JSON file structure definitions (schemas)
 export type {

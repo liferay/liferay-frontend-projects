@@ -3,47 +3,31 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {spawn} from 'cross-spawn';
+import {
+	runNodeModulesBin as coreRunNodeModulesBin,
+	runPkgJsonScript as coreRunPkgJsonScript,
+} from 'liferay-js-toolkit-core';
 
 import {project} from '../globals';
 
 export function runNodeModulesBin(script: string, args: string[] = []): void {
-	const proc = spawn.sync(
-		project.dir.join('node_modules', '.bin', script).asNative,
-		args,
-		{
-			stdio: 'inherit',
-		}
-	);
+	const result = coreRunNodeModulesBin(script, ...args);
 
-	if (proc.error) {
-		throw proc.error;
-	} else if (proc.status !== 0) {
+	if (result.status !== 0) {
 		throw new Error(
-			`Node modules binary '${script}' finished with status ${proc.status}`
+			`Node modules binary '${script}' finished with status ${result.status}`
 		);
-	} else if (proc.signal) {
+	} else if (result.signal) {
 		throw new Error(
-			`Node modules binary '${script}' finished due to signal ${proc.signal}`
+			`Node modules binary '${script}' finished due to signal ${result.signal}`
 		);
 	}
 }
 
 export function runPkgJsonScript(script: string, args: string[] = []): void {
-	const pkgManager = project.pkgManager || 'npm';
+	const proc = coreRunPkgJsonScript(project, script, ...args);
 
-	if (pkgManager !== 'yarn') {
-		args = ['--'].concat(args);
-	}
-
-	const proc = spawn.sync(pkgManager, ['run', script, ...args], {
-		shell: true,
-		stdio: 'inherit',
-	});
-
-	if (proc.error) {
-		throw proc.error;
-	} else if (proc.status !== 0) {
+	if (proc.status !== 0) {
 		throw new Error(
 			`Package script '${script}' finished with status ${proc.status}`
 		);

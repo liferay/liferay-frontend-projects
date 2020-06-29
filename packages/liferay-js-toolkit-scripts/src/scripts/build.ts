@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {runNodeModulesBin} from '../util';
+import {runNodeModulesBin} from 'liferay-js-toolkit-core';
 
 export default function (): void {
 	runNodeModulesBin('liferay-npm-bundler');
