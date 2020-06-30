@@ -5105,24 +5105,6 @@ lie@~3.3.0:
   dependencies:
     immediate "~3.0.5"
 
-liferay-js-toolkit-core@3.0.0-alpha.1:
-  version "3.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/liferay-js-toolkit-core/-/liferay-js-toolkit-core-3.0.0-alpha.1.tgz#704d3291aba4a1ec5c3ad67895b8b8cfc58739fb"
-  integrity sha512-fSeZLf4iKYwH7u8CxZMmewNhmJtRVjXU+JKheSP696ebxEUo98TRhmJNQhmHjJ5H3pk6cSdttm3uX1cRvAe04A==
-  dependencies:
-    acorn "^6.2.1"
-    chalk "^2.4.2"
-    clone "^2.1.2"
-    dot-prop "^5.0.1"
-    escodegen "^1.14.1"
-    estraverse "^4.3.0"
-    fs-extra "^8.1.0"
-    properties "^1.2.1"
-    read-json-sync "^2.0.1"
-    resolve "^1.8.1"
-    source-map "^0.7.3"
-    webpack "^4.41.6"
-
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
