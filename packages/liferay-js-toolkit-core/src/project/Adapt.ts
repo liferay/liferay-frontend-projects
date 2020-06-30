@@ -32,21 +32,22 @@ export default class Adapt {
 	}
 
 	_lazyInit(): void {
-		const {probe} = this._project;
+		const {_project} = this;
+		const {probe} = _project;
 
 		switch (probe.type) {
 			case ProjectType.ANGULAR_CLI:
-				this._buildDir = new FilePath('dist');
+				this._buildDir = _project.dir.join('dist');
 				this._supported = true;
 				break;
 
 			case ProjectType.CREATE_REACT_APP:
-				this._buildDir = new FilePath('build');
+				this._buildDir = _project.dir.join('build');
 				this._supported = true;
 				break;
 
 			case ProjectType.VUE_CLI:
-				this._buildDir = new FilePath('dist');
+				this._buildDir = _project.dir.join('dist');
 				this._supported = true;
 				break;
 

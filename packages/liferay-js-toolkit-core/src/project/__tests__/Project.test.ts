@@ -28,8 +28,8 @@ describe('project', () => {
 		);
 	});
 
-	it('returns buildDir', () => {
-		expect(project.buildDir.asPosix).toBe('./build');
+	it('returns outputDir', () => {
+		expect(project.outputDir).toEqual(project.dir.join('./build'));
 	});
 
 	it('returns globalConfig', () => {
@@ -86,7 +86,7 @@ describe('project.jar', () => {
 	});
 
 	it('returns outputDir', () => {
-		expect(project.jar.outputDir.asPosix).toBe('./dist');
+		expect(project.jar.outputDir).toEqual(project.dir.join('./dist'));
 	});
 
 	it('returns supported', () => {
@@ -452,8 +452,8 @@ describe('empty project defaults', () => {
 		);
 	});
 
-	it('returns buildDir', () => {
-		expect(project.buildDir.asPosix).toBe('./build');
+	it('returns outputDir', () => {
+		expect(project.outputDir).toEqual(project.dir.join('./build'));
 	});
 
 	it('return maxParallelFiles', () => {
@@ -466,7 +466,7 @@ describe('empty project defaults', () => {
 		});
 
 		it('returns outputDir', () => {
-			expect(project.jar.outputDir.asPosix).toBe('./build');
+			expect(project.jar.outputDir).toEqual(project.dir.join('./build'));
 		});
 
 		it('returns outputFilename', () => {
@@ -542,7 +542,7 @@ describe('specific features', () => {
 
 		expect(project.jar.supported).toBe(true);
 		expect(project.jar.customManifestHeaders).toEqual({});
-		expect(project.jar.outputDir.asNative).toBe(project.buildDir.asNative);
+		expect(project.jar.outputDir.asNative).toBe(project.outputDir.asNative);
 		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
 	});
 });

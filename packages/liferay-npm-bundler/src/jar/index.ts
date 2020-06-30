@@ -14,7 +14,7 @@ import {
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {buildBundlerDir, project} from '../globals';
+import {project} from '../globals';
 import * as ddm from './ddm';
 import * as xml from './xml';
 
@@ -33,10 +33,12 @@ export default function createJar(): Promise<void> {
 	addConfigurationJsonPortletInstanceFile(zip);
 
 	return zip.generateAsync({type: 'nodebuffer'}).then((buffer) => {
-		fs.mkdirpSync(project.jar.outputDir.asNative);
+		const outputDir = project.jar.outputDir;
+
+		fs.mkdirpSync(outputDir.asNative);
 
 		fs.writeFileSync(
-			project.jar.outputDir.join(project.jar.outputFilename).asNative,
+			outputDir.join(project.jar.outputFilename).asNative,
 			buffer
 		);
 	});
@@ -47,7 +49,7 @@ export default function createJar(): Promise<void> {
  */
 function addBuildFiles(zip: JSZip): void {
 	addFiles(
-		buildBundlerDir.asNative,
+		project.outputDir.asNative,
 		['**/*', `!${project.jar.outputFilename}`],
 		zip.folder('META-INF').folder('resources')
 	);

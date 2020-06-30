@@ -14,7 +14,7 @@ import {
 	splitModuleName,
 } from 'liferay-js-toolkit-core';
 
-import {buildBundlerDir, manifest, project} from '../../../globals';
+import {manifest, project} from '../../../globals';
 import * as log from '../../../log';
 import {getPackageTargetDir} from '../../../util';
 import {render} from './util';
@@ -53,7 +53,7 @@ async function writeDependencyExportModule(
 	const pkgJson: PkgJson = fs.readJsonSync(
 		project.resolve(`${scopedPkgName}/package.json`)
 	);
-	const pkgDir = buildBundlerDir.join(
+	const pkgDir = project.outputDir.join(
 		'node_modules',
 		getPackageTargetDir({
 			name: namespacedScopedPkgName,
@@ -165,7 +165,7 @@ async function writeLocalExportModule(
 	id: string,
 	moduleName: string
 ): Promise<void> {
-	const moduleFile = buildBundlerDir.join(
+	const moduleFile = project.outputDir.join(
 		new FilePath(moduleName, {posix: true})
 	);
 
@@ -177,7 +177,7 @@ async function writeLocalExportModule(
 
 	const bundlesLocation = moduleFile
 		.dirname()
-		.relative(buildBundlerDir)
+		.relative(project.outputDir)
 		.toDotRelative();
 
 	await writeExportModule(

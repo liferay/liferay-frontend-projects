@@ -15,13 +15,13 @@ const {error, print, success} = format;
  *
  */
 export default function (): void {
-	const buildDir = project.dir.join(project.buildDir);
+	const {outputDir} = project;
 
-	fs.mkdirpSync(buildDir.asNative);
+	fs.mkdirpSync(outputDir.asNative);
 
 	cpr(
-		project.srcDir.asNative,
-		buildDir.asNative,
+		project.sourceDir.asNative,
+		outputDir.asNative,
 		{confirm: true, overwrite: true},
 		(err) => {
 			if (err) {

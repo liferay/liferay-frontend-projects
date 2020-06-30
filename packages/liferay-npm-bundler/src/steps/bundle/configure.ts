@@ -7,12 +7,7 @@ import fs from 'fs-extra';
 import {FilePath, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
-import {
-	buildGeneratedDir,
-	buildWebpackDir,
-	project,
-	srcDir,
-} from '../../globals';
+import {bundlerGeneratedDir, bundlerWebpackDir, project} from '../../globals';
 import * as log from '../../log';
 import {abort} from '../../util';
 
@@ -59,7 +54,7 @@ export default function configure(): webpack.Configuration {
 	overrideWarn('output', webpackConfig.output);
 	webpackConfig.output = {
 		filename: '[name].bundle.js',
-		path: project.dir.join(buildWebpackDir).asNative,
+		path: bundlerWebpackDir.asNative,
 	};
 
 	// Override optimization configuration
@@ -84,7 +79,7 @@ export default function configure(): webpack.Configuration {
 
 	// Write webpack.config.js for debugging purposes
 	fs.writeFileSync(
-		buildGeneratedDir.join('webpack.config.json').asNative,
+		bundlerGeneratedDir.join('webpack.config.json').asNative,
 		JSON.stringify(webpackConfig, null, '\t')
 	);
 
@@ -98,7 +93,7 @@ export default function configure(): webpack.Configuration {
  * @param moduleName node module name to export
  */
 function exportDependencyModule(id: string, moduleName: string): FilePath {
-	const generatedFile = buildGeneratedDir.join(`${id}.js`);
+	const generatedFile = bundlerGeneratedDir.join(`${id}.js`);
 
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
 
@@ -117,21 +112,22 @@ function exportDependencyModule(id: string, moduleName: string): FilePath {
  * @param moduleName node module name to export
  */
 function exportLocalModule(id: string, moduleName: string): FilePath {
-	const generatedFile = buildGeneratedDir.join(`${id}.js`);
 	const relativeModuleName = moduleName.replace('./', '');
 
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
 
-	const buildGeneratedDirRelativeModuleFile = buildGeneratedDir.relative(
-		srcDir.join(new FilePath(relativeModuleName, {posix: true}))
+	const bundlerGeneratedDirRelativeModuleFile = bundlerGeneratedDir.relative(
+		project.sourceDir.join(new FilePath(relativeModuleName, {posix: true}))
 	);
+
+	const generatedFile = bundlerGeneratedDir.join(`${id}.js`);
 
 	fs.writeFileSync(
 		generatedFile.asNative,
-		`__MODULE__.exports = require('${buildGeneratedDirRelativeModuleFile.asPosix}');`
+		`__MODULE__.exports = require('${bundlerGeneratedDirRelativeModuleFile.asPosix}');`
 	);
 
-	return generatedFile;
+	return project.dir.relative(generatedFile);
 }
 
 function overrideWarn(fieldName: string, value: unknown): void {

@@ -6,7 +6,7 @@
 import fs from 'fs-extra';
 import {addNamespace} from 'liferay-js-toolkit-core';
 
-import {buildBundlerDir, buildWebpackDir, project} from '../../../globals';
+import {bundlerWebpackDir, project} from '../../../globals';
 import * as log from '../../../log';
 import {render, transformFile} from './util';
 import wrapBundles from './wrap-bundles';
@@ -28,8 +28,8 @@ function copyWebpackBundles(): void {
 	['runtime', 'vendor', ...Object.keys(project.exports)].forEach((id) => {
 		const fileName = `${id}.bundle.js`;
 
-		const sourceFile = buildWebpackDir.join(fileName);
-		const destFile = buildBundlerDir.join(fileName);
+		const sourceFile = bundlerWebpackDir.join(fileName);
+		const destFile = project.outputDir.join(fileName);
 
 		// TODO: copy map files
 
@@ -44,7 +44,7 @@ function copyWebpackBundles(): void {
 }
 
 async function injectImportsInPkgJson(): Promise<void> {
-	const file = buildBundlerDir.join('package.json');
+	const file = project.outputDir.join('package.json');
 
 	const pkgJson = fs.readJSONSync(file.asNative);
 
@@ -102,7 +102,7 @@ async function writeManifestModule(): Promise<void> {
 	const moduleName = `${name}@${version}/webpack.manifest`;
 
 	fs.writeFileSync(
-		buildBundlerDir.join(`webpack.manifest.js`).asNative,
+		project.outputDir.join(`webpack.manifest.js`).asNative,
 		await render('manifest-module', {moduleName})
 	);
 

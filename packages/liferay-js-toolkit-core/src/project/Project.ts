@@ -60,6 +60,66 @@ export default class Project {
 	}
 
 	/**
+	 * Get absolute path to project's directory.
+	 */
+	get dir(): FilePath {
+		return this._projectDir;
+	}
+
+	/** Get absolute path to output directory */
+	get outputDir(): FilePath {
+		if (this._outputDir === undefined) {
+			this._outputDir = this.dir.join(
+				new FilePath(
+					prop.get(
+						this._configuration,
+						'output',
+						this.adapt.supported ? './build.liferay' : './build'
+					),
+					{posix: true}
+				)
+			);
+		}
+
+		return this._outputDir;
+	}
+
+	/** Get absolute path to source directory */
+	get sourceDir(): FilePath {
+		if (this._sourceDir === undefined) {
+			this._sourceDir = this.dir.join(
+				new FilePath(prop.get(this._configuration, 'source', '.'), {
+					posix: true,
+				})
+			);
+		}
+
+		return this._sourceDir;
+	}
+
+	/**
+	 * Get absolute path to directory where work files must be placed.
+	 *
+	 * @remarks
+	 * Work files are files that can be cached between different builds to speed
+	 * the process or simply because they can help in debugging a failed build.
+	 *
+	 * @return the work dir or undefined if not configured
+	 */
+	get workDir(): FilePath | undefined {
+		if (this._workDir === undefined) {
+			this._workDir = this.dir.join(
+				new FilePath(
+					prop.get(this._configuration, 'workdir', './work'),
+					{posix: true}
+				)
+			);
+		}
+
+		return this._workDir;
+	}
+
+	/**
 	 * Get module paths	to export to the outside world making them available
 	 * through the AMD loader.
 	 *
@@ -78,7 +138,6 @@ export default class Project {
 
 			// Export package.json's main entry (if present) automatically
 			if (!this._exports['main']) {
-				const {srcDir} = this;
 				let main = this._pkgJson.main;
 
 				if (main) {
@@ -89,7 +148,9 @@ export default class Project {
 					}
 
 					this._exports['main'] = main;
-				} else if (fs.existsSync(srcDir.join('index.js').asNative)) {
+				} else if (
+					fs.existsSync(this.sourceDir.join('index.js').asNative)
+				) {
 					this._exports['main'] = './index.js';
 				}
 			}
@@ -156,47 +217,6 @@ export default class Project {
 		}
 
 		return this._sources;
-	}
-
-	/**
-	 * Get source directory relative to `this.dir` and starting with `./` (so
-	 * that it can be safely path.joined)
-	 */
-	get srcDir(): FilePath {
-		if (this._srcDir === undefined) {
-			this._srcDir = new FilePath(
-				prop.get(this._configuration, 'source', '.'),
-				{posix: true}
-			).toDotRelative();
-		}
-
-		return this._srcDir;
-	}
-
-	/**
-	 * Get output directory relative to `this.dir` and starting with `./` (so
-	 * that it can be safely path.joined)
-	 */
-	get buildDir(): FilePath {
-		if (this._buildDir === undefined) {
-			this._buildDir = new FilePath(
-				prop.get(
-					this._configuration,
-					'output',
-					this.adapt.supported ? './build.liferay' : './build'
-				),
-				{posix: true}
-			).toDotRelative();
-		}
-
-		return this._buildDir;
-	}
-
-	/**
-	 * Get absolute path to project's directory.
-	 */
-	get dir(): FilePath {
-		return this._projectDir;
 	}
 
 	/**
@@ -336,15 +356,16 @@ export default class Project {
 		configFilePath = 'liferay-npm-bundler.config.js'
 	): void {
 		// First reset everything
-		this._buildDir = undefined;
 		this._configFile = undefined;
 		this._configuration = undefined;
+		this._outputDir = undefined;
 		this._pkgJson = undefined;
 		this._pkgManager = undefined;
 		this._projectDir = undefined;
 		this._sources = undefined;
-		this._srcDir = undefined;
+		this._sourceDir = undefined;
 		this._toolsDir = undefined;
+		this._workDir = undefined;
 
 		// Set significant directories
 		this._projectDir = new FilePath(path.resolve(projectPath));
@@ -455,31 +476,6 @@ export default class Project {
 		}
 	}
 
-	/**
-	 * Get directory where work files must be placed.
-	 *
-	 * @remarks
-	 * Work files are files that can be cached between different builds to speed
-	 * the process or simply because they can help in debugging a failed build.
-	 *
-	 * @return the work dir or undefined if not configured
-	 */
-	get workDir(): FilePath | undefined {
-		if (this._workDir === undefined) {
-			let dir = prop.get(this._configuration, 'workdir', undefined);
-
-			if (dir) {
-				if (!dir.startsWith('./')) {
-					dir = `./${dir}`;
-				}
-
-				this._workDir = new FilePath(dir, {posix: true});
-			}
-		}
-
-		return this._workDir;
-	}
-
 	_loadConfiguration(): void {
 		const {_configFile} = this;
 		const configDir = _configFile.dirname();
@@ -507,9 +503,6 @@ export default class Project {
 			: {};
 	}
 
-	/** Project relative path to build directory */
-	private _buildDir: FilePath;
-
 	/** Absolute path to config file */
 	private _configFile: FilePath;
 
@@ -519,6 +512,10 @@ export default class Project {
 
 	/** Absolute path to project directory */
 	private _projectDir: FilePath;
+
+	private _outputDir: FilePath;
+	private _sourceDir: FilePath;
+	private _workDir: FilePath;
 
 	/** Project relative paths to source directories */
 	private _sources: FilePath[];
@@ -536,7 +533,4 @@ export default class Project {
 	private _webpackConfiguration: webpack.Configuration;
 
 	private _versionsInfo: Map<string, VersionInfo>;
-
-	private _srcDir: FilePath;
-	private _workDir: FilePath;
 }

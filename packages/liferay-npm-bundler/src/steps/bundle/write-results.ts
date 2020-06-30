@@ -6,7 +6,7 @@
 import fs from 'fs-extra';
 import webpack from 'webpack';
 
-import {buildWebpackDir} from '../../globals';
+import {bundlerWebpackDir} from '../../globals';
 import * as log from '../../log';
 
 export default function writeResults(stats: webpack.Stats): void {
@@ -17,7 +17,7 @@ export default function writeResults(stats: webpack.Stats): void {
 
 function writeAssets(assets: object): void {
 	Object.entries(assets).forEach(([fileName, source]) => {
-		const filePath = buildWebpackDir.join(fileName).asNative;
+		const filePath = bundlerWebpackDir.join(fileName).asNative;
 
 		fs.writeFileSync(filePath, source.source());
 

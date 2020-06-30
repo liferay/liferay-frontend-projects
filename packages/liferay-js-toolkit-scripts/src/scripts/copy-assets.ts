@@ -15,13 +15,13 @@ const {error, print, success} = format;
  *
  */
 export default function (): void {
-	const buildDir = project.dir.join(project.buildDir);
+	const {outputDir} = project;
 
-	fs.mkdirpSync(buildDir.asNative);
+	fs.mkdirpSync(outputDir.asNative);
 
 	cpr(
 		'assets',
-		buildDir.asNative,
+		outputDir.asNative,
 		{
 			confirm: true,
 			filter: (path) => !/\/\.placeholder$/.test(path),

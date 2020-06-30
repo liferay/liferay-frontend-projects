@@ -96,7 +96,8 @@ export default class Jar {
 			let outputDirPosixPath = prop.get(
 				npmbundlerrc,
 				'create-jar.output-dir',
-				_project.buildDir.asPosix
+				_project.dir.relative(_project.outputDir).toDotRelative()
+					.asPosix
 			);
 
 			if (outputDirPosixPath !== undefined) {
@@ -104,9 +105,11 @@ export default class Jar {
 					outputDirPosixPath = `./${outputDirPosixPath}`;
 				}
 
-				this._outputDir = new FilePath(outputDirPosixPath, {
-					posix: true,
-				});
+				this._outputDir = _project.dir.join(
+					new FilePath(outputDirPosixPath, {
+						posix: true,
+					})
+				);
 			}
 		}
 

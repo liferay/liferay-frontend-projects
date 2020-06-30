@@ -16,12 +16,10 @@ const {print, success} = format;
  */
 export default function (): void {
 	const liferayDirPath = getLiferayDir();
-
-	const outputDir = project.jar.outputDir;
 	const jarName = project.jar.outputFilename;
 
 	fs.copyFileSync(
-		outputDir.join(jarName).asNative,
+		project.jar.outputDir.join(jarName).asNative,
 		path.join(liferayDirPath, 'osgi', 'modules', jarName)
 	);
 

@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
-import {buildBundlerDir, manifest, project} from './globals';
+import {manifest, project} from './globals';
 import createJar from './jar';
 import * as log from './log';
 import report from './report';
@@ -97,21 +97,21 @@ export default async function (argv: {version: boolean}): Promise<void> {
 function addRootPackageToManifest(rootPkg: PkgDesc): void {
 	manifest.addPackage(
 		rootPkg,
-		rootPkg.clone({dir: buildBundlerDir.asNative})
+		rootPkg.clone({dir: project.outputDir.asNative})
 	);
 }
 
 function copyPackageJson(): void {
 	fs.copyFileSync(
 		project.dir.join('package.json').asNative,
-		buildBundlerDir.join('package.json').asNative
+		project.outputDir.join('package.json').asNative
 	);
 
 	log.debug('Copied package.json to output directory');
 }
 
 function saveManifest(): void {
-	manifest.save(buildBundlerDir.join('manifest.json').asNative);
+	manifest.save(project.outputDir.join('manifest.json').asNative);
 
 	log.debug('Wrote manifest.json to output directory');
 }
