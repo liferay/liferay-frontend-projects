@@ -8,7 +8,6 @@ import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
 import {manifest, project} from './globals';
-import createJar from './jar';
 import * as log from './log';
 import report from './report';
 import adaptAngularCli from './steps/adapt/angular-cli';
@@ -68,11 +67,6 @@ export default async function (argv: {version: boolean}): Promise<void> {
 
 		// Write manifest
 		saveManifest();
-
-		// Create final JAR
-		if (project.jar.supported) {
-			await createJar();
-		}
 
 		// Report and show execution time
 		const hrtime = process.hrtime(start);

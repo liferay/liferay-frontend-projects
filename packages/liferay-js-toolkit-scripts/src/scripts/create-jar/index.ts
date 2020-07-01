@@ -11,19 +11,21 @@ import {
 	ConfigurationJsonPortletInstance,
 	ConfigurationJsonSystem,
 	FilePath,
+	format,
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {project} from '../globals';
+import {project} from '../../config';
 import * as ddm from './ddm';
 import * as xml from './xml';
 
-const pkgJson = project.pkgJson;
+const {print, success} = format;
+const {pkgJson} = project;
 
 /**
  * Create an OSGi bundle with build's output
  */
-export default function createJar(): Promise<void> {
+export default async function createJar(): Promise<void> {
 	const zip: JSZip = new JSZip();
 
 	addManifest(zip);
@@ -32,16 +34,22 @@ export default function createJar(): Promise<void> {
 	addConfigurationJsonSystemFiles(zip);
 	addConfigurationJsonPortletInstanceFile(zip);
 
-	return zip.generateAsync({type: 'nodebuffer'}).then((buffer) => {
-		const outputDir = project.jar.outputDir;
+	const buffer = await zip.generateAsync({type: 'nodebuffer'});
 
-		fs.mkdirpSync(outputDir.asNative);
+	const outputDir = project.jar.outputDir;
 
-		fs.writeFileSync(
-			outputDir.join(project.jar.outputFilename).asNative,
-			buffer
-		);
-	});
+	fs.mkdirpSync(outputDir.asNative);
+
+	fs.writeFileSync(
+		outputDir.join(project.jar.outputFilename).asNative,
+		buffer
+	);
+
+	const jarFilePath = project.dir.relative(
+		outputDir.join(project.jar.outputFilename)
+	).asNative;
+
+	print(success`File {${jarFilePath}} created`);
 }
 
 /**
