@@ -14,22 +14,26 @@ const {error, print, success} = format;
 /**
  *
  */
-export default function (): void {
-	const {outputDir} = project;
+export default function (): Promise<void> {
+	return new Promise((resolve) => {
+		const {outputDir} = project;
 
-	fs.mkdirpSync(outputDir.asNative);
+		fs.mkdirpSync(outputDir.asNative);
 
-	cpr(
-		project.sourceDir.asNative,
-		outputDir.asNative,
-		{confirm: true, overwrite: true},
-		(err) => {
-			if (err) {
-				print(error`${err}`);
-				process.exit(1);
-			} else {
-				print(success`JavaScript files copied`);
+		cpr(
+			project.sourceDir.asNative,
+			outputDir.asNative,
+			{confirm: true, overwrite: true},
+			(err) => {
+				if (err) {
+					print(error`${err}`);
+					process.exit(1);
+				} else {
+					print(success`JavaScript files copied`);
+				}
+
+				resolve();
 			}
-		}
-	);
+		);
+	});
 }
