@@ -23,5 +23,5 @@ export default function (): void {
 		path.join(liferayDirPath, 'osgi', 'modules', jarName)
 	);
 
-	print(success`Deployed ${jarName} to ${liferayDirPath}`);
+	print(success`Deployed {${jarName}} to ${liferayDirPath}`);
 }
