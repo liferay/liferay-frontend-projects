@@ -69,9 +69,8 @@ export default class Probe {
 			return false;
 		}
 
-		return (
-			Object.values(scripts).find((script) => script.startsWith(tool)) !==
-			undefined
+		return Object.values(scripts).some((script) =>
+			new RegExp(`^\\s*${tool}\\b`).test(script)
 		);
 	}
 
