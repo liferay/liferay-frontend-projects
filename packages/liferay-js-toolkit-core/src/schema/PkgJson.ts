@@ -21,4 +21,7 @@ export default interface PkgJson {
 	peerDependencies?: {
 		[pkgName: string]: string;
 	};
+	scripts?: {
+		[name: string]: string;
+	};
 }

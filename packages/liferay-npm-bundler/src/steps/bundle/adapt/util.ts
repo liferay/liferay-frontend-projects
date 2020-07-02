@@ -7,10 +7,10 @@ import ejs from 'ejs';
 import fs from 'fs-extra';
 import path from 'path';
 
-import {buildBundlerDir} from '../../../globals';
+import {project} from '../../../globals';
 
 /**
- * Helper function to transform a file inside `buildBundlerDir`.
+ * Helper function to transform a file inside project's output dir.
  *
  * @remarks
  * If the file does not exist it is considered to be empty.
@@ -21,7 +21,7 @@ export async function transformFile(
 	fileName: string,
 	transform: {(content: string): Promise<string> | string}
 ): Promise<void> {
-	const file = buildBundlerDir.join(fileName);
+	const file = project.outputDir.join(fileName);
 
 	fs.writeFileSync(
 		file.asNative,

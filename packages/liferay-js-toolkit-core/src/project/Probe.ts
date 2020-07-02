@@ -39,7 +39,11 @@ export default class Probe {
 
 		// This must go last, as all other types have liferay-npm-bundler as
 		// dependency
-		if (this._hasDependency('liferay-npm-bundler')) {
+		if (
+			this._hasDependency('liferay-npm-bundler') ||
+			this._hasDependency('liferay-js-toolkit-scripts') ||
+			this._hasScriptCalling('js-toolkit')
+		) {
 			return ProjectType.BUNDLER;
 		}
 
@@ -54,6 +58,19 @@ export default class Probe {
 				pkgJson.dependencies[pkgName] !== undefined) ||
 			(pkgJson.devDependencies &&
 				pkgJson.devDependencies[pkgName] !== undefined)
+		);
+	}
+
+	_hasScriptCalling(tool: string): boolean {
+		const {pkgJson} = this._project;
+		const {scripts} = pkgJson;
+
+		if (!scripts) {
+			return false;
+		}
+
+		return Object.values(scripts).some((script) =>
+			new RegExp(`^\\s*${tool}\\b`).test(script)
 		);
 	}
 

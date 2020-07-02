@@ -16,7 +16,7 @@ import {
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {buildBundlerDir, buildGeneratedDir, project} from '../../globals';
+import {bundlerGeneratedDir, project} from '../../globals';
 import * as log from '../../log';
 import {copyFiles, findFiles} from '../../util/files';
 import Renderer from '../../util/renderer';
@@ -51,9 +51,9 @@ export interface WebpackBundles {
 
 export async function copyStaticAssets(globs: string[]): Promise<void> {
 	const copiedFiles = copyFiles(
-		project.dir.join(project.adapt.buildDir),
+		project.adapt.buildDir,
 		globs,
-		buildBundlerDir
+		project.outputDir
 	);
 
 	log.debug(`Copied static assets: ${copiedFiles.length}`);
@@ -97,7 +97,7 @@ export async function processWebpackBundles(
 	globs: string[],
 	...frameworkSpecificTransforms: JsSourceTransform[]
 ): Promise<void> {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+	const adaptBuildDir = project.adapt.buildDir;
 
 	const copiedBundles = findFiles(adaptBuildDir, globs);
 
@@ -109,7 +109,7 @@ export async function processWebpackBundles(
 
 			await transformJsSourceFile(
 				adaptBuildDir.join(file),
-				buildBundlerDir.join(file),
+				project.outputDir.join(file),
 				...frameworkSpecificTransforms,
 				namespaceWepbackJsonp(),
 				exportModuleAsFunction(),
@@ -126,8 +126,8 @@ async function processAdapterModule(
 	templatePath: string,
 	data: object
 ): Promise<void> {
-	const fromFile = buildGeneratedDir.join(templatePath);
-	const toFile = buildBundlerDir.join(templatePath);
+	const fromFile = bundlerGeneratedDir.join(templatePath);
+	const toFile = project.outputDir.join(templatePath);
 
 	fs.writeFileSync(
 		fromFile.asNative,
@@ -166,7 +166,7 @@ export async function processCssFiles(
 	cssGlobs: string[],
 	assetGlobs: string[]
 ): Promise<void> {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+	const adaptBuildDir = project.adapt.buildDir;
 
 	const cssFiles = findFiles(adaptBuildDir, cssGlobs);
 
@@ -186,7 +186,7 @@ export async function processCssFiles(
 		cssFiles.map(async (file) => {
 			await transformTextFile(
 				adaptBuildDir.join(file),
-				buildBundlerDir.join(file),
+				project.outputDir.join(file),
 				replace(assetURLsMap)
 			);
 		})
@@ -208,7 +208,7 @@ export async function processPackageJson(
 	cssPortletHeader: string | undefined
 ): Promise<void> {
 	const fromFile = project.dir.join('package.json');
-	const toFile = buildBundlerDir.join('package.json');
+	const toFile = project.outputDir.join('package.json');
 
 	await transformJsonFile<PkgJson>(
 		fromFile,
@@ -234,7 +234,7 @@ function findRealFileName(
 	file: string,
 	failIfNotFound = true
 ): string | undefined {
-	const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+	const adaptBuildDir = project.adapt.buildDir;
 
 	const match = file.match(/.*\[(.*)\].*/);
 

@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler",
-	"version": "3.0.0-alpha.2",
+	"version": "3.0.0",
 	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
@@ -32,7 +32,7 @@
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
 		"jszip": "^3.1.5",
-		"liferay-js-toolkit-core": "3.0.0-alpha.1",
+		"liferay-js-toolkit-core": "^3.0.0",
 		"pretty-time": "^1.1.0",
 		"read-json-sync": "^2.0.1",
 		"source-map": "^0.7.3",

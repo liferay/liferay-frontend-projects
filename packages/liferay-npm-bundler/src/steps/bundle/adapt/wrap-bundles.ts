@@ -8,7 +8,7 @@ import {traverse} from 'estraverse';
 import estree from 'estree';
 import fs from 'fs-extra';
 
-import {buildBundlerDir, project} from '../../../globals';
+import {project} from '../../../globals';
 import * as log from '../../../log';
 import {render, transformFile} from './util';
 
@@ -43,7 +43,7 @@ export default async function wrapBundles(): Promise<void> {
 
 function getImportDependencies(id: string): string {
 	const content = fs
-		.readFileSync(buildBundlerDir.join(`${id}.bundle.js`).asNative)
+		.readFileSync(project.outputDir.join(`${id}.bundle.js`).asNative)
 		.toString();
 
 	const ast = parse(content, {

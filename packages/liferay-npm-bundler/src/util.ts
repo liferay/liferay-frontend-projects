@@ -33,9 +33,9 @@ export function abort(message?: string): void {
  */
 export function getDestDir(pkg: PkgDesc): string {
 	if (pkg.isRoot) {
-		return project.dir.join(project.buildDir).asNative;
+		return project.outputDir.asNative;
 	} else {
-		return project.buildDir.join('node_modules', getPackageTargetDir(pkg))
+		return project.outputDir.join('node_modules', getPackageTargetDir(pkg))
 			.asNative;
 	}
 }

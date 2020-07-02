@@ -16,7 +16,7 @@ export default function adaptStaticURLsAtRuntime(
 	...assetsGlobs: string[]
 ): JsSourceTransform {
 	return (async (source) => {
-		const adaptBuildDir = project.dir.join(project.adapt.buildDir);
+		const adaptBuildDir = project.adapt.buildDir;
 
 		const assetURLs = new Set(
 			findFiles(adaptBuildDir, assetsGlobs).map((file) => file.asPosix)
