@@ -44,11 +44,14 @@ export interface Options {
  */
 export default function wrapModule(
 	moduleName: string,
-	options?: Options
+	options: Options = {}
 ): SourceTransform {
 	const requireIdentifier = options.requireIdentifier || 'require';
 
-	const defineDependencies = options.defineDependencies || {};
+	const defineDependencies = options.defineDependencies || {
+		module: 'module',
+		require: 'require',
+	};
 
 	return ((source) =>
 		replace(source, {
