@@ -7,7 +7,7 @@ import {JsonTransform} from '..';
 
 import PkgJson from '../../../schema/PkgJson';
 
-export default function setPortletHeader(
+export default function setPkgJsonPortletHeader(
 	header: string,
 	value: string | boolean | undefined
 ): JsonTransform<PkgJson> {

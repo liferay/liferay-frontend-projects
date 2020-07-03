@@ -12,7 +12,7 @@ import PkgJson from '../../../schema/PkgJson';
  *
  * @param packageNames
  */
-export default function deleteDependencies(
+export default function deletePkgJsonDependencies(
 	...packageNames: string[]
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {

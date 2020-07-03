@@ -12,7 +12,7 @@ import PkgJson from '../../../schema/PkgJson';
  *
  * @param dependencies
  */
-export default function addDependencies(
+export default function addPkgJsonDependencies(
 	dependencies: object
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {

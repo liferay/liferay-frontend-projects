@@ -8,7 +8,7 @@ import {
 	JsSourceTransform,
 	PkgJson,
 	escapeStringRegExp,
-	setPortletHeader,
+	setPkgJsonPortletHeader,
 	transformJsSourceFile,
 	transformJsonFile,
 	transformTextFile,
@@ -213,7 +213,7 @@ export async function processPackageJson(
 	await transformJsonFile<PkgJson>(
 		fromFile,
 		toFile,
-		setPortletHeader(
+		setPkgJsonPortletHeader(
 			'com.liferay.portlet.header-portlet-css',
 			findRealFileName(cssPortletHeader, false)
 		)

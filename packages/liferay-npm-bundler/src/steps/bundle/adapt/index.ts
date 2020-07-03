@@ -5,9 +5,9 @@
 
 import fs from 'fs-extra';
 import {
-	addDependencies,
+	addPkgJsonDependencies,
 	addNamespace,
-	deleteDependencies,
+	deletePkgJsonDependencies,
 	transformJsSourceFile,
 	transformJsonFile,
 	wrapModule,
@@ -39,7 +39,7 @@ async function injectImportsInPkgJson(): Promise<void> {
 	transformJsonFile(
 		file,
 		file,
-		addDependencies(
+		addPkgJsonDependencies(
 			Object.entries(imports).reduce(
 				(dependencies, [packageName, config]) => {
 					const {provider, version} = config;
@@ -55,7 +55,7 @@ async function injectImportsInPkgJson(): Promise<void> {
 				{}
 			)
 		),
-		deleteDependencies(
+		deletePkgJsonDependencies(
 			...Object.entries(imports).map(([packageName]) => packageName)
 		)
 	);
