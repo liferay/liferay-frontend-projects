@@ -3,56 +3,96 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {SourceCode, SourceTransform, replace} from '..';
+import {SourceTransform, replace} from '..';
 import {traverse} from 'estraverse';
 import estree from 'estree';
 
 import {getProgramStatements} from '../ast';
 import {parse} from '../parse';
 
-export default function wrapModule(moduleName: string): SourceTransform {
-	return ((source) => _wrapModule(source, moduleName)) as SourceTransform;
+export interface Options {
+	/**
+	 * The name of the require() method. Default value is 'require'.
+	 *
+	 * @remarks
+	 * This is used to scan the code and find the necessary dependencies to
+	 * construct the AMD define() invocation.
+	 */
+	requireIdentifier?: string;
+
+	/**
+	 * Extra dependencies to add to the AMD define() call (other than those
+	 * detected by scanning the code for require() calls).
+	 *
+	 * Default value is:
+	 *
+	 * {
+	 *   module: 'module',
+	 *   require: 'require'
+	 * }
+	 */
+	defineDependencies?: {
+		[argumentName: string]: string;
+	};
 }
 
 /**
  * Wraps a module into an AMD define call.
  *
- * @param source
+ * @param moduleName
+ * @param options
  */
-async function _wrapModule(
-	source: SourceCode,
-	moduleName: string
-): Promise<SourceCode> {
-	return replace(source, {
-		enter(node) {
-			if (node.type !== 'Program') {
-				return;
-			}
+export default function wrapModule(
+	moduleName: string,
+	options?: Options
+): SourceTransform {
+	const requireIdentifier = options.requireIdentifier || 'require';
 
-			const program = node;
+	const defineDependencies = options.defineDependencies || {};
 
-			const wrapAst = parse(`
-				Liferay.Loader.define(
-					'${moduleName}',
-					[
-						'module',
-						'require'
-						${getDefineDependencies(program)}
-					],
-					function(module, require) {
-					}
+	return ((source) =>
+		replace(source, {
+			enter(node) {
+				if (node.type !== 'Program') {
+					return;
+				}
+
+				const program = node;
+
+				const extraModules = Object.entries(defineDependencies).map(
+					([, value]) => value
 				);
-			`);
 
-			const {body: wrapBody} = wrapAst;
+				const dependencies = getDefineDependencies(
+					program,
+					requireIdentifier,
+					extraModules
+				);
 
-			const moduleBody = getBlockStatement(wrapAst);
+				const defineArguments = Object.entries(defineDependencies)
+					.map(([key]) => key)
+					.join(',');
 
-			moduleBody.body = getProgramStatements(program);
+				const wrapAst = parse(`
+					Liferay.Loader.define(
+						'${moduleName}',
+						[
+							${dependencies}
+						],
+						function(${defineArguments}) {
+						}
+					);
+				`);
 
-			program.body = wrapBody;
-		},
-	});
+				const {body: wrapBody} = wrapAst;
+
+				const moduleBody = getBlockStatement(wrapAst);
+
+				moduleBody.body = getProgramStatements(program);
+
+				program.body = wrapBody;
+			},
+		})) as SourceTransform;
 }
 
 function getBlockStatement(wrapAst: estree.Program): estree.BlockStatement {
@@ -95,7 +135,11 @@ function getBlockStatement(wrapAst: estree.Program): estree.BlockStatement {
 	return moduleBody;
 }
 
-function getDefineDependencies(program: estree.Program): string {
+function getDefineDependencies(
+	program: estree.Program,
+	requireIdentifier: string,
+	extraDependencies: string[]
+): string {
 	const requiredModules = {};
 
 	traverse(program, {
@@ -106,7 +150,10 @@ function getDefineDependencies(program: estree.Program): string {
 
 			const {callee} = node;
 
-			if (callee.type !== 'Identifier' || callee.name !== 'require') {
+			if (
+				callee.type !== 'Identifier' ||
+				callee.name !== requireIdentifier
+			) {
 				return;
 			}
 
@@ -132,7 +179,8 @@ function getDefineDependencies(program: estree.Program): string {
 		},
 	});
 
-	return Object.keys(requiredModules)
-		.map((module) => `,\n\t\t'${module}'`)
-		.join('');
+	return extraDependencies
+		.concat(Object.keys(requiredModules))
+		.map((dependency) => `'${dependency}'`)
+		.join(',');
 }
