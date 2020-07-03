@@ -5,8 +5,8 @@
 
 import fs from 'fs-extra';
 import {
-	addPkgJsonDependencies,
 	addNamespace,
+	addPkgJsonDependencies,
 	deletePkgJsonDependencies,
 	transformJsSourceFile,
 	transformJsonFile,
