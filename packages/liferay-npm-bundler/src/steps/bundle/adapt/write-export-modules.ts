@@ -13,11 +13,12 @@ import {
 	joinModuleName,
 	splitModuleName,
 } from 'liferay-js-toolkit-core';
+import path from 'path';
 
 import {manifest, project} from '../../../globals';
 import * as log from '../../../log';
 import {getPackageTargetDir} from '../../../util';
-import {render} from './util';
+import Renderer from '../../../util/renderer';
 
 /**
  * Generates one AMD module per export. The generated module loads webpack's
@@ -149,11 +150,13 @@ async function writeExportModule(
 	moduleName: string,
 	bundlesLocation: string
 ): Promise<void> {
+	const renderer = new Renderer(path.join(__dirname, 'template'));
+
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
 	fs.ensureDirSync(moduleFile.dirname().asNative);
 	fs.writeFileSync(
 		moduleFile.asNative,
-		await render('export-module', {
+		await renderer.render('export-module', {
 			bundlesLocation,
 			id,
 			moduleName,

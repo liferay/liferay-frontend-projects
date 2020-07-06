@@ -7,19 +7,19 @@ import {JsonTransform} from '..';
 
 import PkgJson from '../../../schema/PkgJson';
 
-export default function setPortletHeader(
-	header: string,
-	value: string | boolean | undefined
+/**
+ * Add a list of dependencies to a package.json file
+ *
+ * @param dependencies
+ */
+export default function addPkgJsonDependencies(
+	dependencies: object
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
-		if (value === undefined) {
-			if (pkgJson['portlet']) {
-				delete pkgJson['portlet'][header];
-			}
-		} else {
-			pkgJson['portlet'] = pkgJson['portlet'] || {};
-			pkgJson['portlet'][header] = value;
-		}
+		pkgJson.dependencies = {
+			...pkgJson.dependencies,
+			...dependencies,
+		};
 
 		return pkgJson;
 	}) as JsonTransform<PkgJson>;

@@ -86,7 +86,9 @@ export {default as wrapModule} from './transform/js/operation/wrapModule';
 
 // JSON source transformation
 export * from './transform/json';
-export {default as setPortletHeader} from './transform/json/operation/setPortletHeader';
+export {default as addPkgJsonDependencies} from './transform/json/operation/addPkgJsonDependencies';
+export {default as deletePkgJsonDependencies} from './transform/json/operation/deletePkgJsonDependencies';
+export {default as setPkgJsonPortletHeader} from './transform/json/operation/setPkgJsonPortletHeader';
 
 // Text source transformation
 export * from './transform/text';

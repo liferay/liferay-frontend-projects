@@ -3,18 +3,41 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {parse} from 'acorn';
-import {generate} from 'escodegen';
-import {traverse} from 'estraverse';
-import estree from 'estree';
-import {Project, addNamespace} from 'liferay-js-toolkit-core';
+import {transformJsSource} from 'liferay-js-toolkit-core';
 
 import {project} from '../../../globals';
 import report from '../../../report';
-import ReportLogger from '../../../report/logger';
+import transformImports from './transformImports';
 
-export default function (content: string): string {
-	const prjDirRelResourceFile = project.dir.relative(this.resourcePath);
+/**
+ * Webpack loader to substitute require calls for imported modules. This loader
+ * simply converts any `require()` or `import` for bundler imports into a
+ * `__REQUIRE__()` call.
+ *
+ * The `__REQUIRE__()` call is then serviced by our AMD loader.
+ *
+ * @param content module's source code
+ */
+export default function (content: string): void {
+	//
+	// Note that this is a webpack loader and its structure is constrained by
+	// Webpack's API (https://webpack.js.org/api/loaders/#asynchronous-loaders)
+	//
+	// The real process is done in the `asyncTransform()` method below.
+	//
+	const callback = this.async();
+
+	// Execute async transformation from webpack async loader
+	asyncTransform(content, this.resourcePath)
+		.then((transformedContent) => callback(null, transformedContent))
+		.catch((err) => callback(err));
+}
+
+async function asyncTransform(
+	content: string,
+	resourcePath: string
+): Promise<string> {
+	const prjDirRelResourceFile = project.dir.relative(resourcePath);
 
 	const log = report.getWebpackLogger(
 		'imports-loader',
@@ -47,187 +70,17 @@ export default function (content: string): string {
 
 	// Parse source code to transform imports
 	try {
-		const parser = new Parser(project);
-
-		const ast = parser.transform(content, log);
-
-		if (!parser.modified) {
-			log.debug(`File does not require any 'imports' module`);
-
-			return content;
-		}
-
-		log.info(
-			`File contained 'imports' which were diverted to runtime loader`
+		const {code} = await transformJsSource(
+			{
+				code: content,
+			},
+			transformImports(log)
 		);
 
-		return generate(ast, {});
+		content = code;
 	} catch (err) {
 		log.error(`File could not be parsed`, err);
-
-		return content;
-	}
-}
-
-class Parser {
-	constructor(project: Project) {
-		this._project = project;
 	}
 
-	get modified(): boolean {
-		return this._modified;
-	}
-
-	transform(source: string, log: ReportLogger): estree.Node {
-		const ast = parse(source, {
-			allowAwaitOutsideFunction: true,
-			allowHashBang: true,
-			allowImportExportEverywhere: true,
-			allowReserved: true,
-			allowReturnOutsideFunction: true,
-			ecmaVersion: 10,
-			locations: true,
-			sourceType: 'module',
-		});
-
-		this._log = log;
-		this._modified = false;
-
-		traverse(ast as estree.Node, {
-			enter: (node: estree.Node, parentNode: estree.Node) =>
-				this._enter(node, parentNode),
-		});
-
-		return ast as estree.Node;
-	}
-
-	_enter(node: estree.Node, parentNode: estree.Node): void {
-		let modified = false;
-
-		switch (node.type) {
-			case 'CallExpression':
-				modified = this._enterCallExpression(node);
-				break;
-
-			case 'ImportDeclaration':
-				modified = this._enterImportDeclaration(node, parentNode);
-				break;
-
-			default:
-				break;
-		}
-
-		this._modified = this._modified || modified;
-	}
-
-	private _enterCallExpression(node: estree.CallExpression): boolean {
-		const {_log: log} = this;
-		const {callee} = node;
-
-		if (callee.type !== 'Identifier' || callee.name !== 'require') {
-			return false;
-		}
-
-		const {arguments: params} = node;
-
-		if (params.length != 1) {
-			return false;
-		}
-
-		if (params[0].type !== 'Literal') {
-			return false;
-		}
-
-		const {value: moduleName} = params[0];
-
-		if (typeof moduleName !== 'string') {
-			return;
-		}
-
-		const {imports} = this._project;
-
-		const config = imports[moduleName];
-
-		if (!config) {
-			return false;
-		}
-
-		callee.name = '__REQUIRE__';
-		params[0]['value'] = addNamespace(moduleName, {
-			name: config.provider,
-		});
-
-		log.debug(`Import '${moduleName}' diverted to '${params[0]['value']}'`);
-
-		return true;
-	}
-
-	private _enterImportDeclaration(
-		node: estree.ImportDeclaration,
-		parentNode: estree.Node
-	): boolean {
-		const {imports} = this._project;
-		const moduleName = node.source.value as string;
-		const config = imports[moduleName];
-
-		if (!config) {
-			return false;
-		}
-
-		const namespacedModuleName = addNamespace(moduleName, {
-			name: config.provider,
-		});
-
-		const {_log: log} = this;
-
-		log.debug(
-			`Import '${moduleName}' diverted to '${namespacedModuleName}'`
-		);
-
-		const lines = node.specifiers.map((specifier) => {
-			switch (specifier.type) {
-				case 'ImportSpecifier':
-					return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}')['${specifier.imported.name}'];`;
-
-				case 'ImportDefaultSpecifier':
-					return `
-						var ${specifier.local.name}_raw = __REQUIRE__('${namespacedModuleName}');
-						var ${specifier.local.name} = 
-							${specifier.local.name}_raw && ${specifier.local.name}_raw.__esModule 
-								? ${specifier.local.name}_raw['default'] 
-								: ${specifier.local.name}_raw;
-					`;
-
-				case 'ImportNamespaceSpecifier':
-					return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}');`;
-
-				// no default
-			}
-		});
-
-		if (parentNode.type !== 'Program') {
-			log.error(
-				`Found 'import' statements not at the top of the file: they will be ignored`
-			);
-
-			return false;
-		}
-
-		const program = parse(lines.join('\n')) as estree.Node;
-
-		if (program.type !== 'Program') {
-			throw new Error('Code cannot be parsed as an AST Program node');
-		}
-
-		parentNode.body = [
-			...program.body,
-			...parentNode.body.filter((child) => child !== node),
-		];
-
-		return true;
-	}
-
-	private _log: ReportLogger;
-	private _modified = false;
-	private readonly _project: Project;
+	return content;
 }
