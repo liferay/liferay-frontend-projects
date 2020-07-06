@@ -9,7 +9,22 @@ import {project} from '../../../globals';
 import report from '../../../report';
 import transformImports from './transformImports';
 
+/**
+ * Webpack loader to substitute require calls for imported modules. This loader
+ * simply converts any `require()` or `import` for bundler imports into a
+ * `__REQUIRE__()` call.
+ *
+ * The `__REQUIRE__()` call is then serviced by our AMD loader.
+ *
+ * @param content module's source code
+ */
 export default function (content: string): void {
+	//
+	// Note that this is a webpack loader and its structure is constrained by
+	// Webpack's API (https://webpack.js.org/api/loaders/#asynchronous-loaders)
+	//
+	// The real process is done in the `asyncTransform()` method below.
+	//
 	const callback = this.async();
 
 	// Execute async transformation from webpack async loader

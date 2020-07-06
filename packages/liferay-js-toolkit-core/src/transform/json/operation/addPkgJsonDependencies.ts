@@ -16,8 +16,6 @@ export default function addPkgJsonDependencies(
 	dependencies: object
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
-		pkgJson.dependencies = pkgJson.dependencies || {};
-
 		pkgJson.dependencies = {
 			...pkgJson.dependencies,
 			...dependencies,

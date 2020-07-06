@@ -22,21 +22,14 @@ export default function transformImports(log: ReportLogger): JsSourceTransform {
 			enter(node, parentNode) {
 				let modified = false;
 
-				switch (node.type) {
-					case 'CallExpression':
-						modified = transformCallExpression(log, node);
-						break;
-
-					case 'ImportDeclaration':
-						modified = transformImportDeclaration(
-							log,
-							node,
-							parentNode
-						);
-						break;
-
-					default:
-						break;
+				if (node.type === 'CallExpression') {
+					modified = transformCallExpression(log, node);
+				} else if (node.type === 'ImportDeclaration') {
+					modified = transformImportDeclaration(
+						log,
+						node,
+						parentNode
+					);
 				}
 
 				transformed = transformed || modified;
