@@ -661,10 +661,7 @@ async function getVersionTagPrefix() {
 
 	if (cwd === root || cwd === monorepoPackage) {
 		try {
-			const contents = await readFileAsync(
-				path.join(cwd, '.yarnrc'),
-				'utf8'
-			);
+			const contents = await readFileAsync('.yarnrc', 'utf8');
 
 			contents.split(/\r\n|\r|\n/).find((line) => {
 				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
