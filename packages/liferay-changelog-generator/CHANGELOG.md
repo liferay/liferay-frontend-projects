@@ -1,3 +1,24 @@
+## [liferay-changelog-generator/v1.4.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-changelog-generator/v1.4.1) (2020-07-09)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-changelog-generator/v1.4.0...liferay-changelog-generator/v1.4.1)
+
+### :boom: Breaking changes
+
+-   feat!: update to eslint-config-liferay v21.0.0 ([\#443](https://github.com/liferay/liferay-npm-tools/pull/443))
+-   chore!: update Prettier to v2.0.5 ([\#442](https://github.com/liferay/liferay-npm-tools/pull/442))
+
+### :new: Features
+
+-   feat!: update to eslint-config-liferay v21.0.0 ([\#443](https://github.com/liferay/liferay-npm-tools/pull/443))
+
+### :wrench: Bug fixes
+
+-   fix(changelog): consistently autodetect prefixes for non-monorepos too ([\#472](https://github.com/liferay/liferay-npm-tools/pull/472))
+
+### :house: Chores
+
+-   chore!: update Prettier to v2.0.5 ([\#442](https://github.com/liferay/liferay-npm-tools/pull/442))
+
 ## [liferay-changelog-generator/v1.4.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-changelog-generator/v1.4.0) (2020-04-03)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-changelog-generator/v1.3.0...liferay-changelog-generator/v1.4.0)
