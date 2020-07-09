@@ -632,16 +632,21 @@ async function generate({date, from, remote, to, version}) {
  *     monorepo and a ".yarnrc" file exists, we return its "version-tag-prefix".
  *
  *     For example, given a prefix of "my-package/v", then we can find matching
- *     tags using `git-describe`--match='my-package/v*'".
+ *     tags using `git describe --match='my-package/v*'.
  *
- * -   If we can't get a "version-tag-prefix", or if we're being run from the repo
- *     root, we use a fallback prefix of "".
+ *     Likewise, if we're being run from the repo root and a ".yarnrc" file
+ *     exists.
+ *
+ *     For example, given a prefix of "v", then we can find matching tags using
+ *     `git describe --match='v*'`.
+ *
+ * -   If we can't get a "version-tag-prefix", we use a fallback prefix of "".
  *
  *     With the fallback prefix of "", we can find matching tags using
- *     `git-describe --match='*'`.
+ *     `git describe --match='*'`.
  *
- * It none of the above apply (eg. because we're not being run from the repo
- * root), an error is thrown.
+ * If none of the above apply (eg. because we're not being run from the wrong
+ * directory), an error is thrown.
  */
 async function getVersionTagPrefix() {
 	const root = (await git('rev-parse', '--show-toplevel')).trim();
@@ -650,16 +655,13 @@ async function getVersionTagPrefix() {
 
 	const basename = path.basename(cwd);
 
-	const project = path.join(root, 'packages', basename);
+	const monorepoPackage = path.join(root, 'packages', basename);
 
 	let prefix;
 
-	if (cwd === project) {
+	if (cwd === root || cwd === monorepoPackage) {
 		try {
-			const contents = await readFileAsync(
-				path.join(cwd, '.yarnrc'),
-				'utf8'
-			);
+			const contents = await readFileAsync('.yarnrc', 'utf8');
 
 			contents.split(/\r\n|\r|\n/).find((line) => {
 				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
@@ -673,7 +675,7 @@ async function getVersionTagPrefix() {
 		} catch (_error) {
 			// No readable .yarnrc.
 		}
-	} else if (cwd !== root) {
+	} else {
 		throw new Error(
 			`Expected to run from repo root (${path.relative(
 				cwd,
