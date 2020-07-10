@@ -81,15 +81,13 @@ export default class Manifest {
 	get content(): string {
 		const {version} = project.versionsInfo.get('liferay-npm-bundler');
 
-		let content = `Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-${version}
-`;
+		let content = '';
 
+		content += header('Manifest-Version', '1.0');
+		content += header('Bundle-ManifestVersion', '2');
+		content += header('Bundle-Name', this._bundleName);
 		content += header('Bundle-SymbolicName', this._bundleSymbolicName);
 		content += header('Bundle-Version', this._bundleVersion);
-		content += header('Bundle-Name', this._bundleName);
-		content += header('Web-ContextPath', this._webContextPath);
 		content += capabilities(
 			'Provide-Capability',
 			this._provideCapabilities
@@ -98,6 +96,8 @@ Tool: liferay-npm-bundler-${version}
 			'Require-Capability',
 			this._requireCapabilities
 		);
+		content += header('Tool', `liferay-npm-bundler-${version}`);
+		content += header('Web-ContextPath', this._webContextPath);
 
 		Object.entries(this._customHeaders).forEach(([key, value]) => {
 			content += header(key, value);
