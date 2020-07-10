@@ -81,15 +81,29 @@ export default class Manifest {
 	get content(): string {
 		const {version} = project.versionsInfo.get('liferay-npm-bundler');
 
-		return `Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-${version}
-${header('Bundle-SymbolicName', this._bundleSymbolicName)} 
-${header('Bundle-Version', this._bundleVersion)} 
-${header('Bundle-Name', this._bundleName)} 
-${header('Web-ContextPath', this._webContextPath)} 
-${capabilities('Provide-Capability', this._provideCapabilities)}
-${capabilities('Require-Capability', this._requireCapabilities)}`;
+		let content = '';
+
+		content += header('Manifest-Version', '1.0');
+		content += header('Bundle-ManifestVersion', '2');
+		content += header('Bundle-Name', this._bundleName);
+		content += header('Bundle-SymbolicName', this._bundleSymbolicName);
+		content += header('Bundle-Version', this._bundleVersion);
+		content += capabilities(
+			'Provide-Capability',
+			this._provideCapabilities
+		);
+		content += capabilities(
+			'Require-Capability',
+			this._requireCapabilities
+		);
+		content += header('Tool', `liferay-npm-bundler-${version}`);
+		content += header('Web-ContextPath', this._webContextPath);
+
+		Object.entries(this._customHeaders).forEach(([key, value]) => {
+			content += header(key, value);
+		});
+
+		return content;
 	}
 
 	private _bundleSymbolicName: string;
@@ -102,14 +116,19 @@ ${capabilities('Require-Capability', this._requireCapabilities)}`;
 }
 
 function capabilities(header: string, capabilities: object): string {
+	const entries = Object.entries(capabilities);
+
+	if (entries.length === 0) {
+		return '';
+	}
+
 	return (
 		`${header}: ` +
-		Object.entries(capabilities)
-			.map(([key, value]) => `${key};${value}`)
-			.join(',')
+		entries.map(([key, value]) => `${key};${value}`).join(',') +
+		'\n'
 	);
 }
 
 function header(key: string, value: string | undefined): string {
-	return value ? `${key}: ${value}` : '';
+	return value ? `${key}: ${value}\n` : '';
 }
