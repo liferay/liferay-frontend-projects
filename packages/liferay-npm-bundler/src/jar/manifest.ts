@@ -99,6 +99,10 @@ Tool: liferay-npm-bundler-${version}
 			this._requireCapabilities
 		);
 
+		Object.entries(this._customHeaders).forEach(([key, value]) => {
+			content += header(key, value);
+		});
+
 		return content;
 	}
 
