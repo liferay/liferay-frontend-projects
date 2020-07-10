@@ -16,7 +16,7 @@ Tool: liferay-npm-bundler-2.18.7
 	);
 });
 
-it('set bundleSymbolicName works', () => {
+it('includes Bundle-SymbolicName when provided', () => {
 	const manifest = new Manifest();
 
 	manifest.bundleSymbolicName = 'My wonderful bundle';
@@ -24,13 +24,13 @@ it('set bundleSymbolicName works', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.7
 Bundle-SymbolicName: My wonderful bundle
+Tool: liferay-npm-bundler-2.18.7
 `
 	);
 });
 
-it('set bundleVersion works', () => {
+it('includes Bundle-Version when provided', () => {
 	const manifest = new Manifest();
 
 	manifest.bundleVersion = '1.0.0';
@@ -38,13 +38,13 @@ it('set bundleVersion works', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.7
 Bundle-Version: 1.0.0
+Tool: liferay-npm-bundler-2.18.7
 `
 	);
 });
 
-it('set bundleName works', () => {
+it('includes Bundle-Name when provided', () => {
 	const manifest = new Manifest();
 
 	manifest.bundleName = 'my-wonderful-bundle';
@@ -52,13 +52,13 @@ it('set bundleName works', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.7
 Bundle-Name: my-wonderful-bundle
+Tool: liferay-npm-bundler-2.18.7
 `
 	);
 });
 
-it('set webContextPath works', () => {
+it('includes Web-ContextPath when provided', () => {
 	const manifest = new Manifest();
 
 	manifest.webContextPath = '/my-wonderful-bundle';
@@ -72,7 +72,7 @@ Web-ContextPath: /my-wonderful-bundle
 	);
 });
 
-it('addProvideCapability works', () => {
+it('includes Provide-Capability when provided', () => {
 	const manifest = new Manifest();
 
 	manifest.addProvideCapability('my-capability', 'capability-value');
@@ -80,13 +80,13 @@ it('addProvideCapability works', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.7
 Provide-Capability: my-capability;capability-value
+Tool: liferay-npm-bundler-2.18.7
 `
 	);
 });
 
-it('addRequireCapability works', () => {
+it('includes Require-Capability when provided', () => {
 	const manifest = new Manifest();
 
 	manifest.addRequireCapability('my-capability', 'capability-value');
@@ -94,14 +94,14 @@ it('addRequireCapability works', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.7
 Require-Capability: my-capability;filter:=capability-value
+Tool: liferay-npm-bundler-2.18.7
 `
 	);
 });
 
 describe('addCustomHeader', () => {
-	it('works', () => {
+	it('includes custom headers when provided', () => {
 		const manifest = new Manifest();
 
 		manifest.addCustomHeader('Custom-Header', 'Custom value');
@@ -117,7 +117,7 @@ Custom-Header-2: Custom value 2
 		);
 	});
 
-	it('throws when a forbidden header is added', () => {
+	it('throws when a forbidden custom header is added', () => {
 		const manifest = new Manifest();
 
 		expect(() =>
@@ -125,7 +125,7 @@ Custom-Header-2: Custom value 2
 		).toThrowError();
 	});
 
-	it('throws when a header is added twice', () => {
+	it('throws when a custom header is added twice', () => {
 		const manifest = new Manifest();
 
 		expect(() => {
