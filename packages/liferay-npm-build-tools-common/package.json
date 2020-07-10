@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-build-tools-common",
-	"version": "2.18.7",
+	"version": "2.18.8",
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
@@ -11,7 +11,7 @@
 		"chalk": "^2.4.2",
 		"dot-prop": "^5.0.1",
 		"escape-string-regexp": "^2.0.0",
-		"liferay-npm-bundler-preset-standard": "2.18.7",
+		"liferay-npm-bundler-preset-standard": "2.18.8",
 		"merge": "^1.2.1",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",

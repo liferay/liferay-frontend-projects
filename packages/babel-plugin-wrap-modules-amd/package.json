@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-wrap-modules-amd",
-	"version": "2.18.7",
+	"version": "2.18.8",
 	"description": "A Babel plugin to wrap package modules inside AMD define() calls.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"babel-template": "^6.26.0",
-		"liferay-npm-build-tools-common": "2.18.7",
+		"liferay-npm-build-tools-common": "2.18.8",
 		"read-json-sync": "^2.0.1"
 	}
 }

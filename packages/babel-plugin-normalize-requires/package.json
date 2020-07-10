@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-normalize-requires",
-	"version": "2.18.7",
+	"version": "2.18.8",
 	"description": "A Babel plugin that rewrites require() calls to normalize them (removing extensions and trailing slashes, for example).",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.18.7"
+		"liferay-npm-build-tools-common": "2.18.8"
 	}
 }

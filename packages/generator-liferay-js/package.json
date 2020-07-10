@@ -1,6 +1,6 @@
 {
 	"name": "generator-liferay-js",
-	"version": "2.18.7",
+	"version": "2.18.8",
 	"description": "Yeoman generators for Liferay DXP and Portal CE JavaScript projects.",
 	"main": "generators/app/index.js",
 	"files": [
@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"dot-prop": "^5.0.1",
-		"liferay-npm-build-tools-common": "2.18.7",
+		"liferay-npm-build-tools-common": "2.18.8",
 		"read-json-sync": "^2.0.1",
 		"yargs": "^14.0.0",
 		"yeoman-generator": "^3.2.0"

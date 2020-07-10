@@ -1,15 +1,15 @@
 {
   "name": "liferay-npm-bundler-preset-standard",
-  "version": "2.18.7",
+  "version": "2.18.8",
   "description": "Standard configuration for liferay-npm-bundler.",
   "main": "config.json",
   "dependencies": {
-    "babel-preset-liferay-standard": "2.18.7",
-    "liferay-npm-bundler-plugin-exclude-imports": "2.18.7",
-    "liferay-npm-bundler-plugin-inject-imports-dependencies": "2.18.7",
-    "liferay-npm-bundler-plugin-inject-peer-dependencies": "2.18.7",
-    "liferay-npm-bundler-plugin-namespace-packages": "2.18.7",
-    "liferay-npm-bundler-plugin-replace-browser-modules": "2.18.7",
-    "liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.18.7"
+    "babel-preset-liferay-standard": "2.18.8",
+    "liferay-npm-bundler-plugin-exclude-imports": "2.18.8",
+    "liferay-npm-bundler-plugin-inject-imports-dependencies": "2.18.8",
+    "liferay-npm-bundler-plugin-inject-peer-dependencies": "2.18.8",
+    "liferay-npm-bundler-plugin-namespace-packages": "2.18.8",
+    "liferay-npm-bundler-plugin-replace-browser-modules": "2.18.8",
+    "liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.18.8"
   }
 }

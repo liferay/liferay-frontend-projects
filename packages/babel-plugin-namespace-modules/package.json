@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-namespace-modules",
-	"version": "2.18.7",
+	"version": "2.18.8",
 	"description": "A Babel plugin to namespace AMD module names based on root's project name.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -9,6 +9,6 @@
 		"prepublish": "yarn build"
 	},
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.18.7"
+		"liferay-npm-build-tools-common": "2.18.8"
 	}
 }

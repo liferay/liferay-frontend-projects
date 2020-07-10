@@ -1,12 +1,12 @@
 {
   "name": "liferay-npm-bundler-preset-vue-cli",
-  "version": "2.18.7",
+  "version": "2.18.8",
   "description": "Configuration for liferay-npm-bundler to integrate with Vue CLI projects",
   "main": "config.json",
   "dependencies": {
-    "babel-preset-liferay-standard": "2.18.7",
-    "liferay-npm-build-support": "2.18.7",
-    "liferay-npm-bundler-loader-babel-loader": "2.18.7",
-    "liferay-npm-bundler-loader-copy-loader": "2.18.7"
+    "babel-preset-liferay-standard": "2.18.8",
+    "liferay-npm-build-support": "2.18.8",
+    "liferay-npm-bundler-loader-babel-loader": "2.18.8",
+    "liferay-npm-bundler-loader-copy-loader": "2.18.8"
   }
 }
