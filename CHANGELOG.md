@@ -1,3 +1,11 @@
+## [v8.2.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.2.2) (2020-08-03)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.2.1...v8.2.2)
+
+### :wrench: Bug fixes
+
+-   fix(tasks): actually extend local themelets (#499) ([\#500](https://github.com/liferay/liferay-js-themes-toolkit/pull/500))
+
 ## [v8.2.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.2.1) (2020-06-25)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.2.0...v8.2.1)
