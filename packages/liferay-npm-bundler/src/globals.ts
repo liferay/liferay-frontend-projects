@@ -15,5 +15,6 @@ const {workDir} = project;
 export const bundlerGeneratedDir = workDir.join('bundler', 'generated');
 export const bundlerWebpackDir = workDir.join('bundler', 'webpack');
 
+fs.ensureDirSync(project.outputDir.asNative);
 fs.ensureDirSync(bundlerGeneratedDir.asNative);
 fs.ensureDirSync(bundlerWebpackDir.asNative);
