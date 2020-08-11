@@ -15,7 +15,7 @@ import {
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {manifest, project} from '../../../globals';
+import {bundlerWebpackDir, manifest, project} from '../../../globals';
 import * as log from '../../../log';
 import {getPackageTargetDir} from '../../../util';
 import Renderer from '../../../util/renderer';
@@ -152,13 +152,29 @@ async function writeExportModule(
 ): Promise<void> {
 	const renderer = new Renderer(path.join(__dirname, 'template'));
 
+	const dependencies = [
+		`${bundlesLocation}/${id}.bundle`,
+		`${bundlesLocation}/runtime.bundle`,
+	];
+
+	const dependencyVariables = ['entry', 'runtime'];
+
+	const vendorBundleJsFile = bundlerWebpackDir.join('vendor.bundle.js');
+
+	if (fs.existsSync(vendorBundleJsFile.asNative)) {
+		dependencies.push(`${bundlesLocation}/vendor.bundle`);
+		dependencyVariables.push('vendor');
+	}
+
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
 	fs.ensureDirSync(moduleFile.dirname().asNative);
 	fs.writeFileSync(
 		moduleFile.asNative,
 		await renderer.render('export-module', {
-			bundlesLocation,
-			id,
+			dependencies: dependencies
+				.map((dependency) => `'${dependency}'`)
+				.join(',\n\t\t'),
+			dependencyVariables: dependencyVariables.join(', '),
 			moduleName,
 		})
 	);
@@ -181,12 +197,7 @@ async function writeLocalExportModule(
 	const bundlesLocation = moduleFile
 		.dirname()
 		.relative(project.outputDir)
-		.toDotRelative();
+		.toDotRelative().asPosix;
 
-	await writeExportModule(
-		moduleFile,
-		id,
-		moduleName,
-		bundlesLocation.asPosix
-	);
+	await writeExportModule(moduleFile, id, moduleName, bundlesLocation);
 }
