@@ -36,7 +36,7 @@ async function injectImportsInPkgJson(): Promise<void> {
 
 	const file = project.outputDir.join('package.json');
 
-	transformJsonFile(
+	await transformJsonFile(
 		file,
 		file,
 		addPkgJsonDependencies(
@@ -68,15 +68,20 @@ async function injectImportsInPkgJson(): Promise<void> {
  * in AMD define() calls.
  */
 async function transformBundles(): Promise<void> {
-	['runtime', 'vendor', ...Object.keys(project.exports)].forEach((id) => {
+	for (const id of ['runtime', 'vendor', ...Object.keys(project.exports)]) {
 		const fileName = `${id}.bundle.js`;
 
 		const sourceFile = bundlerWebpackDir.join(fileName);
+
+		if (!fs.existsSync(sourceFile.asNative)) {
+			break;
+		}
+
 		const destFile = project.outputDir.join(fileName);
 
 		const {name, version} = project.pkgJson;
 
-		transformJsSourceFile(
+		await transformJsSourceFile(
 			sourceFile,
 			destFile,
 			replaceWebpackJsonp(),
@@ -91,7 +96,7 @@ async function transformBundles(): Promise<void> {
 		);
 
 		log.debug(`Transformed webpack bundle ${fileName}`);
-	});
+	}
 }
 
 /**
