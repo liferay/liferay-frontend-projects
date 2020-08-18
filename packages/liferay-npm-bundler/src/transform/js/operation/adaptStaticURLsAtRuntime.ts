@@ -9,8 +9,8 @@ import {
 	replaceJsSource,
 } from 'liferay-js-toolkit-core';
 
-import {project} from '../../../../../globals';
-import {findFiles} from '../../../../../util/files';
+import {project} from '../../../globals';
+import {findFiles} from '../../../util/files';
 
 export default function adaptStaticURLsAtRuntime(
 	...assetsGlobs: string[]

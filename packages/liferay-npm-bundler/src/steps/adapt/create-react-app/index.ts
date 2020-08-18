@@ -4,6 +4,7 @@
  */
 
 import * as log from '../../../log';
+import adaptStaticURLsAtRuntime from '../../../transform/js/operation/adaptStaticURLsAtRuntime';
 import {runPkgJsonScript} from '../../../util/run';
 import {
 	WebpackBundles,
@@ -13,7 +14,6 @@ import {
 	processPackageJson,
 	processWebpackBundles,
 } from '../index';
-import adaptStaticURLsAtRuntime from '../transform/js/operation/adaptStaticURLsAtRuntime';
 import tweakAttachmentToDOM from './tweakAttachmentToDOM';
 
 const assetGlobs = ['static/media/*'];

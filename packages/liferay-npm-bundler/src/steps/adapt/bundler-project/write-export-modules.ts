@@ -150,7 +150,7 @@ async function writeExportModule(
 	moduleName: string,
 	bundlesLocation: string
 ): Promise<void> {
-	const renderer = new Renderer(path.join(__dirname, 'template'));
+	const renderer = new Renderer(path.join(__dirname, '..', 'templates'));
 
 	const dependencies = [
 		`${bundlesLocation}/${id}.bundle`,

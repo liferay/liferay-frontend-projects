@@ -9,7 +9,7 @@ import {
 	replaceInStringLiterals,
 } from 'liferay-js-toolkit-core';
 
-import {project} from '../../../../../globals';
+import {project} from '../../../globals';
 
 export default function namespaceWepbackJsonp(): JsSourceTransform {
 	const hash = crypto.createHash('MD5');

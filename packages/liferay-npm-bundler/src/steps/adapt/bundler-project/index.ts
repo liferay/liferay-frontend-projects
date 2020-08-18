@@ -107,7 +107,7 @@ async function writeManifestModule(): Promise<void> {
 	const {name, version} = project.pkgJson;
 	const moduleName = `${name}@${version}/webpack.manifest`;
 
-	const renderer = new Renderer(path.join(__dirname, 'template'));
+	const renderer = new Renderer(path.join(__dirname, '..', 'templates'));
 
 	fs.writeFileSync(
 		project.outputDir.join(`webpack.manifest.js`).asNative,

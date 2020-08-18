@@ -7,8 +7,8 @@ import webpack from 'webpack';
 
 import * as log from '../../log';
 import {abort} from '../../util';
+import adaptBundlerProject from '../adapt/bundler-project';
 import ExplainedError from './ExplainedError';
-import adapt from './adapt';
 import configure from './configure';
 import run from './run';
 import writeResults from './write-results';
@@ -35,7 +35,7 @@ export default async function bundle(): Promise<webpack.Stats> {
 
 	log.info('Adapting webpack output to Liferay platform...');
 
-	await adapt();
+	await adaptBundlerProject();
 
 	log.info('Webpack phase finished successfully');
 
