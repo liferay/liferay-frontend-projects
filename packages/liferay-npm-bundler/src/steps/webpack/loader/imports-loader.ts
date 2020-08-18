@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {transformJsSource} from 'liferay-js-toolkit-core';
+import {ProjectType, transformJsSource} from 'liferay-js-toolkit-core';
 
 import {project} from '../../../globals';
 import report from '../../../report';
@@ -51,10 +51,15 @@ async function asyncTransform(
 		return content;
 	}
 
+	const imports =
+		project.probe.type === ProjectType.FRAGMENT
+			? {react: project.imports['react']}
+			: project.imports;
+
 	// Early fail for performance: look for imported modules as strings
 	let importsFound = false;
 
-	for (const pkgName of Object.keys(project.imports)) {
+	for (const pkgName of Object.keys(imports)) {
 		if (content.indexOf(pkgName) != -1) {
 			importsFound = true;
 
@@ -74,7 +79,7 @@ async function asyncTransform(
 			{
 				code: content,
 			},
-			transformImports(log)
+			transformImports(log, imports)
 		);
 
 		content = code;

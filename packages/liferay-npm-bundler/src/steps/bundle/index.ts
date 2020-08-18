@@ -3,11 +3,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {ProjectType} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
+import {project} from '../../globals';
 import * as log from '../../log';
 import {abort} from '../../util';
 import adaptBundlerProject from '../adapt/bundler-project';
+import adaptFragment from '../adapt/fragment';
 import ExplainedError from './ExplainedError';
 import configure from './configure';
 import run from './run';
@@ -35,7 +38,11 @@ export default async function bundle(): Promise<webpack.Stats> {
 
 	log.info('Adapting webpack output to Liferay platform...');
 
-	await adaptBundlerProject();
+	if (project.probe.type === ProjectType.FRAGMENT) {
+		await adaptFragment();
+	} else {
+		await adaptBundlerProject();
+	}
 
 	log.info('Webpack phase finished successfully');
 

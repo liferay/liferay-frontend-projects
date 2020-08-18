@@ -6,6 +6,7 @@
 import {parse} from 'acorn';
 import estree from 'estree';
 import {
+	Imports,
 	JsSourceTransform,
 	addNamespace,
 	replaceJsSource,
@@ -14,7 +15,10 @@ import {
 import {project} from '../../../globals';
 import ReportLogger from '../../../report/logger';
 
-export default function transformImports(log: ReportLogger): JsSourceTransform {
+export default function transformImports(
+	log: ReportLogger,
+	imports: Imports
+): JsSourceTransform {
 	let transformed = false;
 
 	return ((source) =>
@@ -23,7 +27,7 @@ export default function transformImports(log: ReportLogger): JsSourceTransform {
 				let modified = false;
 
 				if (node.type === 'CallExpression') {
-					modified = transformCallExpression(log, node);
+					modified = transformCallExpression(log, node, imports);
 				} else if (node.type === 'ImportDeclaration') {
 					modified = transformImportDeclaration(
 						log,
@@ -53,7 +57,8 @@ export default function transformImports(log: ReportLogger): JsSourceTransform {
 
 function transformCallExpression(
 	log: ReportLogger,
-	node: estree.CallExpression
+	node: estree.CallExpression,
+	imports: Imports
 ): boolean {
 	const {callee} = node;
 
@@ -76,8 +81,6 @@ function transformCallExpression(
 	if (typeof moduleName !== 'string') {
 		return;
 	}
-
-	const {imports} = project;
 
 	const config = imports[moduleName];
 

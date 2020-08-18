@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra';
-import {FilePath, isLocalModule} from 'liferay-js-toolkit-core';
+import {FilePath, ProjectType, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
 import {bundlerGeneratedDir, bundlerWebpackDir, project} from '../../globals';
@@ -59,22 +59,26 @@ export default function configure(): webpack.Configuration {
 
 	// Override optimization configuration
 	overrideWarn('optimization', webpackConfig.optimization);
-	webpackConfig.optimization = {
-		runtimeChunk: {
-			name: 'runtime',
-		},
-		splitChunks: {
-			chunks: 'initial',
-			name: 'vendor',
-		},
-	};
+	if (project.probe.type === ProjectType.FRAGMENT) {
+		delete webpackConfig.optimization;
+	} else {
+		webpackConfig.optimization = {
+			runtimeChunk: {
+				name: 'runtime',
+			},
+			splitChunks: {
+				chunks: 'initial',
+				name: 'vendor',
+			},
+		};
+	}
 
 	// Insert our imports loader in first position
 	webpackConfig.module = webpackConfig.module || {rules: []};
 	webpackConfig.module.rules.unshift({
 		enforce: 'post',
 		test: /.*/,
-		use: [require.resolve('./plugin/imports-loader')],
+		use: [require.resolve('../webpack/loader/imports-loader')],
 	});
 
 	// Write webpack.config.js for debugging purposes
