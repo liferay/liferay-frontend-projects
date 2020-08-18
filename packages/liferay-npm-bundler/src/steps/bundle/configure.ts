@@ -59,7 +59,7 @@ export default function configure(): webpack.Configuration {
 
 	// Override optimization configuration
 	overrideWarn('optimization', webpackConfig.optimization);
-	if (project.probe.type === ProjectType.FRAGMENT) {
+	if (project.probe.type === ProjectType.LIFERAY_FRAGMENT) {
 		delete webpackConfig.optimization;
 	} else {
 		webpackConfig.optimization = {

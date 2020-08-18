@@ -52,7 +52,7 @@ async function asyncTransform(
 	}
 
 	const imports =
-		project.probe.type === ProjectType.FRAGMENT
+		project.probe.type === ProjectType.LIFERAY_FRAGMENT
 			? {react: project.imports['react']}
 			: project.imports;
 

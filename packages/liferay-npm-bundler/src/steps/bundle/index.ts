@@ -10,7 +10,7 @@ import {project} from '../../globals';
 import * as log from '../../log';
 import {abort} from '../../util';
 import adaptBundlerProject from '../adapt/bundler-project';
-import adaptFragment from '../adapt/fragment';
+import adaptLiferayFragment from '../adapt/liferay-fragment';
 import ExplainedError from './ExplainedError';
 import configure from './configure';
 import run from './run';
@@ -38,8 +38,8 @@ export default async function bundle(): Promise<webpack.Stats> {
 
 	log.info('Adapting webpack output to Liferay platform...');
 
-	if (project.probe.type === ProjectType.FRAGMENT) {
-		await adaptFragment();
+	if (project.probe.type === ProjectType.LIFERAY_FRAGMENT) {
+		await adaptLiferayFragment();
 	} else {
 		await adaptBundlerProject();
 	}

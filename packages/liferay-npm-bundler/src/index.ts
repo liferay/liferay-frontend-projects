@@ -51,7 +51,7 @@ export default async function (argv: {version: boolean}): Promise<void> {
 				break;
 
 			case ProjectType.BUNDLER:
-			case ProjectType.FRAGMENT:
+			case ProjectType.LIFERAY_FRAGMENT:
 				await bundle();
 				await runRules(rootPkg);
 				break;
