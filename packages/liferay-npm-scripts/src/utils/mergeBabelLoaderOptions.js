@@ -22,30 +22,45 @@ function mergeBabelLoaderOptions(webpackConfig) {
 		return webpackConfig;
 	}
 
-	webpackConfig.module.rules.forEach((rule) => {
-		let {use} = rule;
+	return {
+		...webpackConfig,
+		module: {
+			...webpackConfig.module,
+			rules: webpackConfig.module.rules.map((rule) => {
+				const {use} = rule;
 
-		if (!use) {
-			return;
-		}
+				if (!use) {
+					return rule;
+				}
 
-		if (!Array.isArray(use)) {
-			use = [use];
-		}
+				const mergeUseEntry = (useEntry) => {
+					if (
+						typeof useEntry === 'string' &&
+						useEntry === 'babel-loader'
+					) {
+						return {
+							loader: useEntry,
+							options: {...BABEL_CONFIG},
+						};
+					} else if (useEntry.loader === 'babel-loader') {
+						return {
+							...useEntry,
+							options: {...BABEL_CONFIG, ...useEntry.options},
+						};
+					}
 
-		use.forEach((useEntry, i) => {
-			if (typeof useEntry === 'string') {
-				use[i] = {
-					loader: useEntry,
-					options: {...BABEL_CONFIG},
+					return useEntry;
 				};
-			} else {
-				use[i].options = {...BABEL_CONFIG, ...useEntry.options};
-			}
-		});
-	});
 
-	return webpackConfig;
+				return {
+					...rule,
+					use: Array.isArray(use)
+						? use.map((useEntry) => mergeUseEntry(useEntry))
+						: mergeUseEntry(use),
+				};
+			}),
+		},
+	};
 }
 
 module.exports = mergeBabelLoaderOptions;
