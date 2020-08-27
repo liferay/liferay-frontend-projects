@@ -124,13 +124,33 @@ module.exports = {
 
 					const current = imports[i];
 
+					const previous = imports[i - 1];
+
+					if (current === previous) {
+						// Can happen when a `require` is one of several
+						// VariableDeclarators in a VariableDeclaration; eg.
+						//
+						//      const a = require('a'), require('b');
+						//      ^         ^             ^
+						//      |          \             \
+						//      |           ---------------- VariableDeclators
+						//      current
+						//      (VariableDeclaration)
+						//
+						// ie. the `current` import statement ends up being the
+						// same for both `require` calls. We use the separate
+						// one-require-per-statement rule to break up these.
+
+						continue;
+					}
+
 					if (hasSideEffects(current)) {
 						expectBlankLines(current);
 						continue;
 					}
 
-					const previous = imports[i - 1];
 					const token = context.getTokenBefore(current);
+
 					const last = context.getNodeByRangeIndex(token.range[0]);
 
 					if (last !== previous) {
