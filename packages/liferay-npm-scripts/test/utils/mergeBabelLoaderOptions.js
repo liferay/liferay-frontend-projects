@@ -68,6 +68,9 @@ describe('mergeBabelLoaderOptions()', () => {
 						use: [
 							{
 								loader: 'babel-loader',
+								options: {
+									include: 'bruno',
+								},
 							},
 						],
 					},
@@ -77,7 +80,30 @@ describe('mergeBabelLoaderOptions()', () => {
 
 		const merged = mergeBabelLoaderOptions(config);
 
-		expect(merged.module.rules[0].use.options).toEqual(BABEL_CONFIG);
-		expect(merged.module.rules[1].use[0].options).toEqual(BABEL_CONFIG);
+		expect(merged).toEqual({
+			module: {
+				rules: [
+					{
+						test: /\.(js|jsx)$/,
+						use: {
+							loader: 'babel-loader',
+							options: BABEL_CONFIG,
+						},
+					},
+					{
+						test: /\.(js|jsx)$/,
+						use: [
+							{
+								loader: 'babel-loader',
+								options: {
+									...BABEL_CONFIG,
+									include: 'bruno',
+								},
+							},
+						],
+					},
+				],
+			},
+		});
 	});
 });
