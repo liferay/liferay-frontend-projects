@@ -36,7 +36,7 @@ describe('mergeBabelLoaderOptions()', () => {
 		expect(mergeBabelLoaderOptions(config)).toEqual(config);
 	});
 
-	it('returns unchanged rules the loader is not the babel-loader', () => {
+	it('returns unchanged rules when the loader is not the babel-loader', () => {
 		const config = {
 			module: {
 				rules: [
