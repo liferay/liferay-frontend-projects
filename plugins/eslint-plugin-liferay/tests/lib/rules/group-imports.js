@@ -125,5 +125,21 @@ ruleTester.run('group-imports', rule, {
 				const PluginError = require('plugin-error');
 			`,
 		},
+		{
+			// Regression test: input like this would cause:
+			//
+			//      TypeError: Cannot read property 'range' of null
+			//
+
+			code: `
+				const merge = require('webpack-merge'),
+					webpackBase = require('./webpack.config.js');
+			`,
+			errors: [],
+			output: `
+				const merge = require('webpack-merge'),
+					webpackBase = require('./webpack.config.js');
+			`,
+		},
 	],
 });
