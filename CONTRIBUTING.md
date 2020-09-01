@@ -129,7 +129,7 @@ After the release, you may want to confirm that the packages are correctly liste
 
 ## Releasing canary versions
 
-Lerna offers the possibility to relase canary versions, which are pre-releases published to npmjs.com but only accessible on demand (i.e., they are not automatically downloaded when dependencies are updated),
+Lerna offers the possibility to release canary versions, which are pre-releases published to npmjs.com but only accessible on demand (i.e., they are not automatically downloaded when dependencies are updated),
 
 You can use canary versions when you need to test a specific version and for any reason you cannot set it up locally.
 
@@ -148,4 +148,4 @@ If you need to test local versions of the packages, you can install [Verdaccio](
 3. To use the local repository from `yarn` run `yarn config set registry http://localhost:4873`.
 4. To stop using the local repository edit your `~/.npmrc` and `~/.yarnrc` files and remove the local repo.
 
-Publishing to the local Verdaccio repository won't update [https://npmjs.com](https://npmjs.com) so you can publish as many local versions as you want without worrying about polluting the public npm repository. Then, when you are finished testing, just remove the local versions from you local Verdaccio, point `npm` and `yarn` to the public npm repo, and publish the ultimate valid release.
+Publishing to the local Verdaccio repository won't update [https://npmjs.com](https://npmjs.com) so you can publish as many local versions as you want without worrying about polluting the public npm repository. Then, when you are finished testing, just remove the local versions from your local Verdaccio, point `npm` and `yarn` to the public npm repo, and publish the ultimate valid release.
