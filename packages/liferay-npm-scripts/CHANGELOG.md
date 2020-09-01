@@ -1,3 +1,16 @@
+## [liferay-npm-scripts/v32.6.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.6.0) (2020-09-01)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.5.1...liferay-npm-scripts/v32.6.0)
+
+### :wrench: Bug fixes
+
+-   fix(scripts): don't merge Babel options into webpack loaders other than babel-loader ([\#481](https://github.com/liferay/liferay-npm-tools/pull/481))
+
+### :house: Chores
+
+-   chore(scripts): update liferay-npm-bundler-preset-liferay-dev to v4.6.0 ([\#484](https://github.com/liferay/liferay-npm-tools/pull/484))
+-   chore: update JS toolkit dependencies from v2.18.4 to v2.19.0 ([\#483](https://github.com/liferay/liferay-npm-tools/pull/483))
+
 ## [liferay-npm-scripts/v32.5.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.5.1) (2020-06-18)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.5.0...liferay-npm-scripts/v32.5.1)
