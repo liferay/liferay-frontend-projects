@@ -10,5 +10,5 @@
 		"packages/*"
 	],
 	"useWorkspaces": true,
-	"version": "2.18.8"
+	"version": "2.19.0"
 }
