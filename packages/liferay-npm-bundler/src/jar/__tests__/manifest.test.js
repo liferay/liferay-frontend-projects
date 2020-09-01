@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {version} from '../../../package.json';
 import Manifest from '../manifest';
 
 it('returns essential headers', () => {
@@ -11,7 +12,7 @@ it('returns essential headers', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 `
 	);
 });
@@ -25,7 +26,7 @@ it('includes Bundle-SymbolicName when provided', () => {
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: My wonderful bundle
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 `
 	);
 });
@@ -39,7 +40,7 @@ it('includes Bundle-Version when provided', () => {
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Version: 1.0.0
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 `
 	);
 });
@@ -53,7 +54,7 @@ it('includes Bundle-Name when provided', () => {
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: my-wonderful-bundle
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 `
 	);
 });
@@ -66,7 +67,7 @@ it('includes Web-ContextPath when provided', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 Web-ContextPath: /my-wonderful-bundle
 `
 	);
@@ -81,7 +82,7 @@ it('includes Provide-Capability when provided', () => {
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Provide-Capability: my-capability;capability-value
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 `
 	);
 });
@@ -95,7 +96,7 @@ it('includes Require-Capability when provided', () => {
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Require-Capability: my-capability;filter:=capability-value
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 `
 	);
 });
@@ -110,7 +111,7 @@ describe('addCustomHeader', () => {
 		expect(manifest.content).toEqual(
 			`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Tool: liferay-npm-bundler-2.18.8
+Tool: liferay-npm-bundler-${version}
 Custom-Header: Custom value
 Custom-Header-2: Custom value 2
 `
