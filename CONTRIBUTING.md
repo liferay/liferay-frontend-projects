@@ -134,6 +134,8 @@ Copy the relevant section from the changelog to the corresponding entry on the [
 
 After the release, you may want to confirm that the packages are correctly listed in the NPM registry.
 
+Finally, close [the corresponding milestone](https://github.com/liferay/liferay-js-toolkit/milestones) in GitHub.
+
 ## Releasing canary versions
 
 Lerna offers the possibility to release canary versions, which are pre-releases published to npmjs.com but only accessible on demand (i.e., they are not automatically downloaded when dependencies are updated),
