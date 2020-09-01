@@ -1,3 +1,19 @@
+## [v2.19.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.0) (2020-09-01)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.8...v2.19.0)
+
+### :new: Features
+
+-   feat(css-loader): use preload when available (#631) ([\#632](https://github.com/liferay/liferay-js-toolkit/pull/632))
+
+### :book: Documentation
+
+-   docs: update CHANGELOG.md ([\#634](https://github.com/liferay/liferay-js-toolkit/pull/634))
+
+### :eyeglasses: Tests
+
+-   test: fix test failures ([\#630](https://github.com/liferay/liferay-js-toolkit/pull/630))
+
 ## [v2.18.8](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.8) (2020-07-10)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.7...v2.18.8)
