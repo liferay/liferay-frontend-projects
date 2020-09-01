@@ -1,7 +1,8 @@
 # liferay-npm-bundler-plugin-inject-peer-dependencies
 
 > Inject peer and undeclared dependencies (as long as they are installed under
-	"node_modules") in package.json files.
+
+    "node_modules") in package.json files.
 
 ## Installation
 

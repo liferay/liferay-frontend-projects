@@ -15,7 +15,7 @@ Add the following to your `.npmbundlerrc` file:
 
 ```json
 {
-  "preset": "liferay-npm-bundler-preset-vue-cli"
+	"preset": "liferay-npm-bundler-preset-vue-cli"
 }
 ```
 

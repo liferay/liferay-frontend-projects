@@ -14,7 +14,7 @@ Add the following to your `.npmbundlerrc` file:
 
 ```json
 {
-    "preset": "liferay-npm-bundler-preset-standard"
+	"preset": "liferay-npm-bundler-preset-standard"
 }
 ```
 
