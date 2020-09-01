@@ -14,7 +14,7 @@ Add the following to your `.babelrc` file:
 
 ```json
 {
-  "presets": ["liferay-standard"]
+	"presets": ["liferay-standard"]
 }
 ```
 
