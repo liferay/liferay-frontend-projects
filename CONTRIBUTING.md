@@ -123,6 +123,13 @@ Release a new version
 $ yarn release ⏎
 ```
 
+**NOTE:** Lerna will push to your Git `origin` remote; if that happens to be _your_ fork and not the official [liferay/liferay-js-toolkit](https://github.com/liferay/liferay-js-toolkit), then you will need to push the changes upstream manually. For example, if the authoritative remote is named `upstream` in your local repo:
+
+```sh
+git push upstream master --follow-tags --dry-run ⏎
+git push upstream master --follow-tags ⏎
+```
+
 Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-js-toolkit/releases).
 
 After the release, you may want to confirm that the packages are correctly listed in the NPM registry.
