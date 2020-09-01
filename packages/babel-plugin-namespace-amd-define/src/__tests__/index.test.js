@@ -61,6 +61,22 @@ it('namespaces unqualified define calls', () => {
 	expect(code).toMatchSnapshot();
 });
 
+it('namespaces unqualified define calls that are wrapped', () => {
+	// eg. the css-loader produces wrappers like this.
+	const source = `
+		function defineModule() {
+			define([], function () {});
+		}
+	`;
+
+	const {code} = babel.transform(source, {
+		filename: __filename,
+		plugins: [plugin],
+	});
+
+	expect(code).toMatchSnapshot();
+});
+
 it('does not namespace already qualified define calls', () => {
 	const source = `
 	Other.Namespace.define([], function(){})

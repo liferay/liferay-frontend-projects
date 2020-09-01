@@ -66,3 +66,10 @@ exports[`namespaces unqualified define calls 1`] = `
 "
 Liferay.Loader.define([], function () {});"
 `;
+
+exports[`namespaces unqualified define calls that are wrapped 1`] = `
+"
+function defineModule() {
+	Liferay.Loader.define([], function () {});
+}"
+`;
