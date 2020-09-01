@@ -114,7 +114,7 @@ $ git add -p ⏎
 Commit the CHANGELOG:
 
 ```sh
-$ git commit -m "Update CHANGELOG" ⏎
+$ git commit -m "docs: Update CHANGELOG" ⏎
 ```
 
 Release a new version
