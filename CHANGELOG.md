@@ -1,6 +1,272 @@
-# Change Log
+## [v2.18.8](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.8) (2020-07-10)
 
-> **NOTE:** For updates posterior to v1.6.1, please see the corresponding [GitHub milestones](https://github.com/liferay/liferay-js-toolkit/milestones?state=closed).
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.7...v2.18.8)
+
+### :wrench: Bug fixes
+
+-   fix: #613 don't add empty lines to MANIFEST.MF ([\#614](https://github.com/liferay/liferay-js-toolkit/pull/614))
+
+## [v2.18.7](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.7) (2020-07-02)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.6...v2.18.7)
+
+> **NOTE:** For updates between v1.6.1 and v2.18.8, please see the corresponding [GitHub milestones](https://github.com/liferay/liferay-js-toolkit/milestones?state=closed) for full details.
+
+### :house: Chores
+
+-   chore: prepare 2.18.7 release ([\#610](https://github.com/liferay/liferay-js-toolkit/pull/610))
+
+## [v2.18.6](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.6) (2020-06-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.5...v2.18.6)
+
+### :house: Chores
+
+-   chore: prepare v2.18.6 ([\#603](https://github.com/liferay/liferay-js-toolkit/pull/603))
+
+## [v2.18.5](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.5) (2020-05-08)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.4...v2.18.5)
+
+### :house: Chores
+
+-   chore: prepare release v2.18.5 ([\#569](https://github.com/liferay/liferay-js-toolkit/pull/569))
+
+## [v2.18.4](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.4) (2020-04-01)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.3...v2.18.4)
+
+### :house: Chores
+
+-   chore: prepare release v2.18.4 ([\#555](https://github.com/liferay/liferay-js-toolkit/pull/555))
+
+## [v2.18.3](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.3) (2020-03-26)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.2...v2.18.3)
+
+### :package: Miscellaneous
+
+-   Prepare release 2.18.3 ([\#548](https://github.com/liferay/liferay-js-toolkit/pull/548))
+
+## [v2.18.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.2) (2020-02-14)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.1...v2.18.2)
+
+### :package: Miscellaneous
+
+-   Prepare v2.18.2 ([\#511](https://github.com/liferay/liferay-js-toolkit/pull/511))
+
+## [v2.18.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.1) (2020-02-12)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.0...v2.18.1)
+
+### :package: Miscellaneous
+
+-   Prepare v2.18.1 ([\#506](https://github.com/liferay/liferay-js-toolkit/pull/506))
+
+## [v2.18.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.18.0) (2020-02-11)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.17.1...v2.18.0)
+
+### :package: Miscellaneous
+
+-   Prepare v2.18 ([\#503](https://github.com/liferay/liferay-js-toolkit/pull/503))
+
+## [v2.17.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.17.1) (2020-01-24)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.17.0...v2.17.1)
+
+## [v2.17.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.17.0) (2020-01-02)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.16.2...v2.17.0)
+
+## [v2.16.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.16.2) (2019-12-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.16.1...v2.16.2)
+
+## [v2.16.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.16.1) (2019-12-04)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.16.0...v2.16.1)
+
+## [v2.16.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.16.0) (2019-11-28)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.15.1...v2.16.0)
+
+## [v2.15.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.15.1) (2019-11-27)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.15.0...v2.15.1)
+
+## [v2.15.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.15.0) (2019-11-25)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.14.1...v2.15.0)
+
+## [v2.14.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.14.1) (2019-11-06)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.14.0...v2.14.1)
+
+## [v2.14.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.14.0) (2019-10-28)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.13.3...v2.14.0)
+
+## [v2.13.3](https://github.com/liferay/liferay-js-toolkit/tree/v2.13.3) (2019-10-09)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.13.2...v2.13.3)
+
+## [v2.13.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.13.2) (2019-09-18)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.13.1...v2.13.2)
+
+## [v2.13.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.13.1) (2019-09-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.13.0...v2.13.1)
+
+## [v2.13.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.13.0) (2019-09-10)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.12.0...v2.13.0)
+
+## [v2.12.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.12.0) (2019-08-14)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.11.0...v2.12.0)
+
+## [v2.11.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.11.0) (2019-07-24)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.10.0...v2.11.0)
+
+## [v2.10.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.10.0) (2019-06-12)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.9.0...v2.10.0)
+
+## [v2.9.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.9.0) (2019-06-06)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.8.0...v2.9.0)
+
+## [v2.8.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.8.0) (2019-05-30)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.7.1...v2.8.0)
+
+## [v2.7.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.7.1) (2019-04-01)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.7.0...v2.7.1)
+
+## [v2.7.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.7.0) (2019-03-26)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.6.2...v2.7.0)
+
+### :package: Miscellaneous
+
+-   Improve merge strategy with presets ([\#295](https://github.com/liferay/liferay-js-toolkit/pull/295))
+-   Fixes #286 | Point generated configuration.json files to schema ([\#288](https://github.com/liferay/liferay-js-toolkit/pull/288))
+-   Fixes #286 | Point generated configuration.json files to schema ([\#287](https://github.com/liferay/liferay-js-toolkit/pull/287))
+-   Correct spelling of JavaScript ([\#252](https://github.com/liferay/liferay-js-toolkit/pull/252))
+
+## [v2.6.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.6.2) (2019-02-01)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.6.1...v2.6.2)
+
+## [v2.6.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.6.1) (2018-12-07)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.6.0...v2.6.1)
+
+## [v2.6.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.6.0) (2018-12-07)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.5.1...v2.6.0)
+
+## [v2.5.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.5.1) (2018-11-13)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.5.0...v2.5.1)
+
+### :package: Miscellaneous
+
+-   Prepare for 2.5.1 release ([\#228](https://github.com/liferay/liferay-js-toolkit/pull/228))
+
+## [v2.5.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.5.0) (2018-10-08)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.4.0...v2.5.0)
+
+## [v2.4.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.4.0) (2018-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.3.1...v2.4.0)
+
+### :package: Miscellaneous
+
+-   v2.3.1 ([\#210](https://github.com/liferay/liferay-js-toolkit/pull/210))
+
+## [v2.3.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.3.1) (2018-09-21)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.3.0...v2.3.1)
+
+## [v2.3.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.3.0) (2018-09-20)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.2.1...v2.3.0)
+
+## [v2.2.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.2.1) (2018-08-31)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.2.0...v2.2.1)
+
+### :package: Miscellaneous
+
+-   v2.2.1 ([\#178](https://github.com/liferay/liferay-js-toolkit/pull/178))
+
+## [v2.2.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.2.0) (2018-07-20)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.1.1...v2.2.0)
+
+### :package: Miscellaneous
+
+-   v2.1.1 ([\#172](https://github.com/liferay/liferay-js-toolkit/pull/172))
+
+## [v2.1.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.1.1) (2018-07-02)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.1.0...v2.1.1)
+
+### :package: Miscellaneous
+
+-   v2.1.0 ([\#160](https://github.com/liferay/liferay-js-toolkit/pull/160))
+
+## [v2.1.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.1.0) (2018-06-20)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.0.1...v2.1.0)
+
+## [v2.0.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.0.1) (2018-06-11)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.0.0...v2.0.1)
+
+## [v2.0.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.0.0) (2018-06-08)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.0.0-rc.4...v2.0.0)
+
+### :package: Miscellaneous
+
+-   v2.0.0 ([\#135](https://github.com/liferay/liferay-js-toolkit/pull/135))
+
+## [v2.0.0-rc.4](https://github.com/liferay/liferay-js-toolkit/tree/v2.0.0-rc.4) (2018-05-31)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.0.0-rc.3...v2.0.0-rc.4)
+
+## [v2.0.0-rc.3](https://github.com/liferay/liferay-js-toolkit/tree/v2.0.0-rc.3) (2018-05-30)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.0.0-rc.2...v2.0.0-rc.3)
+
+## [v2.0.0-rc.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.0.0-rc.2) (2018-05-10)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.0.0-rc.1...v2.0.0-rc.2)
+
+### :package: Miscellaneous
+
+-   Prepare for 2.0.0-rc.2 ([\#121](https://github.com/liferay/liferay-js-toolkit/pull/121))
+
+## [v2.0.0-rc.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.0.0-rc.1) (2018-05-08)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v1.6.2...v2.0.0-rc.1)
+
+## [v1.6.2](https://github.com/liferay/liferay-js-toolkit/tree/v1.6.2) (2018-05-03)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v1.6.1...v1.6.2)
+
+### :package: Miscellaneous
+
+-   Don't fail for private github dependencies ([\#110](https://github.com/liferay/liferay-js-toolkit/pull/110))
+-   Fix README markdown formatting ([\#108](https://github.com/liferay/liferay-js-toolkit/pull/108))
 
 ## [v1.6.1](https://github.com/liferay/liferay-npm-build-tools/tree/v1.6.1) (2018-03-16)
 [Full Changelog](https://github.com/liferay/liferay-npm-build-tools/compare/v1.6.0...v1.6.1)
@@ -194,7 +460,3 @@
 - Add babel-plugin-normalize-requires [\#6](https://github.com/liferay/liferay-npm-build-tools/pull/6) ([izaera](https://github.com/izaera))
 - Add babel-plugin-namespace-amd-define [\#5](https://github.com/liferay/liferay-npm-build-tools/pull/5) ([izaera](https://github.com/izaera))
 - Add integration with Atom [\#1](https://github.com/liferay/liferay-npm-build-tools/pull/1) ([izaera](https://github.com/izaera))
-
-
-
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
