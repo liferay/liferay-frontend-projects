@@ -26,7 +26,7 @@ yarn ci
 cd packages/liferay-npm-scripts
 
 # Update the changelog:
-npx liferay-changelog-generator --version=liferay-npm-scripts/v29.0.1
+npx liferay-changelog-generator --version=29.0.1
 
 # Review and stage the generated changes:
 git add -p
