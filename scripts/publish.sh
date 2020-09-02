@@ -12,7 +12,7 @@
 REMOTE=$(git remote -v | grep 'github.com[:/]liferay/' | grep '(push)' | sort -k2 | head -1 | cut -f1)
 
 if [ -n "$REMOTE" ]; then
-	yarn run lerna "$@" --git-remote="$REMOTE"
+	yarn run lerna publish "$@" --git-remote="$REMOTE"
 else
 	echo 'warning: could not locate a "liferay" remote'
 
@@ -20,7 +20,7 @@ else
 	echo
 
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		yarn run lerna "$@"
+		yarn run lerna publish "$@"
 	else
 		echo Aborted.
 		exit 1
