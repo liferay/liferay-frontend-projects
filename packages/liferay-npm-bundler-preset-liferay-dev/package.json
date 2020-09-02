@@ -1,6 +1,6 @@
 {
 	"name": "liferay-npm-bundler-preset-liferay-dev",
-	"version": "4.6.0",
+	"version": "4.6.1",
 	"description": "Default configuration for liferay-npm-bundler inside liferay-portal.",
 	"main": "config.json",
 	"dependencies": {
