@@ -22,8 +22,8 @@
 		"lint": "eslint \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"lint:fix": "eslint --fix \"packages/*/src/*.js\" \"packages/*/src/**/*.js\"",
 		"qa": "node scripts/qa/index.js",
-		"release": "lerna publish --force-publish='*' --exact",
-		"release-canary": "lerna publish --force-publish='*' --exact -c",
+		"release": "scripts/publish.sh --force-publish='*' --exact",
+		"release-canary": "scripts/publish.sh --force-publish='*' --exact -c",
 		"test": "jest --runInBand",
 		"watch": "node scripts/watch"
 	},

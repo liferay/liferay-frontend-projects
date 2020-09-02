@@ -82,7 +82,7 @@ Note that the `link-js-toolkit` will move all JS Toolkit dependencies in the QA 
 
 The release policy is to always release all packages in the monorepo, whether they have been modified or not.
 
-To release a new version run `yarn release` in the `master` branch of the upstream repo (not your fork). This is necessary since lerna adds tags and pushes commits directly to the upstream repo.
+To release a new version run `yarn release` in the `master` branch. The script will attempt to locate the appropriate Git remote corresponding to [the "liferay" organization on GitHub](https://github.com/liferay), and fall back to Lerna's default, the `origin` remote as a last resort.
 
 Make sure the local "master" branch is up-to-date:
 
@@ -121,13 +121,6 @@ Release a new version
 
 ```sh
 $ yarn release ⏎
-```
-
-**NOTE:** Lerna will push to your Git `origin` remote; if that happens to be _your_ fork and not the official [liferay/liferay-js-toolkit](https://github.com/liferay/liferay-js-toolkit), then you will need to push the changes upstream manually. For example, if the authoritative remote is named `upstream` in your local repo:
-
-```sh
-git push upstream master --follow-tags --dry-run ⏎
-git push upstream master --follow-tags ⏎
 ```
 
 Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-js-toolkit/releases).
