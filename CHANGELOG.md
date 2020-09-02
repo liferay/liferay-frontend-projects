@@ -1,3 +1,23 @@
+## [v2.19.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.1) (2020-09-02)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.19.0...v2.19.1)
+
+### :new: Features
+
+-   feat: make a wrapper script for Lerna that autodetects the right remote ([\#638](https://github.com/liferay/liferay-js-toolkit/pull/638))
+
+### :wrench: Bug fixes
+
+-   fix: make namespace-amd-define work with css-loader ([\#636](https://github.com/liferay/liferay-js-toolkit/pull/636))
+
+### :house: Chores
+
+-   chore: create CONTRIBUTING.md file ([\#633](https://github.com/liferay/liferay-js-toolkit/pull/633))
+
+### :eyeglasses: Tests
+
+-   test: don't hardcode version numbers ([\#635](https://github.com/liferay/liferay-js-toolkit/pull/635))
+
 ## [v2.19.0](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.0) (2020-09-01)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.8...v2.19.0)
