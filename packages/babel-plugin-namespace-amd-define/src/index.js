@@ -37,7 +37,11 @@ export default function() {
 				}
 
 				if (!firstDefineNamespaced) {
-					if (path.scope.parent === null) {
+					if (
+						path.scope.parent === null ||
+						(!path.scope.hasOwnBinding('define') &&
+							!path.scope.hasBinding('define'))
+					) {
 						const namespace =
 							this.opts.namespace || 'Liferay.Loader';
 
