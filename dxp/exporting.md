@@ -33,7 +33,6 @@ Make sure to change the `name` so that it matches the name of the OSGi module an
 
 As an example, you can look at an existing [`package.json`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-js/frontend-js-web/package.json) and [`bnd.bnd`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-js/frontend-js-web/bnd.bnd) file.
 
-
 ### Using the `main` field
 
 Make sure the `package.json` file contains a `main` field.
@@ -44,9 +43,9 @@ You want the value of the `main` field to be `index.js`
 
 Here are a few examples of existing modules in DXP:
 
-- [`frontend-editor-ckeditor-web`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-editor/frontend-editor-ckeditor-web/package.json#L8)
-- [`frontend-js-web`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-js/frontend-js-web/package.json#L35)
-- [`frontend-js-react-web`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-js/frontend-js-react-web/package.json#L16)
+-   [`frontend-editor-ckeditor-web`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-editor/frontend-editor-ckeditor-web/package.json#L8)
+-   [`frontend-js-web`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-js/frontend-js-web/package.json#L35)
+-   [`frontend-js-react-web`](https://github.com/liferay/liferay-portal/blob/b4c82067fd9450bf1574d98335afa00f65172cf5/modules/apps/frontend-js/frontend-js-react-web/package.json#L16)
 
 Note that you must use `index.js` and not `index.es.js` (as explained [here](https://github.com/liferay/liferay-frontend-guidelines/blob/ba259d1ed591a70d8d62932591f5ad6f5c7da99a/general/file_names.md), those files are there for historical reasons).
 
