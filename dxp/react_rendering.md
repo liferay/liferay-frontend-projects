@@ -1,6 +1,6 @@
 # React Rendering in DXP
 
-This article describes DXP infrastructure to render React components from the server side perspective. This includes taglibs as well as low level services.
+This article describes DXP infrastructure to render React components from the server side perspective. This includes taglibs as well as low-level services.
 
 ## React Renderer Service
 
@@ -8,7 +8,7 @@ This article describes DXP infrastructure to render React components from the se
 -   Interface name: `com.liferay.portal.template.react.renderer.ReactRenderer`
 -   Service type: `singleton`
 
-This is the low level service to render React components.
+This is the low-level service to render React components.
 
 > Note that it renders React components, not any React code, so you must provide a source which exports a React component to render.
 
@@ -23,7 +23,7 @@ public void renderReact(
 
 which receives:
 
-1. A `ComponentDescriptor` describing the source of the React component to render. More on this on the next section.
+1. A `ComponentDescriptor` describing the source of the React component to render. More on this in the next section.
 2. A `Map` containing arbitrary data that will be injected to the React component as initial properties. Note that the data inside the map must be compatible with JavaScript, so you cannot inject any Java object you like, only primitive types, `Map`s, `Array`s, ... that can be serialized to JSON.
 3. The current `HttpServletRequest` for which the component is being rendered.
 4. A `Writer` where the rendered HTML (and optionally the JavaScript) is written to.
@@ -61,7 +61,7 @@ reactRenderer.renderReact(
 	httpServletResponse.getWriter());
 ```
 
-This will cause an HTML like this to be rendered in the current position of the `HttpServletResponse`:
+This will cause HTML like this to be rendered in the current position of the `HttpServletResponse`:
 
 ```html
 <div id="XJAZ"></div>
@@ -69,7 +69,7 @@ This will cause an HTML like this to be rendered in the current position of the 
 
 (where `XJAZ` is a random placeholder id).
 
-And a JavaScript like this to be appended at the end of the page:
+And JavaScript like this to be appended at the end of the page:
 
 ```javascript
 Liferay.Loader.require(
@@ -90,7 +90,7 @@ If you are curious about what `portal-template-react-renderer-impl@1.2.3/render.
 -   Taglib URI: `http://liferay.com/tld/react`
 -   Tag: `<react:component>`
 
-This tag is a wrapper for the low level React renderer service. It leverages OSGi service `com.liferay.portal.template.react.renderer.ReactRenderer` to render the HTML and JavaScript.
+This tag is a wrapper for the low-level React renderer service. It leverages OSGi service `com.liferay.portal.template.react.renderer.ReactRenderer` to render the HTML and JavaScript.
 
 The tag has five attributes (all optional but the `module` one):
 
@@ -121,13 +121,13 @@ The tag has five attributes (all optional but the `module` one):
 -   Taglib URI: `http://liferay.com/tld/clay`
 -   Tags: `<liferay-clay:...>`
 
-The `liferay-clay` taglib provides several tags to render Clay components (for example: `<liferay-clay:alert>`, `<liferay-clay:button>`, ...). This is tangentially related to React because Clay components are implemented as React components.
+The `liferay-clay` taglib provides several tags to render Clay components (for example: `<liferay-clay:alert>`, `<liferay-clay:button>`, ...). This is indirectly related to React because Clay components are implemented as React components.
 
 Each tag has its own attributes, which are modeled according to the visual component the tag is rendering. See the documentation of each tag to learn about its attributes. A good place to do start is the [taglib's TLD file](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-taglib/frontend-taglib-clay/src/main/resources/META-INF/liferay-clay.tld).
 
 All Clay tags are supposed to extend from `com.liferay.frontend.taglib.clay.internal.servlet.taglib.BaseContainerTag` which, in turn, leverages `com.liferay.portal.template.react.renderer.ReactRenderer`.
 
-Then, at this low level, all Clay components are created with a `ComponentDescriptor` containing:
+Then, at this low-level, all Clay components are created with a `ComponentDescriptor` containing:
 
 1. A `moduleName` which is defined by each tag, and corresponds to the JavaScript module that exports the React component.
 2. A `data` map which is filled with the attributes of the tag, like `cssClass`, `defaultEventHandler`, `id`, etc...
@@ -143,6 +143,6 @@ Then, at this low level, all Clay components are created with a `ComponentDescri
 
 ```jsp
 <clay:alert
-	message="you-do-not-belong-to-an-organization-and-are-not-allowed-to-view-other-organizations"
+	message="you-do-not-belong-to-an-organization"
 />
 ```
