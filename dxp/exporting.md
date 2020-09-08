@@ -1,6 +1,6 @@
 # Exporting your JavaScript
 
-This document describes how you should organize you OSGi modules to export JavaScript functionality.
+This document describes how you should organize your OSGi modules to export JavaScript functionality.
 
 ## Introduction
 
