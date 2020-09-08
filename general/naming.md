@@ -27,7 +27,7 @@ Thanks to tools like [Prettier](https://prettier.io/) that can wrap code neatly 
 | :x: `fmt`          | :white_check_mark: `format`                 |
 | :x: `k`/`v`        | :white_check_mark: `key`/`value`            |
 | :x: `idx`          | :white_check_mark: `index`                  |
-| :x: `img`          | :white_check_mark: `img`                    |
+| :x: `img`          | :white_check_mark: `image`                  |
 | :x: `obj`          | :white_check_mark: `object`                 |
 | :x: `opts`         | :white_check_mark: `options`                |
 | :x: `prj`          | :white_check_mark: `project`                |
