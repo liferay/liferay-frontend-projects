@@ -1,24 +1,24 @@
-# Bundler Imports
+# Bundler v2 Imports
 
 This document is aimed at explaining how npm bundler imports work.
 
-## Why do we need npm bundler imports
+## Why we need npm bundler imports
 
-As all of you probably know, usually JavaScript web applications need a bundling phase to convert npm modules into a single `.js` file that can be loaded and executed by browsers. The reference tool for this task is [webpack](https://webpack.js.org/).
+As all of you probably know, usually JavaScript web applications need a bundling phase to convert npm modules into a single `.js` file that can be loaded and executed by browsers. The most popular tool (and the one that developers usually target) for this task is [webpack](https://webpack.js.org/).
 
-Sadly, in our DXP platform, we cannot simply create bundles for every portlet and deploy them (or to be more specific: we could, but it would be far from optimal). The main reason being that because our HTML pages are assembled dinamically during runtime (due to portlet layouts being totally configurable), different portlets may need to share the same JavaScript modules.
+Sadly, in our DXP platform, we cannot simply create bundles for every portlet and deploy them (or to be more specific: we could, but it would be far from optimal). The main reason being that because our HTML pages are assembled dynamically during runtime (due to portlet layouts being totally configurable), different portlets may need to share the same JavaScript modules.
 
 So, imagine you deploy two portlets (`A` and `B`) and both use `react`. You could create a bundle for each with `webpack`, but that would put two different copies of `react` in the browser memory and you would spend double the bandwidth and processing time fetching and parsing them.
 
 The ideal solution would be making both portlets share the same `react` copy. This way not only you optimize bandwidth, CPU and RAM, but also make sure that both portlets call the same `react` thus minimizing the possibility of issues arising when mixing different versions of the same framework in one single HTML page.
 
-So, how do you do that? That's when npm bundler imports come to the rescue!
+So, how do you do that? That's where npm bundler imports come to the rescue!
 
-## What are npm bundler imports
+## What are npm bundler imports?
 
 > Simply put, npm bundler imports are a way of diverting standard npm module imports from one portlet to another.
 
-As we said above, if you deployed two portlets `A` and `B` using `webpack`, each one would have its own copy of `react`. By default, our npm bundler, mimicks that behavior but, because we don't bundle things in a single `.js` file, but deploy them as AMD modules, it namespaces each `react` with the name of its owner portlet, thus, without configuring anything else, you would deploy `A$react` and `B$react`.
+As we said above, if you deployed two portlets `A` and `B` using `webpack`, each one would have its own copy of `react`. By default, our npm bundler mimics that behavior but, because we don't bundle things in a single `.js` file, but deploy them as AMD modules, it namespaces each `react` with the name of its owner portlet, thus, without configuring anything else, you would deploy `A$react` and `B$react`.
 
 ### So, how do we change this into the ideal situation (one single `react` to rule them all)?
 
@@ -30,7 +30,7 @@ Now, what we want is `A` and `B` to use that `frontend-js-react-web$react`, inst
 
 ### How npm bundler imports are configured
 
-The way to configure npm bundler imports is straighforward: if you want to use `react` from `frontend-js-react-web` just say so in your `.npmbundlerrc` file like, for example, this:
+If you want to use `react` from `frontend-js-react-web` just say so in your `.npmbundlerrc` file like, for example, this:
 
 ```json
 {
@@ -44,7 +44,7 @@ The way to configure npm bundler imports is straighforward: if you want to use `
 }
 ```
 
-Note that you just need to name your `react` provider (`frontend-js-react-web`) and the version you will be willing to use (`>=16.8.6`). This works similar to the versions you specify in `package.json` but kind of overrides it. It is used by the AMD loader when resolving the `frontend-js-react-web$react` package and can be the same you have in your project's `package.json` or a different one that you know it's compatible.
+Note that you just need to name your `react` provider (`frontend-js-react-web`) and the version you will be willing to use (`>=16.8.6`). This works similar to the versions you specify in `package.json` overriding them at runtime. It is used by the AMD loader when resolving the `frontend-js-react-web$react` package and can be the same you have in your project's `package.json` or a different one that you know is compatible.
 
 > You could even omit `react` in your `package.json` and, as long as you don't need it for anything related to the build process (for example: tests, or type checking if you use `typescript`) it will work.
 
@@ -59,24 +59,22 @@ Let's see what happens when the two match or differ...
 
 1. **Both version constraints in `package.json` and `.npmbundlerrc` are the same**: this is the most intuitive and logical case, where you use the same version for building and running. The only reason why you wouldn't want to do this is if the lifecycle of the provider is decoupled from your project's lifecycle, as is the usual case in DXP (because `frontend-js-react-web$react` is managed by the Infrastructure team and your project is managed by you).
 
-2. **Different version constraints in `package.json` and `.npmbundlerrc`**: in this case, the provider usually states what the update policy will be and you can relax your imports constraints to avoid having to catch up in your `package.json` every time a new version of `frontend-js-react-web$react` is released. This is the way DXP modules build because, traditionally, we haven't had semantic version resolution in DXP (for JavaScript) and because, given that we control the whole product, we want to fully deduplicate and use one exact copy of `react`. So, what we do is placing a `>=n.n.n` constraint on `frontend-js-react-web$react` in `.npmbundlerrc`, so that if the infrastructure is updated to a higher compatible version, the application modules don't need to be rebuilt.
+2. **Different version constraints in `package.json` and `.npmbundlerrc`**: in this case, the provider usually states what the update policy will be and you can relax your imports constraints to avoid having to catch up in your `package.json` every time a new version of `frontend-js-react-web$react` is released. This is the way DXP modules build because, traditionally, we haven't had semantic version resolution in DXP (for JavaScript) and because, given that we control the whole product, we want to fully deduplicate and use one exact copy of `react`. So, what we do is place a `>=n.n.n` constraint on `frontend-js-react-web$react` in `.npmbundlerrc`, so that if the infrastructure is updated to a higher compatible version, the application modules don't need to be rebuilt.
 
 3. **No version constraints in `package.json`, only in `.npmbundlerrc`**: this is a degenerate case of 2 where you simply omit `react` in your build. The benefits are that, if you don't need it for the build, you don't download or care about it. However, it may be considered wrong because you are not declaring one of your dependencies in the `package.json` file even though it will be used during runtime.
 
-> You can see all the implicit imports you get when building a `DXP` module in the [default npm bundler preset](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-bundler-preset-liferay-dev/config.json), that gets injected by `liferay-npm-scripts` when you run `gradle build`. Look for `"imports"` inside the `"config"` section.
+> You can see all the implicit imports you get when building a `DXP` module in the [default npm bundler preset](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-bundler-preset-liferay-dev/config.json), that gets injected by `liferay-npm-scripts` when you run `gradle build`. Look for `"imports"` inside the `"config"` section. Note, however, that some modules opt out of this default preset by using bundler's default preset ([liferay-bundler-preset-standard](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler-preset-standard/config.json)) instead.
 
-> Note that strategy 2 has to be carefully maintained because if you specify a very different version in `package.json` and `.npmbundlerrc` and develop your project targeting the version in `package.json`, you may have problems during runtime if your provider's version is not compatible. This is not the case in `DXP` where we coordinate together to align JavaScript version, but it is worth mentioning the risk.
+> Note that strategy 2 has to be carefully maintained because if you specify a very different version in `package.json` and `.npmbundlerrc` and develop your project targeting the version in `package.json`, you may have problems during runtime if your provider's version is not compatible. This is not the case in `DXP` where we coordinate together to align versions, but it is worth mentioning the risk.
 
 ## How npm bundler imports works at runtime
-
-The technique used to make imports work is quite simple.
 
 Say you import `react` from `frontend-js-react-web` in your `A` project, then every appearance of `react` in:
 
 1. Your project's source code
 2. Your project's dependencies (packages in `node_modules`)
 
-will be replaced by `frontend-js-react-web$react` instead of `A$react` as would be the default. After that, the resulting `package.json` will have a dependency to `frontend-js-react-web$react` injected with the version constraints specified in the `.npmbundlerrc` import configuration so that it can be resolved by the AMD loader at runtime.
+will be replaced by `frontend-js-react-web$react` instead of `A$react` as would be the default. After that, the resulting `package.json` will have a dependency on `frontend-js-react-web$react` injected with the version constraints specified in the `.npmbundlerrc` import configuration so that it can be resolved by the AMD loader at runtime.
 
 This way, code in your project like the following:
 
@@ -84,9 +82,9 @@ This way, code in your project like the following:
 import React from 'react';
 ```
 
-will bind the `React` variable the `frontend-js-react-web`'s copy of `react` inside the browser's JavaScript interpreter.
+will bind the `React` variable to the `frontend-js-react-web`'s copy of `react` inside the browser's JavaScript interpreter.
 
-Note that, once your code "jumps" into `frontend-js-react-web`'s copy of `react`, your project's configuration doesn't play any effect until your return from that "jump". This is because once you invoke `React` from`frontend-js-react-web$react` you enter the bundled JavaScript code of `frontend-js-react-web` which has been bundled by the settings in the `frontend-js-react-web` project, not yours.
+Note that, once your code "jumps" into `frontend-js-react-web`'s copy of `react`, your project's configuration doesn't have any effect until your return from that "jump". This is because once you invoke `React` from `frontend-js-react-web$react` you enter the bundled JavaScript code of `frontend-js-react-web` which has been bundled by the settings in the `frontend-js-react-web` project, not yours.
 
 So, imagine you have a dependency to `object-assign` (which is used by `react`) in your project. If you have code like this:
 
@@ -137,8 +135,8 @@ Now, say you have:
 
 Then:
 
-1. When you deploy `A`, a copy of `B` is put inside its JAR (namespaced with `A$`) and everything in `A` (source code and all its deps including `B`) are transformed acording to the imports defined in `A`'s `.npmbundlerrc`.
-2. When you deploy `B` the source of `B` is transformed acording to the imports found in `B`'s `.npmbundlerrc` and deployed as `B` (no namespacing).
+1. When you deploy `A`, a copy of `B` is put inside its JAR (namespaced with `A$`) and everything in `A` (source code and all its deps including `B`) are transformed according to the imports defined in `A`'s `.npmbundlerrc`.
+2. When you deploy `B` the source of `B` is transformed according to the imports found in `B`'s `.npmbundlerrc` and deployed as `B` (no namespacing).
 
 So, imagine you deploy the two JARs above, you would have packages:
 
@@ -155,6 +153,6 @@ Now, in your case...
 This is not enough information to know what will happen, because we need to know what's in `A`'s imports:
 
 1. If you decide you are not importing `@clayui/charts`, then `A` will get its own copy (`@A$clayui/charts`) and it will use whatever `billboard.js` `@clayui/charts` is using.
-2. If you import `@clayui/charts` from `frontend-taglib-clay`, then `A` will not bundle a copy of `@clayui/charts` inside its JAR, but will point all imports to `@clayui/charts` so that they are retrieved from `frontend-taglib-clay`. Then, when running the code in `A`, as soon as you leave `A`'s domain to enter `@frontend-taglib-clay$clayui/charts` domain, you have effectively crossed a "project boundary" and everything begins to be resolved acording to what's defined in `frontend-taglib-clay` for that dependency subgraph.
+2. If you import `@clayui/charts` from `frontend-taglib-clay`, then `A` will not bundle a copy of `@clayui/charts` inside its JAR, but will point all imports to `@clayui/charts` so that they are retrieved from `frontend-taglib-clay`. Then, when running the code in `A`, as soon as you leave `A`'s domain to enter `@frontend-taglib-clay$clayui/charts` domain, you have effectively crossed a "project boundary" and everything begins to be resolved according to what's defined in `frontend-taglib-clay` for that dependency subgraph.
 
-Think of it a dependency graph where the root node begins using `A`'s `.npmbundlerrc` for all resolutions until you get to `@frontend-taglib-clay$clayui/charts` where you "attach" `frontend-taglib-clay`'s `.npmbundlerrc` to that node, and anything inside that subgraph uses that `.npmbundlerrc` (until a deeper node jumps to a different provider and the same override takes effect again)...
+Think of it as a dependency graph where the root node begins using `A`'s `.npmbundlerrc` for all resolutions until you get to `@frontend-taglib-clay$clayui/charts` where you "attach" `frontend-taglib-clay`'s `.npmbundlerrc` to that node, and anything inside that subgraph uses that `.npmbundlerrc` (until a deeper node jumps to a different provider and the same override takes effect again)...
