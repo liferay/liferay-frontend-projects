@@ -1,4 +1,4 @@
-# What is `frontend-taglib-clay` and its relation with clay-_, @clayui/_, and clay-css?
+# What is `frontend-taglib-clay` and its relation with `clay-*`, `@clayui/*`, and `clay-css`?
 
 ## High-level:
 
