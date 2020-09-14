@@ -131,7 +131,7 @@ Liferay.fire('someEvent', {
 
 The best practice number #1 is using Liferay's namespace utilities (`Liferay.Util.ns`) when possible. Like `Liferay.Util.ns(myWidgetNamespace, 'nameOfMyCustomEvent')`. For scoping the global name of the event. It will prevent you from listening to generic events which can be fired in different widgets for which you may not be responsible.
 
-_Additional information_: When using simpler es6 class components, we could just extend to [PortletBase](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/PortletBase.es.js) and use `this.ns` function.
+_Additional information_: When using simpler ES6 class components, we could just extend to [PortletBase](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/PortletBase.es.js) and use `this.ns` function.
 
 Wrong:
 
