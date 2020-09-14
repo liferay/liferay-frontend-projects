@@ -60,6 +60,8 @@ We have the styles we need to update the default state of `form-control` in Clay
 
 In this case, Material Design sets a large value for `padding-top` to make space for floating labels. We will skip this for now. Setting `$input-padding-y` to 20px will cut off text on our `select` input we will update case by case as necessary.
 
+> Note: We shouldn't set `$input-border-radius: 0.25rem 0.25rem 0 0` because Bootstrap 4 assumes the `border-radius` will be the same for all four corners. This will cause invalid CSS to be output in the Input Group Component. We will fix those in the Input Group section.
+
 _/src/css/\_clay_variables.scss_
 
 ```scss
@@ -71,7 +73,7 @@ $input-border-left-width: 0;
 $input-border-right-width: 0;
 $input-border-top-width: 0;
 $input-border-color: rgba($black, 0.42);
-$input-border-radius: 0.25rem 0.25rem 0 0;
+$input-border-radius: 0.25rem;
 $input-box-shadow: none;
 $input-color: rgba($black, 0.87);
 $input-padding-x: 1rem;
@@ -81,10 +83,16 @@ Clay CSS doesn't have a variable to modify `letter-spacing` in `form-control`. W
 
 We don't need to worry about namespacing the variable here because it follows the Bootstrap and Clay CSS naming pattern. If this is added in the future, this is exactly what it will do.
 
+We can also add our custom `border-radius` here by leveraging the mixin [clay-form-control-variant](https://github.com/liferay/clay/blob/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss/mixins/_forms.scss#L83) to declare our styles. This will make it easier to redeclare focus and disabled states below. We can name the variable `$input`.
+
 _/src/css/\_clay_variables.scss_
 
 ```scss
 $input-letter-spacing: 0.009375em;
+
+$input: (
+	border-radius: $input-border-radius $input-border-radius 0 0
+);
 ```
 
 _/src/css/\_clay_custom.scss_
@@ -92,6 +100,8 @@ _/src/css/\_clay_custom.scss_
 ```scss
 .form-control {
 	letter-spacing: $input-letter-spacing;
+
+	@include clay-form-control-variant($input);
 }
 ```
 
@@ -122,12 +132,13 @@ Material Design's input hover styles are below:
 }
 ```
 
-Clay CSS doesn't provide any variables for setting the hover state. We can leverage the mixin [clay-form-control-variant](https://github.com/liferay/clay/blob/0568f0a1ffb82b0bc85321b10cb32ff5f68e2cc1/packages/clay-css/src/scss/mixins/_forms.scss#L83) to declare our styles. This will make it easier to redeclare focus and disabled states because the hover styles will win due to specificity. We can name the variable `$input`.
+We can pass in the `hover` state through the Sass map `$input` we just declared:
 
 _/src/css/\_clay_variables.scss_
 
 ```scss
 $input: (
+	border-radius: $input-border-radius $input-border-radius 0 0,
 	hover-bg: $gray-200,
 	hover-border-color: rgba($black, 0.87)
 );
@@ -306,7 +317,7 @@ _/src/css/\_clay_custom.scss_
 Material Design has dense text fields that should be 40dp tall. We will just use 40px here.
 
 ```scss
-$input-border-radius-sm: 0.25rem 0.25rem 0 0;
+$input-border-radius-sm: $input-border-radius;
 $input-height-sm: 2.5rem;
 $input-padding-x-sm: 1rem;
 ```
@@ -316,7 +327,7 @@ $input-padding-x-sm: 1rem;
 There is no large text field equivalent, let's use 80px.
 
 ```scss
-$input-border-radius-lg: 0.25rem 0.25rem 0 0;
+$input-border-radius-lg: $input-border-radius;
 $input-height-lg: 5rem;
 $input-padding-x-lg: 1.25rem;
 ```
@@ -445,11 +456,9 @@ What the input section should look like:
 _/src/css/\_clay_variables.scss_
 
 ```scss
-@import "clay/functions/_global-functions";
+@import 'clay/functions/_global-functions';
 
-...
-
-$input-height: 3.5rem;
+...$input-height: 3.5rem;
 
 $input-bg: $gray-100;
 $input-border-bottom-width: 0.0625rem;
@@ -463,7 +472,10 @@ $input-color: rgba($black, 0.87);
 $input-letter-spacing: 0.009375em;
 $input-padding-x: 1rem;
 
-$input-transition: background-color 15ms linear, background-position 180ms cubic-bezier(0.4, 0, 0.2, 1), background-size 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+$input-transition: background-color 15ms linear, background-position 180ms
+		cubic-bezier(0.4, 0, 0.2, 1),
+	background-size 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms
+		cubic-bezier(0.4, 0, 0.2, 1);
 
 $input-focus-bg: $gray-300;
 $input-focus-border-color: transparent;
@@ -484,7 +496,7 @@ $input: (
 	focus-border-color: $input-focus-border-color,
 	disabled-bg: $input-disabled-bg,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color,
+	disabled-color: $input-disabled-color
 );
 
 $input-readonly: (
@@ -492,7 +504,7 @@ $input-readonly: (
 	border-color: $input-border-color,
 	hover-bg: $input-bg,
 	hover-border-color: $input-border-color,
-	focus-bg: $input-bg,
+	focus-bg: $input-bg
 );
 
 $input-border-radius-sm: 0.25rem 0.25rem 0 0;
@@ -504,13 +516,17 @@ $input-height-lg: 5rem;
 $input-padding-x-lg: 1.25rem;
 
 $input-select-icon: clay-icon(caret-bottom, $gray-600), none;
-$input-select-bg-position: right $input-padding-x center, map-get($input, bg-position);
+$input-select-bg-position: right $input-padding-x center, map-get(
+		$input,
+		bg-position
+	);
 $input-select-bg-size: 1rem, map-get($input, bg-size);
 $input-select-padding-right: 2.5rem;
 
 $input-select-icon-focus: clay-icon(caret-bottom, $gray-600), map-get($input, focus-bg-image);
 
-$input-select-icon-disabled: clay-icon(caret-bottom, $input-disabled-color), none;
+$input-select-icon-disabled: clay-icon(caret-bottom, $input-disabled-color),
+	none;
 
 $mdc-input-outline: (
 	bg: $white,
@@ -523,7 +539,7 @@ $mdc-input-outline: (
 	focus-box-shadow: inset 0 0 0 1px $primary-a700,
 	disabled-bg: $white,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color,
+	disabled-color: $input-disabled-color
 );
 ```
 
