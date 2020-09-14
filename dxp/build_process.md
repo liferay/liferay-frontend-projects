@@ -50,7 +50,7 @@ The CLI will run [`metalsoy`](https://github.com/metal/metal-tools-soy/tree/4.x)
 
 As part of the build process, [Babel](https://babeljs.io/) is used for transformation, for React with JSX syntax for example and to allow the use of new JavaScript features.
 
-- [Default configuration of Babel in liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/config/babel.json)
+-   [Default configuration of Babel in liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-scripts/src/config/babel.json)
 
 #### 5. Webpack
 
@@ -64,7 +64,7 @@ Running [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/tree
 
 > Read the ["Bundler v2 imports"](/bundler_imports.md) to understand at a technical level why we need it and how it works.
 
-- [Default bundler preset](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-bundler-preset-liferay-dev/config.json)
+-   [Default bundler preset](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-bundler-preset-liferay-dev/config.json)
 
 #### 7. Liferay npm bridge generator
 
