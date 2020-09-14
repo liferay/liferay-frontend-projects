@@ -1,4 +1,4 @@
-# Liferay’s Global Event Bus
+# Liferay's Global Event Bus
 
 [Liferay's global event bus](https://github.com/liferay/yui3/blob/master/src/event-custom/js/event-target.js#L120) implementation allows developers to publish and listen to custom events from anywhere inside DXP.
 
@@ -10,7 +10,7 @@ The Liferay event system is useful to communicate between isolated contexts (eg.
 
 ### Functions
 
-Here is a list of available functions from Liferay’s global variable:
+Here is a list of available functions from Liferay's global variable:
 
 -   [`Liferay.on`](#liferay.on)
 -   [`Liferay.once`](#liferay.once)
@@ -27,7 +27,7 @@ Here is a list of available functions from Liferay’s global variable:
 
 This function subscribes a callback function to a custom event fired by this object or from an object that bubbles its events to this object.
 
-Callback functions for events published with `emitFacade = true` will receive an `EventFacade` as the first argument (typically named “e”). These callbacks can then call `event.preventDefault()` to disable the behaviour published to that event’s `defaultFn` . See the `EventFacade` API for all available properties and methods. Subscribers to non- `emitFacade` events will receive the arguments passed to `fire()` after the event name.
+Callback functions for events published with `emitFacade = true` will receive an `EventFacade` as the first argument (typically named "e"). These callbacks can then call `event.preventDefault()` to disable the behaviour published to that event's `defaultFn` . See the `EventFacade` API for all available properties and methods. Subscribers to non- `emitFacade` events will receive the arguments passed to `fire()` after the event name.
 
 Returning `false` from a callback is supported as an alternative to calling `event.preventDefault(); event.stopPropagation();` . However, it is recommended to use the event methods whenever possible.
 
@@ -139,7 +139,7 @@ Liferay.fire('someEvent', {
 
 ## Best Practices
 
-The best practice number #1 is using Liferay’s namespace utilities(Liferay.Util.ns) when possible. Like `Liferay.Util.ns(myWidgetNamespace, 'nameOfMyCustomEvent')`. For scoping the global name of the event. It will prevent you for listening to generic events which can be fired in different widgets that you may not be responsible.
+The best practice number #1 is using Liferay's namespace utilities(Liferay.Util.ns) when possible. Like `Liferay.Util.ns(myWidgetNamespace, 'nameOfMyCustomEvent')`. For scoping the global name of the event. It will prevent you for listening to generic events which can be fired in different widgets that you may not be responsible.
 
 _Additional information_: When using simpler es6 class components, we could just extend to [PortletBase](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/PortletBase.es.js) and use `this.ns` function.
 
