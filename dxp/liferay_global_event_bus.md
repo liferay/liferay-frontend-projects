@@ -4,7 +4,7 @@
 
 ### First Considerations
 
-In many situations you do not need an actually global event system because a more local form of communication may suffice. For example, React components often [store shared state in a common ancestor](https://reactjs.org/docs/lifting-state-up.html), passing data down the tree via props or context, and communicating upwards using callbacks or by dispatching actions.
+In many situations you do not actually need a global event system because a more local form of communication may suffice. For example, React components often [store shared state in a common ancestor](https://reactjs.org/docs/lifting-state-up.html), passing data down the tree via props or context, and communicating upwards using callbacks or by dispatching actions.
 
 The Liferay event system is useful to communicate between isolated contexts (eg. widgets, iframes).
 
@@ -117,7 +117,7 @@ Fire a custom event by name. The callback functions will be executed from the co
 
 The first argument is the event type, and any additional arguments are passed to the listeners as parameters. If the first of these is an object literal, and the event is configured to emit an event facade, that object is mixed into the event facade and the facade is provided in place of the original object.
 
-If the custom event object hasn't been created, then the event hasn't been published and it has no subscribers. For performance sake, we immediate exit in this case. This means the event won't bubble, so if the intention is that a bubble target be notified, the event must be published on this object first.
+If the custom event object hasn't been created, then the event hasn't been published and it has no subscribers. For the sake of performance, we immediately exit in this case. This means the event won't bubble, so if the intention is that a bubble target be notified, the event must be published on this object first.
 
 #### Code example
 
@@ -129,7 +129,7 @@ Liferay.fire('someEvent', {
 
 ## Best Practices
 
-The best practice number #1 is using Liferay's namespace utilities (`Liferay.Util.ns`) when possible. Like `Liferay.Util.ns(myWidgetNamespace, 'nameOfMyCustomEvent')`. For scoping the global name of the event. It will prevent you for listening to generic events which can be fired in different widgets that you may not be responsible.
+The best practice number #1 is using Liferay's namespace utilities (`Liferay.Util.ns`) when possible. Like `Liferay.Util.ns(myWidgetNamespace, 'nameOfMyCustomEvent')`. For scoping the global name of the event. It will prevent you from listening to generic events which can be fired in different widgets for which you may not be responsible.
 
 _Additional information_: When using simpler es6 class components, we could just extend to [PortletBase](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/PortletBase.es.js) and use `this.ns` function.
 
@@ -152,7 +152,7 @@ Liferay.fire(ns(portletNamespace, 'CLOSE_MODAL'), {
 	id: 'myId'
 });
 
-// when not portletNamespace available
+// When portletNamespace not available:
 
 Liferay.fire('commerce:CLOSE_MODAL', {
 	id: 'myId'
