@@ -113,21 +113,11 @@ Removes all listeners from the specified event. If the event type is not specifi
 
 ### `Liferay.fire`
 
-Fire a custom event by name. The callback functions will be executed
-from the context specified when the event was created, and with the
-following parameters.
+Fire a custom event by name. The callback functions will be executed from the context specified when the event was created, and with the following parameters.
 
-The first argument is the event type, and any additional arguments are
-passed to the listeners as parameters. If the first of these is an
-object literal, and the event is configured to emit an event facade,
-that object is mixed into the event facade and the facade is provided
-in place of the original object.
+The first argument is the event type, and any additional arguments are passed to the listeners as parameters. If the first of these is an object literal, and the event is configured to emit an event facade, that object is mixed into the event facade and the facade is provided in place of the original object.
 
-If the custom event object hasn't been created, then the event hasn't
-been published and it has no subscribers. For performance sake, we
-immediate exit in this case. This means the event won't bubble, so
-if the intention is that a bubble target be notified, the event must
-be published on this object first.
+If the custom event object hasn't been created, then the event hasn't been published and it has no subscribers. For performance sake, we immediate exit in this case. This means the event won't bubble, so if the intention is that a bubble target be notified, the event must be published on this object first.
 
 #### Code example
 
