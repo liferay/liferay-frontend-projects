@@ -12,6 +12,8 @@ These three pieces form the basic infrastructure available in DXP to minify Java
 
 -   [`frontend-js-minifier`](https://github.com/liferay/liferay-portal/blob/3c6bbac29b64769b665e37798c7f51d4e45b6ff0/portal-impl/src/com/liferay/portal/minifier/MinifierUtil.java): this project contains the two default minifiers that DXP ships out-of-the-box (Google and Yahoo). See the two following sections for more details.
 
+> Note that, even though, `JavaScriptMinifier` and `MinifierUtil` are inside `portal-impl` to maintain backward compatibility, the implementation of the minifiers has been extracted to an OSGi module (`frontend-js-minifier`) for modularity.
+
 ### `GoogleJavaScriptMinifier`
 
 This is the default DXP minifier (because it is deployed with a higher service ranking than the other ones available).
