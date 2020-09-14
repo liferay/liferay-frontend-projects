@@ -144,9 +144,8 @@ Liferay.fire('CLOSE_MODAL', {
 Correct:
 
 ```js
+// See: https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/util/ns.es.js
 import {ns} from 'frontend-js-web';
-// Link to the ns function definition:
-// https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/util/ns.es.js#L33
 
 Liferay.fire(ns(portletNamespace, 'CLOSE_MODAL'), {
 	id: 'myId'
