@@ -32,7 +32,7 @@ By default the CLI expects its source code to be in `src/main/resources/META-INF
 
 #### 1. Setup env
 
-Only set `NODE_ENV` to `production`, you can override it by configuring `env NODE_ENV=development liferay-npm-scripts build` but some problems can still be encountered when running in conjunction with gradlew, read the article [Environment](/environment.md#environment) which explains in more detail on this subject.
+Only set `NODE_ENV` to `production`, you can override it by configuring `env NODE_ENV=development liferay-npm-scripts build` but some problems can still be encountered when running in conjunction with gradlew, read the article [Environment](./environment.md) which explains in more detail on this subject.
 
 #### 2. Validate `npmscripts.config.js`
 
@@ -62,7 +62,7 @@ The CLI can also run [webpack](https://webpack.js.org/) as part of the process i
 
 Running [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler) is super important to allow your project's dependencies and source code to be converted from ES5 to AMD and let them be deployed as an OSGI package later. So, Liferay Portal will be able to load the files of your module and its dependencies when requested.
 
-> Read the ["Bundler v2 imports"](/bundler_imports.md) to understand at a technical level why we need it and how it works.
+> Read the ["Bundler v2 imports"](./bundler_imports.md) to understand at a technical level why we need it and how it works.
 
 -   [Default bundler preset](https://github.com/liferay/liferay-npm-tools/blob/master/packages/liferay-npm-bundler-preset-liferay-dev/config.json)
 
