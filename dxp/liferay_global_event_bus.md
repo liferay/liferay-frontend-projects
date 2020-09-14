@@ -27,7 +27,7 @@ Here is a list of available functions from Liferay's global variable:
 
 This function subscribes a callback function to a custom event fired by this object or from an object that bubbles its events to this object.
 
-Callback functions for events published with `emitFacade = true` will receive an `EventFacade` as the first argument (typically named "e"). These callbacks can then call `event.preventDefault()` to disable the behaviour published to that event's `defaultFn` . See the `EventFacade` API for all available properties and methods. Subscribers to non-`emitFacade` events will receive the arguments passed to `fire()` after the event name.
+Callback functions for events published with `emitFacade = true` will receive an `EventFacade` as the first argument (which should be [named `event`](../general/naming.md), not `evt` or `e`). These callbacks can then call `event.preventDefault()` to disable the behaviour published to that event's `defaultFn` . See the `EventFacade` API for all available properties and methods. Subscribers to non-`emitFacade` events will receive the arguments passed to `fire()` after the event name.
 
 Returning `false` from a callback is supported as an alternative to calling `event.preventDefault(); event.stopPropagation();`. However, it is recommended to use the event methods whenever possible.
 
