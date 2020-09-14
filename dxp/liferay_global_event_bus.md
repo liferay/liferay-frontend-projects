@@ -43,7 +43,7 @@ Liferay.on('someEvent', someEventCallback);
 
 ### `Liferay.once`
 
-Listen to a custom event hosted by the global event handler one time.
+Listen to a custom event one time.
 
 This is the equivalent to `on` function except the listener is immediately detached when it is executed.
 
@@ -59,7 +59,7 @@ Liferay.once('someEvent', someEventCallback);
 
 ### `Liferay.onceAfter`
 
-Listen to a custom event hosted by the global event handler one time.
+Listen to a custom event one time after other handlers have executed.
 
 This is the equivalent to `after` except the listener is immediately detached when it is executed.
 
@@ -75,7 +75,7 @@ Liferay.onceAfter('someEvent', someEventCallback);
 
 ### `Liferay.after`
 
-Subscribe to a custom event hosted by the global event handler.
+Subscribe to a custom event after other handlers have executed.
 
 The supplied callback will execute after any listeners add via the subscribe method, and after the default function, if configured for the event, has executed.
 
