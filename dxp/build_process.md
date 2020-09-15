@@ -71,3 +71,42 @@ Running [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/tree
 The `liferay-npm-bridge-generator` is only executed when there is a `.npmbridgerc` configuration file on the module, this is an extra step that generates bridge modules (npm modules that re-export another module in the same package) inside a project.
 
 > To learn more about how to use this tool read ["How to use liferay npm bridge generator" in the wike of the liferay-js-toolkit repository](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-liferay-npm-bridge-generator).
+
+## Build themes
+
+The build pipeline for themes is essentially for customers who want to create themes and maintain, there are two CLI tools that are responsible for dealing with themes:
+
+-   [Liferay Theme Generator](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/generator-liferay-theme): Yeoman generator, generate new themes to be used with Liferay Portal
+-   [Liferay Theme Tasks](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages/liferay-theme-tasks): Multiple gulp tasks available to expedite theme development.
+
+The build can be triggered by the `gulp build` task or via `gulp deploy` both will trigger the theme build. Considering only the `gulp build` in an overview:
+
+1. Copy Theme base to path build
+2. Copy source code to path build
+3. Prepare WEB-INF, Look and Feel and Hook
+4. Build Themelets
+5. Build css
+6. Build r2
+7. Build war
+
+All build process consists of a standard file structure that can extend from a base theme or Themelet and are organized to be added to a `.war` file to be deployed to a local appserver or a remote server.
+
+All part of the build source code is built on top of [gulp tasks that are executed in sequence](https://github.com/liferay/liferay-js-themes-toolkit/blob/master/packages/liferay-theme-tasks/theme/tasks/build/index.js#L72-L90) within a stream or not.
+
+### Theme base
+
+When a theme is created you need to choose a base theme to start with, there are two options `unstyled` and `styled`. In the build phase the CLI looks for `liferayTheme.baseTheme` in `package.json` in the theme folder to copy the base theme's `src` files to the build path (by default in `./Build`) for later be used in the css build phase.
+
+### WEB-INF
+
+The `liferay-look-and-feel.xml` and `liferay-hook.xml` files, among others, are part of the process of building a Liferay theme, both are built as part of the building process that are added in the `WEB-INF` folder of the build.
+
+### Themelets
+
+Think of Themelets as small components, fragments of CSS code, JS that can be reused by various themes, can be used as the basis for a new theme as well.
+
+CLI looks for Themelet inside the `node_modules` of the project and copies the source files to the build path, just like the Theme base phase. Themelet is injected into the template for example for JavaScript in `portal_normal.ftl` and for css in `_custom.scss`.
+
+### R2
+
+R2 is a helper that helps to get the CSS to achieve cross-language layout-friendly (including bi-directional text). CLI goes through all the CSS files to generate the RTL file for each file.
