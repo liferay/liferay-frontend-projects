@@ -32,6 +32,7 @@ const IGNORE_DIR = /^(?:.git|node_modules)$/;
 
 const IGNORE_HOSTS = new Set([
 	// localhost and variants:
+
 	'0.0.0.0',
 	'127.0.0.1',
 	'::1',
@@ -39,10 +40,12 @@ const IGNORE_HOSTS = new Set([
 
 	// As of https://github.com/liferay/liferay-frontend-guidelines/pull/161
 	// Cloudflare is 503-ing all "bot-like" codepen.io requests.
+
 	'codepen.io'
 ]);
 
 // Adapted from: https://stackoverflow.com/a/163684/2103996
+
 const URL_PATTERN = /\bhttps?:\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]/;
 
 let errorCount = 0;
@@ -68,6 +71,7 @@ async function checkInternal(link, files) {
 			// - Extracts link text from Markdown links.
 			// - Turns spaces, hyphens, commas into hyphens.
 			// - Removes backticks, colons.
+
 			const target = heading
 				.replace(/^\[([^\\]+)\].*$/, (_match, text) => {
 					return text;
@@ -76,6 +80,7 @@ async function checkInternal(link, files) {
 				.replace(/[`:]/g, '');
 
 			// Lowercase because the browser matches case-insensitively.
+
 			targets.add(target.toLowerCase());
 
 			return match;
@@ -95,9 +100,11 @@ async function checkLocal(link, files) {
 
 		if (path.isAbsolute(base)) {
 			// Resolve relative to repo root.
+
 			target = path.join(__dirname, '..', base);
 		} else {
 			// Resolve relative to current file's directory.
+
 			target = path.join(path.dirname(file), base);
 		}
 
@@ -146,6 +153,7 @@ function checkRemote(link, files) {
 
 		request.on('error', (error) => {
 			// Trim stack trace.
+
 			const text = error.toString().split(/\n/)[0];
 
 			bail(`Failed request (${text}) for remote link: ${link}`);
@@ -176,7 +184,9 @@ function extractLinks(contents, file) {
 	const references = new Set();
 
 	contents
+
 		// [reference text]: resolved-target optional-title
+
 		.replace(
 			/^\s*\[([^\]\n]+)\]\s*:\s*([^\s]+)(?:[ \t]+[^\n]+)?$/gm,
 			(_, reference, target) => {
@@ -186,43 +196,57 @@ function extractLinks(contents, file) {
 				return ' ';
 			}
 		)
+
 		// [link text](https://example.com a title)
+
 		.replace(/\[[^\]\n]+\]\(([^\s)]+) [^)\n]+\)/g, (_, link) => {
 			links.add(link);
 
 			return ' ';
 		})
+
 		// [link text](<https://example.com>)
+
 		.replace(/\[[^\]\n]+\]\(<([^\s>]+)>\)/g, (_, link) => {
 			links.add(link);
 
 			return ' ';
 		})
+
 		// [link text](https://example.com)
+
 		.replace(/\[[^\]\n]+\]\(([^\s)]+)\)/g, (_, link) => {
 			links.add(link);
 
 			return ' ';
 		})
+
 		// [link text][reference]
+
 		.replace(/\[[^\]\n]+\]\[([^\]\n]+)\]/g, (_, reference) => {
 			references.add(reference);
 
 			return ' ';
 		})
+
 		// [link text]
+
 		.replace(/\[([^\]\n]+)\]g/, (_, reference) => {
 			references.add(reference);
 
 			return ' ';
 		})
+
 		// <http://www.example.com>
+
 		.replace(new RegExp(`<(${URL_PATTERN.source})>`, 'gi'), (_, url) => {
 			links.add(url);
 
 			return ' ';
 		})
+
 		// http://www.example.com
+
 		.replace(URL_PATTERN, (url) => {
 			links.add(url);
 
