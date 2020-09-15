@@ -88,6 +88,14 @@ async function checkInternal(link, files) {
 }
 
 async function checkLocal(link, files) {
+	const i = link.indexOf('#');
+	let anchor;
+
+	if (i != -1) {
+		anchor = link.substring(i);
+		link = link.substring(0, i);
+	}
+
 	for (const file of files) {
 		let target;
 
@@ -103,6 +111,10 @@ async function checkLocal(link, files) {
 			await accessAsync(target);
 		} catch (error) {
 			report(file, `No file/directory found for local target: ${target}`);
+		}
+
+		if (anchor) {
+			await checkInternal(anchor, new Set([target]));
 		}
 	}
 }
