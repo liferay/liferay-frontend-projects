@@ -52,14 +52,9 @@ _/src/css/\_clay_variables.scss_
 ```scss
 $clay-range-input: (
 	// ...
-		focus-thumb-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2) #{','} 0px
-		2px 2px 0px rgba(0, 0, 0, 0.14) #{','} 0px 1px 5px 0px rgba(
-			0,
-			0,
-			0,
-			0.12
-		)
-		#{','} 0 0 0 0.9375rem rgba($primary, 0.12)
+	focus-thumb-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2) #{','} 0px 2px 2px
+		0px rgba(0, 0, 0, 0.14) #{','} 0px 1px 5px 0px rgba(0, 0, 0, 0.12) #{','}
+		0 0 0 0.9375rem rgba($primary, 0.12)
 );
 ```
 
@@ -124,7 +119,7 @@ _/src/css/\_clay_variables.scss_
 ```scss
 $clay-range-input: (
 	// ...
-		disabled-thumb-bg: $gray-500,
+	disabled-thumb-bg: $gray-500,
 	disabled-thumb-box-shadow: none,
 	disabled-track-bg: $gray-400,
 	disabled-progress-bg: $gray-500
