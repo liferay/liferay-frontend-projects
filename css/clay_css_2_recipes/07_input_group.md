@@ -1,6 +1,6 @@
 # Input Group
 
-This recipe will match Input Group to [Material Design's Filled Text with Leading and Trailing Icons](https://material.io/components/text-fields#anatomy). Clay CSS' Input Groups were modified to accommodate many types of designs. This component is markup heavy, but it allows for more customization versus Bootstrap 4's Input Groups.
+This recipe will match Input Group to [Material Design's Filled Text with Leading and Trailing Icons](https://material.io/components/text-fields#anatomy). Clay CSS' Input Groups were modified to accommodate many types of designs. This component is markup-heavy, but it allows for more customization versus Bootstrap 4's Input Groups.
 
 ## Input Group Inset
 
