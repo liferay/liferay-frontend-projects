@@ -17,22 +17,40 @@ The markup for Filled Text with Leading and Trailing Icons should look like:
 	<label for="theInputId">Search</label>
 	<div class="input-group">
 		<div class="input-group-item">
-			<input aria-label="Search for" class="form-control input-group-inset input-group-inset-after input-group-inset-before" id="theInputId" placeholder="Search..." type="text">
+			<input
+				aria-label="Search for"
+				class="form-control input-group-inset input-group-inset-after input-group-inset-before"
+				id="theInputId"
+				placeholder="Search..."
+				type="text"
+			/>
 			<div class="input-group-inset-item input-group-inset-item-before">
 				<span>
-					<svg class="lexicon-icon lexicon-icon-calendar" focusable="false" role="presentation">
+					<svg
+						class="lexicon-icon lexicon-icon-calendar"
+						focusable="false"
+						role="presentation"
+					>
 						<use href="/images/icons/icons.svg#calendar"></use>
 					</svg>
 				</span>
 			</div>
 			<div class="input-group-inset-item input-group-inset-item-after">
 				<button class="btn btn-unstyled" type="button">
-					<svg class="lexicon-icon lexicon-icon-times-circle" focusable="false" role="presentation">
+					<svg
+						class="lexicon-icon lexicon-icon-times-circle"
+						focusable="false"
+						role="presentation"
+					>
 						<use href="/images/icons/icons.svg#times-circle"></use>
 					</svg>
 				</button>
 				<button class="btn btn-unstyled" type="submit">
-					<svg class="lexicon-icon lexicon-icon-search" focusable="false" role="presentation">
+					<svg
+						class="lexicon-icon lexicon-icon-search"
+						focusable="false"
+						role="presentation"
+					>
 						<use href="/images/icons/icons.svg#search"></use>
 					</svg>
 				</button>
@@ -66,13 +84,16 @@ $input-group-inset-item-padding-left: 0.625rem;
 $input-group-inset-item-padding-right: 0.625rem;
 
 $input-group-inset-item-btn: () !default;
-$input-group-inset-item-btn: map-merge((
-	height: 1.5rem,
-	margin-left: 0.125rem,
-	margin-right: 0.125rem,
-	padding-left: 0.25rem,
-	padding-right: 0.25rem,
-), $input-group-inset-item-btn);
+$input-group-inset-item-btn: map-merge(
+	(
+		height: 1.5rem,
+		margin-left: 0.125rem,
+		margin-right: 0.125rem,
+		padding-left: 0.25rem,
+		padding-right: 0.25rem
+	),
+	$input-group-inset-item-btn
+);
 ```
 
 We assume the `border-radius` will be the same for all four corners of the `input` which isn't the case for Material Design. We can go ahead and fix the `border-radius` issues for all types of Input Groups here; separated, connected, and inset.
@@ -80,8 +101,12 @@ We assume the `border-radius` will be the same for all four corners of the `inpu
 _/src/css/\_clay_custom.scss_
 
 ```scss
-.input-group-item:not(.input-group-prepend) + .input-group-prepend .form-control,
-.input-group-item:not(.input-group-prepend) + .input-group-prepend .input-group-text {
+.input-group-item:not(.input-group-prepend)
+	+ .input-group-prepend
+	.form-control,
+.input-group-item:not(.input-group-prepend)
+	+ .input-group-prepend
+	.input-group-text {
 	border-bottom-left-radius: 0;
 }
 
@@ -179,20 +204,27 @@ $input-group-inset-item-padding-left: 0.625rem;
 $input-group-inset-item-padding-right: 0.625rem;
 
 $input-group-inset-item-btn: () !default;
-$input-group-inset-item-btn: map-merge((
-	height: 1.5rem,
-	margin-left: 0.125rem,
-	margin-right: 0.125rem,
-	padding-left: 0.25rem,
-	padding-right: 0.25rem,
-), $input-group-inset-item-btn);
+$input-group-inset-item-btn: map-merge(
+	(
+		height: 1.5rem,
+		margin-left: 0.125rem,
+		margin-right: 0.125rem,
+		padding-left: 0.25rem,
+		padding-right: 0.25rem
+	),
+	$input-group-inset-item-btn
+);
 ```
 
 _/src/css/\_clay_custom.scss_
 
 ```scss
-.input-group-item:not(.input-group-prepend) + .input-group-prepend .form-control,
-.input-group-item:not(.input-group-prepend) + .input-group-prepend .input-group-text {
+.input-group-item:not(.input-group-prepend)
+	+ .input-group-prepend
+	.form-control,
+.input-group-item:not(.input-group-prepend)
+	+ .input-group-prepend
+	.input-group-text {
 	border-bottom-left-radius: 0;
 }
 
