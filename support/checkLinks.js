@@ -88,23 +88,17 @@ async function checkInternal(link, files) {
 }
 
 async function checkLocal(link, files) {
-	const i = link.indexOf('#');
-	let anchor;
-
-	if (i != -1) {
-		anchor = link.substring(i);
-		link = link.substring(0, i);
-	}
+	const [base, fragment] = link.split('#');
 
 	for (const file of files) {
 		let target;
 
-		if (path.isAbsolute(link)) {
+		if (path.isAbsolute(base)) {
 			// Resolve relative to repo root.
-			target = path.join(__dirname, '..', link);
+			target = path.join(__dirname, '..', base);
 		} else {
 			// Resolve relative to current file's directory.
-			target = path.join(path.dirname(file), link);
+			target = path.join(path.dirname(file), base);
 		}
 
 		try {
@@ -113,8 +107,8 @@ async function checkLocal(link, files) {
 			report(file, `No file/directory found for local target: ${target}`);
 		}
 
-		if (anchor) {
-			await checkInternal(anchor, new Set([target]));
+		if (fragment) {
+			await checkInternal(`#${fragment}`, new Set([target]));
 		}
 	}
 }
