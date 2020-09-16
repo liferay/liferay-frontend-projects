@@ -4,17 +4,40 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+const fs = require('fs-extra');
 const path = require('path');
 
 const generateSamples = require('./generate-samples');
 const {
 	lernaPath,
+	liferayDir,
 	linkJsToolkitPath,
 	linkJsToolkitProjectDir,
 	qaDir,
 	samplesDir,
 } = require('./resources');
-const { logStep, safeUnlink, spawn } = require('./util');
+const {logStep, safeUnlink, spawn} = require('./util');
+
+logStep('WARNING');
+console.log(`
+QA projects will be deployed to:
+
+
+  ${liferayDir}
+
+
+You can change this behavior creating a .generator-liferay-js.json file in your
+home directory with the following content:
+
+  {
+    "answers": {
+      "*": {
+        "liferayDir": "/path/to/your/liferay/installation"
+      }
+    }
+  }
+
+`);
 
 const argv = getTargets();
 
@@ -66,6 +89,43 @@ if (argv['deploy']) {
 			SKIP_PREFLIGHT_CHECK: 'true',
 		},
 	});
+
+	logStep('Process finished');
+	console.log(`
+The following projects have been deployed to your local Liferay installation:
+
+${fs
+	.readdirSync(path.join(samplesDir, 'packages'))
+	.filter(dirname =>
+		fs.statSync(path.join(samplesDir, 'packages', dirname)).isDirectory()
+	)
+	.filter(dirname =>
+		fs.existsSync(
+			path.join(samplesDir, 'packages', dirname, 'package.json')
+		)
+	)
+	.filter(dirname => {
+		const pkgJson = fs.readJsonSync(
+			path.join(samplesDir, 'packages', dirname, 'package.json')
+		);
+
+		return (
+			pkgJson['scripts']['deploy'] || pkgJson['scripts']['deploy:liferay']
+		);
+	})
+	.map(dirname => `  · ${dirname}`)
+	.join('\n')}
+
+
+You can find them under portlet category: JS Toolkit QA
+
+
+Remember that we have used your Liferay installation at:
+
+	${liferayDir}
+
+
+	`);
 }
 
 function getTargets() {
