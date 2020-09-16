@@ -60,7 +60,7 @@ The CLI can also run [webpack](https://webpack.js.org/) as part of the process i
 
 #### 6. Liferay npm bundler
 
-Running [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler) allows your project's dependencies and source code to be converted to [AMD}(https://en.wikipedia.org/wiki/Asynchronous_module_definition) so that they can be deployed as an OSGi package later. So, Liferay Portal will be able to load the files of your module and its dependencies when requested.
+Running [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler) allows your project's dependencies and source code to be converted to [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) so that they can be deployed as an OSGi package later. So, Liferay Portal will be able to load the files of your module and its dependencies when requested.
 
 > Read the ["Bundler v2 imports"](./bundler_imports.md) to understand at a technical level why we need it and how it works.
 
@@ -71,6 +71,65 @@ Running [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/tree
 The `liferay-npm-bridge-generator` is only executed when there is a `.npmbridgerc` configuration file in the module. This is an extra step that generates bridge modules (npm modules that re-export another module in the same package) inside a project.
 
 > To learn more about how to use this tool read ["How to use liferay npm bridge generator" in the wike of the liferay-js-toolkit repository](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-liferay-npm-bridge-generator).
+
+### Build SCSS
+
+There are two ways that DXP handles building `.scss` files:
+
+-   [CSS Builder Gradle Plugin](https://github.com/liferay/liferay-portal/blob/master/modules/sdk/gradle-plugins-css-builder/README.markdown)
+-   Liferay npm bundler with [sass-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-sass-loader) and [css-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-css-loader) via JavaScript
+
+Gradle plugin is executed together with the `gradlew deploy` build pipeline and expects the `.scss` files in the module's `src/main/resources` folder. Compiled by the [`CSSBuilder`](https://github.com/liferay/liferay-portal/blob/master/modules/util/css-builder/src/main/java/com/liferay/css/builder/CSSBuilder.java) which is responsible for the build and [`CSSRTLConverter`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-css/frontend-css-rtl-servlet/src/main/java/com/liferay/frontend/css/rtl/servlet/internal/converter/CSSRTLConverter.java) to create the [RTL](https://en.wikipedia.org/wiki/Right-to-left) files for the final css. The module portlet defines the path to the final CSS file that adds the CSS path to the HTML output of the request.
+
+Unlike the Gradle plugin, loaders are executed in the Liferay npm bundler, which consequently is part of the build flow of `liferay-npm-scripts`, the difference is that you can import a `.css` or `.scss` file in JavaScript file .
+
+```js
+// When `sass-loader` is configured
+import './button.scss';
+
+// When `css-loader` is configured
+import './button.css';
+```
+
+The output of the loaders creates a JavaScript file with the name of the CSS file including the suffix `scss` or `css` that takes care of loading the final CSS file, similar to this:
+
+```js
+(function () {
+	var link = document.createElement('link');
+	link.setAttribute('rel', 'stylesheet');
+	link.setAttribute('type', 'text/css');
+	link.setAttribute(
+		'href',
+		Liferay.ThemeDisplay.getPathContext() +
+			'/o/module-name/Button/Button.css'
+	);
+
+	function defineModule() {
+		Liferay.Loader.define(
+			'module-name@1.0.0/Button/Button.scss',
+			['module', 'exports', 'require'],
+			function (module, exports, require) {
+				var define = undefined;
+
+				module.exports = link;
+			}
+		);
+	}
+
+	link.onload = defineModule;
+
+	link.onerror = function () {
+		console.warn(
+			'Unable to load /o/module-name/Button/Button.css. However, its .js module will still be defined to avoid breaking execution flow (expect some visual degradation).'
+		);
+		defineModule();
+	};
+
+	document.querySelector('head').appendChild(link);
+})();
+```
+
+The call sequence is something like: `Button.js -> Button.scss.js -> Button.scss`.
 
 ## Build themes
 
