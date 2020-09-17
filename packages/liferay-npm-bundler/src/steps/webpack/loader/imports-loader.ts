@@ -51,6 +51,8 @@ async function asyncTransform(
 		return content;
 	}
 
+	// TODO: this is assumming that we are using the portal preset, which is
+	// incorrect
 	const imports =
 		project.probe.type === ProjectType.LIFERAY_FRAGMENT
 			? {react: project.imports['react']}
