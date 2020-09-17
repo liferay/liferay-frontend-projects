@@ -1,3 +1,11 @@
+## [liferay-npm-bundler-preset-liferay-dev/v4.6.2](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.6.2) (2020-09-17)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.6.1...liferay-npm-bundler-preset-liferay-dev/v4.6.2)
+
+### :house: Chores
+
+-   chore: update JS toolkit dependencies from v2.19.1 to v2.19.2 ([\#497](https://github.com/liferay/liferay-npm-tools/pull/497))
+
 ## [liferay-npm-bundler-preset-liferay-dev/v4.6.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.6.1) (2020-09-02)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.6.0...liferay-npm-bundler-preset-liferay-dev/v4.6.1)
