@@ -44,20 +44,35 @@ Liferay.componentReady([...id]).then(function)
 
 A common use case is the need of run some actions after a component which is not in scope is created.
 
-# `Liferay.destroyComponent()`
+# Lifecycle
 
-This is the safest way to destroy a registered component. It destroys the component registered with the provided component ID. This invokes the component's own destroy lifecycle methods (`destroy` or `dispose`) and deletes the internal references to the component in the component registry.
+We offer some out-of-the-box lifecycles so you don't need to worry about registering / destroying components all the time.
 
-```js
-Liferay.destroyComponent(componentId);
-```
+## Registering
 
-# `Liferay.destroyComponents()`
+We automatically register a component in some scenarios:
 
-Destroys registered components matching the provided filter function. If no filter function is provided, it destroys all registered components.
+-   Using `<liferay-frontend:component>` tag. The component will be registered with the provided `componentId`.
+-   Using `<react:component>` tag. The component will be registered with the provided `componentId`.
+-   Rendering a React component with `render` from `frontend-js-react-web`. The component will be registered with the provided `componentId`.
 
-```js
-Liferay.destroyComponents(filterFn);
-```
+This gives us the ability to take care of the destroy process as well.
 
-`filterFn` is a method that receives a component's destroy options and the component itself, and returns `true` if the component should be destroyed.
+## Destroying
+
+As we said before we provide a mechanism to destroy the registered components: [`Liferay.destroyComponent`](https://github.com/liferay/liferay-portal/blob/0c95d1870808b5fb2ecefe1b32d6fdca97877780/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/component.es.js#L301) and [`Liferay.destroyComponents`](https://github.com/liferay/liferay-portal/blob/0c95d1870808b5fb2ecefe1b32d6fdca97877780/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/component.es.js#L326), which you could benefit from out-of-the-box just by using what we specified in the Registering point or by properly configuring the component when registering it.
+
+We automatically destroy a component in some scenarios:
+
+-   When a portlet is destroyed, all the components registered with a `portletId` passed in their configuration that matches the destroyed portlet id are destroyed as well.
+
+    -   [Destroying the components when portlet is destroyed](https://github.com/liferay/liferay-portal/blob/0c95d1870808b5fb2ecefe1b32d6fdca97877780/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/portlet.js#L126)
+
+-   On SPA navigation all the components registered with the option `destroyOnNavigate` set to `true` are destroyed. So if you want the system to take care of the destruction of a component when you manually register it you just need to pass the right option:
+
+    ```js
+    Liferay.component('componentId', component, {destroyOnNavigate: true});
+    ```
+
+    -   [Attaching `Utils.resetAllPortlets` to SPA event](https://github.com/liferay/liferay-portal/blob/0c95d1870808b5fb2ecefe1b32d6fdca97877780/modules/apps/frontend-js/frontend-js-spa-web/src/main/resources/META-INF/resources/liferay/app/App.es.js#L69)
+    -   [Destroy components in `Util.resetAllPortlets`](https://github.com/liferay/liferay-portal/blob/0c95d1870808b5fb2ecefe1b32d6fdca97877780/modules/apps/frontend-js/frontend-js-spa-web/src/main/resources/META-INF/resources/liferay/util/Utils.es.js#L73)
