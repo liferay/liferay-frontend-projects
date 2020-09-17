@@ -1,3 +1,12 @@
+## [liferay-npm-scripts/v32.6.2](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.6.2) (2020-09-17)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.6.1...liferay-npm-scripts/v32.6.2)
+
+### :house: Chores
+
+-   chore(scripts): update liferay-npm-bundler-preset-liferay-dev to v4.6.2 ([\#498](https://github.com/liferay/liferay-npm-tools/pull/498))
+-   chore: update JS toolkit dependencies from v2.19.1 to v2.19.2 ([\#497](https://github.com/liferay/liferay-npm-tools/pull/497))
+
 ## [liferay-npm-scripts/v32.6.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.6.1) (2020-09-02)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.6.0...liferay-npm-scripts/v32.6.1)
