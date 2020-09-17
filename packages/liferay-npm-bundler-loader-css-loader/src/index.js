@@ -29,24 +29,7 @@ export default function(
 	// returns both pathProxy and the context path of the portal's webapp.
 	context.extraArtifacts[`${filePath}.js.wrap-modules-amd.template`] = `
 var link = document.createElement("link");
-
-var preload;
-
-try {
-	preload = link.relList.supports("preload");
-}
-catch (error) {
-	preload = false;
-}
-
-if (preload) {
-	link.setAttribute("as", "style");
-	link.setAttribute("rel", "preload");
-}
-else {
-	link.setAttribute("rel", "stylesheet");
-}
-
+link.setAttribute("rel", "stylesheet");
 link.setAttribute("type", "text/css");
 link.setAttribute("href", Liferay.ThemeDisplay.getPathContext() + "${href}");
 

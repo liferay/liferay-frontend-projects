@@ -3,24 +3,7 @@
 exports[`java projects correctly generates JS module 1`] = `
 "
 var link = document.createElement(\\"link\\");
-
-var preload;
-
-try {
-	preload = link.relList.supports(\\"preload\\");
-}
-catch (error) {
-	preload = false;
-}
-
-if (preload) {
-	link.setAttribute(\\"as\\", \\"style\\");
-	link.setAttribute(\\"rel\\", \\"preload\\");
-}
-else {
-	link.setAttribute(\\"rel\\", \\"stylesheet\\");
-}
-
+link.setAttribute(\\"rel\\", \\"stylesheet\\");
 link.setAttribute(\\"type\\", \\"text/css\\");
 link.setAttribute(\\"href\\", Liferay.ThemeDisplay.getPathContext() + \\"/o/java-project/file.css\\");
 
@@ -49,24 +32,7 @@ module.exports = link;
 exports[`standard projects correctly generates JS module 1`] = `
 "
 var link = document.createElement(\\"link\\");
-
-var preload;
-
-try {
-	preload = link.relList.supports(\\"preload\\");
-}
-catch (error) {
-	preload = false;
-}
-
-if (preload) {
-	link.setAttribute(\\"as\\", \\"style\\");
-	link.setAttribute(\\"rel\\", \\"preload\\");
-}
-else {
-	link.setAttribute(\\"rel\\", \\"stylesheet\\");
-}
-
+link.setAttribute(\\"rel\\", \\"stylesheet\\");
 link.setAttribute(\\"type\\", \\"text/css\\");
 link.setAttribute(\\"href\\", Liferay.ThemeDisplay.getPathContext() + \\"/o/a-project/file.css\\");
 
