@@ -1,3 +1,15 @@
+## [v2.19.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.2) (2020-09-17)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.19.1...v2.19.2)
+
+### :house: Chores
+
+-   chore: enhance QA scripts ([\#642](https://github.com/liferay/liferay-js-toolkit/pull/642))
+
+### :leftwards_arrow_with_hook: Reverts
+
+-   revert: feat(css-loader): use preload when available (#631) ([\#645](https://github.com/liferay/liferay-js-toolkit/pull/645))
+
 ## [v2.19.1](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.1) (2020-09-02)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.19.0...v2.19.1)
