@@ -74,18 +74,22 @@ The `liferay-npm-bridge-generator` is only executed when there is a `.npmbridger
 
 ### Build SCSS
 
-DXP handles the SCSS build using the [CSS Builder Gradle Plugin](https://github.com/liferay/liferay-portal/blob/master/modules/sdk/gradle-plugins-css-builder/README.markdown), you will see what it does later, and there are two ways to load the final CSS files.
+DXP handles the SCSS build using the [CSS Builder Gradle Plugin](https://github.com/liferay/liferay-portal/blob/master/modules/sdk/gradle-plugins-css-builder/README.markdown). You will see what it does later.
+
+There are two ways to load the final CSS files:
 
 -   Load the main CSS file via Java
 -   Load independent CSS files via JavaScript
 
-The Gradle plugin is executed together with the `gradlew deploy` build pipeline and expects the `.scss` files in the module's `src/main/resources` folder. Compiled by [`CSSBuilder`](https://github.com/liferay/liferay-portal/blob/master/modules/util/css-builder/src/main/java/com/liferay/css/builder/CSSBuilder.java) which is responsible for the build and [`CSSRTLConverter`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-css/frontend-css-rtl-servlet/src/main/java/com/liferay/frontend/css/rtl/servlet/internal/converter/CSSRTLConverter.java) to create the [RTL](https://en.wikipedia.org/wiki/Right-to-left) files for the final CSS.
+The Gradle plugin is executed as part of the `gradlew deploy` build pipeline and expects the `.scss` files to be in the module's `src/main/resources` folder. The [`CSSBuilder`](https://github.com/liferay/liferay-portal/blob/master/modules/util/css-builder/src/main/java/com/liferay/css/builder/CSSBuilder.java) class compiles the input, and the [`CSSRTLConverter`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-css/frontend-css-rtl-servlet/src/main/java/com/liferay/frontend/css/rtl/servlet/internal/converter/CSSRTLConverter.java) class creates the [RTL](https://en.wikipedia.org/wiki/Right-to-left) files for the final CSS.
 
-Once compiled, SCSS files can be loaded via Java or JavaScript, for Java they are usually defined in the module's portlets, and in JavaScript they are imported in any application file. [Portlet](https://github.com/liferay/liferay-portal/blob/7c83e4f8a48aabf902f1feceff0072242494186d/modules/apps/dynamic-data-mapping/dynamic-data-mapping-form-web/src/main/java/com/liferay/dynamic/data/mapping/form/web/internal/portlet/DDMFormAdminPortlet.java#L72) defines the path to the final CSS file that adds the CSS path to the HTML output of the request.
+Once compiled, SCSS files can be loaded via Java or JavaScript.
 
-The [css-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-css-loader) is executed in the Liferay npm bundler, which consequently is part of the build flow of `liferay-npm-scripts`, the difference is that you can import a `.css` or `.scss` file in JavaScript file.
+For Java they are usually defined in the module's portlets, and in JavaScript they are imported in any application file. The `com.liferay.portlet.header-portlet-css` property defines the path to the final CSS file that adds the CSS path to the HTML output of the request, [as seen in this example](https://github.com/liferay/liferay-portal/blob/7c83e4f8a48aabf902f1feceff0072242494186d/modules/apps/dynamic-data-mapping/dynamic-data-mapping-form-web/src/main/java/com/liferay/dynamic/data/mapping/form/web/internal/portlet/DDMFormAdminPortlet.java#L72)).
 
-> When a file is an SCSS they are not compiled by the `css-loader` but by the Gradle plugin and consequently the loader takes care of loading its final file.
+In JavaScript files, the [css-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-css-loader) is executed in the Liferay npm bundler, which consequently is part of the build flow of `liferay-npm-scripts`. The difference is that you can import a `.css` or `.scss` file in JavaScript file.
+
+> When a file is a SCSS they are not compiled by the `css-loader` but by the Gradle plugin and consequently the loader takes care of loading its final file.
 
 ```js
 import './button.scss';
