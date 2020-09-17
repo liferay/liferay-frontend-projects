@@ -74,24 +74,26 @@ The `liferay-npm-bridge-generator` is only executed when there is a `.npmbridger
 
 ### Build SCSS
 
-There are two ways that DXP handles building `.scss` files:
+DXP handles the SCSS build using the [CSS Builder Gradle Plugin](https://github.com/liferay/liferay-portal/blob/master/modules/sdk/gradle-plugins-css-builder/README.markdown), you will see what it does later, and there are two ways to load the final CSS files.
 
--   [CSS Builder Gradle Plugin](https://github.com/liferay/liferay-portal/blob/master/modules/sdk/gradle-plugins-css-builder/README.markdown)
--   Liferay npm bundler with [sass-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-sass-loader) and [css-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-css-loader) via JavaScript
+-   Load the main CSS file via Java
+-   Load independent CSS files via JavaScript
 
-Gradle plugin is executed together with the `gradlew deploy` build pipeline and expects the `.scss` files in the module's `src/main/resources` folder. Compiled by the [`CSSBuilder`](https://github.com/liferay/liferay-portal/blob/master/modules/util/css-builder/src/main/java/com/liferay/css/builder/CSSBuilder.java) which is responsible for the build and [`CSSRTLConverter`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-css/frontend-css-rtl-servlet/src/main/java/com/liferay/frontend/css/rtl/servlet/internal/converter/CSSRTLConverter.java) to create the [RTL](https://en.wikipedia.org/wiki/Right-to-left) files for the final css. The module portlet defines the path to the final CSS file that adds the CSS path to the HTML output of the request.
+The Gradle plugin is executed together with the `gradlew deploy` build pipeline and expects the `.scss` files in the module's `src/main/resources` folder. Compiled by [`CSSBuilder`](https://github.com/liferay/liferay-portal/blob/master/modules/util/css-builder/src/main/java/com/liferay/css/builder/CSSBuilder.java) which is responsible for the build and [`CSSRTLConverter`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-css/frontend-css-rtl-servlet/src/main/java/com/liferay/frontend/css/rtl/servlet/internal/converter/CSSRTLConverter.java) to create the [RTL](https://en.wikipedia.org/wiki/Right-to-left) files for the final CSS.
 
-Unlike the Gradle plugin, loaders are executed in the Liferay npm bundler, which consequently is part of the build flow of `liferay-npm-scripts`, the difference is that you can import a `.css` or `.scss` file in JavaScript file .
+Once compiled, SCSS files can be loaded via Java or JavaScript, for Java they are usually defined in the module's portlets, and in JavaScript they are imported in any application file. [Portlet](https://github.com/liferay/liferay-portal/blob/7c83e4f8a48aabf902f1feceff0072242494186d/modules/apps/dynamic-data-mapping/dynamic-data-mapping-form-web/src/main/java/com/liferay/dynamic/data/mapping/form/web/internal/portlet/DDMFormAdminPortlet.java#L72) defines the path to the final CSS file that adds the CSS path to the HTML output of the request.
+
+The [css-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-css-loader) is executed in the Liferay npm bundler, which consequently is part of the build flow of `liferay-npm-scripts`, the difference is that you can import a `.css` or `.scss` file in JavaScript file.
+
+> When a file is an SCSS they are not compiled by the `css-loader` but by the Gradle plugin and consequently the loader takes care of loading its final file.
 
 ```js
-// When `sass-loader` is configured
 import './button.scss';
-
-// When `css-loader` is configured
+// or
 import './button.css';
 ```
 
-The output of the loaders creates a JavaScript file with the name of the CSS file including the suffix `scss` or `css` that takes care of loading the final CSS file, similar to this:
+The output of the loader creates a JavaScript file with the name of the CSS file including the suffix `scss` or `css` that takes care of loading the final CSS file, similar to this:
 
 ```js
 (function () {
