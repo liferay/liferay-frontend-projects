@@ -1,3 +1,12 @@
+## [liferay-npm-scripts/v32.7.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.7.0) (2020-09-18)
+
+[Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.6.2...liferay-npm-scripts/v32.7.0)
+
+### :new: Features
+
+-   feat(scripts): catch more dev dependencies hiding in non-dev section ([\#500](https://github.com/liferay/liferay-npm-tools/pull/500))
+-   feat(scripts): add testing-library/react-hooks ([\#499](https://github.com/liferay/liferay-npm-tools/pull/499))
+
 ## [liferay-npm-scripts/v32.6.2](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.6.2) (2020-09-17)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.6.1...liferay-npm-scripts/v32.6.2)
