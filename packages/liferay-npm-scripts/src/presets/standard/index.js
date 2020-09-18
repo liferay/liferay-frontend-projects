@@ -42,7 +42,11 @@ module.exports = {
 	check: CHECK_AND_FIX_GLOBS,
 	fix: CHECK_AND_FIX_GLOBS,
 	rules: {
-		'blacklisted-dependency-patterns': ['^liferay-npm-bundler-loader-.+'],
+		'blacklisted-dependency-patterns': [
+			'^@testing-library/',
+			'^liferay-npm-bundler-loader-.+',
+			'^react-test-renderer$',
+		],
 	},
 	storybook: {
 		languagePaths: ['src/main/resources/content/Language.properties'],
