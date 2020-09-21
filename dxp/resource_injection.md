@@ -1,20 +1,20 @@
 # DXP Support for Injection of Dynamic Resources
 
-This document describes different APIs that can be used with DXP to inject resources (`.js`, `.css`, ...) to a HTML page, thus letting the user extend currently existing artifacts without any need to overwrite them (like it was previously done with hooks in older Liferay versions).
+This document describes different APIs that can be used with DXP to inject resources (`.js`, `.css`, ...) to an HTML page, thus letting the user extend currently existing artifacts without any need to overwrite them (like it was previously done with hooks in older Liferay versions).
 
 # `DynamicInclude` in `portal-kernel`
 
-[`DynamicInclude`](https://github.com/liferay/liferay-portal/blob/973e6199844436c22d237e2daf4821d0f9af5362/portal-kernel/src/com/liferay/portal/kernel/servlet/taglib/DynamicInclude.java) is the lowest level API that lets programmers inject arbitrary content in any rendered page through access to its [`HttpServletResponse`](https://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletResponse.html).
+[`DynamicInclude`](https://github.com/liferay/liferay-portal/blob/973e6199844436c22d237e2daf4821d0f9af5362/portal-kernel/src/com/liferay/portal/kernel/servlet/taglib/DynamicInclude.java) is the lowest-level API that lets programmers inject arbitrary content in any rendered page through access to its [`HttpServletResponse`](https://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletResponse.html).
 
-`DynamicInclude`s attach to a unique `key` which identifies where the content is inserted. An example of such key can be `/html/common/themes/top_head.jsp#post` which makes the content to be inserted in [this DXP's core JSP](https://github.com/liferay/liferay-portal/blob/e3ffac158e0ec5acc5c67069fbd7ba688d3c78d4/portal-web/docroot/html/common/themes/top_head.jsp#L216).
+`DynamicInclude`s attach to a unique `key` which identifies where the content is inserted. An example of such key can be `/html/common/themes/top_head.jsp#post` which makes the content be inserted in [this JSP file](https://github.com/liferay/liferay-portal/blob/e3ffac158e0ec5acc5c67069fbd7ba688d3c78d4/portal-web/docroot/html/common/themes/top_head.jsp#L216).
 
 You can find an example of a `DynamicInclude` attaching to that key in [DXP's source code](https://github.com/liferay/liferay-portal/blob/973e6199844436c22d237e2daf4821d0f9af5362/modules/apps/adaptive-media/adaptive-media-image-web/src/main/java/com/liferay/adaptive/media/image/web/internal/servlet/taglib/AMPictureTopHeadDynamicInclude.java).
 
-In particular, the [register method](https://github.com/liferay/liferay-portal/blob/973e6199844436c22d237e2daf4821d0f9af5362/modules/apps/adaptive-media/adaptive-media-image-web/src/main/java/com/liferay/adaptive/media/image/web/internal/servlet/taglib/AMPictureTopHeadDynamicInclude.java#L69) is the responsible for attaching the object to the key.
+In particular, the [register method](https://github.com/liferay/liferay-portal/blob/973e6199844436c22d237e2daf4821d0f9af5362/modules/apps/adaptive-media/adaptive-media-image-web/src/main/java/com/liferay/adaptive/media/image/web/internal/servlet/taglib/AMPictureTopHeadDynamicInclude.java#L69) is responsible for attaching the object to the key.
 
 ## Core `DynamicInclude` Keys
 
-There are lots of `DynamicInclude` keys inside DXP. You can find them looking for `liferay-util:dynamic-include` inside the source code.
+There are lots of `DynamicInclude` keys inside DXP. You can find them by looking for `liferay-util:dynamic-include` inside the source code.
 
 However, there are six core keys that are widely used to insert custom resources for all pages rendered by DXP. They are, in orden of appearance in the rendered HTML:
 
@@ -24,6 +24,8 @@ However, there are six core keys that are widely used to insert custom resources
 4. [`/html/common/themes/body_top.jsp#post`](https://github.com/liferay/liferay-portal/blob/91c14a49503f015e9fa3b11df9709b78f0477500/portal-web/docroot/html/common/themes/body_top.jsp#L37): injects content right at the top of the `body`, under the alert messages (if any).
 5. [`/html/common/themes/bottom.jsp#pre`](https://github.com/liferay/liferay-portal/blob/e3ffac158e0ec5acc5c67069fbd7ba688d3c78d4/portal-web/docroot/html/common/themes/bottom.jsp#L19): injects content at the top of the body, before all portlet resources (`.css` and `.js`) are injected.
 6. [`/html/common/themes/bottom.jsp#post`](https://github.com/liferay/liferay-portal/blob/e3ffac158e0ec5acc5c67069fbd7ba688d3c78d4/portal-web/docroot/html/common/themes/bottom.jsp#L68): injects content at the top of the body, after all portlet resources (`.css` and `.js`) are injected.
+
+There's more information about this in [DXP's documentation](https://help.liferay.com/hc/en-us/articles/360018165711-Dynamic-Includes).
 
 # `TagDynamicInclude`
 
@@ -65,15 +67,17 @@ The [`<html-top>`](https://github.com/liferay/liferay-portal/blob/b87113b5cfe921
 -   [`<html-bottom>` is injected at `themes/bottom.jsp`](https://github.com/liferay/liferay-portal/blob/e3ffac158e0ec5acc5c67069fbd7ba688d3c78d4/portal-web/docroot/html/common/themes/bottom.jsp#L52)
 -   [`<body-bottom>` is injected at `themes/body_bottom.jsp`](https://github.com/liferay/liferay-portal/blob/a009a8e65f27d8c0640cd44ba661ff12994649f2/portal-web/docroot/html/common/themes/body_bottom.jsp#L20)
 
+See section [Core `DynamicInclude` Keys](#core-dynamicinclude-keys) for more information on these JSP files.
+
 ## `OutputData`
 
 These tags make use of the [`OutputData` class](https://github.com/liferay/liferay-portal/blob/b93f433935ed9006ed972507dabf4f4d8c3b5c7c/portal-kernel/src/com/liferay/portal/kernel/servlet/taglib/util/OutputData.java) which is an object [placed in the `ServletRequest`](https://github.com/liferay/liferay-portal/blob/480529fe984aaa0c02a5caa24efebbb674952ce6/util-taglib/src/com/liferay/taglib/util/OutputTag.java#L112) to store all code that must be output at the specified page positions.
 
-Of course, in addition to the tags, the `OutputData` object can be accessed programatically too, from any point of the code, to inject HTML code.
+Of course, in addition to the tags, the `OutputData` object can be [accessed programatically](https://github.com/liferay/liferay-portal/blob/78f4c9bd074e3fe5bc3d337242d9420e2de56b39/modules/apps/fragment/fragment-impl/src/main/java/com/liferay/fragment/internal/renderer/FragmentEntryFragmentRenderer.java#L184) too, from any point of the code, to inject HTML code.
 
 # `ScriptData`
 
-The [`ScriptData`](https://github.com/liferay/liferay-portal/blob/f587ba0fb69ec3f113e57b96ae59e6796d8f3a52/portal-kernel/src/com/liferay/portal/kernel/servlet/taglib/aui/ScriptData.java) is similar to `OutputData` but specialized in JavaScript content.
+The [`ScriptData`](https://github.com/liferay/liferay-portal/blob/f587ba0fb69ec3f113e57b96ae59e6796d8f3a52/portal-kernel/src/com/liferay/portal/kernel/servlet/taglib/aui/ScriptData.java) is similar to `OutputData` but specialized for JavaScript content.
 
 It is stored inside the `HttpServletRequest`, under the key [`WebKeys.AUI_SCRIPT_DATA`](https://github.com/liferay/liferay-portal/blob/67b569099146a4b999e2fad7d7d1a9794a337f0b/portal-kernel/src/com/liferay/portal/kernel/util/WebKeys.java#L55) but there is no helper method to access it, so it has to be [retrieved and stored manually](https://github.com/liferay/liferay-portal/blob/b7c75041856c95fb220322d84de68e3c16875dfc/modules/apps/frontend-taglib/frontend-taglib/src/main/java/com/liferay/frontend/taglib/servlet/taglib/ComponentTag.java#L245-L252).
 
@@ -81,26 +85,28 @@ The contents of the `ScriptData` object [are flushed in `themes/bottom.jsp`](htt
 
 # List of Frontend Infrastructure `DynamicInclude`s
 
-At the time of this writing, there are several infrastructure `DynamicInclude`s used for different purposes.
+At the time of writing, there are several infrastructure `DynamicInclude`s used for different purposes.
 
 Here's a list of projects defining them for quick reference:
 
--   `frontend-compatibility-ie`: injects IE compatiblity layer.
--   `frontend-css-variables-web`: injects a `<style>` block containing the definitions for CSS variables.
--   `frontend-editor-ckeditor-web`: injects CKEditor files.
--   `frontend-js-alert-support-web`
--   `frontend-js-collapse-support-web`
--   `frontend-js-dropdown-support-web`
--   `frontend-js-jquery-web`: injects jQuery files when enabled in the System Settings.
--   `frontend-js-loader-modules-extender`: injects AMD Loader configuration.
--   `frontend-js-lodash-web`: injects Lodash files when enabled in the System Settings.
--   `frontend-js-spa-web`: injects SPA support when enabled (see [Senna.js](https://github.com/liferay/senna.js/) too).
--   `frontend-js-svg4everybody-web`: injects SVG for Everybody support.
--   `frontend-js-tabs-support-web`
--   `frontend-js-tooltip-support-web`
--   `frontend-js-top-head-extender`: injects defined `TopHeadResources`.
--   `frontend-theme-contributor-extender`: injects resources provided by Theme Contributors.
--   `frontend-theme-font-awesome-web`: injects Font Awesome resources.
--   `remote-app-support-web`: injects JavaScript files implementing the Remote App callback API.
+| Project                               | Functionality                                                                                |
+| ------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `frontend-compatibility-ie`           | injects IE compatiblity layer.                                                               |
+| `frontend-css-variables-web`          | injects a `<style>` block containing the definitions for CSS variables.                      |
+| `frontend-editor-ckeditor-web`        | injects CKEditor files.                                                                      |
+| `frontend-js-alert-support-web`       |                                                                                              |
+| `frontend-js-collapse-support-web`    |                                                                                              |
+| `frontend-js-dropdown-support-web`    |                                                                                              |
+| `frontend-js-jquery-web`              | injects jQuery files when enabled in the System Settings.                                    |
+| `frontend-js-loader-modules-extender` | injects AMD Loader configuration.                                                            |
+| `frontend-js-lodash-web`              | injects Lodash files when enabled in the System Settings.                                    |
+| `frontend-js-spa-web`                 | injects SPA support when enabled (see [Senna.js](https://github.com/liferay/senna.js/) too). |
+| `frontend-js-svg4everybody-web`       | injects SVG for Everybody support.                                                           |
+| `frontend-js-tabs-support-web`        |                                                                                              |
+| `frontend-js-tooltip-support-web`     |                                                                                              |
+| `frontend-js-top-head-extender`       | injects defined `TopHeadResources`.                                                          |
+| `frontend-theme-contributor-extender` | injects resources provided by Theme Contributors.                                            |
+| `frontend-theme-font-awesome-web`     | injects Font Awesome resources.                                                              |
+| `remote-app-support-web`              | injects JavaScript files implementing the Remote App callback API.                           |
 
-However, because this is subject to continuous changes, we recommend searching for implementations of the `DynamicInclude` in the IDE to see the most up-to-date list.
+However, because this is subject to continuous change, we recommend searching for implementations of the `DynamicInclude` in the IDE to see the most up-to-date list.
