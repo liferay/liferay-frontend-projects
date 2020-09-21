@@ -305,9 +305,7 @@ export default class Project {
 			const map = new Map<string, VersionInfo>();
 
 			const putInMap = (packageName): void => {
-				const pkgJsonPath = this.toolResolve(
-					`${packageName}/package.json`
-				);
+				const pkgJsonPath = this.resolve(`${packageName}/package.json`);
 				// eslint-disable-next-line @typescript-eslint/no-var-requires, liferay/no-dynamic-require
 				const pkgJson = require(pkgJsonPath);
 
@@ -360,7 +358,6 @@ export default class Project {
 		this._projectDir = undefined;
 		this._sources = undefined;
 		this._sourceDir = undefined;
-		this._toolsDir = undefined;
 		this._workDir = undefined;
 
 		// Set significant directories
@@ -370,7 +367,6 @@ export default class Project {
 				? configFilePath
 				: path.resolve(path.join(projectPath, configFilePath))
 		);
-		this._toolsDir = this._projectDir;
 
 		// Load configuration files
 		this._loadPkgJson();
@@ -431,46 +427,6 @@ export default class Project {
 		}
 	}
 
-	/**
-	 * Requires a tool module in the context of the project (as opposed to the
-	 * context of the calling package which would just use a normal `require()`
-	 * call).
-	 *
-	 * @remarks
-	 * This looks in the `.npmbundlerrc` preset before calling the standard
-	 * {@link require} method.
-	 *
-	 * @param moduleName
-	 * @throws if module is not found
-	 */
-	toolRequire(moduleName: string): unknown {
-		// eslint-disable-next-line liferay/no-dynamic-require
-		return require(this.toolResolve(moduleName));
-	}
-
-	// TODO: this is not needed any more as presets have been removed
-	/**
-	 * Resolves a tool module in the context of the project (as opposed to the
-	 * context of the calling package which would just use a normal
-	 * `require.resolve()` call).
-	 *
-	 * @remarks
-	 * This looks in the `.npmbundlerrc` preset before calling the standard
-	 * {@link require} method.x
-	 *
-	 * @param moduleName
-	 * @throws if module is not found
-	 */
-	toolResolve(moduleName: string): string {
-		try {
-			return resolveModule.sync(moduleName, {
-				basedir: this._toolsDir.asNative,
-			});
-		} catch (err) {
-			return this.resolve(moduleName);
-		}
-	}
-
 	_loadConfiguration(): void {
 		const {_configFile} = this;
 		const configDir = _configFile.dirname();
@@ -514,9 +470,6 @@ export default class Project {
 
 	/** Project relative paths to source directories */
 	private _sources: FilePath[];
-
-	/** Absolute path to tools directory (usually project or preset dir) */
-	private _toolsDir: FilePath;
 
 	/** Modules to export to the outside world */
 	private _exports: Exports;
