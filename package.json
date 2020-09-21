@@ -1,0 +1,10 @@
+{
+  "name": "liferay-frontend",
+  "version": "0.0.1",
+  "description": "Liferay's Frontend Infrastructure Team monorepo",
+  "main": "index.js",
+  "repository": "https://github.com/liferay-frontend/liferay-frontend",
+  "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+  "license": "See LICENSE.md",
+  "private": true
+}
