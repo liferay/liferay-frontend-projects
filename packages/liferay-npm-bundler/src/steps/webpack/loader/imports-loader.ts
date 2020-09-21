@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ProjectType, transformJsSource} from 'liferay-js-toolkit-core';
+import {transformJsSource} from 'liferay-js-toolkit-core';
 
 import {project} from '../../../globals';
 import report from '../../../report';
@@ -51,12 +51,7 @@ async function asyncTransform(
 		return content;
 	}
 
-	// TODO: this is assumming that we are using the portal preset, which is
-	// incorrect
-	const imports =
-		project.probe.type === ProjectType.LIFERAY_FRAGMENT
-			? {react: project.imports['react']}
-			: project.imports;
+	const {imports} = project;
 
 	// Early fail for performance: look for imported modules as strings
 	let importsFound = false;
