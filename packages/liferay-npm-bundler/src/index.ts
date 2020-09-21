@@ -13,7 +13,6 @@ import report from './report';
 import adaptAngularCli from './steps/adapt/angular-cli';
 import adaptCreateReactApp from './steps/adapt/create-react-app';
 import bundle from './steps/bundle';
-import runRules from './steps/rules';
 import {abort} from './util';
 
 /** Default entry point for the liferay-npm-bundler */
@@ -37,7 +36,6 @@ export default async function (argv: {version: boolean}): Promise<void> {
 
 		// Report configurations
 		report.rootPackage(rootPkg);
-		report.rulesConfig(project.rules.config);
 		report.versionsInfo(versionsInfo);
 
 		// Initialize package.json and manifest.json files
@@ -53,7 +51,6 @@ export default async function (argv: {version: boolean}): Promise<void> {
 			case ProjectType.BUNDLER:
 			case ProjectType.LIFERAY_FRAGMENT:
 				await bundle();
-				await runRules(rootPkg);
 				break;
 
 			case ProjectType.CREATE_REACT_APP:

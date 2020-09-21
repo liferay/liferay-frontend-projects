@@ -137,7 +137,7 @@ exports[`correctly dumps HTML report 1`] = `
 					}
 				</style>
 				<script id=\\"report\\" type=\\"application/json\\">
-					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_executionTime\\":[1,2],\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_rootPkg\\":{\\"id\\":\\"/\\",\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_webpack\\":{\\"logs\\":{}}}
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_executionTime\\":[1,2],\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_rootPkg\\":{\\"id\\":\\"/\\",\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_webpack\\":{\\"logs\\":{}}}
 				</script>
 				<script>
 					window.report = JSON.parse(
@@ -252,7 +252,6 @@ exports[`correctly dumps HTML report 1`] = `
 			</table>
 		
 	
-				
 			</body>
 		</html>
 	"
@@ -266,10 +265,6 @@ Report {
     2,
   ],
   "_rootPkg": undefined,
-  "_rules": Object {
-    "config": Object {},
-    "files": Object {},
-  },
   "_versionsInfo": Object {},
   "_warnings": Array [],
   "_webpack": Object {
@@ -287,10 +282,6 @@ Report {
     "name": "root-package",
     "version": "1.0.0",
   },
-  "_rules": Object {
-    "config": Object {},
-    "files": Object {},
-  },
   "_versionsInfo": Object {},
   "_warnings": Array [],
   "_webpack": Object {
@@ -304,10 +295,6 @@ Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_executionTime": undefined,
   "_rootPkg": undefined,
-  "_rules": Object {
-    "config": Object {},
-    "files": Object {},
-  },
   "_versionsInfo": Object {},
   "_warnings": Array [
     "warn",
@@ -323,10 +310,6 @@ Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_executionTime": undefined,
   "_rootPkg": undefined,
-  "_rules": Object {
-    "config": Object {},
-    "files": Object {},
-  },
   "_versionsInfo": Object {
     "liferay-npm-bundler": Object {
       "path": "path/to/bundler",
@@ -349,10 +332,6 @@ Report {
   "_executionDate": 1970-01-01T00:00:00.000Z,
   "_executionTime": undefined,
   "_rootPkg": undefined,
-  "_rules": Object {
-    "config": Object {},
-    "files": Object {},
-  },
   "_versionsInfo": Object {},
   "_warnings": Array [
     "warn 1",

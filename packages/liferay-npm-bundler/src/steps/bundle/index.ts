@@ -17,7 +17,7 @@ import run from './run';
 import writeResults from './write-results';
 
 /**
- * Run configured rules.
+ * Bundle current project.
  */
 export default async function bundle(): Promise<webpack.Stats> {
 	log.debug('Using webpack at', require.resolve('webpack'));

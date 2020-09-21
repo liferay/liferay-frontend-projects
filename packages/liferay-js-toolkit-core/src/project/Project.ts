@@ -20,7 +20,6 @@ import Jar from './Jar';
 import Localization from './Localization';
 import Misc from './Misc';
 import Probe from './Probe';
-import Rules from './Rules';
 import VersionInfo from './VersionInfo';
 
 /** Exports configuration */
@@ -50,7 +49,6 @@ export default class Project {
 	l10n: Localization;
 	misc: Misc;
 	probe: Probe;
-	rules: Rules;
 
 	/**
 	 * @param projectDirPath project's path in native format
@@ -304,7 +302,7 @@ export default class Project {
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
 		if (this._versionsInfo === undefined) {
-			let map = new Map<string, VersionInfo>();
+			const map = new Map<string, VersionInfo>();
 
 			const putInMap = (packageName): void => {
 				const pkgJsonPath = this.toolResolve(
@@ -333,8 +331,6 @@ export default class Project {
 			if (preset) {
 				putInMap(splitModuleName(preset).pkgName);
 			}
-
-			map = new Map([...map, ...this.rules.versionsInfo]);
 
 			this._versionsInfo = map;
 		}
@@ -386,7 +382,6 @@ export default class Project {
 		this.l10n = new Localization(this);
 		this.misc = new Misc(this);
 		this.probe = new Probe(this);
-		this.rules = new Rules(this);
 	}
 
 	/**

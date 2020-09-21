@@ -14,13 +14,6 @@ export * from './node/namespace';
 // TODO: remove the next section before babel 3 release
 // Bundler plugin utilities
 export {default as PkgDesc} from './bundler/PkgDesc';
-export {default as PluginLogger} from './bundler/PluginLogger';
-export type {
-	BundlerLoaderMetadata,
-	BundlerLoaderEntryPoint,
-	BundlerLoaderContext,
-	BundlerLoaderReturn,
-} from './bundler/loader';
 
 // Project descriptor class and types
 export {default as Adapt} from './project/Adapt';
@@ -35,8 +28,6 @@ export {default as Probe} from './project/Probe';
 export * from './project/Probe';
 export {default as Project} from './project/Project';
 export * from './project/Project';
-export {default as Rules} from './project/Rules';
-export * from './project/Rules';
 export {default as VersionInfo} from './project/VersionInfo';
 export * from './project/VersionInfo';
 

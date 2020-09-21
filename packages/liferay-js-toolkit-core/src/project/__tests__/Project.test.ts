@@ -359,26 +359,6 @@ describe('project.versionsInfo', () => {
 		expect(versions).toEqual(
 			new Map([
 				[
-					'bundler-plugins/dir/loader-0',
-					{
-						version: '1.0.0',
-						path: path.join(
-							'node_modules',
-							'bundler-plugins/dir/loader-0.js'
-						),
-					},
-				],
-				[
-					'bundler-plugins/dir/loader-1',
-					{
-						version: '1.0.0',
-						path: path.join(
-							'node_modules',
-							'bundler-plugins/dir/loader-1.js'
-						),
-					},
-				],
-				[
 					'liferay-js-toolkit-core',
 					{
 						version: require('../../../package.json').version,
@@ -402,13 +382,6 @@ describe('project.versionsInfo', () => {
 							'node_modules',
 							'liferay-npm-bundler'
 						),
-					},
-				],
-				[
-					'loader-0',
-					{
-						version: '1.0.0',
-						path: path.join('node_modules', 'loader-0'),
 					},
 				],
 			])
@@ -516,21 +489,6 @@ describe('loads things as modules (as opposed to packages)', () => {
 		project = new Project(
 			path.join(__dirname, '__fixtures__', 'project', 'with-module-cfg')
 		);
-	});
-
-	it('loads loaders from module in package', () => {
-		const loaders = project.rules.loadersForFile('src/index.js');
-
-		expect(loaders).toHaveLength(1);
-
-		const loader = loaders[0];
-
-		expect(loader).toMatchObject({
-			loader: 'a-config/my-js-loader',
-			options: {},
-			resolvedModule: 'a-config/my-js-loader',
-		});
-		expect(loader.exec()).toBe('Hi from loader!');
 	});
 });
 
