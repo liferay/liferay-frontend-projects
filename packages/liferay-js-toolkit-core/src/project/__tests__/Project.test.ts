@@ -75,12 +75,12 @@ describe('project.jar', () => {
 
 	it('returns customManifestHeaders', () => {
 		expect(project.jar.customManifestHeaders).toEqual({
-			// Coming from .npmbundlerrc
+			// Coming from liferay-npm-bundler.config.js
 			Responsible: 'john.doe@somewhere.net',
 			// Coming from manifest.json
 			'Project-Web': 'https://somewhere.net/test-project',
 			'Project-UUID': 'ED7BA470-8E54-465E-825C-99712043E01C',
-			// Coming from both, but .npmbundlerrc wins
+			// Coming from both, but liferay-npm-bundler.config.js wins
 			'Project-Name': 'Test Project',
 		});
 	});

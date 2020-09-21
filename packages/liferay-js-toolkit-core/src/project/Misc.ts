@@ -35,10 +35,10 @@ export default class Misc {
 	 */
 	get logLevel(): LogLevel {
 		if (this._logLevel === undefined) {
-			const {npmbundlerrc} = this._project;
+			const {configuration} = this._project;
 
 			let logLevel = prop.get<string>(
-				npmbundlerrc,
+				configuration,
 				'log-level',
 				LogLevel[LogLevel.warn]
 			);
@@ -64,7 +64,7 @@ export default class Misc {
 
 	get maxParallelFiles(): number {
 		if (this._maxParallelFiles === undefined) {
-			const {npmbundlerrc} = this._project;
+			const {configuration} = this._project;
 
 			// Default values for "ulimit -n" vary across different OSes. Some
 			//
@@ -78,7 +78,7 @@ export default class Misc {
 			// doesn't impact performance and should be low enough to make it work
 			// in all OSes.
 			let maxParallelFiles: string = prop.get<string>(
-				npmbundlerrc,
+				configuration,
 				'max-parallel-files',
 				'128'
 			);
@@ -103,9 +103,9 @@ export default class Misc {
 	get reportFile(): FilePath | undefined {
 		if (this._reportFile === undefined) {
 			const {_project} = this;
-			const {npmbundlerrc} = _project;
+			const {configuration} = _project;
 
-			const dumpReport = prop.get(npmbundlerrc, 'dump-report', false);
+			const dumpReport = prop.get(configuration, 'dump-report', false);
 
 			this._reportFile = dumpReport
 				? _project.dir.join('liferay-npm-bundler-report.html')
@@ -121,10 +121,10 @@ export default class Misc {
 	get reportLevel(): LogLevel {
 		if (this._reportLevel === undefined) {
 			const {_project} = this;
-			const {npmbundlerrc} = _project;
+			const {configuration} = _project;
 
 			let dumpReport = prop.get<string | boolean>(
-				npmbundlerrc,
+				configuration,
 				'dump-report',
 				false
 			);

@@ -226,11 +226,10 @@ export default class Project {
 		return prop.get(_configuration, 'config', {});
 	}
 
-	// TODO: rename to `configuration`
 	/**
-	 * Get project's parsed .npmbundlerrc file
+	 * Get project's parsed liferay-npm-bundler.config.js file
 	 */
-	get npmbundlerrc(): object {
+	get configuration(): object {
 		return this._configuration;
 	}
 
@@ -405,7 +404,7 @@ export default class Project {
 
 	/**
 	 * Set program arguments so that some of them can be parsed as if they were
-	 * `.npmbundlerrc` options.
+	 * `liferay-npm-bundler.config.js` options.
 	 */
 	set argv(argv: {
 		config: string;
