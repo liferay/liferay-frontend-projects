@@ -6,11 +6,11 @@
 import {ProjectType} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
-import {project} from '../../globals';
-import abort from '../../util/abort';
-import * as log from '../../util/log';
 import adaptBundlerProject from '../adapt/bundler-project';
 import adaptLiferayFragment from '../adapt/liferay-fragment';
+import {project} from '../globals';
+import abort from '../util/abort';
+import * as log from '../util/log';
 import ExplainedError from './ExplainedError';
 import configure from './configure';
 import run from './run';

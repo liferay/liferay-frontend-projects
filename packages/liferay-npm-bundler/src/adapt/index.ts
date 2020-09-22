@@ -16,13 +16,13 @@ import {
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {bundlerGeneratedDir, project} from '../../globals';
-import exportModuleAsFunction from '../../transform/js/operation/exportModuleAsFunction';
-import namespaceWepbackJsonp from '../../transform/js/operation/namespaceWepbackJsonp';
-import replace from '../../transform/text/operation/replace';
-import {copyFiles, findFiles} from '../../util/files';
-import * as log from '../../util/log';
-import Renderer from '../../util/renderer';
+import {bundlerGeneratedDir, project} from '../globals';
+import exportModuleAsFunction from '../transform/js/operation/exportModuleAsFunction';
+import namespaceWepbackJsonp from '../transform/js/operation/namespaceWepbackJsonp';
+import replace from '../transform/text/operation/replace';
+import {copyFiles, findFiles} from '../util/files';
+import * as log from '../util/log';
+import Renderer from '../util/renderer';
 
 /**
  * Description of framework's webpack build output so that adapted modules can

@@ -6,8 +6,8 @@
 import fs from 'fs-extra';
 import webpack from 'webpack';
 
-import {bundlerWebpackDir} from '../../globals';
-import * as log from '../../util/log';
+import {bundlerWebpackDir} from '../globals';
+import * as log from '../util/log';
 
 export default function writeResults(stats: webpack.Stats): void {
 	const {compilation} = stats;

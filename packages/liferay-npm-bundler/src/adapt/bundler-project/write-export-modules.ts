@@ -15,9 +15,9 @@ import {
 } from 'liferay-js-toolkit-core';
 import path from 'path';
 
-import {bundlerWebpackDir, manifest, project} from '../../../globals';
-import * as log from '../../../util/log';
-import Renderer from '../../../util/renderer';
+import {bundlerWebpackDir, manifest, project} from '../../globals';
+import * as log from '../../util/log';
+import Renderer from '../../util/renderer';
 
 /**
  * Generates one AMD module per export. The generated module loads webpack's

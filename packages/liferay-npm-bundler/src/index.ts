@@ -7,11 +7,11 @@ import fs from 'fs-extra';
 import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
+import adaptAngularCli from './adapt/angular-cli';
+import adaptCreateReactApp from './adapt/create-react-app';
+import bundle from './bundle';
 import {manifest, project} from './globals';
 import report from './report';
-import adaptAngularCli from './steps/adapt/angular-cli';
-import adaptCreateReactApp from './steps/adapt/create-react-app';
-import bundle from './steps/bundle';
 import abort from './util/abort';
 import * as log from './util/log';
 

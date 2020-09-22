@@ -5,9 +5,9 @@
 
 import {transformJsSource} from 'liferay-js-toolkit-core';
 
-import {project} from '../../../globals';
-import report from '../../../report';
-import transformImports from '../../../transform/js/operation/transformImports';
+import {project} from '../../globals';
+import report from '../../report';
+import transformImports from '../../transform/js/operation/transformImports';
 
 /**
  * Webpack loader to substitute require calls for imported modules. This loader

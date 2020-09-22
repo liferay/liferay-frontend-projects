@@ -7,9 +7,9 @@ import fs from 'fs-extra';
 import {FilePath, ProjectType, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
-import {bundlerGeneratedDir, bundlerWebpackDir, project} from '../../globals';
-import abort from '../../util/abort';
-import * as log from '../../util/log';
+import {bundlerGeneratedDir, bundlerWebpackDir, project} from '../globals';
+import abort from '../util/abort';
+import * as log from '../util/log';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config

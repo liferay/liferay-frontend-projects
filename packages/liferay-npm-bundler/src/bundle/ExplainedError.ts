@@ -6,7 +6,7 @@
 import fs from 'fs';
 import WebpackError from 'webpack/lib/WebpackError';
 
-import {project} from '../../globals';
+import {project} from '../globals';
 
 const CONTEXT_LINES = 5;
 

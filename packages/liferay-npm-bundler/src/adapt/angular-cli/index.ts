@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {project} from '../../../globals';
-import adaptStaticURLsAtRuntime from '../../../transform/js/operation/adaptStaticURLsAtRuntime';
-import * as log from '../../../util/log';
-import {runPkgJsonScript} from '../../../util/run';
+import {project} from '../../globals';
+import adaptStaticURLsAtRuntime from '../../transform/js/operation/adaptStaticURLsAtRuntime';
+import * as log from '../../util/log';
+import {runPkgJsonScript} from '../../util/run';
 import {
 	WebpackBundles,
 	copyStaticAssets,

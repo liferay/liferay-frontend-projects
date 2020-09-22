@@ -10,9 +10,9 @@ import {
 	wrapModule,
 } from 'liferay-js-toolkit-core';
 
-import {bundlerWebpackDir, project} from '../../../globals';
-import {findFiles} from '../../../util/files';
-import * as log from '../../../util/log';
+import {bundlerWebpackDir, project} from '../../globals';
+import {findFiles} from '../../util/files';
+import * as log from '../../util/log';
 
 export default async function adapt(): Promise<void> {
 	await transformBundles();
