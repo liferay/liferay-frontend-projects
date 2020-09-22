@@ -8,8 +8,8 @@ import {FilePath, ProjectType, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
 import {bundlerGeneratedDir, bundlerWebpackDir, project} from '../../globals';
-import * as log from '../../log';
-import {abort} from '../../util';
+import abort from '../../util/abort';
+import * as log from '../../util/log';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config

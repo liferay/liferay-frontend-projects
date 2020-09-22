@@ -7,8 +7,8 @@ import {ProjectType} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
 import {project} from '../../globals';
-import * as log from '../../log';
-import {abort} from '../../util';
+import abort from '../../util/abort';
+import * as log from '../../util/log';
 import adaptBundlerProject from '../adapt/bundler-project';
 import adaptLiferayFragment from '../adapt/liferay-fragment';
 import ExplainedError from './ExplainedError';

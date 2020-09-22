@@ -5,7 +5,7 @@
 
 import {LogLevel, format} from 'liferay-js-toolkit-core';
 
-import {project} from './globals';
+import {project} from '../globals';
 
 const {logLevel} = project.misc;
 

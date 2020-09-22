@@ -11,8 +11,8 @@ import {
 } from 'liferay-js-toolkit-core';
 
 import {bundlerWebpackDir, project} from '../../../globals';
-import * as log from '../../../log';
 import {findFiles} from '../../../util/files';
+import * as log from '../../../util/log';
 
 export default async function adapt(): Promise<void> {
 	await transformBundles();

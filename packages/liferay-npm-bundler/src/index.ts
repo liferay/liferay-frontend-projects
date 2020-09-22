@@ -8,12 +8,12 @@ import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
 import {manifest, project} from './globals';
-import * as log from './log';
 import report from './report';
 import adaptAngularCli from './steps/adapt/angular-cli';
 import adaptCreateReactApp from './steps/adapt/create-react-app';
 import bundle from './steps/bundle';
-import {abort} from './util';
+import abort from './util/abort';
+import * as log from './util/log';
 
 /** Default entry point for the liferay-npm-bundler */
 export default async function (argv: {version: boolean}): Promise<void> {

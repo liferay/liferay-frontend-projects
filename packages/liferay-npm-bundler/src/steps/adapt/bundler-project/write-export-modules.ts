@@ -16,8 +16,7 @@ import {
 import path from 'path';
 
 import {bundlerWebpackDir, manifest, project} from '../../../globals';
-import * as log from '../../../log';
-import {getPackageTargetDir} from '../../../util';
+import * as log from '../../../util/log';
 import Renderer from '../../../util/renderer';
 
 /**
@@ -36,6 +35,18 @@ export default async function writeExportModules(): Promise<void> {
 			log.debug(`Generated AMD module ${moduleName}`);
 		})
 	);
+}
+
+function getPackageTargetDir(pkgJson: {name: string; version: string}): string {
+	const {name, version} = pkgJson;
+
+	let targetFolder = name.replace('/', '%2F');
+
+	if (version) {
+		targetFolder += `@${version}`;
+	}
+
+	return targetFolder;
 }
 
 async function writeDependencyExportModule(

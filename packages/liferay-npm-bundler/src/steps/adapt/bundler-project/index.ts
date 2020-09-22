@@ -15,7 +15,7 @@ import {
 import path from 'path';
 
 import {bundlerWebpackDir, project} from '../../../globals';
-import * as log from '../../../log';
+import * as log from '../../../util/log';
 import Renderer from '../../../util/renderer';
 import replaceWebpackJsonp from './replaceWebpackJsonp';
 import writeExportModules from './write-export-modules';
