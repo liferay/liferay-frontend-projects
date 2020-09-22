@@ -6,9 +6,10 @@
 import Project from './Project';
 
 export enum ProjectType {
+	ANGULAR_CLI = 'angular-cli',
 	BUNDLER = 'liferay-npm-bundler',
 	CREATE_REACT_APP = 'create-react-app',
-	ANGULAR_CLI = 'angular-cli',
+	LIFERAY_FRAGMENT = 'liferay-fragment',
 	VUE_CLI = 'vue-cli',
 }
 
@@ -35,6 +36,10 @@ export default class Probe {
 
 		if (this._hasDependency('@vue/cli-service')) {
 			return ProjectType.VUE_CLI;
+		}
+
+		if (this._hasScriptCalling('yo liferay-fragments:')) {
+			return ProjectType.LIFERAY_FRAGMENT;
 		}
 
 		// This must go last, as all other types have liferay-npm-bundler as

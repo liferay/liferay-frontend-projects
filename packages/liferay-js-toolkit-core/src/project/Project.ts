@@ -20,7 +20,6 @@ import Jar from './Jar';
 import Localization from './Localization';
 import Misc from './Misc';
 import Probe from './Probe';
-import Rules from './Rules';
 import VersionInfo from './VersionInfo';
 
 /** Exports configuration */
@@ -50,7 +49,6 @@ export default class Project {
 	l10n: Localization;
 	misc: Misc;
 	probe: Probe;
-	rules: Rules;
 
 	/**
 	 * @param projectDirPath project's path in native format
@@ -228,11 +226,10 @@ export default class Project {
 		return prop.get(_configuration, 'config', {});
 	}
 
-	// TODO: rename to `configuration`
 	/**
-	 * Get project's parsed .npmbundlerrc file
+	 * Get project's parsed liferay-npm-bundler.config.js file
 	 */
-	get npmbundlerrc(): object {
+	get configuration(): object {
 		return this._configuration;
 	}
 
@@ -304,12 +301,10 @@ export default class Project {
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
 		if (this._versionsInfo === undefined) {
-			let map = new Map<string, VersionInfo>();
+			const map = new Map<string, VersionInfo>();
 
 			const putInMap = (packageName): void => {
-				const pkgJsonPath = this.toolResolve(
-					`${packageName}/package.json`
-				);
+				const pkgJsonPath = this.resolve(`${packageName}/package.json`);
 				// eslint-disable-next-line @typescript-eslint/no-var-requires, liferay/no-dynamic-require
 				const pkgJson = require(pkgJsonPath);
 
@@ -333,8 +328,6 @@ export default class Project {
 			if (preset) {
 				putInMap(splitModuleName(preset).pkgName);
 			}
-
-			map = new Map([...map, ...this.rules.versionsInfo]);
 
 			this._versionsInfo = map;
 		}
@@ -364,7 +357,6 @@ export default class Project {
 		this._projectDir = undefined;
 		this._sources = undefined;
 		this._sourceDir = undefined;
-		this._toolsDir = undefined;
 		this._workDir = undefined;
 
 		// Set significant directories
@@ -374,7 +366,6 @@ export default class Project {
 				? configFilePath
 				: path.resolve(path.join(projectPath, configFilePath))
 		);
-		this._toolsDir = this._projectDir;
 
 		// Load configuration files
 		this._loadPkgJson();
@@ -386,7 +377,6 @@ export default class Project {
 		this.l10n = new Localization(this);
 		this.misc = new Misc(this);
 		this.probe = new Probe(this);
-		this.rules = new Rules(this);
 	}
 
 	/**
@@ -414,7 +404,7 @@ export default class Project {
 
 	/**
 	 * Set program arguments so that some of them can be parsed as if they were
-	 * `.npmbundlerrc` options.
+	 * `liferay-npm-bundler.config.js` options.
 	 */
 	set argv(argv: {
 		config: string;
@@ -433,46 +423,6 @@ export default class Project {
 
 		if (argv['dump-report']) {
 			_configuration['dump-report'] = true;
-		}
-	}
-
-	/**
-	 * Requires a tool module in the context of the project (as opposed to the
-	 * context of the calling package which would just use a normal `require()`
-	 * call).
-	 *
-	 * @remarks
-	 * This looks in the `.npmbundlerrc` preset before calling the standard
-	 * {@link require} method.
-	 *
-	 * @param moduleName
-	 * @throws if module is not found
-	 */
-	toolRequire(moduleName: string): unknown {
-		// eslint-disable-next-line liferay/no-dynamic-require
-		return require(this.toolResolve(moduleName));
-	}
-
-	// TODO: this is not needed any more as presets have been removed
-	/**
-	 * Resolves a tool module in the context of the project (as opposed to the
-	 * context of the calling package which would just use a normal
-	 * `require.resolve()` call).
-	 *
-	 * @remarks
-	 * This looks in the `.npmbundlerrc` preset before calling the standard
-	 * {@link require} method.x
-	 *
-	 * @param moduleName
-	 * @throws if module is not found
-	 */
-	toolResolve(moduleName: string): string {
-		try {
-			return resolveModule.sync(moduleName, {
-				basedir: this._toolsDir.asNative,
-			});
-		} catch (err) {
-			return this.resolve(moduleName);
 		}
 	}
 
@@ -519,9 +469,6 @@ export default class Project {
 
 	/** Project relative paths to source directories */
 	private _sources: FilePath[];
-
-	/** Absolute path to tools directory (usually project or preset dir) */
-	private _toolsDir: FilePath;
 
 	/** Modules to export to the outside world */
 	private _exports: Exports;

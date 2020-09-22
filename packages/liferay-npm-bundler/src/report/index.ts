@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {PkgDesc, PluginLogger, VersionInfo} from 'liferay-js-toolkit-core';
+import {PkgDesc, VersionInfo} from 'liferay-js-toolkit-core';
 
 import {htmlDump} from './html';
 import ReportLogger from './logger';
@@ -18,10 +18,6 @@ export class Report {
 		this._executionTime = undefined;
 		this._versionsInfo = {};
 		this._rootPkg = undefined;
-		this._rules = {
-			config: {},
-			files: {},
-		};
 
 		this._warnings = [];
 		this._webpack = {
@@ -97,14 +93,6 @@ export class Report {
 		};
 	}
 
-	rulesConfig(config: object): void {
-		this._rules.config = config;
-	}
-
-	rulesRun(prjRelPath: string, logger: PluginLogger): void {
-		this._rules.files[prjRelPath] = {logger};
-	}
-
 	getWebpackLogger(source: string, prjRelPath: string): ReportLogger {
 		if (this._webpack.logs[prjRelPath] === undefined) {
 			this._webpack.logs[prjRelPath] = {};
@@ -126,14 +114,6 @@ export class Report {
 		id: string;
 		name: string;
 		version: string;
-	};
-	readonly _rules: {
-		config: object;
-		files: {
-			[prjRelPath: string]: {
-				logger: PluginLogger;
-			};
-		};
 	};
 	readonly _warnings: string[];
 	readonly _webpack: {

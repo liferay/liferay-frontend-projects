@@ -1,15 +1,4 @@
 module.exports = {
-	rules: [
-		{
-			test: '\\.js$',
-			exclude: 'node_modules',
-			use: [
-				{
-					loader: 'a-config/my-js-loader',
-				},
-			],
-		},
-	],
 	packages: {
 		'a-package': {
 			'copy-plugins': ['a-config/my-copy-plugin'],

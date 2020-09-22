@@ -10,14 +10,4 @@ module.exports = {
 			],
 		},
 	},
-	rules: [
-		{
-			test: '',
-			use: [
-				'loader-0',
-				'bundler-plugins/dir/loader-0',
-				'bundler-plugins/dir/loader-1',
-			],
-		},
-	],
 };

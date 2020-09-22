@@ -52,7 +52,7 @@ export default class Jar {
 			return undefined;
 		}
 
-		const {npmbundlerrc} = this._project;
+		const {configuration} = this._project;
 
 		if (this._customManifestHeaders === undefined) {
 			const manifestFilePath = getFeaturesFilePath(
@@ -65,14 +65,14 @@ export default class Jar {
 				? readJsonSync(manifestFilePath)
 				: {};
 
-			const npmbundlerrcHeaders = prop.get(
-				npmbundlerrc,
+			const configurationHeaders = prop.get(
+				configuration,
 				'create-jar.customManifestHeaders',
 				{}
 			);
 
 			this._customManifestHeaders = Object.assign(
-				npmbundlerrcHeaders,
+				configurationHeaders,
 				featuresHeaders
 			);
 		}
@@ -90,11 +90,11 @@ export default class Jar {
 		}
 
 		const {_project} = this;
-		const {npmbundlerrc} = _project;
+		const {configuration} = _project;
 
 		if (this._outputDir === undefined) {
 			let outputDirPosixPath = prop.get(
-				npmbundlerrc,
+				configuration,
 				'create-jar.output-dir',
 				_project.dir.relative(_project.outputDir).toDotRelative()
 					.asPosix
@@ -124,11 +124,11 @@ export default class Jar {
 			return undefined;
 		}
 
-		const {npmbundlerrc, pkgJson} = this._project;
+		const {configuration, pkgJson} = this._project;
 
 		if (this._outputFilename === undefined) {
 			this._outputFilename = prop.get(
-				npmbundlerrc,
+				configuration,
 				'create-jar.output-filename',
 				pkgJson.name + '-' + pkgJson.version + '.jar'
 			);
@@ -150,19 +150,19 @@ export default class Jar {
 			return undefined;
 		}
 
-		const {npmbundlerrc, pkgJson} = this._project;
+		const {configuration, pkgJson} = this._project;
 
 		return prop.get(
-			npmbundlerrc,
+			configuration,
 			'create-jar.features.js-extender',
 			!!pkgJson.portlet
 		);
 	}
 
 	get supported(): boolean {
-		const {npmbundlerrc} = this._project;
+		const {configuration} = this._project;
 
-		return !!prop.get(npmbundlerrc, 'create-jar', true);
+		return !!prop.get(configuration, 'create-jar', true);
 	}
 
 	get webContextPath(): string | undefined {
@@ -173,22 +173,22 @@ export default class Jar {
 		if (!this._webContextPath) {
 			const {pkgJson} = this._project;
 			const bndWebContextPath = this._getBndWebContextPath();
-			const npmbundlerrcContextPath = this._getNpmbundlerrcContextPath();
+			const configurationContextPath = this._getConfigurationContextPath();
 
-			if (bndWebContextPath && npmbundlerrcContextPath) {
+			if (bndWebContextPath && configurationContextPath) {
 				print(
 					warn`
-Configured web context paths in .npmbundlerrc and bnd.bnd are different: using
-the one in .npmbundlerrc
+Configured web context paths in liferay-npm-bundler.config.js and bnd.bnd are 
+different: using the one in liferay-npm-bundler.config.js
 
 `
 				);
 
-				this._webContextPath = npmbundlerrcContextPath;
+				this._webContextPath = configurationContextPath;
 			} else if (bndWebContextPath) {
 				this._webContextPath = bndWebContextPath;
-			} else if (npmbundlerrcContextPath) {
-				this._webContextPath = npmbundlerrcContextPath;
+			} else if (configurationContextPath) {
+				this._webContextPath = configurationContextPath;
 			} else {
 				this._webContextPath = `/${pkgJson.name}-${pkgJson.version}`;
 			}
@@ -218,11 +218,11 @@ the one in .npmbundlerrc
 		return undefined;
 	}
 
-	_getNpmbundlerrcContextPath(): string {
-		const {npmbundlerrc} = this._project;
+	_getConfigurationContextPath(): string {
+		const {configuration} = this._project;
 
 		return prop.get(
-			npmbundlerrc,
+			configuration,
 			'create-jar.features.web-context',
 			undefined
 		);

@@ -9,7 +9,7 @@ const {argv} = require('yargs')
 	.option('config', {
 		alias: 'c',
 		description:
-			'Specify path to config file to use (instead of .npmbundlerrc)',
+			'Specify path to config file to use (instead of liferay-npm-bundler.config.js)',
 		type: 'string',
 	})
 	.option('create-jar', {

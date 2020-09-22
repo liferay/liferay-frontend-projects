@@ -21,9 +21,9 @@ export function getFeaturesFilePath(
 	featuresKeyPath: string,
 	defaultPrjRelPosixPath: string
 ): string | undefined {
-	const {dir: projectDir, npmbundlerrc} = project;
+	const {configuration, dir: projectDir} = project;
 
-	const prjRelPosixPath: string = prop.get(npmbundlerrc, featuresKeyPath);
+	const prjRelPosixPath: string = prop.get(configuration, featuresKeyPath);
 
 	if (prjRelPosixPath !== undefined) {
 		return projectDir.join(new FilePath(prjRelPosixPath, {posix: true}))

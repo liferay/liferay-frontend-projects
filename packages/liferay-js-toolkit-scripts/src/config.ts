@@ -12,7 +12,7 @@ export const project = new Project('.');
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let npmbuildrc: any = {};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let npmbundlerrc: any = {};
+let configuration: any = {};
 
 loadConfig();
 
@@ -22,7 +22,7 @@ loadConfig();
 function loadConfig(): void {
 	npmbuildrc = safeReadJsonSync(project.dir.join('.npmbuildrc').asNative);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	npmbundlerrc = (project as any)._configuration;
+	configuration = (project as any)._configuration;
 
 	// Normalize configurations
 	normalize(npmbuildrc, 'supportedLocales', []);
@@ -33,7 +33,7 @@ function loadConfig(): void {
 	normalize(npmbuildrc, 'webpack.proxy', {});
 
 	normalize(
-		npmbundlerrc,
+		configuration,
 		'create-jar.features.localization',
 		'features/localization/Language'
 	);
