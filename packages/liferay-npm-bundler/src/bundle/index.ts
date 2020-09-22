@@ -3,18 +3,17 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import fs from 'fs-extra';
 import {ProjectType} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
 import adaptBundlerProject from '../adapt/bundler-project';
 import adaptLiferayFragment from '../adapt/liferay-fragment';
-import {project} from '../globals';
+import {bundlerWebpackDir, project} from '../globals';
 import abort from '../util/abort';
 import * as log from '../util/log';
 import ExplainedError from './ExplainedError';
 import configure from './configure';
-import run from './run';
-import writeResults from './write-results';
 
 /**
  * Bundle current project.
@@ -28,7 +27,7 @@ export default async function bundle(): Promise<webpack.Stats> {
 
 	log.info('Running webpack...');
 
-	const stats = await run(options);
+	const stats = await runWebpack(options);
 
 	if (stats.hasErrors()) {
 		abortWithErrors(stats);
@@ -57,4 +56,32 @@ function abortWithErrors(stats: webpack.Stats): void {
 	);
 
 	abort(`Build failed: webpack build finished with errors`);
+}
+
+function runWebpack(options: webpack.Configuration): Promise<webpack.Stats> {
+	return new Promise((resolve, reject) => {
+		const compiler = webpack(options);
+
+		compiler.run((err, stats) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(stats);
+			}
+		});
+	});
+}
+
+function writeResults(stats: webpack.Stats): void {
+	const {compilation} = stats;
+
+	Object.entries(compilation.assets as object).forEach(
+		([fileName, source]) => {
+			const filePath = bundlerWebpackDir.join(fileName).asNative;
+
+			fs.writeFileSync(filePath, source.source());
+
+			log.debug(`Emitted file ${filePath}`);
+		}
+	);
 }
