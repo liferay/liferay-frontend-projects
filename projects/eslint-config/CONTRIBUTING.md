@@ -32,8 +32,8 @@
 
 6.  Update the release notes.
 
-    Take the new section from the top of the CHANGELOG and add it to [the release page](https://github.com/liferay/eslint-config-liferay/releases) on GitHub.
+    Take the new section from the top of the CHANGELOG and add it to [the release page](https://github.com/liferay/liferay-frontend-projects/releases) on GitHub.
 
-7.  Sanity check [the eslint-config-liferay page](https://www.npmjs.com/package/eslint-config-liferay) on npmjs.com
+7.  Sanity check [the @liferay/eslint-config page](https://www.npmjs.com/package/@liferay/eslint-config) on npmjs.com
 
     Specifically, you should see the version you just released under the "Versions" tab on that page.

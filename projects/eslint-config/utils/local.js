@@ -7,7 +7,7 @@
  * ESLint doesn't provide a way to bundle a config and rules together
  * in one package, so this ghastly helper applies monkey-patches
  * to enable us to expose bundled rule plugins from inside
- * eslint-config-liferay without actually having to separately publish a
+ * @liferay/eslint-config without actually having to separately publish a
  * "eslint-plugin-liferay" or "eslint-plugin-liferay-portal" package.
  */
 
@@ -42,7 +42,7 @@ function patch() {
 
 	if (majorVersion > 5) {
 		if (!originalResolve) {
-			// eslint-disable-next-line liferay/no-dynamic-require
+			// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 			const resolver = require(require.resolve(
 				'eslint/lib/shared/relative-module-resolver',
 				{paths: [process.cwd()]}
@@ -74,12 +74,16 @@ function patch() {
 }
 
 /**
- * Registers `pluginName` as a local plugin bundled with eslint-config-liferay.
+ * Registers `pluginName` as a local plugin bundled with @liferay/eslint-config.
  */
 function local(pluginName) {
-	const basename = pluginName.startsWith('eslint-plugin-')
-		? pluginName
-		: `eslint-plugin-${pluginName}`;
+	const [, basename] = pluginName.match(/^@liferay\/(.+)/) || [];
+
+	if (!basename) {
+		throw new Error(
+			`local(): plug-in '${pluginName}' does not start with '@liferay'`
+		);
+	}
 
 	const location = path.join(__dirname, '../plugins/', basename);
 
@@ -87,7 +91,7 @@ function local(pluginName) {
 		throw new Error(`local(): no plug-in found at ${location}`);
 	}
 
-	localPlugins.set(basename, location);
+	localPlugins.set(`@liferay/eslint-plugin-${basename}`, location);
 
 	// Make sure patches are applied.
 

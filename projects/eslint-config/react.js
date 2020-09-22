@@ -14,9 +14,9 @@ const config = {
 	},
 	plugins: ['react', 'react-hooks'],
 	rules: {
-		'liferay/no-duplicate-class-names': 'error',
-		'liferay/sort-class-names': 'error',
-		'liferay/trim-class-names': 'error',
+		'@liferay/liferay/no-duplicate-class-names': 'error',
+		'@liferay/liferay/sort-class-names': 'error',
+		'@liferay/liferay/trim-class-names': 'error',
 
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react

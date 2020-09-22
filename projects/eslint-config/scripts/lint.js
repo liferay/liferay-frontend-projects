@@ -10,7 +10,7 @@ const path = require('path');
 const LINT_GLOBS = ['**/*.js', '.*.js'];
 
 /**
- * In order for eslint-config-liferay to be applied to itself, we need
+ * In order for @liferay/eslint-config to be applied to itself, we need
  * to make a copy of the default config that uses a path-based reference
  * to the local config instead of a module name.
  */

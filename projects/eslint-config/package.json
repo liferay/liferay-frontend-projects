@@ -1,5 +1,5 @@
 {
-	"name": "eslint-config-liferay",
+	"name": "@liferay/eslint-config",
 	"version": "21.1.0",
 	"description": "ESLint shareable config for the Liferay JavaScript Style",
 	"main": "index.js",
@@ -21,8 +21,9 @@
 		"liferay"
 	],
 	"repository": {
+		"directory": "projects/eslint-config",
 		"type": "git",
-		"url": "https://github.com/liferay/eslint-config-liferay.git"
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"author": "Liferay",
 	"license": "MIT",

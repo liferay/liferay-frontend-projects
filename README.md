@@ -6,4 +6,4 @@ This is an experimental exploration of the ideas proposed in [liferay-frontend-g
 
 ## Projects
 
-- [eslint-config-liferay](./projects/eslint-config-liferay)
+- [@liferay/eslint-config](./projects/eslint-config)

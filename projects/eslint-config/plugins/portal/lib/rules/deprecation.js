@@ -4,7 +4,7 @@
  */
 
 const badFormat =
-	'@deprecated requires format: https://github.com/liferay/eslint-config-liferay/blob/master/plugins/eslint-plugin-liferay-portal/docs/rules/deprecation.md';
+	'@deprecated requires format: https://github.com/liferay/liferay-frontend-projects/blob/master/projects/eslint-config/plugins/portal/docs/rules/deprecation.md';
 
 const blockCommentsOnly =
 	'@deprecated annotations should only appear in block (/**/) comments';
