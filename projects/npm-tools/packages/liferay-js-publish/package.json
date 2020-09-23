@@ -1,0 +1,30 @@
+{
+	"bin": {
+		"liferay-js-publish": "./bin/liferay-js-publish.js"
+	},
+	"description": "Publishes an NPM package via \"yarn version\"",
+	"files": [
+		"bin",
+		"src"
+	],
+	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish",
+	"license": "BSD-3-Clause",
+	"main": "index.js",
+	"name": "liferay-js-publish",
+	"private": false,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-npm-tools",
+		"directory": "packages/liferay-js-publish"
+	},
+	"scripts": {
+		"ci": "cd ../.. && yarn ci",
+		"postversion": "node bin/liferay-js-publish.js",
+		"preversion": "yarn ci",
+		"test": "echo 'No tests currently defined for liferay-js-publish'"
+	},
+	"version": "1.1.0",
+	"dependencies": {
+		"cross-spawn": "7.0.1"
+	}
+}

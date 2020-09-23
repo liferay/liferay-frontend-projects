@@ -1,0 +1,29 @@
+{
+	"devDependencies": {
+		"eslint": "6.8.0",
+		"eslint-config-liferay": "21.1.0",
+		"prettier": "2.0.5"
+	},
+	"jest": {
+		"setupFilesAfterEnv": [
+			"<rootDir>/packages/liferay-npm-scripts/support/jest/matchers.js"
+		],
+		"testMatch": [
+			"**/test/**/*.js"
+		]
+	},
+	"private": true,
+	"scripts": {
+		"ci": "yarn format:check && yarn lint && yarn test",
+		"format": "prettier --write \"**/*.js\" \"**/*.json\" \"**/*.md\"",
+		"format:check": "prettier --list-different \"**/*.js\" \"**/*.json\" \"**/*.md\"",
+		"lint": "eslint \".*.js\" \"**/*.js\"",
+		"lint:fix": "eslint --fix \".*.js\" \"**/*.js\"",
+		"preversion": "echo Cannot version top-level private package; false",
+		"test": "jest"
+	},
+	"workspaces": [
+		"packages/*"
+	],
+	"version": "0.1.0"
+}

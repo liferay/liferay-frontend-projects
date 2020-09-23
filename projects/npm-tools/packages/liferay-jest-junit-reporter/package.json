@@ -1,0 +1,30 @@
+{
+	"name": "liferay-jest-junit-reporter",
+	"version": "1.2.0",
+	"description": "A JUnit reporter for Jest and Liferay CI",
+	"main": "src/index.js",
+	"scripts": {
+		"ci": "cd ../.. && yarn ci",
+		"postpublish": "echo '***'; echo 'NOTE: Remember to update and publish liferay-npm-scripts'; echo '***'",
+		"postversion": "node ../liferay-js-publish/bin/liferay-js-publish.js",
+		"preversion": "yarn ci",
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-npm-tools",
+		"directory": "packages/liferay-jest-junit-reporter"
+	},
+	"author": "",
+	"license": "BSD-3-Clause",
+	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-jest-junit-reporter",
+	"dependencies": {
+		"strip-ansi": "6.0.0",
+		"xml": "^1.0.1"
+	},
+	"jest": {
+		"testMatch": [
+			"**/test/**/*.js"
+		]
+	}
+}
