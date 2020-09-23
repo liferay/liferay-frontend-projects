@@ -1,4 +1,4 @@
-# liferay-frontend monorepo
+# liferay-frontend-projects monorepo
 
 Welcome to the monorepo of the Liferay Frontend Infrastructure team.
 
