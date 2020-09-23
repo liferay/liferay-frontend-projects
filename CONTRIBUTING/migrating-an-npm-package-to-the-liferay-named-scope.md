@@ -88,6 +88,22 @@ As a final step, use [`npm deprecate`]( https://docs.npmjs.com/cli/deprecate) to
 npm deprecate eslint-config-liferay 'Please see @liferay/eslint-config instead'
 ```
 
+Once deprecated, `yarn add` will show a message like the following when using the old name:
+
+```
+warning liferay-link-checker@0.0.1: Please see @liferay/link-checker instead
+```
+
+Likewise, the package on npmjs.com ([example page](https://www.npmjs.com/package/liferay-link-checker)) will show a message like:
+
+> #### This package has been deprecated
+>
+> ---
+>
+> _Author message:_
+>
+> `Please see @liferay/link-checker instead`
+
 ## Troubleshooting
 
 ### `You must sign up for private packages`
