@@ -1,0 +1,60 @@
+{
+	"name": "eslint-config-liferay",
+	"version": "21.1.0",
+	"description": "ESLint shareable config for the Liferay JavaScript Style",
+	"main": "index.js",
+	"files": [
+		".eslintrc.js",
+		"index.js",
+		"metal.js",
+		"plugins",
+		"portal.js",
+		"react.js",
+		"scripts",
+		"utils"
+	],
+	"keywords": [
+		"code",
+		"quality",
+		"eslint",
+		"eslintconfig",
+		"liferay"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/eslint-config-liferay.git"
+	},
+	"author": "Liferay",
+	"license": "MIT",
+	"devDependencies": {
+		"@typescript-eslint/parser": "^2.25.0",
+		"babel-eslint": "^10.1.0",
+		"eslint": "6.8.0",
+		"jest": "25.1.0",
+		"prettier": "*",
+		"typescript": "^3.8.2"
+	},
+	"peerDependencies": {
+		"eslint": ">=4.1.1"
+	},
+	"dependencies": {
+		"eslint-config-prettier": "^6.5.0",
+		"eslint-plugin-no-for-of-loops": "^1.0.0",
+		"eslint-plugin-no-only-tests": "^2.1.0",
+		"eslint-plugin-notice": "^0.8.9",
+		"eslint-plugin-react": "^7.18.0",
+		"eslint-plugin-react-hooks": "^2.2.0",
+		"eslint-plugin-sort-destructure-keys": "1.3.3"
+	},
+	"scripts": {
+		"ci": "yarn lint && yarn format:check && yarn test",
+		"format": "prettier --write -- \"**/*.{js,json,md}\" \".*.js\"",
+		"format:check": "prettier --list-different -- \"**/*.{js,json,md}\" \".*.js\"",
+		"lint": "node scripts/lint.js",
+		"lint:fix": "node scripts/lint.js --fix",
+		"postinstall": "node scripts/postinstall.js",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci",
+		"test": "jest"
+	}
+}

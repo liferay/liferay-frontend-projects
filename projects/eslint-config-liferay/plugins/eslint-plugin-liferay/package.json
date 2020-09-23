@@ -1,0 +1,11 @@
+{
+	"name": "eslint-plugin-liferay",
+	"version": "1.0.0",
+	"main": "index.js",
+	"directories": {
+		"doc": "docs",
+		"lib": "lib",
+		"test": "tests"
+	},
+	"private": true
+}
