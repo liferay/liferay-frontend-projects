@@ -25,7 +25,7 @@
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
-	"author": "Liferay",
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"license": "MIT",
 	"devDependencies": {
 		"@typescript-eslint/parser": "^2.25.0",

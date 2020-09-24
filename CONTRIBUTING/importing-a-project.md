@@ -103,6 +103,11 @@ Examples include:
     }
     ```
 
+-   Ensure each package has a consistent `author` field:
+
+    ```
+    "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>"
+    ```
 
 -   Hoist the licensing information up into the top-level [`LICENSES/`](../LICENSES) directory, if the license type is not already represented there.
 
