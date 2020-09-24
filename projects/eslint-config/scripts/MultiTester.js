@@ -12,7 +12,7 @@ const {RuleTester} = require('eslint');
  *
  * -   "babel-eslint", that we use in liferay-portal:
  *
- *      https://github.com/liferay/liferay-frontend-projects/blob/master/projects/npm-tools/packages/npm-scripts/src/config/eslint.config.js
+ *      https://github.com/liferay/liferay-frontend-projects/blob/c6a0257953f/projects/npm-tools/packages/npm-scripts/src/config/eslint.config.js#L48
  *
  * -    `@typescript-eslint/parser`, that we use in Clay:
  *
