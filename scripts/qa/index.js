@@ -71,8 +71,8 @@ if (argv['install']) {
 		const projectDir = path.join(projectsDir, projectName);
 		const pkgJson = fs.readJsonSync(path.join(projectDir, 'package.json'));
 
-		if (pkgJson['bin']) {
-			Object.keys(pkgJson['bin']).forEach(bin =>
+		if (pkgJson.bin) {
+			Object.keys(pkgJson.bin).forEach(bin =>
 				safeUnlink(path.join(os.homedir(), '.yarn', 'bin', bin))
 			);
 		}
