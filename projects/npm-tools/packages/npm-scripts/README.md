@@ -1,9 +1,9 @@
-# liferay-npm-scripts
+# @liferay/npm-scripts
 
 ## Usage
 
 ```sh
-npm install --save-dev liferay-npm-scripts
+npm install --save-dev @liferay/npm-scripts
 ```
 
 `package.json`
@@ -56,7 +56,7 @@ This is the task that runs in liferay-portal projects when you run `yarn format`
 liferay-npm-scripts prettier
 ```
 
-When liferay-npm-scripts uses Prettier, it additionally applies some tweaks in a post-processing step to match liferay-portal coding conventions. Normally, you will want to run `liferay-npm-scripts check` or `liferay-npm-scripts fix` as described above rather than interacting with the `prettier` executable directly.
+When @liferay/npm-scripts uses Prettier, it additionally applies some tweaks in a post-processing step to match liferay-portal coding conventions. Normally, you will want to run `liferay-npm-scripts check` or `liferay-npm-scripts fix` as described above rather than interacting with the `prettier` executable directly.
 
 However, in order to facilitate integration with editors and editor plugins, this subcommand exposes the augmented version of `prettier`, providing this "Prettier plus post-processing" functionality, using an interface that is similar to that of the `prettier` executable. Example usage:
 
@@ -79,7 +79,7 @@ All other `prettier` flags are ignored.
 One way to run prettier from Vim is with [the vim-prettier plugin](https://github.com/prettier/vim-prettier). It comes with a setting, `g:prettier#exec_cmd_path`, that you can use to configure a custom `prettier` executable. For example, you could take [this sample shell script](./contrib/prettier/prettier.sh) and copy it somewhere such as `~/bin/`:
 
 ```sh
-curl https://raw.githubusercontent.com/liferay/liferay-npm-tools/master/packages/liferay-npm-scripts/contrib/prettier/prettier.sh > ~/bin/prettier.sh
+curl https://raw.githubusercontent.com/liferay/liferay-frontend-projects/master/projects/npm-tools/packages/npm-scripts/contrib/prettier/prettier.sh > ~/bin/prettier.sh
 chmod +x !$
 ```
 
@@ -89,7 +89,7 @@ Then, add a line like this to your `~/.vim/vimrc`:
 let g:prettier#exec_cmd_path = "~/bin/prettier.sh"
 ```
 
-Now you can use the `:Prettier` command and others provided by the vim-prettier plugin in Vim, and it will use your script instead of the upstream version of Prettier. The script tries first to find the `liferay-npm-scripts` version, then `prettier`, and ultimately will fall back to `npx prettier` as a last resort. When working outside of a liferay-portal clone, it doesn't try to use the version provided by `liferay-npm-scripts`.
+Now you can use the `:Prettier` command and others provided by the vim-prettier plugin in Vim, and it will use your script instead of the upstream version of Prettier. The script tries first to find the `@liferay/npm-scripts` version, then `prettier`, and ultimately will fall back to `npx prettier` as a last resort. When working outside of a liferay-portal clone, it doesn't try to use the version provided by `@liferay/npm-scripts`.
 
 If you don't want to install vim-prettier, you can of course run the script directly using the `!` command:
 
@@ -116,7 +116,7 @@ A popular choice for running prettier from VSCode is the "[Prettier - Code Forma
 You can take [this sample wrapper module](./contrib/prettier/prettier.js) and configure the extension to use it instead of the standard `prettier` one. For example, to install a copy of the wrapper to `~/bin/prettier.js`, you could run the following:
 
 ```sh
-curl https://raw.githubusercontent.com/liferay/liferay-npm-tools/master/packages/liferay-npm-scripts/contrib/prettier/prettier.js > ~/bin/prettier.js
+curl https://raw.githubusercontent.com/liferay/liferay-frontend-projects/master/projects/npm-tools/packages/npm-scripts/contrib/prettier/prettier.js > ~/bin/prettier.js
 ```
 
 If you have the script at `~/bin/prettier.js`, in the UI you would go to `Preferences` → `Settings` → `User` → `Extensions` → `Prettier` → `Prettier Path` and set it to `~/bin/prettier.js`. Alternatively, if you prefer to manipulate the VSCode `settings.json` file directly, you would set `prettier.prettierPath` to `~/bin/prettier.js`.
@@ -165,7 +165,7 @@ If you need to add additional configuration you can do so by creating a `npmscri
 
 ### `preset`
 
-`npmscripts.config.js` allows for a `preset` option which is a pre-defined configuration. By default `liferay-npm-scripts` uses [liferay-npm-scripts-preset-standard](src/presets/standard/index). If you want to create your own preset, you need to create an npm package or a local dependency. You can also extend from a preset by creating a `npmscripts.config.js` that looks something like...
+`npmscripts.config.js` allows for a `preset` option which is a pre-defined configuration. By default `@liferay/npm-scripts` uses its own bundled ["preset-standard"](src/presets/standard/index). If you want to create your own preset, you need to create an npm package or a local dependency. You can also extend from a preset by creating a `npmscripts.config.js` that looks something like...
 
 ```js
 module.exports = {
@@ -182,10 +182,10 @@ module.exports = {
 If you want to extend from the standard preset and then add an additional dependency, you will have to do something like...
 
 ```js
-const standardPreset = require('liferay-npm-scripts/src/presets/standard/index');
+const standardPreset = require('@liferay/npm-scripts/src/presets/standard/index');
 
 module.exports = {
-	preset: 'liferay-npm-scripts/src/presets/standard/index',
+	preset: '@liferay/npm-scripts/src/presets/standard/index',
 	build: {
 		dependencies: [...standardPreset.build.dependencies, 'asset-taglib'],
 	},

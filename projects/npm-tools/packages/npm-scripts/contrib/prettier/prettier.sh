@@ -20,6 +20,9 @@ done
 
 if [ -n "$PORTAL" ]; then
   LIFERAY_NPM_SCRIPTS="$PORTAL/modules/node_modules/liferay-npm-scripts/bin/liferay-npm-scripts.js"
+  if [ ! -e "$LIFERAY_NPM_SCRIPTS" ]; then
+    LIFERAY_NPM_SCRIPTS="$PORTAL/modules/node_modules/@liferay/npm-scripts/bin/liferay-npm-scripts.js"
+  fi
   LIFERAY_PRETTIER="$PORTAL/modules/node_modules/prettier/bin-prettier.js"
 else
   LIFERAY_NPM_SCRIPTS=""

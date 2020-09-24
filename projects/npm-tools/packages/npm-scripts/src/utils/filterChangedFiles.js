@@ -18,7 +18,7 @@ const git = require('./git');
  *
  * One important exception to the above: if the top-level `package.json`
  * changes (which happens rarely), this may indicate a change of the
- * liferay-npm-scripts version, and in that case we want to run against
+ * @liferay/npm-scripts version, and in that case we want to run against
  * the entire unfiltered `files` list.
  *
  * @param {Array<string>} files List of files relative to the current directory.
@@ -34,13 +34,13 @@ function filterChangedFiles(files) {
 
 	const mergeBase = git('merge-base', 'HEAD', upstream);
 
-	// Check for changes in liferay-npm-scripts version.
+	// Check for changes in @liferay/npm-scripts version.
 
 	try {
 		git(
 			'diff',
 			mergeBase,
-			'-Gliferay-npm-scripts',
+			'-G@liferay/npm-scripts',
 			'--quiet',
 			'--',
 			'package.json'

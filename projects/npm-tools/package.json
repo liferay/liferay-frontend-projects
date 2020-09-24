@@ -6,7 +6,7 @@
 	},
 	"jest": {
 		"setupFilesAfterEnv": [
-			"<rootDir>/packages/liferay-npm-scripts/support/jest/matchers.js"
+			"<rootDir>/packages/npm-scripts/support/jest/matchers.js"
 		],
 		"testMatch": [
 			"**/test/**/*.js"

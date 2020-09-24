@@ -296,7 +296,7 @@ describe('deepMerge()', () => {
 				presets: ['@babel/preset-react'],
 			};
 
-			// This is the config provided by liferay-npm-scripts.
+			// This is the config provided by @liferay/npm-scripts.
 
 			const defaults = {
 				overrides: [

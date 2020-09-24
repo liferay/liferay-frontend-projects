@@ -5,7 +5,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",
-		"postpublish": "echo '***'; echo 'NOTE: Remember to update and publish liferay-npm-scripts'; echo '***'",
+		"postpublish": "echo '***'; echo 'NOTE: Remember to update and publish @liferay/npm-scripts'; echo '***'",
 		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
 		"test": "jest"

@@ -1,11 +1,9 @@
 {
-	"name": "liferay-npm-scripts",
+	"name": "@liferay/npm-scripts",
 	"version": "32.7.0",
-	"description": "Collection of NPM scripts used for Liferay portlets",
+	"description": "Collection of NPM scripts used in Liferay DXP",
 	"main": "index.js",
-	"author": {
-		"name": "Bryce Osterhaus"
-	},
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"license": "BSD-3-Clause",
 	"files": [
 		"bin",
@@ -79,11 +77,11 @@
 		"webpack-cli": "^3.3.6",
 		"webpack-dev-server": "^3.7.2"
 	},
-	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts",
+	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/npm-scripts",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-npm-tools",
-		"directory": "packages/liferay-npm-scripts"
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "projects/npm-tools/packages/npm-scripts"
 	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",

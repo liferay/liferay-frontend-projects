@@ -42,7 +42,7 @@ sample-web
 Inside `index.es.js`, import `StorybookReact`
 
 ```javascript
-import {StorybookReact} from 'liferay-npm-scripts/src/storybook';
+import {StorybookReact} from '@liferay/npm-scripts/src/storybook';
 ```
 
 Write your first story. Below is an example:
@@ -77,7 +77,7 @@ A11y and viewport addons are automatically included. To use the actions and knob
 import {
 	StorybookAddonActions,
 	StorybookAddonKnobs,
-} from 'liferay-npm-scripts/src/storybook';
+} from '@liferay/npm-scripts/src/storybook';
 
 const {action} = StorybookAddonActions;
 const {array, boolean, select, text} = StorybookAddonKnobs;
@@ -90,7 +90,7 @@ Visit the docs linked above on each addon to learn how to use the addons in stor
 A constant `STORYBOOK_CONSTANTS.SPRITEMAP_PATH` is also exported that provides a path the local portal icons.svg file. It is defined [here](./index.js#L11-L14).
 
 ```javascript
-import {STORYBOOK_CONSTANTS} from 'liferay-npm-scripts/src/storybook';
+import {STORYBOOK_CONSTANTS} from '@liferay/npm-scripts/src/storybook';
 ```
 
 ## Configuration
@@ -101,7 +101,7 @@ Default storybook configuration:
 
 ```javascript
 module.exports = {
-	preset: 'liferay-npm-scripts/src/presets/standard',
+	preset: '@liferay/npm-scripts/src/presets/standard',
 	storybook: {
 		// A list of Language.properties files to translate
 		// Liferay.Language.get() functions.
@@ -126,7 +126,7 @@ import {
 	STORYBOOK_CONSTANTS,
 	StorybookAddonActions,
 	StorybookReact,
-} from 'liferay-npm-scripts/src/storybook';
+} from '@liferay/npm-scripts/src/storybook';
 
 import '../../src/main/resources/META-INF/resources/css/main.scss';
 

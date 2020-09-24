@@ -35,7 +35,7 @@ This preset provides a reasonable starting point for an independent open source 
 
 In [liferay-portal](https://github.com/liferay/liferay-portal) itself we extend the `@liferay/eslint-config/portal` preset instead, which activates some rules specific to liferay-portal. This preset assumes the use of React, and also provides a set of custom rules that are described in detail in the `@liferay/eslint-plugin/portal` section below.
 
-This extension is applied automatically by [liferay-npm-scripts](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts), so you don't have to configure it explicitly.
+This extension is applied automatically by [@liferay/npm-scripts](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/npm-scripts), so you don't have to configure it explicitly.
 
 > **An important disclaimer about the use of ESLint in liferay-portal**
 >

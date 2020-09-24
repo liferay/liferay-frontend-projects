@@ -1044,9 +1044,15 @@ function prepare(filepath) {
 	if (root) {
 		const modules = path.join(root, 'modules/node_modules');
 
-		const scripts = path.join(modules, 'liferay-npm-scripts');
+		let scripts = path.join(modules, '@liferay/npm-scripts');
 
-		const wrapper = path.join(scripts, 'src/scripts/prettier.js');
+		let wrapper = path.join(scripts, 'src/scripts/prettier.js');
+
+		if (!fs.existsSync(wrapper)) {
+			scripts = path.join(modules, 'liferay-npm-scripts');
+
+			wrapper = path.join(scripts, 'src/scripts/prettier.js');
+		}
 
 		const fallback = path.join(modules, 'prettier/bin-prettier.js');
 

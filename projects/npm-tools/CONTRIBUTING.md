@@ -8,7 +8,7 @@
 
 ## Normal releases
 
-> **Note:** liferay-npm-scripts can be published independently, but if you update the preset, or the reporter, you need to update liferay-npm-scripts as well, because it depends on the others. When doing this, it is important to publish the packages in order; with liferay-npm-scripts always going last.
+> **Note:** @liferay/npm-scripts can be published independently, but if you update the preset, or the reporter, you need to update @liferay/npm-scripts as well, because it depends on the others. When doing this, it is important to publish the packages in order; with @liferay/npm-scripts always going last.
 > To publish a new version of a package:
 
 ```sh
@@ -23,7 +23,7 @@ yarn ci
 # start again. Otherwise...
 
 # Change to the directory of the package you wish to publish:
-cd packages/liferay-npm-scripts
+cd packages/npm-scripts
 
 # Update the changelog:
 npx @liferay/changelog-generator --version=29.0.1
@@ -51,7 +51,7 @@ After the release, you can confirm that the packages are correctly listed in the
 -   https://www.npmjs.com/package/@liferay/js-insights
 -   https://www.npmjs.com/package/@liferay/js-publish
 -   https://www.npmjs.com/package/@liferay/npm-bundler-preset-liferay-dev
--   https://www.npmjs.com/package/liferay-npm-scripts
+-   https://www.npmjs.com/package/@liferay/npm-scripts
 
 ## Publishing manually
 
@@ -89,7 +89,7 @@ yarn publish
 
 Sometimes, it can be useful to publish a preview release for testing purposes prior to a broader roll-out, but it is a somewhat manual process.
 
-As an example, this is the procedure followed to produce [the v9.5.0-beta.1 release](https://www.npmjs.com/package/liferay-npm-scripts/v/9.5.0-beta.1) of liferay-npm-scripts:
+As an example, this is the procedure followed to produce [the v9.5.0-beta.1 release](https://www.npmjs.com/package/liferay-npm-scripts/v/9.5.0-beta.1):
 
 ```sh
 # Check out a branch for the release
@@ -102,7 +102,7 @@ git diff --quiet
 yarn ci
 
 # Move into the package's directory
-cd packages/liferay-npm-scripts
+cd packages/npm-scripts
 
 # Update the changelog.
 npx @liferay/changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
@@ -131,4 +131,4 @@ yarn publish --tag beta
 
 For bonus points, create a draft PR like [this one](https://github.com/liferay/liferay-npm-tools/pull/201) so that others have visibility into what you are doing. After the release is done you should feel free to close the PR and delete the temporary branch that you pushed (but keep the tag in case anybody ever wants to look up the source that was published to NPM).
 
-Finally, visit the versions tab on [the NPM registry page](https://www.npmjs.com/package/liferay-npm-scripts) to confirm that your release is visible and is appropriately tagged as "beta" (not "latest").
+Finally, visit the versions tab on [the NPM registry page](https://www.npmjs.com/package/@liferay/npm-scripts) to confirm that your release is visible and is appropriately tagged as "beta" (not "latest").

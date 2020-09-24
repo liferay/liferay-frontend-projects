@@ -30,14 +30,16 @@ describe('filterChangedFiles()', () => {
 		// Set up a Git repo with the following history:
 		//
 		//      * (master, HEAD) l
+		//      |
 		//      | * (topic-2) k (touches nothing)
-		//      | * j (updates liferay-npm-scripts in private)
+		//      | * j (updates @liferay/npm-scripts in private)
 		//      | * i (touches private package.json but no update)
 		//      | * h (touches a source file)
 		//      |/
 		//      * g (updates scripts in both places)
+		//      |
 		//      | * (topic-1) f (touches nothing)
-		//      | * e (updates liferay-npm-scripts at top-level)
+		//      | * e (updates @liferay/npm-scripts at top-level)
 		//      | * d (touches top-level package.json but no update)
 		//      | * c (touches a source file)
 		//      |/
@@ -69,8 +71,8 @@ describe('filterChangedFiles()', () => {
 		fs.writeFileSync(code, 'stuff\n', 'utf8');
 		fs.writeFileSync(nested, 'nested\n', 'utf8');
 		fs.writeFileSync(other, 'other\n', 'utf8');
-		fs.writeFileSync(pkg, 'liferay-npm-scripts: 1\n', 'utf8');
-		fs.writeFileSync(privatePkg, 'liferay-npm-scripts: 1\n', 'utf8');
+		fs.writeFileSync(pkg, '@liferay/npm-scripts: 1\n', 'utf8');
+		fs.writeFileSync(privatePkg, '@liferay/npm-scripts: 1\n', 'utf8');
 
 		git('add', 'modules');
 		git('commit', '-m', 'a', '--', 'modules');
@@ -92,7 +94,7 @@ describe('filterChangedFiles()', () => {
 		git('commit', '-m', 'd', '--', pkg);
 		git('tag', 'd');
 
-		fs.writeFileSync(pkg, 'liferay-npm-scripts: 2\nextra: 1\n', 'utf8');
+		fs.writeFileSync(pkg, '@liferay/npm-scripts: 2\nextra: 1\n', 'utf8');
 
 		git('commit', '-m', 'e', '--', pkg);
 		git('tag', 'e');
@@ -100,8 +102,8 @@ describe('filterChangedFiles()', () => {
 		git('tag', 'f');
 		git('checkout', 'master');
 
-		fs.writeFileSync(pkg, 'liferay-npm-scripts: 2\n', 'utf8');
-		fs.writeFileSync(privatePkg, 'liferay-npm-scripts: 2\n', 'utf8');
+		fs.writeFileSync(pkg, '@liferay/npm-scripts: 2\n', 'utf8');
+		fs.writeFileSync(privatePkg, '@liferay/npm-scripts: 2\n', 'utf8');
 
 		git('commit', '-m', 'g', '--', 'modules');
 		git('tag', 'g');
@@ -122,7 +124,7 @@ describe('filterChangedFiles()', () => {
 
 		fs.writeFileSync(
 			privatePkg,
-			'liferay-npm-scripts: 3\nextra: 1\n',
+			'@liferay/npm-scripts: 3\nextra: 1\n',
 			'utf8'
 		);
 
@@ -167,7 +169,7 @@ describe('filterChangedFiles()', () => {
 			process.env.LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME = 'master';
 		});
 
-		it('returns only changed files, unless it detects a liferay-npm-scripts update', () => {
+		it('returns only changed files, unless it detects a @liferay/npm-scripts update', () => {
 			// Top-level.
 
 			let files = getFiles();
