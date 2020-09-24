@@ -7,21 +7,21 @@
 		"bin",
 		"src"
 	],
-	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish",
+	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-publish",
 	"license": "BSD-3-Clause",
 	"main": "index.js",
-	"name": "liferay-js-publish",
+	"name": "@liferay/js-publish",
 	"private": false,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-npm-tools",
-		"directory": "packages/liferay-js-publish"
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "projects/npm-tools/packages/js-publish"
 	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
-		"test": "echo 'No tests currently defined for liferay-js-publish'"
+		"test": "echo 'No tests currently defined for @liferay/js-publish'"
 	},
 	"version": "1.1.0",
 	"dependencies": {

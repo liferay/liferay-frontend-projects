@@ -28,7 +28,7 @@
 
     This will update the package.json and create a tagged commit, including the updates to the CHANGELOG that you previously made.
 
-        We use [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) from the "postversion" script to take care of pushing to the repo, and actually publishing to the NPM registry; just follow the prompts.
+        We use [@liferay/js-publish](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-publish) from the "postversion" script to take care of pushing to the repo, and actually publishing to the NPM registry; just follow the prompts.
 
 6.  Update the release notes.
 

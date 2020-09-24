@@ -19,7 +19,7 @@
 	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",
-		"postversion": "node ../liferay-js-publish/bin/liferay-js-publish.js",
+		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for @liferay/changelog-generator'"
 	},
