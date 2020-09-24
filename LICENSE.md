@@ -13,4 +13,4 @@ This monorepo contains multiple projects, each of which specifies its license in
 
 Copies of the full text for each license can be found in the top-level [`LICENSES`](./LICENSES) directory.
 
-Any source code outside of [the `projects/` directory](./projects) does not pertains to any specific project, is used in the maintenance and development of the monorepo itself, and is licensed under [the MIT license](./LICENSES/MIT.txt).
+Any source code outside of [the `projects/` directory](./projects) does not pertain to any specific project; rather, it is used in the maintenance and development of the monorepo itself, and is licensed under [the MIT license](./LICENSES/MIT.txt).
