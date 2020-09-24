@@ -20,4 +20,4 @@ import './MyComponent.scss';
 
 ## Further Reading
 
--   [Default bundler loader configuration](https://github.com/liferay/liferay-npm-tools/blob/fd5b7f51151bdeb8280f2c2edd0de7c0f5c88f26/packages/liferay-npm-bundler-preset-liferay-dev/config.json#L271-L282) used in liferay-portal.
+-   [Default bundler loader configuration](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/npm-tools/packages/npm-bundler-preset-liferay-dev/config.json) used in liferay-portal.

@@ -50,7 +50,7 @@ After the release, you can confirm that the packages are correctly listed in the
 -   https://www.npmjs.com/package/@liferay/jest-junit-reporter
 -   https://www.npmjs.com/package/@liferay/js-insights
 -   https://www.npmjs.com/package/@liferay/js-publish
--   https://www.npmjs.com/package/liferay-npm-bundler-preset-liferay-dev
+-   https://www.npmjs.com/package/@liferay/npm-bundler-preset-liferay-dev
 -   https://www.npmjs.com/package/liferay-npm-scripts
 
 ## Publishing manually

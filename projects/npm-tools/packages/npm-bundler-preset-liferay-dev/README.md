@@ -1,11 +1,11 @@
-# liferay-npm-bundler-preset-liferay-dev
+# @liferay/npm-bundler-preset-liferay-dev
 
-> Liferay NPM Bundler preset for npm modules inside liferay-portal.
+> Liferay npm Bundler preset for npm modules inside liferay-portal.
 
 ## Install
 
 ```sh
-npm install --save-dev liferay-npm-bundler-preset-liferay-dev
+npm install --save-dev @liferay/npm-bundler-preset-liferay-dev
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ Add the following to your `.npmbundlerrc` file:
 
 ```json
 {
-	"preset": "liferay-npm-bundler-preset-liferay-dev"
+	"preset": "@liferay/npm-bundler-preset-liferay-dev"
 }
 ```
 
