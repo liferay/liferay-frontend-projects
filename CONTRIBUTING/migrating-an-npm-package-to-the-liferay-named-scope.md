@@ -51,7 +51,7 @@ In the example of [eslint-config-liferay](https://github.com/liferay/eslint-conf
 
 2.  Run `yarn publish --access=public` to actually make the release. The `--access=public` switch is required only the first time you publish a particular package under a named scope.
 
-3.  Tag the release manually with `git tag`. The tag format should match the `version-tag-prefix` specified in the `.yarnrc` file and the message should match the `version-git-message`. So, for the example of `@liferay/eslint-config`, that means `git tag eslint-config/v21.1.0 -m 'chore: prepare v21.1.0 release'`.
+3.  Tag the release manually with `git tag`. The tag format should match the `version-tag-prefix` specified in the `.yarnrc` file and the message should match the `version-git-message`. So, for the example of `@liferay/eslint-config`, that means `git tag eslint-config/v21.1.0 -m 'chore: prepare @liferay/eslint-config v21.1.0 release'`.
 
 4.  Push the commits (if any) and tags with a command like this (assuming your upstream remote is called `upstream`):
 
