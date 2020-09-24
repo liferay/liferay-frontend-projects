@@ -14,7 +14,7 @@ module.exports = {
 
 			if (value !== expected) {
 				context.report({
-					fix: fixer => [
+					fix: (fixer) => [
 						fixer.replaceText(
 							node,
 							`${delimiter}${expected}${delimiter}`

@@ -114,11 +114,11 @@ async function getChanges(from, to) {
 
 	const COMMIT = new RegExp(
 		'\0' + // Delimiter.
-		'([^\0]*)' + // Commit hash.
-		'\0' + // Delimiter.
-		'([^\0]*)' + // Commit message.
-		'\0' + // Delimiter.
-		'(\\n(?:-|\\d+)\\s+(?:-|\\d+)\\s+[^\\n]+)*' + // Optional file stat info.
+			'([^\0]*)' + // Commit hash.
+			'\0' + // Delimiter.
+			'([^\0]*)' + // Commit message.
+			'\0' + // Delimiter.
+			'(\\n(?:-|\\d+)\\s+(?:-|\\d+)\\s+[^\\n]+)*' + // Optional file stat info.
 			'\\n\\n?',
 		'g'
 	);

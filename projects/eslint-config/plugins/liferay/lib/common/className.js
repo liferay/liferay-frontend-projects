@@ -31,10 +31,7 @@ function checkJSXAttribute(node, callback, context = null, options = {}) {
 			} else if (allowTemplateLiteralExpressions) {
 				callback(
 					expression,
-					context
-						.getSourceCode()
-						.getText(expression)
-						.slice(1, -1),
+					context.getSourceCode().getText(expression).slice(1, -1),
 					'`'
 				);
 			}

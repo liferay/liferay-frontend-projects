@@ -19,7 +19,7 @@ module.exports = {
 
 			const set = new Set();
 
-			classes.split(/\s+/).forEach(className => set.add(className));
+			classes.split(/\s+/).forEach((className) => set.add(className));
 
 			const expected =
 				leadingWhitespace +
@@ -28,7 +28,7 @@ module.exports = {
 
 			if (value !== expected) {
 				context.report({
-					fix: fixer => [
+					fix: (fixer) => [
 						fixer.replaceText(
 							node,
 							`${delimiter}${expected}${delimiter}`

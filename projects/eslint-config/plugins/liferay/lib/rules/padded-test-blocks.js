@@ -58,7 +58,7 @@ const CALL_EXPRESSIONS = [
 	'xtest',
 	'xtest.each',
 	'xtest.each.`table`',
-].map(format => {
+].map((format) => {
 	// Split apart the format and return a matcher function that returns `true`
 	// if a node matches. For example, given:
 	//
@@ -93,7 +93,7 @@ const CALL_EXPRESSIONS = [
 		return false;
 	};
 
-	return node => match(node.callee, format.split('.'));
+	return (node) => match(node.callee, format.split('.'));
 });
 
 module.exports = {
@@ -114,7 +114,7 @@ module.exports = {
 							if (
 								previous.type === 'ExpressionStatement' &&
 								previous.expression.type === 'CallExpression' &&
-								CALL_EXPRESSIONS.some(isMatch => {
+								CALL_EXPRESSIONS.some((isMatch) => {
 									return isMatch(previous.expression);
 								})
 							) {
@@ -135,7 +135,7 @@ module.exports = {
 
 								if (newlines === 1) {
 									context.report({
-										fix: fixer => {
+										fix: (fixer) => {
 											return fixer.replaceTextRange(
 												[start, end],
 												expanded

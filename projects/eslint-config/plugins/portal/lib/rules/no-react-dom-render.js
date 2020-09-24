@@ -12,7 +12,7 @@ const DESCRIPTION =
 
 module.exports = {
 	create(context) {
-		const isReactDOMImport = node => {
+		const isReactDOMImport = (node) => {
 			const ancestors = context.getAncestors(node);
 
 			const parent = ancestors[ancestors.length - 1];
@@ -45,7 +45,7 @@ module.exports = {
 			}
 		};
 
-		const report = node =>
+		const report = (node) =>
 			context.report({
 				messageId: 'noReactDOMRender',
 				node,
@@ -130,14 +130,17 @@ module.exports = {
 				if (isReactDOMImport(node)) {
 					add(
 						foundBindings,
-						context.getDeclaredVariables(node).filter(variable => {
-							return (
-								variable.defs[0] &&
-								variable.defs[0].node &&
-								variable.defs[0].node.imported &&
-								variable.defs[0].node.imported.name === 'render'
-							);
-						})
+						context
+							.getDeclaredVariables(node)
+							.filter((variable) => {
+								return (
+									variable.defs[0] &&
+									variable.defs[0].node &&
+									variable.defs[0].node.imported &&
+									variable.defs[0].node.imported.name ===
+										'render'
+								);
+							})
 					);
 				}
 			},
@@ -165,7 +168,7 @@ module.exports = {
 							foundBindings,
 							context
 								.getDeclaredVariables(node)
-								.filter(variable => {
+								.filter((variable) => {
 									return (
 										variable.references[0] &&
 										variable.references[0].identifier &&

@@ -22,7 +22,7 @@ function prepareConfig() {
 
 	const extendsArray = Array.isArray(rc.extends) ? rc.extends : [rc.extends];
 
-	rc.extends = extendsArray.map(config => {
+	rc.extends = extendsArray.map((config) => {
 		if (config === 'liferay') {
 			return path.join(__dirname, '../index.js');
 		} else {
@@ -36,7 +36,7 @@ function prepareConfig() {
 function formatConfig(config) {
 	return (
 		'module.exports = ' +
-		JSON.stringify(config, null, 1).replace(/^ +/gm, match =>
+		JSON.stringify(config, null, 1).replace(/^ +/gm, (match) =>
 			'\t'.repeat(match.length)
 		) +
 		';'

@@ -19,15 +19,12 @@ module.exports = {
 
 			const expected =
 				leadingWhitespace +
-				classes
-					.split(/\s+/)
-					.sort()
-					.join(' ') +
+				classes.split(/\s+/).sort().join(' ') +
 				trailingWhitespace;
 
 			if (value !== expected) {
 				context.report({
-					fix: fixer => [
+					fix: (fixer) => [
 						fixer.replaceText(
 							node,
 							`${delimiter}${expected}${delimiter}`

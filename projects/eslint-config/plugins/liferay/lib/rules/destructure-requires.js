@@ -47,7 +47,7 @@ module.exports = {
 					}
 
 					context.report({
-						fix: fixer => {
+						fix: (fixer) => {
 							return [
 								fixer.replaceText(
 									node.parent,

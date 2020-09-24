@@ -47,7 +47,7 @@ function getSortKey(node) {
 	let tieBreaker;
 
 	if (node.type === 'ImportDeclaration') {
-		const specifiers = node.specifiers.map(specifier => {
+		const specifiers = node.specifiers.map((specifier) => {
 			// Note tie breaking order here:
 			//
 			//      * as name
@@ -69,11 +69,11 @@ function getSortKey(node) {
 	} else if (node.type === 'VariableDeclaration') {
 		// ie. `const ... = require('...');`
 
-		const declarations = node.declarations.map(declaration => {
+		const declarations = node.declarations.map((declaration) => {
 			if (declaration.id.type === 'Identifier') {
 				return declaration.id.name;
 			} else if (declaration.id.type === 'ObjectPattern') {
-				const properties = declaration.id.properties.map(property => {
+				const properties = declaration.id.properties.map((property) => {
 					if (property.type === 'Property') {
 						return `${property.key.name}:${property.value.name}`;
 					} else if (property.type === 'ExperimentalRestProperty') {
@@ -166,7 +166,7 @@ module.exports = {
 			},
 
 			['Program:exit'](_node) {
-				const problems = imports.map(group => {
+				const problems = imports.map((group) => {
 					const desired = [...group].sort((a, b) =>
 						compare(getSortKey(a), getSortKey(b))
 					);
@@ -193,7 +193,7 @@ module.exports = {
 						return {
 							description: desired
 								.slice(firstMismatch, lastMismatch + 1)
-								.map(node => JSON.stringify(getSource(node)))
+								.map((node) => JSON.stringify(getSource(node)))
 								.join(' << '),
 							desired,
 							firstMismatch,
@@ -223,7 +223,7 @@ module.exports = {
 						`(expected: ${description})`;
 
 					context.report({
-						fix: fixer => {
+						fix: (fixer) => {
 							const fixings = [];
 
 							const code = context.getSourceCode();

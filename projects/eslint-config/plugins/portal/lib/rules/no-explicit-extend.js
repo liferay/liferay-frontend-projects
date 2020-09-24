@@ -123,7 +123,7 @@ module.exports = {
 						pendingDeletions.set(node.parent, node.parent);
 					} else {
 						context.report({
-							fix: fixer =>
+							fix: (fixer) =>
 								fix(pendingDeletions.get(node), context, fixer),
 							messageId,
 							node,
@@ -165,7 +165,7 @@ module.exports = {
 			'Property:exit'(node) {
 				if (pendingDeletions.has(node)) {
 					context.report({
-						fix: fixer => fix(node, context, fixer),
+						fix: (fixer) => fix(node, context, fixer),
 						messageId,
 						node,
 					});

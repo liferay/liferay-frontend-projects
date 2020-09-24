@@ -19,7 +19,7 @@
   "repository": "https://github.com/liferay/liferay-frontend-projects",
   "version": "0.0.1",
   "workspaces": [
-    "projects/eslint-config",
-    "projects/npm-tools/packages/*"
+    "projects/*",
+    "projects/*/packages/*"
   ]
 }

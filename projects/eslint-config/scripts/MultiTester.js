@@ -41,7 +41,7 @@ class MultiTester extends RuleTester {
 		Object.entries(this._liferay.parsers).forEach(([key, parser]) => {
 			// Not all tests can run on all parsers, so we filter first.
 
-			const handleSkips = test => {
+			const handleSkips = (test) => {
 				const {skip, ...config} = test;
 				if (skip && skip.includes(key)) {
 					return false;

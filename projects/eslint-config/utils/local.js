@@ -50,7 +50,7 @@ function patch() {
 
 			originalResolve = resolver.resolve;
 
-			resolver.resolve = function(id, ...rest) {
+			resolver.resolve = function (id, ...rest) {
 				if (localPlugins.has(id)) {
 					return localPlugins.get(id);
 				} else {
@@ -62,7 +62,7 @@ function patch() {
 		if (!originalRequire) {
 			originalRequire = Module.prototype.require;
 
-			Module.prototype.require = function(id) {
+			Module.prototype.require = function (id) {
 				if (localPlugins.has(id)) {
 					return originalRequire.call(this, localPlugins.get(id));
 				} else {

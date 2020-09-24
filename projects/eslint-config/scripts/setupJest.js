@@ -9,7 +9,7 @@ const {RuleTester} = require('eslint');
 
 let counter;
 
-RuleTester.describe = function(description, method) {
+RuleTester.describe = function (description, method) {
 	counter = 1;
 
 	describe(description, method);
@@ -17,10 +17,10 @@ RuleTester.describe = function(description, method) {
 
 const MAX_DESCRIPTION_LENGTH = 40;
 
-RuleTester.it = function(description, method) {
+RuleTester.it = function (description, method) {
 	let prettifiedDescription = description.replace(
 		/\\u0009|\\u000a/g,
-		match => {
+		(match) => {
 			if (match === '\\u0009') {
 				return '\\t';
 			} else {

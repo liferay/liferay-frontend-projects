@@ -6,7 +6,7 @@
 function getLeadingComments(node, context) {
 	const code = context.getSourceCode();
 
-	const comments = code.getCommentsBefore(node).filter(comment => {
+	const comments = code.getCommentsBefore(node).filter((comment) => {
 		const precedes =
 			comment.loc.end.line === node.loc.start.line - 1 ||
 			comment.loc.end.line === node.loc.start.line;
@@ -100,7 +100,7 @@ function getTrailingComments(node, context) {
 	return context
 		.getSourceCode()
 		.getCommentsAfter(node)
-		.filter(comment => comment.loc.start.line === node.loc.end.line);
+		.filter((comment) => comment.loc.start.line === node.loc.end.line);
 }
 
 /**
@@ -193,7 +193,7 @@ function isRequireStatement(node) {
 function withScope() {
 	const scope = [];
 
-	const enterScope = node => scope.push(node);
+	const enterScope = (node) => scope.push(node);
 	const exitScope = () => scope.pop();
 
 	return {

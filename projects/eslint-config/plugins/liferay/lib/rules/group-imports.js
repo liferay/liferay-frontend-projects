@@ -37,7 +37,7 @@ module.exports = {
 
 				const newlines = [];
 
-				between.replace(/(?:\r\n|\n)[ \t]*/g, match => {
+				between.replace(/(?:\r\n|\n)[ \t]*/g, (match) => {
 					newlines.push(match);
 
 					return match;
@@ -71,7 +71,7 @@ module.exports = {
 					)})`;
 
 				context.report({
-					fix: fixer => {
+					fix: (fixer) => {
 						return fixer.replaceTextRange([start, end], fixed);
 					},
 					message,

@@ -134,8 +134,8 @@ function fix(line) {
 
 function isValid(line) {
 	if (DEPRECATED.test(line)) {
-		return FORMATS.some(format => {
-			return Array.from(VERSIONS.values()).some(version => {
+		return FORMATS.some((format) => {
+			return Array.from(VERSIONS.values()).some((version) => {
 				const pattern = format.replace('<VERSION>', escape(version));
 
 				const regExp = new RegExp(`^\\s+\\* ${pattern}(?:\r?\n)?$`);
@@ -171,7 +171,7 @@ module.exports = {
 				context
 					.getSourceCode()
 					.getAllComments()
-					.forEach(comment => {
+					.forEach((comment) => {
 						if (!DEPRECATED.test(comment.value)) {
 							return;
 						}
@@ -186,7 +186,7 @@ module.exports = {
 							let fixable = true;
 
 							const lines = splitLines(comment.value).map(
-								line => {
+								(line) => {
 									if (isValid(line)) {
 										return line;
 									} else {
@@ -214,7 +214,7 @@ module.exports = {
 									];
 
 									context.report({
-										fix: fixer => {
+										fix: (fixer) => {
 											return fixer.replaceTextRange(
 												range,
 												lines.join('')

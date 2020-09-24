@@ -51,7 +51,7 @@ module.exports = {
 
 			if (stripped !== original) {
 				context.report({
-					fix: fixer =>
+					fix: (fixer) =>
 						fixer.replaceText(
 							node,
 							`${delimiter}${stripped}${delimiter}`

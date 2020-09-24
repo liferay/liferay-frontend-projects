@@ -10,23 +10,23 @@ module.exports = {
 	create(context) {
 		let foundFetchImport = false;
 
-		const isFetchIdentifier = node => {
+		const isFetchIdentifier = (node) => {
 			return node.type === 'Identifier' && node.name === 'fetch';
 		};
 
-		const isValidDefaultImport = node => {
+		const isValidDefaultImport = (node) => {
 			return (
 				node.source.value.endsWith('/fetch.es') &&
 				node.specifiers.find(
-					specifier => specifier.type === 'ImportDefaultSpecifier'
+					(specifier) => specifier.type === 'ImportDefaultSpecifier'
 				)
 			);
 		};
 
-		const isValidNamedImport = node => {
+		const isValidNamedImport = (node) => {
 			return (
 				node.source.value === 'frontend-js-web' &&
-				node.specifiers.find(specifier => {
+				node.specifiers.find((specifier) => {
 					return (
 						specifier.imported &&
 						specifier.imported.name === 'fetch'

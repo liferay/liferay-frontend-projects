@@ -17,7 +17,7 @@ module.exports = {
 					const source = context.getSourceCode();
 
 					context.report({
-						fix: fixer => {
+						fix: (fixer) => {
 							return fixer.replaceText(
 								node,
 								`Array.isArray(${source.getText(node.left)})`

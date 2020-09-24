@@ -9,7 +9,7 @@ module.exports = {
 	create(context) {
 		return {
 			ImportDeclaration(node) {
-				const specifiers = node.specifiers.filter(specifier => {
+				const specifiers = node.specifiers.filter((specifier) => {
 					// Just `ImportSpecifier` (ignore `ImportDefaultSpecifier`).
 
 					return specifier.type === 'ImportSpecifier';
@@ -74,7 +74,7 @@ module.exports = {
 						}
 
 						context.report({
-							fix: fixer =>
+							fix: (fixer) =>
 								fixer.replaceTextRange([start, end], fixed),
 							message: DESCRIPTION,
 							node,
