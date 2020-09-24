@@ -1,9 +1,9 @@
 {
-	"name": "liferay-js-insights",
-	"version": "0.0.0",
+	"name": "@liferay/js-insights",
+	"version": "0.0.1",
 	"description": "Tool that analyzes Liferay's JS code base to produce valuable insights about usages, dependencies, features...",
 	"main": "index.js",
-	"repository": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-insights",
+	"repository": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-insights",
 	"license": "BSD-3-Clause",
 	"keywords": [
 		"code",

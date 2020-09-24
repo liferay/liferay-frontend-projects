@@ -76,8 +76,8 @@ async function getModuleMeta(modulePath) {
 /**
  * Considers the first non-namespaced param as the entry glob. For example:
  *
- * 	`npx liferay-js-insights --json modules/private/apps`
- * 	`npx liferay-js-insights --airtable src/*.es.js`
+ * 	`npx @liferay/js-insights --json modules/private/apps`
+ * 	`npx @liferay/js-insights --airtable src/*.es.js`
  */
 (async () => {
 	const data = [];

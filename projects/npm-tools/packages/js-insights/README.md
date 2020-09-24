@@ -1,4 +1,4 @@
-# liferay-js-insights
+# @liferay/js-insights
 
 > A simple dependency analysis reporter. It scans ES6 modules for imports and generate a report on used external packages.
 
@@ -6,8 +6,8 @@
 
 Either:
 
--   Install globally: `yarn global add liferay-js-insights`; or:
--   Use the latest without installing: `npx liferay-js-insights` (see below for usage).
+-   Install globally: `yarn global add @liferay/js-insights`; or:
+-   Use the latest without installing: `npx @liferay/js-insights` (see below for usage).
 
 ## Usage
 
@@ -30,7 +30,7 @@ By default, a table-based report will be displayed on screen unless a different 
 
 You can choose which insight fields to show by passing them as comma-separated-values in the `--output` argument. By default, the table will show the `meta.app`, `meta.name`, `dependencies.clay3` and `dependencies.react` fields.
 
-`npx liferay-js-insights --output meta.app,meta.name,dependencies.react src/**/*.es.js`
+`npx @liferay/js-insights --output meta.app,meta.name,dependencies.react src/**/*.es.js`
 
 ![Default Table Report](/docs/img/report_table.png)
 
@@ -38,7 +38,7 @@ You can choose which insight fields to show by passing them as comma-separated-v
 
 When the `--json` flag is passed, collected insights will be dumped in a `${name}.json` file. The name of the file can be passed using the `--name` flag. If no flag is passed the name will be that of the cwd last folder.
 
-`npx liferay-js-insights --json src/**/*.es.js`
+`npx @liferay/js-insights --json src/**/*.es.js`
 
 ![Default Table Report](/docs/img/report_json.png)
 
@@ -64,7 +64,7 @@ The setup in advance requires:
 
 -   The Table name should be provided as `--output`. If none is passed, it defaults to `master`.
 
-`npx liferay-js-insights --airtable src/**/*.es.js`
+`npx @liferay/js-insights --airtable src/**/*.es.js`
 
 ![Default Table Report](/docs/img/report_airtable.png)
 
