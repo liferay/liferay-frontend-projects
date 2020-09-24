@@ -61,7 +61,7 @@ In the example of [eslint-config-liferay](https://github.com/liferay/eslint-conf
     ```
 5.  Check the package page on npmjs.org to confirm the release is showing up correctly; the release should be at a URL like: [npmjs.com/package/@liferay/eslint-config](https://www.npmjs.com/package/@liferay/eslint-config)
 
-6.  Check the release page on GitHub to confirm that the release is showing up there too; it should be at a URL like: [github.com/liferay/eslint-config-liferay/releases/tag/v21.1.0](https://github.com/liferay/eslint-config-liferay/releases/tag/v21.1.0)
+6.  Check the release page on GitHub to confirm that the release is showing up there too; it should be at a URL like: [github.com/liferay/liferay-frontend-projects/releases/tag/eslint-config/v21.1.0](https://github.com/liferay/liferay-frontend-projects/releases/tag/eslint-config/v21.1.0)
 
     > :construction: At the moment, we haven't taught liferay-changelog-generator how to emit release notes for this kind of release. We'll remedy that shortly.
 
