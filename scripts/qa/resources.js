@@ -8,7 +8,9 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const qaDir = path.join(__dirname, '..', '..', 'qa');
+const workspaceDir = path.join(__dirname, '..', '..');
+const projectsDir = path.join(workspaceDir, 'packages');
+const qaDir = path.join(workspaceDir, 'qa');
 const samplesDir = path.join(qaDir, 'samples');
 const packagesDir = path.join(samplesDir, 'packages');
 
@@ -81,9 +83,11 @@ module.exports = {
 	linkJsToolkitPath,
 	linkJsToolkitProjectDir,
 	packagesDir,
+	projectsDir,
 	qaDir,
 	samplesDir,
 	yoPath,
+	workspaceDir,
 };
 
 function findLiferayDir() {
