@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-env jest */
+
 const diff = require('jest-diff');
 const path = require('path');
 const stylelint = require('stylelint');

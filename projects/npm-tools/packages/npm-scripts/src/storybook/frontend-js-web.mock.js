@@ -4,6 +4,7 @@
  */
 
 /* eslint-disable no-console */
+/* eslint-env browser */
 
 module.exports = {
 	CompatibilityEventProxy: () => {},

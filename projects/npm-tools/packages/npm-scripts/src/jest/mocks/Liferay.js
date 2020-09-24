@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-env jest */
+
 const authToken = 'default-mocked-auth-token';
 
 /**
