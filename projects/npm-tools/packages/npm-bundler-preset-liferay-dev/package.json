@@ -1,9 +1,5 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "@liferay/npm-bundler-preset-liferay-dev",
-	"version": "4.6.2",
-	"description": "Default configuration for liferay-npm-bundler inside liferay-portal.",
-	"main": "config.json",
 	"dependencies": {
 		"babel-preset-liferay-standard": "2.19.2",
 		"liferay-npm-bundler-loader-css-loader": "2.19.2",
@@ -14,11 +10,14 @@
 		"liferay-npm-bundler-plugin-replace-browser-modules": "2.19.2",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.19.2"
 	},
+	"description": "Default configuration for liferay-npm-bundler inside liferay-portal.",
 	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/npm-bundler-preset-liferay-dev",
+	"main": "config.json",
+	"name": "@liferay/npm-bundler-preset-liferay-dev",
 	"repository": {
+		"directory": "projects/npm-tools/packages/npm-bundler-preset-liferay-dev",
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects",
-		"directory": "projects/npm-tools/packages/npm-bundler-preset-liferay-dev"
+		"url": "https://github.com/liferay/liferay-frontend-projects"
 	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",
@@ -26,5 +25,6 @@
 		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for @liferay/npm-bundler-preset-liferay-dev'"
-	}
+	},
+	"version": "4.6.2"
 }

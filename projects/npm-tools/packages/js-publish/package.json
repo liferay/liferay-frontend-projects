@@ -3,6 +3,9 @@
 	"bin": {
 		"liferay-js-publish": "./bin/liferay-js-publish.js"
 	},
+	"dependencies": {
+		"cross-spawn": "7.0.1"
+	},
 	"description": "Publishes an NPM package via \"yarn version\"",
 	"files": [
 		"bin",
@@ -24,8 +27,5 @@
 		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for @liferay/js-publish'"
 	},
-	"version": "1.1.0",
-	"dependencies": {
-		"cross-spawn": "7.0.1"
-	}
+	"version": "1.1.0"
 }

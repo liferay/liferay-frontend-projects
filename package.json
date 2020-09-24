@@ -1,10 +1,10 @@
 {
-  "name": "liferay-frontend-projects",
-  "version": "0.0.1",
-  "description": "Liferay's Frontend Infrastructure Team monorepo",
-  "main": "index.js",
-  "repository": "https://github.com/liferay/liferay-frontend-projects",
   "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+  "description": "Liferay's Frontend Infrastructure Team monorepo",
   "license": "See LICENSE.md",
-  "private": true
+  "main": "index.js",
+  "name": "liferay-frontend-projects",
+  "private": true,
+  "repository": "https://github.com/liferay/liferay-frontend-projects",
+  "version": "0.0.1"
 }

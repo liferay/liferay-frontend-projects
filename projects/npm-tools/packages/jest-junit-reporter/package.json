@@ -1,8 +1,24 @@
 {
-	"name": "@liferay/jest-junit-reporter",
-	"version": "1.2.0",
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"dependencies": {
+		"strip-ansi": "6.0.0",
+		"xml": "^1.0.1"
+	},
 	"description": "A JUnit reporter for Jest and Liferay CI",
+	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/jest-junit-reporter",
+	"jest": {
+		"testMatch": [
+			"**/test/**/*.js"
+		]
+	},
+	"license": "BSD-3-Clause",
 	"main": "src/index.js",
+	"name": "@liferay/jest-junit-reporter",
+	"repository": {
+		"directory": "projects/npm-tools/packages/jest-junit-reporter",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects"
+	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",
 		"postpublish": "echo '***'; echo 'NOTE: Remember to update and publish @liferay/npm-scripts'; echo '***'",
@@ -10,21 +26,5 @@
 		"preversion": "yarn ci",
 		"test": "jest"
 	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects",
-		"directory": "projects/npm-tools/packages/jest-junit-reporter"
-	},
-	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"license": "BSD-3-Clause",
-	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/jest-junit-reporter",
-	"dependencies": {
-		"strip-ansi": "6.0.0",
-		"xml": "^1.0.1"
-	},
-	"jest": {
-		"testMatch": [
-			"**/test/**/*.js"
-		]
-	}
+	"version": "1.2.0"
 }

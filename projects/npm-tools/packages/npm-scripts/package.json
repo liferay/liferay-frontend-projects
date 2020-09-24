@@ -1,14 +1,5 @@
 {
-	"name": "@liferay/npm-scripts",
-	"version": "32.7.0",
-	"description": "Collection of NPM scripts used in Liferay DXP",
-	"main": "index.js",
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"license": "BSD-3-Clause",
-	"files": [
-		"bin",
-		"src"
-	],
 	"bin": {
 		"liferay-npm-scripts": "./bin/liferay-npm-scripts.js"
 	},
@@ -77,18 +68,12 @@
 		"webpack-cli": "^3.3.6",
 		"webpack-dev-server": "^3.7.2"
 	},
+	"description": "Collection of NPM scripts used in Liferay DXP",
+	"files": [
+		"bin",
+		"src"
+	],
 	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/npm-scripts",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects",
-		"directory": "projects/npm-tools/packages/npm-scripts"
-	},
-	"scripts": {
-		"ci": "cd ../.. && yarn ci",
-		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
-		"preversion": "yarn ci",
-		"test": "jest"
-	},
 	"jest": {
 		"setupFilesAfterEnv": [
 			"<rootDir>/support/jest/matchers.js"
@@ -96,5 +81,20 @@
 		"testMatch": [
 			"**/test/**/*.js"
 		]
-	}
+	},
+	"license": "BSD-3-Clause",
+	"main": "index.js",
+	"name": "@liferay/npm-scripts",
+	"repository": {
+		"directory": "projects/npm-tools/packages/npm-scripts",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects"
+	},
+	"scripts": {
+		"ci": "cd ../.. && yarn ci",
+		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
+		"preversion": "yarn ci",
+		"test": "jest"
+	},
+	"version": "32.7.0"
 }

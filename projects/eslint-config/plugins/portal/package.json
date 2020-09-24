@@ -1,11 +1,11 @@
 {
-	"name": "eslint-plugin-liferay-portal",
-	"version": "1.0.0",
-	"main": "index.js",
 	"directories": {
 		"doc": "docs",
 		"lib": "lib",
 		"test": "tests"
 	},
-	"private": true
+	"main": "index.js",
+	"name": "eslint-plugin-liferay-portal",
+	"private": true,
+	"version": "1.0.0"
 }

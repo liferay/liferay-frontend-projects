@@ -1,18 +1,5 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "@liferay/js-insights",
-	"version": "0.0.1",
-	"description": "Tool that analyzes Liferay's JS code base to produce valuable insights about usages, dependencies, features...",
-	"main": "index.js",
-	"repository": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-insights",
-	"license": "BSD-3-Clause",
-	"keywords": [
-		"code",
-		"insights",
-		"js",
-		"usage",
-		"statistics"
-	],
 	"dependencies": {
 		"@babel/parser": "^7.6.0",
 		"@babel/traverse": "^7.6.2",
@@ -22,7 +9,24 @@
 		"find-up": "^4.1.0",
 		"globby": "11.0.0"
 	},
+	"description": "Tool that analyzes Liferay's JS code base to produce valuable insights about usages, dependencies, features...",
+	"keywords": [
+		"code",
+		"insights",
+		"js",
+		"statistics",
+		"usage"
+	],
+	"license": "BSD-3-Clause",
+	"main": "index.js",
+	"name": "@liferay/js-insights",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "projects/npm-tools/packages/js-insights"
+	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci"
-	}
+	},
+	"version": "0.0.1"
 }
