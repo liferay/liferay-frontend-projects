@@ -22,8 +22,5 @@
 		"preversion": "echo Cannot version top-level private package; false",
 		"test": "jest"
 	},
-	"workspaces": [
-		"packages/*"
-	],
 	"version": "0.1.0"
 }
