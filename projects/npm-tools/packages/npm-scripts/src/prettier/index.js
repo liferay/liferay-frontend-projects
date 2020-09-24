@@ -31,7 +31,7 @@ const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
 
 const linter = new Linter();
 
-/* eslint-disable liferay/no-require-and-call */
+/* eslint-disable @liferay/liferay/no-require-and-call */
 
 /**
  * Custom rule because ESLint's `'brace-style': ['error', 'stroustrup']` ignores
@@ -42,7 +42,7 @@ linter.defineRule(
 	require('./rules/newline-before-block-statements')
 );
 
-/* eslint-enable liferay/no-require-and-call */
+/* eslint-enable @liferay/liferay/no-require-and-call */
 
 linter.defineParser('babel-eslint', babelEslint);
 

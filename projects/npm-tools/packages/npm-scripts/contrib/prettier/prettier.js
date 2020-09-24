@@ -1076,7 +1076,7 @@ function prepare(filepath) {
 	try {
 		process.chdir(dir);
 
-		// eslint-disable-next-line liferay/no-dynamic-require
+		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 		prettier = require(file);
 	} catch (_error) {
 		// All hope is lost.
