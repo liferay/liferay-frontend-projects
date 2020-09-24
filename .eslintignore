@@ -1,0 +1,6 @@
+# Templates.
+/copyright.js
+/projects/*/copyright.js
+
+# Third-party code.
+node_modules

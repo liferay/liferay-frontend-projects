@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -7,22 +7,11 @@ const path = require('path');
 
 module.exports = {
 	env: {
-		// Available environments: https://eslint.org/docs/user-guide/configuring#specifying-environments
-
-		es6: true,
+		browser: true,
+		jest: true,
 		node: true,
 	},
 	extends: '@liferay',
-	globals: {
-		AUI: true,
-		CKEDITOR: true,
-		Liferay: true,
-		alert: true,
-		confirm: true,
-		submitForm: true,
-		themeDisplay: true,
-		tinyMCE: true,
-	},
 	parserOptions: {
 		ecmaVersion: 2018,
 	},

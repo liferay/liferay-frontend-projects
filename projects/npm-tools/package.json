@@ -9,13 +9,13 @@
 	},
 	"private": true,
 	"scripts": {
-		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write \"**/*.js\" \"**/*.json\" \"**/*.md\"",
-		"format:check": "prettier --list-different \"**/*.js\" \"**/*.json\" \"**/*.md\"",
-		"lint": "eslint \".*.js\" \"**/*.js\"",
-		"lint:fix": "eslint --fix \".*.js\" \"**/*.js\"",
-		"preversion": "echo Cannot version top-level private package; false",
-		"test": "jest"
+		"ci": "cd ../.. && yarn ci",
+		"format": "cd ../.. && yarn format",
+		"format:check": "cd ../.. && yarn format:check",
+		"lint": "cd ../.. && yarn lint",
+		"lint:fix": "cd ../.. && yarn lint:fix",
+		"preversion": "echo Cannot version private package; false",
+		"test": "cd ../.. && yarn test"
 	},
 	"version": "0.1.0"
 }

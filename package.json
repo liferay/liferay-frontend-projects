@@ -1,25 +1,33 @@
 {
-  "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-  "dependencies": {
-    "@liferay/eslint-config": "*"
-  },
-  "description": "Liferay's Frontend Infrastructure Team monorepo",
-  "devDependencies": {
-    "@typescript-eslint/parser": "4.2.0",
-    "babel-eslint": "10.1.0",
-    "eslint": "7.9.0",
-    "jest": "26.4.2",
-    "prettier": "2.1.2",
-    "typescript": "4.0.3"
-  },
-  "license": "See LICENSE.md",
-  "main": "index.js",
-  "name": "liferay-frontend-projects",
-  "private": true,
-  "repository": "https://github.com/liferay/liferay-frontend-projects",
-  "version": "0.0.1",
-  "workspaces": [
-    "projects/*",
-    "projects/*/packages/*"
-  ]
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"dependencies": {
+		"@liferay/eslint-config": "*"
+	},
+	"description": "Liferay's Frontend Infrastructure Team monorepo",
+	"devDependencies": {
+		"@typescript-eslint/parser": "4.2.0",
+		"babel-eslint": "10.1.0",
+		"eslint": "7.9.0",
+		"jest": "26.4.2",
+		"prettier": "2.1.2",
+		"typescript": "4.0.3"
+	},
+	"license": "See LICENSE.md",
+	"main": "index.js",
+	"name": "liferay-frontend-projects",
+	"private": true,
+	"repository": "https://github.com/liferay/liferay-frontend-projects",
+	"scripts": {
+		"ci": "yarn format:check && yarn lint && yarn test",
+		"format": "prettier --write \"**/*.{js,json,md}\" \"**/*.js\"",
+		"format:check": "prettier --list-different \"**/*.{js,json,md}\" \"**/*.js\"",
+		"lint": "eslint \"**/*.js\" \"**/.*.js\"",
+		"lint:fix": "eslint --fix \"**/*.js\" \"**/.*.js\"",
+		"test": "jest"
+	},
+	"version": "0.0.1",
+	"workspaces": [
+		"projects/*",
+		"projects/*/packages/*"
+	]
 }

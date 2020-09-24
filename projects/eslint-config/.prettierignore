@@ -1,5 +1,0 @@
-# Generated file.
-/.eslintrc-internal.js
-
-# We don't want Prettier to strip the trailing blank line.
-/copyright.js

@@ -74,14 +74,6 @@
 		"src"
 	],
 	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/npm-scripts",
-	"jest": {
-		"setupFilesAfterEnv": [
-			"<rootDir>/support/jest/matchers.js"
-		],
-		"testMatch": [
-			"**/test/**/*.js"
-		]
-	},
 	"license": "BSD-3-Clause",
 	"main": "index.js",
 	"name": "@liferay/npm-scripts",

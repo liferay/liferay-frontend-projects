@@ -4,9 +4,6 @@
  */
 
 module.exports = {
-	bracketSpacing: false,
-	singleQuote: true,
-	tabWidth: 4,
-	trailingComma: 'es5',
-	useTabs: true,
+	setupFilesAfterEnv: ['<rootDir>/support/jest/matchers.js'],
+	testMatch: ['**/test/**/*.js'],
 };

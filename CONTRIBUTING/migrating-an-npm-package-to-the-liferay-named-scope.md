@@ -2,10 +2,10 @@
 
 It is desirable to have our packages under the `@liferay` [named scope](https://docs.npmjs.com/using-npm/scope.html) for a few reasons:
 
-- Easier discovery (eg. at-a-glance view of all of our packages).
-- Easier management (eg. centralized access control).
-- Clear way of distinguishing packages as officially "built-by-Liferay" as opposed to just "has-a-liferay-prefix-but-could-be-built-by-anyone".
-- Namespace reserved just for us, so we can always secure the package names we want without having to compete with pre-existing registrations.
+-   Easier discovery (eg. at-a-glance view of all of our packages).
+-   Easier management (eg. centralized access control).
+-   Clear way of distinguishing packages as officially "built-by-Liferay" as opposed to just "has-a-liferay-prefix-but-could-be-built-by-anyone".
+-   Namespace reserved just for us, so we can always secure the package names we want without having to compete with pre-existing registrations.
 
 Moving an existing package to the `@liferay` named scope consists of the following steps:
 
@@ -59,6 +59,7 @@ In the example of [eslint-config-liferay](https://github.com/liferay/eslint-conf
     git push upstream --follow-tags --dry-run # sanity-check first
     git push upstream --follow-tags
     ```
+
 5.  Check the package page on npmjs.org to confirm the release is showing up correctly; the release should be at a URL like: [npmjs.com/package/@liferay/eslint-config](https://www.npmjs.com/package/@liferay/eslint-config)
 
 6.  Check the release page on GitHub to confirm that the release is showing up there too; it should be at a URL like: [github.com/liferay/liferay-frontend-projects/releases/tag/eslint-config/v21.1.0](https://github.com/liferay/liferay-frontend-projects/releases/tag/eslint-config/v21.1.0)
@@ -82,7 +83,7 @@ Once you've done that, `yarn owner list` should show that all team members have 
 
 ### Deprecating the old package
 
-As a final step, use [`npm deprecate`]( https://docs.npmjs.com/cli/deprecate) to direct people to use the new package. For example:
+As a final step, use [`npm deprecate`](https://docs.npmjs.com/cli/deprecate) to direct people to use the new package. For example:
 
 ```sh
 npm deprecate eslint-config-liferay 'Please see @liferay/eslint-config instead'
