@@ -5,6 +5,7 @@
  */
 
 const fs = require('fs-extra');
+const os = require('os');
 const path = require('path');
 
 const generateSamples = require('./generate-samples');
@@ -13,6 +14,7 @@ const {
 	liferayDir,
 	linkJsToolkitPath,
 	linkJsToolkitProjectDir,
+	projectsDir,
 	qaDir,
 	samplesDir,
 } = require('./resources');
@@ -63,6 +65,23 @@ if (argv['install']) {
 
 	spawn('npm', ['install'], {
 		cwd: linkJsToolkitProjectDir,
+	});
+
+	fs.readdirSync(projectsDir).forEach(projectName => {
+		const projectDir = path.join(projectsDir, projectName);
+		const pkgJson = fs.readJsonSync(path.join(projectDir, 'package.json'));
+
+		if (pkgJson.bin) {
+			Object.keys(pkgJson.bin).forEach(bin =>
+				safeUnlink(path.join(os.homedir(), '.yarn', 'bin', bin))
+			);
+		}
+
+		safeUnlink(
+			path.join(os.homedir(), '.config', 'yarn', 'link', projectName)
+		);
+
+		spawn('yarn', ['link'], {cwd: projectDir});
 	});
 
 	spawn('node', [linkJsToolkitPath, '-w'], {
