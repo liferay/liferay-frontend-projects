@@ -74,7 +74,7 @@ yarn version --new-version x.y.z
 
 This was [originally](https://github.com/liferay/liferay-npm-tools/commit/ce2db371cce6fb2fbfbe7795dfe8807cd682e959#diff-d5ba1d0718faa51781762ae13a1c1a4a) just a `publish.js` script in the root of [the liferay-npm-tools repository](https://github.com/liferay/liferay-npm-tools).
 
-Similar to what we did with [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator), we extracted it into an NPM package so that it could be used from other projects, such as [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay). The intention for it is to be a very small script with (almost) no dependencies.
+Similar to what we did with [@liferay/changelog-generator](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/changelog-generator), we extracted it into an NPM package so that it could be used from other projects, such as [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay). The intention for it is to be a very small script with (almost) no dependencies.
 
 ## Example projects using liferay-js-publish
 

@@ -1,4 +1,4 @@
-# liferay-changelog-generator
+# @liferay/changelog-generator
 
 > A crude and unsophisticated script for generating or updating CHANGELOG.md based on the local Git history. It was born out of [frustration with other tools](https://github.com/liferay/liferay-js-themes-toolkit/issues/221) that were limited by GitHub API throttling or unable to cope with repos with multiple active branches.
 
@@ -22,9 +22,9 @@ When run in a monorepo, it can work in two ways:
 
 Either:
 
--   Install globally: `yarn global add liferay-changelog-generator`; or:
--   Add to a project: `yarn add --dev liferay-changelog-generator`; or:
--   Use the latest without installing: `npx liferay-changelog-generator` (see below for usage).
+-   Install globally: `yarn global add @liferay/changelog-generator`; or:
+-   Add to a project: `yarn add --dev @liferay/changelog-generator`; or:
+-   Use the latest without installing: `npx @liferay/changelog-generator` (see below for usage).
 
 ## Usage
 
@@ -43,7 +43,7 @@ Options:
   --version=VERSION            [required: version being released]
 ```
 
-## Example projects using liferay-changelog-generator
+## Example projects using @liferay/changelog-generator
 
 -   [Alloy Editor](https://github.com/liferay/alloy-editor) ([CHANGELOG](https://github.com/liferay/alloy-editor/blob/master/CHANGELOG.md)).
 -   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay) ([CHANGELOG](https://github.com/liferay/eslint-config-liferay/blob/master/CHANGELOG.md)).
@@ -61,4 +61,4 @@ We use it in the projects listed above because it is a simpler and more reliable
 
 At first glance, this may seem like a "reinvented wheel", but we haven't _invented_ anything; we've actually just _built_ a small, simple wheel (a single file with zero dependencies that in essence basically boils down to a wrapper around an invocation of `git log`) that's well adapted to our use case.
 
-[Clay](https://github.com/liferay/clay) is an example of a project that currently uses [Lerna](https://github.com/lerna/lerna). Lerna provides its own changelog functionality, among many other things, and `liferay-changelog-generator` is not intended to be a replacement for all of that.
+[Clay](https://github.com/liferay/clay) is an example of a project that currently uses [Lerna](https://github.com/lerna/lerna). Lerna provides its own changelog functionality, among many other things, and `@liferay/changelog-generator` is not intended to be a replacement for all of that.

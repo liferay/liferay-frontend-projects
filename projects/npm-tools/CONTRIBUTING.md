@@ -26,7 +26,7 @@ yarn ci
 cd packages/liferay-npm-scripts
 
 # Update the changelog:
-npx liferay-changelog-generator --version=29.0.1
+npx @liferay/changelog-generator --version=29.0.1
 
 # Review and stage the generated changes:
 git add -p
@@ -46,7 +46,7 @@ Copy the relevant section from the changelog to the corresponding entry on the [
 
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
--   https://www.npmjs.com/package/liferay-changelog-generator
+-   https://www.npmjs.com/package/@liferay/changelog-generator
 -   https://www.npmjs.com/package/liferay-jest-junit-reporter
 -   https://www.npmjs.com/package/liferay-js-insights
 -   https://www.npmjs.com/package/liferay-js-publish
@@ -105,7 +105,7 @@ yarn ci
 cd packages/liferay-npm-scripts
 
 # Update the changelog.
-npx liferay-changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
+npx @liferay/changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
 
 # Bump to the prerelease version number
 yarn version --new-version 9.5.0-beta.1

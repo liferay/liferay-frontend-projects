@@ -7,21 +7,21 @@
 		"bin",
 		"src"
 	],
-	"homepage": "https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator",
+	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/changelog-generator",
 	"license": "BSD-3-Clause",
 	"main": "index.js",
-	"name": "liferay-changelog-generator",
+	"name": "@liferay/changelog-generator",
 	"private": false,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-npm-tools",
-		"directory": "packages/liferay-changelog-generator"
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "projects/npm-tools/packages/changelog-generator"
 	},
 	"scripts": {
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../liferay-js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
-		"test": "echo 'No tests currently defined for liferay-changelog-generator'"
+		"test": "echo 'No tests currently defined for @liferay/changelog-generator'"
 	},
 	"version": "1.4.1"
 }
