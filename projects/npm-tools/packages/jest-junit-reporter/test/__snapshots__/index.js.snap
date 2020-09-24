@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`liferay-jest-junit-reporter writes a file for a failing test 1`] = `
+exports[`@liferay/jest-junit-reporter writes a file for a failing test 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
 <testsuite errors=\\"0\\" failures=\\"1\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter-tests\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
   <testcase classname=\\"test-module.bar\\" name=\\"Field DocumentLibrary should not be readOnly\\" time=\\"0.046\\">
@@ -20,7 +20,7 @@ Received: true
 </testsuite>"
 `;
 
-exports[`liferay-jest-junit-reporter writes a file for a passing test 1`] = `
+exports[`@liferay/jest-junit-reporter writes a file for a passing test 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
 <testsuite errors=\\"0\\" failures=\\"0\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter-tests\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
   <testcase classname=\\"test-module.bar\\" name=\\"Field DocumentLibrary should not be readOnly\\" time=\\"0.046\\">

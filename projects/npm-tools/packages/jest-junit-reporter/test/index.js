@@ -54,7 +54,7 @@ const passedTestReport = {
 	],
 };
 
-describe('liferay-jest-junit-reporter', () => {
+describe('@liferay/jest-junit-reporter', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
 

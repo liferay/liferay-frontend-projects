@@ -47,7 +47,7 @@ Copy the relevant section from the changelog to the corresponding entry on the [
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
 -   https://www.npmjs.com/package/@liferay/changelog-generator
--   https://www.npmjs.com/package/liferay-jest-junit-reporter
+-   https://www.npmjs.com/package/@liferay/jest-junit-reporter
 -   https://www.npmjs.com/package/liferay-js-insights
 -   https://www.npmjs.com/package/liferay-js-publish
 -   https://www.npmjs.com/package/liferay-npm-bundler-preset-liferay-dev
