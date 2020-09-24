@@ -6,4 +6,9 @@ This is an experimental exploration of the ideas proposed in [liferay-frontend-g
 
 ## Projects
 
-- [@liferay/eslint-config](./projects/eslint-config)
+-   [@liferay/eslint-config](./projects/eslint-config)
+-   [Liferay NPM Tools](./projects/npm-tools):
+    -   [@liferay/changelog-generator](./projects/npm-tools/packages/changelog-generator)
+    -   [@liferay/jest-junit-reporter](./projects/npm-tools/packages/jest-junit-reporter)
+    -   [@liferay/js-insights](./projects/npm-tools/packages/js-insights)
+    -   [@liferay/js-publish](./projects/npm-tools/packages/js-publish)
