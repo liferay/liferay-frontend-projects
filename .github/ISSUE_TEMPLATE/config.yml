@@ -2,5 +2,5 @@
 blank_issues_enabled: true
 contact_links:
     - name: 👮 Report a security issue
-      url: 'mailto:pt-frontend-infrastructure@liferay.com'
+      url: https://github.com/node-fetch/node-fetch/issues/new/choose
       about: Report security problems privately here
