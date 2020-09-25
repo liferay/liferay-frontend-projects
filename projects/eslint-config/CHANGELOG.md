@@ -1,3 +1,11 @@
+## [eslint-config/v21.1.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.1.0) (2020-09-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-eslint-config/v21.1.0...eslint-config/v21.1.0)
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate eslint-config-liferay to @liferay/eslint-config ([b0174d9d5fd](https://github.com/liferay/liferay-frontend-projects/commit/b0174d9d5fd556737054d96e6de7b0af8a7a9525))
+
 ## [v21.1.0](https://github.com/liferay/eslint-config-liferay/tree/v21.1.0) (2020-05-07)
 
 [Full changelog](https://github.com/liferay/eslint-config-liferay/compare/v21.0.0...v21.1.0)

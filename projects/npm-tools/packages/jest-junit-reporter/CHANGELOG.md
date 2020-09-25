@@ -1,3 +1,11 @@
+## [jest-junit-reporter/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/jest-junit-reporter/v1.2.0) (2020-09-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-jest-junit-reporter/v1.2.0...jest-junit-reporter/v1.2.0)
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate liferay-jest-junit-reporter to @liferay/jest-junit-reporter ([ffb850968c4](https://github.com/liferay/liferay-frontend-projects/commit/ffb850968c417c760c294f1962d3c38939e37b06))
+
 ## [liferay-jest-junit-reporter/v1.2.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-jest-junit-reporter/v1.2.0) (2020-02-17)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-jest-junit-reporter/v1.1.0-beta.1...liferay-jest-junit-reporter/v1.2.0)

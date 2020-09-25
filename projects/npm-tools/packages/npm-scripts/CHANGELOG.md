@@ -1,3 +1,11 @@
+## [npm-scripts/v32.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v32.7.0) (2020-09-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-npm-scripts/v32.7.0...npm-scripts/v32.7.0)
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate liferay-npm-scripts to @liferay/npm-scripts ([c6a0257953f](https://github.com/liferay/liferay-frontend-projects/commit/c6a0257953ffbdc0edb60aa17406aade3cda57b1))
+
 ## [liferay-npm-scripts/v32.7.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-scripts/v32.7.0) (2020-09-18)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-scripts/v32.6.2...liferay-npm-scripts/v32.7.0)
