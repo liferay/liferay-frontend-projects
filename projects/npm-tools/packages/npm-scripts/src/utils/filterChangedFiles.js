@@ -32,6 +32,8 @@ function filterChangedFiles(files) {
 
 	const topLevel = git('rev-parse', '--show-toplevel');
 
+	const prefix = git('rev-parse', '--show-prefix').trim() || '.';
+
 	const mergeBase = git('merge-base', 'HEAD', upstream);
 
 	// Check for changes in @liferay/npm-scripts version.
@@ -43,7 +45,8 @@ function filterChangedFiles(files) {
 			'-G@liferay/npm-scripts',
 			'--quiet',
 			'--',
-			'package.json'
+			path.join(topLevel, 'modules', 'package.json'),
+			path.join(topLevel, 'modules', 'private', 'package.json')
 		);
 	} catch (error) {
 		// An exit status of 1 means we detected the change we were looking for:
@@ -73,7 +76,7 @@ function filterChangedFiles(files) {
 	const set = new Set(changedFiles);
 
 	return files.filter((file) => {
-		const absolute = path.resolve(file);
+		const absolute = path.normalize(path.join(topLevel, prefix, file));
 
 		return set.has(absolute);
 	});
