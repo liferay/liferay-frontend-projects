@@ -628,14 +628,14 @@ async function generate({date, from, remote, to, version}) {
 /**
  * Returns a tag prefix that can be used to construct or find a version tag.
  *
- * -   If we're being run from a "packages/$PACKAGE" subdirectory in a
- *     monorepo and a ".yarnrc" file exists, we return its "version-tag-prefix".
+ * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
+ *     exists, we return its "version-tag-prefix".
  *
  *     For example, given a prefix of "my-package/v", then we can find matching
  *     tags using `git describe --match='my-package/v*'.
  *
  *     Likewise, if we're being run from the repo root and a ".yarnrc" file
- *     exists.
+ *     exists there.
  *
  *     For example, given a prefix of "v", then we can find matching tags using
  *     `git describe --match='v*'`.
@@ -645,23 +645,32 @@ async function generate({date, from, remote, to, version}) {
  *     With the fallback prefix of "", we can find matching tags using
  *     `git describe --match='*'`.
  *
- * If none of the above apply (eg. because we're not being run from the wrong
- * directory), an error is thrown.
+ * If none of the above apply (eg. because we're being run from the
+ * wrong directory), an error is thrown.
  */
 async function getVersionTagPrefix() {
-	const root = (await git('rev-parse', '--show-toplevel')).trim();
-
-	const cwd = process.cwd();
-
-	const basename = path.basename(cwd);
-
-	const monorepoPackage = path.join(root, 'packages', basename);
+	try {
+		fs.accessSync('package.json', fs.constants.R_OK);
+	} catch (_error) {
+		throw new Error(
+			'Expected to run from a directory with a "package.json"'
+		);
+	}
 
 	let prefix;
 
-	if (cwd === root || cwd === monorepoPackage) {
+	const cwd = process.cwd();
+
+	const root = (await git('rev-parse', '--show-toplevel')).trim();
+
+	const candidates = new Set([cwd, root]);
+
+	for (const candidate of candidates) {
 		try {
-			const contents = await readFileAsync('.yarnrc', 'utf8');
+			const contents = await readFileAsync(
+				path.join(candidate, '.yarnrc'),
+				'utf8'
+			);
 
 			contents.split(/\r\n|\r|\n/).find((line) => {
 				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
@@ -672,16 +681,11 @@ async function getVersionTagPrefix() {
 					return true;
 				}
 			});
+
+			break;
 		} catch (_error) {
 			// No readable .yarnrc.
 		}
-	} else {
-		throw new Error(
-			`Expected to run from repo root (${path.relative(
-				cwd,
-				root
-			)}) or "packages/*" but was run from ${cwd}`
-		);
 	}
 
 	return prefix || '';
