@@ -30,9 +30,8 @@ function findModulesDirectory(from = process.cwd()) {
 	let previous = null;
 
 	while (current !== previous) {
-		const modules = path.join(current, 'modules');
-		if (fs.existsSync(modules)) {
-			return modules;
+		if (path.basename(current) === 'modules') {
+			return current;
 		}
 		previous = current;
 		current = path.dirname(current);
