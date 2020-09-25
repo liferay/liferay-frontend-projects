@@ -111,6 +111,10 @@ Examples include:
 
 -   Hoist the licensing information up into the top-level [`LICENSES/`](../LICENSES) directory, if the license type is not already represented there.
 
+-   Provide an [issue template](../.github/ISSUE_TEMPLATE).
+
+-   Create labels for the project and any subpackages and add the to [the Pull Request Labeler's](https://github.com/actions/labeler) [configuration file](../.github/labeler.yml).
+
 ## Pro-Tips™
 
 ### `git log --first-parent`
