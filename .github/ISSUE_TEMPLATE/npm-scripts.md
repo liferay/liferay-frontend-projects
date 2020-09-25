@@ -1,5 +1,5 @@
 ---
-name: @liferay/npm-scripts
+name: '@liferay/npm-scripts'
 about: Issues related to the @liferay/npm-scripts package
 labels: npm-tools, npm-scripts
 ---

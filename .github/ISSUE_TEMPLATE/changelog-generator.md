@@ -1,5 +1,5 @@
 ---
-name: @liferay/changelog-generator
+name: '@liferay/changelog-generator'
 about: Issues related to the @liferay/changelog-generator package
 labels: npm-tools, changelog-generator
 ---

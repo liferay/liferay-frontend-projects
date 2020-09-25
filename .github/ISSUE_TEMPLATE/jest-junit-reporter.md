@@ -1,5 +1,5 @@
 ---
-name: @liferay/jest-junit-reporter
+name: '@liferay/jest-junit-reporter'
 about: Issues related to the @liferay/jest-junit-reporter package
 labels: npm-tools, jest-junit-reporter
 ---

@@ -1,5 +1,5 @@
 ---
-name: @liferay/js-insights
+name: '@liferay/js-insights'
 about: Issues related to the @liferay/js-insights package
 labels: npm-tools, js-insights
 ---

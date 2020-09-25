@@ -1,5 +1,5 @@
 ---
-name: @liferay/js-publish
+name: '@liferay/js-publish'
 about: Issues related to the @liferay/js-publish package
 labels: npm-tools, js-publish
 ---
