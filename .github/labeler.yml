@@ -4,33 +4,33 @@
 # See: https://github.com/actions/labeler
 
 changelog-generator:
-  - projects/npm-tools/packages/changelog-generator/*
-  - projects/npm-tools/packages/changelog-generator/**/*
+    - projects/npm-tools/packages/changelog-generator/*
+    - projects/npm-tools/packages/changelog-generator/**/*
 
 eslint-config:
-  - projects/eslint-config/*
-  - projects/eslint-config/**/*
+    - projects/eslint-config/*
+    - projects/eslint-config/**/*
 
 jest-junit-reporter:
-  - projects/npm-tools/packages/jest-junit-reporter/*
-  - projects/npm-tools/packages/jest-junit-reporter/**/*
+    - projects/npm-tools/packages/jest-junit-reporter/*
+    - projects/npm-tools/packages/jest-junit-reporter/**/*
 
 js-insights:
-  - projects/npm-tools/packages/js-insights/*
-  - projects/npm-tools/packages/js-insights/**/*
+    - projects/npm-tools/packages/js-insights/*
+    - projects/npm-tools/packages/js-insights/**/*
 
 js-publish:
-  - projects/npm-tools/packages/js-publish/*
-  - projects/npm-tools/packages/js-publish/**/*
+    - projects/npm-tools/packages/js-publish/*
+    - projects/npm-tools/packages/js-publish/**/*
 
 npm-bundler-preset-liferay-dev:
-  - projects/npm-tools/packages/npm-bundler-preset-liferay-dev/*
-  - projects/npm-tools/packages/npm-bundler-preset-liferay-dev/**/*
+    - projects/npm-tools/packages/npm-bundler-preset-liferay-dev/*
+    - projects/npm-tools/packages/npm-bundler-preset-liferay-dev/**/*
 
 npm-scripts:
-  - projects/npm-tools/packages/npm-scripts/*
-  - projects/npm-tools/packages/npm-scripts/**/*
+    - projects/npm-tools/packages/npm-scripts/*
+    - projects/npm-tools/packages/npm-scripts/**/*
 
 npm-tools:
-  - projects/npm-tools/*
-  - projects/npm-tools/**/*
+    - projects/npm-tools/*
+    - projects/npm-tools/**/*

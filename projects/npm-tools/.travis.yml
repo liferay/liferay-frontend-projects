@@ -1,18 +1,18 @@
 before_install: ./.travis/before_install.sh
 
 env:
-  global:
-    - YARN_GPG=no
+    global:
+        - YARN_GPG=no
 
 install: ./.travis/install.sh
 
 language: node_js
 
 node_js:
-  - '10'
+    - '10'
 
 os:
-  - linux
-  - windows
+    - linux
+    - windows
 
 script: ./.travis/script.sh
