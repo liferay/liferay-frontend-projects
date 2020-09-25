@@ -65,7 +65,17 @@ In the example of [eslint-config-liferay](https://github.com/liferay/eslint-conf
 
 6.  Check the release page on GitHub to confirm that the release is showing up there too; it should be at a URL like: [github.com/liferay/liferay-frontend-projects/releases/tag/eslint-config/v21.1.0](https://github.com/liferay/liferay-frontend-projects/releases/tag/eslint-config/v21.1.0)
 
-    > :construction: At the moment, we haven't taught liferay-changelog-generator how to emit release notes for this kind of release. We'll remedy that shortly.
+    > :construction: `@liferay/changelog-generator` can produce release notes for this kind of release but it is rather edge-casey so they may need some manual tweaking. For example, it assumes that the tag prefix doesn't change from release to release like it does here (and we probably won't bother changing it because importing a package is such a once-off thing), so you'll have to manually edit the "compare" URL to show the right starting tag. Other than that, it should work fine.
+    >
+    > An example invocation, used to document the move from `eslint-config-liferay/v21.1.10` (the tag pointing at the final release of the old package) to `eslint-config/v21.1.0` (the first release of the new named-scope version of the package) is:
+    >
+    > ```
+    > cd projects/eslint-config
+    > node ../npm-tools/packages/changelog-generator/bin/liferay-changelog-generator.js --from=eslint-config-liferay/v21.1.0 --version=21.1.0
+    >
+    > # Edit the starting tag from "eslint-config/v21.1.0" to "liferay-eslint-config/v21.1.0":
+    > vim CHANGELOG.md
+    > ```
 
 ### Configuring package access control
 

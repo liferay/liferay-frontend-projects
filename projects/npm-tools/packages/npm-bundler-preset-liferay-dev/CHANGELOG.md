@@ -1,3 +1,11 @@
+## [npm-bundler-preset-liferay-dev/v4.6.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.2) (2020-09-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-npm-bundler-preset-liferay-dev/v4.6.2...npm-bundler-preset-liferay-dev/v4.6.2)
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate liferay-npm-bundler-preset-liferay-dev to @liferay/npm-bundler-preset-liferay-dev ([54fb5e92fb2](https://github.com/liferay/liferay-frontend-projects/commit/54fb5e92fb21b7eebdfc402ca382bba70cd2b839))
+
 ## [liferay-npm-bundler-preset-liferay-dev/v4.6.2](https://github.com/liferay/liferay-npm-tools/tree/liferay-npm-bundler-preset-liferay-dev/v4.6.2) (2020-09-17)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-npm-bundler-preset-liferay-dev/v4.6.1...liferay-npm-bundler-preset-liferay-dev/v4.6.2)

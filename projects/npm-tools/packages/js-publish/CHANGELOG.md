@@ -1,3 +1,11 @@
+## [js-publish/v1.1.0](https://github.com/liferay/liferay-frontend-projects/tree/js-publish/v1.1.0) (2020-09-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-publish/v1.1.0...js-publish/v1.1.0)
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate liferay-js-publish to @liferay/js-publish ([63222b948b1](https://github.com/liferay/liferay-frontend-projects/commit/63222b948b14f891f7a3bb507181964da1ed5c0f))
+
 ## [liferay-js-publish/v1.1.0](https://github.com/liferay/liferay-npm-tools/tree/liferay-js-publish/v1.1.0) (2020-03-25)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-js-publish/v1.1.0-alpha.1...liferay-js-publish/v1.1.0)

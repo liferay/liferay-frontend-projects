@@ -1,3 +1,11 @@
+## [changelog-generator/v1.4.1](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.4.1) (2020-09-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-changelog-generator/v1.4.1...changelog-generator/v1.4.1)
+
+### :woman_juggling: Refactoring
+
+-   refactor: migrate liferay-changelog-generator to @liferay/changelog-generator ([47bc87477f1](https://github.com/liferay/liferay-frontend-projects/commit/47bc87477f19222e61321db0c204012c0dc7dc8c))
+
 ## [liferay-changelog-generator/v1.4.1](https://github.com/liferay/liferay-npm-tools/tree/liferay-changelog-generator/v1.4.1) (2020-07-09)
 
 [Full changelog](https://github.com/liferay/liferay-npm-tools/compare/liferay-changelog-generator/v1.4.0...liferay-changelog-generator/v1.4.1)
