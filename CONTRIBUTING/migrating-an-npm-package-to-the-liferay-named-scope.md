@@ -14,6 +14,7 @@ Moving an existing package to the `@liferay` named scope consists of the followi
 3. Produce a release of the package under the new name (while preserving the version number).
 4. Configure package access control so that team members can publish.
 5. Add a deprecation notice to the old package, directing consumers to access the package under the new name instead.
+6. Update labels and any other repo "meta" artifacts that contained the old name.
 
 ## Details
 
@@ -104,6 +105,13 @@ Likewise, the package on npmjs.com ([example page](https://www.npmjs.com/package
 > _Author message:_
 >
 > `Please see @liferay/link-checker instead`
+
+### Update labels and any other repo "meta" artifacts
+
+If there were any labels or other repo entities that contained the old name, they should be updated too. For example:
+
+-   A label like `liferay-npm-scripts` would become simply `npm-scripts`, and should be edited both in [the GitHub UI](https://github.com/liferay/liferay-frontend-projects/labels) and in [the auto-labeler configuration file](../.github/labeler.yml).
+-   Any top-level configuration files — `.editorconfig`, `.eslintignore`, `.eslintrc.js`, `.gitignore`, `.prettierignore`, `.prettierrc.js`, `jest.config.js`, all files under `.github/` etc — should be double-checked to make sure that they don't contain stale references to the old path. Technically, this should already have happened earlier, during "step 2", but it is a good idea to double-check.
 
 ## Troubleshooting
 
