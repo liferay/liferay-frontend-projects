@@ -21,7 +21,9 @@ describe('filterChangedFiles()', () => {
 	let repo;
 
 	const getFiles = () =>
-		git('ls-tree', '--name-only', '-r', 'HEAD').split('\n');
+		git('ls-tree', '--name-only', '-r', '-z', 'HEAD')
+			.split('\0')
+			.filter(Boolean);
 
 	beforeAll(() => {
 		cwd = process.cwd();
