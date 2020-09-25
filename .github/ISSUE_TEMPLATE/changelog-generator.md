@@ -1,7 +1,7 @@
 ---
-name: @liferay/jest-junit-reporter
-about: Issues related to the @liferay/jest-junit-reporter package
-labels: npm-tools, jest-junit-reporter
+name: '@liferay/changelog-generator'
+about: Issues related to the @liferay/changelog-generator package
+labels: npm-tools, changelog-generator
 ---
 
 ### Issue type (mark with `x`)

@@ -1,5 +1,5 @@
 ---
-name: @liferay/npm-bundler-preset-liferay-dev
+name: '@liferay/npm-bundler-preset-liferay-dev'
 about: Issues related to the @liferay/npm-bundler-preset-liferay-dev package
 labels: npm-tools, npm-bundler-preset-liferay-dev
 ---

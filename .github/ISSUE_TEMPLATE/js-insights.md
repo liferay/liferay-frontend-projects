@@ -1,7 +1,7 @@
 ---
-name: @liferay/eslint-config
-about: Issues related to the @liferay/eslint-config project
-labels: eslint-config
+name: '@liferay/js-insights'
+about: Issues related to the @liferay/js-insights package
+labels: npm-tools, js-insights
 ---
 
 ### Issue type (mark with `x`)

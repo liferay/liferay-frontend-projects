@@ -111,7 +111,7 @@ Examples include:
 
 -   Hoist the licensing information up into the top-level [`LICENSES/`](../LICENSES) directory, if the license type is not already represented there.
 
--   Provide an [issue template](../.github/ISSUE_TEMPLATE). Note that issue template filenames must not contain hyphens, so a project like `eslint-config` should use [`EslintConfig.md`](../.github/ISSUE_TEMPLATE/EslintConfig.md) rather than `eslint-config.md` as a template name.
+-   Provide an [issue template](../.github/ISSUE_TEMPLATE).
 
 -   Create labels for the project and any subpackages and add the to [the Pull Request Labeler's](https://github.com/actions/labeler) [configuration file](../.github/labeler.yml).
 

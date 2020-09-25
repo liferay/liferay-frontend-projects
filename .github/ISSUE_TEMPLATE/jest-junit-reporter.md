@@ -1,7 +1,7 @@
 ---
-name: @liferay/npm-scripts
-about: Issues related to the @liferay/npm-scripts package
-labels: npm-tools, npm-scripts
+name: '@liferay/jest-junit-reporter'
+about: Issues related to the @liferay/jest-junit-reporter package
+labels: npm-tools, jest-junit-reporter
 ---
 
 ### Issue type (mark with `x`)
