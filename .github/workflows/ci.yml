@@ -9,7 +9,7 @@ on:
         branches: [master]
 
 jobs:
-    build:
+    format-check:
         runs-on: ubuntu-latest
 
         strategy:
@@ -23,6 +23,60 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: yarn --frozen-lockfile
-            - run: yarn ci
+            - run: yarn format:check
+              env:
+                  CI: true
+
+    lint:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: yarn --frozen-lockfile
+            - run: yarn lint
+              env:
+                  CI: true
+
+    test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: yarn --frozen-lockfile
+            - run: yarn test
+              env:
+                  CI: true
+
+    test-windows:
+        runs-on: windows-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: yarn --frozen-lockfile
+            - run: yarn test
               env:
                   CI: true
