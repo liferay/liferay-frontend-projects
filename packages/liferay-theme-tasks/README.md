@@ -254,10 +254,31 @@ Version of Liferay Portal this theme is intended for.
 
 ## Additional Theme Dependencies
 
-In order for themes to successfully build, they must declare additional dependencies in their package.json file such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
+In order for themes to successfully build, they must declare additional dependencies in their `package.json` file such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
 
-These additional dependencies are normally included automatically in themes created with the [Theme Generator](https://github.com/liferay/generator-liferay-theme).
+If you would like to require specific versions of these dependencies, specify them directly in your theme's `package.json` file and `npm install` afterwards.
 
-If you would like to require specific versions of these dependencies, you can specify them directly in your theme's package.json file.
+### Updating Dependencies via CLI
+
+Get the latest `liferay-frontend-theme-unstyled`:
+
+```
+npm install --save-dev --save-exact liferay-frontend-theme-unstyled@latest
+```
+
+Get the latest `liferay-frontend-theme-styled`:
+
+```
+npm install --save-dev --save-exact liferay-frontend-theme-styled@latest
+```
+
+### Get the Right Dependency Version for Your Theme
+
+| Liferay | liferay-theme-unstyled | liferay-theme-styled |
+| ------- | ---------------------- | -------------------- |
+| 7.3.x   | 5.x.x                  | 5.x.x                |
+| 7.2.x   | 4.x.x                  | 4.x.x                |
+| 7.1.x   | 3.x.x                  | 3.x.x                |
+| 7.0.x   | 2.x.x                  | 2.x.x                |
 
 MIT
