@@ -19,8 +19,8 @@
 	"repository": "https://github.com/liferay/liferay-frontend-projects",
 	"scripts": {
 		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write \"**/*.{js,json,md}\" \"**/*.js\"",
-		"format:check": "prettier --list-different \"**/*.{js,json,md}\" \"**/*.js\"",
+		"format": "prettier --write \"**/*.{js,json,md,yml}\" \"**/.*.{js,yml}\"",
+		"format:check": "prettier --list-different \"**/*.{js,json,md,yml}\" \"**/.*.{js,yml}\"",
 		"lint": "eslint \"**/*.js\" \"**/.*.js\"",
 		"lint:fix": "eslint --fix \"**/*.js\" \"**/.*.js\"",
 		"test": "jest"
