@@ -1,7 +1,5 @@
 # @liferay/eslint-config
 
-![](https://github.com/liferay/eslint-config-liferay/workflows/ci/badge.svg)
-
 > An ESLint [shareable config](http://eslint.org/docs/developer-guide/shareable-configs.html) that helps enforce the [Liferay Frontend Guidelines](https://github.com/liferay/liferay-frontend-guidelines).
 
 ## Overview
