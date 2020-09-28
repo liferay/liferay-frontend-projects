@@ -33,7 +33,7 @@ async function writing(generator, themeName) {
 
 	let {themeVersion} = argv;
 
-	if (!themeVersion) {
+	if (themeVersion === undefined) {
 		print(
 			'',
 			info`
