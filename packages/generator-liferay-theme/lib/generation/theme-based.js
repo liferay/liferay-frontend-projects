@@ -18,6 +18,7 @@ const semver = require('semver');
 const stream = require('stream');
 const {promisify} = require('util');
 const xml2js = require('xml2js');
+const {argv} = require('yargs');
 
 const ProgressLine = require('../../lib/ProgressLine');
 const Project = require('../../lib/utils/Project');
@@ -30,25 +31,29 @@ async function writing(generator, themeName) {
 	const project = new Project(generator);
 	const {liferayVersion} = project;
 
-	print(
-		'',
-		info`
-		Querying https://mvnrepository.com for the latest version of Liferay's
-		${themeName} theme compatible with ${liferayVersion}...
-		`
-	);
+	let {themeVersion} = argv;
 
-	const themeVersions = await getThemeVersions(themeName);
+	if (themeVersion === undefined) {
+		print(
+			'',
+			info`
+			Querying https://mvnrepository.com for the latest version of Liferay's
+			${themeName} theme compatible with ${liferayVersion}...
+			`
+		);
 
-	if (themeVersions === undefined) {
-		process.exit(1);
+		const themeVersions = await getThemeVersions(themeName);
+
+		if (themeVersions === undefined) {
+			process.exit(1);
+		}
+
+		themeVersion = await getLatestThemeVersion(
+			themeName,
+			themeVersions,
+			liferayVersion
+		);
 	}
-
-	const themeVersion = await getLatestThemeVersion(
-		themeName,
-		themeVersions,
-		liferayVersion
-	);
 
 	if (themeVersion === undefined) {
 		process.exit(1);
