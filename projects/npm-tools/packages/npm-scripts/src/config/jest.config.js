@@ -14,7 +14,7 @@ module.exports = {
 	testEnvironment: 'jest-environment-jsdom-thirteen',
 	testMatch: ['**/test/**/*.js'],
 	testPathIgnorePatterns: ['/node_modules/', '<rootDir>/test/stories/'],
-	testResultsProcessor: 'liferay-jest-junit-reporter',
+	testResultsProcessor: '@liferay/jest-junit-reporter',
 	testURL: 'http://localhost',
 	transform: {
 		/* eslint-disable sort-keys */
