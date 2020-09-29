@@ -11,12 +11,10 @@ import {
 } from 'liferay-js-toolkit-core';
 
 import {bundlerWebpackDir, project} from '../../globals';
-import {findFiles} from '../../util/files';
 import * as log from '../../util/log';
 
 export default async function adapt(): Promise<void> {
 	await transformBundles();
-	await copyAssets();
 }
 
 /**
@@ -55,21 +53,4 @@ async function transformBundles(): Promise<void> {
 
 		log.debug(`Transformed webpack bundle ${webpackBundleName}`);
 	}
-}
-
-async function copyAssets(): Promise<void> {
-	const files = findFiles(project.sourceDir, ['**/*', '!**/*.js']);
-
-	files.forEach((file) => {
-		const destFile = project.outputDir.join(file);
-
-		fs.ensureDirSync(destFile.dirname().asNative);
-
-		fs.copyFileSync(
-			project.sourceDir.join(file).asNative,
-			destFile.asNative
-		);
-	});
-
-	log.info(`Copied ${files.length} static files to output directory`);
 }
