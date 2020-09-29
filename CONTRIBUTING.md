@@ -103,6 +103,8 @@ Both must be deployed to see them in action.
 
 Although the project is a monorepo, the release policy is per package (each version number is independent of the others).
 
+> Warning: see the next section if you want to publish a pre-release version.
+
 To release a new version use `yarn version`
 
 ```sh
@@ -142,6 +144,26 @@ After the release, you can confirm that the packages are correctly listed in the
 
 -   https://www.npmjs.com/package/liferay-js-toolkit-core
 -   https://www.npmjs.com/package/liferay-npm-bundler
+
+## Releasing pre-release versions
+
+Because this branch is still in development phase we need to publish pre-release versions until we get to the final publication. For this reason, the above process needs to be tweaked a bit.
+
+The original steps up to `yarn version` remain the same, but then you must run:
+
+```sh
+$ yarn version --new-version 3.0.0-alpha.3
+```
+
+This will create the release commit and the tag but refuse to push it or run `yarn publish` because we are not in `master` branch. The way to go is to continue manually:
+
+```sh
+$ git push upstream 3.x-WIP --follow-tags
+
+# When asked for the new version number just hit ENTER
+# If asked for an OTP token, just type the six digits and ENTER
+$ yarn publish --tag pre
+```
 
 ## Releasing local-only versions
 
