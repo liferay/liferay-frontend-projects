@@ -1,6 +1,6 @@
-## [generator-liferay-theme/v10.0.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.3) (2020-09-28)
+## [generator-liferay-theme/v10.0.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.1) (2020-09-28)
 
-[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/generator-liferay-theme/v10.0.0...generator-liferay-theme/v10.0.3)
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/generator-liferay-theme/v10.0.0...generator-liferay-theme/v10.0.1)
 
 ### :wrench: Bug fixes
 
