@@ -1,3 +1,11 @@
+## [npm-scripts/v33.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.0.1) (2020-09-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.0.0...npm-scripts/v33.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(scripts): update references to @liferay/jest-junit-reporter ([\#89](https://github.com/liferay/liferay-frontend-projects/pull/89))
+
 ## [npm-scripts/v33.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.0.0) (2020-09-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v32.7.0...npm-scripts/v33.0.0)
