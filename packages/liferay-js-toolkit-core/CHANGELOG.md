@@ -1,3 +1,19 @@
+## [liferay-js-toolkit-core/v3.0.0-alpha.2](https://github.com/liferay/liferay-js-toolkit/tree/liferay-js-toolkit-core/v3.0.0-alpha.2) (2020-09-29)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-js-toolkit-core/v3.0.0-alpha.1...liferay-js-toolkit-core/v3.0.0-alpha.2)
+
+### :new: Features
+
+-   feat: #625 add specific build for fragments ([\#648](https://github.com/liferay/liferay-js-toolkit/pull/648))
+
+### :house: Chores
+
+-   chore: walk towards release ([\#608](https://github.com/liferay/liferay-js-toolkit/pull/608))
+
+### :woman_juggling: Refactoring
+
+-   refactor: first part of #565 fix ([\#611](https://github.com/liferay/liferay-js-toolkit/pull/611))
+
 ## [v3.0.0-alpha.1](https://github.com/liferay/liferay-js-toolkit/tree/v3.0.0-alpha.1) (2020-05-26)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.18.2...v3.0.0-alpha.1)

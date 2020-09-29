@@ -1,6 +1,6 @@
 {
 	"name": "liferay-js-toolkit-core",
-	"version": "3.0.0",
+	"version": "3.0.0-alpha.2",
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
