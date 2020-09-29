@@ -1,3 +1,19 @@
+## [npm-scripts/v33.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.0.0) (2020-09-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v32.7.0...npm-scripts/v33.0.0)
+
+### :boom: Breaking changes
+
+-   feat!: brings in the named-scope package `@liferay/eslint-config` to replace `eslint-config-liferay`, which requires references to rule names to be updated; for example `liferay/no-arrow` becomes `@liferay/liferay/no-arrow`, `liferay-portal/no-react-dom-render` becomes `@liferay/portal/no-react-dom-render`, and so on.
+
+### :new: Features
+
+-   feat: run CI on Windows ([\#85](https://github.com/liferay/liferay-frontend-projects/pull/85))
+
+### :book: Documentation
+
+-   docs: update changelogs for imported packages ([\#84](https://github.com/liferay/liferay-frontend-projects/pull/84))
+
 ## [npm-scripts/v32.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v32.7.0) (2020-09-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-npm-scripts/v32.7.0...npm-scripts/v32.7.0)
