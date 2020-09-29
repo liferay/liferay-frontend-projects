@@ -5,7 +5,7 @@
 Simplifying assumptions:
 
 -   You are working in a repository that uses Yarn
--   You develop on the "master" branch and update "stable" whenever you do a release
+-   You develop on the "master" branch
 -   You publish using `yarn version`
 -   You are millennial (or pretend to be) and expect your tools to use emoji 😎
 
