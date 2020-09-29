@@ -1,3 +1,15 @@
+## [js-publish/v2.0.0](https://github.com/liferay/liferay-frontend-projects/tree/js-publish/v2.0.0) (2020-09-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-publish/v1.1.0...js-publish/v2.0.0)
+
+### :book: Documentation
+
+-   docs: update changelogs for imported packages ([\#84](https://github.com/liferay/liferay-frontend-projects/pull/84))
+
+### :package: Miscellaneous
+
+-   feat!(js-publish): don't bother updating stable branch any more ([\#88](https://github.com/liferay/liferay-frontend-projects/pull/88))
+
 ## [js-publish/v1.1.0](https://github.com/liferay/liferay-frontend-projects/tree/js-publish/v1.1.0) (2020-09-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-publish/v1.1.0...js-publish/v1.1.0)
