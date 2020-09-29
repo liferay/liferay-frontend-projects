@@ -1,3 +1,11 @@
+## [generator-liferay-theme/v10.0.3](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.3) (2020-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/generator-liferay-theme/v10.0.0...generator-liferay-theme/v10.0.3)
+
+### :wrench: Bug fixes
+
+-   fix: download 4.x series of admin/classic themes ([\#518](https://github.com/liferay/liferay-js-themes-toolkit/pull/518))
+
 ## [generator-liferay-theme/v10.0.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.0) (2020-04-15)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/generator-liferay-theme/v10.0.0-alpha.1...generator-liferay-theme/v10.0.0)
