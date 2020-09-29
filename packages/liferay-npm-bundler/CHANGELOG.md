@@ -1,3 +1,20 @@
+## [liferay-npm-bundler/v3.0.0-alpha.3](https://github.com/liferay/liferay-js-toolkit/tree/liferay-npm-bundler/v3.0.0-alpha.3) (2020-09-29)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-npm-bundler/v3.0.0-alpha.2...liferay-npm-bundler/v3.0.0-alpha.3)
+
+### :new: Features
+
+-   feat: remove copy assets step for fragments ([\#653](https://github.com/liferay/liferay-js-toolkit/pull/653))
+-   feat: #625 add specific build for fragments ([\#648](https://github.com/liferay/liferay-js-toolkit/pull/648))
+
+### :house: Chores
+
+-   chore: walk towards release ([\#608](https://github.com/liferay/liferay-js-toolkit/pull/608))
+
+### :woman_juggling: Refactoring
+
+-   refactor: first part of #565 fix ([\#611](https://github.com/liferay/liferay-js-toolkit/pull/611))
+
 ## [liferay-npm-bundler/v3.0.0-alpha.2](https://github.com/liferay/liferay-js-toolkit/tree/liferay-npm-bundler/v3.0.0-alpha.2) (2020-05-28)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-npm-bundler/v3.0.0-alpha.1...liferay-npm-bundler/v3.0.0-alpha.2)
