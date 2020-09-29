@@ -120,7 +120,7 @@ yarn ci
 cd packages/liferay-npm-bundler
 
 # Update the changelog:
-npx liferay-changelog-generator --version=liferay-npm-bundler/v3.0.0
+npx liferay-changelog-generator --version=3.0.0
 
 # Review and stage the generated changes:
 git add -p
