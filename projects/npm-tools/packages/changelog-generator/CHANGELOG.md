@@ -1,3 +1,15 @@
+## [changelog-generator/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.5.0) (2020-09-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/changelog-generator/v1.4.1...changelog-generator/v1.5.0)
+
+### :new: Features
+
+-   feat: teach the changelog-generator to work with new monorepo structure ([\#83](https://github.com/liferay/liferay-frontend-projects/pull/83))
+
+### :book: Documentation
+
+-   docs: update changelogs for imported packages ([\#84](https://github.com/liferay/liferay-frontend-projects/pull/84))
+
 ## [changelog-generator/v1.4.1](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.4.1) (2020-09-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-changelog-generator/v1.4.1...changelog-generator/v1.4.1)
