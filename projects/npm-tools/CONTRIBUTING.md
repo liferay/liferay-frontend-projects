@@ -69,17 +69,7 @@ git rev-parse --abbrev-ref HEAD
 git diff --quiet
 
 # Update upstream "master"
-git push upstream master
-
-# Merge "master" into "stable"
-git checkout stable
-git merge --ff-only master
-
-# Update upstream "stable"
-git push upstream stable --follow-tags
-
-# Return to the "master" branch
-git checkout master
+git push upstream master --follow-tags
 
 # Actually publish
 yarn publish

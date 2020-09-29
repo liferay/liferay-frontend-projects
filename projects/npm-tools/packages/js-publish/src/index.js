@@ -14,9 +14,6 @@ const run = require('./run');
  * whenever we update a package version by (effectively) running:
  *
  *     git push $REMOTE master &&
- *     git checkout stable &&
- *     git merge --ff-only master &&
- *     git push $REMOTE stable --follow-tags &&
  *     yarn publish
  *
  * This is "safe" (enough) because:
@@ -49,22 +46,6 @@ async function main() {
 	await confirm(`Push to ${remote}/master?`);
 
 	git('push', remote, 'master', '--follow-tags');
-
-	if (isPrereleaseVersion(pkg)) {
-		print('👉 Detected prerelease version: skipping merge/push to stable');
-	} else {
-		await confirm('Merge "master" into "stable"?');
-
-		git('checkout', 'stable');
-
-		git('merge', '--ff-only', 'master');
-
-		await confirm(`Push to ${remote}/stable?`);
-
-		git('push', remote, 'stable');
-	}
-
-	git('checkout', 'master');
 
 	await runYarnPublish(pkg);
 
@@ -218,10 +199,7 @@ main()
 			'For reference, these are the publishing steps:',
 			'git rev-parse --abbrev-ref HEAD # expect "master"\n' +
 				'git diff --quiet # expect no output\n' +
-				'git push $REMOTE master # you will need to supply $REMOTE\n' +
-				'git checkout stable\n' +
-				'git merge --ff-only master\n' +
-				'git push $REMOTE stable --follow-tags\n' +
+				'git push $REMOTE master --follow-tags # you will need to supply $REMOTE\n' +
 				'yarn publish'
 		);
 
