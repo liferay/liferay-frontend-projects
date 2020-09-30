@@ -16,7 +16,7 @@ let outputChannel;
 // Keep this debug function around because debugging VSCode extensions is a
 // pain.
 //
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const debug = (line) => {
 	try {
 		if (!outputChannel) {

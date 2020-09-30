@@ -4,7 +4,7 @@
  */
 
 // Allow variables (BASE_CHAR, DIGIT etc) which are for readability only.
-/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "^[A-Z_]+$" }] */
+/* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^[A-Z_]+$" }] */
 
 const Lexer = require('./Lexer');
 

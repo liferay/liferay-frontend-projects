@@ -12,12 +12,14 @@ const config = {
 		es6: true,
 	},
 	extends: ['eslint:recommended', require.resolve('eslint-config-prettier')],
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: 'module',
 	},
 	plugins: [
 		local('@liferay/liferay'),
+		'@typescript-eslint/eslint-plugin',
 		'no-for-of-loops',
 		'no-only-tests',
 		'notice',
@@ -37,6 +39,13 @@ const config = {
 		'@liferay/liferay/padded-test-blocks': 'error',
 		'@liferay/liferay/sort-import-destructures': 'error',
 		'@liferay/liferay/sort-imports': 'error',
+		'@typescript-eslint/no-unused-vars': [
+			'error',
+			{
+				argsIgnorePattern: '^_|^this$',
+				varsIgnorePattern: '^_',
+			},
+		],
 		curly: 'error',
 		'default-case': 'error',
 		'lines-around-comment': [
@@ -62,7 +71,7 @@ const config = {
 		'no-only-tests/no-only-tests': 'error',
 		'no-return-assign': ['error', 'always'],
 		'no-unused-expressions': 'error',
-		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
+		'no-unused-vars': 'off',
 		'object-shorthand': 'error',
 		'padding-line-between-statements': [
 			'error',
