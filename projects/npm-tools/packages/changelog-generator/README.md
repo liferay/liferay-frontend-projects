@@ -16,7 +16,7 @@ The idea is that is you ever want to make edits by hand you can, and the way you
 When run in a monorepo, it can work in two ways:
 
 -   Run from the root of the repo, it produces a single changelog for the entire repo. This is appropriate for projects like [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit), where the packages in the repo are always released together.
--   Run from a `packages/*` subdirectory, it produces a changelog specific to that directory. It is assumed that you have a `.yarnrc` in each package containing a `version-tag-prefix`; this enables the generator to determine when each package was released and produce an accurate changelog. This is appropriate for projects like [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools), where the packages are versioned independently of one another and are not released together.
+-   Run from a `packages/*` subdirectory, it produces a changelog specific to that directory. It is assumed that you have a `.yarnrc` in each package containing a `version-tag-prefix`; this enables the generator to determine when each package was released and produce an accurate changelog. This is appropriate for projects like [liferay-npm-tools](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools), where the packages are versioned independently of one another and are not released together.
 
 ## Installation
 
@@ -46,10 +46,10 @@ Options:
 ## Example projects using @liferay/changelog-generator
 
 -   [Alloy Editor](https://github.com/liferay/alloy-editor) ([CHANGELOG](https://github.com/liferay/alloy-editor/blob/master/CHANGELOG.md)).
--   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay) ([CHANGELOG](https://github.com/liferay/eslint-config-liferay/blob/master/CHANGELOG.md)).
+-   [@liferay/eslint-config](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/eslint-config) ([CHANGELOG](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/eslint-config/CHANGELOG.md)).
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor) ([CHANGELOG](https://github.com/liferay/liferay-ckeditor/blob/master/CHANGELOG.md)).
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages)).
--   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-npm-tools/tree/master/packages)).
+-   [liferay-npm-tools](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages)).
 
 ## FAQ
 
