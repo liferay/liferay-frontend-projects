@@ -203,7 +203,9 @@ export class Project {
 			const preset = _npmbundlerrc['preset'];
 
 			if (preset) {
-				putInMap(splitModuleName(preset).pkgName);
+				const {pkgName, scope} = splitModuleName(preset);
+
+				putInMap(scope ? `${scope}/${pkgName}` : pkgName);
 			}
 
 			map = new Map([...map, ...this.transform.versionsInfo]);
@@ -374,10 +376,12 @@ export class Project {
 				basedir: this.dir.asNative,
 			});
 
-			const {pkgName} = splitModuleName(config.preset);
+			const {pkgName, scope} = splitModuleName(config.preset);
 
 			const presetPkgJsonFilePath = resolveModule.sync(
-				`${pkgName}/package.json`,
+				scope
+					? `${scope}/${pkgName}/package.json`
+					: `${pkgName}/package.json`,
 				{
 					basedir: this.dir.asNative,
 				}
