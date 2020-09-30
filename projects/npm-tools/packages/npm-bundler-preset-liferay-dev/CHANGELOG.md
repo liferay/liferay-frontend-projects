@@ -1,3 +1,15 @@
+## [npm-bundler-preset-liferay-dev/v4.6.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.3) (2020-09-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.2...npm-bundler-preset-liferay-dev/v4.6.3)
+
+### :book: Documentation
+
+-   docs: update changelogs for imported packages ([\#84](https://github.com/liferay/liferay-frontend-projects/pull/84))
+
+### :house: Chores
+
+-   chore(npm-tools): update js-toolkit deps from v2.19.2 to v2.19.3 ([\#93](https://github.com/liferay/liferay-frontend-projects/pull/93))
+
 ## [npm-bundler-preset-liferay-dev/v4.6.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.2) (2020-09-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-npm-bundler-preset-liferay-dev/v4.6.2...npm-bundler-preset-liferay-dev/v4.6.2)

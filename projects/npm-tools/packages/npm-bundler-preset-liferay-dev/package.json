@@ -26,5 +26,5 @@
 		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for @liferay/npm-bundler-preset-liferay-dev'"
 	},
-	"version": "4.6.2"
+	"version": "4.6.3"
 }
