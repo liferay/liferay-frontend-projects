@@ -1,3 +1,15 @@
+## [v2.19.3](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.3) (2020-09-30)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.19.2...v2.19.3)
+
+### :wrench: Bug fixes
+
+-   fix(common): allow presets that have a named-scope ([\#654](https://github.com/liferay/liferay-js-toolkit/pull/654))
+
+### :eyeglasses: Tests
+
+-   test: enhance QA script ([\#649](https://github.com/liferay/liferay-js-toolkit/pull/649))
+
 ## [v2.19.2](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.2) (2020-09-17)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.19.1...v2.19.2)
