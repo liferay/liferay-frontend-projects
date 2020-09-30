@@ -102,7 +102,7 @@ If any checks fail, fix them, submit a PR, and when it is merged, start again. O
 Update the changelog:
 
 ```sh
-$ npx liferay-changelog-generator --version=v2.19.0 ⏎
+$ npx @liferay/changelog-generator --version=v2.19.0 ⏎
 ```
 
 Review and stage the generated changes:
