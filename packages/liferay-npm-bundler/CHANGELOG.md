@@ -1,3 +1,7 @@
+## [liferay-npm-bundler/v3.0.0-alpha.5](https://github.com/liferay/liferay-js-toolkit/tree/liferay-npm-bundler/v3.0.0-alpha.5) (2020-09-30)
+
+[Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-npm-bundler/v3.0.0-alpha.4...liferay-npm-bundler/v3.0.0-alpha.5)
+
 ## [liferay-npm-bundler/v3.0.0-alpha.4](https://github.com/liferay/liferay-js-toolkit/tree/liferay-npm-bundler/v3.0.0-alpha.4) (2020-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-npm-bundler/v3.0.0-alpha.3...liferay-npm-bundler/v3.0.0-alpha.4)
