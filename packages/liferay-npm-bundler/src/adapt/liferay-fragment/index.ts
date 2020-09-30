@@ -37,12 +37,10 @@ async function transformBundles(): Promise<void> {
 
 		const destFile = project.outputDir.join(moduleName);
 
-		const {name, version} = project.pkgJson;
-
 		await transformJsSourceFile(
 			sourceFile,
 			destFile,
-			wrapModule(`${name}@${version}/${moduleName}`, {
+			wrapModule(`__FRAGMENT_MODULE_NAME__`, {
 				defineDependencies: {
 					__MODULE__: 'module',
 					__REQUIRE__: 'require',
