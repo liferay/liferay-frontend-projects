@@ -1,3 +1,16 @@
+## [npm-scripts/v33.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.0.2) (2020-09-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.0.1...npm-scripts/v33.0.2)
+
+### :wrench: Bug fixes
+
+-   fix(scripts): remove stale reference to old bundler preset ([\#90](https://github.com/liferay/liferay-frontend-projects/pull/90))
+
+### :house: Chores
+
+-   chore(npm-scripts): update npm-bundler-preset-liferay-dev to v4.6.3 ([\#95](https://github.com/liferay/liferay-frontend-projects/pull/95))
+-   chore(npm-tools): update js-toolkit deps from v2.19.2 to v2.19.3 ([\#93](https://github.com/liferay/liferay-frontend-projects/pull/93))
+
 ## [npm-scripts/v33.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.0.1) (2020-09-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.0.0...npm-scripts/v33.0.1)
