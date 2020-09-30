@@ -40,7 +40,7 @@ async function transformBundles(): Promise<void> {
 		await transformJsSourceFile(
 			sourceFile,
 			destFile,
-			wrapModule(`__FRAGMENT_MODULE_NAME__`, {
+			wrapModule('__FRAGMENT_MODULE_NAME__', {
 				defineDependencies: {
 					__MODULE__: 'module',
 					__REQUIRE__: 'require',
