@@ -10787,7 +10787,7 @@ liferay-npm-bridge-generator@2.19.3:
     read-json-sync "^2.0.1"
     yargs "^14.0.0"
 
-liferay-npm-build-tools-common@2.19.2, liferay-npm-build-tools-common@^2.17.1:
+liferay-npm-build-tools-common@2.19.2:
   version "2.19.2"
   resolved "https://registry.yarnpkg.com/liferay-npm-build-tools-common/-/liferay-npm-build-tools-common-2.19.2.tgz#7c5b2ae4765211286db70675a74b63f7e0007aa0"
   integrity sha512-SgDaR0Bt24nqkT7Oa8ElAR+cqfqnH4xAPWzK2eZYc0CeE7/1RnifRZWXnvl1SJsxLq1pvnlimY4ijS8NPcbxfQ==
@@ -10801,7 +10801,7 @@ liferay-npm-build-tools-common@2.19.2, liferay-npm-build-tools-common@^2.17.1:
     read-json-sync "^2.0.1"
     resolve "^1.8.1"
 
-liferay-npm-build-tools-common@2.19.3:
+liferay-npm-build-tools-common@2.19.3, liferay-npm-build-tools-common@^2.17.1:
   version "2.19.3"
   resolved "https://registry.yarnpkg.com/liferay-npm-build-tools-common/-/liferay-npm-build-tools-common-2.19.3.tgz#29394b718b14ecea05c68275b2ee268a7e2e381d"
   integrity sha512-9kac9aQHySNzYW7GuI+SyZ/39IwxzEfg16wYmIIwVd8khrIDBZYIEP6zgxVV0eu0Wu3SSYN7IP+eaVxPuPZrhw==
