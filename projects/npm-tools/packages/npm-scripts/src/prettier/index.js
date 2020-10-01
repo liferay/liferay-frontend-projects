@@ -27,7 +27,7 @@ const {SCRIPTLET_CONTENT} = require('../jsp/substituteTags');
 const {BLOCK_CLOSE, BLOCK_OPEN} = require('../jsp/tagReplacements');
 const {FILLER_CHAR, SPACE_CHAR, TAB_CHAR} = require('../jsp/toFiller');
 
-const EXTENSIONS = new Set(['.js', '.jsp', '.jspf']);
+const EXTENSIONS = new Set(['.js', '.jsp', '.jspf', '.ts', '.tsx']);
 
 const linter = new Linter();
 
