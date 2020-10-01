@@ -3,7 +3,7 @@
 `@liferay/npm-scripts` is our principal abstraction for building, formatting, linting, and testing frontend code in [liferay-portal](https://github.com/liferay/liferay-portal). It provides:
 
 -   **A simplified interface:** The `liferay-npm-scripts` command-line implements a small number of subcommands such as `build`, `checkFormat` and `test`, most of which don't require any arguments and do the right thing "out-of-the-box", automatically.
--   **Industry-standard dependencies:** `@liferay/npm-scripts` brings a set of well-tested and robust dependencies including Babel, ESLint, Jest, Prettier, and others, ensuring that people working anywhere in liferay-portal have access to a single, consistent set of tools.
+-   **Industry-standard dependencies:** `@liferay/npm-scripts` brings a set of well-tested and robust dependencies including Babel, ESLint, Jest, Prettier, and others, ensuring that people working anywhere in a Liferay project have access to a single, consistent set of tools.
 -   **Reasonable default configuration:** All of the bundled tools come with configurations that have been tuned to work in a Liferay environment, and can be overridden via standard configuration files (eg. `.eslintrc.js` etc) on the rare occasions that it is necessary to do so.
 
 While `@liferay/npm-scripts` was designed with liferay-portal in mind, it is also used in other projects such as [liferay-learn](https://github.com/liferay/liferay-learn); see [this issue](https://github.com/liferay/liferay-frontend-projects/issues/91) for context.
