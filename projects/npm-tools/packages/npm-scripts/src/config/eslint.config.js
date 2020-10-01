@@ -42,10 +42,9 @@ module.exports = {
 				jest: true,
 				node: true,
 			},
-			files: ['**/test/**/*.js'],
+			files: ['**/test/**/*.{js,ts}'],
 		},
 	],
-	parser: 'babel-eslint',
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,

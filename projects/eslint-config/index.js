@@ -24,7 +24,20 @@ const config = {
 						varsIgnorePattern: '^_',
 					},
 				],
+
+				// These rules can be turned off because the corresponding
+				// errors are caught by the TypeScript compiler itself.
+
+				'no-redeclare': 'off',
+				'no-undef': 'off',
+				'no-unused-expressions': 'off',
 				'no-unused-vars': 'off',
+			},
+		},
+		{
+			files: ['*.d.ts'],
+			rules: {
+				'@typescript-eslint/no-unused-vars': 'off',
 			},
 		},
 	],
