@@ -12,12 +12,43 @@ const config = {
 		es6: true,
 	},
 	extends: ['eslint:recommended', require.resolve('eslint-config-prettier')],
+	overrides: [
+		{
+			files: ['*.{ts,tsx}'],
+			parser: '@typescript-eslint/parser',
+			rules: {
+				'@typescript-eslint/no-unused-vars': [
+					'error',
+					{
+						argsIgnorePattern: '^_|^this$',
+						varsIgnorePattern: '^_',
+					},
+				],
+
+				// These rules can be turned off because the corresponding
+				// errors are caught by the TypeScript compiler itself.
+
+				'no-redeclare': 'off',
+				'no-undef': 'off',
+				'no-unused-expressions': 'off',
+				'no-unused-vars': 'off',
+			},
+		},
+		{
+			files: ['*.d.ts'],
+			rules: {
+				'@typescript-eslint/no-unused-vars': 'off',
+			},
+		},
+	],
+	parser: 'babel-eslint',
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: 'module',
 	},
 	plugins: [
 		local('@liferay/liferay'),
+		'@typescript-eslint/eslint-plugin',
 		'no-for-of-loops',
 		'no-only-tests',
 		'notice',

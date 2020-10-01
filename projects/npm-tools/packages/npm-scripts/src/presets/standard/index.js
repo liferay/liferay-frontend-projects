@@ -8,8 +8,8 @@ const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
 
 const CHECK_AND_FIX_GLOBS = [
-	'/*.{js,json}',
-	'/{src,test}/**/*.{js,scss}',
+	'/*.{js,json,ts}',
+	'/{src,test}/**/*.{js,scss,ts,tsx}',
 	'/src/**/*.{jsp,jspf}',
 ];
 
