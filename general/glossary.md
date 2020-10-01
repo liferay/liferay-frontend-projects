@@ -26,7 +26,7 @@ Note that we also include an [appendix section](#appendix-trademarks--product-na
     2. **npm package**: a JavaScript package (those described by a `package.json` file).
     3. **webpack bundle**: a `.js` file created by `webpack`, containing several bundled `.js` files.
 2. Backend realm:
-    1. **Java package**: a Java package as defined by the language.
+    1. **Java package**: a Java package [as defined by the language](https://docs.oracle.com/javase/tutorial/java/package/packages.html).
     2. **OSGi bundle**: the JAR file deployed to DXP or its logical representation at runtime.
     3. **Portlet**: atomic units of UI handled by DXP. They are deployed inside _OSGi bundles_.
     4. **Widget**: a marketing synonym for _portlet_.
