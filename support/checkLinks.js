@@ -77,7 +77,7 @@ async function checkInternal(link, files) {
 					return text;
 				})
 				.replace(/[ -,]+/g, '-')
-				.replace(/[`:]/g, '');
+				.replace(/[`:/]/g, '');
 
 			// Lowercase because the browser matches case-insensitively.
 
