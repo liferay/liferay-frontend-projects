@@ -12,7 +12,23 @@ const config = {
 		es6: true,
 	},
 	extends: ['eslint:recommended', require.resolve('eslint-config-prettier')],
-	parser: '@typescript-eslint/parser',
+	overrides: [
+		{
+			files: ['*.{ts,tsx}'],
+			parser: '@typescript-eslint/parser',
+			rules: {
+				'@typescript-eslint/no-unused-vars': [
+					'error',
+					{
+						argsIgnorePattern: '^_|^this$',
+						varsIgnorePattern: '^_',
+					},
+				],
+				'no-unused-vars': 'off',
+			},
+		},
+	],
+	parser: 'babel-eslint',
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: 'module',
@@ -39,13 +55,6 @@ const config = {
 		'@liferay/liferay/padded-test-blocks': 'error',
 		'@liferay/liferay/sort-import-destructures': 'error',
 		'@liferay/liferay/sort-imports': 'error',
-		'@typescript-eslint/no-unused-vars': [
-			'error',
-			{
-				argsIgnorePattern: '^_|^this$',
-				varsIgnorePattern: '^_',
-			},
-		],
 		curly: 'error',
 		'default-case': 'error',
 		'lines-around-comment': [
@@ -71,7 +80,7 @@ const config = {
 		'no-only-tests/no-only-tests': 'error',
 		'no-return-assign': ['error', 'always'],
 		'no-unused-expressions': 'error',
-		'no-unused-vars': 'off',
+		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
 		'object-shorthand': 'error',
 		'padding-line-between-statements': [
 			'error',

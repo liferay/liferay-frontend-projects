@@ -7,11 +7,6 @@
 
 const config = {
 	extends: [require.resolve('./react')],
-	parserOptions: {
-		ecmaFeatures: {
-			jsx: true,
-		},
-	},
 	plugins: ['react'],
 	rules: {
 		/**

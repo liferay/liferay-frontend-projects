@@ -9,11 +9,6 @@ const local = require('./utils/local');
 
 const config = {
 	extends: [require.resolve('./react')],
-	parserOptions: {
-		ecmaFeatures: {
-			jsx: true,
-		},
-	},
 	plugins: [local('@liferay/portal')],
 	rules: {
 		'@liferay/portal/deprecation': 'error',
