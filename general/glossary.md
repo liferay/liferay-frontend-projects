@@ -10,7 +10,7 @@ This leads to often ambiguous documentation because one term is used for differe
 
 If this document succeeds, we should end up having a documentation where each object/artifact has one single term to designate it. In other words, [Wittgenstein](https://en.wikipedia.org/wiki/Ludwig_Wittgenstein) should be proud of us (see [Tractatus Logico-Philosophicus](https://en.wikipedia.org/wiki/Tractatus_Logico-Philosophicus)).
 
-Note that we also include an [appendix section](appendix-trade-marks-product-name) listing the canonical spelling and casing for used trade marks or product names.
+Note that we also include an [appendix section](#appendix-trade-marks--product-names) listing the canonical spelling and casing for used trade marks or product names.
 
 ## Technical Terms
 
