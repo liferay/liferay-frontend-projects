@@ -1,43 +1,51 @@
 # Glossary
 
-This documents aims at providing a common lexicon for terms used to refer to artifacts.
+This documents aims to provide a common lexicon for terms used to refer to artifacts.
 
 ### Motivation
 
-Throughout the documentation there are several terms which are often abused because we either have no alternative or there's not enough consensus on what's their canonical name.
+Our technology space is filled with overloaded words like _package_, _module_, and _bundle_.
 
-This leads to often ambiguous documentation because one term is used for different things or because we use different terms for the same artifact/object.
+Despite the potential for confusion, we can make our documentation, APIs, and all forms of written and spoken communication clearer by carefully selecting and qualifying the terminology that we use.
 
 If this document succeeds, we should end up having a documentation where each object/artifact has one single term to designate it. In other words, [Wittgenstein](https://en.wikipedia.org/wiki/Ludwig_Wittgenstein) should be proud of us (see [Tractatus Logico-Philosophicus](https://en.wikipedia.org/wiki/Tractatus_Logico-Philosophicus)).
 
-Note that we also include an [appendix section](#appendix-trade-marks--product-names) listing the canonical spelling and casing for used trade marks or product names.
+Note that we also include an [appendix section](#appendix-trademarks--product-names) listing the canonical spelling and casing for used trademarks or product names.
 
 ## Technical Terms
 
-| Term              | Description                                                                       |
-| ----------------- | --------------------------------------------------------------------------------- |
-| AMD module        | A JavaScript AMD module (the `.js` file or its logical representation at runtime) |
-| CommonJS module   | A JavaScript CommonJS module (the `.js` files used in node)                       |
-| ES6+ module       | EcmaScript 6 or higher code (i.e.: `import from` syntax)                          |
-| Harmony module    | Same as ES6+ module (better use _ES6+ module_ instead)                            |
-| Java package      | A Java package as defined by the language                                         |
-| JavaScript module | A generic JavaScript module in any format (AMD, CommonJS, ...)                    |
-| Module            | A _JavaScript module_ (only to be used when there's no ambiguity)                 |
-| npm package       | A JavaScript package (those described by a `package.json` file)                   |
-| OSGi bundle       | The JAR file deployed to DXP or its logical representation at runtime             |
-| Package           | A _Java package_ or _npm package_ (only to be used when there's no ambiguity)     |
-| Portlet           | Atomic units of UI handled by DXP. They are deployed inside _OSGi bundles_.       |
-| Webpack bundle    | A `.js` file created by `webpack`, containing several bundled `.js` files         |
-| Widget            | A marketing synonym for _portlet_                                                 |
+1. Frontend realm:
+    1. **JavaScript module**: a generic JavaScript module in any format (AMD, CommonJS, ...).
+        1. **AMD module**: a JavaScript AMD module (the `.js` file or its logical representation at runtime).
+        2. **CommonJS module**: a JavaScript CommonJS module (the `.js` files used in node).
+        3. **ES module**: a module written in ECMAScript 6+ format (i.e.: `import from` syntax).
+        4. ~~ESModule~~: use _ES module_ instead.
+        5. ~~ECMAScript module~~: use _ES module_ instead.
+        6. ~~Harmony module~~: use _ES module_ instead.
+        7. ~~JavaScript module~~: use _ES module_ instead.
+    2. **npm package**: a JavaScript package (those described by a `package.json` file).
+    3. **webpack bundle**: a `.js` file created by `webpack`, containing several bundled `.js` files.
+2. Backend realm:
+    1. **Java package**: a Java package as defined by the language.
+    2. **OSGi bundle**: the JAR file deployed to DXP or its logical representation at runtime.
+    3. **Portlet**: atomic units of UI handled by DXP. They are deployed inside _OSGi bundles_.
+    4. **Widget**: a marketing synonym for _portlet_.
+3. Ambiguous terms (only to be used in contexts where no ambiguity arises):
+    1. **Module**: a _JavaScript module_.
+    2. **Package**: a _Java package_ or _npm package_.
 
-## Appendix: Trade Marks / Product Names
+## Appendix: Trademarks / Product Names
 
-> Note that this section lists the names to be used in common language. When the product name is used to denote a command line executable, we use the correct case (as Unix-like CLIs are usually case sensitive). For example: _Yarn_ is the product name, while `yarn` is the command.
+This section lists the names to be used in common language as well as commands.
+
+When the product name is used to denote a command-line executable, we use the correct case (as Unix-like CLIs are usually case sensitive) and enclose it inside backticks (`).
+
+For example: _Yarn_ is the product name, while `yarn` is the command.
 
 | Product Name             | Command               | Remarks                      |
 | ------------------------ | --------------------- | ---------------------------- |
 | _DXP_                    |                       | See also _Liferay Portal CE_ |
-| _EcmaScript_             |                       |                              |
+| _ECMAScript_             |                       |                              |
 | _Java_                   |                       |                              |
 | _JavaScript_             |                       |                              |
 | _Liferay JS Toolkit_     |                       |                              |
@@ -48,5 +56,5 @@ Note that we also include an [appendix section](#appendix-trade-marks--product-n
 | _npm_                    | `npm`                 |                              |
 | _npm Registry_           |                       | This is https://npmjs.com    |
 | _OSGi_                   |                       |                              |
-| _Webpack_                | `webpack`             |                              |
+| _webpack_                | `webpack`             |                              |
 | _Yarn_                   | `yarn`                |                              |
