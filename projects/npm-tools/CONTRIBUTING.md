@@ -42,7 +42,7 @@ Running `yarn version` has the following effects:
 -   A tagged commit is created, including the changes to the changelog that you previously staged.
 -   The "postversion" script will run, which automatically does `git push` and performs a `yarn publish`, prompting for confirmation along the way.
 
-Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-npm-tools/releases).
+Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-frontend-projects/releases).
 
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
