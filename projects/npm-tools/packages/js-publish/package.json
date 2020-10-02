@@ -4,7 +4,7 @@
 		"liferay-js-publish": "./bin/liferay-js-publish.js"
 	},
 	"dependencies": {
-		"cross-spawn": "7.0.1"
+		"cross-spawn": "^7.0.3"
 	},
 	"description": "Publishes an NPM package via \"yarn version\"",
 	"files": [
