@@ -1,3 +1,22 @@
+## [eslint-config/v21.2.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.2.0) (2020-10-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.1.0...eslint-config/v21.2.0)
+
+### :new: Features
+
+-   feat: add support for formatting and linting TypeScript ([\#97](https://github.com/liferay/liferay-frontend-projects/pull/97))
+
+### :book: Documentation
+
+-   docs(eslint-config): tweak CONTRIBUTING.md ([\#107](https://github.com/liferay/liferay-frontend-projects/pull/107))
+-   docs: update changelogs for imported packages ([\#84](https://github.com/liferay/liferay-frontend-projects/pull/84))
+-   docs: move CI badge up to top-level README ([\#72](https://github.com/liferay/liferay-frontend-projects/pull/72))
+
+### :house: Chores
+
+-   chore: update dependencies ([\#105](https://github.com/liferay/liferay-frontend-projects/pull/105))
+-   chore: update ESLint to latest v7 release ([\#102](https://github.com/liferay/liferay-frontend-projects/pull/102))
+
 ## [eslint-config/v21.1.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.1.0) (2020-09-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-eslint-config/v21.1.0...eslint-config/v21.1.0)
