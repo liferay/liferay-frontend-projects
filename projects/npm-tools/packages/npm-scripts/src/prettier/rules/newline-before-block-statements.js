@@ -31,7 +31,7 @@ module.exports = {
 						}
 
 						return fixer.replaceTextRange(
-							[last.end, keyword.start],
+							[last.range[1], keyword.range[0]],
 							`\n${indent}`
 						);
 					},

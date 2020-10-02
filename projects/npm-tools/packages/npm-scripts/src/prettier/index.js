@@ -16,6 +16,7 @@
  * to version).
  */
 
+const typescriptEslint = require('@typescript-eslint/parser');
 const babelEslint = require('babel-eslint');
 const {CLIEngine, Linter} = require('eslint');
 const path = require('path');
@@ -26,25 +27,36 @@ const {ID_END, ID_START} = require('../jsp/getPaddedReplacement');
 const {SCRIPTLET_CONTENT} = require('../jsp/substituteTags');
 const {BLOCK_CLOSE, BLOCK_OPEN} = require('../jsp/tagReplacements');
 const {FILLER_CHAR, SPACE_CHAR, TAB_CHAR} = require('../jsp/toFiller');
+const rule = require('./rules/newline-before-block-statements');
 
-const EXTENSIONS = new Set(['.js', '.jsp', '.jspf', '.ts', '.tsx']);
+const EXTENSIONS = {
+	'.js': 'babel-eslint',
+	'.jsp': 'babel-eslint',
+	'.jspf': 'babel-eslint',
+	'.ts': '@typescript-eslint/parser',
+	'.tsx': '@typescript-eslint/parser',
+};
 
-const linter = new Linter();
-
-/* eslint-disable @liferay/liferay/no-require-and-call */
+const LINTERS = {
+	'@typescript-eslint/parser': {
+		linter: new Linter(),
+		parser: typescriptEslint,
+	},
+	'babel-eslint': {
+		linter: new Linter(),
+		parser: babelEslint,
+	},
+};
 
 /**
  * Custom rule because ESLint's `'brace-style': ['error', 'stroustrup']` ignores
  * indentation (ie. it puts the "else" on a new line in column 0).
  */
-linter.defineRule(
-	'newline-before-block-statements',
-	require('./rules/newline-before-block-statements')
-);
+for (const [name, {linter, parser}] of Object.entries(LINTERS)) {
+	linter.defineRule('newline-before-block-statements', rule);
 
-/* eslint-enable @liferay/liferay/no-require-and-call */
-
-linter.defineParser('babel-eslint', babelEslint);
+	linter.defineParser(name, parser);
+}
 
 const cli = new CLIEngine({
 	...eslintConfig,
@@ -110,9 +122,13 @@ function format(source, options) {
 
 	const extension = path.extname(filename);
 
-	if (!EXTENSIONS.has(extension)) {
+	const parser = EXTENSIONS[extension];
+
+	if (!parser) {
 		return formatted;
 	}
+
+	const linter = LINTERS[parser].linter;
 
 	const {output} = linter.verifyAndFix(
 		formatted,
@@ -123,7 +139,7 @@ function format(source, options) {
 			// is an absolute path; make it a name that matches the
 			// parser we defined with `defineParser()` above.
 
-			parser: 'babel-eslint',
+			parser,
 		},
 
 		{allowInlineConfig: false, filename}
