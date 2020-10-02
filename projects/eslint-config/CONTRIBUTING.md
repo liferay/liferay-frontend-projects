@@ -12,9 +12,13 @@
 
 3.  Update [CHANGELOG.md](./CHANGELOG.md).
 
-    Run [liferay-changelog-generator](https://www.npmjs.com/package/liferay-changelog-generator):
+    Run [`@liferay/changelog-generator`](https://www.npmjs.com/package/@liferay/changelog-generator):
 
-        npx liferay-changelog-generator --version=v4.1.0
+        npx @liferay/changelog-generator --version=v4.1.0
+
+    If you're not sure what version number to supply (ie. because you don't know exactly what changes will be included), you can pass the `--dry-run` switch along with an arbitrary version number to get a preview printed to standard output:
+
+        npx @liferay/changelog-generator --version=v0.0.0 --dry-run
 
 4.  Review the changes.
 
