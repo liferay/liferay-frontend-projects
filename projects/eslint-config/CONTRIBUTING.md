@@ -16,6 +16,10 @@
 
         npx @liferay/changelog-generator --version=v4.1.0
 
+    If you're not sure what version number to supply (ie. because you don't know exactly what changes will be included), you can pass the `--dry-run` switch along with an arbitrary version number to get a preview printed to standard output:
+
+        npx @liferay/changelog-generator --version=v0.0.0 --dry-run
+
 4.  Review the changes.
 
     Use `git diff` to confirm that the CHANGELOG.md looks correct. Feel free to edit it if you want to make improvements. Then stage the changes:
