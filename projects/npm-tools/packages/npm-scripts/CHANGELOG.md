@@ -1,3 +1,11 @@
+## [npm-scripts/v33.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.1) (2020-10-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.0...npm-scripts/v33.1.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-tools): make Prettier overrides work with TS ([\#110](https://github.com/liferay/liferay-frontend-projects/pull/110))
+
 ## [npm-scripts/v33.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.0) (2020-10-02)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.0.2...npm-scripts/v33.1.0)
