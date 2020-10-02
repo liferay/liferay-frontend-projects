@@ -88,5 +88,5 @@
 		"preversion": "yarn ci",
 		"test": "jest"
 	},
-	"version": "33.0.2"
+	"version": "33.1.0"
 }

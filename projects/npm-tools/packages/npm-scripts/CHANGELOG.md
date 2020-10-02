@@ -1,3 +1,26 @@
+## [npm-scripts/v33.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.0) (2020-10-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.0.2...npm-scripts/v33.1.0)
+
+### :new: Features
+
+-   feat(scripts): allow Prettier to format more files (YAML, Markdown) ([\#103](https://github.com/liferay/liferay-frontend-projects/pull/103))
+-   feat: add support for formatting and linting TypeScript ([\#97](https://github.com/liferay/liferay-frontend-projects/pull/97))
+
+### :wrench: Bug fixes
+
+-   fix(scripts): apply Liferay-specific Prettier overrides to TS also ([\#101](https://github.com/liferay/liferay-frontend-projects/pull/101))
+
+### :book: Documentation
+
+-   docs(scripts): add top-level sinopsis ([\#100](https://github.com/liferay/liferay-frontend-projects/pull/100))
+
+### :house: Chores
+
+-   chore(npm-scripts): update eslint-config dependency to v21.2.0 ([\#108](https://github.com/liferay/liferay-frontend-projects/pull/108))
+-   chore: update dependencies ([\#105](https://github.com/liferay/liferay-frontend-projects/pull/105))
+-   chore: update ESLint to latest v7 release ([\#102](https://github.com/liferay/liferay-frontend-projects/pull/102))
+
 ## [npm-scripts/v33.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.0.2) (2020-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.0.1...npm-scripts/v33.0.2)
