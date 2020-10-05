@@ -33,7 +33,13 @@
 	"main": "index.js",
 	"name": "@liferay/eslint-config",
 	"peerDependencies": {
-		"eslint": ">=4.1.1"
+		"eslint": ">=4.1.1",
+		"typescript": "*"
+	},
+	"peerDependenciesMeta": {
+		"typescript": {
+			"optional": true
+		}
 	},
 	"repository": {
 		"directory": "projects/eslint-config",
