@@ -1,93 +1,163 @@
 # Demystifying `aui:script` and `liferay-frontend:component` tags
 
-On JSP context you may notice a huge number of `aui:script` and `liferay-frontend:component` tags.
+In JSP files you may notice a huge number of `aui:script` and `liferay-frontend:component` tags.
+
+## IMPORTANT
+
+Infrastructure is sunsetting AlloyUI since when ["The status and direction of the frontend infrastructure in Liferay 7 & DXP"](https://liferay.dev/blogs/-/blogs/the-status-and-direction-of-the-frontend-infrastructure-in-liferay-7-dxp) blog post was released. Also, We are working hard in removing those components on [Remove AUI / YUI from Liferay Portal](https://issues.liferay.com/browse/LPS-98564) Epic. Please, avoid using AlloyUI JS components and tags, except for `aui:script` tag.
 
 ## `aui:script` tag
 
-### What it does:
+### What it does
 
-This taglib allow users to use and require another JS module/resources inside a JSP.
+This tag allow users to use and require ES module/resources inside a JSP.
 
-This taglib have three possible use cases:
+We have three possible use cases when using this tag:
 
-1. Pure JS on the JSP
-2. Import a AUI/YUI module
-3. Import a ES6 module
+1. Inline JS on the JSP
+2. Import an AUI/YUI module
+3. Import a ES module
 
-#### Pure JS on the JSP
+#### Inline JS on the JSP
 
-By just placing JavaScript code inside an `aui:script` tag, you can take advantage of optimizing scripts and place them to be made available in the final compressed JavaScript bundle, see [combo for more details](https: / /github.com/liferay/liferay-frontend-guidelines/blob/45bad0334cb467e45e68aee322a2a4bc0b6979d3/dxp/javaScript_minification.md#comboservlet). It is worth mentioning that the same rule applies for the following use cases.
+By just placing JavaScript code inside an `aui:script` tag, you can take advantage of optimizing scripts and place them to be made available in the final compressed JavaScript bundle. It can be achieved when appending the script to the [`AUI_SCRIPT_DATA` WebKey](https://github.com/liferay/liferay-portal/blob/67b569099146a4b999e2fad7d7d1a9794a337f0b/portal-kernel/src/com/liferay/portal/kernel/util/WebKeys.java#L55) and all these scripts will be applied at the [bottom of the page](https://github.com/liferay/liferay-portal/blob/e3ffac158e0ec5acc5c67069fbd7ba688d3c78d4/portal-web/docroot/html/common/themes/bottom.jsp#L44). Finally the [Aggregate Filter will take care](https://github.com/liferay/liferay-frontend-guidelines/blob/bc6dae8514af04a6384a7bea9d4ddf266087ffc5/dxp/resource_serving.md#aggregate-filter), of creating the final bundle with all the JavaScript on the page. It is worth mentioning that the same rule applies to all the following use cases.
 
-#### Import an AUI/YUI module using `use` property
+Like this example:
 
-When using the `use` property, the AUI / YUI module listed in the` use` list will be imported to the script data. If you want to know a little more about ScriptData, see this [link on how resources are injected into DXP](https://github.com/liferay/liferay-frontend-guidelines/blob/ea185686db8d562ac11cc2b95d2e9e7d7a0c6547/dxp/resource_injection.md#scriptdata).
+```jsp
+<aui:script>
+	Liferay.fire('myGlobalEvent', {
+		payload: 'myPayload',
+	});
+</aui:script>
+```
+
+it will be turned on:
+
+```js
+Liferay.fire('myGlobalEvent', {
+	payload: 'myPayload'
+});
+```
+
+#### Import an AUI/YUI module using the `use` property
+
+> ⚠️ This is a deprecated use case, though it still works if someone configures it.⚠️
+
+Each AUI / YUI module listed as a value for the `use` property will be [loaded asyncronously by the `AUI().use` function](https://github.com/yui/yui3/blob/master/src/yui/js/yui.js#L1323..L1331).
 
 You can import several YUI / AUI modules within the same `use` property, as in this example:
 
+Here is an example:
+
 ```jsp
-<aui:script use="liferay-upload">
-...
-        var liferayUpload = new Liferay.Upload({
-...
+<aui:script use="liferay-alert">
+	new Liferay.Alert(
+		{
+			closeable: true,
+			message: 'I like drink tea while eating french potatoes',
+			type: 'success'
+		}
+	).render('#myId');
 </aui:script>
 ```
 
-Note in the AlloyUI components, coming from the alloy-ui repository, classes are made available from the global variable `A`, as in this [code snippet the Menu component is defined](https://github.com/liferay/alloy-ui/blob/master/src/aui-menu/js/aui-menu.js#L39]).
+The output will be a code like this:
 
-However, components made available from the `frontend-js-aui-web` module will be under the global Liferay variable. Like this [example here, `Liferay.Upload`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/upload.js#L1541), used in the code example above.
+```js
+AUI().use('liferay-alert', function (A) {
+	(function() {var $ = AUI.$;var _ = AUI._;
+		new Liferay.Alert(
+			{
+				closeable: true,
+				message: 'I like drink tea while eating french potatoes',
+				type: 'success'
+			}
+		).render('#myId');
+	})()
+}
+```
 
-#### Import an ES6 module using `require` property
+Note in the AlloyUI components, coming from the alloy-ui repository, classes are made available from the global variable `A` on the scope of the `aui:script`. Here as in this [code snippet the Menu component is defined](https://github.com/liferay/alloy-ui/blob/master/src/aui-menu/js/aui-menu.js#L39]).
 
-Allows users to require a ES6 module as the following example:
+However, components made available from the `frontend-js-aui-web` module will be under the global Liferay variable. Like this [example here, `Liferay.Upload`](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/upload.js#L1541), used in the code example above.
 
-Considering that we already have `metal-clipboard` and `metal-dom` dependencies listed [on our module package.json](https://help.liferay.com/hc/en-us/articles/360018159771-The-Structure-of-OSGi-Bundles-Containing-npm-Packages-), We have:
+#### Import a ES module using `require` property
+
+Allows users to require a modern ES module as in the following example:
+
+Considering We already have `metal-clipboard` and `metal-dom` dependencies listed [on our module package.json](https://help.liferay.com/hc/en-us/articles/360018159771-The-Structure-of-OSGi-Bundles-Containing-npm-Packages-)
+
+By default the name of the loaded resource will be the transformed path to camel-case default exported module/file:
 
 ```jsp
 <aui:script require="metal-clipboard/src/Clipboard">
-    new metalClipboardSrcClipboard.default();
+    // Note We have the provided path to require metal-clipboard/src/Clipboard normalized and camel-case as a variable name
+	new metalClipboardSrcClipboard.default();
 </aui:script>
 ```
 
-Also, we can set an alias with the `as` word after the provided path. It will be looking like:
+Also, We can set an alias with the `as` word after the provided path. It will be look like:
 
 ```jsp
-<aui:script require="metal-dom/all/dom.js as dom">
-
-	function myFunction(element) {
-		dom.addClasses(element, 'hide');
-	}
-
-	Liferay.once('something', myFunction);
-
+<aui:script require="my-custom-lib/src/path/main as myLib">
+	// ... code that use some function from myLib like `myLib.someFunction();`
 </aui:script>
 ```
 
-#### Settling the way which the script will be placed on the page using `position`:
+The output will be:
 
-This property will change the way in which / how the script will be injected into the page. By default, those scripts that are wrapped by `aui:script` will be added to the minified files as described here (Pure JS on the JSP [PUT THE LINK HERE OH]).
+```js
+Liferay.Loader.require('my-custom-lib/src/path/main', function(myCustomLibSrcPathMain) {
+	try {
+		(function() {
+			var myLib = myCustomLibSrcPathMain;
+			var $ = AUI.$;var _ = AUI._;
+			// ... code that use some function from myLib like `myLib.someFunction();`
+		})();
+	} catch (err) {
+		console.error(err);
+	}
+}
+```
 
-When placing the option of `inline` for this property, the scripts will be placed in a script tag obeying the order of the DOM where the JSP is being rendered. See [here](https://github.com/liferay/liferay-portal/blob/master/util-taglib/src/com/liferay/taglib/aui/ScriptTag.java#L143..L165).
+You can find more information on [this link](https://help.liferay.com/hc/en-us/articles/360017882752-Loading-Modules-with-AUI-Script-in-Liferay-DXP#loading-es2015-and-metaljs-modules)
 
-#### `sandbox`:
+#### Using `position` to control script placement
 
-The purpose for the sandbox attribute is to wrap the contents of the script tag in a self-invoking function, and to enable short-handing the `$` and `_` variables rather than calling `AUI.$` and `AUI._`.
+This property will change the way in which / how the script will be injected into the page. By default, those scripts that are wrapped by `aui:script` will be added to the minified files as described [here](#inline-js-on-the-jsp).
 
-#### Caveats:
+When placing the option of `inline` for this property, the scripts will be placed in a script tag obeying the order of the DOM where the JSP is being rendered. See [here](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/util-taglib/src/com/liferay/taglib/aui/ScriptTag.java#L143..L165).
 
-We couldn’t use both `require` and `use` in the same file. Because `use` property calls the modularization for alloy-ui modules and `require` follows ES6 modularized files.
+#### `sandbox`
+
+The purpose for the sandbox attribute is to wrap the contents of the script tag in an [Immediately Invoked Function Expression/IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
+
+As a short brief, it will limit the scope of the script tag. See the following example:
+
+```jsp
+<aui:script>
+   var myVar = 'foo'; // This variable will be available globally
+</aui:script>
+
+<aui:script sandbox="<%= true %>>
+   var myVar = 'foo'; // This variable will NOT be available globally
+</aui:script>
+```
+
+#### Caveats
+
+You can't use both require and use in the same tag. use is for declaring dependencies on AUI modules, while require gives access to ES modules.
 
 You can see more information about `aui:script` [here](https://help.liferay.com/hc/en-us/articles/360017882752-Loading-Modules-with-AUI-Script-in-Liferay-DXP).
 
 ## `liferay-frontend:component` tag
 
-We can use this tag for removing JavaScript code from JSPs. This tag accepts a `module` property wether we can pass a relative path for the script to be loaded. Also, this tag registers automatically the component to [Liferay’s component global registry](https://github.com/liferay/liferay-frontend-guidelines/blob/master/dxp/liferay_component.md#register), depending on the `componentId` property. When using this tag, `namespace`(or `portletNamespace`) and `spritemap` props will turn available.
+We can use this tag for removing JavaScript code from JSPs. This tag accepts a `module` property through which We can pass a relative path for the script to be loaded. Also, this tag registers automatically the component to [Liferay’s component global registry](https://github.com/liferay/liferay-frontend-guidelines/blob/bc6dae8514af04a6384a7bea9d4ddf266087ffc5/dxp/liferay_component.md#register), depending on the `componentId` property. When using this tag, `namespace`(or `portletNamespace`) and `spritemap` props will become available.
 
-Here is an example of usage of this tag:
-
-On the JSP context:
+For example, in the JSP page:
 
 ```jsp
-
 ...
 <liferay-frontend:component
 	componentId="myComponent"
@@ -96,19 +166,16 @@ On the JSP context:
 ...
 ```
 
-And when exporting the `myComponent.js` file we can define a default function there like:
+And when exporting the `myComponent.js` file We can define a default function there like:
 
 ```js
-export default function myComponent(props) {
-	console.log(props.namespace);
-	// it will return the portlet namespace where the liferay-frontend:component tag were called
-	console.log(props.spritemap);
-	// it will return the path to the page's spritemap
+export default function myComponent({namespace, spritemap, ...props}) {
+	// ... code that uses namespace, spritemap etc
 }
 ```
 
-This taglib can be very handy if you want to use modern ES6 features, since We don’t have support for transpiling ES6 from taglibs.
+This tag can be very handy if you want to use modern JS features, since We don’t have support for transpiling modern JS from taglibs.
 
-Also, this tag adds some treatments for handling JavaScript on our JSPs like [adding special treatments for our built-in SPA framework](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-taglib/frontend-taglib/src/main/java/com/liferay/frontend/taglib/servlet/taglib/ComponentTag.java#L225).
+Also, this tag adds some treatment for handling JavaScript in our JSPs like [adding special treatment for our built-in SPA framework](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/modules/apps/frontend-taglib/frontend-taglib/src/main/java/com/liferay/frontend/taglib/servlet/taglib/ComponentTag.java#L225).
 
-All the content will be injected on the page using `AUI_SCRIPT_DATA` already explained [here](https://github.com/liferay/liferay-frontend-guidelines/blob/ea185686db8d562ac11cc2b95d2e9e7d7a0c6547/dxp/resource_injection.md#scriptdata).
+All the content will be injected on the page using `AUI_SCRIPT_DATA` already explained [here](https://github.com/liferay/liferay-frontend-guidelines/blob/bc6dae8514af04a6384a7bea9d4ddf266087ffc5/dxp/resource_injection.md#scriptdata).
