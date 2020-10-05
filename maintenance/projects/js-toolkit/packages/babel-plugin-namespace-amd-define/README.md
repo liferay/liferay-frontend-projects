@@ -7,13 +7,13 @@
 **In**
 
 ```javascript
-define([], function() {});
+define([], function () {});
 ```
 
 **Out**
 
 ```javascript
-Liferay.Loader.define([], function() {});
+Liferay.Loader.define([], function () {});
 ```
 
 ## Installation

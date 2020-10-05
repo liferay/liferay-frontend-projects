@@ -150,7 +150,7 @@ function localized(project, string) {
 
 	obj[''] = labels[string] || string;
 
-	project.l10n.availableLocales.forEach(locale => {
+	project.l10n.availableLocales.forEach((locale) => {
 		labels = project.l10n.getLabels(locale);
 
 		obj[locale] = labels[string];

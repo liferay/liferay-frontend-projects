@@ -7,7 +7,7 @@
  * @param {object} context loader's context
  * @return {string} the processed file content
  */
-export default function(context) {
+export default function (context) {
 	const {filePath, log} = context;
 	let {content} = context;
 

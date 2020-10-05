@@ -12,7 +12,7 @@ import readJsonSync from 'read-json-sync';
 /**
  * @param {object} context loader's context
  */
-export default function(
+export default function (
 	context,
 	{extension, namespaceDependencies = true, pathModule = '/o'}
 ) {
@@ -66,7 +66,7 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 
 		const lines = bnd.split('\n');
 
-		const webContextPathLine = lines.find(line =>
+		const webContextPathLine = lines.find((line) =>
 			line.startsWith('Web-ContextPath:')
 		);
 
@@ -107,7 +107,9 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 		);
 	} else {
 		// If file is inside a source folder, strip the folder name
-		for (let sourcePath of project.sources.map(source => source.asNative)) {
+		for (let sourcePath of project.sources.map(
+			(source) => source.asNative
+		)) {
 			// Remove `./` from sourcePath so that it matches the filePath correctly
 			sourcePath = sourcePath.substring(2);
 

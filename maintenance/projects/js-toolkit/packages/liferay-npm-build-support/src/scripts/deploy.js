@@ -12,7 +12,7 @@ import * as cfg from '../config';
 /**
  *
  */
-export default function() {
+export default function () {
 	const liferayDirPath = cfg.getLiferayDir();
 
 	const outputDir = project.jar.outputDir;

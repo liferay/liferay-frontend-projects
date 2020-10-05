@@ -19,7 +19,7 @@ export default class extends GogoShell {
 	install(fileOrDir) {
 		return this.sendCommand(
 			`install file://${path.resolve(fileOrDir)}`
-		).then(response => {
+		).then((response) => {
 			const matches = /.*BundleId\s+(\d+).*/.exec(response);
 
 			if (!matches || matches.length < 2) {
@@ -36,7 +36,7 @@ export default class extends GogoShell {
 	 * @return {Promise} resolves to the bundle id
 	 */
 	start(bundleId) {
-		return this.sendCommand(`start ${bundleId}`).then(response => {
+		return this.sendCommand(`start ${bundleId}`).then((response) => {
 			if (response.length != 0) {
 				throw new Error(response);
 			}
@@ -51,7 +51,7 @@ export default class extends GogoShell {
 	 * @return {Promise} resolves to the bundle id
 	 */
 	stop(bundleId) {
-		return this.sendCommand(`stop ${bundleId}`).then(response => {
+		return this.sendCommand(`stop ${bundleId}`).then((response) => {
 			if (response.length != 0) {
 				throw new Error(response);
 			}
@@ -66,7 +66,7 @@ export default class extends GogoShell {
 	 * @return {Promise} resolves to undefined
 	 */
 	uninstall(bundleId) {
-		return this.sendCommand(`uninstall ${bundleId}`).then(response => {
+		return this.sendCommand(`uninstall ${bundleId}`).then((response) => {
 			if (response.length != 0) {
 				throw new Error(response);
 			}
@@ -81,7 +81,7 @@ export default class extends GogoShell {
 	 * @return {Promise} resolves to status string
 	 */
 	getStatus(bundleId) {
-		return this.sendCommand(`bundle ${bundleId}`).then(response => {
+		return this.sendCommand(`bundle ${bundleId}`).then((response) => {
 			const matches = /.*Status=(\S+).*/.exec(response);
 
 			if (!matches || matches.length < 2) {
@@ -99,11 +99,11 @@ export default class extends GogoShell {
 	 * @return {Promise} resolves to bundle id
 	 */
 	getBundleId(symbolicName, version) {
-		return this.sendCommand(`lb -s "${symbolicName}"`).then(response => {
+		return this.sendCommand(`lb -s "${symbolicName}"`).then((response) => {
 			const lines = response.split('\n');
 
 			const bundleLine = lines.find(
-				line => line.indexOf(`|${symbolicName} (${version})`) != -1
+				(line) => line.indexOf(`|${symbolicName} (${version})`) != -1
 			);
 
 			if (!bundleLine) {

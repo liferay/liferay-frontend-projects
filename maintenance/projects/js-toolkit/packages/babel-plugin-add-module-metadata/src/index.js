@@ -13,7 +13,7 @@ import readJsonSync from 'read-json-sync';
 /**
  * @return {object} a babel visitor
  */
-export default function({types: t}) {
+export default function ({types: t}) {
 	return {
 		visitor: {
 			Identifier: {

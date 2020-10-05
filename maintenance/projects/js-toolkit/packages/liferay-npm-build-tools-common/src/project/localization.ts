@@ -65,7 +65,7 @@ export default class Localization {
 		if (this._availableLocales === undefined) {
 			this._availableLocales = Object.keys(
 				this.localizationFileMap
-			).filter(locale => locale !== Localization.DEFAULT_LOCALE);
+			).filter((locale) => locale !== Localization.DEFAULT_LOCALE);
 		}
 
 		return this._availableLocales;

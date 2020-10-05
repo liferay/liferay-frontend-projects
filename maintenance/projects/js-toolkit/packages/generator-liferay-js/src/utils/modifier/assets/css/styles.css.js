@@ -26,7 +26,7 @@ export default class {
 		let css = gen.fs.read(this._path);
 
 		css += `${selector} {
-${values.map(value => `	${value}`).join('\n')}
+${values.map((value) => `	${value}`).join('\n')}
 }\n\n`;
 
 		gen.fs.write(this._path, css);

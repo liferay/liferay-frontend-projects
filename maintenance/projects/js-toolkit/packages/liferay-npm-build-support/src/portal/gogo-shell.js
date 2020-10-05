@@ -82,7 +82,7 @@ export default class extends Socket {
 
 			// Set command handler
 			this.once('error', reject);
-			this.once('prompt', response => {
+			this.once('prompt', (response) => {
 				this.removeListener('error', reject);
 				this._active = false;
 				resolve(response);
@@ -105,8 +105,8 @@ export default class extends Socket {
 		this.once('prompt', () => this.emit('ready'));
 
 		// Attach data handlers
-		this.on('data', data => this._debugDataListener(data));
-		this.on('data', data => this._promptDataListener(data));
+		this.on('data', (data) => this._debugDataListener(data));
+		this.on('data', (data) => this._promptDataListener(data));
 
 		// Write handshake chars so that telnet knows we are an VT220
 		this.write(new Buffer([255, 251, 24]));

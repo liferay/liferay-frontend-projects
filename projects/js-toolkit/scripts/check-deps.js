@@ -22,11 +22,11 @@ Object.entries(depVersions).forEach(([pkg, versions]) => {
 		console.log(pkg, ':');
 
 		console.group();
-		Object.keys(versions).forEach(version => {
+		Object.keys(versions).forEach((version) => {
 			console.log(version, ':');
 
 			console.group();
-			versions[version].forEach(prj => console.log(prj));
+			versions[version].forEach((prj) => console.log(prj));
 			console.groupEnd();
 		});
 		console.groupEnd();

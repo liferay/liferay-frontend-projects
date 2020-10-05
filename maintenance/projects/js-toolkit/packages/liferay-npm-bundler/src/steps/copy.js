@@ -22,8 +22,8 @@ import {findFiles, getDestDir, runPlugins} from './util';
 export default function copyPackages(rootPkg, depPkgs) {
 	const pkgs = [rootPkg, ...depPkgs];
 
-	return Promise.all(pkgs.map(srcPkg => copyPackage(srcPkg))).then(() =>
-		log.debug(`Copied ${pkgs.filter(pkg => !pkg.clean).length} packages`)
+	return Promise.all(pkgs.map((srcPkg) => copyPackage(srcPkg))).then(() =>
+		log.debug(`Copied ${pkgs.filter((pkg) => !pkg.clean).length} packages`)
 	);
 }
 
@@ -77,7 +77,7 @@ function copyPackage(srcPkg) {
 	}
 
 	return Promise.all(
-		srcPkgRelPathsToCopy.map(srcPkgRelPath =>
+		srcPkgRelPathsToCopy.map((srcPkgRelPath) =>
 			copyFile(srcPkg, destPkg, srcPkgRelPath)
 		)
 	);

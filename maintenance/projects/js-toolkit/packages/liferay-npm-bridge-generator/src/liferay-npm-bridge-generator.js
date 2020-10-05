@@ -30,7 +30,7 @@ export default function main() {
 	const pkgJson = readJsonSync('./package.json');
 	const config = readJsonSync('./.npmbridgerc');
 
-	Object.keys(config).forEach(key => {
+	Object.keys(config).forEach((key) => {
 		const opts = config[key];
 
 		log(`'${key}' bridges:`);
@@ -71,7 +71,7 @@ export default function main() {
 			.sync(fileGlobs.split(','), {
 				cwd: input,
 			})
-			.forEach(srcFile => {
+			.forEach((srcFile) => {
 				const destFile = srcFile.replace(
 					new RegExp(destFileMapper.from),
 					destFileMapper.to

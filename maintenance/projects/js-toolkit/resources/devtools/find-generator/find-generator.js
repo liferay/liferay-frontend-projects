@@ -11,14 +11,14 @@ const yeoman = require('yeoman-environment');
 const env = yeoman.createEnv();
 const paths = env.getNpmPaths();
 
-paths.forEach(path => {
+paths.forEach((path) => {
 	if (!fs.existsSync(path)) {
 		return;
 	}
 
 	const items = fs.readdirSync(path);
 
-	items.forEach(item => {
+	items.forEach((item) => {
 		if (item === 'generator-liferay-js') {
 			console.log('found generator-liferay-js in', path);
 		}

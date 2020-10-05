@@ -9,7 +9,7 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 /**
  * @return {object} a babel visitor
  */
-export default function({types: t}) {
+export default function ({types: t}) {
 	return {
 		visitor: {
 			Identifier: {

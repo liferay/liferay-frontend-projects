@@ -34,7 +34,7 @@ export interface AliasHash {
 	[index: string]: AliasToValue;
 }
 
-const aliasesCache: { [index: string]: AliasHash } = Object.create(null);
+const aliasesCache: {[index: string]: AliasHash} = Object.create(null);
 
 /**
  * Get `resolve.aliasFields` configuration value.
@@ -130,7 +130,7 @@ export function loadAliases(
 		);
 
 		// Normalize `/` to `./`
-		Object.keys(aliases).forEach(key => {
+		Object.keys(aliases).forEach((key) => {
 			if (key.startsWith('/')) {
 				aliases[`.${key}`] = aliases[key];
 				delete aliases[key];

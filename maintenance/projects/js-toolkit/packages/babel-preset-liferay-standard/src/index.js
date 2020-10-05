@@ -16,7 +16,7 @@ import babelPluginWrapModulesAmd from 'babel-plugin-wrap-modules-amd';
 /**
  * @return {Object} a Babel configuration object
  */
-export default function() {
+export default function () {
 	return {
 		plugins: [
 			babelPluginAliasModules,

@@ -37,7 +37,7 @@ export default class ConfigurationJsonModifier extends JsonModifier {
 		type,
 		{defaultValue, description, name, options, required}
 	) {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `${section}.fields.${id}.type`, type);
 			if (name) {
 				prop.set(json, `${section}.fields.${id}.name`, name);

@@ -10,7 +10,7 @@ const path = require('path');
 
 const tscFile = path.join(__dirname, '..', 'node_modules', '.bin', 'tsc');
 
-globby.sync(['packages/*/tsconfig.json']).forEach(tsconfigPath => {
+globby.sync(['packages/*/tsconfig.json']).forEach((tsconfigPath) => {
 	const prjDir = path.dirname(tsconfigPath);
 
 	childProcess.spawn('node', [tscFile, '-w'], {

@@ -14,7 +14,7 @@ console.info('Say something');
 **Out**
 
 ```javascript
-define(['module', 'exports', 'require', 'console'], function(
+define(['module', 'exports', 'require', 'console'], function (
 	module,
 	exports,
 	require

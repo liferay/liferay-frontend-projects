@@ -31,10 +31,10 @@ export function findFiles(baseDirPath, globs) {
 			onlyFiles: true,
 			followSymbolicLinks: false,
 		})
-		.map(absPath => path.relative(baseDirPath, absPath))
-		.map(baseDirRelPath => new FilePath(baseDirRelPath, {posix: true}));
+		.map((absPath) => path.relative(baseDirPath, absPath))
+		.map((baseDirRelPath) => new FilePath(baseDirRelPath, {posix: true}));
 
-	files = files.map(file => file.asNative);
+	files = files.map((file) => file.asNative);
 
 	return files;
 }
@@ -91,7 +91,7 @@ export function runInChunks(items, chunkSize, chunkIndex, callback) {
 		Math.min(items.length, (chunkIndex + 1) * chunkSize)
 	);
 
-	return Promise.all(chunk.map(item => callback(item))).then(() => {
+	return Promise.all(chunk.map((item) => callback(item))).then(() => {
 		chunkIndex++;
 
 		if (chunkIndex < chunksCount) {
@@ -110,7 +110,7 @@ export function runInChunks(items, chunkSize, chunkIndex, callback) {
  * @return {Object} the state object
  */
 export function runPlugins(plugins, srcPkg, destPkg, state, callback) {
-	plugins.forEach(plugin => {
+	plugins.forEach((plugin) => {
 		const params = {
 			config: plugin.config,
 			log: new PluginLogger(),

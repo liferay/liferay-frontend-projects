@@ -6,7 +6,7 @@
 
 import path from 'path';
 
-import { loadAliases } from '../alias';
+import {loadAliases} from '../alias';
 import FilePath from '../file-path';
 
 const fixturesDir = new FilePath(path.join(__dirname, '__fixtures__', 'alias'));
@@ -107,5 +107,5 @@ describe('loadAliases', () => {
 		]);
 
 		expect(aliases['toString']).toBeUndefined();
-	})
+	});
 });

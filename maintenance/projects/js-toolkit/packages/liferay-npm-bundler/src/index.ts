@@ -23,7 +23,7 @@ import runRules from './steps/rules';
 import transformPackages from './steps/transform';
 
 /** Default entry point for the liferay-npm-bundler */
-export default function(argv: {version: boolean}): void {
+export default function (argv: {version: boolean}): void {
 	const versionsInfo = project.versionsInfo;
 
 	if (argv.version) {
@@ -62,7 +62,7 @@ function run(): void {
 			project.copy.includedDependencies
 		);
 
-		const depPkgs = Object.values(depPkgsMap).filter(pkg => !pkg.isRoot);
+		const depPkgs = Object.values(depPkgsMap).filter((pkg) => !pkg.isRoot);
 
 		report.dependencies(depPkgs);
 		reportLinkedDependencies(project.pkgJson);
@@ -116,9 +116,9 @@ function run(): void {
 
 /** Report linked dependencies of a given package.json */
 function reportLinkedDependencies(pkgJson: object): void {
-	['dependencies', 'devDependencies'].forEach(scope => {
+	['dependencies', 'devDependencies'].forEach((scope) => {
 		if (pkgJson[scope] != null) {
-			Object.keys(pkgJson[scope]).forEach(depName => {
+			Object.keys(pkgJson[scope]).forEach((depName) => {
 				const depVersion = pkgJson[scope][depName];
 
 				if (semver.validRange(depVersion) == null) {

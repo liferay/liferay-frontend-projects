@@ -67,12 +67,12 @@ if (argv['install']) {
 		cwd: linkJsToolkitProjectDir,
 	});
 
-	fs.readdirSync(projectsDir).forEach(projectName => {
+	fs.readdirSync(projectsDir).forEach((projectName) => {
 		const projectDir = path.join(projectsDir, projectName);
 		const pkgJson = fs.readJsonSync(path.join(projectDir, 'package.json'));
 
 		if (pkgJson.bin) {
-			Object.keys(pkgJson.bin).forEach(bin =>
+			Object.keys(pkgJson.bin).forEach((bin) =>
 				safeUnlink(path.join(os.homedir(), '.yarn', 'bin', bin))
 			);
 		}
@@ -115,15 +115,15 @@ The following projects have been deployed to your local Liferay installation:
 
 ${fs
 	.readdirSync(path.join(samplesDir, 'packages'))
-	.filter(dirname =>
+	.filter((dirname) =>
 		fs.statSync(path.join(samplesDir, 'packages', dirname)).isDirectory()
 	)
-	.filter(dirname =>
+	.filter((dirname) =>
 		fs.existsSync(
 			path.join(samplesDir, 'packages', dirname, 'package.json')
 		)
 	)
-	.filter(dirname => {
+	.filter((dirname) => {
 		const pkgJson = fs.readJsonSync(
 			path.join(samplesDir, 'packages', dirname, 'package.json')
 		);
@@ -132,7 +132,7 @@ ${fs
 			pkgJson['scripts']['deploy'] || pkgJson['scripts']['deploy:liferay']
 		);
 	})
-	.map(dirname => `  · ${dirname}`)
+	.map((dirname) => `  · ${dirname}`)
 	.join('\n')}
 
 

@@ -30,7 +30,7 @@ if (fs.existsSync('copyfiles.json')) {
 	}
 }
 
-copyfiles([...inputs, output], options, err => {
+copyfiles([...inputs, output], options, (err) => {
 	if (err) {
 		console.error(err);
 		process.exit(1);

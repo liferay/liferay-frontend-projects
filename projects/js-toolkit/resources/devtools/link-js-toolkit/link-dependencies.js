@@ -43,7 +43,7 @@ function linkDependencies(extraDependencies = []) {
 	// Install all but JS toolkit dependencies
 	const modPkgJson = clone(pkgJson);
 
-	deps.forEach(dep => {
+	deps.forEach((dep) => {
 		delete modPkgJson.dependencies[dep];
 		delete modPkgJson.devDependencies[dep];
 	});
@@ -52,7 +52,7 @@ function linkDependencies(extraDependencies = []) {
 
 	console.log('\n--- Installing dependencies not from JS Toolkit\n');
 	try {
-		extraDependencies.forEach(extraDep => {
+		extraDependencies.forEach((extraDep) => {
 			yarn('add', extraDep);
 
 			const newPkgJson = readJsonSync(path.join('.', 'package.json'));

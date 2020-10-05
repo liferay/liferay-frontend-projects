@@ -14,7 +14,7 @@ import resolve from 'resolve';
 /**
  * @return {void}
  */
-export default function({config, log, pkg, source}, {pkgJson}) {
+export default function ({config, log, pkg, source}, {pkgJson}) {
 	const defineCall = (config.defineCall || 'Liferay.Loader.define') + '(';
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
@@ -24,8 +24,8 @@ export default function({config, log, pkg, source}, {pkgJson}) {
 
 	globby
 		.sync([`${pkg.dir.asPosix}/**/*.js`])
-		.map(posixPath => new FilePath(posixPath, {posix: true}))
-		.forEach(file => {
+		.map((posixPath) => new FilePath(posixPath, {posix: true}))
+		.forEach((file) => {
 			const code = fs.readFileSync(file.asNative);
 			const defineCallOffset = code.indexOf(defineCall);
 
@@ -63,7 +63,7 @@ export default function({config, log, pkg, source}, {pkgJson}) {
 			}
 		});
 
-	Object.keys(injectedDeps).forEach(dep => {
+	Object.keys(injectedDeps).forEach((dep) => {
 		log.info(
 			'inject-peer-dependencies',
 			'Injected dependency',
@@ -71,7 +71,7 @@ export default function({config, log, pkg, source}, {pkgJson}) {
 		);
 	});
 
-	Object.keys(failedDeps).forEach(dep => {
+	Object.keys(failedDeps).forEach((dep) => {
 		log.warn(
 			'inject-peer-dependencies',
 			'Failed to resolve dependency',
@@ -98,7 +98,7 @@ function processModuleDependencies(
 	injectedDeps,
 	failedDeps
 ) {
-	deps.forEach(dep => {
+	deps.forEach((dep) => {
 		if (!mod.isExternalDependency(dep) || mod.isNodeCoreModule(dep)) {
 			return;
 		}
@@ -177,6 +177,6 @@ function extractDependencies(line) {
 	return line
 		.substring(1, indexOfClose)
 		.split(',')
-		.map(dep => dep.trim())
-		.map(dep => dep.replace(/['"]/g, ''));
+		.map((dep) => dep.trim())
+		.map((dep) => dep.replace(/['"]/g, ''));
 }

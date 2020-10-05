@@ -12,7 +12,7 @@ If your project is named `test-package`:
 **In**
 
 ```javascript
-define('a-module', ['a-module', './a-local-module', 'fs'], function() {
+define('a-module', ['a-module', './a-local-module', 'fs'], function () {
 	require('a-module');
 	require('./a-local-module');
 	require('fs');
@@ -26,7 +26,7 @@ define('a-module', [
 	'my-project$a-module',
 	'./a-local-module',
 	'fs',
-], function() {
+], function () {
 	require('my-project$a-module');
 	require('./a-local-module');
 	require('fs');

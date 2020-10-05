@@ -66,7 +66,7 @@ export default class FilePath {
 		return new FilePath(
 			join(
 				this.toString(),
-				...anyPathFragments.map(nativePathFragment =>
+				...anyPathFragments.map((nativePathFragment) =>
 					nativePathFragment.toString()
 				)
 			)

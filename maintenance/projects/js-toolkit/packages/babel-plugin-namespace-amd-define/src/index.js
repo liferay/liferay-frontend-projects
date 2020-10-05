@@ -11,7 +11,7 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
  *     namespace: 'Liferay.Loader'
  * @return {object} a babel visitor
  */
-export default function() {
+export default function () {
 	let extraNamespaceCount;
 	let firstDefineNamespaced;
 
