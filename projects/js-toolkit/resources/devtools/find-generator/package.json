@@ -1,0 +1,12 @@
+{
+	"name": "find-generator",
+	"version": "1.0.0",
+	"description": "",
+	"bin": {
+		"find-generator": "find-generator.js"
+	},
+	"dependencies": {
+		"yeoman-environment": "^2.4.0"
+	},
+	"private": true
+}

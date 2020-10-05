@@ -1,0 +1,33 @@
+{
+	"name": "liferay-js-toolkit-core",
+	"version": "3.0.0-alpha.2",
+	"description": "Utility library for Liferay NPM Build Tools.",
+	"license": "LGPL-3.0",
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"ci": "cd ../.. && yarn ci",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
+	},
+	"dependencies": {
+		"acorn": "^6.2.1",
+		"chalk": "^2.4.2",
+		"clone": "^2.1.2",
+		"cross-spawn": "^7.0.0",
+		"dot-prop": "^5.0.1",
+		"escodegen": "^1.14.1",
+		"estraverse": "^4.3.0",
+		"fs-extra": "^8.1.0",
+		"properties": "^1.2.1",
+		"read-json-sync": "^2.0.1",
+		"resolve": "^1.8.1",
+		"source-map": "^0.7.3",
+		"webpack": "^4.41.6"
+	},
+	"devDependencies": {
+		"@types/estree": "^0.0.42"
+	}
+}

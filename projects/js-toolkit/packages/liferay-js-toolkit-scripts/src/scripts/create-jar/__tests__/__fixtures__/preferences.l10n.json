@@ -1,0 +1,27 @@
+{
+	"fields": {
+		"a-number": {
+			"type": "number",
+			"name": "a-number",
+			"description": "a-number-help",
+			"default": "43"
+		},
+		"a-string": {
+			"type": "string",
+			"name": "a-string",
+			"required": true,
+			"description": "a-string-help",
+			"default": "a-string-value"
+		},
+		"fruit": {
+			"name": "a-fruit",
+			"description": "a-fruit-help",
+			"default": "orange",
+			"options": {
+				"orange": "an-orange",
+				"pear": "a-pear",
+				"apple": "an-apple"
+			}
+		}
+	}
+}

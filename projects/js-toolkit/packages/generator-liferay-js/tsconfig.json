@@ -1,0 +1,11 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"composite": true,
+		"outDir": "./generators",
+		"rootDir": "./src"
+	},
+	"include": ["src/**/*", "src/**/*.json"],
+	"references": [{"path": "../liferay-js-toolkit-core"}]
+}

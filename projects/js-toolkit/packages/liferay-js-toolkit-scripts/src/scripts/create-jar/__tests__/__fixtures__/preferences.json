@@ -1,0 +1,38 @@
+{
+	"fields": {
+		"a-number": {
+			"type": "number",
+			"name": "A number",
+			"description": "A regular number",
+			"default": "43"
+		},
+		"a-float": {
+			"type": "float",
+			"name": "A float",
+			"required": true,
+			"description": "A floating point number",
+			"default": "1.2"
+		},
+		"a-string": {
+			"type": "string",
+			"name": "A string",
+			"description": "A regular string",
+			"default": "To be or not to be..."
+		},
+		"a-boolean": {
+			"type": "boolean",
+			"name": "A boolean",
+			"description": "A true|false value"
+		},
+		"fruit": {
+			"name": "Favorite fruit",
+			"description": "Choose the fruit you like the most",
+			"default": "orange",
+			"options": {
+				"orange": "An orange",
+				"pear": "A pear",
+				"apple": "An apple"
+			}
+		}
+	}
+}

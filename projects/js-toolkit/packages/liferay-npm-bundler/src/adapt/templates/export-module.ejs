@@ -1,0 +1,10 @@
+Liferay.Loader.define(
+	'<%= moduleName %>', 
+	[
+		'module', 
+		<%= dependencies %>
+	], 
+	function(module, <%= dependencyVariables %>) {
+		module.exports = entry;
+	}
+);

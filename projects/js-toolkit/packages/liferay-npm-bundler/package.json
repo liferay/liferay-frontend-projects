@@ -1,0 +1,43 @@
+{
+	"name": "liferay-npm-bundler",
+	"version": "3.0.0-alpha.5",
+	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
+	"license": "LGPL-3.0",
+	"main": "lib/index.js",
+	"bin": {
+		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"ci": "cd ../.. && yarn ci",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
+	},
+	"devDependencies": {
+		"@types/ejs": "^3.0.1",
+		"@types/escodegen": "^0.0.6",
+		"@types/estraverse": "^0.0.6",
+		"@types/estree": "^0.0.42",
+		"@types/fs-extra": "^8.1.0",
+		"@types/webpack": "^4.41.6"
+	},
+	"dependencies": {
+		"acorn": "^6.2.1",
+		"cross-spawn": "^7.0.0",
+		"ejs": "^2.6.1",
+		"escodegen": "^1.14.1",
+		"estraverse": "^4.3.0",
+		"fs-extra": "^8.1.0",
+		"globby": "^10.0.1",
+		"jszip": "^3.1.5",
+		"liferay-js-toolkit-core": "3.0.0-alpha.2",
+		"pretty-time": "^1.1.0",
+		"read-json-sync": "^2.0.1",
+		"source-map": "^0.7.3",
+		"webpack": "^4.41.6",
+		"xml-js": "^1.6.8",
+		"yargs": "^14.0.0"
+	}
+}
