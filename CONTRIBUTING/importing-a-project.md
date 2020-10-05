@@ -115,6 +115,8 @@ Examples include:
 
 -   Create labels for the project and any subpackages and add the to [the Pull Request Labeler's](https://github.com/actions/labeler) [configuration file](../.github/labeler.yml).
 
+-   Remove the temporary remote that you added with `git remote add` to avoid inadvertantly pulling down unwanted tags again the next time you run a command like `git remote update`. You can do this by running `git remote remove` and passing the name of the remote.
+
 ## Pro-Tips™
 
 ### `git log --first-parent`
