@@ -510,7 +510,7 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 	return version;
 }
 
-function parseArgs(args) {
+async function parseArgs(args) {
 	const options = {
 		dryRun: false,
 		outfile: './CHANGELOG.md',
@@ -595,9 +595,19 @@ function parseArgs(args) {
 	});
 
 	if (!options.version) {
-		error('Missing required option: --version; see --help for usage');
+		if (options.dryRun) {
+			const prefix = await getVersionTagPrefix();
 
-		return null;
+			const version = `${prefix}0.0.0-placeholder`;
+
+			info(`Using phony version ${version} during --dry-run`);
+
+			options.version = version;
+		} else {
+			error('Missing required option: --version; see --help for usage');
+
+			return null;
+		}
 	}
 
 	return options;
@@ -692,7 +702,8 @@ async function getVersionTagPrefix() {
 }
 
 async function main(_node, _script, ...args) {
-	const options = parseArgs(args);
+	const options = await parseArgs(args);
+
 	if (!options) {
 		process.exit(1);
 	}
