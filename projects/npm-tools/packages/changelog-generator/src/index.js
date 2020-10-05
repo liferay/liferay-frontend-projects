@@ -702,13 +702,6 @@ async function getVersionTagPrefix() {
 }
 
 async function main(_node, _script, ...args) {
-	const options = await parseArgs(args);
-
-	if (!options) {
-		process.exit(1);
-	}
-	const {outfile, to, updateTags} = options;
-
 	printBanner(`
 		changelog.js
 		============
@@ -716,6 +709,14 @@ async function main(_node, _script, ...args) {
 		Reporting
 		for duty!
 	`);
+
+	const options = await parseArgs(args);
+
+	if (!options) {
+		process.exit(1);
+	}
+
+	const {outfile, to, updateTags} = options;
 
 	if (updateTags) {
 		try {
