@@ -1,0 +1,8 @@
+{
+	"name": "project2",
+	"version": "1.0.0",
+	"dependencies": {
+		"is-finite": "1.0.0",
+		"isobject": "1.0.0"
+	}
+}

@@ -1,0 +1,78 @@
+{
+	"availableLanguageIds": ["es_ES"],
+	"fields": [
+		{
+			"dataType": "integer",
+			"type": "numeric",
+			"name": "a-number",
+			"label": {
+				"": "A number",
+				"es_ES": "Un número"
+			},
+			"tip": {
+				"": "A number help",
+				"es_ES": "Ayuda de un número"
+			},
+			"predefinedValue": {
+				"": "43"
+			}
+		},
+		{
+			"dataType": "string",
+			"type": "text",
+			"name": "a-string",
+			"label": {
+				"": "A string",
+				"es_ES": "Una cadena"
+			},
+			"tip": {
+				"": "A string help",
+				"es_ES": "Ayuda de una cadena"
+			},
+			"predefinedValue": {
+				"": "A string value",
+				"es_ES": "Valor de una cadena"
+			},
+			"required": true
+		},
+		{
+			"dataType": "string",
+			"type": "select",
+			"name": "fruit",
+			"label": {
+				"": "A fruit",
+				"es_ES": "Una fruta"
+			},
+			"tip": {
+				"": "A fruit help",
+				"es_ES": "Ayuda de una fruta"
+			},
+			"predefinedValue": {
+				"": "[\"orange\"]"
+			},
+			"options": [
+				{
+					"value": "orange",
+					"label": {
+						"": "An orange",
+						"es_ES": "Una naranja"
+					}
+				},
+				{
+					"value": "pear",
+					"label": {
+						"": "A pear",
+						"es_ES": "Una pera"
+					}
+				},
+				{
+					"value": "apple",
+					"label": {
+						"": "An apple",
+						"es_ES": "Una manzana"
+					}
+				}
+			]
+		}
+	]
+}

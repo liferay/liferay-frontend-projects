@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when working with messages dumps them as HTML correctly 1`] = `"info-source:info: info-thing-1 info-thing-2<br>error-source:error: error-thing-1<br>"`;
+
+exports[`when working with messages dumps them as text correctly 1`] = `
+"info-source:info: info-thing-1 info-thing-2
+error-source:error: error-thing-1
+"
+`;
+
+exports[`when working with messages stores them correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "info-source",
+    "things": Array [
+      "info-thing-1",
+      "info-thing-2",
+    ],
+  },
+  Object {
+    "level": "error",
+    "source": "error-source",
+    "things": Array [
+      "error-thing-1",
+    ],
+  },
+]
+`;

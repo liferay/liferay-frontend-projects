@@ -1,0 +1,6 @@
+lerna-debug.log
+node_modules/*
+packages/*/node_modules
+lib
+coverage
+generators

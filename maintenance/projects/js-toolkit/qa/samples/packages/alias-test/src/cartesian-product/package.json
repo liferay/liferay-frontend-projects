@@ -1,0 +1,13 @@
+{
+	"browser": {
+		"fs": "fs-browser",
+		"jss": "./my-jss",
+		"is-object": "./my-is-object.js",
+		"./util": "fancy-util",
+		"./model": "./browser/model",
+		"./things": "./browser/things.js",
+		"./display.js": "react",
+		"./platform.js": "./browser/platform",
+		"./random.js": "./browser/random.js"
+	}
+}

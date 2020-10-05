@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadSourceMap() works with /*# annotation 1`] = `
+Object {
+  "file": "main.js",
+  "mappings": ";;AAAA,8EAA2E;AAC3E,+CAA6C;AAE7C;IACC,iDAAsB,EAAE,CAAC,eAAe,CAAC,sBAAS,CAAC,CAAC;AACrD,CAAC;AAFD,4BAEC",
+  "names": Array [],
+  "sourceRoot": "",
+  "sources": Array [
+    "../../../../../../src/main/resources/META-INF/resources/js/main.ts",
+  ],
+  "sourcesContent": Array [
+    "import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
+
+export default function() {
+	platformBrowserDynamic().bootstrapModule(AppModule);
+}",
+  ],
+  "version": 3,
+}
+`;
+
+exports[`loadSourceMap() works with //# annotation 1`] = `
+Object {
+  "file": "main.js",
+  "mappings": ";;AAAA,8EAA2E;AAC3E,+CAA6C;AAE7C;IACC,iDAAsB,EAAE,CAAC,eAAe,CAAC,sBAAS,CAAC,CAAC;AACrD,CAAC;AAFD,4BAEC",
+  "names": Array [],
+  "sourceRoot": "",
+  "sources": Array [
+    "../../../../../../src/main/resources/META-INF/resources/js/main.ts",
+  ],
+  "sourcesContent": Array [
+    "import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
+
+export default function() {
+	platformBrowserDynamic().bootstrapModule(AppModule);
+}",
+  ],
+  "version": 3,
+}
+`;

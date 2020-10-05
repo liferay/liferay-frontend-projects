@@ -1,0 +1,3 @@
+{
+	"exclude-folders": ["build", "classes"]
+}

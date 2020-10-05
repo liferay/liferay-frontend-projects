@@ -1,0 +1,14 @@
+{
+	"name": "babel-plugin-namespace-amd-define",
+	"version": "2.19.3",
+	"description": "A Babel plugin to namespace (prefix) AMD define() calls.",
+	"main": "lib/index.js",
+	"scripts": {
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
+		"prepublish": "yarn build"
+	},
+	"dependencies": {
+		"liferay-npm-build-tools-common": "2.19.3"
+	}
+}

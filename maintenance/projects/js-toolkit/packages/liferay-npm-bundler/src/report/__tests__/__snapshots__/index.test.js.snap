@@ -1,0 +1,744 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correctly dumps HTML report 1`] = `
+"
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<meta charset=\\"utf-8\\" />
+				<title>Report of liferay-npm-bundler execution</title>
+				<style>
+					body, h1, h2, h3, p, li {
+						font-family: sans-serif;
+					}
+					
+					body, p, th, td, li {
+						font-size: 10pt;
+					}
+					
+					h1 {
+						font-size: 16pt;
+						margin: 1em 0 .5em 0;
+					}
+					
+					h2 {
+						font-size: 13pt;
+						margin: 1em 0 .5em 0;
+					}
+					
+					h3 {
+						font-size: 11pt;
+						margin: 1em 0 .5em 0;
+					}
+					
+					table {
+						margin: 0 0 .5em 0;
+					}
+					
+					tr:nth-child(odd) {
+						background-color: #F6F6F6;
+					}
+					
+					th {
+						background-color: #F0F0F0;
+						text-align: left;
+					}
+					
+					th, td {
+						padding: .1em 0;
+						vertical-align: top;
+					}
+					
+					td.info, td.warn, td.error {
+						background: green;
+						border-radius: 4px;
+						color: white;
+						text-align: center;
+						vertical-align: middle;
+						width: 1px;
+						white-space: nowrap;
+					}
+
+					td.warn {
+						background: orange;
+					}
+
+					td.error {
+						background: red;
+					}
+					
+					td.source {
+						white-space: nowrap;
+					}
+
+					ul {
+						padding-left: 1em;
+						margin: 0 0 .5em 0;
+					}
+					
+					p {
+						margin: 0 0 .5em 0;
+					}
+
+					a {
+						text-decoration: none;
+						color: #055;
+					}
+
+					#log-level-selector {
+						position: fixed;
+						top: 1em;
+						right: 1em;
+						background-color: #eee;
+						padding: .3em;
+						border-radius: 4px;
+						font-size: 8pt;
+						border: 1px solid #ccc;
+					}
+
+					#log-level-selector select {
+						font-size: 8pt;
+					}
+
+					.configuration {
+						display: inline-block;
+						margin-bottom: .5em;
+					}
+
+					.configuration > div {
+						background-color: #f0f0f0;
+						cursor: pointer;
+						border-radius: 4px;
+						padding: 2px;
+						display: inline;
+					}
+
+					.configuration > div:after {
+						content: \\"👀\\";
+						padding: 0 .5em;
+					}
+
+					.configuration > pre {
+						font-size: 8pt;
+						display: none;
+					}
+
+					.configuration:hover > pre {
+						display: block;
+					}
+				</style>
+				<script id=\\"report\\" type=\\"application/json\\">
+					{\\"_executionDate\\":\\"1970-01-01T00:00:00.000Z\\",\\"_versionsInfo\\":{\\"liferay-npm-bundler\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/bundler\\"},\\"liferay-npm-bundler-plugin-inject-angular\\":{\\"version\\":\\"1.4.2\\",\\"path\\":\\"path/to/plugin\\"}},\\"_packages\\":{\\"root-package1@1.0.0\\":{\\"id\\":\\"root-package1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"root-package\\",\\"version\\":\\"1.0.0\\"},\\"package-1@1.0.0\\":{\\"id\\":\\"package-1@1.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{\\"a-plugin\\":{\\"plugin\\":{\\"name\\":\\"a-plugin\\",\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2}},\\"logger\\":{\\"_msgs\\":[]}}},\\"babel\\":{\\"config\\":{\\"cfgval1\\":1,\\"cfgval2\\":2},\\"files\\":{\\"a.js\\":{\\"logger\\":{\\"_msgs\\":[]}}}},\\"post\\":{}},\\"name\\":\\"package-1\\",\\"version\\":\\"1.0.0\\",\\"link\\":\\"file:../package-1\\",\\"allFiles\\":[\\"a.js\\",\\"b.js\\",\\"c.js\\"],\\"copiedFiles\\":[\\"a.js\\",\\"c.js\\"]},\\"package-2@2.0.0\\":{\\"id\\":\\"package-2@2.0.0\\",\\"process\\":{\\"copy\\":{},\\"pre\\":{},\\"babel\\":{\\"config\\":{},\\"files\\":{}},\\"post\\":{}},\\"name\\":\\"package-2\\",\\"version\\":\\"2.0.0\\"}},\\"_rules\\":{\\"config\\":{},\\"files\\":{}},\\"_warnings\\":[\\"warn 1\\",\\"warn 2\\",\\"warn\\"],\\"_executionTime\\":[1,2]}
+				</script>
+				<script>
+					window.report = JSON.parse(
+						document.getElementById(\\"report\\").innerHTML
+					);
+				</script>
+				<script>
+					window.onload = function() {
+						var style = document.createElement('style');
+
+						style.innerHTML = '';
+
+						document.head.appendChild(style);
+
+						var select = document.getElementById('log-level-select');
+
+						select.value = 'info';
+
+						select.onchange = function() {
+							switch(select.value) {
+								case 'info':
+									style.innerHTML = '';
+									break;
+
+								case 'warn':
+									style.innerHTML = 
+										'tr.info {display: none;}';
+									break;
+
+								case 'error':
+									style.innerHTML = 
+										'tr.info {display: none;} ' +
+										'tr.warn {display: none;}';
+									break;
+							}
+						};
+					}
+				</script>
+			</head>
+			<body>
+				<div id='log-level-selector'>
+					Log level filter: 
+					<select id='log-level-select'>
+						<option>info</option>
+						<option>warn</option>
+						<option>error</option>
+					</select>
+				</div>
+				
+				<h1>Report of liferay-npm-bundler execution</h1>
+				
+			<table>
+				<tr class=\\"\\"><td>Executed at:</td><td>Thu, 01 Jan 1970 00:00:00 GMT</td></tr>
+<tr class=\\"\\"><td>Execution took:</td><td>1s</td></tr>
+			</table>
+		
+				
+		<h2>Warnings</h2>
+		
+		<ul>
+			<li>warn 1</li> <li>warn 2</li> <li>warn</li>
+		</ul>
+	
+	
+				
+		<h2>Bundler environment versions</h2>
+		
+			<table>
+				<tr class=\\"\\"><th>Package</th>
+<th>Version</th></tr>
+				<tr class=\\"\\">
+					<td>liferay-npm-bundler</td>
+					<td>1.4.2</td>
+				</tr>
+<tr class=\\"\\">
+					<td>liferay-npm-bundler-plugin-inject-angular</td>
+					<td>1.4.2</td>
+				</tr>
+			</table>
+		
+	
+				
+		<h2>Bundled packages</h2>
+		
+			<table>
+				<tr class=\\"\\"><th>Package</th>
+<th>Version</th>
+<th>Copied files</th>
+<th>Excluded files</th>
+<th>Linked to</th></tr>
+				<tr class=\\"\\">
+						<td>package-1</td>
+						<td>1.0.0</td>
+						<td><div title=\\"a.js,c.js\\">
+									2
+								</div></td>
+						<td>
+							<div title=\\"b.js\\">
+										1
+									</div>
+						</td>
+						<td>file:../package-1</td>
+					</tr>
+<tr class=\\"\\">
+						<td>package-2</td>
+						<td>2.0.0</td>
+						<td></td>
+						<td>
+							
+						</td>
+						<td></td>
+					</tr>
+<tr class=\\"\\">
+						<td>root-package</td>
+						<td>1.0.0</td>
+						<td></td>
+						<td>
+							
+						</td>
+						<td></td>
+					</tr>
+			</table>
+		
+	
+				
+		<h2>Details of rule executions</h2>
+		
+		<div class=\\"configuration\\">
+			<div>Configuration</div>
+			<pre>{}</pre>
+		</div>
+		
+
+			<table>
+				<tr class=\\"\\"><th>File</th>
+<th>Log source</th>
+<th>Message</th>
+<th></th>
+<th></th></tr>
+				
+			</table>
+		
+	
+				
+						
+		<h2>Summary of package transformations</h2>
+		
+			<table>
+				<tr class=\\"\\"><th>Package</th>
+<th>Version</th>
+<th>Copy phase</th>
+<th>Pre-babel phase</th>
+<th>Babel phase</th>
+<th>Post-babel phase</th></tr>
+				<tr class=\\"\\">
+						<td>package-1</td>
+						<td>1.0.0</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-bundler\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-bundler\\">
+								1 plugins applied
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-babel\\">
+								1 files processed
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-1@1.0.0-bundler\\">
+								
+							</a>
+						</td>
+					</tr>
+<tr class=\\"\\">
+						<td>package-2</td>
+						<td>2.0.0</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-bundler\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-bundler\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-babel\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#package-2@2.0.0-bundler\\">
+								
+							</a>
+						</td>
+					</tr>
+<tr class=\\"\\">
+						<td>root-package</td>
+						<td>1.0.0</td>
+						<td>
+							<a href=\\"#root-package1@1.0.0-bundler\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#root-package1@1.0.0-bundler\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#root-package1@1.0.0-babel\\">
+								
+							</a>
+						</td>
+						<td>
+							<a href=\\"#root-package1@1.0.0-bundler\\">
+								
+							</a>
+						</td>
+					</tr>
+			</table>
+		
+	
+						
+		<h2>Details of bundler transformations</h2>
+		
+		<h3>
+							<a name=\\"package-1@1.0.0-bundler\\">
+								package-1@1.0.0
+							</a>
+						</h3>
+		
+			<table>
+				<tr class=\\"\\"><th>Pre-phase plugin</th>
+<th>Config</th>
+<th>Message</th>
+<th></th>
+<th></th></tr>
+				<tr class=\\"\\">
+					<td>a-plugin</td> <td>{\\"cfgval1\\":1,\\"cfgval2\\":2}</td>
+					
+					<td></td> <td></td>
+				</tr>
+			</table>
+		
+	
+
+
+	
+						
+		<h2>Details of Babel transformations</h2>
+		
+		<h3>
+						<a name=\\"package-1@1.0.0-babel\\">
+							package-1@1.0.0
+						</a>
+						</h3>
+		
+						<div class=\\"configuration\\">
+							<div>Configuration</div>
+							<pre>{
+  \\"cfgval1\\": 1,
+  \\"cfgval2\\": 2
+}</pre>
+						</div>
+						
+
+			<table>
+				<tr class=\\"\\"><th>File</th>
+<th>Log source</th>
+<th>Message</th>
+<th></th>
+<th></th></tr>
+				<tr class=\\"\\">
+					<td>a.js</td>
+					<td></td>
+					<td></td> <td></td> <td></td>
+				</tr>
+			</table>
+		
+	
+
+
+	
+					
+			</body>
+		</html>
+	"
+`;
+
+exports[`when describing the run correctly stores Babel config 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "id": "package-1@1.0.0",
+      "process": Object {
+        "babel": Object {
+          "config": Object {
+            "cfgval1": 1,
+            "cfgval2": 2,
+          },
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores Babel file run 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "id": "package-1@1.0.0",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {
+            "a.js": Object {
+              "logger": PluginLogger {
+                "_msgs": Array [],
+              },
+            },
+          },
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores bundler plugin runs 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "id": "package-1@1.0.0",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {
+          "a-plugin": Object {
+            "logger": PluginLogger {
+              "_msgs": Array [],
+            },
+            "plugin": Object {
+              "config": Object {
+                "cfgval1": 1,
+                "cfgval2": 2,
+              },
+              "name": "a-plugin",
+              "run": [Function],
+            },
+          },
+        },
+      },
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores dependencies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "id": "package-1@1.0.0",
+      "name": "package-1",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "1.0.0",
+    },
+    "package-2@2.0.0": Object {
+      "id": "package-2@2.0.0",
+      "name": "package-2",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "2.0.0",
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores executionTime 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_executionTime": Array [
+    1,
+    2,
+  ],
+  "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores linked dependencies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "a-package@1.1.0": Object {
+      "id": "a-package@1.1.0",
+      "link": "file:../a-package",
+      "name": "a-package",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "1.1.0",
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores package copies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "package-1@1.0.0": Object {
+      "allFiles": Array [
+        "a.js",
+        "b.js",
+        "c.js",
+      ],
+      "copiedFiles": Array [
+        "a.js",
+        "c.js",
+      ],
+      "id": "package-1@1.0.0",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores root package description 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {
+    "root-package1@1.0.0": Object {
+      "id": "root-package1@1.0.0",
+      "name": "root-package",
+      "process": Object {
+        "babel": Object {
+          "config": Object {},
+          "files": Object {},
+        },
+        "copy": Object {},
+        "post": Object {},
+        "pre": Object {},
+      },
+      "version": "1.0.0",
+    },
+  },
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores unique warnings 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [
+    "warn",
+  ],
+}
+`;
+
+exports[`when describing the run correctly stores versions info 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {
+    "liferay-npm-bundler": Object {
+      "path": "path/to/bundler",
+      "version": "1.4.2",
+    },
+    "liferay-npm-bundler-plugin-inject-angular": Object {
+      "path": "path/to/plugin",
+      "version": "1.4.2",
+    },
+  },
+  "_warnings": Array [],
+}
+`;
+
+exports[`when describing the run correctly stores warnings 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [
+    "warn 1",
+    "warn 2",
+  ],
+}
+`;
+
+exports[`when describing the run ignores not previously registered linked dependencies 1`] = `
+Report {
+  "_executionDate": 1970-01-01T00:00:00.000Z,
+  "_packages": Object {},
+  "_rules": Object {
+    "config": Object {},
+    "files": Object {},
+  },
+  "_versionsInfo": Object {},
+  "_warnings": Array [],
+}
+`;

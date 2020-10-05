@@ -1,0 +1,9 @@
+var PATH_CONTEXT = Liferay.ThemeDisplay.getPathContext();
+
+function adaptStaticURL(url) {
+	return PATH_CONTEXT + "/o<%= project.jar.webContextPath %>/<%= project.dir.basename() %>/" + url;
+}
+
+module.exports = {
+	adaptStaticURL: adaptStaticURL
+};

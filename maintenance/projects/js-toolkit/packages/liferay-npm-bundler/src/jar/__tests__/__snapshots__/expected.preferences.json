@@ -1,0 +1,93 @@
+{
+	"availableLanguageIds": [],
+	"fields": [
+		{
+			"dataType": "integer",
+			"type": "numeric",
+			"name": "a-number",
+			"label": {
+				"": "A number"
+			},
+			"tip": {
+				"": "A regular number"
+			},
+			"predefinedValue": {
+				"": "43"
+			}
+		},
+		{
+			"dataType": "double",
+			"type": "numeric",
+			"name": "a-float",
+			"label": {
+				"": "A float"
+			},
+			"tip": {
+				"": "A floating point number"
+			},
+			"predefinedValue": {
+				"": "1.2"
+			},
+			"required": true
+		},
+		{
+			"dataType": "string",
+			"type": "text",
+			"name": "a-string",
+			"label": {
+				"": "A string"
+			},
+			"tip": {
+				"": "A regular string"
+			},
+			"predefinedValue": {
+				"": "To be or not to be..."
+			}
+		},
+		{
+			"dataType": "boolean",
+			"type": "checkbox",
+			"name": "a-boolean",
+			"label": {
+				"": "A boolean"
+			},
+			"tip": {
+				"": "A true|false value"
+			}
+		},
+		{
+			"dataType": "string",
+			"type": "select",
+			"name": "fruit",
+			"label": {
+				"": "Favorite fruit"
+			},
+			"tip": {
+				"": "Choose the fruit you like the most"
+			},
+			"predefinedValue": {
+				"": "[\"orange\"]"
+			},
+			"options": [
+				{
+					"value": "orange",
+					"label": {
+						"": "An orange"
+					}
+				},
+				{
+					"value": "pear",
+					"label": {
+						"": "A pear"
+					}
+				},
+				{
+					"value": "apple",
+					"label": {
+						"": "An apple"
+					}
+				}
+			]
+		}
+	]
+}

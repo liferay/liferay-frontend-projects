@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`does not namespace already qualified define calls 1`] = `
+"
+Other.Namespace.define([], function () {});"
+`;
+
+exports[`does not namespace references to local define identifier when it is a function 1`] = `
+"
+function define(x) {
+	console.log(define);
+}"
+`;
+
+exports[`does not namespace references to local define identifier when it is a function parameter 1`] = `
+"
+function fn(define) {
+	console.log(define);
+};"
+`;
+
+exports[`does not namespace references to local define identifier when it is a variable 1`] = `
+"
+let define = 'x';
+
+if (true) {
+	if (true) {
+		console.log(define);
+	}
+}"
+`;
+
+exports[`does not namespace references to local define identifier when it is an object field 1`] = `
+"
+var a = {
+	define: function (name, value) {
+		return name;
+	}
+};"
+`;
+
+exports[`logs warnings when more than one global define appears 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "namespace-amd-define",
+    "things": Array [
+      "Namespaced first AMD define in file",
+    ],
+  },
+  Object {
+    "level": "warn",
+    "source": "namespace-amd-define",
+    "things": Array [
+      "Found",
+      1,
+      "define() calls inside the module definition",
+      "which have been ignored as they should never",
+      "be executed during runtime",
+    ],
+  },
+]
+`;
+
+exports[`namespaces unqualified define calls 1`] = `
+"
+Liferay.Loader.define([], function () {});"
+`;
+
+exports[`namespaces unqualified define calls that are wrapped 1`] = `
+"
+function defineModule() {
+	Liferay.Loader.define([], function () {});
+}"
+`;

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "normalize-requires",
+    "things": Array [
+      "Normalized",
+      2,
+      "requires",
+    ],
+  },
+]
+`;
+
+exports[`when requiring external modules only removes trailing "/" from module names ending in ".js" 1`] = `
+"
+require('a-package/a-module.js');"
+`;
+
+exports[`when requiring external modules removes trailing ".js" from module names 1`] = `
+"
+require('a-package/a-module');"
+`;
+
+exports[`when requiring external modules removes trailing "/" from module names 1`] = `
+"
+require('a-package/a-module');"
+`;
+
+exports[`when requiring local modules only removes trailing "/" from module names ending in ".js" 1`] = `
+"
+require('./a-module.js');"
+`;
+
+exports[`when requiring local modules removes trailing ".js" from module names 1`] = `
+"
+require('./a-module');"
+`;
+
+exports[`when requiring local modules removes trailing "/" from module names 1`] = `
+"
+require('./a-module');"
+`;
+
+exports[`when requiring package default modules keeps trailing ".js" from package names 1`] = `
+"
+require('a-package.js');"
+`;
+
+exports[`when requiring package default modules keeps trailing ".js" from scoped package names 1`] = `
+"
+require('@some-scope/a-package.js');"
+`;

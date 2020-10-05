@@ -1,0 +1,6 @@
+{
+	"browser": {
+		"./file.js": "./file-browser-file.js",
+		"./file": "./file-browser-module.js"
+	}
+}

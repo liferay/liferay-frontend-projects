@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "namespace-packages",
+    "things": Array [
+      "Namespaced package",
+    ],
+  },
+  Object {
+    "level": "info",
+    "source": "namespace-packages",
+    "things": Array [
+      "Namespaced",
+      1,
+      "dependencies",
+    ],
+  },
+]
+`;
+
+exports[`namespaces packages correctly for non-root package 1`] = `
+Object {
+  "dependencies": Object {
+    "project2$number-is-nan": "1.0.0",
+  },
+  "name": "project2$is-finite",
+  "version": "1.0.0",
+}
+`;
+
+exports[`namespaces packages correctly for the root package 1`] = `
+Object {
+  "dependencies": Object {
+    "project2$is-finite": "1.0.0",
+    "project2$isobject": "1.0.0",
+  },
+  "name": "project2",
+  "version": "1.0.0",
+}
+`;

@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addPackage/getPackage work 1`] = `
+Object {
+  "dest": Object {
+    "dir": "./dest",
+    "id": "a-package@1.0.0",
+    "name": "a-package",
+    "version": "1.0.0",
+  },
+  "src": Object {
+    "dir": "./src",
+    "id": "a-package@1.0.0",
+    "name": "a-package",
+    "version": "1.0.0",
+  },
+}
+`;
+
+exports[`constructor with file works 1`] = `
+"{
+  \\"packages\\": {
+    \\"a-package@1.0.0\\": {
+      \\"dest\\": {
+        \\"dir\\": \\"./dest-1\\",
+        \\"id\\": \\"a-package@1.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"1.0.0\\"
+      },
+      \\"src\\": {
+        \\"dir\\": \\"./src-1\\",
+        \\"id\\": \\"a-package@1.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"1.0.0\\"
+      }
+    },
+    \\"a-package@2.0.0\\": {
+      \\"dest\\": {
+        \\"dir\\": \\"./dest-2\\",
+        \\"id\\": \\"a-package@2.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"2.0.0\\"
+      },
+      \\"src\\": {
+        \\"dir\\": \\"./src-2\\",
+        \\"id\\": \\"a-package@2.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"2.0.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`save works 1`] = `
+"{
+  \\"packages\\": {
+    \\"a-package@1.0.0\\": {
+      \\"dest\\": {
+        \\"dir\\": \\"./dest-1\\",
+        \\"id\\": \\"a-package@1.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"1.0.0\\"
+      },
+      \\"src\\": {
+        \\"dir\\": \\"./src-1\\",
+        \\"id\\": \\"a-package@1.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"1.0.0\\"
+      }
+    },
+    \\"a-package@2.0.0\\": {
+      \\"dest\\": {
+        \\"dir\\": \\"./dest-2\\",
+        \\"id\\": \\"a-package@2.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"2.0.0\\"
+      },
+      \\"src\\": {
+        \\"dir\\": \\"./src-2\\",
+        \\"id\\": \\"a-package@2.0.0\\",
+        \\"name\\": \\"a-package\\",
+        \\"version\\": \\"2.0.0\\"
+      }
+    }
+  }
+}"
+`;

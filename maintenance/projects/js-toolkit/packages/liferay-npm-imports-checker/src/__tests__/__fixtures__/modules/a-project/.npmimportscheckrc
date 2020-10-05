@@ -1,0 +1,6 @@
+{
+	"ignore": {
+		"a-provider": ["a-package", "b-package"],
+		"b-provider": ["*"]
+	}
+}

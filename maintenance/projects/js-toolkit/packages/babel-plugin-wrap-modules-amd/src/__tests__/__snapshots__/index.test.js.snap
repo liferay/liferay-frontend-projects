@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correctly wraps modules 1`] = `
+"define(['module', 'exports', 'require'], function (module, exports, require) {
+	var define = undefined;
+	var global = window;
+	{
+		console.log('Say something');
+		if (1 == 0) {
+			console.log('Something broke in the Matrix');
+		}
+		module.exports = 'All OK';
+	}
+});"
+`;
+
+exports[`logs results correctly 1`] = `
+Array [
+  Object {
+    "level": "info",
+    "source": "wrap-modules-amd",
+    "things": Array [
+      "Detected dependencies: 'a-module', 'b-module'",
+    ],
+  },
+]
+`;

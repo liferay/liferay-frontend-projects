@@ -1,0 +1,14 @@
+{
+	"lerna": "2.0.0-rc.5",
+	"command": {
+		"publish": {
+			"exact": true
+		}
+	},
+	"npmClient": "yarn",
+	"packages": [
+		"packages/*"
+	],
+	"useWorkspaces": true,
+	"version": "2.19.3"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "liferay-npm-bundler-plugin-inject-peer-dependencies",
+	"version": "2.19.3",
+	"description": "A liferay-npm-bundler plugin to force injection of dependencies in packages declaring peer dependencies.",
+	"main": "lib/index.js",
+	"scripts": {
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"build": "tsc && yarn copyfiles",
+		"prepublish": "yarn build"
+	},
+	"dependencies": {
+		"globby": "^10.0.1",
+		"liferay-npm-build-tools-common": "2.19.3",
+		"read-json-sync": "^2.0.1",
+		"resolve": "^1.8.1"
+	}
+}

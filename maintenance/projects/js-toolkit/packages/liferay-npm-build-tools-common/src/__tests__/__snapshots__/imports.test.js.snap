@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalizeImportsConfig() works for empty string format normalization 1`] = `
+Object {
+  "": Object {
+    "depA": "3.0.0",
+    "depB": "4.0.0",
+  },
+  "depB": Object {
+    "depC": "5.0.0",
+  },
+  "provider1": Object {
+    "dep1": "^1.0.0",
+    "dep2": "^2.0.0",
+  },
+  "provider2": Object {
+    "dep8": "^8.0.0",
+    "dep9": "^9.0.0",
+  },
+}
+`;
+
+exports[`normalizeImportsConfig() works for slash format normalization 1`] = `
+Object {
+  "depA": Object {
+    "/": "3.0.0",
+  },
+  "depB": Object {
+    "/": "4.0.0",
+    "depC": "5.0.0",
+  },
+  "provider1": Object {
+    "dep1": "^1.0.0",
+    "dep2": "^2.0.0",
+  },
+  "provider2": Object {
+    "dep8": "^8.0.0",
+    "dep9": "^9.0.0",
+  },
+}
+`;

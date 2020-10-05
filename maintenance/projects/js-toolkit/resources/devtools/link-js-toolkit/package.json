@@ -1,0 +1,17 @@
+{
+	"name": "link-js-toolkit",
+	"version": "1.0.0",
+	"description": "",
+	"bin": {
+		"link-js-toolkit": "link-js-toolkit.js"
+	},
+	"dependencies": {
+		"clone": "^2.1.2",
+		"cross-spawn": "^6.0.5",
+		"read-json-sync": "^2.0.1"
+	},
+	"private": true,
+	"devDependencies": {
+		"yargs": "^14.0.0"
+	}
+}

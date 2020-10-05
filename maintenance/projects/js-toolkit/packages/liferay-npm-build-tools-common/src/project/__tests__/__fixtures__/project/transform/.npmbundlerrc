@@ -1,0 +1,35 @@
+{
+	"preset": false,
+	"output": "output-dir",
+	"exclude": {
+		"*": ["test/**/*"],
+		"package-a": ["*"],
+		"package-b@1.0.0": ["**/*.js", "**/*.css"]
+	},
+	"*": {
+		"plugins": ["test-0", ["test-1", "config-1"]],
+		"post-plugins": ["test-2", ["test-3", "config-3"]],
+		".babelrc": {
+			"config": "config-*"
+		}
+	},
+	"packages": {
+		"package@1.0.0": {
+			"plugins": ["test-4", ["test-5", "config-5"]],
+			"post-plugins": ["test-6", ["test-7", "config-7"]],
+			".babelrc": {
+				"config": "config-package@1.0.0"
+			}
+		},
+		"package2": {
+			".babelrc": {
+				"config": "config-package2"
+			}
+		},
+		"package3": {
+			".babelrc": {
+				"plugins": ["raw", ["configured", {"the": "config"}]]
+			}
+		}
+	}
+}
