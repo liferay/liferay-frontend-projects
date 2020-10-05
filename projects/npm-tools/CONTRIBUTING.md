@@ -25,8 +25,11 @@ yarn ci
 # Change to the directory of the package you wish to publish:
 cd packages/npm-scripts
 
+# Preview the changelog changes, to decide on an appropriate version numbers:
+yarn run liferay-changelog-generator --dry-run
+
 # Update the changelog:
-npx @liferay/changelog-generator --version=29.0.1
+yarn run liferay-changelog-generator --version=29.0.1
 
 # Review and stage the generated changes:
 git add -p
@@ -95,7 +98,7 @@ yarn ci
 cd packages/npm-scripts
 
 # Update the changelog.
-npx @liferay/changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
+yarn run liferay-changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
 
 # Bump to the prerelease version number
 yarn version --new-version 9.5.0-beta.1

@@ -53,7 +53,7 @@
 		"lint": "cd ../.. && yarn lint",
 		"lint:fix": "cd ../.. && yarn lint:fix",
 		"postinstall": "node scripts/postinstall.js",
-		"postversion": "npx @liferay/js-publish",
+		"postversion": "node ../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
