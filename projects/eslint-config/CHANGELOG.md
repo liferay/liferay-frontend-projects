@@ -1,3 +1,12 @@
+## [eslint-config/v21.2.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.2.1) (2020-10-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.2.0...eslint-config/v21.2.1)
+
+### :house: Chores
+
+-   chore(eslint-config): update eslint-plugin-react to v7.21.3 ([\#115](https://github.com/liferay/liferay-frontend-projects/pull/115))
+-   chore(eslint-config): mark typescript as a peer dependency ([\#113](https://github.com/liferay/liferay-frontend-projects/pull/113))
+
 ## [eslint-config/v21.2.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.2.0) (2020-10-02)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.1.0...eslint-config/v21.2.0)

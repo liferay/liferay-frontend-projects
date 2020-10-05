@@ -57,5 +57,5 @@
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
-	"version": "21.2.0"
+	"version": "21.2.1"
 }
