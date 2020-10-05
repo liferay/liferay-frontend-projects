@@ -1,3 +1,15 @@
+## [npm-scripts/v33.1.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.2) (2020-10-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.1...npm-scripts/v33.1.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): bundle TypeScript dependencies ([\#114](https://github.com/liferay/liferay-frontend-projects/pull/114))
+
+### :house: Chores
+
+-   chore(npm-scripts): update @liferay/eslint-config to v21.2.1 ([\#117](https://github.com/liferay/liferay-frontend-projects/pull/117))
+
 ## [npm-scripts/v33.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.1) (2020-10-02)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.0...npm-scripts/v33.1.1)
