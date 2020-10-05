@@ -43,7 +43,7 @@ export class Renderer {
 			path.join(this._templatesPath, `${templatePath}.ejs`),
 			data,
 			{
-				escape: text => text,
+				escape: (text) => text,
 			},
 			(err, str) => {
 				fs.writeFileSync(outputPath, str);

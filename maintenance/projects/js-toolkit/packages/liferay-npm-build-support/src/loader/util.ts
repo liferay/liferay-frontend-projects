@@ -17,7 +17,7 @@ export function replaceTokens<T>(
 ): T {
 	const {pkgJson} = project;
 
-	Object.keys(options).forEach(key => {
+	Object.keys(options).forEach((key) => {
 		if (typeof options[key] === 'string') {
 			if (except.includes(key)) {
 				return;

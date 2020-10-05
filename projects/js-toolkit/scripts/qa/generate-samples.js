@@ -61,7 +61,7 @@ function writeConfigurations() {
 	});
 
 	// Generate shared bundle configuration
-	[true, false].forEach(createInitializer => {
+	[true, false].forEach((createInitializer) => {
 		writeConfig(configDir, {
 			createInitializer,
 			folder:
@@ -71,10 +71,10 @@ function writeConfigurations() {
 	});
 
 	// Generate vanilla samples configuration
-	[true, false].forEach(useBabel => {
-		[true, false].forEach(useLocalization => {
-			[true, false].forEach(useConfiguration => {
-				[true, false].forEach(sampleWanted => {
+	[true, false].forEach((useBabel) => {
+		[true, false].forEach((useLocalization) => {
+			[true, false].forEach((useConfiguration) => {
+				[true, false].forEach((sampleWanted) => {
 					writeConfig(configDir, {
 						folder:
 							`vanilla-portlet` +
@@ -93,10 +93,10 @@ function writeConfigurations() {
 	});
 
 	// Generate framework samples configuration
-	['angular', 'metaljs', 'react', 'vuejs'].forEach(fw => {
-		[true, false].forEach(useLocalization => {
-			[true, false].forEach(useConfiguration => {
-				[true, false].forEach(sampleWanted => {
+	['angular', 'metaljs', 'react', 'vuejs'].forEach((fw) => {
+		[true, false].forEach((useLocalization) => {
+			[true, false].forEach((useConfiguration) => {
+				[true, false].forEach((sampleWanted) => {
 					writeConfig(configDir, {
 						folder:
 							`${fw}-portlet` +
@@ -127,7 +127,7 @@ function getUsedConfigurations() {
 }
 
 function generateLiferaySamples(configs) {
-	configs.forEach(config => {
+	configs.forEach((config) => {
 		logStep(`Generating Liferay sample project ${config}`);
 
 		fs.emptyDirSync(path.join(packagesDir, config.replace('.json', '')));
@@ -146,7 +146,7 @@ function generateLiferaySamples(configs) {
 }
 
 function prepareManualProjects() {
-	['loaders'].forEach(prj => {
+	['loaders'].forEach((prj) => {
 		// Change deploy directory
 		const npmbuildrcPath = path.join(packagesDir, prj, '.npmbuildrc');
 		const npmbuildrc = JSON.parse(fs.readFileSync(npmbuildrcPath));

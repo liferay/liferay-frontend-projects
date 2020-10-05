@@ -53,10 +53,10 @@ export class Project {
 		if (this._sources === undefined) {
 			this._sources = prop
 				.get(this._npmbundlerrc, 'sources', [])
-				.map(source =>
+				.map((source) =>
 					source.startsWith('./') ? source : `./${source}`
 				)
-				.map(source => new FilePath(source, {posix: true}));
+				.map((source) => new FilePath(source, {posix: true}));
 		}
 
 		return this._sources;
@@ -179,7 +179,7 @@ export class Project {
 		if (this._versionsInfo === undefined) {
 			let map = new Map<string, VersionInfo>();
 
-			const putInMap = packageName => {
+			const putInMap = (packageName) => {
 				const pkgJsonPath = this.toolResolve(
 					`${packageName}/package.json`
 				);

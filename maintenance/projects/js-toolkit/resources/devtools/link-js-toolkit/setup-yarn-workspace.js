@@ -14,7 +14,7 @@ const {
 	yarnLink,
 } = require('./util');
 
-module.exports = function() {
+module.exports = function () {
 	const pkgsDir = path.join('.', 'packages');
 
 	// Create package.json if missing
@@ -39,17 +39,17 @@ module.exports = function() {
 	// Remove all toolkit projects from subprojects
 	console.log('\n--- Removing all JS Toolkit dependencies from projects\n');
 	fs.readdirSync(pkgsDir)
-		.filter(prj => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
-		.forEach(prj => {
+		.filter((prj) => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
+		.forEach((prj) => {
 			modifyPackageJson(
 				path.join(pkgsDir, prj, 'package.json'),
-				pkgJson => {
+				(pkgJson) => {
 					const deleted = {
 						dependencies: {},
 						devDependencies: {},
 					};
 
-					toolkitProjectNames.forEach(prjName => {
+					toolkitProjectNames.forEach((prjName) => {
 						if (pkgJson.dependencies[prjName]) {
 							deleted.dependencies[prjName] =
 								pkgJson.dependencies[prjName];
@@ -89,12 +89,12 @@ module.exports = function() {
 
 	// Now link binaries in subprojects
 	console.log('\n--- Linking all binaries in subprojects\n');
-	fs.readdirSync(path.join('node_modules', '.bin')).forEach(bin => {
+	fs.readdirSync(path.join('node_modules', '.bin')).forEach((bin) => {
 		const binPath = path.join('node_modules', '.bin', bin);
 
 		fs.readdirSync(pkgsDir)
-			.filter(prj => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
-			.forEach(prj => {
+			.filter((prj) => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
+			.forEach((prj) => {
 				const prjBinPath = path.join(
 					'packages',
 					prj,

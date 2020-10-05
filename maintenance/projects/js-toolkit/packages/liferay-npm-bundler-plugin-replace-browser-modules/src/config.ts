@@ -48,8 +48,10 @@ function readAliasesFromDir(
 	);
 
 	fs.readdirSync(absDir.asNative)
-		.filter(child => fs.statSync(absDir.join(child).asNative).isDirectory())
-		.forEach(childDir => {
+		.filter((child) =>
+			fs.statSync(absDir.join(child).asNative).isDirectory()
+		)
+		.forEach((childDir) => {
 			Object.assign(
 				aliasesMap,
 				readAliasesFromDir(absDir.join(childDir), aliasFields)

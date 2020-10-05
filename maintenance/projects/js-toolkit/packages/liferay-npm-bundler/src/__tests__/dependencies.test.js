@@ -15,7 +15,7 @@ expect.extend({
 		const extraDeps = [];
 		const invalidDepFields = {};
 
-		pkgIds.forEach(pkgId => {
+		pkgIds.forEach((pkgId) => {
 			const dep = deps[pkgId];
 
 			if (!dep) {
@@ -67,7 +67,7 @@ expect.extend({
 			}
 		});
 
-		Object.keys(deps).forEach(depId => {
+		Object.keys(deps).forEach((depId) => {
 			if (pkgIds.indexOf(depId) == -1) {
 				extraDeps.push(depId);
 			}

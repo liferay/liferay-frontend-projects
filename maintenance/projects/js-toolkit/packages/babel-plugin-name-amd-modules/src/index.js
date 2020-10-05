@@ -14,7 +14,7 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
  *    srcPrefixes: ['src']
  * @return {object} a babel visitor
  */
-export default function({types: t}) {
+export default function ({types: t}) {
 	const nameVisitor = {
 		ExpressionStatement(path, state) {
 			const {

@@ -24,7 +24,7 @@ import {UnrolledAliasesMap, moduleExists, unrollAliasesMap} from './util';
 /**
  * Plugin entry point
  */
-export default function(
+export default function (
 	params: BundlerPluginParams,
 	{}: BundlerTransformPluginState
 ): void {
@@ -135,10 +135,10 @@ export function reportAndResolveCollisions(
 	unrolledAliasesMap: UnrolledAliasesMap
 ): void {
 	// Remove aliases out of ancestry line
-	Object.keys(unrolledAliasesMap).forEach(absFromPosixPath => {
+	Object.keys(unrolledAliasesMap).forEach((absFromPosixPath) => {
 		unrolledAliasesMap[absFromPosixPath] = unrolledAliasesMap[
 			absFromPosixPath
-		].filter(alias => {
+		].filter((alias) => {
 			const included = absFromPosixPath.startsWith(alias.absDir.asPosix);
 
 			// No need to log anything because this type of alias must be
@@ -149,10 +149,10 @@ export function reportAndResolveCollisions(
 	});
 
 	// Remove aliases of external modules that would overwrite a local one
-	Object.keys(unrolledAliasesMap).forEach(absFromPosixPath => {
+	Object.keys(unrolledAliasesMap).forEach((absFromPosixPath) => {
 		unrolledAliasesMap[absFromPosixPath] = unrolledAliasesMap[
 			absFromPosixPath
-		].filter(alias => {
+		].filter((alias) => {
 			const included =
 				alias.fromType != AliasFromType.EXTERNAL ||
 				!moduleExists(absFromPosixPath);
@@ -177,7 +177,7 @@ export function reportAndResolveCollisions(
 	});
 
 	// Remove empty aliases
-	Object.keys(unrolledAliasesMap).forEach(absFromPath => {
+	Object.keys(unrolledAliasesMap).forEach((absFromPath) => {
 		if (unrolledAliasesMap[absFromPath].length == 0) {
 			delete unrolledAliasesMap[absFromPath];
 		}

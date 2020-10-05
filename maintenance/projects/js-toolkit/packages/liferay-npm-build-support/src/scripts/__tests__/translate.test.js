@@ -71,13 +71,12 @@ it('createTranslationsObject works', () => {
 });
 
 it('flattenResponses works', () => {
-	expect(flattenResponses([[1, 2, 3], ['a', 'b']])).toEqual([
-		1,
-		2,
-		3,
-		'a',
-		'b',
-	]);
+	expect(
+		flattenResponses([
+			[1, 2, 3],
+			['a', 'b'],
+		])
+	).toEqual([1, 2, 3, 'a', 'b']);
 });
 
 describe('makeChunks', () => {

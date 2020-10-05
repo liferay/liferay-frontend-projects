@@ -19,7 +19,7 @@ let insight;
  * @return {Promise} a promise fulfilled when initialization is done
  */
 export function init() {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		try {
 			const projectPkgJson = readJsonSync(
 				path.join(process.cwd(), 'package.json')

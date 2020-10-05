@@ -22,7 +22,7 @@ const buildDefine = template(`
 /**
  * @return {object} a babel visitor
  */
-export default function({types: t}) {
+export default function ({types: t}) {
 	const wrapVisitor = {
 		Identifier(path, state) {
 			const {node} = path;
@@ -107,7 +107,7 @@ export default function({types: t}) {
 					const {body} = node;
 
 					dependencies = Object.keys(dependencies).map(
-						dep => `'${dep}'`
+						(dep) => `'${dep}'`
 					);
 
 					const buildDeps = template(`[

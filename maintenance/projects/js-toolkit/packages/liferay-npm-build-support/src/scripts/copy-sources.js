@@ -9,10 +9,10 @@ import fs from 'fs-extra';
 /**
  *
  */
-export default function() {
+export default function () {
 	fs.mkdirpSync('build');
 
-	cpr('src', 'build', {confirm: true, overwrite: true}, err => {
+	cpr('src', 'build', {confirm: true, overwrite: true}, (err) => {
 		if (err) {
 			console.error(err);
 			process.exit(1);

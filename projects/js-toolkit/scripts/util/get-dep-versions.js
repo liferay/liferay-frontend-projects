@@ -9,7 +9,7 @@ const globby = require('globby');
 function coalesceSnapshotVersions(versions) {
 	const coalescedVersions = {};
 
-	Object.keys(versions).forEach(version => {
+	Object.keys(versions).forEach((version) => {
 		const i = version.indexOf('-snapshot.');
 
 		if (i != -1) {
@@ -29,14 +29,14 @@ function coalesceSnapshotVersions(versions) {
 function getDepVersions() {
 	const filePaths = globby.sync(['packages/*/package.json']);
 
-	const pkgJsons = filePaths.map(filePath =>
+	const pkgJsons = filePaths.map((filePath) =>
 		JSON.parse(fs.readFileSync(filePath))
 	);
 
 	const depVersions = {};
 
-	pkgJsons.forEach(pkgJson => {
-		['dependencies', 'devDependencies'].forEach(scope => {
+	pkgJsons.forEach((pkgJson) => {
+		['dependencies', 'devDependencies'].forEach((scope) => {
 			Object.entries(pkgJson[scope] || {}).forEach(([dep, version]) => {
 				const versions = depVersions[dep] || {};
 

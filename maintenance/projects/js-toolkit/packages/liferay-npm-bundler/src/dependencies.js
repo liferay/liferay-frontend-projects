@@ -57,14 +57,14 @@ export function addPackageDependencies(
 	dependencies = dependencies.concat(extraDependencies);
 
 	const dependencyDirs = dependencies
-		.map(dependency => {
+		.map((dependency) => {
 			return resolveDependencyDir(basedirPath, packageJson, dependency);
 		})
-		.filter(dependencyDir => {
+		.filter((dependencyDir) => {
 			return dependencyDir != null;
 		});
 
-	dependencyDirs.forEach(dependencyDir => {
+	dependencyDirs.forEach((dependencyDir) => {
 		addPackageDependencies(collectedDependencies, dependencyDir);
 	});
 

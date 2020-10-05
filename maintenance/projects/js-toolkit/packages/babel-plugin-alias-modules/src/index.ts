@@ -25,7 +25,7 @@ let t;
 /**
  * @return {object} a babel visitor
  */
-export default function({types}) {
+export default function ({types}) {
 	t = types;
 
 	return {

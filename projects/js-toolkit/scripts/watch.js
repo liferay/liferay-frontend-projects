@@ -83,13 +83,9 @@ watch.watchTree(
 				return;
 			}
 
-			yarn.pipe(
-				'run',
-				'copyfiles',
-				{
-					cwd: path.join('packages', parts[1]),
-				}
-			);
+			yarn.pipe('run', 'copyfiles', {
+				cwd: path.join('packages', parts[1]),
+			});
 		}
 	}
 );

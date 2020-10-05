@@ -9,15 +9,15 @@ import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 /**
  * @return {void}
  */
-export default function({config, globalConfig, log, rootPkgJson}, {pkgJson}) {
+export default function ({config, globalConfig, log, rootPkgJson}, {pkgJson}) {
 	let imports = config.imports || globalConfig.imports || {};
 
 	imports = normalizeImportsConfig(imports);
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
 
-	Object.keys(imports).forEach(namespace => {
-		Object.keys(imports[namespace]).forEach(pkgName => {
+	Object.keys(imports).forEach((namespace) => {
+		Object.keys(imports[namespace]).forEach((pkgName) => {
 			const localName = ns.addNamespace(pkgName, rootPkgJson);
 
 			const importVersion = imports[namespace][pkgName];

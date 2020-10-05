@@ -48,12 +48,12 @@ export function analyticsDump(report) {
 	insight.track('build', 'count');
 
 	// Increase plugin use counts for this project
-	Object.keys(_versionsInfo).forEach(name =>
+	Object.keys(_versionsInfo).forEach((name) =>
 		insight.track('bundler', 'plugin', name, _versionsInfo[name])
 	);
 
 	// Increase dependency use counts for this project
-	Object.keys(_packages).forEach(pkgId => {
+	Object.keys(_packages).forEach((pkgId) => {
 		const {name, version} = _packages[pkgId];
 
 		insight.track('project', 'dependency', name, version);

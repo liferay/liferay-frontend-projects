@@ -8,7 +8,7 @@ import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 /**
  * @return {void}
  */
-export default function({log, pkg, rootPkgJson}, {pkgJson}) {
+export default function ({log, pkg, rootPkgJson}, {pkgJson}) {
 	if (!pkg.isRoot) {
 		pkgJson.name = ns.addNamespace(pkgJson.name, rootPkgJson);
 
@@ -17,7 +17,7 @@ export default function({log, pkg, rootPkgJson}, {pkgJson}) {
 
 	pkgJson.dependencies = pkgJson.dependencies || {};
 
-	Object.keys(pkgJson.dependencies).forEach(pkgName => {
+	Object.keys(pkgJson.dependencies).forEach((pkgName) => {
 		const namespacedPkgName = ns.addNamespace(pkgName, rootPkgJson);
 		const version = pkgJson.dependencies[pkgName];
 

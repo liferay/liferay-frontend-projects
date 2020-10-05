@@ -25,7 +25,7 @@ export default class extends JsonModifier {
 	 * @param {string} module module name
 	 */
 	setMain(module) {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, 'main', module);
 		});
 	}
@@ -38,7 +38,7 @@ export default class extends JsonModifier {
 	addDevDependency(name, semver) {
 		name = this._escapeProp(name);
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `devDependencies.${name}`, semver);
 		});
 	}
@@ -51,7 +51,7 @@ export default class extends JsonModifier {
 	addDependency(name, semver) {
 		name = this._escapeProp(name);
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `dependencies.${name}`, semver);
 		});
 	}
@@ -77,7 +77,7 @@ export default class extends JsonModifier {
 	 * @param {String} command the command to run
 	 */
 	addBuildStep(command) {
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			const currentBuild = prop.get(json, 'scripts.build');
 
 			if (currentBuild) {
@@ -96,7 +96,7 @@ export default class extends JsonModifier {
 	addScript(name, command) {
 		name = this._escapeProp(name);
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `scripts.${name}`, command);
 		});
 	}
@@ -109,7 +109,7 @@ export default class extends JsonModifier {
 	addPortletProperty(name, value) {
 		name = this._escapeProp(name);
 
-		this.modifyJson(json => {
+		this.modifyJson((json) => {
 			prop.set(json, `portlet.${name}`, value);
 		});
 	}

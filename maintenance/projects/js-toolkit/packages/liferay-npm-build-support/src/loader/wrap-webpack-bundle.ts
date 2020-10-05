@@ -37,7 +37,7 @@ export interface Options {
  * hash, it is used to compute the module name. The default value of
  * `honorWebpackHash` is false.
  */
-export default function(
+export default function (
 	context: BundlerLoaderContext,
 	options: Options
 ): BundlerLoaderReturn {

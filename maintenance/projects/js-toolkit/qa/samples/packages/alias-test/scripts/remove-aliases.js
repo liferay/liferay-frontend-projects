@@ -10,7 +10,7 @@ globby
 		absolute: true,
 		cwd: buildDirPath,
 	})
-	.forEach(pkgJsonPath => {
+	.forEach((pkgJsonPath) => {
 		const pkgJson = readJsonSync(pkgJsonPath);
 
 		delete pkgJson.browser;

@@ -26,7 +26,7 @@ const msg = {
 
 const scrLiferayDir = project.dir.join('src.liferay');
 
-export default function() {
+export default function () {
 	switch (project.probe.type) {
 		case ProjectType.ANGULAR_CLI:
 			buildWith('build', ['--prod=true']);

@@ -112,7 +112,7 @@ export default class Transform {
 	 * @return an array of one item per plugin where the item is an array of a
 	 *         function and an object with the options
 	 */
-	getBabelPlugins(pkg: PkgDesc): ([() => any, object])[] {
+	getBabelPlugins(pkg: PkgDesc): [() => any, object][] {
 		const {_project} = this;
 
 		const babelConfig = this.getBabelConfig(pkg);
@@ -122,7 +122,7 @@ export default class Transform {
 
 		return []
 			.concat(
-				...presets.map(preset => {
+				...presets.map((preset) => {
 					let presetModule;
 
 					try {
@@ -141,7 +141,7 @@ export default class Transform {
 				})
 			)
 			.concat(
-				plugins.map(pluginConfig => {
+				plugins.map((pluginConfig) => {
 					let pluginName;
 					let pluginOptions;
 
@@ -237,7 +237,7 @@ export default class Transform {
 
 		if (babelPresets) {
 			pluginNames = pluginNames.concat(
-				babelPresets.map(name => {
+				babelPresets.map((name) => {
 					try {
 						_project.toolRequire(name);
 						return name;
@@ -250,7 +250,7 @@ export default class Transform {
 
 		if (babelPlugins) {
 			pluginNames = pluginNames.concat(
-				babelPlugins.map(name => {
+				babelPlugins.map((name) => {
 					if (Array.isArray(name)) {
 						name = name[0];
 					}

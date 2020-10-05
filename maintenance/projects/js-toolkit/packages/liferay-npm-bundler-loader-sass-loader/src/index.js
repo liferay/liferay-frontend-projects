@@ -13,7 +13,7 @@ import resolveModule from 'resolve';
  * @param {object} options loader's options
  * @return {string} the processed file content
  */
-export default function(context, options) {
+export default function (context, options) {
 	const {content, log} = context;
 
 	const {renderer, rendererDescription} = getRenderer();

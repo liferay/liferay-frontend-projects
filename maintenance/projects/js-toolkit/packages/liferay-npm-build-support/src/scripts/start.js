@@ -19,7 +19,7 @@ const pkgJson = project.pkgJson;
 /**
  *
  */
-export default function() {
+export default function () {
 	copyWebpackResources();
 	runWebpackDevServer();
 }
@@ -43,7 +43,7 @@ function copyWebpackResources() {
 		port: cfg.getWebpackPort(),
 		proxy: util.inspect(cfg.getWebpackProxy()),
 		rules: util.inspect(
-			cfg.getWebpackRules().map(rule => {
+			cfg.getWebpackRules().map((rule) => {
 				rule.test = new RegExp(rule.test);
 				return rule;
 			})
@@ -100,11 +100,11 @@ function runWebpackDevServer() {
 		});
 	}
 
-	proc.stdout.on('data', data => {
+	proc.stdout.on('data', (data) => {
 		console.log(data.toString());
 	});
 
-	proc.stderr.on('data', data => {
+	proc.stderr.on('data', (data) => {
 		console.error(data.toString());
 	});
 }

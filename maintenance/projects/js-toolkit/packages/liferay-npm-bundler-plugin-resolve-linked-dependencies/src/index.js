@@ -10,9 +10,9 @@ import semver from 'semver';
 /**
  * @return {void}
  */
-export default function({log}, {pkgJson}) {
+export default function ({log}, {pkgJson}) {
 	if (pkgJson.dependencies != null) {
-		Object.keys(pkgJson.dependencies).forEach(name => {
+		Object.keys(pkgJson.dependencies).forEach((name) => {
 			const link = pkgJson.dependencies[name];
 
 			if (semver.validRange(link) == null) {

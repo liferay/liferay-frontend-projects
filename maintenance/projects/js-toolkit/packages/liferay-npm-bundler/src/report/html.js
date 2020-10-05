@@ -44,7 +44,7 @@ export function htmlDump(report) {
 		htmlTable(
 			'Package',
 			'Version',
-			Object.keys(_versionsInfo).map(pkgName =>
+			Object.keys(_versionsInfo).map((pkgName) =>
 				htmlRow(`
 					<td>${pkgName}</td>
 					<td>${_versionsInfo[pkgName].version}</td>
@@ -63,7 +63,7 @@ export function htmlDump(report) {
 			'Linked to',
 			Object.keys(_packages)
 				.sort()
-				.map(pkgId => {
+				.map((pkgId) => {
 					const {
 						allFiles,
 						copiedFiles,
@@ -88,7 +88,7 @@ export function htmlDump(report) {
 								() =>
 									`<div title="${allFiles
 										.filter(
-											file =>
+											(file) =>
 												copiedFiles.indexOf(file) == -1
 										)
 										.sort()
@@ -115,10 +115,10 @@ export function htmlDump(report) {
 			['File'],
 			Object.keys(_rules.files)
 				.sort()
-				.map(filePath => [filePath]),
+				.map((filePath) => [filePath]),
 			Object.keys(_rules.files)
 				.sort()
-				.map(filePath => _rules.files[filePath].logger)
+				.map((filePath) => _rules.files[filePath].logger)
 		)
 	);
 
@@ -152,7 +152,7 @@ export function htmlDump(report) {
 			'Post-babel phase',
 			Object.keys(_packages)
 				.sort()
-				.map(pkgId => {
+				.map((pkgId) => {
 					const pkg = _packages[pkgId];
 					const {babel, copy, post, pre} = pkg.process;
 					const copyKeys = Object.keys(copy);
@@ -209,7 +209,7 @@ export function htmlDump(report) {
 		'Details of bundler transformations',
 		...Object.keys(_packages)
 			.sort()
-			.map(pkgId => {
+			.map((pkgId) => {
 				const pkg = _packages[pkgId];
 				const {copy, post, pre} = pkg.process;
 				const copyKeys = Object.keys(copy);
@@ -230,7 +230,7 @@ export function htmlDump(report) {
 							...htmlIf(copyKeys.length > 0, () =>
 								copyKeys
 									.sort()
-									.map(pluginName =>
+									.map((pluginName) =>
 										htmlLogOutput(
 											['Copy phase plugin', 'Config'],
 											[
@@ -250,7 +250,7 @@ export function htmlDump(report) {
 							...htmlIf(preKeys.length > 0, () =>
 								preKeys
 									.sort()
-									.map(pluginName =>
+									.map((pluginName) =>
 										htmlLogOutput(
 											['Pre-phase plugin', 'Config'],
 											[
@@ -270,7 +270,7 @@ export function htmlDump(report) {
 							...htmlIf(postKeys.length > 0, () =>
 								postKeys
 									.sort()
-									.map(pluginName =>
+									.map((pluginName) =>
 										htmlLogOutput(
 											['Post-phase plugin', 'Config'],
 											[
@@ -296,7 +296,7 @@ export function htmlDump(report) {
 		'Details of Babel transformations',
 		...Object.keys(_packages)
 			.sort()
-			.map(pkgId => {
+			.map((pkgId) => {
 				const pkg = _packages[pkgId];
 				const {babel} = pkg.process;
 				const babelKeys = Object.keys(babel.files);
@@ -316,10 +316,10 @@ export function htmlDump(report) {
 						`,
 						htmlLogOutput(
 							['File'],
-							babelKeys.sort().map(filePath => [filePath]),
+							babelKeys.sort().map((filePath) => [filePath]),
 							babelKeys
 								.sort()
-								.map(filePath => babel.files[filePath].logger)
+								.map((filePath) => babel.files[filePath].logger)
 						)
 					)
 				);
@@ -543,7 +543,7 @@ function htmlSubsection(title, ...contents) {
 function htmlList(...args) {
 	return `
 		<ul>
-			${args.map(arg => `<li>${arg}</li>`).join(' ')}
+			${args.map((arg) => `<li>${arg}</li>`).join(' ')}
 		</ul>
 	`;
 }
@@ -565,7 +565,7 @@ function htmlTable(...args) {
 	} else {
 		return `
 			<table>
-				${htmlRow(columns.map(column => `<th>${column}</th>`))}
+				${htmlRow(columns.map((column) => `<th>${column}</th>`))}
 				${content}
 			</table>
 		`;
@@ -622,7 +622,7 @@ function htmlLogOutput(
 		if (msgs.length == 0) {
 			rows.push(
 				htmlRow(`
-					${cells.map(cell => `<td>${cell}</td>`).join(' ')}
+					${cells.map((cell) => `<td>${cell}</td>`).join(' ')}
 					${htmlIf(source, () => `<td></td>`)}
 					${logColums
 						.splice(1)
@@ -652,7 +652,7 @@ function htmlLogOutput(
 			rows.push(
 				htmlRow(
 					`
-					${cells.map(cell => `<td>${cell}</td>`).join(' ')}
+					${cells.map((cell) => `<td>${cell}</td>`).join(' ')}
 					${sourceCell}
 					<td class="${msg0.level}">${msg0.level.toUpperCase()}</td>
 					<td>${infoLink}</td>

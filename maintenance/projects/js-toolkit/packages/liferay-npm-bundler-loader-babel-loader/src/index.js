@@ -12,7 +12,7 @@ import project from 'liferay-npm-build-tools-common/lib/project';
  * @param {object} config a .babelrc like configuration object
  * @return {string} the processed file content
  */
-export default function(context, config) {
+export default function (context, config) {
 	const {content, filePath, log, sourceMap} = context;
 
 	const babelConfig = {
@@ -55,7 +55,7 @@ export default function(context, config) {
 function loadBabelPlugins(presets, plugins) {
 	return []
 		.concat(
-			...presets.map(preset => {
+			...presets.map((preset) => {
 				let presetModule, presetName;
 
 				try {

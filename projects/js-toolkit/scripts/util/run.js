@@ -38,27 +38,15 @@ run.pipe = async (cmd, ...args) => {
 };
 
 const git = async (...args) => await run('git', ...args);
-git.pipe = async (...args) =>
-	await run.pipe(
-		'git',
-		...args
-	);
+git.pipe = async (...args) => await run.pipe('git', ...args);
 
 const runNodeBin = async (bin, ...args) =>
 	await run(bin, ...args, {preferLocal: true});
 runNodeBin.pipe = async (bin, ...args) =>
-	await run.pipe(
-		bin,
-		...args,
-		{preferLocal: true}
-	);
+	await run.pipe(bin, ...args, {preferLocal: true});
 
 const yarn = async (...args) => await run('yarn', ...args);
-yarn.pipe = async (...args) =>
-	await run.pipe(
-		'yarn',
-		...args
-	);
+yarn.pipe = async (...args) => await run.pipe('yarn', ...args);
 
 module.exports = {
 	git,

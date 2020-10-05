@@ -20,11 +20,11 @@ import {findFiles, getDestDir, runInChunks} from './util';
  * @return {Promise}
  */
 export default function runRules(rootPkg, depPkgs) {
-	const dirtyPkgs = [rootPkg, ...depPkgs].filter(srcPkg => !srcPkg.clean);
+	const dirtyPkgs = [rootPkg, ...depPkgs].filter((srcPkg) => !srcPkg.clean);
 
-	return Promise.all(dirtyPkgs.map(srcPkg => processPackage(srcPkg))).then(
-		() => log.debug(`Applied rules to ${dirtyPkgs.length} packages`)
-	);
+	return Promise.all(
+		dirtyPkgs.map((srcPkg) => processPackage(srcPkg))
+	).then(() => log.debug(`Applied rules to ${dirtyPkgs.length} packages`));
 }
 
 /**
@@ -37,7 +37,7 @@ function processPackage(srcPkg) {
 	log.debug(`Applying rules to package '${srcPkg.id}'...`);
 
 	const sourceGlobs = srcPkg.isRoot
-		? project.sources.map(source =>
+		? project.sources.map((source) =>
 				fs.statSync(project.dir.join(source).asNative).isDirectory()
 					? `${source.asPosix}/**/*`
 					: source.asPosix
@@ -59,7 +59,7 @@ function processPackage(srcPkg) {
 		sourcePrjRelPaths,
 		project.misc.maxParallelFiles,
 		0,
-		prjRelPath => processFile(srcPkg, destPkg, prjRelPath)
+		(prjRelPath) => processFile(srcPkg, destPkg, prjRelPath)
 	);
 }
 
@@ -117,7 +117,7 @@ function runLoaders(loaders, firstLoaderIndex, context) {
 		throw err;
 	}
 
-	return Promise.resolve(result).then(content => {
+	return Promise.resolve(result).then((content) => {
 		if (content !== undefined) {
 			context = Object.assign(context, {content});
 		}
@@ -140,7 +140,7 @@ export function transformContents(beforeInvocation, context, encoding) {
 
 	if (beforeInvocation) {
 		assertBuffer(context, 'content', filePath);
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			assertBuffer(extraArtifacts, key, `extra artifact ${key}`);
 		});
 
@@ -152,19 +152,19 @@ export function transformContents(beforeInvocation, context, encoding) {
 			context.content = context.content.toString(encoding);
 		}
 
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			if (extraArtifacts[key] !== undefined) {
 				extraArtifacts[key] = extraArtifacts[key].toString(encoding);
 			}
 		});
 	} else if (encoding === null) {
 		assertBuffer(context, 'content', filePath);
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			assertBuffer(extraArtifacts, key, `extra artifact ${key}`);
 		});
 	} else {
 		assertString(context, 'content', filePath);
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			assertString(extraArtifacts, key, `extra artifact ${key}`);
 		});
 
@@ -172,7 +172,7 @@ export function transformContents(beforeInvocation, context, encoding) {
 			context.content = Buffer.from(context.content, encoding);
 		}
 
-		Object.keys(extraArtifacts).forEach(key => {
+		Object.keys(extraArtifacts).forEach((key) => {
 			if (extraArtifacts[key] !== undefined) {
 				extraArtifacts[key] = Buffer.from(
 					extraArtifacts[key],
@@ -280,7 +280,7 @@ function writeRuleFile(destPkg, pkgRelPath, content) {
 export function stripSourceDir(pkgRelPath) {
 	pkgRelPath = `.${path.sep}${pkgRelPath}`;
 
-	for (const sourcePath of project.sources.map(source => source.asNative)) {
+	for (const sourcePath of project.sources.map((source) => source.asNative)) {
 		const prefixPath = `${sourcePath}${path.sep}`;
 
 		if (pkgRelPath.startsWith(prefixPath)) {

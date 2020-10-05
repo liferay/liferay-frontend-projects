@@ -22,10 +22,10 @@ const version = argv[3];
 
 const depVersions = getDepVersions();
 
-Object.values(depVersions[dep]).forEach(prjs => {
+Object.values(depVersions[dep]).forEach((prjs) => {
 	console.log('Setting', dep, 'to version', version, 'in projects:');
 
-	prjs.forEach(prj => {
+	prjs.forEach((prj) => {
 		const pkgJsonPath = path.join('packages', prj, 'package.json');
 		const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath));
 

@@ -30,11 +30,11 @@ import {findFiles, getDestDir, runInChunks, runPlugins} from './util';
  * @return {Promise}
  */
 export default function transformPackages(rootPkg, depPkgs) {
-	const dirtyPkgs = [rootPkg, ...depPkgs].filter(srcPkg => !srcPkg.clean);
+	const dirtyPkgs = [rootPkg, ...depPkgs].filter((srcPkg) => !srcPkg.clean);
 
-	return Promise.all(dirtyPkgs.map(srcPkg => transformPackage(srcPkg))).then(
-		() => log.debug(`Transformed ${dirtyPkgs.length} packages`)
-	);
+	return Promise.all(
+		dirtyPkgs.map((srcPkg) => transformPackage(srcPkg))
+	).then(() => log.debug(`Transformed ${dirtyPkgs.length} packages`));
 }
 
 /**
@@ -57,7 +57,7 @@ function transformPackage(srcPkg) {
 		.then(() => babelifyPackage(destPkg))
 		.then(() => runBundlerPlugins('post', srcPkg, destPkg))
 		.then(() => renamePkgDirIfNecessary(destPkg))
-		.then(destPkg => manifest.addPackage(srcPkg, destPkg))
+		.then((destPkg) => manifest.addPackage(srcPkg, destPkg))
 		.then(() => log.debug(`Transformed package '${srcPkg.id}'`));
 }
 
@@ -167,7 +167,7 @@ function babelifyPackage(destPkg) {
 		prjRelPaths,
 		project.misc.maxParallelFiles,
 		0,
-		prjRelPath => babelifyFile(destPkg, prjRelPath, babelConfig)
+		(prjRelPath) => babelifyFile(destPkg, prjRelPath, babelConfig)
 	);
 }
 
@@ -179,7 +179,7 @@ function babelifyPackage(destPkg) {
  * @return {Promise}
  */
 function babelifyFile(destPkg, prjRelPath, babelConfig) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		const logger = new PluginLogger();
 
 		babelIpc.set(project.dir.join(prjRelPath).asNative, {

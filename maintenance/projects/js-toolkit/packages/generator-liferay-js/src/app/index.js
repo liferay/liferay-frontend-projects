@@ -55,9 +55,9 @@ export default class extends Generator {
 	_findTargets() {
 		const tds = fs
 			.readdirSync(path.join(__dirname, '..'))
-			.filter(file => file.indexOf('target-') == 0)
-			.map(target => target.replace('target-', ''))
-			.map(target => ({
+			.filter((file) => file.indexOf('target-') == 0)
+			.map((target) => target.replace('target-', ''))
+			.map((target) => ({
 				...getTargetDescription(target),
 				value: target,
 			}));
@@ -74,7 +74,7 @@ export default class extends Generator {
 			targets.push({type: 'separator', line: `-- ${category} --`});
 			targets.push(
 				...tds
-					.filter(td => td.category === category)
+					.filter((td) => td.category === category)
 					.sort(compareTargetDescriptionPriorities)
 			);
 		});

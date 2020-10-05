@@ -68,7 +68,7 @@ export class Report {
 	 * @return {void}
 	 */
 	warn(message, {unique} = {unique: false}) {
-		if (unique && this._warnings.find(item => item === message)) {
+		if (unique && this._warnings.find((item) => item === message)) {
 			return;
 		}
 
@@ -107,7 +107,7 @@ export class Report {
 	 * @return {void}
 	 */
 	dependencies(deps) {
-		deps.forEach(dep => {
+		deps.forEach((dep) => {
 			const pkg = this._getPackage(dep.id);
 
 			pkg.name = dep.name;

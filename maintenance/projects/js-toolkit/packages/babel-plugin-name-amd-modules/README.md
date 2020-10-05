@@ -7,13 +7,13 @@
 **In**
 
 ```javascript
-define([], function() {});
+define([], function () {});
 ```
 
 **Out**
 
 ```javascript
-define('package@1.0.0/index', [], function() {});
+define('package@1.0.0/index', [], function () {});
 ```
 
 ## Installation

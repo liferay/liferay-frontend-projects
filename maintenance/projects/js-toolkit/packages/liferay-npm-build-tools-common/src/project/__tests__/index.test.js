@@ -44,7 +44,7 @@ describe('project', () => {
 			'frontend-js-node-shims',
 		];
 
-		expectedImports.map(v => {
+		expectedImports.map((v) => {
 			expect(globalConfig.imports[v]).toBeDefined();
 		});
 
@@ -307,7 +307,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'none')
 		);
 
-		child_process.spawnSync = cmd => ({
+		child_process.spawnSync = (cmd) => ({
 			error: cmd === 'npm' ? undefined : {},
 		});
 
@@ -319,7 +319,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'none')
 		);
 
-		child_process.spawnSync = cmd => ({
+		child_process.spawnSync = (cmd) => ({
 			error: cmd === 'yarn' ? undefined : {},
 		});
 
@@ -331,7 +331,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
 		);
 
-		child_process.spawnSync = cmd => ({
+		child_process.spawnSync = (cmd) => ({
 			error: cmd === 'npm' ? undefined : {},
 		});
 
@@ -343,7 +343,7 @@ describe('project.pkgManager', () => {
 			path.join(__dirname, '__fixtures__', 'pkg-manager', 'both')
 		);
 
-		child_process.spawnSync = cmd => ({
+		child_process.spawnSync = (cmd) => ({
 			error: cmd === 'yarn' ? undefined : {},
 		});
 
@@ -453,10 +453,10 @@ describe('project.transform', () => {
 		};
 
 		jest.spyOn(project, 'toolResolve').mockImplementation(
-			moduleName => moduleName
+			(moduleName) => moduleName
 		);
 		jest.spyOn(project, 'toolRequire').mockImplementation(
-			moduleName => pluginMocks[moduleName]
+			(moduleName) => pluginMocks[moduleName]
 		);
 
 		try {

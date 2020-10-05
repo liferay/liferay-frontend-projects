@@ -55,7 +55,7 @@ export class Copier {
 		const gen = this._generator;
 		const files = fs.readdirSync(gen.templatePath(src));
 
-		files.forEach(file => {
+		files.forEach((file) => {
 			if (file === '.DS_Store') {
 				return;
 			}
@@ -175,7 +175,7 @@ export async function promptWithConfig(generator, namespace, prompts) {
 	}
 
 	// Tweak defaults with config values
-	prompts = prompts.map(prompt => {
+	prompts = prompts.map((prompt) => {
 		let defaultDefault = undefined;
 
 		if (prompt.default !== undefined) {
