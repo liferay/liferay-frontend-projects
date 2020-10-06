@@ -1,12 +1,17 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-npm-bridge-generator",
-	"version": "3.0.0",
-	"description": "A CLI utility to generate module bridges (modules that re-export other modules).",
-	"license": "LGPL-3.0",
 	"bin": {
 		"liferay-npm-bridge-generator": "bin/liferay-npm-bridge-generator.js"
 	},
+	"dependencies": {
+		"fs-extra": "^8.1.0",
+		"globby": "^10.0.1",
+		"read-json-sync": "^2.0.1",
+		"yargs": "^14.0.0"
+	},
+	"description": "A CLI utility to generate module bridges (modules that re-export other modules).",
+	"license": "LGPL-3.0",
+	"name": "liferay-npm-bridge-generator",
 	"repository": {
 		"directory": "projects/js-toolkit/packages/liferay-npm-bridge-generator",
 		"type": "git",
@@ -18,10 +23,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"dependencies": {
-		"fs-extra": "^8.1.0",
-		"globby": "^10.0.1",
-		"read-json-sync": "^2.0.1",
-		"yargs": "^14.0.0"
-	}
+	"version": "3.0.0"
 }

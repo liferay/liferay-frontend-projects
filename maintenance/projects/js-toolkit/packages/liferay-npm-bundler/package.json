@@ -1,24 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-npm-bundler",
-	"version": "2.19.3",
-	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
-	"main": "lib/index.js",
 	"bin": {
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
-	},
-	"repository": {
-		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-bundler",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
-		"build": "tsc && yarn copyfiles",
-		"prepublish": "yarn build"
-	},
-	"devDependencies": {
-		"liferay-npm-bundler-preset-liferay-dev": "1.12.0"
 	},
 	"dependencies": {
 		"babel-core": "^6.26.3",
@@ -39,5 +22,22 @@
 		"semver": "^6.3.0",
 		"xml-js": "^1.6.8",
 		"yargs": "^14.0.0"
-	}
+	},
+	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
+	"devDependencies": {
+		"liferay-npm-bundler-preset-liferay-dev": "1.12.0"
+	},
+	"main": "lib/index.js",
+	"name": "liferay-npm-bundler",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-bundler",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"prepublish": "yarn build"
+	},
+	"version": "2.19.3"
 }

@@ -1,8 +1,5 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-npm-build-support",
-	"version": "2.19.3",
-	"description": "A library of scripts and helpers used by generated projects in their build processes.",
 	"bin": {
 		"lnbs-build": "bin/lnbs-build.js",
 		"lnbs-copy-assets": "bin/lnbs-copy-assets.js",
@@ -10,16 +7,6 @@
 		"lnbs-deploy": "bin/lnbs-deploy.js",
 		"lnbs-start": "bin/lnbs-start.js",
 		"lnbs-translate": "bin/lnbs-translate.js"
-	},
-	"repository": {
-		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-build-support",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
-		"build": "tsc && yarn copyfiles",
-		"prepublish": "yarn build"
 	},
 	"dependencies": {
 		"@babel/core": "^7.0.0",
@@ -36,5 +23,18 @@
 		"request": "^2.88.0",
 		"resolve": "^1.8.1",
 		"uuid": "^3.3.2"
-	}
+	},
+	"description": "A library of scripts and helpers used by generated projects in their build processes.",
+	"name": "liferay-npm-build-support",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-build-support",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"prepublish": "yarn build"
+	},
+	"version": "2.19.3"
 }

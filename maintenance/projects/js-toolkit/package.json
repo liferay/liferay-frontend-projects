@@ -1,8 +1,20 @@
 {
+	"dependencies": {
+		"xml-js": "^1.6.8"
+	},
+	"devDependencies": {
+		"@types/jest": "^24.0.18",
+		"copyfiles": "^2.1.1",
+		"fs-extra": "^8.1.0",
+		"globby": "^10.0.1",
+		"jest": "^24.9.0",
+		"lerna": "^3.16.4",
+		"prettier": "1.18.2",
+		"ts-jest": "^24.1.0",
+		"typescript": "^3.6.3",
+		"yo": "^3.1.0"
+	},
 	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
 	"scripts": {
 		"build": "lerna run build",
 		"check-deps": "node scripts/check-deps.js",
@@ -19,19 +31,7 @@
 		"test": "jest --runInBand",
 		"watch": "node scripts/watch"
 	},
-	"devDependencies": {
-		"@types/jest": "^24.0.18",
-		"copyfiles": "^2.1.1",
-		"fs-extra": "^8.1.0",
-		"globby": "^10.0.1",
-		"jest": "^24.9.0",
-		"lerna": "^3.16.4",
-		"prettier": "1.18.2",
-		"ts-jest": "^24.1.0",
-		"typescript": "^3.6.3",
-		"yo": "^3.1.0"
-	},
-	"dependencies": {
-		"xml-js": "^1.6.8"
-	}
+	"workspaces": [
+		"packages/*"
+	]
 }

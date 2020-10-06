@@ -1,22 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-js-toolkit-scripts",
-	"version": "3.0.0",
-	"description": "A library of helper scripts used by Liferay JavaScript projects.",
-	"license": "LGPL-3.0",
 	"bin": {
 		"js-toolkit": "bin/js-toolkit.js"
-	},
-	"repository": {
-		"directory": "projects/js-toolkit/packages/liferay-js-toolkit-scripts",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"scripts": {
-		"build": "tsc && yarn copyfiles",
-		"clean": "node ../../scripts/clean.js",
-		"copyfiles": "node ../../scripts/copyfiles.js",
-		"prepublish": "yarn build"
 	},
 	"dependencies": {
 		"@babel/core": "^7.0.0",
@@ -33,5 +18,20 @@
 		"request": "^2.88.0",
 		"resolve": "^1.8.1",
 		"uuid": "^3.3.2"
-	}
+	},
+	"description": "A library of helper scripts used by Liferay JavaScript projects.",
+	"license": "LGPL-3.0",
+	"name": "liferay-js-toolkit-scripts",
+	"repository": {
+		"directory": "projects/js-toolkit/packages/liferay-js-toolkit-scripts",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"prepublish": "yarn build"
+	},
+	"version": "3.0.0"
 }

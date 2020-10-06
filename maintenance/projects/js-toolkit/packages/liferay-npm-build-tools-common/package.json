@@ -1,18 +1,5 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-npm-build-tools-common",
-	"version": "2.19.3",
-	"description": "Utility library for Liferay NPM Build Tools.",
-	"repository": {
-		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
-		"build": "tsc && yarn copyfiles",
-		"prepublish": "yarn build"
-	},
 	"dependencies": {
 		"chalk": "^2.4.2",
 		"dot-prop": "^5.0.1",
@@ -22,5 +9,18 @@
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1"
-	}
+	},
+	"description": "Utility library for Liferay NPM Build Tools.",
+	"name": "liferay-npm-build-tools-common",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"prepublish": "yarn build"
+	},
+	"version": "2.19.3"
 }
