@@ -88,7 +88,6 @@ export function getPackageConfig(
 	}
 
 	// Legacy configuration support
-
 	else if (npmbundlerrc[pkg.id] && npmbundlerrc[pkg.id][section]) {
 		pkgConfig = npmbundlerrc[pkg.id][section];
 	} else if (npmbundlerrc[pkg.name] && npmbundlerrc[pkg.name][section]) {

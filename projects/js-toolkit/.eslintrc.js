@@ -10,7 +10,11 @@ const path = require('path');
 const typescriptEslintRecommendedRules = {
 	'@typescript-eslint/adjacent-overload-signatures': 'error',
 	'@typescript-eslint/ban-ts-comment': 'error',
-	'@typescript-eslint/ban-types': 'error',
+
+	// Temporarily setting ban-types to "off':
+	// https://github.com/liferay/liferay-frontend-projects/issues/127
+
+	'@typescript-eslint/ban-types': 'off',
 	'@typescript-eslint/consistent-type-assertions': 'error',
 	'@typescript-eslint/explicit-function-return-type': 'warn',
 	'@typescript-eslint/member-delimiter-style': 'error',
@@ -38,6 +42,11 @@ const typescriptEslintRecommendedRules = {
 	'@typescript-eslint/triple-slash-reference': 'error',
 	'@typescript-eslint/type-annotation-spacing': 'error',
 	camelcase: 'off',
+
+	// Temporarily turn off lines-around-comment:
+	// https://github.com/liferay/liferay-frontend-projects/issues/128
+
+	'lines-around-comment': 'off',
 	'no-array-constructor': 'off',
 	'no-empty-function': 'off',
 	'no-use-before-define': 'off',

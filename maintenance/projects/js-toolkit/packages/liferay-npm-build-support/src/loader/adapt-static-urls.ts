@@ -20,7 +20,6 @@ import {replaceTokens} from './util';
  * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
 export interface Options {
-
 	/** Project relative path of directory containing assets */
 	docroot: string;
 

@@ -13,7 +13,6 @@ import PluginLogger from '../plugin-logger';
  * `metadata` key of its exports to hint the bundler about its use.
  */
 export interface BundlerLoaderMetadata {
-
 	/**
 	 * The encoding to use when passing the file content as a string to the
 	 * loader.
@@ -43,7 +42,6 @@ export interface BundlerLoaderMetadata {
  */
 export interface BundlerLoaderEntryPoint {
 	(
-
 		/** Context of execution */
 		context: BundlerLoaderContext,
 
@@ -56,7 +54,6 @@ export interface BundlerLoaderEntryPoint {
  * A bundler loader execution context
  */
 export interface BundlerLoaderContext {
-
 	/** Content of main transformed object */
 	content: string;
 

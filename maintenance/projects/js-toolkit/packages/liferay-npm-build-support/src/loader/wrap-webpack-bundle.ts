@@ -15,7 +15,6 @@ import {removeWebpackHash} from './util';
 
 /** Configuration options for `wrap-webpack-bundler` loader */
 export interface Options {
-
 	/** A prefix to remove from file paths when computing the module name */
 	removePrefix?: string;
 
