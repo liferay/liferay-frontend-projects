@@ -1,9 +1,3 @@
-/**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
-
 const childProcess = require('child_process');
 const globby = require('globby');
 const path = require('path');

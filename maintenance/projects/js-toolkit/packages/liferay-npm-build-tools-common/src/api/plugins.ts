@@ -1,9 +1,3 @@
-/**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
-
 import Manifest from '../manifest';
 import PkgDesc from '../pkg-desc';
 import PluginLogger from '../plugin-logger';

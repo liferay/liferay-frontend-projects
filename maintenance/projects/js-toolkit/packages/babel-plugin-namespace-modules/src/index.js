@@ -1,9 +1,3 @@
-/**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
-
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
 import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';

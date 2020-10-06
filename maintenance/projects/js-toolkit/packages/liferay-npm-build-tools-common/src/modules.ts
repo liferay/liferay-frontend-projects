@@ -1,10 +1,4 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
-
-/**
  * An object to describe the parts composing a module name.
  * @see splitModuleName
  */

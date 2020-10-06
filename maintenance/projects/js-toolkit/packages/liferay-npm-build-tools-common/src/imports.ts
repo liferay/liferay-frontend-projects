@@ -1,9 +1,3 @@
-/**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
- * SPDX-License-Identifier: LGPL-3.0-or-later
- */
-
 /** Structure of `config.imports` section of `.npmbundlerrc` */
 export interface ImportsConfig {
 	/** Version constraints for provider packages theirselves */
