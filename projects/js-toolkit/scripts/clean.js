@@ -31,21 +31,47 @@ function hasValidOutDir(json) {
 	return true;
 }
 
-try {
-	const json = fs.readJSONSync('tsconfig.json');
+function clean() {
+	try {
+		const json = fs.readJSONSync('tsconfig.json');
 
-	if (!hasValidOutDir(json)) {
-		abort(
-			`Invalid compilerOptions.outDir found in ` +
-				`${path.basename(path.resolve('.'))}/tsconfig.json`
-		);
+		if (!hasValidOutDir(json)) {
+			abort(
+				`Invalid compilerOptions.outDir found in ` +
+					`${path.basename(path.resolve('.'))}/tsconfig.json`
+			);
+		}
+
+		fs.removeSync(json.compilerOptions.outDir);
+	} catch (err) {
+		if (err.code !== 'ENOENT') {
+			abort(err.toString());
+		}
 	}
 
-	fs.removeSync(json.compilerOptions.outDir);
-} catch (err) {
-	if (err.code !== 'ENOENT') {
-		abort(err.toString());
-	}
+	fs.removeSync('tsconfig.tsbuildinfo');
 }
 
-fs.removeSync('tsconfig.tsbuildinfo');
+if (process.argv.includes('--all')) {
+	// Clean all packages.
+
+	const cwd = process.cwd();
+
+	for (const entry of fs.readdirSync('packages', {withFileTypes: true})) {
+		if (entry.isDirectory()) {
+			const pkg = path.join('packages', entry.name);
+
+			try {
+				process.chdir(pkg);
+
+				clean();
+			} finally {
+				process.chdir(cwd);
+			}
+		}
+	}
+} else {
+	// Clean just the current working directory.
+
+	clean();
+}

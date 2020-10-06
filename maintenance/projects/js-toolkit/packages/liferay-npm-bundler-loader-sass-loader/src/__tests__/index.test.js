@@ -25,7 +25,7 @@ it('logs results correctly', () => {
 		{
 			level: 'info',
 			source: 'sass-loader',
-			things: ['Processed file with sass v1.24.0 (from project)'],
+			things: ['Processed file with node-sass v4.14.1 (from project)'],
 		},
 	]);
 });
@@ -41,8 +41,8 @@ it('correctly generates CSS', () => {
 	const result = loader(context, {});
 
 	expect(result).toEqual(`.Button {
-  border: 1px solid red;
-}`);
+  border: 1px solid red; }
+`);
 
 	expect(Object.keys(context.extraArtifacts)).toEqual([]);
 });
