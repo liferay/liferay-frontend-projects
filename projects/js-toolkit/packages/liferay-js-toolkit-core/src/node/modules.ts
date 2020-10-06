@@ -8,7 +8,6 @@
  * @see splitModuleName
  */
 export interface ModuleNameParts {
-
 	/** Scope of module (starts with at sign) */
 	scope?: string;
 

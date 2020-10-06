@@ -27,14 +27,12 @@ function safeUnlink(path) {
 }
 
 function spawn(cmd, args, options = {}) {
-	const proc = childProcess.spawnSync(
-		cmd,
-		args,
-		{
-			stdio: 'inherit', cwd: path.join('..', '..'), shell: true,
-			...options
-		}
-	);
+	const proc = childProcess.spawnSync(cmd, args, {
+		stdio: 'inherit',
+		cwd: path.join('..', '..'),
+		shell: true,
+		...options,
+	});
 
 	if (proc.error || proc.status != 0) {
 		process.exit(1);
@@ -53,11 +51,11 @@ function writeConfig(dir, options) {
 				answers: {
 					'*': {
 						description: options.folder,
-							category: 'JS Toolkit QA',
-							liferayPresent: true,
-							liferayDir,
-							pkgManager: 'yarn',
-						...options
+						category: 'JS Toolkit QA',
+						liferayPresent: true,
+						liferayDir,
+						pkgManager: 'yarn',
+						...options,
 					},
 				},
 			},

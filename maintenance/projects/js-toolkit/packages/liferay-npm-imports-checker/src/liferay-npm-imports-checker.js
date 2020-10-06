@@ -445,9 +445,13 @@ function writeIgnores(results) {
  * @return {void}
  */
 function msg(indent, ...args) {
-	for (let i = 0; i < indent; i++) {console.group();}
+	for (let i = 0; i < indent; i++) {
+		console.group();
+	}
 	console.log(...args);
-	for (let i = 0; i < indent; i++) {console.groupEnd();}
+	for (let i = 0; i < indent; i++) {
+		console.groupEnd();
+	}
 }
 
 /**

@@ -26,7 +26,7 @@ import {UnrolledAliasesMap, moduleExists, unrollAliasesMap} from './util';
  */
 export default function (
 	params: BundlerPluginParams,
-	{}: BundlerTransformPluginState
+	_state: BundlerTransformPluginState
 ): void {
 	const {log, pkg} = params;
 
@@ -125,6 +125,9 @@ function processAliases(
 					).linkToCode(2);
 					break;
 				}
+
+				default:
+					break;
 			}
 		}
 	);
@@ -190,7 +193,7 @@ export function reportAndResolveCollisions(
 	// Resolve collisions in multiple length aliases
 
 	Object.entries(unrolledAliasesMap)
-		.filter(([absFromPath, unrolledAliases]) => unrolledAliases.length > 1)
+		.filter(([_absFromPath, unrolledAliases]) => unrolledAliases.length > 1)
 		.forEach(([absFromPath, unrolledAliases]) => {
 			// Sort by distance to absFromPath
 

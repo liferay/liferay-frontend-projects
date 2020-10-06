@@ -117,6 +117,9 @@ export function getPackageDir(moduleFilePath: string): string {
 
 			break;
 		}
+
+		default:
+			break;
 	}
 
 	packageDirCache[absModuleFilePosixPath] = absPkgDir;
@@ -159,14 +162,6 @@ export function getModuleName(moduleFilePath: string): string {
 	const pkgJson = require(getPackageJsonPath(moduleFilePath));
 
 	return `${pkgJson.name}@${pkgJson.version}/${moduleName}`;
-}
-
-function getPackageName(modulePath: string): string {
-	const modulePathParts = modulePath.split('/');
-
-	return modulePath.startsWith('@')
-		? `${modulePathParts[0]}/${modulePathParts[1]}`
-		: modulePathParts[0];
 }
 
 function getFileOrigin(filePath: string): FileOrigin {

@@ -40,7 +40,6 @@ export interface ManifestJsonModule {
 
 /** Structure of module flags in package descriptor in `manifest.json` files */
 export interface ManifestJsonModuleFlags {
-
 	/** Module exports `__esModule` flag (as defined by Babel) */
 	esModule?: boolean;
 }

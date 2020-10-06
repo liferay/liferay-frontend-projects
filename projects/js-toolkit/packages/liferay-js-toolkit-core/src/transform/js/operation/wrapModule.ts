@@ -11,7 +11,6 @@ import {getProgramStatements} from '../ast';
 import {parse} from '../parse';
 
 export interface Options {
-
 	/**
 	 * The name of the require() method. Default value is 'require'.
 	 *

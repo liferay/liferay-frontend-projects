@@ -6,7 +6,6 @@
 
 /** Structure of `config.imports` section of `.npmbundlerrc` */
 export interface ImportsConfig {
-
 	/** Version constraints for provider packages theirselves */
 	''?: PackageConstraints;
 
@@ -16,7 +15,6 @@ export interface ImportsConfig {
 
 /** Version constraints indexed by package name */
 export interface PackageConstraints {
-
 	/** Version constraints for a package name */
 	[index: string]: string;
 }
@@ -26,7 +24,6 @@ export interface PackageConstraints {
  * itself)
  */
 export interface ProviderImports extends PackageConstraints {
-
 	/** Version constraints for the provider package itself */
 	'/'?: string;
 }
@@ -36,14 +33,12 @@ export interface ProviderImports extends PackageConstraints {
  * imported packages.
  */
 export interface UnrolledImportsConfig {
-
 	/** Import configuration for a given imported package name */
 	[index: string]: UnrolledImport;
 }
 
 /** Import configuration for an imported package */
 export interface UnrolledImport {
-
 	/** Provider package name */
 	name: string;
 

@@ -402,7 +402,7 @@ export class Project {
 		}
 
 		if (presetFilePath) {
-			const originalConfig = { ...config};
+			const originalConfig = {...config};
 
 			Object.assign(
 				config,

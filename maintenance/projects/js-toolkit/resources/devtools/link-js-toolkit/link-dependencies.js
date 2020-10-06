@@ -31,7 +31,9 @@ function linkDependencies(extraDependencies = []) {
 
 	try {
 		fs.mkdirSync('node_modules');
-	} catch (err) {}
+	} catch (err) {
+		// Do nothing.
+	}
 
 	const dirs = fs.readdirSync('node_modules').filter(isToolkitDep);
 

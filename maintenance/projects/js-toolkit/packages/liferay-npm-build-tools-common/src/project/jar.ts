@@ -6,7 +6,6 @@
 
 import {Project} from '.';
 import prop from 'dot-prop';
-import fs from 'fs';
 import readJsonSync from 'read-json-sync';
 
 import FilePath from '../file-path';

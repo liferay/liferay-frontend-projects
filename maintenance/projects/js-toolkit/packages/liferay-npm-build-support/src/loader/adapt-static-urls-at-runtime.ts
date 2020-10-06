@@ -17,7 +17,6 @@ import {replaceTokens} from './util';
 
 /** Configuration options for `adapt-static-urls` loader */
 export interface Options {
-
 	/** Project relative path of directory containing assets */
 	docroot: string;
 
