@@ -3,6 +3,14 @@
 #
 # See: https://github.com/actions/labeler
 
+2.x:
+    - maintenance/projects/js-toolkit/*
+    - maintenance/projects/js-toolkit/**/*
+
+3.x:
+    - projects/js-toolkit/*
+    - projects/js-toolkit/**/*
+
 changelog-generator:
     - projects/npm-tools/packages/changelog-generator/*
     - projects/npm-tools/packages/changelog-generator/**/*
@@ -22,6 +30,12 @@ js-insights:
 js-publish:
     - projects/npm-tools/packages/js-publish/*
     - projects/npm-tools/packages/js-publish/**/*
+
+js-toolkit:
+    - maintenance/projects/js-toolkit/*
+    - maintenance/projects/js-toolkit/**/*
+    - projects/js-toolkit/*
+    - projects/js-toolkit/**/*
 
 npm-bundler-preset-liferay-dev:
     - projects/npm-tools/packages/npm-bundler-preset-liferay-dev/*
