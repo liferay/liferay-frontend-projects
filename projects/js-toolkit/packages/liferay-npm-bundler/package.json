@@ -1,33 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-npm-bundler",
-	"version": "3.0.0-alpha.5",
-	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
-	"license": "LGPL-3.0",
-	"main": "lib/index.js",
 	"bin": {
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
-	},
-	"repository": {
-		"directory": "projects/js-toolkit/packages/liferay-npm-bundler",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"scripts": {
-		"build": "tsc && yarn copyfiles",
-		"ci": "cd ../.. && yarn ci",
-		"clean": "node ../../scripts/clean.js",
-		"copyfiles": "node ../../scripts/copyfiles.js",
-		"postversion": "npx liferay-js-publish",
-		"preversion": "yarn ci"
-	},
-	"devDependencies": {
-		"@types/ejs": "^3.0.1",
-		"@types/escodegen": "^0.0.6",
-		"@types/estraverse": "^0.0.6",
-		"@types/estree": "^0.0.42",
-		"@types/fs-extra": "^8.1.0",
-		"@types/webpack": "^4.41.6"
 	},
 	"dependencies": {
 		"acorn": "^6.2.1",
@@ -45,5 +19,31 @@
 		"webpack": "^4.41.6",
 		"xml-js": "^1.6.8",
 		"yargs": "^14.0.0"
-	}
+	},
+	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
+	"devDependencies": {
+		"@types/ejs": "^3.0.1",
+		"@types/escodegen": "^0.0.6",
+		"@types/estraverse": "^0.0.6",
+		"@types/estree": "^0.0.42",
+		"@types/fs-extra": "^8.1.0",
+		"@types/webpack": "^4.41.6"
+	},
+	"license": "LGPL-3.0",
+	"main": "lib/index.js",
+	"name": "liferay-npm-bundler",
+	"repository": {
+		"directory": "projects/js-toolkit/packages/liferay-npm-bundler",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"ci": "cd ../.. && yarn ci",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
+	},
+	"version": "3.0.0-alpha.5"
 }

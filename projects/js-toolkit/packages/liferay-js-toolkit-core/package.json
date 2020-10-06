@@ -1,23 +1,5 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "liferay-js-toolkit-core",
-	"version": "3.0.0-alpha.2",
-	"description": "Utility library for Liferay NPM Build Tools.",
-	"license": "LGPL-3.0",
-	"main": "lib/index.js",
-	"repository": {
-		"directory": "projects/js-toolkit/packages/liferay-js-toolkit-core",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"scripts": {
-		"build": "tsc && yarn copyfiles",
-		"ci": "cd ../.. && yarn ci",
-		"clean": "node ../../scripts/clean.js",
-		"copyfiles": "node ../../scripts/copyfiles.js",
-		"postversion": "npx liferay-js-publish",
-		"preversion": "yarn ci"
-	},
 	"dependencies": {
 		"acorn": "^6.2.1",
 		"chalk": "^2.4.2",
@@ -33,7 +15,25 @@
 		"source-map": "^0.7.3",
 		"webpack": "^4.41.6"
 	},
+	"description": "Utility library for Liferay NPM Build Tools.",
 	"devDependencies": {
 		"@types/estree": "^0.0.42"
-	}
+	},
+	"license": "LGPL-3.0",
+	"main": "lib/index.js",
+	"name": "liferay-js-toolkit-core",
+	"repository": {
+		"directory": "projects/js-toolkit/packages/liferay-js-toolkit-core",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "tsc && yarn copyfiles",
+		"ci": "cd ../.. && yarn ci",
+		"clean": "node ../../scripts/clean.js",
+		"copyfiles": "node ../../scripts/copyfiles.js",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
+	},
+	"version": "3.0.0-alpha.2"
 }

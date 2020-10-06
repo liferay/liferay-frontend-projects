@@ -1,20 +1,20 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "babel-plugin-namespace-amd-define",
-	"version": "2.19.3",
+	"dependencies": {
+		"liferay-npm-build-tools-common": "2.19.3"
+	},
 	"description": "A Babel plugin to namespace (prefix) AMD define() calls.",
 	"main": "lib/index.js",
+	"name": "babel-plugin-namespace-amd-define",
 	"repository": {
 		"directory": "maintenance/projects/js-toolkit/packages/babel-plugin-namespace-amd-define",
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
+		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"dependencies": {
-		"liferay-npm-build-tools-common": "2.19.3"
-	}
+	"version": "2.19.3"
 }
