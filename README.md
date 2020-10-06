@@ -14,6 +14,13 @@ This is an experimental exploration of the ideas proposed in [liferay-frontend-g
 | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | [`@liferay/eslint-config`](./projects/eslint-config) | [label: `eslint-config`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aeslint-config) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=eslint-config&template=eslint-config.md) |
 
+### `js-toolkit`
+
+| Project                                              | Issues & PRs                                                                                                                                    | Actions                                                                                            |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [`js-toolkit` v3](./projects/js-toolkit)             | [label: `js-toolkit`, `3.x`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-toolkit+label%3A3.x) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=js-toolkit,3.x) |
+| [`js-toolkit` v2](./maintenance/projects/js-toolkit) | [label: `js-toolkit`, `2.x`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-toolkit+label%3A2.x) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=js-toolkit,2.x) |
+
 ### `npm-tools`
 
 #### Project

@@ -2,8 +2,10 @@
 
 ## Project-specific contribution guidelines
 
--   [eslint-config](projects/eslint-config/CONTRIBUTING.md)
--   [npm-tools](projects/npm-tools/CONTRIBUTING.md)
+-   [`eslint-config`](projects/eslint-config/CONTRIBUTING.md)
+-   [`js-toolkit` v3](projects/js-toolkit/CONTRIBUTING.md)
+-   [`js-toolkit` v2](maintenance/projects/js-toolkit/CONTRIBUTING.md)
+-   [`npm-tools`](projects/npm-tools/CONTRIBUTING.md)
 
 ## General contributing tips for the monorepo as a whole
 
