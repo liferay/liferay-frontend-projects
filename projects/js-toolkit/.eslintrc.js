@@ -58,7 +58,7 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
-	extends: ['liferay'],
+	extends: ['@liferay'],
 	root: true,
 	rules: {
 		'no-for-of-loops/no-for-of-loops': 'off',

@@ -3,10 +3,10 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
-	extends: 'liferay',
+	extends: '@liferay',
 	root: true,
 	rules: {
-		'liferay/no-dynamic-require': 'off',
+		'@liferay/liferay/no-dynamic-require': 'off',
 		'no-console': 'off',
 		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-return-assign': ['error', 'except-parens'],

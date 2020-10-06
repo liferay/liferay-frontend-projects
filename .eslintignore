@@ -1,6 +1,26 @@
-# Templates.
+#
+# Project-specific
+#
+
+/maintenance/projects/js-toolkit/qa
+/maintenance/projects/js-toolkit/**/__fixtures__
+
+/projects/js-toolkit/qa
+/projects/js-toolkit/**/generators
+/projects/js-toolkit/**/lib
+/projects/js-toolkit/**/__tests__
+/projects/js-toolkit/packages/*/generators/**
+
+#
+# Templates
+#
+
 /copyright.js
+/maintenance/projects/*/copyright.js
 /projects/*/copyright.js
 
-# Third-party code.
+#
+# Third-party code
+#
+
 node_modules
