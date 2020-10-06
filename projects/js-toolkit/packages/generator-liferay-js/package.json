@@ -1,4 +1,5 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "generator-liferay-js",
 	"version": "3.0.0",
 	"description": "Yeoman generators for Liferay DXP and Portal CE JavaScript projects.",
@@ -12,6 +13,11 @@
 		"liferay",
 		"liferay-js"
 	],
+	"repository": {
+		"directory": "projects/js-toolkit/packages/generator-liferay-js",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"build": "tsc && yarn copyfiles",
 		"clean": "node ../../scripts/clean.js",

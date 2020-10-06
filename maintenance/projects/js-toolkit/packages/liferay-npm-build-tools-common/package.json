@@ -1,7 +1,13 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-npm-build-tools-common",
 	"version": "2.19.3",
 	"description": "Utility library for Liferay NPM Build Tools.",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",

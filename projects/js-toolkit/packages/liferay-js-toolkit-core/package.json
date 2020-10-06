@@ -1,9 +1,15 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-js-toolkit-core",
 	"version": "3.0.0-alpha.2",
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
+	"repository": {
+		"directory": "projects/js-toolkit/packages/liferay-js-toolkit-core",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"build": "tsc && yarn copyfiles",
 		"ci": "cd ../.. && yarn ci",

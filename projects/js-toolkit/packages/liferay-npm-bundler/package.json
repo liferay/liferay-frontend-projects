@@ -1,4 +1,5 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-npm-bundler",
 	"version": "3.0.0-alpha.5",
 	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
@@ -6,6 +7,11 @@
 	"main": "lib/index.js",
 	"bin": {
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
+	},
+	"repository": {
+		"directory": "projects/js-toolkit/packages/liferay-npm-bundler",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
 		"build": "tsc && yarn copyfiles",

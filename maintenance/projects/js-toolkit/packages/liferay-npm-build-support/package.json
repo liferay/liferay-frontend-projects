@@ -1,4 +1,5 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-npm-build-support",
 	"version": "2.19.3",
 	"description": "A library of scripts and helpers used by generated projects in their build processes.",
@@ -9,6 +10,11 @@
 		"lnbs-deploy": "bin/lnbs-deploy.js",
 		"lnbs-start": "bin/lnbs-start.js",
 		"lnbs-translate": "bin/lnbs-translate.js"
+	},
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-build-support",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
