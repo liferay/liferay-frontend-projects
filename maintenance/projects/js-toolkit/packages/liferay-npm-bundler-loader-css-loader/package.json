@@ -1,8 +1,14 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-npm-bundler-loader-css-loader",
 	"version": "2.19.3",
 	"description": "A liferay-npm-bundler loader that turns CSS files into JavaScript modules that inject a <link> into the HTML when they are required.",
 	"main": "lib/index.js",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-bundler-loader-css-loader",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",

@@ -1,4 +1,5 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-npm-bundler-preset-create-react-app",
 	"version": "2.19.3",
 	"description": "Configuration for liferay-npm-bundler to integrate with create-react-app projects",
@@ -8,5 +9,10 @@
 		"liferay-npm-bundler-loader-babel-loader": "2.19.3",
 		"liferay-npm-bundler-loader-copy-loader": "2.19.3",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.19.3"
+	},
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-bundler-preset-create-react-app",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	}
 }

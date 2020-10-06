@@ -1,9 +1,15 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "liferay-npm-bridge-generator",
 	"version": "2.19.3",
 	"description": "A CLI utility to generate module bridges (modules that re-export other modules).",
 	"bin": {
 		"liferay-npm-bridge-generator": "bin/liferay-npm-bridge-generator.js"
+	},
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/liferay-npm-bridge-generator",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",

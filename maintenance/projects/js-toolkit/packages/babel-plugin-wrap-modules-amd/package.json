@@ -1,8 +1,14 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "babel-plugin-wrap-modules-amd",
 	"version": "2.19.3",
 	"description": "A Babel plugin to wrap package modules inside AMD define() calls.",
 	"main": "lib/index.js",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/babel-plugin-wrap-modules-amd",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",

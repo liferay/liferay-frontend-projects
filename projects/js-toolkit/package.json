@@ -1,17 +1,5 @@
 {
-	"homepage": "https://github.com/liferay/liferay-js-toolkit#readme",
-	"license": "LGPL-3.0",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/liferay/liferay-js-toolkit.git"
-	},
-	"bugs": {
-		"url": "https://github.com/liferay/liferay-js-toolkit/issues"
-	},
 	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
 	"scripts": {
 		"build": "tsc --build packages/*/tsconfig.json && yarn workspaces run copyfiles",
 		"check-deps": "node scripts/check-deps.js",

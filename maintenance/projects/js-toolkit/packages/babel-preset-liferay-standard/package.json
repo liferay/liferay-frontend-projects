@@ -1,8 +1,14 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"name": "babel-preset-liferay-standard",
 	"version": "2.19.3",
 	"description": "Babel preset for bundling standard Liferay projects.",
 	"main": "lib/index.js",
+	"repository": {
+		"directory": "maintenance/projects/js-toolkit/packages/babel-preset-liferay-standard",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"build": "tsc && yarn copyfiles",
