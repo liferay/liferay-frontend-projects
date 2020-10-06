@@ -52,17 +52,20 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 
 	if (moduleStats.isDirectory()) {
 		// Given module name is a directory
+
 		const pkgJsonPath = path.join(fullModulePath, 'package.json');
 		const pkgJsonStats = safeStat(pkgJsonPath);
 
 		if (pkgJsonStats.isFile()) {
 			// Module directory has package.json file
+
 			const pkgJson = readJsonSync(pkgJsonPath);
 			const {main} = pkgJson;
 
 			if (main) {
 				// Module directory has package.json file with main entry:
 				// recursively resolve the main entry's file path
+
 				fullModulePath = path.join(
 					pkgPath,
 					resolveModuleFile(pkgPath, path.join(moduleName, main))
@@ -70,10 +73,12 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 			} else {
 				// Module directory has package.json file without main entry:
 				// assume index.js
+
 				fullModulePath = path.join(fullModulePath, 'index.js');
 			}
 		} else {
 			// Module directory has not package.json file: assume index.js
+
 			fullModulePath = path.join(fullModulePath, 'index.js');
 		}
 	} else if (moduleStats.isFile()) {
@@ -81,11 +86,13 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 	} else if (fullModulePath.endsWith('.js')) {
 		// Given module name is not a directory nor a file but ends with '.js'
 		// extension: see if corresponding '.js.js' file exists
+
 		moduleStats = safeStat(`${fullModulePath}.js`);
 
 		if (moduleStats.isFile()) {
 			// Given module name has a corresponding '.js.js' file: add '.js'
 			// extension
+
 			fullModulePath += '.js';
 		} else {
 			// Given module name has no corresponding '.js.js' file: do nothing
@@ -95,6 +102,7 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 	} else {
 		// Given module name is not a directory nor a file and doesn't end with
 		// '.js' extension: add '.js' extension
+
 		fullModulePath += '.js';
 	}
 

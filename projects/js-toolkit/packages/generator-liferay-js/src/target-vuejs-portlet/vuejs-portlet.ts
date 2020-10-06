@@ -45,28 +45,34 @@ export default class extends Generator {
 		const projectAnalyzer = new ProjectAnalyzer(this);
 
 		// Configure build
+
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
 		// Configure webpack
+
 		pkgJson.addDevDependency('babel-loader', '7.1.5');
 		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
 		// Prepare text labels
+
 		const labels = standardTarget.generateLabels(this);
 
 		// Prepare context
+
 		const context = standardTarget.generateContext(this, {
 			labels:
 				labels[projectAnalyzer.hasLocalization ? 'template' : 'raw'],
 		});
 
 		// Copy javascript files
+
 		pkgJson.setMain('index.js');
 		cp.copyDir('src', {context});
 
 		// Generate sample contents
+
 		standardTarget.generateSamples(this, labels);
 	}
 }

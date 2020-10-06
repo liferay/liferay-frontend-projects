@@ -14,6 +14,7 @@ const {isToolkitDep, yarn, yarnLink} = require('./util');
 
 function linkDependencies(extraDependencies = []) {
 	// Read package.json
+
 	const pkgJson = readJsonSync(path.join('.', 'package.json'));
 	pkgJson.dependencies = pkgJson.dependencies || {};
 	pkgJson.devDependencies = pkgJson.devDependencies || {};
@@ -21,12 +22,14 @@ function linkDependencies(extraDependencies = []) {
 	let deps;
 
 	// Grab dependencies from package.json
+
 	deps = [
 		...Object.keys(pkgJson.dependencies),
 		...Object.keys(pkgJson.devDependencies),
 	].filter(isToolkitDep);
 
 	// Grab dependencies from node_modules
+
 	try {
 		fs.mkdirSync('node_modules');
 	} catch (err) {
@@ -38,9 +41,11 @@ function linkDependencies(extraDependencies = []) {
 	deps.push(...dirs);
 
 	// Deduplicate dependencies
+
 	deps = Array.from(new Set(deps));
 
 	// Install all but JS toolkit dependencies
+
 	const modPkgJson = clone(pkgJson);
 
 	deps.forEach((dep) => {
@@ -66,6 +71,7 @@ function linkDependencies(extraDependencies = []) {
 	}
 
 	// Link dependencies with yarn
+
 	console.log('\n--- Linking dependencies from JS Toolkit\n');
 	yarnLink(deps);
 }

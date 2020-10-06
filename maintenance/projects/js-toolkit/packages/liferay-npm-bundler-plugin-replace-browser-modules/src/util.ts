@@ -5,21 +5,23 @@
  */
 
 import fs from 'fs-extra';
-import FilePath, {AnyPath} from 'liferay-npm-build-tools-common/lib/file-path';
 import {
 	AliasFromType,
 	AliasToValue,
 	getAliasFromType,
 } from 'liferay-npm-build-tools-common/lib/alias';
+import FilePath, {AnyPath} from 'liferay-npm-build-tools-common/lib/file-path';
 
 import {AliasesMap} from './config';
 
 export interface UnrolledAliasesMap {
+
 	/** Index is an absolute POSIX file path */
 	[index: string]: UnrolledAlias[];
 }
 
 export interface UnrolledAlias {
+
 	/** Absolute path to directory where alias is configured */
 	absDir: FilePath;
 

@@ -63,6 +63,7 @@ export default function () {
 					// We must traverse the AST again because the third party
 					// transform-es2015-modules-amd emits its define() call after
 					// Program exit :-(
+
 					firstDefineNamespaced = false;
 					extraNamespaceCount = 0;
 

@@ -65,6 +65,7 @@ export default function ({types: t}) {
 			);
 
 			// Namespace module name
+
 			if (namespaces.module && nameIndex !== undefined) {
 				const moduleName = args[nameIndex].value;
 
@@ -77,6 +78,7 @@ export default function ({types: t}) {
 			}
 
 			// Namespace dependencies
+
 			if (depsIndex !== undefined) {
 				const deps = args[depsIndex].elements;
 
@@ -102,6 +104,7 @@ export default function ({types: t}) {
 			}
 
 			// Don't traverse any more
+
 			path.stop();
 		},
 	};
@@ -162,6 +165,7 @@ export default function ({types: t}) {
 			}
 
 			// Namespace require argument
+
 			argument.value = addDependencyNamespace(
 				moduleName,
 				namespaces.dependencies,
@@ -177,6 +181,7 @@ export default function ({types: t}) {
 			Program: {
 				enter(path, state) {
 					// Prepare configuration
+
 					const ownPkgJson = getOwnPkgJson(state);
 
 					const {globalConfig, rootPkgJson} = babelIpc.get(
@@ -190,11 +195,13 @@ export default function ({types: t}) {
 					);
 
 					// Check if we need to namespace module name
+
 					const namespaceModule =
 						rootPkgJson.name !== ownPkgJson.name ||
 						rootPkgJson.version !== ownPkgJson.version;
 
 					// Prepare opts for visitors
+
 					state.opts = {
 						namespaces: {
 							module: namespaceModule ? rootPkgJson : undefined,
@@ -208,6 +215,7 @@ export default function ({types: t}) {
 					};
 
 					// Initialize statistics for final report
+
 					state.namesCount = 0;
 					state.depsCount = 0;
 					state.requiresCount = 0;
@@ -216,9 +224,11 @@ export default function ({types: t}) {
 					// We must traverse the AST again because the
 					// transform-es2015-modules-amd plugin emits its define()
 					// call after exiting Program node :-(
+
 					path.traverse(amdDefineVisitor, state);
 
 					// Dump final report statistics
+
 					if (
 						state.namesCount > 0 ||
 						state.depsCount > 0 ||
@@ -277,6 +287,7 @@ function getOwnPkgJson(state) {
 	const pkgJsonPath = babelUtil.getPackageJsonPath(filename);
 
 	// Use require so that package.json files are cached for more performance
+
 	return require(pkgJsonPath);
 }
 
@@ -292,6 +303,7 @@ function getDefineIndices(t, args) {
 	let factoryIndex;
 
 	// Define signature is: define(id?, dependencies?, factory);
+
 	switch (args.length) {
 		case 1:
 			factoryIndex = 0;

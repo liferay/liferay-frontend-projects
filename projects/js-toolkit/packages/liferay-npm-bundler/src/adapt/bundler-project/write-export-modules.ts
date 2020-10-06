@@ -136,6 +136,7 @@ async function writeDependencyExportPkgJson(
 	const file = dir.join('package.json');
 
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
+
 	fs.ensureDirSync(file.dirname().asNative);
 	fs.writeFileSync(
 		file.asNative,
@@ -178,6 +179,7 @@ async function writeExportModule(
 	}
 
 	// TODO: check if file needs regeneration to avoid webpack rebuilds
+
 	fs.ensureDirSync(moduleFile.dirname().asNative);
 	fs.writeFileSync(
 		moduleFile.asNative,

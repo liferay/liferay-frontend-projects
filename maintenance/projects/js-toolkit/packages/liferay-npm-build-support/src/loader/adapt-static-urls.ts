@@ -10,8 +10,8 @@ import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 import {replaceTokens} from './util';
 
@@ -21,6 +21,7 @@ import {replaceTokens} from './util';
  * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
 export interface Options {
+
 	/** Project relative path of directory containing assets */
 	docroot: string;
 

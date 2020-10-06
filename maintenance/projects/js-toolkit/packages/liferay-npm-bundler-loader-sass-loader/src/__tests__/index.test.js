@@ -20,6 +20,7 @@ it('logs results correctly', () => {
 	// This test returns '(from project)' because of yarn hoisting, which makes
 	// the loader think that it is retrieving sass from a project (as opposed to
 	// itself).
+
 	expect(context.log.messages).toEqual([
 		{
 			level: 'info',

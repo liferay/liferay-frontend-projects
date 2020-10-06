@@ -35,14 +35,17 @@ export default async function (argv: {version: boolean}): Promise<void> {
 		const start = process.hrtime();
 
 		// Report configurations
+
 		report.rootPackage(rootPkg);
 		report.versionsInfo(versionsInfo);
 
 		// Initialize package.json and manifest.json files
+
 		copyPackageJson();
 		addRootPackageToManifest(rootPkg);
 
 		// Run main process
+
 		switch (project.probe.type) {
 			case ProjectType.ANGULAR_CLI:
 				await adaptAngularCli();
@@ -64,14 +67,17 @@ export default async function (argv: {version: boolean}): Promise<void> {
 		}
 
 		// Write manifest
+
 		saveManifest();
 
 		// Report and show execution time
+
 		const hrtime = process.hrtime(start);
 		report.executionTime(hrtime);
 		log.success(`Bundled {${pkgJson.name}} in`, pretty(hrtime));
 
 		// Write report if requested
+
 		if (project.misc.reportFile) {
 			fs.writeFileSync(project.misc.reportFile.asNative, report.toHtml());
 

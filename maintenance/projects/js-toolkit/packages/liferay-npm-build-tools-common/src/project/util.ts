@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 import fs from 'fs';
 
 import FilePath from '../file-path';
 import {splitModuleName} from '../modules';
 import PkgDesc from '../pkg-desc';
-import {Project} from '.';
 import {BundlerPluginDescriptor} from './types';
 
 /**
@@ -25,7 +25,7 @@ export function getFeaturesFilePath(
 	featuresKeyPath: string,
 	defaultPrjRelPosixPath: string
 ): string | undefined {
-	const {npmbundlerrc, dir: projectDir} = project;
+	const {dir: projectDir, npmbundlerrc} = project;
 
 	const prjRelPosixPath: string = prop.get(npmbundlerrc, featuresKeyPath);
 
@@ -89,6 +89,7 @@ export function getPackageConfig(
 	}
 
 	// Legacy configuration support
+
 	else if (npmbundlerrc[pkg.id] && npmbundlerrc[pkg.id][section]) {
 		pkgConfig = npmbundlerrc[pkg.id][section];
 	} else if (npmbundlerrc[pkg.name] && npmbundlerrc[pkg.name][section]) {
@@ -127,6 +128,7 @@ export function createBundlerPluginDescriptors<T>(
 
 		// If `pluginName` is a package prefix it with
 		// `liferay-npm-bundler-plugin-`, otherwise use it directly
+
 		let pluginModule = project.toolRequire(
 			parts.modulePath
 				? pluginName

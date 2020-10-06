@@ -45,6 +45,7 @@ function copyWebpackResources() {
 		rules: util.inspect(
 			cfg.getWebpackRules().map((rule) => {
 				rule.test = new RegExp(rule.test);
+
 				return rule;
 			})
 		),

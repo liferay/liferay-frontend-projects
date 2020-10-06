@@ -21,4 +21,5 @@ globby.sync(['packages/*/tsconfig.json']).forEach((tsconfigPath) => {
 });
 
 // Loop forever (use Ctrl+C to exit)
+
 setInterval(() => {}, 60000);

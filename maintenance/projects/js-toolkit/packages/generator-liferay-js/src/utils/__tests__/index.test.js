@@ -107,6 +107,7 @@ describe('promptWithConfig()', () => {
 		const generator = {
 			prompt: async (prompts) => {
 				capturedPrompts = prompts;
+
 				return returnedAnswers;
 			},
 		};

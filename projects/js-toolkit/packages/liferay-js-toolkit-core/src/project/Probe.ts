@@ -44,6 +44,7 @@ export default class Probe {
 
 		// This must go last, as all other types have liferay-npm-bundler as
 		// dependency
+
 		if (
 			this._hasDependency('liferay-npm-bundler') ||
 			this._hasDependency('liferay-js-toolkit-scripts') ||

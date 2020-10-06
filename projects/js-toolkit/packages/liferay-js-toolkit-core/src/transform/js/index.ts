@@ -29,6 +29,7 @@ export async function replace(
 	visitor: estraverse.Visitor
 ): Promise<SourceCode> {
 	// TODO: clone source.ast to avoid modifying source?
+
 	const ast = source.ast || parse(source.code);
 
 	estraverse.replace(ast as estree.Node, visitor);
@@ -125,6 +126,7 @@ async function mergeMaps(
 	newMapConsumer.eachMapping((mapping) => {
 		// Note that there is no `originalLine` when the node does not come from
 		// the original code
+
 		if (!mapping.originalLine) {
 			return;
 		}
@@ -158,9 +160,11 @@ async function mergeMaps(
 	const map = JSON.parse(mergedMapGenerator.toString());
 
 	// Set the destination file of the map
+
 	map.file = newMap.file;
 
 	// Add original source contents
+
 	map.sources = [...oldMap.sources];
 	map.sourcesContent = [...oldMap.sourcesContent];
 
@@ -174,6 +178,7 @@ function readSource(file: FilePath): SourceCode {
 
 	// TODO: read source map from file annotation instead of guessing
 	// the file name
+
 	try {
 		source.map = fs.readJsonSync(`${file.asNative}.map`);
 	} catch (err) {

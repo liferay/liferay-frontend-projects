@@ -12,6 +12,7 @@ import Generator from 'yeoman-generator';
 import {promptWithConfig} from '../utils';
 
 // If --which parameter is given show path to generator and exit
+
 if (argv.which) {
 	console.log(require.resolve('./index'));
 	process.exit(0);
@@ -91,6 +92,7 @@ export default class extends Generator {
 	_getTargetCategories(tds) {
 		const map = tds.reduce((map, td) => {
 			map[td.category] = true;
+
 			return map;
 		}, {});
 

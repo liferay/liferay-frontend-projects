@@ -153,6 +153,7 @@ function removeModuleName(line) {
 					return line.substr(i + 1);
 
 				default:
+
 				// Keep scanning.
 			}
 		}

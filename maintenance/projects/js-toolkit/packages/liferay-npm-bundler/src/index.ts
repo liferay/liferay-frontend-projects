@@ -17,7 +17,6 @@ import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
 import report from './report';
-
 import copyPackages from './steps/copy';
 import runRules from './steps/rules';
 import transformPackages from './steps/transform';
@@ -30,6 +29,7 @@ export default function (argv: {version: boolean}): void {
 		versionsInfo.forEach((value, key) => {
 			console.log(`"${key}":`, JSON.stringify(value, null, 2));
 		});
+
 		return;
 	}
 
@@ -51,11 +51,13 @@ function run(): void {
 		const start = process.hrtime();
 
 		// Get root package
+
 		const rootPkg = getRootPkg();
 
 		report.rootPackage(rootPkg);
 
 		// Compute dependency packages
+
 		const depPkgsMap = addPackageDependencies(
 			{},
 			project.dir.asNative,
@@ -68,9 +70,11 @@ function run(): void {
 		reportLinkedDependencies(project.pkgJson);
 
 		// Report rules config
+
 		report.rulesConfig(project.rules.config);
 
 		// Warn about incremental builds
+
 		if (manifest.loadedFromFile) {
 			report.warn(
 				'This report is from an incremental build: some steps may be ' +
@@ -80,6 +84,7 @@ function run(): void {
 		}
 
 		// Do things
+
 		copyPackages(rootPkg, depPkgs)
 			.then(() => runRules(rootPkg, depPkgs))
 			.then(() => transformPackages(rootPkg, depPkgs))
@@ -87,14 +92,17 @@ function run(): void {
 			.then(() => (project.jar.supported ? createJar() : undefined))
 			.then(() => {
 				// Report and show execution time
+
 				const hrtime = process.hrtime(start);
 				report.executionTime(hrtime);
 				log.info(`Bundling took ${pretty(hrtime)}`);
 
 				// Send report analytics data
+
 				report.sendAnalytics();
 
 				// Write report if requested
+
 				if (project.misc.reportFile) {
 					fs.writeFileSync(
 						project.misc.reportFile.asNative,

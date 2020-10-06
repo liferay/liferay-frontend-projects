@@ -197,6 +197,7 @@ export async function promptWithConfig(
 	}
 
 	// Tweak defaults with config values
+
 	prompts = prompts.map((prompt) => {
 		let defaultDefault = undefined;
 
@@ -214,6 +215,7 @@ export async function promptWithConfig(
 	});
 
 	// Decide wether to run in batch or interactive mode
+
 	if (cfg.batchMode()) {
 		return prompts.reduce((answers, prompt) => {
 			answers[prompt.name] = prompt.default;

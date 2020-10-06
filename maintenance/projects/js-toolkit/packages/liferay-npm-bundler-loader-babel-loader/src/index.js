@@ -23,6 +23,7 @@ export default function (context, config) {
 	};
 
 	// Tune babel config
+
 	babelConfig.babelrc = false;
 	babelConfig.only = '**/*';
 	if (babelConfig.sourceMaps === undefined) {
@@ -30,6 +31,7 @@ export default function (context, config) {
 	}
 
 	// Intercept presets and plugins to load them from project
+
 	babelConfig.plugins = loadBabelPlugins(
 		babelConfig.presets || [],
 		babelConfig.plugins || []

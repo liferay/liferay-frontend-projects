@@ -82,18 +82,22 @@ export function formatLabels(labels) {
 		raw: labels,
 		quoted: Object.entries(labels).reduce((obj, [key, value]) => {
 			obj[key] = `'${value}'`;
+
 			return obj;
 		}, {}),
 		template: Object.keys(labels).reduce((obj, key) => {
 			obj[key] = `\${Liferay.Language.get('${hyphenate(key)}')}`;
+
 			return obj;
 		}, {}),
 		js: Object.keys(labels).reduce((obj, key) => {
 			obj[key] = `Liferay.Language.get('${hyphenate(key)}')`;
+
 			return obj;
 		}, {}),
 		jsx: Object.keys(labels).reduce((obj, key) => {
 			obj[key] = `{Liferay.Language.get('${hyphenate(key)}')}`;
+
 			return obj;
 		}, {}),
 	};
@@ -175,6 +179,7 @@ export async function promptWithConfig(generator, namespace, prompts) {
 	}
 
 	// Tweak defaults with config values
+
 	prompts = prompts.map((prompt) => {
 		let defaultDefault = undefined;
 
@@ -192,9 +197,11 @@ export async function promptWithConfig(generator, namespace, prompts) {
 	});
 
 	// Decide wether to run in batch or interactive mode
+
 	if (cfg.batchMode()) {
 		return prompts.reduce((answers, prompt) => {
 			answers[prompt.name] = prompt.default;
+
 			return answers;
 		}, {});
 	} else {

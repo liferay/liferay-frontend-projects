@@ -47,32 +47,38 @@ export default class extends Generator {
 		const {sampleWanted} = this.answers;
 
 		// Configure build
+
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('tsc');
 		cp.copyFile('tsconfig.json');
 
 		// Configure webpack
+
 		pkgJson.addDevDependency('ts-loader', '5.3.3');
 		npmbuildrc.addWebpackRule(/src\/.*\.ts$/, 'ts-loader');
 		npmbuildrc.addWebpackExtensions('.ts', '.js');
 		npmbuildrc.setWebpackMainModule('index.ts');
 
 		// Prepare text labels
+
 		const labels = standardTarget.generateLabels(this);
 
 		// Prepare context
+
 		const context = standardTarget.generateContext(this, {
 			labels: labels[projectAnalyzer.hasLocalization ? 'js' : 'quoted'],
 			pkgJson: pkgJson.json,
 		});
 
 		// Copy source files
+
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/polyfills.ts', {context});
 		cp.copyFile('src/index.ts', {context});
 		cp.copyDir('src/types', {context});
 
 		// Generate sample contents
+
 		standardTarget.generateSamples(this, labels);
 		if (sampleWanted) {
 			cp.copyDir('src', {context});

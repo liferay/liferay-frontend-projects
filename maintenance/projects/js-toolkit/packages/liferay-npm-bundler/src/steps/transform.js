@@ -129,9 +129,11 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
  */
 function babelifyPackage(destPkg) {
 	// Make a copy of the package's Babel configuration
+
 	const babelConfig = clone(project.transform.getBabelConfig(destPkg));
 
 	// Tune babel config
+
 	babelConfig.babelrc = false;
 	babelConfig.compact = false;
 	babelConfig.only = '**/*';
@@ -140,13 +142,16 @@ function babelifyPackage(destPkg) {
 	}
 
 	// Report a copy of the package's Babel configuration before loading plugins
+
 	report.packageProcessBabelConfig(destPkg, clone(babelConfig));
 
 	// Intercept presets and plugins to load them from here
+
 	babelConfig.plugins = project.transform.getBabelPlugins(destPkg);
 	babelConfig.presets = [];
 
 	// Determine file globs
+
 	const globs = ['**/*.js', '!node_modules/**/*'];
 
 	if (destPkg.isRoot) {
@@ -154,6 +159,7 @@ function babelifyPackage(destPkg) {
 	}
 
 	// Run babel through files
+
 	const prjRelPaths = findFiles(
 		project.dir.asNative,
 		gl.prefix(`${project.dir.asPosix}/${destPkg.dir.asPosix}/`, globs)
@@ -204,6 +210,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 			},
 			(err, result) => {
 				// Generate and/or log results
+
 				if (err) {
 					logger.error('babel', err);
 
@@ -228,6 +235,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 				}
 
 				// Report result of babel run
+
 				report.packageProcessBabelRun(destPkg, filePkgRelPath, logger);
 
 				if (logger.errorsPresent) {
@@ -247,9 +255,11 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 				}
 
 				// Get rid of Babel IPC values
+
 				babelIpc.clear(prjRelPath);
 
 				// Resolve promise
+
 				resolve();
 			}
 		);

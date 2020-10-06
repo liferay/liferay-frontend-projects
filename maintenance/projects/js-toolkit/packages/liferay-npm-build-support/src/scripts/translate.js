@@ -59,6 +59,7 @@ export default function () {
 				'You can edit your .npmbuildrc file to add new supported ' +
 				"locales using the 'supportedLocales' array.\n"
 		);
+
 		return;
 	}
 
@@ -187,6 +188,7 @@ export function makeChunks(texts) {
 	let chars;
 
 	// A helper to add a new chunk to the `chunks` array
+
 	function appendChunk() {
 		chars = 0;
 		currentChunk = [];
@@ -203,11 +205,13 @@ export function makeChunks(texts) {
 		}
 
 		// Limit total request texts to 100
+
 		if (currentChunk.length >= 100) {
 			appendChunk();
 		}
 
 		// Register request
+
 		currentChunk.push(text);
 	});
 
@@ -289,6 +293,7 @@ function parseFile(filePath) {
  */
 function translate(subscriptionKey, locales, texts) {
 	// Map from ['es_ES', 'es_AR'] to {'es_ES': 'es', 'es_AR': 'es'}
+
 	const localesMap = locales.reduce((map, locale) => {
 		const targetLocale = locale.split('_')[0];
 

@@ -6,8 +6,8 @@
 
 import path from 'path';
 
-import project from './project';
 import FilePath from './file-path';
+import project from './project';
 
 enum FileOrigin {
 	SOURCE_PROJECT,

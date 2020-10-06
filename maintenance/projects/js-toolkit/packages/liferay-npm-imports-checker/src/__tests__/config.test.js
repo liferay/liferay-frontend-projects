@@ -13,6 +13,7 @@ beforeEach(() => {
 	try {
 		// Load config after chdir to avoid failure the first time it is loaded if
 		// an incorrect directory is used
+
 		const testDir = path.join(
 			__dirname,
 			'__fixtures__',

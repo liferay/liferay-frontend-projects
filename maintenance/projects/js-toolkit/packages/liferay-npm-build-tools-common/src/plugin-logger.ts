@@ -21,6 +21,7 @@ class MessageTweaker {
 
 	linkTo(link: string): MessageTweaker {
 		this._msg.link = link;
+
 		return this;
 	}
 
@@ -143,7 +144,7 @@ export default class PluginLogger {
 	 * containing one line (<br> separated) per message
 	 */
 	toHtml(): string {
-		return this._msgs.reduce((str, {level, source, things, link}) => {
+		return this._msgs.reduce((str, {level, link, source, things}) => {
 			let html = `${str}${source}:${level}: ${things.join(' ')}<br>`;
 
 			if (link) {

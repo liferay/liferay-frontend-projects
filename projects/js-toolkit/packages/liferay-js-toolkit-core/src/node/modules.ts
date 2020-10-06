@@ -8,10 +8,13 @@
  * @see splitModuleName
  */
 export interface ModuleNameParts {
+
 	/** Scope of module (starts with at sign) */
 	scope?: string;
+
 	/** Package name of module */
 	pkgName: string;
+
 	/** Module file path relative to package root (starts with /) */
 	modulePath?: string;
 }
@@ -23,6 +26,7 @@ export interface ModuleNameParts {
  */
 export function isLocalModule(modulePath: string): boolean {
 	// See https://nodejs.org/api/modules.html#modules_all_together
+
 	return modulePath.startsWith('.') || modulePath.startsWith('/');
 }
 

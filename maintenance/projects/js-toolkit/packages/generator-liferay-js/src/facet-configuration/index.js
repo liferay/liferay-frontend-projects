@@ -66,6 +66,7 @@ export default class extends Generator {
 		cp.copyDir('features', {context});
 
 		// Add configuration name localization key
+
 		if (projectAnalyzer.hasLocalization) {
 			new LanguagePropertiesModifier(this).addProperty(
 				context.name,

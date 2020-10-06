@@ -18,6 +18,7 @@ module.exports = function () {
 	const pkgsDir = path.join('.', 'packages');
 
 	// Create package.json if missing
+
 	if (!fs.existsSync('package.json')) {
 		console.log('\n--- Writing workspace package.json file\n');
 		fs.writeFileSync(
@@ -37,6 +38,7 @@ module.exports = function () {
 	}
 
 	// Remove all toolkit projects from subprojects
+
 	console.log('\n--- Removing all JS Toolkit dependencies from projects\n');
 	fs.readdirSync(pkgsDir)
 		.filter((prj) => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
@@ -80,14 +82,17 @@ module.exports = function () {
 		});
 
 	// Now run yarn install
+
 	console.log('\n--- Running yarn install\n');
 	yarn('install');
 
 	// Now link dependencies in workspace
+
 	console.log('\n--- Linking all JS Toolkit packages\n');
 	yarnLink(toolkitProjectNames);
 
 	// Now link binaries in subprojects
+
 	console.log('\n--- Linking all binaries in subprojects\n');
 	fs.readdirSync(path.join('node_modules', '.bin')).forEach((bin) => {
 		const binPath = path.join('node_modules', '.bin', bin);

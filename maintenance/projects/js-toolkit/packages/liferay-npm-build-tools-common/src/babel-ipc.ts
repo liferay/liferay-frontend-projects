@@ -9,6 +9,7 @@ import path from 'path';
 import FilePath from './file-path';
 
 // Put the `_babel_ipc_` map in the global context
+
 declare const global: {
 	_babel_ipc_: object;
 };

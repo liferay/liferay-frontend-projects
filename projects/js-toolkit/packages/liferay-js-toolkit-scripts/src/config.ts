@@ -25,6 +25,7 @@ function loadConfig(): void {
 	configuration = (project as any)._configuration;
 
 	// Normalize configurations
+
 	normalize(npmbuildrc, 'supportedLocales', []);
 	normalize(npmbuildrc, 'webpack.mainModule', 'index.js');
 	normalize(npmbuildrc, 'webpack.rules', []);

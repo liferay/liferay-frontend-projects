@@ -54,6 +54,7 @@ export function getDefaultAnswer(
 	defaultDefault = undefined
 ): unknown {
 	// Return defaultDefault if no answers section
+
 	if (cfg.answers === undefined) {
 		return defaultDefault;
 	}
@@ -61,11 +62,13 @@ export function getDefaultAnswer(
 	let value;
 
 	// Try to get value from specific namespace section
+
 	if (cfg.answers[namespace] !== undefined) {
 		value = cfg.answers[namespace][question];
 	}
 
 	// If not found in specific namespace section, try to get value from *
+
 	if (value === undefined) {
 		if (cfg.answers['*'] !== undefined) {
 			value = cfg.answers['*'][question];
@@ -73,11 +76,13 @@ export function getDefaultAnswer(
 	}
 
 	// If not found in any section return defaultDefault
+
 	if (value === undefined) {
 		return defaultDefault;
 	}
 
 	// If found, return the configured value
+
 	return value;
 }
 

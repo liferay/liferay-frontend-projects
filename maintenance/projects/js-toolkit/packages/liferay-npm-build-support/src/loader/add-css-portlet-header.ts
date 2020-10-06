@@ -13,6 +13,7 @@ import {replaceTokens} from './util';
 
 /** Configuration options for `add-css-portlet-header` loader */
 export interface Options {
+
 	/**
 	 * Path to the CSS file to use as `header-portlet-css` property of the
 	 * portlet.

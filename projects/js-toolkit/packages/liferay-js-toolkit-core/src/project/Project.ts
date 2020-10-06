@@ -135,6 +135,7 @@ export default class Project {
 			this._exports = prop.get(this._configuration, 'exports', {});
 
 			// Export package.json's main entry (if present) automatically
+
 			if (!this._exports['main']) {
 				let main = this._pkgJson.main;
 
@@ -254,6 +255,7 @@ export default class Project {
 			);
 
 			// If both present act as if none was present
+
 			if (yarnLockPresent && pkgLockPresent) {
 				yarnLockPresent = pkgLockPresent = false;
 			}
@@ -264,6 +266,7 @@ export default class Project {
 				this._pkgManager = 'npm';
 			} else {
 				// If no file is found autodetect command availability
+
 				let yarnPresent =
 					childProcess.spawnSync('yarn', ['--version'], {
 						shell: true,
@@ -274,6 +277,7 @@ export default class Project {
 					}).error === undefined;
 
 				// If both present act as if none was present
+
 				if (yarnPresent && npmPresent) {
 					yarnPresent = npmPresent = false;
 				}
@@ -286,6 +290,7 @@ export default class Project {
 			}
 
 			// If nothing detected store null
+
 			if (this._pkgManager === undefined) {
 				this._pkgManager = null;
 			}
@@ -318,10 +323,12 @@ export default class Project {
 			};
 
 			// Get bundler and me versions
+
 			putInMap('liferay-npm-bundler');
 			putInMap(path.join(__dirname, '../..'));
 
 			// Get preset version
+
 			const {_configuration} = this;
 			const preset = _configuration['preset'];
 
@@ -349,6 +356,7 @@ export default class Project {
 		configFilePath = 'liferay-npm-bundler.config.js'
 	): void {
 		// First reset everything
+
 		this._configFile = undefined;
 		this._configuration = undefined;
 		this._outputDir = undefined;
@@ -360,6 +368,7 @@ export default class Project {
 		this._workDir = undefined;
 
 		// Set significant directories
+
 		this._projectDir = new FilePath(path.resolve(projectPath));
 		this._configFile = new FilePath(
 			path.isAbsolute(configFilePath)
@@ -368,10 +377,12 @@ export default class Project {
 		);
 
 		// Load configuration files
+
 		this._loadPkgJson();
 		this._loadConfiguration();
 
 		// Initialize subdomains
+
 		this.adapt = new Adapt(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);

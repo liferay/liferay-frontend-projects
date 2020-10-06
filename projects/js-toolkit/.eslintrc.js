@@ -1,6 +1,12 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 const path = require('path');
 
 // Rules copied from 'plugin:@typescript-eslint/recommended' (v2.21.0)
+
 const typescriptEslintRecommendedRules = {
 	'@typescript-eslint/adjacent-overload-signatures': 'error',
 	'@typescript-eslint/ban-ts-ignore': 'error',
@@ -35,10 +41,12 @@ const typescriptEslintRecommendedRules = {
 	'prefer-const': 'error',
 	'prefer-rest-params': 'error',
 	'prefer-spread': 'error',
+
 	// }
 };
 
 // Rules copied from 'plugin:@typescript-eslint/eslint-recommended' (v2.21.0)
+
 const typescriptEslintEslintRecommendedRules = {
 	'getter-return': 'off',
 	'no-dupe-args': 'off',

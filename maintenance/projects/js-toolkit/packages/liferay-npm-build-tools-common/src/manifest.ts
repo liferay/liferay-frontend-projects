@@ -9,8 +9,8 @@ import path from 'path';
 
 import {Manifest as Data, ModuleFlags, Package} from './api/manifest';
 import FilePath from './file-path';
-import project from './project';
 import PkgDesc from './pkg-desc';
+import project from './project';
 
 export {ModuleFlags, Package};
 
@@ -31,6 +31,7 @@ export default class Manifest {
 			try {
 				this._data = JSON.parse(fs.readFileSync(filePath));
 				this._loadedFromFile = true;
+
 				return;
 			} catch (err) {
 				if (err.code !== 'ENOENT') {
@@ -121,6 +122,7 @@ export default class Manifest {
 	isOutdated(destPkg: PkgDesc): boolean {
 		// Unless we use real timestamps or digests, we cannot detect reliably
 		// if the root package is outdated or up-to-date.
+
 		if (destPkg.isRoot) {
 			return true;
 		}
@@ -179,6 +181,7 @@ function sortObjectKeysReplacer(key, value) {
 			.sort()
 			.reduce((sorted, key) => {
 				sorted[key] = value[key];
+
 				return sorted;
 			}, {});
 	} else {

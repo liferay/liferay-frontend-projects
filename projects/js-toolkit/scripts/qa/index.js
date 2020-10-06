@@ -48,20 +48,24 @@ if (argv['install']) {
 
 if (argv['deploy']) {
 	// Deploy liferay portlets
+
 	logStep('Deploying Liferay project samples');
 	spawn('node', [lernaPath, 'run', 'deploy'], {
 		cwd: samplesDir,
 	});
 
 	// Deploy adapted projects
+
 	logStep('Deploying adapted project samples');
 	spawn('node', [lernaPath, 'run', 'deploy:liferay'], {
 		cwd: samplesDir,
 		env: {
 			...process.env,
+
 			// This is necessary to avoid create-react-app failures because it
 			// detects duplicated dependencies in the node_modules folder of the
 			// toolkit project (which is up in FS of the `samples` folder)
+
 			SKIP_PREFLIGHT_CHECK: 'true',
 		},
 	});

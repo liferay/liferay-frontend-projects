@@ -193,6 +193,7 @@ function checkProjects(projects) {
 		msg(1, `Project ${fmt.project(project.name)}:`);
 
 		// Iterate imported projects
+
 		Object.keys(imports).forEach((importedProjectName) => {
 			msg(2, `Import ${fmt.import(importedProjectName)}:`);
 
@@ -215,6 +216,7 @@ function checkProjects(projects) {
 				const importedPackages = imports[importedProject.name];
 
 				// Iterate imported packages
+
 				Object.keys(importedPackages).forEach((pkgName) => {
 					if (
 						cfg.isIgnored(
@@ -443,9 +445,9 @@ function writeIgnores(results) {
  * @return {void}
  */
 function msg(indent, ...args) {
-	for (let i = 0; i < indent; i++) console.group();
+	for (let i = 0; i < indent; i++) {console.group();}
 	console.log(...args);
-	for (let i = 0; i < indent; i++) console.groupEnd();
+	for (let i = 0; i < indent; i++) {console.groupEnd();}
 }
 
 /**

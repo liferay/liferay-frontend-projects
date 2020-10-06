@@ -4,8 +4,8 @@
  */
 
 import {
-	info,
 	error,
+	info,
 	print,
 	success,
 	title,
@@ -100,6 +100,7 @@ const msg = {
 };
 
 // If --which parameter is given show path to generator and exit
+
 if (argv.which) {
 	console.log(require.resolve('./index'));
 	process.exit(0);
@@ -182,6 +183,7 @@ export default class extends Generator {
 			]);
 
 			// Set project's package manager internally using a hack
+
 			project._pkgManager = answers.pkgManager;
 		}
 
@@ -275,14 +277,17 @@ export default class extends Generator {
 		const {preset} = this._options;
 
 		// Git ignore build.liferay directory
+
 		gitignore.add('build.liferay');
 
 		// Configure deploy target
+
 		if (this.answers.liferayDir) {
 			npmbuildrc.setLiferayDir(this.answers.liferayDir);
 		}
 
 		// Add JS toolkit dependencies
+
 		pkgJson.addDevDependency(
 			'liferay-npm-build-support',
 			getSDKVersion('liferay-npm-build-support', {ignoreConfig: true})
@@ -299,9 +304,11 @@ export default class extends Generator {
 		);
 
 		// Configure preset
+
 		npmbundlerrc.setPreset(`liferay-npm-bundler-preset-${preset}`);
 
 		// Add npm scripts
+
 		pkgJson.addScript('build:liferay', 'lnbs-build');
 		pkgJson.addScript(
 			'deploy:liferay',
@@ -309,6 +316,7 @@ export default class extends Generator {
 		);
 
 		// Add portlet section
+
 		pkgJson.addPortletProperty(
 			'com.liferay.portlet.display-category',
 			this.answers.category
@@ -324,6 +332,7 @@ export default class extends Generator {
 		);
 
 		// Add localization key for portlet name
+
 		languagePropertiesModifier.addProperty(
 			`javax.portlet.title.${portletName}`,
 			projectAnalyzer.displayName

@@ -103,6 +103,7 @@ export function loadAliases(
 	let aliases: AliasHash = aliasesCache[cacheKey];
 
 	// If not yet cached proceed
+
 	if (aliases === undefined) {
 		const pkgJson = safeReadJsonSync(absPkgJsonFile);
 
@@ -130,6 +131,7 @@ export function loadAliases(
 		);
 
 		// Normalize `/` to `./`
+
 		Object.keys(aliases).forEach((key) => {
 			if (key.startsWith('/')) {
 				aliases[`.${key}`] = aliases[key];
@@ -139,6 +141,7 @@ export function loadAliases(
 	}
 
 	// Store in cache
+
 	aliasesCache[cacheKey] = Object.assign(Object.create(null), aliases);
 
 	return aliases;

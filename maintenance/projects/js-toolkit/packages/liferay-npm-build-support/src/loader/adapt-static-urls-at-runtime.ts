@@ -10,13 +10,14 @@ import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
 } from 'liferay-npm-build-tools-common/lib/api/loaders';
-import project from 'liferay-npm-build-tools-common/lib/project';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import project from 'liferay-npm-build-tools-common/lib/project';
 
 import {replaceTokens} from './util';
 
 /** Configuration options for `adapt-static-urls` loader */
 export interface Options {
+
 	/** Project relative path of directory containing assets */
 	docroot: string;
 

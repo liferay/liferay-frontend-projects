@@ -11,6 +11,7 @@ import {
 
 /** Configuration options for `replace-regexp` loader */
 export interface Options {
+
 	/** RegExp pattern to look for */
 	pattern: string;
 
@@ -29,7 +30,7 @@ export default function (
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;
-	const {pattern, flags = 'g', replacement} = options;
+	const {flags = 'g', pattern, replacement} = options;
 
 	const regexp = new RegExp(pattern, flags);
 

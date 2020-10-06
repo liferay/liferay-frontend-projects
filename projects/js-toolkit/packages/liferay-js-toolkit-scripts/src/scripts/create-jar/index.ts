@@ -184,6 +184,7 @@ function addConfigurationJsonSystemFiles(zip: JSZip): void {
 	}
 
 	// Add OSGI-INF/metatype/metatype.xml file
+
 	const localization = project.l10n.supported
 		? `content/${path.basename(project.l10n.languageFileBaseName.asNative)}`
 		: undefined;
@@ -209,6 +210,7 @@ function addConfigurationJsonSystemFiles(zip: JSZip): void {
 		.file(`${pkgJson.name}.xml`, xml.format(metatype));
 
 	// Add features/metatype.json file
+
 	const metatypeJson = {};
 
 	if (systemConfigJson.category) {

@@ -31,6 +31,7 @@ export default class {
 
 			if (projectAnalyzer.hasLocalization) {
 				// Add system configuration description
+
 				configurationJson.addField(
 					ConfigurationJsonModifier.Section.SYSTEM,
 					'fruit',
@@ -49,6 +50,7 @@ export default class {
 				);
 
 				// Add portletInstance configuration description
+
 				configurationJson.addField(
 					ConfigurationJsonModifier.Section.PORTLET_INSTANCE,
 					'drink',
@@ -67,6 +69,7 @@ export default class {
 				);
 
 				// Add configuration localization
+
 				new LanguagePropertiesModifier(this._generator).addProperties({
 					'a-pear': 'A pear',
 					'an-apple': 'An apple',
@@ -81,6 +84,7 @@ export default class {
 				});
 			} else {
 				// Add system configuration description
+
 				configurationJson.addField(
 					ConfigurationJsonModifier.Section.SYSTEM,
 					'fruit',
@@ -99,6 +103,7 @@ export default class {
 				);
 
 				// Add portletInstance configuration description
+
 				configurationJson.addField(
 					ConfigurationJsonModifier.Section.PORTLET_INSTANCE,
 					'drink',

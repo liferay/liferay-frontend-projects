@@ -16,6 +16,7 @@ import {removeWebpackHash} from './util';
 
 /** Configuration options for `wrap-webpack-bundler` loader */
 export interface Options {
+
 	/** A prefix to remove from file paths when computing the module name */
 	removePrefix?: string;
 
@@ -42,7 +43,7 @@ export default function (
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, filePath, log} = context;
-	const {removePrefix = '', honorWebpackHash = false} = options;
+	const {honorWebpackHash = false, removePrefix = ''} = options;
 
 	const moduleName = getModuleName(
 		honorWebpackHash ? filePath : removeWebpackHash(filePath),

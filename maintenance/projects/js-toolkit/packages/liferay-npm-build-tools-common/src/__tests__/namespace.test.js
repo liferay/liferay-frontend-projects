@@ -16,10 +16,12 @@ it('makeNamespace works', () => {
 describe('when using regular packages', () => {
 	it('isNamespaced works', () => {
 		// Package alone
+
 		expect(ns.isNamespaced('a-package$b-package')).toBe(true);
 		expect(ns.isNamespaced('b-package')).toBe(false);
 
 		// Package and module
+
 		expect(ns.isNamespaced('a-package$b-package/a-module')).toBe(true);
 		expect(ns.isNamespaced('b-package/a-module')).toBe(false);
 		expect(ns.isNamespaced('b-package/a-module/$.a-function')).toBe(false);
@@ -27,10 +29,12 @@ describe('when using regular packages', () => {
 
 	it('getNamespace works', () => {
 		// Package alone
+
 		expect(ns.getNamespace('a-package$b-package')).toBe('a-package$');
 		expect(ns.getNamespace('b-package')).toBeNull();
 
 		// Package and module
+
 		expect(ns.getNamespace('a-package$b-package/a-module')).toBe(
 			'a-package$'
 		);
@@ -40,12 +44,14 @@ describe('when using regular packages', () => {
 
 	it('addNamespace works', () => {
 		// Package alone
+
 		expect(ns.addNamespace('a-package$b-package', pkg)).toBe(
 			'a-package$b-package'
 		);
 		expect(ns.addNamespace('b-package', pkg)).toBe('a-package$b-package');
 
 		// Package and module
+
 		expect(ns.addNamespace('a-package$b-package/a-module', pkg)).toBe(
 			'a-package$b-package/a-module'
 		);
@@ -56,9 +62,11 @@ describe('when using regular packages', () => {
 
 	it('addNamespace throws if existing namespace and pkg do not match', () => {
 		// Package alone
+
 		expect(() => ns.addNamespace('other-package$b-package', pkg)).toThrow();
 
 		// Package and module
+
 		expect(() =>
 			ns.addNamespace('other-package$b-package/a-module', pkg)
 		).toThrow();
@@ -66,6 +74,7 @@ describe('when using regular packages', () => {
 
 	it('addNamespace does not throw when allowOverride is true', () => {
 		// Package alone
+
 		expect(
 			ns.addNamespace('other-package$b-package', pkg, {
 				allowOverride: true,
@@ -73,6 +82,7 @@ describe('when using regular packages', () => {
 		).toBe('a-package$b-package');
 
 		// Package and module
+
 		expect(
 			ns.addNamespace('other-package$b-package/a-module', pkg, {
 				allowOverride: true,
@@ -96,10 +106,12 @@ describe('when using regular packages', () => {
 
 	it('removeNamespace works', () => {
 		// Package alone
+
 		expect(ns.removeNamespace('a-package$b-package')).toBe('b-package');
 		expect(ns.removeNamespace('b-package')).toBe('b-package');
 
 		// Package and module
+
 		expect(ns.removeNamespace('a-package$b-package/a-module')).toBe(
 			'b-package/a-module'
 		);
@@ -115,14 +127,17 @@ describe('when using regular packages', () => {
 describe('when using scoped packages', () => {
 	it('isNamespaced works', () => {
 		// Scope alone
+
 		expect(ns.isNamespaced('@a-package$scope')).toBe(true);
 		expect(ns.isNamespaced('@scope')).toBe(false);
 
 		// Scope and package
+
 		expect(ns.isNamespaced('@a-package$scope/b-package')).toBe(true);
 		expect(ns.isNamespaced('@scope/b-package')).toBe(false);
 
 		// Scope, package and module
+
 		expect(ns.isNamespaced('@a-package$scope/b-package/a-module')).toBe(
 			true
 		);
@@ -134,12 +149,14 @@ describe('when using scoped packages', () => {
 
 	it('getNamespace works', () => {
 		// Package alone
+
 		expect(ns.getNamespace('@a-package$scope/b-package')).toBe(
 			'a-package$'
 		);
 		expect(ns.getNamespace('@scope/b-package')).toBeNull();
 
 		// Package and module
+
 		expect(ns.getNamespace('@a-package$scope/b-package/a-module')).toBe(
 			'a-package$'
 		);
@@ -151,12 +168,14 @@ describe('when using scoped packages', () => {
 
 	it('addNamespace works', () => {
 		// Scope alone
+
 		expect(ns.addNamespace('@a-package$scope', pkg)).toBe(
 			'@a-package$scope'
 		);
 		expect(ns.addNamespace('@scope', pkg)).toBe('@a-package$scope');
 
 		// Scope and package
+
 		expect(ns.addNamespace('@a-package$scope/b-package', pkg)).toBe(
 			'@a-package$scope/b-package'
 		);
@@ -165,6 +184,7 @@ describe('when using scoped packages', () => {
 		);
 
 		// Scope, package and module
+
 		expect(
 			ns.addNamespace('@a-package$scope/b-package/a-module', pkg)
 		).toBe('@a-package$scope/b-package/a-module');
@@ -175,11 +195,13 @@ describe('when using scoped packages', () => {
 
 	it('addNamespace throws if existing namespace and pkg do not match', () => {
 		// Package alone
+
 		expect(() =>
 			ns.addNamespace('@other-package$scope/b-package', pkg)
 		).toThrow();
 
 		// Package and module
+
 		expect(() =>
 			ns.addNamespace('@other-package$scope/b-package/a-module', pkg)
 		).toThrow();
@@ -187,6 +209,7 @@ describe('when using scoped packages', () => {
 
 	it('addNamespace does not throw when allowOverride is true', () => {
 		// Package alone
+
 		expect(
 			ns.addNamespace('@other-package$scope/b-package', pkg, {
 				allowOverride: true,
@@ -194,6 +217,7 @@ describe('when using scoped packages', () => {
 		).toBe('@a-package$scope/b-package');
 
 		// Package and module
+
 		expect(
 			ns.addNamespace('@other-package$scope/b-package/a-module', pkg, {
 				allowOverride: true,
@@ -219,16 +243,19 @@ describe('when using scoped packages', () => {
 
 	it('removeNamespace works', () => {
 		// Scope alone
+
 		expect(ns.removeNamespace('@a-package$scope')).toBe('@scope');
 		expect(ns.removeNamespace('@scope')).toBe('@scope');
 
 		// Scope and package
+
 		expect(ns.removeNamespace('@a-package$scope/b-package')).toBe(
 			'@scope/b-package'
 		);
 		expect(ns.removeNamespace('@scope/b-package')).toBe('@scope/b-package');
 
 		// Scope, package and module
+
 		expect(ns.removeNamespace('@a-package$scope/b-package/a-module')).toBe(
 			'@scope/b-package/a-module'
 		);

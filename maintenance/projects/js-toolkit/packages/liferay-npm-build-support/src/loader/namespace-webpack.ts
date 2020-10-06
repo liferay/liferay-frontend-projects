@@ -5,7 +5,6 @@
  */
 
 import crypto from 'crypto';
-
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,

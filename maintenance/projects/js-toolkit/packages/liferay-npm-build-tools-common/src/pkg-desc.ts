@@ -45,6 +45,7 @@ export default class PkgDesc {
 
 		// Because path.join('.', 'x') returns 'x', not './x' we need to prepend
 		// './' by hand :-(
+
 		pkgPrjRelPath =
 			pkgPrjRelPath === '' ? '.' : `.${path.sep}${pkgPrjRelPath}`;
 
