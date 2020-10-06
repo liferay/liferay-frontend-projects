@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import properties from 'properties';

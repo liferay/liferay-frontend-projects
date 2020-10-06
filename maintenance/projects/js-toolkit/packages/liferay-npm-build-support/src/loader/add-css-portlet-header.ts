@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
@@ -7,6 +12,7 @@ import {replaceTokens} from './util';
 
 /** Configuration options for `add-css-portlet-header` loader */
 export interface Options {
+
 	/**
 	 * Path to the CSS file to use as `header-portlet-css` property of the
 	 * portlet.

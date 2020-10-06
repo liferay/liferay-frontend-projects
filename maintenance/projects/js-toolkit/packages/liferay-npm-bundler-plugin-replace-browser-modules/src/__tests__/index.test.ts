@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs-extra';
 import {AliasFromType} from 'liferay-npm-build-tools-common/lib/alias';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';

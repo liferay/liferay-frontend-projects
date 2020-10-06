@@ -1,8 +1,14 @@
 /**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+/**
  * An object to describe the parts composing a module name.
  * @see splitModuleName
  */
 export interface ModuleNameParts {
+
 	/** Scope of module (starts with at sign) */
 	scope?: string;
 

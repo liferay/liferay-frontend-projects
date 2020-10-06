@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import fs from 'fs-extra';
 import {
 	AliasFromType,
@@ -9,11 +14,13 @@ import FilePath, {AnyPath} from 'liferay-npm-build-tools-common/lib/file-path';
 import {AliasesMap} from './config';
 
 export interface UnrolledAliasesMap {
+
 	/** Index is an absolute POSIX file path */
 	[index: string]: UnrolledAlias[];
 }
 
 export interface UnrolledAlias {
+
 	/** Absolute path to directory where alias is configured */
 	absDir: FilePath;
 

@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import Manifest from '../manifest';
 import PkgDesc from '../pkg-desc';
 import PluginLogger from '../plugin-logger';
@@ -31,6 +36,7 @@ export interface BundlerPluginEntryPoint<T> {
  * Parameters passed as first argument to bundler plugins.
  */
 export interface BundlerPluginParams {
+
 	/** Config for plugin */
 	config: object;
 
@@ -47,6 +53,7 @@ export interface BundlerPluginParams {
 	rootPkgJson: object;
 
 	source: {
+
 		/** Source package descriptor */
 		pkg: PkgDesc;
 	};
@@ -54,12 +61,14 @@ export interface BundlerPluginParams {
 
 /** State parameter type for copy plugins */
 export interface BundlerCopyPluginState {
+
 	/** File paths (relative to package directory) */
 	files: string[];
 }
 
 /** State parameter type for transformation plugins */
 export interface BundlerTransformPluginState {
+
 	/** The contents of the package.json file for the transformed package */
 	pkgJson: object;
 }

@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 /** Structure of `manifest.json` files */
 export interface Manifest {
 	packages: Packages;
@@ -35,6 +40,7 @@ export interface Module {
 
 /** Structure of module flags in package descriptor in `manifest.json` files */
 export interface ModuleFlags {
+
 	/** Module exports `__esModule` flag (as defined by Babel) */
 	esModule?: boolean;
 }

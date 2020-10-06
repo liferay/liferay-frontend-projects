@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
 import escapeStringRegexp from 'escape-string-regexp';
 import globby from 'globby';
 import {
@@ -15,6 +20,7 @@ import {replaceTokens} from './util';
  * @deprecated use `adapt-static-urls-at-runtime.ts` instead
  */
 export interface Options {
+
 	/** Project relative path of directory containing assets */
 	docroot: string;
 
