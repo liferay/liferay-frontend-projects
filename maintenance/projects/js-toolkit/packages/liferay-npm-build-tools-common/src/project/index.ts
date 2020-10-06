@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -130,6 +129,7 @@ export class Project {
 			);
 
 			// If both present act as if none was present
+
 			if (yarnLockPresent && pkgLockPresent) {
 				yarnLockPresent = pkgLockPresent = false;
 			}
@@ -140,6 +140,7 @@ export class Project {
 				this._pkgManager = 'npm';
 			} else {
 				// If no file is found autodetect command availability
+
 				let yarnPresent =
 					child_process.spawnSync('yarn', ['--version'], {
 						shell: true,
@@ -150,6 +151,7 @@ export class Project {
 					}).error === undefined;
 
 				// If both present act as if none was present
+
 				if (yarnPresent && npmPresent) {
 					yarnPresent = npmPresent = false;
 				}
@@ -162,6 +164,7 @@ export class Project {
 			}
 
 			// If nothing detected store null
+
 			if (this._pkgManager === undefined) {
 				this._pkgManager = null;
 			}
@@ -195,10 +198,12 @@ export class Project {
 			};
 
 			// Get bundler and me versions
+
 			putInMap('liferay-npm-bundler');
 			putInMap(path.join(__dirname, '../..'));
 
 			// Get preset version
+
 			const {_npmbundlerrc} = this;
 			const preset = _npmbundlerrc['preset'];
 
@@ -231,6 +236,7 @@ export class Project {
 		configFilePath: string = '.npmbundlerrc'
 	): void {
 		// First reset everything
+
 		this._buildDir = undefined;
 		this._configFile = undefined;
 		this._npmbundlerrc = undefined;
@@ -241,6 +247,7 @@ export class Project {
 		this._toolsDir = undefined;
 
 		// Set significant directories
+
 		this._projectDir = new FilePath(path.resolve(projectPath));
 		this._configFile = new FilePath(
 			path.isAbsolute(configFilePath)
@@ -250,10 +257,12 @@ export class Project {
 		this._toolsDir = this._projectDir;
 
 		// Load configuration files
+
 		this._loadPkgJson();
 		this._loadNpmbundlerrc();
 
 		// Initialize subdomains
+
 		this.copy = new Copy(this);
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
@@ -355,6 +364,7 @@ export class Project {
 			: {};
 
 		// Apply preset if necessary
+
 		let presetFilePath;
 
 		if (config.preset === undefined) {
@@ -391,7 +401,7 @@ export class Project {
 		}
 
 		if (presetFilePath) {
-			const originalConfig = Object.assign({}, config);
+			const originalConfig = {...config};
 
 			Object.assign(
 				config,

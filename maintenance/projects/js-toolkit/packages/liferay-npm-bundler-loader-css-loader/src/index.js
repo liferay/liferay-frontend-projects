@@ -27,6 +27,7 @@ export default function (
 
 	// Note that Liferay.ThemeDisplay.getPathContext() when called at runtime
 	// returns both pathProxy and the context path of the portal's webapp.
+
 	context.extraArtifacts[`${filePath}.js.wrap-modules-amd.template`] = `
 var link = document.createElement("link");
 link.setAttribute("rel", "stylesheet");
@@ -107,10 +108,12 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 		);
 	} else {
 		// If file is inside a source folder, strip the folder name
+
 		for (let sourcePath of project.sources.map(
 			(source) => source.asNative
 		)) {
 			// Remove `./` from sourcePath so that it matches the filePath correctly
+
 			sourcePath = sourcePath.substring(2);
 
 			if (filePath.startsWith(sourcePath)) {

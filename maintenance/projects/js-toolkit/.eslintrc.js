@@ -1,15 +1,31 @@
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ */
+
+const path = require('path');
+
 module.exports = {
 	env: {
 		node: true,
 		jest: true,
 	},
-	extends: 'liferay',
-	root: true,
 	rules: {
-		'liferay/no-dynamic-require': 'off',
+		'@liferay/liferay/no-dynamic-require': 'off',
+
+		// Temporarily turn off lines-around-comment:
+		// https://github.com/liferay/liferay-frontend-projects/issues/128
+
+		'lines-around-comment': 'off',
 		'no-console': 'off',
 		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-return-assign': ['error', 'except-parens'],
+		'notice/notice': [
+			'error',
+			{
+				templateFile: path.join(__dirname, 'copyright.js'),
+			},
+		],
 		'sort-keys': 'off',
 	},
 };

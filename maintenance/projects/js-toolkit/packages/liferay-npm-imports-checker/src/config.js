@@ -19,6 +19,7 @@ reloadConfig();
  */
 export function reloadConfig() {
 	// Find project root path: uppermost folder with a .npmimportscheckrc file
+
 	let projectRootPath = path.resolve(process.cwd());
 
 	for (
@@ -34,15 +35,18 @@ export function reloadConfig() {
 	const rootConfigPath = path.join(projectRootPath, '.npmimportscheckrc');
 
 	// Read root configuration file
+
 	cfg = safeReadJsonSync(rootConfigPath) || {};
 
 	// Normalize configuration
+
 	cfg['check-project-versions'] = cfg['check-project-versions'] || false;
 	cfg['exclude-folders'] = cfg['exclude-folders'] || [];
 	cfg['show-projects-load'] = cfg['show-projects-load'] || false;
 	cfg['write-ignores'] = cfg['write-ignores'] || false;
 
 	// Merge subconfiguration files recursively
+
 	globby
 		.sync(
 			['**/.npmimportscheckrc', '!.npmimportscheckrc'].concat(
@@ -58,9 +62,11 @@ export function reloadConfig() {
 		});
 
 	// Override configuration with program arguments
+
 	setProgramArgs(savedProgramArgs);
 
 	// Store significant directories
+
 	cfg['project-root-path'] = path.resolve(projectRootPath);
 	cfg['run-path'] = path.resolve(process.cwd());
 }
@@ -183,6 +189,7 @@ function mergeConfig(cfg, dir) {
 	Object.entries(ignore).forEach(([key, value]) => {
 		ignore[key] = value.reduce((hash, item) => {
 			hash[item] = true;
+
 			return hash;
 		}, {});
 	});

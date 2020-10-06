@@ -20,6 +20,7 @@ const {runNodeBin, yarn} = require('./util/run');
  */
 function filterStaticFiles(filename) {
 	// Only watch things under 'packages'
+
 	if (filename !== 'packages' && !filename.startsWith('packages/')) {
 		return false;
 	}
@@ -27,21 +28,25 @@ function filterStaticFiles(filename) {
 	const parts = filename.split(path.sep);
 
 	// Include project subfolders
+
 	if (parts.length < 3) {
 		return true;
 	}
 
 	// Only watch files inside 'src' inside projects
+
 	if (parts[2] !== 'src') {
 		return false;
 	}
 
 	// Ignore TypeScript files
+
 	if (filename.endsWith('.ts')) {
 		return false;
 	}
 
 	// Ignore test files
+
 	if (filename.includes('__tests__')) {
 		return false;
 	}
@@ -50,6 +55,7 @@ function filterStaticFiles(filename) {
 }
 
 // Watch changes to TypeScript files to trigger `tsc`
+
 runNodeBin.pipe(
 	'tsc',
 	'--build',
@@ -58,6 +64,7 @@ runNodeBin.pipe(
 );
 
 // Watch changes to static files to trigger `yarn copyfiles`
+
 watch.watchTree(
 	'.',
 	{filter: filterStaticFiles, ignoreDotFiles: true, interval: 1},

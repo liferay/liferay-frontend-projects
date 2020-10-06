@@ -25,9 +25,11 @@ export default function (content: string): void {
 	//
 	// The real process is done in the `asyncTransform()` method below.
 	//
+
 	const callback = this.async();
 
 	// Execute async transformation from webpack async loader
+
 	asyncTransform(content, this.resourcePath)
 		.then((transformedContent) => callback(null, transformedContent))
 		.catch((err) => callback(err));
@@ -45,6 +47,7 @@ async function asyncTransform(
 	);
 
 	// Early fail for performance: look for require/import
+
 	if (content.indexOf('require') === -1 && content.indexOf('import') === -1) {
 		log.debug(`File does not contain 'require' or 'import' statements`);
 
@@ -54,6 +57,7 @@ async function asyncTransform(
 	const {imports} = project;
 
 	// Early fail for performance: look for imported modules as strings
+
 	let importsFound = false;
 
 	for (const pkgName of Object.keys(imports)) {
@@ -71,6 +75,7 @@ async function asyncTransform(
 	}
 
 	// Parse source code to transform imports
+
 	try {
 		const {code} = await transformJsSource(
 			{

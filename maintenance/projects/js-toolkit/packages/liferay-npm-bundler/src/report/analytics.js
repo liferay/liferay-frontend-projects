@@ -42,17 +42,21 @@ export function analyticsDump(report) {
 	const {_packages, _versionsInfo} = report;
 
 	// Report project name
+
 	insight.track('name', insight.PROJECT_NAME);
 
 	// Increase build count for this project
+
 	insight.track('build', 'count');
 
 	// Increase plugin use counts for this project
+
 	Object.keys(_versionsInfo).forEach((name) =>
 		insight.track('bundler', 'plugin', name, _versionsInfo[name])
 	);
 
 	// Increase dependency use counts for this project
+
 	Object.keys(_packages).forEach((pkgId) => {
 		const {name, version} = _packages[pkgId];
 

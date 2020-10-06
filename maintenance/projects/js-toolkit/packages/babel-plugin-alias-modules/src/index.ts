@@ -1,15 +1,14 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import {
+	AliasToType,
 	AliasToValue,
 	getAliasFields,
 	getAliasToType,
 	loadAliases,
-	AliasToType,
 } from 'liferay-npm-build-tools-common/lib/alias';
 import {BabelIpcObject} from 'liferay-npm-build-tools-common/lib/api/plugins';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
@@ -111,9 +110,10 @@ export class Visitor {
 	 * @param requiredModuleName
 	 */
 	_resolve(requiredModuleName: string): AliasToValue {
-		const {_absRootDir, _absFile, _aliasFields, _log} = this;
+		const {_absFile, _absRootDir, _aliasFields, _log} = this;
 
 		// Fail for absolute path modules
+
 		if (requiredModuleName.startsWith('/')) {
 			_log.error(
 				'babel-plugin-alias-modules',
@@ -131,6 +131,7 @@ export class Visitor {
 
 		if (mod.isLocalModule(requiredModuleName)) {
 			// First look in file directory (without recursion)
+
 			alias = this._getAliasForLocal(
 				absFileDir,
 				absFileDir,
@@ -138,6 +139,7 @@ export class Visitor {
 			);
 
 			// Then, if not found, recursively from target module up
+
 			if (alias === undefined) {
 				const moduleDir = absFileDir.join(requiredModule.dirname());
 				const moduleBasename = requiredModule.basename();
@@ -190,6 +192,7 @@ export class Visitor {
 		let alias = aliases[normalizedSearchRelModuleName];
 
 		// Try with file alias
+
 		if (
 			alias === undefined &&
 			!normalizedSearchRelModuleName.toLowerCase().endsWith('.js')
@@ -198,21 +201,25 @@ export class Visitor {
 		}
 
 		// Try with external module aliases
+
 		if (alias === undefined) {
 			alias = aliases[searchRelModuleName.asPosix];
 		}
 
 		// Found: return it
+
 		if (alias !== undefined) {
 			return alias;
 		}
 
 		// Search finished
+
 		if (absSearchDir.is(absSearchTopDir)) {
 			return undefined;
 		}
 
 		// Look up in hierachy
+
 		alias = this._getAliasForLocal(
 			absSearchTopDir,
 			absSearchDir.dirname(),
@@ -220,6 +227,7 @@ export class Visitor {
 		);
 
 		// Rebase to current folder
+
 		if (
 			alias !== undefined &&
 			getAliasToType(alias) === AliasToType.LOCAL
@@ -252,22 +260,26 @@ export class Visitor {
 		let alias = aliases[requiredModule.asPosix];
 
 		// Found: return it
+
 		if (alias !== undefined) {
 			return alias;
 		}
 
 		// Search finished
+
 		if (absSearchDir.is(_absRootDir)) {
 			return undefined;
 		}
 
 		// Look up in hierachy
+
 		alias = this._getAliasForExternal(
 			absSearchDir.dirname(),
 			requiredModule
 		);
 
 		// Rebase to current folder
+
 		if (
 			alias !== undefined &&
 			getAliasToType(alias) === AliasToType.LOCAL

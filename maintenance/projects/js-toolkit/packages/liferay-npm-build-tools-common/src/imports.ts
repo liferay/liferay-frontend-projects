@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -60,6 +59,7 @@ export function normalizeImportsConfig(
 	const normalized: ImportsConfig = {};
 
 	// Normalize to empty-string format
+
 	Object.keys(importsConfig).forEach((namespace) => {
 		Object.keys(importsConfig[namespace]).forEach((pkgName) => {
 			const version = importsConfig[namespace][pkgName];
@@ -76,6 +76,7 @@ export function normalizeImportsConfig(
 	});
 
 	// If necessary convert back to slash format
+
 	if (useSlashFormat) {
 		Object.keys(normalized).forEach((namespace) => {
 			Object.keys(normalized[namespace]).forEach((pkgName) => {

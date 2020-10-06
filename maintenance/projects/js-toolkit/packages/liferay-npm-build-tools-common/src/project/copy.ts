@@ -1,14 +1,13 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 
 import {BundlerCopyPluginState} from '../api/plugins';
 import PkgDesc from '../pkg-desc';
-import {Project} from '.';
 import {BundlerPluginDescriptor} from './types';
 import * as util from './util';
 
@@ -41,6 +40,7 @@ export default class Copy {
 		let exclusions = npmbundlerrc['exclude'] || {};
 
 		// If it is explicitly false, return an empty exclusions array
+
 		if (
 			exclusions[pkg.id] === false ||
 			exclusions[pkg.name] === false ||
@@ -50,6 +50,7 @@ export default class Copy {
 		}
 
 		// If it is explicitly true, return an array with '**/*'
+
 		if (
 			exclusions[pkg.id] === true ||
 			exclusions[pkg.name] === true ||
@@ -59,6 +60,7 @@ export default class Copy {
 		}
 
 		// In any other case, return what's in the config
+
 		exclusions =
 			exclusions[pkg.id] || exclusions[pkg.name] || exclusions['*'] || [];
 

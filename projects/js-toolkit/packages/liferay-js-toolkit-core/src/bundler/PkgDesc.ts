@@ -9,6 +9,7 @@ import FilePath from '../file/FilePath';
 import Project from '../project/Project';
 
 // TODO: this shouldn't be instantiated here
+
 const project = new Project('.');
 
 /**
@@ -47,6 +48,7 @@ export default class PkgDesc {
 
 		// Because path.join('.', 'x') returns 'x', not './x' we need to prepend
 		// './' by hand :-(
+
 		pkgPrjRelPath =
 			pkgPrjRelPath === '' ? '.' : `.${path.sep}${pkgPrjRelPath}`;
 

@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable @typescript-eslint/camelcase */
-
 module.exports = {
 	'create-jar': false,
 	imports: {

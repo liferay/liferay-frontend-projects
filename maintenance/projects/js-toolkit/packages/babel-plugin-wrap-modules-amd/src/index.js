@@ -100,6 +100,7 @@ export default function ({types: t}) {
 
 					// We must traverse the AST again because some plugins emit
 					// their require() calls after exiting Program node :-(
+
 					state.dependencies = dependencies;
 					path.traverse(wrapVisitor, state);
 

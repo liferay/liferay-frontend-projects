@@ -33,6 +33,7 @@ export default function adaptStaticURLsAtRuntime(
 				}
 
 				// Don't process replacement nodes again
+
 				if (
 					parent.type === 'CallExpression' &&
 					parent.callee.type === 'MemberExpression' &&

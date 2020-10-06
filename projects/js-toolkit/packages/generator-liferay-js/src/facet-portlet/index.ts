@@ -52,12 +52,15 @@ export default class extends Generator {
 		const portletDisplayName = projectAnalyzer.displayName;
 
 		// Require extender
+
 		npmbundlerrc.setFeature('js-extender', true);
 
 		// Copy static assets
+
 		cp.copyDir('assets');
 
 		// Add portlet properties
+
 		pkgJson.addPortletProperty(
 			'com.liferay.portlet.display-category',
 			this.answers.category
@@ -74,14 +77,17 @@ export default class extends Generator {
 		);
 
 		// Add portlet display name as needed
+
 		if (projectAnalyzer.hasLocalization) {
 			// Add resource bundle portlet property
+
 			pkgJson.addPortletProperty(
 				'javax.portlet.resource-bundle',
 				`content.${projectAnalyzer.localizationBundleName}`
 			);
 
 			// Add portlet display name localization key
+
 			new LanguagePropertiesModifier(this).addProperty(
 				`javax.portlet.title.${portletName}`,
 				portletDisplayName

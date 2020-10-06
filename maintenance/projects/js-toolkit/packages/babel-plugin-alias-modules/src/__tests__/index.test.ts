@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import path from 'path';
 import * as babelIpc from 'liferay-npm-build-tools-common/lib/babel-ipc';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
+import path from 'path';
 
 import {Visitor} from '../index';
 

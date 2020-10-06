@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -26,7 +25,7 @@ import {UnrolledAliasesMap, moduleExists, unrollAliasesMap} from './util';
  */
 export default function (
 	params: BundlerPluginParams,
-	{}: BundlerTransformPluginState
+	_state: BundlerTransformPluginState
 ): void {
 	const {log, pkg} = params;
 
@@ -56,6 +55,7 @@ function processAliases(
 	Object.entries(unrolledAliasesMap).forEach(
 		([absFromPath, unrolledAliases]) => {
 			// Sanity check
+
 			if (unrolledAliases.length > 1) {
 				throw new Error(
 					'Unrolled aliases map has unresolved collisions'
@@ -124,6 +124,9 @@ function processAliases(
 					).linkToCode(2);
 					break;
 				}
+
+				default:
+					break;
 			}
 		}
 	);
@@ -135,6 +138,7 @@ export function reportAndResolveCollisions(
 	unrolledAliasesMap: UnrolledAliasesMap
 ): void {
 	// Remove aliases out of ancestry line
+
 	Object.keys(unrolledAliasesMap).forEach((absFromPosixPath) => {
 		unrolledAliasesMap[absFromPosixPath] = unrolledAliasesMap[
 			absFromPosixPath
@@ -149,6 +153,7 @@ export function reportAndResolveCollisions(
 	});
 
 	// Remove aliases of external modules that would overwrite a local one
+
 	Object.keys(unrolledAliasesMap).forEach((absFromPosixPath) => {
 		unrolledAliasesMap[absFromPosixPath] = unrolledAliasesMap[
 			absFromPosixPath
@@ -177,6 +182,7 @@ export function reportAndResolveCollisions(
 	});
 
 	// Remove empty aliases
+
 	Object.keys(unrolledAliasesMap).forEach((absFromPath) => {
 		if (unrolledAliasesMap[absFromPath].length == 0) {
 			delete unrolledAliasesMap[absFromPath];
@@ -184,15 +190,18 @@ export function reportAndResolveCollisions(
 	});
 
 	// Resolve collisions in multiple length aliases
+
 	Object.entries(unrolledAliasesMap)
-		.filter(([absFromPath, unrolledAliases]) => unrolledAliases.length > 1)
+		.filter(([_absFromPath, unrolledAliases]) => unrolledAliases.length > 1)
 		.forEach(([absFromPath, unrolledAliases]) => {
 			// Sort by distance to absFromPath
+
 			unrolledAliases.sort(
 				(a, b) => a.absDir.asPosix.length - b.absDir.asPosix.length
 			);
 
 			// we always use the last
+
 			unrolledAliases.splice(0, unrolledAliases.length - 1);
 
 			const alias = unrolledAliases[0];

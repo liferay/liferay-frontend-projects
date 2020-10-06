@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 import path from 'path';
 
 import {BundlerTransformPluginState} from '../api/plugins';
 import {splitModuleName} from '../modules';
 import PkgDesc from '../pkg-desc';
-import {Project} from '.';
 import {BundlerPluginDescriptor, VersionInfo} from './types';
 import * as util from './util';
 
@@ -40,6 +39,7 @@ export default class Transform {
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
 		// TODO: move copy plugin version info to its proper module
+
 		if (this._versionsInfo === undefined) {
 			const {_project} = this;
 			const {npmbundlerrc} = _project;
@@ -64,7 +64,7 @@ export default class Transform {
 
 			for (const pluginName of pluginNames) {
 				if (!map.has(pluginName)) {
-					const {pkgName, modulePath} = splitModuleName(pluginName);
+					const {modulePath, pkgName} = splitModuleName(pluginName);
 					const pkgJsonPath = _project.toolResolve(
 						`${pkgName}/package.json`
 					);
@@ -240,6 +240,7 @@ export default class Transform {
 				babelPresets.map((name) => {
 					try {
 						_project.toolRequire(name);
+
 						return name;
 					} catch (err) {
 						return `babel-preset-${name}`;
@@ -257,6 +258,7 @@ export default class Transform {
 
 					try {
 						_project.toolRequire(name);
+
 						return name;
 					} catch (err) {
 						return `babel-plugin-${name}`;

@@ -126,6 +126,7 @@ export default class FilePath {
 		}
 
 		// Get a path like '.', '../path/to/something'  or 'path/to/something'
+
 		let normalizedThisPath = path.normalize(this.asNative);
 
 		if (!normalizedThisPath.startsWith('.')) {

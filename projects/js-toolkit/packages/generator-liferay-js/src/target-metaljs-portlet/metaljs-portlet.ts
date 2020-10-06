@@ -67,15 +67,18 @@ export default class extends Generator {
 		const {importMetaljs, sampleWanted} = this.answers;
 
 		// Configure build
+
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
 		// Configure webpack
+
 		pkgJson.addDevDependency('babel-loader', '7.1.5');
 		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
 		// Configure metal imports
+
 		if (importMetaljs) {
 			npmbundlerrc.mergeImports(importsJson);
 			npmbundlerrc.addExclusion('incremental-dom');
@@ -83,18 +86,22 @@ export default class extends Generator {
 		}
 
 		// Prepare text labels
+
 		const labels = standardTarget.generateLabels(this);
 
 		// Prepare context
+
 		const context = standardTarget.generateContext(this, {
 			labels: labels[projectAnalyzer.hasLocalization ? 'jsx' : 'raw'],
 		});
 
 		// Copy JavaScript files
+
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/index.js', {context});
 
 		// Generate sample contents
+
 		standardTarget.generateSamples(this, labels);
 		if (sampleWanted) {
 			cp.copyDir('src', {context});

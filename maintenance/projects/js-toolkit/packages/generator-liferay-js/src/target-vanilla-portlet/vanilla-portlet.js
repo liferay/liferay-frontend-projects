@@ -9,7 +9,7 @@ import Generator from 'yeoman-generator';
 import {Copier, promptWithConfig} from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import NpmbuildrcModifier from '../utils/modifier/npmbuildrc';
-import PkgJsonModifier from '../utils/modifier/package.json.js';
+import PkgJsonModifier from '../utils/modifier/package.json';
 import * as standardTarget from '../utils/target/standard';
 
 /**
@@ -52,6 +52,7 @@ export default class extends Generator {
 		const {useBabel} = this.answers;
 
 		// Configure build
+
 		if (useBabel) {
 			pkgJson.addDevDependency('babel-cli', '6.26.0');
 			pkgJson.addDevDependency('babel-preset-env', '1.7.0');
@@ -63,15 +64,18 @@ export default class extends Generator {
 		}
 
 		// Configure webpack
+
 		if (useBabel) {
 			pkgJson.addDevDependency('babel-loader', '7.1.5');
 			npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 		}
 
 		// Prepare text labels
+
 		const labels = standardTarget.generateLabels(this);
 
 		// Prepare context
+
 		const context = standardTarget.generateContext(this, {
 			labels:
 				labels[
@@ -86,6 +90,7 @@ export default class extends Generator {
 		});
 
 		// Copy JavaScript files
+
 		pkgJson.setMain('index.js');
 		cp.copyFile(`src/index.${useBabel ? 'babel' : 'nobabel'}.js`, {
 			context,
@@ -93,6 +98,7 @@ export default class extends Generator {
 		});
 
 		// Generate sample contents
+
 		standardTarget.generateSamples(this, labels);
 	}
 }

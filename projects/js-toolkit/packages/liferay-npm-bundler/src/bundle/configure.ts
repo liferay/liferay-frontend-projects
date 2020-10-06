@@ -13,15 +13,18 @@ import * as log from '../util/log';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config
+
 	const webpackConfig = project.webpackConfiguration;
 
 	// Provide defaults
+
 	webpackConfig.devtool = webpackConfig.devtool || 'source-map';
 	webpackConfig.mode = webpackConfig.mode || 'development';
 
 	// TODO: check if any overriden field should be smart-merged instead
 
 	// Override entry configuration
+
 	overrideWarn('entry', webpackConfig.entry);
 	webpackConfig.entry = Object.entries(project.exports).reduce(
 		(entry, [id, moduleName]) => {
@@ -51,6 +54,7 @@ export default function configure(): webpack.Configuration {
 	}
 
 	// Override output configuration
+
 	overrideWarn('output', webpackConfig.output);
 	webpackConfig.output = {
 		filename: '[name].bundle.js',
@@ -58,6 +62,7 @@ export default function configure(): webpack.Configuration {
 	};
 
 	// Override optimization configuration
+
 	overrideWarn('optimization', webpackConfig.optimization);
 	if (project.probe.type === ProjectType.LIFERAY_FRAGMENT) {
 		delete webpackConfig.optimization;
@@ -74,6 +79,7 @@ export default function configure(): webpack.Configuration {
 	}
 
 	// Insert our imports loader in first position
+
 	webpackConfig.module = webpackConfig.module || {rules: []};
 	webpackConfig.module.rules.unshift({
 		enforce: 'post',
@@ -82,6 +88,7 @@ export default function configure(): webpack.Configuration {
 	});
 
 	// Write webpack.config.js for debugging purposes
+
 	fs.writeFileSync(
 		bundlerGeneratedDir.join('webpack.config.json').asNative,
 		JSON.stringify(webpackConfig, null, '\t')

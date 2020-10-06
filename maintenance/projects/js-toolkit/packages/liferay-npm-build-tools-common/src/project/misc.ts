@@ -1,14 +1,13 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
 import fs from 'fs';
 import path from 'path';
 
-import {Project} from '.';
 import FilePath from '../file-path';
 
 /**
@@ -41,6 +40,7 @@ export default class Misc {
 		// Node, I'm giving this a default value of 128 because it looks like it
 		// doesn't impact performance and should be low enough to make it work
 		// in all OSes.
+
 		return prop.get(npmbundlerrc, 'max-parallel-files', 128);
 	}
 
@@ -79,6 +79,7 @@ export default class Misc {
 		}
 
 		// Disable tracking by default
+
 		return prop.get(npmbundlerrc, 'no-tracking', true);
 	}
 

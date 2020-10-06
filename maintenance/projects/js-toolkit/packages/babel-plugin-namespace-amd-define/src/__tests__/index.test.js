@@ -63,6 +63,7 @@ it('namespaces unqualified define calls', () => {
 
 it('namespaces unqualified define calls that are wrapped', () => {
 	// eg. the css-loader produces wrappers like this.
+
 	const source = `
 		function defineModule() {
 			define([], function () {});

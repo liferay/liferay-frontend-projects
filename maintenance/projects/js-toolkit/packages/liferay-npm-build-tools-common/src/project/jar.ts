@@ -1,15 +1,13 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Project} from '.';
 import prop from 'dot-prop';
-import fs from 'fs';
 import readJsonSync from 'read-json-sync';
 
 import FilePath from '../file-path';
-import {Project} from '.';
 import {getFeaturesFilePath} from './util';
 
 /**
@@ -132,7 +130,9 @@ export default class Jar {
 		return prop.get(
 			npmbundlerrc,
 			'create-jar.features.js-extender',
+
 			// TODO: deprecated 'auto-deploy-portlet', remove for the next major version
+
 			prop.get(npmbundlerrc, 'create-jar.auto-deploy-portlet', true)
 		);
 	}
@@ -150,11 +150,15 @@ export default class Jar {
 			this._webContextPath = prop.get(
 				npmbundlerrc,
 				'create-jar.features.web-context',
+
 				// TODO: deprecated 'web-context-path', remove for the next major version
+
 				prop.get(
 					npmbundlerrc,
 					'create-jar.web-context-path',
+
 					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
+
 					prop.get(
 						pkgJson,
 						'osgi.Web-ContextPath',

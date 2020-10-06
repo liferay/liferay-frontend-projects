@@ -83,14 +83,17 @@ export function generateSamples(generator, labels): void {
 
 	if (sampleWanted) {
 		// Add styles
+
 		stylesCss.addRule('.tag', 'font-weight: bold; margin-right: 1em;');
 		stylesCss.addRule('.value', 'font-family: monospace;');
 		stylesCss.addRule('.pre', 'font-family: monospace; white-space: pre;');
 
 		// Add localization keys
+
 		new LocalizationSampleGenerator(generator).generate(labels.raw);
 
 		// Add sample configuration
+
 		new ConfigurationSampleGenerator(generator).generate();
 	}
 }

@@ -97,6 +97,7 @@ export default function ({types: t}) {
 					// We must traverse the AST again because the
 					// transform-es2015-modules-amd plugin emits its define()
 					// call after exiting Program node :-(
+
 					path.traverse(nameVisitor, state);
 				},
 			},
@@ -108,6 +109,7 @@ function getModuleName(absFilePath, {packageName, srcPrefixes}) {
 	const moduleName = babelUtil.getModuleName(absFilePath);
 
 	// Decompose module name
+
 	const moduleNameParts = mod.splitModuleName(moduleName);
 
 	const result = {
@@ -118,11 +120,13 @@ function getModuleName(absFilePath, {packageName, srcPrefixes}) {
 	};
 
 	// Override package name if needed
+
 	if (packageName !== undefined && packageName !== '<package.json>') {
 		result.packageName = packageName;
 	}
 
 	// Remove prefixes if needed
+
 	if (srcPrefixes) {
 		for (const srcPrefix of srcPrefixes) {
 			if (result.name.startsWith(srcPrefix)) {
@@ -133,5 +137,6 @@ function getModuleName(absFilePath, {packageName, srcPrefixes}) {
 	}
 
 	// Recompose module name
+
 	return `${result.packageName}/${result.name}`;
 }

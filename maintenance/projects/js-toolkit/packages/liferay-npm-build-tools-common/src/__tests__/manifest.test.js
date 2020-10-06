@@ -105,6 +105,7 @@ describe('isOutdated', () => {
 	// TODO: This test can be removed if we implement enhanced outdated detection by using timestamps/digests.
 	// However, we are not sure that it is the bundler's responsibility to detect such modifications as it is
 	// more a multi-tool build issue that may happen with other configurations.
+
 	it('returns true for root package no matter what', () => {
 		const manifest = new Manifest();
 

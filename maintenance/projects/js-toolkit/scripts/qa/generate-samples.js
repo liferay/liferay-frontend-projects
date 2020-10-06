@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -47,21 +46,25 @@ function writeConfigurations() {
 	logStep('Writing generator configuration files');
 
 	// Generate create-react-app configuration
+
 	writeConfig(configDir, {
 		folder: `create-react-app`,
 	});
 
 	// Generate angular-cli configuration
+
 	writeConfig(configDir, {
 		folder: `angular-cli`,
 	});
 
 	// Generate vue-cli configuration
+
 	writeConfig(configDir, {
 		folder: `vue-cli`,
 	});
 
 	// Generate shared bundle configuration
+
 	[true, false].forEach((createInitializer) => {
 		writeConfig(configDir, {
 			target: `shared-bundle`,
@@ -72,6 +75,7 @@ function writeConfigurations() {
 	});
 
 	// Generate vanilla samples configuration
+
 	[true, false].forEach((useBabel) => {
 		[true, false].forEach((useLocalization) => {
 			[true, false].forEach((useConfiguration) => {
@@ -94,6 +98,7 @@ function writeConfigurations() {
 	});
 
 	// Generate framework samples configuration
+
 	['angular', 'metaljs', 'react', 'vuejs'].forEach((fw) => {
 		[true, false].forEach((useLocalization) => {
 			[true, false].forEach((useConfiguration) => {
@@ -149,6 +154,7 @@ function generateLiferaySamples(configs) {
 function prepareManualProjects() {
 	['loaders'].forEach((prj) => {
 		// Change deploy directory
+
 		const npmbuildrcPath = path.join(packagesDir, prj, '.npmbuildrc');
 		const npmbuildrc = JSON.parse(fs.readFileSync(npmbuildrcPath));
 
@@ -165,6 +171,7 @@ function generateCreateReactAppSample() {
 	// interfere with out yarn QA workspace, we create the application in a
 	// temporary directory, delete the node_modules after creation, and move it
 	// to our QA folder.
+
 	const tmpDir = path.join(qaDir, 'tmp');
 	const tmpPrjDir = path.join(tmpDir, 'create-react-app');
 

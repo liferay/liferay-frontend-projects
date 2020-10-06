@@ -20,6 +20,7 @@ function loadConfig() {
 	npmbundlerrc = project._npmbundlerrc;
 
 	// Normalize configurations
+
 	normalize(npmbuildrc, 'supportedLocales', []);
 	normalize(npmbuildrc, 'webpack.mainModule', 'index.js');
 	normalize(npmbuildrc, 'webpack.rules', []);

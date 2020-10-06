@@ -20,8 +20,8 @@
 		"format": "cd ../.. && yarn format",
 		"format:check": "cd ../.. && yarn format:check",
 		"level-deps": "node scripts/level-deps.js",
-		"lint": "eslint . --ext js,ts",
-		"lint:fix": "yarn lint --fix",
+		"lint": "cd ../.. && yarn lint",
+		"lint:fix": "cd ../.. && yarn lint:fix",
 		"qa": "node scripts/qa/index.js",
 		"test": "jest --runInBand",
 		"watch": "node scripts/watch.js"
@@ -29,7 +29,6 @@
 	"devDependencies": {
 		"@cnakazawa/watch": "^1.0.4",
 		"@types/jest": "^24.0.18",
-		"@typescript-eslint/eslint-plugin": "^2.21.0",
 		"@typescript-eslint/parser": "^2.21.0",
 		"chalk": "^2.4.2",
 		"copyfiles": "^2.1.1",

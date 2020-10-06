@@ -43,6 +43,7 @@ export default class Localization {
 
 		if (absPath !== undefined) {
 			// Be lenient: remove trailing .properties if present
+
 			if (absPath.endsWith('.properties')) {
 				absPath = absPath.substring(0, absPath.length - 11);
 			}

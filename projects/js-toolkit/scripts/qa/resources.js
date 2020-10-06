@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable liferay/no-dynamic-require */
+/* eslint-disable @liferay/liferay/no-dynamic-require */
 
 const fs = require('fs');
 const os = require('os');
@@ -89,6 +89,7 @@ module.exports = {
 
 function findLiferayDir() {
 	// Find Liferay installation directory
+
 	let liferayDir = path.join(__dirname, '..', '..', 'liferay');
 
 	try {

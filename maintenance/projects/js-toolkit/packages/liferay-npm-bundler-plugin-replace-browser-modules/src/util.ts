@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import fs from 'fs-extra';
-import FilePath, {AnyPath} from 'liferay-npm-build-tools-common/lib/file-path';
 import {
 	AliasFromType,
 	AliasToValue,
 	getAliasFromType,
 } from 'liferay-npm-build-tools-common/lib/alias';
+import FilePath, {AnyPath} from 'liferay-npm-build-tools-common/lib/file-path';
 
 import {AliasesMap} from './config';
 

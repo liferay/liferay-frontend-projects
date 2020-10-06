@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -14,13 +13,13 @@ const qaDir = path.join(workspaceDir, 'qa');
 const samplesDir = path.join(qaDir, 'samples');
 const packagesDir = path.join(samplesDir, 'packages');
 
-const currentSDKVersion = require(path.join(
+const {version: currentSDKVersion} = require(path.join(
 	'..',
 	'..',
 	'packages',
 	'liferay-npm-bundler',
 	'package.json'
-)).version;
+));
 
 const lernaPath = path.join(
 	__dirname,
@@ -92,6 +91,7 @@ module.exports = {
 
 function findLiferayDir() {
 	// Find Liferay installation directory
+
 	let liferayDir = path.join(__dirname, '..', '..', 'liferay');
 
 	try {

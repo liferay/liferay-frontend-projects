@@ -50,11 +50,13 @@ function yarn(...args) {
 
 function yarnLink(deps) {
 	// Link dependencies with yarn
+
 	deps.forEach((dep) => {
 		yarn('link', dep);
 	});
 
 	// Link binaries by hand (yarn doesn't do it)
+
 	deps.forEach((dep) => {
 		const depPkgJson = readJsonSync(
 			path.join('.', 'node_modules', dep, 'package.json')

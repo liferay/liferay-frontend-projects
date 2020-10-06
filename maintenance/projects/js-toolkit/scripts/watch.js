@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -21,4 +20,5 @@ globby.sync(['packages/*/tsconfig.json']).forEach((tsconfigPath) => {
 });
 
 // Loop forever (use Ctrl+C to exit)
+
 setInterval(() => {}, 60000);

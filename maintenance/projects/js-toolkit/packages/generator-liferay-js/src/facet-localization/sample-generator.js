@@ -39,6 +39,7 @@ export default class {
 	_toProperties(labels) {
 		return Object.keys(labels).reduce((obj, key) => {
 			obj[hyphenate(key)] = labels[key];
+
 			return obj;
 		}, {});
 	}

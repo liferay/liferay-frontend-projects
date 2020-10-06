@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -11,8 +10,10 @@
 export interface ModuleNameParts {
 	/** Scope of module (starts with at sign) */
 	scope?: string;
+
 	/** Package name of module */
 	pkgName: string;
+
 	/** Module file path relative to package root (starts with /) */
 	modulePath?: string;
 }
@@ -98,6 +99,7 @@ const nodeCoreModules = new Set<string>([
  */
 export function isLocalModule(modulePath: string): boolean {
 	// See https://nodejs.org/api/modules.html#modules_all_together
+
 	return modulePath.startsWith('.') || modulePath.startsWith('/');
 }
 

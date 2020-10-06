@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -23,6 +22,7 @@ export default function (context, config) {
 	};
 
 	// Tune babel config
+
 	babelConfig.babelrc = false;
 	babelConfig.only = '**/*';
 	if (babelConfig.sourceMaps === undefined) {
@@ -30,6 +30,7 @@ export default function (context, config) {
 	}
 
 	// Intercept presets and plugins to load them from project
+
 	babelConfig.plugins = loadBabelPlugins(
 		babelConfig.presets || [],
 		babelConfig.plugins || []

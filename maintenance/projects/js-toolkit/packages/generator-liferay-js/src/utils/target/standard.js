@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -84,14 +83,17 @@ export function generateSamples(generator, labels) {
 
 	if (sampleWanted) {
 		// Add styles
+
 		stylesCss.addRule('.tag', 'font-weight: bold; margin-right: 1em;');
 		stylesCss.addRule('.value', 'font-family: monospace;');
 		stylesCss.addRule('.pre', 'font-family: monospace; white-space: pre;');
 
 		// Add localization keys
+
 		new LocalizationSampleGenerator(generator).generate(labels.raw);
 
 		// Add sample configuration
+
 		new ConfigurationSampleGenerator(generator).generate();
 	}
 }

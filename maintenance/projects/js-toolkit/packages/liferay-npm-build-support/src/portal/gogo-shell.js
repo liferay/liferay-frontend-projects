@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
@@ -58,6 +57,7 @@ export default class extends Socket {
 	sendCommand(command, ...args) {
 		return new Promise((resolve, reject) => {
 			// Signal error if command is on its way
+
 			if (this._active) {
 				reject(
 					new Error(
@@ -72,6 +72,7 @@ export default class extends Socket {
 			}
 
 			// Normalize arguments
+
 			if (args.length > 0) {
 				command += ` ${args.join(' ')}`;
 			}
@@ -81,6 +82,7 @@ export default class extends Socket {
 			}
 
 			// Set command handler
+
 			this.once('error', reject);
 			this.once('prompt', (response) => {
 				this.removeListener('error', reject);
@@ -89,6 +91,7 @@ export default class extends Socket {
 			});
 
 			// Send command
+
 			this._lastResponse = '';
 			this._lastCommand = command;
 			this._active = true;
@@ -102,13 +105,16 @@ export default class extends Socket {
 	 */
 	_onConnect() {
 		// Emit ready event on first prompt
+
 		this.once('prompt', () => this.emit('ready'));
 
 		// Attach data handlers
+
 		this.on('data', (data) => this._debugDataListener(data));
 		this.on('data', (data) => this._promptDataListener(data));
 
 		// Write handshake chars so that telnet knows we are an VT220
+
 		this.write(new Buffer([255, 251, 24]));
 		this.write(new Buffer([255, 250, 24, 0, 86, 84, 50, 50, 48, 255, 240]));
 	}

@@ -77,6 +77,7 @@ export default class Misc {
 			// Node, I'm giving this a default value of 128 because it looks like it
 			// doesn't impact performance and should be low enough to make it work
 			// in all OSes.
+
 			let maxParallelFiles: string = prop.get<string>(
 				configuration,
 				'max-parallel-files',
