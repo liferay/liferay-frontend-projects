@@ -152,7 +152,7 @@ function isLocal(source) {
  * Returns true if `source` is a relative path (ie. starts with "./" or "../").
  */
 function isRelative(source) {
-	return /^\.\.?\//.test(source);
+	return source === '.' || /^\.\.?\//.test(source);
 }
 
 /**

@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
 import prop from 'dot-prop';
 import path from 'path';
 
+import {Project} from '.';
 import {BundlerTransformPluginState} from '../api/plugins';
 import {splitModuleName} from '../modules';
 import PkgDesc from '../pkg-desc';

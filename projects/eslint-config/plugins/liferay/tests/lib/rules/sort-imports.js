@@ -276,6 +276,27 @@ ruleTester.run('sort-imports', rule, {
 				import dom from 'metal-dom';
 			`,
 		},
+		{
+			// Regression test: "." alone was not considered to be relative.
+			// https://github.com/liferay/liferay-frontend-projects/issues/129
+
+			code: `
+				import {Project} from '.';
+				import prop from 'dot-prop';
+			`,
+			errors: [
+				{
+					message:
+						'imports must be sorted by module name ' +
+						'(expected: "dot-prop" << ".")',
+					type: 'ImportDeclaration',
+				},
+			],
+			output: `
+				import prop from 'dot-prop';
+				import {Project} from '.';
+			`,
+		},
 	],
 
 	valid: [
