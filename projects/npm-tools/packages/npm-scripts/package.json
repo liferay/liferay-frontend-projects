@@ -87,6 +87,7 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects"
 	},
 	"scripts": {
+		"build": "true",
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",

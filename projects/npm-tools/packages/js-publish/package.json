@@ -22,6 +22,7 @@
 		"directory": "projects/npm-tools/packages/js-publish"
 	},
 	"scripts": {
+		"build": "true",
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node bin/liferay-js-publish.js",
 		"preversion": "yarn ci",

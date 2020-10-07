@@ -10,6 +10,7 @@
 	"name": "liferay-npm-tools",
 	"private": true,
 	"scripts": {
+		"build": true,
 		"ci": "cd ../.. && yarn ci",
 		"format": "cd ../.. && yarn format",
 		"format:check": "cd ../.. && yarn format:check",

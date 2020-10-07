@@ -75,9 +75,10 @@ jobs:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
             - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} build
             - run: yarn --cache-folder=${{ env.yarn-cache-path }} test
 
-    test-js-toolkit:
+    test-js-toolkit-v2:
         runs-on: ubuntu-latest
 
         strategy:
@@ -96,6 +97,8 @@ jobs:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-js-toolkit
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
+              working-directory: maintenance/projects/js-toolkit
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
               working-directory: maintenance/projects/js-toolkit
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
               working-directory: maintenance/projects/js-toolkit
@@ -119,4 +122,5 @@ jobs:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
             - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} build
             - run: yarn --cache-folder=${{ env.yarn-cache-path }} test
