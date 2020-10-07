@@ -1,7 +1,7 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"target": "esnext",
+		"target": "es2018",
 		"module": "CommonJS",
 		"moduleResolution": "node",
 		"esModuleInterop": true,
