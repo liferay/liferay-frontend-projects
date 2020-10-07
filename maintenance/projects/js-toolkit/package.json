@@ -17,7 +17,7 @@
 	"scripts": {
 		"build": "lerna run build",
 		"check-deps": "node scripts/check-deps.js",
-		"ci": "yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
+		"ci": "yarn check-deps && yarn build && yarn test",
 		"format": "cd ../../.. && yarn format",
 		"format:check": "cd ../../.. && yarn format:check",
 		"level-deps": "node scripts/level-deps.js",

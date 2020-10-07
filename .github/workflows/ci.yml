@@ -98,9 +98,7 @@ jobs:
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-js-toolkit
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
               working-directory: maintenance/projects/js-toolkit
-            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
-              working-directory: maintenance/projects/js-toolkit
-            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} ci
               working-directory: maintenance/projects/js-toolkit
 
     test-windows:
