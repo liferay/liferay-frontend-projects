@@ -1,7 +1,6 @@
 {
 	"devDependencies": {
 		"@cnakazawa/watch": "^1.0.4",
-		"chalk": "^2.4.2",
 		"copyfiles": "^2.1.1",
 		"execa": "^4.0.0",
 		"fs-extra": "^8.1.0",
