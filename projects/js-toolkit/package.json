@@ -1,7 +1,6 @@
 {
 	"devDependencies": {
-		"@cnakazawa/watch": "^1.0.4",
-		"globby": "^10.0.1"
+		"@cnakazawa/watch": "^1.0.4"
 	},
 	"name": "liferay-js-toolkit",
 	"private": true,
