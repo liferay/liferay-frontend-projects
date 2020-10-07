@@ -11,6 +11,40 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
 import {reportAndResolveCollisions} from '../index';
 import {UnrolledAliasesMap} from '../util';
 
+const date = new Date();
+
+const fakeStats: ReturnType<typeof fs.statSync> = {
+	atime: date,
+	atimeMs: +date,
+	atimeNs: BigInt(+date * 1000),
+	birthtime: date,
+	birthtimeMs: +date,
+	birthtimeNs: BigInt(+date * 1000),
+	blksize: 1000,
+	blocks: 1000,
+	ctime: date,
+	ctimeMs: +date,
+	ctimeNs: BigInt(+date * 1000),
+	dev: 100,
+	gid: 100,
+	ino: 100,
+	isBlockDevice: () => false,
+	isCharacterDevice: () => false,
+	isDirectory: () => false,
+	isFIFO: () => false,
+	isFile: () => true,
+	isSocket: () => false,
+	isSymbolicLink: () => false,
+	mode: 0,
+	mtime: date,
+	mtimeMs: +date,
+	mtimeNs: BigInt(+date * 1000),
+	nlink: 1000,
+	rdev: 1000,
+	size: 1000,
+	uid: 1000,
+};
+
 describe('reportAndResolveCollisions', () => {
 	const absRootDir = new FilePath('/home/me/project');
 	let log;
@@ -56,9 +90,7 @@ describe('reportAndResolveCollisions', () => {
 			],
 		};
 
-		jest.spyOn(fs, 'statSync').mockReturnValue({
-			isFile: () => true,
-		});
+		jest.spyOn(fs, 'statSync').mockReturnValue(fakeStats);
 
 		reportAndResolveCollisions(log, absRootDir, unrolledAliasMap);
 
@@ -147,9 +179,7 @@ describe('reportAndResolveCollisions', () => {
 			],
 		};
 
-		jest.spyOn(fs, 'statSync').mockReturnValue({
-			isFile: () => true,
-		});
+		jest.spyOn(fs, 'statSync').mockReturnValue(fakeStats);
 
 		reportAndResolveCollisions(log, absRootDir, unrolledAliasMap);
 

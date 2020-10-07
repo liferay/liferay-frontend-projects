@@ -26,6 +26,7 @@
 		"directory": "projects/npm-tools/packages/js-insights"
 	},
 	"scripts": {
+		"build": "true",
 		"ci": "cd ../.. && yarn ci"
 	},
 	"version": "0.0.1"

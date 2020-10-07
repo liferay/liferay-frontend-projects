@@ -28,7 +28,7 @@ export default class Manifest {
 			this._filePath = filePath;
 
 			try {
-				this._data = JSON.parse(fs.readFileSync(filePath));
+				this._data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 				this._loadedFromFile = true;
 
 				return;

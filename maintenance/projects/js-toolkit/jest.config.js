@@ -10,7 +10,7 @@ module.exports = {
 		'qa/.*',
 		'__fixtures__/.*',
 	],
-	testPathIgnorePatterns: ['/node_modules/', '/__fixtures__/'],
+	testPathIgnorePatterns: ['/qa/samples/', '/__fixtures__/'],
 	transform: {
 		'\\.js$': 'ts-jest',
 		'\\.ts$': 'ts-jest',

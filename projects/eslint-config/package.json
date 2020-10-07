@@ -47,6 +47,7 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
+		"build": "true",
 		"ci": "cd ../.. && yarn ci",
 		"format": "cd ../.. && yarn format",
 		"format:check": "cd ../.. && yarn format:check",

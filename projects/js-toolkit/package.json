@@ -1,36 +1,30 @@
 {
 	"devDependencies": {
 		"@cnakazawa/watch": "^1.0.4",
-		"@types/jest": "^24.0.18",
-		"@typescript-eslint/parser": "^2.21.0",
 		"chalk": "^2.4.2",
 		"copyfiles": "^2.1.1",
-		"eslint": "^5.16.0",
-		"eslint-config-liferay": "^19.0.2",
 		"execa": "^4.0.0",
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
-		"jest": "^24.9.0",
-		"prettier": "^2.0.0",
 		"readline-sync": "^1.4.10",
-		"ts-jest": "^24.1.0",
-		"typescript": "^3.6.3",
 		"xml-js": "^1.6.8",
 		"yo": "^3.1.0"
 	},
+	"name": "liferay-js-toolkit",
 	"private": true,
 	"scripts": {
-		"build": "tsc --build packages/*/tsconfig.json && yarn workspaces run copyfiles",
+		"build": "node scripts/build.js && node scripts/copyfiles.js --all",
 		"check-deps": "node scripts/check-deps.js",
-		"ci": "yarn clean && yarn check-deps && yarn format:check && yarn lint && yarn build && yarn test",
-		"clean": "yarn workspaces run clean",
+		"ci": "yarn clean && yarn check-deps && yarn build && yarn test",
+		"clean": "node scripts/clean.js --all",
 		"format": "cd ../.. && yarn format",
 		"format:check": "cd ../.. && yarn format:check",
 		"level-deps": "node scripts/level-deps.js",
 		"lint": "cd ../.. && yarn lint",
 		"lint:fix": "cd ../.. && yarn lint:fix",
 		"qa": "node scripts/qa/index.js",
-		"test": "jest --runInBand",
+		"test": "cd ../.. && yarn test",
 		"watch": "node scripts/watch.js"
-	}
+	},
+	"version": "0.1.0"
 }

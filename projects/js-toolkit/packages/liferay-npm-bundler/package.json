@@ -21,14 +21,6 @@
 		"yargs": "^14.0.0"
 	},
 	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
-	"devDependencies": {
-		"@types/ejs": "^3.0.1",
-		"@types/escodegen": "^0.0.6",
-		"@types/estraverse": "^0.0.6",
-		"@types/estree": "^0.0.42",
-		"@types/fs-extra": "^8.1.0",
-		"@types/webpack": "^4.41.6"
-	},
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
 	"name": "liferay-npm-bundler",

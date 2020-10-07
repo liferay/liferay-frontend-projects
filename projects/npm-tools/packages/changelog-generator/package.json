@@ -19,6 +19,7 @@
 		"directory": "projects/npm-tools/packages/changelog-generator"
 	},
 	"scripts": {
+		"build": "true",
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
