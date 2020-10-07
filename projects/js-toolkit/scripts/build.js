@@ -7,6 +7,16 @@ const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const TSC = path.join(
+	__dirname,
+	'..',
+	'..',
+	'..',
+	'node_modules',
+	'.bin',
+	'tsc'
+);
+
 const packages = fs
 	.readdirSync(path.join(__dirname, '..', 'packages'), {withFileTypes: true})
 	.map((entry) => {
@@ -23,8 +33,8 @@ const packages = fs
 	.filter(Boolean);
 
 const {error, signal, status, stderr, stdout} = child_process.spawnSync(
-	'yarn',
-	['run', 'tsc', '--build', ...packages],
+	TSC,
+	['--build', ...packages],
 	{stdio: 'inherit'}
 );
 
