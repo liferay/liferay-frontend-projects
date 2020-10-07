@@ -7,100 +7,94 @@ import FilePath from '../FilePath';
 
 const savedNativeIsPosix = FilePath.nativeIsPosix;
 
-describe('in posix systems', () => {
-	beforeEach(() => {
-		(FilePath as object)['nativeIsPosix'] = true;
+// Our CI runs on both POSIX and Windows, so both branches of this `if`/`else`
+// get covered.
+
+if (process.platform === 'win32') {
+	describe('in windows systems', () => {
+		it('toString works', () => {
+			expect(new FilePath('c:\\tmp\\tt').toString()).toEqual(
+				'c:\\tmp\\tt'
+			);
+		});
+
+		it('asNative works', () => {
+			expect(new FilePath('c:\\tmp\\tt').asNative).toEqual('c:\\tmp\\tt');
+		});
+
+		it('asPosix works', () => {
+			expect(new FilePath('c:\\tmp\\tt').asPosix).toEqual('c:/tmp/tt');
+		});
+
+		it('asWindows works', () => {
+			expect(new FilePath('c:\\tmp\\tt').asWindows).toEqual(
+				'c:\\tmp\\tt'
+			);
+		});
+
+		it('join works', () => {
+			expect(
+				new FilePath('c:\\tmp\\tt').join('nn', new FilePath('oo\\pp'))
+					.asNative
+			).toEqual('c:\\tmp\\tt\\nn\\oo\\pp');
+		});
+
+		it('toDotRelative works', () => {
+			expect(new FilePath('').toDotRelative().asNative).toEqual('.');
+			expect(new FilePath('a\\path').toDotRelative().asNative).toEqual(
+				'.\\a\\path'
+			);
+
+			expect(new FilePath('.').toDotRelative().asNative).toEqual('.');
+			expect(new FilePath('.\\a\\path').toDotRelative().asNative).toEqual(
+				'.\\a\\path'
+			);
+			expect(
+				new FilePath('..\\a\\path').toDotRelative().asNative
+			).toEqual('..\\a\\path');
+		});
 	});
+} else {
+	describe('in posix systems', () => {
+		it('toString works', () => {
+			expect(new FilePath('/tmp/tt').toString()).toEqual('/tmp/tt');
+		});
 
-	afterEach(() => {
-		(FilePath as object)['nativeIsPosix'] = savedNativeIsPosix;
+		it('asNative works', () => {
+			expect(new FilePath('/tmp/tt').asNative).toEqual('/tmp/tt');
+		});
+
+		it('asPosix works', () => {
+			expect(new FilePath('/tmp/tt').asPosix).toEqual('/tmp/tt');
+		});
+
+		it('asWindows works', () => {
+			expect(new FilePath('/tmp/tt').asWindows).toEqual('\\tmp\\tt');
+		});
+
+		it('join works', () => {
+			expect(
+				new FilePath('/tmp/tt').join('nn', new FilePath('oo/pp'))
+					.asNative
+			).toEqual('/tmp/tt/nn/oo/pp');
+		});
+
+		it('toDotRelative works', () => {
+			expect(new FilePath('').toDotRelative().asNative).toEqual('.');
+			expect(new FilePath('a/path').toDotRelative().asNative).toEqual(
+				'./a/path'
+			);
+
+			expect(new FilePath('.').toDotRelative().asNative).toEqual('.');
+			expect(new FilePath('./a/path').toDotRelative().asNative).toEqual(
+				'./a/path'
+			);
+			expect(new FilePath('../a/path').toDotRelative().asNative).toEqual(
+				'../a/path'
+			);
+		});
 	});
-
-	it('toString works', () => {
-		expect(new FilePath('/tmp/tt').toString()).toEqual('/tmp/tt');
-	});
-
-	it('asNative works', () => {
-		expect(new FilePath('/tmp/tt').asNative).toEqual('/tmp/tt');
-	});
-
-	it('asPosix works', () => {
-		expect(new FilePath('/tmp/tt').asPosix).toEqual('/tmp/tt');
-	});
-
-	it('asWindows works', () => {
-		expect(new FilePath('/tmp/tt').asWindows).toEqual('\\tmp\\tt');
-	});
-
-	it('join works', () => {
-		expect(
-			new FilePath('/tmp/tt').join('nn', new FilePath('oo/pp')).asNative
-		).toEqual('/tmp/tt/nn/oo/pp');
-	});
-
-	it('toDotRelative works', () => {
-		expect(new FilePath('').toDotRelative().asNative).toEqual('.');
-		expect(new FilePath('a/path').toDotRelative().asNative).toEqual(
-			'./a/path'
-		);
-
-		expect(new FilePath('.').toDotRelative().asNative).toEqual('.');
-		expect(new FilePath('./a/path').toDotRelative().asNative).toEqual(
-			'./a/path'
-		);
-		expect(new FilePath('../a/path').toDotRelative().asNative).toEqual(
-			'../a/path'
-		);
-	});
-});
-
-describe('in windows systems', () => {
-	beforeEach(() => {
-		(FilePath as object)['nativeIsPosix'] = false;
-	});
-
-	afterEach(() => {
-		(FilePath as object)['nativeIsPosix'] = savedNativeIsPosix;
-	});
-
-	it('toString works', () => {
-		expect(new FilePath('c:\\tmp\\tt').toString()).toEqual('c:\\tmp\\tt');
-	});
-
-	it('asNative works', () => {
-		expect(new FilePath('c:\\tmp\\tt').asNative).toEqual('c:\\tmp\\tt');
-	});
-
-	it('asPosix works', () => {
-		expect(new FilePath('c:\\tmp\\tt').asPosix).toEqual('c:/tmp/tt');
-	});
-
-	it('asWindows works', () => {
-		expect(new FilePath('c:\\tmp\\tt').asWindows).toEqual('c:\\tmp\\tt');
-	});
-
-	it('join works', () => {
-		expect(
-			new FilePath('c:\\tmp\\tt').join('nn', new FilePath('oo\\pp'))
-				.asNative
-		).toEqual('c:\\tmp\\tt\\nn\\oo\\pp');
-	});
-
-	it('toDotRelative works', () => {
-		expect(new FilePath('').toDotRelative().asNative).toEqual('.');
-		expect(new FilePath('a\\path').toDotRelative().asNative).toEqual(
-			'.\\a\\path'
-		);
-
-		expect(new FilePath('.').toDotRelative().asNative).toEqual('.');
-		expect(new FilePath('.\\a\\path').toDotRelative().asNative).toEqual(
-			'.\\a\\path'
-		);
-		expect(new FilePath('..\\a\\path').toDotRelative().asNative).toEqual(
-			'..\\a\\path'
-		);
-	});
-});
+}
 
 describe('posix constructor', () => {
 	it('works in posix systems', () => {
