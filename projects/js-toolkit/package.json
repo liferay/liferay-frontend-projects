@@ -1,9 +1,6 @@
 {
 	"devDependencies": {
 		"@cnakazawa/watch": "^1.0.4",
-		"copyfiles": "^2.1.1",
-		"execa": "^4.0.0",
-		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1"
 	},
 	"name": "liferay-js-toolkit",
