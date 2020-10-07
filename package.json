@@ -5,6 +5,7 @@
 	},
 	"description": "Liferay's Frontend Infrastructure Team monorepo",
 	"devDependencies": {
+		"@cnakazawa/watch": "^1.0.4",
 		"@types/ejs": "3.0.4",
 		"@types/escodegen": "0.0.6",
 		"@types/estraverse": "5.1.0",
