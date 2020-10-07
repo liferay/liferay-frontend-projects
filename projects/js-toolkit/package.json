@@ -25,5 +25,6 @@
 		"qa": "node scripts/qa/index.js",
 		"test": "cd ../.. && yarn test",
 		"watch": "node scripts/watch.js"
-	}
+	},
+	"version": "0.1.0"
 }
