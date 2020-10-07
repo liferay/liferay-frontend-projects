@@ -23,8 +23,8 @@ const packages = fs
 	.filter(Boolean);
 
 const {status} = child_process.spawnSync(
-	'tsc',
-	['--build', ...packages],
+	'yarn',
+	['run', 'tsc', '--build', ...packages],
 	{stdio: 'inherit'}
 );
 
