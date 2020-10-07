@@ -14,7 +14,7 @@ const TSC = path.join(
 	'..',
 	'node_modules',
 	'.bin',
-	'tsc'
+	process.platform === 'win32' ? 'tsc.cmd' : 'tsc'
 );
 
 const packages = fs
