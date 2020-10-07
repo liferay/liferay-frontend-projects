@@ -22,6 +22,8 @@
 		"fs-extra": "^9.0.1",
 		"globby": "^11.0.1",
 		"jest": "26.4.2",
+		"mem-fs": "^1.2.0",
+		"mem-fs-editor": "^7.0.1",
 		"prettier": "2.1.2",
 		"ts-jest": "^26.4.1",
 		"typescript": "^4.0.3",
