@@ -16,9 +16,6 @@
 		"webpack": "^4.41.6"
 	},
 	"description": "Utility library for Liferay NPM Build Tools.",
-	"devDependencies": {
-		"@types/estree": "^0.0.42"
-	},
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
 	"name": "liferay-js-toolkit-core",
