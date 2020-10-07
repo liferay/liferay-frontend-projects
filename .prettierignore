@@ -1,5 +1,18 @@
-# We don't want Prettier to strip the trailing blank line from these templates.
+#
+# Project-specific
+#
+
+/maintenance/projects/js-toolkit/**/generators
+/maintenance/projects/js-toolkit/**/lib
+/maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/__tests__/__fixtures__/alias/invalid.json
+
+/projects/js-toolkit/**/generators
+/projects/js-toolkit/**/lib
+
+#
+# Templates.
+#
+
 /copyright.js
 /maintenance/projects/*/copyright.js
-/maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/__tests__/__fixtures__/alias/invalid.json
 /projects/*/copyright.js
