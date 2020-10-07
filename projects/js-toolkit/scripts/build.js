@@ -22,12 +22,22 @@ const packages = fs
 	})
 	.filter(Boolean);
 
-const {status} = child_process.spawnSync(
+const {error, signal, status, stderr, stdout} = child_process.spawnSync(
 	'yarn',
 	['run', 'tsc', '--build', ...packages],
 	{stdio: 'inherit'}
 );
 
 if (status !== 0) {
+	// eslint-disable-next-line no-console
+	console.log(
+		JSON.stringify({
+			error: error ? error.toString() : 'n/a',
+			signal,
+			status,
+			stderr: stderr ? stderr.toString() : 'n/a',
+			stdout: stdout ? stdout.toString() : 'n/a',
+		})
+	);
 	process.exit(1);
 }
