@@ -13,7 +13,7 @@
 	"name": "liferay-js-toolkit",
 	"private": true,
 	"scripts": {
-		"build": "tsc --build packages/*/tsconfig.json && node scripts/copyfiles.js --all",
+		"build": "tsc --build \"packages/*/tsconfig.json\" && node scripts/copyfiles.js --all",
 		"check-deps": "node scripts/check-deps.js",
 		"ci": "yarn clean && yarn check-deps && yarn build && yarn test",
 		"clean": "node scripts/clean.js --all",
