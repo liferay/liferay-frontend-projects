@@ -201,7 +201,7 @@ Examples include:
 
 -   Create labels for the project and any subpackages and add the to [the Pull Request Labeler's](https://github.com/actions/labeler) [configuration file](../.github/labeler.yml) ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/122)).
 
--   Check for `.yarnrc` files (and the `lerna.json` file, in the rare case that you're importing a project that uses Lerna) to ensure that the tag configuration is consistent with the format using in the monorepo (see [this example PR](https://github.com/liferay/liferay-frontend-projects/pull/138), which shows modifying `.yarnrc` files to make them consistent, adding missing `.yarnrc` files, and configuring Lerna to create adequate commit messages).
+-   Check for `.yarnrc` files (and the `lerna.json` file, in the rare case that you're importing a project that uses Lerna) to ensure that the tag configuration is consistent with the format using in the monorepo (see [this example PR](https://github.com/liferay/liferay-frontend-projects/pull/138) and [its follow-up](https://github.com/liferay/liferay-frontend-projects/pull/141), which show modifying `.yarnrc` files to make them consistent, adding missing `.yarnrc` files, and configuring Lerna to create adequate commit messages).
 
 -   Hoist all `devDependencies` to the top level ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/135)) to reduce the chances of duplicated or conflicting versions.
 
