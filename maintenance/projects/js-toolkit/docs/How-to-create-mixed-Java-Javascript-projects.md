@@ -8,8 +8,7 @@ Once you have created a portlet project, initialize a `package.json` file inside
    place where resources are placed in OSGi bundles.
 ```
 
-When you are ready to deploy your portlet, edit your `package.json` file and
-configure a `build` script with the commands needed to build your project.
+When you are ready to deploy your portlet, edit your `package.json` file and configure a `build` script with the commands needed to build your project.
 
 ```
 👀 You can use any languages you like as long as they can be transpiled to

@@ -24,5 +24,4 @@ Add the following to your `.npmbundlerrc` file:
 
 ## Technical Details
 
-This plugin excludes dependencies declared as imports inside the `.npmbundlerrc`
-from the final bundle.
+This plugin excludes dependencies declared as imports inside the `.npmbundlerrc` from the final bundle.

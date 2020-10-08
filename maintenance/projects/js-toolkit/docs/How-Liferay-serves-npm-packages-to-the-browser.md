@@ -52,12 +52,9 @@ Please refer to these three blog posts to get more in-depth information on the _
    works under the hood.
 ```
 
-With deduplication in place, we can trivially make the modules available to the
-Liferay AMD Loader in the browser by injecting some configuration in the code
-returned by the `/o/js_loader_modules` URL.
+With deduplication in place, we can trivially make the modules available to the Liferay AMD Loader in the browser by injecting some configuration in the code returned by the `/o/js_loader_modules` URL.
 
-For example, for the described bundle, the following configuration would be
-published for the AMD loader to consume:
+For example, for the described bundle, the following configuration would be published for the AMD loader to consume:
 
 ```javascript
   Liferay.PATHS = {
@@ -105,11 +102,8 @@ published for the AMD loader to consume:
 
 Note how:
 
-1. The paths to the Javascript module files are described inside the
-   `Liferay.PATHS` section.
-2. The dependency names and version of each module are described inside the
-   `Liferay.MODULES` section.
-3. The aliases of the package's main modules are described inside the
-   `Liferay.MAPS` section.
+1. The paths to the Javascript module files are described inside the `Liferay.PATHS` section.
+2. The dependency names and version of each module are described inside the `Liferay.MODULES` section.
+3. The aliases of the package's main modules are described inside the `Liferay.MAPS` section.
 
 So, with the canonical module URLs, canonical resolved module URLs, and Loader configuration exported by Liferay, we do have enough information in the browser to make Liferay work as an NPM registry and correctly link npm modules in the browser at runtime.

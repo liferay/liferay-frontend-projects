@@ -1,5 +1,4 @@
-`liferay-npm-imports-checker` is a tool to check `imports` sections of `.npmbundlerrc` files in a multiproject
-source tree.
+`liferay-npm-imports-checker` is a tool to check `imports` sections of `.npmbundlerrc` files in a multiproject source tree.
 
 This is normally used in builds containing multiple projects where some of them import packages from others. An example of such a project would be the [liferay-npm-bundler-2-example](https://github.com/izaera/liferay-npm-bundler-2-example), where [npm-angular5-portlet-say-hello](https://github.com/izaera/liferay-npm-bundler-2-example/tree/master/modules/npm-angular5-portlet-say-hello) imports packages from [npm-angular5-provider](https://github.com/izaera/liferay-npm-bundler-2-example/tree/master/modules/npm-angular5-provider) by means of a [.npmbundlerrc file](https://github.com/izaera/liferay-npm-bundler-2-example/blob/master/modules/npm-angular5-portlet-say-hello/.npmbundlerrc).
 

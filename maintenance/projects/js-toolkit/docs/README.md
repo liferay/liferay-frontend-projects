@@ -2,8 +2,7 @@
 
 > 👀 Unless otherwise stated, all tools work for **ANY** version of Liferay starting from 7.0.
 
-> 👀 Please note that currently, there are two version lines for the JS Toolkit known as `1.x` and `2.x`.
-> The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](./Migrating-bundler-from-1.x-to-2.x.md) to get more information on how to perform that task.
+> 👀 Please note that currently, there are two version lines for the JS Toolkit known as `1.x` and `2.x`. The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](./Migrating-bundler-from-1.x-to-2.x.md) to get more information on how to perform that task.
 
 You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-toolkit+label%3A2.x).
 
