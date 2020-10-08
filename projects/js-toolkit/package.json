@@ -1,15 +1,4 @@
 {
-	"devDependencies": {
-		"@cnakazawa/watch": "^1.0.4",
-		"chalk": "^2.4.2",
-		"copyfiles": "^2.1.1",
-		"execa": "^4.0.0",
-		"fs-extra": "^8.1.0",
-		"globby": "^10.0.1",
-		"readline-sync": "^1.4.10",
-		"xml-js": "^1.6.8",
-		"yo": "^3.1.0"
-	},
 	"name": "liferay-js-toolkit",
 	"private": true,
 	"scripts": {
