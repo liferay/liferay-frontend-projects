@@ -11,13 +11,13 @@ More specifically:
 -   **If linking to a specific _line_:** _Always_ use a fixed link.
 -   **If linking to a specific _file_:**
     -   **If it is _possible_ that the file might be renamed:** (eg. _any_ source code file) Use a fixed link.
-    -   **If it is _extremely unlikely_ that a file will be renamed:** (eg. a `package.json` or a _top-level_ `README.md`) Don't use a fixed link.
+    -   **If it is _extremely unlikely_ that a file will be renamed:** (eg. a _top-level_ `package.json` or a _top-level_ `README.md`) Don't use a fixed link.
 
 Note the subtlety in that last point: in a monorepo directories can be reorganized, and package locations or names can be changed, so not even package-level `README.md` files can really be considered safe. The list of files that we can consider to be "extremely unlikely" to move is actually quite short.
 
 ### See also
 
-The counter-argument to using "fixed" links is that symbolic links (eg. to `master`) tend to stay "up-to-date". In other words, if you click on a link in years-old documentation, you'll see current code instead of years-old code. In the discussions about this trade-off (linked to below), we concluded in favor of "fixed" links. We place a greater value on the documentation being be coherent (ie. linking to stable artifacts) than possibly more up-to-date, because it is very easy to switch to master when one wants to see the current state of a file, but not so easy to find the target of a broken reference:
+The counter-argument to using "fixed" links is that symbolic links (eg. to `master`) tend to stay "up-to-date". In other words, if you click on a link in years-old documentation, you'll see current code instead of years-old code. In the discussions about this trade-off (linked to below), we concluded in favor of "fixed" links. We place a greater value on the documentation being coherent (ie. linking to stable artifacts) than possibly more up-to-date, because it is very easy to switch to master when one wants to see the current state of a file, but not so easy to find the target of a broken reference:
 
 -   https://github.com/liferay/liferay-frontend-guidelines/pull/29#discussion_r293012635
 -   https://github.com/liferay/liferay-frontend-guidelines/pull/201#discussion_r487035366
