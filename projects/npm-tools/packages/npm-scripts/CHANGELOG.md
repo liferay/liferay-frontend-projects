@@ -1,3 +1,16 @@
+## [npm-scripts/v33.1.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.3) (2020-10-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.2...npm-scripts/v33.1.3)
+
+### :house: Chores
+
+-   chore(npm-scripts): update npm-bundler-preset-liferay-dev to v4.6.4 ([\#143](https://github.com/liferay/liferay-frontend-projects/pull/143))
+-   chore(npm-tools): update js-toolkit deps from v2.19.3 to v2.19.4 ([\#142](https://github.com/liferay/liferay-frontend-projects/pull/142))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-toolkit): make tests work in monorepo ([\#133](https://github.com/liferay/liferay-frontend-projects/pull/133))
+
 ## [npm-scripts/v33.1.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.2) (2020-10-05)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.1...npm-scripts/v33.1.2)
