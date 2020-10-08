@@ -115,7 +115,7 @@ This section explains the details of each project type: how the adapter detects
 them and what the injected npm scripts expect to make their work.
 
 > 👀 Note: if you want to know more about the internals of project type detection
-> see file [probe.js](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/project/probe.js)
+> see file [probe.js](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-tookit/packages/liferay-npm-build-tools-common/src/project/probe.js)
 > inside the project.
 
 ### JavaScript create-react-app projects

@@ -27,7 +27,7 @@ The first argument `context` is an object which contains the following fields:
     example).
 -   `log`: a logger to dump execution information that will be written to the
     bundler's report file (see the
-    [PluginLogger class](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/plugin-logger.js)
+    [PluginLogger class](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/plugin-logger.js)
     for information on its structure and API).
 
 The second argument is an object which is directly taken from the `options`

@@ -5,11 +5,9 @@
 > 👀 Please note that currently, there are two version lines for the JS Toolkit known as `1.x` and `2.x`.
 > The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](./Migrating-bundler-from-1.x-to-2.x.md) to get more information on how to perform that task.
 
-You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-js-toolkit/issues).
+You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-toolkit+label%3A2.x).
 
-You can also get information about released versions and their changes in the [closed milestones page](https://github.com/liferay/liferay-js-toolkit/milestones?state=closed).
-
-And if you want to know what's planned for the next version, just visit the [open milestones page](https://github.com/liferay/liferay-js-toolkit/milestones?state=open).
+You can also get information about released versions and their changes in the [CHANGELOG](../CHANGELOG.md).
 
 Now, let's go with the documentation:
 
@@ -49,6 +47,6 @@ Now, let's go with the documentation:
     1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
     2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
     3. [Liferay Community Slack](https://liferay-community.slack.com/)
-    4. [Question issues](https://github.com/liferay/liferay-js-toolkit/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aquestion+)
+    4. [Question issues](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-toolkit+label%3A2.x+label%3Aquestion)
     5. [Sample projects](Sample-projects.md)
     6. [Miscellaneous resources](Miscellaneous-resources.md)

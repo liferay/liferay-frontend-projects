@@ -198,7 +198,7 @@ default used when no `.npmbundlerrc` file is present):
 ```
 
 If we run `liferay-npm-bundler` with this file, it will apply the
-[config file](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler-preset-standard/config.json)
+[config file](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-preset-standard/config.json)
 found in `liferay-npm-bundler-preset-standard`:
 
 ```json
@@ -230,7 +230,7 @@ must run the `replace-browser-modules` plugin (if we wanted to run that plugin
 during the post phase, it should say `post-plugins` instead of `plugins`).
 
 Looking at the
-[documentation](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md)
+[documentation](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md)
 of `replace-browser-modules` plugin we can see that this plugin replaces
 Javascript modules as defined under the `browser` section of `package.json`
 files. This means that, for each npm package that our project has as dependency,
@@ -243,20 +243,20 @@ use when running Babel through the packages'`.js` files. Please keep in mind
 that, in this phase, Babel is used to transform package files (for example to
 convert them to AMD format if necessary) not to transpile them. If you need to
 transpile your files you need to call Babel before the bundler or configure the
-[babel-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-babel-loader)
+[babel-loader](../packages/liferay-npm-bundler-loader-babel-loader)
 to do so.
 
 In this example, we use the `liferay-standard` preset, that applies the
 following plugins according to
-[its documentation](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/babel-preset-liferay-amd):
+[its documentation](../packages/babel-preset-liferay-amd):
 
-1. [babel-plugin-normalize-requires](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-normalize-requires)
+1. [babel-plugin-normalize-requires](../packages/babel-plugin-normalize-requires)
 2. [babel-plugin-transform-node-env-inline](https://www.npmjs.com/package/babel-plugin-transform-node-env-inline)
 3. [babel-plugin-minify-dead-code-elimination](https://www.npmjs.com/package/babel-plugin-minify-dead-code-elimination)
-4. [babel-plugin-wrap-modules-amd](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-wrap-modules-amd)
-5. [babel-plugin-name-amd-modules](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-name-amd-modules)
-6. [babel-plugin-namespace-modules](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-namespace-modules)
-7. [babel-plugin-namespace-amd-define](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-plugin-namespace-amd-define)
+4. [babel-plugin-wrap-modules-amd](../packages/babel-plugin-wrap-modules-amd)
+5. [babel-plugin-name-amd-modules](../packages/babel-plugin-name-amd-modules)
+6. [babel-plugin-namespace-modules](../packages/babel-plugin-namespace-modules)
+7. [babel-plugin-namespace-amd-define](../packages/babel-plugin-namespace-amd-define)
 
 Checking the documentation of these plugins we find out that Babel will:
 
@@ -313,7 +313,7 @@ Each loader is a npm package that exports a function with a well defined API
 receives the content of a file, modifies it, and returns the new content.
 Optionally, loaders may create new files next to the files they are processing.
 For instance,
-[babel-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-babel-loader)
+[babel-loader](../packages/liferay-npm-bundler-loader-babel-loader)
 writes a `.map` file next to each `.js` file after it finishes the process.
 
 With this simple schema you may write any loader you may think of. For example:
@@ -328,9 +328,9 @@ With this simple schema you may write any loader you may think of. For example:
 
 You can even chain several loaders to act upon each file. That way you can, for
 example, convert a `.scss` file into real CSS (by running the
-[sass-loader](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-sass-loader)
+[sass-loader](../packages/liferay-npm-bundler-loader-sass-loader)
 on it) and then make it a JavaScript module with the
-[style-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-style-loader)
+[style-loader](../packages/liferay-npm-bundler-loader-style-loader)
 loader.
 
 Please see [List of loaders](List-of-loaders.md) for more information on all known loaders.

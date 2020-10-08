@@ -45,7 +45,7 @@ Aliases implementation have two parts:
 2.  They make local requires divert to a different target.
 
 This plugin does only the second part. The first one is performed by
-[liferay-npm-bundler-plugin-replace-browser-modules](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-plugin-replace-browser-modules).
+[liferay-npm-bundler-plugin-replace-browser-modules](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-plugin-replace-browser-modules).
 
 Please read the
 [`browser` field specification](https://github.com/defunctzombie/package-browser-field-spec)

@@ -66,7 +66,7 @@ Aliases implementation have two parts:
 2.  They make local requires divert to a different target.
 
 This plugin does only the 1st part. The second one is performed by
-[babel-plugin-alias-modules](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/babel-plugin-alias-modules).
+[babel-plugin-alias-modules](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/babel-plugin-alias-modules).
 
 Please read the
 [`browser` field specification](https://github.com/defunctzombie/package-browser-field-spec)

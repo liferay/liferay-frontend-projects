@@ -101,4 +101,4 @@ The following dependencies just state the modules on which this module depends. 
 
 Also note that Liferay has enough information in the `package.json` files to not only know that `isarray` refers to `isarray/index`, but also that it must be resolved to version `1.0.0` of such package, i.e., that `isarray/index` in this case, refers to `isarray@1.0.0/index`.
 
-In case you are wondering how to AMDifiy your modules, you can leverage [liferay-npm-bundler](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-bundler) to do that for you 😉.
+In case you are wondering how to AMDifiy your modules, you can leverage [liferay-npm-bundler](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler) to do that for you 😉.
