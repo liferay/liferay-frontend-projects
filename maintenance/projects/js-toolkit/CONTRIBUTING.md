@@ -94,7 +94,7 @@ If any checks fail, fix them, submit a PR, and when it is merged, start again. O
 Update the changelog:
 
 ```sh
-$ npx @liferay/changelog-generator --version=v2.19.0 ⏎
+$ npx @liferay/changelog-generator --version=v2.19.4 ⏎
 ```
 
 Review and stage the generated changes:
@@ -106,7 +106,7 @@ $ git add -p ⏎
 Commit the CHANGELOG:
 
 ```sh
-$ git commit -m "docs: Update CHANGELOG" ⏎
+$ git commit -m "docs(js-toolkit): update CHANGELOG.md for v2.19.4 release" ⏎
 ```
 
 Release a new version
