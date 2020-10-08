@@ -1,4 +1,4 @@
-Since the introduction of the [create-jar](.npmbundlerrc-file-reference#create-jar) option in the bundler, the developer can write pure Javascript portlets that are bootstrapped by the [JS Portlet Extender](https://web.liferay.com/en/marketplace/-/mp/application/115542926) in the server.
+Since the introduction of the [create-jar](.npmbundlerrc-file-reference#create-jar) option in the bundler, the developer can write pure JavaScript portlets that are bootstrapped by the [JS Portlet Extender](https://web.liferay.com/en/marketplace/-/mp/application/115542926) in the server.
 
 This document describes the _contract_ between the JS Portlet Extender and the portlet.
 

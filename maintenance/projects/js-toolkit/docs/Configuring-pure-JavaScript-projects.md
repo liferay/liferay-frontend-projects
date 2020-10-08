@@ -24,7 +24,7 @@ Basically all you need to do to have localization is creating a `features/locali
 
 Then fill the `Language.properties` file with `key=value` pairs and use those keys in localization-aware places like portlet name, configuration labels and so on.
 
-Also, use `Liferay.Language.get('key')` calls in any place of your Javascript code where you want to retrieve values for such localization keys and they will be substituted for the corresponding localized value depending on the user's locale.
+Also, use `Liferay.Language.get('key')` calls in any place of your JavaScript code where you want to retrieve values for such localization keys and they will be substituted for the corresponding localized value depending on the user's locale.
 
 To finish with, create a new `Language_{locale}.properties` file per translated locale (for instance: `Language_es.properties`, `Language_pt.properties`, and so on) and fill them with the translated `key=value` pairs.
 
@@ -44,7 +44,7 @@ hello-world=Hello world
 hello-world=Hola mundo
 ```
 
-And a Javascript module that does:
+And a JavaScript module that does:
 
 ```javascript
 window.alert(Liferay.Language.get('hello-world'));
@@ -56,7 +56,7 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 > 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.1.0
 
-Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
+Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's JavaScript entry point as a parameter named `configuration` (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
 
 The configuration can have diffent scopes:
 

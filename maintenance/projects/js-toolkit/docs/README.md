@@ -12,7 +12,7 @@ Now, let's go with the documentation:
 
 1. Most usual tasks:
 
-    1. [How to create pure Javascript projects](./How-to-use-generator-liferay-js.md)
+    1. [How to create pure JavaScript projects](./How-to-use-generator-liferay-js.md)
         1. [How to build the project](./Running-build-npm-scripts.md)
         2. [How to configure the project](./Configuring-pure-javascript-projects.md)
     2. [How to adapt most popular frameworks projects](How-to-adapt-most-popular-frameworks-projects.md)

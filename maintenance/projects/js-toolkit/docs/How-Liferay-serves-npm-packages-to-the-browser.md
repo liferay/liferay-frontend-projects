@@ -102,7 +102,7 @@ For example, for the described bundle, the following configuration would be publ
 
 Note how:
 
-1. The paths to the Javascript module files are described inside the `Liferay.PATHS` section.
+1. The paths to the JavaScript module files are described inside the `Liferay.PATHS` section.
 2. The dependency names and version of each module are described inside the `Liferay.MODULES` section.
 3. The aliases of the package's main modules are described inside the `Liferay.MAPS` section.
 

@@ -1,6 +1,6 @@
 The liferay-npm-bundler tool is of a kind known as bundler, like [Browserify](http://browserify.org/) or [webpack](https://webpack.js.org/).
 
-So, why writing another bundler? The main reason is that due to the modularity of Liferay Portal, several portlets that don't know each other in advance may need to cooperate to share their Javascript dependencies, so we cannot just deploy all Javascript in a single file like other bundlers do for web applications.
+So, why writing another bundler? The main reason is that due to the modularity of Liferay Portal, several portlets that don't know each other in advance may need to cooperate to share their JavaScript dependencies, so we cannot just deploy all JavaScript in a single file like other bundlers do for web applications.
 
 On the contrary, we need to bundle enough information so that Liferay can -when assembling a page- determine which packages must be used and how they are going to be shared among different portlets.
 
@@ -70,7 +70,7 @@ The expected input varies for the old and new modes of operation though nothing 
 
 The **old mode** was intended to get Liferay portlet projects as input right after every static resource and transpiled `.js` files had been placed in the `build` directory. In then modified that `build` directory so that the build could carry on to produce an OSGi bundle that could be deployed to Liferay Portal (as explained in [How to deploy npm packages to Liferay](How-to-deploy-npm-packages-to-Liferay.md)).
 
-That OSGi bundle could be created by the standard Gradle build for portlets or, alternatively, by the bundler itself (this was made possible when the [pure Javascript portlet](How-to-use-generator-liferay-js.md) feature was introduced).
+That OSGi bundle could be created by the standard Gradle build for portlets or, alternatively, by the bundler itself (this was made possible when the [pure JavaScript portlet](How-to-use-generator-liferay-js.md) feature was introduced).
 
 The **new mode** aims at controlling the whole build and not doing (or not needing to do) anything outside of the bundler. It is inspired in `webpack` and thus, the expected input is any type of project with source files that are then transformed by rules into output artifacts that are then bundled into an OSGi `.jar` file that can be deployed to Liferay Portal.
 
@@ -157,7 +157,7 @@ If we run `liferay-npm-bundler` with this file, it will apply the [config file](
 
 This states that for all npm packages (`*`) the pre-process phase (`plugins`) must run the `replace-browser-modules` plugin (if we wanted to run that plugin during the post phase, it should say `post-plugins` instead of `plugins`).
 
-Looking at the [documentation](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md) of `replace-browser-modules` plugin we can see that this plugin replaces Javascript modules as defined under the `browser` section of `package.json` files. This means that, for each npm package that our project has as dependency, `liferay-npm-bundler` will make sure that each one having a `browser` section in its `package.json` files will have its server side files replaced by their counterpart browser versions.
+Looking at the [documentation](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-plugin-replace-browser-modules/README.md) of `replace-browser-modules` plugin we can see that this plugin replaces JavaScript modules as defined under the `browser` section of `package.json` files. This means that, for each npm package that our project has as dependency, `liferay-npm-bundler` will make sure that each one having a `browser` section in its `package.json` files will have its server side files replaced by their counterpart browser versions.
 
 The next part of the `.npmbundlerrc` section specifies the `.babelrc` file to use when running Babel through the packages'`.js` files. Please keep in mind that, in this phase, Babel is used to transform package files (for example to convert them to AMD format if necessary) not to transpile them. If you need to transpile your files you need to call Babel before the bundler or configure the [babel-loader](../packages/liferay-npm-bundler-loader-babel-loader) to do so.
 
@@ -294,13 +294,13 @@ You can control what gets processed and what doesn't at three levels:
 
 1. You can force inclusion of npm packages in the output artifact even if they are not used anywhere in the code. This can be useful to bundle badly configured transitive dependencies, for example. See the [`include-dependencies`](.npmbundlerrc-file-reference#include-dependencies) option for more information.
 2. You can exclude any subset of files (or the whole package) in npm packages. This is useful to prevent imported packages from being bundled or optimize the resulting JAR by removing unused (or server only) files. See the [`exclude`](.npmbundlerrc-file-reference#exclude) section for more information.
-3. You can tell the tool to avoid processing (specifically with Babel) of any subset of files in the project (not of npm packages). This can be useful if you want to provide some Javascript files in your project that don't need to be AMDized, for example. See the [`ignore`](.npmbundlerrc-file-reference#ignore) section for more information.
+3. You can tell the tool to avoid processing (specifically with Babel) of any subset of files in the project (not of npm packages). This can be useful if you want to provide some JavaScript files in your project that don't need to be AMDized, for example. See the [`ignore`](.npmbundlerrc-file-reference#ignore) section for more information.
 
 ## Creating OSGi bundles
 
 As of [#164](https://github.com/liferay/liferay-js-toolkit/issues/164), `liferay-npm-bundler` can create full fledged OSGi bundles for you. OSGi bundle creation is activated when the [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
 
-See [How to create pure Javascript projects](How-to-use-generator-liferay-js) and [Configuring pure JavaScript projects](Configuring-pure-JavaScript-projects.md) for a detailed explanation of this feature.
+See [How to create pure JavaScript projects](How-to-use-generator-liferay-js) and [Configuring pure JavaScript projects](Configuring-pure-JavaScript-projects.md) for a detailed explanation of this feature.
 
 ## Configuring the bundler
 

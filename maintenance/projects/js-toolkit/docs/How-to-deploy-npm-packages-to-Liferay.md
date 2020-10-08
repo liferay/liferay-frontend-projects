@@ -4,7 +4,7 @@ OSGi bundles containing npm packages must have a specific structure, described i
 
 ## Structure of OSGi bundles containing npm packages
 
-To deploy Javascript modules to Liferay Portal you need to compose an OSGi bundle with, at least, the following structure:
+To deploy JavaScript modules to Liferay Portal you need to compose an OSGi bundle with, at least, the following structure:
 
 ```
 📂 my-bundle/META-INF/resources
@@ -44,7 +44,7 @@ To deploy Javascript modules to Liferay Portal you need to compose an OSGi bundl
     …
 ```
 
-This allows you to deploy an inline Javascript package (named `my-bundle-package` in this case) and several npm packages which must be placed inside a `node_modules` folder, one package per folder.
+This allows you to deploy an inline JavaScript package (named `my-bundle-package` in this case) and several npm packages which must be placed inside a `node_modules` folder, one package per folder.
 
 The inline package must be directly placed under the OSGi's standard `META-INF/resources` folder and is defined by a standard npm `package.json` file.
 
@@ -52,9 +52,9 @@ The packages inside `node_modules` have the same internal format followed by the
 
 Note, however, that in this case all the packages are at the same level and have a trailing `@x.y.z` suffix to acomodate different versions. That is not the case when you run `npm` where packages can be nested inside each others.
 
-Regarding the inline package, it can be present or absent too, though only one inline package per OSGi bundle may appear. This inline package is normally used to provide the Javascript code for a portlet when the OSGi bundle contains one, but the architecture does not make any difference between inline and npm packages once they are published after being scanned. It is just a mechanism to organize OSGi bundles in a more understandable way.
+Regarding the inline package, it can be present or absent too, though only one inline package per OSGi bundle may appear. This inline package is normally used to provide the JavaScript code for a portlet when the OSGi bundle contains one, but the architecture does not make any difference between inline and npm packages once they are published after being scanned. It is just a mechanism to organize OSGi bundles in a more understandable way.
 
-## AMDization of Javascript modules
+## AMDization of JavaScript modules
 
 Given that [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader) follows the [AMD specification](https://github.com/amdjs/amdjs-api/blob/master/AMD.md), all modules inside an npm OSGi bundle must be in AMD format but usually modules inside npm packages are in [CommonJS format](https://nodejs.org/api/modules.html). However, they can be easily converted to AMD by wrapping the module code inside a `define()` call.
 

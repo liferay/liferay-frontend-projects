@@ -29,7 +29,7 @@ After everything is transpiled (if necessary) to Ecmascript 5+ and CommonJS you 
    your npm packages from portlets (as opposed to pure web applications).
 ```
 
-The peculiarity of running npm packages inside portlets makes the workflow a bit different from standard bundlers (like Browserify or webpack) because in this scenario you cannot just bundle all needed Javascript in a single file, but instead you must _link_ all packages together in the browser when the full web page is assembled so that different portlets may share versions of modules instead of each one loading its own copy. That's where `liferay-npm-bundler` comes in handy.
+The peculiarity of running npm packages inside portlets makes the workflow a bit different from standard bundlers (like Browserify or webpack) because in this scenario you cannot just bundle all needed JavaScript in a single file, but instead you must _link_ all packages together in the browser when the full web page is assembled so that different portlets may share versions of modules instead of each one loading its own copy. That's where `liferay-npm-bundler` comes in handy.
 
 You may read more about `liferay-npm-bundler` in the [How to use liferay-npm-bundler](How-to-use-liferay-npm-bundler.md) page.
 
