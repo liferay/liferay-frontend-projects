@@ -28,7 +28,8 @@ export default function transformImports(
 
 				if (node.type === 'CallExpression') {
 					modified = transformCallExpression(log, node, imports);
-				} else if (node.type === 'ImportDeclaration') {
+				}
+				else if (node.type === 'ImportDeclaration') {
 					modified = transformImportDeclaration(
 						log,
 						node,
@@ -48,7 +49,8 @@ export default function transformImports(
 					log.info(
 						`File contained 'imports' which were diverted to runtime loader`
 					);
-				} else {
+				}
+				else {
 					log.debug(`File does not require any 'imports' module`);
 				}
 			},
@@ -135,6 +137,7 @@ function transformImportDeclaration(
 				return `var ${specifier.local.name} = __REQUIRE__('${namespacedModuleName}');`;
 
 			// no default
+
 		}
 	});
 

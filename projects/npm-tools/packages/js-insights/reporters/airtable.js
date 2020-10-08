@@ -51,6 +51,7 @@ module.exports = async function (modulesInfo, config) {
 	let synced = 0;
 
 	while (synced < modulesInfo.length) {
+
 		// Airtable API only allows creating up to 10 records per request. It also expects a flat Map<string, object> `fields` parameter
 
 		const chunk = modulesInfo
@@ -70,7 +71,8 @@ module.exports = async function (modulesInfo, config) {
 			await base(output).create(chunk, {
 				typecast: true,
 			});
-		} catch (err) {
+		}
+		catch (err) {
 			console.error(err);
 		}
 

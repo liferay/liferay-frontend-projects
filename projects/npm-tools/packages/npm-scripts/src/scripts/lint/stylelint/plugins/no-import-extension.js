@@ -58,7 +58,8 @@ module.exports = stylelint.createPlugin(
 
 					if (fix) {
 						rule.replaceWith(rule.clone({params: desired}));
-					} else {
+					}
+					else {
 						stylelint.utils.report({
 							message: messages.extension,
 							node: rule,

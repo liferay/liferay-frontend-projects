@@ -53,6 +53,7 @@ export function getDefaultAnswer(
 	question,
 	defaultDefault = undefined
 ): unknown {
+
 	// Return defaultDefault if no answers section
 
 	if (cfg.answers === undefined) {
@@ -103,7 +104,8 @@ export function getSDKVersion(): string {
 function safeReadJsonSync(path): object {
 	try {
 		return readJsonSync(path);
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code !== 'ENOENT') {
 			throw err;
 		}

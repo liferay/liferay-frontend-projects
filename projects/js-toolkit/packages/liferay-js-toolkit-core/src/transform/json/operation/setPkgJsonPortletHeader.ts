@@ -16,7 +16,8 @@ export default function setPkgJsonPortletHeader(
 			if (pkgJson['portlet']) {
 				delete pkgJson['portlet'][header];
 			}
-		} else {
+		}
+		else {
 			pkgJson['portlet'] = pkgJson['portlet'] || {};
 			pkgJson['portlet'][header] = value;
 		}

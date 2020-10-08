@@ -47,7 +47,8 @@ module.exports = function (arrArgs = []) {
 
 		if (!NODE_ENV || NODE_ENV === 'test') {
 			log('Using NODE_ENV: "test"');
-		} else {
+		}
+		else {
 			log(
 				`Overriding pre-existing NODE_ENV: ${JSON.stringify(
 					NODE_ENV
@@ -62,7 +63,8 @@ module.exports = function (arrArgs = []) {
 		if (useSoy) {
 			cleanSoy();
 		}
-	} finally {
+	}
+	finally {
 		dispose();
 	}
 };

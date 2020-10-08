@@ -93,11 +93,13 @@ async function lint(options = {}) {
 		report = cli.executeOnFiles(jsPaths);
 
 		if (fix && jsPaths.length) {
+
 			// This is what actually writes to the file-system.
 
 			CLIEngine.outputFixes(report);
 		}
-	} else {
+	}
+	else {
 		report = {results: []};
 	}
 
@@ -106,6 +108,7 @@ async function lint(options = {}) {
 		[scssPaths, lintSCSS],
 	]) {
 		for (const filePath of paths) {
+
 			// TODO: non-sync version to make use of I/O concurrency
 
 			const contents = fs.readFileSync(filePath, 'utf8');
@@ -125,7 +128,8 @@ async function lint(options = {}) {
 				if (fix && updated !== contents) {
 					fs.writeFileSync(filePath, updated);
 				}
-			} catch (error) {
+			}
+			catch (error) {
 				log(error);
 			}
 		}
@@ -170,7 +174,8 @@ function color(name) {
 				YELLOW: '\x1b[33m',
 			}[name] || ''
 		);
-	} else {
+	}
+	else {
 		return '';
 	}
 }
@@ -208,7 +213,8 @@ function formatter(results) {
 					if (fix) {
 						fixableErrorCount++;
 					}
-				} else {
+				}
+				else {
 					warnings++;
 
 					if (fix) {

@@ -67,7 +67,8 @@ export default function ({types: t}) {
 
 						if (unshiftName) {
 							args.unshift(t.stringLiteral(moduleName));
-						} else {
+						}
+						else {
 							args[0].value = moduleName;
 						}
 
@@ -94,6 +95,7 @@ export default function ({types: t}) {
 					state.log = log;
 				},
 				exit(path, state) {
+
 					// We must traverse the AST again because the
 					// transform-es2015-modules-amd plugin emits its define()
 					// call after exiting Program node :-(

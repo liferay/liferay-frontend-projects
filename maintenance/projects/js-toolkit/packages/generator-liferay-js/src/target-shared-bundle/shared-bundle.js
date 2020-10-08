@@ -13,6 +13,7 @@ import PkgJsonModifier from '../utils/modifier/package.json';
  * Implementation of generation of shared bundles.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

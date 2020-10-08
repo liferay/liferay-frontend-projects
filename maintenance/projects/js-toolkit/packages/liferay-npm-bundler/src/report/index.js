@@ -12,6 +12,7 @@ import {htmlDump} from './html';
  * @type {Report}
  */
 export class Report {
+
 	/**
 	 * Constructor
 	 */

@@ -40,7 +40,8 @@ export default function ({config, globalConfig, log, rootPkgJson}, {pkgJson}) {
 					'has different constraints:',
 					`${localName}@${pkgJson.dependencies[localName]})`
 				);
-			} else {
+			}
+			else {
 				log.info(
 					'inject-imports-dependencies',
 					'Injected dependency',

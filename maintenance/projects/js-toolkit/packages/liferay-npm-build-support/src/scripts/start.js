@@ -90,7 +90,8 @@ function runWebpackDevServer() {
 			cwd: webpackDir.asNative,
 			shell: true,
 		});
-	} else {
+	}
+	else {
 		const webpackDevServerPath = path.resolve(
 			project.dir.join('node_modules', '.bin', 'webpack-dev-server')
 				.asNative

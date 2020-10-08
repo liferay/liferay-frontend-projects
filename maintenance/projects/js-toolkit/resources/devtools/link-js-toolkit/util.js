@@ -35,11 +35,13 @@ function yarn(...args) {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	}
+	else if (proc.status != 0) {
 		throw new Error(
 			`'yarn ${args.join(' ')}' finished with status ${proc.status}`
 		);
-	} else if (proc.signal) {
+	}
+	else if (proc.signal) {
 		throw new Error(
 			`'yarn ${args.join(' ')}' finished due to signal ${proc.signal}`
 		);
@@ -47,6 +49,7 @@ function yarn(...args) {
 }
 
 function yarnLink(deps) {
+
 	// Link dependencies with yarn
 
 	deps.forEach((dep) => {

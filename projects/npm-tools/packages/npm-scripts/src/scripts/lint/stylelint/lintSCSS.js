@@ -52,6 +52,7 @@ async function lintSCSS(source, onReport, options = {}) {
 	});
 
 	results.forEach((result) => {
+
 		// - "warnings" array contains both errors and warnings.
 		// - "errored" is true if at least one problem of
 		//   severity "error" is present.
@@ -62,11 +63,14 @@ async function lintSCSS(source, onReport, options = {}) {
 					({column, line, rule, severity, text}) => {
 						if (severity === 'error') {
 							errorCount++;
-						} else if (quiet) {
+						}
+						else if (quiet) {
+
 							// In quiet mode, we only report errors, not warnings.
 
 							return;
-						} else {
+						}
+						else {
 							warningCount++;
 						}
 

@@ -10,6 +10,7 @@ module.exports = {
 		return {
 			ImportDeclaration(node) {
 				const specifiers = node.specifiers.filter((specifier) => {
+
 					// Just `ImportSpecifier` (ignore `ImportDefaultSpecifier`).
 
 					return specifier.type === 'ImportSpecifier';
@@ -24,6 +25,7 @@ module.exports = {
 							node.source
 						)
 					) {
+
 						// Don't touch if any of the specifiers have
 						// comments.
 
@@ -62,6 +64,7 @@ module.exports = {
 							fixed += source.getText(sorted[i]);
 
 							if (i < specifiers.length - 1) {
+
 								// Grab all text between specifier and next.
 
 								const between = text.slice(

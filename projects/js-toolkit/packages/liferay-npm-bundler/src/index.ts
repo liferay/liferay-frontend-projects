@@ -82,10 +82,12 @@ export default async function (argv: {version: boolean}): Promise<void> {
 			fs.writeFileSync(project.misc.reportFile.asNative, report.toHtml());
 
 			log.info(`Report written to ${project.misc.reportFile.asNative}`);
-		} else if (report.warningsPresent) {
+		}
+		else if (report.warningsPresent) {
 			log.debug('The build has emitted some warning messages.');
 		}
-	} catch (err) {
+	}
+	catch (err) {
 		log.error(`\n\n${err.stack}\n\n`);
 
 		process.exit(1);

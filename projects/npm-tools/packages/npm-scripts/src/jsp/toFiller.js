@@ -65,7 +65,8 @@ function toFiller(string, filler = FILLER_CHAR) {
 			output += contents.replace(/./g, filler);
 
 			output += linebreak || '';
-		} else {
+		}
+		else {
 			break;
 		}
 	}

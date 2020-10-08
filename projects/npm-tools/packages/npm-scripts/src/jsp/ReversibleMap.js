@@ -28,6 +28,7 @@ class ReversibleMap extends Map {
 	 * preserve entry ordering.
 	 */
 	_snapshot() {
+
 		// If called from constructor, this.undo won't be set yet.
 
 		if (this.undo) {
@@ -80,7 +81,8 @@ class ReversibleMap extends Map {
 
 			if (operation === CHECKPOINT) {
 				break;
-			} else {
+			}
+			else {
 				operation();
 			}
 		}

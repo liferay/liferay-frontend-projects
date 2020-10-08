@@ -32,7 +32,8 @@ export default function (): Promise<void> {
 				if (err && err.message !== 'No files to copy') {
 					print(error`${err}`);
 					process.exit(1);
-				} else {
+				}
+				else {
 					print(success`Project assets copied`);
 				}
 

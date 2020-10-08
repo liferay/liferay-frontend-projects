@@ -11,6 +11,7 @@ import LanguagePropertiesModifier from '../utils/modifier/features/localization/
  *
  */
 export default class {
+
 	/**
 	 * @param {Generator} generator
 	 */
@@ -30,6 +31,7 @@ export default class {
 			);
 
 			if (projectAnalyzer.hasLocalization) {
+
 				// Add system configuration description
 
 				configurationJson.addField(
@@ -82,7 +84,9 @@ export default class {
 					water: 'Water',
 					wine: 'Wine',
 				});
-			} else {
+			}
+			else {
+
 				// Add system configuration description
 
 				configurationJson.addField(

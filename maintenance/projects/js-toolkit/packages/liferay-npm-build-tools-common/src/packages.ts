@@ -50,18 +50,21 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 	let moduleStats = safeStat(fullModulePath);
 
 	if (moduleStats.isDirectory()) {
+
 		// Given module name is a directory
 
 		const pkgJsonPath = path.join(fullModulePath, 'package.json');
 		const pkgJsonStats = safeStat(pkgJsonPath);
 
 		if (pkgJsonStats.isFile()) {
+
 			// Module directory has package.json file
 
 			const pkgJson = readJsonSync(pkgJsonPath);
 			const {main} = pkgJson;
 
 			if (main) {
+
 				// Module directory has package.json file with main entry:
 				// recursively resolve the main entry's file path
 
@@ -69,36 +72,51 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 					pkgPath,
 					resolveModuleFile(pkgPath, path.join(moduleName, main))
 				);
-			} else {
+			}
+			else {
+
 				// Module directory has package.json file without main entry:
 				// assume index.js
 
 				fullModulePath = path.join(fullModulePath, 'index.js');
 			}
-		} else {
+		}
+		else {
+
 			// Module directory has not package.json file: assume index.js
 
 			fullModulePath = path.join(fullModulePath, 'index.js');
 		}
-	} else if (moduleStats.isFile()) {
+	}
+	else if (moduleStats.isFile()) {
+
 		// Given module name is a file: do nothing
-	} else if (fullModulePath.endsWith('.js')) {
+
+	}
+	else if (fullModulePath.endsWith('.js')) {
+
 		// Given module name is not a directory nor a file but ends with '.js'
 		// extension: see if corresponding '.js.js' file exists
 
 		moduleStats = safeStat(`${fullModulePath}.js`);
 
 		if (moduleStats.isFile()) {
+
 			// Given module name has a corresponding '.js.js' file: add '.js'
 			// extension
 
 			fullModulePath += '.js';
-		} else {
+		}
+		else {
+
 			// Given module name has no corresponding '.js.js' file: do nothing
 			// and assume that the '.js' in the module name is just the
 			// extension of the file and doesn't belong to its name.
+
 		}
-	} else {
+	}
+	else {
+
 		// Given module name is not a directory nor a file and doesn't end with
 		// '.js' extension: add '.js' extension
 
@@ -116,7 +134,8 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 function safeStat(path: string): fs.Stats | NullFsStats {
 	try {
 		return fs.statSync(path);
-	} catch (err) {
+	}
+	catch (err) {
 		return {
 			isDirectory: () => false,
 			isFile: () => false,

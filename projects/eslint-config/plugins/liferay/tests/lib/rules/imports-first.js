@@ -48,6 +48,7 @@ ruleTester.run('imports-first', rule, {
 			],
 		},
 		{
+
 			// Regression test: the second require here wasn't being flagged
 			// because we were choking (silently) on the directive:
 
@@ -69,6 +70,7 @@ ruleTester.run('imports-first', rule, {
 			],
 		},
 		{
+
 			// Note that directives are only ignored when they are at the top.
 
 			code: `
@@ -104,6 +106,7 @@ ruleTester.run('imports-first', rule, {
 			`,
 		},
 		{
+
 			// Regression test: `MemberExpression` here made us fail to
 			// recognize "gulp" as an import.
 			//
@@ -118,6 +121,7 @@ ruleTester.run('imports-first', rule, {
 			`,
 		},
 		{
+
 			// Regression test: Immediate `CallExpression` here made us fail to
 			// recognize "gulp-load-plugins" as an import.
 			//

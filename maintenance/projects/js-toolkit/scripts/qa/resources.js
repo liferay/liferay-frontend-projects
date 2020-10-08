@@ -90,6 +90,7 @@ module.exports = {
 };
 
 function findLiferayDir() {
+
 	// Find Liferay installation directory
 
 	let liferayDir = path.join(__dirname, '..', '..', 'liferay');
@@ -101,8 +102,11 @@ function findLiferayDir() {
 			)
 		);
 		liferayDir = json.answers['*'].liferayDir;
-	} catch (err) {
+	}
+	catch (err) {
+
 		// swallow
+
 	}
 
 	return liferayDir;

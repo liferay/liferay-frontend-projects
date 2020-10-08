@@ -19,6 +19,7 @@ describe('dedent()', () => {
 	});
 
 	it('handles mixed tabs and spaces', () => {
+
 		// Mixed tabs and spaces are common, for example, in source with
 		// multiline comments.
 
@@ -63,6 +64,7 @@ describe('dedent()', () => {
 	});
 
 	it('handles partial "for" control structures', () => {
+
 		// It's common in JSP to have an incomplete control structure
 		// that starts in one scriptlet and ends in another.
 

@@ -9,6 +9,7 @@ import Generator from 'yeoman-generator';
  * Generator for shared bundles.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

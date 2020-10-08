@@ -29,6 +29,7 @@ const ReversibleMap = require('./ReversibleMap');
  */
 class Lexer {
 	constructor(callback) {
+
 		/**
 		 * Map of all matchers keyed by name.
 		 */
@@ -131,6 +132,7 @@ class Lexer {
 		 * Note that permutating has O(!N) runtime, so should be used sparingly.
 		 */
 		function allOf(...matchers) {
+
 			// Given matchers [a, b], permute them (eg. [[a, b], [b, a]])...
 
 			const permutations = permute(matchers);
@@ -264,7 +266,9 @@ class Lexer {
 
 					if (match !== null) {
 						return match;
-					} else {
+					}
+					else {
+
 						// Fake a zero-width match.
 
 						return getMatchObject('');
@@ -392,14 +396,16 @@ class Lexer {
 							remaining = remaining.slice(match[0].length);
 
 							consumed += match[0];
-						} else {
+						}
+						else {
 							break;
 						}
 					}
 
 					if (consumed) {
 						return getMatchObject(consumed);
-					} else {
+					}
+					else {
 						return null;
 					}
 				},
@@ -441,7 +447,8 @@ class Lexer {
 							remaining = remaining.slice(match[0].length);
 
 							matched += match[0];
-						} else {
+						}
+						else {
 							meta.rollback();
 
 							return null;
@@ -512,7 +519,8 @@ class Lexer {
 							remaining = remaining.slice(match[0].length);
 
 							consumed += match[0];
-						} else {
+						}
+						else {
 							break;
 						}
 					}
@@ -561,7 +569,8 @@ class Lexer {
 
 						if (match === null) {
 							break;
-						} else {
+						}
+						else {
 							remaining = remaining.slice(match[0].length);
 
 							consumed += match[0];
@@ -596,7 +605,8 @@ class Lexer {
 				exec(string) {
 					if (predicate(string)) {
 						return matcher.exec(string);
-					} else {
+					}
+					else {
 						return alternate.exec(string);
 					}
 				},
@@ -639,7 +649,8 @@ class Lexer {
 
 			if (matchers.length === 1) {
 				matcher = matchers[0];
-			} else if (matchers.length > 1) {
+			}
+			else if (matchers.length > 1) {
 				matcher = sequence(...matchers);
 			}
 
@@ -649,17 +660,21 @@ class Lexer {
 			delete peek.peeked;
 
 			if (matcher === undefined) {
+
 				// Return result of previous `peek()`.
 
 				if (peeked != undefined) {
 					result = peeked;
-				} else {
+				}
+				else {
 					throw new Error(
 						'Cannot consume() non-existent previous peek() result'
 					);
 				}
-			} else {
+			}
+			else {
 				if (peeked !== null) {
+
 					// We previously peeked but aren't consuming the memoized
 					// result, so we need to rollback the peek's side-effects.
 
@@ -692,7 +707,8 @@ class Lexer {
 
 			if (reasonOrMatcher.description) {
 				reason = `Failed to match ${reasonOrMatcher.description}`;
-			} else {
+			}
+			else {
 				reason = reasonOrMatcher;
 			}
 
@@ -721,7 +737,8 @@ class Lexer {
 
 			if (matchers.length === 1) {
 				matcher = matchers[0];
-			} else if (matchers.length > 1) {
+			}
+			else if (matchers.length > 1) {
 				matcher = sequence(...matchers);
 			}
 
@@ -848,6 +865,7 @@ class Lexer {
 		const defineProperties = (token, counter) => {
 			Object.defineProperties(token, {
 				next: {
+
 					// Lazy because token N+1 doesn't exist yet when
 					// token N is produced.
 
@@ -864,6 +882,7 @@ class Lexer {
 					},
 				},
 				previous: {
+
 					// Non-enumerable so that tokens can be
 					// introspected without the clutter.
 
@@ -875,7 +894,8 @@ class Lexer {
 		while (!atEnd()) {
 			if (tokens.has(counter + 1)) {
 				yield tokens.get(++counter);
-			} else {
+			}
+			else {
 				const token = produceToken();
 
 				tokens.set(++counter, token);
@@ -893,9 +913,11 @@ class Lexer {
 	lookup(matcher) {
 		if (typeof matcher === 'string' && this._matchers.has(matcher)) {
 			return this._matchers.get(matcher);
-		} else if (matcher && typeof matcher.exec === 'function') {
+		}
+		else if (matcher && typeof matcher.exec === 'function') {
 			return matcher;
-		} else {
+		}
+		else {
 			throw new Error('Unable to look up matcher');
 		}
 	}
@@ -905,6 +927,7 @@ class Lexer {
  * Escapes `literal` for use in a RegExp.
  */
 function escape(literal) {
+
 	// https://github.com/benjamingr/RegExp.escape/blob/master/EscapedChars.md
 
 	return literal.replace(/[\^$\\.*+?()[\]{}|]/g, '\\$&');
@@ -915,6 +938,7 @@ function escape(literal) {
  * RegExp.prototype.exec().
  */
 function getMatchObject(string) {
+
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 	// TODO: needs index and input properties
 	// might also want to set lastIndex on regexp

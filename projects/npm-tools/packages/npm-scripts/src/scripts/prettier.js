@@ -32,7 +32,8 @@ function main(...args) {
 			return () => {
 				options[key] = value;
 			};
-		} else {
+		}
+		else {
 			return (value) => {
 				options[key] = value;
 			};
@@ -105,19 +106,24 @@ function main(...args) {
 		Object.entries(OPTS).find(([option, callback]) => {
 			if (option.endsWith('=')) {
 				if (arg === option.slice(0, -1)) {
+
 					// eg. "--some-opt value"
 
 					const value = args[++i];
 
 					handler = callback.bind(null, value);
-				} else if (arg.startsWith(option)) {
+				}
+				else if (arg.startsWith(option)) {
+
 					// eg. "--some-opt=value"
 
 					const value = arg.slice(option.length);
 
 					handler = callback.bind(null, value);
 				}
-			} else if (arg === option) {
+			}
+			else if (arg === option) {
+
 				// eg. "--flag"
 
 				handler = callback;
@@ -128,16 +134,21 @@ function main(...args) {
 
 		if (handler) {
 			handler();
-		} else if (arg.startsWith('-')) {
+		}
+		else if (arg.startsWith('-')) {
+
 			// Unknown option, just ignore it.
-		} else if (isGlob(arg)) {
+
+		}
+		else if (isGlob(arg)) {
 			getPaths([arg], [], IGNORE_FILE).forEach((filepath) => {
 				files.push({
 					contents: null,
 					filepath,
 				});
 			});
-		} else {
+		}
+		else {
 			files.push({
 				contents: null,
 				filepath: arg,
@@ -148,6 +159,7 @@ function main(...args) {
 	const config = getMergedConfig('prettier');
 
 	if (options.stdin) {
+
 		// When `--stdin` is in effect, Prettier ignores file arguments
 		// and the `--write` option, requires --stdin-filepath, and
 		// prints the output to stdout.
@@ -181,13 +193,15 @@ function main(...args) {
 
 		if (isJSP(filepath)) {
 			contents = formatJSP(contents, prettierOptions);
-		} else {
+		}
+		else {
 			contents = format(contents, prettierOptions);
 		}
 
 		if (options.write) {
 			fs.writeFileSync(filepath, contents);
-		} else {
+		}
+		else {
 			write(contents);
 		}
 	});

@@ -32,7 +32,8 @@ module.exports = {
 						typeof argument.value === 'string'
 					) {
 						check(argument, argument.value);
-					} else if (
+					}
+					else if (
 						argument &&
 						argument.type === 'TemplateLiteral' &&
 						argument.expressions.length === 0 &&

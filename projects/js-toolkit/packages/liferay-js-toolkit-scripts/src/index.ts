@@ -68,7 +68,8 @@ export default async function main(): Promise<void> {
 			const {scriptFunction} = COMMANDS[script];
 
 			await scriptFunction();
-		} catch (err) {
+		}
+		catch (err) {
 			print(error`Script 'js-toolkit ${script}' failed:\n${err.stack}`);
 			process.exit(1);
 		}

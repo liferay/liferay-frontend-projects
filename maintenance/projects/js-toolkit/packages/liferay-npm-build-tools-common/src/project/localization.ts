@@ -42,6 +42,7 @@ export default class Localization {
 		);
 
 		if (absPath !== undefined) {
+
 			// Be lenient: remove trailing .properties if present
 
 			if (absPath.endsWith('.properties')) {
@@ -87,7 +88,8 @@ export default class Localization {
 				this._localeStringsMap[locale] = properties.parse(
 					fs.readFileSync(file.asNative).toString()
 				);
-			} else {
+			}
+			else {
 				this._localeStringsMap[locale] = {};
 			}
 		}

@@ -94,6 +94,7 @@ ruleTester.run('group-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: `MemberExpression` here was forcing a blank
 			// line between "gulp" and "os" imports.
 			//
@@ -108,6 +109,7 @@ ruleTester.run('group-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: Immediate `CallExpression` here was
 			// forcing a blank line between "gulp-load-plugins" and
 			// the following import.
@@ -126,6 +128,7 @@ ruleTester.run('group-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: input like this would cause:
 			//
 			//      TypeError: Cannot read property 'range' of null

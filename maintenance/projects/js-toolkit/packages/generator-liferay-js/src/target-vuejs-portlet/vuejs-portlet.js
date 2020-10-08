@@ -17,6 +17,7 @@ import dependenciesJson from './dependencies.json';
  * Implementation of generation of Vue.js portlets.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

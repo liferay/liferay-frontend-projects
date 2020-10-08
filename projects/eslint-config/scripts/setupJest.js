@@ -23,7 +23,8 @@ RuleTester.it = function (description, method) {
 		(match) => {
 			if (match === '\\u0009') {
 				return '\\t';
-			} else {
+			}
+			else {
 				return '\\n';
 			}
 		}

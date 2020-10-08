@@ -32,6 +32,7 @@ describe('getMergedConfig()', () => {
 				const getMergedConfig = require('../../src/utils/getMergedConfig');
 
 				jest.mock('../../src/utils/getUserConfig', () => {
+
 					// Example use case from dynamic-data-mapping-form-builder:
 					// blacklist the "react" preset in order to use the
 					// "incremental-dom" plug-in.

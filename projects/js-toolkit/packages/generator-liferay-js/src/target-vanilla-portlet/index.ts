@@ -11,6 +11,7 @@ import * as standardTarget from '../utils/target/standard';
  * Generator for vanilla JS portlets.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

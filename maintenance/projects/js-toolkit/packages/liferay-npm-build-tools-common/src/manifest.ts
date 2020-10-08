@@ -18,6 +18,7 @@ export {ModuleFlags, Package};
  * it to/from disk.
  */
 export default class Manifest {
+
 	/**
 	 * @param filePath an optional path to a file to load initial status
 	 */
@@ -32,7 +33,8 @@ export default class Manifest {
 				this._loadedFromFile = true;
 
 				return;
-			} catch (err) {
+			}
+			catch (err) {
 				if (err.code !== 'ENOENT') {
 					throw err;
 				}
@@ -119,6 +121,7 @@ export default class Manifest {
 	 * @return true if package is outdated
 	 */
 	isOutdated(destPkg: PkgDesc): boolean {
+
 		// Unless we use real timestamps or digests, we cannot detect reliably
 		// if the root package is outdated or up-to-date.
 
@@ -183,7 +186,8 @@ function sortObjectKeysReplacer(key, value) {
 
 				return sorted;
 			}, {});
-	} else {
+	}
+	else {
 		return value;
 	}
 }

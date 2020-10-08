@@ -157,7 +157,8 @@ function addManifest(zip: JSZip): void {
 				`(osgi.extender=liferay.frontend.js.portlet)` +
 				`(version>=${minimumExtenderVersion})` +
 				`)`;
-		} else {
+		}
+		else {
 			filter = `(osgi.extender=liferay.frontend.js.portlet)`;
 		}
 

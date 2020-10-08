@@ -90,7 +90,9 @@ function run(...subcommandAndArgs) {
 			break;
 
 		default:
+
 			// Pass-through.
+
 			break;
 	}
 

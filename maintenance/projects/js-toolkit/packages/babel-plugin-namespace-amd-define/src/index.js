@@ -49,7 +49,8 @@ export default function () {
 
 						firstDefineNamespaced = true;
 					}
-				} else {
+				}
+				else {
 					extraNamespaceCount++;
 				}
 			}
@@ -60,6 +61,7 @@ export default function () {
 		visitor: {
 			Program: {
 				exit(path, state) {
+
 					// We must traverse the AST again because the third party
 					// transform-es2015-modules-amd emits its define() call after
 					// Program exit :-(

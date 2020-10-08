@@ -18,7 +18,8 @@ function trim(string) {
 		(match, leadingNewline, trailingHorizontalWhitespace) => {
 			if (leadingNewline) {
 				prefix = leadingNewline;
-			} else if (trailingHorizontalWhitespace) {
+			}
+			else if (trailingHorizontalWhitespace) {
 				suffix = trailingHorizontalWhitespace;
 			}
 

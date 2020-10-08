@@ -17,7 +17,8 @@ function coalesceSnapshotVersions(versions) {
 
 			coalescedVersions[refVersion] = coalescedVersions[refVersion] || [];
 			coalescedVersions[refVersion].push(...versions[version]);
-		} else {
+		}
+		else {
 			coalescedVersions[version] = coalescedVersions[version] || [];
 			coalescedVersions[version].push(...versions[version]);
 		}

@@ -62,7 +62,8 @@ function explainError(error: Error, options: ExplainedErrorOptions): string {
 
 	if (error instanceof WebpackError) {
 		filePath = error['module'] && error['module']['userRequest'];
-	} else if (error instanceof SyntaxError) {
+	}
+	else if (error instanceof SyntaxError) {
 		line = error['loc']['line'];
 	}
 
@@ -72,7 +73,8 @@ function explainError(error: Error, options: ExplainedErrorOptions): string {
 		if (!sourceCode) {
 			sourceCode = fs.readFileSync(filePath).toString();
 		}
-	} else {
+	}
+	else {
 		filePath = '<unknown file>';
 	}
 

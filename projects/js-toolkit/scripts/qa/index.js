@@ -47,6 +47,7 @@ if (argv['install']) {
 }
 
 if (argv['deploy']) {
+
 	// Deploy liferay portlets
 
 	logStep('Deploying Liferay project samples');

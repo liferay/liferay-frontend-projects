@@ -16,6 +16,7 @@ import * as standardTarget from '../utils/target/standard';
  * Implementation of generation of plain JavaScript portlets.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */
@@ -58,7 +59,8 @@ export default class extends Generator {
 			pkgJson.addDevDependency('babel-preset-env', '1.7.0');
 			pkgJson.addBuildStep('babel --source-maps -d build src');
 			cp.copyFile('.babelrc');
-		} else {
+		}
+		else {
 			pkgJson.addBuildStep('npm run copy-sources');
 			pkgJson.addScript('copy-sources', 'lnbs-copy-sources');
 		}

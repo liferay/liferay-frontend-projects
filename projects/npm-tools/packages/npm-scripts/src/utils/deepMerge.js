@@ -19,9 +19,11 @@ function combineMerge(target, source, options) {
 			const cloneRequested = options.clone !== false;
 			const shouldClone = cloneRequested && options.isMergeableObject(e);
 			destination[i] = shouldClone ? clone(e, options) : e;
-		} else if (options.isMergeableObject(e)) {
+		}
+		else if (options.isMergeableObject(e)) {
 			destination[i] = merge(target[i], e, options);
-		} else if (target.indexOf(e) === -1) {
+		}
+		else if (target.indexOf(e) === -1) {
 			destination.push(e);
 		}
 	});
@@ -37,7 +39,9 @@ const overwriteMerge = (destinationArray, sourceArray) => sourceArray;
 function getItemDescription(item) {
 	try {
 		return JSON.stringify(item);
-	} catch (error) {
+	}
+	catch (error) {
+
 		// Could be a circular reference, but we're unlikely to ever get here
 		// because the deepmerge package itself will die first.
 
@@ -105,9 +109,11 @@ function checkBabelName(name, kind) {
 function getBabelName(item, kind) {
 	if (typeof item === 'string') {
 		return checkBabelName(item, kind);
-	} else if (Array.isArray(item) && typeof item[0] === 'string') {
+	}
+	else if (Array.isArray(item) && typeof item[0] === 'string') {
 		return checkBabelName(item[0], kind);
-	} else {
+	}
+	else {
 		throw new Error(
 			`getBabelName(): malformed item ${getItemDescription(item)}`
 		);
@@ -117,7 +123,8 @@ function getBabelName(item, kind) {
 function getBabelOptions(item) {
 	if (typeof item === 'string') {
 		return null;
-	} else if (Array.isArray(item)) {
+	}
+	else if (Array.isArray(item)) {
 		const options = item[1];
 
 		return options &&
@@ -125,7 +132,9 @@ function getBabelOptions(item) {
 			Object.keys(options).length
 			? options
 			: null;
-	} else {
+	}
+	else {
+
 		// We never expect to get here, but just in case...
 
 		throw new Error('getBabelOptions(): incompatible item type');
@@ -143,6 +152,7 @@ function babelMerge(key) {
 
 	if (kind === 'plugin' || kind === 'preset') {
 		return function (target, source, options) {
+
 			// Create a mutable copy of `source`.
 
 			const pending = source.slice();
@@ -167,7 +177,8 @@ function babelMerge(key) {
 					return Object.keys(mergedOptions).length
 						? [targetName, mergedOptions]
 						: targetName;
-				} else {
+				}
+				else {
 					const targetOptions = getBabelOptions(targetItem);
 
 					return targetOptions ? targetItem : targetName;
@@ -183,16 +194,19 @@ function babelMerge(key) {
 				})
 			);
 		};
-	} else {
+	}
+	else {
 		return function (target, source, options) {
 			if (Array.isArray(target) && Array.isArray(source)) {
 				return combineMerge(target, source, options);
-			} else if (
+			}
+			else if (
 				options.isMergeableObject(target) &&
 				options.isMergeableObject(source)
 			) {
 				return merge(target, source, options);
-			} else {
+			}
+			else {
 				throw new Error(
 					'babelMerge(): ' +
 						'Cannot merge without two mergeable objects: ' +

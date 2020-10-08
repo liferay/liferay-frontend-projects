@@ -39,7 +39,8 @@ export default function ({config, log, pkg, source}, {pkgJson}) {
 						defineCallOffset + defineCall.length,
 						funOffset
 					);
-				} else {
+				}
+				else {
 					defineCallLine = code.substring(
 						defineCallOffset + defineCall.length,
 						funOffset
@@ -122,7 +123,8 @@ function processModuleDependencies(
 				pkgJson.dependencies[scopedPkgName] = resolvedPkgJson.version;
 
 				injectedDeps[scopedPkgName] = resolvedPkgJson.version;
-			} catch (err) {
+			}
+			catch (err) {
 				failedDeps[dep] = err;
 			}
 		}
@@ -142,7 +144,8 @@ function removeModuleName(line) {
 			if (line[i] === inString) {
 				inString = false;
 			}
-		} else {
+		}
+		else {
 			switch (line[i]) {
 				case "'":
 				case '"':
@@ -155,6 +158,7 @@ function removeModuleName(line) {
 				default:
 
 				// Keep scanning.
+
 			}
 		}
 	}

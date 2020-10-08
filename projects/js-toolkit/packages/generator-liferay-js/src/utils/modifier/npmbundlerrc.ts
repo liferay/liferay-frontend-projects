@@ -11,6 +11,7 @@ import JsonModifier from '../JsonModifier';
  * A class to help modifying the .npmbundlerrc file.
  */
 export default class extends JsonModifier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */

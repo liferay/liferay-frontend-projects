@@ -22,6 +22,7 @@ export enum LogLevel {
  * Reflects miscellaneous project configuration values.
  */
 export default class Misc {
+
 	/**
 	 *
 	 * @param project
@@ -133,10 +134,12 @@ export default class Misc {
 			if (typeof dumpReport === 'boolean') {
 				if (dumpReport) {
 					dumpReport = LogLevel[LogLevel.info];
-				} else {
+				}
+				else {
 					dumpReport = LogLevel[LogLevel.off];
 				}
-			} else if (LogLevel[dumpReport] === undefined) {
+			}
+			else if (LogLevel[dumpReport] === undefined) {
 				print(
 					warn`Configuration value {dump-report} has invalid value: it will be ignored`
 				);

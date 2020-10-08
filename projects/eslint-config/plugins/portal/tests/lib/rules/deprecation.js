@@ -55,6 +55,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Shorthand version: 7.2 should be 7.2.x.
 
 			code: `
@@ -75,6 +76,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Missing comma.
 
 			code: `
@@ -95,6 +97,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Missing "direct".
 
 			code: `
@@ -115,6 +118,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Missing parentheses.
 
 			code: `
@@ -135,6 +139,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Bad capitalization.
 
 			code: `
@@ -155,6 +160,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Wrong conjunction ("From" instead of "As of"):
 
 			code: `
@@ -175,6 +181,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Wrong conjunction ("Since" instead of "As of"):
 
 			code: `
@@ -195,6 +202,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Bad whitespace.
 
 			code: `
@@ -215,6 +223,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Various things wrong at once.
 
 			code: `
@@ -235,6 +244,7 @@ ruleTester.run('deprecation', rule, {
 			`,
 		},
 		{
+
 			// Invalid because of unwanted trailer.
 
 			code: `
@@ -250,6 +260,7 @@ ruleTester.run('deprecation', rule, {
 			],
 		},
 		{
+
 			// Invalid because of missing trailer.
 
 			code: `
@@ -265,6 +276,7 @@ ruleTester.run('deprecation', rule, {
 			],
 		},
 		{
+
 			// Invalid because of non-standard conjunction:
 
 			code: `
@@ -280,6 +292,7 @@ ruleTester.run('deprecation', rule, {
 			],
 		},
 		{
+
 			// Invalid because name and version mismatch:
 
 			code: `
@@ -295,6 +308,7 @@ ruleTester.run('deprecation', rule, {
 			],
 		},
 		{
+
 			// Invalid because it is not multiline:
 
 			code: `

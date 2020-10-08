@@ -13,6 +13,7 @@ beforeEach(() => {
 	report = new Report();
 
 	// Hack to make tests repeatable
+
 	(report as any)._executionDate = new Date(0);
 });
 
@@ -57,6 +58,7 @@ describe('when describing the run', () => {
 });
 
 it('correctly dumps HTML report', () => {
+
 	// The goal of this test is to detect unwanted changes in HTML. If you make
 	// changes to the HTML on purpose, just check it visually and update the
 	// snapshot with Jest's -u switch.

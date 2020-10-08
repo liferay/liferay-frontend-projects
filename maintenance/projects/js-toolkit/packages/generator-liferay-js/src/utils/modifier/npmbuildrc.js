@@ -12,6 +12,7 @@ import JsonModifier from '../JsonModifier';
  * A class to help modifying the .npmbuildrc file.
  */
 export default class extends JsonModifier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */

@@ -125,7 +125,8 @@ module.exports = stylelint.createPlugin(
 								}
 							}
 						});
-					} else {
+					}
+					else {
 						stylelint.utils.report({
 							message: messages.single,
 							node: rule,

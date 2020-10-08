@@ -26,8 +26,11 @@ const debug = (line) => {
 		}
 
 		outputChannel.appendLine(line);
-	} catch (_error) {
+	}
+	catch (_error) {
+
 		// All hope is lost.
+
 	}
 };
 
@@ -46,7 +49,9 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.format(source, options);
-		} else {
+		}
+		else {
+
 			// Last-resort fallback.
 
 			return source;
@@ -58,7 +63,8 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.getFileInfo(filepath, options);
-		} else {
+		}
+		else {
 			return Promise.resolve({
 				ignored: false,
 				inferredParser: 'babel',
@@ -71,7 +77,9 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.getSupportInfo(version);
-		} else {
+		}
+		else {
+
 			// Fallback snapshot from current version of Prettier (1.19.1).
 			/* eslint-disable sort-keys */
 			return {
@@ -975,7 +983,8 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.resolveConfig(filepath, options);
-		} else {
+		}
+		else {
 			return Promise.resolve(null);
 		}
 	},
@@ -988,6 +997,7 @@ module.exports = {
  * checkout, otherwise returns null.
  */
 function getPortalRoot(filepath) {
+
 	// Walk up until we find portal-web (in the root).
 
 	let current = filepath;
@@ -1001,8 +1011,10 @@ function getPortalRoot(filepath) {
 			current = candidate;
 
 			break;
-		} else {
+		}
+		else {
 			if (parent === current) {
+
 				// Can't go any higher.
 
 				return null;
@@ -1016,7 +1028,8 @@ function getPortalRoot(filepath) {
 
 	if (fs.existsSync(path.join(current, 'docroot/WEB-INF/liferay-web.xml'))) {
 		return path.dirname(current);
-	} else {
+	}
+	else {
 		return null;
 	}
 }
@@ -1059,11 +1072,13 @@ function prepare(filepath) {
 		if (fs.existsSync(wrapper)) {
 			dir = scripts;
 			file = wrapper;
-		} else if (fs.existsSync(fallback)) {
+		}
+		else if (fs.existsSync(fallback)) {
 			dir = modules;
 			file = fallback;
 		}
-	} else {
+	}
+	else {
 		const extension = require('vscode').extensions.getExtension(
 			'esbenp.prettier-vscode'
 		);
@@ -1078,9 +1093,13 @@ function prepare(filepath) {
 
 		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 		prettier = require(file);
-	} catch (_error) {
+	}
+	catch (_error) {
+
 		// All hope is lost.
-	} finally {
+
+	}
+	finally {
 		process.chdir(cwd);
 	}
 

@@ -30,6 +30,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 	for (let i = matchers.length - 1; i >= 0; i--) {
 		if (matchers[i].negated) {
+
 			// Make a copy of the regular expression without the "negated" flag.
 
 			ignorers.unshift(getRegExpForGlob(matchGlobs[i].slice(1)));
@@ -101,7 +102,9 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 				if (!current.has(component)) {
 					if (j) {
 						current.set(component, new Map());
-					} else {
+					}
+					else {
+
 						// Mark the root with "true".
 
 						current.set(component, true);
@@ -136,7 +139,8 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 				if (trie === true) {
 					return;
-				} else if (!trie) {
+				}
+				else if (!trie) {
 					break;
 				}
 
@@ -149,6 +153,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 				const ignorer = ignorers[i];
 
 				if (ignored ^ ignorer.negated) {
+
 					// File is ignored, but ignorer is not a negation;
 					// or file is not ignored, and ignorer is a negation.
 
@@ -157,10 +162,13 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 				if (ignorer.test(file)) {
 					if (ignorer.negated) {
+
 						// File got unignored.
 
 						ignored = false;
-					} else {
+					}
+					else {
+
 						// File is provisionally ignored, for now.
 
 						ignored = true;
@@ -168,6 +176,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 				}
 
 				if (ignored && i >= lastNegationIndex) {
+
 					// File got definitively ignored.
 
 					return;
@@ -181,10 +190,12 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 			if (stat.isDirectory()) {
 				if (type === 'directory' && match()) {
 					results.push(file);
-				} else {
+				}
+				else {
 					traverse(file);
 				}
-			} else if (type === 'file' && match()) {
+			}
+			else if (type === 'file' && match()) {
 				results.push(file);
 			}
 		});

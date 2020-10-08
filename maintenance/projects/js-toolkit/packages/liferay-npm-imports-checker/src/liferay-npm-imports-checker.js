@@ -141,8 +141,11 @@ function loadProjects() {
 				};
 
 				_msg(1, pkgJsonDir);
-			} catch (err) {
+			}
+			catch (err) {
+
 				// Swallow.
+
 			}
 		});
 
@@ -256,7 +259,8 @@ function checkProjects(projects) {
 								pkgName
 							)} is not a dependency of imported project`
 						);
-					} else {
+					}
+					else {
 						if (semver.satisfies(srcVersion, version)) {
 							logOutcome(
 								results,
@@ -268,7 +272,8 @@ function checkProjects(projects) {
 									pkgName
 								)} version constraints match imported project`
 							);
-						} else {
+						}
+						else {
 							logOutcome(
 								results,
 								project.name,
@@ -311,7 +316,8 @@ function checkProjects(projects) {
 									}) doesn't match .npmbundlerrc version constraints (${version})`
 								);
 							}
-						} catch (err) {
+						}
+						catch (err) {
 							logOutcome(
 								null,
 								project.name,
@@ -325,7 +331,8 @@ function checkProjects(projects) {
 						}
 					}
 				});
-			} else {
+			}
+			else {
 				logOutcome(
 					results,
 					project.name,
@@ -429,7 +436,8 @@ function writeIgnores(results) {
 
 	try {
 		json = readJsonSync('.npmimportscheckrc');
-	} catch (err) {
+	}
+	catch (err) {
 		json = {};
 	}
 
@@ -475,7 +483,8 @@ function getDependencyVersion(project, pkgName) {
 		const {version} = pkgJson;
 
 		return version;
-	} catch (err) {
+	}
+	catch (err) {
 		return undefined;
 	}
 }

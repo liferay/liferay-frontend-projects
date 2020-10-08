@@ -50,15 +50,18 @@ function getRequireStatement(node) {
 				node.parent.parent.parent.type === 'VariableDeclaration'
 			) {
 				return node.parent.parent.parent;
-			} else if (node.parent.type === 'ExpressionStatement') {
+			}
+			else if (node.parent.type === 'ExpressionStatement') {
 				return node.parent;
-			} else if (
+			}
+			else if (
 				node.parent.type === 'MemberExpression' &&
 				node.parent.parent.type === 'VariableDeclarator' &&
 				node.parent.parent.parent.type === 'VariableDeclaration'
 			) {
 				return node.parent.parent.parent;
-			} else if (
+			}
+			else if (
 				node.parent.type === 'VariableDeclarator' &&
 				node.parent.parent.type === 'VariableDeclaration'
 			) {
@@ -71,25 +74,33 @@ function getRequireStatement(node) {
 function getSource(node) {
 	if (node.type === 'ImportDeclaration') {
 		return node.source.value;
-	} else if (node.type === 'VariableDeclaration') {
+	}
+	else if (node.type === 'VariableDeclaration') {
 		const init = node.declarations[0].init;
 
 		if (init.type === 'CallExpression') {
 			if (init.callee.type === 'CallExpression') {
+
 				// ie. `const ... = require('...')(...);
 
 				return init.callee.arguments[0].value;
-			} else {
+			}
+			else {
+
 				// ie. `const ... = require('...');`
 
 				return init.arguments[0].value;
 			}
-		} else if (init.type === 'MemberExpression') {
+		}
+		else if (init.type === 'MemberExpression') {
+
 			// ie. `const ... = require('...').thing;
 
 			return init.object.arguments[0].value;
 		}
-	} else if (node.type === 'ExpressionStatement') {
+	}
+	else if (node.type === 'ExpressionStatement') {
+
 		// ie. `require('...');`
 
 		return node.expression.arguments[0].value;
@@ -116,7 +127,9 @@ function getTrailingComments(node, context) {
 function hasSideEffects(node) {
 	if (node.type === 'ImportDeclaration') {
 		return node.specifiers.length === 0;
-	} else {
+	}
+	else {
+
 		// ie. a `require()` call.
 
 		return node.type === 'ExpressionStatement';

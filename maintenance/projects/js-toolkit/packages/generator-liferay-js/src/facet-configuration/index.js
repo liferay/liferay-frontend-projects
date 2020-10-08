@@ -16,6 +16,7 @@ import {DEFAULT_CONFIGURATION} from './constants';
  * Generator to add configuration support to projects.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

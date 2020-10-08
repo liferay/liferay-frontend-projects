@@ -11,6 +11,7 @@ const readJsonSync = require('read-json-sync');
 const {isToolkitDep, yarn, yarnLink} = require('./util');
 
 function linkDependencies(extraDependencies = []) {
+
 	// Read package.json
 
 	const pkgJson = readJsonSync(path.join('.', 'package.json'));
@@ -30,8 +31,11 @@ function linkDependencies(extraDependencies = []) {
 
 	try {
 		fs.mkdirSync('node_modules');
-	} catch (err) {
+	}
+	catch (err) {
+
 		// Do nothing.
+
 	}
 
 	const dirs = fs.readdirSync('node_modules').filter(isToolkitDep);
@@ -64,7 +68,8 @@ function linkDependencies(extraDependencies = []) {
 		});
 
 		yarn('install');
-	} finally {
+	}
+	finally {
 		fs.writeFileSync('package.json', JSON.stringify(pkgJson, null, 2));
 	}
 

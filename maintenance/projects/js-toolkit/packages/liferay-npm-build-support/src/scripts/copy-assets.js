@@ -24,7 +24,8 @@ export default function () {
 			if (err && err.message !== 'No files to copy') {
 				console.error(err);
 				process.exit(1);
-			} else {
+			}
+			else {
 				console.log('Project assets copied.');
 			}
 		}

@@ -15,6 +15,7 @@ it('makeNamespace works', () => {
 
 describe('when using regular packages', () => {
 	it('isNamespaced works', () => {
+
 		// Package alone
 
 		expect(ns.isNamespaced('a-package$b-package')).toBe(true);
@@ -28,6 +29,7 @@ describe('when using regular packages', () => {
 	});
 
 	it('getNamespace works', () => {
+
 		// Package alone
 
 		expect(ns.getNamespace('a-package$b-package')).toBe('a-package$');
@@ -43,6 +45,7 @@ describe('when using regular packages', () => {
 	});
 
 	it('addNamespace works', () => {
+
 		// Package alone
 
 		expect(ns.addNamespace('a-package$b-package', pkg)).toBe(
@@ -61,6 +64,7 @@ describe('when using regular packages', () => {
 	});
 
 	it('addNamespace throws if existing namespace and pkg do not match', () => {
+
 		// Package alone
 
 		expect(() => ns.addNamespace('other-package$b-package', pkg)).toThrow();
@@ -73,6 +77,7 @@ describe('when using regular packages', () => {
 	});
 
 	it('addNamespace does not throw when allowOverride is true', () => {
+
 		// Package alone
 
 		expect(
@@ -105,6 +110,7 @@ describe('when using regular packages', () => {
 	});
 
 	it('removeNamespace works', () => {
+
 		// Package alone
 
 		expect(ns.removeNamespace('a-package$b-package')).toBe('b-package');
@@ -126,6 +132,7 @@ describe('when using regular packages', () => {
 
 describe('when using scoped packages', () => {
 	it('isNamespaced works', () => {
+
 		// Scope alone
 
 		expect(ns.isNamespaced('@a-package$scope')).toBe(true);
@@ -148,6 +155,7 @@ describe('when using scoped packages', () => {
 	});
 
 	it('getNamespace works', () => {
+
 		// Package alone
 
 		expect(ns.getNamespace('@a-package$scope/b-package')).toBe(
@@ -167,6 +175,7 @@ describe('when using scoped packages', () => {
 	});
 
 	it('addNamespace works', () => {
+
 		// Scope alone
 
 		expect(ns.addNamespace('@a-package$scope', pkg)).toBe(
@@ -194,6 +203,7 @@ describe('when using scoped packages', () => {
 	});
 
 	it('addNamespace throws if existing namespace and pkg do not match', () => {
+
 		// Package alone
 
 		expect(() =>
@@ -208,6 +218,7 @@ describe('when using scoped packages', () => {
 	});
 
 	it('addNamespace does not throw when allowOverride is true', () => {
+
 		// Package alone
 
 		expect(
@@ -242,6 +253,7 @@ describe('when using scoped packages', () => {
 	});
 
 	it('removeNamespace works', () => {
+
 		// Scope alone
 
 		expect(ns.removeNamespace('@a-package$scope')).toBe('@scope');

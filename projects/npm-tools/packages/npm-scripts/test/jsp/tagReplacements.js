@@ -25,6 +25,7 @@ describe('getCloseTagReplacement()', () => {
 	});
 
 	it('degrades gracefully if passed an impossibly short tag', () => {
+
 		// Not a valid JSP tag anyway, but no matter what, we always produce a
 		// reversible replacement.
 
@@ -55,6 +56,7 @@ describe('getOpenTagReplacement()', () => {
 	});
 
 	it('degrades gracefully if passed an impossibly short tag', () => {
+
 		// Not a valid JSP tag anyway, but no matter what, we always produce a
 		// reversible replacement.
 
@@ -85,6 +87,7 @@ describe('getSelfClosingTagReplacement()', () => {
 	});
 
 	it('degrades gracefully if passed an impossibly short tag', () => {
+
 		// Not a valid JSP tag anyway, but no matter what, we always produce a
 		// reversible replacement.
 

@@ -172,6 +172,7 @@ describe('filterChangedFiles()', () => {
 		});
 
 		it('returns only changed files, unless it detects a @liferay/npm-scripts update', () => {
+
 			// Top-level.
 
 			let files = getFiles();

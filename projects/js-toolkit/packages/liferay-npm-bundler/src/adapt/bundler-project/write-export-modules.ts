@@ -28,7 +28,8 @@ export default async function writeExportModules(): Promise<void> {
 		Object.entries(project.exports).map(async ([id, moduleName]) => {
 			if (isLocalModule(moduleName)) {
 				await writeLocalExportModule(id, moduleName);
-			} else {
+			}
+			else {
 				await writeDependencyExportModule(id, moduleName);
 			}
 

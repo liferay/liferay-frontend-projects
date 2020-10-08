@@ -153,6 +153,7 @@ function generateLiferaySamples(configs) {
 
 function prepareManualProjects() {
 	['loaders'].forEach((prj) => {
+
 		// Change deploy directory
 
 		const npmbuildrcPath = path.join(packagesDir, prj, '.npmbuildrc');

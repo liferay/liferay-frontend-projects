@@ -18,6 +18,7 @@ reloadConfig();
  * @return {void}
  */
 export function reloadConfig() {
+
 	// Find project root path: uppermost folder with a .npmimportscheckrc file
 
 	let projectRootPath = path.resolve(process.cwd());
@@ -212,7 +213,8 @@ function safeReadJsonSync(filePath) {
 
 	try {
 		json = readJsonSync(filePath);
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code !== 'ENOENT') {
 			const msg = `(at ${filePath}) ${err.message}`;
 			err.message = msg;

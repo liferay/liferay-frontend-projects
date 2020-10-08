@@ -58,7 +58,8 @@ function run(command, ...args) {
 					`stderr: ${stderr}`
 				);
 				reject(new Error(`Command: "${invocation}" failed: ${err}`));
-			} else {
+			}
+			else {
 				resolve(stdout);
 			}
 		});
@@ -141,7 +142,8 @@ async function getChanges(from, to) {
 					});
 				}
 			}
-		} else {
+		}
+		else {
 			break;
 		}
 	}
@@ -186,6 +188,7 @@ async function getRemote(options) {
  * Escape `string` suitable for embedding in a Markdown document.
  */
 function escape(string) {
+
 	// At the moment, not escaping some special Markdown characters (such as *,
 	// backticks etc) as they may prove useful.
 
@@ -199,7 +202,8 @@ function escape(string) {
 function linkToComparison(from, to, remote) {
 	if (remote && from) {
 		return `[Full changelog](${remote}/compare/${from}...${to})`;
-	} else {
+	}
+	else {
 		return null;
 	}
 }
@@ -207,11 +211,13 @@ function linkToComparison(from, to, remote) {
 function linkToPullRequest(number, remote) {
 	if (isNaN(number)) {
 		return null;
-	} else if (remote) {
+	}
+	else if (remote) {
 		const url = `${remote}/pull/${number}`;
 
 		return `[\\#${number}](${url})`;
-	} else {
+	}
+	else {
 		return `#${number}`;
 	}
 }
@@ -219,7 +225,8 @@ function linkToPullRequest(number, remote) {
 function linkToVersion(version, remote) {
 	if (remote) {
 		return `[${version}](${remote}/tree/${version})`;
-	} else {
+	}
+	else {
 		return version;
 	}
 }
@@ -346,7 +353,8 @@ function printBanner(message) {
 					right +
 					'\n';
 			});
-		} else {
+		}
+		else {
 			banner += left + middle.repeat(width) + right + '\n';
 		}
 	});
@@ -379,7 +387,8 @@ function printUsage() {
 function option(name) {
 	if (name.endsWith('=')) {
 		return new RegExp(`^(?:--{1,2})${name}(.+)`);
-	} else {
+	}
+	else {
 		return new RegExp(`^(?:--{0,2})(?:${name})$`);
 	}
 }
@@ -433,10 +442,13 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 	let prefix = '';
 
 	if (versionTagPrefix) {
+
 		// We know the desired prefix (from the .yarnrc).
 
 		prefix = versionTagPrefix;
-	} else {
+	}
+	else {
+
 		// Try to guess the right prefix ("v" or nothing) based on existing
 		// tags.
 
@@ -461,7 +473,8 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 			warn(`Version "${version}" does not match expected pattern`);
 
 			return version;
-		} else {
+		}
+		else {
 			warn(
 				`Version "${version}" does not match expected pattern`,
 				'run again with --force to proceed anyway'
@@ -481,7 +494,8 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 				warn(
 					`Version "${version}" is missing expected "${prefix}" prefix`
 				);
-			} else {
+			}
+			else {
 				warn(
 					`Replacing unexpected "${name}${v}" prefix with expected "${prefix}" prefix in version "${version}"`,
 					'use --force to disable this coercion'
@@ -490,13 +504,15 @@ async function normalizeVersion(version, {force}, versionTagPrefix) {
 				return `${prefix}${semver}`;
 			}
 		}
-	} else {
+	}
+	else {
 		if (name || v) {
 			if (force) {
 				warn(
 					`Version "${version}" has unexpected "${name}${v}" prefix`
 				);
-			} else {
+			}
+			else {
 				warn(
 					`Removing unexpected "${name}${v}" prefix from "${version}"`,
 					'use --force to disable this coercion'
@@ -603,7 +619,8 @@ async function parseArgs(args) {
 			info(`Using phony version ${version} during --dry-run`);
 
 			options.version = version;
-		} else {
+		}
+		else {
 			error('Missing required option: --version; see --help for usage');
 
 			return null;
@@ -661,7 +678,8 @@ async function generate({date, from, remote, to, version}) {
 async function getVersionTagPrefix() {
 	try {
 		fs.accessSync('package.json', fs.constants.R_OK);
-	} catch (_error) {
+	}
+	catch (_error) {
 		throw new Error(
 			'Expected to run from a directory with a "package.json"'
 		);
@@ -693,8 +711,11 @@ async function getVersionTagPrefix() {
 			});
 
 			break;
-		} catch (_error) {
+		}
+		catch (_error) {
+
 			// No readable .yarnrc.
+
 		}
 	}
 
@@ -722,7 +743,8 @@ async function main(_node, _script, ...args) {
 		try {
 			info('Fetching remote tags: run with --no-update-tags to skip');
 			await git('remote', 'update');
-		} catch (err) {
+		}
+		catch (err) {
 			warn('Failed to update tags: run with --no-update-tags to skip');
 		}
 	}
@@ -757,7 +779,9 @@ async function main(_node, _script, ...args) {
 					from,
 					tagPattern
 				);
-			} catch (err) {
+			}
+			catch (err) {
+
 				// This will be the last chunk we generate.
 
 				info('No more tags found (this is not an error) 🦄');
@@ -778,15 +802,18 @@ async function main(_node, _script, ...args) {
 
 		if (options.dryRun) {
 			process.stdout.write(contents + '\n');
-		} else {
+		}
+		else {
 			await writeFileAsync(outfile, contents);
 		}
 		written = contents.length;
-	} else {
+	}
+	else {
 		let previousContents = '';
 		try {
 			previousContents = await readFileAsync(outfile, 'utf8');
-		} catch (error) {
+		}
+		catch (error) {
 			warn(`Cannot read previous file ${outfile}; will create anew.`);
 		}
 
@@ -797,7 +824,8 @@ async function main(_node, _script, ...args) {
 			];
 			if (options.force) {
 				warn(...message);
-			} else {
+			}
+			else {
 				error(
 					...message,
 					'Alternatively, proceed anyway by using the --force switch.'
@@ -812,7 +840,8 @@ async function main(_node, _script, ...args) {
 
 		if (options.dryRun) {
 			process.stdout.write(contents + '\n');
-		} else {
+		}
+		else {
 			await writeFileAsync(outfile, newContents);
 		}
 
@@ -821,7 +850,8 @@ async function main(_node, _script, ...args) {
 
 	if (options.dryRun) {
 		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
-	} else {
+	}
+	else {
 		info(`Wrote ${outfile} ${written} bytes ✨`);
 	}
 }

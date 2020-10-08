@@ -340,7 +340,8 @@ function htmlTable(...args: unknown[]): string {
 				${content}
 			</table>
 		`;
-	} else {
+	}
+	else {
 		return `
 			<table>
 				${htmlRow(columns.map((column) => `<th>${column}</th>`))}

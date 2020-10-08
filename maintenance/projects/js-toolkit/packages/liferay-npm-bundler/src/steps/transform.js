@@ -98,7 +98,8 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
 								'details of bundler transformations.',
 							{unique: true}
 						);
-					} else if (log.warnsPresent) {
+					}
+					else if (log.warnsPresent) {
 						report.warn(
 							'There are warnings for some of the ' +
 								'liferay-npm-bundler plugins: please check ' +
@@ -115,7 +116,8 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
 			);
 
 			resolve();
-		} catch (err) {
+		}
+		catch (err) {
 			reject(err);
 		}
 	});
@@ -127,6 +129,7 @@ function runBundlerPlugins(phase, srcPkg, destPkg) {
  * @return {Promise} a Promise fulfilled when the process has been finished
  */
 function babelifyPackage(destPkg) {
+
 	// Make a copy of the package's Babel configuration
 
 	const babelConfig = clone(project.transform.getBabelConfig(destPkg));
@@ -208,6 +211,7 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 				...babelConfig,
 			},
 			(err, result) => {
+
 				// Generate and/or log results
 
 				if (err) {
@@ -218,7 +222,8 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 							'check details of Babel transformations for more info.',
 						{unique: true}
 					);
-				} else {
+				}
+				else {
 					const fileName = path.basename(fileAbsPath);
 
 					fs.writeFileSync(
@@ -244,7 +249,8 @@ function babelifyFile(destPkg, prjRelPath, babelConfig) {
 							'of Babel transformations.',
 						{unique: true}
 					);
-				} else if (logger.warnsPresent) {
+				}
+				else if (logger.warnsPresent) {
 					report.warn(
 						'There are warnings for some of the ' +
 							'Babel plugins: please check details ' +
@@ -301,15 +307,19 @@ export function loadSourceMap(filePath) {
 				return JSON.parse(body.toString());
 			}
 		}
-	} else {
+	}
+	else {
 		const sourceMapFile = path.normalize(
 			path.join(path.dirname(filePath), url)
 		);
 
 		try {
 			return readJsonSync(sourceMapFile);
-		} catch (err) {
+		}
+		catch (err) {
+
 			// Swallow.
+
 		}
 	}
 

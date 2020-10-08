@@ -124,7 +124,8 @@ function normalize(cfg, propPath, value): void {
 function safeReadJsonSync(path): object {
 	try {
 		return readJsonSync(path);
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code !== 'ENOENT') {
 			throw err;
 		}

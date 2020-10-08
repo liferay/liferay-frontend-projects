@@ -608,7 +608,8 @@ function lex(source, options = {}) {
 				);
 
 				return token('JSP_COMMENT', text);
-			} else if (peek(JSP_DIRECTIVE_START)) {
+			}
+			else if (peek(JSP_DIRECTIVE_START)) {
 				let text = consume(JSP_DIRECTIVE_START, maybe(SPACE));
 
 				if (peek('include')) {
@@ -619,7 +620,8 @@ function lex(source, options = {}) {
 						EQ,
 						ATTRIBUTE_VALUE
 					);
-				} else if (peek('page')) {
+				}
+				else if (peek('page')) {
 					text += consume(
 						match('page'),
 						repeat(
@@ -658,7 +660,8 @@ function lex(source, options = {}) {
 							)
 						)
 					);
-				} else if (peek('taglib')) {
+				}
+				else if (peek('taglib')) {
 					text += consume(
 						match('taglib'),
 						allOf(
@@ -684,51 +687,60 @@ function lex(source, options = {}) {
 							)
 						)
 					);
-				} else {
+				}
+				else {
 					fail('Failed to find valid JSP directive attribute');
 				}
 
 				text += consume(maybe(SPACE), JSP_DIRECTIVE_END);
 
 				return token('JSP_DIRECTIVE', text);
-			} else if (peek(JSP_DECLARATION_START)) {
+			}
+			else if (peek(JSP_DECLARATION_START)) {
 				const text = consume(
 					JSP_DECLARATION_START,
 					CHAR.to(JSP_DECLARATION_END)
 				);
 
 				return token('JSP_DECLARATION', text);
-			} else if (peek(JSP_EXPRESSION_START)) {
+			}
+			else if (peek(JSP_EXPRESSION_START)) {
 				const text = consume(
 					JSP_EXPRESSION_START,
 					CHAR.to(JSP_EXPRESSION_END)
 				);
 
 				return token('JSP_EXPRESSION', text);
-			} else if (peek(JSP_SCRIPTLET_START)) {
+			}
+			else if (peek(JSP_SCRIPTLET_START)) {
 				const text = consume(
 					JSP_SCRIPTLET_START,
 					CHAR.to(JSP_SCRIPTLET_END)
 				);
 
 				return token('JSP_SCRIPTLET', text);
-			} else if (peek(EL_EXPRESSION_START) && meta.get('ELEnabled')) {
+			}
+			else if (peek(EL_EXPRESSION_START) && meta.get('ELEnabled')) {
 				const text = consume(EL_EXPRESSION);
 
 				return token('EL_EXPRESSION', text);
-			} else if (peek(PORTLET_NAMESPACE)) {
+			}
+			else if (peek(PORTLET_NAMESPACE)) {
+
 				// This one is a special case of "CustomAction" for liferay-portal.
 
 				const text = consume(PORTLET_NAMESPACE);
 
 				return token('PORTLET_NAMESPACE', text);
-			} else if (peek(CUSTOM_ACTION_END, CUSTOM_ACTION)) {
+			}
+			else if (peek(CUSTOM_ACTION_END, CUSTOM_ACTION)) {
 				let text = consume();
 
 				text += consume(maybe(SPACE), match('>'));
 
 				return token('CUSTOM_ACTION_END', text);
-			} else if (peek(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES)) {
+			}
+			else if (peek(CUSTOM_ACTION_START, CUSTOM_ACTION, ATTRIBUTES)) {
 				let text = consume();
 
 				// TODO: consider making this a stack
@@ -751,18 +763,22 @@ function lex(source, options = {}) {
 					text += consume();
 
 					return token('CUSTOM_ACTION', text);
-				} else {
+				}
+				else {
+
 					// Will continue tokenizing next time around.
 
 					text += consume(match('>'));
 
 					return token('CUSTOM_ACTION_START', text);
 				}
-			} else if (peek(TEMPLATE_TEXT)) {
+			}
+			else if (peek(TEMPLATE_TEXT)) {
 				const text = consume(TEMPLATE_TEXT);
 
 				return token('TEMPLATE_TEXT', text);
-			} else {
+			}
+			else {
 				fail('Failed to consume all input');
 			}
 		};

@@ -73,7 +73,8 @@ function buildWith(script, args = []) {
 		});
 
 		runNodeModulesBin('liferay-npm-bundler');
-	} finally {
+	}
+	finally {
 		fs.removeSync(scrLiferayDir.asNative);
 	}
 }

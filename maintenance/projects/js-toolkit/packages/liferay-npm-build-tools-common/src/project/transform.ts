@@ -38,6 +38,7 @@ export default class Transform {
 	 * @return a Map where keys are package names
 	 */
 	get versionsInfo(): Map<string, VersionInfo> {
+
 		// TODO: move copy plugin version info to its proper module
 
 		if (this._versionsInfo === undefined) {
@@ -127,7 +128,8 @@ export default class Transform {
 
 					try {
 						presetModule = _project.toolRequire(preset);
-					} catch (err) {
+					}
+					catch (err) {
 						presetModule = _project.toolRequire(
 							`babel-preset-${preset}`
 						);
@@ -148,7 +150,8 @@ export default class Transform {
 					if (Array.isArray(pluginConfig)) {
 						pluginName = pluginConfig[0];
 						pluginOptions = pluginConfig[1];
-					} else {
+					}
+					else {
 						pluginName = pluginConfig;
 						pluginOptions = undefined;
 					}
@@ -157,7 +160,8 @@ export default class Transform {
 
 					try {
 						pluginModule = _project.toolRequire(pluginName);
-					} catch (err) {
+					}
+					catch (err) {
 						pluginModule = _project.toolRequire(
 							`babel-plugin-${pluginName}`
 						);
@@ -242,7 +246,8 @@ export default class Transform {
 						_project.toolRequire(name);
 
 						return name;
-					} catch (err) {
+					}
+					catch (err) {
 						return `babel-preset-${name}`;
 					}
 				})
@@ -260,7 +265,8 @@ export default class Transform {
 						_project.toolRequire(name);
 
 						return name;
-					} catch (err) {
+					}
+					catch (err) {
 						return `babel-plugin-${name}`;
 					}
 				})
@@ -283,7 +289,8 @@ export default class Transform {
 
 				if (splitModuleName(name)['modulePath']) {
 					return name;
-				} else {
+				}
+				else {
 					return `liferay-npm-bundler-plugin-${name}`;
 				}
 			})

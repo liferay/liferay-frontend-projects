@@ -15,6 +15,7 @@ import PluginLogger from 'liferay-npm-build-tools-common/lib/plugin-logger';
  */
 export default function ({types: t}) {
 	const amdDefineVisitor = {
+
 		/**
 		 * This is the visitor responsible of namespacing define() calls.
 		 *
@@ -108,6 +109,7 @@ export default function ({types: t}) {
 		},
 	};
 	const amdRequireVisitor = {
+
 		/**
 		 * This is the visitor responsible of namespacing require() calls.
 		 *
@@ -179,6 +181,7 @@ export default function ({types: t}) {
 		visitor: {
 			Program: {
 				enter(path, state) {
+
 					// Prepare configuration
 
 					const ownPkgJson = getOwnPkgJson(state);
@@ -220,6 +223,7 @@ export default function ({types: t}) {
 					state.requiresCount = 0;
 				},
 				exit(path, state) {
+
 					// We must traverse the AST again because the
 					// transform-es2015-modules-amd plugin emits its define()
 					// call after exiting Program node :-(
@@ -311,7 +315,8 @@ function getDefineIndices(t, args) {
 		case 2:
 			if (t.isStringLiteral(args[0])) {
 				nameIndex = 0;
-			} else if (t.isArrayExpression(args[0])) {
+			}
+			else if (t.isArrayExpression(args[0])) {
 				depsIndex = 0;
 			}
 			factoryIndex = 1;

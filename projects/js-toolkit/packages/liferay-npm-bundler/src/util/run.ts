@@ -17,7 +17,8 @@ export function runNodeModulesBin(script: string, args: string[] = []): void {
 		throw new Error(
 			`Node modules binary '${script}' finished with status ${result.status}`
 		);
-	} else if (result.signal) {
+	}
+	else if (result.signal) {
 		throw new Error(
 			`Node modules binary '${script}' finished due to signal ${result.signal}`
 		);
@@ -31,7 +32,8 @@ export function runPkgJsonScript(script: string, args: string[] = []): void {
 		throw new Error(
 			`Package script '${script}' finished with status ${proc.status}`
 		);
-	} else if (proc.signal) {
+	}
+	else if (proc.signal) {
 		throw new Error(
 			`Package script '${script}' finished due to signal ${proc.signal}`
 		);

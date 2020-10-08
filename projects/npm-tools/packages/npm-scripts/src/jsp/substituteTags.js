@@ -45,9 +45,12 @@ function substituteTags(source) {
 
 		if (name === 'CUSTOM_ACTION') {
 			output += getSelfClosingTagReplacement(contents);
-		} else if (name === 'CUSTOM_ACTION_END') {
+		}
+		else if (name === 'CUSTOM_ACTION_END') {
 			output += getCloseTagReplacement(contents);
-		} else if (name === 'CUSTOM_ACTION_START') {
+		}
+		else if (name === 'CUSTOM_ACTION_START') {
+
 			// Special case 1: scan ahead to detect actions that have no
 			// non-whitespace children.
 
@@ -74,16 +77,19 @@ function substituteTags(source) {
 					) {
 						last = true;
 					}
-				} else if (token.name === 'CUSTOM_ACTION') {
+				}
+				else if (token.name === 'CUSTOM_ACTION') {
 					outer += token.contents;
-				} else if (
+				}
+				else if (
 					token.name === 'CUSTOM_ACTION_END' &&
 					text.match(/^\s+$/)
 				) {
 					outer += token.contents;
 					comment = true;
 					break;
-				} else {
+				}
+				else {
 					break;
 				}
 
@@ -94,27 +100,37 @@ function substituteTags(source) {
 				tags[tags.length - 1] = outer;
 				output += toFiller(outer);
 				i = j;
-			} else {
+			}
+			else {
 				output += getOpenTagReplacement(contents, !!last);
 			}
-		} else if (name === 'EL_EXPRESSION') {
+		}
+		else if (name === 'EL_EXPRESSION') {
 			output += getPaddedReplacement(contents, `EL_${expressionCount++}`);
-		} else if (name === 'JSP_COMMENT') {
+		}
+		else if (name === 'JSP_COMMENT') {
 			output += toFiller(contents);
-		} else if (name === 'JSP_DECLARATION') {
+		}
+		else if (name === 'JSP_DECLARATION') {
 			output += toFiller(contents);
-		} else if (name === 'JSP_DIRECTIVE') {
+		}
+		else if (name === 'JSP_DIRECTIVE') {
 			output += toFiller(contents);
-		} else if (name === 'JSP_EXPRESSION') {
+		}
+		else if (name === 'JSP_EXPRESSION') {
 			output += getPaddedReplacement(contents, 'JSP_EXPR');
-		} else if (name === 'JSP_SCRIPTLET') {
+		}
+		else if (name === 'JSP_SCRIPTLET') {
 			output += toFiller(contents, SCRIPTLET_CONTENT);
-		} else if (name === 'PORTLET_NAMESPACE') {
+		}
+		else if (name === 'PORTLET_NAMESPACE') {
 			output += getPaddedReplacement(contents, 'PORTLET_NAMESPACE');
-		} else if (name === 'TEMPLATE_TEXT') {
+		}
+		else if (name === 'TEMPLATE_TEXT') {
 			tags.pop();
 			output += contents;
-		} else {
+		}
+		else {
 			throw new Error(`Unexpected token: ${name}`);
 		}
 	}

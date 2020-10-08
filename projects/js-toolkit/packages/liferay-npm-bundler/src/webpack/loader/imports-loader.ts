@@ -19,6 +19,7 @@ import transformImports from '../../transform/js/operation/transformImports';
  * @param content module's source code
  */
 export default function (content: string): void {
+
 	//
 	// Note that this is a webpack loader and its structure is constrained by
 	// Webpack's API (https://webpack.js.org/api/loaders/#asynchronous-loaders)
@@ -85,7 +86,8 @@ async function asyncTransform(
 		);
 
 		content = code;
-	} catch (err) {
+	}
+	catch (err) {
 		log.error(`File could not be parsed`, err);
 	}
 

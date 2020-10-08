@@ -53,19 +53,22 @@ function patch() {
 			resolver.resolve = function (id, ...rest) {
 				if (localPlugins.has(id)) {
 					return localPlugins.get(id);
-				} else {
+				}
+				else {
 					return originalResolve.call(resolver, id, ...rest);
 				}
 			};
 		}
-	} else {
+	}
+	else {
 		if (!originalRequire) {
 			originalRequire = Module.prototype.require;
 
 			Module.prototype.require = function (id) {
 				if (localPlugins.has(id)) {
 					return originalRequire.call(this, localPlugins.get(id));
-				} else {
+				}
+				else {
 					return originalRequire.call(this, id);
 				}
 			};

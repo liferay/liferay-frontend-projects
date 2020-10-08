@@ -14,6 +14,7 @@ const DEFAULT_CONNECT_OPTIONS = {
  *
  */
 export default class extends Socket {
+
 	/**
 	 * @param {boolean} debug set to true to dump transmited data
 	 */
@@ -56,6 +57,7 @@ export default class extends Socket {
 	 */
 	sendCommand(command, ...args) {
 		return new Promise((resolve, reject) => {
+
 			// Signal error if command is on its way
 
 			if (this._active) {
@@ -104,6 +106,7 @@ export default class extends Socket {
 	 * and running.
 	 */
 	_onConnect() {
+
 		// Emit ready event on first prompt
 
 		this.once('prompt', () => this.emit('ready'));

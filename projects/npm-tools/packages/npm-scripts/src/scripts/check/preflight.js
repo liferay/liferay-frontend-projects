@@ -22,6 +22,7 @@ const STYLELINT_CONFIG_FILE_NAME = '.stylelintrc.js';
 /* eslint-disable sort-keys */
 
 const DISALLOWED_CONFIG_FILE_NAMES = {
+
 	// https://babeljs.io/docs/en/config-files/
 
 	'.babelrc': BABEL_CONFIG_FILE_NAME,
@@ -130,7 +131,8 @@ function checkPackageJSONFiles() {
 						}
 					});
 				});
-			} catch (error) {
+			}
+			catch (error) {
 				errors.push(
 					`${pkg}: BAD - error thrown during checks: ${error}`
 				);

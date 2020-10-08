@@ -112,7 +112,8 @@ function runLoaders(loaders, firstLoaderIndex, context) {
 		transformContents(true, context, encoding);
 
 		result = loader.exec(context, loader.options);
-	} catch (err) {
+	}
+	catch (err) {
 		err.message = `Loader '${loader.use}' failed: ${err.message}`;
 		throw err;
 	}
@@ -157,12 +158,14 @@ export function transformContents(beforeInvocation, context, encoding) {
 				extraArtifacts[key] = extraArtifacts[key].toString(encoding);
 			}
 		});
-	} else if (encoding === null) {
+	}
+	else if (encoding === null) {
 		assertBuffer(context, 'content', filePath);
 		Object.keys(extraArtifacts).forEach((key) => {
 			assertBuffer(extraArtifacts, key, `extra artifact ${key}`);
 		});
-	} else {
+	}
+	else {
 		assertString(context, 'content', filePath);
 		Object.keys(extraArtifacts).forEach((key) => {
 			assertString(extraArtifacts, key, `extra artifact ${key}`);

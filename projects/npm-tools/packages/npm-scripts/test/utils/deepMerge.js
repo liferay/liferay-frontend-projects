@@ -7,6 +7,7 @@ const deepMerge = require('../../src/utils/deepMerge');
 
 describe('deepMerge()', () => {
 	it('uses the "DEFAULT" mode by default', () => {
+
 		// DEFAULT mode concatenates arrays.
 
 		expect(deepMerge([[1], [2]])).toEqual([1, 2]);
@@ -193,6 +194,7 @@ describe('deepMerge()', () => {
 		});
 
 		it('merges presets correctly as well', () => {
+
 			// Just a smoke test here, because it is powered by the exact same
 			// code that's exercised in all the "plugins" tests above.
 
@@ -290,6 +292,7 @@ describe('deepMerge()', () => {
 		});
 
 		it("doesn't break when a stale .babelrc.js file is left on disk", () => {
+
 			// This is the original project-local .babelrc.js config.
 
 			const project = {
@@ -400,6 +403,7 @@ describe('deepMerge()', () => {
 		});
 
 		it('complains about non-canonical "@babel/foo"', () => {
+
 			// Note that this one is the odd one out in the sense that
 			// Babel does understand both "@babel/preset-foo" and
 			// "@babel/foo", but in the docs it recommends the long-hand

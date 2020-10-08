@@ -7,6 +7,7 @@
  * A class to help modifying the .gitignore file.
  */
 export default class {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */

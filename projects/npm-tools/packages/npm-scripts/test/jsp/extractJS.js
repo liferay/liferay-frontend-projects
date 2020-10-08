@@ -79,6 +79,7 @@ describe('extractJS()', () => {
 	});
 
 	it('extracts one-line "<script>" tags', () => {
+
 		// Testing an edge-case in the `range` arithemetic.
 
 		const blocks = extractJS("<script>alert('Hello');</script>");
@@ -114,6 +115,7 @@ describe('extractJS()', () => {
 	});
 
 	it('does not extract non-JavaScript scripts', () => {
+
 		// (Abbreviated) example taken from:
 		// https://github.com/liferay/liferay-portal/blob/44c1be7f1725ca00e9/modules/apps/calendar/calendar-web/src/main/resources/META-INF/resources/event_recorder.jspf
 
@@ -155,6 +157,7 @@ describe('extractJS()', () => {
 	});
 
 	it('extracts blocks from test fixture', async () => {
+
 		// This is the test fixture from the check-source-formatting package.
 
 		const source = await getFixture('jsp/page.jsp');

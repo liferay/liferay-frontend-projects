@@ -31,7 +31,8 @@ Object.values(depVersions[dep]).forEach((prjs) => {
 
 		if (pkgJson.dependencies && pkgJson.dependencies[dep]) {
 			pkgJson.dependencies[dep] = version;
-		} else if (pkgJson.devDependencies && pkgJson.devDependencies[dep]) {
+		}
+		else if (pkgJson.devDependencies && pkgJson.devDependencies[dep]) {
 			pkgJson.devDependencies[dep] = version;
 		}
 

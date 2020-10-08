@@ -60,6 +60,7 @@ export function transformPreferences(project, preferencesJson) {
  */
 function getPredefinedValue(project, props) {
 	if (props.options) {
+
 		// DDM uses JSON inside a JSON, so we do this to make sure this code is
 		// maintenable and doesn't break anything
 

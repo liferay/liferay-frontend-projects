@@ -35,17 +35,20 @@ module.exports = {
 			let stripped;
 
 			if (node.type === 'TemplateLiteral' && node.quasis.length === 1) {
+
 				// Only deal with template literals if they are static (ie. no
 				// interpolation).
 
 				delimiter = '`';
 				original = node.quasis[0].value.raw;
 				stripped = stripExtension(original);
-			} else if (node.type === 'Literal') {
+			}
+			else if (node.type === 'Literal') {
 				delimiter = node.raw[0];
 				original = node.value;
 				stripped = stripExtension(original);
-			} else {
+			}
+			else {
 				return;
 			}
 
@@ -75,7 +78,8 @@ module.exports = {
 					node.arguments[0].type === 'TemplateLiteral')
 			) {
 				fix(node.arguments[0], 'badRequire');
-			} else if (
+			}
+			else if (
 				(node.type === 'ExportNamedDeclaration' ||
 					node.type === 'ExportAllDeclaration') &&
 				node.source &&
@@ -83,7 +87,8 @@ module.exports = {
 					node.source.type === 'TemplateLiteral')
 			) {
 				fix(node.source, 'badExport');
-			} else if (
+			}
+			else if (
 				node.type === 'ImportDeclaration' &&
 				(node.source.type === 'Literal' ||
 					node.source.type === 'TemplateLiteral')

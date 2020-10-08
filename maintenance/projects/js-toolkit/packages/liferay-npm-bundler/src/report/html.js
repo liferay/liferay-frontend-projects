@@ -562,7 +562,8 @@ function htmlTable(...args) {
 				${content}
 			</table>
 		`;
-	} else {
+	}
+	else {
 		return `
 			<table>
 				${htmlRow(columns.map((column) => `<th>${column}</th>`))}
@@ -630,7 +631,8 @@ function htmlLogOutput(
 						.join(' ')}
 				`)
 			);
-		} else {
+		}
+		else {
 			msgs.sort(
 				(a, b) =>
 					(LOG_LEVEL_SORT[a.level] || 999) -

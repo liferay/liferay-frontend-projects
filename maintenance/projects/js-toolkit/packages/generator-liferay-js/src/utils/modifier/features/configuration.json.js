@@ -12,6 +12,7 @@ import ProjectAnalyzer from '../../ProjectAnalyzer';
  * A class to help modifying the configuration.json file.
  */
 export default class ConfigurationJsonModifier extends JsonModifier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */

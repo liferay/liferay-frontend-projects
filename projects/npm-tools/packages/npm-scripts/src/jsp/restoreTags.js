@@ -82,7 +82,8 @@ function restoreTags(source, tags) {
 					if (delta < 0) {
 						output = removeIndent(output, token, -delta);
 						output += indent.slice(-delta) + contents;
-					} else {
+					}
+					else {
 						output += indent + contents;
 					}
 
@@ -184,6 +185,7 @@ function appendScriptlet(scriptlet, token, output) {
 	};
 
 	if (!tokens[-1]) {
+
 		// SCRIPTLET is the very first thing in the script block.
 
 		prefix = '\n';
@@ -195,6 +197,7 @@ function appendScriptlet(scriptlet, token, output) {
 		tokens[-2] &&
 		tokens[-2].name !== 'NEWLINE'
 	) {
+
 		// Need to add another newline to force a blank line.
 
 		prefix = '\n';
@@ -208,6 +211,7 @@ function appendScriptlet(scriptlet, token, output) {
 		tokens[-3] &&
 		tokens[-3].name !== 'NEWLINE'
 	) {
+
 		// Trim off WHITESPACE.
 		//
 		// Note: cannot use `tokens[-1].index` here because it may have been
@@ -231,6 +235,7 @@ function appendScriptlet(scriptlet, token, output) {
 	}
 
 	if (tokens[1] && tokens[1].name === 'NEWLINE' && !tokens[2]) {
+
 		// Scriptlet is (basically) the last thing in the script block.
 
 		suffix = '\n';
@@ -275,9 +280,11 @@ function getIndentedTag(tag, token) {
 
 	if (name === 'WHITESPACE') {
 		previous = contents;
-	} else if (name === 'NEWLINE') {
+	}
+	else if (name === 'NEWLINE') {
 		previous = '';
-	} else {
+	}
+	else {
 		return tag;
 	}
 
@@ -304,6 +311,7 @@ function getIndentedTag(tag, token) {
 	const lines = token.contents.split(/\r?\n/g);
 
 	if (lines.length > 1) {
+
 		// Look at last line to figure out original indent.
 
 		const last = lines.pop();
@@ -335,7 +343,8 @@ function getImpliedIndentFromScriptlet(tag) {
 	tag.replace(/[{}]/g, ([brace]) => {
 		if (brace === '}') {
 			delta--;
-		} else {
+		}
+		else {
 			delta++;
 		}
 	});
@@ -350,6 +359,7 @@ function removeIndent(output, token, count = 1) {
 		token.previous.previous &&
 		token.previous.previous.name === 'NEWLINE'
 	) {
+
 		// We already emitted too much indent; roll it back.
 
 		return output.replace(

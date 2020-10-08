@@ -19,6 +19,7 @@ const {runNodeBin, yarn} = require('./util/run');
  * @return true if the file/dir must be watched
  */
 function filterStaticFiles(filename) {
+
 	// Only watch things under 'packages'
 
 	if (filename !== 'packages' && !filename.startsWith('packages/')) {
@@ -75,9 +76,13 @@ watch.watchTree(
 				Object.keys(filename).length,
 				'static files/directories'
 			);
-		} else if (curr.nlink === 0) {
+		}
+		else if (curr.nlink === 0) {
+
 			// Removed file
-		} else {
+
+		}
+		else {
 			const parts = filename.split(path.sep);
 
 			console.log(

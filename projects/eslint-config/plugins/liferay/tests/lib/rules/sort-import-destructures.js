@@ -45,6 +45,7 @@ ruleTester.run('sort-import-destructures', rule, {
 			output: `import thing, {h, j, k} from 'c';`,
 		},
 		{
+
 			// Same as previous, but with line breaks.
 
 			code: `
@@ -68,6 +69,7 @@ ruleTester.run('sort-import-destructures', rule, {
 			`,
 		},
 		{
+
 			// Note that trailing commas are preserved.
 
 			code: `
@@ -109,6 +111,7 @@ ruleTester.run('sort-import-destructures', rule, {
 			code: `import thing, {h, j, k} from 'c';`,
 		},
 		{
+
 			// We don't touch the sort order if there are comments anywhere.
 
 			code: `
@@ -131,6 +134,7 @@ ruleTester.run('sort-import-destructures', rule, {
 			`,
 		},
 		{
+
 			// Regression test. This was being incorrectly flagged as unsorted.
 
 			code: `

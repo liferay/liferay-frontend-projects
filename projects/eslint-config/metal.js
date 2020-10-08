@@ -9,6 +9,7 @@ const config = {
 	extends: [require.resolve('./react')],
 	plugins: ['react'],
 	rules: {
+
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react
 		 */

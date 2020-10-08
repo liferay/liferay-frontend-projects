@@ -40,7 +40,8 @@ function withTempFile(filename, content, callback) {
 
 	try {
 		callback(tempFilePath);
-	} finally {
+	}
+	finally {
 		dispose();
 	}
 }

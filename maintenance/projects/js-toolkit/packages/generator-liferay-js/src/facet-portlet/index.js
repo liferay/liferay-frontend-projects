@@ -16,6 +16,7 @@ import PkgJsonModifier from '../utils/modifier/package.json';
  * Generator to add portlet support to projects.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */
@@ -76,6 +77,7 @@ export default class extends Generator {
 		// Add portlet display name as needed
 
 		if (projectAnalyzer.hasLocalization) {
+
 			// Add resource bundle portlet property
 
 			pkgJson.addPortletProperty(
@@ -89,7 +91,8 @@ export default class extends Generator {
 				`javax.portlet.title.${portletName}`,
 				portletDisplayName
 			);
-		} else {
+		}
+		else {
 			pkgJson.addPortletProperty(
 				'javax.portlet.display-name',
 				portletDisplayName

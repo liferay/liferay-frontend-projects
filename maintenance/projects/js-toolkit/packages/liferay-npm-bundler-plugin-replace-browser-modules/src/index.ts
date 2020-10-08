@@ -54,6 +54,7 @@ function processAliases(
 ) {
 	Object.entries(unrolledAliasesMap).forEach(
 		([absFromPath, unrolledAliases]) => {
+
 			// Sanity check
 
 			if (unrolledAliases.length > 1) {
@@ -137,6 +138,7 @@ export function reportAndResolveCollisions(
 	absRootDir: FilePath,
 	unrolledAliasesMap: UnrolledAliasesMap
 ): void {
+
 	// Remove aliases out of ancestry line
 
 	Object.keys(unrolledAliasesMap).forEach((absFromPosixPath) => {
@@ -194,6 +196,7 @@ export function reportAndResolveCollisions(
 	Object.entries(unrolledAliasesMap)
 		.filter(([_absFromPath, unrolledAliases]) => unrolledAliases.length > 1)
 		.forEach(([absFromPath, unrolledAliases]) => {
+
 			// Sort by distance to absFromPath
 
 			unrolledAliases.sort(

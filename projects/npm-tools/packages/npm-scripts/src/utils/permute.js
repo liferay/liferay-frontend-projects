@@ -26,7 +26,8 @@ function permute([...permutation]) {
 			++c[i];
 			i = 1;
 			result.push([...permutation]);
-		} else {
+		}
+		else {
 			c[i] = 0;
 			++i;
 		}

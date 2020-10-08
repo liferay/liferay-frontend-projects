@@ -113,6 +113,7 @@ describe('project.jar', () => {
 
 	it('returns customManifestHeaders', () => {
 		expect(project.jar.customManifestHeaders).toEqual({
+
 			// Coming from .npmbundlerrc
 
 			Responsible: 'john.doe@somewhere.net',
@@ -471,7 +472,8 @@ describe('project.transform', () => {
 				pluginMocks['raw'],
 				[pluginMocks['configured'], {the: 'config'}],
 			]);
-		} finally {
+		}
+		finally {
 			jest.restoreAllMocks();
 		}
 	});

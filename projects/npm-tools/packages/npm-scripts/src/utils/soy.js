@@ -66,6 +66,7 @@ function translateSoy(directory) {
 		const updated = contents.replace(
 			EXTERNAL_MSG_REGEX,
 			(match, binding, _template, params) => {
+
 				/*
 				 * Turn: var MSG_EXTERNAL_3292565618977302987 = goog.getMsg('all-selected');
 				 * into: var MSG_EXTERNAL_3292565618977302987 = Liferay.Language.get('all-selected');
