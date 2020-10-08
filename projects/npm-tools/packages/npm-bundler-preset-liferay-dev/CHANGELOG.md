@@ -1,3 +1,15 @@
+## [npm-bundler-preset-liferay-dev/v4.6.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.4) (2020-10-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.3...npm-bundler-preset-liferay-dev/v4.6.4)
+
+### :house: Chores
+
+-   chore(npm-tools): update js-toolkit deps from v2.19.3 to v2.19.4 ([\#142](https://github.com/liferay/liferay-frontend-projects/pull/142))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-toolkit): make tests work in monorepo ([\#133](https://github.com/liferay/liferay-frontend-projects/pull/133))
+
 ## [npm-bundler-preset-liferay-dev/v4.6.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.3) (2020-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.2...npm-bundler-preset-liferay-dev/v4.6.3)
