@@ -3,6 +3,9 @@
 	"command": {
 		"publish": {
 			"exact": true
+		},
+		"version": {
+			"message": "chore: prepare liferay-js-toolkit/%s release"
 		}
 	},
 	"npmClient": "yarn",
