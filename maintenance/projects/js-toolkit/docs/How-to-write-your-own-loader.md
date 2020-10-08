@@ -32,7 +32,7 @@ The first argument `context` is an object which contains the following fields:
 
 The second argument is an object which is directly taken from the `options`
 field of the loader's configuration (see
-[How to configure rules and loaders](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-liferay-npm-bundler#How-to-configure-rules-and-loaders)
+[How to configure rules and loaders](./How-to-use-liferay-npm-bundler#How-to-configure-rules-and-loaders.md)
 ).
 
 To finish with, the function may return nothing or a modified content. If

@@ -5,7 +5,7 @@
 ## Configuration
 
 The plugin can be configured using
-[.npmbundlerrc global config section](https://github.com/liferay/liferay-js-toolkit/wiki/.npmbundlerrc-file-reference#config)
+[.npmbundlerrc global config section](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/.npmbundlerrc-file-reference.md#config)
 or in the plugin configuration itself.
 
 In both cases the structure is the same:

@@ -8,7 +8,7 @@ composes the .css file URL accordingly.
 
 The web context path for the generated OSGi bundle is inferred by reading it
 from
-[the .npmbundlerrc file](https://github.com/liferay/liferay-js-toolkit/wiki/.npmbundlerrc-file-reference#create-jarfeaturesweb-context).
+[the .npmbundlerrc file](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/.npmbundlerrc-file-reference.md#create-jarfeaturesweb-context).
 
 If the project is not configured to generate an OSGi bundle, the web context
 path is read from the `bnd.bnd` file in the project's folder. In particular, the
@@ -35,5 +35,5 @@ In order to use this loader you must declare a rule in your module's `.npmbundle
 }
 ```
 
-See the project's wiki for more information on
-[how to use build rules](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-build-rules).
+See the project's documentation for more information on
+[how to use build rules](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/How-to-use-build-rules.md).

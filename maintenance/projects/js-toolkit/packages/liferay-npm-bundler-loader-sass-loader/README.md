@@ -31,5 +31,5 @@ This loader tries to find `node-sass` in your project by default. If it is not
 there, it then looks for `sass` (in your project, too) and, if that fails again,
 it will use a bundled copy of `sass` that is provided with the loader.
 
-See the project's wiki for more information on
-[how to use build rules](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-build-rules).
+See the project's documentation for more information on
+[how to use build rules](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/How-to-use-build-rules.md).

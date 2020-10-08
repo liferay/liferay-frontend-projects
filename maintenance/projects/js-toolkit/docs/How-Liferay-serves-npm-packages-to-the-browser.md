@@ -1,6 +1,6 @@
 Once you have deployed an OSGi bundle following the steps described in [[How to deploy npm packages to Liferay]], its modules are made available for consumption through canonical URLs.
 
-For instance, if you deploy the example OSGi bundle described [there](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-deploy-npm-packages-to-Liferay#structure-of-osgi-bundles-containing-npm-packages) you will get the following URLs (one for each module):
+For instance, if you deploy the example OSGi bundle described [there](./How-to-deploy-npm-packages-to-Liferay.md#structure-of-osgi-bundles-containing-npm-packages) you will get the following URLs (one for each module):
 
 -   http://localhost/o/js/module/598/my-bundle-package@1.0.0/lib/index.js
 -   http://localhost/o/js/module/598/isobject@2.1.0/index.js

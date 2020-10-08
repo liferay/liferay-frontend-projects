@@ -18,8 +18,8 @@ const msg = {
 		cannot be autodetected.
 		`,
 		info`
-		Please visit http://bit.ly/js-toolkit-wiki for the full list of 
-		supported project types and how they are detected.
+		Please visit https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs 
+		for the full list of supported project types and how they are detected.
 		`,
 	],
 };

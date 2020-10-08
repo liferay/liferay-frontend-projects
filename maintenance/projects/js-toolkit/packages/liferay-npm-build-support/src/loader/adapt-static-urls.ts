@@ -41,7 +41,7 @@ export interface Options {
  * so that they can be retrieved from a Liferay server.
  *
  * The web context path is taken from property
- * [create-jar.features.web-context](https://github.com/liferay/liferay-js-toolkit/wiki/.npmbundlerrc-file-reference#create-jarfeaturesweb-context).
+ * [create-jar.features.web-context](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/.npmbundlerrc-file-reference.md#create-jarfeaturesweb-context).
  * inside `.npmbundlerrc`.
  *
  * @deprecated use `adapt-static-urls-at-runtime.ts` instead

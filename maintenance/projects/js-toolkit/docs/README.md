@@ -1,9 +1,9 @@
-This wiki holds the documentation for the Liferay JS Toolkit.
+# Liferay JS Toolkit (v2.x)
 
 > 👀 Unless otherwise stated, all tools work for **ANY** version of Liferay starting from 7.0.
 
 > 👀 Please note that currently, there are two version lines for the JS Toolkit known as `1.x` and `2.x`.
-> The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](https://github.com/liferay/liferay-js-toolkit/wiki/Migrating-bundler-from-1.x-to-2.x) to get more information on how to perform that task.
+> The former one (`1.x`) is discouraged, as it has some drawbacks in its design that prevents it from fulfilling all developer needs, so we encourage you to switch to `2.x` as soon as possible to avoid problems. Follow [this link](./Migrating-bundler-from-1.x-to-2.x.md) to get more information on how to perform that task.
 
 You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-js-toolkit/issues).
 
@@ -15,9 +15,9 @@ Now, let's go with the documentation:
 
 1. Most usual tasks:
 
-    1. [How to create pure Javascript projects](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-generator-liferay-js)
-        1. [How to build the project](https://github.com/liferay/liferay-js-toolkit/wiki/Running-build-npm-scripts)
-        2. [How to configure the project](https://github.com/liferay/liferay-js-toolkit/wiki/Configuring-pure-javascript-projects)
+    1. [How to create pure Javascript projects](./How-to-use-generator-liferay-js.md)
+        1. [How to build the project](./Running-build-npm-scripts.md)
+        2. [How to configure the project](./Configuring-pure-javascript-projects.md)
     2. [[How to adapt most popular frameworks projects]]
     3. [[How to create mixed Java/Javascript projects]]
     4. [[How to troubleshoot your setups]]

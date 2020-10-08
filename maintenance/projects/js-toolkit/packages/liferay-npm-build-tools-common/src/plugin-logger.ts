@@ -31,7 +31,7 @@ class MessageTweaker {
 			strCode = `0${strCode}`;
 		}
 
-		this._msg.link = `https://github.com/liferay/liferay-js-toolkit/wiki/Report-messages#${strCode}`;
+		this._msg.link = `https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/Report-messages.md#${strCode}`;
 
 		return this;
 	}

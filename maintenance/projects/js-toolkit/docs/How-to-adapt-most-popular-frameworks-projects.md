@@ -102,12 +102,12 @@ Right now the list of supported projects categorized by framework and tool is:
 
 1. [React](https://reactjs.org/) framework
     1. [create-react-app](https://facebook.github.io/create-react-app/) project generator
-        1. JavaScript projects [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#JavaScript-create-react-app-projects)
-        2. Typescript projects (coming soon!)
+        1. JavaScript projects [ℹ️](./How-to-adapt-most-popular-frameworks-projects.md#JavaScript-create-react-app-projects)
+        2. TypeScript projects (coming soon!)
 2. [Angular](https://angular.io/) framework
-    1. [Angular CLI](https://cli.angular.io/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Angular-cli-projects)
+    1. [Angular CLI](https://cli.angular.io/) project generator [ℹ️](./How-to-adapt-most-popular-frameworks-projects.md#Angular-cli-projects)
 3. [Vue.js](https://vuejs.org/) framework
-    1. [Vue CLI](https://cli.vuejs.org/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Vue-cli-projects)
+    1. [Vue CLI](https://cli.vuejs.org/) project generator [ℹ️](./How-to-adapt-most-popular-frameworks-projects.md#Vue-cli-projects)
 
 ## How project types are detected and what requirements they must fulfil
 
