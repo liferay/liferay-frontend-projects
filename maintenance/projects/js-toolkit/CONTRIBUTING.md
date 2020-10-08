@@ -12,9 +12,9 @@ $ yarn ⏎
 
 Which will install all needed dependencies.
 
-## Repo organization
+## Project organization
 
-The repo is a yarn workspace with several projects contained in the `packages` folder.
+The project is a Yarn workspace with several projects contained in the `packages` folder.
 
 Other auxiliary folders are:
 
@@ -36,15 +36,7 @@ This runs locally the same tests we run in our CI servers so that, in case anyth
 
 We track all discussions and decisions in GitHub issues and PRs. We also try to explain final decisions in git commits so that they are easily available without any need to visit GitHub.
 
-To maintain cross referenceability all commits must follow the [semantic commit convention](http://karma-runner.github.io/0.10/dev/git-commit-msg.html) and use `#nnn` as the first word in the subject (where `nnn` is the number of the issue associated to the commit).
-
-For example:
-
-```
-chore: #517 Fix yarn dependencies
-```
-
-No commit may be pushed without a reference to an issue unless it is self-evident and of type `chore`.
+All commits must follow [our commit message guidelines](https://github.com/liferay/liferay-frontend-guidelines/blob/master/general/commit_messages.md).
 
 ## Tests
 
@@ -76,7 +68,7 @@ By default, the resulting JAR file will be placed in `/opt/bundles/deploy` so ma
 
 This command will download all the dependencies needed by the QA projects contained in the `qa/samples/packages` folder, and will point all JS Toolkit packages to the local project (as opposed to downloading them from npmjs.com). This is necessary since we want to use our local copy of the JS Toolkit and since we have not yet released any 3.x version, so it's impossible to download it from npmjs.com.
 
-Note that the `link-js-toolkit` will move all JS Toolkit dependencies in the QA projects to a `link-js-toolkit` section in the `package.json`. This is to prevent yarn from trying to download these packages from npmjs.com.
+Note that the `link-js-toolkit` will move all JS Toolkit dependencies in the QA projects to a `link-js-toolkit` section in the `package.json`. This is to prevent Yarn from trying to download these packages from npmjs.com.
 
 ## Releasing new versions
 
@@ -123,11 +115,9 @@ Release a new version
 $ yarn release ⏎
 ```
 
-Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-js-toolkit/releases).
+Copy the relevant section from the changelog to the corresponding entry on the [releases page](https://github.com/liferay/liferay-frontend-projects/releases).
 
 After the release, you may want to confirm that the packages are correctly listed in the NPM registry.
-
-Finally, close [the corresponding milestone](https://github.com/liferay/liferay-js-toolkit/milestones) in GitHub.
 
 ## Releasing canary versions
 
